@@ -1,0 +1,46 @@
+# SQLite version 3.x
+#   gem install sqlite3
+#
+#   Ensure the SQLite 3 gem is defined in your Gemfile
+#   gem 'sqlite3'
+#
+default: &default
+  adapter: sqlite3
+  pool: 5
+  timeout: 5000
+
+development:
+  prepared_statements: false
+  adapter: postgresql
+  database: hermes
+  min_messages: warning
+  pool: 5
+  timeout: 5000
+  host_names:
+    ### Don't include the port number here. Change the "port" site setting instead, at /admin/site_settings.
+    ### If you change this setting you will need to
+    ###   - restart sidekiq if you change this setting
+    ###   - rebake all to posts using: `RAILS_ENV=production bundle exec rake posts:rebake`
+    - "localhost"
+
+
+# Warning: The database defined as "test" will be erased and
+# re-generated from your development database when you run "rake".
+# Do not set this db to the same as development or production.
+test:
+  prepared_statements: false
+  adapter: postgresql
+  database: hermes_test
+  min_messages: warning
+  pool: 5
+  timeout: 5000
+  host_names:
+    ### Don't include the port number here. Change the "port" site setting instead, at /admin/site_settings.
+    ### If you change this setting you will need to
+    ###   - restart sidekiq if you change this setting
+    ###   - rebake all to posts using: `RAILS_ENV=production bundle exec rake posts:rebake`
+    - "localhost"
+
+production:
+  <<: *default
+  database: db/production.sqlite3
