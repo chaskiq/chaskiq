@@ -36,6 +36,11 @@ RSpec.describe App, type: :model do
       expect(@app.reload.app_users.last.first_name).to be == "edited name"
     end
 
+    it "add visit" do
+      @app.add_visit("foo@bar.org", {browser: "chrome"})
+      expect(@app.app_users.size).to be == 2
+    end
+
     describe "other app" do 
       before do 
         @app2 = FactoryGirl.create :app

@@ -24,4 +24,9 @@ class App < ApplicationRecord
     ap
   end
 
+  def add_visit(email, opts={})
+    ap_user = add_user(email: email, properties: opts)
+
+  end
+
 end
