@@ -1,5 +1,6 @@
 development:
-  adapter: async
+  #adapter: async
+  adapter: redis
 
 test:
   adapter: async

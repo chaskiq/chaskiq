@@ -1,0 +1,34 @@
+$reporter-base-color:             #FFFFFF;
+$reporter-text-color:             #000000;
+$reporter-inverse-color:          #FFFFFF;
+$reporter-accent-color:           #000000;
+
+
+$reporter-zindex:                 2147483000;
+$reporter-font-family:            Helvetica Neue,Helvetica,Arial,sans-serif;
+$reporter-spacing:                20px;
+$reporter-padding:                30px;
+$reporter-border-radius:          8px;
+
+
+$reporter-launcher-size:          60px;
+
+$reporter-launcher-shadow:        0 1px 6px rgba(0,0,0,.06), 0 2px 32px rgba(0,0,0,.16);
+$reporter-launcher-shadow-hover:  0 2px 8px rgba(0,0,0,.09), 0 4px 40px rgba(0,0,0,.24);
+$reporter-launcher-background:    $reporter-accent-color;
+$reporter-launcher-color:         $reporter-inverse-color;
+
+$reporter-panel-background:       $reporter-base-color;
+$reporter-panel-color:            $reporter-text-color;
+
+$reporter-panel-shadow:           0 5px 40px 0 rgba(0,0,0,.16);
+$reporter-panel-radius:           8px !important;
+$reporter-panel-spacing:          $reporter-spacing + $reporter-launcher-size + ($reporter-spacing * .75);
+
+
+$reporter-launcher-size-old:      48px;
+$reporter-launcher-shadow-old:    0 6px 13px 0 rgba(0,0,0,.23);
+
+
+$reporter-bottom-offset:          $reporter-spacing;
+$reporter-right-offset:           ($reporter-spacing + $reporter-launcher-size) - ($reporter-spacing * .75);

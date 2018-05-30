@@ -1,0 +1,27 @@
+// 3. List
+
+.reporter-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.reporter-list-item {
+  & {
+    padding: ($reporter-spacing * 0.75) $reporter-spacing;
+  }
+}
+a.reporter-list-item {
+  & {
+    cursor: pointer;
+  }
+  &:hover {
+    background-color: $modal-color;
+  }
+}
+
+.reporter-list-caret {
+  float: right;
+  position: relative;
+  top: 3px;
+}

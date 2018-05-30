@@ -1,0 +1,36 @@
+// 2. Launcher
+
+.reporter-icon {
+  @extend .centerify;
+}
+
+.reporter-icon-show,
+.reporter-icon-hide {
+  transition: transform .2s linear, opacity .1s linear;
+  vertical-align: middle;
+  display: block;
+}
+.reporter-icon-show {
+  opacity: 1;
+  transform: rotate(0deg);
+  font-size: 32px;
+}
+.reporter-icon-hide {
+  opacity: 0;
+  transform: rotate(-30deg);
+}
+.reporter-opened {
+  .reporter-icon-show {
+    opacity: 0;
+    transform: rotate(30deg);
+  }
+  .reporter-icon-hide {
+    opacity: 1;
+    transform: rotate(0deg);
+  }
+}
+
+.reporter-launcher-fixicon {
+  position: relative;
+  top: -3px;
+}

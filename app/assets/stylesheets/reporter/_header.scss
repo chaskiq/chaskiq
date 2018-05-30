@@ -1,0 +1,22 @@
+// 3. Panel header
+
+.reporter-header {
+  padding: $reporter-spacing;
+}
+
+// Buttons
+.reporter-back,
+.reporter-action {
+  cursor: pointer;
+  margin-bottom: $gutter-xs;
+  position: relative;
+  top: -5px;
+}
+
+.reporter-back {
+  margin-right: 8px;
+}
+
+.reporter-action {
+  float: right;
+}

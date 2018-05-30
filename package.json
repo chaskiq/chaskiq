@@ -2,7 +2,14 @@
   "name": "hermes",
   "private": true,
   "dependencies": {
-    "@rails/webpacker": "3.5"
+    "@rails/webpacker": "3.5",
+    "actioncable": "^5.2.0",
+    "axios": "^0.18.0",
+    "babel-preset-react": "^6.24.1",
+    "prop-types": "^15.6.1",
+    "react": "^16.4.0",
+    "react-dom": "^16.4.0",
+    "redux": "^4.0.0"
   },
   "devDependencies": {
     "webpack-dev-server": "2.11.2"
