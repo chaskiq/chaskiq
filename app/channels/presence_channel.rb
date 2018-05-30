@@ -1,7 +1,7 @@
 class PresenceChannel < ApplicationCable::Channel
   def subscribed
     @app      = App.find_by(key: params[:app])
-    @app_user = @app.add_user(email: params[:email])
+    @app_user = @app.add_user(email: params[:email], properties: params[:properties])
     @user     = @app_user.user
     @key      = "presence:#{@app.key}-#{@user.email}"
     stream_from @key
@@ -10,8 +10,7 @@ class PresenceChannel < ApplicationCable::Channel
 
   def pingback
     @app_user.online! if @app_user.offline?
-    ActionCable.server.broadcast(@key, "pingback")
-    #self.class.broadcast_to(@key, "pingback")
+    ActionCable.server.broadcast(@key, @app_user.to_json)
   end
 
   def unsubscribed

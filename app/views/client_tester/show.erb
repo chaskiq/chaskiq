@@ -2,7 +2,12 @@
 <script type="text/javascript">
   var m = new window.Hermessenger({
     name: "miguel", 
-    app_id: "koqUPJs8-l-ts_Pi0sacTw"
+    app_id: "<%= App.first.key %>",
+    email: "miguel@preyhq.com",
+    properties: {
+                  id: "localhost",
+                  country: "chile"
+                }
   })
   m.render()
 </script>

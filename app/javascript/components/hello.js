@@ -19,9 +19,10 @@ class Messenger extends Component {
     App.events = App.cable.subscriptions.create({
       channel: "PresenceChannel",
       app: this.props.app_id,
-      email: "miguel@prey.com"
-      },
-      {
+      email: this.props.email,
+      properties: this.props.properties
+    },
+    {
         connected: ()=> {
           console.log("connected to presence")
         },
