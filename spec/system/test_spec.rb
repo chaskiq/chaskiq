@@ -7,11 +7,6 @@ RSpec.describe "Widget management", :type => :system do
   end
 
   it "enables me to create widgets" do
-    visit "/"
-    expect(page).to have_text("Widget was successfully created.")
-  end
-
-  it "enables me to create widgets" do
     app = FactoryGirl.create :app
     visit "/tester"
     expect(page).to have_text("Hello")

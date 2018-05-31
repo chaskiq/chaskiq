@@ -1,6 +1,8 @@
 class App < ApplicationRecord
   include Tokenable
 
+
+
   store :preferences, accessors: [ :notifications, :gather_data, :test_app ], coder: JSON
 
   # http://nandovieira.com/using-postgresql-and-jsonb-with-ruby-on-rails
@@ -9,6 +11,7 @@ class App < ApplicationRecord
   has_many :app_users
   has_many :users, through: :app_users
   has_many :conversations
+  has_many :segments
 
   def add_user(attrs)
     email = attrs.delete(:email)
