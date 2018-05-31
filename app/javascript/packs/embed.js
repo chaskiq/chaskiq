@@ -12,6 +12,6 @@ import ReactDOM from 'react-dom'
 
 console.log('Hello World from Webpacker this is the tester')
 
-import Hermessenger from "../components/hello";
+import Hermessenger from "../components/messenger";
 
 window.Hermessenger = Hermessenger

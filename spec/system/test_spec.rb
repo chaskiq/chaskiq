@@ -18,6 +18,7 @@ RSpec.describe "Widget management", :type => :system do
     expect(page).to have_text("miguel")
     expect(page).to have_text(app.key)
     expect(AppUser.count).to be == 1
+    expect(AppUser.first.properties).to_not be_blank
   end
 
 end

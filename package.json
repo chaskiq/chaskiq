@@ -9,6 +9,7 @@
     "prop-types": "^15.6.1",
     "react": "^16.4.0",
     "react-dom": "^16.4.0",
+    "react-router-dom": "^4.2.2",
     "redux": "^4.0.0"
   },
   "devDependencies": {
