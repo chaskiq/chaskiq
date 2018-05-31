@@ -13,4 +13,5 @@
  * require_tree .
  *= require_self
  *= require ./dashboard.css
+ *= require ./layout.css
  */
