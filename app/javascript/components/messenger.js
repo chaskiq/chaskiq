@@ -1,8 +1,9 @@
 import React, {Component} from 'react'
 import ReactDOM from 'react-dom'
 import PropTypes from 'prop-types'
-
 import actioncable from "actioncable"
+import axios from "axios"
+
 
 const App = {
   cable: actioncable.createConsumer()
@@ -12,7 +13,12 @@ class Messenger extends Component {
 
   constructor(props){
     super(props)
-    this.eventsSubscriber()
+    this.eventsSubscriber = this.eventsSubscriber.bind(this)
+    this.ping = this.ping.bind(this)
+  }
+
+  componentDidMount(){
+    this.ping(()=> this.eventsSubscriber() )
   }
 
   eventsSubscriber(){
@@ -40,6 +46,23 @@ class Messenger extends Component {
         } 
       });
 
+  }
+
+  ping(cb){
+    axios.post(`/api/v1/apps/${this.props.app_id}/ping`, {
+        user_data: {
+          referrer: window.location,
+          email: this.props.email,
+          properties: this.props.properties
+        }
+      })
+      .then(function (response) {
+        console.log("subscribe to events")
+        cb()
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
   }
 
   render(){

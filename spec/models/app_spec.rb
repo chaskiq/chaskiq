@@ -38,12 +38,12 @@ RSpec.describe App, type: :model do
     end
 
     it "add visit on new user" do
-      @app.add_visit("foo@bar.org", {browser: "chrome"})
+      @app.add_visit({email: "foo@bar.org", properties: {browser: "chrome"}})
       expect(@app.app_users.size).to be == 2
     end
 
     it "add visit on existing user" do
-      @app.add_visit("test@test.cl", {browser: "chrome"})
+      @app.add_visit({email: "test@test.cl", properties: {browser: "chrome"}})
       expect(@app.app_users.size).to be == 1
       expect(@app.app_users.first.properties["browser"]).to be == "chrome"
     end
@@ -54,7 +54,7 @@ RSpec.describe App, type: :model do
       end
 
       it "will update attrs for user on app2 only" do
-        @app2.add_user({email: "test@test.cl", first_name: "edited for app 2"})
+        @app2.add_user({email: "test@test.cl", properties: {first_name: "edited for app 2"}})
         expect(@app2.users.count).to be == 1
         expect(@app2.app_users.last.first_name).to be == "edited for app 2"
         expect(@app.app_users.first.first_name).to be == "dsdsa"

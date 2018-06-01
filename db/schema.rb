@@ -19,6 +19,8 @@ ActiveRecord::Schema.define(version: 2018_05_31_050057) do
     t.bigint "user_id"
     t.bigint "app_id"
     t.jsonb "properties", default: "{}", null: false
+    t.datetime "last_visited_at"
+    t.string "referrer"
     t.string "state"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false

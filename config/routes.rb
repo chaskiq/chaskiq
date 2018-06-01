@@ -9,4 +9,16 @@ Rails.application.routes.draw do
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
 
   get "tester" => 'client_tester#show'
+
+
+  scope path: '/api' do
+    scope path: '/v1' do
+      resources :apps, controller: "api/v1/apps" do
+        member do 
+          post :ping
+        end
+      end
+    end
+  end
+
 end

@@ -1,8 +1,6 @@
 class App < ApplicationRecord
   include Tokenable
 
-
-
   store :preferences, accessors: [ :notifications, :gather_data, :test_app ], coder: JSON
 
   # http://nandovieira.com/using-postgresql-and-jsonb-with-ruby-on-rails
@@ -23,13 +21,13 @@ class App < ApplicationRecord
     user.save!
     ap = app_users.find_or_initialize_by(user_id: user.id)
     ap.assign_attributes(attrs)
+    ap.last_visited_at = Time.now
     ap.save
     ap
   end
 
-  def add_visit(email, opts={})
-    ap_user = add_user(email: email, properties: opts)
-
+  def add_visit(opts={})
+    ap_user = add_user(opts)
   end
 
 end

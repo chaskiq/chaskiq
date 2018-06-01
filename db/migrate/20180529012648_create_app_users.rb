@@ -4,7 +4,8 @@ class CreateAppUsers < ActiveRecord::Migration[5.2]
       t.references :user, foreign_key: true
       t.references :app, foreign_key: true
       t.jsonb :properties, null: false, default: '{}'
-
+      t.datetime :last_visited_at
+      t.string :referrer
       t.string :state
       t.timestamps
     end

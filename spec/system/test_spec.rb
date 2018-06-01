@@ -14,6 +14,8 @@ RSpec.describe "Widget management", :type => :system do
     expect(page).to have_text(app.key)
     expect(AppUser.count).to be == 1
     expect(AppUser.first.properties).to_not be_blank
+    expect(AppUser.first.last_visited_at).to_not be_blank
+    expect(AppUser.first.referrer).to_not be_blank
   end
 
 end
