@@ -2,6 +2,10 @@ import React, {Component, createContext, Fragment} from 'react'
 import axios from "axios"
 import actioncable from "actioncable"
 
+
+import { Layout, Button } from 'antd';
+const { Header, Footer, Sider, Content } = Layout;
+
 import {
   BrowserRouter as Router,
   Route,
@@ -47,6 +51,7 @@ class AppUsers extends Component {
 
   render(){
     return <div>
+            <Button type="primary">Button</Button>
               {
                 this.props.app_users.map((o,i)=>{
                   return <li>
@@ -87,9 +92,9 @@ class Topic extends Component {
 
 const ShowApp = ({ match }) => (
 
-  <Fragment>
+  <Layout>
 
-    <div class="box sidebar">
+    <Sider>
 
       <h2>App</h2>
       
@@ -101,9 +106,10 @@ const ShowApp = ({ match }) => (
         </li>
       </ul>
 
-    </div>
-    <div class="box sidebar2">Sidebar 2</div>
-    <div class="box content">
+    </Sider>
+
+    
+    <Content>
 
       <Fragment>
         <Route path={`${match.path}/:topicId`} render={(props) => (
@@ -123,9 +129,9 @@ const ShowApp = ({ match }) => (
         )}/>
       </Fragment>
 
-    </div>
+    </Content>
 
-  </Fragment>
+  </Layout>
 
 )
 
@@ -219,73 +225,39 @@ class ShowAppContainer extends Component {
   }
 }
 
-// not used for now
-const Header = () => (
-  <Fragment>
-    <div className="header py-4">
-      <div className="container">
-        <div className="d-flex">
-          <a className="header-brand" href="<%= root_url %>">
-            Chaskiq
-            {/*<img src="./demo/brand/tabler.svg" class="header-brand-img" alt="tabler logo">*/}
-          </a>
-          <div className="d-flex order-lg-2 ml-auto">
-            
-            <div className="dropdown">
-              <a href="#" className="nav-link pr-0 leading-none" data-toggle="dropdown">
-                <span className="avatar" style={{backgroundImage: 'url("")'}} />
-                <span className="ml-2 d-none d-lg-block">
-                  <span className="text-default">
-                    email here
-                  </span>
-                  <small className="text-muted d-block mt-1">Administrator</small>
-                </span>
-              </a>
-              <div className="dropdown-menu dropdown-menu-right dropdown-menu-arrow">
-                <a className="dropdown-item" href="#">
-                  <i className="dropdown-icon fe fe-log-out" />
-                  Sign out
-                </a>
-              </div>
-            </div>
-            
-          </div>
-          <a href="#" className="header-toggler d-lg-none ml-3 ml-lg-0" data-toggle="collapse" data-target="#headerMenuCollapse">
-            <span className="header-toggler-icon" />
-          </a>
-        </div>
-      </div>
-    </div>
-    <div className="header collapse d-lg-flex p-0" id="headerMenuCollapse">
-      <div className="container">
-        <div className="row align-items-center">
-          <div className="col-lg order-lg-first">
-            <ul className="nav nav-tabs border-0 flex-column flex-lg-row">
-              
-              <li className="nav-item">
-                <Link to="/" className="nav-link">Home</Link>
-              </li>
-              <li className="nav-item">
-                <Link to="/about" className="nav-link">About</Link>
-              </li>
-              <li className="nav-item">
-                <Link to="/apps" className="nav-link">App</Link>
-              </li>
-
-            </ul>
-          </div>
-        </div>
-      </div>
-    </div>
-  </Fragment>
-)
-
 const App = () => (
   <Fragment>
     <Router>
-      <div class="wrapper">
-        <div class="header">
-          {/*<Header/>*/}
+      <Layout>
+        <Sider>
+          
+          <ul>
+            <li><Link to="/">Home</Link></li>
+            <li><Link to="/about">About</Link></li>
+            <li><Link to="/apps">App</Link></li>
+          </ul>
+
+        </Sider>
+        <Layout>
+          <Header>Header</Header>
+          <Content>
+            
+            <Route exact path="/" component={Home}/>
+            <Route path="/about" component={About}/>
+            <Route path="/apps" component={ShowAppContainer}/>
+
+
+          </Content>
+          <Footer>Footer</Footer>
+        </Layout>
+      </Layout>
+
+      {
+        /*
+
+      <div className="wrapper">
+        <div className="header">
+          
           <ul>
             <li><Link to="/">Home</Link></li>
             <li><Link to="/about">About</Link></li>
@@ -296,8 +268,13 @@ const App = () => (
         <Route path="/about" component={About}/>
         <Route path="/apps" component={ShowAppContainer}/>
 
-        <div class="box footer">Footer</div>
+        <div className="box footer">Footer</div>
       </div>
+
+        */        
+      }
+
+
     </Router>
   </Fragment>
 )

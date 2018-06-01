@@ -2,6 +2,19 @@
   "name": "hermes",
   "private": true,
   "dependencies": {
+    "@atlaskit/avatar": "^10.0.7",
+    "@atlaskit/button": "^7.2.5",
+    "@atlaskit/css-reset": "^2.0.2",
+    "@atlaskit/dropdown-menu": "^4.0.5",
+    "@atlaskit/dynamic-table": "^8.1.0",
+    "@atlaskit/flag": "^7.0.3",
+    "@atlaskit/icon": "^11.3.2",
+    "@atlaskit/inline-edit": "^5.0.2",
+    "@atlaskit/modal-dialog": "^4.0.5",
+    "@atlaskit/navigation": "^31.0.4",
+    "@atlaskit/page": "^6.0.3",
+    "@atlaskit/table-tree": "^2.0.1",
+    "@atlaskit/theme": "^3.2.2",
     "@rails/webpacker": "3.5",
     "actioncable": "^5.2.0",
     "axios": "^0.18.0",
@@ -9,8 +22,8 @@
     "prop-types": "^15.6.1",
     "react": "^16.4.0",
     "react-dom": "^16.4.0",
-    "react-router-dom": "^4.2.2",
-    "redux": "^4.0.0"
+    "react-router": "^4.2.0",
+    "react-router-dom": "^4.2.2"
   },
   "devDependencies": {
     "webpack-dev-server": "2.11.2"
