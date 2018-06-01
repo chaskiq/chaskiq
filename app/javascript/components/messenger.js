@@ -51,7 +51,7 @@ class Messenger extends Component {
   ping(cb){
     axios.post(`/api/v1/apps/${this.props.app_id}/ping`, {
         user_data: {
-          referrer: window.location,
+          referrer: window.location.path,
           email: this.props.email,
           properties: this.props.properties
         }
