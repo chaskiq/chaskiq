@@ -93,7 +93,7 @@ ActiveRecord::Schema.define(version: 2018_05_31_050057) do
 
   create_table "segments", force: :cascade do |t|
     t.bigint "app_id"
-    t.jsonb "properties", default: "{}", null: false
+    t.jsonb "properties", default: "{}"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["app_id"], name: "index_segments_on_app_id"

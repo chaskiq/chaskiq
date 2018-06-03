@@ -1,7 +1,7 @@
 class AppUser < ApplicationRecord
   belongs_to :user
   belongs_to :app
-  store_accesor :properties, accessors: [ :name, :first_name, :last_name ] #, coder: JSON
+  store_accessor :properties, [ :name, :first_name, :last_name ]
 
   include AASM
 

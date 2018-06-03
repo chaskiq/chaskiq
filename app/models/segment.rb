@@ -13,6 +13,7 @@ class Segment < ApplicationRecord
   validate :check_array
 
   def check_array
+    return if self.predicates.blank?
     self.predicates.each do |prop|
       o = prop.keys - [:attribute, :comparison, :type, :value].map(&:to_s)
       if o.any?
