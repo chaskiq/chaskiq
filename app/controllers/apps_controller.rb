@@ -12,9 +12,7 @@ class AppsController < ApplicationController
     @apps = App.all
   end
 
-  def render_empty
-    render html: '', :layout => 'application'
-  end
+  
 
 end
 

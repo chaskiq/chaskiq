@@ -31,11 +31,12 @@ import styled from 'styled-components';
 import InlineDialog from '@atlaskit/inline-dialog';
 import Spinner from '@atlaskit/spinner';
 
+/*
 const AppState = {
   app: {},
   app_users: [],
   segments: []
-}
+}*/
 
 const CableApp = {
   cable: actioncable.createConsumer()
@@ -177,13 +178,13 @@ class AppUsers extends Component {
 
             
               <Button isLoading={false} appearance={'link'}>
-                <i class="fas fa-plus"></i>
+                <i className="fas fa-plus"></i>
                 {" "}
                 Add filter
               </Button>
 
               <Button isLoading={false} appearance={'link'}>
-                <i class="fas fa-chart-pie"></i>
+                <i className="fas fa-chart-pie"></i>
                 {" "}
                 Save Segment
               </Button>
@@ -223,8 +224,11 @@ class Topic extends Component {
   }
 
   componentDidMount(){
-    const id = this.props.match.params.topicId
-    this.props.actions.fetchApp(id)
+    const id = this.props.match.params.appId
+    const segmentID = this.props.match.params.segmentID
+    this.props.actions.fetchApp(id, ()=>{
+      segmentID ? this.props.actions.fetchAppSegment(segmentID) : null      
+    })
     this.props.actions.eventsSubscriber(id)
   }
 
@@ -241,7 +245,7 @@ class Topic extends Component {
 
 const ShowApp = ({ match }) => (
   <Fragment>
-    <Route path={`${match.path}/:topicId`} render={(props) => (
+    <Route path={`${match.path}/:appId/:segments?/:segmentID?`} render={(props) => (
 
       <Consumer>
         {({ store, actions }) => (
@@ -326,18 +330,25 @@ export default class ShowAppContainer extends Component {
     this.state = {
       app: {}, 
       app_users: [], 
+      segments: [],
+      segment: {}
     }
 
     this.fetchApp = this.fetchApp.bind(this)
     this.fetchAppUsers = this.fetchAppUsers.bind(this)
     this.eventsSubscriber = this.eventsSubscriber.bind(this)
+    this.fetchAppSegments = this.fetchAppSegments.bind(this)
+    this.fetchAppSegment = this.fetchAppSegment.bind(this)
   }
 
-  fetchApp(id){
+  fetchApp(id, cb){
     const t = this
     axios.get(`/apps/${id}.json`)
     .then( (response)=> {
-      t.setState({app: response.data.app}, this.fetchAppSegments )
+      t.setState({app: response.data.app}, ()=>{ 
+        this.fetchAppSegments()
+        cb ? cb() : null
+      })
     })
     .catch( (error)=> {
       console.log(error);
@@ -354,13 +365,6 @@ export default class ShowAppContainer extends Component {
     });
   }
 
-
-  updateNavLinks(){
-    //const links = this.state.segments //.concat(["/oooijoij", "Home", null])
-    const links = this.state.segments.map((o)=> [o.url, o.id, null] )
-    this.props.updateNavLinks(links)
-  }
-
   fetchAppSegments(){
     axios.get(`/apps/${this.state.app.key}/segments.json`)
     .then( (response)=> {
@@ -373,8 +377,21 @@ export default class ShowAppContainer extends Component {
     });
   }
 
+  fetchAppSegment(id){
+    axios.get(`/apps/${this.state.app.key}/segments/${id}.json`)
+    .then( (response)=> {
+      this.setState({segment: response.data})
+    })
+    .catch( (error)=> {
+      console.log(error);
+    });
+  }
 
-
+  updateNavLinks(){
+    //const links = this.state.segments //.concat(["/oooijoij", "Home", null])
+    const links = this.state.segments.map((o)=> [o.url, o.id, null] )
+    this.props.updateNavLinks(this.props.navLinks.concat(links))
+  }
 
   updateUser(data){
    
@@ -414,8 +431,13 @@ export default class ShowAppContainer extends Component {
     return {
       fetchApp: this.fetchApp,
       fetchAppUsers: this.fetchAppUsers,
-      eventsSubscriber: this.eventsSubscriber
+      eventsSubscriber: this.eventsSubscriber,
+      fetchAppSegment: this.fetchAppSegment
     }
+  }
+
+  getPredicates(){
+    return this.state.segment["predicates"] || []
   }
 
   render(){
@@ -431,30 +453,52 @@ export default class ShowAppContainer extends Component {
         </PageTitle>
 
         <ButtonGroup>
-          <Button
-            appearance="primary"
-            onClick={this.context.showModal}
-            onClose={() => { }}
-          >Match All users</Button>
-          <Button onClick={this.context.addFlag}>
-            Match all filters
-          </Button>
+          
+          {
+            this.getPredicates().map((o, i)=>{
+              return <Button
+                        appearance="primary"
+                        onClick={this.context.showModal}
+                        onClose={() => { }}>
+                        Match {" "}
+                        {o.attribute} {o.comparison} {o.value}
+                     </Button>
+            })
+          }
 
-          <InlineDialogExample/>
-
-          {dropdown()}
 
           <Button isLoading={false} appearance={'link'}>
-            <i class="fas fa-plus"></i>
+            <i className="fas fa-plus"></i>
             {" "}
             Add filter
           </Button>
 
           <Button isLoading={false} appearance={'link'}>
-            <i class="fas fa-chart-pie"></i>
+            <i className="fas fa-chart-pie"></i>
             {" "}
             Save Segment
           </Button>
+
+          {
+            /*
+              <Button
+                appearance="primary"
+                onClick={this.context.showModal}
+                onClose={() => { }}
+              >Match All users</Button>
+
+              <Button onClick={this.context.addFlag}>
+                Match all filters
+              </Button>
+
+              <InlineDialogExample/>
+
+              {dropdown()}
+
+
+
+            */
+          }
 
         </ButtonGroup>
 

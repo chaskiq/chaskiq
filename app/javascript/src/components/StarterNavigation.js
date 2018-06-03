@@ -96,7 +96,6 @@ export default class StarterNavigation extends React.Component {
       >
         {
           this.props.navLinks.map(link => {
-            debugger
             const [url, title, Icon] = link;
             return (
               <Link key={url} to={url}>

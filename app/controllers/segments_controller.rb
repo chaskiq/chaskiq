@@ -10,6 +10,11 @@ class SegmentsController < ApplicationController
   # GET /segments/1
   # GET /segments/1.json
   def show
+    @segment = @app.segments.find(params[:id])
+    respond_to do |format|
+      format.html{ render_empty }
+      format.json
+    end
   end
 
   # GET /segments/new
