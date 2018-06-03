@@ -31,6 +31,9 @@ import styled from 'styled-components';
 import InlineDialog from '@atlaskit/inline-dialog';
 import Spinner from '@atlaskit/spinner';
 
+import FieldRadioGroup from '@atlaskit/field-radio-group';
+import KJUR from "jsrsasign"
+
 /*
 const AppState = {
   app: {},
@@ -245,7 +248,7 @@ class Topic extends Component {
 
 const ShowApp = ({ match }) => (
   <Fragment>
-    <Route path={`${match.path}/:appId/:segments?/:segmentID?`} render={(props) => (
+    <Route path={`${match.path}/:appId/:segments?/:segmentID?:Jwt?`} render={(props) => (
 
       <Consumer>
         {({ store, actions }) => (
@@ -307,16 +310,142 @@ const content = (
 
 class InlineDialogExample extends Component {
   state = {
-    dialogOpen: true,
+    dialogOpen: false,
   };
 
-  toggleDialog = () => this.setState({ dialogOpen: !this.state.dialogOpen });
+  toggleDialog = (e) => this.setState({ dialogOpen: !this.state.dialogOpen });
 
   render() {
     return (
       <div style={{ minHeight: '120px' }}>
-        <InlineDialog content={content} isOpen={this.state.dialogOpen}>
-          <Button onClick={this.toggleDialog}>Toggle Dialog</Button>
+        <InlineDialog 
+          content={content} 
+          isOpen={this.state.dialogOpen}>
+
+          <Button isLoading={false} 
+            appearance={'link'}
+            onClick={this.toggleDialog}>
+            <i className="fas fa-plus"></i>
+            {" "}
+            Add filter
+          </Button>
+        </InlineDialog>
+      </div>
+    );
+  }
+}
+
+const parseJwt = (token)=> {
+  var isValid = KJUR.jws.JWS.verifyJWT(token, "616161", {alg: ['HS256']});
+  if(!isValid)
+    return new Error("not a valid jwt, sory")
+
+  var base64Url = token.split('.')[1];
+  var base64 = base64Url.replace('-', '+').replace('_', '/');
+  return JSON.parse(window.atob(base64));
+};
+
+const generateJWT = (data)=>{
+  var oHeader = {alg: 'HS256', typ: 'JWT'};
+  // Payload
+  var oPayload = {};
+  var tNow = KJUR.jws.IntDate.get('now');
+  var tEnd = KJUR.jws.IntDate.get('now + 1day');
+  oPayload.data = data
+  // Sign JWT, password=616161
+  var sHeader = JSON.stringify(oHeader);
+  var sPayload = JSON.stringify(oPayload);
+  var sJWT = KJUR.jws.JWS.sign("HS256", sHeader, sPayload, "616161")
+  return sJWT
+}
+
+class SegmentItemButton extends Component {
+  state = {
+    dialogOpen: false,
+    selectedOption: null
+  };
+
+  onRadioChange = (e)=> {
+    this.setState({
+      selectedOption: e.target.value
+    })
+  };
+
+  handleSubmit = (e)=> {
+    const value = `${this.refs.relative_input.value} days ago`
+    const h = {
+      comparison: this.state.selectedOption.replace("relative:", ""),
+      value: value
+    }
+
+    const response = Object.assign({}, this.props.predicate, h )
+    this.props.updatePredicate(response)
+  }
+
+  content = () => {
+  
+    const compare = (value)=>{
+      return this.props.predicate.comparison === value
+    }
+
+    const relative = [
+      {label: "more than", value: "relative:lt", defaultSelected: compare("lt")  },
+      {label: "exactly", value: "relative:eq",  defaultSelected: compare("lt")  },
+      {label: "less than", value: "relative:gt", defaultSelected: compare("lt")  },
+    ]
+    const absolute = [
+      {name: "after", value: "absolute:gt"},
+      {name: "on", value: "absolute:eq"},
+      {name: "before", value: "absolute:lt"},
+      {name: "is unknown", value: "absolute:eq"},
+      {name: "has any value", value: "absolute:not_eq"},
+    ]
+
+    return <div>
+              <h5>Update date</h5>
+              <p>Select the filter</p>
+              <FieldRadioGroup
+                items={relative}
+                label="Relative:"
+                onRadioChange={this.onRadioChange.bind(this)}
+              />
+
+              { this.state.selectedOption ?
+                <div>
+                  <input 
+                    defaultValue={30} 
+                    type="number"
+                    ref={"relative_input"}/>
+                  <span>days ago</span>
+                  <hr/>
+
+                  <Button appearance="link" 
+                    onClick={this.handleSubmit.bind(this)}>
+                    save changes
+                  </Button>
+
+                </div> : null
+              }
+            
+            </div>
+
+  }
+
+  toggleDialog = (e) => this.setState({ dialogOpen: !this.state.dialogOpen });
+
+  render() {
+    return (
+      <div style={{ minHeight: '120px' }}>
+        <InlineDialog content={this.content()} 
+                      isOpen={this.state.dialogOpen}
+                      position={"bottom left"}
+                      shouldFlipunion={true}>
+
+          <Button isLoading={false} 
+            appearance={this.props.appearance}
+            onClick={this.toggleDialog}>
+            {this.props.text}
+          </Button>
         </InlineDialog>
       </div>
     );
@@ -331,7 +460,8 @@ export default class ShowAppContainer extends Component {
       app: {}, 
       app_users: [], 
       segments: [],
-      segment: {}
+      segment: {},
+      jwt: null
     }
 
     this.fetchApp = this.fetchApp.bind(this)
@@ -339,6 +469,7 @@ export default class ShowAppContainer extends Component {
     this.eventsSubscriber = this.eventsSubscriber.bind(this)
     this.fetchAppSegments = this.fetchAppSegments.bind(this)
     this.fetchAppSegment = this.fetchAppSegment.bind(this)
+    this.updatePredicate = this.updatePredicate.bind(this)
   }
 
   fetchApp(id, cb){
@@ -356,6 +487,8 @@ export default class ShowAppContainer extends Component {
   }
 
   fetchAppUsers(){
+    // dont use this, get users directly from segment
+    return 
     axios.get(`/apps/${this.state.app.key}/app_users.json`)
     .then( (response)=> {
       this.setState({app_users: response.data.collection} )
@@ -380,7 +513,10 @@ export default class ShowAppContainer extends Component {
   fetchAppSegment(id){
     axios.get(`/apps/${this.state.app.key}/segments/${id}.json`)
     .then( (response)=> {
-      this.setState({segment: response.data})
+      this.setState({
+        segment: response.data.segment,
+        app_users: response.data.collection
+      })
     })
     .catch( (error)=> {
       console.log(error);
@@ -427,6 +563,26 @@ export default class ShowAppContainer extends Component {
       });
   }
 
+  updatePredicate(data){
+
+    const new_predicates = this.state.segment.predicates.map((o)=> {
+      if(data.attribute === o.attribute){
+        return data
+      } else {
+        return o
+      }
+    })
+    const jwtToken = generateJWT(new_predicates)
+    
+    console.log(parseJwt(jwtToken))
+ 
+    const url = `/apps/${this.state.app.key}/segments/${this.state.segment.id}:${jwtToken}`
+    
+    this.props.history.push(url)
+    
+    this.setState({jwt: jwtToken})
+  }
+
   actions(){
     return {
       fetchApp: this.fetchApp,
@@ -456,22 +612,16 @@ export default class ShowAppContainer extends Component {
           
           {
             this.getPredicates().map((o, i)=>{
-              return <Button
+              return <SegmentItemButton 
+                        predicate={o}
                         appearance="primary"
-                        onClick={this.context.showModal}
-                        onClose={() => { }}>
-                        Match {" "}
-                        {o.attribute} {o.comparison} {o.value}
-                     </Button>
+                        updatePredicate={this.updatePredicate}
+                        text={`Match: ${o.attribute} ${o.comparison} ${o.value}`}
+                      />
             })
           }
 
-
-          <Button isLoading={false} appearance={'link'}>
-            <i className="fas fa-plus"></i>
-            {" "}
-            Add filter
-          </Button>
+          <InlineDialogExample/>
 
           <Button isLoading={false} appearance={'link'}>
             <i className="fas fa-chart-pie"></i>

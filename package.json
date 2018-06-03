@@ -4,6 +4,7 @@
   "dependencies": {
     "@atlaskit/avatar": "^10.0.7",
     "@atlaskit/button": "^7.2.5",
+    "@atlaskit/checkbox": "^2.1.0",
     "@atlaskit/css-reset": "^2.0.2",
     "@atlaskit/dropdown-menu": "^4.1.0",
     "@atlaskit/dynamic-table": "^8.1.0",
@@ -25,6 +26,7 @@
     "antd": "^3.5.4",
     "axios": "^0.18.0",
     "babel-preset-react": "^6.24.1",
+    "jsrsasign": "^8.0.12",
     "prop-types": "^15.6.1",
     "react": "^16.4.0",
     "react-dom": "^16.4.0",

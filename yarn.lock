@@ -41,7 +41,7 @@
     babel-runtime "^6.26.0"
     styled-components "1.4.6 - 3"
 
-"@atlaskit/checkbox@^2.0.2":
+"@atlaskit/checkbox@^2.0.2", "@atlaskit/checkbox@^2.1.0":
   version "2.1.0"
   resolved "https://registry.yarnpkg.com/@atlaskit/checkbox/-/checkbox-2.1.0.tgz#487dcfa9ec62c64c85760f6612e040df7c9a7358"
   dependencies:
@@ -3958,6 +3958,10 @@ jsprim@^1.2.2:
     extsprintf "1.3.0"
     json-schema "0.2.3"
     verror "1.10.0"
+
+jsrsasign@^8.0.12:
+  version "8.0.12"
+  resolved "https://registry.yarnpkg.com/jsrsasign/-/jsrsasign-8.0.12.tgz#22abb9656d34a30b9530436720835e89c2e5c316"
 
 keycode@^2.1.7:
   version "2.2.0"

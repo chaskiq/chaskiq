@@ -11,6 +11,7 @@ class SegmentsController < ApplicationController
   # GET /segments/1.json
   def show
     @segment = @app.segments.find(params[:id])
+    @app_users = @segment.execute_query.page(params[:page]).per(20)
     respond_to do |format|
       format.html{ render_empty }
       format.json
