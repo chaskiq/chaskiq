@@ -33,7 +33,8 @@ import Spinner from '@atlaskit/spinner';
 
 const AppState = {
   app: {},
-  app_users: []
+  app_users: [],
+  segments: []
 }
 
 const CableApp = {

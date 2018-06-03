@@ -3,6 +3,7 @@ Rails.application.routes.draw do
 
   resources :apps do
     resources :app_users
+    resources :segments
   end
 
   root :to => "home#show"

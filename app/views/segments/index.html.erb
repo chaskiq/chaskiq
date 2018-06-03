@@ -1,0 +1,25 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Segments</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @segments.each do |segment| %>
+      <tr>
+        <td><%= link_to 'Show', segment %></td>
+        <td><%= link_to 'Edit', edit_segment_path(segment) %></td>
+        <td><%= link_to 'Destroy', segment, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Segment', new_segment_path %>

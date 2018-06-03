@@ -10,6 +10,16 @@ class Segment < ApplicationRecord
       :sort_direction 
     ], coder: JSON
 
+  validate :check_array
+
+  def check_array
+    self.predicates.each do |prop|
+      o = prop.keys - [:attribute, :comparison, :type, :value].map(&:to_s)
+      if o.any?
+        errors.add(:properties, "predicated are invalid") unless prop["type"] == "or"
+      end
+    end    
+  end
 
   # predicate example:
   # {type: "role", attribute: "role", comparison: "eq", value: "user_role"}
