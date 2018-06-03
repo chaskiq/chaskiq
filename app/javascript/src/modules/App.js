@@ -10,7 +10,7 @@ import StarterNavigation from '../components/StarterNavigation';
 export default class App extends Component {
   state = {
     flags: [],
-    isModalOpen: false,
+    isModalOpen: false
   };
 
   static contextTypes = {
@@ -54,14 +54,25 @@ export default class App extends Component {
   }
 
   render() {
+
+    const { children } = this.props;
+
+    const childrenWithProps = React.Children.map(children, child =>
+      React.cloneElement(child, { navLinks: this.state.navLinks }));
+
     return (
       <div>
         <Page
           navigationWidth={this.context.navOpenState.width}
-          navigation={<StarterNavigation />}
+          navigation={<StarterNavigation 
+            navLinks={this.props.navLinks} />}
         >
-          {this.props.children}
+
+          {childrenWithProps}
+          {/*this.props.children*/}
         </Page>
+
+
         <div>
           <FlagGroup onDismissed={this.onFlagDismissed}>
             {

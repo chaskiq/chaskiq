@@ -64,7 +64,7 @@ class SegmentsController < ApplicationController
   private
 
     def find_app
-      @app = App.find(params[:app_id])
+      @app = App.find_by(key: params[:app_id])
     end
     # Use callbacks to share common setup or constraints between actions.
     def set_segment

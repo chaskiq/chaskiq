@@ -337,7 +337,7 @@ export default class ShowAppContainer extends Component {
     const t = this
     axios.get(`/apps/${id}.json`)
     .then( (response)=> {
-      t.setState({app: response.data.app} )
+      t.setState({app: response.data.app}, this.fetchAppSegments )
     })
     .catch( (error)=> {
       console.log(error);
@@ -353,6 +353,28 @@ export default class ShowAppContainer extends Component {
       console.log(error);
     });
   }
+
+
+  updateNavLinks(){
+    //const links = this.state.segments //.concat(["/oooijoij", "Home", null])
+    const links = this.state.segments.map((o)=> [o.url, o.id, null] )
+    this.props.updateNavLinks(links)
+  }
+
+  fetchAppSegments(){
+    axios.get(`/apps/${this.state.app.key}/segments.json`)
+    .then( (response)=> {
+      this.setState({segments: response.data.collection},
+        this.updateNavLinks
+      )
+    })
+    .catch( (error)=> {
+      console.log(error);
+    });
+  }
+
+
+
 
   updateUser(data){
    
@@ -396,8 +418,6 @@ export default class ShowAppContainer extends Component {
     }
   }
 
-
- 
   render(){
     return <Provider value={{
                               store: this.state, 

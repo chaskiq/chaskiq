@@ -22,11 +22,8 @@ import atlaskitLogo from '../images/atlaskit.png';
 
 export default class StarterNavigation extends React.Component {
   state = {
-    navLinks: [
-      ['/', 'Home', DashboardIcon],
-      ['/settings', 'Settings', GearIcon],
-      ['/apps/koqUPJs8-l-ts_Pi0sacTw', 'My App', DashboardIcon]
-    ]
+    //navLinks: this.props.navLinks,
+    openDrawer: null
   };
 
   static contextTypes = {
@@ -98,15 +95,20 @@ export default class StarterNavigation extends React.Component {
         onCreateDrawerOpen={() => this.openDrawer('create')}
       >
         {
-          this.state.navLinks.map(link => {
+          this.props.navLinks.map(link => {
+            debugger
             const [url, title, Icon] = link;
             return (
               <Link key={url} to={url}>
-                <AkNavigationItem
+                {
+                  Icon ? 
+                  <AkNavigationItem
                   icon={<Icon label={title} size="medium" />}
                   text={title}
                   //isSelected={this.context.router.isActive(url, true)}
-                />
+                /> : title
+                }
+                
               </Link>
             );
           }, this)

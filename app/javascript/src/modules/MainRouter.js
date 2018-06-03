@@ -6,6 +6,11 @@ import HomePage from '../pages/HomePage';
 import SettingsPage from '../pages/SettingsPage';
 import ShowAppContainer from '../pages/showAppContainer';
 
+
+import DashboardIcon from '@atlaskit/icon/glyph/dashboard';
+import GearIcon from '@atlaskit/icon/glyph/settings';
+import SearchIcon from '@atlaskit/icon/glyph/search';
+
 export default class MainRouter extends Component {
   constructor() {
     super();
@@ -13,8 +18,17 @@ export default class MainRouter extends Component {
       navOpenState: {
         isOpen: true,
         width: 304,
-      }
+      },
+
+      navLinks: [
+        ['/', 'Home', DashboardIcon],
+        ['/settings', 'Settings', GearIcon],
+        ['/apps/koqUPJs8-l-ts_Pi0sacTw', 'My App', DashboardIcon]
+      ]
+
     }
+    this.updateNavLinks = this.updateNavLinks.bind(this)
+
   }
 
   getChildContext () {
@@ -23,49 +37,42 @@ export default class MainRouter extends Component {
     };
   }
 
-  appWithPersistentNav = () => (props) => (
-    <App
-      onNavResize={this.onNavResize}
-      {...props}
-    />
-  )
-
   onNavResize = (navOpenState) => {
     this.setState({
       navOpenState,
     });
   }
 
+  updateNavLinks(links) {
+    this.setState({
+      navLinks: links
+    })
+  }
+
   render() {
     return (
       <BrowserRouter>
         
-        {/*<Route render={this.appWithPersistentNav()}>
- 
-        </Route>*/}
-
         <App
           onNavResize={this.onNavResize}
-          {...this.props}>
+          {...this.props}
+          navLinks={this.state.navLinks}>
           
           <Route exact path="/" component={HomePage} />
           <Route path="/settings" component={SettingsPage} />
-          <Route path="/apps" component={ShowAppContainer}/>
+          <Route path="/apps" render={(props)=>(
+            <ShowAppContainer 
+              {...props} 
+              navLinks={this.state.navLinks}
+              updateNavLinks={this.updateNavLinks}
+            />
+          )} />
         </App>
 
         
 
       </BrowserRouter>
     );
-  }
-}
-
-class MainApp extends Component {
-  render(){
-    return <Switch>
-      <Route path="/" component={HomePage} />
-      <Route path="/settings" component={SettingsPage} />
-    </Switch>
   }
 }
 

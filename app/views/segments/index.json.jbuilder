@@ -1,1 +1,2 @@
-json.array! @segments, partial: 'segments/segment', as: :segment
+json.collection @segments, partial: 'segments/segment', as: :segment
+
