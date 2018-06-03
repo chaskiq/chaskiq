@@ -115,7 +115,7 @@ class AppUsers extends Component {
   }
 
   componentDidMount(){
-    this.props.actions.fetchAppUsers()
+    //this.props.actions.fetchAppUsers()
   }
 
 
@@ -464,12 +464,20 @@ export default class ShowAppContainer extends Component {
       jwt: null
     }
 
-    this.fetchApp = this.fetchApp.bind(this)
-    this.fetchAppUsers = this.fetchAppUsers.bind(this)
+    this.fetchApp         = this.fetchApp.bind(this)
+    this.fetchAppUsers    = this.fetchAppUsers.bind(this)
     this.eventsSubscriber = this.eventsSubscriber.bind(this)
     this.fetchAppSegments = this.fetchAppSegments.bind(this)
-    this.fetchAppSegment = this.fetchAppSegment.bind(this)
-    this.updatePredicate = this.updatePredicate.bind(this)
+    this.fetchAppSegment  = this.fetchAppSegment.bind(this)
+    this.updatePredicate  = this.updatePredicate.bind(this)
+    this.search           = this.search.bind(this)
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    // only update chart if the data has changed
+    if (prevState.jwt !== this.state.jwt) {
+        this.search()
+      }
   }
 
   fetchApp(id, cb){
@@ -486,8 +494,8 @@ export default class ShowAppContainer extends Component {
     });
   }
 
+  // dont use this, get users directly from segment
   fetchAppUsers(){
-    // dont use this, get users directly from segment
     return 
     axios.get(`/apps/${this.state.app.key}/app_users.json`)
     .then( (response)=> {
@@ -496,6 +504,31 @@ export default class ShowAppContainer extends Component {
     .catch( (error)=> {
       console.log(error);
     });
+  }
+
+  search(){
+    // jwt or predicates from segment
+    console.log(this.state.jwt)
+    const data = this.state.jwt ? parseJwt(this.state.jwt).data : this.state.segment.predicates
+    const predicates_data = {
+                              data: {
+                                predicates: data
+                              }
+                            }
+
+    axios.post(`/apps/${this.state.app.key}/search.json`, 
+      predicates_data )
+    .then( (response)=> {
+      console.log(this.state)
+      console.log(data)
+      this.setState({
+        segment: Object.assign({}, this.state.segment, { predicates: data }),
+        app_users: response.data.collection
+      })
+    })
+    .catch( (error)=> {
+      console.log(error);
+    });   
   }
 
   fetchAppSegments(){
@@ -515,8 +548,8 @@ export default class ShowAppContainer extends Component {
     .then( (response)=> {
       this.setState({
         segment: response.data.segment,
-        app_users: response.data.collection
-      })
+        //app_users: response.data.collection
+      }, this.search)
     })
     .catch( (error)=> {
       console.log(error);

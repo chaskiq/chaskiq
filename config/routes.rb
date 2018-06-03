@@ -2,6 +2,9 @@ Rails.application.routes.draw do
   devise_for :users
 
   resources :apps do
+    member do
+      post :search
+    end
     resources :app_users
     resources :segments
   end
