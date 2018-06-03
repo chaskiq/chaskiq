@@ -20,7 +20,6 @@ class App < ApplicationRecord
     end
     user.save!
     ap = app_users.find_or_initialize_by(user_id: user.id)
- 
     data = attrs.deep_merge!(properties: ap.properties)
     ap.assign_attributes(data)
     ap.last_visited_at = Time.now

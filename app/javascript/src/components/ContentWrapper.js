@@ -4,8 +4,8 @@ import { Grid, GridColumn } from '@atlaskit/page';
 import { gridSize } from '@atlaskit/theme';
 
 const Padding = styled.div`
-  margin: ${gridSize() * 4}px ${gridSize() * 8}px;
-  padding-bottom: ${gridSize() * 3}px;
+  margin: ${gridSize() * 2}px ${gridSize() * 2}px;
+  //padding-bottom: ${gridSize() * 3}px;
 `;
 
 export default ({ children }) => (

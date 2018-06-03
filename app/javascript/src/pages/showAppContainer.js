@@ -5,13 +5,31 @@ import {
   Route,
   Link
 } from 'react-router-dom'
-
+import TimeAgo from 'react-timeago'
 import PropTypes from 'prop-types';
 
 import Button, { ButtonGroup } from '@atlaskit/button';
 import ContentWrapper from '../components/ContentWrapper';
 import PageTitle from '../components/PageTitle';
 
+import RadioGroup, { AkFieldRadioGroup, AkRadio } from '@atlaskit/field-radio-group';
+
+import Avatar from '@atlaskit/avatar';
+import DropdownMenu, {
+  DropdownItemGroup,
+  DropdownItem,
+} from '@atlaskit/dropdown-menu';
+import DynamicTable from '@atlaskit/dynamic-table'
+import Form, { FormHeader,
+              FormSection,
+              FormFooter,
+              Field, 
+              FieldGroup, 
+              Validator 
+            } from '@atlaskit/form';
+import styled from 'styled-components';
+import InlineDialog from '@atlaskit/inline-dialog';
+import Spinner from '@atlaskit/spinner';
 
 const AppState = {
   app: {},
@@ -27,6 +45,64 @@ const Context = createContext()
 // This context contains two interesting components
 const { Provider, Consumer } = Context
 
+function createKey(input) {
+  return input ? input.replace(/^(the|a|an)/, '').replace(/\s/g, '') : input;
+}
+
+function getRandomString() {
+  return `${lorem[Math.floor(Math.random() * lorem.length)]}`;
+}
+
+const caption = 'List of Users';
+
+const Wrapper = styled.div`
+  min-width: 600px;
+`;
+
+const createHead = (withWidth: boolean) => {
+  return {
+    cells: [
+      {
+        key: 'name',
+        content: 'Name',
+        isSortable: true,
+        width: withWidth ? 25 : undefined,
+      },
+      {
+        key: 'state',
+        content: 'state',
+        shouldTruncate: true,
+        isSortable: true,
+        width: withWidth ? 15 : undefined,
+      },
+      
+      {
+        key: 'last_visited_at',
+        content: 'Las visited at',
+        shouldTruncate: true,
+        isSortable: true,
+        width: withWidth ? 10 : undefined,
+      },
+
+      {
+        key: 'term',
+        content: 'Term',
+        shouldTruncate: true,
+        isSortable: true,
+        width: withWidth ? 10 : undefined,
+      },
+    ],
+  };
+};
+
+const NameWrapper = styled.span`
+  display: flex;
+  align-items: center;
+`;
+
+const AvatarWrapper = styled.div`
+  margin-right: 8px;
+`;
 
 class AppUsers extends Component {
   constructor(props){
@@ -37,19 +113,105 @@ class AppUsers extends Component {
     this.props.actions.fetchAppUsers()
   }
 
-  render(){
+
+  getTablaData(){
+
+    const head = createHead(true);
+
+    const app_users = this.props.app_users.map((app_user, index) => {
+      return {
+        key: `row-${index}-${app_user.email}`,
+        cells: [
+          {
+            //key: createKey(app_user.email),
+            content: (
+              <NameWrapper>
+                <AvatarWrapper>
+                  <Avatar
+                    name={app_user.email}
+                    size="medium"
+                    src={`https://api.adorable.io/avatars/24/${encodeURIComponent(
+                      app_user.email,
+                    )}.png`}
+                  />
+                </AvatarWrapper>
+                <a href="https://atlassian.design">{app_user.email}</a>
+              </NameWrapper>
+            ),
+          },
+          {
+            //key: createKey(app_user.state),
+            content: app_user.state,
+          },
+          {
+            //key: createKey(app_user.state),
+            content: (<TimeAgo date={app_user.last_visited_at }/>),
+          },
+          {
+            content: (
+              <DropdownMenu trigger="More" triggerType="button">
+                <DropdownItemGroup>
+                  <DropdownItem>{app_user.email}</DropdownItem>
+                </DropdownItemGroup>
+              </DropdownMenu>
+            ),
+          },
+        ],
+      }
+    }
+    );
+
+    return {head: head, rows: app_users}
+  }
+
+  caption = ()=>{
     return <div>
+            <span>aaaa</span>
+
+            <ButtonGroup>
+              
+              <Button onClick={this.context.addFlag}>
+                Match all filters
+              </Button>
+
             
-              {
-                this.props.app_users.map((o,i)=>{
-                  return <li>
-                            {o.email} 
-                            | 
-                            {o.state}
-                          </li>
-                })
-              }
+              <Button isLoading={false} appearance={'link'}>
+                <i class="fas fa-plus"></i>
+                {" "}
+                Add filter
+              </Button>
+
+              <Button isLoading={false} appearance={'link'}>
+                <i class="fas fa-chart-pie"></i>
+                {" "}
+                Save Segment
+              </Button>
+
+            </ButtonGroup>
+
            </div>
+  }
+
+
+  render(){
+    const {head, rows} = this.getTablaData()
+    
+    return <Wrapper>
+                  <DynamicTable
+                  caption={this.caption()}
+                  head={head}
+                  rows={rows}
+                  rowsPerPage={10}
+                  defaultPage={1}
+                  loadingSpinnerSize="large"
+                  isLoading={this.props.app_users.length == 0}
+                  isFixedSize
+                  defaultSortKey="term"
+                  defaultSortOrder="ASC"
+                  onSort={() => console.log('onSort')}
+                  onSetPage={() => console.log('onSetPage')}
+                  />
+                </Wrapper>
   }
 }
 
@@ -67,8 +229,6 @@ class Topic extends Component {
 
   render(){
     return <div>
-            <h3>{this.props.app.key}</h3>
-
             { this.props.app.key ? 
               <AppUsers 
                 {...this.props}
@@ -79,48 +239,84 @@ class Topic extends Component {
 }
 
 const ShowApp = ({ match }) => (
-
   <Fragment>
+    <Route path={`${match.path}/:topicId`} render={(props) => (
 
-    
+      <Consumer>
+        {({ store, actions }) => (
+          <Topic {...Object.assign({}, props, store) }
+          store={store} 
+          actions={actions}/>
+        )}
+      </Consumer>
 
-      <h2>App</h2>
-      
-      <ul>
-        <li>
-          <Link to={`${match.url}/koqUPJs8-l-ts_Pi0sacTw`}>
-            My app
-          </Link>
-        </li>
-      </ul>
+    )}/>
 
-  
-
-    
-  
-
-      <Fragment>
-        <Route path={`${match.path}/:topicId`} render={(props) => (
-
-          <Consumer>
-            {({ store, actions }) => (
-              <Topic {...Object.assign({}, props, store) }
-              store={store} 
-              actions={actions}/>
-            )}
-          </Consumer>
-
-        )}/>
-    
-        <Route exact path={match.path} render={() => (
-          <h3>Please select a topic.</h3>
-        )}/>
-      </Fragment>
-
-
+    <Route exact path={match.path} render={() => (
+      <h3>Please select a topic.</h3>
+    )}/>
   </Fragment>
-
 )
+
+const dropdown = () => (
+    <DropdownMenu
+      trigger="Choices"
+      triggerType="button"
+      shouldFlip={false}
+      position="right middle"
+      onOpenChange={e => console.log('dropdown opened', e)}
+    >
+      <DropdownItemGroup>
+        <DropdownItem>Sydney</DropdownItem>
+        <DropdownItem>Melbourne</DropdownItem>
+      </DropdownItemGroup>
+    </DropdownMenu>
+);
+
+const dropdown2 = () => (
+    <DropdownMenu
+      trigger="Choices"
+      triggerType="button"
+      shouldFlip={false}
+      position="right middle"
+      onOpenChange={e => console.log('dropdown opened', e)}
+    >
+      <DropdownItemGroup>
+        <DropdownItem>Sydney</DropdownItem>
+        <DropdownItem>Melbourne</DropdownItem>
+      </DropdownItemGroup>
+    </DropdownMenu>
+);
+
+const content = (
+  <div>
+    <h5>Title</h5>
+    <p>Cheesecake gingerbread cupcake soufflé.</p>
+
+    <p>
+      Macaroon cupcake powder dragée liquorice fruitcake cookie sesame snaps
+      cake.
+    </p>
+  </div>
+);
+
+class InlineDialogExample extends Component {
+  state = {
+    dialogOpen: true,
+  };
+
+  toggleDialog = () => this.setState({ dialogOpen: !this.state.dialogOpen });
+
+  render() {
+    return (
+      <div style={{ minHeight: '120px' }}>
+        <InlineDialog content={content} isOpen={this.state.dialogOpen}>
+          <Button onClick={this.toggleDialog}>Toggle Dialog</Button>
+        </InlineDialog>
+      </div>
+    );
+  }
+}
 
 export default class ShowAppContainer extends Component {
 
@@ -198,6 +394,8 @@ export default class ShowAppContainer extends Component {
       eventsSubscriber: this.eventsSubscriber
     }
   }
+
+
  
   render(){
     return <Provider value={{
@@ -205,21 +403,41 @@ export default class ShowAppContainer extends Component {
                               actions: this.actions() 
                             }}>
 
-
       <ContentWrapper>
-        <PageTitle>My App</PageTitle>
-        
-        
+
+        <PageTitle>
+          App: {this.state.app.key}
+        </PageTitle>
+
         <ButtonGroup>
           <Button
             appearance="primary"
             onClick={this.context.showModal}
             onClose={() => { }}
-          >Click to view Atlaskit modal</Button>
+          >Match All users</Button>
           <Button onClick={this.context.addFlag}>
-            click to view Atlaskit flag
+            Match all filters
           </Button>
+
+          <InlineDialogExample/>
+
+          {dropdown()}
+
+          <Button isLoading={false} appearance={'link'}>
+            <i class="fas fa-plus"></i>
+            {" "}
+            Add filter
+          </Button>
+
+          <Button isLoading={false} appearance={'link'}>
+            <i class="fas fa-chart-pie"></i>
+            {" "}
+            Save Segment
+          </Button>
+
         </ButtonGroup>
+
+        <hr/>
 
         <ShowApp 
           match={this.props.match} 

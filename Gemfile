@@ -92,3 +92,6 @@ gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 
 # Added at 2018-05-30 20:31:10 -0400 by michelson:
 gem "kaminari", "~> 1.1"
+
+# Added at 2018-06-02 21:08:21 -0400 by michelson:
+gem "chronic", "~> 0.10.2"

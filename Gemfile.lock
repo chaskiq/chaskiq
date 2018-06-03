@@ -149,6 +149,7 @@ GEM
     chromedriver-helper (1.2.0)
       archive-zip (~> 0.10)
       nokogiri (~> 1.8)
+    chronic (0.10.2)
     coderay (1.1.2)
     coffee-rails (4.2.2)
       coffee-script (>= 2.2.0)
@@ -357,6 +358,7 @@ DEPENDENCIES
   capistrano3-puma
   capybara (>= 2.15, < 4.0)
   chromedriver-helper
+  chronic (~> 0.10.2)
   coffee-rails (~> 4.2)
   database_cleaner
   devise!

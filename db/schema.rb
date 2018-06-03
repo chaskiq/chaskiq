@@ -18,7 +18,7 @@ ActiveRecord::Schema.define(version: 2018_05_31_050057) do
   create_table "app_users", force: :cascade do |t|
     t.bigint "user_id"
     t.bigint "app_id"
-    t.jsonb "properties", default: "{}", null: false
+    t.jsonb "properties", default: {}
     t.datetime "last_visited_at"
     t.string "referrer"
     t.string "state"
