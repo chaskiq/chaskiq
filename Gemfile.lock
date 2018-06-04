@@ -177,6 +177,7 @@ GEM
     fugit (1.1.1)
       et-orbi (~> 1.1, >= 1.1.1)
       raabro (~> 1.1)
+    geocoder (1.4.9)
     globalid (0.4.1)
       activesupport (>= 4.2.0)
     gutentag (2.4.0)
@@ -364,6 +365,7 @@ DEPENDENCIES
   devise!
   email_reply_trimmer
   factory_girl_rails
+  geocoder (~> 1.4)
   gutentag (~> 2.4)
   jbuilder (~> 2.5)
   kaminari (~> 1.1)

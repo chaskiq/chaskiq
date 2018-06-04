@@ -95,3 +95,6 @@ gem "kaminari", "~> 1.1"
 
 # Added at 2018-06-02 21:08:21 -0400 by michelson:
 gem "chronic", "~> 0.10.2"
+
+# Added at 2018-06-04 09:34:22 -0400 by michelson:
+gem "geocoder", "~> 1.4"
