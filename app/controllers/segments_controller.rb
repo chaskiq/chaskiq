@@ -1,16 +1,17 @@
 class SegmentsController < ApplicationController
   before_action :find_app
-  before_action :set_segment, only: [:show, :edit, :update, :destroy]
+  before_action :set_segment, only: [:edit, :update, :destroy]
   # GET /segments
   # GET /segments.json
   def index
-    @segments = @app.segments.all
+    @segments = @app.segments.all + Segment.where("app_id is null")
   end
 
   # GET /segments/1
   # GET /segments/1.json
   def show
-    @segment = @app.segments.find(params[:id])
+    s = Segment.where("app_id is null ").where(id: params[:id]).first
+    @segment =  s.present? ? s : @app.segments.find(params[:id])
     respond_to do |format|
       format.html{ render_empty }
       format.json
@@ -34,7 +35,7 @@ class SegmentsController < ApplicationController
     respond_to do |format|
       if @segment.save
         format.html { redirect_to app_segment_url(@app ,@segment), notice: 'Segment was successfully created.' }
-        format.json { render :show, status: :created, location: @segment }
+        format.json { render :show, status: :created }
       else
         format.html { render :new }
         format.json { render json: @segment.errors, status: :unprocessable_entity }
@@ -48,7 +49,7 @@ class SegmentsController < ApplicationController
     respond_to do |format|
       if @segment.update(segment_params)
         format.html { redirect_to app_segment_url(@app ,@segment), notice: 'Segment was successfully updated.' }
-        format.json { render :show, status: :ok, location: @segment }
+        format.json { render :show, status: :ok }
       else
         format.html { render :edit }
         format.json { render json: @segment.errors, status: :unprocessable_entity }
@@ -79,7 +80,7 @@ class SegmentsController < ApplicationController
     # Never trust parameters from the scary internet, 
     # only allow the white list through.
     def segment_params
-      #params.require(:segment).permit(predicates: [])
-      params.fetch(:segment, {predicates: []}).permit!
+      params.require(:segment).permit! #(:name, predicates: [])
+      #params.fetch(:segment, {:name, predicates: []}).permit!
     end
 end

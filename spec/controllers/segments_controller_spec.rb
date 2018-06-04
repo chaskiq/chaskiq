@@ -37,22 +37,36 @@ RSpec.describe SegmentsController, type: :controller do
   describe "GET #index" do
     it "returns a success response" do
       app.segments.create! valid_attributes
-      get :index, params: {app_id: app.id}, session: valid_session
+      get :index, params: {app_id: app.key}, session: valid_session
       expect(response).to be_success
     end
+
+    it "returns a success response json" do
+      app.segments.create! valid_attributes
+      get :index, params: {format: :json, app_id: app.key}, session: valid_session
+      expect(response).to be_success
+    end
+
   end
 
   describe "GET #show" do
     it "returns a success response" do
       segment = app.segments.create! valid_attributes
-      get :show, params: {id: segment.to_param, app_id: app.id}, session: valid_session
+      get :show, params: {id: segment.to_param, app_id: app.key}, session: valid_session
       expect(response).to be_success
     end
+
+    it "returns a success response json" do
+      segment = app.segments.create! valid_attributes
+      get :show, params: {format: :json, id: segment.to_param, app_id: app.key}, session: valid_session
+      expect(response).to be_success
+    end
+
   end
 
   describe "GET #new" do
     it "returns a success response" do
-      get :new, params: {app_id: app.id}, session: valid_session
+      get :new, params: {app_id: app.key}, session: valid_session
       expect(response).to be_success
     end
   end
@@ -60,7 +74,7 @@ RSpec.describe SegmentsController, type: :controller do
   describe "GET #edit" do
     it "returns a success response" do
       segment = app.segments.create! valid_attributes
-      get :edit, params: {id: segment.to_param, app_id: app.id}, session: valid_session
+      get :edit, params: {id: segment.to_param, app_id: app.key}, session: valid_session
       expect(response).to be_success
     end
   end
@@ -69,21 +83,33 @@ RSpec.describe SegmentsController, type: :controller do
     context "with valid params" do
       it "creates a new Segment" do
         expect {
-          post :create, params: {app_id: app.id, segment: valid_attributes}, session: valid_session
+          post :create, params: {app_id: app.key, segment: valid_attributes}, session: valid_session
         }.to change(Segment, :count).by(1)
       end
 
       it "redirects to the created segment" do
-        post :create, params: {app_id: app.id, segment: valid_attributes}, session: valid_session
+        post :create, params: {app_id: app.key, segment: valid_attributes}, session: valid_session
         expect(response).to be_redirect #_to(Segment.last)
       end
+
+      it "redirects to the created segment json" do
+        post :create, params: {format: :json, app_id: app.key, segment: valid_attributes}, session: valid_session
+        expect(response).to be_success #_to(Segment.last)
+      end
+
     end
 
     context "with invalid params" do
       it "returns a success response (i.e. to display the 'new' template)" do
-        post :create, params: {app_id: app.id, segment: invalid_attributes}, session: valid_session
-        expect(response).to be_success
+        post :create, params: {app_id: app.key, segment: invalid_attributes}, session: valid_session
+        expect(response).to be_successful
       end
+
+      it "returns a success response json" do
+        post :create, params: {format: :json, app_id: app.key, segment: invalid_attributes}, session: valid_session
+        expect(response.status).to be == 422
+      end
+
     end
   end
 
@@ -109,14 +135,14 @@ RSpec.describe SegmentsController, type: :controller do
 
       it "updates the requested segment" do
         segment = app.segments.create! valid_attributes
-        put :update, params: {app_id: app.id, id: segment.to_param, segment: new_attributes}, session: valid_session
+        put :update, params: {app_id: app.key, id: segment.to_param, segment: new_attributes}, session: valid_session
         segment.reload
         expect(app.segments.first.predicates.count).to be == 2
       end
 
       it "redirects to the segment" do
         segment = app.segments.create! valid_attributes
-        put :update, params: {app_id: app.id, id: segment.to_param, segment: valid_attributes}, session: valid_session
+        put :update, params: {app_id: app.key, id: segment.to_param, segment: valid_attributes}, session: valid_session
         expect(response).to be_redirect #_to(:show)
       end
     end
@@ -124,8 +150,14 @@ RSpec.describe SegmentsController, type: :controller do
     context "with invalid params" do
       it "returns a success response (i.e. to display the 'edit' template)" do
         segment = app.segments.create! valid_attributes
-        put :update, params: {app_id: app.id, id: segment.to_param, segment: invalid_attributes}, session: valid_session
+        put :update, params: {app_id: app.key, id: segment.to_param, segment: invalid_attributes}, session: valid_session
         expect(response).to be_success
+      end
+
+      it "returns a success response json" do
+        segment = app.segments.create! valid_attributes
+        put :update, params: {format: :json, app_id: app.key, id: segment.to_param, segment: invalid_attributes}, session: valid_session
+        expect(response.status).to be == 422
       end
     end
   end
@@ -134,13 +166,13 @@ RSpec.describe SegmentsController, type: :controller do
     it "destroys the requested segment" do
       segment = app.segments.create! valid_attributes
       expect {
-        delete :destroy, params: {app_id: app.id, id: segment.to_param}, session: valid_session
+        delete :destroy, params: {app_id: app.key, id: segment.to_param}, session: valid_session
       }.to change(Segment, :count).by(-1)
     end
 
     it "redirects to the segments list" do
       segment = app.segments.create! valid_attributes
-      delete :destroy, params: {app_id: app.id, id: segment.to_param}, session: valid_session
+      delete :destroy, params: {app_id: app.key, id: segment.to_param}, session: valid_session
       expect(response).to be_redirect #_to(:index)
     end
   end

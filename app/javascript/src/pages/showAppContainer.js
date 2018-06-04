@@ -33,13 +33,7 @@ import Spinner from '@atlaskit/spinner';
 
 import FieldRadioGroup from '@atlaskit/field-radio-group';
 import KJUR from "jsrsasign"
-
-/*
-const AppState = {
-  app: {},
-  app_users: [],
-  segments: []
-}*/
+import Modal from '@atlaskit/modal-dialog';
 
 const CableApp = {
   cable: actioncable.createConsumer()
@@ -113,11 +107,6 @@ class AppUsers extends Component {
   constructor(props){
     super(props)
   }
-
-  componentDidMount(){
-    //this.props.actions.fetchAppUsers()
-  }
-
 
   getTablaData(){
 
@@ -230,9 +219,22 @@ class Topic extends Component {
     const id = this.props.match.params.appId
     const segmentID = this.props.match.params.segmentID
     this.props.actions.fetchApp(id, ()=>{
+      console.log(this.props)
       segmentID ? this.props.actions.fetchAppSegment(segmentID) : null      
     })
     this.props.actions.eventsSubscriber(id)
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    if ((prevProps.match && this.props.match) && prevProps.match.params.segmentID !== this.props.match.params.segmentID) {
+      
+      const id = this.props.match.params.appId
+      const segmentID = this.props.match.params.segmentID
+      this.props.actions.fetchApp(id, ()=>{
+        segmentID ? this.props.actions.fetchAppSegment(segmentID) : null      
+      })
+
+    }
   }
 
   render(){
@@ -246,9 +248,50 @@ class Topic extends Component {
   }
 }
 
+class RootHander extends Component {
+
+  constructor(props){
+    super(props)
+  }
+
+  componentDidMount(){
+    const id = this.props.match.params.appId
+    const segmentID = this.props.match.params.segmentID
+    this.props.actions.fetchApp(id, ()=>{
+      console.log(this.props)
+      this.props.actions.fetchAppSegments()      
+    })
+  }
+
+  componentDidUpdate(prevProps,prevState){
+    if(prevProps.segments.length !== this.props.segments.length){
+      console.log("redirect")
+      this.props.history.push(`/apps/${this.props.app.key}/segments/${this.props.segments[0].id}`)
+    }
+  }
+
+  render(){
+    return <p></p>
+  }
+}
+
 const ShowApp = ({ match }) => (
   <Fragment>
-    <Route path={`${match.path}/:appId/:segments?/:segmentID?:Jwt?`} render={(props) => (
+
+    <Route exact path={`${match.path}/:appId`} 
+      render={(props) => {
+        return <Consumer>
+                  {({ store, actions }) => (
+                    <RootHander {...Object.assign({}, props, store)}
+                      actions={actions}
+                     />
+                  )}
+                </Consumer>
+      }
+    }/>
+
+    <Route path={`${match.path}/:appId/segments/:segmentID?:Jwt?`} 
+      render={(props) => (
 
       <Consumer>
         {({ store, actions }) => (
@@ -452,6 +495,77 @@ class SegmentItemButton extends Component {
   }
 }
 
+class SaveSegmentModal extends Component {
+  state: State = { 
+    isOpen: false, 
+    action: "update",
+    loading: false
+  };
+  open = () => this.setState({ isOpen: true });
+  close = () => this.setState({ isOpen: false });
+  
+  secondaryAction = ({ target }: Object) => {
+    this.props.saveSegment(this.state, this.close )
+  }
+
+  handleChange = ({target})=> {
+    this.setState({
+      action: target.value, 
+      input: this.refs.input ? this.refs.input.value : null
+    })
+  }
+  
+  render() {
+    const { isOpen, loading } = this.state;
+    const actions = [
+      { text: 'Close', onClick: this.close },
+      { text: 'Save Segment', onClick: this.secondaryAction.bind(this) },
+    ];
+
+    return (
+      <div>
+
+        <Button isLoading={false} 
+          appearance={'link'}
+          onClick={this.open}>
+          <i className="fas fa-chart-pie"></i>
+          {" "}
+          Save Segment
+        </Button>
+
+        {isOpen && (
+          <Modal actions={actions} 
+            onClose={this.close} 
+            heading={this.props.title}>
+            
+            {
+              !loading ?
+                 <div>
+                  <FieldRadioGroup
+                    items={
+                      [
+                        {label: "Save changes to the segment ‘active-artists-es’", value: "update", defaultSelected: true  },
+                        {label: "Create new segment", value: "new" },
+                      ]
+                    }
+                    label="options:"
+                    onRadioChange={this.handleChange.bind(this)}
+                  />
+
+                  {
+                    this.state.action === "new" ?
+                    <input name="name" ref="input"/> : null
+                  }
+                </div> : <Spinner/>
+            }
+
+          </Modal>
+        )}
+      </div>
+    );
+  }
+}
+
 export default class ShowAppContainer extends Component {
 
   constructor(props){
@@ -465,19 +579,26 @@ export default class ShowAppContainer extends Component {
     }
 
     this.fetchApp         = this.fetchApp.bind(this)
-    this.fetchAppUsers    = this.fetchAppUsers.bind(this)
     this.eventsSubscriber = this.eventsSubscriber.bind(this)
     this.fetchAppSegments = this.fetchAppSegments.bind(this)
     this.fetchAppSegment  = this.fetchAppSegment.bind(this)
     this.updatePredicate  = this.updatePredicate.bind(this)
     this.search           = this.search.bind(this)
+    this.savePredicates   = this.savePredicates.bind(this)
+    this.updateSegment    = this.updateSegment.bind(this)
   }
 
   componentDidUpdate(prevProps, prevState) {
     // only update chart if the data has changed
     if (prevState.jwt !== this.state.jwt) {
         this.search()
-      }
+    }
+
+    if (prevState.segment.id !== this.state.segment.id) {
+      this.fetchApp(this.state.app.key, ()=>{
+        this.search()
+      })
+    }
   }
 
   fetchApp(id, cb){
@@ -494,24 +615,11 @@ export default class ShowAppContainer extends Component {
     });
   }
 
-  // dont use this, get users directly from segment
-  fetchAppUsers(){
-    return 
-    axios.get(`/apps/${this.state.app.key}/app_users.json`)
-    .then( (response)=> {
-      this.setState({app_users: response.data.collection} )
-    })
-    .catch( (error)=> {
-      console.log(error);
-    });
-  }
-
   search(){
     // jwt or predicates from segment
     console.log(this.state.jwt)
     const data = this.state.jwt ? parseJwt(this.state.jwt).data : this.state.segment.predicates
-    const predicates_data = {
-                              data: {
+    const predicates_data = { data: {
                                 predicates: data
                               }
                             }
@@ -558,8 +666,8 @@ export default class ShowAppContainer extends Component {
 
   updateNavLinks(){
     //const links = this.state.segments //.concat(["/oooijoij", "Home", null])
-    const links = this.state.segments.map((o)=> [o.url, o.id, null] )
-    this.props.updateNavLinks(this.props.navLinks.concat(links))
+    const links = this.state.segments.map((o)=> [o.url, o.name, null] )
+    this.props.updateNavLinks(this.props.initialNavLinks.concat(links))
   }
 
   updateUser(data){
@@ -619,14 +727,66 @@ export default class ShowAppContainer extends Component {
   actions(){
     return {
       fetchApp: this.fetchApp,
-      fetchAppUsers: this.fetchAppUsers,
       eventsSubscriber: this.eventsSubscriber,
-      fetchAppSegment: this.fetchAppSegment
+      fetchAppSegment: this.fetchAppSegment,
+      fetchAppSegments: this.fetchAppSegments
     }
   }
 
   getPredicates(){
     return this.state.segment["predicates"] || []
+  }
+
+  updateSegment = (data, cb)=>{
+    axios.put(`/apps/${this.state.app.key}/segments/${this.state.segment.id}.json`, 
+      {
+        segment: {
+          id: this.state.segment.id,
+          predicates: this.state.segment.predicates
+        }
+      }
+    )
+    .then( (response)=> {
+      this.setState({
+        segment: response.data.segment
+      }, ()=> cb ? cb() : null )
+    })
+    .catch( (error)=> {
+      console.log(error);
+    })
+  }
+
+  createSegment = (data, cb)=>{
+    axios.post(`/apps/${this.state.app.key}/segments.json`, 
+      {
+        segment: {
+          name: data.name,
+          predicates: this.state.segment.predicates
+        }
+      }
+    )
+    .then( (response)=> {
+      this.setState({
+        segment: response.data.segment
+      }, ()=> {
+        cb ? cb() : null 
+        const url = `/apps/${this.state.app.key}/segments/${this.state.segment.id}`
+        this.props.history.push(url)
+        //this.fetchAppSegments() ; cb ? cb() : null 
+      })
+    })
+    .catch( (error)=> {
+      console.log(error);
+    })
+  }
+
+  savePredicates(data, cb){
+    console.log(data.action)
+    if(data.action === "update"){
+      this.updateSegment(data, cb)
+    } else if(data.action === "new"){
+      this.createSegment(data, cb)
+    }
   }
 
   render(){
@@ -646,6 +806,7 @@ export default class ShowAppContainer extends Component {
           {
             this.getPredicates().map((o, i)=>{
               return <SegmentItemButton 
+                        key={i}
                         predicate={o}
                         appearance="primary"
                         updatePredicate={this.updatePredicate}
@@ -656,11 +817,9 @@ export default class ShowAppContainer extends Component {
 
           <InlineDialogExample/>
 
-          <Button isLoading={false} appearance={'link'}>
-            <i className="fas fa-chart-pie"></i>
-            {" "}
-            Save Segment
-          </Button>
+          <SaveSegmentModal 
+            title="Save Segment" 
+            saveSegment={this.savePredicates}/>
 
           {
             /*
@@ -677,9 +836,6 @@ export default class ShowAppContainer extends Component {
               <InlineDialogExample/>
 
               {dropdown()}
-
-
-
             */
           }
 

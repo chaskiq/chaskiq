@@ -14,17 +14,18 @@ import SearchIcon from '@atlaskit/icon/glyph/search';
 export default class MainRouter extends Component {
   constructor() {
     super();
+    this.defaultNavLinks = [
+                              ['/', 'Home', DashboardIcon],
+                              ['/settings', 'Settings', GearIcon],
+                              ['/apps/koqUPJs8-l-ts_Pi0sacTw', 'My App', DashboardIcon]
+                            ]
     this.state = {
       navOpenState: {
         isOpen: true,
         width: 304,
       },
 
-      navLinks: [
-        ['/', 'Home', DashboardIcon],
-        ['/settings', 'Settings', GearIcon],
-        ['/apps/koqUPJs8-l-ts_Pi0sacTw', 'My App', DashboardIcon]
-      ]
+      navLinks: this.defaultNavLinks
 
     }
     this.updateNavLinks = this.updateNavLinks.bind(this)
@@ -63,6 +64,7 @@ export default class MainRouter extends Component {
           <Route path="/apps" render={(props)=>(
             <ShowAppContainer 
               {...props} 
+              initialNavLinks={this.defaultNavLinks}
               navLinks={this.state.navLinks}
               updateNavLinks={this.updateNavLinks}
             />
