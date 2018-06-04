@@ -34,6 +34,10 @@ import Spinner from '@atlaskit/spinner';
 import FieldRadioGroup from '@atlaskit/field-radio-group';
 import KJUR from "jsrsasign"
 import Modal from '@atlaskit/modal-dialog';
+import EmptyState from '@atlaskit/empty-state'
+
+import UserMap from "../components/map"
+
 
 const CableApp = {
   cable: actioncable.createConsumer()
@@ -43,16 +47,6 @@ const Context = createContext()
 
 // This context contains two interesting components
 const { Provider, Consumer } = Context
-
-function createKey(input) {
-  return input ? input.replace(/^(the|a|an)/, '').replace(/\s/g, '') : input;
-}
-
-function getRandomString() {
-  return `${lorem[Math.floor(Math.random() * lorem.length)]}`;
-}
-
-const caption = 'List of Users';
 
 const Wrapper = styled.div`
   min-width: 600px;
@@ -103,9 +97,66 @@ const AvatarWrapper = styled.div`
   margin-right: 8px;
 `;
 
+
+const primaryAction = (
+  <Button
+    appearance="primary"
+    onClick={() => console.log('primary action clicked')}
+  >
+    Primary action
+  </Button>
+);
+
+const secondaryAction = (
+  <Button onClick={() => console.log('secondary action clicked')}>
+    Secondary action
+  </Button>
+);
+
+const tertiaryAction = (
+  <Button
+    appearance="subtle-link"
+    href="http://www.example.com"
+    target="_blank"
+  >
+    Tertiary action
+  </Button>
+);
+
+const Emptyprops = {
+  header: 'I am the header',
+  description: `Lorem ipsum is a pseudo-Latin text used in web design, 
+        typography, layout, and printing in place of English to emphasise 
+        design elements over content. It's also called placeholder (or filler) 
+        text. It's a convenient tool for mock-ups.`,
+  imageUrl: null,
+  primaryAction,
+  secondaryAction,
+  tertiaryAction,
+};
+
+const dropdown = () => (
+    <DropdownMenu
+      trigger="Choices"
+      triggerType="button"
+      shouldFlip={false}
+      position="bottom left"
+      onOpenChange={e => console.log('dropdown opened', e)}
+    >
+      <DropdownItemGroup>
+        <DropdownItem>Import</DropdownItem>
+        <DropdownItem>Export</DropdownItem>
+        <DropdownItem>Archive</DropdownItem>
+      </DropdownItemGroup>
+    </DropdownMenu>
+);
+
 class AppUsers extends Component {
   constructor(props){
     super(props)
+    this.state = {
+      map_view: false
+    }
   }
 
   getTablaData(){
@@ -158,30 +209,35 @@ class AppUsers extends Component {
     return {head: head, rows: app_users}
   }
 
+  toggleMap = (e)=>{
+    this.setState({map_view: !this.state.map_view  })
+  }
+
   caption = ()=>{
     return <div>
-            <span>aaaa</span>
-
-            <ButtonGroup>
-              
-              <Button onClick={this.context.addFlag}>
-                Match all filters
-              </Button>
-
             
-              <Button isLoading={false} appearance={'link'}>
-                <i className="fas fa-plus"></i>
-                {" "}
-                Add filter
-              </Button>
+            <div style={{float: "right"}}>
+              <ButtonGroup>
+                
+                {dropdown()}
 
-              <Button isLoading={false} appearance={'link'}>
-                <i className="fas fa-chart-pie"></i>
-                {" "}
-                Save Segment
-              </Button>
+                <Button isLoading={false} onClick={this.toggleMap.bind(this)}>
+                  <i className="fas fa-list"></i>
+                  {" "}
+                  List
+                </Button>
 
-            </ButtonGroup>
+                <Button isLoading={false} onClick={this.toggleMap.bind(this)}>
+                  <i className="fas fa-map"></i>
+                  {" "}
+                  Map
+                </Button>
+
+              </ButtonGroup>
+            </div>
+
+            <span>Users {this.props.meta['total_count']}</span>
+            <hr/>
 
            </div>
   }
@@ -191,21 +247,25 @@ class AppUsers extends Component {
     const {head, rows} = this.getTablaData()
     
     return <Wrapper>
+              { this.caption() }
+              {
+                !this.state.map_view ? 
                   <DynamicTable
-                  caption={this.caption()}
-                  head={head}
-                  rows={rows}
-                  rowsPerPage={10}
-                  defaultPage={1}
-                  loadingSpinnerSize="large"
-                  isLoading={this.props.app_users.length == 0}
-                  isFixedSize
-                  defaultSortKey="term"
-                  defaultSortOrder="ASC"
-                  onSort={() => console.log('onSort')}
-                  onSetPage={() => console.log('onSetPage')}
-                  />
-                </Wrapper>
+                    caption={null}
+                    head={head}
+                    rows={rows}
+                    rowsPerPage={10}
+                    defaultPage={1}
+                    loadingSpinnerSize="large"
+                    isLoading={this.props.searching}
+                    isFixedSize
+                    defaultSortKey="term"
+                    defaultSortOrder="ASC"
+                    onSort={() => console.log('onSort')}
+                    onSetPage={() => console.log('onSetPage')}
+                  /> : <UserMap/>
+              }
+            </Wrapper>
   }
 }
 
@@ -248,6 +308,7 @@ class Topic extends Component {
   }
 }
 
+// this is used for redirect to segments
 class RootHander extends Component {
 
   constructor(props){
@@ -265,13 +326,12 @@ class RootHander extends Component {
 
   componentDidUpdate(prevProps,prevState){
     if(prevProps.segments.length !== this.props.segments.length){
-      console.log("redirect")
       this.props.history.push(`/apps/${this.props.app.key}/segments/${this.props.segments[0].id}`)
     }
   }
 
   render(){
-    return <p></p>
+    return <EmptyState {...Emptyprops} />
   }
 }
 
@@ -308,36 +368,6 @@ const ShowApp = ({ match }) => (
     )}/>
   </Fragment>
 )
-
-const dropdown = () => (
-    <DropdownMenu
-      trigger="Choices"
-      triggerType="button"
-      shouldFlip={false}
-      position="right middle"
-      onOpenChange={e => console.log('dropdown opened', e)}
-    >
-      <DropdownItemGroup>
-        <DropdownItem>Sydney</DropdownItem>
-        <DropdownItem>Melbourne</DropdownItem>
-      </DropdownItemGroup>
-    </DropdownMenu>
-);
-
-const dropdown2 = () => (
-    <DropdownMenu
-      trigger="Choices"
-      triggerType="button"
-      shouldFlip={false}
-      position="right middle"
-      onOpenChange={e => console.log('dropdown opened', e)}
-    >
-      <DropdownItemGroup>
-        <DropdownItem>Sydney</DropdownItem>
-        <DropdownItem>Melbourne</DropdownItem>
-      </DropdownItemGroup>
-    </DropdownMenu>
-);
 
 const content = (
   <div>
@@ -499,19 +529,22 @@ class SaveSegmentModal extends Component {
   state: State = { 
     isOpen: false, 
     action: "update",
-    loading: false
+    loading: false,
+    input: null
   };
   open = () => this.setState({ isOpen: true });
   close = () => this.setState({ isOpen: false });
   
   secondaryAction = ({ target }: Object) => {
-    this.props.saveSegment(this.state, this.close )
+    this.props.saveSegment({
+      action: this.state.action,
+      input: this.refs.input ? this.refs.input.value : null
+    }, this.close )
   }
 
   handleChange = ({target})=> {
     this.setState({
       action: target.value, 
-      input: this.refs.input ? this.refs.input.value : null
     })
   }
   
@@ -575,6 +608,8 @@ export default class ShowAppContainer extends Component {
       app_users: [], 
       segments: [],
       segment: {},
+      meta: {},
+      searching: false,
       jwt: null
     }
 
@@ -616,6 +651,7 @@ export default class ShowAppContainer extends Component {
   }
 
   search(){
+    this.setState({searching: true})
     // jwt or predicates from segment
     console.log(this.state.jwt)
     const data = this.state.jwt ? parseJwt(this.state.jwt).data : this.state.segment.predicates
@@ -631,7 +667,9 @@ export default class ShowAppContainer extends Component {
       console.log(data)
       this.setState({
         segment: Object.assign({}, this.state.segment, { predicates: data }),
-        app_users: response.data.collection
+        app_users: response.data.collection,
+        meta: response.data.meta, 
+        searching: false
       })
     })
     .catch( (error)=> {
@@ -656,7 +694,6 @@ export default class ShowAppContainer extends Component {
     .then( (response)=> {
       this.setState({
         segment: response.data.segment,
-        //app_users: response.data.collection
       }, this.search)
     })
     .catch( (error)=> {
@@ -665,7 +702,6 @@ export default class ShowAppContainer extends Component {
   }
 
   updateNavLinks(){
-    //const links = this.state.segments //.concat(["/oooijoij", "Home", null])
     const links = this.state.segments.map((o)=> [o.url, o.name, null] )
     this.props.updateNavLinks(this.props.initialNavLinks.concat(links))
   }
@@ -760,7 +796,7 @@ export default class ShowAppContainer extends Component {
     axios.post(`/apps/${this.state.app.key}/segments.json`, 
       {
         segment: {
-          name: data.name,
+          name: data.input,
           predicates: this.state.segment.predicates
         }
       }
@@ -841,7 +877,7 @@ export default class ShowAppContainer extends Component {
 
         </ButtonGroup>
 
-        <hr/>
+        
 
         <ShowApp 
           match={this.props.match} 

@@ -8,6 +8,7 @@
     "@atlaskit/css-reset": "^2.0.2",
     "@atlaskit/dropdown-menu": "^4.1.0",
     "@atlaskit/dynamic-table": "^8.1.0",
+    "@atlaskit/empty-state": "^1.1.2",
     "@atlaskit/field-radio-group": "^2.1.0",
     "@atlaskit/field-text-area": "^2.1.0",
     "@atlaskit/flag": "^7.0.3",
@@ -26,13 +27,16 @@
     "antd": "^3.5.4",
     "axios": "^0.18.0",
     "babel-preset-react": "^6.24.1",
+    "isomorphic-fetch": "^2.2.1",
     "jsrsasign": "^8.0.12",
     "prop-types": "^15.6.1",
     "react": "^16.4.0",
     "react-dom": "^16.4.0",
+    "react-google-maps": "^9.4.5",
     "react-router": "^4.2.0",
     "react-router-dom": "^4.2.2",
-    "react-timeago": "^4.1.9"
+    "react-timeago": "^4.1.9",
+    "recompose": "^0.27.1"
   },
   "devDependencies": {
     "webpack-dev-server": "2.11.2"
