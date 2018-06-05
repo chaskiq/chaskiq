@@ -4,7 +4,7 @@ import PropTypes from 'prop-types'
 import actioncable from "actioncable"
 import axios from "axios"
 
-
+// https://stackoverflow.com/questions/12114356/how-to-get-the-request-timezone
 const App = {
   cable: actioncable.createConsumer()
 }

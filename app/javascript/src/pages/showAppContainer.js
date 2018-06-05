@@ -380,6 +380,8 @@ class AppUsers extends Component {
     this.state = {
       map_view: false
     }
+    this.toggleMap = this.toggleMap.bind(this)
+    this.toggleList = this.toggleList.bind(this)
   }
 
   getTablaData(){
@@ -433,7 +435,11 @@ class AppUsers extends Component {
   }
 
   toggleMap = (e)=>{
-    this.setState({map_view: !this.state.map_view  })
+    this.setState({map_view: false  })
+  }
+
+  toggleList = (e)=>{
+    this.setState({map_view: true  })
   }
 
   caption = ()=>{
@@ -479,18 +485,26 @@ class AppUsers extends Component {
 
             </ButtonGroup>
 
+            <hr/>
+
             <div style={{float: "right"}}>
               <ButtonGroup>
                 
                 {dropdown()}
 
-                <Button isLoading={false} onClick={this.toggleMap.bind(this)}>
+                <Button 
+                  isLoading={false} 
+                  onClick={this.toggleMap.bind(this)}
+                  isSelected={!this.state.map_view}>
                   <i className="fas fa-list"></i>
                   {" "}
                   List
                 </Button>
 
-                <Button isLoading={false} onClick={this.toggleMap.bind(this)}>
+                <Button 
+                  isSelected={this.state.map_view}
+                  isLoading={false} 
+                  onClick={this.toggleList.bind(this)}>
                   <i className="fas fa-map"></i>
                   {" "}
                   Map
@@ -510,7 +524,9 @@ class AppUsers extends Component {
     const {head, rows} = this.getTablaData()
     
     return <Wrapper>
+
               { this.caption() }
+
               {
                 !this.state.map_view ? 
                   <DynamicTable
