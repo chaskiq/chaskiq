@@ -7,13 +7,10 @@ import {
 } from 'react-router-dom'
 import TimeAgo from 'react-timeago'
 import PropTypes from 'prop-types';
-
 import Button, { ButtonGroup } from '@atlaskit/button';
 import ContentWrapper from '../components/ContentWrapper';
 import PageTitle from '../components/PageTitle';
-
 import RadioGroup, { AkFieldRadioGroup, AkRadio } from '@atlaskit/field-radio-group';
-
 import Avatar from '@atlaskit/avatar';
 import DropdownMenu, {
   DropdownItemGroup,
@@ -30,14 +27,11 @@ import Form, { FormHeader,
 import styled from 'styled-components';
 import InlineDialog from '@atlaskit/inline-dialog';
 import Spinner from '@atlaskit/spinner';
-
 import FieldRadioGroup from '@atlaskit/field-radio-group';
 import KJUR from "jsrsasign"
 import Modal from '@atlaskit/modal-dialog';
 import EmptyState from '@atlaskit/empty-state'
-
 import UserMap from "../components/map"
-
 
 const CableApp = {
   cable: actioncable.createConsumer()
@@ -97,7 +91,6 @@ const AvatarWrapper = styled.div`
   margin-right: 8px;
 `;
 
-
 const primaryAction = (
   <Button
     appearance="primary"
@@ -151,224 +144,6 @@ const dropdown = () => (
     </DropdownMenu>
 );
 
-class AppUsers extends Component {
-  constructor(props){
-    super(props)
-    this.state = {
-      map_view: false
-    }
-  }
-
-  getTablaData(){
-
-    const head = createHead(true);
-
-    const app_users = this.props.app_users.map((app_user, index) => {
-      return {
-        key: `row-${index}-${app_user.email}`,
-        cells: [
-          {
-            //key: createKey(app_user.email),
-            content: (
-              <NameWrapper>
-                <AvatarWrapper>
-                  <Avatar
-                    name={app_user.email}
-                    size="medium"
-                    src={`https://api.adorable.io/avatars/24/${encodeURIComponent(
-                      app_user.email,
-                    )}.png`}
-                  />
-                </AvatarWrapper>
-                <a href="https://atlassian.design">{app_user.email}</a>
-              </NameWrapper>
-            ),
-          },
-          {
-            //key: createKey(app_user.state),
-            content: app_user.state,
-          },
-          {
-            //key: createKey(app_user.state),
-            content: (<TimeAgo date={app_user.last_visited_at }/>),
-          },
-          {
-            content: (
-              <DropdownMenu trigger="More" triggerType="button">
-                <DropdownItemGroup>
-                  <DropdownItem>{app_user.email}</DropdownItem>
-                </DropdownItemGroup>
-              </DropdownMenu>
-            ),
-          },
-        ],
-      }
-    }
-    );
-
-    return {head: head, rows: app_users}
-  }
-
-  toggleMap = (e)=>{
-    this.setState({map_view: !this.state.map_view  })
-  }
-
-  caption = ()=>{
-    return <div>
-            
-            <div style={{float: "right"}}>
-              <ButtonGroup>
-                
-                {dropdown()}
-
-                <Button isLoading={false} onClick={this.toggleMap.bind(this)}>
-                  <i className="fas fa-list"></i>
-                  {" "}
-                  List
-                </Button>
-
-                <Button isLoading={false} onClick={this.toggleMap.bind(this)}>
-                  <i className="fas fa-map"></i>
-                  {" "}
-                  Map
-                </Button>
-
-              </ButtonGroup>
-            </div>
-
-            <span>Users {this.props.meta['total_count']}</span>
-            <hr/>
-
-           </div>
-  }
-
-
-  render(){
-    const {head, rows} = this.getTablaData()
-    
-    return <Wrapper>
-              { this.caption() }
-              {
-                !this.state.map_view ? 
-                  <DynamicTable
-                    caption={null}
-                    head={head}
-                    rows={rows}
-                    rowsPerPage={10}
-                    defaultPage={1}
-                    loadingSpinnerSize="large"
-                    isLoading={this.props.searching}
-                    isFixedSize
-                    defaultSortKey="term"
-                    defaultSortOrder="ASC"
-                    onSort={() => console.log('onSort')}
-                    onSetPage={() => console.log('onSetPage')}
-                  /> : <UserMap/>
-              }
-            </Wrapper>
-  }
-}
-
-class Topic extends Component {
-
-  constructor(props){
-    super(props)
-  }
-
-  componentDidMount(){
-    const id = this.props.match.params.appId
-    const segmentID = this.props.match.params.segmentID
-    this.props.actions.fetchApp(id, ()=>{
-      console.log(this.props)
-      segmentID ? this.props.actions.fetchAppSegment(segmentID) : null      
-    })
-    this.props.actions.eventsSubscriber(id)
-  }
-
-  componentDidUpdate(prevProps, prevState) {
-    if ((prevProps.match && this.props.match) && prevProps.match.params.segmentID !== this.props.match.params.segmentID) {
-      
-      const id = this.props.match.params.appId
-      const segmentID = this.props.match.params.segmentID
-      this.props.actions.fetchApp(id, ()=>{
-        segmentID ? this.props.actions.fetchAppSegment(segmentID) : null      
-      })
-
-    }
-  }
-
-  render(){
-    return <div>
-            { this.props.app.key ? 
-              <AppUsers 
-                {...this.props}
-              /> : null 
-            }
-          </div>
-  }
-}
-
-// this is used for redirect to segments
-class RootHander extends Component {
-
-  constructor(props){
-    super(props)
-  }
-
-  componentDidMount(){
-    const id = this.props.match.params.appId
-    const segmentID = this.props.match.params.segmentID
-    this.props.actions.fetchApp(id, ()=>{
-      console.log(this.props)
-      this.props.actions.fetchAppSegments()      
-    })
-  }
-
-  componentDidUpdate(prevProps,prevState){
-    if(prevProps.segments.length !== this.props.segments.length){
-      this.props.history.push(`/apps/${this.props.app.key}/segments/${this.props.segments[0].id}`)
-    }
-  }
-
-  render(){
-    return <EmptyState {...Emptyprops} />
-  }
-}
-
-const ShowApp = ({ match }) => (
-  <Fragment>
-
-    <Route exact path={`${match.path}/:appId`} 
-      render={(props) => {
-        return <Consumer>
-                  {({ store, actions }) => (
-                    <RootHander {...Object.assign({}, props, store)}
-                      actions={actions}
-                     />
-                  )}
-                </Consumer>
-      }
-    }/>
-
-    <Route path={`${match.path}/:appId/segments/:segmentID?:Jwt?`} 
-      render={(props) => (
-
-      <Consumer>
-        {({ store, actions }) => (
-          <Topic {...Object.assign({}, props, store) }
-          store={store} 
-          actions={actions}/>
-        )}
-      </Consumer>
-
-    )}/>
-
-    <Route exact path={match.path} render={() => (
-      <h3>Please select a topic.</h3>
-    )}/>
-  </Fragment>
-)
-
 const content = (
   <div>
     <h5>Title</h5>
@@ -380,6 +155,30 @@ const content = (
     </p>
   </div>
 );
+
+const parseJwt = (token)=> {
+  var isValid = KJUR.jws.JWS.verifyJWT(token, "616161", {alg: ['HS256']});
+  if(!isValid)
+    return new Error("not a valid jwt, sory")
+
+  var base64Url = token.split('.')[1];
+  var base64 = base64Url.replace('-', '+').replace('_', '/');
+  return JSON.parse(window.atob(base64));
+};
+
+const generateJWT = (data)=>{
+  var oHeader = {alg: 'HS256', typ: 'JWT'};
+  // Payload
+  var oPayload = {};
+  var tNow = KJUR.jws.IntDate.get('now');
+  var tEnd = KJUR.jws.IntDate.get('now + 1day');
+  oPayload.data = data
+  // Sign JWT, password=616161
+  var sHeader = JSON.stringify(oHeader);
+  var sPayload = JSON.stringify(oPayload);
+  var sJWT = KJUR.jws.JWS.sign("HS256", sHeader, sPayload, "616161")
+  return sJWT
+}
 
 class InlineDialogExample extends Component {
   state = {
@@ -406,30 +205,6 @@ class InlineDialogExample extends Component {
       </div>
     );
   }
-}
-
-const parseJwt = (token)=> {
-  var isValid = KJUR.jws.JWS.verifyJWT(token, "616161", {alg: ['HS256']});
-  if(!isValid)
-    return new Error("not a valid jwt, sory")
-
-  var base64Url = token.split('.')[1];
-  var base64 = base64Url.replace('-', '+').replace('_', '/');
-  return JSON.parse(window.atob(base64));
-};
-
-const generateJWT = (data)=>{
-  var oHeader = {alg: 'HS256', typ: 'JWT'};
-  // Payload
-  var oPayload = {};
-  var tNow = KJUR.jws.IntDate.get('now');
-  var tEnd = KJUR.jws.IntDate.get('now + 1day');
-  oPayload.data = data
-  // Sign JWT, password=616161
-  var sHeader = JSON.stringify(oHeader);
-  var sPayload = JSON.stringify(oPayload);
-  var sJWT = KJUR.jws.JWS.sign("HS256", sHeader, sPayload, "616161")
-  return sJWT
 }
 
 class SegmentItemButton extends Component {
@@ -599,6 +374,197 @@ class SaveSegmentModal extends Component {
   }
 }
 
+class AppUsers extends Component {
+  constructor(props){
+    super(props)
+    this.state = {
+      map_view: false
+    }
+  }
+
+  getTablaData(){
+
+    const head = createHead(true);
+
+    const app_users = this.props.app_users.map((app_user, index) => {
+      return {
+        key: `row-${index}-${app_user.email}`,
+        cells: [
+          {
+            //key: createKey(app_user.email),
+            content: (
+              <NameWrapper>
+                <AvatarWrapper>
+                  <Avatar
+                    name={app_user.email}
+                    size="medium"
+                    src={`https://api.adorable.io/avatars/24/${encodeURIComponent(
+                      app_user.email,
+                    )}.png`}
+                  />
+                </AvatarWrapper>
+                <a href="https://atlassian.design">{app_user.email}</a>
+              </NameWrapper>
+            ),
+          },
+          {
+            //key: createKey(app_user.state),
+            content: app_user.state,
+          },
+          {
+            //key: createKey(app_user.state),
+            content: (<TimeAgo date={app_user.last_visited_at }/>),
+          },
+          {
+            content: (
+              <DropdownMenu trigger="More" triggerType="button">
+                <DropdownItemGroup>
+                  <DropdownItem>{app_user.email}</DropdownItem>
+                </DropdownItemGroup>
+              </DropdownMenu>
+            ),
+          },
+        ],
+      }
+    }
+    );
+
+    return {head: head, rows: app_users}
+  }
+
+  toggleMap = (e)=>{
+    this.setState({map_view: !this.state.map_view  })
+  }
+
+  caption = ()=>{
+    return <div>
+
+            <ButtonGroup>
+              
+              {
+                this.props.actions.getPredicates().map((o, i)=>{
+                  return <SegmentItemButton 
+                            key={i}
+                            predicate={o}
+                            appearance="primary"
+                            updatePredicate={this.props.actions.updatePredicate}
+                            text={`Match: ${o.attribute} ${o.comparison} ${o.value}`}
+                          />
+                })
+              }
+
+              <InlineDialogExample/>
+
+              <SaveSegmentModal 
+                title="Save Segment" 
+                saveSegment={this.props.actions.savePredicates}/>
+
+              {
+                /*
+                  <Button
+                    appearance="primary"
+                    onClick={this.context.showModal}
+                    onClose={() => { }}
+                  >Match All users</Button>
+
+                  <Button onClick={this.context.addFlag}>
+                    Match all filters
+                  </Button>
+
+                  <InlineDialogExample/>
+
+                  {dropdown()}
+                */
+              }
+
+            </ButtonGroup>
+
+            <div style={{float: "right"}}>
+              <ButtonGroup>
+                
+                {dropdown()}
+
+                <Button isLoading={false} onClick={this.toggleMap.bind(this)}>
+                  <i className="fas fa-list"></i>
+                  {" "}
+                  List
+                </Button>
+
+                <Button isLoading={false} onClick={this.toggleMap.bind(this)}>
+                  <i className="fas fa-map"></i>
+                  {" "}
+                  Map
+                </Button>
+
+              </ButtonGroup>
+            </div>
+
+            <span>Users {this.props.meta['total_count']}</span>
+            
+            <hr/>
+
+           </div>
+  }
+
+  render(){
+    const {head, rows} = this.getTablaData()
+    
+    return <Wrapper>
+              { this.caption() }
+              {
+                !this.state.map_view ? 
+                  <DynamicTable
+                    caption={null}
+                    head={head}
+                    rows={rows}
+                    rowsPerPage={10}
+                    defaultPage={1}
+                    loadingSpinnerSize="large"
+                    isLoading={this.props.searching}
+                    isFixedSize
+                    defaultSortKey="term"
+                    defaultSortOrder="ASC"
+                    onSort={() => console.log('onSort')}
+                    onSetPage={() => console.log('onSetPage')}
+                  /> : <UserMap/>
+              }
+            </Wrapper>
+  }
+}
+
+class AppContent extends Component {
+
+  constructor(props){
+    super(props)
+    this.getSegment = this.getSegment.bind(this)
+  }
+
+  getSegment(){
+    const segmentID = this.props.match.params.segmentID
+    segmentID ? this.props.actions.fetchAppSegment(segmentID) : null    
+  }
+
+  componentDidMount(){
+    this.getSegment()
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    if (this.props.match.params && prevProps.match.params.segmentID !== this.props.match.params.segmentID) {
+      this.getSegment()
+    }
+  }
+
+  render(){
+    return <div>
+            { this.props.app.key && this.props.segment.id ? 
+              <AppUsers 
+                {...this.props}
+              /> : null 
+            }
+          </div>
+  }
+}
+
 export default class ShowAppContainer extends Component {
 
   constructor(props){
@@ -606,7 +572,6 @@ export default class ShowAppContainer extends Component {
     this.state = {
       app: {}, 
       app_users: [], 
-      segments: [],
       segment: {},
       meta: {},
       searching: false,
@@ -615,12 +580,21 @@ export default class ShowAppContainer extends Component {
 
     this.fetchApp         = this.fetchApp.bind(this)
     this.eventsSubscriber = this.eventsSubscriber.bind(this)
-    this.fetchAppSegments = this.fetchAppSegments.bind(this)
     this.fetchAppSegment  = this.fetchAppSegment.bind(this)
     this.updatePredicate  = this.updatePredicate.bind(this)
     this.search           = this.search.bind(this)
     this.savePredicates   = this.savePredicates.bind(this)
     this.updateSegment    = this.updateSegment.bind(this)
+    this.updateNavLinks   = this.updateNavLinks.bind(this)
+    this.getPredicates    = this.getPredicates.bind(this)
+  }
+
+  componentDidMount() {
+    this.fetchApp( ()=> { 
+        this.updateNavLinks()
+        this.eventsSubscriber(this.state.app.key)
+      }
+    )
   }
 
   componentDidUpdate(prevProps, prevState) {
@@ -630,18 +604,29 @@ export default class ShowAppContainer extends Component {
     }
 
     if (prevState.segment.id !== this.state.segment.id) {
-      this.fetchApp(this.state.app.key, ()=>{
+      this.fetchApp( ()=>{
         this.search()
       })
     }
   }
 
-  fetchApp(id, cb){
+  actions(){
+    return {
+      fetchApp: this.fetchApp,
+      eventsSubscriber: this.eventsSubscriber,
+      fetchAppSegment: this.fetchAppSegment,
+      getPredicates: this.getPredicates,
+      updateSegment: this.updateSegment,
+      //fetchAppSegments: this.fetchAppSegments
+    }
+  }
+
+  fetchApp(cb){
     const t = this
+    const id = this.props.match.params.appId
     axios.get(`/apps/${id}.json`)
     .then( (response)=> {
       t.setState({app: response.data.app}, ()=>{ 
-        this.fetchAppSegments()
         cb ? cb() : null
       })
     })
@@ -677,21 +662,10 @@ export default class ShowAppContainer extends Component {
     });   
   }
 
-  fetchAppSegments(){
-    axios.get(`/apps/${this.state.app.key}/segments.json`)
-    .then( (response)=> {
-      this.setState({segments: response.data.collection},
-        this.updateNavLinks
-      )
-    })
-    .catch( (error)=> {
-      console.log(error);
-    });
-  }
-
   fetchAppSegment(id){
     axios.get(`/apps/${this.state.app.key}/segments/${id}.json`)
     .then( (response)=> {
+      
       this.setState({
         segment: response.data.segment,
       }, this.search)
@@ -702,12 +676,12 @@ export default class ShowAppContainer extends Component {
   }
 
   updateNavLinks(){
-    const links = this.state.segments.map((o)=> [o.url, o.name, null] )
+    const url_for = (o)=> `/apps/${this.state.app.key}/segments/${o.id}`
+    const links = this.state.app.segments.map((o)=> [url_for(o), o.name, null] )
     this.props.updateNavLinks(this.props.initialNavLinks.concat(links))
   }
 
   updateUser(data){
-   
     data = JSON.parse(data)
     this.setState({app_users: this.state.app_users.map( (el)=> 
         el.email === data.email ? Object.assign({}, el, data) : el 
@@ -758,15 +732,6 @@ export default class ShowAppContainer extends Component {
     this.props.history.push(url)
     
     this.setState({jwt: jwtToken})
-  }
-
-  actions(){
-    return {
-      fetchApp: this.fetchApp,
-      eventsSubscriber: this.eventsSubscriber,
-      fetchAppSegment: this.fetchAppSegment,
-      fetchAppSegments: this.fetchAppSegments
-    }
   }
 
   getPredicates(){
@@ -837,55 +802,32 @@ export default class ShowAppContainer extends Component {
           App: {this.state.app.key}
         </PageTitle>
 
-        <ButtonGroup>
-          
-          {
-            this.getPredicates().map((o, i)=>{
-              return <SegmentItemButton 
-                        key={i}
-                        predicate={o}
-                        appearance="primary"
-                        updatePredicate={this.updatePredicate}
-                        text={`Match: ${o.attribute} ${o.comparison} ${o.value}`}
-                      />
-            })
+        <Route exact path={this.props.match.path}
+          render={(props) => {
+            return <EmptyState {...Emptyprops} />
           }
+        }/>
 
-          <InlineDialogExample/>
-
-          <SaveSegmentModal 
-            title="Save Segment" 
-            saveSegment={this.savePredicates}/>
-
-          {
-            /*
-              <Button
-                appearance="primary"
-                onClick={this.context.showModal}
-                onClose={() => { }}
-              >Match All users</Button>
-
-              <Button onClick={this.context.addFlag}>
-                Match all filters
-              </Button>
-
-              <InlineDialogExample/>
-
-              {dropdown()}
-            */
-          }
-
-        </ButtonGroup>
-
-        
-
-        <ShowApp 
-          match={this.props.match} 
-        />
-
+        {
+          this.state.app.key ?
+            <Route path={`${this.props.match.path}/segments/:segmentID?:Jwt?`} 
+              render={(props) => {
+                return  <Consumer>
+                          {({ store, actions }) => (
+                            <AppContent {...Object.assign({}, props, store) }
+                            store={store} 
+                            actions={actions}/>
+                          )}
+                        </Consumer>
+              }
+            }/> : null
+        }
+       
+        <Route exact path={this.props.match.path} render={() => (
+          <h3>Please select a topic.</h3>
+        )}/>
+ 
       </ContentWrapper>
-
-
     </Provider>
   }
 }

@@ -2,6 +2,7 @@ class AppsController < ApplicationController
 
   def show
     @app = App.find_by(key: params[:id])
+    @segments = @app.segments.all + Segment.where("app_id is null")
     respond_to do |format|
       format.html{ render_empty }
       format.json
@@ -10,6 +11,10 @@ class AppsController < ApplicationController
 
   def index
     @apps = App.all
+    respond_to do |format|
+      format.html{ render_empty }
+      format.json
+    end
   end
 
   def search

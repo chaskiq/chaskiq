@@ -5,6 +5,7 @@ import App from './App';
 import HomePage from '../pages/HomePage';
 import SettingsPage from '../pages/SettingsPage';
 import ShowAppContainer from '../pages/showAppContainer';
+import AppListContainer from '../pages/appListContainer';
 
 
 import DashboardIcon from '@atlaskit/icon/glyph/dashboard';
@@ -17,7 +18,7 @@ export default class MainRouter extends Component {
     this.defaultNavLinks = [
                               ['/', 'Home', DashboardIcon],
                               ['/settings', 'Settings', GearIcon],
-                              ['/apps/koqUPJs8-l-ts_Pi0sacTw', 'My App', DashboardIcon]
+                              ['/apps', 'My Apps', DashboardIcon]
                             ]
     this.state = {
       navOpenState: {
@@ -61,7 +62,17 @@ export default class MainRouter extends Component {
           
           <Route exact path="/" component={HomePage} />
           <Route path="/settings" component={SettingsPage} />
-          <Route path="/apps" render={(props)=>(
+
+          <Route exact path="/apps" render={(props)=>(
+            <AppListContainer
+              {...props} 
+              initialNavLinks={this.defaultNavLinks}
+              navLinks={this.state.navLinks}
+              updateNavLinks={this.updateNavLinks}
+            />
+          )} />          
+
+          <Route path="/apps/:appId" render={(props)=>(
             <ShowAppContainer 
               {...props} 
               initialNavLinks={this.defaultNavLinks}
