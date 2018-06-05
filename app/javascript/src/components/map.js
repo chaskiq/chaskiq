@@ -1,7 +1,7 @@
 import React from 'react'
 
 import fetch from "isomorphic-fetch"
-import { compose, withProps, withHandlers } from "recompose";
+import { compose, withProps, withHandlers, lifecycle } from "recompose";
 import {
   withScriptjs,
   withGoogleMap,
@@ -25,11 +25,37 @@ const MapWithAMarkerClusterer = compose(
     },
   }),
   withScriptjs,
-  withGoogleMap
+  withGoogleMap,
+
+  lifecycle({
+    componentWillMount() {
+      const refs = {}
+
+      this.setState({
+        setZoom: ref => {
+          refs.map = ref
+          if (!ref) { return }
+
+          var bounds = new google.maps.LatLngBounds();
+          this.props.markers.forEach((p) => {
+            var latLng = new google.maps.LatLng(p.lat, p.lng);
+            bounds.extend(latLng);
+          })
+          console.log(bounds)
+          refs.map.fitBounds(bounds)
+        }
+      })
+    }
+  })
+
 )(props =>
   <GoogleMap
+    ref={props.setZoom}
     defaultZoom={3}
     defaultCenter={{ lat: 25.0391667, lng: 121.525 }}
+    onMapMount={()=>{
+      debugger
+    }}
   >
     <MarkerClusterer
       onClick={props.onMarkerClustererClick}
@@ -39,8 +65,8 @@ const MapWithAMarkerClusterer = compose(
     >
       {props.markers.map(marker => (
         <Marker
-          key={marker.photo_id}
-          position={{ lat: marker.latitude, lng: marker.longitude }}
+          key={marker.id}
+          position={{ lat: marker.lat, lng: marker.lng }}
         />
       ))}
     </MarkerClusterer>
@@ -53,6 +79,8 @@ export default class UserMap extends React.PureComponent {
   }
 
   componentDidMount() {
+
+    /*
     const url = [
       // Length issue
       `https://gist.githubusercontent.com`,
@@ -65,6 +93,11 @@ export default class UserMap extends React.PureComponent {
       .then(data => {
         this.setState({ markers: data.photos });
       });
+    */
+
+    this.setState({ 
+      markers: this.props.collection 
+    });
   }
 
   render() {

@@ -542,7 +542,7 @@ class AppUsers extends Component {
                     defaultSortOrder="ASC"
                     onSort={() => console.log('onSort')}
                     onSetPage={() => console.log('onSetPage')}
-                  /> : <UserMap/>
+                  /> : <UserMap collection={this.props.app_users}/>
               }
             </Wrapper>
   }

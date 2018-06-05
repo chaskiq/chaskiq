@@ -26,8 +26,8 @@ ActiveRecord::Schema.define(version: 2018_05_31_050057) do
     t.string "city"
     t.string "region"
     t.string "country"
-    t.string "lat"
-    t.string "lng"
+    t.decimal "lat", precision: 15, scale: 13
+    t.decimal "lng", precision: 15, scale: 13
     t.string "postal"
     t.integer "web_sessions"
     t.string "timezone"
