@@ -98,3 +98,9 @@ gem "chronic", "~> 0.10.2"
 
 # Added at 2018-06-04 09:34:22 -0400 by michelson:
 gem "geocoder", "~> 1.4"
+
+# Added at 2018-06-04 20:46:01 -0400 by michelson:
+gem "browser", "~> 2.5"
+
+# Added at 2018-06-04 20:57:37 -0400 by michelson:
+gem "timezone", "~> 1.2"

@@ -45,7 +45,7 @@ RSpec.describe Segment, type: :model do
 
       before :each do 
         app.add_visit({email: "foo@bar.cl", 
-          properties: { country: "albania"}
+          properties: { custom_country: "albania"}
         })
 
         app.segments.create
@@ -92,7 +92,7 @@ RSpec.describe Segment, type: :model do
       }
 
       let(:predicates_on_jsonb){
-        [{attribute: "country", 
+        [{attribute: "custom_country", 
           comparison: "eq", 
           type: "string", 
           value: "albania"}.with_indifferent_access]

@@ -16,6 +16,13 @@ RSpec.describe "Widget management", :type => :system do
     expect(AppUser.first.properties).to_not be_blank
     expect(AppUser.first.last_visited_at).to_not be_blank
     expect(AppUser.first.referrer).to_not be_blank
+    expect(AppUser.first.lat).to_not be_blank
+    expect(AppUser.first.lng).to_not be_blank
+    expect(AppUser.first.os).to_not be_blank
+    expect(AppUser.first.os_version).to_not be_blank
+    expect(AppUser.first.browser).to_not be_blank
+    expect(AppUser.first.browser_version).to_not be_blank
+    expect(AppUser.first.browser_language).to_not be_blank
   end
 
 end

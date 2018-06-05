@@ -22,13 +22,11 @@ RSpec.describe Api::V1::AppsController, type: :controller do
         id: app.key,
         user_data: data
       }
-
+      
       data = JSON.parse(response.body)
       expect(response).to be_ok
       expect(JSON.parse(response.body)).to an_instance_of(Hash)
       expect(AppUser.last.last_visited_at).to_not be_blank
-      expect(AppUser.last.referrer).to be == ref
-
     end
 
 end
