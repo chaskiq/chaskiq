@@ -9,6 +9,8 @@ Rails.application.routes.draw do
     resources :segments
   end
 
+  get "/apps/:app_id/segments/:id/:jwt.:jwt2", to: 'segments#show'
+
   root :to => "home#show"
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
 

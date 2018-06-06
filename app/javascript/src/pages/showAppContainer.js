@@ -210,7 +210,7 @@ class InlineDialogExample extends Component {
 class SegmentItemButton extends Component {
   state = {
     dialogOpen: false,
-    selectedOption: null
+    selectedOption: this.props.predicate.comparison
   };
 
   onRadioChange = (e)=> {
@@ -237,9 +237,9 @@ class SegmentItemButton extends Component {
     }
 
     const relative = [
-      {label: "more than", value: "relative:lt", defaultSelected: compare("lt")  },
-      {label: "exactly", value: "relative:eq",  defaultSelected: compare("lt")  },
-      {label: "less than", value: "relative:gt", defaultSelected: compare("lt")  },
+      {label: "more than", value: "lt", defaultSelected: compare("lt")  },
+      {label: "exactly", value: "eq",  defaultSelected: compare("eq")  },
+      {label: "less than", value: "gt", defaultSelected: compare("gt")  },
     ]
     const absolute = [
       {name: "after", value: "absolute:gt"},
@@ -311,7 +311,7 @@ class SaveSegmentModal extends Component {
   close = () => this.setState({ isOpen: false });
   
   secondaryAction = ({ target }: Object) => {
-    this.props.saveSegment({
+    this.props.savePredicates({
       action: this.state.action,
       input: this.refs.input ? this.refs.input.value : null
     }, this.close )
@@ -463,7 +463,8 @@ class AppUsers extends Component {
 
               <SaveSegmentModal 
                 title="Save Segment" 
-                saveSegment={this.props.actions.savePredicates}/>
+                savePredicates={this.props.actions.savePredicates}
+              />
 
               {
                 /*
@@ -607,7 +608,6 @@ export default class ShowAppContainer extends Component {
 
   componentDidMount() {
     this.fetchApp( ()=> { 
-        this.updateNavLinks()
         this.eventsSubscriber(this.state.app.key)
       }
     )
@@ -633,6 +633,8 @@ export default class ShowAppContainer extends Component {
       fetchAppSegment: this.fetchAppSegment,
       getPredicates: this.getPredicates,
       updateSegment: this.updateSegment,
+      updatePredicate: this.updatePredicate,
+      savePredicates: this.savePredicates,
       //fetchAppSegments: this.fetchAppSegments
     }
   }
@@ -643,6 +645,7 @@ export default class ShowAppContainer extends Component {
     axios.get(`/apps/${id}.json`)
     .then( (response)=> {
       t.setState({app: response.data.app}, ()=>{ 
+        this.updateNavLinks()
         cb ? cb() : null
       })
     })
@@ -743,7 +746,7 @@ export default class ShowAppContainer extends Component {
     
     console.log(parseJwt(jwtToken))
  
-    const url = `/apps/${this.state.app.key}/segments/${this.state.segment.id}:${jwtToken}`
+    const url = `/apps/${this.state.app.key}/segments/${this.state.segment.id}/${jwtToken}`
     
     this.props.history.push(url)
     
@@ -800,9 +803,9 @@ export default class ShowAppContainer extends Component {
   savePredicates(data, cb){
     console.log(data.action)
     if(data.action === "update"){
-      this.updateSegment(data, cb)
+      this.updateSegment(data, ()=> { cb() ; this.fetchApp() })
     } else if(data.action === "new"){
-      this.createSegment(data, cb)
+      this.createSegment(data, ()=> { cb() ; this.fetchApp() })
     }
   }
 
@@ -826,7 +829,7 @@ export default class ShowAppContainer extends Component {
 
         {
           this.state.app.key ?
-            <Route path={`${this.props.match.path}/segments/:segmentID?:Jwt?`} 
+            <Route exact path={`${this.props.match.path}/segments/:segmentID/:Jwt?`} 
               render={(props) => {
                 return  <Consumer>
                           {({ store, actions }) => (
@@ -838,6 +841,9 @@ export default class ShowAppContainer extends Component {
               }
             }/> : null
         }
+
+
+
        
         <Route exact path={this.props.match.path} render={() => (
           <h3>Please select a topic.</h3>
