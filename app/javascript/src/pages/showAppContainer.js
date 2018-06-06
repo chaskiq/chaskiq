@@ -144,18 +144,6 @@ const dropdown = () => (
     </DropdownMenu>
 );
 
-const content = (
-  <div>
-    <h5>Title</h5>
-    <p>Cheesecake gingerbread cupcake soufflé.</p>
-
-    <p>
-      Macaroon cupcake powder dragée liquorice fruitcake cookie sesame snaps
-      cake.
-    </p>
-  </div>
-);
-
 const parseJwt = (token)=> {
   var isValid = KJUR.jws.JWS.verifyJWT(token, "616161", {alg: ['HS256']});
   if(!isValid)
@@ -187,12 +175,57 @@ class InlineDialogExample extends Component {
 
   toggleDialog = (e) => this.setState({ dialogOpen: !this.state.dialogOpen });
 
+  handleClick = (e, o) => {
+    this.props.actions.addPredicate(o)
+  }
+
   render() {
+
+    const fields = [
+      {name: "last_visited_at", type: "string"},
+      {name: "referrer", type: "string"},
+      {name: "state", type: "string"},
+      {name: "ip", type: "string"},        
+      {name: "city", type: "string"},           
+      {name: "region", type: "string"},         
+      {name: "country", type: "string"},        
+      {name: "lat", type: "string"},
+      {name: "lng", type: "string"},
+      {name: "postal", type: "string"},   
+      {name: "web_sessions", type: "string"}, 
+      {name: "timezone", type: "string"}, 
+      {name: "browser", type: "string"}, 
+      {name: "browser_version", type: "string"},
+      {name: "os", type: "string"},
+      {name: "os_version", type: "string"},      
+      {name: "browser_language", type: "string"}, 
+      {name: "lang", type: "string"},    
+    ]
+
+    const content = (
+      <div>
+        <h5>Select field</h5>
+        <p>oeoe</p>
+
+        <ul style={{ height: '200px', overflow: 'auto'}}>
+          {
+            fields.map((o)=> <li key={o.name}>
+                              <Button onClick={(e)=> this.handleClick.bind(this)(e, o)}>
+                                {o.name}
+                              </Button>
+                             </li>
+            )
+          }
+        </ul>
+      </div>
+    );
+
     return (
       <div style={{ minHeight: '120px' }}>
         <InlineDialog 
           content={content} 
-          isOpen={this.state.dialogOpen}>
+          isOpen={this.state.dialogOpen}
+          position="bottom left">
 
           <Button isLoading={false} 
             appearance={'link'}
@@ -207,6 +240,7 @@ class InlineDialogExample extends Component {
   }
 }
 
+// 
 class SegmentItemButton extends Component {
   state = {
     dialogOpen: false,
@@ -293,6 +327,104 @@ class SegmentItemButton extends Component {
             appearance={this.props.appearance}
             onClick={this.toggleDialog}>
             {this.props.text}
+          </Button>
+        </InlineDialog>
+      </div>
+    );
+  }
+}
+
+// same as SegmentItemButton
+class PendingSegmentItemButton extends Component {
+  state = {
+    dialogOpen: this.props.open,
+    selectedOption: this.props.predicate.comparison
+  };
+
+  onRadioChange = (e)=> {
+    this.setState({
+      selectedOption: e.target.value
+    })
+  };
+
+  handleSubmit = (e)=> {
+    const value = `${this.refs.relative_input.value} days ago`
+    const h = {
+      comparison: this.state.selectedOption.replace("relative:", ""),
+      value: value
+    }
+
+    const response = Object.assign({}, this.props.predicate, h )
+    this.props.updatePredicate(response)
+  }
+
+  content = () => {
+  
+    const compare = (value)=>{
+      return this.props.predicate.comparison === value
+    }
+
+    const relative = [
+      {label: "more than", value: "lt", defaultSelected: compare("lt")  },
+      {label: "exactly", value: "eq",  defaultSelected: compare("eq")  },
+      {label: "less than", value: "gt", defaultSelected: compare("gt")  },
+    ]
+    const absolute = [
+      {name: "after", value: "absolute:gt"},
+      {name: "on", value: "absolute:eq"},
+      {name: "before", value: "absolute:lt"},
+      {name: "is unknown", value: "absolute:eq"},
+      {name: "has any value", value: "absolute:not_eq"},
+    ]
+
+    return <div>
+              <h5>Update date</h5>
+              <p>Select the filter</p>
+              <FieldRadioGroup
+                items={relative}
+                label="Relative:"
+                onRadioChange={this.onRadioChange.bind(this)}
+              />
+
+              { this.state.selectedOption ?
+                <div>
+                  <input 
+                    defaultValue={30} 
+                    type="number"
+                    ref={"relative_input"}/>
+                  <span>days ago</span>
+                  <hr/>
+
+                  <Button appearance="link" 
+                    onClick={this.handleSubmit.bind(this)}>
+                    save changes
+                  </Button>
+
+                </div> : null
+              }
+            
+            </div>
+
+  }
+
+  toggleDialog = (e) => this.setState({ dialogOpen: !this.state.dialogOpen });
+
+  render() {
+    return (
+      <div style={{ minHeight: '120px' }}>
+        <InlineDialog content={this.content()} 
+                      isOpen={this.state.dialogOpen}
+                      position={"bottom left"}
+                      shouldFlipunion={true}>
+
+          <Button isLoading={false} 
+            appearance={this.state.dialogOpen ? 'default' : 'danger'}
+            onClick={this.toggleDialog}>
+            {
+              !this.state.dialogOpen ? 
+              "Missing value!" : 
+              this.props.text
+            }
           </Button>
         </InlineDialog>
       </div>
@@ -449,40 +581,31 @@ class AppUsers extends Component {
               
               {
                 this.props.actions.getPredicates().map((o, i)=>{
-                  return <SegmentItemButton 
+                  return o.comparison ? 
+                            <SegmentItemButton 
                             key={i}
                             predicate={o}
                             appearance="primary"
                             updatePredicate={this.props.actions.updatePredicate}
                             text={`Match: ${o.attribute} ${o.comparison} ${o.value}`}
-                          />
+                          /> : <PendingSegmentItemButton 
+                                  key={i}
+                                  predicate={o}
+                                  open={true}
+                                  appearance={"default"} 
+                                  text={`Match: ${o.value}`}
+                                  updatePredicate={this.props.actions.updatePredicate}
+                                />
+                        
                 })
               }
 
-              <InlineDialogExample/>
+              <InlineDialogExample {...this.props}/>
 
               <SaveSegmentModal 
                 title="Save Segment" 
                 savePredicates={this.props.actions.savePredicates}
               />
-
-              {
-                /*
-                  <Button
-                    appearance="primary"
-                    onClick={this.context.showModal}
-                    onClose={() => { }}
-                  >Match All users</Button>
-
-                  <Button onClick={this.context.addFlag}>
-                    Match all filters
-                  </Button>
-
-                  <InlineDialogExample/>
-
-                  {dropdown()}
-                */
-              }
 
             </ButtonGroup>
 
@@ -604,6 +727,7 @@ export default class ShowAppContainer extends Component {
     this.updateSegment    = this.updateSegment.bind(this)
     this.updateNavLinks   = this.updateNavLinks.bind(this)
     this.getPredicates    = this.getPredicates.bind(this)
+    this.addPredicate     = this.addPredicate.bind(this)
   }
 
   componentDidMount() {
@@ -635,6 +759,7 @@ export default class ShowAppContainer extends Component {
       updateSegment: this.updateSegment,
       updatePredicate: this.updatePredicate,
       savePredicates: this.savePredicates,
+      addPredicate:   this.addPredicate,
       //fetchAppSegments: this.fetchAppSegments
     }
   }
@@ -660,10 +785,10 @@ export default class ShowAppContainer extends Component {
     console.log(this.state.jwt)
     const data = this.state.jwt ? parseJwt(this.state.jwt).data : this.state.segment.predicates
     const predicates_data = { data: {
-                                predicates: data
+                                predicates: data.filter( (o)=> o.comparison )
                               }
                             }
-
+                            
     axios.post(`/apps/${this.state.app.key}/search.json`, 
       predicates_data )
     .then( (response)=> {
@@ -734,7 +859,6 @@ export default class ShowAppContainer extends Component {
   }
 
   updatePredicate(data){
-
     const new_predicates = this.state.segment.predicates.map((o)=> {
       if(data.attribute === o.attribute){
         return data
@@ -742,14 +866,11 @@ export default class ShowAppContainer extends Component {
         return o
       }
     })
+
     const jwtToken = generateJWT(new_predicates)
-    
     console.log(parseJwt(jwtToken))
- 
     const url = `/apps/${this.state.app.key}/segments/${this.state.segment.id}/${jwtToken}`
-    
     this.props.history.push(url)
-    
     this.setState({jwt: jwtToken})
   }
 
@@ -807,6 +928,25 @@ export default class ShowAppContainer extends Component {
     } else if(data.action === "new"){
       this.createSegment(data, ()=> { cb() ; this.fetchApp() })
     }
+  }
+
+  addPredicate(data){
+
+    const pending_predicate = {
+      attribute: data.name,
+      comparison: null,
+      type: data.type,
+      value: data.value
+    }
+
+    const new_predicates = this.state.segment.predicates.concat(pending_predicate)
+
+    const jwtToken = generateJWT(new_predicates)
+    console.log(parseJwt(jwtToken))
+    const url = `/apps/${this.state.app.key}/segments/${this.state.segment.id}/${jwtToken}`
+    this.props.history.push(url)
+    this.setState({jwt: jwtToken})
+
   }
 
   render(){
