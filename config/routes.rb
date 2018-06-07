@@ -6,7 +6,11 @@ Rails.application.routes.draw do
       post :search
     end
     resources :app_users
-    resources :segments
+    resources :segments do
+      member do
+        delete :delete_predicate
+      end
+    end
   end
 
   get "/apps/:app_id/segments/:id/:jwt", to: 'segments#show', constraints: { jwt: /.+/ }

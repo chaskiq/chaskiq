@@ -38,7 +38,7 @@ const MapWithAMarkerClusterer = compose(
 
           var bounds = new google.maps.LatLngBounds();
           this.props.markers.forEach((p) => {
-            var latLng = new google.maps.LatLng(p.lat, p.lng);
+            var latLng = new google.maps.LatLng( p.lng, p.lat);
             bounds.extend(latLng);
           })
           console.log(bounds)

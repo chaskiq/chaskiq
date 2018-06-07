@@ -74,9 +74,27 @@ class Segment < ApplicationRecord
       case predicate["type"]
       when "date"
         check = field.send(predicate["comparison"], Chronic.parse(predicate["value"]) )
-      else
-        check = field.send(predicate["comparison"], predicate["value"] )
+      when "string"
+        case predicate["comparison"]
+          when "contains_start"
+            query_string = "#{predicate["value"]}%"
+            check = field.matches(query_string)
+          when "contains_ends"
+            query_string = "%#{predicate["value"]}"
+            check = field.matches(query_string)
+          when "is_null"
+            check = field.eq(nil)
+          when "is_not_null"
+            check = field.not_eq(nil)
+          when "contains"
+            query_string = "%#{predicate["value"]}%"
+            check = field.matches(query_string)
+          else
+            check = field.send(predicate["comparison"], predicate["value"] )
+        end
+        check
       end
+
       #                  
       if query.nil?
         check

@@ -240,102 +240,8 @@ class InlineDialogExample extends Component {
   }
 }
 
-// 
-class SegmentItemButton extends Component {
-  state = {
-    dialogOpen: false,
-    selectedOption: this.props.predicate.comparison
-  };
-
-  onRadioChange = (e)=> {
-    this.setState({
-      selectedOption: e.target.value
-    })
-  };
-
-  handleSubmit = (e)=> {
-    const value = `${this.refs.relative_input.value} days ago`
-    const h = {
-      comparison: this.state.selectedOption.replace("relative:", ""),
-      value: value
-    }
-
-    const response = Object.assign({}, this.props.predicate, h )
-    this.props.updatePredicate(response)
-  }
-
-  content = () => {
-  
-    const compare = (value)=>{
-      return this.props.predicate.comparison === value
-    }
-
-    const relative = [
-      {label: "more than", value: "lt", defaultSelected: compare("lt")  },
-      {label: "exactly", value: "eq",  defaultSelected: compare("eq")  },
-      {label: "less than", value: "gt", defaultSelected: compare("gt")  },
-    ]
-    const absolute = [
-      {name: "after", value: "absolute:gt"},
-      {name: "on", value: "absolute:eq"},
-      {name: "before", value: "absolute:lt"},
-      {name: "is unknown", value: "absolute:eq"},
-      {name: "has any value", value: "absolute:not_eq"},
-    ]
-
-    return <div>
-              <h5>Update date</h5>
-              <p>Select the filter</p>
-              <FieldRadioGroup
-                items={relative}
-                label="Relative:"
-                onRadioChange={this.onRadioChange.bind(this)}
-              />
-
-              { this.state.selectedOption ?
-                <div>
-                  <input 
-                    defaultValue={30} 
-                    type="number"
-                    ref={"relative_input"}/>
-                  <span>days ago</span>
-                  <hr/>
-
-                  <Button appearance="link" 
-                    onClick={this.handleSubmit.bind(this)}>
-                    save changes
-                  </Button>
-
-                </div> : null
-              }
-            
-            </div>
-
-  }
-
-  toggleDialog = (e) => this.setState({ dialogOpen: !this.state.dialogOpen });
-
-  render() {
-    return (
-      <div style={{ minHeight: '120px' }}>
-        <InlineDialog content={this.content()} 
-                      isOpen={this.state.dialogOpen}
-                      position={"bottom left"}
-                      shouldFlipunion={true}>
-
-          <Button isLoading={false} 
-            appearance={this.props.appearance}
-            onClick={this.toggleDialog}>
-            {this.props.text}
-          </Button>
-        </InlineDialog>
-      </div>
-    );
-  }
-}
-
 // same as SegmentItemButton
-class PendingSegmentItemButton extends Component {
+class SegmentItemButton extends Component {
   state = {
     dialogOpen: this.props.open,
     selectedOption: this.props.predicate.comparison
@@ -348,7 +254,19 @@ class PendingSegmentItemButton extends Component {
   };
 
   handleSubmit = (e)=> {
-    const value = `${this.refs.relative_input.value} days ago`
+    //this.props.predicate.type
+    let value = null 
+    switch(this.props.predicate.type){
+      case "string": {
+        value = `${this.refs.relative_input.value}`
+        break;
+      }
+      case "date": {
+        value = `${this.refs.relative_input.value} days ago`
+        break;
+      }
+    }
+    
     const h = {
       comparison: this.state.selectedOption.replace("relative:", ""),
       value: value
@@ -358,7 +276,77 @@ class PendingSegmentItemButton extends Component {
     this.props.updatePredicate(response)
   }
 
-  content = () => {
+  handleDelete = (e) => {
+    this.props.deletePredicate(this.props.predicate)
+     // /apps/:app_id/segments/:id/delete_predicate
+  }
+
+  renderOptions = () => {
+
+    switch(this.props.predicate.type){
+      case "string": {
+        return this.contentString()
+      }
+
+      case "date": {
+        return this.contentDate()
+      }
+    }
+
+  }
+
+  contentString = () => {
+    
+    const compare = (value)=>{
+      return this.props.predicate.comparison === value
+    }
+
+    const relative = [
+      {label: "is", value: "eq", defaultSelected: false},
+      {label: "is not", value: "not_eq", defaultSelected: false},
+      {label: "starts with", value: "contains_start", defaultSelected: false},
+      {label: "ends with", value: "contains_ends", defaultSelected: false},
+      {label: "contains", value: "contains", defaultSelected: false},
+      {label: "does not contain", value: "not_contains", defaultSelected: false},
+      {label: "is unknown", value: "is_null", defaultSelected: false},
+      {label: "has any value", value: "is_not_null", defaultSelected: false},
+    ]
+
+    return <div>
+              <h5>Update String</h5>
+              <p>Select the filter</p>
+              <FieldRadioGroup
+                items={relative}
+                label="Relative:"
+                onRadioChange={this.onRadioChange.bind(this)}
+              />
+
+              { this.state.selectedOption && 
+                (this.state.selectedOption !== "is_null" || 
+                  this.state.selectedOption !== "is_not_null") ?
+                <div>
+                  <input 
+                    defaultValue={null} 
+                    type="text"
+                    ref={"relative_input"}
+                  />
+                  
+                  <hr/>
+
+                  <Button appearance="link" 
+                    onClick={this.handleSubmit.bind(this)}>
+                    save changes
+                  </Button>
+
+                </div> : null
+              }
+
+              { !this.props.predicate.comparison ? null : this.deleteButton() }
+            
+            </div>
+  }
+
+  contentDate = () => {
   
     const compare = (value)=>{
       return this.props.predicate.comparison === value
@@ -402,9 +390,18 @@ class PendingSegmentItemButton extends Component {
 
                 </div> : null
               }
+
+              { !this.props.predicate.comparison ? null : this.deleteButton() }
             
             </div>
 
+  }
+
+  deleteButton = () => {
+    return <Button appearance="link" 
+            onClick={this.handleDelete.bind(this)}>
+            Delete
+           </Button>
   }
 
   toggleDialog = (e) => this.setState({ dialogOpen: !this.state.dialogOpen });
@@ -412,20 +409,31 @@ class PendingSegmentItemButton extends Component {
   render() {
     return (
       <div style={{ minHeight: '120px' }}>
-        <InlineDialog content={this.content()} 
+        <InlineDialog content={this.renderOptions()} 
                       isOpen={this.state.dialogOpen}
                       position={"bottom left"}
                       shouldFlipunion={true}>
 
-          <Button isLoading={false} 
-            appearance={this.state.dialogOpen ? 'default' : 'danger'}
-            onClick={this.toggleDialog}>
-            {
-              !this.state.dialogOpen ? 
-              "Missing value!" : 
-              this.props.text
-            }
-          </Button>
+          {
+            !this.props.predicate.comparison ?
+        
+              <Button isLoading={false} 
+                appearance={this.state.dialogOpen ? 'default' : 'danger'}
+                onClick={this.toggleDialog}>
+                {
+                  !this.state.dialogOpen ? 
+                  "Missing value!" : 
+                  this.props.text
+                }
+              </Button> : 
+
+              <Button isLoading={false} 
+                appearance={this.props.appearance}
+                onClick={this.toggleDialog}>
+                {this.props.text}
+              </Button>
+          }
+
         </InlineDialog>
       </div>
     );
@@ -439,7 +447,7 @@ class SaveSegmentModal extends Component {
     loading: false,
     input: null
   };
-  open = () => this.setState({ isOpen: true });
+  open  = () => this.setState({ isOpen: true });
   close = () => this.setState({ isOpen: false });
   
   secondaryAction = ({ target }: Object) => {
@@ -447,6 +455,10 @@ class SaveSegmentModal extends Component {
       action: this.state.action,
       input: this.refs.input ? this.refs.input.value : null
     }, this.close )
+  }
+
+  deleteAction = ({ target }: Object) => {
+    this.props.deleteSegment(this.props.segment.id, this.close )
   }
 
   handleChange = ({target})=> {
@@ -460,6 +472,7 @@ class SaveSegmentModal extends Component {
     const actions = [
       { text: 'Close', onClick: this.close },
       { text: 'Save Segment', onClick: this.secondaryAction.bind(this) },
+      { text: 'Remove Segment', onClick: this.deleteAction.bind(this) }
     ];
 
     return (
@@ -473,6 +486,15 @@ class SaveSegmentModal extends Component {
           Save Segment
         </Button>
 
+        <Button isLoading={false} 
+          appearance={'link danger'}
+          onClick={this.deleteAction.bind(this)}>
+          <i className="fas fa-chart-pie"></i>
+          {" "}
+          remove Segment
+        </Button>
+
+
         {isOpen && (
           <Modal actions={actions} 
             onClose={this.close} 
@@ -484,7 +506,7 @@ class SaveSegmentModal extends Component {
                   <FieldRadioGroup
                     items={
                       [
-                        {label: "Save changes to the segment ‘active-artists-es’", value: "update", defaultSelected: true  },
+                        {label: `Save changes to the segment ‘${this.props.segment.name}’`, value: "update", defaultSelected: true  },
                         {label: "Create new segment", value: "new" },
                       ]
                     }
@@ -576,27 +598,18 @@ class AppUsers extends Component {
 
   caption = ()=>{
     return <div>
-
             <ButtonGroup>
-              
               {
                 this.props.actions.getPredicates().map((o, i)=>{
-                  return o.comparison ? 
-                            <SegmentItemButton 
+                    return <SegmentItemButton 
                             key={i}
                             predicate={o}
-                            appearance="primary"
+                            open={ !o.comparison }
+                            appearance={ o.comparison ? "primary" : "default"} 
+                            text={`Match: ${o.attribute} ${o.comparison ? o.comparison : '' } ${o.value ? o.value : ''}`}
                             updatePredicate={this.props.actions.updatePredicate}
-                            text={`Match: ${o.attribute} ${o.comparison} ${o.value}`}
-                          /> : <PendingSegmentItemButton 
-                                  key={i}
-                                  predicate={o}
-                                  open={true}
-                                  appearance={"default"} 
-                                  text={`Match: ${o.value}`}
-                                  updatePredicate={this.props.actions.updatePredicate}
-                                />
-                        
+                            deletePredicate={this.props.actions.deletePredicate}                          
+                           />
                 })
               }
 
@@ -604,7 +617,9 @@ class AppUsers extends Component {
 
               <SaveSegmentModal 
                 title="Save Segment" 
+                segment={this.props.store.segment}
                 savePredicates={this.props.actions.savePredicates}
+                deleteSegment={this.props.actions.deleteSegment}
               />
 
             </ButtonGroup>
@@ -728,6 +743,7 @@ export default class ShowAppContainer extends Component {
     this.updateNavLinks   = this.updateNavLinks.bind(this)
     this.getPredicates    = this.getPredicates.bind(this)
     this.addPredicate     = this.addPredicate.bind(this)
+    this.deletePredicate  = this.deletePredicate.bind(this)
   }
 
   componentDidMount() {
@@ -760,6 +776,8 @@ export default class ShowAppContainer extends Component {
       updatePredicate: this.updatePredicate,
       savePredicates: this.savePredicates,
       addPredicate:   this.addPredicate,
+      deletePredicate: this.deletePredicate,
+      deleteSegment: this.deleteSegment
       //fetchAppSegments: this.fetchAppSegments
     }
   }
@@ -878,6 +896,22 @@ export default class ShowAppContainer extends Component {
     return this.state.segment["predicates"] || []
   }
 
+  deletePredicate(data){
+    const new_predicates = this.state.segment.predicates.map((o)=> {
+      if(data.attribute === o.attribute){
+        return null
+      } else {
+        return o
+      }
+    }).filter((o)=> o)
+
+    this.setState(
+      { segment: {
+        id: this.state.segment.id,
+        predicates: new_predicates
+      }} , ()=> this.updateSegment({}, this.fetchApp()) )
+  }
+
   updateSegment = (data, cb)=>{
     axios.put(`/apps/${this.state.app.key}/segments/${this.state.segment.id}.json`, 
       {
@@ -889,7 +923,8 @@ export default class ShowAppContainer extends Component {
     )
     .then( (response)=> {
       this.setState({
-        segment: response.data.segment
+        segment: response.data.segment,
+        jwt: null
       }, ()=> cb ? cb() : null )
     })
     .catch( (error)=> {
@@ -908,13 +943,34 @@ export default class ShowAppContainer extends Component {
     )
     .then( (response)=> {
       this.setState({
-        segment: response.data.segment
+        segment: response.data.segment,
+        jwt: null
       }, ()=> {
         cb ? cb() : null 
         const url = `/apps/${this.state.app.key}/segments/${this.state.segment.id}`
         this.props.history.push(url)
         //this.fetchAppSegments() ; cb ? cb() : null 
       })
+    })
+    .catch( (error)=> {
+      console.log(error);
+    })
+  }
+
+  deleteSegment = (id, cb)=>{
+    axios.delete(`/apps/${this.state.app.key}/segments/${id}.json`, 
+      {}
+    )
+    .then( (response)=> {
+      /*this.setState({
+        segment: response.data.segment,
+        jwt: null
+      }, ()=> {*/
+        cb ? cb() : null 
+        const url = `/apps/${this.state.app.key}/segments/1`
+        this.props.history.push(url)
+        this.fetchApp()
+      //})
     })
     .catch( (error)=> {
       console.log(error);

@@ -67,6 +67,23 @@ class SegmentsController < ApplicationController
     end
   end
 
+  # DELETE /segments/1
+  # DELETE /apps/:app_id/segments/:id/delete_predicate
+  def delete_predicate
+    @segment
+    predicates = @segment.predicates.reject{|o| o.name == params[:predicate_name]}
+    @segment.save
+
+    if !@segment.errors.any?
+      format.html { redirect_to app_segment_url(@app ,@segment), notice: 'Segment was successfully updated.' }
+      format.json { render :show, status: :ok }
+    else
+      format.html { render :edit }
+      format.json { render json: @segment.errors, status: :unprocessable_entity }
+    end
+
+  end
+
   private
 
     def find_app
