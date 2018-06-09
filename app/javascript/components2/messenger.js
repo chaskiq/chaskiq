@@ -6,7 +6,11 @@ import axios from "axios"
 import styled from 'styled-components';
 import Avatar from '@atlaskit/avatar';
 import Button from '@atlaskit/button';
-import Editor from './editor.js'
+
+//import Editor from './editor.js'
+import UnicornEditor from './editor3.js'
+//import Editor2 from './editor2.js'
+//import {Editor} from '@atlaskit/editor-core';
 
 
 // https://stackoverflow.com/questions/12114356/how-to-get-the-request-timezone
@@ -51,7 +55,7 @@ const EditorSection = styled.div`
 `;
 
 const EditorWrapper = styled.div`
-  width: 300px;
+  width: 340px;
   position: fixed;
   right: 14px;
   bottom: 0px;
@@ -124,8 +128,8 @@ class Messenger extends Component {
   }
 
   componentDidMount(){
-    console.log(Editor)
-    Editor("#editor")
+    //console.log(Editor)
+    //Editor("#editor")
   }
 
 
@@ -144,16 +148,11 @@ class Messenger extends Component {
                   <EditorSection>
                     Hello {this.props.name}!
                     {this.props.app_id}
-              
-                    <div id="editor"/>
                     
-                    <EditorActions>
-                      <Button>oli</Button>
-                      <Button appearance={"primary"}>
-                        oli
-                      </Button>
-                    </EditorActions>
                     
+                    <UnicornEditor/>
+                  
+
                   </EditorSection>
                 </Container>
               
@@ -168,12 +167,13 @@ export default class Hermessenger {
   }
 
   render(){
-    document.addEventListener('DOMContentLoaded', () => {
+    //document.addEventListener('DOMContentLoaded', () => {
       ReactDOM.render(
         <Messenger {...this.props} />,
-        document.body.appendChild(document.createElement('div')),
+        document.getElementById("root")
       )
-    })
+      
+    //})
   }
 
 
