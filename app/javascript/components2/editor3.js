@@ -4,8 +4,12 @@ import Editor from 'draft-js-plugins-editor';
 import createHashtagPlugin from 'draft-js-hashtag-plugin';
 import createLinkifyPlugin from 'draft-js-linkify-plugin';
 import createInlineToolbarPlugin from 'draft-js-inline-toolbar-plugin';
-import 'draft-js-hashtag-plugin/lib/plugin.css';
 import createEmojiPlugin from 'draft-js-emoji-plugin';
+import styled from "styled-components"
+import Button from '@atlaskit/button';
+import 'draft-js-hashtag-plugin/lib/plugin.css';
+
+
 const emojiPlugin = createEmojiPlugin({
   useNativeArt: false
 });
@@ -28,6 +32,43 @@ const plugins = [
   emojiPlugin
 ];
 
+const EditorContainer = styled.div`
+  /* -ms- properties are necessary until MS supports the latest version of the grid spec */
+  /* stylelint-disable value-no-vendor-prefix, declaration-block-no-duplicate-properties */
+  display: flex;
+  flex-direction: column;
+  min-width: 272px;
+  min-height: 50px;
+  max-height: 250px;
+  height: auto;
+  overflow: auto;
+  background-color: white;
+  box-sizing: border-box;
+  max-width: inherit;
+  word-wrap: break-word;
+  border-width: 1px;
+  border-style: solid;
+  border-color: rgb(223, 225, 230);
+  border-image: initial;
+  border-radius: 3px;
+  animation: none;
+  padding: 10px;
+`;
+
+const EditorActions = styled.div`
+  box-sizing: border-box;
+  -webkit-box-pack: end;
+  justify-content: flex-end;
+  -webkit-box-align: center;
+  align-items: center;
+  display: flex;
+  padding: 12px 1px;
+`
+
+const EditorWrapper = styled.div`
+  
+`
+
 export default class UnicornEditor extends Component {
 
   state = {
@@ -40,18 +81,45 @@ export default class UnicornEditor extends Component {
     });
   };
 
+  handleClick = (e)=>{
+    const content = this.refs.editor
+                        .getEditorState()
+                        .getCurrentContent()
+                        .toJSON()
+    this.props.insertComment(content)
+  }
+
   render() {
     return (
-      <div>
-      <Editor
-        editorState={this.state.editorState}
-        onChange={this.onChange}
-        plugins={plugins}
-      />
-      <InlineToolbar />
-      <EmojiSuggestions />
-      <EmojiSelect />
-      </div>
+
+      <EditorWrapper>
+        <EditorContainer>
+          <Editor
+            ref={"editor"}
+            editorState={this.state.editorState}
+            onChange={this.onChange}
+            plugins={plugins}
+          />
+        </EditorContainer>
+
+        <InlineToolbar />
+        <EmojiSuggestions />
+
+        {/*
+          <EmojiSelect />
+        */}
+
+        <EditorActions>
+          <Button 
+            appearance={"primary"} 
+            onClick={this.handleClick.bind(this)}>
+            oli
+          </Button>
+        </EditorActions>
+
+      </EditorWrapper>
+        
+      
     );
   }
 }

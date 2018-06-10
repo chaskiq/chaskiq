@@ -27,6 +27,10 @@ Rails.application.routes.draw do
         member do 
           post :ping
         end
+
+        resources :conversations, controller: "api/v1/conversations" do
+        end
+        
       end
     end
   end
