@@ -23,16 +23,17 @@ RSpec.describe Api::V1::ConversationsController, type: :controller do
       app.add_user({email: "test@test.cl", first_name: "dsdsa"})
     }
 
-    it "saves convo" do
-      post :show, params: {
+    it "saves conversation" do
+      post :create, params: {
         app_id: app.key,
-        email: data
+        email: user.user.email,
+        message: "aaaa",
+        format: :json
       }
       
       data = JSON.parse(response.body)
       expect(response).to be_ok
       expect(JSON.parse(response.body)).to an_instance_of(Hash)
-      expect(AppUser.last.last_visited_at).to_not be_blank
     end
 
     it "get conversations" do

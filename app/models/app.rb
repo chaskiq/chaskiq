@@ -31,4 +31,14 @@ class App < ApplicationRecord
     ap_user = add_user(opts)
   end
 
+  def start_conversation(options)
+    message = options[:message]
+    user = options[:from]
+    conversation = self.conversations.create(main_participant: user)
+    conversation.add_message(
+      from: user,
+      message: message
+    )
+    conversation
+  end
 end

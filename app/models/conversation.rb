@@ -24,14 +24,12 @@ class Conversation < ApplicationRecord
     part.user    = opts[:from]
     part.message = opts[:message]
     part.save
+    part
   end
 
   def assign_user(user)
     self.assignee = user
     self.save
   end
-
-
-
 
 end

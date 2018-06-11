@@ -127,6 +127,12 @@ class Messenger extends Component {
       });
   }
 
+  insertComment(comment, cb){
+
+    debugger
+
+  }
+
   componentDidMount(){
     //console.log(Editor)
     //Editor("#editor")
@@ -145,14 +151,15 @@ class Messenger extends Component {
                       )}.png`}
                     />
                   </AvatarSection>
+                  
                   <EditorSection>
                     Hello {this.props.name}!
                     {this.props.app_id}
                     
-                    
-                    <UnicornEditor/>
+                    <UnicornEditor 
+                      insertComment={this.insertComment}
+                    />
                   
-
                   </EditorSection>
                 </Container>
               
