@@ -85,7 +85,9 @@ export default class UnicornEditor extends Component {
     const content = this.refs.editor
                         .getEditorState()
                         .getCurrentContent()
-    this.props.insertComment(content)
+    this.props.insertComment(content, ()=> {
+      this.setState({editorState: EditorState.createEmpty()})
+    })
   }
 
   render() {

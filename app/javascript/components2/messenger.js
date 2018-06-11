@@ -234,7 +234,10 @@ class Messenger extends Component {
                     <ul>
                       {
                         this.state.conversation_messages.map((o,i)=>{
-                          return <div dangerouslySetInnerHTML={{__html: o.message}} />
+                          return <li  
+                                    key={i}
+                                    dangerouslySetInnerHTML={{__html: o.message}} 
+                                 />
                         })
                       }
                     </ul>
