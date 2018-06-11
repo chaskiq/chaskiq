@@ -70,6 +70,17 @@ const EditorActions = styled.div`
   padding: 12px 1px;
 `
 
+const CommentsWrapper = styled.div`
+    height: 200px;
+    overflow: auto;
+`
+
+const CommentsItem = styled.div`
+    padding: 5px;
+    background-color: #ccc;
+`
+
+
 class Messenger extends Component {
 
   constructor(props){
@@ -231,16 +242,16 @@ class Messenger extends Component {
                     Hello {this.props.name}!
                     {this.props.app_id}
 
-                    <ul>
+                    <CommentsWrapper>
                       {
                         this.state.conversation_messages.map((o,i)=>{
-                          return <li  
+                          return <CommentsItem  
                                     key={i}
                                     dangerouslySetInnerHTML={{__html: o.message}} 
                                  />
                         })
                       }
-                    </ul>
+                    </CommentsWrapper>
                     
                     <UnicornEditor 
                       insertComment={this.insertComment}
