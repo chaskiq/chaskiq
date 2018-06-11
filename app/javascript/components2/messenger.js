@@ -12,7 +12,6 @@ import UnicornEditor from './editor3.js'
 //import Editor2 from './editor2.js'
 //import {Editor} from '@atlaskit/editor-core';
 
-
 // https://stackoverflow.com/questions/12114356/how-to-get-the-request-timezone
 const App = {
   cable: actioncable.createConsumer()
@@ -128,14 +127,7 @@ class Messenger extends Component {
   }
 
   insertComment(comment, cb){
-
     debugger
-
-  }
-
-  componentDidMount(){
-    //console.log(Editor)
-    //Editor("#editor")
   }
 
 
