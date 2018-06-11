@@ -6,7 +6,7 @@ import axios from "axios"
 import styled from 'styled-components';
 import Avatar from '@atlaskit/avatar';
 import Button from '@atlaskit/button';
-
+import {convertToHTML} from 'draft-convert'
 //import Editor from './editor.js'
 import UnicornEditor from './editor3.js'
 //import Editor2 from './editor2.js'
@@ -74,12 +74,23 @@ class Messenger extends Component {
 
   constructor(props){
     super(props)
+    this.state = {
+      conversation: null,
+      conversation_messages: []
+    }
+
     this.eventsSubscriber = this.eventsSubscriber.bind(this)
     this.ping = this.ping.bind(this)
+    this.insertComment = this.insertComment.bind(this)
+    this.createComment = this.createComment.bind(this)
+    this.createCommentOnNewConversation = this.createCommentOnNewConversation.bind(this)
   }
 
   componentDidMount(){
-    this.ping(()=> this.eventsSubscriber() )
+    this.ping(()=> {
+      this.eventsSubscriber()
+      this.conversationSubscriber()
+    })
   }
 
   eventsSubscriber(){
@@ -109,6 +120,36 @@ class Messenger extends Component {
 
   }
 
+  conversationSubscriber(){
+    App.events = App.cable.subscriptions.create({
+      channel: "ConversationsChannel",
+      app: this.props.app_id,
+      email: this.props.email,
+    },
+    {
+      connected: ()=> {
+        console.log("connected to conversations")
+      },
+      disconnected: ()=> {
+        console.log("disconnected from conversations")
+      },
+      received: (data)=> {
+        //let html = stateToHTML(JSON.parse(data.message));
+        console.log(data.message)
+        console.log(`received ${data}`)
+        this.setState({
+          conversation_messages: this.state.conversation_messages.concat(data)
+        })
+      },
+      notify: ()=>{
+        console.log(`notify!!`)
+      },
+      handleMessage: (message)=>{
+        console.log(`handle message`)
+      } 
+    });    
+  }
+
   ping(cb){
     axios.post(`/api/v1/apps/${this.props.app_id}/ping`, {
         user_data: {
@@ -127,7 +168,49 @@ class Messenger extends Component {
   }
 
   insertComment(comment, cb){
-    debugger
+    //TODO: try to store this as json and then 
+    //convert to HTML
+
+    // for now let's save in html
+    const html_comment = convertToHTML( comment );
+
+    if(this.state.conversation){
+      this.createComment(html_comment, cb)
+    }else{
+      this.createCommentOnNewConversation(html_comment, cb)
+    }
+  }
+
+  createComment(comment, cb){
+    const id = this.state.conversation.id
+    axios.put(`/api/v1/apps/${this.props.app_id}/conversations/${id}.json`, {
+        email: this.props.email,
+        id: id,
+        message: comment
+      })
+      .then( (response)=> {
+        console.log(response)
+        cb()
+      })
+      .catch( (error)=> {
+        console.log(error);
+      });
+
+  }
+
+  createCommentOnNewConversation(comment, cb){
+    axios.post(`/api/v1/apps/${this.props.app_id}/conversations.json`, {
+        email: this.props.email,
+        message: comment
+      })
+      .then( (response)=> {
+        this.setState({
+          conversation: response.data.conversation
+        }, ()=>{ cb ? cb() : null })
+      })
+      .catch( (error)=> {
+        console.log(error);
+      });
   }
 
 
@@ -147,6 +230,14 @@ class Messenger extends Component {
                   <EditorSection>
                     Hello {this.props.name}!
                     {this.props.app_id}
+
+                    <ul>
+                      {
+                        this.state.conversation_messages.map((o,i)=>{
+                          return <div dangerouslySetInnerHTML={{__html: o.message}} />
+                        })
+                      }
+                    </ul>
                     
                     <UnicornEditor 
                       insertComment={this.insertComment}

@@ -85,7 +85,6 @@ export default class UnicornEditor extends Component {
     const content = this.refs.editor
                         .getEditorState()
                         .getCurrentContent()
-                        .toJSON()
     this.props.insertComment(content)
   }
 

@@ -24,6 +24,15 @@ class Conversation < ApplicationRecord
     part.user    = opts[:from]
     part.message = opts[:message]
     part.save
+    
+    if part.errors.blank?
+      ConversationsChannel.broadcast_to("#{self.app.key}-#{part.user.email}", 
+        part.as_json(only: [:id, :message, :conversation_id]) 
+      )
+      # could be events channel too
+      # ConversationsChannel.broadcast_to("#{self.app.key}-#{self.asignee.email}", {} )
+    end
+
     part
   end
 
