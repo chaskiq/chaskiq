@@ -1,1 +1,1 @@
-json.collection @conversations, partial: 'conversation', as: :conversation
+json.collection @conversations, partial: 'api/v1/conversations/conversation', as: :conversation

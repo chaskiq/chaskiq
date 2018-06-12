@@ -264,6 +264,8 @@ class Messenger extends Component {
   displayNewConversation(e){
     e.preventDefault()
     this.setState({
+      conversation: null,
+      conversation_messages: [],
       display_mode: "conversation"
     })
   }
@@ -277,9 +279,10 @@ class Messenger extends Component {
 
   displayConversation(e, o){
     this.setconversation(o.id, ()=>{
+
       this.setState({
         display_mode: "conversation"
-      })
+      }, ()=> this.getConversations() )
     })
   }
 

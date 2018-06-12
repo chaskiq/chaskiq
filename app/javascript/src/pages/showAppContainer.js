@@ -33,6 +33,9 @@ import Modal from '@atlaskit/modal-dialog';
 import EmptyState from '@atlaskit/empty-state'
 import UserMap from "../components/map"
 
+import ConversationContainer from './ConversationContainer';
+
+
 const CableApp = {
   cable: actioncable.createConsumer()
 }
@@ -559,7 +562,7 @@ class AppUsers extends Component {
                     )}.png`}
                   />
                 </AvatarWrapper>
-                <a href="https://atlassian.design">{app_user.email}</a>
+                <a href="#">{app_user.email}</a>
               </NameWrapper>
             ),
           },
@@ -840,6 +843,8 @@ export default class ShowAppContainer extends Component {
   updateNavLinks(){
     const url_for = (o)=> `/apps/${this.state.app.key}/segments/${o.id}`
     const links = this.state.app.segments.map((o)=> [url_for(o), o.name, null] )
+
+    links.push([`/apps/${this.state.app.key}/conversations/`, "conversations", null])
     this.props.updateNavLinks(this.props.initialNavLinks.concat(links))
   }
 
@@ -1038,8 +1043,12 @@ export default class ShowAppContainer extends Component {
             }/> : null
         }
 
-
-
+        <Route exact path={`${this.props.match.path}/conversations/:id?`} 
+          render={(props)=>(
+            <ConversationContainer
+              {...props}
+            />
+        )} /> 
        
         <Route exact path={this.props.match.path} render={() => (
           <h3>Please select a topic.</h3>

@@ -5,6 +5,7 @@ Rails.application.routes.draw do
     member do
       post :search
     end
+    resources :conversations
     resources :app_users
     resources :segments do
       member do
