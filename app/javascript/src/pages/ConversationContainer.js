@@ -69,7 +69,7 @@ export default class ConversationContainer extends Component {
   }
 }
 
-export class ConversationContainerShow extends Component {
+class ConversationContainerShow extends Component {
 
   constructor(props){
     super(props)
@@ -125,9 +125,9 @@ export class ConversationContainerShow extends Component {
     return <div>
           {
             this.state.messages.map( (o)=> {
-              <p>
-                {o.message} {o.user_id}
-              </p>
+              return <p>
+                      {o.message} {o.user_id}
+                     </p>
             })
           }
 
