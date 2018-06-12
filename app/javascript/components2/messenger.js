@@ -71,8 +71,9 @@ const EditorActions = styled.div`
 `
 
 const CommentsWrapper = styled.div`
-    height: 200px;
+    min-height: 100px;
     overflow: auto;
+    max-height: 250px;
 `
 
 const CommentsItem = styled.div`
@@ -87,7 +88,9 @@ class Messenger extends Component {
     super(props)
     this.state = {
       conversation: null,
-      conversation_messages: []
+      conversation_messages: [],
+      conversations: [],
+      display_mode: "conversations"
     }
 
     this.eventsSubscriber = this.eventsSubscriber.bind(this)
@@ -95,12 +98,15 @@ class Messenger extends Component {
     this.insertComment = this.insertComment.bind(this)
     this.createComment = this.createComment.bind(this)
     this.createCommentOnNewConversation = this.createCommentOnNewConversation.bind(this)
+    this.getConversations = this.getConversations.bind(this)
+    this.setconversation = this.setconversation.bind(this)
   }
 
   componentDidMount(){
     this.ping(()=> {
       this.eventsSubscriber()
       this.conversationSubscriber()
+      this.getConversations()
     })
   }
 
@@ -224,6 +230,59 @@ class Messenger extends Component {
       });
   }
 
+  getConversations(cb){
+    axios.get(`/api/v1/apps/${this.props.app_id}/conversations.json`, {
+        email: this.props.email,
+      })
+      .then( (response)=> {
+        this.setState({
+          conversations: response.data.collection
+        })
+        cb ? cb() : null
+      })
+      .catch( (error)=>{
+        console.log(error);
+      });
+  }
+
+  setconversation(id , cb){
+    axios.get(`/api/v1/apps/${this.props.app_id}/conversations/${id}.json`, {
+        email: this.props.email,
+      })
+      .then( (response)=> {
+        this.setState({
+          conversation: response.data.conversation,
+          conversation_messages: response.data.messages
+        })
+        cb ? cb() : null
+      })
+      .catch( (error)=> {
+        console.log(error);
+      });
+  }
+
+  displayNewConversation(e){
+    e.preventDefault()
+    this.setState({
+      display_mode: "conversation"
+    })
+  }
+
+  displayConversationList(e){
+    e.preventDefault()
+    this.setState({
+      display_mode: "conversations"
+    })
+  }
+
+  displayConversation(e, o){
+    this.setconversation(o.id, ()=>{
+      this.setState({
+        display_mode: "conversation"
+      })
+    })
+  }
+
 
   render(){
     return <EditorWrapper>
@@ -238,26 +297,62 @@ class Messenger extends Component {
                     />
                   </AvatarSection>
                   
-                  <EditorSection>
-                    Hello {this.props.name}!
-                    {this.props.app_id}
+                  {
+                    this.state.display_mode === "conversation" ? 
 
-                    <CommentsWrapper>
-                      {
-                        this.state.conversation_messages.map((o,i)=>{
-                          return <CommentsItem  
-                                    key={i}
-                                    dangerouslySetInnerHTML={{__html: o.message}} 
-                                 />
-                        })
-                      }
-                    </CommentsWrapper>
-                    
-                    <UnicornEditor 
-                      insertComment={this.insertComment}
-                    />
-                  
-                  </EditorSection>
+                      <EditorSection>
+                        Hello {this.props.name}!
+                        {this.props.app_id}
+
+                        <a href="#" onClick={this.displayConversationList.bind(this)}>
+                          back
+                        </a>
+
+                        
+
+                        <CommentsWrapper>
+                          {
+                            this.state.conversation_messages.map((o,i)=>{
+                              return <CommentsItem  
+                                        key={i}
+                                        dangerouslySetInnerHTML={{__html: o.message}} 
+                                     />
+                            })
+                          }
+                        </CommentsWrapper>
+                        
+                        <UnicornEditor 
+                          insertComment={this.insertComment}
+                        />
+                      
+                      </EditorSection> : null
+
+                  } 
+
+                  {
+                    this.state.display_mode === "conversations" ? 
+                      <div>
+                        <CommentsWrapper>
+                          {
+                            this.state.conversations.map((o,i)=>{
+                              console.log("this", this)
+                              const t = this
+                              return <CommentsItem key={o.id}
+                                      onClick={(e)=>{t.displayConversation(e, o)}}> 
+                                      {o.id} 
+                                      {o.created_at} 
+                                     </CommentsItem>
+                            })
+                          }
+                        </CommentsWrapper>
+
+                        <a href="#" onClick={this.displayNewConversation.bind(this)}>
+                          create new conversation
+                        </a>
+                      </div>
+                     : null 
+                  }
+
                 </Container>
               
            </EditorWrapper>

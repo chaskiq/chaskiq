@@ -2,8 +2,8 @@ class Api::V1::ConversationsController < ApplicationController
 
   def show
     @app = App.find_by(key: params[:app_id])
-    @conversations = @app.conversations.find(params[:id])
-    @parts = @conversations.conversation_parts
+    @conversation = @app.conversations.find(params[:id])
+    @messages = @conversation.messages
     render :show
   end
 
