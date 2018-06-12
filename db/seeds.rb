@@ -11,13 +11,13 @@ Segment.create([
   { name: "all users",  predicates: []},
 
   { name: "active users",  predicates: [ {attribute: "last_visited_at", 
-                                        comparison: "lt", 
+                                        comparison: "gt", 
                                         type: "date", 
                                         value: "30 days ago"}.with_indifferent_access]                                 
   },
 
   { name: "sleeping away",  predicates: [ {attribute: "last_visited_at", 
-                                        comparison: "lteq", 
+                                        comparison: "gteq", 
                                         type: "date", 
                                         value: "1 days ago"}.with_indifferent_access]                                 
   }

@@ -17,7 +17,7 @@ class Api::V1::ConversationsController < ApplicationController
     @app = App.find_by(key: params[:app_id])
     @conversation = @app.start_conversation({
       message: params[:message], 
-      from: @app.users.find_by(email: params[:email])
+      from: find_user(params[:email])
     })
     render :show
   end
@@ -26,10 +26,14 @@ class Api::V1::ConversationsController < ApplicationController
     @app = App.find_by(key: params[:app_id])
     @conversation = @app.conversations.find(params[:id])
     @message = @conversation.add_message({
-      from: @app.users.find_by(email: params[:email]),
+      from: find_user(params[:email]),
       message: params[:message]
     })
     render :show
   end
 
+private
+  def find_user(email)
+    @app.app_users.joins(:user).where(["users.email =?", params[:email]]).first  
+  end
 end

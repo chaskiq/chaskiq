@@ -299,19 +299,18 @@ class Messenger extends Component {
                       )}.png`}
                     />
                   </AvatarSection>
-                  
+
                   {
                     this.state.display_mode === "conversation" ? 
-
                       <EditorSection>
+
+                        
                         Hello {this.props.name}!
                         {this.props.app_id}
-
+                        
                         <a href="#" onClick={this.displayConversationList.bind(this)}>
                           back
                         </a>
-
-                        
 
                         <CommentsWrapper>
                           {
@@ -327,9 +326,7 @@ class Messenger extends Component {
                         <UnicornEditor 
                           insertComment={this.insertComment}
                         />
-                      
                       </EditorSection> : null
-
                   } 
 
                   {

@@ -2,7 +2,7 @@ require 'rails_helper'
 
 RSpec.describe ConversationPart, type: :model do
   it{ should belong_to :conversation}
-  it{ should belong_to :user}
+  it{ should belong_to :app_user}
 
   before do
     @app = FactoryGirl.create(:app)
@@ -13,7 +13,7 @@ RSpec.describe ConversationPart, type: :model do
   context "conversation" do
 
     let!(:conversation){
-      @app.conversations.create(main_participant: @app.users.first)
+      @app.conversations.create(main_participant: @app.app_users.first)
     }
 
     it "will be opened" do
@@ -30,7 +30,7 @@ RSpec.describe ConversationPart, type: :model do
     end
 
     it "add message" do
-      conversation.add_message(from: @app.users.first, message: "foo")
+      conversation.add_message(from: @app.app_users.first, message: "foo")
       expect(conversation.messages.count).to be == 1
     end
 

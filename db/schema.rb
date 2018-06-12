@@ -59,12 +59,12 @@ ActiveRecord::Schema.define(version: 2018_05_31_050057) do
   create_table "conversation_parts", force: :cascade do |t|
     t.text "message"
     t.datetime "read_at"
-    t.bigint "user_id"
+    t.bigint "app_user_id"
     t.bigint "conversation_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["app_user_id"], name: "index_conversation_parts_on_app_user_id"
     t.index ["conversation_id"], name: "index_conversation_parts_on_conversation_id"
-    t.index ["user_id"], name: "index_conversation_parts_on_user_id"
   end
 
   create_table "conversations", force: :cascade do |t|
@@ -143,7 +143,7 @@ ActiveRecord::Schema.define(version: 2018_05_31_050057) do
 
   add_foreign_key "app_users", "apps"
   add_foreign_key "app_users", "users"
+  add_foreign_key "conversation_parts", "app_users"
   add_foreign_key "conversation_parts", "conversations"
-  add_foreign_key "conversation_parts", "users"
   add_foreign_key "conversations", "apps"
 end

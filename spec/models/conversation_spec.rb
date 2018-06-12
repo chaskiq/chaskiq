@@ -12,7 +12,7 @@ RSpec.describe Conversation, type: :model do
   it "create_conversation" do
     app.start_conversation({
       message: "message", 
-      from: app_user.user
+      from: app_user
     })
     expect(app.conversations.count).to be == 1
     expect(app.conversations.first.messages.count).to be == 1
@@ -23,13 +23,13 @@ RSpec.describe Conversation, type: :model do
     before :each do 
       app.start_conversation({
         message: "message", 
-        from: app_user.user
+        from: app_user
       })
     end
 
     it "add message" do
       message = app.conversations.first.add_message({
-        from: app_user.user,
+        from: app_user,
         message: "foobar"
       })
       expect(message).to be_persisted

@@ -54,7 +54,7 @@ export default class ConversationContainer extends Component {
       </ul>
 
 
-        <Route exact path={`/apps/${appId}/conversations/:id?`} 
+        <Route exact path={`/apps/${appId}/conversations/:id`} 
           render={(props)=>(
             <ConversationContainerShow
               appId={appId}
@@ -75,7 +75,8 @@ export class ConversationContainerShow extends Component {
     super(props)
     this.state = {
       conversation: {},
-      messages: []
+      messages: [],
+      app_user: {}
     }
   }
 
@@ -91,8 +92,16 @@ export class ConversationContainerShow extends Component {
     }
   }
 
-  getMainUser = ()=> {
-    // get main user information
+  getMainUser = (id)=> {
+    axios.get(`/apps/${this.props.appId}/app_users/${id}.json`)
+      .then( (response)=> {
+        this.setState({
+          app_user: response.data.app_user
+        })
+      })
+      .catch( (error)=> {
+        console.log(error);
+      });
   }
 
   getMessages = ()=>{
@@ -103,7 +112,9 @@ export class ConversationContainerShow extends Component {
         this.setState({
           conversation: response.data.conversation,
           messages: response.data.messages
-        })
+        }, ()=>{ 
+          this.getMainUser(this.state.conversation.main_participant.id) 
+        } )
       })
       .catch( (error)=> {
         console.log(error);
@@ -112,10 +123,16 @@ export class ConversationContainerShow extends Component {
 
   render(){
     return <div>
-      {this.state.messages.map((o)=> <p>
-          {o.message} {o.user_id}
-        </p>)
-      }
+          {
+            this.state.messages.map( (o)=> {
+              <p>
+                {o.message} {o.user_id}
+              </p>
+            })
+          }
+
+          <p>{this.state.app_user.email}</p>
+          <p>{this.state.app_user.state}</p>
     </div>
   }
 }

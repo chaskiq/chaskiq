@@ -68,7 +68,7 @@ RSpec.describe App, type: :model do
     app_user = app.add_user({email: "test@test.cl", first_name: "dsdsa"})
     conversations = app.start_conversation({
       message: "message", 
-      from: app_user.user
+      from: app_user
     })
     expect(app.conversations.count).to be == 1
   end

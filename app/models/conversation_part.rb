@@ -1,4 +1,4 @@
 class ConversationPart < ApplicationRecord
   belongs_to :conversation
-  belongs_to :user
+  belongs_to :app_user
 end

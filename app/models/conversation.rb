@@ -1,7 +1,7 @@
 class Conversation < ApplicationRecord
   belongs_to :app
   belongs_to :assignee, class_name: 'User', optional: true
-  belongs_to :main_participant, class_name: "User"
+  belongs_to :main_participant, class_name: "AppUser" #, foreign_key: "user_id"
   has_many :messages, class_name: "ConversationPart"
 
   include AASM
@@ -20,13 +20,13 @@ class Conversation < ApplicationRecord
   end
 
   def add_message(opts={})
-    part         = self.messages.new
-    part.user    = opts[:from]
-    part.message = opts[:message]
+    part          = self.messages.new
+    part.app_user = opts[:from]
+    part.message  = opts[:message]
     part.save
     
     if part.errors.blank?
-      ConversationsChannel.broadcast_to("#{self.app.key}-#{part.user.email}", 
+      ConversationsChannel.broadcast_to("#{self.app.key}-#{part.app_user.user.email}", 
         part.as_json(only: [:id, :message, :conversation_id]) 
       )
       # could be events channel too
