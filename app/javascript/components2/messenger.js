@@ -304,7 +304,7 @@ class Messenger extends Component {
                     this.state.display_mode === "conversation" ? 
                       <EditorSection>
 
-                        
+
                         Hello {this.props.name}!
                         {this.props.app_id}
                         
