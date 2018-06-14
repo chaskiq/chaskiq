@@ -132,6 +132,7 @@ class ConversationContainerShow extends Component {
   componentDidUpdate(PrevProps, PrevState){
     if(PrevProps.match && PrevProps.match.params.id !== this.props.match.params.id){
       this.getMessages()
+      this.conversationSubscriber()
     }
   }
 
@@ -156,6 +157,7 @@ class ConversationContainerShow extends Component {
           conversation: response.data.conversation,
           messages: response.data.messages
         }, ()=>{ 
+          this.conversationSubscriber()
           this.getMainUser(this.state.conversation.main_participant.id) 
         } )
       })
@@ -179,8 +181,39 @@ class ConversationContainerShow extends Component {
       .catch( (error)=> {
         console.log(error);
       });
-
   }
+
+  conversationSubscriber(){
+    App.events = App.cable.subscriptions.create({
+      channel: "ConversationsChannel",
+      app: this.props.appId,
+      id: this.state.conversation.id,
+      email: "miguel2@preyhq.com",
+    },
+    {
+      connected: ()=> {
+        console.log("connected to conversations")
+      },
+      disconnected: ()=> {
+        console.log("disconnected from conversations")
+      },
+      received: (data)=> {
+        //let html = stateToHTML(JSON.parse(data.message));
+        console.log(data.message)
+        console.log(`received ${data}`)
+        this.setState({
+          messages: this.state.messages.concat(data)
+        })
+      },
+      notify: ()=>{
+        console.log(`notify!!`)
+      },
+      handleMessage: (message)=>{
+        console.log(`handle message`)
+      } 
+    });    
+  }
+
 
   render(){
     return <Fragment>
@@ -201,10 +234,7 @@ class ConversationContainerShow extends Component {
               </div>
             
               <ConversationEditor 
-                insertComment={(comment)=>{
-                    this.insertComment(comment, ()=>{console.log("comment created")})
-                  } 
-                }
+                insertComment={this.insertComment}
               />
 
             </GridElement>
