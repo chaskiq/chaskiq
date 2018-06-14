@@ -3,6 +3,7 @@ class ConversationsChannel < ApplicationCable::Channel
     # stream_from "some_channel"
 
     @app      = App.find_by(key: params[:app])
+    @converstion = @app.conversations.find(params[:id])
 
     @app_user = @app.app_users
                     .joins(:user)
@@ -10,7 +11,7 @@ class ConversationsChannel < ApplicationCable::Channel
                     .first
 
     @user     = @app_user.user
-    @key      = "conversations:#{@app.key}-#{@user.email}"
+    @key      = "conversations:#{@app.key}-#{@converstion.id}"
     stream_from @key
   end
 

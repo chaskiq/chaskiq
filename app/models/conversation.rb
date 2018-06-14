@@ -26,8 +26,8 @@ class Conversation < ApplicationRecord
     part.save
     
     if part.errors.blank?
-      ConversationsChannel.broadcast_to("#{self.app.key}-#{part.app_user.user.email}", 
-        part.as_json(only: [:id, :message, :conversation_id]) 
+      ConversationsChannel.broadcast_to("#{self.app.key}-#{self.id}", 
+        part.as_json(only: [:id, :message, :conversation_id], methods: [:app_user]) 
       )
       # could be events channel too
       # ConversationsChannel.broadcast_to("#{self.app.key}-#{self.asignee.email}", {} )

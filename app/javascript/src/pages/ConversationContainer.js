@@ -9,6 +9,8 @@ import styled from "styled-components"
 import gravatar from "gravatar"
 import Moment from 'react-moment';
 import ConversationEditor from '../components/Editor.js'
+import {convertToHTML} from 'draft-convert'
+
 import './convo.css'
 
 const RowColumnContainer = styled.div`
@@ -162,6 +164,24 @@ class ConversationContainerShow extends Component {
       });
   }
 
+  insertComment = (comment, cb)=>{
+    const id = this.state.conversation.id
+    const html_comment = convertToHTML( comment );
+    axios.put(`/api/v1/apps/${this.props.appId}/conversations/${id}.json`, {
+        email: "miguel2@preyhq.com",
+        id: id,
+        message: html_comment
+      })
+      .then( (response)=> {
+        console.log(response)
+        cb()
+      })
+      .catch( (error)=> {
+        console.log(error);
+      });
+
+  }
+
   render(){
     return <Fragment>
           
@@ -181,7 +201,10 @@ class ConversationContainerShow extends Component {
               </div>
             
               <ConversationEditor 
-                insertComment={(comment)=>{console.log(comment)} }
+                insertComment={(comment)=>{
+                    this.insertComment(comment, ()=>{console.log("comment created")})
+                  } 
+                }
               />
 
             </GridElement>

@@ -105,7 +105,7 @@ class Messenger extends Component {
   componentDidMount(){
     this.ping(()=> {
       this.eventsSubscriber()
-      this.conversationSubscriber()
+      //this.conversationSubscriber()
       this.getConversations()
     })
   }
@@ -141,6 +141,7 @@ class Messenger extends Component {
     App.events = App.cable.subscriptions.create({
       channel: "ConversationsChannel",
       app: this.props.app_id,
+      id: this.state.conversation.id,
       email: this.props.email,
     },
     {
@@ -280,9 +281,10 @@ class Messenger extends Component {
   displayConversation(e, o){
     this.setconversation(o.id, ()=>{
 
+      this.eventsSubscriber()
       this.setState({
         display_mode: "conversation"
-      }, ()=> this.getConversations() )
+      }, ()=> { this.conversationSubscriber() ; this.getConversations() ; }  )
     })
   }
 

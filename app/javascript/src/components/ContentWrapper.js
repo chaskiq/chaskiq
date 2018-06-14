@@ -11,8 +11,8 @@ const Padding = styled.div`
 export default ({ children }) => (
   <Grid>
     <GridColumn>
-     {/* <Padding>{children}</Padding>*/}
-     {children}
+     <Padding>{children}</Padding>
+     {/*children*/}
     </GridColumn>
   </Grid>
 )
