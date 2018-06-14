@@ -29,7 +29,6 @@ class Api::V1::ConversationsController < ApplicationController
       from: find_user(params[:email]),
       message: params[:message]
     })
-    binding.pry
     render :show
   end
 
