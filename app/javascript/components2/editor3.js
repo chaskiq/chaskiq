@@ -90,6 +90,13 @@ export default class UnicornEditor extends Component {
     })
   }
 
+  handleReturn = (e)=>{
+    if(!e.shiftKey){
+      this.handleClick()
+      return
+    }
+  }
+
   render() {
     return (
 
@@ -99,6 +106,7 @@ export default class UnicornEditor extends Component {
             ref={"editor"}
             editorState={this.state.editorState}
             onChange={this.onChange}
+            handleReturn={this.handleReturn}
             plugins={plugins}
           />
         </EditorContainer>
@@ -109,14 +117,6 @@ export default class UnicornEditor extends Component {
         {/*
           <EmojiSelect />
         */}
-
-        <EditorActions>
-          <Button 
-            appearance={"primary"} 
-            onClick={this.handleClick.bind(this)}>
-            oli
-          </Button>
-        </EditorActions>
 
       </EditorWrapper>
         
