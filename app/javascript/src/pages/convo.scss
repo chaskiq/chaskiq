@@ -1,0 +1,21 @@
+html, body {
+  overflow: hidden;
+  //height: 90%;
+}
+
+.chat {
+  display: grid;
+  grid-template-row: 3fr 1fr;
+  //grid-temaplte-columns: auto;
+  position: absolute;
+  height: 100vh;
+  .overflow {
+    //height: 100%;
+    //background: blue;
+    overflow: hidden;
+    overflow-y: auto;
+  }
+  .input {
+    background: black;
+  }
+}

@@ -10,8 +10,9 @@ import gravatar from "gravatar"
 import Moment from 'react-moment';
 import ConversationEditor from '../components/Editor.js'
 import {convertToHTML} from 'draft-convert'
+import Avatar from '@atlaskit/avatar';
 
-import './convo.css'
+import './convo.scss'
 
 const RowColumnContainer = styled.div`
   display: flex;
@@ -27,31 +28,107 @@ const ColumnContainer = styled.div`
 const GridElement = styled.div`
   flex: 1;
   overflow: scroll;
+  border-right: 1px solid #dcdcdc;
 `;
+
+const MessageContainer = styled.div`
+  text-decoration: none;
+  display: block;
+  box-sizing: border-box;
+  border-bottom: 1px solid rgba(0,0,0,.1);
+  padding: 14px 20px 14px 0;
+  background-color: #fff;
+  border-left: 2px solid transparent;
+  &:hover{
+    background: aliceblue;
+  }
+`
+
+const MessageControls = styled.div`
+  display: flex;
+  align-items: flex-start;
+`
+
+const MessageHeader = styled.div`
+  //flex: 1 1 auto;
+  //min-width: 0;
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+`
+
+const MessageBody = styled.div`
+    font-size: 14px;
+    color: #bfbfbf;
+    font-weight: 100;
+    margin-top: 16px;
+    text-indent: 10px;
+`
+
+const MessageEmail = styled.div`
+    color: #222;
+    font-size: 14px;
+    font-weight: 500;
+    overflow: hidden;
+    text-overflow: ellipsis;
+`
+
+const ActivityAvatar = styled.div`
+  //display: flex;
+  align-self: center;
+  position: relative;
+`
+const Overflow = styled.div`
+  overflow: auto;
+  height: 100vh;
+`
+
+const ActivityIndicator = styled.span`
+  position: absolute;
+  height: 10px;
+  width: 10px;
+  background: #1be01b;
+  border-radius: 10px;
+  top: 6px;
+  left: 64px;
+`
 
 class MessageItem extends Component {
   render(){
     return (
-      <div>
+      <MessageContainer>
+
+        <MessageControls/>
+
+        <MessageHeader>
         
-        <img src={gravatar.url(this.props.message.app_user.email)} width={40} heigth={40}/>
+          <Avatar src={gravatar.url(this.props.message.app_user.email)} width={40} heigth={40}/>
+          
+          <MessageEmail>
+            {this.props.message.app_user.email}
+          </MessageEmail>
+
+          <Moment fromNow style={{ color: '#ccc', fontSize: '10px'}}>
+            {this.props.message.created_at}
+          </Moment>
+
+        </MessageHeader>
+
+        <MessageBody>          
+          <span dangerouslySetInnerHTML={
+            {__html: this.props.message.message}
+          }/>
+        </MessageBody>
+          
+
+
         
-        <span>
-          {this.props.message.app_user.email}
-        </span>
-        
-        <span dangerouslySetInnerHTML={
-          {__html: this.props.message.message}
-        }/>
-        
-        <Moment fromNow>
-          {this.props.message.created_at}
-        </Moment>
-        
-      </div>
+      </MessageContainer>
     )
   }
 }
+
+
 
 export default class ConversationContainer extends Component {
 
@@ -90,15 +167,15 @@ export default class ConversationContainer extends Component {
               <GridElement>
                 conversations
 
-                {
-                  this.state.conversations.map((o, i)=>{
-                    return <li key={o.id}>
-                            <div onClick={(e)=> this.props.history.push(`/apps/${appId}/conversations/${o.id}`) }>
-                              <MessageItem message={o.last_message}/>
-                            </div>
-                           </li>
-                  })
-                }
+                <Overflow>
+                  {
+                    this.state.conversations.map((o, i)=>{
+                      return <div key={o.id} onClick={(e)=> this.props.history.push(`/apps/${appId}/conversations/${o.id}`) }>
+                                <MessageItem message={o.last_message}/>
+                              </div>
+                    })
+                  }
+                </Overflow>
               </GridElement>
 
               <Route exact path={`/apps/${appId}/conversations/:id`} 
@@ -183,6 +260,10 @@ class ConversationContainerShow extends Component {
       });
   }
 
+  scrollToLastItem = ()=>{
+    this.refs.overflow.scrollTop = this.refs.overflow.scrollHeight;
+  }
+
   conversationSubscriber(){
     App.events = App.cable.subscriptions.create({
       channel: "ConversationsChannel",
@@ -203,7 +284,7 @@ class ConversationContainerShow extends Component {
         console.log(`received ${data}`)
         this.setState({
           messages: this.state.messages.concat(data)
-        })
+        }, this.scrollToLastItem )
       },
       notify: ()=>{
         console.log(`notify!!`)
@@ -220,40 +301,158 @@ class ConversationContainerShow extends Component {
           
             <GridElement>
 
-              <div style={{heigth: 200, overflow: 'auto'}}>
+              <div className="chat">
+                <div className="overflow" ref="overflow">
 
-                {
-                  this.state.messages.map( (o)=> {
-                    return <MessageItem 
-                              key={o.id}
-                              message={o}
-                            />
-                  })
-                }
+                  {
+                    this.state.messages.map( (o)=> {
+                      return <MessageItem 
+                                key={o.id}
+                                message={o}
+                              />
+                    })
+                  }
 
+                </div>
+
+                <div className="input">
+              
+                  <ConversationEditor 
+                    insertComment={this.insertComment}
+                  />
+
+                </div>
               </div>
-            
-              <ConversationEditor 
-                insertComment={this.insertComment}
-              />
 
             </GridElement>
 
             <GridElement>
-              <img src={gravatar.url(this.state.app_user.email)} 
-                width={40} 
-                heigth={40}
-              />
 
-              <p>{this.state.app_user.email}</p>
-              <p>{this.state.app_user.state}</p>
-              {
-                Object.keys(this.state.app_user).map((o, i)=>{ 
-                  return <p key={i}>
-                          {o}:{this.state.app_user[o]}
-                          </p>
-                })
-              }
+              <Overflow style={{ 
+                display: 'flex', 
+                flexFlow: 'column'}}>
+
+                <ActivityAvatar>
+                  
+                  <img src={gravatar.url(this.state.app_user.email)} 
+                    width={80} 
+                    heigth={80}
+                  />
+                  
+                  {
+                    this.state.app_user.state === "online" ?
+                      <ActivityIndicator/> : null 
+                  }
+                  
+                </ActivityAvatar>
+
+
+                <p style={{
+                  display: 'flex', 
+                  alignSelf: 'center', 
+                  fontWeight: '700'}}>
+                  {this.state.app_user.email}
+                </p>
+
+                
+
+                <p style={{
+                  display: 'flex', 
+                  alignSelf: 'center', 
+                  fontWeight: '300'}}>
+
+                  <Moment fromNow={this.state.app_user.last_visited_at}/>
+                </p>
+
+                <h3>Location</h3>
+
+                <ul>
+                  <li><strong>referrer</strong>
+                    {this.state.app_user.referrer}
+                  </li>
+                  
+                  <li>
+                    <strong>city</strong>
+                    {this.state.app_user.city}
+                  </li>
+                  
+                  <li>
+                    <strong>region</strong>
+                    {this.state.app_user.region}
+                  </li>
+                  
+                  <li>
+                    <strong>country</strong>
+                    {this.state.app_user.country}
+                  </li>
+                  
+                  <li>
+                    <strong>lat</strong>
+                    {this.state.app_user.lat}
+                  </li>
+                  
+                  <li>
+                    <strong>lng</strong>
+                    {this.state.app_user.lng}
+                  </li>
+                </ul>
+
+                <h3>Browsing Properties</h3>
+  
+                <ul>
+
+                  <li>
+                    <strong>postal:</strong> 
+                    { this.state.app_user.postal}
+                  </li>
+                  
+                  <li>
+                    <strong>web sessions:</strong> 
+                    { this.state.app_user.web_sessions}
+                  </li>
+                  
+                  <li>
+                    <strong>timezone:</strong> 
+                    { this.state.app_user.timezone}
+                  </li>
+                  
+                  <li>
+                    <strong>browser version:</strong> 
+                    { this.state.app_user.browser_version}
+                  </li>
+
+                  <li>
+                    <strong>browser:</strong> 
+                    { this.state.app_user.browser}
+                  </li>
+                  
+                  <li>
+                    <strong>os:</strong> 
+                    { this.state.app_user.os}
+                  </li>
+                  
+                  <li>
+                    <strong>os version:</strong> 
+                    { this.state.app_user.os_version}
+                  </li>
+
+                </ul>
+
+                <h3>Properties</h3>
+
+                <ul>
+                  {
+                    this.state.app_user.properties ? 
+                    Object.keys(this.state.app_user.properties).map((o, i)=>{ 
+                      return <li key={i}>
+                                <strong>{o}:</strong>
+                                {this.state.app_user.properties[o]}
+                              </li>
+                    }) : null
+                  }
+                </ul>
+
+              </Overflow>
 
             </GridElement>
 
