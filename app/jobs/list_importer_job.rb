@@ -1,7 +1,9 @@
 class ListImporterJob < ApplicationJob
   queue_as :default
 
-  def perform(*args)
-    # Do something later
+  #send to all list with state passive & subscribed
+  def perform(list, file)
+    list.import_csv(file)
+    File.unlink(file)
   end
 end
