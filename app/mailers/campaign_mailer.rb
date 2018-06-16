@@ -1,0 +1,2 @@
+class CampaignMailer < ApplicationMailer
+end
