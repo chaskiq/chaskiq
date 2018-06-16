@@ -246,6 +246,7 @@ GEM
     minitest (5.11.3)
     msgpack (1.2.4)
     multi_json (1.13.1)
+    mustache (1.0.5)
     net-scp (1.2.1)
       net-ssh (>= 2.6.5)
     net-ssh (4.2.0)
@@ -424,6 +425,7 @@ DEPENDENCIES
   jbuilder (~> 2.5)
   kaminari (~> 1.1)
   listen (>= 3.0.5, < 3.2)
+  mustache
   pg
   pry
   puma (~> 3.11)

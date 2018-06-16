@@ -53,6 +53,7 @@ gem "ransack"
 gem "active_importer"
 gem "ruby-oembed"
 gem "http"
+gem "mustache"
 
 
 
