@@ -40,11 +40,20 @@ gem 'email_reply_trimmer'
 # gem 'tunable'
 #gem 'acts_as_taggable_on'
 gem 'aasm'
-
 gem 'sidekiq'
 gem 'sidekiq-cron'
 gem 'webpacker', '~> 3.5'
 gem 'gutentag', '~> 2.4'
+gem 'roadie'
+gem "urlcrypt"
+gem "groupdate"
+gem "deep_cloneable"
+gem "aws-ses"
+gem "ransack"
+gem "active_importer"
+gem "ruby-oembed"
+gem "http"
+
 
 
 # Reduces boot times through caching; required in config/boot.rb
