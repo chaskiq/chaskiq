@@ -5,7 +5,7 @@ import {
   Route,
   Link
 } from 'react-router-dom'
-import TimeAgo from 'react-timeago'
+import Moment from 'react-moment';
 import PropTypes from 'prop-types';
 import Button, { ButtonGroup } from '@atlaskit/button';
 import ContentWrapper from '../components/ContentWrapper';
@@ -572,7 +572,7 @@ class AppUsers extends Component {
           },
           {
             //key: createKey(app_user.state),
-            content: (<TimeAgo date={app_user.last_visited_at }/>),
+            content: (<Moment fromNow={app_user.last_visited_at }/>),
           },
           {
             content: (
@@ -713,7 +713,7 @@ class AppContent extends Component {
   }
 
   render(){
-    return <div>
+    return <div style={{marginTop: '20px'}}>
             { this.props.app.key && this.props.segment.id ? 
               <AppUsers 
                 {...this.props}
@@ -1018,9 +1018,11 @@ export default class ShowAppContainer extends Component {
 
       <ContentWrapper>
 
-        <PageTitle>
+        {
+        /*<PageTitle>
           App: {this.state.app.key}
-        </PageTitle>
+        </PageTitle>*/
+        }
 
         <Route exact path={this.props.match.path}
           render={(props) => {

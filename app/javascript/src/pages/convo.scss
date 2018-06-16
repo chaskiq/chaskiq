@@ -9,6 +9,7 @@ html, body {
   //grid-temaplte-columns: auto;
   position: absolute;
   height: 100vh;
+  width: 32.2%;
   .overflow {
     //height: 100%;
     //background: blue;
@@ -16,6 +17,7 @@ html, body {
     overflow-y: auto;
   }
   .input {
-    background: black;
+    //background: black;
+    border-top: 1px solid #ccc;
   }
 }

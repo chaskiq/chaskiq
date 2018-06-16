@@ -366,12 +366,28 @@
     prop-types "^15.5.10"
     styled-components "1.4.6 - 3"
 
+"@atlaskit/tabs@^7.1.2":
+  version "7.1.2"
+  resolved "https://registry.yarnpkg.com/@atlaskit/tabs/-/tabs-7.1.2.tgz#8fa7c60fb3aa25c6a5ee5a1a8f3c20eec529e44b"
+  dependencies:
+    "@atlaskit/theme" "^4.0.4"
+    classnames "^2.2.5"
+    css-element-queries "^0.3.2"
+    debounce "^1.0.0"
+    keycode "^2.1.7"
+
 "@atlaskit/theme@^3.2.2":
   version "3.2.2"
   resolved "https://registry.yarnpkg.com/@atlaskit/theme/-/theme-3.2.2.tgz#14e55188a6561e34fa697445ec5582ef0c733942"
   dependencies:
     prop-types "^15.5.10"
     styled-components "1.4.6 - 3"
+
+"@atlaskit/theme@^4.0.4":
+  version "4.0.4"
+  resolved "https://registry.yarnpkg.com/@atlaskit/theme/-/theme-4.0.4.tgz#d39820e3ffd331d8b1bf7fa4f1af7694ba51c601"
+  dependencies:
+    prop-types "^15.5.10"
 
 "@atlaskit/tooltip@^9.2.1":
   version "9.2.1"
@@ -2119,6 +2135,10 @@ css-color-names@0.0.4:
   version "0.0.4"
   resolved "https://registry.yarnpkg.com/css-color-names/-/css-color-names-0.0.4.tgz#808adc2e79cf84738069b646cb20ec27beb629e0"
 
+css-element-queries@^0.3.2:
+  version "0.3.2"
+  resolved "https://registry.yarnpkg.com/css-element-queries/-/css-element-queries-0.3.2.tgz#535d80891b3af21395d005f19905fe5154b5ccff"
+
 css-loader@^0.28.11:
   version "0.28.11"
   resolved "https://registry.yarnpkg.com/css-loader/-/css-loader-0.28.11.tgz#c3f9864a700be2711bb5a2462b2389b1a392dab7"
@@ -2231,6 +2251,10 @@ dashdash@^1.12.0:
 date-now@^0.1.4:
   version "0.1.4"
   resolved "https://registry.yarnpkg.com/date-now/-/date-now-0.1.4.tgz#eaf439fd4d4848ad74e5cc7dbef200672b9e345b"
+
+debounce@^1.0.0:
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/debounce/-/debounce-1.1.0.tgz#6a1a4ee2a9dc4b7c24bb012558dbcdb05b37f408"
 
 debug@2.6.9, debug@^2.1.2, debug@^2.2.0, debug@^2.3.3, debug@^2.6.6, debug@^2.6.8, debug@^2.6.9:
   version "2.6.9"

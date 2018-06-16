@@ -37,7 +37,7 @@ const EditorContainer = styled.div`
   /* stylelint-disable value-no-vendor-prefix, declaration-block-no-duplicate-properties */
   display: flex;
   flex-direction: column;
-  min-width: 272px;
+  min-width: 242px;
   min-height: 50px;
   max-height: 250px;
   height: auto;
@@ -46,9 +46,9 @@ const EditorContainer = styled.div`
   box-sizing: border-box;
   max-width: inherit;
   word-wrap: break-word;
-  border-width: 1px;
+  /*border-width: 1px;
   border-style: solid;
-  border-color: rgb(223, 225, 230);
+  border-color: rgb(223, 225, 230);*/
   border-image: initial;
   border-radius: 3px;
   animation: none;
@@ -66,7 +66,6 @@ const EditorActions = styled.div`
 `
 
 const EditorWrapper = styled.div`
-  
 `
 
 export default class UnicornEditor extends Component {
@@ -97,10 +96,14 @@ export default class UnicornEditor extends Component {
     }
   }
 
+  handleFocus = (e)=>{
+    this.refs.editor.focus()
+  }
+
   render() {
     return (
 
-      <EditorWrapper>
+      <EditorWrapper onClick={this.handleFocus}>
         <EditorContainer>
           <Editor
             ref={"editor"}

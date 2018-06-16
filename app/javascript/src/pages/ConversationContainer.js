@@ -11,7 +11,6 @@ import Moment from 'react-moment';
 import ConversationEditor from '../components/Editor.js'
 import {convertToHTML} from 'draft-convert'
 import Avatar from '@atlaskit/avatar';
-
 import './convo.scss'
 
 const RowColumnContainer = styled.div`
@@ -29,6 +28,9 @@ const GridElement = styled.div`
   flex: 1;
   overflow: scroll;
   border-right: 1px solid #dcdcdc;
+  h3 {
+    margin-left: 20px;
+  }
 `;
 
 const MessageContainer = styled.div`
@@ -39,16 +41,15 @@ const MessageContainer = styled.div`
   padding: 14px 20px 14px 0;
   background-color: #fff;
   border-left: 2px solid transparent;
+  cursor: pointer;
   &:hover{
     background: aliceblue;
   }
 `
-
 const MessageControls = styled.div`
   display: flex;
   align-items: flex-start;
 `
-
 const MessageHeader = styled.div`
   //flex: 1 1 auto;
   //min-width: 0;
@@ -56,7 +57,6 @@ const MessageHeader = styled.div`
   align-items: flex-start;
   justify-content: space-between;
 `
-
 const MessageBody = styled.div`
     font-size: 14px;
     color: #bfbfbf;
@@ -64,7 +64,6 @@ const MessageBody = styled.div`
     margin-top: 16px;
     text-indent: 10px;
 `
-
 const MessageEmail = styled.div`
     color: #222;
     font-size: 14px;
@@ -72,7 +71,6 @@ const MessageEmail = styled.div`
     overflow: hidden;
     text-overflow: ellipsis;
 `
-
 const ActivityAvatar = styled.div`
   //display: flex;
   align-self: center;
@@ -82,7 +80,6 @@ const Overflow = styled.div`
   overflow: auto;
   height: 100vh;
 `
-
 const ActivityIndicator = styled.span`
   position: absolute;
   height: 10px;
@@ -91,6 +88,11 @@ const ActivityIndicator = styled.span`
   border-radius: 10px;
   top: 6px;
   left: 64px;
+`
+
+const FixedHeader = styled.div`
+  padding:20px;
+  border-bottom: 1px solid #ccc;
 `
 
 class MessageItem extends Component {
@@ -165,7 +167,10 @@ export default class ConversationContainer extends Component {
             <ColumnContainer>
               
               <GridElement>
-                conversations
+                <FixedHeader>ddd</FixedHeader>
+                <FixedHeader style={{padding: '10px'}}>
+                  ddd
+                </FixedHeader>
 
                 <Overflow>
                   {
@@ -302,6 +307,7 @@ class ConversationContainerShow extends Component {
             <GridElement>
 
               <div className="chat">
+                <FixedHeader>ddd</FixedHeader>
                 <div className="overflow" ref="overflow">
 
                   {
@@ -316,7 +322,7 @@ class ConversationContainerShow extends Component {
                 </div>
 
                 <div className="input">
-              
+                  
                   <ConversationEditor 
                     insertComment={this.insertComment}
                   />
@@ -328,9 +334,13 @@ class ConversationContainerShow extends Component {
 
             <GridElement>
 
+             <FixedHeader>ddd</FixedHeader>
+
               <Overflow style={{ 
                 display: 'flex', 
-                flexFlow: 'column'}}>
+                flexFlow: 'column',
+                paddingTop: '20px'
+              }}>
 
                 <ActivityAvatar>
                   
@@ -354,14 +364,14 @@ class ConversationContainerShow extends Component {
                   {this.state.app_user.email}
                 </p>
 
-                
-
                 <p style={{
                   display: 'flex', 
                   alignSelf: 'center', 
                   fontWeight: '300'}}>
 
-                  <Moment fromNow={this.state.app_user.last_visited_at}/>
+                  <Moment 
+                    fromNow={this.state.app_user.last_visited_at}
+                  />
                 </p>
 
                 <h3>Location</h3>

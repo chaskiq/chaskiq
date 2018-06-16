@@ -21,6 +21,7 @@
     "@atlaskit/page": "^6.0.3",
     "@atlaskit/spinner": "^5.0.2",
     "@atlaskit/table-tree": "^2.0.1",
+    "@atlaskit/tabs": "^7.1.2",
     "@atlaskit/theme": "^3.2.2",
     "@rails/webpacker": "3.5",
     "actioncable": "^5.2.0",

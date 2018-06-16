@@ -8,6 +8,7 @@ import createEmojiPlugin from 'draft-js-emoji-plugin';
 import styled from "styled-components"
 import Button from '@atlaskit/button';
 import 'draft-js-hashtag-plugin/lib/plugin.css';
+import Tabs from '@atlaskit/tabs';
 
 import {getDefaultKeyBinding, KeyBindingUtil} from 'draft-js';
 
@@ -55,11 +56,8 @@ const EditorContainer = styled.div`
   box-sizing: border-box;
   max-width: inherit;
   word-wrap: break-word;
-  border-width: 1px;
-  border-style: solid;
-  border-color: rgb(223, 225, 230);
+  border-top: 1px solid rgb(223, 225, 230);
   border-image: initial;
-  border-radius: 3px;
   animation: none;
   padding: 10px;
 `;
@@ -116,42 +114,56 @@ export default class ConversationEditor extends Component {
     }
   }
 
+
+
   render() {
+
+    const tabs = [
+      { label: 'Reply', content: <EditorWrapper>
+                                    <EditorContainer style={{
+                                      height: '87px'
+                                    }}>
+                                      <Editor
+                                        ref={"editor"}
+                                        editorState={this.state.editorState}
+                                        onChange={this.onChange}
+                                        handleKeyCommand={this.handleKeyCommand}
+                                        keyBindingFn={myKeyBindingFn}
+                                        handleReturn={this.handleReturn}
+                                        plugins={plugins}
+                                      />
+                                    </EditorContainer>
+
+                                    <InlineToolbar />
+                                    <EmojiSuggestions />
+
+                                    {/*
+                                      <EmojiSelect />
+                                    */}
+
+                                    {
+                                      /*<EditorActions>
+                                        <Button 
+                                          appearance={"primary"} 
+                                          onClick={this.handleClick.bind(this)}>
+                                          oli
+                                        </Button>
+                                      </EditorActions>
+                                      */
+                                    }
+
+                                  </EditorWrapper>
+
+       },
+      { label: 'Note', content: <div>Two</div> }
+    ];
+
     return (
 
-      <EditorWrapper>
-        <EditorContainer style={{
-          height: '87px', 
-          marginBottom: '31px'
-        }}>
-          <Editor
-            ref={"editor"}
-            editorState={this.state.editorState}
-            onChange={this.onChange}
-            handleKeyCommand={this.handleKeyCommand}
-            keyBindingFn={myKeyBindingFn}
-            handleReturn={this.handleReturn}
-            plugins={plugins}
-          />
-        </EditorContainer>
-
-        <InlineToolbar />
-        <EmojiSuggestions />
-
-        {/*
-          <EmojiSelect />
-        */}
-
-        <EditorActions>
-          <Button 
-            appearance={"primary"} 
-            onClick={this.handleClick.bind(this)}>
-            oli
-          </Button>
-        </EditorActions>
-
-      </EditorWrapper>
-        
+      <Tabs
+        tabs={tabs}
+        onSelect={(tab, index) => console.log('Selected Tab', index + 1)}
+      />
       
     );
   }
