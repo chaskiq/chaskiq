@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  resources :campaigns
   devise_for :users
 
   resources :apps do
@@ -6,6 +7,7 @@ Rails.application.routes.draw do
       post :search
     end
     resources :conversations
+    resources :campaigns
     resources :app_users
     resources :segments do
       member do

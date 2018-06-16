@@ -34,6 +34,6 @@ class Api::V1::ConversationsController < ApplicationController
 
 private
   def find_user(email)
-    @app.app_users.joins(:user).where(["users.email =?", params[:email]]).first  
+    @app.app_users.joins(:user).where(["users.email =?", email ]).first  
   end
 end

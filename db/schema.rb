@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_05_31_050057) do
+ActiveRecord::Schema.define(version: 2018_06_16_050512) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -54,6 +54,24 @@ ActiveRecord::Schema.define(version: 2018_05_31_050057) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["preferences"], name: "index_apps_on_preferences", using: :gin
+  end
+
+  create_table "campaigns", force: :cascade do |t|
+    t.string "from_name"
+    t.string "from_email"
+    t.string "reply_email"
+    t.string "html_content"
+    t.string "serialized_content"
+    t.string "description"
+    t.string "name"
+    t.datetime "scheduled_at"
+    t.string "timezone"
+    t.string "state"
+    t.bigint "app_id"
+    t.jsonb "segments"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["app_id"], name: "index_campaigns_on_app_id"
   end
 
   create_table "conversation_parts", force: :cascade do |t|
@@ -143,6 +161,7 @@ ActiveRecord::Schema.define(version: 2018_05_31_050057) do
 
   add_foreign_key "app_users", "apps"
   add_foreign_key "app_users", "users"
+  add_foreign_key "campaigns", "apps"
   add_foreign_key "conversation_parts", "app_users"
   add_foreign_key "conversation_parts", "conversations"
   add_foreign_key "conversations", "apps"

@@ -1,0 +1,77 @@
+<%= form_with(model: campaign, local: true) do |form| %>
+  <% if campaign.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(campaign.errors.count, "error") %> prohibited this campaign from being saved:</h2>
+
+      <ul>
+      <% campaign.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= form.label :from_name %>
+    <%= form.text_field :from_name %>
+  </div>
+
+  <div class="field">
+    <%= form.label :from_email %>
+    <%= form.text_field :from_email %>
+  </div>
+
+  <div class="field">
+    <%= form.label :reply_email %>
+    <%= form.text_field :reply_email %>
+  </div>
+
+  <div class="field">
+    <%= form.label :html_content %>
+    <%= form.text_field :html_content %>
+  </div>
+
+  <div class="field">
+    <%= form.label :serialized_content %>
+    <%= form.text_field :serialized_content %>
+  </div>
+
+  <div class="field">
+    <%= form.label :description %>
+    <%= form.text_field :description %>
+  </div>
+
+  <div class="field">
+    <%= form.label :name %>
+    <%= form.text_field :name %>
+  </div>
+
+  <div class="field">
+    <%= form.label :scheduled_at %>
+    <%= form.datetime_select :scheduled_at %>
+  </div>
+
+  <div class="field">
+    <%= form.label :timezone %>
+    <%= form.text_field :timezone %>
+  </div>
+
+  <div class="field">
+    <%= form.label :state %>
+    <%= form.text_field :state %>
+  </div>
+
+  <div class="field">
+    <%= form.label :app_id %>
+    <%= form.text_field :app_id %>
+  </div>
+
+  <div class="field">
+    <%= form.label :segments %>
+    <%= form.text_field :segments %>
+  </div>
+
+  <div class="actions">
+    <%= form.submit %>
+  </div>
+<% end %>

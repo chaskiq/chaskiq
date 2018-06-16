@@ -1,0 +1,64 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>From name:</strong>
+  <%= @campaign.from_name %>
+</p>
+
+<p>
+  <strong>From email:</strong>
+  <%= @campaign.from_email %>
+</p>
+
+<p>
+  <strong>Reply email:</strong>
+  <%= @campaign.reply_email %>
+</p>
+
+<p>
+  <strong>Html content:</strong>
+  <%= @campaign.html_content %>
+</p>
+
+<p>
+  <strong>Serialized content:</strong>
+  <%= @campaign.serialized_content %>
+</p>
+
+<p>
+  <strong>Description:</strong>
+  <%= @campaign.description %>
+</p>
+
+<p>
+  <strong>Name:</strong>
+  <%= @campaign.name %>
+</p>
+
+<p>
+  <strong>Scheduled at:</strong>
+  <%= @campaign.scheduled_at %>
+</p>
+
+<p>
+  <strong>Timezone:</strong>
+  <%= @campaign.timezone %>
+</p>
+
+<p>
+  <strong>State:</strong>
+  <%= @campaign.state %>
+</p>
+
+<p>
+  <strong>App:</strong>
+  <%= @campaign.app %>
+</p>
+
+<p>
+  <strong>Segments:</strong>
+  <%= @campaign.segments %>
+</p>
+
+<%= link_to 'Edit', edit_campaign_path(@campaign) %> |
+<%= link_to 'Back', campaigns_path %>

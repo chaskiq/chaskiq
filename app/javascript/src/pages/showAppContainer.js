@@ -34,6 +34,7 @@ import EmptyState from '@atlaskit/empty-state'
 import UserMap from "../components/map"
 
 import ConversationContainer from './ConversationContainer';
+import CampaignContainer from './Campaigns'
 
 
 const CableApp = {
@@ -1051,6 +1052,15 @@ export default class ShowAppContainer extends Component {
               {...props}
             />
         )} /> 
+
+
+        <Route exact path={`${this.props.match.path}/campaigns`} 
+          render={(props)=>(
+            <CampaignContainer
+              {...props}
+            />
+        )} /> 
+
        
         <Route exact path={this.props.match.path} render={() => (
           <h3>Please select a topic.</h3>

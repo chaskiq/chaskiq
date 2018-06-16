@@ -8,6 +8,12 @@
   dependencies:
     prop-types "^15.5.10"
 
+"@atlaskit/analytics-next@^2.1.8":
+  version "2.1.8"
+  resolved "https://registry.yarnpkg.com/@atlaskit/analytics-next/-/analytics-next-2.1.8.tgz#1d4abd11212b397362cec5d7e4b038fcdb824d1e"
+  dependencies:
+    prop-types "^15.5.10"
+
 "@atlaskit/analytics@^3.0.1":
   version "3.0.1"
   resolved "https://registry.yarnpkg.com/@atlaskit/analytics/-/analytics-3.0.1.tgz#6644288306c113ab1c3951fe93f06004a215b3cf"
@@ -41,7 +47,16 @@
     babel-runtime "^6.26.0"
     styled-components "1.4.6 - 3"
 
-"@atlaskit/checkbox@^2.0.2", "@atlaskit/checkbox@^2.1.0":
+"@atlaskit/button@^8.1.2", "@atlaskit/button@^8.2.0":
+  version "8.2.0"
+  resolved "https://registry.yarnpkg.com/@atlaskit/button/-/button-8.2.0.tgz#7dd34c21edf20780dc3dd6fabbb999c9fff8d829"
+  dependencies:
+    "@atlaskit/analytics-next" "^2.1.8"
+    "@atlaskit/spinner" "7.1.0"
+    "@atlaskit/theme" "^4.0.4"
+    babel-runtime "^6.26.0"
+
+"@atlaskit/checkbox@^2.0.2":
   version "2.1.0"
   resolved "https://registry.yarnpkg.com/@atlaskit/checkbox/-/checkbox-2.1.0.tgz#487dcfa9ec62c64c85760f6612e040df7c9a7358"
   dependencies:
@@ -51,6 +66,16 @@
     babel-runtime "^6.26.0"
     prop-types "^15.5.10"
     styled-components "1.4.6 - 3"
+
+"@atlaskit/checkbox@^3.1.0":
+  version "3.1.0"
+  resolved "https://registry.yarnpkg.com/@atlaskit/checkbox/-/checkbox-3.1.0.tgz#e78513933b667d09756ed1a16fa483912b448bc8"
+  dependencies:
+    "@atlaskit/button" "^8.2.0"
+    "@atlaskit/icon" "^12.2.0"
+    "@atlaskit/theme" "^4.0.4"
+    babel-runtime "^6.26.0"
+    prop-types "^15.5.10"
 
 "@atlaskit/code@^4.0.4":
   version "4.0.4"
@@ -159,6 +184,16 @@
     babel-runtime "^6.26.0"
     styled-components "1.4.6 - 3"
 
+"@atlaskit/field-base@^10.1.2":
+  version "10.1.2"
+  resolved "https://registry.yarnpkg.com/@atlaskit/field-base/-/field-base-10.1.2.tgz#1295c5371a6ae755f960e7e0cfe6e6c4d57f0740"
+  dependencies:
+    "@atlaskit/icon" "^12.1.2"
+    "@atlaskit/inline-dialog" "^7.1.2"
+    "@atlaskit/spinner" "^7.0.2"
+    "@atlaskit/theme" "^4.0.4"
+    babel-runtime "^6.26.0"
+
 "@atlaskit/field-base@^9.0.3":
   version "9.0.3"
   resolved "https://registry.yarnpkg.com/@atlaskit/field-base/-/field-base-9.0.3.tgz#a722ef6c08146942cd8c050ab21130926e7feefa"
@@ -179,16 +214,22 @@
     "@atlaskit/theme" "^3.2.2"
     styled-components "1.4.6 - 3"
 
-"@atlaskit/field-text-area@^2.1.0":
-  version "2.1.0"
-  resolved "https://registry.yarnpkg.com/@atlaskit/field-text-area/-/field-text-area-2.1.0.tgz#358195336ed5646d6a0856b0108d5df5834dcef9"
+"@atlaskit/field-text-area@^3.1.1":
+  version "3.1.1"
+  resolved "https://registry.yarnpkg.com/@atlaskit/field-text-area/-/field-text-area-3.1.1.tgz#d0780d7c4d2418009f26f79acb7e661054b00601"
   dependencies:
-    "@atlaskit/button" "^7.2.5"
-    "@atlaskit/field-base" "^9.0.3"
-    "@atlaskit/theme" "^3.2.2"
+    "@atlaskit/button" "^8.1.2"
+    "@atlaskit/field-base" "^10.1.2"
+    "@atlaskit/theme" "^4.0.4"
     babel-runtime "^6.26.0"
     prop-types "^15.5.10"
-    styled-components "1.4.6 - 3"
+
+"@atlaskit/field-text@^6.0.4":
+  version "6.0.4"
+  resolved "https://registry.yarnpkg.com/@atlaskit/field-text/-/field-text-6.0.4.tgz#cb7fdd2a2a076cb26547c6dac6dd971d6f693041"
+  dependencies:
+    "@atlaskit/field-base" "^10.1.2"
+    "@atlaskit/theme" "^4.0.4"
 
 "@atlaskit/flag@^7.0.3":
   version "7.0.3"
@@ -203,14 +244,13 @@
     styled-components "1.4.6 - 3"
     uuid "^3.1.0"
 
-"@atlaskit/form@^1.0.4":
-  version "1.0.4"
-  resolved "https://registry.yarnpkg.com/@atlaskit/form/-/form-1.0.4.tgz#c78c4144b75fe3f038426ad09ed6cf6744faceaf"
+"@atlaskit/form@^2.1.2":
+  version "2.1.2"
+  resolved "https://registry.yarnpkg.com/@atlaskit/form/-/form-2.1.2.tgz#ff450b7574fe902d7ec91aac7fde3ee06ccfe28c"
   dependencies:
-    "@atlaskit/icon" "^11.3.0"
-    "@atlaskit/theme" "^3.2.2"
+    "@atlaskit/icon" "^12.1.2"
+    "@atlaskit/theme" "^4.0.4"
     "@atlaskit/util-shared-styles" "^2.10.3"
-    styled-components "1.4.6 - 3"
 
 "@atlaskit/icon@^11.3.0", "@atlaskit/icon@^11.3.2":
   version "11.3.2"
@@ -221,6 +261,14 @@
     styled-components "1.4.6 - 3"
     uuid "^3.1.0"
 
+"@atlaskit/icon@^12.1.2", "@atlaskit/icon@^12.2.0":
+  version "12.2.0"
+  resolved "https://registry.yarnpkg.com/@atlaskit/icon/-/icon-12.2.0.tgz#5f4027b485e329ac2026ac431df9e566f4950180"
+  dependencies:
+    "@atlaskit/theme" "^4.0.4"
+    babel-runtime "^6.26.0"
+    uuid "^3.1.0"
+
 "@atlaskit/inline-dialog@^6.0.2":
   version "6.0.2"
   resolved "https://registry.yarnpkg.com/@atlaskit/inline-dialog/-/inline-dialog-6.0.2.tgz#ff70e6cc65f13b725eb1f866c28d21129bc6ed99"
@@ -228,6 +276,13 @@
     "@atlaskit/layer" "^3.1.1"
     "@atlaskit/theme" "^3.2.2"
     styled-components "1.4.6 - 3"
+
+"@atlaskit/inline-dialog@^7.1.2":
+  version "7.1.2"
+  resolved "https://registry.yarnpkg.com/@atlaskit/inline-dialog/-/inline-dialog-7.1.2.tgz#58f09e404dcaf7b6ea983274f781ab7afa9d24bf"
+  dependencies:
+    "@atlaskit/layer" "^4.0.3"
+    "@atlaskit/theme" "^4.0.4"
 
 "@atlaskit/inline-edit@^5.0.2":
   version "5.0.2"
@@ -273,6 +328,12 @@
   dependencies:
     react-scrolllock "^2.0.2"
     styled-components "1.4.6 - 3"
+
+"@atlaskit/layer@^4.0.3":
+  version "4.1.0"
+  resolved "https://registry.yarnpkg.com/@atlaskit/layer/-/layer-4.1.0.tgz#4d846779497346b7f4260bbb56263de8604d3d8b"
+  dependencies:
+    react-scrolllock "^2.0.2"
 
 "@atlaskit/modal-dialog@^4.0.5":
   version "4.0.5"
@@ -337,6 +398,18 @@
   version "2.0.1"
   resolved "https://registry.yarnpkg.com/@atlaskit/polyfills/-/polyfills-2.0.1.tgz#c2f2985c69cfe349d1471f07c08c2f74f95847ef"
 
+"@atlaskit/select@^4.3.0":
+  version "4.3.0"
+  resolved "https://registry.yarnpkg.com/@atlaskit/select/-/select-4.3.0.tgz#2faeac1ff0da178ec57e59cb3d0dddb264c92243"
+  dependencies:
+    "@atlaskit/icon" "^12.2.0"
+    "@atlaskit/theme" "^4.0.4"
+    focus-trap "^2.4.5"
+    react-node-resolver "^1.0.1"
+    react-popper "1.0.0-beta.6"
+    react-select "^2.0.0-beta.6"
+    react-transition-group "^2.2.1"
+
 "@atlaskit/size-detector@^3.1.1":
   version "3.1.2"
   resolved "https://registry.yarnpkg.com/@atlaskit/size-detector/-/size-detector-3.1.2.tgz#f82c9441320ebc08126d8c3f84fdc36f550617f8"
@@ -352,6 +425,14 @@
     babel-runtime "^6.26.0"
     react-transition-group "^2.2.1"
     styled-components "1.4.6 - 3"
+
+"@atlaskit/spinner@7.1.0", "@atlaskit/spinner@^7.0.2":
+  version "7.1.0"
+  resolved "https://registry.yarnpkg.com/@atlaskit/spinner/-/spinner-7.1.0.tgz#f4406d6f45f1356878ce6e8e10319b57313d87fd"
+  dependencies:
+    "@atlaskit/theme" "^4.0.4"
+    babel-runtime "^6.26.0"
+    react-transition-group "^2.2.1"
 
 "@atlaskit/table-tree@^2.0.1":
   version "2.0.1"
@@ -412,6 +493,13 @@
     "@babel/types" "7.0.0-beta.32"
     lodash "^4.2.0"
 
+"@babel/helper-module-imports@7.0.0-beta.40":
+  version "7.0.0-beta.40"
+  resolved "https://registry.yarnpkg.com/@babel/helper-module-imports/-/helper-module-imports-7.0.0-beta.40.tgz#251cbb6404599282e8f7356a5b32c9381bef5d2d"
+  dependencies:
+    "@babel/types" "7.0.0-beta.40"
+    lodash "^4.2.0"
+
 "@babel/types@7.0.0-beta.32":
   version "7.0.0-beta.32"
   resolved "https://registry.yarnpkg.com/@babel/types/-/types-7.0.0-beta.32.tgz#c317d0ecc89297b80bbcb2f50608e31f6452a5ff"
@@ -419,6 +507,18 @@
     esutils "^2.0.2"
     lodash "^4.2.0"
     to-fast-properties "^2.0.0"
+
+"@babel/types@7.0.0-beta.40":
+  version "7.0.0-beta.40"
+  resolved "https://registry.yarnpkg.com/@babel/types/-/types-7.0.0-beta.40.tgz#25c3d7aae14126abe05fcb098c65a66b6d6b8c14"
+  dependencies:
+    esutils "^2.0.2"
+    lodash "^4.2.0"
+    to-fast-properties "^2.0.0"
+
+"@emotion/babel-utils@^0.5.3":
+  version "0.5.3"
+  resolved "https://registry.yarnpkg.com/@emotion/babel-utils/-/babel-utils-0.5.3.tgz#6be6dd7a480fdbdfb6cbba7f4f6d9361744b8d6e"
 
 "@emotion/hash@^0.6.2":
   version "0.6.3"
@@ -464,6 +564,17 @@
     uglifyjs-webpack-plugin "^1.2.5"
     webpack "^3.11.0"
     webpack-manifest-plugin "^1.3.2"
+
+Dante2@^0.4.4:
+  version "0.4.4"
+  resolved "https://registry.yarnpkg.com/Dante2/-/Dante2-0.4.4.tgz#ef4e91c9209391ef84e7d66a9d911cab70b0264d"
+  dependencies:
+    axios "^0.15.2"
+    babel-runtime "^6.11.6"
+    draft-convert "^2.1.2"
+    draft-js "0.10.4"
+    draft-js-custom-styles "^2.0.4"
+    immutable "^3.8.2"
 
 abbrev@1:
   version "1.1.1"
@@ -735,6 +846,12 @@ aws4@^1.2.1, aws4@^1.6.0:
   version "1.7.0"
   resolved "https://registry.yarnpkg.com/aws4/-/aws4-1.7.0.tgz#d4d0e9b9dbfca77bf08eeb0a8a471550fe39e289"
 
+axios@^0.15.2:
+  version "0.15.3"
+  resolved "https://registry.yarnpkg.com/axios/-/axios-0.15.3.tgz#2c9d638b2e191a08ea1d6cc988eadd6ba5bdc053"
+  dependencies:
+    follow-redirects "1.0.0"
+
 axios@^0.18.0:
   version "0.18.0"
   resolved "https://registry.yarnpkg.com/axios/-/axios-0.18.0.tgz#32d53e4851efdc0a11993b6cd000789d70c05102"
@@ -921,6 +1038,23 @@ babel-plugin-emotion@^9.1.2:
   resolved "https://registry.yarnpkg.com/babel-plugin-emotion/-/babel-plugin-emotion-9.1.2.tgz#e26b313fa0fecd0f2cc07b1e4ef05da167e4f740"
   dependencies:
     "@babel/helper-module-imports" "7.0.0-beta.32"
+    "@emotion/hash" "^0.6.2"
+    "@emotion/memoize" "^0.6.1"
+    "@emotion/stylis" "^0.6.5"
+    babel-plugin-macros "^2.0.0"
+    babel-plugin-syntax-jsx "^6.18.0"
+    convert-source-map "^1.5.0"
+    find-root "^1.1.0"
+    mkdirp "^0.5.1"
+    source-map "^0.5.7"
+    touch "^1.0.0"
+
+babel-plugin-emotion@^9.2.0:
+  version "9.2.0"
+  resolved "https://registry.yarnpkg.com/babel-plugin-emotion/-/babel-plugin-emotion-9.2.0.tgz#43543dd02c7b5cd89d464aeedef864edb754b852"
+  dependencies:
+    "@babel/helper-module-imports" "7.0.0-beta.40"
+    "@emotion/babel-utils" "^0.5.3"
     "@emotion/hash" "^0.6.2"
     "@emotion/memoize" "^0.6.1"
     "@emotion/stylis" "^0.6.5"
@@ -1290,7 +1424,7 @@ babel-register@^6.26.0:
     mkdirp "^0.5.1"
     source-map-support "^0.4.15"
 
-babel-runtime@^6.11.6, babel-runtime@^6.18.0, babel-runtime@^6.22.0, babel-runtime@^6.23.0, babel-runtime@^6.26.0:
+babel-runtime@6.x.x, babel-runtime@^6.11.6, babel-runtime@^6.18.0, babel-runtime@^6.22.0, babel-runtime@^6.23.0, babel-runtime@^6.26.0:
   version "6.26.0"
   resolved "https://registry.yarnpkg.com/babel-runtime/-/babel-runtime-6.26.0.tgz#965c7058668e82b55d7bfe04ff2337bc8b5647fe"
   dependencies:
@@ -2060,6 +2194,18 @@ create-emotion@^9.1.3:
     stylis "^3.5.0"
     stylis-rule-sheet "^0.0.10"
 
+create-emotion@^9.2.1:
+  version "9.2.1"
+  resolved "https://registry.yarnpkg.com/create-emotion/-/create-emotion-9.2.1.tgz#1316189d53bf65cf191a59d3ac6ecb6f4e13e020"
+  dependencies:
+    "@emotion/hash" "^0.6.2"
+    "@emotion/memoize" "^0.6.1"
+    "@emotion/stylis" "^0.6.5"
+    "@emotion/unitless" "^0.6.2"
+    csstype "^2.5.2"
+    stylis "^3.5.0"
+    stylis-rule-sheet "^0.0.10"
+
 create-hash@^1.1.0, create-hash@^1.1.2:
   version "1.2.0"
   resolved "https://registry.yarnpkg.com/create-hash/-/create-hash-1.2.0.tgz#889078af11a63756bcfb59bd221996be3a9ef196"
@@ -2080,6 +2226,13 @@ create-hmac@^1.1.0, create-hmac@^1.1.2, create-hmac@^1.1.4:
     ripemd160 "^2.0.0"
     safe-buffer "^5.0.1"
     sha.js "^2.4.8"
+
+create-react-context@^0.2.1:
+  version "0.2.2"
+  resolved "https://registry.yarnpkg.com/create-react-context/-/create-react-context-0.2.2.tgz#9836542f9aaa22868cd7d4a6f82667df38019dca"
+  dependencies:
+    fbjs "^0.8.0"
+    gud "^1.0.0"
 
 cross-spawn@^3.0.0:
   version "3.0.1"
@@ -2225,6 +2378,10 @@ csso@~2.3.1:
   dependencies:
     clap "^1.0.9"
     source-map "^0.5.3"
+
+csstype@^2.5.2:
+  version "2.5.3"
+  resolved "https://registry.yarnpkg.com/csstype/-/csstype-2.5.3.tgz#2504152e6e1cc59b32098b7f5d6a63f16294c1f7"
 
 currently-unhandled@^0.4.1:
   version "0.4.1"
@@ -2428,6 +2585,15 @@ draft-js-buttons@^2.0.1:
   dependencies:
     union-class-names "^1.0.0"
 
+draft-js-custom-styles@^2.0.4:
+  version "2.0.4"
+  resolved "https://registry.yarnpkg.com/draft-js-custom-styles/-/draft-js-custom-styles-2.0.4.tgz#2632306ce11c7af7da22108ad4fcb99c1ead2f5a"
+  dependencies:
+    draft-js "^0.10.5"
+    immutable "^3.8.1"
+    lodash.camelcase "^4.3.0"
+    lodash.snakecase "^4.1.1"
+
 draft-js-emoji-plugin@^2.0.6:
   version "2.0.6"
   resolved "https://registry.yarnpkg.com/draft-js-emoji-plugin/-/draft-js-emoji-plugin-2.0.6.tgz#45db7a55d08e4677f767596c22f7d53fcbe2f7c5"
@@ -2495,6 +2661,14 @@ draft-js-utils@^1.2.0:
   version "1.2.0"
   resolved "https://registry.yarnpkg.com/draft-js-utils/-/draft-js-utils-1.2.0.tgz#f5cb23eb167325ffed3d79882fdc317721d2fd12"
 
+draft-js@0.10.4:
+  version "0.10.4"
+  resolved "https://registry.yarnpkg.com/draft-js/-/draft-js-0.10.4.tgz#147741642097c8120d8edc232e9503e8b7fb8d35"
+  dependencies:
+    fbjs "^0.8.15"
+    immutable "~3.7.4"
+    object-assign "^4.1.0"
+
 draft-js@^0.10.5:
   version "0.10.5"
   resolved "https://registry.yarnpkg.com/draft-js/-/draft-js-0.10.5.tgz#bfa9beb018fe0533dbb08d6675c371a6b08fa742"
@@ -2556,6 +2730,13 @@ emotion@^9.1.1:
   dependencies:
     babel-plugin-emotion "^9.1.2"
     create-emotion "^9.1.3"
+
+emotion@^9.1.2:
+  version "9.2.3"
+  resolved "https://registry.yarnpkg.com/emotion/-/emotion-9.2.3.tgz#c93b9a222df92e6281036afa02b3b5b8cfb9e049"
+  dependencies:
+    babel-plugin-emotion "^9.2.0"
+    create-emotion "^9.2.1"
 
 encodeurl@~1.0.2:
   version "1.0.2"
@@ -2906,6 +3087,18 @@ faye-websocket@~0.11.0:
   dependencies:
     websocket-driver ">=0.5.1"
 
+fbjs@^0.8.0:
+  version "0.8.17"
+  resolved "https://registry.yarnpkg.com/fbjs/-/fbjs-0.8.17.tgz#c4d598ead6949112653d6588b01a5cdcd9f90fdd"
+  dependencies:
+    core-js "^1.0.0"
+    isomorphic-fetch "^2.1.1"
+    loose-envify "^1.0.0"
+    object-assign "^4.1.0"
+    promise "^7.1.1"
+    setimmediate "^1.0.5"
+    ua-parser-js "^0.7.18"
+
 fbjs@^0.8.1, fbjs@^0.8.15, fbjs@^0.8.16, fbjs@^0.8.5:
   version "0.8.16"
   resolved "https://registry.yarnpkg.com/fbjs/-/fbjs-0.8.16.tgz#5e67432f550dc41b572bf55847b8aca64e5337db"
@@ -3000,9 +3193,21 @@ flush-write-stream@^1.0.0:
     inherits "^2.0.1"
     readable-stream "^2.0.4"
 
+focus-trap@^2.4.5:
+  version "2.4.6"
+  resolved "https://registry.yarnpkg.com/focus-trap/-/focus-trap-2.4.6.tgz#332b475b317cec6a4a129f5307ce7ebc0da90b40"
+  dependencies:
+    tabbable "^1.0.3"
+
 focusin@^2.0.0:
   version "2.0.0"
   resolved "https://registry.yarnpkg.com/focusin/-/focusin-2.0.0.tgz#58c01180dfb1949f03e3ddeee063739fc33b6ffc"
+
+follow-redirects@1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/follow-redirects/-/follow-redirects-1.0.0.tgz#8e34298cbd2e176f254effec75a1c78cc849fd37"
+  dependencies:
+    debug "^2.2.0"
 
 follow-redirects@^1.0.0, follow-redirects@^1.3.0:
   version "1.5.0"
@@ -3264,6 +3469,10 @@ gravatar@^1.6.0:
     email-validator "^1.0.7"
     querystring "0.2.0"
     yargs "^6.0.0"
+
+gud@^1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/gud/-/gud-1.0.0.tgz#a489581b17e6a70beca9abe3ae57de7a499852c0"
 
 handle-thing@^1.2.5:
   version "1.2.5"
@@ -3535,6 +3744,10 @@ ignore-walk@^3.0.1:
   resolved "https://registry.yarnpkg.com/ignore-walk/-/ignore-walk-3.0.1.tgz#a83e62e7d272ac0e3b551aaa82831a19b69f82f8"
   dependencies:
     minimatch "^3.0.4"
+
+immutable@^3.8.1, immutable@^3.8.2:
+  version "3.8.2"
+  resolved "https://registry.yarnpkg.com/immutable/-/immutable-3.8.2.tgz#c2439951455bb39913daf281376f1530e104adf3"
 
 immutable@~3.7.4:
   version "3.7.6"
@@ -4125,6 +4338,10 @@ lodash.mergewith@^4.6.0:
 lodash.set@^4.3.2:
   version "4.3.2"
   resolved "https://registry.yarnpkg.com/lodash.set/-/lodash.set-4.3.2.tgz#d8757b1da807dde24816b0d6a84bea1a76230b23"
+
+lodash.snakecase@^4.1.1:
+  version "4.1.1"
+  resolved "https://registry.yarnpkg.com/lodash.snakecase/-/lodash.snakecase-4.1.1.tgz#39d714a35357147837aefd64b5dcbb16becd8f8d"
 
 lodash.tail@^4.1.1:
   version "4.1.1"
@@ -4963,6 +5180,10 @@ pleeease-filters@^4.0.0:
     onecolor "^3.0.4"
     postcss "^6.0.1"
 
+popper.js@^1.14.1:
+  version "1.14.3"
+  resolved "https://registry.yarnpkg.com/popper.js/-/popper.js-1.14.3.tgz#1438f98d046acf7b4d78cd502bf418ac64d4f095"
+
 portfinder@^1.0.9:
   version "1.0.13"
   resolved "https://registry.yarnpkg.com/portfinder/-/portfinder-1.0.13.tgz#bb32ecd87c27104ae6ee44b5a3ccbf0ebb1aede9"
@@ -5640,7 +5861,7 @@ raf-schd@^2.1.0:
   version "2.1.2"
   resolved "https://registry.yarnpkg.com/raf-schd/-/raf-schd-2.1.2.tgz#ec622b5167f2912089f054dc03ebd5bcf33c8f62"
 
-raf@^3.1.0:
+raf@^3.1.0, raf@^3.4.0:
   version "3.4.0"
   resolved "https://registry.yarnpkg.com/raf/-/raf-3.4.0.tgz#a28876881b4bc2ca9117d4138163ddb80f781575"
   dependencies:
@@ -5755,6 +5976,12 @@ react-icons@^2.2.6:
   dependencies:
     react-icon-base "2.1.0"
 
+react-input-autosize@^2.2.1:
+  version "2.2.1"
+  resolved "https://registry.yarnpkg.com/react-input-autosize/-/react-input-autosize-2.2.1.tgz#ec428fa15b1592994fb5f9aa15bb1eb6baf420f8"
+  dependencies:
+    prop-types "^15.5.8"
+
 react-is@^16.3.1:
   version "16.4.0"
   resolved "https://registry.yarnpkg.com/react-is/-/react-is-16.4.0.tgz#cc9fdc855ac34d2e7d9d2eb7059bbc240d35ffcf"
@@ -5781,6 +6008,21 @@ react-motion@^0.5.2:
     performance-now "^0.2.0"
     prop-types "^15.5.8"
     raf "^3.1.0"
+
+react-node-resolver@^1.0.1:
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/react-node-resolver/-/react-node-resolver-1.0.1.tgz#1798a729c0e218bf2f0e8ddf79c550d4af61d83a"
+
+react-popper@1.0.0-beta.6:
+  version "1.0.0-beta.6"
+  resolved "https://registry.yarnpkg.com/react-popper/-/react-popper-1.0.0-beta.6.tgz#cb27a2ac56adccbaf5f9c4132387289069240834"
+  dependencies:
+    babel-runtime "6.x.x"
+    create-react-context "^0.2.1"
+    popper.js "^1.14.1"
+    prop-types "^15.6.1"
+    typed-styles "^0.0.5"
+    warning "^3.0.0"
 
 react-prop-toggle@^1.0.2:
   version "1.0.2"
@@ -5826,6 +6068,17 @@ react-scrolllock@^2.0.2:
   dependencies:
     exenv "^1.2.2"
     react-prop-toggle "^1.0.2"
+
+react-select@^2.0.0-beta.6:
+  version "2.0.0-beta.6"
+  resolved "https://registry.yarnpkg.com/react-select/-/react-select-2.0.0-beta.6.tgz#87ac27831f348cb9535dfd825534934adcfb7e97"
+  dependencies:
+    classnames "^2.2.5"
+    emotion "^9.1.2"
+    prop-types "^15.6.0"
+    raf "^3.4.0"
+    react-input-autosize "^2.2.1"
+    react-transition-group "^2.2.1"
 
 react-syntax-highlighter@^6.0.2:
   version "6.1.2"
@@ -6768,7 +7021,7 @@ symbol-observable@^1.0.3, symbol-observable@^1.0.4:
   version "1.2.0"
   resolved "https://registry.yarnpkg.com/symbol-observable/-/symbol-observable-1.2.0.tgz#c22688aed4eab3cdc2dfeacbb561660560a00804"
 
-tabbable@^1.1.0:
+tabbable@^1.0.3, tabbable@^1.1.0:
   version "1.1.3"
   resolved "https://registry.yarnpkg.com/tabbable/-/tabbable-1.1.3.tgz#0e4ee376f3631e42d7977a074dbd2b3827843081"
 
@@ -6934,11 +7187,15 @@ type-is@~1.6.15, type-is@~1.6.16:
     media-typer "0.3.0"
     mime-types "~2.1.18"
 
+typed-styles@^0.0.5:
+  version "0.0.5"
+  resolved "https://registry.yarnpkg.com/typed-styles/-/typed-styles-0.0.5.tgz#a60df245d482a9b1adf9c06c078d0f06085ed1cf"
+
 typedarray@^0.0.6:
   version "0.0.6"
   resolved "https://registry.yarnpkg.com/typedarray/-/typedarray-0.0.6.tgz#867ac74e3864187b1d3d47d996a78ec5c8830777"
 
-ua-parser-js@^0.7.9:
+ua-parser-js@^0.7.18, ua-parser-js@^0.7.9:
   version "0.7.18"
   resolved "https://registry.yarnpkg.com/ua-parser-js/-/ua-parser-js-0.7.18.tgz#a7bfd92f56edfb117083b69e31d2aa8882d4b1ed"
 
