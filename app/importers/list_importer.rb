@@ -1,51 +1,50 @@
-module Chaskiq
-  class ListImporter < ActiveImporter::Base
-    imports Subscriber
+require "roo"
 
-    column 'email', :email
-    column 'name', :name
+class ListImporter < ActiveImporter::Base
+  imports AppUser
 
-    fetch_model do
-      Chaskiq::Subscriber.where(email: row['email']).first_or_initialize
-    end
+  column 'email', :email
 
-    on :row_processing do
-      [row.keys - columns.keys].flatten.each do |k|
-        key = k.gsub(" ", "-").underscore
-        next if key.empty?
-        model.options[k.gsub(" ", "-").underscore ] = row[k] 
-      end
-    end
+  fetch_model do
+    # model = @app.app_users.joins(:user).where(["users.email =?", email ]).first_or_initialize  
+    # AppUser.where(email: row['email']).first_or_initialize
+  end
 
-    on :import_started do
-      @list = Chaskiq::List.find(params[:list_id])
-      @row_count = 0
-    end
+  on :row_processing do
+    #[row.keys - columns.keys].flatten.each do |k|
+    #  key = k.gsub(" ", "-").underscore
+    #  next if key.empty?
+    #  model.properties[k.gsub(" ", "-").underscore ] = row[k] 
+    #end
+  end
 
-    on :row_processed do
-      if model.errors.blank? && model.subscriptions.where(list: @list).blank?
-        model.subscriptions.create(list: @list) 
-      end
+  on :import_started do
+    @app = App.find(params[:app_id])
+    @row_count = 0
+  end
+
+  on :row_processed do
+    if @app.add_user(email: row.delete("email"), properties: row) 
       @row_count += 1
     end
-
-    on :row_error do |err| 
-      send_notification("Data imported successfully!")
-    end
-
-    on :import_finished do
-      send_notification("Data imported successfully!")
-    end
-
-    on :import_failed do |exception|
-      send_notification("Fatal error while importing data: #{exception.message}")
-    end
-
-  private
-
-    def send_notification(message)
-      puts message
-    end
-
   end
+
+  on :row_error do |err| 
+    send_notification("Data imported successfully!")
+  end
+
+  on :import_finished do
+    send_notification("Data imported successfully!")
+  end
+
+  on :import_failed do |exception|
+    send_notification("Fatal error while importing data: #{exception.message}")
+  end
+
+private
+
+  def send_notification(message)
+    puts message
+  end
+
 end

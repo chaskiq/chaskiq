@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_06_16_050512) do
+ActiveRecord::Schema.define(version: 2018_06_16_202654) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -26,6 +26,7 @@ ActiveRecord::Schema.define(version: 2018_06_16_050512) do
     t.string "city"
     t.string "region"
     t.string "country"
+    t.string "subscription_state"
     t.decimal "lat", precision: 15, scale: 13
     t.decimal "lng", precision: 15, scale: 13
     t.string "postal"
@@ -60,13 +61,16 @@ ActiveRecord::Schema.define(version: 2018_06_16_050512) do
     t.string "from_name"
     t.string "from_email"
     t.string "reply_email"
-    t.string "html_content"
-    t.string "serialized_content"
+    t.text "html_content"
+    t.text "premailer"
+    t.text "serialized_content"
     t.string "description"
+    t.boolean "sent"
     t.string "name"
     t.datetime "scheduled_at"
     t.string "timezone"
     t.string "state"
+    t.string "subject"
     t.bigint "app_id"
     t.jsonb "segments"
     t.datetime "created_at", null: false
@@ -122,6 +126,19 @@ ActiveRecord::Schema.define(version: 2018_06_16_050512) do
     t.integer "taggings_count", default: 0, null: false
     t.index ["name"], name: "index_gutentag_tags_on_name", unique: true
     t.index ["taggings_count"], name: "index_gutentag_tags_on_taggings_count"
+  end
+
+  create_table "metrics", force: :cascade do |t|
+    t.bigint "campaign_id"
+    t.string "trackable_type", null: false
+    t.bigint "trackable_id", null: false
+    t.string "action"
+    t.string "host"
+    t.string "data"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["campaign_id"], name: "index_metrics_on_campaign_id"
+    t.index ["trackable_type", "trackable_id"], name: "index_metrics_on_trackable_type_and_trackable_id"
   end
 
   create_table "segments", force: :cascade do |t|

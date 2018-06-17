@@ -26,6 +26,7 @@ Rails.application.routes.draw do
 
   scope path: '/api' do
     scope path: '/v1' do
+      resources :hooks, only: [:create], controller: "api/v1/hooks"
       resources :apps, controller: "api/v1/apps" do
         member do 
           post :ping

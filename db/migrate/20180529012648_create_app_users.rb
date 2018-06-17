@@ -10,7 +10,8 @@ class CreateAppUsers < ActiveRecord::Migration[5.2]
       t.string   :ip        
       t.string   :city           
       t.string   :region         
-      t.string   :country        
+      t.string   :country 
+      t.string   :subscription_state       
       #t.string   :lat  
       #t.column 'lat', 'point'
       #t.column 'lng', 'point'

@@ -38,13 +38,13 @@ RSpec.describe SegmentsController, type: :controller do
     it "returns a success response" do
       app.segments.create! valid_attributes
       get :index, params: {app_id: app.key}, session: valid_session
-      expect(response).to be_success
+      expect(response).to be_successful
     end
 
     it "returns a success response json" do
       app.segments.create! valid_attributes
       get :index, params: {format: :json, app_id: app.key}, session: valid_session
-      expect(response).to be_success
+      expect(response).to be_successful
     end
 
   end
@@ -53,13 +53,13 @@ RSpec.describe SegmentsController, type: :controller do
     it "returns a success response" do
       segment = app.segments.create! valid_attributes
       get :show, params: {id: segment.to_param, app_id: app.key}, session: valid_session
-      expect(response).to be_success
+      expect(response).to be_successful
     end
 
     it "returns a success response json" do
       segment = app.segments.create! valid_attributes
       get :show, params: {format: :json, id: segment.to_param, app_id: app.key}, session: valid_session
-      expect(response).to be_success
+      expect(response).to be_successful
     end
 
   end
@@ -67,7 +67,7 @@ RSpec.describe SegmentsController, type: :controller do
   describe "GET #new" do
     it "returns a success response" do
       get :new, params: {app_id: app.key}, session: valid_session
-      expect(response).to be_success
+      expect(response).to be_successful
     end
   end
 
@@ -75,7 +75,7 @@ RSpec.describe SegmentsController, type: :controller do
     it "returns a success response" do
       segment = app.segments.create! valid_attributes
       get :edit, params: {id: segment.to_param, app_id: app.key}, session: valid_session
-      expect(response).to be_success
+      expect(response).to be_successful
     end
   end
 
@@ -94,7 +94,7 @@ RSpec.describe SegmentsController, type: :controller do
 
       it "redirects to the created segment json" do
         post :create, params: {format: :json, app_id: app.key, segment: valid_attributes}, session: valid_session
-        expect(response).to be_success #_to(Segment.last)
+        expect(response).to be_successful #_to(Segment.last)
       end
 
     end
@@ -151,7 +151,7 @@ RSpec.describe SegmentsController, type: :controller do
       it "returns a success response (i.e. to display the 'edit' template)" do
         segment = app.segments.create! valid_attributes
         put :update, params: {app_id: app.key, id: segment.to_param, segment: invalid_attributes}, session: valid_session
-        expect(response).to be_success
+        expect(response).to be_successful
       end
 
       it "returns a success response json" do

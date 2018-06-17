@@ -12,6 +12,31 @@
 # the additional setup, and require it from the spec files that actually need
 # it.
 #
+
+require 'faker'
+
+def inline_job(&block)
+  ActiveJob::Base.queue_adapter = :inline
+  block.call
+  ActiveJob::Base.queue_adapter = :test
+end
+
+def last_email
+  ActionMailer::Base.deliveries.last
+end
+
+def reset_email
+  ActionMailer::Base.deliveries = []
+end
+
+# Require files in spec/support
+Dir["#{File.dirname(__FILE__)}/support/**/*.rb"].each { |f| require f }
+
+def request_fixture(name)
+  File.read(File.join(Rails.root, 'spec', 'fixtures', 'requests', name))
+end
+
+
 # See http://rubydoc.info/gems/rspec-core/RSpec/Core/Configuration
 RSpec.configure do |config|
   # rspec-expectations config goes here. You can use an alternate

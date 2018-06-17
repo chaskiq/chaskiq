@@ -51,9 +51,11 @@ gem "deep_cloneable"
 gem "aws-ses"
 gem "ransack"
 gem "active_importer"
+gem "roo"
 gem "ruby-oembed"
 gem "http"
 gem "mustache"
+
 
 
 # Reduces boot times through caching; required in config/boot.rb
@@ -93,6 +95,7 @@ group :test do
   gem 'factory_girl_rails'
   gem 'database_cleaner'
   gem 'shoulda'
+  gem 'faker', github: "stympy/faker"
 
 end
 

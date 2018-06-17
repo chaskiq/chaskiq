@@ -4,13 +4,16 @@ class CreateCampaigns < ActiveRecord::Migration[5.2]
       t.string :from_name
       t.string :from_email
       t.string :reply_email
-      t.string :html_content
-      t.string :serialized_content
+      t.text :html_content
+      t.text  :premailer
+      t.text :serialized_content
       t.string :description
+      t.boolean :sent
       t.string :name
       t.datetime :scheduled_at
       t.string :timezone
       t.string :state
+      t.string :subject
       t.references :app, foreign_key: true
       t.jsonb :segments
 

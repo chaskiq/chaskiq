@@ -56,6 +56,13 @@ GIT
   specs:
     rspec-support (3.8.pre)
 
+GIT
+  remote: https://github.com/stympy/faker.git
+  revision: a7c03e67c18356b32a487795332c01c3d8d9add7
+  specs:
+    faker (1.8.7)
+      i18n (>= 0.7)
+
 GEM
   remote: https://rubygems.org/
   specs:
@@ -418,6 +425,7 @@ DEPENDENCIES
   devise!
   email_reply_trimmer
   factory_girl_rails
+  faker!
   geocoder (~> 1.4)
   groupdate
   gutentag (~> 2.4)
@@ -432,6 +440,7 @@ DEPENDENCIES
   rails (~> 5.2.0)
   ransack
   roadie
+  roo
   rspec-core!
   rspec-expectations!
   rspec-mocks!

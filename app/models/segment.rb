@@ -17,7 +17,7 @@ class Segment < ApplicationRecord
     self.predicates.each do |prop|
       o = prop.keys - [:attribute, :comparison, :type, :value].map(&:to_s)
       if o.any?
-        errors.add(:properties, "predicated are invalid") unless prop["type"] == "or"
+        errors.add(:properties, "predicates are invalid") unless prop["type"] == "or"
       end
     end    
   end
