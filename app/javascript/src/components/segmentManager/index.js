@@ -12,7 +12,6 @@ import DropdownMenu, {
 import InlineDialog from '@atlaskit/inline-dialog';
 import {parseJwt, generateJWT} from './jwt'
 
-
 // same as SegmentItemButton
 export class SegmentItemButton extends Component {
   state = {
@@ -411,31 +410,32 @@ export default class SegmentManager extends Component {
                 handleClick={this.handleClickOnSelectedFilter.bind(this)}
               />
 
-              <SaveSegmentModal 
-                title="Save Segment" 
-                segment={this.props.store.segment}
-                savePredicates={this.props.actions.savePredicates}
-                deleteSegment={this.props.actions.deleteSegment}
-              />
+              {
+                /*
+                <SaveSegmentModal 
+                  title="Save Segment" 
+                  segment={this.props.store.segment}
+                  savePredicates={this.props.actions.savePredicates}
+                  deleteSegment={this.props.actions.deleteSegment}
+                />
+                */
+              }
 
             </ButtonGroup>
 
-            <hr/>
+            <ButtonGroup>
+              
+              {this.props.children}
 
-            <div style={{float: "right"}}>
-              <ButtonGroup>
-                
-                {this.children}
+            </ButtonGroup>
+        
 
-              </ButtonGroup>
-            </div>
-
-            {
+            { /*
               this.props.store.app.segments.map((o)=>(
-                  <p>{o.name}</p>
+                  <p key={o.id}>{o.name}</p>
                 )
               )
-            }
+            */}
 
             <ul>
               <li> Idea: poder crear nuevo segmento</li>

@@ -685,7 +685,7 @@ export default class ShowAppContainer extends Component {
         )} /> 
 
 
-        <Route exact path={`${this.props.match.path}/campaigns`} 
+        <Route path={`${this.props.match.path}/campaigns`} 
           render={(props)=>(
             <Consumer>
              {({ store, actions }) => (

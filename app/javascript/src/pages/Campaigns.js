@@ -4,7 +4,10 @@ import Select from '@atlaskit/select';
 import FieldText from '@atlaskit/field-text';
 import Button from '@atlaskit/button';
 import Checkbox, { CheckboxGroup } from '@atlaskit/checkbox';
-
+import {
+  Route,
+  Link
+} from 'react-router-dom'
 import Form, { Field, FormHeader, FormSection, FormFooter } from '@atlaskit/form';
 import FieldTextArea from '@atlaskit/field-text-area';
 import ContentWrapper from '../components/ContentWrapper';
@@ -19,6 +22,7 @@ import serialize from 'form-serialize'
 
 import CampaignSettings from "./campaigns/settings"
 import SegmentManager from '../components/segmentManager'
+import {parseJwt} from '../components/segmentManager/jwt'
 
 const EditorContainer = styled.div`
   overflow: auto;
@@ -36,8 +40,39 @@ class CampaignSegment extends Component {
     )
   }
 
+  handleSave = (e)=>{
+    console.log(this)
+    const predicates = parseJwt(this.props.store.jwt)
+    console.log(predicates)
+
+    axios.put(`${this.props.match.url}/2.json`, { campaign: { 
+      segments: predicates.data }
+    })
+    .then( (response)=> {
+      console.log(this.state)
+      console.log(data)
+    })
+    .catch( (error)=> {
+      console.log(error);
+    }); 
+
+  }
+
   render(){
-    return <SegmentManager {...this.props}/>
+    return <SegmentManager {...this.props}>
+
+              {
+                this.props.store.jwt ? 
+                  <Button isLoading={false} 
+                    appearance={'link'}
+                    onClick={this.handleSave}>
+                    <i className="fas fa-chart-pie"></i>
+                    {" "}
+                    Save Segment
+                  </Button> : null
+              }
+
+           </SegmentManager>
   }
 }
 
@@ -62,15 +97,14 @@ class CampaignEditor extends Component {
   }
 }
 
+class CampaignForm extends Component {
 
-export default class CampaignContainer extends Component {
   constructor(props){
     super(props)
     this.state = {
       selected: 0
     }    
   }
-
 
   tabs = ()=>(
     [
@@ -94,5 +128,63 @@ export default class CampaignContainer extends Component {
           }
         />
       </ContentWrapper>
+  }
+
+}
+
+
+export default class CampaignContainer extends Component {
+
+  constructor(props){
+    super(props)
+    this.state = {
+      campaigns: []
+    }
+  }
+
+  componentDidMount(){
+    axios.get(`${this.props.match.url}.json`)
+    .then((response)=>{
+        this.setState({campaigns: response.data})
+    }).catch((err)=>{
+      console.log(err)
+    })
+  }
+
+  render(){
+    return <div>
+
+
+
+
+              <Route exact path={`${this.props.match.url}`} 
+                render={(props)=>(
+                  <div>
+                    {
+                      this.state.campaigns.map((o)=> {
+                        return <div>
+                                {o.from_email} | {o.from_name}
+                                <Button onClick={()=> this.props.history.push(`${this.props.match.url}/${o.id}`)}>
+                                  edit
+                                </Button>
+                               </div>
+                      })
+                    }
+                  </div>
+              )} /> 
+
+
+              <Route exact path={`${this.props.match.url}/:id`} 
+                render={(props)=>(
+   
+                  <CampaignForm
+                    currentUser={this.props.currentUser}
+                    {...this.props}
+                    {...props}
+                  />
+
+              )} /> 
+
+           </div>
   }
 }
