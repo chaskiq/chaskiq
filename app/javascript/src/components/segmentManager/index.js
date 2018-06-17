@@ -430,6 +430,13 @@ export default class SegmentManager extends Component {
               </ButtonGroup>
             </div>
 
+            {
+              this.props.store.app.segments.map((o)=>(
+                  <p>{o.name}</p>
+                )
+              )
+            }
+
             <span>Users {this.props.store.meta['total_count']}</span>
             
             <hr/>
