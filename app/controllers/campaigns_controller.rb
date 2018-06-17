@@ -1,4 +1,6 @@
 class CampaignsController < ApplicationController
+  before_action :find_app #, only: [:show, :edit, :update, :destroy]
+  
   before_action :set_campaign, only: [:show, :edit, :update, :destroy]
 
   # GET /campaigns
@@ -36,7 +38,7 @@ class CampaignsController < ApplicationController
   # POST /campaigns
   # POST /campaigns.json
   def create
-    @campaign = Campaign.new(campaign_params)
+    @campaign = @app.campaigns.new(campaign_params)
 
     respond_to do |format|
       if @campaign.save
@@ -76,11 +78,27 @@ class CampaignsController < ApplicationController
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_campaign
-      @campaign = Campaign.find(params[:id])
+      @campaign = @app.campaigns.find(params[:id])
+    end
+
+    def find_app
+      @app = current_user.apps.find_by(key: params[:app_id])
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def campaign_params
-      params.require(:campaign).permit(:from_name, :from_email, :reply_email, :html_content, :serialized_content, :description, :name, :scheduled_at, :timezone, :state, :app_id, :segments)
+      params.require(:campaign).permit(
+        :from_name, 
+        :from_email, 
+        :reply_email, 
+        :html_content, 
+        :serialized_content, 
+        :description, 
+        :name, 
+        :scheduled_at, 
+        :segments,
+        :subject,
+        :timezone,
+        )
     end
 end

@@ -39,6 +39,7 @@
     "draft-js-linkify-plugin": "^2.0.1",
     "draft-js-plugins-editor": "^2.0.8",
     "emojione": "^2.2.7",
+    "form-serialize": "^0.7.2",
     "gravatar": "^1.6.0",
     "isomorphic-fetch": "^2.2.1",
     "jsrsasign": "^8.0.12",

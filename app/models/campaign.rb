@@ -16,9 +16,9 @@ class Campaign < ApplicationRecord
 
   attr_accessor :step
 
-  validates :subject, presence: true , unless: :step_1?
-  validates :from_name, presence: true, unless: :step_1?
-  validates :from_email, presence: true, unless: :step_1?
+  validates :subject, presence: true #, unless: :step_1?
+  validates :from_name, presence: true #, unless: :step_1?
+  validates :from_email, presence: true #, unless: :step_1?
   #validates :plain_content, presence: true, unless: :template_step?
   validates :html_content, presence: true, if: :template_step?
 

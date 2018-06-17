@@ -10,32 +10,36 @@ import PropTypes from 'prop-types';
 import Button, { ButtonGroup } from '@atlaskit/button';
 import ContentWrapper from '../components/ContentWrapper';
 import PageTitle from '../components/PageTitle';
-import RadioGroup, { AkFieldRadioGroup, AkRadio } from '@atlaskit/field-radio-group';
+//import RadioGroup, { AkFieldRadioGroup, AkRadio } from '@atlaskit/field-radio-group';
 import Avatar from '@atlaskit/avatar';
 import DropdownMenu, {
   DropdownItemGroup,
   DropdownItem,
 } from '@atlaskit/dropdown-menu';
 import DynamicTable from '@atlaskit/dynamic-table'
-import Form, { FormHeader,
+/*import Form, { FormHeader,
               FormSection,
               FormFooter,
               Field, 
               FieldGroup, 
               Validator 
-            } from '@atlaskit/form';
+            } from '@atlaskit/form';*/
 import styled from 'styled-components';
-import InlineDialog from '@atlaskit/inline-dialog';
+//import InlineDialog from '@atlaskit/inline-dialog';
 import Spinner from '@atlaskit/spinner';
-import FieldRadioGroup from '@atlaskit/field-radio-group';
-import KJUR from "jsrsasign"
-import Modal from '@atlaskit/modal-dialog';
+//import FieldRadioGroup from '@atlaskit/field-radio-group';
+//import Modal from '@atlaskit/modal-dialog';
 import EmptyState from '@atlaskit/empty-state'
 import UserMap from "../components/map"
 
 import ConversationContainer from './ConversationContainer';
 import CampaignContainer from './Campaigns'
-
+import {parseJwt, generateJWT} from '../components/segmentManager/jwt'
+import {
+  InlineFilterDialog, 
+  SegmentItemButton,
+  SaveSegmentModal
+} from '../components/segmentManager'
 
 const CableApp = {
   cable: actioncable.createConsumer()
@@ -148,390 +152,6 @@ const dropdown = () => (
     </DropdownMenu>
 );
 
-const parseJwt = (token)=> {
-  var isValid = KJUR.jws.JWS.verifyJWT(token, "616161", {alg: ['HS256']});
-  if(!isValid)
-    return new Error("not a valid jwt, sory")
-
-  var base64Url = token.split('.')[1];
-  var base64 = base64Url.replace('-', '+').replace('_', '/');
-  return JSON.parse(window.atob(base64));
-};
-
-const generateJWT = (data)=>{
-  var oHeader = {alg: 'HS256', typ: 'JWT'};
-  // Payload
-  var oPayload = {};
-  var tNow = KJUR.jws.IntDate.get('now');
-  var tEnd = KJUR.jws.IntDate.get('now + 1day');
-  oPayload.data = data
-  // Sign JWT, password=616161
-  var sHeader = JSON.stringify(oHeader);
-  var sPayload = JSON.stringify(oPayload);
-  var sJWT = KJUR.jws.JWS.sign("HS256", sHeader, sPayload, "616161")
-  return sJWT
-}
-
-class InlineDialogExample extends Component {
-  state = {
-    dialogOpen: false,
-  };
-
-  toggleDialog = (e) => this.setState({ dialogOpen: !this.state.dialogOpen });
-
-  handleClick = (e, o) => {
-    this.props.actions.addPredicate(o)
-  }
-
-  render() {
-
-    const fields = [
-      {name: "last_visited_at", type: "string"},
-      {name: "referrer", type: "string"},
-      {name: "state", type: "string"},
-      {name: "ip", type: "string"},        
-      {name: "city", type: "string"},           
-      {name: "region", type: "string"},         
-      {name: "country", type: "string"},        
-      {name: "lat", type: "string"},
-      {name: "lng", type: "string"},
-      {name: "postal", type: "string"},   
-      {name: "web_sessions", type: "string"}, 
-      {name: "timezone", type: "string"}, 
-      {name: "browser", type: "string"}, 
-      {name: "browser_version", type: "string"},
-      {name: "os", type: "string"},
-      {name: "os_version", type: "string"},      
-      {name: "browser_language", type: "string"}, 
-      {name: "lang", type: "string"},    
-    ]
-
-    const content = (
-      <div>
-        <h5>Select field</h5>
-        <p>oeoe</p>
-
-        <ul style={{ height: '200px', overflow: 'auto'}}>
-          {
-            fields.map((o)=> <li key={o.name}>
-                              <Button onClick={(e)=> this.handleClick.bind(this)(e, o)}>
-                                {o.name}
-                              </Button>
-                             </li>
-            )
-          }
-        </ul>
-      </div>
-    );
-
-    return (
-      <div style={{ minHeight: '120px' }}>
-        <InlineDialog 
-          content={content} 
-          isOpen={this.state.dialogOpen}
-          position="bottom left">
-
-          <Button isLoading={false} 
-            appearance={'link'}
-            onClick={this.toggleDialog}>
-            <i className="fas fa-plus"></i>
-            {" "}
-            Add filter
-          </Button>
-        </InlineDialog>
-      </div>
-    );
-  }
-}
-
-// same as SegmentItemButton
-class SegmentItemButton extends Component {
-  state = {
-    dialogOpen: this.props.open,
-    selectedOption: this.props.predicate.comparison
-  };
-
-  onRadioChange = (e)=> {
-    this.setState({
-      selectedOption: e.target.value
-    })
-  };
-
-  handleSubmit = (e)=> {
-    //this.props.predicate.type
-    let value = null 
-    switch(this.props.predicate.type){
-      case "string": {
-        value = `${this.refs.relative_input.value}`
-        break;
-      }
-      case "date": {
-        value = `${this.refs.relative_input.value} days ago`
-        break;
-      }
-    }
-    
-    const h = {
-      comparison: this.state.selectedOption.replace("relative:", ""),
-      value: value
-    }
-
-    const response = Object.assign({}, this.props.predicate, h )
-    this.props.updatePredicate(response)
-  }
-
-  handleDelete = (e) => {
-    this.props.deletePredicate(this.props.predicate)
-     // /apps/:app_id/segments/:id/delete_predicate
-  }
-
-  renderOptions = () => {
-
-    switch(this.props.predicate.type){
-      case "string": {
-        return this.contentString()
-      }
-
-      case "date": {
-        return this.contentDate()
-      }
-    }
-
-  }
-
-  contentString = () => {
-    
-    const compare = (value)=>{
-      return this.props.predicate.comparison === value
-    }
-
-    const relative = [
-      {label: "is", value: "eq", defaultSelected: false},
-      {label: "is not", value: "not_eq", defaultSelected: false},
-      {label: "starts with", value: "contains_start", defaultSelected: false},
-      {label: "ends with", value: "contains_ends", defaultSelected: false},
-      {label: "contains", value: "contains", defaultSelected: false},
-      {label: "does not contain", value: "not_contains", defaultSelected: false},
-      {label: "is unknown", value: "is_null", defaultSelected: false},
-      {label: "has any value", value: "is_not_null", defaultSelected: false},
-    ]
-
-    return <div>
-              <h5>Update String</h5>
-              <p>Select the filter</p>
-              <FieldRadioGroup
-                items={relative}
-                label="Relative:"
-                onRadioChange={this.onRadioChange.bind(this)}
-              />
-
-              { this.state.selectedOption && 
-                (this.state.selectedOption !== "is_null" || 
-                  this.state.selectedOption !== "is_not_null") ?
-                <div>
-                  <input 
-                    defaultValue={null} 
-                    type="text"
-                    ref={"relative_input"}
-                  />
-                  
-                  <hr/>
-
-                  <Button appearance="link" 
-                    onClick={this.handleSubmit.bind(this)}>
-                    save changes
-                  </Button>
-
-                </div> : null
-              }
-
-              { !this.props.predicate.comparison ? null : this.deleteButton() }
-            
-            </div>
-  }
-
-  contentDate = () => {
-  
-    const compare = (value)=>{
-      return this.props.predicate.comparison === value
-    }
-
-    const relative = [
-      {label: "more than", value: "lt", defaultSelected: compare("lt")  },
-      {label: "exactly", value: "eq",  defaultSelected: compare("eq")  },
-      {label: "less than", value: "gt", defaultSelected: compare("gt")  },
-    ]
-    const absolute = [
-      {name: "after", value: "absolute:gt"},
-      {name: "on", value: "absolute:eq"},
-      {name: "before", value: "absolute:lt"},
-      {name: "is unknown", value: "absolute:eq"},
-      {name: "has any value", value: "absolute:not_eq"},
-    ]
-
-    return <div>
-              <h5>Update date</h5>
-              <p>Select the filter</p>
-              <FieldRadioGroup
-                items={relative}
-                label="Relative:"
-                onRadioChange={this.onRadioChange.bind(this)}
-              />
-
-              { this.state.selectedOption ?
-                <div>
-                  <input 
-                    defaultValue={30} 
-                    type="number"
-                    ref={"relative_input"}/>
-                  <span>days ago</span>
-                  <hr/>
-
-                  <Button appearance="link" 
-                    onClick={this.handleSubmit.bind(this)}>
-                    save changes
-                  </Button>
-
-                </div> : null
-              }
-
-              { !this.props.predicate.comparison ? null : this.deleteButton() }
-            
-            </div>
-
-  }
-
-  deleteButton = () => {
-    return <Button appearance="link" 
-            onClick={this.handleDelete.bind(this)}>
-            Delete
-           </Button>
-  }
-
-  toggleDialog = (e) => this.setState({ dialogOpen: !this.state.dialogOpen });
-
-  render() {
-    return (
-      <div style={{ minHeight: '120px' }}>
-        <InlineDialog content={this.renderOptions()} 
-                      isOpen={this.state.dialogOpen}
-                      position={"bottom left"}
-                      shouldFlipunion={true}>
-
-          {
-            !this.props.predicate.comparison ?
-        
-              <Button isLoading={false} 
-                appearance={this.state.dialogOpen ? 'default' : 'danger'}
-                onClick={this.toggleDialog}>
-                {
-                  !this.state.dialogOpen ? 
-                  "Missing value!" : 
-                  this.props.text
-                }
-              </Button> : 
-
-              <Button isLoading={false} 
-                appearance={this.props.appearance}
-                onClick={this.toggleDialog}>
-                {this.props.text}
-              </Button>
-          }
-
-        </InlineDialog>
-      </div>
-    );
-  }
-}
-
-class SaveSegmentModal extends Component {
-  state: State = { 
-    isOpen: false, 
-    action: "update",
-    loading: false,
-    input: null
-  };
-  open  = () => this.setState({ isOpen: true });
-  close = () => this.setState({ isOpen: false });
-  
-  secondaryAction = ({ target }: Object) => {
-    this.props.savePredicates({
-      action: this.state.action,
-      input: this.refs.input ? this.refs.input.value : null
-    }, this.close )
-  }
-
-  deleteAction = ({ target }: Object) => {
-    this.props.deleteSegment(this.props.segment.id, this.close )
-  }
-
-  handleChange = ({target})=> {
-    this.setState({
-      action: target.value, 
-    })
-  }
-  
-  render() {
-    const { isOpen, loading } = this.state;
-    const actions = [
-      { text: 'Close', onClick: this.close },
-      { text: 'Save Segment', onClick: this.secondaryAction.bind(this) },
-      { text: 'Remove Segment', onClick: this.deleteAction.bind(this) }
-    ];
-
-    return (
-      <div>
-
-        <Button isLoading={false} 
-          appearance={'link'}
-          onClick={this.open}>
-          <i className="fas fa-chart-pie"></i>
-          {" "}
-          Save Segment
-        </Button>
-
-        <Button isLoading={false} 
-          appearance={'link danger'}
-          onClick={this.deleteAction.bind(this)}>
-          <i className="fas fa-chart-pie"></i>
-          {" "}
-          remove Segment
-        </Button>
-
-
-        {isOpen && (
-          <Modal actions={actions} 
-            onClose={this.close} 
-            heading={this.props.title}>
-            
-            {
-              !loading ?
-                 <div>
-                  <FieldRadioGroup
-                    items={
-                      [
-                        {label: `Save changes to the segment ‘${this.props.segment.name}’`, value: "update", defaultSelected: true  },
-                        {label: "Create new segment", value: "new" },
-                      ]
-                    }
-                    label="options:"
-                    onRadioChange={this.handleChange.bind(this)}
-                  />
-
-                  {
-                    this.state.action === "new" ?
-                    <input name="name" ref="input"/> : null
-                  }
-                </div> : <Spinner/>
-            }
-
-          </Modal>
-        )}
-      </div>
-    );
-  }
-}
-
 class AppUsers extends Component {
   constructor(props){
     super(props)
@@ -542,7 +162,7 @@ class AppUsers extends Component {
     this.toggleList = this.toggleList.bind(this)
   }
 
-  getTablaData(){
+  getTableData(){
 
     const head = createHead(true);
 
@@ -600,6 +220,11 @@ class AppUsers extends Component {
     this.setState({map_view: true  })
   }
 
+  handleClickOnSelectedFilter = (jwtToken)=>{
+    const url = `/apps/${this.props.store.app.key}/segments/${this.props.store.segment.id}/${jwtToken}`
+    this.props.history.push(url) 
+  }
+
   caption = ()=>{
     return <div>
             <ButtonGroup>
@@ -612,17 +237,24 @@ class AppUsers extends Component {
                             appearance={ o.comparison ? "primary" : "default"} 
                             text={`Match: ${o.attribute} ${o.comparison ? o.comparison : '' } ${o.value ? o.value : ''}`}
                             updatePredicate={this.props.actions.updatePredicate}
+                            predicateCallback={(jwtToken)=> this.handleClickOnSelectedFilter.bind(this)}
                             deletePredicate={this.props.actions.deletePredicate}                          
                            />
                 })
               }
 
-              <InlineDialogExample {...this.props}/>
+              <InlineFilterDialog {...this.props} 
+                handleClick={ this.handleClickOnSelectedFilter.bind(this)}
+              />
 
               <SaveSegmentModal 
                 title="Save Segment" 
                 segment={this.props.store.segment}
                 savePredicates={this.props.actions.savePredicates}
+                predicateCallback={()=> {
+                  const url = `/apps/${this.props.store.app.key}/segments/${this.props.store.segment.id}`
+                  this.props.history.push(url)
+                }}
                 deleteSegment={this.props.actions.deleteSegment}
               />
 
@@ -664,7 +296,7 @@ class AppUsers extends Component {
   }
 
   render(){
-    const {head, rows} = this.getTablaData()
+    const {head, rows} = this.getTableData()
     
     return <Wrapper>
 
@@ -788,11 +420,11 @@ export default class ShowAppContainer extends Component {
   }
 
   fetchApp(cb){
-    const t = this
+    //const t = this
     const id = this.props.match.params.appId
     axios.get(`/apps/${id}.json`)
     .then( (response)=> {
-      t.setState({app: response.data.app}, ()=>{ 
+      this.setState({app: response.data.app}, ()=>{ 
         this.updateNavLinks()
         cb ? cb() : null
       })
@@ -835,7 +467,7 @@ export default class ShowAppContainer extends Component {
       
       this.setState({
         segment: response.data.segment,
-      }, this.search)
+      }) //, this.search)
     })
     .catch( (error)=> {
       console.log(error);
@@ -883,42 +515,6 @@ export default class ShowAppContainer extends Component {
       });
   }
 
-  updatePredicate(data){
-    const new_predicates = this.state.segment.predicates.map((o)=> {
-      if(data.attribute === o.attribute){
-        return data
-      } else {
-        return o
-      }
-    })
-
-    const jwtToken = generateJWT(new_predicates)
-    console.log(parseJwt(jwtToken))
-    const url = `/apps/${this.state.app.key}/segments/${this.state.segment.id}/${jwtToken}`
-    this.props.history.push(url)
-    this.setState({jwt: jwtToken})
-  }
-
-  getPredicates(){
-    return this.state.segment["predicates"] || []
-  }
-
-  deletePredicate(data){
-    const new_predicates = this.state.segment.predicates.map((o)=> {
-      if(data.attribute === o.attribute){
-        return null
-      } else {
-        return o
-      }
-    }).filter((o)=> o)
-
-    this.setState(
-      { segment: {
-        id: this.state.segment.id,
-        predicates: new_predicates
-      }} , ()=> this.updateSegment({}, this.fetchApp()) )
-  }
-
   updateSegment = (data, cb)=>{
     axios.put(`/apps/${this.state.app.key}/segments/${this.state.segment.id}.json`, 
       {
@@ -953,10 +549,7 @@ export default class ShowAppContainer extends Component {
         segment: response.data.segment,
         jwt: null
       }, ()=> {
-        cb ? cb() : null 
-        const url = `/apps/${this.state.app.key}/segments/${this.state.segment.id}`
-        this.props.history.push(url)
-        //this.fetchAppSegments() ; cb ? cb() : null 
+        cb ? cb() : null
       })
     })
     .catch( (error)=> {
@@ -965,35 +558,19 @@ export default class ShowAppContainer extends Component {
   }
 
   deleteSegment = (id, cb)=>{
-    axios.delete(`/apps/${this.state.app.key}/segments/${id}.json`, 
-      {}
-    )
+    axios.delete(`/apps/${this.state.app.key}/segments/${id}.json`)
     .then( (response)=> {
-      /*this.setState({
-        segment: response.data.segment,
-        jwt: null
-      }, ()=> {*/
-        cb ? cb() : null 
-        const url = `/apps/${this.state.app.key}/segments/1`
-        this.props.history.push(url)
-        this.fetchApp()
-      //})
+      cb ? cb() : null 
+      const url = `/apps/${this.state.app.key}/segments/1`
+      this.props.history.push(url)
+      this.fetchApp()
     })
     .catch( (error)=> {
       console.log(error);
     })
   }
 
-  savePredicates(data, cb){
-    console.log(data.action)
-    if(data.action === "update"){
-      this.updateSegment(data, ()=> { cb() ; this.fetchApp() })
-    } else if(data.action === "new"){
-      this.createSegment(data, ()=> { cb() ; this.fetchApp() })
-    }
-  }
-
-  addPredicate(data){
+  addPredicate(data, cb){
 
     const pending_predicate = {
       attribute: data.name,
@@ -1003,13 +580,59 @@ export default class ShowAppContainer extends Component {
     }
 
     const new_predicates = this.state.segment.predicates.concat(pending_predicate)
+    const jwtToken = generateJWT(new_predicates)
+    //console.log(parseJwt(jwtToken))
+    if(cb)
+      cb(jwtToken)
+
+    this.setState({jwt: jwtToken})
+  }
+
+  updatePredicate(data, cb){
+    const new_predicates = this.state.segment.predicates.map((o)=> {
+      if(data.attribute === o.attribute){
+        return data
+      } else {
+        return o
+      }
+    })
 
     const jwtToken = generateJWT(new_predicates)
-    console.log(parseJwt(jwtToken))
-    const url = `/apps/${this.state.app.key}/segments/${this.state.segment.id}/${jwtToken}`
-    this.props.history.push(url)
+    //console.log(parseJwt(jwtToken))
+    if(cb)
+      cb(jwtToken)
     this.setState({jwt: jwtToken})
+  }
 
+  getPredicates(){
+    return this.state.segment["predicates"] || []
+  }
+
+  savePredicates(data, cb){
+    console.log(data.action)
+    if(data.action === "update"){
+      this.updateSegment(data, ()=> { cb() ; this.fetchApp() })
+    } else if(data.action === "new"){
+      this.createSegment(data, ()=> { 
+        cb() ; this.fetchApp() 
+      })
+    }
+  }
+
+  deletePredicate(data){
+    const new_predicates = this.state.segment.predicates.map((o)=> {
+      if(data.attribute === o.attribute){
+        return null
+      } else {
+        return o
+      }
+    }).filter((o)=> o)
+
+    this.setState(
+      { segment: {
+        id: this.state.segment.id,
+        predicates: new_predicates
+      }} , ()=> this.updateSegment({}, this.fetchApp()) )
   }
 
   render(){
@@ -1020,11 +643,11 @@ export default class ShowAppContainer extends Component {
 
       <ContentWrapper>
 
-        {
-        /*<PageTitle>
-          App: {this.state.app.key}
-        </PageTitle>*/
-        }
+        {/*
+          <PageTitle>
+            App: {this.state.app.key}
+          </PageTitle>
+        */}
 
         <Route exact path={this.props.match.path}
           render={(props) => {
@@ -1049,19 +672,31 @@ export default class ShowAppContainer extends Component {
 
         <Route exact path={`${this.props.match.path}/conversations/:id?`} 
           render={(props)=>(
-            <ConversationContainer
-              currentUser={this.props.currentUser}
-              {...props}
-            />
+            <Consumer>
+             {({ store, actions }) => (
+                <ConversationContainer
+                  currentUser={this.props.currentUser}
+                  store={store} 
+                  actions={actions}
+                  {...props}
+                />
+              )}
+            </Consumer>
         )} /> 
 
 
         <Route exact path={`${this.props.match.path}/campaigns`} 
           render={(props)=>(
-            <CampaignContainer
-              currentUser={this.props.currentUser}
-              {...props}
-            />
+            <Consumer>
+             {({ store, actions }) => (
+                <CampaignContainer
+                  currentUser={this.props.currentUser}
+                  store={store} 
+                  actions={actions}
+                  {...props}
+                />
+              )}
+            </Consumer>
         )} /> 
 
        

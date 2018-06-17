@@ -12,6 +12,7 @@ class App < ApplicationRecord
   has_many :segments
   has_many :roles
   has_many :admin_users, through: :roles, source: :user
+  has_many :campaigns
 
   def add_user(attrs)
     email = attrs.delete(:email)
