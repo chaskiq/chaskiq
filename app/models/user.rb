@@ -6,5 +6,6 @@ class User < ApplicationRecord
 
   has_many :app_user
   has_many :apps
+  has_many :roles
 
 end

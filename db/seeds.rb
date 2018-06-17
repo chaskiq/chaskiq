@@ -22,3 +22,8 @@ Segment.create([
                                         value: "1 days ago"}.with_indifferent_access]                                 
   }
 ])
+
+
+app = App.create
+app.add_admin(User.create(email: "miguelmichelson@gmail.com", password: "123456"))
+

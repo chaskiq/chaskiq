@@ -20,6 +20,7 @@ class Conversation < ApplicationRecord
   end
 
   def add_message(opts={})
+
     part          = self.messages.new
     part.app_user = opts[:from]
     part.message  = opts[:message]

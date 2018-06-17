@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_06_16_202654) do
+ActiveRecord::Schema.define(version: 2018_06_17_011650) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -141,6 +141,16 @@ ActiveRecord::Schema.define(version: 2018_06_16_202654) do
     t.index ["trackable_type", "trackable_id"], name: "index_metrics_on_trackable_type_and_trackable_id"
   end
 
+  create_table "roles", force: :cascade do |t|
+    t.bigint "app_id"
+    t.bigint "user_id"
+    t.string "role"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["app_id"], name: "index_roles_on_app_id"
+    t.index ["user_id"], name: "index_roles_on_user_id"
+  end
+
   create_table "segments", force: :cascade do |t|
     t.bigint "app_id"
     t.string "name"
@@ -182,4 +192,6 @@ ActiveRecord::Schema.define(version: 2018_06_16_202654) do
   add_foreign_key "conversation_parts", "app_users"
   add_foreign_key "conversation_parts", "conversations"
   add_foreign_key "conversations", "apps"
+  add_foreign_key "roles", "apps"
+  add_foreign_key "roles", "users"
 end

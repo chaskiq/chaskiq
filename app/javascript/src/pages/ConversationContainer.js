@@ -187,6 +187,7 @@ export default class ConversationContainer extends Component {
                   render={(props)=>(
                     <ConversationContainerShow
                       appId={appId}
+                      currentUser={this.props.currentUser}
                       {...props}
                     />
                 )} /> 
@@ -252,7 +253,7 @@ class ConversationContainerShow extends Component {
     const id = this.state.conversation.id
     const html_comment = convertToHTML( comment );
     axios.put(`/api/v1/apps/${this.props.appId}/conversations/${id}.json`, {
-        email: "miguel2@preyhq.com",
+        email: this.props.currentUser.email,
         id: id,
         message: html_comment
       })
@@ -274,7 +275,7 @@ class ConversationContainerShow extends Component {
       channel: "ConversationsChannel",
       app: this.props.appId,
       id: this.state.conversation.id,
-      email: "miguel2@preyhq.com",
+      email: this.props.currentUser.email,
     },
     {
       connected: ()=> {

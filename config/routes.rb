@@ -16,6 +16,8 @@ Rails.application.routes.draw do
     end
   end
 
+  get "/user_session", to: 'application#user_session'
+
   get "/apps/:app_id/segments/:id/:jwt", to: 'segments#show', constraints: { jwt: /.+/ }
 
   root :to => "home#show"

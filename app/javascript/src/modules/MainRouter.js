@@ -6,6 +6,7 @@ import HomePage from '../pages/HomePage';
 import SettingsPage from '../pages/SettingsPage';
 import ShowAppContainer from '../pages/showAppContainer';
 import AppListContainer from '../pages/appListContainer';
+import axios from 'axios'
 
 import DashboardIcon from '@atlaskit/icon/glyph/dashboard';
 import GearIcon from '@atlaskit/icon/glyph/settings';
@@ -22,14 +23,20 @@ export default class MainRouter extends Component {
     this.state = {
       navOpenState: {
         isOpen: true,
-        width: 304,
+        width: 304
       },
+
+      currentUser: {},
 
       navLinks: this.defaultNavLinks
 
     }
     this.updateNavLinks = this.updateNavLinks.bind(this)
 
+  }
+
+  componentDidMount(){
+    this.getCurrentUser()
   }
 
   getChildContext () {
@@ -50,38 +57,57 @@ export default class MainRouter extends Component {
     })
   }
 
+  getCurrentUser = ()=>{
+    axios.get(`/user_session.json`)
+    .then( (response)=> {
+      this.setState({currentUser: response.data.current_user }, ()=>{ 
+        
+      })
+    })
+    .catch( (error)=> {
+      console.log(error);
+    });
+
+  }
+
+
+
   render() {
+    // console.log(this.state.currentUser)
     return (
       <BrowserRouter>
-        
-        <App
-          onNavResize={this.onNavResize}
-          {...this.props}
-          navLinks={this.state.navLinks}>
-          
-          <Route exact path="/" component={HomePage} />
-          <Route path="/settings" component={SettingsPage} />
 
-          <Route exact path="/apps" render={(props)=>(
-            <AppListContainer
-              {...props} 
-              initialNavLinks={this.defaultNavLinks}
-              navLinks={this.state.navLinks}
-              updateNavLinks={this.updateNavLinks}
-            />
-          )} />  
+        {
+          this.state.currentUser.email ?
+            <App
+              onNavResize={this.onNavResize}
+              {...this.props}
+              navLinks={this.state.navLinks}>
+              
+              <Route exact path="/" component={HomePage} />
+              <Route path="/settings" component={SettingsPage} />
 
-          <Route path="/apps/:appId" render={(props)=>(
-            <ShowAppContainer 
-              {...props} 
-              initialNavLinks={this.defaultNavLinks}
-              navLinks={this.state.navLinks}
-              updateNavLinks={this.updateNavLinks}
-            />
-          )} />
-        </App>
+              <Route exact path="/apps" render={(props)=>(
+                <AppListContainer
+                  {...props} 
+                  currentUser={this.state.currentUser}
+                  initialNavLinks={this.defaultNavLinks}
+                  navLinks={this.state.navLinks}
+                  updateNavLinks={this.updateNavLinks}
+                />
+              )} />  
 
-        
+              <Route path="/apps/:appId" render={(props)=>(
+                <ShowAppContainer 
+                  {...props} 
+                  currentUser={this.state.currentUser}
+                  initialNavLinks={this.defaultNavLinks}
+                  navLinks={this.state.navLinks}
+                  updateNavLinks={this.updateNavLinks}
+                />
+              )} />
+            </App> : <p>no logged user</p>
+        }
 
       </BrowserRouter>
     );

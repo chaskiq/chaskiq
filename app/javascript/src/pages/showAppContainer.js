@@ -734,7 +734,8 @@ export default class ShowAppContainer extends Component {
       segment: {},
       meta: {},
       searching: false,
-      jwt: null
+      jwt: null,
+      currentUser: this.props.currentUser
     }
 
     this.fetchApp         = this.fetchApp.bind(this)
@@ -1049,6 +1050,7 @@ export default class ShowAppContainer extends Component {
         <Route exact path={`${this.props.match.path}/conversations/:id?`} 
           render={(props)=>(
             <ConversationContainer
+              currentUser={this.props.currentUser}
               {...props}
             />
         )} /> 
@@ -1057,6 +1059,7 @@ export default class ShowAppContainer extends Component {
         <Route exact path={`${this.props.match.path}/campaigns`} 
           render={(props)=>(
             <CampaignContainer
+              currentUser={this.props.currentUser}
               {...props}
             />
         )} /> 

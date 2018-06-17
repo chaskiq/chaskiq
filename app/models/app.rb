@@ -10,6 +10,8 @@ class App < ApplicationRecord
   has_many :users, through: :app_users
   has_many :conversations
   has_many :segments
+  has_many :roles
+  has_many :admin_users, through: :roles, source: :user
 
   def add_user(attrs)
     email = attrs.delete(:email)
@@ -25,6 +27,11 @@ class App < ApplicationRecord
     ap.last_visited_at = Time.now
     ap.save
     ap
+  end
+
+  def add_admin(user)
+    user.roles.create(app: self, role: "admin")
+    self.add_user(email: user.email)
   end
 
   def add_visit(opts={})
