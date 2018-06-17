@@ -2,6 +2,8 @@ require 'chronic'
 
 class Segment < ApplicationRecord
 
+  include UnionScope
+
   belongs_to :app, optional: true
     store :properties, accessors: [ 
       :per_page, 

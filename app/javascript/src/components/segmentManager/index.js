@@ -437,6 +437,16 @@ export default class SegmentManager extends Component {
               )
             }
 
+            <ul>
+              <li> Idea: poder crear nuevo segmento</li>
+              <li> elegir segmentos persistidos </li>
+              <li> guardar predicados en el setting de la campaña 
+                   (con esto evitamos que quede la cagada en la modificacion 
+                   borrado de segmentos)
+              </li>
+
+            </ul>
+
             <span>Users {this.props.store.meta['total_count']}</span>
             
             <hr/>
