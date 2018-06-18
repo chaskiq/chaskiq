@@ -225,6 +225,14 @@ class AppUsers extends Component {
     this.props.history.push(url) 
   }
 
+  getTextForPredicate = (o)=>{
+    if(o.type === "match"){
+      return `Match ${o.value === "and" ? "all" : "any" } criteria`
+    }else{
+      return `Match: ${o.attribute} ${o.comparison ? o.comparison : '' } ${o.value ? o.value : ''}`
+    }
+  }
+
   caption = ()=>{
     return <div>
             <ButtonGroup>
@@ -232,10 +240,12 @@ class AppUsers extends Component {
                 this.props.actions.getPredicates().map((o, i)=>{
                     return <SegmentItemButton 
                             key={i}
+                            index={i}
                             predicate={o}
+                            predicates={this.props.actions.getPredicates()}
                             open={ !o.comparison }
                             appearance={ o.comparison ? "primary" : "default"} 
-                            text={`Match: ${o.attribute} ${o.comparison ? o.comparison : '' } ${o.value ? o.value : ''}`}
+                            text={this.getTextForPredicate(o)}
                             updatePredicate={this.props.actions.updatePredicate}
                             predicateCallback={(jwtToken)=> this.handleClickOnSelectedFilter.bind(this)}
                             deletePredicate={this.props.actions.deletePredicate}                          
@@ -245,6 +255,7 @@ class AppUsers extends Component {
 
               <InlineFilterDialog {...this.props} 
                 handleClick={ this.handleClickOnSelectedFilter.bind(this)}
+                addPredicate={this.props.actions.addPredicate}
               />
 
               <SaveSegmentModal 
@@ -589,15 +600,7 @@ export default class ShowAppContainer extends Component {
   }
 
   updatePredicate(data, cb){
-    const new_predicates = this.state.segment.predicates.map((o)=> {
-      if(data.attribute === o.attribute){
-        return data
-      } else {
-        return o
-      }
-    })
-
-    const jwtToken = generateJWT(new_predicates)
+    const jwtToken = generateJWT(data)
     //console.log(parseJwt(jwtToken))
     if(cb)
       cb(jwtToken)
@@ -620,18 +623,10 @@ export default class ShowAppContainer extends Component {
   }
 
   deletePredicate(data){
-    const new_predicates = this.state.segment.predicates.map((o)=> {
-      if(data.attribute === o.attribute){
-        return null
-      } else {
-        return o
-      }
-    }).filter((o)=> o)
-
     this.setState(
       { segment: {
         id: this.state.segment.id,
-        predicates: new_predicates
+        predicates: data
       }} , ()=> this.updateSegment({}, this.fetchApp()) )
   }
 

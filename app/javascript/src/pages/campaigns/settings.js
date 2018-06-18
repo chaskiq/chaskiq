@@ -14,7 +14,7 @@ export default class CampaignSettings extends Component {
     this.state = {
       eventResult:
       'Click into and out of the input above to trigger onBlur & onFocus in the Fieldbase',
-      data: {},
+      data: this.props.data,
       errors: {}
     }
   }
@@ -72,7 +72,10 @@ export default class CampaignSettings extends Component {
           <FormSection>
 
             <Field label="Campaign name" isRequired>
-              <FieldText name="campaign[name]" isRequired shouldFitContainer />
+              <FieldText name="campaign[name]" 
+                isRequired shouldFitContainer
+                value={this.state.data.name}
+               />
             </Field>
 
             <Field label="Subject name" 
@@ -80,37 +83,44 @@ export default class CampaignSettings extends Component {
               invalidMessage={this.errorsFor('subject')}>
               <FieldText name="campaign[subject]" 
                         isRequired 
-                        shouldFitContainer />
+                        shouldFitContainer
+                        value={this.state.data.subject} />
             </Field>
 
             <Field label="From name" isRequired 
               isInvalid={this.errorsFor('from_name')} 
               invalidMessage={this.errorsFor('from_name')}>
               <FieldText name="campaign[from_name]" 
-                isRequired shouldFitContainer />
+                isRequired 
+                shouldFitContainer
+                value={this.state.data.from_name} />
             </Field>
 
             <Field label="From email" isRequired
               isInvalid={this.errorsFor('from_email')} 
               invalidMessage={this.errorsFor('from_email')}>
               <FieldText name="campaign[from_email]" 
-                isRequired shouldFitContainer />
+                isRequired shouldFitContainer 
+                value={this.state.data.from_email}/>
             </Field>
 
             <Field label="Reply email" isRequired 
               isInvalid={this.errorsFor('reply_email')} 
               invalidMessage={this.errorsFor('reply_email')}>
               <FieldText name="campaign[reply_email]" 
-                isRequired shouldFitContainer />
+                isRequired shouldFitContainer
+                value={this.state.data.reply_email} />
             </Field>
 
+            {
+              /*
             <Field label="Timezone" 
               isInvalid={this.errorsFor('timezone')} 
               invalidMessage={this.errorsFor('timezone')}>
               <Select
                 name="campaign[timezome]"
                 isSearchable={false}
-                defaultValue={{ label: 'Atlassian', value: 'atlassian' }}
+                value={{ label: 'Atlassian', value: 'atlassian' }}
                 options={[
                   { label: 'Atlassian', value: 'atlassian' },
                   { label: 'Sean Curtis', value: 'scurtis' },
@@ -119,6 +129,9 @@ export default class CampaignSettings extends Component {
                 ]}
               />
             </Field>
+              */
+            }
+
 
             <Field  label="Description" 
                     isInvalid={this.errorsFor('description')} 
@@ -126,7 +139,9 @@ export default class CampaignSettings extends Component {
               <FieldTextArea 
                 name="campaign[description]"
                 shouldFitContainer 
-                label="campaign description" />
+                label="campaign description"
+                value={this.state.data.description} 
+              />
             </Field>
 
           </FormSection>

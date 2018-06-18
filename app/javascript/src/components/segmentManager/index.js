@@ -19,10 +19,10 @@ export class SegmentItemButton extends Component {
     selectedOption: this.props.predicate.comparison
   };
 
-  onRadioChange = (e)=> {
+  onRadioChange = (e, cb)=> {
     this.setState({
       selectedOption: e.target.value
-    })
+    }, ()=> cb ? cb() : null)
   };
 
   handleSubmit = (e)=> {
@@ -37,6 +37,12 @@ export class SegmentItemButton extends Component {
         value = `${this.refs.relative_input.value} days ago`
         break;
       }
+
+      case "match": {
+        value = `${this.state.selectedOption}`
+        break;
+      }
+
     }
     
     const h = {
@@ -45,12 +51,18 @@ export class SegmentItemButton extends Component {
     }
 
     const response = Object.assign({}, this.props.predicate, h )
-    this.props.updatePredicate(response, this.props.predicateCallback )
+    const new_predicates = this.props.predicates.map((o, i)=> this.props.index === i ? response : o  )
+    
+    this.props.updatePredicate(new_predicates, ()=> this.props.predicateCallback )
+    
+    this.toggleDialog()
   }
 
   handleDelete = (e) => {
-    this.props.deletePredicate(this.props.predicate, this.props.predicateCallback)
-     // /apps/:app_id/segments/:id/delete_predicate
+    //const response = Object.assign({}, this.props.predicate, h )
+    //const new_predicates = this.props.predicates.map((o, i)=> this.props.index === i ? response : o  )
+    const data = this.props.predicates.filter((o,i)=> i !== this.props.index )
+    this.props.deletePredicate(data, this.props.predicateCallback)
   }
 
   renderOptions = () => {
@@ -62,6 +74,10 @@ export class SegmentItemButton extends Component {
 
       case "date": {
         return this.contentDate()
+      }
+
+      case "match": {
+        return this.contentMatch() 
       }
     }
 
@@ -169,6 +185,26 @@ export class SegmentItemButton extends Component {
 
   }
 
+  contentMatch = () => {
+  
+    const compare = (value)=>{
+      return this.props.predicate.value === value
+    }
+
+    const relative = [
+      {label: "match any", comparison: "or", value: "or", defaultSelected: compare("or")  },
+      {label: "match all", comparison: "and", value: "and",  defaultSelected: compare("and")  },
+    ]
+
+    return <div>
+              <FieldRadioGroup
+                items={relative}
+                label="match criteria options:"
+                onRadioChange={(e)=> this.onRadioChange.bind(this)(e, this.handleSubmit.bind(this) )}
+              />
+            </div>
+  }
+
   deleteButton = () => {
     return <Button appearance="link" 
             onClick={this.handleDelete.bind(this)}>
@@ -179,6 +215,7 @@ export class SegmentItemButton extends Component {
   toggleDialog = (e) => this.setState({ dialogOpen: !this.state.dialogOpen });
 
   render() {
+    //console.log(this.props.predicate)
     return (
       <div style={{ minHeight: '120px' }}>
         <InlineDialog content={this.renderOptions()} 
@@ -312,13 +349,16 @@ export class InlineFilterDialog extends Component {
   toggleDialog = (e) => this.setState({ dialogOpen: !this.state.dialogOpen });
 
   handleClick = (e, o) => {
-    this.props.actions.addPredicate(o, this.props.handleClick)
+    this.props.addPredicate(o, ()=> { 
+      this.props.handleClick()
+    })
   }
 
   render() {
 
     const fields = [
-      {name: "last_visited_at", type: "string"},
+      {name: "email", type: "string"},
+      {name: "last_visited_at", type: "date"},
       {name: "referrer", type: "string"},
       {name: "state", type: "string"},
       {name: "ip", type: "string"},        
@@ -376,6 +416,64 @@ export class InlineFilterDialog extends Component {
   }
 }
 
+export class InlineCriteriaDialog extends Component {
+  state = {
+    dialogOpen: false,
+  };
+
+  toggleDialog = (e) => this.setState({ dialogOpen: !this.state.dialogOpen });
+
+  handleClick = (e, o) => {
+    this.props.addPredicate(o, ()=> { 
+      this.props.handleClick()
+    })
+  }
+
+  render() {
+
+    const fields = [
+      {name: "match any criteria", type: "or"},
+      {name: "match all criteria", type: "and"},   
+    ]
+
+    const content = (
+      <div>
+        <h5>Select field</h5>
+        <p>oeoe</p>
+
+        <ul style={{ height: '200px', overflow: 'auto'}}>
+          {
+            fields.map((o)=> <li key={o.name}>
+                              <Button onClick={(e)=> this.handleClick.bind(this)(e, o)}>
+                                {o.name}
+                              </Button>
+                             </li>
+            )
+          }
+        </ul>
+      </div>
+    );
+
+    return (
+      <div style={{ minHeight: '120px' }}>
+        <InlineDialog 
+          content={content} 
+          isOpen={this.state.dialogOpen}
+          position="bottom left">
+
+          <Button isLoading={false} 
+            appearance={'link'}
+            onClick={this.toggleDialog}>
+            <i className="fas fa-plus"></i>
+            {" "}
+            Add filter
+          </Button>
+        </InlineDialog>
+      </div>
+    );
+  }
+}
+
 
 export default class SegmentManager extends Component {
 
@@ -388,25 +486,39 @@ export default class SegmentManager extends Component {
     //this.props.history.push(url) 
   }
 
+  getTextForPredicate = (o)=>{
+    if(o.type === "match"){
+      return `Match ${o.value === "and" ? "all" : "any" } criteria`
+    }else{
+      return `Match: ${o.attribute} ${o.comparison ? o.comparison : '' } ${o.value ? o.value : ''}`
+    }
+  }
+
   render(){
+    //console.log(this.getPredicates())
+    // this.props.actions.getPredicates()
     return <div>
             <ButtonGroup>
+
               {
-                this.props.actions.getPredicates().map((o, i)=>{
+                this.props.predicates.map((o, i)=>{
                     return <SegmentItemButton 
                             key={i}
+                            index={i}
+                            predicates={this.props.predicates}
                             predicate={o}
                             open={ !o.comparison }
                             appearance={ o.comparison ? "primary" : "default"} 
-                            text={`Match: ${o.attribute} ${o.comparison ? o.comparison : '' } ${o.value ? o.value : ''}`}
-                            updatePredicate={this.props.actions.updatePredicate}
-                            deletePredicate={this.props.actions.deletePredicate}                          
+                            text={this.getTextForPredicate(o)}
+                            updatePredicate={this.props.updatePredicate}
+                            deletePredicate={this.props.deletePredicate}                          
                            />
                 })
               }
 
               <InlineFilterDialog
                 {...this.props}
+                addPredicate={this.props.addPredicate}
                 handleClick={this.handleClickOnSelectedFilter.bind(this)}
               />
 
@@ -437,18 +549,14 @@ export default class SegmentManager extends Component {
               )
             */}
 
+            {/*JSON.stringify(this.props.data)*/}
+
+            <hr/>
+
+            <span>Users {this.props.meta['total_count']}</span>
             <ul>
-              <li> Idea: poder crear nuevo segmento</li>
-              <li> elegir segmentos persistidos </li>
-              <li> guardar predicados en el setting de la campaña 
-                   (con esto evitamos que quede la cagada en la modificacion 
-                   borrado de segmentos)
-              </li>
-
+              {this.props.app_users.map((o)=> <li key={o.email}>{o.email}</li> )}
             </ul>
-
-            <span>Users {this.props.store.meta['total_count']}</span>
-            
             <hr/>
 
           </div>

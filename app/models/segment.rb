@@ -53,7 +53,7 @@ class Segment < ApplicationRecord
     user_table = User.arel_table
  
     Array(self.predicates).reduce(nil) do |query, predicate|
-      next if predicate["type"] == "or"
+      next if predicate["type"] == "match"
 
       # check if its in table column
       if AppUser.columns.map(&:name).include?(predicate["attribute"])
@@ -96,12 +96,12 @@ class Segment < ApplicationRecord
         end
         check
       end
-
-      #                  
+   
       if query.nil?
         check
       else
-        if self.predicates.find{|o|  o["type"] == "or" }
+
+        if self.predicates.find{|o| o["type"] == "match" &&  o["value"] == "or"  }
           query.or(check)
         else
           query.and(check)

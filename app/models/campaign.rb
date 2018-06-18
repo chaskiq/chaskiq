@@ -23,6 +23,16 @@ class Campaign < ApplicationRecord
   validates :html_content, presence: true, if: :template_step?
 
   #before_save :detect_changed_template
+  before_create :add_default_predicate
+
+  def add_default_predicate
+    self.segments << {
+                        type: "match" ,
+                        attribute: "match",
+                        comparison: "and",
+                        value: "and"
+                      }
+  end
 
   def delivery_progress
     return 0 if metrics.deliveries.size.zero?
