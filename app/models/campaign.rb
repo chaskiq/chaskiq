@@ -26,6 +26,7 @@ class Campaign < ApplicationRecord
   before_create :add_default_predicate
 
   def add_default_predicate
+    self.segments = [] unless self.segments.present?
     self.segments << {
                         type: "match" ,
                         attribute: "match",

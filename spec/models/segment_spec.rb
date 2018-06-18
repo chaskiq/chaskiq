@@ -83,7 +83,10 @@ RSpec.describe Segment, type: :model do
       let(:predicates_with_or){
         predicates << online_predicate
         predicates << {
-          type: "or" 
+          attribute: "match",
+          comparison: "match",
+          value: "or",
+          type: "match" 
         }.with_indifferent_access
       }
 
