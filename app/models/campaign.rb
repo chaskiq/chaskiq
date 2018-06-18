@@ -45,8 +45,9 @@ class Campaign < ApplicationRecord
   end
 
   def available_segments
-    queries = app.segments.where(id: self.segments).map(&:execute_query)
-    AppUser.union_scope(*queries).availables
+    segment = self.app.segments.new
+    segment.assign_attributes(predicates: self.segments)
+    app_users = segment.execute_query.availables
   end
 
   alias subscribers available_segments

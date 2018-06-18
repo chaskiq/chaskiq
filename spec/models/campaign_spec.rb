@@ -71,7 +71,7 @@ RSpec.describe Campaign, type: :model do
 
       @c = FactoryGirl.create(:campaign, 
         app: app, 
-        segments: [app.segments.first.id]
+        segments: app.segments.first.predicates
       )
 
       allow(@c).to receive(:premailer).and_return("<p>hi</p>")
