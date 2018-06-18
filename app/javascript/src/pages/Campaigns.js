@@ -207,20 +207,37 @@ class CampaignForm extends Component {
     this.setState({data: data}, cb ? cb() : null )
   }
 
-  tabs = ()=>(
-    [
-      { label: 'Settings', content: <CampaignSettings {...this.props} data={this.state.data} /> },
-      { label: 'Audience', content: <CampaignSegment  {...this.props} data={this.state.data} updateData={this.updateData} /> },
-      { label: 'Editor',   content: <CampaignEditor   {...this.props} data={this.state.data} /> }
+  tabs = ()=>{
+    var b = []
+
+    const a = [
+      { label: 'Settings', content: <CampaignSettings {...this.props} 
+                                                      data={this.state.data} 
+                                                      updateData={this.updateData} 
+                                                      /> }
     ]
-  )
+
+    if(this.state.data.id){
+      b = [
+        { label: 'Audience', content: <CampaignSegment  {...this.props} 
+                                                        data={this.state.data} 
+                                                        updateData={this.updateData} /> },
+        { label: 'Editor',   content: <CampaignEditor   {...this.props} 
+                                                        data={this.state.data} /> }
+      ]      
+    }
+
+    return a.concat(b)
+
+  }
 
   render(){
+
     return <ContentWrapper>
         <PageTitle>FORM HERE</PageTitle>
 
         {
-          this.state.data.id ?
+          this.state.data.id || this.props.match.params.id === "new" ?
             <Tabs
               tabs={this.tabs()}
               {...this.props}
@@ -257,6 +274,11 @@ export default class CampaignContainer extends Component {
     })
   }
 
+  createNewCampaign = (e)=>{
+    this.props.history.push(`${this.props.match.url}/new`)
+  }
+
+
   render(){
     return <div>
 
@@ -273,6 +295,10 @@ export default class CampaignContainer extends Component {
                                </div>
                       })
                     }
+
+                    <Button onClick={this.createNewCampaign}>
+                      create new campaign
+                    </Button>
                   </div>
               )} /> 
 

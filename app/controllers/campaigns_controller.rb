@@ -25,9 +25,11 @@ class CampaignsController < ApplicationController
   # GET /campaigns/new
   def new
     @campaign = Campaign.new
+    @campaign.add_default_predicate
+
     respond_to do |format|
       format.html{ render_empty }
-      format.json{ render "new" }
+      format.json{ render "show" }
     end
   end
 

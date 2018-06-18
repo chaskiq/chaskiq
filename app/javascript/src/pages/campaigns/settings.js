@@ -26,11 +26,33 @@ export default class CampaignSettings extends Component {
     this.formRef.submit();
   };
 
-  // Form Event Handlers
-  onSubmitHandler = (e) => {
-    const data = serialize(this.formRef, { hash: true })
+  onSubmitHandler = (e)=>{
     e.preventDefault()
-    axios.post(`${this.props.match.url}.json`, data)
+    const data = serialize(this.formRef, { hash: true })
+    this.props.match.params.id === "new" ? 
+      this.create(data) : this.update(data)
+  }
+
+  // Form Event Handlers
+  create = (data) => {
+    axios.post(`/apps/${this.props.store.app.key}/campaigns.json`, data)
+    .then( (response)=> {
+      this.setState({data: response.data}, ()=>{ 
+        this.props.history.push(`/apps/${this.props.store.app.key}/campaigns/${this.state.data.id}`)
+        this.props.updateData(response.data)
+      })
+    })
+    .catch( (error)=> {
+      if(error.response.data)
+        this.setState({errors: error.response.data})
+      
+      console.log(error);
+    });
+  };
+
+  // Form Event Handlers
+  update = (data) => {
+    axios.put(`${this.props.match.url}.json`, data)
     .then( (response)=> {
       this.setState({data: response.data}, ()=>{ console.log('ss')})
     })
@@ -40,7 +62,6 @@ export default class CampaignSettings extends Component {
       
       console.log(error);
     });
-
   };
 
   errorsFor(name){
