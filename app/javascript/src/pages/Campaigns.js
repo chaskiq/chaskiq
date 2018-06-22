@@ -164,6 +164,59 @@ class CampaignSegment extends Component {
 
 class CampaignEditor extends Component {
 
+
+  /*
+  
+  
+          window.debug = true
+          window.read_only = false
+          window.store_method = "PUT"
+          window.attachment_pach = "#{manage_campaign_attachments_path(@campaign)}"
+          
+          window.save_url = "#{wizard_path}.json";
+
+          window.save_handler = function(html, plain, serialized){
+            $.ajax({
+              url: window.save_url,
+              method: "PUT",
+              dataType: "json",
+              data: {
+                campaign: {
+                  html_content: html,
+                  plain_content: plain,
+                  html_serialized: serialized
+                }
+              },
+              success: function(data){
+                console.log("success")
+              },
+              error: function(err){
+                console.log(err)
+              }
+            })
+          }
+
+          window.successStoreHandler = function(response){
+            var data = response.data
+            //if(window.location.pathname != targetUrl){
+            //  // setup dante defaults again pointing update url
+            //  window.dante_store_url = targetUrl + ".json";
+            //  window.dante_upload_url = targetUrl + "/uploads.json";
+            //  window.dante_store_method = "put";
+            //  var targetUrlForPush = targetUrl + "/edit";
+            //  window.history.pushState({url: "" + targetUrlForPush}, "edit"//, targetUrlForPush);
+            //}
+          }
+
+          window.oembed_url = "/oembed?url=";
+
+          var empty = {"entityMap":{},"blocks":[{"key":"761n6","text":"Write something","type":"header-one","depth":0,"inlineStyleRanges":[],"entityRanges":[],"data":{}},{"key":"f1qmb","text":"","type":"unstyled","depth":0,"inlineStyleRanges":[],"entityRanges":[],"data":{}},{"key":"efvk7","text":"Dante2 Inc.\nSantiago, Chile\nYou Received this email because you signed up on our website or made purchase from us.","type":"footer","depth":0,"inlineStyleRanges":[{"offset":0,"length":114,"style":"CUSTOM_FONT_SIZE_13px"},{"offset":0,"length":114,"style":"CUSTOM_COLOR_#8d8181"}],"entityRanges":[],"data":{}},{"key":"7gh7t","text":"Unsubscribe","type":"unsubscribe_button","depth":0,"inlineStyleRanges":[],"entityRanges":[],"data":{"enabled":false,"fill":"fill","displayPopOver":true,"data":{},"href":"http://mailerlite.com/some_unsubscribe_link_here","border":"default","forceUpload":false,"containerStyle":{"textAlign":"left","margin":"0px 13px 0px 0px"},"label":"click me","float":"left","buttonStyle":{"color":"#fff","backgroundColor":"#3498db","padding":"6px 12px","display":"inline-block","fontFamily":"Helvetica","fontSize":13,"float":"none","border":"1px solid #3498db"}}}]}
+
+          window.data = #{@campaign.html_serialized ? raw(@campaign.html_serialized) : 'empty'};
+  
+  */
+
+
   componentDidMount(){
     this.editor = new Dante({   
       upload_url: "http://localhost:9292/uploads/new",    
