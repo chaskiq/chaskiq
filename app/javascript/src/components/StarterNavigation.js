@@ -27,19 +27,6 @@ import SignOutIcon from '@atlaskit/icon/glyph/sign-out';
 
 import Dropdown, { DropdownItemGroup, DropdownItem } from '@atlaskit/dropdown-menu';
 
-const getDropDownData = () => (
-  <DropdownItemGroup title="Heading">
-    <DropdownItem>Hello it with some really quite long text here.</DropdownItem>
-    <DropdownItem>Some text 2</DropdownItem>
-    <DropdownItem isDisabled>Some disabled text</DropdownItem>
-    <DropdownItem>Some more text</DropdownItem>
-    <DropdownItem href="//atlassian.com" target="_new">
-      A link item
-    </DropdownItem>
-  </DropdownItemGroup>
-);
-
-
 
 export default class StarterNavigation extends React.Component {
   state = {
@@ -60,18 +47,30 @@ export default class StarterNavigation extends React.Component {
     return true;
   };
 
+  getDropDownData = () => (
+    <DropdownItemGroup title="Settings">
+      <DropdownItem>{this.props.currentUser.email}</DropdownItem>
+      <DropdownItem>Some text 2</DropdownItem>
+      <DropdownItem isDisabled>Some disabled text</DropdownItem>
+      <DropdownItem>Logout</DropdownItem>
+      <DropdownItem href="//atlassian.com" target="_new">
+        A link item
+      </DropdownItem>
+    </DropdownItemGroup>
+  );
+
   render() {
     const backIcon = <ArrowleftIcon label="Back icon" size="medium" />;
     const globalPrimaryIcon = <AtlassianIcon label="Atlassian icon" size="xlarge" />;
     const avatarIcon = <Dropdown trigger={ <Avatar
-                                            name={"miguel@preyhq.com"}
+                                            name={this.props.currentUser.email}
                                             size="medium"
                                             src={`https://api.adorable.io/avatars/24/${encodeURIComponent(
-                                              "miguel@preyhq.com",
+                                              this.props.currentUser.email,
                                             )}.png`}
                                           /> 
                       }>
-                        {getDropDownData()}
+                        {this.getDropDownData()}
                       </Dropdown>
 
     const logoutIcon = <SignOutIcon label="logout" size="medium"/>

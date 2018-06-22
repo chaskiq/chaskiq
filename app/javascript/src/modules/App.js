@@ -59,13 +59,15 @@ export default class App extends Component {
 
     const childrenWithProps = React.Children.map(children, child =>
       React.cloneElement(child, { navLinks: this.state.navLinks }));
-
+    
     return (
       <div>
         <Page
           navigationWidth={this.context.navOpenState.width}
           navigation={<StarterNavigation 
-            navLinks={this.props.navLinks} />}
+            navLinks={this.props.navLinks} 
+            currentUser={this.props.currentUser}
+          />}
         >
 
           {childrenWithProps}

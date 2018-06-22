@@ -70,8 +70,6 @@ export default class MainRouter extends Component {
 
   }
 
-
-
   render() {
     // console.log(this.state.currentUser)
     return (
@@ -82,6 +80,7 @@ export default class MainRouter extends Component {
             <App
               onNavResize={this.onNavResize}
               {...this.props}
+              currentUser={this.state.currentUser}
               navLinks={this.state.navLinks}>
               
               <Route exact path="/" component={HomePage} />
