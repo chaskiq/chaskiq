@@ -1,6 +1,7 @@
 import PropTypes from 'prop-types';
 import React, { Component } from "react";
 import SearchResults from "./SearchResults";
+import axios from "axios";
 
 const items = [
   { name: 'Events', link: '/#events', description: 'List of events.' },
@@ -19,8 +20,19 @@ export default class SearchDrawer extends Component {
 
   state = {
     searchString: '',
-    results: items,
-  };
+    results: []
+  }
+
+  componentDidMount(){
+    axios.get("/apps.json")
+    .then( (response)=> {
+      this.setState({results: response.data.collection}, ()=>{ 
+      })
+    })
+    .catch( (error)=> {
+      console.log(error);
+    });
+  }
 
   filterChange = () => {
     this.setState({
@@ -28,16 +40,27 @@ export default class SearchDrawer extends Component {
     });
   };
 
-  searchResults = () => {
-    const {results, searchString} = this.state;
+  formattedResults = ()=> {
+    return this.state.results.map((o,i)=>{
+      return { 
+        name: o.id, 
+        link: `/apps/${o.id}`, 
+        description: o.id 
+      }
+    })
+  }
 
-    const matchingResults = results.filter(
+  searchResults = () => {
+    const {searchString} = this.state;
+    //const matchingResults = this.formattedResults()
+    
+    const matchingResults = this.formattedResults().filter(
       c => (
         c.name.toLowerCase().indexOf(searchString.toLowerCase()) >= 0 ||
         (c.description && c.description.toLowerCase().indexOf(searchString.toLowerCase()) >= 0)
       )
     ).slice(0, 10);
-
+    
     return (
       <SearchResults
         matchingResults={matchingResults}
@@ -51,6 +74,7 @@ export default class SearchDrawer extends Component {
   };
 
   render() {
+    //console.log(this.state.items)
     return (
       <div>
         <input
