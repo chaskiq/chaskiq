@@ -21,7 +21,7 @@ const App = {
 const Container = styled.div`
     position: fixed;
     /* right: 53px; */
-    bottom: 65px;
+    bottom: 92px;
     width: 320px;
     font-size: 12px;
     line-height: 22px;
@@ -60,7 +60,7 @@ const EditorWrapper = styled.div`
   width: 340px;
   position: fixed;
   right: 14px;
-  bottom: 0px;
+  bottom: 14px;
 `
 
 const EditorActions = styled.div`
@@ -337,7 +337,6 @@ class Messenger extends Component {
   componentDidMount(){
     this.ping(()=> {
       this.eventsSubscriber()
-      //this.conversationSubscriber()
       this.getConversations()
     })
   }
@@ -366,15 +365,23 @@ class Messenger extends Component {
           console.log(`handle message`)
         } 
       });
-
   }
 
   scrollToLastItem = ()=>{
     this.overflow.scrollTop = this.overflow.scrollHeight;
   }
 
+  unsubscribeFromConversation = ()=>{
+    if (App.conversations)
+      App.conversations.unsubscribe()
+      App.conversations = null
+  }
+
   conversationSubscriber(){
-    App.events = App.cable.subscriptions.create({
+
+    this.unsubscribeFromConversation()
+
+    App.conversations = App.cable.subscriptions.create({
       channel: "ConversationsChannel",
       app: this.props.app_id,
       id: this.state.conversation.id,
@@ -385,6 +392,7 @@ class Messenger extends Component {
         console.log("connected to conversations")
       },
       disconnected: ()=> {
+        alert("disconnected")
         console.log("disconnected from conversations")
       },
       received: (data)=> {
@@ -508,6 +516,7 @@ class Messenger extends Component {
   }
 
   displayConversationList(e){
+    this.unsubscribeFromConversation()
     e.preventDefault()
     this.setState({
       display_mode: "conversations"
@@ -517,7 +526,7 @@ class Messenger extends Component {
   displayConversation(e, o){
     this.setconversation(o.id, ()=>{
 
-      this.eventsSubscriber()
+      //this.eventsSubscriber()
       this.setState({
         display_mode: "conversation"
       }, ()=> { 
@@ -563,7 +572,8 @@ class Messenger extends Component {
                                 <CommentsWrapper innerRef={comp => this.overflow = comp}>
                                   {
                                     this.state.conversation_messages.map((o,i)=>{
-                                      return <MessageItem className={this.state.conversation.main_participant.email === o.app_user.email ? 'user' : 'admin'}>
+                                      return <MessageItem key={o.id}
+                                                 className={this.state.conversation.main_participant.email === o.app_user.email ? 'user' : 'admin'}>
                                                 <ChatAvatar>
                                                   <img src={gravatar.url(o.app_user.email)}/>
                                                 </ChatAvatar>

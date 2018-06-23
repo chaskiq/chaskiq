@@ -19,17 +19,32 @@ class AppUser < ApplicationRecord
     super({ methods: [:email] }.merge(options || {}))
   end
 
-  aasm column: :state do
-    state :offline, :initial => true
-    state :online
+  def offline?
+    !self.state || self.state == "offline" 
+  end
 
-    event :offline do
-      transitions :from => :online, :to => :offline
-    end
+  def online?
+    self.state == "online"
+  end
 
-    event :online do
-      transitions :from => :offline, :to => :online
+  def channel_key
+    "presence:#{self.app.key}-#{self.user.email}"
+  end
+
+  def online!
+    self.state = "online"
+    self.last_visited_at = Time.now
+
+    if self.save
+      ActionCable.server.broadcast(channel_key, self.to_json)
+      ActionCable.server.broadcast("events:#{app.key}", formatted_user)
     end
+  end
+
+  def offline!
+    self.state = "offline"
+    self.save
+    ActionCable.server.broadcast("events:#{app.key}", formatted_user)
   end
 
   aasm :column => :subscription_state do # default column: aasm_state
@@ -46,6 +61,15 @@ class AppUser < ApplicationRecord
     event :unsubscribe do
       transitions :from => [:subscribed, :passive], :to => :unsubscribed
     end
+  end
+
+  def formatted_user
+
+    { email: user.email,
+      properties: properties,
+      state: state
+    }.to_json
+
   end
 
   def notify_unsubscription

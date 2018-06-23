@@ -136,6 +136,16 @@ const Emptyprops = {
   tertiaryAction,
 };
 
+const ActivityIndicator = styled.span`
+  position: absolute;
+  height: 10px;
+  width: 10px;
+  background: #1be01b;
+  border-radius: 10px;
+  top: 1px;
+  left: 38px;
+`
+
 const dropdown = () => (
     <DropdownMenu
       trigger="Choices"
@@ -189,7 +199,12 @@ class AppUsers extends Component {
           },
           {
             //key: createKey(app_user.state),
-            content: app_user.state,
+            content: <span style={{position: 'relative'}}>
+                      {app_user.state}
+                      { app_user.state === "online" ? 
+                        <ActivityIndicator/> : null
+                      }
+                    </span>,
           },
           {
             //key: createKey(app_user.state),
@@ -403,6 +418,10 @@ export default class ShowAppContainer extends Component {
 
   componentDidUpdate(prevProps, prevState) {
     // only update chart if the data has changed
+    if(prevState.app.key !== this.state.app.key){
+      this.eventsSubscriber(this.state.app.key)
+    }
+
     if (prevState.jwt !== this.state.jwt) {
         this.search()
     }
@@ -502,6 +521,11 @@ export default class ShowAppContainer extends Component {
   }
 
   eventsSubscriber(id){
+    // unsubscribe cable ust in case
+    if(CableApp.events)
+      CableApp.events.unsubscribe()
+    
+
     CableApp.events = CableApp.cable.subscriptions.create({
       channel: "EventsChannel",
       app: id
@@ -524,6 +548,8 @@ export default class ShowAppContainer extends Component {
           console.log(`handle message`)
         } 
       });
+
+    window.cable = CableApp
   }
 
   updateSegment = (data, cb)=>{

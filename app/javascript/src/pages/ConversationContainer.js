@@ -121,10 +121,7 @@ class MessageItem extends Component {
             {__html: this.props.message.message}
           }/>
         </MessageBody>
-          
 
-
-        
       </MessageContainer>
     )
   }
