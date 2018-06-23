@@ -15,10 +15,20 @@ class Api::V1::ConversationsController < ApplicationController
 
   def create
     @app = App.find_by(key: params[:app_id])
-    @conversation = @app.start_conversation({
-      message: params[:message], 
-      from: find_user(params[:email])
-    })
+    user = find_user(params[:email])
+    if params[:message].present?
+      @conversation = @app.start_conversation({
+        message: params[:message], 
+        from: user
+      })
+    else
+      # return a conversation with empty messages , if any or create new one
+      # this is to avoid multiple empty convos
+      @conversation = user.conversations
+                          .left_joins(:messages)
+                          .where(conversation_parts: {id: nil}).first || 
+                          @app.conversations.create(main_participant: user)
+    end
     render :show
   end
 

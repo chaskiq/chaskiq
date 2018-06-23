@@ -318,7 +318,7 @@ class Messenger extends Component {
   constructor(props){
     super(props)
     this.state = {
-      conversation: null,
+      conversation: {},
       conversation_messages: [],
       conversations: [],
       display_mode: "conversations",
@@ -342,8 +342,11 @@ class Messenger extends Component {
   }
 
   componentDidUpdate(prevProps, prevState){
-    if(prevState.display_mode !== this.state.display_mode)
+    if(prevState.display_mode !== this.state.display_mode && this.display_mode === "conversations")
       this.getConversations()
+
+    if(this.state.conversation.id !== prevState.conversation.id)
+      this.conversationSubscriber()
   }
 
   eventsSubscriber(){
@@ -397,7 +400,6 @@ class Messenger extends Component {
         console.log("connected to conversations")
       },
       disconnected: ()=> {
-        alert("disconnected")
         console.log("disconnected from conversations")
       },
       received: (data)=> {
@@ -441,7 +443,7 @@ class Messenger extends Component {
     // for now let's save in html
     const html_comment = convertToHTML( comment );
 
-    if(this.state.conversation){
+    if(this.state.conversation.id){
       this.createComment(html_comment, cb)
     }else{
       this.createCommentOnNewConversation(html_comment, cb)
@@ -513,10 +515,11 @@ class Messenger extends Component {
 
   displayNewConversation(e){
     e.preventDefault()
-    this.setState({
-      conversation: null,
-      conversation_messages: [],
-      display_mode: "conversation"
+    this.createCommentOnNewConversation(null, ()=>{
+      this.setState({
+        conversation_messages: [],
+        display_mode: "conversation"
+      })
     })
   }
 
@@ -535,8 +538,8 @@ class Messenger extends Component {
       this.setState({
         display_mode: "conversation"
       }, ()=> { 
-        this.conversationSubscriber() ; 
-        this.getConversations() ;
+        //this.conversationSubscriber() ; 
+        //this.getConversations() ;
         this.scrollToLastItem()
       })
     })
@@ -612,11 +615,10 @@ class Messenger extends Component {
                                 <CommentsWrapper>
                                   {
                                     this.state.conversations.map((o,i)=>{
-                                      console.log("this", this)
-                                      const t = this
+                                      
                                       const message = o.last_message
                                       return <CommentsItem key={o.id}
-                                                  onClick={(e)=>{t.displayConversation(e, o)}}> 
+                                                  onClick={(e)=>{this.displayConversation(e, o)}}> 
                                                   
                                                 {
                                                   message ? 

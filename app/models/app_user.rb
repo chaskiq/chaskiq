@@ -6,12 +6,14 @@ class AppUser < ApplicationRecord
 
   belongs_to :user
   belongs_to :app
+  has_many :conversations, foreign_key: :main_participant_id
   has_many :metrics , as: :trackable
   store_accessor :properties, [ :name, :first_name, :last_name, :country ]
   scope :availables, ->{ 
     where(["app_users.subscription_state =? or app_users.subscription_state=?", 
       "passive", "subscribed"]) 
   }
+
 
   delegate :email, to: :user
 

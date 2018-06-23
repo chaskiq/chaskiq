@@ -36,7 +36,7 @@ class App < ApplicationRecord
   end
 
   def add_visit(opts={})
-    ap_user = add_user(opts)
+    add_user(opts)
   end
 
   def start_conversation(options)
