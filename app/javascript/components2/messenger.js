@@ -341,6 +341,11 @@ class Messenger extends Component {
     })
   }
 
+  componentDidUpdate(prevProps, prevState){
+    if(prevState.display_mode !== this.state.display_mode)
+      this.getConversations()
+  }
+
   eventsSubscriber(){
     App.events = App.cable.subscriptions.create({
       channel: "PresenceChannel",
