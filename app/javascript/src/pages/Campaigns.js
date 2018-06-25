@@ -221,7 +221,7 @@ class CampaignEditor extends Component {
 
             <div id="campaign-editor" style={{
               background: 'white', 
-              paddingTop: '34px'
+              padding: '34px'
             }}>
 
             <DemoApp

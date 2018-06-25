@@ -915,16 +915,16 @@ class DanteEditor extends React.Component {
 
   render() {
     return (
-      <div id="content" suppressContentEditableWarning={ true }>
+      <div suppressContentEditableWarning={ true }>
         <article className="postArticle">
           <div className="postContent">
             <div className="notesSource">
-              <div id="editor" className="postField postField--body">
+              <div className="postField postField--body">
                 <section className="section--first section--last">
                   <div className="section-divider layoutSingleColumn">
                     <hr className="section-divider" />
                   </div>
-                  <div className="section-content container">
+                  <div className="section-content">
                     <div ref="richEditor" 
                         className="section-inner layoutSingleColumn"
                         onClick={ this.focus }>

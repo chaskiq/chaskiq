@@ -20,7 +20,7 @@
 
 // HACK FOR ISSUE  https://github.com/facebook/draft-js/issues/304 , proposal from @bradbumbalough
 .DraftEditor-root {
-  overflow: auto;
+  //overflow: auto;
 }
 
 /**
