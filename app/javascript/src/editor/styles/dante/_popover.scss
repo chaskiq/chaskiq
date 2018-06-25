@@ -1,0 +1,212 @@
+// Base popover styles
+
+.dante-popover {
+  & {
+    overflow: hidden;
+    position: absolute;
+    z-index: 900;
+    visibility: visible;
+    font-size: 12px;
+    text-align: center;
+    pointer-events: auto;
+    padding: 15px;
+    font-family: "Lucida Grande","Lucida Sans Unicode","Lucida Sans",Geneva,Verdana,sans-serif;
+    letter-spacing: -0.02em;
+    font-weight: 400;
+    font-style: normal;
+    line-height: 1.4;
+
+    opacity: 0;
+  }
+  &.is-active {
+    opacity: 1;
+  }
+  .popover-inner {
+    background: #fff;
+    box-shadow: 0 1px 2px rgba(0,0,0,.25),0 0 1px rgba(0,0,0,.35);
+  }
+}
+
+.popover.is-active {
+  visibility: visible;
+}
+
+.popover-inner {
+  & {
+    position: relative;
+    max-width: 300px;
+    border-radius: $menu-border-radius;
+    padding: 8px;
+  }
+  a {
+    color: inherit;
+    text-decoration: none;
+  }
+}
+
+
+
+// Defatul tooltip
+
+.popover--tooltip {
+  & {
+    pointer-events: none;
+  }
+
+  .popover-inner {
+    // background-color: $menu-tone;
+    background: $menu-tone;
+    border-radius: 4px;
+    color: #fff;
+  }
+}
+
+
+
+// LINK tooltip
+
+.popover--Linktooltip {
+  & {
+    pointer-events: auto;
+    z-index: 300;
+    word-break: break-word;
+    word-wrap: break-word;
+  }
+  .popover-inner {
+    padding: 8px 10px;
+    font-size: 12px;
+  }
+}
+
+
+
+// Align tooltip
+
+.popover--Aligntooltip {
+  .popover-inner {
+    padding: 0;
+    background: $menu-tone;
+    color: #fff;
+  }
+}
+
+
+// Align tooltip
+.popover--typeahead {
+  .popover-inner {
+    & {
+      position: relative;
+      padding: 14px;
+      border-radius: 4px;
+    }
+
+    ul{
+      padding-left: 0px;
+    }
+  }
+}
+
+
+// popover--typeahead
+// typeahead
+// typeahead--mention
+// popover--maxWidth360
+// popover--bottom
+
+.popover.popover--maxWidth360 .popover-inner {
+  max-width: 360px;
+}
+
+.popover:not(.popover--flexible) .popover-inner {
+  max-width: 280px;
+}
+
+
+
+
+/*
+.popover.is-withTransition {
+  -webkit-transition:opacity 100ms ease;
+  transition:opacity 100ms ease;
+}
+
+.is-resizing .popover {
+  opacity:0;
+  -webkit-transition:opacity 0 ease;
+  transition:opacity 0 ease;
+}
+*/
+
+.popover-arrow {
+  position: absolute;
+}
+.popover-arrow:after {
+  background-color: $menu-tone;
+}
+
+.popover--top .popover-arrow,
+.popover--bottom .popover-arrow {
+  left: 50%;
+  margin-left: -$tooltip-caret-size/2;
+}
+
+.popover--left .popover-arrow,
+.popover--right .popover-arrow {
+  top: 50%;
+  margin-top: -$tooltip-caret-size/2;
+}
+
+.popover--top .popover-arrow {
+  // bottom: 1px;
+  // clip: rect(0 18px 18px 4px);
+}
+
+.popover--right .popover-arrow {
+  left: 1px;
+  // clip: rect(-4px 14px 18px 0);
+}
+
+.popover--bottom .popover-arrow {
+  top: 1px;
+  // clip: rect(0 18px 14px -1px);
+}
+
+.popover--left .popover-arrow {
+  right: 1px;
+  // clip: rect(-4px 14px 18px 0);
+}
+
+.popover-arrow:after {
+  content: '';
+  display: block;
+  width: $tooltip-caret-size;
+  height: $tooltip-caret-size;
+}
+
+.popover--top .popover-arrow:after {
+  -webkit-transform: rotate(45deg) translate(-5px,-5px);
+  -ms-transform: rotate(45deg) translate(-5px,-5px);
+  transform: rotate(45deg) translate(-5px,-5px);
+  box-shadow: 1px 1px 1px -1px $menu-tone;
+}
+
+.popover--right .popover-arrow:after {
+  -webkit-transform: rotate(45deg) translate(6px,-6px);
+  -ms-transform: rotate(45deg) translate(6px,-6px);
+  transform: rotate(45deg) translate(6px,-6px);
+  box-shadow: -1px 1px 1px -1px $menu-tone;
+}
+
+.popover--bottom .popover-arrow:after {
+  -webkit-transform: rotate(45deg) translate(6px,6px);
+  -ms-transform: rotate(45deg) translate(6px,6px);
+  transform: rotate(45deg) translate(6px,6px);
+  box-shadow: -1px -1px 1px -1px $menu-tone;
+}
+
+.popover--left .popover-arrow:after {
+  -webkit-transform: rotate(45deg) translate(-6px,6px);
+  -ms-transform: rotate(45deg) translate(-6px,6px);
+  transform: rotate(45deg) translate(-6px,6px);
+  box-shadow: 1px -1px 1px -1px $menu-tone;
+}

@@ -1,0 +1,39 @@
+.aspectRatioPlaceholder {
+    margin: 0 auto;
+    position: relative;
+    width: 100%;
+}
+
+.graf-image:before,
+.iframeContainer:before {
+  .is-postEditMode & {
+    bottom: 0;
+    content: "";
+    left: 0;
+    position: absolute;
+    right: 0;
+    top: 0;
+    z-index: 500;
+  }
+}
+
+.graf-image,
+.graf-imageAnchor {
+  .aspectRatioPlaceholder.is-locked & {
+    height: 100%;
+    left: 0;
+    position: absolute;
+    top: 0;
+    width: 100%;
+  }
+}
+
+.graf-image,
+.graf-imageAnchor,
+.iframeContainer > iframe,
+.iframeContainer {
+  box-sizing: border-box;
+  display: block;
+  margin: auto;
+  max-width: 100%;
+}

@@ -1,0 +1,189 @@
+.signature {
+    position: relative;
+    display: table;
+    float: left;
+    margin-bottom: 20px;
+}
+
+.signature img {
+    float: left;
+    margin-right: 30px;
+    margin-bottom: 0!important;
+    height: 100px;
+    width: 100px;
+    border-radius: 50px;
+}
+
+.signature .text {
+    width: 100%;
+    display: table-cell;
+    vertical-align: middle;
+}
+
+.signature .text p {
+    margin-bottom: 0!important;
+}
+
+.dante-clearfix:after {
+  clear:both
+}
+.dante-clearfix:before{
+  display: table;
+  content: " ";
+}
+
+
+
+ .dropdown .btn {
+    color: #BEC2CC;
+    padding: 0 10px;
+    width: auto;
+    font-size: 12px;
+}
+
+.text-toolbar button {
+    position: relative;
+    float: left;
+    height: 40px;
+    width: 40px;
+    background: transparent;
+    border: 0;
+    padding: 0;
+    cursor: pointer;
+    padding: 0;
+}
+
+
+// dropdown
+
+.dropdown {
+    float: left;
+}
+
+.dropdown, .dropup {
+    position: relative;
+}
+
+.dropdown .btn {
+    color: #BEC2CC;
+    padding: 0 10px;
+    width: auto;
+    font-size: 12px;
+}
+
+.dante-menu-button.visible-overflow{
+  overflow:visible;
+}
+
+.dante-menu-button button {
+    position: relative;
+    float: left;
+    height: 40px;
+    width: 40px;
+    background: transparent !important;
+    border: 0;
+    padding: 0;
+    cursor: pointer;
+    padding: 0;
+}
+
+.dropdown .dropdown-menu {
+    background: #2A2B32;
+    padding: 0;
+    max-height: 300px;
+    overflow-y: auto;
+    width: auto;
+    min-width: 60px;
+}
+
+.open>.dropdown-menu {
+    display: block;
+}
+
+.dropdown-menu {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    z-index: 1000;
+    display: none;
+    float: left;
+    min-width: 160px;
+    padding: 5px 0;
+    margin: 2px 0 0;
+    font-size: 14px;
+    text-align: left;
+    list-style: none;
+    background-color: #fff;
+    -webkit-background-clip: padding-box;
+    background-clip: padding-box;
+    border: 1px solid #ccc;
+    border: 1px solid rgba(0,0,0,.15);
+    border-radius: 4px;
+    -webkit-box-shadow: 0 6px 12px rgba(0,0,0,.175);
+    box-shadow: 0 6px 12px rgba(0,0,0,.175);
+}
+
+.dropdown .dropdown-menu li {
+    border-bottom: 1px solid #383943;
+}
+
+.editor .container .content-edit .text-toolbar .dropdown .dropdown-menu li a {
+    color: #BEC2CC;
+    font-size: 12px;
+    padding: 0 10px;
+    line-height: 30px;
+}
+
+.dropdown-menu>li>a {
+    display: block;
+    padding: 3px 20px;
+    clear: both;
+    font-weight: 400;
+    line-height: 1.42857143;
+    color: #fff;
+    white-space: nowrap;
+}
+
+.btn-default.active, .btn-default:active, .open>.dropdown-toggle.btn-default {
+    color: #fff;
+    background-color: #e6e6e6;
+    border-color: #adadad;
+}
+
+.btn-default.active, .btn-default:active, .open>.dropdown-toggle.btn-default {
+    background-image: none;
+}
+
+.btn-default.active, .btn-default:active, .open>.dropdown-toggle.btn-default {
+    color: #fff;
+    background-color: #e6e6e6;
+    border-color: #adadad;
+}
+
+.btn-default {
+    color: #fff;
+    background-color: #fff;
+    border-color: #ccc;
+}
+
+.btn {
+    display: inline-block;
+    padding: 6px 12px;
+    margin-bottom: 0;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 1.42857143;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: middle;
+    -ms-touch-action: manipulation;
+    touch-action: manipulation;
+    cursor: pointer;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    background-image: none;
+    border: 1px solid transparent;
+    border-radius: 4px;
+}

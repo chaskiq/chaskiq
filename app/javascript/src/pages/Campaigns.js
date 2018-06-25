@@ -1,23 +1,18 @@
 import React, {Component} from "react"
 
-import Select from '@atlaskit/select';
-import FieldText from '@atlaskit/field-text';
 import Button from '@atlaskit/button';
-import Checkbox, { CheckboxGroup } from '@atlaskit/checkbox';
 import {
   Route,
   Link
 } from 'react-router-dom'
-import Form, { Field, FormHeader, FormSection, FormFooter } from '@atlaskit/form';
-import FieldTextArea from '@atlaskit/field-text-area';
 import ContentWrapper from '../components/ContentWrapper';
 import PageTitle from '../components/PageTitle';
-import MainSection from '../components/MainSection';
 import Tabs from '@atlaskit/tabs';
-import { DanteEditor, Dante } from 'Dante2/es/components/init.js';
-import css from 'Dante2/dist/DanteStyles.css';
+//import css from 'Dante2/dist/DanteStyles.css';
 import styled from 'styled-components'
 import axios from 'axios'
+
+import DemoApp from '../editor'
 import serialize from 'form-serialize'
 
 import CampaignSettings from "./campaigns/settings"
@@ -25,9 +20,10 @@ import SegmentManager from '../components/segmentManager'
 import {parseJwt, generateJWT} from '../components/segmentManager/jwt'
 
 const EditorContainer = styled.div`
-  overflow: auto;
+  //overflow: auto;
+  //height: 60vh;
   width: 100%;
-  height: 60vh;
+
   padding: 57px;
   background: #f9f8f8;
 `
@@ -216,22 +212,38 @@ class CampaignEditor extends Component {
   
   */
 
-
-  componentDidMount(){
-    this.editor = new Dante({   
-      upload_url: "http://localhost:9292/uploads/new",    
-      store_url: "http://localhost:3333/store.json",    
-      el: "campaign-editor"  
-    })
-    this.editor.render()
+  emptyContent = ()=>{
+    return {"entityMap":{},"blocks":[{"key":"761n6","text":"Write something","type":"header-one","depth":0,"inlineStyleRanges":[],"entityRanges":[],"data":{}},{"key":"f1qmb","text":"","type":"unstyled","depth":0,"inlineStyleRanges":[],"entityRanges":[],"data":{}},{"key":"efvk7","text":"Dante2 Inc.\nSantiago, Chile\nYou Received this email because you signed up on our website or made purchase from us.","type":"footer","depth":0,"inlineStyleRanges":[{"offset":0,"length":114,"style":"CUSTOM_FONT_SIZE_13px"},{"offset":0,"length":114,"style":"CUSTOM_COLOR_#8d8181"}],"entityRanges":[],"data":{}},{"key":"7gh7t","text":"Unsubscribe","type":"unsubscribe_button","depth":0,"inlineStyleRanges":[],"entityRanges":[],"data":{"enabled":false,"fill":"fill","displayPopOver":true,"data":{},"href":"http://mailerlite.com/some_unsubscribe_link_here","border":"default","forceUpload":false,"containerStyle":{"textAlign":"left","margin":"0px 13px 0px 0px"},"label":"click me","float":"left","buttonStyle":{"color":"#fff","backgroundColor":"#3498db","padding":"6px 12px","display":"inline-block","fontFamily":"Helvetica","fontSize":13,"float":"none","border":"1px solid #3498db"}}}]}
   }
 
   render(){
     return <EditorContainer>
+
             <div id="campaign-editor" style={{
               background: 'white', 
               paddingTop: '34px'
-            }}/>
+            }}>
+
+            <DemoApp
+              content={this.emptyContent()}
+              config={
+                {
+                  api_key: "86c28a410a104c8bb58848733c82f840",
+                  debug: true,
+                  oembed_uri: "/",
+                  read_only: false,
+                  upload_url: "/",
+                  renderDraggables: window.parent.window.renderDraggables,
+                  data_storage: {
+                    save_handler: ()=> console.log("dd"),
+                    url: "/sdffs",
+                    method: "post",
+                    success_handler: ()=> console.log("ff"),
+                  }
+                  }
+                }
+            />
+            </div>
            </EditorContainer>
   }
 }

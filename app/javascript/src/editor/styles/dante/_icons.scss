@@ -1,0 +1,64 @@
+.dante-icon {
+  &:before {
+    display: inline-block;
+    font-family: "dante";
+    font-style: normal;
+    font-variant: normal;
+    font-weight: normal;
+    line-height: 1em;
+    text-align: center;
+    text-decoration: inherit;
+    text-transform: none;
+  }
+}
+
+.dante-icon-h2:before                   { content: "H1"; }
+.dante-icon-h3:before                   { content: "H2"; }
+.dante-icon-h4:before                   { content: "H3"; }
+.dante-icon-p:before                    { content:  "P"; }
+.dante-icon-code:before                 { content: ""; }
+.dante-icon-insertorderedlist:before    { content: ""; }
+.dante-icon-insertunorderedlist:before  { content: ""; }
+.dante-icon-inserthorizontalrule:before { content: ""; }
+.dante-icon-indent:before               { content: ""; }
+.dante-icon-outdent:before              { content: ""; }
+.dante-icon-bold:before                 { content: ""; }
+.dante-icon-italic:before               { content: ""; }
+.dante-icon-underline:before            { content: ""; }
+.dante-icon-createlink:before           { content: ""; }
+.dante-icon-blockquote:before           { content: ""; }
+
+.dante-icon-h2:before,
+.dante-icon-h3:before,
+.dante-icon-h4:before {
+  font-weight: bold;
+}
+
+.tooltip-icon {
+  &:before {
+    font-family: 'dante-tooltip';
+    speak: none;
+    font-style: normal;
+    font-weight: normal;
+    font-variant: normal;
+    text-transform: none;
+    line-height: 1;
+
+    // Better Font Rendering
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+}
+
+.dante-icon-divider:before { content: "\e904"; }
+
+.dante-icon-image-center:before { content: "\e900"; }
+.dante-icon-image-fill:before   { content: "\e901"; }
+.dante-icon-image-left:before   { content: "\e902"; }
+.dante-icon-image-wide:before   { content: "\e903"; }
+
+.dante-icon-video:before        { content: "\e600"; }
+.dante-icon-image:before        { content: "\e601"; }
+.dante-icon-plus:before         { content: "\e602"; }
+.dante-icon-embed:before        { content: "\e603"; }
+

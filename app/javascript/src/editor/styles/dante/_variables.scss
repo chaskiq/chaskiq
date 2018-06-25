@@ -1,0 +1,96 @@
+// NEW VARIABLES
+
+// General
+
+$dante-font-family-sans-serif: 'comic-sans';
+
+$dante-visual-debugger:        false !default;
+
+$dante-text-color:             #000000 !default;
+$dante-inversed-color:         #FFFFFF !default;
+$dante-accent-color:           #5BD974 !default;
+$dante-control-color:          #333333 !default;
+$dante-popover-color:          #FFFFFF !default;
+
+// Editor
+$dante-editor-font-size:       18px !default;
+$dante-editor-line-height:     1.9 !default;
+
+// Menu
+$dante-menu-height:            42px !default;
+$dante-menu-background:        $dante-control-color !default;
+$dante-menu-color:             $dante-inversed-color !default;
+
+$dante-menu-border-radius:     5px !default;
+$dante-menu-box-shadow:        1px 2px 3px -2px #222 !default;
+
+$dante-menu-icon-size:         16px !default;
+$dante-menu-icon-color:        $dante-inversed-color !default;
+$dante-menu-icon-accent:       $dante-accent-color !default;
+
+$dante-menu-border-width:      0px !default;
+$dante-menu-border-color:      none !default;
+
+$dante-menu-caret-size:        8px !default;
+
+
+// Tooltip
+
+// Popover
+
+
+
+// OLD VARIABLES
+
+$dante-font-family-sans:              'jaf-bernino-sans', 'Open Sans', "Lucida Grande", "Lucida Sans Unicode", "Lucida Sans", Geneva, Verdana, sans-serif;
+$dante-font-family-serif:             'freight-text-pro', 'Merriweather', Georgia,Cambria, "Times New Roman", Times,serif;
+$dante-font-family-mono:              Menlo, Monaco, Consolas, "Courier New", "Courier", monospace;
+
+$dante-font-family-base:              $dante-font-family-sans;
+$dante-font-size-base:                14px;
+$line-height-base:              1.428571429; // 20/14
+
+/* DEPRECATED */ $active-color: $dante-accent-color;
+
+/* DEPRECATED */ $menu-tone: $dante-menu-background;
+/* DEPRECATED */ $menu-factor: 5%;
+/* DEPRECATED */ $menu-background: $dante-menu-background;
+/* DEPRECATED */ $menu-shadow: $dante-menu-box-shadow;
+/* DEPRECATED */ $menu-border-width: $dante-menu-border-width;
+/* DEPRECATED */ $menu-border-color: $dante-menu-border-color;
+/* DEPRECATED */ $menu-border-radius: $dante-menu-border-radius;
+
+/* DEPRECATED */ $menu-border:                   $menu-border-width solid $menu-border-color;
+/* DEPRECATED */ $menu-color:                    $dante-menu-icon-color;
+/* DEPRECATED */ $menu-color-active:             $dante-menu-icon-accent;
+
+/* DEPRECATED */ $menu-caret-size:               $dante-menu-caret-size;
+/* DEPRECATED */ $menu-caret-color:              darken($menu-tone,$menu-factor);
+
+
+
+/* DEPRECATED */ $menu-height: $dante-menu-height;
+$menu-button-height:            $menu-height - ($menu-border-width * 2);
+
+$tooltip-color:                 black;
+$tooltip-color-opacity:         0.44;
+$tooltip-color-opacity-hover:   0.9;
+$tooltip-background-opacity:    0;
+$tooltip-border-width:          1px;
+$tooltip-border-radius:         999em;
+
+$tooltip-button-spacing:        9px;
+$tooltip-menu-spacing:          22px;
+
+$tooltip-items:                 10; // Fix this and remove it
+$tooltip-item-delay:            30;
+$tooltip-size:                  32px;
+$tooltip-line-height:           $tooltip-size;
+
+$tooltip-caret-size:            12px;
+
+$tooltip-default-transition:    100ms border-color, 100ms color;
+$tooltip-forward-transition:    transform 100ms;
+$tooltip-backward-transition:   transform 250ms;
+
+/* DEPRECATED */ $debugger: $dante-visual-debugger;

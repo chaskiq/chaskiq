@@ -1,0 +1,24 @@
+.notesSource {
+
+  & {
+    padding: 0;
+    margin: 0;
+    position: relative;
+    color: rgba(0,0,0,0.8);
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    -moz-font-feature-settings: liga on;
+  }
+
+  *,
+  *:before,
+  *:after {
+    box-sizing: border-box;
+  }
+
+}
+
+.dante-paste{
+  display:none;
+}

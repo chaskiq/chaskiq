@@ -1,0 +1,130 @@
+.inlineTooltip {
+
+  // BASE
+  position: absolute;
+  z-index: 900;
+  width: $tooltip-size;
+  height: $tooltip-size;
+  -webkit-transition: opacity 100ms, width 0 linear 250ms;
+  transition: opacity 100ms, width 0 linear 250ms;
+  padding: 0;
+  font-size: 0;
+
+  opacity: 0;
+  pointer-events: none;
+
+  &.is-active {
+    opacity: 1;
+    pointer-events: auto;
+  }
+  &.is-scaled {
+    -webkit-transition-delay: 0;
+    transition-delay: 0;
+    width: auto;
+  }
+}
+
+// MENU
+.inlineTooltip-menu {
+  display: inline-block;
+  margin-left: $tooltip-size + $tooltip-menu-spacing;
+}
+
+// BUTTON
+.inlineTooltip-button {
+
+  // BASE
+  & {
+    background-color: white;
+    float: left;
+    margin-right: $tooltip-button-spacing;
+    display: inline-block;
+    position: relative;
+    outline: 0;
+    padding: 0;
+    vertical-align: bottom;
+    box-sizing: border-box;
+    border-radius: $tooltip-border-radius;
+    cursor: pointer;
+    font-size: 14px;
+    text-decoration: none;
+    font-family: $dante-font-family-sans;
+    letter-spacing: -0.02em;
+    font-weight: 400;
+    font-style: normal;
+    white-space: nowrap;
+    text-rendering: auto;
+    text-align: center;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    -moz-font-feature-settings: "liga" on;
+    width: $tooltip-size;
+    height: $tooltip-size;
+    line-height: $tooltip-line-height;
+    -webkit-transition: 100ms border-color, 100ms color;
+    transition: 100ms border-color, 100ms color;
+    //background: rgba($tooltip-color, $tooltip-background-opacity);
+    border: $tooltip-border-width solid;
+    border-color: rgba($tooltip-color, $tooltip-color-opacity);
+    color: rgba($tooltip-color, $tooltip-color-opacity);
+  }
+
+  &:hover {
+    border-color: rgba($tooltip-color, $tooltip-color-opacity-hover);
+    color: rgba($tooltip-color, $tooltip-color-opacity-hover);
+  }
+
+  // SCALE
+  &.scale {
+    & {
+       -webkit-transform: scale(0);
+           -ms-transform: scale(0);
+               transform: scale(0);
+      -webkit-transition: -webkit-#{$tooltip-forward-transition}, $tooltip-default-transition;
+              transition: $tooltip-forward-transition, $tooltip-default-transition;
+    }
+    .is-scaled & {
+       -webkit-transform: scale(1);
+           -ms-transform: scale(1);
+               transform: scale(1);
+      -webkit-transition: -webkit-#{$tooltip-backward-transition}, $tooltip-default-transition;
+              transition: $tooltip-backward-transition, $tooltip-default-transition;
+    }
+
+    @while $tooltip-items > 0 {
+      &:nth-child(#{$tooltip-items + 1}) {
+        -webkit-transition-delay: #{$tooltip-item-delay * $tooltip-items + "ms"};
+                transition-delay: #{$tooltip-item-delay * $tooltip-items + "ms"};
+      }
+      $tooltip-items: $tooltip-items - 1;
+    }
+  }
+
+  // CONTROL
+  &.control {
+    & {
+      display: block;
+      position: absolute;
+      margin-right: $tooltip-menu-spacing;
+    }
+    & {
+      -webkit-transition: -webkit-#{$tooltip-forward-transition}, $tooltip-default-transition;
+              transition: $tooltip-forward-transition, $tooltip-default-transition;
+       -webkit-transform: rotate(0);
+           -ms-transform: rotate(0);
+               transform: rotate(0);
+    }
+    .is-scaled & {
+      -webkit-transition: -webkit-#{$tooltip-backward-transition}, $tooltip-default-transition;
+              transition: $tooltip-backward-transition, $tooltip-default-transition;
+       -webkit-transform: rotate(45deg);
+           -ms-transform: rotate(45deg);
+               transform: rotate(45deg);
+            border-color: rgba($tooltip-color, $tooltip-color-opacity-hover);
+                   color: rgba($tooltip-color, $tooltip-color-opacity-hover);
+    }
+  }
+
+}
+

@@ -1,0 +1,201 @@
+// Base styles
+
+.dante-menu {
+
+  // MENU
+  position: absolute;
+  visibility: hidden;
+  z-index: 1000;
+  -webkit-transition: none;
+  transition: none;
+  display: none;
+  top: 0;
+  left: 0;
+  display:block;
+  white-space: nowrap;
+
+  height: $dante-menu-height;
+  background: $dante-menu-background;
+  color: $dante-menu-color;
+
+  @if $dante-menu-border-width {
+    border: $dante-menu-border-width;
+  }
+  @if $dante-menu-border-radius {
+    border-radius: $dante-menu-border-radius;
+  }
+  @if $dante-menu-box-shadow {
+    box-shadow: $dante-menu-box-shadow;
+  }
+
+
+  // CARET
+  // &:before -> Borde
+  // &:after  -> Triangulo
+  @if $dante-menu-caret-size {
+    //&:before,
+    &:after {
+      content: "";
+      height: 0;
+      width: 0;
+      position: absolute;
+      left: 50%;
+      pointer-events: none;
+      border: $dante-menu-caret-size solid transparent;
+      margin-left: -($dante-menu-caret-size/2);
+    }
+    //&:before {
+    //  border-top-color: $menu-border-color;
+    //  bottom: -($dante-menu-caret-size*2);
+    //}
+    &:after {
+      border-top-color: $dante-menu-background;
+      bottom: -(($dante-menu-caret-size*2)-1);
+    }
+  }
+
+}
+
+
+// Visible
+
+.dante-menu--active {
+  display: inline-block;
+  visibility: visible;
+  -webkit-animation: pop-upwards 180ms forwards linear;
+  animation: pop-upwards 180ms forwards linear;
+}
+
+
+// Link mode
+
+.dante-menu--linkmode {
+  .dante-menu-buttons {
+    visibility: hidden;
+  }
+  .dante-menu-linkinput {
+    display: block;
+  }
+  .dante-menu-input {
+    -webkit-animation: pop-upwards 180ms forwards linear;
+            animation: pop-upwards 180ms forwards linear;
+  }
+}
+
+
+// BUTONS
+
+.dante-menu-buttons {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  line-height: 0;
+}
+.dante-menu-divider {
+  width: 1px;
+  height: $dante-menu-height - 18px;
+  margin: 9px 2px;
+  background: rgba($dante-menu-color,.2);
+  display: inline-block;
+  overflow: hidden;
+  cursor: default;
+  line-height: $dante-menu-height;
+  -webkit-user-select: none;
+     -moz-user-select: none;
+      -ms-user-select: none;
+          user-select: none;
+}
+.dante-menu-button {
+  & {
+    min-width: 20px;
+    display: inline-block;
+    padding-left: 10px;
+    padding-right: 10px;
+    overflow: hidden;
+    text-align: center;
+    color: $dante-menu-icon-color;
+    cursor: pointer;
+    font-size: $dante-menu-icon-size;
+    line-height: $dante-menu-height;
+    //height: $menu-button-height;
+    -webkit-user-select: none;
+       -moz-user-select: none;
+        -ms-user-select: none;
+            user-select: none;
+  }
+  &:hover{
+    // nada
+  }
+  &.active{
+    color: $dante-menu-icon-accent;
+  }
+
+  @if $dante-menu-border-radius {
+    &:first-child {
+      border-top-left-radius: $dante-menu-border-radius;
+      border-bottom-left-radius: $dante-menu-border-radius;
+      padding-left: 18px;
+    }
+    &:last-child {
+      border-top-right-radius: $dante-menu-border-radius;
+      border-bottom-right-radius: $dante-menu-border-radius;
+      padding-right: 18px;
+    }
+  }
+}
+
+.dante-menu-button--disabled {
+  -webkit-user-select: none !important;
+     -moz-user-select: none !important;
+      -ms-user-select: none !important;
+          user-select: none !important;
+          opacity: .3;
+}
+
+
+// LINK
+
+.dante-menu-linkinput {
+  & {
+    display: none;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+  }
+  .dante-menu-button {
+    position: absolute;
+    top: 0;
+    right: 0;
+  }
+}
+
+.dante-menu-input {
+  //height: $menu-height - 2;
+  //line-height: 20px;
+  position: absolute;
+  top: 0;
+  left: 0;
+  background: rgba(0,0,0,0);
+  width: 100%;
+  padding: 13px 40px 13px 10px;
+  color: $menu-color;
+  border: none;
+  outline: none;
+  font-size: 14px;
+  box-sizing: border-box;
+  border-radius: $menu-border-radius;
+  appearance: none;
+  text-align: left;
+  font-family: $dante-font-family-sans;
+  letter-spacing: 0.01rem;
+  font-weight: 400;
+  font-style: normal;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  -moz-font-feature-settings: "liga" on;
+}
+
+

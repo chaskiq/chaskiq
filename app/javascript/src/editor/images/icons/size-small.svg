@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="43px" height="12px" viewBox="0 0 43 12" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 46.2 (44496) - http://www.bohemiancoding.com/sketch -->
+    <title>icon</title>
+    <desc>Created with Sketch.</desc>
+    <defs></defs>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="richtexteditor" transform="translate(-473.000000, -1290.000000)">
+            <g id="button-style" transform="translate(436.000000, 999.000000)">
+                <g id="button-size" transform="translate(22.000000, 280.000000)">
+                    <g id="button">
+                        <g id="icon" transform="translate(15.000000, 11.000000)">
+                            <rect id="Rectangle-7" stroke="#B1B4C1" x="0.5" y="0.5" width="42" height="11" rx="2"></rect>
+                            <text id="S" font-family="Helvetica" font-size="9" font-weight="normal" fill="#B1B4C0">
+                                <tspan x="18.4985352" y="9">S</tspan>
+                            </text>
+                        </g>
+                    </g>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>
