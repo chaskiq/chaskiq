@@ -16,6 +16,7 @@ export default class App extends Component {
   static contextTypes = {
     navOpenState: PropTypes.object,
     router: PropTypes.object,
+    currentApp: PropTypes.object
   };
 
   static propTypes = {
@@ -65,8 +66,11 @@ export default class App extends Component {
         <Page
           navigationWidth={this.context.navOpenState.width}
           navigation={<StarterNavigation 
-            navLinks={this.props.navLinks} 
+            navLinks={this.props.navLinks}
+            navOpenState={this.context.navOpenState}
+            onNavResize={this.props.onNavResize}
             currentUser={this.props.currentUser}
+            currentApp={this.props.currentApp}
           />}
         >
 

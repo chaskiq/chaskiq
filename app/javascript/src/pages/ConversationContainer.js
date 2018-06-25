@@ -95,6 +95,49 @@ const FixedHeader = styled.div`
   border-bottom: 1px solid #ccc;
 `
 
+const ChatMessageItem = styled.div`
+    position: relative;
+    margin: 8px 0 15px 0;
+    padding: 8px 10px;
+    max-width: 60%;
+    display: block;
+    word-wrap: break-word;
+    border-radius: 3px;
+    -webkit-animation: zoomIn .5s cubic-bezier(.42, 0, .58, 1);
+    animation: zoomIn .5s cubic-bezier(.42, 0, .58, 1);
+    clear: both;
+    z-index: 999;
+
+    &.user {
+      margin-left: 60px;
+      float: left;
+      background: rgba(0, 0, 0, 0.03);
+      color: #666;      
+    }
+
+    &.admin {
+      margin-right: 20px;
+      float: right;
+      background: #42a5f5;
+      color: #eceff1; 
+    }
+`;
+
+const ChatAvatar = styled.div`
+    left: -52px;
+    //background: rgba(0, 0, 0, 0.03);
+    position: absolute;
+    top: 0;
+
+    img {
+      width: 40px;
+      height: 40px;
+      text-align: center;
+      border-radius: 50%;
+    }
+`
+
+
 class MessageItem extends Component {
   render(){
     return (
@@ -309,12 +352,19 @@ class ConversationContainerShow extends Component {
                 <div className="overflow" ref="overflow">
 
                   {
-                    this.state.messages.map( (o)=> {
-                      return <MessageItem 
-                                key={o.id}
-                                message={o}
-                              />
-                    })
+                    this.state.messages.map( (o, i)=> {
+                      return <ChatMessageItem key={o.id}
+                                className={this.state.conversation.main_participant.email === o.app_user.email ? 'user' : 'admin'}>
+                                <ChatAvatar>
+                                  <img src={gravatar.url(o.app_user.email)}/>
+                                </ChatAvatar>
+                                <div  
+                                  key={i}
+                                  dangerouslySetInnerHTML={{__html: o.message}} 
+                                />
+                                 
+                              </ChatMessageItem>
+                            })
                   }
 
                 </div>
@@ -355,17 +405,21 @@ class ConversationContainerShow extends Component {
                 </ActivityAvatar>
 
 
-                <p style={{
-                  display: 'flex', 
-                  alignSelf: 'center', 
-                  fontWeight: '700'}}>
-                  {this.state.app_user.email}
-                </p>
+                  <p style={{
+                    display: 'flex', 
+                    alignSelf: 'center', 
+                    fontWeight: '700'}}>
+                    {this.state.app_user.email}
+                  </p>
 
-                <p style={{
-                  display: 'flex', 
-                  alignSelf: 'center', 
-                  fontWeight: '300'}}>
+                  <p style={{
+                    display: 'flex', 
+                    alignSelf: 'center', 
+                    fontWeight: '300',
+                    marginTop: '20px',
+                    fontSize: '11px',
+                    color: 'lightblue'
+                  }}>
 
                   <Moment 
                     fromNow={this.state.app_user.last_visited_at}

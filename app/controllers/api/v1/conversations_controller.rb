@@ -26,8 +26,9 @@ class Api::V1::ConversationsController < ApplicationController
       # this is to avoid multiple empty convos
       @conversation = user.conversations
                           .left_joins(:messages)
-                          .where(conversation_parts: {id: nil}).first || 
-                          @app.conversations.create(main_participant: user)
+                          .where(conversation_parts: {id: nil})
+                          .uniq
+                          .first || @app.conversations.create(main_participant: user)
     end
     render :show
   end
