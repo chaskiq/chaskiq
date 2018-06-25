@@ -56,7 +56,7 @@ const ContainerHeaderComponent = ({
 }) => (
   <div>
     <AkContainerTitle
-      href="https://atlaskit.atlassian.com/"
+      href="/"
       icon={
         <img alt="hermess logo" src={atlaskitLogo} />
       }
