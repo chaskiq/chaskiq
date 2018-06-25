@@ -1,0 +1,67 @@
+.postArticle {
+  position: relative;
+  -webkit-transform: translateZ(0);
+  transform: translateZ(0);
+  .layoutSingleColumn {
+    & {
+      width: 700px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    @media (max-width: 800px) {
+      width: 640px;
+    }
+    @media (max-width: 680px) {
+      width: auto;
+      margin-left: 20px;
+      margin-right: 20px;
+    }
+  }
+}
+
+.postWrapper,
+.postWrapper-inner {
+  position: relative;
+  @include clearfix;
+}
+
+.postWrapper {
+  overflow: hidden;
+
+  .is-postEditMode &            { display: none; }
+  .is-postEditModeInitialized & { display: block; }
+}
+
+.postContent {
+  font-family: $dante-font-family-serif;
+  letter-spacing: 0.01rem;
+  font-weight: 400;
+  font-style: normal;
+  font-size: $dante-editor-font-size;
+  line-height: $dante-editor-line-height;
+}
+
+.postField {
+  &, &:focus {
+    outline: 0;
+    word-break: break-word;
+    word-wrap: break-word;
+  }
+}
+
+.postField--body {
+  @include clearfix;
+  margin-bottom: 30px;
+}
+
+.section--last {
+  padding-bottom: 5px;
+}
+
+.section-content {
+  @include clearfix;
+}
+
+.section-inner {
+  position: relative;
+}

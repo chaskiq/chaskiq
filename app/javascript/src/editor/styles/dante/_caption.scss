@@ -1,0 +1,61 @@
+.imageCaption {
+  & {
+    top: 0;
+    text-align: center;
+    margin-top: 0;
+    font-family: $dante-font-family-sans;
+    letter-spacing: 0;
+    font-weight: 400;
+    font-size: 13px;
+    line-height: 1.4;
+    color: rgba(0,0,0,0.6);
+    outline: 0;
+    z-index: 300;
+    margin-top: 10px;
+    position:relative;
+  }
+  .danteDefaultPlaceholder{
+    margin-bottom: -18px !important;
+    display: block;
+  }
+}
+
+div[contenteditable="false"] {
+  .danteDefaultPlaceholder{
+    display:none;
+  }
+}
+
+@media (max-width: 1200px) {
+  .imageCaption,
+  .postField--outsetCenterImage > .imageCaption {
+    position: relative;
+    width: 100%;
+    text-align: center;
+    left: 0;
+    margin-top: 10px;
+  }
+}
+
+figure.graf--layoutOutsetLeft {
+  .imageCaption,
+  .postField--outsetCenterImage > .imageCaption {
+    position: relative;
+    width: 100%;
+    text-align: center;
+    left: 0;
+    margin-top: 10px;
+  }
+}
+
+figure.is-defaultValue .imageCaption,
+.graf--sectionCaption.is-defaultValue {
+  display: none;
+}
+
+.graf--figure.is-mediaFocused .imageCaption,
+.graf--figure.is-defaultValue.is-selected .imageCaption,
+section.is-mediaFocused .graf--sectionCaption,
+.graf--sectionCaption.is-defaultValue.is-selected {
+  display: block;
+}

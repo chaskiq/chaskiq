@@ -1,0 +1,209 @@
+
+.editable .markup--anchor,
+.editable .graf--sectionCaption {
+    cursor: text;
+}
+
+/*
+.markup--anchor {
+    background-image: linear-gradient(to bottom, rgba(0, 0, 0, 0) 50%, rgba(0, 0, 0, 0.6) 50%);
+    //background-position: 0 24px;
+    background-position: 0 19px;
+    background-repeat: repeat-x;
+    background-size: 2px 2px;
+    text-decoration: none;
+    color: rgba(0, 0, 0, 1);
+    //border-bottom: 1px solid rgba(0,0,0,.4);
+}
+
+h4 .markup--anchor {
+    background-position: 0 34px;
+}
+*/
+
+
+// .aspectRatioPlaceholder {
+//     margin: 0 auto;
+//     position: relative;
+//     width: 100%;
+// }
+
+// .is-postEditMode .graf-image:before,
+// .is-postEditMode .iframeContainer:before {
+//     bottom: 0;
+//     content: "";
+//     left: 0;
+//     position: absolute;
+//     right: 0;
+//     top: 0;
+//     z-index: 500;
+// }
+
+// .graf--figure.is-mediaFocused .graf-image,
+// .graf--figure.is-mediaFocused iframe {
+//     box-shadow: 0 0 0 3px #57ad68;
+// }
+
+// .aspectRatioPlaceholder.is-locked .graf-image,
+// .aspectRatioPlaceholder.is-locked .graf-imageAnchor {
+//     height: 100%;
+//     left: 0;
+//     position: absolute;
+//     top: 0;
+//     width: 100%;
+// }
+
+// .graf-image,
+// .graf-imageAnchor,
+// .iframeContainer > iframe,
+// .iframeContainer {
+//     box-sizing: border-box;
+//     display: block;
+//     margin: auto;
+//     max-width: 100%;
+// }
+
+.is-postEditMode iframe {
+    border: 3px solid rgba(255, 255, 255, 0);
+}
+
+.graf--mixtapeEmbed {
+    border-color: rgba(0, 0, 0, 0.15);
+    border-radius: 5px;
+    border-style: solid;
+    border-width: 1px;
+    box-sizing: border-box;
+    color: rgba(0, 0, 0, 0.6);
+    font-family: $dante-font-family-sans;
+    font-size: 12px;
+    font-style: normal;
+    font-weight: 300;
+    letter-spacing: -0.02em;
+    margin-bottom: 40px;
+    margin-top: 40px;
+    max-height: 310px;
+    max-width: 700px;
+    overflow: hidden;
+    padding: 30px;
+    position: relative;
+}
+
+.mixtapeImage {
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    float: right;
+    height: 310px;
+    margin: -30px -30px 0 25px;
+    width: 310px;
+}
+
+.mixtapeImage--empty {
+    height: 0;
+    width: 0;
+}
+
+.graf--mixtapeEmbed {
+    color: rgba(0, 0, 0, 0.6);
+    font-family: $dante-font-family-sans;
+    font-size: 12px;
+    font-style: normal;
+    font-weight: 300;
+    letter-spacing: -0.02em;
+}
+
+.markup--mixtapeEmbed-strong {
+    color: #000;
+    display: block;
+    font-family: $dante-font-family-sans;
+    font-size: 30px;
+    font-style: normal;
+    font-weight: 300;
+    letter-spacing: -0.02em;
+    line-height: 1.2;
+    margin-bottom: 0px;
+}
+
+.markup--mixtapeEmbed-em {
+    display: block;
+    font-size: 16px;
+    font-style: normal;
+    margin-bottom: 10px;
+    max-height: 120px;
+    overflow: hidden;
+}
+
+/*CAPTION*/
+
+
+// .imageCaption:before {
+//     border-top: 1px solid rgba(0, 0, 0, 0.15);
+//     content: "";
+//     display: block;
+//     margin-bottom: 10px;
+//     margin-left: 75%;
+//     width: 25%;
+// }
+
+// .imageCaption {
+//     color: rgba(0, 0, 0, 0.6);
+//     font-family: $dante-font-family-serif;
+//     font-size: 14px;
+//     font-style: italic;
+//     font-weight: 400;
+//     left: -172px;
+//     letter-spacing: 0.01rem;
+//     line-height: 1.4;
+//     margin-top: 0;
+//     outline: 0 none;
+//     position: absolute;
+//     text-align: right;
+//     top: 0;
+//     width: 150px;
+//     z-index: 300;
+// }
+
+// .graf--figure.is-mediaFocused .imageCaption,
+// .graf--figure.is-defaultValue.is-selected .imageCaption,
+// section.is-mediaFocused .graf--sectionCaption,
+// .graf--sectionCaption.is-defaultValue.is-selected {
+//     display: block;
+// }
+
+// figure.is-defaultValue .imageCaption,
+// .graf--sectionCaption.is-defaultValue {
+//     display: none;
+// }
+
+.editor a {
+  a {
+    color: inherit;
+    text-decoration: none;
+  }
+}
+
+.defaultValue {
+  color: rgba(0,0,0,0.3);
+}
+
+section:first-child > .section-divider,
+section.is-backgrounded + section > .section-divider {
+    display: none;
+}
+// .postArticle .layoutSingleColumn,
+// .postFooter--loggedOut .layoutSingleColumn {
+//     width: 700px;
+// }
+
+// .layoutSingleColumn {
+//     margin: 0 auto;
+//     width: 640px;
+// }
+
+.defaultValue--prompt {
+    font-family: $dante-font-family-sans;
+    font-size: 18px;
+    font-style: normal;
+    font-weight: 400;
+    letter-spacing: -0.02em;
+}

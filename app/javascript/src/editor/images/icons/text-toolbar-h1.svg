@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="16px" height="13px" viewBox="0 0 16 13" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 46.2 (44496) - http://www.bohemiancoding.com/sketch -->
+    <title>h1</title>
+    <desc>Created with Sketch.</desc>
+    <defs></defs>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="richtexteditor" transform="translate(-680.000000, -225.000000)" fill="#B1B4C1">
+            <g id="text-edit" transform="translate(544.000000, 209.000000)">
+                <g id="h1" transform="translate(134.000000, 12.000000)">
+                    <text id="H" font-family=".AppleSystemUIFont" font-size="18" font-weight="normal">
+                        <tspan x="0.535644531" y="17">H</tspan>
+                    </text>
+                    <polygon id="1" points="17.4715 12 17.4715 5.997 16.1305 5.997 14.0335 8.067 14.9155 8.994 15.9235 7.977 15.9235 12"></polygon>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

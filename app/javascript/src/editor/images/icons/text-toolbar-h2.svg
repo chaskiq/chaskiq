@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="14px" height="10px" viewBox="0 0 14 10" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 46.2 (44496) - http://www.bohemiancoding.com/sketch -->
+    <title>h2</title>
+    <desc>Created with Sketch.</desc>
+    <defs></defs>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="richtexteditor" transform="translate(-711.000000, -228.000000)" fill="#B1B4C1">
+            <g id="text-edit" transform="translate(544.000000, 209.000000)">
+                <g id="h2" transform="translate(167.000000, 19.000000)">
+                    <polygon id="H" points="7.8 9.4 7.8 0.733333333 5.941 0.733333333 5.941 4.13763118 1.846 4.13763118 1.846 0.733333333 0 0.733333333 0 9.4 1.846 9.4 1.846 5.74882559 5.941 5.74882559 5.941 9.4"></polygon>
+                    <path d="M13.8897774,6 L13.8897774,4.89217134 L12.0877095,4.89217134 C13.3137065,4.03545052 13.8528498,3.3929099 13.8528498,2.63220089 C13.8528498,1.64992614 13.0182856,1 11.8587582,1 C11.1719045,1 10.3890389,1.2437223 9.86466667,1.81979321 L10.5662915,2.66174298 C10.9207967,2.32939439 11.334386,2.1225997 11.8809148,2.1225997 C12.2428055,2.1225997 12.5603831,2.29985229 12.5603831,2.63220089 C12.5603831,3.12703102 12.1615647,3.46676514 10.0271482,5.01033973 L10.0271482,6 L13.8897774,6 Z" id="2"></path>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

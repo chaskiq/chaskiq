@@ -1,0 +1,124 @@
+@if $debugger {
+  .debug {
+    .section-inner {
+      .is-selected{
+        outline-color: rgb(85, 182, 179);
+        outline-width: thin;
+        outline-style: dotted;
+      }
+    }
+  }
+}
+
+
+.debugControls{
+    position: fixed;
+    left: 0px;
+    bottom: 0px;
+    z-index: 999999;
+    background-color: #fff;
+    width: 100%;
+    border-top: 1px solid #000;
+  ul{
+    margin: 0px auto;
+    margin-top: 12px;
+  }
+  li{
+    float: left;
+    margin-left: 20px;
+    display: block;
+    margin-bottom: 10px;
+    font-family: $dante-font-family-sans;
+    font-size:12px;
+  }
+  a{
+    color: #000;
+    &:active{
+      color: #000;
+      outline: 0;
+    }
+  }
+}
+
+
+.debugZone{
+  background-color: #101010;
+  color: #ccc;
+  clear: both;
+  padding-top: 10px;
+  position: fixed;
+  right: 0;
+  left: 0;
+  padding: 1rem;
+  width: 100%;
+  //opacity:0.9;
+  z-index:9999;
+  height: 130px;
+  bottom: 0px;
+
+  height: 100%;
+  top: 0px;
+
+  &.open {
+    height: 100%;
+    top: -74px;
+  }
+  &.collapsed{
+    height: 130px;
+    bottom: 0px;
+  }
+  .dante-debug-close{
+    position:absolute;
+    width: 20px;
+    height: 20px;
+    right: 43px;
+    top: 38px;
+
+    &.close.hairline::before {
+        height: 1px;
+    }
+
+    &.close::before {
+        -webkit-transform: rotate(45deg);
+        -moz-transform: rotate(45deg);
+        -ms-transform: rotate(45deg);
+        -o-transform: rotate(45deg);
+        transform: rotate(45deg);
+    }
+    &.close::before, &.close::after {
+        content: '';
+        position: absolute;
+        height: 2px;
+        width: 100%;
+        top: 50%;
+        left: 0;
+        margin-top: -1px;
+        background: #fff;
+        height: 1px;
+    }
+
+    &.close::after {
+        -webkit-transform: rotate(-45deg);
+        -moz-transform: rotate(-45deg);
+        -ms-transform: rotate(-45deg);
+        -o-transform: rotate(-45deg);
+        transform: rotate(-45deg);
+    }
+
+  }
+
+  .debugOutput{
+    float: right;
+    width: 67%;
+    margin-right: 12%;
+    pre{
+      color:white;
+      height: 450px;
+      overflow: auto;
+      padding: 10px;
+      background-color: #353232;
+      border: 2px solid #c019dc;
+    }
+  }
+
+}
