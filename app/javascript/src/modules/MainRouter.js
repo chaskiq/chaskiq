@@ -12,6 +12,11 @@ import DashboardIcon from '@atlaskit/icon/glyph/dashboard';
 import GearIcon from '@atlaskit/icon/glyph/settings';
 import SearchIcon from '@atlaskit/icon/glyph/search';
 
+const defaultNavOpts = {
+  isOpen: false,
+  width: 304
+}
+
 export default class MainRouter extends Component {
   constructor() {
     super();
@@ -21,15 +26,10 @@ export default class MainRouter extends Component {
                               ['/apps', 'My Apps', DashboardIcon],
                             ]
     this.state = {
-      navOpenState: {
-        isOpen: true,
-        width: 304
-      },
-
+      navOpenState: defaultNavOpts,
+      currentApp: null,
       currentUser: {},
-
       navLinks: this.defaultNavLinks
-
     }
     this.updateNavLinks = this.updateNavLinks.bind(this)
 
@@ -60,18 +60,25 @@ export default class MainRouter extends Component {
   getCurrentUser = ()=>{
     axios.get(`/user_session.json`)
     .then( (response)=> {
-      this.setState({currentUser: response.data.current_user }, ()=>{ 
-        
+      this.setState({currentUser: response.data.current_user }, ()=>{   
       })
     })
     .catch( (error)=> {
       console.log(error);
     });
+  }
 
+  setCurrentApp = (app) =>{
+    this.setState({
+      currentApp: app, 
+      navOpenState: {
+        isOpen: true,
+        width: 304
+      } 
+    })
   }
 
   render() {
-    // console.log(this.state.currentUser)
     return (
       <BrowserRouter>
 
@@ -79,9 +86,13 @@ export default class MainRouter extends Component {
           this.state.currentUser.email ?
             <App
               onNavResize={this.onNavResize}
-              {...this.props}
+              navOpenState={this.navOpenState}
               currentUser={this.state.currentUser}
-              navLinks={this.state.navLinks}>
+              currentApp={this.state.currentApp}
+              navLinks={this.state.navLinks}
+              setCurrentApp={this.setCurrentApp}
+              {...this.props}
+              >
               
               <Route exact path="/" component={HomePage} />
               <Route path="/settings" component={SettingsPage} />
@@ -99,6 +110,8 @@ export default class MainRouter extends Component {
               <Route path="/apps/:appId" render={(props)=>(
                 <ShowAppContainer 
                   {...props} 
+                  currentApp={this.state.currentApp}
+                  setCurrentApp={this.setCurrentApp}
                   currentUser={this.state.currentUser}
                   initialNavLinks={this.defaultNavLinks}
                   navLinks={this.state.navLinks}

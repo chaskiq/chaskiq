@@ -456,7 +456,9 @@ export default class ShowAppContainer extends Component {
     .then( (response)=> {
       this.setState({app: response.data.app}, ()=>{ 
         this.updateNavLinks()
-        cb ? cb() : null
+        // TODO: use the props app instead the state app
+        this.props.setCurrentApp(this.state.app)
+        cb ? cb() : null 
       })
     })
     .catch( (error)=> {
@@ -509,7 +511,8 @@ export default class ShowAppContainer extends Component {
     const links = this.state.app.segments.map((o)=> [url_for(o), o.name, null] )
 
     links.push([`/apps/${this.state.app.key}/conversations/`, "conversations", null])
-    this.props.updateNavLinks(this.props.initialNavLinks.concat(links))
+    //this.props.updateNavLinks(this.props.initialNavLinks.concat(links))
+    this.props.updateNavLinks(links)
   }
 
   updateUser(data){

@@ -206,7 +206,6 @@ const ChatAvatar = styled.div`
       text-align: center;
       border-radius: 50%;
     }
-
 `
 
 const NewConvoBtn = styled.a`
