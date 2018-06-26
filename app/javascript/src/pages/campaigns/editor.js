@@ -232,7 +232,8 @@ export default class CampaignEditor extends Component {
 
     this.state = {
       data: {},
-      status: ""
+      status: "",
+      statusButton: "inprogress"
     }
 
     this.save_url = window.location.pathname
@@ -241,7 +242,8 @@ export default class CampaignEditor extends Component {
   save_handler = (html, plain, serialized)=>{
     
     this.setState({
-      status: "saving..."
+      status: "saving...",
+      statusButton: "success"
     })
 
     axios.put(`${this.save_url}.json`, {
@@ -279,7 +281,7 @@ export default class CampaignEditor extends Component {
 
             <ButtonsRow>
               <ButtonsContainer>
-                <Lozenge appearance={'success'} isBold>
+                <Lozenge appearance={this.state.statusButton} isBold>
                   {this.state.status}
                 </Lozenge>
 
