@@ -270,7 +270,7 @@ export default class CampaignEditor extends Component {
 
   defaultContent = ()=>{
     try {
-      return JSON.parse(this.props.data.serialized_content)
+      return JSON.parse(this.props.data.serialized_content) || this.emptyContent()
     } catch (error) {
       return this.emptyContent()
     }

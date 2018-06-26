@@ -177,7 +177,6 @@ class DanteEditor extends React.Component {
 
   initializeState() {
     let newEditorState = EditorState.createEmpty(this.decorator)
-    
     if (this.props.content) {
       newEditorState = EditorState.set(this.decodeEditorContent(this.props.content), {decorator: this.decorator});
     }
