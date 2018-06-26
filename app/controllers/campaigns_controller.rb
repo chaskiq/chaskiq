@@ -1,7 +1,10 @@
 class CampaignsController < ApplicationController
-  before_action :find_app #, only: [:show, :edit, :update, :destroy]
+  before_action :find_app , except: [:premailer_preview]
   
-  before_action :set_campaign, only: [:show, :edit, :update, :destroy]
+  before_action :set_campaign, only: [
+    :show, :edit, :update, :destroy, 
+    :test, :deliver, :preview
+  ]
 
   # GET /campaigns
   # GET /campaigns.json
@@ -76,6 +79,32 @@ class CampaignsController < ApplicationController
       format.json { head :no_content }
     end
   end
+
+  def preview
+    @campaign.apply_premailer(exclude_gif: true)
+    render html: @campaign.compiled_template_for(@campaign.subscribers.first).html_safe, layout: false
+  end
+
+  def premailer_preview
+    puts params
+    puts "AAAAAAAAAA"
+    @app = App.find_by(key: params[:app_id])
+    set_campaign
+    render layout: false
+  end
+
+  def test
+    @campaign.test_newsletter
+    flash[:notice] = "test sended"
+    redirect_to manage_campaigns_path()
+  end
+
+  def deliver
+    @campaign.send_newsletter
+    flash[:notice] = "newsletter sended"
+    redirect_to manage_campaigns_path()
+  end
+
 
   private
     # Use callbacks to share common setup or constraints between actions.

@@ -205,6 +205,9 @@ GEM
       activesupport (>= 4.2)
     gutentag (2.4.0)
       activerecord (>= 3.2.0)
+    haml (5.0.4)
+      temple (>= 0.8.0)
+      tilt
     http (3.3.0)
       addressable (~> 2.3)
       http-cookie (~> 1.0)
@@ -369,6 +372,7 @@ GEM
     sshkit (1.16.1)
       net-scp (>= 1.1.2)
       net-ssh (>= 2.8.0)
+    temple (0.8.0)
     thor (0.20.0)
     thread_safe (0.3.6)
     tilt (2.0.8)
@@ -429,6 +433,7 @@ DEPENDENCIES
   geocoder (~> 1.4)
   groupdate
   gutentag (~> 2.4)
+  haml
   http
   jbuilder (~> 2.5)
   kaminari (~> 1.1)
@@ -439,6 +444,7 @@ DEPENDENCIES
   puma (~> 3.11)
   rails (~> 5.2.0)
   ransack
+  redis (~> 4.0)
   roadie
   roo
   rspec-core!

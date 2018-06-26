@@ -1,4 +1,5 @@
 require "link_renamer"
+require "open-uri"
 
 class Campaign < ApplicationRecord
   belongs_to :app
@@ -111,7 +112,7 @@ class Campaign < ApplicationRecord
   def apply_premailer(opts={})
     host = Rails.application.routes.default_url_options[:host]
     skip_track_image = opts[:exclude_gif] ? "exclude_gif=true" : nil
-    premailer_url = ["#{host}/manage/campaigns/#{self.id}/premailer_preview", skip_track_image].join("?")
+    premailer_url = ["#{host}/apps/#{self.app.key}/campaigns/#{self.id}/premailer_preview", skip_track_image].join("?")
     url = URI.parse(premailer_url)
     self.update_column(:premailer, clean_inline_css(url))
   end

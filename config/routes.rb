@@ -7,7 +7,13 @@ Rails.application.routes.draw do
       post :search
     end
     resources :conversations
-    resources :campaigns
+    resources :campaigns do
+      member do
+        get :preview
+        get :premailer_preview
+      end
+    end
+
     resources :app_users
     resources :segments do
       member do
