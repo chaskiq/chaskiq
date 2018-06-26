@@ -916,46 +916,35 @@ class DanteEditor extends React.Component {
   render() {
     return (
       <div suppressContentEditableWarning={ true }>
-        <article className="postArticle">
+        
           <div className="postContent">
-            <div className="notesSource">
-              <div className="postField postField--body">
-                <section className="section--first section--last">
-                  <div className="section-divider layoutSingleColumn">
-                    <hr className="section-divider" />
-                  </div>
-                  <div className="section-content">
-                    <div ref="richEditor" 
-                        className="section-inner layoutSingleColumn"
-                        onClick={ this.focus }>
-                      <Editor
-                        blockRendererFn={ this.blockRenderer }
-                        editorState={ this.state.editorState }
-                        onChange={ this.onChange }
-                        handleDrop={this.handleDrop}
-                        onUpArrow={ this.handleUpArrow }
-                        onDownArrow={ this.handleDownArrow }
-                        handleReturn={ this.handleReturn }
-                        blockRenderMap={ this.state.blockRenderMap }
-                        blockStyleFn={ this.blockStyleFn }
-                        customStyleFn={this.customStyleFn }
-                        handlePastedText={ this.handlePasteText }
-                        handlePastedFiles={ this.handlePasteImage }
-                        handleDroppedFiles={ this.handleDroppedFiles }
-                        handleKeyCommand={ this.handleKeyCommand }
-                        keyBindingFn={ this.KeyBindingFn }
-                        handleBeforeInput={ this.handleBeforeInput }
-                        readOnly={ this.state.read_only }
-                        placeholder={ this.props.config.body_placeholder }
-                        ref="editor"
-                      />
-                    </div>
-                  </div>
-                </section>
-              </div>
+            <div ref="richEditor" 
+                className="section-inner layoutSingleColumn"
+                onClick={ this.focus }>
+              <Editor
+                blockRendererFn={ this.blockRenderer }
+                editorState={ this.state.editorState }
+                onChange={ this.onChange }
+                handleDrop={this.handleDrop}
+                onUpArrow={ this.handleUpArrow }
+                onDownArrow={ this.handleDownArrow }
+                handleReturn={ this.handleReturn }
+                blockRenderMap={ this.state.blockRenderMap }
+                blockStyleFn={ this.blockStyleFn }
+                customStyleFn={this.customStyleFn }
+                handlePastedText={ this.handlePasteText }
+                handlePastedFiles={ this.handlePasteImage }
+                handleDroppedFiles={ this.handleDroppedFiles }
+                handleKeyCommand={ this.handleKeyCommand }
+                keyBindingFn={ this.KeyBindingFn }
+                handleBeforeInput={ this.handleBeforeInput }
+                readOnly={ this.state.read_only }
+                placeholder={ this.props.config.body_placeholder }
+                ref="editor"
+              />
             </div>
           </div>
-        </article>
+       
         {
           this.tooltips.map( (o, i) => {
             return (
