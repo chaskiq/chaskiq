@@ -335,6 +335,14 @@
   dependencies:
     react-scrolllock "^2.0.2"
 
+"@atlaskit/lozenge@^5.0.4":
+  version "5.0.4"
+  resolved "https://registry.yarnpkg.com/@atlaskit/lozenge/-/lozenge-5.0.4.tgz#9c1a2803c088b10a3f7901fdc2f012101288a8e2"
+  dependencies:
+    "@atlaskit/theme" "^4.0.4"
+    "@atlaskit/util-shared-styles" "^2.10.3"
+    babel-runtime "^6.26.0"
+
 "@atlaskit/modal-dialog@^4.0.5":
   version "4.0.5"
   resolved "https://registry.yarnpkg.com/@atlaskit/modal-dialog/-/modal-dialog-4.0.5.tgz#5e63c7c78717ef0d918aa18c9017a9286b9e0a66"

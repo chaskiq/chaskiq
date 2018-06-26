@@ -17,6 +17,7 @@
     "@atlaskit/icon": "^11.3.2",
     "@atlaskit/inline-dialog": "^6.0.2",
     "@atlaskit/inline-edit": "^5.0.2",
+    "@atlaskit/lozenge": "^5.0.4",
     "@atlaskit/modal-dialog": "^4.0.5",
     "@atlaskit/navigation": "^31.0.4",
     "@atlaskit/page": "^6.0.3",

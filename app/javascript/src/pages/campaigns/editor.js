@@ -5,6 +5,8 @@ import _ from "lodash"
 import axios from 'axios'
 import styled from 'styled-components'
 import {convertToHTML} from 'draft-convert'
+import Lozenge from '@atlaskit/lozenge';
+import Button from '@atlaskit/button';
 
 const EditorContainer = styled.div`
   //overflow: auto;
@@ -13,6 +15,22 @@ const EditorContainer = styled.div`
 
   padding: 57px;
   background: #f9f8f8;
+`
+
+const ButtonsContainer = styled.div`
+  display: flex;
+  direction: column;
+  align-items: center;
+  justify-content: space-between;
+  width: 32%;
+  float: right;
+  margin: 4px 4px;
+`
+
+const ButtonsRow = styled.div`
+  width: 100%;
+  clear: both;
+  margin: 0px;
 `
 
 const styleString = (obj)=>{
@@ -207,26 +225,25 @@ const save_handler = (context, content, cb)=>{
     cb(html3, plain, serialized)
 }
 
-
 export default class CampaignEditor extends Component {
 
   constructor(props){
     super(props)
 
     this.state = {
-      data: {}
+      data: {},
+      status: ""
     }
 
     this.save_url = window.location.pathname
-
-    /*this.attachment_pach = "#{manage_campaign_attachments_path(@campaign)}"
-    this.save_url = "#{wizard_path}.json";
-    this.oembed_url = "/oembed?url=";
-    this.data = #{@campaign.html_serialized ? raw(@campaign.html_serialized) : 'empty'};
-    */
   }
 
   save_handler = (html, plain, serialized)=>{
+    
+    this.setState({
+      status: "saving..."
+    })
+
     axios.put(`${this.save_url}.json`, {
       campaign: {
         html_content: html,
@@ -235,7 +252,7 @@ export default class CampaignEditor extends Component {
     })
     .then((response)=>{
       console.log(response)
-      this.setState({data: response.data})
+      this.setState({data: response.data, status: "saved"})
     }).catch((err)=>{
       console.log(err)
     })
@@ -260,32 +277,58 @@ export default class CampaignEditor extends Component {
   render(){
     return <EditorContainer>
 
-            <div id="campaign-editor" style={{
-              background: 'white', 
-              padding: '34px'
-            }}>
+            <ButtonsRow>
+              <ButtonsContainer>
+                <Lozenge appearance={'success'} isBold>
+                  {this.state.status}
+                </Lozenge>
 
-            <DemoApp
-              content={this.defaultContent()}
-              config={
-                {
-                  api_key: "86c28a410a104c8bb58848733c82f840",
-                  debug: true,
-                  oembed_uri: "/",
-                  read_only: false,
-                  upload_url: "/",
-                  renderDraggables: window.parent.window.renderDraggables,
-                  data_storage: {
-                    save_handler: (context, content)=>{ 
-                      save_handler(context, content, this.save_handler) 
-                    },
-                    url: `${window.location}`,
-                    method: "PUT",
-                    success_handler: this.successStoreHandler,
+                <Button appearance="default" onClick={(e)=> {
+                    window.open(`${window.location.pathname}/preview`,'_blank');
+                  }  
+                }>
+                  Preview
+                </Button>
+
+                <Button appearance="default" onClick={(e)=> {console.log('test')}}>
+                  Test
+                </Button>
+
+                <Button appearance="primary" onClick={(e)=> {console.log('send')}}>
+                  Send
+                </Button>
+              </ButtonsContainer>
+            </ButtonsRow>
+
+            <hr/>
+
+            <div id="campaign-editor">
+              <div style={{
+                  background: 'white', 
+                  padding: '34px'
+                }}>
+                <DemoApp
+                  content={this.defaultContent()}
+                  config={
+                    {
+                      api_key: "86c28a410a104c8bb58848733c82f840",
+                      debug: true,
+                      oembed_uri: "/",
+                      read_only: false,
+                      upload_url: "/",
+                      renderDraggables: window.parent.window.renderDraggables,
+                      data_storage: {
+                        save_handler: (context, content)=>{ 
+                          save_handler(context, content, this.save_handler) 
+                        },
+                        url: `${window.location}`,
+                        method: "PUT",
+                        success_handler: this.successStoreHandler,
+                      }
+                    }
                   }
-                }
-              }
-            />
+                />
+              </div>
             </div>
            </EditorContainer>
   }

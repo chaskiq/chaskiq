@@ -86,8 +86,6 @@ class CampaignsController < ApplicationController
   end
 
   def premailer_preview
-    puts params
-    puts "AAAAAAAAAA"
     @app = App.find_by(key: params[:app_id])
     set_campaign
     render layout: false
