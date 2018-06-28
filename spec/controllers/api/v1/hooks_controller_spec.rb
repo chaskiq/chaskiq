@@ -1,5 +1,5 @@
 require 'rails_helper'
-
+#https://docs.aws.amazon.com/ses/latest/DeveloperGuide/monitor-sending-using-notifications.html
 def send_data(params)
   @request.env['RAW_POST_DATA'] = params.to_json
   post :create
@@ -400,7 +400,15 @@ RSpec.describe Api::V1::HooksController, type: :controller do
     ')
   }
 
-
+  it "will set a open" do
+    inline_job do
+      allow(Metric).to receive(:find_by).and_return(metric)
+      campaign
+      response = send_data(open_sns)
+      expect(response.status).to be == 200
+      expect(campaign.metrics.bounces.size).to be == 1
+    end
+  end
 
   it "will set a bounce" do
     inline_job do

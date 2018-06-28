@@ -2,8 +2,6 @@ require "open-uri"
 
 class Api::V1::HooksController < ActionController::API
 
-  layout false
-
   def create
     # get amazon message type and topic
     amz_message_type = request.headers['x-amz-sns-message-type']
