@@ -1,6 +1,6 @@
 require "open-uri"
 
-class Api::V1::HooksController < ApplicationController
+class Api::V1::HooksController < ActionController::API
 
   layout false
 
@@ -42,14 +42,14 @@ private
   end
 
   def process_bounce(m)
-    emails = m["bounce"]["bouncedRecipients"].map{|o| o["emailAddress"] }
-    source = m["mail"]["source"]
+    # emails = m["bounce"]["bouncedRecipients"].map{|o| o["emailAddress"] }
+    # source = m["mail"]["source"]
     track_message_for("bounce", m)
   end
 
   def process_complaint(m)
-    emails = m["complaint"]["complainedRecipients"].map{|o| o["emailAddress"] }
-    source = m["mail"]["source"]
+    # emails = m["complaint"]["complainedRecipients"].map{|o| o["emailAddress"] }
+    # source = m["mail"]["source"]
     track_message_for("spam", m)
   end
 
@@ -60,7 +60,7 @@ private
   def send_subscription_confirmation(request_body)
     subscribe_url = request_body['SubscribeURL']
     return nil unless !subscribe_url.to_s.empty? && !subscribe_url.nil?
-    subscribe_confirm = open subscribe_url
+    open subscribe_url
   end
 
 end

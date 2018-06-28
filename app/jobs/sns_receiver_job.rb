@@ -4,7 +4,6 @@ class SnsReceiverJob < ApplicationJob
   #Receive hook
   def perform(track_type, m, referrer)
     data = m["mail"]["messageId"]
-
     metric = Metric.find_by(data: parsed_message_id(m))
 
     return if metric.blank?
