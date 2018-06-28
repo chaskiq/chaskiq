@@ -59,7 +59,8 @@ RSpec.describe CampaignsController, type: :controller do
 
   describe "GET #new" do
     it "returns a success response" do
-      get :new, params: {}, session: valid_session
+      campaign = Campaign.create! valid_attributes
+      get :new, params: {id: campaign.to_param}, session: valid_session
       expect(response).to be_successful
     end
   end
