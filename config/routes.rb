@@ -1,4 +1,7 @@
+require 'sidekiq/web'
 Rails.application.routes.draw do
+  mount Sidekiq::Web => '/sidekiq'
+
   resources :campaigns
   devise_for :users
 
@@ -12,6 +15,8 @@ Rails.application.routes.draw do
         get :preview
         get :premailer_preview
       end
+      resources :attachments, controller: 'campaigns/attachments'
+
     end
 
     resources :app_users
@@ -21,6 +26,8 @@ Rails.application.routes.draw do
       end
     end
   end
+
+  resource :oembed, controller: "oembed", only: :show
 
   get "/user_session", to: 'application#user_session'
 

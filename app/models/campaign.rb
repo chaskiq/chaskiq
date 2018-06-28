@@ -11,6 +11,7 @@ class Campaign < ApplicationRecord
   #  has_many :attachments
   
   has_many :metrics
+  has_many_attached :attachments
 
   #belongs_to :template, class_name: "Template", optional: true
   #accepts_nested_attributes_for :template, :campaign_template

@@ -117,3 +117,9 @@ gem "browser", "~> 2.5"
 
 # Added at 2018-06-04 20:57:37 -0400 by michelson:
 gem "timezone", "~> 1.2"
+
+# Added at 2018-06-28 01:37:19 -0400 by michelson:
+gem "mini_magick", "~> 4.8"
+
+# Added at 2018-06-28 02:13:52 -0400 by michelson:
+gem "aws-sdk-s3", "~> 1.15"

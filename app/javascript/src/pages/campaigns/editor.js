@@ -315,10 +315,10 @@ export default class CampaignEditor extends Component {
                     {
                       api_key: "86c28a410a104c8bb58848733c82f840",
                       debug: true,
-                      oembed_uri: "/",
+                      oembed_uri: "/oembed?url=",
                       read_only: false,
-                      upload_url: "/",
-                      renderDraggables: window.parent.window.renderDraggables,
+                      upload_url: `${window.location.pathname}/attachments.json`,
+                      //renderDraggables: window.parent.window.renderDraggables,
                       data_storage: {
                         save_handler: (context, content)=>{ 
                           save_handler(context, content, this.save_handler) 
