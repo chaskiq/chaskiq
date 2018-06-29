@@ -97,8 +97,8 @@ export default class ConversationEditor extends Component {
     })
   }
 
-  handleKeyCommand(command: string): DraftHandleValue {
-    //this.editorState.getSelection()
+  handleKeyCommand = (command) => {
+    // this.editorState.getSelection()
     if (command === 'myeditor-save') {
       // Perform a request to save your contents, set
       // a new `editorState`, etc.

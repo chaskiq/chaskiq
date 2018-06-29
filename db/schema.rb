@@ -155,10 +155,12 @@ ActiveRecord::Schema.define(version: 2018_06_28_051731) do
     t.bigint "trackable_id", null: false
     t.string "action"
     t.string "host"
-    t.string "data"
+    t.jsonb "data", default: {}
+    t.string "message_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["campaign_id"], name: "index_metrics_on_campaign_id"
+    t.index ["message_id"], name: "index_metrics_on_message_id"
     t.index ["trackable_type", "trackable_id"], name: "index_metrics_on_trackable_type_and_trackable_id"
   end
 

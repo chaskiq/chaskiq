@@ -83,7 +83,7 @@ class AppUser < ApplicationRecord
     puts "Pending"
   end
 
-  %w[click open bounce spam].each do |action|
+  %w[open send delivery reject bounce complaint click].each do |action|
     define_method("track_#{action}") do |opts|
       m = self.metrics.new
       m.assign_attributes(opts)

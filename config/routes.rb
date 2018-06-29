@@ -14,6 +14,8 @@ Rails.application.routes.draw do
       member do
         get :preview
         get :premailer_preview
+        get :deliver
+        get :test
       end
       resources :attachments, controller: 'campaigns/attachments'
 

@@ -5,8 +5,10 @@ class CreateMetrics < ActiveRecord::Migration[5.2]
       t.references :trackable, polymorphic: true, index: true, null: false
       t.string :action
       t.string :host
-      t.string :data
+      t.jsonb :data, default: {}
+      t.string :message_id, index: true
       t.timestamps
     end
+
   end
 end

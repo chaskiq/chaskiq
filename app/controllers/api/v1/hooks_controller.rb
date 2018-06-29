@@ -17,38 +17,28 @@ class Api::V1::HooksController < ActionController::API
       render plain: "ok" and return
     end
 
-    process_notification(request_body)
+    if amz_message_type == "Notification" or request_body["Type"] == "Notification"
+      if request_body["Message"] == "Successfully validated SNS topic for Amazon SES event publishing."
+        render plain: "ok" and return
+      else
+        process_event_notification(request_body)
+        render plain: "ok" and return
+      end
+    end
+
+    #process_notification(request_body)
     render plain: "ok" and return
   end
 
 private
 
-  def process_notification(request_body)
-
+  def process_event_notification(request_body)
     message = parse_body_message(request_body["Message"])
-
-    case message["notificationType"]
-    when "Bounce"
-      process_bounce(message)
-    when "Complaint"
-      process_complaint(message)
-    end
+    track_message_for(message["eventType"].downcase, message)
   end
 
   def parse_body_message(body)
     JSON.parse(body)
-  end
-
-  def process_bounce(m)
-    # emails = m["bounce"]["bouncedRecipients"].map{|o| o["emailAddress"] }
-    # source = m["mail"]["source"]
-    track_message_for("bounce", m)
-  end
-
-  def process_complaint(m)
-    # emails = m["complaint"]["complainedRecipients"].map{|o| o["emailAddress"] }
-    # source = m["mail"]["source"]
-    track_message_for("spam", m)
   end
 
   def track_message_for(track_type, m)

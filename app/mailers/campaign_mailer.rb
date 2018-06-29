@@ -5,11 +5,10 @@ class CampaignMailer < ApplicationMailer
   #default delivery_method: :ses
 
   def newsletter(campaign, subscriber)
-    # subscriber = subscription.user
-
     return if subscriber.blank?
-
+    
     content_type  = "text/html"
+    headers 'X-SES-CONFIGURATION-SET' => Rails.application.credentials.dig(:sns, :configuration_set)
 
     attrs = subscriber.attributes
 

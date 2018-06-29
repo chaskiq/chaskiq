@@ -84,8 +84,11 @@ RSpec.describe Api::V1::HooksController, type: :controller do
     }
   }
 
-  let(:delivery_sns){
-    JSON.parse('{
+
+  # configuration set sns events
+  let(:delivery_sns_event){
+    { "Type" => "Notification",
+      "Message" => '{
       "eventType": "Delivery",
       "mail": {
         "timestamp": "2016-10-19T23:20:52.240Z",
@@ -98,6 +101,7 @@ RSpec.describe Api::V1::HooksController, type: :controller do
         ],
         "headersTruncated": false,
         "headers": [
+          {"name": "Message-ID", "value": "<5b35d2ed22cb2_16ad53ff7930c554c954a1@Michelsons-MacBook-Pro.local.mail>"},
           {
             "name": "From",
             "value": "sender@example.com"
@@ -166,11 +170,89 @@ RSpec.describe Api::V1::HooksController, type: :controller do
         "smtpResponse": "250 2.6.0 Message received",
         "reportingMTA": "mta.example.com"
       }
-    }')
+    }'}
   }
 
-  let(:send_sns){
-    JSON.parse('{
+  let(:complaint_sns_event){
+    { "Type" => "Notification",
+      "Message" => '{
+      "eventType":"Complaint",
+      "complaint": {
+        "complainedRecipients":[
+          {
+            "emailAddress":"recipient@example.com"
+          }
+        ],
+        "timestamp":"2017-08-05T00:41:02.669Z",
+        "feedbackId":"01000157c44f053b-61b59c11-9236-11e6-8f96-7be8aexample-000000",
+        "userAgent":"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/60.0.3112.90 Safari/537.36",
+        "complaintFeedbackType":"abuse",
+        "arrivalDate":"2017-08-05T00:41:02.669Z"
+      },
+      "mail":{
+        "timestamp":"2017-08-05T00:40:01.123Z",
+        "source":"Sender Name <sender@example.com>",
+        "sourceArn":"arn:aws:ses:us-east-1:123456789012:identity/sender@example.com",
+        "sendingAccountId":"123456789012",
+        "messageId":"EXAMPLE7c191be45-e9aedb9a-02f9-4d12-a87d-dd0099a07f8a-000000",
+        "destination":[
+          "recipient@example.com"
+        ],
+        "headersTruncated":false,
+        "headers":[
+          {"name": "Message-ID", "value": "<5b35d2ed22cb2_16ad53ff7930c554c954a1@Michelsons-MacBook-Pro.local.mail>"},
+          {
+            "name":"From",
+            "value":"Sender Name <sender@example.com>"
+          },
+          {
+            "name":"To",
+            "value":"recipient@example.com"
+          },
+          {
+            "name":"Subject",
+            "value":"Message sent from Amazon SES"
+          },
+          {
+            "name":"MIME-Version","value":"1.0"
+          },
+          {
+            "name":"Content-Type",
+            "value":"multipart/alternative; boundary=\"----=_Part_7298998_679725522.1516840859643\""
+          }
+        ],
+        "commonHeaders":{
+          "from":[
+            "Sender Name <sender@example.com>"
+          ],
+          "to":[
+            "recipient@example.com"
+          ],
+          "messageId":"EXAMPLE7c191be45-e9aedb9a-02f9-4d12-a87d-dd0099a07f8a-000000",
+          "subject":"Message sent from Amazon SES"
+        },
+        "tags":{
+          "ses:configuration-set":[
+            "ConfigSet"
+          ],
+          "ses:source-ip":[
+            "192.0.2.0"
+          ],
+          "ses:from-domain":[
+            "example.com"
+          ],
+          "ses:caller-identity":[
+            "ses_user"
+          ]
+        }
+      }
+    }'
+    }
+  }
+
+  let(:send_sns_event){
+    { "Type" => "Notification",
+      "Message" => '{
       "eventType": "Send",
       "mail": {
         "timestamp": "2016-10-14T05:02:16.645Z",
@@ -183,6 +265,7 @@ RSpec.describe Api::V1::HooksController, type: :controller do
         ],
         "headersTruncated": false,
         "headers": [
+          {"name": "Message-ID", "value": "<5b35d2ed22cb2_16ad53ff7930c554c954a1@Michelsons-MacBook-Pro.local.mail>"},
           {
             "name": "From",
             "value": "sender@example.com"
@@ -240,12 +323,12 @@ RSpec.describe Api::V1::HooksController, type: :controller do
         }
       },
       "send": {}
-    }
-    ')
+    }'}
   }
 
-  let(:open_sns){
-    JSON.parse('{
+  let(:open_sns_event){
+    { "Type" => "Notification",
+      "Message" => '{
       "eventType": "Open",
       "mail": {
         "commonHeaders": {
@@ -262,6 +345,7 @@ RSpec.describe Api::V1::HooksController, type: :controller do
           "recipient@example.com"
         ],
         "headers": [
+          {"name": "Message-ID", "value": "<5b35d2ed22cb2_16ad53ff7930c554c954a1@Michelsons-MacBook-Pro.local.mail>"},
           {
             "name": "X-SES-CONFIGURATION-SET",
             "value": "ConfigSet"
@@ -312,11 +396,12 @@ RSpec.describe Api::V1::HooksController, type: :controller do
         "timestamp": "2017-08-09T22:00:19.652Z",
         "userAgent": "Mozilla/5.0 (iPhone; CPU iPhone OS 10_3_3 like Mac OS X) AppleWebKit/603.3.8 (KHTML, like Gecko) Mobile/14G60"
       }
-    }')
+    }'}
   }
 
-  let(:click_sns){
-    JSON.parse('{
+  let(:click_sns_event){
+    { "Type" => "Notification",
+      "Message" => '{
       "eventType": "Click",
       "click": {
         "ipAddress": "192.0.2.1",
@@ -347,6 +432,7 @@ RSpec.describe Api::V1::HooksController, type: :controller do
           "recipient@example.com"
         ],
         "headers": [
+          {"name": "Message-ID", "value": "<5b35d2ed22cb2_16ad53ff7930c554c954a1@Michelsons-MacBook-Pro.local.mail>"},
           {
             "name": "X-SES-CONFIGURATION-SET",
             "value": "ConfigSet"
@@ -396,40 +482,267 @@ RSpec.describe Api::V1::HooksController, type: :controller do
         },
         "timestamp": "2017-08-09T23:50:05.795Z"
       }
-    }
-    ')
+    }'}
   }
 
-  it "will set a open" do
-    inline_job do
-      allow(Metric).to receive(:find_by).and_return(metric)
-      campaign
-      response = send_data(open_sns)
-      expect(response.status).to be == 200
-      expect(campaign.metrics.bounces.size).to be == 1
+  let(:reject_sns_event){
+    { "Type" => "Notification",
+      "Message"=> '{
+        "eventType": "Reject",
+        "mail": {
+          "timestamp": "2016-10-14T17:38:15.211Z",
+          "source": "sender@example.com",
+          "sourceArn": "arn:aws:ses:us-east-1:123456789012:identity/sender@example.com",
+          "sendingAccountId": "123456789012",
+          "messageId": "EXAMPLE7c191be45-e9aedb9a-02f9-4d12-a87d-dd0099a07f8a-000000",
+          "destination": [
+            "sender@example.com"
+          ],
+          "headersTruncated": false,
+          "headers": [
+            {"name": "Message-ID", "value": "<5b35d2ed22cb2_16ad53ff7930c554c954a1@Michelsons-MacBook-Pro.local.mail>"},
+            {
+              "name": "From",
+              "value": "sender@example.com"
+            },
+            {
+              "name": "To",
+              "value": "recipient@example.com"
+            },      
+            {
+              "name": "Subject",
+              "value": "Message sent from Amazon SES"
+            },
+            {
+              "name": "MIME-Version",
+              "value": "1.0"
+            },      
+            {
+              "name": "Content-Type",
+              "value": "multipart/mixed; boundary=\"qMm9M+Fa2AknHoGS\""
+            },
+            {
+              "name": "X-SES-MESSAGE-TAGS",
+              "value": "myCustomTag1=myCustomTagValue1, myCustomTag2=myCustomTagValue2"
+            }  
+          ],
+          "commonHeaders": {
+            "from": [
+              "sender@example.com"
+            ],
+            "to": [
+              "recipient@example.com"
+            ],
+            "messageId": "EXAMPLE7c191be45-e9aedb9a-02f9-4d12-a87d-dd0099a07f8a-000000",
+            "subject": "Message sent from Amazon SES"
+          },
+          "tags": {
+            "ses:configuration-set": [
+              "ConfigSet"
+            ],
+            "ses:source-ip": [
+              "192.0.2.0"
+            ],
+            "ses:from-domain": [
+              "example.com"
+            ],    
+            "ses:caller-identity": [
+              "ses_user"
+            ],
+            "myCustomTag1": [
+              "myCustomTagValue1"
+            ],
+            "myCustomTag2": [
+              "myCustomTagValue2"
+            ]      
+          }
+        },
+        "reject": {
+          "reason": "Bad content"
+        }
+      }'
+    }
+  }
+
+  let(:bounce_sns_event){
+    {
+      "Type"=> "Notification",
+      "Message"=> '{
+        "eventType":"Bounce",
+        "bounce":{
+          "bounceType":"Permanent",
+          "bounceSubType":"General",
+          "bouncedRecipients":[
+            {
+              "emailAddress":"recipient@example.com",
+              "action":"failed",
+              "status":"5.1.1",
+              "diagnosticCode":"smtp; 550 5.1.1 user unknown"
+            }
+          ],
+          "timestamp":"2017-08-05T00:41:02.669Z",
+          "feedbackId":"01000157c44f053b-61b59c11-9236-11e6-8f96-7be8aexample-000000",
+          "reportingMTA":"dsn; mta.example.com"
+        },
+        "mail":{
+          "timestamp":"2017-08-05T00:40:02.012Z",
+          "source":"Sender Name <sender@example.com>",
+          "sourceArn":"arn:aws:ses:us-east-1:123456789012:identity/sender@example.com",
+          "sendingAccountId":"123456789012",
+          "messageId":"EXAMPLE7c191be45-e9aedb9a-02f9-4d12-a87d-dd0099a07f8a-000000",
+          "destination":[
+            "recipient@example.com"
+          ],
+          "headersTruncated":false,
+          "headers":[
+            {"name": "Message-ID", "value": "<5b35d2ed22cb2_16ad53ff7930c554c954a1@Michelsons-MacBook-Pro.local.mail>"},
+            {
+              "name":"From",
+              "value":"Sender Name <sender@example.com>"
+            },
+            {
+              "name":"To",
+              "value":"recipient@example.com"
+            },
+            {
+              "name":"Subject",
+              "value":"Message sent from Amazon SES"
+            },
+            {
+              "name":"MIME-Version",
+              "value":"1.0"
+            },
+            {
+              "name":"Content-Type",
+              "value":"multipart/alternative; boundary=\"----=_Part_7307378_1629847660.1516840721503\""
+            }
+          ],
+          "commonHeaders":{
+            "from":[
+              "Sender Name <sender@example.com>"
+            ],
+            "to":[
+              "recipient@example.com"
+            ],
+            "messageId":"EXAMPLE7c191be45-e9aedb9a-02f9-4d12-a87d-dd0099a07f8a-000000",
+            "subject":"Message sent from Amazon SES"
+          },
+          "tags":{
+            "ses:configuration-set":[
+              "ConfigSet"
+            ],
+            "ses:source-ip":[
+              "192.0.2.0"
+            ],
+            "ses:from-domain":[
+              "example.com"
+            ],
+            "ses:caller-identity":[
+              "ses_user"
+            ]
+          }
+        }
+      }'
+    }
+  }
+
+=begin
+  describe "SNS notifications" do
+
+    it "will set a bounce" do
+      inline_job do
+        allow(Metric).to receive(:find_by).and_return(metric)
+        campaign
+        response = send_data(bounce_sns)
+        expect(response.status).to be == 200
+        expect(campaign.metrics.bounces.size).to be == 1
+      end
+    end
+
+    it "will set a spam metric and unsubscribe user" do
+      inline_job do
+        ActiveJob::Base.queue_adapter = :inline
+        allow(Metric).to receive(:find_by).and_return(metric)
+
+        campaign
+        response = send_data(complaint_sns)
+        expect(response.status).to be == 200
+        expect(campaign.metrics.spams.size).to be == 1
+        expect(subscriber.reload).to be_unsubscribed
+      end
     end
   end
+=end
 
-  it "will set a bounce" do
-    inline_job do
-      allow(Metric).to receive(:find_by).and_return(metric)
-      campaign
-      response = send_data(bounce_sns)
-      expect(response.status).to be == 200
-      expect(campaign.metrics.bounces.size).to be == 1
+  describe "SNS events" do
+
+    it "will set a open" do
+      inline_job do
+        allow(Metric).to receive(:find_by).and_return(metric)
+        campaign
+        response = send_data(open_sns_event)
+        expect(response.status).to be == 200
+        expect(campaign.metrics.opens.size).to be == 1
+        expect(campaign.metrics.opens.last.data).to be_present
+      end
     end
-  end
 
-  it "will set a spam metric and unsubscribe user" do
-    inline_job do
-      ActiveJob::Base.queue_adapter = :inline
-      allow(Metric).to receive(:find_by).and_return(metric)
-
-      campaign
-      response = send_data(complaint_sns)
-      expect(response.status).to be == 200
-      expect(campaign.metrics.spams.size).to be == 1
-      expect(subscriber.reload).to be_unsubscribed
+    it "will set a deliver" do
+      inline_job do
+        allow(Metric).to receive(:find_by).and_return(metric)
+        campaign
+        response = send_data(delivery_sns_event)
+        expect(response.status).to be == 200
+        expect(campaign.metrics.deliveries.size).to be == 1
+        expect(campaign.metrics.deliveries.last.data).to be_present
+      end
     end
+
+    it "will set a complaint" do
+      inline_job do
+        allow(Metric).to receive(:find_by).and_return(metric)
+        campaign
+        response = send_data(complaint_sns_event )
+        expect(response.status).to be == 200
+        expect(campaign.metrics.spams.size).to be == 1
+        expect(campaign.metrics.spams.last.data).to be_present
+      end
+    end
+
+    it "will set a reject" do
+      inline_job do
+        allow(Metric).to receive(:find_by).and_return(metric)
+        campaign
+        response = send_data(reject_sns_event )
+        expect(response.status).to be == 200
+        expect(campaign.metrics.rejects.size).to be == 1
+        expect(campaign.metrics.rejects.last.data).to be_present
+      end
+    end
+
+    it "will set a click" do
+      inline_job do
+        allow(Metric).to receive(:find_by).and_return(metric)
+        campaign
+        response = send_data(click_sns_event )
+        expect(response.status).to be == 200
+        expect(campaign.metrics.clicks.size).to be == 1
+        expect(campaign.metrics.clicks.last.data).to be_present
+      end
+    end
+
+    it "will set a bounce" do
+      inline_job do
+        allow(Metric).to receive(:find_by).and_return(metric)
+        campaign
+        response = send_data(bounce_sns_event )
+        expect(response.status).to be == 200
+        expect(campaign.metrics.bounces.size).to be == 1
+        expect(campaign.metrics.bounces.last.data).to be_present
+      end
+    end
+
+    
+
   end
 end

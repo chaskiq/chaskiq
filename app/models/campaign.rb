@@ -153,10 +153,10 @@ class Campaign < ApplicationRecord
                                     .merge(subscriber.properties)
                            
     compiled_premailer = premailer.gsub("%7B%7B", "{{").gsub("%7D%7D", "}}")                               
-    compiled_mustache = Mustache.render(compiled_premailer, subscriber_options)
+    Mustache.render(compiled_premailer, subscriber_options)
 
-    html = LinkRenamer.convert(compiled_mustache, link_prefix)
-    html
+    #html = LinkRenamer.convert(compiled_mustache, link_prefix)
+    #html
   end
 
   def compiled_template_for(subscriber)

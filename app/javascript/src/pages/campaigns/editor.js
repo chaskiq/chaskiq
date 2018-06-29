@@ -276,6 +276,15 @@ export default class CampaignEditor extends Component {
     }
   }
 
+  handleSend = (e)=>{
+    axios.get(`${this.save_url}/deliver.json`)
+    .then((response)=>{
+      console.log(response)
+    }).catch((err)=>{
+      console.log(err)
+    })
+  }
+
   render(){
     return <EditorContainer>
 
@@ -296,7 +305,7 @@ export default class CampaignEditor extends Component {
                   Test
                 </Button>
 
-                <Button appearance="primary" onClick={(e)=> {console.log('send')}}>
+                <Button appearance="primary" onClick={this.handleSend}>
                   Send
                 </Button>
               </ButtonsContainer>

@@ -19,7 +19,6 @@ Rails.application.configure do
   config.action_controller.default_url_options = {host: 'http://localhost:3000'}
   config.action_mailer.default_url_options = {host: 'http://localhost:3000'}
 
-
   config.action_cable.url = 'ws://localhost:3000/cable'
   config.action_cable.allowed_request_origins = [ 'http://localhost:3000', 'http://127.0.0.1:3000' ]
 
@@ -63,13 +62,23 @@ Rails.application.configure do
   # Suppress logger output for asset requests.
   config.assets.quiet = true
 
-  config.action_mailer.default_url_options = { host: 'localhost', port: 3000 }
-
-
   # Raises error for missing translations
   # config.action_view.raise_on_missing_translations = true
 
   # Use an evented file watcher to asynchronously detect changes in source code,
   # routes, locales, etc. This feature depends on the listen gem.
   config.file_watcher = ActiveSupport::EventedFileUpdateChecker
+
+  config.action_mailer.perform_deliveries = true
+
+  config.action_mailer.delivery_method = :smtp
+
+  config.action_mailer.smtp_settings = {
+    :address => Rails.application.credentials.dig(:ses, :address),
+    :user_name => Rails.application.credentials.dig(:ses, :user_name), # Your SMTP user here.
+    :password => Rails.application.credentials.dig(:ses, :password), # Your SMTP password here.
+    :authentication => :login,
+    :enable_starttls_auto => true
+  }
+
 end

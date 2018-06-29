@@ -119,17 +119,7 @@ RSpec.describe Campaign, type: :model do
       allow_any_instance_of(Campaign).to receive(:premailer).and_return("{{name}}")
       expect(campaign.mustache_template_for(subscriber)).to include(subscriber.name)
     end
-
-    it "will render subscriber and compile links with host ?r=link" do
-      campaign.html_content = html_content
-      campaign.save
-      allow_any_instance_of(Campaign).to receive(:premailer).and_return("<a href='http://google.com'>google</a>")
-      expect(campaign.compiled_template_for(subscriber)).to include("?r=http://google.com")
-      expect(campaign.compiled_template_for(subscriber)).to include(campaign.host)
-    end
-
   end
-
 
   context "clone campaign" do
     it "should clone record" do

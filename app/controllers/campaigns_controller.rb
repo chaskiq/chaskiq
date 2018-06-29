@@ -100,7 +100,8 @@ class CampaignsController < ApplicationController
   def deliver
     @campaign.send_newsletter
     flash[:notice] = "newsletter sended"
-    redirect_to manage_campaigns_path()
+    render json: {status: :ok}
+    #redirect_to manage_campaigns_path()
   end
 
 
