@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_06_28_051731) do
+ActiveRecord::Schema.define(version: 2018_06_29_075252) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -162,6 +162,29 @@ ActiveRecord::Schema.define(version: 2018_06_28_051731) do
     t.index ["campaign_id"], name: "index_metrics_on_campaign_id"
     t.index ["message_id"], name: "index_metrics_on_message_id"
     t.index ["trackable_type", "trackable_id"], name: "index_metrics_on_trackable_type_and_trackable_id"
+  end
+
+  create_table "preview_cards", force: :cascade do |t|
+    t.integer "status_id"
+    t.string "url", default: "", null: false
+    t.string "title"
+    t.text "description"
+    t.string "image"
+    t.integer "image_file_size"
+    t.string "image_file_name"
+    t.string "image_file_type"
+    t.datetime "image_updated_at"
+    t.string "type"
+    t.text "html"
+    t.string "author_name"
+    t.string "author_url"
+    t.string "provider_name"
+    t.string "provider_url"
+    t.integer "width"
+    t.integer "height"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["status_id"], name: "index_preview_cards_on_status_id", unique: true
   end
 
   create_table "roles", force: :cascade do |t|
