@@ -93,7 +93,7 @@ class FetchLinkCardService < BaseService
     card.type             = :link
     card.title            = meta_property(page, 'og:title') || page.at_xpath('//title').content
     card.description      = meta_property(page, 'og:description') || meta_property(page, 'description')
-    binding.pry
+
     card.image.attach( download_image(meta_property(page, 'og:image'))) if meta_property(page, 'og:image')
     
     return if card.title.blank?
