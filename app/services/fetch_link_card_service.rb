@@ -21,7 +21,7 @@ class FetchLinkCardService < BaseService
     res  = http_client.head(url, :ssl => { :verify_mode => OpenSSL::SSL::VERIFY_NONE })
 
     return if res.code != 200 || res.mime_type != 'text/html'
-    
+
     if o = attempt_oembed(card, url)
       return o
     else
@@ -61,7 +61,7 @@ class FetchLinkCardService < BaseService
 
   def attempt_oembed(card, url)
     response = OEmbed::Providers.get(url)
-
+    
     card.type          = response.type
     card.title         = response.respond_to?(:title)         ? response.title         : ''
     card.author_name   = response.respond_to?(:author_name)   ? response.author_name   : ''
@@ -110,7 +110,7 @@ class FetchLinkCardService < BaseService
     file.write(handle.read)
     file.close
 
-    new_file = CarrierWave::SanitizedFile.new(
+    new_file = ActionDispatch::Http::UploadedFile.new(
       filename: "foo-#{Time.now.to_i}.jpg", 
       type: handle.content_type, 
       tempfile: file

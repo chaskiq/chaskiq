@@ -21,7 +21,8 @@ class PreviewCard < ApplicationRecord
     end
 
     def images
-      [{url: url_for(self.image)}]
+      image_url = self.image.attached? ? url_for(self.image) : nil
+      [{url: image_url}]
     end
 
     def provider_url

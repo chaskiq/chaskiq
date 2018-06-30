@@ -345,7 +345,7 @@ class DemoApp extends React.Component {
         type: 'placeholder',
         wrapper_class: "is-embedable",
         breakOnContinuous: true,
-        selected_class: " is-selected is-mediaFocused",
+        selected_class: "is-selected is-mediaFocused",
         widget_options: {
           displayOnInlineTooltip: false
         },
