@@ -1,40 +1,18 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
-import { SketchPicker } from 'react-color';
 import DanteTooltipColor from './color'
 import DanteTooltipList from './select'
 
 import {
-  convertToRaw,
-  CompositeDecorator,
   getVisibleSelectionRect,
-  getDefaultKeyBinding,
-  getSelectionOffsetKeyForNode,
-  KeyBindingUtil,
-  ContentState,
-  Editor,
-  EditorState,
   Entity,
   RichUtils } from 'draft-js'
 
-import { getSelectionRect, getSelection } from "../../utils/selection.js"
+import { getSelectionRect, getSelection, getRelativeParent } from "../../utils/selection.js"
 
 import { getCurrentBlock } from '../../model/index.js'
 
 import Icons from "../icons.js"
-
-const getRelativeParent = (element) => {
-  if (!element) {
-    return null;
-  }
-
-  const position = window.getComputedStyle(element).getPropertyValue('position');
-  if (position !== 'static') {
-    return element;
-  }
-
-  return getRelativeParent(element.parentElement);
-};
 
 
 class DanteTooltip extends React.Component {
@@ -140,7 +118,6 @@ class DanteTooltip extends React.Component {
     let selectionBoundary = getSelectionRect(nativeSelection)
 
     let parent = ReactDOM.findDOMNode(this.props.editor)
-    let parentBoundary = parent.getBoundingClientRect()
 
     // hide if selected node is not in editor
     if (!this.isDescendant(parent, nativeSelection.anchorNode)) {
@@ -148,10 +125,9 @@ class DanteTooltip extends React.Component {
       return
     }
 
-    //let top = selectionBoundary.top - parentBoundary.top - -90 - 5
-
     const relativeParent = getRelativeParent(this.refs.dante_menu.parentElement);
     const toolbarHeight = this.refs.dante_menu.clientHeight;
+    const toolbarWidth = this.refs.dante_menu.clientWidth;
     const relativeRect = (relativeParent || document.body).getBoundingClientRect();
     const selectionRect = getVisibleSelectionRect(window);
 
@@ -159,7 +135,8 @@ class DanteTooltip extends React.Component {
       return
 
     let top = (selectionRect.top - relativeRect.top) - toolbarHeight
-    let left = selectionBoundary.left + selectionBoundary.width / 2 - padd
+    //let left = selectionBoundary.left + selectionBoundary.width / 2 - padd
+    let left = (selectionRect.left - relativeRect.left + (selectionRect.width/2) ) - padd // - (toolbarWidth / 2 ) + 10
 
     //let left = (selectionRect.left - relativeRect.left) + (selectionRect.width / 2)
 

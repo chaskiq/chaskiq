@@ -213,7 +213,7 @@ class CampaignForm extends Component {
     console.log(this.state.data.id || this.props.match.params.id === "new")
     return <ContentWrapper>
         <PageTitle>
-          Campaign {`: ${this.state.data.subject}`}
+          Campaign {`: ${this.state.data.name}`}
         </PageTitle>
         {
           this.state.data.id || this.props.match.params.id === "new" ?

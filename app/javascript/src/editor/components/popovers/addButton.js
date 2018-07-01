@@ -2,16 +2,8 @@ import React from 'react'
 import ReactDOM from 'react-dom'
 
 import {
-  Entity,
-  RichUtils,
-  AtomicBlockUtils,
-  EditorState
-  } from 'draft-js'
-
-import {
   addNewBlock,
   resetBlockWithType,
-  updateDataOfBlock,
   getCurrentBlock,
   getNode } from '../../model/index.js'
 
@@ -221,17 +213,11 @@ class DanteInlineTooltip extends React.Component {
         return
       }
 
-      let node = getNode()
-
       let selectionBoundary = getSelectionRect(nativeSelection)
       let coords = selectionBoundary //utils.getSelectionDimensions(node)
 
       let parent = ReactDOM.findDOMNode(this.props.editor)
       let parentBoundary = parent.getBoundingClientRect()
-
-      // hide if selected node is not in editor
-      // debugger
-      //console.log @isDescendant(parent, nativeSelection.anchorNode)
 
       if (!this.isDescendant(parent, nativeSelection.anchorNode)) {
         this.hide()
@@ -242,26 +228,10 @@ class DanteInlineTooltip extends React.Component {
       this.display(block.getText().length === 0 && blockType === "unstyled")
       return this.setPosition({
         top: coords.top + window.scrollY,
-        left: coords.left + window.scrollX - 60
+        left: (selectionBoundary.left - parentBoundary.left ) + this.refs.tooltip.clientWidth //coords.left + window.scrollX - 60
       })
 
-      /*
-      @refs.image_popover.display(blockType is "image")
-       if blockType is "image"
-        selectionBoundary = node.anchorNode.parentNode.parentNode.parentNode.getBoundingClientRect()
-        *el = document.querySelector("#dante_image_popover")
-        el = @refs.image_popover.refs.image_popover
-        padd   = el.offsetWidth / 2
-        @refs.image_popover.setPosition
-          top: selectionBoundary.top - parentBoundary.top + 60
-          left: selectionBoundary.left + (selectionBoundary.width / 2) - padd
 
-        *@setState
-        *  image_popover_position:
-        *    top: selectionBoundary.top - parentBoundary.top + 60
-        *    left: selectionBoundary.left + (selectionBoundary.width / 2) - padd
-        *
-      */
     } else {
       return this.hide()
     }
@@ -270,6 +240,7 @@ class DanteInlineTooltip extends React.Component {
   render() {
     return (
       <div
+        ref="tooltip"
         className={ `inlineTooltip ${ this.activeClass() } ${ this.scaledClass() }` }
         style={ this.state.position }
       >

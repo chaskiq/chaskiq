@@ -3,20 +3,7 @@ import React from 'react'
 import ReactDOM from 'react-dom'
 
 import { getCurrentBlock } from '../../model/index.js'
-
-
-const getRelativeParent = (element) => {
-  if (!element) {
-    return null;
-  }
-
-  const position = window.getComputedStyle(element).getPropertyValue('position');
-  if (position !== 'static') {
-    return element;
-  }
-
-  return getRelativeParent(element.parentElement);
-};
+import {getRelativeParent} from '../../utils/selection.js'
 
 
 class DanteAnchorPopover extends React.Component {
@@ -72,13 +59,8 @@ class DanteAnchorPopover extends React.Component {
 
     let { editorState } = this.props
     let currentBlock = getCurrentBlock(editorState)
-    let blockType = currentBlock.getType()
-
-    let contentState = editorState.getCurrentContent()
-    let selectionState = editorState.getSelection()
 
     let selectionBoundary = node.getBoundingClientRect()
-    let coords = selectionBoundary
 
     let el = this.refs.dante_popover
     let padd = el.offsetWidth / 2
@@ -88,8 +70,9 @@ class DanteAnchorPopover extends React.Component {
 
     const toolbarHeight = el.offsetHeight;
     const relativeRect = node.getBoundingClientRect();
-    let left = selectionBoundary.left + selectionBoundary.width / 2 - padd
-    let top = relativeRect.top - parentBoundary.top + (toolbarHeight * 0.3)
+
+    let left = (selectionBoundary.left - parentBoundary.left ) //+ (selectionBoundary.width / 2) 
+    let top = (selectionBoundary.top + window.scrollY) + (toolbarHeight * 0.3)
 
     return {
       top: top,

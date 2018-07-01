@@ -2,9 +2,7 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 
-import { Entity, RichUtils, AtomicBlockUtils, EditorState } from 'draft-js'
-
-import { getSelectionRect, getSelection } from "../../utils/selection.js"
+import { getSelectionRect, getSelection, getRelativeParent } from "../../utils/selection.js"
 
 import { getCurrentBlock, getNode } from '../../model/index.js'
 
@@ -100,23 +98,19 @@ class DanteImagePopover extends React.Component {
       this.display(blockType === "image")
 
       if (blockType === "image") {
-        let selectionBoundary = node.anchorNode.parentNode.parentNode
-                                           .parentNode.getBoundingClientRect()
-        
-        let imageBoxNode = node.anchorNode.parentNode.parentNode.parentNode.parentNode.parentNode                                
-        let coords = selectionBoundary
+
+        let imageBoxNode = document.getElementsByClassName("is-selected")[0]
+        let selectionBoundary = imageBoxNode.getBoundingClientRect()
 
         let el = this.refs.image_popover
-        let padd = el.offsetWidth / 2
+        let padd = el.clientWidth / 2
+        const toolbarHeight = el.offsetHeight;
 
         let parent = ReactDOM.findDOMNode(this.props.editor)
         let parentBoundary = parent.getBoundingClientRect()
-
-        const toolbarHeight = el.offsetHeight;
-        const relativeRect = imageBoxNode.getBoundingClientRect();
-        let left = selectionBoundary.left + selectionBoundary.width / 2 - padd
-        let top = relativeRect.top - parentBoundary.top - (toolbarHeight)
-
+        
+        let left = (selectionBoundary.left - parentBoundary.left ) + (selectionBoundary.width / 2)    
+        let top = (selectionBoundary.top + window.scrollY) - toolbarHeight
         return this.setPosition({ top: top, left: left })
 
       }
