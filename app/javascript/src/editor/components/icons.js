@@ -101,6 +101,26 @@ function close() {
   </svg>
 }
 
+function blockquote(){
+  
+}
+
+function p(){
+  
+}
+
+function h2(){
+  
+}
+
+function h3(){
+  
+}
+
+function h4(){
+  
+}
+
 export default {
     image,
     card,

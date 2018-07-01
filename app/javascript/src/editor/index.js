@@ -20,6 +20,7 @@ import ImageBlock from './components/blocks/image.js'
 import EmbedBlock from './components/blocks/embed.js'
 import VideoBlock from './components/blocks/video.js'
 import PlaceholderBlock from './components/blocks/placeholder.js'
+import Icons from "./components/icons.js"
 
 // custom blocks
 
@@ -114,7 +115,6 @@ class DemoApp extends React.Component {
           return ctx.onChange(addNewBlockAt(editorState, block.getKey()))
         }    
       },
-
       {
           icon: 'footer',
           type: 'footer',
@@ -209,7 +209,6 @@ class DemoApp extends React.Component {
           return ctx.onChange(addNewBlockAt(editorState, block.getKey()))
         },
       },
-
       {
         icon: 'button',
         type: 'unsubscribe_button',
@@ -236,7 +235,6 @@ class DemoApp extends React.Component {
           //return ctx.onChange(addNewBlockAt(editorState, block.getKey()))
         },
       },
-
       {
         title: 'add an image',
         icon: 'image',
@@ -391,16 +389,23 @@ class DemoApp extends React.Component {
         placeholder: "type a url",
         
         block_types: [
-         {label: 'p', style: 'unstyled'},
-          //{ label: 'h2', style: 'header-one', type: "block" },
-          //{ label: 'h3', style: 'header-two', type: "block" },
-          //{ label: 'h4', style: 'header-three', type: "block" },
-          //{ label: 'blockquote', style: 'blockquote', type: "block" },
-        { label: 'insertunorderedlist', style: 'unordered-list-item', type: "block" },
-        { label: 'insertorderedlist', style: 'ordered-list-item', type: "block" },
-        //{ label: 'code', style: 'code-block', type: "block" },
-        { label: 'bold', style: 'BOLD', type: "inline" },
-        { label: 'italic', style: 'ITALIC', type: "inline" }]
+        { label: 'p', style: 'unstyled',  icon: Icons.bold },
+        { label: 'h2', style: 'header-one', type: "block" , icon: Icons.bold },
+        { label: 'h3', style: 'header-two', type: "block",  icon: Icons.bold },
+        { label: 'h4', style: 'header-three', type: "block",  icon: Icons.bold },
+
+        { type: "separator" },
+        { label: 'color', type: "color" },
+        { type: "link" },
+      
+        { label: 'blockquote', style: 'blockquote', type: "block", icon: Icons.bold },
+        { type: "separator" },
+        { label: 'insertunorderedlist', style: 'unordered-list-item', type: "block", icon: Icons.insertunorderedlist },
+        { label: 'insertorderedlist', style: 'ordered-list-item', type: "block", icon: Icons.insertunorderedlist },
+        { type: "separator" },
+        { label: 'code', style: 'code-block', type: "block",  icon: Icons.bold },
+        { label: 'bold', style: 'BOLD', type: "inline", icon: Icons.bold },
+        { label: 'italic', style: 'ITALIC', type: "inline", icon: Icons.italic }]
       }
     }, {
       ref: 'add_tooltip',

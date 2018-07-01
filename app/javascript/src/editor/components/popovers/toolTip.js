@@ -309,6 +309,9 @@ class DanteTooltip extends React.Component {
         </div>
         <ul className="dante-menu-buttons">
 
+          {
+            /*
+          }
           <DanteTooltipList
             editorState={ this.props.editorState }
             styles={this.props.styles}
@@ -346,57 +349,71 @@ class DanteTooltip extends React.Component {
             styles={this.props.styles}
             style_type="fontSize"
           />
+          */}
 
-          <DanteTooltipColor
-            styles={this.props.styles}
-            editorState={ this.props.editorState }
-            enableLinkMode={ this._enableLinkMode }
-            value={'#000'}
-            style_type="color"
-            handleClick={this._clickBlockInlineStyle}
-            show={this.state.show}
-          />
+          { this.props.widget_options.block_types.map( (item, i) => {
+              switch (item.type) {
+                case "block":
+                  return <DanteTooltipItem
+                            key={ i }
+                            item={ item }
+                            styles={this.props.style}
+                            handleClick={ this._clickBlockHandler }
+                            editorState={ this.props.editorState }
+                            type="block"
+                            currentStyle={ this.props.editorState.getCurrentInlineStyle }
+                          />
+                  break;
 
-          <div className="dante-menu-divider"/>
+                case "inline":
+                  return <DanteTooltipItem
+                            key={ i }
+                            item={ item }
+                            type="inline"
+                            editorState={ this.props.editorState }
+                            handleClick={ this._clickInlineHandler }
+                          />
+                  break;
+                
+                case "color":
+                  return <DanteTooltipColor
+                            styles={this.props.styles}
+                            editorState={ this.props.editorState }
+                            enableLinkMode={ this._enableLinkMode }
+                            value={'#000'}
+                            style_type="color"
+                            handleClick={this._clickBlockInlineStyle}
+                            show={this.state.show}
+                          />
+                  break
 
-          { this.inlineItems().map( (item, i) => {
-              return  <DanteTooltipItem
-                        key={ i }
-                        item={ item }
-                        type="inline"
-                        editorState={ this.props.editorState }
-                        handleClick={ this._clickInlineHandler }
-                      />
+                case "separator":
+                  return <DanteMenuDivider/>
+                  break;
+                case "link": 
+                  return <DanteTooltipLink
+                            editorState={ this.props.editorState }
+                            enableLinkMode={ this._enableLinkMode }
+                          />
+                  break;
+                default:
+                  break;
+              }
+              
             })
           }
 
-          <div className="dante-menu-divider"/>
-
-          { this.blockItems().map( (item, i) => {
-              return  <DanteTooltipItem
-                        key={ i }
-                        item={ item }
-                        styles={this.props.style}
-                        handleClick={ this._clickBlockHandler }
-                        editorState={ this.props.editorState }
-                        type="block"
-                        currentStyle={ this.props.editorState.getCurrentInlineStyle }
-                      />
-            })
-          }
-
-          <div className="dante-menu-divider"/>
-
-          <DanteTooltipLink
-            editorState={ this.props.editorState }
-            enableLinkMode={ this._enableLinkMode }
-          />
+          
 
         </ul>
       </div>
     )
   }
 }
+
+const DanteMenuDivider = ()=>{
+  return <div className="dante-menu-divider"/>
+} 
 
 class DanteTooltipItem extends React.Component {
 
@@ -451,7 +468,7 @@ class DanteTooltipItem extends React.Component {
       <li className={ `dante-menu-button ${ this.activeClass() }` }
         onMouseDown={ this.handleClick }>
         <span className={ 'dante-icon'}>
-          {Icons[this.props.item.label]()}
+          {this.props.item.icon()}
         </span>
       </li>
     )
