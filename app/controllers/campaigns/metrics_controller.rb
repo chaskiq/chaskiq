@@ -10,7 +10,7 @@ class Campaigns::MetricsController < ApplicationController
   end
 
   def counts
-    render json: @campaign.metrics.group(:action).count
+    render json: @campaign.metrics.group(:action).count(:trackable_id)
   end
 
   def timeline
