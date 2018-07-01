@@ -16,8 +16,9 @@ import serialize from 'form-serialize'
 import CampaignSettings from "./campaigns/settings"
 import CampaignEditor from "./campaigns/editor"
 import SegmentManager from '../components/segmentManager'
-import {parseJwt, generateJWT} from '../components/segmentManager/jwt'
+import CampaignStats from "./campaigns/stats"
 
+import {parseJwt, generateJWT} from '../components/segmentManager/jwt'
 
 
 class CampaignSegment extends Component {
@@ -194,7 +195,17 @@ class CampaignForm extends Component {
       ]      
     }
 
-    return a.concat(b)
+    const stats = [
+      { label: 'Stats', content: <CampaignStats  {...this.props} 
+        data={this.state.data} 
+        updateData={this.updateData} /> 
+      }
+    ]
+
+    // return here if campaign not sent
+    const tabs = a.concat(b)
+
+    return stats.concat(tabs)
 
   }
 
@@ -202,7 +213,6 @@ class CampaignForm extends Component {
 
     return <ContentWrapper>
         <PageTitle>FORM HERE</PageTitle>
-
         {
           this.state.data.id || this.props.match.params.id === "new" ?
             <Tabs
@@ -221,6 +231,8 @@ class CampaignForm extends Component {
   }
 
 }
+
+
 
 export default class CampaignContainer extends Component {
 
@@ -247,7 +259,6 @@ export default class CampaignContainer extends Component {
 
   render(){
     return <div>
-
               <Route exact path={`${this.props.match.url}`} 
                 render={(props)=>(
                   <div>

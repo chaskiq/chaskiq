@@ -633,11 +633,12 @@ class Messenger extends Component {
                                                           <Autor>
                                                             {message.app_user.email}
                                                           </Autor>
-                                                          <Moment fromNow={o.created_at} style={{ float: 'right',
+                                                          <Moment fromNow style={{ float: 'right',
                                                                                                   color: '#ccc',
                                                                                                   width: '88px',
                                                                                                   margin: '0px 10px',
-                                                                                                  textTransform: 'unset'}}/> 
+                                                                                                  textTransform: 'unset'}}>
+                                                                                                  {o.created_at}</Moment> 
                                                         </ConversationSummaryBodyMeta>
 
                                                         <ConversationSummaryBodyContent dangerouslySetInnerHTML={{__html: message.message}} />

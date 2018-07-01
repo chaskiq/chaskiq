@@ -18,7 +18,12 @@ Rails.application.routes.draw do
         get :test
       end
       resources :attachments, controller: 'campaigns/attachments'
-
+      resources :metrics, controller: 'campaigns/metrics', only: :index do
+        collection do
+          get :counts
+          get :timeline
+        end
+      end
     end
 
     resources :app_users

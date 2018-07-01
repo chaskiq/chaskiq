@@ -208,7 +208,7 @@ class AppUsers extends Component {
           },
           {
             //key: createKey(app_user.state),
-            content: (<Moment fromNow={app_user.last_visited_at }/>),
+            content: (<Moment fromNow>{app_user.last_visited_at }</Moment>),
           },
           {
             content: (
