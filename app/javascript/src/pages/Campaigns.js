@@ -210,9 +210,11 @@ class CampaignForm extends Component {
   }
 
   render(){
-
+    console.log(this.state.data.id || this.props.match.params.id === "new")
     return <ContentWrapper>
-        <PageTitle>FORM HERE</PageTitle>
+        <PageTitle>
+          Campaign {`: ${this.state.data.subject}`}
+        </PageTitle>
         {
           this.state.data.id || this.props.match.params.id === "new" ?
             <Tabs

@@ -54,7 +54,9 @@ export default class CampaignSettings extends Component {
   update = (data) => {
     axios.put(`${this.props.match.url}.json`, data)
     .then( (response)=> {
-      this.setState({data: response.data}, ()=>{ console.log('ss')})
+      this.setState({data: response.data}, ()=>{
+        this.props.updateData(response.data) 
+      })
     })
     .catch( (error)=> {
       if(error.response.data)

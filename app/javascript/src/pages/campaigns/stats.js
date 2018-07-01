@@ -179,13 +179,13 @@ export default class CampaignStats extends Component {
       {
         "id": "send",
         "label": "send",
-        "value": this.state.counts.send,
+        "value": this.state.counts.send || 0,
         "color": "#0747A6"
       },
       {
         "id": "open",
         "label": "open",
-        "value": this.state.counts.open,
+        "value": this.state.counts.open || 0,
         "color": "#DEEBFF"
       }]
   }
@@ -195,13 +195,13 @@ export default class CampaignStats extends Component {
       {
         "id": "open",
         "label": "open",
-        "value": this.state.counts.open,
+        "value": this.state.counts.open || 0,
         "color": "#0747A6"
       },
       {
         "id": "click",
         "label": "click",
-        "value": this.state.counts.click,
+        "value": this.state.counts.click || 0,
         "color": "#DEEBFF"
       }]
   }
@@ -211,13 +211,13 @@ export default class CampaignStats extends Component {
       {
         "id": "sends",
         "label": "sends",
-        "value": this.state.counts.send,
+        "value": this.state.counts.send || 0,
         "color": "#0747A6"
       },
       {
         "id": "bounces",
         "label": "bounces",
-        "value": this.state.counts.bounces,
+        "value": this.state.counts.bounces || 0,
         "color": "#DEEBFF"
       }]
   }
