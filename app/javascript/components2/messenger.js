@@ -408,6 +408,9 @@ class Messenger extends Component {
         this.setState({
           conversation_messages: this.state.conversation_messages.concat(data)
         }, this.scrollToLastItem)
+        App.conversations.perform("receive", 
+          Object.assign({}, data, {email: this.props.email})
+        )
       },
       notify: ()=>{
         console.log(`notify!!`)

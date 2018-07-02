@@ -331,6 +331,10 @@ class ConversationContainerShow extends Component {
         this.setState({
           messages: this.state.messages.concat(data)
         }, this.scrollToLastItem )
+
+        App.events.perform("receive", 
+          Object.assign({}, data, {email: this.props.currentUser.email})
+        )
       },
       notify: ()=>{
         console.log(`notify!!`)
@@ -421,9 +425,9 @@ class ConversationContainerShow extends Component {
                     color: 'lightblue'
                   }}>
 
-                  <Moment 
-                    fromNow={this.state.app_user.last_visited_at}
-                  />
+                  <Moment fromNow>
+                    {this.state.app_user.last_visited_at}
+                  </Moment>
                 </p>
 
                 <h3>Location</h3>
