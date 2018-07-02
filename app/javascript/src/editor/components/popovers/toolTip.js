@@ -412,7 +412,7 @@ class DanteTooltip extends React.Component {
 }
 
 const DanteMenuDivider = ()=>{
-  return <div className="dante-menu-divider"/>
+  return <li className="dante-menu-divider"/>
 } 
 
 class DanteTooltipItem extends React.Component {

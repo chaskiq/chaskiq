@@ -390,20 +390,20 @@ class DemoApp extends React.Component {
         
         block_types: [
         { label: 'p', style: 'unstyled',  icon: Icons.bold },
-        { label: 'h2', style: 'header-one', type: "block" , icon: Icons.bold },
-        { label: 'h3', style: 'header-two', type: "block",  icon: Icons.bold },
-        { label: 'h4', style: 'header-three', type: "block",  icon: Icons.bold },
+        { label: 'h2', style: 'header-one', type: "block" , icon: Icons.h1 },
+        { label: 'h3', style: 'header-two', type: "block",  icon: Icons.h2 },
+        { label: 'h4', style: 'header-three', type: "block",  icon: Icons.h3 },
 
         { type: "separator" },
         { label: 'color', type: "color" },
         { type: "link" },
       
-        { label: 'blockquote', style: 'blockquote', type: "block", icon: Icons.bold },
+        { label: 'blockquote', style: 'blockquote', type: "block", icon: Icons.blockquote },
         { type: "separator" },
         { label: 'insertunorderedlist', style: 'unordered-list-item', type: "block", icon: Icons.insertunorderedlist },
         { label: 'insertorderedlist', style: 'ordered-list-item', type: "block", icon: Icons.insertunorderedlist },
         { type: "separator" },
-        { label: 'code', style: 'code-block', type: "block",  icon: Icons.bold },
+        { label: 'code', style: 'code-block', type: "block",  icon: Icons.code },
         { label: 'bold', style: 'BOLD', type: "inline", icon: Icons.bold },
         { label: 'italic', style: 'ITALIC', type: "inline", icon: Icons.italic }]
       }

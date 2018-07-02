@@ -125,13 +125,17 @@
 
 .graf--blockquote, blockquote {
   font-family: $dante-font-family-serif;
-  border-left: 3px solid rgba(0, 0, 0, 0.8);
+  border-left: 3px solid rgba(0, 0, 0, .8);
   font-style: italic;
   font-weight: 400;
+  letter-spacing: 0.16px;
   letter-spacing: 0.01rem;
-  margin-left: -23px;
-  padding-bottom: 3px;
-  padding-left: 20px;
+  margin-left: -12px;
+  padding-left: 27px;
+  margin-bottom: 25px;
+  font-size: 2em;
+  line-height: 1.9em;
+  margin-top: 20px;
 }
 .graf--blockquote + .graf--blockquote, blockquote + blockquote {
   margin-top: -30px;

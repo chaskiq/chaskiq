@@ -54,6 +54,7 @@
     "react-dom": "^16.4.0",
     "react-google-maps": "^9.4.5",
     "react-moment": "^0.7.0",
+    "react-popper": "^1.0.0",
     "react-router": "^4.2.0",
     "react-router-dom": "^4.2.2",
     "react-timeago": "^4.1.9",

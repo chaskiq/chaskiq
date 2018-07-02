@@ -75,6 +75,9 @@ const save_handler = (context, content, cb)=>{
       if (block.type === "header-three"){
         return <h3 class="graf graf--h4"/>
       }
+      if (block.type === "blockquote"){
+        return <blockquote class="graf graf--blockquote"/>
+      }
       if (block.type === "button" || block.type === "unsubscribe_button"){
         const {href, buttonStyle, containerStyle, label} = block.data
         return {start: `<div style="width: 100%; margin: 18px 0px 47px 0px">
@@ -311,7 +314,7 @@ export default class CampaignEditor extends Component {
               </ButtonsContainer>
             </ButtonsRow>
 
-            <hr/>
+            <hr style={{clear: "both", border: '1px solid #ebecf0'}}/>
 
             <div id="campaign-editor">
               <div style={{
