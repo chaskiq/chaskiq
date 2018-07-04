@@ -28,7 +28,7 @@ class Conversation < ApplicationRecord
     
     if part.errors.blank?
       subscribers = ConversationsChannel.broadcast_to("#{self.app.key}-#{self.id}", 
-        part.as_json(only: [:id, :message, :conversation_id], methods: [:app_user]) 
+        part.as_json(only: [:id, :message, :conversation_id, :read_at], methods: [:app_user]) 
       )
       logger.info("subscribers: #{subscribers}")
       # could be events channel too

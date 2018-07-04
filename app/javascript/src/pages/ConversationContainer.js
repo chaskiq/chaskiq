@@ -311,7 +311,7 @@ class ConversationContainerShow extends Component {
   }
 
   conversationSubscriber(){
-    App.events = App.cable.subscriptions.create({
+    App.conversations = App.cable.subscriptions.create({
       channel: "ConversationsChannel",
       app: this.props.appId,
       id: this.state.conversation.id,
@@ -325,16 +325,34 @@ class ConversationContainerShow extends Component {
         console.log("disconnected from conversations")
       },
       received: (data)=> {
-        //let html = stateToHTML(JSON.parse(data.message));
         console.log(data.message)
-        console.log(`received ${data}`)
-        this.setState({
-          messages: this.state.messages.concat(data)
-        }, this.scrollToLastItem )
+        console.log('received', data)
 
-        App.events.perform("receive", 
-          Object.assign({}, data, {email: this.props.currentUser.email})
-        )
+        if ( this.state.messages.find( (o)=> o.id === data.id ) ){
+          const new_collection = this.state.messages.map((o)=>{
+              if (o.id === data.id ){
+                return data
+              } else {
+                return o
+              }
+          })
+
+          this.setState({
+            messages: new_collection
+          })
+
+        } else {
+
+          this.setState({
+            messages: this.state.messages.concat(data)
+          }, this.scrollToLastItem)
+
+          App.conversations.perform("receive", 
+            Object.assign({}, data, {email: this.props.currentUser.email })
+          )
+        }
+
+
       },
       notify: ()=>{
         console.log(`notify!!`)
@@ -366,6 +384,15 @@ class ConversationContainerShow extends Component {
                                   key={i}
                                   dangerouslySetInnerHTML={{__html: o.message}} 
                                 />
+
+                                <span className="status">
+                                {
+                                  o.read_at ? 
+                                    <Moment fromNow>
+                                      {o.read_at}
+                                    </Moment> : <span>not seen</span>
+                                }
+                              </span>
                                  
                               </ChatMessageItem>
                             })

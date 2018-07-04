@@ -156,6 +156,7 @@ const MessageItem = styled.div`
     margin: 8px 0 15px 0;
     padding: 8px 10px;
     max-width: 60%;
+    min-width: 25%;
     display: block;
     word-wrap: break-word;
     border-radius: 3px;
@@ -176,6 +177,14 @@ const MessageItem = styled.div`
       float: right;
       background: #42a5f5;
       color: #eceff1; 
+    }
+
+    .status {
+      position: absolute;
+      bottom: -17px;
+      width: 100px;
+      right: -41px;
+      color: #b1afaf;
     }
 `;
 
@@ -405,12 +414,30 @@ class Messenger extends Component {
         //let html = stateToHTML(JSON.parse(data.message));
         console.log(data.message)
         console.log(`received ${data}`)
-        this.setState({
-          conversation_messages: this.state.conversation_messages.concat(data)
-        }, this.scrollToLastItem)
-        App.conversations.perform("receive", 
-          Object.assign({}, data, {email: this.props.email})
-        )
+        // find message and update it, or just append message to conversation
+        if ( this.state.conversation_messages.find( (o)=> o.id === data.id ) ){
+          const new_collection = this.state.conversation_messages.map((o)=>{
+              if (o.id === data.id ){
+                return data
+              } else {
+                return o
+              }
+          })
+
+          this.setState({
+            conversation_messages: new_collection
+          })
+
+        } else {
+
+          this.setState({
+            conversation_messages: this.state.conversation_messages.concat(data)
+          }, this.scrollToLastItem)
+          App.conversations.perform("receive", 
+            Object.assign({}, data, {email: this.props.email})
+          )
+        }
+
       },
       notify: ()=>{
         console.log(`notify!!`)
@@ -455,17 +482,17 @@ class Messenger extends Component {
   createComment(comment, cb){
     const id = this.state.conversation.id
     axios.put(`/api/v1/apps/${this.props.app_id}/conversations/${id}.json`, {
-        email: this.props.email,
-        id: id,
-        message: comment
-      })
-      .then( (response)=> {
-        console.log(response)
-        cb()
-      })
-      .catch( (error)=> {
-        console.log(error);
-      });
+      email: this.props.email,
+      id: id,
+      message: comment
+    })
+    .then( (response)=> {
+      console.log(response)
+      cb()
+    })
+    .catch( (error)=> {
+      console.log(error);
+    });
 
   }
 
@@ -583,14 +610,27 @@ class Messenger extends Component {
                                   {
                                     this.state.conversation_messages.map((o,i)=>{
                                       return <MessageItem key={o.id}
-                                                 className={this.state.conversation.main_participant.email === o.app_user.email ? 'user' : 'admin'}>
+                                                className={this.state.conversation.main_participant.email === o.app_user.email ? 'user' : 'admin'}>
+                                                
                                                 <ChatAvatar>
                                                   <img src={gravatar.url(o.app_user.email)}/>
                                                 </ChatAvatar>
+                                                
                                                 <div  
                                                   key={i}
+                                                  class="text"
                                                   dangerouslySetInnerHTML={{__html: o.message}} 
                                                 />
+
+                                                <span className="status">
+                                                  {
+                                                    o.read_at ? 
+                                                      <Moment fromNow>
+                                                        {o.read_at}
+                                                      </Moment> : <span>not seen</span>
+                                                  }
+                                                </span>
+
                                               </MessageItem>
 
                                     })
