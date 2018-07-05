@@ -89,12 +89,10 @@ const ActivityIndicator = styled.span`
   top: 6px;
   left: 64px;
 `
-
 const FixedHeader = styled.div`
   padding:20px;
   border-bottom: 1px solid #ccc;
 `
-
 const ChatMessageItem = styled.div`
     position: relative;
     margin: 8px 0 15px 0;
@@ -122,7 +120,6 @@ const ChatMessageItem = styled.div`
       color: #eceff1; 
     }
 `;
-
 const ChatAvatar = styled.div`
     left: -52px;
     //background: rgba(0, 0, 0, 0.03);
@@ -169,8 +166,6 @@ class MessageItem extends Component {
     )
   }
 }
-
-
 
 export default class ConversationContainer extends Component {
 
@@ -237,6 +232,24 @@ export default class ConversationContainer extends Component {
   }
 }
 
+class MessageItemWrapper extends Component {
+  componentDidMount(){
+    // console.log(this.props.data.read_at ? "yes" : "EXEC A READ HERE!")
+    // mark as read on first render
+    if(!this.props.data.read_at){
+      console.log(this.props.email)
+      App.conversations.perform("receive", 
+        Object.assign({}, this.props.data, {email: this.props.email})
+      )
+    }
+  }
+  render(){
+    return <Fragment>
+            {this.props.children}
+           </Fragment>
+  }
+}
+
 class ConversationContainerShow extends Component {
 
   constructor(props){
@@ -255,7 +268,7 @@ class ConversationContainerShow extends Component {
   componentDidUpdate(PrevProps, PrevState){
     if(PrevProps.match && PrevProps.match.params.id !== this.props.match.params.id){
       this.getMessages()
-      this.conversationSubscriber()
+      //this.conversationSubscriber()
     }
   }
 
@@ -277,11 +290,11 @@ class ConversationContainerShow extends Component {
       })
       .then( (response)=> {
         this.setState({
-          conversation: response.data.conversation,
-          messages: response.data.messages
+          conversation: response.data.conversation
         }, ()=>{ 
           this.conversationSubscriber()
-          this.getMainUser(this.state.conversation.main_participant.id) 
+          this.getMainUser(this.state.conversation.main_participant.id)
+          this.setState({messages: response.data.messages}) 
         } )
       })
       .catch( (error)=> {
@@ -310,7 +323,14 @@ class ConversationContainerShow extends Component {
     this.refs.overflow.scrollTop = this.refs.overflow.scrollHeight;
   }
 
+  unsubscribeFromConversation = ()=>{
+    if (App.conversations)
+      App.conversations.unsubscribe()
+      App.conversations = null
+  }
+
   conversationSubscriber(){
+    this.unsubscribeFromConversation()
     App.conversations = App.cable.subscriptions.create({
       channel: "ConversationsChannel",
       app: this.props.appId,
@@ -326,7 +346,7 @@ class ConversationContainerShow extends Component {
       },
       received: (data)=> {
         console.log(data.message)
-        console.log('received', data)
+        
 
         if ( this.state.messages.find( (o)=> o.id === data.id ) ){
           const new_collection = this.state.messages.map((o)=>{
@@ -336,33 +356,23 @@ class ConversationContainerShow extends Component {
                 return o
               }
           })
-
+          console.log('received updated', data)
           this.setState({
             messages: new_collection
           })
-
         } else {
-
+          console.log('received new', data)
           this.setState({
             messages: this.state.messages.concat(data)
           }, this.scrollToLastItem)
 
-          App.conversations.perform("receive", 
-            Object.assign({}, data, {email: this.props.currentUser.email })
-          )
         }
-
-
-      },
-      notify: ()=>{
-        console.log(`notify!!`)
       },
       handleMessage: (message)=>{
         console.log(`handle message`)
       } 
     });    
   }
-
 
   render(){
     return <Fragment>
@@ -375,26 +385,32 @@ class ConversationContainerShow extends Component {
 
                   {
                     this.state.messages.map( (o, i)=> {
-                      return <ChatMessageItem key={o.id}
-                                className={this.state.conversation.main_participant.email === o.app_user.email ? 'user' : 'admin'}>
-                                <ChatAvatar>
-                                  <img src={gravatar.url(o.app_user.email)}/>
-                                </ChatAvatar>
-                                <div  
-                                  key={i}
-                                  dangerouslySetInnerHTML={{__html: o.message}} 
-                                />
+                      return <MessageItemWrapper 
+                                key={o.id} 
+                                data={o} 
+                                email={this.props.currentUser.email}>
+                                <ChatMessageItem 
+                                  className={this.state.conversation.main_participant.email === o.app_user.email ? 'user' : 'admin'}>
+                                  <ChatAvatar>
+                                    <img src={gravatar.url(o.app_user.email)}/>
+                                  </ChatAvatar>
 
-                                <span className="status">
-                                {
-                                  o.read_at ? 
-                                    <Moment fromNow>
-                                      {o.read_at}
-                                    </Moment> : <span>not seen</span>
-                                }
-                              </span>
-                                 
-                              </ChatMessageItem>
+                                  <div  
+                                    key={i}
+                                    dangerouslySetInnerHTML={{__html: o.message}} 
+                                  />
+
+                                  <span className="status">
+                                  {
+                                    o.read_at ? 
+                                      <Moment fromNow>
+                                        {o.read_at}
+                                      </Moment> : <span>not seen</span>
+                                  }
+                                </span>
+                                  
+                                </ChatMessageItem>
+                              </MessageItemWrapper>
                             })
                   }
 

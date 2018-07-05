@@ -433,9 +433,9 @@ class Messenger extends Component {
           this.setState({
             conversation_messages: this.state.conversation_messages.concat(data)
           }, this.scrollToLastItem)
-          App.conversations.perform("receive", 
+          /*App.conversations.perform("receive", 
             Object.assign({}, data, {email: this.props.email})
-          )
+          )*/
         }
 
       },
@@ -609,19 +609,21 @@ class Messenger extends Component {
                                 <CommentsWrapper innerRef={comp => this.overflow = comp}>
                                   {
                                     this.state.conversation_messages.map((o,i)=>{
-                                      return <MessageItem key={o.id}
+                                      return <MessageItemWrapper 
+                                                email={this.props.email}
+                                                key={o.id} 
+                                                data={o}>
+                                              <MessageItem
                                                 className={this.state.conversation.main_participant.email === o.app_user.email ? 'user' : 'admin'}>
-                                                
                                                 <ChatAvatar>
                                                   <img src={gravatar.url(o.app_user.email)}/>
                                                 </ChatAvatar>
-                                                
+
                                                 <div  
                                                   key={i}
-                                                  class="text"
+                                                  className="text"
                                                   dangerouslySetInnerHTML={{__html: o.message}} 
                                                 />
-
                                                 <span className="status">
                                                   {
                                                     o.read_at ? 
@@ -630,8 +632,8 @@ class Messenger extends Component {
                                                       </Moment> : <span>not seen</span>
                                                   }
                                                 </span>
-
                                               </MessageItem>
+                                            </MessageItemWrapper>
 
                                     })
                                   }
@@ -735,6 +737,24 @@ class Messenger extends Component {
                 </Prime> 
               
            </EditorWrapper>
+  }
+}
+
+class MessageItemWrapper extends Component {
+  componentDidMount(){
+    //console.log(this.props.email)
+    //console.log(this.props.data.read_at ? "yes" : "EXEC A READ HERE!")
+    // mark as read on first render
+    if(!this.props.data.read_at){
+      App.conversations.perform("receive", 
+        Object.assign({}, this.props.data, {email: this.props.email})
+      )
+    }
+  }
+  render(){
+    return <Fragment>
+            {this.props.children}
+           </Fragment>
   }
 }
 
