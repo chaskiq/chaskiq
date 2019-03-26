@@ -63,15 +63,6 @@ class CampaignSegment extends Component {
   }
 
   updatePredicate = (data, cb)=>{
-    
-    /*const new_predicates = this.props.data.segments.map((o)=> {
-      if(data.attribute === o.attribute){
-        return data
-      } else {
-        return o
-      }
-    })*/
-
     const jwtToken = generateJWT(data)
     //console.log(parseJwt(jwtToken))
     if(cb)
@@ -257,7 +248,6 @@ export default class CampaignContainer extends Component {
   createNewCampaign = (e)=>{
     this.props.history.push(`${this.props.match.url}/new`)
   }
-
 
   render(){
     return <div>

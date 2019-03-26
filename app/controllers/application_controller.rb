@@ -14,6 +14,10 @@ class ApplicationController < ActionController::Base
     }
   end
 
+  def catch_all
+    render_empty
+  end
+
   private
 
   def cors_set_access_control_headers

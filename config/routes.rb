@@ -46,6 +46,8 @@ Rails.application.routes.draw do
   get "tester" => 'client_tester#show'
 
 
+
+
   scope path: '/api' do
     scope path: '/v1' do
       resources :hooks, only: [:create], controller: "api/v1/hooks"
@@ -60,5 +62,7 @@ Rails.application.routes.draw do
       end
     end
   end
+
+  get '*path', to: 'application#catch_all'
 
 end

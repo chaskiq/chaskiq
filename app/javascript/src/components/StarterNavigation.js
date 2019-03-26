@@ -113,7 +113,7 @@ export default class StarterNavigation extends React.Component {
           text="Messages"
           icon={<FolderIcon label="Spaces icon" size="medium"/>}
           onClick={()=> {
-              this.context.router.history.push(`/apps/${this.props.currentApp.key}/campaigns`)
+            this.handleMessagesClick.bind(this)()
             } 
           }
         />,
@@ -176,16 +176,58 @@ export default class StarterNavigation extends React.Component {
       stack: [
         ...this.state.stack,
         this.navLinks()
-        /*[
-          <AkNavigationItem
-            icon={<CalendarIcon label="Calendar" />}
-            text="Calendars"
-          />,
-          <AkNavigationItem
-            icon={<QuestionIcon label="Question" />}
-            text="Questions"
-          />
-        ]*/
+      ]
+    });
+  };
+
+  handleMessagesClick = ()=>{
+    //this.context.router.history.push(`/apps/${this.props.currentApp.key}/conversations`)
+    this.context.router.history.push(`/apps/${this.props.currentApp.key}/campaigns`)
+    this.messagesNestedNav()
+  }
+
+  navLinksForMessages = () => {
+    const appid = `/apps/${ this.props.currentApp.key }`
+    const links = [
+      [`${appid}/campaigns`, 'Mailing Campaigns', DiscoverIcon],
+      [`${appid}/messages/user_auto`, 'User auto messages', DiscoverIcon],
+      [`${appid}/messages/visitor_auto`, 'visitor auto messages', DiscoverIcon]
+    ]
+    return links.map(link => {
+      const [url, title, Icon] = link;
+      return (
+        <Link key={url} to={url}>
+          {
+            Icon ?
+              <AkNavigationItem
+                icon={<Icon label={title} size="medium" />}
+                text={title}
+              //isSelected={this.context.router.isActive(url, true)}
+              /> : <AkNavigationItem
+                text={title}
+              //isSelected={this.context.router.isActive(url, true)}
+              />
+          }
+
+        </Link>
+      );
+    }, this)
+  }
+
+  messagesNestedNav = () => {
+    this.setState({
+      stack: [
+        ...this.state.stack,
+        this.navLinksForMessages()
+      ]
+    });
+  };
+
+  addOnsNestedNav = () => {
+    this.setState({
+      stack: [
+        ...this.state.stack,
+        this.navLinks()
       ]
     });
   };

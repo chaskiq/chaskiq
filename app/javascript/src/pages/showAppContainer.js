@@ -34,6 +34,7 @@ import UserMap from "../components/map"
 
 import ConversationContainer from './ConversationContainer';
 import CampaignContainer from './Campaigns'
+import MessageContainer from './Messages'
 import {parseJwt, generateJWT} from '../components/segmentManager/jwt'
 import {
   InlineFilterDialog, 
@@ -722,6 +723,20 @@ export default class ShowAppContainer extends Component {
               )}
             </Consumer>
         )} /> 
+
+        <Route path={`${this.props.match.path}/messages/user_auto`}
+          render={(props) => (
+            <Consumer>
+              {({ store, actions }) => (
+                <MessageContainer
+                  currentUser={this.props.currentUser}
+                  store={store}
+                  actions={actions}
+                  {...props}
+                />
+              )}
+            </Consumer>
+          )} /> 
 
        
         <Route exact path={this.props.match.path} render={() => (

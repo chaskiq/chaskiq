@@ -7,6 +7,7 @@
 # Ignore bundler config.
 /.bundle
 .sass-cache
+.DS_STORE
 
 # Ignore the default SQLite database.
 /db/*.sqlite3
