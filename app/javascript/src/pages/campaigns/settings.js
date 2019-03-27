@@ -3,6 +3,8 @@ import Select from '@atlaskit/select';
 import FieldText from '@atlaskit/field-text';
 import Button from '@atlaskit/button';
 import Form, { Field, FormHeader, FormSection, FormFooter } from '@atlaskit/form';
+import { DatePicker, DateTimePicker, TimePicker } from '@atlaskit/datetime-picker';
+
 import FieldTextArea from '@atlaskit/field-text-area';
 import axios from 'axios'
 import serialize from 'form-serialize'
@@ -52,7 +54,7 @@ export default class CampaignSettings extends Component {
 
   // Form Event Handlers
   update = (data) => {
-    axios.put(`${this.props.match.url}.json`, data)
+    axios.put(`${this.props.url}.json?mode=${this.props.mode}`, data)
     .then( (response)=> {
       this.setState({data: response.data}, ()=>{
         this.props.updateData(response.data) 
@@ -70,6 +72,50 @@ export default class CampaignSettings extends Component {
     if(!this.state.errors[name])
       return null
     return this.state.errors[name].map((o)=> o).join(", ")
+  }
+
+  fieldRenderer = (data)=>{
+    switch (data.type) {
+      case "string":
+        return <Field label={data.name} isRequired
+          isInvalid={this.errorsFor(data.name)}
+          invalidMessage={this.errorsFor(data.name)}>
+                <FieldText name={`campaign[${data.name}]`}
+                  isRequired shouldFitContainer
+                  value={this.state.data[data.name]}
+                />
+              </Field>
+
+      case "text":
+
+        return <Field label={data.name}
+          isInvalid={this.errorsFor(data.name)}
+          invalidMessage={this.errorsFor(data.name)}>
+          <FieldTextArea
+            name={`campaign[${data.name}]`}
+            shouldFitContainer
+            label={`campaign[${data.name}]`}
+            value={this.state.data[data.name]}
+          />
+        </Field>
+
+      case "datetime":
+        return <Field label={data.name} isRequired
+          isInvalid={this.errorsFor(data.name)}
+          invalidMessage={this.errorsFor(data.name)}>
+
+          <DateTimePicker
+            name={`campaign[${data.name}]`}
+            defaultValue={this.state.data[data.name]}
+          //onChange={onChange}
+          />
+          </Field>
+        
+      
+    
+      default:
+        break;
+    }
   }
 
   render() {
@@ -94,78 +140,12 @@ export default class CampaignSettings extends Component {
 
           <FormSection>
 
-            <Field label="Campaign name" isRequired>
-              <FieldText name="campaign[name]" 
-                isRequired shouldFitContainer
-                value={this.state.data.name}
-               />
-            </Field>
-
-            <Field label="Subject name" 
-              isInvalid={this.errorsFor('subject')} 
-              invalidMessage={this.errorsFor('subject')}>
-              <FieldText name="campaign[subject]" 
-                        isRequired 
-                        shouldFitContainer
-                        value={this.state.data.subject} />
-            </Field>
-
-            <Field label="From name" isRequired 
-              isInvalid={this.errorsFor('from_name')} 
-              invalidMessage={this.errorsFor('from_name')}>
-              <FieldText name="campaign[from_name]" 
-                isRequired 
-                shouldFitContainer
-                value={this.state.data.from_name} />
-            </Field>
-
-            <Field label="From email" isRequired
-              isInvalid={this.errorsFor('from_email')} 
-              invalidMessage={this.errorsFor('from_email')}>
-              <FieldText name="campaign[from_email]" 
-                isRequired shouldFitContainer 
-                value={this.state.data.from_email}/>
-            </Field>
-
-            <Field label="Reply email" isRequired 
-              isInvalid={this.errorsFor('reply_email')} 
-              invalidMessage={this.errorsFor('reply_email')}>
-              <FieldText name="campaign[reply_email]" 
-                isRequired shouldFitContainer
-                value={this.state.data.reply_email} />
-            </Field>
-
             {
-              /*
-            <Field label="Timezone" 
-              isInvalid={this.errorsFor('timezone')} 
-              invalidMessage={this.errorsFor('timezone')}>
-              <Select
-                name="campaign[timezome]"
-                isSearchable={false}
-                value={{ label: 'Atlassian', value: 'atlassian' }}
-                options={[
-                  { label: 'Atlassian', value: 'atlassian' },
-                  { label: 'Sean Curtis', value: 'scurtis' },
-                  { label: 'Mike Gardiner', value: 'mg' },
-                  { label: 'Charles Lee', value: 'clee' },
-                ]}
-              />
-            </Field>
-              */
+              this.state.data.config_fields.map((field)=>{
+                return this.fieldRenderer(field)
+              })
+              
             }
-
-
-            <Field  label="Description" 
-                    isInvalid={this.errorsFor('description')} 
-                    invalidMessage={this.errorsFor('description')}>
-              <FieldTextArea 
-                name="campaign[description]"
-                shouldFitContainer 
-                label="campaign description"
-                value={this.state.data.description} 
-              />
-            </Field>
 
           </FormSection>
 

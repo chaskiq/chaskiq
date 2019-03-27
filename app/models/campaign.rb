@@ -3,6 +3,26 @@ require "open-uri"
 
 class Campaign < Message
 
+  validates :from_name, presence: true #, unless: :step_1?
+  validates :from_email, presence: true #, unless: :step_1?
+
+  def config_fields
+    [
+      {name: "from_name", type: 'string'} ,
+      {name: "from_email", type: 'string'},
+      {name: "reply_email", type: 'string'},
+      {name: "description", type: 'text'} ,
+      {name: "name", type: 'string'} ,
+      {name: "scheduled_at", type: 'string'} ,
+      {name: "timezone", type: 'string'} ,
+      {name: "subject", type: 'text'} ,
+      #{name: "settings", type: 'string'} ,
+      {name: "scheduled_at", type: 'datetime'},
+      {name: "scheduled_to", type: 'datetime'}
+    ]
+  end
+
+
   def delivery_progress
     return 0 if metrics.deliveries.size.zero?
     subscriptions.availables.size.to_f / metrics.deliveries.size.to_f * 100.0

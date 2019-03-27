@@ -9,13 +9,27 @@ class Message < ApplicationRecord
 
   attr_accessor :step
 
+  validates :name, presence: :true
   validates :subject, presence: true #, unless: :step_1?
-  validates :from_name, presence: true #, unless: :step_1?
-  validates :from_email, presence: true #, unless: :step_1?
   validates :html_content, presence: true, if: :template_step?
 
   #before_save :detect_changed_template
   before_create :add_default_predicate
+
+  def config_fields
+    [
+      {name: "from_name", type: 'string'} ,
+      {name: "from_email", type: 'string'},
+      {name: "reply_email", type: 'string'},
+      {name: "description", type: 'text'} ,
+      {name: "name", type: 'string'} ,
+      {name: "timezone", type: 'string'} ,
+      {name: "subject", type: 'text'} ,
+      #{name: "settings", type: 'string'} 
+      {name: "scheduled_at", type: 'datetime'},
+      {name: "scheduled_to", type: 'datetime'}
+    ]
+  end
 
   def add_default_predicate
 

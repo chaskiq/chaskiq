@@ -1,8 +1,26 @@
 class UserAutoMessage < Message 
 
 
+  validates :scheduled_at, presence: true
+  validates :scheduled_to, presence: true
+
   scope :enabled, -> { where(:state => 'enabled')}
   scope :disabled, -> { where(:state => 'disabled')}
+
+  def config_fields
+    [
+      #{name: "from_name", type: 'string'} ,
+      #{name: "from_email", type: 'string'},
+      #{name: "reply_email", type: 'string'},
+      {name: "name", type: 'string'} ,
+      {name: "subject", type: 'text'} ,
+      {name: "description", type: 'text'} ,
+      #{name: "timezone", type: 'string'} ,
+      #{name: "settings", type: 'string'} 
+      {name: "scheduled_at", type: 'datetime'},
+      {name: "scheduled_to", type: 'datetime'}
+    ]
+  end
 
   def self.availables_for(user)
     self.joins("left outer join metrics 
