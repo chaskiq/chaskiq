@@ -33,7 +33,8 @@ export default class CampaignStats extends Component {
     this.state = {
       collection: [],
       meta: {},
-      counts: {}
+      counts: {},
+      loading: false
     }
     this.getData = this.getData.bind(this)
   }
@@ -135,6 +136,10 @@ export default class CampaignStats extends Component {
   }
 
   componentDidMount(){
+    this.init()
+  }
+
+  init = ()=>{
     this.getData()
     this.getCounts()
   }
@@ -142,12 +147,13 @@ export default class CampaignStats extends Component {
   getData = ()=>{
     console.log(this.props)
     const url = `${this.props.url}/metrics.json?mode=${this.props.mode}&page=${this.state.meta.next_page || 1}`
-
+    this.setState({loading: true})
     axios.get(url)
     .then((response)=>{
       this.setState({
-        collection: this.state.collection.concat(response.data.collection),
-        meta: response.data.meta
+        collection: response.data.collection, //this.state.collection.concat(response.data.collection),
+        meta: response.data.meta,
+        loading: false
       })
     }).catch((err)=>{
       console.log(err)
@@ -237,8 +243,22 @@ export default class CampaignStats extends Component {
       }]
   }
 
+  purgeMetrics = ()=>{
+    console.log(this.props)
+    const url = `${this.props.url}/metrics/purge.json?mode=${this.props.mode}`
+
+    axios.get(url)
+      .then((response) => {
+        this.props.fetchCampaign()
+        this.init()
+      }).catch((err) => {
+        console.log(err)
+      })
+  }
+
   render(){
     const {head, rows} = this.getTableData()
+    console.log(rows)
     return <div>
               <PieContainer>
                 <PieItem>
@@ -262,20 +282,37 @@ export default class CampaignStats extends Component {
                 </PieItem>
               </PieContainer>
               
-              <DynamicTable
-                caption={null}
-                head={head}
-                rows={rows}
-                //rowsPerPage={1}
-                defaultPage={1}
-                loadingSpinnerSize="large"
-                isLoading={false}
-                isFixedSize
-                defaultSortKey="term"
-                defaultSortOrder="ASC"
-                onSort={() => console.log('onSort')}
-                onSetPage={() => console.log('onSetPage')}
-              />
+
+              <button
+                aria-expanded="true"
+                aria-haspopup="true"
+                className="btn dropdown-toggle"
+                data-toggle="dropdown"
+                id="button-font-color"
+                ref="btn"
+                type="button" 
+                onClick={this.purgeMetrics}>
+                purge metrics
+              </button>
+
+              {
+                !this.state.loading ? 
+                  <DynamicTable
+                    caption={null}
+                    head={head}
+                    rows={rows}
+                    //rowsPerPage={1}
+                    defaultPage={1}
+                    loadingSpinnerSize="large"
+                    isLoading={false}
+                    isFixedSize
+                    defaultSortKey="term"
+                    defaultSortOrder="ASC"
+                    onSort={() => console.log('onSort')}
+                    onSetPage={() => console.log('onSetPage')}
+                  /> : null 
+              }
+
               {
                 this.state.meta.next_page ? 
                 <a href="#" onClick={this.handleNextPage}>next</a> : null

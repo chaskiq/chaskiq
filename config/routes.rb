@@ -18,6 +18,7 @@ Rails.application.routes.draw do
       collection do
         get :counts
         get :timeline
+        get :purge
       end
     end
   end

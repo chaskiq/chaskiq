@@ -13,6 +13,11 @@ class Campaigns::MetricsController < ApplicationController
     render json: @campaign.metrics.group(:action).count(:trackable_id)
   end
 
+  def purge
+    @campaign.metrics.delete_all
+    render json: {}
+  end
+
   def timeline
     @campaign.sparklines_by_day
   end
