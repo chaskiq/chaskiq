@@ -329,6 +329,7 @@ class Messenger extends Component {
       conversation: {},
       conversation_messages: [],
       conversations: [],
+      availableMessage: null,
       display_mode: "conversations",
       open: false
     }
@@ -346,6 +347,7 @@ class Messenger extends Component {
     this.ping(()=> {
       this.eventsSubscriber()
       this.getConversations()
+      this.getMessage()
     })
   }
 
@@ -446,6 +448,27 @@ class Messenger extends Component {
         console.log(`handle message`)
       } 
     });    
+  }
+
+  getMessage(cb) {
+
+    const data = {
+      referrer: window.location.path,
+      email: this.props.email,
+      properties: this.props.properties
+    }
+
+    axios.get(`/api/v1/apps/${this.props.app_id}/messages/17.json`, {
+      headers: {user_data: JSON.stringify(data)}
+    })
+      .then( (response)=> {
+        this.setState({availableMessage: response.data.message})
+        if(cb)
+          cb()
+      })
+      .catch( (error)=> {
+        console.log(error);
+      });
   }
 
   ping(cb){
@@ -736,7 +759,29 @@ class Messenger extends Component {
                   </div>
                 </Prime> 
               
+              {
+                this.state.availableMessage ? 
+                <MessageContainer 
+                  availableMessage={this.state.availableMessage}>
+                </MessageContainer> : null 
+              }
            </EditorWrapper>
+  }
+}
+
+class MessageContainer extends Component {
+  
+  createMarkup =()=> { 
+    return { __html:  this.props.availableMessage.html_content }; 
+  };
+
+
+  render(){
+    return <div>
+              
+            <div dangerouslySetInnerHTML={this.createMarkup()} />
+
+            </div>
   }
 }
 

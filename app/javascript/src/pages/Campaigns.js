@@ -158,15 +158,19 @@ class CampaignForm extends Component {
   }
 
   componentDidMount(){
+    this.fetchCampaign()
+  }
+
+  fetchCampaign = ()=>{
     const id = this.props.match.params.id
-    axios.get(`/apps/${this.props.store.app.key}/campaigns/${id}.json?mode=${this.props.mode}`, 
-    {mode: this.props.mode})
-    .then((response)=>{
-      console.log(response)
-      this.setState({data: response.data})
-    }).catch((err)=>{
-      console.log(err)
-    })
+    axios.get(`/apps/${this.props.store.app.key}/campaigns/${id}.json?mode=${this.props.mode}`,
+      { mode: this.props.mode })
+      .then((response) => {
+        console.log(response)
+        this.setState({ data: response.data })
+      }).catch((err) => {
+        console.log(err)
+      })
   }
 
   updateData = (data, cb)=>{
@@ -204,6 +208,7 @@ class CampaignForm extends Component {
       { label: 'Stats', content: <CampaignStats  {...this.props} 
         url={this.url()}
         data={this.state.data} 
+        fetchCampaign={this.fetchCampaign}
         updateData={this.updateData} /> 
       }
     ]
@@ -283,7 +288,7 @@ export default class CampaignContainer extends Component {
                     {
                       this.state.campaigns.map((o)=> {
                         return <div>
-                                {o.from_email} | {o.from_name}
+                                {o.id} | {o.name}
                                 <Button onClick={()=> this.props.history.push(`${this.props.match.url}/${o.id}`)}>
                                   edit
                                 </Button>

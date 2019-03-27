@@ -2,7 +2,20 @@ class Api::V1::MessagesController < ApplicationController
 
   def show
     @app = App.find_by(key: params[:app_id])
-    @message = @app.messages.find(params[:id])
+    
+    begin
+      data = JSON.parse(request.headers["HTTP_USER_DATA"])
+      user = find_user(data["email"]) 
+    rescue 
+       render json: {}, status: 406 and return
+    end
+
+    @message = @app.messages.find(params[:id]).show_notification_for(user)
+
+    if(@message.blank?)
+      render json: {}, status: 406 and return
+    end
+
     render :show
   end
 
@@ -10,7 +23,14 @@ class Api::V1::MessagesController < ApplicationController
     @app = App.find_by(key: params[:app_id])
     #@conversations = @app.conversations
     @messages = @app.messages
+    
     render :index
+  end
+
+
+private
+  def find_user(email)
+    @app.app_users.joins(:user).where(["users.email =?", email ]).first  
   end
 
 =begin
