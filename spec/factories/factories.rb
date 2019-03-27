@@ -34,7 +34,8 @@ FactoryGirl.define do
     #plain_content "hi this is the plain content"
     #html_content "<h1>hi this is htmlcontent </h1>"
     #query_string "opt=1&out=2"
-    #scheduled_at "2015-03-17 23:10:06"
+    scheduled_at "2015-03-17 23:10:06"
+    scheduled_to "2015-03-17 23:10:06"
     #timezone "utc-4"
     #recipients_count 1
     #sent false

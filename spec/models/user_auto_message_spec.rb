@@ -47,7 +47,9 @@ RSpec.describe UserAutoMessage, type: :model do
 
       @c = FactoryGirl.create(:user_auto_message, 
         app: app, 
-        segments: app.segments.first.predicates
+        segments: app.segments.first.predicates,
+        scheduled_at: 1.day.ago,
+        scheduled_to: 30.days.from_now
       )
     end
 

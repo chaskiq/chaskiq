@@ -6,6 +6,7 @@ class UserAutoMessage < Message
 
   scope :enabled, -> { where(:state => 'enabled')}
   scope :disabled, -> { where(:state => 'disabled')}
+  scope :in_time, ->{ where(['scheduled_at <= ? AND scheduled_to >= ?', Date.today, Date.today]) }
 
   def config_fields
     [
@@ -23,7 +24,7 @@ class UserAutoMessage < Message
   end
 
   def self.availables_for(user)
-    self.joins("left outer join metrics 
+    self.in_time.joins("left outer join metrics 
       on metrics.campaign_id = campaigns.id 
       AND metrics.action = 'viewed'
       AND metrics.trackable_type = 'AppUser' 
