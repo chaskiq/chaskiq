@@ -34,7 +34,6 @@ import UserMap from "../components/map"
 
 import ConversationContainer from './ConversationContainer';
 import CampaignContainer from './Campaigns'
-import MessageContainer from './Messages'
 import {parseJwt, generateJWT} from '../components/segmentManager/jwt'
 import {
   InlineFilterDialog, 

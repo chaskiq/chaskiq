@@ -14,7 +14,7 @@ import axios from 'axios'
 import serialize from 'form-serialize'
 
 import CampaignSettings from "./campaigns/settings"
-import CampaignEditor from "./campaigns/editor"
+import CampaignEditor from "./campaigns/edito"
 import SegmentManager from '../components/segmentManager'
 import CampaignStats from "./campaigns/stats"
 
@@ -186,13 +186,17 @@ class CampaignForm extends Component {
 
     if(this.state.data.id){
       b = [
-        { label: 'Audience', content: <CampaignSegment  {...this.props} 
-                                                        data={this.state.data}
+        { label: 'Audience', content: <CampaignSegment  
+          {...this.props} 
+          data={this.state.data}
           url={this.url()}
-                                                        updateData={this.updateData} /> },
-        { label: 'Editor',   content: <CampaignEditor   {...this.props} 
-          url={this.url()}
-                                                        data={this.state.data} /> }
+          updateData={this.updateData} /> 
+        },
+        { label: 'Editor', content: <CampaignEditor   
+        {...this.props} 
+        url={this.url()}
+        updateData={this.updateData}
+        data={this.state.data} /> }
       ]      
     }
 

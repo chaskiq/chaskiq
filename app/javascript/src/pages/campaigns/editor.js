@@ -1,6 +1,7 @@
 import React, {Component} from "react"
 
 import DemoApp from '../../editor'
+import Dante2 from 'Dante'
 import _ from "lodash"
 import axios from 'axios'
 import styled from 'styled-components'
