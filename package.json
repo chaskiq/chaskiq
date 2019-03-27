@@ -6,6 +6,7 @@
     "@atlaskit/button": "^8.2.0",
     "@atlaskit/checkbox": "^3.1.0",
     "@atlaskit/css-reset": "^2.0.2",
+    "@atlaskit/datetime-picker": "^7.0.2",
     "@atlaskit/dropdown-menu": "^4.1.0",
     "@atlaskit/dynamic-table": "^8.1.0",
     "@atlaskit/empty-state": "^1.1.2",
@@ -60,6 +61,7 @@
     "react-popper": "^1.0.0",
     "react-router": "^4.2.0",
     "react-router-dom": "^4.2.2",
+    "react-select": "^2.4.2",
     "react-timeago": "^4.1.9",
     "recompose": "^0.27.1"
   },
