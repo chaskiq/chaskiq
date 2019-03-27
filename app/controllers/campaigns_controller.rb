@@ -9,7 +9,7 @@ class CampaignsController < ApplicationController
   # GET /campaigns
   # GET /campaigns.json
   def index
-    @campaigns = Campaign.all
+    @campaigns = collection
     respond_to do |format|
       format.html{ render_empty }
       format.json{ render "index" }
@@ -27,7 +27,7 @@ class CampaignsController < ApplicationController
 
   # GET /campaigns/new
   def new
-    @campaign = Campaign.new
+    @campaign = collection.new #.new(type: "UserAutoMessage")
     @campaign.add_default_predicate
 
     respond_to do |format|
@@ -43,11 +43,11 @@ class CampaignsController < ApplicationController
   # POST /campaigns
   # POST /campaigns.json
   def create
-    @campaign = @app.campaigns.new(campaign_params)
+    @campaign = collection.new(campaign_params)
 
     respond_to do |format|
       if @campaign.save
-        format.html { redirect_to @campaign, notice: 'Campaign was successfully created.' }
+        #format.html { redirect_to @campaign, notice: 'Campaign was successfully created.' }
         format.json { render :show, status: :created, location: @campaign }
       else
         format.html { render :new }
@@ -104,11 +104,22 @@ class CampaignsController < ApplicationController
     #redirect_to manage_campaigns_path()
   end
 
+  def collection
+    case params[:mode]
+    when "campaigns"
+      @app.campaigns
+    when "user_auto"
+      @app.user_auto_messages
+    else
+      raise "not in mode"
+    end
+  end
+
 
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_campaign
-      @campaign = @app.campaigns.find(params[:id])
+      @campaign = collection.find(params[:id])
     end
 
     def find_app

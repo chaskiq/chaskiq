@@ -35,10 +35,10 @@ export default class CampaignSettings extends Component {
 
   // Form Event Handlers
   create = (data) => {
-    axios.post(`/apps/${this.props.store.app.key}/campaigns.json`, data)
+    axios.post(`/apps/${this.props.store.app.key}/campaigns.json?mode=${this.props.mode}`, data)
     .then( (response)=> {
       this.setState({data: response.data}, ()=>{ 
-        this.props.history.push(`/apps/${this.props.store.app.key}/campaigns/${this.state.data.id}`)
+        this.props.history.push(`/apps/${this.props.store.app.key}/messages/${this.props.mode}/${this.state.data.id}`)
         this.props.updateData(response.data)
       })
     })

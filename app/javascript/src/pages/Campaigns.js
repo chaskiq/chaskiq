@@ -41,7 +41,7 @@ class CampaignSegment extends Component {
 
   handleSave = (e)=>{
     const predicates = parseJwt(this.state.jwt)
-    console.log(predicates)
+    //console.log(predicates)
 
     axios.put(`${this.props.match.url}.json`, { 
       campaign: { 
@@ -152,8 +152,15 @@ class CampaignForm extends Component {
     }    
   }
 
+  url = ()=>{
+    const id = this.props.match.params.id
+    return `/apps/${this.props.store.app.key}/campaigns/${id}`
+  }
+
   componentDidMount(){
-    axios.get(`${this.props.match.url}.json`)
+    const id = this.props.match.params.id
+    axios.get(`/apps/${this.props.store.app.key}/campaigns/${id}.json?mode=${this.props.mode}`, 
+    {mode: this.props.mode})
     .then((response)=>{
       console.log(response)
       this.setState({data: response.data})
@@ -172,6 +179,7 @@ class CampaignForm extends Component {
     const a = [
       { label: 'Settings', content: <CampaignSettings {...this.props} 
                                                       data={this.state.data} 
+        url={this.url()}
                                                       updateData={this.updateData} 
                                                       /> }
     ]
@@ -179,15 +187,18 @@ class CampaignForm extends Component {
     if(this.state.data.id){
       b = [
         { label: 'Audience', content: <CampaignSegment  {...this.props} 
-                                                        data={this.state.data} 
+                                                        data={this.state.data}
+          url={this.url()}
                                                         updateData={this.updateData} /> },
         { label: 'Editor',   content: <CampaignEditor   {...this.props} 
+          url={this.url()}
                                                         data={this.state.data} /> }
       ]      
     }
 
     const stats = [
       { label: 'Stats', content: <CampaignStats  {...this.props} 
+        url={this.url()}
         data={this.state.data} 
         updateData={this.updateData} /> 
       }
@@ -196,7 +207,8 @@ class CampaignForm extends Component {
     // return here if campaign not sent
     const tabs = a.concat(b)
 
-    return stats.concat(tabs)
+    return this.props.match.params.id === "new" ? tabs : stats.concat(tabs)
+    
 
   }
 
@@ -236,13 +248,23 @@ export default class CampaignContainer extends Component {
     }
   }
 
+  componentDidUpdate(prevProps, prevState){
+    if(this.props.match.params.message_type !== prevProps.match.params.message_type){
+      this.init()
+    }
+  }
+
   componentDidMount(){
-    axios.get(`${this.props.match.url}.json`)
-    .then((response)=>{
-        this.setState({campaigns: response.data})
-    }).catch((err)=>{
-      console.log(err)
-    })
+    this.init()
+  }
+
+  init = ()=>{
+    axios.get(`/apps/${this.props.match.params.appId}/campaigns.json?mode=${this.props.match.params.message_type}`)
+      .then((response) => {
+        this.setState({ campaigns: response.data })
+      }).catch((err) => {
+        console.log(err)
+      })
   }
 
   createNewCampaign = (e)=>{
@@ -277,6 +299,7 @@ export default class CampaignContainer extends Component {
    
                   <CampaignForm
                     currentUser={this.props.currentUser}
+                    mode={this.props.match.params.message_type}
                     {...this.props}
                     {...props}
                   />

@@ -5,25 +5,34 @@ Rails.application.routes.draw do
   resources :campaigns
   devise_for :users
 
+
+  concern :messageable do
+    member do
+      get :preview
+      get :premailer_preview
+      get :deliver
+      get :test
+    end
+    resources :attachments, controller: 'campaigns/attachments'
+    resources :metrics, controller: 'campaigns/metrics', only: :index do
+      collection do
+        get :counts
+        get :timeline
+      end
+    end
+  end
+
   resources :apps do
     member do
       post :search
     end
     resources :conversations
-    resources :campaigns do
-      member do
-        get :preview
-        get :premailer_preview
-        get :deliver
-        get :test
-      end
-      resources :attachments, controller: 'campaigns/attachments'
-      resources :metrics, controller: 'campaigns/metrics', only: :index do
-        collection do
-          get :counts
-          get :timeline
-        end
-      end
+
+    resources :campaigns, concerns: :messageable
+
+    namespace :messages do
+      resources :user_auto_message, concerns: :messageable
+      resources :campaigns, concerns: :messageable
     end
 
     resources :app_users
@@ -37,6 +46,8 @@ Rails.application.routes.draw do
   resource :oembed, controller: "oembed", only: :show
 
   get "/user_session", to: 'application#user_session'
+
+  get "/aaaa", to: 'application#user_session', as: 'user_auto_message'
 
   get "/apps/:app_id/segments/:id/:jwt", to: 'segments#show', constraints: { jwt: /.+/ }
 

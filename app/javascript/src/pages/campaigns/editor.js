@@ -239,7 +239,7 @@ export default class CampaignEditor extends Component {
       statusButton: "inprogress"
     }
 
-    this.save_url = window.location.pathname
+    this.save_url = this.props.url //window.location.pathname
   }
 
   save_handler = (html, plain, serialized)=>{

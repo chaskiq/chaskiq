@@ -182,14 +182,14 @@ export default class StarterNavigation extends React.Component {
 
   handleMessagesClick = ()=>{
     //this.context.router.history.push(`/apps/${this.props.currentApp.key}/conversations`)
-    this.context.router.history.push(`/apps/${this.props.currentApp.key}/campaigns`)
+    this.context.router.history.push(`/apps/${this.props.currentApp.key}/campaings`)
     this.messagesNestedNav()
   }
 
   navLinksForMessages = () => {
     const appid = `/apps/${ this.props.currentApp.key }`
     const links = [
-      [`${appid}/campaigns`, 'Mailing Campaigns', DiscoverIcon],
+      [`${appid}/messages/campaigns`, 'Mailing Campaigns', DiscoverIcon],
       [`${appid}/messages/user_auto`, 'User auto messages', DiscoverIcon],
       [`${appid}/messages/visitor_auto`, 'visitor auto messages', DiscoverIcon]
     ]

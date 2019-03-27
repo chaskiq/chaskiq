@@ -14,7 +14,8 @@ class SesSenderJob < ApplicationJob
     campaign.metrics.create(
       trackable: subscription,
       action: "send",
-      message_id: message_id)
+      message_id: message_id
+    )
 
   end
 end

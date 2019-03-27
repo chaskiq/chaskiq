@@ -20,8 +20,19 @@ class Campaigns::MetricsController < ApplicationController
 
 protected
 
+  def collection
+    case params[:mode]
+    when "campaigns"
+      @app.campaigns
+    when "user_auto"
+      @app.user_auto_messages
+    else
+      raise "not in mode"
+    end
+  end
+
   def find_campaign
     @app      = current_user.apps.find_by(key: params[:app_id]) 
-    @campaign = @app.campaigns.find(params[:campaign_id])
+    @campaign = collection.find(params[:campaign_id])
   end
 end

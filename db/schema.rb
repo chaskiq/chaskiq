@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_06_29_075252) do
+ActiveRecord::Schema.define(version: 2019_03_26_234748) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -96,6 +96,9 @@ ActiveRecord::Schema.define(version: 2018_06_29_075252) do
     t.jsonb "segments"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "type", default: "Campaign"
+    t.jsonb "settings", default: {}
+    t.datetime "scheduled_to"
     t.index ["app_id"], name: "index_campaigns_on_app_id"
   end
 

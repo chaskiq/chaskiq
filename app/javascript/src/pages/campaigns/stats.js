@@ -140,8 +140,8 @@ export default class CampaignStats extends Component {
   }
 
   getData = ()=>{
-    console.log(this.props.store)
-    const url = `/apps/${this.props.store.app.key}/campaigns/${this.props.data.id}/metrics.json?page=${this.state.meta.next_page || 1}`
+    console.log(this.props)
+    const url = `${this.props.url}/metrics.json?mode=${this.props.mode}&page=${this.state.meta.next_page || 1}`
 
     axios.get(url)
     .then((response)=>{
@@ -155,9 +155,8 @@ export default class CampaignStats extends Component {
   }
 
   getCounts = ()=>{
-
     console.log(this.props.store)
-    const url = `/apps/${this.props.store.app.key}/campaigns/${this.props.data.id}/metrics/counts.json`
+    const url = `${this.props.url}/metrics/counts.json?mode=${this.props.mode}`
 
     axios.get(url)
     .then((response)=>{

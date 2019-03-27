@@ -14,6 +14,10 @@ class App < ApplicationRecord
   has_many :admin_users, through: :roles, source: :user
   has_many :campaigns
 
+  has_many :user_auto_messages
+
+  has_many :messages
+
   def add_user(attrs)
     email = attrs.delete(:email)
     user = User.find_or_initialize_by(email: email)
