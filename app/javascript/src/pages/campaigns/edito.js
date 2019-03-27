@@ -209,10 +209,10 @@ export default class CampaignEditor extends Component {
 
   tooltipsConfig = () => {
     return [
-      //DanteImagePopoverConfig(),
-      //DanteAnchorPopoverConfig(),
-      //DanteInlineTooltipConfig(),
-      //DanteTooltipConfig(),
+      DanteImagePopoverConfig(),
+      DanteAnchorPopoverConfig(),
+      DanteInlineTooltipConfig(),
+      DanteTooltipConfig(),
       //DanteMarkdownConfig()
     ]
   }
