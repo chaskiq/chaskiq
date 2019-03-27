@@ -63,10 +63,12 @@ RSpec.describe UserAutoMessage, type: :model do
     end
 
     it "get collection will return any" do
+      @c.enable!
       expect(UserAutoMessage.availables_for(subscriber)).to be_any
     end
 
     it "get collection will return any" do
+      @c.enable!
       @c.show_notification_for(subscriber)
       expect(UserAutoMessage.availables_for(subscriber)).to be_blank
     end

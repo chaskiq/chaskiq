@@ -110,9 +110,22 @@ export default class CampaignSettings extends Component {
           //onChange={onChange}
           />
           </Field>
-        
-      
-    
+      case "select":
+        return <Field label={data.name}
+          isInvalid={this.errorsFor(data.name)}
+          invalidMessage={this.errorsFor(data.name)}>
+          <Select
+            name={`campaign[${data.name}]`}
+            isSearchable={false}
+            defaultValue={{ 
+              label: this.state.data[data.name], 
+              value: this.state.data[data.name] }}
+            options={ data.options.map((o)=>{
+                return { label: o, value: o }
+              })
+            }
+          />
+        </Field>
       default:
         break;
     }
@@ -138,16 +151,16 @@ export default class CampaignSettings extends Component {
         >
           <FormHeader title="Create a new campaign" />
 
-          <FormSection>
+            <FormSection>
 
-            {
-              this.state.data.config_fields.map((field)=>{
-                return this.fieldRenderer(field)
-              })
-              
-            }
+              {
+                this.state.data.config_fields.map((field)=>{
+                  return this.fieldRenderer(field)
+                })
+                
+              }
 
-          </FormSection>
+            </FormSection>
 
           <FormFooter
             actionsContent={[

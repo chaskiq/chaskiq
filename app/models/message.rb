@@ -13,8 +13,11 @@ class Message < ApplicationRecord
   validates :subject, presence: true #, unless: :step_1?
   validates :html_content, presence: true, if: :template_step?
 
+  scope :enabled, -> { where(:state => 'enabled')}
+  scope :disabled, -> { where(:state => 'disabled')}
   #before_save :detect_changed_template
   before_create :add_default_predicate
+  before_create :initial_state
 
   def config_fields
     [
@@ -29,6 +32,26 @@ class Message < ApplicationRecord
       {name: "scheduled_at", type: 'datetime'},
       {name: "scheduled_to", type: 'datetime'}
     ]
+  end
+
+  def enabled?
+    self.state == "active"
+  end
+
+  def disabled?
+    self.state != "active"
+  end
+
+  def enable!
+    self.update_attribute(:state, "enabled")
+  end
+
+  def disable!
+    self.update_attribute(:state, "disabled")
+  end
+
+  def initial_state
+    self.state = "disabled"
   end
 
   def add_default_predicate
@@ -51,20 +74,6 @@ class Message < ApplicationRecord
 
   def template_step?
     self.step == "template"
-  end
-
-  def add_default_predicate
-
-    return if self.segments.present? && self.segments.any?
-    
-    self.segments = [] unless self.segments.present?
-
-    self.segments << {
-                        type: "match" ,
-                        attribute: "match",
-                        comparison: "and",
-                        value: "and"
-                      }
   end
 
   def compiled_template_for(subscriber)

@@ -1,11 +1,7 @@
-class UserAutoMessage < Message 
-
-
+class UserAutoMessage < Message
   validates :scheduled_at, presence: true
   validates :scheduled_to, presence: true
 
-  scope :enabled, -> { where(:state => 'enabled')}
-  scope :disabled, -> { where(:state => 'disabled')}
   scope :in_time, ->{ where(['scheduled_at <= ? AND scheduled_to >= ?', Date.today, Date.today]) }
 
   def config_fields
@@ -13,31 +9,24 @@ class UserAutoMessage < Message
       #{name: "from_name", type: 'string'} ,
       #{name: "from_email", type: 'string'},
       #{name: "reply_email", type: 'string'},
+      {name: "state", type: "select", options: ["enabled", "disabled" ]},
       {name: "name", type: 'string'} ,
       {name: "subject", type: 'text'} ,
       {name: "description", type: 'text'} ,
       #{name: "timezone", type: 'string'} ,
       #{name: "settings", type: 'string'} 
       {name: "scheduled_at", type: 'datetime'},
-      {name: "scheduled_to", type: 'datetime'}
+      {name: "scheduled_to", type: 'datetime'},
     ]
   end
 
   def self.availables_for(user)
-    self.in_time.joins("left outer join metrics 
+    self.enabled.in_time.joins("left outer join metrics 
       on metrics.campaign_id = campaigns.id 
       AND metrics.action = 'viewed'
       AND metrics.trackable_type = 'AppUser' 
       AND metrics.trackable_id = #{user.id}"
       ).where("metrics.id is null")
-  end
-
-  def enable!
-    self.update_attribute(:state, "enabled")
-  end
-
-  def disable!
-    self.update_attribute(:state, "disabled")
   end
 
   # or closed or consumed 
