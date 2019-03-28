@@ -65,6 +65,7 @@ export default class App extends Component {
       <div>
         <Page
           navigationWidth={this.context.navOpenState.width}
+
           navigation={<StarterNavigation 
             navLinks={this.props.navLinks}
             navOpenState={this.context.navOpenState}

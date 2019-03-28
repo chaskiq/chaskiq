@@ -17,15 +17,24 @@ export default class HomePage extends Component {
   render() {
     return (
       <ContentWrapper>
-        <PageTitle>Home</PageTitle>
-        <MainSection />
+        <PageTitle>Welcome to Hermessenger</PageTitle>
+        {/*<MainSection />*/}
         <ButtonGroup>
+          
           <Button
             appearance="primary"
-            onClick={this.context.showModal}
+            onClick={(e)=>{
+              e.preventDefault()
+              this.props.history.push(`/apps/`)
+              }
+            }
             onClose={() => { }}
-          >Click to view Atlaskit modal</Button>
-          <Button onClick={this.context.addFlag}>click to view Atlaskit flag</Button>
+          >view apps
+          </Button>
+
+          <Button onClick={this.context.addFlag}>
+            flag test
+          </Button>
         </ButtonGroup>
       </ContentWrapper>
     );
