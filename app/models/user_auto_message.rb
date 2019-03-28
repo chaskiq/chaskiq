@@ -4,6 +4,14 @@ class UserAutoMessage < Message
 
   
   scope :in_time, ->{ where(['scheduled_at <= ? AND scheduled_to >= ?', Date.today, Date.today]) }
+  scope :availables_for, ->(user){
+    enabled.in_time.joins("left outer join metrics 
+      on metrics.campaign_id = campaigns.id 
+      AND metrics.action = 'viewed'
+      AND metrics.trackable_type = 'AppUser' 
+      AND metrics.trackable_id = #{user.id}"
+      ).where("metrics.id is null")
+  }
 
   def config_fields
     [
@@ -19,17 +27,6 @@ class UserAutoMessage < Message
       {name: "scheduled_at", type: 'datetime'},
       {name: "scheduled_to", type: 'datetime'},
     ]
-  end
-
-
-
-  def self.availables_for(user)
-    self.enabled.in_time.joins("left outer join metrics 
-      on metrics.campaign_id = campaigns.id 
-      AND metrics.action = 'viewed'
-      AND metrics.trackable_type = 'AppUser' 
-      AND metrics.trackable_id = #{user.id}"
-      ).where("metrics.id is null")
   end
 
   # or closed or consumed 

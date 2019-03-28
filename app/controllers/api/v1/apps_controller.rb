@@ -29,7 +29,7 @@ class Api::V1::AppsController < ActionController::API
     # resource_params.to_h.merge(request.location.data)
     data = resource_params.to_h.deep_merge(browser_params)
     ap = @app.add_visit(data)
-    render json: ap
+    render json: {user: ap, app: @app.as_json(only: [], methods: [:active_messenger, :domain_url])}
   end
 
   def resource_params

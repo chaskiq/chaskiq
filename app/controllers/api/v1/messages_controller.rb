@@ -22,7 +22,15 @@ class Api::V1::MessagesController < ApplicationController
   def index
     @app = App.find_by(key: params[:app_id])
     #@conversations = @app.conversations
-    @messages = @app.messages
+
+    begin
+      data = JSON.parse(request.headers["HTTP_USER_DATA"])
+      user = find_user(data["email"]) 
+    rescue 
+       render json: {}, status: 406 and return
+    end
+
+    @messages = @app.user_auto_messages.availables_for(user)
     
     render :index
   end
