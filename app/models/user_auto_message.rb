@@ -2,6 +2,7 @@ class UserAutoMessage < Message
   validates :scheduled_at, presence: true
   validates :scheduled_to, presence: true
 
+  
   scope :in_time, ->{ where(['scheduled_at <= ? AND scheduled_to >= ?', Date.today, Date.today]) }
 
   def config_fields
@@ -19,6 +20,8 @@ class UserAutoMessage < Message
       {name: "scheduled_to", type: 'datetime'},
     ]
   end
+
+
 
   def self.availables_for(user)
     self.enabled.in_time.joins("left outer join metrics 

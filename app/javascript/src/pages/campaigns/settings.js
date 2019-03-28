@@ -106,7 +106,7 @@ export default class CampaignSettings extends Component {
 
           <DateTimePicker
             name={`campaign[${data.name}]`}
-            defaultValue={this.state.data[data.name]}
+            defaultValue={this.state.data[data.name] || new Date }
           //onChange={onChange}
           />
           </Field>
