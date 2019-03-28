@@ -45,7 +45,7 @@ class CampaignSegment extends Component {
     const predicates = parseJwt(this.state.jwt)
     //console.log(predicates)
 
-    axios.put(`${this.props.match.url}.json`, { 
+    axios.put(`${this.props.url}.json?mode=${this.props.mode}`, { 
       campaign: { 
         segments: predicates.data 
       }
