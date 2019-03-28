@@ -386,20 +386,6 @@ export default class ShowAppContainer extends Component {
       jwt: null,
       currentUser: this.props.currentUser
     }
-
-
-
-    this.fetchApp         = this.fetchApp.bind(this)
-    this.eventsSubscriber = this.eventsSubscriber.bind(this)
-    this.fetchAppSegment  = this.fetchAppSegment.bind(this)
-    this.updatePredicate  = this.updatePredicate.bind(this)
-    this.search           = this.search.bind(this)
-    this.savePredicates   = this.savePredicates.bind(this)
-    this.updateSegment    = this.updateSegment.bind(this)
-    this.updateNavLinks   = this.updateNavLinks.bind(this)
-    this.getPredicates    = this.getPredicates.bind(this)
-    this.addPredicate     = this.addPredicate.bind(this)
-    this.deletePredicate  = this.deletePredicate.bind(this)
   }
 
   emptyprops = ()=> {
@@ -414,9 +400,13 @@ export default class ShowAppContainer extends Component {
   }
 
   componentDidMount() {
-    this.fetchApp( ()=> { 
-        this.eventsSubscriber(this.props.currentApp.key)
-      }
+    this.init()
+  }
+
+  init = ()=>{
+    this.fetchApp(() => {
+      this.eventsSubscriber(this.props.currentApp.key)
+    }
     )
   }
 
@@ -424,6 +414,10 @@ export default class ShowAppContainer extends Component {
     // only update chart if the data has changed
     if (prevProps.currentApp && prevProps.currentApp.key !== this.props.currentApp.key){
       this.eventsSubscriber(this.props.currentApp.key)
+    }
+
+    if(prevProps.match.url !== this.props.match.url){
+      this.init()
     }
 
     if (prevState.jwt !== this.state.jwt) {
@@ -776,3 +770,4 @@ export default class ShowAppContainer extends Component {
     </Provider>
   }
 }
+
