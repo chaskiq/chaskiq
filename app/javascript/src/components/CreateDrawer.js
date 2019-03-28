@@ -14,17 +14,18 @@ const createItems = [
   {
     title: null,
     items: [
-      ['/#event', 'Create Event', 'Create Event', CalendarIcon],
-      ['/#nature', 'Create Nature', 'Create Nature', EmojiNatureIcon],
-      ['/#idea', 'Create Idea', 'Create Idea', EmojiObjectsIcon],
-      ['/#travel', 'Create Travel Plans', 'Create Travel Plans', EmojiTravelIcon],
+      ['/apps/new', 'Create App', 'Create App', EmojiObjectsIcon],
+      //['/#nature', 'Create Nature', 'Create Nature', EmojiNatureIcon],
+      //['/#idea', 'Create Idea', 'Create Idea', EmojiObjectsIcon],
+      //['/#travel', 'Create Travel Plans', 'Create Travel Plans', EmojiTravelIcon],
     ],
   },
+  
   {
-    title: 'Group with title',
+    title: 'Knowledge Base',
     items: [
-      ['/#branch', <span>Create a <strong>Bitbucket branch</strong></span>, 'Bitbucket branch', BitbucketBranchesIcon],
-      ['/#page', <span>Create a <strong>Confluence page</strong></span>, 'Confluence page', PageIcon],
+      ['/#', <span><strong>Hermes</strong> documentation</span>, 'Knowledge Base', BitbucketBranchesIcon],
+      ['/#', <span>Visit <strong>Github</strong></span>, 'Github Page', PageIcon],
     ],
   },
 ];

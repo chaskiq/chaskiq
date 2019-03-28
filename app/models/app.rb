@@ -18,6 +18,17 @@ class App < ApplicationRecord
 
   has_many :messages
 
+  store_accessor :preferences, [:active_messenger, :domain_url]
+
+  def config_fields
+    [
+      {name: "name", type: 'string'} ,
+      {name: "domain_url", type: 'string'} ,
+      {name: "state", type: "select", options: ["enabled", "disabled" ]},
+      {name: "active_messenger", type: 'bool'}
+    ]
+  end
+
   def add_user(attrs)
     email = attrs.delete(:email)
     user = User.find_or_initialize_by(email: email)

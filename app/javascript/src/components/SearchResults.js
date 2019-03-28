@@ -24,17 +24,22 @@ export default class SearchResults extends Component {
         }}
       >
         {
-          this.props.matchingResults.map(result => (
-            <li key={result.name} style={{padding: 8}}>
+          this.props.matchingResults.map(result => {
+            console.log(result)
+            return <li key={result.key} style={{padding: 8}}>
               <Link
                 to={result.link}
                 onClick={this.props.onResultClicked}
               >
                 {result.name}
               </Link>
-              <span style={{display: 'block'}}>{result.description}</span>
+              {" "}
+              <b>{result.state}</b>
+              <span style={{display: 'block'}}>
+              {result.description}
+              </span>
             </li>
-          ))
+          })
         }
       </ul>
     );

@@ -18,6 +18,8 @@ import CampaignEditor from "./campaigns/edito"
 import SegmentManager from '../components/segmentManager'
 import CampaignStats from "./campaigns/stats"
 
+import { isEmpty} from 'lodash'
+
 import {parseJwt, generateJWT} from '../components/segmentManager/jwt'
 
 
@@ -215,14 +217,15 @@ class CampaignForm extends Component {
 
     // return here if campaign not sent
     const tabs = a.concat(b)
-
-    return this.props.match.params.id === "new" ? tabs : stats.concat(tabs)
     
-
+    if (!isEmpty(this.state.data) ){
+      return this.props.match.params.id === "new" ? tabs : stats.concat(tabs)
+    }else{
+      return []
+    }
   }
 
   render(){
-    console.log(this.state.data.id || this.props.match.params.id === "new")
     return <ContentWrapper>
         <PageTitle>
           Campaign {`: ${this.state.data.name}`}

@@ -30,6 +30,49 @@ class AppsController < ApplicationController
                          .per(20)
   end
 
+  def new
+    @app = App.new
+    respond_to do |format|
+      format.html{ render_empty }
+      format.json {render :show}
+    end
+  end
+  
+
+  def create
+    @app = current_user.apps.create(params[:app].permit!)
+    respond_to do |format|
+      format.html{ render_empty }
+      format.json {
+        if @app.errors.blank?
+          render :show
+        else 
+          render json: @app.errors, status: :unprocessable_entity
+        end
+      }
+    end
+  end
+
+  def update
+    @app = App.find_by(key: params[:id])
+    @app.update_attributes(params[:app].permit!)
+
+    @segments = Segment.union_scope(
+      @app.segments.all, Segment.where("app_id is null")
+    ).order("id asc")
+
+    respond_to do |format|
+      format.html{ render_empty }
+      format.json {
+        if @app.errors.blank?
+          render :show
+        else 
+          render json: @app.errors, status: :unprocessable_entity
+        end
+      }
+    end
+  end
+
   
 
 end

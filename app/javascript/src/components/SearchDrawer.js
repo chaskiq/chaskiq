@@ -43,9 +43,10 @@ export default class SearchDrawer extends Component {
   formattedResults = ()=> {
     return this.state.results.map((o,i)=>{
       return { 
-        name: o.id, 
-        link: `/apps/${o.id}`, 
-        description: o.id 
+        name: o.name, 
+        link: `/apps/${o.key}`, 
+        description: o.description,
+        state: o.state
       }
     })
   }

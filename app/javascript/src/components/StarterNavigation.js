@@ -120,7 +120,17 @@ export default class StarterNavigation extends React.Component {
         <AkNavigationItem
           text="Settings"
           icon={<SettingsIcon label="Settings icon" size="medium" />}
-        />,
+          onClick={() => {
+            this.context.router.history.push(`/apps/${this.props.currentApp.key}/settings`)
+
+          }
+          }
+        />]
+      ]
+
+    /*
+      
+      ,
 
         <AkNavigationItemGroup title="New Confluence Experience">
           <AkNavigationItem
@@ -130,12 +140,12 @@ export default class StarterNavigation extends React.Component {
           <AkNavigationItem
             icon={
               <CrossCircleIcon
-                secondaryColor={({ theme }) => 
+                secondaryColor={({ theme }) =>
                   theme["@atlaskit-private-theme-do-not-use/navigation:root"]
                   .provided
                   .background
                   .primary
-                
+
                 }
                 label="Opt icon"
                 size="medium"
@@ -155,8 +165,11 @@ export default class StarterNavigation extends React.Component {
             text="Atlaskit"
           />
         </AkNavigationItemGroup>
-      ]
-    ]
+
+      
+    */
+
+
   };
 
   static contextTypes = {
@@ -284,6 +297,8 @@ export default class StarterNavigation extends React.Component {
     }
 
     const stack = this.state.stack.slice(0, this.state.stack.length - 1);
+    this.context.router.history.push(`/apps/${this.props.currentApp.key}`)
+
     return this.setState({ stack });
   };
 

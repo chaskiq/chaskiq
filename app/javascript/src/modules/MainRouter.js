@@ -12,6 +12,8 @@ import DashboardIcon from '@atlaskit/icon/glyph/dashboard';
 import GearIcon from '@atlaskit/icon/glyph/settings';
 import SearchIcon from '@atlaskit/icon/glyph/search';
 
+import NewApp from '../pages/NewApp'
+
 const defaultNavOpts = {
   isOpen: false,
   width: 304
@@ -68,14 +70,14 @@ export default class MainRouter extends Component {
     });
   }
 
-  setCurrentApp = (app) =>{
+  setCurrentApp = (app , cb) =>{
     this.setState({
       currentApp: app, 
       navOpenState: {
         isOpen: true,
         width: 304
       } 
-    })
+    }, cb ? cb() : null )
   }
 
   render() {
@@ -93,31 +95,48 @@ export default class MainRouter extends Component {
               setCurrentApp={this.setCurrentApp}
               {...this.props}
               >
+
+              <Switch>
+
+                <Route exact path="/" component={HomePage} />
+
+                <Route path="/settings" component={SettingsPage} />
+
+                <Route exact path="/apps" render={(props) => (
+                  <AppListContainer
+                    {...props}
+                    currentUser={this.state.currentUser}
+                    initialNavLinks={this.defaultNavLinks}
+                    navLinks={this.state.navLinks}
+                    updateNavLinks={this.updateNavLinks}
+                  />
+                )} />
+
+                <Route exact path={`/apps/new`}
+                  render={(props) => (
+
+                    <NewApp
+                      currentUser={this.state.currentUser}
+                      {...props}
+                    />
+
+                  )}
+                />
+
+                <Route path="/apps/:appId" render={(props) => (
+                  <ShowAppContainer
+                    {...props}
+                    currentApp={this.state.currentApp}
+                    setCurrentApp={this.setCurrentApp}
+                    currentUser={this.state.currentUser}
+                    initialNavLinks={this.defaultNavLinks}
+                    navLinks={this.state.navLinks}
+                    updateNavLinks={this.updateNavLinks}
+                  />
+                )} />
+
+              </Switch>
               
-              <Route exact path="/" component={HomePage} />
-              <Route path="/settings" component={SettingsPage} />
-
-              <Route exact path="/apps" render={(props)=>(
-                <AppListContainer
-                  {...props} 
-                  currentUser={this.state.currentUser}
-                  initialNavLinks={this.defaultNavLinks}
-                  navLinks={this.state.navLinks}
-                  updateNavLinks={this.updateNavLinks}
-                />
-              )} />  
-
-              <Route path="/apps/:appId" render={(props)=>(
-                <ShowAppContainer 
-                  {...props} 
-                  currentApp={this.state.currentApp}
-                  setCurrentApp={this.setCurrentApp}
-                  currentUser={this.state.currentUser}
-                  initialNavLinks={this.defaultNavLinks}
-                  navLinks={this.state.navLinks}
-                  updateNavLinks={this.updateNavLinks}
-                />
-              )} />
             </App> : <p>no logged user</p>
         }
 

@@ -117,15 +117,15 @@
     prop-types "^15.5.10"
     styled-components "1.4.6 - 3"
 
-"@atlaskit/checkbox@^3.1.0":
-  version "3.1.0"
-  resolved "https://registry.yarnpkg.com/@atlaskit/checkbox/-/checkbox-3.1.0.tgz#e78513933b667d09756ed1a16fa483912b448bc8"
-  integrity sha512-NH1RF3YWP3fsSaQQAics4K68rff5Z4dNKAoC3P+R+xwkTwZIM/4hPfWMgBEhBe+LcqnUXu8G4XmqNk6PjFvD/g==
+"@atlaskit/checkbox@^6.0.2":
+  version "6.0.2"
+  resolved "https://registry.yarnpkg.com/@atlaskit/checkbox/-/checkbox-6.0.2.tgz#c7f72063e47a86a1a00ac05c41a625f653cf0999"
+  integrity sha512-vFJP+84Vf9++5GerwKrr0TVvznt1fz7BTUIdyExqfjnkmDiKEerQnDfCalkzl39EddTkZfTwcEyPqmKoXJ9AXQ==
   dependencies:
-    "@atlaskit/button" "^8.2.0"
-    "@atlaskit/icon" "^12.2.0"
-    "@atlaskit/theme" "^4.0.4"
-    babel-runtime "^6.26.0"
+    "@atlaskit/analytics-next" "^4.0.2"
+    "@atlaskit/icon" "^16.0.6"
+    "@atlaskit/theme" "^8.0.1"
+    "@babel/runtime" "^7.0.0"
     prop-types "^15.5.10"
 
 "@atlaskit/code@^4.0.4":

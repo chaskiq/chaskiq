@@ -34,12 +34,15 @@ import UserMap from "../components/map"
 
 import ConversationContainer from './ConversationContainer';
 import CampaignContainer from './Campaigns'
+import AppSettingsContainer from './AppSettings'
 import {parseJwt, generateJWT} from '../components/segmentManager/jwt'
 import {
   InlineFilterDialog, 
   SegmentItemButton,
   SaveSegmentModal
 } from '../components/segmentManager'
+
+import skyImage from '../images/sky.png'
 
 const CableApp = {
   cable: actioncable.createConsumer()
@@ -123,18 +126,6 @@ const tertiaryAction = (
     Tertiary action
   </Button>
 );
-
-const Emptyprops = {
-  header: 'I am the header',
-  description: `Lorem ipsum is a pseudo-Latin text used in web design, 
-        typography, layout, and printing in place of English to emphasise 
-        design elements over content. It's also called placeholder (or filler) 
-        text. It's a convenient tool for mock-ups.`,
-  imageUrl: null,
-  primaryAction,
-  secondaryAction,
-  tertiaryAction,
-};
 
 const ActivityIndicator = styled.span`
   position: absolute;
@@ -236,7 +227,8 @@ class AppUsers extends Component {
   }
 
   handleClickOnSelectedFilter = (jwtToken)=>{
-    const url = `/apps/${this.props.store.app.key}/segments/${this.props.store.segment.id}/${jwtToken}`
+
+    const url = `/apps/${this.props.currentApp.key}/segments/${this.props.store.segment.id}/${jwtToken}`
     this.props.history.push(url) 
   }
 
@@ -278,7 +270,7 @@ class AppUsers extends Component {
                 segment={this.props.store.segment}
                 savePredicates={this.props.actions.savePredicates}
                 predicateCallback={()=> {
-                  const url = `/apps/${this.props.store.app.key}/segments/${this.props.store.segment.id}`
+                  const url = `/apps/${this.props.currentApp.key}/segments/${this.props.store.segment.id}`
                   this.props.history.push(url)
                 }}
                 deleteSegment={this.props.actions.deleteSegment}
@@ -373,7 +365,7 @@ class AppContent extends Component {
 
   render(){
     return <div style={{marginTop: '20px'}}>
-            { this.props.app.key && this.props.segment.id ? 
+            { this.props.currentApp.key && this.props.segment.id ? 
               <AppUsers 
                 {...this.props}
               /> : null 
@@ -387,7 +379,6 @@ export default class ShowAppContainer extends Component {
   constructor(props){
     super(props)
     this.state = {
-      app: {}, 
       app_users: [], 
       segment: {},
       meta: {},
@@ -395,6 +386,8 @@ export default class ShowAppContainer extends Component {
       jwt: null,
       currentUser: this.props.currentUser
     }
+
+
 
     this.fetchApp         = this.fetchApp.bind(this)
     this.eventsSubscriber = this.eventsSubscriber.bind(this)
@@ -409,17 +402,28 @@ export default class ShowAppContainer extends Component {
     this.deletePredicate  = this.deletePredicate.bind(this)
   }
 
+  emptyprops = ()=> {
+    return {
+      header: `app ${this.props.currentApp.name}`,
+      description: this.props.currentApp.description || 'no description',
+      imageUrl: skyImage,
+      primaryAction,
+      //secondaryAction,
+      //tertiaryAction,
+    }
+  }
+
   componentDidMount() {
     this.fetchApp( ()=> { 
-        this.eventsSubscriber(this.state.app.key)
+        this.eventsSubscriber(this.props.currentApp.key)
       }
     )
   }
 
   componentDidUpdate(prevProps, prevState) {
     // only update chart if the data has changed
-    if(prevState.app.key !== this.state.app.key){
-      this.eventsSubscriber(this.state.app.key)
+    if (prevProps.currentApp && prevProps.currentApp.key !== this.props.currentApp.key){
+      this.eventsSubscriber(this.props.currentApp.key)
     }
 
     if (prevState.jwt !== this.state.jwt) {
@@ -454,12 +458,23 @@ export default class ShowAppContainer extends Component {
     const id = this.props.match.params.appId
     axios.get(`/apps/${id}.json`)
     .then( (response)=> {
-      this.setState({app: response.data.app}, ()=>{ 
-        this.updateNavLinks()
-        // TODO: use the props app instead the state app
-        this.props.setCurrentApp(this.state.app)
-        cb ? cb() : null 
+
+      // TODO: use the props app instead the state app
+      this.props.setCurrentApp(response.data.app, ()=>{
+        
+        console.log(this.props)
+        setTimeout(() => {
+          this.updateNavLinks() 
+        }, 100);
+        
       })
+
+      
+
+      //this.setState({app: response.data.app}, ()=>{ 
+      //  
+      //  cb ? cb() : null 
+      //})
     })
     .catch( (error)=> {
       console.log(error);
@@ -476,7 +491,7 @@ export default class ShowAppContainer extends Component {
                               }
                             }
                             
-    axios.post(`/apps/${this.state.app.key}/search.json`, 
+    axios.post(`/apps/${this.props.currentApp.key}/search.json`, 
       predicates_data )
     .then( (response)=> {
       console.log(this.state)
@@ -494,12 +509,12 @@ export default class ShowAppContainer extends Component {
   }
 
   fetchAppSegment(id){
-    axios.get(`/apps/${this.state.app.key}/segments/${id}.json`)
+    axios.get(`/apps/${this.props.currentApp.key}/segments/${id}.json`)
     .then( (response)=> {
       
       this.setState({
         segment: response.data.segment,
-      }) //, this.search)
+      }, this.search)
     })
     .catch( (error)=> {
       console.log(error);
@@ -507,17 +522,16 @@ export default class ShowAppContainer extends Component {
   }
 
   updateNavLinks(){
-    const url_for = (o)=> `/apps/${this.state.app.key}/segments/${o.id}`
-    const links = this.state.app.segments.map((o)=> [url_for(o), o.name, null] )
-
-    links.push([`/apps/${this.state.app.key}/conversations/`, "conversations", null])
+    const url_for = (o)=> `/apps/${this.props.currentApp.key}/segments/${o.id}`
+    const links = this.props.currentApp.segments.map((o)=> [url_for(o), o.name, null] )
+    links.push([`/apps/${this.props.currentApp.key}/conversations/`, "conversations", null])
     //this.props.updateNavLinks(this.props.initialNavLinks.concat(links))
     this.props.updateNavLinks(links)
   }
 
   updateUser(data){
     data = JSON.parse(data)
-    this.setState({app_users: this.state.app_users.map( (el)=> 
+    this.setState({app_users: this.props.currentApp_users.map( (el)=> 
         el.email === data.email ? Object.assign({}, el, data) : el 
       )
     });
@@ -556,7 +570,7 @@ export default class ShowAppContainer extends Component {
   }
 
   updateSegment = (data, cb)=>{
-    axios.put(`/apps/${this.state.app.key}/segments/${this.state.segment.id}.json`, 
+    axios.put(`/apps/${this.props.currentApp.key}/segments/${this.state.segment.id}.json`, 
       {
         segment: {
           id: this.state.segment.id,
@@ -576,7 +590,7 @@ export default class ShowAppContainer extends Component {
   }
 
   createSegment = (data, cb)=>{
-    axios.post(`/apps/${this.state.app.key}/segments.json`, 
+    axios.post(`/apps/${this.props.currentApp.key}/segments.json`, 
       {
         segment: {
           name: data.input,
@@ -598,10 +612,10 @@ export default class ShowAppContainer extends Component {
   }
 
   deleteSegment = (id, cb)=>{
-    axios.delete(`/apps/${this.state.app.key}/segments/${id}.json`)
+    axios.delete(`/apps/${this.props.currentApp.key}/segments/${id}.json`)
     .then( (response)=> {
       cb ? cb() : null 
-      const url = `/apps/${this.state.app.key}/segments/1`
+      const url = `/apps/${this.props.currentApp.key}/segments/1`
       this.props.history.push(url)
       this.fetchApp()
     })
@@ -661,7 +675,12 @@ export default class ShowAppContainer extends Component {
 
   render(){
     return <Provider value={{
-                              store: this.state, 
+                              store: {
+                                app: this.props.currentApp,
+                                app_users: this.state.app_users,
+                                segment: this.state.segment,
+                                currentUser: this.props.currentUser
+                              }, 
                               actions: this.actions() 
                             }}>
 
@@ -669,27 +688,25 @@ export default class ShowAppContainer extends Component {
 
         {/*
           <PageTitle>
-            App: {this.state.app.key}
+            App: {this.props.currentApp.key}
           </PageTitle>
         */}
 
-        <Route exact path={this.props.match.path}
-          render={(props) => {
-            return <EmptyState {...Emptyprops} />
-          }
-        }/>
-
         
         {
-          this.state.app.key ?
+          this.props.currentApp && this.props.currentApp.key ?
           <div>
+
               <Route exact path={`${this.props.match.path}/segments/:segmentID/:Jwt?`}
                 render={(props) => {
                   return <Consumer>
                     {({ store, actions }) => (
-                      <AppContent {...Object.assign({}, props, store)}
+                      <AppContent {...props}
+                        currentApp={this.props.currentApp}
                         store={store}
-                        actions={actions} />
+                        actions={actions}
+                        {...this.state}
+                      />
                     )}
                   </Consumer>
                 }
@@ -722,11 +739,35 @@ export default class ShowAppContainer extends Component {
                       />
                     )}
                   </Consumer>
+                )} />             
+
+              <Route path={`${this.props.match.path}/settings`}
+                render={(props) => (
+                  <Consumer>
+                    {({ store, actions }) => (
+                      <AppSettingsContainer
+                        currentUser={this.props.currentUser}
+                        store={store}
+                        actions={actions}
+                        {...props}
+                      />
+                    )}
+                  </Consumer>
                 )} />
 
-              <Route exact path={this.props.match.path} render={() => (
-                <h3>Please select a topic.</h3>
-              )} />
+              <Route exact path={`/apps/${this.props.currentApp.key}`}
+                 render={() => (
+                  
+                   <EmptyState {...this.emptyprops()} />
+                )} 
+              />
+
+              <Route exact path={`/apps/${this.props.currentApp.key}/campaigns`}
+                render={() => (
+                  <EmptyState {...this.emptyprops()} />
+                )}
+              />
+
           </div>
              : null
         }
