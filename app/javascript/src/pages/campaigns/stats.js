@@ -161,7 +161,6 @@ export default class CampaignStats extends Component {
   }
 
   getCounts = ()=>{
-    console.log(this.props.store)
     const url = `${this.props.url}/metrics/counts.json?mode=${this.props.mode}`
 
     axios.get(url)
@@ -179,70 +178,6 @@ export default class CampaignStats extends Component {
     this.getData()
   }
 
-  getDeliverRateCount = ()=>{
-    return [
-      {
-        "id": "send",
-        "label": "send",
-        "value": this.state.counts.send || 0,
-        "color": "#0747A6"
-      },
-      {
-        "id": "open",
-        "label": "open",
-        "value": this.state.counts.open || 0,
-        "color": "#DEEBFF"
-      }]
-  }
-
-  getClickRateCount = ()=>{
-    return [
-      {
-        "id": "open",
-        "label": "open",
-        "value": this.state.counts.open || 0,
-        "color": "#0747A6"
-      },
-      {
-        "id": "click",
-        "label": "click",
-        "value": this.state.counts.click || 0,
-        "color": "#DEEBFF"
-      }]
-  }
-
-  getBouncesRateCount = ()=>{
-    return [
-      {
-        "id": "sends",
-        "label": "sends",
-        "value": this.state.counts.send || 0,
-        "color": "#0747A6"
-      },
-      {
-        "id": "bounces",
-        "label": "bounces",
-        "value": this.state.counts.bounces || 0,
-        "color": "#DEEBFF"
-      }]
-  }
-
-  getComplaintsRateCount = ()=>{
-    return [
-      {
-        "id": "sends",
-        "label": "sends",
-        "value": this.state.counts.send,
-        "color": "#0747A6"
-      },
-      {
-        "id": "complaints",
-        "label": "complaints",
-        "value": this.state.counts.complaints,
-        "color": "#DEEBFF"
-      }]
-  }
-
   purgeMetrics = ()=>{
     console.log(this.props)
     const url = `${this.props.url}/metrics/purge.json?mode=${this.props.mode}`
@@ -256,33 +191,34 @@ export default class CampaignStats extends Component {
       })
   }
 
+  getRateFor = (type)=>{
+    return type.keys.map((o)=>{
+      return {
+        "id": o.name,
+        "label": o.name,
+        "value": this.state.counts[o.name] || 0,
+        "color": o.color
+      }
+    })
+  }
+
   render(){
     const {head, rows} = this.getTableData()
-    console.log(rows)
+    
     return <div>
               <PieContainer>
-                <PieItem>
-                  <CampaignChart data={this.getDeliverRateCount()}
-                  />
-                </PieItem>
 
-                <PieItem>
-                  <CampaignChart data={this.getClickRateCount()}
-                  />
-                </PieItem>
+              {
+                this.props.data.stats_fields.map((o)=>{
+                  return <PieItem>
+                    <CampaignChart data={this.getRateFor(o)}
+                    />
+                  </PieItem>
+                })
+              }
 
-                <PieItem>
-                  <CampaignChart data={this.getBouncesRateCount()}
-                  />
-                </PieItem>
-
-                <PieItem>
-                  <CampaignChart data={this.getComplaintsRateCount()}
-                  />
-                </PieItem>
               </PieContainer>
               
-
               <button
                 aria-expanded="true"
                 aria-haspopup="true"

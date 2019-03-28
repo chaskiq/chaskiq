@@ -19,21 +19,6 @@ class Message < ApplicationRecord
   before_create :add_default_predicate
   before_create :initial_state
 
-  def config_fields
-    [
-      {name: "from_name", type: 'string'} ,
-      {name: "from_email", type: 'string'},
-      {name: "reply_email", type: 'string'},
-      {name: "description", type: 'text'} ,
-      {name: "name", type: 'string'} ,
-      {name: "timezone", type: 'string'} ,
-      {name: "subject", type: 'text'} ,
-      #{name: "settings", type: 'string'} 
-      {name: "scheduled_at", type: 'datetime'},
-      {name: "scheduled_to", type: 'datetime'}
-    ]
-  end
-
   def enabled?
     self.state == "active"
   end

@@ -22,6 +22,15 @@ class Campaign < Message
     ]
   end
 
+  def stats_fields
+    [
+      {name: "DeliverRateCount", label: "DeliverRateCount", keys: [{name: "send", color: "#0747A6"}, {name: "open", color: "#DEEBFF"}] },
+      {name: "ClickRateCount", label: "ClickRateCount", keys: [{name: "send" , color: "#0747A6"}, {name: "open", color: "#DEEBFF"}] },
+      {name: "BouncesRateCount", label: "BouncesRateCount", keys: [{name: "send", color: "#0747A6"}, {name: "bounces", color: "#DEEBFF"}]},
+      {name: "ComplaintsRate", label: "ComplaintsRate", keys: [{name: "send", color: "#0747A6"}, {name: "complaints", color: "#DEEBFF"}]}
+    ]
+  end
+
 
   def delivery_progress
     return 0 if metrics.deliveries.size.zero?

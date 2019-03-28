@@ -29,6 +29,14 @@ class UserAutoMessage < Message
     ]
   end
 
+
+  def stats_fields
+    [
+      {name: "DeliverRateCount", label: "DeliverRateCount", keys: [{name: "viewed", color: "#0747A6"}, {name: "click", color: "#DEEBFF"}] },
+      {name: "ClickRateCount", label: "ClickRateCount", keys: [{name: "viewed" , color: "#0747A6"}, {name: "close", color: "#DEEBFF"}] },
+    ]
+  end
+
   # or closed or consumed 
   def available_for_user?(user_id)
     self.available_segments.find(user_id) && 
