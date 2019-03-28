@@ -403,13 +403,6 @@ export default class ShowAppContainer extends Component {
     this.init()
   }
 
-  init = ()=>{
-    this.fetchApp(() => {
-      this.eventsSubscriber(this.props.currentApp.key)
-    }
-    )
-  }
-
   componentDidUpdate(prevProps, prevState) {
     // only update chart if the data has changed
     if (prevProps.currentApp && prevProps.currentApp.key !== this.props.currentApp.key){
@@ -431,7 +424,14 @@ export default class ShowAppContainer extends Component {
     }
   }
 
-  actions(){
+  init = () => {
+    this.fetchApp(() => {
+      this.eventsSubscriber(this.props.currentApp.key)
+    }
+    )
+  }
+
+  actions =()=>{
     return {
       fetchApp: this.fetchApp,
       eventsSubscriber: this.eventsSubscriber,
@@ -447,7 +447,7 @@ export default class ShowAppContainer extends Component {
     }
   }
 
-  fetchApp(cb){
+  fetchApp = (cb)=>{
     //const t = this
     const id = this.props.match.params.appId
     axios.get(`/apps/${id}.json`)
@@ -459,7 +459,7 @@ export default class ShowAppContainer extends Component {
         console.log(this.props)
         setTimeout(() => {
           this.updateNavLinks() 
-        }, 100);
+        }, 1000);
         
       })
 
@@ -475,7 +475,7 @@ export default class ShowAppContainer extends Component {
     });
   }
 
-  search(){
+  search = ()=>{
     this.setState({searching: true})
     // jwt or predicates from segment
     console.log(this.state.jwt)
@@ -502,7 +502,7 @@ export default class ShowAppContainer extends Component {
     });   
   }
 
-  fetchAppSegment(id){
+  fetchAppSegment =(id)=>{
     axios.get(`/apps/${this.props.currentApp.key}/segments/${id}.json`)
     .then( (response)=> {
       
@@ -515,7 +515,7 @@ export default class ShowAppContainer extends Component {
     });
   }
 
-  updateNavLinks(){
+  updateNavLinks = ()=>{
     const url_for = (o)=> `/apps/${this.props.currentApp.key}/segments/${o.id}`
     const links = this.props.currentApp.segments.map((o)=> [url_for(o), o.name, null] )
     links.push([`/apps/${this.props.currentApp.key}/conversations/`, "conversations", null])
@@ -523,7 +523,7 @@ export default class ShowAppContainer extends Component {
     this.props.updateNavLinks(links)
   }
 
-  updateUser(data){
+  updateUser = (data)=>{
     data = JSON.parse(data)
     this.setState({app_users: this.props.currentApp_users.map( (el)=> 
         el.email === data.email ? Object.assign({}, el, data) : el 
@@ -531,7 +531,7 @@ export default class ShowAppContainer extends Component {
     });
   }
 
-  eventsSubscriber(id){
+  eventsSubscriber = (id)=>{
     // unsubscribe cable ust in case
     if(CableApp.events)
       CableApp.events.unsubscribe()
@@ -618,7 +618,7 @@ export default class ShowAppContainer extends Component {
     })
   }
 
-  addPredicate(data, cb){
+  addPredicate = (data, cb)=>{
 
     const pending_predicate = {
       attribute: data.name,
@@ -636,7 +636,7 @@ export default class ShowAppContainer extends Component {
     this.setState({jwt: jwtToken})
   }
 
-  updatePredicate(data, cb){
+  updatePredicate= (data, cb)=>{
     const jwtToken = generateJWT(data)
     //console.log(parseJwt(jwtToken))
     if(cb)
@@ -644,11 +644,11 @@ export default class ShowAppContainer extends Component {
     this.setState({jwt: jwtToken})
   }
 
-  getPredicates(){
+  getPredicates= ()=>{
     return this.state.segment["predicates"] || []
   }
 
-  savePredicates(data, cb){
+  savePredicates = (data, cb)=>{
     console.log(data.action)
     if(data.action === "update"){
       this.updateSegment(data, ()=> { cb() ; this.fetchApp() })
@@ -659,7 +659,7 @@ export default class ShowAppContainer extends Component {
     }
   }
 
-  deletePredicate(data){
+  deletePredicate = (data)=>{
     this.setState(
       { segment: {
         id: this.state.segment.id,
