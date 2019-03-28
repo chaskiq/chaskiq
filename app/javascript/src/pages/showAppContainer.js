@@ -390,7 +390,7 @@ export default class ShowAppContainer extends Component {
 
   emptyprops = ()=> {
     return {
-      header: `app ${this.props.currentApp.name}`,
+      header: `${this.props.currentApp.name}`,
       description: this.props.currentApp.description || 'no description',
       imageUrl: skyImage,
       primaryAction,

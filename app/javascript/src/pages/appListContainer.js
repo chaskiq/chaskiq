@@ -47,7 +47,7 @@ export default class AppListContainer extends Component {
                       onClick={()=> this.props.history.push(`/apps/${o.id}`)}>
                       <i className="fas fa-list"></i>
                       {" "}
-                      {o.id}
+                      <b>{o.name}</b> | {o.id}
                     </Button>
                   )
 
