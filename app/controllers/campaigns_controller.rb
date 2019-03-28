@@ -104,19 +104,19 @@ class CampaignsController < ApplicationController
     #redirect_to manage_campaigns_path()
   end
 
-  def collection
-    case params[:mode]
-    when "campaigns"
-      @app.campaigns
-    when "user_auto"
-      @app.user_auto_messages
-    else
-      raise "not in mode"
-    end
-  end
-
 
   private
+
+    def collection
+      case params[:mode]
+      when "campaigns"
+        @app.campaigns
+      when "user_auto"
+        @app.user_auto_messages
+      else
+        raise "not in mode"
+      end
+    end
     # Use callbacks to share common setup or constraints between actions.
     def set_campaign
       @campaign = collection.find(params[:id])

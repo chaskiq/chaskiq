@@ -30,9 +30,20 @@ class Campaigns::AttachmentsController < ApplicationController
 
 protected
 
+  def collection
+    case params[:mode]
+    when "campaigns"
+      @app.campaigns
+    when "user_auto"
+      @app.user_auto_messages
+    else
+      raise "not in mode"
+    end
+  end
+
   def find_campaign
     @app      = current_user.apps.find_by(key: params[:app_id]) 
-    @campaign = @app.campaigns.find(params[:campaign_id])
+    @campaign = collection.find(params[:campaign_id])
   end
 
   def resource_params
@@ -58,21 +69,11 @@ protected
       
       elsif params[:url]
         handle = open(params[:url])
-  
-        #if handle.is_a?(StringIO)
+        name = "foo-#{Time.now.to_i}"
+        
+        @attachment = @campaign.attachments.attach(io: handle, filename: name, content_type: 'application/png')
 
-          file = Tempfile.new("foo-#{Time.now.to_i}", :encoding => 'ascii-8bit')
-          file.write(handle.read)
-          file.close
-
-          new_file = CarrierWave::SanitizedFile.new(
-            filename: "foo-#{Time.now.to_i}.jpg", 
-            type: handle.content_type, 
-            tempfile: file
-          )
-        #end
-
-        @attachment = @campaign.attachments.attach new_file
+        #@attachment = @campaign.attachments.attach new_file
       end
    
       if @campaign.save

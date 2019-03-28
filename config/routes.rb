@@ -77,6 +77,6 @@ Rails.application.routes.draw do
     end
   end
 
-  get '*path', to: 'application#catch_all'
+  #get '*path', to: 'application#catch_all'
 
 end

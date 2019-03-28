@@ -2,8 +2,8 @@ class UserAutoMessage < Message
   validates :scheduled_at, presence: true
   validates :scheduled_to, presence: true
 
-  
   scope :in_time, ->{ where(['scheduled_at <= ? AND scheduled_to >= ?', Date.today, Date.today]) }
+  
   scope :availables_for, ->(user){
     enabled.in_time.joins("left outer join metrics 
       on metrics.campaign_id = campaigns.id 
