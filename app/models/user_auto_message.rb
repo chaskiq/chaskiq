@@ -9,7 +9,7 @@ class UserAutoMessage < Message
   scope :availables_for, ->(user){
     enabled.in_time.joins("left outer join metrics 
       on metrics.campaign_id = campaigns.id 
-      AND metrics.action = 'viewed'
+      AND settings->'hidden_constraints' ? metrics.action
       AND metrics.trackable_type = 'AppUser' 
       AND metrics.trackable_id = #{user.id}"
       ).where("metrics.id is null")
@@ -20,20 +20,15 @@ class UserAutoMessage < Message
 
   def config_fields
     [
-      #{name: "from_name", type: 'string'} ,
-      #{name: "from_email", type: 'string'},
-      #{name: "reply_email", type: 'string'},
       {name: "state", type: "select", options: ["enabled", "disabled" ]},
       {name: "name", type: 'string'} ,
       {name: "subject", type: 'text'} ,
       {name: "description", type: 'text'},
       {name: "hidden_constraints", type: "select", 
-        options: ["closed", "click" ], 
+        options: ["closed", "click", "viewed" ], 
         multiple: true,
         default: "click"
       },
-      #{name: "timezone", type: 'string'} ,
-      #{name: "settings", type: 'string'} 
       {name: "scheduled_at", type: 'datetime'},
       {name: "scheduled_to", type: 'datetime'},
     ]
@@ -55,9 +50,8 @@ class UserAutoMessage < Message
 
   # or closed or consumed 
   def available_for_user?(user_id)
-    #TODO: make hidden_contranits aware
     self.available_segments.find(user_id) && 
-    self.metrics.where(action: 'viewed' , message_id: user_id ).empty?
+    self.metrics.where(action: self.hidden_constraints , message_id: user_id ).empty?
   end
 
   def show_notification_for(user)

@@ -476,11 +476,11 @@ class Messenger extends Component {
   getMessage = (cb)=> {
 
     this.getAvailables((collection)=>{
-
-      const firstKey = collection[0].id
-
+      
       if(collection.length === 0)
         return
+
+      const firstKey = collection[0].id
 
       const data = {
         referrer: window.location.path,

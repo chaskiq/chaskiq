@@ -111,17 +111,31 @@ export default class CampaignSettings extends Component {
           />
           </Field>
       case "select":
+        const name = data.multiple ? `campaign[${data.name}][]` : `campaign[${data.name}]`
+        let defaultData = null
+        if( data.multiple ){
+          defaultData = this.state.data[data.name].map((o)=>{
+            return {
+              label: o,
+              value: o
+            }
+          })
+        } else {
+          defaultData = {
+            label: this.state.data[data.name] || data.default,
+            value: this.state.data[data.name] || data.default
+          }
+        }
+
         return <Field label={data.name}
           isInvalid={this.errorsFor(data.name)}
           invalidMessage={this.errorsFor(data.name)}>
+
           <Select
-            name={`campaign[${data.name}]`}
+            name={name}
             isSearchable={false}
             isMulti={data.multiple}
-            defaultValue={{ 
-              label: this.state.data[data.name] || data.default , 
-              value: this.state.data[data.name] || data.default 
-            }}
+            defaultValue={defaultData}
             options={ data.options.map((o)=>{
                 return { label: o, value: o }
               })
