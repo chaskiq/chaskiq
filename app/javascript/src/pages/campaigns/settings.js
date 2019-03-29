@@ -117,9 +117,11 @@ export default class CampaignSettings extends Component {
           <Select
             name={`campaign[${data.name}]`}
             isSearchable={false}
+            isMulti={data.multiple}
             defaultValue={{ 
-              label: this.state.data[data.name], 
-              value: this.state.data[data.name] }}
+              label: this.state.data[data.name] || data.default , 
+              value: this.state.data[data.name] || data.default 
+            }}
             options={ data.options.map((o)=>{
                 return { label: o, value: o }
               })

@@ -15,6 +15,9 @@ class UserAutoMessage < Message
       ).where("metrics.id is null")
   }
 
+  store_accessor :settings, [:hidden_constraints]
+
+
   def config_fields
     [
       #{name: "from_name", type: 'string'} ,
@@ -23,7 +26,12 @@ class UserAutoMessage < Message
       {name: "state", type: "select", options: ["enabled", "disabled" ]},
       {name: "name", type: 'string'} ,
       {name: "subject", type: 'text'} ,
-      {name: "description", type: 'text'} ,
+      {name: "description", type: 'text'},
+      {name: "hidden_constraints", type: "select", 
+        options: ["closed", "click" ], 
+        multiple: true,
+        default: "click"
+      },
       #{name: "timezone", type: 'string'} ,
       #{name: "settings", type: 'string'} 
       {name: "scheduled_at", type: 'datetime'},
@@ -47,6 +55,7 @@ class UserAutoMessage < Message
 
   # or closed or consumed 
   def available_for_user?(user_id)
+    #TODO: make hidden_contranits aware
     self.available_segments.find(user_id) && 
     self.metrics.where(action: 'viewed' , message_id: user_id ).empty?
   end
