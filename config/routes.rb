@@ -64,11 +64,23 @@ Rails.application.routes.draw do
     scope path: '/v1' do
       resources :hooks, only: [:create], controller: "api/v1/hooks"
       resources :apps, controller: "api/v1/apps" do
+        
         member do 
           post :ping
         end
 
-        resources :messages, controller: "api/v1/messages"
+        resources :messages, controller: "api/v1/messages" do
+
+          resources :tracks, controller: "api/v1/tracks" do
+            member do
+              get :click
+              get :open
+              get :bounce
+              get :spam
+            end
+          end
+
+        end
 
         resources :conversations, controller: "api/v1/conversations" do
         end

@@ -1,5 +1,5 @@
 class CampaignsController < ApplicationController
-  before_action :find_app , except: [:premailer_preview]
+  before_action :find_app
   
   before_action :set_campaign, only: [
     :show, :edit, :update, :destroy, 

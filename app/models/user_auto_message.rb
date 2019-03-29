@@ -69,7 +69,7 @@ class UserAutoMessage < Message
 
   def campaign_url
     host = Rails.application.routes.default_url_options[:host]
-    campaign_url = "#{host}/campaigns/#{self.id}"
+    campaign_url = "#{host}/api/v1/apps/#{self.app.id}/messages/#{self.id}"
   end
 
   def attributes_for_template(subscriber)
@@ -88,7 +88,7 @@ class UserAutoMessage < Message
 
   def mustache_template_for(subscriber)
 
-    link_prefix = host + "/campaigns/#{self.id}/tracks/#{subscriber.encoded_id}/click?r="
+    link_prefix = host + "/api/v1/apps/#{self.app.key}/messages/#{self.id}/tracks/#{subscriber.encoded_id}/click?r="
 
     #html = LinkRenamer.convert(premailer, link_prefix)
     subscriber_options = subscriber.attributes
