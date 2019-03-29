@@ -5,12 +5,12 @@ class Api::V1::MessagesController < ApplicationController
     
     begin
       data = JSON.parse(request.headers["HTTP_USER_DATA"])
-      user = find_user(data["email"]) 
+      @user = find_user(data["email"]) 
     rescue 
        render json: {}, status: 406 and return
     end
 
-    @message = @app.messages.find(params[:id]).show_notification_for(user)
+    @message = @app.messages.find(params[:id]).show_notification_for(@user)
 
     if(@message.blank?)
       render json: {}, status: 406 and return

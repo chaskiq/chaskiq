@@ -1,3 +1,5 @@
+require "link_renamer"
+
 class UserAutoMessage < Message
   validates :scheduled_at, presence: true
   validates :scheduled_to, presence: true
@@ -79,10 +81,10 @@ class UserAutoMessage < Message
     
     # could be the serialized content!
     compiled_premailer = self.html_content.to_s.gsub("%7B%7B", "{{").gsub("%7D%7D", "}}")                               
-    Mustache.render(compiled_premailer, subscriber_options)
+    compiled_mustache = Mustache.render(compiled_premailer, subscriber_options)
 
-    #html = LinkRenamer.convert(compiled_mustache, link_prefix)
-    #html
+    html = LinkRenamer.convert(compiled_mustache, link_prefix)
+    html
   end
 
 end

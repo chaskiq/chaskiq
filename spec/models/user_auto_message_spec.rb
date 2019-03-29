@@ -25,7 +25,12 @@ RSpec.describe UserAutoMessage, type: :model do
   }
 
   let(:campaign){ FactoryGirl.create(:user_auto_message, app: app) }
-  let(:premailer_template){"<p>{{name}} {{last_name}} {{email}} {{campaign_url}} {{campaign_subscribe}} {{campaign_unsubscribe}}this is the template</p>"}
+  let(:premailer_template){"<p>
+    {{name}} {{last_name}} {{email}} 
+    {{campaign_url}} {{campaign_subscribe}} 
+    {{campaign_unsubscribe}}this is the template
+    <a href='http://google.com'>google.com</a>
+    </p>"}
 
   describe "creation" do
     it "will create a pending campaign by default" do
@@ -48,7 +53,7 @@ RSpec.describe UserAutoMessage, type: :model do
       @c = FactoryGirl.create(:user_auto_message, 
         app: app, 
         segments: app.segments.first.predicates,
-        scheduled_at: 1.day.ago,
+        scheduled_at: 2.day.ago,
         scheduled_to: 30.days.from_now
       )
     end
@@ -76,7 +81,8 @@ RSpec.describe UserAutoMessage, type: :model do
     it "template compilation" do
       notification = @c.show_notification_for(subscriber)
       allow_any_instance_of(UserAutoMessage).to receive(:html_content).and_return(premailer_template)
-      # compiled_template_for
+      html = @c.mustache_template_for(subscriber)
+      expect(html).to be_include("click?r=http://google.com")
     end
 
   end
