@@ -273,7 +273,7 @@ export default class CampaignEditor extends Component {
     return [CodeBlockConfig(),
     ImageBlockConfig({
       options: {
-        upload_url: `${this.props.url}/attachments.json`,
+        upload_url: `${this.props.url}/attachments.json?mode=${this.props.mode}`,
         //upload_handler: this.handleUpload,
         image_caption_placeholder: "type a caption (optional)"
       }
@@ -299,7 +299,7 @@ export default class CampaignEditor extends Component {
     VideoRecorderBlockConfig({
       options: {
         seconds_to_record: 20000,
-        upload_url: `${this.props.url}/attachments.json`,
+        upload_url: `${this.props.url}/attachments.json?mode=${this.props.mode}`,
       }
     }),
     GiphyBlockConfig(),

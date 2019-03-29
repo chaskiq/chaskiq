@@ -4,8 +4,8 @@ class UserAutoMessage < Message
   validates :scheduled_at, presence: true
   validates :scheduled_to, presence: true
 
-  
   scope :in_time, ->{ where(['scheduled_at <= ? AND scheduled_to >= ?', Date.today, Date.today]) }
+  
   scope :availables_for, ->(user){
     enabled.in_time.joins("left outer join metrics 
       on metrics.campaign_id = campaigns.id 
@@ -28,6 +28,14 @@ class UserAutoMessage < Message
       #{name: "settings", type: 'string'} 
       {name: "scheduled_at", type: 'datetime'},
       {name: "scheduled_to", type: 'datetime'},
+    ]
+  end
+
+
+  def stats_fields
+    [
+      {name: "DeliverRateCount", label: "DeliverRateCount", keys: [{name: "viewed", color: "#0747A6"}, {name: "click", color: "#DEEBFF"}] },
+      {name: "ClickRateCount", label: "ClickRateCount", keys: [{name: "viewed" , color: "#0747A6"}, {name: "close", color: "#DEEBFF"}] },
     ]
   end
 

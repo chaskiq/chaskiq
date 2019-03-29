@@ -1,5 +1,6 @@
 json.extract! campaign, *[:id,
 :config_fields, 
+:stats_fields,
 :reply_email, 
 :html_content,  
 :serialized_content,  

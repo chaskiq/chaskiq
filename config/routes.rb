@@ -77,6 +77,8 @@ Rails.application.routes.draw do
     end
   end
 
-  get '*path', to: 'application#catch_all'
+  get '*path', to: 'application#catch_all', constraints: lambda { |req|
+    req.path.exclude? 'rails/active_storage'
+  }
 
 end
