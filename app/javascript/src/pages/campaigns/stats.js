@@ -91,20 +91,21 @@ export default class CampaignStats extends Component {
         key: `row-${index}-${metric.id}`,
         cells: [
           {
+            key: `action-${metric.id}-${index}`,
             content: (<Lozenge appearance={"default"}>
                       {metric.action}
                       </Lozenge>),
           },
           {
-            //key: createKey(metric.state),
+            key: `email-${metric.email}-${index}`,
             content: <span>{metric.email}</span>,
           },
           {
-            //key: createKey(metric.state),
+            key: `host-${metric.id}-${index}`,
             content: <span>{metric.host}</span>,
           },
           {
-            //key: createKey(metric.state),
+            key: `host-${metric.created_at}-${index}`,
             content: (<span>
                         <Moment fromNow>{metric.created_at }</Moment>
                       </span>),
@@ -193,6 +194,7 @@ export default class CampaignStats extends Component {
 
   getRateFor = (type)=>{
     return type.keys.map((o)=>{
+      console.log(o)
       return {
         "id": o.name,
         "label": o.name,
@@ -242,7 +244,7 @@ export default class CampaignStats extends Component {
                     loadingSpinnerSize="large"
                     isLoading={false}
                     isFixedSize
-                    defaultSortKey="term"
+                    defaultSortKey="email"
                     defaultSortOrder="ASC"
                     onSort={() => console.log('onSort')}
                     onSetPage={() => console.log('onSetPage')}

@@ -34,8 +34,14 @@ class UserAutoMessage < Message
 
   def stats_fields
     [
-      {name: "DeliverRateCount", label: "DeliverRateCount", keys: [{name: "viewed", color: "#0747A6"}, {name: "click", color: "#DEEBFF"}] },
-      {name: "ClickRateCount", label: "ClickRateCount", keys: [{name: "viewed" , color: "#0747A6"}, {name: "close", color: "#DEEBFF"}] },
+      {name: "DeliverRateCount", label: "DeliverRateCount", 
+        keys: [{name: "viewed", color: "#F4F5F7"}, 
+              {name: "click", color: "#0747A6"}] 
+        },
+      {name: "ClickRateCount", label: "ClickRateCount", 
+        keys: [{name: "viewed" , color: "#F4F5F7"}, 
+                {name: "close", color: "#0747A6"}] 
+      },
     ]
   end
 

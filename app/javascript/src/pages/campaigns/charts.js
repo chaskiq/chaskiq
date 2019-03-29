@@ -21,8 +21,9 @@ export default class CampaignPie extends Component {
         innerRadius={0}
         padAngle={0.7}
         cornerRadius={3}
-        colors="nivo"
-        colorBy="id"
+        colors="dark2"
+        colorBy={function (e) { return e.color }}
+        //colorBy="id"
         borderWidth={1}
         borderColor="inherit:darker(0.2)"
         enableRadialLabels={false}
