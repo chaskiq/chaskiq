@@ -8,6 +8,8 @@ import {
 import ContentWrapper from '../components/ContentWrapper';
 import PageTitle from '../components/PageTitle';
 import Tabs from '@atlaskit/tabs';
+import Avatar from '@atlaskit/avatar';
+
 //import css from 'Dante2/dist/DanteStyles.css';
 import styled from 'styled-components'
 import axios from 'axios'
@@ -22,6 +24,22 @@ import { isEmpty} from 'lodash'
 
 import {parseJwt, generateJWT} from '../components/segmentManager/jwt'
 
+
+// @flow
+import DynamicTable from '@atlaskit/dynamic-table';
+
+const Wrapper = styled.div`
+  min-width: 600px;
+`;
+
+const NameWrapper = styled.span`
+  display: flex;
+  align-items: center;
+`;
+
+const AvatarWrapper = styled.div`
+  margin-right: 8px;
+`;
 
 class CampaignSegment extends Component {
 
@@ -250,7 +268,6 @@ class CampaignForm extends Component {
 }
 
 
-
 export default class CampaignContainer extends Component {
 
   constructor(props){
@@ -271,9 +288,15 @@ export default class CampaignContainer extends Component {
   }
 
   init = ()=>{
+    this.setState({
+      loading: true
+    })
     axios.get(`/apps/${this.props.match.params.appId}/campaigns.json?mode=${this.props.match.params.message_type}`)
       .then((response) => {
-        this.setState({ campaigns: response.data })
+        this.setState({ 
+          campaigns: response.data, 
+          loading: false 
+        })
       }).catch((err) => {
         console.log(err)
       })
@@ -288,20 +311,19 @@ export default class CampaignContainer extends Component {
               <Route exact path={`${this.props.match.url}`} 
                 render={(props)=>(
                   <div>
+
                     {
-                      this.state.campaigns.map((o)=> {
-                        return <div>
-                                {o.id} | {o.name}
-                                <Button onClick={()=> this.props.history.push(`${this.props.match.url}/${o.id}`)}>
-                                  edit
-                                </Button>
-                               </div>
-                      })
+                      this.state.campaigns.length > 0 && !this.state.loading ?
+                      <DataTable {...this.props} 
+                        data={this.state.campaigns}
+                          createNewCampaign={this.createNewCampaign}
+
+                      /> : null 
                     }
 
-                    <Button onClick={this.createNewCampaign}>
-                      create new campaign
-                    </Button>
+                    {
+                      this.state.loading ? <p>loading</p> : null 
+                    }
                   </div>
               )} /> 
 
@@ -319,5 +341,113 @@ export default class CampaignContainer extends Component {
               )} /> 
 
            </div>
+  }
+}
+
+
+
+class DataTable extends Component<{}, {}> {
+
+
+  constructor(props){
+    super(props)
+
+
+    this.createHead = (withWidth: boolean) => {
+      return {
+        cells: [
+          {
+            key: 'name',
+            content: 'Name',
+            isSortable: true,
+            width: withWidth ? 25 : undefined,
+          },
+          {
+            key: 'subject',
+            content: 'Subject',
+            shouldTruncate: true,
+            isSortable: true,
+            width: withWidth ? 15 : undefined,
+          },
+          {
+            key: 'created_at',
+            content: 'Created at',
+            shouldTruncate: true,
+            isSortable: true,
+            width: withWidth ? 10 : undefined,
+          },
+          {
+            key: 'action',
+            content: 'Actions',
+            shouldTruncate: true,
+          },
+        ],
+      };
+    };
+
+    this.head = this.createHead(true);
+
+    this.rows = this.props.data.map((campaign, index) => ({
+      key: `row-${index}-${campaign.nm}`,
+      cells: [
+        {
+          key: campaign.id,
+          content: (campaign.name),
+        },
+        {
+          key: campaign.id,
+          content: campaign.subject,
+        },
+        {
+          key: campaign.id,
+          content: campaign.created_at,
+        },
+        {
+          content: (
+            <Button onClick={() => this.props.history.push(`${this.props.match.url}/${campaign.id}`)}>
+              edit
+            </Button>
+
+          ),
+        }
+      ],
+    }));
+
+  }
+
+  renderCaption = ()=>{
+    return <div>
+
+      <div style={{float: 'right'}}>
+        <Button 
+          onClick={this.props.createNewCampaign}>
+          create new campaign
+        </Button>
+      </div>
+
+      Campaigns {this.props.match.params.message_type}
+    </div>
+  }
+
+
+  render() {
+    return (
+      <Wrapper>
+        <DynamicTable
+          caption={this.renderCaption()}
+          head={this.head}
+          rows={this.rows}
+          rowsPerPage={10}
+          defaultPage={1}
+          loadingSpinnerSize="large"
+          isLoading={false}
+          isFixedSize
+          defaultSortKey="term"
+          defaultSortOrder="ASC"
+          onSort={() => console.log('onSort')}
+          onSetPage={() => console.log('onSetPage')}
+        />
+      </Wrapper>
+    );
   }
 }
