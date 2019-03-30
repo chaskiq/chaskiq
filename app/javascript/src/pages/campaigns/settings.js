@@ -2,12 +2,15 @@ import React, {Component} from "react"
 import Select from '@atlaskit/select';
 import FieldText from '@atlaskit/field-text';
 import Button from '@atlaskit/button';
-import Form, { Field, FormHeader, FormSection, FormFooter } from '@atlaskit/form';
-import { DatePicker, DateTimePicker, TimePicker } from '@atlaskit/datetime-picker';
+import Form, { FormHeader, FormSection, FormFooter } from '@atlaskit/form';
 
-import FieldTextArea from '@atlaskit/field-text-area';
 import axios from 'axios'
 import serialize from 'form-serialize'
+
+import {
+  fieldRenderer
+} from "../../shared/FormFields"
+
 
 export default class CampaignSettings extends Component {
   constructor(props){
@@ -68,85 +71,6 @@ export default class CampaignSettings extends Component {
     });
   };
 
-  errorsFor(name){
-    if(!this.state.errors[name])
-      return null
-    return this.state.errors[name].map((o)=> o).join(", ")
-  }
-
-  fieldRenderer = (data)=>{
-    switch (data.type) {
-      case "string":
-        return <Field label={data.name} isRequired
-          isInvalid={this.errorsFor(data.name)}
-          invalidMessage={this.errorsFor(data.name)}>
-                <FieldText name={`campaign[${data.name}]`}
-                  isRequired shouldFitContainer
-                  value={this.state.data[data.name]}
-                />
-              </Field>
-
-      case "text":
-
-        return <Field label={data.name}
-          isInvalid={this.errorsFor(data.name)}
-          invalidMessage={this.errorsFor(data.name)}>
-          <FieldTextArea
-            name={`campaign[${data.name}]`}
-            shouldFitContainer
-            label={`campaign[${data.name}]`}
-            value={this.state.data[data.name]}
-          />
-        </Field>
-
-      case "datetime":
-        return <Field label={data.name} isRequired
-          isInvalid={this.errorsFor(data.name)}
-          invalidMessage={this.errorsFor(data.name)}>
-
-          <DateTimePicker
-            name={`campaign[${data.name}]`}
-            defaultValue={this.state.data[data.name] || new Date }
-          //onChange={onChange}
-          />
-          </Field>
-      case "select":
-        const name = data.multiple ? `campaign[${data.name}][]` : `campaign[${data.name}]`
-        let defaultData = null
-        if( data.multiple ){
-          defaultData = this.state.data[data.name].map((o)=>{
-            return {
-              label: o,
-              value: o
-            }
-          })
-        } else {
-          defaultData = {
-            label: this.state.data[data.name] || data.default,
-            value: this.state.data[data.name] || data.default
-          }
-        }
-
-        return <Field label={data.name}
-          isInvalid={this.errorsFor(data.name)}
-          invalidMessage={this.errorsFor(data.name)}>
-
-          <Select
-            name={name}
-            isSearchable={false}
-            isMulti={data.multiple}
-            defaultValue={defaultData}
-            options={ data.options.map((o)=>{
-                return { label: o, value: o }
-              })
-            }
-          />
-        </Field>
-      default:
-        break;
-    }
-  }
-
   render() {
     return (
       <div
@@ -170,10 +94,9 @@ export default class CampaignSettings extends Component {
             <FormSection>
 
               {
-                this.state.data.config_fields.map((field)=>{
-                  return this.fieldRenderer(field)
+                this.state.data.config_fields.map((field) => {
+                  return fieldRenderer('campaign', field, this.state, this.state.errors)
                 })
-                
               }
 
             </FormSection>

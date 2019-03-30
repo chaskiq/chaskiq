@@ -12,12 +12,12 @@ import Tabs from '@atlaskit/tabs';
 import styled from 'styled-components'
 import axios from 'axios'
 import serialize from 'form-serialize'
-import Select from '@atlaskit/select';
-import FieldTextArea from '@atlaskit/field-text-area';
-import FieldText from '@atlaskit/field-text';
 import Form, { Field, FormHeader, FormSection, FormFooter } from '@atlaskit/form';
-import { DateTimePicker } from '@atlaskit/datetime-picker';
-import { Checkbox } from '@atlaskit/checkbox';
+
+
+import {
+  fieldRenderer
+} from '../shared/FormFields'
 
 
 class SettingsForm extends Component {
@@ -63,81 +63,6 @@ class SettingsForm extends Component {
 
   }
 
-  errorsFor(name) {
-    if (!this.state.errors[name])
-      return null
-    return this.state.errors[name].map((o) => o).join(", ")
-  }
-
-  fieldRenderer = (data) => {
-    switch (data.type) {
-      case "string":
-        return <Field label={data.name} isRequired
-          isInvalid={this.errorsFor(data.name)}
-          invalidMessage={this.errorsFor(data.name)}>
-          <FieldText name={`app[${data.name}]`}
-            isRequired shouldFitContainer
-            value={this.props.data[data.name]}
-          />
-        </Field>
-
-      case "text":
-
-        return <Field label={data.name}
-          isInvalid={this.errorsFor(data.name)}
-          invalidMessage={this.errorsFor(data.name)}>
-          <FieldTextArea
-            name={`app[${data.name}]`}
-            shouldFitContainer
-            label={`app[${data.name}]`}
-            value={this.props.data[data.name]}
-          />
-        </Field>
-
-      case "datetime":
-        return <Field label={data.name} isRequired
-          isInvalid={this.errorsFor(data.name)}
-          invalidMessage={this.errorsFor(data.name)}>
-
-          <DateTimePicker
-            name={`app[${data.name}]`}
-            defaultValue={this.props.data[data.name]}
-          //onChange={onChange}
-          />
-        </Field>
-      case "select":
-        return <Field label={data.name}
-          isInvalid={this.errorsFor(data.name)}
-          invalidMessage={this.errorsFor(data.name)}>
-          <Select
-            name={`app[${data.name}]`}
-            isSearchable={false}
-            defaultValue={{
-              label: this.props.data[data.name],
-              value: this.props.data[data.name]
-            }}
-            options={data.options.map((o) => {
-              return { label: o, value: o }
-            })
-            }
-          />
-        </Field>
-      case "bool":
-        return <div>
-              <label>{data.name}</label>
-              <input
-                type="checkbox"
-                defaultChecked={this.props.data[data.name]}
-                name={`app[${data.name}]`}
-              />
-              
-          </div>
-        
-      default:
-        break;
-    }
-  }
-
   onSubmitHandler = (e) => {
     e.preventDefault()
     const data = serialize(this.formRef, { hash: true, empty: true })
@@ -162,47 +87,56 @@ class SettingsForm extends Component {
             />*/
             } 
 
-    <form
-          name="create-repo"
-          onSubmit={this.onSubmitHandler.bind(this)}
-          ref={form => {
-            this.formRef = form;
-          }}
-        >
-        
-      <FormHeader title="App settings" />
+        <div
+          style={{
+            //display: 'flex',
+            paddingTop: '20px',
+            width: '60%',
+            margin: '0 auto',
+            flexDirection: 'row',
+          }}>
+
+          <form
+            name="create-repo"
+            onSubmit={this.onSubmitHandler.bind(this)}
+            ref={form => {
+              this.formRef = form;
+            }}>
+
+            <FormHeader title="App settings" />
 
 
-      <FormSection>
+            <FormSection>
 
-        {
-          this.props.data.config_fields.map((field) => {
-            return this.fieldRenderer(field)
-          })
+              {
+                this.props.data.config_fields.map((field) => {
+                  return fieldRenderer('app', field, this.props, this.state.errors)
+                })
+              }
 
-        }
+            </FormSection>
 
-      </FormSection>
+            <FormFooter
+              actionsContent={[
+                {
+                  id: 'submit-button',
+                },
+                {},
+              ]}
+            >
+              <Button appearance="primary" type="submit">
+                Save settings
+            </Button>
 
-      <FormFooter
-        actionsContent={[
-          {
-            id: 'submit-button',
-          },
-          {},
-        ]}
-      >
-        <Button appearance="primary" type="submit">
-          Save settings
-        </Button>
+              <Button appearance="subtle">
+                Cancel
+            </Button>
 
-        <Button appearance="subtle">
-          Cancel
-        </Button>
+            </FormFooter>
 
-      </FormFooter>
+          </form>
 
-      </form>
+        </div>
 
     </ContentWrapper>
   }
