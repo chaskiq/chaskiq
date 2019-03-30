@@ -11,6 +11,7 @@ import Moment from 'react-moment';
 import ConversationEditor from '../components/Editor.js'
 import {convertToHTML} from 'draft-convert'
 import Avatar from '@atlaskit/avatar';
+import {soundManager} from 'soundmanager2'
 import './convo.scss'
 
 const RowColumnContainer = styled.div`
@@ -116,7 +117,7 @@ const ChatMessageItem = styled.div`
     &.admin {
       margin-right: 20px;
       float: right;
-      background: #42a5f5;
+      background: #073152;
       color: #eceff1; 
     }
 `;
@@ -134,6 +135,31 @@ const ChatAvatar = styled.div`
     }
 `
 
+const StatusItem = styled.span`
+  font-size: 9px;
+  color: #ccc;
+`
+
+const UserDataList = styled.ul`
+  li{
+    span{
+      margin-left:10px;
+    }
+  }
+`
+
+const playSound = ()=>{
+  soundManager.createSound({
+    id: 'mySound',
+    url: '/sounds/pling.mp3',
+    autoLoad: true,
+    autoPlay: false,
+    //onload: function () {
+    //  alert('The sound ' + this.id + ' loaded!');
+    //},
+    volume: 50
+  }).play()
+}
 
 class MessageItem extends Component {
   render(){
@@ -196,15 +222,16 @@ export default class ConversationContainer extends Component {
 
 
   render(){
-    //console.log(this.props.match.path)
-    const appId = this.props.match.params.appId
+    const {appId} = this.props.match.params
+
     return <RowColumnContainer>
             <ColumnContainer>
               
               <GridElement>
-                <FixedHeader>ddd</FixedHeader>
-                <FixedHeader style={{padding: '10px'}}>
-                  ddd
+                {/*<FixedHeader>Conversations</FixedHeader>*/}
+                
+                <FixedHeader>
+                  Conversations
                 </FixedHeader>
 
                 <Overflow>
@@ -346,9 +373,9 @@ class ConversationContainerShow extends Component {
       },
       received: (data)=> {
         console.log(data.message)
-        
 
         if ( this.state.messages.find( (o)=> o.id === data.id ) ){
+          
           const new_collection = this.state.messages.map((o)=>{
               if (o.id === data.id ){
                 return data
@@ -356,12 +383,19 @@ class ConversationContainerShow extends Component {
                 return o
               }
           })
+
           console.log('received updated', data)
           this.setState({
             messages: new_collection
-          })
+          } )
+
         } else {
           console.log('received new', data)
+          console.log(this.props.currentUser.email, data.app_user.email)
+          if (this.props.currentUser.email !== data.app_user.email) {
+            playSound()
+          }
+
           this.setState({
             messages: this.state.messages.concat(data)
           }, this.scrollToLastItem)
@@ -380,7 +414,17 @@ class ConversationContainerShow extends Component {
             <GridElement>
 
               <div className="chat">
-                <FixedHeader>ddd</FixedHeader>
+                <FixedHeader>
+                  Conversation with {" "}
+
+                  {
+                    this.state.conversation.main_participant ? 
+                    <b>{this.state.conversation.main_participant.email}</b> 
+                    : null
+                  }
+
+                </FixedHeader>
+
                 <div className="overflow" ref="overflow">
 
                   {
@@ -400,14 +444,14 @@ class ConversationContainerShow extends Component {
                                     dangerouslySetInnerHTML={{__html: o.message}} 
                                   />
 
-                                  <span className="status">
-                                  {
-                                    o.read_at ? 
-                                      <Moment fromNow>
-                                        {o.read_at}
-                                      </Moment> : <span>not seen</span>
-                                  }
-                                </span>
+                                  <StatusItem>
+                                    {
+                                      o.read_at ? 
+                                        <Moment fromNow>
+                                          {o.read_at}
+                                        </Moment> : <span>not seen</span>
+                                    }
+                                  </StatusItem>
                                   
                                 </ChatMessageItem>
                               </MessageItemWrapper>
@@ -429,7 +473,9 @@ class ConversationContainerShow extends Component {
 
             <GridElement>
 
-             <FixedHeader>ddd</FixedHeader>
+             <FixedHeader>
+                User information
+             </FixedHeader>
 
               <Overflow style={{ 
                 display: 'flex', 
@@ -475,91 +521,92 @@ class ConversationContainerShow extends Component {
 
                 <h3>Location</h3>
 
-                <ul>
-                  <li><strong>referrer</strong>
-                    {this.state.app_user.referrer}
+                <UserDataList>
+                  <li>
+                    <strong>referrer</strong>
+                    <span>{this.state.app_user.referrer}</span>
                   </li>
                   
                   <li>
                     <strong>city</strong>
-                    {this.state.app_user.city}
+                    <span>{this.state.app_user.city}</span>
                   </li>
                   
                   <li>
                     <strong>region</strong>
-                    {this.state.app_user.region}
+                    <span>{this.state.app_user.region}</span>
                   </li>
                   
                   <li>
                     <strong>country</strong>
-                    {this.state.app_user.country}
+                    <span>{this.state.app_user.country}</span>
                   </li>
                   
                   <li>
                     <strong>lat</strong>
-                    {this.state.app_user.lat}
+                    <span>{this.state.app_user.lat}</span>
                   </li>
                   
                   <li>
                     <strong>lng</strong>
-                    {this.state.app_user.lng}
+                    <span>{this.state.app_user.lng}</span>
                   </li>
-                </ul>
+                </UserDataList>
 
                 <h3>Browsing Properties</h3>
   
-                <ul>
+                <UserDataList>
 
                   <li>
                     <strong>postal:</strong> 
-                    { this.state.app_user.postal}
+                    <span>{this.state.app_user.postal}</span>
                   </li>
                   
                   <li>
                     <strong>web sessions:</strong> 
-                    { this.state.app_user.web_sessions}
+                    <span>{this.state.app_user.web_sessions}</span>
                   </li>
                   
                   <li>
                     <strong>timezone:</strong> 
-                    { this.state.app_user.timezone}
+                    <span>{this.state.app_user.timezone}</span>
                   </li>
                   
                   <li>
                     <strong>browser version:</strong> 
-                    { this.state.app_user.browser_version}
+                    <span>{this.state.app_user.browser_version}</span>
                   </li>
 
                   <li>
                     <strong>browser:</strong> 
-                    { this.state.app_user.browser}
+                    <span>{this.state.app_user.browser}</span>
                   </li>
                   
                   <li>
                     <strong>os:</strong> 
-                    { this.state.app_user.os}
+                    <span>{this.state.app_user.os}</span>
                   </li>
                   
                   <li>
                     <strong>os version:</strong> 
-                    { this.state.app_user.os_version}
+                    <span>{this.state.app_user.os_version}</span>
                   </li>
 
-                </ul>
+                </UserDataList>
 
                 <h3>Properties</h3>
 
-                <ul>
+                <UserDataList>
                   {
                     this.state.app_user.properties ? 
                     Object.keys(this.state.app_user.properties).map((o, i)=>{ 
                       return <li key={i}>
                                 <strong>{o}:</strong>
-                                {this.state.app_user.properties[o]}
+                                <span>{this.state.app_user.properties[o]}</span>
                               </li>
                     }) : null
                   }
-                </ul>
+                </UserDataList>
 
               </Overflow>
 

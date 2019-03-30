@@ -686,7 +686,6 @@ export default class ShowAppContainer extends Component {
           </PageTitle>
         */}
 
-        
         {
           this.props.currentApp && this.props.currentApp.key ?
           <div>

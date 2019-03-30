@@ -9,6 +9,7 @@ import {convertToHTML} from 'draft-convert'
 import UnicornEditor from './editor3.js'
 import gravatar from "gravatar"
 import Moment from 'react-moment';
+import { soundManager } from 'soundmanager2'
 
 //import Editor2 from './editor2.js'
 //import {Editor} from '@atlaskit/editor-core';
@@ -17,6 +18,8 @@ import Moment from 'react-moment';
 const App = {
   cable: actioncable.createConsumer()
 }
+
+const mainColor = "#0a1a27"; //"#42a5f5";
 
 const Container = styled.div`
     position: fixed;
@@ -106,7 +109,7 @@ const Prime = styled.div`
     position: relative;
     z-index: 998;
     overflow: hidden;
-    background: #42a5f5;
+    background: ${mainColor};
     float: right;
     margin: 5px 20px;
 `
@@ -118,7 +121,7 @@ const Header = styled.div`
   font-weight: 500;
   color: #f3f3f3;
   height: 55px;
-  background: #42a5f5;
+  background: ${mainColor};
   border-top-left-radius: 10px;
   border-top-right-radius: 10px;
   padding-top: 8px;
@@ -175,16 +178,17 @@ const MessageItem = styled.div`
     &.admin {
       margin-right: 20px;
       float: right;
-      background: #42a5f5;
+      background: ${mainColor};
       color: #eceff1; 
     }
 
     .status {
       position: absolute;
-      bottom: -17px;
+      bottom: 2px;
       width: 100px;
-      right: -41px;
+      right: -9px;
       color: #b1afaf;
+      font-size: 9px;
     }
 `;
 
@@ -321,6 +325,20 @@ const Hint = styled.p`
     margin: 0px;
 `
 
+const playSound = () => {
+  soundManager.createSound({
+    id: 'mySound',
+    url: '/sounds/picked.mp3',
+    autoLoad: true,
+    autoPlay: false,
+    //onload: function () {
+    //  alert('The sound ' + this.id + ' loaded!');
+    //},
+    volume: 50
+  }).play()
+}
+
+
 class Messenger extends Component {
 
   constructor(props){
@@ -417,6 +435,10 @@ class Messenger extends Component {
         //let html = stateToHTML(JSON.parse(data.message));
         console.log(data.message)
         console.log(`received ${data}`)
+        console.log(this.props.email , data.app_user.email)
+        
+
+
         // find message and update it, or just append message to conversation
         if ( this.state.conversation_messages.find( (o)=> o.id === data.id ) ){
           const new_collection = this.state.conversation_messages.map((o)=>{
@@ -436,6 +458,10 @@ class Messenger extends Component {
           this.setState({
             conversation_messages: this.state.conversation_messages.concat(data)
           }, this.scrollToLastItem)
+          
+          if (this.props.email !== data.app_user.email) {
+            playSound()
+          }
           /*App.conversations.perform("receive", 
             Object.assign({}, data, {email: this.props.email})
           )*/
