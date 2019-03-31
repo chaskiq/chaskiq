@@ -1,10 +1,11 @@
 source 'https://rubygems.org'
 git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
-ruby '2.3.1'
+ruby '2.5.0'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
-gem 'rails', '~> 5.2.0'
+#gem 'rails', '~> 5.2.0'
+gem "rails", "6.0.0.beta3" #, github: "rails/rails",
 gem 'pg'
 # Use sqlite3 as the database for Active Record
 #gem 'sqlite3'
@@ -17,7 +18,7 @@ gem 'uglifier', '>= 1.3.0'
 # See https://github.com/rails/execjs#readme for more supported runtimes
 # gem 'mini_racer', platforms: :ruby
 
-gem 'devise', github: "plataformatec/devise"
+gem 'devise', '4.6.2' #github: "plataformatec/devise"
 
 # Use CoffeeScript for .coffee assets and views
 gem 'coffee-rails', '~> 4.2'
@@ -96,6 +97,7 @@ group :test do
   gem 'factory_girl_rails'
   gem 'database_cleaner'
   gem 'shoulda'
+  gem 'shoulda-matchers'
   gem 'faker', github: "stympy/faker"
 
 end

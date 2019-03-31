@@ -1,8 +1,8 @@
 require 'rails_helper'
 
 RSpec.describe ConversationPart, type: :model do
-  it{ should belong_to :conversation}
-  it{ should belong_to :app_user}
+  #it{ should belong_to :conversation}
+  #it{ should belong_to :app_user}
 
   before do
     @app = FactoryGirl.create(:app)

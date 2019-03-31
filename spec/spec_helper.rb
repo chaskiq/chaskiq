@@ -14,6 +14,8 @@
 #
 
 require 'faker'
+#require 'shoulda'
+#require 'shoulda-matchers'
 
 def inline_job(&block)
   ActiveJob::Base.queue_adapter = :inline

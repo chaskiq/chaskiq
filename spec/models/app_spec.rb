@@ -1,11 +1,11 @@
 require 'rails_helper'
 
 RSpec.describe App, type: :model do
-  it{ should have_many(:users).through(:app_users) }
-  it{ should have_many(:conversations) }
-  it{ should have_many(:segments) }
-  it{ should have_many(:roles) }
-  it{ should have_many(:admin_users).through(:roles) }
+  #it{ should have_many(:users).through(:app_users) }
+  #it{ should have_many(:conversations) }
+  #it{ should have_many(:segments) }
+  #it{ should have_many(:roles) }
+  #it{ should have_many(:admin_users).through(:roles) }
 
   let(:app){
     FactoryGirl.create :app
