@@ -74,15 +74,16 @@ RSpec.describe UserAutoMessage, type: :model do
 
     it "get collection will return any" do
       @c.enable!
+      @c.hidden_constraints = ["viewed"]
+      @c.save
       @c.show_notification_for(subscriber)
       expect(UserAutoMessage.availables_for(subscriber)).to be_blank
     end
 
-    it "get collection will return any" do
+    it "get collection will return any on no hidden constraints" do
       @c.enable!
-      @c.hidden_constraints = ["viewed"]
       @c.show_notification_for(subscriber)
-      expect(UserAutoMessage.availables_for(subscriber)).to be_blank
+      expect(UserAutoMessage.availables_for(subscriber)).to_not be_blank
     end
 
     it "template compilation" do

@@ -1,8 +1,7 @@
 require 'rails_helper'
 #https://docs.aws.amazon.com/ses/latest/DeveloperGuide/monitor-sending-using-notifications.html
 def send_data(params)
-  @request.env['RAW_POST_DATA'] = params.to_json
-  post :create
+  post :create, body: params.to_json
 end
 
 RSpec.describe Api::V1::HooksController, type: :controller do
