@@ -91,7 +91,10 @@ group :test do
   # Easy installation and use of chromedriver to run system tests with Chrome
   gem 'chromedriver-helper'
 
-  %w[rspec-core rspec-expectations rspec-mocks rspec-rails rspec-support].each do |lib|
+
+  gem 'rspec-rails', git: 'https://github.com/rspec/rspec-rails', branch: '4-0-dev'
+
+  %w[rspec-core rspec-expectations rspec-mocks rspec-support].each do |lib|
     gem lib, :git => "https://github.com/rspec/#{lib}.git", :branch => 'master'
   end
   gem 'factory_girl_rails'

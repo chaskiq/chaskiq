@@ -25,14 +25,14 @@ GIT
       rspec-support (= 3.9.0.pre)
 
 GIT
-  remote: https://github.com/rspec/rspec-rails.git
-  revision: 5c683ca3ef699855a878b13982cba0fd0b983705
-  branch: master
+  remote: https://github.com/rspec/rspec-rails
+  revision: d3f8915dc80a5e98e4b34e264f4a08a487b0293d
+  branch: 4-0-dev
   specs:
-    rspec-rails (3.9.0.pre)
-      actionpack (>= 3.0)
-      activesupport (>= 3.0)
-      railties (>= 3.0)
+    rspec-rails (4.0.0.pre)
+      actionpack (>= 4.2)
+      activesupport (>= 4.2)
+      railties (>= 4.2)
       rspec-core (= 3.9.0.pre)
       rspec-expectations (= 3.9.0.pre)
       rspec-mocks (= 3.9.0.pre)
