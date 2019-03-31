@@ -11,7 +11,7 @@ class ForwardsMailbox < ApplicationMailbox
     #end
   end
  
-=begin
+
   private
     def require_forward
       unless message.forward?
@@ -23,7 +23,8 @@ class ForwardsMailbox < ApplicationMailbox
     end
  
     def forwarder
-      @forwarder ||= Person.where(email_address: mail.from)
+      #TODO: find app user by app id too
+      @forwarder ||= AppUser.joins(:user).where("users.email =?", mail.from).first
     end
  
     def record_forward
@@ -34,5 +35,5 @@ class ForwardsMailbox < ApplicationMailbox
     def stage_forward_and_request_more_details
       Forwards::RoutingMailer.choose_project(mail).deliver_now
     end
-=end
+
 end
