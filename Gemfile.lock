@@ -138,6 +138,9 @@ GEM
       aws-sdk-core (~> 3, >= 3.48.2)
       aws-sdk-kms (~> 1)
       aws-sigv4 (~> 1.0)
+    aws-sdk-sns (1.12.0)
+      aws-sdk-core (~> 3, >= 3.48.2)
+      aws-sigv4 (~> 1.1)
     aws-ses (0.6.0)
       builder
       mail (> 2.2.5)
@@ -461,6 +464,7 @@ DEPENDENCIES
   aasm
   active_importer
   aws-sdk-s3 (~> 1.15)
+  aws-sdk-sns (>= 1.9.0)
   aws-ses
   bootsnap (>= 1.1.0)
   browser (~> 2.5)

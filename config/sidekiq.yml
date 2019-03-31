@@ -1,0 +1,6 @@
+---
+:verbose: false
+:concurrency:  2
+:queues:
+  - [default, 2]
+  - [action_mailbox_routing, 1]

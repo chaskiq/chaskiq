@@ -51,6 +51,7 @@ gem "urlcrypt"
 gem "groupdate"
 gem "deep_cloneable"
 gem "aws-ses"
+gem "aws-sdk-sns", ">= 1.9.0", require: false
 gem "ransack"
 gem "active_importer"
 gem "roo"
@@ -77,11 +78,11 @@ group :development do
   gem 'spring'
   gem 'spring-watcher-listen', '~> 2.0.0'
 
-  gem 'capistrano-rails'
-  gem 'capistrano3-puma'
-  gem 'capistrano-rvm'
-  gem 'capistrano-bundle'
-  gem 'capistrano-sidekiq'
+  #gem 'capistrano-rails'
+  #gem 'capistrano3-puma'
+  #gem 'capistrano-rvm'
+  #gem 'capistrano-bundle'
+  #gem 'capistrano-sidekiq'
 end
 
 group :test do

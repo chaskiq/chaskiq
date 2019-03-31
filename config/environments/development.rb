@@ -20,6 +20,8 @@ Rails.application.configure do
   config.action_cable.allowed_request_origins = [ 'http://localhost:3000', 'http://127.0.0.1:3000' ]
 
 
+  config.active_job.queue_adapter     = :sidekiq
+
   # Enable/disable caching. By default caching is disabled.
   # Run rails dev:cache to toggle caching.
   if Rails.root.join('tmp', 'caching-dev.txt').exist?

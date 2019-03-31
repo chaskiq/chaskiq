@@ -89,8 +89,8 @@ Rails.application.routes.draw do
     end
   end
 
-  get '*path', to: 'application#catch_all', constraints: lambda { |req|
-    req.path.exclude? 'rails/active_storage'
-  }
+  #get '*path', to: 'application#catch_all', constraints: lambda { |req|
+  #  req.path.exclude? 'rails/active_storage' && req.path.exclude? '/rails/conductor/action_mailbox/'
+  #}
 
 end
