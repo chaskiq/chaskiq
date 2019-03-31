@@ -313,7 +313,7 @@ export default class CampaignContainer extends Component {
                   <div>
 
                     {
-                      this.state.campaigns.length > 0 && !this.state.loading ?
+                      !this.state.loading ?
                       <DataTable {...this.props} 
                         data={this.state.campaigns}
                           createNewCampaign={this.createNewCampaign}
