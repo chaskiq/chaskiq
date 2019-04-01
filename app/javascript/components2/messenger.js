@@ -10,7 +10,7 @@ import UnicornEditor from './editor3.js'
 import gravatar from "gravatar"
 import Moment from 'react-moment';
 import { soundManager } from 'soundmanager2'
-
+import StyledFrame from 'react-styled-frame'
 //import Editor2 from './editor2.js'
 //import {Editor} from '@atlaskit/editor-core';
 
@@ -25,7 +25,7 @@ const Container = styled.div`
     position: fixed;
     /* right: 53px; */
     bottom: 92px;
-    width: 320px;
+    //width: 320px;
     font-size: 12px;
     line-height: 22px;
     font-family: 'Roboto';
@@ -40,6 +40,8 @@ const Container = styled.div`
     -webkit-transition: all .2s ease-in-out;
     transition: all .6s ease-in-out;
     font-family: sans-serif;
+    height: calc(100% - 120px);
+    right: 27px;
 `;
 
 const AvatarSection = styled.div`
@@ -336,6 +338,38 @@ const playSound = () => {
     //},
     volume: 50
   }).play()
+}
+
+
+const iframeStyles = `margin: 0px`
+
+class Iframe extends React.Component {
+  componentDidMount() {
+    const doc = this.getDocument();
+    doc.open();
+    doc.write(`<!doctype html><html><head><style>${iframeStyles}</style><body><div></div></body></html>`);
+    doc.close();
+
+    this.renderIframeContents();
+  }
+
+  componentDidUpdate() {
+    this.renderIframeContents();
+  }
+
+  getDocument() {
+    return ReactDOM.findDOMNode(this).contentWindow.document;
+  }
+
+  renderIframeContents() {
+    const doc = this.getDocument();
+    const mountTarget = doc.body.children[0];
+    ReactDOM.unstable_renderSubtreeIntoContainer(this, this.props.children, mountTarget);
+  }
+
+  render() {
+    return <iframe style={this.props.style} />;
+  }
 }
 
 
@@ -668,173 +702,193 @@ class Messenger extends Component {
 
 
   render(){
-    return <EditorWrapper>
-                
+    return  <Fragment>
+
               <Container open={this.state.open}>
-                {
-                  this.state.open ?  
-                    <Fragment>                  
-                      <Header>
-                        <HeaderOption>
-                          { this.state.display_mode === "conversation" ? 
-                            <LeftIcon 
-                              onClick={this.displayConversationList.bind(this)}
-                              style={{margin: '20px', cursor: 'pointer'}}
-                            /> : null 
-                          }
-                          <span style={{marginLeft: '20px'}}>
-                            Hello {this.props.name}!
-                          </span>
-                          {/*this.props.app_id*/}
-                        </HeaderOption>
-                      </Header>
-                      <Body>
+                <StyledFrame style={{ width: '100%', height: '100%'}}> 
+                    {
+                      this.state.open ?  
+                        <Fragment>                  
+                          <Header>
+                            <HeaderOption>
+                              { this.state.display_mode === "conversation" ? 
+                                <LeftIcon 
+                                  onClick={this.displayConversationList.bind(this)}
+                                  style={{margin: '20px', cursor: 'pointer'}}
+                                /> : null 
+                              }
+                              <span style={{marginLeft: '20px'}}>
+                                Hello {this.props.name}!
+                              </span>
+                              {/*this.props.app_id*/}
+                            </HeaderOption>
+                          </Header>
+                          <Body>
 
-                        {
-                          this.state.display_mode === "conversation" ? 
-                            <EditorSection>
+                            {
+                              this.state.display_mode === "conversation" ? 
+                                <EditorSection>
 
-                              <CommentsWrapper innerRef={comp => this.overflow = comp}>
-                                {
-                                  this.state.conversation_messages.map((o,i)=>{
-                                    return <MessageItemWrapper 
-                                              email={this.props.email}
-                                              key={o.id} 
-                                              data={o}>
-                                            <MessageItem
-                                              className={this.state.conversation.main_participant.email === o.app_user.email ? 'user' : 'admin'}>
-                                              <ChatAvatar>
-                                                <img src={gravatar.url(o.app_user.email)}/>
-                                              </ChatAvatar>
+                                  <CommentsWrapper innerRef={comp => this.overflow = comp}>
+                                    {
+                                      this.state.conversation_messages.map((o,i)=>{
+                                        return <MessageItemWrapper 
+                                                  email={this.props.email}
+                                                  key={o.id} 
+                                                  data={o}>
+                                                <MessageItem
+                                                  className={this.state.conversation.main_participant.email === o.app_user.email ? 'user' : 'admin'}>
+                                                  <ChatAvatar>
+                                                    <img src={gravatar.url(o.app_user.email)}/>
+                                                  </ChatAvatar>
 
-                                              <div  
-                                                key={i}
-                                                className="text"
-                                                dangerouslySetInnerHTML={{__html: o.message}} 
-                                              />
-                                              <span className="status">
-                                                {
-                                                  o.read_at ? 
-                                                    <Moment fromNow>
-                                                      {o.read_at}
-                                                    </Moment> : <span>not seen</span>
-                                                }
-                                              </span>
-                                            </MessageItem>
-                                          </MessageItemWrapper>
+                                                  <div  
+                                                    key={i}
+                                                    className="text"
+                                                    dangerouslySetInnerHTML={{__html: o.message}} 
+                                                  />
+                                                  <span className="status">
+                                                    {
+                                                      o.read_at ? 
+                                                        <Moment fromNow>
+                                                          {o.read_at}
+                                                        </Moment> : <span>not seen</span>
+                                                    }
+                                                  </span>
+                                                </MessageItem>
+                                              </MessageItemWrapper>
 
-                                  })
-                                }
-                              </CommentsWrapper>
-                              
-                              <Footer>
-                                <UnicornEditor 
-                                  insertComment={this.insertComment}
-                                />
-                                { /*
-                                  <HappinessIcon/>
-                                  <AttachmentIcon/>
-                                  */
-                                }
-                                <PaperPlaneIcon style={{ padding: '14px'}}/>
-                              </Footer>
-                            </EditorSection> : null
-                        } 
+                                      })
+                                    }
+                                  </CommentsWrapper>
+                                  
+                                  <Footer>
+                                    <UnicornEditor 
+                                      insertComment={this.insertComment}
+                                    />
+                                    { /*
+                                      <HappinessIcon/>
+                                      <AttachmentIcon/>
+                                      */
+                                    }
+                                    <PaperPlaneIcon style={{ padding: '14px'}}/>
+                                  </Footer>
+                                </EditorSection> : null
+                            } 
 
-                        {
-                          this.state.display_mode === "conversations" ? 
-                            <div>
-                              <CommentsWrapper>
-                                {
-                                  this.state.conversations.map((o,i)=>{
-                                    
-                                    const message = o.last_message
-                                    return <CommentsItem key={o.id}
-                                                onClick={(e)=>{this.displayConversation(e, o)}}> 
-                                                
-                                              {
-                                                message ? 
-                                                  <ConversationSummary>
+                            {
+                              this.state.display_mode === "conversations" ? 
+                                <div>
+                                  <CommentsWrapper>
+                                    {
+                                      this.state.conversations.map((o,i)=>{
+                                        
+                                        const message = o.last_message
+                                        return <CommentsItem key={o.id}
+                                                    onClick={(e)=>{this.displayConversation(e, o)}}> 
                                                     
-                                                    <ConversationSummaryAvatar>
-                                                      <img src={gravatar.url(message.app_user.email)}/>
-                                                    </ConversationSummaryAvatar>
+                                                  {
+                                                    message ? 
+                                                      <ConversationSummary>
+                                                        
+                                                        <ConversationSummaryAvatar>
+                                                          <img src={gravatar.url(message.app_user.email)}/>
+                                                        </ConversationSummaryAvatar>
 
-                                                    <ConversationSummaryBody>
+                                                        <ConversationSummaryBody>
 
-                                                      <ConversationSummaryBodyMeta>
-                                                        <Autor>
-                                                          {message.app_user.email}
-                                                        </Autor>
-                                                        <Moment fromNow style={{ float: 'right',
-                                                                                                color: '#ccc',
-                                                                                                width: '88px',
-                                                                                                margin: '0px 10px',
-                                                                                                textTransform: 'unset'}}>
-                                                                                                {o.created_at}</Moment> 
-                                                      </ConversationSummaryBodyMeta>
+                                                          <ConversationSummaryBodyMeta>
+                                                            <Autor>
+                                                              {message.app_user.email}
+                                                            </Autor>
+                                                            <Moment fromNow style={{ float: 'right',
+                                                                                                    color: '#ccc',
+                                                                                                    width: '88px',
+                                                                                                    margin: '0px 10px',
+                                                                                                    textTransform: 'unset'}}>
+                                                                                                    {o.created_at}</Moment> 
+                                                          </ConversationSummaryBodyMeta>
 
-                                                      <ConversationSummaryBodyContent dangerouslySetInnerHTML={{__html: message.message}} />
-                                                    </ConversationSummaryBody>
-                                                  </ConversationSummary> : null 
-                                              }
-                                            </CommentsItem>
+                                                          <ConversationSummaryBodyContent dangerouslySetInnerHTML={{__html: message.message}} />
+                                                        </ConversationSummaryBody>
+                                                      </ConversationSummary> : null 
+                                                  }
+                                                </CommentsItem>
 
-                                              
-                                  })
-                                }
-                              </CommentsWrapper>
+                                                  
+                                      })
+                                    }
+                                  </CommentsWrapper>
 
-                              <Hint>
-                                We make it simple and seamless for businesses and people to talk to each other. Ask us anything
-                              </Hint>
+                                  <Hint>
+                                    We make it simple and seamless for businesses and people to talk to each other. Ask us anything
+                                  </Hint>
 
-                              <NewConvoBtn onClick={this.displayNewConversation.bind(this)}>
-                                create new conversation
-                              </NewConvoBtn>
+                                  <NewConvoBtn onClick={this.displayNewConversation.bind(this)}>
+                                    create new conversation
+                                  </NewConvoBtn>
 
-                            </div>
-                            : null 
-                        }
-                      </Body> 
-                    </Fragment> : null
-                  }
+                                </div>
+                                : null 
+                            }
+                          </Body> 
+                        </Fragment> : <div/>
+                    }
+                </StyledFrame>
               </Container> 
 
               {
-                  this.state.appData && this.state.appData.active_messenger == "on" ?
-                  
-                  <Prime onClick={this.toggleMessenger}>
-                    <div style={{
-                      transition: 'all .2s ease-in-out',
-                      transform: !this.state.open ? '' : 'rotate(180deg)',
-                    }}>
+                this.state.appData && this.state.appData.active_messenger == "on" ?
+                  <StyledFrame style={{
+                    width: '109px',
+                    position: 'fixed',
+                    right: '0px',
+                    bottom: '0px',
+                    height: '81px'
+                  }}>
 
-                      {
-                        !this.state.open ?
-                        
-                          <MessageIcon style={{ 
-                            height: '43px',
-                            width: '36px',
-                            margin: '8px 0px'
-                          }}/> : <CloseIcon style={{
-                                  height: '26px',
-                                  width: '21px',
-                                  margin: '11px 0px'
-                                }}
-                          />
-                      }
-                    </div>
-                  </Prime>  : null
+                    <Prime onClick={this.toggleMessenger}>
+                        <div style={{
+                          transition: 'all .2s ease-in-out',
+                          transform: !this.state.open ? '' : 'rotate(180deg)',
+                        }}>
+
+                        {
+                          !this.state.open ?
+                          
+                            <MessageIcon style={{ 
+                              height: '43px',
+                              width: '36px',
+                              margin: '8px 0px'
+                            }}/> : <CloseIcon style={{
+                                    height: '26px',
+                                    width: '21px',
+                                    margin: '11px 0px'
+                                  }}
+                            />
+                        }
+                      </div>
+                    </Prime>
+
+                </StyledFrame>  : null
               }
 
               {
                 this.state.availableMessage ? 
-                <MessageContainer 
-                  availableMessage={this.state.availableMessage}>
-                </MessageContainer> : null 
+                  <StyledFrame style={{
+                    width: '340px',
+                    position: 'fixed',
+                    right: '14px',
+                    bottom: '14px'
+                  }}>
+                  <MessageContainer 
+                    availableMessage={this.state.availableMessage}>
+                  </MessageContainer> 
+                </StyledFrame> : null 
               }
-           </EditorWrapper>
+              
+          </Fragment>
+
   }
 }
 
@@ -941,8 +995,8 @@ export default class Hermessenger {
   render(){
     //document.addEventListener('DOMContentLoaded', () => {
       ReactDOM.render(
-        <Messenger {...this.props} />,
-        document.getElementById("root")
+        <Messenger {...this.props} />
+        , document.getElementById("root")
       ) 
     //})
   }
