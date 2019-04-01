@@ -4,7 +4,43 @@ import { Editor } from 'slate-react'
 import { Value } from 'slate'
 import Plain from 'slate-plain-serializer'
 import Html from 'slate-html-serializer'
+import styled from "styled-components"
 
+const EditorContainer = styled.div`
+  /* -ms- properties are necessary until MS supports the latest version of the grid spec */
+  /* stylelint-disable value-no-vendor-prefix, declaration-block-no-duplicate-properties */
+  display: flex;
+  flex-direction: column;
+  min-width: 242px;
+  min-height: 50px;
+  max-height: 250px;
+  height: auto;
+  overflow: auto;
+  background-color: white;
+  box-sizing: border-box;
+  max-width: inherit;
+  word-wrap: break-word;
+  /*border-width: 1px;
+  border-style: solid;
+  border-color: rgb(223, 225, 230);*/
+  border-image: initial;
+  border-radius: 3px;
+  animation: none;
+  padding: 10px;
+`;
+
+const EditorActions = styled.div`
+  box-sizing: border-box;
+  -webkit-box-pack: end;
+  justify-content: flex-end;
+  -webkit-box-align: center;
+  align-items: center;
+  display: flex;
+  padding: 12px 1px;
+`
+
+const EditorWrapper = styled.div`
+`
 
 const rules = [
   {
@@ -32,24 +68,24 @@ const rules = [
 const html = new Html({ rules })
 
 const initialValue = Value.fromJSON({
-  document: {
-    nodes: [
-      /*{
-        object: 'block',
-        type: 'paragraph',
-        nodes: [
+  "document": {
+    "nodes": [
+      {
+        "object": "block",
+        "type": "paragraph",
+        "nodes": [
           {
-            object: 'text',
-            leaves: [
+            "object": "text",
+            "leaves": [
               {
-                text: ' ',
-              },
-            ],
-          },
-        ],
-      },*/
-    ],
-  },
+                "text": ""
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  }
 })
 
 // Define our app...
@@ -90,13 +126,21 @@ export default class App extends React.Component {
     this.setState({ value })
   }
 
+  handleFocus = ()=>{
+
+  }
+
   // Render the editor.
   render() {
-    return <Editor 
-              value={this.state.value} 
-              onChange={this.onChange} 
-              onKeyDown={this.onKeyDown}
-              placeholder={'type your shit'}
-            />
+    return <EditorWrapper onClick={this.handleFocus}>
+            <EditorContainer>
+              <Editor 
+                value={this.state.value} 
+                onChange={this.onChange} 
+                onKeyDown={this.onKeyDown}
+                placeholder={'type your shit'}
+              />
+            </EditorContainer>
+          </EditorWrapper>
   }
 }
