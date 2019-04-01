@@ -97,7 +97,7 @@ export default class UnicornEditor extends Component {
   }
 
   handleFocus = (e)=>{
-    this.refs.editor.focus()
+    //this.refs.editor.focus()
   }
 
   render() {

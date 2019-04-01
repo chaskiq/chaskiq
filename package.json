@@ -47,6 +47,7 @@
     "emojione": "^2.2.7",
     "form-serialize": "^0.7.2",
     "gravatar": "^1.6.0",
+    "install": "^0.12.2",
     "isomorphic-fetch": "^2.2.1",
     "jsrsasign": "^8.0.12",
     "moment": "^2.22.2",
@@ -65,6 +66,9 @@
     "react-styled-frame": "^1.1.0",
     "react-timeago": "^4.1.9",
     "recompose": "^0.27.1",
+    "slate": "^0.44.12",
+    "slate-html-serializer": "^0.7.36",
+    "slate-react": "^0.21.18",
     "soundmanager2": "^2.97.20170602"
   },
   "devDependencies": {
