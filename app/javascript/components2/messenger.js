@@ -6,7 +6,8 @@ import axios from "axios"
 import styled from 'styled-components';
 import {convertToHTML} from 'draft-convert'
 //import Editor from './editor.js'
-import UnicornEditor from './editor3.js'
+//import UnicornEditor from './editor3.js'
+import UnicornEditor from './editor4.js'
 import gravatar from "gravatar"
 import Moment from 'react-moment';
 import { soundManager } from 'soundmanager2'
@@ -309,7 +310,7 @@ const ConversationSummaryBodyContent = styled.div`
       -webkit-box-flex: 1;
       -ms-flex: 1;
       flex: 1;
-      padding-left: 16px;    
+      padding-left: 0px;    
 `
 
 const Autor = styled.div`
@@ -445,7 +446,7 @@ class Messenger extends Component {
   unsubscribeFromConversation = ()=>{
     if (App.conversations)
       App.conversations.unsubscribe()
-      App.conversations = null
+      //App.conversations = null
   }
 
   conversationSubscriber(){
@@ -592,8 +593,8 @@ class Messenger extends Component {
     //convert to HTML
 
     // for now let's save in html
-    const html_comment = convertToHTML( comment );
-
+    //const html_comment = convertToHTML( comment );
+    const html_comment = comment
     if(this.state.conversation.id){
       this.createComment(html_comment, cb)
     }else{
@@ -805,7 +806,8 @@ class Messenger extends Component {
                                                                                                     color: '#ccc',
                                                                                                     width: '88px',
                                                                                                     margin: '0px 10px',
-                                                                                                    textTransform: 'unset'}}>
+                                                                                                    textTransform: 'unset',
+                                                                                                    textAlign: 'right'}}>
                                                                                                     {o.created_at}</Moment> 
                                                           </ConversationSummaryBodyMeta>
 
