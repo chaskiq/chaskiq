@@ -14,7 +14,7 @@ import { soundManager } from 'soundmanager2'
 import StyledFrame from 'react-styled-frame'
 //import Editor2 from './editor2.js'
 //import {Editor} from '@atlaskit/editor-core';
-
+window.actioncable = actioncable
 // https://stackoverflow.com/questions/12114356/how-to-get-the-request-timezone
 const App = {
   cable: actioncable.createConsumer()
@@ -340,43 +340,6 @@ const playSound = () => {
     //},
     volume: 50
   }).play()
-}
-
-
-const iframeStyles = `
-
-body{
-margin: 0px
-}
-`
-
-class Iframe extends React.Component {
-  componentDidMount() {
-    const doc = this.getDocument();
-    doc.open();
-    doc.write(`<!doctype html><html><head>aaaaa<style>${iframeStyles}</style><body><div></div></body></html>`);
-    doc.close();
-
-    this.renderIframeContents();
-  }
-
-  componentDidUpdate() {
-    this.renderIframeContents();
-  }
-
-  getDocument() {
-    return ReactDOM.findDOMNode(this).contentWindow.document;
-  }
-
-  renderIframeContents() {
-    const doc = this.getDocument();
-    const mountTarget = doc.body.children[0];
-    ReactDOM.unstable_renderSubtreeIntoContainer(this, this.props.children, mountTarget);
-  }
-
-  render() {
-    return <iframe style={this.props.style} />;
-  }
 }
 
 
