@@ -370,6 +370,13 @@ class DataTable extends Component<{}, {}> {
             width: withWidth ? 15 : undefined,
           },
           {
+            key: 'state',
+            content: 'State',
+            shouldTruncate: true,
+            isSortable: true,
+            width: withWidth ? 10 : undefined,
+          },
+          {
             key: 'created_at',
             content: 'Created at',
             shouldTruncate: true,
@@ -391,15 +398,19 @@ class DataTable extends Component<{}, {}> {
       key: `row-${index}-${campaign.nm}`,
       cells: [
         {
-          key: campaign.id,
+          key: `${campaign.id}-name`,
           content: (campaign.name),
         },
         {
-          key: campaign.id,
+        key: `${ campaign.id }-subject`,
           content: campaign.subject,
         },
         {
-          key: campaign.id,
+          key: `${ campaign.id }-state`,
+          content: campaign.state,
+        },
+        {
+          key: `${campaign.id}-created`,
           content: campaign.created_at,
         },
         {

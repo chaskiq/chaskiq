@@ -43,6 +43,7 @@ const Container = styled.div`
     font-family: sans-serif;
     height: calc(100% - 120px);
     right: 27px;
+    z-index: 99999;
 `;
 
 const AvatarSection = styled.div`
@@ -110,7 +111,7 @@ const Prime = styled.div`
     -webkit-transition: all .1s ease-out;
     transition: all .1s ease-out;
     position: relative;
-    z-index: 998;
+    z-index: 9999;
     overflow: hidden;
     background: ${mainColor};
     float: right;
@@ -189,7 +190,7 @@ const MessageItem = styled.div`
       position: absolute;
       bottom: 2px;
       width: 100px;
-      right: -9px;
+      right: -17px;
       color: #b1afaf;
       font-size: 9px;
     }
@@ -342,13 +343,18 @@ const playSound = () => {
 }
 
 
-const iframeStyles = `margin: 0px`
+const iframeStyles = `
+
+body{
+margin: 0px
+}
+`
 
 class Iframe extends React.Component {
   componentDidMount() {
     const doc = this.getDocument();
     doc.open();
-    doc.write(`<!doctype html><html><head><style>${iframeStyles}</style><body><div></div></body></html>`);
+    doc.write(`<!doctype html><html><head>aaaaa<style>${iframeStyles}</style><body><div></div></body></html>`);
     doc.close();
 
     this.renderIframeContents();
@@ -706,10 +712,11 @@ class Messenger extends Component {
     return  <Fragment>
 
               <Container open={this.state.open}>
-                <StyledFrame style={{ width: '100%', height: '100%'}}> 
+                  <StyledFrame style={{ display: `${this.state.open ? 'block' : 'none' }` , width: '100%', height: '100%', margin: '0px'}}> 
                     {
                       this.state.open ?  
                         <Fragment>                  
+                          
                           <Header>
                             <HeaderOption>
                               { this.state.display_mode === "conversation" ? 
@@ -724,6 +731,7 @@ class Messenger extends Component {
                               {/*this.props.app_id*/}
                             </HeaderOption>
                           </Header>
+                          
                           <Body>
 
                             {
@@ -846,7 +854,9 @@ class Messenger extends Component {
                     position: 'fixed',
                     right: '0px',
                     bottom: '0px',
-                    height: '81px'
+                    height: '81px',
+                    margin: '0px',
+                    zIndex: 9999,
                   }}>
 
                     <Prime onClick={this.toggleMessenger}>
@@ -881,7 +891,8 @@ class Messenger extends Component {
                     width: '340px',
                     position: 'fixed',
                     right: '14px',
-                    bottom: '14px'
+                    bottom: '14px',
+                    margin: '0px'
                   }}>
                   <MessageContainer 
                     availableMessage={this.state.availableMessage}>
