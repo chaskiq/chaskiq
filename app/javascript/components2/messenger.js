@@ -41,6 +41,7 @@ const Container = styled.div`
     -webkit-transition: all .2s ease-in-out;
     transition: all .6s ease-in-out;
     font-family: sans-serif;
+    z-index: 1000;
 `;
 
 const UserAutoMessage = styled.div`
@@ -62,6 +63,7 @@ const UserAutoMessage = styled.div`
   -webkit-transition: all .6s ease-in-out;
   transition: all .6s ease-in-out;
   font-family: sans-serif;
+  z-index: 100;
 `
 
 const AvatarSection = styled.div`

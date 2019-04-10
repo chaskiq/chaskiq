@@ -8,16 +8,6 @@ import SplitText from 'react-pose-text'
 const theme = CreateTheme(themeConfig)
 
 const IntroStyle = styled.div`
-  /*position: absolute;
-  top:0;right:0;bottom:0;left:auto;
-  background: rgba(0,0,0,0.60);
-  overflow: hidden;
-  overflow-y: auto;
-  */
-  z-index: 500000;
-
-  /*width: 80%;*/
-  /*max-width: 500px;*/
   .close {
     position: absolute;
     top: 0.5rem;
