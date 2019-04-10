@@ -414,17 +414,16 @@ export default class CampaignEditor extends Component {
         if (block.type === "image") {
           const { width, height, ratio } = block.data.aspect_ratio
           const { url } = block.data
+
           return {
             start: `<figure class="graf graf--figure">
                   <div>
-                    <div class="aspectRatioPlaceholder is-locked" style="max-width: 1000px; max-height: 723.558px;">
+                    <div class="aspectRatioPlaceholder is-locked" style="max-width: 1000px; max-height: ${height}px;">
                       <div class="aspect-ratio-fill" 
                           style="padding-bottom: ${ratio}%;">
                       </div>
 
                       <img src="${url}" 
-                        height=${height} 
-                        width=${width} 
                         class="graf-image" 
                         contenteditable="false"
                       >

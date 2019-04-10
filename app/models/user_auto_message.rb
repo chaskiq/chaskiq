@@ -3,6 +3,7 @@ require "link_renamer"
 class UserAutoMessage < Message
   validates :scheduled_at, presence: true
   validates :scheduled_to, presence: true
+  store_accessor :settings, [:hidden_constraints]
 
   scope :in_time, ->{ where(['scheduled_at <= ? AND scheduled_to >= ?', Date.today, Date.today]) }
   
@@ -14,9 +15,6 @@ class UserAutoMessage < Message
       AND metrics.trackable_id = #{user.id}"
       ).where("metrics.id is null")
   }
-
-  store_accessor :settings, [:hidden_constraints]
-
 
   def config_fields
     [

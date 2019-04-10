@@ -10,6 +10,7 @@ import UnicornEditor from './editor3.js'
 import gravatar from "gravatar"
 import Moment from 'react-moment';
 import { soundManager } from 'soundmanager2'
+import Quest from './messageWindow'
 
 //import Editor2 from './editor2.js'
 //import {Editor} from '@atlaskit/editor-core';
@@ -41,6 +42,27 @@ const Container = styled.div`
     transition: all .6s ease-in-out;
     font-family: sans-serif;
 `;
+
+const UserAutoMessage = styled.div`
+  position: fixed;
+  bottom: 0px;
+  /* width: 320px; */
+  font-size: 12px;
+  line-height: 22px;
+  font-family: 'Roboto';
+  font-weight: 500;
+  opacity: ${props => props.open ? 1 : 0};
+  -webkit-font-smoothing: antialiased;
+  font-smoothing: antialiased;
+  box-shadow: 1px 1px 100px 2px rgba(0,0,0,0.22);
+  border-radius: 10px;
+  -webkit-transition: all .2s ease-out;
+  -webkit-transition: all .2s ease-in-out;
+  -webkit-transition: all .2s ease-in-out;
+  -webkit-transition: all .6s ease-in-out;
+  transition: all .6s ease-in-out;
+  font-family: sans-serif;
+`
 
 const AvatarSection = styled.div`
   /* stylelint-disable value-no-vendor-prefix */
@@ -830,9 +852,11 @@ class Messenger extends Component {
 
               {
                 this.state.availableMessage ? 
-                <MessageContainer 
-                  availableMessage={this.state.availableMessage}>
-                </MessageContainer> : null 
+                  <UserAutoMessage open={true}>
+                    <MessageContainer 
+                      availableMessage={this.state.availableMessage}
+                    />
+                  </UserAutoMessage> : null 
               }
            </EditorWrapper>
   }
@@ -846,11 +870,9 @@ class MessageContainer extends Component {
 
 
   render(){
-    return <div>
-              
-            <div dangerouslySetInnerHTML={this.createMarkup()} />
-
-            </div>
+    return <Quest>
+              <div dangerouslySetInnerHTML={this.createMarkup()} />
+           </Quest>
   }
 }
 
