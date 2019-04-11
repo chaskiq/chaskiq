@@ -23,7 +23,7 @@ var axiosInstance = axios.create({
 
 // https://stackoverflow.com/questions/12114356/how-to-get-the-request-timezone
 const App = {
-  cable: actioncable.createConsumer("ws://localhost:3000")
+  cable: actioncable.createConsumer("ws://localhost:3000/cable")
 }
 
 const mainColor = "#0a1a27"; //"#42a5f5";
