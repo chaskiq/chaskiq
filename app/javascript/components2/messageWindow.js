@@ -56,6 +56,7 @@ const InnerStyle = styled.div`
   position: relative;
   overflow: hidden;
   overflow-y: auto;
+  height: 100vh;
   img {
     width: 100%;
   }

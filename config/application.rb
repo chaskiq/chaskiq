@@ -22,6 +22,13 @@ module Hermes
       g.assets false
       g.helper false
     end
-    
+=begin
+    config.middleware.insert_before 0, Rack::Cors do
+      allow do
+        origins '*'
+        resource '*', headers: :any, methods: [:get, :post, :options]
+      end
+    end
+=end 
   end
 end

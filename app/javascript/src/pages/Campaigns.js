@@ -1,4 +1,4 @@
-import React, {Component} from "react"
+import React, { Component } from "react"
 
 import Button from '@atlaskit/button';
 import {
@@ -20,9 +20,9 @@ import CampaignEditor from "./campaigns/edito"
 import SegmentManager from '../components/segmentManager'
 import CampaignStats from "./campaigns/stats"
 
-import { isEmpty} from 'lodash'
+import { isEmpty } from 'lodash'
 
-import {parseJwt, generateJWT} from '../components/segmentManager/jwt'
+import { parseJwt, generateJWT } from '../components/segmentManager/jwt'
 
 
 // @flow
@@ -43,54 +43,54 @@ const AvatarWrapper = styled.div`
 
 class CampaignSegment extends Component {
 
-  constructor(props){
+  constructor(props) {
     super(props)
     this.state = {
-      jwt: null, 
+      jwt: null,
       app_users: [],
       search: false,
       meta: {}
     }
   }
-  componentDidMount(){
+  componentDidMount() {
     /*this.props.actions.fetchAppSegment(
       this.props.store.app.segments[0].id
     )*/
     this.search()
   }
 
-  handleSave = (e)=>{
+  handleSave = (e) => {
     const predicates = parseJwt(this.state.jwt)
     //console.log(predicates)
 
-    axios.put(`${this.props.url}.json?mode=${this.props.mode}`, { 
-      campaign: { 
-        segments: predicates.data 
+    axios.put(`${this.props.url}.json?mode=${this.props.mode}`, {
+      campaign: {
+        segments: predicates.data
       }
     })
-    .then( (response)=> {
-      console.log(this.state)
-    })
-    .catch( (error)=> {
-      console.log(error);
-    }); 
+      .then((response) => {
+        console.log(this.state)
+      })
+      .catch((error) => {
+        console.log(error);
+      });
 
   }
 
-  updateData = (data, cb)=>{
-    const newData = Object.assign({}, this.props.data, {segments: data.data}) 
-    this.props.updateData( newData , cb ? cb() : null )
+  updateData = (data, cb) => {
+    const newData = Object.assign({}, this.props.data, { segments: data.data })
+    this.props.updateData(newData, cb ? cb() : null)
   }
 
-  updatePredicate = (data, cb)=>{
+  updatePredicate = (data, cb) => {
     const jwtToken = generateJWT(data)
     //console.log(parseJwt(jwtToken))
-    if(cb)
+    if (cb)
       cb(jwtToken)
-    this.setState({jwt: jwtToken}, ()=> this.updateData(parseJwt(this.state.jwt), this.search ) )
+    this.setState({ jwt: jwtToken }, () => this.updateData(parseJwt(this.state.jwt), this.search))
   }
 
-  addPredicate = (data, cb)=>{
+  addPredicate = (data, cb) => {
 
     const pending_predicate = {
       attribute: data.name,
@@ -102,86 +102,87 @@ class CampaignSegment extends Component {
     const new_predicates = this.props.data.segments.concat(pending_predicate)
     const jwtToken = generateJWT(new_predicates)
     //console.log(parseJwt(jwtToken))
-    if(cb)
+    if (cb)
       cb(jwtToken)
 
-    this.setState({jwt: jwtToken}, ()=> this.updateData(parseJwt(this.state.jwt) ) )
+    this.setState({ jwt: jwtToken }, () => this.updateData(parseJwt(this.state.jwt)))
   }
 
-  deletePredicate(data){
+  deletePredicate(data) {
     const jwtToken = generateJWT(data)
-    this.setState({jwt: jwtToken}, ()=> this.updateData(parseJwt(this.state.jwt), this.search ) )
+    this.setState({ jwt: jwtToken }, () => this.updateData(parseJwt(this.state.jwt), this.search))
   }
 
-  search = ()=>{
-    this.setState({searching: true})
+  search = () => {
+    this.setState({ searching: true })
     // jwt or predicates from segment
     console.log(this.state.jwt)
     const data = this.state.jwt ? parseJwt(this.state.jwt).data : this.props.data.segments
-    const predicates_data = { data: {
-                                predicates: data.filter( (o)=> o.comparison )
-                              }
-                            }
-                            
-    axios.post(`/apps/${this.props.store.app.key}/search.json`, 
-      predicates_data )
-    .then( (response)=> {
-      this.setState({
-        app_users: response.data.collection,
-        meta: response.data.meta, 
-        searching: false
+    const predicates_data = {
+      data: {
+        predicates: data.filter((o) => o.comparison)
+      }
+    }
+
+    axios.post(`/apps/${this.props.store.app.key}/search.json`,
+      predicates_data)
+      .then((response) => {
+        this.setState({
+          app_users: response.data.collection,
+          meta: response.data.meta,
+          searching: false
+        })
       })
-    })
-    .catch( (error)=> {
-      console.log(error);
-    });   
+      .catch((error) => {
+        console.log(error);
+      });
   }
 
-  render(){
-    return <SegmentManager {...this.props} 
-              predicates={this.props.data.segments}
-              meta={this.state.meta}
-              app_users={this.state.app_users}
-              updatePredicate={this.updatePredicate.bind(this)}
-              addPredicate={this.addPredicate.bind(this)}
-              deletePredicate={this.deletePredicate.bind(this)}
-              search={this.search.bind(this)}
-            >
-              {
-                this.state.jwt ? 
-                  <Button isLoading={false} 
-                    appearance={'link'}
-                    onClick={this.handleSave}>
-                    <i className="fas fa-chart-pie"></i>
-                    {" "}
-                    Save Segment
+  render() {
+    return <SegmentManager {...this.props}
+      predicates={this.props.data.segments}
+      meta={this.state.meta}
+      app_users={this.state.app_users}
+      updatePredicate={this.updatePredicate.bind(this)}
+      addPredicate={this.addPredicate.bind(this)}
+      deletePredicate={this.deletePredicate.bind(this)}
+      search={this.search.bind(this)}
+    >
+      {
+        this.state.jwt ?
+          <Button isLoading={false}
+            appearance={'link'}
+            onClick={this.handleSave}>
+            <i className="fas fa-chart-pie"></i>
+            {" "}
+            Save Segment
                   </Button> : null
-              }
+      }
 
-           </SegmentManager>
+    </SegmentManager>
   }
 }
 
 class CampaignForm extends Component {
 
-  constructor(props){
+  constructor(props) {
     super(props)
     this.state = {
       selected: 0,
       data: {}
-    }    
+    }
   }
 
-  url = ()=>{
+  url = () => {
     const id = this.props.match.params.id
     return `/apps/${this.props.store.app.key}/campaigns/${id}`
   }
 
-  componentDidMount(){
+  componentDidMount() {
     this.fetchCampaign()
   }
 
-  fetchCampaign = ()=>{
+  fetchCampaign = () => {
     const id = this.props.match.params.id
     axios.get(`/apps/${this.props.store.app.key}/campaigns/${id}.json?mode=${this.props.mode}`,
       { mode: this.props.mode })
@@ -193,76 +194,82 @@ class CampaignForm extends Component {
       })
   }
 
-  updateData = (data, cb)=>{
-    this.setState({data: data}, cb ? cb() : null )
+  updateData = (data, cb) => {
+    this.setState({ data: data }, cb ? cb() : null)
   }
 
-  tabs = ()=>{
+  tabs = () => {
     var b = []
 
     const a = [
-      { label: 'Settings', content: <CampaignSettings {...this.props} 
-                                                      data={this.state.data} 
-        url={this.url()}
-                                                      updateData={this.updateData} 
-                                                      /> }
-    ]
-
-    if(this.state.data.id){
-      b = [
-        { label: 'Audience', content: <CampaignSegment  
-          {...this.props} 
+      {
+        label: 'Settings', content: <CampaignSettings {...this.props}
           data={this.state.data}
           url={this.url()}
-          updateData={this.updateData} /> 
+          updateData={this.updateData}
+        />
+      }
+    ]
+
+    if (this.state.data.id) {
+      b = [
+        {
+          label: 'Audience', content: <CampaignSegment
+            {...this.props}
+            data={this.state.data}
+            url={this.url()}
+            updateData={this.updateData} />
         },
-        { label: 'Editor', content: <CampaignEditor   
-        {...this.props} 
-        url={this.url()}
-        updateData={this.updateData}
-        data={this.state.data} /> }
-      ]      
+        {
+          label: 'Editor', content: <CampaignEditor
+            {...this.props}
+            url={this.url()}
+            updateData={this.updateData}
+            data={this.state.data} />
+        }
+      ]
     }
 
     const stats = [
-      { label: 'Stats', content: <CampaignStats  {...this.props} 
-        url={this.url()}
-        data={this.state.data} 
-        fetchCampaign={this.fetchCampaign}
-        updateData={this.updateData} /> 
+      {
+        label: 'Stats', content: <CampaignStats  {...this.props}
+          url={this.url()}
+          data={this.state.data}
+          fetchCampaign={this.fetchCampaign}
+          updateData={this.updateData} />
       }
     ]
 
     // return here if campaign not sent
     const tabs = a.concat(b)
-    
-    if (!isEmpty(this.state.data) ){
+
+    if (!isEmpty(this.state.data)) {
       return this.props.match.params.id === "new" ? tabs : stats.concat(tabs)
-    }else{
+    } else {
       return []
     }
   }
 
-  render(){
+  render() {
     return <ContentWrapper>
-        <PageTitle>
-          Campaign {`: ${this.state.data.name}`}
-        </PageTitle>
-        {
-          this.state.data.id || this.props.match.params.id === "new" ?
-            <Tabs
-              tabs={this.tabs()}
-              {...this.props}
-              selected={this.state.selected}
-              onSelect={(tab, index) => { 
-                  this.setState({selected: index})
-                  console.log('Selected Tab', index + 1)
-                }
-              }
-            /> : null
-        }
+      <PageTitle>
+        Campaign {`: ${this.state.data.name}`}
+      </PageTitle>
+      {
+        this.state.data.id || this.props.match.params.id === "new" ?
+          <Tabs
+            tabs={this.tabs()}
+            {...this.props}
+            selected={this.state.selected}
+            onSelect={(tab, index) => {
+              this.setState({ selected: index })
+              console.log('Selected Tab', index + 1)
+            }
+            }
+          /> : null
+      }
 
-      </ContentWrapper>
+    </ContentWrapper>
   }
 
 }
@@ -270,77 +277,77 @@ class CampaignForm extends Component {
 
 export default class CampaignContainer extends Component {
 
-  constructor(props){
+  constructor(props) {
     super(props)
     this.state = {
       campaigns: []
     }
   }
 
-  componentDidUpdate(prevProps, prevState){
-    if(this.props.match.params.message_type !== prevProps.match.params.message_type){
+  componentDidUpdate(prevProps, prevState) {
+    if (this.props.match.params.message_type !== prevProps.match.params.message_type) {
       this.init()
     }
   }
 
-  componentDidMount(){
+  componentDidMount() {
     this.init()
   }
 
-  init = ()=>{
+  init = () => {
     this.setState({
       loading: true
     })
     axios.get(`/apps/${this.props.match.params.appId}/campaigns.json?mode=${this.props.match.params.message_type}`)
       .then((response) => {
-        this.setState({ 
-          campaigns: response.data, 
-          loading: false 
+        this.setState({
+          campaigns: response.data,
+          loading: false
         })
       }).catch((err) => {
         console.log(err)
       })
   }
 
-  createNewCampaign = (e)=>{
+  createNewCampaign = (e) => {
     this.props.history.push(`${this.props.match.url}/new`)
   }
 
-  render(){
+  render() {
     return <div>
-              <Route exact path={`${this.props.match.url}`} 
-                render={(props)=>(
-                  <div>
+      <Route exact path={`${this.props.match.url}`}
+        render={(props) => (
+          <div>
 
-                    {
-                      !this.state.loading ?
-                      <DataTable {...this.props} 
-                        data={this.state.campaigns}
-                          createNewCampaign={this.createNewCampaign}
+            {
+              !this.state.loading ?
+                <DataTable {...this.props}
+                  data={this.state.campaigns}
+                  createNewCampaign={this.createNewCampaign}
 
-                      /> : null 
-                    }
+                /> : null
+            }
 
-                    {
-                      this.state.loading ? <p>loading</p> : null 
-                    }
-                  </div>
-              )} /> 
+            {
+              this.state.loading ? <p>loading</p> : null
+            }
+          </div>
+        )} />
 
 
-              <Route exact path={`${this.props.match.url}/:id`} 
-                render={(props)=>(
-   
-                  <CampaignForm
-                    currentUser={this.props.currentUser}
-                    mode={this.props.match.params.message_type}
-                    {...this.props}
-                    {...props}
-                  />
+      <Route exact path={`${this.props.match.url}/:id`}
+        render={(props) => (
 
-              )} /> 
+          <CampaignForm
+            currentUser={this.props.currentUser}
+            mode={this.props.match.params.message_type}
+            {...this.props}
+            {...props}
+          />
 
-           </div>
+        )} />
+
+    </div>
   }
 }
 
@@ -349,7 +356,7 @@ export default class CampaignContainer extends Component {
 class DataTable extends Component<{}, {}> {
 
 
-  constructor(props){
+  constructor(props) {
     super(props)
 
 
@@ -370,8 +377,23 @@ class DataTable extends Component<{}, {}> {
             width: withWidth ? 15 : undefined,
           },
           {
-            key: 'created_at',
-            content: 'Created at',
+            key: 'state',
+            content: 'State',
+            shouldTruncate: true,
+            isSortable: true,
+            width: withWidth ? 10 : undefined,
+          },
+          {
+            key: 'scheduled_at',
+            content: 'scheduled_at',
+            shouldTruncate: true,
+            isSortable: true,
+            width: withWidth ? 10 : undefined,
+          },
+
+          {
+            key: 'scheduled_to',
+            content: 'scheduled_to',
             shouldTruncate: true,
             isSortable: true,
             width: withWidth ? 10 : undefined,
@@ -391,17 +413,27 @@ class DataTable extends Component<{}, {}> {
       key: `row-${index}-${campaign.nm}`,
       cells: [
         {
-          key: campaign.id,
+          key: `${campaign.id}-name`,
           content: (campaign.name),
         },
         {
-          key: campaign.id,
+          key: `${campaign.id}-subject`,
           content: campaign.subject,
         },
         {
-          key: campaign.id,
-          content: campaign.created_at,
+          key: `${campaign.id}-state`,
+          content: campaign.state,
         },
+        {
+          key: `${campaign.id}-scheduled_at`,
+          content: campaign.scheduled_at,
+        },
+
+        {
+          key: `${campaign.id}-scheduled_to`,
+          content: campaign.scheduled_to,
+        },
+
         {
           content: (
             <Button onClick={() => this.props.history.push(`${this.props.match.url}/${campaign.id}`)}>
@@ -415,11 +447,11 @@ class DataTable extends Component<{}, {}> {
 
   }
 
-  renderCaption = ()=>{
+  renderCaption = () => {
     return <div>
 
-      <div style={{float: 'right'}}>
-        <Button 
+      <div style={{ float: 'right' }}>
+        <Button
           onClick={this.props.createNewCampaign}>
           create new campaign
         </Button>

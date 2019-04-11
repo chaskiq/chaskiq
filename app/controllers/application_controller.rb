@@ -4,6 +4,10 @@ class ApplicationController < ActionController::Base
   
   layout :layout_by_resource
 
+  # esto debe ser solo para api (y con checkeo de referrer)
+  before_action :cors_set_access_control_headers
+  before_action :cors_preflight_check
+
   def render_empty
     render html: '', :layout => 'application'
   end

@@ -1,4 +1,4 @@
-class Api::V1::MessagesController < ApplicationController
+class Api::V1::MessagesController < ActionController::API
 
   def show
     @app = App.find_by(key: params[:app_id])

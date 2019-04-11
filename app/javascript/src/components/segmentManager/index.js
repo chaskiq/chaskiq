@@ -360,6 +360,8 @@ export class InlineFilterDialog extends Component {
       {name: "email", type: "string"},
       {name: "last_visited_at", type: "date"},
       {name: "referrer", type: "string"},
+      { name: "pro", type: "string" },
+      { name: "plan", type: "string" },
       {name: "state", type: "string"},
       {name: "ip", type: "string"},        
       {name: "city", type: "string"},           
@@ -375,7 +377,7 @@ export class InlineFilterDialog extends Component {
       {name: "os", type: "string"},
       {name: "os_version", type: "string"},      
       {name: "browser_language", type: "string"}, 
-      {name: "lang", type: "string"},    
+      {name: "lang", type: "string"},  
     ]
 
     const content = (

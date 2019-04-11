@@ -1,6 +1,6 @@
 require 'URLcrypt'
 
-class Api::V1::TracksController < ApplicationController
+class Api::V1::TracksController < ActionController::API
   before_action :find_app
 
   before_action :find_campaign

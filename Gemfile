@@ -128,3 +128,5 @@ gem "mini_magick", "~> 4.8"
 
 # Added at 2018-06-28 02:13:52 -0400 by michelson:
 gem "aws-sdk-s3", "~> 1.15"
+
+gem "rack-cors", "~> 1.0"

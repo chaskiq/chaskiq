@@ -12,12 +12,18 @@ import Moment from 'react-moment';
 import { soundManager } from 'soundmanager2'
 import Quest from './messageWindow'
 
+var axiosInstance = axios.create({
+  baseURL: 'http://localhost:3000',
+  /* other custom settings */
+});
+
+//module.exports = axiosInstance;
 //import Editor2 from './editor2.js'
 //import {Editor} from '@atlaskit/editor-core';
 
 // https://stackoverflow.com/questions/12114356/how-to-get-the-request-timezone
 const App = {
-  cable: actioncable.createConsumer()
+  cable: actioncable.createConsumer("ws://localhost:3000")
 }
 
 const mainColor = "#0a1a27"; //"#42a5f5";
@@ -88,6 +94,7 @@ const EditorWrapper = styled.div`
   position: fixed;
   right: 14px;
   bottom: 14px;
+  z-index: 90000000000000000;
 `
 
 const EditorActions = styled.div`
@@ -509,7 +516,7 @@ class Messenger extends Component {
       properties: this.props.properties
     }
 
-    axios.get(`/api/v1/apps/${this.props.app_id}/messages.json`, {
+    axiosInstance.get(`/api/v1/apps/${this.props.app_id}/messages.json`, {
       headers: { user_data: JSON.stringify(data) }
     })
       .then((response) => {
@@ -538,7 +545,7 @@ class Messenger extends Component {
         properties: this.props.properties
       }
 
-      axios.get(`/api/v1/apps/${this.props.app_id}/messages/${firstKey}.json`, {
+      axiosInstance.get(`/api/v1/apps/${this.props.app_id}/messages/${firstKey}.json`, {
         headers: { user_data: JSON.stringify(data) }
       })
         .then((response) => {
@@ -556,7 +563,7 @@ class Messenger extends Component {
   }
 
   ping(cb){
-    axios.post(`/api/v1/apps/${this.props.app_id}/ping`, {
+    axiosInstance.post(`/api/v1/apps/${this.props.app_id}/ping`, {
         user_data: {
           referrer: window.location.path,
           email: this.props.email,
@@ -593,7 +600,7 @@ class Messenger extends Component {
 
   createComment(comment, cb){
     const id = this.state.conversation.id
-    axios.put(`/api/v1/apps/${this.props.app_id}/conversations/${id}.json`, {
+    axiosInstance.put(`/api/v1/apps/${this.props.app_id}/conversations/${id}.json`, {
       email: this.props.email,
       id: id,
       message: comment
@@ -609,7 +616,7 @@ class Messenger extends Component {
   }
 
   createCommentOnNewConversation(comment, cb){
-    axios.post(`/api/v1/apps/${this.props.app_id}/conversations.json`, {
+    axiosInstance.post(`/api/v1/apps/${this.props.app_id}/conversations.json`, {
         email: this.props.email,
         message: comment
       })
@@ -624,7 +631,7 @@ class Messenger extends Component {
   }
 
   getConversations(cb){
-    axios.get(`/api/v1/apps/${this.props.app_id}/conversations.json`, {
+    axiosInstance.get(`/api/v1/apps/${this.props.app_id}/conversations.json`, {
         email: this.props.email,
       })
       .then( (response)=> {
@@ -639,7 +646,7 @@ class Messenger extends Component {
   }
 
   setconversation(id , cb){
-    axios.get(`/api/v1/apps/${this.props.app_id}/conversations/${id}.json`, {
+    axiosInstance.get(`/api/v1/apps/${this.props.app_id}/conversations/${id}.json`, {
         email: this.props.email,
       })
       .then( (response)=> {

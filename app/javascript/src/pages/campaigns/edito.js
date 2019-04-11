@@ -33,6 +33,7 @@ import { PlaceholderBlockConfig } from 'Dante2/package/es/components/blocks/plac
 import { VideoRecorderBlockConfig } from 'Dante2/package/es/components/blocks/videoRecorder'
 import { CodeBlockConfig } from 'Dante2/package/es/components/blocks/code'
 import { DividerBlockConfig } from "Dante2/package/es/components/blocks/divider";
+import { ButtonBlockConfig } from "../../editor/components/blocks/button";
 
 import Prism from 'prismjs';
 import { PrismDraftDecorator } from 'Dante2/package/es/components/decorators/prism'
@@ -55,6 +56,8 @@ import _ from "lodash"
 import styled from '@emotion/styled'
 
 const styleString = (obj) => {
+  if(!obj)
+    return
   return Object.keys(obj).map((o) => {
     return `${_.snakeCase(o).replace("_", "-")}: ${obj[o]} `
   }).join("; ")
@@ -208,11 +211,34 @@ export default class CampaignEditor extends Component {
 */
 
   tooltipsConfig = () => {
+
+    const inlineMenu = {
+      selectionElements: [
+        "unstyled",
+        "blockquote",
+        "ordered-list",
+        "unordered-list",
+        "unordered-list-item",
+        "ordered-list-item",
+        "code-block",
+        'header-one',
+        'header-two',
+        'header-three',
+        'header-four',
+        'footer',
+        'column',
+        'jumbo',
+        'button'
+      ],
+    }
+
+    const menuConfig = Object.assign({}, DanteTooltipConfig(), inlineMenu)
+    console.log(menuConfig)
     return [
       DanteImagePopoverConfig(),
       DanteAnchorPopoverConfig(),
       DanteInlineTooltipConfig(),
-      DanteTooltipConfig(),
+      menuConfig,
       //DanteMarkdownConfig()
     ]
   }
@@ -303,7 +329,8 @@ export default class CampaignEditor extends Component {
       }
     }),
     GiphyBlockConfig(),
-    SpeechToTextBlockConfig()
+    SpeechToTextBlockConfig(),
+    ButtonBlockConfig()
     ]
   
   }
@@ -370,11 +397,11 @@ export default class CampaignEditor extends Component {
           return {
             start: `<div style="width: 100%; margin: 18px 0px 47px 0px">
                         <div 
-                          style="${styleString(containerStyle)}">
+                          style="${styleString(containerStyle.toJS ? containerStyle.toJS() : containerStyle)}">
                           <a href="${href}"
                             className="btn"
                             ref="btn"
-                            style="${styleString(buttonStyle)}">`,
+                            style="${styleString(buttonStyle.toJS ? buttonStyle.toJS() : buttonStyle )}">`,
             end: `</a>
                   </div>
                 </div>`}
@@ -414,7 +441,7 @@ export default class CampaignEditor extends Component {
         if (block.type === "image") {
           const { width, height, ratio } = block.data.aspect_ratio
           const { url } = block.data
-
+          debugger
           return {
             start: `<figure class="graf graf--figure">
                   <div>
@@ -579,7 +606,7 @@ export default class CampaignEditor extends Component {
     return <ArticlePad>
 
       <Dante
-        
+        debug={true}
         data_storage={
           {
             url: "/",
