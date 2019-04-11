@@ -971,9 +971,13 @@ export default class Hermessenger {
 
   render(){
     //document.addEventListener('DOMContentLoaded', () => {
+      var g = document.createElement('div');
+      g.setAttribute("id", "hermessengerRoot");
+      document.body.appendChild(g);
+
       ReactDOM.render(
         <Messenger {...this.props} />,
-        document.getElementById("root")
+        document.getElementById("hermessengerRoot")
       ) 
     //})
   }
