@@ -359,7 +359,7 @@ const Hint = styled.p`
 const playSound = () => {
   soundManager.createSound({
     id: 'mySound',
-    url: '/sounds/picked.mp3',
+    url: 'http://localhost:3000/sounds/picked.mp3',
     autoLoad: true,
     autoPlay: false,
     //onload: function () {
