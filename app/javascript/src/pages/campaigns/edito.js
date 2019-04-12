@@ -439,9 +439,9 @@ export default class CampaignEditor extends Component {
           }
         }
         if (block.type === "image") {
-          const { width, height, ratio } = block.data.aspect_ratio
+          const { width, height, ratio } = block.data.aspect_ratio.toJS ? block.data.aspect_ratio.toJS() : block.data.aspect_ratio
           const { url } = block.data
-          debugger
+          
           return {
             start: `<figure class="graf graf--figure">
                   <div>

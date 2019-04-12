@@ -77,7 +77,7 @@ protected
       end
    
       if @campaign.save
-        render json: { url: url_for(@attachment.first), resource: @attachment }
+        render json: { url: url_for(@campaign.attachments.last), resource: @campaign.attachments.last }
       else
         render json: {error: @campaign.errors}, status: 402
       end
