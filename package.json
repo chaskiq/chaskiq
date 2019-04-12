@@ -68,10 +68,11 @@
     "react-select": "^2.4.2",
     "react-timeago": "^4.1.9",
     "recompose": "^0.27.1",
-    "soundmanager2": "^2.97.20170602"
+    "soundmanager2": "^2.97.20170602",
+    "non-digest-webpack-plugin": "^0.0.1"
   },
   "devDependencies": {
-    "non-digest-webpack-plugin": "^0.0.1",
+    
     "webpack-dev-server": "2.11.2"
   }
 }
