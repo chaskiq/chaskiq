@@ -1,9 +1,10 @@
+/* eslint-disable no-unused-expressions */
+
 import React, {Component, Fragment} from 'react'
 import ReactDOM from 'react-dom'
 import PropTypes from 'prop-types'
 import actioncable from "actioncable"
 import axios from "axios"
-import styled from 'styled-components';
 import {convertToHTML} from 'draft-convert'
 //import Editor from './editor.js'
 import UnicornEditor from './editor3.js'
@@ -12,362 +13,37 @@ import Moment from 'react-moment';
 import { soundManager } from 'soundmanager2'
 import Quest from './messageWindow'
 
-var axiosInstance = axios.create({
-  baseURL: 'http://localhost:3000',
-  /* other custom settings */
-});
 
-//module.exports = axiosInstance;
-//import Editor2 from './editor2.js'
-//import {Editor} from '@atlaskit/editor-core';
+import {
+  Container,
+  UserAutoMessage,
+  AvatarSection,
+  EditorSection,
+  EditorWrapper,
+  EditorActions,
+  CommentsWrapper,
+  CommentsItem,
+  Prime,
+  Header,
+  Body,
+  Footer,
+  MessageItem,
+  HeaderOption,
+  ChatAvatar,
+  NewConvoBtn,
+  ConversationSummary,
+  ConversationSummaryAvatar,
+  ConversationSummaryBody,
+  ConversationSummaryBodyMeta,
+  ConversationSummaryBodyContent,
+  Autor,
+  Hint,
+} from './styles/styled'
 
 // https://stackoverflow.com/questions/12114356/how-to-get-the-request-timezone
-const App = {
-  cable: actioncable.createConsumer("ws://localhost:3000/cable")
-}
 
-const mainColor = "#0a1a27"; //"#42a5f5";
 
-const Container = styled.div`
-    position: fixed;
-    /* right: 53px; */
-    bottom: 92px;
-    width: 320px;
-    font-size: 12px;
-    line-height: 22px;
-    font-family: 'Roboto';
-    font-weight: 500;
-    opacity: ${props => props.open ? 1 : 0};
-    -webkit-font-smoothing: antialiased;
-    font-smoothing: antialiased;
-    box-shadow: 1px 1px 100px 2px rgba(0,0,0,0.22);
-    border-radius: 10px;
-    -webkit-transition: all .2s ease-out;
-    -webkit-transition: all .2s ease-in-out;
-    -webkit-transition: all .2s ease-in-out;
-    transition: all .6s ease-in-out;
-    font-family: sans-serif;
-    z-index: 1000;
-`;
-
-const UserAutoMessage = styled.div`
-  position: fixed;
-  bottom: 0px;
-  /* width: 320px; */
-  font-size: 12px;
-  line-height: 22px;
-  font-family: 'Roboto';
-  font-weight: 500;
-  opacity: ${props => props.open ? 1 : 0};
-  -webkit-font-smoothing: antialiased;
-  font-smoothing: antialiased;
-  box-shadow: 1px 1px 100px 2px rgba(0,0,0,0.22);
-  border-radius: 10px;
-  -webkit-transition: all .2s ease-out;
-  -webkit-transition: all .2s ease-in-out;
-  -webkit-transition: all .2s ease-in-out;
-  -webkit-transition: all .6s ease-in-out;
-  transition: all .6s ease-in-out;
-  font-family: sans-serif;
-  z-index: 100;
-`
-
-const AvatarSection = styled.div`
-  /* stylelint-disable value-no-vendor-prefix */
-  -ms-grid-row: 1;
-  -ms-grid-column: 1;
-  /* stylelint-enable */
-  grid-area: avatar-area;
-  margin-right: 8px;
-`;
-
-const EditorSection = styled.div`
-  /* stylelint-disable value-no-vendor-prefix */
-  -ms-grid-row: 1;
-  -ms-grid-column: 2;
-  /* stylelint-enable */
-  grid-area: editor-area;
-`;
-
-const EditorWrapper = styled.div`
-  width: 340px;
-  position: fixed;
-  right: 14px;
-  bottom: 14px;
-  z-index: 90000000000000000;
-`
-
-const EditorActions = styled.div`
-  box-sizing: border-box;
-  -webkit-box-pack: end;
-  justify-content: flex-end;
-  -webkit-box-align: center;
-  align-items: center;
-  display: flex;
-  padding: 12px 1px;
-`
-
-const CommentsWrapper = styled.div`
-    min-height: 250px;
-    overflow: auto;
-    max-height: 250px;
-`
-
-const CommentsItem = styled.div`
-    padding: 5px;
-    /* background-color: #ccc; */
-    border-bottom: 1px solid #ececec;
-    cursor: pointer;
-    &:hover{
-      background: aliceblue;
-      border-bottom: 1px solid #ececec;
-    }
-`
-
-const Prime = styled.div`
-    display: block;
-    width: 56px;
-    height: 56px;
-    border-radius: 50%;
-    text-align: center;
-    color: #f0f0f0;
-    margin: 0 0;
-    box-shadow: 0 0 4px rgba(0,0,0,.14), 0 4px 8px rgba(0,0,0,.28);
-    cursor: pointer;
-    -webkit-transition: all .1s ease-out;
-    -webkit-transition: all .1s ease-out;
-    transition: all .1s ease-out;
-    position: relative;
-    z-index: 998;
-    overflow: hidden;
-    background: ${mainColor};
-    float: right;
-    margin: 5px 20px;
-`
-
-const Header = styled.div`
-  /* margin: 10px; */
-  font-size: 13px;
-  font-family: 'Roboto';
-  font-weight: 500;
-  color: #f3f3f3;
-  height: 55px;
-  background: ${mainColor};
-  border-top-left-radius: 10px;
-  border-top-right-radius: 10px;
-  padding-top: 8px;
-`
-
-const Body = styled.div`
-  position: relative;
-  background: #fff;
-  margin: 0px 0 0px 0;
-  //height: 300px;
-  min-height: 0;
-  font-size: 12px;
-  line-height: 18px;
-  //overflow-y: auto;
-  width: 100%;
-  float: right;
-  //padding-bottom: 100px;
-`
-
-const Footer = styled.div`
-  width: 100%;
-  display: inline-block;
-  background: #fff;
-  border-top: 1px solid #eee;
-  border-bottom-right-radius: 10px;
-  border-bottom-left-radius: 10px;
-  display: flex;
-  align-items: center;
-  transition: background-color .2s ease,box-shadow .2s ease,-webkit-box-shadow .2s ease;
-  box-shadow: 0px -6px 58px #ececec;
-`
-
-const MessageItem = styled.div`
-    position: relative;
-    margin: 8px 0 15px 0;
-    padding: 8px 10px;
-    max-width: 60%;
-    min-width: 25%;
-    display: block;
-    word-wrap: break-word;
-    border-radius: 3px;
-    -webkit-animation: zoomIn .5s cubic-bezier(.42, 0, .58, 1);
-    animation: zoomIn .5s cubic-bezier(.42, 0, .58, 1);
-    clear: both;
-    z-index: 999;
-
-    &.user {
-      margin-left: 60px;
-      float: left;
-      background: rgba(0, 0, 0, 0.03);
-      color: #666;      
-    }
-
-    &.admin {
-      margin-right: 20px;
-      float: right;
-      background: ${mainColor};
-      color: #eceff1; 
-    }
-
-    .status {
-      position: absolute;
-      bottom: 2px;
-      width: 100px;
-      right: -9px;
-      color: #b1afaf;
-      font-size: 9px;
-    }
-`;
-
-const HeaderOption = styled.div`
-  //float: left;
-  font-size: 15px;
-  list-style: none;
-  position: relative;
-  height: 100%;
-  width: 100%;
-  text-align: relative;
-  margin-right: 10px;
-  letter-spacing: 0.5px;
-  font-weight: 400;
-  display: flex;
-  align-items: center;
-`
-
-const ChatAvatar = styled.div`
-    left: -52px;
-    //background: rgba(0, 0, 0, 0.03);
-    position: absolute;
-    top: 0;
-
-    img {
-      width: 40px;
-      height: 40px;
-      text-align: center;
-      border-radius: 50%;
-    }
-`
-
-const NewConvoBtn = styled.a`
-
-    background-color: #242424;
-    -webkit-box-shadow: 0 4px 12px rgba(0,0,0,.1);
-    box-shadow: 0 4px 12px rgba(0,0,0,.1);
-    position: absolute;
-    bottom: 77px;
-    left: 50%;
-    -webkit-transform: translateX(-50%);
-    transform: translateX(-50%);
-
-    height: 40px;
-    color: rgb(255, 255, 255);
-    font-size: 13px;
-    line-height: 14px;
-    pointer-events: auto;
-    cursor: pointer;
-    border-radius: 40px;
-    text-align: center;
-    -webkit-transition: all .12s;
-    transition: all .12s;
-    padding: 0 24px;
-    display: -webkit-inline-box;
-    display: -ms-inline-flexbox;
-    display: inline-flex;
-    -webkit-box-align: center;
-    -ms-flex-align: center;
-    align-items: center;
-}`
-
-const ConversationSummary = styled.div`
-
-    display: -webkit-box;
-    display: -ms-flexbox;
-    display: flex;
-    -webkit-box-orient: horizontal;
-    -webkit-box-direction: normal;
-    -ms-flex-direction: row;
-    flex-direction: row;
-    -ms-flex-wrap: nowrap;
-    flex-wrap: nowrap;
-    -webkit-box-align: center;
-    -ms-flex-align: center;
-    align-items: center;
-    -ms-flex-line-pack: stretch;
-    align-content: stretch;
-    position: relative;
-    padding: 6px;
-
-`
-
-const ConversationSummaryAvatar = styled.div`
-      -webkit-box-flex: 0;
-      -ms-flex: 0 0 auto;
-      flex: 0 0 auto;
-
-      img {
-        width: 40px;
-        height: 40px;
-        text-align: center;
-        border-radius: 50%;
-      }
-
-`
-
-const ConversationSummaryBody = styled.div`
-      -webkit-box-flex: 1;
-      -ms-flex: 1;
-      flex: 1;
-      padding-left: 16px;    
-`
-
-const ConversationSummaryBodyMeta = styled.div`
-    display: -webkit-box;
-    display: -ms-flexbox;
-    display: flex;
-    -webkit-box-pack: justify;
-    -ms-flex-pack: justify;
-    justify-content: space-between;
-    margin-bottom: 8px;   
-`
-
-const ConversationSummaryBodyContent = styled.div`
-      -webkit-box-flex: 1;
-      -ms-flex: 1;
-      flex: 1;
-      padding-left: 16px;    
-`
-
-const Autor = styled.div`
-  font-size: 14px;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-  color: #8b8b8b;
-`
-
-const Hint = styled.p`
-    padding: 29px;
-    color: rgb(136, 136, 136);
-    background: #f9f9f9;
-    margin: 0px;
-`
-
-const playSound = () => {
-  soundManager.createSound({
-    id: 'mySound',
-    url: 'http://localhost:3000/sounds/picked.mp3',
-    autoLoad: true,
-    autoPlay: false,
-    //onload: function () {
-    //  alert('The sound ' + this.id + ' loaded!');
-    //},
-    volume: 50
-  }).play()
-}
+let App = {}
 
 
 class Messenger extends Component {
@@ -384,6 +60,15 @@ class Messenger extends Component {
       appData: {}
     }
 
+    this.axiosInstance = axios.create({
+      baseURL: `${this.props.domain}`,
+      /* other custom settings */
+    });
+
+    App = {
+      cable: actioncable.createConsumer(`${this.props.ws}`)
+    }
+
     this.eventsSubscriber = this.eventsSubscriber.bind(this)
     this.ping = this.ping.bind(this)
     this.insertComment = this.insertComment.bind(this)
@@ -391,6 +76,8 @@ class Messenger extends Component {
     this.createCommentOnNewConversation = this.createCommentOnNewConversation.bind(this)
     this.getConversations = this.getConversations.bind(this)
     this.setconversation = this.setconversation.bind(this)
+
+    this.overflow = null
   }
 
   componentDidMount(){
@@ -407,6 +94,19 @@ class Messenger extends Component {
 
     if(this.state.conversation.id !== prevState.conversation.id)
       this.conversationSubscriber()
+  }
+
+  playSound = () => {
+    soundManager.createSound({
+      id: 'mySound',
+      url: `${this.props.domain}/sounds/picked.mp3`,
+      autoLoad: true,
+      autoPlay: false,
+      //onload: function () {
+      //  alert('The sound ' + this.id + ' loaded!');
+      //},
+      volume: 50
+    }).play()
   }
 
   eventsSubscriber(){
@@ -436,7 +136,11 @@ class Messenger extends Component {
   }
 
   scrollToLastItem = ()=>{
-    this.overflow.scrollTop = this.overflow.scrollHeight;
+    /*if(!this.overflow)
+      return*/
+
+    this.refs.commentsWrapper.scrollTop = this.refs.commentsWrapper.scrollHeight 
+    //this.overflow.scrollTop = this.overflow.scrollHeight;
   }
 
   unsubscribeFromConversation = ()=>{
@@ -491,7 +195,7 @@ class Messenger extends Component {
           }, this.scrollToLastItem)
           
           if (this.props.email !== data.app_user.email) {
-            playSound()
+            this.playSound()
           }
           /*App.conversations.perform("receive", 
             Object.assign({}, data, {email: this.props.email})
@@ -516,7 +220,7 @@ class Messenger extends Component {
       properties: this.props.properties
     }
 
-    axiosInstance.get(`/api/v1/apps/${this.props.app_id}/messages.json`, {
+    this.axiosInstance.get(`/api/v1/apps/${this.props.app_id}/messages.json`, {
       headers: { user_data: JSON.stringify(data) }
     })
       .then((response) => {
@@ -545,7 +249,7 @@ class Messenger extends Component {
         properties: this.props.properties
       }
 
-      axiosInstance.get(`/api/v1/apps/${this.props.app_id}/messages/${firstKey}.json`, {
+      this.axiosInstance.get(`/api/v1/apps/${this.props.app_id}/messages/${firstKey}.json`, {
         headers: { user_data: JSON.stringify(data) }
       })
         .then((response) => {
@@ -563,7 +267,7 @@ class Messenger extends Component {
   }
 
   ping(cb){
-    axiosInstance.post(`/api/v1/apps/${this.props.app_id}/ping`, {
+    this.axiosInstance.post(`/api/v1/apps/${this.props.app_id}/ping`, {
         user_data: {
           referrer: window.location.path,
           email: this.props.email,
@@ -600,7 +304,7 @@ class Messenger extends Component {
 
   createComment(comment, cb){
     const id = this.state.conversation.id
-    axiosInstance.put(`/api/v1/apps/${this.props.app_id}/conversations/${id}.json`, {
+    this.axiosInstance.put(`/api/v1/apps/${this.props.app_id}/conversations/${id}.json`, {
       email: this.props.email,
       id: id,
       message: comment
@@ -616,7 +320,7 @@ class Messenger extends Component {
   }
 
   createCommentOnNewConversation(comment, cb){
-    axiosInstance.post(`/api/v1/apps/${this.props.app_id}/conversations.json`, {
+    this.axiosInstance.post(`/api/v1/apps/${this.props.app_id}/conversations.json`, {
         email: this.props.email,
         message: comment
       })
@@ -631,7 +335,7 @@ class Messenger extends Component {
   }
 
   getConversations(cb){
-    axiosInstance.get(`/api/v1/apps/${this.props.app_id}/conversations.json`, {
+    this.axiosInstance.get(`/api/v1/apps/${this.props.app_id}/conversations.json`, {
         email: this.props.email,
       })
       .then( (response)=> {
@@ -646,7 +350,7 @@ class Messenger extends Component {
   }
 
   setconversation(id , cb){
-    axiosInstance.get(`/api/v1/apps/${this.props.app_id}/conversations/${id}.json`, {
+    this.axiosInstance.get(`/api/v1/apps/${this.props.app_id}/conversations/${id}.json`, {
         email: this.props.email,
       })
       .then( (response)=> {
@@ -725,7 +429,7 @@ class Messenger extends Component {
                           this.state.display_mode === "conversation" ? 
                             <EditorSection>
 
-                              <CommentsWrapper innerRef={comp => this.overflow = comp}>
+                              <CommentsWrapper ref="commentsWrapper" innerRef={comp => this.overflow = comp}>
                                 {
                                   this.state.conversation_messages.map((o,i)=>{
                                     return <MessageItemWrapper 

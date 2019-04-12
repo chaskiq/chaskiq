@@ -1,6 +1,8 @@
-<div id="root"></div>
+
 <script type="text/javascript">
   var m = new window.Hermessenger({
+    domain: "<%=Rails.application.routes.default_url_options[:host]%>",
+    ws: "<%=Rails.application.config.action_cable.url%>",
     name: "miguel", 
     app_id: "<%= App.first.key %>",
     email: "miguel@preyhq.com",

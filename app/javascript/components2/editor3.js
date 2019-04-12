@@ -6,19 +6,17 @@ import createLinkifyPlugin from 'draft-js-linkify-plugin';
 import createInlineToolbarPlugin from 'draft-js-inline-toolbar-plugin';
 import createEmojiPlugin from 'draft-js-emoji-plugin';
 import styled from "styled-components"
-import Button from '@atlaskit/button';
 import 'draft-js-hashtag-plugin/lib/plugin.css';
-
+import 'draft-js-emoji-plugin/lib/plugin.css'
+//import 'draft-js-inline-toolbar-plugin/lib/plugin.css'
+import './styles/style.css'
+import { EditorState } from 'draft-js';
 
 const emojiPlugin = createEmojiPlugin({
   useNativeArt: false
 });
 const { EmojiSuggestions, EmojiSelect } = emojiPlugin;
-import 'draft-js-emoji-plugin/lib/plugin.css'
 
-//import 'draft-js-inline-toolbar-plugin/lib/plugin.css'
-import './styles/style.css'
-import { EditorState } from 'draft-js';
 
 const hashtagPlugin = createHashtagPlugin();
 const linkifyPlugin = createLinkifyPlugin();
