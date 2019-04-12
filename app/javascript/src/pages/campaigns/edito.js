@@ -557,29 +557,26 @@ export default class CampaignEditor extends Component {
 
         if (block.type === "recorded-video") {
 
-          return {
-            start: `<figure class="graf--figure graf--iframe graf--first" tabindex="0">
-                      <div class="iframeContainer">
+          return (<figure className="graf--figure graf--iframe graf--first" tabindex="0">
+                      <div className="iframeContainer">
                         <video 
                           autoplay="" 
-                          style="width:100%" 
+                          style={{width:"100%" }}
                           controls="" 
-                          src="${block.data.url}">
+                          src={block.data.url}>
                         </video>
                       </div>
-                      <figcaption class="imageCaption">
-                        <div class="public-DraftStyleDefault-block public-DraftStyleDefault-ltr">
+                      <figcaption className="imageCaption">
+                        <div className="public-DraftStyleDefault-block public-DraftStyleDefault-ltr">
                           <span>
-                          <span>
-                          ${block.text}
-                          </span>
+                          {block.text}
                           </span>
                         </div>
                       </figcaption>
-                    `,
-            end: `</figure>`
-          }
+                   
+            </figure> )
         }
+        
 
         if ("atomic") {
           return <p />
