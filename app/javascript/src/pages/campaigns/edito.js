@@ -57,7 +57,7 @@ import styled from '@emotion/styled'
 
 const styleString = (obj) => {
   if(!obj)
-    return
+    return ""
   return Object.keys(obj).map((o) => {
     return `${_.snakeCase(o).replace("_", "-")}: ${obj[o]} `
   }).join("; ")
@@ -394,14 +394,16 @@ export default class CampaignEditor extends Component {
         }
         if (block.type === "button" || block.type === "unsubscribe_button") {
           const { href, buttonStyle, containerStyle, label } = block.data
+          const containerS = containerStyle ? styleString(containerStyle.toJS ? containerStyle.toJS() : containerStyle) : ''
+          const buttonS = containerStyle ? styleString(buttonStyle.toJS ? buttonStyle.toJS() : buttonStyle) : ''
           return {
             start: `<div style="width: 100%; margin: 18px 0px 47px 0px">
                         <div 
-                          style="${styleString(containerStyle.toJS ? containerStyle.toJS() : containerStyle)}">
+                          style="${containerS}">
                           <a href="${href}"
                             className="btn"
                             ref="btn"
-                            style="${styleString(buttonStyle.toJS ? buttonStyle.toJS() : buttonStyle )}">`,
+                            style="${buttonS}">`,
             end: `</a>
                   </div>
                 </div>`}
