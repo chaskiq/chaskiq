@@ -44,6 +44,12 @@
     "draft-js-inline-toolbar-plugin": "^2.0.3",
     "draft-js-linkify-plugin": "^2.0.1",
     "draft-js-plugins-editor": "^2.0.8",
+
+    "react-styled-frame": "^1.1.0",
+    "slate": "^0.44.12",
+    "slate-html-serializer": "^0.7.36",
+    "slate-react": "^0.21.18",
+
     "emojione": "^2.2.7",
     "form-serialize": "^0.7.2",
     "gravatar": "^1.6.0",

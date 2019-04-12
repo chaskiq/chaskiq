@@ -1,13 +1,23 @@
 import React from 'react'
 import styled from 'styled-components'
-import posed from 'react-pose'
-import { CreateTheme } from 'prey-stash'
+//import posed from 'react-pose'
+//import { CreateTheme } from 'prey-stash'
 import themeConfig from './themeConfig'
-import SplitText from 'react-pose-text'
+//import SplitText from 'react-pose-text'
 import Container from './styles'
 
 
-const theme = CreateTheme(themeConfig)
+//const theme = CreateTheme(themeConfig)
+
+let theme = {
+  desaturation: 0,
+  lightness: 0,
+  hue: 0,
+  bg: '#F7F7F7',
+  linkColor: '#2D77B6',
+  fontColor: '#1F2937',
+  accentColor: '#234457'
+}
 
 const IntroStyle = styled.div`
   .close {
@@ -106,6 +116,7 @@ const Content = styled.div`
   padding: 1rem;
 `
 
+/*
 const Intro = posed(IntroStyle)({
 
 })
@@ -120,9 +131,9 @@ const Inner = posed(InnerStyle)({
     beforeChildren: true,
     staggerChildren: 50
   }
-})
+})*/
 
-const Inner2 = posed.div()
+//const Inner2 = posed.div()
 
 const charPoses = {
   exit: { opacity: 0 },
@@ -140,9 +151,7 @@ export default class Quest extends React.Component  {
 
   handleMinus = (ev) => {
     ev.preventDefault()
-    this.setState({
-      isMinimized: !this.state.isMinimized
-    })
+    this.props.toggleMinimize(ev)
   }
 
   render(){
@@ -153,12 +162,16 @@ export default class Quest extends React.Component  {
 
               <div className="close">
                 {/* eslint-disable-next-line */}
-                <a href="" onClick={this.handleMinus}>{!this.state.isMinimized ? 'minimize' : 'close'}</a>
+                <a href="" onClick={this.handleMinus}>
+                  {!this.props.isMinimized ? 'minimize' : 'close'}
+                </a>
                 <small>&nbsp;▓</small>
               </div>
 
               <code className="title">
-                <SplitText charPoses={charPoses}>&gt;_ Help us build a better product for you!</SplitText>
+                <p charPoses={charPoses}>
+                  &gt;_ Help us build a better product for you!
+                </p>
               </code>
 
             </Header>
@@ -168,11 +181,11 @@ export default class Quest extends React.Component  {
             
               {
                 !this.state.isMinimized ? (
-                  <Inner2>
+                  
                 <Container>
                     {this.props.children}
                 </Container>
-                  </Inner2>
+                 
                 ) : null
               }
             </Content>

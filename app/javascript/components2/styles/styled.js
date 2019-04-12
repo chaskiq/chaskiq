@@ -3,13 +3,13 @@ import styled from 'styled-components';
 export const mainColor = "#0a1a27"; //"#42a5f5";
 
 export const Container = styled.div`
-    position: fixed;
+    /*position: fixed;*/
     /* right: 53px; */
-    bottom: 92px;
+    /*bottom: 92px;*/
     width: 320px;
     font-size: 12px;
     line-height: 22px;
-    font-family: 'Roboto';
+    /*font-family: 'Roboto';*/
     font-weight: 500;
     opacity: ${props => props.open ? 1 : 0};
     -webkit-font-smoothing: antialiased;
@@ -35,7 +35,7 @@ export const UserAutoMessage = styled.div`
   opacity: ${props => props.open ? 1 : 0};
   -webkit-font-smoothing: antialiased;
   font-smoothing: antialiased;
-  box-shadow: 1px 1px 100px 2px rgba(0,0,0,0.22);
+  
   border-radius: 10px;
   -webkit-transition: all .2s ease-out;
   -webkit-transition: all .2s ease-in-out;
@@ -44,6 +44,8 @@ export const UserAutoMessage = styled.div`
   transition: all .6s ease-in-out;
   font-family: sans-serif;
   z-index: 100;
+  width: 100%;
+  left: 0px;
 `
 
 export const AvatarSection = styled.div`

@@ -1,4 +1,4 @@
-import styled from '@emotion/styled'
+import styled from 'styled-components'
 
 const dante_font_family_serif = `'freight-text-pro', 'Merriweather', Georgia, Cambria, "Times New Roman", Times, serif;`
 const dante_font_family_sans = `'jaf-bernino-sans', 'Open Sans', "Lucida Grande", "Lucida Sans Unicode", "Lucida Sans", Geneva, Verdana, sans_serif;`
@@ -54,7 +54,7 @@ const dante_menu_caret_size = 8 ;
 const Container = styled.div`
   
   @import url('//fonts.googleapis.com/css?family=Merriweather:400,700,400italic,700italic|Open+Sans:400,300,800');
-  width: 320px;
+  /*width: 320px;*/
   font-family: ${dante_font_family_serif};
   letter-spacing: 0.01rem;
   font-weight: 400;
