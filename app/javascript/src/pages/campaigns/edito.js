@@ -518,6 +518,66 @@ export default class CampaignEditor extends Component {
             <p />
           }
         }
+
+        if (block.type === "video"){
+          
+          if (!block.data.embed_data)
+            return
+
+          let data = null
+
+          // due to a bug in empbed component
+          if (typeof (block.data.embed_data.toJS) === "function") {
+            data = block.data.embed_data.toJS()
+          } else {
+            data = block.data.embed_data
+          }
+
+          return {
+            start: `<figure class="graf--figure graf--iframe graf--first" tabindex="0">
+                      <div class="iframeContainer">
+                        ${data.html}
+                      </div>
+                      <figcaption class="imageCaption">
+                        <div class="public-DraftStyleDefault-block public-DraftStyleDefault-ltr">
+                          <span>
+                          <span>
+                          ${block.data.provisory_text}
+                          </span>
+                          </span>
+                        </div>
+                      </figcaption>
+                    `,
+            end: `</figure>`
+          }
+        }
+
+        if (block.type === "recorded-video") {
+
+          return {
+            start: `<figure class="graf--figure graf--iframe graf--first" tabindex="0">
+                      <div class="iframeContainer">
+                        <video 
+                          autoplay="" 
+                          style="width:100%" 
+                          controls="" 
+                          src="${block.data.url}">
+                        </video>
+                      </div>
+                      <figcaption class="imageCaption">
+                        <div class="public-DraftStyleDefault-block public-DraftStyleDefault-ltr">
+                          <span>
+                          <span>
+                          ${block.text}
+                          </span>
+                          </span>
+                        </div>
+                      </figcaption>
+                    `,
+            end: `</figure>`
+          }
+        }
+
         if ("atomic") {
           return <p />
         }
