@@ -64,7 +64,7 @@ export const EditorSection = styled.div`
 `;
 
 export const EditorWrapper = styled.div`
-  width: 340px;
+  width: 326px;
   position: fixed;
   right: 14px;
   bottom: 14px;
