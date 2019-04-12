@@ -13,6 +13,7 @@ class FetchLinkCardService < BaseService
     #url = parse_urls(status)
     return if url.nil?
     url  = url.to_s
+
     #card = PreviewCard.where(status: status).first_or_initialize(status: status, url: url)
     card = PreviewCard.find_or_initialize_by(url: url)
     # TODO: add a TTL here
@@ -33,7 +34,7 @@ class FetchLinkCardService < BaseService
     timeout = { write: 10, connect: 10, read: 10 }.merge(options)
 
     HTTP.headers(user_agent: user_agent)
-        .timeout(:per_operation, timeout)
+        .timeout(timeout)
         .follow
   end
 
@@ -71,8 +72,11 @@ class FetchLinkCardService < BaseService
     card.width         = 0
     card.height        = 0
 
-    card.image.attach( download_image(URI.parse(response.thumbnail_url))) if response.respond_to?(:thumbnail_url)
-    # card.url    = response.url
+    if response.respond_to?(:thumbnail_url)
+      image = download_image(URI.parse(response.thumbnail_url)) rescue nil
+      card.image.attach( image) if image.present?
+    end
+      # card.url    = response.url
     card.width  = response.width.presence  || 0
     card.height = response.height.presence || 0
     card.html   = response.try(:html)
@@ -94,8 +98,11 @@ class FetchLinkCardService < BaseService
     card.title            = meta_property(page, 'og:title') || page.at_xpath('//title').content
     card.description      = meta_property(page, 'og:description') || meta_property(page, 'description')
 
-    card.image.attach( download_image(meta_property(page, 'og:image'))) if meta_property(page, 'og:image')
-    
+    if meta_property(page, 'og:image') 
+      image = download_image(meta_property(page, 'og:image')) rescue nil
+      card.image.attach( image ) if image.present?
+    end
+
     return if card.title.blank?
 
     card.save_with_optional_image!
@@ -103,7 +110,6 @@ class FetchLinkCardService < BaseService
   end
 
   def download_image(url)
-
     handle = open(url)
 
     file = Tempfile.new("foo-#{Time.now.to_i}", :encoding => 'ascii-8bit')
@@ -115,7 +121,6 @@ class FetchLinkCardService < BaseService
       type: handle.content_type, 
       tempfile: file
     )
-
   end
 
   def meta_property(html, property)

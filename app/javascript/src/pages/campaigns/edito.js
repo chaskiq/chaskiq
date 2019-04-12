@@ -310,14 +310,14 @@ export default class CampaignEditor extends Component {
       editable: true,
       options: {
         placeholder: "put an external links",
-        endpoint: `${this.props.url}/oembed?url=`
+        endpoint: `/oembed?url=`
       }
     }),
     VideoBlockConfig({
       breakOnContinuous: true,
       options: {
         placeholder: "put embed link ie: youtube, vimeo, spotify, codepen, gist, etc..",
-        endpoint: `${this.props.url}/oembed?url=`,
+        endpoint: `/oembed?url=`,
         caption: 'optional caption'
       }
     }),
