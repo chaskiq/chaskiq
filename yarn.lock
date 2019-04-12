@@ -6577,6 +6577,11 @@ node-sass@^4.9.0:
     stdout-stream "^1.4.0"
     "true-case-path" "^1.0.2"
 
+non-digest-webpack-plugin@^0.0.1:
+  version "0.0.1"
+  resolved "https://registry.yarnpkg.com/non-digest-webpack-plugin/-/non-digest-webpack-plugin-0.0.1.tgz#9a48128b0912c93e6b3f17b2bbfa3951ff1de95f"
+  integrity sha1-mkgSiwkSyT5rPxeyu/o5Uf8d6V8=
+
 "nopt@2 || 3":
   version "3.0.6"
   resolved "https://registry.yarnpkg.com/nopt/-/nopt-3.0.6.tgz#c6465dbf08abcd4db359317f79ac68a646b28ff9"
