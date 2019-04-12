@@ -4,6 +4,8 @@ import posed from 'react-pose'
 import { CreateTheme } from 'prey-stash'
 import themeConfig from './themeConfig'
 import SplitText from 'react-pose-text'
+import Container from './styles'
+
 
 const theme = CreateTheme(themeConfig)
 
@@ -161,11 +163,15 @@ export default class Quest extends React.Component  {
 
             </Header>
 
+
             <Content>
+            
               {
                 !this.state.isMinimized ? (
                   <Inner2>
+                <Container>
                     {this.props.children}
+                </Container>
                   </Inner2>
                 ) : null
               }

@@ -497,10 +497,13 @@ export default class CampaignEditor extends Component {
           if (data) {
             return <div class="graf graf--mixtapeEmbed">
               <span>
-                <a target="_blank" class="js-mixtapeImage mixtapeImage"
-                  href={block.data.provisory_text}
-                  style={{ backgroundImage: `url(${data.images[0].url})` }}>
-                </a>
+                {
+                  data.images[0].url ?
+                    <a target="_blank" class="js-mixtapeImage mixtapeImage"
+                      href={block.data.provisory_text}
+                      style={{ backgroundImage: `url(${data.images[0].url})` }}>
+                    </a> : null 
+                }
                 <a class="markup--anchor markup--mixtapeEmbed-anchor"
                   target="_blank"
                   href={block.data.provisory_text}>
