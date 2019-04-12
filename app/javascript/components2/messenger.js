@@ -414,7 +414,8 @@ class Messenger extends Component {
 
   render(){
     console.log(this.state.isMinimized)
-    return <EditorWrapper>
+    return <ThemeProvider theme={{ mode: 'dark' }}>
+              <EditorWrapper>
 
                 <Container open={this.state.open}>
                   {
@@ -643,7 +644,8 @@ class Messenger extends Component {
 
 
            </EditorWrapper>
-  }
+            </ThemeProvider>
+          }
 }
 
 class MessageContainer extends Component {
