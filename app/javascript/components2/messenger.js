@@ -573,7 +573,8 @@ class Messenger extends Component {
                         position: 'absolute',
                         bottom: '-22px',
                         height: '100px',
-                        right: '-13px'
+                        right: '-13px',
+                        width: '88px'
                       }}>
                       <Prime onClick={this.toggleMessenger}>
                         <div style={{
@@ -610,13 +611,12 @@ class Messenger extends Component {
                         overflow: 'scroll',
                         border: '0px',
                         zIndex: '1000',
-                        height: '100vh',
+                        height: this.state.isMinimized ? '100px' : '100vh',
                         width: '100%',
                         position: 'absolute',
                         bottom: '-14px',
                         right: '-14px',
-                        boxShadow: '1px 1px 100px 2px rgba(0,0,0,0.22)',
-                        top: this.state.isMinimized ?  '31px' : null
+                        boxShadow: '1px 1px 100px 2px rgba(0,0,0,0.22)'
                       }}>
                     <div>
                       {
