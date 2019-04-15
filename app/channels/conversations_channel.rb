@@ -5,11 +5,11 @@ class ConversationsChannel < ApplicationCable::Channel
     @app      = App.find_by(key: params[:app])
     @conversation = @app.conversations.find(params[:id])
 
-    user_data = get_user_data
+    get_user_data
 
     @app_user = @app.app_users
                     .joins(:user)
-                    .where("users.email =?", user_data[:email])
+                    .where("users.email =?", @user_data[:email])
                     .first
 
     @user     = @app_user.user

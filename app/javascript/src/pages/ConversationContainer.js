@@ -332,7 +332,7 @@ class ConversationContainerShow extends Component {
   insertComment = (comment, cb)=>{
     const id = this.state.conversation.id
     const html_comment = convertToHTML( comment );
-    axios.put(`/api/v1/apps/${this.props.appId}/conversations/${id}.json`, {
+      axios.put(`/apps/${this.props.appId}/conversations/${id}.json`, {
         email: this.props.currentUser.email,
         id: id,
         message: html_comment
@@ -363,6 +363,7 @@ class ConversationContainerShow extends Component {
       app: this.props.appId,
       id: this.state.conversation.id,
       email: this.props.currentUser.email,
+      inner_app: true,
     },
     {
       connected: ()=> {
