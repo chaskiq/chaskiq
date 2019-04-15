@@ -67,6 +67,7 @@ Rails.application.routes.draw do
         
         member do 
           post :ping
+          post :auth
         end
 
         resources :messages, controller: "api/v1/messages" do

@@ -1,4 +1,10 @@
 
+
+<%= @encrypted_data %>
+
+
+<%
+=begin %>
 <script type="text/javascript">
   var m = new window.Hermessenger({
     domain: "<%=Rails.application.routes.default_url_options[:host]%>",
@@ -13,3 +19,17 @@
   })
   m.render()
 </script>
+<%
+=end %>
+
+
+
+<script type="text/javascript">
+  var m = new window.HermessengerEncrypted({
+    domain: "<%=Rails.application.routes.default_url_options[:host]%>",
+    ws: "<%=Rails.application.config.action_cable.url%>",
+    app_id: "<%= App.first.key %>",
+    data: "<%=@encrypted_data%>"
+  })
+</script>
+

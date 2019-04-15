@@ -1,8 +1,11 @@
 class Api::V1::ConversationsController < ApiController
 
+  before_action :get_app
+  before_action :get_user_data
+  before_action :authorize!
+
   def show
-    @app = App.find_by(key: params[:app_id])
-    @user = find_user(get_user_data["email"])
+    @user = get_app_user
     @conversation = user_conversations.find(params[:id])
     # TODO paginate here
     @messages = @conversation.messages
@@ -11,16 +14,15 @@ class Api::V1::ConversationsController < ApiController
 
   def index
     # TODO: paginate here
-    @app = App.find_by(key: params[:app_id])
-    @user = find_user(get_user_data["email"])
+    @user = get_app_user
     @conversations = @app.conversations.where(main_participant: @user.id)
     render :index
   end
 
   def create
-    @app = App.find_by(key: params[:app_id])
     #@user = find_user(get_user_data["email"])    
-    user = find_user(params[:email])
+    user = get_app_user
+
     if params[:message].present?
       @conversation = @app.start_conversation({
         message: params[:message], 
@@ -39,12 +41,11 @@ class Api::V1::ConversationsController < ApiController
   end
 
   def update
-    @app = App.find_by(key: params[:app_id])
-    @user = find_user(get_user_data["email"])
+    @user = get_app_user
     @conversation = user_conversations.find(params[:id])
 
     @message = @conversation.add_message({
-      from: @user.email,
+      from: @user,
       message: params[:message]
     })
     render :show
@@ -52,15 +53,11 @@ class Api::V1::ConversationsController < ApiController
 
 private
 
+  def get_app
+    @app = App.find_by(key: params[:app_id])
+  end
+
   def user_conversations
     @app.conversations.where(main_participant: @user.id)
-  end
-
-  def get_user_data
-    @user_data = JSON.parse(request.headers["http_user_data".upcase]) rescue nil
-  end
-
-  def find_user(email)
-    @app.app_users.joins(:user).where(["users.email =?", email ]).first  
   end
 end

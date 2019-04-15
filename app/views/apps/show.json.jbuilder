@@ -1,6 +1,7 @@
 json.app do
   json.name        @app.name
   json.key         @app.key
+  json.encryption_key @app.encryption_key
   json.preferences @app.preferences
   json.segments    @segments
   json.state    @app.state

@@ -1,79 +1,30 @@
 class Api::V1::MessagesController < ApiController
 
-  def show
-    @app = App.find_by(key: params[:app_id])
-    
-    begin
-      data = JSON.parse(request.headers["HTTP_USER_DATA"])
-      @user = find_user(data["email"]) 
-    rescue 
-       render json: {}, status: 406 and return
-    end
+  before_action :get_app
+  before_action :get_user_data
+  before_action :authorize!
 
+  def show
+    @user = get_app_user
     @message = @app.messages.find(params[:id]).show_notification_for(@user)
 
     if(@message.blank?)
       render json: {}, status: 406 and return
     end
-
     render :show
   end
 
   def index
-    @app = App.find_by(key: params[:app_id])
-    #@conversations = @app.conversations
-
-    begin
-      data = JSON.parse(request.headers["HTTP_USER_DATA"])
-      user = find_user(data["email"]) 
-    rescue 
-       render json: {}, status: 406 and return
-    end
-
-    @messages = @app.user_auto_messages.availables_for(user)
-    
+    @messages = @app.user_auto_messages.availables_for(get_app_user)
     render :index
   end
 
-
 private
-  def find_user(email)
-    @app.app_users.joins(:user).where(["users.email =?", email ]).first  
-  end
 
-=begin
-  def create
+  def get_app
     @app = App.find_by(key: params[:app_id])
-    user = find_user(params[:email])
-    if params[:message].present?
-      @conversation = @app.start_conversation({
-        message: params[:message], 
-        from: user
-      })
-    else
-      # return a conversation with empty messages , if any or create new one
-      # this is to avoid multiple empty convos
-      @conversation = user.conversations
-                          .left_joins(:messages)
-                          .where(conversation_parts: {id: nil})
-                          .uniq
-                          .first || @app.conversations.create(main_participant: user)
-    end
-    render :show
   end
 
-  def update
-    @app = App.find_by(key: params[:app_id])
-    @conversation = @app.conversations.find(params[:id])
-    @message = @conversation.add_message({
-      from: find_user(params[:email]),
-      message: params[:message]
-    })
-    render :show
-  end
-=end
-
-private
   def find_user(email)
     @app.app_users.joins(:user).where(["users.email =?", email ]).first  
   end

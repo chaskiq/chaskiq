@@ -5,10 +5,8 @@ import ReactDOM from 'react-dom'
 import PropTypes from 'prop-types'
 import actioncable from "actioncable"
 import axios from "axios"
-import {convertToHTML} from 'draft-convert'
-//import Editor from './editor.js'
 
-import UnicornEditor from './editor4.js'
+import UnicornEditor from './editor.js'
 import gravatar from "gravatar"
 import Moment from 'react-moment';
 import { soundManager } from 'soundmanager2'
@@ -53,6 +51,7 @@ class Messenger extends Component {
 
   constructor(props){
     super(props)
+
     this.state = {
       conversation: {},
       conversation_messages: [],
@@ -64,10 +63,33 @@ class Messenger extends Component {
       isMinimized: false,
     }
 
+    const data = {
+      referrer: window.location.path,
+      email: this.props.email,
+      properties: this.props.properties
+    }
+
+    this.defaultHeaders = {
+      user_data: JSON.stringify(data)
+    }
+
+    this.defaultCableData = {
+      app: this.props.app_id,
+      email: this.props.email,
+      properties: this.props.properties
+    }
+
+    if(this.props.encryptedMode){
+      this.defaultHeaders = { enc_data: this.props.encData }
+      this.defaultCableData = { app: this.props.app_id, enc_data: this.props.encData }
+    }
+
     this.axiosInstance = axios.create({
       baseURL: `${this.props.domain}`,
+      headers: this.defaultHeaders
       /* other custom settings */
     });
+    
 
     App = {
       cable: actioncable.createConsumer(`${this.props.ws}`)
@@ -82,6 +104,7 @@ class Messenger extends Component {
     this.setconversation = this.setconversation.bind(this)
 
     this.overflow = null
+    this.commentWrapperRef = React.createRef();
   }
 
   componentDidMount(){
@@ -100,6 +123,10 @@ class Messenger extends Component {
       this.conversationSubscriber()
   }
 
+  cableDataFor =(opts)=>{
+    return Object.assign({}, this.defaultCableData, opts)
+  }
+
   playSound = () => {
     soundManager.createSound({
       id: 'mySound',
@@ -114,12 +141,7 @@ class Messenger extends Component {
   }
 
   eventsSubscriber(){
-    App.events = App.cable.subscriptions.create({
-      channel: "PresenceChannel",
-      app: this.props.app_id,
-      email: this.props.email,
-      properties: this.props.properties
-    },
+    App.events = App.cable.subscriptions.create(this.cableDataFor({channel: "PresenceChannel"}),
     {
         connected: ()=> {
           console.log("connected to presence")
@@ -140,11 +162,9 @@ class Messenger extends Component {
   }
 
   scrollToLastItem = ()=>{
-    /*if(!this.overflow)
-      return*/
-
-    this.refs.commentsWrapper.scrollTop = this.refs.commentsWrapper.scrollHeight 
-    //this.overflow.scrollTop = this.overflow.scrollHeight;
+    if(!this.overflow)
+      return
+    this.overflow.scrollTop = this.overflow.scrollHeight 
   }
 
   unsubscribeFromConversation = ()=>{
@@ -154,15 +174,12 @@ class Messenger extends Component {
   }
 
   conversationSubscriber(){
-
     this.unsubscribeFromConversation()
-
-    App.conversations = App.cable.subscriptions.create({
-      channel: "ConversationsChannel",
-      app: this.props.app_id,
-      id: this.state.conversation.id,
-      email: this.props.email,
-    },
+    App.conversations = App.cable.subscriptions.create(
+      this.cableDataFor({
+        channel: "ConversationsChannel", 
+        id: this.state.conversation.id,
+      }),
     {
       connected: ()=> {
         console.log("connected to conversations")
@@ -224,9 +241,7 @@ class Messenger extends Component {
       properties: this.props.properties
     }
 
-    this.axiosInstance.get(`/api/v1/apps/${this.props.app_id}/messages.json`, {
-      headers: { user_data: JSON.stringify(data) }
-    })
+    this.axiosInstance.get(`/api/v1/apps/${this.props.app_id}/messages.json`)
       .then((response) => {
         //this.setState({ availableMessage: response.data.message })
         if (cb)
@@ -253,9 +268,7 @@ class Messenger extends Component {
         properties: this.props.properties
       }
 
-      this.axiosInstance.get(`/api/v1/apps/${this.props.app_id}/messages/${firstKey}.json`, {
-        headers: { user_data: JSON.stringify(data) }
-      })
+      this.axiosInstance.get(`/api/v1/apps/${this.props.app_id}/messages/${firstKey}.json`)
         .then((response) => {
           this.setState({ availableMessage: response.data.message })
           if (cb)
@@ -269,13 +282,7 @@ class Messenger extends Component {
   }
 
   ping(cb){
-    this.axiosInstance.post(`/api/v1/apps/${this.props.app_id}/ping`, {
-        user_data: {
-          referrer: window.location.path,
-          email: this.props.email,
-          properties: this.props.properties
-        }
-      })
+    this.axiosInstance.post(`/api/v1/apps/${this.props.app_id}/ping`)
       .then( (response)=> {
         this.setState({
           appData: response.data.app
@@ -310,7 +317,6 @@ class Messenger extends Component {
     const id = this.state.conversation.id
     this.axiosInstance.put(`/api/v1/apps/${this.props.app_id}/conversations/${id}.json`, {
       email: this.props.email,
-      id: id,
       message: comment
     })
     .then( (response)=> {
@@ -346,9 +352,7 @@ class Messenger extends Component {
       properties: this.props.properties
     }
     
-    this.axiosInstance.get(`/api/v1/apps/${this.props.app_id}/conversations.json`, {
-        headers: { user_data: JSON.stringify(data) }
-      })
+    this.axiosInstance.get(`/api/v1/apps/${this.props.app_id}/conversations.json`)
       .then( (response)=> {
         this.setState({
           conversations: response.data.collection
@@ -361,9 +365,7 @@ class Messenger extends Component {
   }
 
   setconversation(id , cb){
-    this.axiosInstance.get(`/api/v1/apps/${this.props.app_id}/conversations/${id}.json`, {
-        email: this.props.email,
-      })
+    this.axiosInstance.get(`/api/v1/apps/${this.props.app_id}/conversations/${id}.json`)
       .then( (response)=> {
         this.setState({
           conversation: response.data.conversation,
@@ -420,204 +422,206 @@ class Messenger extends Component {
   render(){
     console.log(this.state.isMinimized)
     return <ThemeProvider theme={{ mode: 'dark' }}>
-              <EditorWrapper>
+            <EditorWrapper>
 
-                <Container open={this.state.open}>
-                  {
-                    this.state.open ?  
-                      <StyledFrame
-                        style={{
-                          display: 'block',
-                          overflow: 'scroll',
-                          border: '0px',
-                          zIndex: '10000',
-                          position: 'absolute',
-                          width: '320px',
-                          margin: '0px auto',
-                          height: '395px',
-                          bottom: '83px',
-                        }}> 
-                        <Fragment>              
-                          <Header>
-                            <HeaderOption>
-                              { this.state.display_mode === "conversation" ? 
-                                <LeftIcon 
-                                  onClick={this.displayConversationList.bind(this)}
-                                  style={{margin: '20px', cursor: 'pointer'}}
-                                /> : null 
-                              }
-                              <span style={{marginLeft: '20px'}}>
-                                Hello {this.props.name}!
-                              </span>
-                              {/*this.props.app_id*/}
-                            </HeaderOption>
-                          </Header>
-                          <Body>
-
-                            {
-                              this.state.display_mode === "conversation" ? 
-                                <EditorSection>
-
-                                  <CommentsWrapper ref="commentsWrapper" innerRef={comp => this.overflow = comp}>
-                                    {
-                                      this.state.conversation_messages.map((o,i)=>{
-                                        return <MessageItemWrapper 
-                                                  email={this.props.email}
-                                                  key={o.id} 
-                                                  data={o}>
-                                                <MessageItem
-                                                  className={this.state.conversation.main_participant.email === o.app_user.email ? 'user' : 'admin'}>
-                                                  <ChatAvatar>
-                                                    <img src={gravatar.url(o.app_user.email)}/>
-                                                  </ChatAvatar>
-
-                                                  <div  
-                                                    key={i}
-                                                    className="text"
-                                                    dangerouslySetInnerHTML={{__html: o.message}} 
-                                                  />
-                                                  <span className="status">
-                                                    {
-                                                      o.read_at ? 
-                                                        <Moment fromNow>
-                                                          {o.read_at}
-                                                        </Moment> : <span>not seen</span>
-                                                    }
-                                                  </span>
-                                                </MessageItem>
-                                              </MessageItemWrapper>
-
-                                      })
-                                    }
-                                  </CommentsWrapper>
-                                  
-                                  <Footer>
-                                    <UnicornEditor 
-                                      insertComment={this.insertComment}
-                                    />
-                                    { /*
-                                      <HappinessIcon/>
-                                      <AttachmentIcon/>
-                                      */
-                                    }
-                                    <PaperPlaneIcon style={{ padding: '14px'}}/>
-                                  </Footer>
-                                </EditorSection> : null
-                            } 
-
-                            {
-                              this.state.display_mode === "conversations" ? 
-                                <div>
-                                  <CommentsWrapper>
-                                    {
-                                      this.state.conversations.map((o,i)=>{
-                                        
-                                        const message = o.last_message
-                                        return <CommentsItem key={o.id}
-                                                    onClick={(e)=>{this.displayConversation(e, o)}}> 
-                                                    
-                                                  {
-                                                    message ? 
-                                                      <ConversationSummary>
-                                                        
-                                                        <ConversationSummaryAvatar>
-                                                          <img src={gravatar.url(message.app_user.email)}/>
-                                                        </ConversationSummaryAvatar>
-
-                                                        <ConversationSummaryBody>
-
-                                                          <ConversationSummaryBodyMeta>
-                                                            <Autor>
-                                                              {message.app_user.email}
-                                                            </Autor>
-                                                            <Moment fromNow style={{ float: 'right',
-                                                                                                    color: '#ccc',
-                                                                                                    width: '88px',
-                                                                                                    margin: '0px 10px',
-                                                                                                    textTransform: 'unset'}}>
-                                                                                                    {o.created_at}</Moment> 
-                                                          </ConversationSummaryBodyMeta>
-
-                                                          <ConversationSummaryBodyContent dangerouslySetInnerHTML={{__html: message.message}} />
-                                                        </ConversationSummaryBody>
-                                                      </ConversationSummary> : null 
-                                                  }
-                                                </CommentsItem>
-
-                                                  
-                                      })
-                                    }
-                                  </CommentsWrapper>
-
-                                  <Hint>
-                                    We make it simple and seamless for businesses and people to talk to each other. Ask us anything
-                                  </Hint>
-
-                                  <NewConvoBtn onClick={this.displayNewConversation.bind(this)}>
-                                    create new conversation
-                                  </NewConvoBtn>
-
-                                </div>
-                                : null 
-                            }
-                          </Body> 
-                        </Fragment>
-                      </StyledFrame> : <div/>
-                    }  
-                </Container> 
-
+              <Container open={this.state.open}>
                 {
-                    this.state.appData && this.state.appData.active_messenger == "on" ?
-                    <StyledFrame style={{
-                        zIndex: '10000000',
-                        position: 'absolute',
-                        bottom: '-22px',
-                        height: '100px',
-                        right: '-13px',
-                        width: '88px'
-                      }}>
-                      <Prime onClick={this.toggleMessenger}>
-                        <div style={{
-                          transition: 'all .2s ease-in-out',
-                          transform: !this.state.open ? '' : 'rotate(180deg)',
-                        }}>
-
-                          {
-                            !this.state.open ?
-                            
-                              <MessageIcon style={{ 
-                                height: '43px',
-                                width: '36px',
-                                margin: '8px 0px'
-                              }}/> : <CloseIcon style={{
-                                      height: '26px',
-                                      width: '21px',
-                                      margin: '11px 0px'
-                                    }}
-                              />
-                          }
-                        </div>
-                      </Prime>  
-                    </StyledFrame> : null
-                }
-
-
-
-                {
-                  this.state.availableMessage ? 
-                    <StyledFrame id="messageFrame"
+                  this.state.open ?  
+                    <StyledFrame
                       style={{
                         display: 'block',
                         overflow: 'scroll',
                         border: '0px',
-                        zIndex: '1000',
-                        height: this.state.isMinimized ? '100px' : '100vh',
-                        width: '100%',
+                        zIndex: '10000',
                         position: 'absolute',
-                        bottom: '-14px',
-                        right: '-14px',
-                        boxShadow: '1px 1px 100px 2px rgba(0,0,0,0.22)'
+                        width: '320px',
+                        margin: '0px auto',
+                        height: '395px',
+                        bottom: '83px',
+                      }}> 
+                      <Fragment>              
+                        <Header>
+                          <HeaderOption>
+                            { this.state.display_mode === "conversation" ? 
+                              <LeftIcon 
+                                onClick={this.displayConversationList.bind(this)}
+                                style={{margin: '20px', cursor: 'pointer'}}
+                              /> : null 
+                            }
+                            <span style={{marginLeft: '20px'}}>
+                              Hello {this.props.name}!
+                            </span>
+                            {/*this.props.app_id*/}
+                          </HeaderOption>
+                        </Header>
+                        <Body>
+
+                          {
+                            this.state.display_mode === "conversation" ? 
+                              <EditorSection>
+
+                                <CommentsWrapper 
+                                  ref={this.commentWrapperRef}
+                                  innerRef={comp => this.overflow = comp}>
+                                  {
+                                    this.state.conversation_messages.map((o,i)=>{
+                                      return <MessageItemWrapper 
+                                                email={this.props.email}
+                                                key={o.id} 
+                                                data={o}>
+                                              <MessageItem
+                                                className={this.state.conversation.main_participant.email === o.app_user.email ? 'user' : 'admin'}>
+                                                <ChatAvatar>
+                                                  <img src={gravatar.url(o.app_user.email)}/>
+                                                </ChatAvatar>
+
+                                                <div  
+                                                  key={i}
+                                                  className="text"
+                                                  dangerouslySetInnerHTML={{__html: o.message}} 
+                                                />
+                                                <span className="status">
+                                                  {
+                                                    o.read_at ? 
+                                                      <Moment fromNow>
+                                                        {o.read_at}
+                                                      </Moment> : <span>not seen</span>
+                                                  }
+                                                </span>
+                                              </MessageItem>
+                                            </MessageItemWrapper>
+
+                                    })
+                                  }
+                                </CommentsWrapper>
+                                
+                                <Footer>
+                                  <UnicornEditor 
+                                    insertComment={this.insertComment}
+                                  />
+                                  { /*
+                                    <HappinessIcon/>
+                                    <AttachmentIcon/>
+                                    */
+                                  }
+                                  <PaperPlaneIcon style={{ padding: '14px'}}/>
+                                </Footer>
+                              </EditorSection> : null
+                          } 
+
+                          {
+                            this.state.display_mode === "conversations" ? 
+                              <div>
+                                <CommentsWrapper>
+                                  {
+                                    this.state.conversations.map((o,i)=>{
+                                      
+                                      const message = o.last_message
+                                      return <CommentsItem key={o.id}
+                                                  onClick={(e)=>{this.displayConversation(e, o)}}> 
+                                                  
+                                                {
+                                                  message ? 
+                                                    <ConversationSummary>
+                                                      
+                                                      <ConversationSummaryAvatar>
+                                                        <img src={gravatar.url(message.app_user.email)}/>
+                                                      </ConversationSummaryAvatar>
+
+                                                      <ConversationSummaryBody>
+
+                                                        <ConversationSummaryBodyMeta>
+                                                          <Autor>
+                                                            {message.app_user.email}
+                                                          </Autor>
+                                                          <Moment fromNow style={{ float: 'right',
+                                                                                                  color: '#ccc',
+                                                                                                  width: '88px',
+                                                                                                  margin: '0px 10px',
+                                                                                                  textTransform: 'unset'}}>
+                                                                                                  {o.created_at}</Moment> 
+                                                        </ConversationSummaryBodyMeta>
+
+                                                        <ConversationSummaryBodyContent dangerouslySetInnerHTML={{__html: message.message}} />
+                                                      </ConversationSummaryBody>
+                                                    </ConversationSummary> : null 
+                                                }
+                                              </CommentsItem>
+
+                                                
+                                    })
+                                  }
+                                </CommentsWrapper>
+
+                                <Hint>
+                                  We make it simple and seamless for businesses and people to talk to each other. Ask us anything
+                                </Hint>
+
+                                <NewConvoBtn onClick={this.displayNewConversation.bind(this)}>
+                                  create new conversation
+                                </NewConvoBtn>
+
+                              </div>
+                              : null 
+                          }
+                        </Body> 
+                      </Fragment>
+                    </StyledFrame> : <div/>
+                  }  
+              </Container> 
+
+              {
+                  this.state.appData && this.state.appData.active_messenger == "on" ?
+                  <StyledFrame style={{
+                      zIndex: '10000000',
+                      position: 'absolute',
+                      bottom: '-22px',
+                      height: '100px',
+                      right: '-13px',
+                      width: '88px'
+                    }}>
+                    <Prime onClick={this.toggleMessenger}>
+                      <div style={{
+                        transition: 'all .2s ease-in-out',
+                        transform: !this.state.open ? '' : 'rotate(180deg)',
                       }}>
+
+                        {
+                          !this.state.open ?
+                          
+                            <MessageIcon style={{ 
+                              height: '43px',
+                              width: '36px',
+                              margin: '8px 0px'
+                            }}/> : <CloseIcon style={{
+                                    height: '26px',
+                                    width: '21px',
+                                    margin: '11px 0px'
+                                  }}
+                            />
+                        }
+                      </div>
+                    </Prime>  
+                  </StyledFrame> : null
+              }
+
+
+
+              {
+                this.state.availableMessage ? 
+                  <StyledFrame id="messageFrame"
+                    style={{
+                      display: 'block',
+                      overflow: 'scroll',
+                      border: '0px',
+                      zIndex: '1000',
+                      height: this.state.isMinimized ? '100px' : '100vh',
+                      width: '100%',
+                      position: 'absolute',
+                      bottom: '-14px',
+                      right: '-14px',
+                      boxShadow: '1px 1px 100px 2px rgba(0,0,0,0.22)'
+                    }}>
                     <div>
                       {
                         <UserAutoMessage open={true}>
@@ -626,7 +630,7 @@ class Messenger extends Component {
                             toggleMinimize={this.toggleMinimize}
                             availableMessage={this.state.availableMessage}
                           />
-                         </UserAutoMessage>
+                        </UserAutoMessage>
                       }
 
 
@@ -639,18 +643,13 @@ class Messenger extends Component {
                             style={{border: "0px"}}>
                           </iframe>*/
                         }
-                        
-                      ajajajaj
-                     
+                    
                     </div>
-                    </StyledFrame>: <div/>
-                }
-                
-         
-
-
-           </EditorWrapper>
-            </ThemeProvider>
+                  </StyledFrame>: <div/>
+              }
+              
+            </EditorWrapper>
+          </ThemeProvider>
           }
 }
 

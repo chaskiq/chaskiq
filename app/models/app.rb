@@ -20,12 +20,17 @@ class App < ApplicationRecord
 
   store_accessor :preferences, [:active_messenger, :domain_url]
 
+  def encryption_enabled?
+    self.encryption_key.present?
+  end
+
   def config_fields
     [
       {name: "name", type: 'string'} ,
       {name: "domain_url", type: 'string'} ,
       {name: "state", type: "select", options: ["enabled", "disabled" ]},
-      {name: "active_messenger", type: 'bool'}
+      {name: "active_messenger", type: 'bool'},
+      {name: "encryption_key", type: 'string', maxLength: 16, minLength: 16, placeholder: "leave it blank for no encryption"} 
     ]
   end
 
