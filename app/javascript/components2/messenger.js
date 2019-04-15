@@ -264,8 +264,6 @@ class Messenger extends Component {
         .catch((error) => {
           console.log(error);
         });
-
-
     })
 
   }
@@ -341,8 +339,15 @@ class Messenger extends Component {
   }
 
   getConversations(cb){
+
+    const data = {
+      referrer: window.location.path,
+      email: this.props.email,
+      properties: this.props.properties
+    }
+    
     this.axiosInstance.get(`/api/v1/apps/${this.props.app_id}/conversations.json`, {
-        email: this.props.email,
+        headers: { user_data: JSON.stringify(data) }
       })
       .then( (response)=> {
         this.setState({
@@ -599,7 +604,8 @@ class Messenger extends Component {
 
                 {
                   this.state.availableMessage ? 
-                    <StyledFrame style={{
+                    <StyledFrame id="messageFrame"
+                      style={{
                         display: 'block',
                         overflow: 'scroll',
                         border: '0px',

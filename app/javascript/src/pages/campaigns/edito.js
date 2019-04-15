@@ -402,6 +402,7 @@ export default class CampaignEditor extends Component {
                           style="${containerS}">
                           <a href="${href}"
                             className="btn"
+                            target="_blank"
                             ref="btn"
                             style="${buttonS}">`,
             end: `</a>

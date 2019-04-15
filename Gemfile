@@ -57,6 +57,8 @@ gem "roo"
 gem "ruby-oembed"
 gem "http"
 gem "mustache"
+gem "jwt"
+gem "jwe"
 
 
 
