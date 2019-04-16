@@ -568,7 +568,7 @@ class Messenger extends Component {
                   }  
               </Container> 
 
-              { /*
+              { 
                   this.state.appData && this.state.appData.active_messenger == "on" ?
                   <StyledFrame style={{
                       zIndex: '10000000',
@@ -601,7 +601,7 @@ class Messenger extends Component {
                       </div>
                     </Prime>  
                   </StyledFrame> : null
-              */}
+              }
 
 
               {
