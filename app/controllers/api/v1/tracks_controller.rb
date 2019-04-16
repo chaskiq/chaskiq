@@ -2,7 +2,6 @@ require 'URLcrypt'
 
 class Api::V1::TracksController < ActionController::API
   before_action :find_app
-
   before_action :find_campaign
 
   #http://localhost:3000/chaskiq/campaigns/1/tracks/1/[click|open|bounce|spam].gif
@@ -27,6 +26,15 @@ class Api::V1::TracksController < ActionController::API
       data: params[:r] 
     })
     redirect_to params[:r]
+  end
+
+  def close
+    find_subscriber
+    @subscriber.track_close({ 
+      host: request.referer, 
+      campaign_id: @campaign.id
+    })
+    head :ok
   end
 
 private
