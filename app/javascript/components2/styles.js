@@ -342,12 +342,18 @@ const Container = styled.div`
 
   @media (max-width: 500px) {
 
+    .graf--p {
+      font-size: 0.7em;
+    }
+
     .graf--h2 {
       font-size: 1.6em;
+      margin-top: 18px;
+      margin-bottom: 18px;
     }
     .graf--h3 {
       font-size: 1.3em;
-      margin-top: 25px;
+      margin-top: 12px;
     }
     .graf--h4 {
       font-size: 1.2em;
