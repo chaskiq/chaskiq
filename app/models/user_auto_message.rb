@@ -50,8 +50,12 @@ class UserAutoMessage < Message
 
   # or closed or consumed 
   def available_for_user?(user_id)
-    self.available_segments.find(user_id) && 
-    self.metrics.where(action: self.hidden_constraints , message_id: user_id ).empty?
+    begin
+      self.available_segments.find(user_id) && 
+      self.metrics.where(action: self.hidden_constraints , message_id: user_id ).empty?
+    rescue ActiveRecord::RecordNotFound
+      false
+    end
   end
 
   def show_notification_for(user)

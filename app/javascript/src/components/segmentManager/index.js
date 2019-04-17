@@ -361,6 +361,7 @@ export class InlineFilterDialog extends Component {
       {name: "last_visited_at", type: "date"},
       {name: "referrer", type: "string"},
       { name: "pro", type: "string" },
+      { name: "role", type: "string" },
       { name: "plan", type: "string" },
       {name: "state", type: "string"},
       {name: "ip", type: "string"},        

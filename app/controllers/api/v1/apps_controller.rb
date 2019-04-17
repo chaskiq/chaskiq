@@ -22,6 +22,8 @@ class Api::V1::AppsController < ApiController
     browser = Browser.new(request.user_agent, accept_language: request.accept_language)
     language = browser.accept_language.first
 
+    get_user_data
+
     browser_params = {
       referrer:         request.referrer,
       ip:               request.remote_ip,
@@ -35,10 +37,11 @@ class Api::V1::AppsController < ApiController
       browser_version:  browser.version,
       os:               browser.platform.id,
       os_version:       browser.platform.version,
-      browser_language: language.try(:code)
+      browser_language: language.try(:code),
+      lang:             @user_data[:properties].present? ? @user_data[:properties].fetch("lang") : nil
     }
 
-    get_user_data
+    
 
     # resource_params.to_h.merge(request.location.data)
     #data = resource_params.to_h.deep_merge(browser_params)
