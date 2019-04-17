@@ -23,7 +23,7 @@ class UserAutoMessage < Message
       {name: "subject", type: 'text'} ,
       {name: "description", type: 'text'},
       {name: "hidden_constraints", type: "select", 
-        options: ["closed", "click", "viewed" ], 
+        options: ["close", "click", "viewed" ], 
         multiple: true,
         default: "click"
       },
@@ -46,6 +46,10 @@ class UserAutoMessage < Message
                 {name: "close", color: "#0747A6"}] 
       },
     ]
+  end
+
+  def track_url
+    host + "/campaigns/#{self.id}/tracks/#{subscriber.encoded_id}"
   end
 
   # or closed or consumed 

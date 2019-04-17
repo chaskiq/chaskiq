@@ -5,7 +5,7 @@ const dante_font_family_sans = `'jaf-bernino-sans', 'Open Sans', "Lucida Grande"
 const dante_font_family_mono = `Menlo, Monaco, Consolas, "Courier New", "Courier", monospace;`
 
 const dante_font_family_base = dante_font_family_sans;
-const dante_font_size_base =  '14px';
+const dante_font_size_base =  '12px';
 const line_height_base =     '1.428571429'; // 20/14
 
 
@@ -16,7 +16,7 @@ const tooltip_background_opacity = '0';
 const tooltip_border_width = '1px';
 const tooltip_border_radius = '999em';
 
-const tooltip_button_spacing = '9px';
+const tooltip_button_spacing = '5px';
 const tooltip_menu_spacing = 22;
 
 const tooltip_items = 10; // Fix this and remove it

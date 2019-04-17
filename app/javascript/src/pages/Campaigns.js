@@ -14,6 +14,7 @@ import Avatar from '@atlaskit/avatar';
 import styled from 'styled-components'
 import axios from 'axios'
 import serialize from 'form-serialize'
+import Lozenge from '@atlaskit/lozenge'
 
 import CampaignSettings from "./campaigns/settings"
 import CampaignEditor from "./campaigns/edito"
@@ -422,7 +423,11 @@ class DataTable extends Component<{}, {}> {
         },
         {
           key: `${campaign.id}-state`,
-          content: campaign.state,
+          content: <Lozenge
+                    appearance={campaign.state == "enabled" ? 'success' : 'moved'}
+                    isBold>
+                    {campaign.state}
+                  </Lozenge>,
         },
         {
           key: `${campaign.id}-scheduled_at`,

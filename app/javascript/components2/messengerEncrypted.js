@@ -26,12 +26,12 @@ export default class HermessengerEncrypted {
     this.axiosInstance.post(`/api/v1/apps/${this.props.app_id}/auth`).then((response) => {
       const messenger = new Hermessenger(Object.assign({}, response.data, {
         encData: this.props.data,
-        encryptedMode: true
+        encryptedMode: true 
       }))
       messenger.render()
     })
-      .catch((error) => {
+    .catch((error) => {
         console.log(error);
-      });
+    });
   }
 } 

@@ -561,9 +561,9 @@ export default class CampaignEditor extends Component {
           return (<figure className="graf--figure graf--iframe graf--first" tabindex="0">
                       <div className="iframeContainer">
                         <video 
-                          autoplay="" 
+                          autoplay={false} 
                           style={{width:"100%" }}
-                          controls="" 
+                          controls={true} 
                           src={block.data.url}>
                         </video>
                       </div>

@@ -77,9 +77,11 @@ const InnerStyle = styled.div`
   }
   .close a {
     display: inline-block;
-    padding: 1rem;
+    padding: 0.5rem;
     color: #DEA007;
-    font-size: 1.4rem;
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    font-family: sans-serif;
   }
   small {
     display: inline-block;
@@ -154,6 +156,11 @@ export default class Quest extends React.Component  {
     this.props.toggleMinimize(ev)
   }
 
+  handleClose = (ev)=>{
+    ev.preventDefault()
+    this.props.handleClose(ev)
+  }
+
   render(){
     return <IntroStyle initialPose="exit" pose="enter">
           <InnerStyle>
@@ -163,9 +170,14 @@ export default class Quest extends React.Component  {
               <div className="close">
                 {/* eslint-disable-next-line */}
                 <a href="" onClick={this.handleMinus}>
-                  {!this.props.isMinimized ? 'minimize' : 'close'}
+                  {!this.props.isMinimized ? 'minimize' : 'expand'}
                 </a>
-                <small>&nbsp;▓</small>
+                {
+                  this.props.isMinimized ? 
+                  <a href="" onClick={this.handleClose}>
+                    dismiss
+                  </a> : null
+                }
               </div>
 
               <code className="title">

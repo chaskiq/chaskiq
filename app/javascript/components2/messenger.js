@@ -105,6 +105,7 @@ class Messenger extends Component {
 
     this.overflow = null
     this.commentWrapperRef = React.createRef();
+
   }
 
   componentDidMount(){
@@ -257,8 +258,11 @@ class Messenger extends Component {
 
     this.getAvailables((collection)=>{
       
-      if(collection.length === 0)
+      if(collection.length === 0){
+        this.setState({availableMessage: null})
         return
+
+      }
 
       const firstKey = collection[0].id
 
@@ -414,13 +418,7 @@ class Messenger extends Component {
     this.setState({open: !this.state.open})
   }
 
-  toggleMinimize = (e)=>{
-    this.setState({ isMinimized: !this.state.isMinimized })
-  }
-
-
   render(){
-    console.log(this.state.isMinimized)
     return <ThemeProvider theme={{ mode: 'dark' }}>
             <EditorWrapper>
 
@@ -570,7 +568,7 @@ class Messenger extends Component {
                   }  
               </Container> 
 
-              {
+              { 
                   this.state.appData && this.state.appData.active_messenger == "on" ?
                   <StyledFrame style={{
                       zIndex: '10000000',
@@ -606,51 +604,127 @@ class Messenger extends Component {
               }
 
 
-
               {
                 this.state.availableMessage ? 
-                  <StyledFrame id="messageFrame"
-                    style={{
-                      display: 'block',
-                      overflow: 'scroll',
-                      border: '0px',
-                      zIndex: '1000',
-                      height: this.state.isMinimized ? '100px' : '100vh',
-                      width: '100%',
-                      position: 'absolute',
-                      bottom: '-14px',
-                      right: '-14px',
-                      boxShadow: '1px 1px 100px 2px rgba(0,0,0,0.22)'
-                    }}>
-                    <div>
-                      {
-                        <UserAutoMessage open={true}>
-                          <MessageContainer
-                            minimize={this.state.isMinimized}
-                            toggleMinimize={this.toggleMinimize}
-                            availableMessage={this.state.availableMessage}
-                          />
-                        </UserAutoMessage>
-                      }
-
-
-                        {
-                          /*
-                          <iframe frameborder="0" height="100%"
-                            src="https://prey.typeform.com/to/TxwKrk?typeform-embed=embed-widget&amp;typeform-embed-id=atsi1" 
-                            width="100%"
-                            data-qa="iframe" 
-                            style={{border: "0px"}}>
-                          </iframe>*/
-                        }
-                    
-                    </div>
-                  </StyledFrame>: <div/>
+                  <MessageFrame 
+                    appId={this.props.app_id}
+                    getMessage={this.getMessage}
+                    axiosInstance={this.axiosInstance}
+                    availableMessage={this.state.availableMessage}
+                  /> : <div/>
               }
               
             </EditorWrapper>
           </ThemeProvider>
           }
+}
+
+
+class MessageFrame extends Component {
+
+  constructor(props){
+    super(props)
+    this.defaultMinized = false
+    this.state = {
+      isMinimized: this.fetchMinizedCache()
+    }
+  }
+
+  toggleMinimize = (e) => {
+    const val = !this.state.isMinimized
+    console.log("toggle, ", val, "old ", this.state.isMinimized)
+    this.cacheMinized(val)
+    this.setState({ isMinimized: val })
+  }
+
+  messageCacheKey = (id) => {
+    return `hermes-message-${id}`
+  }
+
+  cacheMinized = (val) => {
+    const key = this.messageCacheKey(this.props.availableMessage.id)
+    console.log("minimize", key, val)
+    //if (this.localStorageEnabled)
+    localStorage.setItem(key, val);
+  }
+
+  fetchMinizedCache = () => {
+    if (!this.props.availableMessage)
+      return false
+
+    const key = this.messageCacheKey(this.props.availableMessage.id)
+
+    let val = localStorage.getItem(key);
+
+    switch (val) {
+      case "false":
+        return false
+      case "true":
+        return true
+      default:
+        return this.defaultMinized
+    }
+  }
+
+  handleClose = ()=>{
+    //link_prefix = host + "/campaigns/#{self.id}/tracks/#{subscriber.encoded_id}/click?r="
+    const appId = this.props.appId
+    const messageId = this.props.availableMessage.id
+    const trackUrl = this.props.availableMessage.user_track_url
+    const url = `/api/v1/apps/${appId}/messages/${messageId}/tracks/${trackUrl}/close.json`
+    //const url = `/api/v1/apps/6HRp88sVKu5LI2bE7mHahw/messages/2/tracks/nvAw48lfnr1h17tfpfAhcltdn8wq/close`
+    this.props.axiosInstance.get(url, {r: 'close'})
+    .then((response) => {
+      console.log("handle close!!!")
+      this.props.getMessage()
+      //this.setState({ availableMessage: response.data.message })
+    })
+    .catch((error) => {
+      console.log(error);
+    });
+  }
+
+
+  render(){
+    return <StyledFrame id="messageFrame"
+      style={{
+        display: 'block',
+        overflow: 'scroll',
+        border: '0px',
+        zIndex: '1000',
+        height: this.fetchMinizedCache() ? '100px' : '70vh',
+        width: '100%',
+        position: 'absolute',
+        bottom: '-14px',
+        right: '-14px',
+        boxShadow: '1px 1px 100px 2px rgba(0,0,0,0.22)'
+      }}>
+      <div>
+        {
+          <UserAutoMessage open={true}>
+            <MessageContainer
+              isMinimized={this.state.isMinimized}
+              toggleMinimize={this.toggleMinimize}
+              handleClose={this.handleClose}
+              availableMessage={this.props.availableMessage}
+            />
+          </UserAutoMessage>
+        }
+
+
+        {
+          /*
+          <iframe frameborder="0" height="100%"
+            src="https://prey.typeform.com/to/TxwKrk?typeform-embed=embed-widget&amp;typeform-embed-id=atsi1" 
+            width="100%"
+            data-qa="iframe" 
+            style={{border: "0px"}}>
+          </iframe>*/
+        }
+
+      </div>
+    </StyledFrame>
+  }
 }
 
 class MessageContainer extends Component {

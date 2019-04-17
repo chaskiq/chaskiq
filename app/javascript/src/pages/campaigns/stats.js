@@ -3,6 +3,8 @@ import axios from "axios"
 import DynamicTable from '@atlaskit/dynamic-table'
 import Moment from 'react-moment';
 import Lozenge from "@atlaskit/lozenge"
+import Button from '@atlaskit/button';
+
 import DropdownMenu, {
   DropdownItemGroup,
   DropdownItem,
@@ -82,6 +84,37 @@ export default class CampaignStats extends Component {
     };
   };
 
+  renderLozenge = (item)=>{
+    let kind = "default"
+
+    /*
+      "default",
+      "inprogress",
+      "moved",
+      "new",
+      "removed",
+      "success",
+    */
+
+    switch (item.action) {
+      case "click":
+        kind = "success"
+        break
+      case "viewed":
+        kind = "inprogress"
+        break
+      case "close":
+        kind = "removed"
+        break
+      default:
+        break;
+    }
+
+    return <Lozenge appearance={kind}>
+      {item.action}
+    </Lozenge>
+  }
+
   getTableData(){
 
     const head = this.createHead(true);
@@ -92,9 +125,7 @@ export default class CampaignStats extends Component {
         cells: [
           {
             key: `action-${metric.id}-${index}`,
-            content: (<Lozenge appearance={"default"}>
-                      {metric.action}
-                      </Lozenge>),
+            content: (this.renderLozenge(metric) ),
           },
           {
             key: `email-${metric.email}-${index}`,
@@ -146,7 +177,6 @@ export default class CampaignStats extends Component {
   }
 
   getData = ()=>{
-    console.log(this.props)
     const url = `${this.props.url}/metrics.json?mode=${this.props.mode}&page=${this.state.meta.next_page || 1}`
     this.setState({loading: true})
     axios.get(url)
@@ -180,7 +210,6 @@ export default class CampaignStats extends Component {
   }
 
   purgeMetrics = ()=>{
-    console.log(this.props)
     const url = `${this.props.url}/metrics/purge.json?mode=${this.props.mode}`
 
     axios.get(url)
@@ -213,25 +242,26 @@ export default class CampaignStats extends Component {
               {
                 this.props.data.stats_fields.map((o)=>{
                   return <PieItem>
-                    <CampaignChart data={this.getRateFor(o)}
-                    />
-                  </PieItem>
+                            <CampaignChart data={this.getRateFor(o)}/>
+                          </PieItem>
                 })
               }
 
               </PieContainer>
-              
-              <button
-                aria-expanded="true"
-                aria-haspopup="true"
-                className="btn dropdown-toggle"
-                data-toggle="dropdown"
-                id="button-font-color"
-                ref="btn"
-                type="button" 
+
+
+            <div>
+              <Button
+                spacing={"compact"}
+                appearance={"danger"}
                 onClick={this.purgeMetrics}>
                 purge metrics
-              </button>
+              </Button>
+            </div>
+
+            <hr/>
+
+            
 
               {
                 !this.state.loading ? 

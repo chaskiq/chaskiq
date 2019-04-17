@@ -74,10 +74,11 @@ Rails.application.routes.draw do
 
           resources :tracks, controller: "api/v1/tracks" do
             member do
-              get :click
               get :open
               get :bounce
               get :spam
+              get :click
+              get :close
             end
           end
 
