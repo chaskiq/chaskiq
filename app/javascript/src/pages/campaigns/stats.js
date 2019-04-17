@@ -3,6 +3,8 @@ import axios from "axios"
 import DynamicTable from '@atlaskit/dynamic-table'
 import Moment from 'react-moment';
 import Lozenge from "@atlaskit/lozenge"
+import Button from '@atlaskit/button';
+
 import DropdownMenu, {
   DropdownItemGroup,
   DropdownItem,
@@ -220,18 +222,20 @@ export default class CampaignStats extends Component {
               }
 
               </PieContainer>
-              
-              <button
-                aria-expanded="true"
-                aria-haspopup="true"
-                className="btn dropdown-toggle"
-                data-toggle="dropdown"
-                id="button-font-color"
-                ref="btn"
-                type="button" 
+
+
+            <div>
+              <Button
+                spacing={"compact"}
+                appearance={"danger"}
                 onClick={this.purgeMetrics}>
                 purge metrics
-              </button>
+              </Button>
+            </div>
+
+            <hr/>
+
+            
 
               {
                 !this.state.loading ? 
