@@ -2,9 +2,11 @@ class PresenceChannel < ApplicationCable::Channel
   def subscribed
     @app      = App.find_by(key: params[:app])
 
+    get_user_data
+
     @app_user = @app.app_users
                     .joins(:user)
-                    .where("users.email =?", params[:email])
+                    .where("users.email =?", @user_data[:email])
                     .first
     #@app.users.find_by(email: params[:email]).try(:app_user) 
     #add_user(email: params[:email], properties: params[:properties])

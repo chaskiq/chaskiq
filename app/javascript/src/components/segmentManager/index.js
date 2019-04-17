@@ -3,6 +3,11 @@ import React, {Component} from "react"
 import Button, { ButtonGroup } from '@atlaskit/button';
 //import RadioGroup, { AkFieldRadioGroup, AkRadio } from '@atlaskit/field-radio-group';
 import FieldRadioGroup from '@atlaskit/field-radio-group';
+import DynamicTable from '@atlaskit/dynamic-table';
+import Moment from 'react-moment';
+import Avatar from '@atlaskit/avatar';
+import Lozenge from "@atlaskit/lozenge"
+
 import Modal from '@atlaskit/modal-dialog';
 import DropdownMenu, {
   DropdownItemGroup,
@@ -555,12 +560,169 @@ export default class SegmentManager extends Component {
 
             <hr/>
 
-            <span>Users {this.props.meta['total_count']}</span>
-            <ul>
-              {this.props.app_users.map((o)=> <li key={o.email}>{o.email}</li> )}
-            </ul>
+            {
+              this.props.app_users.length > 0 ?
+                <DataTable 
+                  data={this.props.app_users}/> : null 
+            }
+
+
             <hr/>
 
           </div>
   }
 } 
+
+
+
+
+class DataTable extends Component {
+
+
+  constructor(props) {
+    super(props)
+
+
+    this.createHead = (withWidth) => {
+      return {
+        cells: [
+          {
+            key: 'email',
+            content: 'email',
+            shouldTruncate: true,
+            isSortable: true,
+            width: withWidth ? 25 : undefined,
+          },
+          {
+            key: 'state',
+            content: 'State',
+            shouldTruncate: true,
+            isSortable: true,
+            width: withWidth ? 10 : undefined,
+          },
+          {
+            key: 'last_visited_at',
+            content: 'last_visited_at',
+            shouldTruncate: true,
+            isSortable: true,
+            width: withWidth ? 15 : undefined,
+          },
+          {
+            key: 'os',
+            content: 'Os',
+            shouldTruncate: true,
+            isSortable: true,
+            width: withWidth ? 15 : undefined,
+          },
+          {
+            key: 'browser',
+            content: 'Browser',
+            shouldTruncate: true,
+            isSortable: true,
+            width: withWidth ? 15 : undefined,
+          },
+
+          {
+            key: 'action',
+            content: 'Actions',
+            shouldTruncate: true,
+          },
+        ],
+      };
+    };
+
+    this.head = this.createHead(true);
+
+    console.log(this.props.data)
+    this.rows = this.props.data.map((user, index) => ({
+      key: `row-${index}-${user.id}`,
+      cells: [
+        {
+          key: `${user.id}-email`,
+          content: <div>
+            <div style={{float: 'left'}}>
+              <Avatar
+                name={user.email}
+                size="medium"
+                src={`https://api.adorable.io/avatars/24/${encodeURIComponent(
+                  user.email,
+                )}.png`}
+              />            
+            </div>
+            <div style={{ 
+              float: 'left', 
+              marginLeft: '10px', 
+              marginTop: '9px' }}>
+              {user.email}
+            </div>
+          </div>,
+        },
+        {
+          key: `${user.id}-state`,
+          content: <Lozenge 
+                      appearance={user.state == "online" ? 'success' : 'moved' } 
+                      isBold>
+                      {user.state}
+                    </Lozenge>,
+        },
+        {
+          key: `${user.id}-last_visited_at`,
+          content: <Moment fromNow>{user.last_visited_att}</Moment>,
+        },
+
+        {
+          key: `${user.id}-browser`,
+          content: `${user.browser} ${user.browser_version}`,
+        },
+
+        {
+          key: `${user.id}-os`,
+          content: `${user.os} ${user.os_version}`,
+        },
+
+        {
+          key: `${user.id}-scheduled_to`,
+          content: user.id,
+        },
+
+        {
+          content: (
+            <Button onClick={() => this.props.history.push(`${this.props.match.url}/${campaign.id}`)}>
+              data
+            </Button>
+
+          ),
+        }
+      ],
+    }));
+
+  }
+
+  renderCaption = () => {
+    return <div>
+      {this.props.data.length} results
+    </div>
+  }
+
+
+  render() {
+    return (
+      
+        <DynamicTable
+          caption={this.renderCaption()}
+          head={this.head}
+          rows={this.rows}
+          rowsPerPage={10}
+          defaultPage={1}
+          loadingSpinnerSize="large"
+          isLoading={false}
+          isFixedSize
+          defaultSortKey="email"
+          defaultSortOrder="ASC"
+          onSort={() => console.log('onSort')}
+          onSetPage={() => console.log('onSetPage')}
+        />
+      
+    );
+  }
+}
