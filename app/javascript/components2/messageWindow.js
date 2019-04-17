@@ -21,9 +21,14 @@ let theme = {
 
 const IntroStyle = styled.div`
   .close {
-    position: absolute;
+    /*position: absolute;
     top: 0.5rem;
+    right: 0.5rem;*/
+
+    position: absolute;
+    top: -3px;
     right: 0.5rem;
+
   }
 
   .aspectRatioPlaceholder {
@@ -181,7 +186,7 @@ export default class Quest extends React.Component  {
               </div>
 
               <code className="title">
-                <p charPoses={charPoses}>
+                <p style={{margin: '7px 2px 0px 0px'}}>
                   &gt;_ Help us build a better product for you!
                 </p>
               </code>

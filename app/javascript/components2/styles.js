@@ -150,14 +150,16 @@ const Container = styled.div`
   }
   .graf--h2 {
     font-family: ${dante_font_family_sans};
+
     letter-spacing: -0.02em;
     font-weight: 700;
     font-style: normal;
     font-size: 2.1em;
     margin-left: -1.8px;
     line-height: 1.2;
-    margin-top: 40px;
+    margin-top: 24px;
     margin-bottom: .7em;
+
   }
   .public-DraftStyleDefault-pre{
     overflow: inherit;
@@ -170,7 +172,7 @@ const Container = styled.div`
     font-size: 1.5em;
     margin-left: -1.5px;
     line-height: 1.2;
-    color: rgba(0,0,0,0.44);
+    color: rgba(236, 236, 236, 0.44);
     margin-top: 40px;
     margin-bottom: .6em;
   }
@@ -341,13 +343,15 @@ const Container = styled.div`
   @media (max-width: 500px) {
 
     .graf--h2 {
-      font-size: 2.6em;
-    }
-    .graf--h3 {
       font-size: 1.6em;
     }
+    .graf--h3 {
+      font-size: 1.3em;
+      margin-top: 25px;
+    }
     .graf--h4 {
-      font-size: 1.4em;
+      font-size: 1.2em;
+      margin-top: 20px;
     }
 
   }

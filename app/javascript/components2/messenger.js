@@ -574,9 +574,10 @@ class Messenger extends Component {
                       zIndex: '10000000',
                       position: 'absolute',
                       bottom: '-22px',
+                      width: '88px',
+                      bottom: '-29px',
                       height: '100px',
-                      right: '-13px',
-                      width: '88px'
+                      right: '-33px'
                     }}>
                     <Prime onClick={this.toggleMessenger}>
                       <div style={{
@@ -692,7 +693,7 @@ class MessageFrame extends Component {
         overflow: 'scroll',
         border: '0px',
         zIndex: '1000',
-        height: this.fetchMinizedCache() ? '100px' : '70vh',
+        height: this.fetchMinizedCache() ? '90px' : '70vh',
         width: '100%',
         position: 'absolute',
         bottom: '-14px',
