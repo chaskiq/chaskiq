@@ -72,6 +72,8 @@ export default class App extends Component {
             onNavResize={this.props.onNavResize}
             currentUser={this.props.currentUser}
             currentApp={this.props.currentApp}
+            initialNavLinks={this.props.initialNavLinks}
+            updateNavLinks={this.props.updateNavLinks}
           />}
         >
 

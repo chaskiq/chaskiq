@@ -52,15 +52,16 @@ import Dropdown, { DropdownItemGroup, DropdownItem } from '@atlaskit/dropdown-me
 
 const ContainerHeaderComponent = ({
   stackLength,
-  goBackHome
-}) => (
-  <div>
+  goBackHome,
+  app
+}) => {
+  return <div>
     <AkContainerTitle
       href="/"
       icon={
         <img alt="hermess logo" src={atlaskitLogo} />
       }
-      text="Hermessenger"
+      text={app ? app.name : "hermessenger"}
     />
 
     {stackLength > 1 ? (
@@ -76,7 +77,9 @@ const ContainerHeaderComponent = ({
       />
     ) : null}
   </div>
-);
+
+}
+
 
 export default class StarterNavigation extends React.Component {
   state = {
@@ -178,6 +181,18 @@ export default class StarterNavigation extends React.Component {
     currentApp: PropTypes.object,
     currentUser: PropTypes.object
   };
+
+  componentDidUpdate(prevProps){
+    if(!this.props)
+      return 
+    console.log(this.props.currentApp.key)
+    if (prevProps && prevProps.currentApp && prevProps.currentApp.key !== this.props.currentApp.key){
+      console.log("sdsd")
+      // debugger
+      this.props.updateNavLinks(this.props.initialNavLinks)
+    }
+  
+  }
 
   handlePlatformClick = ()=>{
     this.context.router.history.push(`/apps/${this.props.currentApp.key}`)
@@ -310,9 +325,9 @@ export default class StarterNavigation extends React.Component {
     this.setState({ openDrawer });
   };
 
-  shouldComponentUpdate = (nextProps, nextContext) => {
+  /*shouldComponentUpdate = (nextProps, nextContext) => {
     return true;
-  };
+  };*/
 
   getDropDownData = () => (
     <DropdownItemGroup title="Settings">
@@ -353,6 +368,7 @@ export default class StarterNavigation extends React.Component {
 
         containerHeaderComponent={() => (
           <ContainerHeaderComponent
+            app={this.props.currentApp}
             stackLength={this.state.stack.length}
             goBackHome={this.goBackHome}
           />
