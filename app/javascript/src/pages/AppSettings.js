@@ -71,20 +71,19 @@ class SettingsForm extends Component {
 
   render(){
     return <ContentWrapper>
-        <PageTitle>
-          settings 
-        </PageTitle>
+        
 
-            {/*<Tabs
-              tabs={this.tabs()}
-              {...this.props}
-              selected={this.state.selected}
-              onSelect={(tab, index) => { 
-                  this.setState({selected: index})
-                  console.log('Selected Tab', index + 1)
+            {
+              /*<Tabs
+                  tabs={this.tabs()}
+                  {...this.props}
+                  selected={this.state.selected}
+                  onSelect={(tab, index) => { 
+                    this.setState({selected: index})
+                    console.log('Selected Tab', index + 1)
+                  }
                 }
-              }
-            />*/
+              />*/
             } 
 
         <div

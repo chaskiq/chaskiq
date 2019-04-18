@@ -43,6 +43,7 @@ import SearchDrawer from '../components/SearchDrawer';
 import HelpDropdownMenu from '../components/HelpDropdownMenu';
 import AccountDropdownMenu from '../components/AccountDropdownMenu';
 import atlaskitLogo from '../images/atlaskit.png';
+import logo from '../images/logo.png';
 import { AkGlobalItem } from '@atlaskit/navigation';
 import Button from '@atlaskit/button';
 import Avatar from '@atlaskit/avatar';
@@ -53,18 +54,20 @@ import QuestionCircleIcon from '@atlaskit/icon/glyph/question-circle';
 import Dropdown, { DropdownItemGroup, DropdownItem } from '@atlaskit/dropdown-menu';
 import CommentIcon from '@atlaskit/icon/glyph/comment';
 import EmojiFlagsIcon from '@atlaskit/icon/glyph/emoji/flags';
-
+import OfficeBuildingFilledIcon from '@atlaskit/icon/glyph/office-building-filled';
+import EditorTableDisplayOptionsIcon from '@atlaskit/icon/glyph/editor/table-display-options';
 const ContainerHeaderComponent = ({
   stackLength,
   goBackHome,
   app
 }) => {
   return <div>
+
     <AkContainerTitle
       href="/"
       icon={
-        <img alt="hermess logo" src={atlaskitLogo} />
-      }
+        <OfficeBuildingFilledIcon label="Atlassian icon" size="xlarge" />
+       }
       text={app ? app.name : "hermessenger"}
     />
 
@@ -153,12 +156,11 @@ export default class StarterNavigation extends React.Component {
   componentDidUpdate(prevProps){
     if (!prevProps || !prevProps.currentApp || !this.props || !this.props.currentApp)
       return 
-    console.log(this.props.currentApp.key)
+
     if (prevProps.currentApp.key !== this.props.currentApp.key){
       console.log("sdsd")
       // debugger
       this.resetNav()
-      //this.props.updateNavLinks(this.props.initialNavLinks)
     }
   
   }
@@ -190,7 +192,7 @@ export default class StarterNavigation extends React.Component {
         }
       />,
       <AkNavigationItem
-        text="Messages"
+        text="Campaigns"
         icon={<EmojiFlagsIcon label="Spaces icon" size="medium" />}
         onClick={() => {
           this.handleMessagesClick.bind(this)()
@@ -242,7 +244,7 @@ export default class StarterNavigation extends React.Component {
     const appid = `/apps/${ this.props.currentApp.key }`
     const links = [
       [`${appid}/messages/campaigns`, 'Mailing Campaigns', EmailIcon],
-      [`${appid}/messages/user_auto`, 'User auto messages', FeedbackIcon],
+      [`${appid}/messages/user_auto`, 'In App messages', EditorTableDisplayOptionsIcon],
       [`${appid}/messages/visitor_auto`, 'visitor auto messages', QuestionCircleIcon]
     ]
     return links.map(link => {
@@ -358,7 +360,7 @@ export default class StarterNavigation extends React.Component {
 
   render() {
     const backIcon = <ArrowleftIcon label="Back icon" size="medium" />;
-    const globalPrimaryIcon = <AtlassianIcon label="Atlassian icon" size="xlarge" />;
+    const globalPrimaryIcon = <img src={logo} width="55" heigth="55" />;
     const avatarIcon = <Dropdown trigger={ <Avatar
                                             name={this.props.currentUser.email}
                                             size="medium"
@@ -392,9 +394,9 @@ export default class StarterNavigation extends React.Component {
         containerHeaderComponentDisabled={() => (
           <AkContainerTitle
             href="/"
-            icon={
-              <img alt="atlaskit logo" src={atlaskitLogo} />
-            }
+            //icon={
+            //  <img alt="atlaskit logo" src={atlaskitLogo} />
+            //}
             text="Atlaskit"
           />
         )}

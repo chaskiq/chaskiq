@@ -31,7 +31,7 @@ import Spinner from '@atlaskit/spinner';
 //import Modal from '@atlaskit/modal-dialog';
 import EmptyState from '@atlaskit/empty-state'
 import UserMap from "../components/map"
-
+import logo from '../images/logo.png';
 import ConversationContainer from './ConversationContainer';
 import CampaignContainer from './Campaigns'
 import AppSettingsContainer from './AppSettings'
@@ -392,7 +392,7 @@ export default class ShowAppContainer extends Component {
     return {
       header: `${this.props.currentApp.name}`,
       description: this.props.currentApp.description || 'no description',
-      imageUrl: skyImage,
+      imageUrl: logo, //,
       primaryAction,
       //secondaryAction,
       //tertiaryAction,
@@ -751,7 +751,7 @@ export default class ShowAppContainer extends Component {
                 )} 
               />
 
-              <Route exact path={`/apps/${this.props.currentApp.key}/campaigns`}
+              <Route exact path={`/apps/${this.props.currentApp.key}/campaings`}
                 render={() => (
                   <EmptyState {...this.emptyprops()} />
                 )}

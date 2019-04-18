@@ -93,9 +93,6 @@ export default class MainRouter extends Component {
               currentApp={this.state.currentApp}
               navLinks={this.state.navLinks}
               setCurrentApp={this.setCurrentApp}
-              initialNavLinks={this.defaultNavLinks}
-              updateNavLinks={this.updateNavLinks}
-              navLinks={this.state.navLinks}
               {...this.props}
               >
 
