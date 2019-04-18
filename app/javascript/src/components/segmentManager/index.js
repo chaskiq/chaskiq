@@ -559,11 +559,12 @@ export default class SegmentManager extends Component {
 
             {/*JSON.stringify(this.props.data)*/}
 
-            <hr/>
 
             {
               this.props.app_users.length > 0 ?
-                <DataTable 
+                <DataTable
+                  meta={this.props.meta}
+                  loading={this.props.loading} 
                   data={this.props.app_users}/> : null 
             }
 
@@ -634,37 +635,46 @@ class DataTable extends Component {
 
     this.head = this.createHead(true);
 
-    console.log(this.props.data)
-    this.rows = this.props.data.map((user, index) => ({
+  }
+
+  renderCaption = () => {
+    return <div>
+      {this.props.meta.total_count} results
+    </div>
+  }
+
+  rows = ()=>{
+    return this.props.data.map((user, index) => ({
       key: `row-${index}-${user.id}`,
       cells: [
         {
           key: `${user.id}-email`,
           content: <div>
-            <div style={{float: 'left'}}>
+            <div style={{ float: 'left' }}>
               <Avatar
                 name={user.email}
                 size="medium"
                 src={`https://api.adorable.io/avatars/24/${encodeURIComponent(
                   user.email,
                 )}.png`}
-              />            
+              />
             </div>
-            <div style={{ 
-              float: 'left', 
-              marginLeft: '10px', 
-              marginTop: '9px' }}>
+            <div style={{
+              float: 'left',
+              marginLeft: '10px',
+              marginTop: '9px'
+            }}>
               {user.email}
             </div>
           </div>,
         },
         {
           key: `${user.id}-state`,
-          content: <Lozenge 
-                      appearance={user.state == "online" ? 'success' : 'moved' } 
-                      isBold>
-                      {user.state}
-                    </Lozenge>,
+          content: <Lozenge
+            appearance={user.state == "online" ? 'success' : 'moved'}
+            isBold>
+            {user.state}
+          </Lozenge>,
         },
         {
           key: `${user.id}-last_visited_at`,
@@ -696,27 +706,21 @@ class DataTable extends Component {
         }
       ],
     }));
-
-  }
-
-  renderCaption = () => {
-    return <div>
-      {this.props.data.length} results
-    </div>
   }
 
 
   render() {
+
     return (
       
         <DynamicTable
           caption={this.renderCaption()}
           head={this.head}
-          rows={this.rows}
+          rows={this.rows()}
           rowsPerPage={10}
           defaultPage={1}
           loadingSpinnerSize="large"
-          isLoading={false}
+          isLoading={this.props.loading}
           isFixedSize
           defaultSortKey="email"
           defaultSortOrder="ASC"

@@ -140,6 +140,7 @@ class CampaignSegment extends Component {
 
   render() {
     return <SegmentManager {...this.props}
+      loading={this.state.searching}
       predicates={this.props.data.segments}
       meta={this.state.meta}
       app_users={this.state.app_users}
