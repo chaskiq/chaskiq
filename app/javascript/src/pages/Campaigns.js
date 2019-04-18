@@ -10,7 +10,6 @@ import PageTitle from '../components/PageTitle';
 import Tabs from '@atlaskit/tabs';
 import Avatar from '@atlaskit/avatar';
 
-//import css from 'Dante2/dist/DanteStyles.css';
 import styled from 'styled-components'
 import axios from 'axios'
 import serialize from 'form-serialize'

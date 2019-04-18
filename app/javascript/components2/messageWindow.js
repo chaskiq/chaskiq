@@ -123,30 +123,6 @@ const Content = styled.div`
   padding: 1rem;
 `
 
-/*
-const Intro = posed(IntroStyle)({
-
-})
-
-const Inner = posed(InnerStyle)({
-  draggable: true,
-  exit: {
-    x: '-100%'
-  },
-  enter: {
-    x: '0%',
-    beforeChildren: true,
-    staggerChildren: 50
-  }
-})*/
-
-//const Inner2 = posed.div()
-
-const charPoses = {
-  exit: { opacity: 0 },
-  enter: { opacity: 1 }
-}
-
 export default class Quest extends React.Component  {
   
   constructor(props) {
@@ -167,7 +143,7 @@ export default class Quest extends React.Component  {
   }
 
   render(){
-    return <IntroStyle initialPose="exit" pose="enter">
+    return <IntroStyle>
           <InnerStyle>
             
             <Header>

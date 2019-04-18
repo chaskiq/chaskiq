@@ -234,19 +234,18 @@ const Container = styled.div`
 
   .graf--blockquote, blockquote {
     font-family: ${dante_font_family_serif};
-    border-left: 3px solid rgba(0, 0, 0, .8);
-
+    border-left: 3px solid rgba(255, 255, 255, 0.8);
     font-style: italic;
     font-weight: 400;
     letter-spacing: 0.16px;
     letter-spacing: 0.02rem;
-    margin-left: -17px;
+    margin-left: -6px;
     padding-left: 15px;
     margin-bottom: 25px;
-    font-size: 1.2em;
-    line-height: 1.9em;
+    font-size: 1em;
+    line-height: 1.4em;
     margin-top: 20px;
-
+    word-break: break-all;
   }
   .graf--blockquote + .graf--blockquote {
     margin-top: -30px;

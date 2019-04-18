@@ -414,7 +414,7 @@ export default class ShowAppContainer extends Component {
     }
 
     if (prevState.jwt !== this.state.jwt) {
-        this.search()
+      this.search()
     }
 
     if (prevState.segment.id !== this.state.segment.id) {
@@ -455,15 +455,12 @@ export default class ShowAppContainer extends Component {
 
       // TODO: use the props app instead the state app
       this.props.setCurrentApp(response.data.app, ()=>{
-        
         console.log(this.props)
         setTimeout(() => {
           this.updateNavLinks() 
         }, 1000);
-        
+        cb ? cb() : null 
       })
-
-      
 
       //this.setState({app: response.data.app}, ()=>{ 
       //  
@@ -525,7 +522,7 @@ export default class ShowAppContainer extends Component {
 
   updateUser = (data)=>{
     data = JSON.parse(data)
-    this.setState({app_users: this.props.currentApp_users.map( (el)=> 
+    this.setState({app_users: this.state.app_users.map( (el)=> 
         el.email === data.email ? Object.assign({}, el, data) : el 
       )
     });
@@ -535,7 +532,6 @@ export default class ShowAppContainer extends Component {
     // unsubscribe cable ust in case
     if(CableApp.events)
       CableApp.events.unsubscribe()
-    
 
     CableApp.events = CableApp.cable.subscriptions.create({
       channel: "EventsChannel",

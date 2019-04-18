@@ -77,7 +77,7 @@ export default class MainRouter extends Component {
         isOpen: true,
         width: 304
       } 
-    }, cb ? cb() : null )
+    }, ()=> {cb ? cb(app) : null} )
   }
 
   render() {
