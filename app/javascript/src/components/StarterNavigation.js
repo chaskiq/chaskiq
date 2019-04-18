@@ -47,8 +47,12 @@ import { AkGlobalItem } from '@atlaskit/navigation';
 import Button from '@atlaskit/button';
 import Avatar from '@atlaskit/avatar';
 import SignOutIcon from '@atlaskit/icon/glyph/sign-out';
-
+import EmailIcon from '@atlaskit/icon/glyph/email';
+import FeedbackIcon from '@atlaskit/icon/glyph/feedback';
+import QuestionCircleIcon from '@atlaskit/icon/glyph/question-circle';
 import Dropdown, { DropdownItemGroup, DropdownItem } from '@atlaskit/dropdown-menu';
+import CommentIcon from '@atlaskit/icon/glyph/comment';
+import EmojiFlagsIcon from '@atlaskit/icon/glyph/emoji/flags';
 
 const ContainerHeaderComponent = ({
   stackLength,
@@ -81,99 +85,63 @@ const ContainerHeaderComponent = ({
 }
 
 
+
+
 export default class StarterNavigation extends React.Component {
-  state = {
-    //navLinks: this.props.navLinks,
-    openDrawer: null,
-    //isOpen: true,
+  constructor(props){
+    super(props)
 
-    stack: [
-      [
-        <AkNavigationItem
-          text="Platform"
-          action={
-            <Button
-              appearance="subtle"
-              iconBefore={<ChevronRightIcon label="add" size="medium" />}
-              spacing="none"
+    this.state = {
+      //navLinks: this.props.navLinks,
+      openDrawer: null,
+      //isOpen: true,
+
+      stack: this.defaultLinks()
+
+      /*
+        
+        ,
+  
+          <AkNavigationItemGroup title="New Confluence Experience">
+            <AkNavigationItem
+              icon={<EditorFeedbackIcon label="Feedback icon" size="medium" />}
+              text="Give feedback"
             />
-          }
-          onClick={() =>{ 
-            this.handlePlatformClick.bind(this)()}
-          }
-          icon={<DiscoverIcon label="Activity icon" size="medium" />}
-          isSelected
-        />,
-        <AkNavigationItem
-          text="Conversations"
-          icon={<TrayIcon label="Your work icon" size="medium" />}
-          onClick={()=> {
-              this.context.router.history.push(`/apps/${this.props.currentApp.key}/conversations`)
-            } 
-          }
-        />,
-        <AkNavigationItem
-          text="Messages"
-          icon={<FolderIcon label="Spaces icon" size="medium"/>}
-          onClick={()=> {
-            this.handleMessagesClick.bind(this)()
-            } 
-          }
-        />,
-        <AkNavigationItem
-          text="Settings"
-          icon={<SettingsIcon label="Settings icon" size="medium" />}
-          onClick={() => {
-            this.context.router.history.push(`/apps/${this.props.currentApp.key}/settings`)
-
-          }
-          }
-        />]
-      ]
-
-    /*
-      
-      ,
-
-        <AkNavigationItemGroup title="New Confluence Experience">
-          <AkNavigationItem
-            icon={<EditorFeedbackIcon label="Feedback icon" size="medium" />}
-            text="Give feedback"
-          />
-          <AkNavigationItem
-            icon={
-              <CrossCircleIcon
-                secondaryColor={({ theme }) =>
-                  theme["@atlaskit-private-theme-do-not-use/navigation:root"]
-                  .provided
-                  .background
-                  .primary
-
-                }
-                label="Opt icon"
-                size="medium"
-              />
-            }
-            text="Opt out for now"
-          />
-        </AkNavigationItemGroup>,
-
-        <AkNavigationItemGroup title="My Spaces">
-          <AkNavigationItem
-            icon={<ConfluenceIcon label="Confluence icon" size="medium" />}
-            text="Confluence ADG 3"
-          />
-          <AkNavigationItem
-            icon={<WorldIcon label="World icon" size="medium" />}
-            text="Atlaskit"
-          />
-        </AkNavigationItemGroup>
-
-      
-    */
+            <AkNavigationItem
+              icon={
+                <CrossCircleIcon
+                  secondaryColor={({ theme }) =>
+                    theme["@atlaskit-private-theme-do-not-use/navigation:root"]
+                    .provided
+                    .background
+                    .primary
+  
+                  }
+                  label="Opt icon"
+                  size="medium"
+                />
+              }
+              text="Opt out for now"
+            />
+          </AkNavigationItemGroup>,
+  
+          <AkNavigationItemGroup title="My Spaces">
+            <AkNavigationItem
+              icon={<ConfluenceIcon label="Confluence icon" size="medium" />}
+              text="Confluence ADG 3"
+            />
+            <AkNavigationItem
+              icon={<WorldIcon label="World icon" size="medium" />}
+              text="Atlaskit"
+            />
+          </AkNavigationItemGroup>
+  
+        
+      */
 
 
-  };
+    };
+  }
 
   static contextTypes = {
     navOpenState: PropTypes.object,
@@ -183,21 +151,77 @@ export default class StarterNavigation extends React.Component {
   };
 
   componentDidUpdate(prevProps){
-    if(!this.props)
+    if (!prevProps || !prevProps.currentApp || !this.props || !this.props.currentApp)
       return 
     console.log(this.props.currentApp.key)
-    if (prevProps && prevProps.currentApp && prevProps.currentApp.key !== this.props.currentApp.key){
+    if (prevProps.currentApp.key !== this.props.currentApp.key){
       console.log("sdsd")
       // debugger
-      this.props.updateNavLinks(this.props.initialNavLinks)
+      this.resetNav()
+      //this.props.updateNavLinks(this.props.initialNavLinks)
     }
   
+  }
+
+  defaultLinks = ()=>{
+    return [[
+      <AkNavigationItem
+        text="Platform"
+        action={
+          <Button
+            appearance="subtle"
+            iconBefore={<ChevronRightIcon label="add" size="medium" />}
+            spacing="none"
+          />
+        }
+        onClick={() => {
+          this.handlePlatformClick.bind(this)()
+        }
+        }
+        icon={<DiscoverIcon label="Activity icon" size="medium" />}
+        isSelected
+      />,
+      <AkNavigationItem
+        text="Conversations"
+        icon={<CommentIcon label="Your work icon" size="medium" />}
+        onClick={() => {
+          this.context.router.history.push(`/apps/${this.props.currentApp.key}/conversations`)
+        }
+        }
+      />,
+      <AkNavigationItem
+        text="Messages"
+        icon={<EmojiFlagsIcon label="Spaces icon" size="medium" />}
+        onClick={() => {
+          this.handleMessagesClick.bind(this)()
+        }
+        }
+      />,
+      <AkNavigationItem
+        text="Settings"
+        icon={<SettingsIcon label="Settings icon" size="medium" />}
+        onClick={() => {
+          this.context.router.history.push(`/apps/${this.props.currentApp.key}/settings`)
+
+        }
+        }
+      />]
+      ]
   }
 
   handlePlatformClick = ()=>{
     this.context.router.history.push(`/apps/${this.props.currentApp.key}`)
     this.addOnsNestedNav()
   }
+
+  resetNav = () => {
+    this.setState({
+      stack: [
+        this.defaultLinks()
+      ]
+    });
+  };
+
 
   addOnsNestedNav = () => {
     this.setState({
@@ -217,9 +241,9 @@ export default class StarterNavigation extends React.Component {
   navLinksForMessages = () => {
     const appid = `/apps/${ this.props.currentApp.key }`
     const links = [
-      [`${appid}/messages/campaigns`, 'Mailing Campaigns', DiscoverIcon],
-      [`${appid}/messages/user_auto`, 'User auto messages', DiscoverIcon],
-      [`${appid}/messages/visitor_auto`, 'visitor auto messages', DiscoverIcon]
+      [`${appid}/messages/campaigns`, 'Mailing Campaigns', EmailIcon],
+      [`${appid}/messages/user_auto`, 'User auto messages', FeedbackIcon],
+      [`${appid}/messages/visitor_auto`, 'visitor auto messages', QuestionCircleIcon]
     ]
     return links.map(link => {
       const [url, title, Icon] = link;
@@ -247,15 +271,6 @@ export default class StarterNavigation extends React.Component {
       stack: [
         ...this.state.stack,
         this.navLinksForMessages()
-      ]
-    });
-  };
-
-  addOnsNestedNav = () => {
-    this.setState({
-      stack: [
-        ...this.state.stack,
-        this.navLinks()
       ]
     });
   };
@@ -385,7 +400,7 @@ export default class StarterNavigation extends React.Component {
         )}
         globalPrimaryIcon={globalPrimaryIcon}
         //globalPrimaryActions={[avatarIcon, logoutIcon, avatarIcon, logoutIcon ]}
-        globalSecondaryActions={[avatarIcon, logoutIcon ]}
+        globalSecondaryActions={[avatarIcon ]}
         globalPrimaryItemHref="/"
         globalSearchIcon={<SearchIcon label="Search icon" />}
         hasBlanket
