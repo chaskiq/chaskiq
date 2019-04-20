@@ -120,8 +120,8 @@ class Messenger extends Component {
     if(prevState.display_mode !== this.state.display_mode && this.display_mode === "conversations")
       this.getConversations()
 
-    if(this.state.conversation.id !== prevState.conversation.id)
-      this.conversationSubscriber()
+    //if(this.state.conversation.id !== prevState.conversation.id)
+      //this.conversationSubscriber()
   }
 
   cableDataFor =(opts)=>{
@@ -174,8 +174,9 @@ class Messenger extends Component {
       App.conversations = null
   }
 
-  conversationSubscriber(){
+  conversationSubscriber(cb){
     this.unsubscribeFromConversation()
+
     App.conversations = App.cable.subscriptions.create(
       this.cableDataFor({
         channel: "ConversationsChannel", 
@@ -184,6 +185,8 @@ class Messenger extends Component {
     {
       connected: ()=> {
         console.log("connected to conversations")
+        if( cb )
+          cb()
       },
       disconnected: ()=> {
         console.log("disconnected from conversations")
@@ -193,8 +196,6 @@ class Messenger extends Component {
         console.log(data.message)
         console.log(`received ${data}`)
         console.log(this.props.email , data.app_user.email)
-        
-
 
         // find message and update it, or just append message to conversation
         if ( this.state.conversation_messages.find( (o)=> o.id === data.id ) ){
@@ -374,8 +375,8 @@ class Messenger extends Component {
         this.setState({
           conversation: response.data.conversation,
           conversation_messages: response.data.messages
-        })
-        cb ? cb() : null
+        }, cb)
+        
       })
       .catch( (error)=> {
         console.log(error);
@@ -401,17 +402,27 @@ class Messenger extends Component {
   }
 
   displayConversation(e, o){
-    this.setconversation(o.id, ()=>{
 
-      //this.eventsSubscriber()
-      this.setState({
-        display_mode: "conversation"
-      }, ()=> { 
-        //this.conversationSubscriber() ; 
-        //this.getConversations() ;
-        this.scrollToLastItem()
+    this.unsubscribeFromConversation()
+
+    this.setconversation(o.id, () => {
+
+      this.conversationSubscriber(() => {
+        
+        //this.eventsSubscriber()
+        this.setState({
+          display_mode: "conversation"
+        }, () => {
+          //this.conversationSubscriber() ; 
+          //this.getConversations() ;
+          this.scrollToLastItem()
+        })
+
       })
+
+      
     })
+    
   }
 
   toggleMessenger = (e)=>{
@@ -668,12 +679,10 @@ class MessageFrame extends Component {
   }
 
   handleClose = ()=>{
-    //link_prefix = host + "/campaigns/#{self.id}/tracks/#{subscriber.encoded_id}/click?r="
     const appId = this.props.appId
     const messageId = this.props.availableMessage.id
     const trackUrl = this.props.availableMessage.user_track_url
     const url = `/api/v1/apps/${appId}/messages/${messageId}/tracks/${trackUrl}/close.json`
-    //const url = `/api/v1/apps/6HRp88sVKu5LI2bE7mHahw/messages/2/tracks/nvAw48lfnr1h17tfpfAhcltdn8wq/close`
     this.props.axiosInstance.get(url, {r: 'close'})
     .then((response) => {
       console.log("handle close!!!")
