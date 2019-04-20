@@ -537,7 +537,7 @@ class Messenger extends Component {
                                                                                                   width: '88px',
                                                                                                   margin: '0px 10px',
                                                                                                   textTransform: 'unset'}}>
-                                                                                                  {o.created_at}</Moment> 
+                                                                                                  {message.created_at}</Moment> 
                                                         </ConversationSummaryBodyMeta>
 
                                                         <ConversationSummaryBodyContent dangerouslySetInnerHTML={{__html: message.message}} />

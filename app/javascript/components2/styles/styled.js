@@ -288,6 +288,7 @@ export const ConversationSummaryAvatar = styled.div`
       -webkit-box-flex: 0;
       -ms-flex: 0 0 auto;
       flex: 0 0 auto;
+      align-self: flex-start;
 
       img {
         width: 40px;
