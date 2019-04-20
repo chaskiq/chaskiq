@@ -17,6 +17,12 @@ class Api::V1::HooksController < ActionController::API
     end
 
     if amz_message_type == "Notification" or request_body["Type"] == "Notification"
+      
+      if request_body['Subject'] == "Amazon SES Email Receipt Notification"
+        process_email_notification(request_body["Message"])
+        render plain: "ok" and return
+      end
+      
       if request_body["Message"] == "Successfully validated SNS topic for Amazon SES event publishing."
         render plain: "ok" and return
       else
@@ -30,6 +36,43 @@ class Api::V1::HooksController < ActionController::API
   end
 
 private
+
+  def process_email_notification(message)
+    json_message = JSON.parse(message)
+    json_message["receipt"]
+    json_message["mail"]["headers"].map{|o| {o["name"]=> o["value"]}}
+
+    json_message["receipt"]["action"]
+    #=> {"type"=>"S3",
+    # "topicArn"=>"xxxx",
+    # "bucketName"=>"xxxx-incoming-mails",
+    # "objectKeyPrefix"=>"mail",
+    # "objectKey"=>"mail/xxxxx"}
+    action = json_message["receipt"]["action"]
+
+    file = AWS_CLIENT.get_object(
+      bucket: action["bucketName"], 
+      key: action["objectKey"]
+    )
+
+    mail       = Mail.read_from_string(file.body.read)
+    from       = mail.from
+    to         = mail.to
+    recipients = mail.recipients # ["messages+aaa@hermessenger.com"] de aqui sale el app y el mensaje!
+    message    = EmailReplyParser.parse_reply( mail.parts[0].body.to_s )
+    
+    recipient_parts = recipients.first.split("@").first.split("+")[1..2]
+    app = App.find(recipient_parts.first)
+    conversation = app.conversations.find(recipient_parts.last)
+    
+    opts = {
+      from: app.app_users.joins(:user).where(["users.email =?", from.first]).first,
+      message: message
+    }
+
+    conversation.add_message(opts)
+
+  end
 
   def process_event_notification(request_body)
     message = parse_body_message(request_body["Message"])

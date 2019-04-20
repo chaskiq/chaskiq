@@ -60,8 +60,6 @@ gem "mustache"
 gem "jwt"
 gem "jwe"
 
-
-
 # Reduces boot times through caching; required in config/boot.rb
 gem 'bootsnap', '>= 1.1.0', require: false
 
@@ -132,3 +130,5 @@ gem "mini_magick", "~> 4.8"
 gem "aws-sdk-s3", "~> 1.15"
 
 gem "rack-cors", "~> 1.0"
+
+gem "email_reply_parser", "~> 0.5.9"
