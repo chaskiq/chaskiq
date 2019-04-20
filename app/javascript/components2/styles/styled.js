@@ -189,13 +189,18 @@ export const MessageItem = styled.div`
       color: #eceff1; 
     }
 
+    .text{
+      margin-bottom: 1em;
+    }
+
     .status {
       position: absolute;
       bottom: 2px;
       width: 100px;
-      right: -9px;
+      right: 6px;
       color: #b1afaf;
       font-size: 9px;
+      text-align: right;
     }
 `;
 
