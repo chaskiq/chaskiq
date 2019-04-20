@@ -59,12 +59,12 @@ private
     from       = mail.from
     to         = mail.to
     recipients = mail.recipients # ["messages+aaa@hermessenger.com"] de aqui sale el app y el mensaje!
-    message    = EmailReplyParser.parse_reply( mail.parts[0].body.to_s )
+    message    = EmailReplyParser.parse_reply( mail.text_part.body.to_s).gsub("\n", "<br/>").force_encoding(Encoding::UTF_8)
+    #  mail.parts.last.body.to_s )
     
-    recipient_parts = recipients.first.split("@").first.split("+")[1..2]
+    recipient_parts = URLcrypt.decode(recipients.first.split("@").first.split("+").last)
     app = App.find(recipient_parts.first)
     conversation = app.conversations.find(recipient_parts.last)
-    
     opts = {
       from: app.app_users.joins(:user).where(["users.email =?", from.first]).first,
       message: message

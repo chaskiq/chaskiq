@@ -13,18 +13,20 @@ class ChatNotifierMailer < ApplicationMailer
     content_type  = "text/html"
     from_name     = "#{author_name}"
     ## TODO: configurability of email
-    from_email    = "messages+#{app.id}+#{conversation.id}@hermessenger.com"
+    crypt = URLcrypt.encode("#{app.id}+#{conversation.id}")
+    from_email    = "messages+#{crypt}@hermessenger.com"
     email         = recipient.email
     subject       = "un test"
     reply_email   = from_email
 
-    headers 'Message-Id' => from_email,
-        'In-Reply-To' => from_email
+    headers 'In-Reply-To' => from_email
 
     mail( from: "#{from_name}<#{from_email}>",
           to: email,
           subject: subject,
           content_type: content_type,
           return_path: reply_email )
+
+    #mail.header['X-Custom-Header'] = 'custom value'
   end
 end
