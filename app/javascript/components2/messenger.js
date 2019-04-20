@@ -386,10 +386,22 @@ class Messenger extends Component {
   displayNewConversation(e){
     e.preventDefault()
     this.createCommentOnNewConversation(null, ()=>{
-      this.setState({
-        conversation_messages: [],
-        display_mode: "conversation"
+
+      this.conversationSubscriber(() => {
+
+        //this.eventsSubscriber()
+        this.setState({
+          conversation_messages: [],
+          display_mode: "conversation"
+        }, () => {
+          //this.conversationSubscriber() ; 
+          //this.getConversations() ;
+          this.scrollToLastItem()
+        })
+
       })
+
+
     })
   }
 
@@ -422,7 +434,7 @@ class Messenger extends Component {
 
       
     })
-    
+
   }
 
   toggleMessenger = (e)=>{
