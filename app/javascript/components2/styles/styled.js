@@ -6,7 +6,7 @@ export const Container = styled.div`
     /*position: fixed;*/
     /* right: 53px; */
     /*bottom: 92px;*/
-    width: 320px;
+    width: 100%;
     font-size: 12px;
     line-height: 22px;
     /*font-family: 'Roboto';*/
@@ -66,7 +66,7 @@ export const EditorSection = styled.div`
 `;
 
 export const EditorWrapper = styled.div`
-  width: 326px;
+  width: 376px;
   position: fixed;
   right: 14px;
   bottom: 14px;
@@ -320,7 +320,7 @@ export const ConversationSummaryBodyContent = styled.div`
       -webkit-box-flex: 1;
       -ms-flex: 1;
       flex: 1;
-      padding-left: 16px;    
+      //padding-left: 16px;    
 `
 
 export const Autor = styled.div`

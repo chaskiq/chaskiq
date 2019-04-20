@@ -455,7 +455,7 @@ class Messenger extends Component {
                         border: '0px',
                         zIndex: '10000',
                         position: 'absolute',
-                        width: '320px',
+                        width: '100%',
                         margin: '0px auto',
                         height: '395px',
                         bottom: '83px',
