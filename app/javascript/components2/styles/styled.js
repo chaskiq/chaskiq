@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-
+import React from 'react'
 export const mainColor = "#0a1a27"; //"#42a5f5";
 
 export const Container = styled.div`
@@ -71,6 +71,13 @@ export const EditorWrapper = styled.div`
   right: 14px;
   bottom: 14px;
   z-index: 90000000000000000;
+
+  @media screen and (min-width: 320px) and (max-width: 480px) {
+    width: 100%;
+    right: 0px;
+    bottom: 0px;
+  }
+
 `
 
 export const EditorActions = styled.div`
@@ -83,10 +90,16 @@ export const EditorActions = styled.div`
   padding: 12px 1px;
 `
 
-export const CommentsWrapper = styled.div`
-    min-height: 250px;
-    overflow: auto;
-    max-height: 250px;
+export const CommentsWrapper = styled(({ innerRef, isMobile, ...rest }) => (<div {...rest}></div>))`
+  min-height: 250px;
+  overflow: auto;
+
+  ${(props)=> ( props.isMobile ? 
+  'min-height: 76vh; overflow: auto; max-height: 250px;' : 
+  'height: 248px;' 
+  )}
+  
+    
 `
 
 export const CommentsItem = styled.div`
@@ -121,7 +134,7 @@ export const Prime = styled.div`
     margin: 5px 20px;
 `
 
-export const Header = styled.div`
+export const Header = styled(({isMobile, ...rest})=>(<div {...rest}></div>))`
   /* margin: 10px; */
   font-size: 13px;
   font-family: 'Roboto';
@@ -129,9 +142,12 @@ export const Header = styled.div`
   color: #f3f3f3;
   height: 55px;
   background: ${mainColor};
-  border-top-left-radius: 10px;
-  border-top-right-radius: 10px;
+
   padding-top: 8px;
+
+  border-top-left-radius: ${(props) => props.isMobile ? '0px' : '10px' };
+  border-top-right-radius: ${(props) => props.isMobile ? '0px' : '10px' };
+  
 `
 
 export const Body = styled.div`

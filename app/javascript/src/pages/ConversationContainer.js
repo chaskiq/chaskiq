@@ -64,6 +64,7 @@ const MessageBody = styled.div`
     font-weight: 100;
     margin-top: 16px;
     text-indent: 10px;
+    display: flex;
 `
 const MessageEmail = styled.div`
     color: #222;
@@ -163,6 +164,7 @@ const playSound = ()=>{
 
 class MessageItem extends Component {
   render(){
+    const user = this.props.conversation.main_participant
     return (
       <MessageContainer>
 
@@ -170,10 +172,10 @@ class MessageItem extends Component {
 
         <MessageHeader>
         
-          <Avatar src={gravatar.url(this.props.message.app_user.email)} width={40} heigth={40}/>
+          <Avatar src={gravatar.url(user.email)} width={40} heigth={40}/>
           
           <MessageEmail>
-            {this.props.message.app_user.email}
+            {user.email}
           </MessageEmail>
 
           <Moment fromNow style={{ color: '#ccc', fontSize: '10px'}}>
@@ -182,10 +184,21 @@ class MessageItem extends Component {
 
         </MessageHeader>
 
-        <MessageBody>          
+        <MessageBody>
+
+          {
+            user.id != this.props.message.app_user.id ?
+            <Avatar 
+              src={gravatar.url(this.props.message.app_user.email)} 
+              size={'xsmall'}
+              style={{'float':'left'}}
+            /> : null
+          }  
+              
           <span dangerouslySetInnerHTML={
             {__html: this.props.message.message}
           }/>
+          
         </MessageBody>
 
       </MessageContainer>
@@ -238,7 +251,10 @@ export default class ConversationContainer extends Component {
                   {
                     this.state.conversations.map((o, i)=>{
                       return <div key={o.id} onClick={(e)=> this.props.history.push(`/apps/${appId}/conversations/${o.id}`) }>
-                                <MessageItem message={o.last_message}/>
+                                <MessageItem 
+                                  conversation={o} 
+                                  message={o.last_message}
+                                />
                               </div>
                     })
                   }
@@ -474,9 +490,9 @@ class ConversationContainerShow extends Component {
 
             <GridElement>
 
-             <FixedHeader>
-                User information
-             </FixedHeader>
+              <FixedHeader>
+                  User information
+              </FixedHeader>
 
               <Overflow style={{ 
                 display: 'flex', 
@@ -486,15 +502,12 @@ class ConversationContainerShow extends Component {
 
                 <ActivityAvatar>
                   
-                  <img src={gravatar.url(this.state.app_user.email)} 
-                    width={80} 
-                    heigth={80}
+                  <Avatar 
+                    src={gravatar.url(this.state.app_user.email)}
+                    name="large" 
+                    size="xlarge" 
+                    presence={this.state.app_user.state} 
                   />
-                  
-                  {
-                    this.state.app_user.state === "online" ?
-                      <ActivityIndicator/> : null 
-                  }
                   
                 </ActivityAvatar>
 

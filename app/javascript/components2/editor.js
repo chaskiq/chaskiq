@@ -7,8 +7,6 @@ import Html from 'slate-html-serializer'
 import styled from "styled-components"
 
 const EditorContainer = styled.div`
-  /* -ms- properties are necessary until MS supports the latest version of the grid spec */
-  /* stylelint-disable value-no-vendor-prefix, declaration-block-no-duplicate-properties */
   display: flex;
   flex-direction: column;
   min-width: 242px;
@@ -27,6 +25,7 @@ const EditorContainer = styled.div`
   border-radius: 3px;
   animation: none;
   padding: 10px;
+  align-self: center;
 `;
 
 const EditorActions = styled.div`
@@ -40,6 +39,9 @@ const EditorActions = styled.div`
 `
 
 const EditorWrapper = styled.div`
+  height: 100px;
+  display: flex;
+  width: 80vw;
 `
 
 const rules = [

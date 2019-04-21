@@ -14,6 +14,8 @@ import Quest from './messageWindow'
 
 import StyledFrame from 'react-styled-frame'
 import styled, { ThemeProvider } from 'styled-components'
+import CrossIcon from '@atlaskit/icon/glyph/cross';
+import Button from '@atlaskit/button';
 
 import {
   Container,
@@ -43,6 +45,56 @@ import {
 
 // https://stackoverflow.com/questions/12114356/how-to-get-the-request-timezone
 
+const SuperDuper = styled(StyledFrame)`
+  display: block;
+  overflow: scroll;
+  border: 0px;
+  z-index: 10000;
+  position: absolute;
+  width: 100%;
+  margin: 0px auto;
+  height: 415px;
+  bottom: 83px;
+
+  @media (min-width: 320px) and (max-width: 480px) {
+    display: block;
+    overflow: scroll;
+    border: 0px;
+    z-index: 1000000000;
+    position: absolute;
+    width: 100%;
+    margin: 0px auto;
+    height: 102vh;
+    bottom: -6px;
+    width: calc(100vw + 20px);
+    left: -12px;
+  }
+`
+
+const UserAutoMessageStyledFrame = styled(({ isMinimized, ...rest })=>(
+  <StyledFrame {...rest}/>
+  ))`
+  display: block;
+  overflow: scroll;
+  border: 0px;
+  z-index: 1000;
+  height: ${props => props.isMinimized ? '90px' : '70vh' }
+  width: 100%;
+  position: absolute;
+  bottom: -14px;
+  right: -14px;
+  box-shadow: 1px 1px 100px 2px rgba(0,0,0,0.22);
+
+  @media (min-width: 320px) and (max-width: 480px) {
+    left: 0px;
+  }
+`
+
+const CloseButtonWrapper = styled.div`
+  position: absolute;
+  right: 10px;
+`
+
 
 let App = {}
 
@@ -61,6 +113,7 @@ class Messenger extends Component {
       open: false,
       appData: {},
       isMinimized: false,
+      isMobile: false,
     }
 
     const data = {
@@ -114,6 +167,9 @@ class Messenger extends Component {
       this.getConversations()
       this.getMessage()
     })
+
+    this.updateDimensions()
+    window.addEventListener("resize", this.updateDimensions);
   }
 
   componentDidUpdate(prevProps, prevState){
@@ -122,6 +178,18 @@ class Messenger extends Component {
 
     //if(this.state.conversation.id !== prevState.conversation.id)
       //this.conversationSubscriber()
+  }
+
+  componentWillUnmount() {
+    window.removeEventListener("resize", this.updateDimensions);
+  }
+
+  detectMobile = ()=>{
+    return window.matchMedia("(min-width: 320px) and (max-width: 480px)").matches
+  }
+
+  updateDimensions = ()=>{
+    this.setState({ isMobile: this.detectMobile() })
   }
 
   cableDataFor =(opts)=>{
@@ -442,26 +510,17 @@ class Messenger extends Component {
   }
 
   render(){
+    console.log(this.state.isMobile)
+
     return <ThemeProvider theme={{ mode: 'dark' }}>
             <EditorWrapper>
 
               <Container open={this.state.open}>
                 {
                   this.state.open ?  
-                    <StyledFrame
-                      style={{
-                        display: 'block',
-                        overflow: 'scroll',
-                        border: '0px',
-                        zIndex: '10000',
-                        position: 'absolute',
-                        width: '100%',
-                        margin: '0px auto',
-                        height: '395px',
-                        bottom: '83px',
-                      }}> 
-                      <Fragment>              
-                        <Header>
+                    <SuperDuper> 
+                      <Fragment>
+                        <Header isMobile={this.state.isMobile}>
                           <HeaderOption>
                             { this.state.display_mode === "conversation" ? 
                               <LeftIcon 
@@ -472,6 +531,21 @@ class Messenger extends Component {
                             <span style={{marginLeft: '20px'}}>
                               Hello {this.props.name}!
                             </span>
+
+                            {
+                              this.state.isMobile ?
+                              <CloseButtonWrapper>
+                                <Button
+                                  appearance="subtle-link"
+                                  onClick={() => this.toggleShowIcons()}
+                                  spacing="none"
+                                >
+                                  <CrossIcon onClick={this.toggleMessenger} />
+                                </Button>
+                              </CloseButtonWrapper> : null
+                            }
+                            
+
                             {/*this.props.app_id*/}
                           </HeaderOption>
                         </Header>
@@ -483,6 +557,7 @@ class Messenger extends Component {
 
                                 <CommentsWrapper 
                                   ref={this.commentWrapperRef}
+                                  isMobile={this.state.isMobile}
                                   innerRef={comp => this.overflow = comp}>
                                   {
                                     this.state.conversation_messages.map((o,i)=>{
@@ -533,7 +608,7 @@ class Messenger extends Component {
                           {
                             this.state.display_mode === "conversations" ? 
                               <div>
-                                <CommentsWrapper>
+                                <CommentsWrapper isMobile={this.state.isMobile}>
                                   {
                                     this.state.conversations.map((o,i)=>{
                                       
@@ -587,7 +662,7 @@ class Messenger extends Component {
                           }
                         </Body> 
                       </Fragment>
-                    </StyledFrame> : <div/>
+                    </SuperDuper> : <div/>
                   }  
               </Container> 
 
@@ -602,6 +677,7 @@ class Messenger extends Component {
                       height: '100px',
                       right: '-33px'
                     }}>
+
                     <Prime onClick={this.toggleMessenger}>
                       <div style={{
                         transition: 'all .2s ease-in-out',
@@ -708,19 +784,8 @@ class MessageFrame extends Component {
 
 
   render(){
-    return <StyledFrame id="messageFrame"
-      style={{
-        display: 'block',
-        overflow: 'scroll',
-        border: '0px',
-        zIndex: '1000',
-        height: this.fetchMinizedCache() ? '90px' : '70vh',
-        width: '100%',
-        position: 'absolute',
-        bottom: '-14px',
-        right: '-14px',
-        boxShadow: '1px 1px 100px 2px rgba(0,0,0,0.22)'
-      }}>
+    return <UserAutoMessageStyledFrame id="messageFrame" 
+      isMinimized={this.fetchMinizedCache()}>
       <div>
         {
           <UserAutoMessage open={true}>
@@ -745,7 +810,7 @@ class MessageFrame extends Component {
         }
 
       </div>
-    </StyledFrame>
+    </UserAutoMessageStyledFrame>
   }
 }
 
