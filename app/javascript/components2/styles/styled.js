@@ -90,7 +90,7 @@ export const EditorActions = styled.div`
   padding: 12px 1px;
 `
 
-export const CommentsWrapper = styled(({ innerRef, isMobile, ...rest }) => (<div {...rest}></div>))`
+export const CommentsWrapper = styled.div`
   min-height: 250px;
   overflow: auto;
 

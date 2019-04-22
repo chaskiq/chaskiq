@@ -556,7 +556,7 @@ class Messenger extends Component {
                               <EditorSection>
 
                                 <CommentsWrapper 
-                                  ref={this.commentWrapperRef}
+                                  //ref={this.commentWrapperRef}
                                   isMobile={this.state.isMobile}
                                   innerRef={comp => this.overflow = comp}>
                                   {
