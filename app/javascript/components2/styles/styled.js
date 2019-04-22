@@ -209,7 +209,6 @@ export const Footer = styled.div`
   align-items: center;
   transition: background-color .2s ease,box-shadow .2s ease,-webkit-box-shadow .2s ease;
   box-shadow: 0px -6px 58px #ececec;
-
 */
     z-index: 2147483001;
     text-align: center;
