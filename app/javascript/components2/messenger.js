@@ -95,6 +95,27 @@ const CloseButtonWrapper = styled.div`
   right: 10px;
 `
 
+const SuperFragment = styled.div`
+    -webkit-box-pack: start;
+    -ms-flex-pack: start;
+    justify-content: flex-start;
+    overflow: hidden;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    top: 0;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+    -ms-flex-direction: column;
+    flex-direction: column;
+}
+
+`
+
 
 let App = {}
 
@@ -519,7 +540,7 @@ class Messenger extends Component {
                 {
                   this.state.open ?  
                     <SuperDuper> 
-                      <Fragment>
+                      <SuperFragment>
                         <Header isMobile={this.state.isMobile}>
                           <HeaderOption>
                             { this.state.display_mode === "conversation" ? 
@@ -661,7 +682,7 @@ class Messenger extends Component {
                               : null 
                           }
                         </Body> 
-                      </Fragment>
+                      </SuperFragment>
                     </SuperDuper> : <div/>
                   }  
               </Container> 

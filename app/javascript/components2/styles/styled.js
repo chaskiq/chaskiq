@@ -22,6 +22,22 @@ export const Container = styled.div`
     transition: all .6s ease-in-out;
     font-family: sans-serif;
     z-index: 1000;
+
+
+
+    z-index: 2147483000;
+    position: fixed;
+    bottom: 100px;
+    right: 20px;
+    width: 376px;
+    min-height: 250px;
+    max-height: 704px;
+    box-shadow: rgba(0, 0, 0, 0.16) 0px 5px 40px;
+    opacity: 1;
+    height: calc(100% - 120px);
+    border-radius: 8px;
+    overflow: hidden;
+
 `;
 
 export const UserAutoMessage = styled.div`
@@ -135,7 +151,7 @@ export const Prime = styled.div`
 `
 
 export const Header = styled(({isMobile, ...rest})=>(<div {...rest}></div>))`
-  /* margin: 10px; */
+  /*
   font-size: 13px;
   font-family: 'Roboto';
   font-weight: 500;
@@ -147,21 +163,37 @@ export const Header = styled(({isMobile, ...rest})=>(<div {...rest}></div>))`
 
   border-top-left-radius: ${(props) => props.isMobile ? '0px' : '10px' };
   border-top-right-radius: ${(props) => props.isMobile ? '0px' : '10px' };
-  
+  */
+
+        height: 75px;
+  position: relative;
+    min-height: 75px;
+    background: rgb(36, 36, 36);
+    background: linear-gradient(135deg,rgb(36, 36, 36) 0%,rgb(0, 0, 0) 100%);
+    color: #fff;
+    -webkit-transition: height 160ms ease-out;
+    transition: height 160ms ease-out;
+
 `
 
 export const Body = styled.div`
-  position: relative;
+  /*position: relative;
   background: #fff;
   margin: 0px 0 0px 0;
-  //height: 300px;
   min-height: 0;
   font-size: 12px;
   line-height: 18px;
-  //overflow-y: auto;
   width: 100%;
-  float: right;
-  //padding-bottom: 100px;
+  float: right;*/
+
+    position: relative;
+    /* -webkit-box-flex: 1; */
+    -ms-flex: 1;
+    flex: 1;
+    background-color: #fff;
+    -webkit-box-shadow: inset 0 21px 4px -20px rgba(0,0,0,.2);
+    box-shadow: inset 0 21px 4px -20px rgba(0,0,0,.2);
+
 `
 
 export const Footer = styled.div`
