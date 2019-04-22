@@ -3,13 +3,10 @@ import React from 'react'
 export const mainColor = "#0a1a27"; //"#42a5f5";
 
 export const Container = styled.div`
-    /*position: fixed;*/
-    /* right: 53px; */
-    /*bottom: 92px;*/
+    /*
     width: 100%;
     font-size: 12px;
     line-height: 22px;
-    /*font-family: 'Roboto';*/
     font-weight: 500;
     opacity: ${props => props.open ? 1 : 0};
     -webkit-font-smoothing: antialiased;
@@ -22,7 +19,7 @@ export const Container = styled.div`
     transition: all .6s ease-in-out;
     font-family: sans-serif;
     z-index: 1000;
-
+    */
 
 
     z-index: 2147483000;
@@ -107,13 +104,16 @@ export const EditorActions = styled.div`
 `
 
 export const CommentsWrapper = styled.div`
-  min-height: 250px;
+  /*min-height: 250px;
   overflow: auto;
 
   ${(props)=> ( props.isMobile ? 
   'min-height: 76vh; overflow: auto; max-height: 250px;' : 
   'height: 248px;' 
-  )}
+  )}*/
+
+  padding-bottom: 105px;
+
   
     
 `
@@ -165,14 +165,15 @@ export const Header = styled(({isMobile, ...rest})=>(<div {...rest}></div>))`
   border-top-right-radius: ${(props) => props.isMobile ? '0px' : '10px' };
   */
 
-        height: 75px;
+  height: 75px;
   position: relative;
-    min-height: 75px;
-    background: rgb(36, 36, 36);
-    background: linear-gradient(135deg,rgb(36, 36, 36) 0%,rgb(0, 0, 0) 100%);
-    color: #fff;
-    -webkit-transition: height 160ms ease-out;
-    transition: height 160ms ease-out;
+  min-height: 75px;
+  background: rgb(36, 36, 36);
+  background: linear-gradient(135deg,rgb(36, 36, 36) 0%,rgb(0, 0, 0) 100%);
+  color: #fff;
+  -webkit-transition: height 160ms ease-out;
+  transition: height 160ms ease-out;
+
 
 `
 
@@ -187,16 +188,17 @@ export const Body = styled.div`
   float: right;*/
 
     position: relative;
-    /* -webkit-box-flex: 1; */
+    -webkit-box-flex: 1;
     -ms-flex: 1;
     flex: 1;
     background-color: #fff;
     -webkit-box-shadow: inset 0 21px 4px -20px rgba(0,0,0,.2);
     box-shadow: inset 0 21px 4px -20px rgba(0,0,0,.2);
-
 `
 
 export const Footer = styled.div`
+
+/*
   width: 100%;
   display: inline-block;
   background: #fff;
@@ -207,6 +209,20 @@ export const Footer = styled.div`
   align-items: center;
   transition: background-color .2s ease,box-shadow .2s ease,-webkit-box-shadow .2s ease;
   box-shadow: 0px -6px 58px #ececec;
+
+*/
+    z-index: 2147483001;
+    text-align: center;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    border-radius: 0 0 6px 6px;
+    height: 90px;
+    pointer-events: none;
+    background: -webkit-gradient(linear,left bottom,left top,from(#fff),to(rgba(255,255,255,0)));
+    background: linear-gradient(0deg,#fff,rgba(255,255,255,0));
+
 `
 
 export const MessageItem = styled.div`

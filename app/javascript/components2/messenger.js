@@ -46,6 +46,7 @@ import {
 // https://stackoverflow.com/questions/12114356/how-to-get-the-request-timezone
 
 const SuperDuper = styled(StyledFrame)`
+  /*
   display: block;
   overflow: scroll;
   border: 0px;
@@ -69,6 +70,11 @@ const SuperDuper = styled(StyledFrame)`
     width: calc(100vw + 20px);
     left: -12px;
   }
+  */
+
+  width: 100%;
+  height: 100%;
+  position: absolute;
 `
 
 const UserAutoMessageStyledFrame = styled(({ isMinimized, ...rest })=>(
@@ -628,7 +634,14 @@ class Messenger extends Component {
 
                           {
                             this.state.display_mode === "conversations" ? 
-                              <div>
+                              <div style={{
+                                position: 'absolute',
+                                top: '0',
+                                bottom: '0',
+                                left: '0',
+                                right: '0'
+                              }}>
+                              <div style={{ overflowY: 'auto', height: '100%'}}>
                                 <CommentsWrapper isMobile={this.state.isMobile}>
                                   {
                                     this.state.conversations.map((o,i)=>{
@@ -678,6 +691,7 @@ class Messenger extends Component {
                                   create new conversation
                                 </NewConvoBtn>
 
+                              </div>
                               </div>
                               : null 
                           }
