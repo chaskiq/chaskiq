@@ -115,8 +115,25 @@ export const CommentsWrapper = styled.div`
   )}*/
 
   padding-bottom: 105px;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  -webkit-box-flex: 1;
+  -ms-flex-positive: 1;
+  flex-grow: 1;
+  -ms-flex-negative: 0;
+  flex-shrink: 0;
+  -webkit-box-pack: justify;
+  -ms-flex-pack: justify;
+  justify-content: space-between;
+  overflow-anchor: none;
+  height: auto;
+  -webkit-box-orient: vertical;
 
-  
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-direction: normal;
+
     
 `
 
@@ -259,6 +276,7 @@ export const MessageItem = styled.div`
     &.user {
       margin-left: 60px;
       float: left;
+      align-self: flex-start;
       background: rgba(0, 0, 0, 0.03);
       color: #666;      
     }
@@ -266,6 +284,7 @@ export const MessageItem = styled.div`
     &.admin {
       margin-right: 20px;
       float: right;
+      align-self: flex-end;
       background: ${mainColor};
       color: #eceff1; 
     }
