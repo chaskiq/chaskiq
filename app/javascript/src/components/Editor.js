@@ -19,7 +19,7 @@ const { EmojiSuggestions, EmojiSelect } = emojiPlugin;
 import 'draft-js-emoji-plugin/lib/plugin.css'
 
 //import 'draft-js-inline-toolbar-plugin/lib/plugin.css'
-import '../../components2/styles/style.css'
+//import '../../components2/styles/style.css'
 import { EditorState } from 'draft-js';
 
 const hashtagPlugin = createHashtagPlugin();
