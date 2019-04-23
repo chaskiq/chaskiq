@@ -7,25 +7,13 @@ import Html from 'slate-html-serializer'
 import styled from "styled-components"
 
 const EditorContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  min-width: 242px;
-  min-height: 50px;
-  max-height: 250px;
-  height: auto;
-  overflow: auto;
-  background-color: white;
-  box-sizing: border-box;
-  max-width: inherit;
-  word-wrap: break-word;
-  /*border-width: 1px;
-  border-style: solid;
-  border-color: rgb(223, 225, 230);*/
-  border-image: initial;
-  border-radius: 3px;
-  animation: none;
-  padding: 10px;
-  align-self: center;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    min-height: 56px;
+    max-height: 200px;
+    border-top: 1px solid #e6e6e6;
 `;
 
 const EditorActions = styled.div`
@@ -39,9 +27,24 @@ const EditorActions = styled.div`
 `
 
 const EditorWrapper = styled.div`
-  height: 100px;
-  display: flex;
+  /*height: 100px;
+  display: flex;*/
   width: 80vw;
+`
+
+const Input = styled.div`
+  padding: 18px 100px 20px 16px;
+  /* width: 100%; */
+  height: 100%;
+  font-family: "Helvetica Neue","Apple Color Emoji",Helvetica,Arial,sans-serif;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1.33;
+  background-color: #fff;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+  text-align: left;
+}
 `
 
 const rules = [
@@ -93,8 +96,14 @@ const initialValue = Value.fromJSON({
 // Define our app...
 export default class App extends React.Component {
   // Set the initial value when the app is first constructed.
-  state = {
-    value: initialValue
+
+
+  constructor(props){
+    super(props)
+    this.editor = null
+    this.state = {
+      value: initialValue
+    }
   }
 
   onKeyDown = (event, editor, next) => {
@@ -136,12 +145,16 @@ export default class App extends React.Component {
   render() {
     return <EditorWrapper onClick={this.handleFocus}>
       <EditorContainer>
-        <Editor
-          value={this.state.value}
-          onChange={this.onChange}
-          onKeyDown={this.onKeyDown}
-          placeholder={'type something...'}
-        />
+        <Input>
+          <Editor
+            ref={(comp)=> this.editor = comp}
+            value={this.state.value}
+            onChange={this.onChange}
+            onKeyDown={this.onKeyDown}
+            placeholder={'type something...'}
+          />
+        </Input>
+        
       </EditorContainer>
     </EditorWrapper>
   }

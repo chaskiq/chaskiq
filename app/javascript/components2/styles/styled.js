@@ -3,37 +3,39 @@ import React from 'react'
 export const mainColor = "#0a1a27"; //"#42a5f5";
 
 export const Container = styled.div`
-    /*
-    width: 100%;
-    font-size: 12px;
-    line-height: 22px;
-    font-weight: 500;
-    opacity: ${props => props.open ? 1 : 0};
-    -webkit-font-smoothing: antialiased;
-    font-smoothing: antialiased;
-    box-shadow: 1px 1px 100px 2px rgba(0,0,0,0.22);
-    border-radius: 10px;
-    -webkit-transition: all .2s ease-out;
-    -webkit-transition: all .2s ease-in-out;
-    -webkit-transition: all .2s ease-in-out;
-    transition: all .6s ease-in-out;
-    font-family: sans-serif;
-    z-index: 1000;
-    */
 
+    ${(props)=> props.isMobile ? 
+    
+        `min-height: 250px;
+        box-shadow: rgba(0, 0, 0, 0.16) 0px 5px 40px;
+        opacity: 1;
+        z-index: 2147483001;
+        width: 100%;
+        height: 100%;
+        max-height: none;
+        top: 0px;
+        left: 0px;
+        right: 0px;
+        bottom: 0px;
+        position: fixed;
+        overflow: hidden;
+        border-radius: 0px;` : 
 
-    z-index: 2147483000;
-    position: fixed;
-    bottom: 100px;
-    right: 20px;
-    width: 376px;
-    min-height: 250px;
-    max-height: 704px;
-    box-shadow: rgba(0, 0, 0, 0.16) 0px 5px 40px;
-    opacity: 1;
-    height: calc(100% - 120px);
-    border-radius: 8px;
-    overflow: hidden;
+        `z-index: 2147483000;
+        position: fixed;
+        bottom: 100px;
+        right: 20px;
+        width: 376px;
+        min-height: 250px;
+        max-height: 704px;
+        box-shadow: rgba(0, 0, 0, 0.16) 0px 5px 40px;
+        opacity: 1;
+        height: calc(100% - 120px);
+        border-radius: 8px;
+        overflow: hidden;`
+    
+    }
+    
 
 `;
 
@@ -177,6 +179,7 @@ export const Header = styled(({isMobile, ...rest})=>(<div {...rest}></div>))`
 
 `
 
+
 export const Body = styled.div`
   /*position: relative;
   background: #fff;
@@ -218,10 +221,25 @@ export const Footer = styled.div`
     right: 0;
     border-radius: 0 0 6px 6px;
     height: 90px;
-    pointer-events: none;
+    /*pointer-events: none;*/
     background: -webkit-gradient(linear,left bottom,left top,from(#fff),to(rgba(255,255,255,0)));
     background: linear-gradient(0deg,#fff,rgba(255,255,255,0));
 
+`
+
+export const ConversationsFooter = styled.div`
+  z-index: 2147483001;
+  text-align: center;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  border-radius: 0 0 6px 6px;
+  height: 90px;
+  pointer-events: none;
+  background: -webkit-gradient(linear,left bottom,left top,from(#fff),to(rgba(255,255,255,0)));
+  background: linear-gradient(0deg,#fff,rgba(255,255,255,0));
+}
 `
 
 export const MessageItem = styled.div`
