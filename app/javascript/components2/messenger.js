@@ -261,6 +261,7 @@ class Messenger extends Component {
   scrollToLastItem = ()=>{
     if(!this.overflow)
       return
+    
     this.overflow.scrollTop = this.overflow.scrollHeight 
   }
 
@@ -593,14 +594,15 @@ class Messenger extends Component {
                                         left: '0',
                                         right: '0'
                                       }}>
-                                        <div style={{ overflowY: 'auto', height: '100%' }}>
+                                      <div 
+                                        ref={comp => this.overflow = comp}
+                                        style={{ overflowY: 'auto', height: '100%' }}>
 
                                           <EditorSection>
 
                                             <CommentsWrapper
                                               //ref={this.commentWrapperRef}
-                                              isMobile={this.state.isMobile}
-                                              innerRef={comp => this.overflow = comp}>
+                                              isMobile={this.state.isMobile}>
                                               {
                                                 this.state.conversation_messages.map((o, i) => {
                                                   return <MessageItemWrapper
