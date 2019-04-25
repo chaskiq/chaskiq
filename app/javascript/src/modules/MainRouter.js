@@ -11,6 +11,7 @@ import axios from 'axios'
 import DashboardIcon from '@atlaskit/icon/glyph/dashboard';
 import GearIcon from '@atlaskit/icon/glyph/settings';
 import SearchIcon from '@atlaskit/icon/glyph/search';
+import Landing from '../pages/Landing'
 
 import NewApp from '../pages/NewApp'
 
@@ -137,7 +138,7 @@ export default class MainRouter extends Component {
 
               </Switch>
               
-            </App> : <p>no logged user</p>
+            </App> : <Landing/>
         }
 
       </BrowserRouter>

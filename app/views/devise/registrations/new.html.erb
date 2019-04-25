@@ -1,0 +1,42 @@
+<ak-grid>
+
+  <ak-grid-column size="3"></ak-grid-column>
+  <ak-grid-column size="6">
+
+
+    <h2>Sign up</h2>
+
+    <%= form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f| %>
+      <%= render "devise/shared/error_messages", resource: resource %>
+
+      <div class="ak-field-group">
+        <%= f.label :email %><br />
+        <%= f.email_field :email, autofocus: true, autocomplete: "email" , class: "ak-field-text"%>
+      </div>
+
+      <div class="ak-field-group">
+        <%= f.label :password %>
+        <% if @minimum_password_length %>
+        <em>(<%= @minimum_password_length %> characters minimum)</em>
+        <% end %><br />
+        <%= f.password_field :password, autocomplete: "new-password" , class: "ak-field-text"%>
+      </div>
+
+      <div class="ak-field-group">
+        <%= f.label :password_confirmation %><br />
+        <%= f.password_field :password_confirmation, autocomplete: "new-password" , class: "ak-field-text" %>
+      </div>
+
+      <div class="actions">
+        <%= f.submit "Sign up", class: "ak-button ak-button__appearance-primary" %>
+      </div>
+    <% end %>
+
+    <%= render "devise/shared/links" %>
+
+  </ak-grid-column>
+  <ak-grid-column size="3"></ak-grid-column>
+</ak-grid>
+
+
+
