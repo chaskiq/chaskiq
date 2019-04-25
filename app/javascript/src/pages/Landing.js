@@ -1,11 +1,11 @@
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import Button, { ButtonGroup } from '@atlaskit/button';
-import MainSection from '../components/MainSection';
 import ContentWrapper from '../components/ContentWrapper';
 import PageTitle from '../components/PageTitle';
 import logo from '../images/logo.png';
 import Page, { Grid, GridColumn } from '@atlaskit/page';
+import styled, { ThemeProvider } from 'styled-components'
 
 
 export default class HomePage extends Component {
@@ -18,7 +18,7 @@ export default class HomePage extends Component {
   };
 
   render() {
-    return (
+    return (<ThemeProvider theme={{ mode: 'dark' }}>
       <ContentWrapper>
 
         <Page >
@@ -54,6 +54,7 @@ export default class HomePage extends Component {
 
 
       </ContentWrapper>
-    );
+      </ThemeProvider>
+      );
   }
 }
