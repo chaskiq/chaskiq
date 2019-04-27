@@ -7,8 +7,13 @@ RSpec.describe "Widget management", :type => :system do
   end
 
   it "enables me to create widgets" do
-    app = FactoryGirl.create :app
+    app = FactoryGirl.create(:app, 
+                              encryption_key: "unodostrescuatro",
+                              active_messenger: true,
+                              state: 'enabled')
+                              
     visit "/tester"
+
     expect(page).to have_text("Hello")
     expect(page).to have_text("miguel")
     expect(page).to have_text(app.key)

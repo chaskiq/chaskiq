@@ -4,12 +4,12 @@ class ClientTesterController < ApplicationController
   layout "client"
   
   def show
-    key = App.last.encryption_key # SecureRandom.hex(8) o SecureRandom.random_bytes(16)
+    key = App.first.encryption_key # SecureRandom.hex(8) o SecureRandom.random_bytes(16)
     # payload = "miguel@preyhq.com"
-  
+
     @json_payload = {
-      domain: "#{Rails.application.routes.default_url_options[:host]}",
-      ws: "#{Rails.application.config.action_cable.url}",
+      domain: "http://" + request.env["HTTP_HOST"],
+      ws: "ws://" + request.env["HTTP_HOST"]+ "/cable",
       app_id: "#{App.first.key}",
       name: "miguel",
       email: "miguel@preyhq.com",
