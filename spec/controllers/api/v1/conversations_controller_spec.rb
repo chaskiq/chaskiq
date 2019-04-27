@@ -24,9 +24,10 @@ RSpec.describe Api::V1::ConversationsController, type: :controller do
     }
 
     it "saves conversation" do
+      request.headers.merge!({'HTTP_USER_DATA' => {email: user.email}.to_json })
+
       post :create, params: {
         app_id: app.key,
-        email: user.user.email,
         message: "aaaa",
         format: :json
       }
@@ -37,9 +38,10 @@ RSpec.describe Api::V1::ConversationsController, type: :controller do
     end
 
     it "get conversations" do
+      request.headers.merge!({'HTTP_USER_DATA' => {email: user.email }.to_json })
+
       get :index, params: {
         app_id: app.key,
-        email: "test@test.cl",
         format: :json
       }
       data = JSON.parse(response.body)

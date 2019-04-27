@@ -28,7 +28,7 @@ private
       key = @app.encryption_key #"d2f5e36677eac3b5"
       encrypted = request.headers["HTTP_ENC_DATA"]
       json = JWE.decrypt(encrypted, key)
-      JSON.parse(json).symbolize_keys
+      JSON.parse(json).deep_symbolize_keys
     rescue 
       nil
     end
@@ -37,7 +37,7 @@ private
   # non encrypted version
   def get_user_from_unencrypted
     begin
-      JSON.parse(request.headers["HTTP_USER_DATA"]).symbolize_keys
+      JSON.parse(request.headers["HTTP_USER_DATA"]).deep_symbolize_keys
     rescue 
       nil
     end

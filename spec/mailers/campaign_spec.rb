@@ -42,7 +42,7 @@ RSpec.describe CampaignMailer, type: :mailer do
   end
 
   it "pass subscriber attributes to template" do
-    at = campaign.attributes_for_mailer(subscriber)
+    at = campaign.attributes_for_template(subscriber)
     expect(last_email.subject).to_not be_blank
 
     expect(last_email.body).to include(subscriber.name)

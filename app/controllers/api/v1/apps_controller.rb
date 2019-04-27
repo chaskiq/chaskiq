@@ -38,11 +38,11 @@ class Api::V1::AppsController < ApiController
       os:               browser.platform.id,
       os_version:       browser.platform.version,
       browser_language: language.try(:code),
-      lang:             @user_data[:properties].present? ? @user_data[:properties].fetch("lang") : nil
+      lang:             @user_data[:properties].present? ? @user_data[:properties].fetch(:lang) : nil
     }
 
-    
 
+    
     # resource_params.to_h.merge(request.location.data)
     #data = resource_params.to_h.deep_merge(browser_params)
     data = @user_data.slice(:name, :email, :properties).deep_merge(browser_params)

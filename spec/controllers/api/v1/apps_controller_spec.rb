@@ -18,15 +18,38 @@ RSpec.describe Api::V1::AppsController, type: :controller do
     }
 
     it "renders the index template" do
-      post :ping, params: {
-        id: app.key,
-        user_data: data
-      }
+
+      request.headers.merge!({'HTTP_USER_DATA' => data.to_json })
+
+      post :ping, params: { id: app.key }
       
       data = JSON.parse(response.body)
+
       expect(response).to be_ok
       expect(JSON.parse(response.body)).to an_instance_of(Hash)
       expect(AppUser.last.last_visited_at).to_not be_blank
     end
 
+    context "encription" do
+
+      it "renders the index template" do
+
+        app.update_attributes(encryption_key: "unodostrescuatro")
+
+        key = app.encryption_key
+
+        encrypted_data = JWE.encrypt(data.to_json, key, alg: 'dir')
+
+        request.headers.merge!({'HTTP_ENC_DATA' => encrypted_data })
+
+        post :ping, params: { id: app.key }
+        
+        data = JSON.parse(response.body)
+        expect(response).to be_ok
+        expect(JSON.parse(response.body)).to an_instance_of(Hash)
+        expect(AppUser.last.last_visited_at).to_not be_blank
+      end
+
+
+    end
 end
