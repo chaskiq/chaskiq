@@ -30,7 +30,7 @@ const tooltip_backward_transition = 'transform 250ms';
 
 const dante_font_family_sans_serif = 'comic-sans';
 const dante_visual_debugger = 'false';
-const dante_text_color = '#eee';
+const dante_text_color = 'rgb(74, 74, 74)';
 const dante_inversed_color = '#FFFFFF';
 const dante_accent_color = '#5BD974';
 const dante_control_color = '#333333';
@@ -122,7 +122,7 @@ const Container = styled.div`
   }
 
   .graf--code {
-    line-height: 1em;
+    line-height: 1rem;
   }
 
   .graf--p.dante--spinner{
@@ -154,7 +154,7 @@ const Container = styled.div`
     letter-spacing: -0.02em;
     font-weight: 700;
     font-style: normal;
-    font-size: 2.1em;
+    font-size: 2.1rem;
     margin-left: -1.8px;
     line-height: 1.2;
     margin-top: 24px;
@@ -169,7 +169,7 @@ const Container = styled.div`
     letter-spacing: -0.02em;
     font-weight: 300;
     font-style: normal;
-    font-size: 1.5em;
+    font-size: 1.5rem;
     margin-left: -1.5px;
     line-height: 1.2;
     color: rgba(236, 236, 236, 0.44);
@@ -242,7 +242,7 @@ const Container = styled.div`
     margin-left: -6px;
     padding-left: 15px;
     margin-bottom: 25px;
-    font-size: 1em;
+    font-size: 1rem;
     line-height: 1.4em;
     margin-top: 20px;
     word-break: break-all;
@@ -255,7 +255,7 @@ const Container = styled.div`
   .graf--pullquote {
     line-height: 1.4;
     text-align: center;
-    font-size: 3.2em;
+    font-size: 3.2rem;
     margin: 48px -160px;
     border: none;
     padding: 0;
@@ -297,7 +297,7 @@ const Container = styled.div`
       position: absolute;
       top: 1px;
       display: inline-block;
-      font-size: 2em;
+      font-size: 2rem;
       width: 20px;
       right: 10px;
       text-shadow: 0px 0px 0px white;
@@ -342,20 +342,20 @@ const Container = styled.div`
   @media (max-width: 500px) {
 
     .graf--p {
-      font-size: 0.7em;
+      font-size: 0.7rem;
     }
 
     .graf--h2 {
-      font-size: 1.6em;
+      font-size: 1.6rem;
       margin-top: 18px;
       margin-bottom: 18px;
     }
     .graf--h3 {
-      font-size: 1.3em;
+      font-size: 1.3rem;
       margin-top: 12px;
     }
     .graf--h4 {
-      font-size: 1.2em;
+      font-size: 1.2rem;
       margin-top: 20px;
     }
 

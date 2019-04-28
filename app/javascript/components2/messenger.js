@@ -81,20 +81,20 @@ const SuperDuper = styled(StyledFrame)`
 const UserAutoMessageStyledFrame = styled(({ isMinimized, ...rest })=>(
   <StyledFrame {...rest}/>
   ))`
-  display: block;
-  overflow: scroll;
-  border: 0px;
-  z-index: 1000;
-  height: ${props => props.isMinimized ? '90px' : '70vh' }
-  width: 100%;
-  position: absolute;
-  bottom: -14px;
-  right: -14px;
-  box-shadow: 1px 1px 100px 2px rgba(0,0,0,0.22);
-
-  @media (min-width: 320px) and (max-width: 480px) {
-    left: 0px;
-  }
+    display: block;
+    /* overflow: scroll; */
+    border: 0px;
+    display: block;
+    /* overflow: scroll; */
+    border: 0px;
+    z-index: 1000;
+    height: 70vh;
+    width: 350px;
+    /* width: 100%; */
+    position: absolute;
+    bottom: 83px;
+    right: 17px;
+    /* box-shadow: 1px 1px 100px 2px rgba(0,0,0,0.22); */
 `
 
 const CloseButtonWrapper = styled.div`
@@ -120,7 +120,16 @@ const SuperFragment = styled.div`
     -ms-flex-direction: column;
     flex-direction: column;
 }
+`
 
+const UserAutoMessageFlex = styled.div`
+  display: flex;
+  flex-direction: column;
+  /* align-items: baseline; */
+  height: 100vh;
+  /* flex-direction: row; */
+  /* flex-grow: 1; */
+  justify-content: space-between;
 `
 
 
@@ -539,8 +548,6 @@ class Messenger extends Component {
   }
 
   render(){
-    console.log(this.state.isMobile)
-
     return <ThemeProvider theme={{ mode: 'dark' }}>
             <EditorWrapper>
 
@@ -848,7 +855,7 @@ class MessageFrame extends Component {
   render(){
     return <UserAutoMessageStyledFrame id="messageFrame" 
       isMinimized={this.fetchMinizedCache()}>
-      <div>
+      <UserAutoMessageFlex>
         {
           <UserAutoMessage open={true}>
             <MessageContainer
@@ -871,7 +878,7 @@ class MessageFrame extends Component {
           </iframe>*/
         }
 
-      </div>
+      </UserAutoMessageFlex>
     </UserAutoMessageStyledFrame>
   }
 }

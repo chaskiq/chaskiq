@@ -40,27 +40,15 @@ export const Container = styled.div`
 `;
 
 export const UserAutoMessage = styled.div`
-  position: fixed;
-  bottom: 0px;
-  /* width: 320px; */
-  font-size: 12px;
-  line-height: 22px;
-  font-family: 'Roboto';
-  font-weight: 500;
-  opacity: ${props => props.open ? 1 : 0};
-  -webkit-font-smoothing: antialiased;
-  font-smoothing: antialiased;
-  
-  border-radius: 10px;
-  -webkit-transition: all .2s ease-out;
-  -webkit-transition: all .2s ease-in-out;
-  -webkit-transition: all .2s ease-in-out;
-  -webkit-transition: all .6s ease-in-out;
-  transition: all .6s ease-in-out;
-  font-family: sans-serif;
-  z-index: 100;
-  width: 100%;
-  left: 0px;
+    box-shadow: -1px 3px 3px 3px rgba(158,191,208,0.09);
+    border: 1px solid #f3f0f0;
+    height: 42vh;
+    width: 96vw;
+    overflow: scroll;
+    border-radius: 5px;
+    background: #fff;
+    margin-bottom: 12px;
+    flex: 1;
 `
 
 export const AvatarSection = styled.div`
