@@ -8,6 +8,12 @@ class Api::V1::MessagesController < ApiController
     @user = get_app_user
     @message = @app.messages.find(params[:id]).show_notification_for(@user)
 
+    # TODO: set conversation message only if it's not created
+    @conversation = @app.start_conversation({
+        message: @message.html_content, 
+        from: @user
+      }) if @message.present?
+
     if(@message.blank?)
       render json: {}, status: 406 and return
     end

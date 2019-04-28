@@ -2,7 +2,7 @@ class Conversation < ApplicationRecord
   belongs_to :app
   belongs_to :assignee, class_name: 'User', optional: true
   belongs_to :main_participant, class_name: "AppUser" #, foreign_key: "user_id"
-  has_many :messages, class_name: "ConversationPart"
+  has_many :messages, class_name: "ConversationPart", dependent: :destroy
 
   include AASM
 
