@@ -1,24 +1,53 @@
-# README
+# Hermes
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+Hermes (Hermessenger) is a platform that enables chat comunication with users in app or via campaigns (in app messages or newsletters). The platform is made with React, Redux and Ruby on Rails on backend serving a graphql api.
 
-Things you may want to cover:
+## Main features:
 
-* Ruby version
+### Intercom's like messenger. widget based chat application:
 
-* System dependencies
+![https://proseflow.herokuapp.com/rails/active_storage/blobs/eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaHBBaFVCIiwiZXhwIjpudWxsLCJwdXIiOiJibG9iX2lkIn19--d44a670bbacb49c154f0ba0035e452bf847b7138/image.png](https://proseflow.herokuapp.com/rails/active_storage/blobs/eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaHBBaFVCIiwiZXhwIjpudWxsLCJwdXIiOiJibG9iX2lkIn19--d44a670bbacb49c154f0ba0035e452bf847b7138/image.png)
 
-* Configuration
+messenger app
 
-* Database creation
+The widget registers users's visits and identify by a client given id. All the comunication is transmited securely via JWE (json web encryption)
 
-* Database initialization
+![https://proseflow.herokuapp.com/rails/active_storage/blobs/eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaHBBaFlCIiwiZXhwIjpudWxsLCJwdXIiOiJibG9iX2lkIn19--1a55e7a4b8fc6e16afd7b8ca63df35b85cce6f9b/image.png](https://proseflow.herokuapp.com/rails/active_storage/blobs/eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaHBBaFlCIiwiZXhwIjpudWxsLCJwdXIiOiJibG9iX2lkIn19--1a55e7a4b8fc6e16afd7b8ca63df35b85cce6f9b/image.png)
 
-* How to run the test suite
+widget integration
+## Backend
 
-* Services (job queues, cache servers, search engines, etc.)
+### Platform
 
-* Deployment instructions
+When users visits a site with the hermes integration, they are registered in the platform database which registers the data provided by the integrator and also many browser's properties. (os, os version, user agent etc..).
 
-* ...
+In the administration page you can see who is online and add "segments" which enables filters for you to query different properties on user information. ie: active users, sleeping away etc.. It's entirely customizable.
+
+![https://proseflow.herokuapp.com/rails/active_storage/blobs/eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaHBBaGNCIiwiZXhwIjpudWxsLCJwdXIiOiJibG9iX2lkIn19--3876ce9cd9dd09b276faf03916d9bc27f01044bb/image.png](https://proseflow.herokuapp.com/rails/active_storage/blobs/eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaHBBaGNCIiwiZXhwIjpudWxsLCJwdXIiOiJibG9iX2lkIn19--3876ce9cd9dd09b276faf03916d9bc27f01044bb/image.png)
+
+platform's visitors list
+
+### Campaigns
+
+There are 2 modes of campaign implemented - In app message and mailing.
+
+![https://proseflow.herokuapp.com/rails/active_storage/blobs/eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaHBBaGdCIiwiZXhwIjpudWxsLCJwdXIiOiJibG9iX2lkIn19--2cdc923c57fdc387bedf4cf20800cfc1a1d81f59/image.png](https://proseflow.herokuapp.com/rails/active_storage/blobs/eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaHBBaGdCIiwiZXhwIjpudWxsLCJwdXIiOiJibG9iX2lkIn19--2cdc923c57fdc387bedf4cf20800cfc1a1d81f59/image.png)
+
+campaigns menu
+
+when the campaign is active you can see the metrics on the campaign. ie , who saw, click , close etc..
+
+![https://proseflow.herokuapp.com/rails/active_storage/blobs/eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaHBBaGtCIiwiZXhwIjpudWxsLCJwdXIiOiJibG9iX2lkIn19--905ba56fee749d092c477750eb1e82a80131f51c/image.png](https://proseflow.herokuapp.com/rails/active_storage/blobs/eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaHBBaGtCIiwiZXhwIjpudWxsLCJwdXIiOiJibG9iX2lkIn19--905ba56fee749d092c477750eb1e82a80131f51c/image.png)
+
+campaign stats
+
+Also you can configure campaign using segments to target audience:
+
+![https://proseflow.herokuapp.com/rails/active_storage/blobs/eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaHBBaG9CIiwiZXhwIjpudWxsLCJwdXIiOiJibG9iX2lkIn19--040a242d36ac66b2c61ab7ac79574eef5dfa93d7/image.png](https://proseflow.herokuapp.com/rails/active_storage/blobs/eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaHBBaG9CIiwiZXhwIjpudWxsLCJwdXIiOiJibG9iX2lkIn19--040a242d36ac66b2c61ab7ac79574eef5dfa93d7/image.png)
+
+campaign's segment manager
+
+An the content of the campaign is managed with a state of the art wysiwyg text editor (dante2)
+
+![https://proseflow.herokuapp.com/rails/active_storage/blobs/eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaHBBaHdCIiwiZXhwIjpudWxsLCJwdXIiOiJibG9iX2lkIn19--a04a59ec8f3dbdc3ee7ff129b2592e3cc6f25029/image.png](https://proseflow.herokuapp.com/rails/active_storage/blobs/eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaHBBaHdCIiwiZXhwIjpudWxsLCJwdXIiOiJibG9iX2lkIn19--a04a59ec8f3dbdc3ee7ff129b2592e3cc6f25029/image.png)
+
