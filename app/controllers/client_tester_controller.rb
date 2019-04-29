@@ -11,9 +11,9 @@ class ClientTesterController < ApplicationController
       domain: "http://" + request.env["HTTP_HOST"],
       ws: "ws://" + request.env["HTTP_HOST"]+ "/cable",
       app_id: "#{App.first.key}",
-      name: "miguel",
       email: "miguel@preyhq.com",
       properties: {
+                    name: "miguel",
                     lang: "es",
                     id: "localhost",
                     country: "chile",

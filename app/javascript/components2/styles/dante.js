@@ -530,10 +530,10 @@ section.is-mediaFocused .graf--sectionCaption,
 .graf.graf--mixtapeEmbed {
 
 
-  border-color: rgba(0,0,0,0.15);
+  border-color: rgba(210, 208, 208, 0.15);
   border-radius: 5px;
   border-style: solid;
-  border-width: 1px;
+  border-width: 1px !important;
   box-sizing: border-box;
   color: rgba(0,0,0,0.6);
   font-family: ${dante_font_family_sans};

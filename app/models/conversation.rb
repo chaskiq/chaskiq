@@ -24,6 +24,7 @@ class Conversation < ApplicationRecord
     part          = self.messages.new
     part.app_user = opts[:from]
     part.message  = opts[:message]
+    part.message_source = opts[:message_source] if opts[:message_source]
     part.save
     
     if part.errors.blank?

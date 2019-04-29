@@ -8,11 +8,15 @@ class Api::V1::MessagesController < ApiController
     @user = get_app_user
     @message = @app.messages.find(params[:id]).show_notification_for(@user)
 
-    # TODO: set conversation message only if it's not created
+    # TODO: select admin users from some config (implement that config!)
+    admin = @app.admin_users.first.app_users.where(app: @app).first
+
     @conversation = @app.start_conversation({
-        message: @message.html_content, 
-        from: @user
-      }) if @message.present?
+        message: @message.mustache_template_for(@user), 
+        from: admin,
+        message_source: @message,
+        participant: @user
+      }) if @message.present? && !added_message?
 
     if(@message.blank?)
       render json: {}, status: 406 and return
@@ -26,6 +30,13 @@ class Api::V1::MessagesController < ApiController
   end
 
 private
+
+  def added_message?
+    @user.conversations
+      .joins(:messages)
+      .where("conversation_parts.message_id =?", @message.id)
+      .any?
+  end
 
   def get_app
     @app = App.find_by(key: params[:app_id])

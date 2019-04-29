@@ -14,6 +14,7 @@ import Quest from './messageWindow'
 
 import StyledFrame from 'react-styled-frame'
 import styled, { ThemeProvider } from 'styled-components'
+import DanteContainer from './styles/dante'
 import CrossIcon from '@atlaskit/icon/glyph/cross';
 import Button from '@atlaskit/button';
 
@@ -33,6 +34,7 @@ import {
   MessageItem,
   HeaderOption,
   ChatAvatar,
+  UserAutoChatAvatar,
   NewConvoBtn,
   ConversationSummary,
   ConversationSummaryAvatar,
@@ -547,6 +549,10 @@ class Messenger extends Component {
     this.setState({open: !this.state.open})
   }
 
+  isUserAutoMessage = (o)=>{
+    return o.message_source && o.message_source.type === "UserAutoMessage"
+  }
+
   render(){
     return <ThemeProvider theme={{ mode: 'dark' }}>
             <EditorWrapper>
@@ -617,16 +623,36 @@ class Messenger extends Component {
                                                     key={o.id}
                                                     data={o}>
                                                     <MessageItem
-                                                      className={this.state.conversation.main_participant.email === o.app_user.email ? 'user' : 'admin'}>
-                                                      <ChatAvatar>
-                                                        <img src={gravatar.url(o.app_user.email)} />
-                                                      </ChatAvatar>
+                                                      className={this.state.conversation.main_participant.email === o.app_user.email ? 'user' : 'admin'}
+                                                      messageSourceType={o.message_source ? o.message_source.type : '' }>
+                                                      
+                                                      {
+                                                        !this.isUserAutoMessage(o) ? 
+                                                          <ChatAvatar>
+                                                            <img src={gravatar.url(o.app_user.email)} />
+                                                          </ChatAvatar> : null
+                                                      }
 
-                                                      <div
-                                                        key={i}
-                                                        className="text"
-                                                        dangerouslySetInnerHTML={{ __html: o.message }}
-                                                      />
+
+
+                                                      <DanteContainer>
+
+                                                        {
+                                                          this.isUserAutoMessage(o) ?
+                                                            <UserAutoChatAvatar>
+                                                              <img src={gravatar.url(o.app_user.email)} />
+                                                              <span>{o.app_user.name || o.app_user.email}</span>
+                                                            </UserAutoChatAvatar> : null
+                                                        }
+
+                                                        <div
+                                                          key={i}
+                                                          className="text"
+                                                          dangerouslySetInnerHTML={{ __html: o.message }}
+                                                        />
+                                                      </DanteContainer>
+
+
                                                       <span className="status">
                                                         {
                                                           o.read_at ?

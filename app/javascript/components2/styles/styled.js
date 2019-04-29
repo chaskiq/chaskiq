@@ -247,11 +247,27 @@ export const ConversationsFooter = styled.div`
 }
 `
 
+export const UserAutoChatAvatar = styled.div`
+    display:flex;
+    align-items: center;
+    span{
+      font-size: 0.8rem;
+      margin-left: 10px;
+      color: #b1b1b1;
+    }
+    img {
+      width: 40px;
+      height: 40px;
+      text-align: center;
+      border-radius: 50%;
+    }
+`
+
 export const MessageItem = styled.div`
     position: relative;
     margin: 8px 0 15px 0;
     padding: 8px 10px;
-    max-width: 60%;
+    max-width: ${(props) => (props.messageSourceType === "UserAutoMessage" ?  '76%' : '60%')}
     min-width: 25%;
     display: block;
     word-wrap: break-word;
@@ -270,10 +286,18 @@ export const MessageItem = styled.div`
     }
 
     &.admin {
-      margin-right: 20px;
-      float: right;
-      align-self: flex-end;
-      background: ${mainColor};
+
+
+      ${(props) => (props.messageSourceType === "UserAutoMessage" ? `
+        align-self: center;
+        border: 1px solid #f1f0f0;
+      ` : `
+        align-self: flex-end;
+        background: ${mainColor};
+        margin-right: 20px;
+        float: right;
+      `)}
+
       color: #eceff1; 
     }
 

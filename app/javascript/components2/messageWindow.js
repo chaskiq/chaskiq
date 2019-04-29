@@ -3,7 +3,7 @@ import styled from 'styled-components'
 //import posed from 'react-pose'
 //import { CreateTheme } from 'prey-stash'
 //import SplitText from 'react-pose-text'
-import Container from './styles'
+import Container from './styles/dante'
 
 
 //const theme = CreateTheme(themeConfig)

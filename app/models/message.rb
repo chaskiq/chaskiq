@@ -7,6 +7,8 @@ class Message < ApplicationRecord
   has_many :metrics, foreign_key: "campaign_id"
   has_many_attached :attachments
 
+  has_many :conversation_parts
+
   attr_accessor :step
 
   validates :name, presence: :true
