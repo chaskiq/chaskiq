@@ -12,6 +12,8 @@ import ConversationEditor from '../components/Editor.js'
 import {convertToHTML} from 'draft-convert'
 import Avatar from '@atlaskit/avatar';
 import {soundManager} from 'soundmanager2'
+import sanitizeHtml from 'sanitize-html';
+
 import './convo.scss'
 
 const RowColumnContainer = styled.div`
@@ -196,7 +198,7 @@ class MessageItem extends Component {
           }  
               
           <span dangerouslySetInnerHTML={
-            {__html: this.props.message.message}
+            { __html: sanitizeHtml(this.props.message.message).substring(0, 250) }
           }/>
           
         </MessageBody>
@@ -389,7 +391,6 @@ class ConversationContainerShow extends Component {
         console.log("disconnected from conversations")
       },
       received: (data)=> {
-        console.log(data.message)
 
         if ( this.state.messages.find( (o)=> o.id === data.id ) ){
           
@@ -458,7 +459,7 @@ class ConversationContainerShow extends Component {
 
                                   <div  
                                     key={i}
-                                    dangerouslySetInnerHTML={{__html: o.message}} 
+                                    dangerouslySetInnerHTML={{__html:  o.message }} 
                                   />
 
                                   <StatusItem>

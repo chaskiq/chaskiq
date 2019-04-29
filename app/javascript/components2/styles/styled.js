@@ -263,11 +263,22 @@ export const UserAutoChatAvatar = styled.div`
     }
 `
 
+export const ReadIndicator = styled.div`
+  position: absolute;
+  width: 10px;
+  height: 10px;
+  background-color: red;
+  left: 3px;
+  top: 20px;
+  border-radius: 50%;
+
+`
+
 export const MessageItem = styled.div`
     position: relative;
     margin: 8px 0 15px 0;
     padding: 8px 10px;
-    max-width: ${(props) => (props.messageSourceType === "UserAutoMessage" ?  '76%' : '60%')}
+    max-width: ${(props) => (props.messageSourceType === "UserAutoMessage" ?  '86%' : '60%')}
     min-width: 25%;
     display: block;
     word-wrap: break-word;
@@ -282,7 +293,13 @@ export const MessageItem = styled.div`
       float: left;
       align-self: flex-start;
       background: rgba(0, 0, 0, 0.03);
-      color: #666;      
+      color: #666;   
+      
+      .text{
+        p{
+          color: #000;
+        }
+      }
     }
 
     &.admin {
@@ -299,11 +316,27 @@ export const MessageItem = styled.div`
       `)}
 
       color: #eceff1; 
+
+      .text{
+        p{
+          color: #fff;
+        }
+      }
+
+      
     }
+
 
     .text{
       margin-bottom: 1em;
+      color: #eceff1; 
+      p{
+        font-size: 0.7rem;
+        margin: 0px;
+        padding: 0px;
+      }
     }
+
 
     .status {
       position: absolute;
@@ -401,7 +434,7 @@ export const ConversationSummaryAvatar = styled.div`
       -ms-flex: 0 0 auto;
       flex: 0 0 auto;
       align-self: flex-start;
-
+      margin-left: 15px;
       img {
         width: 40px;
         height: 40px;

@@ -17,6 +17,7 @@ import styled, { ThemeProvider } from 'styled-components'
 import DanteContainer from './styles/dante'
 import CrossIcon from '@atlaskit/icon/glyph/cross';
 import Button from '@atlaskit/button';
+import sanitizeHtml from 'sanitize-html';
 
 import {
   Container,
@@ -31,6 +32,7 @@ import {
   Header,
   Body,
   Footer,
+  ReadIndicator,
   MessageItem,
   HeaderOption,
   ChatAvatar,
@@ -643,11 +645,11 @@ class Messenger extends Component {
                                                               <img src={gravatar.url(o.app_user.email)} />
                                                               <span>{o.app_user.name || o.app_user.email}</span>
                                                             </UserAutoChatAvatar> : null
-                                                        }
+                                                        } 
 
                                                         <div
                                                           key={i}
-                                                          className="text"
+                                                          className={ this.isUserAutoMessage(o) ? '' : "text"}
                                                           dangerouslySetInnerHTML={{ __html: o.message }}
                                                         />
                                                       </DanteContainer>
@@ -705,6 +707,8 @@ class Messenger extends Component {
                                               this.state.conversations.map((o,i)=>{
                                                 
                                                 const message = o.last_message
+                                                const sanitized = sanitizeHtml(message.message)
+                                                const summary = sanitized.length > 100 ? `${sanitized.substring(0, 100)} ...` : sanitized
                                                 return <CommentsItem key={o.id}
                                                             onClick={(e)=>{this.displayConversation(e, o)}}> 
                                                             
@@ -719,6 +723,12 @@ class Messenger extends Component {
                                                                 <ConversationSummaryBody>
 
                                                                   <ConversationSummaryBodyMeta>
+
+                                                                  {
+                                                                    !message.read_at ?
+                                                                  
+                                                                    <ReadIndicator/> : null
+                                                                  }
                                                                     <Autor>
                                                                       {message.app_user.email}
                                                                     </Autor>
@@ -729,8 +739,10 @@ class Messenger extends Component {
                                                                                                             textTransform: 'unset'}}>
                                                                                                             {message.created_at}</Moment> 
                                                                   </ConversationSummaryBodyMeta>
-
-                                                                  <ConversationSummaryBodyContent dangerouslySetInnerHTML={{__html: message.message}} />
+                                                                  {/* TODO: sanitize in backend */}
+                                                                  <ConversationSummaryBodyContent 
+                                                                    dangerouslySetInnerHTML={{ __html: summary }} 
+                                                                  />
                                                                 </ConversationSummaryBody>
                                                               </ConversationSummary> : null 
                                                           }
