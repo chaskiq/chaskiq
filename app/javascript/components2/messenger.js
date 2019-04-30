@@ -214,7 +214,7 @@ class Messenger extends Component {
   }
 
   componentDidUpdate(prevProps, prevState){
-    if(prevState.display_mode !== this.state.display_mode && this.display_mode === "conversations")
+    if(prevState.display_mode !== this.state.display_mode && this.state.display_mode === "conversations")
       this.getConversations()
 
     //if(this.state.conversation.id !== prevState.conversation.id)
