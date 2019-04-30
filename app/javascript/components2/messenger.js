@@ -217,6 +217,9 @@ class Messenger extends Component {
     if(prevState.display_mode !== this.state.display_mode && this.state.display_mode === "conversations")
       this.getConversations()
 
+    if (prevState.open !== this.state.open && this.state.open && this.state.display_mode === "conversations")
+      this.getConversations()
+
     //if(this.state.conversation.id !== prevState.conversation.id)
       //this.conversationSubscriber()
   }
@@ -548,7 +551,10 @@ class Messenger extends Component {
   }
 
   toggleMessenger = (e)=>{
-    this.setState({open: !this.state.open})
+    this.setState({
+      open: !this.state.open, 
+      display_mode: "conversations"
+    })
   }
 
   isUserAutoMessage = (o)=>{
