@@ -306,9 +306,9 @@ class Messenger extends Component {
       },
       received: (data)=> {
         //let html = stateToHTML(JSON.parse(data.message));
-        console.log(data.message)
-        console.log(`received ${data}`)
-        console.log(this.props.email , data.app_user.email)
+        //console.log(data.message)
+        //console.log(`received ${data}`)
+        //console.log(this.props.email , data.app_user.email)
 
         // find message and update it, or just append message to conversation
         if ( this.state.conversation_messages.find( (o)=> o.id === data.id ) ){
@@ -731,7 +731,7 @@ class Messenger extends Component {
                                                                   <ConversationSummaryBodyMeta>
 
                                                                   {
-                                                                    !message.read_at ?
+                                                                    !message.read_at && message.app_user.email !== this.props.email ?
                                                                   
                                                                     <ReadIndicator/> : null
                                                                   }
