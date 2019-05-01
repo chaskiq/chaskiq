@@ -91,7 +91,9 @@ export const ArticlePad = styled.div`
   border: 1px solid #dde1eb;
   -webkit-box-shadow: 0 4px 8px 0 hsla(212,9%,64%,.16), 0 1px 2px 0 rgba(39,45,52,.08);
   box-shadow: 0 4px 8px 0 hsla(212,9%,64%,.16), 0 1px 2px 0 rgba(39,45,52,.08);
-
+  .debugControls{
+    position:relative;
+  }
 `
 
 const findWithRegex = (regex, contentBlock, callback) => {
@@ -151,15 +153,18 @@ const ButtonsContainer = styled.div`
   direction: column;
   align-items: center;
   justify-content: space-between;
-  width: 32%;
+  width: 100%;
   float: right;
   margin: 4px 4px;
 `
 
 const ButtonsRow = styled.div`
-  width: 100%;
+  align-self: flex-end;
   clear: both;
   margin: 0px;
+  button{
+    margin-right: 2px;
+  }
 `
 
 
@@ -679,27 +684,39 @@ export default class CampaignEditor extends Component {
 
 
 
-      <ButtonsRow>
-        <ButtonsContainer>
-          <Lozenge appearance={this.state.statusButton} isBold>
-            {this.state.status}
-          </Lozenge>
 
-          <Button appearance="default" onClick={(e) => {
-            window.open(`${window.location.pathname}/preview`, '_blank');
-          }}>
-            Preview
-          </Button>
+            <ButtonsContainer>
 
-          <Button appearance="default" onClick={(e) => { console.log('test') }}>
-            Test
-          </Button>
+              <div style={{ alignSelf: 'start'}}>
+                <Lozenge appearance={this.state.statusButton} isBold>
+                  {this.state.status}
+                </Lozenge>
+              </div>
 
-          <Button appearance="primary" onClick={this.handleSend}>
-            Send
-          </Button>
-        </ButtonsContainer>
-      </ButtonsRow>
+
+            {
+              this.props.mode === "campaigns" ?
+                <ButtonsRow>
+
+                  <Button appearance="default" onClick={(e) => {
+                    window.open(`${window.location.pathname}/preview`, '_blank');
+                  }}>
+                    Preview
+                  </Button>
+
+                  <Button appearance="default" onClick={(e) => { console.log('test') }}>
+                    Test
+                  </Button>
+
+                  <Button appearance="primary" onClick={this.handleSend}>
+                    Send
+                  </Button>
+
+                </ButtonsRow> : null
+            }
+
+          </ButtonsContainer> 
+      
 
       <hr style={{ clear: "both", border: '1px solid #ebecf0' }} />
 
