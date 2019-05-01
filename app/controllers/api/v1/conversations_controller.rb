@@ -8,7 +8,7 @@ class Api::V1::ConversationsController < ApiController
     @user = get_app_user
     @conversation = user_conversations.find(params[:id])
     # TODO paginate here
-    @messages = @conversation.messages.includes(app_user: :user)
+    @messages = @conversation.messages.includes(app_user: :user).order("id asc")
     render :show
   end
 

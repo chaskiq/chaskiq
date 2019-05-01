@@ -15,7 +15,7 @@ class ConversationsController < ApplicationController
   def show
     @app = App.find_by(key: params[:app_id])
     @conversation = @app.conversations.find(params[:id])
-    @messages = @conversation.messages
+    @messages = @conversation.messages.order("id asc")
     respond_to do |format|
       format.html{ render_empty }
       format.json{ render "api/v1/conversations/show" }
