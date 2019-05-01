@@ -101,7 +101,10 @@ class CampaignsController < ApplicationController
     @campaign = @app.campaigns.find(params[:id]) 
     @campaign.send_newsletter
     flash[:notice] = "newsletter sended"
-    render json: {status: :ok}
+    respond_to do |format|
+      format.html{ render_empty }
+      format.json{ render "show" }
+    end
     #redirect_to manage_campaigns_path()
   end
 

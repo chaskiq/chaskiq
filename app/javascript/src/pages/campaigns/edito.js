@@ -668,6 +668,7 @@ export default class CampaignEditor extends Component {
   handleSend = (e) => {
     axios.get(`${this.props.match.url}/deliver.json`)
       .then((response) => {
+        this.props.updateData(response.data, null)
         console.log(response)
       }).catch((err) => {
         console.log(err)
@@ -695,7 +696,7 @@ export default class CampaignEditor extends Component {
 
 
             {
-              this.props.mode === "campaigns" ?
+          this.props.mode === "campaigns" && (this.props.data.state != "sent" && this.props.data.state != "delivering")  ?
                 <ButtonsRow>
 
                   <Button appearance="default" onClick={(e) => {

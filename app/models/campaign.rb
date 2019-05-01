@@ -42,6 +42,8 @@ class Campaign < Message
   end
 
   def send_newsletter
+    self.state = "delivering"
+    self.save
     MailSenderJob.perform_later(self)
   end
 
