@@ -30,8 +30,8 @@
 
 <script type="text/javascript">
   var m = new window.HermessengerEncrypted({
-    domain:  '<%="http://"+request.env["HTTP_HOST"]%>',
-    ws:  '<%="ws://" + request.env["HTTP_HOST"] + "/cable" %>',
+    domain:  '<%=@h[:http] +request.env["HTTP_HOST"]%>',
+    ws:  '<%=@h[:ws]+ request.env["HTTP_HOST"] + "/cable" %>',
     app_id: "<%= App.first.key %>",
     data: "<%=@encrypted_data%>"
   })

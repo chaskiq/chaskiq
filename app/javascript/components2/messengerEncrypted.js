@@ -17,7 +17,6 @@ export default class HermessengerEncrypted {
       user_data: JSON.stringify(data)
     }
 
-
     this.axiosInstance = axios.create({
       baseURL: `${this.props.domain}`,
       headers: this.defaultHeaders
