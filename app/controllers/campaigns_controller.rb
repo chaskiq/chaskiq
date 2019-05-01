@@ -1,9 +1,8 @@
 class CampaignsController < ApplicationController
-  before_action :find_app
+  before_action :find_app, except: [:test, :deliver, :premailer_preview]
   
   before_action :set_campaign, only: [
-    :show, :edit, :update, :destroy, 
-    :test, :deliver, :preview
+    :show, :edit, :update, :destroy, :preview
   ]
 
   # GET /campaigns
@@ -98,6 +97,8 @@ class CampaignsController < ApplicationController
   end
 
   def deliver
+    @app = App.find_by(key: params["app_id"])
+    @campaign = @app.campaigns.find(params[:id]) 
     @campaign.send_newsletter
     flash[:notice] = "newsletter sended"
     render json: {status: :ok}
@@ -114,7 +115,16 @@ class CampaignsController < ApplicationController
       when "user_auto"
         @app.user_auto_messages
       else
-        raise "not in mode"
+
+        case self.lookup_context.prefixes.first
+        when "campaigns"
+          @app.campaigns
+        when "user_auto"
+          @app.user_auto_messages   
+        else
+          raise "not in mode"
+        end    
+
       end
     end
     # Use callbacks to share common setup or constraints between actions.

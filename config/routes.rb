@@ -12,7 +12,9 @@ Rails.application.routes.draw do
       get :deliver
       get :test
     end
+    
     resources :attachments, controller: 'campaigns/attachments'
+    
     resources :metrics, controller: 'campaigns/metrics', only: :index do
       collection do
         get :counts
@@ -31,8 +33,8 @@ Rails.application.routes.draw do
     resources :campaigns, concerns: :messageable
 
     namespace :messages do
-      resources :user_auto_message, concerns: :messageable
-      resources :campaigns, concerns: :messageable
+      resources :user_auto_message, controller: '/campaigns' , concerns: :messageable
+      resources :campaigns, controller: '/campaigns', concerns: :messageable
     end
 
     resources :app_users
