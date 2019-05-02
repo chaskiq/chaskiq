@@ -40,7 +40,7 @@ const InnerStyle = styled.div`
   position: relative;
   overflow: hidden;
   overflow-y: auto;
-  height: 100vh;
+  
   img {
     width: 100%;
   }
@@ -88,15 +88,15 @@ const Header = styled.div`
       `
   }}
 
-  position: sticky;
-  top: 0px;
-  padding: 1rem;
-  z-index: 1;
-
+    position: -webkit-sticky;
+    position: fixed;
+    top: 9px;
+    z-index: 1;
+    width: 96vw;
 `
 
 const Content = styled.div`
-  height: 300px;
+  /*height: 300px;*/
   padding: 1rem;
 `
 
