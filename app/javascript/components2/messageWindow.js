@@ -32,8 +32,11 @@ const IntroStyle = styled.div`
 `
 
 const InnerStyle = styled.div`
-  /*background: rgba(0,0,0,0.80);
-  color: rgba(200,200,200,0.80);*/
+  ${(props)=>{
+    return props.theme.mode === "dark" ?
+    `background: rgba(0, 0, 0, 0.80);
+     color: rgba(200, 200, 200, 0.80);` : ''
+  }}
   position: relative;
   overflow: hidden;
   overflow-y: auto;
@@ -75,13 +78,21 @@ const InnerStyle = styled.div`
 `
 
 const Header = styled.div`
+
+  ${(props) => {
+    return props.theme.mode === "dark" ?
+      `` : `
+        background: rgba(253, 253, 253, 0.9);
+        border-bottom: 1px solid #eaeaea;
+        box-shadow: 0px 0px 3px 0px #eaeaea;
+      `
+  }}
+
   position: sticky;
   top: 0px;
   padding: 1rem;
-  background: rgba(253, 253, 253, 0.9);
   z-index: 1;
-  border-bottom: 1px solid #eaeaea;
-  box-shadow: 0px 0px 3px 0px #eaeaea;
+
 `
 
 const Content = styled.div`

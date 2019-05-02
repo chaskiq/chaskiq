@@ -4,52 +4,19 @@ const dante_font_family_serif = `'freight-text-pro', 'Merriweather', Georgia, Ca
 const dante_font_family_sans = `'jaf-bernino-sans', 'Open Sans', "Lucida Grande", "Lucida Sans Unicode", "Lucida Sans", Geneva, Verdana, sans_serif;`
 const dante_font_family_mono = `Menlo, Monaco, Consolas, "Courier New", "Courier", monospace;`
 
-const dante_font_family_base = dante_font_family_sans;
-const dante_font_size_base =  '12px';
-const line_height_base =     '1.428571429'; // 20/14
-
-
-const tooltip_color = '0,0,0';
-const tooltip_color_opacity = '0.44';
-const tooltip_color_opacity_hover = '0.9';
-const tooltip_background_opacity = '0';
-const tooltip_border_width = '1px';
-const tooltip_border_radius = '999em';
-
-const tooltip_button_spacing = '5px';
-const tooltip_menu_spacing = 22;
-
-const tooltip_items = 10; // Fix this and remove it
-const tooltip_item_delay = 30;
-const tooltip_size = 32;
-const tooltip_line_height = tooltip_size;
-
-const tooltip_default_transition = '100ms border-color, 100ms color';
-const tooltip_forward_transition = 'transform 100ms';
-const tooltip_backward_transition = 'transform 250ms';
-
 const dante_font_family_sans_serif = 'comic-sans';
 const dante_visual_debugger = 'false';
 const dante_text_color = 'rgb(74, 74, 74)';
 const dante_inversed_color = '#FFFFFF';
+const dante_text_color_dark = dante_inversed_color
+
 const dante_accent_color = '#5BD974';
 const dante_control_color = '#333333';
 const dante_popover_color = '#FFFFFF';
 // Editor
 const dante_editor_font_size = '18px' ;
 const dante_editor_line_height = '1.9' ;
-// Menu
-const dante_menu_height = 42 ;
-const dante_menu_background = dante_control_color ;
-const dante_menu_color = dante_inversed_color ;
-const dante_menu_border_radius = '5px' ;
-const dante_menu_box_shadow = '1px 2px 3px 2px #222' ;
-const dante_menu_icon_size = '16px' ;
-const dante_menu_icon_color = dante_inversed_color ;
-const dante_menu_icon_accent = dante_accent_color ;
-const dante_menu_border_width = '0px' ;
-const dante_menu_border_color = 'none' ;
-const dante_menu_caret_size = 8 ;
+
 
 const Container = styled.div`
   
@@ -61,7 +28,7 @@ const Container = styled.div`
   font-style: normal;
   font-size: ${dante_editor_font_size};
   line-height: ${dante_editor_line_height};
-  color: ${dante_text_color};
+  color: ${(props) => (props.theme.mode === "dark" ? dante_text_color_dark : dante_text_color)};
 
   @media (max-width: 500px) {
 
@@ -172,7 +139,10 @@ const Container = styled.div`
     font-size: 1.5rem;
     margin-left: -1.5px;
     line-height: 1.2;
-    color: rgba(236, 236, 236, 0.44);
+    color:   ${(props) => {
+      props.theme.mode === "dark" ? 'rgba(236, 236, 236, 0.44);' : 'rgba(236, 236, 236, 0.44);'
+    }}
+    
     margin-top: 40px;
     margin-bottom: .6em;
   }
@@ -530,12 +500,11 @@ section.is-mediaFocused .graf--sectionCaption,
 .graf.graf--mixtapeEmbed {
 
 
-  border-color: rgba(210, 208, 208, 0.15);
+
   border-radius: 5px;
   border-style: solid;
   border-width: 1px !important;
   box-sizing: border-box;
-  color: rgba(0,0,0,0.6);
   font-family: ${dante_font_family_sans};
   font-size: 10px;
   font-style: normal;
@@ -550,7 +519,23 @@ section.is-mediaFocused .graf--sectionCaption,
   overflow: hidden;
   padding: 11px;
   position: relative;
-  background: #fff;
+
+  ${(props)=>{
+    return props.theme.mode === "dark" ? 
+    `
+      border-color: rgba(202, 200, 200, 0.08);
+      color: rgba(241, 241, 241, 0.76);
+      background: #4a4a4a;    
+    ` : 
+    
+    `
+      border-color: rgba(210, 208, 208, 0.15);
+      color: rgba(0,0,0,0.6);
+      background: #fff;
+
+    `
+  }}
+  
   border-width: 0;
 
   .is-postEditMode iframe {
@@ -573,9 +558,11 @@ section.is-mediaFocused .graf--sectionCaption,
   }
 
   .markup--mixtapeEmbed-strong {
-      color: #000;
+      color: ${(props)=>{
+        return props.theme.mode === "dark" ? '#fff' : '#000'
+      }}
       display: block;
-      font-family: $dante-font-family-sans;
+      font-family: ${dante_font_family_sans};
       font-size: 24px;
       font-style: normal;
       font-weight: 300;
@@ -585,6 +572,10 @@ section.is-mediaFocused .graf--sectionCaption,
   }
 
   .markup--mixtapeEmbed-em {
+    color: ${(props) => {
+      return props.theme.mode === "dark" ? '#c5c5c5' : '#000'
+    }}
+    line-height: 21px;
     display: block;
     font-size: 17px;
     font-style: normal;

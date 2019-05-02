@@ -683,9 +683,6 @@ export default class CampaignEditor extends Component {
 
     return <ArticlePad>
 
-
-
-
             <ButtonsContainer>
 
               <div style={{ alignSelf: 'start'}}>
@@ -696,7 +693,7 @@ export default class CampaignEditor extends Component {
 
 
             {
-          this.props.mode === "campaigns" && (this.props.data.state != "sent" && this.props.data.state != "delivering")  ?
+                this.props.mode === "campaigns" && (this.props.data.state != "sent" && this.props.data.state != "delivering")  ?
                 <ButtonsRow>
 
                   <Button appearance="default" onClick={(e) => {
