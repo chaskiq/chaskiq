@@ -42,6 +42,8 @@ class Campaign < Message
   end
 
   def send_newsletter
+    self.state = "delivering"
+    self.save
     MailSenderJob.perform_later(self)
   end
 
@@ -100,18 +102,16 @@ class Campaign < Message
   def apply_premailer(opts={})
     host = Rails.application.routes.default_url_options[:host]
     skip_track_image = opts[:exclude_gif] ? "exclude_gif=true" : nil
-    premailer_url = ["#{host}/apps/#{self.app.key}/campaigns/#{self.id}/premailer_preview", skip_track_image].join("?")
+    premailer_url = ["#{host}/apps/#{self.app.key}/messages/campaigns/#{self.id}/premailer_preview", skip_track_image].join("?")
     url = URI.parse(premailer_url)
     self.update_column(:premailer, clean_inline_css(url))
   end
 
   #will remove content blocks text
   def clean_inline_css(url)
-    
     html = open(url).readlines.join("")
     document = Roadie::Document.new html
     document.transform
-
     #premailer = Premailer.new(url, :adapter => :nokogiri, :escape_url_attributes => false)
     #premailer.to_inline_css
   end

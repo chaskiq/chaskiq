@@ -2,7 +2,7 @@ class Conversation < ApplicationRecord
   belongs_to :app
   belongs_to :assignee, class_name: 'User', optional: true
   belongs_to :main_participant, class_name: "AppUser" #, foreign_key: "user_id"
-  has_many :messages, class_name: "ConversationPart"
+  has_many :messages, class_name: "ConversationPart", dependent: :destroy
 
   include AASM
 
@@ -24,6 +24,7 @@ class Conversation < ApplicationRecord
     part          = self.messages.new
     part.app_user = opts[:from]
     part.message  = opts[:message]
+    part.message_source = opts[:message_source] if opts[:message_source]
     part.save
     
     if part.errors.blank?

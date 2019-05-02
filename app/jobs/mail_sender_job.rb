@@ -8,5 +8,8 @@ class MailSenderJob < ActiveJob::Base
     campaign.available_segments.each do |app_user|
       campaign.push_notification(app_user)
     end
+
+    campaign.state = "sent"
+    campaign.save
   end
 end

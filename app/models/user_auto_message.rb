@@ -3,7 +3,7 @@ require "link_renamer"
 class UserAutoMessage < Message
   validates :scheduled_at, presence: true
   validates :scheduled_to, presence: true
-  store_accessor :settings, [:hidden_constraints]
+  store_accessor :settings, [:hidden_constraints, :theme]
 
   scope :in_time, ->{ where(['scheduled_at <= ? AND scheduled_to >= ?', Date.today, Date.today]) }
   
@@ -27,6 +27,7 @@ class UserAutoMessage < Message
         multiple: true,
         default: "click"
       },
+      {name: "theme", type: "select", options: ["dark", "light"] },
       {name: "scheduled_at", type: 'datetime'},
       {name: "scheduled_to", type: 'datetime'},
     ]

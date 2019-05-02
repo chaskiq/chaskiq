@@ -32,7 +32,14 @@ protected
     when "user_auto"
       @app.user_auto_messages
     else
-      raise "not in mode"
+        case self.lookup_context.prefixes.first
+        when "campaigns"
+          @app.campaigns
+        when "user_auto"
+          @app.user_auto_messages   
+        else
+          raise "not in mode"
+        end  
     end
   end
 

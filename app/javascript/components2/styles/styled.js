@@ -40,27 +40,15 @@ export const Container = styled.div`
 `;
 
 export const UserAutoMessage = styled.div`
-  position: fixed;
-  bottom: 0px;
-  /* width: 320px; */
-  font-size: 12px;
-  line-height: 22px;
-  font-family: 'Roboto';
-  font-weight: 500;
-  opacity: ${props => props.open ? 1 : 0};
-  -webkit-font-smoothing: antialiased;
-  font-smoothing: antialiased;
-  
-  border-radius: 10px;
-  -webkit-transition: all .2s ease-out;
-  -webkit-transition: all .2s ease-in-out;
-  -webkit-transition: all .2s ease-in-out;
-  -webkit-transition: all .6s ease-in-out;
-  transition: all .6s ease-in-out;
-  font-family: sans-serif;
-  z-index: 100;
-  width: 100%;
-  left: 0px;
+    box-shadow: -1px 3px 3px 3px rgba(158,191,208,0.09);
+    border: 1px solid #f3f0f0;
+    height: 42vh;
+    width: 96vw;
+    overflow: scroll;
+    border-radius: 5px;
+    background: #fff;
+    margin-bottom: 12px;
+    flex: 1;
 `
 
 export const AvatarSection = styled.div`
@@ -259,11 +247,38 @@ export const ConversationsFooter = styled.div`
 }
 `
 
+export const UserAutoChatAvatar = styled.div`
+    display:flex;
+    align-items: center;
+    span{
+      font-size: 0.8rem;
+      margin-left: 10px;
+      color: #b1b1b1;
+    }
+    img {
+      width: 40px;
+      height: 40px;
+      text-align: center;
+      border-radius: 50%;
+    }
+`
+
+export const ReadIndicator = styled.div`
+  position: absolute;
+  width: 10px;
+  height: 10px;
+  background-color: red;
+  left: 3px;
+  top: 20px;
+  border-radius: 50%;
+
+`
+
 export const MessageItem = styled.div`
     position: relative;
     margin: 8px 0 15px 0;
     padding: 8px 10px;
-    max-width: 60%;
+    max-width: ${(props) => (props.messageSourceType === "UserAutoMessage" ?  '86%' : '60%')}
     min-width: 25%;
     display: block;
     word-wrap: break-word;
@@ -278,20 +293,50 @@ export const MessageItem = styled.div`
       float: left;
       align-self: flex-start;
       background: rgba(0, 0, 0, 0.03);
-      color: #666;      
+      color: #666;   
+      
+      .text{
+        p{
+          color: #000;
+        }
+      }
     }
 
     &.admin {
-      margin-right: 20px;
-      float: right;
-      align-self: flex-end;
-      background: ${mainColor};
+
+
+      ${(props) => (props.messageSourceType === "UserAutoMessage" ? `
+        align-self: center;
+        border: 1px solid #f1f0f0;
+      ` : `
+        align-self: flex-end;
+        background: ${mainColor};
+        margin-right: 20px;
+        float: right;
+      `)}
+
       color: #eceff1; 
+
+      .text{
+        p{
+          color: #fff;
+        }
+      }
+
+      
     }
+
 
     .text{
       margin-bottom: 1em;
+      color: #eceff1; 
+      p{
+        font-size: 0.7rem;
+        margin: 0px;
+        padding: 0px;
+      }
     }
+
 
     .status {
       position: absolute;
@@ -389,7 +434,7 @@ export const ConversationSummaryAvatar = styled.div`
       -ms-flex: 0 0 auto;
       flex: 0 0 auto;
       align-self: flex-start;
-
+      margin-left: 15px;
       img {
         width: 40px;
         height: 40px;

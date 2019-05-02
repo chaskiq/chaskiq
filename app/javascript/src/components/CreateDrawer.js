@@ -24,8 +24,8 @@ const createItems = [
   {
     title: 'Knowledge Base',
     items: [
-      ['/#', <span><strong>Hermes</strong> documentation</span>, 'Knowledge Base', BitbucketBranchesIcon],
-      ['/#', <span>Visit <strong>Github</strong></span>, 'Github Page', PageIcon],
+      ['https://proseflow.com/public/books/5d354da2a887', <span><strong>Hermes</strong> documentation</span>, 'Knowledge Base', PageIcon],
+      ['https://github.com/michelson/hermes', <span>Visit <strong>Github</strong></span>, 'Github Page', BitbucketBranchesIcon],
     ],
   },
 ];
