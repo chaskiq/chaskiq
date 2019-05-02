@@ -582,7 +582,8 @@ class Messenger extends Component {
   }
 
   render(){
-    return <ThemeProvider theme={{ mode: 'dark',
+    return <ThemeProvider theme={{
+                                  mode: this.state.availableMessage ? this.state.availableMessage.theme : 'light',
                                   isMessengerActive: this.isMessengerActive() 
                                 }}>
             <EditorWrapper>
