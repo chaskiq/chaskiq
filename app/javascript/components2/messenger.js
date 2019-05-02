@@ -91,22 +91,18 @@ const UserAutoMessageStyledFrame = styled(({ isMinimized, ...rest })=>(
   <StyledFrame {...rest}/>
   ))`
     display: block;
-    /* overflow: scroll; */
-    border: 0px;
-    display: block;
-    /* overflow: scroll; */
     border: 0px;
     z-index: 1000;
-    ${(props)=>{
-      return props.isMinimized ? `height: 11vh;` : `height: 70vh;`
-    }}
-    
     width: 350px;
-    /* width: 100%; */
     position: absolute;
+
+    ${(props) => {
+      return props.isMinimized ? `height: 73px;` : `height: 70vh;`
+    }}
+
     ${(props)=>{
       return props.theme.isMessengerActive ? `
-        bottom: 83px;
+        bottom: 43px
         right: 17px;
       ` : `
         bottom: 0px;
@@ -142,13 +138,21 @@ const SuperFragment = styled.div`
 }
 `
 
-const UserAutoMessageFlex = styled.div`
+const UserAutoMessageFlex = styled(({ isMinimized, ...rest }) => (
+  <div {...rest} />
+))`
   display: flex;
   flex-direction: column;
   /* align-items: baseline; */
-  height: 100vh;
   /* flex-direction: row; */
   /* flex-grow: 1; */
+  
+
+  ${(props) => {
+    return props.isMinimized ? `height: 70vh;` : `height: 95vh;`
+  }}
+
+  
   justify-content: space-between;
 `
 
@@ -921,7 +925,7 @@ class MessageFrame extends Component {
   render(){
     return <UserAutoMessageStyledFrame id="messageFrame" 
       isMinimized={this.fetchMinizedCache()}>
-      <UserAutoMessageFlex>
+      <UserAutoMessageFlex isMinimized={this.fetchMinizedCache()}>
         {
           <UserAutoMessage open={true}>
             <MessageContainer
