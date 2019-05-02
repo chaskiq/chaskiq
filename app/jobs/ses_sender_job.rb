@@ -7,7 +7,7 @@ class SesSenderJob < ApplicationJob
     return if subscription.blank? or subscription.unsubscribed?
 
     mailer     = campaign.prepare_mail_to(subscription)
-    response   = mailer.deliver
+    response   = mailer.deliver_now
 
     message_id = response.message_id.split("@").first
 

@@ -1,6 +1,7 @@
 class ConversationPart < ApplicationRecord
   belongs_to :conversation
   belongs_to :app_user
+  belongs_to :message_source, optional: true, class_name: "Message", foreign_key: :message_id
 
   after_create :enqueue_email_notification
 

@@ -106,8 +106,7 @@ export class SegmentItemButton extends Component {
     ]
 
     return <div>
-              <h5>Update String</h5>
-              <p>Select the filter</p>
+              <h5>Select the filter</h5>
               <FieldRadioGroup
                 items={relative}
                 label="Relative:"
@@ -128,7 +127,7 @@ export class SegmentItemButton extends Component {
 
                   <Button appearance="link" 
                     onClick={this.handleSubmit.bind(this)}>
-                    save changes
+                    Save changes
                   </Button>
 
                 </div> : null
@@ -222,7 +221,7 @@ export class SegmentItemButton extends Component {
   render() {
     //console.log(this.props.predicate)
     return (
-      <div style={{ minHeight: '120px' }}>
+      <div >
         <InlineDialog content={this.renderOptions()} 
                       isOpen={this.state.dialogOpen}
                       position={"bottom left"}
@@ -365,9 +364,9 @@ export class InlineFilterDialog extends Component {
       {name: "email", type: "string"},
       {name: "last_visited_at", type: "date"},
       {name: "referrer", type: "string"},
-      { name: "pro", type: "string" },
-      { name: "role", type: "string" },
-      { name: "plan", type: "string" },
+      {name: "pro", type: "string" },
+      {name: "role", type: "string" },
+      {name: "plan", type: "string" },
       {name: "state", type: "string"},
       {name: "ip", type: "string"},        
       {name: "city", type: "string"},           
@@ -391,16 +390,16 @@ export class InlineFilterDialog extends Component {
         <h5>Select field</h5>
         <p>oeoe</p>
 
-        <ul style={{ height: '200px', overflow: 'auto'}}>
+        <div style={{ height: '200px', overflow: 'auto'}}>
           {
-            fields.map((o)=> <li key={o.name}>
+            fields.map((o) => <div key={o.name} style={{ marginBottom: '2px' }}>
                               <Button onClick={(e)=> this.handleClick.bind(this)(e, o)}>
                                 {o.name}
                               </Button>
-                             </li>
+                             </div>
             )
           }
-        </ul>
+        </div>
       </div>
     );
 
@@ -505,7 +504,7 @@ export default class SegmentManager extends Component {
   render(){
     //console.log(this.getPredicates())
     // this.props.actions.getPredicates()
-    return <div>
+    return <div style={{marginTop: '10px'}}>
             <ButtonGroup>
 
               {
@@ -584,6 +583,9 @@ class DataTable extends Component {
   constructor(props) {
     super(props)
 
+    this.state = {
+      dialogs: {}
+    }
 
     this.createHead = (withWidth) => {
       return {
@@ -643,69 +645,106 @@ class DataTable extends Component {
     </div>
   }
 
+  toggleDialogFor = (id)=>{
+
+    var hash = {};
+    hash[id] = !this.state.dialogs[id]
+
+    this.setState({
+      dialogs: Object.assign(
+        {}, 
+        this.state.dialogs, 
+        hash
+      )
+    })
+  }
+
   rows = ()=>{
-    return this.props.data.map((user, index) => ({
-      key: `row-${index}-${user.id}`,
-      cells: [
-        {
-          key: `${user.id}-email`,
-          content: <div>
-            <div style={{ float: 'left' }}>
-              <Avatar
-                name={user.email}
-                size="medium"
-                src={`https://api.adorable.io/avatars/24/${encodeURIComponent(
-                  user.email,
-                )}.png`}
-              />
-            </div>
-            <div style={{
-              float: 'left',
-              marginLeft: '10px',
-              marginTop: '9px'
-            }}>
-              {user.email}
-            </div>
-          </div>,
-        },
-        {
-          key: `${user.id}-state`,
-          content: <Lozenge
-            appearance={user.state == "online" ? 'success' : 'moved'}
-            isBold>
-            {user.state}
-          </Lozenge>,
-        },
-        {
-          key: `${user.id}-last_visited_at`,
-          content: <Moment fromNow>{user.last_visited_att}</Moment>,
-        },
+    return this.props.data.map((user, index) => {
+ 
+      let userData  = <ul style={{height: '200px', overflow: 'auto'}}> 
+                          {
+                            Object.keys(user).map((o)=>(
+                              <li><b>{o}:</b> {user[o]}</li>
+                            ))
+                          } 
+                      </ul>
+      return {
+        key: `row-${index}-${user.id}`,
+        cells: [
+          {
+            key: `${user.id}-email`,
+            content: <div>
+              <div style={{ float: 'left' }}>
+                <Avatar
+                  name={user.email}
+                  size="medium"
+                  src={`https://api.adorable.io/avatars/24/${encodeURIComponent(
+                    user.email,
+                  )}.png`}
+                />
+              </div>
+              <div style={{
+                float: 'left',
+                marginLeft: '10px',
+                marginTop: '9px'
+              }}>
+                {user.email}
+              </div>
+            </div>,
+          },
+          {
+            key: `${user.id}-state`,
+            content: <Lozenge
+              appearance={user.state == "online" ? 'success' : 'moved'}
+              isBold>
+              {user.state}
+            </Lozenge>,
+          },
+          {
+            key: `${user.id}-last_visited_at`,
+            content: <Moment fromNow>{user.last_visited_att}</Moment>,
+          },
 
-        {
-          key: `${user.id}-browser`,
-          content: `${user.browser} ${user.browser_version}`,
-        },
+          {
+            key: `${user.id}-browser`,
+            content: `${user.browser} ${user.browser_version}`,
+          },
 
-        {
-          key: `${user.id}-os`,
-          content: `${user.os} ${user.os_version}`,
-        },
+          {
+            key: `${user.id}-os`,
+            content: `${user.os} ${user.os_version}`,
+          },
 
-        {
-          key: `${user.id}-scheduled_to`,
-          content: user.id,
-        },
+          {
+            key: `${user.id}-scheduled_to`,
+            content: user.id,
+          },
 
-        {
-          content: (
-            <Button onClick={() => this.props.history.push(`${this.props.match.url}/${campaign.id}`)}>
-              data
-            </Button>
+          {
+            content: (
 
-          ),
-        }
-      ],
-    }));
+              <div>
+
+                <InlineDialog 
+                  content={userData}
+                  isOpen={this.state.dialogs[user.id]}
+                  position={"bottom right"}
+                  shouldFlipunion={true} />
+
+                  <Button onClick={() => this.toggleDialogFor(user.id)}>
+                    data
+                  </Button>
+
+              </div>
+
+              
+
+            ),
+          }
+        ],
+      }
+    });
   }
 
 

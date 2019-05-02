@@ -5,6 +5,8 @@ import {
 
 import { convertToHTML } from 'draft-convert'
 import axios from 'axios'
+import Lozenge from '@atlaskit/lozenge';
+import Button from '@atlaskit/button';
 
 
 //import config from "../constants/config"
@@ -89,7 +91,9 @@ export const ArticlePad = styled.div`
   border: 1px solid #dde1eb;
   -webkit-box-shadow: 0 4px 8px 0 hsla(212,9%,64%,.16), 0 1px 2px 0 rgba(39,45,52,.08);
   box-shadow: 0 4px 8px 0 hsla(212,9%,64%,.16), 0 1px 2px 0 rgba(39,45,52,.08);
-
+  .debugControls{
+    position:relative;
+  }
 `
 
 const findWithRegex = (regex, contentBlock, callback) => {
@@ -144,6 +148,25 @@ const UserIndicator = styled.div`
   }
 `
 
+const ButtonsContainer = styled.div`
+  display: flex;
+  direction: column;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  float: right;
+  margin: 4px 4px;
+`
+
+const ButtonsRow = styled.div`
+  align-self: flex-end;
+  clear: both;
+  margin: 0px;
+  button{
+    margin-right: 2px;
+  }
+`
+
 
 
 export default class CampaignEditor extends Component {
@@ -151,7 +174,6 @@ export default class CampaignEditor extends Component {
   constructor(props) {
     super(props)
 
-    //this.saveHandler = this.saveHandler.bind(this)
     this.dante_editor = null
     this.ChannelEvents = null
     this.conn = null
@@ -162,7 +184,10 @@ export default class CampaignEditor extends Component {
       diff: "",
       videoSession: false,
       selectionPosition: null,
-      incomingSelectionPosition: []
+      incomingSelectionPosition: [],
+      data: {},
+      status: "",
+      statusButton: "inprogress"
     }
   }
 
@@ -333,28 +358,6 @@ export default class CampaignEditor extends Component {
     ButtonBlockConfig()
     ]
   
-  }
-
-  save__Handler = (editorContext, content) => {
-
-    this.setState({
-      status: "saving...",
-      statusButton: "success"
-    })
-
-    axios.put(`${this.save_url}.json`, {
-      campaign: {
-        html_content: html,
-        serialized_content: serialized
-      }
-    })
-      .then((response) => {
-        console.log(response)
-
-        this.updateData(response.data)
-      }).catch((err) => {
-        console.log(err)
-      })
   }
 
   saveHandler = (context, content, cb) => {
@@ -602,14 +605,14 @@ export default class CampaignEditor extends Component {
 
     console.log(html3)
 
+    if(this.props.data.serialized_content === serialized)
+      return
+
 
     this.setState({
       status: "saving...",
       statusButton: "success"
     })
-
-    if(this.props.data.serialized_content === serialized)
-      return
 
     axios.put(`${this.props.url}.json?mode=${this.props.mode}`, {
       campaign: {
@@ -621,6 +624,7 @@ export default class CampaignEditor extends Component {
         console.log(response)
         
         this.props.updateData(response.data, null)
+        this.setState({ status: "saved" })
       }).catch((err) => {
         console.log(err)
       })
@@ -660,6 +664,17 @@ export default class CampaignEditor extends Component {
     }
   }
 
+
+  handleSend = (e) => {
+    axios.get(`${this.props.match.url}/deliver.json`)
+      .then((response) => {
+        this.props.updateData(response.data, null)
+        console.log(response)
+      }).catch((err) => {
+        console.log(err)
+      })
+  }
+
   render() {
     // !this.state.loading &&
     /*if (this.state.loading) {
@@ -667,6 +682,42 @@ export default class CampaignEditor extends Component {
     }*/
 
     return <ArticlePad>
+
+            <ButtonsContainer>
+
+              <div style={{ alignSelf: 'start'}}>
+                <Lozenge appearance={this.state.statusButton} isBold>
+                  {this.state.status}
+                </Lozenge>
+              </div>
+
+
+            {
+                this.props.mode === "campaigns" && (this.props.data.state != "sent" && this.props.data.state != "delivering")  ?
+                <ButtonsRow>
+
+                  <Button appearance="default" onClick={(e) => {
+                    window.open(`${window.location.pathname}/preview`, '_blank');
+                  }}>
+                    Preview
+                  </Button>
+
+                  <Button appearance="default" onClick={(e) => { console.log('test') }}>
+                    Test
+                  </Button>
+
+                  <Button appearance="primary" onClick={this.handleSend}>
+                    Send
+                  </Button>
+
+                </ButtonsRow> : null
+            }
+
+          </ButtonsContainer> 
+      
+
+      <hr style={{ clear: "both", border: '1px solid #ebecf0' }} />
+
 
       <Dante
         debug={true}

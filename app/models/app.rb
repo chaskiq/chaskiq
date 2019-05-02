@@ -62,10 +62,13 @@ class App < ApplicationRecord
   def start_conversation(options)
     message = options[:message]
     user = options[:from]
-    conversation = self.conversations.create(main_participant: user)
+    participant = options[:participant] || user
+    message_source = options[:message_source]
+    conversation = self.conversations.create(main_participant: participant)
     conversation.add_message(
       from: user,
-      message: message
+      message: message,
+      message_source: message_source
     )
     conversation
   end

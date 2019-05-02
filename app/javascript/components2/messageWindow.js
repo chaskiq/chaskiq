@@ -2,9 +2,8 @@ import React from 'react'
 import styled from 'styled-components'
 //import posed from 'react-pose'
 //import { CreateTheme } from 'prey-stash'
-import themeConfig from './themeConfig'
 //import SplitText from 'react-pose-text'
-import Container from './styles'
+import Container from './styles/dante'
 
 
 //const theme = CreateTheme(themeConfig)
@@ -30,46 +29,14 @@ const IntroStyle = styled.div`
     right: 0.5rem;
 
   }
-
-  .aspectRatioPlaceholder {
-    margin: 0 auto;
-    position: relative;
-    width: 100%;
-  }
-
-  .aspectRatioPlaceholder.is-locked .graf-image, .aspectRatioPlaceholder.is-locked .graf-imageAnchor {
-      height: 100%;
-      left: 0;
-      position: absolute;
-      top: 0;
-      width: 100%;
-  }
-
-  .graf-image, .graf-imageAnchor, .iframeContainer > iframe, .iframeContainer {
-      box-sizing: border-box;
-      display: block;
-      margin: auto;
-      max-width: 100%;
-  }
-
-  .imageCaption {
-      text-align: center;
-      margin-top: 0;
-      letter-spacing: 0;
-      font-weight: 400;
-      font-size: 13px;
-      line-height: 1.4;
-      outline: 0;
-      z-index: 300;
-      margin-top: 10px;
-      position: relative;
-  }
-
 `
 
 const InnerStyle = styled.div`
-  background: rgba(0,0,0,0.80);
-  color: rgba(200,200,200,0.80);
+  ${(props)=>{
+    return props.theme.mode === "dark" ?
+    `background: rgba(0, 0, 0, 0.80);
+     color: rgba(200, 200, 200, 0.80);` : ''
+  }}
   position: relative;
   overflow: hidden;
   overflow-y: auto;
@@ -111,11 +78,21 @@ const InnerStyle = styled.div`
 `
 
 const Header = styled.div`
+
+  ${(props) => {
+    return props.theme.mode === "dark" ?
+      `` : `
+        background: rgba(253, 253, 253, 0.9);
+        border-bottom: 1px solid #eaeaea;
+        box-shadow: 0px 0px 3px 0px #eaeaea;
+      `
+  }}
+
   position: sticky;
-  top: 0px
+  top: 0px;
   padding: 1rem;
-  background: rgba(0,0,0,0.60);
   z-index: 1;
+
 `
 
 const Content = styled.div`
@@ -160,12 +137,6 @@ export default class Quest extends React.Component  {
                   </a> : null
                 }
               </div>
-
-              <code className="title">
-                <p style={{margin: '7px 2px 0px 0px'}}>
-                  &gt;_ Help us build a better product for you!
-                </p>
-              </code>
 
             </Header>
 
