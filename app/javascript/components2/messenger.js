@@ -652,12 +652,14 @@ class Messenger extends Component {
                                               isMobile={this.state.isMobile}>
                                               {
                                                 this.state.conversation_messages.map((o, i) => {
+                                                  const userClass = this.state.conversation.main_participant.email === o.app_user.email ? 'user' : 'admin'
+                                                  
                                                   return <MessageItemWrapper
-                                                    email={this.props.email}
-                                                    key={o.id}
-                                                    data={o}>
+                                                            email={this.props.email}
+                                                            key={o.id}
+                                                            data={o}>
                                                     <MessageItem
-                                                      className={this.state.conversation.main_participant.email === o.app_user.email ? 'user' : 'admin'}
+                                                      className={userClass}
                                                       messageSourceType={o.message_source ? o.message_source.type : '' }>
                                                       
                                                       {
@@ -682,7 +684,7 @@ class Messenger extends Component {
                                                         <div
                                                           key={i}
                                                           className={ this.isUserAutoMessage(o) ? '' : "text"}
-                                                          dangerouslySetInnerHTML={{ __html: o.message }}
+                                                          dangerouslySetInnerHTML={{ __html: `<p>${o.message}</p>` }}
                                                         />
                                                       </DanteContainer>
 
@@ -768,6 +770,7 @@ class Messenger extends Component {
                                                                                                             color: '#ccc',
                                                                                                             width: '88px',
                                                                                                             margin: '0px 10px',
+                                                                                                            fontSize: '.8em',
                                                                                                             textTransform: 'unset'}}>
                                                                                                             {message.created_at}</Moment> 
                                                                   </ConversationSummaryBodyMeta>
