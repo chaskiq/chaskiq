@@ -36,6 +36,7 @@ class Api::V1::HooksController < ActionController::API
   end
 
 private
+  #TODO: add some tests mdfk!
 
   def process_email_notification(message)
     json_message = JSON.parse(message)
