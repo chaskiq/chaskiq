@@ -95,16 +95,22 @@ Rails.application.configure do
   end
 
   # Do not dump schema after migrations.
-  config.active_record.dump_schema_after_migration = false
+  # config.active_record.dump_schema_after_migration = false
 
-  config.action_mailer.delivery_method = :smtp
-  config.action_mailer.smtp_settings = {
-    :address => Rails.application.credentials.dig(:ses, :address),
-    :user_name => Rails.application.credentials.dig(:ses, :user_name), # Your SMTP user here.
-    :password => Rails.application.credentials.dig(:ses, :password), # Your SMTP password here.
-    :authentication => :login,
-    :enable_starttls_auto => true
-  }
+  # config.action_mailer.delivery_method = :smtp
+  # config.action_mailer.smtp_settings = {
+  #  :address => Rails.application.credentials.dig(:ses, :address),
+  #  :user_name => Rails.application.credentials.dig(:ses, :user_name), # Your SMTP user here.
+  #  :password => Rails.application.credentials.dig(:ses, :password), # Your SMTP password here.
+  #  :authentication => :login,
+  #  :enable_starttls_auto => true
+  #}
+
+  ActionMailer::Base.add_delivery_method :ses, AWS::SES::Base,
+    access_key_id: Rails.application.credentials.dig(:aws, :access_key_id),
+    secret_access_key: Rails.application.credentials.dig(:aws, :secret_access_key)
+
+  config.action_mailer.delivery_method = :ses
 
   # Inserts middleware to perform automatic connection switching.
   # The `database_selector` hash is used to pass options to the DatabaseSelector
