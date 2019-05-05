@@ -102,7 +102,7 @@ const UserAutoMessageStyledFrame = styled(({ isMinimized, ...rest })=>(
 
     ${(props)=>{
       return props.theme.isMessengerActive ? `
-        bottom: 43px
+        bottom: 77px;
         right: 17px;
       ` : `
         bottom: 0px;
