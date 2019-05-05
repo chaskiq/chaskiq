@@ -20,8 +20,14 @@ class ConversationPart < ApplicationRecord
   end
 
   def enqueue_email_notification
+    # not send email it it's from user auto message campaign
     EmailChatNotifierJob
     .set(wait_until: 20.seconds.from_now)
-    .perform_later(self.id)
+    .perform_later(self.id) unless is_from_auto_message_campaign?
+  end
+
+  
+  def is_from_auto_message_campaign?
+    self.message_source.is_a? UserAutoMessage
   end
 end
