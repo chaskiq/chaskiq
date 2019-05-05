@@ -25,6 +25,7 @@ class Conversation < ApplicationRecord
     part.app_user = opts[:from]
     part.message  = opts[:message]
     part.message_source = opts[:message_source] if opts[:message_source]
+    part.email_message_id = opts[:email_message_id]
     part.save
     
     if part.errors.blank?
