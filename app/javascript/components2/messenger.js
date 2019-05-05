@@ -168,7 +168,9 @@ class Messenger extends Component {
     this.state = {
       conversation: {},
       conversation_messages: [],
+      conversation_messagesMeta: {},
       conversations: [],
+      conversationsMeta: {},
       availableMessage: null,
       display_mode: "conversations",
       open: false,
@@ -235,10 +237,11 @@ class Messenger extends Component {
 
   componentDidUpdate(prevProps, prevState){
     if(prevState.display_mode !== this.state.display_mode && this.state.display_mode === "conversations")
-      this.getConversations()
+      this.setState({ conversationsMeta: {} }, this.getConversations )
+     
 
     if (prevState.open !== this.state.open && this.state.open && this.state.display_mode === "conversations")
-      this.getConversations()
+      this.setState({ conversationsMeta: {} }, this.getConversations)
 
     //if(this.state.conversation.id !== prevState.conversation.id)
       //this.conversationSubscriber()
@@ -482,20 +485,24 @@ class Messenger extends Component {
       });
   }
 
-  getConversations(cb){
+  getConversations(options){
 
     const data = {
       referrer: window.location.path,
       email: this.props.email,
       properties: this.props.properties
     }
+
+    const nextPage = this.state.conversationsMeta.next_page || 1
     
-    this.axiosInstance.get(`/api/v1/apps/${this.props.app_id}/conversations.json`)
+    this.axiosInstance.get(`/api/v1/apps/${this.props.app_id}/conversations.json?page=${nextPage}`)
       .then( (response)=> {
+        const { collection, meta } = response.data
         this.setState({
-          conversations: response.data.collection
+          conversations: options && options.append ? this.state.conversations.concat(collection) : collection,
+          conversationsMeta: meta
         })
-        cb ? cb() : null
+        //cb ? cb() : null
       })
       .catch( (error)=>{
         console.log(error);
@@ -503,11 +510,13 @@ class Messenger extends Component {
   }
 
   setconversation(id , cb){
-    this.axiosInstance.get(`/api/v1/apps/${this.props.app_id}/conversations/${id}.json`)
+    const nextPage = this.state.conversation_messagesMeta.next_page || 1
+    this.axiosInstance.get(`/api/v1/apps/${this.props.app_id}/conversations/${id}.json?page=${nextPage}`)
       .then( (response)=> {
         this.setState({
           conversation: response.data.conversation,
-          conversation_messages: response.data.messages
+          conversation_messages: nextPage > 1 ? this.state.conversation_messages.concat(response.data.messages) : response.data.messages ,
+          conversation_messagesMeta: response.data.meta
         }, cb)
         
       })
@@ -550,23 +559,30 @@ class Messenger extends Component {
 
     this.unsubscribeFromConversation()
 
-    this.setconversation(o.id, () => {
+    this.setState({conversation_messagesMeta: {} }, ()=>{
 
-      this.conversationSubscriber(() => {
-        
-        //this.eventsSubscriber()
-        this.setState({
-          display_mode: "conversation"
-        }, () => {
-          //this.conversationSubscriber() ; 
-          //this.getConversations() ;
-          this.scrollToLastItem()
+      this.setconversation(o.id, () => {
+
+        this.conversationSubscriber(() => {
+
+          //this.eventsSubscriber()
+          this.setState({
+            display_mode: "conversation"
+          }, () => {
+            //this.conversationSubscriber() ; 
+            //this.getConversations() ;
+            this.scrollToLastItem()
+          })
+
         })
+
 
       })
 
-      
+
     })
+
+
 
   }
 
@@ -583,6 +599,28 @@ class Messenger extends Component {
 
   isMessengerActive = ()=>{
     return this.state.appData && this.state.appData.active_messenger == "on"
+  }
+
+  // TODO: skip on xhr progress
+  handleConversationsScroll = (e)=>{
+    let element = e.target
+   
+    //console.log(element.scrollHeight - element.scrollTop , element.clientHeight)
+    if (element.scrollHeight - element.scrollTop === element.clientHeight) {  
+      if(this.state.conversationsMeta.next_page)
+        this.getConversations({append: true})
+    }
+  }
+
+  // TODO: skip on xhr progress
+  handleConversationScroll = (e) => {
+    let element = e.target
+
+    //console.log(element.scrollHeight - element.scrollTop, element.clientHeight)
+    if (element.scrollHeight - element.scrollTop === element.clientHeight) {
+      if (this.state.conversation_messagesMeta.next_page)
+        this.getConversations({ append: true })
+    }
   }
 
   render(){
@@ -643,6 +681,7 @@ class Messenger extends Component {
                                       }}>
                                       <div 
                                         ref={comp => this.overflow = comp}
+                                        onScroll={this.handleConversationsScroll}
                                         style={{ overflowY: 'auto', height: '100%' }}>
 
                                           <EditorSection>
@@ -735,7 +774,8 @@ class Messenger extends Component {
                                         left: '0',
                                         right: '0'
                                       }}>
-                                        <div style={{ overflowY: 'auto', height: '100%'}}>
+                                        <div onScroll={this.handleConversationsScroll}
+                                          style={{ overflowY: 'auto', height: '100%'}}>
                                           <CommentsWrapper isMobile={this.state.isMobile}>
                                             {
                                               this.state.conversations.map((o,i)=>{
@@ -767,12 +807,13 @@ class Messenger extends Component {
                                                                       {message.app_user.email}
                                                                     </Autor>
                                                                     <Moment fromNow style={{ float: 'right',
-                                                                                                            color: '#ccc',
-                                                                                                            width: '88px',
-                                                                                                            margin: '0px 10px',
-                                                                                                            fontSize: '.8em',
-                                                                                                            textTransform: 'unset'}}>
-                                                                                                            {message.created_at}</Moment> 
+                                                                                            color: '#ccc',
+                                                                                            width: '88px',
+                                                                                            margin: '0px 10px',
+                                                                                            fontSize: '.8em',
+                                                                                            textTransform: 'unset'}}>
+                                                                                            {message.created_at}
+                                                                    </Moment> 
                                                                   </ConversationSummaryBodyMeta>
                                                                   {/* TODO: sanitize in backend */}
                                                                   <ConversationSummaryBodyContent 
@@ -874,7 +915,7 @@ class MessageFrame extends Component {
 
   toggleMinimize = (e) => {
     const val = !this.state.isMinimized
-    console.log("toggle, ", val, "old ", this.state.isMinimized)
+    //console.log("toggle, ", val, "old ", this.state.isMinimized)
     this.cacheMinized(val)
     this.setState({ isMinimized: val })
   }
@@ -885,7 +926,7 @@ class MessageFrame extends Component {
 
   cacheMinized = (val) => {
     const key = this.messageCacheKey(this.props.availableMessage.id)
-    console.log("minimize", key, val)
+    //console.log("minimize", key, val)
     //if (this.localStorageEnabled)
     localStorage.setItem(key, val);
   }
@@ -915,7 +956,7 @@ class MessageFrame extends Component {
     const url = `/api/v1/apps/${appId}/messages/${messageId}/tracks/${trackUrl}/close.json`
     this.props.axiosInstance.get(url, {r: 'close'})
     .then((response) => {
-      console.log("handle close!!!")
+      //console.log("handle close!!!")
       this.props.getMessage()
       //this.setState({ availableMessage: response.data.message })
     })
