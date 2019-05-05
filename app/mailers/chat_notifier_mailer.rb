@@ -9,7 +9,8 @@ class ChatNotifierMailer < ApplicationMailer
     message_author = conversation_part.app_user
     author_name    = message_author.name || message_author.email.split("@").first
 
-    recipient      = admin_users.ids.include?(message_author.id) ? conversation.main_participant : admin_users.first 
+    recipient      = message_author.id != conversation.main_participant.id ? conversation.main_participant : admin_users.first 
+    #recipient     = admin_users.map(&:email).include?(message_author.email) ? conversation.main_participant : admin_users.first 
     content_type  = "text/html"
     from_name     = "#{author_name} [#{app.name}]"
     ## TODO: configurability of email
