@@ -43,6 +43,8 @@ private
     json_message["mail"]["headers"].map{|o| {o["name"]=> o["value"]}}
 
     json_message["receipt"]["action"]
+
+    
     #=> {"type"=>"S3",
     # "topicArn"=>"xxxx",
     # "bucketName"=>"xxxx-incoming-mails",
@@ -61,13 +63,19 @@ private
     recipients = mail.recipients # ["messages+aaa@hermessenger.com"] de aqui sale el app y el mensaje!
     message    = EmailReplyParser.parse_reply( mail.text_part.body.to_s).gsub("\n", "<br/>").force_encoding(Encoding::UTF_8)
     #  mail.parts.last.body.to_s )
-    
     recipient_parts = URLcrypt.decode(recipients.first.split("@").first.split("+").last)
-    app = App.find(recipient_parts.first)
-    conversation = app.conversations.find(recipient_parts.last)
+
+    app_id, conversation_id = recipient_parts.split("+")
+
+    app = App.find(app_id)
+    conversation = app.conversations.find(conversation_id)
+
+    messageId = json_message["mail"]["messageId"] 
+
     opts = {
       from: app.app_users.joins(:user).where(["users.email =?", from.first]).first,
-      message: message
+      message: message,
+      email_message_id: mail.message_id
     }
 
     conversation.add_message(opts)
