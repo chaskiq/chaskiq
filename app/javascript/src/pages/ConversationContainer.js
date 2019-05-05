@@ -213,7 +213,8 @@ export default class ConversationContainer extends Component {
   constructor(props){
     super(props)
     this.state = {
-      conversations: []
+      conversations: [],
+      meta: {}
     }
   }
 
@@ -221,12 +222,24 @@ export default class ConversationContainer extends Component {
     this.getConversations()
   }
 
-  getConversations = (cb)=>{
+  handleScroll = (e) => {
+    let element = e.target
 
-    axios.get(`/apps/${this.props.match.params.appId}/conversations.json`, {})
+    console.log(element.scrollHeight - element.scrollTop, element.clientHeight)
+    if (element.scrollHeight - element.scrollTop === element.clientHeight) {
+      if (this.state.meta.next_page)
+        this.getConversations({ append: true })
+    }
+  }
+
+  getConversations = (cb)=>{
+    const nextPage = this.state.meta.next_page || 1
+
+    axios.get(`/apps/${this.props.match.params.appId}/conversations.json?page=${nextPage}`, {})
       .then( (response)=> {
         this.setState({
-          conversations: response.data.collection
+          conversations: nextPage > 1 ? this.state.conversations.concat(response.data.collection) : response.data.collection,
+          meta: response.data.meta
         })
         cb ? cb() : null
       })
@@ -249,7 +262,7 @@ export default class ConversationContainer extends Component {
                   Conversations
                 </FixedHeader>
 
-                <Overflow>
+                <Overflow onScroll={this.handleScroll}>
                   {
                     this.state.conversations.map((o, i)=>{
                       return <div key={o.id} onClick={(e)=> this.props.history.push(`/apps/${appId}/conversations/${o.id}`) }>
@@ -302,6 +315,7 @@ class ConversationContainerShow extends Component {
     this.state = {
       conversation: {},
       messages: [],
+      meta: {},
       app_user: {}
     }
   }
@@ -314,6 +328,16 @@ class ConversationContainerShow extends Component {
     if(PrevProps.match && PrevProps.match.params.id !== this.props.match.params.id){
       this.getMessages()
       //this.conversationSubscriber()
+    }
+  }
+
+  handleScroll = (e) => {
+    let element = e.target
+
+    console.log(element.scrollHeight - element.scrollTop, element.clientHeight)
+    if (element.scrollHeight - element.scrollTop === element.clientHeight) {
+      if (this.state.meta.next_page)
+        this.getMessages()
     }
   }
 
@@ -330,16 +354,20 @@ class ConversationContainerShow extends Component {
   }
 
   getMessages = ()=>{
-    axios.get(`/apps/${this.props.appId}/conversations/${this.props.match.params.id}.json`, {
+    const nextPage = this.state.meta.next_page
+    axios.get(`/apps/${this.props.appId}/conversations/${this.props.match.params.id}.json?page=${nextPage}`, {
         email: this.props.email,
       })
       .then( (response)=> {
         this.setState({
-          conversation: response.data.conversation
+          conversation: response.data.conversation,
         }, ()=>{ 
           this.conversationSubscriber()
           this.getMainUser(this.state.conversation.main_participant.id)
-          this.setState({messages: response.data.messages}) 
+          this.setState({
+            messages: nextPage > 1 ? this.state.messages.concat(response.data.messages) : response.data.messages,
+            meta: response.data.meta
+          }) 
         } )
       })
       .catch( (error)=> {
@@ -443,7 +471,9 @@ class ConversationContainerShow extends Component {
 
                 </FixedHeader>
 
-                <div className="overflow" ref="overflow">
+                  <div className="overflow" 
+                    ref="overflow" 
+                    onScroll={this.handleScroll}>
 
                   {
                     this.state.messages.map( (o, i)=> {

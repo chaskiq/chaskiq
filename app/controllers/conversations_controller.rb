@@ -5,7 +5,9 @@ class ConversationsController < ApplicationController
     @conversations = @app.conversations
                           .left_joins(:messages)
                           .where.not(conversation_parts: {id: nil})
-                          .uniq
+                          .distinct
+                          .page(params[:page])
+                          .per(5)
     respond_to do |format|
       format.html{ render_empty }
       format.json{ render "api/v1/conversations/index" }
@@ -16,6 +18,10 @@ class ConversationsController < ApplicationController
     @app = App.find_by(key: params[:app_id])
     @conversation = @app.conversations.find(params[:id])
     @messages = @conversation.messages.order("id asc")
+                          .page(params[:page])
+                          .per(5)
+
+
     respond_to do |format|
       format.html{ render_empty }
       format.json{ render "api/v1/conversations/show" }
