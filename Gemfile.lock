@@ -151,6 +151,8 @@ GEM
     bootsnap (1.4.2)
       msgpack (~> 1.0)
     browser (2.5.3)
+    bugsnag (6.11.1)
+      concurrent-ruby (~> 1.0)
     builder (3.2.3)
     capistrano (3.11.0)
       airbrussh (>= 1.0.0)
@@ -469,6 +471,7 @@ DEPENDENCIES
   aws-ses
   bootsnap (>= 1.1.0)
   browser (~> 2.5)
+  bugsnag (~> 6.11)
   capistrano-bundle
   capistrano-rails
   capistrano-rvm
