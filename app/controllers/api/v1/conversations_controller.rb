@@ -20,7 +20,7 @@ class Api::V1::ConversationsController < ApiController
     @user = get_app_user
     @conversations = @app.conversations.where(main_participant: @user.id)
                                         .page(params[:page])
-                                        .per(1)
+                                        .per(5)
     render :index
   end
 

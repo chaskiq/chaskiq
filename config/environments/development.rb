@@ -6,6 +6,8 @@ Rails.application.configure do
   # since you don't have to restart the web server when you make code changes.
   config.cache_classes = false
 
+  #config.hosts << "dea224b3.ngrok.io"
+
   # Do not eager load code on boot.
   config.eager_load = false
 
@@ -68,16 +70,23 @@ Rails.application.configure do
   # routes, locales, etc. This feature depends on the listen gem.
   config.file_watcher = ActiveSupport::EventedFileUpdateChecker
 
+
+  ActionMailer::Base.add_delivery_method :ses, AWS::SES::Base,
+  access_key_id: Rails.application.credentials.dig(:aws, :access_key_id),
+  secret_access_key: Rails.application.credentials.dig(:aws, :secret_access_key)
+
+
   config.action_mailer.perform_deliveries = false
 
-  config.action_mailer.delivery_method = :smtp
+  config.action_mailer.delivery_method = :ses
 
-  config.action_mailer.smtp_settings = {
-    :address => Rails.application.credentials.dig(:ses, :address),
-    :user_name => Rails.application.credentials.dig(:ses, :user_name), # Your SMTP user here.
-    :password => Rails.application.credentials.dig(:ses, :password), # Your SMTP password here.
-    :authentication => :login,
-    :enable_starttls_auto => true
-  }
+  #config.action_mailer.delivery_method = :smtp
+  #config.action_mailer.smtp_settings = {
+  #  :address => Rails.application.credentials.dig(:ses, :address),
+  #  :user_name => Rails.application.credentials.dig(:ses, :user_name), # Your SMTP user here.
+  #  :password => Rails.application.credentials.dig(:ses, :password), # Your SMTP password here.
+  #  :authentication => :login,
+  #  :enable_starttls_auto => true
+  #}
 
 end
