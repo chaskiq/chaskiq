@@ -132,3 +132,5 @@ gem "aws-sdk-s3", "~> 1.15"
 gem "rack-cors", "~> 1.0"
 
 gem "email_reply_parser", "~> 0.5.9"
+
+gem "bugsnag", "~> 6.11"
