@@ -1,11 +1,12 @@
 require 'jwe'
+require 'open-uri'
 class ClientTesterController < ApplicationController
 
   layout "client"
   
   def show
 
-    #open(http://motherfuckingwebsite.com/)
+    # open_uri("isReverse={true}")
     key = App.first.encryption_key # SecureRandom.hex(8) o SecureRandom.random_bytes(16)
     # payload = "miguel@preyhq.com"
 
