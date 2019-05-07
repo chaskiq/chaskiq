@@ -171,6 +171,7 @@ class Messenger extends Component {
       conversation_messagesMeta: {},
       conversations: [],
       conversationsMeta: {},
+      availableMessages: [],
       availableMessage: null,
       display_mode: "conversations",
       open: false,
@@ -386,7 +387,7 @@ class Messenger extends Component {
 
     this.axiosInstance.get(`/api/v1/apps/${this.props.app_id}/messages.json`)
       .then((response) => {
-        //this.setState({ availableMessage: response.data.message })
+        this.setState({ availableMessages: response.data.collection })
         if (cb)
           cb(response.data.collection)
       })
@@ -399,30 +400,7 @@ class Messenger extends Component {
   getMessage = (cb)=> {
 
     this.getAvailables((collection)=>{
-      
-      if(collection.length === 0){
-        this.setState({availableMessage: null})
-        return
-
-      }
-
-      const firstKey = collection[0].id
-
-      const data = {
-        referrer: window.location.path,
-        email: this.props.email,
-        properties: this.props.properties
-      }
-
-      this.axiosInstance.get(`/api/v1/apps/${this.props.app_id}/messages/${firstKey}.json`)
-        .then((response) => {
-          this.setState({ availableMessage: response.data.message })
-          if (cb)
-            cb()
-        })
-        .catch((error) => {
-          console.log(error);
-        });
+ 
     })
 
   }
@@ -731,12 +709,15 @@ class Messenger extends Component {
 
 
               {
-                this.state.availableMessage ? 
+                this.state.availableMessages.length > 0 ? 
                   <MessageFrame
                     appId={this.props.app_id}
                     getMessage={this.getMessage}
                     axiosInstance={this.axiosInstance}
+                    availableMessages={this.state.availableMessages}
                     availableMessage={this.state.availableMessage}
+                    axiosInstance={this.axiosInstance}
+                    {...this.props}
                     
                   /> : <div/>
               }
@@ -969,8 +950,39 @@ class MessageFrame extends Component {
     super(props)
     this.defaultMinized = false
     this.state = {
-      isMinimized: this.fetchMinizedCache()
+      isMinimized: this.fetchMinizedCache(),
+      messages: []
     }
+  }
+
+  componentDidMount(){
+
+    this.props.availableMessages.map((o) => {
+
+      const firstKey = o.id
+
+      const data = {
+        referrer: window.location.path,
+        email: this.props.email,
+        properties: this.props.properties
+      }
+
+      this.props.axiosInstance.get(`/api/v1/apps/${this.props.app_id}/messages/${firstKey}.json`)
+        .then((response) => {
+          this.setState({
+            messages: this.state.messages.concat(response.data.message)
+          })
+
+          /*if (cb)
+            cb()*/
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+
+
+    })
+
   }
 
   toggleMinimize = (e) => {
@@ -1029,30 +1041,38 @@ class MessageFrame extends Component {
   render(){
     return <UserAutoMessageStyledFrame id="messageFrame" 
       isMinimized={this.fetchMinizedCache()}>
-      <UserAutoMessageFlex isMinimized={this.fetchMinizedCache()}>
+
+
+       <UserAutoMessageFlex isMinimized={this.fetchMinizedCache()}>
         {
-          <UserAutoMessage open={true}>
-            <MessageContainer
-              isMinimized={this.state.isMinimized}
-              toggleMinimize={this.toggleMinimize}
-              handleClose={this.handleClose}
-              availableMessage={this.props.availableMessage}
-            />
-          </UserAutoMessage>
+          this.state.messages.map((o) => {
+            
+            return <UserAutoMessage open={true}>
+              <MessageContainer
+                isMinimized={this.state.isMinimized}
+                toggleMinimize={this.toggleMinimize}
+                handleClose={this.handleClose}
+                availableMessage={o}
+              />
+            </UserAutoMessage>
+
+            {
+              /*
+              <iframe frameborder="0" height="100%"
+                src="https://prey.typeform.com/to/TxwKrk?typeform-embed=embed-widget&amp;typeform-embed-id=atsi1" 
+                width="100%"
+                data-qa="iframe" 
+                style={{border: "0px"}}>
+              </iframe>
+              */
+            }
+
+          })
+
         }
+          </UserAutoMessageFlex>
 
 
-        {
-          /*
-          <iframe frameborder="0" height="100%"
-            src="https://prey.typeform.com/to/TxwKrk?typeform-embed=embed-widget&amp;typeform-embed-id=atsi1" 
-            width="100%"
-            data-qa="iframe" 
-            style={{border: "0px"}}>
-          </iframe>*/
-        }
-
-      </UserAutoMessageFlex>
     </UserAutoMessageStyledFrame>
   }
 }

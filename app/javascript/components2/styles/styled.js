@@ -40,15 +40,6 @@ export const Container = styled.div`
 `;
 
 export const UserAutoMessage = styled.div`
-    /*box-shadow: -1px 3px 3px 3px rgba(158,191,208,0.09);
-    border: 1px solid #f3f0f0;
-    height: 42vh;
-    width: 96vw;
-    overflow: scroll;
-    border-radius: 5px;
-    background: #fff;
-    flex: 1;*/
-
     box-shadow: -1px 3px 3px 3px rgba(158,191,208,0.09);
     border: 1px solid #f3f0f0;
     height: 100vh;
@@ -60,6 +51,7 @@ export const UserAutoMessage = styled.div`
     -ms-flex: 1;
     /* flex: 1; */
     /* align-self: end; */
+    margin-bottom: 10px;
 
 
 `
