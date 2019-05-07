@@ -116,8 +116,7 @@ export const CommentsWrapper = styled.div`
   )}*/
 
   padding-bottom: 105px;
-  -ms-flex-direction: column;
-  flex-direction: column;
+
   -webkit-box-flex: 1;
   -ms-flex-positive: 1;
   flex-grow: 1;
@@ -129,6 +128,16 @@ export const CommentsWrapper = styled.div`
   overflow-anchor: none;
   height: auto;
   -webkit-box-orient: vertical;
+
+  ${(props)=> ( props.isReverse ? 
+    `
+    -ms-flex-direction: column-reverse;
+    flex-direction : column-reverse;` : `
+      -ms-flex-direction: column;
+      flex-direction: column;
+    `
+
+  )}
 
   display: -webkit-box;
   display: -ms-flexbox;

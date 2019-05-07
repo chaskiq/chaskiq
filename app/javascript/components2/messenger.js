@@ -236,12 +236,13 @@ class Messenger extends Component {
   }
 
   componentDidUpdate(prevProps, prevState){
-    if(prevState.display_mode !== this.state.display_mode && this.state.display_mode === "conversations")
+    /*if(prevState.display_mode !== this.state.display_mode && this.state.display_mode === "conversations")
       this.setState({ conversationsMeta: {} }, this.getConversations )
      
 
     if (prevState.open !== this.state.open && this.state.open && this.state.display_mode === "conversations")
       this.setState({ conversationsMeta: {} }, this.getConversations)
+    */
 
     //if(this.state.conversation.id !== prevState.conversation.id)
       //this.conversationSubscriber()
@@ -276,7 +277,7 @@ class Messenger extends Component {
     }).play()
   }
 
-  eventsSubscriber(){
+  eventsSubscriber =()=>{
     App.events = App.cable.subscriptions.create(this.cableDataFor({channel: "PresenceChannel"}),
     {
         connected: ()=> {
@@ -304,13 +305,17 @@ class Messenger extends Component {
     this.overflow.scrollTop = this.overflow.scrollHeight 
   }
 
+  setOverflow = (el)=>{
+    this.overflow = el
+  }
+
   unsubscribeFromConversation = ()=>{
     if (App.conversations)
       App.conversations.unsubscribe()
       App.conversations = null
   }
 
-  conversationSubscriber(cb){
+  conversationSubscriber =(cb)=>{
     this.unsubscribeFromConversation()
 
     App.conversations = App.cable.subscriptions.create(
@@ -350,7 +355,7 @@ class Messenger extends Component {
         } else {
 
           this.setState({
-            conversation_messages: this.state.conversation_messages.concat(data)
+            conversation_messages: [data].concat(this.state.conversation_messages)
           }, this.scrollToLastItem)
           
           if (this.props.email !== data.app_user.email) {
@@ -422,7 +427,7 @@ class Messenger extends Component {
 
   }
 
-  ping(cb){
+  ping =(cb)=>{
     this.axiosInstance.post(`/api/v1/apps/${this.props.app_id}/ping`)
       .then( (response)=> {
         this.setState({
@@ -438,7 +443,7 @@ class Messenger extends Component {
       });
   }
 
-  insertComment(comment, cb){
+  insertComment =(comment, cb)=>{
     //TODO: try to store this as json and then 
     //convert to HTML
 
@@ -454,7 +459,7 @@ class Messenger extends Component {
     }
   }
 
-  createComment(comment, cb){
+  createComment =(comment, cb)=>{
     const id = this.state.conversation.id
     this.axiosInstance.put(`/api/v1/apps/${this.props.app_id}/conversations/${id}.json`, {
       email: this.props.email,
@@ -470,7 +475,7 @@ class Messenger extends Component {
 
   }
 
-  createCommentOnNewConversation(comment, cb){
+  createCommentOnNewConversation = (comment, cb)=>{
     this.axiosInstance.post(`/api/v1/apps/${this.props.app_id}/conversations.json`, {
         email: this.props.email,
         message: comment
@@ -485,7 +490,11 @@ class Messenger extends Component {
       });
   }
 
-  getConversations(options){
+  clearAndGetConversations = ()=>{
+    this.setState({ conversationsMeta: {} }, this.getConversations)
+  }
+
+  getConversations = (options)=>{
 
     const data = {
       referrer: window.location.path,
@@ -509,7 +518,7 @@ class Messenger extends Component {
       });
   }
 
-  setconversation(id , cb){
+  setconversation = (id , cb)=>{
     const nextPage = this.state.conversation_messagesMeta.next_page || 1
     this.axiosInstance.get(`/api/v1/apps/${this.props.app_id}/conversations/${id}.json?page=${nextPage}`)
       .then( (response)=> {
@@ -525,7 +534,7 @@ class Messenger extends Component {
       });
   }
 
-  displayNewConversation(e){
+  displayNewConversation =(e)=>{
     e.preventDefault()
     this.createCommentOnNewConversation(null, ()=>{
 
@@ -547,7 +556,7 @@ class Messenger extends Component {
     })
   }
 
-  displayConversationList(e){
+  displayConversationList = (e)=>{
     this.unsubscribeFromConversation()
     e.preventDefault()
     this.setState({
@@ -555,7 +564,7 @@ class Messenger extends Component {
     })
   }
 
-  displayConversation(e, o){
+  displayConversation =(e, o)=>{
 
     this.unsubscribeFromConversation()
 
@@ -599,28 +608,6 @@ class Messenger extends Component {
 
   isMessengerActive = ()=>{
     return this.state.appData && this.state.appData.active_messenger == "on"
-  }
-
-  // TODO: skip on xhr progress
-  handleConversationsScroll = (e)=>{
-    let element = e.target
-   
-    //console.log(element.scrollHeight - element.scrollTop , element.clientHeight)
-    if (element.scrollHeight - element.scrollTop === element.clientHeight) {  
-      if(this.state.conversationsMeta.next_page)
-        this.getConversations({append: true})
-    }
-  }
-
-  // TODO: skip on xhr progress
-  handleConversationScroll = (e) => {
-    let element = e.target
-
-    //console.log(element.scrollHeight - element.scrollTop, element.clientHeight)
-    if (element.scrollHeight - element.scrollTop === element.clientHeight) {
-      if (this.state.conversation_messagesMeta.next_page)
-        this.getConversations({ append: true })
-    }
   }
 
   render(){
@@ -672,177 +659,33 @@ class Messenger extends Component {
                                   {
                                     this.state.display_mode === "conversation" ?
                                     
-                                      <div style={{
-                                        position: 'absolute',
-                                        top: '0',
-                                        bottom: '0',
-                                        left: '0',
-                                        right: '0'
-                                      }}>
-                                      <div 
-                                        ref={comp => this.overflow = comp}
-                                        onScroll={this.handleConversationsScroll}
-                                        style={{ overflowY: 'auto', height: '100%' }}>
+                                      <Conversation
+                                        isMobile={this.state.isMobile}
+                                        conversation_messages={this.state.conversation_messages}
+                                        conversation={this.state.conversation}
+                                        conversation_messagesMeta={this.state.conversation_messagesMeta}
+                                        isUserAutoMessage={this.isUserAutoMessage}
+                                        insertComment={this.insertComment}
+                                        setConversation={this.setconversation}
+                                        setOverflow={this.setOverflow}
 
-                                          <EditorSection>
-
-                                            <CommentsWrapper
-                                              //ref={this.commentWrapperRef}
-                                              isMobile={this.state.isMobile}>
-                                              {
-                                                this.state.conversation_messages.map((o, i) => {
-                                                  const userClass = this.state.conversation.main_participant.email === o.app_user.email ? 'user' : 'admin'
-                                                  
-                                                  return <MessageItemWrapper
-                                                            email={this.props.email}
-                                                            key={o.id}
-                                                            data={o}>
-                                                    <MessageItem
-                                                      className={userClass}
-                                                      messageSourceType={o.message_source ? o.message_source.type : '' }>
-                                                      
-                                                      {
-                                                        !this.isUserAutoMessage(o) ? 
-                                                          <ChatAvatar>
-                                                            <img src={gravatar.url(o.app_user.email)} />
-                                                          </ChatAvatar> : null
-                                                      }
-
-
-
-                                                      <DanteContainer>
-
-                                                        {
-                                                          this.isUserAutoMessage(o) ?
-                                                            <UserAutoChatAvatar>
-                                                              <img src={gravatar.url(o.app_user.email)} />
-                                                              <span>{o.app_user.name || o.app_user.email}</span>
-                                                            </UserAutoChatAvatar> : null
-                                                        } 
-
-                                                        <div
-                                                          key={i}
-                                                          className={ this.isUserAutoMessage(o) ? '' : "text"}
-                                                          dangerouslySetInnerHTML={{ __html: `<p>${o.message}</p>` }}
-                                                        />
-                                                      </DanteContainer>
-
-
-                                                      <span className="status">
-                                                        {
-                                                          o.read_at ?
-                                                            <Moment fromNow>
-                                                              {o.read_at}
-                                                            </Moment> : <span>not seen</span>
-                                                        }
-                                                      </span>
-                                                    </MessageItem>
-                                                  </MessageItemWrapper>
-                                                })
-                                              }
-                                            </CommentsWrapper>
-
-                                            <Footer>
-                                              <UnicornEditor
-                                                insertComment={this.insertComment}
-                                              />
-
-                                              { /*
-                                                  <HappinessIcon/>
-                                                  <AttachmentIcon/>
-                                                  <PaperPlaneIcon
-                                                    style={{ padding: '14px' }}
-                                                  />
-                                                  */
-                                              }
-
-                                              
-                                            </Footer>
-
-                                          </EditorSection>
-                                              
-                                        </div>
-                                      </div> : null
+                                      /> : null
                                   } 
 
                                   {
                                     this.state.display_mode === "conversations" ? 
-                                      <div style={{
-                                        position: 'absolute',
-                                        top: '0',
-                                        bottom: '0',
-                                        left: '0',
-                                        right: '0'
-                                      }}>
-                                        <div onScroll={this.handleConversationsScroll}
-                                          style={{ overflowY: 'auto', height: '100%'}}>
-                                          <CommentsWrapper isMobile={this.state.isMobile}>
-                                            {
-                                              this.state.conversations.map((o,i)=>{
-                                                
-                                                const message = o.last_message
-                                                const sanitized = sanitizeHtml(message.message)
-                                                const summary = sanitized.length > 100 ? `${sanitized.substring(0, 100)} ...` : sanitized
-                                                return <CommentsItem key={o.id}
-                                                            onClick={(e)=>{this.displayConversation(e, o)}}> 
-                                                            
-                                                          {
-                                                            message ? 
-                                                              <ConversationSummary>
-                                                                
-                                                                <ConversationSummaryAvatar>
-                                                                  <img src={gravatar.url(message.app_user.email)}/>
-                                                                </ConversationSummaryAvatar>
-
-                                                                <ConversationSummaryBody>
-
-                                                                  <ConversationSummaryBodyMeta>
-
-                                                                  {
-                                                                    !message.read_at && message.app_user.email !== this.props.email ?
-                                                                  
-                                                                    <ReadIndicator/> : null
-                                                                  }
-                                                                    <Autor>
-                                                                      {message.app_user.email}
-                                                                    </Autor>
-                                                                    <Moment fromNow style={{ float: 'right',
-                                                                                            color: '#ccc',
-                                                                                            width: '88px',
-                                                                                            margin: '0px 10px',
-                                                                                            fontSize: '.8em',
-                                                                                            textTransform: 'unset'}}>
-                                                                                            {message.created_at}
-                                                                    </Moment> 
-                                                                  </ConversationSummaryBodyMeta>
-                                                                  {/* TODO: sanitize in backend */}
-                                                                  <ConversationSummaryBodyContent 
-                                                                    dangerouslySetInnerHTML={{ __html: summary }} 
-                                                                  />
-                                                                </ConversationSummaryBody>
-                                                              </ConversationSummary> : null 
-                                                          }
-                                                        </CommentsItem>
-
-                                                          
-                                              })
-                                            }
-                                          </CommentsWrapper>
-
-                                          <ConversationsFooter>
-                                            <Hint>
-                                              We make it simple and seamless for businesses and people to talk to each other. Ask us anything
-                                              </Hint>
-
-                                            <NewConvoBtn onClick={this.displayNewConversation.bind(this)}>
-                                              create new conversation
-                                            </NewConvoBtn>                                
-                                          </ConversationsFooter>
-
-                                        </div>
-                                      </div>
-                                      : null 
+                                      <Conversations 
+                                        isMobile={this.state.isMobile}
+                                        displayConversation={this.displayConversation}
+                                        displayNewConversation={this.displayNewConversation}
+                                        conversationsMeta={this.state.conversationsMeta}
+                                        conversations={this.state.conversations}
+                                        getConversations={this.getConversations}
+                                        clearAndGetConversations={this.clearAndGetConversations}
+                                        email={this.props.email}
+                                      /> : null 
                                   }
+
                                 </Body> 
                               </SuperFragment>
                             </SuperDuper> 
@@ -894,6 +737,7 @@ class Messenger extends Component {
                     getMessage={this.getMessage}
                     axiosInstance={this.axiosInstance}
                     availableMessage={this.state.availableMessage}
+                    
                   /> : <div/>
               }
               
@@ -902,6 +746,222 @@ class Messenger extends Component {
           }
 }
 
+
+class Conversation extends Component {
+
+
+
+  // TODO: skip on xhr progress
+  handleConversationScroll = (e) => {
+    let element = e.target
+
+    //console.log(element.scrollHeight - element.scrollTop, element.clientHeight) // on bottom
+    if (element.scrollTop === 0) { // on top
+    //if (element.scrollTop <= 50) { // on almost top // todo skip on xhr loading
+      if (this.props.conversation_messagesMeta.next_page)
+        this.props.setConversation(this.props.conversation.id)
+    }
+  }
+
+
+  render(){
+    return <div style={{
+      position: 'absolute',
+      top: '0',
+      bottom: '0',
+      left: '0',
+      right: '0'
+    }}>
+      <div
+        ref={comp => this.props.setOverflow(comp) }
+        onScroll={this.handleConversationScroll}
+        style={{ overflowY: 'auto', height: '100%' }}>
+
+        <EditorSection>
+
+          <CommentsWrapper
+            isReverse={true}
+            //ref={this.commentWrapperRef}
+            isMobile={this.props.isMobile}>
+            {
+              this.props.conversation_messages.map((o, i) => {
+                const userClass = this.props.conversation.main_participant.email === o.app_user.email ? 'user' : 'admin'
+
+                return <MessageItemWrapper
+                  email={this.props.email}
+                  key={o.id}
+                  data={o}>
+                  <MessageItem
+                    className={userClass}
+                    messageSourceType={o.message_source ? o.message_source.type : ''}>
+
+                    {
+                      !this.props.isUserAutoMessage(o) ?
+                        <ChatAvatar>
+                          <img src={gravatar.url(o.app_user.email)} />
+                        </ChatAvatar> : null
+                    }
+
+
+
+                    <DanteContainer>
+
+                      {
+                        this.props.isUserAutoMessage(o) ?
+                          <UserAutoChatAvatar>
+                            <img src={gravatar.url(o.app_user.email)} />
+                            <span>{o.app_user.name || o.app_user.email}</span>
+                          </UserAutoChatAvatar> : null
+                      }
+
+                      <div
+                        key={i}
+                        className={this.props.isUserAutoMessage(o) ? '' : "text"}
+                        dangerouslySetInnerHTML={{ __html: `<p>${o.message}</p>` }}
+                      />
+                    </DanteContainer>
+
+
+                    <span className="status">
+                      {
+                        o.read_at ?
+                          <Moment fromNow>
+                            {o.read_at}
+                          </Moment> : <span>not seen</span>
+                      }
+                    </span>
+                  </MessageItem>
+                </MessageItemWrapper>
+              })
+            }
+          </CommentsWrapper>
+
+          <Footer>
+            <UnicornEditor
+              insertComment={this.props.insertComment}
+            />
+
+            { /*
+                                                  <HappinessIcon/>
+                                                  <AttachmentIcon/>
+                                                  <PaperPlaneIcon
+                                                    style={{ padding: '14px' }}
+                                                  />
+                                                  */
+            }
+
+
+          </Footer>
+
+        </EditorSection>
+
+      </div>
+    </div>
+  }
+
+}
+
+
+class Conversations extends Component {
+
+
+  componentDidMount(){
+    this.props.clearAndGetConversations()
+  }
+
+  // TODO: skip on xhr progress
+  handleConversationsScroll = (e) => {
+    let element = e.target
+
+    //console.log(element.scrollHeight - element.scrollTop , element.clientHeight)
+    if (element.scrollHeight - element.scrollTop === element.clientHeight) {
+      if (this.props.conversationsMeta.next_page)
+        this.props.getConversations({ append: true })
+    }
+  }
+
+  render(){
+    return <div style={{
+      position: 'absolute',
+      top: '0',
+      bottom: '0',
+      left: '0',
+      right: '0'
+    }}>
+      <div onScroll={this.handleConversationsScroll}
+        style={{ overflowY: 'auto', height: '100%' }}>
+        <CommentsWrapper 
+          isMobile={this.props.isMobile}>
+          {
+            this.props.conversations.map((o, i) => {
+
+              const message = o.last_message
+              const sanitized = sanitizeHtml(message.message)
+              const summary = sanitized.length > 100 ? `${sanitized.substring(0, 100)} ...` : sanitized
+              return <CommentsItem key={o.id}
+                onClick={(e) => { this.props.displayConversation(e, o) }}>
+
+                {
+                  message ?
+                    <ConversationSummary>
+
+                      <ConversationSummaryAvatar>
+                        <img src={gravatar.url(message.app_user.email)} />
+                      </ConversationSummaryAvatar>
+
+                      <ConversationSummaryBody>
+
+                        <ConversationSummaryBodyMeta>
+
+                          {
+                            !message.read_at && message.app_user.email !== this.props.email ?
+
+                              <ReadIndicator /> : null
+                          }
+                          <Autor>
+                            {message.app_user.email}
+                          </Autor>
+                          <Moment fromNow style={{
+                            float: 'right',
+                            color: '#ccc',
+                            width: '88px',
+                            margin: '0px 10px',
+                            fontSize: '.8em',
+                            textTransform: 'unset'
+                          }}>
+                            {message.created_at}
+                          </Moment>
+                        </ConversationSummaryBodyMeta>
+                        {/* TODO: sanitize in backend */}
+                        <ConversationSummaryBodyContent
+                          dangerouslySetInnerHTML={{ __html: summary }}
+                        />
+                      </ConversationSummaryBody>
+                    </ConversationSummary> : null
+                }
+              </CommentsItem>
+
+
+            })
+          }
+        </CommentsWrapper>
+
+        <ConversationsFooter>
+          <Hint>
+            We make it simple and seamless for businesses and people 
+            to talk to each other. Ask us anything
+          </Hint>
+
+          <NewConvoBtn onClick={this.props.displayNewConversation}>
+            create new conversation
+          </NewConvoBtn>
+        </ConversationsFooter>
+
+      </div>
+    </div>
+
+  }
+}
 
 class MessageFrame extends Component {
 

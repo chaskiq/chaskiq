@@ -4,24 +4,25 @@ class Api::V1::ConversationsController < ApiController
   before_action :get_user_data
   before_action :authorize!
 
+  def index
+    # TODO: paginate here
+    @user = get_app_user
+    @conversations = @app.conversations.where(main_participant: @user.id)
+                                        .order("id desc")
+                                        .page(params[:page])
+                                        .per(5)
+    render :index
+  end
+
   def show
     @user = get_app_user
     @conversation = user_conversations.find(params[:id])
     # TODO paginate here
     @messages = @conversation.messages.includes(app_user: :user)
-                                      .order("id asc")
+                                      .order("id desc")
                                       .page(params[:page])
                                       .per(5)
     render :show
-  end
-
-  def index
-    # TODO: paginate here
-    @user = get_app_user
-    @conversations = @app.conversations.where(main_participant: @user.id)
-                                        .page(params[:page])
-                                        .per(5)
-    render :index
   end
 
   def create
