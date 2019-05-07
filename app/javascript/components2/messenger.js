@@ -590,7 +590,7 @@ class Messenger extends Component {
 
   render(){
     return <ThemeProvider theme={{
-                                  mode: this.state.availableMessage ? this.state.availableMessage.theme : 'light',
+                                  mode: this.state.appData ? this.state.appData.theme : 'light',
                                   isMessengerActive: this.isMessengerActive() 
                                 }}>
             <EditorWrapper>
@@ -661,6 +661,7 @@ class Messenger extends Component {
                                         getConversations={this.getConversations}
                                         clearAndGetConversations={this.clearAndGetConversations}
                                         email={this.props.email}
+                                        app={this.state.appData}
                                       /> : null 
                                   }
 
@@ -929,8 +930,8 @@ class Conversations extends Component {
 
         <ConversationsFooter>
           <Hint>
-            We make it simple and seamless for businesses and people 
-            to talk to each other. Ask us anything
+            {this.props.app.tagline}
+            
           </Hint>
 
           <NewConvoBtn onClick={this.props.displayNewConversation}>
