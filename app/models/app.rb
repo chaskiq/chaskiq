@@ -18,7 +18,12 @@ class App < ApplicationRecord
 
   has_many :messages
 
-  store_accessor :preferences, [:active_messenger, :domain_url]
+  store_accessor :preferences, [
+    :active_messenger, 
+    :domain_url, 
+    :tagline ,
+    :theme 
+  ]
 
   def encryption_enabled?
     self.encryption_key.present?
@@ -30,7 +35,9 @@ class App < ApplicationRecord
       {name: "domain_url", type: 'string'} ,
       {name: "state", type: "select", options: ["enabled", "disabled" ]},
       {name: "active_messenger", type: 'bool'},
-      {name: "encryption_key", type: 'string', maxLength: 16, minLength: 16, placeholder: "leave it blank for no encryption"} 
+      {name: "encryption_key", type: 'string', maxLength: 16, minLength: 16, placeholder: "leave it blank for no encryption"},
+      {name: "tagline", type: 'text', hint: "messenger text on botton"},
+      {name: "theme", type: "select", options: ["dark", "light"] }
     ]
   end
 
