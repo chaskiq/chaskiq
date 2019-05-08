@@ -18,6 +18,7 @@ import DanteContainer from './styles/dante'
 import CrossIcon from '@atlaskit/icon/glyph/cross';
 import Button from '@atlaskit/button';
 import sanitizeHtml from 'sanitize-html';
+import TourManager from './tourManager'
 import {
   CloseIcon,
   LeftIcon,
@@ -733,7 +734,9 @@ class Messenger extends Component {
                     
                   /> : <div/>
               }
-              
+
+              <TourManager/>
+        
             </EditorWrapper>
           </ThemeProvider>
           }
