@@ -52,8 +52,13 @@ export const UserAutoMessage = styled.div`
     /* flex: 1; */
     /* align-self: end; */
     margin-bottom: 10px;
+`
 
-
+export const UserAutoMessageBlock = styled.div`
+    height: 16px;
+    width: 96vw;
+    background: transparent;
+    margin-bottom: 10px;
 `
 
 export const AvatarSection = styled.div`

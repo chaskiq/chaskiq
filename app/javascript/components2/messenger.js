@@ -27,6 +27,7 @@ import {
 import {
   Container,
   UserAutoMessage,
+  UserAutoMessageBlock,
   AvatarSection,
   EditorSection,
   EditorWrapper,
@@ -143,17 +144,27 @@ const UserAutoMessageFlex = styled(({ isMinimized, ...rest }) => (
 ))`
   display: flex;
   flex-direction: column;
-  /* align-items: baseline; */
-  /* flex-direction: row; */
-  /* flex-grow: 1; */
-  
 
   ${(props) => {
-    return props.isMinimized ? `height: 70vh;` : `height: 95vh;`
+    return props.isMinimized ? `height: 70vh;` : `height: 92vh;`
   }}
 
   
   justify-content: space-between;
+`
+
+const MessageCloseBtn = styled.a`
+    display: inline-block;
+    padding: 4px;
+    background: #737373;
+    border-radius: 7px;
+    font-size: .8em;
+    -webkit-text-decoration: none;
+    text-decoration: none;
+    float: right;
+    color: white;
+    text-transform: uppercase;
+
 `
 
 
@@ -1024,8 +1035,9 @@ class MessageFrame extends Component {
 
   handleClose = ()=>{
     const appId = this.props.appId
-    const messageId = this.props.availableMessage.id
-    const trackUrl = this.props.availableMessage.user_track_url
+    const availableMessage = this.state.messages[0]
+    const messageId = availableMessage.id
+    const trackUrl = availableMessage.user_track_url
     const url = `/api/v1/apps/${appId}/messages/${messageId}/tracks/${trackUrl}/close.json`
     this.props.axiosInstance.get(url, {r: 'close'})
     .then((response) => {
@@ -1038,6 +1050,16 @@ class MessageFrame extends Component {
     });
   }
 
+  handleMinus = (ev) => {
+    ev.preventDefault()
+    this.toggleMinimize(ev)
+  }
+
+  handleCloseClick = (ev) => {
+    ev.preventDefault()
+    this.handleClose(ev)
+  }
+
 
   render(){
     return <UserAutoMessageStyledFrame id="messageFrame" 
@@ -1045,10 +1067,20 @@ class MessageFrame extends Component {
 
 
        <UserAutoMessageFlex isMinimized={this.fetchMinizedCache()}>
+
+        <UserAutoMessageBlock open={true}>
+          <div className="close">
+            {/* eslint-disable-next-line */}
+            <MessageCloseBtn href="#" onClick={this.handleCloseClick}>
+              dismiss
+            </MessageCloseBtn>
+          </div>
+        </UserAutoMessageBlock>
+
         {
-          this.state.messages.map((o) => {
+          this.state.messages.map((o, i) => {
             
-            return <UserAutoMessage open={true}>
+            return <UserAutoMessage open={true} key={o.id}>
               <MessageContainer
                 isMinimized={this.state.isMinimized}
                 toggleMinimize={this.toggleMinimize}

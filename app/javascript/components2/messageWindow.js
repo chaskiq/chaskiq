@@ -83,7 +83,6 @@ const Header = styled.div`
     return props.theme.mode === "dark" ?
       `` : `
         background: rgba(253, 253, 253, 0.9);
-        border-bottom: 1px solid #eaeaea;
         box-shadow: 0px 0px 3px 0px #eaeaea;
       `
   }}
@@ -109,49 +108,18 @@ export default class Quest extends React.Component  {
     }
   }
 
-  handleMinus = (ev) => {
-    ev.preventDefault()
-    this.props.toggleMinimize(ev)
-  }
-
-  handleClose = (ev)=>{
-    ev.preventDefault()
-    this.props.handleClose(ev)
-  }
-
   render(){
     return <IntroStyle>
           <InnerStyle>
             
             <Header>
 
-              <div className="close">
-                {/* eslint-disable-next-line */}
-                <a href="" onClick={this.handleMinus}>
-                  {!this.props.isMinimized ? 'minimize' : 'expand'}
-                </a>
-                {
-                  this.props.isMinimized ? 
-                  <a href="" onClick={this.handleClose}>
-                    dismiss
-                  </a> : null
-                }
-              </div>
-
             </Header>
 
-
             <Content>
-            
-              {
-                !this.state.isMinimized ? (
-                  
                 <Container>
                     {this.props.children}
                 </Container>
-                 
-                ) : null
-              }
             </Content>
 
           </InnerStyle>
