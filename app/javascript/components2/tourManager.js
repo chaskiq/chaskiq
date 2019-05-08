@@ -2,6 +2,8 @@ import React, {Component} from 'react'
 import styled from 'styled-components'
 import Joyride from 'react-joyride';
 import Simmer from 'simmerjs'
+import TourEditor from './tourEditor'
+import Button, { ButtonGroup } from '@atlaskit/button';
 
 const simmer = new Simmer(window, { /* some custom configuration */ })
 // poner esto como StyledFrame
@@ -34,9 +36,15 @@ const Body = styled.div`
 const Footer = styled.div`
   background: blue;
   padding: 10px;
+  display: flex;
+  flex-flow: column;
   a, a:hover{
     color: white;
   }
+`
+
+const FooterRight = styled.div`
+  align-self: flex-end;
 `
 
 const StepContainer = styled.div`
@@ -77,33 +85,23 @@ const StepMessage = styled.div`
 
 `
 
+const CssPathIndicator = styled.div`
+  color: white;
+  align-self: flex-start;
+`
 
-const isElement = (x) => x && x.nodeType === Node.ELEMENT_NODE;
+const EventBlocker = styled.div`
+    position: fixed;
+    height: 100%;
+    width: 100%;
+    top: 0px;
+    left: 0px;
+    opacity: 0;
+    box-sizing: border-box;
+    z-index: 2147483000;
+`
 
-const nthChild = (el, nth = 1) => {
-  if (el) {
-    return nthChild(el.previousSibling, nth + 1);
-  } else {
-    return nth - 1;
-  }
-};
 
-const elementPath = (el, path = []) => {
-  if (isElement(el)) {
-    const tag = el.nodeName.toLowerCase(),
-      id = (el.id.length != 0 && el.id);
-    if (id) {
-      return elementPath(
-        null, path.concat([`#${id}`]));
-    } else {
-      return elementPath(
-        el.parentNode,
-        path.concat([`${tag}:nth-child(${nthChild(el)})`]));
-    }
-  } else {
-    return path.reverse().join(" > ");
-  }
-};
 
 export default class TourManager extends Component {
 
@@ -112,17 +110,28 @@ export default class TourManager extends Component {
     cssIs: null,
     run: false,
     selecting: false,
+    selectedCoords: null,
+    selectionMode: false,
+    editElement: null,
+    isScrolling: false,
     steps: []
   }
 
   componentDidMount(){
     document.addEventListener('mouseover',  (e)=> {
       if (this.state.run) return
+      if (!this.state.selectionMode) return
       if (!this.state.selecting) return
+
+      if (this.state.selectionMode === "edit") return
+
 
       e = e || window.event;
       var target = e.target || e.srcElement,
         text = target.textContent || target.innerText;
+
+      //console.log(target)
+      this.getElementShape(target)
 
       this.setState({
         cssPath: simmer(target)
@@ -134,26 +143,53 @@ export default class TourManager extends Component {
       if(this.state.run) return
       if (!this.state.selecting) return
 
+      if (this.state.selectionMode === "edit") return
+
       e = e || window.event;
       var target = e.target || e.srcElement,
         text = target.textContent || target.innerText;
 
+      const cssPath = simmer(target)
+
       let path = {
-        target: simmer(target),
-          content: 'This is my awesome feature!',
+        target: cssPath,
+        content: 'default text',
+        serializedContent: null,
+      }
+
+      if(this.state.steps.find((o)=> o.target === path.target )) {
+        console.log("no entró!!")
+        return
       }
 
       this.setState({
-        steps: this.state.steps.concat(path)
+        steps: this.state.steps.concat(path),
+        cssPath: cssPath,
+        selecting: false,
+        selectionMode: false,
       })
     }, false);
+
+    let scrollHandler = ()=>{
+      if(!this.state.cssPath) return
+      const target = document.querySelector(this.state.cssPath)
+      this.getElementShape(target)
+    }
+
+    //document.addEventListener('scroll', isScrolling.bind(this));
+    window.addEventListener('resize', scrollHandler.bind(this));
+    document.addEventListener('scroll', scrollHandler.bind(this));
+
   }
 
   
 
   activatePreview = ()=>{
     this.setState({
-      run: true
+      run: true,
+      selectionMode: false,
+      editElement: null,
+      selecting: false
     })
   }
 
@@ -175,51 +211,253 @@ export default class TourManager extends Component {
     })
   }
 
+  getElementShape = (obj)=>{
+    const coords = obj.getBoundingClientRect()
+    //console.log(coords)
+    this.setState({
+      selectedCoords: {
+        x: coords.x, 
+        y: coords.y, 
+        width: coords.width, 
+        height: coords.height, 
+        //width: coords.right - coords.left,
+        //height: coords.bottom - coords.top,
+      } 
+    })
+  }
+
+  removeItem = (item)=>{
+    console.log(this.state.steps.map((o)=>(o.path)).join(" "))
+    this.setState({
+      steps: this.state.steps.filter((o)=>( o.target != item.target ))
+    })
+  }
+
+  enableSelectionMode = ()=>{
+    this.setState({
+      selectionMode: true,
+    }, ()=> setTimeout(() => this.setState({selecting: true}), 500 ))
+  }
+
+  saveContent = (value, target)=>{
+    this.state.steps.map((o)=>{
+      if(o.target === target){
+        o.serializedContent = value;
+        return o
+      } else {
+        return o
+      }
+
+    })
+  }
+
+  enableEditMode = (editElement)=>{
+    let newEl = {
+      target: editElement.target,
+      content: <TourEditor 
+                saveContent={this.saveContent} 
+                serializedContent={editElement.serializedContent}
+                target={editElement.target}>
+                </TourEditor>, 
+      serializedContent: null
+    }
+    this.setState({
+      selectionMode: 'edit',
+      editElement: newEl,
+      cssPath: editElement.target,
+      styles: {
+        options: {
+          zIndex: 10000
+        }
+      },
+    }, () => setTimeout(() => this.setState({ selecting: true }), 500))
+  }
+
+  disableEditMode = ()=>{
+    this.setState({
+      selecting: false,
+      selectionMode: false,
+    })
+  }
+
+  updateChanges = ()=>{
+    this.setState({
+      selecting: false,
+      selectionMode: false,
+    }, ()=>{
+      const newStep  = this.state.steps.map((o)=>{
+        if( o.target === this.state.editElement.target){
+          this.state.editElement
+          return o
+        } else {
+          return o
+        }
+         
+      })
+        this.setState({ steps: newStep  })
+    })
+  }
+
+  prepareJoyRidyContent = ()=>{
+    return this.state.steps.map((o)=>{
+
+      o.content = <TourEditor 
+                    serializedContent={o.serializedContent} 
+                    readOnly={true}>
+                  </TourEditor>
+    
+      return o
+
+    })
+  }
+
   render(){
 
-    return <div>
+    return <div style={{ position: 'absolute', zIndex: '100000000'}}>
 
-      <Joyride
-        steps={this.state.steps}
-        run={this.state.run}
-        debug={true}
-        continuous
-        scrollToFirstStep
-        showProgress
-        showSkipButton
-        styles={{
-          options: {
-            zIndex: 10000,
-          }
-        }}
 
-      />
+      {
+        this.state.selectionMode !== "edit" ?
+      
+          <Joyride
+            steps={this.prepareJoyRidyContent(this.state.steps)}
+            run={this.state.run}
+            debug={true}
+            continuous
+            scrollToFirstStep
+            showProgress
+            showSkipButton
+            styles={{
+              options: {
+                zIndex: 10000,
+              }
+            }}
+          /> : null 
+        
+        }
+
+
+      {
+        this.state.editElement && this.state.selectionMode == "edit" ? 
+          <Joyride
+            steps={[this.state.editElement]}
+            run={this.state.selectionMode === "edit"}
+            debug={true}
+            continuous={false}
+            scrollToFirstStep
+            showProgress={false}
+            showSkipButton={false}
+            spotlightClicks
+            disableOverlayClose
+            styles={{
+              options: {
+                zIndex: 10000,
+              }
+            }}
+          />
+          : null
+      }
+
+
+      {/*<EventBlocker tabindex="-1" />*/}
+
+
+      {
+        this.state.selectedCoords && !this.state.run ?
+      
+          <div style={{ 
+            border: '2px solid green',
+            position: 'fixed',
+            pointerEvents: 'none',
+            top: this.state.selectedCoords.y,
+            left: this.state.selectedCoords.x,
+            width: this.state.selectedCoords.width,
+            height: this.state.selectedCoords.height
+            }} /> : null 
+      }
     
       <TourManagerContainer
         onMouseOver={this.disableSelection}
-        onMouseOut={this.enableSelection}>
+        onMouseOut={this.enableSelection}
+      >
 
-        <Body>
+        {
+          !this.state.selectionMode && !this.state.run ?
+        
+            <Body>
 
-          <p>{this.state.run ? 'run si |' : 'run no |'}</p>
-          <br />
-          <p>{this.state.selecting ? 'selected' : 'no selected'}</p>
+              {
+                this.state.steps.map((o) => {
+                  return <TourStep step={o}
+                                   removeItem={this.removeItem}
+                                   enableEditMode={this.enableEditMode}
+                                   >
+                         </TourStep>
+                }
+              )}
 
-          {
-            this.state.steps.map((o) => {
-              return <TourStep step={o}></TourStep>
-            }
-            )}
+              <NewTourStep 
+                enableSelection={this.enableSelectionMode}>
+              </NewTourStep>
 
-          <NewTourStep></NewTourStep>
-
-        </Body>
+            </Body> : null
+        }
 
         <Footer>
 
-          <a href="#" onClick={this.activatePreview}>preview</a>
-          <a href="#" onClick={this.disablePreview}>cancel</a>
-          <a href="#">save</a>
+          {/*
+            {this.state.run ? 'run si |' : 'run no |'}
+            <br />
+            {this.state.selecting ? 'selected' : 'no selected'}
+          */}
+
+
+
+          {
+            !this.state.selectionMode ? 
+
+            <FooterRight>
+             
+                  {
+                    this.state.run ?
+                      <Button onClick={this.disablePreview}>
+                        {'<- exit preview'}
+                      </Button>
+                      : 
+                    <ButtonGroup appearance="warning">
+
+                      <Button onClick={this.activatePreview}>preview</Button>
+
+                      <Button >cancel</Button>
+                      <Button >save tour</Button>
+                    </ButtonGroup>
+                  }
+                
+            </FooterRight> : 
+            
+            <div style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'space-between',
+                  }}>
+              
+              <CssPathIndicator>
+                {this.state.cssPath}
+              </CssPathIndicator>  
+
+              {
+                this.state.selectionMode === "edit" ? 
+                <FooterRight>
+                  <ButtonGroup appearance="warning">
+                    <Button onClick={this.disableEditMode}>cancel</Button>
+                    <Button onClick={this.updateChanges}>save step</Button>
+                  </ButtonGroup>
+                </FooterRight> : null
+              }
+                
+            </div>
+          }
+
 
 
         </Footer>
@@ -234,15 +472,30 @@ export default class TourManager extends Component {
 
 class TourStep extends Component {
 
+  removeItem = (e)=>{
+    e.preventDefault()
+    this.props.removeItem(this.props.step)
+  }
+
+  enableEditMode = (e)=>{
+    e.preventDefault()
+    this.props.enableEditMode(this.props.step)
+  }
+
   render(){
-    return <StepContainer>
+    return <StepContainer onClick={this.enableEditMode}>
            <StepBody>
+
+              <a href="" onClick={this.removeItem}>x</a>
               <StepHeader>
-                {this.props.step.content}
+                
               </StepHeader>
 
               <StepMessage>
-              <p>{this.props.step.target}</p>
+                <TourEditor
+                  serializedContent={this.props.step.serializedContent}
+                  readOnly={true}
+                />
               </StepMessage>
            </StepBody>
            <ConnectorStep/>
@@ -268,9 +521,15 @@ const NewStepBody = styled.div`
 `
 
 class NewTourStep extends Component {
+  enableSelection = (e)=>{
+    e.preventDefault()
+    this.props.enableSelection()
+  }
   render(){
     return <NewStepContainer>
-      <NewStepBody/>
+      <NewStepBody>
+        <a href="#" onClick={this.enableSelection}>new +</a>
+      </NewStepBody>
       </NewStepContainer>
   }
 }
