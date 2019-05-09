@@ -5,7 +5,9 @@ import Simmer from 'simmerjs'
 import TourEditor from './tourEditor'
 import Button, { ButtonGroup } from '@atlaskit/button';
 
-const simmer = new Simmer(window, { /* some custom configuration */ })
+const simmer = new Simmer(window, { 
+  depth: 20
+ })
 // poner esto como StyledFrame
 const IntersectionFrame = styled.div`
     background: rgba(0, 0, 0, 0.35);
@@ -24,6 +26,7 @@ const TourManagerContainer = styled.div`
   bottom: 0px;
   left: 0px;
   width: 100%
+  z-index: 300000;
 `
 
 const Body = styled.div`
@@ -31,6 +34,10 @@ const Body = styled.div`
   background: white;
   box-shadow: 1px -1px 6px 0px #ccc;
   display: flex;
+
+
+  align-items: center;
+  justify-content: center;
 `
 
 const Footer = styled.div`
@@ -98,7 +105,14 @@ const EventBlocker = styled.div`
     left: 0px;
     opacity: 0;
     box-sizing: border-box;
-    z-index: 2147483000;
+    pointer-events: none;
+    z-index: 10000;
+`
+
+const StepsContainer = styled.div`
+  width: 50%;
+  overflow:scroll;
+  display: flex;
 `
 
 
@@ -132,18 +146,26 @@ export default class TourManager extends Component {
 
       //console.log(target)
       this.getElementShape(target)
-
+      console.log("AAAAAA", simmer(target))
       this.setState({
         cssPath: simmer(target)
       })
     }, false);
 
-    document.addEventListener('click', (e) => {
+    document.addEventListener('mousedown', (e) => {
+
+
 
       if(this.state.run) return
       if (!this.state.selecting) return
 
       if (this.state.selectionMode === "edit") return
+
+      e.stopPropagation()
+      e.preventDefault()
+
+      debugger
+
 
       e = e || window.event;
       var target = e.target || e.srcElement,
@@ -359,7 +381,7 @@ export default class TourManager extends Component {
       }
 
 
-      {/*<EventBlocker tabindex="-1" />*/}
+      {this.state.selecting ? <EventBlocker tabindex="-1" /> : null }
 
 
       {
@@ -386,6 +408,7 @@ export default class TourManager extends Component {
         
             <Body>
 
+              <StepsContainer>
               {
                 this.state.steps.map((o) => {
                   return <TourStep step={o}
@@ -395,21 +418,18 @@ export default class TourManager extends Component {
                          </TourStep>
                 }
               )}
+              
 
               <NewTourStep 
                 enableSelection={this.enableSelectionMode}>
               </NewTourStep>
 
+              </StepsContainer>
+
             </Body> : null
         }
 
         <Footer>
-
-          {/*
-            {this.state.run ? 'run si |' : 'run no |'}
-            <br />
-            {this.state.selecting ? 'selected' : 'no selected'}
-          */}
 
 
 
@@ -443,6 +463,11 @@ export default class TourManager extends Component {
               
               <CssPathIndicator>
                 {this.state.cssPath}
+         
+                {this.state.run ? 'run si |' : 'run no |'}
+                
+                {this.state.selecting ? 'selected' : 'no selected'}
+              
               </CssPathIndicator>  
 
               {
