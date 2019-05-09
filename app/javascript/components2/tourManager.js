@@ -4,6 +4,7 @@ import Simmer from 'simmerjs'
 import TourEditor from './tourEditor'
 import Button, { ButtonGroup } from '@atlaskit/button';
 import Joyride, { ACTIONS, EVENTS, STATUS } from 'react-joyride';
+import StyledFrame from 'react-styled-frame'
 
 
 const simmer = new Simmer(window, { 
@@ -22,7 +23,25 @@ const IntersectionFrame = styled.div`
 
 `
 
-const TourManagerContainer = styled.div`
+const TourManagerContainer = styled(({ collapsedEditor, ...rest }) => (
+  <StyledFrame {...rest} initialContent={`<!DOCTYPE html>
+  <html><head></head>
+  <body style="margin:0px"><div class="frame-root">
+  </div></body></html>`} />
+))`
+    position: fixed;
+    bottom: 0px;
+    left: 0px;
+    width: 100%;
+    z-index: 300000;
+    margin: 0px;
+    height: ${(props)=> {
+      return props.collapsedEditor ? `38px` : `267px` } 
+    };
+    box-shadow: 1px -1px 6px 0px #ccc;
+`
+
+const TourManagerContainerDiv = styled.div`
   position: fixed;
   bottom: 0px;
   left: 0px;
@@ -33,7 +52,7 @@ const TourManagerContainer = styled.div`
 const Body = styled.div`
   padding: 30px;
   background: white;
-  box-shadow: 1px -1px 6px 0px #ccc;
+  
   display: flex;
 
 
@@ -217,8 +236,6 @@ export default class TourManager extends Component {
     document.addEventListener('scroll', scrollHandler.bind(this));
 
   }
-
-  
 
   activatePreview = ()=>{
     this.setState({
@@ -456,7 +473,7 @@ export default class TourManager extends Component {
             position: 'fixed',
             zIndex: 999,
             pointerEvents: 'none',
-            boxShadow: '0px 0px 0px 4000px rgba(0, 0, 0, 0.15)',
+            boxShadow: this.state.selectionMode !== "edit" ? '0px 0px 0px 4000px rgba(0, 0, 0, 0.15)' : 'none',
             top: this.state.selectedCoords.y,
             left: this.state.selectedCoords.x,
             width: this.state.selectedCoords.width,
@@ -467,91 +484,96 @@ export default class TourManager extends Component {
       <TourManagerContainer
         onMouseOver={this.disableSelection}
         onMouseOut={this.enableSelection}
+        collapsedEditor={ this.state.selectionMode || this.state.run ? true : undefined }
       >
 
-        {
-          !this.state.selectionMode && !this.state.run ?
-        
-            <Body>
-
-              <StepsContainer>
-              {
-                this.state.steps.map((o) => {
-                  return <TourStep step={o}
-                                   removeItem={this.removeItem}
-                                   enableEditMode={this.enableEditMode}>
-                         </TourStep>
-                }
-              )}
-              
-
-              <NewTourStep 
-                enableSelection={this.enableSelectionMode}>
-              </NewTourStep>
-
-              </StepsContainer>
-
-            </Body> : null
-        }
-
-        <Footer>
-
-
+        <div>
 
           {
-            !this.state.selectionMode ? 
+            !this.state.selectionMode && !this.state.run ?
+          
+              <Body>
 
-            <FooterRight>
-             
-                  {
-                    this.state.run ?
-                      <Button onClick={this.disablePreview}>
-                        {'<- exit preview'}
-                      </Button>
-                      : 
-                    <ButtonGroup appearance="warning">
-
-                      <Button onClick={this.activatePreview}>preview</Button>
-
-                      <Button >cancel</Button>
-                      <Button >save tour</Button>
-                    </ButtonGroup>
+                <StepsContainer>
+                {
+                  this.state.steps.map((o) => {
+                    return <TourStep step={o}
+                                    key={o.target}
+                                    removeItem={this.removeItem}
+                                    enableEditMode={this.enableEditMode}>
+                          </TourStep>
                   }
+                )}
                 
-            </FooterRight> : 
-            
-            <div style={{
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'space-between',
-                  }}>
-              
-              <CssPathIndicator>
-                {this.state.cssPath}
-         
-                {this.state.run ? 'run si |' : 'run no |'}
-                
-                {this.state.selecting ? 'selected' : 'no selected'}
-              
-              </CssPathIndicator>  
 
-              {
-                this.state.selectionMode === "edit" ? 
-                <FooterRight>
-                  <ButtonGroup appearance="warning">
-                    <Button onClick={this.disableEditMode}>cancel</Button>
-                    <Button onClick={this.updateChanges}>save step</Button>
-                  </ButtonGroup>
-                </FooterRight> : null
-              }
-                
-            </div>
+                <NewTourStep 
+                  enableSelection={this.enableSelectionMode}>
+                </NewTourStep>
+
+                </StepsContainer>
+
+              </Body> : null
           }
 
+          <Footer>
 
 
-        </Footer>
 
+            {
+              !this.state.selectionMode ? 
+
+              <FooterRight>
+              
+                    {
+                      this.state.run ?
+                        <Button onClick={this.disablePreview}>
+                          {'<- exit preview'}
+                        </Button>
+                        : 
+                      <ButtonGroup appearance="warning">
+
+                        <Button onClick={this.activatePreview}>preview</Button>
+
+                        <Button >cancel</Button>
+                        <Button >save tour</Button>
+                      </ButtonGroup>
+                    }
+                  
+              </FooterRight> : 
+              
+              <div style={{
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'space-between',
+                    }}>
+                
+                <CssPathIndicator>
+                  {this.state.cssPath}
+          
+                  {this.state.run ? 'run si |' : 'run no |'}
+                  
+                  {this.state.selecting ? 'selected' : 'no selected'}
+                
+                </CssPathIndicator>  
+
+                {
+                  this.state.selectionMode === "edit" ? 
+                  <FooterRight>
+                    <ButtonGroup appearance="warning">
+                      <Button onClick={this.disableEditMode}>cancel</Button>
+                      <Button onClick={this.updateChanges}>save step</Button>
+                    </ButtonGroup>
+                  </FooterRight> : null
+                }
+                  
+              </div>
+            }
+
+
+
+          </Footer>
+
+        </div>
 
       </TourManagerContainer>
 
