@@ -17,6 +17,20 @@ export default class HomePage extends Component {
     onClose: PropTypes.func,
   };
 
+  state = {
+    enabledTour: false
+  }
+
+  componentDidMount(){
+    window.TourManagerEnabled = () => {
+      return this.state.enabledTour //alert("oaoaoaoa")
+    }
+  }
+
+  componentDidUnmount() {
+    window.TourManagerEnabled = null
+  }
+
   render() {
     return (
       <ContentWrapper>
@@ -25,6 +39,28 @@ export default class HomePage extends Component {
           <Grid>
             <GridColumn medium={8}>
               <PageTitle> Welcome to Hermessenger</PageTitle>
+
+
+              <Button
+                appearance="primary"
+                onClick={(e) => {
+                  
+                  e.preventDefault()
+
+                  this.setState({
+                    enabledTour: true
+                  }, ()=>{
+                      var winFeature =
+                        'location=no,toolbar=no,menubar=no,scrollbars=yes,resizable=yes';
+                      open("/tester", 'null', winFeature)
+                  })
+
+  
+                }
+                }
+                onClose={() => { }}
+              >open tester
+              </Button>
 
               <ButtonGroup>
                       <Button

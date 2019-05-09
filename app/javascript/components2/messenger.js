@@ -600,6 +600,11 @@ class Messenger extends Component {
     return this.state.appData && this.state.appData.active_messenger == "on"
   }
 
+  isTourManagerEnabled = ()=>{
+    return window.opener && window.opener.TourManagerEnabled ? 
+      window.opener.TourManagerEnabled() : null
+  }
+
   render(){
     return <ThemeProvider theme={{
                                   mode: this.state.appData ? this.state.appData.theme : 'light',
@@ -735,7 +740,11 @@ class Messenger extends Component {
                   /> : <div/>
               }
 
-              <TourManager/>
+
+              {
+                this.isTourManagerEnabled() ?
+                  <TourManager/> : null 
+              }
         
             </EditorWrapper>
           </ThemeProvider>
