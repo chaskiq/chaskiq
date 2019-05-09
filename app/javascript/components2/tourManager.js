@@ -1,9 +1,10 @@
 import React, {Component} from 'react'
 import styled from 'styled-components'
-import Joyride from 'react-joyride';
 import Simmer from 'simmerjs'
 import TourEditor from './tourEditor'
 import Button, { ButtonGroup } from '@atlaskit/button';
+import Joyride, { ACTIONS, EVENTS, STATUS } from 'react-joyride';
+
 
 const simmer = new Simmer(window, { 
   depth: 20
@@ -131,6 +132,11 @@ export default class TourManager extends Component {
     steps: []
   }
 
+  sleep(delay) {
+    var start = new Date().getTime();
+    while (new Date().getTime() < start + delay);
+  }
+
   componentDidMount(){
     document.addEventListener('mouseover',  (e)=> {
       if (this.state.run) return
@@ -146,26 +152,30 @@ export default class TourManager extends Component {
 
       //console.log(target)
       this.getElementShape(target)
-      console.log("AAAAAA", simmer(target))
       this.setState({
         cssPath: simmer(target)
       })
     }, false);
 
+    document.addEventListener('click', (e) => {
+      if (!this.state.selecting) return
+      e.stopPropagation()
+      e.preventDefault()
+    }, false)
+
     document.addEventListener('mousedown', (e) => {
-
-
 
       if(this.state.run) return
       if (!this.state.selecting) return
 
       if (this.state.selectionMode === "edit") return
 
+      //debugger
+      
       e.stopPropagation()
       e.preventDefault()
 
-      debugger
-
+      //this.sleep(1000)
 
       e = e || window.event;
       var target = e.target || e.srcElement,
@@ -184,12 +194,16 @@ export default class TourManager extends Component {
         return
       }
 
-      this.setState({
-        steps: this.state.steps.concat(path),
-        cssPath: cssPath,
-        selecting: false,
-        selectionMode: false,
-      })
+      setTimeout(() => {
+        this.setState({
+          steps: this.state.steps.concat(path),
+          cssPath: cssPath,
+          selecting: false,
+          selectionMode: false,
+        })        
+      }, 200);
+
+
     }, false);
 
     let scrollHandler = ()=>{
@@ -333,6 +347,55 @@ export default class TourManager extends Component {
     })
   }
 
+  /*a = document.querySelector().getBoundingClientRect()
+  window.scrollTo(a.x, a.y)
+  */
+
+  handleJoyrideCallback = data => {
+    const { action, index, status, type } = data;
+
+    console.log(data)
+
+    const centerDiv = (element)=>{
+      const elementRect = element.getBoundingClientRect();
+      const absoluteElementTop = elementRect.top + window.pageYOffset;
+      const middle = absoluteElementTop - (window.innerHeight / 2);
+      window.scrollTo(0, middle);
+    }
+
+    if ([EVENTS.STEP_AFTER, EVENTS.TARGET_NOT_FOUND].includes(type)) {
+      
+      if (action === ACTIONS.NEXT || action === ACTIONS.PREV)  {
+
+        let t = null
+
+        if (action === ACTIONS.NEXT){
+          t = this.state.steps[index + 1]
+
+        } else if (action === ACTIONS.PREV) {
+          t = this.state.steps[index - 1]
+        }
+
+        if(!t) return
+        const a = document.querySelector(t.target)
+        centerDiv(a)
+      }
+
+      
+
+      // Update state to advance the tour
+      //this.setState({ stepIndex: index + (action === ACTIONS.PREV ? -1 : 1) });
+    }
+    else if ([STATUS.FINISHED, STATUS.SKIPPED].includes(status)) {
+      // Need to set our running state to false, so we can restart if we click start again.
+      this.setState({ run: false });
+    }
+
+    console.groupCollapsed(type);
+    console.log(data); //eslint-disable-line no-console
+    console.groupEnd();
+  };
+
   render(){
 
     return <div style={{ position: 'absolute', zIndex: '100000000'}}>
@@ -349,6 +412,7 @@ export default class TourManager extends Component {
             scrollToFirstStep
             showProgress
             showSkipButton
+            callback={this.handleJoyrideCallback}
             styles={{
               options: {
                 zIndex: 10000,
@@ -381,7 +445,7 @@ export default class TourManager extends Component {
       }
 
 
-      {this.state.selecting ? <EventBlocker tabindex="-1" /> : null }
+      {/*this.state.selecting ? <EventBlocker tabindex="-1" /> : null */ }
 
 
       {
@@ -390,7 +454,9 @@ export default class TourManager extends Component {
           <div style={{ 
             border: '2px solid green',
             position: 'fixed',
+            zIndex: 999,
             pointerEvents: 'none',
+            boxShadow: '0px 0px 0px 4000px rgba(0, 0, 0, 0.15)',
             top: this.state.selectedCoords.y,
             left: this.state.selectedCoords.x,
             width: this.state.selectedCoords.width,
@@ -413,8 +479,7 @@ export default class TourManager extends Component {
                 this.state.steps.map((o) => {
                   return <TourStep step={o}
                                    removeItem={this.removeItem}
-                                   enableEditMode={this.enableEditMode}
-                                   >
+                                   enableEditMode={this.enableEditMode}>
                          </TourStep>
                 }
               )}
