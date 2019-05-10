@@ -23,7 +23,7 @@ import CampaignStats from "./campaigns/stats"
 import { isEmpty } from 'lodash'
 
 import { parseJwt, generateJWT } from '../components/segmentManager/jwt'
-
+import TourManager from '../components/Tour'
 
 // @flow
 import DynamicTable from '@atlaskit/dynamic-table';
@@ -199,6 +199,28 @@ class CampaignForm extends Component {
     this.setState({ data: data }, cb ? cb() : null)
   }
 
+  renderEditorForCampaign = ()=>{
+    switch (this.props.mode) {
+      case 'tours':
+        return <TourManager
+          {...this.props}
+          url={this.url()}
+          updateData={this.updateData}
+          data={this.state.data}
+        />
+        break;
+    
+      default:
+        return <CampaignEditor
+          {...this.props}
+          url={this.url()}
+          updateData={this.updateData}
+          data={this.state.data} />
+        break;
+    }
+    
+  }
+
   tabs = () => {
     var b = []
 
@@ -222,11 +244,7 @@ class CampaignForm extends Component {
             updateData={this.updateData} />
         },
         {
-          label: 'Editor', content: <CampaignEditor
-            {...this.props}
-            url={this.url()}
-            updateData={this.updateData}
-            data={this.state.data} />
+          label: 'Editor', content: this.renderEditorForCampaign()
         }
       ]
     }
