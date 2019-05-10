@@ -413,6 +413,13 @@ export default class TourManager extends Component {
     console.groupEnd();
   };
 
+  handleSaveTour = ()=>{
+    window.opener.TourManagerMethods && window.opener.TourManagerMethods.update(this.state.steps.map((o)=> ( { 
+      target: o.target, 
+      serialized_content: o.serialized_content} )  
+    ))
+  }
+
   render(){
 
     return <div style={{ position: 'absolute', zIndex: '100000000'}}>
@@ -535,7 +542,7 @@ export default class TourManager extends Component {
                         <Button onClick={this.activatePreview}>preview</Button>
 
                         <Button >cancel</Button>
-                        <Button >save tour</Button>
+                        <Button onClick={this.handleSaveTour}>save tour</Button>
                       </ButtonGroup>
                     }
                   

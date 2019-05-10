@@ -35,6 +35,7 @@ Rails.application.routes.draw do
     namespace :messages do
       resources :user_auto_message, controller: '/campaigns' , concerns: :messageable
       resources :campaigns, controller: '/campaigns', concerns: :messageable
+      resources :tours, controller: '/campaigns', concerns: :messageable
     end
 
     resources :app_users

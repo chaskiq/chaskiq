@@ -3,7 +3,7 @@ class CampaignsController < ApplicationController
   
   before_action :set_campaign, only: [
     :show, :edit, :update, :destroy, :preview
-  ]
+  ] #, if: ->{request.xhr?}
 
   # GET /campaigns
   # GET /campaigns.json
@@ -117,13 +117,16 @@ class CampaignsController < ApplicationController
         @app.campaigns
       when "user_auto"
         @app.user_auto_messages
+      when "tours"
+        @app.tours   
       else
-
         case self.lookup_context.prefixes.first
         when "campaigns"
           @app.campaigns
         when "user_auto"
-          @app.user_auto_messages   
+          @app.user_auto_messages 
+        when "tours"
+          @app.tours    
         else
           raise "not in mode"
         end    
