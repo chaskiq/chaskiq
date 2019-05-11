@@ -2,6 +2,8 @@ import PropTypes from 'prop-types';
 import React, { Component } from "react";
 import SearchResults from "./SearchResults";
 import axios from "axios";
+import graphql from "../graphql/client"
+import {APPS} from "../graphql/queries"
 
 const items = [
   { name: 'Events', link: '/#events', description: 'List of events.' },
@@ -24,14 +26,14 @@ export default class SearchDrawer extends Component {
   }
 
   componentDidMount(){
-    axios.get("/apps.json")
-    .then( (response)=> {
-      this.setState({results: response.data.collection}, ()=>{ 
-      })
+    graphql(APPS, {}, {
+      success: (data)=>{
+        this.setState({results: data.apps}, ()=>{ })
+      },
+      error: (error)=>{
+        console.log(error);
+      }
     })
-    .catch( (error)=> {
-      console.log(error);
-    });
   }
 
   filterChange = () => {

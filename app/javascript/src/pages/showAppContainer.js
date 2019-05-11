@@ -42,6 +42,11 @@ import {
   SaveSegmentModal
 } from '../components/segmentManager'
 
+
+import graphql from "../graphql/client"
+import {APP} from "../graphql/queries"
+
+
 import skyImage from '../images/sky.png'
 
 const CableApp = {
@@ -450,6 +455,22 @@ export default class ShowAppContainer extends Component {
   fetchApp = (cb)=>{
     //const t = this
     const id = this.props.match.params.appId
+    graphql(APP, {appKey: id}, {
+      success: (data)=>{
+        this.props.setCurrentApp(data.app, ()=>{
+          console.log(this.props)
+          setTimeout(() => {
+            this.updateNavLinks() 
+          }, 1000);
+          cb ? cb() : null 
+        })
+      }, 
+      error: ()=>{
+        console.log(error);
+      }
+    })
+
+    /*
     axios.get(`/apps/${id}.json`)
     .then( (response)=> {
 
@@ -470,6 +491,7 @@ export default class ShowAppContainer extends Component {
     .catch( (error)=> {
       console.log(error);
     });
+    */
   }
 
   search = ()=>{
