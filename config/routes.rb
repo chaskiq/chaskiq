@@ -1,7 +1,11 @@
 require 'sidekiq/web'
 Rails.application.routes.draw do
+  if Rails.env.development?
+    mount GraphiQL::Rails::Engine, at: "/graphiql", graphql_path: "/graphql"
+  end
+  post "/graphql", to: "graphql#execute"
   mount Sidekiq::Web => '/sidekiq'
-  resources :campaigns
+  #resources :campaigns
   devise_for :users
 
 
@@ -30,12 +34,12 @@ Rails.application.routes.draw do
     end
     resources :conversations
 
-    resources :campaigns, concerns: :messageable
+    #resources :campaigns, concerns: :messageable
 
     namespace :messages do
-      resources :user_auto_message, controller: '/campaigns' , concerns: :messageable
-      resources :campaigns, controller: '/campaigns', concerns: :messageable
-      resources :tours, controller: '/campaigns', concerns: :messageable
+      resources :user_auto_message, controller: 'campaigns/user_auto_messages' , concerns: :messageable
+      resources :camaigns, controller: 'campaigns/mailings', concerns: :messageable
+      resources :tours, controller: 'campaigns/tours', concerns: :messageable
     end
 
     resources :app_users

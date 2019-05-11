@@ -51,3 +51,12 @@ An the content of the campaign is managed with a state of the art wysiwyg text e
 
 ![https://proseflow.herokuapp.com/rails/active_storage/blobs/eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaHBBaHdCIiwiZXhwIjpudWxsLCJwdXIiOiJibG9iX2lkIn19--a04a59ec8f3dbdc3ee7ff129b2592e3cc6f25029/image.png](https://proseflow.herokuapp.com/rails/active_storage/blobs/eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaHBBaHdCIiwiZXhwIjpudWxsLCJwdXIiOiJibG9iX2lkIn19--a04a59ec8f3dbdc3ee7ff129b2592e3cc6f25029/image.png)
 
+
+
+## references:
+
+https://www.drift.com/
+www.jivochat.cl/‎
+https://www.tawk.to/
+https://www.tawk.to/knowledgebase/
+https://beebom.com/intercom-alternatives/
