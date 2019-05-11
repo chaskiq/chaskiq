@@ -18,5 +18,13 @@ module Types
     def app(key:)
       @app = current_user.apps.find_by(key: key)
     end
+
+
+    field :apps, [Types::AppType], null: false, description: "get apps"
+
+    def apps
+      @app = current_user.apps
+    end
+
   end
 end
