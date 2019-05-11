@@ -63,7 +63,7 @@ class CampaignSegment extends Component {
     const predicates = parseJwt(this.state.jwt)
     //console.log(predicates)
 
-    axios.put(`${this.props.url}.json?mode=${this.props.mode}`, {
+    axios.put(`${this.props.url}/messages/${this.props.mode}.json`, {
       campaign: {
         segments: predicates.data
       }
@@ -185,7 +185,7 @@ class CampaignForm extends Component {
 
   fetchCampaign = () => {
     const id = this.props.match.params.id
-    axios.get(`/apps/${this.props.store.app.key}/campaigns/${id}.json?mode=${this.props.mode}`,
+    axios.get(`/apps/${this.props.store.app.key}/messages/${this.props.mode}/${id}.json`,
       { mode: this.props.mode })
       .then((response) => {
         console.log(response)
@@ -317,7 +317,7 @@ export default class CampaignContainer extends Component {
     this.setState({
       loading: true
     })
-    axios.get(`/apps/${this.props.match.params.appId}/campaigns.json?mode=${this.props.match.params.message_type}`)
+    axios.get(`/apps/${this.props.match.params.appId}/messages/${this.props.match.params.message_type}`)
       .then((response) => {
         this.setState({
           campaigns: response.data,
