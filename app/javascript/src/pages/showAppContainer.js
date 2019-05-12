@@ -465,7 +465,7 @@ export default class ShowAppContainer extends Component {
           cb ? cb() : null 
         })
       }, 
-      error: ()=>{
+      error: (error)=>{
         console.log(error);
       }
     })

@@ -12,6 +12,8 @@ import DashboardIcon from '@atlaskit/icon/glyph/dashboard';
 import GearIcon from '@atlaskit/icon/glyph/settings';
 import SearchIcon from '@atlaskit/icon/glyph/search';
 import Landing from '../pages/Landing'
+import graphql from '../graphql/client'
+import {CURRENT_USER} from '../graphql/queries'
 
 import NewApp from '../pages/NewApp'
 
@@ -61,6 +63,20 @@ export default class MainRouter extends Component {
   }
 
   getCurrentUser = ()=>{
+
+    graphql(CURRENT_USER, {}, {
+      success: (data)=>{
+        this.setState({ currentUser: data.userSession }, () => {
+        })
+      },
+      error: (error)=>{
+        console.log(error);
+    
+      }
+    })
+
+    /*
+
     axios.get(`/user_session.json`)
     .then( (response)=> {
       this.setState({currentUser: response.data.current_user }, ()=>{   
@@ -69,6 +85,7 @@ export default class MainRouter extends Component {
     .catch( (error)=> {
       console.log(error);
     });
+    */
   }
 
   setCurrentApp = (app , cb) =>{
