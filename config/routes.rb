@@ -8,7 +8,7 @@ Rails.application.routes.draw do
   #resources :campaigns
   devise_for :users
 
-
+=begin
   concern :messageable do
     member do
       get :preview
@@ -49,6 +49,7 @@ Rails.application.routes.draw do
       end
     end
   end
+=end
 
   resource :oembed, controller: "oembed", only: :show
 

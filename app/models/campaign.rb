@@ -13,7 +13,6 @@ class Campaign < Message
       {name: "reply_email", type: 'string'},
       {name: "description", type: 'text'} ,
       {name: "name", type: 'string'} ,
-      {name: "scheduled_at", type: 'string'} ,
       {name: "timezone", type: 'string'} ,
       {name: "subject", type: 'text'} ,
       #{name: "settings", type: 'string'} ,

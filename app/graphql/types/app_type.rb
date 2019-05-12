@@ -38,5 +38,26 @@ module Types
       object.app_users.find(id)
     end
 
+
+    field :campaigns,[ Types::CampaignType], null:true do
+      argument :mode, String, required: false
+    end
+
+    def campaigns(mode:)
+      collection = object.send(mode) if ["campaigns", "user_auto_messages", "tours" ].include?(mode)
+      collection.page(1).per(20)
+    end
+
+
+    field :campaign, Types::CampaignType, null:true do
+      argument :mode, String, required: false
+      argument :id, Integer, required: false
+    end
+
+    def campaign(mode:, id:)
+      collection = object.send(mode) if ["campaigns", "user_auto_messages", "tours" ].include?(mode)
+      collection.find(id)
+    end
+
   end
 end

@@ -7,6 +7,8 @@ import Form, { FormHeader, FormSection, FormFooter } from '@atlaskit/form';
 import axios from 'axios'
 import serialize from 'form-serialize'
 
+import graphql from "../../graphql/client"
+import { UPDATE_CAMPAIGN } from "../../graphql/mutations"
 import {
   fieldRenderer
 } from "../../shared/FormFields"
@@ -33,7 +35,7 @@ export default class CampaignSettings extends Component {
 
   onSubmitHandler = (e)=>{
     e.preventDefault()
-    const data = serialize(this.formRef, { hash: true })
+    const data = serialize(this.formRef, { hash: true, empty: true })
     this.props.match.params.id === "new" ? 
       this.create(data) : this.update(data)
   }
@@ -57,7 +59,26 @@ export default class CampaignSettings extends Component {
 
   // Form Event Handlers
   update = (data) => {
-    axios.put(`${this.props.url}.json?mode=${this.props.mode}`, data)
+
+    const params = {
+      appKey: this.props.store.app.key,
+      id: this.state.data.id,
+      campaignParams: data.campaign
+    }
+
+    graphql(UPDATE_CAMPAIGN, params, {
+      success: (data)=>{
+        const result = data.campaignUpdate
+        this.setState({ data: result.campaign, errors: result.errors  }, () => {
+          this.props.updateData(result.campaign)
+        })
+      }, 
+      error: (error)=>{
+
+      }
+    })
+
+    /*axios.put(`${this.props.url}.json?mode=${this.props.mode}`, data)
     .then( (response)=> {
       this.setState({data: response.data}, ()=>{
         this.props.updateData(response.data) 
@@ -68,10 +89,11 @@ export default class CampaignSettings extends Component {
         this.setState({errors: error.response.data})
       
       console.log(error);
-    });
+    });*/
   };
 
   render() {
+    console.log(this.state.data)
     return (
       <div
         style={{
@@ -94,7 +116,7 @@ export default class CampaignSettings extends Component {
             <FormSection>
 
               {
-                this.state.data.config_fields.map((field) => {
+                this.state.data.configFields.map((field) => {
                   return fieldRenderer('campaign', field, this.state, this.state.errors)
                 })
               }

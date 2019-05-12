@@ -181,11 +181,11 @@ export default class CampaignStats extends Component {
     this.setState({loading: true})
     axios.get(url)
     .then((response)=>{
-      this.setState({
+      /*this.setState({
         collection: response.data.collection, //this.state.collection.concat(response.data.collection),
         meta: response.data.meta,
         loading: false
-      })
+      })*/
     }).catch((err)=>{
       console.log(err)
     })
@@ -196,9 +196,9 @@ export default class CampaignStats extends Component {
 
     axios.get(url)
     .then((response)=>{
-      this.setState({
+      /*this.setState({
         counts: response.data
-      })
+      })*/
     }).catch((err)=>{
       console.log(err)
     })
@@ -240,7 +240,7 @@ export default class CampaignStats extends Component {
               <PieContainer>
 
               {
-                this.props.data.stats_fields.map((o)=>{
+                this.props.data.statsFields.map((o)=>{
                   return <PieItem>
                             <CampaignChart data={this.getRateFor(o)}/>
                           </PieItem>
