@@ -25,9 +25,9 @@ import { isEmpty } from 'lodash'
 import { parseJwt, generateJWT } from '../components/segmentManager/jwt'
 import TourManager from '../components/Tour'
 
-
 import graphql from "../graphql/client"
 import { CAMPAIGN, CAMPAIGNS  } from "../graphql/queries"
+import { PREDICATES_SEARCH } from '../graphql/mutations'
 //import { INSERT_COMMMENT } from '../graphql/mutations'
 
 // @flow
@@ -128,7 +128,25 @@ class CampaignSegment extends Component {
       }
     }
 
-    axios.post(`/apps/${this.props.store.app.key}/search.json`,
+    graphql(PREDICATES_SEARCH, { 
+      appKey: this.props.store.app.key,
+      search: predicates_data,
+      page: 1
+    },{
+      success: (data) => { 
+        const appUsers = data.predicatesSearch.appUsers
+        this.setState({
+          app_users: appUsers.collection,
+          meta: appUsers.meta,
+          searching: false
+        })
+      },
+      error: (error) => {
+        debugger
+      }
+    })
+
+    /*axios.post(`/apps/${this.props.store.app.key}/search.json`,
       predicates_data)
       .then((response) => {
         this.setState({
@@ -139,7 +157,7 @@ class CampaignSegment extends Component {
       })
       .catch((error) => {
         console.log(error);
-      });
+      });*/
   }
 
   render() {
