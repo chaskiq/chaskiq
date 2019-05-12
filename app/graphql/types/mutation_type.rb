@@ -4,6 +4,7 @@ module Types
     field :appsUpdate, mutation: Mutations::Apps::UpdateApp
     field :appsCreate, mutation: Mutations::Apps::CreateApp
     field :predicatesDelete, mutation: Mutations::Predicates::DeletePredicate
+    field :predicatesSearch, mutation: Mutations::Predicates::SearchPredicate
     field :campaignsNew, mutation: Mutations::Campaigns::NewCampaign
     field :campaignCreate, mutation: Mutations::Campaigns::CreateCampaign
     field :campaignUpdate, mutation: Mutations::Campaigns::UpdateCampaign

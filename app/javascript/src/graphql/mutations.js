@@ -71,3 +71,22 @@ export const CREATE_CAMPAIGN = `
     }
   }
 `
+
+export const PREDICATES_SEARCH = `
+  mutation PredicatesSearch($appKey: String!, $search: Json!, $page: Int, $per: Int){
+    predicatesSearch(input: {appKey: $appKey, search: $search, page: $page, per: $per}){
+      appUsers{
+        collection{
+          id
+          email
+          os
+          osVersion
+          lastVisitedAt
+          browser
+          state
+        }
+        meta
+      }
+    }
+  }
+`
