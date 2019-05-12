@@ -26,5 +26,11 @@ module Types
       @app = current_user.apps
     end
 
+
+    field :user_session, Types::UserType, null: false, description: "get current user email"
+    def user_session
+      current_user
+    end
+
   end
 end
