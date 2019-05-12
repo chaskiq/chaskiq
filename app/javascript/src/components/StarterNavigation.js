@@ -246,7 +246,7 @@ export default class StarterNavigation extends React.Component {
     const appid = `/apps/${ this.props.currentApp.key }`
     const links = [
       [`${appid}/messages/campaigns`, 'Mailing Campaigns', EmailIcon],
-      [`${appid}/messages/user_auto`, 'In App messages', EditorTableDisplayOptionsIcon],
+      [`${appid}/messages/user_auto_messages`, 'In App messages', EditorTableDisplayOptionsIcon],
       [`${appid}/messages/tours`, 'Guided tours', CanvasIcon],
       [`${appid}/messages/visitor_auto`, 'visitor auto messages', QuestionCircleIcon]
     ]

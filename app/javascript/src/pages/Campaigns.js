@@ -25,6 +25,11 @@ import { isEmpty } from 'lodash'
 import { parseJwt, generateJWT } from '../components/segmentManager/jwt'
 import TourManager from '../components/Tour'
 
+
+import graphql from "../graphql/client"
+import { CAMPAIGN, CAMPAIGNS  } from "../graphql/queries"
+//import { INSERT_COMMMENT } from '../graphql/mutations'
+
 // @flow
 import DynamicTable from '@atlaskit/dynamic-table';
 
@@ -62,7 +67,6 @@ class CampaignSegment extends Component {
   handleSave = (e) => {
     const predicates = parseJwt(this.state.jwt)
     //console.log(predicates)
-
     axios.put(`${this.props.url}/messages/${this.props.mode}.json`, {
       campaign: {
         segments: predicates.data
@@ -185,6 +189,20 @@ class CampaignForm extends Component {
 
   fetchCampaign = () => {
     const id = this.props.match.params.id
+
+    graphql(CAMPAIGN, {
+      appKey: this.props.store.app.key,
+      mode: this.props.mode,
+      id: parseInt(id)
+    }, {
+      success: (data) => {
+        this.setState({
+          data: data.app.campaign
+        })
+      }
+      })
+
+    /*
     axios.get(`/apps/${this.props.store.app.key}/messages/${this.props.mode}/${id}.json`,
       { mode: this.props.mode })
       .then((response) => {
@@ -193,6 +211,7 @@ class CampaignForm extends Component {
       }).catch((err) => {
         console.log(err)
       })
+    */
   }
 
   updateData = (data, cb) => {
@@ -317,7 +336,20 @@ export default class CampaignContainer extends Component {
     this.setState({
       loading: true
     })
-    axios.get(`/apps/${this.props.match.params.appId}/messages/${this.props.match.params.message_type}`)
+
+    //debugger
+    graphql(CAMPAIGNS, { 
+      appKey: this.props.match.params.appId, 
+      mode: this.props.match.params.message_type 
+    }, {success: (data)=>{
+        this.setState({
+          campaigns: data.app.campaigns,
+          loading: false
+        })
+    }})
+
+
+    /*axios.get(`/apps/${this.props.match.params.appId}/messages/${this.props.match.params.message_type}`)
       .then((response) => {
         this.setState({
           campaigns: response.data,
@@ -326,6 +358,7 @@ export default class CampaignContainer extends Component {
       }).catch((err) => {
         console.log(err)
       })
+    */
   }
 
   createNewCampaign = (e) => {

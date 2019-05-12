@@ -21,3 +21,53 @@ export const INSERT_COMMMENT = `
     }
   }
 `;
+
+export const UPDATE_CAMPAIGN = `
+  mutation UpdateCampaign($appKey: String!, $id: Int!, $campaignParams: Json!){
+    campaignUpdate(input: {appKey: $appKey, id: $id, campaignParams: $campaignParams}){
+      errors
+      campaign {
+        name
+        id
+        type
+        serializedContent
+        segments
+        scheduledAt
+        scheduledTo
+        state
+        subject
+        description
+        statsFields
+        configFields
+        fromName
+        fromEmail
+        replyEmail
+      }
+    }
+  }
+`
+
+export const CREATE_CAMPAIGN = `
+  mutation CreateCampaign($appKey: String!, $campaignParams: Json!){
+    campaignCreate(input: {appKey: $appKey, campaignParams: $campaignParams}){
+      errors
+      campaign {
+        name
+        id
+        type
+        serializedContent
+        segments
+        scheduledAt
+        scheduledTo
+        state
+        subject
+        description
+        statsFields
+        configFields
+        fromName
+        fromEmail
+        replyEmail
+      }
+    }
+  }
+`

@@ -8,20 +8,20 @@ query Apps{
 `
 
 export const APP = `
-query App($appKey: String!){
-  app(key: $appKey) {
-      encryptionKey
-      key
-      name
-      preferences
-      segments {
+  query App($appKey: String!){
+    app(key: $appKey) {
+        encryptionKey
+        key
         name
-        properties
+        preferences
+        segments {
+          name
+          properties
+        }
+        state
+        tagline
       }
-      state
-      tagline
-    }
-}
+  }
 `
 export const CONVERSATIONS = `
   query App($appKey: String!, $page: Int!){
@@ -139,3 +139,48 @@ query AppUser($appKey: String!, $id: Int! ) {
   }
 }
 `
+
+
+export const CAMPAIGNS = `
+query Campaigns($appKey: String!, $mode: String!){
+  app(key: $appKey){
+    campaigns(mode: $mode){
+      name
+      id
+      type
+      serializedContent
+      segments
+      scheduledAt
+      scheduledTo
+      state
+      subject
+      description
+      fromName
+      fromEmail
+      replyEmail
+    }
+  }
+}`
+
+export const CAMPAIGN = `
+query Campaign($appKey: String!, $mode: String!, $id: Int!){
+  app(key: $appKey){
+    campaign(mode: $mode, id: $id){
+      name
+      id
+      type
+      serializedContent
+      segments
+      scheduledAt
+      scheduledTo
+      state
+      subject
+      description
+      statsFields
+      configFields
+      fromName
+      fromEmail
+      replyEmail
+    }
+  }
+}`
