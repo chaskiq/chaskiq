@@ -518,7 +518,7 @@ class ConversationContainerShow extends Component {
         if (this.state.messages.find((o) => o.id === newData.id ) ){
           const new_collection = this.state.messages.map((o)=>{
             if (o.id === newData.id ){
-                return data
+                return newData
               } else {
                 return o
               }
@@ -531,8 +531,8 @@ class ConversationContainerShow extends Component {
 
         } else {
           console.log('received new', newData)
-          console.log(this.props.currentUser.email, newData.app_user.email)
-          if (this.props.currentUser.email !== newData.app_user.email) {
+          console.log(this.props.currentUser.email, newData.appUser.email)
+          if (this.props.currentUser.email !== newData.appUser.email) {
             playSound()
           }
 
