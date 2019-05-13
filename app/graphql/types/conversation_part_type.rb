@@ -1,5 +1,6 @@
 module Types
   class ConversationPartType < Types::BaseObject
+    field :id, Integer, null: true
     field :message, String, null: true
     field :read_at, GraphQL::Types::ISO8601DateTime, null: true
     field :app_user, Types::AppUserType, null: true
