@@ -27,7 +27,7 @@ import TourManager from '../components/Tour'
 
 import graphql from "../graphql/client"
 import { CAMPAIGN, CAMPAIGNS  } from "../graphql/queries"
-import { PREDICATES_SEARCH } from '../graphql/mutations'
+import { PREDICATES_SEARCH, UPDATE_CAMPAIGN } from '../graphql/mutations'
 //import { INSERT_COMMMENT } from '../graphql/mutations'
 
 // @flow
@@ -67,6 +67,27 @@ class CampaignSegment extends Component {
   handleSave = (e) => {
     const predicates = parseJwt(this.state.jwt)
     //console.log(predicates)
+
+    const params = {
+      appKey: this.props.store.app.key,
+      id: this.props.data.id,
+      campaignParams: {
+        segments: predicates.data
+      }
+    }
+
+    graphql(UPDATE_CAMPAIGN, params, {
+      success: (data) => {
+        debugger
+        //this.props.updateData(data.campaignUpdate.campaign, null)
+        //this.setState({ status: "saved" })
+      },
+      error: () => {
+
+      }
+    })
+
+    /*
     axios.put(`${this.props.url}/messages/${this.props.mode}.json`, {
       campaign: {
         segments: predicates.data
@@ -78,6 +99,7 @@ class CampaignSegment extends Component {
       .catch((error) => {
         console.log(error);
       });
+    */
 
   }
 
