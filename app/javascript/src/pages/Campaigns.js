@@ -27,8 +27,7 @@ import TourManager from '../components/Tour'
 
 import graphql from "../graphql/client"
 import { CAMPAIGN, CAMPAIGNS  } from "../graphql/queries"
-import { PREDICATES_SEARCH, UPDATE_CAMPAIGN } from '../graphql/mutations'
-//import { INSERT_COMMMENT } from '../graphql/mutations'
+import { PREDICATES_SEARCH, UPDATE_CAMPAIGN, CREATE_CAMPAIGN } from '../graphql/mutations'
 
 // @flow
 import DynamicTable from '@atlaskit/dynamic-table';
@@ -230,17 +229,33 @@ class CampaignForm extends Component {
   fetchCampaign = () => {
     const id = this.props.match.params.id
 
-    graphql(CAMPAIGN, {
-      appKey: this.props.store.app.key,
-      mode: this.props.mode,
-      id: parseInt(id)
-    }, {
-      success: (data) => {
-        this.setState({
-          data: data.app.campaign
+    if(id === "new"){
+      graphql(CREATE_CAMPAIGN, {
+        appKey: this.props.store.app.key,
+        mode: this.props.mode,
+        operation: "new",
+        campaignParams: {}
+      }, {
+          success: (data) => {
+            this.setState({
+              data: data.campaignCreate.campaign
+            })
+          }
         })
-      }
+    }else{
+      graphql(CAMPAIGN, {
+        appKey: this.props.store.app.key,
+        mode: this.props.mode,
+        id: parseInt(id),
+      }, {
+        success: (data) => {
+          this.setState({
+            data: data.app.campaign
+          })
+        }
       })
+    }
+
 
     /*
     axios.get(`/apps/${this.props.store.app.key}/messages/${this.props.mode}/${id}.json`,
@@ -287,6 +302,7 @@ class CampaignForm extends Component {
       {
         label: 'Settings', content: <CampaignSettings {...this.props}
           data={this.state.data}
+          mode={this.props.mode}
           url={this.url()}
           updateData={this.updateData}
         />
@@ -330,6 +346,7 @@ class CampaignForm extends Component {
 
   render() {
     return <ContentWrapper>
+
       <PageTitle>
         Campaign {`: ${this.state.data.name}`}
       </PageTitle>

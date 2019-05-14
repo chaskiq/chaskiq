@@ -3,12 +3,13 @@ import Select from '@atlaskit/select';
 import FieldText from '@atlaskit/field-text';
 import Button from '@atlaskit/button';
 import Form, { FormHeader, FormSection, FormFooter } from '@atlaskit/form';
-
+import {isEmpty} from 'lodash'
 import axios from 'axios'
 import serialize from 'form-serialize'
 
 import graphql from "../../graphql/client"
-import { UPDATE_CAMPAIGN } from "../../graphql/mutations"
+import { UPDATE_CAMPAIGN, CREATE_CAMPAIGN } from "../../graphql/mutations"
+
 import {
   fieldRenderer
 } from "../../shared/FormFields"
@@ -42,7 +43,30 @@ export default class CampaignSettings extends Component {
 
   // Form Event Handlers
   create = (data) => {
-    axios.post(`/apps/${this.props.store.app.key}/campaigns.json?mode=${this.props.mode}`, data)
+
+    graphql(CREATE_CAMPAIGN, {
+      appKey: this.props.store.app.key,
+      mode: this.props.mode,
+      operation: "create",
+      campaignParams: data.campaign
+    }, {
+      success: (data) => {
+        this.setState({
+          data: data.campaignCreate.campaign,
+          errors: data.campaignCreate.errors
+        }, ()=>{
+          if(!isEmpty(this.state.errors)){
+            return
+          }
+
+          this.props.history.push(`/apps/${this.props.store.app.key}/messages/${this.props.mode}/${this.state.data.id}`)
+          this.props.updateData(response.data)
+        })
+      }
+    })
+
+
+    /*axios.post(`/apps/${this.props.store.app.key}/campaigns.json?mode=${this.props.mode}`, data)
     .then( (response)=> {
       this.setState({data: response.data}, ()=>{ 
         this.props.history.push(`/apps/${this.props.store.app.key}/messages/${this.props.mode}/${this.state.data.id}`)
@@ -54,7 +78,8 @@ export default class CampaignSettings extends Component {
         this.setState({errors: error.response.data})
       
       console.log(error);
-    });
+    });*/
+
   };
 
   // Form Event Handlers
