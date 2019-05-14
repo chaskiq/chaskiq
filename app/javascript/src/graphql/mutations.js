@@ -48,8 +48,8 @@ export const UPDATE_CAMPAIGN = `
 `
 
 export const CREATE_CAMPAIGN = `
-  mutation CreateCampaign($appKey: String!, $campaignParams: Json!){
-    campaignCreate(input: {appKey: $appKey, campaignParams: $campaignParams}){
+  mutation CreateCampaign($appKey: String!, $campaignParams: Json!, $operation: String, $mode: String!){
+    campaignCreate(input: {operation: $operation, appKey: $appKey, mode: $mode, campaignParams: $campaignParams }){
       errors
       campaign {
         name
