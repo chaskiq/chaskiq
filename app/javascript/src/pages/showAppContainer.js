@@ -45,7 +45,12 @@ import {
 
 import graphql from "../graphql/client"
 import { APP, SEGMENT} from "../graphql/queries"
-import { PREDICATES_SEARCH } from '../graphql/mutations'
+import { 
+  PREDICATES_SEARCH, 
+  PREDICATES_CREATE, 
+  PREDICATES_UPDATE, 
+  PREDICATES_DELETE 
+} from '../graphql/mutations'
 
 
 
@@ -625,6 +630,21 @@ export default class ShowAppContainer extends Component {
   }
 
   createSegment = (data, cb)=>{
+    const params = {
+      segment: {
+        name: data.input,
+        predicates: this.state.segment.predicates
+      }
+    }
+
+    graphql(PREDICATES_CREATE, params, {
+      success: (data)=>{
+        debugger
+      }
+      error: (error)=>{
+
+      }
+    })
     axios.post(`/apps/${this.props.currentApp.key}/segments.json`, 
       {
         segment: {
@@ -647,6 +667,9 @@ export default class ShowAppContainer extends Component {
   }
 
   deleteSegment = (id, cb)=>{
+
+    graphql()
+
     axios.delete(`/apps/${this.props.currentApp.key}/segments/${id}.json`)
     .then( (response)=> {
       cb ? cb() : null 

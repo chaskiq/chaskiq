@@ -131,3 +131,11 @@ export const PREDICATES_SEARCH = `
     }
   }
 `
+
+export const PREDICATES_DELETE = ``
+
+
+export const PREDICATES_CREATE = ``
+
+
+export const PREDICATES_UPDATE = ``
