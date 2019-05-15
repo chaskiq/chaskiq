@@ -514,7 +514,7 @@ export default class ShowAppContainer extends Component {
     }, {
       success: (data)=>{
         const appUsers = data.predicatesSearch.appUsers
-
+        //console.log(jwtData)
         this.setState({
           segment: Object.assign({}, this.state.segment, { predicates: jwtData }),
           app_users: appUsers.collection,
