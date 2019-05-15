@@ -4,6 +4,8 @@ import styled from "styled-components"
 import { Picker } from 'emoji-mart'
 import {EmojiBlock} from "./styles/emojimart"
 
+import {Selector, ResultSort, Rating} from "react-giphy-selector";
+
 /*import Editor from 'draft-js-plugins-editor';
 import createHashtagPlugin from 'draft-js-hashtag-plugin';
 import createLinkifyPlugin from 'draft-js-linkify-plugin';
@@ -125,7 +127,8 @@ export default class UnicornEditor extends Component {
     // window.quill = this.quill
     this.state = { 
       text: '',
-      emojiEnabled: false
+      emojiEnabled: false,
+      giphyEnabled: false
     }
   }
 
@@ -134,6 +137,28 @@ export default class UnicornEditor extends Component {
       theme: 'bubble'   // Specify theme in configuration
     });*/
 
+
+
+  }
+
+  insertAtCursor = (myValue)=> {
+    const myField = this.input
+    //IE support
+    if (document.selection) {
+      myField.focus();
+      sel = document.selection.createRange();
+      sel.text = myValue;
+    }
+    //MOZILLA and others
+    else if (myField.selectionStart || myField.selectionStart == '0') {
+      var startPos = myField.selectionStart;
+      var endPos = myField.selectionEnd;
+      myField.value = myField.value.substring(0, startPos)
+        + myValue
+        + myField.value.substring(endPos, myField.value.length);
+    } else {
+      myField.value += myValue;
+    }
   }
 
   onChange = (editorState) => {
@@ -169,9 +194,24 @@ export default class UnicornEditor extends Component {
     //this.quill.focus()
   }
 
-  toggleEmoji = (e)=>{
+  toggleEmojiClick = (e) => {
     e.preventDefault()
+    this.toggleEmoji()
+    this.setState({ emojiEnabled: !this.state.emojiEnabled })
+  }
+
+  toggleEmoji = (e)=>{
     this.setState({emojiEnabled: !this.state.emojiEnabled})
+  }
+
+  toggleGiphy = (e)=>{
+    e.preventDefault()
+    this.setState({ giphyEnabled: !this.state.giphyEnabled })
+  }
+
+  handleEmojiInsert = (e)=>{
+    this.toggleEmoji()
+    this.insertAtCursor(e.native)
   }
 
   render() {
@@ -186,8 +226,19 @@ export default class UnicornEditor extends Component {
                 <Picker set='emojione'
                   emojiSize={20}
                   emoji='' 
-                  title="hey" />
+                  title="hey"
+                  onSelect={this.handleEmojiInsert} />
               </EmojiBlock> : null 
+          }
+
+          {
+            this.state.giphyEnabled ? 
+            <EmojiBlock>
+                <Selector
+                  apiKey="97g39PuUZ6Q49VdTRBvMYXRoKZYd1ScZ"
+                  onGifSelected={this.saveGif} 
+                />
+              </EmojiBlock> : null
           }
 
           <Input onKeyPress={this.handleReturn} 
@@ -197,10 +248,13 @@ export default class UnicornEditor extends Component {
 
           <EditorButtons>
 
-            <button className="emoji" onClick={this.toggleEmoji}>
+            <button className="emoji" onClick={this.toggleEmojiClick}>
               emojo
             </button>
-            <button className="send">send</button>
+            <button className="send" onClick={this.toggleGiphy}>
+              giphy
+            </button>
+            <button className="send--">send</button>
 
           </EditorButtons>
 

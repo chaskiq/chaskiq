@@ -60,6 +60,7 @@
     "react-bootstrap": "^0.32.1",
     "react-color": "^2.14.1",
     "react-dom": "^16.4.0",
+    "react-giphy-selector": "^0.0.1",
     "react-google-maps": "^9.4.5",
     "react-joyride": "^2.0.5",
     "react-moment": "^0.7.0",

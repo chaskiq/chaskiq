@@ -96,7 +96,7 @@ export const EmojiBlock = styled.div`
     .emoji-mart-scroll {
       overflow-y: scroll;
       /*height: 270px;*/
-      height: 169px;
+      height: 31vh;
       padding: 0 6px 6px 6px;
       will-change: transform; /* avoids "repaints on scroll" in mobile Chrome */
     }
