@@ -6,7 +6,7 @@ import PropTypes from 'prop-types'
 import actioncable from "actioncable"
 import axios from "axios"
 
-import UnicornEditor from './editor.js'
+import UnicornEditor from './textEditor' // from './quillEditor' //'./draftEditor' //from './editor.js'
 import gravatar from "gravatar"
 import Moment from 'react-moment';
 import { soundManager } from 'soundmanager2'
