@@ -350,7 +350,7 @@ export const MessageItem = styled.div`
       margin-bottom: 1em;
       color: #eceff1; 
       p{
-        font-size: 0.7rem;
+        font-size: 0.86rem;
         margin: 0px;
         padding: 0px;
       }

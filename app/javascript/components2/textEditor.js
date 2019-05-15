@@ -6,38 +6,6 @@ import {EmojiBlock} from "./styles/emojimart"
 
 import {Selector, ResultSort, Rating} from "react-giphy-selector";
 
-/*import Editor from 'draft-js-plugins-editor';
-import createHashtagPlugin from 'draft-js-hashtag-plugin';
-import createLinkifyPlugin from 'draft-js-linkify-plugin';
-import createInlineToolbarPlugin from 'draft-js-inline-toolbar-plugin';
-import createEmojiPlugin from 'draft-js-emoji-plugin';
-import styled from "styled-components"
-import Button from '@atlaskit/button';
-import 'draft-js-hashtag-plugin/lib/plugin.css';*/
-
-/*
-const emojiPlugin = createEmojiPlugin({
-  useNativeArt: false
-});
-const { EmojiSuggestions, EmojiSelect } = emojiPlugin;
-import 'draft-js-emoji-plugin/lib/plugin.css'*/
-
-//import 'draft-js-inline-toolbar-plugin/lib/plugin.css'
-//import './styles/dante.css'
-/*import { EditorState } from 'draft-js';
-
-const hashtagPlugin = createHashtagPlugin();
-const linkifyPlugin = createLinkifyPlugin();
-const inlineToolbarPlugin = createInlineToolbarPlugin();
-const { InlineToolbar } = inlineToolbarPlugin;
-
-const plugins = [
-  hashtagPlugin,
-  linkifyPlugin,
-  inlineToolbarPlugin,
-  emojiPlugin
-];*/
-
 const EditorContainer = styled.div`
     position: absolute;
     bottom: 0;
@@ -116,15 +84,9 @@ const EditorButtons = styled.div`
 
 export default class UnicornEditor extends Component {
 
-  /*state = {
-    //editorState: EditorState.createEmpty(),
-  };*/
-
   constructor(props) {
     super(props)
     this.input = null
-    // this.quill = null
-    // window.quill = this.quill
     this.state = { 
       text: '',
       emojiEnabled: false,
@@ -133,14 +95,9 @@ export default class UnicornEditor extends Component {
   }
 
   componentDidMount() {
-    /*this.quill = new Quill(this.refs.editore, {
-      theme: 'bubble'   // Specify theme in configuration
-    });*/
-
-
-
   }
 
+  //https://stackoverflow.com/questions/11076975/insert-text-into-textarea-at-cursor-position-javascript
   insertAtCursor = (myValue)=> {
     const myField = this.input
     //IE support
@@ -168,18 +125,10 @@ export default class UnicornEditor extends Component {
   };
 
   handleClick = (e) => {
-    /*const content = this.refs.editor
-      .getEditorState()
-      .getCurrentContent()
-    this.props.insertComment(content, () => {
-      //this.setState({ editorState: EditorState.createEmpty() })
-    })*/
     this.props.insertComment(this.input.value, () => {
       console.log("saved!")
       this.input.value = ""
-
     })
-    
   }
 
   handleReturn = (e) => {
@@ -190,8 +139,7 @@ export default class UnicornEditor extends Component {
   }
 
   handleFocus = (e) => {
-    //this.refs.editor.focus()
-    //this.quill.focus()
+    this.input.focus()
   }
 
   toggleEmojiClick = (e) => {
@@ -245,9 +193,7 @@ export default class UnicornEditor extends Component {
             innerRef={comp => this.input = comp}>
             {/*<div id="editore" ref="editore"/>*/}
           </Input>
-
           <EditorButtons>
-
             <button className="emoji" onClick={this.toggleEmojiClick}>
               emojo
             </button>
@@ -255,17 +201,8 @@ export default class UnicornEditor extends Component {
               giphy
             </button>
             <button className="send--">send</button>
-
           </EditorButtons>
-
-
         </EditorContainer>
-
-        {/*
-          <InlineToolbar />
-          <EmojiSuggestions />
-          <EmojiSelect />
-        */}
 
       </EditorWrapper>
 
