@@ -2,13 +2,16 @@ module Mutations
   class Apps::UpdateApp < GraphQL::Schema::RelayClassicMutation
     # TODO: define return fields
     # field :post, Types::PostType, null: false
+    field :app, Types::AppType, null: false
+    field :errors, Types::JsonType, null: true
+    
+    argument :app_key, String, required: true
+    argument :app_params, Types::JsonType, required: true
 
-    # TODO: define arguments
-    # argument :name, String, required: true
-
-    # TODO: define resolve method
-    # def resolve(name:)
-    #   { post: ... }
-    # end
+    def resolve(app_key: , app_params:)
+      @app = context[:current_user].apps.find_by(key: app_key)
+      @app.update_attributes(app_params.permit!)
+      { app: @app, errors: @app.errors }
+    end
   end
 end
