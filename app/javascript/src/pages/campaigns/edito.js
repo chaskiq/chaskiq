@@ -631,8 +631,6 @@ export default class CampaignEditor extends Component {
       error: ()=>{
 
       }
-
-
     })
 
     /*axios.put(`${this.props.url}.json?mode=${this.props.mode}`, {

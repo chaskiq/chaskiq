@@ -45,6 +45,7 @@
     "draft-js-inline-toolbar-plugin": "^2.0.3",
     "draft-js-linkify-plugin": "^2.0.1",
     "draft-js-plugins-editor": "^2.0.8",
+    "emoji-mart": "^2.11.1",
     "emojione": "^2.2.7",
     "form-serialize": "^0.7.2",
     "gravatar": "^1.6.0",
