@@ -44,7 +44,9 @@ import {
 
 
 import graphql from "../graphql/client"
-import {APP} from "../graphql/queries"
+import { APP, SEGMENT} from "../graphql/queries"
+import { PREDICATES_SEARCH } from '../graphql/mutations'
+
 
 
 import skyImage from '../images/sky.png'
@@ -504,24 +506,46 @@ export default class ShowAppContainer extends Component {
                               }
                             }
                             
-    axios.post(`/apps/${this.props.currentApp.key}/search.json`, 
-      predicates_data )
-    .then( (response)=> {
-      console.log(this.state)
-      console.log(data)
-      this.setState({
-        segment: Object.assign({}, this.state.segment, { predicates: data }),
-        app_users: response.data.collection,
-        meta: response.data.meta, 
-        searching: false
-      })
-    })
-    .catch( (error)=> {
-      console.log(error);
-    });   
+    
+
+    graphql(PREDICATES_SEARCH, {
+      appKey: this.props.currentApp.key,
+      search: predicates_data,
+      page: 1
+    }, {
+      success: (data)=>{
+        const appUsers = data.predicatesSearch.appUsers
+
+        this.setState({
+          //segment: Object.assign({}, this.state.segment, { predicates: data }),
+          app_users: appUsers.collection,
+          meta: appUsers.meta,
+          searching: false
+        })
+      },
+      error: (error) => {
+        debugger
+      }
+    })  
   }
 
   fetchAppSegment =(id)=>{
+
+    graphql(SEGMENT, {
+      appKey: this.props.currentApp.key,
+      id: parseInt(id)
+    }, {
+      success: (data)=>{
+        this.setState({
+          segment: data.app.segment,
+        }, this.search)
+      },
+      error: (error)=>{
+        console.log(error);
+      }
+    })
+
+    /*
     axios.get(`/apps/${this.props.currentApp.key}/segments/${id}.json`)
     .then( (response)=> {
       
@@ -531,7 +555,7 @@ export default class ShowAppContainer extends Component {
     })
     .catch( (error)=> {
       console.log(error);
-    });
+    });*/
   }
 
   updateNavLinks = ()=>{
