@@ -1,9 +1,14 @@
 module Types
   class AppType < Types::BaseObject
+
     field :key, String, null: true
     field :name, String, null: true
     field :state, String, null: true
     field :tagline, String, null: true
+    field :domain_url, String, null: true
+    field :active_messenger, String, null: true
+    field :theme, String, null: true
+    field :config_fields, Types::JsonType, null: true
     field :preferences, Types::JsonType, null: true
     field :segments, [Types::SegmentType], null: true
     
@@ -45,7 +50,6 @@ module Types
       object.app_users.find(id)
     end
 
-
     field :campaigns,[ Types::CampaignType], null:true do
       argument :mode, String, required: false
     end
@@ -54,7 +58,6 @@ module Types
       collection = object.send(mode) if ["campaigns", "user_auto_messages", "tours" ].include?(mode)
       collection.page(1).per(20)
     end
-
 
     field :campaign, Types::CampaignType, null:true do
       argument :mode, String, required: false

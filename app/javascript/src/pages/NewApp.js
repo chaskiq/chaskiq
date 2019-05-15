@@ -14,7 +14,13 @@ import FieldText from '@atlaskit/field-text';
 import Form, { Field, FormHeader, FormSection, FormFooter } from '@atlaskit/form';
 import { DateTimePicker } from '@atlaskit/datetime-picker';
 import { Checkbox } from '@atlaskit/checkbox';
-
+import { isEmpty } from 'lodash'
+import graphql from "../graphql/client";
+import { APP } from "../graphql/queries"
+import { CREATE_APP } from '../graphql/mutations'
+import {
+  fieldRenderer
+} from '../shared/FormFields'
 
 export default class HomePage extends Component {
   
@@ -38,12 +44,23 @@ export default class HomePage extends Component {
   }
 
   fetchApp = () => {
+
+    graphql(CREATE_APP, {operation: 'new', appParams: {}}, {
+      success: (data)=>{
+        this.setState({app: data.appsCreate.app})
+      },
+      error: (error)=>{
+      }
+    })
+
+    /*
     axios.get(this.url())
       .then((response) => {
         this.setState({ app: response.data.app })
       }).catch((err) => {
         console.log(err)
       })
+    */
   }
 
 
@@ -59,6 +76,24 @@ export default class HomePage extends Component {
 
   // Form Event Handlers
   create = (data) => {
+
+    graphql(CREATE_APP, { operation: 'create', appParams: data.app }, {
+      success: (data) => {
+
+        this.setState({ 
+          app: data.appsCreate.app,
+          errors: data.appsCreate.errors
+         }, () => {
+          if (isEmpty(this.state.errors))
+            this.props.history.push(`/apps/${this.state.app.key}`)
+          //this.updateData(response.data)
+        })
+      },
+      error: (error) => {
+      }
+    })
+
+    /*
     axios.post("/apps.json", data)
       .then((response) => {
         this.setState({ app: response.data.app }, () => {
@@ -71,7 +106,9 @@ export default class HomePage extends Component {
           this.setState({ errors: error.response.data })
 
         console.log(error);
-      });
+      })
+    */
+  
   };
 
   onSubmitHandler = (e) => {
@@ -79,82 +116,6 @@ export default class HomePage extends Component {
     const data = serialize(this.formRef, { hash: true, empty: true })
     this.create(data)
   }
-
-  errorsFor(name) {
-    if (!this.state.errors[name])
-      return null
-    return this.state.errors[name].map((o) => o).join(", ")
-  }
-
-  fieldRenderer = (data, propsData) => {
-    switch (data.type) {
-      case "string":
-        return <Field label={data.name} isRequired
-          isInvalid={this.errorsFor(data.name)}
-          invalidMessage={this.errorsFor(data.name)}>
-          <FieldText name={`app[${data.name}]`}
-            isRequired shouldFitContainer
-            value={propsData[data.name]}
-          />
-        </Field>
-
-      case "text":
-
-        return <Field label={data.name}
-          isInvalid={this.errorsFor(data.name)}
-          invalidMessage={this.errorsFor(data.name)}>
-          <FieldTextArea
-            name={`app[${data.name}]`}
-            shouldFitContainer
-            label={`app[${data.name}]`}
-            value={propsData[data.name]}
-          />
-        </Field>
-
-      case "datetime":
-        return <Field label={data.name} isRequired
-          isInvalid={this.errorsFor(data.name)}
-          invalidMessage={this.errorsFor(data.name)}>
-
-          <DateTimePicker
-            name={`app[${data.name}]`}
-            defaultValue={propsData[data.name]}
-          //onChange={onChange}
-          />
-        </Field>
-      case "select":
-        return <Field label={data.name}
-          isInvalid={this.errorsFor(data.name)}
-          invalidMessage={this.errorsFor(data.name)}>
-          <Select
-            name={`app[${data.name}]`}
-            isSearchable={false}
-            defaultValue={{
-              label: propsData[data.name],
-              value: propsData[data.name]
-            }}
-            options={data.options.map((o) => {
-              return { label: o, value: o }
-            })
-            }
-          />
-        </Field>
-      case "bool":
-        return <div>
-          <label>{data.name}</label>
-          <input
-            type="checkbox"
-            defaultChecked={propsData[data.name]}
-            name={`app[${data.name}]`}
-          />
-
-        </div>
-
-      default:
-        break;
-    }
-  }
-
 
   render() {
     return (
@@ -165,8 +126,8 @@ export default class HomePage extends Component {
           <Button
             appearance="primary"
             onClick={this.showModal}
-            onClose={() => { }}
-          >Create new app
+            onClose={() => { }}>
+            Create new app
           </Button>
 
         </ButtonGroup>
@@ -193,8 +154,8 @@ export default class HomePage extends Component {
                   <FormSection>
 
                     {
-                      this.state.app.config_fields.map((field) => {
-                        return this.fieldRenderer(field, this.state.app)
+                      this.state.app.configFields.map((field) => {
+                        return fieldRenderer('app', field, {data: this.state.app}, this.state.errors)
                       })
 
                     }

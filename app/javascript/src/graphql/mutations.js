@@ -1,3 +1,44 @@
+export const UPDATE_APP = `
+  mutation AppsUpdate($appKey: String!, $appParams: Json!){
+    appsUpdate(input: {appKey: $appKey, appParams: $appParams}){
+      errors
+      app{
+        encryptionKey
+        key
+        name
+        preferences
+        configFields
+        theme
+        segments {
+          name
+          id
+          properties
+        }
+        state
+        tagline
+      }
+    }
+  }
+`
+
+export const CREATE_APP = `
+  mutation AppsCreate($appParams: Json!, $operation: String){
+    appsCreate(input: {appParams: $appParams, operation: $operation}){
+      errors
+      app{
+        encryptionKey
+        key
+        name
+        preferences
+        configFields
+        theme
+        state
+        tagline
+      }
+    }
+  }
+`
+
 export const INSERT_COMMMENT = `
   mutation InsertComment($appKey: String!, $id: Int!, $message: String!){
     insertComment(appKey: $appKey, id: $id, message: $message){

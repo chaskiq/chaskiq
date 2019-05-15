@@ -10,18 +10,20 @@ query Apps{
 export const APP = `
   query App($appKey: String!){
     app(key: $appKey) {
-        encryptionKey
-        key
+      encryptionKey
+      key
+      name
+      preferences
+      configFields
+      theme
+      segments {
         name
-        preferences
-        segments {
-          name
-          id
-          properties
-        }
-        state
-        tagline
+        id
+        properties
       }
+      state
+      tagline
+    }
   }
 `
 
