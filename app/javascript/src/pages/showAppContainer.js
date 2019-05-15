@@ -234,7 +234,6 @@ class AppUsers extends Component {
   }
 
   handleClickOnSelectedFilter = (jwtToken)=>{
-
     const url = `/apps/${this.props.currentApp.key}/segments/${this.props.store.segment.id}/${jwtToken}`
     this.props.history.push(url) 
   }
@@ -500,9 +499,9 @@ export default class ShowAppContainer extends Component {
     this.setState({searching: true})
     // jwt or predicates from segment
     console.log(this.state.jwt)
-    const data = this.state.jwt ? parseJwt(this.state.jwt).data : this.state.segment.predicates
+    const jwtData = this.state.jwt ? parseJwt(this.state.jwt).data : this.state.segment.predicates
     const predicates_data = { data: {
-                                predicates: data.filter( (o)=> o.comparison )
+                                predicates: jwtData.filter( (o)=> o.comparison )
                               }
                             }
                             
@@ -517,7 +516,7 @@ export default class ShowAppContainer extends Component {
         const appUsers = data.predicatesSearch.appUsers
 
         this.setState({
-          //segment: Object.assign({}, this.state.segment, { predicates: data }),
+          segment: Object.assign({}, this.state.segment, { predicates: jwtData }),
           app_users: appUsers.collection,
           meta: appUsers.meta,
           searching: false
@@ -668,7 +667,6 @@ export default class ShowAppContainer extends Component {
       type: data.type,
       value: data.value
     }
-
     const new_predicates = this.state.segment.predicates.concat(pending_predicate)
     const jwtToken = generateJWT(new_predicates)
     //console.log(parseJwt(jwtToken))
