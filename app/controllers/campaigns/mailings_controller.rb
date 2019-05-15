@@ -143,7 +143,3 @@ class Campaigns::MailingsController < ApplicationController
       #)
     end
 end
-
-
-
-end
