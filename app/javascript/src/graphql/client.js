@@ -26,8 +26,9 @@ const graphql = (query, variables, callbacks)=>{
     callbacks['success'] ? callbacks['success'](data, res) : null
   })
   .catch( r => {
-    const res = r.response
-    callbacks['error'] ? callbacks['error'](res) : null
+    throw r
+    //const res = r.response
+    callbacks['error'] ? callbacks['error'](r) : null
   })
   .then( () => {
     callbacks['always'] ? callbacks['always']() : null

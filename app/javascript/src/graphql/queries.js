@@ -16,6 +16,7 @@ export const APP = `
         preferences
         segments {
           name
+          id
           properties
         }
         state
@@ -23,6 +24,20 @@ export const APP = `
       }
   }
 `
+
+export const SEGMENT = `
+  query App($appKey: String!, $id: Int!){
+    app(key: $appKey) {
+      segment(id: $id ) {
+        name
+        id
+        predicates
+      }
+    }
+  }
+`
+
+
 export const CONVERSATIONS = `
   query App($appKey: String!, $page: Int!){
     app(key: $appKey) {

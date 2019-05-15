@@ -6,6 +6,13 @@ module Types
     field :tagline, String, null: true
     field :preferences, Types::JsonType, null: true
     field :segments, [Types::SegmentType], null: true
+    
+    def segments
+      Segment.union_scope(
+        object.segments.all, Segment.where("app_id is null")
+      ).order("id asc")
+    end
+    
     field :encryption_key, String, null: true
     field :app_users, [Types::AppUserType], null: true
     
@@ -59,5 +66,13 @@ module Types
       collection.find(id)
     end
 
+    field :segment , Types::SegmentType, null: true do 
+      argument :id, Integer, required: true
+    end
+
+    def segment(id:)
+      s = Segment.where("app_id is null ").where(id: id).first
+      s.present? ? s : object.segments.find(id)
+    end
   end
 end
