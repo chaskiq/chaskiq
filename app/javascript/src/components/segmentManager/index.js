@@ -353,8 +353,8 @@ export class InlineFilterDialog extends Component {
   toggleDialog = (e) => this.setState({ dialogOpen: !this.state.dialogOpen });
 
   handleClick = (e, o) => {
-    this.props.addPredicate(o, ()=> { 
-      this.props.handleClick()
+    this.props.addPredicate(o, (token)=> { 
+      this.props.handleClick(token)
     })
   }
 

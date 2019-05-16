@@ -14,10 +14,12 @@ import axios from 'axios'
 import serialize from 'form-serialize'
 import Form, { Field, FormHeader, FormSection, FormFooter } from '@atlaskit/form';
 
-
 import {
   fieldRenderer
 } from '../shared/FormFields'
+import graphql from "../graphql/client";
+import { APP } from "../graphql/queries"
+import { PREDICATES_SEARCH, UPDATE_APP } from '../graphql/mutations'
 
 
 class SettingsForm extends Component {
@@ -71,8 +73,6 @@ class SettingsForm extends Component {
 
   render(){
     return <ContentWrapper>
-        
-
             {
               /*<Tabs
                   tabs={this.tabs()}
@@ -85,7 +85,6 @@ class SettingsForm extends Component {
                 }
               />*/
             } 
-
         <div
           style={{
             //display: 'flex',
@@ -108,7 +107,7 @@ class SettingsForm extends Component {
             <FormSection>
 
               {
-                this.props.data.config_fields.map((field) => {
+                this.props.data.configFields.map((field) => {
                   return fieldRenderer('app', field, this.props, this.state.errors)
                 })
               }
@@ -166,16 +165,39 @@ export default class AppSettingsContainer extends Component {
   }
 
   fetchApp = ()=>{
+    graphql(APP, { appKey: this.props.match.params.appId}, {
+      success: (data)=>{
+        this.setState({ app: data.app })
+      },
+      errors: (error)=>{
+        console.log(error)
+      }
+    })
+    /*
     axios.get(this.url())
       .then((response) => {
         this.setState({ app: response.data.app })
       }).catch((err) => {
         console.log(err)
       })
+    */
   }
 
   // Form Event Handlers
   update = (data) => {
+
+    graphql(UPDATE_APP, { 
+      appKey: this.props.match.params.appId,
+      appParams: data.app
+    }, {
+      success: (data)=>{
+        this.setState({ app: data.appsUpdate.app, errors: data.appsUpdate.errors }, () => {
+          //this.props.updateData(response.data)
+        })
+      }
+    })
+
+    /*
     axios.put(this.url(), data)
       .then((response) => {
         this.setState({ app: response.data.app }, () => {
@@ -188,6 +210,8 @@ export default class AppSettingsContainer extends Component {
 
         console.log(error);
       });
+    */
+
   };
 
   render(){

@@ -1036,6 +1036,11 @@
     webpack "^3.11.0"
     webpack-manifest-plugin "^1.3.2"
 
+"@types/classnames@^2.2.3":
+  version "2.2.7"
+  resolved "https://registry.yarnpkg.com/@types/classnames/-/classnames-2.2.7.tgz#fb68cc9be8487e6ea5b13700e759bfbab7e0fefd"
+  integrity sha512-rzOhiQ55WzAiFgXRtitP/ZUT8iVNyllEpylJ5zHzR4vArUvMB39GTk+Zon/uAM0JxEFAWnwsxC2gH8s+tZ3Myg==
+
 "@types/estree@0.0.39":
   version "0.0.39"
   resolved "https://registry.yarnpkg.com/@types/estree/-/estree-0.0.39.tgz#e177e699ee1b8c22d23174caaa7422644389509f"
@@ -1055,6 +1060,19 @@
   version "11.13.4"
   resolved "https://registry.yarnpkg.com/@types/node/-/node-11.13.4.tgz#f83ec3c3e05b174b7241fadeb6688267fe5b22ca"
   integrity sha512-+rabAZZ3Yn7tF/XPGHupKIL5EcAbrLxnTr/hgQICxbeuAfWtT0UZSfULE+ndusckBItcv4o6ZeOJplQikVcLvQ==
+
+"@types/prop-types@*":
+  version "15.7.1"
+  resolved "https://registry.yarnpkg.com/@types/prop-types/-/prop-types-15.7.1.tgz#f1a11e7babb0c3cad68100be381d1e064c68f1f6"
+  integrity sha512-CFzn9idOEpHrgdw8JsoTkaDDyRWk1jrzIV8djzcgpq0y9tG4B4lFT+Nxh52DVpDXV+n4+NPNv7M1Dj5uMp6XFg==
+
+"@types/react@^16.0.33":
+  version "16.8.17"
+  resolved "https://registry.yarnpkg.com/@types/react/-/react-16.8.17.tgz#f287b76a5badb93bc9aa3f54521a3eb53d6c2374"
+  integrity sha512-pln3mgc6VfkNg92WXODul/ONo140huK9OMsx62GlBlZ2lvjNK86PQJhYMPLO1i66aF5O9OPyZefogvNltBIszA==
+  dependencies:
+    "@types/prop-types" "*"
+    csstype "^2.2.0"
 
 Dante2@^0.5.0-rc18:
   version "0.5.0-rc18"
@@ -3239,6 +3257,11 @@ csso@~2.3.1:
     clap "^1.0.9"
     source-map "^0.5.3"
 
+csstype@^2.2.0:
+  version "2.6.4"
+  resolved "https://registry.yarnpkg.com/csstype/-/csstype-2.6.4.tgz#d585a6062096e324e7187f80e04f92bd0f00e37f"
+  integrity sha512-lAJUJP3M6HxFXbqtGRc0iZrdyeN+WzOWeY0q/VnFzI+kqVrYIzC7bWlKqCW7oCIdzoPkvfp82EVvrTlQ8zsWQg==
+
 csstype@^2.5.2:
   version "2.5.3"
   resolved "https://registry.yarnpkg.com/csstype/-/csstype-2.5.3.tgz#2504152e6e1cc59b32098b7f5d6a63f16294c1f7"
@@ -3810,6 +3833,13 @@ email-validator@^1.0.7:
   resolved "https://registry.yarnpkg.com/email-validator/-/email-validator-1.2.3.tgz#3e3aa65595e079a4686b41c004485a53638a6ed5"
   integrity sha512-WZmY6vj6bAWUzr1P2OmRkw4E3FWwdnKxWG/Ssfvr+kp+0leuXzsX2EHNwjg8+KW2DfAiFWiV+jn5n1P7TlE7lw==
 
+emoji-mart@^2.11.1:
+  version "2.11.1"
+  resolved "https://registry.yarnpkg.com/emoji-mart/-/emoji-mart-2.11.1.tgz#fc9330b513803c17b98c9ad289c12ab61ff05f8f"
+  integrity sha512-Hr4N56YEkaPtmojO2dfgnMLLE/d5HpnhH0+M8cw9LRHpG2EgQQaCelRad3d5qQAPHI5+K0wMc/rwM0eRo0FnUA==
+  dependencies:
+    prop-types "^15.6.0"
+
 emojione@^2.2.7:
   version "2.2.7"
   resolved "https://registry.yarnpkg.com/emojione/-/emojione-2.2.7.tgz#46457cf6b9b2f8da13ae8a2e4e547de06ee15e96"
@@ -3943,6 +3973,11 @@ es6-object-assign@^1.1.0:
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/es6-object-assign/-/es6-object-assign-1.1.0.tgz#c2c3582656247c39ea107cb1e6652b6f9f24523c"
   integrity sha1-wsNYJlYkfDnqEHyx5mUrb58kUjw=
+
+es6-promise@^4.1.0:
+  version "4.2.6"
+  resolved "https://registry.yarnpkg.com/es6-promise/-/es6-promise-4.2.6.tgz#b685edd8258886365ea62b57d30de28fadcd974f"
+  integrity sha512-aRVgGdnmW2OiySVPUC9e6m+plolMAJKjZnQlCwNSuK5yQ0JN61DZSO1X1Ufd1foqWRAlig0rhduTCHe7sVtK5Q==
 
 es6-set@~0.1.5:
   version "0.1.5"
@@ -4663,6 +4698,16 @@ getpass@^0.1.1:
   integrity sha1-Xv+OPmhNVprkyysSgmBOi6YhSfo=
   dependencies:
     assert-plus "^1.0.0"
+
+giphy-js-sdk-core@^1.0.2:
+  version "1.0.6"
+  resolved "https://registry.yarnpkg.com/giphy-js-sdk-core/-/giphy-js-sdk-core-1.0.6.tgz#3877988a71ee27e6d250b00713703917fca48510"
+  integrity sha512-WaOm2ZEMSyPzlM+XbiVSDPZiSNfNfCItIeLh9QNglqiSl5fqewjTl7TY9wJT41Q/ORyOekV5rJDe4EIkjLDLFw==
+  dependencies:
+    es6-promise "^4.1.0"
+    isomorphic-fetch "^2.2.1"
+    lodash "^4.17.4"
+    promise "^7.1.1"
 
 glob-base@^0.3.0:
   version "0.3.0"
@@ -8100,6 +8145,17 @@ react-frame-component@^4.0.1:
   version "4.1.0"
   resolved "https://registry.yarnpkg.com/react-frame-component/-/react-frame-component-4.1.0.tgz#bef04039c6af687314f27b20ef9893d85eefe3e6"
   integrity sha512-2HkO0iccSjd+xRA+aOxq7Mm50WUmCjdmhbQhOiG6gQTChaW//Y3mdkGeUfVA3YkXvDVbigRDvJd/VTUlqaZWSw==
+
+react-giphy-selector@^0.0.1:
+  version "0.0.1"
+  resolved "https://registry.yarnpkg.com/react-giphy-selector/-/react-giphy-selector-0.0.1.tgz#f9455c11b120d190b8e0d0b850fc535ad7941f0a"
+  integrity sha1-+UVcEbEg0ZC44NC4UPxTWteUHwo=
+  dependencies:
+    "@types/classnames" "^2.2.3"
+    "@types/react" "^16.0.33"
+    classnames "^2.2.5"
+    giphy-js-sdk-core "^1.0.2"
+    react "^16.2.0"
 
 react-google-maps@^9.4.5:
   version "9.4.5"

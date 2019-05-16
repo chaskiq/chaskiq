@@ -23,7 +23,11 @@ import CampaignStats from "./campaigns/stats"
 import { isEmpty } from 'lodash'
 
 import { parseJwt, generateJWT } from '../components/segmentManager/jwt'
+import TourManager from '../components/Tour'
 
+import graphql from "../graphql/client"
+import { CAMPAIGN, CAMPAIGNS  } from "../graphql/queries"
+import { PREDICATES_SEARCH, UPDATE_CAMPAIGN, CREATE_CAMPAIGN } from '../graphql/mutations'
 
 // @flow
 import DynamicTable from '@atlaskit/dynamic-table';
@@ -63,7 +67,27 @@ class CampaignSegment extends Component {
     const predicates = parseJwt(this.state.jwt)
     //console.log(predicates)
 
-    axios.put(`${this.props.url}.json?mode=${this.props.mode}`, {
+    const params = {
+      appKey: this.props.store.app.key,
+      id: this.props.data.id,
+      campaignParams: {
+        segments: predicates.data
+      }
+    }
+
+    graphql(UPDATE_CAMPAIGN, params, {
+      success: (data) => {
+        debugger
+        //this.props.updateData(data.campaignUpdate.campaign, null)
+        //this.setState({ status: "saved" })
+      },
+      error: () => {
+
+      }
+    })
+
+    /*
+    axios.put(`${this.props.url}/messages/${this.props.mode}.json`, {
       campaign: {
         segments: predicates.data
       }
@@ -74,6 +98,7 @@ class CampaignSegment extends Component {
       .catch((error) => {
         console.log(error);
       });
+    */
 
   }
 
@@ -124,7 +149,25 @@ class CampaignSegment extends Component {
       }
     }
 
-    axios.post(`/apps/${this.props.store.app.key}/search.json`,
+    graphql(PREDICATES_SEARCH, { 
+      appKey: this.props.store.app.key,
+      search: predicates_data,
+      page: 1
+    },{
+      success: (data) => { 
+        const appUsers = data.predicatesSearch.appUsers
+        this.setState({
+          app_users: appUsers.collection,
+          meta: appUsers.meta,
+          searching: false
+        })
+      },
+      error: (error) => {
+        debugger
+      }
+    })
+
+    /*axios.post(`/apps/${this.props.store.app.key}/search.json`,
       predicates_data)
       .then((response) => {
         this.setState({
@@ -135,7 +178,7 @@ class CampaignSegment extends Component {
       })
       .catch((error) => {
         console.log(error);
-      });
+      });*/
   }
 
   render() {
@@ -185,7 +228,37 @@ class CampaignForm extends Component {
 
   fetchCampaign = () => {
     const id = this.props.match.params.id
-    axios.get(`/apps/${this.props.store.app.key}/campaigns/${id}.json?mode=${this.props.mode}`,
+
+    if(id === "new"){
+      graphql(CREATE_CAMPAIGN, {
+        appKey: this.props.store.app.key,
+        mode: this.props.mode,
+        operation: "new",
+        campaignParams: {}
+      }, {
+          success: (data) => {
+            this.setState({
+              data: data.campaignCreate.campaign
+            })
+          }
+        })
+    }else{
+      graphql(CAMPAIGN, {
+        appKey: this.props.store.app.key,
+        mode: this.props.mode,
+        id: parseInt(id),
+      }, {
+        success: (data) => {
+          this.setState({
+            data: data.app.campaign
+          })
+        }
+      })
+    }
+
+
+    /*
+    axios.get(`/apps/${this.props.store.app.key}/messages/${this.props.mode}/${id}.json`,
       { mode: this.props.mode })
       .then((response) => {
         console.log(response)
@@ -193,10 +266,33 @@ class CampaignForm extends Component {
       }).catch((err) => {
         console.log(err)
       })
+    */
   }
 
   updateData = (data, cb) => {
     this.setState({ data: data }, cb ? cb() : null)
+  }
+
+  renderEditorForCampaign = ()=>{
+    switch (this.props.mode) {
+      case 'tours':
+        return <TourManager
+          {...this.props}
+          url={this.url()}
+          updateData={this.updateData}
+          data={this.state.data}
+        />
+        break;
+    
+      default:
+        return <CampaignEditor
+          {...this.props}
+          url={this.url()}
+          updateData={this.updateData}
+          data={this.state.data} />
+        break;
+    }
+    
   }
 
   tabs = () => {
@@ -206,6 +302,7 @@ class CampaignForm extends Component {
       {
         label: 'Settings', content: <CampaignSettings {...this.props}
           data={this.state.data}
+          mode={this.props.mode}
           url={this.url()}
           updateData={this.updateData}
         />
@@ -222,11 +319,7 @@ class CampaignForm extends Component {
             updateData={this.updateData} />
         },
         {
-          label: 'Editor', content: <CampaignEditor
-            {...this.props}
-            url={this.url()}
-            updateData={this.updateData}
-            data={this.state.data} />
+          label: 'Editor', content: this.renderEditorForCampaign()
         }
       ]
     }
@@ -253,6 +346,7 @@ class CampaignForm extends Component {
 
   render() {
     return <ContentWrapper>
+
       <PageTitle>
         Campaign {`: ${this.state.data.name}`}
       </PageTitle>
@@ -299,7 +393,20 @@ export default class CampaignContainer extends Component {
     this.setState({
       loading: true
     })
-    axios.get(`/apps/${this.props.match.params.appId}/campaigns.json?mode=${this.props.match.params.message_type}`)
+
+    //debugger
+    graphql(CAMPAIGNS, { 
+      appKey: this.props.match.params.appId, 
+      mode: this.props.match.params.message_type 
+    }, {success: (data)=>{
+        this.setState({
+          campaigns: data.app.campaigns,
+          loading: false
+        })
+    }})
+
+
+    /*axios.get(`/apps/${this.props.match.params.appId}/messages/${this.props.match.params.message_type}`)
       .then((response) => {
         this.setState({
           campaigns: response.data,
@@ -308,6 +415,7 @@ export default class CampaignContainer extends Component {
       }).catch((err) => {
         console.log(err)
       })
+    */
   }
 
   createNewCampaign = (e) => {

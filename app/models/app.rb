@@ -13,9 +13,8 @@ class App < ApplicationRecord
   has_many :roles
   has_many :admin_users, through: :roles, source: :user
   has_many :campaigns
-
   has_many :user_auto_messages
-
+  has_many :tours
   has_many :messages
 
   store_accessor :preferences, [

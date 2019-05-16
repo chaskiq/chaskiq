@@ -1,0 +1,38 @@
+module Types
+  class CampaignType < Types::BaseObject
+    field :id, Int, null: true
+    field :type, String, null: true
+    field :from_name, String, null: true
+    field :from_email, String, null: true
+    field :reply_email, String, null: true
+    field :premailer, String, null: true
+    field :serialized_content, String, null: true
+    field :description, String, null: true
+    field :sent, Boolean, null: true
+    field :config_fields, Types::JsonType, null: true
+    field :stats_fields, Types::JsonType, null: true
+    field :name, String, null: true
+    field :timezone, String, null: true
+    field :state, String, null: true
+    field :subject, String, null: true
+    field :app_id, Integer, null: true
+    field :segments, Types::JsonType, null: true
+    field :scheduled_at, GraphQL::Types::ISO8601DateTime, null: true
+    field :scheduled_to, GraphQL::Types::ISO8601DateTime, null: true
+
+    field :counts, Types::JsonType, null: true
+    def counts
+      object.metrics.group(:action).count(:trackable_id)
+    end
+
+    field :metrics, [Types::JsonType], null: true
+    def metrics
+      @metrics = object.metrics
+                        .order("id desc")
+                        .page(1)
+                        .per(20)
+      #render :index
+    end
+
+  end
+end
