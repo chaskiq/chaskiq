@@ -5,6 +5,7 @@ import FieldText from '@atlaskit/field-text';
 import { DateTimePicker } from '@atlaskit/datetime-picker';
 import { Checkbox } from '@atlaskit/checkbox';
 import { Field } from '@atlaskit/form';
+import { snakeCase, camelCase } from 'lodash'
 
 export const errorsFor = (name, errors ) => {
   if (!errors[name])
@@ -20,7 +21,7 @@ export const fieldRenderer = (namespace, data, props, errors) => {
         invalidMessage={errorsFor(data.name, errors)}>
         <FieldText name={`${namespace}[${data.name}]`}
           isRequired shouldFitContainer
-          value={props.data[data.name]}
+          value={props.data[camelCase(data.name)]}
           maxLength={data.maxLength}
           minLength={data.maxLength}
           placeholder={data.placeholder}

@@ -13,8 +13,28 @@ import {convertToHTML} from 'draft-convert'
 import Avatar from '@atlaskit/avatar';
 import {soundManager} from 'soundmanager2'
 import sanitizeHtml from 'sanitize-html';
-
+import graphql from "../graphql/client"
+import { CONVERSATIONS, CONVERSATION, APP_USER } from "../graphql/queries"
+import { INSERT_COMMMENT } from '../graphql/mutations'
 import './convo.scss'
+
+
+import { camelCase } from 'lodash';
+
+const camelizeKeys = (obj) => {
+  if (Array.isArray(obj)) {
+    return obj.map(v => camelizeKeys(v));
+  } else if (obj !== null && obj.constructor === Object) {
+    return Object.keys(obj).reduce(
+      (result, key) => ({
+        ...result,
+        [camelCase(key)]: camelizeKeys(obj[key]),
+      }),
+      {},
+    );
+  }
+  return obj;
+};
 
 const RowColumnContainer = styled.div`
   display: flex;
@@ -166,7 +186,7 @@ const playSound = ()=>{
 
 class MessageItem extends Component {
   render(){
-    const user = this.props.conversation.main_participant
+    const user = this.props.conversation.mainParticipant
     return (
       <MessageContainer>
 
@@ -189,9 +209,9 @@ class MessageItem extends Component {
         <MessageBody>
 
           {
-            user.id != this.props.message.app_user.id ?
+            user.id != this.props.message.appUser.id ?
             <Avatar 
-              src={gravatar.url(this.props.message.app_user.email)} 
+              src={gravatar.url(this.props.message.appUser.email)} 
               size={'xsmall'}
               style={{'float':'left'}}
             /> : null
@@ -235,6 +255,20 @@ export default class ConversationContainer extends Component {
   getConversations = (cb)=>{
     const nextPage = this.state.meta.next_page || 1
 
+    graphql(CONVERSATIONS, { 
+      appKey: this.props.match.params.appId, 
+      page: nextPage}, {
+      success: (data)=>{
+        const conversations = data.app.conversations
+        this.setState({
+          conversations: nextPage > 1 ? this.state.conversations.concat(conversations.collection) : conversations.collection,
+          meta: conversations.meta
+        })
+        cb ? cb() : null        
+      }
+    })
+
+    /*
     axios.get(`/apps/${this.props.match.params.appId}/conversations.json?page=${nextPage}`, {})
       .then( (response)=> {
         this.setState({
@@ -246,6 +280,7 @@ export default class ConversationContainer extends Component {
       .catch( (error)=>{
         console.log(error);
       });
+    */
   }
 
 
@@ -268,7 +303,7 @@ export default class ConversationContainer extends Component {
                       return <div key={o.id} onClick={(e)=> this.props.history.push(`/apps/${appId}/conversations/${o.id}`) }>
                                 <MessageItem 
                                   conversation={o} 
-                                  message={o.last_message}
+                                  message={o.lastMessage}
                                 />
                               </div>
                     })
@@ -292,9 +327,9 @@ export default class ConversationContainer extends Component {
 
 class MessageItemWrapper extends Component {
   componentDidMount(){
-    // console.log(this.props.data.read_at ? "yes" : "EXEC A READ HERE!")
+    // console.log(this.props.data.readAt ? "yes" : "EXEC A READ HERE!")
     // mark as read on first render
-    if(!this.props.data.read_at){
+    if(!this.props.data.readAt){
       console.log(this.props.email)
       App.conversations.perform("receive", 
         Object.assign({}, this.props.data, {email: this.props.email})
@@ -316,7 +351,7 @@ class ConversationContainerShow extends Component {
       conversation: {},
       messages: [],
       meta: {},
-      app_user: {}
+      appUser: {}
     }
   }
 
@@ -342,20 +377,59 @@ class ConversationContainerShow extends Component {
   }
 
   getMainUser = (id)=> {
+    graphql(APP_USER, { appKey: this.props.appId, id: id }, {
+      success: (data) =>{
+        this.setState({
+          appUser: data.app.appUser
+        })        
+      }
+    })
+
+    /*
     axios.get(`/apps/${this.props.appId}/app_users/${id}.json`)
       .then( (response)=> {
         this.setState({
-          app_user: response.data.app_user
+          appUser: response.data.appUser
         })
       })
       .catch( (error)=> {
         console.log(error);
       });
+    */
   }
 
   getMessages = ()=>{
     const nextPage = this.state.meta.next_page
-    axios.get(`/apps/${this.props.appId}/conversations/${this.props.match.params.id}.json?page=${nextPage}`, {
+
+    graphql(CONVERSATION, { 
+      appKey: this.props.appId, 
+      id: parseInt(this.props.match.params.id), 
+      page: nextPage}, {
+      success: (data)=>{
+        const conversation = data.app.conversation
+        
+          this.setState({
+            conversation: conversation,
+          }, () => {
+            this.conversationSubscriber()
+            
+            this.setState({
+              messages: nextPage > 1 ? this.state.messages.concat(conversation.messages.collection) : conversation.messages.collection,
+              meta: conversation.messages.meta
+            },  ()=>{
+                this.getMainUser(this.state.conversation.mainParticipant.id)
+            })
+          })
+
+      },
+      error: (error)=>{
+        
+      }
+    })
+
+    
+    /*
+      axios.get(`/apps/${this.props.appId}/conversations/${this.props.match.params.id}.json?page=${nextPage}`, {
         email: this.props.email,
       })
       .then( (response)=> {
@@ -363,7 +437,7 @@ class ConversationContainerShow extends Component {
           conversation: response.data.conversation,
         }, ()=>{ 
           this.conversationSubscriber()
-          this.getMainUser(this.state.conversation.main_participant.id)
+          this.getMainUser(this.state.conversation.mainParticipant.id)
           this.setState({
             messages: nextPage > 1 ? this.state.messages.concat(response.data.messages) : response.data.messages,
             meta: response.data.meta
@@ -373,11 +447,29 @@ class ConversationContainerShow extends Component {
       .catch( (error)=> {
         console.log(error);
       });
+
+    */
   }
 
   insertComment = (comment, cb)=>{
     const id = this.state.conversation.id
     const html_comment = convertToHTML( comment );
+
+    graphql(INSERT_COMMMENT, { 
+      appKey: this.props.appId, 
+      id: id, 
+      message: html_comment
+    }, {
+        success: (data)=>{
+          console.log(data)
+          cb()
+        },
+        error: (error)=>{
+          console.log(error)
+        }
+      })
+
+    /*
       axios.put(`/apps/${this.props.appId}/conversations/${id}.json`, {
         email: this.props.currentUser.email,
         id: id,
@@ -390,6 +482,7 @@ class ConversationContainerShow extends Component {
       .catch( (error)=> {
         console.log(error);
       });
+      */
   }
 
   scrollToLastItem = ()=>{
@@ -420,30 +513,33 @@ class ConversationContainerShow extends Component {
       },
       received: (data)=> {
 
-        if ( this.state.messages.find( (o)=> o.id === data.id ) ){
-          
+        const newData = camelizeKeys(data)
+
+        if (this.state.messages.find((o) => o.id === newData.id ) ){
           const new_collection = this.state.messages.map((o)=>{
-              if (o.id === data.id ){
-                return data
+            if (o.id === newData.id ){
+                return newData
               } else {
                 return o
               }
           })
 
-          console.log('received updated', data)
+          console.log('received updated', newData)
           this.setState({
             messages: new_collection
           } )
 
         } else {
-          console.log('received new', data)
-          console.log(this.props.currentUser.email, data.app_user.email)
-          if (this.props.currentUser.email !== data.app_user.email) {
+          console.log('received new', newData)
+          console.log(this.props.currentUser.email, newData.appUser.email)
+          if (this.props.currentUser.email !== newData.appUser.email) {
             playSound()
           }
 
+          console.log(newData)
+          
           this.setState({
-            messages: this.state.messages.concat(data)
+            messages: this.state.messages.concat(newData)
           }, this.scrollToLastItem)
 
         }
@@ -464,8 +560,8 @@ class ConversationContainerShow extends Component {
                   Conversation with {" "}
 
                   {
-                    this.state.conversation.main_participant ? 
-                    <b>{this.state.conversation.main_participant.email}</b> 
+                    this.state.conversation.mainParticipant ? 
+                    <b>{this.state.conversation.mainParticipant.email}</b> 
                     : null
                   }
 
@@ -477,14 +573,15 @@ class ConversationContainerShow extends Component {
 
                   {
                     this.state.messages.map( (o, i)=> {
+         
                       return <MessageItemWrapper 
                                 key={o.id} 
                                 data={o} 
                                 email={this.props.currentUser.email}>
                                 <ChatMessageItem 
-                                  className={this.state.conversation.main_participant.email === o.app_user.email ? 'user' : 'admin'}>
+                                  className={this.state.conversation.mainParticipant.email === o.appUser.email ? 'user' : 'admin'}>
                                   <ChatAvatar>
-                                    <img src={gravatar.url(o.app_user.email)}/>
+                                    <img src={gravatar.url(o.appUser.email)}/>
                                   </ChatAvatar>
 
                                   <div  
@@ -494,9 +591,9 @@ class ConversationContainerShow extends Component {
 
                                   <StatusItem>
                                     {
-                                      o.read_at ? 
+                                      o.readAt ? 
                                         <Moment fromNow>
-                                          {o.read_at}
+                                          {o.readAt}
                                         </Moment> : <span>not seen</span>
                                     }
                                   </StatusItem>
@@ -534,10 +631,10 @@ class ConversationContainerShow extends Component {
                 <ActivityAvatar>
                   
                   <Avatar 
-                    src={gravatar.url(this.state.app_user.email)}
+                    src={gravatar.url(this.state.appUser.email)}
                     name="large" 
                     size="xlarge" 
-                    presence={this.state.app_user.state} 
+                    presence={this.state.appUser.state} 
                   />
                   
                 </ActivityAvatar>
@@ -547,7 +644,7 @@ class ConversationContainerShow extends Component {
                     display: 'flex', 
                     alignSelf: 'center', 
                     fontWeight: '700'}}>
-                    {this.state.app_user.email}
+                    {this.state.appUser.email}
                   </p>
 
                   <p style={{
@@ -560,7 +657,7 @@ class ConversationContainerShow extends Component {
                   }}>
 
                   <Moment fromNow>
-                    {this.state.app_user.last_visited_at}
+                    {this.state.appUser.lastVisitedAt}
                   </Moment>
                 </p>
 
@@ -569,32 +666,32 @@ class ConversationContainerShow extends Component {
                 <UserDataList>
                   <li>
                     <strong>referrer</strong>
-                    <span>{this.state.app_user.referrer}</span>
+                    <span>{this.state.appUser.referrer}</span>
                   </li>
                   
                   <li>
                     <strong>city</strong>
-                    <span>{this.state.app_user.city}</span>
+                    <span>{this.state.appUser.city}</span>
                   </li>
                   
                   <li>
                     <strong>region</strong>
-                    <span>{this.state.app_user.region}</span>
+                    <span>{this.state.appUser.region}</span>
                   </li>
                   
                   <li>
                     <strong>country</strong>
-                    <span>{this.state.app_user.country}</span>
+                    <span>{this.state.appUser.country}</span>
                   </li>
                   
                   <li>
                     <strong>lat</strong>
-                    <span>{this.state.app_user.lat}</span>
+                    <span>{this.state.appUser.lat}</span>
                   </li>
                   
                   <li>
                     <strong>lng</strong>
-                    <span>{this.state.app_user.lng}</span>
+                    <span>{this.state.appUser.lng}</span>
                   </li>
                 </UserDataList>
 
@@ -604,37 +701,37 @@ class ConversationContainerShow extends Component {
 
                   <li>
                     <strong>postal:</strong> 
-                    <span>{this.state.app_user.postal}</span>
+                    <span>{this.state.appUser.postal}</span>
                   </li>
                   
                   <li>
                     <strong>web sessions:</strong> 
-                    <span>{this.state.app_user.web_sessions}</span>
+                    <span>{this.state.appUser.webSessions}</span>
                   </li>
                   
                   <li>
                     <strong>timezone:</strong> 
-                    <span>{this.state.app_user.timezone}</span>
+                    <span>{this.state.appUser.timezone}</span>
                   </li>
                   
                   <li>
                     <strong>browser version:</strong> 
-                    <span>{this.state.app_user.browser_version}</span>
+                    <span>{this.state.appUser.browserVersion}</span>
                   </li>
 
                   <li>
                     <strong>browser:</strong> 
-                    <span>{this.state.app_user.browser}</span>
+                    <span>{this.state.appUser.browser}</span>
                   </li>
                   
                   <li>
                     <strong>os:</strong> 
-                    <span>{this.state.app_user.os}</span>
+                    <span>{this.state.appUser.os}</span>
                   </li>
                   
                   <li>
                     <strong>os version:</strong> 
-                    <span>{this.state.app_user.os_version}</span>
+                    <span>{this.state.appUser.osVersion}</span>
                   </li>
 
                 </UserDataList>
@@ -643,11 +740,11 @@ class ConversationContainerShow extends Component {
 
                 <UserDataList>
                   {
-                    this.state.app_user.properties ? 
-                    Object.keys(this.state.app_user.properties).map((o, i)=>{ 
+                    this.state.appUser.properties ? 
+                    Object.keys(this.state.appUser.properties).map((o, i)=>{ 
                       return <li key={i}>
                                 <strong>{o}:</strong>
-                                <span>{this.state.app_user.properties[o]}</span>
+                                <span>{this.state.appUser.properties[o]}</span>
                               </li>
                     }) : null
                   }

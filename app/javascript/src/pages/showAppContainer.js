@@ -42,6 +42,18 @@ import {
   SaveSegmentModal
 } from '../components/segmentManager'
 
+
+import graphql from "../graphql/client"
+import { APP, SEGMENT} from "../graphql/queries"
+import { 
+  PREDICATES_SEARCH, 
+  PREDICATES_CREATE, 
+  PREDICATES_UPDATE, 
+  PREDICATES_DELETE 
+} from '../graphql/mutations'
+
+
+
 import skyImage from '../images/sky.png'
 
 const CableApp = {
@@ -227,7 +239,6 @@ class AppUsers extends Component {
   }
 
   handleClickOnSelectedFilter = (jwtToken)=>{
-
     const url = `/apps/${this.props.currentApp.key}/segments/${this.props.store.segment.id}/${jwtToken}`
     this.props.history.push(url) 
   }
@@ -450,6 +461,22 @@ export default class ShowAppContainer extends Component {
   fetchApp = (cb)=>{
     //const t = this
     const id = this.props.match.params.appId
+    graphql(APP, {appKey: id}, {
+      success: (data)=>{
+        this.props.setCurrentApp(data.app, ()=>{
+          console.log(this.props)
+          setTimeout(() => {
+            this.updateNavLinks() 
+          }, 1000);
+          cb ? cb() : null 
+        })
+      }, 
+      error: (error)=>{
+        console.log(error);
+      }
+    })
+
+    /*
     axios.get(`/apps/${id}.json`)
     .then( (response)=> {
 
@@ -470,36 +497,59 @@ export default class ShowAppContainer extends Component {
     .catch( (error)=> {
       console.log(error);
     });
+    */
   }
 
   search = ()=>{
     this.setState({searching: true})
     // jwt or predicates from segment
     console.log(this.state.jwt)
-    const data = this.state.jwt ? parseJwt(this.state.jwt).data : this.state.segment.predicates
+    const jwtData = this.state.jwt ? parseJwt(this.state.jwt).data : this.state.segment.predicates
     const predicates_data = { data: {
-                                predicates: data.filter( (o)=> o.comparison )
+                                predicates: jwtData.filter( (o)=> o.comparison )
                               }
                             }
                             
-    axios.post(`/apps/${this.props.currentApp.key}/search.json`, 
-      predicates_data )
-    .then( (response)=> {
-      console.log(this.state)
-      console.log(data)
-      this.setState({
-        segment: Object.assign({}, this.state.segment, { predicates: data }),
-        app_users: response.data.collection,
-        meta: response.data.meta, 
-        searching: false
-      })
-    })
-    .catch( (error)=> {
-      console.log(error);
-    });   
+    
+
+    graphql(PREDICATES_SEARCH, {
+      appKey: this.props.currentApp.key,
+      search: predicates_data,
+      page: 1
+    }, {
+      success: (data)=>{
+        const appUsers = data.predicatesSearch.appUsers
+        //console.log(jwtData)
+        this.setState({
+          segment: Object.assign({}, this.state.segment, { predicates: jwtData }),
+          app_users: appUsers.collection,
+          meta: appUsers.meta,
+          searching: false
+        })
+      },
+      error: (error) => {
+        debugger
+      }
+    })  
   }
 
   fetchAppSegment =(id)=>{
+
+    graphql(SEGMENT, {
+      appKey: this.props.currentApp.key,
+      id: parseInt(id)
+    }, {
+      success: (data)=>{
+        this.setState({
+          segment: data.app.segment,
+        }, this.search)
+      },
+      error: (error)=>{
+        console.log(error);
+      }
+    })
+
+    /*
     axios.get(`/apps/${this.props.currentApp.key}/segments/${id}.json`)
     .then( (response)=> {
       
@@ -509,7 +559,7 @@ export default class ShowAppContainer extends Component {
     })
     .catch( (error)=> {
       console.log(error);
-    });
+    });*/
   }
 
   updateNavLinks = ()=>{
@@ -560,6 +610,25 @@ export default class ShowAppContainer extends Component {
   }
 
   updateSegment = (data, cb)=>{
+
+    const params = {
+      appKey: this.props.currentApp.key,
+      id: this.state.segment.id,
+      predicates: this.state.segment.predicates
+    }
+
+    graphql(PREDICATES_UPDATE, params, {
+      success: (data)=>{
+        this.setState({
+          segment: data.predicatesUpdate.segment,
+          jwt: null
+        }, () => cb ? cb() : null)
+      },
+      error: (error)=>{
+      }
+    })
+
+    /*
     axios.put(`/apps/${this.props.currentApp.key}/segments/${this.state.segment.id}.json`, 
       {
         segment: {
@@ -577,9 +646,36 @@ export default class ShowAppContainer extends Component {
     .catch( (error)=> {
       console.log(error);
     })
+    */
   }
 
   createSegment = (data, cb)=>{
+    const params = {
+      appKey: this.props.currentApp.key,
+      name: data.input,
+      operation: "create",
+      predicates: this.state.segment.predicates
+    }
+
+    graphql(PREDICATES_CREATE, params, {
+      success: (data)=>{
+        this.setState({
+          segment: data.predicatesCreate.segment,
+          jwt: null
+        }, () => {
+        
+          const url = `/apps/${this.props.currentApp.key}/segments/${this.state.segment.id}.json`
+          this.props.history.push(url)
+          cb ? cb() : null
+        })
+
+      },
+      error: (error)=>{
+
+      }
+    })
+
+    /*
     axios.post(`/apps/${this.props.currentApp.key}/segments.json`, 
       {
         segment: {
@@ -599,9 +695,28 @@ export default class ShowAppContainer extends Component {
     .catch( (error)=> {
       console.log(error);
     })
+    */
+
   }
 
   deleteSegment = (id, cb)=>{
+
+    graphql(PREDICATES_DELETE, {
+      appKey: this.props.currentApp.key,
+      id: id
+    }, {
+      success: (data)=>{
+        cb ? cb() : null
+        const url = `/apps/${this.props.currentApp.key}/segments/1`
+        this.props.history.push(url)
+        this.fetchApp()
+      },
+      error: (error)=>{
+
+      }
+    })
+
+    /*
     axios.delete(`/apps/${this.props.currentApp.key}/segments/${id}.json`)
     .then( (response)=> {
       cb ? cb() : null 
@@ -612,6 +727,7 @@ export default class ShowAppContainer extends Component {
     .catch( (error)=> {
       console.log(error);
     })
+    */
   }
 
   addPredicate = (data, cb)=>{
@@ -622,7 +738,6 @@ export default class ShowAppContainer extends Component {
       type: data.type,
       value: data.value
     }
-
     const new_predicates = this.state.segment.predicates.concat(pending_predicate)
     const jwtToken = generateJWT(new_predicates)
     //console.log(parseJwt(jwtToken))

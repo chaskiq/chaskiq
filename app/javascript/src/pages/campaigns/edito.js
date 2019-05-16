@@ -7,7 +7,8 @@ import { convertToHTML } from 'draft-convert'
 import axios from 'axios'
 import Lozenge from '@atlaskit/lozenge';
 import Button from '@atlaskit/button';
-
+import graphql from '../../graphql/client'
+import { UPDATE_CAMPAIGN} from '../../graphql/mutations'
 
 //import config from "../constants/config"
 
@@ -205,7 +206,7 @@ export default class CampaignEditor extends Component {
 
   defaultContent = () => {
     try {
-      return JSON.parse(this.props.data.serialized_content) || this.emptyContent()
+      return JSON.parse(this.props.data.serializedContent) || this.emptyContent()
     } catch (error) {
       return this.emptyContent()
     }
@@ -614,7 +615,25 @@ export default class CampaignEditor extends Component {
       statusButton: "success"
     })
 
-    axios.put(`${this.props.url}.json?mode=${this.props.mode}`, {
+    const params = {
+      appKey: this.props.store.app.key,
+      id: this.props.data.id,
+      campaignParams: {
+        html_content: html3,
+        serialized_content: serialized
+    }}
+
+    graphql(UPDATE_CAMPAIGN, params, {
+      success: (data)=>{
+        this.props.updateData(data.campaignUpdate.campaign, null)
+        this.setState({ status: "saved" })
+      }, 
+      error: ()=>{
+
+      }
+    })
+
+    /*axios.put(`${this.props.url}.json?mode=${this.props.mode}`, {
       campaign: {
         html_content: html3,
         serialized_content: serialized
@@ -628,6 +647,7 @@ export default class CampaignEditor extends Component {
       }).catch((err) => {
         console.log(err)
       })
+    */
 
     if (cb)
       cb(html3, plain, serialized)

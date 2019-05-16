@@ -45,6 +45,8 @@ private
       @app.campaigns
     when "user_auto"
       @app.user_auto_messages
+    when "tours"
+      @app.tours
     else
       @app.messages
     end
