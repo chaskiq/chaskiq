@@ -610,6 +610,25 @@ export default class ShowAppContainer extends Component {
   }
 
   updateSegment = (data, cb)=>{
+
+    const params = {
+      appKey: this.props.currentApp.key,
+      id: this.state.segment.id,
+      predicates: this.state.segment.predicates
+    }
+
+    graphql(PREDICATES_UPDATE, params, {
+      success: (data)=>{
+        this.setState({
+          segment: data.predicatesUpdate.segment,
+          jwt: null
+        }, () => cb ? cb() : null)
+      },
+      error: (error)=>{
+      }
+    })
+
+    /*
     axios.put(`/apps/${this.props.currentApp.key}/segments/${this.state.segment.id}.json`, 
       {
         segment: {
@@ -627,24 +646,36 @@ export default class ShowAppContainer extends Component {
     .catch( (error)=> {
       console.log(error);
     })
+    */
   }
 
   createSegment = (data, cb)=>{
     const params = {
-      segment: {
-        name: data.input,
-        predicates: this.state.segment.predicates
-      }
+      appKey: this.props.currentApp.key,
+      name: data.input,
+      operation: "create",
+      predicates: this.state.segment.predicates
     }
 
     graphql(PREDICATES_CREATE, params, {
       success: (data)=>{
-        debugger
-      }
+        this.setState({
+          segment: data.predicatesCreate.segment,
+          jwt: null
+        }, () => {
+        
+          const url = `/apps/${this.props.currentApp.key}/segments/${this.state.segment.id}.json`
+          this.props.history.push(url)
+          cb ? cb() : null
+        })
+
+      },
       error: (error)=>{
 
       }
     })
+
+    /*
     axios.post(`/apps/${this.props.currentApp.key}/segments.json`, 
       {
         segment: {
@@ -664,12 +695,28 @@ export default class ShowAppContainer extends Component {
     .catch( (error)=> {
       console.log(error);
     })
+    */
+
   }
 
   deleteSegment = (id, cb)=>{
 
-    graphql()
+    graphql(PREDICATES_DELETE, {
+      appKey: this.props.currentApp.key,
+      id: id
+    }, {
+      success: (data)=>{
+        cb ? cb() : null
+        const url = `/apps/${this.props.currentApp.key}/segments/1`
+        this.props.history.push(url)
+        this.fetchApp()
+      },
+      error: (error)=>{
 
+      }
+    })
+
+    /*
     axios.delete(`/apps/${this.props.currentApp.key}/segments/${id}.json`)
     .then( (response)=> {
       cb ? cb() : null 
@@ -680,6 +727,7 @@ export default class ShowAppContainer extends Component {
     .catch( (error)=> {
       console.log(error);
     })
+    */
   }
 
   addPredicate = (data, cb)=>{
