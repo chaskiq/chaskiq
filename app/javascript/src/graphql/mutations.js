@@ -132,10 +132,47 @@ export const PREDICATES_SEARCH = `
   }
 `
 
-export const PREDICATES_DELETE = ``
+export const PREDICATES_DELETE = `
+  mutation PredicatesDelete($appKey: String!, $id: Int,){
+    predicatesDelete(input: {appKey: $appKey, id: $id}){
+      segment {
+        name
+      }
+    }
+  }
+`
 
 
-export const PREDICATES_CREATE = ``
+export const PREDICATES_CREATE = `
+  mutation PredicatesCreate($appKey: String!, $operation: String, $name: String!, $predicates: Json!){
+    predicatesCreate(input: {appKey: $appKey, operation: $operation, name: $name, predicates: $predicates }){
+      segment {
+        id
+        name
+        predicates{
+          comparison
+          type
+          value
+          attribute
+        }
+      }
+    }
+  }
+`
 
 
-export const PREDICATES_UPDATE = ``
+export const PREDICATES_UPDATE = `
+  mutation PredicatesUpdate($appKey: String!, $predicates: Json!, $id: Int){
+    predicatesUpdate(input: {appKey: $appKey, predicates: $predicates, id: $id }){
+      segment {
+        id
+        name
+        predicates {
+          comparison
+          type
+          value
+          attribute
+        }
+      }
+    }
+  }`

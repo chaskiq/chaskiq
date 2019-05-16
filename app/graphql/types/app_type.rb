@@ -10,14 +10,6 @@ module Types
     field :theme, String, null: true
     field :config_fields, Types::JsonType, null: true
     field :preferences, Types::JsonType, null: true
-    field :segments, [Types::SegmentType], null: true
-    
-    def segments
-      Segment.union_scope(
-        object.segments.all, Segment.where("app_id is null")
-      ).order("id asc")
-    end
-    
     field :encryption_key, String, null: true
     field :app_users, [Types::AppUserType], null: true
     
@@ -67,6 +59,14 @@ module Types
     def campaign(mode:, id:)
       collection = object.send(mode) if ["campaigns", "user_auto_messages", "tours" ].include?(mode)
       collection.find(id)
+    end
+
+    field :segments, [Types::SegmentType], null: true
+    
+    def segments
+      Segment.union_scope(
+        object.segments.all, Segment.where("app_id is null")
+      ).order("id asc")
     end
 
     field :segment , Types::SegmentType, null: true do 

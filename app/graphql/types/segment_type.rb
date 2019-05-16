@@ -4,6 +4,7 @@ module Types
     #field :app, [Types::AppType], null: true
     field :name, String, null: true
     field :properties, Types::JsonType, null: true
-    field :predicates, Types::JsonType, null: true
+    field :predicates, [Types::PredicateType], null: true
+
   end
 end

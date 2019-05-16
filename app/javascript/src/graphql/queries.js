@@ -33,7 +33,12 @@ export const SEGMENT = `
       segment(id: $id ) {
         name
         id
-        predicates
+        predicates {
+          type
+          attribute
+          comparison
+          value
+        }
       }
     }
   }
