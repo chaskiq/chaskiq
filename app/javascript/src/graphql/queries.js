@@ -3,6 +3,8 @@ query Apps{
   apps{
     key
     name
+    state
+    tagline
   }  
 }
 `

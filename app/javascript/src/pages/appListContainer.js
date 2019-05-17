@@ -7,7 +7,10 @@ import {
 import ContentWrapper from '../components/ContentWrapper';
 import PageTitle from '../components/PageTitle';
 import Button, { ButtonGroup } from '@atlaskit/button';
+import AppCard from '../components/AppCard'
 
+import graphql from "../graphql/client"
+import { APPS } from "../graphql/queries"
 
 export default class AppListContainer extends Component {
 
@@ -16,6 +19,17 @@ export default class AppListContainer extends Component {
   }
 
   componentDidMount(){
+
+    graphql(APPS ,{} ,{
+      success: (data)=>{
+        this.setState({ apps: data.apps })
+      }, 
+      error: (error)=>{
+
+      }
+    })
+
+    /*
     axios.get("/apps.json")
     .then( (response)=> {
       this.setState({apps: response.data.collection}, ()=>{ 
@@ -23,7 +37,7 @@ export default class AppListContainer extends Component {
     })
     .catch( (error)=> {
       console.log(error);
-    });
+    });*/
 
     this.updateNavLinks()
   }
@@ -42,13 +56,11 @@ export default class AppListContainer extends Component {
               <ButtonGroup>
                 {
                   this.state.apps.map((o)=> (
-                    <Button key={o.id}
-                      isLoading={false} 
-                      onClick={()=> this.props.history.push(`/apps/${o.id}`)}>
-                      <i className="fas fa-list"></i>
-                      {" "}
-                      <b>{o.name}</b> | {o.id}
-                    </Button>
+                    <AppCard 
+                      app={o} 
+                      onClick={() => this.props.history.push(`/apps/${o.key}`)}
+                    />
+                    
                   )
 
                 )}
