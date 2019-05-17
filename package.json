@@ -30,10 +30,13 @@
     "@atlaskit/theme": "^3.2.2",
     "@emotion/core": "^10.0.10",
     "@emotion/styled": "^10.0.10",
+    "@material-ui/core": "^3.9.3",
+    "@material-ui/icons": "^3.0.2",
     "@nivo/pie": "^0.42.1",
     "@rails/webpacker": "3.5",
     "Dante2": "^0.5.0-rc18",
     "actioncable": "^5.2.0",
+    "add": "^2.0.6",
     "axios": "^0.18.0",
     "babel-preset-react": "^6.24.1",
     "draft-convert": "^2.1.2",
@@ -78,7 +81,8 @@
     "slate": "^0.44.12",
     "slate-html-serializer": "^0.7.36",
     "slate-react": "^0.21.18",
-    "soundmanager2": "^2.97.20170602"
+    "soundmanager2": "^2.97.20170602",
+    "yarn": "^1.16.0"
   },
   "devDependencies": {
     "webpack-dev-server": "2.11.2"
