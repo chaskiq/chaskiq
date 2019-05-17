@@ -16,6 +16,7 @@ import DropdownMenu, {
 
 import InlineDialog from '@atlaskit/inline-dialog';
 import {parseJwt, generateJWT} from './jwt'
+import ListDivider from '../list'
 
 // same as SegmentItemButton
 export class SegmentItemButton extends Component {
@@ -390,7 +391,17 @@ export class InlineFilterDialog extends Component {
         <h5>Select field</h5>
         <p>oeoe</p>
 
+
         <div style={{ height: '200px', overflow: 'auto'}}>
+          <ListDivider 
+            items={fields} 
+            onClick={this.handleClick.bind(this)}
+          />
+        </div>
+
+       {
+         /*
+       <div style={{ height: '200px', overflow: 'auto'}}>
           {
             fields.map((o) => <div key={o.name} style={{ marginBottom: '2px' }}>
                               <Button onClick={(e)=> this.handleClick.bind(this)(e, o)}>
@@ -399,7 +410,10 @@ export class InlineFilterDialog extends Component {
                              </div>
             )
           }
-        </div>
+        </div>  
+         */
+       } 
+       
       </div>
     );
 

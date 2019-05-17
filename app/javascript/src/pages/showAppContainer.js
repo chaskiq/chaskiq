@@ -42,6 +42,8 @@ import {
   SaveSegmentModal
 } from '../components/segmentManager'
 
+import Tabs from '../components/tabs'
+
 
 import graphql from "../graphql/client"
 import { APP, SEGMENT} from "../graphql/queries"
@@ -51,7 +53,7 @@ import {
   PREDICATES_UPDATE, 
   PREDICATES_DELETE 
 } from '../graphql/mutations'
-
+import EnhancedTable from '../components/table'
 
 
 import skyImage from '../images/sky.png'
@@ -214,13 +216,12 @@ class AppUsers extends Component {
             content: (<Moment fromNow>{app_user.last_visited_at }</Moment>),
           },
           {
-            content: (
-              <DropdownMenu trigger="More" triggerType="button">
-                <DropdownItemGroup>
-                  <DropdownItem>{app_user.email}</DropdownItem>
-                </DropdownItemGroup>
-              </DropdownMenu>
-            ),
+
+            content: <DropdownMenu trigger="More" triggerType="button">
+                        <DropdownItemGroup>
+                          <DropdownItem>{app_user.email}</DropdownItem>
+                        </DropdownItemGroup>
+                      </DropdownMenu>
           },
         ],
       }
@@ -326,28 +327,36 @@ class AppUsers extends Component {
 
   render(){
     const {head, rows} = this.getTableData()
+    const options = [
+        { label: "list", 
+          content: <EnhancedTable
+                  caption={null}
+                  head={head}
+                  rows={rows}
+                  meta={this.props.meta}
+                  rowsPerPage={10}
+                  defaultPage={1}
+                  loadingSpinnerSize="large"
+                  isLoading={this.props.searching}
+                  isFixedSize
+                  defaultSortKey="term"
+                  defaultSortOrder="ASC"
+                  onSort={() => console.log('onSort')}
+                  onSetPage={() => console.log('onSetPage')}
+                /> 
+        },
+        {
+         label: "map", 
+         content: <UserMap collection={this.props.app_users} />
+        }
+    ]
     
     return <Wrapper>
 
               { this.caption() }
 
-              {
-                !this.state.map_view ? 
-                  <DynamicTable
-                    caption={null}
-                    head={head}
-                    rows={rows}
-                    rowsPerPage={10}
-                    defaultPage={1}
-                    loadingSpinnerSize="large"
-                    isLoading={this.props.searching}
-                    isFixedSize
-                    defaultSortKey="term"
-                    defaultSortOrder="ASC"
-                    onSort={() => console.log('onSort')}
-                    onSetPage={() => console.log('onSetPage')}
-                  /> : <UserMap collection={this.props.app_users}/>
-              }
+              <Tabs options={options}/>
+
             </Wrapper>
   }
 }
@@ -466,6 +475,7 @@ export default class ShowAppContainer extends Component {
         this.props.setCurrentApp(data.app, ()=>{
           console.log(this.props)
           setTimeout(() => {
+            // TODO:update nav
             this.updateNavLinks() 
           }, 1000);
           cb ? cb() : null 
@@ -518,6 +528,7 @@ export default class ShowAppContainer extends Component {
       page: 1
     }, {
       success: (data)=>{
+        console.log(data)
         const appUsers = data.predicatesSearch.appUsers
         //console.log(jwtData)
         this.setState({
