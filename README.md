@@ -64,3 +64,6 @@ https://beebom.com/intercom-alternatives/
 
 # themes
 https://preview.themeforest.net/item/react-next-modern-landing-page-template/full_screen_preview/23169879
+
+https://fontsinuse.com/uses/2176/apple-advertising-of-the-1970s-80s
+https://fontsinuse.com/uses/2176/apple-advertising-of-the-1970s-80s

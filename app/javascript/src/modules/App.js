@@ -1,16 +1,18 @@
+import React from 'react';
 import PropTypes from 'prop-types';
-import React, { Component } from 'react';
-import Flag, { FlagGroup } from '@atlaskit/flag';
-import Modal from '@atlaskit/modal-dialog';
-import Page from '@atlaskit/page';
-import '@atlaskit/css-reset';
+import { MuiThemeProvider, createMuiTheme, withStyles } from '@material-ui/core/styles';
+import CssBaseline from '@material-ui/core/CssBaseline';
+import Hidden from '@material-ui/core/Hidden';
+import Navigator from '../components/Navigator';
+import Content from '../components/Content';
+import Header from '../components/Header';
+//import '@atlaskit/css-reset';
 
-import StarterNavigation from '../components/StarterNavigation';
 
-export default class App extends Component {
+
+class Paperbase extends React.Component {
   state = {
-    flags: [],
-    isModalOpen: false
+    mobileOpen: false,
   };
 
   static contextTypes = {
@@ -24,90 +26,60 @@ export default class App extends Component {
     onNavResize: PropTypes.func,
   };
 
-  static childContextTypes = {
-    showModal: PropTypes.func,
-    addFlag: PropTypes.func,
-  }
 
-  getChildContext() {
-    return {
-      showModal: this.showModal,
-      addFlag: this.addFlag,
-    };
-  }
-
-  showModal = () => {
-    this.setState({ isModalOpen: true });
-  }
-
-  hideModal = () => {
-    this.setState({ isModalOpen: false });
-  }
-
-  addFlag = () => {
-    this.setState({ flags: [{ id: Date.now() }].concat(this.state.flags) });
-  }
-
-  onFlagDismissed = (dismissedFlagId) => {
-    this.setState({
-      flags: this.state.flags.filter(flag => flag.id !== dismissedFlagId),
-    })
-  }
+  handleDrawerToggle = () => {
+    this.setState(state => ({ mobileOpen: !state.mobileOpen }));
+  };
 
   render() {
-
+    const { classes } = this.props;
     const { children } = this.props;
+    const drawerWidth = 256;
 
     const childrenWithProps = React.Children.map(children, child =>
-      React.cloneElement(child, { navLinks: this.state.navLinks }));
-    
+      React.cloneElement(child, { navLinks: this.props.navLinks }));
+    console.log("SSSS", this.props.currentUser)
     return (
-      <div>
-        <Page
-          navigationWidth={this.context.navOpenState.width}
+        <div className={classes.root}>
+          <CssBaseline />
+          <nav className={classes.drawer}>
+            <Hidden smUp implementation="js">
+              <Navigator
+                PaperProps={{ style: { width: drawerWidth } }}
+                variant="temporary"
+                navLinks={this.props.navLinks}
+                open={this.state.mobileOpen}
+                onClose={this.handleDrawerToggle}
+                navOpenState={this.context.navOpenState}
+                onNavResize={this.props.onNavResize}
+                currentUser={this.props.currentUser}
+                currentApp={this.props.currentApp}
 
-          navigation={<StarterNavigation 
-            navLinks={this.props.navLinks}
-            navOpenState={this.context.navOpenState}
-            onNavResize={this.props.onNavResize}
-            currentUser={this.props.currentUser}
-            currentApp={this.props.currentApp}
-          />}
-        >
-
-          {childrenWithProps}
-          {/*this.props.children*/}
-        </Page>
-
-
-        <div>
-          <FlagGroup onDismissed={this.onFlagDismissed}>
-            {
-              this.state.flags.map(flag => (
-                <Flag
-                  id={flag.id}
-                  key={flag.id}
-                  title="Flag Title"
-                  description="Flag description"
-                />
-              ))
-            }
-          </FlagGroup>
-          {
-            this.state.isModalOpen && (
-              <Modal
-                heading="Candy bar"
-                actions={[{ text: 'Exit candy bar', onClick: this.hideModal }]}
-                onClose={this.hideModal}
-              >
-                <p style={{ textAlign: 'center' }}>
-                  <img src="http://i.giphy.com/yidUztgRB2w2gtDwL6.gif" alt="Moar cupcakes" />
-                </p>
-              </Modal>
-            )
-          }
+              />
+            </Hidden>
+            <Hidden xsDown implementation="css">
+              <Navigator 
+                PaperProps={{ style: { width: drawerWidth } }}
+                navLinks={this.props.navLinks}
+                currentUser={this.props.currentUser}
+                currentApp={this.props.currentApp}
+             />
+            </Hidden>
+          </nav>
+          <div className={classes.appContent}>
+            <Header onDrawerToggle={this.handleDrawerToggle} />
+            <main className={classes.mainContent}>
+              <Content>{childrenWithProps}</Content>
+            </main>
+          </div>
         </div>
-      </div>
+      
     );
   }
 }
+
+Paperbase.propTypes = {
+  classes: PropTypes.object.isRequired,
+};
+
+export default Paperbase;

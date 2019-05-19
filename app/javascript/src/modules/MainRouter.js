@@ -15,6 +15,11 @@ import Landing from '../pages/Landing'
 import graphql from '../graphql/client'
 import {CURRENT_USER} from '../graphql/queries'
 
+import { withStyles, createMuiTheme, MuiThemeProvider } from '@material-ui/core/styles';
+
+import lightGreen from "@material-ui/core/colors/green";
+import blueGrey from "@material-ui/core/colors/blueGrey";
+
 import NewApp from '../pages/NewApp'
 
 const defaultNavOpts = {
@@ -22,13 +27,155 @@ const defaultNavOpts = {
   width: 304
 }
 
-export default class MainRouter extends Component {
+let theme = createMuiTheme({
+  typography: {
+    useNextVariants: true,
+    h5: {
+      fontWeight: 500,
+      fontSize: 26,
+      letterSpacing: 0.5,
+    },
+  },
+  palette: {
+    primary: {
+      light: '#63ccff',
+      main: '#009be5',
+      dark: '#006db3',
+    },
+  },
+  shape: {
+    borderRadius: 8,
+  },
+});
+
+theme = {
+  ...theme,
+  overrides: {
+    MuiDrawer: {
+      paper: {
+        backgroundColor: '#18202c',
+      },
+    },
+    MuiButton: {
+      label: {
+        textTransform: 'initial',
+      },
+      contained: {
+        boxShadow: 'none',
+        '&:active': {
+          boxShadow: 'none',
+        },
+      },
+    },
+    MuiTabs: {
+      root: {
+        marginLeft: theme.spacing.unit,
+      },
+      indicator: {
+        height: 3,
+        borderTopLeftRadius: 3,
+        borderTopRightRadius: 3,
+        backgroundColor: theme.palette.common.white,
+      },
+    },
+    MuiTab: {
+      root: {
+        textTransform: 'initial',
+        margin: '0 16px',
+        minWidth: 0,
+        [theme.breakpoints.up('md')]: {
+          minWidth: 0,
+        },
+      },
+      labelContainer: {
+        padding: 0,
+        [theme.breakpoints.up('md')]: {
+          padding: 0,
+        },
+      },
+    },
+    MuiIconButton: {
+      root: {
+        padding: theme.spacing.unit,
+      },
+    },
+    MuiTooltip: {
+      tooltip: {
+        borderRadius: 4,
+      },
+    },
+    MuiDivider: {
+      root: {
+        backgroundColor: '#404854',
+      },
+    },
+    MuiListItemText: {
+      primary: {
+        fontWeight: theme.typography.fontWeightMedium,
+      },
+    },
+    MuiListItemIcon: {
+      root: {
+        color: 'inherit',
+        marginRight: 0,
+        '& svg': {
+          fontSize: 20,
+        },
+      },
+    },
+    MuiAvatar: {
+      root: {
+        width: 32,
+        height: 32,
+      },
+    },
+  },
+  props: {
+    MuiTab: {
+      disableRipple: true,
+    },
+  },
+  mixins: {
+    ...theme.mixins,
+    toolbar: {
+      minHeight: 48,
+    },
+  },
+};
+const drawerWidth = 256;
+
+const styles = {
+  root: {
+    display: 'flex',
+    minHeight: '100vh',
+  },
+  drawer: {
+    [theme.breakpoints.up('sm')]: {
+      width: drawerWidth,
+      flexShrink: 0,
+    },
+  },
+  appContent: {
+    flex: 1,
+    display: 'flex',
+    flexDirection: 'column',
+  },
+  mainContent: {
+    flex: 1,
+    padding: '48px 36px 0',
+    background: '#eaeff1',
+  },
+};
+
+
+
+class MainRouter extends Component {
   constructor() {
     super();
     this.defaultNavLinks = [
-                              ['/', 'Home', DashboardIcon],
-                              ['/settings', 'Settings', GearIcon],
-                              ['/apps', 'My Apps', DashboardIcon],
+                              {url: '/',  name:'Home', icon: DashboardIcon},
+                              {url: '/settings',  name:'Settings', icon: GearIcon},
+                              {url: '/apps', name: 'My Apps', icon: DashboardIcon},
                             ]
     this.state = {
       navOpenState: defaultNavOpts,
@@ -36,7 +183,6 @@ export default class MainRouter extends Component {
       currentUser: {},
       navLinks: this.defaultNavLinks
     }
-    this.updateNavLinks = this.updateNavLinks.bind(this)
 
   }
 
@@ -56,7 +202,7 @@ export default class MainRouter extends Component {
     });
   }
 
-  updateNavLinks(links) {
+  updateNavLinks =(links)=> {
     this.setState({
       navLinks: links
     })
@@ -98,13 +244,18 @@ export default class MainRouter extends Component {
     }, ()=> {cb ? cb(app) : null} )
   }
 
+
   render() {
+    
     return (
       <BrowserRouter>
-
+        
+        <MuiThemeProvider theme={theme}>
+          <React.Fragment>
         {
           this.state.currentUser.email ?
             <App
+              theme={theme}
               onNavResize={this.onNavResize}
               navOpenState={this.navOpenState}
               currentUser={this.state.currentUser}
@@ -157,7 +308,9 @@ export default class MainRouter extends Component {
               
             </App> : <Landing/>
         }
-
+          </React.Fragment>
+        </MuiThemeProvider>
+      
       </BrowserRouter>
     );
   }
@@ -166,3 +319,5 @@ export default class MainRouter extends Component {
 MainRouter.childContextTypes = {
   navOpenState: PropTypes.object,
 }
+
+export default withStyles(styles)(MainRouter);
