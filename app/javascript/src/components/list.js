@@ -20,7 +20,7 @@ function ListDividers(props) {
     <List component="nav" className={classes.root}>
       {
         props.items.map((item)=>(
-          <ListItem button onClick={(e)=> props.onClick(e, item)}>
+          <ListItem button onClick={(e) => props.onClick(e, item)}>
             <ListItemText primary={item.name} />
           </ListItem>
         ))

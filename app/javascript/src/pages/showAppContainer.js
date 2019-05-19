@@ -575,8 +575,8 @@ export default class ShowAppContainer extends Component {
 
   updateNavLinks = ()=>{
     const url_for = (o)=> `/apps/${this.props.currentApp.key}/segments/${o.id}`
-    const links = this.props.currentApp.segments.map((o)=> [url_for(o), o.name, null] )
-    links.push([`/apps/${this.props.currentApp.key}/conversations/`, "conversations", null])
+    const links = this.props.currentApp.segments.map((o)=> ({url: url_for(o), name: o.name, icon: null}) )
+    links.push({url: `/apps/${this.props.currentApp.key}/conversations/`, name: "conversations", icon: null})
     //this.props.updateNavLinks(this.props.initialNavLinks.concat(links))
     this.props.updateNavLinks(links)
   }
@@ -800,7 +800,7 @@ export default class ShowAppContainer extends Component {
                               actions: this.actions() 
                             }}>
 
-      <ContentWrapper>
+     
 
         {/*
           <PageTitle>
@@ -850,6 +850,7 @@ export default class ShowAppContainer extends Component {
                         currentUser={this.props.currentUser}
                         store={store}
                         actions={actions}
+                        classes={props.classes}
                         {...props}
                       />
                     )}
@@ -887,7 +888,6 @@ export default class ShowAppContainer extends Component {
              : null
         }
  
-      </ContentWrapper>
     </Provider>
   }
 }
