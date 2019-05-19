@@ -2,11 +2,6 @@ import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import { BrowserRouter, Route,Switch } from 'react-router-dom'
 import App from './App';
-import HomePage from '../pages/HomePage';
-import SettingsPage from '../pages/SettingsPage';
-import ShowAppContainer from '../pages/showAppContainer';
-import AppListContainer from '../pages/appListContainer';
-import axios from 'axios'
 
 import DashboardIcon from '@atlaskit/icon/glyph/dashboard';
 import GearIcon from '@atlaskit/icon/glyph/settings';
@@ -19,8 +14,6 @@ import { withStyles, createMuiTheme, MuiThemeProvider } from '@material-ui/core/
 
 import lightGreen from "@material-ui/core/colors/green";
 import blueGrey from "@material-ui/core/colors/blueGrey";
-
-import NewApp from '../pages/NewApp'
 
 const defaultNavOpts = {
   isOpen: false,
@@ -246,7 +239,7 @@ class MainRouter extends Component {
 
 
   render() {
-    
+
     return (
       <BrowserRouter>
         
@@ -258,54 +251,14 @@ class MainRouter extends Component {
               theme={theme}
               onNavResize={this.onNavResize}
               navOpenState={this.navOpenState}
+              updateNavLinks={this.updateNavLinks}
               currentUser={this.state.currentUser}
               currentApp={this.state.currentApp}
               navLinks={this.state.navLinks}
               setCurrentApp={this.setCurrentApp}
               {...this.props}
               >
-
-              <Switch>
-
-                <Route exact path="/" component={HomePage} />
-
-                <Route path="/settings" component={SettingsPage} />
-
-                <Route exact path="/apps" render={(props) => (
-                  <AppListContainer
-                    {...props}
-                    currentUser={this.state.currentUser}
-                    initialNavLinks={this.defaultNavLinks}
-                    navLinks={this.state.navLinks}
-                    updateNavLinks={this.updateNavLinks}
-                  />
-                )} />
-
-                <Route exact path={`/apps/new`}
-                  render={(props) => (
-
-                    <NewApp
-                      currentUser={this.state.currentUser}
-                      {...props}
-                    />
-
-                  )}
-                />
-
-                <Route path="/apps/:appId" render={(props) => (
-                  <ShowAppContainer
-                    {...props}
-                    currentApp={this.state.currentApp}
-                    setCurrentApp={this.setCurrentApp}
-                    currentUser={this.state.currentUser}
-                    initialNavLinks={this.defaultNavLinks}
-                    navLinks={this.state.navLinks}
-                    updateNavLinks={this.updateNavLinks}
-                  />
-                )} />
-
-              </Switch>
-              
+ 
             </App> : <Landing/>
         }
           </React.Fragment>

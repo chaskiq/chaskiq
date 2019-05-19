@@ -8,6 +8,14 @@ import Content from '../components/Content';
 import Header from '../components/Header';
 //import '@atlaskit/css-reset';
 
+import { BrowserRouter, Route, Switch } from 'react-router-dom'
+
+
+import HomePage from '../pages/HomePage';
+import SettingsPage from '../pages/SettingsPage';
+import ShowAppContainer from '../pages/showAppContainer';
+import AppListContainer from '../pages/appListContainer';
+import NewApp from '../pages/NewApp'
 
 
 class Paperbase extends React.Component {
@@ -37,7 +45,7 @@ class Paperbase extends React.Component {
     const drawerWidth = 256;
 
     const childrenWithProps = React.Children.map(children, child =>
-      React.cloneElement(child, { navLinks: this.props.navLinks }));
+      React.cloneElement(child, { classes: classes }));
     console.log("SSSS", this.props.currentUser)
     return (
         <div className={classes.root}>
@@ -68,9 +76,56 @@ class Paperbase extends React.Component {
           </nav>
           <div className={classes.appContent}>
             <Header onDrawerToggle={this.handleDrawerToggle} />
-            <main className={classes.mainContent}>
-              <Content>{childrenWithProps}</Content>
-            </main>
+            {/*<Header onDrawerToggle={this.handleDrawerToggle} />
+              <main className={classes.mainContent}>
+                <Content>{childrenWithProps}</Content>
+              </main>
+            */}
+
+            <Switch>
+
+              <Route exact path="/" component={HomePage} />
+
+              <Route path="/settings" component={SettingsPage} />
+
+              <Route exact path="/apps" render={(props) => (
+                <AppListContainer
+                  {...props}
+                  currentUser={this.props.currentUser}
+                  initialNavLinks={this.props.defaultNavLinks}
+                  navLinks={this.props.navLinks}
+                  updateNavLinks={this.props.updateNavLinks}
+                />
+              )} />
+
+              <Route exact path={`/apps/new`}
+                render={(props) => (
+
+                  <NewApp
+                    currentUser={this.props.currentUser}
+                    {...props}
+                  />
+
+                )}
+              />
+
+              <Route path="/apps/:appId" render={(props) => (
+                <ShowAppContainer
+                  {...props}
+                  classes={classes}
+                  currentApp={this.props.currentApp}
+                  setCurrentApp={this.props.setCurrentApp}
+                  currentUser={this.props.currentUser}
+                  initialNavLinks={this.props.defaultNavLinks}
+                  navLinks={this.props.navLinks}
+                  updateNavLinks={this.props.updateNavLinks}
+                  handleDrawerToggle={this.handleDrawerToggle}
+                />
+              )} />
+
+            </Switch>
+
+
           </div>
         </div>
       
