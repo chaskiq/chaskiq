@@ -42,7 +42,7 @@ import {
   SaveSegmentModal
 } from '../components/segmentManager'
 
-import Tabs from '../components/tabs'
+import AtTabs from '../components/tabs'
 
 
 import graphql from "../graphql/client"
@@ -54,9 +54,21 @@ import {
   PREDICATES_DELETE 
 } from '../graphql/mutations'
 import EnhancedTable from '../components/table'
-
+import AppBar from '@material-ui/core/AppBar';
 
 import skyImage from '../images/sky.png'
+import Content from '../components/Content';
+
+import NotificationsIcon from '@material-ui/icons/Notifications';
+import Tab from '@material-ui/core/Tab';
+import Tabs from '@material-ui/core/Tabs';
+import Toolbar from '@material-ui/core/Toolbar';
+import Grid from '@material-ui/core/Grid';
+import Typography from '@material-ui/core/Typography';
+import Tooltip from '@material-ui/core/Tooltip';
+import IconButton from '@material-ui/core/IconButton';
+import HelpIcon from '@material-ui/icons/Help';
+
 
 const CableApp = {
   cable: actioncable.createConsumer()
@@ -355,7 +367,7 @@ class AppUsers extends Component {
 
               { this.caption() }
 
-              <Tabs options={options}/>
+              <AtTabs options={options}/>
 
             </Wrapper>
   }
@@ -790,6 +802,7 @@ export default class ShowAppContainer extends Component {
   }
 
   render(){
+    const {classes} = this.props
     return <Provider value={{
                               store: {
                                 app: this.props.currentApp,
@@ -807,6 +820,57 @@ export default class ShowAppContainer extends Component {
             App: {this.props.currentApp.key}
           </PageTitle>
         */}
+
+      <AppBar
+        component="div"
+        className={classes.secondaryBar}
+        color="primary"
+        position="static"
+        elevation={0}
+      >
+        <Toolbar>
+          <Grid container alignItems="center" spacing={8}>
+            <Grid item xs>
+              <Typography color="inherit" variant="h5">
+                Authentication
+              </Typography>
+            </Grid>
+            <Grid item>
+              <Button className={classes.button} variant="outlined" color="inherit" size="small">
+                Web setup
+              </Button>
+            </Grid>
+            <Grid item>
+              <Tooltip title="Help">
+                <IconButton color="inherit">
+                  <HelpIcon />
+                </IconButton>
+              </Tooltip>
+            </Grid>
+          </Grid>
+        </Toolbar>
+      </AppBar>
+      <AppBar
+        component="div"
+        className={classes.secondaryBar}
+        color="primary"
+        position="static"
+        elevation={0}
+      >
+        <Tabs value={0} textColor="inherit">
+          <Tab textColor="inherit" label="Users" />
+          <Tab textColor="inherit" label="Sign-in method" />
+          <Tab textColor="inherit" label="Templates" />
+          <Tab textColor="inherit" label="Usage" />
+        </Tabs>
+      </AppBar>
+    
+      
+      {/*
+        <main className={classes.mainContent}>
+          <Content>{childrenWithProps}</Content>
+        </main>
+      */}
 
         {
           this.props.currentApp && this.props.currentApp.key ?
