@@ -427,9 +427,6 @@ export default class CampaignContainer extends Component {
   render() {
     return <div>
 
-      <ContentHeader/>
-
-    
       <Route exact path={`${this.props.match.url}`}
         render={(props) => (
           <Content>
@@ -453,15 +450,18 @@ export default class CampaignContainer extends Component {
 
       <Route exact path={`${this.props.match.url}/:id`}
         render={(props) => (
+          <div>
+            <ContentHeader />
 
-          <Content>
-            <CampaignForm
-              currentUser={this.props.currentUser}
-              mode={this.props.match.params.message_type}
-              {...this.props}
-              {...props}
-            />          
-          </Content>
+            <Content>
+              <CampaignForm
+                currentUser={this.props.currentUser}
+                mode={this.props.match.params.message_type}
+                {...this.props}
+                {...props}
+              />          
+            </Content>
+          </div>
 
 
         )} 
