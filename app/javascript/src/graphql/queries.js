@@ -18,6 +18,7 @@ export const APP = `
       preferences
       configFields
       theme
+      activeMessenger
       segments {
         name
         id

@@ -815,56 +815,12 @@ export default class ShowAppContainer extends Component {
 
      
 
-        {/*
-          <PageTitle>
-            App: {this.props.currentApp.key}
-          </PageTitle>
-        */}
+      {/*
+        <PageTitle>
+          App: {this.props.currentApp.key}
+        </PageTitle>
+      */}
 
-      <AppBar
-        component="div"
-        className={classes.secondaryBar}
-        color="primary"
-        position="static"
-        elevation={0}
-      >
-        <Toolbar>
-          <Grid container alignItems="center" spacing={8}>
-            <Grid item xs>
-              <Typography color="inherit" variant="h5">
-                Authentication
-              </Typography>
-            </Grid>
-            <Grid item>
-              <Button className={classes.button} variant="outlined" color="inherit" size="small">
-                Web setup
-              </Button>
-            </Grid>
-            <Grid item>
-              <Tooltip title="Help">
-                <IconButton color="inherit">
-                  <HelpIcon />
-                </IconButton>
-              </Tooltip>
-            </Grid>
-          </Grid>
-        </Toolbar>
-      </AppBar>
-      <AppBar
-        component="div"
-        className={classes.secondaryBar}
-        color="primary"
-        position="static"
-        elevation={0}
-      >
-        <Tabs value={0} textColor="inherit">
-          <Tab textColor="inherit" label="Users" />
-          <Tab textColor="inherit" label="Sign-in method" />
-          <Tab textColor="inherit" label="Templates" />
-          <Tab textColor="inherit" label="Usage" />
-        </Tabs>
-      </AppBar>
-    
       
       {/*
         <main className={classes.mainContent}>
@@ -872,85 +828,81 @@ export default class ShowAppContainer extends Component {
         </main>
       */}
 
-        {
-          this.props.currentApp && this.props.currentApp.key ?
-          <div>
-
-              <Route exact path={`${this.props.match.path}/segments/:segmentID/:Jwt?`}
-                render={(props) => {
-                  return <Consumer>
-                    {({ store, actions }) => (
-                      <AppContent {...props}
-                        currentApp={this.props.currentApp}
-                        store={store}
-                        actions={actions}
-                        {...this.state}
-                      />
-                    )}
-                  </Consumer>
-                }
-                } />
-
-              <Route exact path={`${this.props.match.path}/conversations/:id?`}
-                render={(props) => (
-                  <Consumer>
-                    {({ store, actions }) => (
-                      <ConversationContainer
-                        currentUser={this.props.currentUser}
-                        store={store}
-                        actions={actions}
-                        {...props}
-                      />
-                    )}
-                  </Consumer>
-                )} />
-
-
-              <Route path={`${this.props.match.path}/messages/:message_type`}
-                render={(props) => (
-                  <Consumer>
-                    {({ store, actions }) => (
-                      <CampaignContainer
-                        currentUser={this.props.currentUser}
-                        store={store}
-                        actions={actions}
-                        classes={props.classes}
-                        {...props}
-                      />
-                    )}
-                  </Consumer>
-                )} />             
-
-              <Route path={`${this.props.match.path}/settings`}
-                render={(props) => (
-                  <Consumer>
-                    {({ store, actions }) => (
-                      <AppSettingsContainer
-                        currentUser={this.props.currentUser}
-                        store={store}
-                        actions={actions}
-                        {...props}
-                      />
-                    )}
-                  </Consumer>
-                )} />
-
-              <Route exact path={`/apps/${this.props.currentApp.key}`}
-                 render={() => (
-                  
-                   <EmptyState {...this.emptyprops()} />
-                )} 
-              />
-
-              <Route exact path={`/apps/${this.props.currentApp.key}/campaings`}
-                render={() => (
-                  <EmptyState {...this.emptyprops()} />
+      {
+        this.props.currentApp && this.props.currentApp.key ?
+        <div>
+          <Route exact path={`${this.props.match.path}/segments/:segmentID/:Jwt?`}
+            render={(props) => {
+              return <Consumer>
+                {({ store, actions }) => (
+                  <AppContent {...props}
+                    currentApp={this.props.currentApp}
+                    store={store}
+                    actions={actions}
+                    {...this.state}
+                  />
                 )}
-              />
+              </Consumer>
+            }
+            } />
 
-          </div>
-             : null
-        }
+          <Route exact path={`${this.props.match.path}/conversations/:id?`}
+            render={(props) => (
+              <Consumer>
+                {({ store, actions }) => (
+                  <ConversationContainer
+                    currentUser={this.props.currentUser}
+                    store={store}
+                    actions={actions}
+                    {...props}
+                  />
+                )}
+              </Consumer>
+            )} />
+
+
+          <Route path={`${this.props.match.path}/messages/:message_type`}
+            render={(props) => (
+              <Consumer>
+                {({ store, actions }) => (
+                  <CampaignContainer
+                    currentUser={this.props.currentUser}
+                    store={store}
+                    actions={actions}
+                    classes={props.classes}
+                    {...props}
+                  />
+                )}
+              </Consumer>
+            )} />             
+
+          <Route path={`${this.props.match.path}/settings`}
+            render={(props) => (
+              <Consumer>
+                {({ store, actions }) => (
+                  <AppSettingsContainer
+                    currentUser={this.props.currentUser}
+                    store={store}
+                    actions={actions}
+                    {...props}
+                  />
+                )}
+              </Consumer>
+            )} />
+
+          <Route exact path={`/apps/${this.props.currentApp.key}`}
+              render={() => (
+              
+                <EmptyState {...this.emptyprops()} />
+            )} 
+          />
+          <Route exact path={`/apps/${this.props.currentApp.key}/campaings`}
+            render={() => (
+              <EmptyState {...this.emptyprops()} />
+            )}
+          />
+        </div> : null
+      }
  
     </Provider>
   }
