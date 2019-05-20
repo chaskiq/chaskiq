@@ -9,6 +9,7 @@ export const UPDATE_APP = `
         preferences
         configFields
         theme
+        activeMessenger
         segments {
           name
           id
@@ -34,6 +35,7 @@ export const CREATE_APP = `
         theme
         state
         tagline
+        activeMessenger
       }
     }
   }

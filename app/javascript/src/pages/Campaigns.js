@@ -24,6 +24,8 @@ import { isEmpty } from 'lodash'
 
 import { parseJwt, generateJWT } from '../components/segmentManager/jwt'
 import TourManager from '../components/Tour'
+import ContentHeader from '../components/ContentHeader'
+import Content from '../components/Content'
 
 import graphql from "../graphql/client"
 import { CAMPAIGN, CAMPAIGNS  } from "../graphql/queries"
@@ -424,9 +426,13 @@ export default class CampaignContainer extends Component {
 
   render() {
     return <div>
+
+      <ContentHeader/>
+
+    
       <Route exact path={`${this.props.match.url}`}
         render={(props) => (
-          <div>
+          <Content>
 
             {
               !this.state.loading ?
@@ -440,21 +446,26 @@ export default class CampaignContainer extends Component {
             {
               this.state.loading ? <p>loading</p> : null
             }
-          </div>
-        )} />
+          </Content>
+        )} 
+      />
 
 
       <Route exact path={`${this.props.match.url}/:id`}
         render={(props) => (
 
-          <CampaignForm
-            currentUser={this.props.currentUser}
-            mode={this.props.match.params.message_type}
-            {...this.props}
-            {...props}
-          />
+          <Content>
+            <CampaignForm
+              currentUser={this.props.currentUser}
+              mode={this.props.match.params.message_type}
+              {...this.props}
+              {...props}
+            />          
+          </Content>
 
-        )} />
+
+        )} 
+      />
 
     </div>
   }
