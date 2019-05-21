@@ -429,21 +429,25 @@ export default class CampaignContainer extends Component {
 
       <Route exact path={`${this.props.match.url}`}
         render={(props) => (
-          <Content>
+          <div>
+            <ContentHeader />
 
-            {
-              !this.state.loading ?
-                <DataTable {...this.props}
-                  data={this.state.campaigns}
-                  createNewCampaign={this.createNewCampaign}
+            <Content>
+              
+              {
+                !this.state.loading ?
+                  <DataTable {...this.props}
+                    data={this.state.campaigns}
+                    createNewCampaign={this.createNewCampaign}
 
-                /> : null
-            }
+                  /> : null
+              }
 
-            {
-              this.state.loading ? <p>loading</p> : null
-            }
-          </Content>
+              {
+                this.state.loading ? <p>loading</p> : null
+              }
+            </Content>
+          </div>
         )} 
       />
 
