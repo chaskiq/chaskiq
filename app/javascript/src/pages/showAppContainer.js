@@ -1,5 +1,4 @@
 import React, {Component, createContext, Fragment} from 'react'
-import axios from "axios"
 import actioncable from "actioncable"
 import {
   Route,
@@ -8,27 +7,14 @@ import {
 import Moment from 'react-moment';
 import PropTypes from 'prop-types';
 import Button, { ButtonGroup } from '@atlaskit/button';
-import ContentWrapper from '../components/ContentWrapper';
-import PageTitle from '../components/PageTitle';
-//import RadioGroup, { AkFieldRadioGroup, AkRadio } from '@atlaskit/field-radio-group';
 import Avatar from '@atlaskit/avatar';
 import DropdownMenu, {
   DropdownItemGroup,
   DropdownItem,
 } from '@atlaskit/dropdown-menu';
 import DynamicTable from '@atlaskit/dynamic-table'
-/*import Form, { FormHeader,
-              FormSection,
-              FormFooter,
-              Field, 
-              FieldGroup, 
-              Validator 
-            } from '@atlaskit/form';*/
 import styled from 'styled-components';
-//import InlineDialog from '@atlaskit/inline-dialog';
 import Spinner from '@atlaskit/spinner';
-//import FieldRadioGroup from '@atlaskit/field-radio-group';
-//import Modal from '@atlaskit/modal-dialog';
 import EmptyState from '@atlaskit/empty-state'
 import UserMap from "../components/map"
 import logo from '../images/logo.png';
@@ -43,8 +29,6 @@ import {
 } from '../components/segmentManager'
 
 import AtTabs from '../components/tabs'
-
-
 import graphql from "../graphql/client"
 import { APP, SEGMENT} from "../graphql/queries"
 import { 
@@ -54,21 +38,10 @@ import {
   PREDICATES_DELETE 
 } from '../graphql/mutations'
 import EnhancedTable from '../components/table'
-import AppBar from '@material-ui/core/AppBar';
+import DataTable from '../components/dataTable'
 
-import skyImage from '../images/sky.png'
-import Content from '../components/Content';
-
-import NotificationsIcon from '@material-ui/icons/Notifications';
-import Tab from '@material-ui/core/Tab';
-import Tabs from '@material-ui/core/Tabs';
-import Toolbar from '@material-ui/core/Toolbar';
-import Grid from '@material-ui/core/Grid';
-import Typography from '@material-ui/core/Typography';
-import Tooltip from '@material-ui/core/Tooltip';
-import IconButton from '@material-ui/core/IconButton';
-import HelpIcon from '@material-ui/icons/Help';
-
+import ContentHeader from '../components/ContentHeader'
+import Content from '../components/Content'
 
 const CableApp = {
   cable: actioncable.createConsumer()
@@ -117,6 +90,82 @@ const createHead = (withWidth: boolean) => {
       },
     ],
   };
+};
+
+const createHead2 = (withWidth: boolean) => {
+
+  return [
+      {
+        name: 'email',
+        options: {
+          filter: false
+        },
+
+        customBodyRender: (value, tableMeta, updateValue) => {
+          return (
+            <NameWrapper>
+              <AvatarWrapper>
+                <Avatar
+                  name={value}
+                  size="medium"
+                  src={`https://api.adorable.io/avatars/24/${encodeURIComponent(
+                    value,
+                  )}.png`}
+                />
+              </AvatarWrapper>
+              <a href="#">{value}</a>
+            </NameWrapper>
+          );
+        }
+
+        /*content: 'Name',
+        isSortable: true,
+        width: withWidth ? 25 : undefined,*/
+      },
+      {
+        name: 'lastVisitedAt',
+        options: {
+          filter: false
+        }
+        /*content: 'state',
+        shouldTruncate: true,
+        isSortable: true,
+        width: withWidth ? 15 : undefined,*/
+      },
+      
+      {
+        name: 'os',
+        options: {
+          filter: false
+        }
+        /*content: 'Las visited at',
+        shouldTruncate: true,
+        isSortable: true,
+        width: withWidth ? 10 : undefined,*/
+      },
+
+      {
+        name: 'osVersion',
+        options: {
+          filter: false
+        }
+        /*content: 'Term',
+        shouldTruncate: true,
+        isSortable: true,
+        width: withWidth ? 10 : undefined,*/
+      },
+
+      {
+        name: 'state',
+        options: {
+          filter: false
+        }
+        /*content: 'Term',
+        shouldTruncate: true,
+        isSortable: true,
+        width: withWidth ? 10 : undefined,*/
+      }
+    ]
 };
 
 const NameWrapper = styled.span`
@@ -302,42 +351,48 @@ class AppUsers extends Component {
 
             </ButtonGroup>
 
-            <hr/>
+            {
+              /*
+                <hr/>
 
-            <div style={{float: "right"}}>
-              <ButtonGroup>
+                <div style={{float: "right"}}>
+                  <ButtonGroup>
+                    
+                    {dropdown()}
+
+                    <Button 
+                      isLoading={false} 
+                      onClick={this.toggleMap.bind(this)}
+                      isSelected={!this.state.map_view}>
+                      <i className="fas fa-list"></i>
+                      {" "}
+                      List
+                    </Button>
+
+                    <Button 
+                      isSelected={this.state.map_view}
+                      isLoading={false} 
+                      onClick={this.toggleList.bind(this)}>
+                      <i className="fas fa-map"></i>
+                      {" "}
+                      Map
+                    </Button>
+
+                  </ButtonGroup>
+                </div>
+
+                <span>Users {this.props.meta['total_count']}</span>
                 
-                {dropdown()}
+                <hr/>              
+              */
+            }
 
-                <Button 
-                  isLoading={false} 
-                  onClick={this.toggleMap.bind(this)}
-                  isSelected={!this.state.map_view}>
-                  <i className="fas fa-list"></i>
-                  {" "}
-                  List
-                </Button>
 
-                <Button 
-                  isSelected={this.state.map_view}
-                  isLoading={false} 
-                  onClick={this.toggleList.bind(this)}>
-                  <i className="fas fa-map"></i>
-                  {" "}
-                  Map
-                </Button>
-
-              </ButtonGroup>
-            </div>
-
-            <span>Users {this.props.meta['total_count']}</span>
-            
-            <hr/>
 
            </div>
   }
 
-  render(){
+  render22(){
     const {head, rows} = this.getTableData()
     const options = [
         { label: "list", 
@@ -370,6 +425,25 @@ class AppUsers extends Component {
               <AtTabs options={options}/>
 
             </Wrapper>
+  }
+
+
+  render(){
+    const { head, rows } = this.getTableData()
+
+    return <Wrapper>
+
+      {this.caption()}
+
+      <DataTable 
+        title={this.props.segment.name}
+        columns={createHead2()} 
+        meta={this.props.store.meta}
+        data={this.props.app_users}
+        search={this.props.actions.search}
+      />
+    
+    </Wrapper>
   }
 }
 
@@ -474,7 +548,8 @@ export default class ShowAppContainer extends Component {
       savePredicates: this.savePredicates,
       addPredicate:   this.addPredicate,
       deletePredicate: this.deletePredicate,
-      deleteSegment: this.deleteSegment
+      deleteSegment: this.deleteSegment,
+      search: this.search
       //fetchAppSegments: this.fetchAppSegments
     }
   }
@@ -522,7 +597,7 @@ export default class ShowAppContainer extends Component {
     */
   }
 
-  search = ()=>{
+  search = (page)=>{
     this.setState({searching: true})
     // jwt or predicates from segment
     console.log(this.state.jwt)
@@ -537,7 +612,7 @@ export default class ShowAppContainer extends Component {
     graphql(PREDICATES_SEARCH, {
       appKey: this.props.currentApp.key,
       search: predicates_data,
-      page: 1
+      page: page || 1
     }, {
       success: (data)=>{
         console.log(data)
@@ -807,6 +882,7 @@ export default class ShowAppContainer extends Component {
                               store: {
                                 app: this.props.currentApp,
                                 app_users: this.state.app_users,
+                                meta: this.state.meta,
                                 segment: this.state.segment,
                                 currentUser: this.props.currentUser
                               }, 
@@ -833,18 +909,20 @@ export default class ShowAppContainer extends Component {
         <div>
           <Route exact path={`${this.props.match.path}/segments/:segmentID/:Jwt?`}
             render={(props) => {
-              return <Consumer>
-                {({ store, actions }) => (
-                  <AppContent {...props}
-                    currentApp={this.props.currentApp}
-                    store={store}
-                    actions={actions}
-                    {...this.state}
-                  />
-                )}
-              </Consumer>
-            }
-            } />
+              return <Content>
+                      <Consumer>
+                          {({ store, actions }) => (
+                            <AppContent {...props}
+                              currentApp={this.props.currentApp}
+                              store={store}
+                              actions={actions}
+                              {...this.state}
+                            />
+                          )}
+                      </Consumer>
+                    </Content>
+            }} 
+            />
 
           <Route exact path={`${this.props.match.path}/conversations/:id?`}
             render={(props) => (
