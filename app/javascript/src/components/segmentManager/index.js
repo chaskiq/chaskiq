@@ -579,48 +579,44 @@ export default class SegmentManager extends Component {
     //console.log(this.getPredicates())
     // this.props.actions.getPredicates()
     return <div style={{marginTop: '10px'}}>
-            <ButtonGroup>
+   
 
-              {
-                this.props.predicates.map((o, i)=>{
-                    return <SegmentItemButton 
-                            key={i}
-                            index={i}
-                            predicates={this.props.predicates}
-                            predicate={o}
-                            open={ !o.comparison }
-                            appearance={ o.comparison ? "primary" : "default"} 
-                            text={this.getTextForPredicate(o)}
-                            updatePredicate={this.props.updatePredicate}
-                            deletePredicate={this.props.deletePredicate}                          
-                           />
-                })
-              }
+            {
+              this.props.predicates.map((o, i)=>{
+                  return <SegmentItemButton 
+                          key={i}
+                          index={i}
+                          predicates={this.props.predicates}
+                          predicate={o}
+                          open={ !o.comparison }
+                          appearance={ o.comparison ? "primary" : "default"} 
+                          text={this.getTextForPredicate(o)}
+                          updatePredicate={this.props.updatePredicate}
+                          deletePredicate={this.props.deletePredicate}                          
+                         />
+              })
+            }
 
-              <InlineFilterDialog
-                {...this.props}
-                addPredicate={this.props.addPredicate}
-                handleClick={this.handleClickOnSelectedFilter.bind(this)}
+            <InlineFilterDialog
+              {...this.props}
+              addPredicate={this.props.addPredicate}
+              handleClick={this.handleClickOnSelectedFilter.bind(this)}
+            />
+
+            {
+              /*
+              <SaveSegmentModal 
+                title="Save Segment" 
+                segment={this.props.store.segment}
+                savePredicates={this.props.actions.savePredicates}
+                deleteSegment={this.props.actions.deleteSegment}
               />
+              */
+            }
 
-              {
-                /*
-                <SaveSegmentModal 
-                  title="Save Segment" 
-                  segment={this.props.store.segment}
-                  savePredicates={this.props.actions.savePredicates}
-                  deleteSegment={this.props.actions.deleteSegment}
-                />
-                */
-              }
+            
+            {this.props.children}
 
-            </ButtonGroup>
-
-            <ButtonGroup>
-              
-              {this.props.children}
-
-            </ButtonGroup>
         
 
             { /*
