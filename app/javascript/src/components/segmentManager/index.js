@@ -1,6 +1,7 @@
 
 import React, {Component} from "react"
-import Button, { ButtonGroup } from '@atlaskit/button';
+import { ButtonGroup } from '@atlaskit/button';
+
 //import RadioGroup, { AkFieldRadioGroup, AkRadio } from '@atlaskit/field-radio-group';
 import FieldRadioGroup from '@atlaskit/field-radio-group';
 import DynamicTable from '@atlaskit/dynamic-table';
@@ -8,21 +9,31 @@ import Moment from 'react-moment';
 import Avatar from '@atlaskit/avatar';
 import Lozenge from "@atlaskit/lozenge"
 
-import Modal from '@atlaskit/modal-dialog';
+//import Modal from '@atlaskit/modal-dialog';
 import DropdownMenu, {
   DropdownItemGroup,
   DropdownItem,
 } from '@atlaskit/dropdown-menu';
 
-import InlineDialog from '@atlaskit/inline-dialog';
+
+import Button from '@material-ui/core/Button';
+import PieChartIcon from '@material-ui/icons/PieChart'
+import AddIcon from '@material-ui/icons/Add'
+
+//import InlineDialog from '@atlaskit/inline-dialog';
 import {parseJwt, generateJWT} from './jwt'
 import ListDivider from '../list'
+
+import MenuItem from '@material-ui/core/MenuItem';
+import Menu from '@material-ui/core/Menu';
+import Dialog from '@material-ui/core/Dialog'
 
 // same as SegmentItemButton
 export class SegmentItemButton extends Component {
   state = {
     dialogOpen: this.props.open,
-    selectedOption: this.props.predicate.comparison
+    selectedOption: this.props.predicate.comparison,
+    btn: null
   };
 
   onRadioChange = (e, cb)=> {
@@ -60,7 +71,7 @@ export class SegmentItemButton extends Component {
     const new_predicates = this.props.predicates.map((o, i)=> this.props.index === i ? response : o  )
     
     this.props.updatePredicate(new_predicates, ()=> this.props.predicateCallback )
-    
+
     this.toggleDialog()
   }
 
@@ -114,7 +125,8 @@ export class SegmentItemButton extends Component {
                 onRadioChange={this.onRadioChange.bind(this)}
               />
 
-              { this.state.selectedOption && 
+              { 
+                this.state.selectedOption && 
                 (this.state.selectedOption !== "is_null" || 
                   this.state.selectedOption !== "is_not_null") ?
                 <div>
@@ -126,7 +138,8 @@ export class SegmentItemButton extends Component {
                   
                   <hr/>
 
-                  <Button appearance="link" 
+                  <Button size="small" 
+                    appearance="link" 
                     onClick={this.handleSubmit.bind(this)}>
                     Save changes
                   </Button>
@@ -211,44 +224,55 @@ export class SegmentItemButton extends Component {
   }
 
   deleteButton = () => {
-    return <Button appearance="link" 
+    return <Button size="small" appearance="link" 
             onClick={this.handleDelete.bind(this)}>
             Delete
            </Button>
   }
 
-  toggleDialog = (e) => this.setState({ dialogOpen: !this.state.dialogOpen });
+  toggleDialog = (e) => this.setState({ 
+    dialogOpen: !this.state.dialogOpen,
+    btn: e ? e.target : this.state.btn
+  });
 
   render() {
-    //console.log(this.props.predicate)
     return (
-      <div >
-        <InlineDialog content={this.renderOptions()} 
-                      isOpen={this.state.dialogOpen}
-                      position={"bottom left"}
-                      shouldFlipunion={true}>
-
+      <div>
+        <div id="aa">
           {
             !this.props.predicate.comparison ?
-        
-              <Button isLoading={false} 
-                appearance={this.state.dialogOpen ? 'default' : 'danger'}
+
+              <Button isLoading={false}
+                color={this.state.dialogOpen ? 'primary' : 'secondary'}
                 onClick={this.toggleDialog}>
                 {
-                  !this.state.dialogOpen ? 
-                  "Missing value!" : 
-                  this.props.text
+                  !this.state.dialogOpen ?
+                    "Missing value!" :
+                    this.props.text
                 }
-              </Button> : 
+              </Button> :
 
-              <Button isLoading={false} 
-                appearance={this.props.appearance}
+              <Button isLoading={false}
+                color={'primary'}
+                //appearance={this.props.appearance}
                 onClick={this.toggleDialog}>
                 {this.props.text}
               </Button>
           }
 
-        </InlineDialog>
+        </div>
+
+
+        <Menu 
+          open={this.state.dialogOpen}
+          anchorEl={document.getElementById("aa")}
+          //position={"bottom left"}
+          //shouldFlipunion={true}
+          >
+         
+          {this.renderOptions()}
+        </Menu>
+
       </div>
     );
   }
@@ -297,26 +321,31 @@ export class SaveSegmentModal extends Component {
       <div>
 
         <Button isLoading={false} 
+          variant={'small'}
           appearance={'link'}
           onClick={this.open}>
-          <i className="fas fa-chart-pie"></i>
+          <PieChartIcon variant="small" />
           {" "}
           Save Segment
         </Button>
 
         <Button isLoading={false} 
+          variant={'small'}
           appearance={'link danger'}
           onClick={this.deleteAction.bind(this)}>
-          <i className="fas fa-chart-pie"></i>
+          <PieChartIcon />
           {" "}
           remove Segment
         </Button>
 
 
         {isOpen && (
-          <Modal actions={actions} 
-            onClose={this.close} 
-            heading={this.props.title}>
+          <Dialog 
+            open={isOpen}
+            //actions={actions} 
+            //onClose={this.close} 
+            //heading={this.props.title}
+            >
             
             {
               !loading ?
@@ -336,10 +365,19 @@ export class SaveSegmentModal extends Component {
                     this.state.action === "new" ?
                     <input name="name" ref="input"/> : null
                   }
+
+
+                  {
+                    actions.map((o, i)=> <Button key={i}
+                      onClick={o.onClick}>
+                      {o.text}
+                     </Button>)
+                  }
+
                 </div> : <Spinner/>
             }
 
-          </Modal>
+          </Dialog>
         )}
       </div>
     );
@@ -349,9 +387,15 @@ export class SaveSegmentModal extends Component {
 export class InlineFilterDialog extends Component {
   state = {
     dialogOpen: false,
+    btn: null
   };
 
-  toggleDialog = (e) => this.setState({ dialogOpen: !this.state.dialogOpen });
+  _my_field = null
+
+  toggleDialog = (e) => this.setState({ 
+    dialogOpen: !this.state.dialogOpen,
+    btn: e.target
+  });
 
   handleClick = (e, o) => {
     this.props.addPredicate(o, (token)=> { 
@@ -417,21 +461,27 @@ export class InlineFilterDialog extends Component {
       </div>
     );
 
+
     return (
       <div style={{ minHeight: '120px' }}>
-        <InlineDialog 
-          content={content} 
-          isOpen={this.state.dialogOpen}
-          position="bottom left">
+        <Button 
+          isLoading={false}
+          appearance={'link'}
+          onClick={this.toggleDialog}>
+          <AddIcon />
+          {" "}
+          Add filterss
+        </Button>
+      
+        <Menu 
+          //content={content} 
+          anchorEl={this.state.btn}
+          open={this.state.dialogOpen}
+          //position="bottom left"
+          >
+          {content}
+        </Menu>
 
-          <Button isLoading={false} 
-            appearance={'link'}
-            onClick={this.toggleDialog}>
-            <i className="fas fa-plus"></i>
-            {" "}
-            Add filter
-          </Button>
-        </InlineDialog>
       </div>
     );
   }
@@ -440,9 +490,13 @@ export class InlineFilterDialog extends Component {
 export class InlineCriteriaDialog extends Component {
   state = {
     dialogOpen: false,
+    btn: null
   };
 
-  toggleDialog = (e) => this.setState({ dialogOpen: !this.state.dialogOpen });
+  toggleDialog = (e) => this.setState({ 
+    dialogOpen: !this.state.dialogOpen,
+    btn: e.target
+  });
 
   handleClick = (e, o) => {
     this.props.addPredicate(o, ()=> { 
@@ -465,7 +519,10 @@ export class InlineCriteriaDialog extends Component {
         <ul style={{ height: '200px', overflow: 'auto'}}>
           {
             fields.map((o)=> <li key={o.name}>
-                              <Button onClick={(e)=> this.handleClick.bind(this)(e, o)}>
+                              <Button 
+                                color={'primary'} 
+                                variant="outlined"
+                                onClick={(e)=> this.handleClick.bind(this)(e, o)}>
                                 {o.name}
                               </Button>
                              </li>
@@ -477,19 +534,22 @@ export class InlineCriteriaDialog extends Component {
 
     return (
       <div style={{ minHeight: '120px' }}>
-        <InlineDialog 
-          content={content} 
-          isOpen={this.state.dialogOpen}
-          position="bottom left">
+        <Menu
+          anchorEl={this.state.btn}
+          open={this.state.dialogOpen}
+          //position="bottom left"
+          >
+          {content}
+        </Menu>
 
-          <Button isLoading={false} 
-            appearance={'link'}
-            onClick={this.toggleDialog}>
-            <i className="fas fa-plus"></i>
-            {" "}
-            Add filter
-          </Button>
-        </InlineDialog>
+        <Button isLoading={false} 
+          appearance={'link'}
+          onClick={this.toggleDialog}>
+          <i className="fas fa-plus"></i>
+          {" "}
+          Add filter
+        </Button>
+   
       </div>
     );
   }
@@ -740,15 +800,18 @@ class DataTable extends Component {
 
               <div>
 
-                <InlineDialog 
+                <Menu 
                   content={userData}
-                  isOpen={this.state.dialogs[user.id]}
-                  position={"bottom right"}
-                  shouldFlipunion={true} />
+                  open={this.state.dialogs[user.id]}
+                  //position={"bottom right"}
+                  //shouldFlipunion={true}
+                  >
+                  {userData}
+                </Menu>
 
-                  <Button onClick={() => this.toggleDialogFor(user.id)}>
-                    data
-                  </Button>
+                <Button onClick={() => this.toggleDialogFor(user.id)}>
+                  data
+                </Button>
 
               </div>
 

@@ -640,6 +640,7 @@ export default class ShowAppContainer extends Component {
       success: (data)=>{
         this.setState({
           segment: data.app.segment,
+          jwt: null
         }, this.search)
       },
       error: (error)=>{
@@ -872,7 +873,8 @@ export default class ShowAppContainer extends Component {
     this.setState(
       { segment: {
         id: this.state.segment.id,
-        predicates: data
+        predicates: data,
+        jwt: null
       }} , ()=> this.updateSegment({}, this.fetchApp()) )
   }
 
