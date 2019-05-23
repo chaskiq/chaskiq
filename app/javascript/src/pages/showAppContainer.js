@@ -359,29 +359,6 @@ export default class ShowAppContainer extends Component {
         console.log(error);
       }
     })
-
-    /*
-    axios.get(`/apps/${id}.json`)
-    .then( (response)=> {
-
-      // TODO: use the props app instead the state app
-      this.props.setCurrentApp(response.data.app, ()=>{
-        console.log(this.props)
-        setTimeout(() => {
-          this.updateNavLinks() 
-        }, 1000);
-        cb ? cb() : null 
-      })
-
-      //this.setState({app: response.data.app}, ()=>{ 
-      //  
-      //  cb ? cb() : null 
-      //})
-    })
-    .catch( (error)=> {
-      console.log(error);
-    });
-    */
   }
 
   search = (page)=>{
@@ -434,18 +411,6 @@ export default class ShowAppContainer extends Component {
         console.log(error);
       }
     })
-
-    /*
-    axios.get(`/apps/${this.props.currentApp.key}/segments/${id}.json`)
-    .then( (response)=> {
-      
-      this.setState({
-        segment: response.data.segment,
-      }, this.search)
-    })
-    .catch( (error)=> {
-      console.log(error);
-    });*/
   }
 
   updateNavLinks = ()=>{
@@ -513,26 +478,6 @@ export default class ShowAppContainer extends Component {
       error: (error)=>{
       }
     })
-
-    /*
-    axios.put(`/apps/${this.props.currentApp.key}/segments/${this.state.segment.id}.json`, 
-      {
-        segment: {
-          id: this.state.segment.id,
-          predicates: this.state.segment.predicates
-        }
-      }
-    )
-    .then( (response)=> {
-      this.setState({
-        segment: response.data.segment,
-        jwt: null
-      }, ()=> cb ? cb() : null )
-    })
-    .catch( (error)=> {
-      console.log(error);
-    })
-    */
   }
 
   createSegment = (data, cb)=>{
@@ -560,29 +505,6 @@ export default class ShowAppContainer extends Component {
 
       }
     })
-
-    /*
-    axios.post(`/apps/${this.props.currentApp.key}/segments.json`, 
-      {
-        segment: {
-          name: data.input,
-          predicates: this.state.segment.predicates
-        }
-      }
-    )
-    .then( (response)=> {
-      this.setState({
-        segment: response.data.segment,
-        jwt: null
-      }, ()=> {
-        cb ? cb() : null
-      })
-    })
-    .catch( (error)=> {
-      console.log(error);
-    })
-    */
-
   }
 
   deleteSegment = (id, cb)=>{
@@ -601,19 +523,6 @@ export default class ShowAppContainer extends Component {
 
       }
     })
-
-    /*
-    axios.delete(`/apps/${this.props.currentApp.key}/segments/${id}.json`)
-    .then( (response)=> {
-      cb ? cb() : null 
-      const url = `/apps/${this.props.currentApp.key}/segments/1`
-      this.props.history.push(url)
-      this.fetchApp()
-    })
-    .catch( (error)=> {
-      console.log(error);
-    })
-    */
   }
 
   addPredicate = (data, cb)=>{

@@ -7,7 +7,7 @@ import {
 } from 'react-router-dom'
 import ContentWrapper from '../components/ContentWrapper';
 import PageTitle from '../components/PageTitle';
-import Tabs from '@atlaskit/tabs';
+//import Tabs from '@atlaskit/tabs';
 import Avatar from '@atlaskit/avatar';
 
 import styled from 'styled-components'
@@ -34,6 +34,9 @@ import { PREDICATES_SEARCH, UPDATE_CAMPAIGN, CREATE_CAMPAIGN } from '../graphql/
 // @flow
 import DynamicTable from '@atlaskit/dynamic-table';
 import DataTable from '../components/dataTable'
+
+import Tab from '@material-ui/core/Tab';
+import Tabs from '@material-ui/core/Tabs';
 
 const Wrapper = styled.div`
   min-width: 600px;
@@ -88,21 +91,6 @@ class CampaignSegment extends Component {
 
       }
     })
-
-    /*
-    axios.put(`${this.props.url}/messages/${this.props.mode}.json`, {
-      campaign: {
-        segments: predicates.data
-      }
-    })
-      .then((response) => {
-        console.log(this.state)
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-    */
-
   }
 
   updateData = (data, cb) => {
@@ -141,7 +129,7 @@ class CampaignSegment extends Component {
     this.setState({ jwt: jwtToken }, () => this.updateData(parseJwt(this.state.jwt), this.search))
   }
 
-  search = () => {
+  search = (page) => {
     this.setState({ searching: true })
     // jwt or predicates from segment
     console.log(this.state.jwt)
@@ -155,7 +143,7 @@ class CampaignSegment extends Component {
     graphql(PREDICATES_SEARCH, { 
       appKey: this.props.store.app.key,
       search: predicates_data,
-      page: 1
+      page: page || 1
     },{
       success: (data) => { 
         const appUsers = data.predicatesSearch.appUsers
@@ -169,19 +157,6 @@ class CampaignSegment extends Component {
         debugger
       }
     })
-
-    /*axios.post(`/apps/${this.props.store.app.key}/search.json`,
-      predicates_data)
-      .then((response) => {
-        this.setState({
-          app_users: response.data.collection,
-          meta: response.data.meta,
-          searching: false
-        })
-      })
-      .catch((error) => {
-        console.log(error);
-      });*/
   }
 
   render() {
@@ -203,7 +178,7 @@ class CampaignSegment extends Component {
             <i className="fas fa-chart-pie"></i>
             {" "}
             Save Segment
-                  </Button> : null
+          </Button> : null
       }
 
     </SegmentManager>
@@ -216,7 +191,8 @@ class CampaignForm extends Component {
     super(props)
     this.state = {
       selected: 0,
-      data: {}
+      data: {},
+      tabValue: 0
     }
   }
 
@@ -258,18 +234,6 @@ class CampaignForm extends Component {
         }
       })
     }
-
-
-    /*
-    axios.get(`/apps/${this.props.store.app.key}/messages/${this.props.mode}/${id}.json`,
-      { mode: this.props.mode })
-      .then((response) => {
-        console.log(response)
-        this.setState({ data: response.data })
-      }).catch((err) => {
-        console.log(err)
-      })
-    */
   }
 
   updateData = (data, cb) => {
@@ -298,7 +262,7 @@ class CampaignForm extends Component {
     
   }
 
-  tabs = () => {
+  tabssss = () => {
     var b = []
 
     const a = [
@@ -347,27 +311,82 @@ class CampaignForm extends Component {
     }
   }
 
+  handleTabChange = (e, i)=>{
+    this.setState({tabValue: i})
+  }
+
+  tabsContent = ()=>{
+    return <Tabs value={this.state.tabValue} 
+              onChange={this.handleTabChange}
+              textColor="inherit">
+              <Tab textColor="inherit" label="Stats" />
+              <Tab textColor="inherit" label="Settings" />
+              <Tab textColor="inherit" label="Audience" />
+              <Tab textColor="inherit" label="Editor" />
+            </Tabs>
+  }
+
+
+  renderTabcontent = ()=>{
+
+    switch (this.state.tabValue){
+      case 0:
+        return <CampaignStats  
+                  {...this.props}
+                  url={this.url()}
+                  data={this.state.data}
+                  fetchCampaign={this.fetchCampaign}
+                  updateData={this.updateData} 
+                />
+      case 1:
+        return <CampaignSegment
+          {...this.props}
+          data={this.state.data}
+          url={this.url()}
+          updateData={this.updateData} 
+        />
+
+      case 2:
+        return <CampaignSettings 
+                  {...this.props}
+                  data={this.state.data}
+                  mode={this.props.mode}
+                  url={this.url()}
+                  updateData={this.updateData}
+                />
+      case 3:
+        return this.renderEditorForCampaign()
+    }
+  }
+
   render() {
-    return <ContentWrapper>
+    return <div>
 
-      <PageTitle>
-        Campaign {`: ${this.state.data.name}`}
-      </PageTitle>
-      {
-        this.state.data.id || this.props.match.params.id === "new" ?
-          <Tabs
-            tabs={this.tabs()}
+
+      <ContentHeader 
+        title={ `Campaign: ${this.state.data.name}`}
+        tabsContent={
+          this.tabsContent()
+        }
+      />
+
+      <Content>
+
+        {
+          this.props.match.params.id === "new" ?
+          <CampaignSettings 
             {...this.props}
-            selected={this.state.selected}
-            onSelect={(tab, index) => {
-              this.setState({ selected: index })
-              console.log('Selected Tab', index + 1)
-            }
-            }
-          /> : null
-      }
+            data={this.state.data}
+            mode={this.props.mode}
+            url={this.url()}
+            updateData={this.updateData}
+          /> : !isEmpty(this.state.data) ? 
+          this.renderTabcontent() : null 
+        }
 
-    </ContentWrapper>
+      </Content>
+
+    </div>
   }
 
 }
@@ -393,14 +412,15 @@ export default class CampaignContainer extends Component {
     this.init()
   }
 
-  init = () => {
+  init = (page) => {
     this.setState({
       loading: true
     })
 
     graphql(CAMPAIGNS, { 
       appKey: this.props.match.params.appId, 
-      mode: this.props.match.params.message_type 
+      mode: this.props.match.params.message_type,
+      page: page || 1
     }, {
       success: (data)=>{
         const {collection , meta} = data.app.campaigns
@@ -410,18 +430,6 @@ export default class CampaignContainer extends Component {
           loading: false
         })
     }})
-
-
-    /*axios.get(`/apps/${this.props.match.params.appId}/messages/${this.props.match.params.message_type}`)
-      .then((response) => {
-        this.setState({
-          campaigns: response.data,
-          loading: false
-        })
-      }).catch((err) => {
-        console.log(err)
-      })
-    */
   }
 
   createNewCampaign = (e) => {
@@ -439,7 +447,6 @@ export default class CampaignContainer extends Component {
       <Route exact path={`${this.props.match.url}`}
         render={(props) => (
           <div>
-            <ContentHeader />
 
             <Content>
 
@@ -457,6 +464,7 @@ export default class CampaignContainer extends Component {
                     title={this.props.mode}
                     columns={['name', 'subject', 'state', 'scheduled_at', 'scheduled_to','actions']} 
                     meta={this.state.meta}
+                    search={this.init.bind(this)}
                     onRowClick={this.handleRowClick.bind(this)}
                   /> : null
               }
@@ -472,20 +480,12 @@ export default class CampaignContainer extends Component {
 
       <Route exact path={`${this.props.match.url}/:id`}
         render={(props) => (
-          <div>
-            <ContentHeader />
-
-            <Content>
-              <CampaignForm
-                currentUser={this.props.currentUser}
-                mode={this.props.match.params.message_type}
-                {...this.props}
-                {...props}
-              />          
-            </Content>
-          </div>
-
-
+          <CampaignForm
+            currentUser={this.props.currentUser}
+            mode={this.props.match.params.message_type}
+            {...this.props}
+            {...props}
+          />          
         )} 
       />
 
@@ -493,139 +493,3 @@ export default class CampaignContainer extends Component {
   }
 }
 
-
-/*
-class DataTable extends Component<{}, {}> {
-
-
-  constructor(props) {
-    super(props)
-
-
-    this.createHead = (withWidth: boolean) => {
-      return {
-        cells: [
-          {
-            key: 'name',
-            content: 'Name',
-            isSortable: true,
-            width: withWidth ? 25 : undefined,
-          },
-          {
-            key: 'subject',
-            content: 'Subject',
-            shouldTruncate: true,
-            isSortable: true,
-            width: withWidth ? 15 : undefined,
-          },
-          {
-            key: 'state',
-            content: 'State',
-            shouldTruncate: true,
-            isSortable: true,
-            width: withWidth ? 10 : undefined,
-          },
-          {
-            key: 'scheduled_at',
-            content: 'scheduled_at',
-            shouldTruncate: true,
-            isSortable: true,
-            width: withWidth ? 10 : undefined,
-          },
-
-          {
-            key: 'scheduled_to',
-            content: 'scheduled_to',
-            shouldTruncate: true,
-            isSortable: true,
-            width: withWidth ? 10 : undefined,
-          },
-          {
-            key: 'action',
-            content: 'Actions',
-            shouldTruncate: true,
-          },
-        ],
-      };
-    };
-
-    this.head = this.createHead(true);
-
-    this.rows = this.props.data.map((campaign, index) => ({
-      key: `row-${index}-${campaign.nm}`,
-      cells: [
-        {
-          key: `${campaign.id}-name`,
-          content: (campaign.name),
-        },
-        {
-          key: `${campaign.id}-subject`,
-          content: campaign.subject,
-        },
-        {
-          key: `${campaign.id}-state`,
-          content: <Lozenge
-                    appearance={campaign.state == "enabled" ? 'success' : 'moved'}
-                    isBold>
-                    {campaign.state}
-                  </Lozenge>,
-        },
-        {
-          key: `${campaign.id}-scheduled_at`,
-          content: campaign.scheduled_at,
-        },
-
-        {
-          key: `${campaign.id}-scheduled_to`,
-          content: campaign.scheduled_to,
-        },
-
-        {
-          content: (
-            <Button onClick={() => this.props.history.push(`${this.props.match.url}/${campaign.id}`)}>
-              edit
-            </Button>
-
-          ),
-        }
-      ],
-    }));
-
-  }
-
-  renderCaption = () => {
-    return <div>
-
-      <div style={{ float: 'right' }}>
-        <Button
-          onClick={this.props.createNewCampaign}>
-          create new campaign
-        </Button>
-      </div>
-
-      Campaigns {this.props.match.params.message_type}
-    </div>
-  }
-
-
-  render() {
-    return (
-      <Wrapper>
-        <DynamicTable
-          caption={this.renderCaption()}
-          head={this.head}
-          rows={this.rows}
-          rowsPerPage={10}
-          defaultPage={1}
-          loadingSpinnerSize="large"
-          isLoading={false}
-          isFixedSize
-          defaultSortKey="term"
-          defaultSortOrder="ASC"
-          onSort={() => console.log('onSort')}
-          onSetPage={() => console.log('onSetPage')}
-        />
-      </Wrapper>
-    );
-  }
-}*/
