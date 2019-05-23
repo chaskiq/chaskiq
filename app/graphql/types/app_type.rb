@@ -42,7 +42,7 @@ module Types
       object.app_users.find(id)
     end
 
-    field :campaigns,[ Types::CampaignType], null:true do
+    field :campaigns, Types::PaginatedCampaignType , null:true do
       argument :mode, String, required: false
     end
 

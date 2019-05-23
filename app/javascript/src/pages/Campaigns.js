@@ -33,6 +33,7 @@ import { PREDICATES_SEARCH, UPDATE_CAMPAIGN, CREATE_CAMPAIGN } from '../graphql/
 
 // @flow
 import DynamicTable from '@atlaskit/dynamic-table';
+import DataTable from '../components/dataTable'
 
 const Wrapper = styled.div`
   min-width: 600px;
@@ -377,7 +378,8 @@ export default class CampaignContainer extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      campaigns: []
+      campaigns: [],
+      meta: {}
     }
   }
 
@@ -396,13 +398,15 @@ export default class CampaignContainer extends Component {
       loading: true
     })
 
-    //debugger
     graphql(CAMPAIGNS, { 
       appKey: this.props.match.params.appId, 
       mode: this.props.match.params.message_type 
-    }, {success: (data)=>{
+    }, {
+      success: (data)=>{
+        const {collection , meta} = data.app.campaigns
         this.setState({
-          campaigns: data.app.campaigns,
+          campaigns: collection,
+          meta: meta,
           loading: false
         })
     }})
@@ -424,6 +428,11 @@ export default class CampaignContainer extends Component {
     this.props.history.push(`${this.props.match.url}/new`)
   }
 
+  handleRowClick = (a, data, c)=>{
+    const row = this.state.campaigns[data.dataIndex]
+    this.props.history.push(`${this.props.match.url}/${row.id}`)
+  }
+
   render() {
     return <div>
 
@@ -433,13 +442,22 @@ export default class CampaignContainer extends Component {
             <ContentHeader />
 
             <Content>
+
+              <div style={{ float: 'right' }}>
+                <Button
+                  onClick={this.createNewCampaign}>
+                  create new campaign
+                </Button>
+              </div>
               
               {
                 !this.state.loading ?
                   <DataTable {...this.props}
                     data={this.state.campaigns}
-                    createNewCampaign={this.createNewCampaign}
-
+                    title={this.props.mode}
+                    columns={['name', 'subject', 'state', 'scheduled_at', 'scheduled_to','actions']} 
+                    meta={this.state.meta}
+                    onRowClick={this.handleRowClick.bind(this)}
                   /> : null
               }
 
@@ -476,7 +494,7 @@ export default class CampaignContainer extends Component {
 }
 
 
-
+/*
 class DataTable extends Component<{}, {}> {
 
 
@@ -610,4 +628,4 @@ class DataTable extends Component<{}, {}> {
       </Wrapper>
     );
   }
-}
+}*/
