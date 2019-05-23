@@ -27,6 +27,9 @@ import ListDivider from '../list'
 import MenuItem from '@material-ui/core/MenuItem';
 import Menu from '@material-ui/core/Menu';
 import Dialog from '@material-ui/core/Dialog'
+import DataTable from '../dataTable'
+import {appUsersFormat} from './appUsersFormat' 
+
 
 // same as SegmentItemButton
 export class SegmentItemButton extends Component {
@@ -629,12 +632,24 @@ export default class SegmentManager extends Component {
             {/*JSON.stringify(this.props.data)*/}
 
 
-            {
+
+
+            <DataTable 
+              title={'segment'}
+              columns={appUsersFormat()} 
+              meta={this.props.meta}
+              data={this.props.app_users}
+              //search={this.props.actions.search}
+            />
+
+            { /*
               this.props.app_users.length > 0 ?
                 <DataTable
                   meta={this.props.meta}
                   loading={this.props.loading} 
                   data={this.props.app_users}/> : null 
+
+              */
             }
 
 
@@ -647,7 +662,7 @@ export default class SegmentManager extends Component {
 
 
 
-class DataTable extends Component {
+class DataTablerrr extends Component {
 
 
   constructor(props) {

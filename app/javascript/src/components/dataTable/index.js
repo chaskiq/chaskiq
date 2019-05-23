@@ -21,6 +21,7 @@ export default class App extends React.Component {
       serverSide: true,
       page: this.props.meta.current_page,
       count: this.props.meta.total_count,
+      onRowClick: this.props.onRowClick,
       textLabels: {
         body: {
           noMatch: "Sorry, no matching records found",

@@ -7,7 +7,6 @@ import {
 import Moment from 'react-moment';
 import PropTypes from 'prop-types';
 import Button, { ButtonGroup } from '@atlaskit/button';
-import Avatar from '@atlaskit/avatar';
 import DropdownMenu, {
   DropdownItemGroup,
   DropdownItem,
@@ -42,6 +41,7 @@ import DataTable from '../components/dataTable'
 
 import ContentHeader from '../components/ContentHeader'
 import Content from '../components/Content'
+import {appUsersFormat} from '../components/segmentManager/appUsersFormat'
 
 const CableApp = {
   cable: actioncable.createConsumer()
@@ -54,127 +54,6 @@ const { Provider, Consumer } = Context
 
 const Wrapper = styled.div`
   min-width: 600px;
-`;
-
-const createHead = (withWidth: boolean) => {
-  return {
-    cells: [
-      {
-        key: 'name',
-        content: 'Name',
-        isSortable: true,
-        width: withWidth ? 25 : undefined,
-      },
-      {
-        key: 'state',
-        content: 'state',
-        shouldTruncate: true,
-        isSortable: true,
-        width: withWidth ? 15 : undefined,
-      },
-      
-      {
-        key: 'last_visited_at',
-        content: 'Las visited at',
-        shouldTruncate: true,
-        isSortable: true,
-        width: withWidth ? 10 : undefined,
-      },
-
-      {
-        key: 'term',
-        content: 'Term',
-        shouldTruncate: true,
-        isSortable: true,
-        width: withWidth ? 10 : undefined,
-      },
-    ],
-  };
-};
-
-const createHead2 = (withWidth: boolean) => {
-
-  return [
-      {
-        name: 'email',
-        options: {
-          filter: false
-        },
-
-        customBodyRender: (value, tableMeta, updateValue) => {
-          return (
-            <NameWrapper>
-              <AvatarWrapper>
-                <Avatar
-                  name={value}
-                  size="medium"
-                  src={`https://api.adorable.io/avatars/24/${encodeURIComponent(
-                    value,
-                  )}.png`}
-                />
-              </AvatarWrapper>
-              <a href="#">{value}</a>
-            </NameWrapper>
-          );
-        }
-
-        /*content: 'Name',
-        isSortable: true,
-        width: withWidth ? 25 : undefined,*/
-      },
-      {
-        name: 'lastVisitedAt',
-        options: {
-          filter: false
-        }
-        /*content: 'state',
-        shouldTruncate: true,
-        isSortable: true,
-        width: withWidth ? 15 : undefined,*/
-      },
-      
-      {
-        name: 'os',
-        options: {
-          filter: false
-        }
-        /*content: 'Las visited at',
-        shouldTruncate: true,
-        isSortable: true,
-        width: withWidth ? 10 : undefined,*/
-      },
-
-      {
-        name: 'osVersion',
-        options: {
-          filter: false
-        }
-        /*content: 'Term',
-        shouldTruncate: true,
-        isSortable: true,
-        width: withWidth ? 10 : undefined,*/
-      },
-
-      {
-        name: 'state',
-        options: {
-          filter: false
-        }
-        /*content: 'Term',
-        shouldTruncate: true,
-        isSortable: true,
-        width: withWidth ? 10 : undefined,*/
-      }
-    ]
-};
-
-const NameWrapper = styled.span`
-  display: flex;
-  align-items: center;
-`;
-
-const AvatarWrapper = styled.div`
-  margin-right: 8px;
 `;
 
 const primaryAction = (
@@ -236,60 +115,6 @@ class AppUsers extends Component {
     }
     this.toggleMap = this.toggleMap.bind(this)
     this.toggleList = this.toggleList.bind(this)
-  }
-
-  getTableData(){
-
-    const head = createHead(true);
-
-    const app_users = this.props.app_users.map((app_user, index) => {
-      return {
-        key: `row-${index}-${app_user.email}`,
-        cells: [
-          {
-            //key: createKey(app_user.email),
-            content: (
-              <NameWrapper>
-                <AvatarWrapper>
-                  <Avatar
-                    name={app_user.email}
-                    size="medium"
-                    src={`https://api.adorable.io/avatars/24/${encodeURIComponent(
-                      app_user.email,
-                    )}.png`}
-                  />
-                </AvatarWrapper>
-                <a href="#">{app_user.email}</a>
-              </NameWrapper>
-            ),
-          },
-          {
-            //key: createKey(app_user.state),
-            content: <span style={{position: 'relative'}}>
-                      {app_user.state}
-                      { app_user.state === "online" ? 
-                        <ActivityIndicator/> : null
-                      }
-                    </span>,
-          },
-          {
-            //key: createKey(app_user.state),
-            content: (<Moment fromNow>{app_user.last_visited_at }</Moment>),
-          },
-          {
-
-            content: <DropdownMenu trigger="More" triggerType="button">
-                        <DropdownItemGroup>
-                          <DropdownItem>{app_user.email}</DropdownItem>
-                        </DropdownItemGroup>
-                      </DropdownMenu>
-          },
-        ],
-      }
-    }
-    );
-
-    return {head: head, rows: app_users}
   }
 
   toggleMap = (e)=>{
@@ -392,52 +217,14 @@ class AppUsers extends Component {
            </div>
   }
 
-  render22(){
-    const {head, rows} = this.getTableData()
-    const options = [
-        { label: "list", 
-          content: <EnhancedTable
-                  caption={null}
-                  head={head}
-                  rows={rows}
-                  meta={this.props.meta}
-                  rowsPerPage={10}
-                  defaultPage={1}
-                  loadingSpinnerSize="large"
-                  isLoading={this.props.searching}
-                  isFixedSize
-                  defaultSortKey="term"
-                  defaultSortOrder="ASC"
-                  onSort={() => console.log('onSort')}
-                  onSetPage={() => console.log('onSetPage')}
-                /> 
-        },
-        {
-         label: "map", 
-         content: <UserMap collection={this.props.app_users} />
-        }
-    ]
-    
-    return <Wrapper>
-
-              { this.caption() }
-
-              <AtTabs options={options}/>
-
-            </Wrapper>
-  }
-
-
   render(){
-    const { head, rows } = this.getTableData()
-
     return <Wrapper>
 
       {this.caption()}
 
       <DataTable 
         title={this.props.segment.name}
-        columns={createHead2()} 
+        columns={appUsersFormat()} 
         meta={this.props.store.meta}
         data={this.props.app_users}
         search={this.props.actions.search}

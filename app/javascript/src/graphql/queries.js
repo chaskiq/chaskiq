@@ -170,19 +170,22 @@ export const CAMPAIGNS = `
 query Campaigns($appKey: String!, $mode: String!){
   app(key: $appKey){
     campaigns(mode: $mode){
-      name
-      id
-      type
-      serializedContent
-      segments
-      scheduledAt
-      scheduledTo
-      state
-      subject
-      description
-      fromName
-      fromEmail
-      replyEmail
+      collection {
+        name
+        id
+        type
+        serializedContent
+        segments
+        scheduledAt
+        scheduledTo
+        state
+        subject
+        description
+        fromName
+        fromEmail
+        replyEmail        
+      }
+      meta
     }
   }
 }`
