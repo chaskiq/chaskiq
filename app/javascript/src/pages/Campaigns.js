@@ -241,6 +241,7 @@ class CampaignForm extends Component {
   }
 
   renderEditorForCampaign = ()=>{
+
     switch (this.props.mode) {
       case 'tours':
         return <TourManager
@@ -362,7 +363,6 @@ class CampaignForm extends Component {
   render() {
     return <div>
 
-
       <ContentHeader 
         title={ `Campaign: ${this.state.data.name}`}
         tabsContent={
@@ -373,22 +373,22 @@ class CampaignForm extends Component {
       <Content>
 
         {
-          this.props.match.params.id === "new" ?
-          <CampaignSettings 
-            {...this.props}
-            data={this.state.data}
-            mode={this.props.mode}
-            url={this.url()}
-            updateData={this.updateData}
-          /> : !isEmpty(this.state.data) ? 
-          this.renderTabcontent() : null 
+          !isEmpty(this.state.data) ? 
+            this.props.match.params.id === "new" ?
+            <CampaignSettings 
+              {...this.props}
+              data={this.state.data}
+              mode={this.props.mode}
+              url={this.url()}
+              updateData={this.updateData}
+            /> : this.renderTabcontent() 
+          : null
         }
 
       </Content>
 
     </div>
   }
-
 }
 
 
