@@ -360,13 +360,22 @@ class CampaignForm extends Component {
     }
   }
 
+  isNew = ()=>{
+    return this.props.match.params.id === "new"
+  }
+
+
   render() {
+
+    const title = this.state.data.name ? 
+    `Campaign: ${this.state.data.name}` : `new ${this.props.mode}`
+
     return <div>
 
       <ContentHeader 
-        title={ `Campaign: ${this.state.data.name}`}
+        title={ title }
         tabsContent={
-          this.tabsContent()
+          this.isNew() ? null : this.tabsContent() 
         }
       />
 
@@ -374,7 +383,7 @@ class CampaignForm extends Component {
 
         {
           !isEmpty(this.state.data) ? 
-            this.props.match.params.id === "new" ?
+            this.isNew() ?
             <CampaignSettings 
               {...this.props}
               data={this.state.data}
