@@ -57,11 +57,12 @@ function ContentHeader(props) {
           <Grid container alignItems="center" spacing={8}>
             <Grid item xs>
               <Typography color="inherit" variant="h5">
-                Authentication
+                {props.title}
               </Typography>
             </Grid>
             <Grid item>
-              <Button className={classes.button} variant="outlined" color="inherit" size="small">
+              <Button className={classes.button} 
+                variant="outlined" color="inherit" size="small">
                 Web setup
               </Button>
             </Grid>
@@ -82,12 +83,14 @@ function ContentHeader(props) {
         position="static"
         elevation={0}
       >
-        <Tabs value={0} textColor="inherit">
+
+        { props.tabsContent }
+        {/*<Tabs value={0} textColor="inherit">
           <Tab textColor="inherit" label="Users" />
           <Tab textColor="inherit" label="Sign-in method" />
           <Tab textColor="inherit" label="Templates" />
           <Tab textColor="inherit" label="Usage" />
-        </Tabs>
+        </Tabs>*/}
       </AppBar>
 
     </React.Fragment>
@@ -95,6 +98,8 @@ function ContentHeader(props) {
 }
 
 ContentHeader.propTypes = {
+  title: PropTypes.object.isRequired,
+  tabsContent: PropTypes.object,
   classes: PropTypes.object.isRequired,
   onDrawerToggle: PropTypes.func.isRequired,
 };
