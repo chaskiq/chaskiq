@@ -12,9 +12,7 @@ import serialize from 'form-serialize'
 import graphql from "../../graphql/client"
 import { UPDATE_CAMPAIGN, CREATE_CAMPAIGN } from "../../graphql/mutations"
 
-import {
-  fieldRenderer
-} from "../../shared/FormFields"
+import FieldRenderer from "../../shared/FormFields"
 
 
 export default class CampaignSettings extends Component {
@@ -144,7 +142,12 @@ export default class CampaignSettings extends Component {
 
               {
                 this.state.data.configFields.map((field) => {
-                  return fieldRenderer('campaign', field, this.state, this.state.errors)
+                  return <FieldRenderer 
+                            namespace={'campaign'} 
+                            data={field}
+                            props={this.state} 
+                            errors={this.state.errors}
+                           />
                 })
               }
 

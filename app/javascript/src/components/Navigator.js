@@ -151,28 +151,22 @@ class Navigator extends React.Component {
 
   resetNav = () => {
     this.setState({
-      stack: [
-        this.defaultLinks()
-      ]
+      stack: this.defaultLinks()
     });
   };
 
   addOnsNestedNav = () => {
     this.setState({
       showBack: true,
-      stack: [
-        //...this.state.stack,
-        this.navLinks()
-      ]
+      stack: this.navLinks()
     });
   };
 
   handleBack = ()=>{
     this.setState({
       showBack: false,
-      stack: [
-        this.defaultLinks()
-      ]
+      stack: this.defaultLinks()
+      
     }, ()=>{
       this.context.router.history.push(`/apps/${this.props.currentApp.key}/`) 
     })
@@ -186,16 +180,17 @@ class Navigator extends React.Component {
 
   setActiveLink = (link, cb)=>{
     this.setState({
-      stack: this.state.stack.map((o)=>(o.map((a)=> {
-        return a.name === link.name ? Object.assign({}, a, {active: true}) : Object.assign({}, a, {active: false})
-      } )))
+      stack: this.state.stack.map((o)=> (
+        o.name === link.name ? 
+        Object.assign({}, o, {active: true}) : 
+        Object.assign({}, o, {active: false}) ) )
     }, cb )
   }
 
 
   defaultLinks = () => {
     if(!this.props.currentApp)
-      return [[]]
+      return []
   
     return [
       { name: 'Platform', icon: EmailIcon, onClick: this.handlePlatformClick },
@@ -223,10 +218,8 @@ class Navigator extends React.Component {
   messagesNestedNav = () => {
     this.setState({
       showBack: true,
-      stack: [
-        //...this.state.stack,
-        this.navLinksForMessages()
-      ]
+      stack: this.navLinksForMessages()
+      
     });
   };
 
@@ -244,66 +237,109 @@ class Navigator extends React.Component {
       <Drawer variant="permanent" {...other}>
         <List disablePadding>
 
+
           <ListItem className={classNames(classes.firebase, classes.item, classes.itemCategory)}>
             HERMES
           </ListItem>
 
-        <ListItem
-          onClick={() => (context.router.history.push("/apps"))}
-          className={classNames(classes.item, classes.itemCategory)}>
-          <ListItemIcon>
-            <HomeIcon />
-          </ListItemIcon>
-          <ListItemText
-            classes={{
-              primary: classes.itemPrimary,
-            }}
-          >
-            Project Overview
-        </ListItemText>
-        </ListItem>
 
-        {
-          this.state.showBack ? 
-            <ListItem className={classes.categoryHeader} 
-            onClick={this.handleBack}>
-              <ListItemText
-                classes={{
-                  primary: classes.categoryHeaderPrimary,
-                }}
-              >
-                {'<- back'}
-            </ListItemText>
-            </ListItem> : 
-                this.props.currentApp ? 
+          <ListItem
+            onClick={() => (context.router.history.push("/apps"))}
+            className={classNames(classes.item, classes.itemCategory)}>
+            <ListItemIcon>
+              <HomeIcon />
+            </ListItemIcon>
+            <ListItemText
+              classes={{
+                primary: classes.itemPrimary,
+              }}
+            >
+              Project Overview
+          </ListItemText>
+          </ListItem>
 
-                <ListItem className={classes.categoryHeader} onClick={this.handleBack}>
-                  <ListItemText
-                    classes={{
-                      primary: classes.categoryHeaderPrimary,
+          {
+            this.state.showBack ? 
+              <ListItem className={classes.categoryHeader} 
+              onClick={this.handleBack}>
+                <ListItemText
+                  classes={{
+                    primary: classes.categoryHeaderPrimary,
+                  }}
+                >
+                  {'<- back'}
+              </ListItemText>
+              </ListItem> : 
+                  this.props.currentApp ? 
+
+                  <ListItem className={classes.categoryHeader} onClick={this.handleBack}>
+                    <ListItemText
+                      classes={{
+                        primary: classes.categoryHeaderPrimary,
+                      }}
+                    >
+                      {this.props.currentApp.name}
+                  </ListItemText>
+                  </ListItem>  : null
+              
+          }
+
+          {
+            this.state.stack && this.props.currentApp ? this.state.stack.map((o, childId) => (
+                  
+                <ListItem
+                    button
+                    dense
+                    key={childId}
+                    selected={o.active}
+                    onClick={(e) => {
+                      e.preventDefault()
+                      this.setActiveLink(o, ()=>{
+                        o.url ? context.router.history.push(o.url) : o.onClick()
+                      })
+                      
                     }}
+                    className={classNames(
+                      classes.item,
+                      classes.itemActionable,
+                      //active && classes.itemActiveItem,
+                    )}
                   >
-                    {this.props.currentApp.name}
-                </ListItemText>
-                </ListItem>  : null
-            
-      }
+                    <ListItemIcon>{o.icon || EmailIcon}</ListItemIcon>
+                    <ListItemText
+                      classes={{
+                        primary: classes.itemPrimary,
+                        textDense: classes.textDense,
+                      }}
+                    >
+                      {o.name}
+                    </ListItemText>
+                  </ListItem>
 
-        {
-          this.props.currentApp ? this.state.stack.map((menu)=>{
-            return menu.map((o, childId) => (
-                
-              <ListItem
+                ))
+
+            : null
+          }
+    
+
+            {/*
+              this.props.currentApp ?
+                <AkContainerNavigationNested
+                  stack={this.state.stack}
+                /> : null
+              */
+            }
+
+
+            {/*
+              navLinks.map((o, childId) => (
+                <ListItem
                   button
                   dense
                   key={childId}
-                  selected={o.active}
                   onClick={(e) => {
                     e.preventDefault()
-                    this.setActiveLink(o, ()=>{
-                      o.url ? context.router.history.push(o.url) : o.onClick()
-                    })
-                    
+                    context.router.history.push(o[0])
                   }}
                   className={classNames(
                     classes.item,
@@ -311,63 +347,22 @@ class Navigator extends React.Component {
                     //active && classes.itemActiveItem,
                   )}
                 >
-                <ListItemIcon>{o.icon || EmailIcon}</ListItemIcon>
+                  <ListItemIcon>icon</ListItemIcon>
                   <ListItemText
                     classes={{
                       primary: classes.itemPrimary,
                       textDense: classes.textDense,
                     }}
                   >
-                    {o.name}
+                    {o[1]}
                   </ListItemText>
                 </ListItem>
 
               ))
+                  */ }
 
-          }) : null
-        }
-
-          {/*
-            this.props.currentApp ?
-              <AkContainerNavigationNested
-                stack={this.state.stack}
-              /> : null
-            */
-          }
-
-
-          {/*
-            navLinks.map((o, childId) => (
-              <ListItem
-                button
-                dense
-                key={childId}
-                onClick={(e) => {
-                  e.preventDefault()
-                  context.router.history.push(o[0])
-                }}
-                className={classNames(
-                  classes.item,
-                  classes.itemActionable,
-                  //active && classes.itemActiveItem,
-                )}
-              >
-                <ListItemIcon>icon</ListItemIcon>
-                <ListItemText
-                  classes={{
-                    primary: classes.itemPrimary,
-                    textDense: classes.textDense,
-                  }}
-                >
-                  {o[1]}
-                </ListItemText>
-              </ListItem>
-
-            ))
-                */ }
-
-          <Divider className={classes.divider} />
-
+            <Divider className={classes.divider} />
+         
         </List>
       </Drawer>
     );
