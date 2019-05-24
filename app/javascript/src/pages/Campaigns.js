@@ -339,15 +339,8 @@ class CampaignForm extends Component {
                   fetchCampaign={this.fetchCampaign}
                   updateData={this.updateData} 
                 />
-      case 1:
-        return <CampaignSegment
-          {...this.props}
-          data={this.state.data}
-          url={this.url()}
-          updateData={this.updateData} 
-        />
 
-      case 2:
+      case 1:
         return <CampaignSettings 
                   {...this.props}
                   data={this.state.data}
@@ -355,6 +348,13 @@ class CampaignForm extends Component {
                   url={this.url()}
                   updateData={this.updateData}
                 />
+      case 2:
+        return <CampaignSegment
+          {...this.props}
+          data={this.state.data}
+          url={this.url()}
+          updateData={this.updateData} 
+        />
       case 3:
         return this.renderEditorForCampaign()
     }

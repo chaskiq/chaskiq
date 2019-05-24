@@ -1,6 +1,6 @@
 import React, {Component} from "react"
 
-import Button from '@atlaskit/button';
+//import Button from '@atlaskit/button';
 import {
   Route,
   Link
@@ -14,13 +14,13 @@ import axios from 'axios'
 import serialize from 'form-serialize'
 import Form, { Field, FormHeader, FormSection, FormFooter } from '@atlaskit/form';
 
-import {
-  fieldRenderer
-} from '../shared/FormFields'
+import Paper from '@material-ui/core/Paper';
+import Button from '@material-ui/core/Button';
+
+import FieldRenderer from '../shared/FormFields'
 import graphql from "../graphql/client";
 import { APP } from "../graphql/queries"
 import { PREDICATES_SEARCH, UPDATE_APP } from '../graphql/mutations'
-
 
 class SettingsForm extends Component {
 
@@ -89,50 +89,44 @@ class SettingsForm extends Component {
           style={{
             //display: 'flex',
             paddingTop: '20px',
-            width: '60%',
+            width: '66%',
             margin: '0 auto',
             flexDirection: 'row',
           }}>
 
-          <form
-            name="create-repo"
-            onSubmit={this.onSubmitHandler.bind(this)}
-            ref={form => {
-              this.formRef = form;
-            }}>
+          <Paper>
 
-            <FormHeader title="App settings" />
+            <form
+              name="create-repo"
+              onSubmit={this.onSubmitHandler.bind(this)}
+              ref={form => {
+                this.formRef = form;
+              }}>
 
-
-            <FormSection>
+              <FormHeader title="App settings" />
 
               {
                 this.props.data.configFields.map((field) => {
-                  return fieldRenderer('app', field, this.props, this.state.errors)
+                  return <FieldRenderer 
+                          namespace={'app'} 
+                          data={field}
+                          props={this.props} 
+                          errors={this.state.errors}
+                         />
                 })
               }
 
-            </FormSection>
-
-            <FormFooter
-              actionsContent={[
-                {
-                  id: 'submit-button',
-                },
-                {},
-              ]}
-            >
-              <Button appearance="primary" type="submit">
+              <Button variant="contained" color="primary" type="submit">
                 Save settings
-            </Button>
+              </Button>
 
               <Button appearance="subtle">
                 Cancel
-            </Button>
+              </Button>
 
-            </FormFooter>
+            </form>
 
-          </form>
+          </Paper>
 
         </div>
 
