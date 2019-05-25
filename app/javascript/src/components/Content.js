@@ -77,9 +77,9 @@ function Content(props) {
 
       <div className={classes.contentWrapper}>
 
-        <Typography color="textSecondary" align="center">
+        {/*<Typography color="textSecondary" align="center">
           No users for this project yet
-        </Typography>
+        </Typography>*/}
 
         {props.children}
 

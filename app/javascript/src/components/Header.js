@@ -30,10 +30,10 @@ const styles = theme => ({
   },
   link: {
     textDecoration: 'none',
-    color: lightColor,
-    '&:hover': {
-      color: theme.palette.common.white,
-    },
+    //color: lightColor,
+    //'&:hover': {
+    //  color: theme.palette.common.white,
+    //},
   },
   button: {
     borderColor: lightColor,
@@ -48,7 +48,7 @@ function Header(props) {
 
   return (
     <React.Fragment>
-      <AppBar color="primary" position="sticky" elevation={0}>
+      <AppBar color="primary" position="sticky" elevation={1}>
         <Toolbar className={classes.apa}>
           <Grid container spacing={2} alignItems="center">
             <Hidden smUp>
@@ -65,7 +65,8 @@ function Header(props) {
             </Hidden>
             <Grid item xs />
             <Grid item>
-              <Typography className={classes.link} component="a" href="#">
+              <Typography className={classes.link} 
+                component="a" href="#">
                 Go to docs
               </Typography>
             </Grid>
@@ -78,7 +79,12 @@ function Header(props) {
             </Grid>
             <Grid item>
               <IconButton color="inherit" className={classes.iconButtonAvatar}>
-                <Avatar className={classes.avatar} src="/static/images/avatar/1.jpg" />
+                <Avatar className={classes.avatar} 
+                  src={
+                    `https://api.adorable.io/avatars/24/${encodeURIComponent(
+                     props.currentUser.email)}.png`
+                  }
+                />
               </IconButton>
             </Grid>
           </Grid>
@@ -90,6 +96,7 @@ function Header(props) {
 
 Header.propTypes = {
   classes: PropTypes.object.isRequired,
+  currentUser: PropTypes.object,
   onDrawerToggle: PropTypes.func.isRequired,
 };
 
