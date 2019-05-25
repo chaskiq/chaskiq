@@ -22,7 +22,6 @@ const defaultNavOpts = {
 
 let theme = createMuiTheme({
   typography: {
-    useNextVariants: true,
     h5: {
       fontWeight: 500,
       fontSize: 26,
@@ -35,8 +34,6 @@ let theme = createMuiTheme({
       main: '#009be5',
       dark: '#006db3',
     },
-
-    type: 'light',
   },
   shape: {
     borderRadius: 8,
@@ -53,7 +50,7 @@ theme = {
     },
     MuiButton: {
       label: {
-        textTransform: 'initial',
+        textTransform: 'none',
       },
       contained: {
         boxShadow: 'none',
@@ -64,7 +61,7 @@ theme = {
     },
     MuiTabs: {
       root: {
-        marginLeft: theme.spacing.unit,
+        marginLeft: theme.spacing(1),
       },
       indicator: {
         height: 3,
@@ -75,23 +72,19 @@ theme = {
     },
     MuiTab: {
       root: {
-        textTransform: 'initial',
+        textTransform: 'none',
         margin: '0 16px',
         minWidth: 0,
-        [theme.breakpoints.up('md')]: {
-          minWidth: 0,
-        },
-      },
-      labelContainer: {
         padding: 0,
         [theme.breakpoints.up('md')]: {
           padding: 0,
+          minWidth: 0,
         },
       },
     },
     MuiIconButton: {
       root: {
-        padding: theme.spacing.unit,
+        padding: theme.spacing(1),
       },
     },
     MuiTooltip: {
@@ -137,6 +130,7 @@ theme = {
     },
   },
 };
+
 const drawerWidth = 256;
 
 const styles = {
@@ -161,7 +155,6 @@ const styles = {
     background: '#eaeff1',
   },
 };
-
 
 
 class MainRouter extends Component {

@@ -107,9 +107,10 @@ const styles = theme => ({
   },
   textDense: {},
   divider: {
-    marginTop: theme.spacing.unit * 2,
+    marginTop: theme.spacing(2),
   },
 });
+
 
 class Navigator extends React.Component {
   
@@ -227,6 +228,10 @@ class Navigator extends React.Component {
     return this.props.navLinks
   }
 
+  renderIcon = (IconProp)=>{
+    return IconProp ? <IconProp/> : null
+  }
+
   render(){
     const { classes, navLinks, currentApp, currentUser, ...other } = this.props;
     const context = this.context
@@ -305,11 +310,11 @@ class Navigator extends React.Component {
                       //active && classes.itemActiveItem,
                     )}
                   >
-                    <ListItemIcon>{o.icon || EmailIcon}</ListItemIcon>
+                    <ListItemIcon>{this.renderIcon(o.icon) || <EmailIcon/>}</ListItemIcon>
                     <ListItemText
                       classes={{
                         primary: classes.itemPrimary,
-                        textDense: classes.textDense,
+                        dense: classes.textDense,
                       }}
                     >
                       {o.name}

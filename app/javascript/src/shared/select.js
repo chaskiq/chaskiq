@@ -69,7 +69,7 @@ class SimpleSelect extends React.Component {
 
             {
               this.props.data.options.map(
-                (o)=> <MenuItem value={o}>
+                (o, i)=> <MenuItem value={o} key={o}>
                         {o}
                       </MenuItem> 
               )

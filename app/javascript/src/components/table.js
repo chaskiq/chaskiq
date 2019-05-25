@@ -12,7 +12,7 @@ import TablePagination from '@material-ui/core/TablePagination';
 const styles = theme => ({
   root: {
     width: '100%',
-    marginTop: theme.spacing.unit * 3,
+    marginTop: theme.spacing(3),
     overflowX: 'auto',
   },
   table: {

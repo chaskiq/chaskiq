@@ -23,7 +23,7 @@ const styles = theme => ({
     zIndex: 0,
   },
   menuButton: {
-    marginLeft: -theme.spacing.unit,
+    marginLeft: -theme.spacing(1),
   },
   iconButtonAvatar: {
     padding: 4,
@@ -38,6 +38,9 @@ const styles = theme => ({
   button: {
     borderColor: lightColor,
   },
+  apa: {
+    minHeight: '52px'
+  }
 });
 
 function Header(props) {
@@ -46,8 +49,8 @@ function Header(props) {
   return (
     <React.Fragment>
       <AppBar color="primary" position="sticky" elevation={0}>
-        <Toolbar>
-          <Grid container spacing={8} alignItems="center">
+        <Toolbar className={classes.apa}>
+          <Grid container spacing={2} alignItems="center">
             <Hidden smUp>
               <Grid item>
                 <IconButton
