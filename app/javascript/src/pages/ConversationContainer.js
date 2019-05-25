@@ -18,6 +18,8 @@ import { CONVERSATIONS, CONVERSATION, APP_USER } from "../graphql/queries"
 import { INSERT_COMMMENT } from '../graphql/mutations'
 import './convo.scss'
 
+import UserListItem from '../components/UserListItem'
+
 
 import { camelCase } from 'lodash';
 
@@ -46,7 +48,6 @@ const ColumnContainer = styled.div`
   display: flex;
   flex: 1;
 `;
-
 const GridElement = styled.div`
   flex: 1;
   overflow: scroll;
@@ -55,7 +56,6 @@ const GridElement = styled.div`
     margin-left: 20px;
   }
 `;
-
 const MessageContainer = styled.div`
   text-decoration: none;
   display: block;
@@ -157,12 +157,10 @@ const ChatAvatar = styled.div`
       border-radius: 50%;
     }
 `
-
 const StatusItem = styled.span`
   font-size: 9px;
   color: #ccc;
 `
-
 const UserDataList = styled.ul`
   li{
     span{
@@ -170,7 +168,6 @@ const UserDataList = styled.ul`
     }
   }
 `
-
 const playSound = ()=>{
   soundManager.createSound({
     id: 'mySound',
@@ -300,11 +297,21 @@ export default class ConversationContainer extends Component {
                 <Overflow onScroll={this.handleScroll}>
                   {
                     this.state.conversations.map((o, i)=>{
+                      const user = o.mainParticipant
+
                       return <div key={o.id} onClick={(e)=> this.props.history.push(`/apps/${appId}/conversations/${o.id}`) }>
-                                <MessageItem 
+                                
+                                <UserListItem
+                                  mainUser={user}
+                                  messageUser={o.lastMessage.appUser}
+                                  //createdAt={o.lastMessage.message.created_at}
+                                  message={sanitizeHtml(o.lastMessage.message).substring(0, 250)}
+                                />
+
+                                {/*<MessageItem 
                                   conversation={o} 
                                   message={o.lastMessage}
-                                />
+                                />*/}
                               </div>
                     })
                   }

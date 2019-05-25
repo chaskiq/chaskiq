@@ -89,7 +89,7 @@ const styles = theme => ({
     paddingBottom: 16,
   },
   firebase: {
-    fontSize: 15,
+    fontSize: 40,
     fontFamily: theme.typography.fontFamily,
     color: theme.palette.common.black,
   },
