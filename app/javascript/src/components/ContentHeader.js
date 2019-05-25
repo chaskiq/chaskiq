@@ -36,7 +36,7 @@ const styles = theme => ({
     },
   },
   button: {
-    borderColor: lightColor,
+    //borderColor: lightColor,
   },
 });
 

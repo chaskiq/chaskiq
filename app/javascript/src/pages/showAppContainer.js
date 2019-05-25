@@ -42,7 +42,7 @@ import DataTable from '../components/dataTable'
 import ContentHeader from '../components/ContentHeader'
 import Content from '../components/Content'
 import {appUsersFormat} from '../components/segmentManager/appUsersFormat'
-
+import Dashboard from './Dashboard'
 const CableApp = {
   cable: actioncable.createConsumer()
 }
@@ -668,8 +668,7 @@ export default class ShowAppContainer extends Component {
 
           <Route exact path={`/apps/${this.props.currentApp.key}`}
               render={() => (
-              
-                <EmptyState {...this.emptyprops()} />
+                <Dashboard/>
             )} 
           />
           <Route exact path={`/apps/${this.props.currentApp.key}/campaings`}

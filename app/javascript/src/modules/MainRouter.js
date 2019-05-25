@@ -31,12 +31,13 @@ let theme = createMuiTheme({
   palette: {
     primary: {
       light: '#63ccff',
-      main: '#009be5',
+      //main: '#009be5',
+      main: '#fff',
       dark: '#006db3',
-    },
+    }
   },
   shape: {
-    borderRadius: 8,
+    borderRadius: 3,
   },
 });
 
@@ -45,7 +46,8 @@ theme = {
   overrides: {
     MuiDrawer: {
       paper: {
-        backgroundColor: '#18202c',
+        //backgroundColor: '#18202c',
+        backgroundColor: '#fff',
       },
     },
     MuiButton: {
