@@ -23,7 +23,7 @@ const styles = theme => ({
     zIndex: 0,
   },
   menuButton: {
-    marginLeft: -theme.spacing.unit,
+    marginLeft: -theme.spacing(1),
   },
   iconButtonAvatar: {
     padding: 4,
@@ -98,10 +98,10 @@ function ContentHeader(props) {
 }
 
 ContentHeader.propTypes = {
-  title: PropTypes.object.isRequired,
+  title: PropTypes.string.isRequired,
   tabsContent: PropTypes.object,
   classes: PropTypes.object.isRequired,
-  onDrawerToggle: PropTypes.func.isRequired,
+  onDrawerToggle: PropTypes.func,
 };
 
 export default withStyles(styles)(ContentHeader);

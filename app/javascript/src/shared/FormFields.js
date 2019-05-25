@@ -37,13 +37,13 @@ const styles = theme => ({
     width: '100%'
   },
   formControl: {
-    margin: theme.spacing.unit,
+    margin: theme.spacing(1),
     width: '97%'
     //minWidth: 120,
   },
   selectEmpty: {
     width: '100%',
-    marginTop: theme.spacing.unit * 2,
+    marginTop: theme.spacing(2),
   },
 });
 
