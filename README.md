@@ -60,6 +60,7 @@ www.jivochat.cl/‎
 https://www.tawk.to/
 https://www.tawk.to/knowledgebase/
 https://beebom.com/intercom-alternatives/
+https://purechat.com/pricing
 
 
 # themes
