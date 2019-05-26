@@ -8,7 +8,8 @@ html, body {
   grid-template-row: 3fr 1fr;
   //grid-temaplte-columns: auto;
   //position: absolute;
-  height: 100vh;
+  //height: 100vh;
+  height: calc(100vh - 88px);
   //width: 32.2%;
   .overflow {
     //height: 100%;
