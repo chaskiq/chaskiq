@@ -32,7 +32,10 @@ let theme = createMuiTheme({
     primary: {
       light: '#63ccff',
       //main: '#009be5',
-      main: '#fff',
+      //main: '#444',
+      //main: '#dc18c1',
+      main: '#24862c',
+      white: '#fff',
       dark: '#006db3',
     }
   },
@@ -47,7 +50,7 @@ theme = {
     MuiDrawer: {
       paper: {
         //backgroundColor: '#18202c',
-        backgroundColor: '#fff',
+        backgroundColor: '#f8f8f8',
       },
     },
     MuiButton: {

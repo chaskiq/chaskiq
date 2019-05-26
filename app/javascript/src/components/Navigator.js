@@ -73,7 +73,7 @@ const styles = theme => ({
     paddingBottom: 16,
   },
   categoryHeaderPrimary: {
-    color: theme.palette.common.white,
+    color: theme.palette.common.main,
   },
   item: {
     paddingTop: 4,
