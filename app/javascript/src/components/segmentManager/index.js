@@ -35,6 +35,34 @@ import {
   TextField
 } from '@material-ui/core';
 
+import styled from 'styled-components'
+
+const ContentMatchTitle = styled.h5`
+  margin: 15px;
+  border-bottom: 2px solid #6f6f6f;
+`
+
+const ContentMatch = styled.div`
+  overflow: auto;
+  width: 100%;
+  height: 121px;
+  margin-bottom: 25px;
+  padding-left: 14px;
+`
+
+const ContentMatchFooter = styled.div`
+  /* position: absolute; */
+  bottom: 0px;
+  width: 100%;
+  left: 0px;
+  padding: 9px;
+  /* background: #ccc; */
+  margin-top: 10px;
+  border-top: 1px solid #ccc;
+  display: flex;
+  align-items: baseline;
+`
+
 // same as SegmentItemButton
 export class SegmentItemButton extends Component {
   state = {
@@ -42,6 +70,8 @@ export class SegmentItemButton extends Component {
     selectedOption: this.props.predicate.comparison,
     btn: null
   };
+
+  relative_input = null
 
   onRadioChange = (value, cb)=> {
     this.setState({
@@ -54,11 +84,11 @@ export class SegmentItemButton extends Component {
     let value = null 
     switch(this.props.predicate.type){
       case "string": {
-        value = `${this.refs.relative_input.value}`
+        value = `${this.relative_input.value}`
         break;
       }
       case "date": {
-        value = `${this.refs.relative_input.value} days ago`
+        value = `${this.relative_input.value} days ago`
         break;
       }
 
@@ -125,27 +155,29 @@ export class SegmentItemButton extends Component {
     ]
 
     return <div>
-              <h5>Select the filter</h5>
 
+              <ContentMatchTitle>
+                <h5>Select the filter</h5>
+              </ContentMatchTitle>
 
-
-              <RadioGroup
-                aria-label="options"
-                name="options"
-                onChange={(e)=>{
-                  this.onRadioChange(e.target.value)
-                }}
-              >
-                {
-                  relative.map((o)=>(
-                    <FormControlLabel
-                      control={<Radio />} 
-                      value={o.value}
-                      label={o.label} 
-                    />                  
-                  ))
-                }
-              </RadioGroup>
+              <ContentMatch>
+                <RadioGroup
+                  aria-label="options"
+                  name="options"
+                  onChange={(e)=>{
+                    this.onRadioChange(e.target.value)
+                  }}>
+                  {
+                    relative.map((o)=>(
+                      <FormControlLabel
+                        control={<Radio />} 
+                        value={o.value}
+                        label={o.label} 
+                      />                  
+                    ))
+                  }
+                </RadioGroup>
+              </ContentMatch>
 
               {/*
                 <FieldRadioGroup
@@ -159,22 +191,29 @@ export class SegmentItemButton extends Component {
                 this.state.selectedOption && 
                 (this.state.selectedOption !== "is_null" || 
                   this.state.selectedOption !== "is_not_null") ?
-                <div>
-                  <input 
-                    defaultValue={null} 
-                    type="text"
-                    ref={"relative_input"}
-                  />
-                  
-                  <hr/>
+                
+                <ContentMatchFooter>
 
-                  <Button size="small" 
-                    appearance="link" 
+                  <TextField
+                    //id="standard-uncontrolled"
+                    //label="Uncontrolled"
+                    defaultValue={null}
+                    inputRef={input => (this.relative_input = input)}
+                    label={"value"}
+                    //className={classes.textField}
+                    margin="normal"
+                  />
+
+                  <div style={{margin: '5px'}}></div>
+
+                  <Button
+                    variant="outlined" 
+                    color="primary"
                     onClick={this.handleSubmit.bind(this)}>
                     Save changes
                   </Button>
 
-                </div> : null
+                </ContentMatchFooter> : null
               }
 
               { !this.props.predicate.comparison ? null : this.deleteButton() }
@@ -312,6 +351,7 @@ export class SegmentItemButton extends Component {
             !this.props.predicate.comparison ?
 
               <Button isLoading={false}
+
                 color={this.state.dialogOpen ? 'primary' : 'secondary'}
                 onClick={this.toggleDialog}>
                 {
@@ -322,7 +362,7 @@ export class SegmentItemButton extends Component {
               </Button> :
 
               <Button isLoading={false}
-                variant="contained" 
+                variant="outlined" 
                 color="primary"
                 //appearance={this.props.appearance}
                 onClick={this.toggleDialog}>
@@ -336,6 +376,14 @@ export class SegmentItemButton extends Component {
         <Menu 
           open={this.state.dialogOpen}
           anchorEl={document.getElementById("aa")}
+          anchorOrigin={{
+            vertical: 'bottom',
+            horizontal: 'center',
+          }}
+          transformOrigin={{
+            vertical: 'top',
+            horizontal: 'center',
+          }}
           //position={"bottom left"}
           //shouldFlipunion={true}
           >
@@ -594,7 +642,7 @@ export class InlineFilterDialog extends Component {
       <div>
         <Button 
           isLoading={false}
-          variant="contained" 
+          variant="outlined"
           color="primary"
           onClick={this.toggleDialog}>
           <AddIcon />
@@ -606,6 +654,14 @@ export class InlineFilterDialog extends Component {
           //content={content} 
           anchorEl={this.state.btn}
           open={this.state.dialogOpen}
+          anchorOrigin={{
+            vertical: 'bottom',
+            horizontal: 'center',
+          }}
+          transformOrigin={{
+            vertical: 'top',
+            horizontal: 'center',
+          }}
           //position="bottom left"
           >
           {content}
