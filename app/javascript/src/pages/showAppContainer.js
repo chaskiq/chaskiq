@@ -53,7 +53,7 @@ const Context = createContext()
 const { Provider, Consumer } = Context
 
 const Wrapper = styled.div`
-  min-width: 600px;
+  //min-width: 600px;
 `;
 
 const primaryAction = (

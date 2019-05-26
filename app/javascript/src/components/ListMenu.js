@@ -31,6 +31,7 @@ function SimpleListMenu() {
   }
 
   function handleMenuItemClick(event, index) {
+    console.log(index)
     setSelectedIndex(index);
     setAnchorEl(null);
   }
@@ -38,6 +39,8 @@ function SimpleListMenu() {
   function handleClose() {
     setAnchorEl(null);
   }
+
+  console.log(Boolean(anchorEl))
 
   return (
     <div className={classes.root}>

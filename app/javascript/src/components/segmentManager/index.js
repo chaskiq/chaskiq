@@ -16,20 +16,24 @@ import DropdownMenu, {
 } from '@atlaskit/dropdown-menu';
 
 
-import Button from '@material-ui/core/Button';
 import PieChartIcon from '@material-ui/icons/PieChart'
 import AddIcon from '@material-ui/icons/Add'
-
 //import InlineDialog from '@atlaskit/inline-dialog';
 import {parseJwt, generateJWT} from './jwt'
 import ListDivider from '../list'
-
-import MenuItem from '@material-ui/core/MenuItem';
-import Menu from '@material-ui/core/Menu';
-import Dialog from '@material-ui/core/Dialog'
+import FormDialog from '../FormDialog'
 import DataTable from '../dataTable'
 import {appUsersFormat} from './appUsersFormat' 
 
+import {
+  Button,
+  MenuItem,
+  Menu,
+  Radio ,
+  RadioGroup ,
+  FormControlLabel ,
+  TextField
+} from '@material-ui/core';
 
 // same as SegmentItemButton
 export class SegmentItemButton extends Component {
@@ -39,9 +43,9 @@ export class SegmentItemButton extends Component {
     btn: null
   };
 
-  onRadioChange = (e, cb)=> {
+  onRadioChange = (value, cb)=> {
     this.setState({
-      selectedOption: e.target.value
+      selectedOption: value
     }, ()=> cb ? cb() : null)
   };
 
@@ -122,11 +126,34 @@ export class SegmentItemButton extends Component {
 
     return <div>
               <h5>Select the filter</h5>
-              <FieldRadioGroup
-                items={relative}
-                label="Relative:"
-                onRadioChange={this.onRadioChange.bind(this)}
-              />
+
+
+
+              <RadioGroup
+                aria-label="options"
+                name="options"
+                onChange={(e)=>{
+                  this.onRadioChange(e.target.value)
+                }}
+              >
+                {
+                  relative.map((o)=>(
+                    <FormControlLabel
+                      control={<Radio />} 
+                      value={o.value}
+                      label={o.label} 
+                    />                  
+                  ))
+                }
+              </RadioGroup>
+
+              {/*
+                <FieldRadioGroup
+                  items={relative}
+                  label="Relative:"
+                  onRadioChange={this.onRadioChange.bind(this)}
+                />
+              */}
 
               { 
                 this.state.selectedOption && 
@@ -175,20 +202,37 @@ export class SegmentItemButton extends Component {
     ]
 
     return <div>
-              <h5>Update date</h5>
-              <p>Select the filter</p>
-              <FieldRadioGroup
-                items={relative}
-                label="Relative:"
-                onRadioChange={this.onRadioChange.bind(this)}
-              />
+
+              <MenuItem disabled={true}>
+                Select the date filter
+              </MenuItem>
+
+              {
+                relative.map((o)=>(
+                  <MenuItem
+                    key={o.name}
+                    disabled={compare(o.value)}
+                    selected={compare(o.value)}
+                    onClick={e =>   
+                      this.onRadioChange.bind(this)(
+                        o.value, 
+                        this.handleSubmit.bind(this) 
+                      )
+                    }
+                  >
+                    {o.label}
+                  </MenuItem>
+                ))
+              }
 
               { this.state.selectedOption ?
                 <div>
                   <input 
                     defaultValue={30} 
                     type="number"
-                    ref={"relative_input"}/>
+                    ref={"relative_input"}
+                  />
+
                   <span>days ago</span>
                   <hr/>
 
@@ -218,11 +262,33 @@ export class SegmentItemButton extends Component {
     ]
 
     return <div>
-              <FieldRadioGroup
+              {/*<FieldRadioGroup
                 items={relative}
                 label="match criteria options:"
                 onRadioChange={(e)=> this.onRadioChange.bind(this)(e, this.handleSubmit.bind(this) )}
-              />
+              />*/}
+
+              <MenuItem disabled={true}>
+                match criteria options:
+              </MenuItem>
+
+              {
+                relative.map((o)=>(
+                  <MenuItem
+                    key={o.name}
+                    disabled={compare(o.value)}
+                    selected={compare(o.value)}
+                    onClick={e =>   
+                      this.onRadioChange.bind(this)(
+                        o.value, 
+                        this.handleSubmit.bind(this) 
+                      )
+                    }
+                  >
+                    {o.label}
+                  </MenuItem>
+                ))
+              }
             </div>
   }
 
@@ -256,7 +322,8 @@ export class SegmentItemButton extends Component {
               </Button> :
 
               <Button isLoading={false}
-                color={'primary'}
+                variant="contained" 
+                color="primary"
                 //appearance={this.props.appearance}
                 onClick={this.toggleDialog}>
                 {this.props.text}
@@ -282,7 +349,7 @@ export class SegmentItemButton extends Component {
 }
 
 export class SaveSegmentModal extends Component {
-  state: State = { 
+  state = { 
     isOpen: false, 
     action: "update",
     loading: false,
@@ -290,11 +357,12 @@ export class SaveSegmentModal extends Component {
   };
   open  = () => this.setState({ isOpen: true });
   close = () => this.setState({ isOpen: false });
+  input_ref = null
   
   secondaryAction = ({ target }: Object) => {
     this.props.savePredicates({
       action: this.state.action,
-      input: this.refs.input ? this.refs.input.value : null
+      input: this.input_ref ? this.input_ref.value : null
     }, ()=> {
       this.close()
       if(this.props.predicateCallback)
@@ -314,11 +382,11 @@ export class SaveSegmentModal extends Component {
   
   render() {
     const { isOpen, loading } = this.state;
-    const actions = [
+    /*const actions = [
       { text: 'Close', onClick: this.close },
       { text: 'Save Segment', onClick: this.secondaryAction.bind(this) },
       { text: 'Remove Segment', onClick: this.deleteAction.bind(this) }
-    ];
+    ];*/
 
     return (
       <div>
@@ -343,44 +411,89 @@ export class SaveSegmentModal extends Component {
 
 
         {isOpen && (
-          <Dialog 
+          <FormDialog 
             open={isOpen}
-            //actions={actions} 
-            //onClose={this.close} 
-            //heading={this.props.title}
-            >
-            
-            {
+
+            //contentText={"lipsum"}
+            titleContent={"Save Segment"}
+            formComponent={
               !loading ?
                  <div>
-                  <FieldRadioGroup
-                    items={
-                      [
-                        {label: `Save changes to the segment ‘${this.props.segment.name}’`, value: "update", defaultSelected: true  },
-                        {label: "Create new segment", value: "new" },
-                      ]
-                    }
-                    label="options:"
-                    onRadioChange={this.handleChange.bind(this)}
-                  />
+
+
+                  <RadioGroup
+                    aria-label="options"
+                    name="options"
+                    onChange={this.handleChange.bind(this)}
+                  >
+                    <FormControlLabel
+                      control={<Radio />} 
+                      value="update"
+                      label={`Save changes to the segment ‘${this.props.segment.name}’`} 
+                    />
+                    <FormControlLabel
+                      control={<Radio />} 
+                      value="new"
+                      label="Create new segment" 
+                    />
+
+                  </RadioGroup>
 
                   {
                     this.state.action === "new" ?
-                    <input name="name" ref="input"/> : null
+
+                      <TextField
+                        autoFocus
+                        margin="dense"
+                        id="name"
+                        name="name"
+                        label="name"
+                        type="email"
+                        ref={"input"}
+                        fullWidth
+                        inputRef={input => (this.input_ref = input)}
+                      /> : null
                   }
 
 
                   {
-                    actions.map((o, i)=> <Button key={i}
-                      onClick={o.onClick}>
-                      {o.text}
-                     </Button>)
+                    /*
+                    actions.map((o, i)=> (
+                      <Button key={i}
+                        onClick={o.onClick}>
+                        {o.text}
+                      </Button>
+                     )
+                    )
+                    */
                   }
 
                 </div> : <Spinner/>
             }
 
-          </Dialog>
+            dialogButtons={
+              <React.Fragment>
+                <Button onClick={this.close} color="primary">
+                  Cancel
+                </Button>
+
+                <Button onClick={this.secondaryAction.bind(this)} 
+                  zcolor="primary">
+                  {
+                    this.state.action === "update" ? "Save" : "Save New"
+                  }
+                </Button>
+
+              </React.Fragment>
+            }
+            //actions={actions} 
+            //onClose={this.close} 
+            //heading={this.props.title}
+            >
+            
+            
+
+          </FormDialog>
         )}
       </div>
     );
@@ -435,16 +548,28 @@ export class InlineFilterDialog extends Component {
 
     const content = (
       <div>
-        <h5>Select field</h5>
-        <p>oeoe</p>
+        <MenuItem disabled={true}>
+          Select field:
+        </MenuItem>
+
+        {
+          fields.map((o)=>(
+            <MenuItem
+              key={o.name}
+              onClick={(e)=> this.handleClick.bind(this)(e, o)}
+            >
+              {o.name}
+            </MenuItem>
+          ))
+        }
 
 
-        <div style={{ height: '200px', overflow: 'auto'}}>
+        {/*<div style={{ height: '200px', overflow: 'auto'}}>
           <ListDivider 
             items={fields} 
             onClick={this.handleClick.bind(this)}
           />
-        </div>
+        </div>*/}
 
        {
          /*
@@ -466,10 +591,11 @@ export class InlineFilterDialog extends Component {
 
 
     return (
-      <div style={{ minHeight: '120px' }}>
+      <div>
         <Button 
           isLoading={false}
-          appearance={'link'}
+          variant="contained" 
+          color="primary"
           onClick={this.toggleDialog}>
           <AddIcon />
           {" "}
@@ -490,6 +616,7 @@ export class InlineFilterDialog extends Component {
   }
 }
 
+/*
 export class InlineCriteriaDialog extends Component {
   state = {
     dialogOpen: false,
@@ -521,14 +648,14 @@ export class InlineCriteriaDialog extends Component {
 
         <ul style={{ height: '200px', overflow: 'auto'}}>
           {
-            fields.map((o)=> <li key={o.name}>
+            fields.map((o)=> <MenuItem key={o.name}>
                               <Button 
                                 color={'primary'} 
                                 variant="outlined"
                                 onClick={(e)=> this.handleClick.bind(this)(e, o)}>
                                 {o.name}
                               </Button>
-                             </li>
+                             </MenuItem>
             )
           }
         </ul>
@@ -556,7 +683,7 @@ export class InlineCriteriaDialog extends Component {
       </div>
     );
   }
-}
+}*/
 
 
 export default class SegmentManager extends Component {
@@ -620,20 +747,6 @@ export default class SegmentManager extends Component {
             
             {this.props.children}
 
-        
-
-            { /*
-              this.props.store.app.segments.map((o)=>(
-                  <p key={o.id}>{o.name}</p>
-                )
-              )
-            */}
-
-            {/*JSON.stringify(this.props.data)*/}
-
-
-
-
             <DataTable 
               title={'segment'}
               columns={appUsersFormat()} 
@@ -642,219 +755,6 @@ export default class SegmentManager extends Component {
               //search={this.props.actions.search}
             />
 
-            { /*
-              this.props.app_users.length > 0 ?
-                <DataTable
-                  meta={this.props.meta}
-                  loading={this.props.loading} 
-                  data={this.props.app_users}/> : null 
-
-              */
-            }
-
-
-            <hr/>
-
           </div>
   }
 } 
-
-
-
-
-class DataTablerrr extends Component {
-
-
-  constructor(props) {
-    super(props)
-
-    this.state = {
-      dialogs: {}
-    }
-
-    this.createHead = (withWidth) => {
-      return {
-        cells: [
-          {
-            key: 'email',
-            content: 'email',
-            shouldTruncate: true,
-            isSortable: true,
-            width: withWidth ? 25 : undefined,
-          },
-          {
-            key: 'state',
-            content: 'State',
-            shouldTruncate: true,
-            isSortable: true,
-            width: withWidth ? 10 : undefined,
-          },
-          {
-            key: 'last_visited_at',
-            content: 'last_visited_at',
-            shouldTruncate: true,
-            isSortable: true,
-            width: withWidth ? 15 : undefined,
-          },
-          {
-            key: 'os',
-            content: 'Os',
-            shouldTruncate: true,
-            isSortable: true,
-            width: withWidth ? 15 : undefined,
-          },
-          {
-            key: 'browser',
-            content: 'Browser',
-            shouldTruncate: true,
-            isSortable: true,
-            width: withWidth ? 15 : undefined,
-          },
-
-          {
-            key: 'action',
-            content: 'Actions',
-            shouldTruncate: true,
-          },
-        ],
-      };
-    };
-
-    this.head = this.createHead(true);
-
-  }
-
-  renderCaption = () => {
-    return <div>
-      {this.props.meta.total_count} results
-    </div>
-  }
-
-  toggleDialogFor = (id)=>{
-
-    var hash = {};
-    hash[id] = !this.state.dialogs[id]
-
-    this.setState({
-      dialogs: Object.assign(
-        {}, 
-        this.state.dialogs, 
-        hash
-      )
-    })
-  }
-
-  rows = ()=>{
-    return this.props.data.map((user, index) => {
- 
-      let userData  = <ul style={{height: '200px', overflow: 'auto'}}> 
-                          {
-                            Object.keys(user).map((o)=>(
-                              <li><b>{o}:</b> {user[o]}</li>
-                            ))
-                          } 
-                      </ul>
-      return {
-        key: `row-${index}-${user.id}`,
-        cells: [
-          {
-            key: `${user.id}-email`,
-            content: <div>
-              <div style={{ float: 'left' }}>
-                <Avatar
-                  name={user.email}
-                  size="medium"
-                  src={`https://api.adorable.io/avatars/24/${encodeURIComponent(
-                    user.email,
-                  )}.png`}
-                />
-              </div>
-              <div style={{
-                float: 'left',
-                marginLeft: '10px',
-                marginTop: '9px'
-              }}>
-                {user.email}
-              </div>
-            </div>,
-          },
-          {
-            key: `${user.id}-state`,
-            content: <Lozenge
-              appearance={user.state == "online" ? 'success' : 'moved'}
-              isBold>
-              {user.state}
-            </Lozenge>,
-          },
-          {
-            key: `${user.id}-last_visited_at`,
-            content: <Moment fromNow>{user.last_visited_att}</Moment>,
-          },
-
-          {
-            key: `${user.id}-browser`,
-            content: `${user.browser} ${user.browser_version}`,
-          },
-
-          {
-            key: `${user.id}-os`,
-            content: `${user.os} ${user.os_version}`,
-          },
-
-          {
-            key: `${user.id}-scheduled_to`,
-            content: user.id,
-          },
-
-          {
-            content: (
-
-              <div>
-
-                <Menu 
-                  content={userData}
-                  open={this.state.dialogs[user.id]}
-                  //position={"bottom right"}
-                  //shouldFlipunion={true}
-                  >
-                  {userData}
-                </Menu>
-
-                <Button onClick={() => this.toggleDialogFor(user.id)}>
-                  data
-                </Button>
-
-              </div>
-
-              
-
-            ),
-          }
-        ],
-      }
-    });
-  }
-
-
-  render() {
-
-    return (
-      
-        <DynamicTable
-          caption={this.renderCaption()}
-          head={this.head}
-          rows={this.rows()}
-          rowsPerPage={10}
-          defaultPage={1}
-          loadingSpinnerSize="large"
-          isLoading={this.props.loading}
-          isFixedSize
-          defaultSortKey="email"
-          defaultSortOrder="ASC"
-          onSort={() => console.log('onSort')}
-          onSetPage={() => console.log('onSetPage')}
-        />
-      
-    );
-  }
-}

@@ -19,7 +19,8 @@ import ListMenu from './ListMenu'
 
 const lightColor = 'rgba(255, 255, 255, 0.7)';
 
-const styles = theme => ({
+const styles = theme => {
+  return {
   secondaryBar: {
     zIndex: 0,
   },
@@ -31,7 +32,7 @@ const styles = theme => ({
   },
   link: {
     textDecoration: 'none',
-    //color: lightColor,
+    color: theme.palette.primary.main,
     //'&:hover': {
     //  color: theme.palette.common.white,
     //},
@@ -40,9 +41,12 @@ const styles = theme => ({
     borderColor: lightColor,
   },
   apa: {
-    minHeight: '52px'
+    minHeight: '52px',
+    color: theme.palette.primary.main,
+    backgroundColor: theme.palette.primary.white
   }
-});
+}
+}
 
 function Header(props) {
   const { classes, onDrawerToggle } = props;
