@@ -102,7 +102,8 @@ const ActivityAvatar = styled.div`
 `
 const Overflow = styled.div`
   overflow: auto;
-  height: 100vh;
+  //height: 100vh;
+  height: calc(100vh - 149px);
 `
 const ActivityIndicator = styled.span`
   position: absolute;
@@ -368,7 +369,12 @@ class ConversationContainerShow extends Component {
 
   componentDidUpdate(PrevProps, PrevState){
     if(PrevProps.match && PrevProps.match.params.id !== this.props.match.params.id){
-      this.getMessages()
+      this.setState({
+        conversation: {},
+        messages: [],
+        meta: {}
+      }, this.getMessages)
+      
       //this.conversationSubscriber()
     }
   }

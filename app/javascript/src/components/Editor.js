@@ -43,12 +43,15 @@ const plugins = [
 ];
 
 const EditorContainer = styled.div`
-  /* -ms- properties are necessary until MS supports the latest version of the grid spec */
-  /* stylelint-disable value-no-vendor-prefix, declaration-block-no-duplicate-properties */
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
   display: flex;
+  -webkit-flex-direction: column;
+  -ms-flex-direction: column;
   flex-direction: column;
   min-width: 272px;
-  min-height: 50px;
+  min-height: 71px;
   max-height: 250px;
   height: auto;
   overflow: auto;
@@ -56,10 +59,14 @@ const EditorContainer = styled.div`
   box-sizing: border-box;
   max-width: inherit;
   word-wrap: break-word;
-  border-top: 1px solid rgb(223, 225, 230);
+  border-top: 1px solid rgb(223,225,230);
   border-image: initial;
+  -webkit-animation: none;
   animation: none;
   padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 2px;
+  margin-top: 1px;
 `;
 
 const EditorActions = styled.div`
@@ -73,7 +80,8 @@ const EditorActions = styled.div`
 `
 
 const EditorWrapper = styled.div`
-  
+  width: 100%;
+  height: 73px;
 `
 
 export default class ConversationEditor extends Component {
@@ -120,9 +128,7 @@ export default class ConversationEditor extends Component {
 
     const tabs = [
       { label: 'Reply', content: <EditorWrapper>
-                                    <EditorContainer style={{
-                                      height: '87px'
-                                    }}>
+                                    <EditorContainer>
                                       <Editor
                                         ref={"editor"}
                                         editorState={this.state.editorState}
