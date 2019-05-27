@@ -1,6 +1,4 @@
 import React, { Component } from "react"
-
-import Button from '@atlaskit/button';
 import {
   Route,
   Link
@@ -15,6 +13,7 @@ import axios from 'axios'
 import serialize from 'form-serialize'
 import Lozenge from '@atlaskit/lozenge'
 
+import Button from '@material-ui/core/Button';
 import CampaignSettings from "./campaigns/settings"
 import CampaignEditor from "./campaigns/edito"
 import SegmentManager from '../components/segmentManager'

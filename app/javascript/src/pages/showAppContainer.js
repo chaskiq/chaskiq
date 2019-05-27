@@ -6,11 +6,6 @@ import {
 } from 'react-router-dom'
 import Moment from 'react-moment';
 import PropTypes from 'prop-types';
-import Button, { ButtonGroup } from '@atlaskit/button';
-import DropdownMenu, {
-  DropdownItemGroup,
-  DropdownItem,
-} from '@atlaskit/dropdown-menu';
 import DynamicTable from '@atlaskit/dynamic-table'
 import styled from 'styled-components';
 import Spinner from '@atlaskit/spinner';
@@ -38,11 +33,13 @@ import {
 } from '../graphql/mutations'
 import EnhancedTable from '../components/table'
 import DataTable from '../components/dataTable'
-
 import ContentHeader from '../components/ContentHeader'
 import Content from '../components/Content'
 import {appUsersFormat} from '../components/segmentManager/appUsersFormat'
 import Dashboard from './Dashboard'
+
+import Button from '@material-ui/core/Button'
+
 const CableApp = {
   cable: actioncable.createConsumer()
 }
@@ -91,21 +88,12 @@ const ActivityIndicator = styled.span`
   left: 38px;
 `
 
-const dropdown = () => (
-    <DropdownMenu
-      trigger="Choices"
-      triggerType="button"
-      shouldFlip={false}
-      position="bottom left"
-      onOpenChange={e => console.log('dropdown opened', e)}
-    >
-      <DropdownItemGroup>
-        <DropdownItem>Import</DropdownItem>
-        <DropdownItem>Export</DropdownItem>
-        <DropdownItem>Archive</DropdownItem>
-      </DropdownItemGroup>
-    </DropdownMenu>
-);
+const ButtonGroup = styled.div`
+  display: inline-flex;
+  button {
+    margin-right: 5px !important;
+  }
+`
 
 class AppUsers extends Component {
   constructor(props){
