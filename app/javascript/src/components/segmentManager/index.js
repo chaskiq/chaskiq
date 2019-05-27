@@ -1,6 +1,5 @@
 
 import React, {Component} from "react"
-import { ButtonGroup } from '@atlaskit/button';
 
 //import RadioGroup, { AkFieldRadioGroup, AkRadio } from '@atlaskit/field-radio-group';
 import FieldRadioGroup from '@atlaskit/field-radio-group';
@@ -61,6 +60,13 @@ const ContentMatchFooter = styled.div`
   border-top: 1px solid #ccc;
   display: flex;
   align-items: baseline;
+`
+
+const ButtonGroup = styled.div`
+  display: inline-flex;
+  button {
+    margin-right: 5px !important;
+  }
 `
 
 // same as SegmentItemButton
@@ -550,21 +556,23 @@ export class SaveSegmentModal extends Component {
 
 export class InlineFilterDialog extends Component {
   state = {
-    dialogOpen: false,
-    btn: null
+    dialogOpen: false
   };
 
   _my_field = null
 
   toggleDialog = (e) => this.setState({ 
-    dialogOpen: !this.state.dialogOpen,
-    btn: e.target
+    dialogOpen: !this.state.dialogOpen
   });
 
   handleClick = (e, o) => {
-    this.props.addPredicate(o, (token)=> { 
-      this.props.handleClick(token)
-    })
+    this.setState({
+      dialogOpen: !this.state.dialogOpen
+    }, ()=>{
+        this.props.addPredicate(o, (token) => {
+          this.props.handleClick(token)
+        })
+    });
   }
 
   render() {
@@ -610,29 +618,6 @@ export class InlineFilterDialog extends Component {
             </MenuItem>
           ))
         }
-
-
-        {/*<div style={{ height: '200px', overflow: 'auto'}}>
-          <ListDivider 
-            items={fields} 
-            onClick={this.handleClick.bind(this)}
-          />
-        </div>*/}
-
-       {
-         /*
-       <div style={{ height: '200px', overflow: 'auto'}}>
-          {
-            fields.map((o) => <div key={o.name} style={{ marginBottom: '2px' }}>
-                              <Button onClick={(e)=> this.handleClick.bind(this)(e, o)}>
-                                {o.name}
-                              </Button>
-                             </div>
-            )
-          }
-        </div>  
-         */
-       } 
        
       </div>
     );
@@ -641,6 +626,7 @@ export class InlineFilterDialog extends Component {
     return (
       <div>
         <Button 
+          inputRef={(ref)=> this._my_field = ref}
           isLoading={false}
           variant="outlined"
           color="primary"
@@ -652,7 +638,7 @@ export class InlineFilterDialog extends Component {
       
         <Menu 
           //content={content} 
-          anchorEl={this.state.btn}
+          anchorEl={this._my_field}
           open={this.state.dialogOpen}
           anchorOrigin={{
             vertical: 'bottom',
@@ -767,41 +753,44 @@ export default class SegmentManager extends Component {
     return <div style={{marginTop: '10px'}}>
    
 
-            {
-              this.props.predicates.map((o, i)=>{
-                  return <SegmentItemButton 
-                          key={i}
-                          index={i}
-                          predicates={this.props.predicates}
-                          predicate={o}
-                          open={ !o.comparison }
-                          appearance={ o.comparison ? "primary" : "default"} 
-                          text={this.getTextForPredicate(o)}
-                          updatePredicate={this.props.updatePredicate}
-                          deletePredicate={this.props.deletePredicate}                          
-                         />
-              })
-            }
+            <ButtonGroup>
 
-            <InlineFilterDialog
-              {...this.props}
-              addPredicate={this.props.addPredicate}
-              handleClick={this.handleClickOnSelectedFilter.bind(this)}
-            />
+              {
+                this.props.predicates.map((o, i)=>{
+                    return <SegmentItemButton 
+                            key={i}
+                            index={i}
+                            predicates={this.props.predicates}
+                            predicate={o}
+                            open={ !o.comparison }
+                            appearance={ o.comparison ? "primary" : "default"} 
+                            text={this.getTextForPredicate(o)}
+                            updatePredicate={this.props.updatePredicate}
+                            deletePredicate={this.props.deletePredicate}                          
+                          />
+                })
+              }
 
-            {
-              /*
-              <SaveSegmentModal 
-                title="Save Segment" 
-                segment={this.props.store.segment}
-                savePredicates={this.props.actions.savePredicates}
-                deleteSegment={this.props.actions.deleteSegment}
+              <InlineFilterDialog
+                {...this.props}
+                addPredicate={this.props.addPredicate}
+                handleClick={this.handleClickOnSelectedFilter.bind(this)}
               />
-              */
-            }
 
-            
-            {this.props.children}
+              {
+                /*
+                <SaveSegmentModal 
+                  title="Save Segment" 
+                  segment={this.props.store.segment}
+                  savePredicates={this.props.actions.savePredicates}
+                  deleteSegment={this.props.actions.deleteSegment}
+                />
+                */
+              }
+
+              {this.props.children}
+
+      </ButtonGroup>
 
             <DataTable 
               title={'segment'}
