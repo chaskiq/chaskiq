@@ -1,25 +1,8 @@
 
 import React, {Component} from "react"
 
-//import RadioGroup, { AkFieldRadioGroup, AkRadio } from '@atlaskit/field-radio-group';
-import FieldRadioGroup from '@atlaskit/field-radio-group';
-import DynamicTable from '@atlaskit/dynamic-table';
-import Moment from 'react-moment';
-import Avatar from '@atlaskit/avatar';
-import Lozenge from "@atlaskit/lozenge"
-
-//import Modal from '@atlaskit/modal-dialog';
-import DropdownMenu, {
-  DropdownItemGroup,
-  DropdownItem,
-} from '@atlaskit/dropdown-menu';
-
-
 import PieChartIcon from '@material-ui/icons/PieChart'
 import AddIcon from '@material-ui/icons/Add'
-//import InlineDialog from '@atlaskit/inline-dialog';
-import {parseJwt, generateJWT} from './jwt'
-import ListDivider from '../list'
 import FormDialog from '../FormDialog'
 import DataTable from '../dataTable'
 import {appUsersFormat} from './appUsersFormat' 
@@ -185,14 +168,6 @@ export class SegmentItemButton extends Component {
                 </RadioGroup>
               </ContentMatch>
 
-              {/*
-                <FieldRadioGroup
-                  items={relative}
-                  label="Relative:"
-                  onRadioChange={this.onRadioChange.bind(this)}
-                />
-              */}
-
               { 
                 this.state.selectedOption && 
                 (this.state.selectedOption !== "is_null" || 
@@ -216,7 +191,14 @@ export class SegmentItemButton extends Component {
                     variant="outlined" 
                     color="primary"
                     onClick={this.handleSubmit.bind(this)}>
-                    Save changes
+                    Apply
+                  </Button>
+
+                  <Button
+                    variant="outlined"
+                    color="primary"
+                    onClick={this.handleSubmit.bind(this)}>
+                    cancel
                   </Button>
 
                 </ContentMatchFooter> : null
@@ -307,12 +289,7 @@ export class SegmentItemButton extends Component {
     ]
 
     return <div>
-              {/*<FieldRadioGroup
-                items={relative}
-                label="match criteria options:"
-                onRadioChange={(e)=> this.onRadioChange.bind(this)(e, this.handleSubmit.bind(this) )}
-              />*/}
-
+            
               <MenuItem disabled={true}>
                 match criteria options:
               </MenuItem>
@@ -626,7 +603,7 @@ export class InlineFilterDialog extends Component {
     return (
       <div>
         <Button 
-          inputRef={(ref)=> this._my_field = ref}
+          innerRef={(ref)=> this._my_field = ref}
           isLoading={false}
           variant="outlined"
           color="primary"
@@ -777,20 +754,9 @@ export default class SegmentManager extends Component {
                 handleClick={this.handleClickOnSelectedFilter.bind(this)}
               />
 
-              {
-                /*
-                <SaveSegmentModal 
-                  title="Save Segment" 
-                  segment={this.props.store.segment}
-                  savePredicates={this.props.actions.savePredicates}
-                  deleteSegment={this.props.actions.deleteSegment}
-                />
-                */
-              }
-
               {this.props.children}
 
-      </ButtonGroup>
+            </ButtonGroup>
 
             <DataTable 
               title={'segment'}
