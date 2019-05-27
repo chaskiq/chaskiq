@@ -99,7 +99,7 @@ theme = {
     },
     MuiDivider: {
       root: {
-        backgroundColor: '#404854',
+        backgroundColor: '#d3e8d7', //#404854',
       },
     },
     MuiListItemText: {

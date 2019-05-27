@@ -19,6 +19,7 @@ import { INSERT_COMMMENT } from '../graphql/mutations'
 import './convo.scss'
 
 import UserListItem from '../components/UserListItem'
+import Accordeon from '../components/accordeon'
 
 
 import { camelCase } from 'lodash';
@@ -169,6 +170,9 @@ const UserDataList = styled.ul`
     }
   }
 `
+
+
+
 const playSound = ()=>{
   soundManager.createSound({
     id: 'mySound',
@@ -582,7 +586,11 @@ class ConversationContainerShow extends Component {
 
                   <div className="overflow" 
                     ref="overflow" 
-                    onScroll={this.handleScroll}>
+                    onScroll={this.handleScroll}
+                    style={{
+                      boxShadow: 'inset 0px 1px 3px 0px #ccc',
+                      background: 'aliceblue'
+                    }}>
 
                   {
                     this.state.messages.map( (o, i)=> {
@@ -641,8 +649,8 @@ class ConversationContainerShow extends Component {
                 paddingTop: '20px'
               }}>
 
-                <ActivityAvatar>
-                  
+
+              <ActivityAvatar>
                   <Avatar 
                     src={gravatar.url(this.state.appUser.email)}
                     name="large" 
@@ -651,117 +659,104 @@ class ConversationContainerShow extends Component {
                   />
                   
                 </ActivityAvatar>
+              
+              <p style={{
+                display: 'flex', 
+                alignSelf: 'center', 
+                fontWeight: '700'}}>
+                {this.state.appUser.email}
+              </p>
 
+              <p style={{
+                display: 'flex', 
+                alignSelf: 'center', 
+                fontWeight: '300',
+                marginTop: '20px',
+                fontSize: '11px',
+                color: 'lightblue'
+              }}>
 
-                  <p style={{
-                    display: 'flex', 
-                    alignSelf: 'center', 
-                    fontWeight: '700'}}>
-                    {this.state.appUser.email}
-                  </p>
+                <Moment fromNow>
+                  {this.state.appUser.lastVisitedAt}
+                </Moment>
+              </p>
 
-                  <p style={{
-                    display: 'flex', 
-                    alignSelf: 'center', 
-                    fontWeight: '300',
-                    marginTop: '20px',
-                    fontSize: '11px',
-                    color: 'lightblue'
-                  }}>
+              <Accordeon items={[
+                  {name: "Location" , 
+                  component: null,
+                  items: [ {
+                              label: 'referrer',
+                              value: this.state.appUser.referrer
+                            },
 
-                  <Moment fromNow>
-                    {this.state.appUser.lastVisitedAt}
-                  </Moment>
-                </p>
-
-                <h3>Location</h3>
-
-                <UserDataList>
-                  <li>
-                    <strong>referrer</strong>
-                    <span>{this.state.appUser.referrer}</span>
-                  </li>
-                  
-                  <li>
-                    <strong>city</strong>
-                    <span>{this.state.appUser.city}</span>
-                  </li>
-                  
-                  <li>
-                    <strong>region</strong>
-                    <span>{this.state.appUser.region}</span>
-                  </li>
-                  
-                  <li>
-                    <strong>country</strong>
-                    <span>{this.state.appUser.country}</span>
-                  </li>
-                  
-                  <li>
-                    <strong>lat</strong>
-                    <span>{this.state.appUser.lat}</span>
-                  </li>
-                  
-                  <li>
-                    <strong>lng</strong>
-                    <span>{this.state.appUser.lng}</span>
-                  </li>
-                </UserDataList>
-
-                <h3>Browsing Properties</h3>
-  
-                <UserDataList>
-
-                  <li>
-                    <strong>postal:</strong> 
-                    <span>{this.state.appUser.postal}</span>
-                  </li>
-                  
-                  <li>
-                    <strong>web sessions:</strong> 
-                    <span>{this.state.appUser.webSessions}</span>
-                  </li>
-                  
-                  <li>
-                    <strong>timezone:</strong> 
-                    <span>{this.state.appUser.timezone}</span>
-                  </li>
-                  
-                  <li>
-                    <strong>browser version:</strong> 
-                    <span>{this.state.appUser.browserVersion}</span>
-                  </li>
-
-                  <li>
-                    <strong>browser:</strong> 
-                    <span>{this.state.appUser.browser}</span>
-                  </li>
-                  
-                  <li>
-                    <strong>os:</strong> 
-                    <span>{this.state.appUser.os}</span>
-                  </li>
-                  
-                  <li>
-                    <strong>os version:</strong> 
-                    <span>{this.state.appUser.osVersion}</span>
-                  </li>
-
-                </UserDataList>
-
-                <h3>Properties</h3>
-
-                <UserDataList>
+                            {
+                              label: 'city',
+                              value: this.state.appUser.city
+                            },
+                            
+                            {
+                              label: 'region',
+                              value: this.state.appUser.region
+                            },
+                            
+                            {
+                              label: 'country',
+                              value: this.state.appUser.country
+                            },
+                            
+                            {
+                              label: 'lat',
+                              value: this.state.appUser.lat
+                            },
+                            
+                            {
+                              label: 'lng',
+                              value: this.state.appUser.lng
+                            }
+                          ]                                                   
+                                                    
+                  },
                   {
-                    this.state.appUser.properties ? 
-                    Object.keys(this.state.appUser.properties).map((o, i)=>{ 
-                      return <li key={i}>
-                                <strong>{o}:</strong>
-                                <span>{this.state.appUser.properties[o]}</span>
-                              </li>
-                    }) : null
-                  }
-                </UserDataList>
+                    name: "Browsing Properties", 
+                    component: null,
+                    items:  [
+                              {label: 'postal:',
+                                value: this.state.appUser.postal},
+                            
+                              {label: 'web sessions:',
+                              value: this.state.appUser.webSessions},
+                            
+                              {label: 'timezone:',
+                              value: this.state.appUser.timezone},
+                            
+                              {label: 'browser version:',
+                              value: this.state.appUser.browserVersion},
+
+                              {label: 'browser:',
+                              value: this.state.appUser.browser},
+                            
+                              {label: 'os:',
+                              value: this.state.appUser.os},
+
+                              {label: 'os version:',
+                                value: this.state.appUser.osVersion}
+                            ]
+                                                          
+                  },
+                  {name: "Properties", component: <UserDataList>
+                                                    {
+                                                      this.state.appUser.properties ? 
+                                                      Object.keys(this.state.appUser.properties).map((o, i)=>{ 
+                                                        return <li key={i}>
+                                                                  <strong>{o}:</strong>
+                                                                  <span>{this.state.appUser.properties[o]}</span>
+                                                                </li>
+                                                      }) : null
+                                                    }
+                                                  </UserDataList>
+                   }
+
+                ]}/>
 
               </Overflow>
 
