@@ -254,18 +254,29 @@ export class SegmentItemButton extends Component {
 
               { this.state.selectedOption ?
                 <div>
-                  <input 
-                    defaultValue={30} 
+
+                  <TextField
+                    autoFocus
+                    margin="dense"
+                    id="name"
+                    name="name"
+                    label="name"
                     type="number"
-                    ref={"relative_input"}
+                    fullWidth
+                    defaultValue={30} 
+                    inputRef={input => (this.relative_input = input)}
                   />
+
+
 
                   <span>days ago</span>
                   <hr/>
 
-                  <Button appearance="link" 
+                  <Button 
+                    variant="outlined"
+                    color="primary"
                     onClick={this.handleSubmit.bind(this)}>
-                    save changes
+                    Apply
                   </Button>
 
                 </div> : null
