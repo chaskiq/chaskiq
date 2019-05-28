@@ -50,40 +50,48 @@ class Paperbase extends React.Component {
     return (
         <div className={classes.root}>
           <CssBaseline />
-          <nav className={classes.drawer}>
-            <Hidden smUp implementation="js">
-              <Navigator
-                PaperProps={{ style: { width: drawerWidth } }}
-                variant="temporary"
-                navLinks={this.props.navLinks}
-                open={this.state.mobileOpen}
-                onClose={this.handleDrawerToggle}
-                navOpenState={this.context.navOpenState}
-                onNavResize={this.props.onNavResize}
-                currentUser={this.props.currentUser}
-                currentApp={this.props.currentApp}
 
-              />
-            </Hidden>
-            <Hidden xsDown implementation="css">
-              <Navigator 
-                PaperProps={{ style: { width: drawerWidth } }}
-                navLinks={this.props.navLinks}
-                currentUser={this.props.currentUser}
-                currentApp={this.props.currentApp}
-             />
-            </Hidden>
-          </nav>
+          {
+            this.props.currentApp ?
+              <nav className={classes.drawer}>
+                <Hidden smUp implementation="js">
+                  <Navigator
+                    PaperProps={{ style: { width: drawerWidth } }}
+                    variant="temporary"
+                    navLinks={this.props.navLinks}
+                    open={this.state.mobileOpen}
+                    onClose={this.handleDrawerToggle}
+                    navOpenState={this.context.navOpenState}
+                    onNavResize={this.props.onNavResize}
+                    currentUser={this.props.currentUser}
+                    currentApp={this.props.currentApp}
+
+                  />
+                </Hidden>
+                <Hidden xsDown implementation="css">
+                  <Navigator 
+                    PaperProps={{ style: { width: drawerWidth } }}
+                    navLinks={this.props.navLinks}
+                    currentUser={this.props.currentUser}
+                    currentApp={this.props.currentApp}
+                 />
+                </Hidden>
+              </nav> : null
+          }
+
           <div className={classes.appContent}>
             <Header 
               onDrawerToggle={this.handleDrawerToggle} 
               currentUser={this.props.currentUser}
             />
-            {/*<Header onDrawerToggle={this.handleDrawerToggle} />
-              <main className={classes.mainContent}>
-                <Content>{childrenWithProps}</Content>
-              </main>
-            */}
+
+            {
+              /*<Header onDrawerToggle={this.handleDrawerToggle} />
+                <main className={classes.mainContent}>
+                  <Content>{childrenWithProps}</Content>
+                </main>
+              */
+            }
 
             <Switch>
 
