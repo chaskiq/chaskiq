@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import classNames from 'classnames';
+import clsx from 'clsx';
 import { withStyles } from '@material-ui/core/styles';
 import Divider from '@material-ui/core/Divider';
 import Drawer from '@material-ui/core/Drawer';
@@ -18,17 +18,9 @@ import SettingsInputComponentIcon from '@material-ui/icons/SettingsInputComponen
 import TimerIcon from '@material-ui/icons/Timer';
 import SettingsIcon from '@material-ui/icons/Settings';
 import PhonelinkSetupIcon from '@material-ui/icons/PhonelinkSetup';
-import Typography from '@material-ui/core/Typography';
 
-import Nav, {
-  AkContainerTitle,
-  AkCreateDrawer,
-  AkNavigationItem,
-  AkSearchDrawer,
-  AkNavigationItemGroup,
-  AkContainerNavigationNested,
-} from '@atlaskit/navigation';
-import Button from '@atlaskit/button';
+
+// TODO: icons to change
 import SearchIcon from '@atlaskit/icon/glyph/search';
 import CreateIcon from '@atlaskit/icon/glyph/add';
 import ArrowleftIcon from '@atlaskit/icon/glyph/arrow-left';
@@ -42,30 +34,6 @@ import EditorTableDisplayOptionsIcon from '@atlaskit/icon/glyph/editor/table-dis
 import CanvasIcon from '@atlaskit/icon/glyph/canvas';
 import EmailIcon from '@atlaskit/icon/glyph/email';
 import QuestionCircleIcon from '@atlaskit/icon/glyph/question-circle';
-
-import Accordeon from './accordeon'
-
-const categories = [
-  {
-    id: 'Develop',
-    children: [
-      { id: 'Authentication', icon: <PeopleIcon />, active: true },
-      { id: 'Database', icon: <DnsRoundedIcon /> },
-      { id: 'Storage', icon: <PermMediaOutlinedIcon /> },
-      { id: 'Hosting', icon: <PublicIcon /> },
-      { id: 'Functions', icon: <SettingsEthernetIcon /> },
-      { id: 'ML Kit', icon: <SettingsInputComponentIcon /> },
-    ],
-  },
-  {
-    id: 'Quality',
-    children: [
-      { id: 'Analytics', icon: <SettingsIcon /> },
-      { id: 'Performance', icon: <TimerIcon /> },
-      { id: 'Test Lab', icon: <PhonelinkSetupIcon /> },
-    ],
-  },
-];
 
 const styles = theme => ({
   categoryHeader: {
@@ -115,269 +83,123 @@ const styles = theme => ({
   },
 });
 
+function Navigator(props, context) {
+  const { classes, ...other } = props;
 
-class Navigator extends React.Component {
-  
-  constructor(props){
-    super(props)
-    this.state = {
-      //navLinks: this.props.navLinks,
-      openDrawer: null,
-      showBack: false,
-      //isOpen: true,
+  const appid = `/apps/${props.currentApp.key}`
 
-      stack: this.defaultLinks()
-    };
-  }
+  const categories = [
 
-  componentDidUpdate(prevProps){
-    /*if (!prevProps || !prevProps.currentApp || !this.props || !this.props.currentApp)
-      return */
-
-    console.log("update: ", prevProps.currentApp,  "asa", this.props.currentApp)
-
-
-    if (!prevProps.currentApp && this.props.currentApp ){
-      this.resetNav()
-    }
-
-    if (prevProps &&  prevProps.currentApp && prevProps.currentApp.key !== this.props.currentApp.key){
-      console.log("sdsd")
-      // debugger
-      this.resetNav()
-    }
-  
-  }
-
-  handlePlatformClick = ()=>{
-    this.context.router.history.push(`/apps/${this.props.currentApp.key}`)
-    this.addOnsNestedNav()
-  }
-
-  resetNav = () => {
-    this.setState({
-      stack: this.defaultLinks()
-    });
-  };
-
-  addOnsNestedNav = () => {
-    this.setState({
-      showBack: true,
-      stack: this.navLinks()
-    });
-  };
-
-  handleBack = ()=>{
-    this.setState({
-      showBack: false,
-      stack: this.defaultLinks()
-      
-    }, ()=>{
-      this.context.router.history.push(`/apps/${this.props.currentApp.key}/`) 
-    })
-  }
-
-  handleMessagesClick = () => {
-    //this.context.router.history.push(`/apps/${this.props.currentApp.key}/conversations`)
-    this.context.router.history.push(`/apps/${this.props.currentApp.key}/campaings`)
-    this.messagesNestedNav()
-  }
-
-  setActiveLink = (link, cb)=>{
-    this.setState({
-      stack: this.state.stack.map((o)=> (
-        o.name === link.name ? 
-        Object.assign({}, o, {active: true}) : 
-        Object.assign({}, o, {active: false}) ) )
-    }, cb )
-  }
+    {
+      id: 'Platform',
+      children: props.currentApp.segments.map((o)=>(
+        { id: o.name , 
+          icon:  <EmailIcon/>, 
+          url: `/apps/${props.currentApp.key}/segments/${o.id}`
+        }
+      ))
+    },
+    {
+      id: 'Conversations',
+      children: [
+        { id: 'Conversations', icon:  <EmailIcon/>, url: `/apps/${props.currentApp.key}/conversations`},
+      ],
+    },
+    {
+      id: 'Settings',
+      children: [
+        { id: 'App Settings', icon:  <EmailIcon/>, url: `/apps/${props.currentApp.key}/settings`, }
+      ],
+    },
+    {
+      id: 'Campaigns',
+      children: [
+        /*{ id: 'Analytics', icon: <SettingsIcon /> },
+        { id: 'Performance', icon: <TimerIcon /> },
+        { id: 'Test Lab', icon: <PhonelinkSetupIcon /> },*/
+        { id: 'Mailing Campaigns', icon: <EmailIcon/>, url: `${appid}/messages/campaigns`},
+        { id: 'In App messages', icon: <EditorTableDisplayOptionsIcon/>, url: `${appid}/messages/user_auto_messages`},
+        { id: 'Guided tours', icon: <CanvasIcon/>, url: `${appid}/messages/tours`,},
+        { id: 'visitor auto messages', icon: <QuestionCircleIcon/>, url: `${appid}/messages/visitor_auto`}
+      ],
+    },
+    {
+      id: 'Develop',
+      children: [
+        { id: 'Authentication', icon: <PeopleIcon />, active: true },
+        { id: 'Database', icon: <DnsRoundedIcon /> },
+        { id: 'Storage', icon: <PermMediaOutlinedIcon /> },
+        { id: 'Hosting', icon: <PublicIcon /> },
+        { id: 'Functions', icon: <SettingsEthernetIcon /> },
+        { id: 'ML Kit', icon: <SettingsInputComponentIcon /> },
+      ],
+    },
+  ];
 
 
-  defaultLinks = () => {
-    if(!this.props.currentApp)
-      return []
-  
-    return [
-      { name: 'Platform', icon: EmailIcon, onClick: this.handlePlatformClick },
-      { url: `/apps/${this.props.currentApp.key}/conversations`, name: 'Conversations', icon: EmailIcon},
-      { onClick: this.handleMessagesClick ,  name: 'Campaigns', EmailIcon },
-      { url: `/apps/${this.props.currentApp.key}/settings`, name: 'Settings', icon: EmailIcon}
-    ]
-  }
-
-  navLinksForMessages = () => {
-    const { classes, navLinks } = this.props;
-    const context = this.context
-    /*if(!this.props.currentApp)
-      return []*/
-    const appid = `/apps/${this.props.currentApp.key}`
-    const links = [
-      {url: `${appid}/messages/campaigns`, name: 'Mailing Campaigns', icon: EmailIcon},
-      {url: `${appid}/messages/user_auto_messages`, name: 'In App messages', icon: EditorTableDisplayOptionsIcon},
-      {url: `${appid}/messages/tours`, name: 'Guided tours', icon: CanvasIcon},
-      {url: `${appid}/messages/visitor_auto`, name: 'visitor auto messages', icon: QuestionCircleIcon}
-    ]
-    return links
-  }
-
-  messagesNestedNav = () => {
-    this.setState({
-      showBack: true,
-      stack: this.navLinksForMessages()
-      
-    });
-  };
-
-  navLinks = ()=>{
-    return this.props.navLinks
-  }
-
-  renderIcon = (IconProp)=>{
-    return IconProp ? <IconProp/> : null
-  }
-
-  render(){
-    const { classes, navLinks, currentApp, currentUser, ...other } = this.props;
-    const context = this.context
-    console.log("DDD", this.props.currentApp)
-
-    return (
-
-      <Drawer variant="permanent" {...other}>
-        <List disablePadding>
-
-
-          <ListItem className={classNames(classes.firebase, classes.item, classes.itemCategory)}>
-            HERMES
-          </ListItem>
-
-
-          <ListItem
-            onClick={() => (context.router.history.push("/apps"))}
-            className={classNames(classes.item, classes.itemCategory)}>
-            <ListItemIcon>
-              <HomeIcon />
-            </ListItemIcon>
-            <ListItemText
-              classes={{
-                primary: classes.itemPrimary,
-              }}
-            >
-              Project Overview
+  return (
+    <Drawer variant="permanent" {...other}>
+      <List disablePadding>
+        <ListItem className={clsx(classes.firebase, classes.item, classes.itemCategory)}>
+          HERMES
+        </ListItem>
+        <ListItem className={clsx(classes.item, classes.itemCategory)}>
+          <ListItemIcon>
+            <HomeIcon />
+          </ListItemIcon>
+          <ListItemText
+            classes={{
+              primary: classes.itemPrimary,
+            }}
+          >
+            Project Overview
           </ListItemText>
-          </ListItem>
-
-          {
-            this.state.showBack ? 
-              <ListItem className={classes.categoryHeader} 
-              onClick={this.handleBack}>
+        </ListItem>
+        {categories.map(({ id, children }) => (
+          <React.Fragment key={id}>
+            <ListItem className={classes.categoryHeader}>
+              <ListItemText
+                classes={{
+                  primary: classes.categoryHeaderPrimary,
+                }}
+              >
+                {id}
+              </ListItemText>
+            </ListItem>
+            {children.map(({ id: childId, icon, active, url, onClick }) => (
+              <ListItem
+                button
+                dense
+                key={childId}
+                className={clsx(
+                  classes.item,
+                  classes.itemActionable,
+                  active && classes.itemActiveItem,
+                )}
+                onClick={(e) => {
+                  e.preventDefault()
+                  //this.setActiveLink(o, ()=>{
+                    url ? context.router.history.push(url) : onClick()
+                  //})
+                }}
+              >
+                <ListItemIcon>{icon}</ListItemIcon>
                 <ListItemText
                   classes={{
-                    primary: classes.categoryHeaderPrimary,
+                    primary: classes.itemPrimary,
+                    textDense: classes.textDense,
                   }}
                 >
-                  {'<- back'}
-              </ListItemText>
-              </ListItem> : 
-                  this.props.currentApp ? 
-
-                  <ListItem className={classes.categoryHeader} onClick={this.handleBack}>
-                    <ListItemText
-                      classes={{
-                        primary: classes.categoryHeaderPrimary,
-                      }}
-                    >
-                      {this.props.currentApp.name}
-                  </ListItemText>
-                  </ListItem>  : null
-              
-          }
-
-          {/*<Accordeon/>*/}
-
-          {
-            this.state.stack && this.props.currentApp ? this.state.stack.map((o, childId) => (
-                  
-                <ListItem
-                    button
-                    dense
-                    key={childId}
-                    selected={o.active}
-                    onClick={(e) => {
-                      e.preventDefault()
-                      this.setActiveLink(o, ()=>{
-                        o.url ? context.router.history.push(o.url) : o.onClick()
-                      })
-                      
-                    }}
-                    className={classNames(
-                      classes.item,
-                      classes.itemActionable,
-                      //active && classes.itemActiveItem,
-                    )}
-                  >
-                    <ListItemIcon>{this.renderIcon(o.icon) || <EmailIcon/>}</ListItemIcon>
-                    <ListItemText
-                      classes={{
-                        primary: classes.itemPrimary,
-                        dense: classes.textDense,
-                      }}
-                    >
-                      {o.name}
-                    </ListItemText>
-                  </ListItem>
-
-                ))
-
-            : null
-          }
-    
-
-            {/*
-              this.props.currentApp ?
-                <AkContainerNavigationNested
-                  stack={this.state.stack}
-                /> : null
-              */
-            }
-
-
-            {/*
-              navLinks.map((o, childId) => (
-                <ListItem
-                  button
-                  dense
-                  key={childId}
-                  onClick={(e) => {
-                    e.preventDefault()
-                    context.router.history.push(o[0])
-                  }}
-                  className={classNames(
-                    classes.item,
-                    classes.itemActionable,
-                    //active && classes.itemActiveItem,
-                  )}
-                >
-                  <ListItemIcon>icon</ListItemIcon>
-                  <ListItemText
-                    classes={{
-                      primary: classes.itemPrimary,
-                      textDense: classes.textDense,
-                    }}
-                  >
-                    {o[1]}
-                  </ListItemText>
-                </ListItem>
-
-              ))
-                  */ }
-
+                  {childId}
+                </ListItemText>
+              </ListItem>
+            ))}
             <Divider className={classes.divider} />
-         
-        </List>
-      </Drawer>
-    );
-  }
+          </React.Fragment>
+        ))}
+      </List>
+    </Drawer>
+  );
 }
 
 
@@ -394,3 +216,4 @@ Navigator.propTypes = {
 };
 
 export default withStyles(styles)(Navigator);
+
