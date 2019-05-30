@@ -308,7 +308,6 @@ class Navigator extends React.Component {
                       this.setActiveLink(o, ()=>{
                         o.url ? context.router.history.push(o.url) : o.onClick()
                       })
-                      
                     }}
                     className={classNames(
                       classes.item,

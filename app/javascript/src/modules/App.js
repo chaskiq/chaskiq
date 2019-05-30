@@ -46,7 +46,9 @@ class Paperbase extends React.Component {
 
     const childrenWithProps = React.Children.map(children, child =>
       React.cloneElement(child, { classes: classes }));
+    
     console.log("SSSS", this.props.currentUser)
+
     return (
         <div className={classes.root}>
           <CssBaseline />
@@ -65,7 +67,7 @@ class Paperbase extends React.Component {
                     onNavResize={this.props.onNavResize}
                     currentUser={this.props.currentUser}
                     currentApp={this.props.currentApp}
-
+                    
                   />
                 </Hidden>
                 <Hidden xsDown implementation="css">
