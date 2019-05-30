@@ -90,6 +90,7 @@ const ActivityIndicator = styled.span`
 
 const ButtonGroup = styled.div`
   display: inline-flex;
+  display: -webkit-box;
   button {
     margin-right: 5px !important;
   }

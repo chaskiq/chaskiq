@@ -47,6 +47,7 @@ const ContentMatchFooter = styled.div`
 
 const ButtonGroup = styled.div`
   display: inline-flex;
+  display: -webkit-box;
   button {
     margin-right: 5px !important;
   }

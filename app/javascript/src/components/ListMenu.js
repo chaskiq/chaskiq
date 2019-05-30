@@ -49,10 +49,10 @@ function SimpleListMenu() {
           button
           aria-haspopup="true"
           aria-controls="lock-menu"
-          aria-label="When device is locked"
+          aria-label="Switch application"
           onClick={handleClickListItem}
         >
-          <ListItemText primary="When device is locked" secondary={options[selectedIndex]} />
+          <ListItemText primary="Switch application" secondary={options[selectedIndex]} />
         </ListItem>
       </List>
 

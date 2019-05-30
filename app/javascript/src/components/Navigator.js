@@ -19,6 +19,9 @@ import TimerIcon from '@material-ui/icons/Timer';
 import SettingsIcon from '@material-ui/icons/Settings';
 import PhonelinkSetupIcon from '@material-ui/icons/PhonelinkSetup';
 
+import BookIcon from '@material-ui/icons/Book';
+
+import SmsIcon from '@material-ui/icons/Sms';
 
 // TODO: icons to change
 import SearchIcon from '@atlaskit/icon/glyph/search';
@@ -35,10 +38,14 @@ import CanvasIcon from '@atlaskit/icon/glyph/canvas';
 import EmailIcon from '@atlaskit/icon/glyph/email';
 import QuestionCircleIcon from '@atlaskit/icon/glyph/question-circle';
 
+import ExpansionPanel from '@material-ui/core/ExpansionPanel';
+import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails';
+import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary';
+
 const styles = theme => ({
   categoryHeader: {
-    paddingTop: 16,
-    paddingBottom: 16,
+    //paddingTop: 16,
+    //paddingBottom: 16,
   },
   categoryHeaderPrimary: {
     color: theme.palette.common.main,
@@ -81,6 +88,14 @@ const styles = theme => ({
     marginTop: theme.spacing(2),
     backgroundColor: 'rgba(58, 56, 56, 0.08)',
   },
+  expansionPanelSummary: {
+    //display: 'inherit',
+    //padding: '0px'
+  },
+   expansionPanelDetails: {
+    display: 'inherit',
+    padding: '0px'
+  }
 });
 
 function Navigator(props, context) {
@@ -88,13 +103,20 @@ function Navigator(props, context) {
 
   const appid = `/apps/${props.currentApp.key}`
 
+  const [expanded, setExpanded] = React.useState('Platform');
+
+  const handleChange = panel => (event, isExpanded) => {
+    setExpanded(isExpanded ? panel : false);
+  };
+
   const categories = [
 
     {
       id: 'Platform',
+      icon: <PeopleIcon style={{ fontSize: 30 }}/>,
       children: props.currentApp.segments.map((o)=>(
         { id: o.name , 
-          icon:  <EmailIcon/>, 
+          icon:  null, 
           url: `/apps/${props.currentApp.key}/segments/${o.id}`
         }
       ))
@@ -102,13 +124,7 @@ function Navigator(props, context) {
     {
       id: 'Conversations',
       children: [
-        { id: 'Conversations', icon:  <EmailIcon/>, url: `/apps/${props.currentApp.key}/conversations`},
-      ],
-    },
-    {
-      id: 'Settings',
-      children: [
-        { id: 'App Settings', icon:  <EmailIcon/>, url: `/apps/${props.currentApp.key}/settings`, }
+        { id: 'Conversations', icon:  <SmsIcon/>, url: `/apps/${props.currentApp.key}/conversations`},
       ],
     },
     {
@@ -123,11 +139,28 @@ function Navigator(props, context) {
         { id: 'visitor auto messages', icon: <QuestionCircleIcon/>, url: `${appid}/messages/visitor_auto`}
       ],
     },
+
+    {
+      id: 'App\'s Knowledgebase',
+      children: [
+        /*{ id: 'Analytics', icon: <SettingsIcon /> },
+        { id: 'Performance', icon: <TimerIcon /> },
+        { id: 'Test Lab', icon: <PhonelinkSetupIcon /> },*/
+        { id: 'Articles', icon: <BookIcon/>, url: `${appid}/messages/campaigns`},
+      ],
+    },
+
+    {
+      id: 'Settings',
+      children: [
+        { id: 'App Settings', icon:  <SettingsIcon/>, url: `/apps/${props.currentApp.key}/settings`, },
+        { id: 'Authentication', icon: <PeopleIcon />, active: true },
+      ],
+    },
     {
       id: 'Develop',
       children: [
-        { id: 'Authentication', icon: <PeopleIcon />, active: true },
-        { id: 'Database', icon: <DnsRoundedIcon /> },
+        { id: 'Api', icon: <DnsRoundedIcon /> },
         { id: 'Storage', icon: <PermMediaOutlinedIcon /> },
         { id: 'Hosting', icon: <PublicIcon /> },
         { id: 'Functions', icon: <SettingsEthernetIcon /> },
@@ -135,7 +168,6 @@ function Navigator(props, context) {
       ],
     },
   ];
-
 
   return (
     <Drawer variant="permanent" {...other}>
@@ -155,47 +187,68 @@ function Navigator(props, context) {
             Project Overview
           </ListItemText>
         </ListItem>
-        {categories.map(({ id, children }) => (
-          <React.Fragment key={id}>
-            <ListItem className={classes.categoryHeader}>
-              <ListItemText
-                classes={{
-                  primary: classes.categoryHeaderPrimary,
-                }}
-              >
-                {id}
-              </ListItemText>
-            </ListItem>
-            {children.map(({ id: childId, icon, active, url, onClick }) => (
-              <ListItem
-                button
-                dense
-                key={childId}
-                className={clsx(
-                  classes.item,
-                  classes.itemActionable,
-                  active && classes.itemActiveItem,
-                )}
-                onClick={(e) => {
-                  e.preventDefault()
-                  //this.setActiveLink(o, ()=>{
-                    url ? context.router.history.push(url) : onClick()
-                  //})
-                }}
-              >
-                <ListItemIcon>{icon}</ListItemIcon>
-                <ListItemText
-                  classes={{
-                    primary: classes.itemPrimary,
-                    textDense: classes.textDense,
-                  }}
-                >
-                  {childId}
-                </ListItemText>
-              </ListItem>
-            ))}
-            <Divider className={classes.divider} />
-          </React.Fragment>
+
+        {categories.map(({ id, icon, children }) => (
+
+          <ExpansionPanel 
+            key={id}
+            expanded={expanded === id} 
+            onChange={handleChange(id)}>
+
+
+            <ExpansionPanelSummary 
+              aria-controls="panel1d-content" 
+              id="panel1d-header"
+              className={classes.expansionPanelSummary}>
+                <ListItem className={classes.categoryHeader}>
+                  {icon ? <ListItemIcon>{icon}</ListItemIcon> : null }
+                  <ListItemText
+                    classes={{
+                      primary: classes.categoryHeaderPrimary,
+                    }}
+                  >
+                    {id}
+                  </ListItemText>
+                </ListItem>
+            </ExpansionPanelSummary>
+
+            <ExpansionPanelDetails  className={classes.expansionPanelDetails}>
+              {children.map(({ id: childId, icon, active, url, onClick }) => (
+                  <ListItem
+                    button
+                    dense
+                    key={childId}
+                    className={clsx(
+                      classes.item,
+                      classes.itemActionable,
+                      active && classes.itemActiveItem,
+                    )}
+                    onClick={(e) => {
+                      e.preventDefault()
+                      //this.setActiveLink(o, ()=>{
+                        url ? context.router.history.push(url) : onClick()
+                      //})
+                    }}
+                  >
+                    {icon ? <ListItemIcon>{icon}</ListItemIcon> : null }
+                    <ListItemText
+                      classes={{
+                        primary: classes.itemPrimary,
+                        textDense: classes.textDense,
+                      }}
+                    >
+                      {childId}
+                    </ListItemText>
+                  </ListItem>
+                ))}
+                <Divider className={classes.divider} />
+        
+            </ExpansionPanelDetails>
+
+                
+            
+
+          </ExpansionPanel>
         ))}
       </List>
     </Drawer>
