@@ -234,7 +234,7 @@ function Navigator(props, context) {
                     <ListItemText
                       classes={{
                         primary: classes.itemPrimary,
-                        textDense: classes.textDense,
+                        dense: classes.textDense,
                       }}
                     >
                       {childId}
