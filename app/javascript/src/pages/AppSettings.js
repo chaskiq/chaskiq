@@ -85,50 +85,45 @@ class SettingsForm extends Component {
                 }
               />*/
             } 
-        <div
-          style={{
-            //display: 'flex',
-            paddingTop: '20px',
-            width: '66%',
-            margin: '0 auto',
-            flexDirection: 'row',
-          }}>
+        
 
-          <Paper>
+            <Paper style={{
+              padding: '5em'
+            }}>
 
-            <form
-              name="create-repo"
-              onSubmit={this.onSubmitHandler.bind(this)}
-              ref={form => {
-                this.formRef = form;
-              }}>
+              <form
+                name="create-repo"
+                onSubmit={this.onSubmitHandler.bind(this)}
+                ref={form => {
+                  this.formRef = form;
+                }}>
 
-              <FormHeader title="App settings" />
+                <FormHeader title="App settings" />
 
-              {
-                this.props.data.configFields.map((field) => {
-                  return <FieldRenderer 
-                          namespace={'app'} 
-                          data={field}
-                          props={this.props} 
-                          errors={this.state.errors}
-                         />
-                })
-              }
+                {
+                  this.props.data.configFields.map((field) => {
+                    return <FieldRenderer 
+                            namespace={'app'} 
+                            data={field}
+                            props={this.props} 
+                            errors={this.state.errors}
+                           />
+                  })
+                }
 
-              <Button variant="contained" color="primary" type="submit">
-                Save settings
-              </Button>
+                <Button variant="contained" color="primary" type="submit">
+                  Save settings
+                </Button>
 
-              <Button appearance="subtle">
-                Cancel
-              </Button>
+                <Button appearance="subtle">
+                  Cancel
+                </Button>
 
-            </form>
+              </form>
 
-          </Paper>
+            </Paper>
 
-        </div>
+       
 
     </ContentWrapper>
   }
