@@ -3,7 +3,6 @@ module Types
     field :id, Int, null: false
     field :email, String, null: true
     #field :user, [Types::UserType], null: true
-
     field  :last_visited_at, String, null: true
     field  :referrer, String, null: true
     field  :state, String, null: true
