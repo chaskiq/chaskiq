@@ -21,6 +21,8 @@ import './convo.scss'
 import UserListItem from '../components/UserListItem'
 import Accordeon from '../components/accordeon'
 
+import UserData from '../components/UserData'
+
 
 import { camelCase } from 'lodash';
 
@@ -401,18 +403,6 @@ class ConversationContainerShow extends Component {
         })        
       }
     })
-
-    /*
-    axios.get(`/apps/${this.props.appId}/app_users/${id}.json`)
-      .then( (response)=> {
-        this.setState({
-          appUser: response.data.appUser
-        })
-      })
-      .catch( (error)=> {
-        console.log(error);
-      });
-    */
   }
 
   getMessages = ()=>{
@@ -649,114 +639,7 @@ class ConversationContainerShow extends Component {
                 paddingTop: '20px'
               }}>
 
-
-              <ActivityAvatar>
-                  <Avatar 
-                    src={gravatar.url(this.state.appUser.email)}
-                    name="large" 
-                    size="xlarge" 
-                    presence={this.state.appUser.state} 
-                  />
-                  
-                </ActivityAvatar>
-              
-              <p style={{
-                display: 'flex', 
-                alignSelf: 'center', 
-                fontWeight: '700'}}>
-                {this.state.appUser.email}
-              </p>
-
-              <p style={{
-                display: 'flex', 
-                alignSelf: 'center', 
-                fontWeight: '300',
-                marginTop: '20px',
-                fontSize: '11px',
-                color: 'lightblue'
-              }}>
-
-                <Moment fromNow>
-                  {this.state.appUser.lastVisitedAt}
-                </Moment>
-              </p>
-
-              <Accordeon items={[
-                  {name: "Location" , 
-                  component: null,
-                  items: [ {
-                              label: 'referrer',
-                              value: this.state.appUser.referrer
-                            },
-
-                            {
-                              label: 'city',
-                              value: this.state.appUser.city
-                            },
-                            
-                            {
-                              label: 'region',
-                              value: this.state.appUser.region
-                            },
-                            
-                            {
-                              label: 'country',
-                              value: this.state.appUser.country
-                            },
-                            
-                            {
-                              label: 'lat',
-                              value: this.state.appUser.lat
-                            },
-                            
-                            {
-                              label: 'lng',
-                              value: this.state.appUser.lng
-                            }
-                          ]                                                   
-                                                    
-                  },
-                  {
-                    name: "Browsing Properties", 
-                    component: null,
-                    items:  [
-                              {label: 'postal:',
-                                value: this.state.appUser.postal},
-                            
-                              {label: 'web sessions:',
-                              value: this.state.appUser.webSessions},
-                            
-                              {label: 'timezone:',
-                              value: this.state.appUser.timezone},
-                            
-                              {label: 'browser version:',
-                              value: this.state.appUser.browserVersion},
-
-                              {label: 'browser:',
-                              value: this.state.appUser.browser},
-                            
-                              {label: 'os:',
-                              value: this.state.appUser.os},
-
-                              {label: 'os version:',
-                                value: this.state.appUser.osVersion}
-                            ]
-                                                          
-                  },
-                  {name: "Properties", component: <UserDataList>
-                                                    {
-                                                      this.state.appUser.properties ? 
-                                                      Object.keys(this.state.appUser.properties).map((o, i)=>{ 
-                                                        return <li key={i}>
-                                                                  <strong>{o}:</strong>
-                                                                  <span>{this.state.appUser.properties[o]}</span>
-                                                                </li>
-                                                      }) : null
-                                                    }
-                                                  </UserDataList>
-                   }
-
-                ]}/>
+                <UserData appUser={this.state.appUser}/>
 
               </Overflow>
 

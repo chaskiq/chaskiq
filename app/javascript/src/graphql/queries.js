@@ -140,6 +140,7 @@ export const APP_USER = `
 query AppUser($appKey: String!, $id: Int! ) {
   app(key: $appKey) {
     appUser(id: $id ) {
+      id
       email
       lastVisitedAt
       referrer
@@ -159,7 +160,6 @@ query AppUser($appKey: String!, $id: Int! ) {
       osVersion
       browserLanguage
       lang
-
     }
   }
 }

@@ -13,7 +13,13 @@ const AvatarWrapper = styled.div`
 export const appUsersFormat = (withWidth: boolean) => {
 
   return [
-      {
+    {
+      name: 'id',
+      options: {
+        filter: false
+      }
+    },
+    {
         name: 'email',
         options: {
           filter: false

@@ -6,7 +6,6 @@ import {
 } from 'react-router-dom'
 import Moment from 'react-moment';
 import PropTypes from 'prop-types';
-import DynamicTable from '@atlaskit/dynamic-table'
 import styled from 'styled-components';
 import Spinner from '@atlaskit/spinner';
 import EmptyState from '@atlaskit/empty-state'
@@ -24,20 +23,21 @@ import {
 
 import AtTabs from '../components/tabs'
 import graphql from "../graphql/client"
-import { APP, SEGMENT} from "../graphql/queries"
+import { APP, SEGMENT, APP_USER} from "../graphql/queries"
 import { 
   PREDICATES_SEARCH, 
   PREDICATES_CREATE, 
   PREDICATES_UPDATE, 
   PREDICATES_DELETE 
 } from '../graphql/mutations'
+import UserData from '../components/UserData'
 import EnhancedTable from '../components/table'
 import DataTable from '../components/dataTable'
 import ContentHeader from '../components/ContentHeader'
 import Content from '../components/Content'
 import {appUsersFormat} from '../components/segmentManager/appUsersFormat'
 import Dashboard from './Dashboard'
-
+import Drawer from '@material-ui/core/Drawer';
 import Button from '@material-ui/core/Button'
 
 const CableApp = {
@@ -100,7 +100,9 @@ class AppUsers extends Component {
   constructor(props){
     super(props)
     this.state = {
-      map_view: false
+      map_view: false,
+      rightDrawer: false,
+      selectedUser: null,
     }
     this.toggleMap = this.toggleMap.bind(this)
     this.toggleList = this.toggleList.bind(this)
@@ -201,12 +203,43 @@ class AppUsers extends Component {
               */
             }
 
-
-
            </div>
   }
 
+  showUserDrawer = (e)=>{
+    this.setState({ rightDrawer: true }, ()=>{
+      this.getUserData(e[0])
+    });
+  }
+
+  toggleDrawer = (side, open) => event => {
+    if (event.type === 'keydown' && (event.key === 'Tab' || event.key === 'Shift')) {
+      return;
+    }
+
+    this.setState({rightDrawer: open });
+  };
+
+  getUserData = (id)=>{
+
+    graphql(APP_USER, {
+        appKey: this.props.currentApp.key, 
+        id: id
+      }, 
+      {
+        success: (data)=>{
+          this.setState({
+            selectedUser: data.app.appUser
+          })
+      },
+      error: ()=>{
+
+      }
+    })
+  }
+
   render(){
+    
     return <Wrapper>
 
       {this.caption()}
@@ -217,7 +250,23 @@ class AppUsers extends Component {
         meta={this.props.store.meta}
         data={this.props.app_users}
         search={this.props.actions.search}
+        onRowClick={(e)=>{
+          this.showUserDrawer(e)
+        }}
       />
+
+      <Drawer 
+        anchor="right" 
+        style={{width: '330px'}}
+        open={this.state.rightDrawer} 
+        onClose={this.toggleDrawer('right', false)}>
+        
+        {
+          this.state.selectedUser ? 
+            <UserData appUser={this.state.selectedUser} /> : null
+        }
+
+      </Drawer>
     
     </Wrapper>
   }
