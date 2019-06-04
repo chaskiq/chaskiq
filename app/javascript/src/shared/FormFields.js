@@ -154,6 +154,7 @@ class FieldRenderer extends React.Component {
                     <Checkbox 
                       defaultChecked={props.data[data.name]}
                       name={`${namespace}[${data.name}]`} 
+                      value={"on"}
                      />
                   }
                   //labelPlacement="top"

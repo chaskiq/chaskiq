@@ -1,4 +1,13 @@
 GIT
+  remote: https://github.com/globalize/globalize.git
+  revision: 8f1e84942a1bbe4e77ae2ce87450c43eb447bbaa
+  specs:
+    globalize (5.3.0)
+      activemodel (>= 4.2, < 6.1)
+      activerecord (>= 4.2, < 6.1)
+      request_store (~> 1.0)
+
+GIT
   remote: https://github.com/rspec/rspec-core.git
   revision: 0b4c98d1c1915b636f635c5a88e6ca59c8cdf049
   branch: master
@@ -360,6 +369,8 @@ GEM
       ffi (~> 1.0)
     redis (4.1.0)
     regexp_parser (1.3.0)
+    request_store (1.4.1)
+      rack (>= 1.4)
     responders (2.4.1)
       actionpack (>= 4.2.0, < 6.0)
       railties (>= 4.2.0, < 6.0)
@@ -493,6 +504,7 @@ DEPENDENCIES
   factory_girl_rails
   faker!
   geocoder (~> 1.4)
+  globalize!
   graphiql-rails
   graphql (~> 1.9)
   groupdate

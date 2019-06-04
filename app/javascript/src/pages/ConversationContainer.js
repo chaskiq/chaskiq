@@ -639,7 +639,10 @@ class ConversationContainerShow extends Component {
                 paddingTop: '20px'
               }}>
 
-                <UserData appUser={this.state.appUser}/>
+                <UserData 
+                  width={ '100%'}
+                  appUser={this.state.appUser}
+                />
 
               </Overflow>
 

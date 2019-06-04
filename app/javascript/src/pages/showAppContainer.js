@@ -257,13 +257,13 @@ class AppUsers extends Component {
 
       <Drawer 
         anchor="right" 
-        style={{width: '330px'}}
         open={this.state.rightDrawer} 
         onClose={this.toggleDrawer('right', false)}>
         
         {
           this.state.selectedUser ? 
-            <UserData appUser={this.state.selectedUser} /> : null
+            <UserData width={ '300px'}
+              appUser={this.state.selectedUser} /> : null
         }
 
       </Drawer>
