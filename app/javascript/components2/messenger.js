@@ -597,13 +597,14 @@ class Messenger extends Component {
   }
 
   isMessengerActive = ()=>{
-    return this.state.appData && this.state.appData.active_messenger == "on"
+    return this.state.appData && this.state.appData.active_messenger == "on" || this.state.appData.active_messenger == "true"
   }
 
   isTourManagerEnabled = ()=>{
     return window.opener && window.opener.TourManagerEnabled ? 
       window.opener.TourManagerEnabled() : null
   }
+
 
   render(){
     return <ThemeProvider theme={{
@@ -690,7 +691,7 @@ class Messenger extends Component {
               } 
 
               { 
-                  this.state.appData && this.state.appData.active_messenger == "on" ?
+                  this.state.appData && this.isMessengerActive() ?
                   <StyledFrame style={{
                       zIndex: '10000000',
                       position: 'absolute',

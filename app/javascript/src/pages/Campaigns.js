@@ -129,6 +129,7 @@ class CampaignSegment extends Component {
   }
 
   search = (page) => {
+
     this.setState({ searching: true })
     // jwt or predicates from segment
     console.log(this.state.jwt)

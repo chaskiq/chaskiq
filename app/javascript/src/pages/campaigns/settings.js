@@ -1,6 +1,4 @@
 import React, {Component} from "react"
-import Select from '@atlaskit/select';
-import FieldText from '@atlaskit/field-text';
 import Button from '@material-ui/core/Button';
 
 
@@ -13,6 +11,7 @@ import graphql from "../../graphql/client"
 import { UPDATE_CAMPAIGN, CREATE_CAMPAIGN } from "../../graphql/mutations"
 
 import FieldRenderer from "../../shared/FormFields"
+import {toSnakeCase} from '../../shared/caseConverter'
 
 
 export default class CampaignSettings extends Component {
@@ -36,7 +35,8 @@ export default class CampaignSettings extends Component {
 
   onSubmitHandler = (e)=>{
     e.preventDefault()
-    const data = serialize(this.formRef, { hash: true, empty: true })
+    const serializedData = serialize(this.formRef, { hash: true, empty: true })
+    const data = toSnakeCase(serializedData)
     this.props.match.params.id === "new" ? 
       this.create(data) : this.update(data)
   }
@@ -118,7 +118,6 @@ export default class CampaignSettings extends Component {
   };
 
   render() {
-    console.log(this.state.data)
     return (
       <div
         style={{
@@ -161,9 +160,10 @@ export default class CampaignSettings extends Component {
               {},
             ]}
           >
-            <Button appearance="primary" type="submit">
-              Create repository
+            <Button variant="contained" color="primary">
+              Save
             </Button>
+
             <Button appearance="subtle">
               Cancel
             </Button>

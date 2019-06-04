@@ -23,13 +23,13 @@ class Tour < Message
       {name: "subject", type: 'string'} ,
       {name: "description", type: 'text'},
       {name: "url", type: 'string'},
-      {name: "hidden_constraints", type: "select", 
+      {name: "hiddenConstraints", type: "select", 
         options: ["close", "click", "viewed" ], 
         multiple: true,
         default: "click"
       },
-      {name: "scheduled_at", type: 'datetime'},
-      {name: "scheduled_to", type: 'datetime'},
+      {name: "scheduledAt", type: 'datetime'},
+      {name: "scheduledTo", type: 'datetime'},
     ]
   end
 

@@ -22,13 +22,13 @@ class UserAutoMessage < Message
       {name: "name", type: 'string'} ,
       {name: "subject", type: 'text'} ,
       {name: "description", type: 'text'},
-      {name: "hidden_constraints", type: "select", 
+      {name: "hiddenConstraints", type: "select", 
         options: ["close", "click", "viewed" ], 
         multiple: true,
         default: "click"
       },
-      {name: "scheduled_at", type: 'datetime'},
-      {name: "scheduled_to", type: 'datetime'},
+      {name: "scheduledAt", type: 'datetime'},
+      {name: "scheduledTo", type: 'datetime'},
     ]
   end
 

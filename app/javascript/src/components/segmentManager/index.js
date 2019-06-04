@@ -647,75 +647,6 @@ export class InlineFilterDialog extends Component {
   }
 }
 
-/*
-export class InlineCriteriaDialog extends Component {
-  state = {
-    dialogOpen: false,
-    btn: null
-  };
-
-  toggleDialog = (e) => this.setState({ 
-    dialogOpen: !this.state.dialogOpen,
-    btn: e.target
-  });
-
-  handleClick = (e, o) => {
-    this.props.addPredicate(o, ()=> { 
-      this.props.handleClick()
-    })
-  }
-
-  render() {
-
-    const fields = [
-      {name: "match any criteria", type: "or"},
-      {name: "match all criteria", type: "and"},   
-    ]
-
-    const content = (
-      <div>
-        <h5>Select field</h5>
-        <p>oeoe</p>
-
-        <ul style={{ height: '200px', overflow: 'auto'}}>
-          {
-            fields.map((o)=> <MenuItem key={o.name}>
-                              <Button 
-                                color={'primary'} 
-                                variant="outlined"
-                                onClick={(e)=> this.handleClick.bind(this)(e, o)}>
-                                {o.name}
-                              </Button>
-                             </MenuItem>
-            )
-          }
-        </ul>
-      </div>
-    );
-
-    return (
-      <div style={{ minHeight: '120px' }}>
-        <Menu
-          anchorEl={this.state.btn}
-          open={this.state.dialogOpen}
-          //position="bottom left"
-          >
-          {content}
-        </Menu>
-
-        <Button isLoading={false} 
-          appearance={'link'}
-          onClick={this.toggleDialog}>
-          <i className="fas fa-plus"></i>
-          {" "}
-          Add filter
-        </Button>
-   
-      </div>
-    );
-  }
-}*/
-
 
 export default class SegmentManager extends Component {
 
@@ -775,7 +706,7 @@ export default class SegmentManager extends Component {
               columns={appUsersFormat()} 
               meta={this.props.meta}
               data={this.props.app_users}
-              //search={this.props.actions.search}
+              search={this.props.search}
             />
 
           </div>

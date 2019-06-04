@@ -21,6 +21,8 @@ import FieldRenderer from '../shared/FormFields'
 import graphql from "../graphql/client";
 import { APP } from "../graphql/queries"
 import { PREDICATES_SEARCH, UPDATE_APP } from '../graphql/mutations'
+import { toSnakeCase } from '../shared/caseConverter'
+
 
 class SettingsForm extends Component {
 
@@ -67,7 +69,8 @@ class SettingsForm extends Component {
 
   onSubmitHandler = (e) => {
     e.preventDefault()
-    const data = serialize(this.formRef, { hash: true, empty: true })
+    const serializedData = serialize(this.formRef, { hash: true, empty: true })
+    const data           = toSnakeCase(serializedData)
     this.props.update(data)
   }
 
