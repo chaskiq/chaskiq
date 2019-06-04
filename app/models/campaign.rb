@@ -8,16 +8,16 @@ class Campaign < Message
 
   def config_fields
     [
-      {name: "from_name", type: 'string'} ,
-      {name: "from_email", type: 'string'},
-      {name: "reply_email", type: 'string'},
+      {name: "fromName", type: 'string'} ,
+      {name: "fromEmail", type: 'string'},
+      {name: "replyEmail", type: 'string'},
       {name: "description", type: 'text'} ,
       {name: "name", type: 'string'} ,
       {name: "timezone", type: 'string'} ,
       {name: "subject", type: 'text'} ,
       #{name: "settings", type: 'string'} ,
-      {name: "scheduled_at", type: 'datetime'},
-      {name: "scheduled_to", type: 'datetime'}
+      {name: "scheduledAt", type: 'datetime'},
+      {name: "scheduledTo", type: 'datetime'}
     ]
   end
 

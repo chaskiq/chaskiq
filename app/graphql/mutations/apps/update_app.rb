@@ -10,7 +10,7 @@ module Mutations
 
     def resolve(app_key: , app_params:)
       @app = context[:current_user].apps.find_by(key: app_key)
-      @app.update_attributes(app_params.permit!)
+      @app.update(app_params.permit!)
       { app: @app, errors: @app.errors }
     end
   end

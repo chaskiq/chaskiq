@@ -54,7 +54,7 @@ class FieldRenderer extends React.Component {
     const {namespace, data, props, errors, classes} = this.props
 
     const errorMessage = errorsFor(data.name, errors)
-    
+
     switch (data.type) {
       case "string":
         // className={classes.formControl}
@@ -154,7 +154,7 @@ class FieldRenderer extends React.Component {
                     <Checkbox 
                       defaultChecked={props.data[data.name]}
                       name={`${namespace}[${data.name}]`} 
-                      value={"on"}
+                      value={true}
                      />
                   }
                   //labelPlacement="top"
