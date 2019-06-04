@@ -1,5 +1,8 @@
-import Avatar from '@atlaskit/avatar';
+import React from 'react'
+import Avatar from '@material-ui/core/Avatar';
+import Typography from '@material-ui/core/Typography'
 import styled from 'styled-components'
+import Moment from 'react-moment';
 
 const NameWrapper = styled.span`
   display: flex;
@@ -22,25 +25,24 @@ export const appUsersFormat = (withWidth: boolean) => {
     {
         name: 'email',
         options: {
-          filter: false
+          filter: false,
+          customBodyRender: (value, tableMeta, updateValue) => {
+            return (
+              <NameWrapper>
+                <AvatarWrapper>
+                  <Avatar
+                    name={value}
+                    size="medium"
+                    src={`https://api.adorable.io/avatars/24/${encodeURIComponent(
+                      value,
+                    )}.png`}
+                  />
+                </AvatarWrapper>
+                <Typography>{value}</Typography>
+              </NameWrapper>
+            );
+          }
         },
-
-        customBodyRender: (value, tableMeta, updateValue) => {
-          return (
-            <NameWrapper>
-              <AvatarWrapper>
-                <Avatar
-                  name={value}
-                  size="medium"
-                  src={`https://api.adorable.io/avatars/24/${encodeURIComponent(
-                    value,
-                  )}.png`}
-                />
-              </AvatarWrapper>
-              <a href="#">{value}</a>
-            </NameWrapper>
-          );
-        }
 
         /*content: 'Name',
         isSortable: true,
@@ -49,7 +51,12 @@ export const appUsersFormat = (withWidth: boolean) => {
       {
         name: 'lastVisitedAt',
         options: {
-          filter: false
+          filter: false,
+          customBodyRender: (value, tableMeta, updateValue) => {
+            return <Moment fromNow>
+                    {value}
+                   </Moment>
+          }
         }
         /*content: 'state',
         shouldTruncate: true,

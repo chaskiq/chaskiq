@@ -28,12 +28,11 @@ const UserDataContent = styled.div`
   display: inline-block;
   align-items: center;
   text-align: center;
-  width: 300px;
 `
 
 export default class UserData extends Component {
   render(){
-    return <UserDataContent>
+    return <UserDataContent style={{width: this.props.width}}>
 
               <UserDataInformation>
     
