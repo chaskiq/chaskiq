@@ -4,19 +4,28 @@ import MUIDataTable from "mui-datatables";
 import CustomToolbarSelect from "./CustomToolbarSelect";
 import CustomFooter from './footer'
 
+import { CircularProgress } from '@material-ui/core';
+
+
 export default class App extends React.Component {
+
+  changePage = (page) => {
+    this.props.search(this.props.meta.next_page)
+  }
+
+
   render() {
     const columns = this.props.columns
 
     let data = this.props.data
 
     const options = {
-      filter: true,
+      filter: false,
       selectableRows: true,
       filterType: "dropdown",
       responsive: "stacked",
       selectableRows: false,
-      rowsPerPage: 10,
+      rowsPerPage: 20,
       elevation: false,
       serverSide: true,
       page: this.props.meta.current_page,
@@ -32,6 +41,7 @@ export default class App extends React.Component {
           previous: "Previous Page",
           rowsPerPage: "Rows per page:",
           displayRows: "of",
+          records: "records"
         },
         toolbar: {
           search: "Search",
@@ -56,31 +66,34 @@ export default class App extends React.Component {
         },
       },
 
+
+      serverSide: true,
+      page: this.props.meta.current_page,
+      count: this.props.meta.total_count,
+      
+      onTableChange: (action, tableState) => {
+
+        console.log(action, tableState);
+        // a developer could react to change on an action basis or
+        // examine the state as a whole and do whatever they want
+
+        switch (action) {
+          case 'changePage':
+            this.changePage(tableState.page);
+            break;
+        }
+      },
+
       customFooter: (count, page, rowsPerPage, changeRowsPerPage, changePage, textLabels) => {
         return (  
           <CustomFooter 
+            meta={this.props.meta}
             changePage={changePage} 
             count={this.props.meta.total_count}
+            textLabels={options.textLabels.pagination}
           />
         );
       },
-      onTableChange: (action, tableState) => {
-        console.log(tableState.page)
-        console.log(this.props)
-        this.props.search(this.props.meta.next_page)
-        /*this.xhrRequest('my.api.com/tableData', result => {
-          this.setState({ data: result });
-        });*/
-      },
-      onChangePage22  : (currentPage) => {
-        //const { prev, limit } = this.state;
-        // every change page it will check the page that should be make a new request or not
-        /*if(currentPage > prev) {
-          this.setState({prev: prev+1})
-          this.onNextPage(limit, currentPage*limit); 
-        }*/
-      }
-      ,
       customToolbarSelect: selectedRows => (
         <CustomToolbarSelect selectedRows={selectedRows} />
       )
@@ -96,3 +109,8 @@ export default class App extends React.Component {
     );
   }
 }
+
+/*
+{isLoading && <CircularProgress style={{ marginLeft: '50%' }} />}
+
+*/
