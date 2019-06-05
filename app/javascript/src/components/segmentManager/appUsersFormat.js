@@ -3,6 +3,9 @@ import Avatar from '@material-ui/core/Avatar';
 import Typography from '@material-ui/core/Typography'
 import styled from 'styled-components'
 import Moment from 'react-moment';
+import Badge from '@material-ui/core/Badge';
+import { makeStyles } from '@material-ui/core/styles';
+
 
 const NameWrapper = styled.span`
   display: flex;
@@ -13,7 +16,17 @@ const AvatarWrapper = styled.div`
   margin-right: 8px;
 `;
 
+const useStyles = makeStyles(theme => ({
+  margin: {
+    margin: theme.spacing(2),
+  },
+}));
+
+
+
 export const appUsersFormat = (withWidth: boolean) => {
+
+  //const classes = useStyles();
 
   return [
     {
@@ -27,17 +40,26 @@ export const appUsersFormat = (withWidth: boolean) => {
         options: {
           filter: false,
           customBodyRender: (value, tableMeta, updateValue) => {
+            const isOnline = _.isArray(tableMeta.rowData) ? 
+                              tableMeta.rowData[5] === "online" : null
+            console.log(isOnline)
             return (
               <NameWrapper>
                 <AvatarWrapper>
-                  <Avatar
-                    name={value}
-                    size="medium"
-                    src={`https://api.adorable.io/avatars/24/${encodeURIComponent(
-                      value,
-                    )}.png`}
-                  />
+                  <Badge 
+                    //className={classes.margin} 
+                    color={isOnline ? "primary" : 'secondary' }
+                    variant="dot">
+                    <Avatar
+                      name={value}
+                      size="medium"
+                      src={`https://api.adorable.io/avatars/24/${encodeURIComponent(
+                        value,
+                      )}.png`}
+                    />
+                  </Badge>
                 </AvatarWrapper>
+
                 <Typography>{value}</Typography>
               </NameWrapper>
             );

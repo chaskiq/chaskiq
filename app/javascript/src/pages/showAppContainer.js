@@ -250,6 +250,7 @@ class AppUsers extends Component {
         meta={this.props.store.meta}
         data={this.props.app_users}
         search={this.props.actions.search}
+        loading={this.props.store.searching}
         onRowClick={(e)=>{
           this.showUserDrawer(e)
         }}
@@ -620,6 +621,7 @@ export default class ShowAppContainer extends Component {
                                 app_users: this.state.app_users,
                                 meta: this.state.meta,
                                 segment: this.state.segment,
+                                searching: this.state.searching,
                                 currentUser: this.props.currentUser
                               }, 
                               actions: this.actions() 
