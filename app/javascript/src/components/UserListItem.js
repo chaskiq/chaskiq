@@ -23,8 +23,17 @@ const useStyles = makeStyles(theme => ({
 
   tinyAvatar: {
     width: '20px',
-    height: '20px'
+    height: '20px',
+    marginRight: '20px',
   },
+  flexContainer: {
+    display: 'flex',
+    alignItems: 'center'
+  },
+  textMargin: {
+    
+    color: 'rgba(0, 0, 0, 0.54)'
+  }
 
   /*badge: {
     top: '50%',
@@ -45,45 +54,64 @@ function AlignItemsList(props) {
     <List className={classes.root}>
       <ListItem alignItems="flex-start">
         <ListItemAvatar>
-          <Badge
-            className={classes.badge}
-            badgeContent={4} 
-            color="primary">
+          {/*<Badge
+                      className={classes.badge}
+                      badgeContent={4} 
+                      color="primary"></Badge>*/}
             <Avatar 
               alt={props.mainUser.email} 
               src={gravatar.url(props.mainUser.email)} 
             />
-          </Badge>
+          
         </ListItemAvatar>
         <ListItemText
-          primary="Brunch this weekend?"
+          primary={props.messageUser.email}
           secondary={
             <React.Fragment>
+
               <Typography
                 component="span"
                 variant="body2"
                 className={classes.inline}
-                color="textPrimary"
-              >
-                {props.messageUser.email}
+                color="textPrimary">
+
+                <div className={classes.flexContainer}>
+                  
+                  {
+                    props.mainUser.id != props.messageUser.id ?
+                      <Avatar  className={classes.tinyAvatar}
+                          alt={props.messageUser.email} 
+                          src={gravatar.url(props.messageUser.email)} 
+                      /> : null 
+                  }
+
+                  <span className={classes.textMargin} 
+                    dangerouslySetInnerHTML={
+                    { __html: props.message }
+                  }/>
+
+                </div>
+
               </Typography>
 
 
               {
-                props.mainUser.id != props.messageUser.id ?
+                /*
+                  props.mainUser.id != props.messageUser.id ?
 
-                <ListItemAvatar>
-                  <Avatar  className={classes.tinyAvatar}
-                    alt={props.messageUser.email} 
-                    src={gravatar.url(props.messageUser.email)} 
-                  />
-                </ListItemAvatar> : null
+                  <ListItemAvatar>
+                    <Avatar  className={classes.tinyAvatar}
+                      alt={props.messageUser.email} 
+                      src={gravatar.url(props.messageUser.email)} 
+                    />
+                  </ListItemAvatar> : null
+
+                }
+                <span dangerouslySetInnerHTML={
+                  { __html: props.message }
+                }/>
+                */
               }
-
-
-              <span dangerouslySetInnerHTML={
-                { __html: props.message }
-              }/>
 
             </React.Fragment>
           }
