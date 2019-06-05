@@ -707,6 +707,7 @@ export default class SegmentManager extends Component {
               meta={this.props.meta}
               data={this.props.app_users}
               search={this.props.search}
+              loading={this.props.loading}
             />
 
           </div>

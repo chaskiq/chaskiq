@@ -99,18 +99,29 @@ export default class App extends React.Component {
       )
     };
 
+    const isLoading = this.props.loading 
+
     return (
-      <MUIDataTable
-        title={this.props.title}
-        data={data}
-        columns={columns}
-        options={options}
-      />
+      <div>
+        {
+          this.props.loading ? 
+
+          <CircularProgress 
+            style={{ 
+              marginLeft: '50%', 
+              marginTop: '4rem' 
+            }} 
+          /> :
+        
+          <MUIDataTable
+            title={this.props.title}
+            data={data}
+            columns={columns}
+            options={options}
+          />
+        }
+      </div>
     );
   }
 }
 
-/*
-{isLoading && <CircularProgress style={{ marginLeft: '50%' }} />}
-
-*/

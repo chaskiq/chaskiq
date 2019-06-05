@@ -55,16 +55,18 @@ An the content of the campaign is managed with a state of the art wysiwyg text e
 
 ## references:
 
-https://www.drift.com/
-www.jivochat.cl/‎
-https://www.tawk.to/
-https://www.tawk.to/knowledgebase/
-https://beebom.com/intercom-alternatives/
-https://purechat.com/pricing
++ https://www.drift.com/
++ www.jivochat.cl/‎
++ https://www.tawk.to/
++ https://www.tawk.to/knowledgebase/
++ https://beebom.com/intercom-alternatives/
++ https://purechat.com/pricing
++ https://freshdesk.com/predictive-support
 
 
 # themes
-https://preview.themeforest.net/item/react-next-modern-landing-page-template/full_screen_preview/23169879
 
-https://fontsinuse.com/uses/2176/apple-advertising-of-the-1970s-80s
-https://fontsinuse.com/uses/2176/apple-advertising-of-the-1970s-80s
++ https://preview.themeforest.net/item/react-next-modern-landing-page-template/full_screen_preview/23169879
+
++ https://fontsinuse.com/uses/2176/apple-advertising-of-the-1970s-80s
++ https://fontsinuse.com/uses/2176/apple-advertising-of-the-1970s-80s
