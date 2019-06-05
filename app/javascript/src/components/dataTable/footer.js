@@ -3,7 +3,15 @@ import PropTypes from "prop-types";
 import TableRow from "@material-ui/core/TableRow";
 import TableFooter from "@material-ui/core/TableFooter";
 import TablePagination from "@material-ui/core/TablePagination";
-import { withStyles } from "@material-ui/core/styles";
+
+import { makeStyles, useTheme , withTheme, withStyles} from '@material-ui/core/styles';
+
+import KeyboardArrowLeft from '@material-ui/icons/KeyboardArrowLeft';
+import KeyboardArrowRight from '@material-ui/icons/KeyboardArrowRight';
+import IconButton from '@material-ui/core/IconButton';
+
+import FirstPageIcon from '@material-ui/icons/FirstPage';
+import LastPageIcon from '@material-ui/icons/LastPage';
 
 const defaultPaginationStyles = {
   root: {
@@ -48,14 +56,7 @@ class MUIDataTablePagination extends React.Component {
   };
 
   render() {
-    const { count, classes, options, rowsPerPage, page } = this.props;
-
-    const textLabels = {
-      next: "Next Page",
-      previous: "Previous Page",
-      rowsPerPage: "Rows per page:",
-      displayRows: "of",
-    } //options.textLabels.pagination;
+    const { count, classes, options, rowsPerPage, page, meta, textLabels } = this.props;
 
     return (
       <TableFooter>
@@ -70,14 +71,22 @@ class MUIDataTablePagination extends React.Component {
             count={count}
             rowsPerPage={rowsPerPage}
             page={page}
+            ActionsComponent={TablePaginationActions}
             labelRowsPerPage={textLabels.rowsPerPage}
             labelDisplayedRows={ ({ from, to, count }) => {
-              console.log(this.props)
-              return `${from}-${to} ${textLabels.displayRows} ${count}`
+              console.log(this.props.meta)
+              return `page 
+              ${this.props.meta.current_page} 
+              ${textLabels.displayRows} 
+              ${this.props.meta.total_pages} 
+              ${count} 
+              ${textLabels.records}`
+              //return `${from}-${to} ${textLabels.displayRows} ${count}`
             }
             }
             backIconButtonProps={{
               "aria-label": textLabels.previous,
+              meta: this.props.meta
             }}
             nextIconButtonProps={{
               "aria-label": textLabels.next,
@@ -90,6 +99,80 @@ class MUIDataTablePagination extends React.Component {
       </TableFooter>
     );
   }
+}
+
+
+
+const useStyles1 = makeStyles(theme => ({
+  root: {
+    flexShrink: 0,
+    color: theme.palette.text.secondary,
+    marginLeft: theme.spacing(2.5),
+  },
+}));
+
+
+function TablePaginationActions(props) {
+  const classes = useStyles1();
+  const theme = useTheme();
+  const { count, page, rowsPerPage, onChangePage } = props;
+
+  const meta = props.backIconButtonProps.meta
+
+  function handleFirstPageButtonClick(event) {
+    onChangePage(event, 0);
+  }
+
+  function handleBackButtonClick(event) {
+    onChangePage(event, page - 1);
+  }
+
+  function handleNextButtonClick(event) {
+    onChangePage(event, page + 1);
+  }
+
+  function handleLastPageButtonClick(event) {
+    onChangePage(event, Math.max(0, Math.ceil(count / rowsPerPage) - 1));
+  }
+
+  return (
+    <div className={classes.root}>
+
+      {/*<IconButton
+              onClick={handleFirstPageButtonClick}
+              disabled={page === 0}
+              aria-label="First Page"
+            >
+              {theme.direction === 'rtl' ? <LastPageIcon /> : <FirstPageIcon />}
+            </IconButton>*/}
+
+      <IconButton onClick={handleBackButtonClick} 
+        disabled={!meta.prev_page }
+        aria-label="Previous Page">
+        {theme.direction === 'rtl' ? 
+        <KeyboardArrowRight /> : 
+        <KeyboardArrowLeft />
+      }
+      </IconButton>
+
+      <IconButton
+        onClick={handleNextButtonClick}
+        //disabled={page >= Math.ceil(count / rowsPerPage) - 1}
+        disabled={!meta.next_page }
+        aria-label="Next Page"
+      >
+        {theme.direction === 'rtl' ? <KeyboardArrowLeft /> : <KeyboardArrowRight />}
+      </IconButton>
+
+      {/*<IconButton
+              onClick={handleLastPageButtonClick}
+              //disabled={page >= Math.ceil(count / rowsPerPage) - 1}
+              aria-label="Last Page"
+            >
+              {theme.direction === 'rtl' ? <FirstPageIcon /> : <LastPageIcon />}
+            </IconButton>*/}
+    </div>
+  );
 }
 
 export default withStyles(defaultPaginationStyles, { name: "MUIDataTablePagination" })(MUIDataTablePagination);
