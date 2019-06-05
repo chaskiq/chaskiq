@@ -142,17 +142,26 @@ const ChatMessageItem = styled.div`
     }
 
     &.admin {
-      margin-right: 20px;
+      margin-right: 61px;
       float: right;
       background: #073152;
       color: #eceff1; 
     }
 `;
+
 const ChatAvatar = styled.div`
-    left: -52px;
+    
     //background: rgba(0, 0, 0, 0.03);
     position: absolute;
     top: 0;
+
+    &.user{
+      left: -52px;
+    }
+
+    &.admin{
+      right: -47px;
+    }
 
     img {
       width: 40px;
@@ -584,14 +593,18 @@ class ConversationContainerShow extends Component {
 
                   {
                     this.state.messages.map( (o, i)=> {
+
+                      const userOrAdmin = this.state.conversation.mainParticipant.email === o.appUser.email ? 
+                                    'user' : 'admin'
          
                       return <MessageItemWrapper 
                                 key={o.id} 
                                 data={o} 
                                 email={this.props.currentUser.email}>
-                                <ChatMessageItem 
-                                  className={this.state.conversation.mainParticipant.email === o.appUser.email ? 'user' : 'admin'}>
-                                  <ChatAvatar>
+
+                                <ChatMessageItem className={userOrAdmin}>
+                                  
+                                  <ChatAvatar className={userOrAdmin}>
                                     <img src={gravatar.url(o.appUser.email)}/>
                                   </ChatAvatar>
 
