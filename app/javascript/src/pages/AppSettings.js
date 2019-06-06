@@ -7,7 +7,7 @@ import {
 } from 'react-router-dom'
 import ContentWrapper from '../components/ContentWrapper';
 import PageTitle from '../components/PageTitle';
-import Tabs from '@atlaskit/tabs';
+//import Tabs from '@atlaskit/tabs';
 //import css from 'Dante2/dist/DanteStyles.css';
 import styled from 'styled-components'
 import axios from 'axios'

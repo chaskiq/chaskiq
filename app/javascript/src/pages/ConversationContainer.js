@@ -144,15 +144,16 @@ const ChatMessageItem = styled.div`
     &.user {
       margin-left: 60px;
       float: left;
-      background: rgba(0, 0, 0, 0.03);
       color: #666;  
-      align-self: flex-start;    
+      align-self: flex-start;   
+      background: rgb(255, 255, 255);
+      border: 1px solid #f7f6f6;
     }
 
     &.admin {
       margin-right: 61px;
       float: right;
-      background: #073152;
+      background: #2f3335;
       color: #eceff1; 
       align-self: flex-end;
     }
