@@ -410,7 +410,7 @@ class MessageItemWrapper extends Component {
     // console.log(this.props.data.readAt ? "yes" : "EXEC A READ HERE!")
     // mark as read on first render
     if(!this.props.data.readAt){
-      console.log(this.props.email)
+      //console.log(this.props.email)
       App.conversations.perform("receive", 
         Object.assign({}, this.props.data, {email: this.props.email})
       )
@@ -618,14 +618,14 @@ class ConversationContainerShow extends Component {
               }
           })
 
-          console.log('received updated', newData)
+          //console.log('received updated', newData)
           this.setState({
             messages: new_collection
           } )
 
         } else {
-          console.log('received new', newData)
-          console.log(this.props.currentUser.email, newData.appUser.email)
+          //console.log('received new', newData)
+          //console.log(this.props.currentUser.email, newData.appUser.email)
           if (this.props.currentUser.email !== newData.appUser.email) {
             playSound()
           }
