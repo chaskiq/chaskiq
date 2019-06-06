@@ -1,7 +1,6 @@
 class ConversationsChannel < ApplicationCable::Channel
   def subscribed
     # stream_from "some_channel"
-
     @app      = App.find_by(key: params[:app])
     @conversation = @app.conversations.find(params[:id])
 
@@ -22,13 +21,14 @@ class ConversationsChannel < ApplicationCable::Channel
   end
 
   def receive(data)
-    app_user = @app.app_users
-                   .joins(:user)
-                   .find_by("users.email": data["email"])
+    #app_user = @app.app_users
+    #               .joins(:user)
+    #               .find_by("users.email": data["email"])
 
+           
     message = @conversation.messages.find(data["id"])
     # right now is the only way to know if the read is from the reader and not the messages's author
-    if message.app_user_id != app_user.id
+    if message.app_user_id != @app_user.id
       message.read!
     end
   end

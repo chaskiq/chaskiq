@@ -2,7 +2,6 @@ module ApplicationCable
   class Channel < ActionCable::Channel::Base
 
     def get_user_data
-      
       if params[:inner_app].present?
         user = self.connection.env['warden'].user
         @user_data = user.attributes.slice("email").symbolize_keys
