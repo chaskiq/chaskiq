@@ -284,7 +284,9 @@ export default class ConversationContainer extends Component {
       success: (data)=>{
         const conversations = data.app.conversations
         this.setState({
-          conversations: nextPage > 1 ? this.state.conversations.concat(conversations.collection) : conversations.collection,
+          conversations: nextPage > 1 ? 
+          this.state.conversations.concat(conversations.collection) : 
+          conversations.collection,
           meta: conversations.meta
         })
         cb ? cb() : null        
@@ -494,10 +496,10 @@ class ConversationContainerShow extends Component {
             this.conversationSubscriber()
 
             const lastItem = conversation.messages.collection[0]
-            
+    
             this.setState({
               messages: nextPage > 1 ? 
-                conversation.messages.collection.concat(this.state.messages) : 
+                this.state.messages.concat(conversation.messages.collection) : 
                 conversation.messages.collection,
               meta: conversation.messages.meta
             },  ()=>{
@@ -665,7 +667,8 @@ class ConversationContainerShow extends Component {
                     style={{
                       boxShadow: 'inset 0px 1px 3px 0px #ccc',
                       background: 'aliceblue',
-                      flexDirection : 'column-reverse'
+                      flexDirection : 'column-reverse',
+                      display: 'flex'
                     }}>
 
                   {
