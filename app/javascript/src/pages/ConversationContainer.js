@@ -25,6 +25,7 @@ import Drawer from '@material-ui/core/Drawer';
 import { camelCase } from 'lodash';
 
 import OptionMenu from '../components/conversation/optionMenu'
+import {last} from 'lodash'
 
 const camelizeKeys = (obj) => {
   if (Array.isArray(obj)) {
@@ -467,7 +468,15 @@ class ConversationContainerShow extends Component {
 
   scrollToItem = (item)=>{
     //console.log("scrolea to ", item)
-    this.refs.overflow.scrollTop = document.querySelector(`#message-id-${item}`).offsetHeight
+    if(item){
+      this.refs.overflow.scrollTop = document.querySelector(`#message-id-${item}`).offsetHeight
+    }else{
+      this.scrollToLastItem()
+    }
+  }
+
+  scrollToLastItem = ()=>{
+    this.refs.overflow.scrollTop = this.refs.overflow.scrollHeight;
   }
 
   /*getMainUser = (id)=> {
@@ -495,7 +504,7 @@ class ConversationContainerShow extends Component {
           }, () => {
             this.conversationSubscriber()
 
-            const lastItem = conversation.messages.collection[0]
+            const lastItem = last(this.state.messages)
     
             this.setState({
               messages: nextPage > 1 ? 
@@ -506,7 +515,7 @@ class ConversationContainerShow extends Component {
               //console.log(lastItem)
               //this.getMainUser(this.state.conversation.mainParticipant.id)
               // TODO: this will scroll scroll to last when new items are added!
-              cb ? cb(lastItem.id) : null
+              cb ? cb(lastItem ? lastItem.id : null) : null
             })
           })
 
@@ -572,10 +581,6 @@ class ConversationContainerShow extends Component {
         console.log(error);
       });
       */
-  }
-
-  scrollToLastItem = ()=>{
-    this.refs.overflow.scrollTop = this.refs.overflow.scrollHeight;
   }
 
   unsubscribeFromConversation = ()=>{
