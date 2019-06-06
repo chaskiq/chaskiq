@@ -3,7 +3,8 @@ import styled from "styled-components"
 import gravatar from "gravatar"
 import Moment from 'react-moment';
 import Accordeon from './accordeon'
-import Avatar from '@atlaskit/avatar';
+import Avatar from '@material-ui/core/Avatar';
+import { makeStyles } from '@material-ui/core/styles';
 
 
 const ActivityAvatar = styled.div`
@@ -30,18 +31,40 @@ const UserDataContent = styled.div`
   text-align: center;
 `
 
+const useStyles = makeStyles({
+  avatar: {
+    margin: 10,
+  },
+  bigAvatar: {
+    margin: 10,
+    width: 60,
+    height: 60,
+  },
+});
+
+function ImageAvatars(props) {
+  const classes = useStyles();
+
+  return (
+      <Avatar alt={props.email}
+        src={props.src} 
+        className={classes.avatar} 
+      />
+  );
+}
+
 export default class UserData extends Component {
+
   render(){
+
     return <UserDataContent style={{width: this.props.width}}>
 
               <UserDataInformation>
     
                 <ActivityAvatar>
-                  <Avatar
+                  <ImageAvatars
+                    email={this.props.appUser.email} 
                     src={gravatar.url(this.props.appUser.email)}
-                    name="large"
-                    size="xlarge"
-                    presence={this.props.appUser.state}
                   />
 
                 </ActivityAvatar>

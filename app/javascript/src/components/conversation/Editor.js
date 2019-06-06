@@ -6,7 +6,6 @@ import createLinkifyPlugin from 'draft-js-linkify-plugin';
 import createInlineToolbarPlugin from 'draft-js-inline-toolbar-plugin';
 import createEmojiPlugin from 'draft-js-emoji-plugin';
 import styled from "styled-components"
-import Button from '@atlaskit/button';
 import 'draft-js-hashtag-plugin/lib/plugin.css';
 import Tabs from './tabs';
 
