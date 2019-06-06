@@ -17,13 +17,11 @@ import graphql from "../graphql/client"
 import { CONVERSATIONS, CONVERSATION, APP_USER } from "../graphql/queries"
 import { INSERT_COMMMENT } from '../graphql/mutations'
 import './convo.scss'
+import Button from '@material-ui/core/Button'
 
 import UserListItem from '../components/UserListItem'
-import Accordeon from '../components/accordeon'
-
 import UserData from '../components/UserData'
-
-
+import Drawer from '@material-ui/core/Drawer';
 import { camelCase } from 'lodash';
 
 const camelizeKeys = (obj) => {
@@ -53,6 +51,10 @@ const ColumnContainer = styled.div`
 `;
 const GridElement = styled.div`
   flex: 1;
+  ${(props)=>{
+    return props.grow ? `flex-grow: ${props.grow}` : null
+  }}
+
   overflow: scroll;
   border-right: 1px solid #dcdcdc;
   h3 {
@@ -138,7 +140,8 @@ const ChatMessageItem = styled.div`
       margin-left: 60px;
       float: left;
       background: rgba(0, 0, 0, 0.03);
-      color: #666;      
+      color: #666;  
+      align-self: flex-start;    
     }
 
     &.admin {
@@ -146,6 +149,7 @@ const ChatMessageItem = styled.div`
       float: right;
       background: #073152;
       color: #eceff1; 
+      align-self: flex-end;
     }
 `;
 
@@ -247,7 +251,9 @@ export default class ConversationContainer extends Component {
     super(props)
     this.state = {
       conversations: [],
-      meta: {}
+      meta: {},
+      rightDrawer: false,
+      appUser: {}
     }
   }
 
@@ -258,7 +264,7 @@ export default class ConversationContainer extends Component {
   handleScroll = (e) => {
     let element = e.target
 
-    console.log(element.scrollHeight - element.scrollTop, element.clientHeight)
+    //console.log(element.scrollHeight - element.scrollTop, element.clientHeight)
     if (element.scrollHeight - element.scrollTop === element.clientHeight) {
       if (this.state.meta.next_page)
         this.getConversations({ append: true })
@@ -296,11 +302,49 @@ export default class ConversationContainer extends Component {
     */
   }
 
+  showUserDrawer = (id)=>{
+    this.setState({ rightDrawer: true }, ()=>{
+      this.getUserData(id)
+    });
+  }
+
+  getUserData = (id)=> {
+    graphql(APP_USER, { appKey: this.props.store.app.key, id: id }, {
+      success: (data) =>{
+        this.setState({
+          appUser: data.app.appUser
+        })        
+      }
+    })
+  }
+
+  toggleDrawer = (side, open) => event => {
+    if (event.type === 'keydown' && (event.key === 'Tab' || event.key === 'Shift')) {
+      return;
+    }
+
+    this.setState({rightDrawer: open });
+  };
+
 
   render(){
     const {appId} = this.props.match.params
 
     return <RowColumnContainer>
+
+            <Drawer 
+              anchor="right" 
+              open={this.state.rightDrawer} 
+              onClose={this.toggleDrawer('right', false)}>
+              
+              {
+                this.state.appUser ? 
+                  <UserData width={ '300px'}
+                    appUser={this.state.appUser} /> : null
+              }
+
+            </Drawer>
+
             <ColumnContainer>
               
               <GridElement>
@@ -315,11 +359,14 @@ export default class ConversationContainer extends Component {
                     this.state.conversations.map((o, i)=>{
                       const user = o.mainParticipant
 
-                      return <div key={o.id} onClick={(e)=> this.props.history.push(`/apps/${appId}/conversations/${o.id}`) }>
-                                
+                      return <div 
+                                key={o.id} 
+                                onClick={(e)=> this.props.history.push(`/apps/${appId}/conversations/${o.id}`) }>
+                                        
                                 <UserListItem
                                   mainUser={user}
                                   messageUser={o.lastMessage.appUser}
+                                  showUserDrawer={this.showUserDrawer}
                                   //createdAt={o.lastMessage.message.created_at}
                                   message={sanitizeHtml(o.lastMessage.message).substring(0, 250)}
                                 />
@@ -338,6 +385,7 @@ export default class ConversationContainer extends Component {
                   render={(props)=>(
                     <ConversationContainerShow
                       appId={appId}
+                      showUserDrawer={this.showUserDrawer}
                       currentUser={this.props.currentUser}
                       {...props}
                     />
@@ -379,7 +427,7 @@ class ConversationContainerShow extends Component {
   }
 
   componentDidMount(){
-    this.getMessages()
+    this.getMessages( this.scrollToLastItem )
   }
 
   componentDidUpdate(PrevProps, PrevState){
@@ -388,7 +436,7 @@ class ConversationContainerShow extends Component {
         conversation: {},
         messages: [],
         meta: {}
-      }, this.getMessages)
+      }, ()=> this.getMessages( this.scrollToLastItem ) )
       
       //this.conversationSubscriber()
     }
@@ -397,14 +445,24 @@ class ConversationContainerShow extends Component {
   handleScroll = (e) => {
     let element = e.target
 
-    console.log(element.scrollHeight - element.scrollTop, element.clientHeight)
-    if (element.scrollHeight - element.scrollTop === element.clientHeight) {
+    if (element.scrollTop === 0) { // on top
       if (this.state.meta.next_page)
-        this.getMessages()
+        this.getMessages( (item)=> this.scrollToItem(item) )
     }
+
+    // scroll bottom
+    //if (element.scrollHeight - element.scrollTop === element.clientHeight) {
+    //  if (this.state.meta.next_page)
+    //    this.getMessages()
+    //}
   }
 
-  getMainUser = (id)=> {
+  scrollToItem = (item)=>{
+    console.log("scrolea to ", item)
+    this.refs.overflow.scrollTop = document.querySelector(`#message-id-${item}`).offsetHeight
+  }
+
+  /*getMainUser = (id)=> {
     graphql(APP_USER, { appKey: this.props.appId, id: id }, {
       success: (data) =>{
         this.setState({
@@ -412,9 +470,9 @@ class ConversationContainerShow extends Component {
         })        
       }
     })
-  }
+  }*/
 
-  getMessages = ()=>{
+  getMessages = (cb)=>{
     const nextPage = this.state.meta.next_page
 
     graphql(CONVERSATION, { 
@@ -428,12 +486,19 @@ class ConversationContainerShow extends Component {
             conversation: conversation,
           }, () => {
             this.conversationSubscriber()
+
+            const lastItem = conversation.messages.collection[0]
             
             this.setState({
-              messages: nextPage > 1 ? this.state.messages.concat(conversation.messages.collection) : conversation.messages.collection,
+              messages: nextPage > 1 ? 
+                conversation.messages.collection.concat(this.state.messages) : 
+                conversation.messages.collection,
               meta: conversation.messages.meta
             },  ()=>{
-                this.getMainUser(this.state.conversation.mainParticipant.id)
+              //console.log(lastItem)
+              //this.getMainUser(this.state.conversation.mainParticipant.id)
+              // TODO: this will scroll scroll to last when new items are added!
+              cb ? cb(lastItem.id) : null
             })
           })
 
@@ -552,7 +617,7 @@ class ConversationContainerShow extends Component {
             playSound()
           }
 
-          console.log(newData)
+          //console.log(newData)
           
           this.setState({
             messages: this.state.messages.concat(newData)
@@ -569,7 +634,7 @@ class ConversationContainerShow extends Component {
   render(){
     return <Fragment>
           
-            <GridElement>
+            <GridElement grow={2}>
 
               <div className="chat">
                 <FixedHeader>
@@ -581,6 +646,8 @@ class ConversationContainerShow extends Component {
                     : null
                   }
 
+                  <Button>Assign</Button>
+
                 </FixedHeader>
 
                   <div className="overflow" 
@@ -588,7 +655,8 @@ class ConversationContainerShow extends Component {
                     onScroll={this.handleScroll}
                     style={{
                       boxShadow: 'inset 0px 1px 3px 0px #ccc',
-                      background: 'aliceblue'
+                      background: 'aliceblue',
+                      flexDirection : 'column-reverse'
                     }}>
 
                   {
@@ -602,9 +670,13 @@ class ConversationContainerShow extends Component {
                                 data={o} 
                                 email={this.props.currentUser.email}>
 
-                                <ChatMessageItem className={userOrAdmin}>
+                                <ChatMessageItem 
+                                  id={`message-id-${o.id}`}
+                                  className={userOrAdmin}>
                                   
-                                  <ChatAvatar className={userOrAdmin}>
+                                  <ChatAvatar 
+                                    onClick={(e)=>this.props.showUserDrawer(o.appUser.id)}
+                                    className={userOrAdmin}>
                                     <img src={gravatar.url(o.appUser.email)}/>
                                   </ChatAvatar>
 
@@ -623,6 +695,7 @@ class ConversationContainerShow extends Component {
                                   </StatusItem>
                                   
                                 </ChatMessageItem>
+
                               </MessageItemWrapper>
                             })
                   }
@@ -640,6 +713,10 @@ class ConversationContainerShow extends Component {
 
             </GridElement>
 
+
+
+{
+  /*
             <GridElement>
 
               <FixedHeader>
@@ -660,6 +737,9 @@ class ConversationContainerShow extends Component {
               </Overflow>
 
             </GridElement>
+
+  */
+}
 
           </Fragment>
   }
