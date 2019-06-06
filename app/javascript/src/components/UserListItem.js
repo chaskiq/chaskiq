@@ -59,6 +59,7 @@ function AlignItemsList(props) {
                       badgeContent={4} 
                       color="primary"></Badge>*/}
             <Avatar 
+              onClick={()=>props.showUserDrawer(props.mainUser.id)}
               alt={props.mainUser.email} 
               src={gravatar.url(props.mainUser.email)} 
             />
@@ -79,7 +80,9 @@ function AlignItemsList(props) {
                   
                   {
                     props.mainUser.id != props.messageUser.id ?
-                      <Avatar  className={classes.tinyAvatar}
+                      <Avatar 
+                          onClick={()=>props.showUserDrawer(props.messageUser.id)} 
+                          className={classes.tinyAvatar}
                           alt={props.messageUser.email} 
                           src={gravatar.url(props.messageUser.email)} 
                       /> : null 

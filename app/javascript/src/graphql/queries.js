@@ -104,10 +104,12 @@ export const CONVERSATION=`
         
         messages(page: $page){
           collection{
+            id
             message
             source
             readAt
             appUser{
+              id
               email
               properties
             }
