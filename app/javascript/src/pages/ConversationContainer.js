@@ -8,7 +8,7 @@ import {
 import styled from "styled-components"
 import gravatar from "gravatar"
 import Moment from 'react-moment';
-import ConversationEditor from '../components/Editor.js'
+import ConversationEditor from '../components/conversation/Editor.js'
 import {convertToHTML} from 'draft-convert'
 import Avatar from '@atlaskit/avatar';
 import {soundManager} from 'soundmanager2'
@@ -23,6 +23,8 @@ import UserListItem from '../components/UserListItem'
 import UserData from '../components/UserData'
 import Drawer from '@material-ui/core/Drawer';
 import { camelCase } from 'lodash';
+
+import OptionMenu from '../components/conversation/optionMenu'
 
 const camelizeKeys = (obj) => {
   if (Array.isArray(obj)) {
@@ -122,6 +124,8 @@ const ActivityIndicator = styled.span`
 const FixedHeader = styled.div`
   padding:20px;
   border-bottom: 1px solid #ccc;
+  display: flex;
+  justify-content: space-between;
 `
 const ChatMessageItem = styled.div`
     position: relative;
@@ -351,7 +355,9 @@ export default class ConversationContainer extends Component {
                 {/*<FixedHeader>Conversations</FixedHeader>*/}
                 
                 <FixedHeader>
-                  Conversations
+                  <div>
+                    Conversations
+                  </div>
                 </FixedHeader>
 
                 <Overflow onScroll={this.handleScroll}>
@@ -458,7 +464,7 @@ class ConversationContainerShow extends Component {
   }
 
   scrollToItem = (item)=>{
-    console.log("scrolea to ", item)
+    //console.log("scrolea to ", item)
     this.refs.overflow.scrollTop = document.querySelector(`#message-id-${item}`).offsetHeight
   }
 
@@ -638,15 +644,18 @@ class ConversationContainerShow extends Component {
 
               <div className="chat">
                 <FixedHeader>
-                  Conversation with {" "}
+                  
+                  <div>
+                    Conversation with {" "}
 
-                  {
-                    this.state.conversation.mainParticipant ? 
-                    <b>{this.state.conversation.mainParticipant.email}</b> 
-                    : null
-                  }
+                    {
+                      this.state.conversation.mainParticipant ? 
+                      <b>{this.state.conversation.mainParticipant.email}</b> 
+                      : null
+                    }
+                  </div>
 
-                  <Button>Assign</Button>
+                  <OptionMenu/>
 
                 </FixedHeader>
 

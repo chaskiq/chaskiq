@@ -8,7 +8,7 @@ import createEmojiPlugin from 'draft-js-emoji-plugin';
 import styled from "styled-components"
 import Button from '@atlaskit/button';
 import 'draft-js-hashtag-plugin/lib/plugin.css';
-import Tabs from '@atlaskit/tabs';
+import Tabs from './tabs';
 
 import {getDefaultKeyBinding, KeyBindingUtil} from 'draft-js';
 
