@@ -8,6 +8,9 @@ Rails.application.routes.draw do
   #resources :campaigns
   devise_for :users
 
+  resources :attachments, controller: 'campaigns/attachments'
+
+
 =begin
   concern :messageable do
     member do

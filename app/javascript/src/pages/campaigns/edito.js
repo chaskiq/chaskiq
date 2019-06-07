@@ -259,7 +259,7 @@ export default class CampaignEditor extends Component {
     }
 
     const menuConfig = Object.assign({}, DanteTooltipConfig(), inlineMenu)
-    console.log(menuConfig)
+
     return [
       DanteImagePopoverConfig(),
       DanteAnchorPopoverConfig(),
@@ -325,7 +325,7 @@ export default class CampaignEditor extends Component {
     return [CodeBlockConfig(),
     ImageBlockConfig({
       options: {
-        upload_url: `${this.props.url}/attachments.json?mode=${this.props.mode}`,
+        upload_url: `/attachments.json?id=${this.props.data.id}&app_id=${this.props.store.app.key}`,
         //upload_handler: this.handleUpload,
         image_caption_placeholder: "type a caption (optional)"
       }
@@ -351,7 +351,7 @@ export default class CampaignEditor extends Component {
     VideoRecorderBlockConfig({
       options: {
         seconds_to_record: 20000,
-        upload_url: `${this.props.url}/attachments.json?mode=${this.props.mode}`,
+        upload_url: `/attachments.json?id=${this.props.data.id}&app_id=${this.props.store.app.key}`,
       }
     }),
     GiphyBlockConfig(),
