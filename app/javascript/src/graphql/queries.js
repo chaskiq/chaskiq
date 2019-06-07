@@ -215,3 +215,17 @@ query Campaign($appKey: String!, $mode: String!, $id: Int!){
     }
   }
 }`
+
+export const CAMPAIGN_METRICS = `
+query Campaign($appKey: String!, $mode: String!, $id: Int!, $page: Int, $per: Int){
+  app(key: $appKey){
+    campaign(mode: $mode, id: $id){
+      name
+      counts
+      metrics(page: $page, per: $per){
+        collection
+        meta
+      }
+    }
+  }
+}`
