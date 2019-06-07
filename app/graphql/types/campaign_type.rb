@@ -25,12 +25,16 @@ module Types
       object.metrics.group(:action).count(:trackable_id)
     end
 
-    field :metrics, [Types::JsonType], null: true
-    def metrics
+    field :metrics, Types::PaginatedMetricsType, null:true do
+      argument :page, Integer, required: false, default_value: 1
+      argument :per, Integer, required: false, default_value: 20
+    end
+    
+    def metrics(page: 1 , per: 20)
       @metrics = object.metrics
                         .order("id desc")
-                        .page(1)
-                        .per(20)
+                        .page(page)
+                        .per(per)
       #render :index
     end
 

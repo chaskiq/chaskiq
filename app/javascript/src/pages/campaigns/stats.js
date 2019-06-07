@@ -1,6 +1,5 @@
 import React, {Component} from "react"
 import axios from "axios"
-import DynamicTable from '@atlaskit/dynamic-table'
 import Moment from 'react-moment';
 import Lozenge from "@atlaskit/lozenge"
 import Button from '@atlaskit/button';
@@ -12,7 +11,9 @@ import DropdownMenu, {
 
 import CampaignChart from "./charts.js"
 import styled from 'styled-components'
-
+import graphql from '../../graphql/client'
+import {CAMPAIGN_METRICS} from '../../graphql/queries'
+import DataTable from '../../components/dataTable'
 
 const PieContainer = styled.div`
 padding: .75em;
@@ -42,7 +43,7 @@ export default class CampaignStats extends Component {
   }
 
   createHead = (withWidth: boolean) => {
-    return {
+    /*return {
       cells: [
         {
           key: 'action',
@@ -81,7 +82,52 @@ export default class CampaignStats extends Component {
           width: withWidth ? 10 : undefined,
         },
       ],
-    };
+    };*/
+
+    return [
+      {
+        name: 'action',
+        options: {
+          filter: false,
+          customBodyRender: (value, tableMeta, updateValue) => {
+            return this.renderLozenge(value)
+          }
+        }
+      },
+
+      {
+        name: 'email',
+        options: {
+          filter: false
+        }
+      },
+      {
+        name: 'host',
+        options: {
+          filter: false
+        }
+      },
+        
+      {
+        name: 'created_at',
+        options: {
+          filter: false
+        }
+      },
+  
+      {
+        name: 'data',
+        options: {
+          filter: false,
+          customBodyRender: (value, tableMeta, updateValue) => {
+            return <p>cccc</p>
+          }
+        }
+      },
+
+
+    ]
+
   };
 
   renderLozenge = (item)=>{
@@ -96,7 +142,7 @@ export default class CampaignStats extends Component {
       "success",
     */
 
-    switch (item.action) {
+    switch (item) {
       case "click":
         kind = "success"
         break
@@ -111,14 +157,16 @@ export default class CampaignStats extends Component {
     }
 
     return <Lozenge appearance={kind}>
-      {item.action}
-    </Lozenge>
+            {item}
+           </Lozenge>
   }
 
   getTableData(){
 
     const head = this.createHead(true);
 
+
+    /*
     const metrics = this.state.collection.map((metric, index) => {
       return {
         key: `row-${index}-${metric.id}`,
@@ -163,8 +211,11 @@ export default class CampaignStats extends Component {
       }
     }
     );
+    */
 
-    return {head: head, rows: metrics}
+    //return {head: head, rows: metrics}
+
+    return {head: head}
   }
 
   componentDidMount(){
@@ -173,19 +224,40 @@ export default class CampaignStats extends Component {
 
   init = ()=>{
     this.getData()
-    this.getCounts()
+    //this.getCounts()
   }
 
   getData = ()=>{
+    graphql(CAMPAIGN_METRICS, {
+      appKey: this.props.store.app.key, 
+      mode: this.props.mode, 
+      id: parseInt(this.props.match.params.id),
+      page: this.state.meta.next_page || 1
+    }, {
+      success: (data)=>{
+        const {counts, metrics} = data.app.campaign
+        this.setState({
+          meta: metrics.meta,
+          counts: counts,
+          collection: metrics.collection
+        })
+      },
+      error: (error)=>{
+
+      }
+    })
+  }
+
+  /*getData = ()=>{
     const url = `${this.props.url}/metrics.json?mode=${this.props.mode}&page=${this.state.meta.next_page || 1}`
     this.setState({loading: true})
     axios.get(url)
     .then((response)=>{
-      /*this.setState({
+      this.setState({
         collection: response.data.collection, //this.state.collection.concat(response.data.collection),
         meta: response.data.meta,
         loading: false
-      })*/
+      })
     }).catch((err)=>{
       console.log(err)
     })
@@ -196,14 +268,14 @@ export default class CampaignStats extends Component {
 
     axios.get(url)
     .then((response)=>{
-      /*this.setState({
+      this.setState({
         counts: response.data
-      })*/
+      })
     }).catch((err)=>{
       console.log(err)
     })
 
-  }
+  }*/
 
   handleNextPage = ()=>{
     this.getData()
@@ -265,7 +337,20 @@ export default class CampaignStats extends Component {
 
               {
                 !this.state.loading ? 
-                  <DynamicTable
+
+                  <DataTable 
+                    title={'metrics'}
+                    columns={head} 
+                    meta={this.state.meta}
+                    data={this.state.collection}
+                    search={this.getData}
+                    loading={this.state.loading}
+                    //onRowClick={(e)=>{
+                    //  this.showUserDrawer(e)
+                    //}}
+                  />
+
+                  /*<DynamicTable
                     caption={null}
                     head={head}
                     rows={rows}
@@ -278,12 +363,9 @@ export default class CampaignStats extends Component {
                     defaultSortOrder="ASC"
                     onSort={() => console.log('onSort')}
                     onSetPage={() => console.log('onSetPage')}
-                  /> : null 
-              }
+                  />*/ 
 
-              {
-                this.state.meta.next_page ? 
-                <a href="#" onClick={this.handleNextPage}>next</a> : null
+                  : null 
               }
               
            </div>
