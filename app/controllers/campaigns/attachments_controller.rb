@@ -21,36 +21,13 @@ class Campaigns::AttachmentsController < ApplicationController
 
   def create
     create_attachment
-    #@attachment = @campaign.attachments.create(resource_params)
-    #respond_to do |format|
-    #  format.html
-    # format.json { render json: @attachment }
-    #end
   end
 
 protected
 
-  def collection
-    case params[:mode]
-    when "campaigns"
-      @app.campaigns
-    when "user_auto"
-      @app.user_auto_messages
-    else
-        case self.lookup_context.prefixes.first
-        when "campaigns"
-          @app.campaigns
-        when "user_auto"
-          @app.user_auto_messages   
-        else
-          raise "not in mode"
-        end   
-    end
-  end
-
   def find_campaign
     @app      = current_user.apps.find_by(key: params[:app_id]) 
-    @campaign = collection.find(params[:campaign_id])
+    @campaign = Campaign.where(app: @app ).find(params[:id])
   end
 
   def resource_params

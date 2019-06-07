@@ -33,24 +33,27 @@ There are 2 modes of campaign implemented - In app message and mailing.
 
 ![https://proseflow.herokuapp.com/rails/active_storage/blobs/eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaHBBaGdCIiwiZXhwIjpudWxsLCJwdXIiOiJibG9iX2lkIn19--2cdc923c57fdc387bedf4cf20800cfc1a1d81f59/image.png](https://proseflow.herokuapp.com/rails/active_storage/blobs/eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaHBBaGdCIiwiZXhwIjpudWxsLCJwdXIiOiJibG9iX2lkIn19--2cdc923c57fdc387bedf4cf20800cfc1a1d81f59/image.png)
 
-campaigns menu
+#### campaigns menu
 
 when the campaign is active you can see the metrics on the campaign. ie , who saw, click , close etc..
 
 ![https://proseflow.herokuapp.com/rails/active_storage/blobs/eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaHBBaGtCIiwiZXhwIjpudWxsLCJwdXIiOiJibG9iX2lkIn19--905ba56fee749d092c477750eb1e82a80131f51c/image.png](https://proseflow.herokuapp.com/rails/active_storage/blobs/eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaHBBaGtCIiwiZXhwIjpudWxsLCJwdXIiOiJibG9iX2lkIn19--905ba56fee749d092c477750eb1e82a80131f51c/image.png)
 
-campaign stats
+#### campaign stats
 
 Also you can configure campaign using segments to target audience:
 
 ![https://proseflow.herokuapp.com/rails/active_storage/blobs/eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaHBBaG9CIiwiZXhwIjpudWxsLCJwdXIiOiJibG9iX2lkIn19--040a242d36ac66b2c61ab7ac79574eef5dfa93d7/image.png](https://proseflow.herokuapp.com/rails/active_storage/blobs/eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaHBBaG9CIiwiZXhwIjpudWxsLCJwdXIiOiJibG9iX2lkIn19--040a242d36ac66b2c61ab7ac79574eef5dfa93d7/image.png)
 
-campaign's segment manager
+#### campaign's segment manager
 
 An the content of the campaign is managed with a state of the art wysiwyg text editor (dante2)
 
 ![https://proseflow.herokuapp.com/rails/active_storage/blobs/eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaHBBaHdCIiwiZXhwIjpudWxsLCJwdXIiOiJibG9iX2lkIn19--a04a59ec8f3dbdc3ee7ff129b2592e3cc6f25029/image.png](https://proseflow.herokuapp.com/rails/active_storage/blobs/eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaHBBaHdCIiwiZXhwIjpudWxsLCJwdXIiOiJibG9iX2lkIn19--a04a59ec8f3dbdc3ee7ff129b2592e3cc6f25029/image.png)
 
+
+### third party services
++ https://ipapi.co/#pricing
 
 
 ## references:
@@ -62,6 +65,7 @@ An the content of the campaign is managed with a state of the art wysiwyg text e
 + https://beebom.com/intercom-alternatives/
 + https://purechat.com/pricing
 + https://freshdesk.com/predictive-support
++ https://crisp.chat/en/livechat/?ref=chatbox&domain=codetrace.io&name=CodeTrace
 
 
 # themes
