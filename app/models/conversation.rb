@@ -27,7 +27,7 @@ class Conversation < ApplicationRecord
     part.save
     
     if part.errors.blank?
-      notify_subscribers
+      notify_subscribers(part)
     end
 
     part
@@ -37,6 +37,11 @@ class Conversation < ApplicationRecord
     part = process_message_part(opts)
     part.private_note = true
     part.save
+
+    if part.errors.blank?
+      notify_subscribers(part)
+    end
+
     part
   end
 
@@ -49,9 +54,12 @@ class Conversation < ApplicationRecord
     part
   end
 
-  def notify_subscribers
+  def notify_subscribers(part)
     subscribers = ConversationsChannel.broadcast_to("#{self.app.key}-#{self.id}", 
-      part.as_json(only: [:id, :message, :conversation_id, :read_at], methods: [:app_user]) 
+      part.as_json(
+        only: [:id, :message, :conversation_id, :read_at, :private_note], 
+        methods: [:app_user]
+      ) 
     )
     logger.info("subscribers: #{subscribers}")
     # could be events channel too
