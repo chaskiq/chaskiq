@@ -28,15 +28,18 @@ RSpec.describe Conversation, type: :model do
 
   context "add message" do
 
-    before :each do 
+    subject(:conversation){
       app.start_conversation({
         message: "message", 
         from: app_user
       })
-    end
+    }
 
     it "add message" do
-      message = app.conversations.first.add_message({
+      expect(conversation.messages.count).to be == 1
+      expect(ConversationsChannel).to receive(:broadcast_to)
+      expect_any_instance_of(ConversationPart).to receive(:enqueue_email_notification)
+      message = conversation.add_message({
         from: app_user,
         message: "foobar"
       })
@@ -44,5 +47,31 @@ RSpec.describe Conversation, type: :model do
     end
 
   end
+
+  context "add private message" do
+
+    subject(:conversation){
+      app.start_conversation({
+        message: "message", 
+        from: app_user
+      })
+    }
+
+    it "add message" do
+      expect(conversation.messages.count).to be == 1
+      expect(ConversationsChannel).to_not receive(:broadcast_to)
+      expect_any_instance_of(ConversationPart).to_not receive(:enqueue_email_notification)
+
+      message = conversation.add_private_note({
+        from: app_user,
+        message: "foobar"
+      })
+      expect(message).to be_persisted
+      expect(conversation.messages.count).to be == 2
+    end
+
+  end
+
+
 
 end

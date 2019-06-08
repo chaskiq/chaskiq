@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_05_05_043323) do
+ActiveRecord::Schema.define(version: 2019_06_08_054749) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -122,6 +122,7 @@ ActiveRecord::Schema.define(version: 2019_05_05_043323) do
     t.string "source"
     t.integer "message_id"
     t.string "email_message_id"
+    t.boolean "private_note"
     t.index ["app_user_id"], name: "index_conversation_parts_on_app_user_id"
     t.index ["conversation_id"], name: "index_conversation_parts_on_conversation_id"
     t.index ["message_id"], name: "index_conversation_parts_on_message_id"

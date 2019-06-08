@@ -95,13 +95,20 @@ export default class ConversationEditor extends Component {
     });
   };
 
-  handleClick = (e)=>{
+  handleClick = (e, options)=>{
     const content = this.refs.editor
                         .getEditorState()
                         .getCurrentContent()
-    this.props.insertComment(content, ()=> {
-      this.setState({editorState: EditorState.createEmpty()})
-    })
+
+    options.note ?
+
+      this.props.insertNote(content, ()=> {
+        this.setState({editorState: EditorState.createEmpty()})
+      }) : 
+
+      this.props.insertComment(content, ()=> {
+        this.setState({editorState: EditorState.createEmpty()})
+      })
   }
 
   handleKeyCommand = (command) => {
@@ -114,11 +121,51 @@ export default class ConversationEditor extends Component {
     return 'not-handled';
   }
 
-  handleReturn = (e)=>{
+  handleReturn = (e, options)=>{
     if(!e.shiftKey){
-      this.handleClick()
+      this.handleClick(e, options )
       return
     }
+  }
+
+
+  renderEditor = (opts)=>{
+    return <EditorWrapper>
+
+            {opts.note ? <p>note</p> : null }
+
+            <EditorContainer note={opts.note}>
+
+              <Editor
+                ref={"editor"}
+                editorState={this.state.editorState}
+                onChange={this.onChange}
+                handleKeyCommand={this.handleKeyCommand}
+                keyBindingFn={myKeyBindingFn}
+                handleReturn={(e)=> this.handleReturn(e, { note: opts.note } )}
+                plugins={plugins}
+              />
+            </EditorContainer>
+
+            <InlineToolbar />
+            <EmojiSuggestions />
+
+            {/*
+              <EmojiSelect />
+            */}
+
+            {
+              /*<EditorActions>
+                <Button 
+                  appearance={"primary"} 
+                  onClick={this.handleClick.bind(this)}>
+                  oli
+                </Button>
+              </EditorActions>
+              */
+            }
+
+          </EditorWrapper>
   }
 
 
@@ -126,41 +173,10 @@ export default class ConversationEditor extends Component {
   render() {
 
     const tabs = [
-      { label: 'Reply', content: <EditorWrapper>
-                                    <EditorContainer>
-                                      <Editor
-                                        ref={"editor"}
-                                        editorState={this.state.editorState}
-                                        onChange={this.onChange}
-                                        handleKeyCommand={this.handleKeyCommand}
-                                        keyBindingFn={myKeyBindingFn}
-                                        handleReturn={this.handleReturn}
-                                        plugins={plugins}
-                                      />
-                                    </EditorContainer>
-
-                                    <InlineToolbar />
-                                    <EmojiSuggestions />
-
-                                    {/*
-                                      <EmojiSelect />
-                                    */}
-
-                                    {
-                                      /*<EditorActions>
-                                        <Button 
-                                          appearance={"primary"} 
-                                          onClick={this.handleClick.bind(this)}>
-                                          oli
-                                        </Button>
-                                      </EditorActions>
-                                      */
-                                    }
-
-                                  </EditorWrapper>
+      { label: 'Reply', content: this.renderEditor({})
 
        },
-      { label: 'Note', content: <div>Two</div> }
+      { label: 'Note', content: this.renderEditor({note: true}) }
     ];
 
     return (
