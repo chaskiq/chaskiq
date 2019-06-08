@@ -761,11 +761,23 @@ class ConversationContainerShow extends Component {
                                   />
 
                                   <StatusItem>
+
+                                    <Moment fromNow>
+                                      {o.createdAt}
+                                    </Moment>
+                                    {" - "}
                                     {
                                       o.readAt ? 
-                                        <Moment fromNow>
-                                          {o.readAt}
-                                        </Moment> : <span>not seen</span>
+                                        <span>
+                                          {"seen "}
+                                          <Moment fromNow>
+                                            {o.readAt}
+                                          </Moment>
+                                        </span> : 
+                                          
+                                        o.privateNote ? 
+                                        'NOTE' : <span>not seen</span>
+                                        
                                     }
                                   </StatusItem>
                                   

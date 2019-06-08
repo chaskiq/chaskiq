@@ -123,6 +123,7 @@ export const CONVERSATION=`
             message
             source
             readAt
+            createdAt
             privateNote
             appUser{
               id

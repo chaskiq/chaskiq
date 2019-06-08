@@ -5,6 +5,8 @@ class ConversationPart < ApplicationRecord
 
   after_create :enqueue_email_notification, unless: :send_constraints?
 
+  scope :visibles, ->{ where("private_note is null")}
+
   def read!
     return if self.read?
     notify_read!

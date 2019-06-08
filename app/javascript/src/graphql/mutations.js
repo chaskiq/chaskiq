@@ -71,6 +71,7 @@ export const INSERT_NOTE = `
       message{
         message
         readAt
+        createdAt
         appUser{
           email
           properties
