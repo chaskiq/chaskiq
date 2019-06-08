@@ -68,6 +68,14 @@ An the content of the campaign is managed with a state of the art wysiwyg text e
 + https://crisp.chat/en/livechat/?ref=chatbox&domain=codetrace.io&name=CodeTrace
 
 
+## data gather
+
++ https://ipgeolocation.io/pricing.html
++ https://www.fullcontact.com/pricing-plans/
+
++ https://www.intercom.com/help/articles/277-where-do-the-social-profiles-come-from
+
+
 # themes
 
 + https://preview.themeforest.net/item/react-next-modern-landing-page-template/full_screen_preview/23169879
