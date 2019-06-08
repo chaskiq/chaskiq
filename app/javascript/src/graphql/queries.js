@@ -31,6 +31,17 @@ export const APP = `
   }
 `
 
+export const AGENTS = `
+  query App($appKey: String!){
+    app(key: $appKey) {
+      agents{
+        id
+        email
+      }
+    }
+  }
+`
+
 export const SEGMENT = `
   query App($appKey: String!, $id: Int!){
     app(key: $appKey) {
@@ -96,6 +107,10 @@ export const CONVERSATION=`
         id
         state 
         readAt
+        assignee {
+          id
+          email
+        }
         mainParticipant{
           id
           email

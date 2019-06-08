@@ -3,36 +3,71 @@ import IconButton from '@material-ui/core/IconButton';
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
+import SearchIcon from '@material-ui/icons/Search';
+import { makeStyles } from '@material-ui/core/styles';
+import { fade } from '@material-ui/core/styles/colorManipulator';
+import Typography from '@material-ui/core/Typography';
+import InputBase from '@material-ui/core/InputBase';
 
-const options = [
-  'None',
-  'Atria',
-  'Callisto',
-  'Dione',
-  'Ganymede',
-  'Hangouts Call',
-  'Luna',
-  'Oberon',
-  'Phobos',
-  'Pyxis',
-  'Sedna',
-  'Titania',
-  'Triton',
-  'Umbriel',
-];
+import List from '@material-ui/core/List';
+import ListItem from '@material-ui/core/ListItem';
+import ListItemText from '@material-ui/core/ListItemText';
 
 const ITEM_HEIGHT = 48;
 
-export default function LongMenu() {
+const useStyles = makeStyles(theme => ({
+  search: {
+    position: 'relative',
+    borderRadius: theme.shape.borderRadius,
+    backgroundColor: fade(theme.palette.common.white, 0.15),
+    '&:hover': {
+      backgroundColor: fade(theme.palette.common.white, 0.25),
+    },
+    marginLeft: 0,
+    width: '100%',
+    [theme.breakpoints.up('sm')]: {
+      marginLeft: theme.spacing(1),
+      width: 'auto',
+    },
+  },
+  searchIcon: {
+    width: theme.spacing(7),
+    height: '100%',
+    position: 'absolute',
+    pointerEvents: 'none',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+}));
+
+export default function LongMenu(props) {
+  const classes = useStyles();
+  const assignee = props.conversation.assignee
   const [anchorEl, setAnchorEl] = React.useState(null);
+  const [agents, setAgents] = React.useState([]);
   const open = Boolean(anchorEl);
+  const conversation = props.conversation
 
   function handleClick(event) {
     setAnchorEl(event.currentTarget);
+    console.log(props)
+    console.log(conversation)
+    getAgents()
   }
 
   function handleClose() {
     setAnchorEl(null);
+  }
+
+  function getAgents(){
+    props.getAgents((agents)=> setAgents(agents) )
+  }
+
+  function setAgent(option){
+    props.setAgent((option.id), (data)=>{
+      setTimeout( ()=> handleClose(), 800)
+    })
   }
 
   return (
@@ -45,6 +80,9 @@ export default function LongMenu() {
       >
         <MoreVertIcon />
       </IconButton>
+
+
+
       <Menu
         id="long-menu"
         anchorEl={anchorEl}
@@ -54,13 +92,51 @@ export default function LongMenu() {
         PaperProps={{
           style: {
             maxHeight: ITEM_HEIGHT * 4.5,
-            width: 200,
+            //width: 200,
           },
         }}
       >
-        {options.map(option => (
-          <MenuItem key={option} selected={option === 'Pyxis'} onClick={handleClose}>
-            {option}
+
+        <List dense={true}
+          component="nav" 
+          aria-label="Assignee">
+          <ListItem
+            //button
+            //aria-haspopup="true"
+            //aria-controls="lock-menu"
+            aria-label="Assignee"
+            
+          >
+            <ListItemText 
+              primary="Assignee" 
+              secondary={ assignee ? assignee.email : null } 
+            />
+          </ListItem>
+        </List>
+
+
+        {/*<MenuItem>
+           <div className={classes.searchIcon}>
+              <SearchIcon />
+            </div>
+
+            <InputBase
+              placeholder="Search…"
+              classes={{
+                root: classes.inputRoot,
+                input: classes.inputInput,
+              }}
+              inputProps={{ 'aria-label': 'Search' }}
+            />
+        </MenuItem>*/}
+
+
+        {agents.map(option => (
+          <MenuItem 
+            key={option.id} 
+            selected={option.id === assignee.id} 
+            onClick={()=> setAgent(option)}>
+            {option.email}
           </MenuItem>
         ))}
       </Menu>

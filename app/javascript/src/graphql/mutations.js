@@ -65,6 +65,27 @@ export const INSERT_COMMMENT = `
   }
 `;
 
+export const ASSIGN_USER = `
+  mutation AssignUser($appKey: String!, $conversationId: Int!, $appUserId: Int!){
+    assignUser(appKey: $appKey, conversationId: $conversationId, appUserId: $appUserId){
+      conversation{
+        id
+        state 
+        readAt
+        assignee {
+          id
+          email
+        }
+        mainParticipant{
+          id
+          email
+          properties
+        }
+      }
+    }
+  }
+`;
+
 export const UPDATE_CAMPAIGN = `
   mutation UpdateCampaign($appKey: String!, $id: Int!, $campaignParams: Json!){
     campaignUpdate(input: {appKey: $appKey, id: $id, campaignParams: $campaignParams}){

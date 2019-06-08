@@ -61,6 +61,12 @@ module Types
       collection.find(id)
     end
 
+    field :agents, [Types::AppUserType], null: false
+
+    def agents
+      object.admin_users
+    end
+
     field :segments, [Types::SegmentType], null: true
     
     def segments
