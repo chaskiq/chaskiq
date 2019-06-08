@@ -70,6 +70,8 @@ An the content of the campaign is managed with a state of the art wysiwyg text e
 
 ## data gather
 
++ https://www.quora.com/Which-is-the-most-accurate-IP-geolocation-service
+
 + https://ipgeolocation.io/pricing.html
 + https://www.fullcontact.com/pricing-plans/
 
