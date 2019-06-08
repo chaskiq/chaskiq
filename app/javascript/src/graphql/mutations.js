@@ -65,6 +65,30 @@ export const INSERT_COMMMENT = `
   }
 `;
 
+export const INSERT_NOTE = `
+  mutation InsertNote($appKey: String!, $id: Int!, $message: String!){
+    insertNote(appKey: $appKey, id: $id, message: $message){
+      message{
+        message
+        readAt
+        appUser{
+          email
+          properties
+        }
+        source
+        messageSource {
+          name
+          state
+          fromName
+          fromEmail
+          serializedContent
+        }
+        emailMessageId
+      }
+    }
+  }
+`;
+
 export const ASSIGN_USER = `
   mutation AssignUser($appKey: String!, $conversationId: Int!, $appUserId: Int!){
     assignUser(appKey: $appKey, conversationId: $conversationId, appUserId: $appUserId){

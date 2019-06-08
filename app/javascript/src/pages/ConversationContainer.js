@@ -13,6 +13,7 @@ import {convertToHTML} from 'draft-convert'
 import Avatar from '@atlaskit/avatar';
 import {soundManager} from 'soundmanager2'
 import sanitizeHtml from 'sanitize-html';
+
 import graphql from "../graphql/client"
 import { 
     CONVERSATIONS, 
@@ -20,7 +21,12 @@ import {
     APP_USER ,
     AGENTS
   } from "../graphql/queries"
-import { INSERT_COMMMENT, ASSIGN_USER } from '../graphql/mutations'
+import { 
+  INSERT_COMMMENT, 
+  ASSIGN_USER,
+  INSERT_NOTE 
+} from '../graphql/mutations'
+
 import './convo.scss'
 import Button from '@material-ui/core/Button'
 
@@ -158,8 +164,8 @@ const ChatMessageItem = styled.div`
     &.admin {
       margin-right: 61px;
       float: right;
-      background: #2f3335;
-      color: #eceff1; 
+      color: ${(props)=> props.message.privateNote ? `#222` : `#eceff1` };
+      background: ${(props)=> props.message.privateNote ? `#feedaf` : `#2f3335` };
       align-self: flex-end;
     }
 `;
@@ -187,7 +193,7 @@ const ChatAvatar = styled.div`
 `
 const StatusItem = styled.span`
   font-size: 9px;
-  color: #ccc;
+  //color: #ccc;
 `
 const UserDataList = styled.ul`
   li{
@@ -572,21 +578,25 @@ class ConversationContainerShow extends Component {
           console.log(error)
         }
       })
+  }
 
-    /*
-      axios.put(`/apps/${this.props.appId}/conversations/${id}.json`, {
-        email: this.props.currentUser.email,
-        id: id,
-        message: html_comment
+  insertNote = (comment, cb)=>{
+    const id = this.state.conversation.id
+    const html_comment = convertToHTML( comment );
+
+    graphql(INSERT_NOTE, { 
+      appKey: this.props.appId, 
+      id: id, 
+      message: html_comment
+    }, {
+        success: (data)=>{
+          console.log(data)
+          cb()
+        },
+        error: (error)=>{
+          console.log(error)
+        }
       })
-      .then( (response)=> {
-        console.log(response)
-        cb()
-      })
-      .catch( (error)=> {
-        console.log(error);
-      });
-      */
   }
 
   unsubscribeFromConversation = ()=>{
@@ -736,6 +746,7 @@ class ConversationContainerShow extends Component {
 
                                 <ChatMessageItem 
                                   id={`message-id-${o.id}`}
+                                  message={o}
                                   className={userOrAdmin}>
                                   
                                   <ChatAvatar 
@@ -770,6 +781,7 @@ class ConversationContainerShow extends Component {
                   
                   <ConversationEditor 
                     insertComment={this.insertComment}
+                    insertNote={this.insertNote}
                   />
 
                 </div>

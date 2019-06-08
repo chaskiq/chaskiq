@@ -23,24 +23,41 @@ class Conversation < ApplicationRecord
 
   def add_message(opts={})
 
+    part = process_message_part(opts)
+    part.save
+    
+    if part.errors.blank?
+      notify_subscribers
+    end
+
+    part
+  end
+
+  def add_private_note(opts={})
+    part = process_message_part(opts)
+    part.private_note = true
+    part.save
+    part
+  end
+
+  def process_message_part(opts)
     part          = self.messages.new
     part.app_user = opts[:from]
     part.message  = opts[:message]
     part.message_source = opts[:message_source] if opts[:message_source]
     part.email_message_id = opts[:email_message_id]
-    part.save
-    
-    if part.errors.blank?
-      subscribers = ConversationsChannel.broadcast_to("#{self.app.key}-#{self.id}", 
-        part.as_json(only: [:id, :message, :conversation_id, :read_at], methods: [:app_user]) 
-      )
-      logger.info("subscribers: #{subscribers}")
-      # could be events channel too
-      # ConversationsChannel.broadcast_to("#{self.app.key}-#{self.asignee.email}", {} )
-    end
-
     part
   end
+
+  def notify_subscribers
+    subscribers = ConversationsChannel.broadcast_to("#{self.app.key}-#{self.id}", 
+      part.as_json(only: [:id, :message, :conversation_id, :read_at], methods: [:app_user]) 
+    )
+    logger.info("subscribers: #{subscribers}")
+    # could be events channel too
+    # ConversationsChannel.broadcast_to("#{self.app.key}-#{self.asignee.email}", {} )
+  end
+
 
   def assign_user(user)
     self.assignee = user

@@ -16,6 +16,7 @@ module Types
     field :campaignUpdate, mutation: Mutations::Campaigns::UpdateCampaign
     
     field :insertComment, mutation: Mutations::Conversations::InsertComment
+    field :insertNote, mutation: Mutations::Conversations::InsertNote
     field :assignUser, mutation: Mutations::Conversations::AssignUser
     
     # TODO: remove me
