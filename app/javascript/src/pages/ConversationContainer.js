@@ -14,8 +14,13 @@ import Avatar from '@atlaskit/avatar';
 import {soundManager} from 'soundmanager2'
 import sanitizeHtml from 'sanitize-html';
 import graphql from "../graphql/client"
-import { CONVERSATIONS, CONVERSATION, APP_USER } from "../graphql/queries"
-import { INSERT_COMMMENT } from '../graphql/mutations'
+import { 
+    CONVERSATIONS, 
+    CONVERSATION, 
+    APP_USER ,
+    AGENTS
+  } from "../graphql/queries"
+import { INSERT_COMMMENT, ASSIGN_USER } from '../graphql/mutations'
 import './convo.scss'
 import Button from '@material-ui/core/Button'
 
@@ -608,8 +613,13 @@ class ConversationContainerShow extends Component {
       },
       received: (data)=> {
 
+
+
         const newData = camelizeKeys(data)
 
+
+
+        // update existing message
         if (this.state.messages.find((o) => o.id === newData.id ) ){
           const new_collection = this.state.messages.map((o)=>{
             if (o.id === newData.id ){
@@ -634,7 +644,7 @@ class ConversationContainerShow extends Component {
           //console.log(newData)
           
           this.setState({
-            messages: this.state.messages.concat(newData)
+            messages: [newData].concat(this.state.messages)
           }, this.scrollToLastItem)
 
         }
@@ -643,6 +653,38 @@ class ConversationContainerShow extends Component {
         console.log(`handle message`)
       } 
     });    
+  }
+
+  getAgents = (cb)=>{
+    graphql(AGENTS, {appKey: this.props.appId }, {
+      success: (data)=>{
+        cb(data.app.agents)
+      }, 
+      error: (error)=>{
+
+      }
+    })
+  }
+
+  setAgent = (id, cb)=>{
+    graphql(ASSIGN_USER, {
+      appKey: this.props.appId, 
+      conversationId: this.state.conversation.id,
+      appUserId: id
+    }, {
+      success: (data)=>{
+        
+        const conversation = data.assignUser.conversation
+
+        this.setState({
+          conversation: conversation,
+        }, ()=> cb(data.assignUser.conversation) )
+
+      },
+      error: (error)=>{
+
+      }
+    })
   }
 
   render(){
@@ -663,7 +705,11 @@ class ConversationContainerShow extends Component {
                     }
                   </div>
 
-                  <OptionMenu/>
+                  <OptionMenu 
+                    getAgents={this.getAgents.bind(this)}
+                    setAgent={this.setAgent.bind(this)}
+                    conversation={this.state.conversation}
+                  />
 
                 </FixedHeader>
 

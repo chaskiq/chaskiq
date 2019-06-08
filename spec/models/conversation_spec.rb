@@ -9,13 +9,21 @@ RSpec.describe Conversation, type: :model do
     app.add_user({email: "test@test.cl", first_name: "dsdsa"})
   }
 
+  let(:app_user2){ 
+    app.add_user({email: "admin@test.cl", first_name: "dsdsa"})
+  }
+
   it "create_conversation" do
+
+    app.add_admin(app_user2.user)
+
     app.start_conversation({
       message: "message", 
       from: app_user
     })
     expect(app.conversations.count).to be == 1
     expect(app.conversations.first.messages.count).to be == 1
+    expect(app.conversations.first.assignee).to be_present
   end
 
   context "add message" do

@@ -1,7 +1,7 @@
 module Types
   class ConversationType < Types::BaseObject
     #field :app, [Types::AppType], null: true
-    #field :assignee, [Types::UserType], null: true
+    field :assignee, Types::AppUserType, null: true
 
     field :id, Integer, null: true
     field :reply_count, Integer, null: true

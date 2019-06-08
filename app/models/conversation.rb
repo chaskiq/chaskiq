@@ -6,6 +6,8 @@ class Conversation < ApplicationRecord
 
   include AASM
 
+  before_create :add_default_assigne
+
   aasm column: :state do
     state :opened, :initial => true
     state :closed
@@ -43,6 +45,11 @@ class Conversation < ApplicationRecord
   def assign_user(user)
     self.assignee = user
     self.save
+  end
+
+  #TODO: give use choose this logic
+  def add_default_assigne
+    self.assignee = self.app.admin_users.first
   end
 
 end
