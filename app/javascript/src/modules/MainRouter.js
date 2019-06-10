@@ -3,9 +3,9 @@ import React, { Component } from 'react';
 import { BrowserRouter, Route,Switch } from 'react-router-dom'
 import App from './App';
 
-import DashboardIcon from '@atlaskit/icon/glyph/dashboard';
-import GearIcon from '@atlaskit/icon/glyph/settings';
-import SearchIcon from '@atlaskit/icon/glyph/search';
+//import DashboardIcon from '@atlaskit/icon/glyph/dashboard';
+//import GearIcon from '@atlaskit/icon/glyph/settings';
+//import SearchIcon from '@atlaskit/icon/glyph/search';
 import Landing from '../pages/Landing'
 import graphql from '../graphql/client'
 import {CURRENT_USER} from '../graphql/queries'
@@ -166,9 +166,9 @@ class MainRouter extends Component {
   constructor() {
     super();
     this.defaultNavLinks = [
-                              {url: '/',  name:'Home', icon: DashboardIcon},
-                              {url: '/settings',  name:'Settings', icon: GearIcon},
-                              {url: '/apps', name: 'My Apps', icon: DashboardIcon},
+                              {url: '/',  name:'Home' },
+                              {url: '/settings',  name:'Settings' },
+                              {url: '/apps', name: 'My Apps'},
                             ]
     this.state = {
       navOpenState: defaultNavOpts,

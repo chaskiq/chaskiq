@@ -5,8 +5,6 @@ import {
 
 import { convertToHTML } from 'draft-convert'
 import axios from 'axios'
-//import Lozenge from '@atlaskit/lozenge';
-//import Button from '@atlaskit/button';
 import graphql from '../../graphql/client'
 import { UPDATE_CAMPAIGN} from '../../graphql/mutations'
 
@@ -26,31 +24,35 @@ import MultiDecorator from 'draft-js-multidecorators'
 
 import Dante from "Dante2"
 import DanteEditor from 'Dante2/package/es/components/core/editor.js'
-
 import { DanteImagePopoverConfig } from 'Dante2/package/es/components/popovers/image.js'
 import { DanteAnchorPopoverConfig } from 'Dante2/package/es/components/popovers/link.js'
 import { DanteInlineTooltipConfig } from 'Dante2/package/es/components/popovers/addButton.js' //'Dante2/package/es/components/popovers/addButton.js'
 import { DanteTooltipConfig } from 'Dante2/package/es/components/popovers/toolTip.js' //'Dante2/package/es/components/popovers/toolTip.js'
-import { ImageBlockConfig } from './article/image.js'
+import { ImageBlockConfig } from '../../pages/campaigns/article/image'
+
 import { EmbedBlockConfig } from 'Dante2/package/es/components/blocks/embed.js'
 import { VideoBlockConfig } from 'Dante2/package/es/components/blocks/video.js'
 import { PlaceholderBlockConfig } from 'Dante2/package/es/components/blocks/placeholder.js'
 import { VideoRecorderBlockConfig } from 'Dante2/package/es/components/blocks/videoRecorder'
 import { CodeBlockConfig } from 'Dante2/package/es/components/blocks/code'
 import { DividerBlockConfig } from "Dante2/package/es/components/blocks/divider";
-import { ButtonBlockConfig } from "../../editor/components/blocks/button";
+//import { ButtonBlockConfig } from "../../editor/components/blocks/button";
 
 import Prism from 'prismjs';
 import { PrismDraftDecorator } from 'Dante2/package/es/components/decorators/prism'
 
-import { GiphyBlockConfig } from './article/giphyBlock'
-import { SpeechToTextBlockConfig } from './article/speechToTextBlock'
+//import { GiphyBlockConfig } from '../pages/campaign/article/giphyBlock'
+//import { SpeechToTextBlockConfig } from './article/speechToTextBlock'
 //import { DanteMarkdownConfig } from './article/markdown'
 
 import Link from 'Dante2/package/es/components/decorators/link'
 import findEntities from 'Dante2/package/es/utils/find_entities'
 
-import Loader from './loader'
+import Icons from 'Dante2/package/es/components/icons.js'
+
+//import EditorContainer from './styles'
+
+
 import _ from "lodash"
 
 //import jsondiff from "json0-ot-diff"
@@ -70,63 +72,6 @@ const styleString = (obj) => {
 
 const config = {
   endpoint: ""
-}
-
-const defaultProps = {
-  content: null,
-  read_only: false,
-  spellcheck: false,
-  title_placeholder: "Title",
-  body_placeholder: "Write your story",
-
-  default_wrappers: [
-    { className: 'graf--p', block: 'unstyled' },
-    { className: 'graf--h2', block: 'header-one' },
-    { className: 'graf--h3', block: 'header-two' },
-    { className: 'graf--h4', block: 'header-three' },
-    { className: 'graf--blockquote', block: 'blockquote' },
-    { className: 'graf--insertunorderedlist', block: 'unordered-list-item' },
-    { className: 'graf--insertorderedlist', block: 'ordered-list-item' },
-    { className: 'graf--code', block: 'code-block' },
-    { className: 'graf--bold', block: 'BOLD' },
-    { className: 'graf--italic', block: 'ITALIC' },
-    { className: 'graf--divider', block: 'divider' }
-  ],
-
-  continuousBlocks: [
-    "unstyled",
-    "blockquote",
-    "ordered-list",
-    "unordered-list",
-    "unordered-list-item",
-    "ordered-list-item",
-    "code-block"
-  ],
-
-  key_commands: {
-      "alt-shift": [{ key: 65, cmd: 'add-new-block' }],
-      "alt-cmd": [{ key: 49, cmd: 'toggle_block:header-one' },
-                  { key: 50, cmd: 'toggle_block:header-two' },
-                  { key: 53, cmd: 'toggle_block:blockquote' }],
-      "cmd": [{ key: 66, cmd: 'toggle_inline:BOLD' },
-              { key: 73, cmd: 'toggle_inline:ITALIC' },
-              { key: 75, cmd: 'insert:link' },
-              { key: 13, cmd: 'toggle_block:divider' }
-      ]
-  },
-
-  character_convert_mapping: {
-    '> ': "blockquote",
-    '*.': "unordered-list-item",
-    '* ': "unordered-list-item",
-    '- ': "unordered-list-item",
-    '1.': "ordered-list-item",
-    '# ': 'header-one',
-    '##': 'header-two',
-    '==': "unstyled",
-    '` ': "code-block"
-  },
-
 }
 
 export const ArticlePad = styled.div`
@@ -227,31 +172,80 @@ const ButtonsRow = styled.div`
   }
 `
 
+const defaultProps = {
+  content: null,
+  read_only: false,
+  spellcheck: false,
+  title_placeholder: "Title",
+  body_placeholder: "Write your story",
+
+  default_wrappers: [
+    { className: 'graf--p', block: 'unstyled' },
+    { className: 'graf--h2', block: 'header-one' },
+    { className: 'graf--h3', block: 'header-two' },
+    { className: 'graf--h4', block: 'header-three' },
+    { className: 'graf--blockquote', block: 'blockquote' },
+    { className: 'graf--insertunorderedlist', block: 'unordered-list-item' },
+    { className: 'graf--insertorderedlist', block: 'ordered-list-item' },
+    { className: 'graf--code', block: 'code-block' },
+    { className: 'graf--bold', block: 'BOLD' },
+    { className: 'graf--italic', block: 'ITALIC' },
+    { className: 'graf--divider', block: 'divider' }
+  ],
+
+  continuousBlocks: [
+    "unstyled",
+    "blockquote",
+    "ordered-list",
+    "unordered-list",
+    "unordered-list-item",
+    "ordered-list-item",
+    "code-block"
+  ],
+
+  key_commands: {
+      "alt-shift": [{ key: 65, cmd: 'add-new-block' }],
+      "alt-cmd": [{ key: 49, cmd: 'toggle_block:header-one' },
+                  { key: 50, cmd: 'toggle_block:header-two' },
+                  { key: 53, cmd: 'toggle_block:blockquote' }],
+      "cmd": [{ key: 66, cmd: 'toggle_inline:BOLD' },
+              { key: 73, cmd: 'toggle_inline:ITALIC' },
+              { key: 75, cmd: 'insert:link' },
+              { key: 13, cmd: 'toggle_block:divider' }
+      ]
+  },
+
+  character_convert_mapping: {
+    '> ': "blockquote",
+    '*.': "unordered-list-item",
+    '* ': "unordered-list-item",
+    '- ': "unordered-list-item",
+    '1.': "ordered-list-item",
+    '# ': 'header-one',
+    '##': 'header-two',
+    '==': "unstyled",
+    '` ': "code-block"
+  },
+
+}
 
 
-export default class CampaignEditor extends Component {
+export default class ChatEditor extends Component {
 
   constructor(props) {
     super(props)
-
     this.dante_editor = null
-    this.ChannelEvents = null
-    this.conn = null
     this.menuResizeFunc = null
     this.state = {
       loading: true,
       currentContent: null,
-      diff: "",
       videoSession: false,
-      selectionPosition: null,
-      incomingSelectionPosition: [],
       data: {},
-      status: "",
-      statusButton: "inprogress"
     }
   }
 
   componentDidMount() {
+    window.editor = this.refs.dante_editor
     window.addEventListener("resize", this.handleResize);
   }
 
@@ -260,7 +254,8 @@ export default class CampaignEditor extends Component {
   }
 
   emptyContent = () => {
-    return { "entityMap": {}, "blocks": [{ "key": "761n6", "text": "Write something", "type": "header-one", "depth": 0, "inlineStyleRanges": [], "entityRanges": [], "data": {} }, { "key": "f1qmb", "text": "", "type": "unstyled", "depth": 0, "inlineStyleRanges": [], "entityRanges": [], "data": {} }, { "key": "efvk7", "text": "Dante2 Inc.\nSantiago, Chile\nYou Received this email because you signed up on our website or made purchase from us.", "type": "footer", "depth": 0, "inlineStyleRanges": [{ "offset": 0, "length": 114, "style": "CUSTOM_FONT_SIZE_13px" }, { "offset": 0, "length": 114, "style": "CUSTOM_COLOR_#8d8181" }], "entityRanges": [], "data": {} }, { "key": "7gh7t", "text": "Unsubscribe", "type": "unsubscribe_button", "depth": 0, "inlineStyleRanges": [], "entityRanges": [], "data": { "enabled": false, "fill": "fill", "displayPopOver": true, "data": {}, "href": "http://mailerlite.com/some_unsubscribe_link_here", "border": "default", "forceUpload": false, "containerStyle": { "textAlign": "left", "margin": "0px 13px 0px 0px" }, "label": "click me", "float": "left", "buttonStyle": { "color": "#fff", "backgroundColor": "#3498db", "padding": "6px 12px", "display": "inline-block", "fontFamily": "Helvetica", "fontSize": 13, "float": "none", "border": "1px solid #3498db" } } }] }
+    return null
+    //return { "entityMap": {}, "blocks": [{ "key": "761n6", "text": "Write something", "type": "header-one", "depth": 0, "inlineStyleRanges": [], "entityRanges": [], "data": {} }, { "key": "f1qmb", "text": "", "type": "unstyled", "depth": 0, "inlineStyleRanges": [], "entityRanges": [], "data": {} }, { "key": "efvk7", "text": "Dante2 Inc.\nSantiago, Chile\nYou Received this email because you signed up on our website or made purchase from us.", "type": "footer", "depth": 0, "inlineStyleRanges": [{ "offset": 0, "length": 114, "style": "CUSTOM_FONT_SIZE_13px" }, { "offset": 0, "length": 114, "style": "CUSTOM_COLOR_#8d8181" }], "entityRanges": [], "data": {} }, { "key": "7gh7t", "text": "Unsubscribe", "type": "unsubscribe_button", "depth": 0, "inlineStyleRanges": [], "entityRanges": [], "data": { "enabled": false, "fill": "fill", "displayPopOver": true, "data": {}, "href": "http://mailerlite.com/some_unsubscribe_link_here", "border": "default", "forceUpload": false, "containerStyle": { "textAlign": "left", "margin": "0px 13px 0px 0px" }, "label": "click me", "float": "left", "buttonStyle": { "color": "#fff", "backgroundColor": "#3498db", "padding": "6px 12px", "display": "inline-block", "fontFamily": "Helvetica", "fontSize": 13, "float": "none", "border": "1px solid #3498db" } } }] }
   }
 
   defaultContent = () => {
@@ -270,30 +265,6 @@ export default class CampaignEditor extends Component {
       return this.emptyContent()
     }
   }
-
-/*
-  componentDidUpdate(prevProps, prevState) {
-    if (prevProps.match.params.article_id !== this.props.match.params.article_id) {
-
-      this.setState({ loading: true }, () => {
-
-        this.props.getArticle(this.props.book,
-          this.props.match.params.article_id,
-          {
-            success: () => {
-              console.log("article about to change")
-              this.setState({ loading: false })
-            }
-          }
-        )
-
-      })
-    }
-
-    //if (prevState.currentContent && prevState.currentContent != this.state.currentContent)
-    //  this.handleChangesOnCurrentContent(prevState.currentContent, this.state.currentContent)
-  }
-*/
 
   tooltipsConfig = () => {
 
@@ -308,13 +279,33 @@ export default class CampaignEditor extends Component {
         "code-block",
         'header-one',
         'header-two',
-        'header-three',
-        'header-four',
         'footer',
         'column',
         'jumbo',
         'button'
       ],
+
+      widget_options: {
+        placeholder: "type a url",
+        
+        block_types: [
+          { label: 'p', style: 'unstyled',  icon: Icons.bold },
+          { label: 'h2', style: 'header-one', type: "block" , icon: Icons.h1 },
+          { label: 'h3', style: 'header-two', type: "block",  icon: Icons.h2 },
+
+          { type: "separator" },
+          { type: "link" },
+        
+          { label: 'blockquote', style: 'blockquote', type: "block", icon: Icons.blockquote },
+          
+          { type: "separator" },
+
+          { label: 'code', style: 'code-block', type: "block",  icon: Icons.code },
+          { label: 'bold', style: 'BOLD', type: "inline", icon: Icons.bold },
+          { label: 'italic', style: 'ITALIC', type: "inline", icon: Icons.italic }
+        ]
+      }
+
     }
 
     const menuConfig = Object.assign({}, DanteTooltipConfig(), inlineMenu)
@@ -331,10 +322,10 @@ export default class CampaignEditor extends Component {
   decorators = (context) => {
     return (context) => {
       return new MultiDecorator([
-        PrismDraftDecorator({
-          prism: Prism,
-          defaultSyntax: 'javascript'
-        }),
+        //PrismDraftDecorator({
+        //  prism: Prism,
+        //  defaultSyntax: 'javascript'
+        //}),
         new CompositeDecorator(
           [{
             strategy: findEntities.bind(null, 'LINK', context),
@@ -347,44 +338,11 @@ export default class CampaignEditor extends Component {
     }
   }
 
-  generateDecorator = (highlightTerm) => {
-    const regex = new RegExp(highlightTerm, 'g');
-    return new CompositeDecorator([{
-      strategy: (contentBlock, callback) => {
-        console.info("processing entity!", this.state.incomingSelectionPosition.length)
-        if (this.state.incomingSelectionPosition.length > 0) {
-
-          findSelectedBlockFromRemote(
-            this.state.incomingSelectionPosition,
-            contentBlock,
-            callback
-          )
-        }
-        /*if (highlightTerm !== '') {
-          findWithRegex(regex, contentBlock, callback);
-        }*/
-      },
-      component: this.searchHighlight,
-    }])
-  };
-
-  searchHighlight = (props) => {
-    const sel = this.state.incomingSelectionPosition.find((o) => o.anchorKey === props.children[0].props.block.getKey())
-
-    return <SelectionIndicator style={{ background: "yellow" }}>
-      <UserIndicator>
-        {sel.user}
-        <i className="arrow"></i>
-      </UserIndicator>
-      {props.children}
-    </SelectionIndicator>
-  }
-
   widgetsConfig = () => {
     return [CodeBlockConfig(),
     ImageBlockConfig({
       options: {
-        upload_url: `/attachments.json?id=${this.props.data.id}&app_id=${this.props.store.app.key}`,
+        upload_url: `/attachments.json?&app_id=${this.props.store.app.key}`,
         //upload_handler: this.handleUpload,
         image_caption_placeholder: "type a caption (optional)"
       }
@@ -410,12 +368,12 @@ export default class CampaignEditor extends Component {
     VideoRecorderBlockConfig({
       options: {
         seconds_to_record: 20000,
-        upload_url: `/attachments.json?id=${this.props.data.id}&app_id=${this.props.store.app.key}`,
+        upload_url: `/attachments.json?&app_id=${this.props.store.app.key}`,
       }
     }),
-    GiphyBlockConfig(),
-    SpeechToTextBlockConfig(),
-    ButtonBlockConfig()
+    //GiphyBlockConfig(),
+    //SpeechToTextBlockConfig(),
+    //ButtonBlockConfig()
     ]
   
   }
@@ -658,7 +616,7 @@ export default class CampaignEditor extends Component {
       }
     }
 
-    let html3 = convertToHTML(convertOptions)(context.editorState().getCurrentContent())
+    /*let html3 = convertToHTML(convertOptions)(context.editorState().getCurrentContent())
 
     const serialized = JSON.stringify(content)
     const plain = context.getTextFromEditor(content)
@@ -672,9 +630,9 @@ export default class CampaignEditor extends Component {
     this.setState({
       status: "saving...",
       statusButton: "success"
-    })
+    })*/
 
-    const params = {
+    /*const params = {
       appKey: this.props.store.app.key,
       id: this.props.data.id,
       campaignParams: {
@@ -690,7 +648,7 @@ export default class CampaignEditor extends Component {
       error: ()=>{
 
       }
-    })
+    })*/
 
     /*axios.put(`${this.props.url}.json?mode=${this.props.mode}`, {
       campaign: {
@@ -708,8 +666,8 @@ export default class CampaignEditor extends Component {
       })
     */
 
-    if (cb)
-      cb(html3, plain, serialized)
+    //if (cb)
+    //  cb(html3, plain, serialized)
   }
 
   decodeEditorContent = (raw_as_json) => {
@@ -755,95 +713,45 @@ export default class CampaignEditor extends Component {
   }
 
   render() {
-    // !this.state.loading &&
-    /*if (this.state.loading) {
-      return <Loader />
-    }*/
 
-    return <ArticlePad>
+    return <Dante
+              //{...defaultProps}
+              ref="dante_editor"
+              debug={false}
+              data_storage={
+                {
+                  url: "/",
+                  save_handler: this.saveHandler
+                }
+              }
+              onChange={(e) => {
+                this.dante_editor = e
+                const newContent = convertToRaw(e.state.editorState.getCurrentContent()) //e.state.editorState.getCurrentContent().toJS()
+                this.menuResizeFunc = getVisibleSelectionRect
+                const selectionState = e.state.editorState.getSelection();
 
-            <ButtonsContainer>
+                this.setState({
+                  currentContent: newContent,
+                  selectionPosition: selectionState.toJSON() //this.menuResizeFunc(window),
+                })
 
-              <div style={{ alignSelf: 'start'}}>
-                <div appearance={this.state.statusButton} isBold>
-                  {this.state.status}
-                </div>
-              </div>
+              }}
+              content={this.defaultContent()}
+              tooltips={this.tooltipsConfig()}
+              widgets={this.widgetsConfig()}
+              decorators={(context) => {
+                return new MultiDecorator([
+                  new CompositeDecorator(
+                    [{
+                      strategy: findEntities.bind(null, 'LINK', context),
+                      component: Link
+                    }]
+                  )
 
-
-            {
-                this.props.mode === "campaigns" && (this.props.data.state != "sent" && this.props.data.state != "delivering")  ?
-                <ButtonsRow>
-
-                  <button appearance="default" onClick={(e) => {
-                    window.open(`${window.location.pathname}/preview`, '_blank');
-                  }}>
-                    Preview
-                  </button>
-
-                  <button appearance="default" onClick={(e) => { console.log('test') }}>
-                    Test
-                  </button>
-
-                  <button appearance="primary" onClick={this.handleSend}>
-                    Send
-                  </button>
-
-                </ButtonsRow> : null
-            }
-
-          </ButtonsContainer> 
-      
-
-      <hr style={{ clear: "both", border: '1px solid #ebecf0' }} />
-
-
-      <Dante
-        //{...defaultProps}
-        debug={true}
-        data_storage={
-          {
-            url: "/",
-            save_handler: this.saveHandler
-          }
-        }
-        onChange={(e) => {
-          this.dante_editor = e
-          const newContent = convertToRaw(e.state.editorState.getCurrentContent()) //e.state.editorState.getCurrentContent().toJS()
-          this.menuResizeFunc = getVisibleSelectionRect
-          const selectionState = e.state.editorState.getSelection();
-
-          /*if(window.getSelection().rangeCount > 0){
-            window.getSelection().getRangeAt(0)
-            debugger
-          }*/
-          //console.log("MENU POSITION", this.menuResizeFunc(window))
-          this.setState({
-            currentContent: newContent,
-            selectionPosition: selectionState.toJSON() //this.menuResizeFunc(window),
-          })
-
-          //console.log("cha chachanges: ", e.state.editorState)
-        }}
-        content={this.defaultContent()}
-        tooltips={this.tooltipsConfig()}
-        widgets={this.widgetsConfig()}
-        decorators={(context) => {
-          return new MultiDecorator([
-            this.generateDecorator("hello"),
-            PrismDraftDecorator({ prism: Prism }),
-            new CompositeDecorator(
-              [{
-                strategy: findEntities.bind(null, 'LINK', context),
-                component: Link
-              }]
-            )
-
-          ])
-        }
-        }
-      />
-    </ArticlePad>
+                ])
+              }
+              }
+            />
   }
 
 }

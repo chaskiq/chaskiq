@@ -1,10 +1,10 @@
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
-import Button, { ButtonGroup } from '@atlaskit/button';
+//import Button, { ButtonGroup } from '@atlaskit/button';
 import ContentWrapper from '../components/ContentWrapper';
 import PageTitle from '../components/PageTitle';
 import logo from '../images/logo.png';
-import Page, { Grid, GridColumn } from '@atlaskit/page';
+//import Page, { Grid, GridColumn } from '@atlaskit/page';
 import styled, { ThemeProvider } from 'styled-components'
 
 
@@ -21,36 +21,36 @@ export default class HomePage extends Component {
     return (<ThemeProvider theme={{ mode: 'dark' }}>
       <ContentWrapper>
 
-        <Page >
-          <Grid>
-            <GridColumn medium={3}>
-            </GridColumn>
-            <GridColumn medium={6}>
-              <div style={{
-                textAlign: 'center'
-              }}>
-                <PageTitle> Welcome to Hermessenger</PageTitle>
-                <img src={logo} width={'100%'} />
-                
-                <ButtonGroup>
-                <Button
-                  appearance="primary"
-                  onClick={(e) => {
-                    e.preventDefault()
-                    window.location = "/users/sign_in"
-                  }
-                  }
-                  onClose={() => { }}
-                >Log in
-                </Button>
-              </ButtonGroup>
-              </div>
-            </GridColumn>
-            <GridColumn medium={3}>
-           
-            </GridColumn>
-          </Grid>
-        </Page>
+        {/*<Page >
+                  <Grid>
+                    <GridColumn medium={3}>
+                    </GridColumn>
+                    <GridColumn medium={6}>
+                      <div style={{
+                        textAlign: 'center'
+                      }}>
+                        <PageTitle> Welcome to Hermessenger</PageTitle>
+                        <img src={logo} width={'100%'} />
+                        
+                        <ButtonGroup>
+                        <Button
+                          appearance="primary"
+                          onClick={(e) => {
+                            e.preventDefault()
+                            window.location = "/users/sign_in"
+                          }
+                          }
+                          onClose={() => { }}
+                        >Log in
+                        </Button>
+                      </ButtonGroup>
+                      </div>
+                    </GridColumn>
+                    <GridColumn medium={3}>
+                   
+                    </GridColumn>
+                  </Grid>
+                </Page>*/}
 
 
       </ContentWrapper>

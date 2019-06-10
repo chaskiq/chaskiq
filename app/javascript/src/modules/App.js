@@ -15,7 +15,7 @@ import HomePage from '../pages/HomePage';
 import SettingsPage from '../pages/SettingsPage';
 import ShowAppContainer from '../pages/showAppContainer';
 import AppListContainer from '../pages/appListContainer';
-import NewApp from '../pages/NewApp'
+//import NewApp from '../pages/NewApp'
 
 
 class Paperbase extends React.Component {
@@ -114,10 +114,16 @@ class Paperbase extends React.Component {
               <Route exact path={`/apps/new`}
                 render={(props) => (
 
-                  <NewApp
-                    currentUser={this.props.currentUser}
-                    {...props}
-                  />
+                   
+                  <p>
+                  new app ere
+                    {/*<NewApp
+                      currentUser={this.props.currentUser}
+                      {...props}
+                    />*/}
+
+                  </p>
+                  
 
                 )}
               />

@@ -6,7 +6,6 @@ import {
 } from 'react-router-dom'
 import ContentWrapper from '../components/ContentWrapper';
 import PageTitle from '../components/PageTitle';
-import Button, { ButtonGroup } from '@atlaskit/button';
 import AppCard from '../components/AppCard'
 
 import graphql from "../graphql/client"
@@ -53,7 +52,7 @@ export default class AppListContainer extends Component {
                 Apps
               </PageTitle>
 
-              <ButtonGroup>
+           
                 {
                   this.state.apps.map((o)=> (
                     <AppCard 
@@ -64,7 +63,7 @@ export default class AppListContainer extends Component {
                   )
 
                 )}
-              </ButtonGroup>
+           
 
             </ContentWrapper>
   }

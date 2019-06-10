@@ -2,7 +2,6 @@ import React, {Component} from "react"
 import Button from '@material-ui/core/Button';
 
 
-import Form, { FormHeader, FormSection, FormFooter } from '@atlaskit/form';
 import {isEmpty} from 'lodash'
 import axios from 'axios'
 import serialize from 'form-serialize'
@@ -135,10 +134,9 @@ export default class CampaignSettings extends Component {
             this.formRef = form;
           }}
         >
-          <FormHeader title="Create a new campaign" />
+          <h3>Create a new campaign"</h3>
 
-            <FormSection>
-
+      
               {
                 this.state.data.configFields.map((field) => {
                   return <FieldRenderer 
@@ -150,16 +148,7 @@ export default class CampaignSettings extends Component {
                 })
               }
 
-            </FormSection>
 
-          <FormFooter
-            actionsContent={[
-              {
-                id: 'submit-button',
-              },
-              {},
-            ]}
-          >
             <Button variant="contained" color="primary">
               Save
             </Button>
@@ -167,7 +156,7 @@ export default class CampaignSettings extends Component {
             <Button appearance="subtle">
               Cancel
             </Button>
-          </FormFooter>
+       
         </form>
       </div>
     );

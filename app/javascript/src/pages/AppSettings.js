@@ -12,7 +12,6 @@ import PageTitle from '../components/PageTitle';
 import styled from 'styled-components'
 import axios from 'axios'
 import serialize from 'form-serialize'
-import Form, { Field, FormHeader, FormSection, FormFooter } from '@atlaskit/form';
 
 import Paper from '@material-ui/core/Paper';
 import Button from '@material-ui/core/Button';
@@ -101,7 +100,7 @@ class SettingsForm extends Component {
                   this.formRef = form;
                 }}>
 
-                <FormHeader title="App settings" />
+                <h3>App settings</h3>
 
                 {
                   this.props.data.configFields.map((field) => {

@@ -18,13 +18,13 @@ import SettingsInputComponentIcon from '@material-ui/icons/SettingsInputComponen
 import TimerIcon from '@material-ui/icons/Timer';
 import SettingsIcon from '@material-ui/icons/Settings';
 import PhonelinkSetupIcon from '@material-ui/icons/PhonelinkSetup';
-
+import EmailIcon from '@material-ui/icons/Email';
 import BookIcon from '@material-ui/icons/Book';
-
+import FlipToFrontIcon from '@material-ui/icons/FlipToFront'
 import SmsIcon from '@material-ui/icons/Sms';
 
 // TODO: icons to change
-import SearchIcon from '@atlaskit/icon/glyph/search';
+/*import SearchIcon from '@atlaskit/icon/glyph/search';
 import CreateIcon from '@atlaskit/icon/glyph/add';
 import ArrowleftIcon from '@atlaskit/icon/glyph/arrow-left';
 import ArrowLeftIcon from "@atlaskit/icon/glyph/arrow-left";
@@ -37,7 +37,7 @@ import EditorTableDisplayOptionsIcon from '@atlaskit/icon/glyph/editor/table-dis
 import CanvasIcon from '@atlaskit/icon/glyph/canvas';
 import EmailIcon from '@atlaskit/icon/glyph/email';
 import QuestionCircleIcon from '@atlaskit/icon/glyph/question-circle';
-
+*/
 import ExpansionPanel from '@material-ui/core/ExpansionPanel';
 import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails';
 import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary';
@@ -134,9 +134,9 @@ function Navigator(props, context) {
         { id: 'Performance', icon: <TimerIcon /> },
         { id: 'Test Lab', icon: <PhonelinkSetupIcon /> },*/
         { id: 'Mailing Campaigns', icon: <EmailIcon/>, url: `${appid}/messages/campaigns`},
-        { id: 'In App messages', icon: <EditorTableDisplayOptionsIcon/>, url: `${appid}/messages/user_auto_messages`},
-        { id: 'Guided tours', icon: <CanvasIcon/>, url: `${appid}/messages/tours`,},
-        { id: 'visitor auto messages', icon: <QuestionCircleIcon/>, url: `${appid}/messages/visitor_auto`}
+        { id: 'In App messages', icon: <FlipToFrontIcon/>, url: `${appid}/messages/user_auto_messages`},
+        { id: 'Guided tours', icon: <FlipToFrontIcon/>, url: `${appid}/messages/tours`,},
+        { id: 'visitor auto messages', icon: <FlipToFrontIcon/>, url: `${appid}/messages/visitor_auto`}
       ],
     },
 

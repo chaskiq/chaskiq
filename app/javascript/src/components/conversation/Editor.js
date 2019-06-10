@@ -8,6 +8,8 @@ import createEmojiPlugin from 'draft-js-emoji-plugin';
 import styled from "styled-components"
 import 'draft-js-hashtag-plugin/lib/plugin.css';
 import Tabs from './tabs';
+import EditorToolbar from './editorToolbar'
+import NewEditor from './newEditor'
 
 import {getDefaultKeyBinding, KeyBindingUtil} from 'draft-js';
 
@@ -128,6 +130,14 @@ export default class ConversationEditor extends Component {
     }
   }
 
+  renderToolbar = ()=>{
+    return <div>
+      
+             <EditorToolbar/>
+             
+           </div>
+  }
+
 
   renderEditor = (opts)=>{
     return <EditorWrapper>
@@ -136,7 +146,7 @@ export default class ConversationEditor extends Component {
 
             <EditorContainer note={opts.note}>
 
-              <Editor
+              {/*<Editor
                 ref={"editor"}
                 editorState={this.state.editorState}
                 onChange={this.onChange}
@@ -144,11 +154,14 @@ export default class ConversationEditor extends Component {
                 keyBindingFn={myKeyBindingFn}
                 handleReturn={(e)=> this.handleReturn(e, { note: opts.note } )}
                 plugins={plugins}
-              />
+              />*/}
+
+              <NewEditor {...this.props}/>
+
             </EditorContainer>
 
-            <InlineToolbar />
-            <EmojiSuggestions />
+            {/*<InlineToolbar />
+            <EmojiSuggestions />*/}
 
             {/*
               <EmojiSelect />
@@ -164,6 +177,10 @@ export default class ConversationEditor extends Component {
               </EditorActions>
               */
             }
+
+          {/*this.renderToolbar()*/}
+
+
 
           </EditorWrapper>
   }

@@ -10,7 +10,7 @@ import gravatar from "gravatar"
 import Moment from 'react-moment';
 import ConversationEditor from '../components/conversation/Editor.js'
 import {convertToHTML} from 'draft-convert'
-import Avatar from '@atlaskit/avatar';
+import Avatar from '@material-ui/core/Avatar';
 import {soundManager} from 'soundmanager2'
 import sanitizeHtml from 'sanitize-html';
 
@@ -29,13 +29,20 @@ import {
 
 import './convo.scss'
 import Button from '@material-ui/core/Button'
+import CheckIcon from '@material-ui/icons/Check'
+import InboxIcon from '@material-ui/icons/Inbox'
+import PriorityHighIcon from '@material-ui/icons/PriorityHigh'
 
 import UserListItem from '../components/UserListItem'
 import UserData from '../components/UserData'
 import Drawer from '@material-ui/core/Drawer';
 import { camelCase } from 'lodash';
 
+import IconButton from '@material-ui/core/IconButton';
+import Tooltip from '@material-ui/core/Tooltip';
+
 import OptionMenu from '../components/conversation/optionMenu'
+import FilterMenu from '../components/conversation/filterMenu'
 import {last} from 'lodash'
 
 const camelizeKeys = (obj) => {
@@ -203,6 +210,16 @@ const UserDataList = styled.ul`
   }
 `
 
+const ConversationButtons = styled.div`
+  display:flex;
+  align-items: center;
+`
+
+const HeaderTitle = styled.div`
+  display: flex;
+  align-items: center;
+`
+
 
 
 const playSound = ()=>{
@@ -345,6 +362,38 @@ export default class ConversationContainer extends Component {
     this.setState({rightDrawer: open });
   };
 
+  filterButton = (handleClick)=>{
+    return <Tooltip title="filter conversations">
+
+        <Button
+          aria-label="More"
+          aria-controls="long-menu"
+          aria-haspopup="true"
+          onClick={handleClick}
+        >
+          {/*<MoreVertIcon />*/}
+          open
+        </Button>
+
+       </Tooltip>
+  }
+
+  sortButton = (handleClick)=>{
+    return <Tooltip title="sort conversations">
+
+        <Button
+          aria-label="More"
+          aria-controls="long-menu"
+          aria-haspopup="true"
+          onClick={handleClick}
+        >
+          {/*<MoreVertIcon />*/}
+          newest
+        </Button>
+
+       </Tooltip>
+  }
+
 
   render(){
     const {appId} = this.props.match.params
@@ -370,9 +419,33 @@ export default class ConversationContainer extends Component {
                 {/*<FixedHeader>Conversations</FixedHeader>*/}
                 
                 <FixedHeader>
-                  <div>
+             
+                  <HeaderTitle>
                     Conversations
-                  </div>
+                  </HeaderTitle>
+
+                  <ConversationButtons>
+
+                    <FilterMenu 
+                      options={[
+                        {id: "open", name: "open", count: 1, icon: <InboxIcon/>},
+                        {id: "closed", name: "closed", count: 2, icon: <CheckIcon/>, selected: true}
+                      ]}
+                      triggerButton={this.filterButton}
+                    />
+
+                    <FilterMenu 
+                      options={[
+                        {id: "newest", name: "newest", count: 1, selected: true},
+                        {id: "oldest", name: "oldest", count: 1},
+                        {id: "waiting", name: "waiting", count: 1},
+                        {id: "priority-first", name: "priority first", count: 1},
+                      ]}
+                      triggerButton={this.sortButton}
+                    />
+
+                  </ConversationButtons>
+
                 </FixedHeader>
 
                 <Overflow onScroll={this.handleScroll}>
@@ -406,6 +479,7 @@ export default class ConversationContainer extends Component {
                   render={(props)=>(
                     <ConversationContainerShow
                       appId={appId}
+                      store={this.props.store}
                       showUserDrawer={this.showUserDrawer}
                       currentUser={this.props.currentUser}
                       {...props}
@@ -705,7 +779,7 @@ class ConversationContainerShow extends Component {
               <div className="chat">
                 <FixedHeader>
                   
-                  <div>
+                  <HeaderTitle>
                     Conversation with {" "}
 
                     {
@@ -713,13 +787,32 @@ class ConversationContainerShow extends Component {
                       <b>{this.state.conversation.mainParticipant.email}</b> 
                       : null
                     }
-                  </div>
+                  </HeaderTitle>
 
-                  <OptionMenu 
-                    getAgents={this.getAgents.bind(this)}
-                    setAgent={this.setAgent.bind(this)}
-                    conversation={this.state.conversation}
-                  />
+                  <ConversationButtons>
+
+                    <OptionMenu 
+                      getAgents={this.getAgents.bind(this)}
+                      setAgent={this.setAgent.bind(this)}
+                      conversation={this.state.conversation}
+                    />
+
+                    <Tooltip title="Close conversation">
+                      <IconButton>
+                        <CheckIcon/>
+                      </IconButton>
+                    </Tooltip>
+
+                    <Tooltip title="Priorize conversation">
+                      <IconButton>
+                        <PriorityHighIcon/>
+                      </IconButton>
+                    </Tooltip>
+
+
+                  </ConversationButtons>
+
+
 
                 </FixedHeader>
 
@@ -792,6 +885,8 @@ class ConversationContainerShow extends Component {
                 <div className="input">
                   
                   <ConversationEditor 
+                    store={this.props.store}
+                    data={{}}
                     insertComment={this.insertComment}
                     insertNote={this.insertNote}
                   />

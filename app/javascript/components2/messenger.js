@@ -15,8 +15,8 @@ import Quest from './messageWindow'
 import StyledFrame from 'react-styled-frame'
 import styled, { ThemeProvider } from 'styled-components'
 import DanteContainer from './styles/dante'
-import CrossIcon from '@atlaskit/icon/glyph/cross';
-import Button from '@atlaskit/button';
+//import CrossIcon from '@atlaskit/icon/glyph/cross';
+//import Button from '@atlaskit/button';
 import sanitizeHtml from 'sanitize-html';
 import TourManager from './tourManager'
 import {
@@ -636,13 +636,14 @@ class Messenger extends Component {
                                     {
                                       this.state.isMobile ?
                                       <CloseButtonWrapper>
-                                        <Button
+                                        <button
                                           appearance="subtle-link"
                                           onClick={() => this.toggleShowIcons()}
                                           spacing="none"
                                         >
-                                          <CrossIcon onClick={this.toggleMessenger} />
-                                        </Button>
+                                          <a onClick={this.toggleMessenger}>x</a>  
+                                        </button>
+
                                       </CloseButtonWrapper> : null
                                     }
                                     

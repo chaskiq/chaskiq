@@ -5,6 +5,7 @@ import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
 import SearchIcon from '@material-ui/icons/Search';
+import ListItemIcon from '@material-ui/core/ListItemIcon'
 import { makeStyles } from '@material-ui/core/styles';
 import { fade } from '@material-ui/core/styles/colorManipulator';
 import Typography from '@material-ui/core/Typography';
@@ -44,64 +45,32 @@ const useStyles = makeStyles(theme => ({
     alignItems: 'center',
     justifyContent: 'center',
   },
-
-  avatar: {
-    width: 25,
-    height: 25,
-  },
 }));
 
 export default function LongMenu(props) {
   const classes = useStyles();
-  const assignee = props.conversation.assignee
   const [anchorEl, setAnchorEl] = React.useState(null);
-  const [agents, setAgents] = React.useState([]);
+  const [options, setOption] = React.useState(props.options);
+  const triggerButton = props.triggerButton
+  const selectedOption = props.selectedOption
   const open = Boolean(anchorEl);
-  const conversation = props.conversation
 
   function handleClick(event) {
     setAnchorEl(event.currentTarget);
-    //console.log(props)
-    //console.log(conversation)
-    getAgents()
+  }
+
+  function selectOption(option) {
+    handleClose()
   }
 
   function handleClose() {
     setAnchorEl(null);
   }
 
-  function getAgents(){
-    props.getAgents((agents)=> setAgents(agents) )
-  }
-
-  function setAgent(option){
-    props.setAgent((option.id), (data)=>{
-      setTimeout( ()=> handleClose(), 800)
-    })
-  }
-
   return (
     <div>
 
-      <Tooltip title="Assign people">
-
-        <IconButton
-          aria-label="More"
-          aria-controls="long-menu"
-          aria-haspopup="true"
-          onClick={handleClick}
-        >
-          {/*<MoreVertIcon />*/}
-          <Avatar 
-            className={classes.avatar}
-            src={gravatar.url( assignee ? assignee.email : null )}
-          />
-        </IconButton>
-
-       </Tooltip>
-
-
-
+      {triggerButton ? triggerButton(handleClick) : null}
 
       <Menu
         id="long-menu"
@@ -117,46 +86,24 @@ export default function LongMenu(props) {
         }}
       >
 
-        <List dense={true}
-          component="nav" 
-          aria-label="Assignee">
-          <ListItem
-            //button
-            //aria-haspopup="true"
-            //aria-controls="lock-menu"
-            aria-label="Assignee"
-            
-          >
-            <ListItemText 
-              primary="Assignee" 
-              secondary={ assignee ? assignee.email : null } 
-            />
-          </ListItem>
-        </List>
 
-
-        {/*<MenuItem>
-           <div className={classes.searchIcon}>
-              <SearchIcon />
-            </div>
-
-            <InputBase
-              placeholder="Search…"
-              classes={{
-                root: classes.inputRoot,
-                input: classes.inputInput,
-              }}
-              inputProps={{ 'aria-label': 'Search' }}
-            />
-        </MenuItem>*/}
-
-
-        {agents.map(option => (
+        {options.map(option => (
           <MenuItem 
             key={option.id} 
-            selected={option.id === assignee.id} 
-            onClick={()=> setAgent(option)}>
-            {option.email}
+            selected={option.selected} 
+            onClick={()=> selectOption(option)}>
+            
+
+            { option.icon ?
+              <ListItemIcon>
+                {option.icon}
+              </ListItemIcon> : null 
+            }
+
+            <Typography variant="inherit">
+              {option.name}
+            </Typography>
+            
           </MenuItem>
         ))}
       </Menu>
