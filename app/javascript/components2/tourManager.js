@@ -1,8 +1,8 @@
 import React, {Component} from 'react'
 import styled from 'styled-components'
 import Simmer from 'simmerjs'
-import TourEditor from './tourEditor'
-import Button, { ButtonGroup } from '@atlaskit/button';
+//import TourEditor from './tourEditor'
+import Button from '@material-ui/core/Button';
 import Joyride, { ACTIONS, EVENTS, STATUS } from 'react-joyride';
 import StyledFrame from 'react-styled-frame'
 
@@ -307,11 +307,11 @@ export default class TourManager extends Component {
   enableEditMode = (editElement)=>{
     let newEl = {
       target: editElement.target,
-      content: <TourEditor 
+      content: <p>editor here</p>/*<TourEditor 
                 saveContent={this.saveContent} 
                 serializedContent={editElement.serializedContent}
                 target={editElement.target}>
-                </TourEditor>, 
+                </TourEditor>*/, 
       serializedContent: null
     }
     this.setState({
@@ -537,13 +537,13 @@ export default class TourManager extends Component {
                           {'<- exit preview'}
                         </Button>
                         : 
-                      <ButtonGroup appearance="warning">
+                      <div appearance="warning">
 
                         <Button onClick={this.activatePreview}>preview</Button>
 
                         <Button >cancel</Button>
                         <Button onClick={this.handleSaveTour}>save tour</Button>
-                      </ButtonGroup>
+                      </div>
                     }
                   
               </FooterRight> : 

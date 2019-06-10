@@ -6,12 +6,11 @@ import {
 import ContentWrapper from '../components/ContentWrapper';
 import PageTitle from '../components/PageTitle';
 //import Tabs from '@atlaskit/tabs';
-import Avatar from '@atlaskit/avatar';
+import Avatar from '@material-ui/core/Avatar';
 
 import styled from 'styled-components'
 import axios from 'axios'
 import serialize from 'form-serialize'
-import Lozenge from '@atlaskit/lozenge'
 
 import Button from '@material-ui/core/Button';
 import CampaignSettings from "./campaigns/settings"
@@ -31,7 +30,6 @@ import { CAMPAIGN, CAMPAIGNS  } from "../graphql/queries"
 import { PREDICATES_SEARCH, UPDATE_CAMPAIGN, CREATE_CAMPAIGN } from '../graphql/mutations'
 
 // @flow
-import DynamicTable from '@atlaskit/dynamic-table';
 import DataTable from '../components/dataTable'
 
 import Tab from '@material-ui/core/Tab';

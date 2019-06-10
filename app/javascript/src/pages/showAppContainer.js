@@ -7,8 +7,8 @@ import {
 import Moment from 'react-moment';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
-import Spinner from '@atlaskit/spinner';
-import EmptyState from '@atlaskit/empty-state'
+//import Spinner from '@atlaskit/spinner';
+//import EmptyState from '@atlaskit/empty-state'
 import UserMap from "../components/map"
 import logo from '../images/logo.png';
 import ConversationContainer from './ConversationContainer';
@@ -713,7 +713,11 @@ export default class ShowAppContainer extends Component {
           />
           <Route exact path={`/apps/${this.props.currentApp.key}/campaings`}
             render={() => (
-              <EmptyState {...this.emptyprops()} />
+              <p>
+              empty !!
+              {/*<EmptyState {...this.emptyprops()} />*/}
+              </p>
+              
             )}
           />
         </div> : null

@@ -1,13 +1,13 @@
 import React, {Component} from "react"
 import axios from "axios"
 import Moment from 'react-moment';
-import Lozenge from "@atlaskit/lozenge"
-import Button from '@atlaskit/button';
+//import Lozenge from "@atlaskit/lozenge"
+//import Button from '@atlaskit/button';
 
-import DropdownMenu, {
+/*import DropdownMenu, {
   DropdownItemGroup,
   DropdownItem,
-} from '@atlaskit/dropdown-menu';
+} from '@atlaskit/dropdown-menu';*/
 
 import CampaignChart from "./charts.js"
 import styled from 'styled-components'
@@ -156,9 +156,9 @@ export default class CampaignStats extends Component {
         break;
     }
 
-    return <Lozenge appearance={kind}>
+    return <div appearance={kind}>
             {item}
-           </Lozenge>
+           </div>
   }
 
   getTableData(){
@@ -323,12 +323,12 @@ export default class CampaignStats extends Component {
 
 
             <div>
-              <Button
+              <button
                 spacing={"compact"}
                 appearance={"danger"}
                 onClick={this.purgeMetrics}>
                 purge metrics
-              </Button>
+              </button>
             </div>
 
             <hr/>

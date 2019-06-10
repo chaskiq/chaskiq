@@ -1,6 +1,6 @@
 import React from 'react'
 //import Select from '@atlaskit/select';
-import FieldTextArea from '@atlaskit/field-text-area';
+//import FieldTextArea from '@atlaskit/field-text-area';
 //import FieldText from '@atlaskit/field-text';
 //import { DateTimePicker } from '@atlaskit/datetime-picker';
 //import { Checkbox } from '@atlaskit/checkbox';

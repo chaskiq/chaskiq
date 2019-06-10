@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import { Grid, GridColumn } from '@atlaskit/page';
+/*import { Grid, GridColumn } from '@atlaskit/page';
 import { gridSize } from '@atlaskit/theme';
 
 const Padding = styled.div`
@@ -12,7 +12,10 @@ export default ({ children }) => (
   <Grid>
     <GridColumn>
      <Padding>{children}</Padding>
-     {/*children*/}
     </GridColumn>
   </Grid>
+)*/
+
+export default ({ children }) => (
+  <div id="awe" >{children}</div>
 )
