@@ -10,6 +10,14 @@ const NewEditorStyles = styled(EditorStyles)`
   .postContent{
     padding: 10px;
   }
+
+  .graf graf--h2{
+    font-size: 2.6;
+  }
+
+  a{
+    color: ${(props)=> props.theme.dante_accent_color };
+  }
   
 
   .layoutSingleColumn{
@@ -27,8 +35,8 @@ const NewEditorStyles = styled(EditorStyles)`
   }
 
   .inlineTooltip-button {
-    width: 23px;
-    height: 23px;
+    width: 28px;
+    height: 28px;
     line-height: 25px;
   }
 
@@ -50,9 +58,17 @@ const NewEditorStyles = styled(EditorStyles)`
   }
 
   .public-DraftEditor-content{
-    max-height: calc(50vh - 90px);
+    max-height: calc(35vh - 83px);
     overflow: auto;
     height: 100%;
+  }
+
+  .tooltip-icon {
+    svg{
+      width: 16px;
+      height: 16px;      
+    }
+
   }
 
 `;

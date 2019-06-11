@@ -63,23 +63,61 @@ const Input = styled.textarea`
 
 const EditorButtons = styled.div`
     position: absolute;
-    top: 0;
-    right: 21px;
+    top: 12px;
+    right: 7px;
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    justify-content: space-around;
+    width: 96px;
 
-    button.emoji {
-      width: 18px;
-      padding-left: 8px;
-      padding-right: 8px;
-    }
+    button {
+      width: 28px;
+      height: 28px;
+      line-height: 31px;
+      background: transparent;
+      border: 1px solid;
+      border-color: #999;
+      color: #999;
+      border-radius: 999em;
+      cursor: pointer;
+      text-indent: -6px;
+      
+      border-width: 0px;
 
-    button.send {
-      width: 15px;
-      padding-left: 8px;
-      padding-right: 8px;
-      top: 1px;
+      svg{
+        width: 26px;
+        height: 26px;
+        color: #ccc;
+        path {
+          fill: #585858;
+        }
+      }
     }
   }
 `
+
+const GifIcon = ()=>(
+<svg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24'>
+    <path d='M11.5 9H13v6h-1.5zM9 9H6c-.6 0-1 .5-1 1v4c0 .5.4 1 1 1h3c.6 0 1-.5 1-1v-2H8.5v1.5h-2v-3H10V10c0-.5-.4-1-1-1zm10 1.5V9h-4.5v6H16v-2h2v-1.5h-2v-1z'
+    />
+</svg>
+)
+
+const SendIcon = ()=>(
+<svg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24'>
+    <path d='M2.01 21L23 12 2.01 3 2 10l15 2-15 2z' />
+</svg>
+)
+
+const EmojiIcon = ()=>(
+
+<svg xmlns='http://www.w3.org/2000/svg' width='18' height='18' viewBox='0 0 18 18'>
+    <path d='M6 8c.55 0 1-.45 1-1s-.45-1-1-1-1 .45-1 1 .45 1 1 1zm6 0c.55 0 1-.45 1-1s-.45-1-1-1-1 .45-1 1 .45 1 1 1zm-3 5.5c2.14 0 3.92-1.5 4.38-3.5H4.62c.46 2 2.24 3.5 4.38 3.5zM9 1C4.57 1 1 4.58 1 9s3.57 8 8 8 8-3.58 8-8-3.58-8-8-8zm0 14.5c-3.59 0-6.5-2.91-6.5-6.5S5.41 2.5 9 2.5s6.5 2.91 6.5 6.5-2.91 6.5-6.5 6.5z'
+    />
+</svg>
+)
 
 
 export default class UnicornEditor extends Component {
@@ -190,17 +228,26 @@ export default class UnicornEditor extends Component {
           }
 
           <Input onKeyPress={this.handleReturn} 
-            innerRef={comp => this.input = comp}>
+            ref={comp => this.input = comp}>
             {/*<div id="editore" ref="editore"/>*/}
           </Input>
+
           <EditorButtons>
+
             <button className="emoji" onClick={this.toggleEmojiClick}>
-              emojo
+              <EmojiIcon/>
             </button>
+
             <button className="send" onClick={this.toggleGiphy}>
-              giphy
+              <GifIcon/>
             </button>
-            <button className="send--">send</button>
+
+            {
+              /*<button className="send--">
+                <SendIcon/>
+              </button>*/
+            }
+
           </EditorButtons>
         </EditorContainer>
 

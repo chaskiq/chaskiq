@@ -48,6 +48,9 @@ import SendIcon from '@material-ui/icons/Send'
 
 import theme from '../components/conversation/theme'
 
+import themeDark from '../components/conversation/darkTheme'
+
+
 import EditorContainer from '../components/conversation/editorStyles'
 
 
@@ -172,6 +175,9 @@ const ChatMessageItem = styled.div`
       align-self: flex-start;   
       background: rgb(255, 255, 255);
       border: 1px solid #f7f6f6;
+      p {
+        color: #565555;
+      }
     }
 
     &.admin {
@@ -847,8 +853,6 @@ class ConversationContainerShow extends Component {
 
                 </FixedHeader>
 
-                <ThemeProvider theme={theme}>
-
                   <div className="box-container">
 
                     <div className="overflow" 
@@ -859,7 +863,7 @@ class ConversationContainerShow extends Component {
                           //background: 'aliceblue',
                           flexDirection : 'column-reverse',
                           display: 'flex',
-                          height: 'calc(100vh - 410px)'
+                          height: `calc(100vh - 462px)`
                         }}>
 
                       {
@@ -884,12 +888,20 @@ class ConversationContainerShow extends Component {
                                         <img src={gravatar.url(o.appUser.email)}/>
                                       </ChatAvatar>
 
+                                      <ThemeProvider theme={
+                                        userOrAdmin === "admin" ? 
+                                        o.privateNote ? theme : themeDark 
+                                        : theme 
+                                      }>
+                                        <EditorContainer>
                                           <div  
                                             key={i}
                                             dangerouslySetInnerHTML={{
                                               __html:  o.message 
                                             }} 
                                           />
+                                        </EditorContainer>
+                                     </ThemeProvider>
 
                                       <StatusItem>
 
@@ -933,7 +945,7 @@ class ConversationContainerShow extends Component {
 
                   </div>
 
-                </ThemeProvider>
+     
 
               </ChatContainer>
 

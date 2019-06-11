@@ -267,10 +267,8 @@ export default class DanteInlineTooltip extends React.Component {
           </button>
         */}
 
-        <div
-           className="inlineTooltip-menu"
-           style={ { width: `${ this.state.scaledWidth }` } }
-         >
+        <div className="inlineTooltip-menu">
+
           { this.getItems().map( (item, i) => {
             return  <InlineTooltipItem
                       item={ item }
@@ -302,6 +300,7 @@ class InlineTooltipItem extends React.Component {
 
   render() {
     return (
+
       <button
         type="button"
         className="inlineTooltip-button scale"
@@ -310,11 +309,13 @@ class InlineTooltipItem extends React.Component {
         onClick={(e)=> e.preventDefault()}
         style={{fontSize: '21px'}}
       >
+
       {
         <span className={ 'tooltip-icon'}>
           {this.props.item.icon()}
         </span>
       }
+
       </button>
     )
   }
