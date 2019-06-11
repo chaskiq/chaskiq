@@ -60,7 +60,7 @@ export default function LongMenu(props) {
   }
 
   function selectOption(option) {
-    handleClose()
+    props.filterHandler(option, handleClose )
   }
 
   function handleClose() {
@@ -90,7 +90,7 @@ export default function LongMenu(props) {
         {options.map(option => (
           <MenuItem 
             key={option.id} 
-            selected={option.selected} 
+            selected={props.value === option.name} 
             onClick={()=> selectOption(option)}>
             
 

@@ -15,6 +15,7 @@ const useStyles = makeStyles(theme => ({
   root: {
     width: '100%',
     maxWidth: 360,
+    padding: '0px',
     backgroundColor: theme.palette.background.paper,
   },
   inline: {
@@ -52,7 +53,10 @@ function AlignItemsList(props) {
 
   return (
     <List className={classes.root}>
-      <ListItem alignItems="flex-start">
+      <ListItem alignItems="flex-start" 
+        style={{
+          backgroundColor: props.value === props.object ? 'aliceblue' : 'white'
+        }}>
         <ListItemAvatar>
           {/*<Badge
                       className={classes.badge}
@@ -120,7 +124,7 @@ function AlignItemsList(props) {
           }
         />
       </ListItem>
-      <Divider variant="inset" component="li" />
+      <Divider variant="default" component="li" />
     </List>
   );
 }

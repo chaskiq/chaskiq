@@ -1,5 +1,5 @@
 class ConversationPart < ApplicationRecord
-  belongs_to :conversation
+  belongs_to :conversation, :touch => true
   belongs_to :app_user
   belongs_to :message_source, optional: true, class_name: "Message", foreign_key: :message_id
 
