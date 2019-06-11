@@ -21,6 +21,11 @@ class Conversation < ApplicationRecord
     end
   end
 
+  def toggle_priority
+    self.priority = !self.priority
+    self.save
+  end
+
   def add_message(opts={})
 
     part = process_message_part(opts)

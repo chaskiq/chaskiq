@@ -18,6 +18,8 @@ module Types
     field :insertComment, mutation: Mutations::Conversations::InsertComment
     field :insertNote, mutation: Mutations::Conversations::InsertNote
     field :assignUser, mutation: Mutations::Conversations::AssignUser
+    field :updateConversationState, mutation: Mutations::Conversations::UpdateState
+    field :toggleConversationPriority, mutation: Mutations::Conversations::TogglePriority
     
     # TODO: remove me
     #description: "An example field added by the generator"

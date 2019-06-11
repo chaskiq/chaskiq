@@ -97,6 +97,7 @@ export const ASSIGN_USER = `
         id
         state 
         readAt
+        priority
         assignee {
           id
           email
@@ -110,6 +111,50 @@ export const ASSIGN_USER = `
     }
   }
 `;
+
+export const UPDATE_CONVERSATION_STATE = `
+  mutation UpdateConversationState($appKey: String!, $conversationId: Int!, $state: String!){
+    updateConversationState(appKey: $appKey, conversationId: $conversationId, state: $state){
+      conversation{
+        id
+        state 
+        readAt
+        priority
+        assignee {
+          id
+          email
+        }
+        mainParticipant{
+          id
+          email
+          properties
+        }
+      }
+    }
+  }
+`;
+
+export const TOGGLE_CONVERSATION_PRIORITY = `
+  mutation ToggleConversationPriority($appKey: String!, $conversationId: Int!){
+    toggleConversationPriority(appKey: $appKey, conversationId: $conversationId){
+      conversation{
+        id
+        state 
+        readAt
+        priority
+        assignee {
+          id
+          email
+        }
+        mainParticipant{
+          id
+          email
+          properties
+        }
+      }
+    }
+  }
+`
 
 export const UPDATE_CAMPAIGN = `
   mutation UpdateCampaign($appKey: String!, $id: Int!, $campaignParams: Json!){

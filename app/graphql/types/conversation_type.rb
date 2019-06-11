@@ -5,6 +5,7 @@ module Types
 
     field :id, Integer, null: true
     field :reply_count, Integer, null: true
+    field :priority, Boolean, null: true
     field :parts_count, Integer, null: true
     field :read_at, GraphQL::Types::ISO8601DateTime, null: true
     field :main_participant, Types::AppUserType, null: true
@@ -13,9 +14,7 @@ module Types
     def last_message
       object.messages.last.as_json(methods: [:app_user])
     end
-    #def main_participant
-    #  object.main_participant
-    #end
+
     field :state, String, null: true
 
     field :messages, Types::PaginatedConversationPartsType, null:true do

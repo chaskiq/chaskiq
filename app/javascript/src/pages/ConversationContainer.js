@@ -24,37 +24,37 @@ import {
 import { 
   INSERT_COMMMENT, 
   ASSIGN_USER,
-  INSERT_NOTE 
+  INSERT_NOTE,
+  UPDATE_CONVERSATION_STATE,
+  TOGGLE_CONVERSATION_PRIORITY
 } from '../graphql/mutations'
 
 import Button from '@material-ui/core/Button'
 import CheckIcon from '@material-ui/icons/Check'
 import InboxIcon from '@material-ui/icons/Inbox'
 import PriorityHighIcon from '@material-ui/icons/PriorityHigh'
+import IconButton from '@material-ui/core/IconButton';
+import Tooltip from '@material-ui/core/Tooltip';
+import Drawer from '@material-ui/core/Drawer';
+import SendIcon from '@material-ui/icons/Send'
+import {Paper,Box, Typography} from '@material-ui/core'
 
 import UserListItem from '../components/UserListItem'
 import UserData from '../components/UserData'
-import Drawer from '@material-ui/core/Drawer';
 import { camelCase, isEmpty } from 'lodash';
 
-import IconButton from '@material-ui/core/IconButton';
-import Tooltip from '@material-ui/core/Tooltip';
+
 
 import OptionMenu from '../components/conversation/optionMenu'
 import FilterMenu from '../components/conversation/filterMenu'
 import {last} from 'lodash'
 
-import SendIcon from '@material-ui/icons/Send'
 
 import theme from '../components/conversation/theme'
-
 import themeDark from '../components/conversation/darkTheme'
-
-
 import EditorContainer from '../components/conversation/editorStyles'
 import Progress from '../shared/Progress'
 
-import {Paper,Box, Typography} from '@material-ui/core'
 
 const camelizeKeys = (obj) => {
   if (Array.isArray(obj)) {
@@ -332,7 +332,8 @@ export default class ConversationContainer extends Component {
       rightDrawer: false,
       appUser: {},
       sort: 'newest',
-      filter: 'opened'
+      filter: 'opened',
+      loading: false
     }
   }
 
@@ -351,25 +352,36 @@ export default class ConversationContainer extends Component {
   }
 
   getConversations = (cb)=>{
-    const nextPage = this.state.meta.next_page || 1
 
-    graphql(CONVERSATIONS, { 
-      appKey: this.props.match.params.appId, 
-      page: nextPage,
-      sort: this.state.sort,
-      filter: this.state.filter
-    }, {
-      success: (data)=>{
-        const conversations = data.app.conversations
-        this.setState({
-          conversations: nextPage > 1 ? 
-          this.state.conversations.concat(conversations.collection) : 
-          conversations.collection,
-          meta: conversations.meta
-        })
-        cb ? cb() : null        
-      }
+    this.setState({
+      loading: true
+    }, ()=>{
+
+
+      const nextPage = this.state.meta.next_page || 1
+
+      graphql(CONVERSATIONS, { 
+        appKey: this.props.match.params.appId, 
+        page: nextPage,
+        sort: this.state.sort,
+        filter: this.state.filter
+      }, {
+        success: (data)=>{
+          const conversations = data.app.conversations
+          this.setState({
+            conversations: nextPage > 1 ? 
+            this.state.conversations.concat(conversations.collection) : 
+            conversations.collection,
+            meta: conversations.meta,
+            loading: false
+          })
+          cb ? cb() : null        
+        }
+      })
+
+
     })
+
   }
 
   setSort = (option)=>{
@@ -436,13 +448,13 @@ export default class ConversationContainer extends Component {
   }
 
   filterConversations = (options, cb)=>{
-    this.setState({filter: options.name}, ()=>{
+    this.setState({filter: options.id}, ()=>{
       this.getConversations(cb)
     })
   }
 
   sortConversations = (options, cb)=>{
-    this.setState({sort: options.name}, ()=>{
+    this.setState({sort: options.id}, ()=>{
       this.getConversations(cb)
     })
   }
@@ -510,6 +522,8 @@ export default class ConversationContainer extends Component {
                 </FixedHeader>
 
                 <Overflow onScroll={this.handleScroll}>
+
+
                   {
                     this.state.conversations.map((o, i)=>{
                       const user = o.mainParticipant
@@ -524,6 +538,8 @@ export default class ConversationContainer extends Component {
                                   object={o.id}
                                   messageUser={o.lastMessage.appUser}
                                   showUserDrawer={this.showUserDrawer}
+                                  messageObject={o.lastMessage}
+                                  conversation={o}
                                   //createdAt={o.lastMessage.message.created_at}
                                   message={sanitizeHtml(o.lastMessage.message).substring(0, 250)}
                                 />
@@ -535,6 +551,9 @@ export default class ConversationContainer extends Component {
                               </div>
                     })
                   }
+
+                  {this.state.loading ? <Progress/> : null }
+
                 </Overflow>
               </GridElement>
 
@@ -606,7 +625,8 @@ class ConversationContainerShow extends Component {
     this.state = {
       messages: [],
       meta: {},
-      appUser: {}
+      appUser: {},
+      loading: false
     }
   }
 
@@ -671,36 +691,39 @@ class ConversationContainerShow extends Component {
   getMessages = (cb)=>{
     const nextPage = this.state.meta.next_page
 
-    graphql(CONVERSATION, { 
-      appKey: this.props.appId, 
-      id: parseInt(this.props.match.params.id), 
-      page: nextPage}, {
-      success: (data)=>{
-        const conversation = data.app.conversation
-        
-          this.props.setConversation(conversation, () => {
-            this.conversationSubscriber()
+    this.setState({loading: true}, ()=>{
+      graphql(CONVERSATION, { 
+        appKey: this.props.appId, 
+        id: parseInt(this.props.match.params.id), 
+        page: nextPage}, {
+        success: (data)=>{
+          const conversation = data.app.conversation
+          
+            this.props.setConversation(conversation, () => {
+              this.conversationSubscriber()
 
-            const lastItem = last(this.state.messages)
-    
-            this.setState({
-              messages: nextPage > 1 ? 
-                this.state.messages.concat(conversation.messages.collection) : 
-                conversation.messages.collection,
-              meta: conversation.messages.meta
-            },  ()=>{
-              //console.log(lastItem)
-              //this.getMainUser(this.state.conversation.mainParticipant.id)
-              // TODO: this will scroll scroll to last when new items are added!
-              cb ? cb(lastItem ? lastItem.id : null) : null
+              const lastItem = last(this.state.messages)
+      
+              this.setState({
+                messages: nextPage > 1 ? 
+                  this.state.messages.concat(conversation.messages.collection) : 
+                  conversation.messages.collection,
+                meta: conversation.messages.meta,
+                loading: false
+              },  ()=>{
+                //console.log(lastItem)
+                //this.getMainUser(this.state.conversation.mainParticipant.id)
+                // TODO: this will scroll scroll to last when new items are added!
+                cb ? cb(lastItem ? lastItem.id : null) : null
+              })
             })
-          })
 
-      },
-      error: (error)=>{
-        
-      }
-    })
+        },
+        error: (error)=>{
+          
+        }
+      }) 
+   })
   }
 
   insertComment = (comment, cb)=>{
@@ -823,16 +846,47 @@ class ConversationContainerShow extends Component {
       appUserId: id
     }, {
       success: (data)=>{
-        
         const conversation = data.assignUser.conversation
 
-        this.setState({
-          conversation: conversation,
-        }, ()=> cb(data.assignUser.conversation) )
-
+        this.props.setConversation(conversation, 
+          ()=> cb(data.assignUser.conversation) 
+        )
       },
       error: (error)=>{
 
+      }
+    })
+  }
+
+  updateConversationState = (state, cb)=>{
+    graphql(UPDATE_CONVERSATION_STATE, {
+      appKey: this.props.appId, 
+      conversationId: this.props.conversation.id,
+      state: state
+    }, {
+      success: (data)=>{
+        const conversation = data.updateConversationState.conversation
+        this.props.setConversation(conversation, 
+          ()=> cb ? cb(data.updateConversationState.conversation) : null
+        )
+      },
+      error: (error)=>{
+      }
+    })
+  }
+
+  toggleConversationPriority = (e, cb)=>{
+    graphql(TOGGLE_CONVERSATION_PRIORITY, {
+      appKey: this.props.appId, 
+      conversationId: this.props.conversation.id
+    }, {
+      success: (data)=>{
+        const conversation = data.toggleConversationPriority.conversation
+        this.props.setConversation(conversation, 
+          ()=> cb ? cb(data.toggleConversationPriority.conversation) : null
+        )
+      },
+      error: (error)=>{
       }
     })
   }
@@ -857,6 +911,7 @@ class ConversationContainerShow extends Component {
                       <b>{this.props.conversation.mainParticipant.email}</b> 
                       : null
                     }
+
                   </HeaderTitle>
 
                   <ConversationButtons>
@@ -867,15 +922,29 @@ class ConversationContainerShow extends Component {
                       conversation={this.props.conversation}
                     />
 
-                    <Tooltip title="Close conversation">
-                      <IconButton>
-                        <CheckIcon/>
-                      </IconButton>
-                    </Tooltip>
+                    {
+                      this.props.conversation.state != "closed" ?
+                      <Tooltip title="Close conversation">
+                        <IconButton onClick={()=>{ this.updateConversationState("close")}}>
+                          <CheckIcon/>
+                        </IconButton>
+                      </Tooltip> : null
+                    }
 
-                    <Tooltip title="Priorize conversation">
-                      <IconButton>
-                        <PriorityHighIcon/>
+                    {
+                      this.props.conversation.state != "opened" ?
+                      <Tooltip title="Reopen conversation">
+                        <IconButton onClick={()=>{ this.updateConversationState("reopen")}}>
+                          <InboxIcon/>
+                        </IconButton>
+                      </Tooltip> : null
+                    }
+
+                    <Tooltip title={ !this.props.conversation.priority ? "Priorize conversation" : 'Remove priority'}>
+                      <IconButton onClick={this.toggleConversationPriority}>
+                        <PriorityHighIcon 
+                          color={this.props.conversation.priority ? 'primary' : 'default' }
+                        />
                       </IconButton>
                     </Tooltip>
 
@@ -960,6 +1029,8 @@ class ConversationContainerShow extends Component {
                                   </MessageItemWrapper>
                                 })
                       }
+
+                      {this.state.loading ? <Progress/> : null }
 
                     </div>
 
