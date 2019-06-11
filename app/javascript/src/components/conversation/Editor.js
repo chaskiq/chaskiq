@@ -77,10 +77,8 @@ export default class ConversationEditor extends Component {
 
   renderEditor = (opts)=>{
     return <EditorWrapper>
-
-            {opts.note ? <p>note</p> : null }
-
-            <EditorContainer note={opts.note}>
+    
+            <EditorContainer note={opts.note} style={ opts.note ? { background: 'lemonchiffon'} : {} }>
 
               {
                 !this.state.loading ? 

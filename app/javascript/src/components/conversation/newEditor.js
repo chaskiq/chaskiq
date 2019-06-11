@@ -185,7 +185,7 @@ const defaultProps = {
   read_only: false,
   spellcheck: false,
   title_placeholder: "Title",
-  body_placeholder: "Write your story",
+  body_placeholder: "Write your message",
 
   default_wrappers: [
     { className: 'graf--p', block: 'unstyled' },
