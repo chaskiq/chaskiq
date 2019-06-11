@@ -71,9 +71,11 @@ export const CONVERSATIONS = `
           id
           state
           readAt
+          priority
           lastMessage{
             source
             message
+            privateNote
             messageSource{
               id
               type
@@ -105,8 +107,9 @@ export const CONVERSATION=`
       name
       conversation(id: $id){
         id
-        state 
+        state
         readAt
+        priority
         assignee {
           id
           email

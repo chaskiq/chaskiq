@@ -9,7 +9,8 @@ import Avatar from '@material-ui/core/Avatar';
 import Typography from '@material-ui/core/Typography';
 import Badge from '@material-ui/core/Badge';
 import gravatar from "gravatar"
-
+import styled from 'styled-components'
+import PriorityHighIcon from '@material-ui/icons/PriorityHigh'
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -47,6 +48,15 @@ const useStyles = makeStyles(theme => ({
 
 
 }));
+
+const PrivateNoteIndicator = styled.div`
+  width: 5px;
+  height: 19px;
+  background-color: #feedaf;
+  margin-right: 7px;
+  border: 1px solid #f1e1a9;
+`
+
 
 function AlignItemsList(props) {
   const classes = useStyles();
@@ -90,6 +100,20 @@ function AlignItemsList(props) {
                           alt={props.messageUser.email} 
                           src={gravatar.url(props.messageUser.email)} 
                       /> : null 
+                  }
+
+                  {
+                    props.messageObject.privateNote ? 
+                      <PrivateNoteIndicator/> : null
+                  }
+
+
+
+                  {
+                    props.conversation.priority ? 
+                      <PriorityHighIcon 
+                        color={'primary'}
+                      /> : null
                   }
 
                   <span className={classes.textMargin} 
