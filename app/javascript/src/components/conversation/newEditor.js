@@ -70,6 +70,8 @@ import _ from "lodash"
 //import RtcView from './rtc'
 import styled from '@emotion/styled'
 
+import { makeStyles } from '@material-ui/core/styles';
+
 const styleString = (obj) => {
   if(!obj)
     return ""
@@ -235,6 +237,26 @@ const defaultProps = {
     '` ': "code-block"
   },
 
+}
+
+const useStyles = makeStyles(theme => ({
+  button: {
+    margin: '-1px',
+    border: '1px solid #d2d2d2',
+    borderRadius: '0px'
+  }
+}));
+
+
+const SubmitButton = function(props){
+  const classes = useStyles();
+  return <Button
+          className={classes.button} 
+          variant="outlined"
+          onClick={props.onClick}
+          disabled={props.disabled}>
+          <SendIcon/>
+        </Button>
 }
 
 
@@ -681,11 +703,12 @@ export default class ChatEditor extends Component {
   }
 
   handleSubmit = (e)=>{
+
     this.props.submitData(this.state.html)
   }
 
   render() {
-
+    console.log(this.state)
     return <ThemeProvider theme={theme}>
             <EditorContainer>
               <div style={{flexGrow: 3}}>
@@ -729,9 +752,10 @@ export default class ChatEditor extends Component {
                 />
               </div>
 
-              <Button onClick={this.handleSubmit}>
-                <SendIcon/>
-              </Button>
+              <SubmitButton 
+                onClick={this.handleSubmit}
+                disabled={this.state.html==="<p class=\"graf graf--p\"></p>"}
+              />
 
             </EditorContainer>
             
