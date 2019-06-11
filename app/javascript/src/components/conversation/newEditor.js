@@ -26,7 +26,7 @@ import Dante from "Dante2"
 import DanteEditor from 'Dante2/package/es/components/core/editor.js'
 import { DanteImagePopoverConfig } from 'Dante2/package/es/components/popovers/image.js'
 import { DanteAnchorPopoverConfig } from 'Dante2/package/es/components/popovers/link.js'
-import { DanteInlineTooltipConfig } from 'Dante2/package/es/components/popovers/addButton.js' //'Dante2/package/es/components/popovers/addButton.js'
+import { DanteInlineTooltipConfig } from './EditorButtons' //'Dante2/package/es/components/popovers/addButton.js'
 import { DanteTooltipConfig } from 'Dante2/package/es/components/popovers/toolTip.js' //'Dante2/package/es/components/popovers/toolTip.js'
 import { ImageBlockConfig } from '../../pages/campaigns/article/image'
 
@@ -49,8 +49,16 @@ import Link from 'Dante2/package/es/components/decorators/link'
 import findEntities from 'Dante2/package/es/utils/find_entities'
 
 import Icons from 'Dante2/package/es/components/icons.js'
+import theme from './theme'
+import {ThemeProvider} from 'styled-components'
+import EditorContainer from './editorStyles'
+
+import Button from '@material-ui/core/Button'
+import SendIcon from '@material-ui/icons/Send'
+
 
 //import EditorContainer from './styles'
+//import EditorStyles from './editorStyles'
 
 
 import _ from "lodash"
@@ -240,6 +248,9 @@ export default class ChatEditor extends Component {
       loading: true,
       currentContent: null,
       videoSession: false,
+      plain: null,
+      serialized: null,
+      html: null,
       data: {},
     }
   }
@@ -260,7 +271,7 @@ export default class ChatEditor extends Component {
 
   defaultContent = () => {
     try {
-      return JSON.parse(this.props.data.serializedContent) || this.emptyContent()
+      return JSON.parse(this.state.serialized) || this.emptyContent()
     } catch (error) {
       return this.emptyContent()
     }
@@ -616,58 +627,26 @@ export default class ChatEditor extends Component {
       }
     }
 
-    /*let html3 = convertToHTML(convertOptions)(context.editorState().getCurrentContent())
+    let html3 = convertToHTML(convertOptions)(context.editorState().getCurrentContent())
 
     const serialized = JSON.stringify(content)
     const plain = context.getTextFromEditor(content)
 
-    console.log(html3)
+    //console.log(html3)
 
     if(this.props.data.serialized_content === serialized)
       return
 
-
     this.setState({
       status: "saving...",
-      statusButton: "success"
-    })*/
-
-    /*const params = {
-      appKey: this.props.store.app.key,
-      id: this.props.data.id,
-      campaignParams: {
-        html_content: html3,
-        serialized_content: serialized
-    }}
-
-    graphql(UPDATE_CAMPAIGN, params, {
-      success: (data)=>{
-        this.props.updateData(data.campaignUpdate.campaign, null)
-        this.setState({ status: "saved" })
-      }, 
-      error: ()=>{
-
-      }
-    })*/
-
-    /*axios.put(`${this.props.url}.json?mode=${this.props.mode}`, {
-      campaign: {
-        html_content: html3,
-        serialized_content: serialized
-      }
+      statusButton: "success",
+      plain: plain,
+      serialized: serialized,
+      html: html3
     })
-      .then((response) => {
-        console.log(response)
-        
-        this.props.updateData(response.data, null)
-        this.setState({ status: "saved" })
-      }).catch((err) => {
-        console.log(err)
-      })
-    */
 
-    //if (cb)
-    //  cb(html3, plain, serialized)
+    if (cb)
+      cb(html3, plain, serialized)
   }
 
   decodeEditorContent = (raw_as_json) => {
@@ -701,57 +680,62 @@ export default class ChatEditor extends Component {
     }
   }
 
-
-  handleSend = (e) => {
-    axios.get(`${this.props.match.url}/deliver.json`)
-      .then((response) => {
-        this.props.updateData(response.data, null)
-        console.log(response)
-      }).catch((err) => {
-        console.log(err)
-      })
+  handleSubmit = (e)=>{
+    this.props.submitData(this.state.html)
   }
 
   render() {
 
-    return <Dante
-              //{...defaultProps}
-              ref="dante_editor"
-              debug={false}
-              data_storage={
-                {
-                  url: "/",
-                  save_handler: this.saveHandler
-                }
-              }
-              onChange={(e) => {
-                this.dante_editor = e
-                const newContent = convertToRaw(e.state.editorState.getCurrentContent()) //e.state.editorState.getCurrentContent().toJS()
-                this.menuResizeFunc = getVisibleSelectionRect
-                const selectionState = e.state.editorState.getSelection();
+    return <ThemeProvider theme={theme}>
+            <EditorContainer>
+              <div style={{flexGrow: 3}}>
+                
+                <DanteEditor
+                  {...defaultProps}
+                  ref="dante_editor"
+                  debug={false}
+                  data_storage={
+                    {
+                      url: "/",
+                      save_handler: this.saveHandler
+                    }
+                  }
+                  onChange={(e) => {
+                    this.dante_editor = e
+                    const newContent = convertToRaw(e.state.editorState.getCurrentContent()) //e.state.editorState.getCurrentContent().toJS()
+                    this.menuResizeFunc = getVisibleSelectionRect
+                    const selectionState = e.state.editorState.getSelection();
 
-                this.setState({
-                  currentContent: newContent,
-                  selectionPosition: selectionState.toJSON() //this.menuResizeFunc(window),
-                })
+                    this.setState({
+                      currentContent: newContent,
+                    })
 
-              }}
-              content={this.defaultContent()}
-              tooltips={this.tooltipsConfig()}
-              widgets={this.widgetsConfig()}
-              decorators={(context) => {
-                return new MultiDecorator([
-                  new CompositeDecorator(
-                    [{
-                      strategy: findEntities.bind(null, 'LINK', context),
-                      component: Link
-                    }]
-                  )
+                  }}
+                  content={this.defaultContent()}
+                  tooltips={this.tooltipsConfig()}
+                  widgets={this.widgetsConfig()}
+                  decorators={(context) => {
+                    return new MultiDecorator([
+                      new CompositeDecorator(
+                        [{
+                          strategy: findEntities.bind(null, 'LINK', context),
+                          component: Link
+                        }]
+                      )
 
-                ])
-              }
-              }
-            />
+                    ])
+                  }
+                  }
+                />
+              </div>
+
+              <Button onClick={this.handleSubmit}>
+                <SendIcon/>
+              </Button>
+
+            </EditorContainer>
+            
+           </ThemeProvider>
   }
 
 }

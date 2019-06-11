@@ -6,10 +6,10 @@ import {
   Link
 } from 'react-router-dom'
 import styled from "styled-components"
+import {ThemeProvider} from 'styled-components'
 import gravatar from "gravatar"
 import Moment from 'react-moment';
 import ConversationEditor from '../components/conversation/Editor.js'
-import {convertToHTML} from 'draft-convert'
 import Avatar from '@material-ui/core/Avatar';
 import {soundManager} from 'soundmanager2'
 import sanitizeHtml from 'sanitize-html';
@@ -27,7 +27,6 @@ import {
   INSERT_NOTE 
 } from '../graphql/mutations'
 
-import './convo.scss'
 import Button from '@material-ui/core/Button'
 import CheckIcon from '@material-ui/icons/Check'
 import InboxIcon from '@material-ui/icons/Inbox'
@@ -44,6 +43,13 @@ import Tooltip from '@material-ui/core/Tooltip';
 import OptionMenu from '../components/conversation/optionMenu'
 import FilterMenu from '../components/conversation/filterMenu'
 import {last} from 'lodash'
+
+import SendIcon from '@material-ui/icons/Send'
+
+import theme from '../components/conversation/theme'
+
+import EditorContainer from '../components/conversation/editorStyles'
+
 
 const camelizeKeys = (obj) => {
   if (Array.isArray(obj)) {
@@ -129,7 +135,7 @@ const ActivityAvatar = styled.div`
 const Overflow = styled.div`
   overflow: auto;
   //height: 100vh;
-  height: calc(100vh - 149px);
+  height: calc(100vh - 172px);
 `
 const ActivityIndicator = styled.span`
   position: absolute;
@@ -218,6 +224,34 @@ const ConversationButtons = styled.div`
 const HeaderTitle = styled.div`
   display: flex;
   align-items: center;
+`
+
+const ChatContainer = styled.div`
+
+   display: flex;
+   flex-direction: column;
+   height: 100%;
+
+  .box-container{
+    display: flex;
+    flex: 1 1 auto;
+    flex-direction: column;
+    background: aliceblue;
+  }
+
+  .overflow {
+    flex: 1 1 auto;
+    overflow-y: auto;
+    padding: 15px;
+  }
+
+  .input{
+    margin: 14px;
+    /* border: 1px solid #ccc; */
+    border-radius: 0px;
+    box-shadow: 1px 1px 2px 0px #bdbbbb;
+  }
+
 `
 
 
@@ -418,7 +452,7 @@ export default class ConversationContainer extends Component {
               <GridElement>
                 {/*<FixedHeader>Conversations</FixedHeader>*/}
                 
-                <FixedHeader>
+                <FixedHeader style={{height: '82px'}}>
              
                   <HeaderTitle>
                     Conversations
@@ -637,12 +671,11 @@ class ConversationContainerShow extends Component {
 
   insertComment = (comment, cb)=>{
     const id = this.state.conversation.id
-    const html_comment = convertToHTML( comment );
 
     graphql(INSERT_COMMMENT, { 
       appKey: this.props.appId, 
       id: id, 
-      message: html_comment
+      message: comment
     }, {
         success: (data)=>{
           console.log(data)
@@ -656,12 +689,11 @@ class ConversationContainerShow extends Component {
 
   insertNote = (comment, cb)=>{
     const id = this.state.conversation.id
-    const html_comment = convertToHTML( comment );
 
     graphql(INSERT_NOTE, { 
       appKey: this.props.appId, 
       id: id, 
-      message: html_comment
+      message: comment
     }, {
         success: (data)=>{
           console.log(data)
@@ -776,7 +808,8 @@ class ConversationContainerShow extends Component {
           
             <GridElement grow={2}>
 
-              <div className="chat">
+              <ChatContainer>
+                
                 <FixedHeader>
                   
                   <HeaderTitle>
@@ -812,89 +845,99 @@ class ConversationContainerShow extends Component {
 
                   </ConversationButtons>
 
-
-
                 </FixedHeader>
 
-                  <div className="overflow" 
-                    ref="overflow" 
-                    onScroll={this.handleScroll}
-                    style={{
-                      boxShadow: 'inset 0px 1px 3px 0px #ccc',
-                      background: 'aliceblue',
-                      flexDirection : 'column-reverse',
-                      display: 'flex'
-                    }}>
+                <ThemeProvider theme={theme}>
 
-                  {
-                    this.state.messages.map( (o, i)=> {
+                  <div className="box-container">
 
-                      const userOrAdmin = this.state.conversation.mainParticipant.email === o.appUser.email ? 
-                                    'user' : 'admin'
-         
-                      return <MessageItemWrapper 
-                                key={o.id} 
-                                data={o} 
-                                email={this.props.currentUser.email}>
+                    <div className="overflow" 
+                        ref="overflow" 
+                        onScroll={this.handleScroll}
+                        style={{
+                          //boxShadow: 'inset 0px 1px 3px 0px #ccc',
+                          //background: 'aliceblue',
+                          flexDirection : 'column-reverse',
+                          display: 'flex',
+                          height: 'calc(100vh - 410px)'
+                        }}>
 
-                                <ChatMessageItem 
-                                  id={`message-id-${o.id}`}
-                                  message={o}
-                                  className={userOrAdmin}>
-                                  
-                                  <ChatAvatar 
-                                    onClick={(e)=>this.props.showUserDrawer(o.appUser.id)}
-                                    className={userOrAdmin}>
-                                    <img src={gravatar.url(o.appUser.email)}/>
-                                  </ChatAvatar>
+                      {
+                        this.state.messages.map( (o, i)=> {
 
-                                  <div  
-                                    key={i}
-                                    dangerouslySetInnerHTML={{__html:  o.message }} 
-                                  />
+                          const userOrAdmin = this.state.conversation.mainParticipant.email === o.appUser.email ? 
+                                        'user' : 'admin'
+             
+                          return <MessageItemWrapper 
+                                    key={o.id} 
+                                    data={o} 
+                                    email={this.props.currentUser.email}>
 
-                                  <StatusItem>
+                                    <ChatMessageItem 
+                                      id={`message-id-${o.id}`}
+                                      message={o}
+                                      className={userOrAdmin}>
+                                      
+                                      <ChatAvatar 
+                                        onClick={(e)=>this.props.showUserDrawer(o.appUser.id)}
+                                        className={userOrAdmin}>
+                                        <img src={gravatar.url(o.appUser.email)}/>
+                                      </ChatAvatar>
 
-                                    <Moment fromNow>
-                                      {o.createdAt}
-                                    </Moment>
-                                    {" - "}
-                                    {
-                                      o.readAt ? 
-                                        <span>
-                                          {"seen "}
-                                          <Moment fromNow>
-                                            {o.readAt}
-                                          </Moment>
-                                        </span> : 
-                                          
-                                        o.privateNote ? 
-                                        'NOTE' : <span>not seen</span>
-                                        
-                                    }
-                                  </StatusItem>
-                                  
-                                </ChatMessageItem>
+                                          <div  
+                                            key={i}
+                                            dangerouslySetInnerHTML={{
+                                              __html:  o.message 
+                                            }} 
+                                          />
 
-                              </MessageItemWrapper>
-                            })
-                  }
+                                      <StatusItem>
 
-                </div>
+                                        <Moment fromNow>
+                                          {o.createdAt}
+                                        </Moment>
+                                        {" - "}
+                                        {
+                                          o.readAt ? 
+                                            <span>
+                                              {"seen "}
+                                              <Moment fromNow>
+                                                {o.readAt}
+                                              </Moment>
+                                            </span> : 
+                                              
+                                            o.privateNote ? 
+                                            'NOTE' : <span>not seen</span>
+                                            
+                                        }
+                                      </StatusItem>
+                                      
+                                    </ChatMessageItem>
 
-                <div className="input">
-                  
-                  <ConversationEditor 
-                    store={this.props.store}
-                    data={{}}
-                    insertComment={this.insertComment}
-                    insertNote={this.insertNote}
-                  />
+                                  </MessageItemWrapper>
+                                })
+                      }
 
-                </div>
-              </div>
+                    </div>
 
-            </GridElement>
+                    <div className="input">
+                      
+                      <ConversationEditor 
+                        store={this.props.store}
+                        data={{}}
+                        insertComment={this.insertComment}
+                        insertNote={this.insertNote}
+                      />
+
+                    </div>
+
+                  </div>
+
+                </ThemeProvider>
+
+              </ChatContainer>
+
+             </GridElement>
 
 
 
