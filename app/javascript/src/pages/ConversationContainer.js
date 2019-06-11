@@ -35,7 +35,7 @@ import PriorityHighIcon from '@material-ui/icons/PriorityHigh'
 import UserListItem from '../components/UserListItem'
 import UserData from '../components/UserData'
 import Drawer from '@material-ui/core/Drawer';
-import { camelCase } from 'lodash';
+import { camelCase, isEmpty } from 'lodash';
 
 import IconButton from '@material-ui/core/IconButton';
 import Tooltip from '@material-ui/core/Tooltip';
@@ -52,7 +52,9 @@ import themeDark from '../components/conversation/darkTheme'
 
 
 import EditorContainer from '../components/conversation/editorStyles'
+import Progress from '../shared/Progress'
 
+import {Paper,Box, Typography} from '@material-ui/core'
 
 const camelizeKeys = (obj) => {
   if (Array.isArray(obj)) {
@@ -325,9 +327,12 @@ export default class ConversationContainer extends Component {
     super(props)
     this.state = {
       conversations: [],
+      conversation: {},
       meta: {},
       rightDrawer: false,
-      appUser: {}
+      appUser: {},
+      sort: 'newest',
+      filter: 'opened'
     }
   }
 
@@ -350,7 +355,10 @@ export default class ConversationContainer extends Component {
 
     graphql(CONVERSATIONS, { 
       appKey: this.props.match.params.appId, 
-      page: nextPage}, {
+      page: nextPage,
+      sort: this.state.sort,
+      filter: this.state.filter
+    }, {
       success: (data)=>{
         const conversations = data.app.conversations
         this.setState({
@@ -362,20 +370,13 @@ export default class ConversationContainer extends Component {
         cb ? cb() : null        
       }
     })
+  }
 
-    /*
-    axios.get(`/apps/${this.props.match.params.appId}/conversations.json?page=${nextPage}`, {})
-      .then( (response)=> {
-        this.setState({
-          conversations: nextPage > 1 ? this.state.conversations.concat(response.data.collection) : response.data.collection,
-          meta: response.data.meta
-        })
-        cb ? cb() : null
-      })
-      .catch( (error)=>{
-        console.log(error);
-      });
-    */
+  setSort = (option)=>{
+    this.setState({sort: option})
+  }
+  setFilter = (option)=>{
+    this.setState({filter: option})
   }
 
   showUserDrawer = (id)=>{
@@ -412,7 +413,7 @@ export default class ConversationContainer extends Component {
           onClick={handleClick}
         >
           {/*<MoreVertIcon />*/}
-          open
+          {this.state.filter}
         </Button>
 
        </Tooltip>
@@ -428,10 +429,26 @@ export default class ConversationContainer extends Component {
           onClick={handleClick}
         >
           {/*<MoreVertIcon />*/}
-          newest
+          {this.state.sort}
         </Button>
 
        </Tooltip>
+  }
+
+  filterConversations = (options, cb)=>{
+    this.setState({filter: options.name}, ()=>{
+      this.getConversations(cb)
+    })
+  }
+
+  sortConversations = (options, cb)=>{
+    this.setState({sort: options.name}, ()=>{
+      this.getConversations(cb)
+    })
+  }
+
+  setConversation = (conversation, cb)=>{
+    this.setState({conversation: conversation}, cb)
   }
 
 
@@ -468,9 +485,11 @@ export default class ConversationContainer extends Component {
 
                     <FilterMenu 
                       options={[
-                        {id: "open", name: "open", count: 1, icon: <InboxIcon/>},
-                        {id: "closed", name: "closed", count: 2, icon: <CheckIcon/>, selected: true}
+                        {id: "opened", name: "opened", count: 1, icon: <InboxIcon/> },
+                        {id: "closed", name: "closed", count: 2, icon: <CheckIcon/>}
                       ]}
+                      value={this.state.filter}
+                      filterHandler={this.filterConversations}
                       triggerButton={this.filterButton}
                     />
 
@@ -481,6 +500,8 @@ export default class ConversationContainer extends Component {
                         {id: "waiting", name: "waiting", count: 1},
                         {id: "priority-first", name: "priority first", count: 1},
                       ]}
+                      value={this.state.sort}
+                      filterHandler={this.sortConversations}
                       triggerButton={this.sortButton}
                     />
 
@@ -498,7 +519,9 @@ export default class ConversationContainer extends Component {
                                 onClick={(e)=> this.props.history.push(`/apps/${appId}/conversations/${o.id}`) }>
                                         
                                 <UserListItem
+                                  value={this.state.conversation.id}
                                   mainUser={user}
+                                  object={o.id}
                                   messageUser={o.lastMessage.appUser}
                                   showUserDrawer={this.showUserDrawer}
                                   //createdAt={o.lastMessage.message.created_at}
@@ -515,11 +538,38 @@ export default class ConversationContainer extends Component {
                 </Overflow>
               </GridElement>
 
+              <Route exact path={`/apps/${appId}/conversations`}
+                render={(props)=>(
+                    <GridElement grow={2} style={{
+                      display: 'flex', 
+                      justifyContent: 'space-around'
+                    }}>
+
+                      <div style={{alignSelf: 'center'}}>
+                        <Paper style={{padding: '2em'}}>
+                             <Typography variant="h5" component="h3">
+                                Conversations 
+                              </Typography>
+
+                              <Typography component="p">
+                                Select a conversation or crate a new one
+                              </Typography>
+
+                        </Paper>
+                      </div>
+
+                      
+                    </GridElement>
+                )} />  
+              
+
               <Route exact path={`/apps/${appId}/conversations/:id`} 
                   render={(props)=>(
                     <ConversationContainerShow
                       appId={appId}
                       store={this.props.store}
+                      conversation={this.state.conversation}
+                      setConversation={this.setConversation}
                       showUserDrawer={this.showUserDrawer}
                       currentUser={this.props.currentUser}
                       {...props}
@@ -554,7 +604,6 @@ class ConversationContainerShow extends Component {
   constructor(props){
     super(props)
     this.state = {
-      conversation: {},
       messages: [],
       meta: {},
       appUser: {}
@@ -567,11 +616,15 @@ class ConversationContainerShow extends Component {
 
   componentDidUpdate(PrevProps, PrevState){
     if(PrevProps.match && PrevProps.match.params.id !== this.props.match.params.id){
-      this.setState({
-        conversation: {},
-        messages: [],
-        meta: {}
-      }, ()=> this.getMessages( this.scrollToLastItem ) )
+      this.props.setConversation({}, ()=>{
+
+        this.setState({
+          messages: [],
+          meta: {}
+        }, ()=> this.getMessages( this.scrollToLastItem ) )
+
+      })
+
       
       //this.conversationSubscriber()
     }
@@ -625,9 +678,7 @@ class ConversationContainerShow extends Component {
       success: (data)=>{
         const conversation = data.app.conversation
         
-          this.setState({
-            conversation: conversation,
-          }, () => {
+          this.props.setConversation(conversation, () => {
             this.conversationSubscriber()
 
             const lastItem = last(this.state.messages)
@@ -650,33 +701,10 @@ class ConversationContainerShow extends Component {
         
       }
     })
-
-    
-    /*
-      axios.get(`/apps/${this.props.appId}/conversations/${this.props.match.params.id}.json?page=${nextPage}`, {
-        email: this.props.email,
-      })
-      .then( (response)=> {
-        this.setState({
-          conversation: response.data.conversation,
-        }, ()=>{ 
-          this.conversationSubscriber()
-          this.getMainUser(this.state.conversation.mainParticipant.id)
-          this.setState({
-            messages: nextPage > 1 ? this.state.messages.concat(response.data.messages) : response.data.messages,
-            meta: response.data.meta
-          }) 
-        } )
-      })
-      .catch( (error)=> {
-        console.log(error);
-      });
-
-    */
   }
 
   insertComment = (comment, cb)=>{
-    const id = this.state.conversation.id
+    const id = this.props.conversation.id
 
     graphql(INSERT_COMMMENT, { 
       appKey: this.props.appId, 
@@ -694,7 +722,7 @@ class ConversationContainerShow extends Component {
   }
 
   insertNote = (comment, cb)=>{
-    const id = this.state.conversation.id
+    const id = this.props.conversation.id
 
     graphql(INSERT_NOTE, { 
       appKey: this.props.appId, 
@@ -722,7 +750,7 @@ class ConversationContainerShow extends Component {
     App.conversations = App.cable.subscriptions.create({
       channel: "ConversationsChannel",
       app: this.props.appId,
-      id: this.state.conversation.id,
+      id: this.props.conversation.id,
       email: this.props.currentUser.email,
       inner_app: true,
     },
@@ -791,7 +819,7 @@ class ConversationContainerShow extends Component {
   setAgent = (id, cb)=>{
     graphql(ASSIGN_USER, {
       appKey: this.props.appId, 
-      conversationId: this.state.conversation.id,
+      conversationId: this.props.conversation.id,
       appUserId: id
     }, {
       success: (data)=>{
@@ -814,6 +842,9 @@ class ConversationContainerShow extends Component {
           
             <GridElement grow={2}>
 
+            {
+              !isEmpty(this.props.conversation) ?
+            
               <ChatContainer>
                 
                 <FixedHeader>
@@ -822,8 +853,8 @@ class ConversationContainerShow extends Component {
                     Conversation with {" "}
 
                     {
-                      this.state.conversation.mainParticipant ? 
-                      <b>{this.state.conversation.mainParticipant.email}</b> 
+                      this.props.conversation.mainParticipant ? 
+                      <b>{this.props.conversation.mainParticipant.email}</b> 
                       : null
                     }
                   </HeaderTitle>
@@ -833,7 +864,7 @@ class ConversationContainerShow extends Component {
                     <OptionMenu 
                       getAgents={this.getAgents.bind(this)}
                       setAgent={this.setAgent.bind(this)}
-                      conversation={this.state.conversation}
+                      conversation={this.props.conversation}
                     />
 
                     <Tooltip title="Close conversation">
@@ -869,7 +900,7 @@ class ConversationContainerShow extends Component {
                       {
                         this.state.messages.map( (o, i)=> {
 
-                          const userOrAdmin = this.state.conversation.mainParticipant.email === o.appUser.email ? 
+                          const userOrAdmin = this.props.conversation.mainParticipant.email === o.appUser.email ? 
                                         'user' : 'admin'
              
                           return <MessageItemWrapper 
@@ -947,7 +978,8 @@ class ConversationContainerShow extends Component {
 
      
 
-              </ChatContainer>
+              </ChatContainer> : <Progress/>
+           }
 
              </GridElement>
 

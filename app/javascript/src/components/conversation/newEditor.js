@@ -241,8 +241,8 @@ const defaultProps = {
 
 const useStyles = makeStyles(theme => ({
   button: {
-    margin: '-1px',
-    border: '1px solid #d2d2d2',
+    margin: '0px',
+    borderLeft: '1px solid #d2d2d2',
     borderRadius: '0px'
   }
 }));
@@ -251,8 +251,7 @@ const useStyles = makeStyles(theme => ({
 const SubmitButton = function(props){
   const classes = useStyles();
   return <Button
-          className={classes.button} 
-          variant="outlined"
+          className={classes.button}
           onClick={props.onClick}
           disabled={props.disabled}>
           <SendIcon/>

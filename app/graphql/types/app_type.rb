@@ -16,14 +16,31 @@ module Types
     field :conversations, Types::PaginatedConversationsType, null:true do
       argument :page, Integer, required: false, default_value: 1
       argument :per, Integer, required: false, default_value: 20
+      argument :sort, String, required: false
+      argument :filter, String, required: false
     end
 
-    def conversations(per: , page:)
+    def conversations(per: , page:, filter: ,sort:)
       @collection = object.conversations.left_joins(:messages)
                           .where.not(conversation_parts: {id: nil})
                           .distinct
                           .page(page)
                           .per(per)
+
+      @collection = @collection.where(state: filter) if filter.present?
+      
+      if sort.present?
+        s = case sort
+          when "newest" then 'updated_at desc'
+          when "oldest" then 'updated_at asc'
+          else
+            "id desc"
+        end
+
+        @collection = @collection.order( s ) 
+      end
+
+      @collection
     end
 
     field :conversation, Types::ConversationType, null:true do
