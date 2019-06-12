@@ -707,7 +707,6 @@ export default class ChatEditor extends Component {
   }
 
   render() {
-    console.log(this.state)
     return <ThemeProvider theme={theme}>
             <EditorContainer>
               <div style={{flexGrow: 3}}>

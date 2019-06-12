@@ -366,7 +366,7 @@ class CampaignForm extends Component {
   render() {
 
     const title = this.state.data.name ? 
-    `Campaign: ${this.state.data.name}` : `new ${this.props.mode}`
+    `${this.props.mode} Campaign: ${this.state.data.name}` : `new ${this.props.mode}`
 
     return <div>
 

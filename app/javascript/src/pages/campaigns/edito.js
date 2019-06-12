@@ -53,6 +53,13 @@ import findEntities from 'Dante2/package/es/utils/find_entities'
 import Loader from './loader'
 import _ from "lodash"
 
+
+import {ThemeProvider} from 'styled-components'
+import EditorContainer from '../../components/conversation/editorStyles'
+import theme from '../../components/conversation/theme'
+
+
+
 //import jsondiff from "json0-ot-diff"
 //import ot from 'ot-json0'
 
@@ -227,6 +234,107 @@ const ButtonsRow = styled.div`
   }
 `
 
+const BrowserSimulator = styled.div`
+  border-radius: 4px;
+  background: #fafafa;
+  border: 1px solid #dde1eb;
+  -webkit-box-shadow: 0 4px 8px 0 hsla(212,9%,64%,.16), 0 1px 2px 0 rgba(39,45,52,.08);
+  box-shadow: 0 4px 8px 0 hsla(212,9%,64%,.16), 0 1px 2px 0 rgba(39,45,52,.08);
+  border-bottom-right-radius: 0;
+  border-bottom-left-radius: 0;
+`
+const BrowserSimulatorHeader = styled.div`
+  background: rgb(199,199,199);
+  background: linear-gradient(0deg, rgba(199,199,199,1) 0%, rgba(223,223,223,1) 55%, rgba(233,233,233,1) 100%);
+  border-bottom: 1px solid #b1b0b0;
+  padding: 10px;
+  display:flex;
+`
+const BrowserSimulatorButtons = styled.div`
+  display: flex;
+  justify-content: space-between;
+  width: 43px;
+
+  .r{
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background-color: #fc635e;
+    border: 1px solid #dc4441;
+  }
+  .y{
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background-color: #fdbc40;
+    border: 1px solid #db9c31;
+  }
+  .g{
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background-color: #35cd4b;
+    border: 1px solid #24a732;
+  }
+`
+
+const EditorPad = styled.div`
+
+
+  ${props => props.mode === "user_auto_messages" ? 
+    ` display:flex;
+      justify-content: flex-end;
+      flex-flow: column;
+      height: 90vh;
+    ` : 
+
+    `
+      padding: 2em;
+      background-color: white;
+      margin: 8em;
+      margin-top: 23px;
+      border: 1px solid #ececec;
+    `
+  } 
+`
+
+const EditorContentWrapper = styled.div`
+
+`
+
+const EditorMessengerEmulator = styled.div`
+  ${props => props.mode === "user_auto_messages" ? `
+  display:flex;
+  justify-content: flex-end;`: ``}
+`
+
+const EditorMessengerEmulatorWrapper = styled.div`
+
+  ${props => props.mode === "user_auto_messages" ? 
+    `width: 380px;
+    background: #fff;
+    border: 1px solid #f3efef;
+    margin-bottom: 25px;
+    margin-right: 20px;
+    box-shadow: 3px 3px 4px 0px #b5b4b4;
+    border-radius: 10px;
+    padding: 39px;
+    padding-top: 0px;
+    .icon-add{
+      margin-top: -2px;
+      margin-left: -2px;
+    }
+    `: ``}
+
+`
+
+const EditorMessengerEmulatorHeader = styled.div`
+  ${props => props.mode === "user_auto_messages" ? `
+  padding: 1em;
+  border-bottom: 1px solid #ccc;
+  ` :``}
+`
+
 
 
 export default class CampaignEditor extends Component {
@@ -270,30 +378,6 @@ export default class CampaignEditor extends Component {
       return this.emptyContent()
     }
   }
-
-/*
-  componentDidUpdate(prevProps, prevState) {
-    if (prevProps.match.params.article_id !== this.props.match.params.article_id) {
-
-      this.setState({ loading: true }, () => {
-
-        this.props.getArticle(this.props.book,
-          this.props.match.params.article_id,
-          {
-            success: () => {
-              console.log("article about to change")
-              this.setState({ loading: false })
-            }
-          }
-        )
-
-      })
-    }
-
-    //if (prevState.currentContent && prevState.currentContent != this.state.currentContent)
-    //  this.handleChangesOnCurrentContent(prevState.currentContent, this.state.currentContent)
-  }
-*/
 
   tooltipsConfig = () => {
 
@@ -760,90 +844,123 @@ export default class CampaignEditor extends Component {
       return <Loader />
     }*/
 
-    return <ArticlePad>
+    return <EditorContentWrapper mode={this.props.mode}>
 
-            <ButtonsContainer>
+          <ButtonsContainer>
 
-              <div style={{ alignSelf: 'start'}}>
-                <div appearance={this.state.statusButton} isBold>
-                  {this.state.status}
-                </div>
+            <p>{this.props.mode}</p>
+
+            <div style={{ alignSelf: 'start'}}>
+              <div appearance={this.state.statusButton} isBold>
+                {this.state.status}
               </div>
+            </div>
 
 
-            {
-                this.props.mode === "campaigns" && (this.props.data.state != "sent" && this.props.data.state != "delivering")  ?
-                <ButtonsRow>
+          {
+              this.props.mode === "campaigns" && (this.props.data.state != "sent" && this.props.data.state != "delivering")  ?
+              <ButtonsRow>
 
-                  <button appearance="default" onClick={(e) => {
-                    window.open(`${window.location.pathname}/preview`, '_blank');
-                  }}>
-                    Preview
-                  </button>
+                <button appearance="default" onClick={(e) => {
+                  window.open(`${window.location.pathname}/preview`, '_blank');
+                }}>
+                  Preview
+                </button>
 
-                  <button appearance="default" onClick={(e) => { console.log('test') }}>
-                    Test
-                  </button>
+                <button appearance="default" onClick={(e) => { console.log('test') }}>
+                  Test
+                </button>
 
-                  <button appearance="primary" onClick={this.handleSend}>
-                    Send
-                  </button>
+                <button appearance="primary" onClick={this.handleSend}>
+                  Send
+                </button>
 
-                </ButtonsRow> : null
-            }
+              </ButtonsRow> : null
+          }
 
           </ButtonsContainer> 
-      
+    
 
-      <hr style={{ clear: "both", border: '1px solid #ebecf0' }} />
+          <hr style={{ clear: "both", border: '1px solid #ebecf0' }} />
+
+          <BrowserSimulator mode={this.props.mode}>
+            <BrowserSimulatorHeader>
+              <BrowserSimulatorButtons>
+
+                <div className={'circleBtn r'}></div>
+                <div className={'circleBtn y'}></div>
+                <div className={'circleBtn g'}></div>
+
+              </BrowserSimulatorButtons>
+            </BrowserSimulatorHeader>
+
+            <EditorPad mode={this.props.mode}>
+
+              <EditorMessengerEmulator mode={this.props.mode}>
+                <EditorMessengerEmulatorWrapper mode={this.props.mode}>
+                  <EditorMessengerEmulatorHeader mode={this.props.mode}/>
+                  <ThemeProvider theme={theme}>
+                    <EditorContainer campaign={true}>
+
+                      <DanteEditor
+                        {...defaultProps}
+                        debug={false}
+                        data_storage={
+                          {
+                            url: "/",
+                            save_handler: this.saveHandler
+                          }
+                        }
+                        onChange={(e) => {
+                          this.dante_editor = e
+                          const newContent = convertToRaw(e.state.editorState.getCurrentContent()) //e.state.editorState.getCurrentContent().toJS()
+                          this.menuResizeFunc = getVisibleSelectionRect
+                          const selectionState = e.state.editorState.getSelection();
+
+                          /*if(window.getSelection().rangeCount > 0){
+                            window.getSelection().getRangeAt(0)
+                            debugger
+                          }*/
+                          //console.log("MENU POSITION", this.menuResizeFunc(window))
+                          this.setState({
+                            currentContent: newContent,
+                            selectionPosition: selectionState.toJSON() //this.menuResizeFunc(window),
+                          })
+
+                          //console.log("cha chachanges: ", e.state.editorState)
+                        }}
+                        content={this.defaultContent()}
+                        tooltips={this.tooltipsConfig()}
+                        widgets={this.widgetsConfig()}
+                        decorators={(context) => {
+                          return new MultiDecorator([
+                            this.generateDecorator("hello"),
+                            PrismDraftDecorator({ prism: Prism }),
+                            new CompositeDecorator(
+                              [{
+                                strategy: findEntities.bind(null, 'LINK', context),
+                                component: Link
+                              }]
+                            )
+
+                          ])
+                        }
+                        }
+                      />
+
+                    </EditorContainer>
+                  </ThemeProvider>
+                </EditorMessengerEmulatorWrapper>
+              </EditorMessengerEmulator>
 
 
-      <Dante
-        //{...defaultProps}
-        debug={true}
-        data_storage={
-          {
-            url: "/",
-            save_handler: this.saveHandler
-          }
-        }
-        onChange={(e) => {
-          this.dante_editor = e
-          const newContent = convertToRaw(e.state.editorState.getCurrentContent()) //e.state.editorState.getCurrentContent().toJS()
-          this.menuResizeFunc = getVisibleSelectionRect
-          const selectionState = e.state.editorState.getSelection();
+            </EditorPad>
 
-          /*if(window.getSelection().rangeCount > 0){
-            window.getSelection().getRangeAt(0)
-            debugger
-          }*/
-          //console.log("MENU POSITION", this.menuResizeFunc(window))
-          this.setState({
-            currentContent: newContent,
-            selectionPosition: selectionState.toJSON() //this.menuResizeFunc(window),
-          })
+          </BrowserSimulator>
 
-          //console.log("cha chachanges: ", e.state.editorState)
-        }}
-        content={this.defaultContent()}
-        tooltips={this.tooltipsConfig()}
-        widgets={this.widgetsConfig()}
-        decorators={(context) => {
-          return new MultiDecorator([
-            this.generateDecorator("hello"),
-            PrismDraftDecorator({ prism: Prism }),
-            new CompositeDecorator(
-              [{
-                strategy: findEntities.bind(null, 'LINK', context),
-                component: Link
-              }]
-            )
+       </EditorContentWrapper>
 
-          ])
-        }
-        }
-      />
-    </ArticlePad>
+          
   }
 
 }
