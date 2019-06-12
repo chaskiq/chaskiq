@@ -7,6 +7,14 @@ const NewEditorStyles = styled(EditorStyles)`
   
   display: flex;
 
+  ${(props)=> !props.campaign ? 
+    `.public-DraftEditor-content{
+      max-height: calc(35vh - 83px);
+      overflow: auto;
+      height: 100%;
+    }` : ''
+  }
+
   .postContent{
     padding: 10px;
   }
@@ -55,12 +63,6 @@ const NewEditorStyles = styled(EditorStyles)`
     hyphens: none;
     font-size: 14px;
     line-height: 18px;
-  }
-
-  .public-DraftEditor-content{
-    max-height: calc(35vh - 83px);
-    overflow: auto;
-    height: 100%;
   }
 
   .tooltip-icon {
