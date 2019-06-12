@@ -8,13 +8,16 @@ class Campaign < Message
 
   def config_fields
     [
-      {name: "fromName", type: 'string'} ,
+      {name: "name", type: 'string'} ,
+      {name: "subject", type: 'text'},
+      {name: "fromName", type: 'string'},
       {name: "fromEmail", type: 'string'},
       {name: "replyEmail", type: 'string'},
-      {name: "description", type: 'text'} ,
-      {name: "name", type: 'string'} ,
-      {name: "timezone", type: 'string'} ,
-      {name: "subject", type: 'text'} ,
+      {name: "description", type: 'text'},
+      {name: "timezone", type: "timezone", 
+        options: ActiveSupport::TimeZone.all.map{|o| o.tzinfo.name }, 
+        multiple: false
+      },
       #{name: "settings", type: 'string'} ,
       {name: "scheduledAt", type: 'datetime'},
       {name: "scheduledTo", type: 'datetime'}

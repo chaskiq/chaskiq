@@ -636,12 +636,8 @@ class Messenger extends Component {
                                     {
                                       this.state.isMobile ?
                                       <CloseButtonWrapper>
-                                        <button
-                                          appearance="subtle-link"
-                                          onClick={() => this.toggleShowIcons()}
-                                          spacing="none"
-                                        >
-                                          <a onClick={this.toggleMessenger}>x</a>  
+                                        <button onClick={() => this.toggleMessenger()}>
+                                          <CloseIcon style={{ height: '16px', width: '16px'}}/>
                                         </button>
 
                                       </CloseButtonWrapper> : null

@@ -19,8 +19,10 @@ import Checkbox from '@material-ui/core/Checkbox';
 import Chip from '@material-ui/core/Chip';
 import MultipleSelect from './multipleSelect'
 import Select from './select'
+import SuggestSelect from './suggestSelect'
 import { withStyles } from '@material-ui/core/styles';
 import DateTime from './dateTime'
+import moment from 'moment-timezone';
 
 
 
@@ -134,6 +136,7 @@ class FieldRenderer extends React.Component {
                />
 
         } else {
+
           defaultData = {
             label: props.data[data.name] || data.default,
             value: props.data[data.name] || data.default
@@ -146,6 +149,19 @@ class FieldRenderer extends React.Component {
               name={`${namespace}[${data.name}]`}
            />
         }
+      case "timezone":
+
+        const names = data.options.map(o=>({label: o, value: o }))
+        let defaultTZ = moment.tz.guess()
+        return <SuggestSelect 
+            data={names}
+            label={data.name} 
+            defaultData={props.data[data.name] || defaultTZ}
+            placeholder={'select timezone'}
+            classes={classes}
+            name={`${namespace}[${data.name}]`}
+         />        
+
       case "bool":
         return <FormControlLabel 
                   error={errorMessage}
@@ -174,7 +190,7 @@ class FieldRenderer extends React.Component {
 
 export default withStyles(styles)(FieldRenderer);
 
-
+/*
 export const fieldRenderer = (namespace, data, props, errors) => {
   switch (data.type) {
     case "string":
@@ -263,7 +279,7 @@ export const fieldRenderer = (namespace, data, props, errors) => {
     default:
       break;
   }
-} 
+} */
 
 
 

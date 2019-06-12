@@ -203,6 +203,7 @@ query Campaigns($appKey: String!, $mode: String!){
         scheduledTo
         state
         subject
+        timezone
         description
         fromName
         fromEmail
@@ -227,6 +228,7 @@ query Campaign($appKey: String!, $mode: String!, $id: Int!){
       state
       subject
       description
+      timezone
       statsFields
       configFields
       fromName

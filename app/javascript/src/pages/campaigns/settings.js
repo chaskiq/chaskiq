@@ -11,7 +11,7 @@ import { UPDATE_CAMPAIGN, CREATE_CAMPAIGN } from "../../graphql/mutations"
 
 import FieldRenderer from "../../shared/FormFields"
 import {toSnakeCase} from '../../shared/caseConverter'
-
+import moment from 'moment-timezone';
 
 export default class CampaignSettings extends Component {
   constructor(props){
@@ -23,6 +23,8 @@ export default class CampaignSettings extends Component {
       data: this.props.data,
       errors: {}
     }
+
+    window.tz = moment.tz
   }
 
   formRef: any;
@@ -134,28 +136,29 @@ export default class CampaignSettings extends Component {
             this.formRef = form;
           }}
         >
-          <h3>Create a new campaign"</h3>
+          <h3>Create a new campaign</h3>
 
       
-              {
-                this.state.data.configFields.map((field) => {
-                  return <FieldRenderer 
-                            namespace={'campaign'} 
-                            data={field}
-                            props={this.state} 
-                            errors={this.state.errors}
-                           />
-                })
-              }
+          {
+            this.state.data.configFields.map((field) => {
+              return <FieldRenderer 
+                        namespace={'campaign'} 
+                        data={field}
+                        props={this.state} 
+                        errors={this.state.errors}
+                       />
+            })
+          }
 
+          <Button onClick={this.onSubmitHandler.bind(this)}
+                  variant="contained" 
+                  color="primary">
+            Save
+          </Button>
 
-            <Button variant="contained" color="primary">
-              Save
-            </Button>
-
-            <Button appearance="subtle">
-              Cancel
-            </Button>
+          <Button appearance="subtle">
+            Cancel
+          </Button>
        
         </form>
       </div>

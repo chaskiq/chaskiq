@@ -170,6 +170,7 @@ export const UPDATE_CAMPAIGN = `
         scheduledTo
         state
         subject
+        timezone
         description
         statsFields
         configFields
@@ -195,6 +196,7 @@ export const CREATE_CAMPAIGN = `
         scheduledTo
         state
         subject
+        timezone
         description
         statsFields
         configFields
