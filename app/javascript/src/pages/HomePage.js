@@ -21,7 +21,7 @@ export default class HomePage extends Component {
     enabledTour: false
   }
 
-  componentDidMount(){
+  componentDidmount(){
     window.TourManagerEnabled = () => {
       return this.state.enabledTour //alert("oaoaoaoa")
     }

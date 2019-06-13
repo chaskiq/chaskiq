@@ -3,9 +3,12 @@ import React, { Component } from 'react';
 import { BrowserRouter, Route,Switch } from 'react-router-dom'
 import App from './App';
 
-//import DashboardIcon from '@atlaskit/icon/glyph/dashboard';
-//import GearIcon from '@atlaskit/icon/glyph/settings';
-//import SearchIcon from '@atlaskit/icon/glyph/search';
+import { Provider, connect } from 'react-redux'
+import { compose, createStore, applyMiddleware, combineReducers } from 'redux'
+import { composeWithDevTools } from 'redux-devtools-extension';
+import thunkMiddleware from 'redux-thunk'
+import persistState from 'redux-localstorage'
+
 import Landing from '../pages/Landing'
 import graphql from '../graphql/client'
 import {CURRENT_USER} from '../graphql/queries'
@@ -14,6 +17,12 @@ import { withStyles, createMuiTheme, MuiThemeProvider } from '@material-ui/core/
 
 import lightGreen from "@material-ui/core/colors/green";
 import blueGrey from "@material-ui/core/colors/blueGrey";
+
+import auth from '../actions/auth'
+import app from '../actions/app'
+import appUsers from '../actions/app_users'
+
+import Login from '../auth/login'
 
 const defaultNavOpts = {
   isOpen: false,
@@ -161,20 +170,38 @@ const styles = {
   },
 };
 
+const rootReducer = combineReducers({
+  auth,
+  app,
+  appUsers
+})
+
+
+const middlewares = [thunkMiddleware]//, routerMiddleware(history)]
+
+
+const enhancer = compose(
+  applyMiddleware(...middlewares),
+  persistState('auth', { key: 'AUTH' })
+)
+
+
+const store = createStore(rootReducer, composeWithDevTools(
+  enhancer
+));
+
+window.store = store
+
 
 class MainRouter extends Component {
   constructor() {
     super();
-    this.defaultNavLinks = [
-                              {url: '/',  name:'Home' },
-                              {url: '/settings',  name:'Settings' },
-                              {url: '/apps', name: 'My Apps'},
-                            ]
+
     this.state = {
-      navOpenState: defaultNavOpts,
+      //navOpenState: defaultNavOpts,
       currentApp: null,
       currentUser: {},
-      navLinks: this.defaultNavLinks
+      //navLinks: this.defaultNavLinks
     }
 
   }
@@ -183,94 +210,71 @@ class MainRouter extends Component {
     this.getCurrentUser()
   }
 
-  getChildContext () {
-    return {
-      navOpenState: this.state.navOpenState,
-    };
-  }
-
-  onNavResize = (navOpenState) => {
-    this.setState({
-      navOpenState,
-    });
-  }
-
-  updateNavLinks =(links)=> {
-    this.setState({
-      navLinks: links
-    })
-  }
-
   getCurrentUser = ()=>{
 
     graphql(CURRENT_USER, {}, {
       success: (data)=>{
-        this.setState({ currentUser: data.userSession }, () => {
+        this.setState({ 
+          currentUser: data.userSession 
+        }, () => {
         })
       },
-      error: (error)=>{
-        console.log(error);
-    
+      error: (data)=>{
+        //window.location = "/users/sign_in"
+        console.log("error!", data.data.errors);
       }
     })
-
-    /*
-
-    axios.get(`/user_session.json`)
-    .then( (response)=> {
-      this.setState({currentUser: response.data.current_user }, ()=>{   
-      })
-    })
-    .catch( (error)=> {
-      console.log(error);
-    });
-    */
   }
 
   setCurrentApp = (app , cb) =>{
     this.setState({
-      currentApp: app, 
-      navOpenState: {
-        isOpen: true,
-        width: 304
-      } 
+      currentApp: app
     }, ()=> {cb ? cb(app) : null} )
   }
-
 
   render() {
 
     return (
-      <BrowserRouter>
-        
-        <MuiThemeProvider theme={theme}>
-          <React.Fragment>
-        {
-          this.state.currentUser.email ?
-            <App
-              theme={theme}
-              onNavResize={this.onNavResize}
-              navOpenState={this.navOpenState}
-              updateNavLinks={this.updateNavLinks}
-              currentUser={this.state.currentUser}
-              currentApp={this.state.currentApp}
-              navLinks={this.state.navLinks}
-              setCurrentApp={this.setCurrentApp}
-              {...this.props}
-              >
- 
-            </App> : <Landing/>
-        }
-          </React.Fragment>
-        </MuiThemeProvider>
+
+        <Provider store={store}>
+          <MuiThemeProvider theme={theme}>
+            <BrowserRouter>
+              
+                <React.Fragment>
+
+                <div>
+
+                  {
+                    this.state.currentUser.email ?
+                      <App
+                        theme={theme}
+                        currentUser={this.state.currentUser}
+                        //currentApp={this.state.currentApp}
+                        //updateNavLinks={this.updateNavLinks}
+                        //navLinks={this.state.navLinks}
+                        //setCurrentApp={this.setCurrentApp}
+                        {...this.props}
+                        >
+           
+                      </App> : <Landing/>
+                  }
+
+                  {
+                    !this.state.currentUser.email ?
+                    <Login/> : null
+                  }
+
+                </div>
+
+
+                </React.Fragment>
+              
+            </BrowserRouter>
+          </MuiThemeProvider>
+        </Provider>
       
-      </BrowserRouter>
     );
   }
-}
-
-MainRouter.childContextTypes = {
-  navOpenState: PropTypes.object,
 }
 
 export default withStyles(styles)(MainRouter);

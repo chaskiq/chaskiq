@@ -23,21 +23,6 @@ import BookIcon from '@material-ui/icons/Book';
 import FlipToFrontIcon from '@material-ui/icons/FlipToFront'
 import SmsIcon from '@material-ui/icons/Sms';
 
-// TODO: icons to change
-/*import SearchIcon from '@atlaskit/icon/glyph/search';
-import CreateIcon from '@atlaskit/icon/glyph/add';
-import ArrowleftIcon from '@atlaskit/icon/glyph/arrow-left';
-import ArrowLeftIcon from "@atlaskit/icon/glyph/arrow-left";
-import ChevronRightIcon from "@atlaskit/icon/glyph/chevron-right";
-import DiscoverIcon from "@atlaskit/icon/glyph/discover";
-import CommentIcon from '@atlaskit/icon/glyph/comment';
-import EmojiFlagsIcon from '@atlaskit/icon/glyph/emoji/flags';
-import OfficeBuildingFilledIcon from '@atlaskit/icon/glyph/office-building-filled';
-import EditorTableDisplayOptionsIcon from '@atlaskit/icon/glyph/editor/table-display-options';
-import CanvasIcon from '@atlaskit/icon/glyph/canvas';
-import EmailIcon from '@atlaskit/icon/glyph/email';
-import QuestionCircleIcon from '@atlaskit/icon/glyph/question-circle';
-*/
 import ExpansionPanel from '@material-ui/core/ExpansionPanel';
 import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails';
 import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary';
@@ -101,7 +86,7 @@ const styles = theme => ({
 function Navigator(props, context) {
   const { classes, ...other } = props;
 
-  const appid = `/apps/${props.currentApp.key}`
+  const appid = `/apps/${props.app.key}`
 
   const [expanded, setExpanded] = React.useState('Platform');
 
@@ -114,17 +99,17 @@ function Navigator(props, context) {
     {
       id: 'Platform',
       icon: <PeopleIcon style={{ fontSize: 30 }}/>,
-      children: props.currentApp.segments.map((o)=>(
+      children: props.app.segments.map((o)=>(
         { id: o.name , 
           icon:  null, 
-          url: `/apps/${props.currentApp.key}/segments/${o.id}`
+          url: `/apps/${props.app.key}/segments/${o.id}`
         }
       ))
     },
     {
       id: 'Conversations',
       children: [
-        { id: 'Conversations', icon:  <SmsIcon/>, url: `/apps/${props.currentApp.key}/conversations`},
+        { id: 'Conversations', icon:  <SmsIcon/>, url: `/apps/${props.app.key}/conversations`},
       ],
     },
     {
@@ -153,7 +138,7 @@ function Navigator(props, context) {
     {
       id: 'Settings',
       children: [
-        { id: 'App Settings', icon:  <SettingsIcon/>, url: `/apps/${props.currentApp.key}/settings`, },
+        { id: 'App Settings', icon:  <SettingsIcon/>, url: `/apps/${props.app.key}/settings`, },
         { id: 'Authentication', icon: <PeopleIcon />, active: true },
       ],
     },
@@ -173,7 +158,7 @@ function Navigator(props, context) {
     <Drawer variant="permanent" {...other}>
       <List disablePadding>
         <ListItem className={clsx(classes.firebase, classes.item, classes.itemCategory)}>
-          HERMES
+          CHASKIQ
         </ListItem>
         <ListItem className={clsx(classes.item, classes.itemCategory)}>
           <ListItemIcon>
@@ -264,7 +249,7 @@ Navigator.contextTypes = {
 Navigator.propTypes = {
   classes: PropTypes.object.isRequired,
   navLinks: PropTypes.array.isRequired,
-  currentApp: PropTypes.object,
+  app: PropTypes.object,
   currentUser: PropTypes.object
 };
 

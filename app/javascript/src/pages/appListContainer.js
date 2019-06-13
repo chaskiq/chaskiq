@@ -38,11 +38,7 @@ export default class AppListContainer extends Component {
       console.log(error);
     });*/
 
-    this.updateNavLinks()
-  }
-
-  updateNavLinks = ()=>{
-    this.props.updateNavLinks(this.props.initialNavLinks)
+    //this.updateNavLinks()
   }
 
   render(){

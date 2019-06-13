@@ -6,9 +6,8 @@ import Hidden from '@material-ui/core/Hidden';
 import Navigator from '../components/Navigator';
 import Content from '../components/Content';
 import Header from '../components/Header';
-//import '@atlaskit/css-reset';
 
-import { BrowserRouter, Route, Switch } from 'react-router-dom'
+import { Route, Switch } from 'react-router-dom'
 
 
 import HomePage from '../pages/HomePage';
@@ -17,6 +16,9 @@ import ShowAppContainer from '../pages/showAppContainer';
 import AppListContainer from '../pages/appListContainer';
 //import NewApp from '../pages/NewApp'
 
+import { withRouter } from 'react-router-dom'
+import { connect } from 'react-redux'
+import { setApp } from '../actions/app'
 
 class Paperbase extends React.Component {
   state = {
@@ -24,15 +26,13 @@ class Paperbase extends React.Component {
   };
 
   static contextTypes = {
-    navOpenState: PropTypes.object,
     router: PropTypes.object,
     currentApp: PropTypes.object
   };
 
-  static propTypes = {
-    navOpenState: PropTypes.object,
+  /*static propTypes = {
     onNavResize: PropTypes.func,
-  };
+  };*/
 
 
   handleDrawerToggle = () => {
@@ -43,39 +43,29 @@ class Paperbase extends React.Component {
     const { classes } = this.props;
     const { children } = this.props;
     const drawerWidth = 256;
-
-    const childrenWithProps = React.Children.map(children, child =>
-      React.cloneElement(child, { classes: classes }));
-    
-    console.log("SSSS", this.props.currentUser)
-
     return (
         <div className={classes.root}>
           <CssBaseline />
 
           {
-            this.props.currentApp ?
+            this.props.app ?
               <nav className={classes.drawer}>
                 <Hidden smUp implementation="js">
                   <Navigator
                     PaperProps={{ style: { width: drawerWidth } }}
                     variant="temporary"
-                    navLinks={this.props.navLinks}
                     open={this.state.mobileOpen}
                     onClose={this.handleDrawerToggle}
-                    navOpenState={this.context.navOpenState}
-                    onNavResize={this.props.onNavResize}
                     currentUser={this.props.currentUser}
-                    currentApp={this.props.currentApp}
+                    app={this.props.app}
                     
                   />
                 </Hidden>
                 <Hidden xsDown implementation="css">
                   <Navigator 
                     PaperProps={{ style: { width: drawerWidth } }}
-                    navLinks={this.props.navLinks}
                     currentUser={this.props.currentUser}
-                    currentApp={this.props.currentApp}
+                    app={this.props.app}
                  />
                 </Hidden>
               </nav> : null
@@ -87,14 +77,6 @@ class Paperbase extends React.Component {
               currentUser={this.props.currentUser}
             />
 
-            {
-              /*<Header onDrawerToggle={this.handleDrawerToggle} />
-                <main className={classes.mainContent}>
-                  <Content>{childrenWithProps}</Content>
-                </main>
-              */
-            }
-
             <Switch>
 
               <Route exact path="/" component={HomePage} />
@@ -105,9 +87,9 @@ class Paperbase extends React.Component {
                 <AppListContainer
                   {...props}
                   currentUser={this.props.currentUser}
-                  initialNavLinks={this.props.defaultNavLinks}
-                  navLinks={this.props.navLinks}
-                  updateNavLinks={this.props.updateNavLinks}
+                  //initialNavLinks={this.props.defaultNavLinks}
+                  //navLinks={this.props.navLinks}
+                  //updateNavLinks={this.props.updateNavLinks}
                 />
               )} />
 
@@ -132,20 +114,21 @@ class Paperbase extends React.Component {
                 <ShowAppContainer
                   {...props}
                   classes={classes}
-                  currentApp={this.props.currentApp}
-                  setCurrentApp={this.props.setCurrentApp}
+                  //currentApp={this.props.currentApp}
+                  //setCurrentApp={this.props.setCurrentApp}
+                  //setCurrentApp={setApp}
                   currentUser={this.props.currentUser}
-                  initialNavLinks={this.props.defaultNavLinks}
-                  navLinks={this.props.navLinks}
-                  updateNavLinks={this.props.updateNavLinks}
-                  handleDrawerToggle={this.handleDrawerToggle}
+                  //initialNavLinks={this.props.defaultNavLinks}
+                  //navLinks={this.props.navLinks}
+                  //updateNavLinks={this.props.updateNavLinks}
+                  //handleDrawerToggle={this.handleDrawerToggle}
                 />
               )} />
 
             </Switch>
 
-
           </div>
+
         </div>
       
     );
@@ -156,4 +139,18 @@ Paperbase.propTypes = {
   classes: PropTypes.object.isRequired,
 };
 
-export default Paperbase;
+
+function mapStateToProps(state) {
+  const { auth , app } = state
+  const { loading, isAuthenticated } = auth
+  return {
+    app,
+    loading,
+    isAuthenticated
+  }
+}
+
+export default withRouter(connect(mapStateToProps)(Paperbase))
+
+//export default connect(mapStateToProps)(Paperbase)
+//export default Paperbase;
