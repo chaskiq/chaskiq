@@ -1,22 +1,36 @@
 import axios from 'axios';
 import _ from 'lodash'
 
+
+
+
 const graphql = (query, variables, callbacks)=>{
+
+  const auth = window.store.getState().auth
+
+  const config = {
+    "access-token": auth.accessToken,
+    "token-type":   "Bearer",
+    "client":       auth.client,
+    "expiry":       auth.expiry,
+    "uid":          auth.uid
+  }
+
   axios.create({
     baseURL: '/graphql',
   }).post('', {
     query: query,
-    variables: variables
-  })
+    variables: variables,
+    
+  }, {headers: config})
   .then( r => {
     const data = r.data.data
     const res = r
   
-    const errors = r.data.errors ? r.data.errors[0].messages : null
+    const errors = r.data.errors //? r.data.errors[0].message : null
     // get first key of data and check if has errors
     //const errors = data[Object.keys(data)[0]].errors || r.data.errors
     if (_.isObject(errors) && !_.isEmpty(errors)) {
-      
       //const errors = data[Object.keys(data)[0]];
       //callbacks['error'] ? callbacks['error'](res, errors['errors']) : null
       if(callbacks['error'])
