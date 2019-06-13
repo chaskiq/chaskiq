@@ -1,12 +1,15 @@
 require 'sidekiq/web'
 Rails.application.routes.draw do
+  
+  mount_devise_token_auth_for 'User', at: 'auth'
+
   if Rails.env.development?
     mount GraphiQL::Rails::Engine, at: "/graphiql", graphql_path: "/graphql"
   end
   post "/graphql", to: "graphql#execute"
   mount Sidekiq::Web => '/sidekiq'
   #resources :campaigns
-  devise_for :users
+  #devise_for :users
 
   resources :attachments, controller: 'campaigns/attachments'
 

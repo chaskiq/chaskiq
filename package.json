@@ -48,12 +48,16 @@
     "react-popper": "^1.0.0",
     "react-pose": "^4.0.8",
     "react-pose-text": "^3.1.0",
+    "react-redux": "^7.1.0",
     "react-router": "^4.2.0",
     "react-router-dom": "^4.2.2",
     "react-select": "^2.4.4",
     "react-styled-frame": "^1.1.0",
     "react-timeago": "^4.1.9",
     "recompose": "^0.27.1",
+    "redux": "^4.0.1",
+    "redux-localstorage": "^0.4.1",
+    "redux-thunk": "^2.3.0",
     "sanitize-html": "^1.20.1",
     "simmerjs": "^0.5.6",
     "soundmanager2": "^2.97.20170602",
@@ -61,6 +65,7 @@
     "yarn": "^1.16.0"
   },
   "devDependencies": {
+    "redux-devtools-extension": "^2.13.8",
     "webpack-dev-server": "2.11.2"
   }
 }

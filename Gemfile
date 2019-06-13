@@ -140,3 +140,4 @@ gem "bugsnag", "~> 6.11"
 gem "graphql", "~> 1.9"
 
 gem 'graphiql-rails', group: :development
+gem "devise_token_auth", "~> 1.1"
