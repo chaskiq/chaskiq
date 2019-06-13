@@ -40,6 +40,11 @@ import Dashboard from './Dashboard'
 import Drawer from '@material-ui/core/Drawer';
 import Button from '@material-ui/core/Button'
 
+import { withRouter } from 'react-router-dom'
+import { connect } from 'react-redux'
+import { setApp } from '../actions/app'
+import {searchAppUsers} from '../actions/app_users'
+
 const CableApp = {
   cable: actioncable.createConsumer()
 }
@@ -53,40 +58,7 @@ const Wrapper = styled.div`
   //min-width: 600px;
 `;
 
-const primaryAction = (
-  <Button
-    appearance="primary"
-    onClick={() => console.log('primary action clicked')}
-  >
-    Primary action
-  </Button>
-);
 
-const secondaryAction = (
-  <Button onClick={() => console.log('secondary action clicked')}>
-    Secondary action
-  </Button>
-);
-
-const tertiaryAction = (
-  <Button
-    appearance="subtle-link"
-    href="http://www.example.com"
-    target="_blank"
-  >
-    Tertiary action
-  </Button>
-);
-
-const ActivityIndicator = styled.span`
-  position: absolute;
-  height: 10px;
-  width: 10px;
-  background: #1be01b;
-  border-radius: 10px;
-  top: 1px;
-  left: 38px;
-`
 
 const ButtonGroup = styled.div`
   display: inline-flex;
@@ -117,7 +89,7 @@ class AppUsers extends Component {
   }
 
   handleClickOnSelectedFilter = (jwtToken)=>{
-    const url = `/apps/${this.props.currentApp.key}/segments/${this.props.store.segment.id}/${jwtToken}`
+    const url = `/apps/${this.props.app.key}/segments/${this.props.store.segment.id}/${jwtToken}`
     this.props.history.push(url) 
   }
 
@@ -159,7 +131,7 @@ class AppUsers extends Component {
                 segment={this.props.store.segment}
                 savePredicates={this.props.actions.savePredicates}
                 predicateCallback={()=> {
-                  const url = `/apps/${this.props.currentApp.key}/segments/${this.props.store.segment.id}`
+                  const url = `/apps/${this.props.app.key}/segments/${this.props.store.segment.id}`
                   this.props.history.push(url)
                 }}
                 deleteSegment={this.props.actions.deleteSegment}
@@ -223,7 +195,7 @@ class AppUsers extends Component {
   getUserData = (id)=>{
 
     graphql(APP_USER, {
-        appKey: this.props.currentApp.key, 
+        appKey: this.props.app.key, 
         id: id
       }, 
       {
@@ -242,34 +214,34 @@ class AppUsers extends Component {
     
     return <Wrapper>
 
-      {this.caption()}
+            {this.caption()}
 
-      <DataTable 
-        title={this.props.segment.name}
-        columns={appUsersFormat()} 
-        meta={this.props.store.meta}
-        data={this.props.app_users}
-        search={this.props.actions.search}
-        loading={this.props.store.searching}
-        onRowClick={(e)=>{
-          this.showUserDrawer(e)
-        }}
-      />
+            <DataTable 
+              title={this.props.segment.name}
+              columns={appUsersFormat()} 
+              meta={this.props.meta}
+              data={this.props.app_users}
+              search={this.props.actions.search}
+              loading={this.props.searching}
+              onRowClick={(e)=>{
+                this.showUserDrawer(e)
+              }}
+            />
 
-      <Drawer 
-        anchor="right" 
-        open={this.state.rightDrawer} 
-        onClose={this.toggleDrawer('right', false)}>
-        
-        {
-          this.state.selectedUser ? 
-            <UserData width={ '300px'}
-              appUser={this.state.selectedUser} /> : null
-        }
+            <Drawer 
+              anchor="right" 
+              open={this.state.rightDrawer} 
+              onClose={this.toggleDrawer('right', false)}>
+              
+              {
+                this.state.selectedUser ? 
+                  <UserData width={ '300px'}
+                    appUser={this.state.selectedUser} /> : null
+              }
 
-      </Drawer>
+            </Drawer>
     
-    </Wrapper>
+          </Wrapper>
   }
 }
 
@@ -296,8 +268,9 @@ class AppContent extends Component {
   }
 
   render(){
+    console.log("AAAAAAA", this.props)
     return <div style={{marginTop: '20px'}}>
-            { this.props.currentApp.key && this.props.segment.id ? 
+            { this.props.app.key && this.props.segment.id ? 
               <AppUsers 
                 {...this.props}
               /> : null 
@@ -306,15 +279,15 @@ class AppContent extends Component {
   }
 }
 
-export default class ShowAppContainer extends Component {
+class ShowAppContainer extends Component {
 
   constructor(props){
     super(props)
     this.state = {
-      app_users: [], 
+      //app_users: [], 
       segment: {},
-      meta: {},
-      searching: false,
+      //meta: {},
+      //searching: false,
       jwt: null,
       currentUser: this.props.currentUser
     }
@@ -322,8 +295,8 @@ export default class ShowAppContainer extends Component {
 
   emptyprops = ()=> {
     return {
-      header: `${this.props.currentApp.name}`,
-      description: this.props.currentApp.description || 'no description',
+      header: `${this.props.app.name}`,
+      description: this.props.app.description || 'no description',
       imageUrl: logo, //,
       primaryAction,
       //secondaryAction,
@@ -337,8 +310,8 @@ export default class ShowAppContainer extends Component {
 
   componentDidUpdate(prevProps, prevState) {
     // only update chart if the data has changed
-    if (prevProps.currentApp && prevProps.currentApp.key !== this.props.currentApp.key){
-      this.eventsSubscriber(this.props.currentApp.key)
+    if (prevProps.app && prevProps.app.key !== this.props.app.key){
+      this.eventsSubscriber(this.props.app.key)
     }
 
     if(prevProps.match.url !== this.props.match.url){
@@ -358,9 +331,8 @@ export default class ShowAppContainer extends Component {
 
   init = () => {
     this.fetchApp(() => {
-      this.eventsSubscriber(this.props.currentApp.key)
-    }
-    )
+      this.eventsSubscriber(this.props.app.key)
+    })
   }
 
   actions =()=>{
@@ -381,91 +353,12 @@ export default class ShowAppContainer extends Component {
   }
 
   fetchApp = (cb)=>{
-    //const t = this
     const id = this.props.match.params.appId
-    graphql(APP, {appKey: id}, {
-      success: (data)=>{
-        this.props.setCurrentApp(data.app, ()=>{
-          console.log(this.props)
-          setTimeout(() => {
-            // TODO:update nav
-            this.updateNavLinks() 
-          }, 1000);
-          cb ? cb() : null 
-        })
-      }, 
-      error: (error)=>{
-        console.log(error);
+    this.props.dispatch(setApp(id, ()=>{
+      success: ()=>{
+        cb ? cb() : null 
       }
-    })
-  }
-
-  search = (page)=>{
-    this.setState({searching: true})
-    // jwt or predicates from segment
-    console.log(this.state.jwt)
-    const jwtData = this.state.jwt ? parseJwt(this.state.jwt).data : this.state.segment.predicates
-    const predicates_data = { data: {
-                                predicates: jwtData.filter( (o)=> o.comparison )
-                              }
-                            }
-                            
-    
-
-    graphql(PREDICATES_SEARCH, {
-      appKey: this.props.currentApp.key,
-      search: predicates_data,
-      page: page || 1
-    }, {
-      success: (data)=>{
-        console.log(data)
-        const appUsers = data.predicatesSearch.appUsers
-        //console.log(jwtData)
-        this.setState({
-          segment: Object.assign({}, this.state.segment, { predicates: jwtData }),
-          app_users: appUsers.collection,
-          meta: appUsers.meta,
-          searching: false
-        })
-      },
-      error: (error) => {
-        debugger
-      }
-    })  
-  }
-
-  fetchAppSegment =(id)=>{
-
-    graphql(SEGMENT, {
-      appKey: this.props.currentApp.key,
-      id: parseInt(id)
-    }, {
-      success: (data)=>{
-        this.setState({
-          segment: data.app.segment,
-          jwt: null
-        }, this.search)
-      },
-      error: (error)=>{
-        console.log(error);
-      }
-    })
-  }
-
-  updateNavLinks = ()=>{
-    const url_for = (o)=> `/apps/${this.props.currentApp.key}/segments/${o.id}`
-    const links = this.props.currentApp.segments.map((o)=> ({url: url_for(o), name: o.name, icon: null}) )
-    links.push({url: `/apps/${this.props.currentApp.key}/conversations/`, name: "conversations", icon: null})
-    //this.props.updateNavLinks(this.props.initialNavLinks.concat(links))
-    this.props.updateNavLinks(links)
-  }
-
-  updateUser = (data)=>{
-    data = JSON.parse(data)
-    this.setState({app_users: this.state.app_users.map( (el)=> 
-        el.email === data.email ? Object.assign({}, el, data) : el 
-      )
-    });
+    }))
   }
 
   eventsSubscriber = (id)=>{
@@ -499,10 +392,87 @@ export default class ShowAppContainer extends Component {
     window.cable = CableApp
   }
 
+  updateUser = (data)=>{
+    data = JSON.parse(data)
+    this.setState({app_users: this.state.app_users.map( (el)=> 
+        el.email === data.email ? Object.assign({}, el, data) : el 
+      )
+    });
+  }
+
+  search = (page)=>{
+    //this.setState({searching: true})
+    // jwt or predicates from segment
+    console.log(this.state.jwt)
+    const jwtData = this.state.jwt ? parseJwt(this.state.jwt).data : this.state.segment.predicates
+    const predicates_data = { data: {
+                                predicates: jwtData.filter( (o)=> o.comparison )
+                              }
+                            }
+                            
+    
+    const options = {
+      appKey: this.props.app.key,
+      search: predicates_data,
+      page: page || 1
+    }
+
+    console.log(options)
+
+    this.props.dispatch(
+      searchAppUsers(options, ()=>{
+        
+         this.setState({
+          segment: Object.assign({}, this.state.segment, { predicates: jwtData })
+        })
+
+      })
+    )                      
+    
+    /*graphql(PREDICATES_SEARCH, {
+      appKey: this.props.app.key,
+      search: predicates_data,
+      page: page || 1
+    }, {
+      success: (data)=>{
+        console.log(data)
+        const appUsers = data.predicatesSearch.appUsers
+        //console.log(jwtData)
+        this.setState({
+          segment: Object.assign({}, this.state.segment, { predicates: jwtData }),
+          app_users: appUsers.collection,
+          meta: appUsers.meta,
+          searching: false
+        })
+      },
+      error: (error) => {
+        debugger
+      }
+    }) */ 
+  }
+
+  fetchAppSegment =(id)=>{
+
+    graphql(SEGMENT, {
+      appKey: this.props.app.key,
+      id: parseInt(id)
+    }, {
+      success: (data)=>{
+        this.setState({
+          segment: data.app.segment,
+          jwt: null
+        }, this.search)
+      },
+      error: (error)=>{
+        console.log(error);
+      }
+    })
+  }
+
   updateSegment = (data, cb)=>{
 
     const params = {
-      appKey: this.props.currentApp.key,
+      appKey: this.props.app.key,
       id: this.state.segment.id,
       predicates: this.state.segment.predicates
     }
@@ -521,7 +491,7 @@ export default class ShowAppContainer extends Component {
 
   createSegment = (data, cb)=>{
     const params = {
-      appKey: this.props.currentApp.key,
+      appKey: this.props.app.key,
       name: data.input,
       operation: "create",
       predicates: this.state.segment.predicates
@@ -534,7 +504,7 @@ export default class ShowAppContainer extends Component {
           jwt: null
         }, () => {
         
-          const url = `/apps/${this.props.currentApp.key}/segments/${this.state.segment.id}.json`
+          const url = `/apps/${this.props.app.key}/segments/${this.state.segment.id}.json`
           this.props.history.push(url)
           cb ? cb() : null
         })
@@ -549,12 +519,12 @@ export default class ShowAppContainer extends Component {
   deleteSegment = (id, cb)=>{
 
     graphql(PREDICATES_DELETE, {
-      appKey: this.props.currentApp.key,
+      appKey: this.props.app.key,
       id: id
     }, {
       success: (data)=>{
         cb ? cb() : null
-        const url = `/apps/${this.props.currentApp.key}/segments/1`
+        const url = `/apps/${this.props.app.key}/segments/1`
         this.props.history.push(url)
         this.fetchApp()
       },
@@ -594,7 +564,6 @@ export default class ShowAppContainer extends Component {
   }
 
   savePredicates = (data, cb)=>{
-    console.log(data.action)
     if(data.action === "update"){
       this.updateSegment(data, ()=> { cb() ; this.fetchApp() })
     } else if(data.action === "new"){
@@ -615,35 +584,23 @@ export default class ShowAppContainer extends Component {
 
   render(){
     const {classes} = this.props
+    if(!this.props.app)
+      return <p>loading this mdfk</p>
+   
     return <Provider value={{
                               store: {
-                                app: this.props.currentApp,
-                                app_users: this.state.app_users,
-                                meta: this.state.meta,
+                                app: this.props.app,
+                                //app_users: this.props.appUsers.collection,
+                                //meta: this.props.appUsers.meta,
+                                //searching: this.props.appUsers.searching,
                                 segment: this.state.segment,
-                                searching: this.state.searching,
                                 currentUser: this.props.currentUser
                               }, 
                               actions: this.actions() 
                             }}>
 
-     
-
-      {/*
-        <PageTitle>
-          App: {this.props.currentApp.key}
-        </PageTitle>
-      */}
-
-      
-      {/*
-        <main className={classes.mainContent}>
-          <Content>{childrenWithProps}</Content>
-        </main>
-      */}
-
       {
-        this.props.currentApp && this.props.currentApp.key ?
+        this.props.app && this.props.app.key ?
         <div>
           <Route exact path={`${this.props.match.path}/segments/:segmentID/:Jwt?`}
             render={(props) => {
@@ -651,9 +608,12 @@ export default class ShowAppContainer extends Component {
                       <Consumer>
                           {({ store, actions }) => (
                             <AppContent {...props}
-                              currentApp={this.props.currentApp}
+                              app={this.props.app}
                               store={store}
                               actions={actions}
+                              app_users={this.props.appUsers.collection}
+                              meta={this.props.appUsers.meta}
+                              searching={this.props.appUsers.searching}
                               {...this.state}
                             />
                           )}
@@ -706,12 +666,12 @@ export default class ShowAppContainer extends Component {
               </Consumer>
             )} />
 
-          <Route exact path={`/apps/${this.props.currentApp.key}`}
+          <Route exact path={`/apps/${this.props.app.key}`}
               render={() => (
                 <Dashboard/>
             )} 
           />
-          <Route exact path={`/apps/${this.props.currentApp.key}/campaings`}
+          <Route exact path={`/apps/${this.props.app.key}/campaings`}
             render={() => (
               <p>
               empty !!
@@ -726,4 +686,19 @@ export default class ShowAppContainer extends Component {
     </Provider>
   }
 }
+
+function mapStateToProps(state) {
+
+  const { auth, app, appUsers } = state
+  const { loading, isAuthenticated } = auth
+  return {
+    appUsers,
+    app,
+    loading,
+    isAuthenticated
+  }
+}
+
+export default withRouter(connect(mapStateToProps)(ShowAppContainer))
+
 
