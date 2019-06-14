@@ -63,6 +63,9 @@ import {
   updateConversationsData
 } from '../actions/conversations'
 
+import {
+  getAppUser 
+} from '../actions/app_user'
 
 const camelizeKeys = (obj) => {
   if (Array.isArray(obj)) {
@@ -336,7 +339,7 @@ class ConversationContainer extends Component {
     this.state = {
       //conversations: [],
       conversation: {},
-      appUser: {},
+      //appUser: {},
       //meta: {},
       rightDrawer: false,
 
@@ -414,13 +417,15 @@ class ConversationContainer extends Component {
   }
 
   getUserData = (id)=> {
-    graphql(APP_USER, { appKey: this.props.app.key, id: id }, {
+
+    this.props.dispatch(getAppUser(id))
+    /*graphql(APP_USER, { appKey: this.props.app.key, id: id }, {
       success: (data) =>{
         this.setState({
           appUser: data.app.appUser
         })        
       }
-    })
+    })*/
   }
 
   toggleDrawer = (side, open) => event => {
@@ -506,9 +511,9 @@ class ConversationContainer extends Component {
               onClose={this.toggleDrawer('right', false)}>
               
               {
-                this.state.appUser ? 
+                this.props.app_user ? 
                   <UserData width={ '300px'}
-                    appUser={this.state.appUser} /> : null
+                    appUser={this.props.app_user} /> : null
               }
 
             </Drawer>
@@ -1121,7 +1126,7 @@ class ConversationContainerShow extends Component {
 
 function mapStateToProps(state) {
 
-  const { auth, app, segment, app_users, conversations, app_user } = state
+  const { auth, app, conversations, app_user } = state
   const { loading, isAuthenticated } = auth
   //const { sort, filter, collection , meta, loading} = conversations
 
