@@ -56,7 +56,10 @@ import {getConversation,
   insertNote,
   setLoading,
   clearConversation,
-  appendMessage
+  appendMessage,
+  updateConversationState,
+  updateConversationPriority,
+  assignAgent
 } from '../../actions/conversation'
 
 import { camelCase, isEmpty } from 'lodash';
@@ -325,7 +328,7 @@ class ConversationContainerShow extends Component {
   }
 
   setAgent = (id, cb)=>{
-    graphql(ASSIGN_USER, {
+    /*graphql(ASSIGN_USER, {
       appKey: this.props.appId, 
       conversationId: this.props.conversation.id,
       appUserId: id
@@ -340,11 +343,19 @@ class ConversationContainerShow extends Component {
       error: (error)=>{
 
       }
-    })
+    })*/
+
+    this.props.dispatch(
+      assignAgent(id, cb)
+    )
   }
 
   updateConversationState = (state, cb)=>{
-    graphql(UPDATE_CONVERSATION_STATE, {
+    this.props.dispatch(updateConversationState(state, ()=>{
+      cb ? cb(data.updateConversationState.conversation) : null
+    }))
+
+    /*graphql(UPDATE_CONVERSATION_STATE, {
       appKey: this.props.appId, 
       conversationId: this.props.conversation.id,
       state: state
@@ -357,23 +368,15 @@ class ConversationContainerShow extends Component {
       },
       error: (error)=>{
       }
-    })
+    })*/
   }
 
   toggleConversationPriority = (e, cb)=>{
-    graphql(TOGGLE_CONVERSATION_PRIORITY, {
-      appKey: this.props.appId, 
-      conversationId: this.props.conversation.id
-    }, {
-      success: (data)=>{
-        const conversation = data.toggleConversationPriority.conversation
-        this.props.setConversation(conversation, 
-          ()=> cb ? cb(data.toggleConversationPriority.conversation) : null
-        )
-      },
-      error: (error)=>{
-      }
-    })
+
+    this.props.dispatch(updateConversationPriority(()=>{
+      cb ? cb(data.updateConversationState.conversation) : null
+    }))
+
   }
 
 

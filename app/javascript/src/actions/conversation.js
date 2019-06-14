@@ -218,15 +218,86 @@ export function setLoading(val){
   }
 }
 
-
-
-export function updateConversationState(key, cb){
+export function toggleConversationPriority(key, cb){
   return (dispatch, getState) => {
   }
 }
 
-export function toggleConversationPriority(key, cb){
-  return (dispatch, getState) => {
+export function updateConversationState(state, cb){
+  return (dispatch, getState)=>{
+
+
+    graphql(UPDATE_CONVERSATION_STATE, {
+      appKey: getState().app.key, 
+      conversationId: getState().conversation.id,
+      state: state
+    }, {
+      success: (data)=>{
+
+        const conversation = data.updateConversationState.conversation
+
+        const newConversation = Object.assign({}, getState().conversation, conversation)
+        dispatch(dispatchGetConversations(newConversation))
+
+        //this.props.setConversation(conversation, 
+        cb ? cb(newConversation) : null
+        //)
+
+      },
+      error: (error)=>{
+      }
+    })
+
+  }
+}
+
+export function updateConversationPriority(cb){
+
+  return (dispatch, getState)=>{
+    graphql(TOGGLE_CONVERSATION_PRIORITY, {
+      appKey: getState().app.key, 
+      conversationId: getState().conversation.id,
+    }, {
+      success: (data)=>{
+        const conversation = data.toggleConversationPriority.conversation
+        const newConversation = Object.assign({}, getState().conversation, conversation)
+        dispatch(dispatchGetConversations(newConversation))
+
+        cb ? cb(newConversation) : null
+        //this.props.setConversation(conversation, 
+        //  ()=> cb ? cb(data.toggleConversationPriority.conversation) : null
+        //)
+      },
+      error: (error)=>{
+      }
+    })    
+  }
+
+}
+
+export function assignAgent(id){
+  return (dispatch, getState)=>{
+
+
+    graphql(ASSIGN_USER, {
+      appKey: getState().app.key, 
+      conversationId: getstate().conversation.id,
+      appUserId: id
+    }, {
+      success: (data)=>{
+        const conversation = data.assignUser.conversation
+        const newConversation = Object.assign({}, getState().conversation, conversation)
+        dispatch(dispatchGetConversations(newConversation))
+
+        //this.props.setConversation(conversation, 
+        cb ? cb(data.assignUser.conversation) : null
+        //)
+      },
+      error: (error)=>{
+
+      }
+    })
+
   }
 }
 
