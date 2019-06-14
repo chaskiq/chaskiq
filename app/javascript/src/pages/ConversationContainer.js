@@ -14,6 +14,9 @@ import Avatar from '@material-ui/core/Avatar';
 import {soundManager} from 'soundmanager2'
 import sanitizeHtml from 'sanitize-html';
 
+import { withRouter } from 'react-router-dom'
+import { connect } from 'react-redux'
+
 import graphql from "../graphql/client"
 import { 
     CONVERSATIONS, 
@@ -321,7 +324,7 @@ class MessageItem extends Component {
   }
 }
 
-export default class ConversationContainer extends Component {
+class ConversationContainer extends Component {
 
   constructor(props){
     super(props)
@@ -398,7 +401,7 @@ export default class ConversationContainer extends Component {
   }
 
   getUserData = (id)=> {
-    graphql(APP_USER, { appKey: this.props.store.app.key, id: id }, {
+    graphql(APP_USER, { appKey: this.props.app.key, id: id }, {
       success: (data) =>{
         this.setState({
           appUser: data.app.appUser
@@ -586,7 +589,7 @@ export default class ConversationContainer extends Component {
                   render={(props)=>(
                     <ConversationContainerShow
                       appId={appId}
-                      store={this.props.store}
+                      app={this.props.app}
                       conversation={this.state.conversation}
                       setConversation={this.setConversation}
                       showUserDrawer={this.showUserDrawer}
@@ -891,197 +894,210 @@ class ConversationContainerShow extends Component {
     })
   }
 
+
   render(){
+    
     return <Fragment>
           
             <GridElement grow={2}>
 
-            {
-              !isEmpty(this.props.conversation) ?
-            
-              <ChatContainer>
-                
-                <FixedHeader>
+              {
+                !isEmpty(this.props.conversation) ?
+              
+                <ChatContainer>
                   
-                  <HeaderTitle>
-                    Conversation with {" "}
-
-                    {
-                      this.props.conversation.mainParticipant ? 
-                      <b>{this.props.conversation.mainParticipant.email}</b> 
-                      : null
-                    }
-
-                  </HeaderTitle>
-
-                  <ConversationButtons>
-
-                    <OptionMenu 
-                      getAgents={this.getAgents.bind(this)}
-                      setAgent={this.setAgent.bind(this)}
-                      conversation={this.props.conversation}
-                    />
-
-                    {
-                      this.props.conversation.state != "closed" ?
-                      <Tooltip title="Close conversation">
-                        <IconButton onClick={()=>{ this.updateConversationState("close")}}>
-                          <CheckIcon/>
-                        </IconButton>
-                      </Tooltip> : null
-                    }
-
-                    {
-                      this.props.conversation.state != "opened" ?
-                      <Tooltip title="Reopen conversation">
-                        <IconButton onClick={()=>{ this.updateConversationState("reopen")}}>
-                          <InboxIcon/>
-                        </IconButton>
-                      </Tooltip> : null
-                    }
-
-                    <Tooltip title={ !this.props.conversation.priority ? "Priorize conversation" : 'Remove priority'}>
-                      <IconButton onClick={this.toggleConversationPriority}>
-                        <PriorityHighIcon 
-                          color={this.props.conversation.priority ? 'primary' : 'default' }
-                        />
-                      </IconButton>
-                    </Tooltip>
-
-
-                  </ConversationButtons>
-
-                </FixedHeader>
-
-                  <div className="box-container">
-
-                    <div className="overflow" 
-                        ref="overflow" 
-                        onScroll={this.handleScroll}
-                        style={{
-                          //boxShadow: 'inset 0px 1px 3px 0px #ccc',
-                          //background: 'aliceblue',
-                          flexDirection : 'column-reverse',
-                          display: 'flex',
-                          height: `calc(100vh - 462px)`
-                        }}>
+                  <FixedHeader>
+                    
+                    <HeaderTitle>
+                      Conversation with {" "}
 
                       {
-                        this.state.messages.map( (o, i)=> {
-
-                          const userOrAdmin = this.props.conversation.mainParticipant.email === o.appUser.email ? 
-                                        'user' : 'admin'
-             
-                          return <MessageItemWrapper 
-                                    key={o.id} 
-                                    data={o} 
-                                    email={this.props.currentUser.email}>
-
-                                    <ChatMessageItem 
-                                      id={`message-id-${o.id}`}
-                                      message={o}
-                                      className={userOrAdmin}>
-                                      
-                                      <ChatAvatar 
-                                        onClick={(e)=>this.props.showUserDrawer(o.appUser.id)}
-                                        className={userOrAdmin}>
-                                        <img src={gravatar.url(o.appUser.email)}/>
-                                      </ChatAvatar>
-
-                                      <ThemeProvider theme={
-                                        userOrAdmin === "admin" ? 
-                                        o.privateNote ? theme : themeDark 
-                                        : theme 
-                                      }>
-                                        <EditorContainer>
-                                          <div  
-                                            key={i}
-                                            dangerouslySetInnerHTML={{
-                                              __html:  o.message 
-                                            }} 
-                                          />
-                                        </EditorContainer>
-                                     </ThemeProvider>
-
-                                      <StatusItem>
-
-                                        <Moment fromNow>
-                                          {o.createdAt}
-                                        </Moment>
-                                        {" - "}
-                                        {
-                                          o.readAt ? 
-                                            <span>
-                                              {"seen "}
-                                              <Moment fromNow>
-                                                {o.readAt}
-                                              </Moment>
-                                            </span> : 
-                                              
-                                            o.privateNote ? 
-                                            'NOTE' : <span>not seen</span>
-                                            
-                                        }
-                                      </StatusItem>
-                                      
-                                    </ChatMessageItem>
-
-                                  </MessageItemWrapper>
-                                })
+                        this.props.conversation.mainParticipant ? 
+                        <b>{this.props.conversation.mainParticipant.email}</b> 
+                        : null
                       }
 
-                      {this.state.loading ? <Progress/> : null }
+                    </HeaderTitle>
 
-                    </div>
+                    <ConversationButtons>
 
-                    <div className="input">
-                      
-                      <ConversationEditor 
-                        store={this.props.store}
-                        data={{}}
-                        insertComment={this.insertComment}
-                        insertNote={this.insertNote}
+                      <OptionMenu 
+                        getAgents={this.getAgents.bind(this)}
+                        setAgent={this.setAgent.bind(this)}
+                        conversation={this.props.conversation}
                       />
 
+                      {
+                        this.props.conversation.state != "closed" ?
+                        <Tooltip title="Close conversation">
+                          <IconButton onClick={()=>{ this.updateConversationState("close")}}>
+                            <CheckIcon/>
+                          </IconButton>
+                        </Tooltip> : null
+                      }
+
+                      {
+                        this.props.conversation.state != "opened" ?
+                        <Tooltip title="Reopen conversation">
+                          <IconButton onClick={()=>{ this.updateConversationState("reopen")}}>
+                            <InboxIcon/>
+                          </IconButton>
+                        </Tooltip> : null
+                      }
+
+                      <Tooltip title={ !this.props.conversation.priority ? "Priorize conversation" : 'Remove priority'}>
+                        <IconButton onClick={this.toggleConversationPriority}>
+                          <PriorityHighIcon 
+                            color={this.props.conversation.priority ? 'primary' : 'default' }
+                          />
+                        </IconButton>
+                      </Tooltip>
+
+
+                    </ConversationButtons>
+
+                  </FixedHeader>
+
+                    <div className="box-container">
+
+                      <div className="overflow" 
+                          ref="overflow" 
+                          onScroll={this.handleScroll}
+                          style={{
+                            //boxShadow: 'inset 0px 1px 3px 0px #ccc',
+                            //background: 'aliceblue',
+                            flexDirection : 'column-reverse',
+                            display: 'flex',
+                            height: `calc(100vh - 462px)`
+                          }}>
+
+                        {
+                          this.state.messages.map( (o, i)=> {
+
+                            const userOrAdmin = this.props.conversation.mainParticipant.email === o.appUser.email ? 
+                                          'user' : 'admin'
+               
+                            return <MessageItemWrapper 
+                                      key={o.id} 
+                                      data={o} 
+                                      email={this.props.currentUser.email}>
+
+                                      <ChatMessageItem 
+                                        id={`message-id-${o.id}`}
+                                        message={o}
+                                        className={userOrAdmin}>
+                                        
+                                        <ChatAvatar 
+                                          onClick={(e)=>this.props.showUserDrawer(o.appUser.id)}
+                                          className={userOrAdmin}>
+                                          <img src={gravatar.url(o.appUser.email)}/>
+                                        </ChatAvatar>
+
+                                        <ThemeProvider theme={
+                                          userOrAdmin === "admin" ? 
+                                          o.privateNote ? theme : themeDark 
+                                          : theme 
+                                        }>
+                                          <EditorContainer>
+                                            <div  
+                                              key={i}
+                                              dangerouslySetInnerHTML={{
+                                                __html:  o.message 
+                                              }} 
+                                            />
+                                          </EditorContainer>
+                                       </ThemeProvider>
+
+                                        <StatusItem>
+
+                                          <Moment fromNow>
+                                            {o.createdAt}
+                                          </Moment>
+                                          {" - "}
+                                          {
+                                            o.readAt ? 
+                                              <span>
+                                                {"seen "}
+                                                <Moment fromNow>
+                                                  {o.readAt}
+                                                </Moment>
+                                              </span> : 
+                                                
+                                              o.privateNote ? 
+                                              'NOTE' : <span>not seen</span>
+                                              
+                                          }
+                                        </StatusItem>
+                                        
+                                      </ChatMessageItem>
+
+                                    </MessageItemWrapper>
+                                  })
+                        }
+
+                        {this.state.loading ? <Progress/> : null }
+
+                      </div>
+
+                      <div className="input">
+                        
+                        <ConversationEditor 
+                          data={{}}
+                          app={this.props.app}
+                          insertComment={this.insertComment}
+                          insertNote={this.insertNote}
+                        />
+
+                      </div>
+
                     </div>
 
-                  </div>
+       
 
-     
-
-              </ChatContainer> : <Progress/>
-           }
-
-             </GridElement>
-
-
-
-{
-  /*
-            <GridElement>
-
-              <FixedHeader>
-                  User information
-              </FixedHeader>
-
-              <Overflow style={{ 
-                display: 'flex', 
-                flexFlow: 'column',
-                paddingTop: '20px'
-              }}>
-
-                <UserData 
-                  width={ '100%'}
-                  appUser={this.state.appUser}
-                />
-
-              </Overflow>
+                </ChatContainer> : <Progress/>
+             }
 
             </GridElement>
 
-  */
-}
+              {
+                /*
+                          <GridElement>
+
+                            <FixedHeader>
+                                User information
+                            </FixedHeader>
+
+                            <Overflow style={{ 
+                              display: 'flex', 
+                              flexFlow: 'column',
+                              paddingTop: '20px'
+                            }}>
+
+                              <UserData 
+                                width={ '100%'}
+                                appUser={this.state.appUser}
+                              />
+
+                            </Overflow>
+
+                          </GridElement>
+
+                */
+              }
 
           </Fragment>
   }
 }
+
+function mapStateToProps(state) {
+
+  const { auth, app, segment, app_users } = state
+  const { loading, isAuthenticated } = auth
+
+  return {
+    app,
+    isAuthenticated
+  }
+}
+
+export default withRouter(connect(mapStateToProps)(ConversationContainer))

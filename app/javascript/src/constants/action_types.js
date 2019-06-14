@@ -5,7 +5,8 @@ const actionTypes = {
 
   getSegment: 'GET_SEGMENT',
   searchAppUsers: 'SEARCH_APP_USERS',
-  initSearchAppUsers: 'SEARCH_START'
+  initSearchAppUsers: 'SEARCH_START',
+  updateSegment: 'UPDATE_SEGMENT'
 };
 
 export default actionTypes;

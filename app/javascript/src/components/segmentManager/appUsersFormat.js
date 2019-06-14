@@ -42,7 +42,7 @@ export const appUsersFormat = (withWidth: boolean) => {
           customBodyRender: (value, tableMeta, updateValue) => {
             const isOnline = _.isArray(tableMeta.rowData) ? 
                               tableMeta.rowData[5] === "online" : null
-            console.log(isOnline)
+            //console.log(isOnline)
             return (
               <NameWrapper>
                 <AvatarWrapper>

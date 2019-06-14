@@ -78,11 +78,13 @@ export default class ConversationEditor extends Component {
   renderEditor = (opts)=>{
     return <EditorWrapper>
     
-            <EditorContainer note={opts.note} style={ opts.note ? { background: 'lemonchiffon'} : {} }>
+            <EditorContainer 
+              note={opts.note} 
+              style={ opts.note ? { background: 'lemonchiffon'} : {} }>
 
               {
                 !this.state.loading ? 
-                  <NewEditor 
+                  <NewEditor
                     submitData={(html)=> this.submitData(html, opts)}
                     {...this.props}
                   /> : null
