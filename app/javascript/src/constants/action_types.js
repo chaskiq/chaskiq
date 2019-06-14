@@ -15,7 +15,9 @@ const actionTypes = {
   UpdateConversation: 'UPDATE_CONVERSATION',
 
   GetConversations: 'GET_CONVERSATIONS',
-  UpdateConversations: 'UPDATE_CONVERSATIONS'
+  UpdateConversations: 'UPDATE_CONVERSATIONS',
+  
+  UpdateConversation: 'UPDATE_CONVERSATION',
 };
 
 export default actionTypes;
