@@ -275,13 +275,13 @@ export function updateConversationPriority(cb){
 
 }
 
-export function assignAgent(id){
+export function assignAgent(id, cb){
   return (dispatch, getState)=>{
 
 
     graphql(ASSIGN_USER, {
       appKey: getState().app.key, 
-      conversationId: getstate().conversation.id,
+      conversationId: getState().conversation.id,
       appUserId: id
     }, {
       success: (data)=>{

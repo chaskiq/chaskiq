@@ -372,13 +372,10 @@ class ConversationContainerShow extends Component {
   }
 
   toggleConversationPriority = (e, cb)=>{
-
     this.props.dispatch(updateConversationPriority(()=>{
       cb ? cb(data.updateConversationState.conversation) : null
     }))
-
   }
-
 
   render(){
     
