@@ -10,19 +10,8 @@ import {last} from 'lodash'
 import Moment from 'react-moment';
 
 import { 
-    CONVERSATIONS, 
-    CONVERSATION, 
-    APP_USER ,
     AGENTS
-  } from "../../graphql/queries"
-
-import { 
-  INSERT_COMMMENT, 
-  ASSIGN_USER,
-  INSERT_NOTE,
-  UPDATE_CONVERSATION_STATE,
-  TOGGLE_CONVERSATION_PRIORITY
-} from '../../graphql/mutations'
+} from "../../graphql/queries"
 
 import {
   GridElement,
@@ -64,18 +53,13 @@ import {getConversation,
 
 import { camelCase, isEmpty } from 'lodash';
 
-
-
 class ConversationContainerShow extends Component {
 
   constructor(props){
     super(props)
     this.state = {
-      //messages: [],
-      //meta: {},
       appUser: {},
       subscription: false
-      //loading: false
     }
   }
 
@@ -85,44 +69,21 @@ class ConversationContainerShow extends Component {
 
   componentDidUpdate(PrevProps, PrevState){
     if(PrevProps.match && PrevProps.match.params.id !== this.props.match.params.id){
-      //this.props.dispatch(getConversation({
-
-      //}, ()=>{
-
-        //this.setState({
-        //  messages: [],
-        //  meta: {}
-        //}, ()=> this.getMessages( this.scrollToLastItem ) )
-
         this.props.dispatch(clearConversation( ()=>{
           this.getMessages(this.scrollToLastItem )
         }))
-
-
-      ///}))
-
-      
-      //this.conversationSubscriber()
     }
   }
 
   handleScroll = (e) => {
     let element = e.target
-
     if (element.scrollTop === 0) { // on top
       if (this.props.conversation.meta.next_page)
         this.getMessages( (item)=> this.scrollToItem(item) )
     }
-
-    // scroll bottom
-    //if (element.scrollHeight - element.scrollTop === element.clientHeight) {
-    //  if (this.state.meta.next_page)
-    //    this.getMessages()
-    //}
   }
 
   scrollToItem = (item)=>{
-    //console.log("scrolea to ", item)
     if(item){
       this.refs.overflow.scrollTop = document.querySelector(`#message-id-${item}`).offsetHeight
     }else{
@@ -134,109 +95,32 @@ class ConversationContainerShow extends Component {
     this.refs.overflow.scrollTop = this.refs.overflow.scrollHeight;
   }
 
-  /*getMainUser = (id)=> {
-    graphql(APP_USER, { appKey: this.props.appId, id: id }, {
-      success: (data) =>{
-        this.setState({
-          appUser: data.app.appUser
-        })        
-      }
-    })
-  }*/
-
   getMessages = (cb)=>{
-    //const nextPage = this.state.meta.next_page
+    const opts = {id: parseInt(this.props.match.params.id)} 
+    this.conversationSubscriber(opts.id)
 
-
-    //
-      //this.setState({loading: true}, ()=>{
-      /*
-      graphql(CONVERSATION, { 
-        appKey: this.props.appId, 
-        id: parseInt(this.props.match.params.id), 
-        page: nextPage}, {
-        success: (data)=>{
-          const conversation = data.app.conversation
-          
-            this.props.setConversation(conversation, () => {
-              this.conversationSubscriber()
-
-              const lastItem = last(this.state.messages)
-      
-              this.setState({
-                messages: nextPage > 1 ? 
-                  this.state.messages.concat(conversation.messages.collection) : 
-                  conversation.messages.collection,
-                meta: conversation.messages.meta,
-                loading: false
-              },  ()=>{
-                //console.log(lastItem)
-                //this.getMainUser(this.state.conversation.mainParticipant.id)
-                // TODO: this will scroll scroll to last when new items are added!
-                cb ? cb(lastItem ? lastItem.id : null) : null
-              })
-            })
-        },
-        error: (error)=>{
-          
-        }
-      }) 
-      */
-    //})
-
-      const opts = {id: parseInt(this.props.match.params.id)} 
-      this.conversationSubscriber(opts.id)
-
-      const lastItem = last(this.props.conversation.collection)
+    const lastItem = last(this.props.conversation.collection)
 
 
 
-      this.props.dispatch(getConversation(opts, ()=>{
-        //this.getMainUser(this.state.conversation.mainParticipant.id)
-        // TODO: this will scroll scroll to last when new items 
-        // are added on pagination (scroll up)!
-        cb ? cb(lastItem ? lastItem.id : null) : null
-      }))
+    this.props.dispatch(getConversation(opts, ()=>{
+      //this.getMainUser(this.state.conversation.mainParticipant.id)
+      // TODO: this will scroll scroll to last when new items 
+      // are added on pagination (scroll up)!
+      cb ? cb(lastItem ? lastItem.id : null) : null
+    }))
   }
 
   insertComment = (comment, cb)=>{
     this.props.dispatch(insertComment(comment, ()=>{
       cb ? cb() : null
     }))
-
-    /*graphql(INSERT_COMMMENT, { 
-      appKey: this.props.appId, 
-      id: id, 
-      message: comment
-    }, {
-        success: (data)=>{
-          console.log(data)
-          cb()
-        },
-        error: (error)=>{
-          console.log(error)
-        }
-      })*/
   }
 
   insertNote = (comment, cb)=>{
     this.props.dispatch(insertNote(comment, ()=>{
       cb ? cb() : null
     }))
-
-    /*graphql(INSERT_NOTE, { 
-      appKey: this.props.appId, 
-      id: id, 
-      message: comment
-    }, {
-        success: (data)=>{
-          console.log(data)
-          cb()
-        },
-        error: (error)=>{
-          console.log(error)
-        }
-      })*/
   }
 
   unsubscribeFromConversation = ()=>{
@@ -271,44 +155,9 @@ class ConversationContainerShow extends Component {
         })
       },
       received: (data)=> {
-
-        //const newData = camelizeKeys(data)
-
         this.props.dispatch(
           appendMessage(data, this.scrollToLastItem )
         )
-
-        /*
-        // update existing message
-        if (this.state.messages.find((o) => o.id === newData.id ) ){
-          const new_collection = this.state.messages.map((o)=>{
-            if (o.id === newData.id ){
-                return newData
-              } else {
-                return o
-              }
-          })
-
-          //console.log('received updated', newData)
-          this.setState({
-            messages: new_collection
-          } )
-
-        } else {
-          //console.log('received new', newData)
-          //console.log(this.props.currentUser.email, newData.appUser.email)
-          if (this.props.currentUser.email !== newData.appUser.email) {
-            playSound()
-          }
-
-          //console.log(newData)
-          
-          this.setState({
-            messages: [newData].concat(this.state.messages)
-          }, this.scrollToLastItem)
-
-        }*/
-
       },
       handleMessage: (message)=>{
         console.log(`handle message`)
@@ -328,23 +177,6 @@ class ConversationContainerShow extends Component {
   }
 
   setAgent = (id, cb)=>{
-    /*graphql(ASSIGN_USER, {
-      appKey: this.props.appId, 
-      conversationId: this.props.conversation.id,
-      appUserId: id
-    }, {
-      success: (data)=>{
-        const conversation = data.assignUser.conversation
-
-        this.props.setConversation(conversation, 
-          ()=> cb(data.assignUser.conversation) 
-        )
-      },
-      error: (error)=>{
-
-      }
-    })*/
-
     this.props.dispatch(
       assignAgent(id, cb)
     )

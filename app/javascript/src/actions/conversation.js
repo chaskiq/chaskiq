@@ -155,35 +155,18 @@ export function appendMessage(data, cb){
           }
       })
 
-      //console.log('received updated', newData)
-
       const newMessages = Object.assign({}, 
-        { collection: new_collection }, 
-        getState().conversation
+        getState().conversation,
+        { collection: new_collection }
       )
-
-      /*const newConversation = Object.assign({}, 
-        { messages: newMessages},
-        this.props.conversation
-      )*/
 
       dispatch(dispatchGetConversations(newMessages))
 
     } else {
-      //console.log('received new', newData)
-      //console.log(this.props.currentUser.email, newData.appUser.email)
+
       if (getState().auth.uid !== newData.appUser.email) {
         playSound()
       }
-
-      //console.log(newData)
-      
-      /*this.setState({
-        messages: [newData].concat(this.state.messages)
-      }, this.scrollToLastItem)*/
-
-
-      //setLoading(true)
 
       const newMessages = Object.assign({}, 
                     getState().conversation,
@@ -191,16 +174,9 @@ export function appendMessage(data, cb){
         
       )
 
-      /*const newConversation = Object.assign({}, 
-        { messages: newMessages },
-        getState().conversation
-      )*/
-
       dispatch(dispatchGetConversations(newMessages))
 
       cb ? cb() : null
-
-      //setLoading(false)
     }
 
   }
@@ -213,7 +189,6 @@ export function assignUser(key, cb){
 
 export function setLoading(val){
   return (dispatch, getState)=>{
-    //const el = Object.merge({}, getState().conversation,  {loading: val})
     dispatch(dispatchUpdateConversations({loading: val}))
   }
 }
@@ -225,24 +200,18 @@ export function toggleConversationPriority(key, cb){
 
 export function updateConversationState(state, cb){
   return (dispatch, getState)=>{
-
-
     graphql(UPDATE_CONVERSATION_STATE, {
       appKey: getState().app.key, 
       conversationId: getState().conversation.id,
       state: state
     }, {
       success: (data)=>{
-
         const conversation = data.updateConversationState.conversation
 
         const newConversation = Object.assign({}, getState().conversation, conversation)
         dispatch(dispatchGetConversations(newConversation))
 
-        //this.props.setConversation(conversation, 
         cb ? cb(newConversation) : null
-        //)
-
       },
       error: (error)=>{
       }
@@ -262,11 +231,7 @@ export function updateConversationPriority(cb){
         const conversation = data.toggleConversationPriority.conversation
         const newConversation = Object.assign({}, getState().conversation, conversation)
         dispatch(dispatchGetConversations(newConversation))
-
         cb ? cb(newConversation) : null
-        //this.props.setConversation(conversation, 
-        //  ()=> cb ? cb(data.toggleConversationPriority.conversation) : null
-        //)
       },
       error: (error)=>{
       }
@@ -288,10 +253,7 @@ export function assignAgent(id, cb){
         const conversation = data.assignUser.conversation
         const newConversation = Object.assign({}, getState().conversation, conversation)
         dispatch(dispatchGetConversations(newConversation))
-
-        //this.props.setConversation(conversation, 
         cb ? cb(data.assignUser.conversation) : null
-        //)
       },
       error: (error)=>{
 
