@@ -114,10 +114,15 @@ class Paperbase extends React.Component {
                 <ShowAppContainer
                   {...props}
                   classes={classes}
+
                   //currentApp={this.props.currentApp}
                   //setCurrentApp={this.props.setCurrentApp}
                   //setCurrentApp={setApp}
+                  app={this.props.app}
+                  segment={this.props.segment}
+                  app_users={this.props.app_users}
                   currentUser={this.props.currentUser}
+                  dispatch={this.props.dispatch}
                   //initialNavLinks={this.props.defaultNavLinks}
                   //navLinks={this.props.navLinks}
                   //updateNavLinks={this.props.updateNavLinks}
@@ -141,9 +146,11 @@ Paperbase.propTypes = {
 
 
 function mapStateToProps(state) {
-  const { auth , app } = state
+  const { auth , app, segment, app_users } = state
   const { loading, isAuthenticated } = auth
   return {
+    segment,
+    app_users,
     app,
     loading,
     isAuthenticated

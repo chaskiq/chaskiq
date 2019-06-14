@@ -374,7 +374,7 @@ export default class ChatEditor extends Component {
     return [CodeBlockConfig(),
     ImageBlockConfig({
       options: {
-        upload_url: `/attachments.json?&app_id=${this.props.store.app.key}`,
+        upload_url: `/attachments.json?&app_id=${this.props.app.key}`,
         //upload_handler: this.handleUpload,
         image_caption_placeholder: "type a caption (optional)"
       }
@@ -400,7 +400,7 @@ export default class ChatEditor extends Component {
     VideoRecorderBlockConfig({
       options: {
         seconds_to_record: 20000,
-        upload_url: `/attachments.json?&app_id=${this.props.store.app.key}`,
+        upload_url: `/attachments.json?&app_id=${this.props.app.key}`,
       }
     }),
     //GiphyBlockConfig(),

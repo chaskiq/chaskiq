@@ -20,7 +20,8 @@ import blueGrey from "@material-ui/core/colors/blueGrey";
 
 import auth from '../actions/auth'
 import app from '../actions/app'
-import appUsers from '../actions/app_users'
+import segment from '../actions/segments'
+import app_users from '../actions/app_users'
 
 import Login from '../auth/login'
 
@@ -173,7 +174,8 @@ const styles = {
 const rootReducer = combineReducers({
   auth,
   app,
-  appUsers
+  segment,
+  app_users
 })
 
 
