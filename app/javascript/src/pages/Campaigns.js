@@ -3,6 +3,8 @@ import {
   Route,
   Link
 } from 'react-router-dom'
+import { withRouter } from 'react-router-dom'
+import { connect } from 'react-redux'
 import ContentWrapper from '../components/ContentWrapper';
 import PageTitle from '../components/PageTitle';
 //import Tabs from '@atlaskit/tabs';
@@ -61,7 +63,7 @@ class CampaignSegment extends Component {
   }
   componentDidMount() {
     /*this.props.actions.fetchAppSegment(
-      this.props.store.app.segments[0].id
+      this.props.app.segments[0].id
     )*/
     this.search()
   }
@@ -71,7 +73,7 @@ class CampaignSegment extends Component {
     //console.log(predicates)
 
     const params = {
-      appKey: this.props.store.app.key,
+      appKey: this.props.app.key,
       id: this.props.data.id,
       campaignParams: {
         segments: predicates.data
@@ -139,7 +141,7 @@ class CampaignSegment extends Component {
     }
 
     graphql(PREDICATES_SEARCH, { 
-      appKey: this.props.store.app.key,
+      appKey: this.props.app.key,
       search: predicates_data,
       page: page || 1
     },{
@@ -196,7 +198,7 @@ class CampaignForm extends Component {
 
   url = () => {
     const id = this.props.match.params.id
-    return `/apps/${this.props.store.app.key}/campaigns/${id}`
+    return `/apps/${this.props.app.key}/campaigns/${id}`
   }
 
   componentDidMount() {
@@ -208,7 +210,7 @@ class CampaignForm extends Component {
 
     if(id === "new"){
       graphql(CREATE_CAMPAIGN, {
-        appKey: this.props.store.app.key,
+        appKey: this.props.app.key,
         mode: this.props.mode,
         operation: "new",
         campaignParams: {}
@@ -221,7 +223,7 @@ class CampaignForm extends Component {
         })
     }else{
       graphql(CAMPAIGN, {
-        appKey: this.props.store.app.key,
+        appKey: this.props.app.key,
         mode: this.props.mode,
         id: parseInt(id),
       }, {
@@ -398,8 +400,7 @@ class CampaignForm extends Component {
   }
 }
 
-
-export default class CampaignContainer extends Component {
+class CampaignContainer extends Component {
 
   constructor(props) {
     super(props)
@@ -499,4 +500,21 @@ export default class CampaignContainer extends Component {
     </div>
   }
 }
+
+
+
+function mapStateToProps(state) {
+
+  const { auth, app } = state
+  const { loading, isAuthenticated } = auth
+
+  return {
+    app,
+    loading,
+    isAuthenticated
+  }
+}
+
+export default withRouter(connect(mapStateToProps)(CampaignContainer))
+
 

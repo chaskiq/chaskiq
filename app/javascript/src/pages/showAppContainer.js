@@ -476,17 +476,14 @@ class ShowAppContainer extends Component {
 
           <Route path={`${this.props.match.path}/messages/:message_type`}
             render={(props) => (
-              <Consumer>
-                {({ store, actions }) => (
+    
                   <CampaignContainer
                     currentUser={this.props.currentUser}
-                    store={store}
-                    actions={actions}
+                    actions={this.actions()}
                     classes={props.classes}
                     {...props}
                   />
-                )}
-              </Consumer>
+       
             )} />             
 
           <Route path={`${this.props.match.path}/settings`}

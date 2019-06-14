@@ -229,7 +229,7 @@ export default class CampaignStats extends Component {
 
   getData = ()=>{
     graphql(CAMPAIGN_METRICS, {
-      appKey: this.props.store.app.key, 
+      appKey: this.props.app.key, 
       mode: this.props.mode, 
       id: parseInt(this.props.match.params.id),
       page: this.state.meta.next_page || 1

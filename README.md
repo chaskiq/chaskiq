@@ -81,6 +81,10 @@ An the content of the campaign is managed with a state of the art wysiwyg text e
 
 + http://html2canvas.hertzen.com/
 
+## auth 
+
++ https://github.com/saitoxu/react-devise-token-auth-sample
+
 # themes
 
 + https://preview.themeforest.net/item/react-next-modern-landing-page-template/full_screen_preview/23169879
