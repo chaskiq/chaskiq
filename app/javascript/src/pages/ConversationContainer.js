@@ -58,6 +58,11 @@ import themeDark from '../components/conversation/darkTheme'
 import EditorContainer from '../components/conversation/editorStyles'
 import Progress from '../shared/Progress'
 
+import {
+  getConversations, 
+  updateConversationsData
+} from '../actions/conversations'
+
 
 const camelizeKeys = (obj) => {
   if (Array.isArray(obj)) {
@@ -329,14 +334,15 @@ class ConversationContainer extends Component {
   constructor(props){
     super(props)
     this.state = {
-      conversations: [],
+      //conversations: [],
       conversation: {},
-      meta: {},
-      rightDrawer: false,
       appUser: {},
-      sort: 'newest',
-      filter: 'opened',
-      loading: false
+      //meta: {},
+      rightDrawer: false,
+
+      //sort: 'newest',
+      //filter: 'opened',
+      //loading: false
     }
   }
 
@@ -356,11 +362,19 @@ class ConversationContainer extends Component {
 
   getConversations = (cb)=>{
 
-    this.setState({
+    this.props.dispatch(getConversations( ()=>{
+      cb ? cb() : null
+    }))
+
+    /*this.setState({
       loading: true
     }, ()=>{
 
+      this.props.dispatch(getConversations, ()=>{
+        cb ? cb() : null
+      })
 
+      
       const nextPage = this.state.meta.next_page || 1
 
       graphql(CONVERSATIONS, { 
@@ -381,17 +395,16 @@ class ConversationContainer extends Component {
           cb ? cb() : null        
         }
       })
-
-
-    })
-
+    })*/
   }
 
   setSort = (option)=>{
+    this.props.dispatch(updateConversationsData({sort: option}))
     this.setState({sort: option})
   }
+
   setFilter = (option)=>{
-    this.setState({filter: option})
+    this.props.dispatch(updateConversationsData({filter: option}))
   }
 
   showUserDrawer = (id)=>{
@@ -428,7 +441,7 @@ class ConversationContainer extends Component {
           onClick={handleClick}
         >
           {/*<MoreVertIcon />*/}
-          {this.state.filter}
+          {this.props.conversations.filter}
         </Button>
 
        </Tooltip>
@@ -444,22 +457,37 @@ class ConversationContainer extends Component {
           onClick={handleClick}
         >
           {/*<MoreVertIcon />*/}
-          {this.state.sort}
+          {this.props.conversations.sort}
         </Button>
 
        </Tooltip>
   }
 
   filterConversations = (options, cb)=>{
-    this.setState({filter: options.id}, ()=>{
+
+    this.props.dispatch(
+      updateConversationsData({filter: options.id}, ()=>{
+        this.getConversations(cb)
+      })
+    )
+
+    /*this.setState({filter: options.id}, ()=>{
       this.getConversations(cb)
-    })
+    })*/
   }
 
   sortConversations = (options, cb)=>{
+
+    this.props.dispatch(
+      updateConversationsData({sort: options.id}, ()=>{
+        this.getConversations(cb)
+      })
+    )
+
+    /*
     this.setState({sort: options.id}, ()=>{
       this.getConversations(cb)
-    })
+    })*/
   }
 
   setConversation = (conversation, cb)=>{
@@ -503,7 +531,7 @@ class ConversationContainer extends Component {
                         {id: "opened", name: "opened", count: 1, icon: <InboxIcon/> },
                         {id: "closed", name: "closed", count: 2, icon: <CheckIcon/>}
                       ]}
-                      value={this.state.filter}
+                      value={this.props.conversations.filter}
                       filterHandler={this.filterConversations}
                       triggerButton={this.filterButton}
                     />
@@ -515,7 +543,7 @@ class ConversationContainer extends Component {
                         {id: "waiting", name: "waiting", count: 1},
                         {id: "priority-first", name: "priority first", count: 1},
                       ]}
-                      value={this.state.sort}
+                      value={this.props.conversations.sort}
                       filterHandler={this.sortConversations}
                       triggerButton={this.sortButton}
                     />
@@ -528,7 +556,7 @@ class ConversationContainer extends Component {
 
 
                   {
-                    this.state.conversations.map((o, i)=>{
+                    this.props.conversations.collection.map((o, i)=>{
                       const user = o.mainParticipant
 
                       return <div 
@@ -555,7 +583,9 @@ class ConversationContainer extends Component {
                     })
                   }
 
-                  {this.state.loading ? <Progress/> : null }
+                  {this.props.conversations.loading ? 
+                    <Progress/> 
+                   : null }
 
                 </Overflow>
               </GridElement>
@@ -1091,10 +1121,13 @@ class ConversationContainerShow extends Component {
 
 function mapStateToProps(state) {
 
-  const { auth, app, segment, app_users } = state
+  const { auth, app, segment, app_users, conversations, app_user } = state
   const { loading, isAuthenticated } = auth
+  //const { sort, filter, collection , meta, loading} = conversations
 
   return {
+    conversations,
+    app_user,
     app,
     isAuthenticated
   }
