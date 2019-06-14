@@ -60,8 +60,7 @@ class AppContent extends Component {
     return <div style={{marginTop: '20px'}}>
 
             { this.props.app.key && this.props.segment && this.props.segment.id ? 
-              <div>
-              <p>{this.props.segment.name}</p>
+              
               <AppUsers
                 actions={this.props.actions}
                 history={this.props.history}
@@ -72,7 +71,7 @@ class AppContent extends Component {
                 meta={meta}
                 searching={searching}
          
-              /></div> : null 
+              /> : null 
             }
           </div>
   }

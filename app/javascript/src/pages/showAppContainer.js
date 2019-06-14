@@ -43,7 +43,9 @@ import {
   updateSegment,
   createSegment,
   deleteSegment,
-  addPredicate
+  addPredicate,
+  updatePredicate,
+  deletePredicate
 } from '../actions/segments'
 
 import {
@@ -104,17 +106,17 @@ class ShowAppContainer extends Component {
       this.init()
     }
 
-    /*if (prevProps.segment.segment.jwt !== this.props.segment.segment.jwt) {
+    if (prevProps.segment.jwt !== this.props.segment.jwt) {
       console.info("cambio jwt")
       this.search()
     }
 
-    if (prevProps.segment.segment.id !== this.props.segment.segment.id) {
+    if (prevProps.segment.id !== this.props.segment.id) {
       console.info("cambio segmento")
       this.fetchApp( ()=>{
         this.search()
       })
-    }*/
+    }
   }
 
   init = () => {
@@ -378,17 +380,23 @@ class ShowAppContainer extends Component {
 
     this.props.dispatch(addPredicate(pending_predicate, (token)=>{
       cb ? cb(token) : null
-      this.setState({jwt: token})
+      //this.setState({jwt: token})
     }))
     
   }
 
   updatePredicate= (data, cb)=>{
-    const jwtToken = generateJWT(data)
+
+    this.props.dispatch(updatePredicate(data, (token)=>{
+      cb ? cb(token) : null
+      //this.setState({jwt: token})
+    }))
+
+    //const jwtToken = generateJWT(data)
     //console.log(parseJwt(jwtToken))
-    if(cb)
-      cb(jwtToken)
-    this.setState({jwt: jwtToken})
+    //if(cb)
+    //  cb(jwtToken)
+    //this.setState({jwt: jwtToken})
   }
 
   getPredicates= ()=>{
@@ -409,12 +417,19 @@ class ShowAppContainer extends Component {
   }
 
   deletePredicate = (data)=>{
-    this.setState(
+
+    this.props.dispatch(
+      deletePredicate(data, 
+        ()=> this.updateSegment({}, this.fetchApp()) 
+      )
+    )
+
+    /*this.setState(
       { segment: {
         id: this.state.segment.id,
         predicates: data,
         jwt: null
-      }} , ()=> this.updateSegment({}, this.fetchApp()) )
+      }} , ()=> this.updateSegment({}, this.fetchApp()) )*/
   }
 
   render(){
