@@ -46,7 +46,7 @@ export default class CampaignSettings extends Component {
   create = (data) => {
 
     graphql(CREATE_CAMPAIGN, {
-      appKey: this.props.store.app.key,
+      appKey: this.props.app.key,
       mode: this.props.mode,
       operation: "create",
       campaignParams: data.campaign

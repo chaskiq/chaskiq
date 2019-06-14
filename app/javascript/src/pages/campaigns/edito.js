@@ -468,7 +468,7 @@ export default class CampaignEditor extends Component {
     return [CodeBlockConfig(),
     ImageBlockConfig({
       options: {
-        upload_url: `/attachments.json?id=${this.props.data.id}&app_id=${this.props.store.app.key}`,
+        upload_url: `/attachments.json?id=${this.props.data.id}&app_id=${this.props.app.key}`,
         //upload_handler: this.handleUpload,
         image_caption_placeholder: "type a caption (optional)"
       }
@@ -494,7 +494,7 @@ export default class CampaignEditor extends Component {
     VideoRecorderBlockConfig({
       options: {
         seconds_to_record: 20000,
-        upload_url: `/attachments.json?id=${this.props.data.id}&app_id=${this.props.store.app.key}`,
+        upload_url: `/attachments.json?id=${this.props.data.id}&app_id=${this.props.app.key}`,
       }
     }),
     GiphyBlockConfig(),
@@ -759,7 +759,7 @@ export default class CampaignEditor extends Component {
     })
 
     const params = {
-      appKey: this.props.store.app.key,
+      appKey: this.props.app.key,
       id: this.props.data.id,
       campaignParams: {
         html_content: html3,
