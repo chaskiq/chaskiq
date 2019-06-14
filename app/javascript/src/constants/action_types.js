@@ -9,7 +9,13 @@ const actionTypes = {
   updateSegment: 'UPDATE_SEGMENT',
 
   setAppUser: 'SET_APP_USER',
-  clearAppUser: 'CLEAR_APP_USER'
+  clearAppUser: 'CLEAR_APP_USER',
+
+  GetConversation: 'GET_CONVERSATION',
+  UpdateConversation: 'UPDATE_CONVERSATION',
+
+  GetConversations: 'GET_CONVERSATIONS',
+  UpdateConversations: 'UPDATE_CONVERSATIONS'
 };
 
 export default actionTypes;

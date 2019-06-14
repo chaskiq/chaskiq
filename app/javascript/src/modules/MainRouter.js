@@ -24,6 +24,9 @@ import segment from '../actions/segments'
 import app_users from '../actions/app_users'
 import app_user from '../actions/app_user'
 
+import conversations from '../actions/conversations'
+import conversation from '../actions/conversation'
+
 import Login from '../auth/login'
 
 const defaultNavOpts = {
@@ -178,6 +181,8 @@ const rootReducer = combineReducers({
   segment,
   app_users,
   app_user,
+  conversation,
+  conversations
 })
 
 
