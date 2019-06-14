@@ -44,8 +44,8 @@ export function updateSegment(id, cb){
 
     const params = {
       appKey: getState().app.key,
-      id: getState().segment.segment.id,
-      predicates: getState().segment.segment.predicates
+      id: getState().segment.id,
+      predicates: getState().segment.predicates
     }
 
     graphql(PREDICATES_UPDATE, params, {
@@ -79,7 +79,7 @@ export function createSegment(options, cb){
       appKey: getState().app.key,
       name: options.name,
       operation: options.operation,
-      predicates: getState().segment.segment.predicates
+      predicates: getState().segment.predicates
     }
 
     graphql(PREDICATES_CREATE, params, {
@@ -121,7 +121,6 @@ export function addPredicate(options, cb){
   return (dispatch, getState)=>{
 
     const new_predicates = getState().segment
-                                     .segment
                                      .predicates
                                      .concat(options)
 
@@ -137,6 +136,43 @@ export function addPredicate(options, cb){
 
     if(cb)
       cb(jwtToken)
+  }
+}
+
+export function updatePredicate(data, cb){
+  return (dispatch, getState)=>{
+    const jwtToken = generateJWT(data)
+    console.log(parseJwt(jwtToken))
+
+    dispatch(
+      dispatchSegmentUpdate(
+        {
+          jwt: jwtToken
+        }
+      )
+    )
+
+    if(cb)
+      cb(jwtToken)
+  }
+}
+
+
+export function deletePredicate(data, cb){
+  return (dispatch, getState)=>{
+
+    dispatch(
+      dispatchSegmentUpdate(
+        { 
+          id: getState().segment.id,
+          predicates: data,
+          jwt: null
+        }
+      )
+    )
+
+    if(cb)
+      cb()
   }
 }
 

@@ -9,6 +9,8 @@ import {
 } from '../graphql/mutations'
 
 import {dispatchSegmentUpdate} from './segments'
+import {parseJwt, generateJWT} from '../components/segmentManager/jwt'
+
 
 /*
 export function searchAppUsers(options, cb){
