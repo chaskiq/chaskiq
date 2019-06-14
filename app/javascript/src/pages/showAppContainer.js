@@ -50,6 +50,10 @@ import {
   searchAppUsers,
 } from '../actions/app_users'
 
+import {
+  getAppUser 
+} from '../actions/app_user'
+
 const CableApp = {
   cable: actioncable.createConsumer()
 }
@@ -132,7 +136,8 @@ class ShowAppContainer extends Component {
       addPredicate:   this.addPredicate,
       deletePredicate: this.deletePredicate,
       deleteSegment: this.deleteSegment,
-      search: this.search
+      search: this.search,
+      setAppUser: this.setAppUser
       //fetchAppSegments: this.fetchAppSegments
     }
   }
@@ -184,6 +189,10 @@ class ShowAppContainer extends Component {
         el.email === data.email ? Object.assign({}, el, data) : el 
       )
     });
+  }
+
+  setAppUser = (id)=>{
+    this.props.dispatch(getAppUser(id))
   }
 
   search = (page)=>{
@@ -517,9 +526,10 @@ class ShowAppContainer extends Component {
 
 function mapStateToProps(state) {
 
-  const { auth, app, segment } = state
+  const { auth, app, segment, app_user } = state
   const { loading, isAuthenticated } = auth
   return {
+    app_user,
     segment,
     app,
     loading,

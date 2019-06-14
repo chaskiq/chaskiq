@@ -68,6 +68,7 @@ class AppContent extends Component {
                 app={this.props.app}
                 segment={this.props.segment}
                 app_users={collection}
+                app_user={this.props.app_user}
                 meta={meta}
                 searching={searching}
          
@@ -204,7 +205,10 @@ class AppUsers extends Component {
 
   getUserData = (id)=>{
 
-    graphql(APP_USER, {
+
+    this.props.actions.setAppUser(id)
+
+    /*graphql(APP_USER, {
         appKey: this.props.app.key, 
         id: id
       }, 
@@ -217,7 +221,7 @@ class AppUsers extends Component {
       error: ()=>{
 
       }
-    })
+    })*/
   }
 
   render(){
@@ -243,9 +247,11 @@ class AppUsers extends Component {
               onClose={this.toggleDrawer('right', false)}>
               
               {
-                this.state.selectedUser ? 
-                  <UserData width={ '300px'}
-                    appUser={this.state.selectedUser} /> : null
+                this.props.app_user ? 
+                  <UserData 
+                    width={ '300px'}
+                    appUser={this.props.app_user} /> 
+                  : null
               }
 
             </Drawer>
@@ -257,12 +263,13 @@ class AppUsers extends Component {
 
 function mapStateToProps(state) {
 
-  const { auth, app, segment, app_users } = state
+  const { auth, app, segment, app_users, app_user } = state
   const { loading, isAuthenticated } = auth
 
   const { searching, meta} = app_users
 
   return {
+    app_user,
     app_users,
     searching,
     meta,
