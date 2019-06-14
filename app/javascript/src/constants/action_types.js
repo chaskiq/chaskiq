@@ -6,7 +6,10 @@ const actionTypes = {
   getSegment: 'GET_SEGMENT',
   searchAppUsers: 'SEARCH_APP_USERS',
   initSearchAppUsers: 'SEARCH_START',
-  updateSegment: 'UPDATE_SEGMENT'
+  updateSegment: 'UPDATE_SEGMENT',
+
+  setAppUser: 'SET_APP_USER',
+  clearAppUser: 'CLEAR_APP_USER'
 };
 
 export default actionTypes;

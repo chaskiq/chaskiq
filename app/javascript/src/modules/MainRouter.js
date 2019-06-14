@@ -22,6 +22,7 @@ import auth from '../actions/auth'
 import app from '../actions/app'
 import segment from '../actions/segments'
 import app_users from '../actions/app_users'
+import app_user from '../actions/app_user'
 
 import Login from '../auth/login'
 
@@ -175,7 +176,8 @@ const rootReducer = combineReducers({
   auth,
   app,
   segment,
-  app_users
+  app_users,
+  app_user,
 })
 
 
