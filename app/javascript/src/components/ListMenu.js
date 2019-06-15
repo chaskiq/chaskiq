@@ -6,6 +6,13 @@ import ListItemText from '@material-ui/core/ListItemText';
 import MenuItem from '@material-ui/core/MenuItem';
 import Menu from '@material-ui/core/Menu';
 
+import graphql from "../graphql/client"
+
+import { APPS } from "../graphql/queries"
+
+import { withRouter } from 'react-router-dom'
+import { connect } from 'react-redux'
+
 const useStyles = makeStyles(theme => ({
   root: {
     width: '100%',
@@ -14,33 +21,48 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-const options = [
+
+const optionsDs = [
   'Show some love to Material-UI',
   'Show all notification content',
   'Hide sensitive notification content',
   'Hide all notification content',
 ];
 
-function SimpleListMenu() {
+function SimpleListMenu(props) {
   const classes = useStyles();
   const [anchorEl, setAnchorEl] = React.useState(null);
-  const [selectedIndex, setSelectedIndex] = React.useState(1);
+  const [selectedIndex, setSelectedIndex] = React.useState(props.app || {} );
+  const [options, setOptions] = React.useState([])
+
 
   function handleClickListItem(event) {
     setAnchorEl(event.currentTarget);
   }
 
+  function fetchApps(){
+    graphql(APPS ,{} ,{
+      success: (data)=>{
+        setOptions(data.apps)
+      }, 
+      error: (error)=>{
+
+      }
+    })
+  }
+    
+
   function handleMenuItemClick(event, index) {
-    console.log(index)
     setSelectedIndex(index);
     setAnchorEl(null);
+    props.handleClick(index)
   }
 
   function handleClose() {
     setAnchorEl(null);
   }
 
-  console.log(Boolean(anchorEl))
+  fetchApps()
 
   return (
     <div className={classes.root}>
@@ -56,15 +78,18 @@ function SimpleListMenu() {
         </ListItem>
       </List>
 
-      <Menu id="lock-menu" anchorEl={anchorEl} open={Boolean(anchorEl)} onClose={handleClose}>
+      <Menu id="lock-menu" anchorEl={anchorEl} 
+        open={Boolean(anchorEl)} 
+        onClose={handleClose}>
+
         {options.map((option, index) => (
           <MenuItem
-            key={option}
-            disabled={index === 0}
-            selected={index === selectedIndex}
-            onClick={event => handleMenuItemClick(event, index)}
+            key={option.key}
+            //disabled={index === 0}
+            selected={selectedIndex.key === option.key}
+            onClick={event => handleMenuItemClick(event, option)}
           >
-            {option}
+            {option.name}
           </MenuItem>
         ))}
       </Menu>
@@ -73,4 +98,14 @@ function SimpleListMenu() {
   );
 }
 
-export default SimpleListMenu;
+function mapStateToProps(state) {
+  const { app } = state
+  return {
+    app
+  }
+}
+
+export default withRouter(connect(mapStateToProps)(SimpleListMenu))
+
+
+//export default SimpleListMenu;

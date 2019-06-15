@@ -26,6 +26,7 @@ import app_user from '../actions/app_user'
 
 import conversations from '../actions/conversations'
 import conversation from '../actions/conversation'
+import current_user from '../actions/current_user'
 
 import Login from '../auth/login'
 
@@ -182,7 +183,8 @@ const rootReducer = combineReducers({
   app_users,
   app_user,
   conversation,
-  conversations
+  conversations,
+  current_user
 })
 
 
@@ -253,24 +255,22 @@ class MainRouter extends Component {
 
                 <div>
 
-                  {
-                    this.state.currentUser.email ?
-                      <App
-                        theme={theme}
-                        currentUser={this.state.currentUser}
-                        //currentApp={this.state.currentApp}
-                        //updateNavLinks={this.updateNavLinks}
-                        //navLinks={this.state.navLinks}
-                        //setCurrentApp={this.setCurrentApp}
-                        {...this.props}
-                        >
-           
-                      </App> : <Landing/>
-                  }
+                  <App
+                    theme={theme}
+                    //currentUser={store.getState().current_user}
+                    //currentApp={this.state.currentApp}
+                    //updateNavLinks={this.updateNavLinks}
+                    //navLinks={this.state.navLinks}
+                    //setCurrentApp={this.setCurrentApp}
+                    {...this.props}
+                    >
+       
+                  </App>
+                  
 
                   {
-                    !this.state.currentUser.email ?
-                    <Login/> : null
+                    /*!store.getState().current_user.email ?
+                    <Login/> : null*/
                   }
 
                 </div>

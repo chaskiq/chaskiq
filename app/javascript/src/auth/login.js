@@ -20,6 +20,7 @@ import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 
+import {getCurrentUser} from '../actions/current_user'
 
 class Login extends React.Component {
   constructor(props) {
@@ -29,13 +30,15 @@ class Login extends React.Component {
   handleSubmit(data) {
     const { email, password } = data //this.state
     this.props.dispatch(authenticate(email, password, ()=>{
-      this.currentUser()
+      this.getCurrentUser()
     }))
   }
 
   getCurrentUser = ()=>{
 
-    graphql(CURRENT_USER, {}, {
+    this.props.dispatch(getCurrentUser())
+
+    /*graphql(CURRENT_USER, {}, {
       success: (data)=>{
         this.setState({ 
           currentUser: data.userSession 
@@ -46,7 +49,7 @@ class Login extends React.Component {
         //window.location = "/users/sign_in"
         console.log("error!", data.data.errors);
       }
-    })
+    })*/
   }
 
   render() {
@@ -57,9 +60,9 @@ class Login extends React.Component {
           this.props.dispatch(signout())
         }}>sign out</button>
 
-        <button onClick={this.getCurrentUser}>
+        <GetUserDataButton onClick={this.getCurrentUser}>
           getUserData
-        </button>
+        </GetUserDataButton>
       </p>
     }
     return (
@@ -72,6 +75,15 @@ class Login extends React.Component {
       </div>
     )
   }
+}
+
+function GetUserDataButton(props){
+  
+  props.onClick()
+
+  return <button onClick={props.onClick}>
+          getUserData
+        </button>
 }
 
 
@@ -199,10 +211,11 @@ function SignIn(props) {
 
 
 function mapStateToProps(state) {
-  const { auth } = state
+  const { auth, current_user } = state
   const { loading, isAuthenticated } = auth
 
   return {
+    current_user,
     loading,
     isAuthenticated
   }

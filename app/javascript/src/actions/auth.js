@@ -6,6 +6,8 @@ const RECEIVED = 'auth/RECEIVED'
 const FAILED = 'auth/FAILED'
 const SIGNOUT = 'auth/SIGNOUT'
 
+import {clearCurrentUser} from './current_user'
+
 // Action Creators
 export function authenticate(email, password, cb) {
   return (dispatch, getState) => {
@@ -15,15 +17,16 @@ export function authenticate(email, password, cb) {
       method: 'POST',
       data: { user: {email, password} }
     }).then(response => {
-      const uid = response.headers['uid']
+      /*const uid = response.headers['uid']
       const client = response.headers['client']
       const accessToken = response.headers['access-token']
-      const expiry = response.headers['expiry']
+      const expiry = response.headers['expiry']*/
       const jwt = response.headers['authorization']
-      dispatch(successAuthentication(jwt, uid, client, accessToken, expiry))
+      dispatch(successAuthentication(jwt)) //, uid, client, accessToken, expiry))
 
       cb ? cb() : null
     }).catch(error => {
+      debugger
       dispatch(failAuthentication())
     })
   }
@@ -45,6 +48,7 @@ export function signout() {
       }
     }).then(response => {
       dispatch(doSignout())
+      dispatch(clearCurrentUser())
     }).catch(error => {
       console.log(error)
     })
@@ -59,8 +63,9 @@ function startAuthentication() {
   return { type: REQUEST }
 }
 
-function successAuthentication(jwt, uid, client, accessToken, expiry) {
-  return { type: RECEIVED, jwt, uid, client, accessToken, expiry }
+function successAuthentication(jwt){
+  //, uid, client, accessToken, expiry) {
+  return { type: RECEIVED, jwt} // uid, client, accessToken, expiry }
 }
 
 function failAuthentication() {

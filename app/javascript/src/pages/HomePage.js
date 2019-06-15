@@ -27,7 +27,7 @@ export default class HomePage extends Component {
     }
   }
 
-  componentDidUnmount() {
+  componentWillUnmount() {
     window.TourManagerEnabled = null
   }
 

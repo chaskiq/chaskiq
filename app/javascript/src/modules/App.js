@@ -20,6 +20,11 @@ import { withRouter } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { setApp } from '../actions/app'
 
+import Login from '../auth/login'
+import {signout} from '../actions/auth'
+
+import Pricing from '../pages/pricingPage'
+
 class Paperbase extends React.Component {
   state = {
     mobileOpen: false,
@@ -39,11 +44,22 @@ class Paperbase extends React.Component {
     this.setState(state => ({ mobileOpen: !state.mobileOpen }));
   };
 
+  handleSignout = ()=>{
+    this.props.dispatch(signout())
+  }
+
+  visitApp = (app)=>{
+    const url = `/apps/${app.key}`
+    this.props.history.push(url)
+  }
+
   render() {
     const { classes } = this.props;
     const { children } = this.props;
     const drawerWidth = 256;
+    
     return (
+        this.props.isAuthenticated && this.props.current_user.email ?
         <div className={classes.root}>
           <CssBaseline />
 
@@ -56,7 +72,7 @@ class Paperbase extends React.Component {
                     variant="temporary"
                     open={this.state.mobileOpen}
                     onClose={this.handleDrawerToggle}
-                    currentUser={this.props.currentUser}
+                    currentUser={this.props.current_user}
                     app={this.props.app}
                     
                   />
@@ -64,7 +80,7 @@ class Paperbase extends React.Component {
                 <Hidden xsDown implementation="css">
                   <Navigator 
                     PaperProps={{ style: { width: drawerWidth } }}
-                    currentUser={this.props.currentUser}
+                    currentUser={this.props.current_user}
                     app={this.props.app}
                  />
                 </Hidden>
@@ -72,9 +88,11 @@ class Paperbase extends React.Component {
           }
 
           <div className={classes.appContent}>
-            <Header 
+            <Header
+              signout={this.handleSignout}
+              visitApp={(app)=> this.visitApp(app)}
               onDrawerToggle={this.handleDrawerToggle} 
-              currentUser={this.props.currentUser}
+              currentUser={this.props.current_user}
             />
 
             <Switch>
@@ -86,7 +104,7 @@ class Paperbase extends React.Component {
               <Route exact path="/apps" render={(props) => (
                 <AppListContainer
                   {...props}
-                  currentUser={this.props.currentUser}
+                  currentUser={this.props.current_user}
                   //initialNavLinks={this.props.defaultNavLinks}
                   //navLinks={this.props.navLinks}
                   //updateNavLinks={this.props.updateNavLinks}
@@ -100,7 +118,7 @@ class Paperbase extends React.Component {
                   <p>
                   new app ere
                     {/*<NewApp
-                      currentUser={this.props.currentUser}
+                      currentUser={this.props.current_user}
                       {...props}
                     />*/}
 
@@ -118,11 +136,11 @@ class Paperbase extends React.Component {
                   //currentApp={this.props.currentApp}
                   //setCurrentApp={this.props.setCurrentApp}
                   //setCurrentApp={setApp}
-                  app={this.props.app}
-                  segment={this.props.segment}
-                  app_users={this.props.app_users}
-                  currentUser={this.props.currentUser}
-                  dispatch={this.props.dispatch}
+                  //app={this.props.app}
+                  //segment={this.props.segment}
+                  //app_users={this.props.app_users}
+                  //currentUser={this.props.current_user}
+                  //dispatch={this.props.dispatch}
                   //initialNavLinks={this.props.defaultNavLinks}
                   //navLinks={this.props.navLinks}
                   //updateNavLinks={this.props.updateNavLinks}
@@ -130,11 +148,13 @@ class Paperbase extends React.Component {
                 />
               )} />
 
+              <Route path="/pricing" component={Pricing}/>
+
             </Switch>
 
           </div>
 
-        </div>
+        </div> : <Login/>
       
     );
   }
@@ -146,11 +166,12 @@ Paperbase.propTypes = {
 
 
 function mapStateToProps(state) {
-  const { auth , app, segment, app_users } = state
+  const { auth , app, segment, app_users, current_user } = state
   const { loading, isAuthenticated } = auth
   return {
     segment,
     app_users,
+    current_user,
     app,
     loading,
     isAuthenticated
