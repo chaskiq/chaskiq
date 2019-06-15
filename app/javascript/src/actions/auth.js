@@ -7,7 +7,7 @@ const FAILED = 'auth/FAILED'
 const SIGNOUT = 'auth/SIGNOUT'
 
 // Action Creators
-export function authenticate(email, password) {
+export function authenticate(email, password, cb) {
   return (dispatch, getState) => {
     dispatch(startAuthentication())
     return axios({
@@ -21,6 +21,8 @@ export function authenticate(email, password) {
       const expiry = response.headers['expiry']
       const jwt = response.headers['authorization']
       dispatch(successAuthentication(jwt, uid, client, accessToken, expiry))
+
+      cb ? cb() : null
     }).catch(error => {
       dispatch(failAuthentication())
     })
@@ -81,7 +83,6 @@ export default function reducer(state = initialState, action = {}) {
         }
       )
     case RECEIVED:
-      debugger
       return Object.assign(
         {},
         state,
