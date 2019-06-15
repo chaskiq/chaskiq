@@ -6,12 +6,9 @@ import ListItemText from '@material-ui/core/ListItemText';
 import MenuItem from '@material-ui/core/MenuItem';
 import Menu from '@material-ui/core/Menu';
 
-import graphql from "../graphql/client"
-
-import { APPS } from "../graphql/queries"
-
 import { withRouter } from 'react-router-dom'
 import { connect } from 'react-redux'
+
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -33,24 +30,10 @@ function SimpleListMenu(props) {
   const classes = useStyles();
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [selectedIndex, setSelectedIndex] = React.useState(props.app || {} );
-  const [options, setOptions] = React.useState([])
-
 
   function handleClickListItem(event) {
     setAnchorEl(event.currentTarget);
   }
-
-  function fetchApps(){
-    graphql(APPS ,{} ,{
-      success: (data)=>{
-        setOptions(data.apps)
-      }, 
-      error: (error)=>{
-
-      }
-    })
-  }
-    
 
   function handleMenuItemClick(event, index) {
     setSelectedIndex(index);
@@ -65,8 +48,6 @@ function SimpleListMenu(props) {
   function fetchApp(){
     return `${props.app.name} ${props.app.key}`
   }
-
-  fetchApps()
 
   return (
     <div className={classes.root}>
@@ -86,7 +67,7 @@ function SimpleListMenu(props) {
         open={Boolean(anchorEl)} 
         onClose={handleClose}>
 
-        {options.map((option, index) => (
+        {props.options.map((option, index) => (
           <MenuItem
             key={option.key}
             //disabled={index === 0}

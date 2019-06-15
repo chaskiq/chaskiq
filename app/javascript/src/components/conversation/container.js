@@ -61,6 +61,8 @@ class ConversationContainerShow extends Component {
       appUser: {},
       subscription: false
     }
+
+    this.fetching = false
   }
 
   componentDidMount(){
@@ -78,8 +80,12 @@ class ConversationContainerShow extends Component {
   handleScroll = (e) => {
     let element = e.target
     if (element.scrollTop === 0) { // on top
-      if (this.props.conversation.meta.next_page)
-        this.getMessages( (item)=> this.scrollToItem(item) )
+      if (this.props.conversation.meta.next_page && !this.fetching)
+        this.fetching.true
+        this.getMessages( (item)=> {
+          this.scrollToItem(item)
+          this.fetching = false
+       })
     }
   }
 
