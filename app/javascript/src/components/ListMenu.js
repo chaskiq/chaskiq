@@ -62,6 +62,10 @@ function SimpleListMenu(props) {
     setAnchorEl(null);
   }
 
+  function fetchApp(){
+    return `${props.app.name} ${props.app.key}`
+  }
+
   fetchApps()
 
   return (
@@ -74,7 +78,7 @@ function SimpleListMenu(props) {
           aria-label="Switch application"
           onClick={handleClickListItem}
         >
-          <ListItemText primary="Switch application" secondary={options[selectedIndex]} />
+          <ListItemText primary="Switch application" secondary={fetchApp}/>
         </ListItem>
       </List>
 
