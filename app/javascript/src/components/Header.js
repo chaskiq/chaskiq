@@ -50,7 +50,7 @@ const styles = theme => {
 }
 
 function Header(props) {
-  const { classes, onDrawerToggle, signout, visitApp } = props;
+  const { classes, onDrawerToggle, signout, visitApp, apps } = props;
 
   return (
     <React.Fragment>
@@ -71,7 +71,7 @@ function Header(props) {
             </Hidden>
 
             <Grid item>
-              <ListMenu handleClick={visitApp}/>
+              <ListMenu handleClick={visitApp} options={apps}/>
             </Grid>
 
             <Grid item xs />

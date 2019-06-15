@@ -25,19 +25,46 @@ import {signout} from '../actions/auth'
 
 import Pricing from '../pages/pricingPage'
 
+
+import graphql from "../graphql/client"
+
+import { APPS } from "../graphql/queries"
+
 class Paperbase extends React.Component {
   state = {
     mobileOpen: false,
+    apps: []
   };
 
   static contextTypes = {
     router: PropTypes.object,
-    currentApp: PropTypes.object
+    currentApp: PropTypes.object,
   };
 
   /*static propTypes = {
     onNavResize: PropTypes.func,
   };*/
+
+  componentDidUpdate(prevProps){
+    if(prevProps.current_user.email != this.props.current_user.email){
+      this.fetchApps()
+    }
+  }
+
+  componentDidMount(){
+    this.fetchApps()
+  }
+
+ fetchApps = ()=>{
+    graphql(APPS ,{} ,{
+      success: (data)=>{
+        this.setState({apps: data.apps})
+      }, 
+      error: (error)=>{
+
+      }
+    })
+  }
 
 
   handleDrawerToggle = () => {
@@ -93,6 +120,7 @@ class Paperbase extends React.Component {
               visitApp={(app)=> this.visitApp(app)}
               onDrawerToggle={this.handleDrawerToggle} 
               currentUser={this.props.current_user}
+              apps={this.state.apps}
             />
 
             <Switch>
