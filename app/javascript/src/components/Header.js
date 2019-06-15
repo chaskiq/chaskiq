@@ -16,6 +16,7 @@ import Tooltip from '@material-ui/core/Tooltip';
 import Typography from '@material-ui/core/Typography';
 import { withStyles } from '@material-ui/core/styles';
 import ListMenu from './ListMenu'
+import gravatar from "gravatar"
 
 const lightColor = 'rgba(255, 255, 255, 0.7)';
 
@@ -49,7 +50,7 @@ const styles = theme => {
 }
 
 function Header(props) {
-  const { classes, onDrawerToggle } = props;
+  const { classes, onDrawerToggle, signout, visitApp } = props;
 
   return (
     <React.Fragment>
@@ -70,7 +71,7 @@ function Header(props) {
             </Hidden>
 
             <Grid item>
-              <ListMenu/>
+              <ListMenu handleClick={visitApp}/>
             </Grid>
 
             <Grid item xs />
@@ -91,12 +92,14 @@ function Header(props) {
               </Tooltip>
             </Grid>
             <Grid item>
-              <IconButton color="inherit" className={classes.iconButtonAvatar}>
+              <IconButton 
+                onClick={()=>{
+                  signout()
+                }}
+                color="inherit" 
+                className={classes.iconButtonAvatar}>
                 <Avatar className={classes.avatar} 
-                  src={
-                    `https://api.adorable.io/avatars/24/${encodeURIComponent(
-                     props.currentUser.email)}.png`
-                  }
+                  src={gravatar.url(props.currentUser.email)}
                 />
               </IconButton>
             </Grid>

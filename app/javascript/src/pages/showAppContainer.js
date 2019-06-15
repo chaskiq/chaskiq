@@ -481,7 +481,7 @@ class ShowAppContainer extends Component {
             render={(props) => (
                   <ConversationContainer
                     //app={this.props.app}
-                    currentUser={this.props.currentUser}
+                    //currentUser={this.props.currentUser}
                     actions={this.actions()}
                     {...props}
                   />
@@ -493,7 +493,7 @@ class ShowAppContainer extends Component {
             render={(props) => (
     
                   <CampaignContainer
-                    currentUser={this.props.currentUser}
+                    currentUser={this.props.current_user}
                     actions={this.actions()}
                     classes={props.classes}
                     {...props}
@@ -506,7 +506,7 @@ class ShowAppContainer extends Component {
               <Consumer>
                 {({ store, actions }) => (
                   <AppSettingsContainer
-                    currentUser={this.props.currentUser}
+                    currentUser={this.props.current_user}
                     store={store}
                     actions={actions}
                     {...props}
@@ -538,9 +538,10 @@ class ShowAppContainer extends Component {
 
 function mapStateToProps(state) {
 
-  const { auth, app, segment, app_user } = state
+  const { auth, app, segment, app_user, current_user } = state
   const { loading, isAuthenticated } = auth
   return {
+    current_user,
     app_user,
     segment,
     app,
@@ -549,8 +550,8 @@ function mapStateToProps(state) {
   }
 }
 
-export default ShowAppContainer
+//export default ShowAppContainer
 
-//export default withRouter(connect(mapStateToProps)(ShowAppContainer))
+export default withRouter(connect(mapStateToProps)(ShowAppContainer))
 
 
