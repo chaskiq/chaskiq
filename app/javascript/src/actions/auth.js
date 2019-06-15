@@ -19,7 +19,8 @@ export function authenticate(email, password) {
       const client = response.headers['client']
       const accessToken = response.headers['access-token']
       const expiry = response.headers['expiry']
-      dispatch(successAuthentication(uid, client, accessToken, expiry))
+      const jwt = response.headers['authorization']
+      dispatch(successAuthentication(jwt, uid, client, accessToken, expiry))
     }).catch(error => {
       dispatch(failAuthentication())
     })
@@ -56,8 +57,8 @@ function startAuthentication() {
   return { type: REQUEST }
 }
 
-function successAuthentication(uid, client, accessToken, expiry) {
-  return { type: RECEIVED, uid, client, accessToken, expiry }
+function successAuthentication(jwt, uid, client, accessToken, expiry) {
+  return { type: RECEIVED, jwt, uid, client, accessToken, expiry }
 }
 
 function failAuthentication() {
@@ -80,6 +81,7 @@ export default function reducer(state = initialState, action = {}) {
         }
       )
     case RECEIVED:
+      debugger
       return Object.assign(
         {},
         state,
@@ -89,6 +91,7 @@ export default function reducer(state = initialState, action = {}) {
           uid: action.uid,
           client: action.client,
           accessToken: action.accessToken,
+          jwt: action.jwt,
           expiry: action.expiry
         }
       )
