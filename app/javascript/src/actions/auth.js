@@ -11,9 +11,9 @@ export function authenticate(email, password) {
   return (dispatch, getState) => {
     dispatch(startAuthentication())
     return axios({
-      url: '/auth/sign_in',
+      url: '/users/sign_in.json',
       method: 'POST',
-      data: { email, password }
+      data: { user: {email, password} }
     }).then(response => {
       const uid = response.headers['uid']
       const client = response.headers['client']
@@ -33,7 +33,7 @@ export function signout() {
     const { auth } = getState()
 
     return axios({
-      url: '/auth/sign_out',
+      url: '/users/sign_out.json',
       method: 'DELETE',
       headers: {
         'access-token': auth.accessToken,
