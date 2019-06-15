@@ -137,7 +137,7 @@ class ConversationContainerShow extends Component {
       channel: "ConversationsChannel",
       app: this.props.app.key,
       id: id,
-      email: this.props.currentUser.email,
+      email: this.props.current_user.email,
       inner_app: true,
     },
     {
@@ -294,7 +294,7 @@ class ConversationContainerShow extends Component {
                             return <MessageItemWrapper 
                                       key={o.id} 
                                       data={o} 
-                                      email={this.props.currentUser.email}>
+                                      email={this.props.current_user.email}>
 
                                       <ChatMessageItem 
                                         id={`message-id-${o.id}`}
@@ -422,12 +422,13 @@ class MessageItemWrapper extends Component {
 
 function mapStateToProps(state) {
 
-  const { auth, app, conversation, app_user } = state
+  const { auth, app, conversation, app_user , current_user} = state
   const { isAuthenticated } = auth
   const { messages, loading } = conversation
 
   return {
     conversation,
+    current_user,
     messages,
     loading,
     app_user,
