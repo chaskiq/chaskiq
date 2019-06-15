@@ -140,4 +140,8 @@ gem "bugsnag", "~> 6.11"
 gem "graphql", "~> 1.9"
 
 gem 'graphiql-rails', group: :development
-gem "devise_token_auth", "~> 1.1"
+
+gem 'devise-jwt', '~> 0.5.9'
+
+#gem "devise_token_auth", path: '/Users/michelson/Documents/ruby/devise_token_auth'
+#github: "lynndylanhurley/devise_token_auth" #{}"~> 1.1"
