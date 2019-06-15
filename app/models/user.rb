@@ -10,8 +10,8 @@ class User < ApplicationRecord
          jwt_revocation_strategy: self
 
 
-  has_many :app_users
-  has_many :roles
+  has_many :app_users, dependent: :destroy
+  has_many :roles, dependent: :destroy
   has_many :apps, through: :roles, source: :app
 
 end
