@@ -70,7 +70,7 @@ export const ActivityAvatar = styled.div`
 export const Overflow = styled.div`
   overflow: auto;
   //height: 100vh;
-  height: calc(100vh - 172px);
+  height: calc(100vh - 150px);
 `
 export const ActivityIndicator = styled.span`
   position: absolute;

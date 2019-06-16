@@ -142,7 +142,6 @@ export function insertNote(key, cb){
 export function appendMessage(data, cb){
   return (dispatch, getState)=>{
 
-
     const newData = camelizeKeys(data)
 
     // update existing message
