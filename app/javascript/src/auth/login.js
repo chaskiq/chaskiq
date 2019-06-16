@@ -22,6 +22,14 @@ import Container from '@material-ui/core/Container';
 
 import {getCurrentUser} from '../actions/current_user'
 
+import logo from '../images/logo'
+
+import Snackbar from '../components/snackbar'
+
+import {
+  Link as RouteLink
+} from 'react-router-dom'
+
 class Login extends React.Component {
   constructor(props) {
     super(props)
@@ -90,9 +98,9 @@ function GetUserDataButton(props){
 function MadeWithLove() {
   return (
     <Typography variant="body2" color="textSecondary" align="center">
-      {'Built with love by the '}
+      {'Built with love by the'}
       <Link color="inherit" href="https://chaskiqapp.com/">
-        Chasqis
+        Chasqik Team
       </Link>
       {' team.'}
     </Typography>
@@ -113,7 +121,14 @@ const useStyles = makeStyles(theme => ({
   },
   avatar: {
     margin: theme.spacing(1),
-    backgroundColor: theme.palette.secondary.main,
+    backgroundColor: 'transparent',
+    height: '120px',
+    width: '120px',
+    borderRadius: '0%'
+  },
+  logo: {
+    height: '100%',
+    width: '100%'
   },
   form: {
     width: '100%', // Fix IE 11 issue.
@@ -139,11 +154,14 @@ function SignIn(props) {
       <CssBaseline />
       <div className={classes.paper}>
         <Avatar className={classes.avatar}>
-          <LockOutlinedIcon />
+          {/*<LockOutlinedIcon />*/}
+          <img className={classes.logo} src={logo}/>
         </Avatar>
         <Typography component="h1" variant="h5">
           Sign in
         </Typography>
+
+        <Snackbar/>
 
         <form className={classes.form} noValidate onSubmit={handleSubmit}>
           <TextField
@@ -188,12 +206,12 @@ function SignIn(props) {
           </Button>
           <Grid container>
             <Grid item xs>
-              <Link href="#" variant="body2">
+              <Link href="/forgot" variant="body2">
                 Forgot password?
               </Link>
             </Grid>
             <Grid item>
-              <Link href="#" variant="body2">
+              <Link href="/signup" variant="body2">
                 {"Don't have an account? Sign Up"}
               </Link>
             </Grid>

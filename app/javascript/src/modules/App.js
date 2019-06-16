@@ -30,6 +30,8 @@ import graphql from "../graphql/client"
 
 import { APPS } from "../graphql/queries"
 
+import Snackbar from '../components/snackbar'
+
 class Paperbase extends React.Component {
   state = {
     mobileOpen: false,
@@ -65,7 +67,6 @@ class Paperbase extends React.Component {
       }
     })
   }
-
 
   handleDrawerToggle = () => {
     this.setState(state => ({ mobileOpen: !state.mobileOpen }));

@@ -5,6 +5,8 @@ import {
   CURRENT_USER
 } from "../graphql/queries"
 
+import {signout} from './auth'
+
 
 // Actions
 const SET_CURRENT_USER = 'auth/SET_CURRENT_USER'
@@ -17,8 +19,11 @@ export function getCurrentUser() {
         dispatch(successAuthentication(data.userSession ))
       },
       error: (data)=>{
+        console.error("error retriving current user. Sign out!", 
+          data.data.errors)
+        dispatch(signout())
         //window.location = "/users/sign_in"
-        console.log("error!", data.data.errors);
+        //console.log("error!", data.data.errors);
       }
     })
   }

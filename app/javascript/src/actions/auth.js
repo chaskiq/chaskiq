@@ -6,6 +6,8 @@ const RECEIVED = 'auth/RECEIVED'
 const FAILED = 'auth/FAILED'
 const SIGNOUT = 'auth/SIGNOUT'
 
+import {errorMessage} from './status_messages'
+
 import {clearCurrentUser} from './current_user'
 
 // Action Creators
@@ -25,8 +27,9 @@ export function authenticate(email, password, cb) {
       dispatch(successAuthentication(jwt)) //, uid, client, accessToken, expiry))
 
       cb ? cb() : null
-    }).catch(error => {
-      debugger
+    }).catch(data => {
+      const err = data.response.data ? data.response.data.error : 'error!'
+      dispatch(errorMessage(err))
       dispatch(failAuthentication())
     })
   }

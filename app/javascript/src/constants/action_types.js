@@ -18,6 +18,8 @@ const actionTypes = {
   UpdateConversations: 'UPDATE_CONVERSATIONS',
   
   UpdateConversation: 'UPDATE_CONVERSATION',
+
+  SetStatusMessage: 'SET_STATUS_MESSAGE',
 };
 
 export default actionTypes;

@@ -27,8 +27,10 @@ import app_user from '../actions/app_user'
 import conversations from '../actions/conversations'
 import conversation from '../actions/conversation'
 import current_user from '../actions/current_user'
+import status_message from '../actions/status_messages'
 
 import Login from '../auth/login'
+import SignUp from '../auth/signUp'
 
 const defaultNavOpts = {
   isOpen: false,
@@ -184,7 +186,8 @@ const rootReducer = combineReducers({
   app_user,
   conversation,
   conversations,
-  current_user
+  current_user,
+  status_message,
 })
 
 
@@ -251,32 +254,25 @@ class MainRouter extends Component {
           <MuiThemeProvider theme={theme}>
             <BrowserRouter>
               
-                <React.Fragment>
+              <Switch>
+                
 
-                <div>
+                <Route exact 
+                  path="/signup" 
+                  component={SignUp} 
+                />
 
-                  <App
-                    theme={theme}
-                    //currentUser={store.getState().current_user}
-                    //currentApp={this.state.currentApp}
-                    //updateNavLinks={this.updateNavLinks}
-                    //navLinks={this.state.navLinks}
-                    //setCurrentApp={this.setCurrentApp}
-                    {...this.props}
-                    >
-       
-                  </App>
-                  
+                <Route render={(props)=>(
+                    <App
+                      theme={theme}
+                      {...this.props}
+                      {...props}
+                      >
+                    </App>
+                  )}>
+                </Route>
 
-                  {
-                    /*!store.getState().current_user.email ?
-                    <Login/> : null*/
-                  }
-
-                </div>
-
-
-                </React.Fragment>
+              </Switch>
               
             </BrowserRouter>
           </MuiThemeProvider>
