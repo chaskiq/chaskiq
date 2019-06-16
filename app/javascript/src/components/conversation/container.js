@@ -144,6 +144,7 @@ class ConversationContainerShow extends Component {
       app: this.props.app.key,
       id: id,
       email: this.props.current_user.email,
+      jwt: this.props.jwt,
       inner_app: true,
     },
     {
@@ -431,8 +432,10 @@ function mapStateToProps(state) {
   const { auth, app, conversation, app_user , current_user} = state
   const { isAuthenticated } = auth
   const { messages, loading } = conversation
+  const {jwt} = auth
 
   return {
+    jwt,
     conversation,
     current_user,
     messages,

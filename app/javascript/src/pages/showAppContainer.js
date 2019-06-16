@@ -434,7 +434,6 @@ class ShowAppContainer extends Component {
 
   render(){
     const {classes} = this.props
-    console.log("show app container props", this.props)
 
     if(!this.props.app)
       return <p>loading this mdfk</p>

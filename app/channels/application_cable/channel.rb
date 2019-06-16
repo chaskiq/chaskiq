@@ -2,8 +2,10 @@ module ApplicationCable
   class Channel < ActionCable::Channel::Base
 
     def get_user_data
+
       if params[:inner_app].present?
-        user = self.connection.env['warden'].user
+        user = authorize_by_jwt
+        # self.connection.env['warden'].user
         @user_data = user.attributes.slice("email").symbolize_keys
         return if @user_data.present?
       end
@@ -13,6 +15,12 @@ module ApplicationCable
       else
         @user_data = get_user_from_unencrypted
       end
+    end
+
+    def authorize_by_jwt
+      token = params["jwt"].gsub("Bearer ", "")
+      Warden::JWTAuth::UserDecoder.new.call(
+      token, :user, nil)
     end
 
     def authorize_by_encrypted_params
