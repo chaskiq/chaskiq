@@ -164,7 +164,7 @@ export function appendMessage(data, cb){
 
     } else {
 
-      if (getState().auth.uid !== newData.appUser.email) {
+      if (getState().current_user.email !== newData.appUser.email) {
         playSound()
       }
 
