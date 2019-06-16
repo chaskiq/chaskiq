@@ -30,7 +30,7 @@ import current_user from '../actions/current_user'
 import status_message from '../actions/status_messages'
 
 import Login from '../auth/login'
-import SignUp from '../auth/signUp'
+import SignUp from '../auth/signup'
 
 const defaultNavOpts = {
   isOpen: false,
