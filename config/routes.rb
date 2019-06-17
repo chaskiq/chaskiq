@@ -1,7 +1,7 @@
 require 'sidekiq/web'
 Rails.application.routes.draw do
   
-  devise_for :agents
+  
   #mount_devise_token_auth_for 'User', at: 'auth'
 
   if Rails.env.development?
@@ -11,6 +11,7 @@ Rails.application.routes.draw do
   mount Sidekiq::Web => '/sidekiq'
   #resources :campaigns
   devise_for :users
+  devise_for :agents
 
   resources :attachments, controller: 'campaigns/attachments'
 

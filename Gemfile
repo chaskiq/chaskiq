@@ -86,6 +86,8 @@ group :development do
   gem 'capistrano-sidekiq'
 end
 
+gem 'faker', github: "stympy/faker", group: [:development, :test]
+
 group :test do
   # Adds support for Capybara system testing and selenium driver
   gem 'capybara', '>= 2.15', '< 4.0'
@@ -103,7 +105,6 @@ group :test do
   gem 'database_cleaner'
   gem 'shoulda'
   gem 'shoulda-matchers'
-  gem 'faker', github: "stympy/faker"
 
 end
 
