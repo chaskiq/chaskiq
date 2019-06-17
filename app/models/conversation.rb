@@ -1,7 +1,7 @@
 class Conversation < ApplicationRecord
   belongs_to :app
-  belongs_to :assignee, class_name: 'User', optional: true
-  belongs_to :main_participant, class_name: "AppUser" #, foreign_key: "user_id"
+  belongs_to :assignee, class_name: 'Agent', optional: true
+  belongs_to :main_participant, class_name: "AppUser", optional: true #, foreign_key: "user_id"
   has_many :messages, class_name: "ConversationPart", dependent: :destroy
 
   include AASM
@@ -27,7 +27,6 @@ class Conversation < ApplicationRecord
   end
 
   def add_message(opts={})
-
     part = process_message_part(opts)
     part.save
     
@@ -52,7 +51,8 @@ class Conversation < ApplicationRecord
 
   def process_message_part(opts)
     part          = self.messages.new
-    part.app_user = opts[:from]
+    part.authorable = opts[:from]
+    #part.app_user = opts[:from]
     part.message  = opts[:message]
     part.message_source = opts[:message_source] if opts[:message_source]
     part.email_message_id = opts[:email_message_id]
@@ -79,7 +79,7 @@ class Conversation < ApplicationRecord
 
   #TODO: give use choose this logic
   def add_default_assigne
-    self.assignee = self.app.admin_users.first
+    self.assignee = self.app.agents.first
   end
 
 end

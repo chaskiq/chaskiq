@@ -10,8 +10,9 @@ class App < ApplicationRecord
   has_many :users, through: :app_users
   has_many :conversations
   has_many :segments
+
   has_many :roles
-  has_many :admin_users, through: :roles, source: :user
+  has_many :agents, through: :roles
   has_many :campaigns
   has_many :user_auto_messages
   has_many :tours
@@ -54,6 +55,28 @@ class App < ApplicationRecord
     ap.last_visited_at = Time.now
     ap.save
     ap
+  end
+
+  def add_agent(attrs)
+
+    email = attrs.delete(:email)
+    user = Agent.find_or_initialize_by(email: email)
+    #user.skip_confirmation!
+    if user.new_record?
+      user.password = Devise.friendly_token[0,20]
+      user.save
+    end
+
+    role = roles.find_or_initialize_by(agent_id: user.id)
+    data = attrs.deep_merge!(properties: user.properties)
+    
+    user.assign_attributes(data)
+    user.save
+
+    #role.last_visited_at = Time.now
+    role.save
+    role
+
   end
 
   def add_admin(user)

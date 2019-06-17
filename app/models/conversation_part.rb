@@ -1,11 +1,19 @@
 class ConversationPart < ApplicationRecord
   belongs_to :conversation, :touch => true
-  belongs_to :app_user
+  #belongs_to :app_user, optional: true # todo: to be removed
   belongs_to :message_source, optional: true, class_name: "Message", foreign_key: :message_id
+
+
+  belongs_to :messageable, polymorphic: true, optional: true
+  belongs_to :authorable, polymorphic: true, optional: true
 
   after_create :enqueue_email_notification, unless: :send_constraints?
 
   scope :visibles, ->{ where("private_note is null")}
+
+  def app_user
+    self.authorable
+  end
 
   def read!
     return if self.read?

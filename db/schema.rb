@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_06_15_033656) do
+ActiveRecord::Schema.define(version: 2019_06_17_014637) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -43,6 +43,33 @@ ActiveRecord::Schema.define(version: 2019_06_15_033656) do
     t.string "checksum", null: false
     t.datetime "created_at", null: false
     t.index ["key"], name: "index_active_storage_blobs_on_key", unique: true
+  end
+
+  create_table "agents", force: :cascade do |t|
+    t.string "email", default: "", null: false
+    t.string "encrypted_password", default: "", null: false
+    t.string "reset_password_token"
+    t.datetime "reset_password_sent_at"
+    t.datetime "remember_created_at"
+    t.integer "sign_in_count", default: 0, null: false
+    t.datetime "current_sign_in_at"
+    t.datetime "last_sign_in_at"
+    t.inet "current_sign_in_ip"
+    t.inet "last_sign_in_ip"
+    t.string "confirmation_token"
+    t.datetime "confirmed_at"
+    t.datetime "confirmation_sent_at"
+    t.string "unconfirmed_email"
+    t.integer "failed_attempts", default: 0, null: false
+    t.string "unlock_token"
+    t.datetime "locked_at"
+    t.jsonb "properties", default: {}, null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["confirmation_token"], name: "index_agents_on_confirmation_token", unique: true
+    t.index ["email"], name: "index_agents_on_email", unique: true
+    t.index ["reset_password_token"], name: "index_agents_on_reset_password_token", unique: true
+    t.index ["unlock_token"], name: "index_agents_on_unlock_token", unique: true
   end
 
   create_table "app_users", force: :cascade do |t|
@@ -123,9 +150,15 @@ ActiveRecord::Schema.define(version: 2019_06_15_033656) do
     t.integer "message_id"
     t.string "email_message_id"
     t.boolean "private_note"
+    t.string "authorable_type"
+    t.bigint "authorable_id"
+    t.string "messageable_type"
+    t.bigint "messageable_id"
     t.index ["app_user_id"], name: "index_conversation_parts_on_app_user_id"
+    t.index ["authorable_type", "authorable_id"], name: "index_conversation_parts_on_authorable_type_and_authorable_id"
     t.index ["conversation_id"], name: "index_conversation_parts_on_conversation_id"
     t.index ["message_id"], name: "index_conversation_parts_on_message_id"
+    t.index ["messageable_type", "messageable_id"], name: "index_conversation_parts_on_messageable_type_and_messageable_id"
     t.index ["source"], name: "index_conversation_parts_on_source"
   end
 
@@ -216,12 +249,12 @@ ActiveRecord::Schema.define(version: 2019_06_15_033656) do
 
   create_table "roles", force: :cascade do |t|
     t.bigint "app_id"
-    t.bigint "user_id"
+    t.bigint "agent_id"
     t.string "role"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["agent_id"], name: "index_roles_on_agent_id"
     t.index ["app_id"], name: "index_roles_on_app_id"
-    t.index ["user_id"], name: "index_roles_on_user_id"
   end
 
   create_table "segments", force: :cascade do |t|
@@ -271,6 +304,6 @@ ActiveRecord::Schema.define(version: 2019_06_15_033656) do
   add_foreign_key "conversation_parts", "app_users"
   add_foreign_key "conversation_parts", "conversations"
   add_foreign_key "conversations", "apps"
+  add_foreign_key "roles", "agents"
   add_foreign_key "roles", "apps"
-  add_foreign_key "roles", "users"
 end

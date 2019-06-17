@@ -58,6 +58,7 @@ An the content of the campaign is managed with a state of the art wysiwyg text e
 
 ## references:
 
++ https://frontapp.com
 + https://www.drift.com/
 + www.jivochat.cl/‎
 + https://www.tawk.to/
@@ -74,6 +75,7 @@ An the content of the campaign is managed with a state of the art wysiwyg text e
 
 + https://ipgeolocation.io/pricing.html
 + https://www.fullcontact.com/pricing-plans/
++ https://clearbit.com/pricing
 
 + https://www.intercom.com/help/articles/277-where-do-the-social-profiles-come-from
 

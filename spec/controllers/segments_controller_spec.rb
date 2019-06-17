@@ -34,6 +34,8 @@ RSpec.describe SegmentsController, type: :controller do
     FactoryGirl.create :app
   }
 
+  describe pending do
+
   describe "GET #index" do
     it "returns a success response" do
       app.segments.create! valid_attributes
@@ -175,6 +177,8 @@ RSpec.describe SegmentsController, type: :controller do
       delete :destroy, params: {app_id: app.key, id: segment.to_param}, session: valid_session
       expect(response).to be_redirect #_to(:index)
     end
+  end
+
   end
 
 end

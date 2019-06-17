@@ -20,7 +20,31 @@ export const UPDATE_APP = `
       }
     }
   }
-`
+`;
+
+export const DESTROY_APP = `
+  mutation AppsUpdate($appKey: String!){
+    appsDestroy(input: {appKey: $appKey}){
+      errors
+      app{
+        encryptionKey
+        key
+        name
+        preferences
+        configFields
+        theme
+        activeMessenger
+        segments {
+          name
+          id
+          properties
+        }
+        state
+        tagline
+      }
+    }
+  }
+`;
 
 export const CREATE_APP = `
   mutation AppsCreate($appParams: Json!, $operation: String){
@@ -39,7 +63,7 @@ export const CREATE_APP = `
       }
     }
   }
-`
+`;
 
 export const INSERT_COMMMENT = `
   mutation InsertComment($appKey: String!, $id: Int!, $message: String!){
@@ -154,7 +178,7 @@ export const TOGGLE_CONVERSATION_PRIORITY = `
       }
     }
   }
-`
+`;
 
 export const UPDATE_CAMPAIGN = `
   mutation UpdateCampaign($appKey: String!, $id: Int!, $campaignParams: Json!){
@@ -180,7 +204,7 @@ export const UPDATE_CAMPAIGN = `
       }
     }
   }
-`
+`;
 
 export const CREATE_CAMPAIGN = `
   mutation CreateCampaign($appKey: String!, $campaignParams: Json!, $operation: String, $mode: String!){
@@ -206,7 +230,7 @@ export const CREATE_CAMPAIGN = `
       }
     }
   }
-`
+`;
 
 export const PREDICATES_SEARCH = `
   mutation PredicatesSearch($appKey: String!, $search: Json!, $page: Int, $per: Int){
@@ -225,7 +249,7 @@ export const PREDICATES_SEARCH = `
       }
     }
   }
-`
+`;
 
 export const PREDICATES_DELETE = `
   mutation PredicatesDelete($appKey: String!, $id: Int,){
@@ -235,7 +259,7 @@ export const PREDICATES_DELETE = `
       }
     }
   }
-`
+`;
 
 
 export const PREDICATES_CREATE = `
@@ -253,7 +277,7 @@ export const PREDICATES_CREATE = `
       }
     }
   }
-`
+`;
 
 
 export const PREDICATES_UPDATE = `
@@ -270,4 +294,5 @@ export const PREDICATES_UPDATE = `
         }
       }
     }
-  }`
+  }
+`;
