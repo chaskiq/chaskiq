@@ -22,6 +22,12 @@ RSpec.describe App, type: :model do
     expect(app.app_users.first.first_name).to be_present  
   end
 
+  it "create an agent" do 
+    app.add_agent({email: "test@test.cl", first_name: "dsdsa"})
+    expect(app.agents).to be_any   
+    expect(app.agents.first.first_name).to be_present  
+  end
+
   describe "existing user" do 
 
     before do 

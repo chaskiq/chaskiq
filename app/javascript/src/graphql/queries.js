@@ -7,7 +7,7 @@ query Apps{
     tagline
   }  
 }
-`
+`;
 
 export const APP = `
   query App($appKey: String!){
@@ -29,7 +29,7 @@ export const APP = `
       tagline
     }
   }
-`
+`;
 
 export const AGENTS = `
   query App($appKey: String!){
@@ -40,7 +40,7 @@ export const AGENTS = `
       }
     }
   }
-`
+`;
 
 export const SEGMENT = `
   query App($appKey: String!, $id: Int!){
@@ -57,7 +57,7 @@ export const SEGMENT = `
       }
     }
   }
-`
+`;
 
 
 export const CONVERSATIONS = `
@@ -97,7 +97,7 @@ export const CONVERSATIONS = `
       }
     }
   }
-`
+`;
 
 export const CONVERSATION=`
   query App($appKey: String!, $id: Int!, $page: Int){
@@ -148,8 +148,7 @@ export const CONVERSATION=`
     }
   }
 }
-
-`
+`;
 
 export const CURRENT_USER = `
   query CurrentUser {
@@ -157,7 +156,7 @@ export const CURRENT_USER = `
       email
     }
   }
-`
+`;
 
 export const APP_USER = `
 query AppUser($appKey: String!, $id: Int! ) {
@@ -186,7 +185,7 @@ query AppUser($appKey: String!, $id: Int! ) {
     }
   }
 }
-`
+`;
 
 
 export const CAMPAIGNS = `
@@ -212,7 +211,8 @@ query Campaigns($appKey: String!, $mode: String!){
       meta
     }
   }
-}`
+}
+`;
 
 export const CAMPAIGN = `
 query Campaign($appKey: String!, $mode: String!, $id: Int!){
@@ -236,7 +236,8 @@ query Campaign($appKey: String!, $mode: String!, $id: Int!){
       replyEmail
     }
   }
-}`
+}
+`;
 
 export const CAMPAIGN_METRICS = `
 query Campaign($appKey: String!, $mode: String!, $id: Int!, $page: Int, $per: Int){
@@ -250,4 +251,5 @@ query Campaign($appKey: String!, $mode: String!, $id: Int!, $page: Int, $per: In
       }
     }
   }
-}`
+}
+`;

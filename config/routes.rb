@@ -1,6 +1,7 @@
 require 'sidekiq/web'
 Rails.application.routes.draw do
   
+  devise_for :agents
   #mount_devise_token_auth_for 'User', at: 'auth'
 
   if Rails.env.development?
@@ -69,6 +70,10 @@ Rails.application.routes.draw do
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
 
   get "tester" => 'client_tester#show'
+  get "tester/:id" => 'client_tester#show'
+  get "tester/:id/:id2" => 'client_tester#show'
+  get "tester/:id/:id2/id3" => 'client_tester#show'
+  get "tester/:id/:id2/id3/:id4" => 'client_tester#show'
 
 
 
