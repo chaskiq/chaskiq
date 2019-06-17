@@ -8,53 +8,6 @@ GIT
       request_store (~> 1.0)
 
 GIT
-  remote: https://github.com/rspec/rspec-core.git
-  revision: 0b4c98d1c1915b636f635c5a88e6ca59c8cdf049
-  branch: master
-  specs:
-    rspec-core (3.9.0.pre)
-      rspec-support (= 3.9.0.pre)
-
-GIT
-  remote: https://github.com/rspec/rspec-expectations.git
-  revision: 03af89d886a6ee27b862082913da0db6226956c5
-  branch: master
-  specs:
-    rspec-expectations (3.9.0.pre)
-      diff-lcs (>= 1.2.0, < 2.0)
-      rspec-support (= 3.9.0.pre)
-
-GIT
-  remote: https://github.com/rspec/rspec-mocks.git
-  revision: 4f6f4131fd24d1a89ba389216e213dd4c95f4646
-  branch: master
-  specs:
-    rspec-mocks (3.9.0.pre)
-      diff-lcs (>= 1.2.0, < 2.0)
-      rspec-support (= 3.9.0.pre)
-
-GIT
-  remote: https://github.com/rspec/rspec-rails
-  revision: d3f8915dc80a5e98e4b34e264f4a08a487b0293d
-  branch: 4-0-dev
-  specs:
-    rspec-rails (4.0.0.pre)
-      actionpack (>= 4.2)
-      activesupport (>= 4.2)
-      railties (>= 4.2)
-      rspec-core (= 3.9.0.pre)
-      rspec-expectations (= 3.9.0.pre)
-      rspec-mocks (= 3.9.0.pre)
-      rspec-support (= 3.9.0.pre)
-
-GIT
-  remote: https://github.com/rspec/rspec-support.git
-  revision: 3a6ec66d32683e99c449a7b2f7f73e2edd7b6036
-  branch: master
-  specs:
-    rspec-support (3.9.0.pre)
-
-GIT
   remote: https://github.com/stympy/faker.git
   revision: 1a39a9a76aa9a040466ba9ee944dc2aae1ea84de
   specs:
@@ -393,6 +346,23 @@ GEM
     roo (2.8.2)
       nokogiri (~> 1)
       rubyzip (>= 1.2.1, < 2.0.0)
+    rspec-core (3.8.1)
+      rspec-support (~> 3.8.0)
+    rspec-expectations (3.8.4)
+      diff-lcs (>= 1.2.0, < 2.0)
+      rspec-support (~> 3.8.0)
+    rspec-mocks (3.8.1)
+      diff-lcs (>= 1.2.0, < 2.0)
+      rspec-support (~> 3.8.0)
+    rspec-rails (3.8.2)
+      actionpack (>= 3.0)
+      activesupport (>= 3.0)
+      railties (>= 3.0)
+      rspec-core (~> 3.8.0)
+      rspec-expectations (~> 3.8.0)
+      rspec-mocks (~> 3.8.0)
+      rspec-support (~> 3.8.0)
+    rspec-support (3.8.2)
     ruby-oembed (0.12.0)
     ruby_dep (1.5.0)
     rubyzip (1.2.2)
@@ -546,11 +516,11 @@ DEPENDENCIES
   redis (~> 4.0)
   roadie
   roo
-  rspec-core!
-  rspec-expectations!
-  rspec-mocks!
-  rspec-rails!
-  rspec-support!
+  rspec-core
+  rspec-expectations
+  rspec-mocks
+  rspec-rails
+  rspec-support
   ruby-oembed
   sass-rails (~> 5.0)
   selenium-webdriver
