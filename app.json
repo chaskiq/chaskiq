@@ -2,8 +2,8 @@
   "environments": {
     "test": {
       "addons":[
-         "heroku-redis",
-         "heroku-postgresql"
+        "heroku-redis",
+        "heroku-postgresql"
       ]
     }
   }
