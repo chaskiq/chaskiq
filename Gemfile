@@ -94,10 +94,10 @@ group :test do
   gem 'chromedriver-helper'
 
 
-  gem 'rspec-rails', git: 'https://github.com/rspec/rspec-rails', branch: '4-0-dev'
+  gem 'rspec-rails' #, git: 'https://github.com/rspec/rspec-rails', branch: '4-0-dev'
 
   %w[rspec-core rspec-expectations rspec-mocks rspec-support].each do |lib|
-    gem lib, :git => "https://github.com/rspec/#{lib}.git", :branch => 'master'
+    gem lib #, :git => "https://github.com/rspec/#{lib}.git", :branch => 'master'
   end
   gem 'factory_girl_rails'
   gem 'database_cleaner'
