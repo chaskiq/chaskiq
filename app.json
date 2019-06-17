@@ -1,0 +1,10 @@
+{
+  "environments": {
+    "test": {
+      "addons":[
+         "heroku-redis",
+         "heroku-postgresql"
+      ]
+    }
+  }
+}
