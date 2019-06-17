@@ -16,6 +16,7 @@ module Types
     end
 
     def app(key:)
+      
       @app = current_user.apps.find_by(key: key)
     end
 

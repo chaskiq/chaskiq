@@ -6,12 +6,16 @@ class ConversationsChannel < ApplicationCable::Channel
 
     get_user_data
 
-    @app_user = @app.app_users
+    if @user_data[:agent]
+      @app_user = @app.agents.find_by(email: @user_data[:email])
+    else
+      @app_user = @app.app_users
                     .joins(:user)
                     .where("users.email =?", @user_data[:email])
                     .first
+      #@user     = @app_user.user
+    end
 
-    @user     = @app_user.user
     @key      = "conversations:#{@app.key}-#{@conversation.id}"
     stream_from @key
   end
@@ -20,16 +24,12 @@ class ConversationsChannel < ApplicationCable::Channel
     # Any cleanup needed when channel is unsubscribed
   end
 
-  def receive(data)
-    #app_user = @app.app_users
-    #               .joins(:user)
-    #               .find_by("users.email": data["email"])
-
-           
+  def receive(data)   
     message = @conversation.messages.find(data["id"])
-    # right now is the only way to know if the read is from the reader and not the messages's author
-    if message.app_user_id != @app_user.id
+
+    if message.authorable != @app_user
       message.read!
     end
+
   end
 end

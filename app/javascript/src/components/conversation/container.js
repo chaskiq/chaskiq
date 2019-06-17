@@ -217,7 +217,7 @@ class ConversationContainerShow extends Component {
   }
 
   render(){
-    
+
     return <Fragment>
           
             <GridElement grow={2}>
@@ -295,8 +295,7 @@ class ConversationContainerShow extends Component {
                         {
                           this.props.conversation.collection.map( (o, i)=> {
 
-                            const userOrAdmin = this.props.conversation.mainParticipant.email === o.appUser.email ? 
-                                          'user' : 'admin'
+                            const userOrAdmin = o.appUser.kind === 'agent' ? 'admin' : 'user'
                
                             return <MessageItemWrapper 
                                       key={o.id} 
