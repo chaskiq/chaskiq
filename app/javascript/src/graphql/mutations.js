@@ -72,8 +72,9 @@ export const INSERT_COMMMENT = `
         message
         readAt
         appUser{
+          id
           email
-          properties
+          kind
         }
         source
         messageSource {
@@ -97,8 +98,9 @@ export const INSERT_NOTE = `
         readAt
         createdAt
         appUser{
+          id
           email
-          properties
+          kind
         }
         source
         messageSource {

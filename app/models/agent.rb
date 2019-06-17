@@ -22,4 +22,7 @@ class Agent < ApplicationRecord
     :region_code 
   ]
 
+  def kind
+    self.class.model_name.singular
+  end
 end

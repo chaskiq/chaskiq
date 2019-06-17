@@ -6,7 +6,8 @@ module ApplicationCable
       if params[:inner_app].present?
         user = authorize_by_jwt
         # self.connection.env['warden'].user
-        @user_data = user.attributes.slice("email").symbolize_keys
+        user.class.model_name.singular
+        @user_data = user.attributes.slice("email" ).symbolize_keys.merge({agent: true})
         return if @user_data.present?
       end
 
@@ -20,7 +21,7 @@ module ApplicationCable
     def authorize_by_jwt
       token = params["jwt"].gsub("Bearer ", "")
       Warden::JWTAuth::UserDecoder.new.call(
-      token, :user, nil)
+      token, :agent, nil)
     end
 
     def authorize_by_encrypted_params

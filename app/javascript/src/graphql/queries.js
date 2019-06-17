@@ -83,7 +83,7 @@ export const CONVERSATIONS = `
             appUser {
               id
               email
-              properties
+              kind
             }
           }
           mainParticipant{
@@ -131,7 +131,7 @@ export const CONVERSATION=`
             appUser{
               id
               email
-              properties
+              kind
             }
             source
             messageSource {
