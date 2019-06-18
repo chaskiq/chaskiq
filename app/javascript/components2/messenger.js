@@ -594,7 +594,7 @@ class Messenger extends Component {
   }
 
   isMessengerActive = ()=>{
-    return this.state.appData && this.state.appData.active_messenger == "on" || this.state.appData.active_messenger == "true"
+    return this.state.appData && this.state.appData.active_messenger == "on" || this.state.appData.active_messenger == "true" || this.state.appData.active_messenger === true
   }
 
   isTourManagerEnabled = ()=>{
