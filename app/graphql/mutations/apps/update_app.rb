@@ -1,5 +1,5 @@
 module Mutations
-  class Apps::UpdateApp < GraphQL::Schema::RelayClassicMutation
+  class Apps::UpdateApp < Mutations::BaseMutation
     # TODO: define return fields
     # field :post, Types::PostType, null: false
     field :app, Types::AppType, null: false
@@ -9,7 +9,7 @@ module Mutations
     argument :app_params, Types::JsonType, required: true
 
     def resolve(app_key: , app_params:)
-      @app = context[:current_user].apps.find_by(key: app_key)
+      @app = current_user.apps.find_by(key: app_key)
       @app.update(app_params.permit!)
       { app: @app, errors: @app.errors }
     end

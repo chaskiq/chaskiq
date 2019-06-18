@@ -1,5 +1,5 @@
 module Mutations
-  class Predicates::SavePredicate < GraphQL::Schema::RelayClassicMutation
+  class Predicates::SavePredicate < Mutations::BaseMutation
 
     # TODO: define return fields
     # field :post, Types::PostType, null: false

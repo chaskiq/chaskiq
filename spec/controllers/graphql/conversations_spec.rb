@@ -43,6 +43,32 @@ RSpec.describe GraphqlController, type: :controller do
     allow_any_instance_of(Types::BaseObject).to receive(:current_user).and_return(agent_role.agent)
   end
 
+
+  it "conversations" do
+
+    graphql_post(type: 'CONVERSATIONS', variables: {
+      appKey: app.key, 
+      page: 1,
+      filter: nil,
+      sort: nil
+    })
+
+    expect(graphql_response.errors).to be_nil
+    expect(graphql_response.data.app.conversations.meta).to be_present
+    expect(graphql_response.data.app.conversations.collection).to be_any
+  end
+
+
+  it "get unexisting conversation" do
+
+    graphql_post(type: 'CONVERSATION', variables: {
+      appKey: app.key, 
+      id: 999
+    })
+
+    expect(graphql_response.errors).to be_present
+  end
+
   it "create_conversation" do
 
     expect(app.conversations.count).to be == 1

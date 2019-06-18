@@ -49,7 +49,7 @@ module Types
     end
 
     def conversation(id:)
-       object.conversations.find(id)
+      object.conversations.find(id)
     end
 
     field :app_user, Types::AppUserType, null:true do
