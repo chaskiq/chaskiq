@@ -27,7 +27,7 @@ class AppUser < ApplicationRecord
   delegate :email, to: :user
 
   def as_json(options = nil)
-    super({ methods: [:email] }.merge(options || {}))
+    super({ only: [:email, :id, :kind] , methods: [:email, :id, :kind] }.merge(options || {}))
   end
 
   def offline?
@@ -107,6 +107,10 @@ class AppUser < ApplicationRecord
 
   def decoded_id
     URLcrypt.decode(self.email)
+  end
+
+  def kind
+    self.class.model_name.singular
   end
 
   def style_class

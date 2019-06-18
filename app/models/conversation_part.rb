@@ -26,9 +26,10 @@ class ConversationPart < ApplicationRecord
 
   def notify_read!
     self.read_at = Time.now
-    ConversationsChannel.broadcast_to("#{self.conversation.app.key}-#{self.conversation.id}", 
-      self.as_json(only: [:id, :message, :conversation_id, :read_at], 
-        methods: [:app_user])
+ 
+    ConversationsChannel.broadcast_to(
+      "#{self.conversation.app.key}-#{self.conversation.id}", 
+      self.as_json
     ) if self.save
   end
 
@@ -49,7 +50,7 @@ class ConversationPart < ApplicationRecord
 
   def as_json(*)
     super.except("created_at", "updated_at").tap do |hash|
-      hash["app_user"] = self.authorable.as_json(only: [:email, :id], methods: [:kind])
+      hash["app_user"] = self.authorable.as_json(only: [:email, :id], methods: [:kind, :email])
     end
   end
 end
