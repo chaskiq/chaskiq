@@ -18,13 +18,14 @@ RSpec.describe "Widget management", :type => :system do
 
   before do
     #driven_by(:rack_test)
-    driven_by :selenium, using: :chrome, screen_size: [1400, 1400]
+    driven_by :selenium, using: :chrome, screen_size: [1400, 1400],
+     options: { args: ["headless", "disable-gpu", "no-sandbox", "disable-dev-shm-usage"] }
   end
 
   it "enables me to create widgets" do                       
     visit "/tester"
 
-    sleep(300)
+    #sleep()
 
     #expect(page).to have_text("Hello")
     #expect(page).to have_text("miguel")
