@@ -7,7 +7,7 @@ class App < ApplicationRecord
   # App.where('preferences @> ?', {notifications: true}.to_json)
 
   has_many :app_users
-  has_many :users, through: :app_users
+  #has_many :users, through: :app_users
   has_many :conversations
   has_many :segments
 
@@ -43,17 +43,19 @@ class App < ApplicationRecord
 
   def add_user(attrs)
     email = attrs.delete(:email)
-    user = User.find_or_initialize_by(email: email)
+    page_url = attrs.delete(:page_url)
+    #user = AppUser.find_or_initialize_by(email: email)
     #user.skip_confirmation!
-    if user.new_record?
-      user.password = Devise.friendly_token[0,20]
-    end
-    user.save!
-    ap = app_users.find_or_initialize_by(user_id: user.id)
+    #if user.new_record?
+    #  user.password = Devise.friendly_token[0,20]
+    #end
+    #user.save!
+    ap = app_users.find_or_initialize_by(email: email)
     data = attrs.deep_merge!(properties: ap.properties)
     ap.assign_attributes(data)
     ap.last_visited_at = Time.now
     ap.save
+    ap.save_page_visit(page_url)
     ap
   end
 

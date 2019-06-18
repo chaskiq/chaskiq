@@ -4,10 +4,11 @@ class AppUser < ApplicationRecord
   include AASM
   include UnionScope
 
-  belongs_to :user
+  #belongs_to :user
   belongs_to :app
   has_many :conversations, foreign_key: :main_participant_id
   has_many :metrics , as: :trackable
+  has_many :visits
   store_accessor :properties, [ 
     :name, 
     :first_name, 
@@ -24,7 +25,7 @@ class AppUser < ApplicationRecord
   }
 
 
-  delegate :email, to: :user
+  #delegate :email, to: :user
 
   def as_json(options = nil)
     super({ only: [:email, :id, :kind] , methods: [:email, :id, :kind] }.merge(options || {}))
@@ -39,7 +40,7 @@ class AppUser < ApplicationRecord
   end
 
   def channel_key
-    "presence:#{self.app.key}-#{self.user.email}"
+    "presence:#{self.app.key}-#{self.email}"
   end
 
   def online!
@@ -76,7 +77,7 @@ class AppUser < ApplicationRecord
 
   def formatted_user
 
-    { email: user.email,
+    { email: email,
       properties: properties,
       state: state
     }.to_json
@@ -122,6 +123,10 @@ class AppUser < ApplicationRecord
     when "unsusbscribed"
       "warning"
     end
+  end
+
+  def save_page_visit(url)
+    self.visits.create(url: url)
   end
 
 end

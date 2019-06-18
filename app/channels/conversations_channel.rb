@@ -10,8 +10,7 @@ class ConversationsChannel < ApplicationCable::Channel
       @app_user = @app.agents.find_by(email: @user_data[:email])
     else
       @app_user = @app.app_users
-                    .joins(:user)
-                    .where("users.email =?", @user_data[:email])
+                    .where("email =?", @user_data[:email])
                     .first
       #@user     = @app_user.user
     end
