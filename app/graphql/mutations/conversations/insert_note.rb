@@ -1,7 +1,7 @@
 
 module Mutations
   module Conversations
-    class InsertNote < GraphQL::Schema::Mutation
+    class InsertNote < Mutations::BaseMutation
       
       field :message, Types::ConversationPartType, null: false
       argument :app_key, String, required: true

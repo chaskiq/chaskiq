@@ -16,7 +16,9 @@ RSpec.describe GraphqlController, type: :controller do
 
   describe 'current_user' do
     it "return current user" do
-      controller.stub(:current_user).and_return(agent_role.agent)
+      allow_any_instance_of(Types::BaseObject).to \
+        receive(:current_user).and_return(agent_role.agent)
+
       graphql_post(type: 'CURRENT_USER', variables: {})
       expect(graphql_response.errors).to be_nil
       expect(graphql_response.data.userSession.email).to be_present

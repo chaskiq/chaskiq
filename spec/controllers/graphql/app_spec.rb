@@ -18,9 +18,16 @@ RSpec.describe GraphqlController, type: :controller do
     FactoryGirl.create(:campaign, app: app)
   }
 
+  before :each do 
+    Mutations::BaseMutation.any_instance
+    .stub(:current_user)
+    .and_return(agent_role.agent)
+
+    allow_any_instance_of(Types::BaseObject).to receive(:current_user).and_return(agent_role.agent)
+  end
+
   describe 'apps' do
     it "list apps for logged user" do
-      controller.stub(:current_user).and_return(agent_role.agent)
       graphql_post(type: 'APPS', variables: {})
       expect(graphql_response.errors).to be_nil
       expect(graphql_response.data.apps).to be_any
@@ -29,7 +36,6 @@ RSpec.describe GraphqlController, type: :controller do
 
   describe 'app' do
     it "return app" do
-      controller.stub(:current_user).and_return(agent_role.agent)
       graphql_post(type: 'APP', variables: {appKey: app.key})
       expect(graphql_response.errors).to be_nil
       expect(graphql_response.data.app).to be_present
@@ -48,10 +54,6 @@ RSpec.describe GraphqlController, type: :controller do
         value: "user_role"
       }]
     }
-
-    before :each do
-      controller.stub(:current_user).and_return(agent_role.agent) 
-    end
 
     it "agents" do
       #controller.stub(:current_user).and_return(agent_role.agent)
@@ -105,36 +107,6 @@ RSpec.describe GraphqlController, type: :controller do
       expect(graphql_response.data.app.campaign.name).to be_present
     end
 
-    it "conversations" do
-      expect(campaign.name).to be_present
-
-      graphql_post(type: 'CONVERSATIONS', variables: {
-        appKey: app.key, 
-        page: 1,
-        filter: nil,
-        sort: nil
-      })
-
-      expect(graphql_response.errors).to be_nil
-     
-      expect(graphql_response.data.app.conversations.meta).to be_present
-      expect(graphql_response.data.app.conversations.collection).to be_empty
-    end
-
-
-    it "conversation" do
-      expect(campaign.name).to be_present
-
-      graphql_post(type: 'CONVERSATION', variables: {
-        appKey: app.key, 
-        id: 1
-      })
-
-      expect(graphql_response.errors).to be_nil
-      expect(graphql_response.data.app.conversations.asignee).to be_present
-      expect(graphql_response.data.app.conversations.messages.collection).to be_empty
-    end
-
 
     describe "mutations on app" do
 
@@ -148,7 +120,6 @@ RSpec.describe GraphqlController, type: :controller do
           },
           operation: 'create'
         })
-
 
         expect(graphql_response.errors).to be_nil
         expect(graphql_response.data.appsCreate.app).to_not be_blank
@@ -174,6 +145,7 @@ RSpec.describe GraphqlController, type: :controller do
       end
 
       it "destroy app" do
+        pending("not implemented")
         graphql_post(type: 'DESTROY_APP', variables: {
           appKey: app.key
         })

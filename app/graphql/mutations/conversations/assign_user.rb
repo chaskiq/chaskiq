@@ -1,6 +1,6 @@
 module Mutations
   module Conversations
-    class AssignUser < GraphQL::Schema::Mutation
+    class AssignUser < Mutations::BaseMutation
       field :conversation, Types::ConversationType, null: false
       field :errors, Types::JsonType, null: true
       

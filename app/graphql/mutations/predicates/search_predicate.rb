@@ -1,5 +1,5 @@
 module Mutations
-  class Predicates::SearchPredicate < GraphQL::Schema::RelayClassicMutation
+  class Predicates::SearchPredicate < Mutations::BaseMutation
 
 
     field :app_users, Types::PaginatedAppUsersType, null:true do
@@ -22,9 +22,8 @@ module Mutations
     def resolve(app_key:, search:, page: , per:)
       @app = App.find_by(key: app_key)
       @segment = @app.segments.new
-      resource_params = search.fetch(:data, {predicates: []}).permit!
+      resource_params = search.require(:data).permit("predicates":  ["attribute", "comparison", "type", "value"])
       @segment.assign_attributes(resource_params)
-      
       { app_users: app_users(per , page) }
     end
   end

@@ -1,7 +1,7 @@
 
 module Mutations
   module Conversations
-    class InsertComment < GraphQL::Schema::Mutation
+    class InsertComment < Mutations::BaseMutation
       # GraphQL::Schema::RelayClassicMutation
       # TODO: define return fields
       field :message, Types::ConversationPartType, null: false
