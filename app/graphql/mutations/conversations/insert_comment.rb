@@ -22,7 +22,7 @@ module Mutations
           author = app.agents.where("agents.email =?", current_user.email).first
         else
           # TODO: check this, when permit multiple emails, check by different id
-          author = app.app_users.joins(:user).where(["users.email =?", current_user.email ]).first 
+          author = app.app_users.where(["email =?", current_user.email ]).first 
         end
 
         @message = conversation.add_message({

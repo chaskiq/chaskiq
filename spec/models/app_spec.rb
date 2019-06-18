@@ -18,7 +18,6 @@ RSpec.describe App, type: :model do
 
   it "create an user" do 
     app.add_user({email: "test@test.cl", first_name: "dsdsa"})
-    expect(app.users).to be_any   
     expect(app.app_users.first.first_name).to be_present  
   end
 
@@ -36,13 +35,12 @@ RSpec.describe App, type: :model do
 
     it "add existing user will keep count but update properties" do 
       app.add_user({email: "test@test.cl", first_name: "edited name"})
-      expect(app.reload.users.size).to be == 1
       expect(app.reload.app_users.first.first_name).to be == "edited name"
     end
 
     it "add other user will increase count of app_users" do 
       app.add_user({email: "test@test2.cl", first_name: "edited name"})
-      expect(app.reload.users.size).to be == 2
+      expect(app.reload.app_users.size).to be == 2
       expect(app.reload.app_users.last.first_name).to be == "edited name"
     end
 
@@ -64,10 +62,10 @@ RSpec.describe App, type: :model do
 
       it "will update attrs for user on app2 only" do
         @app2.add_user({email: "test@test.cl", properties: {first_name: "edited for app 2"}})
-        expect(@app2.users.count).to be == 1
+        expect(@app2.app_users.count).to be == 1
         expect(@app2.app_users.last.first_name).to be == "edited for app 2"
         expect(app.app_users.first.first_name).to be == "dsdsa"
-        expect(app.users.first.email).to be == @app2.users.first.email
+        expect(app.app_users.first.email).to be == @app2.app_users.first.email
       end
     end
   end

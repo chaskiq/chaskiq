@@ -74,7 +74,7 @@ private
     messageId = json_message["mail"]["messageId"] 
 
     opts = {
-      from: app.app_users.joins(:user).where(["users.email =?", from.first]).first,
+      from: app.app_users.where(["email =?", from.first]).first,
       message: message,
       email_message_id: mail.message_id
     }

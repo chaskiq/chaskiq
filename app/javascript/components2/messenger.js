@@ -880,6 +880,14 @@ class Conversations extends Component {
     }
   }
 
+  sanitizeMessageSummary = (message)=>{
+    if(!message)
+      return
+
+    const sanitized = sanitizeHtml(message.message)
+    return sanitized.length > 100 ? `${sanitized.substring(0, 100)} ...` : sanitized
+  }
+
   render(){
     return <div style={{
       position: 'absolute',
@@ -896,8 +904,7 @@ class Conversations extends Component {
             this.props.conversations.map((o, i) => {
 
               const message = o.last_message
-              const sanitized = sanitizeHtml(message.message)
-              const summary = sanitized.length > 100 ? `${sanitized.substring(0, 100)} ...` : sanitized
+
               return <CommentsItem key={o.id}
                 onClick={(e) => { this.props.displayConversation(e, o) }}>
 
@@ -921,6 +928,7 @@ class Conversations extends Component {
                           <Autor>
                             {message.app_user.email}
                           </Autor>
+
                           <Moment fromNow style={{
                             float: 'right',
                             color: '#ccc',
@@ -931,10 +939,13 @@ class Conversations extends Component {
                           }}>
                             {message.created_at}
                           </Moment>
+
                         </ConversationSummaryBodyMeta>
                         {/* TODO: sanitize in backend */}
                         <ConversationSummaryBodyContent
-                          dangerouslySetInnerHTML={{ __html: summary }}
+                          dangerouslySetInnerHTML={
+                            { __html: this.sanitizeMessageSummary(message.message) }
+                          }
                         />
                       </ConversationSummaryBody>
                     </ConversationSummary> : null

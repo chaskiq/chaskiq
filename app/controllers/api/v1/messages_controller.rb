@@ -43,7 +43,7 @@ private
   end
 
   def find_user(email)
-    @app.app_users.joins(:user).where(["users.email =?", email ]).first  
+    @app.app_users.where(["email =?", email ]).first  
   end
 end
 

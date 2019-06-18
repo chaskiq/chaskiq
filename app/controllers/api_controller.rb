@@ -12,11 +12,10 @@ private
     else
       @user_data = get_user_from_unencrypted
     end
-    #render json: {}, status: 406 and return if @user_data.blank?
   end
 
   def get_app_user
-    @app.app_users.joins(:user).where(["users.email =?", get_user_data[:email] ]).first  
+    @app.app_users.where(["email =?", get_user_data[:email] ]).first  
   end
 
   def authorize!
@@ -25,7 +24,7 @@ private
 
   def authorize_by_encrypted_params
     begin
-      key = @app.encryption_key #"d2f5e36677eac3b5"
+      key = @app.encryption_key
       encrypted = request.headers["HTTP_ENC_DATA"]
       json = JWE.decrypt(encrypted, key)
       JSON.parse(json).deep_symbolize_keys

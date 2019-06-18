@@ -25,6 +25,7 @@ class Api::V1::AppsController < ApiController
     get_user_data
 
     browser_params = {
+      page_url:         request.original_url,
       referrer:         request.referrer,
       ip:               request.remote_ip,
       city:             request.location.data["city"],
@@ -57,7 +58,7 @@ class Api::V1::AppsController < ApiController
         :tagline,
         :theme
       ]
-        )}
+    )}
   end
 
   def resource_params
