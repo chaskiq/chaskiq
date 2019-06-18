@@ -374,9 +374,6 @@ class Messenger extends Component {
           if (this.props.email !== data.app_user.email) {
             this.playSound()
           }
-          /*App.conversations.perform("receive", 
-            Object.assign({}, data, {email: this.props.email})
-          )*/
         }
 
       },
@@ -788,7 +785,7 @@ class Conversation extends Component {
             isMobile={this.props.isMobile}>
             {
               this.props.conversation_messages.map((o, i) => {
-                const userClass = this.props.conversation.main_participant.email === o.app_user.email ? 'user' : 'admin'
+                const userClass = o.app_user.kind === "agent" ? 'admin' : 'user'
 
                 return <MessageItemWrapper
                   email={this.props.email}

@@ -22,6 +22,14 @@ class Agent < ApplicationRecord
     :region_code 
   ]
 
+
+  def as_json(options = nil)
+    super({ 
+      only: [:email, :id, :kind] , 
+      methods: [:email, :id, :kind] }
+      .merge(options || {}))
+  end
+
   def kind
     self.class.model_name.singular
   end
