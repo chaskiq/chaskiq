@@ -17,9 +17,15 @@ RSpec.describe "Widget management", :type => :system do
   }
 
   before do
-    #driven_by(:rack_test)
+    options = ENV.fetch("CI") ? 
+    
+    {
+      args: ["headless", "disable-gpu", "no-sandbox", "disable-dev-shm-usage"] ,
+      binary: ENV.fetch('GOOGLE_CHROME_BIN')
+    } : {}
+
     driven_by :selenium, using: :chrome, screen_size: [1400, 1400],
-     options: { args: ["headless", "disable-gpu", "no-sandbox", "disable-dev-shm-usage"] }
+     options: options
   end
 
   it "enables me to create widgets" do                       
