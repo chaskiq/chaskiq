@@ -1,10 +1,22 @@
 class ApiController < ActionController::API
 
+  #TODO : implementar esto
   # esto debe ser solo para api (y con checkeo de referrer)
   #before_action :cors_preflight_check
   ##before_action :cors_set_access_control_headers
 
 private
+
+  def get_user_data_from_auth
+    if @app.encryption_enabled?
+      @user_data = authorize_by_encrypted_params
+
+      visitor = (check_visitor || add_vistor)
+      @user_data = @user_data.merge({session_id: visitor.session_id})
+    else
+      @user_data = get_user_from_unencrypted
+    end
+  end
 
   def get_user_data
     if @app.encryption_enabled?
@@ -14,8 +26,32 @@ private
     end
   end
 
+  def check_visitor
+    get_user_by_session
+  end
+
+  def add_vistor
+    options = {} #{app_id: @app.key}
+    
+    options.merge!({session_id: request.headers["HTTP_SESSION_ID"]}) 
+    
+    if @user_data[:email].blank?
+      u = @app.add_anonimus_user(options)
+    end
+
+  end
+
   def get_app_user
-    @app.app_users.where(["email =?", get_user_data[:email] ]).first  
+    get_user_by_email || get_user_by_session
+  end
+
+  def get_user_by_email
+    return nil if get_user_data[:email].blank?
+    @app.app_users.find_by(email: get_user_data[:email]) 
+  end
+
+  def get_user_by_session
+    @app.app_users.find_by(session_id: request.headers["HTTP_SESSION_ID"])
   end
 
   def authorize!
@@ -24,6 +60,7 @@ private
 
   def authorize_by_encrypted_params
     begin
+
       key = @app.encryption_key
       encrypted = request.headers["HTTP_ENC_DATA"]
       json = JWE.decrypt(encrypted, key)

@@ -16,7 +16,7 @@ class AppUser < ApplicationRecord
     :country, 
     :country_code, 
     :region, 
-    :region_code 
+    :region_code
   ]
   
   scope :availables, ->{ 
@@ -24,6 +24,13 @@ class AppUser < ApplicationRecord
       "passive", "subscribed"]) 
   }
 
+
+  def generate_token
+    self.session_id = loop do
+      random_token = SecureRandom.urlsafe_base64(nil, false)
+      break random_token unless app.app_users.where(session_id: random_token).any?
+    end
+  end
 
   #delegate :email, to: :user
 
