@@ -41,6 +41,18 @@ class App < ApplicationRecord
     ]
   end
 
+
+  def add_anonimus_user(attrs)
+    session_id = attrs.delete(:session_id)
+    ap = app_users.find_or_initialize_by(session_id: session_id)
+    
+    data = attrs.deep_merge!(properties: ap.properties)
+    ap.assign_attributes(data)
+    ap.generate_token
+    ap.save
+    ap
+  end
+
   def add_user(attrs)
     email = attrs.delete(:email)
     page_url = attrs.delete(:page_url)

@@ -209,8 +209,17 @@ class Messenger extends Component {
     }
 
     if(this.props.encryptedMode){
-      this.defaultHeaders = { enc_data: this.props.encData }
-      this.defaultCableData = { app: this.props.app_id, enc_data: this.props.encData }
+      
+      this.defaultHeaders = { 
+        enc_data: this.props.encData,
+        session_id: this.props.session_id
+      }
+
+      this.defaultCableData = { 
+        app: this.props.app_id, 
+        enc_data: this.props.encData,
+        session_id: this.props.session_id
+      }
     }
 
     this.axiosInstance = axios.create({
@@ -729,7 +738,6 @@ class Messenger extends Component {
                     axiosInstance={this.axiosInstance}
                     availableMessages={this.state.availableMessages}
                     availableMessage={this.state.availableMessage}
-                    axiosInstance={this.axiosInstance}
                     {...this.props}
                     
                   /> : <div/>

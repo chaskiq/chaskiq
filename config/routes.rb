@@ -15,50 +15,6 @@ Rails.application.routes.draw do
 
   resources :attachments, controller: 'campaigns/attachments'
 
-
-=begin
-  concern :messageable do
-    member do
-      get :preview
-      get :premailer_preview
-      get :deliver
-      get :test
-    end
-    
-    resources :attachments, controller: 'campaigns/attachments'
-    
-    resources :metrics, controller: 'campaigns/metrics', only: :index do
-      collection do
-        get :counts
-        get :timeline
-        get :purge
-      end
-    end
-  end
-
-  resources :apps do
-    member do
-      post :search
-    end
-    resources :conversations
-
-    #resources :campaigns, concerns: :messageable
-
-    namespace :messages do
-      resources :user_auto_message, controller: 'campaigns/user_auto_messages' , concerns: :messageable
-      resources :camaigns, controller: 'campaigns/mailings', concerns: :messageable
-      resources :tours, controller: 'campaigns/tours', concerns: :messageable
-    end
-
-    resources :app_users
-    resources :segments do
-      member do
-        delete :delete_predicate
-      end
-    end
-  end
-=end
-
   resource :oembed, controller: "oembed", only: :show
 
   get "/user_session", to: 'application#user_session'

@@ -36,7 +36,7 @@ RSpec.describe "Widget management", :type => :system do
   end
 
   it "renders messenger on registered users creating a app user" do                       
-    visit "/tester/#{app.key}"
+    visit "/tester/#{app.key}?sessionless=true"
 
     prime_iframe = all("iframe").first
 
