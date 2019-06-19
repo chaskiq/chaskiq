@@ -17,15 +17,25 @@ RSpec.describe "Widget management", :type => :system do
   }
 
   before do
-    options = ENV.fetch("CI") ? 
+
+    if ENV["CI"].present? 
+      Selenium::WebDriver::Chrome::Service.path = ENV.fetch('GOOGLE_CHROME_BIN', nil)
+      options = Selenium::WebDriver::Chrome::Options.new
+      options.binary = ENV.fetch('GOOGLE_CHROME_SHIM', nil)
+      driver = Selenium::WebDriver.for :chrome, options: options
+    end
+
+    
+
+    options_for_selemium = ENV["CI"].present? ? 
+
     
     {
       args: ["headless", "disable-gpu", "no-sandbox", "disable-dev-shm-usage"] ,
-      options: {binary: ENV.fetch('GOOGLE_CHROME_BIN')}
     } : {}
 
     driven_by :selenium, using: :chrome, screen_size: [1400, 1400],
-     options: options
+     options: options_for_selemium
   end
 
   it "enables me to create widgets" do                       
