@@ -19,7 +19,7 @@ RSpec.describe "Widget management", :type => :system do
   before do
 
     if ENV["CI"].present? 
-      Selenium::WebDriver::Chrome::Service.path = ENV.fetch('GOOGLE_CHROME_BIN', nil)
+      Selenium::WebDriver::Chrome::Service.driver_path = ENV.fetch('GOOGLE_CHROME_BIN', nil)
       options = Selenium::WebDriver::Chrome::Options.new
       options.binary = ENV.fetch('GOOGLE_CHROME_SHIM', nil)
       driver = Selenium::WebDriver.for :chrome, options: options
