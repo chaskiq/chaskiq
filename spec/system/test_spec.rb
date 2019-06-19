@@ -25,11 +25,8 @@ RSpec.describe "Widget management", :type => :system do
       driver = Selenium::WebDriver.for :chrome, options: options
     end
 
-    
-
     options_for_selemium = ENV["CI"].present? ? 
 
-    
     {
       args: ["headless", "disable-gpu", "no-sandbox", "disable-dev-shm-usage"] ,
     } : {}
@@ -38,25 +35,72 @@ RSpec.describe "Widget management", :type => :system do
      options: options_for_selemium
   end
 
-  it "enables me to create widgets" do                       
-    visit "/tester"
+  it "renders messenger on registered users creating a app user" do                       
+    visit "/tester/#{app.key}"
 
-    #sleep()
+    prime_iframe = all("iframe").first
 
-    #expect(page).to have_text("Hello")
-    #expect(page).to have_text("miguel")
-    expect(page).to have_text(app.key)
-    expect(AppUser.count).to be == 1
-    expect(AppUser.first.properties).to_not be_blank
-    expect(AppUser.first.last_visited_at).to_not be_blank
-    expect(AppUser.first.referrer).to_not be_blank
-    expect(AppUser.first.lat).to_not be_blank
-    expect(AppUser.first.lng).to_not be_blank
-    expect(AppUser.first.os).to_not be_blank
-    expect(AppUser.first.os_version).to_not be_blank
-    expect(AppUser.first.browser).to_not be_blank
-    expect(AppUser.first.browser_version).to_not be_blank
-    expect(AppUser.first.browser_language).to_not be_blank
+    Capybara.within_frame(prime_iframe){ 
+      page.find(".ckPVap").click 
+    }
+
+    # now 2nd iframe appears on top
+    messenger_iframe = all("iframe").first
+
+    Capybara.within_frame(messenger_iframe){ 
+      page.has_content?("Hello!") 
+    }
+
+    expect(app.app_users.count).to be == 1
+    expect(app.app_users.first.properties).to_not be_blank
+    expect(app.app_users.first.last_visited_at).to_not be_blank
+    expect(app.app_users.first.referrer).to_not be_blank
+    expect(app.app_users.first.lat).to_not be_blank
+    expect(app.app_users.first.lng).to_not be_blank
+    expect(app.app_users.first.os).to_not be_blank
+    expect(app.app_users.first.os_version).to_not be_blank
+    expect(app.app_users.first.browser).to_not be_blank
+    expect(app.app_users.first.browser_version).to_not be_blank
+    expect(app.app_users.first.browser_language).to_not be_blank
+
+    visit "/tester/#{app.key}"
+
+    expect(app.app_users.count).to be == 1
+
   end
+
+
+  it "renders messenger on registered users creating a app user" do                       
+    
+    app.start_conversation({
+      message: "message", 
+      from: user
+    })
+
+    visit "/tester/#{app.key}"
+
+    prime_iframe = all("iframe").first
+
+    Capybara.within_frame(prime_iframe){ 
+      page.find(".ckPVap").click 
+    }
+
+    # now 2nd iframe appears on top
+    messenger_iframe = all("iframe").first
+
+    Capybara.within_frame(messenger_iframe){ 
+      page.has_content?("Hello!") 
+    }
+
+    Capybara.within_frame(messenger_iframe){
+      page.has_content?(user.email)
+    }
+
+    Capybara.within_frame(messenger_iframe){
+      page.has_content?("a few seconds ago")
+    }
+
+  end
+
 
 end
