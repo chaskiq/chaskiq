@@ -21,7 +21,7 @@ RSpec.describe "Widget management", :type => :system do
     
     {
       args: ["headless", "disable-gpu", "no-sandbox", "disable-dev-shm-usage"] ,
-      binary: ENV.fetch('GOOGLE_CHROME_BIN')
+      options: {binary: ENV.fetch('GOOGLE_CHROME_BIN')}
     } : {}
 
     driven_by :selenium, using: :chrome, screen_size: [1400, 1400],
