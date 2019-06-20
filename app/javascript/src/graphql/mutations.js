@@ -248,6 +248,9 @@ export const PREDICATES_SEARCH = `
           lastVisitedAt
           browser
           state
+          lat 
+          lng
+          displayName
         }
         meta
       }

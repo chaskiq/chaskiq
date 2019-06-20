@@ -9,7 +9,7 @@ import PropTypes from 'prop-types';
 import styled from 'styled-components';
 //import Spinner from '@atlaskit/spinner';
 //import EmptyState from '@atlaskit/empty-state'
-import UserMap from "../components/map"
+//import UserMap from "../components/map"
 import logo from '../images/logo.png';
 import ConversationContainer from './ConversationContainer';
 import CampaignContainer from './Campaigns'
