@@ -10,8 +10,8 @@ module Types
     field  :city, String, null: true
     field  :region, String, null: true
     field  :country, String, null: true
-    field  :lat, String, null: true
-    field  :lng, String, null: true
+    field  :lat, Float, null: true
+    field  :lng, Float, null: true
     field  :postal, String, null: true
     field  :web_sessions, String, null: true
     field  :timezone, String, null: true

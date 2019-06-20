@@ -16,6 +16,7 @@ import Drawer from '@material-ui/core/Drawer';
 import Button from '@material-ui/core/Button'
 
 import {appUsersFormat} from '../segmentManager/appUsersFormat'
+import Map from '../map/index.js'
 
 const Wrapper = styled.div`
   //min-width: 600px;
@@ -96,6 +97,10 @@ class AppUsers extends Component {
 
   toggleList = (e)=>{
     this.setState({map_view: true  })
+  }
+
+  toggleMapView= (e)=>{
+    this.setState({map_view: !this.state.map_view})
   }
 
   handleClickOnSelectedFilter = (jwtToken)=>{
@@ -228,17 +233,34 @@ class AppUsers extends Component {
 
             {this.caption()}
 
-            <DataTable 
-              title={this.props.segment.name}
-              columns={appUsersFormat()} 
-              meta={this.props.meta}
-              data={this.props.app_users}
-              search={this.props.actions.search}
-              loading={this.props.searching}
-              onRowClick={(e)=>{
-                this.showUserDrawer(e)
-              }}
-            />
+            <button onClick={this.toggleMapView}>
+              {this.state.map_view ? 'list' : 'map'}
+            </button>
+
+            { this.state.map_view && !this.props.searching && this.props.app.key && this.props.segment && this.props.segment.id ? 
+
+              <Map 
+                segment={this.props.segment}
+                data={this.props.app_users}
+              /> : null
+
+            }
+
+            {
+              !this.state.map_view ?
+                <DataTable 
+                  title={this.props.segment.name}
+                  columns={appUsersFormat()} 
+                  meta={this.props.meta}
+                  data={this.props.app_users}
+                  search={this.props.actions.search}
+                  loading={this.props.searching}
+                  onRowClick={(e)=>{
+                    this.showUserDrawer(e)
+                  }}
+                /> : null
+            }
+
 
             <Drawer 
               anchor="right" 
