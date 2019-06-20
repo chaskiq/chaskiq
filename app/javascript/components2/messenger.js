@@ -251,6 +251,9 @@ class Messenger extends Component {
       this.eventsSubscriber()
       this.getConversations()
       this.getMessage()
+      this.locationChangeListener()
+
+
     })
 
     this.updateDimensions()
@@ -272,6 +275,32 @@ class Messenger extends Component {
 
   componentWillUnmount() {
     window.removeEventListener("resize", this.updateDimensions);
+  }
+
+  // todo: track pages here
+  locationChangeListener = ()=>{
+    /* These are the modifications: */
+    history.pushState = ( f => function pushState(){
+        var ret = f.apply(this, arguments);
+        window.dispatchEvent(new Event('pushState'));
+        window.dispatchEvent(new Event('locationchange'));
+        return ret;
+    })(history.pushState);
+
+    history.replaceState = ( f => function replaceState(){
+        var ret = f.apply(this, arguments);
+        window.dispatchEvent(new Event('replaceState'));
+        window.dispatchEvent(new Event('locationchange'));
+        return ret;
+    })(history.replaceState);
+
+    window.addEventListener('popstate',()=>{
+        window.dispatchEvent(new Event('locationchange'))
+    });
+
+    window.addEventListener('locationchange', function(){
+      alert('location changed!');
+    })
   }
 
   detectMobile = ()=>{
@@ -380,7 +409,7 @@ class Messenger extends Component {
             conversation_messages: [data].concat(this.state.conversation_messages)
           }, this.scrollToLastItem)
           
-          if (this.props.email !== data.app_user.email) {
+          if (data.app_user.kind != "app_user") {
             this.playSound()
           }
         }
@@ -892,7 +921,7 @@ class Conversations extends Component {
     if(!message)
       return
 
-    const sanitized = sanitizeHtml(message.message)
+    const sanitized = sanitizeHtml(message)
     return sanitized.length > 100 ? `${sanitized.substring(0, 100)} ...` : sanitized
   }
 
@@ -1152,10 +1181,8 @@ class MessageContainer extends Component {
 
 class MessageItemWrapper extends Component {
   componentDidMount(){
-    //console.log(this.props.email)
-    //console.log(this.props.data.read_at ? "yes" : "EXEC A READ HERE!")
-    // mark as read on first render
-    if(!this.props.data.read_at){
+    // mark as read on first render it not read & from admin
+    if(!this.props.data.read_at && this.props.data.app_user.kind != "app_user"){
       App.conversations.perform("receive", 
         Object.assign({}, this.props.data, {email: this.props.email})
       )

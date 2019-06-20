@@ -22,6 +22,7 @@ module Types
     field  :browser_language, String, null: true
     field  :lang, String, null: true
 
+    field :display_name, String, null: true
 
     field :app, [Types::AppType], null: true
     field :online, Boolean, null: true

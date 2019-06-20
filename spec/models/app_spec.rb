@@ -27,6 +27,19 @@ RSpec.describe App, type: :model do
     expect(app.agents.first.first_name).to be_present  
   end
 
+  describe "add anonymous user" do
+    it "create with session" do
+
+      app.add_anonymous_user({})
+      expect(app.app_users.first.session_id).to be_present  
+      expect(app.app_users.first.name).to be_eql "visitor 1"
+
+      app.add_anonymous_user({})
+      expect(app.app_users.first.name).to be_eql "visitor 2"
+    end
+ 
+  end
+
   describe "existing user" do 
 
     before do 

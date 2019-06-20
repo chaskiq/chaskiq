@@ -75,6 +75,7 @@ export const INSERT_COMMMENT = `
           id
           email
           kind
+          displayName
         }
         source
         messageSource {
@@ -101,6 +102,7 @@ export const INSERT_NOTE = `
           id
           email
           kind
+          displayName
         }
         source
         messageSource {

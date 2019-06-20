@@ -88,7 +88,7 @@ class MessageItem extends Component {
           <Avatar src={gravatar.url(user.email)} width={40} heigth={40}/>
           
           <MessageEmail>
-            {user.email}
+            AAAAA {user.displayName}
           </MessageEmail>
 
           <Moment fromNow style={{ color: '#ccc', fontSize: '10px'}}>

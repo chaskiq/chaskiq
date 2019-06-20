@@ -11,6 +11,8 @@ class ClientTesterController < ApplicationController
     key = @app.encryption_key # SecureRandom.hex(8) o SecureRandom.random_bytes(16)
     # payload = "miguel@preyhq.com"
 
+    @sessionless = params[:sessionless]
+
     @h = {
       http: Rails.env.production? ? 'https://' : 'http://',
       ws:   Rails.env.production? ? 'wss://' : 'ws://'

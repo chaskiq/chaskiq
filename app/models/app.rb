@@ -42,8 +42,15 @@ class App < ApplicationRecord
   end
 
 
-  def add_anonimus_user(attrs)
+  def add_anonymous_user(attrs)
     session_id = attrs.delete(:session_id)
+
+    # todo : should lock table here ? or ..
+    # https://www.postgresql.org/docs/9.3/sql-createsequence.html
+    next_id = self.app_users.visitors.size + 1 #self.app_users.visitors.maximum("id").to_i + 1
+    
+    attrs.merge!(name: "visitor #{next_id}")
+
     ap = app_users.find_or_initialize_by(session_id: session_id)
     
     data = attrs.deep_merge!(properties: ap.properties)
@@ -56,12 +63,6 @@ class App < ApplicationRecord
   def add_user(attrs)
     email = attrs.delete(:email)
     page_url = attrs.delete(:page_url)
-    #user = AppUser.find_or_initialize_by(email: email)
-    #user.skip_confirmation!
-    #if user.new_record?
-    #  user.password = Devise.friendly_token[0,20]
-    #end
-    #user.save!
     ap = app_users.find_or_initialize_by(email: email)
     data = attrs.deep_merge!(properties: ap.properties)
     ap.assign_attributes(data)

@@ -1,6 +1,6 @@
 import axios from 'axios'
 import Hermessenger from './messenger'
-import {setCookie, getCookie} from './cookies'
+import {setCookie, getCookie, deleteCookie} from './cookies'
 
 export default class HermessengerEncrypted {
 
@@ -35,8 +35,13 @@ export default class HermessengerEncrypted {
 
     this.axiosInstance.post(`/api/v1/apps/${this.props.app_id}/auth`)
     .then((response) => {
-    
-      this.checkCookie(response.data.session_id)
+
+      if (response.data.session_id){
+        this.checkCookie(response.data.session_id)        
+      }else{
+        deleteCookie("chaskiq_session_id")  
+      }
+       
       const messenger = new Hermessenger(
         Object.assign({}, response.data, {
           encData: this.props.data,

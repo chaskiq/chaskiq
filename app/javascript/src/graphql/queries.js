@@ -84,11 +84,13 @@ export const CONVERSATIONS = `
               id
               email
               kind
+              displayName
             }
           }
           mainParticipant{
             id
             email
+            displayName
             properties
           }
         }
@@ -118,6 +120,7 @@ export const CONVERSATION=`
           id
           email
           properties
+          displayName
         }
         
         messages(page: $page){
@@ -132,6 +135,7 @@ export const CONVERSATION=`
               id
               email
               kind
+              displayName
             }
             source
             messageSource {
@@ -182,6 +186,7 @@ query AppUser($appKey: String!, $id: Int! ) {
       osVersion
       browserLanguage
       lang
+      displayName
     }
   }
 }

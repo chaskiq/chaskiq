@@ -234,7 +234,7 @@ class ConversationContainerShow extends Component {
 
                       {
                         this.props.conversation.mainParticipant ? 
-                        <b>{this.props.conversation.mainParticipant.email}</b> 
+                        <b>{this.props.conversation.mainParticipant.displayName}</b> 
                         : null
                       }
 
