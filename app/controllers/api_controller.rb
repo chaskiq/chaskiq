@@ -10,9 +10,12 @@ private
   def get_user_data_from_auth
     if @app.encryption_enabled?
       @user_data = authorize_by_encrypted_params
+ 
+      if @user_data[:email].blank?
+        visitor = (get_user_by_session || add_vistor)
+        @user_data = @user_data.merge({session_id: visitor.session_id}) 
+      end
 
-      visitor = (check_visitor || add_vistor)
-      @user_data = @user_data.merge({session_id: visitor.session_id})
     else
       @user_data = get_user_from_unencrypted
     end
@@ -26,17 +29,13 @@ private
     end
   end
 
-  def check_visitor
-    get_user_by_session
-  end
-
   def add_vistor
     options = {} #{app_id: @app.key}
     
     options.merge!({session_id: request.headers["HTTP_SESSION_ID"]}) 
     
     if @user_data[:email].blank?
-      u = @app.add_anonimus_user(options)
+      u = @app.add_anonymous_user(options)
     end
 
   end

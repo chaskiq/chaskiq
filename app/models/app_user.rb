@@ -24,6 +24,16 @@ class AppUser < ApplicationRecord
       "passive", "subscribed"]) 
   }
 
+  # todo: optimize this
+  scope :visitors, ->{
+    where("email is not null")
+  }
+
+  def display_name
+    [self.name,
+    self.email].join(" ")
+  end
+
 
   def generate_token
     self.session_id = loop do

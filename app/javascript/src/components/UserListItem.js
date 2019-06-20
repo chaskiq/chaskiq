@@ -80,7 +80,7 @@ function AlignItemsList(props) {
           
         </ListItemAvatar>
         <ListItemText
-          primary={props.messageUser.email}
+          primary={props.messageUser.displayName}
           secondary={
             <React.Fragment>
 
