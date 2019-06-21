@@ -26,6 +26,11 @@ module Types
 
     field :app, [Types::AppType], null: true
     field :online, Boolean, null: true
+
+    def state
+      object.subscription_state
+    end
+
     def online
       object.online?
     end
