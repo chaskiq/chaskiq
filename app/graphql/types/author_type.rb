@@ -5,6 +5,10 @@ module Types
     field :kind , String, null: false
     field :display_name, String, null: false
 
+    def display_name
+      object.display_name
+    end
+
     def kind
       object.class.model_name.singular
     end
