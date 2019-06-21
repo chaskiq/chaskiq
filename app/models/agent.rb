@@ -23,6 +23,11 @@ class Agent < ApplicationRecord
   ]
 
 
+  def display_name
+    [self.name, self.email].join(" ")
+  end
+
+
   def as_json(options = nil)
     super({ 
       only: [:email, :id, :kind] , 
