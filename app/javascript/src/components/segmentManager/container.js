@@ -4,9 +4,11 @@ import { connect } from 'react-redux'
 import styled from 'styled-components'
 import {
   InlineFilterDialog, 
-  SegmentItemButton,
   SaveSegmentModal
 } from '../segmentManager'
+
+import SegmentItemButton from '../segmentManager/itemButton'
+
 
 import UserData from '../UserData'
 import EnhancedTable from '../table'
@@ -24,7 +26,8 @@ const Wrapper = styled.div`
 
 const ButtonGroup = styled.div`
   display: inline-flex;
-  display: -webkit-box;
+  flex-wrap: wrap;
+
   button {
     margin-right: 5px !important;
   }
@@ -112,15 +115,32 @@ class AppUsers extends Component {
     if(o.type === "match"){
       return `Match ${o.value === "and" ? "all" : "any" } criteria`
     }else{
-      return `Match: ${o.attribute} ${o.comparison ? o.comparison : '' } ${o.value ? o.value : ''}`
+      return `${o.attribute} ${o.comparison ? o.comparison : '' } ${o.value ? o.value : ''}`
     }
+  }
+
+  getStatePredicate = ()=>{
+    return this.props.actions.getPredicates().find((o)=> (
+        o.attribute === "subscription_state" 
+      )
+    )
   }
 
   caption = ()=>{
     return <div>
             <ButtonGroup>
+
+              { /*this.getStatePredicate() ?
+                <button>
+                  {this.getStatePredicate().attribute}
+                </button> : null
+              */}
+
+
               {
-                this.props.actions.getPredicates().map((o, i)=>{
+                this.props.actions.getPredicates()
+                  //.filter((o)=>(o.attribute !== "subscription_state"))
+                    .map((o, i)=>{
                     return <SegmentItemButton 
                             key={i}
                             index={i}
