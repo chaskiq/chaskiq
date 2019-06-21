@@ -6,9 +6,10 @@ class AppUser < ApplicationRecord
 
   #belongs_to :user
   belongs_to :app
-  has_many :conversations, foreign_key: :main_participant_id
+  has_many :conversations, foreign_key: :main_participant_id, dependent: :destroy
   has_many :metrics , as: :trackable
   has_many :visits
+
   store_accessor :properties, [ 
     :name, 
     :first_name, 
