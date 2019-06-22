@@ -8,7 +8,7 @@ import DataTable from '../dataTable'
 import {appUsersFormat} from './appUsersFormat' 
 import ClickAwayListener from '@material-ui/core/ClickAwayListener';
 import SegmentItemButton from './itemButton'
-
+import {Map, List, fromJS} from 'immutable'
 
 import {
   Button,
@@ -94,13 +94,18 @@ export class SaveSegmentModal extends Component {
     })
   }
 
+  equalPredicates = ()=>{
+    return fromJS(this.props.segment.predicates).equals( 
+      fromJS(this.props.segment.initialPredicates)
+    )
+  }
+
+  incompletePredicates = ()=>{
+    return this.props.segment.predicates.find((o)=> !o.comparison || !o.value )
+  }
+
   render() {
     const { isOpen, loading } = this.state;
-    /*const actions = [
-      { text: 'Close', onClick: this.close },
-      { text: 'Save Segment', onClick: this.secondaryAction.bind(this) },
-      { text: 'Remove Segment', onClick: this.deleteAction.bind(this) }
-    ];*/
 
     return (
 
@@ -108,7 +113,8 @@ export class SaveSegmentModal extends Component {
           <Button isLoading={false} 
             variant={'small'}
             appearance={'link'}
-            onClick={this.open}>
+            onClick={this.open}
+            disabled={this.equalPredicates() || this.incompletePredicates()}>
             <PieChartIcon variant="small" />
             {" "}
             Save Segment
@@ -349,7 +355,6 @@ export default class SegmentManager extends Component {
   }
 
   render(){
-    console.log("ron: !!", this.getStatePredicate())
     // this.props.actions.getPredicates()
     return <div style={{marginTop: '10px'}}>
    
