@@ -302,7 +302,8 @@ export default class SegmentItemButton extends Component {
                                  }}>
 
                         <FormControlLabel
-                          control={<Radio />} 
+                          control={<Radio 
+                            checked={this.state.selectedOption === o.value}/>} 
                           value={o.value}
                           label={o.label} 
                         /> 
