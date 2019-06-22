@@ -20,6 +20,8 @@ import Button from '@material-ui/core/Button'
 import {appUsersFormat} from '../segmentManager/appUsersFormat'
 import Map from '../map/index.js'
 
+import {dispatchSegmentUpdate} from '../../actions/segments'
+
 const Wrapper = styled.div`
   //min-width: 600px;
 `;
@@ -46,17 +48,57 @@ class AppContent extends Component {
   }
 
   componentDidMount(){
-    this.getSegment()
+    
+    this.props.dispatch(
+      dispatchSegmentUpdate({
+        id: this.props.match.params.segmentID,
+        jwt: this.props.match.params.Jwt
+      })
+    )
+
+    this.getSegment(()=>{
+      this.props.actions.search()
+    })
+   
   }
 
   componentDidUpdate(prevProps, prevState) {
     if (this.props.match.params && prevProps.match.params.segmentID !== this.props.match.params.segmentID) {
-      this.getSegment()
+      
+      this.props.dispatch(
+        dispatchSegmentUpdate({
+          id: this.props.match.params.segmentID,
+          jwt: this.props.match.params.Jwt
+        })
+      )
+
+      this.getSegment(()=>{
+        this.props.actions.search()
+      })
     }
+
+    if (prevProps.segment.jwt !== this.props.segment.jwt) {
+      console.info("cambio jwt")
+      this.props.actions.search()
+    }
+
+    // check empty token , used when same sagment changes jwt
+    if (prevProps.match.params.Jwt !== this.props.match.params.Jwt && !this.props.match.params.Jwt) {
+      
+      this.props.dispatch(
+        dispatchSegmentUpdate({
+          jwt: this.props.match.params.Jwt
+        })
+      )
+
+      this.getSegment(()=>{
+        this.props.actions.search()
+      })
+    }
+
   }
 
   render(){
-    console.log("Container props!---", this.props)
     const {searching, collection, meta} = this.props.app_users
     //const {id, name} = this.props.segment
     //console.log("segment:!" , segment.id, segment, this.props.segment)
@@ -150,7 +192,7 @@ class AppUsers extends Component {
                             appearance={ o.comparison ? "primary" : "default"} 
                             text={this.getTextForPredicate(o)}
                             updatePredicate={this.props.actions.updatePredicate}
-                            predicateCallback={(jwtToken)=> this.handleClickOnSelectedFilter.bind(this)}
+                            predicateCallback={(jwtToken)=> this.handleClickOnSelectedFilter.bind(this)(jwtToken)}
                             deletePredicate={this.props.actions.deletePredicate}                          
                            />
                 })

@@ -79,7 +79,7 @@ export default class SegmentItemButton extends Component {
     //this.props.predicate.type
     let value = null 
     
-    if(!this.relative_input.value)
+    if(this.relative_input && !this.relative_input.value)
       return this.toggleDialog2()
 
     switch(this.props.predicate.type){
@@ -109,9 +109,7 @@ export default class SegmentItemButton extends Component {
       (o, i)=> this.props.index === i ? response : o  
     )
     
-    this.props.updatePredicate(new_predicates, 
-      ()=> this.props.predicateCallback 
-    )
+    this.props.updatePredicate(new_predicates, this.props.predicateCallback )
 
     this.toggleDialog()
   }
@@ -186,11 +184,12 @@ export default class SegmentItemButton extends Component {
                                  }}>
 
                         <FormControlLabel
-                          control={<Radio />} 
+                          control={<Radio 
+                                    checked={this.state.selectedOption === o.value} 
+                                   />} 
                           value={o.value}
                           label={o.label} 
                         /> 
-
 
                         {
 
@@ -499,7 +498,6 @@ export default class SegmentItemButton extends Component {
   });
 
   renderMenu = ()=>{
-    console.log(this)
     if(!this.btn_ref)
       return
 

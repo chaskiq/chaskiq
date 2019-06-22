@@ -106,22 +106,22 @@ class ShowAppContainer extends Component {
       this.init()
     }
 
-    if (prevProps.segment.jwt !== this.props.segment.jwt) {
+    /*if (prevProps.segment.jwt !== this.props.segment.jwt) {
       console.info("cambio jwt")
       this.search()
-    }
+    }*
 
-    if (prevProps.segment.id !== this.props.segment.id) {
+    /*if (prevProps.segment.id !== this.props.segment.id) {
       console.info("cambio segmento")
-      this.fetchApp( ()=>{
+      //this.fetchApp( ()=>{
         this.search()
-      })
-    }
+      //})
+    }*/
   }
 
   init = () => {
     this.fetchApp(() => {
-      this.search()
+      //this.search()
       this.eventsSubscriber(this.props.app.key)
     })
   }
@@ -198,25 +198,9 @@ class ShowAppContainer extends Component {
   }
 
   search = (page)=>{
-    //this.setState({searching: true})
-    // jwt or predicates from segment
-    /*console.log(this.props.jwt)
-    const jwtData = this.state.jwt ? parseJwt(this.props.jwt).data : this.props.segment.segment.predicates
-    const predicates_data = { data: {
-                                predicates: jwtData.filter( (o)=> o.comparison )
-                              }
-                            }
-                            
-    
     const options = {
-      appKey: this.props.app.key,
-      search: predicates_data,
       page: page || 1,
-      jwt: this.props.jwt,
-    }*/
 
-    const options = {
-      page: page || 1
     }
 
     this.props.dispatch(
@@ -228,73 +212,18 @@ class ShowAppContainer extends Component {
 
       })
     )                      
-    
-    /*graphql(PREDICATES_SEARCH, {
-      appKey: this.props.app.key,
-      search: predicates_data,
-      page: page || 1
-    }, {
-      success: (data)=>{
-        console.log(data)
-        const appUsers = data.predicatesSearch.appUsers
-        //console.log(jwtData)
-        this.setState({
-          segment: Object.assign({}, this.state.segment, { predicates: jwtData }),
-          app_users: appUsers.collection,
-          meta: appUsers.meta,
-          searching: false
-        })
-      },
-      error: (error) => {
-        debugger
-      }
-    }) */ 
   }
 
   fetchAppSegment =(id)=>{
-
-
     this.props.dispatch(
       fetchAppSegment(id, this.search )
     )
-
-    /*graphql(SEGMENT, {
-      appKey: this.props.app.key,
-      id: parseInt(id)
-    }, {
-      success: (data)=>{
-        this.setState({
-          segment: data.app.segment,
-          jwt: null
-        }, this.search)
-      },
-      error: (error)=>{
-        console.log(error);
-      }
-    })*/
   }
 
   updateSegment = (data, cb)=>{
-
    this.props.dispatch(
      updateSegment(this.props.segment.id, cb)
    )
-
-    /*const params = {
-      appKey: this.props.app.key,
-      id: this.state.segment.id,
-      predicates: this.state.segment.predicates
-    }
-    graphql(PREDICATES_UPDATE, params, {
-      success: (data)=>{
-        this.setState({
-          segment: data.predicatesUpdate.segment,
-          jwt: null
-        }, () => cb ? cb() : null)
-      },
-      error: (error)=>{
-      }
-    })*/
   }
 
   createSegment = (data, cb)=>{
@@ -311,26 +240,6 @@ class ShowAppContainer extends Component {
         cb ? cb() : null
       })
     )
-
-    /*
-    graphql(PREDICATES_CREATE, params, {
-      success: (data)=>{
-        this.setState({
-          segment: data.predicatesCreate.segment,
-          jwt: null
-        }, () => {
-        
-          const url = `/apps/${this.props.app.key}/segments/${this.state.segment.id}.json`
-          this.props.history.push(url)
-          cb ? cb() : null
-        })
-
-      },
-      error: (error)=>{
-
-      }
-    })
-    */
   }
 
   deleteSegment = (id, cb)=>{
@@ -343,22 +252,6 @@ class ShowAppContainer extends Component {
       this.fetchApp()
 
     }))
-
-    /*
-    graphql(PREDICATES_DELETE, {
-      appKey: this.props.app.key,
-      id: id
-    }, {
-      success: (data)=>{
-        cb ? cb() : null
-        const url = `/apps/${this.props.app.key}/segments/1`
-        this.props.history.push(url)
-        this.fetchApp()
-      },
-      error: (error)=>{
-
-      }
-    })*/
   }
 
   addPredicate = (data, cb)=>{
@@ -369,20 +262,12 @@ class ShowAppContainer extends Component {
       type: data.type,
       value: data.value
     }
-
-    /*
-    const new_predicates = this.state.segment.predicates.concat(pending_predicate)
-    const jwtToken = generateJWT(new_predicates)
-    //console.log(parseJwt(jwtToken))
-    if(cb)
-      cb(jwtToken)
-    */
-
     this.props.dispatch(addPredicate(pending_predicate, (token)=>{
+      //const url = `/apps/${this.props.app.key}/segments/${this.props.segment.id}?jwt`
       cb ? cb(token) : null
       //this.setState({jwt: token})
     }))
-    
+
   }
 
   updatePredicate= (data, cb)=>{
@@ -391,12 +276,6 @@ class ShowAppContainer extends Component {
       cb ? cb(token) : null
       //this.setState({jwt: token})
     }))
-
-    //const jwtToken = generateJWT(data)
-    //console.log(parseJwt(jwtToken))
-    //if(cb)
-    //  cb(jwtToken)
-    //this.setState({jwt: jwtToken})
   }
 
   getPredicates= ()=>{
@@ -423,13 +302,6 @@ class ShowAppContainer extends Component {
         ()=> this.updateSegment({}, this.fetchApp()) 
       )
     )
-
-    /*this.setState(
-      { segment: {
-        id: this.state.segment.id,
-        predicates: data,
-        jwt: null
-      }} , ()=> this.updateSegment({}, this.fetchApp()) )*/
   }
 
   render(){
