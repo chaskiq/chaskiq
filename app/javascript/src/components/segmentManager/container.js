@@ -153,11 +153,15 @@ class AppUsers extends Component {
     this.props.history.push(url) 
   }
 
+  displayName = (o)=>{
+    return o.attribute.split("_").join(" ")
+  }
+
   getTextForPredicate = (o)=>{
     if(o.type === "match"){
       return `Match ${o.value === "and" ? "all" : "any" } criteria`
     }else{
-      return `${o.attribute} ${o.comparison ? o.comparison : '' } ${o.value ? o.value : ''}`
+      return `${this.displayName(o)} ${o.comparison ? o.comparison : '' } ${o.value ? o.value : ''}`
     }
   }
 
