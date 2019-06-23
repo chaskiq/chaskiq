@@ -74,7 +74,11 @@ export const CONVERSATIONS = `
           priority
           lastMessage{
             source
-            message
+            message{
+              htmlContent
+              textContent
+              serializedContent
+            }
             privateNote
             messageSource{
               id
@@ -126,7 +130,11 @@ export const CONVERSATION=`
         messages(page: $page){
           collection{
             id
-            message
+            message{
+              htmlContent
+              textContent
+              serializedContent
+            }
             source
             readAt
             createdAt

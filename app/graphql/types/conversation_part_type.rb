@@ -1,7 +1,10 @@
 module Types
   class ConversationPartType < Types::BaseObject
     field :id, Integer, null: true
-    field :message, String, null: true
+    field :message, Types::ConversationPartContentType, null: true
+    #field :serialized_content, String, null: true
+    #field :html_content, String, null: true
+    #field :text_content, String, null: true
     field :read_at, GraphQL::Types::ISO8601DateTime, null: true
     field :created_at, GraphQL::Types::ISO8601DateTime, null: true
     field :app_user, Types::AuthorType, null: true

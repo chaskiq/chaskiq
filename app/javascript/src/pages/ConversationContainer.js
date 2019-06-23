@@ -109,7 +109,7 @@ class MessageItem extends Component {
           }  
               
           <span dangerouslySetInnerHTML={
-            { __html: sanitizeHtml(this.props.message.message).substring(0, 250) }
+            { __html: sanitizeHtml(this.props.message.message.htmlContent).substring(0, 250) }
           }/>
           
         </MessageBody>
@@ -305,7 +305,7 @@ class ConversationContainer extends Component {
                                   messageObject={o.lastMessage}
                                   conversation={o}
                                   //createdAt={o.lastMessage.message.created_at}
-                                  message={sanitizeHtml(o.lastMessage.message).substring(0, 250)}
+                                  message={sanitizeHtml(o.lastMessage.message.htmlContent).substring(0, 250)}
                                 />
 
                                 {/*<MessageItem 

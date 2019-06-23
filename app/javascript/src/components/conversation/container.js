@@ -53,6 +53,8 @@ import {getConversation,
 
 import { camelCase, isEmpty } from 'lodash';
 
+import DraftRenderer from './draftRenderer'
+
 class ConversationContainerShow extends Component {
 
   constructor(props){
@@ -193,21 +195,6 @@ class ConversationContainerShow extends Component {
     this.props.dispatch(updateConversationState(state, ()=>{
       cb ? cb(data.updateConversationState.conversation) : null
     }))
-
-    /*graphql(UPDATE_CONVERSATION_STATE, {
-      appKey: this.props.appId, 
-      conversationId: this.props.conversation.id,
-      state: state
-    }, {
-      success: (data)=>{
-        const conversation = data.updateConversationState.conversation
-        this.props.setConversation(conversation, 
-          ()=> cb ? cb(data.updateConversationState.conversation) : null
-        )
-      },
-      error: (error)=>{
-      }
-    })*/
   }
 
   toggleConversationPriority = (e, cb)=>{
@@ -319,12 +306,22 @@ class ConversationContainerShow extends Component {
                                           : theme 
                                         }>
                                           <EditorContainer>
-                                            <div  
-                                              key={i}
-                                              dangerouslySetInnerHTML={{
-                                                __html:  o.message 
-                                              }} 
-                                            />
+
+                                            {
+                                              userOrAdmin === "admin" ?
+                                              
+                                              <DraftRenderer key={i} 
+                                                raw={JSON.parse(o.message.serializedContent)}
+                                              /> : 
+                                            
+                                              <div  
+                                                key={i}
+                                                dangerouslySetInnerHTML={{
+                                                  __html:  o.message.htmlContent
+                                                }} 
+                                              /> 
+                                            }
+
                                           </EditorContainer>
                                        </ThemeProvider>
 

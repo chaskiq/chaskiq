@@ -61,7 +61,7 @@ class Conversation < ApplicationRecord
 
   def notify_subscribers(part)
     subscribers = ConversationsChannel.broadcast_to("#{self.app.key}-#{self.id}", 
-      part.as_json 
+      part.as_json
     )
     logger.info("subscribers: #{subscribers}")
     # could be events channel too

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_06_20_152714) do
+ActiveRecord::Schema.define(version: 2019_06_22_233947) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -141,6 +141,16 @@ ActiveRecord::Schema.define(version: 2019_06_20_152714) do
     t.jsonb "settings", default: {}
     t.datetime "scheduled_to"
     t.index ["app_id"], name: "index_campaigns_on_app_id"
+  end
+
+  create_table "conversation_part_contents", force: :cascade do |t|
+    t.bigint "conversation_part_id"
+    t.text "html_content"
+    t.text "serialized_content"
+    t.text "text_content"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["conversation_part_id"], name: "index_conversation_part_contents_on_conversation_part_id"
   end
 
   create_table "conversation_parts", force: :cascade do |t|

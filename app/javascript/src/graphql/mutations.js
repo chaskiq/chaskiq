@@ -66,10 +66,14 @@ export const CREATE_APP = `
 `;
 
 export const INSERT_COMMMENT = `
-  mutation InsertComment($appKey: String!, $id: Int!, $message: String!){
+  mutation InsertComment($appKey: String!, $id: Int!, $message: Json!){
     insertComment(appKey: $appKey, id: $id, message: $message){
       message{
-        message
+        message{
+          htmlContent
+          textContent
+          serializedContent
+        }
         readAt
         appUser{
           id
@@ -92,10 +96,14 @@ export const INSERT_COMMMENT = `
 `;
 
 export const INSERT_NOTE = `
-  mutation InsertNote($appKey: String!, $id: Int!, $message: String!){
+  mutation InsertNote($appKey: String!, $id: Int!, $message: Json!){
     insertNote(appKey: $appKey, id: $id, message: $message){
       message{
-        message
+        message{
+          htmlContent
+          textContent
+          serializedContent
+        }
         readAt
         createdAt
         appUser{

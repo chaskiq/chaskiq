@@ -31,7 +31,9 @@ class Api::V1::ConversationsController < ApiController
 
     if params[:message].present?
       @conversation = @app.start_conversation({
-        message: params[:message], 
+        message: {
+          html_content: params[:message]
+        }, 
         from: user
       })
     else
@@ -52,7 +54,9 @@ class Api::V1::ConversationsController < ApiController
 
     @message = @conversation.add_message({
       from: @user,
-      message: params[:message]
+      message: {
+        html_content: params[:message]
+      }
     })
     render :show
   end

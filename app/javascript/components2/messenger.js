@@ -14,7 +14,13 @@ import Quest from './messageWindow'
 
 import StyledFrame from 'react-styled-frame'
 import styled, { ThemeProvider } from 'styled-components'
-import DanteContainer from './styles/dante'
+//import DanteContainer from './styles/dante'
+
+import theme from '../src/components/conversation/theme'
+import themeDark from '../src/components/conversation/darkTheme'
+import DraftRenderer from '../src/components/conversation/draftRenderer'
+import DanteContainer from '../src/components/conversation/editorStyles'
+
 //import CrossIcon from '@atlaskit/icon/glyph/cross';
 //import Button from '@atlaskit/button';
 import sanitizeHtml from 'sanitize-html';
@@ -404,7 +410,6 @@ class Messenger extends Component {
           })
 
         } else {
-
           this.setState({
             conversation_messages: [data].concat(this.state.conversation_messages)
           }, this.scrollToLastItem)
@@ -841,7 +846,7 @@ class Conversation extends Component {
 
 
 
-                    <DanteContainer>
+                    <div>
 
                       {
                         this.props.isUserAutoMessage(o) ?
@@ -851,12 +856,34 @@ class Conversation extends Component {
                           </UserAutoChatAvatar> : null
                       }
 
-                      <div
+
+                       {
+                        o.app_user.kind === "agent" ?
+                        <ThemeProvider theme={ o.private_note ? theme : themeDark }>
+                          <DanteContainer>
+                            <DraftRenderer key={i} 
+                              raw={JSON.parse(o.message.serialized_content)}
+                            />
+                          </DanteContainer>
+                        </ThemeProvider> : 
+                      
+                        <div
                         key={i}
                         className={this.props.isUserAutoMessage(o) ? '' : "text"}
-                        dangerouslySetInnerHTML={{ __html: `<p>${o.message}</p>` }}
-                      />
-                    </DanteContainer>
+                          dangerouslySetInnerHTML={
+                            { __html: `<p>${o.message.html_content}</p>` }
+                          }
+                        />
+                      }
+
+                      {/*<div
+                        key={i}
+                        className={this.props.isUserAutoMessage(o) ? '' : "text"}
+                        dangerouslySetInnerHTML={
+                          { __html: `<p>${o.message.html_content}</p>` }
+                        }
+                      />*/}
+                    </div>
 
 
                     <span className="status">
@@ -981,7 +1008,7 @@ class Conversations extends Component {
                         {/* TODO: sanitize in backend */}
                         <ConversationSummaryBodyContent
                           dangerouslySetInnerHTML={
-                            { __html: this.sanitizeMessageSummary(message.message) }
+                            { __html: this.sanitizeMessageSummary(message.message.html_content) }
                           }
                         />
                       </ConversationSummaryBody>

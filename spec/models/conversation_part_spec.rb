@@ -36,15 +36,19 @@ RSpec.describe ConversationPart, type: :model do
     end
 
     it "add message from app user" do
-      conversation.add_message(from: app.app_users.first, message: "foo")
+      conversation.add_message(from: app.app_users.first, message: {html_content: "foo", serialized_content: "bar"})
       expect(conversation.messages.count).to be == 1
       expect(conversation.messages.first.authorable).to be_present
+      expect(conversation.messages.first.html_content).to be_present
+      expect(conversation.messages.first.serialized_content).to be_present
     end
 
     it "add message from agent" do
-      conversation.add_message(from: app.agents.first, message: "foo")
+      conversation.add_message(from: app.agents.first, message: {html_content: "foo", serialized_content: "bar"})
       expect(conversation.messages.count).to be == 1
       expect(conversation.messages.first.authorable).to be_present
+      expect(conversation.messages.first.html_content).to be_present
+      expect(conversation.messages.first.serialized_content).to be_present
     end
 
     it "assign user" do
