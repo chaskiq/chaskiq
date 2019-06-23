@@ -79,6 +79,11 @@ An the content of the campaign is managed with a state of the art wysiwyg text e
 
 + https://www.intercom.com/help/articles/277-where-do-the-social-profiles-come-from
 
+
+### messenger implementations
+
++ https://matrix.org/docs/projects/bots
+
 ### browser navigation
 
 + http://html2canvas.hertzen.com/

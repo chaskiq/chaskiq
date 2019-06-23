@@ -111,32 +111,6 @@ export const ArticlePad = styled.div`
   }
 `
 
-const findWithRegex = (regex, contentBlock, callback) => {
-  const text = contentBlock.getText();
-  let matchArr, start, end;
-  while ((matchArr = regex.exec(text)) !== null) {
-    start = matchArr.index;
-    end = start + matchArr[0].length;
-    callback(start, end);
-  }
-};
-
-const findSelectedBlockFromRemote = (selectionRange, contentBlock, callback) => {
-  const text = contentBlock.getText();
-  const k = contentBlock.getKey();
-  let sel, start, end;
-
-  sel = selectionRange.find((o) => o.anchorKey === k)
-  console.log("selection: ", selectionRange, k)
-  if (sel) {
-    start = sel.anchorOffset
-    end = start === sel.focusOffset ? sel.focusOffset + 1 : sel.focusOffset
-    console.log("entity at", start, end)
-    callback(start, end)
-  }
-
-};
-
 export const SelectionIndicator = styled.span`
   position: relative;
   background-color: red;
@@ -703,7 +677,9 @@ export default class ChatEditor extends Component {
 
   handleSubmit = (e)=>{
 
-    this.props.submitData(this.state.html)
+    const {html, serialized, text} = this.state
+
+    this.props.submitData({html, serialized, text})
   }
 
   render() {

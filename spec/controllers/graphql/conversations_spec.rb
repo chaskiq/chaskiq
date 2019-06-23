@@ -25,14 +25,14 @@ RSpec.describe GraphqlController, type: :controller do
 
   let!(:conversation){
     app.start_conversation({
-      message: "message", 
+      message: {html_content: "message"}, 
       from: app_user,
     }) 
   }
 
   let(:conversation_from_agent){
     app.start_conversation({
-      message: "message", 
+      message: {html_content: "message"}, 
       from: agent_role.agent,
     }) 
   }
@@ -95,7 +95,7 @@ RSpec.describe GraphqlController, type: :controller do
       id: conversation.id,
       message: "<p>helo</p>"
     })
-
+    binding.pry
     expect(graphql_response.data.insertComment.message.message).to_not be_blank
   end
 

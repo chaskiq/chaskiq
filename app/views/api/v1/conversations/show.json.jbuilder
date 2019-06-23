@@ -6,7 +6,7 @@ json.messages @messages do |u|
   json.conversation_id u.conversation_id 
   json.created_at u.created_at 
   json.id u.id 
-  json.message u.message 
+  json.message u.message
   json.read_at u.read_at 
   json.updated_at u.updated_at 
 end if @messages.present?

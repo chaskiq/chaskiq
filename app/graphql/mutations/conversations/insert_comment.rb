@@ -9,7 +9,7 @@ module Mutations
       # TODO: define arguments
       argument :app_key, String, required: true
       argument :id, Int, required: true
-      argument :message, String, required: true
+      argument :message, Types::JsonType, required: true
 
       # TODO: define resolve method
       def resolve(app_key:, id:, message:)
@@ -27,9 +27,13 @@ module Mutations
 
         @message = conversation.add_message({
           from: author,
-          message: message
+          message: {
+            html_content: message["html"],
+            serialized_content: message["serialized"],
+            text_content: message["serialized"]
+          }
         })
-        {message: @message}
+        {message: @message }
       end
 
 
