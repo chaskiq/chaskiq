@@ -225,18 +225,6 @@ export const Body = styled.div`
 
 export const Footer = styled.div`
 
-/*
-  width: 100%;
-  display: inline-block;
-  background: #fff;
-  border-top: 1px solid #eee;
-  border-bottom-right-radius: 10px;
-  border-bottom-left-radius: 10px;
-  display: flex;
-  align-items: center;
-  transition: background-color .2s ease,box-shadow .2s ease,-webkit-box-shadow .2s ease;
-  box-shadow: 0px -6px 58px #ececec;
-*/
     z-index: 2147483001;
     text-align: center;
     position: absolute;
@@ -301,19 +289,23 @@ export const MessageItem = styled.div`
     min-width: 25%;
     display: block;
     word-wrap: break-word;
-    border-radius: 3px;
     -webkit-animation: zoomIn .5s cubic-bezier(.42, 0, .58, 1);
     animation: zoomIn .5s cubic-bezier(.42, 0, .58, 1);
     clear: both;
     z-index: 999;
 
     &.user {
-      margin-left: 60px;
-      float: left;
       align-self: flex-start;
-      background: rgba(0, 0, 0, 0.03);
-      color: #666;   
+      display: flex;
+      flex-direction: row;
       
+      .message-content-wrapper {
+        background: #ccc;
+        padding: 9px;
+        margin: 5px;
+        border-radius: 3px;
+      }
+
       .text{
         p{
           color: #000;
@@ -323,15 +315,25 @@ export const MessageItem = styled.div`
 
     &.admin {
 
+      .message-content-wrapper {
+        background: ${mainColor};
+        padding: 9px;
+        margin: 5px;
+        border-radius: 3px;
+      }
+
 
       ${(props) => (props.messageSourceType === "UserAutoMessage" ? `
         align-self: center;
         border: 1px solid #f1f0f0;
       ` : `
         align-self: flex-end;
-        background: ${mainColor};
-        margin-right: 20px;
-        float: right;
+        //background: ${mainColor};
+        //margin-right: 20px;
+        //float: right;
+        display: flex;
+        flex-direction: row-reverse;
+
       `)}
 
       color: #eceff1; 
@@ -359,12 +361,13 @@ export const MessageItem = styled.div`
 
     .status {
       position: absolute;
-      bottom: 2px;
-      width: 100px;
-      right: 6px;
+      bottom: -4px;
+      right: 15px;
       color: #b1afaf;
-      font-size: 9px;
+      font-size: 12px;
       text-align: right;
+      display: flex;
+      justify-content: center;
     }
 `;
 
@@ -384,10 +387,12 @@ export const HeaderOption = styled.div`
 `
 
 export const ChatAvatar = styled.div`
-    left: -52px;
+    //left: -52px;
     //background: rgba(0, 0, 0, 0.03);
-    position: absolute;
-    top: 0;
+    //position: absolute;
+    //top: 0;
+
+    align-self: flex-end;
 
     img {
       width: 40px;

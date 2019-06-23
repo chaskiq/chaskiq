@@ -120,12 +120,12 @@ export function insertComment(comment, cb){
   }
 }
 
-export function insertNote(key, cb){
+export function insertNote(comment, cb){
   return (dispatch, getState) => {
 
     graphql(INSERT_NOTE, { 
-      appKey: this.props.appId, 
-      id: id, 
+      appKey: getState().app.key, 
+      id: getState().conversation.id,
       message: comment
     }, {
         success: (data)=>{
