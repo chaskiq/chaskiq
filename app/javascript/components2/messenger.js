@@ -846,7 +846,7 @@ class Conversation extends Component {
 
 
 
-                    <div>
+                    <div className="message-content-wrapper">
 
                       {
                         this.props.isUserAutoMessage(o) ?
@@ -885,7 +885,6 @@ class Conversation extends Component {
                       />*/}
                     </div>
 
-
                     <span className="status">
                       {
                         o.read_at ?
@@ -894,6 +893,7 @@ class Conversation extends Component {
                           </Moment> : <span>not seen</span>
                       }
                     </span>
+
                   </MessageItem>
                 </MessageItemWrapper>
               })
