@@ -14,7 +14,13 @@ import Quest from './messageWindow'
 
 import StyledFrame from 'react-styled-frame'
 import styled, { ThemeProvider } from 'styled-components'
-import DanteContainer from './styles/dante'
+//import DanteContainer from './styles/dante'
+
+import theme from '../src/components/conversation/theme'
+import themeDark from '../src/components/conversation/darkTheme'
+import DraftRenderer from '../src/components/conversation/draftRenderer'
+import DanteContainer from '../src/components/conversation/editorStyles'
+
 //import CrossIcon from '@atlaskit/icon/glyph/cross';
 //import Button from '@atlaskit/button';
 import sanitizeHtml from 'sanitize-html';
@@ -205,12 +211,22 @@ class Messenger extends Component {
     this.defaultCableData = {
       app: this.props.app_id,
       email: this.props.email,
-      properties: this.props.properties
+      properties: this.props.properties,
+      session_id: this.props.session_id
     }
 
     if(this.props.encryptedMode){
-      this.defaultHeaders = { enc_data: this.props.encData }
-      this.defaultCableData = { app: this.props.app_id, enc_data: this.props.encData }
+      
+      this.defaultHeaders = { 
+        enc_data: this.props.encData,
+        session_id: this.props.session_id
+      }
+
+      this.defaultCableData = { 
+        app: this.props.app_id, 
+        enc_data: this.props.encData,
+        session_id: this.props.session_id
+      }
     }
 
     this.axiosInstance = axios.create({
@@ -242,6 +258,7 @@ class Messenger extends Component {
       this.eventsSubscriber()
       this.getConversations()
       this.getMessage()
+      this.locationChangeListener()
     })
 
     this.updateDimensions()
@@ -263,6 +280,32 @@ class Messenger extends Component {
 
   componentWillUnmount() {
     window.removeEventListener("resize", this.updateDimensions);
+  }
+
+  // todo: track pages here
+  locationChangeListener = ()=>{
+    /* These are the modifications: */
+    history.pushState = ( f => function pushState(){
+        var ret = f.apply(this, arguments);
+        window.dispatchEvent(new Event('pushState'));
+        window.dispatchEvent(new Event('locationchange'));
+        return ret;
+    })(history.pushState);
+
+    history.replaceState = ( f => function replaceState(){
+        var ret = f.apply(this, arguments);
+        window.dispatchEvent(new Event('replaceState'));
+        window.dispatchEvent(new Event('locationchange'));
+        return ret;
+    })(history.replaceState);
+
+    window.addEventListener('popstate',()=>{
+        window.dispatchEvent(new Event('locationchange'))
+    });
+
+    window.addEventListener('locationchange', function(){
+      alert('location changed!');
+    })
   }
 
   detectMobile = ()=>{
@@ -366,17 +409,13 @@ class Messenger extends Component {
           })
 
         } else {
-
           this.setState({
             conversation_messages: [data].concat(this.state.conversation_messages)
           }, this.scrollToLastItem)
           
-          if (this.props.email !== data.app_user.email) {
+          if (data.app_user.kind != "app_user") {
             this.playSound()
           }
-          /*App.conversations.perform("receive", 
-            Object.assign({}, data, {email: this.props.email})
-          )*/
         }
 
       },
@@ -597,7 +636,7 @@ class Messenger extends Component {
   }
 
   isMessengerActive = ()=>{
-    return this.state.appData && this.state.appData.active_messenger == "on" || this.state.appData.active_messenger == "true"
+    return this.state.appData && this.state.appData.active_messenger == "on" || this.state.appData.active_messenger == "true" || this.state.appData.active_messenger === true
   }
 
   isTourManagerEnabled = ()=>{
@@ -732,7 +771,6 @@ class Messenger extends Component {
                     axiosInstance={this.axiosInstance}
                     availableMessages={this.state.availableMessages}
                     availableMessage={this.state.availableMessage}
-                    axiosInstance={this.axiosInstance}
                     {...this.props}
                     
                   /> : <div/>
@@ -788,7 +826,7 @@ class Conversation extends Component {
             isMobile={this.props.isMobile}>
             {
               this.props.conversation_messages.map((o, i) => {
-                const userClass = this.props.conversation.main_participant.email === o.app_user.email ? 'user' : 'admin'
+                const userClass = o.app_user.kind === "agent" ? 'admin' : 'user'
 
                 return <MessageItemWrapper
                   email={this.props.email}
@@ -807,7 +845,7 @@ class Conversation extends Component {
 
 
 
-                    <DanteContainer>
+                    <div className="message-content-wrapper">
 
                       {
                         this.props.isUserAutoMessage(o) ?
@@ -817,13 +855,34 @@ class Conversation extends Component {
                           </UserAutoChatAvatar> : null
                       }
 
-                      <div
+
+                       {
+                        o.app_user.kind === "agent" ?
+                        <ThemeProvider theme={ o.private_note ? theme : themeDark }>
+                          <DanteContainer>
+                            <DraftRenderer key={i} 
+                              raw={JSON.parse(o.message.serialized_content)}
+                            />
+                          </DanteContainer>
+                        </ThemeProvider> : 
+                      
+                        <div
                         key={i}
                         className={this.props.isUserAutoMessage(o) ? '' : "text"}
-                        dangerouslySetInnerHTML={{ __html: `<p>${o.message}</p>` }}
-                      />
-                    </DanteContainer>
+                          dangerouslySetInnerHTML={
+                            { __html: `<p>${o.message.html_content}</p>` }
+                          }
+                        />
+                      }
 
+                      {/*<div
+                        key={i}
+                        className={this.props.isUserAutoMessage(o) ? '' : "text"}
+                        dangerouslySetInnerHTML={
+                          { __html: `<p>${o.message.html_content}</p>` }
+                        }
+                      />*/}
+                    </div>
 
                     <span className="status">
                       {
@@ -833,6 +892,7 @@ class Conversation extends Component {
                           </Moment> : <span>not seen</span>
                       }
                     </span>
+
                   </MessageItem>
                 </MessageItemWrapper>
               })
@@ -883,6 +943,14 @@ class Conversations extends Component {
     }
   }
 
+  sanitizeMessageSummary = (message)=>{
+    if(!message)
+      return
+
+    const sanitized = sanitizeHtml(message)
+    return sanitized.length > 100 ? `${sanitized.substring(0, 100)} ...` : sanitized
+  }
+
   render(){
     return <div style={{
       position: 'absolute',
@@ -899,8 +967,7 @@ class Conversations extends Component {
             this.props.conversations.map((o, i) => {
 
               const message = o.last_message
-              const sanitized = sanitizeHtml(message.message)
-              const summary = sanitized.length > 100 ? `${sanitized.substring(0, 100)} ...` : sanitized
+
               return <CommentsItem key={o.id}
                 onClick={(e) => { this.props.displayConversation(e, o) }}>
 
@@ -924,6 +991,7 @@ class Conversations extends Component {
                           <Autor>
                             {message.app_user.email}
                           </Autor>
+
                           <Moment fromNow style={{
                             float: 'right',
                             color: '#ccc',
@@ -934,10 +1002,13 @@ class Conversations extends Component {
                           }}>
                             {message.created_at}
                           </Moment>
+
                         </ConversationSummaryBodyMeta>
                         {/* TODO: sanitize in backend */}
                         <ConversationSummaryBodyContent
-                          dangerouslySetInnerHTML={{ __html: summary }}
+                          dangerouslySetInnerHTML={
+                            { __html: this.sanitizeMessageSummary(message.message.html_content) }
+                          }
                         />
                       </ConversationSummaryBody>
                     </ConversationSummary> : null
@@ -1136,10 +1207,8 @@ class MessageContainer extends Component {
 
 class MessageItemWrapper extends Component {
   componentDidMount(){
-    //console.log(this.props.email)
-    //console.log(this.props.data.read_at ? "yes" : "EXEC A READ HERE!")
-    // mark as read on first render
-    if(!this.props.data.read_at){
+    // mark as read on first render it not read & from admin
+    if(!this.props.data.read_at && this.props.data.app_user.kind != "app_user"){
       App.conversations.perform("receive", 
         Object.assign({}, this.props.data, {email: this.props.email})
       )

@@ -1,33 +1,106 @@
 require "rails_helper"
 
 RSpec.describe "Widget management", :type => :system do
-  before do
-    #driven_by(:rack_test)
-    driven_by :selenium, using: :chrome, screen_size: [1400, 1400]
-  end
 
-  it "enables me to create widgets" do
-    app = FactoryGirl.create(:app, 
-                              encryption_key: "unodostrescuatro",
-                              active_messenger: true,
+  let!(:app){
+    FactoryGirl.create(:app, encryption_key: "unodostrescuatro",
+                              active_messenger: "true",
                               state: 'enabled')
-                              
-    visit "/tester"
+  }
 
-    expect(page).to have_text("Hello")
-    expect(page).to have_text("miguel")
-    expect(page).to have_text(app.key)
-    expect(AppUser.count).to be == 1
-    expect(AppUser.first.properties).to_not be_blank
-    expect(AppUser.first.last_visited_at).to_not be_blank
-    expect(AppUser.first.referrer).to_not be_blank
-    expect(AppUser.first.lat).to_not be_blank
-    expect(AppUser.first.lng).to_not be_blank
-    expect(AppUser.first.os).to_not be_blank
-    expect(AppUser.first.os_version).to_not be_blank
-    expect(AppUser.first.browser).to_not be_blank
-    expect(AppUser.first.browser_version).to_not be_blank
-    expect(AppUser.first.browser_language).to_not be_blank
+  let!(:user){
+    app.add_user({email: "test@test.cl"})
+  }
+
+  let!(:agent_role){
+    app.add_agent({email: "test2@test.cl"})
+  }
+
+  before do
+
+    if ENV["CI"].present? 
+      Selenium::WebDriver::Chrome::Service.driver_path = ENV.fetch('GOOGLE_CHROME_BIN', nil)
+      options = Selenium::WebDriver::Chrome::Options.new
+      options.binary = ENV.fetch('GOOGLE_CHROME_SHIM', nil)
+      driver = Selenium::WebDriver.for :chrome, options: options
+    end
+
+    options_for_selemium = ENV["CI"].present? ? 
+
+    {
+      args: ["headless", "disable-gpu", "no-sandbox", "disable-dev-shm-usage"] ,
+    } : {}
+
+    driven_by :selenium, using: :chrome, screen_size: [1400, 1400],
+     options: options_for_selemium
   end
+
+  it "renders messenger on registered users creating a app user" do                       
+    visit "/tester/#{app.key}?sessionless=true"
+
+    prime_iframe = all("iframe").first
+
+    Capybara.within_frame(prime_iframe){ 
+      page.find(".ckPVap").click 
+    }
+
+    # now 2nd iframe appears on top
+    messenger_iframe = all("iframe").first
+
+    Capybara.within_frame(messenger_iframe){ 
+      page.has_content?("Hello!") 
+    }
+
+    expect(app.app_users.count).to be == 1
+    expect(app.app_users.first.properties).to_not be_blank
+    expect(app.app_users.first.last_visited_at).to_not be_blank
+    expect(app.app_users.first.referrer).to_not be_blank
+    expect(app.app_users.first.lat).to_not be_blank
+    expect(app.app_users.first.lng).to_not be_blank
+    expect(app.app_users.first.os).to_not be_blank
+    expect(app.app_users.first.os_version).to_not be_blank
+    expect(app.app_users.first.browser).to_not be_blank
+    expect(app.app_users.first.browser_version).to_not be_blank
+    expect(app.app_users.first.browser_language).to_not be_blank
+
+    visit "/tester/#{app.key}"
+
+    expect(app.app_users.count).to be == 1
+
+  end
+
+
+  it "renders messenger on registered users creating a app user" do                       
+    
+    app.start_conversation({
+      message: "message", 
+      from: user
+    })
+
+    visit "/tester/#{app.key}"
+
+    prime_iframe = all("iframe").first
+
+    Capybara.within_frame(prime_iframe){ 
+      page.find(".ckPVap").click 
+    }
+
+    # now 2nd iframe appears on top
+    messenger_iframe = all("iframe").first
+
+    Capybara.within_frame(messenger_iframe){ 
+      page.has_content?("Hello!") 
+    }
+
+    Capybara.within_frame(messenger_iframe){
+      page.has_content?(user.email)
+    }
+
+    Capybara.within_frame(messenger_iframe){
+      page.has_content?("a few seconds ago")
+    }
+
+  end
+
 
 end

@@ -61,7 +61,7 @@ private
   end
 
   def find_subscriber
-    @subscriber = @campaign.subscribers.joins(:user).find_by(["users.email =?", URLcrypt.decode(params[:id]) ] )
+    @subscriber = @campaign.subscribers.find_by(["email =?", URLcrypt.decode(params[:id]) ] )
     #(email: URLcrypt.decode(params[:id]))
   end
 end

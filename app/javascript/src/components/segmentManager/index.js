@@ -6,6 +6,9 @@ import AddIcon from '@material-ui/icons/Add'
 import FormDialog from '../FormDialog'
 import DataTable from '../dataTable'
 import {appUsersFormat} from './appUsersFormat' 
+import ClickAwayListener from '@material-ui/core/ClickAwayListener';
+import SegmentItemButton from './itemButton'
+import {Map, List, fromJS} from 'immutable'
 
 import {
   Button,
@@ -26,7 +29,7 @@ const ContentMatchTitle = styled.h5`
 
 const ContentMatch = styled.div`
   overflow: auto;
-  width: 100%;
+  width: 300px;
   height: 121px;
   margin-bottom: 25px;
   padding-left: 14px;
@@ -46,350 +49,18 @@ const ContentMatchFooter = styled.div`
 `
 
 const ButtonGroup = styled.div`
+  //display: inline-flex;
+  //display: -webkit-box;
+
   display: inline-flex;
-  display: -webkit-box;
+  flex-wrap: wrap;
+
   button {
     margin-right: 5px !important;
   }
 `
 
-// same as SegmentItemButton
-export class SegmentItemButton extends Component {
-  state = {
-    dialogOpen: this.props.open,
-    selectedOption: this.props.predicate.comparison,
-    btn: null
-  };
 
-  relative_input = null
-
-  onRadioChange = (value, cb)=> {
-    this.setState({
-      selectedOption: value
-    }, ()=> cb ? cb() : null)
-  };
-
-  handleSubmit = (e)=> {
-    //this.props.predicate.type
-    let value = null 
-    switch(this.props.predicate.type){
-      case "string": {
-        value = `${this.relative_input.value}`
-        break;
-      }
-      case "date": {
-        value = `${this.relative_input.value} days ago`
-        break;
-      }
-
-      case "match": {
-        value = `${this.state.selectedOption}`
-        break;
-      }
-
-    }
-    
-    const h = {
-      comparison: this.state.selectedOption.replace("relative:", ""),
-      value: value
-    }
-
-    const response = Object.assign({}, this.props.predicate, h )
-    const new_predicates = this.props.predicates.map((o, i)=> this.props.index === i ? response : o  )
-    
-    this.props.updatePredicate(new_predicates, ()=> this.props.predicateCallback )
-
-    this.toggleDialog()
-  }
-
-  handleDelete = (e) => {
-    //const response = Object.assign({}, this.props.predicate, h )
-    //const new_predicates = this.props.predicates.map((o, i)=> this.props.index === i ? response : o  )
-    const data = this.props.predicates.filter((o,i)=> i !== this.props.index )
-    this.props.deletePredicate(data, this.props.predicateCallback)
-  }
-
-  renderOptions = () => {
-
-    switch(this.props.predicate.type){
-      case "string": {
-        return this.contentString()
-      }
-
-      case "date": {
-        return this.contentDate()
-      }
-
-      case "match": {
-        return this.contentMatch() 
-      }
-    }
-
-  }
-
-  contentString = () => {
-    
-    const compare = (value)=>{
-      return this.props.predicate.comparison === value
-    }
-
-    const relative = [
-      {label: "is", value: "eq", defaultSelected: false},
-      {label: "is not", value: "not_eq", defaultSelected: false},
-      {label: "starts with", value: "contains_start", defaultSelected: false},
-      {label: "ends with", value: "contains_ends", defaultSelected: false},
-      {label: "contains", value: "contains", defaultSelected: false},
-      {label: "does not contain", value: "not_contains", defaultSelected: false},
-      {label: "is unknown", value: "is_null", defaultSelected: false},
-      {label: "has any value", value: "is_not_null", defaultSelected: false},
-    ]
-
-    return <div>
-
-              <ContentMatchTitle>
-                <h5>Select the filter</h5>
-              </ContentMatchTitle>
-
-              <ContentMatch>
-                <RadioGroup
-                  aria-label="options"
-                  name="options"
-                  onChange={(e)=>{
-                    this.onRadioChange(e.target.value)
-                  }}>
-                  {
-                    relative.map((o)=>(
-                      <FormControlLabel
-                        control={<Radio />} 
-                        value={o.value}
-                        label={o.label} 
-                      />                  
-                    ))
-                  }
-                </RadioGroup>
-              </ContentMatch>
-
-              { 
-                this.state.selectedOption && 
-                (this.state.selectedOption !== "is_null" || 
-                  this.state.selectedOption !== "is_not_null") ?
-                
-                <ContentMatchFooter>
-
-                  <TextField
-                    //id="standard-uncontrolled"
-                    //label="Uncontrolled"
-                    defaultValue={null}
-                    inputRef={input => (this.relative_input = input)}
-                    label={"value"}
-                    //className={classes.textField}
-                    margin="normal"
-                  />
-
-                  <div style={{margin: '5px'}}></div>
-
-                  <Button
-                    variant="outlined" 
-                    color="primary"
-                    onClick={this.handleSubmit.bind(this)}>
-                    Apply
-                  </Button>
-
-                  <Button
-                    variant="outlined"
-                    color="primary"
-                    onClick={this.handleSubmit.bind(this)}>
-                    cancel
-                  </Button>
-
-                </ContentMatchFooter> : null
-              }
-
-              { !this.props.predicate.comparison ? null : this.deleteButton() }
-            
-            </div>
-  }
-
-  contentDate = () => {
-  
-    const compare = (value)=>{
-      return this.props.predicate.comparison === value
-    }
-
-    const relative = [
-      {label: "more than", value: "lt", defaultSelected: compare("lt")  },
-      {label: "exactly", value: "eq",  defaultSelected: compare("eq")  },
-      {label: "less than", value: "gt", defaultSelected: compare("gt")  },
-    ]
-    const absolute = [
-      {name: "after", value: "absolute:gt"},
-      {name: "on", value: "absolute:eq"},
-      {name: "before", value: "absolute:lt"},
-      {name: "is unknown", value: "absolute:eq"},
-      {name: "has any value", value: "absolute:not_eq"},
-    ]
-
-    return <div>
-
-              <MenuItem disabled={true}>
-                Select the date filter
-              </MenuItem>
-
-              {
-                relative.map((o)=>(
-                  <MenuItem
-                    key={o.name}
-                    disabled={compare(o.value)}
-                    selected={compare(o.value)}
-                    onClick={e =>   
-                      this.onRadioChange.bind(this)(
-                        o.value, 
-                        this.handleSubmit.bind(this) 
-                      )
-                    }
-                  >
-                    {o.label}
-                  </MenuItem>
-                ))
-              }
-
-              { this.state.selectedOption ?
-                <div>
-
-                  <TextField
-                    autoFocus
-                    margin="dense"
-                    id="name"
-                    name="name"
-                    label="name"
-                    type="number"
-                    fullWidth
-                    defaultValue={30} 
-                    inputRef={input => (this.relative_input = input)}
-                  />
-
-
-
-                  <span>days ago</span>
-                  <hr/>
-
-                  <Button 
-                    variant="outlined"
-                    color="primary"
-                    onClick={this.handleSubmit.bind(this)}>
-                    Apply
-                  </Button>
-
-                </div> : null
-              }
-
-              { !this.props.predicate.comparison ? null : this.deleteButton() }
-            
-            </div>
-
-  }
-
-  contentMatch = () => {
-  
-    const compare = (value)=>{
-      return this.props.predicate.value === value
-    }
-
-    const relative = [
-      {label: "match any", comparison: "or", value: "or", defaultSelected: compare("or")  },
-      {label: "match all", comparison: "and", value: "and",  defaultSelected: compare("and")  },
-    ]
-
-    return <div>
-            
-              <MenuItem disabled={true}>
-                match criteria options:
-              </MenuItem>
-
-              {
-                relative.map((o)=>(
-                  <MenuItem
-                    key={o.name}
-                    disabled={compare(o.value)}
-                    selected={compare(o.value)}
-                    onClick={e =>   
-                      this.onRadioChange.bind(this)(
-                        o.value, 
-                        this.handleSubmit.bind(this) 
-                      )
-                    }
-                  >
-                    {o.label}
-                  </MenuItem>
-                ))
-              }
-            </div>
-  }
-
-  deleteButton = () => {
-    return <Button size="small" appearance="link" 
-            onClick={this.handleDelete.bind(this)}>
-            Delete
-           </Button>
-  }
-
-  toggleDialog = (e) => this.setState({ 
-    dialogOpen: !this.state.dialogOpen,
-    btn: e ? e.target : this.state.btn
-  });
-
-  render() {
-    return (
-      <div>
-        <div id="aa">
-          {
-            !this.props.predicate.comparison ?
-
-              <Button isLoading={false}
-
-                color={this.state.dialogOpen ? 'primary' : 'secondary'}
-                onClick={this.toggleDialog}>
-                {
-                  !this.state.dialogOpen ?
-                    "Missing value!" :
-                    this.props.text
-                }
-              </Button> :
-
-              <Button isLoading={false}
-                variant="outlined" 
-                color="primary"
-                //appearance={this.props.appearance}
-                onClick={this.toggleDialog}>
-                {this.props.text}
-              </Button>
-          }
-
-        </div>
-
-
-        <Menu 
-          open={this.state.dialogOpen}
-          anchorEl={document.getElementById("aa")}
-          anchorOrigin={{
-            vertical: 'bottom',
-            horizontal: 'center',
-          }}
-          transformOrigin={{
-            vertical: 'top',
-            horizontal: 'center',
-          }}
-          //position={"bottom left"}
-          //shouldFlipunion={true}
-          >
-         
-          {this.renderOptions()}
-        </Menu>
-
-      </div>
-    );
-  }
-}
 
 export class SaveSegmentModal extends Component {
   state = { 
@@ -422,123 +93,129 @@ export class SaveSegmentModal extends Component {
       action: target.value, 
     })
   }
-  
+
+  equalPredicates = ()=>{
+    return fromJS(this.props.segment.predicates).equals( 
+      fromJS(this.props.segment.initialPredicates)
+    )
+  }
+
+  incompletePredicates = ()=>{
+    return this.props.segment.predicates.find((o)=> !o.comparison || !o.value )
+  }
+
   render() {
     const { isOpen, loading } = this.state;
-    /*const actions = [
-      { text: 'Close', onClick: this.close },
-      { text: 'Save Segment', onClick: this.secondaryAction.bind(this) },
-      { text: 'Remove Segment', onClick: this.deleteAction.bind(this) }
-    ];*/
 
     return (
-      <div>
 
-        <Button isLoading={false} 
-          variant={'small'}
-          appearance={'link'}
-          onClick={this.open}>
-          <PieChartIcon variant="small" />
-          {" "}
-          Save Segment
-        </Button>
+        <React.Fragment>
+          <Button isLoading={false} 
+            variant={'small'}
+            appearance={'link'}
+            onClick={this.open}
+            disabled={this.equalPredicates() || this.incompletePredicates()}>
+            <PieChartIcon variant="small" />
+            {" "}
+            Save Segment
+          </Button>
 
-        <Button isLoading={false} 
-          variant={'small'}
-          appearance={'link danger'}
-          onClick={this.deleteAction.bind(this)}>
-          <PieChartIcon />
-          {" "}
-          remove Segment
-        </Button>
-
-
-        {isOpen && (
-          <FormDialog 
-            open={isOpen}
-
-            //contentText={"lipsum"}
-            titleContent={"Save Segment"}
-            formComponent={
-              !loading ?
-                 <div>
+          <Button isLoading={false} 
+            variant={'small'}
+            appearance={'link danger'}
+            onClick={this.deleteAction.bind(this)}>
+            <PieChartIcon />
+            {" "}
+            remove Segment
+          </Button>
 
 
-                  <RadioGroup
-                    aria-label="options"
-                    name="options"
-                    onChange={this.handleChange.bind(this)}
-                  >
-                    <FormControlLabel
-                      control={<Radio />} 
-                      value="update"
-                      label={`Save changes to the segment ‘${this.props.segment.name}’`} 
-                    />
-                    <FormControlLabel
-                      control={<Radio />} 
-                      value="new"
-                      label="Create new segment" 
-                    />
+          {isOpen && (
+            <FormDialog 
+              open={isOpen}
 
-                  </RadioGroup>
-
-                  {
-                    this.state.action === "new" ?
-
-                      <TextField
-                        autoFocus
-                        margin="dense"
-                        id="name"
-                        name="name"
-                        label="name"
-                        type="email"
-                        ref={"input"}
-                        fullWidth
-                        inputRef={input => (this.input_ref = input)}
-                      /> : null
-                  }
+              //contentText={"lipsum"}
+              titleContent={"Save Segment"}
+              formComponent={
+                !loading ?
+                   <div>
 
 
-                  {
-                    /*
-                    actions.map((o, i)=> (
-                      <Button key={i}
-                        onClick={o.onClick}>
-                        {o.text}
-                      </Button>
-                     )
-                    )
-                    */
-                  }
+                    <RadioGroup
+                      aria-label="options"
+                      name="options"
+                      onChange={this.handleChange.bind(this)}
+                    >
+                      <FormControlLabel
+                        control={<Radio />} 
+                        value="update"
+                        label={`Save changes to the segment ‘${this.props.segment.name}’`} 
+                      />
+                      <FormControlLabel
+                        control={<Radio />} 
+                        value="new"
+                        label="Create new segment" 
+                      />
 
-                </div> : <Spinner/>
-            }
+                    </RadioGroup>
 
-            dialogButtons={
-              <React.Fragment>
-                <Button onClick={this.close} color="primary">
-                  Cancel
-                </Button>
+                    {
+                      this.state.action === "new" ?
 
-                <Button onClick={this.secondaryAction.bind(this)} 
-                  zcolor="primary">
-                  {
-                    this.state.action === "update" ? "Save" : "Save New"
-                  }
-                </Button>
+                        <TextField
+                          autoFocus
+                          margin="dense"
+                          id="name"
+                          name="name"
+                          label="name"
+                          type="email"
+                          ref={"input"}
+                          fullWidth
+                          inputRef={input => (this.input_ref = input)}
+                        /> : null
+                    }
 
-              </React.Fragment>
-            }
-            //actions={actions} 
-            //onClose={this.close} 
-            //heading={this.props.title}
-            >
-            
-            
 
-          </FormDialog>
-        )}
-      </div>
+                    {
+                      /*
+                      actions.map((o, i)=> (
+                        <Button key={i}
+                          onClick={o.onClick}>
+                          {o.text}
+                        </Button>
+                       )
+                      )
+                      */
+                    }
+
+                  </div> : <Spinner/>
+              }
+
+              dialogButtons={
+                <React.Fragment>
+                  <Button onClick={this.close} color="primary">
+                    Cancel
+                  </Button>
+
+                  <Button onClick={this.secondaryAction.bind(this)} 
+                    zcolor="primary">
+                    {
+                      this.state.action === "update" ? "Save" : "Save New"
+                    }
+                  </Button>
+
+                </React.Fragment>
+              }
+              //actions={actions} 
+              //onClose={this.close} 
+              //heading={this.props.title}
+              >
+              
+              
+
+            </FormDialog>
+          )}
+        </React.Fragment>
     );
   }
 }
@@ -559,10 +236,16 @@ export class InlineFilterDialog extends Component {
       dialogOpen: !this.state.dialogOpen
     }, ()=>{
         this.props.addPredicate(o, (token) => {
-          this.props.handleClick(token)
+          //this.props.handleClick(token)
         })
     });
   }
+
+  
+  toggleDialog2 = ()=>{
+    this.setState({dialogOpen: !this.state.dialogOpen})
+  }
+
 
   render() {
 
@@ -592,57 +275,61 @@ export class InlineFilterDialog extends Component {
     ]
 
     const content = (
-      <div>
-        <MenuItem disabled={true}>
-          Select field:
-        </MenuItem>
 
-        {
-          fields.map((o)=>(
-            <MenuItem
-              key={o.name}
-              onClick={(e)=> this.handleClick.bind(this)(e, o)}
-            >
-              {o.name}
-            </MenuItem>
-          ))
-        }
-       
-      </div>
+      <ClickAwayListener onClickAway={this.toggleDialog2.bind(this)}>
+        <div>
+          <MenuItem disabled={true}>
+            Select field:
+          </MenuItem>
+
+          <div style={{height: "200px", width: '250px', overflow: 'auto'}}>
+            {
+              fields.map((o)=>(
+                <MenuItem
+                  key={o.name}
+                  onClick={(e)=> this.handleClick.bind(this)(e, o)}
+                >
+                  {o.name}
+                </MenuItem>
+              ))
+            }
+          </div>
+         
+        </div>
+       </ClickAwayListener>
     );
 
 
     return (
-      <div>
-        <Button 
-          innerRef={(ref)=> this._my_field = ref}
-          isLoading={false}
-          variant="outlined"
-          color="primary"
-          onClick={this.toggleDialog}>
-          <AddIcon />
-          {" "}
-          Add filterss
-        </Button>
-      
-        <Menu 
-          //content={content} 
-          anchorEl={this._my_field}
-          open={this.state.dialogOpen}
-          anchorOrigin={{
-            vertical: 'bottom',
-            horizontal: 'center',
-          }}
-          transformOrigin={{
-            vertical: 'top',
-            horizontal: 'center',
-          }}
-          //position="bottom left"
-          >
-          {content}
-        </Menu>
-
-      </div>
+        <div>
+          <Button 
+            innerRef={(ref)=> this._my_field = ref}
+            isLoading={false}
+            variant="outlined"
+            color="primary"
+            onClick={this.toggleDialog}>
+            <AddIcon />
+            {" "}
+            Add filterss
+          </Button>
+        
+          <Menu 
+            //content={content} 
+            anchorEl={this._my_field}
+            open={this.state.dialogOpen}
+            anchorOrigin={{
+              vertical: 'bottom',
+              horizontal: 'left',
+            }}
+            /*transformOrigin={{
+              vertical: 'top',
+              horizontal: 'center',
+            }}*/
+            //position="bottom left"
+            >
+            {content}
+          </Menu>
+        </div>
     );
   }
 }
@@ -668,7 +355,6 @@ export default class SegmentManager extends Component {
   }
 
   render(){
-    //console.log(this.getPredicates())
     // this.props.actions.getPredicates()
     return <div style={{marginTop: '10px'}}>
    

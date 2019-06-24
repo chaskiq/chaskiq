@@ -7,11 +7,12 @@ class App < ApplicationRecord
   # App.where('preferences @> ?', {notifications: true}.to_json)
 
   has_many :app_users
-  has_many :users, through: :app_users
+  #has_many :users, through: :app_users
   has_many :conversations
   has_many :segments
+
   has_many :roles
-  has_many :admin_users, through: :roles, source: :user
+  has_many :agents, through: :roles
   has_many :campaigns
   has_many :user_auto_messages
   has_many :tours
@@ -40,20 +41,58 @@ class App < ApplicationRecord
     ]
   end
 
+
+  def add_anonymous_user(attrs)
+    session_id = attrs.delete(:session_id)
+
+    # todo : should lock table here ? or ..
+    # https://www.postgresql.org/docs/9.3/sql-createsequence.html
+    next_id = self.app_users.visitors.size + 1 #self.app_users.visitors.maximum("id").to_i + 1
+    
+    attrs.merge!(name: "visitor #{next_id}")
+
+    ap = app_users.find_or_initialize_by(session_id: session_id)
+    
+    data = attrs.deep_merge!(properties: ap.properties)
+    ap.assign_attributes(data)
+    ap.generate_token
+    ap.save
+    ap
+  end
+
   def add_user(attrs)
     email = attrs.delete(:email)
-    user = User.find_or_initialize_by(email: email)
-    #user.skip_confirmation!
-    if user.new_record?
-      user.password = Devise.friendly_token[0,20]
-    end
-    user.save!
-    ap = app_users.find_or_initialize_by(user_id: user.id)
+    page_url = attrs.delete(:page_url)
+    ap = app_users.find_or_initialize_by(email: email)
     data = attrs.deep_merge!(properties: ap.properties)
     ap.assign_attributes(data)
     ap.last_visited_at = Time.now
+    ap.subscribe! unless ap.subscribed?
     ap.save
+    ap.save_page_visit(page_url)
     ap
+  end
+
+  def add_agent(attrs)
+
+    email = attrs.delete(:email)
+    user = Agent.find_or_initialize_by(email: email)
+    #user.skip_confirmation!
+    if user.new_record?
+      user.password = Devise.friendly_token[0,20]
+      user.save
+    end
+
+    role = roles.find_or_initialize_by(agent_id: user.id)
+    data = attrs.deep_merge!(properties: user.properties)
+    
+    user.assign_attributes(data)
+    user.save
+
+    #role.last_visited_at = Time.now
+    role.save
+    role
+
   end
 
   def add_admin(user)

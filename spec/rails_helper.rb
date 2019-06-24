@@ -32,6 +32,11 @@ rescue ActiveRecord::PendingMigrationError => e
   puts e.to_s.strip
   exit 1
 end
+
+require 'database_cleaner'
+
+DatabaseCleaner.strategy = :truncation
+
 RSpec.configure do |config|
   # Remove this line if you're not using ActiveRecord or ActiveRecord fixtures
   config.fixture_path = "#{::Rails.root}/spec/fixtures"
@@ -40,6 +45,14 @@ RSpec.configure do |config|
   # examples within a transaction, remove the following line or assign false
   # instead of true.
   config.use_transactional_fixtures = true
+
+  config.define_derived_metadata(file_path: /spec\/system/) do |metadata|
+    metadata[:browser] = true
+  end
+
+  config.filter_run_excluding browser: true
+
+
   config.include Devise::Test::ControllerHelpers, type: :controller
   # RSpec Rails can automatically mix in different behaviours to your tests
   # based on their file location, for example enabling you to call `get` and
@@ -60,4 +73,19 @@ RSpec.configure do |config|
   config.filter_rails_from_backtrace!
   # arbitrary gems may also be filtered via:
   # config.filter_gems_from_backtrace("gem name")
+
+
+    # Ensures all non-javascript tests will use the faster :rack_test
+  config.before(:all, type: :system) do
+    #driven_by :rack_test
+    # then, whenever you need to clean the DB
+    DatabaseCleaner.clean
+  end
+
+  # Ensures that all javascript tests use :headless_chrome
+  #config.before(:each, type: :system, js: true) do
+  #  # Can be switched to :chrome if you want to see it working
+  #  driven_by :headless_chrome
+  #end
+
 end
