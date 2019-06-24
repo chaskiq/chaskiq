@@ -45,10 +45,21 @@ class ConversationPart < ApplicationRecord
 
   def notify_read!
     self.read_at = Time.now
-    ConversationsChannel.broadcast_to(
-      "#{self.conversation.app.key}-#{self.conversation.id}", 
-      self.as_json
-    ) if self.save
+    if self.save
+      ConversationsChannel.broadcast_to(
+        "#{self.conversation.app.key}-#{self.conversation.id}", 
+        self.as_json
+      ) 
+
+      EventsChannel.broadcast_to(
+        "#{self.conversation.app.key}", 
+        { 
+          type: :conversation_part,
+          data: self.as_json
+        }
+      ) 
+
+    end
   end
 
   def enqueue_email_notification
@@ -68,7 +79,7 @@ class ConversationPart < ApplicationRecord
 
   def as_json(*)
     super.except("created_at", "updated_at").tap do |hash|
-      hash["app_user"] = self.authorable.as_json(only: [:email, :id], methods: [:kind, :email])
+      hash["app_user"] = self.authorable.as_json
     end
   end
 end
