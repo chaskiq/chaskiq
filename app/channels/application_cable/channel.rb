@@ -35,6 +35,10 @@ module ApplicationCable
       end
     end
 
+    def get_user_by_session
+      @app.app_users.find_by(session_id: params[:session_id])
+    end
+
     # non encrypted version
     def get_user_from_unencrypted
       begin

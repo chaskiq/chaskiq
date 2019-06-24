@@ -259,6 +259,7 @@ export const PREDICATES_SEARCH = `
           lat 
           lng
           displayName
+          online
         }
         meta
       }

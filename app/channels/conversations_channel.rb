@@ -6,12 +6,20 @@ class ConversationsChannel < ApplicationCable::Channel
 
     get_user_data
 
+
     if @user_data[:agent]
       @app_user = @app.agents.find_by(email: @user_data[:email])
     else
-      @app_user = @app.app_users
+
+      # shity, consider channel separation for agents & users/leads
+      if @user_data[:email].blank?
+        visitor = get_user_by_session
+        @app_user = visitor 
+      else
+        @app_user = @app.app_users
                     .where("email =?", @user_data[:email])
                     .first
+      end
       #@user     = @app_user.user
     end
 

@@ -67,15 +67,22 @@ class AppUser < ApplicationRecord
     self.last_visited_at = Time.now
 
     if self.save
-      ActionCable.server.broadcast(channel_key, self.to_json)
-      ActionCable.server.broadcast("events:#{app.key}", formatted_user)
+      ActionCable.server.broadcast(channel_key, self.to_json) #not necessary
+      ActionCable.server.broadcast("events:#{app.key}", 
+        { type: "presence", 
+          data: formatted_user 
+        })
     end
   end
 
   def offline!
     self.state = "offline"
-    self.save
-    ActionCable.server.broadcast("events:#{app.key}", formatted_user)
+    if self.save
+      ActionCable.server.broadcast("events:#{app.key}", 
+        { type: "presence", 
+          data:  formatted_user 
+        })
+    end
   end
 
   aasm :column => :subscription_state do # default column: aasm_state
@@ -96,10 +103,12 @@ class AppUser < ApplicationRecord
 
   def formatted_user
 
-    { email: email,
+    { 
+      id: id,
+      email: email,
       properties: properties,
       state: state
-    }.to_json
+    }
 
   end
 
