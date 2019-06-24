@@ -10,7 +10,7 @@ module Mutations
     def app_users(per, page)
       @app_users = @segment.execute_query
                           .page(page)
-                          .per(20)
+                          .per(per)
     end
 
     argument :app_key, String, required: true
