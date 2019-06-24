@@ -68,6 +68,39 @@
   resolved "https://registry.yarnpkg.com/@date-io/moment/-/moment-1.3.6.tgz#ee6d911c400e66c0bfe6cd782be36834f529de03"
   integrity sha512-aaWDAPaiwmya/W8ERd19BohO8mgNwPP/l/nTwcG7V+WZKQjDotOfcIHJaDSLKbDsA5WDP6kxDrbXE15Jztvu/g==
 
+"@devexpress/dx-core@1.11.1", "@devexpress/dx-core@^1.11.1":
+  version "1.11.1"
+  resolved "https://registry.yarnpkg.com/@devexpress/dx-core/-/dx-core-1.11.1.tgz#c15f6abde60cfedb741312f1fbac3107298f5c6b"
+  integrity sha512-C8Y2Ed9qqIV2QnihRYktEIK1ZZauOABVFMCUHK2+NUpkP33Gi+S92vazZAki/os0Yy5pUqhgFV8xCTKDraoQ4A==
+
+"@devexpress/dx-grid-core@1.11.1", "@devexpress/dx-grid-core@^1.11.1":
+  version "1.11.1"
+  resolved "https://registry.yarnpkg.com/@devexpress/dx-grid-core/-/dx-grid-core-1.11.1.tgz#e0839a75afd052a6853401a722d073e5e1dac8ce"
+  integrity sha512-9WpxgtY2W15PU6TSb1Xwv2yScdUAJzBMRMLpw7K+xK1Uqunfzpl/amCok3FyzNR782BJJdxzU1SXt1uCRNqGNg==
+
+"@devexpress/dx-react-core@^1.11.1":
+  version "1.11.1"
+  resolved "https://registry.yarnpkg.com/@devexpress/dx-react-core/-/dx-react-core-1.11.1.tgz#afbcffdb6df4762c9f9ed3cadc36d1dcce874a38"
+  integrity sha512-R/NDWi0btjdfoiPlG9VyOb72c+3KoRelaVH7uxQs1uLtT2l/2lBBmEsEknUbT/JMhz1pnPndMWpE63ZAmQ7E+Q==
+  dependencies:
+    "@devexpress/dx-core" "1.11.1"
+    prop-types "^15.7.2"
+
+"@devexpress/dx-react-grid-material-ui@^1.11.1":
+  version "1.11.1"
+  resolved "https://registry.yarnpkg.com/@devexpress/dx-react-grid-material-ui/-/dx-react-grid-material-ui-1.11.1.tgz#0a353050e46c488eff4417f40c6eb6d95f40f15f"
+  integrity sha512-OINq+IfbI3MsK07fYP5EIQmTD0Mhc/W3NqF3rPTX6Iv9VnaJx+ku00Xtw3cFDT2EUNgPrYQXNEb2v2+DhGhWsA==
+  dependencies:
+    classnames "^2.2.6"
+    prop-types "^15.7.2"
+
+"@devexpress/dx-react-grid@^1.11.1":
+  version "1.11.1"
+  resolved "https://registry.yarnpkg.com/@devexpress/dx-react-grid/-/dx-react-grid-1.11.1.tgz#3266ad6ebb3c0bb44c4e21ad6834ea5eea882572"
+  integrity sha512-Yq/fXgFlqj+GaISF/xpH6wZNoENPGEiRiPjUGas8Lx/uj46UemHdRnZ/bayfBTb88WfbVDZHw4asxD/8YnTYqg==
+  dependencies:
+    "@devexpress/dx-grid-core" "1.11.1"
+
 "@emotion/babel-utils@^0.5.3":
   version "0.5.3"
   resolved "https://registry.yarnpkg.com/@emotion/babel-utils/-/babel-utils-0.5.3.tgz#6be6dd7a480fdbdfb6cbba7f4f6d9361744b8d6e"
@@ -2052,6 +2085,11 @@ classnames@^2.2.5:
   version "2.2.5"
   resolved "https://registry.yarnpkg.com/classnames/-/classnames-2.2.5.tgz#fb3801d453467649ef3603c7d61a02bd129bde6d"
   integrity sha1-+zgB1FNGdknvNgPH1hoCvRKb3m0=
+
+classnames@^2.2.6:
+  version "2.2.6"
+  resolved "https://registry.yarnpkg.com/classnames/-/classnames-2.2.6.tgz#43935bffdd291f326dad0a205309b38d00f650ce"
+  integrity sha512-JR/iSQOSt+LQIWwrwEzJ9uk0xfN3mTVYMwt1Ir5mUcSN6pU+V4zQFFaJsclJbPuAUQH+yfWef6tm7l1quW3C8Q==
 
 cli-cursor@^2.1.0:
   version "2.1.0"

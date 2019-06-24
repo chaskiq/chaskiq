@@ -13,6 +13,7 @@ import SegmentItemButton from '../segmentManager/itemButton'
 import UserData from '../UserData'
 import EnhancedTable from '../table'
 import DataTable from '../dataTable'
+import NewTable from './newTable'
 
 import Drawer from '@material-ui/core/Drawer';
 import Button from '@material-ui/core/Button'
@@ -259,9 +260,9 @@ class AppUsers extends Component {
            </div>
   }
 
-  showUserDrawer = (e)=>{
+  showUserDrawer = (o)=>{
     this.setState({ rightDrawer: true }, ()=>{
-      this.getUserData(e[0])
+      this.getUserData(o.id)
     });
   }
 
@@ -299,10 +300,6 @@ class AppUsers extends Component {
 
             {this.caption()}
 
-            <button onClick={this.toggleMapView}>
-              {this.state.map_view ? 'list' : 'map'}
-            </button>
-
             { this.state.map_view && !this.props.searching && this.props.app.key && this.props.segment && this.props.segment.id ? 
 
               <Map 
@@ -312,7 +309,20 @@ class AppUsers extends Component {
 
             }
 
-            {
+
+            <NewTable 
+              data={this.props.app_users} 
+              loading={this.props.searching}
+              rows={this.props.app_users}
+              meta={this.props.meta}
+              search={this.props.actions.search}
+              defaultHiddenColumnNames={['id', 'state', 'online']}
+              showUserDrawer={this.showUserDrawer}
+              toggleMapView={this.toggleMapView}
+              map_view={this.state.map_view}
+            />
+
+            { /*
               !this.state.map_view ?
                 <DataTable 
                   title={this.props.segment.name}
@@ -325,6 +335,7 @@ class AppUsers extends Component {
                     this.showUserDrawer(e)
                   }}
                 /> : null
+               */
             }
 
 
