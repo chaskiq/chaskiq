@@ -1,6 +1,6 @@
 module Mutations
   module Campaigns
-  class NewCampaign < GraphQL::Schema::RelayClassicMutation
+  class NewCampaign < Mutations::BaseMutation
     # TODO: define return fields
     # field :post, Types::PostType, null: false
 

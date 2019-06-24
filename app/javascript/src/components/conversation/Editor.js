@@ -52,7 +52,7 @@ export default class ConversationEditor extends Component {
     loading: false
   }
 
-  submitData = (content, options)=>{
+  submitData = (formats, options)=>{
     // DANTE does not provide a way to update contentState from outside ?
     // hide and show editor hack
     this.setState({
@@ -61,9 +61,9 @@ export default class ConversationEditor extends Component {
 
       options.note ?
 
-      this.props.insertNote(content, this.enable) : 
+      this.props.insertNote(formats, this.enable) : 
 
-      this.props.insertComment(content, this.enable)
+      this.props.insertComment(formats, this.enable)
 
     })
   }
@@ -85,7 +85,7 @@ export default class ConversationEditor extends Component {
               {
                 !this.state.loading ? 
                   <NewEditor
-                    submitData={(html)=> this.submitData(html, opts)}
+                    submitData={(formats)=> this.submitData(formats, opts)}
                     {...this.props}
                   /> : null
               }

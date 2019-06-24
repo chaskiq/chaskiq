@@ -5,7 +5,8 @@ class Api::V1::AppsController < ApiController
   Browser::Base.include(Browser::Aliases)
 
   before_action :get_app
-  before_action :get_user_data
+  before_action :get_user_data_from_auth, only: :auth
+  before_action :get_user_data, except: :auth
   before_action :authorize!
 
   def get_app
@@ -25,6 +26,7 @@ class Api::V1::AppsController < ApiController
     get_user_data
 
     browser_params = {
+      page_url:         request.original_url,
       referrer:         request.referrer,
       ip:               request.remote_ip,
       city:             request.location.data["city"],
@@ -43,8 +45,6 @@ class Api::V1::AppsController < ApiController
       lang:             @user_data[:properties].present? ? @user_data[:properties].fetch(:lang) : nil
     }
 
-
-    
     # resource_params.to_h.merge(request.location.data)
     #data = resource_params.to_h.deep_merge(browser_params)
     data = @user_data.slice(:name, :email, :properties).deep_merge(browser_params)
@@ -57,7 +57,7 @@ class Api::V1::AppsController < ApiController
         :tagline,
         :theme
       ]
-        )}
+    )}
   end
 
   def resource_params

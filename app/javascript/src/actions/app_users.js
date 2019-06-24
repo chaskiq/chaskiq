@@ -11,32 +11,6 @@ import {
 import {dispatchSegmentUpdate} from './segments'
 import {parseJwt, generateJWT} from '../components/segmentManager/jwt'
 
-
-/*
-export function searchAppUsers(options, cb){
-  return (dispatch, getState) => {
-    
-    dispatch(dispatchLoading())
-    
-    graphql(PREDICATES_SEARCH, 
-      options, 
-      {
-      success: (data)=>{
-        const appUsers = data.predicatesSearch.appUsers
-        //console.log(jwtData)
-        const newData = Object.assign(appUsers, {searching: false})
-        dispatch(dispatchSearchAppUsers(newData))
-
-        cb ? cb() : null
-      },
-      error: (error) => {
-        debugger
-      }
-    }) 
-
-  }
-}*/
-
 export function searchAppUsers(options, cb){
   return (dispatch, getState) => {
     
@@ -93,6 +67,25 @@ export function searchAppUsers(options, cb){
   }
 }
 
+
+export function updateAppUserPresence(userData, cb){
+  return (dispatch, getState) => {
+  
+    const newCollection = getState().app_users.collection.map((o)=>{
+      if(userData.id === o.id){
+        o.online = userData.state === "online"
+        return o
+      }else{
+        return o
+      }
+    })
+
+    dispatch(dispatchAppUsersUpdatePresence(newCollection))
+  }
+}
+    
+
+
 function dispatchLoading(){
   return {
     type: ActionTypes.initSearchAppUsers,
@@ -105,6 +98,13 @@ function dispatchLoading(){
 function dispatchSearchAppUsers(data) {
   return {
     type: ActionTypes.searchAppUsers,
+    data: data
+  }
+}
+
+function dispatchAppUsersUpdatePresence(data) {
+  return {
+    type: ActionTypes.UpdatePresence,
     data: data
   }
 }
@@ -123,6 +123,9 @@ export default function reducer(state = initialState, action = {}) {
     }
     case ActionTypes.initSearchAppUsers: {
       return Object.assign({}, state, action.data)
+    }
+    case ActionTypes.UpdatePresence: {
+      return Object.assign({}, state, {collection: action.data})
     }
     default:
       return state;

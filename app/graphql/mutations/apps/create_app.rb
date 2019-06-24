@@ -1,5 +1,5 @@
 module Mutations
-  class Apps::CreateApp < GraphQL::Schema::RelayClassicMutation
+  class Apps::CreateApp < Mutations::BaseMutation
     # TODO: define return fields
     # field :post, Types::PostType, null: false
     field :app, Types::AppType, null: false
@@ -9,7 +9,6 @@ module Mutations
     argument :operation, String, required: false
 
     def resolve(app_params:, operation: )
-      current_user = context[:current_user]
       if operation.blank? or operation == "new"
         @app = current_user.apps.new
       elsif 

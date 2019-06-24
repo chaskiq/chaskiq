@@ -21,8 +21,11 @@ export function fetchAppSegment(id, cb){
       success: (data)=>{
 
         dispatch(
-          dispatchSegmentUpdate(
-            Object.assign(data.app.segment, {jwt: null})
+          dispatchSegmentUpdate(Object.assign(
+            {}, 
+            data.app.segment, 
+            {initialPredicates: data.app.segment.predicates} 
+           )
           )
         )
 
@@ -125,7 +128,6 @@ export function addPredicate(options, cb){
                                      .concat(options)
 
     const jwtToken = generateJWT(new_predicates)                                
-
     dispatch(
       dispatchSegmentUpdate(
         {
@@ -142,7 +144,7 @@ export function addPredicate(options, cb){
 export function updatePredicate(data, cb){
   return (dispatch, getState)=>{
     const jwtToken = generateJWT(data)
-    console.log(parseJwt(jwtToken))
+    //console.log(parseJwt(jwtToken))
 
     dispatch(
       dispatchSegmentUpdate(
@@ -196,6 +198,7 @@ const initialState = {
   id: null,
   name: null,
   predicates: [],
+  initialPredicates: [],
   jwt: null
 }
 

@@ -1,5 +1,5 @@
-json.id app_user.id
-json.email app_user.user.email
+json.id              app_user.id
+json.email           app_user.email
 json.last_visited_at app_user.last_visited_at
 json.referrer        app_user.referrer
 json.state           app_user.state

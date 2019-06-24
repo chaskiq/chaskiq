@@ -13,10 +13,11 @@ RSpec.describe Conversation, type: :model do
     app.add_user({email: "admin@test.cl", first_name: "dsdsa"})
   }
 
+  let!(:agent_role){
+    app.add_agent({email: "test2@test.cl"})
+  }
+
   it "create_conversation" do
-
-    app.add_admin(app_user2.user)
-
     app.start_conversation({
       message: "message", 
       from: app_user

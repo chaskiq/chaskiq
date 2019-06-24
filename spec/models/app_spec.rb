@@ -18,8 +18,27 @@ RSpec.describe App, type: :model do
 
   it "create an user" do 
     app.add_user({email: "test@test.cl", first_name: "dsdsa"})
-    expect(app.users).to be_any   
     expect(app.app_users.first.first_name).to be_present  
+    binding.pry
+  end
+
+  it "create an agent" do 
+    app.add_agent({email: "test@test.cl", first_name: "dsdsa"})
+    expect(app.agents).to be_any   
+    expect(app.agents.first.first_name).to be_present  
+  end
+
+  describe "add anonymous user" do
+    it "create with session" do
+
+      app.add_anonymous_user({})
+      expect(app.app_users.first.session_id).to be_present  
+      expect(app.app_users.first.name).to be_eql "visitor 1"
+
+      app.add_anonymous_user({})
+      expect(app.app_users.first.name).to be_eql "visitor 2"
+    end
+ 
   end
 
   describe "existing user" do 
@@ -30,13 +49,12 @@ RSpec.describe App, type: :model do
 
     it "add existing user will keep count but update properties" do 
       app.add_user({email: "test@test.cl", first_name: "edited name"})
-      expect(app.reload.users.size).to be == 1
       expect(app.reload.app_users.first.first_name).to be == "edited name"
     end
 
     it "add other user will increase count of app_users" do 
       app.add_user({email: "test@test2.cl", first_name: "edited name"})
-      expect(app.reload.users.size).to be == 2
+      expect(app.reload.app_users.size).to be == 2
       expect(app.reload.app_users.last.first_name).to be == "edited name"
     end
 
@@ -58,10 +76,10 @@ RSpec.describe App, type: :model do
 
       it "will update attrs for user on app2 only" do
         @app2.add_user({email: "test@test.cl", properties: {first_name: "edited for app 2"}})
-        expect(@app2.users.count).to be == 1
+        expect(@app2.app_users.count).to be == 1
         expect(@app2.app_users.last.first_name).to be == "edited for app 2"
         expect(app.app_users.first.first_name).to be == "dsdsa"
-        expect(app.users.first.email).to be == @app2.users.first.email
+        expect(app.app_users.first.email).to be == @app2.app_users.first.email
       end
     end
   end

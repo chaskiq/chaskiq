@@ -111,32 +111,6 @@ export const ArticlePad = styled.div`
   }
 `
 
-const findWithRegex = (regex, contentBlock, callback) => {
-  const text = contentBlock.getText();
-  let matchArr, start, end;
-  while ((matchArr = regex.exec(text)) !== null) {
-    start = matchArr.index;
-    end = start + matchArr[0].length;
-    callback(start, end);
-  }
-};
-
-const findSelectedBlockFromRemote = (selectionRange, contentBlock, callback) => {
-  const text = contentBlock.getText();
-  const k = contentBlock.getKey();
-  let sel, start, end;
-
-  sel = selectionRange.find((o) => o.anchorKey === k)
-  console.log("selection: ", selectionRange, k)
-  if (sel) {
-    start = sel.anchorOffset
-    end = start === sel.focusOffset ? sel.focusOffset + 1 : sel.focusOffset
-    console.log("entity at", start, end)
-    callback(start, end)
-  }
-
-};
-
 export const SelectionIndicator = styled.span`
   position: relative;
   background-color: red;
@@ -431,16 +405,16 @@ export default class ChatEditor extends Component {
       blockToHTML: (block, oo) => {
 
         if (block.type === "unstyled") {
-          return <p class="graf graf--p" />
+          return <p className="graf graf--p" />
         }
         if (block.type === "header-one") {
-          return <h1 class="graf graf--h2" />
+          return <h1 className="graf graf--h2" />
         }
         if (block.type === "header-two") {
-          return <h2 class="graf graf--h3" />
+          return <h2 className="graf graf--h3" />
         }
         if (block.type === "header-three") {
-          return <h3 class="graf graf--h4" />
+          return <h3 className="graf graf--h4" />
         }
         if (block.type === "blockquote") {
           return <blockquote class="graf graf--blockquote" />
@@ -549,16 +523,16 @@ export default class ChatEditor extends Component {
           }
 
           if (data) {
-            return <div class="graf graf--mixtapeEmbed">
+            return <div className="graf graf--mixtapeEmbed">
               <span>
                 {
                   data.images[0].url ?
-                    <a target="_blank" class="js-mixtapeImage mixtapeImage"
+                    <a target="_blank" className="js-mixtapeImage mixtapeImage"
                       href={block.data.provisory_text}
                       style={{ backgroundImage: `url(${data.images[0].url})` }}>
                     </a> : null 
                 }
-                <a class="markup--anchor markup--mixtapeEmbed-anchor"
+                <a className="markup--anchor markup--mixtapeEmbed-anchor"
                   target="_blank"
                   href={block.data.provisory_text}>
                   <strong class="markup--strong markup--mixtapeEmbed-strong">
@@ -703,7 +677,9 @@ export default class ChatEditor extends Component {
 
   handleSubmit = (e)=>{
 
-    this.props.submitData(this.state.html)
+    const {html, serialized, text} = this.state
+
+    this.props.submitData({html, serialized, text})
   }
 
   render() {
