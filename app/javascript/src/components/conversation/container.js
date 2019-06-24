@@ -82,10 +82,6 @@ class ConversationContainerShow extends Component {
   handleScroll = (e) => {
     let element = e.target
     if (element.scrollTop === 0) { // on top
-      console.log(this.props.conversation)
-      console.log("AAAA", this.props.conversation.meta.next_page)
-      console.log(this.props.conversation.meta.next_page && !this.props.conversation.loading)
-    
       if (this.props.conversation.meta.next_page && !this.props.conversation.loading)
         this.getMessages( (item)=> {
           this.scrollToItem(item)
