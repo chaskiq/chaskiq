@@ -91,6 +91,9 @@ class Segment < ApplicationRecord
           when "contains"
             query_string = "%#{predicate["value"]}%"
             check = field.matches(query_string)
+          when "not_contains"
+            query_string = "%#{predicate["value"]}%"
+            check = field.does_not_match(query_string)  
           else
             check = field.send(predicate["comparison"], predicate["value"] )
         end

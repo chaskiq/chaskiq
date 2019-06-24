@@ -1,5 +1,5 @@
 module Mutations
-  class Predicates::DeletePredicate < GraphQL::Schema::RelayClassicMutation
+  class Predicates::DeletePredicate < Mutations::BaseMutation
     # TODO: define return fields
     # field :post, Types::PostType, null: false
     field :segment, Types::SegmentType, null: false

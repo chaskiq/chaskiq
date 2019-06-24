@@ -53,6 +53,8 @@ import {getConversation,
 
 import { camelCase, isEmpty } from 'lodash';
 
+import DraftRenderer from './draftRenderer'
+
 class ConversationContainerShow extends Component {
 
   constructor(props){
@@ -80,11 +82,9 @@ class ConversationContainerShow extends Component {
   handleScroll = (e) => {
     let element = e.target
     if (element.scrollTop === 0) { // on top
-      if (this.props.conversation.meta.next_page && !this.fetching)
-        this.fetching.true
+      if (this.props.conversation.meta.next_page && !this.props.conversation.loading)
         this.getMessages( (item)=> {
           this.scrollToItem(item)
-          this.fetching = false
        })
     }
   }
@@ -106,8 +106,6 @@ class ConversationContainerShow extends Component {
     this.conversationSubscriber(opts.id)
 
     const lastItem = last(this.props.conversation.collection)
-
-
 
     this.props.dispatch(getConversation(opts, ()=>{
       //this.getMainUser(this.state.conversation.mainParticipant.id)
@@ -193,21 +191,6 @@ class ConversationContainerShow extends Component {
     this.props.dispatch(updateConversationState(state, ()=>{
       cb ? cb(data.updateConversationState.conversation) : null
     }))
-
-    /*graphql(UPDATE_CONVERSATION_STATE, {
-      appKey: this.props.appId, 
-      conversationId: this.props.conversation.id,
-      state: state
-    }, {
-      success: (data)=>{
-        const conversation = data.updateConversationState.conversation
-        this.props.setConversation(conversation, 
-          ()=> cb ? cb(data.updateConversationState.conversation) : null
-        )
-      },
-      error: (error)=>{
-      }
-    })*/
   }
 
   toggleConversationPriority = (e, cb)=>{
@@ -217,7 +200,9 @@ class ConversationContainerShow extends Component {
   }
 
   render(){
-    
+
+    console.log("BUT THE", this.props.conversation)
+
     return <Fragment>
           
             <GridElement grow={2}>
@@ -234,7 +219,7 @@ class ConversationContainerShow extends Component {
 
                       {
                         this.props.conversation.mainParticipant ? 
-                        <b>{this.props.conversation.mainParticipant.email}</b> 
+                        <b>{this.props.conversation.mainParticipant.displayName}</b> 
                         : null
                       }
 
@@ -295,8 +280,7 @@ class ConversationContainerShow extends Component {
                         {
                           this.props.conversation.collection.map( (o, i)=> {
 
-                            const userOrAdmin = this.props.conversation.mainParticipant.email === o.appUser.email ? 
-                                          'user' : 'admin'
+                            const userOrAdmin = o.appUser.kind === 'agent' ? 'admin' : 'user'
                
                             return <MessageItemWrapper 
                                       key={o.id} 
@@ -320,12 +304,22 @@ class ConversationContainerShow extends Component {
                                           : theme 
                                         }>
                                           <EditorContainer>
-                                            <div  
-                                              key={i}
-                                              dangerouslySetInnerHTML={{
-                                                __html:  o.message 
-                                              }} 
-                                            />
+
+                                            {
+                                              userOrAdmin === "admin" ?
+                                              
+                                              <DraftRenderer key={i} 
+                                                raw={JSON.parse(o.message.serializedContent)}
+                                              /> : 
+                                            
+                                              <div  
+                                                key={i}
+                                                dangerouslySetInnerHTML={{
+                                                  __html:  o.message.htmlContent
+                                                }} 
+                                              /> 
+                                            }
+
                                           </EditorContainer>
                                        </ThemeProvider>
 

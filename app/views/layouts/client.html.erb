@@ -5,7 +5,12 @@
 
 
     <%= yield :head %>
-    <script src="/packs/embed.js?<%=Time.now%>"></script>
+    
+    <% if Rails.env.test? %>
+      <script src="/packs-test/embed.js?<%=Time.now%>"></script>
+    <% else %>
+      <script src="/packs/embed.js?<%=Time.now%>"></script>
+    <% end %>
 
   </head>
 

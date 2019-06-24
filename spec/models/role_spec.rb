@@ -10,13 +10,13 @@ RSpec.describe Role, type: :model do
   }
 
   it "role" do
-    user = User.create(
+    user = Agent.create(
       email: Faker::Internet.email, 
       password: Devise.friendly_token[0,20] 
     )
   
     app.add_admin(user)
-    expect(app.admin_users).to be_include(user)
+    expect(app.agents).to be_include(user)
   end
 
 

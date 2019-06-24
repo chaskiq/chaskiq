@@ -18,7 +18,7 @@ class Api::V1::ConversationsController < ApiController
     @user = get_app_user
     @conversation = user_conversations.find(params[:id])
     # TODO paginate here
-    @messages = @conversation.messages.visibles.includes(app_user: :user)
+    @messages = @conversation.messages.visibles #.includes(authorable: :user)
                                       .order("id desc")
                                       .page(params[:page])
                                       .per(5)
@@ -31,7 +31,9 @@ class Api::V1::ConversationsController < ApiController
 
     if params[:message].present?
       @conversation = @app.start_conversation({
-        message: params[:message], 
+        message: {
+          html_content: params[:message]
+        }, 
         from: user
       })
     else
@@ -52,7 +54,9 @@ class Api::V1::ConversationsController < ApiController
 
     @message = @conversation.add_message({
       from: @user,
-      message: params[:message]
+      message: {
+        html_content: params[:message]
+      }
     })
     render :show
   end

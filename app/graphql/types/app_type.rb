@@ -49,7 +49,7 @@ module Types
     end
 
     def conversation(id:)
-       object.conversations.find(id)
+      object.conversations.find(id)
     end
 
     field :app_user, Types::AppUserType, null:true do
@@ -79,10 +79,10 @@ module Types
       collection.find(id)
     end
 
-    field :agents, [Types::AppUserType], null: false
+    field :agents, [Types::AgentType], null: false
 
     def agents
-      object.admin_users
+      object.agents
     end
 
     field :segments, [Types::SegmentType], null: true

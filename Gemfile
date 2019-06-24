@@ -21,12 +21,12 @@ gem 'uglifier', '>= 1.3.0'
 gem 'devise', '4.6.2' #github: "plataformatec/devise"
 
 # Use CoffeeScript for .coffee assets and views
-gem 'coffee-rails', '~> 4.2'
+#gem 'coffee-rails', '~> 4.2'
 # Turbolinks makes navigating your web application faster. Read more: https://github.com/turbolinks/turbolinks
 gem 'turbolinks', '~> 5'
 # Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
-gem 'jbuilder', '~> 2.5'
-gem 'haml'
+gem 'jbuilder'
+#gem 'haml'
 # Use Redis adapter to run Action Cable in production
 gem 'redis', '~> 4.0'
 # Use ActiveModel has_secure_password
@@ -86,24 +86,27 @@ group :development do
   gem 'capistrano-sidekiq'
 end
 
+gem 'faker', github: "stympy/faker", group: [:development, :test]
+
 group :test do
   # Adds support for Capybara system testing and selenium driver
-  gem 'capybara', '>= 2.15', '< 4.0'
-  gem 'selenium-webdriver'
+  gem 'capybara' #, '>= 2.15', '< 4.0'
+  # gem 'selenium-webdriver'
+  gem 'webdrivers'
+
   # Easy installation and use of chromedriver to run system tests with Chrome
   gem 'chromedriver-helper'
 
 
-  gem 'rspec-rails', git: 'https://github.com/rspec/rspec-rails', branch: '4-0-dev'
+  gem 'rspec-rails' #, git: 'https://github.com/rspec/rspec-rails', branch: '4-0-dev'
 
   %w[rspec-core rspec-expectations rspec-mocks rspec-support].each do |lib|
-    gem lib, :git => "https://github.com/rspec/#{lib}.git", :branch => 'master'
+    gem lib #, :git => "https://github.com/rspec/#{lib}.git", :branch => 'master'
   end
   gem 'factory_girl_rails'
   gem 'database_cleaner'
   gem 'shoulda'
   gem 'shoulda-matchers'
-  gem 'faker', github: "stympy/faker"
 
 end
 

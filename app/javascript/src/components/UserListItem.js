@@ -73,14 +73,14 @@ function AlignItemsList(props) {
                       badgeContent={4} 
                       color="primary"></Badge>*/}
             <Avatar 
-              onClick={()=>props.showUserDrawer(props.mainUser.id)}
-              alt={props.mainUser.email} 
-              src={gravatar.url(props.mainUser.email)} 
+              onClick={()=>props.showUserDrawer(props.messageUser.id)}
+              alt={props.messageUser.email} 
+              src={gravatar.url(props.messageUser.email)} 
             />
           
         </ListItemAvatar>
         <ListItemText
-          primary={props.messageUser.email}
+          primary={props.messageUser.displayName}
           secondary={
             <React.Fragment>
 
@@ -93,7 +93,7 @@ function AlignItemsList(props) {
                 <div className={classes.flexContainer}>
                   
                   {
-                    props.mainUser.id != props.messageUser.id ?
+                    props.messageUser.id != props.messageUser.id ?
                       <Avatar 
                           onClick={()=>props.showUserDrawer(props.messageUser.id)} 
                           className={classes.tinyAvatar}
@@ -128,7 +128,7 @@ function AlignItemsList(props) {
 
               {
                 /*
-                  props.mainUser.id != props.messageUser.id ?
+                  props.messageUser.id != props.messageUser.id ?
 
                   <ListItemAvatar>
                     <Avatar  className={classes.tinyAvatar}
