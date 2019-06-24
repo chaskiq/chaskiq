@@ -8,53 +8,6 @@ GIT
       request_store (~> 1.0)
 
 GIT
-  remote: https://github.com/rspec/rspec-core.git
-  revision: 0b4c98d1c1915b636f635c5a88e6ca59c8cdf049
-  branch: master
-  specs:
-    rspec-core (3.9.0.pre)
-      rspec-support (= 3.9.0.pre)
-
-GIT
-  remote: https://github.com/rspec/rspec-expectations.git
-  revision: 03af89d886a6ee27b862082913da0db6226956c5
-  branch: master
-  specs:
-    rspec-expectations (3.9.0.pre)
-      diff-lcs (>= 1.2.0, < 2.0)
-      rspec-support (= 3.9.0.pre)
-
-GIT
-  remote: https://github.com/rspec/rspec-mocks.git
-  revision: 4f6f4131fd24d1a89ba389216e213dd4c95f4646
-  branch: master
-  specs:
-    rspec-mocks (3.9.0.pre)
-      diff-lcs (>= 1.2.0, < 2.0)
-      rspec-support (= 3.9.0.pre)
-
-GIT
-  remote: https://github.com/rspec/rspec-rails
-  revision: d3f8915dc80a5e98e4b34e264f4a08a487b0293d
-  branch: 4-0-dev
-  specs:
-    rspec-rails (4.0.0.pre)
-      actionpack (>= 4.2)
-      activesupport (>= 4.2)
-      railties (>= 4.2)
-      rspec-core (= 3.9.0.pre)
-      rspec-expectations (= 3.9.0.pre)
-      rspec-mocks (= 3.9.0.pre)
-      rspec-support (= 3.9.0.pre)
-
-GIT
-  remote: https://github.com/rspec/rspec-support.git
-  revision: 3a6ec66d32683e99c449a7b2f7f73e2edd7b6036
-  branch: master
-  specs:
-    rspec-support (3.9.0.pre)
-
-GIT
   remote: https://github.com/stympy/faker.git
   revision: 1a39a9a76aa9a040466ba9ee944dc2aae1ea84de
   specs:
@@ -185,28 +138,21 @@ GEM
       capistrano (~> 3.7)
       capistrano-bundler
       puma (~> 3.4)
-    capybara (3.16.1)
+    capybara (3.24.0)
       addressable
       mini_mime (>= 0.1.3)
       nokogiri (~> 1.8)
       rack (>= 1.6.0)
       rack-test (>= 0.6.3)
-      regexp_parser (~> 1.2)
+      regexp_parser (~> 1.5)
       xpath (~> 3.2)
-    childprocess (0.9.0)
-      ffi (~> 1.0, >= 1.0.11)
+    childprocess (1.0.1)
+      rake (< 13.0)
     chromedriver-helper (2.1.1)
       archive-zip (~> 0.10)
       nokogiri (~> 1.8)
     chronic (0.10.2)
     coderay (1.1.2)
-    coffee-rails (4.2.2)
-      coffee-script (>= 2.2.0)
-      railties (>= 4.0.0)
-    coffee-script (2.4.1)
-      coffee-script-source
-      execjs
-    coffee-script-source (1.12.2)
     concurrent-ruby (1.1.5)
     connection_pool (2.2.2)
     crass (1.0.4)
@@ -264,9 +210,6 @@ GEM
       activesupport (>= 4.2)
     gutentag (2.5.0)
       activerecord (>= 3.2.0)
-    haml (5.0.4)
-      temple (>= 0.8.0)
-      tilt
     http (4.1.1)
       addressable (~> 2.3)
       http-cookie (~> 1.0)
@@ -279,9 +222,8 @@ GEM
     i18n (1.6.0)
       concurrent-ruby (~> 1.0)
     io-like (0.3.0)
-    jbuilder (2.8.0)
+    jbuilder (2.9.1)
       activesupport (>= 4.2.0)
-      multi_json (>= 1.2)
     jmespath (1.4.0)
     jwe (0.4.0)
     jwt (2.1.0)
@@ -318,7 +260,6 @@ GEM
     mini_portile2 (2.4.0)
     minitest (5.11.3)
     msgpack (1.2.9)
-    multi_json (1.13.1)
     mustache (1.1.0)
     net-scp (2.0.0)
       net-ssh (>= 2.6.5, < 6.0.0)
@@ -334,7 +275,7 @@ GEM
     pry (0.12.2)
       coderay (~> 1.1.0)
       method_source (~> 0.9.0)
-    public_suffix (3.0.3)
+    public_suffix (3.1.0)
     puma (3.12.1)
     raabro (1.1.6)
     rack (2.0.7)
@@ -381,7 +322,7 @@ GEM
     rb-inotify (0.10.0)
       ffi (~> 1.0)
     redis (4.1.0)
-    regexp_parser (1.3.0)
+    regexp_parser (1.5.1)
     request_store (1.4.1)
       rack (>= 1.4)
     responders (2.4.1)
@@ -393,6 +334,23 @@ GEM
     roo (2.8.2)
       nokogiri (~> 1)
       rubyzip (>= 1.2.1, < 2.0.0)
+    rspec-core (3.8.1)
+      rspec-support (~> 3.8.0)
+    rspec-expectations (3.8.4)
+      diff-lcs (>= 1.2.0, < 2.0)
+      rspec-support (~> 3.8.0)
+    rspec-mocks (3.8.1)
+      diff-lcs (>= 1.2.0, < 2.0)
+      rspec-support (~> 3.8.0)
+    rspec-rails (3.8.2)
+      actionpack (>= 3.0)
+      activesupport (>= 3.0)
+      railties (>= 3.0)
+      rspec-core (~> 3.8.0)
+      rspec-expectations (~> 3.8.0)
+      rspec-mocks (~> 3.8.0)
+      rspec-support (~> 3.8.0)
+    rspec-support (3.8.2)
     ruby-oembed (0.12.0)
     ruby_dep (1.5.0)
     rubyzip (1.2.2)
@@ -407,8 +365,8 @@ GEM
       sprockets (>= 2.8, < 4.0)
       sprockets-rails (>= 2.0, < 4.0)
       tilt (>= 1.1, < 3)
-    selenium-webdriver (3.141.0)
-      childprocess (~> 0.5)
+    selenium-webdriver (3.142.3)
+      childprocess (>= 0.5, < 2.0)
       rubyzip (~> 1.2, >= 1.2.2)
     shoulda (3.6.0)
       shoulda-context (~> 1.0, >= 1.0.1)
@@ -444,7 +402,6 @@ GEM
       unicode-display_width (~> 1.5)
       unicode_utils (~> 1.4)
     strings-ansi (0.1.0)
-    temple (0.8.1)
     thor (0.20.3)
     thread_safe (0.3.6)
     tilt (2.0.9)
@@ -482,6 +439,10 @@ GEM
       activemodel (>= 5.0)
       bindex (>= 0.4.0)
       railties (>= 5.0)
+    webdrivers (4.0.1)
+      nokogiri (~> 1.6)
+      rubyzip (~> 1.0)
+      selenium-webdriver (>= 3.0, < 4.0)
     webpacker (3.6.0)
       activesupport (>= 4.2)
       rack-proxy (>= 0.6.1)
@@ -510,10 +471,9 @@ DEPENDENCIES
   capistrano-rvm
   capistrano-sidekiq
   capistrano3-puma
-  capybara (>= 2.15, < 4.0)
+  capybara
   chromedriver-helper
   chronic (~> 0.10.2)
-  coffee-rails (~> 4.2)
   database_cleaner
   deep_cloneable
   devise (= 4.6.2)
@@ -528,9 +488,8 @@ DEPENDENCIES
   graphql (~> 1.9)
   groupdate
   gutentag (~> 2.4)
-  haml
   http
-  jbuilder (~> 2.5)
+  jbuilder
   jwe
   jwt
   kaminari (~> 1.1)
@@ -546,14 +505,13 @@ DEPENDENCIES
   redis (~> 4.0)
   roadie
   roo
-  rspec-core!
-  rspec-expectations!
-  rspec-mocks!
-  rspec-rails!
-  rspec-support!
+  rspec-core
+  rspec-expectations
+  rspec-mocks
+  rspec-rails
+  rspec-support
   ruby-oembed
   sass-rails (~> 5.0)
-  selenium-webdriver
   shoulda
   shoulda-matchers
   sidekiq
@@ -566,6 +524,7 @@ DEPENDENCIES
   uglifier (>= 1.3.0)
   urlcrypt
   web-console (>= 3.3.0)
+  webdrivers
   webpacker (~> 3.5)
 
 RUBY VERSION

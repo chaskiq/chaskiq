@@ -4,10 +4,12 @@ class AppUser < ApplicationRecord
   include AASM
   include UnionScope
 
-  belongs_to :user
+  #belongs_to :user
   belongs_to :app
-  has_many :conversations, foreign_key: :main_participant_id
+  has_many :conversations, foreign_key: :main_participant_id, dependent: :destroy
   has_many :metrics , as: :trackable
+  has_many :visits
+
   store_accessor :properties, [ 
     :name, 
     :first_name, 
@@ -15,7 +17,7 @@ class AppUser < ApplicationRecord
     :country, 
     :country_code, 
     :region, 
-    :region_code 
+    :region_code
   ]
   
   scope :availables, ->{ 
@@ -23,11 +25,29 @@ class AppUser < ApplicationRecord
       "passive", "subscribed"]) 
   }
 
+  # todo: optimize this
+  scope :visitors, ->{
+    where("email is not null")
+  }
 
-  delegate :email, to: :user
+  def display_name
+    [self.name,
+    self.email].join(" ")
+  end
+
+
+  def generate_token
+    self.session_id = loop do
+      random_token = SecureRandom.urlsafe_base64(nil, false)
+      break random_token unless app.app_users.where(session_id: random_token).any?
+    end
+  end
+
+  #delegate :email, to: :user
 
   def as_json(options = nil)
-    super({ methods: [:email] }.merge(options || {}))
+    super({ only: [:email, :id, :kind, :display_name] , 
+      methods: [:email, :id, :kind, :display_name] }.merge(options || {}))
   end
 
   def offline?
@@ -39,7 +59,7 @@ class AppUser < ApplicationRecord
   end
 
   def channel_key
-    "presence:#{self.app.key}-#{self.user.email}"
+    "presence:#{self.app.key}-#{self.email}"
   end
 
   def online!
@@ -47,15 +67,22 @@ class AppUser < ApplicationRecord
     self.last_visited_at = Time.now
 
     if self.save
-      ActionCable.server.broadcast(channel_key, self.to_json)
-      ActionCable.server.broadcast("events:#{app.key}", formatted_user)
+      ActionCable.server.broadcast(channel_key, self.to_json) #not necessary
+      ActionCable.server.broadcast("events:#{app.key}", 
+        { type: "presence", 
+          data: formatted_user 
+        })
     end
   end
 
   def offline!
     self.state = "offline"
-    self.save
-    ActionCable.server.broadcast("events:#{app.key}", formatted_user)
+    if self.save
+      ActionCable.server.broadcast("events:#{app.key}", 
+        { type: "presence", 
+          data:  formatted_user 
+        })
+    end
   end
 
   aasm :column => :subscription_state do # default column: aasm_state
@@ -76,10 +103,12 @@ class AppUser < ApplicationRecord
 
   def formatted_user
 
-    { email: user.email,
+    { 
+      id: id,
+      email: email,
       properties: properties,
       state: state
-    }.to_json
+    }
 
   end
 
@@ -109,6 +138,10 @@ class AppUser < ApplicationRecord
     URLcrypt.decode(self.email)
   end
 
+  def kind
+    self.class.model_name.singular
+  end
+
   def style_class
     case self.state
     when "passive"
@@ -118,6 +151,10 @@ class AppUser < ApplicationRecord
     when "unsusbscribed"
       "warning"
     end
+  end
+
+  def save_page_visit(url)
+    self.visits.create(url: url)
   end
 
 end

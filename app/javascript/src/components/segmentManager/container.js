@@ -4,18 +4,24 @@ import { connect } from 'react-redux'
 import styled from 'styled-components'
 import {
   InlineFilterDialog, 
-  SegmentItemButton,
   SaveSegmentModal
 } from '../segmentManager'
+
+import SegmentItemButton from '../segmentManager/itemButton'
+
 
 import UserData from '../UserData'
 import EnhancedTable from '../table'
 import DataTable from '../dataTable'
+import NewTable from './newTable'
 
 import Drawer from '@material-ui/core/Drawer';
 import Button from '@material-ui/core/Button'
 
 import {appUsersFormat} from '../segmentManager/appUsersFormat'
+import Map from '../map/index.js'
+
+import {dispatchSegmentUpdate} from '../../actions/segments'
 
 const Wrapper = styled.div`
   //min-width: 600px;
@@ -23,7 +29,8 @@ const Wrapper = styled.div`
 
 const ButtonGroup = styled.div`
   display: inline-flex;
-  display: -webkit-box;
+  flex-wrap: wrap;
+
   button {
     margin-right: 5px !important;
   }
@@ -42,17 +49,57 @@ class AppContent extends Component {
   }
 
   componentDidMount(){
-    this.getSegment()
+    
+    this.props.dispatch(
+      dispatchSegmentUpdate({
+        id: this.props.match.params.segmentID,
+        jwt: this.props.match.params.Jwt
+      })
+    )
+
+    this.getSegment(()=>{
+      this.props.actions.search()
+    })
+   
   }
 
   componentDidUpdate(prevProps, prevState) {
     if (this.props.match.params && prevProps.match.params.segmentID !== this.props.match.params.segmentID) {
-      this.getSegment()
+      
+      this.props.dispatch(
+        dispatchSegmentUpdate({
+          id: this.props.match.params.segmentID,
+          jwt: this.props.match.params.Jwt
+        })
+      )
+
+      this.getSegment(()=>{
+        this.props.actions.search()
+      })
     }
+
+    if (prevProps.segment.jwt !== this.props.segment.jwt) {
+      console.info("cambio jwt")
+      this.props.actions.search()
+    }
+
+    // check empty token , used when same sagment changes jwt
+    if (prevProps.match.params.Jwt !== this.props.match.params.Jwt && !this.props.match.params.Jwt) {
+      
+      this.props.dispatch(
+        dispatchSegmentUpdate({
+          jwt: this.props.match.params.Jwt
+        })
+      )
+
+      this.getSegment(()=>{
+        this.props.actions.search()
+      })
+    }
+
   }
 
   render(){
-    console.log("Container props!---", this.props)
     const {searching, collection, meta} = this.props.app_users
     //const {id, name} = this.props.segment
     //console.log("segment:!" , segment.id, segment, this.props.segment)
@@ -98,24 +145,49 @@ class AppUsers extends Component {
     this.setState({map_view: true  })
   }
 
+  toggleMapView= (e)=>{
+    this.setState({map_view: !this.state.map_view})
+  }
+
   handleClickOnSelectedFilter = (jwtToken)=>{
     const url = `/apps/${this.props.app.key}/segments/${this.props.segment.id}/${jwtToken}`
     this.props.history.push(url) 
+  }
+
+  displayName = (o)=>{
+    return o.attribute.split("_").join(" ")
   }
 
   getTextForPredicate = (o)=>{
     if(o.type === "match"){
       return `Match ${o.value === "and" ? "all" : "any" } criteria`
     }else{
-      return `Match: ${o.attribute} ${o.comparison ? o.comparison : '' } ${o.value ? o.value : ''}`
+      return `${this.displayName(o)} ${o.comparison ? o.comparison : '' } ${o.value ? o.value : ''}`
     }
+  }
+
+  getStatePredicate = ()=>{
+    return this.props.actions.getPredicates().find((o)=> (
+        o.attribute === "subscription_state" 
+      )
+    )
   }
 
   caption = ()=>{
     return <div>
             <ButtonGroup>
+
+              { /*this.getStatePredicate() ?
+                <button>
+                  {this.getStatePredicate().attribute}
+                </button> : null
+              */}
+
+
               {
-                this.props.actions.getPredicates().map((o, i)=>{
+                this.props.actions.getPredicates()
+                  //.filter((o)=>(o.attribute !== "subscription_state"))
+                    .map((o, i)=>{
                     return <SegmentItemButton 
                             key={i}
                             index={i}
@@ -125,7 +197,7 @@ class AppUsers extends Component {
                             appearance={ o.comparison ? "primary" : "default"} 
                             text={this.getTextForPredicate(o)}
                             updatePredicate={this.props.actions.updatePredicate}
-                            predicateCallback={(jwtToken)=> this.handleClickOnSelectedFilter.bind(this)}
+                            predicateCallback={(jwtToken)=> this.handleClickOnSelectedFilter.bind(this)(jwtToken)}
                             deletePredicate={this.props.actions.deletePredicate}                          
                            />
                 })
@@ -188,9 +260,9 @@ class AppUsers extends Component {
            </div>
   }
 
-  showUserDrawer = (e)=>{
+  showUserDrawer = (o)=>{
     this.setState({ rightDrawer: true }, ()=>{
-      this.getUserData(e[0])
+      this.getUserData(o.id)
     });
   }
 
@@ -228,17 +300,44 @@ class AppUsers extends Component {
 
             {this.caption()}
 
-            <DataTable 
-              title={this.props.segment.name}
-              columns={appUsersFormat()} 
-              meta={this.props.meta}
-              data={this.props.app_users}
-              search={this.props.actions.search}
+            { this.state.map_view && !this.props.searching && this.props.app.key && this.props.segment && this.props.segment.id ? 
+
+              <Map 
+                segment={this.props.segment}
+                data={this.props.app_users}
+              /> : null
+
+            }
+
+
+            <NewTable 
+              data={this.props.app_users} 
               loading={this.props.searching}
-              onRowClick={(e)=>{
-                this.showUserDrawer(e)
-              }}
+              rows={this.props.app_users}
+              meta={this.props.meta}
+              search={this.props.actions.search}
+              defaultHiddenColumnNames={['id', 'state', 'online']}
+              showUserDrawer={this.showUserDrawer}
+              toggleMapView={this.toggleMapView}
+              map_view={this.state.map_view}
             />
+
+            { /*
+              !this.state.map_view ?
+                <DataTable 
+                  title={this.props.segment.name}
+                  columns={appUsersFormat()} 
+                  meta={this.props.meta}
+                  data={this.props.app_users}
+                  search={this.props.actions.search}
+                  loading={this.props.searching}
+                  onRowClick={(e)=>{
+                    this.showUserDrawer(e)
+                  }}
+                /> : null
+               */
+            }
+
 
             <Drawer 
               anchor="right" 

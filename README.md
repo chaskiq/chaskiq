@@ -8,7 +8,7 @@ Hermes (Hermessenger) is a platform that enables chat comunication with users in
 
 ![https://proseflow.herokuapp.com/rails/active_storage/blobs/eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaHBBaFVCIiwiZXhwIjpudWxsLCJwdXIiOiJibG9iX2lkIn19--d44a670bbacb49c154f0ba0035e452bf847b7138/image.png](https://proseflow.herokuapp.com/rails/active_storage/blobs/eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaHBBaFVCIiwiZXhwIjpudWxsLCJwdXIiOiJibG9iX2lkIn19--d44a670bbacb49c154f0ba0035e452bf847b7138/image.png)
 
-messenger app
+## Messenger app
 
 The widget registers users's visits and identify by a client given id. All the comunication is transmited securely via JWE (json web encryption)
 
@@ -57,7 +57,8 @@ An the content of the campaign is managed with a state of the art wysiwyg text e
 
 
 ## references:
-
++ https://smooch.io/
++ https://frontapp.com
 + https://www.drift.com/
 + www.jivochat.cl/‎
 + https://www.tawk.to/
@@ -74,8 +75,14 @@ An the content of the campaign is managed with a state of the art wysiwyg text e
 
 + https://ipgeolocation.io/pricing.html
 + https://www.fullcontact.com/pricing-plans/
++ https://clearbit.com/pricing
 
 + https://www.intercom.com/help/articles/277-where-do-the-social-profiles-come-from
+
+
+### messenger implementations
+
++ https://matrix.org/docs/projects/bots
 
 ### browser navigation
 

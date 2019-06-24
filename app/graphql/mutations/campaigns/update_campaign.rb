@@ -1,6 +1,6 @@
 module Mutations
   module Campaigns
-    class UpdateCampaign < GraphQL::Schema::RelayClassicMutation
+    class UpdateCampaign < Mutations::BaseMutation
 
       field :campaign, Types::CampaignType, null: false
       field :errors, Types::JsonType, null: true
@@ -23,7 +23,7 @@ module Mutations
       end
 
       def find_app(app_id)
-        @app = context[:current_user].apps.find_by(key: app_id)
+        @app = current_user.apps.find_by(key: app_id)
       end
     end
   end

@@ -1,6 +1,6 @@
 module Mutations
   module Conversations
-    class TogglePriority < GraphQL::Schema::Mutation
+    class TogglePriority < Mutations::BaseMutation
       field :conversation, Types::ConversationType, null: false
       field :errors, Types::JsonType, null: true
       
@@ -19,7 +19,7 @@ module Mutations
       end
 
       def find_app(app_id)
-        @app = context[:current_user].apps.find_by(key: app_id)
+        @app = current_user.apps.find_by(key: app_id)
       end
     end
   end

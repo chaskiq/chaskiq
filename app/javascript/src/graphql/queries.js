@@ -7,7 +7,7 @@ query Apps{
     tagline
   }  
 }
-`
+`;
 
 export const APP = `
   query App($appKey: String!){
@@ -29,7 +29,7 @@ export const APP = `
       tagline
     }
   }
-`
+`;
 
 export const AGENTS = `
   query App($appKey: String!){
@@ -40,7 +40,7 @@ export const AGENTS = `
       }
     }
   }
-`
+`;
 
 export const SEGMENT = `
   query App($appKey: String!, $id: Int!){
@@ -57,7 +57,7 @@ export const SEGMENT = `
       }
     }
   }
-`
+`;
 
 
 export const CONVERSATIONS = `
@@ -74,7 +74,11 @@ export const CONVERSATIONS = `
           priority
           lastMessage{
             source
-            message
+            message{
+              htmlContent
+              textContent
+              serializedContent
+            }
             privateNote
             messageSource{
               id
@@ -83,12 +87,14 @@ export const CONVERSATIONS = `
             appUser {
               id
               email
-              properties
+              kind
+              displayName
             }
           }
           mainParticipant{
             id
             email
+            displayName
             properties
           }
         }
@@ -97,7 +103,7 @@ export const CONVERSATIONS = `
       }
     }
   }
-`
+`;
 
 export const CONVERSATION=`
   query App($appKey: String!, $id: Int!, $page: Int){
@@ -118,12 +124,17 @@ export const CONVERSATION=`
           id
           email
           properties
+          displayName
         }
         
         messages(page: $page){
           collection{
             id
-            message
+            message{
+              htmlContent
+              textContent
+              serializedContent
+            }
             source
             readAt
             createdAt
@@ -131,7 +142,8 @@ export const CONVERSATION=`
             appUser{
               id
               email
-              properties
+              kind
+              displayName
             }
             source
             messageSource {
@@ -148,8 +160,7 @@ export const CONVERSATION=`
     }
   }
 }
-
-`
+`;
 
 export const CURRENT_USER = `
   query CurrentUser {
@@ -157,7 +168,7 @@ export const CURRENT_USER = `
       email
     }
   }
-`
+`;
 
 export const APP_USER = `
 query AppUser($appKey: String!, $id: Int! ) {
@@ -182,11 +193,13 @@ query AppUser($appKey: String!, $id: Int! ) {
       os
       osVersion
       browserLanguage
+      online
       lang
+      displayName
     }
   }
 }
-`
+`;
 
 
 export const CAMPAIGNS = `
@@ -212,7 +225,8 @@ query Campaigns($appKey: String!, $mode: String!){
       meta
     }
   }
-}`
+}
+`;
 
 export const CAMPAIGN = `
 query Campaign($appKey: String!, $mode: String!, $id: Int!){
@@ -236,7 +250,8 @@ query Campaign($appKey: String!, $mode: String!, $id: Int!){
       replyEmail
     }
   }
-}`
+}
+`;
 
 export const CAMPAIGN_METRICS = `
 query Campaign($appKey: String!, $mode: String!, $id: Int!, $page: Int, $per: Int){
@@ -250,4 +265,5 @@ query Campaign($appKey: String!, $mode: String!, $id: Int!, $page: Int, $per: In
       }
     }
   }
-}`
+}
+`;

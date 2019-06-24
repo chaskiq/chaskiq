@@ -4,7 +4,7 @@ class ChatNotifierMailer < ApplicationMailer
     @conversation_part = conversation_part
     conversation = conversation_part.conversation
     app          = conversation.app
-    admin_users  = app.admin_users # set assignee !
+    admin_users  = app.agents # set assignee !
 
     message_author = conversation_part.app_user
     author_name    = message_author.name || message_author.email.split("@").first
