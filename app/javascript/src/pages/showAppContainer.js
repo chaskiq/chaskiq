@@ -20,7 +20,6 @@ import ContentHeader from '../components/ContentHeader'
 import Content from '../components/Content'
 import AppContent from '../components/segmentManager/container'
 
-
 import AtTabs from '../components/tabs'
 import graphql from "../graphql/client"
 import { APP, SEGMENT, APP_USER} from "../graphql/queries"
@@ -55,6 +54,14 @@ import {
 import {
   getAppUser 
 } from '../actions/app_user'
+
+import {
+  updateConversationItem 
+} from '../actions/conversations'
+
+import {
+  camelizeKeys
+} from '../actions/conversation'
 
 const CableApp = {
   cable: actioncable.createConsumer()
@@ -146,7 +153,7 @@ class ShowAppContainer extends Component {
 
   fetchApp = (cb)=>{
     const id = this.props.match.params.appId
-    this.props.dispatch(setApp(id, ()=>{
+    this.props.dispatch(setApp(id, {
       success: ()=>{
         cb ? cb() : null 
       }
@@ -170,8 +177,17 @@ class ShowAppContainer extends Component {
           console.log("disconnected from events")
         },
         received: (data)=> {
-          this.updateUser(data)
-          console.log(`received ${data}`)
+          console.log(`received`, data)
+          switch(data.type){
+            case "conversation_part":
+              console.log(camelizeKeys(data.data))
+              return this.props.dispatch(updateConversationItem(camelizeKeys(data.data)))
+            case "user_presence":
+              return this.updateUser(data)
+            default:
+              return null
+          }
+          
         },
         notify: ()=>{
           console.log(`notify!!`)

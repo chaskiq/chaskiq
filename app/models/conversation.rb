@@ -63,6 +63,15 @@ class Conversation < ApplicationRecord
     subscribers = ConversationsChannel.broadcast_to("#{self.app.key}-#{self.id}", 
       part.as_json
     )
+
+    EventsChannel.broadcast_to(
+      "#{self.app.key}", 
+      { 
+        type: :conversation_part,
+        data: part.as_json
+      }
+    )
+
     logger.info("subscribers: #{subscribers}")
     # could be events channel too
     # ConversationsChannel.broadcast_to("#{self.app.key}-#{self.asignee.email}", {} )

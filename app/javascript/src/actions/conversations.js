@@ -6,6 +6,7 @@ import {
     AGENTS
   } from "../graphql/queries"
 
+
 export function getConversations(cb){
 
   return (dispatch, getState) => {
@@ -58,6 +59,16 @@ export function updateConversationsData(data, cb){
   }
 }
 
+export function updateConversationItem(data){
+  return (dispatch, getState) => {
+    dispatch({
+      type: ActionTypes.UpdateConversationItem,
+      data: data
+    })
+  }
+}
+
+
 function dispatchGetConversations(data) {
   return {
     type: ActionTypes.GetConversations,
@@ -90,6 +101,20 @@ export default function reducer(state = initialState, action = {}) {
 
     case ActionTypes.UpdateConversations: {
       return Object.assign({}, state, action.data)
+    }
+
+    case ActionTypes.UpdateConversationItem: {
+      const newMessages = state.collection.map((o)=>{
+        if(o.id === action.data.conversationId){
+           o.lastMessage = action.data
+           return o
+        }else{
+          return o
+        }
+      })
+
+      return Object.assign({}, state, {collection: newMessages})
+
     }
     default:
       return state;

@@ -30,9 +30,10 @@ class Agent < ApplicationRecord
 
   def as_json(options = nil)
     super({ 
-      only: [:email, :id, :kind] , 
-      methods: [:email, :id, :kind] }
-      .merge(options || {}))
+      only: [:email, :id, :kind, :display_name] , 
+      methods: [:email, :id, :kind, :display_name] }
+      .merge(options || {})
+    )
   end
 
   def kind

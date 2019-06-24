@@ -18,7 +18,7 @@ import { camelCase } from 'lodash';
 import {soundManager} from 'soundmanager2'
 
 
-const camelizeKeys = (obj) => {
+export const camelizeKeys = (obj) => {
   if (Array.isArray(obj)) {
     return obj.map(v => camelizeKeys(v));
   } else if (obj !== null && obj.constructor === Object) {
@@ -64,25 +64,6 @@ export function getConversation(options, cb){
           dispatch(dispatchGetConversations(newConversation))
 
           cb ? cb() : null
-
-          //this.props.setConversation(conversation, () => {
-            /*this.conversationSubscriber()
-
-            const lastItem = last(this.state.messages)
-    
-            this.setState({
-              messages: nextPage > 1 ? 
-                this.state.messages.concat(conversation.messages.collection) : 
-                conversation.messages.collection,
-              meta: conversation.messages.meta,
-              loading: false
-            },  ()=>{
-              //console.log(lastItem)
-              //this.getMainUser(this.state.conversation.mainParticipant.id)
-              // TODO: this will scroll scroll to last when new items are added!
-              cb ? cb(lastItem ? lastItem.id : null) : null
-            })*/
-          //})
         },
         error: (error)=>{
           
@@ -177,6 +158,8 @@ export function appendMessage(data, cb){
 
       cb ? cb() : null
     }
+
+
 
   }
 }
@@ -277,7 +260,7 @@ function dispatchUpdateConversations(data) {
 }
 
 
-function playSound(){
+export function playSound(){
   soundManager.createSound({
     id: 'mySound',
     url: '/sounds/pling.mp3',
