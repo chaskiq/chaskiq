@@ -8,7 +8,7 @@ import ListItemAvatar from '@material-ui/core/ListItemAvatar';
 import Avatar from '@material-ui/core/Avatar';
 import Typography from '@material-ui/core/Typography';
 import Badge from '@material-ui/core/Badge';
-import gravatar from "gravatar"
+import gravatar from "../shared/gravatar"
 import styled from 'styled-components'
 import PriorityHighIcon from '@material-ui/icons/PriorityHigh'
 
@@ -75,7 +75,7 @@ function AlignItemsList(props) {
             <Avatar 
               onClick={()=>props.showUserDrawer(props.messageUser.id)}
               alt={props.messageUser.email} 
-              src={gravatar.url(props.messageUser.email)} 
+              src={gravatar(props.messageUser.email)} 
             />
           
         </ListItemAvatar>
@@ -98,7 +98,7 @@ function AlignItemsList(props) {
                           onClick={()=>props.showUserDrawer(props.messageUser.id)} 
                           className={classes.tinyAvatar}
                           alt={props.messageUser.email} 
-                          src={gravatar.url(props.messageUser.email)} 
+                          src={gravatar(props.messageUser.email)} 
                       /> : null 
                   }
 

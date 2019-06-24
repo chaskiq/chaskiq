@@ -15,7 +15,7 @@ import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 import Tooltip from '@material-ui/core/Tooltip';
 
-import gravatar from "gravatar"
+import gravatar from "../../shared/gravatar"
 
 
 const ITEM_HEIGHT = 48;
@@ -94,7 +94,7 @@ export default function LongMenu(props) {
           {/*<MoreVertIcon />*/}
           <Avatar 
             className={classes.avatar}
-            src={gravatar.url( assignee ? assignee.email : null )}
+            src={gravatar( assignee ? assignee.email : null )}
           />
         </IconButton>
 

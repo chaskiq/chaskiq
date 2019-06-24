@@ -7,7 +7,7 @@ import {
 } from 'react-router-dom'
 import styled from "styled-components"
 import {ThemeProvider} from 'styled-components'
-import gravatar from "gravatar"
+import gravatar from "../shared/gravatar"
 import Moment from 'react-moment';
 import Avatar from '@material-ui/core/Avatar';
 import {soundManager} from 'soundmanager2'
@@ -85,7 +85,7 @@ class MessageItem extends Component {
 
         <MessageHeader>
         
-          <Avatar src={gravatar.url(user.email)} width={40} heigth={40}/>
+          <Avatar src={gravatar(user.email)} width={40} heigth={40}/>
           
           <MessageEmail>
             AAAAA {user.displayName}
@@ -102,7 +102,7 @@ class MessageItem extends Component {
           {
             user.id != this.props.message.appUser.id ?
             <Avatar 
-              src={gravatar.url(this.props.message.appUser.email)} 
+              src={gravatar(this.props.message.appUser.email)} 
               size={'xsmall'}
               style={{'float':'left'}}
             /> : null

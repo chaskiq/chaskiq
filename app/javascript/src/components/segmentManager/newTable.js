@@ -12,7 +12,7 @@ import {
   TableFixedColumns,
 } from '@devexpress/dx-react-grid-material-ui';
 import { CircularProgress } from '@material-ui/core';
-
+import gravatar from '../../shared/gravatar'
 import {
   PagingState,
   IntegratedPaging,
@@ -56,9 +56,7 @@ export default class Demo extends React.PureComponent {
                           <Avatar
                             name={row.email}
                             size="medium"
-                            src={`https://api.adorable.io/avatars/24/${encodeURIComponent(
-                              row.email,
-                            )}.png`}
+                            src={gravatar(row.email)}
                           />
                         </Badge>
                       </AvatarWrapper>

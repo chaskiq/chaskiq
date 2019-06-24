@@ -16,7 +16,7 @@ import Tooltip from '@material-ui/core/Tooltip';
 import Typography from '@material-ui/core/Typography';
 import { withStyles } from '@material-ui/core/styles';
 import ListMenu from './ListMenu'
-import gravatar from "gravatar"
+import gravatar from "../shared/gravatar"
 
 const lightColor = 'rgba(255, 255, 255, 0.7)';
 
@@ -99,7 +99,7 @@ function Header(props) {
                 color="inherit" 
                 className={classes.iconButtonAvatar}>
                 <Avatar className={classes.avatar} 
-                  src={gravatar.url(props.currentUser.email)}
+                  src={gravatar(props.currentUser.email)}
                 />
               </IconButton>
             </Grid>
