@@ -40,8 +40,10 @@ export const appUsersFormat = (withWidth: boolean) => {
         options: {
           filter: false,
           customBodyRender: (value, tableMeta, updateValue) => {
+           
             const isOnline = _.isArray(tableMeta.rowData) ? 
-                              tableMeta.rowData[5] === "online" : null
+                              tableMeta.rowData[6] : null
+      
             //console.log(isOnline)
             return (
               <NameWrapper>
@@ -117,6 +119,19 @@ export const appUsersFormat = (withWidth: boolean) => {
         shouldTruncate: true,
         isSortable: true,
         width: withWidth ? 10 : undefined,*/
+      },
+
+
+      {
+        name: 'online',
+        options: {
+          filter: false
+        }
+        /*content: 'Term',
+        shouldTruncate: true,
+        isSortable: true,
+        width: withWidth ? 10 : undefined,*/
       }
+
     ]
 };

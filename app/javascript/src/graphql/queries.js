@@ -193,6 +193,7 @@ query AppUser($appKey: String!, $id: Int! ) {
       os
       osVersion
       browserLanguage
+      online
       lang
       displayName
     }

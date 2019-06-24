@@ -4,12 +4,18 @@ class PresenceChannel < ApplicationCable::Channel
 
     get_user_data
 
-    @app_user = @app.app_users
-                    .where("email =?", @user_data[:email])
-                    .first
-    #@app.users.find_by(email: params[:email]).try(:app_user) 
-    #add_user(email: params[:email], properties: params[:properties])
-    @key      = "presence:#{@app.key}-#{@app_user.email}"
+    visitor = nil
+    # TODO , change this when leads can have mail
+    if @user_data[:email].blank?
+      visitor = get_user_by_session
+      @app_user = visitor 
+    else
+      @app_user = @app.app_users
+                  .where("email =?", @user_data[:email])
+                  .first
+    end
+
+    @key      = "presence:#{@app.key}-#{visitor.present? ? visitor.session_id : @app_user.email}"
     stream_from @key
     pingback
   end

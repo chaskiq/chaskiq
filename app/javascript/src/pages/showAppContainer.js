@@ -49,6 +49,7 @@ import {
 
 import {
   searchAppUsers,
+  updateAppUserPresence
 } from '../actions/app_users'
 
 import {
@@ -180,10 +181,9 @@ class ShowAppContainer extends Component {
           console.log(`received`, data)
           switch(data.type){
             case "conversation_part":
-              console.log(camelizeKeys(data.data))
               return this.props.dispatch(updateConversationItem(camelizeKeys(data.data)))
-            case "user_presence":
-              return this.updateUser(data)
+            case "presence":
+              return this.updateUser(camelizeKeys(data.data))
             default:
               return null
           }
@@ -202,11 +202,14 @@ class ShowAppContainer extends Component {
 
   updateUser = (data)=>{
     console.log("REDUXIFY THIS!")
-    data = JSON.parse(data)
+
+    this.props.dispatch(updateAppUserPresence(data))
+    
+    /*data = JSON.parse(data)
     this.setState({app_users: this.state.app_users.map( (el)=> 
         el.email === data.email ? Object.assign({}, el, data) : el 
       )
-    });
+    });*/
   }
 
   setAppUser = (id)=>{
