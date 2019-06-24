@@ -82,11 +82,13 @@ class ConversationContainerShow extends Component {
   handleScroll = (e) => {
     let element = e.target
     if (element.scrollTop === 0) { // on top
-      if (this.props.conversation.meta.next_page && !this.fetching)
-        this.fetching.true
+      console.log(this.props.conversation)
+      console.log("AAAA", this.props.conversation.meta.next_page)
+      console.log(this.props.conversation.meta.next_page && !this.props.conversation.loading)
+    
+      if (this.props.conversation.meta.next_page && !this.props.conversation.loading)
         this.getMessages( (item)=> {
           this.scrollToItem(item)
-          this.fetching = false
        })
     }
   }
@@ -108,8 +110,6 @@ class ConversationContainerShow extends Component {
     this.conversationSubscriber(opts.id)
 
     const lastItem = last(this.props.conversation.collection)
-
-
 
     this.props.dispatch(getConversation(opts, ()=>{
       //this.getMainUser(this.state.conversation.mainParticipant.id)
@@ -204,6 +204,8 @@ class ConversationContainerShow extends Component {
   }
 
   render(){
+
+    console.log("BUT THE", this.props.conversation)
 
     return <Fragment>
           
