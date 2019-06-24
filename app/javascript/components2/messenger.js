@@ -211,7 +211,8 @@ class Messenger extends Component {
     this.defaultCableData = {
       app: this.props.app_id,
       email: this.props.email,
-      properties: this.props.properties
+      properties: this.props.properties,
+      session_id: this.props.session_id
     }
 
     if(this.props.encryptedMode){
@@ -258,8 +259,6 @@ class Messenger extends Component {
       this.getConversations()
       this.getMessage()
       this.locationChangeListener()
-
-
     })
 
     this.updateDimensions()
