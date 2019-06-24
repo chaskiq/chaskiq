@@ -1,6 +1,6 @@
 import React, {Component} from 'react'
 import styled from "styled-components"
-import gravatar from "gravatar"
+import gravatar from "../shared/gravatar"
 import Moment from 'react-moment';
 import Accordeon from './accordeon'
 import Avatar from '@material-ui/core/Avatar';
@@ -64,7 +64,7 @@ export default class UserData extends Component {
                 <ActivityAvatar>
                   <ImageAvatars
                     email={this.props.appUser.email} 
-                    src={gravatar.url(this.props.appUser.email)}
+                    src={gravatar(this.props.appUser.email)}
                   />
 
                 </ActivityAvatar>

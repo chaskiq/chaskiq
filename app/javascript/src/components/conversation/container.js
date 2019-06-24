@@ -2,7 +2,7 @@ import React, {Component, Fragment} from 'react'
 
 import { withRouter } from 'react-router-dom'
 import { connect } from 'react-redux'
-import gravatar from "gravatar"
+import gravatar from "../../shared/gravatar"
 import {ThemeProvider} from 'styled-components'
 
 import graphql from "../../graphql/client"
@@ -295,7 +295,9 @@ class ConversationContainerShow extends Component {
                                         <ChatAvatar 
                                           onClick={(e)=>this.props.showUserDrawer(o.appUser.id)}
                                           className={userOrAdmin}>
-                                          <img src={gravatar.url(o.appUser.email)}/>
+
+                                          <img src={gravatar(o.appUser.email)}/>
+
                                         </ChatAvatar>
 
                                         <ThemeProvider theme={

@@ -16,9 +16,6 @@ import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 import Tooltip from '@material-ui/core/Tooltip';
 
-import gravatar from "gravatar"
-
-
 const ITEM_HEIGHT = 48;
 
 const useStyles = makeStyles(theme => ({
