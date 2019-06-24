@@ -40,9 +40,7 @@ export function getConversation(options, cb){
       setLoading(true)
 
       const conversationMeta = getState().conversation.meta
-      debugger
       const nextPage = conversationMeta ? (conversationMeta.next_page || 1) : 1
-
 
       graphql(CONVERSATION, { 
         appKey: getState().app.key, 
