@@ -42,6 +42,18 @@ export default class Demo extends React.PureComponent {
     super(props);
 
     this.state = {
+      defaultHiddenColumnNames: ['id', 
+      'state', 
+      'online', 
+      'lat', 
+      'lng', 
+      'postal',
+      'browserLanguage', 
+      'referrer', 
+      'os', 
+      'osVersion',
+      'lang'],
+
       columns: [
                 //{name: 'id', title: 'id'},
                 {name: 'email', title: 'email', 
@@ -78,17 +90,33 @@ export default class Demo extends React.PureComponent {
                 {name: 'os', title: 'os'},
                 {name: 'osVersion', title: 'osVersion'},
                 {name: 'state', title: 'state'},
-                {name: 'online', title: 'online'}
+                {name: 'online', title: 'online'},
+
+                {name: 'referrer', title: 'referrer'},
+                {name: 'ip', title: 'ip'},
+                {name: 'city', title: 'city'},
+                {name: 'region', title: 'region'},
+                {name: 'country', title: 'country'},
+                {name: 'lat', title: 'lat'},
+                {name: 'lng', title: 'lng'},
+                {name: 'postal', title: 'postal'},
+                {name: 'webSessions', title: 'webSessions'},
+                {name: 'timezone', title: 'timezone'},
+                {name: 'browser', title: 'browser'},
+                {name: 'browserVersion', title: 'browserVersion'},
+                {name: 'browserLanguage', title: 'browserLanguage'},
+                {name: 'lang', title: 'lang'}
               ],
       selection: [],
       tableColumnExtensions: [
         //{ columnName: 'id', width: 150 },
-        { columnName: 'email', width: 420 },
+        { columnName: 'email', width: 250 },
         { columnName: 'lastVisitedAt', width: 120 },
         { columnName: 'os', width: 100 },
         { columnName: 'osVersion', width: 100 },
         { columnName: 'state', width: 80 },
         { columnName: 'online', width: 80 },
+
         //{ columnName: 'amount', align: 'right', width: 140 },
       ],
       leftColumns: ['email'],
@@ -103,10 +131,11 @@ export default class Demo extends React.PureComponent {
 
 
   render() {
-    const { rows, defaultHiddenColumnNames } = this.props;
+    const { rows } = this.props;
     const {  columns, selection, 
             tableColumnExtensions,
-            rightColumns, leftColumns
+            rightColumns, leftColumns,
+            defaultHiddenColumnNames
           } = this.state
 
     return (

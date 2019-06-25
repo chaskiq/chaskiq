@@ -316,7 +316,6 @@ class AppUsers extends Component {
               rows={this.props.app_users}
               meta={this.props.meta}
               search={this.props.actions.search}
-              defaultHiddenColumnNames={['id', 'state', 'online']}
               showUserDrawer={this.showUserDrawer}
               toggleMapView={this.toggleMapView}
               map_view={this.state.map_view}
