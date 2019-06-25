@@ -7,6 +7,7 @@ const TOKEN = "pk.eyJ1IjoibWljaGVsc29uIiwiYSI6ImNpbzRpNnh3eDAxaTZ3M2tqamg1NGQ4dW
 const MapContainer = styled.div`
   width: 100%;
   height: 300px;
+  margin-top: 10px;
 `
 
 export default class Map extends React.Component{

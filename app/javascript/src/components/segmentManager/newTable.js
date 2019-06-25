@@ -20,6 +20,9 @@ import {
   SelectionState
 } from '@devexpress/dx-react-grid';
 
+import { withStyles } from '@material-ui/core/styles';
+
+
 import Avatar from '@material-ui/core/Avatar';
 import Typography from '@material-ui/core/Typography'
 import styled from 'styled-components'
@@ -37,7 +40,14 @@ const AvatarWrapper = styled.div`
   margin-right: 8px;
 `;
 
-export default class Demo extends React.PureComponent {
+
+const styles = theme => ({
+  root: {
+    marginTop: theme.spacing(3),
+  }
+});
+
+class DataTable extends React.PureComponent {
   constructor(props) {
     super(props);
 
@@ -139,7 +149,7 @@ export default class Demo extends React.PureComponent {
           } = this.state
 
     return (
-      <Paper>
+      <Paper className={this.props.classes.root}>
         <Grid
           rows={rows}
           columns={columns}
@@ -210,3 +220,5 @@ export default class Demo extends React.PureComponent {
     );
   }
 }
+
+export default withStyles(styles, { withTheme: true })(DataTable);
