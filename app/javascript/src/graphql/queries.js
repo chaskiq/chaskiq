@@ -162,6 +162,49 @@ export const CONVERSATION=`
 }
 `;
 
+export const CONVERSATION_WITH_LAST_MESSAGE=`
+  query App($appKey: String!, $id: Int!){
+    app(key: $appKey) {
+      encryptionKey
+      key
+      name
+      conversation(id: $id){
+        id
+        state
+        readAt
+        priority
+        lastMessage{
+          source
+          message{
+            htmlContent
+            textContent
+            serializedContent
+          }
+          privateNote
+          messageSource{
+            id
+            type
+          }
+          appUser {
+            id
+            email
+            kind
+            displayName
+          }
+        }
+        mainParticipant{
+          id
+          email
+          displayName
+          properties
+        }
+      }
+    }
+  }
+`;
+
+
+
 export const CURRENT_USER = `
   query CurrentUser {
     userSession {

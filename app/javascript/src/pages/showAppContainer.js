@@ -57,7 +57,8 @@ import {
 } from '../actions/app_user'
 
 import {
-  updateConversationItem 
+  updateConversationItem,
+  appendConversation
 } from '../actions/conversations'
 
 import {
@@ -181,7 +182,7 @@ class ShowAppContainer extends Component {
           console.log(`received`, data)
           switch(data.type){
             case "conversation_part":
-              return this.props.dispatch(updateConversationItem(camelizeKeys(data.data)))
+              return this.props.dispatch(appendConversation(camelizeKeys(data.data)))
             case "presence":
               return this.updateUser(camelizeKeys(data.data))
             default:
