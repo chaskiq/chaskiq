@@ -138,8 +138,9 @@ class ConversationContainer extends Component {
 
     //console.log(element.scrollHeight - element.scrollTop, element.clientHeight)
     if (element.scrollHeight - element.scrollTop === element.clientHeight) {
-      if (this.state.meta.next_page)
+      if (this.props.conversations.meta.next_page){
         this.getConversations({ append: true })
+      }
     }
   }
 

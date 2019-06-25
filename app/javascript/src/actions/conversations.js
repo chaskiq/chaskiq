@@ -8,6 +8,10 @@ import {
   } from "../graphql/queries"
 
 
+import {
+  playSound
+} from './conversation'
+
 export function getConversations(cb){
 
   return (dispatch, getState) => {
@@ -84,9 +88,20 @@ export function appendConversation(data, cb){
             return o
           }
         })
+
         dispatch(appendConversationDispatcher(newMessages))
       }
+
+
+      if(getState().conversation.id != data.conversationId){
+    
+        if(data.appUser.kind === "app_user")
+          playSound()  
+      }
     }
+
+
+    
    
 }
 
