@@ -256,10 +256,23 @@ export const PREDICATES_SEARCH = `
           lastVisitedAt
           browser
           state
-          lat 
-          lng
           displayName
           online
+
+          referrer
+          ip
+          city
+          region
+          country
+          lat
+          lng
+          postal
+          webSessions
+          timezone
+          browser
+          browserVersion
+          browserLanguage
+          lang
         }
         meta
       }
