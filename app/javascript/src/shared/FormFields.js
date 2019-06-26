@@ -67,7 +67,7 @@ class FieldRenderer extends React.Component {
                   <TextField
                     label={data.name}
                     variant="outlined"
-                    margin="normal"
+                    //margin="normal"
                     name={`${namespace}[${data.name}]`}
                     defaultValue={props.data[camelCase(data.name)]} 
                     helperText={
@@ -88,7 +88,7 @@ class FieldRenderer extends React.Component {
                   <TextField
                     label={data.name}
                     variant="outlined"
-                    margin="normal"
+                    //margin="normal"
                     multiline={true}
                     name={`${namespace}[${data.name}]`}
                     defaultValue={props.data[camelCase(data.name)]} 
@@ -134,7 +134,7 @@ class FieldRenderer extends React.Component {
                   data={data} 
                   defaultData={defaultData}
                   variant="outlined"
-                  margin="normal"
+                  //margin="normal"
                   name={`${namespace}[${data.name}]`}
                />
 
