@@ -30,15 +30,25 @@ const styles = theme => ({
 });*/
 
 class SimpleSelect extends React.Component {
-  state = {
-    value: '',
-    labelWidth: 0,
-  };
+  
+  constructor(props){
+    super(props)
+    this.state = {
+      value: props.defaultData.value,
+      labelWidth: 0,
+    };
+  }
 
   componentDidMount() {
+
     /*this.setState({
       labelWidth: ReactDOM.findDOMNode(this.InputLabelRef).offsetWidth,
     });*/
+  }
+
+  componentDidUpdate(prevProps){
+    if(this.props.value != prevProps.value)
+      this.setState({value: this.props.value})
   }
 
   handleChange = event => {
@@ -49,19 +59,27 @@ class SimpleSelect extends React.Component {
     const { classes } = this.props;
 
     return (
-      <FormControl className={classes.formControl}>
+      <FormControl 
+        className={classes.formControl}>
           
-          <InputLabel htmlFor={this.props.data.label}>
+          {/*<InputLabel htmlFor={this.props.data.label}>
             {this.props.data.name}
-          </InputLabel>
+          </InputLabel>*/}
 
           <Select
             name={this.props.name}
             value={this.state.value}
             onChange={this.handleChange}
+
             inputProps={{
               name: this.props.name
             }}
+            variant={"outlined"}
+            input={<OutlinedInput 
+              labelWidth={this.state.labelWidth} 
+              name={this.props.data.name}
+            />}
+
           >
             <MenuItem value="">
               <em>None</em>

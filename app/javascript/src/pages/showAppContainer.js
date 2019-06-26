@@ -19,7 +19,7 @@ import {parseJwt, generateJWT} from '../components/segmentManager/jwt'
 import ContentHeader from '../components/ContentHeader'
 import Content from '../components/Content'
 import AppContent from '../components/segmentManager/container'
-
+import Snackbar from '../components/snackbar'
 import AtTabs from '../components/tabs'
 import graphql from "../graphql/client"
 import { APP, SEGMENT, APP_USER} from "../graphql/queries"
@@ -36,7 +36,11 @@ import Button from '@material-ui/core/Button'
 
 import { withRouter } from 'react-router-dom'
 import { connect } from 'react-redux'
-import { setApp } from '../actions/app'
+import { 
+  setApp, 
+  updateApp
+} from '../actions/app'
+
 import {
   fetchAppSegment, 
   updateSegment,
@@ -150,7 +154,7 @@ class ShowAppContainer extends Component {
       deletePredicate: this.deletePredicate,
       deleteSegment: this.deleteSegment,
       search: this.search,
-      setAppUser: this.setAppUser
+      setAppUser: this.setAppUser,
       //fetchAppSegments: this.fetchAppSegments
     }
   }
@@ -204,15 +208,7 @@ class ShowAppContainer extends Component {
   }
 
   updateUser = (data)=>{
-    console.log("REDUXIFY THIS!")
-
     this.props.dispatch(updateAppUserPresence(data))
-    
-    /*data = JSON.parse(data)
-    this.setState({app_users: this.state.app_users.map( (el)=> 
-        el.email === data.email ? Object.assign({}, el, data) : el 
-      )
-    });*/
   }
 
   setAppUser = (id)=>{
@@ -333,18 +329,8 @@ class ShowAppContainer extends Component {
       return <p>loading this mdfk</p>
    
     return <div>
-
-                            {/*<Provider value={{
-                              store: {
-                                //app: this.props.app,
-                                //app_users: this.props.segment.collection,
-                                //meta: this.props.segment.meta,
-                                //searching: this.props.segment.searching,
-                                //segment: this.props.segment.segment,
-                                currentUser: this.props.currentUser
-                              }, 
-                              actions: this.actions() 
-                            }}>*/}
+      
+      <Snackbar/>
 
       {
         this.props.app && this.props.app.key ?
@@ -353,16 +339,9 @@ class ShowAppContainer extends Component {
             render={(props) => {
               return <Content>
                         <AppContent 
-                          //{...props}
                           match={props.match}
                           history={props.history}
-                          //app={this.props.app}
-                          //store={{currentUser: this.props.currentUser }}
                           actions={this.actions()}
-                          //segment={this.props.segment}
-                          //app_users={this.props.app_users}
-                          //meta={this.props.app_users.meta}
-                          //searching={this.props.app_users.searching}
                         />
                   
                     </Content>
@@ -372,8 +351,6 @@ class ShowAppContainer extends Component {
           <Route exact path={`${this.props.match.path}/conversations/:id?`}
             render={(props) => (
                   <ConversationContainer
-                    //app={this.props.app}
-                    //currentUser={this.props.currentUser}
                     actions={this.actions()}
                     {...props}
                   />
@@ -394,9 +371,10 @@ class ShowAppContainer extends Component {
           <Route path={`${this.props.match.path}/settings`}
             render={(props) => (
               <AppSettingsContainer
+                app={this.props.app}
+                updateApp={updateApp}
+                dispatch={this.props.dispatch}
                 currentUser={this.props.current_user}
-                store={store}
-                actions={actions}
                 {...props}
               />
             )}

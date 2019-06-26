@@ -7,7 +7,7 @@ import React from 'react'
 //import { Field } from '@atlaskit/form';
 import { snakeCase, camelCase } from 'lodash'
 
-
+import TextField from '@material-ui/core/TextField';
 import FormControl from '@material-ui/core/FormControl';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import FormHelperText from '@material-ui/core/FormHelperText';
@@ -63,43 +63,44 @@ class FieldRenderer extends React.Component {
         return <FormControl 
                   error={errorMessage}
                   className={classes.formControl}>
-                  <InputLabel htmlFor="component-simple">
-                    {data.name}
-                  </InputLabel>
-                  <Input id="component-simple"
+
+                  <TextField
+                    label={data.name}
+                    variant="outlined"
+                    //margin="normal"
                     name={`${namespace}[${data.name}]`}
                     defaultValue={props.data[camelCase(data.name)]} 
-                    //onChange={this.handleChange} 
+                    helperText={
+                      errorMessage ? 
+                      <FormHelperText id="component-error-text">
+                        {errorMessage}
+                      </FormHelperText>
+                      : null
+                    }
                   />
-                  {
-                    errorMessage ? 
-                    <FormHelperText id="component-error-text">
-                      {errorMessage}
-                    </FormHelperText>
-                    : null
-                  }
                 </FormControl>
       case "text":
 
         return <FormControl 
                   error={errorMessage}
                   className={classes.formControl}>
-                  <InputLabel htmlFor="component-simple">
-                    {data.name}
-                  </InputLabel>
-                  <Input id="component-simple"
+                  
+                  <TextField
+                    label={data.name}
+                    variant="outlined"
+                    //margin="normal"
                     multiline={true}
                     name={`${namespace}[${data.name}]`}
                     defaultValue={props.data[camelCase(data.name)]} 
-                    //onChange={this.handleChange} 
+                    helperText={
+                      errorMessage ? 
+                      <FormHelperText id="component-error-text">
+                        {errorMessage}
+                      </FormHelperText>
+                      : null
+                    }
                   />
-                  {
-                    errorMessage ? 
-                    <FormHelperText id="component-error-text">
-                      {errorMessage}
-                    </FormHelperText>
-                    : null
-                  }
+
                 </FormControl>
       case "datetime":
         return <FormControl 
@@ -132,6 +133,8 @@ class FieldRenderer extends React.Component {
           return <MultipleSelect 
                   data={data} 
                   defaultData={defaultData}
+                  variant="outlined"
+                  //margin="normal"
                   name={`${namespace}[${data.name}]`}
                />
 
@@ -142,7 +145,7 @@ class FieldRenderer extends React.Component {
             value: props.data[data.name] || data.default
           }
 
-          return <Select 
+          return <Select
               data={data} 
               defaultData={defaultData}
               classes={classes}
