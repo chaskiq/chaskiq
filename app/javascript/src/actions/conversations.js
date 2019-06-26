@@ -3,9 +3,14 @@ import graphql from '../graphql/client'
 
 import { 
     CONVERSATIONS, 
+    CONVERSATION_WITH_LAST_MESSAGE,
     AGENTS
   } from "../graphql/queries"
 
+
+import {
+  playSound
+} from './conversation'
 
 export function getConversations(cb){
 
@@ -52,6 +57,54 @@ export function getConversations(cb){
   }
 }
 
+export function appendConversation(data, cb){
+   
+    return (dispatch, getState)=>{
+  
+      const conversation = getState().conversations.collection.find((o)=> 
+        o.id === data.conversationId 
+      )
+
+      let newMessages = null
+     
+      // add new or update existing
+      if(!conversation){
+        graphql(CONVERSATION_WITH_LAST_MESSAGE, {
+          appKey: getState().app.key,
+          id: data.conversationId
+        },{
+          success: (data)=>{
+            newMessages = [data.app.conversation].concat(getState().conversations.collection)
+            dispatch(appendConversationDispatcher(newMessages))
+          }
+        })
+
+      } else {
+        newMessages = getState().conversations.collection.map((o)=>{
+          if(o.id === data.conversationId){
+            o.lastMessage = data
+            return o
+          }else{
+            return o
+          }
+        })
+
+        dispatch(appendConversationDispatcher(newMessages))
+      }
+
+
+      if(getState().conversation.id != data.conversationId){
+    
+        if(data.appUser.kind === "app_user")
+          playSound()  
+      }
+    }
+
+
+    
+   
+}
+
 export function updateConversationsData(data, cb){
   return (dispatch, getState)=>{
     dispatch(dispatchDataUpate(data))
@@ -68,6 +121,12 @@ export function updateConversationItem(data){
   }
 }
 
+function appendConversationDispatcher(data){
+  return {
+    type: ActionTypes.AppendConversation,
+    data: data
+  }
+}
 
 function dispatchGetConversations(data) {
   return {
@@ -103,18 +162,8 @@ export default function reducer(state = initialState, action = {}) {
       return Object.assign({}, state, action.data)
     }
 
-    case ActionTypes.UpdateConversationItem: {
-      const newMessages = state.collection.map((o)=>{
-        if(o.id === action.data.conversationId){
-           o.lastMessage = action.data
-           return o
-        }else{
-          return o
-        }
-      })
-
-      return Object.assign({}, state, {collection: newMessages})
-
+    case ActionTypes.AppendConversation: {
+      return Object.assign({}, state, {collection: action.data})
     }
     default:
       return state;

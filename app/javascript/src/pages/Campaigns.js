@@ -32,7 +32,7 @@ import { CAMPAIGN, CAMPAIGNS  } from "../graphql/queries"
 import { PREDICATES_SEARCH, UPDATE_CAMPAIGN, CREATE_CAMPAIGN } from '../graphql/mutations'
 
 // @flow
-import DataTable from '../components/dataTable'
+//import DataTable from '../components/dataTable'
 
 import Tab from '@material-ui/core/Tab';
 import Tabs from '@material-ui/core/Tabs';
@@ -465,7 +465,7 @@ class CampaignContainer extends Component {
                 </Button>
               </div>
               
-              {
+              { /*
                 !this.state.loading ?
                   <DataTable {...this.props}
                     data={this.state.campaigns}
@@ -475,7 +475,7 @@ class CampaignContainer extends Component {
                     search={this.init.bind(this)}
                     onRowClick={this.handleRowClick.bind(this)}
                   /> : null
-              }
+              */}
 
               {
                 this.state.loading ? <p>loading</p> : null

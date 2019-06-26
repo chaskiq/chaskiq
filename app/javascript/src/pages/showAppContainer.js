@@ -57,8 +57,11 @@ import {
 } from '../actions/app_user'
 
 import {
-  updateConversationItem 
+  updateConversationItem,
+  appendConversation
 } from '../actions/conversations'
+
+import ProfileView from '../pages/ProfileView'
 
 import {
   camelizeKeys
@@ -181,7 +184,7 @@ class ShowAppContainer extends Component {
           console.log(`received`, data)
           switch(data.type){
             case "conversation_part":
-              return this.props.dispatch(updateConversationItem(camelizeKeys(data.data)))
+              return this.props.dispatch(appendConversation(camelizeKeys(data.data)))
             case "presence":
               return this.updateUser(camelizeKeys(data.data))
             default:
@@ -349,7 +352,6 @@ class ShowAppContainer extends Component {
           <Route exact path={`${this.props.match.path}/segments/:segmentID/:Jwt?`}
             render={(props) => {
               return <Content>
-
                         <AppContent 
                           //{...props}
                           match={props.match}
@@ -381,29 +383,33 @@ class ShowAppContainer extends Component {
 
           <Route path={`${this.props.match.path}/messages/:message_type`}
             render={(props) => (
-    
                   <CampaignContainer
                     currentUser={this.props.current_user}
                     actions={this.actions()}
                     classes={props.classes}
                     {...props}
                   />
-       
             )} />             
 
           <Route path={`${this.props.match.path}/settings`}
             render={(props) => (
-              <Consumer>
-                {({ store, actions }) => (
-                  <AppSettingsContainer
-                    currentUser={this.props.current_user}
-                    store={store}
-                    actions={actions}
-                    {...props}
-                  />
-                )}
-              </Consumer>
-            )} />
+              <AppSettingsContainer
+                currentUser={this.props.current_user}
+                store={store}
+                actions={actions}
+                {...props}
+              />
+            )}
+          />
+
+          <Route exact path={`${this.props.match.path}/users/:id`}
+            render={(props) => (
+              <ProfileView
+                {...props}
+              />
+            )}
+          />
+
 
           <Route exact path={`/apps/${this.props.app.key}`}
               render={() => (

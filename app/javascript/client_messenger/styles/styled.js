@@ -294,16 +294,18 @@ export const MessageItem = styled.div`
     clear: both;
     z-index: 999;
 
-    &.user {
+    &.admin {
       align-self: flex-start;
       display: flex;
       flex-direction: row;
       
       .message-content-wrapper {
-        background: #ccc;
+        background: #f7f6f687;
         padding: 9px;
         margin: 5px;
         border-radius: 3px;
+        box-shadow: 1px 1px 3px #ccc;
+        border: 1px solid #dedbdb;
       }
 
       .text{
@@ -313,13 +315,17 @@ export const MessageItem = styled.div`
       }
     }
 
-    &.admin {
+    &.user {
 
       .message-content-wrapper {
         background: ${mainColor};
         padding: 9px;
         margin: 5px;
         border-radius: 3px;
+      }
+      // hack on image from user, not use position absolute
+      .graf-image {
+        position: inherit !important;
       }
 
 
@@ -343,8 +349,6 @@ export const MessageItem = styled.div`
           color: #fff;
         }
       }
-
-      
     }
 
 

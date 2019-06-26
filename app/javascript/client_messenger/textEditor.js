@@ -3,8 +3,25 @@ import React, { Component } from 'react';
 import styled from "styled-components"
 import { Picker } from 'emoji-mart'
 import {EmojiBlock} from "./styles/emojimart"
+import {GiphyBlock} from './styles/styled'
+//import GiphyPicker from 'react-giphy-picker'
+import GiphyPicker from './giphy'
 
 import {Selector, ResultSort, Rating} from "react-giphy-selector";
+import {Map} from 'immutable'
+
+import { 
+  ContentState, 
+  convertFromHTML, 
+  EditorState,
+  convertToRaw
+} from 'draft-js'; // { compose
+
+import customHTML2Content from './html2Content' //'Dante2/package/es/utils/html2content.js'
+
+//
+
+import {imageUpload} from './uploader'
 
 const EditorContainer = styled.div`
     position: absolute;
@@ -125,7 +142,6 @@ const AttachIcon = ()=>(
   </svg>
 )
 
-
 export default class UnicornEditor extends Component {
 
   constructor(props) {
@@ -134,11 +150,50 @@ export default class UnicornEditor extends Component {
     this.state = { 
       text: '',
       emojiEnabled: false,
-      giphyEnabled: false
+      giphyEnabled: false,
+      loading: false
     }
   }
 
   componentDidMount() {
+  }
+
+
+  convertToDraft(sampleMarkup){
+    this.blockRenderMap = Map({
+      "image": {
+        element: 'figure'
+      },
+      "video": {
+        element: 'figure'
+      },
+      "embed": {
+        element: 'div'
+      },
+      'unstyled': {
+        wrapper: null,
+        element: 'div'
+      },
+      'paragraph': {
+        wrapper: null,
+        element: 'div'
+      },
+      'placeholder': {
+        wrapper: null,
+        element: 'div'
+      },
+      'code-block': {
+        element: 'pre',
+        wrapper: null
+      }
+    })
+
+    const contentState = customHTML2Content(sampleMarkup, this.extendedBlockRenderMap) 
+    
+
+    const fstate2 = EditorState.createWithContent(contentState)
+    return JSON.stringify(convertToRaw(fstate2.getCurrentContent()))
+
   }
 
   //https://stackoverflow.com/questions/11076975/insert-text-into-textarea-at-cursor-position-javascript
@@ -168,8 +223,24 @@ export default class UnicornEditor extends Component {
     });
   };
 
-  handleClick = (e) => {
-    this.props.insertComment(this.input.value, () => {
+  handleSubmit = (e) => {
+    this.props.insertComment({
+      html_content: this.input.value,
+      serialized_content: this.convertToDraft(this.input.value)
+    }, () => {
+      console.log("saved!")
+      this.input.value = ""
+    })
+  }
+
+  submitImage = (link)=>{
+    const html = `<img width=100% src="${link}"/>`
+    this.props.insertComment(
+        {
+          html_content: html,
+          serialized_content: this.convertToDraft(html)
+        }
+      , () => {
       console.log("saved!")
       this.input.value = ""
     })
@@ -177,13 +248,13 @@ export default class UnicornEditor extends Component {
 
   handleReturn = (e) => {
     if (e.key === "Enter") {
-      this.handleClick(e)
+      this.handleSubmit(e)
       return
     }
   }
 
   handleFocus = (e) => {
-    this.input.focus()
+    //this.input.focus()
   }
 
   toggleEmojiClick = (e) => {
@@ -206,6 +277,38 @@ export default class UnicornEditor extends Component {
     this.insertAtCursor(e.native)
   }
 
+  handleUpload = (ev)=>{
+    ev.target.files
+
+    imageUpload(
+      ev.target.files[0],
+      {
+        onLoading: ()=>{
+
+        },
+        onError: (err)=>{
+          alert("error uploading")
+          console.log(err)
+        },
+        onSuccess: (attrs)=> {
+          console.log("AAAA", attrs.link)
+          this.submitImage(attrs.link)
+        }
+      },
+      "dd",
+      false
+    )
+  }
+
+  handleInputClick = ()=>{
+    this.refs.upload_input.click()
+  }
+
+  // TODO, upload this to activeStorage
+  saveGif = (data)=>{
+    this.submitImage(data.images.downsized_medium.url)
+  }
+
   render() {
     return (
 
@@ -225,12 +328,10 @@ export default class UnicornEditor extends Component {
 
           {
             this.state.giphyEnabled ? 
-            <EmojiBlock>
-                <Selector
-                  apiKey="97g39PuUZ6Q49VdTRBvMYXRoKZYd1ScZ"
-                  onGifSelected={this.saveGif} 
-                />
-              </EmojiBlock> : null
+              <GiphyPicker 
+                apikey={"97g39PuUZ6Q49VdTRBvMYXRoKZYd1ScZ"}
+                handleSelected={this.saveGif}
+              /> : null
           }
 
           <Input onKeyPress={this.handleReturn} 
@@ -249,8 +350,12 @@ export default class UnicornEditor extends Component {
             </button>
 
           
-            <button>
+            <button onClick={this.handleInputClick}>
               <AttachIcon/>
+              <input type="file" 
+                ref="upload_input" 
+                onChange={this.handleUpload}
+              />
             </button>
          
 
