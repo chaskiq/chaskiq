@@ -8,19 +8,20 @@ class Campaign < Message
 
   def config_fields
     [
-      {name: "name", type: 'string'} ,
-      {name: "subject", type: 'text'},
-      {name: "fromName", type: 'string'},
-      {name: "fromEmail", type: 'string'},
-      {name: "replyEmail", type: 'string'},
-      {name: "description", type: 'text'},
+      {name: "name", type: 'string', grid: {xs: 12, sm: 12 } } ,
+      {name: "subject", type: 'text', grid: {xs: 12, sm: 12 } },
+      {name: "fromName", type: 'string', grid: {xs: 12, sm: 6 } },
+      {name: "fromEmail", type: 'string', grid: {xs: 12, sm: 6 } },
+      {name: "replyEmail", type: 'string', grid: {xs: 12, sm: 6 } },
+      {name: "description", type: 'text', grid: {xs: 12, sm: 6 } },
       {name: "timezone", type: "timezone", 
         options: ActiveSupport::TimeZone.all.map{|o| o.tzinfo.name }, 
-        multiple: false
+        multiple: false,
+        grid: {xs: 12, sm: 12 }
       },
       #{name: "settings", type: 'string'} ,
-      {name: "scheduledAt", type: 'datetime'},
-      {name: "scheduledTo", type: 'datetime'}
+      {name: "scheduledAt", type: 'datetime', grid: {xs: 12, sm: 6 } },
+      {name: "scheduledTo", type: 'datetime', grid: {xs: 12, sm: 6 } }
     ]
   end
 

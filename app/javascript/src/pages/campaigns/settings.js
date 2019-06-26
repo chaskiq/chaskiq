@@ -1,5 +1,5 @@
 import React, {Component} from "react"
-import Button from '@material-ui/core/Button';
+import {Button, Grid} from '@material-ui/core';
 
 
 import {isEmpty} from 'lodash'
@@ -66,21 +66,6 @@ export default class CampaignSettings extends Component {
       }
     })
 
-
-    /*axios.post(`/apps/${this.props.store.app.key}/campaigns.json?mode=${this.props.mode}`, data)
-    .then( (response)=> {
-      this.setState({data: response.data}, ()=>{ 
-        this.props.history.push(`/apps/${this.props.store.app.key}/messages/${this.props.mode}/${this.state.data.id}`)
-        this.props.updateData(response.data)
-      })
-    })
-    .catch( (error)=> {
-      if(error.response.data)
-        this.setState({errors: error.response.data})
-      
-      console.log(error);
-    });*/
-
   };
 
   // Form Event Handlers
@@ -104,18 +89,6 @@ export default class CampaignSettings extends Component {
       }
     })
 
-    /*axios.put(`${this.props.url}.json?mode=${this.props.mode}`, data)
-    .then( (response)=> {
-      this.setState({data: response.data}, ()=>{
-        this.props.updateData(response.data) 
-      })
-    })
-    .catch( (error)=> {
-      if(error.response.data)
-        this.setState({errors: error.response.data})
-      
-      console.log(error);
-    });*/
   };
 
   render() {
@@ -138,17 +111,26 @@ export default class CampaignSettings extends Component {
         >
           <h3>Create a new campaign</h3>
 
+
+          
+          <Grid container spacing={3}>
       
           {
             this.state.data.configFields.map((field) => {
-              return <FieldRenderer 
-                        namespace={'campaign'} 
-                        data={field}
-                        props={this.state} 
-                        errors={this.state.errors}
-                       />
+              return <Grid item 
+                        xs={field.grid.xs} 
+                        sm={field.grid.sm}>
+                        <FieldRenderer 
+                          namespace={'campaign'} 
+                          data={field}
+                          props={this.state} 
+                          errors={this.state.errors}
+                         />
+                     </Grid>
             })
           }
+
+          </Grid>
 
           <Button onClick={this.onSubmitHandler.bind(this)}
                   variant="contained" 
