@@ -70,11 +70,14 @@ const renderers = {
     }</ol>,
     'image': (children, {keys, data}) => {
       const data2 = data[0]
-      const {url, ratio, height, width, caption} = data2
+      const {url, aspect_ratio, caption} = data2
+      const { height, width, ratio} = aspect_ratio 
+
       return  <figure class="graf graf--figure">
                   <div>
                     <div class="aspectRatioPlaceholder is-locked" 
-                      style={{maxWidth: '1000px', maxHeight: `${height}px`}}>
+                      //style={{maxWidth: '1000px', maxHeight: `${height}px`}}
+                      >
                       <div class="aspect-ratio-fill" 
                           style={{paddingBottom: `${ratio}%`}}>
                       </div>
@@ -175,7 +178,7 @@ const renderers = {
   entities: {
     // key is the entity key value from raw
     LINK: (children, data, { key }) => 
-    <a key={key} hre={data.url}>
+    <a key={key} href={data.url}>
       {children}
     </a>,
   },

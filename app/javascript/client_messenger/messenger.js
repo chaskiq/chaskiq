@@ -838,9 +838,6 @@ class Conversation extends Component {
                     className={userClass}
                     messageSourceType={o.message_source ? o.message_source.type : ''}>
 
-
-
-
                     <div className="message-content-wrapper">
 
                       {

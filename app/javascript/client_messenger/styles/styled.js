@@ -323,6 +323,10 @@ export const MessageItem = styled.div`
         margin: 5px;
         border-radius: 3px;
       }
+      // hack on image from user, not use position absolute
+      .graf-image {
+        position: inherit !important;
+      }
 
 
       ${(props) => (props.messageSourceType === "UserAutoMessage" ? `

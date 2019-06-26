@@ -56,6 +56,8 @@ import EditorContainer from './editorStyles'
 import Button from '@material-ui/core/Button'
 import SendIcon from '@material-ui/icons/Send'
 
+import {imageUpload} from '../../../client_messenger/uploader'
+
 
 //import EditorContainer from './styles'
 //import EditorStyles from './editorStyles'
@@ -344,12 +346,38 @@ export default class ChatEditor extends Component {
     }
   }
 
+  handleUpload = (file, imageBlock)=>{
+   
+    imageUpload(
+      file,
+      {
+        onLoading: (aa)=>{
+          debugger
+          /*imageBlock.updateProgressBar({ 
+            lengthComputable: true, 
+            loaded: snapshot.bytesTransferred, 
+            total: snapshot.totalBytes 
+          })*/
+        },
+        onError: (err)=>{
+          alert("error uploading")
+          console.log(err)
+        },
+        onSuccess: (attrs)=> {
+          imageBlock.uploadCompleted(attrs.link)
+        }
+      },
+      "dd",
+      false
+    )
+  }
+
   widgetsConfig = () => {
     return [CodeBlockConfig(),
     ImageBlockConfig({
       options: {
         upload_url: `/attachments.json?&app_id=${this.props.app.key}`,
-        //upload_handler: this.handleUpload,
+        upload_handler: this.handleUpload,
         image_caption_placeholder: "type a caption (optional)"
       }
     }),
