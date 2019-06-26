@@ -31,13 +31,44 @@ class App < ApplicationRecord
 
   def config_fields
     [
-      {name: "name", type: 'string'} ,
-      {name: "domainUrl", type: 'string'} ,
-      {name: "state", type: "select", options: ["enabled", "disabled" ]},
-      {name: "activeMessenger", type: 'bool'},
-      {name: "encryptionKey", type: 'string', maxLength: 16, minLength: 16, placeholder: "leave it blank for no encryption"},
-      {name: "tagline", type: 'text', hint: "messenger text on botton"},
-      {name: "theme", type: "select", options: ["dark", "light"] }
+      { 
+        name: "name", 
+        type: 'string', 
+        grid: {xs: 12, sm: 12} 
+      },
+      {
+        name: "domainUrl", 
+        type: 'string', 
+        grid: {xs: 12, sm: 6 } 
+      },
+      {
+        name: "state", 
+        type: "select", 
+        grid: {xs: 12, sm: 6 } , 
+        options: ["enabled", "disabled" ]
+      },
+      { name: "activeMessenger", 
+        type: 'bool', 
+        grid: {xs: 12, sm: 6 } 
+      },
+      { 
+        name: "theme", 
+        type: "select", 
+        options: ["dark", "light"],
+        grid: {xs: 12, sm: 6 }
+      },
+      {
+        name: "encryptionKey", 
+        type: 'string', 
+        maxLength: 16, minLength: 16, 
+        placeholder: "leave it blank for no encryption",
+        grid: {xs: 12, sm: 12 } 
+      },
+      { name: "tagline", 
+        type: 'text', 
+        hint: "messenger text on botton",
+        grid: {xs: 12, sm: 12 } 
+      },
     ]
   end
 
