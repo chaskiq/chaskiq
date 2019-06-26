@@ -58,23 +58,27 @@ class SimpleSelect extends React.Component {
   render() {
     const { classes } = this.props;
 
-    console.log("AAAAAA", this.state.value)
     return (
-      <FormControl className={classes.formControl}>
+      <FormControl 
+        className={classes.formControl}>
           
-          <InputLabel htmlFor={this.props.data.label}>
+          {/*<InputLabel htmlFor={this.props.data.label}>
             {this.props.data.name}
-          </InputLabel>
+          </InputLabel>*/}
 
           <Select
             name={this.props.name}
             value={this.state.value}
             onChange={this.handleChange}
+
             inputProps={{
               name: this.props.name
             }}
             variant={"outlined"}
-            //input={<OutlinedInput labelWidth={labelWidth} name="age" id="outlined-age-simple" />}
+            input={<OutlinedInput 
+              labelWidth={this.state.labelWidth} 
+              name={this.props.data.name}
+            />}
 
           >
             <MenuItem value="">
