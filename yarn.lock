@@ -577,6 +577,13 @@ actioncable@^5.2.0:
   resolved "https://registry.yarnpkg.com/actioncable/-/actioncable-5.2.0.tgz#97a4e06681c749a8af86e1ead8487bf5e87b59e4"
   integrity sha512-5o0wKTz2egSGDf7SubQLqoew/lGJhkjyJSdbMiaAfci/vNMjs7xjL2X+ELhstJmaN5tY17O3Wx6c5q2GgQE/JQ==
 
+activestorage@^5.2.3:
+  version "5.2.3"
+  resolved "https://registry.yarnpkg.com/activestorage/-/activestorage-5.2.3.tgz#04df0a194d15f7a04abbba313f584fbea2c5a66f"
+  integrity sha512-B0PHne9Bvpsapw1WqPZF8YafdN5pohOAUgR5ZGSijBOJKDGb+IJ6ib8Js9mfWNCmuCPCrCzHca/mJ2wD7UBJxA==
+  dependencies:
+    spark-md5 "^3.0.0"
+
 add-px-to-style@1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/add-px-to-style/-/add-px-to-style-1.0.0.tgz#d0c135441fa8014a8137904531096f67f28f263a"
@@ -8765,6 +8772,11 @@ source-map@^0.6.1, source-map@~0.6.1:
   version "0.6.1"
   resolved "https://registry.yarnpkg.com/source-map/-/source-map-0.6.1.tgz#74722af32e9614e9c287a8d0bbde48b5e2f1a263"
   integrity sha512-UjgapumWlbMhkBgzT7Ykc5YXUT46F0iKu8SGXq0bcwP5dz/h0Plj6enJqjz1Zbq2l5WaqYnrVbwWOWMyF3F47g==
+
+spark-md5@^3.0.0:
+  version "3.0.0"
+  resolved "https://registry.yarnpkg.com/spark-md5/-/spark-md5-3.0.0.tgz#3722227c54e2faf24b1dc6d933cc144e6f71bfef"
+  integrity sha1-NyIifFTi+vJLHcbZM8wUTm9xv+8=
 
 spdx-correct@^3.0.0:
   version "3.0.0"

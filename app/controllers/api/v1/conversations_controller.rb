@@ -32,7 +32,8 @@ class Api::V1::ConversationsController < ApiController
     if params[:message].present?
       @conversation = @app.start_conversation({
         message: {
-          html_content: params[:message]
+          html_content: params[:message][:html_content],
+          serialized_content: params[:message][:serialized_content]
         }, 
         from: user
       })
@@ -55,8 +56,9 @@ class Api::V1::ConversationsController < ApiController
     @message = @conversation.add_message({
       from: @user,
       message: {
-        html_content: params[:message]
-      }
+        html_content: params[:message][:html_content],
+        serialized_content: params[:message][:serialized_content]
+      },
     })
     render :show
   end

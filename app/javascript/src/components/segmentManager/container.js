@@ -12,7 +12,6 @@ import SegmentItemButton from '../segmentManager/itemButton'
 
 import UserData from '../UserData'
 import EnhancedTable from '../table'
-import DataTable from '../dataTable'
 import NewTable from './newTable'
 
 import Drawer from '@material-ui/core/Drawer';
@@ -321,22 +320,6 @@ class AppUsers extends Component {
               map_view={this.state.map_view}
             />
 
-            { /*
-              !this.state.map_view ?
-                <DataTable 
-                  title={this.props.segment.name}
-                  columns={appUsersFormat()} 
-                  meta={this.props.meta}
-                  data={this.props.app_users}
-                  search={this.props.actions.search}
-                  loading={this.props.searching}
-                  onRowClick={(e)=>{
-                    this.showUserDrawer(e)
-                  }}
-                /> : null
-               */
-            }
-
 
             <Drawer 
               anchor="right" 
@@ -347,6 +330,7 @@ class AppUsers extends Component {
                 this.props.app_user ? 
                   <UserData 
                     width={ '300px'}
+                    app={this.props.app}
                     appUser={this.props.app_user} /> 
                   : null
               }

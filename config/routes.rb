@@ -1,9 +1,6 @@
 require 'sidekiq/web'
 Rails.application.routes.draw do
   
-  
-  #mount_devise_token_auth_for 'User', at: 'auth'
-
   if Rails.env.development?
     mount GraphiQL::Rails::Engine, at: "/graphiql", graphql_path: "/graphql"
   end
@@ -32,21 +29,17 @@ Rails.application.routes.draw do
   get "tester/:id/:id2/id3" => 'client_tester#show'
   get "tester/:id/:id2/id3/:id4" => 'client_tester#show'
 
-
-
-
   scope path: '/api' do
     scope path: '/v1' do
       resources :hooks, only: [:create], controller: "api/v1/hooks"
+      resources :direct_uploads, only: [:create], controller: "api/v1/direct_uploads"
+      
       resources :apps, controller: "api/v1/apps" do
-        
         member do 
           post :ping
           post :auth
         end
-
         resources :messages, controller: "api/v1/messages" do
-
           resources :tracks, controller: "api/v1/tracks" do
             member do
               get :open
@@ -65,6 +58,7 @@ Rails.application.routes.draw do
       end
     end
   end
+
 
   get '*path', to: 'application#catch_all', constraints: lambda { |req|
     req.path.exclude? 'rails/active_storage'
