@@ -4,8 +4,6 @@ import { APP_USER} from "../graphql/queries"
 
 export function getAppUser(userId, cb){
   return (dispatch, getState) => {
-    
-
     graphql(APP_USER, {
         appKey: getState().app.key, 
         id: userId

@@ -200,9 +200,6 @@ class ConversationContainerShow extends Component {
   }
 
   render(){
-
-    console.log("BUT THE", this.props.conversation)
-
     return <Fragment>
           
             <GridElement grow={2}>
@@ -264,7 +261,9 @@ class ConversationContainerShow extends Component {
 
                   </FixedHeader>
 
-                    <div className="box-container">
+                    <div className="box-container" style={{
+                      paddingTop: '10px'
+                    }}>
 
                       <div className="overflow" 
                           ref="overflow" 

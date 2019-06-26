@@ -827,7 +827,9 @@ class Conversation extends Component {
             {
               this.props.conversation_messages.map((o, i) => {
                 const userClass = o.app_user.kind === "agent" ? 'admin' : 'user'
-
+                const isAgent = o.app_user.kind === "agent"
+                const themeforMessage = o.private_note || isAgent ? theme : themeDark
+                
                 return <MessageItemWrapper
                   email={this.props.email}
                   key={o.id}
@@ -835,15 +837,6 @@ class Conversation extends Component {
                   <MessageItem
                     className={userClass}
                     messageSourceType={o.message_source ? o.message_source.type : ''}>
-
-                    {
-                      !this.props.isUserAutoMessage(o) ?
-                        <ChatAvatar>
-                          <img src={gravatar.url(o.app_user.email)} />
-                        </ChatAvatar> : null
-                    }
-
-
 
                     <div className="message-content-wrapper">
 
@@ -856,16 +849,19 @@ class Conversation extends Component {
                       }
 
 
-                       {
-                        o.app_user.kind === "agent" ?
-                        <ThemeProvider theme={ o.private_note ? theme : themeDark }>
+                       
+                        {/*render light theme on user or private note*/}
+                        
+                        <ThemeProvider 
+                          theme={ themeforMessage }>
                           <DanteContainer>
                             <DraftRenderer key={i} 
                               raw={JSON.parse(o.message.serialized_content)}
                             />
                           </DanteContainer>
-                        </ThemeProvider> : 
+                        </ThemeProvider>  
                       
+                      {/*
                         <div
                         key={i}
                         className={this.props.isUserAutoMessage(o) ? '' : "text"}
@@ -873,15 +869,20 @@ class Conversation extends Component {
                             { __html: `<p>${o.message.html_content}</p>` }
                           }
                         />
-                      }
+                      */}
 
-                      {/*<div
-                        key={i}
-                        className={this.props.isUserAutoMessage(o) ? '' : "text"}
-                        dangerouslySetInnerHTML={
-                          { __html: `<p>${o.message.html_content}</p>` }
-                        }
-                      />*/}
+                      
+
+                      {/*
+                        <div
+                          key={i}
+                          className={this.props.isUserAutoMessage(o) ? '' : "text"}
+                          dangerouslySetInnerHTML={
+                            { __html: `<p>${o.message.html_content}</p>` }
+                          }
+                        />
+                      */}
+
                     </div>
 
                     <span className="status">

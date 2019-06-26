@@ -10,10 +10,8 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 
-console.log('Hello World from Webpacker this is the tester')
-
-import Hermessenger from "../components2/messenger";
-import HermessengerEncrypted from "../components2/messengerEncrypted";
+import Hermessenger from "../client_messenger/messenger";
+import HermessengerEncrypted from "../client_messenger/messengerEncrypted";
 
 window.Hermessenger = Hermessenger
 window.HermessengerEncrypted = HermessengerEncrypted
