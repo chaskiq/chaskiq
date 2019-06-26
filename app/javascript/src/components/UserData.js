@@ -5,7 +5,7 @@ import Moment from 'react-moment';
 import Accordeon from './accordeon'
 import Avatar from '@material-ui/core/Avatar';
 import { makeStyles } from '@material-ui/core/styles';
-
+import {Link} from 'react-router-dom'
 
 const ActivityAvatar = styled.div`
   //display: flex;
@@ -68,6 +68,11 @@ export default class UserData extends Component {
                   />
 
                 </ActivityAvatar>
+
+
+                <Link to={`/apps/${this.props.app.key}/users/${this.props.appUser.id}`}>
+                  See full profile
+                </Link>
 
                 <p style={{
                   fontWeight: '700'
