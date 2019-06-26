@@ -200,9 +200,6 @@ class ConversationContainerShow extends Component {
   }
 
   render(){
-
-    console.log("BUT THE", this.props.conversation)
-
     return <Fragment>
           
             <GridElement grow={2}>

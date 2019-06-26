@@ -3,6 +3,9 @@ import React, { Component } from 'react';
 import styled from "styled-components"
 import { Picker } from 'emoji-mart'
 import {EmojiBlock} from "./styles/emojimart"
+import {GiphyBlock} from './styles/styled'
+//import GiphyPicker from 'react-giphy-picker'
+import GiphyPicker from './giphy'
 
 import {Selector, ResultSort, Rating} from "react-giphy-selector";
 import {Map} from 'immutable'
@@ -14,7 +17,7 @@ import {
   convertToRaw
 } from 'draft-js'; // { compose
 
-import customHTML2Content from 'Dante2/package/es/utils/html2content.js'
+import customHTML2Content from './html2Content' //'Dante2/package/es/utils/html2content.js'
 
 //
 
@@ -157,22 +160,6 @@ export default class UnicornEditor extends Component {
 
 
   convertToDraft(sampleMarkup){
-
-
-    /*const sampleMarkup =
-      '<img src="http://localhost:3000/rails/active_storage/blobs/eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaHBFUT09IiwiZXhwIjpudWxsLCJwdXIiOiJibG9iX2lkIn19--9da968cb7b20b6df14f68181e7c8d3b0f8b456ff/Captura%20de%20pantalla%202019-06-12%20a%20la(s)%2021.32.59.png">' +
-      '<b>Bold text</b>, <i>Italic text</i><br/ ><br />' +
-      '<a href="http://www.facebook.com">Example link</a>';*/
-
-    /*const blocksFromHTML = convertFromHTML(sampleMarkup);
-    const state = ContentState.createFromBlockArray(
-      blocksFromHTML.contentBlocks,
-      blocksFromHTML.entityMap
-    );
-
-    const fstate = EditorState.createWithContent(state)
-    console.log("simple", convertToRaw(fstate.getCurrentContent()))*/
-  
     this.blockRenderMap = Map({
       "image": {
         element: 'figure'
@@ -267,7 +254,7 @@ export default class UnicornEditor extends Component {
   }
 
   handleFocus = (e) => {
-    this.input.focus()
+    //this.input.focus()
   }
 
   toggleEmojiClick = (e) => {
@@ -304,7 +291,7 @@ export default class UnicornEditor extends Component {
           console.log(err)
         },
         onSuccess: (attrs)=> {
-          console.log(attrs)
+          console.log("AAAA", attrs.link)
           this.submitImage(attrs.link)
         }
       },
@@ -315,6 +302,11 @@ export default class UnicornEditor extends Component {
 
   handleInputClick = ()=>{
     this.refs.upload_input.click()
+  }
+
+  // TODO, upload this to activeStorage
+  saveGif = (data)=>{
+    this.submitImage(data.images.downsized_medium.url)
   }
 
   render() {
@@ -336,12 +328,10 @@ export default class UnicornEditor extends Component {
 
           {
             this.state.giphyEnabled ? 
-            <EmojiBlock>
-              <Selector
-                apiKey="97g39PuUZ6Q49VdTRBvMYXRoKZYd1ScZ"
-                onGifSelected={this.saveGif} 
-              />
-            </EmojiBlock> : null
+              <GiphyPicker 
+                apikey={"97g39PuUZ6Q49VdTRBvMYXRoKZYd1ScZ"}
+                handleSelected={this.saveGif}
+              /> : null
           }
 
           <Input onKeyPress={this.handleReturn} 

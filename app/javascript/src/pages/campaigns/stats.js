@@ -13,7 +13,7 @@ import CampaignChart from "./charts.js"
 import styled from 'styled-components'
 import graphql from '../../graphql/client'
 import {CAMPAIGN_METRICS} from '../../graphql/queries'
-import DataTable from '../../components/dataTable'
+//import DataTable from '../../components/dataTable'
 
 const PieContainer = styled.div`
 padding: .75em;
@@ -338,7 +338,7 @@ export default class CampaignStats extends Component {
               {
                 !this.state.loading ? 
 
-                  <DataTable 
+                  {/*<DataTable 
                     title={'metrics'}
                     columns={head} 
                     meta={this.state.meta}
@@ -348,7 +348,7 @@ export default class CampaignStats extends Component {
                     //onRowClick={(e)=>{
                     //  this.showUserDrawer(e)
                     //}}
-                  />
+                  />*/}
 
                   /*<DynamicTable
                     caption={null}
