@@ -1,27 +1,56 @@
 import React, {Component} from "react"
-
-//import Button from '@atlaskit/button';
 import {
   Route,
   Link
 } from 'react-router-dom'
 import ContentWrapper from '../components/ContentWrapper';
 import PageTitle from '../components/PageTitle';
-//import Tabs from '@atlaskit/tabs';
-//import css from 'Dante2/dist/DanteStyles.css';
 import styled from 'styled-components'
 import axios from 'axios'
 import serialize from 'form-serialize'
-
-import Paper from '@material-ui/core/Paper';
-import Button from '@material-ui/core/Button';
-
+import {
+  Paper, 
+  Button, 
+  Typography, 
+  Grid
+} from '@material-ui/core';
 import FieldRenderer from '../shared/FormFields'
 import graphql from "../graphql/client";
 import { APP } from "../graphql/queries"
 import { PREDICATES_SEARCH, UPDATE_APP } from '../graphql/mutations'
 import { toSnakeCase } from '../shared/caseConverter'
+import { withStyles } from '@material-ui/core/styles';
 
+import Favorite from '@material-ui/icons/Favorite';
+import FavoriteBorder from '@material-ui/icons/FavoriteBorder';
+
+import {
+  FormControlLabel,
+  Checkbox
+} from "@material-ui/core"
+
+const styles = theme => ({
+  root: {
+    padding: '5em',
+    margin: '5em',
+  },
+  formControl: {
+    margin: theme.spacing.unit,
+    //minWidth: 120,
+    //maxWidth: 300,
+    width: '100%'
+  },
+  chips: {
+    display: 'flex',
+    flexWrap: 'wrap',
+  },
+  chip: {
+    margin: theme.spacing.unit / 4,
+  },
+  noLabel: {
+    marginTop: theme.spacing(3),
+  },
+});
 
 class SettingsForm extends Component {
 
@@ -36,34 +65,14 @@ class SettingsForm extends Component {
 
   url = ()=>{
     const id = this.props.match.params.id
-    return this.props.isNew ? `/apps.json`: `/apps/${this.props.store.app.key}.json`
-  }
-
-  componentDidMount(){
-    this.fetchAppSettings()
-  }
-
-  fetchAppSettings = ()=>{
-    const id = this.props.match.params.id
-    /*axios.get(`/apps/${this.props.store.app.key}/.json?mode=${this.props.mode}`,
-      { mode: this.props.mode })
-      .then((response) => {
-        console.log(response)
-        this.setState({ data: response.data })
-      }).catch((err) => {
-        console.log(err)
-      })*/
-  }
-
-  updateData = (data, cb)=>{
-    this.setState({data: data}, cb ? cb() : null )
+    return this.props.isNew ? 
+    `/apps.json` : 
+    `/apps/${this.props.store.app.key}.json`
   }
 
   tabs = ()=>{
     var b = []
-
     return b    
-
   }
 
   onSubmitHandler = (e) => {
@@ -89,9 +98,19 @@ class SettingsForm extends Component {
             } 
         
 
-            <Paper style={{
-              padding: '5em'
-            }}>
+            <Paper className={this.props.classes.root}>
+
+
+              <FormControlLabel
+                control={
+                  <Checkbox 
+                    icon={<FavoriteBorder />} 
+                    checkedIcon={<Favorite />} 
+                    value="checkedH" 
+                  />
+                }
+                label={this.props.app.state}
+              />
 
               <form
                 name="create-repo"
@@ -100,32 +119,45 @@ class SettingsForm extends Component {
                   this.formRef = form;
                 }}>
 
-                <h3>App settings</h3>
+                <Typography variant="h6" gutterBottom>
+                  App settings
+                </Typography>
 
-                {
-                  this.props.data.configFields.map((field) => {
-                    return <FieldRenderer 
-                            namespace={'app'} 
-                            data={field}
-                            props={this.props} 
-                            errors={this.state.errors}
-                           />
-                  })
-                }
+                <Grid container spacing={3}>
+                  {
+                    this.props.data.configFields.map((field) => {
 
-                <Button variant="contained" color="primary" type="submit">
-                  Save settings
-                </Button>
+                      return <Grid item 
+                                xs={field.grid.xs} 
+                                sm={field.grid.sm}>
+                                <FieldRenderer 
+                                  namespace={'app'} 
+                                  data={field}
+                                  props={this.props} 
+                                  errors={this.props.data.errors || {} }
+                                 />
+                             </Grid>
+                    })
+                  }
 
-                <Button appearance="subtle">
-                  Cancel
-                </Button>
+
+                <Grid item xs={12} sm={6}>
+                  <Button variant="contained" color="primary" type="submit">
+                    Save settings
+                  </Button>
+                </Grid>
+
+                <Grid item xs={12} sm={6}>
+                  <Button appearance="subtle">
+                    Cancel
+                  </Button>
+                </Grid>
+
+                </Grid>
 
               </form>
 
             </Paper>
-
-       
 
     </ContentWrapper>
   }
@@ -134,21 +166,18 @@ class SettingsForm extends Component {
 
 
 
-export default class AppSettingsContainer extends Component {
+class AppSettingsContainer extends Component {
 
   constructor(props){
     super(props)
-    this.state = {
+    /*this.state = {
       app: null
-    }
+    }*/
   }
 
-  componentDidUpdate(prevProps, prevState){
- 
-  }
 
   componentDidMount(){
-    this.fetchApp()
+    //this.fetchApp()
   }
 
   url = ()=>{
@@ -164,20 +193,17 @@ export default class AppSettingsContainer extends Component {
         console.log(error)
       }
     })
-    /*
-    axios.get(this.url())
-      .then((response) => {
-        this.setState({ app: response.data.app })
-      }).catch((err) => {
-        console.log(err)
-      })
-    */
   }
 
   // Form Event Handlers
   update = (data) => {
-
-    graphql(UPDATE_APP, { 
+    this.props.dispatch(
+      this.props.updateApp(data.app, (d)=>{
+        debugger
+        console.log(d)
+      })
+    )
+    /*graphql(UPDATE_APP, { 
       appKey: this.props.match.params.appId,
       appParams: data.app
     }, {
@@ -186,36 +212,28 @@ export default class AppSettingsContainer extends Component {
           //this.props.updateData(response.data)
         })
       }
-    })
-
-    /*
-    axios.put(this.url(), data)
-      .then((response) => {
-        this.setState({ app: response.data.app }, () => {
-          //this.props.updateData(response.data)
-        })
-      })
-      .catch((error) => {
-        if (error.response.data)
-          this.setState({ errors: error.response.data })
-
-        console.log(error);
-      });
-    */
-
+    })*/
   };
 
   render(){
     return <div>
         {
-          this.state.app ?
+          this.props.app ?
           <SettingsForm
             currentUser={this.props.currentUser}
-            data={this.state.app}
-            update={this.update}
+            data={this.props.app}
+            update={this.update.bind(this)}
             fetchApp={this.fetchApp}
+            classes={this.props.classes}
             {...this.props}/> : null
         }
         </div>
   }
 }
+
+
+
+export default withStyles(styles, { withTheme: true })(AppSettingsContainer);
+
+
+

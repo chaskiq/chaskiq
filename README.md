@@ -51,6 +51,27 @@ An the content of the campaign is managed with a state of the art wysiwyg text e
 
 ![https://proseflow.herokuapp.com/rails/active_storage/blobs/eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaHBBaHdCIiwiZXhwIjpudWxsLCJwdXIiOiJibG9iX2lkIn19--a04a59ec8f3dbdc3ee7ff129b2592e3cc6f25029/image.png](https://proseflow.herokuapp.com/rails/active_storage/blobs/eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaHBBaHdCIiwiZXhwIjpudWxsLCJwdXIiOiJibG9iX2lkIn19--a04a59ec8f3dbdc3ee7ff129b2592e3cc6f25029/image.png)
 
+### cors amazon policies
+
+```
+<?xml version="1.0" encoding="UTF-8"?>
+<CORSConfiguration xmlns="http://s3.amazonaws.com/doc/2006-03-01/">
+<CORSRule>
+    <AllowedOrigin>*</AllowedOrigin>
+    <AllowedMethod>GET</AllowedMethod>
+    <MaxAgeSeconds>3000</MaxAgeSeconds>
+    <AllowedHeader>Authorization</AllowedHeader>
+</CORSRule>
+<CORSRule>
+    <AllowedOrigin>*</AllowedOrigin>
+    <AllowedMethod>PUT</AllowedMethod>
+    <AllowedMethod>POST</AllowedMethod>
+    <MaxAgeSeconds>3000</MaxAgeSeconds>
+    <AllowedHeader>*</AllowedHeader>
+</CORSRule>
+</CORSConfiguration>
+```
+
 
 ### third party services
 + https://ipapi.co/#pricing

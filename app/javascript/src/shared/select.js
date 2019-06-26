@@ -30,15 +30,25 @@ const styles = theme => ({
 });*/
 
 class SimpleSelect extends React.Component {
-  state = {
-    value: '',
-    labelWidth: 0,
-  };
+  
+  constructor(props){
+    super(props)
+    this.state = {
+      value: props.defaultData.value,
+      labelWidth: 0,
+    };
+  }
 
   componentDidMount() {
+
     /*this.setState({
       labelWidth: ReactDOM.findDOMNode(this.InputLabelRef).offsetWidth,
     });*/
+  }
+
+  componentDidUpdate(prevProps){
+    if(this.props.value != prevProps.value)
+      this.setState({value: this.props.value})
   }
 
   handleChange = event => {
@@ -48,6 +58,7 @@ class SimpleSelect extends React.Component {
   render() {
     const { classes } = this.props;
 
+    console.log("AAAAAA", this.state.value)
     return (
       <FormControl className={classes.formControl}>
           
@@ -62,6 +73,9 @@ class SimpleSelect extends React.Component {
             inputProps={{
               name: this.props.name
             }}
+            variant={"outlined"}
+            //input={<OutlinedInput labelWidth={labelWidth} name="age" id="outlined-age-simple" />}
+
           >
             <MenuItem value="">
               <em>None</em>
