@@ -28,6 +28,7 @@ import conversations from '../actions/conversations'
 import conversation from '../actions/conversation'
 import current_user from '../actions/current_user'
 import status_message from '../actions/status_messages'
+import current_page from '../actions/navigation'
 
 import Login from '../auth/login'
 import SignUp from '../auth/signup'
@@ -188,6 +189,7 @@ const rootReducer = combineReducers({
   conversations,
   current_user,
   status_message,
+  current_page
 })
 
 

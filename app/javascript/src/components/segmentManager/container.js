@@ -26,7 +26,7 @@ import Avatar from '@material-ui/core/Avatar';
 import Typography from '@material-ui/core/Typography'
 import Moment from 'react-moment';
 import gravatar from '../../shared/gravatar'
-
+import {setCurrentPage} from '../../actions/navigation'
 
 const Wrapper = styled.div`
   //min-width: 600px;
@@ -64,6 +64,10 @@ class AppContent extends Component {
   }
 
   componentDidMount(){
+
+    this.props.dispatch(
+      setCurrentPage('Platform')
+    )
     
     this.props.dispatch(
       dispatchSegmentUpdate({
@@ -235,43 +239,6 @@ class AppUsers extends Component {
               />
 
             </ButtonGroup>
-
-            {
-              /*
-                <hr/>
-
-                <div style={{float: "right"}}>
-                  <ButtonGroup>
-                    
-                    {dropdown()}
-
-                    <Button 
-                      isLoading={false} 
-                      onClick={this.toggleMap.bind(this)}
-                      isSelected={!this.state.map_view}>
-                      <i className="fas fa-list"></i>
-                      {" "}
-                      List
-                    </Button>
-
-                    <Button 
-                      isSelected={this.state.map_view}
-                      isLoading={false} 
-                      onClick={this.toggleList.bind(this)}>
-                      <i className="fas fa-map"></i>
-                      {" "}
-                      Map
-                    </Button>
-
-                  </ButtonGroup>
-                </div>
-
-                <span>Users {this.props.meta['total_count']}</span>
-                
-                <hr/>              
-              */
-            }
-
            </div>
   }
 
@@ -290,24 +257,7 @@ class AppUsers extends Component {
   };
 
   getUserData = (id)=>{
-
-
     this.props.actions.setAppUser(id)
-
-    /*graphql(APP_USER, {
-        appKey: this.props.app.key, 
-        id: id
-      }, 
-      {
-        success: (data)=>{
-          this.setState({
-            selectedUser: data.app.appUser
-          })
-      },
-      error: ()=>{
-
-      }
-    })*/
   }
 
   render(){

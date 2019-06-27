@@ -41,6 +41,8 @@ import Tabs from '@material-ui/core/Tabs';
 
 import gravatar from '../shared/gravatar'
 
+import {setCurrentPage} from '../actions/navigation'
+
 const Wrapper = styled.div`
   min-width: 600px;
 `;
@@ -499,6 +501,11 @@ class CampaignContainer extends Component {
   }
 
   componentDidMount() {
+
+    this.props.dispatch(
+      setCurrentPage('Campaigns')
+    )
+
     this.init()
   }
 
