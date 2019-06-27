@@ -343,7 +343,7 @@ export default class CampaignStats extends Component {
                 <DataTable
                   rows={this.state.collection} 
                   loading={this.props.searching}
-
+                  search={this.getData}
                   defaultHiddenColumnNames={[]}
                   columns={[
                             //{name: 'id', title: 'id'},
