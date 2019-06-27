@@ -18,17 +18,22 @@ class UserAutoMessage < Message
 
   def config_fields
     [
-      {name: "state", type: "select", options: ["enabled", "disabled" ]},
-      {name: "name", type: 'string'} ,
-      {name: "subject", type: 'text'} ,
-      {name: "description", type: 'text'},
+      {name: "state", 
+        type: "select", 
+        options: ["enabled", "disabled" ], 
+        grid: {xs: 12, sm: 12 } 
+      },
+      {name: "name", type: 'string' , grid: {xs: 12, sm: 12 } } ,
+      {name: "subject", type: 'text' , grid: {xs: 12, sm: 12 } } ,
+      {name: "description", type: 'text', grid: {xs: 12, sm: 12 } },
       {name: "hiddenConstraints", type: "select", 
         options: ["close", "click", "viewed" ], 
         multiple: true,
-        default: "click"
+        default: "click",
+        grid: {xs: 12, sm: 12 }
       },
-      {name: "scheduledAt", type: 'datetime'},
-      {name: "scheduledTo", type: 'datetime'},
+      {name: "scheduledAt", type: 'datetime', grid: {xs: 12, sm: 12 } },
+      {name: "scheduledTo", type: 'datetime', grid: {xs: 12, sm: 12 } },
     ]
   end
 

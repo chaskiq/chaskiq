@@ -8,7 +8,8 @@ import { connect } from 'react-redux'
 import ContentWrapper from '../components/ContentWrapper';
 import PageTitle from '../components/PageTitle';
 //import Tabs from '@atlaskit/tabs';
-import Avatar from '@material-ui/core/Avatar';
+import {Avatar, Typography} from '@material-ui/core';
+import Moment from 'react-moment';
 
 import styled from 'styled-components'
 import axios from 'axios'
@@ -33,9 +34,12 @@ import { PREDICATES_SEARCH, UPDATE_CAMPAIGN, CREATE_CAMPAIGN } from '../graphql/
 
 // @flow
 //import DataTable from '../components/dataTable'
+import DataTable from '../components/newTable'
 
 import Tab from '@material-ui/core/Tab';
 import Tabs from '@material-ui/core/Tabs';
+
+import gravatar from '../shared/gravatar'
 
 const Wrapper = styled.div`
   min-width: 600px;
@@ -160,15 +164,93 @@ class CampaignSegment extends Component {
   }
 
   render() {
+
     return <SegmentManager {...this.props}
       loading={this.state.searching}
       predicates={this.props.data.segments}
       meta={this.state.meta}
-      app_users={this.state.app_users}
+      collection={this.state.app_users}
       updatePredicate={this.updatePredicate.bind(this)}
       addPredicate={this.addPredicate.bind(this)}
       deletePredicate={this.deletePredicate.bind(this)}
       search={this.search.bind(this)}
+
+      loading={this.props.searching}
+      columns={[
+        //{name: 'id', title: 'id'},
+        {name: 'email', title: 'email', 
+          getCellValue: row => (row ? 
+
+            <NameWrapper onClick={(e)=>(this.showUserDrawer(row))}>
+              <AvatarWrapper>
+                <div 
+                  //className={classes.margin} 
+                  color={row.online ? "primary" : 'secondary' }
+                  variant="dot">
+                  <Avatar
+                    name={row.email}
+                    size="medium"
+                    src={gravatar(row.email)}
+                  />
+                </div>
+              </AvatarWrapper>
+
+              <Typography>{row.email}</Typography>
+              <Typography variant="overline" display="block">
+                {row.name}
+              </Typography>
+            </NameWrapper>
+
+           : undefined)
+        },
+        {name: 'lastVisitedAt', 
+          title: 'lastVisitedAt',
+          getCellValue: row => (row ? <Moment fromNow>
+                                        {row.lastVisitedAt}
+                                      </Moment> : undefined)
+        },
+        {name: 'state', title: 'state'},
+        {name: 'online', title: 'online'},
+        {name: 'lat',  title: 'lat'},
+        {name: 'lng',  title: 'lng'},
+        {name: 'postal', title: 'postal'},
+        {name: 'browser', title: 'browser'},
+        {name: 'referrer', title: 'referrer'},
+        {name: 'os', title: 'os'},
+        {name: 'osVersion', title: 'osVersion'},
+        {name: 'lang', title: 'lang'},
+
+      ]}
+
+      defaultHiddenColumnNames={
+        ['id', 
+        'state', 
+        'online', 
+        'lat', 
+        'lng', 
+        'postal',
+        'browserLanguage', 
+        'referrer', 
+        'os', 
+        'osVersion',
+        'lang'
+        ]}
+      //selection [],
+      tableColumnExtensions={[
+        //{ columnName: 'id', width: 150 },
+        { columnName: 'email', width: 250 },
+        { columnName: 'lastVisitedAt', width: 120 },
+        { columnName: 'os', width: 100 },
+        { columnName: 'osVersion', width: 100 },
+        { columnName: 'state', width: 80 },
+        { columnName: 'online', width: 80 },
+        //{ columnName: 'amount', align: 'right', width: 140 },
+      ]}
+      leftColumns={ ['email']}
+      rightColumns={ ['online']}
+      //toggleMapView={this.toggleMapView}
+      //map_view={this.state.map_view}
+      //enableMapView={true}
     >
       {
         this.state.jwt ?
@@ -450,6 +532,7 @@ class CampaignContainer extends Component {
   }
 
   render() {
+ 
     return <div>
 
       <Route exact path={`${this.props.match.url}`}
@@ -464,18 +547,40 @@ class CampaignContainer extends Component {
                   create new campaign
                 </Button>
               </div>
-              
-              { /*
-                !this.state.loading ?
-                  <DataTable {...this.props}
-                    data={this.state.campaigns}
-                    title={this.props.mode}
-                    columns={['name', 'subject', 'state', 'scheduled_at', 'scheduled_to','actions']} 
-                    meta={this.state.meta}
-                    search={this.init.bind(this)}
-                    onRowClick={this.handleRowClick.bind(this)}
-                  /> : null
-              */}
+
+               {
+                 !this.state.loading && this.state.campaigns.length > 0 ?
+                 <DataTable
+                  rows={this.state.campaigns} 
+                  loading={this.state.loading}
+                  meta={this.state.meta}
+                  defaultHiddenColumnNames={[]}
+                  search={this.init.bind(this)}
+                  columns={[
+                            {name: 'name', title: 'name', 
+                             getCellValue: row => (row ? <Link to={`${this.props.match.url}/${row.id}`}>
+                                                          {row.name}
+                                                        </Link> : undefined)
+
+                          },
+                            {name: 'subject', title: 'subject'},
+                            {name: 'fromName', title: 'fromName'},
+                            {name: 'fromEmail', title: 'fromEmail'},
+                            {name: 'replyEmail', title: 'replyEmail'},
+                            {name: 'description', title: 'description'},
+                            {name: 'timezone', title: 'timezone'},
+                            {name: 'scheduledAt', title: 'scheduledAt'},
+                            {name: 'scheduledTo', title: 'scheduledTo'}
+                          ]}
+                  //selection [],
+                  tableColumnExtensions={[
+                    {name: 'name', width: 250 },
+                    {name: 'subject', width: 250 },
+                  ]}
+                  //leftColumns={ ['email']}
+                  //rightColumns={ ['online']} 
+              /> : null }
+             
 
               {
                 this.state.loading ? <p>loading</p> : null

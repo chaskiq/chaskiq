@@ -21,6 +21,12 @@ import {appUsersFormat} from '../segmentManager/appUsersFormat'
 import Map from '../map/index.js'
 
 import {dispatchSegmentUpdate} from '../../actions/segments'
+import Badge from '@material-ui/core/Badge';
+import Avatar from '@material-ui/core/Avatar';
+import Typography from '@material-ui/core/Typography'
+import Moment from 'react-moment';
+import gravatar from '../../shared/gravatar'
+
 
 const Wrapper = styled.div`
   //min-width: 600px;
@@ -34,6 +40,16 @@ const ButtonGroup = styled.div`
     margin-right: 5px !important;
   }
 `
+
+const NameWrapper = styled.span`
+  display: flex;
+  align-items: center;
+`;
+
+const AvatarWrapper = styled.div`
+  margin-right: 8px;
+`;
+
 
 class AppContent extends Component {
 
@@ -312,12 +328,128 @@ class AppUsers extends Component {
             <NewTable 
               data={this.props.app_users} 
               loading={this.props.searching}
+              columns={[
+                //{name: 'id', title: 'id'},
+                {name: 'email', title: 'email', 
+                  getCellValue: row => (row ? 
+
+                    <NameWrapper onClick={(e)=>(this.showUserDrawer(row))}>
+                      <AvatarWrapper>
+                        <Badge 
+                          //className={classes.margin} 
+                          color={row.online ? "primary" : 'secondary' }
+                          variant="dot">
+                          <Avatar
+                            name={row.email}
+                            size="medium"
+                            src={gravatar(row.email)}
+                          />
+                        </Badge>
+                      </AvatarWrapper>
+
+                      <Typography>{row.email}</Typography>
+                      <Typography variant="overline" display="block">
+                        {row.name}
+                      </Typography>
+                    </NameWrapper>
+
+                   : undefined)
+                },
+                {name: 'lastVisitedAt', 
+                  title: 'lastVisitedAt',
+                  getCellValue: row => (row ? <Moment fromNow>
+                                                {row.lastVisitedAt}
+                                              </Moment> : undefined)
+                },
+              ]}
+
+              defaultHiddenColumnNames={['id', 
+                    'state', 
+                    'online', 
+                    'lat', 
+                    'lng', 
+                    'postal',
+                    'browserLanguage', 
+                    'referrer', 
+                    'os', 
+                    'osVersion',
+                    'lang']}
+
+              columns={[
+                        //{name: 'id', title: 'id'},
+                        {name: 'email', title: 'email', 
+                          getCellValue: row => (row ? 
+
+                            <NameWrapper onClick={(e)=>(this.props.showUserDrawer(row))}>
+                              <AvatarWrapper>
+                                <Badge 
+                                  //className={classes.margin} 
+                                  color={row.online ? "primary" : 'secondary' }
+                                  variant="dot">
+                                  <Avatar
+                                    name={row.email}
+                                    size="medium"
+                                    src={gravatar(row.email)}
+                                  />
+                                </Badge>
+                              </AvatarWrapper>
+
+                              <Typography>{row.email}</Typography>
+                              <Typography variant="overline" display="block">
+                                {row.name}
+                              </Typography>
+                            </NameWrapper>
+
+                           : undefined)
+                        },
+                        {name: 'lastVisitedAt', 
+                          title: 'lastVisitedAt',
+                          getCellValue: row => (row ? <Moment fromNow>
+                                                        {row.lastVisitedAt}
+                                                      </Moment> : undefined)
+                        },
+                        {name: 'os', title: 'os'},
+                        {name: 'osVersion', title: 'osVersion'},
+                        {name: 'state', title: 'state'},
+                        {name: 'online', title: 'online'},
+
+                        {name: 'referrer', title: 'referrer'},
+                        {name: 'ip', title: 'ip'},
+                        {name: 'city', title: 'city'},
+                        {name: 'region', title: 'region'},
+                        {name: 'country', title: 'country'},
+                        {name: 'lat', title: 'lat'},
+                        {name: 'lng', title: 'lng'},
+                        {name: 'postal', title: 'postal'},
+                        {name: 'webSessions', title: 'webSessions'},
+                        {name: 'timezone', title: 'timezone'},
+                        {name: 'browser', title: 'browser'},
+                        {name: 'browserVersion', title: 'browserVersion'},
+                        {name: 'browserLanguage', title: 'browserLanguage'},
+                        {name: 'lang', title: 'lang'}
+                      ]}
+              //selection [],
+              tableColumnExtensions={[
+                //{ columnName: 'id', width: 150 },
+                { columnName: 'email', width: 250 },
+                { columnName: 'lastVisitedAt', width: 120 },
+                { columnName: 'os', width: 100 },
+                { columnName: 'osVersion', width: 100 },
+                { columnName: 'state', width: 80 },
+                { columnName: 'online', width: 80 },
+
+                //{ columnName: 'amount', align: 'right', width: 140 },
+              ]}
+              leftColumns={ ['email']}
+              rightColumns={ ['online']}
+
               rows={this.props.app_users}
               meta={this.props.meta}
               search={this.props.actions.search}
               showUserDrawer={this.showUserDrawer}
               toggleMapView={this.toggleMapView}
               map_view={this.state.map_view}
+              enableMapView={true}
             />
 
 

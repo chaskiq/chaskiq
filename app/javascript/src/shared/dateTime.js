@@ -12,6 +12,7 @@ function InlineDateTimePickerDemo(props) {
         variant="inline"
         ampm={false}
         label={props.label}
+        name={props.name}
         value={selectedDate}
         onChange={(date)=> { 
           handleDateChange(date)
