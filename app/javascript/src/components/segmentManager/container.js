@@ -325,59 +325,6 @@ class AppUsers extends Component {
                     'osVersion',
                     'lang']}
 
-              columns={[
-                        //{name: 'id', title: 'id'},
-                        {name: 'email', title: 'email', 
-                          getCellValue: row => (row ? 
-
-                            <NameWrapper onClick={(e)=>(this.props.showUserDrawer(row))}>
-                              <AvatarWrapper>
-                                <Badge 
-                                  //className={classes.margin} 
-                                  color={row.online ? "primary" : 'secondary' }
-                                  variant="dot">
-                                  <Avatar
-                                    name={row.email}
-                                    size="medium"
-                                    src={gravatar(row.email)}
-                                  />
-                                </Badge>
-                              </AvatarWrapper>
-
-                              <Typography>{row.email}</Typography>
-                              <Typography variant="overline" display="block">
-                                {row.name}
-                              </Typography>
-                            </NameWrapper>
-
-                           : undefined)
-                        },
-                        {name: 'lastVisitedAt', 
-                          title: 'lastVisitedAt',
-                          getCellValue: row => (row ? <Moment fromNow>
-                                                        {row.lastVisitedAt}
-                                                      </Moment> : undefined)
-                        },
-                        {name: 'os', title: 'os'},
-                        {name: 'osVersion', title: 'osVersion'},
-                        {name: 'state', title: 'state'},
-                        {name: 'online', title: 'online'},
-
-                        {name: 'referrer', title: 'referrer'},
-                        {name: 'ip', title: 'ip'},
-                        {name: 'city', title: 'city'},
-                        {name: 'region', title: 'region'},
-                        {name: 'country', title: 'country'},
-                        {name: 'lat', title: 'lat'},
-                        {name: 'lng', title: 'lng'},
-                        {name: 'postal', title: 'postal'},
-                        {name: 'webSessions', title: 'webSessions'},
-                        {name: 'timezone', title: 'timezone'},
-                        {name: 'browser', title: 'browser'},
-                        {name: 'browserVersion', title: 'browserVersion'},
-                        {name: 'browserLanguage', title: 'browserLanguage'},
-                        {name: 'lang', title: 'lang'}
-                      ]}
               //selection [],
               tableColumnExtensions={[
                 //{ columnName: 'id', width: 150 },
