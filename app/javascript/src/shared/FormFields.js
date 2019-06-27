@@ -66,6 +66,7 @@ class FieldRenderer extends React.Component {
 
                   <TextField
                     label={data.name}
+                    error={errorMessage}
                     variant="outlined"
                     //margin="normal"
                     name={`${namespace}[${data.name}]`}
@@ -88,6 +89,7 @@ class FieldRenderer extends React.Component {
                   <TextField
                     label={data.name}
                     variant="outlined"
+                    error={errorMessage}
                     //margin="normal"
                     multiline={true}
                     name={`${namespace}[${data.name}]`}
