@@ -393,6 +393,7 @@ export default class SegmentManager extends Component {
                 title={'segment'}
                 meta={this.props.meta}
                 rows={this.props.collection}
+                search={this.props.search}
                 loading={this.props.loading}
                 columns={this.props.columns}
                 defaultHiddenColumnNames={this.props.defaultHiddenColumnNames}
