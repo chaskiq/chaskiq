@@ -1,6 +1,8 @@
 import React, {Component} from 'react'
 import styled from 'styled-components'
 import axios from 'axios'
+import { withRouter } from 'react-router-dom'
+import { connect } from 'react-redux'
 
 const StepContainer = styled.div`
     display: flex;
@@ -69,7 +71,7 @@ const NewStepBody = styled.div`
 
 `
 
-export default class TourManager extends Component {
+class TourManager extends Component {
   
   state = {
     enabledTour: false,
@@ -86,7 +88,7 @@ export default class TourManager extends Component {
     }
   }
 
-  componentDidUnmount() {
+  componentWillUnmount() {
     window.TourManagerEnabled = null
     window.TourManagerMethods = null
   }
@@ -110,7 +112,7 @@ export default class TourManager extends Component {
       /*var winFeature =
         'location=no,toolbar=no,menubar=no,scrollbars=yes,resizable=yes';
       open("/tester", 'null', winFeature)*/
-      open("/tester")
+      open(`/tester/${this.props.app.key}`)
     })
   }
 
@@ -185,3 +187,19 @@ class TourStep extends Component {
           </StepContainer>
   }
 }
+
+
+function mapStateToProps(state) {
+
+  const { auth, app } = state
+  const { loading, isAuthenticated } = auth
+
+  return {
+    app,
+    loading,
+    isAuthenticated
+  }
+}
+
+export default withRouter(connect(mapStateToProps)(TourManager))
+
