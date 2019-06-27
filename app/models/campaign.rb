@@ -13,7 +13,7 @@ class Campaign < Message
       {name: "fromName", type: 'string', grid: {xs: 12, sm: 6 } },
       {name: "fromEmail", type: 'string', grid: {xs: 12, sm: 6 } },
       {name: "replyEmail", type: 'string', grid: {xs: 12, sm: 6 } },
-      {name: "description", type: 'text', grid: {xs: 12, sm: 6 } },
+      {name: "description", type: 'text', grid: {xs: 12, sm: 12 } },
       {name: "timezone", type: "timezone", 
         options: ActiveSupport::TimeZone.all.map{|o| o.tzinfo.name }, 
         multiple: false,

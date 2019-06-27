@@ -60,7 +60,7 @@ export default class CampaignSettings extends Component {
             return
           }
 
-          this.props.history.push(`/apps/${this.props.store.app.key}/messages/${this.props.mode}/${this.state.data.id}`)
+          this.props.history.push(`/apps/${this.props.app.key}/messages/${this.props.mode}/${this.state.data.id}`)
           this.props.updateData(this.state.data)
         })
       }

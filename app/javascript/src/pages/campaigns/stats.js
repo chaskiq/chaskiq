@@ -15,6 +15,8 @@ import graphql from '../../graphql/client'
 import {CAMPAIGN_METRICS} from '../../graphql/queries'
 //import DataTable from '../../components/dataTable'
 
+import DataTable from '../../components/newTable'
+
 const PieContainer = styled.div`
 padding: .75em;
 display: grid;
@@ -336,9 +338,70 @@ export default class CampaignStats extends Component {
             
 
               {
-                !this.state.loading ? 
+                !this.state.loading ?
 
-                  {/*<DataTable 
+                <DataTable
+                  rows={this.state.collection} 
+                  loading={this.props.searching}
+
+                  defaultHiddenColumnNames={[]}
+                  columns={[
+                            //{name: 'id', title: 'id'},
+                            {name: 'email', 
+                            title: 'email', 
+                              getCellValue: row => (row ? 
+
+                                <NameWrapper onClick={(e)=>(this.props.showUserDrawer(row))}>
+                                  <AvatarWrapper>
+                                    <Badge 
+                                      //className={classes.margin} 
+                                      color={row.online ? "primary" : 'secondary' }
+                                      variant="dot">
+                                      <Avatar
+                                        name={row.email}
+                                        size="medium"
+                                        src={gravatar(row.email)}
+                                      />
+                                    </Badge>
+                                  </AvatarWrapper>
+
+                                  <Typography>{row.email}</Typography>
+                                  <Typography variant="overline" display="block">
+                                    {row.name}
+                                  </Typography>
+                                </NameWrapper>
+
+                               : undefined)
+                            },
+                            {name: 'lastVisitedAt', 
+                              title: 'lastVisitedAt',
+                              getCellValue: row => (row ? <Moment fromNow>
+                                                            {row.lastVisitedAt}
+                                                          </Moment> : undefined)
+                            },
+                            {name: 'action', title: 'Action'},
+                            {name: 'email', title: 'who'},
+                            {name: 'host', title: 'from'},
+                            {name: 'created_at', title: 'when'},
+                            {name: 'data', title: 'data'},
+                          ]}
+                  //selection [],
+                  tableColumnExtensions={[
+                    //{ columnName: 'id', width: 150 },
+                    { columnName: 'email', width: 250 },
+                    { columnName: 'lastVisitedAt', width: 120 },
+                    { columnName: 'os', width: 100 },
+                    { columnName: 'osVersion', width: 100 },
+                    { columnName: 'state', width: 80 },
+                    { columnName: 'online', width: 80 },
+
+                    //{ columnName: 'amount', align: 'right', width: 140 },
+                  ]}
+                  leftColumns={ ['email']}
+                  rightColumns={ ['online']} 
+                  meta={this.state.meta}
+
+                  /*<DataTable 
                     title={'metrics'}
                     columns={head} 
                     meta={this.state.meta}
@@ -348,7 +411,7 @@ export default class CampaignStats extends Component {
                     //onRowClick={(e)=>{
                     //  this.showUserDrawer(e)
                     //}}
-                  />*/}
+                  />*/
 
                   /*<DynamicTable
                     caption={null}
@@ -364,8 +427,7 @@ export default class CampaignStats extends Component {
                     onSort={() => console.log('onSort')}
                     onSetPage={() => console.log('onSetPage')}
                   />*/ 
-
-                  : null 
+                  /> : null 
               }
               
            </div>

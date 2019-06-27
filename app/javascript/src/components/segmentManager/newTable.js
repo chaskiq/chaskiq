@@ -12,7 +12,6 @@ import {
   TableFixedColumns,
 } from '@devexpress/dx-react-grid-material-ui';
 import { CircularProgress } from '@material-ui/core';
-import gravatar from '../../shared/gravatar'
 import {
   PagingState,
   IntegratedPaging,
@@ -22,24 +21,7 @@ import {
 
 import { withStyles } from '@material-ui/core/styles';
 
-
-import Avatar from '@material-ui/core/Avatar';
-import Typography from '@material-ui/core/Typography'
-import styled from 'styled-components'
-import Moment from 'react-moment';
-import Badge from '@material-ui/core/Badge';
-
 import { ToolbarMapView } from './toolbarPlugin';
-
-const NameWrapper = styled.span`
-  display: flex;
-  align-items: center;
-`;
-
-const AvatarWrapper = styled.div`
-  margin-right: 8px;
-`;
-
 
 const styles = theme => ({
   root: {
@@ -52,7 +34,7 @@ class DataTable extends React.PureComponent {
     super(props);
 
     this.state = {
-      defaultHiddenColumnNames: ['id', 
+      /*defaultHiddenColumnNames: ['id', 
       'state', 
       'online', 
       'lat', 
@@ -62,9 +44,9 @@ class DataTable extends React.PureComponent {
       'referrer', 
       'os', 
       'osVersion',
-      'lang'],
+      'lang'],*/
 
-      columns: [
+      /*columns: [
                 //{name: 'id', title: 'id'},
                 {name: 'email', title: 'email', 
                   getCellValue: row => (row ? 
@@ -116,9 +98,9 @@ class DataTable extends React.PureComponent {
                 {name: 'browserVersion', title: 'browserVersion'},
                 {name: 'browserLanguage', title: 'browserLanguage'},
                 {name: 'lang', title: 'lang'}
-              ],
+              ],*/
       selection: [],
-      tableColumnExtensions: [
+      /*tableColumnExtensions: [
         //{ columnName: 'id', width: 150 },
         { columnName: 'email', width: 250 },
         { columnName: 'lastVisitedAt', width: 120 },
@@ -130,7 +112,7 @@ class DataTable extends React.PureComponent {
         //{ columnName: 'amount', align: 'right', width: 140 },
       ],
       leftColumns: ['email'],
-      rightColumns: ['online'],
+      rightColumns: ['online'],*/
     }
   }
 
@@ -141,12 +123,12 @@ class DataTable extends React.PureComponent {
 
 
   render() {
-    const { rows } = this.props;
-    const {  columns, selection, 
-            tableColumnExtensions,
+    const {selection} = this.state
+    const { rows, columns } = this.props;
+    const { tableColumnExtensions,
             rightColumns, leftColumns,
             defaultHiddenColumnNames
-          } = this.state
+          } = this.props
 
     return (
       <Paper className={this.props.classes.root}>
