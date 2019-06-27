@@ -2,6 +2,7 @@ import React, {Component} from 'react'
 import styled from 'styled-components'
 import Simmer from 'simmerjs'
 //import TourEditor from './tourEditor'
+import TourEditor from './tourEditor2'
 import Button from '@material-ui/core/Button';
 import Joyride, { ACTIONS, EVENTS, STATUS } from 'react-joyride';
 import StyledFrame from 'react-styled-frame'
@@ -566,10 +567,10 @@ export default class TourManager extends Component {
                 {
                   this.state.selectionMode === "edit" ? 
                   <FooterRight>
-                    <ButtonGroup appearance="warning">
+                    <div>
                       <Button onClick={this.disableEditMode}>cancel</Button>
                       <Button onClick={this.updateChanges}>save step</Button>
-                    </ButtonGroup>
+                    </div>
                   </FooterRight> : null
                 }
                   
