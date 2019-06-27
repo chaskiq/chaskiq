@@ -1,20 +1,12 @@
 import React, {Component} from "react"
 import axios from "axios"
 import Moment from 'react-moment';
-//import Lozenge from "@atlaskit/lozenge"
-//import Button from '@atlaskit/button';
-
-/*import DropdownMenu, {
-  DropdownItemGroup,
-  DropdownItem,
-} from '@atlaskit/dropdown-menu';*/
-
 import CampaignChart from "./charts.js"
 import styled from 'styled-components'
 import graphql from '../../graphql/client'
 import {CAMPAIGN_METRICS} from '../../graphql/queries'
-//import DataTable from '../../components/dataTable'
-
+import Badge from '@material-ui/core/Badge';
+import Avatar from '@material-ui/core/Avatar';
 import DataTable from '../../components/newTable'
 
 const PieContainer = styled.div`
@@ -29,6 +21,15 @@ margin: 25px 0 18px 0;
 const PieItem = styled.div`
 height: 200px;
 `
+
+const NameWrapper = styled.span`
+  display: flex;
+  align-items: center;
+`;
+
+const AvatarWrapper = styled.div`
+  margin-right: 8px;
+`;
 
 
 export default class CampaignStats extends Component {
