@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import PropTypes from 'prop-types';
 import clsx from 'clsx';
 import { withStyles } from '@material-ui/core/styles';
@@ -93,7 +93,11 @@ function Navigator(props, context) {
 
   const appid = `/apps/${props.app.key}`
 
-  const [expanded, setExpanded] = React.useState('Platform');
+  const [expanded, setExpanded] = useState(props.current_page);
+
+  useEffect( () => { 
+    setExpanded(props.current_page) 
+  }, [ props.current_page ] );
 
   const handleChange = panel => (event, isExpanded) => {
     setExpanded(isExpanded ? panel : false);
@@ -191,7 +195,11 @@ function Navigator(props, context) {
               id="panel1d-header"
               className={classes.expansionPanelSummary}>
                 <ListItem className={classes.categoryHeader}>
-                  {icon ? <ListItemIcon>{icon}</ListItemIcon> : null }
+                  {
+                    icon ? 
+                      <ListItemIcon>{icon}</ListItemIcon> : 
+                    null 
+                  }
                   <ListItemText
                     classes={{
                       primary: classes.categoryHeaderPrimary,
@@ -260,16 +268,26 @@ Navigator.propTypes = {
 
 //export default withStyles(styles)(Navigator);
 
-function mapStateToProps(state) {
-  const { auth , app, segment, app_users, current_user } = state
+function mapStateToProps(state, ownProps) {
+
+  const { 
+    auth, 
+    app, 
+    segment, 
+    app_users,
+    current_user, 
+    current_page 
+  } = state
   const { loading, isAuthenticated } = auth
+
   return {
     current_user,
     segment,
     app_users,
     app,
     loading,
-    isAuthenticated
+    isAuthenticated,
+    current_page,
   }
 }
 

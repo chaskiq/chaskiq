@@ -22,7 +22,9 @@ const actionTypes = {
   SetStatusMessage: 'SET_STATUS_MESSAGE',
   UpdateConversationItem: 'UPDATE_CONVERSATION_ITEM',
   UpdatePresence: 'UPDATE_USER_PRESENCE',
-  AppendConversation: 'APPEND_CONVERSATION'
+  AppendConversation: 'APPEND_CONVERSATION',
+
+  SetCurrentPage: 'SET_CURRENT_PAGE'
 };
 
 export default actionTypes;

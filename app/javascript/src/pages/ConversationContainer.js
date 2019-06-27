@@ -75,6 +75,9 @@ import {
 } from '../actions/app_user'
 
 
+import {setCurrentPage} from '../actions/navigation'
+
+
 class MessageItem extends Component {
   render(){
     const user = this.props.conversation.mainParticipant
@@ -131,6 +134,10 @@ class ConversationContainer extends Component {
 
   componentDidMount(){
     this.getConversations()
+
+    this.props.dispatch(
+      setCurrentPage('Conversations')
+    )
   }
 
   handleScroll = (e) => {
