@@ -268,6 +268,7 @@ class AppUsers extends Component {
             { this.state.map_view && !this.props.searching && this.props.app.key && this.props.segment && this.props.segment.id ? 
 
               <Map 
+                interactive={true}
                 segment={this.props.segment}
                 data={this.props.app_users}
               /> : null
