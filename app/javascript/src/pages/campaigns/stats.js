@@ -8,6 +8,7 @@ import {CAMPAIGN_METRICS} from '../../graphql/queries'
 import Badge from '@material-ui/core/Badge';
 import Avatar from '@material-ui/core/Avatar';
 import DataTable from '../../components/newTable'
+import gravatar from '../../shared/gravatar'
 
 const PieContainer = styled.div`
 padding: .75em;
