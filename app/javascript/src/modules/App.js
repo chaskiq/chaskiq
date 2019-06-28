@@ -48,10 +48,31 @@ class Paperbase extends React.Component {
   };*/
 
   componentDidUpdate(prevProps){
+    this.idleLogout()
     if(prevProps.current_user.email != this.props.current_user.email){
       this.fetchApps()
     }
   }
+
+
+  idleLogout = ()=> {
+    var time;
+    window.onload = resetTimer;
+    document.onmousemove = resetTimer;
+    document.onkeypress = resetTimer;
+
+    function logout() {
+      //alert("You are now logged out.")
+      location.href = '/'
+    }
+
+    function resetTimer() {
+      clearTimeout(time);
+      time = setTimeout(logout, 1800000) // 30 minutes
+      // 1000 milliseconds = 1 second
+    }
+  };
+
 
   componentDidMount(){
     this.fetchApps()
