@@ -244,6 +244,58 @@ query AppUser($appKey: String!, $id: Int! ) {
 }
 `;
 
+export const APP_USER_CONVERSATIONS=`
+query Campaigns($appKey: String!, $id: Int!, $page: Int, $per: Int){
+  app(key: $appKey ){
+    name
+    key
+    appUser(id: $id){
+      displayName
+      conversations(page: $page, per: $per){
+
+        collection{
+          id
+          mainParticipant{
+            id
+            email
+          }
+          lastMessage{
+            appUser{
+              email
+              id
+              kind
+            }
+            message{
+              serializedContent
+              htmlContent
+              textContent
+            }
+          }
+        }
+      }
+    } 
+  }
+}
+`;
+
+export const APP_USER_VISITS=`
+query AppUserVisits($appKey: String!, $id: Int!, $page: Int, $per: Int){
+  app(key: $appKey ){
+    name
+    key
+    appUser(id: $id){
+      displayName
+      visits(page: $page, per: $per){
+        collection{
+          url
+        }
+        meta
+      }
+    } 
+  }
+}
+`;
+
 
 export const CAMPAIGNS = `
 query Campaigns($appKey: String!, $mode: String!){

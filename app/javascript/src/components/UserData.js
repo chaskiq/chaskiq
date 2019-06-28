@@ -6,6 +6,8 @@ import Accordeon from './accordeon'
 import Avatar from '@material-ui/core/Avatar';
 import { makeStyles } from '@material-ui/core/styles';
 import {Link} from 'react-router-dom'
+import { withRouter } from 'react-router-dom'
+import { connect } from 'react-redux'
 
 const ActivityAvatar = styled.div`
   //display: flex;
@@ -53,7 +55,7 @@ function ImageAvatars(props) {
   );
 }
 
-export default class UserData extends Component {
+class UserData extends Component {
 
   render(){
 
@@ -184,3 +186,14 @@ export default class UserData extends Component {
           </UserDataContent>
   }
 }
+
+function mapStateToProps(state) {
+
+  const { app } = state
+
+  return {
+    app,
+  }
+}
+
+export default withRouter(connect(mapStateToProps)(UserData))
