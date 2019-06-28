@@ -10,7 +10,7 @@ const MapContainer = styled.div`
   margin-top: 10px;
 `
 
-export default class Map extends React.Component{
+export default class Mapa extends React.Component{
 
   constructor(props){
     super(props)
@@ -39,7 +39,8 @@ export default class Map extends React.Component{
     this.map = new mapboxgl.Map({
       container: 'react-map',
       style: 'mapbox://styles/michelson/cjcga6dyd48ww2rlq99y1tw8m',
-      zoom: 2
+      zoom: 2,
+      interactive: this.props.interactive
     });
 
     this.map.on('load', ()=> {
@@ -197,6 +198,8 @@ export default class Map extends React.Component{
 
   render(){
   
-    return <MapContainer id="react-map"/>
+    return <MapContainer id="react-map" 
+                style={this.props.wrapperStyle}
+            />
   }
 }
