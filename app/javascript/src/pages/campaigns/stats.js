@@ -9,6 +9,7 @@ import Badge from '@material-ui/core/Badge';
 import Avatar from '@material-ui/core/Avatar';
 import DataTable from '../../components/newTable'
 import gravatar from '../../shared/gravatar'
+import {Typography} from '@material-ui/core'
 
 const PieContainer = styled.div`
 padding: .75em;
