@@ -7,7 +7,7 @@ class GraphqlController < ApplicationController
     
     context = {
       # Query context goes here, for example:
-      current_user: current_agent,
+      current_user: Agent.first, #current_agent,
       #authorize: lambda{|mode, object| authorize!(mode, object) },
       #can: lambda{| mode, object | can?( mode, object) },
       #logout!: ->{logout!},

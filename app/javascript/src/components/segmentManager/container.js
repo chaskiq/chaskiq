@@ -265,7 +265,12 @@ class AppUsers extends Component {
 
             {this.caption()}
 
-            { this.state.map_view && !this.props.searching && this.props.app.key && this.props.segment && this.props.segment.id ? 
+            { 
+              this.state.map_view && 
+              !this.props.searching && 
+              this.props.app.key && 
+              this.props.segment && 
+              this.props.segment.id ? 
 
               <Map 
                 interactive={true}
@@ -284,7 +289,8 @@ class AppUsers extends Component {
                 {name: 'email', title: 'email', 
                   getCellValue: row => (row ? 
 
-                    <NameWrapper onClick={(e)=>(this.showUserDrawer(row))}>
+                    <NameWrapper 
+                      onClick={(e)=>(this.showUserDrawer(row))}>
                       <AvatarWrapper>
                         <Badge 
                           //className={classes.margin} 
