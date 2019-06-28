@@ -386,7 +386,10 @@ export default class CampaignStats extends Component {
                             {name: 'email', title: 'who'},
                             {name: 'host', title: 'from'},
                             {name: 'created_at', title: 'when'},
-                            {name: 'data', title: 'data'},
+                            {name: 'data', title: 'data', getCellValue: row => (row ? 
+                              <p>{JSON.stringify(row.data)}</p> : 
+                              null 
+                            )},
                           ]}
                   //selection [],
                   tableColumnExtensions={[
