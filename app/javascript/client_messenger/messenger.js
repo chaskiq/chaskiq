@@ -16,6 +16,8 @@ import StyledFrame from 'react-styled-frame'
 import styled, { ThemeProvider } from 'styled-components'
 //import DanteContainer from './styles/dante'
 
+import UrlPattern from 'url-pattern'
+
 import theme from '../src/components/conversation/theme'
 import themeDark from '../src/components/conversation/darkTheme'
 import DraftRenderer from '../src/components/conversation/draftRenderer'
@@ -240,13 +242,13 @@ class Messenger extends Component {
       cable: actioncable.createConsumer(`${this.props.ws}`)
     }
 
-    this.eventsSubscriber = this.eventsSubscriber.bind(this)
-    this.ping = this.ping.bind(this)
-    this.insertComment = this.insertComment.bind(this)
-    this.createComment = this.createComment.bind(this)
-    this.createCommentOnNewConversation = this.createCommentOnNewConversation.bind(this)
-    this.getConversations = this.getConversations.bind(this)
-    this.setconversation = this.setconversation.bind(this)
+    //this.eventsSubscriber = this.eventsSubscriber.bind(this)
+    //this.ping = this.ping.bind(this)
+    //this.insertComment = this.insertComment.bind(this)
+    //this.createComment = this.createComment.bind(this)
+    //this.createCommentOnNewConversation = this.createCommentOnNewConversation.bind(this)
+    //this.getConversations = this.getConversations.bind(this)
+    //this.setconversation = this.setconversation.bind(this)
 
     this.overflow = null
     this.commentWrapperRef = React.createRef();
@@ -259,6 +261,7 @@ class Messenger extends Component {
       this.getConversations()
       this.getMessage()
       this.locationChangeListener()
+      this.processTriggers()
     })
 
     this.updateDimensions()
@@ -620,8 +623,6 @@ class Messenger extends Component {
 
     })
 
-
-
   }
 
   toggleMessenger = (e)=>{
@@ -642,6 +643,35 @@ class Messenger extends Component {
   isTourManagerEnabled = ()=>{
     return window.opener && window.opener.TourManagerEnabled ? 
       window.opener.TourManagerEnabled() : null
+  }
+
+  processTriggers = ()=>{
+    this.state.appData.triggers.map((o)=>{
+      this.processTrigger(o)
+    })
+  }
+
+  processTrigger = (trigger)=>{
+    setTimeout( ()=>{
+      
+      if(!this.complyRules(trigger))
+        return
+      
+      trigger.actions.map((o)=>{
+        // open behavior
+        o.open_messenger && !this.state.open ? 
+        this.setState({open: true}) : null
+      })
+    }, trigger.after_delay*1000)
+  }
+
+  complyRules = (trigger)=>{
+    const matches = trigger.rules.map((o)=>{
+      var pattern = new UrlPattern(o.pages_pattern)
+      return pattern.match(document.location.pathname);
+    })
+
+    return matches.indexOf(null) === -1
   }
 
 
