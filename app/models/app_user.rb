@@ -10,6 +10,10 @@ class AppUser < ApplicationRecord
   has_many :metrics , as: :trackable
   has_many :visits
 
+  include Eventable
+
+  after_create :add_created_event
+
   store_accessor :properties, [ 
     :name, 
     :first_name, 
@@ -29,6 +33,10 @@ class AppUser < ApplicationRecord
   scope :visitors, ->{
     where("email is not null")
   }
+
+  def add_created_event
+    self.events.log(action: :user_created)
+  end
 
   def display_name
     [self.name,

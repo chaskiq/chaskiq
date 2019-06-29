@@ -4,21 +4,35 @@ class Conversation < ApplicationRecord
   belongs_to :main_participant, class_name: "AppUser", optional: true #, foreign_key: "user_id"
   has_many :messages, class_name: "ConversationPart", dependent: :destroy
 
+  include Eventable
   include AASM
 
   before_create :add_default_assigne
+  after_create :add_created_event
 
   aasm column: :state do
     state :opened, :initial => true
     state :closed
 
-    event :reopen do
+    event :reopen , after: :add_reopened_event do
       transitions :from => :closed, :to => :opened
     end
 
-    event :close do
+    event :close, after: :add_closed_event do
       transitions :from => :opened, :to => :closed
     end
+  end
+
+  def add_created_event
+    events.log(action: :conversation_opened)
+  end
+
+  def add_closed_event
+    events.log(action: :conversation_closed)
+  end
+
+  def add_reopened_event
+    events.log(action: :conversation_reopened)
   end
 
   def toggle_priority
