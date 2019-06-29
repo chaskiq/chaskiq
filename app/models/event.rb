@@ -17,9 +17,9 @@ class Event < ApplicationRecord
 
   belongs_to :eventable
 
-  after_create :trigger_hooks
+  after_create :trigger_webhooks
 
-  def trigger_hooks
+  def trigger_webhooks
     puts "trigger hook on #{self.action}"
   end
 
