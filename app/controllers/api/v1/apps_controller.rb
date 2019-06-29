@@ -55,7 +55,8 @@ class Api::V1::AppsController < ApiController
         :active_messenger, 
         :domain_url, 
         :tagline,
-        :theme
+        :theme, 
+        :triggers
       ]
     )}
   end
