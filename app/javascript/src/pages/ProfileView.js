@@ -3,6 +3,7 @@ import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom'
 import { connect } from 'react-redux'
 import UserData from '../components/UserData'
+import styled from 'styled-components'
 import {isEmpty} from 'lodash'
 
 import graphql from '../graphql/client'
@@ -11,7 +12,9 @@ import {
   APP_USER_VISITS
 } from '../graphql/queries'
 
-import {Grid, Typography} from '@material-ui/core'
+import {Grid, Typography, Button, Avatar , IconButton} from '@material-ui/core'
+import MoreVertIcon from '@material-ui/icons/MoreVert'
+import gravatar from '../shared/gravatar'
 
 import {
   getAppUser
@@ -23,6 +26,48 @@ import Mapa from '../components/map'
 import UserListItem from '../components/UserListItem'
 import sanitizeHtml from 'sanitize-html';
 import DataTable from '../components/newTable'
+
+
+const AppUserHeaderOverlay = styled.div`
+  position: absolute;
+  z-index: 99999;
+  color: #fff;
+  width: 100%;
+  height: 185px;
+  background: #24852b;
+  //background: linear-gradient(to bottom,rgba(250,250,250,0) 40%,#f6f6f6 100%);
+  opacity: 0.6;
+`
+
+const AppUserHeaderInfo = styled.div`
+  position: absolute;
+  z-index: 99999;
+  color: #fff;
+  width: 100%;
+  height: 185px;
+  display: flex;
+  align-items: self-start;
+  justify-content: space-between;
+
+  .name-description {
+    display: flex;
+    flex-direction: column;
+    margin-left: 10px;
+  }
+
+  .controls {
+    display:flex
+  }
+
+  .user-info {
+    display: flex;
+    align-items: center;
+    margin-left: 20px;
+    margin-top: 20px;
+  }
+`
+
+
 
 class ProfilePage extends Component {
 
@@ -71,11 +116,53 @@ class ProfilePage extends Component {
           interactive={false} 
           data={[this.props.app_user]} 
           wrapperStyle={{
+            position: 'relative',
             width: '100%',
-            height: '134px',
+            height: '184px',
             marginTop: '0px',
-          }}
-        />
+          }}>
+          
+          <AppUserHeaderOverlay>
+
+          </AppUserHeaderOverlay>
+
+          <AppUserHeaderInfo>
+
+
+            <div className="user-info">
+
+              <Avatar style={{width: '120px', height: '120px'}}
+                src={gravatar(this.props.app_user.email, {s: '120px'})}
+              />
+
+              <div className="name-description">
+                <Typography variant={"h5"}>
+                  {this.props.app_user.displayName}
+                </Typography>
+
+                <Typography variant={"h6"}>
+                  {this.props.app_user.city}
+                  {this.props.app_user.country}
+                </Typography>
+              </div>
+
+            </div>
+
+            <div className="controls">
+
+              <Button variant="contained" color="primary">
+                start conversation
+              </Button>
+
+              <IconButton>
+                <MoreVertIcon/>
+              </IconButton>
+
+            </div>
+
+          </AppUserHeaderInfo>
+        
+        </Mapa>
 
         <Content>
 
@@ -84,13 +171,12 @@ class ProfilePage extends Component {
               <Grid item xs={12} sm={4}>
                 { 
                   !isEmpty(this.props.app_user) ? 
-                  <div>
-                    <p>{this.props.app_user.browser}</p>
-                    <UserData 
-                      appUser={this.props.app_user} 
-                      app={this.props.app}
-                    />
-                  </div> : null
+                  <UserData 
+                    width={"100%"}
+                    hideConactInformation={true}
+                    appUser={this.props.app_user} 
+                    app={this.props.app}
+                  /> : null
                 }
               </Grid>
 
