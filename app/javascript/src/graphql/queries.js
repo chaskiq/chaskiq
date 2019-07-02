@@ -264,6 +264,7 @@ query Campaigns($appKey: String!, $id: Int!, $page: Int, $per: Int){
               email
               id
               kind
+              displayName
             }
             message{
               serializedContent
