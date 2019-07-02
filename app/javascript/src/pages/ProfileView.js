@@ -12,7 +12,16 @@ import {
   APP_USER_VISITS
 } from '../graphql/queries'
 
-import {Grid, Typography, Button, Avatar , IconButton} from '@material-ui/core'
+import {
+  START_CONVERSATION
+} from '../graphql/mutations'
+
+import {Grid, 
+  Typography, 
+  Button, 
+  Avatar, 
+  IconButton,
+} from '@material-ui/core'
 import MoreVertIcon from '@material-ui/icons/MoreVert'
 import gravatar from '../shared/gravatar'
 
@@ -27,10 +36,12 @@ import UserListItem from '../components/UserListItem'
 import sanitizeHtml from 'sanitize-html';
 import DataTable from '../components/newTable'
 
+import DialogEditor from '../components/conversation/DialogEditor'
+import UserActionsMenu from '../components/userActionsMenu'
 
 const AppUserHeaderOverlay = styled.div`
   position: absolute;
-  z-index: 99999;
+  z-index: 99;
   color: #fff;
   width: 100%;
   height: 185px;
@@ -41,7 +52,7 @@ const AppUserHeaderOverlay = styled.div`
 
 const AppUserHeaderInfo = styled.div`
   position: absolute;
-  z-index: 99999;
+  z-index: 99;
   color: #fff;
   width: 100%;
   height: 185px;
@@ -56,7 +67,9 @@ const AppUserHeaderInfo = styled.div`
   }
 
   .controls {
-    display:flex
+    display:flex;
+    margin-top: 10px;
+    margin-right: 10px;
   }
 
   .user-info {
@@ -73,7 +86,8 @@ class ProfilePage extends Component {
 
   state = {
     collection: [],
-    meta: {}
+    meta: {},
+    startConversationModal: false
 
   }
 
@@ -104,8 +118,27 @@ class ProfilePage extends Component {
     })
   }
 
+  openStartConversationModal = ()=>{
+    this.setState({startConversationModal: true})
+  }
+
+  handleSubmit = ({html, serialized, text})=> {
+
+    graphql(START_CONVERSATION, {
+      appKey: this.props.app.key, 
+      id: this.props.app_user.id,
+      message: {html, serialized, text}
+    }, {
+      success: (data)=>{
+        console.log(data.startConversation)
+      },
+      errors: (error)=>{
+        debugger
+      }
+    })
+  }
+
   render() {
-    console.log(this.props.app_user)
     return (
 
       <div>
@@ -150,13 +183,14 @@ class ProfilePage extends Component {
 
             <div className="controls">
 
-              <Button variant="contained" color="primary">
+              <Button 
+                variant="contained" 
+                color="primary"
+                onClick={this.openStartConversationModal}>
                 start conversation
               </Button>
 
-              <IconButton>
-                <MoreVertIcon/>
-              </IconButton>
+              <UserActionsMenu/>
 
             </div>
 
@@ -189,7 +223,7 @@ class ProfilePage extends Component {
                     const user = o.mainParticipant
                     return <div 
                               key={o.id} 
-                              onClick={(e)=> this.props.history.push(`/apps/${appId}/conversations/${o.id}`) }>
+                              onClick={(e)=> this.props.history.push(`/apps/${this.props.app.key}/conversations/${o.id}`) }>
                                       
                               <UserListItem
                                 value={null}
@@ -220,6 +254,17 @@ class ProfilePage extends Component {
           </Grid>
 
         </Content>
+
+
+        {
+          this.state.startConversationModal ?
+           
+            <DialogEditor 
+              handleSubmit={this.handleSubmit}
+              open={this.state.startConversationModal}
+            /> : null 
+        }
+
       </div>
     );
   }
