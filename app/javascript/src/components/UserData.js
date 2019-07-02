@@ -5,6 +5,7 @@ import Moment from 'react-moment';
 import Accordeon from './accordeon'
 import Avatar from '@material-ui/core/Avatar';
 import { makeStyles } from '@material-ui/core/styles';
+import {Typography} from '@material-ui/core'
 import {Link} from 'react-router-dom'
 import { withRouter } from 'react-router-dom'
 import { connect } from 'react-redux'
@@ -48,7 +49,9 @@ function ImageAvatars(props) {
   const classes = useStyles();
 
   return (
-      <Avatar alt={props.email}
+      <Avatar 
+        style={{width: '120px', height: '120px'}}
+        alt={props.email}
         src={props.src} 
         className={classes.avatar} 
       />
@@ -69,7 +72,7 @@ class UserData extends Component {
                 <ActivityAvatar>
                   <ImageAvatars
                     email={this.props.appUser.email} 
-                    src={gravatar(this.props.appUser.email)}
+                    src={gravatar(this.props.appUser.email, {s: '130px'})}
                   />
 
                 </ActivityAvatar>
@@ -178,7 +181,9 @@ class UserData extends Component {
                       Object.keys(this.props.appUser.properties).map((o, i) => {
                         return <li key={i}>
                           <strong>{o}:</strong>
-                          <span>{this.props.appUser.properties[o]}</span>
+                          <Typography noWrap>
+                            {this.props.appUser.properties[o]}
+                          </Typography>
                         </li>
                       }) : null
                   }
