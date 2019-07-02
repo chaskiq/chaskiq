@@ -78,6 +78,7 @@ An the content of the campaign is managed with a state of the art wysiwyg text e
 
 
 ## references:
++ https://get.slaask.com/
 + https://smooch.io/
 + https://frontapp.com
 + https://www.drift.com/
