@@ -65,6 +65,28 @@ export const CREATE_APP = `
   }
 `;
 
+export const START_CONVERSATION = `
+  mutation StartConversation($appKey: String!, $id: Int!, $message: Json!){
+    startConversation(appKey: $appKey, id: $id, message: $message){
+      conversation{
+        id
+        state 
+        readAt
+        priority
+        assignee {
+          id
+          email
+        }
+        mainParticipant{
+          id
+          email
+          properties
+        }
+      }
+    }
+  }
+`;
+
 export const INSERT_COMMMENT = `
   mutation InsertComment($appKey: String!, $id: Int!, $message: Json!){
     insertComment(appKey: $appKey, id: $id, message: $message){
@@ -289,7 +311,6 @@ export const PREDICATES_DELETE = `
     }
   }
 `;
-
 
 export const PREDICATES_CREATE = `
   mutation PredicatesCreate($appKey: String!, $operation: String, $name: String!, $predicates: Json!){
