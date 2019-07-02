@@ -38,7 +38,7 @@ function DialogEditor(props) {
       >
         <DialogTitle id="alert-dialog-title">{"Use Google's location service?"}</DialogTitle>
         
-        <DialogContent style={{width: "600px"}}>
+        <DialogContent>
           <DialogContentText id="alert-dialog-description">
             To: 
             {props.app_user.displayName}
