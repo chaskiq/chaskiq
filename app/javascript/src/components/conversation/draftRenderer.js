@@ -71,7 +71,15 @@ const renderers = {
     'image': (children, {keys, data}) => {
       const data2 = data[0]
       const {url, aspect_ratio, caption} = data2
-      const { height, width, ratio} = aspect_ratio 
+
+ 
+      if(!aspect_ratio){
+        var height = "100%"
+        var width  = "100%"
+        var ratio  = "100%"
+      }else{
+        var { height, width, ratio} = aspect_ratio 
+      }
 
       return  <figure class="graf graf--figure">
                   <div>

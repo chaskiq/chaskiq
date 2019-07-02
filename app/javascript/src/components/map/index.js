@@ -198,8 +198,10 @@ export default class Mapa extends React.Component{
 
   render(){
   
-    return <MapContainer id="react-map" 
-                style={this.props.wrapperStyle}
-            />
+    return <MapContainer 
+              id="react-map" 
+              style={this.props.wrapperStyle}>
+              {this.props.children}
+            </MapContainer>
   }
 }
