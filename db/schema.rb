@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_07_03_023131) do
+ActiveRecord::Schema.define(version: 2019_07_03_161450) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -117,6 +117,19 @@ ActiveRecord::Schema.define(version: 2019_07_03_023131) do
     t.datetime "updated_at", null: false
     t.string "encryption_key", limit: 16
     t.index ["preferences"], name: "index_apps_on_preferences", using: :gin
+  end
+
+  create_table "assignment_rules", force: :cascade do |t|
+    t.bigint "app_id", null: false
+    t.bigint "agent_id", null: false
+    t.jsonb "conditions"
+    t.integer "priority"
+    t.string "state"
+    t.string "title"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["agent_id"], name: "index_assignment_rules_on_agent_id"
+    t.index ["app_id"], name: "index_assignment_rules_on_app_id"
   end
 
   create_table "campaigns", force: :cascade do |t|
@@ -338,6 +351,7 @@ ActiveRecord::Schema.define(version: 2019_07_03_023131) do
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "app_users", "apps"
   add_foreign_key "app_users", "users"
+  add_foreign_key "assignment_rules", "apps"
   add_foreign_key "campaigns", "apps"
   add_foreign_key "conversation_parts", "app_users"
   add_foreign_key "conversation_parts", "conversations"

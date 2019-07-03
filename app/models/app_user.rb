@@ -29,9 +29,9 @@ class AppUser < ApplicationRecord
       "passive", "subscribed"]) 
   }
 
-  # todo: optimize this
+  # todo: use another column for identify visitors, like "kind"
   scope :visitors, ->{
-    where("email is not null")
+    where("email is null")
   }
 
   def add_created_event

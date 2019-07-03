@@ -10,6 +10,7 @@ class Agent < ApplicationRecord
 
   has_many :roles, dependent: :destroy
   has_many :apps, through: :roles, source: :app   
+  has_many :assignment_rules
 
 
   store_accessor :properties, [ 

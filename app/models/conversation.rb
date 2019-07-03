@@ -10,6 +10,8 @@ class Conversation < ApplicationRecord
   before_create :add_default_assigne
   after_create :add_created_event
 
+  attr_accessor :initiator
+
   aasm column: :state do
     state :opened, :initial => true
     state :closed
@@ -97,9 +99,23 @@ class Conversation < ApplicationRecord
     self.save
   end
 
-  #TODO: give use choose this logic
   def add_default_assigne
+    if @initiator.is_a?(Agent)
+      self.assignee = @initiator
+      return
+    end
+    
+    # TODO: check conditions and order by priority
+    self.app.assignment_rules.each do |rule|
+      self.assignee = rule.agent
+      break
+    end
+
+    return if self.assignee.present?
+
+    ## default, this should be removed
     self.assignee = self.app.agents.first
+
   end
 
 end
