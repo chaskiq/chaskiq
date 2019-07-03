@@ -9,11 +9,12 @@ import {isEmpty} from 'lodash'
 import graphql from '../graphql/client'
 import {
   APP_USER_CONVERSATIONS, 
-  APP_USER_VISITS
+  APP_USER_VISITS,
 } from '../graphql/queries'
 
 import {
-  START_CONVERSATION
+  START_CONVERSATION,
+  APP_USER_UPDATE_STATE
 } from '../graphql/mutations'
 
 import {Grid, 
@@ -136,6 +137,30 @@ class ProfilePage extends Component {
     })
   }
 
+  updateState = (option)=>{
+
+    graphql(APP_USER_UPDATE_STATE, {
+      appKey: this.props.app.key, 
+      id: this.props.app_user.id,
+      state: option.id
+    }, {
+      success: (data)=>{
+
+        this.props.dispatch(
+          getAppUser(
+            parseInt(this.props.app_user.id)
+          )
+        )
+
+        //data.appUserUpdateData.appUser
+      },
+      error: (error)=>{
+        debugger
+      }
+    })
+
+  }
+
   render() {
     return (
 
@@ -168,12 +193,20 @@ class ProfilePage extends Component {
 
               <div className="name-description">
                 <Typography variant={"h5"}>
-                  {this.props.app_user.displayName}
+                  {this.props.app_user.name || 'no name'}
                 </Typography>
 
                 <Typography variant={"h6"}>
+                  {this.props.app_user.email}
+                </Typography>
+
+                <Typography variant={"subtitle1"}>
                   {this.props.app_user.city}
                   {this.props.app_user.country}
+                </Typography>
+
+                <Typography variant={"caption"}>
+                  {this.props.app_user.state}
                 </Typography>
               </div>
 
@@ -188,7 +221,10 @@ class ProfilePage extends Component {
                 start conversation
               </Button>
 
-              <UserActionsMenu/>
+              <UserActionsMenu
+                selected={this.props.app_user.state}
+                handleClick={(item)=>{  this.updateState(item) }}
+              />
 
             </div>
 
@@ -200,46 +236,45 @@ class ProfilePage extends Component {
 
           <Grid container spacing={2}>
 
-              <Grid item xs={12} sm={4}>
-                { 
-                  !isEmpty(this.props.app_user) ? 
-                  <UserData 
-                    width={"100%"}
-                    hideConactInformation={true}
-                    appUser={this.props.app_user} 
-                    app={this.props.app}
-                  /> : null
-                }
-              </Grid>
+            <Grid item xs={12} sm={8}>
+              <Typography>
+                conversations
+              </Typography>
+              {
+                this.state.collection.map((o)=>{
+                  const user = o.mainParticipant
+                  return <div 
+                            key={o.id} 
+                            onClick={(e)=> this.props.history.push(`/apps/${this.props.app.key}/conversations/${o.id}`) }>
+                                    
+                            <UserListItem
+                              value={null}
+                              mainUser={user}
+                              object={o.id}
+                              messageUser={o.lastMessage.appUser}
+                              showUserDrawer={this.showUserDrawer}
+                              messageObject={o.lastMessage}
+                              conversation={o}
+                              //createdAt={o.lastMessage.message.created_at}
+                              message={sanitizeHtml(o.lastMessage.message.htmlContent).substring(0, 250)}
+                            />
+                          </div>
+                
+                })
+              }
+            </Grid>
 
-              <Grid item xs={12} sm={4}>
-                <Typography>
-                  conversations
-                </Typography>
-                {
-                  this.state.collection.map((o)=>{
-                    const user = o.mainParticipant
-                    return <div 
-                              key={o.id} 
-                              onClick={(e)=> this.props.history.push(`/apps/${this.props.app.key}/conversations/${o.id}`) }>
-                                      
-                              <UserListItem
-                                value={null}
-                                mainUser={user}
-                                object={o.id}
-                                messageUser={o.lastMessage.appUser}
-                                showUserDrawer={this.showUserDrawer}
-                                messageObject={o.lastMessage}
-                                conversation={o}
-                                //createdAt={o.lastMessage.message.created_at}
-                                message={sanitizeHtml(o.lastMessage.message.htmlContent).substring(0, 250)}
-                              />
-                            </div>
-                  
-                  })
-                }
-              </Grid>
-
+            <Grid item xs={12} sm={4}>
+              { 
+                !isEmpty(this.props.app_user) ? 
+                <UserData 
+                  width={"100%"}
+                  hideConactInformation={true}
+                  appUser={this.props.app_user} 
+                  app={this.props.app}
+                /> : null
+              }
+            </Grid>
 
           </Grid>
 

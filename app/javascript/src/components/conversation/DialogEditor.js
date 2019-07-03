@@ -33,10 +33,13 @@ function DialogEditor(props) {
         open={open}
         onClose={handleClose}
         maxWidth={'sm'}
+        fullWidth={true}
         aria-labelledby="alert-dialog-title"
         aria-describedby="alert-dialog-description"
       >
-        <DialogTitle id="alert-dialog-title">{"Use Google's location service?"}</DialogTitle>
+        <DialogTitle id="alert-dialog-title">
+          Compose a new message
+        </DialogTitle>
         
         <DialogContent>
           <DialogContentText id="alert-dialog-description">

@@ -23,6 +23,8 @@ module Types
     field  :lang, String, null: true
 
     field :display_name, String, null: true
+    field :full_name, String, null: true
+    field :name, String, null: true
 
     field :app, [Types::AppType], null: true
     field :online, Boolean, null: true
@@ -50,6 +52,10 @@ module Types
 
     def visits(page:, per:)
       object.visits.page(page).per(per)
+    end
+
+    def full_name
+      "#{object.first_name} #{object.last_name}"
     end
 
 

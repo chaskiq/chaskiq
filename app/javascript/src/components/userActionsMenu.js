@@ -13,24 +13,30 @@ const options = [
   {
     title: 'Archive',
     description: 'Archive this person and their conversation history',
-    icon: <ArchiveIcon/>
+    icon: <ArchiveIcon/>,
+    id: 'archive',
+    state: 'archived'
   },
   {
     title: 'Block',
     description: 'Blocks them so you won’t get their replies',
-    icon: <BlockIcon/>
+    icon: <BlockIcon/>,
+    id: 'block',
+    state: 'blocked'
   },
 
   { 
     title: 'Unsubscribe',
     description: 'Removes them from your email list',
-    icon: <UnsubscribeIcon/>
+    icon: <UnsubscribeIcon/>,
+    id: 'unsubscribe',
+    state: 'unsubscribed'
   }
 ];
 
 const ITEM_HEIGHT = 48;
 
-export default function LongMenu() {
+export default function UserActionsMenu(props) {
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
 
@@ -39,6 +45,13 @@ export default function LongMenu() {
   }
 
   function handleClose() {
+    setAnchorEl(null);
+  }
+
+  function handleSelected(option){
+
+    props.handleClick(option)
+
     setAnchorEl(null);
   }
 
@@ -67,8 +80,8 @@ export default function LongMenu() {
       >
         {options.map(option => (
           <MenuItem key={option} 
-            selected={option.title === 'Pyxis'} 
-            onClick={handleClose}>
+            selected={option.state === props.selected} 
+            onClick={()=> handleSelected(option)}>
 
             <ListItemIcon>
               {option.icon}
@@ -78,11 +91,7 @@ export default function LongMenu() {
               primary={option.title}
               secondary={option.description}
             />
-            {/*
-            <Typography variant="strong">{option.title}</Typography>
-            <br/>
-            <Typography variant="caption">{option.description}</Typography>
-          */}
+     
           </MenuItem>
         ))}
       </Menu>
