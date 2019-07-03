@@ -32,10 +32,10 @@ RSpec.describe App, type: :model do
 
       app.add_anonymous_user({})
       expect(app.app_users.first.session_id).to be_present  
-      expect(app.app_users.first.name).to be_eql "visitor 1"
+      expect(app.app_users.last.name).to be_eql "visitor 1"
 
       app.add_anonymous_user({})
-      expect(app.app_users.first.name).to be_eql "visitor 2"
+      expect(app.app_users.last.name).to be_eql "visitor 2"
     end
  
   end
@@ -86,10 +86,28 @@ RSpec.describe App, type: :model do
   it "create_conversation" do
     app_user = app.add_user({email: "test@test.cl", first_name: "dsdsa"})
     conversations = app.start_conversation({
-      message: "message", 
+      message: {serialized_content: "message"}, 
       from: app_user
     })
     expect(app.conversations.count).to be == 1
+  end
+
+
+  describe "assigment rules" do
+
+    it "assign rule" do
+      role = app.add_agent({email: "test@test.cl", first_name: "dsdsa"})
+      agent = role.agent
+      app.assignment_rules.create({
+        title: "test", 
+        agent: agent, 
+        conditions: [], 
+        priority: 1 
+      })
+
+      expect(app.assignment_rules.count).to be == 1
+      expect(agent.assignment_rules.count).to be == 1
+    end
   end
 
 end

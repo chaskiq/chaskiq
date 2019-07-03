@@ -1,7 +1,12 @@
 class App < ApplicationRecord
   include Tokenable
 
-  store :preferences, accessors: [ :notifications, :gather_data, :test_app ], coder: JSON
+  #store :preferences, accessors: [ 
+  #  :notifications, 
+  #  :gather_data, 
+  #  :test_app,
+  #  :assigment_rules,
+  #], coder: JSON
 
   # http://nandovieira.com/using-postgresql-and-jsonb-with-ruby-on-rails
   # App.where('preferences @> ?', {notifications: true}.to_json)
@@ -18,11 +23,17 @@ class App < ApplicationRecord
   has_many :tours
   has_many :messages
 
+  has_many :assignment_rules
+
   store_accessor :preferences, [
     :active_messenger, 
     :domain_url, 
     :tagline ,
-    :theme 
+    :theme,
+    :notifications,
+    :gather_data, 
+    :test_app,
+    :assigment_rules,
   ]
 
   def encryption_enabled?
@@ -143,7 +154,10 @@ class App < ApplicationRecord
     user = options[:from]
     participant = options[:participant] || user
     message_source = options[:message_source]
-    conversation = self.conversations.create(main_participant: participant)
+    conversation = self.conversations.create({
+      main_participant: participant,
+      initiator: user
+    })
     conversation.add_message(
       from: user,
       message: message,

@@ -14,7 +14,20 @@ RSpec.describe Conversation, type: :model do
   }
 
   let!(:agent_role){
-    app.add_agent({email: "test2@test.cl"})
+    app.add_agent({email: "agent1@test.cl"})
+  }
+
+  let!(:agent_role2){
+    app.add_agent({email: "agent2@test.cl"})
+  }
+
+  let(:assignment_rule){
+    app.assignment_rules.create({
+      title: "test", 
+      agent: agent_role2.agent, 
+      conditions: [], 
+      priority: 1 
+    })
   }
 
   it "create_conversation" do
@@ -90,6 +103,28 @@ RSpec.describe Conversation, type: :model do
       expect(conversation.events.last.action).to be == Event.action_for(:conversation_closed)
       conversation.reopen
       expect(conversation.events.last.action).to be == Event.action_for(:conversation_reopened)
+    end
+
+  end
+
+
+  context "assignment rule" do
+
+    it "assign rule" do
+      assignment_rule
+
+      expect(app.assignment_rules.count).to be == 1
+      expect(agent_role.agent.assignment_rules).to be_empty
+      expect(agent_role2.agent.assignment_rules.count).to be_present
+
+      app.start_conversation({
+        message: {text_content: "aa"}, 
+        from: app_user
+      })
+
+      expect(app.conversations.first.assignee).to be == agent_role2.agent
+
+
     end
 
   end
