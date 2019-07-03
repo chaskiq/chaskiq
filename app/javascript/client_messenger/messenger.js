@@ -6,6 +6,8 @@ import PropTypes from 'prop-types'
 import actioncable from "actioncable"
 import axios from "axios"
 
+import UAParser from 'ua-parser-js'
+
 import UnicornEditor from './textEditor' // from './quillEditor' //'./draftEditor' //from './editor.js'
 import gravatar from "gravatar"
 import Moment from 'react-moment';
@@ -15,6 +17,8 @@ import Quest from './messageWindow'
 import StyledFrame from 'react-styled-frame'
 import styled, { ThemeProvider } from 'styled-components'
 //import DanteContainer from './styles/dante'
+
+import UrlPattern from 'url-pattern'
 
 import theme from '../src/components/conversation/theme'
 import themeDark from '../src/components/conversation/darkTheme'
@@ -171,7 +175,19 @@ const MessageCloseBtn = styled.a`
     float: right;
     color: white;
     text-transform: uppercase;
+`
 
+const AppPackageBlockContainer = styled.div`
+    border: 1px solid #ccc;
+    padding: 1.2em;
+    width: 100%;
+    border-radius: 7px;
+    background: #f5f2f2;
+
+    input {
+      padding: 1.2em;
+
+    }
 `
 
 
@@ -240,14 +256,6 @@ class Messenger extends Component {
       cable: actioncable.createConsumer(`${this.props.ws}`)
     }
 
-    this.eventsSubscriber = this.eventsSubscriber.bind(this)
-    this.ping = this.ping.bind(this)
-    this.insertComment = this.insertComment.bind(this)
-    this.createComment = this.createComment.bind(this)
-    this.createCommentOnNewConversation = this.createCommentOnNewConversation.bind(this)
-    this.getConversations = this.getConversations.bind(this)
-    this.setconversation = this.setconversation.bind(this)
-
     this.overflow = null
     this.commentWrapperRef = React.createRef();
 
@@ -255,6 +263,7 @@ class Messenger extends Component {
 
   componentDidMount(){
     this.ping(()=> {
+      this.precenseSubscriber()
       this.eventsSubscriber()
       this.getConversations()
       this.getMessage()
@@ -303,9 +312,25 @@ class Messenger extends Component {
         window.dispatchEvent(new Event('locationchange'))
     });
 
-    window.addEventListener('locationchange', function(){
-      alert('location changed!');
+    window.addEventListener('locationchange', ()=>{
+      this.registerVisit()
     })
+  }
+
+  registerVisit = ()=>{
+    const parser = new UAParser();
+
+    const results = parser.getResult()
+  
+    const data = {
+      title: document.title,
+      url: document.location.href,
+      browser_version: results.browser.version,
+      browser_name: results.browser.name,
+      os_version: results.os.version,
+      os: results.os.name
+    }
+    App.events.perform('send_message', data)
   }
 
   detectMobile = ()=>{
@@ -333,8 +358,42 @@ class Messenger extends Component {
     }).play()
   }
 
-  eventsSubscriber =()=>{
-    App.events = App.cable.subscriptions.create(this.cableDataFor({channel: "PresenceChannel"}),
+  eventsSubscriber = ()=>{
+    App.events = App.cable.subscriptions.create(this.cableDataFor({channel: "MessengerEventsChannel"}),
+      {
+        connected: ()=> {
+          console.log("connected to events")
+          this.registerVisit()
+          this.processTriggers()
+        },
+        disconnected: ()=> {
+          console.log("disconnected from events")
+        },
+        received: (data)=> {
+          switch (data.type) {
+            case "triggers:receive":
+              return this.receiveTrigger(data.data)
+            case "true":
+              return true
+            default:
+              return 
+          }
+
+
+          console.log(`received event ${data}`)
+        },
+        notify: ()=>{
+          console.log(`notify event!!`)
+        },
+        handleMessage: (message)=>{
+          console.log(`handle event message`)
+        }
+      }
+    )
+  }
+
+  precenseSubscriber =()=>{
+    App.precense = App.cable.subscriptions.create(this.cableDataFor({channel: "PresenceChannel"}),
     {
         connected: ()=> {
           console.log("connected to presence")
@@ -569,7 +628,7 @@ class Messenger extends Component {
 
       this.conversationSubscriber(() => {
 
-        //this.eventsSubscriber()
+        //this.precenseSubscriber()
         this.setState({
           conversation_messages: [],
           display_mode: "conversation"
@@ -603,7 +662,7 @@ class Messenger extends Component {
 
         this.conversationSubscriber(() => {
 
-          //this.eventsSubscriber()
+          //this.precenseSubscriber()
           this.setState({
             display_mode: "conversation"
           }, () => {
@@ -619,8 +678,6 @@ class Messenger extends Component {
 
 
     })
-
-
 
   }
 
@@ -643,6 +700,63 @@ class Messenger extends Component {
     return window.opener && window.opener.TourManagerEnabled ? 
       window.opener.TourManagerEnabled() : null
   }
+
+  receiveTrigger = (trigger)=>{
+    setTimeout( ()=>{
+      localStorage.setItem("chaskiq:trigger-"+trigger.id, 1)
+      trigger.actions.map((o)=>{
+        // open behavior
+        o.open_messenger && !this.state.open ? 
+        this.setState({open: true}) : null
+      })
+    }, trigger.after_delay*1000)
+  }
+
+  sendTrigger = ()=>{
+    console.log("send trigger")
+    this.axiosInstance.get(`/api/v1/apps/${this.props.app_id}/triggers.json`)
+    .then((response) => {
+      console.log("trigger sent!")
+      /*this.setState({
+        messages: this.state.messages.concat(response.data.message)
+      })*/
+
+      /*if (cb)
+        cb()*/
+    })
+    .catch((error) => {
+      console.log(error);
+    });
+  }
+
+  processTriggers = ()=>{
+    this.state.appData.triggers.map((o)=>{
+      this.processTrigger(o)
+    })
+  }
+
+  processTrigger = (trigger)=>{
+    if(localStorage.getItem("chaskiq:trigger-"+trigger.id)){
+      console.log("skip trigger , stored")
+      return
+    } 
+    
+    if(!this.complyRules(trigger))
+      return
+
+    this.sendTrigger()
+  }
+
+  complyRules = (trigger)=>{
+    const matches = trigger.rules.map((o)=>{
+      var pattern = new UrlPattern(o.pages_pattern)
+      return pattern.match(document.location.pathname);
+    })
+
+    return matches.indexOf(null) === -1
+  }
+
+
 
 
   render(){
@@ -824,6 +938,22 @@ class Conversation extends Component {
             isReverse={true}
             //ref={this.commentWrapperRef}
             isMobile={this.props.isMobile}>
+
+
+            <div>
+               <MessageItem>
+                 <AppPackageBlock 
+                   type={"ask_for_email"} 
+                   schema={
+                     [
+                       {element: "input", type:"text", placeholder: "enter email", name: "email", label: "enter your email"},
+                       {element: "separator"},
+                       {element: "submit", label: "submit"}
+                     ]
+                   }
+                 />
+               </MessageItem>
+            </div> 
             {
               this.props.conversation_messages.map((o, i) => {
                 const userClass = o.app_user.kind === "agent" ? 'admin' : 'user'
@@ -898,23 +1028,13 @@ class Conversation extends Component {
                 </MessageItemWrapper>
               })
             }
+
           </CommentsWrapper>
 
           <Footer>
             <UnicornEditor
               insertComment={this.props.insertComment}
             />
-
-            { /*
-                                                  <HappinessIcon/>
-                                                  <AttachmentIcon/>
-                                                  <PaperPlaneIcon
-                                                    style={{ padding: '14px' }}
-                                                  />
-                                                  */
-            }
-
-
           </Footer>
 
         </EditorSection>
@@ -1220,6 +1340,49 @@ class MessageItemWrapper extends Component {
             {this.props.children}
            </Fragment>
   }
+}
+
+class AppPackageBlock extends Component {
+
+  renderElements = ()=>{
+    return this.props.schema.map((o)=>
+      this.renderElement(o)
+    )
+  }
+
+  renderElement = (item)=>{
+    const element = item.element
+
+    switch(item.element){
+    case "separator":
+      return <hr/>
+    case "input":
+      return <div>
+              {item.label ? <label>{item.label}</label> : null }
+              <input 
+                type={element.type} 
+                placeholder={element.placeholder}
+              />
+             </div>
+
+    case "submit":
+      return <button type={"submit"}></button>
+    default:
+      return null
+    }
+  }
+
+  render(){
+    return <div>
+              <AppPackageBlockContainer>
+                {
+                  this.renderElements()
+                }
+              </AppPackageBlockContainer>
+            </div>
+  }
+
+
 }
 
 

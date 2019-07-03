@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_06_22_233947) do
+ActiveRecord::Schema.define(version: 2019_07_03_023131) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -197,6 +197,17 @@ ActiveRecord::Schema.define(version: 2019_06_22_233947) do
     t.index ["priority"], name: "index_conversations_on_priority"
   end
 
+  create_table "events", force: :cascade do |t|
+    t.string "eventable_type", null: false
+    t.bigint "eventable_id", null: false
+    t.string "action"
+    t.jsonb "properties"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["action"], name: "index_events_on_action"
+    t.index ["eventable_type", "eventable_id"], name: "index_events_on_eventable_type_and_eventable_id"
+  end
+
   create_table "gutentag_taggings", id: :serial, force: :cascade do |t|
     t.integer "tag_id", null: false
     t.integer "taggable_id", null: false
@@ -316,6 +327,11 @@ ActiveRecord::Schema.define(version: 2019_06_22_233947) do
     t.bigint "app_user_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.string "title"
+    t.string "browser_version"
+    t.string "browser_name"
+    t.string "os"
+    t.string "os_version"
     t.index ["app_user_id"], name: "index_visits_on_app_user_id"
   end
 

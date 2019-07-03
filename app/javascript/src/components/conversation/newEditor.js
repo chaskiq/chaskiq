@@ -687,7 +687,7 @@ export default class ChatEditor extends Component {
         width: position.width === 0 ? 2 : position.width,
         top: position.top + window.pageYOffset
       })
-    console.log("post mada: ", pos)
+
     return <SelectionIndicator style={pos}>
       <span>
         {this.props.currentUser.email}

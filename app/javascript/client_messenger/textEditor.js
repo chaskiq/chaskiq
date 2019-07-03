@@ -233,7 +233,7 @@ export default class UnicornEditor extends Component {
     })
   }
 
-  submitImage = (link)=>{
+  submitImage = (link, cb)=>{
     const html = `<img width=100% src="${link}"/>`
     this.props.insertComment(
         {
@@ -243,6 +243,7 @@ export default class UnicornEditor extends Component {
       , () => {
       console.log("saved!")
       this.input.value = ""
+      cb ? cb() : null
     })
   }
 
@@ -291,7 +292,6 @@ export default class UnicornEditor extends Component {
           console.log(err)
         },
         onSuccess: (attrs)=> {
-          console.log("AAAA", attrs.link)
           this.submitImage(attrs.link)
         }
       },
@@ -306,7 +306,9 @@ export default class UnicornEditor extends Component {
 
   // TODO, upload this to activeStorage
   saveGif = (data)=>{
-    this.submitImage(data.images.downsized_medium.url)
+    this.submitImage(data.images.downsized_medium.url, ()=>{
+      this.setState({giphyEnabled: false})
+    })
   }
 
   render() {
