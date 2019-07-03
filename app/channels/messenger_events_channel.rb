@@ -22,4 +22,9 @@ class MessengerEventsChannel < ApplicationCable::Channel
     # Any cleanup needed when channel is unsubscribed
   end
 
+  def send_message(options)
+    options.delete("action")
+    @app_user.visits.create(options)
+  end
+
 end

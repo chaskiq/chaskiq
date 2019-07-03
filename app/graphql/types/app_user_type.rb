@@ -51,7 +51,7 @@ module Types
     end
 
     def visits(page:, per:)
-      object.visits.page(page).per(per)
+      object.visits.page(page).per(per).order("id desc")
     end
 
     def full_name

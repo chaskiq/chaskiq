@@ -6,6 +6,8 @@ import PropTypes from 'prop-types'
 import actioncable from "actioncable"
 import axios from "axios"
 
+import UAParser from 'ua-parser-js'
+
 import UnicornEditor from './textEditor' // from './quillEditor' //'./draftEditor' //from './editor.js'
 import gravatar from "gravatar"
 import Moment from 'react-moment';
@@ -310,9 +312,25 @@ class Messenger extends Component {
         window.dispatchEvent(new Event('locationchange'))
     });
 
-    window.addEventListener('locationchange', function(){
-      alert('location changed!');
+    window.addEventListener('locationchange', ()=>{
+      this.registerVisit()
     })
+  }
+
+  registerVisit = ()=>{
+    const parser = new UAParser();
+
+    const results = parser.getResult()
+  
+    const data = {
+      title: document.title,
+      url: document.location.href,
+      browser_version: results.browser.version,
+      browser_name: results.browser.name,
+      os_version: results.os.version,
+      os: results.os.name
+    }
+    App.events.perform('send_message', data)
   }
 
   detectMobile = ()=>{
@@ -345,6 +363,7 @@ class Messenger extends Component {
       {
         connected: ()=> {
           console.log("connected to events")
+          this.registerVisit()
           this.processTriggers()
         },
         disconnected: ()=> {
@@ -368,7 +387,7 @@ class Messenger extends Component {
         },
         handleMessage: (message)=>{
           console.log(`handle event message`)
-        } 
+        }
       }
     )
   }
