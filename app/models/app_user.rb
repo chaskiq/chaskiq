@@ -97,15 +97,23 @@ class AppUser < ApplicationRecord
     state :passive, :initial => true
     state :subscribed, :after_enter => :notify_subscription
     state :unsubscribed, :after_enter => :notify_unsubscription
-    #state :bounced, :after_enter => :make_bounced
-    #state :complained, :after_enter => :make_complained
-
+    state :archived #, after_enter: :notify_archived
+    state :blocked #, after_enter: :notify_bloqued
+    
     event :subscribe do
-      transitions :from => [:passive, :unsubscribed], :to => :subscribed
+      transitions from: [:passive, :unsubscribed, :archived, :blocked], to: :subscribed
     end
 
     event :unsubscribe do
-      transitions :from => [:subscribed, :passive], :to => :unsubscribed
+      transitions from: [:subscribed, :passive, :archived, :blocked], to: :unsubscribed
+    end
+
+    event :block do
+      transitions from: [:archived, :subscribed, :unsubscribed ], to: :blocked
+    end
+
+    event :archive do
+      transitions from: [:blocked, :subscribed, :unsubscribed ], to: :archived
     end
   end
 

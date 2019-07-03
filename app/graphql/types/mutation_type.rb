@@ -22,6 +22,9 @@ module Types
     field :updateConversationState, mutation: Mutations::Conversations::UpdateState
     field :toggleConversationPriority, mutation: Mutations::Conversations::TogglePriority
     
+
+    field :appUserUpdateData, mutation: Mutations::AppUsers::UpdateAppUserState
+
     # TODO: remove me
     #description: "An example field added by the generator"
     ##field :insert_comment, String, null: false,

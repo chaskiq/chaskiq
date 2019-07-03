@@ -65,6 +65,43 @@ export const CREATE_APP = `
   }
 `;
 
+
+export const APP_USER_UPDATE_STATE = `
+
+  mutation AppUserUpdateData($appKey: String!, $id: Int!, $state: String!){
+    appUserUpdateData(appKey: $appKey, id: $id, state: $state){
+ 
+      appUser {
+        id
+        email
+        lastVisitedAt
+        referrer
+        state
+        ip
+        city
+        region
+        country
+        lat
+        lng
+        postal
+        webSessions
+        timezone
+        browser
+        browserVersion
+        os
+        osVersion
+        browserLanguage
+        online
+        lang
+        displayName
+        name
+      }
+
+    }
+  }
+
+`
+
 export const START_CONVERSATION = `
   mutation StartConversation($appKey: String!, $id: Int!, $message: Json!){
     startConversation(appKey: $appKey, id: $id, message: $message){

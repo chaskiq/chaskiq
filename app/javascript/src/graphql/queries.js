@@ -239,6 +239,7 @@ query AppUser($appKey: String!, $id: Int! ) {
       online
       lang
       displayName
+      name
     }
   }
 }
