@@ -96,14 +96,14 @@ class App < ApplicationRecord
 
   def add_user(attrs)
     email = attrs.delete(:email)
-    page_url = attrs.delete(:page_url)
+    #page_url = attrs.delete(:page_url)
     ap = app_users.find_or_initialize_by(email: email)
     data = attrs.deep_merge!(properties: ap.properties)
     ap.assign_attributes(data)
     ap.last_visited_at = Time.now
     ap.subscribe! unless ap.subscribed?
     ap.save
-    ap.save_page_visit(page_url)
+    #ap.save_page_visit(page_url)
     ap
   end
 

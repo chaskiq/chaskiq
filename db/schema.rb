@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_06_29_044525) do
+ActiveRecord::Schema.define(version: 2019_07_03_023131) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -327,6 +327,11 @@ ActiveRecord::Schema.define(version: 2019_06_29_044525) do
     t.bigint "app_user_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.string "title"
+    t.string "browser_version"
+    t.string "browser_name"
+    t.string "os"
+    t.string "os_version"
     t.index ["app_user_id"], name: "index_visits_on_app_user_id"
   end
 

@@ -346,7 +346,14 @@ class AppUserVisits extends React.Component {
       <DataTable 
         title={"visits"}
         rows={this.state.collection}
-        columns={[{name: "url", title: "url"}]}
+        columns={[
+          {name: "url", title: "url"},
+          {name: "title", title: "title"},
+          {name: "browserName", title: "browser name"},
+          {name: "browserVersion", title: "browser version"},
+          {name: "os", title: "os"},
+          {name: "osVersion", title: "os version"}
+        ]}
         meta={this.state.meta}
         search={this.fetchvisits}
       />
