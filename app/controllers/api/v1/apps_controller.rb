@@ -26,7 +26,6 @@ class Api::V1::AppsController < ApiController
     get_user_data
 
     browser_params = {
-      page_url:         request.original_url,
       referrer:         request.referrer,
       ip:               request.remote_ip,
       city:             request.location.data["city"],
@@ -55,7 +54,8 @@ class Api::V1::AppsController < ApiController
         :active_messenger, 
         :domain_url, 
         :tagline,
-        :theme
+        :theme, 
+        :triggers
       ]
     )}
   end

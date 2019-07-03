@@ -5,6 +5,7 @@ import Moment from 'react-moment';
 import Accordeon from './accordeon'
 import Avatar from '@material-ui/core/Avatar';
 import { makeStyles } from '@material-ui/core/styles';
+import {Typography} from '@material-ui/core'
 import {Link} from 'react-router-dom'
 import { withRouter } from 'react-router-dom'
 import { connect } from 'react-redux'
@@ -48,7 +49,9 @@ function ImageAvatars(props) {
   const classes = useStyles();
 
   return (
-      <Avatar alt={props.email}
+      <Avatar 
+        style={{width: '120px', height: '120px'}}
+        alt={props.email}
         src={props.src} 
         className={classes.avatar} 
       />
@@ -61,12 +64,15 @@ class UserData extends Component {
 
     return <UserDataContent style={{width: this.props.width}}>
 
+
+            {
+              !this.props.hideConactInformation ?
               <UserDataInformation>
     
                 <ActivityAvatar>
                   <ImageAvatars
                     email={this.props.appUser.email} 
-                    src={gravatar(this.props.appUser.email)}
+                    src={gravatar(this.props.appUser.email, {s: '130px'})}
                   />
 
                 </ActivityAvatar>
@@ -88,100 +94,103 @@ class UserData extends Component {
                   </Moment>
                 </p>
 
-              </UserDataInformation>
+              </UserDataInformation> : null 
+            }
 
-              <Accordeon items={[
-                {
-                  name: "Location",
-                  component: null,
-                  items: [{
-                    label: 'referrer',
-                    value: this.props.appUser.referrer
-                  },
-
-                  {
-                    label: 'city',
-                    value: this.props.appUser.city
-                  },
-
-                  {
-                    label: 'region',
-                    value: this.props.appUser.region
-                  },
-
-                  {
-                    label: 'country',
-                    value: this.props.appUser.country
-                  },
-
-                  {
-                    label: 'lat',
-                    value: this.props.appUser.lat
-                  },
-
-                  {
-                    label: 'lng',
-                    value: this.props.appUser.lng
-                  }
-                  ]
-
+            <Accordeon items={[
+              {
+                name: "Location",
+                component: null,
+                items: [{
+                  label: 'referrer',
+                  value: this.props.appUser.referrer
                 },
+
                 {
-                  name: "Browsing Properties",
-                  component: null,
-                  items: [
-                    {
-                      label: 'postal:',
-                      value: this.props.appUser.postal
-                    },
-
-                    {
-                      label: 'web sessions:',
-                      value: this.props.appUser.webSessions
-                    },
-
-                    {
-                      label: 'timezone:',
-                      value: this.props.appUser.timezone
-                    },
-
-                    {
-                      label: 'browser version:',
-                      value: this.props.appUser.browserVersion
-                    },
-
-                    {
-                      label: 'browser:',
-                      value: this.props.appUser.browser
-                    },
-
-                    {
-                      label: 'os:',
-                      value: this.props.appUser.os
-                    },
-
-                    {
-                      label: 'os version:',
-                      value: this.props.appUser.osVersion
-                    }
-                  ]
-
+                  label: 'city',
+                  value: this.props.appUser.city
                 },
+
                 {
-                  name: "Properties", component: <UserDataList>
-                    {
-                      this.props.appUser.properties ?
-                        Object.keys(this.props.appUser.properties).map((o, i) => {
-                          return <li key={i}>
-                            <strong>{o}:</strong>
-                            <span>{this.props.appUser.properties[o]}</span>
-                          </li>
-                        }) : null
-                    }
-                  </UserDataList>
+                  label: 'region',
+                  value: this.props.appUser.region
+                },
+
+                {
+                  label: 'country',
+                  value: this.props.appUser.country
+                },
+
+                {
+                  label: 'lat',
+                  value: this.props.appUser.lat
+                },
+
+                {
+                  label: 'lng',
+                  value: this.props.appUser.lng
                 }
+                ]
 
-              ]} />
+              },
+              {
+                name: "Browsing Properties",
+                component: null,
+                items: [
+                  {
+                    label: 'postal:',
+                    value: this.props.appUser.postal
+                  },
+
+                  {
+                    label: 'web sessions:',
+                    value: this.props.appUser.webSessions
+                  },
+
+                  {
+                    label: 'timezone:',
+                    value: this.props.appUser.timezone
+                  },
+
+                  {
+                    label: 'browser version:',
+                    value: this.props.appUser.browserVersion
+                  },
+
+                  {
+                    label: 'browser:',
+                    value: this.props.appUser.browser
+                  },
+
+                  {
+                    label: 'os:',
+                    value: this.props.appUser.os
+                  },
+
+                  {
+                    label: 'os version:',
+                    value: this.props.appUser.osVersion
+                  }
+                ]
+
+              },
+              {
+                name: "Properties", component: <UserDataList>
+                  {
+                    this.props.appUser.properties ?
+                      Object.keys(this.props.appUser.properties).map((o, i) => {
+                        return <li key={i}>
+                          <strong>{o}:</strong>
+                          <Typography noWrap>
+                            {this.props.appUser.properties[o]}
+                          </Typography>
+                        </li>
+                      }) : null
+                  }
+                </UserDataList>
+              }
+
+            ]} />
     
           </UserDataContent>
   }

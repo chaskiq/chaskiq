@@ -64,6 +64,8 @@
     "simmerjs": "^0.5.6",
     "soundmanager2": "^2.97.20170602",
     "styled-components": "4.3.1",
+    "ua-parser-js": "^0.7.20",
+    "url-pattern": "^1.0.3",
     "yarn": "^1.16.0"
   },
   "devDependencies": {

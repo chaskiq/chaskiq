@@ -33,12 +33,14 @@ Rails.application.routes.draw do
     scope path: '/v1' do
       resources :hooks, only: [:create], controller: "api/v1/hooks"
       resources :direct_uploads, only: [:create], controller: "api/v1/direct_uploads"
-      
       resources :apps, controller: "api/v1/apps" do
         member do 
           post :ping
           post :auth
         end
+        
+        resources :triggers, controller: "api/v1/triggers"
+
         resources :messages, controller: "api/v1/messages" do
           resources :tracks, controller: "api/v1/tracks" do
             member do

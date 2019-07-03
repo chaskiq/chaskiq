@@ -3,15 +3,26 @@ import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom'
 import { connect } from 'react-redux'
 import UserData from '../components/UserData'
+import styled from 'styled-components'
 import {isEmpty} from 'lodash'
 
 import graphql from '../graphql/client'
 import {
   APP_USER_CONVERSATIONS, 
-  APP_USER_VISITS
+  APP_USER_VISITS,
 } from '../graphql/queries'
 
-import {Grid, Typography} from '@material-ui/core'
+import {
+  START_CONVERSATION,
+  APP_USER_UPDATE_STATE
+} from '../graphql/mutations'
+
+import {Grid, 
+  Typography, 
+  Button, 
+  Avatar, 
+} from '@material-ui/core'
+import gravatar from '../shared/gravatar'
 
 import {
   getAppUser
@@ -24,11 +35,58 @@ import UserListItem from '../components/UserListItem'
 import sanitizeHtml from 'sanitize-html';
 import DataTable from '../components/newTable'
 
+import DialogEditor from '../components/conversation/DialogEditor'
+import UserActionsMenu from '../components/userActionsMenu'
+
+const AppUserHeaderOverlay = styled.div`
+  position: absolute;
+  z-index: 99;
+  color: #fff;
+  width: 100%;
+  height: 185px;
+  background: #24852b;
+  //background: linear-gradient(to bottom,rgba(250,250,250,0) 40%,#f6f6f6 100%);
+  opacity: 0.6;
+`
+
+const AppUserHeaderInfo = styled.div`
+  position: absolute;
+  z-index: 99;
+  color: #fff;
+  width: 100%;
+  height: 185px;
+  display: flex;
+  align-items: self-start;
+  justify-content: space-between;
+
+  .name-description {
+    display: flex;
+    flex-direction: column;
+    margin-left: 10px;
+  }
+
+  .controls {
+    display:flex;
+    margin-top: 10px;
+    margin-right: 10px;
+  }
+
+  .user-info {
+    display: flex;
+    align-items: center;
+    margin-left: 20px;
+    margin-top: 20px;
+  }
+`
+
+
+
 class ProfilePage extends Component {
 
   state = {
     collection: [],
-    meta: {}
+    meta: {},
+    startConversationModal: false
 
   }
 
@@ -59,8 +117,51 @@ class ProfilePage extends Component {
     })
   }
 
+  openStartConversationModal = ()=>{
+    this.setState({startConversationModal: true})
+  }
+
+  handleSubmit = ({html, serialized, text})=> {
+
+    graphql(START_CONVERSATION, {
+      appKey: this.props.app.key, 
+      id: this.props.app_user.id,
+      message: {html, serialized, text}
+    }, {
+      success: (data)=>{
+        console.log(data.startConversation)
+      },
+      errors: (error)=>{
+        debugger
+      }
+    })
+  }
+
+  updateState = (option)=>{
+
+    graphql(APP_USER_UPDATE_STATE, {
+      appKey: this.props.app.key, 
+      id: this.props.app_user.id,
+      state: option.id
+    }, {
+      success: (data)=>{
+
+        this.props.dispatch(
+          getAppUser(
+            parseInt(this.props.app_user.id)
+          )
+        )
+
+        //data.appUserUpdateData.appUser
+      },
+      error: (error)=>{
+        debugger
+      }
+    })
+
+  }
+
   render() {
-    console.log(this.props.app_user)
     return (
 
       <div>
@@ -71,57 +172,109 @@ class ProfilePage extends Component {
           interactive={false} 
           data={[this.props.app_user]} 
           wrapperStyle={{
+            position: 'relative',
             width: '100%',
-            height: '134px',
+            height: '184px',
             marginTop: '0px',
-          }}
-        />
+          }}>
+          
+          <AppUserHeaderOverlay>
+
+          </AppUserHeaderOverlay>
+
+          <AppUserHeaderInfo>
+
+
+            <div className="user-info">
+
+              <Avatar style={{width: '120px', height: '120px'}}
+                src={gravatar(this.props.app_user.email, {s: '120px'})}
+              />
+
+              <div className="name-description">
+                <Typography variant={"h5"}>
+                  {this.props.app_user.name || 'no name'}
+                </Typography>
+
+                <Typography variant={"h6"}>
+                  {this.props.app_user.email}
+                </Typography>
+
+                <Typography variant={"subtitle1"}>
+                  {this.props.app_user.city}
+                  {this.props.app_user.country}
+                </Typography>
+
+                <Typography variant={"caption"}>
+                  {this.props.app_user.state}
+                </Typography>
+              </div>
+
+            </div>
+
+            <div className="controls">
+
+              <Button 
+                variant="contained" 
+                color="primary"
+                onClick={this.openStartConversationModal}>
+                start conversation
+              </Button>
+
+              <UserActionsMenu
+                selected={this.props.app_user.state}
+                handleClick={(item)=>{  this.updateState(item) }}
+              />
+
+            </div>
+
+          </AppUserHeaderInfo>
+        
+        </Mapa>
 
         <Content>
 
           <Grid container spacing={2}>
 
-              <Grid item xs={12} sm={4}>
-                { 
-                  !isEmpty(this.props.app_user) ? 
-                  <div>
-                    <p>{this.props.app_user.browser}</p>
-                    <UserData 
-                      appUser={this.props.app_user} 
-                      app={this.props.app}
-                    />
-                  </div> : null
-                }
-              </Grid>
+            <Grid item xs={12} sm={8}>
+              <Typography>
+                conversations
+              </Typography>
+              {
+                this.state.collection.map((o)=>{
+                  const user = o.mainParticipant
+                  return <div 
+                            key={o.id} 
+                            onClick={(e)=> this.props.history.push(`/apps/${this.props.app.key}/conversations/${o.id}`) }>
+                                    
+                            <UserListItem
+                              value={null}
+                              mainUser={user}
+                              object={o.id}
+                              messageUser={o.lastMessage.appUser}
+                              showUserDrawer={this.showUserDrawer}
+                              messageObject={o.lastMessage}
+                              conversation={o}
+                              //createdAt={o.lastMessage.message.created_at}
+                              message={sanitizeHtml(o.lastMessage.message.htmlContent).substring(0, 250)}
+                            />
+                          </div>
+                
+                })
+              }
+            </Grid>
 
-              <Grid item xs={12} sm={4}>
-                <Typography>
-                  conversations
-                </Typography>
-                {
-                  this.state.collection.map((o)=>{
-                    const user = o.mainParticipant
-                    return <div 
-                              key={o.id} 
-                              onClick={(e)=> this.props.history.push(`/apps/${appId}/conversations/${o.id}`) }>
-                                      
-                              <UserListItem
-                                value={null}
-                                mainUser={user}
-                                object={o.id}
-                                messageUser={o.lastMessage.appUser}
-                                showUserDrawer={this.showUserDrawer}
-                                messageObject={o.lastMessage}
-                                conversation={o}
-                                //createdAt={o.lastMessage.message.created_at}
-                                message={sanitizeHtml(o.lastMessage.message.htmlContent).substring(0, 250)}
-                              />
-                            </div>
-                  
-                  })
-                }
-              </Grid>
-
+            <Grid item xs={12} sm={4}>
+              { 
+                !isEmpty(this.props.app_user) ? 
+                <UserData 
+                  width={"100%"}
+                  hideConactInformation={true}
+                  appUser={this.props.app_user} 
+                  app={this.props.app}
+                /> : null
+              }
+            </Grid>
 
           </Grid>
 
@@ -134,6 +287,17 @@ class ProfilePage extends Component {
           </Grid>
 
         </Content>
+
+
+        {
+          this.state.startConversationModal ?
+           
+            <DialogEditor 
+              handleSubmit={this.handleSubmit}
+              open={this.state.startConversationModal}
+            /> : null 
+        }
+
       </div>
     );
   }
@@ -182,7 +346,14 @@ class AppUserVisits extends React.Component {
       <DataTable 
         title={"visits"}
         rows={this.state.collection}
-        columns={[{name: "url", title: "url"}]}
+        columns={[
+          {name: "url", title: "url"},
+          {name: "title", title: "title"},
+          {name: "browserName", title: "browser name"},
+          {name: "browserVersion", title: "browser version"},
+          {name: "os", title: "os"},
+          {name: "osVersion", title: "os version"}
+        ]}
         meta={this.state.meta}
         search={this.fetchvisits}
       />

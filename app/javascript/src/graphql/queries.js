@@ -239,6 +239,7 @@ query AppUser($appKey: String!, $id: Int! ) {
       online
       lang
       displayName
+      name
     }
   }
 }
@@ -264,6 +265,7 @@ query Campaigns($appKey: String!, $id: Int!, $page: Int, $per: Int){
               email
               id
               kind
+              displayName
             }
             message{
               serializedContent
@@ -288,6 +290,11 @@ query AppUserVisits($appKey: String!, $id: Int!, $page: Int, $per: Int){
       visits(page: $page, per: $per){
         collection{
           url
+          title
+          osVersion
+          os
+          browserName
+          browserVersion
         }
         meta
       }

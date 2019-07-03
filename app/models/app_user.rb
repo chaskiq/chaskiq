@@ -10,6 +10,10 @@ class AppUser < ApplicationRecord
   has_many :metrics , as: :trackable
   has_many :visits
 
+  include Eventable
+
+  after_create :add_created_event
+
   store_accessor :properties, [ 
     :name, 
     :first_name, 
@@ -29,6 +33,10 @@ class AppUser < ApplicationRecord
   scope :visitors, ->{
     where("email is not null")
   }
+
+  def add_created_event
+    self.events.log(action: :user_created)
+  end
 
   def display_name
     [self.name,
@@ -89,15 +97,23 @@ class AppUser < ApplicationRecord
     state :passive, :initial => true
     state :subscribed, :after_enter => :notify_subscription
     state :unsubscribed, :after_enter => :notify_unsubscription
-    #state :bounced, :after_enter => :make_bounced
-    #state :complained, :after_enter => :make_complained
-
+    state :archived #, after_enter: :notify_archived
+    state :blocked #, after_enter: :notify_bloqued
+    
     event :subscribe do
-      transitions :from => [:passive, :unsubscribed], :to => :subscribed
+      transitions from: [:passive, :unsubscribed, :archived, :blocked], to: :subscribed
     end
 
     event :unsubscribe do
-      transitions :from => [:subscribed, :passive], :to => :unsubscribed
+      transitions from: [:subscribed, :passive, :archived, :blocked], to: :unsubscribed
+    end
+
+    event :block do
+      transitions from: [:archived, :subscribed, :unsubscribed ], to: :blocked
+    end
+
+    event :archive do
+      transitions from: [:blocked, :subscribed, :unsubscribed ], to: :archived
     end
   end
 

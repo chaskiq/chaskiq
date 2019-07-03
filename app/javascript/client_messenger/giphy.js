@@ -122,7 +122,7 @@ export default class App extends React.Component {
 
           <PickerBlock>
             <Input ref="input_ref" 
-              placeholder={"serch gif"} 
+              placeholder={"search gif"} 
               onKeyDown={this.onSearchSubmit} 
             />
           </PickerBlock>

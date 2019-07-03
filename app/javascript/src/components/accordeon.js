@@ -98,7 +98,11 @@ function CustomizedExpansionPanels(props) {
                             <ListItem>
                               <ListItemText
                                 primary={item.label}
-                                secondary={item.value}
+                                secondary={
+                                  <Typography noWrap>
+                                    {item.value}
+                                  </Typography>
+                                }
                               />
 
                             </ListItem>
