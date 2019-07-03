@@ -22,6 +22,7 @@ import EmailIcon from '@material-ui/icons/Email';
 import BookIcon from '@material-ui/icons/Book';
 import FlipToFrontIcon from '@material-ui/icons/FlipToFront'
 import SmsIcon from '@material-ui/icons/Sms';
+import ShuffleIcon from '@material-ui/icons/Shuffle'
 
 import ExpansionPanel from '@material-ui/core/ExpansionPanel';
 import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails';
@@ -119,6 +120,7 @@ function Navigator(props, context) {
       id: 'Conversations',
       children: [
         { id: 'Conversations', icon:  <SmsIcon/>, url: `/apps/${props.app.key}/conversations`},
+        { id: 'Assigment Rules', icon:  <ShuffleIcon/>, url: `/apps/${props.app.key}/conversations/assignment_rules`},
       ],
     },
     {
@@ -148,7 +150,7 @@ function Navigator(props, context) {
       id: 'Settings',
       children: [
         { id: 'App Settings', icon:  <SettingsIcon/>, url: `/apps/${props.app.key}/settings`, },
-        { id: 'Authentication', icon: <PeopleIcon />, active: true },
+        { id: 'Authentication', icon: <ShuffleIcon />, active: true },
       ],
     },
     {

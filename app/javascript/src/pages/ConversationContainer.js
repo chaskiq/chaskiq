@@ -3,7 +3,8 @@ import axios from "axios"
 import actioncable from "actioncable"
 import {
   Route,
-  Link
+  Link,
+  Switch
 } from 'react-router-dom'
 import styled from "styled-components"
 import {ThemeProvider} from 'styled-components'
@@ -331,43 +332,72 @@ class ConversationContainer extends Component {
                 </Overflow>
               </GridElement>
 
-              <Route exact path={`/apps/${appId}/conversations`}
-                render={(props)=>(
-                    <GridElement grow={2} style={{
-                      display: 'flex', 
-                      justifyContent: 'space-around'
-                    }}>
+              <Switch>
 
-                      <div style={{alignSelf: 'center'}}>
-                        <Paper style={{padding: '2em'}}>
-                             <Typography variant="h5" component="h3">
-                                Conversations 
-                              </Typography>
-
-                              <Typography component="p">
-                                Select a conversation or crate a new one
-                              </Typography>
-
-                        </Paper>
-                      </div>
-
-                      
-                    </GridElement>
-                )} />  
-              
-
-              <Route exact path={`/apps/${appId}/conversations/:id`} 
+                <Route exact path={`/apps/${appId}/conversations`}
                   render={(props)=>(
-                    <ConversationContainerShow
-                      appId={appId}
-                      app={this.props.app}
-                      conversation={this.state.conversation}
-                      setConversation={this.setConversation}
-                      showUserDrawer={this.showUserDrawer}
-                      currentUser={this.props.currentUser}
-                      {...props}
-                    />
-                )} /> 
+                      <GridElement grow={2} style={{
+                        display: 'flex', 
+                        justifyContent: 'space-around'
+                      }}>
+
+                        <div style={{alignSelf: 'center'}}>
+                          <Paper style={{padding: '2em'}}>
+                               <Typography variant="h5" component="h3">
+                                  Conversations 
+                                </Typography>
+
+                                <Typography component="p">
+                                  Select a conversation or crate a new one
+                                </Typography>
+
+                          </Paper>
+                        </div>
+
+                        
+                      </GridElement>
+                  )} />  
+                
+
+                <Route exact path={`/apps/${appId}/conversations/assignment_rules`} 
+                    render={(props)=>(
+                      <GridElement grow={2} style={{
+                        display: 'flex', 
+                        justifyContent: 'space-around'
+                      }}>
+
+                        <div style={{alignSelf: 'center'}}>
+                          <Paper style={{padding: '2em'}}>
+                               <Typography variant="h5" component="h3">
+                                  Assigment Rules
+                                </Typography>
+
+                                <Typography component="p">
+                                  Create assigment Rule!
+                                </Typography>
+
+                          </Paper>
+                        </div>
+
+                        
+                      </GridElement>
+                  )} /> 
+
+
+                <Route exact path={`/apps/${appId}/conversations/:id`} 
+                    render={(props)=>(
+                      <ConversationContainerShow
+                        appId={appId}
+                        app={this.props.app}
+                        conversation={this.state.conversation}
+                        setConversation={this.setConversation}
+                        showUserDrawer={this.showUserDrawer}
+                        currentUser={this.props.currentUser}
+                        {...props}
+                      />
+                  )} /> 
+
+              </Switch>
 
             </ColumnContainer>
           </RowColumnContainer>
