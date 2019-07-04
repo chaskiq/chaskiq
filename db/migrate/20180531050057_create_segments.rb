@@ -1,6 +1,7 @@
 class CreateSegments < ActiveRecord::Migration[5.2]
   def change
     create_table :segments do |t|
+      t.string :key, index: true
       t.references :app
       t.string :name
       t.jsonb :properties, default: '{}'

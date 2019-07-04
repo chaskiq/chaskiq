@@ -1,4 +1,5 @@
 class ConversationPart < ApplicationRecord
+  include Tokenable
   belongs_to :conversation, :touch => true
   #belongs_to :app_user, optional: true # todo: to be removed
   belongs_to :message_source, optional: true, 

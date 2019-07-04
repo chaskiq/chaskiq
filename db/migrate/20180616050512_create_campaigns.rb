@@ -1,6 +1,7 @@
 class CreateCampaigns < ActiveRecord::Migration[5.2]
   def change
     create_table :campaigns do |t|
+      t.string :key, index: true
       t.string :from_name
       t.string :from_email
       t.string :reply_email
@@ -16,7 +17,9 @@ class CreateCampaigns < ActiveRecord::Migration[5.2]
       t.string :subject
       t.references :app, foreign_key: true
       t.jsonb :segments
-
+      t.string :type, index: true, default: "Campaign"
+      t.jsonb :settings, default: {}
+      t.datetime :scheduled_to
       t.timestamps
     end
   end

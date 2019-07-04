@@ -1,11 +1,12 @@
 class Conversation < ApplicationRecord
+  include Eventable
+  include AASM
+  include Tokenable
+
   belongs_to :app
   belongs_to :assignee, class_name: 'Agent', optional: true
   belongs_to :main_participant, class_name: "AppUser", optional: true #, foreign_key: "user_id"
   has_many :messages, class_name: "ConversationPart", dependent: :destroy
-
-  include Eventable
-  include AASM
 
   before_create :add_default_assigne
   after_create :add_created_event

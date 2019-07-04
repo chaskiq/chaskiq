@@ -3,6 +3,7 @@
 class DeviseCreateAgents < ActiveRecord::Migration[6.0]
   def change
     create_table :agents do |t|
+      t.string :key, index: true
       ## Database authenticatable
       t.string :email,              null: false, default: ""
       t.string :encrypted_password, null: false, default: ""
