@@ -62,15 +62,15 @@ class SimpleSelect extends React.Component {
       <FormControl 
         className={classes.formControl}>
           
-          {/*<InputLabel htmlFor={this.props.data.label}>
+          <InputLabel 
+            htmlFor={this.props.name}>
             {this.props.data.name}
-          </InputLabel>*/}
+          </InputLabel>
 
           <Select
             name={this.props.name}
             value={this.state.value}
             onChange={this.handleChange}
-
             inputProps={{
               name: this.props.name
             }}
@@ -78,6 +78,7 @@ class SimpleSelect extends React.Component {
             input={<OutlinedInput 
               labelWidth={this.state.labelWidth} 
               name={this.props.data.name}
+              id={this.props.name}
             />}
 
           >
