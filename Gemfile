@@ -148,3 +148,5 @@ gem 'devise-jwt', '~> 0.5.9'
 
 #gem "devise_token_auth", path: '/Users/michelson/Documents/ruby/devise_token_auth'
 #github: "lynndylanhurley/devise_token_auth" #{}"~> 1.1"
+
+gem "devise_invitable", "~> 2.0"

@@ -7,7 +7,9 @@ Rails.application.routes.draw do
   post "/graphql", to: "graphql#execute"
   mount Sidekiq::Web => '/sidekiq'
 
-  devise_for :agents
+  devise_for :agents, controllers: { 
+    invitations: 'users/invitations' 
+  }
 
   resources :attachments, controller: 'campaigns/attachments'
 

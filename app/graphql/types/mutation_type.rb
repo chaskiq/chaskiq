@@ -4,6 +4,7 @@ module Types
     field :appsDestroy, mutation: Mutations::Apps::DestroyApp
     field :appsUpdate, mutation: Mutations::Apps::UpdateApp
     field :appsCreate, mutation: Mutations::Apps::CreateApp
+    field :inviteAgent, mutation: Mutations::Agents::Invite
 
     field :createDelete, mutation: Mutations::Predicates::CreatePredicate
     field :predicatesDelete, mutation: Mutations::Predicates::DeletePredicate
