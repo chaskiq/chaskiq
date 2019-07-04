@@ -95,7 +95,6 @@ RSpec.describe GraphqlController, type: :controller do
       id: conversation.id,
       message: "<p>helo</p>"
     })
-    binding.pry
     expect(graphql_response.data.insertComment.message.message).to_not be_blank
   end
 

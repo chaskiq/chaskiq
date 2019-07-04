@@ -99,8 +99,7 @@ export const APP_USER_UPDATE_STATE = `
 
     }
   }
-
-`
+`;
 
 export const START_CONVERSATION = `
   mutation StartConversation($appKey: String!, $id: Int!, $message: Json!){

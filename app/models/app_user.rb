@@ -32,7 +32,11 @@ class AppUser < ApplicationRecord
 
   # todo: use another column for identify visitors, like "kind"
   scope :visitors, ->{
-    where("email is null")
+    where(type: "Lead")
+  }
+
+  scope :users, ->{
+    where(type: "User")
   }
 
   def add_created_event
