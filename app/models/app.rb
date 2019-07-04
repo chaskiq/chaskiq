@@ -97,6 +97,7 @@ class App < ApplicationRecord
     attrs.merge!(name: "visitor #{next_id}")
 
     ap = app_users.find_or_initialize_by(session_id: session_id)
+    ap.type = "Lead"
     
     data = attrs.deep_merge!(properties: ap.properties)
     ap.assign_attributes(data)

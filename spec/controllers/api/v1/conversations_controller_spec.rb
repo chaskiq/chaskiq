@@ -28,7 +28,7 @@ RSpec.describe Api::V1::ConversationsController, type: :controller do
 
       post :create, params: {
         app_id: app.key,
-        message: "aaaa",
+        message: {serialized_content: "{}"},
         format: :json
       }
       

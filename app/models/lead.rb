@@ -1,0 +1,2 @@
+class Lead < AppUser
+end
