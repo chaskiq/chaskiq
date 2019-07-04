@@ -37,8 +37,9 @@ import {
 
 const styles = theme => ({
   root: {
-    padding: '5em',
-    margin: '5em',
+    padding: '2em',
+    margin: '2em',
+  
   },
   formControl: {
     margin: theme.spacing.unit,
@@ -90,33 +91,11 @@ class SettingsForm extends Component {
 
   render(){
     return <ContentWrapper>
-            {
-              /*<Tabs
-                  tabs={this.tabs()}
-                  {...this.props}
-                  selected={this.state.selected}
-                  onSelect={(tab, index) => { 
-                    this.setState({selected: index})
-                    console.log('Selected Tab', index + 1)
-                  }
-                }
-              />*/
-            } 
-        
+           
 
-            <Paper className={this.props.classes.root}>
-
-
-              <FormControlLabel
-                control={
-                  <Checkbox 
-                    icon={<FavoriteBorder />} 
-                    checkedIcon={<Favorite />} 
-                    value="checkedH" 
-                  />
-                }
-                label={this.props.app.state}
-              />
+            <Paper 
+              elevation={0}
+              className={this.props.classes.root}>
 
               <form
                 name="create-repo"
@@ -126,14 +105,15 @@ class SettingsForm extends Component {
                 }}>
 
                 <Typography variant="h6" gutterBottom>
-                  App settings
+                  {this.props.title}
                 </Typography>
 
                 <Grid container spacing={3}>
                   {
-                    this.props.data.configFields.map((field) => {
+                    this.props.definitions().map((field) => {
 
-                      return <Grid item 
+                      return <Grid item
+                                key={field.name} 
                                 xs={field.grid.xs} 
                                 sm={field.grid.sm}>
                                 <FieldRenderer 
@@ -146,26 +126,27 @@ class SettingsForm extends Component {
                     })
                   }
 
-
-                <Grid item xs={12} sm={6}>
-                  <Button variant="contained" color="primary" type="submit">
-                    Save settings
-                  </Button>
                 </Grid>
 
-                <Grid item xs={12} sm={6}>
-                  <Button appearance="subtle">
-                    Cancel
-                  </Button>
-                </Grid>
+                <Grid container spacing={4}>
+                  <Grid item xs={12} sm={6}>
+                    <Button variant="contained" color="primary" type="submit">
+                      Save settings
+                    </Button>
+                  </Grid>
 
+                  <Grid item xs={12} sm={6}>
+                    <Button appearance="subtle">
+                      Cancel
+                    </Button>
+                  </Grid>
                 </Grid>
 
               </form>
-
             </Paper>
 
-    </ContentWrapper>
+
+          </ContentWrapper>
   }
 
 }
@@ -180,7 +161,6 @@ class AppSettingsContainer extends Component {
       tabValue: 0
     }
   }
-
 
   componentDidMount(){
     //this.fetchApp()
@@ -205,7 +185,6 @@ class AppSettingsContainer extends Component {
   update = (data) => {
     this.props.dispatch(
       this.props.updateApp(data.app, (d)=>{
-        debugger
         console.log(d)
       })
     )
@@ -231,29 +210,104 @@ class AppSettingsContainer extends Component {
               textColor="inherit">
               <Tab textColor="inherit" label="App Information" />
               <Tab textColor="inherit" label="Security" />
-              <Tab textColor="inherit" label="Audience" />
-              <Tab textColor="inherit" label="Editor" />
+              <Tab textColor="inherit" label="Appearance" />
             </Tabs>
   }
 
+  definitionsForSettings = () => {
+    return [
+      {
+        name: "name",
+        type: 'string',
+        grid: { xs: 12, sm: 6 }
+      },
+      {
+        name: "domainUrl",
+        type: 'string',
+        grid: { xs: 12, sm: 6 }
+      },
+      {
+        name: "tagline",
+        type: 'text',
+        hint: "messenger text on botton",
+        grid: { xs: 12, sm: 12 }
+      },
+    ]
+  }
+
+  definitionsForSecurity = () => {
+    return [
+      {
+        name: "encryptionKey",
+        type: 'string',
+        maxLength: 16, minLength: 16,
+        placeholder: "leave it blank for no encryption",
+        hint: "this is the hint!",
+        grid: { xs: 12, sm: 12 }
+      },
+    ]
+  }
+
+  definitionsForAppearance = ()=>{
+    return [
+      {
+        name: "state",
+        type: "select",
+        grid: { xs: 12, sm: 6 },
+        options: ["enabled", "disabled"]
+      },
+      {
+        name: "theme",
+        type: "select",
+        options: ["dark", "light"],
+        grid: { xs: 12, sm: 6 }
+      },
+      {
+        name: "activeMessenger",
+        type: 'bool',
+        grid: { xs: 12, sm: 12 }
+      },
+
+    ]
+  }
 
   renderTabcontent = ()=>{
 
     switch (this.state.tabValue){
       case 0:
         return <SettingsForm
+                  title={"General app's information"}
                   currentUser={this.props.currentUser}
                   data={this.props.app}
                   update={this.update.bind(this)}
                   fetchApp={this.fetchApp}
                   classes={this.props.classes}
+                  definitions={this.definitionsForSettings}
                   {...this.props}
                />
 
       case 1:
-        return <p>bbb</p>
+        return <SettingsForm
+                  title={"Security Settings"}
+                  currentUser={this.props.currentUser}
+                  data={this.props.app}
+                  update={this.update.bind(this)}
+                  fetchApp={this.fetchApp}
+                  classes={this.props.classes}
+                  definitions={this.definitionsForSecurity}
+                  {...this.props}
+                />
       case 2:
-        return <p>ccc</p>
+        return <SettingsForm
+                  title={"Appearance settings"}
+                  currentUser={this.props.currentUser}
+                  data={this.props.app}
+                  update={this.update.bind(this)}
+                  fetchApp={this.fetchApp}
+                  classes={this.props.classes}
+                  definitions={this.definitionsForAppearance}
+                  {...this.props}
+                />
       case 3:
         return <p>ddkd</p>
     }
@@ -266,16 +320,16 @@ class AppSettingsContainer extends Component {
 
           <React.Fragment>
 
-          <ContentHeader 
-            title={ 'App Settings' }
-            tabsContent={ this.tabsContent() }
-          />
+            <ContentHeader 
+              title={ 'App Settings' }
+              tabsContent={ this.tabsContent() }
+            />
 
 
-          <Content>
-            {this.renderTabcontent()}
-          </Content>
-          
+            <Content>
+              {this.renderTabcontent()}
+            </Content>
+            
 
           </React.Fragment> : null
         }

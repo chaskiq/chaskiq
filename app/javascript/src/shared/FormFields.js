@@ -39,8 +39,8 @@ const styles = theme => ({
     width: '100%'
   },
   formControl: {
-    margin: theme.spacing(1),
-    width: '97%'
+    //margin: theme.spacing(1),
+    width: '100%'
     //minWidth: 120,
   },
   selectEmpty: {
@@ -68,15 +68,23 @@ class FieldRenderer extends React.Component {
                     label={data.name}
                     error={errorMessage}
                     variant="outlined"
+                    fullWidth
                     //margin="normal"
                     name={`${namespace}[${data.name}]`}
                     defaultValue={props.data[camelCase(data.name)]} 
                     helperText={
-                      errorMessage ? 
-                      <FormHelperText id="component-error-text">
-                        {errorMessage}
-                      </FormHelperText>
-                      : null
+                      <React.Fragment>
+                      { 
+                        errorMessage ? 
+                        <FormHelperText id="component-error-text">
+                          {errorMessage}
+                        </FormHelperText> : null 
+                      }
+
+                      { data.hint ? data.hint : null }
+
+                      </React.Fragment>
+                      
                     }
                   />
                 </FormControl>
@@ -90,6 +98,7 @@ class FieldRenderer extends React.Component {
                     label={data.name}
                     variant="outlined"
                     error={errorMessage}
+                    fullWidth
                     //margin="normal"
                     multiline={true}
                     name={`${namespace}[${data.name}]`}
