@@ -4,6 +4,11 @@ import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom'
 import { connect } from 'react-redux'
 
+import ContentHeader from '../components/ContentHeader'
+import Content from '../components/Content'
+import Tab from '@material-ui/core/Tab';
+import Tabs from '@material-ui/core/Tabs';
+
 import MainSection from '../components/MainSection';
 import ContentWrapper from '../components/ContentWrapper';
 import PageTitle from '../components/PageTitle';
@@ -11,6 +16,7 @@ import logo from '../images/logo.png';
 import DataTable from "../components/newTable";
 
 import {Link} from 'react-router-dom'
+
 
 import graphql from '../graphql/client'
 import {AGENTS} from '../graphql/queries'
@@ -21,7 +27,8 @@ class TeamPage extends Component {
   state = {
     agents: [],
     meta: {},
-    loading: false
+    loading: false,
+    tabValue: 0
   }
 
   componentDidMount(){
@@ -50,48 +57,86 @@ class TeamPage extends Component {
   }
 
 
+  handleTabChange = (e, i)=>{
+    this.setState({tabValue: i})
+  }
+
+  tabsContent = ()=>{
+    return <Tabs value={this.state.tabValue} 
+              onChange={this.handleTabChange}
+              textColor="inherit">
+              <Tab textColor="inherit" label="Team" />
+              <Tab textColor="inherit" label="Invitations" />
+            </Tabs>
+  }
+
+
+  renderTabcontent = ()=>{
+
+    switch (this.state.tabValue){
+      case 0:
+        return this.renderAgentsTable()
+
+      case 1:
+        return <p>bbb</p>
+      case 2:
+        return 
+      case 3:
+        return <p>ddkd</p>
+    }
+  }
+
+
+  renderAgentsTable = ()=>{
+    return <DataTable 
+                title={'agents'}
+                meta={{}}
+                rows={this.state.agents}
+                search={this.search}
+                loading={this.state.loading}
+                columns={[
+                  {name: "id", title: "id"},
+                  {name: "email", title: "email"},
+                  {name: "name", title: "name"},
+                  {name: "actions", title: "actions", 
+
+                      getCellValue: row => (row ? 
+
+                        <Link to={`/apps/${this.props.app.key}/agents/${row.id}`}>
+                          aaa
+                        </Link>
+
+                       : undefined)
+                    
+                }
+                ]}
+                defaultHiddenColumnNames={[]}
+                tableColumnExtensions={[]}
+                //tableEdit={true}
+                //editingRowIds={["email", "name"]}
+                commitChanges={(aa, bb)=>{debugger}}
+                //leftColumns={this.props.leftColumns}
+                //rightColumns={this.props.rightColumns}
+                //toggleMapView={this.props.toggleMapView}
+                //map_view={this.props.map_view}
+                enableMapView={false}
+           />  
+  }
 
   render() {
     return (
-      <ContentWrapper>
+       <React.Fragment>
 
-        { !this.state.loading ?
-          <DataTable 
-            title={'agents'}
-            meta={{}}
-            rows={this.state.agents}
-            search={this.search}
-            loading={this.state.loading}
-            columns={[
-              {name: "id", title: "id"},
-              {name: "email", title: "email"},
-              {name: "name", title: "name"},
-              {name: "actions", title: "actions", 
+        <ContentHeader 
+          title={ 'Team' }
+          tabsContent={ this.tabsContent() }
+        />
 
-                  getCellValue: row => (row ? 
+        <Content>
+          {this.renderTabcontent()}
+        </Content>
 
-                    <Link to={`/apps/${this.props.app.key}/agents/${row.id}`}>
-                      aaa
-                    </Link>
-
-                   : undefined)
-                
-            }
-            ]}
-            defaultHiddenColumnNames={[]}
-            tableColumnExtensions={[]}
-            //tableEdit={true}
-            //editingRowIds={["email", "name"]}
-            commitChanges={(aa, bb)=>{debugger}}
-            //leftColumns={this.props.leftColumns}
-            //rightColumns={this.props.rightColumns}
-            //toggleMapView={this.props.toggleMapView}
-            //map_view={this.props.map_view}
-            enableMapView={false}
-          /> : null
-        }
-
-      </ContentWrapper>
+      </React.Fragment>
     );
   }
 }

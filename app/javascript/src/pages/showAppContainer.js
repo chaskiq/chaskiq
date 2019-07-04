@@ -418,14 +418,11 @@ class ShowAppContainer extends Component {
 
           <Route exact path={`${this.props.match.path}/team`}
             render={(props) => {
-              return <Content>
-                        <Team 
-                          match={props.match}
-                          history={props.history}
-                          actions={this.actions()}
-                        />
-                  
-                    </Content>
+              return <Team 
+                        match={props.match}
+                        history={props.history}
+                        actions={this.actions()}
+                      />
             }} 
           />
         </div> : null

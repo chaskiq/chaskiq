@@ -24,6 +24,12 @@ import { withStyles } from '@material-ui/core/styles';
 import Favorite from '@material-ui/icons/Favorite';
 import FavoriteBorder from '@material-ui/icons/FavoriteBorder';
 
+
+import ContentHeader from '../components/ContentHeader'
+import Content from '../components/Content'
+import Tab from '@material-ui/core/Tab';
+import Tabs from '@material-ui/core/Tabs';
+
 import {
   FormControlLabel,
   Checkbox
@@ -170,9 +176,9 @@ class AppSettingsContainer extends Component {
 
   constructor(props){
     super(props)
-    /*this.state = {
-      app: null
-    }*/
+    this.state = {
+      tabValue: 0
+    }
   }
 
 
@@ -215,17 +221,63 @@ class AppSettingsContainer extends Component {
     })*/
   };
 
+  handleTabChange = (e, i)=>{
+    this.setState({tabValue: i})
+  }
+
+  tabsContent = ()=>{
+    return <Tabs value={this.state.tabValue} 
+              onChange={this.handleTabChange}
+              textColor="inherit">
+              <Tab textColor="inherit" label="App Information" />
+              <Tab textColor="inherit" label="Security" />
+              <Tab textColor="inherit" label="Audience" />
+              <Tab textColor="inherit" label="Editor" />
+            </Tabs>
+  }
+
+
+  renderTabcontent = ()=>{
+
+    switch (this.state.tabValue){
+      case 0:
+        return <SettingsForm
+                  currentUser={this.props.currentUser}
+                  data={this.props.app}
+                  update={this.update.bind(this)}
+                  fetchApp={this.fetchApp}
+                  classes={this.props.classes}
+                  {...this.props}
+               />
+
+      case 1:
+        return <p>bbb</p>
+      case 2:
+        return <p>ccc</p>
+      case 3:
+        return <p>ddkd</p>
+    }
+  }
+
   render(){
     return <div>
         {
           this.props.app ?
-          <SettingsForm
-            currentUser={this.props.currentUser}
-            data={this.props.app}
-            update={this.update.bind(this)}
-            fetchApp={this.fetchApp}
-            classes={this.props.classes}
-            {...this.props}/> : null
+
+          <React.Fragment>
+
+          <ContentHeader 
+            title={ 'App Settings' }
+            tabsContent={ this.tabsContent() }
+          />
+
+
+          <Content>
+            {this.renderTabcontent()}
+          </Content>
+          
+
+          </React.Fragment> : null
         }
         </div>
   }
