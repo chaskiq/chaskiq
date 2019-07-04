@@ -42,6 +42,51 @@ export const AGENTS = `
   }
 `;
 
+export const AGENT = `
+  query App($appKey: String!, $id: Int!, $page: Int, $per: Int){
+    app(key: $appKey) {
+      agent(id: $id){
+        id
+        email
+        conversations(page: $page , per: $per ){
+          collection{
+            id
+            state
+            readAt
+            priority
+            lastMessage{
+              source
+              message{
+                htmlContent
+                textContent
+                serializedContent
+              }
+              privateNote
+              messageSource{
+                id
+                type
+              }
+              appUser {
+                id
+                email
+                kind
+                displayName
+              }
+            }
+            mainParticipant{
+              id
+              email
+              displayName
+              properties
+            }
+          }
+          meta
+        }
+      }
+    }
+  }
+`;
+
 export const SEGMENT = `
   query App($appKey: String!, $id: Int!){
     app(key: $appKey) {

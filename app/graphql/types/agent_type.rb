@@ -3,6 +3,13 @@ module Types
     field :id, Int, null: false
     field :email, String, null: true
     #field :user, [Types::UserType], null: true
+    field :name, String, null: true
+    field :first_name, String, null: true
+    field :last_name, String, null: true
+    field :country, String, null: true
+    field :country_code, String, null: true
+    field :region, String, null: true
+    field :region_code, String, null: true
 
     field :app, [Types::AppType], null: true
     

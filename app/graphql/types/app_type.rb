@@ -85,6 +85,16 @@ module Types
       object.agents
     end
 
+
+
+    field :agent, Types::AgentType, null: false do
+      argument :id, Integer, required: true
+    end
+
+    def agent(id:)
+      object.agents.find(id)
+    end
+
     field :segments, [Types::SegmentType], null: true
     
     def segments
