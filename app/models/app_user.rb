@@ -30,7 +30,6 @@ class AppUser < ApplicationRecord
       "passive", "subscribed"]) 
   }
 
-  # todo: use another column for identify visitors, like "kind"
   scope :visitors, ->{
     where(type: "Lead")
   }
