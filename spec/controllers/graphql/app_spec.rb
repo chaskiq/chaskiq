@@ -158,6 +158,20 @@ RSpec.describe GraphqlController, type: :controller do
   end
 
 
+  describe 'invite agent' do
+    it "return app" do
+      graphql_post(type: 'INVITE_AGENT', variables: {
+        appKey: app.key,
+        email: "aa@aa.cl"
+      })
+
+      expect(graphql_response.errors).to be_nil
+      expect(graphql_response.data.inviteAgent.agent.email).to be_present
+      expect(app.agents.count).to be == 2
+    end
+  end
+
+
 
 
 end

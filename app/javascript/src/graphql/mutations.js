@@ -382,3 +382,13 @@ export const PREDICATES_UPDATE = `
     }
   }
 `;
+
+export const INVITE_AGENT = `
+  mutation InviteAgent($appKey: String!, $email: String!){
+    inviteAgent(appKey: $appKey, email: $email){
+      agent {
+        email
+      }
+    }
+  }
+`;
