@@ -12,6 +12,8 @@ class Agent < ApplicationRecord
   has_many :apps, through: :roles, source: :app   
   has_many :assignment_rules
 
+  has_many :conversations, foreign_key: "assignee_id"
+
 
   store_accessor :properties, [ 
     :name, 

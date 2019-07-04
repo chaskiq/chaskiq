@@ -92,7 +92,8 @@ class DataTable extends React.PureComponent {
           */}
 
           <EditingState
-            onCommitChanges={this.commitChanges}
+            //editingRowIds={this.props.editingRowIds}
+            onCommitChanges={this.props.commitChanges}
           />
           
           <PagingPanel
@@ -115,15 +116,17 @@ class DataTable extends React.PureComponent {
 
           {
             this.props.tableEdit ?
-            <React.Component>
-             <TableEditRow />
+             <TableEditRow /> : null
+          }
+
+          {
+            this.props.tableEdit ?
              <TableEditColumn
                 showAddCommand
                 showEditCommand
                 showDeleteCommand
-             />
-            </React.Component> : null 
-         }
+             /> : null 
+          }
 
           <TableFixedColumns
             leftColumns={leftColumns}

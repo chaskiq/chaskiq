@@ -66,6 +66,8 @@ import {
 } from '../actions/conversations'
 
 import ProfileView from '../pages/ProfileView'
+import AgentProfileView from '../pages/AgentProfileView'
+import Team from '../pages/TeamPage'
 
 import {
   camelizeKeys
@@ -389,6 +391,15 @@ class ShowAppContainer extends Component {
           />
 
 
+          <Route exact path={`${this.props.match.path}/agents/:id`}
+            render={(props) => (
+              <AgentProfileView
+                {...props}
+              />
+            )}
+          />
+
+
           <Route exact path={`/apps/${this.props.app.key}`}
               render={() => (
                 <Dashboard/>
@@ -402,6 +413,20 @@ class ShowAppContainer extends Component {
               </p>
               
             )}
+          />
+
+
+          <Route exact path={`${this.props.match.path}/team`}
+            render={(props) => {
+              return <Content>
+                        <Team 
+                          match={props.match}
+                          history={props.history}
+                          actions={this.actions()}
+                        />
+                  
+                    </Content>
+            }} 
           />
         </div> : null
       }

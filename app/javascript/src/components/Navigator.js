@@ -23,6 +23,7 @@ import BookIcon from '@material-ui/icons/Book';
 import FlipToFrontIcon from '@material-ui/icons/FlipToFront'
 import SmsIcon from '@material-ui/icons/Sms';
 import ShuffleIcon from '@material-ui/icons/Shuffle'
+import SupervisedUserCircleIcon from '@material-ui/icons/SupervisedUserCircle'
 
 import ExpansionPanel from '@material-ui/core/ExpansionPanel';
 import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails';
@@ -150,6 +151,7 @@ function Navigator(props, context) {
       id: 'Settings',
       children: [
         { id: 'App Settings', icon:  <SettingsIcon/>, url: `/apps/${props.app.key}/settings`, },
+        { id: 'Team', icon: <SupervisedUserCircleIcon />, url: `/apps/${props.app.key}/team`, active: false },
         { id: 'Authentication', icon: <ShuffleIcon />, active: true },
       ],
     },
