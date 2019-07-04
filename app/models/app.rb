@@ -47,27 +47,32 @@ class App < ApplicationRecord
         type: 'string', 
         grid: {xs: 12, sm: 12} 
       },
+      
       {
         name: "domainUrl", 
         type: 'string', 
         grid: {xs: 12, sm: 6 } 
       },
+
       {
         name: "state", 
         type: "select", 
         grid: {xs: 12, sm: 6 } , 
         options: ["enabled", "disabled" ]
       },
+
       { name: "activeMessenger", 
         type: 'bool', 
         grid: {xs: 12, sm: 6 } 
       },
+
       { 
         name: "theme", 
         type: "select", 
         options: ["dark", "light"],
         grid: {xs: 12, sm: 6 }
       },
+
       {
         name: "encryptionKey", 
         type: 'string', 
@@ -75,11 +80,13 @@ class App < ApplicationRecord
         placeholder: "leave it blank for no encryption",
         grid: {xs: 12, sm: 12 } 
       },
+
       { name: "tagline", 
         type: 'text', 
         hint: "messenger text on botton",
         grid: {xs: 12, sm: 12 } 
       },
+
     ]
   end
 
