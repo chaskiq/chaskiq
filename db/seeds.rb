@@ -12,23 +12,23 @@ default_predicate = { type: "match" ,
                       value: "and"
                     }.with_indifferent_access
 
-subscribed_predicate = {
-                        attribute: "subscription_state", 
+user_predicate = {
+                        attribute: "type", 
                         comparison: "eq", 
                         type: "string", 
-                        value: "subscribed"
+                        value: "User"
                         }.with_indifferent_access
 
 
-passive_predicate = {attribute: "subscription_state", 
+lead_predicate = {attribute: "type", 
                         comparison: "eq", 
                         type: "string", 
-                        value: "passive"}.with_indifferent_access                     
+                        value: "Lead"}.with_indifferent_access                     
 
 Segment.create([
-  { name: "all users",  predicates: [default_predicate, subscribed_predicate]},
+  { name: "all users",  predicates: [default_predicate, user_predicate]},
 
-  { name: "all leads",  predicates: [ default_predicate, passive_predicate ]},
+  { name: "all leads",  predicates: [ default_predicate, lead_predicate ]},
 
 
   { name: "active users",  predicates: [ default_predicate, 
