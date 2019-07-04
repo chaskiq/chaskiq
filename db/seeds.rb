@@ -49,6 +49,6 @@ Segment.create([
 ])
 
 
-app = App.create
+app = App.create(name: "test app")
 app.add_admin(Agent.create(email: "miguelmichelson@gmail.com", password: "123456"))
 
