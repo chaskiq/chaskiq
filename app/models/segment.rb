@@ -35,14 +35,16 @@ class Segment < ApplicationRecord
 
   def execute_query
     arel_table = AppUser.arel_table
-    user_table = User.arel_table
+    user_table = AppUser.arel_table
 
-    left_outer_join = arel_table  
-                    .join(user_table, Arel::Nodes::OuterJoin)
-                    .on(user_table[:id].eq(arel_table[:user_id]))
-                    .join_sources
+    #left_outer_join = arel_table  
+    #                .join(user_table, Arel::Nodes::OuterJoin)
+    #                .on(user_table[:id].eq(arel_table[:user_id]))
+    #                .join_sources
 
-    self.app.app_users.joins(left_outer_join).where(query_builder)
+    #self.app.app_users.joins(left_outer_join).where(query_builder)
+
+    self.app.app_users.where(query_builder)
   end
 
   # JSONB queries on steroids
@@ -50,7 +52,7 @@ class Segment < ApplicationRecord
 
   def query_builder
     arel_table = AppUser.arel_table
-    user_table = User.arel_table
+    #user_table = User.arel_table
  
     Array(self.predicates).reduce(nil) do |query, predicate|
       next if predicate["type"] == "match"
@@ -60,16 +62,16 @@ class Segment < ApplicationRecord
         field = arel_table[predicate["attribute"]]
       else
         # included in user table ??
-        if predicate["attribute"] == "email" 
-          field = user_table[predicate["attribute"]]
+        #if predicate["attribute"] == "email" 
+        #  field = user_table[predicate["attribute"]]
 
         # otherwise use in JSONB properties column
-        else
+        #else
           field = Arel::Nodes::InfixOperation.new('->>', 
             arel_table[:properties], 
             Arel::Nodes.build_quoted(predicate["attribute"])
           )
-        end
+        #end
       end
 
       # date predicates
