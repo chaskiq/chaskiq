@@ -28,7 +28,7 @@ passive_predicate = {attribute: "subscription_state",
 Segment.create([
   { name: "all users",  predicates: [default_predicate, subscribed_predicate]},
 
-  { name: "all leads",  predicates: [ default_predicate, passive_predicate ]}
+  { name: "all leads",  predicates: [ default_predicate, passive_predicate ]},
 
 
   { name: "active users",  predicates: [ default_predicate, 

@@ -15,15 +15,6 @@ ActiveRecord::Schema.define(version: 2019_07_03_161450) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
-  create_table "action_mailbox_inbound_emails", force: :cascade do |t|
-    t.integer "status", default: 0, null: false
-    t.string "message_id", null: false
-    t.string "message_checksum", null: false
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-    t.index ["message_id", "message_checksum"], name: "index_action_mailbox_inbound_emails_uniqueness", unique: true
-  end
-
   create_table "active_storage_attachments", force: :cascade do |t|
     t.string "name", null: false
     t.string "record_type", null: false
@@ -46,6 +37,7 @@ ActiveRecord::Schema.define(version: 2019_07_03_161450) do
   end
 
   create_table "agents", force: :cascade do |t|
+    t.string "key"
     t.string "email", default: "", null: false
     t.string "encrypted_password", default: "", null: false
     t.string "reset_password_token"
@@ -70,12 +62,13 @@ ActiveRecord::Schema.define(version: 2019_07_03_161450) do
     t.index ["confirmation_token"], name: "index_agents_on_confirmation_token", unique: true
     t.index ["email"], name: "index_agents_on_email", unique: true
     t.index ["jti"], name: "index_agents_on_jti", unique: true
+    t.index ["key"], name: "index_agents_on_key"
     t.index ["reset_password_token"], name: "index_agents_on_reset_password_token", unique: true
     t.index ["unlock_token"], name: "index_agents_on_unlock_token", unique: true
   end
 
   create_table "app_users", force: :cascade do |t|
-    t.bigint "user_id"
+    t.string "key"
     t.bigint "app_id"
     t.jsonb "properties", default: {}
     t.datetime "last_visited_at"
@@ -86,6 +79,8 @@ ActiveRecord::Schema.define(version: 2019_07_03_161450) do
     t.string "region"
     t.string "country"
     t.string "subscription_state"
+    t.string "session_id"
+    t.string "email"
     t.decimal "lat", precision: 15, scale: 10
     t.decimal "lng", precision: 15, scale: 10
     t.string "postal"
@@ -99,10 +94,8 @@ ActiveRecord::Schema.define(version: 2019_07_03_161450) do
     t.string "lang"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.string "email"
-    t.string "session_id"
     t.index ["app_id"], name: "index_app_users_on_app_id"
-    t.index ["user_id"], name: "index_app_users_on_user_id"
+    t.index ["key"], name: "index_app_users_on_key"
   end
 
   create_table "apps", force: :cascade do |t|
@@ -112,10 +105,11 @@ ActiveRecord::Schema.define(version: 2019_07_03_161450) do
     t.string "state"
     t.string "timezone"
     t.string "test_key"
+    t.string "encryption_key", limit: 16
     t.jsonb "preferences", default: "{}", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.string "encryption_key", limit: 16
+    t.index ["key"], name: "index_apps_on_key"
     t.index ["preferences"], name: "index_apps_on_preferences", using: :gin
   end
 
@@ -133,6 +127,7 @@ ActiveRecord::Schema.define(version: 2019_07_03_161450) do
   end
 
   create_table "campaigns", force: :cascade do |t|
+    t.string "key"
     t.string "from_name"
     t.string "from_email"
     t.string "reply_email"
@@ -148,12 +143,14 @@ ActiveRecord::Schema.define(version: 2019_07_03_161450) do
     t.string "subject"
     t.bigint "app_id"
     t.jsonb "segments"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
     t.string "type", default: "Campaign"
     t.jsonb "settings", default: {}
     t.datetime "scheduled_to"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.index ["app_id"], name: "index_campaigns_on_app_id"
+    t.index ["key"], name: "index_campaigns_on_key"
+    t.index ["type"], name: "index_campaigns_on_type"
   end
 
   create_table "conversation_part_contents", force: :cascade do |t|
@@ -167,29 +164,37 @@ ActiveRecord::Schema.define(version: 2019_07_03_161450) do
   end
 
   create_table "conversation_parts", force: :cascade do |t|
+    t.string "key"
     t.text "message"
     t.datetime "read_at"
     t.bigint "app_user_id"
     t.bigint "conversation_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.string "source"
-    t.integer "message_id"
-    t.string "email_message_id"
     t.boolean "private_note"
+    t.boolean "boolean"
     t.string "authorable_type"
     t.bigint "authorable_id"
     t.string "messageable_type"
     t.bigint "messageable_id"
+    t.string "source"
+    t.string "string"
+    t.string "message_id"
+    t.string "email_message_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.index ["app_user_id"], name: "index_conversation_parts_on_app_user_id"
     t.index ["authorable_type", "authorable_id"], name: "index_conversation_parts_on_authorable_type_and_authorable_id"
+    t.index ["boolean"], name: "index_conversation_parts_on_boolean"
     t.index ["conversation_id"], name: "index_conversation_parts_on_conversation_id"
+    t.index ["key"], name: "index_conversation_parts_on_key"
     t.index ["message_id"], name: "index_conversation_parts_on_message_id"
     t.index ["messageable_type", "messageable_id"], name: "index_conversation_parts_on_messageable_type_and_messageable_id"
+    t.index ["private_note"], name: "index_conversation_parts_on_private_note"
     t.index ["source"], name: "index_conversation_parts_on_source"
+    t.index ["string"], name: "index_conversation_parts_on_string"
   end
 
   create_table "conversations", force: :cascade do |t|
+    t.string "key"
     t.bigint "app_id"
     t.bigint "assignee_id"
     t.jsonb "admins"
@@ -200,12 +205,14 @@ ActiveRecord::Schema.define(version: 2019_07_03_161450) do
     t.datetime "latest_user_visible_comment_at"
     t.datetime "read_at"
     t.bigint "main_participant_id"
+    t.boolean "priority"
+    t.string "email_message_id"
     t.string "state"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.boolean "priority"
     t.index ["app_id"], name: "index_conversations_on_app_id"
     t.index ["assignee_id"], name: "index_conversations_on_assignee_id"
+    t.index ["key"], name: "index_conversations_on_key"
     t.index ["main_participant_id"], name: "index_conversations_on_main_participant_id"
     t.index ["priority"], name: "index_conversations_on_priority"
   end
@@ -296,61 +303,31 @@ ActiveRecord::Schema.define(version: 2019_07_03_161450) do
   end
 
   create_table "segments", force: :cascade do |t|
+    t.string "key"
     t.bigint "app_id"
     t.string "name"
     t.jsonb "properties", default: "{}"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["app_id"], name: "index_segments_on_app_id"
-  end
-
-  create_table "users", force: :cascade do |t|
-    t.string "email", default: "", null: false
-    t.string "encrypted_password", default: "", null: false
-    t.string "reset_password_token"
-    t.datetime "reset_password_sent_at"
-    t.datetime "remember_created_at"
-    t.integer "sign_in_count", default: 0, null: false
-    t.datetime "current_sign_in_at"
-    t.datetime "last_sign_in_at"
-    t.inet "current_sign_in_ip"
-    t.inet "last_sign_in_ip"
-    t.string "confirmation_token"
-    t.datetime "confirmed_at"
-    t.datetime "confirmation_sent_at"
-    t.string "unconfirmed_email"
-    t.integer "failed_attempts", default: 0, null: false
-    t.string "unlock_token"
-    t.datetime "locked_at"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.string "provider", default: "email", null: false
-    t.string "uid", default: "", null: false
-    t.json "tokens"
-    t.string "jti"
-    t.index ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true
-    t.index ["email"], name: "index_users_on_email", unique: true
-    t.index ["jti"], name: "index_users_on_jti", unique: true
-    t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
-    t.index ["unlock_token"], name: "index_users_on_unlock_token", unique: true
+    t.index ["key"], name: "index_segments_on_key"
   end
 
   create_table "visits", force: :cascade do |t|
     t.string "url"
     t.bigint "app_user_id", null: false
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
     t.string "title"
     t.string "browser_version"
     t.string "browser_name"
     t.string "os"
     t.string "os_version"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
     t.index ["app_user_id"], name: "index_visits_on_app_user_id"
   end
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "app_users", "apps"
-  add_foreign_key "app_users", "users"
   add_foreign_key "assignment_rules", "apps"
   add_foreign_key "campaigns", "apps"
   add_foreign_key "conversation_parts", "app_users"

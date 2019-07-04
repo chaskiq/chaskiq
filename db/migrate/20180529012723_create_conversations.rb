@@ -1,6 +1,7 @@
 class CreateConversations < ActiveRecord::Migration[5.2]
   def change
     create_table :conversations do |t|
+      t.string :key, index: true
       t.references :app, foreign_key: true
       t.references :assignee #, foreign_key: true
       t.jsonb :admins
@@ -14,6 +15,7 @@ class CreateConversations < ActiveRecord::Migration[5.2]
 
       t.references :main_participant
 
+      t.boolean :priority, index: true
       t.string :state
 
       t.timestamps

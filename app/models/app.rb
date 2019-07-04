@@ -1,12 +1,12 @@
 class App < ApplicationRecord
   include Tokenable
 
-  #store :preferences, accessors: [ 
+  store :preferences, accessors: [ 
   #  :notifications, 
   #  :gather_data, 
   #  :test_app,
   #  :assigment_rules,
-  #], coder: JSON
+  ], coder: JSON
 
   # http://nandovieira.com/using-postgresql-and-jsonb-with-ruby-on-rails
   # App.where('preferences @> ?', {notifications: true}.to_json)

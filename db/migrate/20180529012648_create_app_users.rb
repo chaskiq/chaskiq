@@ -1,7 +1,7 @@
 class CreateAppUsers < ActiveRecord::Migration[5.2]
   def change
     create_table :app_users do |t|
-      t.references :user, foreign_key: true
+      t.string :key, index: true
       t.references :app, foreign_key: true
       t.jsonb :properties, default: {} #null: false, default: '{}'
       t.datetime :last_visited_at
@@ -11,13 +11,18 @@ class CreateAppUsers < ActiveRecord::Migration[5.2]
       t.string   :city           
       t.string   :region         
       t.string   :country 
-      t.string   :subscription_state       
+      t.string   :subscription_state 
+
+      t.string :session_id
+ 
+
+      t.string :email
       #t.string   :lat  
       #t.column 'lat', 'point'
       #t.column 'lng', 'point'
       #t.string   :lng 
-      t.decimal :lat, precision: 15, scale: 13
-      t.decimal :lng, precision: 15, scale: 13
+      t.decimal :lat, precision: 15, scale: 10
+      t.decimal :lng, precision: 15, scale: 10
       t.string   :postal   
       t.integer  :web_sessions 
       t.string   :timezone 

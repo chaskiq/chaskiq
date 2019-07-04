@@ -3,6 +3,7 @@ require 'URLcrypt'
 class AppUser < ApplicationRecord
   include AASM
   include UnionScope
+  include Tokenable
 
   #belongs_to :user
   belongs_to :app
