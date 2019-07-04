@@ -6,8 +6,14 @@ import { connect } from 'react-redux'
 
 import ContentHeader from '../components/ContentHeader'
 import Content from '../components/Content'
-import Tab from '@material-ui/core/Tab';
-import Tabs from '@material-ui/core/Tabs';
+import {
+        Tab ,
+        Tabs ,
+        Avatar ,
+        Typography
+      } from '@material-ui/core';
+
+import gravatar from '../shared/gravatar'
 
 import MainSection from '../components/MainSection';
 import ContentWrapper from '../components/ContentWrapper';
@@ -78,7 +84,7 @@ class TeamPage extends Component {
         return this.renderAgentsTable()
 
       case 1:
-        return <p>bbb</p>
+        return this.renderInvitationsTable()
       case 2:
         return 
       case 3:
@@ -96,22 +102,37 @@ class TeamPage extends Component {
                 loading={this.state.loading}
                 columns={[
                   {name: "id", title: "id"},
+                  {name: "avatar", title: "",
+                  
+                    getCellValue: row => (row ? 
+                      <Link to={`/apps/${this.props.app.key}/agents/${row.id}`}>
+                        <Avatar
+                          name={row.email}
+                          size="medium"
+                          src={gravatar(row.email)}
+                        />
+                      </Link>
+                     : undefined)
+                  },
                   {name: "email", title: "email"},
                   {name: "name", title: "name"},
                   {name: "actions", title: "actions", 
+                    getCellValue: row => (row ? 
 
-                      getCellValue: row => (row ? 
+                      <Link to={`/apps/${this.props.app.key}/agents/${row.id}`}>
+                        aaa
+                      </Link>
 
-                        <Link to={`/apps/${this.props.app.key}/agents/${row.id}`}>
-                          aaa
-                        </Link>
-
-                       : undefined)
-                    
+                     : undefined)
                 }
                 ]}
                 defaultHiddenColumnNames={[]}
-                tableColumnExtensions={[]}
+                tableColumnExtensions={[
+                  { columnName: 'email', width: 250 },
+                  { columnName: 'id', width: 10 },
+                  { columnName: 'avatar', width: 55 },
+                ]}
+
                 //tableEdit={true}
                 //editingRowIds={["email", "name"]}
                 commitChanges={(aa, bb)=>{debugger}}
@@ -119,6 +140,41 @@ class TeamPage extends Component {
                 //rightColumns={this.props.rightColumns}
                 //toggleMapView={this.props.toggleMapView}
                 //map_view={this.props.map_view}
+                enableMapView={false}
+           />  
+  }
+
+  renderInvitationsTable = ()=>{
+    return <DataTable 
+                title={'invitations'}
+                meta={{}}
+                rows={this.state.agents}
+                search={this.search}
+                loading={this.state.loading}
+                columns={[
+                  {name: "id", title: "id"},
+                  {name: "avatar", title: "",
+                    getCellValue: row => (row ? 
+                      <Link to={`/apps/${this.props.app.key}/agents/${row.id}`}>
+                        <Avatar
+                          name={row.email}
+                          size="medium"
+                          src={gravatar(row.email)}
+                        />
+                      </Link>
+                     : undefined)
+                  },
+                  {name: "email", title: "email"},
+                  {name: "name", title: "name"},
+                  {name: "state", title: "state"},
+                  
+                ]}
+                defaultHiddenColumnNames={[]}
+                tableColumnExtensions={[
+                  { columnName: 'email', width: 250 },
+                  { columnName: 'id', width: 10 },
+                  { columnName: 'avatar', width: 55 },
+                ]}
                 enableMapView={false}
            />  
   }
