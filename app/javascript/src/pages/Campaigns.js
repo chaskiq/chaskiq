@@ -347,55 +347,6 @@ class CampaignForm extends Component {
     
   }
 
-  tabssss = () => {
-    var b = []
-
-    const a = [
-      {
-        label: 'Settings', content: <CampaignSettings {...this.props}
-          data={this.state.data}
-          mode={this.props.mode}
-          url={this.url()}
-          updateData={this.updateData}
-        />
-      }
-    ]
-
-    if (this.state.data.id) {
-      b = [
-        {
-          label: 'Audience', content: <CampaignSegment
-            {...this.props}
-            data={this.state.data}
-            url={this.url()}
-            updateData={this.updateData} />
-        },
-        {
-          label: 'Editor', content: this.renderEditorForCampaign()
-        }
-      ]
-    }
-
-    const stats = [
-      {
-        label: 'Stats', content: <CampaignStats  {...this.props}
-          url={this.url()}
-          data={this.state.data}
-          fetchCampaign={this.fetchCampaign}
-          updateData={this.updateData} />
-      }
-    ]
-
-    // return here if campaign not sent
-    const tabs = a.concat(b)
-
-    if (!isEmpty(this.state.data)) {
-      return this.props.match.params.id === "new" ? tabs : stats.concat(tabs)
-    } else {
-      return []
-    }
-  }
-
   handleTabChange = (e, i)=>{
     this.setState({tabValue: i})
   }
