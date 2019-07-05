@@ -10,7 +10,13 @@ class ApplicationController < ActionController::Base
 
   def authorize_by_jwt
     token = request.headers["HTTP_AUTHORIZATION"].gsub("Bearer ", "")
-    resource = Warden::JWTAuth::UserDecoder.new.call(token, :agent, nil)
+    @current_agent = Warden::JWTAuth::UserDecoder.new.call(token, :agent, nil)
+  end
+
+  def access_required
+    render :json => {
+      :response => 'Unable to authenticate'
+    } ,:status => 401 and return if @current_agent.blank?
   end
 
 
