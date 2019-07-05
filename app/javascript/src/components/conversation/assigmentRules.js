@@ -42,18 +42,33 @@ import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 import ListItemAvatar from '@material-ui/core/ListItemAvatar';
 import Avatar from '@material-ui/core/Avatar';
-import {sortableContainer, sortableElement} from 'react-sortable-hoc';
+import {
+  sortableContainer, 
+  sortableElement,
+  sortableHandle,
+} from 'react-sortable-hoc';
 import arrayMove from 'array-move';
+import {InlineFilterDialog} from '../../components/segmentManager'
 
+const DragHandle = sortableHandle(() => <span>::</span>);
 
 const SortableItem = sortableElement(({object, deleteRule, edit}) => (
     <ListItem>
+        <DragHandle />
+
         <ListItemText primary={object.title} 
         secondary={object.agent.email} />
-        <Button onClick={(e)=>edit(object)}>
+
+        <Button onClick={(e)=> {
+          e.preventDefault()
+          edit(object)}
+        }>
           edit
         </Button>
-        <Button onClick={(e)=>deleteRule(object)}>
+        <Button onClick={(e)=>{
+          e.preventDefault()
+          deleteRule(object)
+        }}>
           delete
         </Button>
     </ListItem>
@@ -234,15 +249,17 @@ class AssigmentRules extends React.Component {
                     Create Rule
                   </Button>
 
-                <SortableContainer onSortEnd={this.onSortEnd}>
+                <SortableContainer 
+                    onSortEnd={this.onSortEnd}
+                    useDragHandle>
                     {this.state.rules.map((value, index) => (
                       <SortableItem 
                         key={`item-${index}`} 
                         index={index} 
                         value={value.id}
                         object={value}
-                        edit={this.edit}
-                        deleteRule={this.deleteRule} 
+                        edit={this.edit.bind(this)}
+                        deleteRule={this.deleteRule.bind(this)} 
                       />
                     ))}
                 </SortableContainer>
@@ -324,6 +341,13 @@ function AssignmentForm(props){
   return (
 
     <Grid container spacing={3}>
+
+      <Grid item>
+        <InlineFilterDialog 
+          addPredicate={()=>{}}
+        />
+
+      </Grid>
 
       <Grid item
         //key={field.name} 
