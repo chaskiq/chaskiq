@@ -4,7 +4,8 @@ import actioncable from "actioncable"
 import {
   Route,
   Link,
-  Switch
+  Switch,
+  withRouter
 } from 'react-router-dom'
 import styled from "styled-components"
 import {ThemeProvider} from 'styled-components'
@@ -14,7 +15,6 @@ import Avatar from '@material-ui/core/Avatar';
 import {soundManager} from 'soundmanager2'
 import sanitizeHtml from 'sanitize-html';
 
-import { withRouter } from 'react-router-dom'
 import { connect } from 'react-redux'
 
 import {
@@ -56,13 +56,10 @@ import UserListItem from '../components/UserListItem'
 import UserData from '../components/UserData'
 import { camelCase, isEmpty } from 'lodash';
 
-
 import Progress from '../shared/Progress'
-
 import OptionMenu from '../components/conversation/optionMenu'
 import FilterMenu from '../components/conversation/filterMenu'
 import {last} from 'lodash'
-
 
 import ConversationContainerShow from '../components/conversation/container'
 
@@ -74,6 +71,8 @@ import {
 import {
   getAppUser 
 } from '../actions/app_user'
+
+import AssigmentRules from '../components/conversation/assigmentRules'
 
 
 import {setCurrentPage} from '../actions/navigation'
@@ -366,18 +365,7 @@ class ConversationContainer extends Component {
                         justifyContent: 'space-around'
                       }}>
 
-                        <div style={{alignSelf: 'center'}}>
-                          <Paper style={{padding: '2em'}}>
-                               <Typography variant="h5" component="h3">
-                                  Assigment Rules
-                                </Typography>
-
-                                <Typography component="p">
-                                  Create assigment Rule!
-                                </Typography>
-
-                          </Paper>
-                        </div>
+                        <AssigmentRules/>
 
                         
                       </GridElement>
