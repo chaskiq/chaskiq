@@ -4,6 +4,7 @@ Geocoder.configure(
   # lookup: :nominatim,         # name of geocoding service (symbol)
   # ip_lookup: :ipinfo_io,      # name of IP address geocoding service (symbol)
   ip_lookup: :ipapi_com,
+  api_key: ENV['GEOCODER_API_KEY'],
   # timeout: 10,
   #ip_lookup: :telize,
   # language: :en,              # ISO-639 language code
