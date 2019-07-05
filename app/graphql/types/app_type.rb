@@ -119,7 +119,7 @@ module Types
     field :assignment_rules, [Types::AssignmentRuleType], null: true
 
     def assignment_rules
-      object.assignment_rules
+      object.assignment_rules.order("priority asc")
     end
   end
 end

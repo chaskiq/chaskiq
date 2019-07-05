@@ -25,7 +25,8 @@ import {
 import {
   CREATE_ASSIGNMENT_RULE,
   EDIT_ASSIGNMENT_RULE,
-  DELETE_ASSIGNMENT_RULE
+  DELETE_ASSIGNMENT_RULE,
+  UPDATE_RULE_PRIORITIES
 } from '../../graphql/mutations'
 
 import graphql from "../../graphql/client"
@@ -41,7 +42,26 @@ import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 import ListItemAvatar from '@material-ui/core/ListItemAvatar';
 import Avatar from '@material-ui/core/Avatar';
+import {sortableContainer, sortableElement} from 'react-sortable-hoc';
+import arrayMove from 'array-move';
 
+
+const SortableItem = sortableElement(({object, deleteRule, edit}) => (
+    <ListItem>
+        <ListItemText primary={object.title} 
+        secondary={object.agent.email} />
+        <Button onClick={(e)=>edit(object)}>
+          edit
+        </Button>
+        <Button onClick={(e)=>deleteRule(object)}>
+          delete
+        </Button>
+    </ListItem>
+));
+
+const SortableContainer = sortableContainer(({children}) => {
+  return <List>{children}</List>;
+});
 
 class AssigmentRules extends React.Component {
 
@@ -54,6 +74,12 @@ class AssigmentRules extends React.Component {
   componentDidMount(){
     this.getAssignmentRules()
   }
+
+  onSortEnd = ({oldIndex, newIndex}) => {
+    this.setState(({rules}) => ({
+      rules: arrayMove(rules, oldIndex, newIndex),
+    }), this.updatePriorities);
+  };
 
   open  = () => this.setState({ isOpen: true });
   close = () => this.setState({ isOpen: false });
@@ -72,6 +98,16 @@ class AssigmentRules extends React.Component {
         grid: { xs: 12, sm: 6 }
       },
     ]
+  }
+
+  updatePriorities = ()=>{
+    graphql(UPDATE_RULE_PRIORITIES, {
+      appKey: this.props.app.key,
+      rules: this.state.rules
+    }, {
+      success: (data)=>{
+      }
+    })
   }
 
   submitAssignment = ()=>{
@@ -198,24 +234,18 @@ class AssigmentRules extends React.Component {
                     Create Rule
                   </Button>
 
-                 <List>
-                    {
-                      this.state.rules.map((o)=>{
-                        return <ListItem>
-                          <ListItemText primary={o.title} 
-                          secondary={o.agent.email} />
-                          <Button onClick={(e)=>this.edit(o)}>
-                            edit
-                          </Button>
-                          <Button onClick={(e)=>this.deleteRule(o)}>
-                            delete
-                          </Button>
-
-                        </ListItem>
-                      })
-                    }
-                  </List>
-                
+                <SortableContainer onSortEnd={this.onSortEnd}>
+                    {this.state.rules.map((value, index) => (
+                      <SortableItem 
+                        key={`item-${index}`} 
+                        index={index} 
+                        value={value.id}
+                        object={value}
+                        edit={this.edit}
+                        deleteRule={this.deleteRule} 
+                      />
+                    ))}
+                </SortableContainer>
                 
             
 
