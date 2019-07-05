@@ -66,7 +66,7 @@ function startAuthentication() {
   return { type: REQUEST }
 }
 
-function successAuthentication(jwt){
+export function successAuthentication(jwt){
   //, uid, client, accessToken, expiry) {
   return { type: RECEIVED, jwt} // uid, client, accessToken, expiry }
 }

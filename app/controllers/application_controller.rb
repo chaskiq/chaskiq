@@ -7,6 +7,13 @@ class ApplicationController < ActionController::Base
   layout :layout_by_resource
 
 
+
+  def authorize_by_jwt
+    token = request.headers["HTTP_AUTHORIZATION"].gsub("Bearer ", "")
+    resource = Warden::JWTAuth::UserDecoder.new.call(token, :agent, nil)
+  end
+
+
   def render_empty
     render html: '', :layout => 'application'
   end

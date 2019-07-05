@@ -32,6 +32,7 @@ import current_page from '../actions/navigation'
 
 import Login from '../auth/login'
 import SignUp from '../auth/signup'
+import AcceptInvitation from '../auth/AcceptInvitation'
 
 const defaultNavOpts = {
   isOpen: false,
@@ -263,6 +264,13 @@ class MainRouter extends Component {
                   path="/signup" 
                   component={SignUp} 
                 />
+
+                <Route path="/agents/invitation/accept" 
+                       render={(props)=>(
+                         <AcceptInvitation {...props} {...this.props}/>
+                       )}
+                />
+                
 
                 <Route render={(props)=>(
                     <App

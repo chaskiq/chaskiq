@@ -17,69 +17,26 @@ import Grid from '@material-ui/core/Grid';
 import Box from '@material-ui/core/Box';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
+import FormHelperText from '@material-ui/core/FormHelperText';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
+import axios from 'axios'
 
 import {getCurrentUser} from '../actions/current_user'
+import {successAuthentication} from '../actions/auth'
 
 import logo from '../images/logo'
 
 import Snackbar from '../components/snackbar'
 
+import queryString from 'query-string'
+
+import { Redirect } from 'react-router'
+
+
 import {
   Link as RouteLink
 } from 'react-router-dom'
-
-class Login extends React.Component {
-  constructor(props) {
-    super(props)
-  }
-
-  handleSubmit(data) {
-    const { email, password } = data //this.state
-    this.props.dispatch(authenticate(email, password, ()=>{
-      this.getCurrentUser()
-    }))
-  }
-
-  getCurrentUser = ()=>{
-    this.props.dispatch(getCurrentUser())
-  }
-
-  render() {
-    const { isAuthenticated } = this.props
-    if (isAuthenticated) {
-      return <p>lofgged! 
-        <button onClick={()=>{
-          this.props.dispatch(signout())
-        }}>sign out</button>
-
-        <GetUserDataButton onClick={this.getCurrentUser}>
-          getUserData
-        </GetUserDataButton>
-      </p>
-    }
-    return (
-      <div>
-        <SignIn handleSubmit={this.handleSubmit.bind(this)}/>
-        {/*<h2>Login</h2>
-        <p>Email: <input type="text" value={this.state.email} onChange={(e) => this.setState({ email: e.target.value })} /></p>
-        <p>Password: <input type="text" value={this.state.password} onChange={(e) => this.setState({ password: e.target.value })} /></p>
-        <p><input type="submit" value="Login" onClick={this.handleSubmit.bind(this)} /></p>*/}
-      </div>
-    )
-  }
-}
-
-function GetUserDataButton(props){
-  
-  props.onClick()
-
-  return <button onClick={props.onClick}>
-          getUserData
-        </button>
-}
-
 
 function MadeWithLove() {
   return (
@@ -125,14 +82,43 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-function SignIn(props) {
+function AcceptInvitation(props) {
   const classes = useStyles();
-  const [email, setEmail] = useState('');
+  const [passwordConfirmation, setPasswordConfirmation] = useState('');
   const [password, setPassword] = useState('');
+  const [token, setToken] = useState( queryString.parse(props.location.search) )
+  const [errors, setErrors] = useState({})
 
   const handleSubmit = (e)=>{
     e.preventDefault()
-    props.handleSubmit({email, password})
+
+    console.log(password, password_confirmation)
+    
+    axios.put("/agents/invitation.json", {
+      agent: {
+        password: password, 
+        password_confirmation: passwordConfirmation, 
+        invitation_token: token.invitation_token
+      }
+    }).then(function (response) {
+ 
+      props.dispatch(successAuthentication(response.data.token))
+      props.dispatch(getCurrentUser())
+      // use router redirect + snackbar status
+      window.location = "/"
+
+    }).catch(function (response){
+      setErrors(response.response.data.errors)
+    });
+
+
+  }
+
+  const errorsFor = (name ) => {
+    console.log(errors)
+    if (!errors[name])
+      return null
+    return errors[name].map((o) => o).join(", ")
   }
 
   return (
@@ -144,24 +130,31 @@ function SignIn(props) {
           <img className={classes.logo} src={logo}/>
         </Avatar>
         <Typography component="h1" variant="h5">
-          Sign in
+          Set password
         </Typography>
 
         <Snackbar/>
 
-        <form className={classes.form} noValidate onSubmit={handleSubmit}>
+        <form className={classes.form} 
+          noValidate onSubmit={handleSubmit}>
           <TextField
             variant="outlined"
             margin="normal"
             required
             fullWidth
-            id="email"
-            label="Email Address"
-            name="email"
-            autoComplete="email"
+            name="agent[password]"
+            label="Password"
+            type="password"
+            id="password"
             autoFocus
-            value={email}
-            onChange={(e)=> setEmail(e.target.value)}
+            error={errorsFor('password')}
+            value={password}
+            onChange={(e)=> setPassword(e.target.value)}
+            helperText={errorsFor('password') ? 
+              <FormHelperText id="component-error-text">
+              {errorsFor('password')}
+              </FormHelperText> : null 
+            }
           />
 
           <TextField
@@ -169,18 +162,21 @@ function SignIn(props) {
             margin="normal"
             required
             fullWidth
-            name="password"
-            label="Password"
+            name="agent[password_confirmation]"
+            label="Password confirmation"
             type="password"
-            id="password"
+            id="password_confirmation"
             autoComplete="current-password"
-            value={password}
-            onChange={(e)=> setPassword(e.target.value)}
+            error={errorsFor('password_confirmation')}
+            value={passwordConfirmation}
+            onChange={(e)=> setPasswordConfirmation(e.target.value)}
+            helperText={errorsFor('password_confirmation') ? 
+                        <FormHelperText id="component-error-text">
+                          {errorsFor('password_confirmation')}
+                        </FormHelperText> : null 
+                    }
           />
-          <FormControlLabel
-            control={<Checkbox value="remember" color="primary" />}
-            label="Remember me"
-          />
+  
           <Button
             type="submit"
             fullWidth
@@ -188,20 +184,9 @@ function SignIn(props) {
             color="primary"
             className={classes.submit}
           >
-            Sign In
+            Set my password
           </Button>
-          <Grid container>
-            <Grid item xs>
-              <Link href="/forgot" variant="body2">
-                Forgot password?
-              </Link>
-            </Grid>
-            <Grid item>
-              <Link href="/signup" variant="body2">
-                {"Don't have an account? Sign Up"}
-              </Link>
-            </Grid>
-          </Grid>
+
         </form>
       </div>
       <Box mt={5}>
@@ -210,9 +195,6 @@ function SignIn(props) {
     </Container>
   );
 }
-
-
-
 
 function mapStateToProps(state) {
   const { auth, current_user } = state
@@ -225,4 +207,4 @@ function mapStateToProps(state) {
   }
 }
 
-export default connect(mapStateToProps)(Login)
+export default connect(mapStateToProps)(AcceptInvitation)

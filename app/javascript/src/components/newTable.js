@@ -65,12 +65,17 @@ class DataTable extends React.PureComponent {
           columns={columns}
         >
 
-          <PagingState
-            currentPage={this.props.meta.current_page}
-            defaultCurrentPage={1}
-            onCurrentPageChange={this.changeCurrentPage}
-            pageSize={20}
-          />
+
+
+          {
+            !this.props.disablePagination ?
+              <PagingState
+                currentPage={this.props.meta.current_page}
+                defaultCurrentPage={1}
+                onCurrentPageChange={this.changeCurrentPage}
+                pageSize={20}
+              /> : null 
+          }
 
           {
             !this.props.disablePagination ?
@@ -95,9 +100,12 @@ class DataTable extends React.PureComponent {
             onCommitChanges={this.props.commitChanges}
           />
           
-          <PagingPanel
-            pageSizes={[]}
-          />
+         {
+           !this.props.disablePagination ?
+            <PagingPanel
+              pageSizes={[]}
+            /> : null
+          }
 
           <TableColumnVisibility
             defaultHiddenColumnNames={defaultHiddenColumnNames}
