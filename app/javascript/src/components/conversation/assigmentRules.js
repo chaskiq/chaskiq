@@ -49,6 +49,7 @@ import {
 } from 'react-sortable-hoc';
 import arrayMove from 'array-move';
 import {InlineFilterDialog} from '../../components/segmentManager'
+import SegmentItemButton from '../../components/segmentManager/itemButton'
 
 const DragHandle = sortableHandle(() => <span>::</span>);
 
@@ -318,6 +319,7 @@ function AssignmentForm(props){
   const [selected, setSelected] = React.useState(rule ? rule.agent.id : '')
   const [title, setTitle] = React.useState(rule ? rule.title : '')
   const [checked, setChecked] = React.useState('')
+  const [predicates, setPredicates] = React.useState([])
 
   function getAgents(){
     graphql(AGENTS, {appKey: props.app.key }, {
@@ -338,6 +340,18 @@ function AssignmentForm(props){
     setSelected(e.target.value)
   }
 
+  function displayName(o){
+    return o.attribute.split("_").join(" ")
+  }
+
+  function getTextForPredicate(o){
+    if(o.type === "match"){
+      return `Match ${o.value === "and" ? "all" : "any" } criteria`
+    }else{
+      return `${displayName(o)} ${o.comparison ? o.comparison : '' } ${o.value ? o.value : ''}`
+    }
+  }
+
   return (
 
     <Grid container spacing={3}>
@@ -346,6 +360,24 @@ function AssignmentForm(props){
         <InlineFilterDialog 
           addPredicate={()=>{}}
         />
+
+
+        {
+          predicates.map((o, i)=>{
+              return <SegmentItemButton 
+                      key={i}
+                      index={i}
+                      predicate={o}
+                      predicates={predicates}
+                      open={ !o.comparison }
+                      appearance={ o.comparison ? "primary" : "default"} 
+                      text={getTextForPredicate(o)}
+                      updatePredicate={(items)=>{debugger}}
+                      predicateCallback={(jwtToken)=> {} }
+                      deletePredicate={()=>{}}                          
+                     />
+          })
+        }
 
       </Grid>
 
