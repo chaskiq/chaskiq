@@ -20,6 +20,11 @@ module Types
 
     field :offline, Boolean, null: true
 
+    field :sign_in_count, String, null: true
+    field :last_sign_in_at, String, null: true
+    field :invitation_accepted_at, String, null: true
+    field :invitation_sent_at, String, null: true
+
     def offline
       object.offline?
     end

@@ -328,7 +328,7 @@ class ShowAppContainer extends Component {
     const {classes} = this.props
 
     if(!this.props.app)
-      return <p>loading this mdfk</p>
+      return <p>loading...</p>
    
     return <div>
       

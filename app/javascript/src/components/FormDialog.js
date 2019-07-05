@@ -18,11 +18,17 @@ function FormDialog(props) {
     setOpen(false);
   }
 
+
+
   return (
     <div>
-      <Button variant="outlined" color="primary" onClick={handleClickOpen}>
-        Open form dialog
-      </Button>
+      {/*<Button
+        variant="outlined" 
+        color="primary" 
+        onClick={handleClickOpen}>
+        {props.actionButton}
+      </Button>*/}
+
       <Dialog open={props.open} 
         onClose={handleClose} 
          aria-labelledby="form-dialog-title">

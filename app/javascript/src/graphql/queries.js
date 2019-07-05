@@ -37,6 +37,24 @@ export const AGENTS = `
       agents{
         id
         email
+        signInCount
+        lastSignInAt
+        invitationAcceptedAt
+      }
+    }
+  }
+`;
+
+export const PENDING_AGENTS = `
+  query App($appKey: String!){
+    app(key: $appKey) {
+      notConfirmedAgents{
+        id
+        email
+        signInCount
+        lastSignInAt
+        invitationAcceptedAt
+        invitationSentAt
       }
     }
   }
