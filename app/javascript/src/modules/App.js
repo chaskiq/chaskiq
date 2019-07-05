@@ -14,7 +14,6 @@ import HomePage from '../pages/HomePage';
 import SettingsPage from '../pages/SettingsPage';
 import ShowAppContainer from '../pages/showAppContainer';
 import AppListContainer from '../pages/appListContainer';
-//import NewApp from '../pages/NewApp'
 
 import { withRouter } from 'react-router-dom'
 import { connect } from 'react-redux'
@@ -24,8 +23,6 @@ import Login from '../auth/login'
 import {signout} from '../actions/auth'
 
 import Pricing from '../pages/pricingPage'
-
-
 import graphql from "../graphql/client"
 
 import { APPS } from "../graphql/queries"
@@ -48,7 +45,7 @@ class Paperbase extends React.Component {
   };*/
 
   componentDidUpdate(prevProps){
-    this.idleLogout()
+    //this.idleLogout()
     if(prevProps.current_user.email != this.props.current_user.email){
       this.fetchApps()
     }

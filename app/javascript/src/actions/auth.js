@@ -47,7 +47,7 @@ export function signout() {
       headers: {
         'access-token': auth.accessToken,
         'client': auth.client,
-        'uid': auth.uid
+        'uid': auth.uid,
       }
     }).then(response => {
       dispatch(doSignout())
@@ -75,7 +75,7 @@ function failAuthentication() {
   return { type: FAILED }
 }
 
-function doSignout() {
+export function doSignout() {
   return { type: SIGNOUT }
 }
 

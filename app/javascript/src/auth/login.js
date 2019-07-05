@@ -49,7 +49,7 @@ class Login extends React.Component {
   render() {
     const { isAuthenticated } = this.props
     if (isAuthenticated) {
-      return <p>lofgged! 
+      return <p>user logged! 
         <button onClick={()=>{
           this.props.dispatch(signout())
         }}>sign out</button>
