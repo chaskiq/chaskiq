@@ -206,6 +206,63 @@ export const ASSIGN_USER = `
   }
 `;
 
+export const CREATE_ASSIGNMENT_RULE = `
+  mutation CreateAssignmentRule($appKey: String!, $agentId: String!, $title: String!, $active: String!){
+    createAssignmentRule(appKey: $appKey, agentId: $agentId, title: $title, active: $active){
+      errors
+      assignmentRule{
+        id
+        title
+        conditions
+        state
+        agent{
+          id
+          email
+        }
+        state
+      }
+    }
+  }
+`;
+
+export const EDIT_ASSIGNMENT_RULE = `
+  mutation EditAssignmentRule($appKey: String!, $ruleId: Int!, $agentId: String!, $title: String!, $active: String!){
+    editAssignmentRule(appKey: $appKey, ruleId: $ruleId, agentId: $agentId, title: $title, active: $active){
+      errors
+      assignmentRule{
+        id
+        title
+        conditions
+        state
+        agent{
+          id
+          email
+        }
+        state
+      }
+    }
+  }
+`;
+
+export const DELETE_ASSIGNMENT_RULE = `
+  mutation DeleteAssignmentRule($appKey: String!, $ruleId: Int! ){
+    deleteAssignmentRule(appKey: $appKey, ruleId: $ruleId){
+      errors
+      assignmentRule{
+        id
+        title
+        conditions
+        state
+        agent{
+          id
+          email
+        }
+        state
+      }
+    }
+  }
+`;
+
 export const UPDATE_CONVERSATION_STATE = `
   mutation UpdateConversationState($appKey: String!, $conversationId: Int!, $state: String!){
     updateConversationState(appKey: $appKey, conversationId: $conversationId, state: $state){

@@ -1,7 +1,13 @@
 class GraphqlController < ApplicationController
 
-  before_action :authorize_by_jwt
-  before_action :access_required
+  before_action :authorize_by_jwt, unless: :is_from_graphiql?
+  before_action :access_required, unless: :is_from_graphiql?
+
+
+  def is_from_graphiql?
+    request.referrer === "http://localhost:3000/graphiql" && !Rails.env.production?
+    @current_agent = Agent.first
+  end
 
   def execute
     variables = ensure_hash(params[:variables])

@@ -366,7 +366,6 @@ query AppUserVisits($appKey: String!, $id: Int!, $page: Int, $per: Int){
 }
 `;
 
-
 export const CAMPAIGNS = `
 query Campaigns($appKey: String!, $mode: String!){
   app(key: $appKey){
@@ -431,4 +430,21 @@ query Campaign($appKey: String!, $mode: String!, $id: Int!, $page: Int, $per: In
     }
   }
 }
+`;
+
+export const ASSIGNMENT_RULES = `
+  query AssingmentRules($appKey: String!){
+    app(key: $appKey){
+      assignmentRules {
+        id
+        agent{
+          id
+          email
+        }
+        state
+        title
+        conditions
+      }
+    }
+  }
 `;

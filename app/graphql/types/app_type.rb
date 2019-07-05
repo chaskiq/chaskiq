@@ -115,5 +115,11 @@ module Types
       s = Segment.where("app_id is null ").where(id: id).first
       s.present? ? s : object.segments.find(id)
     end
+
+    field :assignment_rules, [Types::AssignmentRuleType], null: true
+
+    def assignment_rules
+      object.assignment_rules
+    end
   end
 end

@@ -23,6 +23,10 @@ module Types
     field :updateConversationState, mutation: Mutations::Conversations::UpdateState
     field :toggleConversationPriority, mutation: Mutations::Conversations::TogglePriority
     
+    field :createAssignmentRule, mutation: Mutations::AssignRule::CreateAssignRule
+    field :editAssignmentRule, mutation: Mutations::AssignRule::EditAssignRule
+    field :deleteAssignmentRule, mutation: Mutations::AssignRule::DeleteAssignRule
+    
 
     field :appUserUpdateData, mutation: Mutations::AppUsers::UpdateAppUserState
 
