@@ -82,10 +82,14 @@ module Types
     field :agents, [Types::AgentType], null: false
 
     def agents
-      object.agents
+      object.agents.where(invitation_token: nil)
     end
 
+    field :not_confirmed_agents, [Types::AgentType], null: false
 
+    def not_confirmed_agents
+      object.agents.invitation_not_accepted
+    end
 
     field :agent, Types::AgentType, null: false do
       argument :id, Integer, required: true

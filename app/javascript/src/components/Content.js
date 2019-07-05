@@ -48,28 +48,42 @@ function Content(props) {
       <AppBar className={classes.searchBar} position="static" color="default" elevation={0}>
         <Toolbar>
           <Grid container spacing={10} alignItems="center">
+            
+            {
+              props.searchBar ? 
+
+              <React.Fragment>
+                <Grid item>
+                  <SearchIcon className={classes.block} color="inherit" />
+                </Grid>
+
+                <Grid item xs>
+                  
+                    <TextField
+                    fullWidth
+                    placeholder="Search by email address, phone number, or user UID"
+                    InputProps={{
+                      disableUnderline: true,
+                      className: classes.searchInput,
+                    }}
+                  /> 
+                </Grid>
+              </React.Fragment>
+            : null 
+            }
+            
             <Grid item>
-              <SearchIcon className={classes.block} color="inherit" />
-            </Grid>
-            <Grid item xs>
-              <TextField
-                fullWidth
-                placeholder="Search by email address, phone number, or user UID"
-                InputProps={{
-                  disableUnderline: true,
-                  className: classes.searchInput,
-                }}
-              />
-            </Grid>
-            <Grid item>
-              <Button variant="contained" color="primary" className={classes.addUser}>
-                Add user
-              </Button>
-              <Tooltip title="Reload">
-                <IconButton>
-                  <RefreshIcon className={classes.block} color="inherit" />
-                </IconButton>
-              </Tooltip>
+              {props.actions ? props.actions : null}
+              {/*<Button variant="contained" color="primary" className={classes.addUser}>
+                    Add user
+                  </Button>
+    
+                  <Tooltip title="Reload">
+                    <IconButton>
+                      <RefreshIcon className={classes.block} color="inherit" />
+                    </IconButton>
+                  </Tooltip>*/}
+
             </Grid>
           </Grid>
         </Toolbar>

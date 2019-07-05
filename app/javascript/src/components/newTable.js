@@ -22,6 +22,7 @@ import {
   SelectionState,
   EditingState
 } from '@devexpress/dx-react-grid';
+import {isUndefined} from 'lodash'
 
 import { withStyles } from '@material-ui/core/styles';
 
@@ -56,7 +57,9 @@ class DataTable extends React.PureComponent {
 
    
     return (
-      <Paper className={this.props.classes.root}>
+      <Paper 
+        elevation={!isUndefined(this.props.elevation) ? this.props.elevation : 1} 
+        className={this.props.classes.root}>
         <Grid
           rows={rows}
           columns={columns}
@@ -69,16 +72,12 @@ class DataTable extends React.PureComponent {
             pageSize={20}
           />
 
-          {/*<SelectionState
-            selection={selection}
-            onSelectionChange={this.changeSelection}
-          />*/}
-          
-          {/*<IntegratedPaging />*/}
-
-          <CustomPaging
-            totalCount={this.props.meta.total_count}
-          />
+          {
+            !this.props.disablePagination ?
+            <CustomPaging
+              totalCount={this.props.meta.total_count}
+            /> : null 
+          }
           
           <Table
             columnExtensions={tableColumnExtensions}

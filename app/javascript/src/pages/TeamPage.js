@@ -10,10 +10,14 @@ import {
         Tab ,
         Tabs ,
         Avatar ,
-        Typography
+        Typography,
+        Button,
+        TextField
       } from '@material-ui/core';
 
 import gravatar from '../shared/gravatar'
+import CircularProgress from '@material-ui/core/CircularProgress';
+
 
 import MainSection from '../components/MainSection';
 import ContentWrapper from '../components/ContentWrapper';
@@ -25,43 +29,27 @@ import {Link} from 'react-router-dom'
 
 
 import graphql from '../graphql/client'
-import {AGENTS} from '../graphql/queries'
+import {AGENTS, PENDING_AGENTS} from '../graphql/queries'
+import {INVITE_AGENT} from '../graphql/mutations'
+
+import { withStyles } from '@material-ui/core/styles';
+import ClickAwayListener from '@material-ui/core/ClickAwayListener';
+
+import FormDialog from '../components/FormDialog'
+
+
+const styles = theme => ({
+  addUser: {
+    marginRight: theme.spacing(1),
+  },
+});
 
 class TeamPage extends Component {
 
-
   state = {
-    agents: [],
     meta: {},
-    loading: false,
-    tabValue: 0
-  }
-
-  componentDidMount(){
-    this.search()
-  }
-
-  getAgents = ()=>{
-    graphql(AGENTS, {appKey: this.props.app.key, }, {
-      success: (data)=>{
-
-        this.setState({
-          agents: data.app.agents, 
-          loading: false
-        })
-      },
-      error: ()=>{
-
-      }
-    })
-  }
-
-  search = (item)=>{
-    this.setState({
-      loading: true, 
-    }, this.getAgents )
-  }
-
+    tabValue: 0,
+  };
 
   handleTabChange = (e, i)=>{
     this.setState({tabValue: i})
@@ -76,15 +64,14 @@ class TeamPage extends Component {
             </Tabs>
   }
 
-
   renderTabcontent = ()=>{
 
     switch (this.state.tabValue){
       case 0:
-        return this.renderAgentsTable()
+        return <AppUsers {...this.props}/>
 
       case 1:
-        return this.renderInvitationsTable()
+        return <NonAcceptedAppUsers {...this.props}/>
       case 2:
         return 
       case 3:
@@ -92,16 +79,69 @@ class TeamPage extends Component {
     }
   }
 
+  render() {
+    return (
+       <React.Fragment>
 
-  renderAgentsTable = ()=>{
-    return <DataTable 
+        <ContentHeader 
+          title={ 'Team' }
+          tabsContent={ this.tabsContent() }
+        />
+
+        
+          {this.renderTabcontent()}
+        
+
+      </React.Fragment>
+    );
+  }
+}
+
+
+class AppUsers extends React.Component {
+  state = {
+    collection: [],
+    loading: true
+  }
+
+  componentDidMount(){
+    this.search()
+  }
+
+  getAgents = ()=>{
+    graphql(AGENTS, {appKey: this.props.app.key, }, {
+      success: (data)=>{
+        this.setState({
+          collection: data.app.agents, 
+          loading: false
+        })
+      },
+      error: ()=>{
+
+      }
+    })
+  }
+  search = (item)=>{
+    this.setState({
+      loading: true, 
+    }, this.getAgents )
+  }
+
+  render(){
+    return <Content>
+             {
+               !this.state.loading ?
+               <DataTable 
+                elevation={0}
                 title={'agents'}
                 meta={{}}
-                rows={this.state.agents}
+                rows={this.state.collection}
                 search={this.search}
                 loading={this.state.loading}
+                disablePagination={true}
                 columns={[
                   {name: "id", title: "id"},
+
                   {name: "avatar", title: "",
                   
                     getCellValue: row => (row ? 
@@ -116,6 +156,9 @@ class TeamPage extends Component {
                   },
                   {name: "email", title: "email"},
                   {name: "name", title: "name"},
+                  {name: "signInCount", title: "signInCount"},
+                  {name: "lastSignInAt", title: "lastSignInAt"},
+                  {name: "invitationAcceptedAt", title: "invitationAcceptedAt"},
                   {name: "actions", title: "actions", 
                     getCellValue: row => (row ? 
 
@@ -141,61 +184,167 @@ class TeamPage extends Component {
                 //toggleMapView={this.props.toggleMapView}
                 //map_view={this.props.map_view}
                 enableMapView={false}
-           />  
+             /> : <CircularProgress/> 
+           }
+           </Content>  
   }
 
-  renderInvitationsTable = ()=>{
-    return <DataTable 
-                title={'invitations'}
-                meta={{}}
-                rows={this.state.agents}
-                search={this.search}
-                loading={this.state.loading}
-                columns={[
-                  {name: "id", title: "id"},
-                  {name: "avatar", title: "",
-                    getCellValue: row => (row ? 
-                      <Link to={`/apps/${this.props.app.key}/agents/${row.id}`}>
-                        <Avatar
-                          name={row.email}
-                          size="medium"
-                          src={gravatar(row.email)}
-                        />
-                      </Link>
-                     : undefined)
-                  },
-                  {name: "email", title: "email"},
-                  {name: "name", title: "name"},
-                  {name: "state", title: "state"},
-                  
-                ]}
-                defaultHiddenColumnNames={[]}
-                tableColumnExtensions={[
-                  { columnName: 'email', width: 250 },
-                  { columnName: 'id', width: 10 },
-                  { columnName: 'avatar', width: 55 },
-                ]}
-                enableMapView={false}
-           />  
+
+}
+
+class NonAcceptedAppUsers extends React.Component {
+  state = {
+    collection: [],
+    loading: true,
+    isOpen: false,
+    sent: false,
   }
 
-  render() {
-    return (
-       <React.Fragment>
+  input_ref = null
 
-        <ContentHeader 
-          title={ 'Team' }
-          tabsContent={ this.tabsContent() }
-        />
+  open  = () => this.setState({ isOpen: true });
+  close = () => this.setState({ isOpen: false });
 
-        <Content>
-          {this.renderTabcontent()}
-        </Content>
+  componentDidMount(){
+    this.search()
+  }
 
-      </React.Fragment>
-    );
+  sendInvitation = ()=>{
+    graphql(INVITE_AGENT, {
+      appKey: this.props.app.key,
+      email: this.input_ref.value
+    }, {
+      success: (data)=>{
+        this.setState({
+          sent: true,
+          isOpen: false,
+        }, this.search)
+      },
+      error: ()=>{
+
+      }
+    })
+  }
+
+  inviteButton = ()=>{
+
+    return <React.Fragment>
+            {
+              this.state.isOpen ?
+                <FormDialog 
+                  open={this.state.isOpen}
+                  actionButton={"add user"} 
+                  titleContent={"Add a new agent"}
+                  contentText={"send an activable invitation"}
+
+                  formComponent={
+                    <TextField
+                      autoFocus
+                      margin="dense"
+                      id="email"
+                      name="email"
+                      label="email"
+                      type="email"
+                      ref={"input"}
+                      fullWidth
+                      inputRef={input => (this.input_ref = input)}
+                    />
+                  }
+
+
+                  dialogButtons={
+                    <React.Fragment>
+                      <Button onClick={this.close} color="primary">
+                        Cancel
+                      </Button>
+
+                      <Button onClick={this.sendInvitation} 
+                        zcolor="primary">
+                        Send invitation
+                      </Button>
+
+                    </React.Fragment>
+                  }
+                /> 
+                 : null 
+            }
+
+
+            <Button variant="contained" 
+              color="primary" 
+              onClick={this.open}
+              className={this.props.classes.addUser}>
+
+              Add user
+            </Button>
+
+          </React.Fragment>
+  }
+
+  getAgents = ()=>{
+    graphql(PENDING_AGENTS, {appKey: this.props.app.key, }, {
+      success: (data)=>{
+        this.setState({
+          collection: data.app.notConfirmedAgents, 
+          loading: false
+        })
+      },
+      error: ()=>{
+
+      }
+    })
+  }
+
+  search = ()=>{
+    this.setState({
+      loading: true, 
+    }, this.getAgents )
+  }
+
+  render(){
+    return <Content actions={this.inviteButton()}>
+            {
+              !this.state.loading ?
+                <DataTable 
+                  elevation={0}
+                  title={'invitations'}
+                  meta={{}}
+                  rows={this.state.collection}
+                  search={this.search}
+                  loading={this.state.loading}
+                  disablePagination={true}
+                  columns={[
+                    {name: "id", title: "id"},
+                    {name: "avatar", title: "",
+                      getCellValue: row => (row ? 
+                        <Link to={`/apps/${this.props.app.key}/agents/${row.id}`}>
+                          <Avatar
+                            name={row.email}
+                            size="medium"
+                            src={gravatar(row.email)}
+                          />
+                        </Link>
+                       : undefined)
+                    },
+                    {name: "email", title: "email"},
+                    {name: "name", title: "name"},
+                    {name: "invitationAcceptedAt", title: "invitationAcceptedAt"},
+                    {name: "invitationSentAt", title: "invitationSentAt"},
+                  ]}
+                  defaultHiddenColumnNames={[]}
+                  tableColumnExtensions={[
+                    { columnName: 'email', width: 250 },
+                    { columnName: 'id', width: 10 },
+                    { columnName: 'avatar', width: 55 },
+                  ]}
+                  enableMapView={false}
+                />  : <CircularProgress/> 
+            }
+           </Content>    
   }
 }
+
+
 
 function mapStateToProps(state) {
 
@@ -209,4 +358,5 @@ function mapStateToProps(state) {
   }
 }
 
-export default withRouter(connect(mapStateToProps)(TeamPage))
+
+export default withRouter(connect(mapStateToProps)(withStyles(styles)(TeamPage)))
