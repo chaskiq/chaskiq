@@ -10,13 +10,21 @@ class ApplicationController < ActionController::Base
 
   def authorize_by_jwt
     token = request.headers["HTTP_AUTHORIZATION"].gsub("Bearer ", "")
-    @current_agent = Warden::JWTAuth::UserDecoder.new.call(token, :agent, nil)
+    begin
+      @current_agent = Warden::JWTAuth::UserDecoder.new.call(token, :agent, nil)
+    rescue JWT::ExpiredSignature
+      render_unauthorized and return
+    end
   end
 
   def access_required
+    render_unauthorized and return if @current_agent.blank?
+  end
+
+  def render_unauthorized
     render :json => {
       :response => 'Unable to authenticate'
-    } ,:status => 401 and return if @current_agent.blank?
+    } ,:status => 401
   end
 
 

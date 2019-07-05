@@ -34,10 +34,6 @@ import Login from '../auth/login'
 import SignUp from '../auth/signup'
 import AcceptInvitation from '../auth/AcceptInvitation'
 
-const defaultNavOpts = {
-  isOpen: false,
-  width: 304
-}
 
 let theme = createMuiTheme({
   typography: {
@@ -213,18 +209,14 @@ window.store = store
 class MainRouter extends Component {
   constructor() {
     super();
-
     this.state = {
-      //navOpenState: defaultNavOpts,
       currentApp: null,
       currentUser: {},
-      //navLinks: this.defaultNavLinks
     }
-
   }
 
   componentDidMount(){
-    this.getCurrentUser()
+    //this.getCurrentUser()
   }
 
   getCurrentUser = ()=>{
@@ -243,11 +235,11 @@ class MainRouter extends Component {
     })
   }
 
-  setCurrentApp = (app , cb) =>{
+  /*setCurrentApp = (app , cb) =>{
     this.setState({
       currentApp: app
     }, ()=> {cb ? cb(app) : null} )
-  }
+  }*/
 
   render() {
 

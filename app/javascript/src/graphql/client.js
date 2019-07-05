@@ -31,6 +31,7 @@ const graphql = (query, variables, callbacks)=>{
     const errors = r.data.errors //? r.data.errors[0].message : null
     // get first key of data and check if has errors
     //const errors = data[Object.keys(data)[0]].errors || r.data.errors
+
     if (_.isObject(errors) && !_.isEmpty(errors)) {
       //const errors = data[Object.keys(data)[0]];
       //callbacks['error'] ? callbacks['error'](res, errors['errors']) : null
@@ -41,9 +42,9 @@ const graphql = (query, variables, callbacks)=>{
     callbacks['success'] ? callbacks['success'](data, res) : null
   })
   .catch( r => {
-    throw r
+    //throw r
     //const res = r.response
-    callbacks['error'] ? callbacks['error'](r) : null
+    callbacks['fatal'] ? callbacks['fatal'](r) : null
   })
   .then( () => {
     callbacks['always'] ? callbacks['always']() : null
