@@ -1,6 +1,7 @@
 class GraphqlController < ApplicationController
 
   before_action :authorize_by_jwt
+  before_action :access_required
 
   def execute
     variables = ensure_hash(params[:variables])
@@ -9,7 +10,7 @@ class GraphqlController < ApplicationController
     
     context = {
       # Query context goes here, for example:
-      current_user: current_agent,
+      current_user: @current_agent,
       #authorize: lambda{|mode, object| authorize!(mode, object) },
       #can: lambda{| mode, object | can?( mode, object) },
       #logout!: ->{logout!},
