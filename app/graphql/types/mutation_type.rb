@@ -26,6 +26,7 @@ module Types
     field :createAssignmentRule, mutation: Mutations::AssignRule::CreateAssignRule
     field :editAssignmentRule, mutation: Mutations::AssignRule::EditAssignRule
     field :deleteAssignmentRule, mutation: Mutations::AssignRule::DeleteAssignRule
+    field :updateRulePriorities, mutation: Mutations::AssignRule::UpdateRulePriorities
     
 
     field :appUserUpdateData, mutation: Mutations::AppUsers::UpdateAppUserState

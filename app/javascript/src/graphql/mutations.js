@@ -225,6 +225,14 @@ export const CREATE_ASSIGNMENT_RULE = `
   }
 `;
 
+export const UPDATE_RULE_PRIORITIES = `
+  mutation UpdateRulePriorities($appKey: String!, $rules: [Json!]!){
+    updateRulePriorities(appKey: $appKey, rules: $rules){
+      errors
+    }
+  }
+`;
+
 export const EDIT_ASSIGNMENT_RULE = `
   mutation EditAssignmentRule($appKey: String!, $ruleId: Int!, $agentId: String!, $title: String!, $active: String!){
     editAssignmentRule(appKey: $appKey, ruleId: $ruleId, agentId: $agentId, title: $title, active: $active){
