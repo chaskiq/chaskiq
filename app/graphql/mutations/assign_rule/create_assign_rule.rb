@@ -8,13 +8,15 @@ module Mutations
       argument :agent_id, String, required: true
       argument :title, String, required: true
       argument :active, String, required: true
+      argument :conditions, Types::JsonType, required: true
 
-      def resolve(app_key:, agent_id:, title:, active:)
+      def resolve(app_key:, agent_id:, title:, active:, conditions:)
         find_app(app_key)
         @agent = @app.agents.find(agent_id)
         assignment_rule = @app.assignment_rules.create({
           title: title, 
-          agent: @agent, 
+          agent: @agent,
+          conditions: conditions 
         })
         { 
           assignment_rule: assignment_rule , 

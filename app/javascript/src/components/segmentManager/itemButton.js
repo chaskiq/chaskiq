@@ -68,7 +68,6 @@ export default class SegmentItemButton extends Component {
   relative_input = null
   btn_ref = null
 
-
   onRadioChange = (value, cb)=> {
     this.setState({
       selectedOption: value
@@ -499,6 +498,7 @@ export default class SegmentItemButton extends Component {
   });
 
   renderMenu = ()=>{
+
     if(!this.btn_ref)
       return
 
@@ -524,6 +524,10 @@ export default class SegmentItemButton extends Component {
             </Menu>
   }
 
+  setRef = (ref)=>{
+    this.btn_ref = ref
+  }
+
   render() {
     return (
       <div>
@@ -534,7 +538,7 @@ export default class SegmentItemButton extends Component {
 
                   <React.Fragment>
                     <Button 
-                      ref={(ref)=>this.btn_ref = ref} 
+                      ref={(ref)=>this.setRef(ref)} 
                       isLoading={false}
                       color={this.state.dialogOpen ? 'primary' : 'secondary'}
                       onClick={this.toggleDialog}>
@@ -548,7 +552,7 @@ export default class SegmentItemButton extends Component {
                   </React.Fragment> :
                   <React.Fragment>
                     <Button 
-                      ref={(ref)=>this.btn_ref = ref} 
+                      ref={(ref)=>this.setRef(ref)}
                       isLoading={false}
                       variant="outlined" 
                       color="primary"
