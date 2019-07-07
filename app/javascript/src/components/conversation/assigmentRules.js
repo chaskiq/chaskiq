@@ -42,6 +42,7 @@ import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 import ListItemAvatar from '@material-ui/core/ListItemAvatar';
 import Avatar from '@material-ui/core/Avatar';
+import DragHandleIcon from '@material-ui/icons/DragHandle'
 import {
   sortableContainer, 
   sortableElement,
@@ -51,7 +52,8 @@ import arrayMove from 'array-move';
 import {InlineFilterDialog} from '../../components/segmentManager'
 import SegmentItemButton from '../../components/segmentManager/itemButton'
 
-const DragHandle = sortableHandle(() => <span>::</span>);
+
+const DragHandle = sortableHandle(() => <DragHandleIcon/>);
 
 const SortableItem = sortableElement(({object, deleteRule, edit}) => (
     <ListItem>
@@ -84,7 +86,8 @@ class AssigmentRules extends React.Component {
   state = {
     isOpen: false,
     currentRule: null,
-    rules: []
+    rules: [],
+    conditions: []
   }
 
   componentDidMount(){
@@ -155,7 +158,8 @@ class AssigmentRules extends React.Component {
       appKey: this.props.app.key,
       title: serializedData["title"],
       agentId: serializedData["agent"],
-      active:  serializedData["active"]
+      active:  serializedData["active"],
+      conditions: this.state.conditions
     }, {
       success: (data)=>{
         const rule = data.createAssignmentRule.assignmentRule
@@ -178,7 +182,8 @@ class AssigmentRules extends React.Component {
       ruleId: this.state.currentRule.id,
       title: serializedData["title"],
       agentId: serializedData["agent"],
-      active:  serializedData["active"]
+      active:  serializedData["active"],
+      conditions: this.state.conditions
     }, {
       success: (data)=>{
         const rule = data.editAssignmentRule.assignmentRule
@@ -246,7 +251,7 @@ class AssigmentRules extends React.Component {
                   </Typography>
 
                   <Button variant={"primary"} onClick={()=> 
-                    this.setState({isOpen: true})}>
+                    this.setState({isOpen: true, currentRule: null })}>
                     Create Rule
                   </Button>
 
@@ -280,7 +285,14 @@ class AssigmentRules extends React.Component {
                       <form ref="form">
 
                        <AssignmentForm
-                         rule={this.state.currentRule} 
+                         rule={this.state.currentRule}
+                         conditions={
+                           this.state.currentRule ? 
+                           this.state.currentRule.conditions: []
+                         }
+                         setConditions={(conditions)=> this.setState({
+                           conditions: conditions
+                         })}
                          {...this.props}
                        /> 
 
@@ -313,14 +325,37 @@ class AssigmentRules extends React.Component {
 
 function AssignmentForm(props){
 
-  const {rule} = props
+  const {rule, setConditions, conditions} = props
 
   const [agents, setAgents] = React.useState([])
   const [selected, setSelected] = React.useState(rule ? rule.agent.id : '')
   const [title, setTitle] = React.useState(rule ? rule.title : '')
   const [checked, setChecked] = React.useState('')
-  const [predicates, setPredicates] = React.useState([])
-
+  const [updater, setUpdater] = React.useState(null)
+  const [predicates, setPredicates] = React.useState(conditions || [])
+  const fields = [
+      {name: "message_content", type: "string"},
+      {name: "email", type: "string"},
+      {name: "last_visited_at", type: "date"},
+      {name: "referrer", type: "string"},
+      {name: "pro", type: "string" },
+      {name: "role", type: "string" },
+      {name: "plan", type: "string" },
+      {name: "state", type: "string"},
+      {name: "ip", type: "string"},        
+      {name: "city", type: "string"},           
+      {name: "region", type: "string"},         
+      {name: "country", type: "string"},        
+      {name: "postal", type: "string"},   
+      {name: "web_sessions", type: "string"}, 
+      {name: "timezone", type: "string"}, 
+      {name: "browser", type: "string"}, 
+      {name: "browser_version", type: "string"},
+      {name: "os", type: "string"},
+      {name: "os_version", type: "string"},      
+      {name: "browser_language", type: "string"}, 
+      {name: "lang", type: "string"},
+  ]
   function getAgents(){
     graphql(AGENTS, {appKey: props.app.key }, {
       success: (data)=>{
@@ -335,6 +370,10 @@ function AssignmentForm(props){
   React.useEffect(() => {
     getAgents()
   }, [])
+
+  React.useEffect(()=>{
+    setConditions(predicates)
+  }, [predicates])
 
   function handleChange(e){
     setSelected(e.target.value)
@@ -352,33 +391,54 @@ function AssignmentForm(props){
     }
   }
 
+  function addPredicate(data){
+    const pending_predicate = {
+      attribute: data.name,
+      comparison: null,
+      type: data.type,
+      value: data.value
+    }
+    setPredicates(predicates.concat(pending_predicate))
+
+    // it forces a re render on itemButton for new predicates 
+    setTimeout(()=>{
+      setUpdater( Math.random() )
+    }, 2)
+  }
+
+  function updatePredicates(data){
+    setPredicates(data)
+  }
+
   return (
 
     <Grid container spacing={3}>
 
-      <Grid item>
-        <InlineFilterDialog 
-          addPredicate={()=>{}}
-        />
-
-
+      <Grid item xs={12} sm={12}>
         {
           predicates.map((o, i)=>{
-              return <SegmentItemButton 
-                      key={i}
-                      index={i}
-                      predicate={o}
-                      predicates={predicates}
-                      open={ !o.comparison }
-                      appearance={ o.comparison ? "primary" : "default"} 
-                      text={getTextForPredicate(o)}
-                      updatePredicate={(items)=>{debugger}}
-                      predicateCallback={(jwtToken)=> {} }
-                      deletePredicate={()=>{}}                          
-                     />
+            return <SegmentItemButton 
+                    key={i}
+                    index={i}
+                    predicate={o}
+                    predicates={predicates}
+                    open={ !o.comparison }
+                    updater={updater}
+                    appearance={ o.comparison ? "primary" : "default"} 
+                    text={getTextForPredicate(o)}
+                    updatePredicate={updatePredicates}
+                    predicateCallback={(jwtToken)=> { debugger } }
+                    deletePredicate={(items)=>{ debugger }}                          
+                   />
           })
         }
 
+        <InlineFilterDialog 
+          fields={fields}
+          addPredicate={(predicate)=>{
+            addPredicate(predicate)
+          }}
+        />
       </Grid>
 
       <Grid item
