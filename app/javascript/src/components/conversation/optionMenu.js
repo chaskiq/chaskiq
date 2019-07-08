@@ -154,7 +154,7 @@ export default function LongMenu(props) {
         {agents.map(option => (
           <MenuItem 
             key={option.id} 
-            selected={option.id === assignee.id} 
+            selected={assignee ? option.id === assignee.id : null } 
             onClick={()=> setAgent(option)}>
             {option.email}
           </MenuItem>

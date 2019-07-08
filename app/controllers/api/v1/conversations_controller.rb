@@ -57,8 +57,9 @@ class Api::V1::ConversationsController < ApiController
       from: @user,
       message: {
         html_content: params[:message][:html_content],
-        serialized_content: params[:message][:serialized_content]
+        serialized_content: params[:message][:serialized_content],
       },
+      check_assignment_rules: params[:check_assignment_rules]
     })
     render :show
   end
