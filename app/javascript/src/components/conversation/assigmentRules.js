@@ -62,13 +62,17 @@ const SortableItem = sortableElement(({object, deleteRule, edit}) => (
         <ListItemText primary={object.title} 
         secondary={object.agent.email} />
 
-        <Button onClick={(e)=> {
+        <Button 
+        variant="contained"
+        onClick={(e)=> {
           e.preventDefault()
           edit(object)}
         }>
           edit
         </Button>
-        <Button onClick={(e)=>{
+        <Button 
+          variant="contained"
+          onClick={(e)=>{
           e.preventDefault()
           deleteRule(object)
         }}>
@@ -248,20 +252,29 @@ class AssigmentRules extends React.Component {
       }
     ]
 
-    return <div style={{alignSelf: 'center'}}>
-              <Paper style={{padding: '2em'}}>
-                 <Typography variant="h5" component="h3">
-                    Assigment Rules
-                  </Typography>
+    return <div style={{width: '100%'}}>
 
-                  <Typography component="p" >
-                    incoming new conversations goes to:
-                  </Typography>
+              <Paper style={{
+                padding: '2em',
+                height: '100vh',
+                display: 'flex',
+                flexDirection: 'column'
+              }}>
 
-                  <Button variant={"primary"} onClick={()=> 
-                    this.setState({isOpen: true, currentRule: null })}>
-                    Create Rule
-                  </Button>
+                <Button style={{ alignSelf: 'flex-end'}} 
+                  variant="contained" color="primary"
+                  onClick={()=> 
+                  this.setState({isOpen: true, currentRule: null })}>
+                  Create Rule
+                </Button>
+
+                <Typography variant="h5">
+                  Assigment Rules
+                </Typography>
+
+                <Typography component="p" >
+                  incoming new conversations goes to:
+                </Typography>
 
                 <SortableContainer 
                     onSortEnd={this.onSortEnd}
@@ -418,28 +431,37 @@ function AssignmentForm(props){
     setPredicates(data)
   }
 
+  function deletePredicate(data){
+    setPredicates(data)
+  }
+
   return (
 
     <Grid container spacing={3}>
 
       <Grid item xs={12} sm={12}>
-        {
-          predicates.map((o, i)=>{
-            return <SegmentItemButton 
-                    key={i}
-                    index={i}
-                    predicate={o}
-                    predicates={predicates}
-                    open={ !o.comparison }
-                    updater={updater}
-                    appearance={ o.comparison ? "primary" : "default"} 
-                    text={getTextForPredicate(o)}
-                    updatePredicate={updatePredicates}
-                    predicateCallback={(jwtToken)=> { debugger } }
-                    deletePredicate={(items)=>{ debugger }}                          
-                   />
-          })
-        }
+        <div style={{
+          display: 'flex',
+          flexWrap: 'wrap'
+        }}>
+          {
+            predicates.map((o, i)=>{
+              return <SegmentItemButton 
+                      key={i}
+                      index={i}
+                      predicate={o}
+                      predicates={predicates}
+                      open={ !o.comparison }
+                      updater={updater}
+                      appearance={ o.comparison ? "primary" : "default"} 
+                      text={getTextForPredicate(o)}
+                      updatePredicate={updatePredicates}
+                      predicateCallback={(jwtToken)=> { debugger } }
+                      deletePredicate={(items)=>{ deletePredicate(items) }}                          
+                     />
+            })
+          }
+        </div>
 
         <InlineFilterDialog 
           fields={fields}
