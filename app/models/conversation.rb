@@ -51,6 +51,10 @@ class Conversation < ApplicationRecord
       notify_subscribers(part)
     end
 
+    if opts[:check_assignment_rules]
+      assign_user_by_rules
+    end
+
     part
   end
 
@@ -61,6 +65,10 @@ class Conversation < ApplicationRecord
 
     if part.errors.blank?
       notify_subscribers(part)
+    end
+
+    if opts[:check_assignment_rules]
+      assign_user_by_rules
     end
 
     part
@@ -100,22 +108,39 @@ class Conversation < ApplicationRecord
     self.save
   end
 
+  def assign_user_by_rules
+
+    return if self.assignee.present?
+
+    check_conditions
+
+    return if self.assignee.present?
+
+    # default, this should be removed
+    # self.assignee = self.app.agents.first
+  end
+
   def add_default_assigne
     if @initiator.is_a?(Agent)
       self.assignee = @initiator
       return
     end
-    
+  end
+
+  def check_conditions
+
     # TODO: check conditions and order by priority
-    self.app.assignment_rules.each do |rule|
-      self.assignee = rule.agent
-      break
-    end
+    #self.app.assignment_rules.each do |rule|
+    #  self.assignee = rule.agent
+    #  break
+    #end
+    part = self.messages.last
+                             #.conversation_part_content
+                             #.serialized_content
+    
+    part.check_assignment_rules
 
-    return if self.assignee.present?
-
-    ## default, this should be removed
-    self.assignee = self.app.agents.first
+    
 
   end
 

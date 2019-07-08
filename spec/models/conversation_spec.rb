@@ -22,18 +22,32 @@ RSpec.describe Conversation, type: :model do
   }
 
   let(:assignment_rule){
-    app.assignment_rules.create({
-      title: "test", 
-      agent: agent_role2.agent, 
-      conditions: [], 
-      priority: 1 
-    })
+
+    ->(rules) {
+      app.assignment_rules.create({
+        title: "test", 
+        agent: agent_role2.agent, 
+        conditions: rules || [], 
+        priority: 1 
+      })
+    }
   }
 
-  it "create_conversation" do
+  it "create_conversation from app user" do
     app.start_conversation({
       message: {text_content: "aa"}, 
       from: app_user
+    })
+    expect(app.conversations.count).to be == 1
+    expect(app.conversations.first.messages.count).to be == 1
+    expect(app.conversations.first.assignee).to be_blank
+  end
+
+  it "create_conversation from agent" do
+    app.start_conversation({
+      message: {text_content: "aa"}, 
+      from: agent_role.agent,
+      participant: app_user
     })
     expect(app.conversations.count).to be == 1
     expect(app.conversations.first.messages.count).to be == 1
@@ -108,24 +122,74 @@ RSpec.describe Conversation, type: :model do
   end
 
 
-  context "assignment rule" do
+  context "assignment rule from new conversation initiated by app user" do
 
-    it "assign rule" do
-      assignment_rule
+    it "will assign agent 2 with empty conditions" do
+      assignment_rule[[]]
+      expect(app.assignment_rules.count).to be == 1
+      expect(agent_role.agent.assignment_rules).to be_empty
+      expect(agent_role2.agent.assignment_rules.count).to be_present
+
+      serialized = "{\"blocks\":
+      [{\"key\":\"bl82q\",\"text\":\"foobar\",\"type\":\"unstyled\",\"depth\":0,\"inlineStyleRanges\":[],\"entityRanges\":[],\"data\":{}}],
+      \"entityMap\":{}}"
+
+      app.start_conversation({
+        message: {text_content: "aa", serialized_content: serialized}, 
+        from: app_user
+      })
+      expect(app.conversations.first.assignee).to be == agent_role2.agent
+    end
+
+    it "content not eq rule" do
+
+      serialized = "{\"blocks\":
+      [{\"key\":\"bl82q\",\"text\":\"foobar\",\"type\":\"unstyled\",\"depth\":0,\"inlineStyleRanges\":[],\"entityRanges\":[],\"data\":{}}],
+      \"entityMap\":{}}"
+
+      assignment_rule[[{
+        "type"=>"string", 
+        "value"=>"foobar", 
+        "attribute"=>"message_content", 
+        "comparison"=>"not_eq"}
+      ]]
 
       expect(app.assignment_rules.count).to be == 1
       expect(agent_role.agent.assignment_rules).to be_empty
       expect(agent_role2.agent.assignment_rules.count).to be_present
 
       app.start_conversation({
-        message: {text_content: "aa"}, 
+        message: {text_content: "aa", serialized_content: serialized}, 
         from: app_user
       })
-
-      expect(app.conversations.first.assignee).to be == agent_role2.agent
-
-
+      expect(app.conversations.first.assignee).to be_blank
     end
+
+    it "content eq rule" do
+
+      serialized = "{\"blocks\":[{\"key\":\"bl82q\",\"text\":\"foobar\",\"type\":\"unstyled\",\"depth\":0,\"inlineStyleRanges\":[],\"entityRanges\":[],\"data\":{}}],\"entityMap\":{}}"
+
+      assignment_rule[[{
+        "type"=>"string", 
+        "value"=>"foobar", 
+        "attribute"=>"message_content", 
+        "comparison"=>"eq"}
+      ],
+
+      ]
+
+      expect(app.assignment_rules.count).to be == 1
+      expect(agent_role.agent.assignment_rules).to be_empty
+      expect(agent_role2.agent.assignment_rules.count).to be_present
+
+      app.start_conversation({
+        message: {text_content: "aa", serialized_content: serialized}, 
+        from: app_user
+      })
+      expect(app.conversations.first.assignee).to be == agent_role2.agent
+    end
+
+    
 
   end
 

@@ -169,7 +169,8 @@ class App < ApplicationRecord
     conversation.add_message(
       from: user,
       message: message,
-      message_source: message_source
+      message_source: message_source,
+      check_assignment_rules: true
     )
     conversation
   end
