@@ -4,19 +4,25 @@ class AssignmentRule < ApplicationRecord
   store_accessor :conditions
 
   def check_rule_for(conversation_part)
-    cond = nil
-    # we will accept empty conditions as a true, ok ?
-    return true if self.conditions.blank?
-    self.conditions.each do |r|
-      cond = case r["type"]
-        when "string"
-          check_string_comparison(r,conversation_part)
 
-        when "date"
-          check_date_comparison(r, conversation_part)
+    match_condition = self.conditions.find{|o| o["type"] == "match" }
+    query_conditions = self.conditions.reject{|o| o["type"] == "match" }
+
+    # we will accept empty conditions as a true, ok ?
+    return true if query_conditions.blank?
+
+    matches = query_conditions.map do |r|
+      case r["type"]
+        when "string" then check_string_comparison(r,conversation_part)
+        when "date" then check_date_comparison(r, conversation_part)
       end
     end
-    cond
+    
+    if match_condition.blank? or match_condition["comparison"] == "or"
+      matches.include?(true)
+    elsif match_condition["comparison"] == "and"
+      !matches.include?(false)
+    end
   end
 
   def check_string_comparison(rule, part)
