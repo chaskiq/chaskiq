@@ -83,4 +83,46 @@ class ConversationPart < ApplicationRecord
       hash["app_user"] = self.authorable.as_json
     end
   end
+
+
+  ## match
+    
+    # any
+    # all
+
+  ## string
+
+    # is
+    # is not
+    # starts with
+    # ends with
+    # contains
+    # does not contain
+    # is unknown
+    # has any value
+
+  ## Date
+
+    #more than
+    #exactly
+    #less than
+
+  def check_assignment_rules
+
+    serialized_content = conversation_part_content.serialized_content
+    return if serialized_content.blank?
+    text = JSON.parse(serialized_content)["blocks"].map{|o| o["text"]}.join(" ")
+
+    app = conversation.app
+
+    app.assignment_rules.each do |rule|
+
+      if cond = rule.check_rule_for(text)
+        self.conversation.assignee = rule.agent
+        self.save
+        break
+      end
+
+    end
+  end
 end
