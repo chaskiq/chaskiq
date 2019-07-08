@@ -5,6 +5,29 @@ class AppUser < ApplicationRecord
   include UnionScope
   include Tokenable
 
+  ENABLED_SEARCH_FIELDS = [
+                            "email",
+                            "last_visited_at",
+                            "referrer",
+                            "pro",
+                            "role",
+                            "plan",
+                            "state",
+                            "ip",
+                            "city",
+                            "region",
+                            "country",
+                            "postal",
+                            "web_sessions",
+                            "timezone",
+                            "browser",
+                            "browser_version",
+                            "os",
+                            "os_version",
+                            "browser_language",
+                            "lang"
+                          ]
+
   #belongs_to :user
   belongs_to :app
   has_many :conversations, foreign_key: :main_participant_id, dependent: :destroy

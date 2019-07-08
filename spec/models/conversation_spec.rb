@@ -189,9 +189,6 @@ RSpec.describe Conversation, type: :model do
       expect(app.conversations.first.assignee).to be == agent_role2.agent
     end
 
-
-
-
     it "content eq rule match any" do
 
       serialized = "{\"blocks\":[{\"key\":\"bl82q\",\"text\":\"foobar\",\"type\":\"unstyled\",\"depth\":0,\"inlineStyleRanges\":[],\"entityRanges\":[],\"data\":{}}],\"entityMap\":{}}"
@@ -261,6 +258,41 @@ RSpec.describe Conversation, type: :model do
         from: app_user
       })
       expect(app.conversations.first.assignee).to be_blank
+
+    end
+
+    it "content eq rule match any" do
+
+      serialized = "{\"blocks\":[{\"key\":\"bl82q\",\"text\":\"foobar\",\"type\":\"unstyled\",\"depth\":0,\"inlineStyleRanges\":[],\"entityRanges\":[],\"data\":{}}],\"entityMap\":{}}"
+
+      assignment_rule[
+        [
+          {
+            "type"=>"match", 
+            "attribute"=>"match", 
+            "comparison"=>"or", 
+            "value"=>"or"
+          },
+          {
+            "type"=>"string", 
+            "value"=> app_user.email, 
+            "attribute"=>"email", 
+            "comparison"=>"eq"
+          },
+          {
+            "type"=>"string", 
+            "value"=> "baaz", 
+            "attribute"=>"message_content", 
+            "comparison"=>"eq"
+          }
+        ]
+      ]
+
+      app.start_conversation({
+        message: {text_content: "aa", serialized_content: serialized}, 
+        from: app_user
+      })
+      expect(app.conversations.first.assignee).to be == agent_role2.agent
 
     end
 
