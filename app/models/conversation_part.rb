@@ -84,29 +84,6 @@ class ConversationPart < ApplicationRecord
     end
   end
 
-
-  ## match
-    
-    # any
-    # all
-
-  ## string
-
-    # is
-    # is not
-    # starts with
-    # ends with
-    # contains
-    # does not contain
-    # is unknown
-    # has any value
-
-  ## Date
-
-    #more than
-    #exactly
-    #less than
-
   def check_assignment_rules
 
     serialized_content = conversation_part_content.serialized_content

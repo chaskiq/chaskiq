@@ -239,6 +239,14 @@ class AssigmentRules extends React.Component {
 
   render(){
     const {isOpen} = this.state
+    const defaultConditions = [
+      { 
+        "type": "match", 
+        "attribute": "match", 
+        "comparison": "and", 
+        "value": "and"
+      }
+    ]
 
     return <div style={{alignSelf: 'center'}}>
               <Paper style={{padding: '2em'}}>
@@ -288,7 +296,7 @@ class AssigmentRules extends React.Component {
                          rule={this.state.currentRule}
                          conditions={
                            this.state.currentRule ? 
-                           this.state.currentRule.conditions: []
+                           this.state.currentRule.conditions : defaultConditions
                          }
                          setConditions={(conditions)=> this.setState({
                            conditions: conditions
