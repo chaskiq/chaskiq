@@ -51,10 +51,6 @@ class Conversation < ApplicationRecord
       notify_subscribers(part)
     end
 
-    if opts[:check_assignment_rules]
-      assign_user_by_rules
-    end
-
     part
   end
 
@@ -67,16 +63,13 @@ class Conversation < ApplicationRecord
       notify_subscribers(part)
     end
 
-    if opts[:check_assignment_rules]
-      assign_user_by_rules
-    end
-
     part
   end
 
   def process_message_part(opts)
     part          = self.messages.new
     part.authorable = opts[:from]
+    part.check_assignment_rules = opts[:check_assignment_rules]
     #part.app_user = opts[:from]
     part.message  = opts[:message]
     part.message_source = opts[:message_source] if opts[:message_source]
@@ -102,22 +95,9 @@ class Conversation < ApplicationRecord
     # ConversationsChannel.broadcast_to("#{self.app.key}-#{self.asignee.email}", {} )
   end
 
-
   def assign_user(user)
     self.assignee = user
     self.save
-  end
-
-  def assign_user_by_rules
-
-    return if self.assignee.present?
-
-    check_conditions
-
-    return if self.assignee.present?
-
-    # default, this should be removed
-    # self.assignee = self.app.agents.first
   end
 
   def add_default_assigne
@@ -128,20 +108,8 @@ class Conversation < ApplicationRecord
   end
 
   def check_conditions
-
-    # TODO: check conditions and order by priority
-    #self.app.assignment_rules.each do |rule|
-    #  self.assignee = rule.agent
-    #  break
-    #end
     part = self.messages.last
-                             #.conversation_part_content
-                             #.serialized_content
-    
     part.check_assignment_rules
-
-    
-
   end
 
 end

@@ -12,9 +12,11 @@ class ConversationPart < ApplicationRecord
 
   has_one :conversation_part_content, dependent: :destroy
 
-  after_create :enqueue_email_notification, unless: :send_constraints?
+  after_create :assign_and_notify
 
   scope :visibles, ->{ where("private_note is null")}
+
+  attr_accessor :check_assignment_rules
 
   #delegate :html_content, to: :conversation_part_content
   #delegate :serialized_content, to: :conversation_part_content
@@ -63,6 +65,11 @@ class ConversationPart < ApplicationRecord
     end
   end
 
+  def assign_and_notify
+    assign_agent_by_rules
+    enqueue_email_notification unless send_constraints?
+  end
+
   def enqueue_email_notification
     # not send email it it's from user auto message campaign
     EmailChatNotifierJob
@@ -84,7 +91,7 @@ class ConversationPart < ApplicationRecord
     end
   end
 
-  def check_assignment_rules
+  def assign_agent_by_rules
 
     serialized_content = conversation_part_content.serialized_content
     return if serialized_content.blank?
