@@ -93,10 +93,10 @@ class ConversationPart < ApplicationRecord
     app = conversation.app
 
     app.assignment_rules.each do |rule|
-
       if cond = rule.check_rule_for(text, self)
-        self.conversation.assignee = rule.agent
-        self.save
+        conversation = self.conversation
+        conversation.assignee = rule.agent
+        conversation.save
         break
       end
 

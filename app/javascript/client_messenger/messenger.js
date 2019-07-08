@@ -549,10 +549,18 @@ class Messenger extends Component {
 
   createComment =(comment, cb)=>{
     const id = this.state.conversation.id
-    this.axiosInstance.put(`/api/v1/apps/${this.props.app_id}/conversations/${id}.json`, {
+    
+    let opts = {
       email: this.props.email,
       message: comment
-    })
+    }
+
+    // force an assigment from client
+    if( this.state.conversation_messages.length === 0)
+      opts['check_assignment_rules'] = true
+
+    this.axiosInstance.put(`/api/v1/apps/${this.props.app_id}/conversations/${id}.json`, 
+      opts)
     .then( (response)=> {
       console.log(response)
       cb()
