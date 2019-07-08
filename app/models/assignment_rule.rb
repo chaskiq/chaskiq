@@ -3,7 +3,7 @@ class AssignmentRule < ApplicationRecord
   belongs_to :agent
   store_accessor :conditions
 
-  def check_rule_for(conversation_part)
+  def check_rule_for(text, part)
 
     match_condition = self.conditions.find{|o| o["type"] == "match" }
     query_conditions = self.conditions.reject{|o| o["type"] == "match" }
@@ -11,13 +11,24 @@ class AssignmentRule < ApplicationRecord
     # we will accept empty conditions as a true, ok ?
     return true if query_conditions.blank?
 
+    subject = nil
+
     matches = query_conditions.map do |r|
+
+      if r["attribute"] === "message_content"
+        subject = text
+      else
+        subject = subject_value_for(r["attribute"], part.authorable)
+      end
+
+      return false if subject.blank?
+
       case r["type"]
-        when "string" then check_string_comparison(r,conversation_part)
-        when "date" then check_date_comparison(r, conversation_part)
+        when "string" then check_string_comparison(r,subject)
+        when "date" then check_date_comparison(r, subject)
       end
     end
-    
+
     if match_condition.blank? or match_condition["comparison"] == "or"
       matches.include?(true)
     elsif match_condition["comparison"] == "and"
@@ -45,6 +56,12 @@ class AssignmentRule < ApplicationRecord
       when "lt"
       when "eq"
       when "gt"
+    end
+  end
+
+  def subject_value_for(attr, app_user)
+    if AppUser::ENABLED_SEARCH_FIELDS.include?(attr)
+      app_user.send(attr)
     end
   end
 
