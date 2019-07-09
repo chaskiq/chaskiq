@@ -1,43 +1,74 @@
-import styled from 'styled-components';
+import styled, {keyframes} from 'styled-components';
 import React from 'react'
 export const mainColor = "#0a1a27"; //"#42a5f5";
+const rotate = keyframes`
+  from {
+    transform: rotate(-45deg);
+    //transform: scale(0.5);
+    translateY(-30);
+  }
+
+  to {
+    transform: rotate(0deg);
+    //transform: scale(1);
+    transform: translateY(-8px);
+  }
+`;
+
+const appear = keyframes`
+  from {
+    transform: translateY(1000px);
+    opacity: 0;
+  }
+
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+`;
 
 export const Container = styled.div`
 
-    ${(props)=> props.isMobile ? 
-    
-        `min-height: 250px;
-        box-shadow: rgba(0, 0, 0, 0.16) 0px 5px 40px;
-        opacity: 1;
-        z-index: 2147483001;
-        width: 100%;
-        height: 100%;
-        max-height: none;
-        top: 0px;
-        left: 0px;
-        right: 0px;
-        bottom: 0px;
-        position: fixed;
-        overflow: hidden;
-        border-radius: 0px;` : 
+  animation: ${appear} 0.6s cubic-bezier(0.390, 0.575, 0.565, 1.000) both;
 
-        `z-index: 2147483000;
-        position: fixed;
-        bottom: 100px;
-        right: 20px;
-        width: 376px;
-        min-height: 250px;
-        max-height: 704px;
-        box-shadow: rgba(0, 0, 0, 0.16) 0px 5px 40px;
-        opacity: 1;
-        height: calc(100% - 120px);
-        border-radius: 8px;
-        overflow: hidden;`
+  ${
     
-    }
-    
+    (props)=> props.isMobile ? 
+  
+      `min-height: 250px;
+      box-shadow: rgba(0, 0, 0, 0.16) 0px 5px 40px;
+      opacity: 1;
+      z-index: 2147483001;
+      width: 100%;
+      height: 100%;
+      max-height: none;
+      top: 0px;
+      left: 0px;
+      right: 0px;
+      bottom: 0px;
+      position: fixed;
+      overflow: hidden;
+      border-radius: 0px;` : 
+
+      `z-index: 2147483000;
+      position: fixed;
+      bottom: 100px;
+      right: 20px;
+      width: 376px;
+      min-height: 250px;
+      max-height: 704px;
+      box-shadow: rgba(0, 0, 0, 0.16) 0px 5px 40px;
+      opacity: 1;
+      height: calc(100% - 120px);
+      border-radius: 8px;
+      overflow: hidden;`
+  }
 
 `;
+
+/*
+
+*/
 
 export const UserAutoMessage = styled.div`
     box-shadow: -1px 3px 3px 3px rgba(158,191,208,0.09);
@@ -140,8 +171,6 @@ export const CommentsWrapper = styled.div`
   display: -ms-flexbox;
   display: flex;
   -webkit-box-direction: normal;
-
-    
 `
 
 export const CommentsItem = styled.div`
@@ -153,6 +182,14 @@ export const CommentsItem = styled.div`
       background: aliceblue;
       border-bottom: 1px solid #ececec;
     }
+
+    transition: all 0.4s ease-out;
+
+    ${(props)=> props.display ? 
+      `opacity: 1;` : 
+      `opacity: 0;` 
+    }
+    
 `
 
 export const Prime = styled.div`
@@ -174,6 +211,7 @@ export const Prime = styled.div`
     background: ${mainColor};
     float: right;
     margin: 5px 20px;
+    animation: ${rotate} 0.3s cubic-bezier(0.390, 0.575, 0.565, 1.000) both;
 `
 
 export const Header = styled(({isMobile, ...rest})=>(<div {...rest}></div>))`
@@ -509,4 +547,5 @@ export const Hint = styled.p`
     color: rgb(136, 136, 136);
     background: #f9f9f9;
     margin: 0px;
+    height: 100%;
 `
