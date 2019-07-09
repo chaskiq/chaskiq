@@ -65,6 +65,8 @@ import {
   ConversationsFooter
 } from './styles/styled'
 
+
+
 // https://stackoverflow.com/questions/12114356/how-to-get-the-request-timezone
 
 const SuperDuper = styled(StyledFrame)`
@@ -1097,8 +1099,56 @@ class Conversations extends Component {
 
               const message = o.last_message
 
-              return <CommentsItem key={o.id}
-                onClick={(e) => { this.props.displayConversation(e, o) }}>
+              return <CommentsItemComp
+                message={message}
+                o={o}
+                index={i}
+                displayConversation={this.props.displayConversation}
+                sanitizeMessageSummary={this.sanitizeMessageSummary}
+              />
+
+
+            })
+          }
+        </CommentsWrapper>
+
+        <ConversationsFooter>
+          <Hint>
+            {this.props.app.tagline}
+          </Hint>
+
+          <NewConvoBtn onClick={this.props.displayNewConversation}>
+            create new conversation
+          </NewConvoBtn>
+        </ConversationsFooter>
+
+      </div>
+    </div>
+
+  }
+}
+
+function CommentsItemComp(props){
+
+  const {
+    displayConversation, 
+    message, 
+    o, 
+    sanitizeMessageSummary,
+    email,
+    index
+  } = props
+
+  const [display, setDisplay] = React.useState(false)
+
+  React.useEffect(() => {
+    setTimeout(()=> setDisplay(true), 400 ) // + (index * 100))
+  }, [])
+
+  return <CommentsItem
+                display={display}
+                key={o.id}
+                onClick={(e) => { displayConversation(e, o) }}>
 
                 {
                   message ?
@@ -1113,8 +1163,7 @@ class Conversations extends Component {
                         <ConversationSummaryBodyMeta>
 
                           {
-                            !message.read_at && message.app_user.email !== this.props.email ?
-
+                            !message.read_at && message.app_user.email !== email ?
                               <ReadIndicator /> : null
                           }
                           <Autor>
@@ -1136,34 +1185,13 @@ class Conversations extends Component {
                         {/* TODO: sanitize in backend */}
                         <ConversationSummaryBodyContent
                           dangerouslySetInnerHTML={
-                            { __html: this.sanitizeMessageSummary(message.message.html_content) }
+                            { __html: sanitizeMessageSummary(message.message.html_content) }
                           }
                         />
                       </ConversationSummaryBody>
                     </ConversationSummary> : null
                 }
               </CommentsItem>
-
-
-            })
-          }
-        </CommentsWrapper>
-
-        <ConversationsFooter>
-          <Hint>
-            {this.props.app.tagline}
-            
-          </Hint>
-
-          <NewConvoBtn onClick={this.props.displayNewConversation}>
-            create new conversation
-          </NewConvoBtn>
-        </ConversationsFooter>
-
-      </div>
-    </div>
-
-  }
 }
 
 class MessageFrame extends Component {
