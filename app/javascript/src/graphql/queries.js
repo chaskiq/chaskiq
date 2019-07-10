@@ -31,6 +31,30 @@ export const APP = `
   }
 `;
 
+export const ARTICLES = `
+  query App($appKey: String!){
+    app(key: $appKey) {
+      articles{
+        title
+        slug
+        content
+      }
+    }
+  }
+`;
+
+export const ARTICLE = `
+  query App($appKey: String!){
+    app(key: $appKey) {
+      article(id: Integer!){
+        title
+        slug
+        content
+      }
+    }
+  }
+`;
+
 export const AGENTS = `
   query App($appKey: String!){
     app(key: $appKey) {

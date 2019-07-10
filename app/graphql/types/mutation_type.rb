@@ -31,11 +31,10 @@ module Types
 
     field :appUserUpdateData, mutation: Mutations::AppUsers::UpdateAppUserState
 
-    # TODO: remove me
-    #description: "An example field added by the generator"
-    ##field :insert_comment, String, null: false,
-    #def test_field
-    #  "Hello World"
-    #end
+
+    field :createArticle, mutation: Mutations::Articles::CreateArticle
+    field :editArticle, mutation: Mutations::Articles::EditArticle
+    field :deleteArticle, mutation: Mutations::Articles::DeleteArticle
+    
   end
 end
