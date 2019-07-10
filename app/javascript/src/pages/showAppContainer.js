@@ -31,6 +31,7 @@ import {
 } from '../graphql/mutations'
 
 import Dashboard from './Dashboard'
+import Articles from './Articles'
 import Drawer from '@material-ui/core/Drawer';
 import Button from '@material-ui/core/Button'
 
@@ -399,12 +400,15 @@ class ShowAppContainer extends Component {
             )}
           />
 
-
-          <Route exact path={`/apps/${this.props.app.key}`}
-              render={() => (
-                <Dashboard/>
-            )} 
+          <Route path={`/apps/${this.props.app.key}/articles`}
+            render={(props) => {
+              return <Articles 
+                        match={props.match}
+                        history={props.history}
+                      />
+            }} 
           />
+
           <Route exact path={`/apps/${this.props.app.key}/campaings`}
             render={() => (
               <p>
@@ -425,6 +429,13 @@ class ShowAppContainer extends Component {
                       />
             }} 
           />
+
+          <Route exact path={`/apps/${this.props.app.key}`}
+              render={() => (
+                <Dashboard/>
+            )} 
+          />
+
         </div> : null
       }
  
