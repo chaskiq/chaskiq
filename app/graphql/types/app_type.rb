@@ -121,5 +121,20 @@ module Types
     def assignment_rules
       object.assignment_rules.order("priority asc")
     end
+
+
+    field :articles, [Types::ArticleType], null: true
+
+    def articles
+      object.articles
+    end
+
+    field :article, Types::ArticleType, null: true do
+      argument :id, Integer, required: true
+    end
+
+    def article(id:)
+      object.articles.find(id)
+    end
   end
 end

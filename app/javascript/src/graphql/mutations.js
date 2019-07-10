@@ -457,3 +457,42 @@ export const INVITE_AGENT = `
     }
   }
 `;
+
+export const CREATE_ARTICLE = `
+  mutation CreateArticle($appKey: String!, $content: Json!){
+    createArticle(appKey: $appKey, content: $content){
+      article {
+        id
+        title
+        slug
+        content
+      }
+    }
+  }
+`;
+
+export const EDIT_ARTICLE = `
+  mutation EditArticle($appKey: String!, $content: Json!, $id: Int!){
+    editArticle(appKey: $appKey, content: $content, id: $id){
+      article {
+        id
+        title
+        slug
+        content
+      }
+    }
+  }
+`;
+
+export const DELETE_ARTICLE = `
+  mutation DeleteArticle($appKey: String!, $id: Int!){
+    deleteArticle(appKey: $appKey, id: $id){
+      article {
+        id
+        title
+        slug
+        content
+      }
+    }
+  }
+`;
