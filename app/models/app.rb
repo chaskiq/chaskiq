@@ -12,6 +12,7 @@ class App < ApplicationRecord
   # App.where('preferences @> ?', {notifications: true}.to_json)
 
   has_many :app_users
+  has_many :articles
   #has_many :users, through: :app_users
   has_many :conversations
   has_many :segments

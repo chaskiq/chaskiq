@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_07_04_172212) do
+ActiveRecord::Schema.define(version: 2019_07_10_172328) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -125,6 +125,30 @@ ActiveRecord::Schema.define(version: 2019_07_04_172212) do
     t.datetime "updated_at", null: false
     t.index ["key"], name: "index_apps_on_key"
     t.index ["preferences"], name: "index_apps_on_preferences", using: :gin
+  end
+
+  create_table "article_contents", force: :cascade do |t|
+    t.text "html_content"
+    t.text "serialized_content"
+    t.text "text_content"
+    t.bigint "article_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["article_id"], name: "index_article_contents_on_article_id"
+  end
+
+  create_table "articles", force: :cascade do |t|
+    t.string "title"
+    t.string "slug"
+    t.string "state"
+    t.string "published_at"
+    t.bigint "app_id", null: false
+    t.bigint "author_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["app_id"], name: "index_articles_on_app_id"
+    t.index ["author_id"], name: "index_articles_on_author_id"
+    t.index ["slug"], name: "index_articles_on_slug"
   end
 
   create_table "assignment_rules", force: :cascade do |t|
