@@ -138,12 +138,11 @@ function Navigator(props, context) {
     },
 
     {
-      id: 'App\'s Knowledgebase',
+      id: 'Help Center',
       children: [
-        /*{ id: 'Analytics', icon: <SettingsIcon /> },
-        { id: 'Performance', icon: <TimerIcon /> },
-        { id: 'Test Lab', icon: <PhonelinkSetupIcon /> },*/
-        { id: 'Articles', icon: <BookIcon/>, url: `${appid}/messages/campaigns`},
+        { id: 'Articles', icon: <BookIcon/>, url: `/apps/${props.app.key}/articles`},
+        { id: 'Collections', icon: <BookIcon/>, url: `/apps/${props.app.key}/articles/collections`},
+        { id: 'Settings', icon: <BookIcon/>, url: `/apps/${props.app.key}/articles/settings`},
       ],
     },
 
