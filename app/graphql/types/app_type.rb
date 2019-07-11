@@ -123,10 +123,13 @@ module Types
     end
 
 
-    field :articles, [Types::ArticleType], null: true
+    field :articles, Types::PaginatedArticlesType, null: true do
+      argument :page, Integer, required: true
+      argument :per, Integer, required: false, default_value: 20
+    end
 
-    def articles
-      object.articles
+    def articles(page:, per:)
+      object.articles.page(page).per(per)
     end
 
     field :article, Types::ArticleType, null: true do

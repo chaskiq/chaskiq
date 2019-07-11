@@ -32,12 +32,16 @@ export const APP = `
 `;
 
 export const ARTICLES = `
-  query App($appKey: String!){
+  query App($appKey: String!, $page: Int!, $per: Int){
     app(key: $appKey) {
-      articles{
-        title
-        slug
-        content
+      articles(page: $page, per: $per){
+        collection {
+          title
+          slug
+          content          
+        }
+        meta
+
       }
     }
   }
