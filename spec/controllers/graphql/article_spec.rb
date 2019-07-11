@@ -32,12 +32,10 @@ RSpec.describe GraphqlController, type: :controller do
 
       graphql_post(type: 'ARTICLES', variables: {
         appKey: app.key, 
-        #page: 1,
-        #filter: nil,
-        #sort: nil
+        page: 1,
       })
 
-      expect(graphql_response.data.app.articles).to be_empty
+      expect(graphql_response.data.app.articles.meta.total_count).to be_zero
 
     end
 
@@ -45,12 +43,10 @@ RSpec.describe GraphqlController, type: :controller do
       app.articles.create({title: "hello world", author: agent})
       graphql_post(type: 'ARTICLES', variables: {
         appKey: app.key, 
-        #page: 1,
-        #filter: nil,
-        #sort: nil
+        page: 1,
       })
 
-      expect(graphql_response.data.app.articles).to be_present
+      expect(graphql_response.data.app.articles.collection).to be_any
 
     end
   end
@@ -61,8 +57,8 @@ RSpec.describe GraphqlController, type: :controller do
       graphql_post(type: 'CREATE_ARTICLE', variables: {
         appKey: app.key, 
         content: {
-          serialized_content: "aaa",
-          text_content: "aaa",
+          serialized: "aaa",
+          text: "aaa",
         }
       })
 
@@ -84,11 +80,14 @@ RSpec.describe GraphqlController, type: :controller do
         appKey: app.key, 
         id: article.id,
         content: {
-          serialized_content: "edited!",
-          text_content: "edited!"
+          serialized: "edited!",
+          text: "edited!"
         }
       })
-      
+
+      content = graphql_response.data.editArticle.article.content
+      expect(content.serialized_content).to be == "edited!"
+
       expect(graphql_response.data.editArticle).to be_present
       expect(app.reload.articles).to be_present
     end

@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 
-import { withRouter } from 'react-router-dom'
+import { withRouter, Route } from 'react-router-dom'
 import { connect } from 'react-redux'
 
 import ContentHeader from '../components/ContentHeader'
@@ -29,13 +29,18 @@ import {Link} from 'react-router-dom'
 
 
 import graphql from '../graphql/client'
-import {AGENTS, PENDING_AGENTS} from '../graphql/queries'
-import {INVITE_AGENT} from '../graphql/mutations'
+import {ARTICLES} from '../graphql/queries'
+import {
+  CREATE_ARTICLE, 
+  EDIT_ARTICLE, 
+  DELETE_ARTICLE
+} from '../graphql/mutations'
 
 import { withStyles } from '@material-ui/core/styles';
 import ClickAwayListener from '@material-ui/core/ClickAwayListener';
 
 import FormDialog from '../components/FormDialog'
+import ArticlesNew from './articles/new'
 
 
 const styles = theme => ({
@@ -84,11 +89,34 @@ class Articles extends Component {
     return (
        <React.Fragment>
 
-        <ContentHeader 
-          title={ 'Articles' }
-          tabsContent={ this.tabsContent() }
+       
+        <Route exact path={`/apps/${this.props.app.key}/articles/new`}
+          render={(props) => {
+            return <ArticlesNew
+                      data={{}}
+                   />
+          }} 
         />
-        {this.renderTabcontent()}
+
+
+
+        <Route exact path={`/apps/${this.props.app.key}/articles`}
+          render={(props) => {
+            return <React.Fragment>
+              
+              <ContentHeader 
+                title={ 'Articles' }
+                tabsContent={ this.tabsContent() }
+              />
+
+              {this.renderTabcontent()}
+
+            </React.Fragment>
+          }} 
+        />
+
+
+        
       </React.Fragment>
     );
   }
@@ -105,11 +133,12 @@ class AllArticles extends React.Component {
     this.search()
   }
 
-  getAgents = ()=>{
-    graphql(AGENTS, {appKey: this.props.app.key, }, {
+  getArticles = ()=>{
+    graphql(ARTICLES, {appKey: this.props.app.key, page: 1 }, {
       success: (data)=>{
         this.setState({
-          collection: data.app.agents, 
+          collection: data.app.articles.collection, 
+          meta: data.app.articles.meta,
           loading: false
         })
       },
@@ -121,7 +150,7 @@ class AllArticles extends React.Component {
   search = (item)=>{
     this.setState({
       loading: true, 
-    }, this.getAgents )
+    }, this.getArticles )
   }
 
   render(){
@@ -138,39 +167,13 @@ class AllArticles extends React.Component {
                 disablePagination={true}
                 columns={[
                   {name: "id", title: "id"},
-
-                  {name: "avatar", title: "",
-                  
-                    getCellValue: row => (row ? 
-                      <Link to={`/apps/${this.props.app.key}/agents/${row.id}`}>
-                        <Avatar
-                          name={row.email}
-                          size="medium"
-                          src={gravatar(row.email)}
-                        />
-                      </Link>
-                     : undefined)
-                  },
-                  {name: "email", title: "email"},
-                  {name: "name", title: "name"},
-                  {name: "signInCount", title: "signInCount"},
-                  {name: "lastSignInAt", title: "lastSignInAt"},
-                  {name: "invitationAcceptedAt", title: "invitationAcceptedAt"},
-                  {name: "actions", title: "actions", 
-                    getCellValue: row => (row ? 
-
-                      <Link to={`/apps/${this.props.app.key}/agents/${row.id}`}>
-                        aaa
-                      </Link>
-
-                     : undefined)
-                }
+                  {name: "title", title: "title"},
+                  {name: "state", title: "state"},
                 ]}
                 defaultHiddenColumnNames={[]}
                 tableColumnExtensions={[
-                  { columnName: 'email', width: 250 },
+                  { columnName: 'title', width: 250 },
                   { columnName: 'id', width: 10 },
-                  { columnName: 'avatar', width: 55 },
                 ]}
 
                 //tableEdit={true}
