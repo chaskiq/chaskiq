@@ -459,26 +459,36 @@ export const INVITE_AGENT = `
 `;
 
 export const CREATE_ARTICLE = `
-  mutation CreateArticle($appKey: String!, $content: Json!){
-    createArticle(appKey: $appKey, content: $content){
+  mutation CreateArticle($appKey: String!, $content: Json!, $title: String!){
+    createArticle(appKey: $appKey, content: $content, title: $title){
       article {
         id
         title
         slug
         content
+        author{
+          email
+          id
+          name
+        }
       }
     }
   }
 `;
 
 export const EDIT_ARTICLE = `
-  mutation EditArticle($appKey: String!, $content: Json!, $id: Int!){
-    editArticle(appKey: $appKey, content: $content, id: $id){
+  mutation EditArticle($appKey: String!, $content: Json!, $id: Int!, $title: String!){
+    editArticle(appKey: $appKey, content: $content, id: $id, title: $title){
       article {
         id
         title
         slug
         content
+        author{
+          email
+          id
+          name
+        }
       }
     }
   }

@@ -56,6 +56,7 @@ RSpec.describe GraphqlController, type: :controller do
     it "create new article" do
       graphql_post(type: 'CREATE_ARTICLE', variables: {
         appKey: app.key, 
+        title: "ss",
         content: {
           serialized: "aaa",
           text: "aaa",
@@ -79,6 +80,7 @@ RSpec.describe GraphqlController, type: :controller do
       graphql_post(type: 'EDIT_ARTICLE', variables: {
         appKey: app.key, 
         id: article.id,
+        title: "ss",
         content: {
           serialized: "edited!",
           text: "edited!"

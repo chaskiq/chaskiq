@@ -91,15 +91,22 @@ const styles = theme => ({
 });
 
 function Navigator(props, context) {
-  const { classes, ...other } = props;
+  const { 
+    classes, 
+    current_page, 
+    app, 
+    match,
+    location,
+    ...other 
+  } = props;
 
-  const appid = `/apps/${props.app.key}`
+  const appid = `/apps/${app.key}`
 
-  const [expanded, setExpanded] = useState(props.current_page);
+  const [expanded, setExpanded] = useState(current_page);
 
   useEffect( () => { 
-    setExpanded(props.current_page) 
-  }, [ props.current_page ] );
+    setExpanded(current_page) 
+  }, [ current_page ] );
 
   const handleChange = panel => (event, isExpanded) => {
     setExpanded(isExpanded ? panel : false);
@@ -110,18 +117,18 @@ function Navigator(props, context) {
     {
       id: 'Platform',
       icon: <PeopleIcon style={{ fontSize: 30 }}/>,
-      children: props.app.segments.map((o)=>(
+      children: app.segments.map((o)=>(
         { id: o.name , 
           icon:  null, 
-          url: `/apps/${props.app.key}/segments/${o.id}`
+          url: `/apps/${app.key}/segments/${o.id}`
         }
       ))
     },
     {
       id: 'Conversations',
       children: [
-        { id: 'Conversations', icon:  <SmsIcon/>, url: `/apps/${props.app.key}/conversations`},
-        { id: 'Assigment Rules', icon:  <ShuffleIcon/>, url: `/apps/${props.app.key}/conversations/assignment_rules`},
+        { id: 'Conversations', icon:  <SmsIcon/>, url: `/apps/${app.key}/conversations`},
+        { id: 'Assigment Rules', icon:  <ShuffleIcon/>, url: `/apps/${app.key}/conversations/assignment_rules`},
       ],
     },
     {
@@ -140,17 +147,17 @@ function Navigator(props, context) {
     {
       id: 'Help Center',
       children: [
-        { id: 'Articles', icon: <BookIcon/>, url: `/apps/${props.app.key}/articles`},
-        { id: 'Collections', icon: <BookIcon/>, url: `/apps/${props.app.key}/articles/collections`},
-        { id: 'Settings', icon: <BookIcon/>, url: `/apps/${props.app.key}/articles/settings`},
+        { id: 'Articles', icon: <BookIcon/>, url: `/apps/${app.key}/articles`},
+        { id: 'Collections', icon: <BookIcon/>, url: `/apps/${app.key}/articles/collections`},
+        { id: 'Settings', icon: <BookIcon/>, url: `/apps/${app.key}/articles/settings`},
       ],
     },
 
     {
       id: 'Settings',
       children: [
-        { id: 'App Settings', icon:  <SettingsIcon/>, url: `/apps/${props.app.key}/settings`, },
-        { id: 'Team', icon: <SupervisedUserCircleIcon />, url: `/apps/${props.app.key}/team`, active: false },
+        { id: 'App Settings', icon:  <SettingsIcon/>, url: `/apps/${app.key}/settings`, },
+        { id: 'Team', icon: <SupervisedUserCircleIcon />, url: `/apps/${app.key}/team`, active: false },
         { id: 'Authentication', icon: <ShuffleIcon />, active: true },
       ],
     },
@@ -166,6 +173,7 @@ function Navigator(props, context) {
     },
   ];
 
+  console.log(other)
   return (
     <Drawer variant="permanent" {...other}>
       <List disablePadding>
@@ -284,16 +292,18 @@ function mapStateToProps(state, ownProps) {
   const { loading, isAuthenticated } = auth
 
   return {
-    current_user,
+    /*current_user,
     segment,
     app_users,
     app,
     loading,
-    isAuthenticated,
+    isAuthenticated,*/
+    app,
     current_page,
   }
 }
 
-export default withStyles(styles)(withRouter(connect(mapStateToProps)( Navigator )))
+export default withRouter(connect(mapStateToProps)(withStyles(styles)(Navigator)))
+//export default withStyles(styles)(withRouter(connect(mapStateToProps)( Navigator )))
 
 

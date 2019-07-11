@@ -48,12 +48,18 @@ export const ARTICLES = `
 `;
 
 export const ARTICLE = `
-  query App($appKey: String!){
+  query App($appKey: String!, $id: Int!){
     app(key: $appKey) {
-      article(id: Integer!){
+      article(id: $id){
+        id
         title
         slug
         content
+        author{
+          email
+          id
+          name
+        }
       }
     }
   }

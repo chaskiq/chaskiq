@@ -89,17 +89,6 @@ class Articles extends Component {
     return (
        <React.Fragment>
 
-       
-        <Route exact path={`/apps/${this.props.app.key}/articles/new`}
-          render={(props) => {
-            return <ArticlesNew
-                      data={{}}
-                   />
-          }} 
-        />
-
-
-
         <Route exact path={`/apps/${this.props.app.key}/articles`}
           render={(props) => {
             return <React.Fragment>
@@ -109,9 +98,22 @@ class Articles extends Component {
                 tabsContent={ this.tabsContent() }
               />
 
+              <Link to={`/apps/${this.props.app.key}/articles/new`}>
+                new
+              </Link>
+
               {this.renderTabcontent()}
 
             </React.Fragment>
+          }} 
+        />
+
+        <Route exact path={`/apps/${this.props.app.key}/articles/:id`}
+          render={(props) => {
+            return <ArticlesNew
+                      history={this.props.history}
+                      data={{}}
+                   />
           }} 
         />
 
