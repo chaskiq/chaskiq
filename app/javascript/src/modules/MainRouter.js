@@ -36,9 +36,20 @@ import AcceptInvitation from '../auth/AcceptInvitation'
 
 
 let theme = createMuiTheme({
+
   typography: {
+
+
+    fontFamily: "\"Roboto Mono\", \"Helvetica\", \"Arial\", sans-serif",
+    fontSize: 14,
+    /*fontWeightLight: 300,
+    fontWeightRegular: 400,
+    fontWeightMedium: 500,*/
+
+
     h5: {
-      fontWeight: 500,
+      fontFamily: "\"Open Sans\", \"Helvetica\", \"Arial\", sans-serif",
+      fontWeight: 'bold',
       fontSize: 26,
       letterSpacing: 0.5,
     },

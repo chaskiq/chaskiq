@@ -13,7 +13,9 @@ import {
         Typography,
         Button,
         TextField,
-        Paper
+        Paper,
+        Checkbox,
+        FormControlLabel
       } from '@material-ui/core';
 
 import gravatar from '../../shared/gravatar'
@@ -26,7 +28,18 @@ import ContentWrapper from '../../components/ContentWrapper';
 //import {Link} from 'react-router-dom'
 
 import graphql from '../../graphql/client'
+import {
+  CREATE_ARTICLE, 
+  EDIT_ARTICLE
+} from '../../graphql/mutations'
+
+import {
+  ARTICLE
+} from '../../graphql/queries'
+
 import { withStyles } from '@material-ui/core/styles';
+
+import { convertToHTML } from 'draft-convert'
 
 import {
   CompositeDecorator,
@@ -71,6 +84,8 @@ import _ from "lodash"
 import {ThemeProvider} from 'styled-components'
 import EditorContainer from '../../components/conversation/editorStyles'
 import theme from '../../components/conversation/theme'
+
+
 
 
 const styles = theme => ({
@@ -144,15 +159,67 @@ const defaultProps = {
 
 class ArticlesNew extends Component {
 
-  state = {};
+  state = {
+    currentContent: null,
+    content: null,
+    article: {},
+    changed: false,
+    loading: true,
+  };
+
+  titleRef = null
+
+  componentDidMount(){
+    if(this.props.match.params.id != "new"){
+      this.getArticle(parseInt(this.props.match.params.id))      
+    } else {
+      this.setState({
+        loading: false
+      })
+    }
+  }
+
+  componentDidUpdate(prevProps, prevState){
+    // maybe do this ony with content and submit 
+    //checkbox and agent directly and independently from content
+    if(prevState.content != this.state.content){
+      this.setState({
+        changesAvailable: true
+      })
+    }
+
+  }
+
+  getArticle = (id)=>{
+    graphql(ARTICLE, {
+      appKey: this.props.app.key, 
+      id: id
+    }, {
+      success: (data)=>{
+        this.setState({
+          article: data.app.article, 
+          loading: false
+        })
+      },
+      error: ()=>{
+
+      }
+    })
+  }
 
   emptyContent = () => {
-    return { "entityMap": {}, "blocks": [{ "key": "761n6", "text": "Write something", "type": "header-one", "depth": 0, "inlineStyleRanges": [], "entityRanges": [], "data": {} }, { "key": "f1qmb", "text": "", "type": "unstyled", "depth": 0, "inlineStyleRanges": [], "entityRanges": [], "data": {} }, { "key": "efvk7", "text": "Dante2 Inc.\nSantiago, Chile\nYou Received this email because you signed up on our website or made purchase from us.", "type": "footer", "depth": 0, "inlineStyleRanges": [{ "offset": 0, "length": 114, "style": "CUSTOM_FONT_SIZE_13px" }, { "offset": 0, "length": 114, "style": "CUSTOM_COLOR_#8d8181" }], "entityRanges": [], "data": {} }, { "key": "7gh7t", "text": "Unsubscribe", "type": "unsubscribe_button", "depth": 0, "inlineStyleRanges": [], "entityRanges": [], "data": { "enabled": false, "fill": "fill", "displayPopOver": true, "data": {}, "href": "http://mailerlite.com/some_unsubscribe_link_here", "border": "default", "forceUpload": false, "containerStyle": { "textAlign": "left", "margin": "0px 13px 0px 0px" }, "label": "click me", "float": "left", "buttonStyle": { "color": "#fff", "backgroundColor": "#3498db", "padding": "6px 12px", "display": "inline-block", "fontFamily": "Helvetica", "fontSize": 13, "float": "none", "border": "1px solid #3498db" } } }] }
+    return { 
+      "entityMap": {}, 
+      "blocks": [
+        { "key": "761n6", "text": "Write something", "type": "header-one", "depth": 0, "inlineStyleRanges": [], "entityRanges": [], "data": {} }, 
+        { "key": "f1qmb", "text": "", "type": "unstyled", "depth": 0, "inlineStyleRanges": [], "entityRanges": [], "data": {} }, 
+      ] 
+    }
   }
 
   defaultContent = () => {
     try {
-      return JSON.parse(this.props.data.serializedContent) || this.emptyContent()
+      return JSON.parse(this.state.article.content.serialized_content) || this.emptyContent()
     } catch (error) {
       return this.emptyContent()
     }
@@ -269,6 +336,10 @@ class ArticlesNew extends Component {
     ButtonBlockConfig()
     ]
   
+  }
+
+  updateUrlFromNew = ()=>{
+    this.props.history.push(`/apps/${this.props.app.key}/articles/${this.state.article.id}`)
   }
 
   saveHandler = (context, content, cb) => {
@@ -514,42 +585,80 @@ class ArticlesNew extends Component {
     const serialized = JSON.stringify(content)
     const plain = context.getTextFromEditor(content)
 
-    console.log(html3)
-
     if(this.props.data.serialized_content === serialized)
       return
-
 
     this.setState({
       status: "saving...",
       statusButton: "success"
     })
 
-    const params = {
-      appKey: this.props.app.key,
-      id: this.props.data.id,
-      campaignParams: {
-        html_content: html3,
-        serialized_content: serialized
-    }}
-
-    /*graphql(UPDATE_CAMPAIGN, params, {
-      success: (data)=>{
-        this.props.updateData(data.campaignUpdate.campaign, null)
-        this.setState({ status: "saved" })
-      }, 
-      error: ()=>{
-
+    this.setState({
+      content: {
+        html: html3,
+        serialized: serialized
       }
-    })*/
+    })
 
     if (cb)
       cb(html3, plain, serialized)
   }
 
+  createArticle = ()=>{
+    graphql(CREATE_ARTICLE, {
+      appKey: this.props.app.key,
+      title: this.titleRef.value,
+      content: this.state.content
+    }, {
+      success: (data)=>{
+        const article = data.createArticle.article
+        this.setState({
+          article: article,
+          changesAvailable: false
+        }, this.updateUrlFromNew)
+      },
+      error: ()=>{
+
+      }
+    })
+  }
+
+  editArticle = ()=>{
+    graphql(EDIT_ARTICLE, {
+      appKey: this.props.app.key,
+      title: this.titleRef.value,
+      id: parseInt(this.state.article.id),
+      content: this.state.content
+    }, {
+      success: (data)=>{
+        const article = data.createArticle.article
+        this.setState({
+          article: article,
+          changesAvailable: false
+        })
+      },
+      error: ()=>{
+
+      }
+    })
+  }
+
   decodeEditorContent = (raw_as_json) => {
     const new_content = convertFromRaw(raw_as_json)
     return EditorState.createWithContent(new_content)
+  }
+
+  submitChanges = ()=>{
+    console.log(this.state.article)
+    this.setState({
+      changesAvailable: false
+    }, ()=>{
+      if(this.state.article.id){
+        this.editArticle()
+      } else {
+        this.createArticle()
+      }
+    })
   }
 
 
@@ -563,52 +672,95 @@ class ArticlesNew extends Component {
          elevation={1}
          className={classes.paper}>
 
+        <Button
+          variant="contained"
+          onClick={this.submitChanges}
+          disabled={!this.state.changesAvailable}
+          color={'primary'}>
+          Save
+        </Button>
+        
+        <FormControlLabel
+          value="end"
+          control={<Checkbox color="primary" />}
+          label="End"
+          labelPlacement="end"
+        />
+       
+        {
+          !this.state.loading ? 
+          <TextField
+            id="article-title"
+            label="Name"
+            placeholder={"Type articles's title"}
+            helperText="Full width!"
+            fullWidth
+            inputRef={ref => { this.titleRef = ref; }}
+            //className={classes.textField}
+            defaultValue={this.state.article.title}
+            //onChange={this.handleTitleChange}
+            margin="normal"
+          /> : null 
+        }
+
+
+        {
+          !this.state.loading && this.state.article.author ? 
+          <div>
+            <strong>Author</strong>
+            <p>{this.state.article.author.email }</p> 
+          </div>: null
+        }
+
          <ThemeProvider theme={theme}>
-          <DanteEditor
-                          {...defaultProps}
-                          debug={false}
-                          data_storage={
-                            {
-                              url: "/",
-                              save_handler: this.saveHandler
-                            }
-                          }
-                          onChange={(e) => {
-                            this.dante_editor = e
-                            const newContent = convertToRaw(e.state.editorState.getCurrentContent()) //e.state.editorState.getCurrentContent().toJS()
-                            this.menuResizeFunc = getVisibleSelectionRect
-                            const selectionState = e.state.editorState.getSelection();
+           <EditorContainer campaign={true}>
 
-                            /*if(window.getSelection().rangeCount > 0){
-                              window.getSelection().getRangeAt(0)
-                              debugger
-                            }*/
-                            //console.log("MENU POSITION", this.menuResizeFunc(window))
-                            this.setState({
-                              currentContent: newContent,
-                              selectionPosition: selectionState.toJSON() //this.menuResizeFunc(window),
-                            })
 
-                            //console.log("cha chachanges: ", e.state.editorState)
-                          }}
-                          content={this.defaultContent()}
-                          tooltips={this.tooltipsConfig()}
-                          widgets={this.widgetsConfig()}
-                          decorators={(context) => {
-                            return new MultiDecorator([
-                              //this.generateDecorator("hello"),
-                              PrismDraftDecorator({ prism: Prism }),
-                              new CompositeDecorator(
-                                [{
-                                  strategy: findEntities.bind(null, 'LINK', context),
-                                  component: Link
-                                }]
-                              )
+             {
+               !this.state.loading ?
+             
+                <DanteEditor
+                  {...defaultProps}
+                  debug={false}
+                  data_storage={
+                    {
+                      url: "/",
+                      save_handler: this.saveHandler
+                    }
+                  }
+                  onChange={(e) => {
+                    this.dante_editor = e
+                    const newContent = convertToRaw(e.state.editorState.getCurrentContent()) //e.state.editorState.getCurrentContent().toJS()
+                    this.menuResizeFunc = getVisibleSelectionRect
+                    const selectionState = e.state.editorState.getSelection();
 
-                            ])
-                          }
-                          }
-          />
+                    this.setState({
+                      currentContent: newContent,
+                      selectionPosition: selectionState.toJSON() //this.menuResizeFunc(window),
+                    })
+
+                  }}
+                  content={this.defaultContent()}
+                  tooltips={this.tooltipsConfig()}
+                  widgets={this.widgetsConfig()}
+                  decorators={(context) => {
+                    return new MultiDecorator([
+                      //this.generateDecorator("hello"),
+                      PrismDraftDecorator({ prism: Prism }),
+                      new CompositeDecorator(
+                        [{
+                          strategy: findEntities.bind(null, 'LINK', context),
+                          component: Link
+                        }]
+                      )
+
+                    ])
+                  }
+                  }
+                /> : <p>loading</p>
+            }
+
+           </EditorContainer>
          </ThemeProvider>
 
        </Paper>
