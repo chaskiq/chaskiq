@@ -14,7 +14,7 @@ import PropTypes from 'prop-types';
 const useStyles = makeStyles(theme => ({
   root: {
     width: '97%',
-    margin: '8px'
+    //margin: '8px'
   },
   input: {
     display: 'flex',
@@ -51,7 +51,7 @@ const useStyles = makeStyles(theme => ({
   },
   paper: {
     position: 'absolute',
-    zIndex: 1,
+    zIndex: 100,
     marginTop: theme.spacing(1),
     left: 0,
     right: 0,

@@ -36,9 +36,16 @@ export const ARTICLES = `
     app(key: $appKey) {
       articles(page: $page, per: $per){
         collection {
+          id
           title
           slug
-          content          
+          content 
+          state
+          author{
+            email
+            id
+            name
+          }         
         }
         meta
 
@@ -55,6 +62,7 @@ export const ARTICLE = `
         title
         slug
         content
+        state
         author{
           email
           id

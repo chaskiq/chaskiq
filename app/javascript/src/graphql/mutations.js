@@ -466,6 +466,7 @@ export const CREATE_ARTICLE = `
         title
         slug
         content
+        state
         author{
           email
           id
@@ -484,6 +485,26 @@ export const EDIT_ARTICLE = `
         title
         slug
         content
+        state
+        author{
+          email
+          id
+          name
+        }
+      }
+    }
+  }
+`;
+
+export const TOGGLE_ARTICLE = `
+  mutation ToggleArticle($appKey: String!, $id: Int!, $state: String!){
+    toggleArticle(appKey: $appKey, id: $id, state: $state){
+      article {
+        id
+        title
+        slug
+        content
+        state
         author{
           email
           id
@@ -502,6 +523,7 @@ export const DELETE_ARTICLE = `
         title
         slug
         content
+        state
       }
     }
   }
