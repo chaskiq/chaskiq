@@ -6,6 +6,8 @@ class Article < ApplicationRecord
 
   has_one :article_content
 
+  has_many_attached :images
+
   accepts_nested_attributes_for :article_content
 
   aasm column: :state do
