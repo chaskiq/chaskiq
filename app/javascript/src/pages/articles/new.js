@@ -31,8 +31,12 @@ import ContentWrapper from '../../components/ContentWrapper';
 import graphql from '../../graphql/client'
 import {
   CREATE_ARTICLE, 
-  EDIT_ARTICLE
+  EDIT_ARTICLE,
+  CREATE_DIRECT_UPLOAD,
+  ARTICLE_BLOB_ATTACH
 } from '../../graphql/mutations'
+
+import {getFileMetadata} from '../../shared/fileUploader'
 
 import {
   ARTICLE,
@@ -305,12 +309,49 @@ class ArticlesNew extends Component {
     }])
   };
 
+  uploadHandler = (file, imageBlock)=>{
+
+    getFileMetadata(file).then((input) => {
+      graphql(CREATE_DIRECT_UPLOAD, input, {
+        success: (data)=>{
+          const signedBlob = data.createDirectUpload.directUpload.signedBlobId
+          
+          imageBlock.uploadCompleted(data.createDirectUpload.directUpload.url)
+
+          graphql(ARTICLE_BLOB_ATTACH, { 
+            appKey: this.props.app.key ,
+            id: parseInt(this.state.article.id),
+            blobId: signedBlob
+          }, {
+            success: (data)=>{
+              debugger
+            },
+            error: (err)=>{
+              debugger
+            }
+          })
+        },
+        error: (error)=>{
+          debugger
+        }
+      })
+      /*return performQuery(
+        CREATE_DIRECT_UPLOAD_QUERY,
+        variables: input
+      ).then(({ directUpload: { url, headers, signedBlobId }) => {
+        return directUpload(url, JSON.parse(headers), file).then(() => {
+          // do smth with signedBlobId – our file has been uploaded!
+        });
+      });*/
+    });
+  }
+
   widgetsConfig = () => {
     return [CodeBlockConfig(),
     ImageBlockConfig({
       options: {
         upload_url: `/attachments.json?id=${this.props.data.id}&app_id=${this.props.app.key}`,
-        //upload_handler: this.handleUpload,
+        upload_handler: this.uploadHandler,
         image_caption_placeholder: "type a caption (optional)"
       }
     }),

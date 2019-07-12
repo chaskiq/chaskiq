@@ -2,7 +2,7 @@ class GraphqlController < ApplicationController
 
   before_action :authorize_by_jwt, unless: :is_from_graphiql?
   before_action :access_required, unless: :is_from_graphiql?
-
+  before_action :set_host_for_local_storage
 
   def is_from_graphiql?
     request.referrer === "http://localhost:3000/graphiql" && !Rails.env.production?
@@ -13,7 +13,7 @@ class GraphqlController < ApplicationController
     variables = ensure_hash(params[:variables])
     query = params[:query]
     operation_name = params[:operationName]
-    
+
     context = {
       # Query context goes here, for example:
       current_user: @current_agent,
@@ -66,8 +66,12 @@ class GraphqlController < ApplicationController
     handle_error_in_development e
   end
 
-
   private
+
+
+  def set_host_for_local_storage
+    ActiveStorage::Current.host = request.base_url if Rails.application.config.active_storage.service == :local
+  end
 
   # Handle form data, JSON body, or a blank value
   def ensure_hash(ambiguous_param)

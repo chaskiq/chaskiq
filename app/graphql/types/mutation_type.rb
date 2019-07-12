@@ -35,6 +35,9 @@ module Types
     field :createArticle, mutation: Mutations::Articles::CreateArticle
     field :editArticle, mutation: Mutations::Articles::EditArticle
     field :deleteArticle, mutation: Mutations::Articles::DeleteArticle
+    field :articleBlobAttach, mutation: Mutations::Articles::ArticleBlobAttach
     
+
+    field :createDirectUpload, mutation: Mutations::CreateDirectUpload
   end
 end

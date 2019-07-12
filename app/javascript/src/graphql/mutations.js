@@ -496,6 +496,25 @@ export const EDIT_ARTICLE = `
   }
 `;
 
+export const ARTICLE_BLOB_ATTACH = `
+  mutation ArticleBlobAttach($appKey: String!, $id: Int!, $blobId: String!){
+    articleBlobAttach(appKey: $appKey, id: $id, blobId: $blobId){
+      article {
+        id
+        title
+        slug
+        content
+        state
+        author{
+          email
+          id
+          name
+        }
+      }
+    }
+  }
+`;
+
 export const TOGGLE_ARTICLE = `
   mutation ToggleArticle($appKey: String!, $id: Int!, $state: String!){
     toggleArticle(appKey: $appKey, id: $id, state: $state){
@@ -524,6 +543,22 @@ export const DELETE_ARTICLE = `
         slug
         content
         state
+      }
+    }
+  }
+`;
+
+export const CREATE_DIRECT_UPLOAD = `
+  mutation CreateDirectUpload($filename: String!, $contentType: String!, $checksum: String!, $byteSize: Int!){
+    createDirectUpload( input: { 
+      filename: $filename, 
+      contentType: $contentType, 
+      checksum: $checksum, 
+      byteSize: $byteSize 
+    }){
+      directUpload {
+        signedBlobId
+        url
       }
     }
   }
