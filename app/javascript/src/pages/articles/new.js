@@ -15,7 +15,8 @@ import {
         TextField,
         Paper,
         Checkbox,
-        FormControlLabel
+        FormControlLabel,
+        Switch
       } from '@material-ui/core';
 
 import gravatar from '../../shared/gravatar'
@@ -34,7 +35,8 @@ import {
 } from '../../graphql/mutations'
 
 import {
-  ARTICLE
+  ARTICLE,
+  AGENTS
 } from '../../graphql/queries'
 
 import { withStyles } from '@material-ui/core/styles';
@@ -85,6 +87,7 @@ import {ThemeProvider} from 'styled-components'
 import EditorContainer from '../../components/conversation/editorStyles'
 import theme from '../../components/conversation/theme'
 
+import SuggestSelect from '../../shared/suggestSelect'
 
 
 
@@ -165,9 +168,11 @@ class ArticlesNew extends Component {
     article: {},
     changed: false,
     loading: true,
+    agents: []
   };
 
   titleRef = null
+  switch_ref = null
 
   componentDidMount(){
     if(this.props.match.params.id != "new"){
@@ -177,6 +182,8 @@ class ArticlesNew extends Component {
         loading: false
       })
     }
+
+    this.getAgents()
   }
 
   componentDidUpdate(prevProps, prevState){
@@ -342,6 +349,21 @@ class ArticlesNew extends Component {
     this.props.history.push(`/apps/${this.props.app.key}/articles/${this.state.article.id}`)
   }
 
+  getAgents = ()=>{
+    graphql(AGENTS, {
+      appKey: this.props.app.key
+    }, {
+      success: (data)=>{
+        this.setState({
+          agents: data.app.agents
+        })
+      },
+      error: ()=>{
+
+      }
+    })
+  }
+
   saveHandler = (context, content, cb) => {
 
     const exportedStyles = context.editor.styleExporter(context.editor.getEditorState())
@@ -363,19 +385,19 @@ class ArticlesNew extends Component {
       blockToHTML: (block, oo) => {
 
         if (block.type === "unstyled") {
-          return <p class="graf graf--p" />
+          return <p className="graf graf--p" />
         }
         if (block.type === "header-one") {
-          return <h1 class="graf graf--h2" />
+          return <h1 className="graf graf--h2" />
         }
         if (block.type === "header-two") {
-          return <h2 class="graf graf--h3" />
+          return <h2 className="graf graf--h3" />
         }
         if (block.type === "header-three") {
-          return <h3 class="graf graf--h4" />
+          return <h3 className="graf graf--h4" />
         }
         if (block.type === "blockquote") {
-          return <blockquote class="graf graf--blockquote" />
+          return <blockquote className="graf graf--blockquote" />
         }
         if (block.type === "button" || block.type === "unsubscribe_button") {
           const { href, buttonStyle, containerStyle, label } = block.data
@@ -672,35 +694,57 @@ class ArticlesNew extends Component {
          elevation={1}
          className={classes.paper}>
 
-        <Button
-          variant="contained"
-          onClick={this.submitChanges}
-          disabled={!this.state.changesAvailable}
-          color={'primary'}>
-          Save
-        </Button>
-        
-        <FormControlLabel
-          value="end"
-          control={<Checkbox color="primary" />}
-          label="End"
-          labelPlacement="end"
-        />
        
         {
           !this.state.loading ? 
-          <TextField
-            id="article-title"
-            label="Name"
-            placeholder={"Type articles's title"}
-            helperText="Full width!"
-            fullWidth
-            inputRef={ref => { this.titleRef = ref; }}
-            //className={classes.textField}
-            defaultValue={this.state.article.title}
-            //onChange={this.handleTitleChange}
-            margin="normal"
-          /> : null 
+
+          <React.Fragment>
+
+            <div style={{
+              display: 'flex',
+              justifyItems: 'self-end',
+              justifyContent: 'space-between'
+             }}>
+
+              <Button
+                variant="contained"
+                onClick={this.submitChanges}
+                disabled={!this.state.changesAvailable}
+                color={'primary'}>
+                Save
+              </Button>
+              
+              <FormControlLabel
+                control={
+                  <Switch
+                    defaultChecked={this.state.article.state === "published" }
+                    //onChange={this.handleHiddenChange}
+                    value="hidden"
+                    color="primary"
+                    inputRef={(ref)=> this.switch_ref = ref }
+                  />
+                }
+                label={this.state.article.state}
+              />
+
+            </div>
+
+            <TextField
+              id="article-title"
+              label="Name"
+              placeholder={"Type articles's title"}
+              helperText="Full width!"
+              fullWidth
+              inputRef={ref => { this.titleRef = ref; }}
+              //className={classes.textField}
+              defaultValue={this.state.article.title}
+              //onChange={this.handleTitleChange}
+              margin="normal"
+            />
+
+          </React.Fragment>
+
+           : null 
         }
 
 
@@ -708,7 +752,19 @@ class ArticlesNew extends Component {
           !this.state.loading && this.state.article.author ? 
           <div>
             <strong>Author</strong>
-            <p>{this.state.article.author.email }</p> 
+            {/*<p>{this.state.article.author.email }</p>*/ }
+            <div style={{width: '300px'}}>
+              <SuggestSelect 
+                name={"author"}
+                placeholder={"select author"}
+                data={this.state.agents.map((o)=> ({ 
+                    label: o.email, 
+                    value: o.email 
+                  }) 
+                )}
+                defaultData={this.state.article.author.email}
+              />
+            </div>
           </div>: null
         }
 

@@ -169,7 +169,27 @@ class AllArticles extends React.Component {
                 disablePagination={true}
                 columns={[
                   {name: "id", title: "id"},
-                  {name: "title", title: "title"},
+                  {name: "title", title: "title", 
+                  
+                    getCellValue: row => (row ? 
+
+                      <Link to={`/apps/${this.props.app.key}/articles/${row.id}`}>
+                        {row.title}
+                      </Link>
+                    
+
+                   : undefined )
+
+                },
+                  {name: "author", title: "author",
+
+                  getCellValue: row => (row ? 
+
+                    <p>{row.author ? row.author.email : 'no author'}</p>
+
+                  : undefined)
+
+                },
                   {name: "state", title: "state"},
                 ]}
                 defaultHiddenColumnNames={[]}
