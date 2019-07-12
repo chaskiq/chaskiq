@@ -33,7 +33,7 @@ module Mutations
       {
         direct_upload: {
           url: blob.service_url_for_direct_upload,
-          service_url: blob.service_url,
+          service_url: Rails.application.routes.url_helpers.rails_blob_path(blob),
           # NOTE: we pass headers as JSON since they have no schema
           headers: blob.service_headers_for_direct_upload.to_json,
           blob_id: blob.id,
