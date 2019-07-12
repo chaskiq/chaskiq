@@ -559,6 +559,9 @@ export const CREATE_DIRECT_UPLOAD = `
       directUpload {
         signedBlobId
         url
+        headers
+        blobId
+        serviceUrl
       }
     }
   }

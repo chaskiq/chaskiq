@@ -36,7 +36,7 @@ import {
   ARTICLE_BLOB_ATTACH
 } from '../../graphql/mutations'
 
-import {getFileMetadata} from '../../shared/fileUploader'
+import {getFileMetadata, directUpload} from '../../shared/fileUploader'
 
 import {
   ARTICLE,
@@ -314,35 +314,28 @@ class ArticlesNew extends Component {
     getFileMetadata(file).then((input) => {
       graphql(CREATE_DIRECT_UPLOAD, input, {
         success: (data)=>{
-          const signedBlob = data.createDirectUpload.directUpload.signedBlobId
-          
-          imageBlock.uploadCompleted(data.createDirectUpload.directUpload.url)
-
-          graphql(ARTICLE_BLOB_ATTACH, { 
-            appKey: this.props.app.key ,
-            id: parseInt(this.state.article.id),
-            blobId: signedBlob
-          }, {
-            success: (data)=>{
-              debugger
-            },
-            error: (err)=>{
-              debugger
-            }
-          })
+          const {signedBlobId, headers, url, serviceUrl} = data.createDirectUpload.directUpload
+       
+          directUpload(url, JSON.parse(headers), file).then(
+            () => {
+              graphql(ARTICLE_BLOB_ATTACH, { 
+                appKey: this.props.app.key ,
+                id: parseInt(this.state.article.id),
+                blobId: signedBlobId
+              }, {
+                success: (data)=>{
+                  imageBlock.uploadCompleted(serviceUrl)
+                },
+                error: (err)=>{
+                  console.log("error on direct upload", err)
+                }
+              })
+          });
         },
         error: (error)=>{
-          debugger
+         console.log("error on signing blob", error)
         }
       })
-      /*return performQuery(
-        CREATE_DIRECT_UPLOAD_QUERY,
-        variables: input
-      ).then(({ directUpload: { url, headers, signedBlobId }) => {
-        return directUpload(url, JSON.parse(headers), file).then(() => {
-          // do smth with signedBlobId – our file has been uploaded!
-        });
-      });*/
     });
   }
 

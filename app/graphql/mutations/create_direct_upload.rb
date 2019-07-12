@@ -16,6 +16,7 @@ module Mutations
       description "Represents direct upload credentials"
 
       field :url, String, "Upload URL", null: false
+      field :service_url, String, "Service URL", null: false
       field :headers, String,
             "HTTP request headers (JSON-encoded)",
             null: false
@@ -32,6 +33,7 @@ module Mutations
       {
         direct_upload: {
           url: blob.service_url_for_direct_upload,
+          service_url: blob.service_url,
           # NOTE: we pass headers as JSON since they have no schema
           headers: blob.service_headers_for_direct_upload.to_json,
           blob_id: blob.id,
