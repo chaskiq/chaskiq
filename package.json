@@ -39,6 +39,7 @@
     "polished": "^3.2.0",
     "prop-types": "^15.6.1",
     "react": "16.8.0",
+    "react-beautiful-dnd": "^11.0.4",
     "react-bootstrap": "^0.32.1",
     "react-color": "^2.14.1",
     "react-dom": "16.8.0",
