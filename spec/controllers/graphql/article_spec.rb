@@ -73,7 +73,15 @@ RSpec.describe GraphqlController, type: :controller do
 
     it "create & update article" do
 
-      article = app.articles.create({title: "hello world", author: agent})
+      article = app.articles.create({
+        title: "hello world", 
+        author: agent,
+        article_content_attributes: {
+          html_content: "foo",
+          serialized_content: "foo",
+          text_content: "foo"
+        }
+      })
 
       expect(app.articles).to be_any
 
@@ -115,6 +123,53 @@ RSpec.describe GraphqlController, type: :controller do
       expect(app.reload.articles).to be_blank
     end
 
+  end
+
+
+  context "collections" do
+    it "create" do
+
+      article = app.articles.create({
+        title: "hello world", 
+        author: agent,
+        article_content_attributes: {
+          html_content: "foo",
+          serialized_content: "foo",
+          text_content: "foo"
+        }
+      })
+
+
+      graphql_post(type: 'ARTICLE_COLLECTION_CREATE', variables: {
+        appKey: app.key, 
+        collectionId: 1,
+        title: "ss"
+      })
+
+    end
+  end
+
+  context "sections" do
+    it "create section" do
+
+      article = app.articles.create({
+        title: "hello world", 
+        author: agent,
+        article_content_attributes: {
+          html_content: "foo",
+          serialized_content: "foo",
+          text_content: "foo"
+        }
+      })
+
+
+      graphql_post(type: 'ARTICLE_SECTION_CREATE', variables: {
+        appKey: app.key, 
+        collectionId: 1,
+        title: "ss"
+      })
+
+    end
   end
 
 

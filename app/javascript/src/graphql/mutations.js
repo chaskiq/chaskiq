@@ -566,3 +566,30 @@ export const CREATE_DIRECT_UPLOAD = `
     }
   }
 `;
+
+export const ARTICLE_SECTION_CREATE = `
+  mutation ArticleSectionCreate($appKey: String!, $title: String!, $collectionId: Int!){
+    articleSectionCreate( 
+      appKey: $appKey, 
+      title: $title, 
+      collectionId: $collectionId
+    ){
+      article{
+        id
+      }
+    }
+  }
+`;
+
+export const ARTICLE_COLLECTION_CREATE = `
+  mutation ArticleCollectionCreate($appKey: String!, $title: String!){
+    articleCollectionCreate( 
+      appKey: $appKey, 
+      title: $title, 
+    ){
+      article{
+        id
+      }
+    }
+  }
+`;
