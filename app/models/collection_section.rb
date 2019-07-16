@@ -1,3 +1,3 @@
 class CollectionSection < ApplicationRecord
-  belongs_to :article_collection
+  belongs_to :collection, class_name: "ArticleCollection", foreign_key: 'article_collection_id'
 end

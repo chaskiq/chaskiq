@@ -19,6 +19,10 @@ RSpec.describe GraphqlController, type: :controller do
     FactoryGirl.create(:campaign, app: app)
   }
 
+  let(:collection){
+    app.article_collections.create(title: "foo")    
+  }
+
   before :each do 
     Mutations::BaseMutation.any_instance
     .stub(:current_user)
@@ -127,7 +131,8 @@ RSpec.describe GraphqlController, type: :controller do
 
 
   context "collections" do
-    it "create" do
+    
+    before :each do
 
       article = app.articles.create({
         title: "hello world", 
@@ -139,6 +144,9 @@ RSpec.describe GraphqlController, type: :controller do
         }
       })
 
+    end
+
+    it "create" do
 
       graphql_post(type: 'ARTICLE_COLLECTION_CREATE', variables: {
         appKey: app.key, 
@@ -146,11 +154,40 @@ RSpec.describe GraphqlController, type: :controller do
         title: "ss"
       })
 
+      expect(graphql_response.data.articleCollectionCreate.collection).to be_present
+
     end
+
+    it "edit" do
+
+      graphql_post(type: 'ARTICLE_COLLECTION_EDIT', variables: {
+        appKey: app.key, 
+        title: "edited",
+        id: collection.id,
+        description: ""
+      })
+
+      expect(graphql_response.data.articleCollectionEdit.collection).to be_present
+      expect(app.article_collections.last.title).to be == "edited"
+    end
+
+    it "delete" do
+
+      graphql_post(type: 'ARTICLE_COLLECTION_DELETE', variables: {
+        appKey: app.key, 
+        id: collection.id
+      })
+
+      expect(graphql_response.data.articleCollectionDelete.collection).to be_present
+
+      expect(app.reload.article_collections).to be_blank
+    end
+
   end
 
   context "sections" do
-    it "create section" do
+
+    before :each do
 
       article = app.articles.create({
         title: "hello world", 
@@ -162,14 +199,51 @@ RSpec.describe GraphqlController, type: :controller do
         }
       })
 
+    end
+
+
+    it "create section" do
 
       graphql_post(type: 'ARTICLE_SECTION_CREATE', variables: {
         appKey: app.key, 
-        collectionId: 1,
-        title: "ss"
+        title: "foo",
+        collectionId: collection.id
       })
 
+      expect(graphql_response.data.articleSectionCreate).to be_present
     end
+
+
+    it "edit section" do
+
+      section = collection.sections.create(title: "foo")
+
+      graphql_post(type: 'ARTICLE_SECTION_EDIT', variables: {
+        appKey: app.key, 
+        collectionId: 1,
+        title: "edited",
+        id: section.id,
+        collectionId: collection.id
+      })
+
+      expect(graphql_response.data.articleSectionEdit).to be_present
+      expect(section.reload.title).to be == "edited"
+
+    end
+
+
+    it "delete section" do
+      section = collection.sections.create(title: "foo")
+
+      graphql_post(type: 'ARTICLE_SECTION_DELETE', variables: {
+        appKey: app.key, 
+        id: section.id,
+      })
+
+      expect(graphql_response.data.articleSectionDelete).to be_present
+      expect(collection.reload.sections).to be_empty
+    end
+
   end
 
 

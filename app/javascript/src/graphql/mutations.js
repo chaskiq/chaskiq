@@ -567,6 +567,53 @@ export const CREATE_DIRECT_UPLOAD = `
   }
 `;
 
+
+export const ARTICLE_COLLECTION_CREATE = `
+  mutation ArticleCollectionCreate($appKey: String!, $title: String!, $description: String){
+    articleCollectionCreate( 
+      appKey: $appKey, 
+      title: $title, 
+      description: $description
+    ){
+      collection{
+        id
+        title
+        description
+      }
+    }
+  }
+`;
+
+export const ARTICLE_COLLECTION_EDIT = `
+  mutation ArticleCollectionEdit($appKey: String!, $id: Int!, $title: String!, $description: String){
+    articleCollectionEdit( 
+      appKey: $appKey, 
+      title: $title, 
+      id: $id,
+      description: $description
+    ){
+      collection{
+        id
+        title
+        description
+      }
+    }
+  }
+`;
+
+export const ARTICLE_COLLECTION_DELETE = `
+  mutation ArticleCollectionDelete($appKey: String!, $id: Int!){
+    articleCollectionDelete( 
+      appKey: $appKey, 
+      id: $id,
+    ){
+      collection{
+        id
+      }
+    }
+  }
+`;
+
 export const ARTICLE_SECTION_CREATE = `
   mutation ArticleSectionCreate($appKey: String!, $title: String!, $collectionId: Int!){
     articleSectionCreate( 
@@ -574,20 +621,39 @@ export const ARTICLE_SECTION_CREATE = `
       title: $title, 
       collectionId: $collectionId
     ){
-      article{
+      section{
         id
+        title
+        description
       }
     }
   }
 `;
 
-export const ARTICLE_COLLECTION_CREATE = `
-  mutation ArticleCollectionCreate($appKey: String!, $title: String!){
-    articleCollectionCreate( 
+export const ARTICLE_SECTION_EDIT = `
+  mutation ArticleSectionEdit($appKey: String!, $title: String!, $id: Int!, $collectionId: Int!){
+    articleSectionEdit( 
       appKey: $appKey, 
-      title: $title, 
+      title: $title,
+      collectionId: $collectionId
+      id: $id
     ){
-      article{
+      section{
+        id
+        title
+        description
+      }
+    }
+  }
+`;
+
+export const ARTICLE_SECTION_DELETE = `
+  mutation ArticleSectionDelete($appKey: String!, $id: Int!){
+    articleSectionDelete( 
+    appKey: $appKey,
+    id: $id
+    ){
+      section{
         id
       }
     }

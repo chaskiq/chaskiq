@@ -3,13 +3,16 @@ module Mutations
     module Collections
       class DeleteCollection < Mutations::BaseMutation
         
-        field :article, Types::ArticleType, null: false
+        field :collection, Types::CollectionType, null: false
         argument :app_key, String, required: true
-        argument :title, String, required: true
+        argument :id, Integer, required: true
     
-        def resolve(app_key: , title:)
-          binding.pry
-          {article: article}
+        def resolve(app_key: , id:)
+          app = current_user.apps.find_by(key: app_key)
+          collection = app.article_collections.find(id)
+
+          collection.destroy
+          {collection: collection}
         end
 
 
