@@ -1,0 +1,12 @@
+class CreateCollectionSections < ActiveRecord::Migration[6.0]
+  def change
+    create_table :collection_sections do |t|
+      t.string :title
+      t.string :state
+      t.references :article_collection, null: false, foreign_key: true
+      t.text :description
+
+      t.timestamps
+    end
+  end
+end

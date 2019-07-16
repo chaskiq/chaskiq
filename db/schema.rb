@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_07_10_172328) do
+ActiveRecord::Schema.define(version: 2019_07_16_044802) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -127,6 +127,17 @@ ActiveRecord::Schema.define(version: 2019_07_10_172328) do
     t.index ["preferences"], name: "index_apps_on_preferences", using: :gin
   end
 
+  create_table "article_collections", force: :cascade do |t|
+    t.string "title"
+    t.jsonb "properties"
+    t.string "state"
+    t.text "description"
+    t.bigint "app_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["app_id"], name: "index_article_collections_on_app_id"
+  end
+
   create_table "article_contents", force: :cascade do |t|
     t.text "html_content"
     t.text "serialized_content"
@@ -189,6 +200,16 @@ ActiveRecord::Schema.define(version: 2019_07_10_172328) do
     t.index ["app_id"], name: "index_campaigns_on_app_id"
     t.index ["key"], name: "index_campaigns_on_key"
     t.index ["type"], name: "index_campaigns_on_type"
+  end
+
+  create_table "collection_sections", force: :cascade do |t|
+    t.string "title"
+    t.string "state"
+    t.bigint "article_collection_id", null: false
+    t.text "description"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["article_collection_id"], name: "index_collection_sections_on_article_collection_id"
   end
 
   create_table "conversation_part_contents", force: :cascade do |t|
@@ -366,8 +387,10 @@ ActiveRecord::Schema.define(version: 2019_07_10_172328) do
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "app_users", "apps"
+  add_foreign_key "article_collections", "apps"
   add_foreign_key "assignment_rules", "apps"
   add_foreign_key "campaigns", "apps"
+  add_foreign_key "collection_sections", "article_collections"
   add_foreign_key "conversation_parts", "app_users"
   add_foreign_key "conversation_parts", "conversations"
   add_foreign_key "conversations", "apps"
