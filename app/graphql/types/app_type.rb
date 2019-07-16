@@ -139,5 +139,22 @@ module Types
     def article(id:)
       object.articles.find(id)
     end
+
+    field :collections, [Types::CollectionType], null: true do
+    end
+
+    def collections
+      object.article_collections.find(id)
+    end
+
+    field :collection, Types::CollectionType, null: true do
+      argument :id, Integer, required: true
+    end
+
+    def collection(id:)
+      object.article_collections.find(id)
+    end
+
+
   end
 end
