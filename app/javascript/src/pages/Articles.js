@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 
-import { withRouter, Route } from 'react-router-dom'
+import { withRouter, Route, Switch } from 'react-router-dom'
 import { connect } from 'react-redux'
 
 import ContentHeader from '../components/ContentHeader'
@@ -41,7 +41,6 @@ import ClickAwayListener from '@material-ui/core/ClickAwayListener';
 
 import FormDialog from '../components/FormDialog'
 import ArticlesNew from './articles/new'
-
 
 const styles = theme => ({
   addUser: {
@@ -89,6 +88,8 @@ class Articles extends Component {
     return (
        <React.Fragment>
 
+       <Switch>
+
         <Route exact path={`/apps/${this.props.app.key}/articles`}
           render={(props) => {
             return <React.Fragment>
@@ -116,6 +117,8 @@ class Articles extends Component {
                    />
           }} 
         />
+
+       </Switch>
 
 
         

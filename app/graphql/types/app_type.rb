@@ -144,7 +144,7 @@ module Types
     end
 
     def collections
-      object.article_collections.find(id)
+      object.article_collections
     end
 
     field :collection, Types::CollectionType, null: true do

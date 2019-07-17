@@ -490,3 +490,17 @@ export const ASSIGNMENT_RULES = `
     }
   }
 `;
+
+
+export const ARTICLE_COLLECTIONS = `
+  query ArticleCollections($appKey: String!){
+    app(key: $appKey){
+      collections {
+        id
+        title
+        description
+      }
+    }
+  }
+`;
+
