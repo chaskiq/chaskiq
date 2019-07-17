@@ -36,6 +36,9 @@ module Types
     field :editArticle, mutation: Mutations::Articles::EditArticle
     field :deleteArticle, mutation: Mutations::Articles::DeleteArticle
     field :articleBlobAttach, mutation: Mutations::Articles::ArticleBlobAttach
+    field :toggleArticle, mutation: Mutations::Articles::ToggleArticle
+    field :assignAuthor, mutation: Mutations::Articles::AssignAuthor
+
     
     field :articleSectionCreate, mutation: Mutations::Articles::Sections::CreateSection
     field :articleSectionEdit, mutation: Mutations::Articles::Sections::EditSection

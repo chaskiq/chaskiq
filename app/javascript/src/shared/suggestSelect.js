@@ -248,6 +248,13 @@ export default function IntegrationReactSelect(props) {
     setMulti(value);
   }
 
+  React.useEffect(() => {
+    props.handleSingleChange(single.value)
+    //if (!state.isSubmitting) { return; }
+    // do your submitting with stateRef.current in here
+    // then dispatch the results
+  }, [single]);
+
   const selectStyles = {
     input: base => ({
       ...base,

@@ -5,7 +5,19 @@ import EditorStyles from 'Dante2/package/es/styled/base'
 
 const NewEditorStyles = styled(EditorStyles)`
   
-  display: flex;
+  //display: flex;
+
+  button.inlineTooltip-button.scale {
+    background: #fff;
+  }
+
+  button.inlineTooltip-button.control {
+    background: #fff;
+  }
+
+  .public-DraftEditorPlaceholder-root {
+    font-size: inherit;
+  }
 
   ${(props)=> !props.campaign ? 
     `.public-DraftEditor-content{

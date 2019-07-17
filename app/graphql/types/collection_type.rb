@@ -4,6 +4,6 @@ module Types
     field :id, Integer, null: true
     field :description, String, null: true
     
-    field :sections, [Types::SectionType]
+    field :sections, [Types::SectionType], null: true
   end
 end
