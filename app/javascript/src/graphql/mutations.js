@@ -599,6 +599,7 @@ export const ARTICLE_COLLECTION_CREATE = `
         title
         description
       }
+      errors
     }
   }
 `;
@@ -616,6 +617,7 @@ export const ARTICLE_COLLECTION_EDIT = `
         title
         description
       }
+      errors
     }
   }
 `;
