@@ -534,6 +534,25 @@ export const TOGGLE_ARTICLE = `
   }
 `;
 
+export const ARTICLE_ASSIGN_AUTHOR = `
+  mutation AssignAuthor($appKey: String!, $id: String!, $authorId: String!){
+    assignAuthor(appKey: $appKey, id: $id, authorId: $authorId){
+      article {
+        id
+        title
+        slug
+        content
+        state
+        author{
+          email
+          id
+          name
+        }
+      }
+    }
+  }
+`;
+
 export const DELETE_ARTICLE = `
   mutation DeleteArticle($appKey: String!, $id: Int!){
     deleteArticle(appKey: $appKey, id: $id){
