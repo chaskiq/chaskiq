@@ -504,3 +504,15 @@ export const ARTICLE_COLLECTIONS = `
   }
 `;
 
+export const ARTICLE_COLLECTION = `
+  query ArticleCollections($appKey: String!, $id: String!){
+    app(key: $appKey){
+      collection(id: $id) {
+        id
+        title
+        description
+      }
+    }
+  }
+`;
+

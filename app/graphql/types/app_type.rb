@@ -148,7 +148,7 @@ module Types
     end
 
     field :collection, Types::CollectionType, null: true do
-      argument :id, Integer, required: true
+      argument :id, String, required: true
     end
 
     def collection(id:)
