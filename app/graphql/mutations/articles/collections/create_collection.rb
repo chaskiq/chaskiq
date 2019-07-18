@@ -13,7 +13,7 @@ module Mutations
         def resolve(app_key: , title:, description:)
           app = current_user.apps.find_by(key: app_key)
           collection = app.article_collections.create(
-            title: "title", 
+            title: title, 
             description: description,
             #author: current_user
           )

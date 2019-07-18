@@ -4,6 +4,7 @@ module Mutations
       class EditCollection < Mutations::BaseMutation
         
         field :collection, Types::CollectionType, null: false
+        field :errors, Types::JsonType, null: false
         argument :app_key, String, required: true
         argument :title, String, required: true
         argument :description, String, required: false
@@ -18,7 +19,7 @@ module Mutations
             description: description
           })
 
-          {collection: collection}
+          {collection: collection, errors: collection.errors}
         end
 
 

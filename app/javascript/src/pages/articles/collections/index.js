@@ -30,7 +30,9 @@ class Collections extends Component {
 
   state = {
     isOpen: false,
-    article_collections: []
+    article_collections: [],
+    editCollection: null,
+    openConfirm: false
   }
   titleRef = null
   descriptionRef = null
@@ -61,7 +63,8 @@ class Collections extends Component {
       success: (data)=>{
         const col = data.articleCollectionCreate.collection
         this.setState({
-          article_collections: this.state.article_collections.concat(col)
+          article_collections: this.state.article_collections.concat(col),
+          isOpen: false
         })
       },
       error: ()=>{
@@ -69,6 +72,40 @@ class Collections extends Component {
       }
     })
 
+  }
+
+  submitEdit = (e)=>{
+    graphql(ARTICLE_COLLECTION_EDIT, {
+      appKey: this.props.app.key, 
+      title: this.titleRef.value, 
+      description: this.descriptionRef.value,
+      id: this.state.editCollection.id
+    }, {
+      success: (data)=>{
+        const col = data.articleCollectionEdit.collection
+        const newArticleCollection = this.state.article_collections.map((o, i)=>{
+          if(o.id === col.id){
+            return col
+          }else{
+            return o
+          }
+        })
+
+        this.setState({
+          article_collections: newArticleCollection,
+          isOpen: false,
+          editCollection: null
+        })
+
+      },
+      error: ()=>{
+        debugger
+      }
+    })
+  }
+
+  handleRemove = (item)=>{
+    confirm
   }
 
   getCollections = (e)=>{
@@ -86,8 +123,48 @@ class Collections extends Component {
     })
   }
 
+  openEdit = (collection)=>{
+    this.setState({
+      editCollection: collection,
+      isOpen: true
+    })
+  }
+
+  requestDelete = (item)=>{
+    this.setState({
+      itemToDelete: item
+    })
+  }
+
+  submitDelete = ()=>{
+
+    graphql(ARTICLE_COLLECTION_DELETE, {
+      appKey: this.props.app.key,
+      id: this.state.itemToDelete.id
+    }, {
+      success: (data)=>{
+        const col = data.articleCollectionDelete.collection
+        const newCollection = this.state.article_collections.filter(
+          (o)=> o.id != col.id
+        )
+
+        this.setState({
+          openConfirm: false,
+          itemToDelete: null,
+          article_collections: newCollection
+        })
+
+      }
+    })
+
+    
+  }
+
+
+
   render(){
-    const {isOpen} = this.state
+    const {isOpen, editCollection, itemToDelete} = this.state
+
     return <Paper 
          square={true}
          elevation={1}
@@ -119,7 +196,7 @@ class Collections extends Component {
                     //helperText="Full width!"
                     fullWidth
                     inputRef={ref => { this.titleRef = ref; }}
-                    //defaultValue={this.state.article.title}
+                    defaultValue={ editCollection ? editCollection.title : null }
                     margin="normal"
                   />
 
@@ -132,7 +209,7 @@ class Collections extends Component {
                     fullWidth
                     multiline
                     inputRef={ref => { this.descriptionRef = ref; }}
-                    //defaultValue={this.state.article.description}
+                    defaultValue={ editCollection ? editCollection.description : null }
                     margin="normal"
                   />
 
@@ -147,14 +224,45 @@ class Collections extends Component {
                     Cancel
                   </Button>
 
-                  <Button onClick={this.submitCreate.bind(this) } 
+                  <Button onClick={ editCollection ? 
+                    this.submitEdit.bind(this) :
+                    this.submitCreate.bind(this) 
+                  } 
                     zcolor="primary">
-                    {this.state.currentRule ? 'update' : 'create'}
+                    {editCollection ? 'update' : 'create'}
                   </Button>
 
                 </React.Fragment>
               }
           />
+
+
+          {
+            itemToDelete ? 
+          
+          <FormDialog 
+              open={true}
+              //contentText={"lipsum"}
+              titleContent={"Confirm deletion ?"}
+              formComponent={
+                <p>are you ready to delete ?</p>
+              }
+
+              dialogButtons={
+                <React.Fragment>
+                  <Button onClick={this.close} color="primary">
+                    Cancel
+                  </Button>
+
+                  <Button onClick={ this.submitDelete } 
+                    zcolor="primary">
+                    'remove'
+                  </Button>
+
+                </React.Fragment>
+              }
+          /> : null
+          }
 
 
           <List 
@@ -176,8 +284,12 @@ class Collections extends Component {
                           } 
                             secondary={item.description}
                           />
-                          <Button>Edit</Button>
-                          <Button>Delete</Button>
+                          <Button onClick={()=> this.openEdit(item)}>
+                            Edit
+                          </Button>
+                          <Button onClick={()=> this.requestDelete(item)}>
+                            Delete
+                          </Button>
                         </ListItem>
               })
             }
