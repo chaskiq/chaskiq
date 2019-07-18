@@ -33,6 +33,7 @@ import {
 import Dashboard from './Dashboard'
 import Articles from './Articles'
 import Collections from './articles/collections/index'
+import CollectionDetail from './articles/collections/show'
 import Drawer from '@material-ui/core/Drawer';
 import Button from '@material-ui/core/Button'
 
@@ -403,6 +404,15 @@ class ShowAppContainer extends Component {
           <Route exact path={`/apps/${this.props.app.key}/articles/collections`}
             render={(props) => {
               return <Collections 
+                        match={props.match}
+                        history={props.history}
+                      />
+            }} 
+          />
+
+          <Route exact path={`/apps/${this.props.app.key}/articles/collections/:id`}
+            render={(props) => {
+              return <CollectionDetail
                         match={props.match}
                         history={props.history}
                       />

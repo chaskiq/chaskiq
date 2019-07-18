@@ -1,5 +1,5 @@
 import React, {Component} from 'react'
-import { withRouter, Route, Switch } from 'react-router-dom'
+import { withRouter, Route, Switch, Link } from 'react-router-dom'
 import { connect } from 'react-redux'
 import {
   Paper,
@@ -169,7 +169,11 @@ class Collections extends Component {
                               <ImageIcon />
                             </Avatar>
                           </ListItemAvatar>*/}
-                          <ListItemText primary={item.title} 
+                          <ListItemText primary={
+                            <Link to={`/apps/${this.props.app.key}/articles/collections/${item.id}`}>
+                              {item.title}
+                            </Link>
+                          } 
                             secondary={item.description}
                           />
                           <Button>Edit</Button>
