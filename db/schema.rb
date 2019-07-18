@@ -155,9 +155,13 @@ ActiveRecord::Schema.define(version: 2019_07_16_044802) do
     t.string "published_at"
     t.bigint "app_id", null: false
     t.bigint "author_id", null: false
+    t.bigint "article_collection_id"
+    t.bigint "article_section_id"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["app_id"], name: "index_articles_on_app_id"
+    t.index ["article_collection_id"], name: "index_articles_on_article_collection_id"
+    t.index ["article_section_id"], name: "index_articles_on_article_section_id"
     t.index ["author_id"], name: "index_articles_on_author_id"
     t.index ["slug"], name: "index_articles_on_slug"
   end

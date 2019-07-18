@@ -42,6 +42,10 @@ import ClickAwayListener from '@material-ui/core/ClickAwayListener';
 import FormDialog from '../components/FormDialog'
 import ArticlesNew from './articles/new'
 
+import Collections from './articles/collections/index'
+import CollectionDetail from './articles/collections/show'
+
+
 const styles = theme => ({
   addUser: {
     marginRight: theme.spacing(1),
@@ -107,6 +111,24 @@ class Articles extends Component {
 
             </React.Fragment>
           }} 
+        />
+
+        <Route exact path={`/apps/${this.props.app.key}/articles/collections`}
+            render={(props) => {
+              return <Collections 
+                        match={props.match}
+                        history={props.history}
+                      />
+            }} 
+          />
+
+        <Route exact path={`/apps/${this.props.app.key}/articles/collections/:id`}
+            render={(props) => {
+              return <CollectionDetail
+                        match={props.match}
+                        history={props.history}
+                      />
+            }} 
         />
 
         <Route exact path={`/apps/${this.props.app.key}/articles/:id`}
