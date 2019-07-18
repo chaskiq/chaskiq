@@ -516,3 +516,37 @@ export const ARTICLE_COLLECTION = `
   }
 `;
 
+export const ARTICLE_COLLECTION_WITH_SECTIONS = `
+  query ArticleCollections($appKey: String!, $id: String!){
+    app(key: $appKey){
+      collection(id: $id) {
+        id
+        title
+        description
+
+        baseArticles{
+            title
+          author{
+            id
+            email
+          }
+        }
+        sections{
+          id
+          title
+          description
+          articles{
+            title
+            author{
+              id
+              email
+            }
+          }
+          
+        }
+      }
+    }
+  }
+`;
+
+
