@@ -38,6 +38,7 @@ module Types
     field :articleBlobAttach, mutation: Mutations::Articles::ArticleBlobAttach
     field :toggleArticle, mutation: Mutations::Articles::ToggleArticle
     field :assignAuthor, mutation: Mutations::Articles::AssignAuthor
+    field :reorderArticle, mutation: Mutations::Articles::ReorderArticle
 
     
     field :articleSectionCreate, mutation: Mutations::Articles::Sections::CreateSection
