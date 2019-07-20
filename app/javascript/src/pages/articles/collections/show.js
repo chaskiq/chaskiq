@@ -107,7 +107,15 @@ class CollectionDetail extends Component {
       id: section.id
     }, {
       success: (data)=>{
-        debugger
+        const section = data.articleSectionDelete.section
+        const newSections = this.state.collection.sections.filter((o)=> o.id != section.id )
+
+        this.setState({
+          collection: Object.assign({}, 
+            this.state.collection, 
+            {sections: newSections}
+          )
+        })
       },
       error: ()=>{
 

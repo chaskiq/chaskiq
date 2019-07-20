@@ -206,7 +206,7 @@ export default class App extends Component {
 
                                 {provided.placeholder}
 
-                                <button onClick={(item)=> this.props.deleteSection(item)}>
+                                <button onClick={(e)=> this.props.deleteSection(o)}>
                                   delete section
                                 </button>
                                 {
