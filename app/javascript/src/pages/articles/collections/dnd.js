@@ -85,12 +85,12 @@ export default class App extends Component {
 
   constructor(props){
     super(props)
-    this.state = {
+    /*this.props = {
       sections: this.props.sections
-    }
+    }*/
   }
 
-  getList = id => this.state.sections.find((o)=> o.id === id).articles;
+  getList = id => this.props.sections.find((o)=> o.id === id).articles;
 
   onDragEnd = result => {
     const { source, destination } = result;
@@ -108,7 +108,7 @@ export default class App extends Component {
         );
 
         
-        const newCollection = this.state.sections.map((o)=> {
+        const newCollection = this.props.sections.map((o)=> {
           if(o.id === destination.droppableId) return Object.assign({}, o, {articles: items} )
           return o
         })
@@ -119,13 +119,13 @@ export default class App extends Component {
         const result = move(
             this.getList(source.droppableId),
             this.getList(destination.droppableId),
-            //this.state.sections[source.droppableId],
-            //this.state.sections[destination.droppableId],
+            //this.props.sections[source.droppableId],
+            //this.props.sections[destination.droppableId],
             source,
             destination
         );
 
-        const newCollection = this.state.sections.map((o)=> {
+        const newCollection = this.props.sections.map((o)=> {
           const obj = result[o.id]
           if(obj) return Object.assign({}, o, { articles: obj ? obj : [] } )
           return o
@@ -136,9 +136,12 @@ export default class App extends Component {
   };
 
   updateSections = (data)=>{
-    this.setState({ sections: data }, ()=>{ 
-      this.props.handleDataUpdate(this.state.sections)
-    });
+
+    /*this.setState({ sections: data }, ()=>{ 
+      this.props.handleDataUpdate(this.props.sections)
+    });*/
+
+    this.props.handleDataUpdate(data)
   }
 
   render() {
@@ -149,7 +152,7 @@ export default class App extends Component {
         <DragDropContext onDragEnd={this.onDragEnd}>
 
             {
-               this.state.sections.map((o, i)=>(
+               this.props.sections.map((o, i)=>(
 
                 <React.Fragment>
                   <div style={{
@@ -202,6 +205,10 @@ export default class App extends Component {
                                 }
 
                                 {provided.placeholder}
+
+                                <button onClick={(item)=> this.props.deleteSection(item)}>
+                                  delete section
+                                </button>
                                 {
                                   o.articles.length > 0 ? 
                                   <p>hay</p> : <p>no hay!</p>
