@@ -8,7 +8,6 @@ module Mutations
       argument :title, String, required: true
       argument :id, Integer, required: true
 
-      # TODO: define resolve method
       def resolve(app_key:, id:, content:, title:)
         app = App.find_by(key: app_key)
         article = app.articles.find(id)
