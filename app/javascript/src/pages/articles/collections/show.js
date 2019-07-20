@@ -73,7 +73,9 @@ class CollectionDetail extends Component {
   }
 
   handleDataUpdate = (data)=>{
-    debugger
+    this.setState({
+      collection: Object.assign({}, this.state.collection, {sections: data})
+    })
   }
 
   renderCollection = ()=>{
@@ -92,19 +94,20 @@ class CollectionDetail extends Component {
 
                 <Dnd sections={collection.sections}
                      handleDataUpdate={ this.handleDataUpdate }
+                     deleteSection={this.deleteSection}
                 />
               </div> : null 
             }
            </div>
   }
 
-  deleteArticle = (section)=>{
+  deleteSection = (section)=>{
     graphql(ARTICLE_SECTION_DELETE, {
       appKey: this.props.app.key,
       id: section.id
     }, {
       success: (data)=>{
-
+        debugger
       },
       error: ()=>{
 
@@ -122,11 +125,11 @@ class CollectionDetail extends Component {
     }, 
     {
       success: (data)=>{
-        debugger
         const section = data.articleSectionCreate.section
+        const sections = this.state.collection.sections.concat(section) 
 
         this.setState({
-          collection: this.state.collection.concat(section),
+          collection: Object.assign({}, this.state.collection, {sections: sections}),
           isOpen: false
         })
       },
