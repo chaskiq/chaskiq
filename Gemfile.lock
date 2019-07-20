@@ -81,6 +81,8 @@ GEM
       minitest (~> 5.1)
       tzinfo (~> 1.1)
       zeitwerk (~> 2.1, >= 2.1.4)
+    acts_as_list (0.9.19)
+      activerecord (>= 3.0)
     addressable (2.6.0)
       public_suffix (>= 2.0.2, < 4.0)
     airbrussh (1.3.1)
@@ -464,6 +466,7 @@ PLATFORMS
 DEPENDENCIES
   aasm
   active_importer
+  acts_as_list (~> 0.9.19)
   aws-sdk-s3 (~> 1.15)
   aws-ses
   bootsnap (>= 1.1.0)

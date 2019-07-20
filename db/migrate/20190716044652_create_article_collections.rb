@@ -5,6 +5,7 @@ class CreateArticleCollections < ActiveRecord::Migration[6.0]
       t.jsonb :properties
       t.string :state
       t.text :description
+      t.integer :position
       t.references :app, null: false, foreign_key: true
 
       t.timestamps

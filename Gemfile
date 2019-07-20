@@ -150,3 +150,5 @@ gem 'devise-jwt', '~> 0.5.9'
 #github: "lynndylanhurley/devise_token_auth" #{}"~> 1.1"
 
 gem "devise_invitable", "~> 2.0"
+
+gem "acts_as_list", "~> 0.9.19"
