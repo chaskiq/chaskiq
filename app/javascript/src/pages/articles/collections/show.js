@@ -18,12 +18,15 @@ import graphql from '../../../graphql/client'
 import {
   ARTICLE_COLLECTION_CREATE,
   ARTICLE_COLLECTION_EDIT,
-  ARTICLE_COLLECTION_DELETE
+  ARTICLE_COLLECTION_DELETE,
+  ARTICLE_SECTION_CREATE,
+  ARTICLE_SECTION_DELETE
 } from '../../../graphql/mutations'
 
 import {
   ARTICLE_COLLECTIONS,
-  ARTICLE_COLLECTION
+  ARTICLE_COLLECTION,
+  ARTICLE_COLLECTION_WITH_SECTIONS
 } from '../../../graphql/queries'
 
 import Dnd from './dnd'
@@ -34,7 +37,7 @@ class CollectionDetail extends Component {
 
   state = {
     isOpen: false,
-    collection: {}
+    collection: null
   }
   titleRef = null
   descriptionRef = null
@@ -45,7 +48,7 @@ class CollectionDetail extends Component {
   }
 
   getCollection = ()=>{
-    graphql(ARTICLE_COLLECTION, {
+    graphql(ARTICLE_COLLECTION_WITH_SECTIONS, {
       appKey: this.props.app.key, 
       id: this.props.match.params.id
     }, {
@@ -61,23 +64,154 @@ class CollectionDetail extends Component {
     })
   }
 
+  close = ()=> this.setState({isOpen: false})
+
+  openNewDialog = ()=>{
+    this.setState({
+      isOpen: true
+    })
+  }
+
+  handleDataUpdate = (data)=>{
+    debugger
+  }
+
   renderCollection = ()=>{
     const {collection} = this.state
     return <div>
-            <h2>{collection.title}</h2>
-            <p>{collection.description}</p>
 
-            <Dnd/>
+            {
+              collection ?
+              <div>
+                <h2>{collection.title}</h2>
+                <p>{collection.description}</p>
+
+                <button onClick={this.openNewDialog}>
+                  new section
+                </button>
+
+                <Dnd sections={collection.sections}
+                     handleDataUpdate={ this.handleDataUpdate }
+                />
+              </div> : null 
+            }
            </div>
   }
 
-  render(){
+  deleteArticle = (section)=>{
+    graphql(ARTICLE_SECTION_DELETE, {
+      appKey: this.props.app.key,
+      id: section.id
+    }, {
+      success: (data)=>{
+
+      },
+      error: ()=>{
+
+      }
+    })
+  }
+
+  submitCreate = ()=>{
+    const {collection} = this.state
+    graphql(ARTICLE_SECTION_CREATE, {
+      appKey: this.props.app.key,
+      collectionId: collection.id,
+      title: this.titleRef.value,
+      //description: this.descriptionRef
+    }, 
+    {
+      success: (data)=>{
+        debugger
+        const section = data.articleSectionCreate.section
+
+        this.setState({
+          collection: this.state.collection.concat(section),
+          isOpen: false
+        })
+      },
+      error: ()=>{
+
+      }
+    }
+    )
+  }
+
+  renderDialog = ()=>{
     const {isOpen} = this.state
+    return <FormDialog 
+              open={isOpen}
+              //contentText={"lipsum"}
+              titleContent={"New Section"}
+              formComponent={
+                <form ref="form">
+
+                  <TextField
+                    id="collection-title"
+                    //label="Name"
+                    placeholder={"Type sections's title"}
+                    inputProps={{
+                        style: {
+                          fontSize: "1.4em"
+                        }
+                      }
+                    }
+                    //helperText="Full width!"
+                    fullWidth
+                    inputRef={ref => { this.titleRef = ref; }}
+                    //defaultValue={ editCollection ? editCollection.title : null }
+                    margin="normal"
+                  />
+
+
+                  <TextField
+                    id="collection-description"
+                    //label="Description"
+                    placeholder={"Describe your collection to help it get found"}
+                    //helperText="Full width!"
+                    fullWidth
+                    multiline
+                    inputRef={ref => { this.descriptionRef = ref; }}
+                    //defaultValue={ editCollection ? editCollection.description : null }
+                    margin="normal"
+                  />
+
+
+
+                </form>
+              }
+
+              dialogButtons={
+                <React.Fragment>
+                  <Button onClick={this.close} color="primary">
+                    Cancel
+                  </Button>
+
+                  <Button onClick={ //editCollection ? 
+                    //this.submitEdit.bind(this) :
+                    this.submitCreate.bind(this) 
+                  } 
+                    zcolor="primary">
+                    submit
+                    {/*editCollection ? 'update' : 'create'*/}
+                  </Button>
+
+                </React.Fragment>
+              }
+          />
+  }
+
+  render(){
+    
     return <Paper 
          square={true}
          elevation={1}
          //className={classes.paper}
          >
+
+          { 
+            this.renderDialog()
+          }
 
           {
             this.state.loading ? 

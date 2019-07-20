@@ -536,6 +536,7 @@ export const ARTICLE_COLLECTION_WITH_SECTIONS = `
           title
           description
           articles{
+            id
             title
             author{
               id

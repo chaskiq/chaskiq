@@ -15,6 +15,8 @@ class Article < ApplicationRecord
 
   has_one :article_content
 
+  acts_as_list scope: [:app_id, :article_collection_id, :article_section_id ]
+
   has_many_attached :images
 
   accepts_nested_attributes_for :article_content
