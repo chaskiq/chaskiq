@@ -5,6 +5,7 @@ class CreateArticles < ActiveRecord::Migration[6.0]
       t.string :slug
       t.string :state
       t.string :published_at
+      t.integer :position
       t.references :app, null: false
       t.references :author, null: false #, foreign_key: true
       t.references :article_collection, index: true

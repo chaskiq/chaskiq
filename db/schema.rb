@@ -132,6 +132,7 @@ ActiveRecord::Schema.define(version: 2019_07_16_044802) do
     t.jsonb "properties"
     t.string "state"
     t.text "description"
+    t.integer "position"
     t.bigint "app_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
@@ -209,6 +210,7 @@ ActiveRecord::Schema.define(version: 2019_07_16_044802) do
   create_table "collection_sections", force: :cascade do |t|
     t.string "title"
     t.string "state"
+    t.integer "position"
     t.bigint "article_collection_id", null: false
     t.text "description"
     t.datetime "created_at", precision: 6, null: false
