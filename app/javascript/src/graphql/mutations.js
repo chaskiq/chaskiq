@@ -646,6 +646,10 @@ export const ARTICLE_SECTION_CREATE = `
         id
         title
         description
+        articles {
+          id
+          title
+        }
       }
     }
   }

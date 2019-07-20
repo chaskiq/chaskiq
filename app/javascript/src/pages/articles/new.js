@@ -93,7 +93,9 @@ import _ from "lodash"
 
 
 import {ThemeProvider} from 'styled-components'
-import EditorContainer from '../../components/conversation/editorStyles'
+import EditorStyles from 'Dante2/package/es/styled/base'
+
+//import EditorContainer from '../../components/conversation/editorStyles'
 import theme from '../../components/conversation/theme'
 
 import SuggestSelect from '../../shared/suggestSelect'
@@ -102,6 +104,28 @@ import SelectMenu from '../../components/selectMenu'
 import GestureIcon from '@material-ui/icons/Gesture'
 import CheckCircleIcon from '@material-ui/icons/CheckCircle'
 import ArrowDropDownIcon from '@material-ui/icons/ArrowDropDown'
+
+import styled from 'styled-components'
+import {setCurrentPage} from '../../actions/navigation'
+
+const EditorStylesExtend = styled(EditorStyles)`
+
+  line-height: 2em;
+  font-size: 1.2em; 
+
+  .graf--p{
+    line-height: 2em;
+    font-size: 1.2em; 
+  }
+
+  .dante-menu{
+    z-index: 2000;
+  }
+
+  blockquote {
+    margin-left: 20px;
+  }
+`
 
 const options = [
   {
@@ -215,6 +239,10 @@ class ArticlesNew extends Component {
     }
 
     this.getAgents()
+
+    this.props.dispatch(
+      setCurrentPage('Help Center')
+    )
   }
 
   componentDidUpdate(prevProps, prevState){
@@ -917,7 +945,7 @@ class ArticlesNew extends Component {
         }
 
          <ThemeProvider theme={theme}>
-           <EditorContainer campaign={true}>
+           <EditorStylesExtend campaign={true}>
 
 
              {
@@ -964,7 +992,7 @@ class ArticlesNew extends Component {
                 /> : <CircularProgress/>
             }
 
-           </EditorContainer>
+           </EditorStylesExtend>
          </ThemeProvider>
 
        </Paper>
