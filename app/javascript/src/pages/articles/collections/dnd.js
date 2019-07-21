@@ -51,37 +51,6 @@ const getListStyle = isDraggingOver => ({
 });
 
 export default class App extends Component {
-  state_dis = {
-    sections: [
-
-        { 
-          id: 'droppable1',
-          title: 'drop 1',
-          articles: [
-            {id: "a", content: "sss"},
-            {id: "2", content: "9999"},
-          ]
-        },
-
-        { 
-          id: 'droppable2',
-          title: 'drop 2',
-          articles: [
-            {id: "3", content: "oij"},
-            {id: "4", content: "ijijij"},
-          ]
-        },
-
-        {
-          id: 'droppable3',
-          title: 'drop 3',
-          articles: [
-            {id: "5", content: "AAAA"},
-            {id: "6", content: "NBBBBB"},
-          ]
-        }
-    ]   
-  };
 
   constructor(props){
     super(props)
@@ -107,6 +76,9 @@ export default class App extends Component {
             destination.index
         );
 
+        const el = this.getList(source.droppableId)[source.index]
+        const section = this.props.sections.find((o)=> o.id === destination.droppableId )
+
         
         const newCollection = this.props.sections.map((o)=> {
           if(o.id === destination.droppableId) return Object.assign({}, o, {articles: items} )
@@ -114,6 +86,13 @@ export default class App extends Component {
         })
 
         this.updateSections(newCollection);
+        
+        this.props.saveOperation({
+          id: el.id,
+          position: destination.index,
+          section: String(section.id),
+          collection: String(this.props.collectionId)
+        })
 
     } else {
         const result = move(

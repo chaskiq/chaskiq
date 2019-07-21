@@ -20,7 +20,8 @@ import {
   ARTICLE_COLLECTION_EDIT,
   ARTICLE_COLLECTION_DELETE,
   ARTICLE_SECTION_CREATE,
-  ARTICLE_SECTION_DELETE
+  ARTICLE_SECTION_DELETE,
+  REORDER_ARTICLE,
 } from '../../../graphql/mutations'
 
 import {
@@ -78,8 +79,31 @@ class CollectionDetail extends Component {
     })
   }
 
+  allCollections = ()=>{
+    const {collection} = this.state
+    const baseSection = {
+      id: "base",
+      title: "base section",
+      articles: collection.baseArticles
+    }
+    return collection.sections.concat(baseSection)
+  }
+
+  saveOperation = (options)=>{
+    const params = Object.assign({}, options, {appKey: this.props.app.key})
+    graphql(REORDER_ARTICLE, params , {
+      success: (data)=>{
+        debugger
+      },
+      error: ()=>{
+        debugger
+      }
+    })
+  }
+
   renderCollection = ()=>{
     const {collection} = this.state
+    
     return <div>
 
             {
@@ -92,9 +116,11 @@ class CollectionDetail extends Component {
                   new section
                 </button>
 
-                <Dnd sections={collection.sections}
+                <Dnd sections={this.allCollections()}
                      handleDataUpdate={ this.handleDataUpdate }
                      deleteSection={this.deleteSection}
+                     collectionId={collection.id}
+                     saveOperation={this.saveOperation}
                 />
               </div> : null 
             }

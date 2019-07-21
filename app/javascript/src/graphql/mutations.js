@@ -586,6 +586,18 @@ export const CREATE_DIRECT_UPLOAD = `
   }
 `;
 
+export const REORDER_ARTICLE = `
+  mutation ReorderArticle( $appKey: String!, $id: String!, $position: Int!, $section: String, $collection: String){
+    reorderArticle( appKey: $appKey, id: $id, position: $position, section: $section, collection: $collection ){
+      article{
+        id
+        position
+      }
+    }
+  }
+
+`
+
 
 export const ARTICLE_COLLECTION_CREATE = `
   mutation ArticleCollectionCreate($appKey: String!, $title: String!, $description: String){

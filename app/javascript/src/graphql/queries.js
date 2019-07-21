@@ -537,7 +537,8 @@ export const ARTICLE_COLLECTION_WITH_SECTIONS = `
         description
 
         baseArticles{
-            title
+          id
+          title
           author{
             id
             email
