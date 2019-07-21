@@ -249,7 +249,8 @@ export default function IntegrationReactSelect(props) {
   }
 
   React.useEffect(() => {
-    props.handleSingleChange(single.value)
+    //if(single && single.value)
+    //  props.handleSingleChange(single.value)
     //if (!state.isSubmitting) { return; }
     // do your submitting with stateRef.current in here
     // then dispatch the results

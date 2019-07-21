@@ -40,12 +40,14 @@ import {
   CREATE_DIRECT_UPLOAD,
   ARTICLE_BLOB_ATTACH,
   TOGGLE_ARTICLE,
-  ARTICLE_ASSIGN_AUTHOR
+  ARTICLE_ASSIGN_AUTHOR,
+  ARTICLE_COLLECTION_CHANGE
 } from '../../graphql/mutations'
 
 import {
   ARTICLE,
-  AGENTS
+  AGENTS,
+  ARTICLE_COLLECTIONS
 } from '../../graphql/queries'
 
 import { withStyles } from '@material-ui/core/styles';
@@ -104,7 +106,9 @@ class ArticlesNew extends Component {
     article: {},
     changed: false,
     loading: true,
-    agents: []
+    agents: [],
+    collections: []
+
   };
 
   titleRef = null
@@ -121,6 +125,7 @@ class ArticlesNew extends Component {
     }
 
     this.getAgents()
+    this.getCollections()
 
     this.props.dispatch(
       setCurrentPage('Help Center')
@@ -136,6 +141,18 @@ class ArticlesNew extends Component {
       })
     }
 
+  }
+
+  getCollections = ()=>{
+    graphql(ARTICLE_COLLECTIONS, {
+      appKey: this.props.app.key
+    }, {
+      success: (data)=>{
+        this.setState({
+          collections: data.app.collections
+        })
+      },
+    })
   }
 
   getArticle = (id)=>{
@@ -269,6 +286,23 @@ class ArticlesNew extends Component {
       success: (data)=>{
         this.setState({
           article: data.assignAuthor.article
+        })
+      },
+      error: ()=>{
+
+      }
+    })
+  }
+
+  handleCollectionChange = (collectionId)=>{
+    graphql(ARTICLE_COLLECTION_CHANGE, {
+      appKey: this.props.app.key,
+      collectionId: collectionId,
+      id: this.state.article.id
+    }, {
+      success: (data)=>{
+        this.setState({
+          article: data.changeCollectionArticle.article
         })
       },
       error: ()=>{
@@ -435,17 +469,20 @@ class ArticlesNew extends Component {
               In
             </strong>
 
-            <div style={{ width: '300px'}}>
+            <div style={{ width: '200px'}}>
               <SuggestSelect 
-                name={"author"}
-                placeholder={"select author"}
-                data={this.state.agents.map((o)=> ({ 
-                    label: o.email, 
-                    value: o.email 
+                name={"collection"}
+                placeholder={"select collection"}
+                data={this.state.collections.map((o)=> ({ 
+                    label: o.title, 
+                    value: o.id 
                   }) 
                 )}
-                handleSingleChange={this.handleAuthorchange }
-                defaultData={this.state.article.author.email}
+                handleSingleChange={ this.handleCollectionChange }
+                defaultData={
+                  this.state.article.collection ? 
+                  this.state.article.collection.title : ""
+                }
               />
             </div>
 

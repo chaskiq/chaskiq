@@ -604,6 +604,29 @@ export const ARTICLE_COLLECTION_CREATE = `
   }
 `;
 
+export const ARTICLE_COLLECTION_CHANGE = `
+  mutation ChangeCollectionArticle($appKey: String!, $id: String!, $collectionId: Int!){
+    changeCollectionArticle( 
+      appKey: $appKey, 
+      id: $id, 
+      collectionId: $collectionId
+    ){
+      article {
+        id
+        title
+        slug
+        content
+        state
+        author{
+          email
+          id
+          name
+        }
+      }
+    }
+  }
+`;
+
 export const ARTICLE_COLLECTION_EDIT = `
   mutation ArticleCollectionEdit($appKey: String!, $id: Int!, $title: String!, $description: String){
     articleCollectionEdit( 
