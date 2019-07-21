@@ -69,16 +69,16 @@ export default class App extends Component {
         return;
     }
 
+    const el = this.getList(source.droppableId)[source.index]
+    const section = this.props.sections.find((o)=> o.id === destination.droppableId )
+
+
     if (source.droppableId === destination.droppableId) {
         const items = reorder(
             this.getList(source.droppableId),
             source.index,
             destination.index
         );
-
-        const el = this.getList(source.droppableId)[source.index]
-        const section = this.props.sections.find((o)=> o.id === destination.droppableId )
-
         
         const newCollection = this.props.sections.map((o)=> {
           if(o.id === destination.droppableId) return Object.assign({}, o, {articles: items} )
@@ -86,13 +86,6 @@ export default class App extends Component {
         })
 
         this.updateSections(newCollection);
-        
-        this.props.saveOperation({
-          id: el.id,
-          position: destination.index,
-          section: String(section.id),
-          collection: String(this.props.collectionId)
-        })
 
     } else {
         const result = move(
@@ -112,6 +105,14 @@ export default class App extends Component {
 
         this.updateSections(newCollection);
     }
+
+    this.props.saveOperation({
+      id: el.id,
+      position: destination.index,
+      section: String(section.id),
+      collection: String(this.props.collectionId)
+    })
+
   };
 
   updateSections = (data)=>{
