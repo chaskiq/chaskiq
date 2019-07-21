@@ -154,6 +154,7 @@ ActiveRecord::Schema.define(version: 2019_07_16_044802) do
     t.string "slug"
     t.string "state"
     t.string "published_at"
+    t.integer "position"
     t.bigint "app_id", null: false
     t.bigint "author_id", null: false
     t.bigint "article_collection_id"
