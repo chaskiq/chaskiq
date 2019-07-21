@@ -195,27 +195,30 @@ class AllArticles extends React.Component {
                 columns={[
                   {name: "id", title: "id"},
                   {name: "title", title: "title", 
-                  
                     getCellValue: row => (row ? 
-
                       <Link to={`/apps/${this.props.app.key}/articles/${row.id}`}>
                         {row.title}
                       </Link>
-                    
-
                    : undefined )
 
                 },
                   {name: "author", title: "author",
-
                   getCellValue: row => (row ? 
 
                     <p>{row.author ? row.author.email : 'no author'}</p>
-
                   : undefined)
-
                 },
                   {name: "state", title: "state"},
+                  {name: "collection", title: "collection", 
+                    getCellValue: row => (row ? 
+                    <p>{row.collection ? 
+                        <Link to={`/apps/${this.props.app.key}/articles/collections/${row.collection.id}`}>
+                          {row.collection.title}
+                        </Link> : 
+                      '--'}
+                    </p>
+                    : undefined)
+                  }
                 ]}
                 defaultHiddenColumnNames={[]}
                 tableColumnExtensions={[
