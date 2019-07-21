@@ -305,9 +305,7 @@ class ArticlesNew extends Component {
           article: data.changeCollectionArticle.article
         })
       },
-      error: ()=>{
-
-      }
+      error: ()=>{}
     })
   }
 

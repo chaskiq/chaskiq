@@ -5,6 +5,7 @@ module Types
     field :slug, String, null: true
     field :state, String, null: true
     field :title, String, null: true
+    field :position, Integer, null: true
     field :content, Types::JsonType, null: true
     field :author, Types::AgentType, null: true
     field :collection, Types::CollectionType, null: true

@@ -21,8 +21,8 @@ class Article < ApplicationRecord
 
   accepts_nested_attributes_for :article_content
 
-  scope :without_section, ->{ where(article_section_id: nil) }
-  scope :with_section, ->{ where.not(article_section_id: nil) }
+  scope :without_section, ->{ where(article_section_id: nil).order(position: :asc) }
+  scope :with_section, ->{ where.not(article_section_id: nil).order(position: :asc) }
 
   aasm column: :state do
     state :draft, :initial => true
