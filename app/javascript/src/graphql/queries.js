@@ -63,6 +63,14 @@ export const ARTICLE = `
         slug
         content
         state
+        collection{
+          title
+          id
+        }
+        section{
+          title
+          id
+        }
         author{
           email
           id
