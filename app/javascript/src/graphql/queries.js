@@ -45,7 +45,11 @@ export const ARTICLES = `
             email
             id
             name
-          }         
+          } 
+          collection{
+            title
+            id
+          }        
         }
         meta
 
