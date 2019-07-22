@@ -15,6 +15,7 @@ import {
 
 import FormDialog from '../../../components/FormDialog'
 import {setCurrentPage} from '../../../actions/navigation'
+import { withStyles } from '@material-ui/core/styles';
 
 
 import graphql from '../../../graphql/client'
@@ -38,6 +39,17 @@ import {
 import Dnd from './dnd'
 
 
+const styles = theme => ({
+  addUser: {
+    marginRight: theme.spacing(1),
+  },
+  paper: {
+    margin: '9em',
+    padding: '1em',
+    marginTop: '1.5em',
+    paddingBottom: '6em'
+  }
+});
 
 class CollectionDetail extends Component {
 
@@ -288,11 +300,12 @@ class CollectionDetail extends Component {
   }
 
   render(){
-    
+    const {classes} = this.props
+
     return <Paper 
          square={true}
          elevation={1}
-         //className={classes.paper}
+         className={classes.paper}
          >
 
           { 
@@ -421,4 +434,5 @@ function mapStateToProps(state) {
 
 
 //export default withRouter(connect(mapStateToProps)(withStyles(styles)(ArticlesNew)))
-export default withRouter(connect(mapStateToProps)(CollectionDetail))
+//export default withRouter(connect(mapStateToProps)(CollectionDetail))
+export default withRouter(connect(mapStateToProps)(withStyles(styles)(CollectionDetail)))

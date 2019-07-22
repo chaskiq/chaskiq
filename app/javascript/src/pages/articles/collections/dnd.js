@@ -47,7 +47,7 @@ const getItemStyle = (isDragging, draggableStyle) => ({
 const getListStyle = isDraggingOver => ({
   background: isDraggingOver ? 'lightblue' : 'lightgrey',
   padding: grid,
-  width: 250
+  //width: 250
 });
 
 export default class App extends Component {
@@ -127,7 +127,7 @@ export default class App extends Component {
   render() {
 
     return (
-        <div style={{display: 'flex'}}>
+        <div style={{displayDisable: 'flex'}}>
 
         <DragDropContext onDragEnd={this.onDragEnd}>
 
