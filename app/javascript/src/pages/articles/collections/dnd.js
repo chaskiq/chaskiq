@@ -140,7 +140,7 @@ export default class App extends Component {
                     flexDirection: 'column'
                     }}>
                     <h3>
-                      {o.id} {o.title}
+                      {o.title}
                     </h3>
 
 
