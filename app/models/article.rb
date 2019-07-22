@@ -23,6 +23,7 @@ class Article < ApplicationRecord
 
   scope :without_section, ->{ where(article_section_id: nil).order(position: :asc) }
   scope :with_section, ->{ where.not(article_section_id: nil).order(position: :asc) }
+  scope :without_collection, ->{ where(article_collection_id: nil).order(position: :asc) }
 
   aasm column: :state do
     state :draft, :initial => true

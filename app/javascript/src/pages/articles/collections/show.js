@@ -8,7 +8,9 @@ import {
   List,
   ListItem,
   ListItemText,
-  CircularProgress
+  CircularProgress,
+  Typography,
+  Checkbox
 } from '@material-ui/core'
 
 import FormDialog from '../../../components/FormDialog'
@@ -22,12 +24,14 @@ import {
   ARTICLE_SECTION_CREATE,
   ARTICLE_SECTION_DELETE,
   REORDER_ARTICLE,
+  ADD_ARTICLES_TO_COLLECTION,
 } from '../../../graphql/mutations'
 
 import {
   ARTICLE_COLLECTIONS,
   ARTICLE_COLLECTION,
-  ARTICLE_COLLECTION_WITH_SECTIONS
+  ARTICLE_COLLECTION_WITH_SECTIONS,
+  ARTICLES_UNCATEGORIZED
 } from '../../../graphql/queries'
 
 import Dnd from './dnd'
@@ -38,7 +42,8 @@ class CollectionDetail extends Component {
 
   state = {
     isOpen: false,
-    collection: null
+    addArticlesDialog: false,
+    collection: null,
   }
   titleRef = null
   descriptionRef = null
@@ -86,18 +91,31 @@ class CollectionDetail extends Component {
       title: "base section",
       articles: collection.baseArticles
     }
-    return collection.sections.concat(baseSection)
+    
+    // just concat base section if it's not present
+    if(collection.sections.find((o)=> o.id === "base")){
+      return collection.sections
+    }else{
+      return [baseSection].concat(collection.sections)  
+    }
+    
   }
 
   saveOperation = (options)=>{
     const params = Object.assign({}, options, {appKey: this.props.app.key})
     graphql(REORDER_ARTICLE, params , {
       success: (data)=>{
-        debugger
+        
       },
       error: ()=>{
-        debugger
+        
       }
+    })
+  }
+
+  addArticlesToSection = (section)=>{
+    this.setState({
+      addArticlesDialog: true
     })
   }
 
@@ -121,6 +139,7 @@ class CollectionDetail extends Component {
                      deleteSection={this.deleteSection}
                      collectionId={collection.id}
                      saveOperation={this.saveOperation}
+                     addArticlesToSection={this.addArticlesToSection}
                 />
               </div> : null 
             }
@@ -238,6 +257,32 @@ class CollectionDetail extends Component {
           />
   }
 
+  addArticlesHandlerSubmit = (items)=>{
+    graphql(ADD_ARTICLES_TO_COLLECTION, {
+      articlesId: items,
+      appKey: this.props.app.key,
+      collectionId: this.state.collection.id
+    }, {
+      success: (data)=>{
+        const collection = data.addArticlesToCollection.collection
+        if(collection){
+          this.getCollection()
+        }
+      },
+      error: ()=>{
+
+      }
+    })
+  }
+
+  renderAddToSectionDialog = ()=>{
+    return <AddArticleDialog  
+      app={this.props.app}
+      handleSubmit={this.addArticlesHandlerSubmit} 
+      isOpen={this.state.addArticlesDialog}
+    />
+  }
+
   render(){
     
     return <Paper 
@@ -250,6 +295,10 @@ class CollectionDetail extends Component {
             this.renderDialog()
           }
 
+          { this.state.addArticlesDialog ?
+            this.renderAddToSectionDialog() : null
+          }
+
           {
             this.state.loading ? 
             <CircularProgress/> : 
@@ -260,6 +309,97 @@ class CollectionDetail extends Component {
 
   }
 
+}
+
+class AddArticleDialog extends Component {
+
+  state = {
+    articles: [],
+    isOpen: true
+  }
+
+  componentDidMount(){
+    graphql(ARTICLES_UNCATEGORIZED,{
+      appKey: this.props.app.key,
+      page: 1,
+      per: 50,
+    }, {
+      success: (data)=>{
+        this.setState({
+          articles: data.app.articlesUncategorized.collection
+        })
+      },
+      error: ()=>{
+
+      }
+    })
+  }
+
+  close  = ()=> this.setState({isOpen: false})
+  open  = ()=> this.setState({isOpen: true})
+
+  getValues = ()=>{
+    var chk_arr =  document.getElementsByName("article[]");
+    var chklength = chk_arr.length;             
+    var arr = []
+    for(let k=0;k< chklength;k++)
+    {
+        if(chk_arr[k].checked) arr.push(chk_arr[k].value)
+    }
+    return arr
+  }
+
+  render(){
+    const {isOpen} = this.state
+    return <FormDialog 
+              open={isOpen}
+              //contentText={"lipsum"}
+              titleContent={"Add Articles"}
+              formComponent={
+                <List>
+                  {
+                    this.state.articles.map((o)=>(
+                      <ListItem>
+
+                        <Checkbox
+                          //checked={state.checkedA}
+                          //onChange={handleChange('checkedA')}
+                          value={o.id}
+                          inputProps={{
+                            'name': 'article[]',
+                          }}
+                        />
+
+                      <ListItemText
+                          primary={o.title}
+                          secondary={
+                            <Typography noWrap>
+                              {o.state}
+                            </Typography>
+                          }
+                        />
+                      
+                      </ListItem>
+                    ))
+                  }
+                </List>
+              }
+
+              dialogButtons={
+                <React.Fragment>
+                  <Button onClick={this.close} color="primary">
+                    Cancel
+                  </Button>
+
+                  <Button onClick={ ()=> this.props.handleSubmit(this.getValues()) } 
+                    zcolor="primary">
+                    submit
+                  </Button>
+
+                </React.Fragment>
+              }
+          />
+  }
 }
 
 

@@ -136,6 +136,16 @@ module Types
       argument :id, Integer, required: true
     end
 
+
+    field :articles_uncategorized, Types::PaginatedArticlesType, null: true do
+      argument :page, Integer, required: true
+      argument :per, Integer, required: false, default_value: 20
+    end
+
+    def articles_uncategorized(page: , per:)
+      object.articles.without_collection.page(page).per(per)
+    end
+
     def article(id:)
       object.articles.find(id)
     end

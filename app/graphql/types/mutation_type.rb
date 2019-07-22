@@ -40,7 +40,7 @@ module Types
     field :assignAuthor, mutation: Mutations::Articles::AssignAuthor
     field :reorderArticle, mutation: Mutations::Articles::ReorderArticle
     field :changeCollectionArticle, mutation: Mutations::Articles::ChangeCollectionArticle
-
+    field :addArticlesToCollection, mutation: Mutations::Articles::AddArticlesToCollection
     
     field :articleSectionCreate, mutation: Mutations::Articles::Sections::CreateSection
     field :articleSectionEdit, mutation: Mutations::Articles::Sections::EditSection
