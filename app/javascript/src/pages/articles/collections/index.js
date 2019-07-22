@@ -9,6 +9,7 @@ import {
   ListItem,
   ListItemText
 } from '@material-ui/core'
+import { withStyles } from '@material-ui/core/styles';
 
 import FormDialog from '../../../components/FormDialog'
 import {setCurrentPage} from '../../../actions/navigation'
@@ -25,7 +26,17 @@ import {
   ARTICLE_COLLECTIONS
 } from '../../../graphql/queries'
 
-
+const styles = theme => ({
+  addUser: {
+    marginRight: theme.spacing(1),
+  },
+  paper: {
+    margin: '9em',
+    padding: '1em',
+    marginTop: '1.5em',
+    paddingBottom: '6em'
+  }
+});
 
 class Collections extends Component {
 
@@ -165,15 +176,13 @@ class Collections extends Component {
     
   }
 
-
-
   render(){
     const {isOpen, editCollection, itemToDelete} = this.state
-
+    const {classes} = this.props
     return <Paper 
          square={true}
          elevation={1}
-         //className={classes.paper}
+         className={classes.paper}
          >
 
            <Button 
@@ -322,4 +331,5 @@ function mapStateToProps(state) {
 
 
 //export default withRouter(connect(mapStateToProps)(withStyles(styles)(ArticlesNew)))
-export default withRouter(connect(mapStateToProps)(Collections))
+//export default withRouter(connect(mapStateToProps)(Collections))
+export default withRouter(connect(mapStateToProps)(withStyles(styles)(Collections)))
