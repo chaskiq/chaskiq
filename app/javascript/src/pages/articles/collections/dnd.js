@@ -186,9 +186,21 @@ export default class App extends Component {
 
                                 {provided.placeholder}
 
-                                <button onClick={(e)=> this.props.deleteSection(o)}>
-                                  delete section
+                                {
+                                  o.id != "base" ? 
+
+                                  <button onClick={(e)=> this.props.deleteSection(o)}>
+                                    delete section
+                                  </button> : null
+                                }
+
+                                
+
+                                <button onClick={(e)=> this.props.addArticlesToSection(o)}>
+                                  Add articles
                                 </button>
+
+
                                 {
                                   o.articles.length > 0 ? 
                                   <p>hay</p> : <p>no hay!</p>

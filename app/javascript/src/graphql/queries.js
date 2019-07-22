@@ -52,7 +52,32 @@ export const ARTICLES = `
           }        
         }
         meta
+      }
+    }
+  }
+`;
 
+export const ARTICLES_UNCATEGORIZED = `
+  query App($appKey: String!, $page: Int!, $per: Int){
+    app(key: $appKey) {
+      articlesUncategorized(page: $page, per: $per){
+        collection {
+          id
+          title
+          slug
+          content 
+          state
+          author{
+            email
+            id
+            name
+          } 
+          collection{
+            title
+            id
+          }        
+        }
+        meta
       }
     }
   }

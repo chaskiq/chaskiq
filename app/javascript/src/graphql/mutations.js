@@ -595,8 +595,7 @@ export const REORDER_ARTICLE = `
       }
     }
   }
-
-`
+`;
 
 
 export const ARTICLE_COLLECTION_CREATE = `
@@ -714,6 +713,20 @@ export const ARTICLE_SECTION_DELETE = `
     id: $id
     ){
       section{
+        id
+      }
+    }
+  }
+`;
+
+export const ADD_ARTICLES_TO_COLLECTION = `
+  mutation AddArticlesToCollection($appKey: String!, $collectionId: Int!, $articlesId: [String!]!){
+    addArticlesToCollection( 
+      appKey: $appKey,
+      collectionId: $collectionId,
+      articlesId: $articlesId
+    ){
+      collection{
         id
       }
     }

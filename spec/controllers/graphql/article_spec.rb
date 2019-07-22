@@ -183,6 +183,35 @@ RSpec.describe GraphqlController, type: :controller do
       expect(app.reload.article_collections).to be_blank
     end
 
+
+    it "add article to collection" do
+
+      collection
+      expect(app.article_collections).to be_any
+      expect(app.article_collections.first.articles).to be_blank
+
+      graphql_post(type: 'CREATE_ARTICLE', variables: {
+        appKey: app.key, 
+        title: "ss",
+        content: {
+          serialized: "aaa",
+          text: "aaa",
+        }
+      })
+
+      expect(graphql_response.data.createArticle).to be_present
+      expect(app.articles).to be_any
+
+      graphql_post(type: 'ADD_ARTICLES_TO_COLLECTION', variables: {
+        appKey: app.key, 
+        collectionId: collection.id,
+        articlesId: [app.articles.last.id.to_s]
+      })
+
+      expect(app.reload.article_collections.first.articles).to be_any
+
+    end
+
   end
 
   context "sections" do
