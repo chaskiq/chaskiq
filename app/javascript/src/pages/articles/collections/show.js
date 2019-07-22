@@ -14,6 +14,7 @@ import {
 } from '@material-ui/core'
 
 import FormDialog from '../../../components/FormDialog'
+import {setCurrentPage} from '../../../actions/navigation'
 
 
 import graphql from '../../../graphql/client'
@@ -51,6 +52,9 @@ class CollectionDetail extends Component {
 
   componentDidMount(){
     this.getCollection()
+    this.props.dispatch(
+      setCurrentPage('Help Center')
+    )
   }
 
   getCollection = ()=>{

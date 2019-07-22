@@ -11,6 +11,7 @@ import {
 } from '@material-ui/core'
 
 import FormDialog from '../../../components/FormDialog'
+import {setCurrentPage} from '../../../actions/navigation'
 
 
 import graphql from '../../../graphql/client'
@@ -39,6 +40,10 @@ class Collections extends Component {
 
   componentDidMount(){
     this.getCollections()
+
+    this.props.dispatch(
+      setCurrentPage('Help Center')
+    )
   }
 
   submitAssignment = ()=>{
