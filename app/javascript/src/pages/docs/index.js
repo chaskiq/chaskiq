@@ -1,0 +1,359 @@
+import React from 'react';
+
+import {
+  AppBar,
+  Button,
+  CameraIcon,
+  Card,
+  CardActions,
+  CardContent,
+  CardMedia,
+  CssBaseline,
+  Grid,
+  Toolbar,
+  Typography,
+  Link,
+  Container,
+  Paper,
+  InputBase,
+  Divider,
+  IconButton,
+  Breadcrumbs
+} from '@material-ui/core';
+
+
+import { makeStyles } from '@material-ui/core/styles';
+
+import MenuIcon from '@material-ui/icons/Menu';
+import SearchIcon from '@material-ui/icons/Search';
+import DirectionsIcon from '@material-ui/icons/Directions';
+
+import DanteArticle from './showArticle'
+
+import {
+  Route,
+  Switch,
+  Link as RouterLink
+} from 'react-router-dom'
+
+import graphql from '../../graphql/client'
+import {
+  ARTICLE_COLLECTIONS ,
+  ARTICLE
+} from '../../graphql/queries'
+
+function MadeWithLove() {
+  return (
+    <Typography variant="body2" color="textSecondary" align="center">
+      {'Built with love by the '}
+      <Link color="inherit" href="https://material-ui.com/">
+        Material-UI
+      </Link>
+      {' team.'}
+    </Typography>
+  );
+}
+const useStyles = makeStyles(theme => ({
+  icon: {
+    marginRight: theme.spacing(2),
+  },
+  heroContent: {
+    backgroundColor: theme.palette.background.paper,
+    padding: theme.spacing(8, 0, 6),
+    backgroundImage: 'url(https://images.unsplash.com/photo-1561454260-8559bd155736?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1351&q=80)',
+    //background-attachment: local;
+  },
+  heroButtons: {
+    marginTop: theme.spacing(4),
+  },
+  cardGrid: {
+    paddingTop: theme.spacing(8),
+    paddingBottom: theme.spacing(8),
+  },
+  card: {
+    height: '100%',
+    display: 'flex',
+    flexDirection: 'column',
+  },
+  cardMedia: {
+    paddingTop: '56.25%', // 16:9
+  },
+  cardContent: {
+    flexGrow: 1,
+  },
+  footer: {
+    backgroundColor: theme.palette.background.paper,
+    padding: theme.spacing(6),
+  },
+
+  root: {
+    width: '100%',
+    display: 'flex',
+    padding: '20px 6px',
+    alignItems: 'center',
+  },
+  input: {
+    marginLeft: 8,
+    flex: 1,
+  },
+  iconButton: {
+    padding: 10,
+  },
+  divider: {
+    width: 1,
+    height: 28,
+    margin: 4,
+  },
+
+  articlePaper: {
+    marginTop: '2em',
+    margin: '13em',
+    padding: '2em',
+  }
+
+
+}));
+
+const cards = [1, 2, 3, 4, 5, 6, 7, 8, 9];
+const appKey = '35eDUcddlyIA-EyvGsMk0g'
+
+const LinkRouter = props => <Link {...props} component={RouterLink} />;
+
+function CustomizedInputBase() {
+  const classes = useStyles();
+
+  return (
+    <Paper className={classes.root}>
+      <IconButton className={classes.iconButton} aria-label="Menu">
+        <MenuIcon />
+      </IconButton>
+      <InputBase
+        className={classes.input}
+        placeholder="Search here"
+        inputProps={{ 'aria-label': 'Search here' }}
+      />
+      <IconButton className={classes.iconButton} aria-label="Search">
+        <SearchIcon />
+      </IconButton>
+      <Divider className={classes.divider} />
+      <IconButton color="primary" className={classes.iconButton} aria-label="Directions">
+        <DirectionsIcon />
+      </IconButton>
+    </Paper>
+  );
+}
+
+export default function Docs({match}) {
+  const classes = useStyles();
+
+  console.log(match.url)
+
+  const [collections, setCollections] = React.useState([])
+
+  React.useEffect(() => {
+    getArticles()
+  }, [])
+  
+
+  function getArticles(){
+    graphql(ARTICLE_COLLECTIONS, {
+      appKey: appKey
+    }, {
+      success: (data)=>{
+
+        setCollections(data.app.collections)
+      },
+      error: ()=>{
+
+      }
+    })
+  }
+
+  return (
+    <React.Fragment>
+      <CssBaseline />
+      
+      {/*<AppBar position="relative">
+        <Toolbar>
+          <CameraIcon className={classes.icon} />
+          <Typography variant="h6" color="inherit" noWrap>
+            Help Center
+          </Typography>
+        </Toolbar>
+        </AppBar>*/}
+
+      <main>
+        {/* Hero unit */}
+
+        <div className={classes.heroContent}>
+
+          <Container maxWidth="sm">
+            
+            <Typography component="h1" variant="h2" align="center" color="textPrimary" gutterBottom>
+              Help Center
+            </Typography>
+
+            { CustomizedInputBase() }
+
+            {/*<Typography variant="h5" align="center" color="textSecondary" paragraph>
+              Something short and leading about the collection below—its contents, the creator, etc.
+              Make it short and sweet, but not too short so folks don&apos;t simply skip over it
+              entirely.
+              </Typography>*/}
+
+            <div className={classes.heroButtons}>
+              <Grid container spacing={2} justify="center">
+                <Grid item>
+                  <Button variant="contained" color="primary">
+                    Main call to action
+                  </Button>
+                </Grid>
+                <Grid item>
+                  <Button variant="outlined" color="primary">
+                    Secondary action
+                  </Button>
+                </Grid>
+              </Grid>
+            </div>
+          
+          </Container>
+        
+        </div>
+
+
+        <Breadcrumbs aria-label="Breadcrumb">
+          <LinkRouter color="inherit" to="/docs" //onClick={handleClick}
+          >
+            Material-UI
+          </LinkRouter>
+          <LinkRouter color="inherit" to="/getting-started/installation/" 
+          //onClick={handleClick}
+          >
+            Core
+          </LinkRouter>
+          <Typography color="textPrimary">Breadcrumb</Typography>
+        </Breadcrumbs>
+
+
+        <Switch>
+
+              <Route exact path={`${match.path}/:id`} render={(props)=>(
+                <Article {...props} />
+              )}/>
+
+              <Route exact path={`${match.path}/collections/:id`} render={(props)=>(
+                <Collections {...props} />
+              )}/>
+
+              <Route exact path={`${match.path}`} render={(props)=>(
+
+                <Container className={classes.cardGrid} maxWidth="md">
+                  {/* End hero unit */}
+                  <Grid container spacing={4}>
+                    {collections.map(card => (
+                      <Grid item key={card} xs={12} sm={12} md={4}>
+                        <Card className={classes.card}>
+                        <RouterLink to={`/docs/${card.id}`}> 
+                            <CardMedia
+                              className={classes.cardMedia}
+                              image="https://source.unsplash.com/random"
+                              title="Image title"
+                            />
+                            <CardContent className={classes.cardContent}>
+                              
+                              <Typography gutterBottom variant="h5" component="h2">
+                                {card.title}
+                              </Typography>
+
+                              <Typography>
+                                {card.description}
+                              </Typography>
+
+                            </CardContent>
+                          </RouterLink>
+                          <CardActions>
+                            <Button size="small" color="primary">
+                              View
+                            </Button>
+                            <Button size="small" color="primary">
+                              Edit
+                            </Button>
+                          </CardActions>
+                        </Card>
+                      </Grid>
+                    ))}
+                  </Grid>
+                  
+                </Container>
+
+              )}
+                //component={HomePage} 
+              />
+              
+        </Switch>
+
+      
+      </main>
+
+      {/* Footer */}
+
+      <footer className={classes.footer}>
+        <Typography variant="h6" align="center" gutterBottom>
+          Footer
+        </Typography>
+        <Typography variant="subtitle1" align="center" color="textSecondary" component="p">
+          Something here to give the footer a purpose!
+        </Typography>
+        <MadeWithLove />
+      </footer>
+      {/* End footer */}
+    </React.Fragment>
+  );
+}
+
+function Article(props){
+  const [article, setArticle] = React.useState(null)
+  const classes = useStyles();
+
+  React.useEffect(()=>{
+    getArticle()
+  }, [])
+
+  function getArticle(){
+    graphql(ARTICLE, {
+      appKey: appKey,
+      id: parseInt(props.match.params.id)
+    }, {
+      success: (data)=>{
+        setArticle(data.app.article)
+      },
+      error: (e)=>{
+        debugger
+      }
+    })
+  }
+
+  return (
+
+    <div>
+
+      {
+        article ? 
+        <Paper className={classes.articlePaper}>
+          <DanteArticle article={article} />
+        </Paper> : null 
+      }
+      
+    </div>
+
+  )
+}
+
+
+function Collections(props){
+
+  return (
+    <p>skskskosok</p>
+  )
+
+}

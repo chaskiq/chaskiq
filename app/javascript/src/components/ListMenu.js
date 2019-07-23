@@ -59,7 +59,10 @@ function SimpleListMenu(props) {
           aria-label="Switch application"
           onClick={handleClickListItem}
         >
-          <ListItemText primary="Switch application" secondary={fetchApp}/>
+          <ListItemText 
+            primary="Switch application" 
+            //secondary={fetchApp()}
+          />
         </ListItem>
       </List>
 

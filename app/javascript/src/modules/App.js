@@ -15,6 +15,8 @@ import SettingsPage from '../pages/SettingsPage';
 import ShowAppContainer from '../pages/showAppContainer';
 import AppListContainer from '../pages/appListContainer';
 
+import Docs from '../pages/docs'
+
 import { withRouter } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { setApp } from '../actions/app'
@@ -147,6 +149,11 @@ class Paperbase extends React.Component {
               <Route exact path="/" component={HomePage} />
 
               <Route path="/settings" component={SettingsPage} />
+
+              <Route  
+                path="/docs" 
+                component={Docs} 
+              />
 
               <Route exact path="/apps" render={(props) => (
                 <AppListContainer

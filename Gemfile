@@ -152,3 +152,5 @@ gem 'devise-jwt', '~> 0.5.9'
 gem "devise_invitable", "~> 2.0"
 
 gem "acts_as_list", "~> 0.9.19"
+
+gem "friendly_id", "~> 5.2"

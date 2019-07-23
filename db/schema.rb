@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_07_16_044802) do
+ActiveRecord::Schema.define(version: 2019_07_23_035210) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -130,6 +130,7 @@ ActiveRecord::Schema.define(version: 2019_07_16_044802) do
   create_table "article_collections", force: :cascade do |t|
     t.string "title"
     t.jsonb "properties"
+    t.string "slug"
     t.string "state"
     t.text "description"
     t.integer "position"
@@ -149,10 +150,18 @@ ActiveRecord::Schema.define(version: 2019_07_16_044802) do
     t.index ["article_id"], name: "index_article_contents_on_article_id"
   end
 
+  create_table "article_settings", force: :cascade do |t|
+    t.jsonb "properties"
+    t.bigint "app_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["app_id"], name: "index_article_settings_on_app_id"
+  end
+
   create_table "articles", force: :cascade do |t|
     t.string "title"
-    t.string "slug"
     t.string "state"
+    t.string "slug"
     t.string "published_at"
     t.integer "position"
     t.bigint "app_id", null: false
@@ -210,6 +219,7 @@ ActiveRecord::Schema.define(version: 2019_07_16_044802) do
 
   create_table "collection_sections", force: :cascade do |t|
     t.string "title"
+    t.string "slug"
     t.string "state"
     t.integer "position"
     t.bigint "article_collection_id", null: false
@@ -395,6 +405,7 @@ ActiveRecord::Schema.define(version: 2019_07_16_044802) do
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "app_users", "apps"
   add_foreign_key "article_collections", "apps"
+  add_foreign_key "article_settings", "apps"
   add_foreign_key "assignment_rules", "apps"
   add_foreign_key "campaigns", "apps"
   add_foreign_key "collection_sections", "article_collections"
