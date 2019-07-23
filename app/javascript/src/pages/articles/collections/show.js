@@ -146,9 +146,11 @@ class CollectionDetail extends Component {
                 <h2>{collection.title}</h2>
                 <p>{collection.description}</p>
 
-                <button onClick={this.openNewDialog}>
+                <Button variant="contained" 
+                  color={'primary'}
+                  onClick={this.openNewDialog}>
                   new section
-                </button>
+                </Button>
 
                 <Dnd sections={this.allCollections()}
                      handleDataUpdate={ this.handleDataUpdate }

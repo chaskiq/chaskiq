@@ -15,11 +15,9 @@ Rails.application.routes.draw do
 
   resource :oembed, controller: "oembed", only: :show
 
-  get "/user_session", to: 'application#user_session'
-
-  get "/aaaa", to: 'application#user_session', as: 'user_auto_message'
-
-  get "/apps/:app_id/segments/:id/:jwt", to: 'segments#show', constraints: { jwt: /.+/ }
+  #get "/user_session", to: 'application#user_session'
+  #get "/aaaa", to: 'application#user_session', as: 'user_auto_message'
+  #get "/apps/:app_id/segments/:id/:jwt", to: 'segments#show', constraints: { jwt: /.+/ }
 
   root :to => "home#show"
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html

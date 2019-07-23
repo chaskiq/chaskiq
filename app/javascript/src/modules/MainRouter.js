@@ -62,7 +62,7 @@ let theme = createMuiTheme({
       //main: '#dc18c1',
       main: '#24862c',
       white: '#fff',
-      dark: '#006db3',
+      dark: '#15501a', //'#006db3',
     }
   },
   shape: {

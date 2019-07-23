@@ -12,11 +12,15 @@ import {
         Avatar ,
         Typography,
         Button,
-        TextField
+        TextField,
+        Chip,
+        CircularProgress
       } from '@material-ui/core';
 
 import gravatar from '../shared/gravatar'
-import CircularProgress from '@material-ui/core/CircularProgress';
+
+import DoneIcon from '@material-ui/icons/Done';
+import FaceIcon from '@material-ui/icons/Face'
 
 
 import MainSection from '../components/MainSection';
@@ -26,7 +30,6 @@ import logo from '../images/logo.png';
 import DataTable from "../components/newTable";
 
 import {Link} from 'react-router-dom'
-
 
 import graphql from '../graphql/client'
 import {ARTICLES} from '../graphql/queries'
@@ -44,6 +47,8 @@ import ArticlesNew from './articles/new'
 
 import Collections from './articles/collections/index'
 import CollectionDetail from './articles/collections/show'
+
+import {setCurrentPage} from '../actions/navigation'
 
 
 const styles = theme => ({
@@ -103,10 +108,6 @@ class Articles extends Component {
                 tabsContent={ this.tabsContent() }
               />
 
-              <Link to={`/apps/${this.props.app.key}/articles/new`}>
-                new
-              </Link>
-
               {this.renderTabcontent()}
 
             </React.Fragment>
@@ -158,6 +159,10 @@ class AllArticles extends React.Component {
 
   componentDidMount(){
     this.search()
+
+    this.props.dispatch(
+      setCurrentPage('Help Center')
+    )
   }
 
   getArticles = ()=>{
@@ -181,7 +186,11 @@ class AllArticles extends React.Component {
   }
 
   render(){
-    return <Content>
+    return <Content actions={
+                              <Link to={`/apps/${this.props.app.key}/articles/new`}>
+                                new
+                              </Link>
+                            }>
              {
                !this.state.loading ?
                <DataTable 
@@ -208,7 +217,17 @@ class AllArticles extends React.Component {
                     <p>{row.author ? row.author.email : 'no author'}</p>
                   : undefined)
                 },
-                  {name: "state", title: "state"},
+                  {name: "state", title: "state", getCellValue: row => (row ?
+                    <Chip 
+                      variant="outlined" 
+                      color={row.state === "draft" ? 'secondary' : 'primary' }
+                      size="small" 
+                      label={row.state}
+                      deleteIcon={<DoneIcon />} 
+                      //onDelete={handleDelete} 
+                      icon={<FaceIcon />} />: null 
+  
+                  )},
                   {name: "collection", title: "collection", 
                     getCellValue: row => (row ? 
                     <p>{row.collection ? 
