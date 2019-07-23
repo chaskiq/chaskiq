@@ -165,6 +165,7 @@ class ConversationContainerShow extends Component {
         )
       },
       handleMessage: (message)=>{
+        debugger
         console.log(`handle message`)
       } 
     });    

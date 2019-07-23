@@ -11,7 +11,7 @@ module Mutations
       def resolve(app_key: , conversation_id:, app_user_id:)
         find_app(app_key)
         @conversation = conversation(conversation_id)
-        @app_user = @app.admin_users.find(app_user_id)
+        @app_user = @app.agents.find(app_user_id)
         @conversation.assign_user(@app_user)
         { conversation: @conversation , errors: @conversation.errors }
       end
