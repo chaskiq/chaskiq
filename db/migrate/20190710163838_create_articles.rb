@@ -2,8 +2,8 @@ class CreateArticles < ActiveRecord::Migration[6.0]
   def change
     create_table :articles do |t|
       t.string :title
-      t.string :slug
       t.string :state
+      t.string :slug, unique: true
       t.string :published_at
       t.integer :position
       t.references :app, null: false

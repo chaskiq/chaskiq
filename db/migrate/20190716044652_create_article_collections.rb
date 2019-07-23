@@ -3,6 +3,7 @@ class CreateArticleCollections < ActiveRecord::Migration[6.0]
     create_table :article_collections do |t|
       t.string :title
       t.jsonb :properties
+      t.string :slug, unique: true
       t.string :state
       t.text :description
       t.integer :position

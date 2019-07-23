@@ -19,8 +19,8 @@ import {
 
 import gravatar from '../shared/gravatar'
 
-import DoneIcon from '@material-ui/icons/Done';
-import FaceIcon from '@material-ui/icons/Face'
+import GestureIcon from '@material-ui/icons/Gesture'
+import CheckCircleIcon from '@material-ui/icons/CheckCircle'
 
 
 import MainSection from '../components/MainSection';
@@ -223,9 +223,10 @@ class AllArticles extends React.Component {
                       color={row.state === "draft" ? 'secondary' : 'primary' }
                       size="small" 
                       label={row.state}
-                      deleteIcon={<DoneIcon />} 
+                      //deleteIcon={<DoneIcon />} 
                       //onDelete={handleDelete} 
-                      icon={<FaceIcon />} />: null 
+                      icon={ row.state === "draft" ? <GestureIcon/> : <CheckCircleIcon /> } 
+                    /> : null 
   
                   )},
                   {name: "collection", title: "collection", 

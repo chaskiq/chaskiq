@@ -201,6 +201,8 @@ GEM
       factory_girl (~> 4.9.0)
       railties (>= 3.0.0)
     ffi (1.10.0)
+    friendly_id (5.2.5)
+      activerecord (>= 4.0.0)
     fugit (1.1.9)
       et-orbi (~> 1.1, >= 1.1.7)
       raabro (~> 1.1)
@@ -489,6 +491,7 @@ DEPENDENCIES
   email_reply_trimmer
   factory_girl_rails
   faker!
+  friendly_id (~> 5.2)
   geocoder (~> 1.4)
   globalize!
   graphiql-rails
