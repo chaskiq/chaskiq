@@ -27,15 +27,15 @@ import {
 } from '../../../graphql/queries'
 
 const styles = theme => ({
-  addUser: {
-    marginRight: theme.spacing(1),
-  },
   paper: {
     margin: '9em',
     padding: '1em',
     marginTop: '1.5em',
     paddingBottom: '6em'
-  }
+  },
+  button: {
+    margin: theme.spacing(1),
+  },
 });
 
 class Collections extends Component {
@@ -186,6 +186,8 @@ class Collections extends Component {
          >
 
            <Button 
+             className={classes.button}
+             variant="contained" color="primary"
              onClick={this.displayDialog}>
              new collection
            </Button>
@@ -238,7 +240,9 @@ class Collections extends Component {
                     Cancel
                   </Button>
 
-                  <Button onClick={ editCollection ? 
+                  <Button 
+                  
+                    onClick={ editCollection ? 
                     this.submitEdit.bind(this) :
                     this.submitCreate.bind(this) 
                   } 
@@ -285,7 +289,7 @@ class Collections extends Component {
  
             {
               this.state.article_collections.map((item)=>{
-                return  <ListItem key={item.id}>
+                return  <ListItem key={item.id} divider={true}>
                           {/*<ListItemAvatar>
                             <Avatar>
                               <ImageIcon />
@@ -298,10 +302,15 @@ class Collections extends Component {
                           } 
                             secondary={item.description}
                           />
-                          <Button onClick={()=> this.openEdit(item)}>
+
+                          <Button className={classes.button}
+
+                            variant="outlined" color="primary" onClick={()=> this.openEdit(item)}>
                             Edit
                           </Button>
-                          <Button onClick={()=> this.requestDelete(item)}>
+
+                          <Button className={classes.button}
+                            variant="text" color="primary" onClick={()=> this.requestDelete(item)}>
                             Delete
                           </Button>
                         </ListItem>

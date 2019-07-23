@@ -5,9 +5,25 @@ import {
   ListItem,
   ListItemAvatar,
   Avatar,
-  ListItemText
+  ListItemText,
+  Button, 
+  Paper
 } from '@material-ui/core'
 
+
+import { withStyles } from '@material-ui/core/styles';
+
+const styles = theme => ({
+  paper: {
+    margin: '9em',
+    padding: '1em',
+    marginTop: '1.5em',
+    paddingBottom: '6em'
+  },
+  button: {
+    margin: theme.spacing(1),
+  },
+});
 
 const reorder = (list, startIndex, endIndex) => {
   const result = Array.from(list);
@@ -39,18 +55,18 @@ const getItemStyle = (isDragging, draggableStyle) => ({
   //padding: grid * 2,
   //margin: `0 0 ${grid}px 0`,
   // change background colour if dragging
-  background: isDragging ? 'lightgreen' : 'grey',
+  background: isDragging ? 'lightgreen' : 'white',
   // styles we need to apply on draggables
   ...draggableStyle
 });
 
 const getListStyle = isDraggingOver => ({
-  background: isDraggingOver ? 'lightblue' : 'lightgrey',
+  background: isDraggingOver ? 'lightblue' : 'white',
   padding: grid,
   //width: 250
 });
 
-export default class App extends Component {
+class App extends Component {
 
   constructor(props){
     super(props)
@@ -125,7 +141,7 @@ export default class App extends Component {
   }
 
   render() {
-
+    const {classes} = this.props
     return (
         <div style={{displayDisable: 'flex'}}>
 
@@ -146,7 +162,7 @@ export default class App extends Component {
 
                     <Droppable droppableId={o.id} index={i}>
                         {(provided, snapshot) => (
-                            <div
+                            <Paper
                                 ref={provided.innerRef}
                                 style={getListStyle(snapshot.isDraggingOver)}>
 
@@ -167,7 +183,7 @@ export default class App extends Component {
                                                     provided.draggableProps.style
                                                 )}>
 
-                                                <ListItem>
+                                                <ListItem divider={true}>
                                                   <ListItemAvatar>
                                                     <Avatar>
                                                      
@@ -186,26 +202,33 @@ export default class App extends Component {
 
                                 {provided.placeholder}
 
+                                <Button className={classes.button} 
+                                  variant="outlined" 
+                                  color="primary"
+                                  size={"medium"}
+                                  onClick={(e)=> this.props.addArticlesToSection(o)}>
+                                  Add articles
+                                </Button>
+
+
                                 {
                                   o.id != "base" ? 
 
-                                  <button onClick={(e)=> this.props.deleteSection(o)}>
+                                  <Button className={classes.button} 
+                                    size={"medium"}
+                                    variant="outlined" 
+                                    color="secondary"
+                                    onClick={(e)=> this.props.deleteSection(o)}>
                                     delete section
-                                  </button> : null
+                                  </Button> : null
                                 }
 
+                                <p>
+                                  {o.articles.length} 
+                                  articles
+                                </p>
                                 
-
-                                <button onClick={(e)=> this.props.addArticlesToSection(o)}>
-                                  Add articles
-                                </button>
-
-
-                                {
-                                  o.articles.length > 0 ? 
-                                  <p>hay</p> : <p>no hay!</p>
-                                }
-                            </div>
+                            </Paper>
                         )}
                     </Droppable>
                   </div>
@@ -222,3 +245,5 @@ export default class App extends Component {
   }
 }
 
+
+export default withStyles(styles)(App)
