@@ -1,6 +1,8 @@
 class ArticleSetting < ApplicationRecord
   belongs_to :app
   store :preferences, accessors: [ 
+      :subdomain,
+      :custom_domain,
       :social_media_buttons, 
       :links,
       :color,

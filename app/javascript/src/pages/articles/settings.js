@@ -12,6 +12,7 @@ import {
         Button,
         TextField,
         Paper,
+        Grid,
       } from '@material-ui/core';
 
 import {getFileMetadata, directUpload} from '../../shared/fileUploader'
@@ -33,7 +34,9 @@ import _ from "lodash"
 import GestureIcon from '@material-ui/icons/Gesture'
 import CheckCircleIcon from '@material-ui/icons/CheckCircle'
 import {setCurrentPage} from '../../actions/navigation'
-
+import FieldRenderer from '../../shared/FormFields'
+import ContentHeader from '../../components/ContentHeader'
+import Content from '../../components/Content'
 
 const styles = theme => ({
 
@@ -50,6 +53,7 @@ class Settings extends Component {
 
   state = {
     loading: true,
+    tabValue: 0
   };
 
   titleRef = null
@@ -61,6 +65,8 @@ class Settings extends Component {
       setCurrentPage('Help Center')
     )
   }
+
+
 
   updateState = (data)=>{
     this.setState(data)
@@ -96,23 +102,190 @@ class Settings extends Component {
     });
   }
 
+  definitionsForSettings = () => {
+    return [
+      {
+        name: "subdomain",
+        hint: "documentation site subdomain",
+        type: 'string',
+        grid: { xs: 12, sm: 12 }
+      },
+
+      {
+        name: "site title",
+        hint: "documentation site subdomain",
+        type: 'text',
+        grid: { xs: 12, sm: 12 }
+      },
+
+      {
+        name: "site description",
+        hint: "documentation site subdomain",
+        type: 'string',
+        grid: { xs: 12, sm: 12 }
+      },
+
+      {
+        name: "website",
+        hint: "link to your website",
+        type: 'string',
+        grid: { xs: 12, sm: 12 }
+      },
+
+
+      {
+        name: "google_code",
+        hint: "Google Analytics Tracking ID",
+        type: 'string',
+        grid: { xs: 12, sm: 12 }
+      },
+
+      {
+        name: "color",
+        type: 'string',
+        grid: { xs: 12, sm: 4 }
+      },
+
+      {
+        name: "logo",
+        type: 'string',
+        grid: { xs: 12, sm: 4 }
+      },
+
+      {
+        name: "header logo",
+        type: 'string',
+        grid: { xs: 12, sm: 4 }
+      },
+
+      {
+        name: "facebook",
+        type: 'string',
+        grid: { xs: 12, sm: 4 }
+      },
+
+      {
+        name: "twitter",
+        type: 'string',
+        grid: { xs: 12, sm: 4 }
+      },
+
+      {
+        name: "linkedin",
+        type: 'string',
+        grid: { xs: 12, sm: 4 }
+      },
+
+      {
+        name: "credits",
+        type: 'bool',
+        hint: "Display a subtle link to the Chaskiq website",
+        grid: { xs: 12, sm: 8 }
+      },
+    ]
+  }
+
+  handleTabChange = (e, i)=>{
+    this.setState({tabValue: i})
+  }
+
+  tabsContent = ()=>{
+    return <Tabs value={this.state.tabValue} 
+              onChange={this.handleTabChange}
+              textColor="inherit">
+              <Tab textColor="inherit" label="Basic Setup" />
+              <Tab textColor="inherit" label="Lang" />
+              <Tab textColor="inherit" label="Appearance" />
+            </Tabs>
+  }
+
+  renderTabcontent = ()=>{
+
+    switch (this.state.tabValue){
+      case 0:
+        return <SettingsForm
+                  title={"General app's information"}
+                  //currentUser={this.props.currentUser}
+                  //data={this.props.app}
+                  //update={this.update.bind(this)}
+                  //fetchApp={this.fetchApp}
+                  //classes={this.props.classes}
+                  definitions={this.definitionsForSettings}
+                  {...this.props}
+               />
+
+      case 1:
+        return <SettingsForm
+                  title={"Security Settings"}
+                  //currentUser={this.props.currentUser}
+                  //data={this.props.app}
+                  //update={this.update.bind(this)}
+                  //fetchApp={this.fetchApp}
+                  //classes={this.props.classes}
+                  definitions={this.definitionsForSettings}
+                  {...this.props}
+                />
+      case 2:
+        return <SettingsForm
+                  title={"Appearance settings"}
+                  //currentUser={this.props.currentUser}
+                  //data={this.props.app}
+                  //update={this.update.bind(this)}
+                  //fetchApp={this.fetchApp}
+                  //classes={this.props.classes}
+                  definitions={this.definitionsForSettings}
+                  {...this.props}
+                />
+      case 3:
+        return <p>ddkd</p>
+    }
+  }
+
 
   render() {
     const {classes} = this.props
     return (
        <React.Fragment>
 
-       <Paper 
-         square={true}
-         elevation={1}
-         className={classes.paper}>
-        oaoaoaoa
-       </Paper>
+         <ContentHeader 
+            title={ 'App Settings' }
+            tabsContent={ this.tabsContent() }
+          />
+
+          <Content>
+            {this.renderTabcontent()}
+          </Content>
 
         
       </React.Fragment>
     );
   }
+}
+
+class SettingsForm extends Component{
+  render(){
+    return (
+
+      <Grid container spacing={3}>
+        {
+          this.props.definitions().map((field) => {
+
+            return <Grid item
+                      key={field.name} 
+                      xs={field.grid.xs} 
+                      sm={field.grid.sm}>
+                      <FieldRenderer 
+                        namespace={'app'} 
+                        data={field}
+                        props={{data: {}}} 
+                        errors={ {} }
+                      />
+                  </Grid>
+          })
+        }
+      </Grid>
+    )
+  } 
 }
 
 
