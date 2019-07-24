@@ -132,11 +132,6 @@ module Types
       object.articles.page(page).per(per)
     end
 
-    field :article, Types::ArticleType, null: true do
-      argument :id, Integer, required: true
-    end
-
-
     field :articles_uncategorized, Types::PaginatedArticlesType, null: true do
       argument :page, Integer, required: true
       argument :per, Integer, required: false, default_value: 20
@@ -146,8 +141,12 @@ module Types
       object.articles.without_collection.page(page).per(per)
     end
 
+    field :article, Types::ArticleType, null: true do
+      argument :id, String, required: true
+    end
+
     def article(id:)
-      object.articles.find(id)
+      object.articles.friendly.find(id)
     end
 
     field :collections, [Types::CollectionType], null: true do
@@ -162,7 +161,7 @@ module Types
     end
 
     def collection(id:)
-      object.article_collections.find(id)
+      object.article_collections.friendly.find(id)
     end
 
 
