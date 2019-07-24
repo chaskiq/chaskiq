@@ -122,6 +122,7 @@ module Types
       object.assignment_rules.order("priority asc")
     end
 
+    field :article_settings, Types::ArticleSettingsType, null: true 
 
     field :articles, Types::PaginatedArticlesType, null: true do
       argument :page, Integer, required: true

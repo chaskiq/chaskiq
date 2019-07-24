@@ -449,6 +449,27 @@ export const ASSIGNMENT_RULES = `
   }
 `;
 
+export const ARTICLE_SETTINGS = `
+  query App($appKey: String!){
+    app(key: $appKey) {
+      articleSettings{
+        id
+        color
+        credits
+        facebook
+        googleCode
+        headerLogo
+        linkedin
+        logo
+        siteDescription
+        siteTitle
+        subdomain
+        twitter
+        website
+      }
+    }
+  }
+`;
 
 export const ARTICLES = `
   query App($appKey: String!, $page: Int!, $per: Int){

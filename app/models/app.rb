@@ -13,7 +13,7 @@ class App < ApplicationRecord
 
   has_many :app_users
   
-  has_one :article_settings
+  has_one :article_settings, class_name: "ArticleSetting"
   has_many :articles
   has_many :article_collections
   has_many :sections, through: :article_collections

@@ -41,7 +41,7 @@ module Types
     field :reorderArticle, mutation: Mutations::Articles::ReorderArticle
     field :changeCollectionArticle, mutation: Mutations::Articles::ChangeCollectionArticle
     field :addArticlesToCollection, mutation: Mutations::Articles::AddArticlesToCollection
-    
+    field :articleSettingsUpdate, mutation: Mutations::Articles::ArticleSettingsUpdate
     field :articleSectionCreate, mutation: Mutations::Articles::Sections::CreateSection
     field :articleSectionEdit, mutation: Mutations::Articles::Sections::EditSection
     field :articleSectionDelete, mutation: Mutations::Articles::Sections::DeleteSection

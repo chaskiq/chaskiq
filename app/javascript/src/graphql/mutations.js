@@ -732,3 +732,16 @@ export const ADD_ARTICLES_TO_COLLECTION = `
     }
   }
 `;
+
+export const ARTICLE_SETTINGS_UPDATE = `
+  mutation ArticleSettingsUpdate($appKey: String!, $settings: [String!]!){
+    ArticleSettingsUpdate( 
+      appKey: $appKey,
+      settings: $settings
+    ){
+      collection{
+        settings
+      }
+    }
+  }
+`;
