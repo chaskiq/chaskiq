@@ -89,7 +89,6 @@ class FieldRenderer extends React.Component {
                   />
                 </FormControl>
       case "text":
-
         return <FormControl 
                   error={errorMessage}
                   className={classes.formControl}>
