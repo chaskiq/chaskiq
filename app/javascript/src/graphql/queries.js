@@ -31,85 +31,6 @@ export const APP = `
   }
 `;
 
-export const ARTICLES = `
-  query App($appKey: String!, $page: Int!, $per: Int){
-    app(key: $appKey) {
-      articles(page: $page, per: $per){
-        collection {
-          id
-          title
-          slug
-          content 
-          state
-          author{
-            email
-            id
-            name
-          } 
-          collection{
-            title
-            id
-          }        
-        }
-        meta
-      }
-    }
-  }
-`;
-
-export const ARTICLES_UNCATEGORIZED = `
-  query App($appKey: String!, $page: Int!, $per: Int){
-    app(key: $appKey) {
-      articlesUncategorized(page: $page, per: $per){
-        collection {
-          id
-          title
-          slug
-          content 
-          state
-          author{
-            email
-            id
-            name
-          } 
-          collection{
-            title
-            id
-          }        
-        }
-        meta
-      }
-    }
-  }
-`;
-
-export const ARTICLE = `
-  query App($appKey: String!, $id: Int!){
-    app(key: $appKey) {
-      article(id: $id){
-        id
-        title
-        slug
-        content
-        state
-        collection{
-          title
-          id
-        }
-        section{
-          title
-          id
-        }
-        author{
-          email
-          id
-          name
-        }
-      }
-    }
-  }
-`;
-
 export const AGENTS = `
   query App($appKey: String!){
     app(key: $appKey) {
@@ -529,10 +450,94 @@ export const ASSIGNMENT_RULES = `
 `;
 
 
+export const ARTICLES = `
+  query App($appKey: String!, $page: Int!, $per: Int){
+    app(key: $appKey) {
+      articles(page: $page, per: $per){
+        collection {
+          id
+          title
+          slug
+          content 
+          state
+          author{
+            email
+            id
+            name
+          } 
+          collection{
+            slug
+            title
+            id
+          }        
+        }
+        meta
+      }
+    }
+  }
+`;
+
+export const ARTICLES_UNCATEGORIZED = `
+  query App($appKey: String!, $page: Int!, $per: Int){
+    app(key: $appKey) {
+      articlesUncategorized(page: $page, per: $per){
+        collection {
+          id
+          title
+          slug
+          content 
+          state
+          author{
+            email
+            id
+            name
+          } 
+          collection{
+            title
+            id
+          }        
+        }
+        meta
+      }
+    }
+  }
+`;
+
+export const ARTICLE = `
+  query App($appKey: String!, $id: String!){
+    app(key: $appKey) {
+      article(id: $id){
+        id
+        title
+        slug
+        content
+        state
+        collection{
+          slug
+          title
+          id
+        }
+        section{
+          slug
+          title
+          id
+        }
+        author{
+          email
+          id
+          name
+        }
+      }
+    }
+  }
+`;
+
+
 export const ARTICLE_COLLECTIONS = `
   query ArticleCollections($appKey: String!){
     app(key: $appKey){
       collections {
+        slug
         id
         title
         description
@@ -564,6 +569,7 @@ export const ARTICLE_COLLECTION_WITH_SECTIONS = `
         baseArticles{
           id
           title
+          slug
           author{
             id
             email
@@ -576,6 +582,7 @@ export const ARTICLE_COLLECTION_WITH_SECTIONS = `
           articles{
             id
             title
+            slug
             author{
               id
               email
