@@ -22,8 +22,13 @@ import {getFileMetadata, directUpload} from '../../shared/fileUploader'
 import graphql from '../../graphql/client'
 
 import {
+  ARTICLE_SETTINGS
+} from '../../graphql/queries'
+
+import {
   CREATE_DIRECT_UPLOAD,
   ARTICLE_BLOB_ATTACH,
+  ARTICLE_SETTINGS_UPDATE
 } from '../../graphql/mutations'
 
 import { withStyles } from '@material-ui/core/styles';
@@ -53,7 +58,8 @@ class Settings extends Component {
 
   state = {
     loading: true,
-    tabValue: 0
+    tabValue: 0,
+    data: null
   };
 
   titleRef = null
@@ -61,12 +67,38 @@ class Settings extends Component {
   switch_ref = null
 
   componentDidMount(){
+    this.getSettings()
     this.props.dispatch(
       setCurrentPage('Help Center')
     )
   }
 
+  getSettings = ()=>{
+    graphql(ARTICLE_SETTINGS, {
+      appKey: this.props.appKey
+    }, {
+      success: (data)=>{
+        debugger
+      },
+      error: ()=>{
 
+      }
+    })
+  }
+
+  update = ()=>{
+    graphql(ARTICLE_SETTINGS_UPDATE, {
+      appKey: this.props.app.key,
+      settings: {}
+    }, {
+      success: (data)=>{
+        debugger
+      },
+      error: ()=>{
+
+      }
+    })
+  }
 
   updateState = (data)=>{
     this.setState(data)

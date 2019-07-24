@@ -1,6 +1,6 @@
 module Mutations
   module Articles
-    class ArticleSettings < Mutations::BaseMutation
+    class ArticleSettingsUpdate < Mutations::BaseMutation
       
       field :settings, Types::ArticleSettingsType, null: false
       field :errors, Types::JsonType, null: true

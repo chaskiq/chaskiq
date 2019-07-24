@@ -136,6 +136,7 @@ class Paperbase extends React.Component {
           }
 
           <div className={classes.appContent}>
+            {/* TODO: use currentPage or other redux attr to skip header on specific pages */}
             <Header
               signout={this.handleSignout}
               visitApp={(app)=> this.visitApp(app)}
