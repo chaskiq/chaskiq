@@ -18,7 +18,11 @@ import {
   InputBase,
   Divider,
   IconButton,
-  Breadcrumbs
+  Breadcrumbs,
+  List,
+  ListItem,
+  ListItemAvatar,
+  ListItemText,
 } from '@material-ui/core';
 
 
@@ -30,6 +34,8 @@ import DirectionsIcon from '@material-ui/icons/Directions';
 
 import DanteArticle from './showArticle'
 
+import styled from 'styled-components'
+
 import {
   Route,
   Switch,
@@ -38,9 +44,16 @@ import {
 
 import graphql from '../../graphql/client'
 import {
-  ARTICLE_COLLECTIONS ,
+  ARTICLE_COLLECTION_WITH_SECTIONS,
+  ARTICLE_COLLECTIONS,
   ARTICLE
 } from '../../graphql/queries'
+
+
+const BlockContent = styled.div`
+  display: flex;
+  justify-content: center;
+`
 
 function MadeWithLove() {
   return (
@@ -87,7 +100,7 @@ const useStyles = makeStyles(theme => ({
   },
 
   root: {
-    width: '100%',
+    //width: '100%',
     display: 'flex',
     padding: '20px 6px',
     alignItems: 'center',
@@ -106,15 +119,15 @@ const useStyles = makeStyles(theme => ({
   },
 
   articlePaper: {
-    marginTop: '2em',
-    margin: '13em',
-    padding: '2em',
+    margin: theme.spacing(8, 0, 6),
+    padding: theme.spacing(2),
   }
+
+
 
 
 }));
 
-const cards = [1, 2, 3, 4, 5, 6, 7, 8, 9];
 const appKey = '35eDUcddlyIA-EyvGsMk0g'
 
 const LinkRouter = props => <Link {...props} component={RouterLink} />;
@@ -220,29 +233,18 @@ export default function Docs({match}) {
         
         </div>
 
-
-        <Breadcrumbs aria-label="Breadcrumb">
-          <LinkRouter color="inherit" to="/docs" //onClick={handleClick}
-          >
-            Material-UI
-          </LinkRouter>
-          <LinkRouter color="inherit" to="/getting-started/installation/" 
-          //onClick={handleClick}
-          >
-            Core
-          </LinkRouter>
-          <Typography color="textPrimary">Breadcrumb</Typography>
-        </Breadcrumbs>
-
-
         <Switch>
 
               <Route exact path={`${match.path}/:id`} render={(props)=>(
                 <Article {...props} />
               )}/>
 
+              <Route exact path={`${match.path}/articles/:id`} render={(props)=>(
+                <Article {...props} />
+              )}/>
+
               <Route exact path={`${match.path}/collections/:id`} render={(props)=>(
-                <Collections {...props} />
+                <CollectionsWithSections {...props} />
               )}/>
 
               <Route exact path={`${match.path}`} render={(props)=>(
@@ -253,7 +255,7 @@ export default function Docs({match}) {
                     {collections.map(card => (
                       <Grid item key={card} xs={12} sm={12} md={4}>
                         <Card className={classes.card}>
-                        <RouterLink to={`/docs/${card.id}`}> 
+                        <RouterLink to={`/docs/collections/${card.slug}`}> 
                             <CardMedia
                               className={classes.cardMedia}
                               image="https://source.unsplash.com/random"
@@ -287,7 +289,6 @@ export default function Docs({match}) {
                 </Container>
 
               )}
-                //component={HomePage} 
               />
               
         </Switch>
@@ -296,10 +297,9 @@ export default function Docs({match}) {
       </main>
 
       {/* Footer */}
-
       <footer className={classes.footer}>
         <Typography variant="h6" align="center" gutterBottom>
-          Footer
+          Chaskiq
         </Typography>
         <Typography variant="subtitle1" align="center" color="textSecondary" component="p">
           Something here to give the footer a purpose!
@@ -322,7 +322,7 @@ function Article(props){
   function getArticle(){
     graphql(ARTICLE, {
       appKey: appKey,
-      id: parseInt(props.match.params.id)
+      id: props.match.params.id
     }, {
       success: (data)=>{
         setArticle(data.app.article)
@@ -335,16 +335,49 @@ function Article(props){
 
   return (
 
-    <div>
+    <Grid
+      container
+      direction="row"
+      justify="center"
+      alignItems="baseline"
+    >
+      <Grid item xs="6" sm="8">
 
-      {
-        article ? 
-        <Paper className={classes.articlePaper}>
-          <DanteArticle article={article} />
-        </Paper> : null 
-      }
+        {
+          article ? 
+          <Paper className={classes.articlePaper}>
+
+
+            <Breadcrumbs aria-label="Breadcrumb">
+          
+              <LinkRouter color="inherit" to="/docs">
+                Articles
+              </LinkRouter>
+
+              {
+                article.collection ?
+                  <LinkRouter color="inherit" to={`/docs/collections/${article.collection.slug}`}>
+                    {article.collection.title}
+                  </LinkRouter> : null 
+              }
       
-    </div>
+              <Typography color="textPrimary">
+                  {article.title}
+              </Typography>
+    
+            </Breadcrumbs>
+
+            <Divider variant="middle"/>
+
+            <Typography variant="h2" gutterBottom>
+              {article.title}
+            </Typography>
+            <DanteArticle article={article} />
+          </Paper> : null 
+        }
+      </Grid>
+      
+    </Grid>
 
   )
 }
@@ -356,4 +389,124 @@ function Collections(props){
     <p>skskskosok</p>
   )
 
+}
+
+function CollectionsWithSections({match}){
+
+  const classes = useStyles();
+
+  const [collections, setCollections] = React.useState(null)
+
+  React.useEffect(() => {
+    getArticles()
+  }, [])
+
+  function getArticles(){
+    graphql(ARTICLE_COLLECTION_WITH_SECTIONS, {
+      appKey: appKey,
+      id: match.params.id
+    },
+    {
+      success: (data)=>{
+        setCollections(data.app.collection)
+      },
+      error: ()=>{
+        
+      }
+    })
+  }
+
+  return(
+    
+      <Grid
+        container
+        direction="row"
+        justify="center"
+        alignItems="baseline"
+        spacing={5}
+      >
+
+        
+          {
+            collections ? 
+          
+            <Grid item xs="6" sm="8">
+
+              <Paper spacing={5} className={classes.articlePaper}>
+
+                <Breadcrumbs aria-label="Breadcrumb">
+              
+                  <LinkRouter color="inherit" to="/docs">
+                    Collections
+                  </LinkRouter>
+
+                  <Typography color="textPrimary">
+                      {collections.title}
+                  </Typography>
+
+                  <Divider variant="middle"/>
+                
+                </Breadcrumbs>
+
+                <Typography variant="h2" gutterBottom gutterTop>
+                  {collections.title}
+                </Typography>
+                
+                <Typography variant="subtitle1" gutterBottom>
+                  {collections.description}
+                </Typography>
+              
+                <Paper>
+                  {
+                    collections.baseArticles.map((o)=>(
+                      <ListItem divider>
+                        <ListItemText primary={
+                          <RouterLink to={`/docs/articles/${o.slug}`}>
+                            {o.title}
+                          </RouterLink>
+                        }/>
+                      </ListItem>
+                    ))
+                  }
+                </Paper>
+
+                {
+                  collections.sections.map((section)=>(
+                    <div>
+                      <Typography variant="h3" gutterBottom>
+                        {section.title}
+                      </Typography>
+
+                      <div>
+                        <Paper>
+
+                          <List>
+                            {
+                              section.articles.map((article)=>(
+                                  <ListItem divider>
+                                    <ListItemText 
+                                      primary={<RouterLink to={`/docs/articles/${article.slug}`}>
+                                        {article.title}
+                                      </RouterLink>}
+                                      secondary={article.description}
+                                    />
+                                  </ListItem>
+                              ))
+                            }
+                          </List>
+                        
+                        </Paper>
+                      </div>
+                    </div>
+                  ))
+                }
+              </Paper>
+            
+            </Grid> : null
+
+          }
+      
+      </Grid>
+    
+  )
 }
