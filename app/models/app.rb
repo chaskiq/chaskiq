@@ -41,6 +41,9 @@ class App < ApplicationRecord
     :assigment_rules,
   ]
 
+  accepts_nested_attributes_for :article_settings
+
+
   def encryption_enabled?
     self.encryption_key.present?
   end

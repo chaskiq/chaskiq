@@ -444,9 +444,9 @@ function CollectionsWithSections({match}){
                       {collections.title}
                   </Typography>
 
-                  <Divider variant="middle"/>
                 
                 </Breadcrumbs>
+                <Divider variant="middle"/>
 
                 <Typography variant="h2" gutterBottom gutterTop>
                   {collections.title}

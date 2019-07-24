@@ -44,6 +44,7 @@ import ClickAwayListener from '@material-ui/core/ClickAwayListener';
 
 import FormDialog from '../components/FormDialog'
 import ArticlesNew from './articles/new'
+import Settings from './articles/settings'
 
 import Collections from './articles/collections/index'
 import CollectionDetail from './articles/collections/show'
@@ -113,6 +114,15 @@ class Articles extends Component {
             </React.Fragment>
           }} 
         />
+
+        <Route exact path={`/apps/${this.props.app.key}/articles/settings`}
+            render={(props) => {
+              return <Settings 
+                        match={props.match}
+                        history={props.history}
+                      />
+            }} 
+          />
 
         <Route exact path={`/apps/${this.props.app.key}/articles/collections`}
             render={(props) => {
