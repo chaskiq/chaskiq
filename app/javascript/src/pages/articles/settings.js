@@ -110,36 +110,35 @@ class Settings extends Component {
         type: 'string',
         grid: { xs: 12, sm: 12 }
       },
-
       {
         name: "site title",
         hint: "documentation site subdomain",
         type: 'text',
         grid: { xs: 12, sm: 12 }
       },
-
       {
         name: "site description",
         hint: "documentation site subdomain",
         type: 'string',
         grid: { xs: 12, sm: 12 }
       },
-
       {
         name: "website",
         hint: "link to your website",
         type: 'string',
         grid: { xs: 12, sm: 12 }
       },
-
-
       {
         name: "google_code",
         hint: "Google Analytics Tracking ID",
         type: 'string',
         grid: { xs: 12, sm: 12 }
       },
+    ]
+  }
 
+  definitionsForAppearance = () => {
+    return [
       {
         name: "color",
         type: 'string',
@@ -185,6 +184,12 @@ class Settings extends Component {
     ]
   }
 
+  definitionsForLang = () => {
+    return [
+      
+    ]
+  }
+
   handleTabChange = (e, i)=>{
     this.setState({tabValue: i})
   }
@@ -216,13 +221,13 @@ class Settings extends Component {
 
       case 1:
         return <SettingsForm
-                  title={"Security Settings"}
+                  title={"Lang"}
                   //currentUser={this.props.currentUser}
                   //data={this.props.app}
                   //update={this.update.bind(this)}
                   //fetchApp={this.fetchApp}
                   //classes={this.props.classes}
-                  definitions={this.definitionsForSettings}
+                  definitions={this.definitionsForLang}
                   {...this.props}
                 />
       case 2:
@@ -233,7 +238,7 @@ class Settings extends Component {
                   //update={this.update.bind(this)}
                   //fetchApp={this.fetchApp}
                   //classes={this.props.classes}
-                  definitions={this.definitionsForSettings}
+                  definitions={this.definitionsForAppearance}
                   {...this.props}
                 />
       case 3:
