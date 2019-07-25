@@ -20,10 +20,23 @@ class ArticleSetting < ApplicationRecord
   has_one_attached :logo
   has_one_attached :header_image
 
+  #validates :subdomain, uniqueness: true
 
-  validates :subdomain, url: true
+  validates :subdomain, 
+    exclusion: { in: %w(www), 
+    message: "%{value} is reserved." }, 
+    presence: true, 
+    uniqueness: true
+
   validates :website, url: true
   validates :color, hex: true
+
+  before_validation :sanitize_subdomain
+
+
+  def sanitize_subdomain
+    self.subdomain = self.subdomain.parameterize
+  end
 
 
 end
