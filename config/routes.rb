@@ -1,5 +1,8 @@
 require 'sidekiq/web'
+require "subdomain_routes"
 Rails.application.routes.draw do
+
+
   
   if Rails.env.development?
     mount GraphiQL::Rails::Engine, at: "/graphiql", graphql_path: "/graphql"
@@ -14,6 +17,13 @@ Rails.application.routes.draw do
   resources :attachments, controller: 'campaigns/attachments'
 
   resource :oembed, controller: "oembed", only: :show
+
+  constraints(SubdomainOrDomain) do
+    # TODO, regex ?
+    get '/'  => "articles#show"
+    get '/collections' => "articles#show"
+    get '/articles/:1/' => "articles#show"
+  end
 
   #get "/user_session", to: 'application#user_session'
   #get "/aaaa", to: 'application#user_session', as: 'user_auto_message'

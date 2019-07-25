@@ -37,6 +37,7 @@ import DanteArticle from './showArticle'
 import styled from 'styled-components'
 
 import {
+  BrowserRouter,
   Route,
   Switch,
   Link as RouterLink
@@ -156,10 +157,8 @@ function CustomizedInputBase() {
   );
 }
 
-export default function Docs({match}) {
+export default function Docs() {
   const classes = useStyles();
-
-  console.log(match.url)
 
   const [collections, setCollections] = React.useState([])
 
@@ -233,21 +232,22 @@ export default function Docs({match}) {
         
         </div>
 
-        <Switch>
+        <BrowserRouter>
+          <Switch>
 
-              <Route exact path={`${match.path}/:id`} render={(props)=>(
+              <Route exact path={`/:id`} render={(props)=>(
                 <Article {...props} />
               )}/>
 
-              <Route exact path={`${match.path}/articles/:id`} render={(props)=>(
+              <Route exact path={`/articles/:id`} render={(props)=>(
                 <Article {...props} />
               )}/>
 
-              <Route exact path={`${match.path}/collections/:id`} render={(props)=>(
+              <Route exact path={`/collections/:id`} render={(props)=>(
                 <CollectionsWithSections {...props} />
               )}/>
 
-              <Route exact path={`${match.path}`} render={(props)=>(
+              <Route exact path={`/`} render={(props)=>(
 
                 <Container className={classes.cardGrid} maxWidth="md">
                   {/* End hero unit */}
@@ -255,7 +255,7 @@ export default function Docs({match}) {
                     {collections.map(card => (
                       <Grid item key={card} xs={12} sm={12} md={4}>
                         <Card className={classes.card}>
-                        <RouterLink to={`/docs/collections/${card.slug}`}> 
+                        <RouterLink to={`/collections/${card.slug}`}> 
                             <CardMedia
                               className={classes.cardMedia}
                               image="https://source.unsplash.com/random"
@@ -292,7 +292,7 @@ export default function Docs({match}) {
               />
               
         </Switch>
-
+        </BrowserRouter>       
       
       </main>
 
@@ -350,13 +350,13 @@ function Article(props){
 
             <Breadcrumbs aria-label="Breadcrumb">
           
-              <LinkRouter color="inherit" to="/docs">
+              <LinkRouter color="inherit" to="/">
                 Articles
               </LinkRouter>
 
               {
                 article.collection ?
-                  <LinkRouter color="inherit" to={`/docs/collections/${article.collection.slug}`}>
+                  <LinkRouter color="inherit" to={`/collections/${article.collection.slug}`}>
                     {article.collection.title}
                   </LinkRouter> : null 
               }
@@ -436,7 +436,7 @@ function CollectionsWithSections({match}){
 
                 <Breadcrumbs aria-label="Breadcrumb">
               
-                  <LinkRouter color="inherit" to="/docs">
+                  <LinkRouter color="inherit" to="/">
                     Collections
                   </LinkRouter>
 
@@ -461,7 +461,7 @@ function CollectionsWithSections({match}){
                     collections.baseArticles.map((o)=>(
                       <ListItem divider>
                         <ListItemText primary={
-                          <RouterLink to={`/docs/articles/${o.slug}`}>
+                          <RouterLink to={`/articles/${o.slug}`}>
                             {o.title}
                           </RouterLink>
                         }/>
@@ -485,7 +485,7 @@ function CollectionsWithSections({match}){
                               section.articles.map((article)=>(
                                   <ListItem divider>
                                     <ListItemText 
-                                      primary={<RouterLink to={`/docs/articles/${article.slug}`}>
+                                      primary={<RouterLink to={`/articles/${article.slug}`}>
                                         {article.title}
                                       </RouterLink>}
                                       secondary={article.description}
