@@ -7,10 +7,20 @@ module Mutations
       argument :app_key, String, required: true
       argument :settings, Types::JsonType, required: true
 
-      def resolve(settings:)
+      def resolve(app_key:, settings:)
         app = App.find_by(key: app_key)
-        settings = app.article_settings_attributes(settings)
-        {settings: settings, errors: settings.errors}
+     
+        # TODO: set specific permitted fields! 
+        settings.permit! 
+  
+        app.article_settings_attributes = settings
+
+        app.save
+
+        {
+          settings: app.article_settings, 
+          errors: app.errors
+        }
       end
 
 

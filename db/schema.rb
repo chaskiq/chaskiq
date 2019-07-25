@@ -151,7 +151,7 @@ ActiveRecord::Schema.define(version: 2019_07_23_035210) do
   end
 
   create_table "article_settings", force: :cascade do |t|
-    t.jsonb "properties"
+    t.jsonb "properties", default: {}
     t.bigint "app_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
