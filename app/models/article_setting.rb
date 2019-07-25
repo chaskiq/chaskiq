@@ -19,4 +19,10 @@ class ArticleSetting < ApplicationRecord
 
   has_one_attached :logo
   has_one_attached :header_image
+
+
+  validates :subdomain, url: true
+  validates :website, url: true
+
+
 end
