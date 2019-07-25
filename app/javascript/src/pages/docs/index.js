@@ -129,7 +129,7 @@ const useStyles = makeStyles(theme => ({
 
 }));
 
-const appKey = 'dev'
+const subdomain = window.location.host.split('.')[1] ? window.location.host.split('.')[0] : false;
 
 const LinkRouter = props => <Link {...props} component={RouterLink} />;
 
@@ -169,7 +169,7 @@ export default function Docs() {
 
   function getArticles(){
     graphql(ARTICLE_COLLECTIONS, {
-      domain: appKey
+      domain: subdomain
     }, {
       success: (data)=>{
         setCollections(data.helpCenter.collections)
@@ -320,7 +320,7 @@ function Article(props){
 
   function getArticle(){
     graphql(ARTICLE, {
-      domain: appKey,
+      domain: subdomain,
       id: props.match.params.id
     }, {
       success: (data)=>{
@@ -402,7 +402,7 @@ function CollectionsWithSections({match}){
 
   function getArticles(){
     graphql(ARTICLE_COLLECTION_WITH_SECTIONS, {
-      domain: appKey,
+      domain: subdomain,
       id: match.params.id
     },
     {
