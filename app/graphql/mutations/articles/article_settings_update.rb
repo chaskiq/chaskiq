@@ -22,13 +22,12 @@ module Mutations
           app.article_settings.header_image.attach(settings[:header_image])
         end
 
-        app.article_settings_attributes = settings
-
-        app.save
+        article_settings = app.article_settings.present? ? app.article_settings :  app.build_article_settings
+        article_settings.update(settings)
 
         {
           settings: app.article_settings, 
-          errors: app.errors
+          errors: article_settings.errors
         }
       end
 

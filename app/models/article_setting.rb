@@ -1,9 +1,7 @@
 class ArticleSetting < ApplicationRecord
   belongs_to :app
 
-  store_accessor :properties, [ 
-    :subdomain,
-    :custom_domain,
+  store_accessor :properties, [
     :social_media_buttons, 
     :links,
     :color,
@@ -20,7 +18,7 @@ class ArticleSetting < ApplicationRecord
   has_one_attached :logo
   has_one_attached :header_image
 
-  #validates :subdomain, uniqueness: true
+  validates :subdomain, uniqueness: true
 
   validates :subdomain, 
     exclusion: { in: %w(www), 
@@ -29,14 +27,10 @@ class ArticleSetting < ApplicationRecord
     uniqueness: true
 
   validates :website, url: true
-  validates :color, hex: true
+  validates :color, hex: true, if: ->{ self.color.present? }
 
-  before_validation :sanitize_subdomain
-
-
-  def sanitize_subdomain
-    self.subdomain = self.subdomain.parameterize
-  end
-
-
+  #before_validation :sanitize_subdomain
+  #def sanitize_subdomain
+  #  self.subdomain = self.subdomain.parameterize
+  #end
 end

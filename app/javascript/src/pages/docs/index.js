@@ -48,7 +48,7 @@ import {
   ARTICLE_COLLECTION_WITH_SECTIONS,
   ARTICLE_COLLECTIONS,
   ARTICLE
-} from '../../graphql/queries'
+} from '../../graphql/docsQueries'
 
 
 const BlockContent = styled.div`
@@ -129,7 +129,7 @@ const useStyles = makeStyles(theme => ({
 
 }));
 
-const appKey = '35eDUcddlyIA-EyvGsMk0g'
+const appKey = 'dev'
 
 const LinkRouter = props => <Link {...props} component={RouterLink} />;
 
@@ -169,11 +169,10 @@ export default function Docs() {
 
   function getArticles(){
     graphql(ARTICLE_COLLECTIONS, {
-      appKey: appKey
+      domain: appKey
     }, {
       success: (data)=>{
-
-        setCollections(data.app.collections)
+        setCollections(data.helpCenter.collections)
       },
       error: ()=>{
 
@@ -321,11 +320,11 @@ function Article(props){
 
   function getArticle(){
     graphql(ARTICLE, {
-      appKey: appKey,
+      domain: appKey,
       id: props.match.params.id
     }, {
       success: (data)=>{
-        setArticle(data.app.article)
+        setArticle(data.helpCenter.article)
       },
       error: (e)=>{
         debugger
@@ -403,12 +402,12 @@ function CollectionsWithSections({match}){
 
   function getArticles(){
     graphql(ARTICLE_COLLECTION_WITH_SECTIONS, {
-      appKey: appKey,
+      domain: appKey,
       id: match.params.id
     },
     {
       success: (data)=>{
-        setCollections(data.app.collection)
+        setCollections(data.helpCenter.collection)
       },
       error: ()=>{
         
