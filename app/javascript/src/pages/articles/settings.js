@@ -115,7 +115,7 @@ class Settings extends Component {
     this.setState(data)
   }
 
-  uploadHandler = (file, imageBlock)=>{
+  uploadHandler = (file, kind)=>{
 
     getFileMetadata(file).then((input) => {
       graphql(CREATE_DIRECT_UPLOAD, input, {
@@ -124,7 +124,12 @@ class Settings extends Component {
        
           directUpload(url, JSON.parse(headers), file).then(
             () => {
-              graphql(ARTICLE_BLOB_ATTACH, { 
+              let params = {}
+              params[kind] = signedBlobId
+              
+              this.update({settings: params})
+
+              /*graphql(ARTICLE_BLOB_ATTACH, { 
                 appKey: this.props.app.key ,
                 id: parseInt(this.state.article.id),
                 blobId: signedBlobId
@@ -135,7 +140,8 @@ class Settings extends Component {
                 error: (err)=>{
                   console.log("error on direct upload", err)
                 }
-              })
+              })*/
+
           });
         },
         error: (error)=>{
@@ -188,17 +194,19 @@ class Settings extends Component {
         grid: { xs: 12, sm: 4 }
       },
 
-      /*{
+      {
         name: "logo",
-        type: 'string',
+        type: 'upload',
+        handler: (file)=> this.uploadHandler(file, "logo"),
         grid: { xs: 12, sm: 4 }
       },
 
       {
         name: "header logo",
-        type: 'string',
+        type: 'upload',
+        handler: (file)=> this.uploadHandler(file, "header_logo"),
         grid: { xs: 12, sm: 4 }
-      },*/
+      },
 
       {
         name: "facebook",

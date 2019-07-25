@@ -1,11 +1,8 @@
 
-
 class HexValidator < ActiveModel::EachValidator
-  def validate_each(record, attribute, value)
-    record.errors[attribute] << (options[:message] || "must be a valid hex color") unless hex_valid?(value)    
+  def validate_each(object, attribute, value)
+    unless value =~ /^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$/i
+      object.errors[attribute] << (options[:message] || "must be a valid CSS hex color code")
+    end
   end
-
-  def hex_valid?(hex)
-    !hex[/\H/]
-  end 
 end
