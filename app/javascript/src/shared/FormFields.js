@@ -223,6 +223,25 @@ class FieldRenderer extends React.Component {
 
                 </FormControl>
         
+      case "upload":
+        return <React.Fragment>
+                <input
+                  accept="image/*"
+                  style={{display: 'none'}}
+                  //className={classes.input}
+                  id={data.name}
+                  onChange={(e) => data.handler(e.currentTarget.files[0])}
+                  //multiple
+                  type="file"
+                />
+                <label htmlFor={data.name}>
+                  <Button variant="contained" component="span" 
+                    //className={classes.button}
+                    >
+                    Upload {props.data[camelCase(data.name)]}
+                  </Button>
+                </label>
+              </React.Fragment>
         
       default:
         break;
