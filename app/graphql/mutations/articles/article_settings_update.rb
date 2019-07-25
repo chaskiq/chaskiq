@@ -15,10 +15,11 @@ module Mutations
 
         settings.merge!(id: app.article_settings.id) if app.article_settings.present?
   
+        # ugly, dry
         if(settings[:logo])
           app.article_settings.logo.attach(settings[:logo])
         elsif(settings[:header_image])
-          app.article_settings.logo.attach(settings[:header_image])
+          app.article_settings.header_image.attach(settings[:header_image])
         end
 
         app.article_settings_attributes = settings
@@ -30,7 +31,6 @@ module Mutations
           errors: app.errors
         }
       end
-
 
       def current_user
         context[:current_user]

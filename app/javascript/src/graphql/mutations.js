@@ -751,6 +751,8 @@ export const ARTICLE_SETTINGS_UPDATE = `
         twitter
         linkedin
         credits
+        logo
+        headerImage
       }
       errors
     }
