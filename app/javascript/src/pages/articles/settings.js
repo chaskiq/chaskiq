@@ -156,13 +156,13 @@ class Settings extends Component {
       {
         name: "siteTitle",
         hint: "documentation site subdomain",
-        type: 'text',
+        type: 'string',
         grid: { xs: 12, sm: 12 }
       },
       {
         name: "siteDescription",
         hint: "documentation site subdomain",
-        type: 'string',
+        type: 'text',
         grid: { xs: 12, sm: 12 }
       },
       {
@@ -188,7 +188,7 @@ class Settings extends Component {
         grid: { xs: 12, sm: 4 }
       },
 
-      {
+      /*{
         name: "logo",
         type: 'string',
         grid: { xs: 12, sm: 4 }
@@ -198,22 +198,25 @@ class Settings extends Component {
         name: "header logo",
         type: 'string',
         grid: { xs: 12, sm: 4 }
-      },
+      },*/
 
       {
         name: "facebook",
+        startAdornment: "facebook/",
         type: 'string',
         grid: { xs: 12, sm: 4 }
       },
 
       {
         name: "twitter",
+        startAdornment: "twitter/",
         type: 'string',
         grid: { xs: 12, sm: 4 }
       },
 
       {
         name: "linkedin",
+        startAdornment: "linkedin/",
         type: 'string',
         grid: { xs: 12, sm: 4 }
       },

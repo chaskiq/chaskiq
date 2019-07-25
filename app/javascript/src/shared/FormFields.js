@@ -87,6 +87,11 @@ class FieldRenderer extends React.Component {
                     //margin="normal"
                     name={`${namespace}[${data.name}]`}
                     defaultValue={props.data[camelCase(data.name)]} 
+                    InputProps={{
+                      startAdornment: data.startAdornment ? <InputAdornment position="start">
+                      {data.startAdornment}
+                      </InputAdornment> : null,
+                    }}
                     helperText={
                       <React.Fragment>
                       { 
@@ -99,7 +104,6 @@ class FieldRenderer extends React.Component {
                       { data.hint ? data.hint : null }
 
                       </React.Fragment>
-                      
                     }
                   />
                 </FormControl>

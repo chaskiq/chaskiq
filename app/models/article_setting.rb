@@ -23,6 +23,7 @@ class ArticleSetting < ApplicationRecord
 
   validates :subdomain, url: true
   validates :website, url: true
+  validates :color, hex: true
 
 
 end
