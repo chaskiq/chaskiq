@@ -124,6 +124,10 @@ module Types
 
     field :article_settings, Types::ArticleSettingsType, null: true 
 
+    def article_settings
+      object.article_settings.blank? ? object.build_article_settings : object.article_settings
+    end
+
     field :articles, Types::PaginatedArticlesType, null: true do
       argument :page, Integer, required: true
       argument :per, Integer, required: false, default_value: 20

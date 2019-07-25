@@ -734,14 +734,25 @@ export const ADD_ARTICLES_TO_COLLECTION = `
 `;
 
 export const ARTICLE_SETTINGS_UPDATE = `
-  mutation ArticleSettingsUpdate($appKey: String!, $settings: [String!]!){
-    ArticleSettingsUpdate( 
+  mutation ArticleSettingsUpdate($appKey: String!, $settings: Json!){
+    articleSettingsUpdate( 
       appKey: $appKey,
       settings: $settings
     ){
-      collection{
-        settings
+      settings{
+        id
+        subdomain
+        siteTitle
+        siteDescription
+        website
+        googleCode
+        color
+        facebook
+        twitter
+        linkedin
+        credits
       }
+      errors
     }
   }
 `;

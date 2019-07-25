@@ -13,13 +13,15 @@ import {
         TextField,
         Paper,
         Grid,
-      } from '@material-ui/core';
+        Divider
+} from '@material-ui/core';
 
 import {getFileMetadata, directUpload} from '../../shared/fileUploader'
 
 //import {Link} from 'react-router-dom'
 
 import graphql from '../../graphql/client'
+import {toSnakeCase} from '../../shared/caseConverter'
 
 import {
   ARTICLE_SETTINGS
@@ -32,6 +34,7 @@ import {
 } from '../../graphql/mutations'
 
 import { withStyles } from '@material-ui/core/styles';
+import serialize from 'form-serialize'
 
 //import Loader from './loader'
 import _ from "lodash"
@@ -59,7 +62,8 @@ class Settings extends Component {
   state = {
     loading: true,
     tabValue: 0,
-    data: null
+    settings: null,
+    errors: []
   };
 
   titleRef = null
@@ -75,27 +79,33 @@ class Settings extends Component {
 
   getSettings = ()=>{
     graphql(ARTICLE_SETTINGS, {
-      appKey: this.props.appKey
+      appKey: this.props.app.key
     }, {
       success: (data)=>{
-        debugger
+        this.setState({
+          loading: false,
+          settings: data.app.articleSettings
+        })
       },
-      error: ()=>{
-
+      error: (e)=>{
+        debugger
       }
     })
   }
 
-  update = ()=>{
+  update = (data)=>{
+    const {settings} = data
     graphql(ARTICLE_SETTINGS_UPDATE, {
       appKey: this.props.app.key,
-      settings: {}
+      settings: settings
     }, {
       success: (data)=>{
-        debugger
+        this.setState({
+          settings: data.articleSettingsUpdate.settings
+        })
       },
-      error: ()=>{
-
+      error: (e)=>{
+        debugger
       }
     })
   }
@@ -143,13 +153,13 @@ class Settings extends Component {
         grid: { xs: 12, sm: 12 }
       },
       {
-        name: "site title",
+        name: "siteTitle",
         hint: "documentation site subdomain",
         type: 'text',
         grid: { xs: 12, sm: 12 }
       },
       {
-        name: "site description",
+        name: "siteDescription",
         hint: "documentation site subdomain",
         type: 'string',
         grid: { xs: 12, sm: 12 }
@@ -161,7 +171,7 @@ class Settings extends Component {
         grid: { xs: 12, sm: 12 }
       },
       {
-        name: "google_code",
+        name: "googleCode",
         hint: "Google Analytics Tracking ID",
         type: 'string',
         grid: { xs: 12, sm: 12 }
@@ -238,13 +248,17 @@ class Settings extends Component {
 
   renderTabcontent = ()=>{
 
+    if(this.state.loading){
+      return <p>loading...</p>
+    }
+
     switch (this.state.tabValue){
       case 0:
         return <SettingsForm
                   title={"General app's information"}
                   //currentUser={this.props.currentUser}
-                  //data={this.props.app}
-                  //update={this.update.bind(this)}
+                  data={this.state.settings}
+                  update={this.update.bind(this)}
                   //fetchApp={this.fetchApp}
                   //classes={this.props.classes}
                   definitions={this.definitionsForSettings}
@@ -255,8 +269,8 @@ class Settings extends Component {
         return <SettingsForm
                   title={"Lang"}
                   //currentUser={this.props.currentUser}
-                  //data={this.props.app}
-                  //update={this.update.bind(this)}
+                  data={this.state.settings}
+                  update={this.update.bind(this)}
                   //fetchApp={this.fetchApp}
                   //classes={this.props.classes}
                   definitions={this.definitionsForLang}
@@ -266,8 +280,8 @@ class Settings extends Component {
         return <SettingsForm
                   title={"Appearance settings"}
                   //currentUser={this.props.currentUser}
-                  //data={this.props.app}
-                  //update={this.update.bind(this)}
+                  data={this.state.settings}
+                  update={this.update.bind(this)}
                   //fetchApp={this.fetchApp}
                   //classes={this.props.classes}
                   definitions={this.definitionsForAppearance}
@@ -300,27 +314,62 @@ class Settings extends Component {
 }
 
 class SettingsForm extends Component{
+
+  formRef: any;
+
+  onSubmitHandler = ()=>{
+    const serializedData = serialize(this.formRef, { hash: true, empty: true })
+    const data = toSnakeCase(serializedData)
+    this.props.update(data)
+  }
+
   render(){
+
     return (
 
-      <Grid container spacing={3}>
-        {
-          this.props.definitions().map((field) => {
+      <form 
+        onSubmit={this.onSubmitHandler.bind(this)}
+        ref={form => {
+        this.formRef = form;
+      }}>
 
-            return <Grid item
-                      key={field.name} 
-                      xs={field.grid.xs} 
-                      sm={field.grid.sm}>
-                      <FieldRenderer 
-                        namespace={'app'} 
-                        data={field}
-                        props={{data: {}}} 
-                        errors={ {} }
-                      />
-                  </Grid>
-          })
-        }
-      </Grid>
+        <input type={"text"} 
+          defaultValue={this.props.data.id} 
+        />
+        
+        <Grid container spacing={3}>
+          {
+            this.props.definitions().map((field) => {
+
+              return <Grid item
+                        key={field.name} 
+                        xs={field.grid.xs} 
+                        sm={field.grid.sm}>
+                        <FieldRenderer 
+                          namespace={'settings'} 
+                          data={field}
+                          props={{data: this.props.data }} 
+                          errors={ {} }
+                        />
+                    </Grid>
+            })
+          }
+        </Grid>
+      
+        <Divider variant="inset"></Divider>
+
+        <Button 
+          onClick={this.onSubmitHandler.bind(this)}
+          variant="contained" 
+          color="primary">
+          Save
+        </Button>
+
+        <Button appearance="subtle">
+          Cancel
+        </Button>
+
+      </form>
     )
   } 
 }

@@ -1,7 +1,6 @@
 module Types
   class ArticleSettingsType < Types::BaseObject
-    field :id, Int, null: false
-
+    field :id, Int, null: true
     field :subdomain, String, null: true
     field :site_title, String, null: true
     field :site_description, String, null: true
@@ -15,6 +14,14 @@ module Types
     field :twitter, String, null: true
     field :linkedin, String, null: true
     field :credits, String, null: true
+
+    def logo
+      "aa"
+    end
+
+    def header_logo
+      "aa"
+    end
 
   end
 end
