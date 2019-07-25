@@ -28,7 +28,47 @@ module Types
       Rails.application.routes.url_helpers.rails_representation_url(
         object.header_image.variant(resize_to_limit: [100, 100]).processed, 
       only_path: true)
+    end
 
+    field :articles, Types::PaginatedArticlesType, null: true do
+      argument :page, Integer, required: true
+      argument :per, Integer, required: false, default_value: 20
+    end
+
+    def articles(page:, per:)
+      object.app.articles.page(page).per(per)
+    end
+
+    field :articles_uncategorized, Types::PaginatedArticlesType, null: true do
+      argument :page, Integer, required: true
+      argument :per, Integer, required: false, default_value: 20
+    end
+
+    def articles_uncategorized(page: , per:)
+      object.app.articles.without_collection.page(page).per(per)
+    end
+
+    field :article, Types::ArticleType, null: true do
+      argument :id, String, required: true
+    end
+
+    def article(id:)
+      object.app.articles.friendly.find(id)
+    end
+
+    field :collections, [Types::CollectionType], null: true do
+    end
+
+    def collections
+      object.app.article_collections
+    end
+
+    field :collection, Types::CollectionType, null: true do
+      argument :id, String, required: true
+    end
+
+    def collection(id:)
+      object.app.article_collections.friendly.find(id)
     end
 
   end

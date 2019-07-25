@@ -144,6 +144,14 @@ class Settings extends Component {
         type: 'string',
         grid: { xs: 12, sm: 12 }
       },
+
+      {
+        name: "domain",
+        hint: "documentation site custom domain",
+        type: 'string',
+        grid: { xs: 12, sm: 12 }
+      },
+
       {
         name: "siteTitle",
         hint: "documentation site subdomain",
