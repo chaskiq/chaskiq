@@ -458,7 +458,7 @@ export const ARTICLE_SETTINGS = `
         credits
         facebook
         googleCode
-        headerLogo
+        headerImage
         linkedin
         logo
         siteDescription

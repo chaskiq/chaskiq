@@ -234,11 +234,12 @@ class FieldRenderer extends React.Component {
                   //multiple
                   type="file"
                 />
+                <img src={props.data[camelCase(data.name)]}/>
                 <label htmlFor={data.name}>
                   <Button variant="contained" component="span" 
                     //className={classes.button}
                     >
-                    Upload {props.data[camelCase(data.name)]}
+                    Upload 
                   </Button>
                 </label>
               </React.Fragment>

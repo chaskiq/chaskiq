@@ -126,22 +126,7 @@ class Settings extends Component {
             () => {
               let params = {}
               params[kind] = signedBlobId
-              
               this.update({settings: params})
-
-              /*graphql(ARTICLE_BLOB_ATTACH, { 
-                appKey: this.props.app.key ,
-                id: parseInt(this.state.article.id),
-                blobId: signedBlobId
-              }, {
-                success: (data)=>{
-                  imageBlock.uploadCompleted(serviceUrl)
-                },
-                error: (err)=>{
-                  console.log("error on direct upload", err)
-                }
-              })*/
-
           });
         },
         error: (error)=>{
@@ -202,9 +187,9 @@ class Settings extends Component {
       },
 
       {
-        name: "header logo",
+        name: "header_image",
         type: 'upload',
-        handler: (file)=> this.uploadHandler(file, "header_logo"),
+        handler: (file)=> this.uploadHandler(file, "header_image"),
         grid: { xs: 12, sm: 4 }
       },
 
