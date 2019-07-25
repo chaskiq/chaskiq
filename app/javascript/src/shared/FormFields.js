@@ -7,14 +7,23 @@ import React from 'react'
 //import { Field } from '@atlaskit/form';
 import { snakeCase, camelCase } from 'lodash'
 
-import TextField from '@material-ui/core/TextField';
-import FormControl from '@material-ui/core/FormControl';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import FormHelperText from '@material-ui/core/FormHelperText';
-import Input from '@material-ui/core/Input';
-import MenuItem from '@material-ui/core/MenuItem';
-import InputLabel from '@material-ui/core/InputLabel';
-import Checkbox from '@material-ui/core/Checkbox';
+import {
+  TextField ,
+  FormControl,
+  FormControlLabel,
+  FormHelperText,
+  Input,
+  MenuItem,
+  InputLabel,
+  Checkbox,
+  InputAdornment ,
+  Button,
+  IconButton
+}  from '@material-ui/core';
+
+import ColorFillIcon from '@material-ui/icons/FormatColorFill'
+import ChromeReaderIcon from '@material-ui/icons/ChromeReaderMode'
+
 //import Select from '@material-ui/core/Select';
 import Chip from '@material-ui/core/Chip';
 import MultipleSelect from './multipleSelect'
@@ -25,6 +34,7 @@ import DateTime from './dateTime'
 import moment from 'moment-timezone';
 
 
+import { SketchPicker } from 'react-color';
 
 export const errorsFor = (name, errors ) => {
   if (!errors[name])
@@ -51,11 +61,15 @@ const styles = theme => ({
 
 class FieldRenderer extends React.Component {
 
+  handleColorChangeComplete = ()=>{
+
+  }
+
   fieldRenderer = () => {
     
-    const {namespace, data, props, errors, classes} = this.props
+    const {namespace, data, props, errors, classes, errorNamespace} = this.props
 
-    const errorMessage = errorsFor(data.name, errors)
+    const errorMessage = errorsFor(`${errorNamespace ? errorNamespace : ''}${data.name}`, errors)
 
     switch (data.type) {
       case "string":
@@ -190,6 +204,22 @@ class FieldRenderer extends React.Component {
                   //labelPlacement="top"
                   label={data.name}
                 />
+      case "color":
+        return <FormControl 
+                error={errorMessage}
+                className={classes.formControl}>
+
+                <ColorPicker 
+                  label={data.name}
+                  error={errorMessage}
+                  name={`${namespace}[${data.name}]`}
+                  color={ props.data[camelCase(data.name)] || '#000' }
+                  onChangeComplete={ this.handleColorChangeComplete }
+                />
+
+                </FormControl>
+        
+        
       default:
         break;
     }
@@ -201,6 +231,87 @@ class FieldRenderer extends React.Component {
   }
 
 }
+
+
+class ColorPicker extends React.Component {
+  state = {
+    displayColorPicker: false,
+    value: this.props.color
+  };
+
+  handleClick = (e) => {
+    e.preventDefault()
+    this.setState({ displayColorPicker: !this.state.displayColorPicker })
+  };
+
+  handleClose = () => {
+    this.setState({ displayColorPicker: false })
+  };
+
+  handleColorChangeComplete = (color)=>{
+    this.setState({value: color.hex})
+  }
+
+  render() {
+    const popover = {
+      position: 'absolute',
+      zIndex: '2',
+    }
+    const cover = {
+      position: 'fixed',
+      top: '0px',
+      right: '0px',
+      bottom: '0px',
+      left: '0px',
+    }
+    return (
+      
+      <TextField
+        label={this.props.label}
+        error={this.props.error}
+        variant="outlined"
+        fullWidth
+        defaultValue={this.state.value}
+        name={this.props.name}
+        value={this.state.value}
+        //id="simple-start-adornment"
+        //className={clsx(classes.margin, classes.textField)}
+        InputProps={{
+          startAdornment: <InputAdornment position="start">
+                            <ChromeReaderIcon style={{color: this.state.value}} />
+                          </InputAdornment>
+          ,
+          endAdornment: <InputAdornment position="end">
+          
+          <React.Fragment>
+            <IconButton 
+              aria-label="Toggle color" 
+              onClick={this.handleClick}>
+              <ColorFillIcon  />
+            </IconButton>
+    
+            { 
+              this.state.displayColorPicker ? 
+              <div style={ popover }>
+                <div style={ cover } onClick={ this.handleClose }/>
+                <SketchPicker 
+                  color={ this.props.color }
+                  onChangeComplete={ this.handleColorChangeComplete }
+                />
+              </div> :  null 
+            }
+  
+        </React.Fragment>
+
+          
+          </InputAdornment>,
+        }}
+      />
+        
+    )
+  }
+}
+
 
 export default withStyles(styles)(FieldRenderer);
 

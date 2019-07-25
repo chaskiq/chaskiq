@@ -101,7 +101,8 @@ class Settings extends Component {
     }, {
       success: (data)=>{
         this.setState({
-          settings: data.articleSettingsUpdate.settings
+          settings: data.articleSettingsUpdate.settings,
+          errors: data.articleSettingsUpdate.errors
         })
       },
       error: (e)=>{
@@ -183,7 +184,7 @@ class Settings extends Component {
     return [
       {
         name: "color",
-        type: 'string',
+        type: 'color',
         grid: { xs: 12, sm: 4 }
       },
 
@@ -259,9 +260,11 @@ class Settings extends Component {
                   //currentUser={this.props.currentUser}
                   data={this.state.settings}
                   update={this.update.bind(this)}
+                  errorNamespace={"article_settings."}
                   //fetchApp={this.fetchApp}
                   //classes={this.props.classes}
                   definitions={this.definitionsForSettings}
+                  errors={this.state.errors}
                   {...this.props}
                />
 
@@ -274,6 +277,7 @@ class Settings extends Component {
                   //fetchApp={this.fetchApp}
                   //classes={this.props.classes}
                   definitions={this.definitionsForLang}
+                  errors={this.state.errors}
                   {...this.props}
                 />
       case 2:
@@ -285,6 +289,7 @@ class Settings extends Component {
                   //fetchApp={this.fetchApp}
                   //classes={this.props.classes}
                   definitions={this.definitionsForAppearance}
+                  errors={this.state.errors}
                   {...this.props}
                 />
       case 3:
@@ -332,10 +337,6 @@ class SettingsForm extends Component{
         ref={form => {
         this.formRef = form;
       }}>
-
-        <input type={"text"} 
-          defaultValue={this.props.data.id} 
-        />
         
         <Grid container spacing={3}>
           {
@@ -348,8 +349,9 @@ class SettingsForm extends Component{
                         <FieldRenderer 
                           namespace={'settings'} 
                           data={field}
+                          errorNamespace={this.props.errorNamespace}
                           props={{data: this.props.data }} 
-                          errors={ {} }
+                          errors={ this.props.errors }
                         />
                     </Grid>
             })
