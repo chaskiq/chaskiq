@@ -13,7 +13,8 @@ import {
         TextField,
         Paper,
         Grid,
-        Divider
+        Divider,
+        Chip
 } from '@material-ui/core';
 
 import {getFileMetadata, directUpload} from '../../shared/fileUploader'
@@ -45,6 +46,7 @@ import {setCurrentPage} from '../../actions/navigation'
 import FieldRenderer from '../../shared/FormFields'
 import ContentHeader from '../../components/ContentHeader'
 import Content from '../../components/Content'
+import langsOptions from '../../shared/langsOptions'
 
 const styles = theme => ({
 
@@ -233,7 +235,15 @@ class Settings extends Component {
 
   definitionsForLang = () => {
     return [
-      
+      {
+        name: "langs",
+        type: 'select',
+        multiple: true,
+        options: langsOptions, 
+        default: "es",
+        hint: "Choose langs",
+        grid: { xs: 12, sm: 8 }
+      },
     ]
   }
 
@@ -273,8 +283,20 @@ class Settings extends Component {
                />
 
       case 1:
-        return <SettingsForm
+        return <div>
+        
+                <Typography variant="h5">
+                  Localize your Help Center
+                </Typography>
+
+                <Typography variant="subtitle1">
+                  Manage supported languages and customize your Help 
+                  Center's header
+                </Typography>
+
+                <LanguageForm
                   title={"Lang"}
+                  settings={this.state.settings}
                   //currentUser={this.props.currentUser}
                   data={this.state.settings}
                   update={this.update.bind(this)}
@@ -284,6 +306,7 @@ class Settings extends Component {
                   errors={this.state.errors}
                   {...this.props}
                 />
+              </div>
       case 2:
         return <SettingsForm
                   title={"Appearance settings"}
@@ -378,6 +401,68 @@ class SettingsForm extends Component{
       </form>
     )
   } 
+}
+
+function LanguageForm({settings}){
+
+  function handleChange(value){
+    debugger
+  }
+
+  return (
+
+    <div>
+
+      {
+        settings.translations.map((o)=>{
+
+          console.log(o)
+
+          return <Grid container
+                    justify={"space-between"}
+                    alignItems={"center"}>
+            
+                    <Grid item>
+                      <Typography>
+                        {o.locale}
+                        <Chip label="Default" />
+            
+                      </Typography>
+                    </Grid>
+            
+                    <Grid item>
+                      <TextField
+                        id="standard-name"
+                        label="Name"
+                        defaultValue={o.site_title}
+                        //className={classes.textField}
+                        //value={values.name}
+                        //onChange={handleChange('name')}
+                        margin="normal"
+                      />
+                    </Grid>
+                    
+                    <Grid item>
+                      <TextField
+                        id="standard-name"
+                        label="Name"
+                        defaultValue={o.site_description}
+                        //className={classes.textField}
+                        //value={values.name}
+                        //onChange={handleChange('name')}
+                        margin="normal"
+                      />
+                    </Grid>
+                    
+                  </Grid>
+        })
+      }
+
+
+      <Button>Add language</Button>
+
+    </div>
+  )
 }
 
 
