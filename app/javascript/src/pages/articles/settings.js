@@ -308,7 +308,7 @@ class Settings extends Component {
        <React.Fragment>
 
          <ContentHeader 
-            title={ 'App Settings' }
+            title={ 'Help Center Settings' }
             tabsContent={ this.tabsContent() }
           />
 
