@@ -22,6 +22,8 @@ class Article < ApplicationRecord
 
   has_many_attached :images
 
+  translates :title, :description
+
   accepts_nested_attributes_for :article_content
 
   scope :without_section, ->{ where(article_section_id: nil).order(position: :asc) }

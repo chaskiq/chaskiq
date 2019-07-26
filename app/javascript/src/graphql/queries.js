@@ -466,6 +466,8 @@ export const ARTICLE_SETTINGS = `
         subdomain
         twitter
         website
+        langs
+        translations
       }
     }
   }

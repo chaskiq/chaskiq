@@ -15,6 +15,11 @@ module Types
     field :twitter, String, null: true
     field :linkedin, String, null: true
     field :credits, String, null: true
+    field :langs, String, null: true
+
+    field :translations, [Types::JsonType], null: true
+
+    
 
     def logo
       return "" unless object.logo_blob.present?

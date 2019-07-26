@@ -74,7 +74,7 @@ class FieldRenderer extends React.Component {
     switch (data.type) {
       case "string":
         // className={classes.formControl}
-        console.log(props.data[camelCase(data.name)])
+        //console.log(props.data[camelCase(data.name)])
         return <FormControl 
                   error={errorMessage}
                   className={classes.formControl}>
@@ -143,7 +143,6 @@ class FieldRenderer extends React.Component {
               </FormControl>
       case "select":
         let defaultData = null
-
         if (data.multiple) {
           if (!props.data[data.name]){
             defaultData = {

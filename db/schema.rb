@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_07_23_035210) do
+ActiveRecord::Schema.define(version: 2019_07_26_182749) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -150,6 +150,17 @@ ActiveRecord::Schema.define(version: 2019_07_23_035210) do
     t.index ["article_id"], name: "index_article_contents_on_article_id"
   end
 
+  create_table "article_setting_translations", force: :cascade do |t|
+    t.bigint "article_setting_id", null: false
+    t.string "locale", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.string "site_title"
+    t.text "site_description"
+    t.index ["article_setting_id"], name: "index_article_setting_translations_on_article_setting_id"
+    t.index ["locale"], name: "index_article_setting_translations_on_locale"
+  end
+
   create_table "article_settings", force: :cascade do |t|
     t.string "domain"
     t.string "subdomain"
@@ -158,6 +169,17 @@ ActiveRecord::Schema.define(version: 2019_07_23_035210) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["app_id"], name: "index_article_settings_on_app_id"
+  end
+
+  create_table "article_translations", force: :cascade do |t|
+    t.bigint "article_id", null: false
+    t.string "locale", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.string "title"
+    t.text "description"
+    t.index ["article_id"], name: "index_article_translations_on_article_id"
+    t.index ["locale"], name: "index_article_translations_on_locale"
   end
 
   create_table "articles", force: :cascade do |t|
@@ -389,6 +411,12 @@ ActiveRecord::Schema.define(version: 2019_07_23_035210) do
     t.datetime "updated_at", null: false
     t.index ["app_id"], name: "index_segments_on_app_id"
     t.index ["key"], name: "index_segments_on_key"
+  end
+
+  create_table "translation_table_for_article_settings", force: :cascade do |t|
+  end
+
+  create_table "translation_table_for_articles", force: :cascade do |t|
   end
 
   create_table "visits", force: :cascade do |t|
