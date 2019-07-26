@@ -192,8 +192,8 @@ const useStyles = makeStyles(theme => ({
     display: 'inline-block'
   },
   logoImage: {
-    width: '150px',
-    height: '35px'
+    //width: '150px',
+    height: '73px'
   },
   siteLink: {
     color: "#efe",
@@ -718,6 +718,14 @@ function Collections(props){
     })
   }
 
+  function truncateOnWord(str, num) {
+    if (str.length > num) {
+      return str.slice(0, num) + "...";
+    } else {
+      return str;
+    }
+  }
+
   return (
     <Container className={classes.cardGrid} maxWidth="md">
                   {/* End hero unit */}
@@ -725,28 +733,42 @@ function Collections(props){
                     {collections.map(card => (
                       <Grid item key={card} xs={12} sm={12} md={4}>
                         <Card className={classes.card}>
-                        <RouterLink 
-                            className={classes.routeLink}
-                            color={'primary'}
-                            to={`/collections/${card.slug}`}> 
-                            <CardMedia
-                              className={classes.cardMedia}
-                              image="https://source.unsplash.com/random"
-                              title="Image title"
-                            />
-                            <CardContent className={classes.cardContent}>
+
+                          {/*
+                            <RouterLink 
+                                className={classes.routeLink}
+                                color={'primary'}
+                                to={`/collections/${card.slug}`}> 
+                                
+                                <CardMedia
+                                  className={classes.cardMedia}
+                                  image="https://source.unsplash.com/random"
+                                  title="Image title"
+                                />
+                            </RouterLink> 
+                          */}
+
+                          <CardContent className={classes.cardContent}>
+                            
+                            <RouterLink 
+                              className={classes.routeLink}
+                              color={'primary'}
+                              to={`/collections/${card.slug}`}> 
                               
                               <Typography gutterBottom variant="h5" component="h3">
                                 {card.title}
                               </Typography>
 
-                              <Typography>
-                                {card.description}
-                              </Typography>
+                            </RouterLink>
 
-                            </CardContent>
-                          </RouterLink>
-                          <CardActions>
+                            <Typography>
+                              {truncateOnWord(card.description, 120)}
+                            </Typography>
+
+                          </CardContent>
+                      
+                          {/*
+                            <CardActions>
                             <Button size="small" color="primary">
                               View
                             </Button>
@@ -754,6 +776,8 @@ function Collections(props){
                               Edit
                             </Button>
                           </CardActions>
+                          */}
+
                         </Card>
                       </Grid>
                     ))}
