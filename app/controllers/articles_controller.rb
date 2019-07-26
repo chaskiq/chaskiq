@@ -3,7 +3,7 @@ class ArticlesController < ApplicationController
   layout "articles"
 
   def show
-    messenger_data
+    messenger_data 
     render html: "", layout: true, layout: "articles"
   end
 
