@@ -10,6 +10,7 @@ module Types
     field :color, String, null: true
     field :logo, String, null: true
     field :header_image, String, null: true
+    field :header_image_large, String, null: true
     field :facebook, String, null: true
     field :twitter, String, null: true
     field :linkedin, String, null: true
@@ -19,7 +20,7 @@ module Types
       return "" unless object.logo_blob.present?
 
       Rails.application.routes.url_helpers.rails_representation_url(
-        object.logo.variant(resize_to_limit: [100, 100]).processed, 
+        object.logo.variant(resize_to_limit: [300, 100]).processed, 
       only_path: true)
     end
 
@@ -29,6 +30,23 @@ module Types
         object.header_image.variant(resize_to_limit: [100, 100]).processed, 
       only_path: true)
     end
+
+    def header_image_large
+     options = {
+       :resize=>"1280x600^", 
+       :gravity=>"center", 
+       :crop=>"1280x600+0+0", 
+       :strip=>true, 
+       :quality=>"86"
+      }
+
+      return "" unless object.header_image_blob.present?
+      Rails.application.routes.url_helpers.rails_representation_url(
+        object.header_image.variant(options).processed, 
+      only_path: true)
+    end
+
+
 
     field :articles, Types::PaginatedArticlesType, null: true do
       argument :page, Integer, required: true

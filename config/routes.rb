@@ -22,6 +22,7 @@ Rails.application.routes.draw do
     # TODO, regex ?
     get '/'  => "articles#show"
     get '/collections' => "articles#show"
+    get '/collections/:id' => "articles#show"
     get '/articles/:1/' => "articles#show"
   end
 
