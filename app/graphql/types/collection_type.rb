@@ -6,6 +6,7 @@ module Types
     field :slug, String, null: false
     field :sections, [Types::SectionType], null: true
     field :base_articles, [Types::ArticleType], null: true
+    field :meta, Types::JsonType, null: true
 
     def base_articles
       object.articles.without_section
@@ -35,6 +36,14 @@ module Types
 
       #arr
 
+    end
+
+    def meta
+      articles = ArticleCollection.first.articles
+      {
+        size: articles.size,
+        authors: articles.map(&:author)
+      }
     end
   end
 end

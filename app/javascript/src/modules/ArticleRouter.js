@@ -28,167 +28,7 @@ import conversation from '../actions/conversation'
 import current_user from '../actions/current_user'
 import status_message from '../actions/status_messages'
 import current_page from '../actions/navigation'
-
 import Docs from '../pages/docs'
-
-
-let theme = createMuiTheme({
-
-  typography: {
-
-
-    //font-family: 'IBM Plex Sans', sans-serif;
-    //font-family: 'IBM Plex Sans Condensed', sans-serif;
-
-    //fontFamily: "\"IBM Plex Sans\", \"Helvetica\", \"Arial\", sans-serif",
-
-    fontFamily: "\"Roboto Mono\", \"Helvetica\", \"Arial\", sans-serif",
-    fontSize: 14,
-    /*fontWeightLight: 300,
-    fontWeightRegular: 400,
-    fontWeightMedium: 500,*/
-
-
-    h5: {
-      //fontFamily: "\"IBM Plex Sans Condensed\", \"Helvetica\", \"Arial\", sans-serif",
-      fontFamily: "\"Open Sans\", \"Helvetica\", \"Arial\", sans-serif",
-      fontWeight: 'bold',
-      fontSize: 26,
-      letterSpacing: 0.5,
-    },
-  },
-  palette: {
-    primary: {
-      light: '#63ccff',
-      //main: '#009be5',
-      //main: '#444',
-      //main: '#dc18c1',
-      main: '#24862c',
-      white: '#fff',
-      dark: '#15501a', //'#006db3',
-    }
-  },
-  shape: {
-    borderRadius: 3,
-  },
-});
-
-theme = {
-  ...theme,
-  overrides: {
-    MuiDrawer: {
-      paper: {
-        //backgroundColor: '#18202c',
-        backgroundColor: '#f8f8f8',
-      },
-    },
-    MuiButton: {
-      label: {
-        textTransform: 'none',
-      },
-      contained: {
-        boxShadow: 'none',
-        '&:active': {
-          boxShadow: 'none',
-        },
-      },
-    },
-    MuiTabs: {
-      root: {
-        marginLeft: theme.spacing(1),
-      },
-      indicator: {
-        height: 3,
-        borderTopLeftRadius: 3,
-        borderTopRightRadius: 3,
-        backgroundColor: theme.palette.common.white,
-      },
-    },
-    MuiTab: {
-      root: {
-        textTransform: 'none',
-        margin: '0 16px',
-        minWidth: 0,
-        padding: 0,
-        [theme.breakpoints.up('md')]: {
-          padding: 0,
-          minWidth: 0,
-        },
-      },
-    },
-    MuiIconButton: {
-      root: {
-        padding: theme.spacing(1),
-      },
-    },
-    MuiTooltip: {
-      tooltip: {
-        borderRadius: 4,
-      },
-    },
-    MuiDivider: {
-      root: {
-        backgroundColor: '#d3e8d7', //#404854',
-      },
-    },
-    MuiListItemText: {
-      primary: {
-        fontWeight: theme.typography.fontWeightMedium,
-      },
-    },
-    MuiListItemIcon: {
-      root: {
-        color: 'inherit',
-        marginRight: 0,
-        '& svg': {
-          fontSize: 20,
-        },
-      },
-    },
-    MuiAvatar: {
-      root: {
-        width: 32,
-        height: 32,
-      },
-    },
-  },
-  props: {
-    MuiTab: {
-      disableRipple: true,
-    },
-  },
-  mixins: {
-    ...theme.mixins,
-    toolbar: {
-      minHeight: 48,
-    },
-  },
-};
-
-const drawerWidth = 256;
-
-const styles = {
-  root: {
-    display: 'flex',
-    minHeight: '100vh',
-  },
-  drawer: {
-    [theme.breakpoints.up('sm')]: {
-      width: drawerWidth,
-      flexShrink: 0,
-    },
-  },
-  appContent: {
-    flex: 1,
-    display: 'flex',
-    flexDirection: 'column',
-  },
-  mainContent: {
-    flex: 1,
-    padding: '48px 36px 0',
-    background: '#eaeff1',
-  },
-};
 
 const rootReducer = combineReducers({
   auth,
@@ -203,15 +43,12 @@ const rootReducer = combineReducers({
   current_page
 })
 
-
 const middlewares = [thunkMiddleware]//, routerMiddleware(history)]
-
 
 const enhancer = compose(
   applyMiddleware(...middlewares),
   persistState('auth', { key: 'AUTH' })
 )
-
 
 const store = createStore(rootReducer, composeWithDevTools(
   enhancer
@@ -249,24 +86,18 @@ class MainRouter extends Component {
     })
   }
 
-  /*setCurrentApp = (app , cb) =>{
-    this.setState({
-      currentApp: app
-    }, ()=> {cb ? cb(app) : null} )
-  }*/
-
   render() {
 
     return (
 
         <Provider store={store}>
-          <MuiThemeProvider theme={theme}>
-            <Docs/>
-          </MuiThemeProvider>
+          
+          <Docs/>
+          
         </Provider>
       
     );
   }
 }
 
-export default withStyles(styles)(MainRouter);
+export default MainRouter;

@@ -6,7 +6,7 @@ export const ARTICLE_SETTINGS = `
       credits
       facebook
       googleCode
-      headerImage
+      headerImageLarge
       linkedin
       logo
       siteDescription
@@ -133,6 +133,7 @@ export const ARTICLE_COLLECTION_WITH_SECTIONS = `
         id
         title
         description
+        meta
 
         baseArticles{
           id
@@ -141,6 +142,7 @@ export const ARTICLE_COLLECTION_WITH_SECTIONS = `
           author{
             id
             email
+            displayName
           }
         }
         sections{
@@ -154,6 +156,7 @@ export const ARTICLE_COLLECTION_WITH_SECTIONS = `
             author{
               id
               email
+              displayName
             }
           }
           

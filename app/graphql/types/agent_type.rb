@@ -10,6 +10,12 @@ module Types
     field :country_code, String, null: true
     field :region, String, null: true
     field :region_code, String, null: true
+    
+    field :display_name, String, null: true
+
+    def display_name
+      object.name
+    end
 
     field :app, [Types::AppType], null: true
     
