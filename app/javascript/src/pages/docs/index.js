@@ -24,7 +24,8 @@ import {
   ListItem,
   ListItemAvatar,
   ListItemText,
-  Avatar
+  Avatar,
+  Box
 } from '@material-ui/core';
 
 
@@ -42,7 +43,7 @@ import gravatar from "../../shared/gravatar"
 import DanteArticle from './showArticle'
 
 import styled from 'styled-components'
-
+import {Facebook, Twitter, LinkedIn} from './icons'
 import {
   BrowserRouter,
   Route,
@@ -122,8 +123,8 @@ function MadeWithLove() {
   return (
     <Typography variant="body2" color="textSecondary" align="center">
       {'Built with love by the '}
-      <Link href="https://material-ui.com/">
-        Material-UI
+      <Link href="https://chaskiq.io/">
+        Chaskiq
       </Link>
       {' team.'}
     </Typography>
@@ -186,6 +187,7 @@ const useStyles = makeStyles(theme => ({
   },
   textPrimary: {
     fontSize: '2em',
+    color: "#efe",
     margin: theme.spacing(2, 0, 2),
     display: 'inline-block'
   },
@@ -194,6 +196,7 @@ const useStyles = makeStyles(theme => ({
     height: '35px'
   },
   siteLink: {
+    color: "#efe",
     display: 'flex'
   },
   routeLink: {
@@ -223,6 +226,10 @@ const useStyles = makeStyles(theme => ({
 
   collectionMeta: {
     margin: theme.spacing(1, 0, 2, 0)
+  },
+
+  headerText: {
+    color: theme.palette.primary.main
   }
 
 
@@ -483,8 +490,8 @@ export default function Docs() {
                         color={'primary'}
                         onClick={(e)=> window.location = settings.website}>
                         <LaunchIcon/>
-                        <Typography>
-                          go to {settings.siteTitle}
+                        <Typography className={classes.siteLink} >
+                          {" Go to"} {settings.siteTitle}
                         </Typography>
                       </Link>
                     </Grid>
@@ -569,10 +576,32 @@ export default function Docs() {
           <Typography variant="h6" align="center" gutterBottom>
             Chaskiq
           </Typography>
-          <Typography variant="subtitle1" align="center" color="textSecondary" component="p">
-            Something here to give the footer a purpose!
-          </Typography>
-          <MadeWithLove />
+
+          <Grid
+            container
+            direction="row"
+            justify="space-evenly"
+            alignItems="baseline"
+
+          >
+            <Link href={`http://facebook.com/${settings.facebook}`}>
+              <Facebook/>
+            </Link>
+
+            <Link href={`http://twitter.com/${settings.twitter}`}>
+              <Twitter/>
+            </Link>
+
+            <Link href={`http://instagram.com/${settings.linkedin}`}>
+              <LinkedIn/>
+            </Link>
+
+          </Grid>
+             
+          <Box mt={2}>
+            <MadeWithLove />
+          </Box>            
+          
         </footer>
         {/* End footer */}
         </MuiThemeProvider>
@@ -639,12 +668,22 @@ function Article(props){
     
             </Breadcrumbs>
 
-            <Divider variant="middle"/>
 
-            <Typography variant="h3" gutterBottom>
-              {article.title}
-            </Typography>
-            <DanteArticle article={article} />
+            <Box mt={2}>
+              <Divider variant="middle"/>
+            </Box>
+
+            <Box mt={3} mb={3}>
+              <Typography variant="h3" gutterBottom>
+                {article.title}
+              </Typography>
+            </Box>
+
+            <Box m={2}>
+              <DanteArticle article={article} />
+            </Box>
+            
+            
           </Paper> : null 
         }
       </Grid>
