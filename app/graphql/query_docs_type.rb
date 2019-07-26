@@ -1,3 +1,5 @@
+require 'types/query_docs_type'
+
 module Types
   class QueryDocsType < Types::BaseObject
 
