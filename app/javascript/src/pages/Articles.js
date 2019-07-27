@@ -21,13 +21,9 @@ import gravatar from '../shared/gravatar'
 
 import GestureIcon from '@material-ui/icons/Gesture'
 import CheckCircleIcon from '@material-ui/icons/CheckCircle'
-
-
-import MainSection from '../components/MainSection';
-import ContentWrapper from '../components/ContentWrapper';
-import PageTitle from '../components/PageTitle';
-import logo from '../images/logo.png';
 import DataTable from "../components/newTable";
+
+import ScrollableTabsButtonForce from '../components/scrollingTabs'
 
 import {Link} from 'react-router-dom'
 
@@ -36,7 +32,8 @@ import {ARTICLES} from '../graphql/queries'
 import {
   CREATE_ARTICLE, 
   EDIT_ARTICLE, 
-  DELETE_ARTICLE
+  DELETE_ARTICLE,
+  ARTICLE_SETTINGS_UPDATE
 } from '../graphql/mutations'
 
 import { withStyles } from '@material-ui/core/styles';
@@ -50,6 +47,9 @@ import Collections from './articles/collections/index'
 import CollectionDetail from './articles/collections/show'
 
 import {setCurrentPage} from '../actions/navigation'
+import {
+  ARTICLE_SETTINGS
+} from '../graphql/queries'
 
 
 const styles = theme => ({
@@ -58,12 +58,52 @@ const styles = theme => ({
   },
 });
 
+
+
 class Articles extends Component {
 
   state = {
     meta: {},
     tabValue: 0,
+    settings: null,
   };
+
+  componentDidMount(){
+    this.getSettings()
+  }
+
+  getSettings = (cb)=>{
+    graphql(ARTICLE_SETTINGS, {
+      appKey: this.props.app.key
+    }, {
+      success: (data)=>{
+        this.setState({
+          settings: data.app.articleSettings
+        }, cb)
+      },
+      error: (e)=>{
+        debugger
+      }
+    })
+  }
+
+  updateSettings = (data)=>{
+    const {settings} = data
+    graphql(ARTICLE_SETTINGS_UPDATE, {
+      appKey: this.props.app.key,
+      settings: settings
+    }, {
+      success: (data)=>{
+        this.setState({
+          settings: data.articleSettingsUpdate.settings,
+          errors: data.articleSettingsUpdate.errors
+        })
+      },
+      error: (e)=>{
+        debugger
+      }
+    })
+  }
 
   handleTabChange = (e, i)=>{
     this.setState({tabValue: i})
@@ -83,10 +123,10 @@ class Articles extends Component {
 
     switch (this.state.tabValue){
       case 0:
-        return <AllArticles {...this.props}/>
+        return <AllArticles {...this.props} settings={this.state.settings}/>
 
       case 1:
-        return <PublishedArticles {...this.props}/>
+        return <PublishedArticles {...this.props} settings={this.state.settings}/>
       case 2:
         return 
       case 3:
@@ -98,60 +138,71 @@ class Articles extends Component {
     return (
        <React.Fragment>
 
-       <Switch>
+       {
+         this.state.settings ?
+       
 
-        <Route exact path={`/apps/${this.props.app.key}/articles`}
-          render={(props) => {
-            return <React.Fragment>
-              
-              <ContentHeader 
-                title={ 'Articles' }
-                tabsContent={ this.tabsContent() }
-              />
+        <Switch>
 
-              {this.renderTabcontent()}
-
-            </React.Fragment>
-          }} 
-        />
-
-        <Route exact path={`/apps/${this.props.app.key}/articles/settings`}
+          <Route exact path={`/apps/${this.props.app.key}/articles`}
             render={(props) => {
-              return <Settings 
-                        match={props.match}
-                        history={props.history}
-                      />
+              return <React.Fragment>
+                <ContentHeader 
+                  title={ 'Articles' }
+                  tabsContent={ this.tabsContent() }
+                />
+                {this.state.settings ? this.renderTabcontent() : null }
+              </React.Fragment>
             }} 
           />
 
-        <Route exact path={`/apps/${this.props.app.key}/articles/collections`}
+          <Route exact path={`/apps/${this.props.app.key}/articles/settings`}
+              render={(props) => {
+                return <Settings 
+                          settings={this.state.settings}
+                          getSettings={this.getSettings}
+                          match={props.match}
+                          history={props.history}
+                          update={this.updateSettings}
+                        />
+              }} 
+            />
+
+          <Route exact path={`/apps/${this.props.app.key}/articles/collections`}
+              render={(props) => {
+                return <Collections 
+                          settings={this.state.settings}
+                          getSettings={this.getSettings}
+                          match={props.match}
+                          history={props.history}
+                        />
+              }} 
+            />
+
+          <Route exact path={`/apps/${this.props.app.key}/articles/collections/:id`}
+              render={(props) => {
+                return <CollectionDetail
+                          settings={this.state.settings}
+                          getSettings={this.getSettings}
+                          match={props.match}
+                          history={props.history}
+                        />
+              }} 
+          />
+
+          <Route exact path={`/apps/${this.props.app.key}/articles/:id`}
             render={(props) => {
-              return <Collections 
-                        match={props.match}
-                        history={props.history}
-                      />
+              return <ArticlesNew
+                        settings={this.state.settings}
+                        getSettings={this.getSettings}
+                        history={this.props.history}
+                        data={{}}
+                    />
             }} 
           />
 
-        <Route exact path={`/apps/${this.props.app.key}/articles/collections/:id`}
-            render={(props) => {
-              return <CollectionDetail
-                        match={props.match}
-                        history={props.history}
-                      />
-            }} 
-        />
-
-        <Route exact path={`/apps/${this.props.app.key}/articles/:id`}
-          render={(props) => {
-            return <ArticlesNew
-                      history={this.props.history}
-                      data={{}}
-                   />
-          }} 
-        />
-
-       </Switch>
+        </Switch> : null 
+      }
 
 
         
@@ -164,7 +215,8 @@ class Articles extends Component {
 class AllArticles extends React.Component {
   state = {
     collection: [],
-    loading: true
+    loading: true,
+    lang: "en"
   }
 
   componentDidMount(){
@@ -176,7 +228,11 @@ class AllArticles extends React.Component {
   }
 
   getArticles = ()=>{
-    graphql(ARTICLES, {appKey: this.props.app.key, page: 1 }, {
+    graphql(ARTICLES, {
+      appKey: this.props.app.key, 
+      page: 1,
+      lang: this.state.lang
+    }, {
       success: (data)=>{
         this.setState({
           collection: data.app.articles.collection, 
@@ -185,10 +241,16 @@ class AllArticles extends React.Component {
         })
       },
       error: ()=>{
-
       }
     })
   }
+
+  handleLangChange = (lang)=>{
+    this.setState({
+      lang: lang
+    }, this.getArticles)
+  }
+
   search = (item)=>{
     this.setState({
       loading: true, 
@@ -201,6 +263,14 @@ class AllArticles extends React.Component {
                                 new
                               </Link>
                             }>
+
+
+
+              <ScrollableTabsButtonForce 
+                tabs={this.props.settings.availableLanguages} 
+                changeHandler={(index)=> this.handleLangChange( this.props.settings.availableLanguages[index] )}
+              />
+
              {
                !this.state.loading ?
                <DataTable 
@@ -216,7 +286,7 @@ class AllArticles extends React.Component {
                   {name: "title", title: "title", 
                     getCellValue: row => (row ? 
                       <Link to={`/apps/${this.props.app.key}/articles/${row.id}`}>
-                        {row.title}
+                        {row.title ? row.title : "-- missing translation --"}
                       </Link>
                    : undefined )
 
@@ -423,8 +493,6 @@ class PublishedArticles extends React.Component {
            </Content>    
   }
 }
-
-
 
 function mapStateToProps(state) {
 

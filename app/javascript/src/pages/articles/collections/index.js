@@ -55,25 +55,10 @@ class Collections extends Component {
   descriptionRef = null
 
   componentDidMount(){
-    this.getSettings( this.getCollections )
+    this.getCollections()
     this.props.dispatch(
       setCurrentPage('Help Center')
     )
-  }
-
-  getSettings = (cb)=>{
-    graphql(ARTICLE_SETTINGS, {
-      appKey: this.props.app.key
-    }, {
-      success: (data)=>{
-        this.setState({
-          languages: data.app.articleSettings.availableLanguages 
-        }, cb)
-      },
-      error: ()=>{
-
-      }
-    })
   }
 
   submitAssignment = ()=>{
@@ -307,8 +292,8 @@ class Collections extends Component {
           }
 
           <ScrollableTabsButtonForce 
-            tabs={this.state.languages} 
-            changeHandler={(index)=> this.handleLangChange( this.state.languages[index])}
+            tabs={this.props.settings.availableLanguages} 
+            changeHandler={(index)=> this.handleLangChange( this.props.settings.availableLanguages[index])}
           />
 
           <List 

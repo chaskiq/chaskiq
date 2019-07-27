@@ -6,9 +6,13 @@ module Mutations
       argument :app_key, String, required: true
       argument :content, Types::JsonType, required: true
       argument :title, String, required: true
+      argument :lang, String, required: false, default_value: I18n.default_locale
 
-      def resolve(app_key:, content:, title:)
+
+      def resolve(app_key:, content:, title:, lang:)
         app = App.find_by(key: app_key)
+
+        I18n.locale = lang
 
         @article = app.articles.create({
           author: current_user,
