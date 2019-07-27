@@ -23,7 +23,8 @@ import {
 } from '../../../graphql/mutations'
 
 import {
-  ARTICLE_COLLECTIONS
+  ARTICLE_COLLECTIONS,
+  ARTICLE_SETTINGS
 } from '../../../graphql/queries'
 
 const styles = theme => ({
@@ -44,23 +45,39 @@ class Collections extends Component {
     isOpen: false,
     article_collections: [],
     editCollection: null,
-    openConfirm: false
+    openConfirm: false,
+    languages: []
   }
   titleRef = null
   descriptionRef = null
 
   componentDidMount(){
-    this.getCollections()
+    this.getSettings( this.getCollections )
+    
 
     this.props.dispatch(
       setCurrentPage('Help Center')
     )
   }
 
+  getSettings = (cb)=>{
+    graphql(ARTICLE_SETTINGS, {
+      appKey: this.props.app.key
+    }, {
+      success: (data)=>{
+        this.setState({
+          languages: data.app.articleSettings.availableLanguages 
+        }, cb)
+      },
+      error: ()=>{
+
+      }
+    })
+  }
+
   submitAssignment = ()=>{
 
   }
-
 
   close = ()=>{
     this.setState({isOpen: false})
@@ -282,6 +299,12 @@ class Collections extends Component {
           /> : null
           }
 
+          langs: 
+          {
+            this.state.languages.map((o)=> (
+              <p>{o}</p>
+            ))
+          }
 
           <List 
             //className={classes.root}

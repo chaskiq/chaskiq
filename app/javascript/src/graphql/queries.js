@@ -468,6 +468,7 @@ export const ARTICLE_SETTINGS = `
         website
         langs
         translations
+        availableLanguages
       }
     }
   }

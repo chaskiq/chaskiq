@@ -19,7 +19,11 @@ module Types
 
     field :translations, [Types::JsonType], null: true
 
-    
+    field :available_languages, [Types::JsonType], null: true
+
+    def available_languages
+      object.translations.map(&:locale)
+    end
 
     def logo
       return "" unless object.logo_blob.present?

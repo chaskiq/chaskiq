@@ -1,6 +1,6 @@
 class CreateTranslationTableForArticleSettings < ActiveRecord::Migration[6.0]
   def change
-    create_table :translation_table_for_article_settings do |t|
+    create_table :article_settings_translations do |t|
 
       reversible do |dir|
         dir.up do
