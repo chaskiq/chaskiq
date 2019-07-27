@@ -18,6 +18,7 @@ module Mutations
             title: title, 
             locale: lang
           )
+          I18n.locale = lang
 
           {section: section}
         end

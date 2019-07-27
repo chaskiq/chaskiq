@@ -158,6 +158,9 @@ class App extends Component {
                     <h3>
                       {o.title}
                     </h3>
+                    <Button onClick={()=>this.props.requestUpdate(o)}>
+                      edit
+                    </Button>
 
 
                     <Droppable droppableId={o.id} index={i}>
