@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_07_27_195810) do
+ActiveRecord::Schema.define(version: 2019_07_27_224507) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -154,6 +154,16 @@ ActiveRecord::Schema.define(version: 2019_07_27_195810) do
   create_table "article_collections_translations", force: :cascade do |t|
   end
 
+  create_table "article_content_translations", force: :cascade do |t|
+    t.bigint "article_content_id", null: false
+    t.string "locale", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.text "serialized_content"
+    t.index ["article_content_id"], name: "index_article_content_translations_on_article_content_id"
+    t.index ["locale"], name: "index_article_content_translations_on_locale"
+  end
+
   create_table "article_contents", force: :cascade do |t|
     t.text "html_content"
     t.text "serialized_content"
@@ -162,6 +172,9 @@ ActiveRecord::Schema.define(version: 2019_07_27_195810) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["article_id"], name: "index_article_contents_on_article_id"
+  end
+
+  create_table "article_contents_translations", force: :cascade do |t|
   end
 
   create_table "article_setting_translations", force: :cascade do |t|
