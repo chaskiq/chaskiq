@@ -639,12 +639,13 @@ export const ARTICLE_COLLECTION_CHANGE = `
 `;
 
 export const ARTICLE_COLLECTION_EDIT = `
-  mutation ArticleCollectionEdit($appKey: String!, $id: Int!, $title: String!, $description: String){
+  mutation ArticleCollectionEdit($appKey: String!, $id: Int!, $title: String!, $description: String, $lang: String){
     articleCollectionEdit( 
       appKey: $appKey, 
       title: $title, 
       id: $id,
-      description: $description
+      description: $description,
+      lang: $lang
     ){
       collection{
         id
@@ -670,11 +671,12 @@ export const ARTICLE_COLLECTION_DELETE = `
 `;
 
 export const ARTICLE_SECTION_CREATE = `
-  mutation ArticleSectionCreate($appKey: String!, $title: String!, $collectionId: Int!){
+  mutation ArticleSectionCreate($appKey: String!, $title: String!, $collectionId: Int!, $lang: String){
     articleSectionCreate( 
       appKey: $appKey, 
       title: $title, 
-      collectionId: $collectionId
+      collectionId: $collectionId,
+      lang: $lang
     ){
       section{
         id
@@ -690,12 +692,13 @@ export const ARTICLE_SECTION_CREATE = `
 `;
 
 export const ARTICLE_SECTION_EDIT = `
-  mutation ArticleSectionEdit($appKey: String!, $title: String!, $id: Int!, $collectionId: Int!){
+  mutation ArticleSectionEdit($appKey: String!, $title: String!, $id: Int!, $collectionId: Int!, $lang: String){
     articleSectionEdit( 
       appKey: $appKey, 
       title: $title,
       collectionId: $collectionId
-      id: $id
+      id: $id,
+      lang: $lang
     ){
       section{
         id

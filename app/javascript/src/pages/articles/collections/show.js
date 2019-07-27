@@ -57,10 +57,11 @@ class CollectionDetail extends Component {
     isOpen: false,
     addArticlesDialog: false,
     collection: null,
+    lang: "en"
   }
+
   titleRef = null
   descriptionRef = null
-
 
   componentDidMount(){
     this.getCollection()
@@ -72,7 +73,8 @@ class CollectionDetail extends Component {
   getCollection = ()=>{
     graphql(ARTICLE_COLLECTION_WITH_SECTIONS, {
       appKey: this.props.app.key, 
-      id: this.props.match.params.id
+      id: this.props.match.params.id,
+      lang: this.state.lang
     }, {
       success: (data)=>{
         this.setState({
@@ -192,6 +194,7 @@ class CollectionDetail extends Component {
       appKey: this.props.app.key,
       collectionId: collection.id,
       title: this.titleRef.value,
+      lang: this.state.lang
       //description: this.descriptionRef
     }, 
     {

@@ -558,9 +558,9 @@ export const ARTICLE = `
 
 
 export const ARTICLE_COLLECTIONS = `
-  query ArticleCollections($appKey: String!){
+  query ArticleCollections($appKey: String!, $lang: String){
     app(key: $appKey){
-      collections {
+      collections(lang: $lang) {
         slug
         id
         title
@@ -571,9 +571,9 @@ export const ARTICLE_COLLECTIONS = `
 `;
 
 export const ARTICLE_COLLECTION = `
-  query ArticleCollections($appKey: String!, $id: String!){
+  query ArticleCollections($appKey: String!, $id: String!, $lang: String){
     app(key: $appKey){
-      collection(id: $id) {
+      collection(id: $id, lang: $lang) {
         id
         title
         description
@@ -583,9 +583,9 @@ export const ARTICLE_COLLECTION = `
 `;
 
 export const ARTICLE_COLLECTION_WITH_SECTIONS = `
-  query ArticleCollections($appKey: String!, $id: String!){
+  query ArticleCollections($appKey: String!, $id: String!, $lang: String){
     app(key: $appKey){
-      collection(id: $id) {
+      collection(id: $id, lang: $lang) {
         id
         title
         description
