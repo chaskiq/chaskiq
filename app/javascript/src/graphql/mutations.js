@@ -753,6 +753,7 @@ export const ARTICLE_SETTINGS_UPDATE = `
         credits
         logo
         headerImage
+        translations
       }
       errors
     }
