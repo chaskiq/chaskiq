@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_07_27_055620) do
+ActiveRecord::Schema.define(version: 2019_07_27_195810) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -261,6 +261,17 @@ ActiveRecord::Schema.define(version: 2019_07_27_055620) do
     t.index ["type"], name: "index_campaigns_on_type"
   end
 
+  create_table "collection_section_translations", force: :cascade do |t|
+    t.bigint "collection_section_id", null: false
+    t.string "locale", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.string "title"
+    t.text "description"
+    t.index ["collection_section_id"], name: "index_collection_section_translations_on_collection_section_id"
+    t.index ["locale"], name: "index_collection_section_translations_on_locale"
+  end
+
   create_table "collection_sections", force: :cascade do |t|
     t.string "title"
     t.string "slug"
@@ -271,6 +282,9 @@ ActiveRecord::Schema.define(version: 2019_07_27_055620) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["article_collection_id"], name: "index_collection_sections_on_article_collection_id"
+  end
+
+  create_table "collection_sections_translations", force: :cascade do |t|
   end
 
   create_table "conversation_part_contents", force: :cascade do |t|

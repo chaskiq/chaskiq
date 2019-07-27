@@ -14,6 +14,8 @@ import { withStyles } from '@material-ui/core/styles';
 import FormDialog from '../../../components/FormDialog'
 import {setCurrentPage} from '../../../actions/navigation'
 
+import ScrollableTabsButtonForce from '../../../components/scrollingTabs'
+
 
 import graphql from '../../../graphql/client'
 import {
@@ -46,15 +48,14 @@ class Collections extends Component {
     article_collections: [],
     editCollection: null,
     openConfirm: false,
-    languages: []
+    languages: [],
+    lang: 'en'
   }
   titleRef = null
   descriptionRef = null
 
   componentDidMount(){
     this.getSettings( this.getCollections )
-    
-
     this.props.dispatch(
       setCurrentPage('Help Center')
     )
@@ -112,7 +113,8 @@ class Collections extends Component {
       appKey: this.props.app.key, 
       title: this.titleRef.value, 
       description: this.descriptionRef.value,
-      id: this.state.editCollection.id
+      id: this.state.editCollection.id,
+      lang: this.state.lang
     }, {
       success: (data)=>{
         const col = data.articleCollectionEdit.collection
@@ -144,10 +146,11 @@ class Collections extends Component {
   getCollections = (e)=>{
     graphql(ARTICLE_COLLECTIONS, {
       appKey: this.props.app.key,
+      lang: this.state.lang
     }, {
       success: (data)=>{
         this.setState({
-          article_collections: data.app.collections
+          article_collections: data.app.collections,
         })
       }, 
       error: ()=>{
@@ -191,6 +194,12 @@ class Collections extends Component {
     })
 
     
+  }
+
+  handleLangChange = (o)=>{
+    this.setState({
+      lang: o
+    }, this.getCollections)
   }
 
   render(){
@@ -246,8 +255,6 @@ class Collections extends Component {
                     margin="normal"
                   />
 
-
-
                 </form>
               }
 
@@ -299,12 +306,10 @@ class Collections extends Component {
           /> : null
           }
 
-          langs: 
-          {
-            this.state.languages.map((o)=> (
-              <p>{o}</p>
-            ))
-          }
+          <ScrollableTabsButtonForce 
+            tabs={this.state.languages} 
+            changeHandler={(index)=> this.handleLangChange( this.state.languages[index])}
+          />
 
           <List 
             //className={classes.root}
