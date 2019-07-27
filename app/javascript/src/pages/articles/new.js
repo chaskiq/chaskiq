@@ -21,7 +21,6 @@ import {
       } from '@material-ui/core';
 
 import gravatar from '../../shared/gravatar'
-import CircularProgress from '@material-ui/core/CircularProgress';
 
 import MainSection from '../../components/MainSection';
 import ContentWrapper from '../../components/ContentWrapper';
@@ -65,6 +64,7 @@ import ArrowDropDownIcon from '@material-ui/icons/ArrowDropDown'
 
 import styled from 'styled-components'
 import {setCurrentPage} from '../../actions/navigation'
+import ScrollableTabsButtonForce from '../../components/scrollingTabs'
 
 
 
@@ -107,8 +107,8 @@ class ArticlesNew extends Component {
     changed: false,
     loading: true,
     agents: [],
-    collections: []
-
+    collections: [],
+    lang: "en"
   };
 
   titleRef = null
@@ -117,7 +117,7 @@ class ArticlesNew extends Component {
 
   componentDidMount(){
     if(this.props.match.params.id != "new"){
-      this.getArticle(parseInt(this.props.match.params.id))      
+      this.getArticle(this.props.match.params.id)      
     } else {
       this.setState({
         loading: false
@@ -158,7 +158,8 @@ class ArticlesNew extends Component {
   getArticle = (id)=>{
     graphql(ARTICLE, {
       appKey: this.props.app.key, 
-      id: id
+      id: id,
+      lang: this.state.lang
     }, {
       success: (data)=>{
         this.setState({
@@ -167,7 +168,7 @@ class ArticlesNew extends Component {
         })
       },
       error: ()=>{
-
+        debugger
       }
     })
   }
@@ -214,8 +215,9 @@ class ArticlesNew extends Component {
     graphql(EDIT_ARTICLE, {
       appKey: this.props.app.key,
       title: this.titleRef.value,
-      id: parseInt(this.state.article.id),
-      content: this.state.content
+      id: this.state.article.id,
+      content: this.state.content,
+      lang: this.state.lang
     }, {
       success: (data)=>{
         const article = data.createArticle.article
@@ -265,7 +267,7 @@ class ArticlesNew extends Component {
 
     graphql(TOGGLE_ARTICLE,{
       appKey: this.props.app.key,
-      id: parseInt(this.state.article.id),
+      id: this.state.article.id,
       state: state
     }, {
       success: (data)=>{
@@ -343,6 +345,13 @@ class ArticlesNew extends Component {
     });
   }
 
+  handleLangChange = (lang)=>{
+    this.setState({
+      lang: lang,
+      loading: true
+    }, ()=>this.getArticle(this.state.article.id))
+  }
+
 
   render() {
     const {classes} = this.props
@@ -359,6 +368,11 @@ class ArticlesNew extends Component {
           !this.state.loading ? 
 
           <React.Fragment>
+
+              <ScrollableTabsButtonForce 
+              tabs={this.props.settings.availableLanguages} 
+              changeHandler={(index)=> this.handleLangChange(this.props.settings.availableLanguages[index])}
+            />
 
             <div style={{
               display: 'flex',
@@ -477,9 +491,12 @@ class ArticlesNew extends Component {
                   }) 
                 )}
                 handleSingleChange={ this.handleCollectionChange }
+
                 defaultData={
                   this.state.article.collection ? 
-                  this.state.article.collection.title : ""
+                  this.state.article.collection.title ?  
+                  this.state.article.collection.title : '--missing translations --'
+                  : ""
                 }
               />
             </div>

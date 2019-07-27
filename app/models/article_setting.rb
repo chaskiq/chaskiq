@@ -1,4 +1,6 @@
 class ArticleSetting < ApplicationRecord
+
+  include GlobalizeAccessors
   belongs_to :app
 
   store_accessor :properties, [
@@ -12,7 +14,9 @@ class ArticleSetting < ApplicationRecord
     :facebook,
     :twitter,
     :linkedin,
-    :credits
+    :credits,
+    :langs,
+    :default_lang,
   ]
 
   has_one_attached :logo
@@ -28,6 +32,10 @@ class ArticleSetting < ApplicationRecord
 
   validates :website, url: true
   validates :color, hex: true, if: ->{ self.color.present? }
+
+  translates :site_description, :site_title
+  self.globalize_accessors :attributes => [:site_description, :site_title]
+
 
   #before_validation :sanitize_subdomain
   #def sanitize_subdomain

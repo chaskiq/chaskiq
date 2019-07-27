@@ -13,7 +13,10 @@ import {
         TextField,
         Paper,
         Grid,
-        Divider
+        Divider,
+        Chip,
+        Select,
+        MenuItem
 } from '@material-ui/core';
 
 import {getFileMetadata, directUpload} from '../../shared/fileUploader'
@@ -22,15 +25,10 @@ import {getFileMetadata, directUpload} from '../../shared/fileUploader'
 
 import graphql from '../../graphql/client'
 import {toSnakeCase} from '../../shared/caseConverter'
-
-import {
-  ARTICLE_SETTINGS
-} from '../../graphql/queries'
+import FormDialog from '../../components/FormDialog'
 
 import {
   CREATE_DIRECT_UPLOAD,
-  ARTICLE_BLOB_ATTACH,
-  ARTICLE_SETTINGS_UPDATE
 } from '../../graphql/mutations'
 
 import { withStyles } from '@material-ui/core/styles';
@@ -45,6 +43,9 @@ import {setCurrentPage} from '../../actions/navigation'
 import FieldRenderer from '../../shared/FormFields'
 import ContentHeader from '../../components/ContentHeader'
 import Content from '../../components/Content'
+import langsOptions from '../../shared/langsOptions'
+
+
 
 const styles = theme => ({
 
@@ -71,44 +72,10 @@ class Settings extends Component {
   switch_ref = null
 
   componentDidMount(){
-    this.getSettings()
+    this.props.getSettings(()=> this.setState({loading: false}))
     this.props.dispatch(
       setCurrentPage('Help Center')
     )
-  }
-
-  getSettings = ()=>{
-    graphql(ARTICLE_SETTINGS, {
-      appKey: this.props.app.key
-    }, {
-      success: (data)=>{
-        this.setState({
-          loading: false,
-          settings: data.app.articleSettings
-        })
-      },
-      error: (e)=>{
-        debugger
-      }
-    })
-  }
-
-  update = (data)=>{
-    const {settings} = data
-    graphql(ARTICLE_SETTINGS_UPDATE, {
-      appKey: this.props.app.key,
-      settings: settings
-    }, {
-      success: (data)=>{
-        this.setState({
-          settings: data.articleSettingsUpdate.settings,
-          errors: data.articleSettingsUpdate.errors
-        })
-      },
-      error: (e)=>{
-        debugger
-      }
-    })
   }
 
   updateState = (data)=>{
@@ -126,7 +93,7 @@ class Settings extends Component {
             () => {
               let params = {}
               params[kind] = signedBlobId
-              this.update({settings: params})
+              this.props.update({settings: params})
           });
         },
         error: (error)=>{
@@ -233,7 +200,15 @@ class Settings extends Component {
 
   definitionsForLang = () => {
     return [
-      
+      {
+        name: "langs",
+        type: 'select',
+        multiple: true,
+        options: langsOptions, 
+        default: "es",
+        hint: "Choose langs",
+        grid: { xs: 12, sm: 8 }
+      },
     ]
   }
 
@@ -262,8 +237,8 @@ class Settings extends Component {
         return <SettingsForm
                   title={"General app's information"}
                   //currentUser={this.props.currentUser}
-                  data={this.state.settings}
-                  update={this.update.bind(this)}
+                  data={this.props.settings}
+                  update={this.props.update.bind(this)}
                   errorNamespace={"article_settings."}
                   //fetchApp={this.fetchApp}
                   //classes={this.props.classes}
@@ -273,23 +248,36 @@ class Settings extends Component {
                />
 
       case 1:
-        return <SettingsForm
+        return <div>
+        
+                <Typography variant="h5">
+                  Localize your Help Center
+                </Typography>
+
+                <Typography variant="subtitle1">
+                  Manage supported languages and customize your Help 
+                  Center's header
+                </Typography>
+
+                <LanguageForm
                   title={"Lang"}
+                  settings={this.props.settings}
                   //currentUser={this.props.currentUser}
-                  data={this.state.settings}
-                  update={this.update.bind(this)}
+                  data={this.props.settings}
+                  update={this.props.update.bind(this)}
                   //fetchApp={this.fetchApp}
                   //classes={this.props.classes}
                   definitions={this.definitionsForLang}
                   errors={this.state.errors}
                   {...this.props}
                 />
+              </div>
       case 2:
         return <SettingsForm
                   title={"Appearance settings"}
                   //currentUser={this.props.currentUser}
-                  data={this.state.settings}
-                  update={this.update.bind(this)}
+                  data={this.props.settings}
+                  update={this.props.update.bind(this)}
                   //fetchApp={this.fetchApp}
                   //classes={this.props.classes}
                   definitions={this.definitionsForAppearance}
@@ -378,6 +366,156 @@ class SettingsForm extends Component{
       </form>
     )
   } 
+}
+
+function LanguageForm({settings, update}){
+
+  const [isOpen, setIsOpen] = React.useState(false)
+  const [selectedLang, setSelectedLang] = React.useState(null)
+  const formRef = React.createRef();
+
+  function handleChange(value){
+    const val = value.currentTarget.dataset.value
+    const serializedData = serialize(formRef.current, { hash: true, empty: true })
+    const data = toSnakeCase(serializedData)
+
+    let next = {}
+    next[`site_title_${val}`] = ""
+    next[`site_description_${val}`] = ""
+
+    const newData = Object.assign({}, data.settings, next)
+    update({settings: newData})
+    toggleDialog()
+  }
+
+  function renderLangDialog(){
+    return isOpen && (
+      <FormDialog 
+        open={isOpen}
+        //contentText={"lipsum"}
+        titleContent={"Save Assigment rule"}
+        formComponent={
+          //!loading ?
+            <form>
+
+              <Select
+                value={selectedLang}
+                onChange={handleChange}
+                inputProps={{
+                  name: 'age',
+                  id: 'age-simple',
+                }}>
+
+                {
+                  langsOptions.map((o)=>(
+                    <MenuItem value={o.value}>
+                      {o.label}
+                    </MenuItem> 
+                  ))
+                }
+                
+                
+              </Select>
+
+            </form> 
+            //: <CircularProgress/>
+        }
+        dialogButtons={
+          <React.Fragment>
+            <Button onClick={toggleDialog} color="primary">
+              Cancel
+            </Button>
+
+            <Button //onClick={this.submitAssignment } 
+              zcolor="primary"> 
+              update
+            </Button>
+
+          </React.Fragment>
+        }
+        //actions={actions} 
+        //onClose={this.close} 
+        //heading={this.props.title}
+        >
+      </FormDialog>
+    )
+  }
+
+  function toggleDialog(){
+    setIsOpen(!isOpen)
+  }
+
+  function handleSubmit(){
+    const serializedData = serialize(formRef.current, { hash: true, empty: true })
+    const data = toSnakeCase(serializedData)
+    update(data)
+  }
+
+  return (
+
+    <div>
+
+      <form ref={formRef}>
+
+        {
+          settings.translations.map((o)=>{
+
+            return <Grid container
+                      justify={"space-between"}
+                      alignItems={"center"}>
+              
+                      <Grid item>
+                        <Typography>
+                          {o.locale}
+                          <Chip label="Default" />
+              
+                        </Typography>
+                      </Grid>
+              
+                      <Grid item>
+                        <TextField
+                          //id="standard-name"
+                          label="Site Title"
+                          defaultValue={o.site_title}
+                          name={`settings[site_title_${o.locale}]`}
+                          //className={classes.textField}
+                          //value={values.name}
+                          //onChange={handleChange('name')}
+                          margin="normal"
+                        />
+                      </Grid>
+                      
+                      <Grid item>
+                        <TextField
+                          //id="standard-name"
+                          label="Site Description"
+                          defaultValue={o.site_description}
+                          name={`settings[site_description_${o.locale}]`}
+                          //className={classes.textField}
+                          //value={values.name}
+                          //onChange={handleChange('name')}
+                          margin="normal"
+                        />
+                      </Grid>
+                      
+                    </Grid>
+          })
+        }
+        
+        <Button onClick={toggleDialog}>
+          Add language
+        </Button>
+
+        <Button onClick={handleSubmit} variant={"primary"}>
+          Submit
+        </Button>
+
+      </form>
+
+      {renderLangDialog()}
+
+    </div>
+  )
 }
 
 
