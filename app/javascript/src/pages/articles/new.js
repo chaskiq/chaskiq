@@ -217,7 +217,7 @@ class ArticlesNew extends Component {
       title: this.titleRef.value,
       id: this.state.article.id,
       content: this.state.content,
-      lang: this.state
+      lang: this.state.lang
     }, {
       success: (data)=>{
         const article = data.createArticle.article
