@@ -459,8 +459,8 @@ export const INVITE_AGENT = `
 `;
 
 export const CREATE_ARTICLE = `
-  mutation CreateArticle($appKey: String!, $content: Json!, $title: String!){
-    createArticle(appKey: $appKey, content: $content, title: $title){
+  mutation CreateArticle($appKey: String!, $content: Json!, $title: String!, $lang: String){
+    createArticle(appKey: $appKey, content: $content, title: $title, lang: $lang){
       article {
         id
         title
@@ -478,8 +478,8 @@ export const CREATE_ARTICLE = `
 `;
 
 export const EDIT_ARTICLE = `
-  mutation EditArticle($appKey: String!, $content: Json!, $id: Int!, $title: String!){
-    editArticle(appKey: $appKey, content: $content, id: $id, title: $title){
+  mutation EditArticle($appKey: String!, $content: Json!, $id: String!, $title: String!, $lang: String){
+    editArticle(appKey: $appKey, content: $content, id: $id, title: $title, lang: $lang){
       article {
         id
         title
@@ -692,7 +692,7 @@ export const ARTICLE_SECTION_CREATE = `
 `;
 
 export const ARTICLE_SECTION_EDIT = `
-  mutation ArticleSectionEdit($appKey: String!, $title: String!, $id: Int!, $collectionId: Int!, $lang: String){
+  mutation ArticleSectionEdit($appKey: String!, $title: String!, $id: String!, $collectionId: Int!, $lang: String){
     articleSectionEdit( 
       appKey: $appKey, 
       title: $title,
@@ -710,7 +710,7 @@ export const ARTICLE_SECTION_EDIT = `
 `;
 
 export const ARTICLE_SECTION_DELETE = `
-  mutation ArticleSectionDelete($appKey: String!, $id: Int!){
+  mutation ArticleSectionDelete($appKey: String!, $id: String!){
     articleSectionDelete( 
     appKey: $appKey,
     id: $id

@@ -28,13 +28,7 @@ import {toSnakeCase} from '../../shared/caseConverter'
 import FormDialog from '../../components/FormDialog'
 
 import {
-  ARTICLE_SETTINGS
-} from '../../graphql/queries'
-
-import {
   CREATE_DIRECT_UPLOAD,
-  ARTICLE_BLOB_ATTACH,
-  ARTICLE_SETTINGS_UPDATE
 } from '../../graphql/mutations'
 
 import { withStyles } from '@material-ui/core/styles';
@@ -78,44 +72,10 @@ class Settings extends Component {
   switch_ref = null
 
   componentDidMount(){
-    this.getSettings()
+    this.props.getSettings(()=> this.setState({loading: false}))
     this.props.dispatch(
       setCurrentPage('Help Center')
     )
-  }
-
-  getSettings = ()=>{
-    graphql(ARTICLE_SETTINGS, {
-      appKey: this.props.app.key
-    }, {
-      success: (data)=>{
-        this.setState({
-          loading: false,
-          settings: data.app.articleSettings
-        })
-      },
-      error: (e)=>{
-        debugger
-      }
-    })
-  }
-
-  update = (data)=>{
-    const {settings} = data
-    graphql(ARTICLE_SETTINGS_UPDATE, {
-      appKey: this.props.app.key,
-      settings: settings
-    }, {
-      success: (data)=>{
-        this.setState({
-          settings: data.articleSettingsUpdate.settings,
-          errors: data.articleSettingsUpdate.errors
-        })
-      },
-      error: (e)=>{
-        debugger
-      }
-    })
   }
 
   updateState = (data)=>{
@@ -133,7 +93,7 @@ class Settings extends Component {
             () => {
               let params = {}
               params[kind] = signedBlobId
-              this.update({settings: params})
+              this.props.update({settings: params})
           });
         },
         error: (error)=>{
@@ -277,8 +237,8 @@ class Settings extends Component {
         return <SettingsForm
                   title={"General app's information"}
                   //currentUser={this.props.currentUser}
-                  data={this.state.settings}
-                  update={this.update.bind(this)}
+                  data={this.props.settings}
+                  update={this.props.update.bind(this)}
                   errorNamespace={"article_settings."}
                   //fetchApp={this.fetchApp}
                   //classes={this.props.classes}
@@ -301,10 +261,10 @@ class Settings extends Component {
 
                 <LanguageForm
                   title={"Lang"}
-                  settings={this.state.settings}
+                  settings={this.props.settings}
                   //currentUser={this.props.currentUser}
-                  data={this.state.settings}
-                  update={this.update.bind(this)}
+                  data={this.props.settings}
+                  update={this.props.update.bind(this)}
                   //fetchApp={this.fetchApp}
                   //classes={this.props.classes}
                   definitions={this.definitionsForLang}
@@ -316,8 +276,8 @@ class Settings extends Component {
         return <SettingsForm
                   title={"Appearance settings"}
                   //currentUser={this.props.currentUser}
-                  data={this.state.settings}
-                  update={this.update.bind(this)}
+                  data={this.props.settings}
+                  update={this.props.update.bind(this)}
                   //fetchApp={this.fetchApp}
                   //classes={this.props.classes}
                   definitions={this.definitionsForAppearance}

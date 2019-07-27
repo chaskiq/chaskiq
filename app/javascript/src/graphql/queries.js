@@ -528,9 +528,9 @@ export const ARTICLES_UNCATEGORIZED = `
 `;
 
 export const ARTICLE = `
-  query App($appKey: String!, $id: String!){
+  query App($appKey: String!, $id: String!, $lang: String){
     app(key: $appKey) {
-      article(id: $id){
+      article(id: $id, lang: $lang){
         id
         title
         slug

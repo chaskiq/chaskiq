@@ -369,8 +369,8 @@ class CollectionDetail extends Component {
          >
 
           <ScrollableTabsButtonForce 
-            tabs={this.state.languages} 
-            changeHandler={(index)=> this.handleLangChange( this.state.languages[index])}
+            tabs={this.props.settings.availableLanguages} 
+            changeHandler={(index)=> this.handleLangChange( this.props.settings.availableLanguages[index] )}
           />
 
           { 
