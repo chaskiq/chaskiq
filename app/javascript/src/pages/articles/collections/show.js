@@ -234,7 +234,7 @@ class CollectionDetail extends Component {
       appKey: this.props.app.key,
       collectionId: collection.id,
       title: this.titleRef.value,
-      id: this.state.editSection.id,
+      id: String(this.state.editSection.id),
       lang: this.state.lang
       //description: this.descriptionRef
     }, 
