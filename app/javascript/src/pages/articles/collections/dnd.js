@@ -7,7 +7,8 @@ import {
   Avatar,
   ListItemText,
   Button, 
-  Paper
+  Paper,
+  Grid
 } from '@material-ui/core'
 
 
@@ -155,9 +156,21 @@ class App extends Component {
                     display: 'flex', 
                     flexDirection: 'column'
                     }}>
-                    <h3>
-                      {o.title}
-                    </h3>
+                    <Grid container
+                      justify='space-between'
+                      alignItems="baseline">
+                      <Grid item>
+                      <h3>
+                        {o.title}
+                      </h3>
+                      </Grid>
+
+                      <Grid item>
+                      <Button onClick={()=>this.props.requestUpdate(o)}>
+                        edit
+                      </Button>
+                      </Grid>
+                    </Grid>
 
 
                     <Droppable droppableId={o.id} index={i}>

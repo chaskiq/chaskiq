@@ -1,5 +1,6 @@
 class Article < ApplicationRecord
   include AASM
+  include GlobalizeAccessors
 
   belongs_to :author, class_name: "Agent"
   belongs_to :app
@@ -21,6 +22,9 @@ class Article < ApplicationRecord
   friendly_id :title, use: :scoped, :scope => [:app_id, :article_collection_id, :article_section_id ]
 
   has_many_attached :images
+
+  translates :title, :description
+  self.globalize_accessors :attributes => [:description, :title]
 
   accepts_nested_attributes_for :article_content
 

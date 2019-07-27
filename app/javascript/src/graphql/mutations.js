@@ -459,8 +459,8 @@ export const INVITE_AGENT = `
 `;
 
 export const CREATE_ARTICLE = `
-  mutation CreateArticle($appKey: String!, $content: Json!, $title: String!){
-    createArticle(appKey: $appKey, content: $content, title: $title){
+  mutation CreateArticle($appKey: String!, $content: Json!, $title: String!, $lang: String){
+    createArticle(appKey: $appKey, content: $content, title: $title, lang: $lang){
       article {
         id
         title
@@ -478,8 +478,8 @@ export const CREATE_ARTICLE = `
 `;
 
 export const EDIT_ARTICLE = `
-  mutation EditArticle($appKey: String!, $content: Json!, $id: Int!, $title: String!){
-    editArticle(appKey: $appKey, content: $content, id: $id, title: $title){
+  mutation EditArticle($appKey: String!, $content: Json!, $id: String!, $title: String!, $lang: String){
+    editArticle(appKey: $appKey, content: $content, id: $id, title: $title, lang: $lang){
       article {
         id
         title
@@ -639,12 +639,13 @@ export const ARTICLE_COLLECTION_CHANGE = `
 `;
 
 export const ARTICLE_COLLECTION_EDIT = `
-  mutation ArticleCollectionEdit($appKey: String!, $id: Int!, $title: String!, $description: String){
+  mutation ArticleCollectionEdit($appKey: String!, $id: Int!, $title: String!, $description: String, $lang: String){
     articleCollectionEdit( 
       appKey: $appKey, 
       title: $title, 
       id: $id,
-      description: $description
+      description: $description,
+      lang: $lang
     ){
       collection{
         id
@@ -670,11 +671,12 @@ export const ARTICLE_COLLECTION_DELETE = `
 `;
 
 export const ARTICLE_SECTION_CREATE = `
-  mutation ArticleSectionCreate($appKey: String!, $title: String!, $collectionId: Int!){
+  mutation ArticleSectionCreate($appKey: String!, $title: String!, $collectionId: Int!, $lang: String){
     articleSectionCreate( 
       appKey: $appKey, 
       title: $title, 
-      collectionId: $collectionId
+      collectionId: $collectionId,
+      lang: $lang
     ){
       section{
         id
@@ -690,12 +692,13 @@ export const ARTICLE_SECTION_CREATE = `
 `;
 
 export const ARTICLE_SECTION_EDIT = `
-  mutation ArticleSectionEdit($appKey: String!, $title: String!, $id: Int!, $collectionId: Int!){
+  mutation ArticleSectionEdit($appKey: String!, $title: String!, $id: String!, $collectionId: Int!, $lang: String){
     articleSectionEdit( 
       appKey: $appKey, 
       title: $title,
       collectionId: $collectionId
-      id: $id
+      id: $id,
+      lang: $lang
     ){
       section{
         id
@@ -707,7 +710,7 @@ export const ARTICLE_SECTION_EDIT = `
 `;
 
 export const ARTICLE_SECTION_DELETE = `
-  mutation ArticleSectionDelete($appKey: String!, $id: Int!){
+  mutation ArticleSectionDelete($appKey: String!, $id: String!){
     articleSectionDelete( 
     appKey: $appKey,
     id: $id
@@ -753,6 +756,7 @@ export const ARTICLE_SETTINGS_UPDATE = `
         credits
         logo
         headerImage
+        translations
       }
       errors
     }

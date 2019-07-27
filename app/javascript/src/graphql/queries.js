@@ -466,6 +466,9 @@ export const ARTICLE_SETTINGS = `
         subdomain
         twitter
         website
+        langs
+        translations
+        availableLanguages
       }
     }
   }
@@ -525,9 +528,9 @@ export const ARTICLES_UNCATEGORIZED = `
 `;
 
 export const ARTICLE = `
-  query App($appKey: String!, $id: String!){
+  query App($appKey: String!, $id: String!, $lang: String){
     app(key: $appKey) {
-      article(id: $id){
+      article(id: $id, lang: $lang){
         id
         title
         slug
@@ -555,9 +558,9 @@ export const ARTICLE = `
 
 
 export const ARTICLE_COLLECTIONS = `
-  query ArticleCollections($appKey: String!){
+  query ArticleCollections($appKey: String!, $lang: String){
     app(key: $appKey){
-      collections {
+      collections(lang: $lang) {
         slug
         id
         title
@@ -568,9 +571,9 @@ export const ARTICLE_COLLECTIONS = `
 `;
 
 export const ARTICLE_COLLECTION = `
-  query ArticleCollections($appKey: String!, $id: String!){
+  query ArticleCollections($appKey: String!, $id: String!, $lang: String){
     app(key: $appKey){
-      collection(id: $id) {
+      collection(id: $id, lang: $lang) {
         id
         title
         description
@@ -580,9 +583,9 @@ export const ARTICLE_COLLECTION = `
 `;
 
 export const ARTICLE_COLLECTION_WITH_SECTIONS = `
-  query ArticleCollections($appKey: String!, $id: String!){
+  query ArticleCollections($appKey: String!, $id: String!, $lang: String){
     app(key: $appKey){
-      collection(id: $id) {
+      collection(id: $id, lang: $lang) {
         id
         title
         description

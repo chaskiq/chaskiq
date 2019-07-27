@@ -148,24 +148,30 @@ module Types
 
     field :article, Types::ArticleType, null: true do
       argument :id, String, required: true
+      argument :lang, String, required: false, default_value: I18n.default_locale.to_s
     end
 
-    def article(id:)
+    def article(id:, lang:)
+      I18n.locale = lang
       object.articles.friendly.find(id)
     end
 
     field :collections, [Types::CollectionType], null: true do
+      argument :lang, String, required: false, default_value: I18n.default_locale.to_s
     end
 
-    def collections
+    def collections(lang:)
+      I18n.locale = lang.to_sym
       object.article_collections
     end
 
     field :collection, Types::CollectionType, null: true do
       argument :id, String, required: true
+      argument :lang, String, required: false, default_value: I18n.default_locale.to_s
     end
 
-    def collection(id:)
+    def collection(id:, lang:)
+      I18n.locale = lang.to_sym
       object.article_collections.friendly.find(id)
     end
 

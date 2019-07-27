@@ -14,6 +14,8 @@ import { withStyles } from '@material-ui/core/styles';
 import FormDialog from '../../../components/FormDialog'
 import {setCurrentPage} from '../../../actions/navigation'
 
+import ScrollableTabsButtonForce from '../../../components/scrollingTabs'
+
 
 import graphql from '../../../graphql/client'
 import {
@@ -23,7 +25,8 @@ import {
 } from '../../../graphql/mutations'
 
 import {
-  ARTICLE_COLLECTIONS
+  ARTICLE_COLLECTIONS,
+  ARTICLE_SETTINGS
 } from '../../../graphql/queries'
 
 const styles = theme => ({
@@ -44,14 +47,15 @@ class Collections extends Component {
     isOpen: false,
     article_collections: [],
     editCollection: null,
-    openConfirm: false
+    openConfirm: false,
+    languages: [],
+    lang: 'en'
   }
   titleRef = null
   descriptionRef = null
 
   componentDidMount(){
     this.getCollections()
-
     this.props.dispatch(
       setCurrentPage('Help Center')
     )
@@ -60,7 +64,6 @@ class Collections extends Component {
   submitAssignment = ()=>{
 
   }
-
 
   close = ()=>{
     this.setState({isOpen: false})
@@ -95,7 +98,8 @@ class Collections extends Component {
       appKey: this.props.app.key, 
       title: this.titleRef.value, 
       description: this.descriptionRef.value,
-      id: this.state.editCollection.id
+      id: this.state.editCollection.id,
+      lang: this.state.lang
     }, {
       success: (data)=>{
         const col = data.articleCollectionEdit.collection
@@ -127,10 +131,11 @@ class Collections extends Component {
   getCollections = (e)=>{
     graphql(ARTICLE_COLLECTIONS, {
       appKey: this.props.app.key,
+      lang: this.state.lang
     }, {
       success: (data)=>{
         this.setState({
-          article_collections: data.app.collections
+          article_collections: data.app.collections,
         })
       }, 
       error: ()=>{
@@ -174,6 +179,12 @@ class Collections extends Component {
     })
 
     
+  }
+
+  handleLangChange = (o)=>{
+    this.setState({
+      lang: o
+    }, this.getCollections)
   }
 
   render(){
@@ -229,8 +240,6 @@ class Collections extends Component {
                     margin="normal"
                   />
 
-
-
                 </form>
               }
 
@@ -282,6 +291,10 @@ class Collections extends Component {
           /> : null
           }
 
+          <ScrollableTabsButtonForce 
+            tabs={this.props.settings.availableLanguages} 
+            changeHandler={(index)=> this.handleLangChange( this.props.settings.availableLanguages[index])}
+          />
 
           <List 
             //className={classes.root}
