@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_07_26_182749) do
+ActiveRecord::Schema.define(version: 2019_07_27_055620) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -127,6 +127,17 @@ ActiveRecord::Schema.define(version: 2019_07_26_182749) do
     t.index ["preferences"], name: "index_apps_on_preferences", using: :gin
   end
 
+  create_table "article_collection_translations", force: :cascade do |t|
+    t.bigint "article_collection_id", null: false
+    t.string "locale", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.string "title"
+    t.text "description"
+    t.index ["article_collection_id"], name: "index_article_collection_translations_on_article_collection_id"
+    t.index ["locale"], name: "index_article_collection_translations_on_locale"
+  end
+
   create_table "article_collections", force: :cascade do |t|
     t.string "title"
     t.jsonb "properties"
@@ -138,6 +149,9 @@ ActiveRecord::Schema.define(version: 2019_07_26_182749) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["app_id"], name: "index_article_collections_on_app_id"
+  end
+
+  create_table "article_collections_translations", force: :cascade do |t|
   end
 
   create_table "article_contents", force: :cascade do |t|
@@ -171,6 +185,9 @@ ActiveRecord::Schema.define(version: 2019_07_26_182749) do
     t.index ["app_id"], name: "index_article_settings_on_app_id"
   end
 
+  create_table "article_settings_translations", force: :cascade do |t|
+  end
+
   create_table "article_translations", force: :cascade do |t|
     t.bigint "article_id", null: false
     t.string "locale", null: false
@@ -199,6 +216,9 @@ ActiveRecord::Schema.define(version: 2019_07_26_182749) do
     t.index ["article_section_id"], name: "index_articles_on_article_section_id"
     t.index ["author_id"], name: "index_articles_on_author_id"
     t.index ["slug"], name: "index_articles_on_slug"
+  end
+
+  create_table "articles_translations", force: :cascade do |t|
   end
 
   create_table "assignment_rules", force: :cascade do |t|
@@ -411,12 +431,6 @@ ActiveRecord::Schema.define(version: 2019_07_26_182749) do
     t.datetime "updated_at", null: false
     t.index ["app_id"], name: "index_segments_on_app_id"
     t.index ["key"], name: "index_segments_on_key"
-  end
-
-  create_table "translation_table_for_article_settings", force: :cascade do |t|
-  end
-
-  create_table "translation_table_for_articles", force: :cascade do |t|
   end
 
   create_table "visits", force: :cascade do |t|
