@@ -17,6 +17,9 @@ import FormDialog from '../../../components/FormDialog'
 import {setCurrentPage} from '../../../actions/navigation'
 import { withStyles } from '@material-ui/core/styles';
 
+import ScrollableTabsButtonForce from '../../../components/scrollingTabs'
+
+
 
 import graphql from '../../../graphql/client'
 import {
@@ -27,6 +30,7 @@ import {
   ARTICLE_SECTION_DELETE,
   REORDER_ARTICLE,
   ADD_ARTICLES_TO_COLLECTION,
+  ARTICLE_SECTION_EDIT,
 } from '../../../graphql/mutations'
 
 import {
@@ -57,7 +61,9 @@ class CollectionDetail extends Component {
     isOpen: false,
     addArticlesDialog: false,
     collection: null,
-    lang: "en"
+    lang: "en",
+    languages: ["es", "en"],
+    editSection: null
   }
 
   titleRef = null
@@ -107,7 +113,7 @@ class CollectionDetail extends Component {
     const baseSection = {
       id: "base",
       title: "base section",
-      articles: collection.baseArticles
+      articles: collection.baseArticles,
     }
     
     // just concat base section if it's not present
@@ -137,6 +143,13 @@ class CollectionDetail extends Component {
     })
   }
 
+  requestUpdate = (section)=>{
+    this.setState({
+      isOpen: true,
+      editSection: section
+    })
+  }
+
   renderCollection = ()=>{
     const {collection} = this.state
     
@@ -159,6 +172,7 @@ class CollectionDetail extends Component {
                      deleteSection={this.deleteSection}
                      collectionId={collection.id}
                      saveOperation={this.saveOperation}
+                     requestUpdate={this.requestUpdate}
                      addArticlesToSection={this.addArticlesToSection}
                 />
               </div> : null 
@@ -214,8 +228,41 @@ class CollectionDetail extends Component {
     )
   }
 
+  submitEdit = ()=>{
+    const {collection} = this.state
+    graphql(ARTICLE_SECTION_EDIT, {
+      appKey: this.props.app.key,
+      collectionId: collection.id,
+      title: this.titleRef.value,
+      id: this.state.editSection.id,
+      lang: this.state.lang
+      //description: this.descriptionRef
+    }, 
+    {
+      success: (data)=>{
+        const section = data.articleSectionEdit.section
+        const sections = this.state.collection.sections.map((o)=> {
+          if(o.id === section.id){
+            return Object.assign({}, o, section)
+          } else {
+            return o
+          }
+        }) 
+    
+        this.setState({
+          collection: Object.assign({}, this.state.collection, {sections: sections}),
+          isOpen: false
+        })
+      },
+      error: ()=>{
+
+      }
+    }
+    )
+  }
+
   renderDialog = ()=>{
-    const {isOpen} = this.state
+    const {isOpen, editSection} = this.state
     return <FormDialog 
               open={isOpen}
               //contentText={"lipsum"}
@@ -236,7 +283,7 @@ class CollectionDetail extends Component {
                     //helperText="Full width!"
                     fullWidth
                     inputRef={ref => { this.titleRef = ref; }}
-                    //defaultValue={ editCollection ? editCollection.title : null }
+                    defaultValue={ editSection ? editSection.title : null }
                     margin="normal"
                   />
 
@@ -249,7 +296,7 @@ class CollectionDetail extends Component {
                     fullWidth
                     multiline
                     inputRef={ref => { this.descriptionRef = ref; }}
-                    //defaultValue={ editCollection ? editCollection.description : null }
+                    defaultValue={ editSection ? editSection.description : null }
                     margin="normal"
                   />
 
@@ -264,8 +311,8 @@ class CollectionDetail extends Component {
                     Cancel
                   </Button>
 
-                  <Button onClick={ //editCollection ? 
-                    //this.submitEdit.bind(this) :
+                  <Button onClick={ editSection ? 
+                    this.submitEdit.bind(this) :
                     this.submitCreate.bind(this) 
                   } 
                     zcolor="primary">
@@ -304,6 +351,14 @@ class CollectionDetail extends Component {
     />
   }
 
+  // TODO refactor
+  handleLangChange = (o)=>{
+    this.setState({
+      lang: o
+    }, this.getCollection)
+  }
+  
+
   render(){
     const {classes} = this.props
 
@@ -312,6 +367,11 @@ class CollectionDetail extends Component {
          elevation={1}
          className={classes.paper}
          >
+
+          <ScrollableTabsButtonForce 
+            tabs={this.state.languages} 
+            changeHandler={(index)=> this.handleLangChange( this.state.languages[index])}
+          />
 
           { 
             this.renderDialog()
