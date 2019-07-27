@@ -14,7 +14,9 @@ import {
         Paper,
         Grid,
         Divider,
-        Chip
+        Chip,
+        Select,
+        MenuItem
 } from '@material-ui/core';
 
 import {getFileMetadata, directUpload} from '../../shared/fileUploader'
@@ -23,6 +25,7 @@ import {getFileMetadata, directUpload} from '../../shared/fileUploader'
 
 import graphql from '../../graphql/client'
 import {toSnakeCase} from '../../shared/caseConverter'
+import FormDialog from '../../components/FormDialog'
 
 import {
   ARTICLE_SETTINGS
@@ -47,6 +50,8 @@ import FieldRenderer from '../../shared/FormFields'
 import ContentHeader from '../../components/ContentHeader'
 import Content from '../../components/Content'
 import langsOptions from '../../shared/langsOptions'
+
+
 
 const styles = theme => ({
 
@@ -403,63 +408,151 @@ class SettingsForm extends Component{
   } 
 }
 
-function LanguageForm({settings}){
+function LanguageForm({settings, update}){
+
+  const [isOpen, setIsOpen] = React.useState(false)
+  const [selectedLang, setSelectedLang] = React.useState(null)
+  const formRef = React.createRef();
 
   function handleChange(value){
-    debugger
+    const val = value.currentTarget.dataset.value
+    const serializedData = serialize(formRef.current, { hash: true, empty: true })
+    const data = toSnakeCase(serializedData)
+
+    let next = {}
+    next[`site_title_${val}`] = ""
+    next[`site_description_${val}`] = ""
+
+    const newData = Object.assign({}, data.settings, next)
+    update({settings: newData})
+    toggleDialog()
+  }
+
+  function renderLangDialog(){
+    return isOpen && (
+      <FormDialog 
+        open={isOpen}
+        //contentText={"lipsum"}
+        titleContent={"Save Assigment rule"}
+        formComponent={
+          //!loading ?
+            <form>
+
+              <Select
+                value={selectedLang}
+                onChange={handleChange}
+                inputProps={{
+                  name: 'age',
+                  id: 'age-simple',
+                }}>
+
+                {
+                  langsOptions.map((o)=>(
+                    <MenuItem value={o.value}>
+                      {o.label}
+                    </MenuItem> 
+                  ))
+                }
+                
+                
+              </Select>
+
+            </form> 
+            //: <CircularProgress/>
+        }
+        dialogButtons={
+          <React.Fragment>
+            <Button onClick={toggleDialog} color="primary">
+              Cancel
+            </Button>
+
+            <Button //onClick={this.submitAssignment } 
+              zcolor="primary"> 
+              update
+            </Button>
+
+          </React.Fragment>
+        }
+        //actions={actions} 
+        //onClose={this.close} 
+        //heading={this.props.title}
+        >
+      </FormDialog>
+    )
+  }
+
+  function toggleDialog(){
+    setIsOpen(!isOpen)
+  }
+
+  function handleSubmit(){
+    const serializedData = serialize(formRef.current, { hash: true, empty: true })
+    const data = toSnakeCase(serializedData)
+    update(data)
   }
 
   return (
 
     <div>
 
-      {
-        settings.translations.map((o)=>{
+      <form ref={formRef}>
 
-          console.log(o)
+        {
+          settings.translations.map((o)=>{
 
-          return <Grid container
-                    justify={"space-between"}
-                    alignItems={"center"}>
-            
-                    <Grid item>
-                      <Typography>
-                        {o.locale}
-                        <Chip label="Default" />
-            
-                      </Typography>
+            return <Grid container
+                      justify={"space-between"}
+                      alignItems={"center"}>
+              
+                      <Grid item>
+                        <Typography>
+                          {o.locale}
+                          <Chip label="Default" />
+              
+                        </Typography>
+                      </Grid>
+              
+                      <Grid item>
+                        <TextField
+                          //id="standard-name"
+                          label="Site Title"
+                          defaultValue={o.site_title}
+                          name={`settings[site_title_${o.locale}]`}
+                          //className={classes.textField}
+                          //value={values.name}
+                          //onChange={handleChange('name')}
+                          margin="normal"
+                        />
+                      </Grid>
+                      
+                      <Grid item>
+                        <TextField
+                          //id="standard-name"
+                          label="Site Description"
+                          defaultValue={o.site_description}
+                          name={`settings[site_description_${o.locale}]`}
+                          //className={classes.textField}
+                          //value={values.name}
+                          //onChange={handleChange('name')}
+                          margin="normal"
+                        />
+                      </Grid>
+                      
                     </Grid>
-            
-                    <Grid item>
-                      <TextField
-                        id="standard-name"
-                        label="Name"
-                        defaultValue={o.site_title}
-                        //className={classes.textField}
-                        //value={values.name}
-                        //onChange={handleChange('name')}
-                        margin="normal"
-                      />
-                    </Grid>
-                    
-                    <Grid item>
-                      <TextField
-                        id="standard-name"
-                        label="Name"
-                        defaultValue={o.site_description}
-                        //className={classes.textField}
-                        //value={values.name}
-                        //onChange={handleChange('name')}
-                        margin="normal"
-                      />
-                    </Grid>
-                    
-                  </Grid>
-        })
-      }
+          })
+        }
+        
+        <Button onClick={toggleDialog}>
+          Add language
+        </Button>
 
+        <Button onClick={handleSubmit} variant={"primary"}>
+          Submit
+        </Button>
 
-      <Button>Add language</Button>
+      </form>
+
+      {renderLangDialog()}
 
     </div>
   )
