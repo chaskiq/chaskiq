@@ -692,7 +692,7 @@ export const ARTICLE_SECTION_CREATE = `
 `;
 
 export const ARTICLE_SECTION_EDIT = `
-  mutation ArticleSectionEdit($appKey: String!, $title: String!, $id: String!, $collectionId: Int!, $lang: String){
+  mutation ArticleSectionEdit($appKey: String!, $title: String!, $id: Int!, $collectionId: Int!, $lang: String){
     articleSectionEdit( 
       appKey: $appKey, 
       title: $title,
