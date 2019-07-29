@@ -1,6 +1,7 @@
 class Article < ApplicationRecord
   include AASM
   include GlobalizeAccessors
+  include PgSearch::Model
 
   belongs_to :author, class_name: "Agent"
   belongs_to :app
@@ -13,6 +14,20 @@ class Article < ApplicationRecord
               class_name: "CollectionSection", 
               foreign_key: 'article_section_id',
               optional: true
+
+
+
+  include PgSearch::Model
+  pg_search_scope :search,
+                  #against: [:title, :description]
+                  # ignoring: :accents,
+                  #using: [:trigram],
+                  using: {
+                    tsearch: { prefix: true }
+                  },
+                  associated_against: {
+                    translations: [:title, :description],
+                  }
 
   has_one :article_content
 
