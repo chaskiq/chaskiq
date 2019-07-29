@@ -166,7 +166,7 @@ class App extends Component {
                       </Grid>
 
                       <Grid item>
-                      <Button onClick={()=>this.props.requestUpdate(o)}>
+                      <Button variant={"outlined"} onClick={()=>this.props.requestUpdate(o)}>
                         edit
                       </Button>
                       </Grid>

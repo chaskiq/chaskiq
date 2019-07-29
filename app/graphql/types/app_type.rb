@@ -131,18 +131,22 @@ module Types
     field :articles, Types::PaginatedArticlesType, null: true do
       argument :page, Integer, required: true
       argument :per, Integer, required: false, default_value: 20
+      argument :lang, String, required: false, default_value: I18n.default_locale
     end
 
-    def articles(page:, per:)
+    def articles(page:, per:, lang:)
+      I18n.locale = lang
       object.articles.page(page).per(per)
     end
 
     field :articles_uncategorized, Types::PaginatedArticlesType, null: true do
       argument :page, Integer, required: true
       argument :per, Integer, required: false, default_value: 20
+      argument :lang, String, required: false, default_value: I18n.default_locale
     end
 
-    def articles_uncategorized(page: , per:)
+    def articles_uncategorized(page:, per:, lang:)
+      I18n.locale = lang
       object.articles.without_collection.page(page).per(per)
     end
 

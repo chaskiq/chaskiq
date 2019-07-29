@@ -173,9 +173,8 @@ function Navigator(props, context) {
     },
   ];
 
-  console.log(other)
   return (
-    <Drawer variant="permanent" {...other}>
+    <Drawer variant="permanent">
       <List disablePadding>
         <ListItem className={clsx(classes.firebase, classes.item, classes.itemCategory)}>
           CHASKIQ
@@ -272,7 +271,6 @@ Navigator.contextTypes = {
 
 Navigator.propTypes = {
   classes: PropTypes.object.isRequired,
-  navLinks: PropTypes.array.isRequired,
   app: PropTypes.object,
   currentUser: PropTypes.object
 };

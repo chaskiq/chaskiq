@@ -28,6 +28,7 @@
     "emojione": "^2.2.7",
     "form-serialize": "^0.7.2",
     "gravatar": "^1.6.0",
+    "i18n-js": "^3.3.0",
     "isomorphic-fetch": "^2.2.1",
     "jsrsasign": "^8.0.12",
     "mapbox-gl": "^1.0.0",
