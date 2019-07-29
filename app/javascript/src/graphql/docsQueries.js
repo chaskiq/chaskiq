@@ -14,6 +14,7 @@ export const ARTICLE_SETTINGS = `
       subdomain
       twitter
       website
+      availableLanguages
     }
   }
 `;

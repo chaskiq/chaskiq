@@ -65,6 +65,7 @@ import ArrowDropDownIcon from '@material-ui/icons/ArrowDropDown'
 import styled from 'styled-components'
 import {setCurrentPage} from '../../actions/navigation'
 import ScrollableTabsButtonForce from '../../components/scrollingTabs'
+import langs from '../../shared/langsOptions'
 
 
 
@@ -370,7 +371,8 @@ class ArticlesNew extends Component {
           <React.Fragment>
 
               <ScrollableTabsButtonForce 
-              tabs={this.props.settings.availableLanguages} 
+              //tabs={this.props.settings.availableLanguages} 
+              tabs={this.props.settings.availableLanguages.map((o)=> langs.find((lang)=> lang.value === o) )} 
               changeHandler={(index)=> this.handleLangChange(this.props.settings.availableLanguages[index])}
             />
 

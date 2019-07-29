@@ -24,6 +24,7 @@ import CheckCircleIcon from '@material-ui/icons/CheckCircle'
 import DataTable from "../components/newTable";
 
 import ScrollableTabsButtonForce from '../components/scrollingTabs'
+import langs from '../shared/langsOptions'
 
 import {Link} from 'react-router-dom'
 
@@ -204,8 +205,6 @@ class Articles extends Component {
         </Switch> : null 
       }
 
-
-        
       </React.Fragment>
     );
   }
@@ -266,8 +265,8 @@ class AllArticles extends React.Component {
 
 
 
-              <ScrollableTabsButtonForce 
-                tabs={this.props.settings.availableLanguages} 
+              <ScrollableTabsButtonForce
+                tabs={this.props.settings.availableLanguages.map((o)=> langs.find((lang)=> lang.value === o) )} 
                 changeHandler={(index)=> this.handleLangChange( this.props.settings.availableLanguages[index] )}
               />
 
@@ -343,154 +342,8 @@ class AllArticles extends React.Component {
 }
 
 class PublishedArticles extends React.Component {
-  state = {
-    collection: [],
-    loading: true,
-    isOpen: false,
-    sent: false,
-  }
-
-  input_ref = null
-
-  open  = () => this.setState({ isOpen: true });
-  close = () => this.setState({ isOpen: false });
-
-  componentDidMount(){
-    this.search()
-  }
-
-  sendInvitation = ()=>{
-    /*graphql(ARTICLES, {
-      appKey: this.props.app.key,
-      email: this.input_ref.value
-    }, {
-      success: (data)=>{
-        this.setState({
-          sent: true,
-          isOpen: false,
-        }, this.search)
-      },
-      error: ()=>{
-
-      }
-    })*/
-  }
-
-  inviteButton = ()=>{
-
-    return <React.Fragment>
-            {
-              this.state.isOpen ?
-                <FormDialog 
-                  open={this.state.isOpen}
-                  actionButton={"add user"} 
-                  titleContent={"Add a new agent"}
-                  contentText={"send an activable invitation"}
-
-                  formComponent={
-                    <TextField
-                      autoFocus
-                      margin="dense"
-                      id="email"
-                      name="email"
-                      label="email"
-                      type="email"
-                      ref={"input"}
-                      fullWidth
-                      inputRef={input => (this.input_ref = input)}
-                    />
-                  }
-
-
-                  dialogButtons={
-                    <React.Fragment>
-                      <Button onClick={this.close} color="primary">
-                        Cancel
-                      </Button>
-
-                      <Button onClick={this.sendInvitation} 
-                        zcolor="primary">
-                        Send invitation
-                      </Button>
-
-                    </React.Fragment>
-                  }
-                /> 
-                 : null 
-            }
-
-
-            <Button variant="contained" 
-              color="primary" 
-              onClick={this.open}
-              className={this.props.classes.addUser}>
-
-              Add user
-            </Button>
-
-          </React.Fragment>
-  }
-
-  getAgents = ()=>{
-    /*graphql(PENDING_AGENTS, {appKey: this.props.app.key, }, {
-      success: (data)=>{
-        this.setState({
-          collection: data.app.notConfirmedAgents, 
-          loading: false
-        })
-      },
-      error: ()=>{
-
-      }
-    })*/
-  }
-
-  search = ()=>{
-    this.setState({
-      loading: true, 
-    }, this.getAgents )
-  }
-
   render(){
-    return <Content actions={this.inviteButton()}>
-            {
-              !this.state.loading ?
-                <DataTable 
-                  elevation={0}
-                  title={'invitations'}
-                  meta={{}}
-                  rows={this.state.collection}
-                  search={this.search}
-                  loading={this.state.loading}
-                  disablePagination={true}
-                  columns={[
-                    {name: "id", title: "id"},
-                    {name: "avatar", title: "",
-                      getCellValue: row => (row ? 
-                        <Link to={`/apps/${this.props.app.key}/agents/${row.id}`}>
-                          <Avatar
-                            name={row.email}
-                            size="medium"
-                            src={gravatar(row.email)}
-                          />
-                        </Link>
-                       : undefined)
-                    },
-                    {name: "email", title: "email"},
-                    {name: "name", title: "name"},
-                    {name: "invitationAcceptedAt", title: "invitationAcceptedAt"},
-                    {name: "invitationSentAt", title: "invitationSentAt"},
-                  ]}
-                  defaultHiddenColumnNames={[]}
-                  tableColumnExtensions={[
-                    { columnName: 'email', width: 250 },
-                    { columnName: 'id', width: 10 },
-                    { columnName: 'avatar', width: 55 },
-                  ]}
-                  enableMapView={false}
-                />  : <CircularProgress/> 
-            }
-           </Content>    
+    return <p>o</p>
   }
 }
 

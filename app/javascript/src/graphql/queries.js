@@ -475,9 +475,9 @@ export const ARTICLE_SETTINGS = `
 `;
 
 export const ARTICLES = `
-  query App($appKey: String!, $page: Int!, $per: Int){
+  query App($appKey: String!, $page: Int!, $per: Int, $lang: String){
     app(key: $appKey) {
-      articles(page: $page, per: $per){
+      articles(page: $page, per: $per, lang: $lang){
         collection {
           id
           title

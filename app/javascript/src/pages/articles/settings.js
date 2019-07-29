@@ -16,7 +16,15 @@ import {
         Divider,
         Chip,
         Select,
-        MenuItem
+        MenuItem,
+        Box,
+
+        Table,
+        TableHead,
+        TableRow,
+        TableCell,
+        TableBody,
+
 } from '@material-ui/core';
 
 import {getFileMetadata, directUpload} from '../../shared/fileUploader'
@@ -116,19 +124,6 @@ class Settings extends Component {
         name: "domain",
         hint: "documentation site custom domain",
         type: 'string',
-        grid: { xs: 12, sm: 12 }
-      },
-
-      {
-        name: "siteTitle",
-        hint: "documentation site subdomain",
-        type: 'string',
-        grid: { xs: 12, sm: 12 }
-      },
-      {
-        name: "siteDescription",
-        hint: "documentation site subdomain",
-        type: 'text',
         grid: { xs: 12, sm: 12 }
       },
       {
@@ -249,15 +244,18 @@ class Settings extends Component {
 
       case 1:
         return <div>
-        
-                <Typography variant="h5">
-                  Localize your Help Center
-                </Typography>
 
-                <Typography variant="subtitle1">
-                  Manage supported languages and customize your Help 
-                  Center's header
-                </Typography>
+                <Box mb={2}>
+
+                  <Typography variant="h5">
+                    Localize your Help Center
+                  </Typography>
+
+                  <Typography variant="subtitle1">
+                    Manage supported languages and customize your Help 
+                    Center's header
+                  </Typography>
+                </Box>
 
                 <LanguageForm
                   title={"Lang"}
@@ -330,38 +328,42 @@ class SettingsForm extends Component{
         this.formRef = form;
       }}>
         
-        <Grid container spacing={3}>
-          {
-            this.props.definitions().map((field) => {
+        <Box mb={2}>
+        
+          <Grid container spacing={3}>
+            {
+              this.props.definitions().map((field) => {
 
-              return <Grid item
-                        key={field.name} 
-                        xs={field.grid.xs} 
-                        sm={field.grid.sm}>
-                        <FieldRenderer 
-                          namespace={'settings'} 
-                          data={field}
-                          errorNamespace={this.props.errorNamespace}
-                          props={{data: this.props.data }} 
-                          errors={ this.props.errors }
-                        />
-                    </Grid>
-            })
-          }
+                return <Grid item
+                          key={field.name} 
+                          xs={field.grid.xs} 
+                          sm={field.grid.sm}>
+                          <FieldRenderer 
+                            namespace={'settings'} 
+                            data={field}
+                            errorNamespace={this.props.errorNamespace}
+                            props={{data: this.props.data }} 
+                            errors={ this.props.errors }
+                          />
+                      </Grid>
+              })
+            }
+          </Grid>
+        
+        </Box>
+
+        <Grid container justify={"space-around"}>
+
+          <Button appearance="subtle" variant={"outlined"}>
+            Cancel
+          </Button>
+          <Button 
+            onClick={this.onSubmitHandler.bind(this)}
+            variant="contained" 
+            color="primary">
+            Save
+          </Button>
         </Grid>
-      
-        <Divider variant="inset"></Divider>
-
-        <Button 
-          onClick={this.onSubmitHandler.bind(this)}
-          variant="contained" 
-          color="primary">
-          Save
-        </Button>
-
-        <Button appearance="subtle">
-          Cancel
-        </Button>
 
       </form>
     )
@@ -457,58 +459,62 @@ function LanguageForm({settings, update}){
 
       <form ref={formRef}>
 
-        {
-          settings.translations.map((o)=>{
-
-            return <Grid container
-                      justify={"space-between"}
-                      alignItems={"center"}>
-              
-                      <Grid item>
-                        <Typography>
-                          {o.locale}
-                          <Chip label="Default" />
-              
-                        </Typography>
-                      </Grid>
-              
-                      <Grid item>
-                        <TextField
-                          //id="standard-name"
-                          label="Site Title"
-                          defaultValue={o.site_title}
-                          name={`settings[site_title_${o.locale}]`}
-                          //className={classes.textField}
-                          //value={values.name}
-                          //onChange={handleChange('name')}
-                          margin="normal"
-                        />
-                      </Grid>
-                      
-                      <Grid item>
-                        <TextField
-                          //id="standard-name"
-                          label="Site Description"
-                          defaultValue={o.site_description}
-                          name={`settings[site_description_${o.locale}]`}
-                          //className={classes.textField}
-                          //value={values.name}
-                          //onChange={handleChange('name')}
-                          margin="normal"
-                        />
-                      </Grid>
-                      
-                    </Grid>
-          })
-        }
-        
-        <Button onClick={toggleDialog}>
+        <Button onClick={toggleDialog} variant={"outlined"}>
           Add language
         </Button>
 
-        <Button onClick={handleSubmit} variant={"primary"}>
-          Submit
-        </Button>
+        <Box mt={2} mb={2}>
+          <Table>
+            <TableHead>
+              <TableRow>
+                <TableCell>Locale</TableCell>
+                <TableCell align="left">Title</TableCell>
+                <TableCell align="left">Description</TableCell>
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              {settings.translations.map(row => (
+                <TableRow key={row.locale}>
+                  <TableCell component="th" scope="row">
+                    {row.locale}
+                  </TableCell>
+                  <TableCell align="left">
+                    <TextField
+                      //id="standard-name"
+                      label="Site Title"
+                      defaultValue={row.site_title}
+                      name={`settings[site_title_${row.locale}]`}
+                      //className={classes.textField}
+                      //value={values.name}
+                      //onChange={handleChange('name')}
+                      margin="normal"
+                    />
+                  </TableCell>
+                  <TableCell align="left">
+                    <TextField
+                      //id="standard-name"
+                      label="Site Description"
+                      defaultValue={row.site_description}
+                      name={`settings[site_description_${row.locale}]`}
+                      //className={classes.textField}
+                      //value={values.name}
+                      //onChange={handleChange('name')}
+                      margin="normal"
+                    />
+                  </TableCell>
+                
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+          
+        </Box>
+
+        <Grid container alignContent={"flex-end"}>
+          <Button onClick={handleSubmit} variant={"contained"} color={"primary"}>
+            Submit
+          </Button>        
+        </Grid>
 
       </form>
 

@@ -18,7 +18,7 @@ import {setCurrentPage} from '../../../actions/navigation'
 import { withStyles } from '@material-ui/core/styles';
 
 import ScrollableTabsButtonForce from '../../../components/scrollingTabs'
-
+import langs from '../../../shared/langsOptions'
 
 
 import graphql from '../../../graphql/client'
@@ -369,7 +369,8 @@ class CollectionDetail extends Component {
          >
 
           <ScrollableTabsButtonForce 
-            tabs={this.props.settings.availableLanguages} 
+            //tabs={this.props.settings.availableLanguages} 
+            tabs={this.props.settings.availableLanguages.map((o)=> langs.find((lang)=> lang.value === o) )} 
             changeHandler={(index)=> this.handleLangChange( this.props.settings.availableLanguages[index] )}
           />
 
