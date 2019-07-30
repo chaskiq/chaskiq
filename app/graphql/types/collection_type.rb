@@ -42,7 +42,7 @@ module Types
       articles = ArticleCollection.first.articles
       {
         size: articles.size,
-        authors: articles.map(&:author)
+        authors: articles.map(&:author).uniq!
       }
     end
   end
