@@ -49,7 +49,8 @@ import {
   BrowserRouter,
   Route,
   Switch,
-  Link as RouterLink
+  Link as RouterLink,
+  withRouter
 } from 'react-router-dom'
 
 import graphql from '../../graphql/client'
@@ -249,8 +250,24 @@ const LinkRouter = React.forwardRef((props, ref) => (
 
 
 
-function CustomizedInputBase() {
+function CustomizedInputBase({lang}) {
   const classes = useStyles();
+
+
+  function search(term){
+    graphql(SEARCH_ARTICLES,{
+      term: term,
+      lang: lang
+    },{
+      success: (data)=>{
+        debugger
+      },
+      error: ()=>{
+
+      }
+    })
+  }
+
 
   return (
     <Paper className={classes.root}>
@@ -273,11 +290,34 @@ function CustomizedInputBase() {
   );
 }
 
-export default function Docs() {
+export default function MainLAyout(){
+  return (
+
+    <BrowserRouter>
+      <Switch> 
+        <Route path={"/:lang?(en|es)"} render={(props)=>(
+          <Docs {...props}/>
+        )}/>
+
+        <Route path={"/"} render={(props)=>(
+          <Docs {...props}/>
+        )}/>
+
+        <Route  render={(props)=>(
+          
+          <p>4040 not found</p>
+
+        )}/>
+      </Switch>
+    </BrowserRouter>
+
+  )
+}
+
+function Docs(props) {
   const classes = useStyles();
-
   const [settings, setSettings] = React.useState({})
-
+  const [lang, setLang] = React.useState(props.match.params.lang || 'en')
   const [error, setError] = React.useState(false)
 
   let theme = createMuiTheme({
@@ -431,12 +471,13 @@ export default function Docs() {
 
   React.useEffect(() => {
     getSettings()
-  }, [])
+  }, [lang])
 
   
   function getSettings(){
     graphql(ARTICLE_SETTINGS, {
-      domain: subdomain
+      domain: subdomain,
+      lang: props.match.params.lang
     }, {
       success: (data)=>{
         setSettings(data.helpCenter)
@@ -447,187 +488,201 @@ export default function Docs() {
     })
   }
 
+  function handleLangChange(option){
+    setLang(option)
+    props.history.push(`/${option}`)
+    //history.push('/en')
+  }
+
   return (
     <div>
-    
-    
-    
-    <MuiThemeProvider theme={theme}>
-        <CssBaseline />
-        
-        {/*<AppBar position="relative">
-          <Toolbar>
-            <CameraIcon className={classes.icon} />
-            <Typography variant="h6" className={classes.breacrumbLink} noWrap>
-              Help Center
-            </Typography>
-          </Toolbar>
-          </AppBar>*/}
+          <MuiThemeProvider theme={theme}>
+            <CssBaseline />
+            <React.Fragment>
 
-            <main>
-              {/* Hero unit */}
+            {/*<AppBar position="relative">
+              <Toolbar>
+              <CameraIcon className={classes.icon} />
+              <Typography variant="h6" className={classes.breacrumbLink} noWrap>
+                Help Center
+              </Typography>
+              </Toolbar>
+              </AppBar>
+            */}
 
-              <div className={classes.heroContent} 
-                style={{
-                backgroundImage: `url('${settings.headerImageLarge}')`,
-              }}>
+              <main>
+                {/* Hero unit */}
 
-                <Container maxWidth="md">
+                <div className={classes.heroContent} 
+                  style={{
+                  backgroundImage: `url('${settings.headerImageLarge}')`,
+                }}>
 
-                  <Grid 
-                    //alignItems={} 
-                    container
-                    //justifyContent={'space-between'}
-                    alignItems={'center'}
-                    //justifyItems={"self-start"}
-                    justify={'space-between'}>
-                      
-                    <Grid item>
-                      <img src={settings.logo} className={classes.logoImage}/>
+                  <Container maxWidth="md">
+
+                    <Grid 
+                      //alignItems={} 
+                      container
+                      //justifyContent={'space-between'}
+                      alignItems={'center'}
+                      //justifyItems={"self-start"}
+                      justify={'space-between'}>
+                        
+                      <Grid item>
+                        <img src={settings.logo} className={classes.logoImage}/>
+                      </Grid>
+
+                      <Grid item>
+
+                        <Grid 
+                          //alignItems={} 
+                          container
+                          //justifyContent={'space-between'}
+                          alignItems={'center'}
+                          //justifyItems={"self-start"}
+                          justify={'space-between'}>
+
+                          <Link
+                            className={classes.siteLink} 
+                            color={'primary'}
+                            onClick={(e)=> window.location = settings.website}>
+                            <LaunchIcon/>
+                            <Typography className={classes.siteLink} >
+                              {" Go to"} {settings.siteTitle}
+                            </Typography>
+                          </Link>
+
+                          <Box ml={1}>
+                            <Divider className={classes.divider} />
+                          </Box>
+                          
+
+                          {
+                            settings.availableLanguages ? 
+                           
+                              <Tooltip title={lang}>
+                                <LangMenu 
+                                  languages={settings.availableLanguages}
+                                  handleChange={handleLangChange}
+                                  history={props.history}
+                                  lang={lang}
+                                />
+                              </Tooltip>
+                            : null
+                          }
+                        </Grid>  
+                      </Grid>
+
+
+
+
                     </Grid>
 
-                    <Grid item>
-
-                      <Grid 
-                        //alignItems={} 
-                        container
-                        //justifyContent={'space-between'}
-                        alignItems={'center'}
-                        //justifyItems={"self-start"}
-                        justify={'space-between'}>
-
-                        <Link
-                          className={classes.siteLink} 
-                          color={'primary'}
-                          onClick={(e)=> window.location = settings.website}>
-                          <LaunchIcon/>
-                          <Typography className={classes.siteLink} >
-                            {" Go to"} {settings.siteTitle}
-                          </Typography>
-                        </Link>
-                
-                        {
-                          settings.availableLanguages ? 
-                          <LongMenu languages={settings.availableLanguages}/> : null
-                        }
-                      </Grid>  
-                    </Grid>
-
-
-
-
-                  </Grid>
-
-                  
-                  
-                    <Typography 
-                      //variant="subtitle1" 
-                      align="center" 
-                      color="textPrimary"
-                      className={classes.textPrimary}
-                      gutterBottom>
-                      {settings.siteDescription}
-                    </Typography>
-                  
-
-                    { CustomizedInputBase() }
-
-                  { /*settings.siteDescription ? 
-                    <Typography variant="subtitle1" align="center" color="textSecondary" paragraph>
-                      {settings.siteDescription}
-                    </Typography> : null
-                  */}
-
-                  {
-                    /* 
-                      <div className={classes.heroButtons}>
-                        <Grid container spacing={2} justify="center">
-                          <Grid item>
-                            <Button variant="contained" color="primary">
-                              Main call to action
-                            </Button>
-                          </Grid>
-                          <Grid item>
-                            <Button variant="outlined" color="primary">
-                              Secondary action
-                            </Button>
-                          </Grid>
-                        </Grid>
-                      </div>
-                    */
-                  }
-                
-                </Container>
-              
-              </div>
-
-              {
-                error ?
-                <p>ERROR!</p> : null
-              }
-
-              <BrowserRouter>
-                <Switch>
-
-                    <Route exact path={`/:id`} render={(props)=>(
-                      <Article {...props} />
-                    )}/>
-
-                    <Route exact path={`/articles/:id`} render={(props)=>(
-                      <Article {...props} />
-                    )}/>
-
-                    <Route exact path={`/collections/:id`} render={(props)=>(
-                      <CollectionsWithSections {...props} />
-                    )}/>
-
-                    <Route exact path={`/`} render={(props)=>(
-                      <Collections />
-                    )}
-                    />
                     
-                </Switch>
-              </BrowserRouter>       
+                    
+                      <Typography 
+                        //variant="subtitle1" 
+                        align="center" 
+                        color="textPrimary"
+                        className={classes.textPrimary}
+                        gutterBottom>
+                        {settings.siteDescription}
+                      </Typography>
+                    
+
+                      { CustomizedInputBase() }
+
+                    { /*settings.siteDescription ? 
+                      <Typography variant="subtitle1" align="center" color="textSecondary" paragraph>
+                        {settings.siteDescription}
+                      </Typography> : null
+                    */}
+
+                    {
+                      /* 
+                        <div className={classes.heroButtons}>
+                          <Grid container spacing={2} justify="center">
+                            <Grid item>
+                              <Button variant="contained" color="primary">
+                                Main call to action
+                              </Button>
+                            </Grid>
+                            <Grid item>
+                              <Button variant="outlined" color="primary">
+                                Secondary action
+                              </Button>
+                            </Grid>
+                          </Grid>
+                        </div>
+                      */
+                    }
+                  
+                  </Container>
+                
+                </div>
+
+                {
+                  error ?
+                  <p>ERROR!</p> : null
+                }
+
+                
+                  <Switch>
+
+                      <Route exact path={`${props.match.url}/articles/:id`} render={(props)=>(
+                        <Article {...props}  />
+                      )}/>
+
+                      <Route exact path={`${props.match.url}/collections/:id`} render={(props)=>(
+                        <CollectionsWithSections {...props} lang={lang}/>
+                      )}/>
+
+                      <Route exact path={`${props.match.url}`} render={(props)=>(
+                        <Collections {...props} lang={lang} />
+                      )}
+                      />
+                      
+                  </Switch>
+                      
+              
+              </main> 
+
+
+          {/* Footer */}
+          <footer className={classes.footer}>
+            <Typography variant="h6" align="center" gutterBottom>
+              Chaskiq
+            </Typography>
+
+            <Grid
+              container
+              direction="row"
+              justify="space-evenly"
+              alignItems="baseline"
+
+            >
+              <Link href={`http://facebook.com/${settings.facebook}`}>
+                <Facebook/>
+              </Link>
+
+              <Link href={`http://twitter.com/${settings.twitter}`}>
+                <Twitter/>
+              </Link>
+
+              <Link href={`http://instagram.com/${settings.linkedin}`}>
+                <LinkedIn/>
+              </Link>
+
+            </Grid>
+              
+            <Box mt={2}>
+              <MadeWithLove />
+            </Box>            
             
-            </main> 
-        
-
-        {/* Footer */}
-        <footer className={classes.footer}>
-          <Typography variant="h6" align="center" gutterBottom>
-            Chaskiq
-          </Typography>
-
-          <Grid
-            container
-            direction="row"
-            justify="space-evenly"
-            alignItems="baseline"
-
-          >
-            <Link href={`http://facebook.com/${settings.facebook}`}>
-              <Facebook/>
-            </Link>
-
-            <Link href={`http://twitter.com/${settings.twitter}`}>
-              <Twitter/>
-            </Link>
-
-            <Link href={`http://instagram.com/${settings.linkedin}`}>
-              <LinkedIn/>
-            </Link>
-
-          </Grid>
-             
-          <Box mt={2}>
-            <MadeWithLove />
-          </Box>            
-          
-        </footer>
-        {/* End footer */}
-        </MuiThemeProvider>
-       
-      
+          </footer>
+          {/* End footer */}
+          </React.Fragment>
+          </MuiThemeProvider>
     </div>
     
   );
@@ -644,7 +699,8 @@ function Article(props){
   function getArticle(){
     graphql(ARTICLE, {
       domain: subdomain,
-      id: props.match.params.id
+      id: props.match.params.id,
+      lang: props.lang
     }, {
       success: (data)=>{
         setArticle(data.helpCenter.article)
@@ -672,13 +728,13 @@ function Article(props){
 
             <Breadcrumbs aria-label="Breadcrumb">
           
-              <LinkRouter className={classes.breacrumbLink} to="/">
+              <LinkRouter className={classes.breacrumbLink} to={`/${lang}`}>
                 Articles
               </LinkRouter>
 
               {
                 article.collection ?
-                  <LinkRouter className={classes.breacrumbLink} to={`/collections/${article.collection.slug}`}>
+                  <LinkRouter className={classes.breacrumbLink} to={`${lang}/collections/${article.collection.slug}`}>
                     {article.collection.title}
                   </LinkRouter> : null 
               }
@@ -715,18 +771,19 @@ function Article(props){
 }
 
 
-function Collections(props){
+function Collections({lang}){
   const classes = useStyles();
 
   const [collections, setCollections] = React.useState([])
 
   React.useEffect(() => {
     getArticles()
-  }, [])
+  }, [lang])
 
   function getArticles(){
     graphql(ARTICLE_COLLECTIONS, {
-      domain: subdomain
+      domain: subdomain,
+      lang: lang
     }, {
       success: (data)=>{
         setCollections(data.helpCenter.collections)
@@ -740,6 +797,7 @@ function Collections(props){
   }
 
   function truncateOnWord(str, num) {
+    if(!str) return ""
     if (str.length > num) {
       return str.slice(0, num) + "...";
     } else {
@@ -774,7 +832,7 @@ function Collections(props){
                             <RouterLink 
                               className={classes.routeLink}
                               color={'primary'}
-                              to={`/collections/${card.slug}`}> 
+                              to={`${lang}/collections/${card.slug}`}> 
                               
                               <Typography gutterBottom variant="h5" component="h3">
                                 {card.title}
@@ -809,7 +867,7 @@ function Collections(props){
 
 }
 
-function CollectionsWithSections({match}){
+function CollectionsWithSections({match, lang}){
 
   const classes = useStyles();
 
@@ -817,12 +875,13 @@ function CollectionsWithSections({match}){
 
   React.useEffect(() => {
     getArticles()
-  }, [])
+  }, [lang])
 
   function getArticles(){
     graphql(ARTICLE_COLLECTION_WITH_SECTIONS, {
       domain: subdomain,
-      id: match.params.id
+      id: match.params.id,
+      lang: lang
     },
     {
       success: (data)=>{
@@ -883,6 +942,7 @@ function CollectionsWithSections({match}){
                     <ul className="avatars">
 
                       {
+                        collections.meta.authors ? 
                         collections.meta.authors.map((o)=>{
                           return <li key={`authors-${o.id}`} className="avatars__item">
                                   <Tooltip title={o.display_name}>
@@ -891,8 +951,8 @@ function CollectionsWithSections({match}){
                                       src={gravatar(o.email)}
                                     />
                                   </Tooltip>
-                                </li>
-                        })
+                                </li> 
+                        }) : null
                       }
 
                       {
@@ -920,7 +980,7 @@ function CollectionsWithSections({match}){
                             <RouterLink 
                               className={classes.articleLink}
                               color={'primary'}
-                              to={`/articles/${article.slug}`}>
+                              to={`${lang}/articles/${article.slug}`}>
                               {article.title}
                             </RouterLink>
 
@@ -1016,7 +1076,7 @@ function CollectionsWithSections({match}){
 
 const ITEM_HEIGHT = 48;
 
-function LongMenu({languages}) {
+function LangMenu({languages, handleChange, lang, history}) {
   const classes = useStyles();
 
   const [anchorEl, setAnchorEl] = React.useState(null);
@@ -1030,15 +1090,21 @@ function LongMenu({languages}) {
     setAnchorEl(null);
   }
 
+  function handleSelect(option) {
+    handleClose()
+    handleChange(option)
+  }
+
   return (
     <div>
+
       <IconButton
         aria-label="more"
         aria-controls="long-menu"
         aria-haspopup="true"
         onClick={handleClick}
       >
-        <LanguageIcon />
+        <LanguageIcon className={classes.siteLink} />
       </IconButton>
       <Menu
         id="long-menu"
@@ -1055,7 +1121,7 @@ function LongMenu({languages}) {
         }}
       >
         {languages.map(option => (
-          <MenuItem key={option} selected={option === 'Pyxis'} onClick={handleClose}>
+          <MenuItem key={option} selected={option === lang} onClick={()=> handleSelect(option)}>
             {option}
           </MenuItem>
         ))}
