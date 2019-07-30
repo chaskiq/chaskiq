@@ -21,9 +21,18 @@ Rails.application.routes.draw do
   constraints(SubdomainOrDomain) do
     # TODO, regex ?
     get '/'  => "articles#show"
+    get '/:lang'  => "articles#show"
+    get '/:lang/collections'  => "articles#show"
+    get '/:lang/collections/:id'  => "articles#show"
+    get '/:lang/articles/:id'  => "articles#show"
     get '/collections' => "articles#show"
     get '/collections/:id' => "articles#show"
     get '/articles/:1/' => "articles#show"
+
+    #get '*path', to: 'application#catch_all', constraints: lambda { |req|
+    #  req.path.exclude? 'rails/active_storage'
+    #}
+
   end
 
   #get "/user_session", to: 'application#user_session'

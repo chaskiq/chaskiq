@@ -26,19 +26,18 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,300i,400,400i,500,500i,600,600i,700,700i&amp;subset=latin-ext">
   
     <% if Rails.env.test? %>
-      <!--<script src="/packs-test/embed.js?<%=Time.now%>"></script>-->
+      <script src="/packs-test/embed.js?<%=Time.now%>"></script>
     <% else %>
-      <!--<script src="/packs/embed.js?<%=Time.now%>"></script>-->
+      <script src="/packs/embed.js?<%=Time.now%>"></script>
     <% end %>
   
+  
+
   </head>
 
   <body>
     <div class="page" id="main-page">
     </div>
-
-    <script src="//dev.chaskiq.io/packs/embed.js?<%=Time.now%>"></script>
-
 
     <script type="text/javascript">
       var m = new window.HermessengerEncrypted({
@@ -48,7 +47,6 @@
         data: "<%=@encrypted_data%>"
       })
     </script>
-
 
 
 
