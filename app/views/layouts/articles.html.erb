@@ -37,6 +37,9 @@
     <div class="page" id="main-page">
     </div>
 
+    <script src="//dev.chaskiq.io/packs/embed.js?<%=Time.now%>"></script>
+
+
     <script type="text/javascript">
       var m = new window.HermessengerEncrypted({
         domain:  '<%=@h[:http] +request.env["HTTP_HOST"]%>',
@@ -45,6 +48,7 @@
         data: "<%=@encrypted_data%>"
       })
     </script>
+
 
 
 
