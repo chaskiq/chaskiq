@@ -1,6 +1,6 @@
 export const ARTICLE_SETTINGS = `
-  query HelpCenter($domain: String!){
-    helpCenter(domain: $domain) {
+  query HelpCenter($domain: String!, $lang: String){
+    helpCenter(domain: $domain, lang: $lang) {
       id
       color
       credits
@@ -20,8 +20,8 @@ export const ARTICLE_SETTINGS = `
 `;
 
 export const ARTICLES = `
-  query HelpCenter($domain: String!, $page: Int!, $per: Int){
-    helpCenter(domain: $domain) {
+  query HelpCenter($domain: String!, $page: Int!, $per: Int, $lang: String){
+    helpCenter(domain: $domain, lang: $lang) {
       articles(page: $page, per: $per){
         collection {
           id
@@ -46,9 +46,33 @@ export const ARTICLES = `
   }
 `;
 
+export const SEARCH_ARTICLES = `
+  query HelpCenter($domain: String!, $page: Int!, $per: Int, $lang: String){
+    helpCenter(domain: $domain, lang: $lang) {
+      search(page: $page, per: $per){
+        id
+        title
+        slug
+        content 
+        state
+        author{
+          email
+          id
+          name
+        } 
+        collection{
+          slug
+          title
+          id
+        }
+      }
+    }
+  }
+`;
+
 export const ARTICLES_UNCATEGORIZED = `
-  query HelpCenter($domain: String!, $page: Int!, $per: Int){
-    helpCenter(domain: $domain) {
+  query HelpCenter($domain: String!, $page: Int!, $per: Int, $lang: String){
+    helpCenter(domain: $domain, lang: $lang) {
       articlesUncategorized(page: $page, per: $per){
         collection {
           id
@@ -73,8 +97,8 @@ export const ARTICLES_UNCATEGORIZED = `
 `;
 
 export const ARTICLE = `
-  query HelpCenter($domain: String!, $id: String!){
-    helpCenter(domain: $domain) {
+  query HelpCenter($domain: String!, $id: String!, $lang: String){
+    helpCenter(domain: $domain, lang: $lang) {
       article(id: $id){
         id
         title
@@ -103,8 +127,8 @@ export const ARTICLE = `
 
 
 export const ARTICLE_COLLECTIONS = `
-  query ArticleCollections($domain: String!){
-    helpCenter(domain: $domain){
+  query ArticleCollections($domain: String!, $lang: String){
+    helpCenter(domain: $domain, lang: $lang){
       collections {
         slug
         id
@@ -116,8 +140,8 @@ export const ARTICLE_COLLECTIONS = `
 `;
 
 export const ARTICLE_COLLECTION = `
-  query ArticleCollections($domain: String!, $id: String!){
-    helpCenter(domain: $domain){
+  query ArticleCollections($domain: String!, $id: String!, $lang: String){
+    helpCenter(domain: $domain, lang: $lang){
       collection(id: $id) {
         id
         title
@@ -128,8 +152,8 @@ export const ARTICLE_COLLECTION = `
 `;
 
 export const ARTICLE_COLLECTION_WITH_SECTIONS = `
-  query ArticleCollections($domain: String!, $id: String!){
-    helpCenter(domain: $domain){
+  query ArticleCollections($domain: String!, $id: String!, $lang: String){
+    helpCenter(domain: $domain, lang: $lang){
       collection(id: $id) {
         id
         title

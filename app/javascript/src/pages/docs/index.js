@@ -25,13 +25,14 @@ import {
   ListItemAvatar,
   ListItemText,
   Avatar,
-  Box
+  Box,
+  Menu,
+  MenuItem
 } from '@material-ui/core';
 
+import LanguageIcon from '@material-ui/icons/Language';
 
-import { makeStyles } from '@material-ui/core/styles';
-
-import { withStyles, createMuiTheme, MuiThemeProvider } from '@material-ui/core/styles';
+import { makeStyles, withStyles, createMuiTheme, MuiThemeProvider } from '@material-ui/core/styles';
 
 import MenuIcon from '@material-ui/icons/Menu';
 import LaunchIcon from '@material-ui/icons/Launch';
@@ -247,6 +248,7 @@ const LinkRouter = React.forwardRef((props, ref) => (
 ));
 
 
+
 function CustomizedInputBase() {
   const classes = useStyles();
 
@@ -299,14 +301,14 @@ export default function Docs() {
         fontSize: 26,
         letterSpacing: 0.5,
       },
-
+  
       h4: {
         fontFamily: "\"Open Sans\", \"Helvetica\", \"Arial\", sans-serif",
         fontWeight: 'bold',
         fontSize: '2.5em',
         letterSpacing: 0.5,
       },
-
+  
       h3: {
         fontFamily: "\"Open Sans\", \"Helvetica\", \"Arial\", sans-serif",
         fontWeight: 'bold',
@@ -485,16 +487,35 @@ export default function Docs() {
                     </Grid>
 
                     <Grid item>
-                      <Link
-                        className={classes.siteLink} 
-                        color={'primary'}
-                        onClick={(e)=> window.location = settings.website}>
-                        <LaunchIcon/>
-                        <Typography className={classes.siteLink} >
-                          {" Go to"} {settings.siteTitle}
-                        </Typography>
-                      </Link>
+
+                      <Grid 
+                        //alignItems={} 
+                        container
+                        //justifyContent={'space-between'}
+                        alignItems={'center'}
+                        //justifyItems={"self-start"}
+                        justify={'space-between'}>
+
+                        <Link
+                          className={classes.siteLink} 
+                          color={'primary'}
+                          onClick={(e)=> window.location = settings.website}>
+                          <LaunchIcon/>
+                          <Typography className={classes.siteLink} >
+                            {" Go to"} {settings.siteTitle}
+                          </Typography>
+                        </Link>
+                
+                        {
+                          settings.availableLanguages ? 
+                          <LongMenu languages={settings.availableLanguages}/> : null
+                        }
+                      </Grid>  
                     </Grid>
+
+
+
+
                   </Grid>
 
                   
@@ -642,7 +663,7 @@ function Article(props){
       justify="center"
       alignItems="baseline"
     >
-      <Grid item xs="12" sm="8">
+      <Grid item xs={12} sm={8}>
 
         {
           article ? 
@@ -731,7 +752,7 @@ function Collections(props){
                   {/* End hero unit */}
                   <Grid container spacing={4}>
                     {collections.map(card => (
-                      <Grid item key={card} xs={12} sm={12} md={4}>
+                      <Grid item key={card.id} xs={12} sm={12} md={4}>
                         <Card className={classes.card}>
 
                           {/*
@@ -859,11 +880,11 @@ function CollectionsWithSections({match}){
                 <Grid container alignItems={'center'} gutterTop className={classes.collectionMeta}>
 
                   <OverlapAvatars>
-                    <ul class="avatars">
+                    <ul className="avatars">
 
                       {
                         collections.meta.authors.map((o)=>{
-                          return <li class="avatars__item">
+                          return <li key={`authors-${o.id}`} className="avatars__item">
                                   <Tooltip title={o.display_name}>
                                     <Avatar
                                       alt={o.email}
@@ -876,15 +897,15 @@ function CollectionsWithSections({match}){
 
                       {
                         collections.meta.authors.length > 5 ?
-                          <li class="avatars__item">
-                            <span class="avatars__others">+3</span>
+                          <li className="avatars__item">
+                            <span className="avatars__others">+3</span>
                           </li> : null
                       }
                     
                     </ul>
                   </OverlapAvatars> 
                 
-                  <Typography variant="subtitle" gutterBottom>
+                  <Typography variant="subtitle1" gutterBottom>
                     {collections.meta.size} articles in this collection
                   </Typography>
 
@@ -893,7 +914,7 @@ function CollectionsWithSections({match}){
                 <Paper>
                   {
                     collections.baseArticles.map((article)=>(
-                      <ListItem divider>
+                      <ListItem divider key={`articles-${article.id}`}>
                         <ListItemText primary={
                           <div>
                             <RouterLink 
@@ -914,7 +935,7 @@ function CollectionsWithSections({match}){
                               />
                             </ListItemAvatar>
 
-                            <Typography variant={"subtitule"}>
+                            <Typography variant={"subtitle1"}>
                               written by <strong>{article.author.displayName}</strong>
                             </Typography>
                           </Grid>
@@ -927,13 +948,13 @@ function CollectionsWithSections({match}){
 
                 {
                   collections.sections.map((section)=>(
-                    <div style={{marginTop: '2em'}}>
+                    <div key={`sections-${section.id}`} style={{marginTop: '2em'}}>
 
                       <Typography variant="h4" gutterBottom>
                         {section.title}
                       </Typography>
 
-                      <Typography variant="subtitle" gutterBottom>
+                      <Typography variant="subtitle1" gutterBottom>
                         {section.articles.length} articles in this collection
                       </Typography>
 
@@ -942,7 +963,7 @@ function CollectionsWithSections({match}){
                         <List>
                           {
                             section.articles.map((article)=>(
-                                <ListItem divider>
+                                <ListItem divider key={`section-article-${article.id}`}>
                                   <ListItemText 
                                     primary={<div>
                                       <RouterLink 
@@ -963,7 +984,7 @@ function CollectionsWithSections({match}){
                                           />
                                         </ListItemAvatar>
 
-                                        <Typography variant={"subtitule"}>
+                                        <Typography variant={"subtitle1"}>
                                           written by <strong>{article.author.displayName}</strong>
                                         </Typography>
                                       </Grid>
@@ -991,4 +1012,54 @@ function CollectionsWithSections({match}){
       </Grid>
     
   )
+}
+
+const ITEM_HEIGHT = 48;
+
+function LongMenu({languages}) {
+  const classes = useStyles();
+
+  const [anchorEl, setAnchorEl] = React.useState(null);
+  const open = Boolean(anchorEl);
+
+  function handleClick(event) {
+    setAnchorEl(event.currentTarget);
+  }
+
+  function handleClose() {
+    setAnchorEl(null);
+  }
+
+  return (
+    <div>
+      <IconButton
+        aria-label="more"
+        aria-controls="long-menu"
+        aria-haspopup="true"
+        onClick={handleClick}
+      >
+        <LanguageIcon />
+      </IconButton>
+      <Menu
+        id="long-menu"
+        anchorEl={anchorEl}
+        keepMounted
+        open={open}
+        onClose={handleClose}
+        className={classes.siteLink}
+        PaperProps={{
+          style: {
+            maxHeight: ITEM_HEIGHT * 4.5,
+            width: 200,
+          },
+        }}
+      >
+        {languages.map(option => (
+          <MenuItem key={option} selected={option === 'Pyxis'} onClick={handleClose}>
+            {option}
+          </MenuItem>
+        ))}
+      </Menu>
+    </div>
+  );
 }

@@ -19,9 +19,11 @@ module Types
 
     field :help_center, Types::ArticleSettingsType, null: true, description: "help center entry point" do
       argument :domain, String, required: false
+      argument :lang, String, required: false , default_value: I18n.default_locale
     end
 
-    def help_center(domain:)
+    def help_center(domain:, lang:)
+      I18n.locale = lang
       ArticleSetting.find_by(subdomain: domain)
     end
 

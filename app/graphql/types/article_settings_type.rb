@@ -25,6 +25,15 @@ module Types
       object.translations.map(&:locale)
     end
 
+    field :search, [Types::ArticleType], null: true, description: "help center search" do
+      argument :lang, String, required: false , default_value: I18n.locale
+    end
+
+    def search(term:, lang: lang)
+      I18n.locale = lang
+      object.app.articles.search(term)
+    end
+
     def logo
       return "" unless object.logo_blob.present?
 
