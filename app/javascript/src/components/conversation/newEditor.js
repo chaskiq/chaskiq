@@ -50,7 +50,7 @@ import findEntities from 'Dante2/package/es/utils/find_entities'
 
 import Icons from 'Dante2/package/es/components/icons.js'
 import theme from './theme'
-import {ThemeProvider} from 'styled-components'
+import {ThemeProvider} from 'emotion-theming'
 import EditorContainer from './editorStyles'
 
 import Button from '@material-ui/core/Button'

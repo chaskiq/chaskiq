@@ -1,6 +1,10 @@
-import styled, {keyframes} from 'styled-components';
+import styled from '@emotion/styled';
+import { jsx, css, keyframes } from '@emotion/core'
+
 import React from 'react'
 export const mainColor = "#0a1a27"; //"#42a5f5";
+
+
 const rotate = keyframes`
   from {
     transform: rotate(-45deg);

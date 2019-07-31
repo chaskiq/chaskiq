@@ -47,9 +47,9 @@ export const ARTICLES = `
 `;
 
 export const SEARCH_ARTICLES = `
-  query HelpCenter($domain: String!, $page: Int!, $per: Int, $lang: String){
+  query HelpCenter($domain: String!, $page: Int!, $per: Int, $lang: String, $term: String!){
     helpCenter(domain: $domain, lang: $lang) {
-      search(page: $page, per: $per){
+      search(page: $page, per: $per, term: $term){
         id
         title
         slug

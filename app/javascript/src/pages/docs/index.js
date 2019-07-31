@@ -27,7 +27,9 @@ import {
   Avatar,
   Box,
   Menu,
-  MenuItem
+  MenuItem,
+  Fade,
+  Popper
 } from '@material-ui/core';
 
 import LanguageIcon from '@material-ui/icons/Language';
@@ -41,9 +43,15 @@ import DirectionsIcon from '@material-ui/icons/Directions';
 
 import gravatar from "../../shared/gravatar"
 
-import DanteArticle from './showArticle'
+import DraftRenderer from '../../components/conversation/draftRenderer'
+import EditorStyles from 'Dante2/package/es/styled/base'
+import theme from '../../components/conversation/theme'
+import {ThemeProvider} from 'emotion-theming'
 
-import styled from 'styled-components'
+
+import styled from '@emotion/styled'
+import {default as emotionStyled} from '@emotion/styled'
+
 import {Facebook, Twitter, LinkedIn} from './icons'
 import {
   BrowserRouter,
@@ -58,15 +66,22 @@ import {
   ARTICLE_SETTINGS,
   ARTICLE_COLLECTION_WITH_SECTIONS,
   ARTICLE_COLLECTIONS,
-  ARTICLE
+  ARTICLE,
+  SEARCH_ARTICLES
 } from '../../graphql/docsQueries'
+
+const NewEditorStyles = styled(EditorStyles)`
+  
+  font-size: 16px;
+`;
+
 
 const BlockContent = styled.div`
   display: flex;
   justify-content: center;
 `
-
-const OverlapAvatars = styled.div`
+//interference poc
+const OverlapAvatars = emotionStyled.div`
 
   margin-right: 1em;
 
@@ -232,6 +247,9 @@ const useStyles = makeStyles(theme => ({
 
   headerText: {
     color: theme.palette.primary.main
+  },
+  searchResults: {
+    width: '66%'
   }
 
 
@@ -250,42 +268,90 @@ const LinkRouter = React.forwardRef((props, ref) => (
 
 
 
-function CustomizedInputBase({lang}) {
+function CustomizedInputBase({lang, history}) {
   const classes = useStyles();
+
+  const [results, setResults] = React.useState([])
+  const [anchorEl, setAnchorEl] = React.useState(null);
+
+  const open = Boolean(anchorEl);
+  const id = open ? 'simple-popper' : undefined;
 
 
   function search(term){
     graphql(SEARCH_ARTICLES,{
+      domain: subdomain,
       term: term,
-      lang: lang
+      lang: lang,
+      page: 1
     },{
       success: (data)=>{
-        debugger
+        setResults(data.helpCenter.search)
       },
       error: ()=>{
-
+        debugger
       }
     })
+  }
+
+  function handleReturn(e) {
+    e.persist()
+    console.log(e.key)
+    if (e.key === "Enter") {
+      //e.preventDefault()
+      search(e.target.value)
+      setAnchorEl(anchorEl ? null : event.target);
+      return
+    }
+  }
+
+  function handleClose() {
+    setAnchorEl(null);
+  }
+
+  function handleClick(article){
+    history.push(`/${lang}/articles/${article.slug}`)
   }
 
 
   return (
     <Paper className={classes.root}>
-      <IconButton className={classes.iconButton} aria-label="Menu">
-        <MenuIcon />
-      </IconButton>
+      
       <InputBase
         className={classes.input}
         placeholder="Search here"
         inputProps={{ 'aria-label': 'Search here' }}
+        onKeyPress={handleReturn} 
       />
       <IconButton className={classes.iconButton} aria-label="Search">
         <SearchIcon />
       </IconButton>
-      <Divider className={classes.divider} />
-      <IconButton color="primary" className={classes.iconButton} aria-label="Directions">
-        <DirectionsIcon />
-      </IconButton>
+      
+      <Menu
+        id="simple-menu"
+        anchorEl={anchorEl}
+        keepMounted
+        classes={{
+          paper: classes.searchResults
+        }}
+        open={Boolean(anchorEl) && results.length > 0 }
+        onClose={handleClose}
+        variant={'selectedMenu'}
+        getContentAnchorEl={null}
+        anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
+        transformOrigin={{ vertical: "top", horizontal: "center" }}
+      >
+        {
+          results.map((o)=>(
+            <MenuItem 
+              key={o.id}
+              onClick={()=> handleClick(o) }>
+              {o.title}
+            </MenuItem>
+          ))
+        }
+      </Menu>
+
     </Paper>
   );
 }
@@ -559,15 +625,12 @@ function Docs(props) {
 
                           {
                             settings.availableLanguages ? 
-                           
-                              <Tooltip title={lang}>
                                 <LangMenu 
                                   languages={settings.availableLanguages}
                                   handleChange={handleLangChange}
                                   history={props.history}
                                   lang={lang}
                                 />
-                              </Tooltip>
                             : null
                           }
                         </Grid>  
@@ -590,7 +653,9 @@ function Docs(props) {
                       </Typography>
                     
 
-                      { CustomizedInputBase() }
+                      { <Route render={(props)=>(
+                        <CustomizedInputBase lang={lang} {...props}/>
+                      )}></Route> }
 
                     { /*settings.siteDescription ? 
                       <Typography variant="subtitle1" align="center" color="textSecondary" paragraph>
@@ -691,6 +756,7 @@ function Docs(props) {
 function Article(props){
   const [article, setArticle] = React.useState(null)
   const classes = useStyles();
+  const {lang} = props
 
   React.useEffect(()=>{
     getArticle()
@@ -757,7 +823,13 @@ function Article(props){
             </Box>
 
             <Box m={2}>
-              <DanteArticle article={article} />
+              <ThemeProvider theme={ theme }>
+                <NewEditorStyles>
+                  <DraftRenderer
+                    raw={JSON.parse(article.content.serialized_content)}
+                  />
+                </NewEditorStyles>
+              </ThemeProvider>
             </Box>
             
             
@@ -980,7 +1052,7 @@ function CollectionsWithSections({match, lang}){
                             <RouterLink 
                               className={classes.articleLink}
                               color={'primary'}
-                              to={`${lang}/articles/${article.slug}`}>
+                              to={`/${lang}/articles/${article.slug}`}>
                               {article.title}
                             </RouterLink>
 
@@ -1029,7 +1101,7 @@ function CollectionsWithSections({match, lang}){
                                       <RouterLink 
                                         color={'primary'}
                                         className={classes.articleLink}
-                                        to={`/articles/${article.slug}`}>
+                                        to={`/${lang}/articles/${article.slug}`}>
                                         {article.title}
                                       </RouterLink>
                                       
@@ -1104,7 +1176,10 @@ function LangMenu({languages, handleChange, lang, history}) {
         aria-haspopup="true"
         onClick={handleClick}
       >
-        <LanguageIcon className={classes.siteLink} />
+        <Tooltip title={lang}>
+          <LanguageIcon className={classes.siteLink} />
+        </Tooltip>
+
       </IconButton>
       <Menu
         id="long-menu"

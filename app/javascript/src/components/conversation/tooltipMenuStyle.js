@@ -1,4 +1,4 @@
-import styled from 'styled-components'
+import styled from '@emotion/styled'
 import {math, opacify} from 'polished'
 
 export const InlinetooltipWrapper = styled.div`
