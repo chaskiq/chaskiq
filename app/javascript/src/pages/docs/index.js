@@ -210,7 +210,8 @@ const useStyles = makeStyles(theme => ({
   },
   logoImage: {
     //width: '150px',
-    height: '73px'
+    maxWidth: '160px',
+    //height: '73px'
   },
   siteLink: {
     color: "#efe",
@@ -603,7 +604,11 @@ function Docs(props) {
                       justify={'space-between'}>
                         
                       <Grid item>
-                        <img src={settings.logo} className={classes.logoImage}/>
+                        <RouterLink to={`/${lang}`}>
+                        <img 
+                          src={settings.logo} 
+                          className={classes.logoImage}/>
+                        </RouterLink>
                       </Grid>
 
                       <Grid item>
