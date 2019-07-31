@@ -5,6 +5,14 @@
 import React, {Component} from 'react'
 import redraft from 'redraft'
 
+var Prism = require('prismjs');
+Prism.highlightAll();
+
+const handlePrismRenderer = (syntax, children)=>{
+  const code = children.map((o)=> o.flat() ).join("")
+  const formattedCode =  Prism.highlight(code, Prism.languages.javascript, 'javascript');
+  return {__html: formattedCode }
+}
 
 const styles = {
   code: {
@@ -36,7 +44,7 @@ const renderers = {
     BOLD: (children, { key }) => <strong key={key}>{children}</strong>,
     ITALIC: (children, { key }) => <em key={key}>{children}</em>,
     UNDERLINE: (children, { key }) => <u key={key}>{children}</u>,
-    CODE: (children, { key }) => <span key={key} style={styles.code}>{children}</span>,
+    //CODE: (children, { key }) => <span key={key} dangerouslySetInnerHTML={handlePrismRenderer(children)} />,
   },
   /**
    * Blocks receive children and depth
@@ -60,11 +68,13 @@ const renderers = {
     'header-one': (children, { keys }) => <h1 key={keys[0]} className="graf graf--h2">{children}</h1>,
     'header-two': (children, { keys }) => <h2 key={keys[0]} className="graf graf--h3">{children}</h2>,
     // You can also access the original keys of the blocks
-    'code-block': (children, { keys }) => <pre className="graf graf--code" 
-                                                style={styles.codeBlock} 
-                                                key={keys[0]}>
-                                                {addBreaklines(children)}
-                                          </pre>,
+    'code-block': (children, { keys, data }) => {
+      return <pre className="graf graf--code" 
+                  //style={styles.codeBlock} 
+                  key={keys[0]} 
+                  dangerouslySetInnerHTML={handlePrismRenderer(data.syntax, children)}>
+                  {/*addBreaklines(children)*/}
+            </pre>},
     // or depth for nested lists
     'unordered-list-item': (children, { depth, keys }) => <ul key={keys[keys.length - 1]} className={`ul-level-${depth}`}>
                                                             {children.map(child => <li className="graf graf--insertunorderedlist">
