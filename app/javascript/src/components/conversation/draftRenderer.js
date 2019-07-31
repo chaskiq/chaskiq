@@ -57,8 +57,8 @@ const renderers = {
                                           className="graf graf--blockquote">
                                 {addBreaklines(children)}
                               </blockquote>,
-    'header-one': (children, { keys }) => <h1 key={keys[0]} className="graf graf--h2">{child}</h1>,
-    'header-two': (children, { keys }) => <h2 key={keys[0]} className="graf graf--h3">{child}</h2>,
+    'header-one': (children, { keys }) => <h1 key={keys[0]} className="graf graf--h2">{children}</h1>,
+    'header-two': (children, { keys }) => <h2 key={keys[0]} className="graf graf--h3">{children}</h2>,
     // You can also access the original keys of the blocks
     'code-block': (children, { keys }) => <pre className="graf graf--code" 
                                                 style={styles.codeBlock} 
