@@ -65,19 +65,19 @@ const save_handler = (context, content, cb)=>{
     blockToHTML: (block, oo) => {
      
       if (block.type === "unstyled"){
-        return <p class="graf graf--p"/>
+        return <p className="graf graf--p"/>
       }
       if (block.type === "header-one"){
-        return <h1 class="graf graf--h2"/>
+        return <h1 className="graf graf--h2"/>
       }
       if (block.type === "header-two"){
-        return <h2 class="graf graf--h3"/>
+        return <h2 className="graf graf--h3"/>
       }
       if (block.type === "header-three"){
-        return <h3 class="graf graf--h4"/>
+        return <h3 className="graf graf--h4"/>
       }
       if (block.type === "blockquote"){
-        return <blockquote class="graf graf--blockquote"/>
+        return <blockquote className="graf graf--blockquote"/>
       }
       if (block.type === "button" || block.type === "unsubscribe_button"){
         const {href, buttonStyle, containerStyle, label} = block.data
