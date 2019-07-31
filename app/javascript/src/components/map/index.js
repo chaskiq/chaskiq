@@ -1,6 +1,6 @@
 import React from 'react'
 import mapboxgl from 'mapbox-gl';
-import styled from 'styled-components'
+import styled from '@emotion/styled'
 import {isEmpty} from 'lodash'
 const TOKEN = "pk.eyJ1IjoibWljaGVsc29uIiwiYSI6ImNpbzRpNnh3eDAxaTZ3M2tqamg1NGQ4dWsifQ.rELrEMloUCCMcu07f51Spg"
 

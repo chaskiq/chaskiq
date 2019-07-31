@@ -1,5 +1,5 @@
 import React, {Component} from 'react'
-import styled from 'styled-components'
+import styled from '@emotion/styled'
 import Simmer from 'simmerjs'
 //import TourEditor from './tourEditor'
 import TourEditor from './tourEditor2'

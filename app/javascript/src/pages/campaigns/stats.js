@@ -2,7 +2,7 @@ import React, {Component} from "react"
 import axios from "axios"
 import Moment from 'react-moment';
 import CampaignChart from "./charts.js"
-import styled from 'styled-components'
+import styled from '@emotion/styled'
 import graphql from '../../graphql/client'
 import {CAMPAIGN_METRICS} from '../../graphql/queries'
 import Badge from '@material-ui/core/Badge';

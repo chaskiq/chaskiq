@@ -4,7 +4,7 @@ import { Editor } from 'slate-react'
 import { Value } from 'slate'
 import Plain from 'slate-plain-serializer'
 import Html from 'slate-html-serializer'
-import styled from "styled-components"
+import styled from "@emotion/styled"
 
 const EditorContainer = styled.div`
     //position: absolute;

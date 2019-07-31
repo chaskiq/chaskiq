@@ -5,7 +5,7 @@ import {
 } from 'react-router-dom'
 import ContentWrapper from '../components/ContentWrapper';
 import PageTitle from '../components/PageTitle';
-import styled from 'styled-components'
+import styled from '@emotion/styled'
 import axios from 'axios'
 import serialize from 'form-serialize'
 import {

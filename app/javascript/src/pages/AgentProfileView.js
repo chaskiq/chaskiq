@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom'
 import { connect } from 'react-redux'
 import UserData from '../components/UserData'
-import styled from 'styled-components'
+import styled from '@emotion/styled'
 import {isEmpty} from 'lodash'
 
 import graphql from '../graphql/client'

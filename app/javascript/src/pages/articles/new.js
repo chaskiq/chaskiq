@@ -62,7 +62,7 @@ import GestureIcon from '@material-ui/icons/Gesture'
 import CheckCircleIcon from '@material-ui/icons/CheckCircle'
 import ArrowDropDownIcon from '@material-ui/icons/ArrowDropDown'
 
-import styled from 'styled-components'
+import styled from '@emotion/styled'
 import {setCurrentPage} from '../../actions/navigation'
 import ScrollableTabsButtonForce from '../../components/scrollingTabs'
 import langs from '../../shared/langsOptions'

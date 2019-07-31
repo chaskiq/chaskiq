@@ -7,8 +7,8 @@ import {
   Switch,
   withRouter
 } from 'react-router-dom'
-import styled from "styled-components"
-import {ThemeProvider} from 'styled-components'
+import styled from '@emotion/styled'
+import {ThemeProvider} from 'emotion-theming'
 import gravatar from "../shared/gravatar"
 import Moment from 'react-moment';
 import Avatar from '@material-ui/core/Avatar';
