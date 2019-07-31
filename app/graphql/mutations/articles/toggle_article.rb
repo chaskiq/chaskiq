@@ -4,7 +4,7 @@ module Mutations
       
       field :article, Types::ArticleType, null: false
       argument :app_key, String, required: true
-      argument :id, Integer, required: true
+      argument :id, String, required: true
       argument :state, String, required: true
 
       # TODO: define resolve method
