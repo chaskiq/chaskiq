@@ -739,17 +739,26 @@ function Docs(props) {
               alignItems="baseline"
 
             >
-              <Link href={`http://facebook.com/${settings.facebook}`}>
-                <Facebook/>
-              </Link>
-
-              <Link href={`http://twitter.com/${settings.twitter}`}>
-                <Twitter/>
-              </Link>
-
-              <Link href={`http://instagram.com/${settings.linkedin}`}>
-                <LinkedIn/>
-              </Link>
+              {
+                settings.facebook ?
+                <Link href={`http://facebook.com/${settings.facebook}`}>
+                  <Facebook/>
+                </Link> : null
+              }
+              
+              {
+                settings.twitter ?
+                <Link href={`http://twitter.com/${settings.twitter}`}>
+                  <Twitter/>
+                </Link> : null
+              }
+              
+              {
+                settings.linkedin ?
+                  <Link href={`http://instagram.com/${settings.linkedin}`}>
+                    <LinkedIn/>
+                  </Link> : null 
+              }
 
             </Grid>
               
