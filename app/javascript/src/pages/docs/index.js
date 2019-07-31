@@ -96,15 +96,15 @@ const OverlapAvatars = emotionStyled.div`
     width: 24px ; /* Forces flex items to be smaller than their contents. */
   }
 
-  li.avatars__item:nth-child( 1 ) { z-index: 9 ; }
-  li.avatars__item:nth-child( 2 ) { z-index: 8 ; }
-  li.avatars__item:nth-child( 3 ) { z-index: 7 ; }
-  li.avatars__item:nth-child( 4 ) { z-index: 6 ; }
-  li.avatars__item:nth-child( 5 ) { z-index: 5 ; }
-  li.avatars__item:nth-child( 6 ) { z-index: 4 ; }
-  li.avatars__item:nth-child( 7 ) { z-index: 3 ; }
-  li.avatars__item:nth-child( 8 ) { z-index: 2 ; }
-  li.avatars__item:nth-child( 9 ) { z-index: 1 ; }
+  li.avatars__item:nth-of-type( 1 ) { z-index: 9 ; }
+  li.avatars__item:nth-of-type( 2 ) { z-index: 8 ; }
+  li.avatars__item:nth-of-type( 3 ) { z-index: 7 ; }
+  li.avatars__item:nth-of-type( 4 ) { z-index: 6 ; }
+  li.avatars__item:nth-of-type( 5 ) { z-index: 5 ; }
+  li.avatars__item:nth-of-type( 6 ) { z-index: 4 ; }
+  li.avatars__item:nth-of-type( 7 ) { z-index: 3 ; }
+  li.avatars__item:nth-of-type( 8 ) { z-index: 2 ; }
+  li.avatars__item:nth-of-type( 9 ) { z-index: 1 ; }
 
   img.avatars__img,
   span.avatars__initials,
@@ -695,7 +695,7 @@ function Docs(props) {
                   <Switch>
 
                       <Route exact path={`${props.match.url}/articles/:id`} render={(props)=>(
-                        <Article {...props}  />
+                        <Article {...props} lang={lang} />
                       )}/>
 
                       <Route exact path={`${props.match.url}/collections/:id`} render={(props)=>(
@@ -766,7 +766,7 @@ function Article(props){
     graphql(ARTICLE, {
       domain: subdomain,
       id: props.match.params.id,
-      lang: props.lang
+      lang: lang
     }, {
       success: (data)=>{
         setArticle(data.helpCenter.article)
@@ -795,18 +795,18 @@ function Article(props){
             <Breadcrumbs aria-label="Breadcrumb">
           
               <LinkRouter className={classes.breacrumbLink} to={`/${lang}`}>
-                Articles
+                Collections
               </LinkRouter>
 
               {
                 article.collection ?
-                  <LinkRouter className={classes.breacrumbLink} to={`${lang}/collections/${article.collection.slug}`}>
+                  <LinkRouter className={classes.breacrumbLink} to={`/${lang}/collections/${article.collection.slug}`}>
                     {article.collection.title}
                   </LinkRouter> : null 
               }
       
               <Typography>
-                  {article.title}
+                {article.title}
               </Typography>
     
             </Breadcrumbs>
@@ -979,7 +979,7 @@ function CollectionsWithSections({match, lang}){
           {
             collections ? 
           
-            <Grid item xs="12" sm="8">
+            <Grid item xs={"12"} sm={"8"}>
 
               <Breadcrumbs className={classes.breadCrumbs}  
                 aria-label="Breadcrumb">
@@ -994,149 +994,150 @@ function CollectionsWithSections({match, lang}){
 
               </Breadcrumbs>
 
-              <Paper spacing={5} 
-                elevation={0}
-                className={classes.floorPaper}>
+              <Box mb={4}>
+                <Paper spacing={5} 
+                  elevation={1}
+                  className={classes.floorPaper}>
 
-                <Typography variant="h3" gutterBottom gutterTop>
-                  {collections.title}
-                </Typography>
-                
-                <Typography variant="subtitle1" gutterBottom>
-                  {collections.description}
-                </Typography>
-
-                <Divider/>
-
-                <Grid container alignItems={'center'} gutterTop className={classes.collectionMeta}>
-
-                  <OverlapAvatars>
-                    <ul className="avatars">
-
-                      {
-                        collections.meta.authors ? 
-                        collections.meta.authors.map((o)=>{
-                          return <li key={`authors-${o.id}`} className="avatars__item">
-                                  <Tooltip title={o.display_name}>
-                                    <Avatar
-                                      alt={o.email}
-                                      src={gravatar(o.email)}
-                                    />
-                                  </Tooltip>
-                                </li> 
-                        }) : null
-                      }
-
-                      {
-                        collections.meta.authors.length > 5 ?
-                          <li className="avatars__item">
-                            <span className="avatars__others">+3</span>
-                          </li> : null
-                      }
-                    
-                    </ul>
-                  </OverlapAvatars> 
-                
+                  <Typography variant="h3" gutterBottom>
+                    {collections.title}
+                  </Typography>
+                  
                   <Typography variant="subtitle1" gutterBottom>
-                    {collections.meta.size} articles in this collection
+                    {collections.description}
                   </Typography>
 
-                </Grid>
+                  <Divider/>
 
-                <Paper>
+                  <Grid container alignItems={'center'} className={classes.collectionMeta}>
+
+                    <OverlapAvatars>
+                      <ul className="avatars">
+
+                        {
+                          collections.meta.authors ? 
+                          collections.meta.authors.map((o)=>{
+                            return <li key={`authors-${o.id}`} className="avatars__item">
+                                    <Tooltip title={o.display_name}>
+                                      <Avatar
+                                        alt={o.email}
+                                        src={gravatar(o.email)}
+                                      />
+                                    </Tooltip>
+                                  </li> 
+                          }) : null
+                        }
+
+                        {
+                          collections.meta.authors.length > 5 ?
+                            <li className="avatars__item">
+                              <span className="avatars__others">+3</span>
+                            </li> : null
+                        }
+                      
+                      </ul>
+                    </OverlapAvatars> 
+                  
+                    <Typography variant="subtitle1" gutterBottom>
+                      {collections.meta.size} articles in this collection
+                    </Typography>
+
+                  </Grid>
+
+                  <Paper>
+                    {
+                      collections.baseArticles.map((article)=>(
+                        <ListItem divider key={`articles-${article.id}`}>
+                          <ListItemText primary={
+                            <div>
+                              <RouterLink 
+                                className={classes.articleLink}
+                                color={'primary'}
+                                to={`/${lang}/articles/${article.slug}`}>
+                                {article.title}
+                              </RouterLink>
+
+                              <Grid container
+                              className={classes.authorContainer} 
+                              alignItems={'center'}
+                            >
+                              <ListItemAvatar>
+                                <Avatar
+                                  alt={article.author.email}
+                                  src={gravatar(article.author.email)}
+                                />
+                              </ListItemAvatar>
+
+                              <Typography variant={"subtitle1"}>
+                                written by <strong>{article.author.displayName}</strong>
+                              </Typography>
+                            </Grid>
+                            </div>
+                          }/>
+                        </ListItem>
+                      ))
+                    }
+                  </Paper>
+
                   {
-                    collections.baseArticles.map((article)=>(
-                      <ListItem divider key={`articles-${article.id}`}>
-                        <ListItemText primary={
-                          <div>
-                            <RouterLink 
-                              className={classes.articleLink}
-                              color={'primary'}
-                              to={`/${lang}/articles/${article.slug}`}>
-                              {article.title}
-                            </RouterLink>
+                    collections.sections.map((section)=>(
+                      <div key={`sections-${section.id}`} style={{marginTop: '2em'}}>
 
-                            <Grid container
-                            className={classes.authorContainer} 
-                            alignItems={'center'}
-                          >
-                            <ListItemAvatar>
-                              <Avatar
-                                alt={article.author.email}
-                                src={gravatar(article.author.email)}
-                              />
-                            </ListItemAvatar>
+                        <Typography variant="h4" gutterBottom>
+                          {section.title}
+                        </Typography>
 
-                            <Typography variant={"subtitle1"}>
-                              written by <strong>{article.author.displayName}</strong>
-                            </Typography>
-                          </Grid>
-                          </div>
-                        }/>
-                      </ListItem>
+                        <Typography variant="subtitle1" gutterBottom>
+                          {section.articles.length} articles in this collection
+                        </Typography>
+
+                        <Paper>
+
+                          <List>
+                            {
+                              section.articles.map((article)=>(
+                                  <ListItem divider key={`section-article-${article.id}`}>
+                                    <ListItemText 
+                                      primary={<div>
+                                        <RouterLink 
+                                          color={'primary'}
+                                          className={classes.articleLink}
+                                          to={`/${lang}/articles/${article.slug}`}>
+                                          {article.title}
+                                        </RouterLink>
+                                        
+                                        <Grid container
+                                          className={classes.authorContainer} 
+                                          alignItems={'center'}
+                                        >
+                                          <ListItemAvatar>
+                                            <Avatar
+                                              alt={article.author.displayName}
+                                              src={gravatar(article.author.email)}
+                                            />
+                                          </ListItemAvatar>
+
+                                          <Typography variant={"subtitle1"}>
+                                            written by <strong>{article.author.displayName}</strong>
+                                          </Typography>
+                                        </Grid>
+
+                                      </div>
+                                    }
+                                      secondary={article.description}
+                                    />
+                                  </ListItem>
+                              ))
+                            }
+                          </List>
+                        
+                        </Paper>
+                      
+                      </div>
                     ))
                   }
                 </Paper>
-
-                {
-                  collections.sections.map((section)=>(
-                    <div key={`sections-${section.id}`} style={{marginTop: '2em'}}>
-
-                      <Typography variant="h4" gutterBottom>
-                        {section.title}
-                      </Typography>
-
-                      <Typography variant="subtitle1" gutterBottom>
-                        {section.articles.length} articles in this collection
-                      </Typography>
-
-                      <Paper>
-
-                        <List>
-                          {
-                            section.articles.map((article)=>(
-                                <ListItem divider key={`section-article-${article.id}`}>
-                                  <ListItemText 
-                                    primary={<div>
-                                      <RouterLink 
-                                        color={'primary'}
-                                        className={classes.articleLink}
-                                        to={`/${lang}/articles/${article.slug}`}>
-                                        {article.title}
-                                      </RouterLink>
-                                      
-                                      <Grid container
-                                        className={classes.authorContainer} 
-                                        alignItems={'center'}
-                                      >
-                                        <ListItemAvatar>
-                                          <Avatar
-                                            alt={article.author.displayName}
-                                            src={gravatar(article.author.email)}
-                                          />
-                                        </ListItemAvatar>
-
-                                        <Typography variant={"subtitle1"}>
-                                          written by <strong>{article.author.displayName}</strong>
-                                        </Typography>
-                                      </Grid>
-
-                                    </div>
-                                  }
-                                    secondary={article.description}
-                                  />
-                                </ListItem>
-                            ))
-                          }
-                        </List>
-                      
-                      </Paper>
-                    
-                    </div>
-                  ))
-                }
-              </Paper>
-            
+              </Box> 
             </Grid> : null
 
           }
