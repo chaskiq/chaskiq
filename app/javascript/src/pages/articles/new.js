@@ -17,7 +17,9 @@ import {
         Checkbox,
         FormControlLabel,
         Switch,
-        ButtonGroup
+        ButtonGroup,
+        Box,
+        Grid
       } from '@material-ui/core';
 
 import gravatar from '../../shared/gravatar'
@@ -67,7 +69,9 @@ import {setCurrentPage} from '../../actions/navigation'
 import ScrollableTabsButtonForce from '../../components/scrollingTabs'
 import langs from '../../shared/langsOptions'
 
+import {errorMessage, successMessage} from '../../actions/status_messages'
 
+window.successMessage = successMessage
 
 const options = [
   {
@@ -91,10 +95,11 @@ const styles = theme => ({
     marginRight: theme.spacing(1),
   },
   paper: {
-    margin: '9em',
+    /*margin: '9em',
     padding: '1em',
     marginTop: '1.5em',
-    paddingBottom: '6em'
+    paddingBottom: '6em'*/
+    margin: theme.spacing(2)
   }
 });
 
@@ -137,11 +142,15 @@ class ArticlesNew extends Component {
     // maybe do this ony with content and submit 
     //checkbox and agent directly and independently from content
     if(prevState.content != this.state.content){
-      this.setState({
-        changesAvailable: true
-      })
+      this.registerChange()
     }
 
+  }
+
+  registerChange = ()=>{
+    this.setState({
+      changesAvailable: true
+    })
   }
 
   getCollections = ()=>{
@@ -204,34 +213,44 @@ class ArticlesNew extends Component {
         this.setState({
           article: article,
           changesAvailable: false
-        }, this.updateUrlFromNew)
+        }, ()=>{
+          this.updateUrlFromNew()
+          this.updatedMessage()
+        })
       },
       error: ()=>{
-
+        this.errorMessage()
       }
     })
   }
 
   editArticle = ()=>{
+  
     graphql(EDIT_ARTICLE, {
       appKey: this.props.app.key,
       title: this.titleRef.value,
+      description: this.descriptionRef.value,
       id: this.state.article.id,
       content: this.state.content,
       lang: this.state.lang
     }, {
       success: (data)=>{
-        const article = data.createArticle.article
+        const article = data.editArticle.article
         this.setState({
           article: article,
           changesAvailable: false
+        }, ()=>{
+          this.updatedMessage()
         })
       },
-      error: ()=>{
-
+      error: (e)=>{
+        this.errorMessage()
       }
     })
   }
+
+  updatedMessage = ()=> {this.props.dispatch(successMessage("article updated"))}
+  errorMessage = ()=> {this.props.dispatch(successMessage("article error on save"))}
 
   submitChanges = ()=>{
     console.log(this.state.article)
@@ -247,9 +266,14 @@ class ArticlesNew extends Component {
   }
 
   toggleButton = (clickHandler)=>{
-    return <ButtonGroup variant="contained" color="secondary">
+    const stateColor = this.state.article.state === "published" ? "primary" : "secondary"
+    return <ButtonGroup variant="outlined" color={stateColor}>
               <Button onClick={clickHandler}>
-               {this.state.article.state}
+               { 
+                 this.state.article.state === "published" ? 
+                   <CheckCircleIcon/> : <GestureIcon/> 
+                }
+                {this.state.article.state}
               </Button>
               <Button
                 color="primary"
@@ -265,17 +289,18 @@ class ArticlesNew extends Component {
   }
 
   togglePublishState = (state)=>{
-
     graphql(TOGGLE_ARTICLE,{
       appKey: this.props.app.key,
       id: this.state.article.id,
       state: state
     }, {
       success: (data)=>{
-        this.setState({article: data.toggleArticle.article})
+        this.setState({article: data.toggleArticle.article}, ()=>{
+          this.updatedMessage()
+        })
       }, 
       error: ()=>{
-        debugger
+        this.errorMessage()
       }
     })
   }
@@ -289,10 +314,12 @@ class ArticlesNew extends Component {
       success: (data)=>{
         this.setState({
           article: data.assignAuthor.article
+        }, ()=>{
+          this.updatedMessage()
         })
       },
       error: ()=>{
-
+        this.errorMessage()
       }
     })
   }
@@ -306,9 +333,13 @@ class ArticlesNew extends Component {
       success: (data)=>{
         this.setState({
           article: data.changeCollectionArticle.article
+        }, ()=>{
+          this.updatedMessage()
         })
       },
-      error: ()=>{}
+      error: ()=>{
+        this.errorMessage()
+      }
     })
   }
 
@@ -353,173 +384,188 @@ class ArticlesNew extends Component {
     }, ()=>this.getArticle(this.state.article.id))
   }
 
+  handleInputChange = (e)=>{
+    this.registerChange()
+  }
+
 
   render() {
     const {classes} = this.props
     return (
-       <React.Fragment>
 
-       <Paper 
-         square={true}
-         elevation={1}
-         className={classes.paper}>
+       <Grid container justify={"center"} spacing={4}>
+        <Grid item xs={12} sm={10}>
 
-       
-        {
-          !this.state.loading ? 
+        <Paper 
+          square={true}
+          elevation={1}
+          className={classes.paper}
+          >
+          <Box m={2}>
+          
+            <Box mb={2}>
+                <ScrollableTabsButtonForce 
+                  //tabs={this.props.settings.availableLanguages} 
+                  tabs={this.props.settings.availableLanguages.map((o)=> langs.find((lang)=> lang.value === o) )} 
+                  changeHandler={(index)=> this.handleLangChange(this.props.settings.availableLanguages[index])}
+                />
+              </Box>
+          
+            {
+              !this.state.loading ? 
 
-          <React.Fragment>
+              <React.Fragment>
+                
 
-              <ScrollableTabsButtonForce 
-              //tabs={this.props.settings.availableLanguages} 
-              tabs={this.props.settings.availableLanguages.map((o)=> langs.find((lang)=> lang.value === o) )} 
-              changeHandler={(index)=> this.handleLangChange(this.props.settings.availableLanguages[index])}
-            />
+                <div style={{
+                  display: 'flex',
+                  justifyItems: 'self-end',
+                  justifyContent: 'space-between'
+                }}>
 
-            <div style={{
-              display: 'flex',
-              justifyItems: 'self-end',
-              justifyContent: 'space-between'
-             }}>
+                  <Button
+                    variant="contained"
+                    onClick={this.submitChanges}
+                    disabled={!this.state.changesAvailable}
+                    color={'primary'}>
+                    Save
+                  </Button>
 
-              <Button
-                variant="contained"
-                onClick={this.submitChanges}
-                disabled={!this.state.changesAvailable}
-                color={'primary'}>
-                Save
-              </Button>
-
-              <SelectMenu options={options} 
-                handleClick={(e)=> this.togglePublishState(e.state) } 
-                toggleButton={this.toggleButton}
-                selected={this.state.article.state}
-              />
-              
-              {/*<FormControlLabel
-                control={
-                  <Switch
-                    defaultChecked={this.state.article.state === "published" }
-                    //onChange={this.handleHiddenChange}
-                    value="hidden"
-                    color="primary"
-                    inputRef={(ref)=> this.switch_ref = ref }
+                  <SelectMenu options={options} 
+                    handleClick={(e)=> this.togglePublishState(e.state) } 
+                    toggleButton={this.toggleButton}
+                    selected={this.state.article.state}
                   />
-                }
-                label={this.state.article.state}
-              />*/}
+                  
+                  {/*<FormControlLabel
+                    control={
+                      <Switch
+                        defaultChecked={this.state.article.state === "published" }
+                        //onChange={this.handleHiddenChange}
+                        value="hidden"
+                        color="primary"
+                        inputRef={(ref)=> this.switch_ref = ref }
+                      />
+                    }
+                    label={this.state.article.state}
+                  />*/}
 
-            </div>
+                </div>
 
-            <TextField
-              id="article-title"
-              //label="Name"
-              placeholder={"Type articles's title"}
-              inputProps={{
-                  style: {
-                    fontSize: "2.4em"
+                <TextField
+                  id="article-title"
+                  //label="Name"
+                  placeholder={"Type articles's title"}
+                  inputProps={{
+                      style: {
+                        fontSize: "2.4em"
+                      }
+                    }
                   }
-                }
-              }
-              //helperText="Full width!"
-              fullWidth
-              inputRef={ref => { this.titleRef = ref; }}
-              defaultValue={this.state.article.title}
-              margin="normal"
+                  //helperText="Full width!"
+                  fullWidth
+                  inputRef={ref => { this.titleRef = ref; }}
+                  defaultValue={this.state.article.title}
+                  margin="normal"
+                  onChange={this.handleInputChange}
+                />
+
+
+                <TextField
+                  id="article-description"
+                  //label="Description"
+                  placeholder={"Describe your article to help it get found"}
+                  //helperText="Full width!"
+                  fullWidth
+                  multiline
+                  inputRef={ref => { this.descriptionRef = ref; }}
+                  defaultValue={this.state.article.description}
+                  margin="normal"
+                  onChange={this.handleInputChange}
+                />
+
+              </React.Fragment>
+
+              : null 
+            }
+
+
+            {
+              !this.state.loading && this.state.article.author ? 
+              <div style={{
+                display: 'flex', 
+                alignItems: 'center',
+                marginTop: '2em',
+                marginBottom: '2em'
+              }}>
+                
+                <Avatar 
+                  src={gravatar( this.state.article.author.email )}
+                />
+
+                <strong style={{marginLeft: '9px', marginRight: '9px'}}>
+                  written by
+                </strong>
+
+                <div style={{ width: '300px'}}>
+                  <SuggestSelect 
+                    name={"author"}
+                    placeholder={"select author"}
+                    data={this.state.agents.map((o)=> ({ 
+                        label: o.email, 
+                        value: o.email 
+                      }) 
+                    )}
+                    handleSingleChange={this.handleAuthorchange }
+                    defaultData={this.state.article.author.email}
+                  />
+                </div>
+
+
+                <strong style={{marginLeft: '9px', marginRight: '9px'}}>
+                  In
+                </strong>
+
+                <div style={{ width: '200px'}}>
+                  <SuggestSelect 
+                    name={"collection"}
+                    placeholder={"select collection"}
+                    data={this.state.collections.map((o)=> ({ 
+                        label: o.title, 
+                        value: o.id 
+                      }) 
+                    )}
+                    handleSingleChange={ this.handleCollectionChange }
+
+                    defaultData={
+                      this.state.article.collection ? 
+                      this.state.article.collection.title ?  
+                      this.state.article.collection.title : '--missing translations --'
+                      : ""
+                    }
+                  />
+                </div>
+
+
+              </div>: null
+            }
+
+            <ArticleEditor 
+              article={this.state.article} 
+              data={this.props.data} 
+              app={this.props.app}
+              updateState={this.updateState}
+              loading={this.state.loading}
+              uploadHandler={this.uploadHandler}
             />
 
+          </Box>
 
-            <TextField
-              id="article-title"
-              //label="Description"
-              placeholder={"Describe your article to help it get found"}
-              //helperText="Full width!"
-              fullWidth
-              multiline
-              inputRef={ref => { this.descriptionRef = ref; }}
-              defaultValue={this.state.article.description}
-              margin="normal"
-            />
+        </Paper>
 
-          </React.Fragment>
-
-           : null 
-        }
-
-
-        {
-          !this.state.loading && this.state.article.author ? 
-          <div style={{
-            display: 'flex', 
-            alignItems: 'center',
-            marginTop: '2em',
-            marginBottom: '2em'
-          }}>
-            
-            <Avatar 
-              src={gravatar( this.state.article.author.email )}
-            />
-
-            <strong style={{marginLeft: '9px', marginRight: '9px'}}>
-              written by
-            </strong>
-
-            <div style={{ width: '300px'}}>
-              <SuggestSelect 
-                name={"author"}
-                placeholder={"select author"}
-                data={this.state.agents.map((o)=> ({ 
-                    label: o.email, 
-                    value: o.email 
-                  }) 
-                )}
-                handleSingleChange={this.handleAuthorchange }
-                defaultData={this.state.article.author.email}
-              />
-            </div>
-
-
-            <strong style={{marginLeft: '9px', marginRight: '9px'}}>
-              In
-            </strong>
-
-            <div style={{ width: '200px'}}>
-              <SuggestSelect 
-                name={"collection"}
-                placeholder={"select collection"}
-                data={this.state.collections.map((o)=> ({ 
-                    label: o.title, 
-                    value: o.id 
-                  }) 
-                )}
-                handleSingleChange={ this.handleCollectionChange }
-
-                defaultData={
-                  this.state.article.collection ? 
-                  this.state.article.collection.title ?  
-                  this.state.article.collection.title : '--missing translations --'
-                  : ""
-                }
-              />
-            </div>
-
-
-          </div>: null
-        }
-
-        <ArticleEditor 
-           article={this.state.article} 
-           data={this.props.data} 
-           app={this.props.app}
-           updateState={this.updateState}
-           loading={this.state.loading}
-           uploadHandler={this.uploadHandler}
-        />
-
-       </Paper>
-
+        </Grid>
         
-      </React.Fragment>
+      </Grid>
     );
   }
 }

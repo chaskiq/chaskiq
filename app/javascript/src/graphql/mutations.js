@@ -478,8 +478,8 @@ export const CREATE_ARTICLE = `
 `;
 
 export const EDIT_ARTICLE = `
-  mutation EditArticle($appKey: String!, $content: Json!, $id: String!, $title: String!, $lang: String){
-    editArticle(appKey: $appKey, content: $content, id: $id, title: $title, lang: $lang){
+  mutation EditArticle($appKey: String!, $content: Json!, $id: String!, $title: String!, $description: String!, $lang: String){
+    editArticle(appKey: $appKey, content: $content, id: $id, title: $title, description: $description, lang: $lang){
       article {
         id
         title
@@ -516,7 +516,7 @@ export const ARTICLE_BLOB_ATTACH = `
 `;
 
 export const TOGGLE_ARTICLE = `
-  mutation ToggleArticle($appKey: String!, $id: Int!, $state: String!){
+  mutation ToggleArticle($appKey: String!, $id: String!, $state: String!){
     toggleArticle(appKey: $appKey, id: $id, state: $state){
       article {
         id

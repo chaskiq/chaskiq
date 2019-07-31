@@ -43,6 +43,9 @@ class Article < ApplicationRecord
 
   accepts_nested_attributes_for :article_content
 
+  scope :published, ->{ where(state: "published").order(position: :asc) }
+  scope :drafts, ->{ where(state: "draft").order(position: :asc) }
+
   scope :without_section, ->{ where(article_section_id: nil).order(position: :asc) }
   scope :with_section, ->{ where.not(article_section_id: nil).order(position: :asc) }
   scope :without_collection, ->{ where(article_collection_id: nil).order(position: :asc) }

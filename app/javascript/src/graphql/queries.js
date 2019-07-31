@@ -484,6 +484,7 @@ export const ARTICLES = `
           slug
           content 
           state
+          description
           author{
             email
             id
@@ -511,6 +512,7 @@ export const ARTICLES_UNCATEGORIZED = `
           slug
           content 
           state
+          description
           author{
             email
             id
@@ -536,6 +538,7 @@ export const ARTICLE = `
         slug
         content
         state
+        description
         collection{
           slug
           title
@@ -576,6 +579,7 @@ export const ARTICLE_COLLECTION = `
       collection(id: $id, lang: $lang) {
         id
         title
+        slug
         description
       }
     }
@@ -587,9 +591,9 @@ export const ARTICLE_COLLECTION_WITH_SECTIONS = `
     app(key: $appKey){
       collection(id: $id, lang: $lang) {
         id
+        slug
         title
         description
-
         baseArticles{
           id
           title
@@ -600,6 +604,7 @@ export const ARTICLE_COLLECTION_WITH_SECTIONS = `
           }
         }
         sections{
+          slug
           id
           title
           description

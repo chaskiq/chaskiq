@@ -7,7 +7,8 @@ import {
   TextField,
   List,
   ListItem,
-  ListItemText
+  ListItemText,
+  Grid
 } from '@material-ui/core'
 import { withStyles } from '@material-ui/core/styles';
 
@@ -31,10 +32,10 @@ import {
 
 const styles = theme => ({
   paper: {
-    margin: '9em',
-    padding: '1em',
-    marginTop: '1.5em',
-    paddingBottom: '6em'
+    margin: theme.spacing(1),
+    padding: theme.spacing(1),
+    marginTop: theme.spacing(2),
+    paddingBottom: theme.spacing(4)
   },
   button: {
     margin: theme.spacing(1),
@@ -190,151 +191,159 @@ class Collections extends Component {
   render(){
     const {isOpen, editCollection, itemToDelete} = this.state
     const {classes} = this.props
-    return <Paper 
-         square={true}
-         elevation={1}
-         className={classes.paper}
-         >
+    return <Grid container justify={"center"} spacing={4}>
+      <Grid item xs={12} sm={10}>
+        <Paper 
+          square={true}
+          elevation={1}
+          className={classes.paper}
+          >
 
-           <Button 
-             className={classes.button}
-             variant="contained" color="primary"
-             onClick={this.displayDialog}>
-             new collection
-           </Button>
+            <Grid container
+            direction="row"
+            justify="flex-end"
+            alignItems="center">
+              <Button 
+                className={classes.button}
+                variant="contained" color="primary"
+                onClick={this.displayDialog}>
+                new collection
+              </Button>
+            </Grid>
 
-           <FormDialog 
-              open={isOpen}
-              //contentText={"lipsum"}
-              titleContent={"New Article Collection"}
-              formComponent={
-                <form ref="form">
+            <FormDialog 
+                open={isOpen}
+                //contentText={"lipsum"}
+                titleContent={"New Article Collection"}
+                formComponent={
+                  <form ref="form">
 
-                  <TextField
-                    id="collection-title"
-                    //label="Name"
-                    placeholder={"Type collection's title"}
-                    inputProps={{
-                        style: {
-                          fontSize: "1.4em"
+                    <TextField
+                      id="collection-title"
+                      //label="Name"
+                      placeholder={"Type collection's title"}
+                      inputProps={{
+                          style: {
+                            fontSize: "1.4em"
+                          }
                         }
                       }
-                    }
-                    //helperText="Full width!"
-                    fullWidth
-                    inputRef={ref => { this.titleRef = ref; }}
-                    defaultValue={ editCollection ? editCollection.title : null }
-                    margin="normal"
-                  />
+                      //helperText="Full width!"
+                      fullWidth
+                      inputRef={ref => { this.titleRef = ref; }}
+                      defaultValue={ editCollection ? editCollection.title : null }
+                      margin="normal"
+                    />
 
 
-                  <TextField
-                    id="collection-description"
-                    //label="Description"
-                    placeholder={"Describe your collection to help it get found"}
-                    //helperText="Full width!"
-                    fullWidth
-                    multiline
-                    inputRef={ref => { this.descriptionRef = ref; }}
-                    defaultValue={ editCollection ? editCollection.description : null }
-                    margin="normal"
-                  />
+                    <TextField
+                      id="collection-description"
+                      //label="Description"
+                      placeholder={"Describe your collection to help it get found"}
+                      //helperText="Full width!"
+                      fullWidth
+                      multiline
+                      inputRef={ref => { this.descriptionRef = ref; }}
+                      defaultValue={ editCollection ? editCollection.description : null }
+                      margin="normal"
+                    />
 
-                </form>
-              }
+                  </form>
+                }
 
-              dialogButtons={
-                <React.Fragment>
-                  <Button onClick={this.close} color="primary">
-                    Cancel
-                  </Button>
+                dialogButtons={
+                  <React.Fragment>
+                    <Button onClick={this.close} color="primary">
+                      Cancel
+                    </Button>
 
-                  <Button 
-                  
-                    onClick={ editCollection ? 
-                    this.submitEdit.bind(this) :
-                    this.submitCreate.bind(this) 
-                  } 
-                    zcolor="primary">
-                    {editCollection ? 'update' : 'create'}
-                  </Button>
+                    <Button 
+                    
+                      onClick={ editCollection ? 
+                      this.submitEdit.bind(this) :
+                      this.submitCreate.bind(this) 
+                    } 
+                      zcolor="primary">
+                      {editCollection ? 'update' : 'create'}
+                    </Button>
 
-                </React.Fragment>
-              }
-          />
+                  </React.Fragment>
+                }
+            />
 
 
-          {
-            itemToDelete ? 
-          
-          <FormDialog 
-              open={true}
-              //contentText={"lipsum"}
-              titleContent={"Confirm deletion ?"}
-              formComponent={
-                <p>are you ready to delete ?</p>
-              }
-
-              dialogButtons={
-                <React.Fragment>
-                  <Button onClick={this.close} color="primary">
-                    Cancel
-                  </Button>
-
-                  <Button onClick={ this.submitDelete } 
-                    zcolor="primary">
-                    'remove'
-                  </Button>
-
-                </React.Fragment>
-              }
-          /> : null
-          }
-
-          <ScrollableTabsButtonForce 
-            //tabs={this.props.settings.availableLanguages} 
-            tabs={this.props.settings.availableLanguages.map((o)=> langs.find((lang)=> lang.value === o) )} 
-            changeHandler={(index)=> this.handleLangChange( this.props.settings.availableLanguages[index])}
-          />
-
-          <List 
-            //className={classes.root}
-            >
- 
             {
-              this.state.article_collections.map((item)=>{
-                return  <ListItem key={item.id} divider={true}>
-                          {/*<ListItemAvatar>
-                            <Avatar>
-                              <ImageIcon />
-                            </Avatar>
-                          </ListItemAvatar>*/}
-                          <ListItemText primary={
-                            <Link to={`/apps/${this.props.app.key}/articles/collections/${item.id}`}>
-                              {item.title}
-                            </Link>
-                          } 
-                            secondary={item.description}
-                          />
+              itemToDelete ? 
+            
+            <FormDialog 
+                open={true}
+                //contentText={"lipsum"}
+                titleContent={"Confirm deletion ?"}
+                formComponent={
+                  <p>are you ready to delete ?</p>
+                }
 
-                          <Button className={classes.button}
+                dialogButtons={
+                  <React.Fragment>
+                    <Button onClick={this.close} color="primary">
+                      Cancel
+                    </Button>
 
-                            variant="outlined" color="primary" onClick={()=> this.openEdit(item)}>
-                            Edit
-                          </Button>
+                    <Button onClick={ this.submitDelete } 
+                      zcolor="primary">
+                      'remove'
+                    </Button>
 
-                          <Button className={classes.button}
-                            variant="text" color="primary" onClick={()=> this.requestDelete(item)}>
-                            Delete
-                          </Button>
-                        </ListItem>
-              })
+                  </React.Fragment>
+                }
+            /> : null
             }
 
-          </List>
+            <ScrollableTabsButtonForce 
+              //tabs={this.props.settings.availableLanguages} 
+              tabs={this.props.settings.availableLanguages.map((o)=> langs.find((lang)=> lang.value === o) )} 
+              changeHandler={(index)=> this.handleLangChange( this.props.settings.availableLanguages[index])}
+            />
 
-         </Paper>
+            <List 
+              //className={classes.root}
+              >
+  
+              {
+                this.state.article_collections.map((item)=>{
+                  return  <ListItem key={item.id} divider={true}>
+                            {/*<ListItemAvatar>
+                              <Avatar>
+                                <ImageIcon />
+                              </Avatar>
+                            </ListItemAvatar>*/}
+                            <ListItemText primary={
+                              <Link to={`/apps/${this.props.app.key}/articles/collections/${item.id}`}>
+                                {item.title}
+                              </Link>
+                            } 
+                              secondary={item.description}
+                            />
 
+                            <Button className={classes.button}
+
+                              variant="outlined" color="primary" onClick={()=> this.openEdit(item)}>
+                              Edit
+                            </Button>
+
+                            <Button className={classes.button}
+                              variant="text" color="primary" onClick={()=> this.requestDelete(item)}>
+                              Delete
+                            </Button>
+                          </ListItem>
+                })
+              }
+
+            </List>
+
+          </Paper>
+      </Grid>
+      </Grid>
   }
 
 }

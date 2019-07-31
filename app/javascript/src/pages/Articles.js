@@ -14,10 +14,16 @@ import {
         Button,
         TextField,
         Chip,
-        CircularProgress
+        CircularProgress,
+        Grid,
+        Tooltip,
+        IconButton,
+        Link as MuiLink
       } from '@material-ui/core';
 
 import gravatar from '../shared/gravatar'
+
+import HelpIcon from '@material-ui/icons/Help'
 
 import GestureIcon from '@material-ui/icons/Gesture'
 import CheckCircleIcon from '@material-ui/icons/CheckCircle'
@@ -151,6 +157,27 @@ class Articles extends Component {
                 <ContentHeader 
                   title={ 'Articles' }
                   tabsContent={ this.tabsContent() }
+                  items={
+                    <React.Fragment>
+                    {
+                      this.state.settings && this.state.settings.subdomain ?
+                    
+                    <Grid item>
+                      <MuiLink href={`https://${this.state.settings.subdomain}.chaskiq.io`}
+                        variant="outlined" color="inherit" size="small" target={"blank"}>
+                        visit help center
+                      </MuiLink>
+                    </Grid> : null 
+                  }
+                    <Grid item>
+                      <Tooltip title="Help">
+                        <IconButton color="inherit">
+                          <HelpIcon />
+                        </IconButton>
+                      </Tooltip>
+                    </Grid>
+                    </React.Fragment>
+                  }
                 />
                 {this.state.settings ? this.renderTabcontent() : null }
               </React.Fragment>
