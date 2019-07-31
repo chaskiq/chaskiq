@@ -1,39 +1,32 @@
-/* eslint-disable no-unused-expressions */
+import React, { Component, Fragment } from "react";
+import ReactDOM from "react-dom";
+import Frame, { FrameContextConsumer } from 'react-frame-component'
+import createCache from '@emotion/cache'
+import { CacheProvider } from '@emotion/core'
+import styled from '@emotion/styled'
+import { ThemeProvider } from 'emotion-theming'
 
-import React, {Component, Fragment} from 'react'
-import ReactDOM from 'react-dom'
-import PropTypes from 'prop-types'
+
 import actioncable from "actioncable"
 import axios from "axios"
 
 import UAParser from 'ua-parser-js'
-
-import UnicornEditor from './textEditor' // from './quillEditor' //'./draftEditor' //from './editor.js'
-import gravatar from "gravatar"
-import Moment from 'react-moment';
-import { soundManager } from 'soundmanager2'
-import Quest from './messageWindow'
-
-import StyledFrame from 'react-styled-frame'
-import styled, { ThemeProvider } from 'styled-components'
-//import DanteContainer from './styles/dante'
-
-import UrlPattern from 'url-pattern'
 
 import theme from '../src/components/conversation/theme'
 import themeDark from '../src/components/conversation/darkTheme'
 import DraftRenderer from '../src/components/conversation/draftRenderer'
 import DanteContainer from '../src/components/conversation/editorStyles'
 
-//import CrossIcon from '@atlaskit/icon/glyph/cross';
-//import Button from '@atlaskit/button';
-import sanitizeHtml from 'sanitize-html';
-import TourManager from './tourManager'
-import {
-  CloseIcon,
-  LeftIcon,
-  MessageIcon,
-  } from './icons'
+
+import UnicornEditor from './textEditor' // from './quillEditor' //'./draftEditor' //from './editor.js'
+import gravatar from "gravatar"
+import Moment from 'react-moment';
+import { soundManager } from 'soundmanager2'
+//import Quest from './messageWindow'
+
+//import DanteContainer from './styles/dante'
+
+import UrlPattern from 'url-pattern'
 
 import {
   Container,
@@ -65,11 +58,61 @@ import {
   ConversationsFooter
 } from './styles/styled'
 
+import sanitizeHtml from 'sanitize-html';
+//import TourManager from './tourManager'
+import {
+  CloseIcon,
+  LeftIcon,
+  MessageIcon,
+  } from './icons'
+
+class CssInjector extends React.Component {
+  constructor(props) {
+    super(props)
+    //const iframe = document.getElementsByTagName('iframe')[0]
+    //const iframe = document.getElementsByTagName('iframe')[0]
+    //const iframeHead = iframe.contentDocument.head
+    const iframeHead = this.props.document.head
+    this.cache = createCache({ container: iframeHead })
+  }
+
+  render() {
+    return (
+      <CacheProvider value={this.cache}>
+        {this.props.children}
+      </CacheProvider>
+    )
+  }
+}
+
+const initialFrameContent = '<!DOCTYPE html><html><head></head><body></body></html>'
+const mountTarget='#mountHere'
+
+class StyledFrame extends React.Component {
 
 
-// https://stackoverflow.com/questions/12114356/how-to-get-the-request-timezone
+  render(){
+    return <Frame style={this.props.style || {} }>
+            <FrameContextConsumer>
+              {
+                // Callback is invoked with iframe's window and document instances
+                ({document, window}) => {
+                  // Render Children
+                  return <CssInjector document={document}>
+                            {this.props.children}
+                          </CssInjector>
+                }
+              }
+            </FrameContextConsumer>
+          </Frame>
+  }
+}
 
-const SuperDuper = styled(StyledFrame)`
+const Button = styled.button`
+  color: turquoise;
+`
+
+const SuperDuper = styled('div')`
   /*
   display: block;
   overflow: scroll;
@@ -192,11 +235,10 @@ const AppPackageBlockContainer = styled.div`
     }
 `
 
-
 let App = {}
 
-
 class Messenger extends Component {
+
 
   constructor(props){
     super(props)
@@ -767,148 +809,151 @@ class Messenger extends Component {
   }
 
 
+  render() {
+    return (
 
+      <ThemeProvider theme={{
+        mode: this.state.appData ? this.state.appData.theme : 'light',
+        isMessengerActive: this.isMessengerActive() 
+      }}>
+      
+        <EditorWrapper>
+          {/*<StyledFrame style={{background: 'red'}}>
+          
+            <h1>x</h1>
+            <Button >
+              Hello World
+            </Button>
+      </StyledFrame>*/}
+              
 
-  render(){
-    return <ThemeProvider theme={{
-                                  mode: this.state.appData ? this.state.appData.theme : 'light',
-                                  isMessengerActive: this.isMessengerActive() 
-                                }}>
-            <EditorWrapper>
+          {
+            this.state.open ?
+              <Container 
+                      open={this.state.open} 
+                      isMobile={this.state.isMobile}>
+                      
+                      <SuperDuper> 
+                        <StyledFrame style={{
+                          width: '100%',
+                          height: '100%',
+                          border: 'none'
+                        }}>
 
-              {
-                this.state.open ?
-                    <Container 
-                            open={this.state.open} 
-                            isMobile={this.state.isMobile}>
+                          <SuperFragment>
+                            <Header isMobile={this.state.isMobile}>
+                              <HeaderOption>
+                                { this.state.display_mode === "conversation" ? 
+                                  <LeftIcon 
+                                    onClick={this.displayConversationList.bind(this)}
+                                    style={{margin: '20px', cursor: 'pointer'}}
+                                  /> : null 
+                                }
+                                <span style={{marginLeft: '20px'}}>
+                                  Hello {this.props.name}!
+                                </span>
+
+                                {
+                                  this.state.isMobile ?
+                                  <CloseButtonWrapper>
+                                    <button onClick={() => this.toggleMessenger()}>
+                                      <CloseIcon style={{ height: '16px', width: '16px'}}/>
+                                    </button>
+
+                                  </CloseButtonWrapper> : null
+                                }
+                                
+
+                                {/*this.props.app_id*/}
+                              </HeaderOption>
+                            </Header>
+                            <Body>
+
+                              {
+                                this.state.display_mode === "conversation" ?
+                                
+                                  <Conversation
+                                    isMobile={this.state.isMobile}
+                                    conversation_messages={this.state.conversation_messages}
+                                    conversation={this.state.conversation}
+                                    conversation_messagesMeta={this.state.conversation_messagesMeta}
+                                    isUserAutoMessage={this.isUserAutoMessage}
+                                    insertComment={this.insertComment}
+                                    setConversation={this.setconversation}
+                                    setOverflow={this.setOverflow}
+
+                                  /> : null
+                              } 
+
+                              {
+                                this.state.display_mode === "conversations" ? 
+                                  <Conversations 
+                                    isMobile={this.state.isMobile}
+                                    displayConversation={this.displayConversation}
+                                    displayNewConversation={this.displayNewConversation}
+                                    conversationsMeta={this.state.conversationsMeta}
+                                    conversations={this.state.conversations}
+                                    getConversations={this.getConversations}
+                                    clearAndGetConversations={this.clearAndGetConversations}
+                                    email={this.props.email}
+                                    app={this.state.appData}
+                                  /> : null 
+                              }
+
+                            </Body> 
                             
-                            <SuperDuper> 
-                              <SuperFragment>
-                                <Header isMobile={this.state.isMobile}>
-                                  <HeaderOption>
-                                    { this.state.display_mode === "conversation" ? 
-                                      <LeftIcon 
-                                        onClick={this.displayConversationList.bind(this)}
-                                        style={{margin: '20px', cursor: 'pointer'}}
-                                      /> : null 
-                                    }
-                                    <span style={{marginLeft: '20px'}}>
-                                      Hello {this.props.name}!
-                                    </span>
+                          </SuperFragment>
 
-                                    {
-                                      this.state.isMobile ?
-                                      <CloseButtonWrapper>
-                                        <button onClick={() => this.toggleMessenger()}>
-                                          <CloseIcon style={{ height: '16px', width: '16px'}}/>
-                                        </button>
+                        </StyledFrame>
 
-                                      </CloseButtonWrapper> : null
-                                    }
-                                    
-
-                                    {/*this.props.app_id*/}
-                                  </HeaderOption>
-                                </Header>
-                                <Body>
-
-                                  {
-                                    this.state.display_mode === "conversation" ?
-                                    
-                                      <Conversation
-                                        isMobile={this.state.isMobile}
-                                        conversation_messages={this.state.conversation_messages}
-                                        conversation={this.state.conversation}
-                                        conversation_messagesMeta={this.state.conversation_messagesMeta}
-                                        isUserAutoMessage={this.isUserAutoMessage}
-                                        insertComment={this.insertComment}
-                                        setConversation={this.setconversation}
-                                        setOverflow={this.setOverflow}
-
-                                      /> : null
-                                  } 
-
-                                  {
-                                    this.state.display_mode === "conversations" ? 
-                                      <Conversations 
-                                        isMobile={this.state.isMobile}
-                                        displayConversation={this.displayConversation}
-                                        displayNewConversation={this.displayNewConversation}
-                                        conversationsMeta={this.state.conversationsMeta}
-                                        conversations={this.state.conversations}
-                                        getConversations={this.getConversations}
-                                        clearAndGetConversations={this.clearAndGetConversations}
-                                        email={this.props.email}
-                                        app={this.state.appData}
-                                      /> : null 
-                                  }
-
-                                </Body> 
-                              </SuperFragment>
-                            </SuperDuper> 
-                          
-                      </Container>  : null
-              } 
-
-              { 
-                  this.state.appData && this.isMessengerActive() ?
-                  <StyledFrame style={{
-                      zIndex: '10000000',
-                      position: 'absolute',
-                      bottom: '-14px',
-                      width: '88px',
-                      height: '100px',
-                      right: '-9px'
-                    }}>
-    
-                    <Prime onClick={this.toggleMessenger}>
-                      <div style={{
-                        transition: 'all .2s ease-in-out',
-                        transform: !this.state.open ? '' : 'rotate(180deg)',
-                      }}>
-
-                        {
-                          !this.state.open ?
-                          
-                            <MessageIcon style={{ 
-                              height: '43px',
-                              width: '36px',
-                              margin: '8px 0px'
-                            }}/> : <CloseIcon style={{
-                                    height: '26px',
-                                    width: '21px',
-                                    margin: '11px 0px'
-                                  }}
-                            />
-                        }
-                      </div>
-                    </Prime>  
-                  </StyledFrame> : null
-              }
-
-
-              {
-                this.state.availableMessages.length > 0 ? 
-                  <MessageFrame
-                    appId={this.props.app_id}
-                    getMessage={this.getMessage}
-                    axiosInstance={this.axiosInstance}
-                    availableMessages={this.state.availableMessages}
-                    availableMessage={this.state.availableMessage}
-                    {...this.props}
+                      </SuperDuper> 
                     
-                  /> : <div/>
-              }
-
-
-              {
-                this.isTourManagerEnabled() ?
-                  <TourManager/> : null 
-              }
-        
-            </EditorWrapper>
-          </ThemeProvider>
+                </Container>  : null
           }
+
+
+          { 
+            this.state.appData && this.isMessengerActive() ?
+            <StyledFrame style={{
+                zIndex: '10000000',
+                position: 'absolute',
+                bottom: '-14px',
+                width: '88px',
+                height: '100px',
+                right: '-9px',
+                border: 'none'
+              }}>
+
+              <Prime onClick={this.toggleMessenger}>
+                <div style={{
+                  transition: 'all .2s ease-in-out',
+                  transform: !this.state.open ? '' : 'rotate(180deg)',
+                }}>
+
+                  {
+                    !this.state.open ?
+                    
+                      <MessageIcon style={{ 
+                        height: '43px',
+                        width: '36px',
+                        margin: '8px 0px'
+                      }}/> : <CloseIcon style={{
+                              height: '26px',
+                              width: '21px',
+                              margin: '11px 0px'
+                            }}
+                      />
+                  }
+                </div>
+              </Prime>  
+            </StyledFrame> : null
+        }
+
+        </EditorWrapper>
+        
+      </ThemeProvider>
+    );
+  }
 }
 
 
@@ -1417,10 +1462,7 @@ class AppPackageBlock extends Component {
               </AppPackageBlockContainer>
             </div>
   }
-
-
 }
-
 
 
 export default class Hermessenger {

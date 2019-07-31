@@ -4,7 +4,7 @@ import DemoApp from '../../editor'
 import Dante2 from 'Dante'
 import _ from "lodash"
 import axios from 'axios'
-import styled from 'styled-components'
+import styled from '@emotion/styled'
 import {convertToHTML} from 'draft-convert'
 import Lozenge from '@atlaskit/lozenge';
 import Button from '@atlaskit/button';

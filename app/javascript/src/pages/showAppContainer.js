@@ -6,7 +6,7 @@ import {
 } from 'react-router-dom'
 import Moment from 'react-moment';
 import PropTypes from 'prop-types';
-import styled from 'styled-components';
+import styled from '@emotion/styled';
 //import Spinner from '@atlaskit/spinner';
 //import EmptyState from '@atlaskit/empty-state'
 //import UserMap from "../components/map"

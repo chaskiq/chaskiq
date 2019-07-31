@@ -11,7 +11,7 @@ import PageTitle from '../components/PageTitle';
 import {Avatar, Typography} from '@material-ui/core';
 import Moment from 'react-moment';
 
-import styled from 'styled-components'
+import styled from '@emotion/styled'
 import axios from 'axios'
 import serialize from 'form-serialize'
 

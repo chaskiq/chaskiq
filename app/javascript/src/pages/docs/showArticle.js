@@ -40,13 +40,13 @@ import { SpeechToTextBlockConfig } from '../campaigns/article/speechToTextBlock'
 import Link from 'Dante2/package/es/components/decorators/link'
 import findEntities from 'Dante2/package/es/utils/find_entities'
 
-import {ThemeProvider} from 'styled-components'
+import {ThemeProvider} from 'emotion-theming'
 import EditorStyles from 'Dante2/package/es/styled/base'
 
 //import EditorContainer from '../../components/conversation/editorStyles'
 import theme from '../../components/conversation/theme'
 
-import styled from 'styled-components'
+import styled from '@emotion/styled'
 
 import CircularProgress from '@material-ui/core/CircularProgress';
 
