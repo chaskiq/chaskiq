@@ -1,6 +1,7 @@
-import styled from 'styled-components'
+import styled from '@emotion/styled'
 
 import EditorStyles from 'Dante2/package/es/styled/base'
+
 
 
 const NewEditorStyles = styled(EditorStyles)`

@@ -27,9 +27,12 @@ module Types
 
     field :search, [Types::ArticleType], null: true, description: "help center search" do
       argument :lang, String, required: false , default_value: I18n.locale
+      argument :term, String, required: true
+      argument :page, Integer, required: true
+      argument :per, Integer, required: false, default_value: 10
     end
 
-    def search(term:, lang: lang)
+    def search(term:, lang:, page: , per: )
       I18n.locale = lang
       object.app.articles.search(term)
     end

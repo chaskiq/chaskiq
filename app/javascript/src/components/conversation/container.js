@@ -3,7 +3,7 @@ import React, {Component, Fragment} from 'react'
 import { withRouter } from 'react-router-dom'
 import { connect } from 'react-redux'
 import gravatar from "../../shared/gravatar"
-import {ThemeProvider} from 'styled-components'
+import {ThemeProvider} from 'emotion-theming'
 
 import graphql from "../../graphql/client"
 import {last} from 'lodash'

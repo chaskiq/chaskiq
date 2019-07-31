@@ -54,7 +54,7 @@ import Loader from './loader'
 import _ from "lodash"
 
 
-import {ThemeProvider} from 'styled-components'
+import {ThemeProvider} from 'emotion-theming'
 import EditorContainer from '../../components/conversation/editorStyles'
 import theme from '../../components/conversation/theme'
 

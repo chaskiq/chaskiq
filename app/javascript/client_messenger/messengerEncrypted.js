@@ -1,5 +1,5 @@
 import axios from 'axios'
-import Hermessenger from './messenger'
+import Hermessenger from './messengerJss'
 import {setCookie, getCookie, deleteCookie} from './cookies'
 
 export default class HermessengerEncrypted {
