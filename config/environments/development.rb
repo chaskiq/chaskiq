@@ -7,6 +7,7 @@ Rails.application.configure do
   config.cache_classes = false
 
   #config.hosts << "dea224b3.ngrok.io"
+  config.hosts = nil #<< "/[a-z0-9]+\.chaskiq.test:3000/"
 
   # Do not eager load code on boot.
   config.eager_load = false

@@ -5,7 +5,9 @@ import ContentWrapper from '../components/ContentWrapper';
 import PageTitle from '../components/PageTitle';
 import logo from '../images/logo.png';
 //import Page, { Grid, GridColumn } from '@atlaskit/page';
-import styled, { ThemeProvider } from 'styled-components'
+import styled from '@emotion/styled'
+import { ThemeProvider } from 'emotion-theming'
+
 
 
 export default class HomePage extends Component {

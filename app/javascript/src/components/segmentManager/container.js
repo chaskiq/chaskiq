@@ -1,7 +1,7 @@
 import React, {Component} from 'react'
 import { withRouter } from 'react-router-dom'
 import { connect } from 'react-redux'
-import styled from 'styled-components'
+import styled from '@emotion/styled'
 import {
   InlineFilterDialog, 
   SaveSegmentModal

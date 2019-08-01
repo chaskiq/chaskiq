@@ -1,9 +1,9 @@
 import React, {Component} from 'react'
-import styled from 'styled-components'
+import styled from '@emotion/styled'
 import Simmer from 'simmerjs'
 //import TourEditor from './tourEditor'
 import TourEditor from './tourEditor2'
-import Button from '@material-ui/core/Button';
+//import Button from '@material-ui/core/Button';
 import Joyride, { ACTIONS, EVENTS, STATUS } from 'react-joyride';
 import StyledFrame from 'react-styled-frame'
 
@@ -534,16 +534,16 @@ export default class TourManager extends Component {
               
                     {
                       this.state.run ?
-                        <Button onClick={this.disablePreview}>
+                        <button onClick={this.disablePreview}>
                           {'<- exit preview'}
-                        </Button>
+                        </button>
                         : 
                       <div appearance="warning">
 
-                        <Button onClick={this.activatePreview}>preview</Button>
+                        <button onClick={this.activatePreview}>preview</button>
 
-                        <Button >cancel</Button>
-                        <Button onClick={this.handleSaveTour}>save tour</Button>
+                        <button >cancel</button>
+                        <button onClick={this.handleSaveTour}>save tour</button>
                       </div>
                     }
                   

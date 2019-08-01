@@ -37,6 +37,7 @@ export const AGENTS = `
       agents{
         id
         email
+        name
         signInCount
         lastSignInAt
         invitationAcceptedAt
@@ -51,6 +52,7 @@ export const PENDING_AGENTS = `
       notConfirmedAgents{
         id
         email
+        name
         signInCount
         lastSignInAt
         invitationAcceptedAt
@@ -66,6 +68,7 @@ export const AGENT = `
       agent(id: $id){
         id
         email
+        name
         conversations(page: $page , per: $per ){
           collection{
             id
@@ -448,3 +451,182 @@ export const ASSIGNMENT_RULES = `
     }
   }
 `;
+
+export const ARTICLE_SETTINGS = `
+  query App($appKey: String!){
+    app(key: $appKey) {
+      articleSettings{
+        id
+        color
+        credits
+        facebook
+        googleCode
+        headerImage
+        linkedin
+        logo
+        siteDescription
+        siteTitle
+        subdomain
+        twitter
+        website
+        langs
+        translations
+        availableLanguages
+      }
+    }
+  }
+`;
+
+export const ARTICLES = `
+  query App($appKey: String!, $page: Int!, $per: Int, $lang: String){
+    app(key: $appKey) {
+      articles(page: $page, per: $per, lang: $lang){
+        collection {
+          id
+          title
+          slug
+          content 
+          state
+          description
+          author{
+            email
+            id
+            name
+          } 
+          collection{
+            slug
+            title
+            id
+          }        
+        }
+        meta
+      }
+    }
+  }
+`;
+
+export const ARTICLES_UNCATEGORIZED = `
+  query App($appKey: String!, $page: Int!, $per: Int){
+    app(key: $appKey) {
+      articlesUncategorized(page: $page, per: $per){
+        collection {
+          id
+          title
+          slug
+          content 
+          state
+          description
+          author{
+            email
+            id
+            name
+          } 
+          collection{
+            title
+            id
+          }        
+        }
+        meta
+      }
+    }
+  }
+`;
+
+export const ARTICLE = `
+  query App($appKey: String!, $id: String!, $lang: String){
+    app(key: $appKey) {
+      article(id: $id, lang: $lang){
+        id
+        title
+        slug
+        content
+        state
+        description
+        collection{
+          slug
+          title
+          id
+        }
+        section{
+          slug
+          title
+          id
+        }
+        author{
+          email
+          id
+          name
+        }
+      }
+    }
+  }
+`;
+
+
+export const ARTICLE_COLLECTIONS = `
+  query ArticleCollections($appKey: String!, $lang: String){
+    app(key: $appKey){
+      collections(lang: $lang) {
+        slug
+        id
+        title
+        description
+      }
+    }
+  }
+`;
+
+export const ARTICLE_COLLECTION = `
+  query ArticleCollections($appKey: String!, $id: String!, $lang: String){
+    app(key: $appKey){
+      collection(id: $id, lang: $lang) {
+        id
+        title
+        slug
+        description
+      }
+    }
+  }
+`;
+
+export const ARTICLE_COLLECTION_WITH_SECTIONS = `
+  query ArticleCollections($appKey: String!, $id: String!, $lang: String){
+    app(key: $appKey){
+      collection(id: $id, lang: $lang) {
+        id
+        slug
+        title
+        description
+        baseArticles{
+          id
+          title
+          slug
+          author{
+            id
+            email
+            name
+          }
+        }
+        sections{
+          slug
+          id
+          title
+          description
+          articles{
+            id
+            title
+            slug
+            author{
+              id
+              email
+              name
+            }
+          }
+          
+        }
+      }
+    }
+  }
+`;
+
+

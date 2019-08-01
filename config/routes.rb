@@ -1,5 +1,8 @@
 require 'sidekiq/web'
+require "subdomain_routes"
 Rails.application.routes.draw do
+
+
   
   if Rails.env.development?
     mount GraphiQL::Rails::Engine, at: "/graphiql", graphql_path: "/graphql"
@@ -15,11 +18,26 @@ Rails.application.routes.draw do
 
   resource :oembed, controller: "oembed", only: :show
 
-  get "/user_session", to: 'application#user_session'
+  constraints(SubdomainOrDomain) do
+    # TODO, regex ?
+    get '/'  => "articles#show"
+    get '/:lang'  => "articles#show"
+    get '/:lang/collections'  => "articles#show"
+    get '/:lang/collections/:id'  => "articles#show"
+    get '/:lang/articles/:id'  => "articles#show"
+    get '/collections' => "articles#show"
+    get '/collections/:id' => "articles#show"
+    get '/articles/:1/' => "articles#show"
 
-  get "/aaaa", to: 'application#user_session', as: 'user_auto_message'
+    #get '*path', to: 'application#catch_all', constraints: lambda { |req|
+    #  req.path.exclude? 'rails/active_storage'
+    #}
 
-  get "/apps/:app_id/segments/:id/:jwt", to: 'segments#show', constraints: { jwt: /.+/ }
+  end
+
+  #get "/user_session", to: 'application#user_session'
+  #get "/aaaa", to: 'application#user_session', as: 'user_auto_message'
+  #get "/apps/:app_id/segments/:id/:jwt", to: 'segments#show', constraints: { jwt: /.+/ }
 
   root :to => "home#show"
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html

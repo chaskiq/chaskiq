@@ -14,7 +14,7 @@ import PropTypes from 'prop-types';
 const useStyles = makeStyles(theme => ({
   root: {
     width: '97%',
-    margin: '8px'
+    //margin: '8px'
   },
   input: {
     display: 'flex',
@@ -51,7 +51,7 @@ const useStyles = makeStyles(theme => ({
   },
   paper: {
     position: 'absolute',
-    zIndex: 1,
+    zIndex: 100,
     marginTop: theme.spacing(1),
     left: 0,
     right: 0,
@@ -247,6 +247,14 @@ export default function IntegrationReactSelect(props) {
   function handleChangeMulti(value) {
     setMulti(value);
   }
+
+  React.useEffect(() => {
+    if(single && single.value)
+      props.handleSingleChange(single.value)
+    //if (!state.isSubmitting) { return; }
+    // do your submitting with stateRef.current in here
+    // then dispatch the results
+  }, [single]);
 
   const selectStyles = {
     input: base => ({

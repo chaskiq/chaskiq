@@ -9,7 +9,7 @@ import Avatar from '@material-ui/core/Avatar';
 import Typography from '@material-ui/core/Typography';
 import Badge from '@material-ui/core/Badge';
 import gravatar from "../shared/gravatar"
-import styled from 'styled-components'
+import styled from '@emotion/styled'
 import PriorityHighIcon from '@material-ui/icons/PriorityHigh'
 
 const useStyles = makeStyles(theme => ({

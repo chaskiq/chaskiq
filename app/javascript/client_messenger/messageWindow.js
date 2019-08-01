@@ -1,5 +1,5 @@
 import React from 'react'
-import styled from 'styled-components'
+import styled from '@emotion/styled'
 //import posed from 'react-pose'
 //import { CreateTheme } from 'prey-stash'
 //import SplitText from 'react-pose-text'

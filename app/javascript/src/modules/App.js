@@ -118,22 +118,23 @@ class Paperbase extends React.Component {
                     variant="temporary"
                     open={this.state.mobileOpen}
                     onClose={this.handleDrawerToggle}
-                    currentUser={this.props.current_user}
-                    app={this.props.app}
+                    //currentUser={this.props.current_user}
+                    //app={this.props.app}
                     
                   />
                 </Hidden>
                 <Hidden xsDown implementation="css">
                   <Navigator 
                     PaperProps={{ style: { width: drawerWidth } }}
-                    currentUser={this.props.current_user}
-                    app={this.props.app}
+                    //currentUser={this.props.current_user}
+                    //app={this.props.app}
                  />
                 </Hidden>
               </nav> : null
           }
 
           <div className={classes.appContent}>
+            {/* TODO: use currentPage or other redux attr to skip header on specific pages */}
             <Header
               signout={this.handleSignout}
               visitApp={(app)=> this.visitApp(app)}

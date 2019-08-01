@@ -29,7 +29,7 @@ class Trigger
           open_messenger: true,
           message: {
             serialized_content: '{"blocks":[{"key":"9oe8n","text":"hola","type":"unstyled","depth":0,"inlineStyleRanges":[],"entityRanges":[],"data":{}}],"entityMap":{}}',
-            html_content: "ola csm"
+            html_content: "hola"
           },
           packages: [
             {name: :ask_for_email}

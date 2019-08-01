@@ -12,7 +12,12 @@ class App < ApplicationRecord
   # App.where('preferences @> ?', {notifications: true}.to_json)
 
   has_many :app_users
-  #has_many :users, through: :app_users
+  
+  has_one :article_settings, class_name: "ArticleSetting", :dependent => :destroy
+  has_many :articles
+  has_many :article_collections
+  has_many :sections, through: :article_collections
+
   has_many :conversations
   has_many :segments
 
@@ -35,6 +40,9 @@ class App < ApplicationRecord
     :test_app,
     :assigment_rules,
   ]
+
+  accepts_nested_attributes_for :article_settings
+
 
   def encryption_enabled?
     self.encryption_key.present?
