@@ -9,37 +9,23 @@ module Types
     field :meta, Types::JsonType, null: true
 
     def base_articles
+      current_user.blank? ? 
+      object.articles.published.without_section : 
       object.articles.without_section
     end
 
     def sections
-      h = {}
-      return object.sections
-      
-      #arr = object.sections.map do |o|
-      #  { 
-      #    id: o.id,
-      #    title: o.title, 
-      #    description: o.description, 
-      #    articles: o.articles
-      #  }
-      #end
-
-      #if base_articles = object.articles.without_section and base_articles.any?
-      #  arr << {
-      #    id: "base",
-      #    title: "base", 
-      #    description: "base", 
-      #    articles: base_articles
-      #  }
-      #end
-
-      #arr
-
+      current_user.blank? ? 
+      object.sections.joins(:articles).group("collection_sections.id , articles.id") :
+      object.sections
     end
 
     def meta
-      articles = ArticleCollection.first.articles
+
+      articles = current_user.blank? ? 
+      object.articles.published : 
+      object.articles
+
       {
         size: articles.size,
         authors: articles.map(&:author).uniq!
