@@ -22,6 +22,7 @@ import {
       } from '@material-ui/core';
 
 import gravatar from '../shared/gravatar'
+import {LinkButton, LinkIconButton} from '../shared/RouterLink'
 
 import HelpIcon from '@material-ui/icons/Help'
 
@@ -67,12 +68,14 @@ const styles = theme => ({
 
 
 
+
 class Articles extends Component {
 
   state = {
     meta: {},
     tabValue: 0,
     settings: null,
+    errors: []
   };
 
   componentDidMount(){
@@ -163,17 +166,17 @@ class Articles extends Component {
                       this.state.settings && this.state.settings.subdomain ?
                     
                     <Grid item>
-                      <MuiLink href={`https://${this.state.settings.subdomain}.chaskiq.io`}
+                      <Button href={`https://${this.state.settings.subdomain}.chaskiq.io`}
                         variant="outlined" color="inherit" size="small" target={"blank"}>
                         visit help center
-                      </MuiLink>
+                      </Button>
                     </Grid> : null 
                   }
                     <Grid item>
                       <Tooltip title="Help">
-                        <IconButton color="inherit">
+                        <LinkIconButton to={`/apps/${this.props.app.key}/articles/new`}>
                           <HelpIcon />
-                        </IconButton>
+                        </LinkIconButton>
                       </Tooltip>
                     </Grid>
                     </React.Fragment>
@@ -188,6 +191,7 @@ class Articles extends Component {
               render={(props) => {
                 return <Settings 
                           settings={this.state.settings}
+                          errors={this.state.errors}
                           getSettings={this.getSettings}
                           match={props.match}
                           history={props.history}
@@ -284,13 +288,7 @@ class AllArticles extends React.Component {
   }
 
   render(){
-    return <Content actions={
-                              <Link to={`/apps/${this.props.app.key}/articles/new`}>
-                                new
-                              </Link>
-                            }>
-
-
+    return <Content>
 
               <ScrollableTabsButtonForce
                 tabs={this.props.settings.availableLanguages.map((o)=> langs.find((lang)=> lang.value === o) )} 
