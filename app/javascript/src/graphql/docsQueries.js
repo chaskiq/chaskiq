@@ -29,6 +29,7 @@ export const ARTICLES = `
           slug
           content 
           state
+          updatedAt
           author{
             email
             id
@@ -55,6 +56,7 @@ export const SEARCH_ARTICLES = `
         slug
         content 
         state
+        updatedAt
         author{
           email
           id
@@ -80,6 +82,7 @@ export const ARTICLES_UNCATEGORIZED = `
           slug
           content 
           state
+          updatedAt
           author{
             email
             id
@@ -105,6 +108,7 @@ export const ARTICLE = `
         slug
         content
         state
+        updatedAt
         collection{
           slug
           title
@@ -164,6 +168,7 @@ export const ARTICLE_COLLECTION_WITH_SECTIONS = `
           id
           title
           slug
+          updatedAt
           author{
             id
             email
@@ -179,6 +184,7 @@ export const ARTICLE_COLLECTION_WITH_SECTIONS = `
             id
             title
             slug
+            updatedAt
             author{
               id
               email

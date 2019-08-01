@@ -47,7 +47,7 @@ import DraftRenderer from '../../components/conversation/draftRenderer'
 import EditorStyles from 'Dante2/package/es/styled/base'
 import theme from '../../components/conversation/theme'
 import {ThemeProvider} from 'emotion-theming'
-
+import Moment from 'react-moment'
 
 import styled from '@emotion/styled'
 import {default as emotionStyled} from '@emotion/styled'
@@ -866,7 +866,10 @@ function Article(props){
                   </Typography>
 
                   <Typography variant="subtitle1" gutterBottom>
-                    updated 2 weeks ago
+                    {"updated "}
+                    <Moment fromNow>
+                      {article.updatedAt}
+                    </Moment> 
                   </Typography>
                 </Grid>
               </Grid>
