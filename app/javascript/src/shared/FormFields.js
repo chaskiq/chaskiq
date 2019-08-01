@@ -61,10 +61,6 @@ const styles = theme => ({
 
 class FieldRenderer extends React.Component {
 
-  handleColorChangeComplete = ()=>{
-
-  }
-
   fieldRenderer = () => {
     
     const {namespace, data, props, errors, classes, errorNamespace} = this.props
@@ -217,7 +213,7 @@ class FieldRenderer extends React.Component {
                   error={errorMessage}
                   name={`${namespace}[${data.name}]`}
                   color={ props.data[camelCase(data.name)] || '#000' }
-                  onChangeComplete={ this.handleColorChangeComplete }
+                  onChangeComplete={ data.handler }
                 />
 
                 </FormControl>
@@ -273,6 +269,8 @@ class ColorPicker extends React.Component {
 
   handleColorChangeComplete = (color)=>{
     this.setState({value: color.hex})
+    //,
+    //  ()=> this.props.onChangeComplete(color.hex))
   }
 
   render() {
@@ -318,7 +316,7 @@ class ColorPicker extends React.Component {
               <div style={ popover }>
                 <div style={ cover } onClick={ this.handleClose }/>
                 <SketchPicker 
-                  color={ this.props.color }
+                  color={ this.state.value }
                   onChangeComplete={ this.handleColorChangeComplete }
                 />
               </div> :  null 

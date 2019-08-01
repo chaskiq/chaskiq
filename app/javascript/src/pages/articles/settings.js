@@ -24,6 +24,7 @@ import {
         TableRow,
         TableCell,
         TableBody,
+        Link as MuiLink
 
 } from '@material-ui/core';
 
@@ -71,8 +72,6 @@ class Settings extends Component {
   state = {
     loading: true,
     tabValue: 0,
-    settings: null,
-    errors: []
   };
 
   titleRef = null
@@ -146,6 +145,9 @@ class Settings extends Component {
       {
         name: "color",
         type: 'color',
+        handler: (color)=> {
+          this.props.updateMemSettings({color: color})
+        },
         grid: { xs: 12, sm: 4 }
       },
 
@@ -238,7 +240,7 @@ class Settings extends Component {
                   //fetchApp={this.fetchApp}
                   //classes={this.props.classes}
                   definitions={this.definitionsForSettings}
-                  errors={this.state.errors}
+                  errors={this.props.errors}
                   {...this.props}
                />
 
@@ -279,7 +281,7 @@ class Settings extends Component {
                   //fetchApp={this.fetchApp}
                   //classes={this.props.classes}
                   definitions={this.definitionsForAppearance}
-                  errors={this.state.errors}
+                  errors={this.props.errors}
                   {...this.props}
                 />
       case 3:
@@ -296,6 +298,19 @@ class Settings extends Component {
          <ContentHeader 
             title={ 'Help Center Settings' }
             tabsContent={ this.tabsContent() }
+            items={
+              <React.Fragment>
+                {
+                  this.props.settings && this.props.settings.subdomain ?
+                    <Grid item>
+                      <Button href={`https://${this.props.settings.subdomain}.chaskiq.io`}
+                        variant="outlined" color="inherit" size="small" target={"blank"}>
+                        visit help center
+                      </Button>
+                    </Grid> : null 
+                }
+              </React.Fragment>
+            }
           />
 
           <Content>
