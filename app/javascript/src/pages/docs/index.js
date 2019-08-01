@@ -136,6 +136,10 @@ const styles = {
 };
 
 
+function translation(str){
+  return str ? str : "-- missing translation --"
+}
+
 function MadeWithLove() {
   return (
     <Typography variant="body2" color="textSecondary" align="center">
@@ -823,12 +827,12 @@ function Article(props){
               {
                 article.collection ?
                   <LinkRouter className={classes.breacrumbLink} to={`/${lang}/collections/${article.collection.slug}`}>
-                    {article.collection.title}
+                    {translation(article.collection.title)}
                   </LinkRouter> : null 
               }
       
               <Typography>
-                {article.title}
+                {translation(article.title)}
               </Typography>
               
     
@@ -841,7 +845,7 @@ function Article(props){
 
             <Box mt={3} mb={3}>
               <Typography variant="h3" gutterBottom>
-                {article.title}
+                {translation(article.title)}
               </Typography>
 
               <Grid container 
@@ -850,15 +854,15 @@ function Article(props){
                 <Grid item>
                   <Box mr={2}>
                     <Avatar
-                      alt={article.author.email}
-                      src={gravatar(article.author.email)}
+                      alt={article.author.name}
+                      src={gravatar(article.author.name)}
                     />
                   </Box>
                 </Grid>
 
                 <Grid item>
                   <Typography variant="subtitle1" gutterBottom>
-                    written by {article.author.email}
+                    written by {article.author.name}
                   </Typography>
 
                   <Typography variant="subtitle1" gutterBottom>
@@ -953,7 +957,7 @@ function Collections({lang}){
                               to={`${lang}/collections/${card.slug}`}> 
                               
                               <Typography gutterBottom variant="h5" component="h3">
-                                {card.title}
+                                { translation(card.title)}
                               </Typography>
 
                             </RouterLink>
@@ -1035,7 +1039,7 @@ function CollectionsWithSections({match, lang}){
                 </LinkRouter>
 
                 <Typography>
-                  {collections.title}
+                  {translation(collections.title)}
                 </Typography>
 
               </Breadcrumbs>
@@ -1046,7 +1050,7 @@ function CollectionsWithSections({match, lang}){
                   className={classes.floorPaper}>
 
                   <Typography variant="h3" gutterBottom>
-                    {collections.title}
+                    {translation(collections.title) }
                   </Typography>
                   
                   <Typography variant="subtitle1" gutterBottom>
@@ -1075,7 +1079,7 @@ function CollectionsWithSections({match, lang}){
                         }
 
                         {
-                          collections.meta.authors.length > 5 ?
+                          collections.meta.authors && collections.meta.authors.length > 5 ?
                             <li className="avatars__item">
                               <span className="avatars__others">+3</span>
                             </li> : null
@@ -1109,8 +1113,8 @@ function CollectionsWithSections({match, lang}){
                             >
                               <ListItemAvatar>
                                 <Avatar
-                                  alt={article.author.email}
-                                  src={gravatar(article.author.email)}
+                                  alt={article.author.name}
+                                  src={gravatar(article.author.name)}
                                 />
                               </ListItemAvatar>
 
@@ -1130,7 +1134,7 @@ function CollectionsWithSections({match, lang}){
                       <div key={`sections-${section.id}`} style={{marginTop: '2em'}}>
 
                         <Typography variant="h4" gutterBottom>
-                          {section.title}
+                          { translation(section.title) }
                         </Typography>
 
                         <Typography variant="subtitle1" gutterBottom>
@@ -1150,7 +1154,7 @@ function CollectionsWithSections({match, lang}){
                                               color={'primary'}
                                               className={classes.articleLink}
                                               to={`/${lang}/articles/${article.slug}`}>
-                                              {article.title}
+                                              {translation(article.title)}
                                             </RouterLink>
                                             
                                             <Grid container
@@ -1160,7 +1164,7 @@ function CollectionsWithSections({match, lang}){
                                               <ListItemAvatar>
                                                 <Avatar
                                                   alt={article.author.displayName}
-                                                  src={gravatar(article.author.email)}
+                                                  src={gravatar(article.author.name)}
                                                 />
                                               </ListItemAvatar>
 
