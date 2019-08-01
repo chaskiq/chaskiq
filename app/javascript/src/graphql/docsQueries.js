@@ -168,6 +168,7 @@ export const ARTICLE_COLLECTION_WITH_SECTIONS = `
             id
             email
             displayName
+            name
           }
         }
         sections{
@@ -182,6 +183,7 @@ export const ARTICLE_COLLECTION_WITH_SECTIONS = `
               id
               email
               displayName
+              name
             }
           }
           

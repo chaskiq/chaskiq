@@ -604,6 +604,7 @@ export const ARTICLE_COLLECTION_WITH_SECTIONS = `
           author{
             id
             email
+            name
           }
         }
         sections{
@@ -618,6 +619,7 @@ export const ARTICLE_COLLECTION_WITH_SECTIONS = `
             author{
               id
               email
+              name
             }
           }
           

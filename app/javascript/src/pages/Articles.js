@@ -318,7 +318,13 @@ class AllArticles extends React.Component {
                   {name: "author", title: "author",
                   getCellValue: row => (row ? 
 
-                    <p>{row.author ? row.author.email : 'no author'}</p>
+                    <p>{row.author ? 
+                      <span>
+                        { row.author.name }<br/>
+                        {row.author.email}
+                      </span>
+                       : 'no author'}
+                    </p>
                   : undefined)
                 },
                   {name: "state", title: "state", getCellValue: row => (row ?

@@ -204,7 +204,12 @@ class App extends Component {
                                                   </ListItemAvatar>
                                                   <ListItemText 
                                                     primary={item.title} 
-                                                    secondary={item.author.email} />
+                                                    secondary={
+                                                      <span>
+                                                        {item.author.name }<br/>
+                                                        {item.author.email}
+                                                      </span>
+                                                    } />
                                                 </ListItem>
 
                                             </div>
