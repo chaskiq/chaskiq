@@ -855,7 +855,7 @@ function Article(props){
                   <Box mr={2}>
                     <Avatar
                       alt={article.author.name}
-                      src={gravatar(article.author.name)}
+                      src={gravatar(article.author.email)}
                     />
                   </Box>
                 </Grid>
