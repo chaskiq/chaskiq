@@ -1114,7 +1114,7 @@ function CollectionsWithSections({match, lang}){
                               <ListItemAvatar>
                                 <Avatar
                                   alt={article.author.name}
-                                  src={gravatar(article.author.name)}
+                                  src={gravatar(article.author.email)}
                                 />
                               </ListItemAvatar>
 
@@ -1164,7 +1164,7 @@ function CollectionsWithSections({match, lang}){
                                               <ListItemAvatar>
                                                 <Avatar
                                                   alt={article.author.displayName}
-                                                  src={gravatar(article.author.name)}
+                                                  src={gravatar(article.author.email)}
                                                 />
                                               </ListItemAvatar>
 
