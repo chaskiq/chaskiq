@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom'
 import { connect } from 'react-redux'
 import UserData from '../components/UserData'
-import styled from 'styled-components'
+import styled from '@emotion/styled'
 import {isEmpty} from 'lodash'
 
 import graphql from '../graphql/client'
@@ -15,14 +15,23 @@ import {
 
 import {
   START_CONVERSATION,
-  APP_USER_UPDATE_STATE
+  APP_USER_UPDATE_STATE,
+  UPDATE_AGENT
 } from '../graphql/mutations'
 
 import {Grid, 
   Typography, 
   Button, 
-  Avatar, 
+  Avatar,
+  IconButton, 
+  TextField
 } from '@material-ui/core'
+
+
+
+import { makeStyles, withStyles } from '@material-ui/core/styles';
+
+import EditIcon from '@material-ui/icons/EditOutlined'
 import gravatar from '../shared/gravatar'
 
 import {
@@ -80,18 +89,21 @@ const AppUserHeaderInfo = styled.div`
   }
 `
 
-
-
 class ProfilePage extends Component {
 
   state = {
     collection: [],
     meta: {},
     startConversationModal: false,
-    agent: {}
+    agent: {},
+    editName: false
   }
 
   componentDidMount(){
+    this.getAgent()
+  }
+
+  getAgent = ()=>{
     graphql(AGENT, {
       appKey: this.props.app.key, 
       id: parseInt(this.props.match.params.id),
@@ -168,6 +180,28 @@ class ProfilePage extends Component {
 
   }
 
+  toggleNameEdit = ()=>{
+    this.setState({editName: !this.state.editName})
+  }
+
+  handleEnter = (e)=>{
+    if(e.key === "Enter"){
+      graphql(UPDATE_AGENT, {
+        appKey: this.props.app.key, 
+        email: this.state.agent.email,
+        name: e.target.value
+      }, {
+        success: (data)=>{
+          this.setState({editName: false})
+          this.getAgent()
+        },
+        error: ()=>{
+
+        }
+      })
+    }
+  }
+
   render() {
     return (
 
@@ -200,7 +234,22 @@ class ProfilePage extends Component {
 
               <div className="name-description">
                 <Typography variant={"h5"}>
-                  {this.state.agent.name || 'no name'}
+                {
+                  this.state.editName ?
+                  <TextField
+                    //className={classes.input}
+                    onKeyUp={this.handleEnter}
+                    defaultValue={this.state.agent.name}
+                    placeholder="enter agent's name"
+                    inputProps={{ 'aria-label': 'enter agent\'s name' }}
+                  /> : this.state.agent.name || 'no name' 
+
+                  /*<input defaultValue={this.state.agent.name || 'no name'}/>*/
+                  
+                }
+                  <IconButton onClick={this.toggleNameEdit}>
+                    <EditIcon/>
+                  </IconButton>
                 </Typography>
 
                 <Typography variant={"h6"}>

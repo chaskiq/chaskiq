@@ -5,6 +5,14 @@
 import React, {Component} from 'react'
 import redraft from 'redraft'
 
+var Prism = require('prismjs');
+Prism.highlightAll();
+
+const handlePrismRenderer = (syntax, children)=>{
+  const code = children.map((o)=> o.flat() ).join("")
+  const formattedCode =  Prism.highlight(code, Prism.languages.javascript, 'javascript');
+  return {__html: formattedCode }
+}
 
 const styles = {
   code: {
@@ -36,27 +44,37 @@ const renderers = {
     BOLD: (children, { key }) => <strong key={key}>{children}</strong>,
     ITALIC: (children, { key }) => <em key={key}>{children}</em>,
     UNDERLINE: (children, { key }) => <u key={key}>{children}</u>,
-    CODE: (children, { key }) => <span key={key} style={styles.code}>{children}</span>,
+    //CODE: (children, { key }) => <span key={key} dangerouslySetInnerHTML={handlePrismRenderer(children)} />,
   },
   /**
    * Blocks receive children and depth
    * Note that children are an array of blocks with same styling,
    */
   blocks: {
-    unstyled: (children) => children.map(child => <p className="graf graf--p">
-                                                    {child}
-                                                  </p>),
-    blockquote: (children) => <blockquote className="graf graf--blockquote">
+
+    
+    unstyled: (children, { keys }) => {
+      return <p  key={keys[0]} 
+                className="graf graf--p">
+                {children}
+            </p>
+
+    },
+    blockquote: (children, { keys }) => <blockquote 
+                                          key={keys[0]} 
+                                          className="graf graf--blockquote">
                                 {addBreaklines(children)}
                               </blockquote>,
-    'header-one': (children) => children.map(child => <h1 className="graf graf--h3">{child}</h1>),
-    'header-two': (children) => children.map(child => <h2 className="graf graf--h3">{child}</h2>),
+    'header-one': (children, { keys }) => <h1 key={keys[0]} className="graf graf--h2">{children}</h1>,
+    'header-two': (children, { keys }) => <h2 key={keys[0]} className="graf graf--h3">{children}</h2>,
     // You can also access the original keys of the blocks
-    'code-block': (children, { keys }) => <pre className="graf graf--code" 
-                                                style={styles.codeBlock} 
-                                                key={keys[0]}>
-                                                {addBreaklines(children)}
-                                          </pre>,
+    'code-block': (children, { keys, data }) => {
+      return <pre className="graf graf--code" 
+                  //style={styles.codeBlock} 
+                  key={keys[0]} 
+                  dangerouslySetInnerHTML={handlePrismRenderer(data.syntax, children)}>
+                  {/*addBreaklines(children)*/}
+            </pre>},
     // or depth for nested lists
     'unordered-list-item': (children, { depth, keys }) => <ul key={keys[keys.length - 1]} className={`ul-level-${depth}`}>
                                                             {children.map(child => <li className="graf graf--insertunorderedlist">
@@ -81,24 +99,24 @@ const renderers = {
         var { height, width, ratio} = aspect_ratio 
       }
 
-      return  <figure class="graf graf--figure">
+      return  <figure  key={keys[0]} className="graf graf--figure">
                   <div>
-                    <div class="aspectRatioPlaceholder is-locked" 
+                    <div className="aspectRatioPlaceholder is-locked" 
                       //style={{maxWidth: '1000px', maxHeight: `${height}px`}}
                       >
-                      <div class="aspect-ratio-fill" 
+                      <div className="aspect-ratio-fill" 
                           style={{paddingBottom: `${ratio}%`}}>
                       </div>
 
                       <img src={url}
-                        class="graf-image" 
+                        className="graf-image" 
                         width={width}
                         height={height}
-                        contenteditable="false"/>
+                        contentEditable="false"/>
                     </div>
 
                   </div>
-                  <figcaption class="imageCaption">
+                  <figcaption className="imageCaption">
                     <span>
                       <span data-text="true">{caption}</span>
                     </span>
@@ -111,7 +129,7 @@ const renderers = {
       const {provisory_text, type, embed_data } = data[0]
       const {images, title, media, provider_url, description, url } = embed_data
 
-      return <div className="graf graf--mixtapeEmbed">
+      return <div  key={keys[0]} className="graf graf--mixtapeEmbed">
               <span>
                 {
                   images[0].url ?
@@ -123,10 +141,10 @@ const renderers = {
                 <a className="markup--anchor markup--mixtapeEmbed-anchor"
                   target="_blank"
                   href={provisory_text}>
-                  <strong class="markup--strong markup--mixtapeEmbed-strong">
+                  <strong className="markup--strong markup--mixtapeEmbed-strong">
                     {title}
                   </strong>
-                  <em class="markup--em markup--mixtapeEmbed-em">
+                  <em className="markup--em markup--mixtapeEmbed-em">
                     {description}
                   </em>
                 </a>
@@ -140,12 +158,12 @@ const renderers = {
       const {provisory_text, type, embed_data } = data[0]
       const {html} = embed_data
 
-      return <figure class="graf--figure graf--iframe graf--first" tabindex="0">
-                <div class="iframeContainer" dangerouslySetInnerHTML={
+      return <figure  key={keys[0]} className="graf--figure graf--iframe graf--first" tabindex="0">
+                <div className="iframeContainer" dangerouslySetInnerHTML={
                           { __html: `${html}` }
                         }/>
-                <figcaption class="imageCaption">
-                  <div class="public-DraftStyleDefault-block public-DraftStyleDefault-ltr">
+                <figcaption className="imageCaption">
+                  <div className="public-DraftStyleDefault-block public-DraftStyleDefault-ltr">
                     <span>
                     <span>
                     {provisory_text}
@@ -158,7 +176,7 @@ const renderers = {
     'recorded-video': (children, {keys, data})=>{
       const {url, text} = data[0]
 
-      return <figure className="graf--figure graf--iframe graf--first" 
+      return <figure  key={keys[0]} className="graf--figure graf--iframe graf--first" 
                tabindex="0">
               <div className="iframeContainer">
                 <video 
@@ -178,7 +196,7 @@ const renderers = {
             </figure>
     },
     // If your blocks use meta data it can also be accessed like keys
-    atomic: (children, { keys, data }) => children.map((child, i) => <Atomic key={keys[i]} {...data[i]} />),
+    //atomic: (children, { keys, data }) => children.map((child, i) => <Atomic key={keys[i]} {...data[i]} />),
   },
   /**
    * Entities receive children and the entity data

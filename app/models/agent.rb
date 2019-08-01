@@ -11,6 +11,7 @@ class Agent < ApplicationRecord
   has_many :roles, dependent: :destroy
   has_many :apps, through: :roles, source: :app   
   has_many :assignment_rules
+  has_many :articles, foreign_key: "author_id"
 
   has_many :conversations, foreign_key: "assignee_id"
 

@@ -50,7 +50,7 @@ import findEntities from 'Dante2/package/es/utils/find_entities'
 
 import Icons from 'Dante2/package/es/components/icons.js'
 import theme from './theme'
-import {ThemeProvider} from 'styled-components'
+import {ThemeProvider} from 'emotion-theming'
 import EditorContainer from './editorStyles'
 
 import Button from '@material-ui/core/Button'
@@ -445,7 +445,7 @@ export default class ChatEditor extends Component {
           return <h3 className="graf graf--h4" />
         }
         if (block.type === "blockquote") {
-          return <blockquote class="graf graf--blockquote" />
+          return <blockquote className="graf graf--blockquote" />
         }
         if (block.type === "button" || block.type === "unsubscribe_button") {
           const { href, buttonStyle, containerStyle, label } = block.data
@@ -527,7 +527,7 @@ export default class ChatEditor extends Component {
           }
         }
         if (block.type === "column") {
-          return <div class={`graf graf--column ${block.data.className}`} />
+          return <div className={`graf graf--column ${block.data.className}`} />
         }
         if (block.type === "footer") {
 
@@ -563,10 +563,10 @@ export default class ChatEditor extends Component {
                 <a className="markup--anchor markup--mixtapeEmbed-anchor"
                   target="_blank"
                   href={block.data.provisory_text}>
-                  <strong class="markup--strong markup--mixtapeEmbed-strong">
+                  <strong className="markup--strong markup--mixtapeEmbed-strong">
                     {data.title}
                   </strong>
-                  <em class="markup--em markup--mixtapeEmbed-em">
+                  <em className="markup--em markup--mixtapeEmbed-em">
                     {data.description}
                   </em>
                 </a>

@@ -6,7 +6,7 @@ import {
 } from 'react-router-dom'
 import Moment from 'react-moment';
 import PropTypes from 'prop-types';
-import styled from 'styled-components';
+import styled from '@emotion/styled';
 //import Spinner from '@atlaskit/spinner';
 //import EmptyState from '@atlaskit/empty-state'
 //import UserMap from "../components/map"
@@ -31,10 +31,11 @@ import {
 } from '../graphql/mutations'
 
 import Dashboard from './Dashboard'
+import Articles from './Articles'
 import Drawer from '@material-ui/core/Drawer';
 import Button from '@material-ui/core/Button'
 
-import { withRouter } from 'react-router-dom'
+import { withRouter, Switch } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { 
   setApp, 
@@ -337,6 +338,7 @@ class ShowAppContainer extends Component {
       {
         this.props.app && this.props.app.key ?
         <div>
+        <Switch>
           <Route exact path={`${this.props.match.path}/segments/:segmentID/:Jwt?`}
             render={(props) => {
               return <Content>
@@ -358,7 +360,6 @@ class ShowAppContainer extends Component {
                   />
             )} 
           />
-
 
           <Route path={`${this.props.match.path}/messages/:message_type`}
             render={(props) => (
@@ -390,7 +391,6 @@ class ShowAppContainer extends Component {
             )}
           />
 
-
           <Route exact path={`${this.props.match.path}/agents/:id`}
             render={(props) => (
               <AgentProfileView
@@ -399,12 +399,15 @@ class ShowAppContainer extends Component {
             )}
           />
 
-
-          <Route exact path={`/apps/${this.props.app.key}`}
-              render={() => (
-                <Dashboard/>
-            )} 
+          <Route path={`/apps/${this.props.app.key}/articles`}
+            render={(props) => {
+              return <Articles 
+                        match={props.match}
+                        history={props.history}
+                      />
+            }} 
           />
+
           <Route exact path={`/apps/${this.props.app.key}/campaings`}
             render={() => (
               <p>
@@ -415,7 +418,6 @@ class ShowAppContainer extends Component {
             )}
           />
 
-
           <Route exact path={`${this.props.match.path}/team`}
             render={(props) => {
               return <Team 
@@ -425,6 +427,14 @@ class ShowAppContainer extends Component {
                       />
             }} 
           />
+
+          <Route exact path={`/apps/${this.props.app.key}`}
+              render={() => (
+                <Dashboard/>
+            )} 
+          />
+         </Switch>
+
         </div> : null
       }
  

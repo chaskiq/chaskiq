@@ -453,7 +453,324 @@ export const INVITE_AGENT = `
     inviteAgent(appKey: $appKey, email: $email){
       agent {
         email
+        name
       }
+    }
+  }
+`;
+
+export const UPDATE_AGENT = `
+  mutation UpdateAgent($appKey: String!, $email: String!, $name: String!){
+    updateAgent(appKey: $appKey, email: $email, name: $name){
+      agent {
+        email
+        name
+      }
+    }
+  }
+`;
+
+export const CREATE_ARTICLE = `
+  mutation CreateArticle($appKey: String!, $content: Json!, $title: String!, $lang: String){
+    createArticle(appKey: $appKey, content: $content, title: $title, lang: $lang){
+      article {
+        id
+        title
+        slug
+        content
+        state
+        author{
+          email
+          id
+          name
+        }
+      }
+    }
+  }
+`;
+
+export const EDIT_ARTICLE = `
+  mutation EditArticle($appKey: String!, $content: Json!, $id: String!, $title: String!, $description: String!, $lang: String){
+    editArticle(appKey: $appKey, content: $content, id: $id, title: $title, description: $description, lang: $lang){
+      article {
+        id
+        title
+        slug
+        content
+        state
+        author{
+          email
+          id
+          name
+        }
+      }
+    }
+  }
+`;
+
+export const ARTICLE_BLOB_ATTACH = `
+  mutation ArticleBlobAttach($appKey: String!, $id: Int!, $blobId: String!){
+    articleBlobAttach(appKey: $appKey, id: $id, blobId: $blobId){
+      article {
+        id
+        title
+        slug
+        content
+        state
+        author{
+          email
+          id
+          name
+        }
+      }
+    }
+  }
+`;
+
+export const TOGGLE_ARTICLE = `
+  mutation ToggleArticle($appKey: String!, $id: String!, $state: String!){
+    toggleArticle(appKey: $appKey, id: $id, state: $state){
+      article {
+        id
+        title
+        slug
+        content
+        state
+        author{
+          email
+          id
+          name
+        }
+      }
+    }
+  }
+`;
+
+export const ARTICLE_ASSIGN_AUTHOR = `
+  mutation AssignAuthor($appKey: String!, $id: String!, $authorId: String!){
+    assignAuthor(appKey: $appKey, id: $id, authorId: $authorId){
+      article {
+        id
+        title
+        slug
+        content
+        state
+        author{
+          email
+          id
+          name
+        }
+      }
+    }
+  }
+`;
+
+export const DELETE_ARTICLE = `
+  mutation DeleteArticle($appKey: String!, $id: Int!){
+    deleteArticle(appKey: $appKey, id: $id){
+      article {
+        id
+        title
+        slug
+        content
+        state
+      }
+    }
+  }
+`;
+
+export const CREATE_DIRECT_UPLOAD = `
+  mutation CreateDirectUpload($filename: String!, $contentType: String!, $checksum: String!, $byteSize: Int!){
+    createDirectUpload( input: { 
+      filename: $filename, 
+      contentType: $contentType, 
+      checksum: $checksum, 
+      byteSize: $byteSize 
+    }){
+      directUpload {
+        signedBlobId
+        url
+        headers
+        blobId
+        serviceUrl
+      }
+    }
+  }
+`;
+
+export const REORDER_ARTICLE = `
+  mutation ReorderArticle( $appKey: String!, $id: String!, $position: Int!, $section: String, $collection: String){
+    reorderArticle( appKey: $appKey, id: $id, position: $position, section: $section, collection: $collection ){
+      article{
+        id
+        position
+      }
+    }
+  }
+`;
+
+
+export const ARTICLE_COLLECTION_CREATE = `
+  mutation ArticleCollectionCreate($appKey: String!, $title: String!, $description: String){
+    articleCollectionCreate( 
+      appKey: $appKey, 
+      title: $title, 
+      description: $description
+    ){
+      collection{
+        id
+        title
+        description
+      }
+      errors
+    }
+  }
+`;
+
+export const ARTICLE_COLLECTION_CHANGE = `
+  mutation ChangeCollectionArticle($appKey: String!, $id: String!, $collectionId: Int!){
+    changeCollectionArticle( 
+      appKey: $appKey, 
+      id: $id, 
+      collectionId: $collectionId
+    ){
+      article {
+        id
+        title
+        slug
+        content
+        state
+        author{
+          email
+          id
+          name
+        }
+      }
+    }
+  }
+`;
+
+export const ARTICLE_COLLECTION_EDIT = `
+  mutation ArticleCollectionEdit($appKey: String!, $id: Int!, $title: String!, $description: String, $lang: String){
+    articleCollectionEdit( 
+      appKey: $appKey, 
+      title: $title, 
+      id: $id,
+      description: $description,
+      lang: $lang
+    ){
+      collection{
+        id
+        title
+        description
+      }
+      errors
+    }
+  }
+`;
+
+export const ARTICLE_COLLECTION_DELETE = `
+  mutation ArticleCollectionDelete($appKey: String!, $id: Int!){
+    articleCollectionDelete( 
+      appKey: $appKey, 
+      id: $id,
+    ){
+      collection{
+        id
+      }
+    }
+  }
+`;
+
+export const ARTICLE_SECTION_CREATE = `
+  mutation ArticleSectionCreate($appKey: String!, $title: String!, $collectionId: Int!, $lang: String){
+    articleSectionCreate( 
+      appKey: $appKey, 
+      title: $title, 
+      collectionId: $collectionId,
+      lang: $lang
+    ){
+      section{
+        id
+        title
+        description
+        articles {
+          id
+          title
+        }
+      }
+    }
+  }
+`;
+
+export const ARTICLE_SECTION_EDIT = `
+  mutation ArticleSectionEdit($appKey: String!, $title: String!, $id: Int!, $collectionId: Int!, $lang: String){
+    articleSectionEdit( 
+      appKey: $appKey, 
+      title: $title,
+      collectionId: $collectionId
+      id: $id,
+      lang: $lang
+    ){
+      section{
+        id
+        title
+        description
+      }
+    }
+  }
+`;
+
+export const ARTICLE_SECTION_DELETE = `
+  mutation ArticleSectionDelete($appKey: String!, $id: String!){
+    articleSectionDelete( 
+    appKey: $appKey,
+    id: $id
+    ){
+      section{
+        id
+      }
+    }
+  }
+`;
+
+export const ADD_ARTICLES_TO_COLLECTION = `
+  mutation AddArticlesToCollection($appKey: String!, $collectionId: Int!, $articlesId: [String!]!){
+    addArticlesToCollection( 
+      appKey: $appKey,
+      collectionId: $collectionId,
+      articlesId: $articlesId
+    ){
+      collection{
+        id
+      }
+    }
+  }
+`;
+
+export const ARTICLE_SETTINGS_UPDATE = `
+  mutation ArticleSettingsUpdate($appKey: String!, $settings: Json!){
+    articleSettingsUpdate( 
+      appKey: $appKey,
+      settings: $settings
+    ){
+      settings{
+        id
+        subdomain
+        siteTitle
+        siteDescription
+        website
+        googleCode
+        color
+        facebook
+        twitter
+        linkedin
+        credits
+        logo
+        headerImage
+        translations
+      }
+      errors
     }
   }
 `;

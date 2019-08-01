@@ -121,5 +121,64 @@ module Types
     def assignment_rules
       object.assignment_rules.order("priority asc")
     end
+
+    field :article_settings, Types::ArticleSettingsType, null: true 
+
+    def article_settings
+      object.article_settings.blank? ? object.build_article_settings : object.article_settings
+    end
+
+    field :articles, Types::PaginatedArticlesType, null: true do
+      argument :page, Integer, required: true
+      argument :per, Integer, required: false, default_value: 20
+      argument :lang, String, required: false, default_value: I18n.default_locale
+    end
+
+    def articles(page:, per:, lang:)
+      I18n.locale = lang
+      object.articles.page(page).per(per)
+    end
+
+    field :articles_uncategorized, Types::PaginatedArticlesType, null: true do
+      argument :page, Integer, required: true
+      argument :per, Integer, required: false, default_value: 20
+      argument :lang, String, required: false, default_value: I18n.default_locale
+    end
+
+    def articles_uncategorized(page:, per:, lang:)
+      I18n.locale = lang
+      object.articles.without_collection.page(page).per(per)
+    end
+
+    field :article, Types::ArticleType, null: true do
+      argument :id, String, required: true
+      argument :lang, String, required: false, default_value: I18n.default_locale.to_s
+    end
+
+    def article(id:, lang:)
+      I18n.locale = lang
+      object.articles.friendly.find(id)
+    end
+
+    field :collections, [Types::CollectionType], null: true do
+      argument :lang, String, required: false, default_value: I18n.default_locale.to_s
+    end
+
+    def collections(lang:)
+      I18n.locale = lang.to_sym
+      object.article_collections
+    end
+
+    field :collection, Types::CollectionType, null: true do
+      argument :id, String, required: true
+      argument :lang, String, required: false, default_value: I18n.default_locale.to_s
+    end
+
+    def collection(id:, lang:)
+      I18n.locale = lang.to_sym
+      object.article_collections.friendly.find(id)
+    end
+
+
   end
 end

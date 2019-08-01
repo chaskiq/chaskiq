@@ -10,8 +10,13 @@ class ApplicationController < ActionController::Base
 
   def authorize_by_jwt
     token = request.headers["HTTP_AUTHORIZATION"].gsub("Bearer ", "")
+
+    return nil if token.blank? or token == "undefined"
+
     begin
       @current_agent = Warden::JWTAuth::UserDecoder.new.call(token, :agent, nil)
+    rescue JWT::DecodeError
+      render_unauthorized and return
     rescue JWT::ExpiredSignature
       render_unauthorized and return
     end

@@ -4,10 +4,7 @@ import { BrowserRouter, Route,Switch } from 'react-router-dom'
 import App from './App';
 
 import { Provider, connect } from 'react-redux'
-import { compose, createStore, applyMiddleware, combineReducers } from 'redux'
-import { composeWithDevTools } from 'redux-devtools-extension';
-import thunkMiddleware from 'redux-thunk'
-import persistState from 'redux-localstorage'
+import store from '../store'
 
 import Landing from '../pages/Landing'
 import graphql from '../graphql/client'
@@ -18,27 +15,32 @@ import { withStyles, createMuiTheme, MuiThemeProvider } from '@material-ui/core/
 import lightGreen from "@material-ui/core/colors/green";
 import blueGrey from "@material-ui/core/colors/blueGrey";
 
-import auth from '../actions/auth'
-import app from '../actions/app'
-import segment from '../actions/segments'
-import app_users from '../actions/app_users'
-import app_user from '../actions/app_user'
-
-import conversations from '../actions/conversations'
-import conversation from '../actions/conversation'
-import current_user from '../actions/current_user'
-import status_message from '../actions/status_messages'
-import current_page from '../actions/navigation'
-
 import Login from '../auth/login'
 import SignUp from '../auth/signup'
 import AcceptInvitation from '../auth/AcceptInvitation'
 
 
 let theme = createMuiTheme({
+
   typography: {
+
+
+    //font-family: 'IBM Plex Sans', sans-serif;
+    //font-family: 'IBM Plex Sans Condensed', sans-serif;
+
+    //fontFamily: "\"IBM Plex Sans\", \"Helvetica\", \"Arial\", sans-serif",
+
+    fontFamily: "\"Roboto Mono\", \"Helvetica\", \"Arial\", sans-serif",
+    fontSize: 14,
+    /*fontWeightLight: 300,
+    fontWeightRegular: 400,
+    fontWeightMedium: 500,*/
+
+
     h5: {
-      fontWeight: 500,
+      //fontFamily: "\"IBM Plex Sans Condensed\", \"Helvetica\", \"Arial\", sans-serif",
+      fontFamily: "\"Open Sans\", \"Helvetica\", \"Arial\", sans-serif",
+      fontWeight: 'bold',
       fontSize: 26,
       letterSpacing: 0.5,
     },
@@ -51,7 +53,7 @@ let theme = createMuiTheme({
       //main: '#dc18c1',
       main: '#24862c',
       white: '#fff',
-      dark: '#006db3',
+      dark: '#15501a', //'#006db3',
     }
   },
   shape: {
@@ -176,34 +178,7 @@ const styles = {
   },
 };
 
-const rootReducer = combineReducers({
-  auth,
-  app,
-  segment,
-  app_users,
-  app_user,
-  conversation,
-  conversations,
-  current_user,
-  status_message,
-  current_page
-})
 
-
-const middlewares = [thunkMiddleware]//, routerMiddleware(history)]
-
-
-const enhancer = compose(
-  applyMiddleware(...middlewares),
-  persistState('auth', { key: 'AUTH' })
-)
-
-
-const store = createStore(rootReducer, composeWithDevTools(
-  enhancer
-));
-
-window.store = store
 
 
 class MainRouter extends Component {

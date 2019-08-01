@@ -37,11 +37,15 @@ import {
 } from 'react-router-dom'
 import { connect } from 'react-redux'
 
-import List from '@material-ui/core/List';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemText from '@material-ui/core/ListItemText';
-import ListItemAvatar from '@material-ui/core/ListItemAvatar';
-import Avatar from '@material-ui/core/Avatar';
+import { withStyles } from '@material-ui/core/styles';
+
+import { 
+  List, 
+  ListItem ,
+  ListItemText ,
+  ListItemAvatar, 
+  Avatar
+} from '@material-ui/core';
 import DragHandleIcon from '@material-ui/icons/DragHandle'
 import {
   sortableContainer, 
@@ -53,25 +57,35 @@ import {InlineFilterDialog} from '../../components/segmentManager'
 import SegmentItemButton from '../../components/segmentManager/itemButton'
 
 
+const styles = theme => ({
+  button: {
+    margin: theme.spacing(1),
+  },
+});
+
 const DragHandle = sortableHandle(() => <DragHandleIcon/>);
 
-const SortableItem = sortableElement(({object, deleteRule, edit}) => (
-    <ListItem>
+const SortableItem = sortableElement(({object, deleteRule, edit, classes}) => (
+    <ListItem divider>
         <DragHandle />
 
         <ListItemText primary={object.title} 
         secondary={object.agent.email} />
 
         <Button 
-        variant="contained"
-        onClick={(e)=> {
-          e.preventDefault()
-          edit(object)}
-        }>
+          variant="contained"
+          color={'outlined'}
+          className={classes.button}
+          onClick={(e)=> {
+            e.preventDefault()
+            edit(object)}
+          }>
           edit
         </Button>
         <Button 
-          variant="contained"
+          className={classes.button}
+          variant="outlined"
+          color={'secondary'}
           onClick={(e)=>{
           e.preventDefault()
           deleteRule(object)
@@ -285,6 +299,7 @@ class AssigmentRules extends React.Component {
                         index={index} 
                         value={value.id}
                         object={value}
+                        classes={this.props.classes}
                         edit={this.edit.bind(this)}
                         deleteRule={this.deleteRule.bind(this)} 
                       />
@@ -567,7 +582,6 @@ function mapStateToProps(state) {
   }
 }
 
-export default withRouter(connect(mapStateToProps)(AssigmentRules))
-
+export default withRouter(connect(mapStateToProps)(withStyles(styles)(AssigmentRules)))
 
 

@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 
 import { withRouter } from 'react-router-dom'
 import { connect } from 'react-redux'
-
+import Moment from 'react-moment'
 import ContentHeader from '../components/ContentHeader'
 import Content from '../components/Content'
 import {
@@ -12,7 +12,8 @@ import {
         Avatar ,
         Typography,
         Button,
-        TextField
+        TextField,
+        Tooltip
       } from '@material-ui/core';
 
 import gravatar from '../shared/gravatar'
@@ -157,8 +158,24 @@ class AppUsers extends React.Component {
                   {name: "email", title: "email"},
                   {name: "name", title: "name"},
                   {name: "signInCount", title: "signInCount"},
-                  {name: "lastSignInAt", title: "lastSignInAt"},
-                  {name: "invitationAcceptedAt", title: "invitationAcceptedAt"},
+                  {name: "lastSignInAt", title: "lastSignInAt",
+                    getCellValue: row => (row.lastSignInAt ? 
+                      <Tooltip title={row.lastSignInAt}>
+                        <Moment fromNow>
+                          {row.lastSignInAt}
+                        </Moment>
+                      </Tooltip> : null
+                    )
+                  },
+                  {name: "invitationAcceptedAt", title: "invitationAcceptedAt",
+                    getCellValue: row => (row.invitationAcceptedAt ? 
+                      <Tooltip title={row.invitationAcceptedAt}>
+                        <Moment fromNow>
+                          {row.invitationAcceptedAt}
+                        </Moment> 
+                      </Tooltip> : null
+                    )
+                  },
                   {name: "actions", title: "actions", 
                     getCellValue: row => (row ? 
 
@@ -328,8 +345,24 @@ class NonAcceptedAppUsers extends React.Component {
                     },
                     {name: "email", title: "email"},
                     {name: "name", title: "name"},
-                    {name: "invitationAcceptedAt", title: "invitationAcceptedAt"},
-                    {name: "invitationSentAt", title: "invitationSentAt"},
+                    {name: "invitationAcceptedAt", title: "invitationAcceptedAt",
+                      getCellValue: row => (row.invitationAcceptedAt ? 
+                        <Tooltip title={row.invitationAcceptedAt}>
+                          <Moment fromNow>
+                            {row.invitationAcceptedAt}
+                          </Moment>
+                        </Tooltip> : null
+                      )
+                    },
+                    {name: "invitationSentAt", title: "invitationSentAt",
+                      getCellValue: row => (row.invitationSentAt ? 
+                        <Tooltip title={row.invitationSentAt}>
+                          <Moment fromNow>
+                            {row.invitationSentAt}
+                          </Moment>
+                        </Tooltip> : null
+                      )
+                    },
                   ]}
                   defaultHiddenColumnNames={[]}
                   tableColumnExtensions={[

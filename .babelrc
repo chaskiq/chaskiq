@@ -21,6 +21,17 @@
       {
         "spec": true
       }
-    ]
+    ],
+    ["prismjs", {
+      "languages": ["javascript", "css", "markup", "ruby", "typescript"],
+      "plugins": ["line-numbers"],
+      "theme": "twilight",
+      "css": true
+    }]
   ]
+
+
+
+
+
 }

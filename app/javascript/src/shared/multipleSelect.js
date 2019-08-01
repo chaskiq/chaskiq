@@ -107,12 +107,12 @@ class MultipleSelect extends React.Component {
             )}
             MenuProps={MenuProps}
           >
-            {this.props.data.options.map(name => (
+            {this.props.data.options.map(({label, value}) => (
               <MenuItem 
-                key={name} 
-                value={name} 
-                style={getStyles(name, this)}>
-                {name}
+                key={value} 
+                value={value} 
+                style={getStyles(value, this)}>
+                {value}
               </MenuItem>
             ))}
           </Select>

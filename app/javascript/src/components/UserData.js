@@ -1,5 +1,5 @@
 import React, {Component} from 'react'
-import styled from "styled-components"
+import styled from '@emotion/styled'
 import gravatar from "../shared/gravatar"
 import Moment from 'react-moment';
 import Accordeon from './accordeon'

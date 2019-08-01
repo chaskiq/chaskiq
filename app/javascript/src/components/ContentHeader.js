@@ -41,7 +41,7 @@ const styles = theme => ({
 });
 
 function ContentHeader(props) {
-  const { classes, onDrawerToggle } = props;
+  const { classes, onDrawerToggle, items } = props;
 
   return (
     <React.Fragment>
@@ -60,7 +60,9 @@ function ContentHeader(props) {
                 {props.title}
               </Typography>
             </Grid>
-            <Grid item>
+            {
+              items ? items : <React.Fragment>
+              <Grid item>
               <Button className={classes.button} 
                 variant="outlined" color="inherit" size="small">
                 Web setup
@@ -73,6 +75,9 @@ function ContentHeader(props) {
                 </IconButton>
               </Tooltip>
             </Grid>
+              </React.Fragment>
+            }
+            
           </Grid>
         </Toolbar>
       </AppBar>
