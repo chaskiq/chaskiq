@@ -1,19 +1,19 @@
 import axios from 'axios';
 import _ from 'lodash'
-
+import store from '../store'
 
 
 
 const graphql = (query, variables, callbacks)=>{
 
-  const auth = window.store.getState().auth
+  const auth = store.getState().auth
 
   const config = {
-    "access-token": auth.accessToken,
-    "token-type":   "Bearer",
-    "client":       auth.client,
-    "expiry":       auth.expiry,
-    "uid":          auth.uid,
+    //"access-token": auth.accessToken,
+    //"token-type":   "Bearer",
+    //"client":       auth.client,
+    //"expiry":       auth.expiry,
+    //"uid":          auth.uid,
     "authorization": auth.jwt
   }
 
