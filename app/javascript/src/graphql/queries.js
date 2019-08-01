@@ -37,6 +37,7 @@ export const AGENTS = `
       agents{
         id
         email
+        name
         signInCount
         lastSignInAt
         invitationAcceptedAt
@@ -51,6 +52,7 @@ export const PENDING_AGENTS = `
       notConfirmedAgents{
         id
         email
+        name
         signInCount
         lastSignInAt
         invitationAcceptedAt
@@ -66,6 +68,7 @@ export const AGENT = `
       agent(id: $id){
         id
         email
+        name
         conversations(page: $page , per: $per ){
           collection{
             id

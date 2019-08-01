@@ -11,6 +11,7 @@ module Types
     field :author, Types::AgentType, null: true
     field :collection, Types::CollectionType, null: true
     field :section, Types::SectionType, null: true
+    field :updated_at, type: GraphQL::Types::ISO8601DateTime, null: true
 
     def content
       object.article_content.as_json(only: [ :html_content, :serialized_content, :text_content] )

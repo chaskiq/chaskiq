@@ -453,6 +453,18 @@ export const INVITE_AGENT = `
     inviteAgent(appKey: $appKey, email: $email){
       agent {
         email
+        name
+      }
+    }
+  }
+`;
+
+export const UPDATE_AGENT = `
+  mutation UpdateAgent($appKey: String!, $email: String!, $name: String!){
+    updateAgent(appKey: $appKey, email: $email, name: $name){
+      agent {
+        email
+        name
       }
     }
   }
