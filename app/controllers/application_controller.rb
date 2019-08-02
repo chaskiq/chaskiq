@@ -6,11 +6,17 @@ class ApplicationController < ActionController::Base
 
   layout :layout_by_resource
 
+  def preview
+    @app = App.find_by(key: params[:app])
+    @campaign = @app.campaigns.find(params[:id])
+    #render plain: "hello"
+    render "campaigns/iframe", layout: false
+  end
 
 
   def authorize_by_jwt
     token = request.headers["HTTP_AUTHORIZATION"].gsub("Bearer ", "")
-
+    # TODO: review this
     return nil if token.blank? or token == "undefined"
 
     begin

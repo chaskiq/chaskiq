@@ -489,6 +489,13 @@ class CampaignContainer extends Component {
     this.props.history.push(`${this.props.match.url}/${row.id}`)
   }
 
+  renderActions = ()=>{
+    return <Button variant={"contained"} color={"primary"}
+                  onClick={this.createNewCampaign}>
+                  create new campaign
+                </Button>
+  }
+
   render() {
  
     return <div>
@@ -497,14 +504,9 @@ class CampaignContainer extends Component {
         render={(props) => (
           <div>
 
-            <Content>
+            <Content actions={this.renderActions()}>
 
-              <div style={{ float: 'right' }}>
-                <Button
-                  onClick={this.createNewCampaign}>
-                  create new campaign
-                </Button>
-              </div>
+              
 
                {
                  !this.state.loading && this.state.campaigns.length > 0 ?

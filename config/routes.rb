@@ -40,6 +40,7 @@ Rails.application.routes.draw do
   #get "/apps/:app_id/segments/:id/:jwt", to: 'segments#show', constraints: { jwt: /.+/ }
 
   root :to => "home#show"
+  get "/apps/:app/premailer/:id/" => "application#preview"
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
 
   get "tester" => 'client_tester#show'

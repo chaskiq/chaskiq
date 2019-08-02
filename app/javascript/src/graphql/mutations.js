@@ -341,6 +341,32 @@ export const UPDATE_CAMPAIGN = `
   }
 `;
 
+export const DELIVER_CAMPAIGN = `
+  mutation DeliverCampaign($appKey: String!, $id: Int!, ){
+    campaignDeliver(appKey: $appKey, id: $id){
+      errors
+      campaign {
+        name
+        id
+        type
+        serializedContent
+        segments
+        scheduledAt
+        scheduledTo
+        state
+        subject
+        timezone
+        description
+        statsFields
+        configFields
+        fromName
+        fromEmail
+        replyEmail
+      }
+    }
+  }
+`;
+
 export const CREATE_CAMPAIGN = `
   mutation CreateCampaign($appKey: String!, $campaignParams: Json!, $operation: String, $mode: String!){
     campaignCreate(operation: $operation, appKey: $appKey, mode: $mode, campaignParams: $campaignParams){
