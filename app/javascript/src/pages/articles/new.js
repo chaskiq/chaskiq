@@ -503,23 +503,28 @@ class ArticlesNew extends Component {
                   src={gravatar( this.state.article.author.email )}
                 />
 
+
                 <strong style={{marginLeft: '9px', marginRight: '9px'}}>
                   written by
                 </strong>
 
-                <div style={{ width: '300px'}}>
-                  <SuggestSelect 
-                    name={"author"}
-                    placeholder={"select author"}
-                    data={this.state.agents.map((o)=> ({ 
-                        label: o.email, 
-                        value: o.email 
-                      }) 
-                    )}
-                    handleSingleChange={this.handleAuthorchange }
-                    defaultData={this.state.article.author.email}
-                  />
-                </div>
+                {
+                  this.state.agents.length > 0 ?
+                    <div style={{ width: '300px'}}>
+                      <SuggestSelect 
+                        name={"author"}
+                        placeholder={"select author"}
+                        data={this.state.agents.map((o)=> ({ 
+                            label: o.name || o.email, 
+                            value: o.email 
+                          }) 
+                        )}
+                        handleSingleChange={this.handleAuthorchange }
+                        defaultData={this.state.article.author.email}
+                      />
+                    </div> : null 
+                } 
+
 
 
                 <strong style={{marginLeft: '9px', marginRight: '9px'}}>
@@ -539,9 +544,7 @@ class ArticlesNew extends Component {
 
                     defaultData={
                       this.state.article.collection ? 
-                      this.state.article.collection.title ?  
-                      this.state.article.collection.title : '--missing translations --'
-                      : ""
+                      this.state.article.collection.id : null
                     }
                   />
                 </div>
