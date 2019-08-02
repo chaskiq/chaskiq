@@ -250,7 +250,7 @@ export default function IntegrationReactSelect(props) {
 
   React.useEffect(() => {
     if(single && single.value)
-      props.handleSingleChange(single.value)
+      if(props.handleSingleChange) props.handleSingleChange(single.value)
     //if (!state.isSubmitting) { return; }
     // do your submitting with stateRef.current in here
     // then dispatch the results
@@ -265,9 +265,6 @@ export default function IntegrationReactSelect(props) {
       },
     }),
   };
-
-  if( !props.multi ) console.log("sggs", suggestions)
-  if( !props.multi ) console.log("single:" , single)
 
   return (
     <div className={classes.root}>

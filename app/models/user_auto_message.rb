@@ -27,13 +27,16 @@ class UserAutoMessage < Message
       {name: "subject", type: 'text' , grid: {xs: 12, sm: 12 } } ,
       {name: "description", type: 'text', grid: {xs: 12, sm: 12 } },
       {name: "hiddenConstraints", type: "select", 
-        options: ["close", "click", "viewed" ], 
+        options: [{label: "close", value: "close"}, 
+          {label: "click", value: "click"}, 
+          {label: "viewed", value: "viewed"} 
+        ], 
         multiple: true,
         default: "click",
         grid: {xs: 12, sm: 12 }
       },
-      {name: "scheduledAt", type: 'datetime', grid: {xs: 12, sm: 12 } },
-      {name: "scheduledTo", type: 'datetime', grid: {xs: 12, sm: 12 } },
+      {name: "scheduledAt", type: 'datetime', grid: {xs: 12, sm: 6 } },
+      {name: "scheduledTo", type: 'datetime', grid: {xs: 12, sm: 6 } },
     ]
   end
 

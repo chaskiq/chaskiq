@@ -825,6 +825,14 @@ class Messenger extends Component {
               Hello World
             </Button>
       </StyledFrame>*/}
+
+
+          {
+            this.state.availableMessages ?
+            <MessageFrame 
+              availableMessages={this.state.availableMessages} 
+            /> : null
+          }
               
 
           {
@@ -1347,6 +1355,7 @@ class MessageFrame extends Component {
   render(){
     return <UserAutoMessageStyledFrame id="messageFrame" 
       isMinimized={this.fetchMinizedCache()}>
+      
 
 
        <UserAutoMessageFlex isMinimized={this.fetchMinizedCache()}>
