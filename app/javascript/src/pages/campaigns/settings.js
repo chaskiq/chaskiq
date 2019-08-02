@@ -72,7 +72,7 @@ export default class CampaignSettings extends Component {
   update = (data) => {
 
     const params = {
-      appKey: this.props.store.app.key,
+      appKey: this.props.app.key,
       id: this.state.data.id,
       campaignParams: data.campaign
     }
@@ -115,32 +115,38 @@ export default class CampaignSettings extends Component {
           
           <Grid container spacing={3}>
       
-          {
-            this.state.data.configFields.map((field) => {
-              return <Grid item 
-                        xs={field.grid.xs} 
-                        sm={field.grid.sm}>
-                        <FieldRenderer 
-                          namespace={'campaign'} 
-                          data={field}
-                          props={this.state} 
-                          errors={this.state.errors}
-                         />
-                     </Grid>
-            })
-          }
+            {
+              this.state.data.configFields.map((field) => {
+                return <Grid item 
+                          xs={field.grid.xs} 
+                          sm={field.grid.sm}>
+                          <FieldRenderer 
+                            namespace={'campaign'} 
+                            data={field}
+                            props={this.state} 
+                            errors={this.state.errors}
+                          />
+                      </Grid>
+              })
+            }
+
+
+            <Grid item>
+
+              <Button onClick={this.onSubmitHandler.bind(this)}
+                      variant="contained" 
+                      color="primary">
+                Save
+              </Button>
+
+              <Button appearance="subtle">
+                Cancel
+              </Button>
+            </Grid>
 
           </Grid>
 
-          <Button onClick={this.onSubmitHandler.bind(this)}
-                  variant="contained" 
-                  color="primary">
-            Save
-          </Button>
 
-          <Button appearance="subtle">
-            Cancel
-          </Button>
        
         </form>
       </div>
