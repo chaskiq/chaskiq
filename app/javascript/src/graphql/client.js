@@ -1,7 +1,8 @@
 import axios from 'axios';
 import _ from 'lodash'
 import store from '../store'
-
+import {errorMessage, successMessage} from '../actions/status_messages'
+import {expireAuthentication} from '../actions/auth'
 
 
 const graphql = (query, variables, callbacks)=>{
@@ -41,12 +42,24 @@ const graphql = (query, variables, callbacks)=>{
 
     callbacks['success'] ? callbacks['success'](data, res) : null
   })
-  .catch( r => {
+  .catch(( req, error )=> {
     //throw r
     //const res = r.response
-    callbacks['fatal'] ? callbacks['fatal'](r) : null
+    switch (req.response.status) {
+      case 500:
+        store.dispatch(errorMessage("server error ocurred"))
+        break;
+      case 401:
+        store.dispatch(errorMessage("session expired"))
+        store.dispatch(expireAuthentication())
+        break;
+      default:
+        break;
+    }
+    
+    callbacks['fatal'] ? callbacks['fatal'](error) : null
   })
-  .then( () => {
+  .then( (r) => {
     callbacks['always'] ? callbacks['always']() : null
   });
 }
