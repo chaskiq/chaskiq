@@ -15,7 +15,7 @@ import styled from '@emotion/styled'
 import axios from 'axios'
 import serialize from 'form-serialize'
 
-import Button from '@material-ui/core/Button';
+import {Button, Grid} from '@material-ui/core';
 import CampaignSettings from "./campaigns/settings"
 import CampaignEditor from "./campaigns/edito"
 import SegmentManager from '../components/segmentManager'
@@ -409,6 +409,14 @@ class CampaignForm extends Component {
 
       <ContentHeader 
         title={ title }
+        items={
+          <Grid item>
+              <Button 
+                variant="outlined" color="inherit" size="small">
+                {this.state.data.state}
+              </Button>
+            </Grid>
+        }
         tabsContent={
           this.isNew() ? null : this.tabsContent() 
         }
