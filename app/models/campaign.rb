@@ -27,10 +27,10 @@ class Campaign < Message
 
   def stats_fields
     [
-      {name: "DeliverRateCount", label: "DeliverRateCount", keys: [{name: "send", color: "#0747A6"}, {name: "open", color: "#DEEBFF"}] },
-      {name: "ClickRateCount", label: "ClickRateCount", keys: [{name: "send" , color: "#0747A6"}, {name: "open", color: "#DEEBFF"}] },
-      {name: "BouncesRateCount", label: "BouncesRateCount", keys: [{name: "send", color: "#0747A6"}, {name: "bounces", color: "#DEEBFF"}]},
-      {name: "ComplaintsRate", label: "ComplaintsRate", keys: [{name: "send", color: "#0747A6"}, {name: "complaints", color: "#DEEBFF"}]}
+      {name: "DeliverRateCount", label: "DeliverRateCount", keys: [{name: "send", color: "#444"}, {name: "open", color: "#ccc"}] },
+      {name: "ClickRateCount", label: "ClickRateCount", keys: [{name: "send" , color: "#444"}, {name: "open", color: "#ccc"}] },
+      {name: "BouncesRateCount", label: "BouncesRateCount", keys: [{name: "send", color: "#444"}, {name: "bounces", color: "#ccc"}]},
+      {name: "ComplaintsRate", label: "ComplaintsRate", keys: [{name: "send", color: "#444"}, {name: "complaints", color: "#ccc"}]}
     ]
   end
 

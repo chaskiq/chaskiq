@@ -30,7 +30,11 @@ import Content from '../components/Content'
 
 import graphql from "../graphql/client"
 import { CAMPAIGN, CAMPAIGNS  } from "../graphql/queries"
-import { PREDICATES_SEARCH, UPDATE_CAMPAIGN, CREATE_CAMPAIGN } from '../graphql/mutations'
+import { PREDICATES_SEARCH, 
+  UPDATE_CAMPAIGN, 
+  CREATE_CAMPAIGN,
+  DELIVER_CAMPAIGN
+ } from '../graphql/mutations'
 
 // @flow
 //import DataTable from '../components/dataTable'
@@ -399,6 +403,24 @@ class CampaignForm extends Component {
     return this.props.match.params.id === "new"
   }
 
+  handleSend = (e) => {
+
+    const params = {
+      appKey: this.props.app.key,
+      id: this.state.data.id,
+    }
+
+    graphql(DELIVER_CAMPAIGN, params, {
+      success: (data)=>{
+        this.updateData(data.campaignDeliver.campaign, null)
+        //this.setState({ status: "saved" })
+      }, 
+      error: ()=>{
+
+      }
+    })
+  }
+
 
   render() {
 
@@ -422,7 +444,29 @@ class CampaignForm extends Component {
         }
       />
 
-      <Content>
+      <Content actions={
+          //&& (this.state.data.state != "sent" && this.state.data.state != "delivering")  ?
+          this.props.mode === "campaigns" ?
+        
+            <Grid container justify={"flex-end"}>
+
+              <Button variant="contained" color="primary" size="small" onClick={(e) => {
+                  window.open(`${window.location.origin}/apps/${this.props.app.key}/premailer/${this.state.data.id}`, '_blank');
+                }
+              }>
+                Preview
+              </Button>
+
+              <Button variant="contained" color="primary" size="small">
+                test delivery
+              </Button>
+
+              <Button variant="contained" color="primary" size="small" onClick={this.handleSend}>
+                deliver email
+              </Button>
+
+            </Grid> : null 
+        }>
 
         {
           !isEmpty(this.state.data) ? 

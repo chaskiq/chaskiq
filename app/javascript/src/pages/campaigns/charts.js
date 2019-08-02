@@ -24,7 +24,7 @@ export default class CampaignPie extends Component {
         colors="dark2"
         colorBy={function (e) { return e.color }}
         //colorBy="id"
-        borderWidth={1}
+        borderWidth={0}
         borderColor="inherit:darker(0.2)"
         enableRadialLabels={false}
         slicesLabelsSkipAngle={10}
