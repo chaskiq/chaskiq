@@ -14,7 +14,7 @@ export const ColumnContainer = styled.div`
 export const GridElement = styled.div`
   flex: 1;
   ${(props)=>{
-    return props.grow ? `flex-grow: ${props.grow}` : null
+    return props.grow ? `flex-grow: ${props.grow};` : null
   }}
 
   overflow: scroll;

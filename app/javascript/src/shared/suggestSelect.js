@@ -266,6 +266,9 @@ export default function IntegrationReactSelect(props) {
     }),
   };
 
+  if( !props.multi ) console.log("sggs", suggestions)
+  if( !props.multi ) console.log("single:" , single)
+
   return (
     <div className={classes.root}>
       <NoSsr>
@@ -301,7 +304,8 @@ export default function IntegrationReactSelect(props) {
           inputId="react-select-single"
           name={props.name}
           placeholder={props.placeholder}
-          defaultInputValue={single}
+          //defaultValue={single}
+          //defaultInputValue={single}
           TextFieldProps={{
             label: props.label,
             InputLabelProps: {
@@ -309,12 +313,12 @@ export default function IntegrationReactSelect(props) {
               shrink: true,
               defaultValue: single
             },
-            defaultValue: single,
+            //defaultValue: single,
           }}
           options={suggestions}
           components={components}
-          defaultValue={single}
-          //value={single}
+          //defaultValue={single}
+          value={suggestions.find((o)=> (o.value === single ))}
           onChange={handleChangeSingle}
         />
       }
