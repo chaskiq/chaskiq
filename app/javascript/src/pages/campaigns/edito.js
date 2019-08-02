@@ -8,7 +8,7 @@ import axios from 'axios'
 //import Lozenge from '@atlaskit/lozenge';
 //import Button from '@atlaskit/button';
 import graphql from '../../graphql/client'
-import { UPDATE_CAMPAIGN} from '../../graphql/mutations'
+import { UPDATE_CAMPAIGN, DELIVER_CAMPAIGN} from '../../graphql/mutations'
 
 //import config from "../constants/config"
 
@@ -829,13 +829,22 @@ export default class CampaignEditor extends Component {
 
 
   handleSend = (e) => {
-    axios.get(`${this.props.match.url}/deliver.json`)
-      .then((response) => {
-        this.props.updateData(response.data, null)
-        console.log(response)
-      }).catch((err) => {
-        console.log(err)
-      })
+
+    const params = {
+      appKey: this.props.app.key,
+      id: this.props.data.id,
+    }
+
+    graphql(DELIVER_CAMPAIGN, params, {
+      success: (data)=>{
+        this.props.updateData(data.campaignDeliver.campaign, null)
+        this.setState({ status: "saved" })
+      }, 
+      error: ()=>{
+
+      }
+    })
+
   }
 
   render() {
@@ -862,7 +871,7 @@ export default class CampaignEditor extends Component {
               <ButtonsRow>
 
                 <button appearance="default" onClick={(e) => {
-                  window.open(`${window.location.pathname}/preview`, '_blank');
+                  window.open(`${window.location.origin}/apps/${this.props.app.key}/premailer/${this.props.data.id}`, '_blank');
                 }}>
                   Preview
                 </button>

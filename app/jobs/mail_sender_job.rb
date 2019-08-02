@@ -5,7 +5,9 @@ class MailSenderJob < ActiveJob::Base
   #send to all list with state passive & subscribed
   def perform(campaign)
     campaign.apply_premailer
-    campaign.available_segments.each do |app_user|
+    campaign.
+    available_segments.
+    where.not(email: nil).each do |app_user|
       campaign.push_notification(app_user)
     end
 

@@ -17,6 +17,7 @@ module Types
     field :campaignsNew, mutation: Mutations::Campaigns::NewCampaign
     field :campaignCreate, mutation: Mutations::Campaigns::CreateCampaign
     field :campaignUpdate, mutation: Mutations::Campaigns::UpdateCampaign
+    field :campaignDeliver, mutation: Mutations::Campaigns::DeliverCampaign
     
     field :startConversation, mutation: Mutations::Conversations::StartConversation
     field :insertComment, mutation: Mutations::Conversations::InsertComment
