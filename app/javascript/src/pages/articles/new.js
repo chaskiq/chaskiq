@@ -42,7 +42,8 @@ import {
   ARTICLE_BLOB_ATTACH,
   TOGGLE_ARTICLE,
   ARTICLE_ASSIGN_AUTHOR,
-  ARTICLE_COLLECTION_CHANGE
+  ARTICLE_COLLECTION_CHANGE,
+  CREATE_URL_UPLOAD
 } from '../../graphql/mutations'
 
 import {
@@ -349,6 +350,42 @@ class ArticlesNew extends Component {
 
   uploadHandler = (file, imageBlock)=>{
 
+    if(!file){
+      this.uploadFromUrl(file, imageBlock)
+    } else {
+      this.uploadFromFile(file, imageBlock)
+    }    
+  }
+
+  uploadFromUrl = (file, imageBlock)=>{
+
+    const url = imageBlock.props.blockProps.data.get("url")
+
+    graphql(CREATE_URL_UPLOAD, {url: url} , {
+      success: (data)=>{
+        const {signedBlobId, headers, url, serviceUrl} = data.createUrlUpload.directUpload
+        graphql(ARTICLE_BLOB_ATTACH, { 
+          appKey: this.props.app.key ,
+          id: parseInt(this.state.article.id),
+          blobId: signedBlobId
+        }, {
+          success: (data)=>{
+            imageBlock.uploadCompleted(serviceUrl)
+          },
+          error: (err)=>{
+            console.log("error on direct upload", err)
+          }
+        })
+      },
+      error: ()=>{
+        debugger
+      }
+    })
+
+
+  }
+
+  uploadFromFile = (file, imageBlock)=>{
     getFileMetadata(file).then((input) => {
       graphql(CREATE_DIRECT_UPLOAD, input, {
         success: (data)=>{

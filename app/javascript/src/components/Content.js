@@ -47,6 +47,9 @@ function Content(props) {
       
       <AppBar className={classes.searchBar} position="static" color="default" elevation={0}>
         <Toolbar>
+          {
+            false ?
+          
           <Grid container spacing={10} alignItems="center">
             
             {
@@ -85,7 +88,10 @@ function Content(props) {
                   </Tooltip>*/}
 
             </Grid>
-          </Grid>
+          </Grid> : null 
+        }
+
+          {props.actions ? props.actions : null}
         </Toolbar>
       </AppBar>
 
