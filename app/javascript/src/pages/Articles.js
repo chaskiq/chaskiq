@@ -24,7 +24,7 @@ import {
 import gravatar from '../shared/gravatar'
 import {LinkButton, LinkIconButton} from '../shared/RouterLink'
 
-import HelpIcon from '@material-ui/icons/Help'
+import AddIcon from '@material-ui/icons/Add'
 
 import GestureIcon from '@material-ui/icons/Gesture'
 import CheckCircleIcon from '@material-ui/icons/CheckCircle'
@@ -164,21 +164,13 @@ class Articles extends Component {
                     <React.Fragment>
                     {
                       this.state.settings && this.state.settings.subdomain ?
-                    
-                    <Grid item>
-                      <Button href={`https://${this.state.settings.subdomain}.chaskiq.io`}
-                        variant="outlined" color="inherit" size="small" target={"blank"}>
-                        visit help center
-                      </Button>
-                    </Grid> : null 
-                  }
-                    <Grid item>
-                      <Tooltip title="Help">
-                        <LinkIconButton to={`/apps/${this.props.app.key}/articles/new`}>
-                          <HelpIcon />
-                        </LinkIconButton>
-                      </Tooltip>
-                    </Grid>
+                        <Grid item>
+                          <Button href={`https://${this.state.settings.subdomain}.chaskiq.io`}
+                            variant="outlined" color="inherit" size="small" target={"blank"}>
+                            visit help center
+                          </Button>
+                        </Grid> : null 
+                    }
                     </React.Fragment>
                   }
                 />
@@ -287,8 +279,22 @@ class AllArticles extends React.Component {
     }, this.getArticles )
   }
 
+  renderActions = ()=>{
+    return <Grid container direction="row" justify="flex-end">
+              <Grid item>
+                <LinkButton 
+                  variant={'contained'} 
+                  color={'primary'} 
+                  to={`/apps/${this.props.app.key}/articles/new`}>
+                  <AddIcon />
+                  {" New article"}
+                </LinkButton>
+              </Grid>
+            </Grid>
+  }
+
   render(){
-    return <Content>
+    return <Content actions={this.renderActions()} >
 
               <ScrollableTabsButtonForce
                 tabs={this.props.settings.availableLanguages.map((o)=> langs.find((lang)=> lang.value === o) )} 

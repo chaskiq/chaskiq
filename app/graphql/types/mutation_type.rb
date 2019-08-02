@@ -54,7 +54,7 @@ module Types
     field :articleCollectionEdit, mutation: Mutations::Articles::Collections::EditCollection
     field :articleCollectionDelete, mutation: Mutations::Articles::Collections::DeleteCollection
 
-
+    field :createUrlUpload, mutation: Mutations::CreateUrlUpload
     field :createDirectUpload, mutation: Mutations::CreateDirectUpload
   end
 end

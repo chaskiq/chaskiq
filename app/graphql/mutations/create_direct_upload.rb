@@ -3,7 +3,6 @@ module Mutations
   class CreateDirectUpload < GraphQL::Schema::Mutation
     class CreateDirectUploadInput < GraphQL::Schema::InputObject
       description "File information required to prepare a direct upload"
-
       argument :filename, String, "Original file name", required: true
       argument :byte_size, Int, "File size (bytes)", required: true
       argument :checksum, String, "MD5 file checksum as base64", required: true
