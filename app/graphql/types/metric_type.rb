@@ -5,5 +5,12 @@ module Types
     field :host, String, null: true
     field :data, Types::JsonType, null: true
     field :message_id, String, null: true
+    field :email, String, null: true
+    field :updated_at, type: GraphQL::Types::ISO8601DateTime, null: true
+    field :created_at, type: GraphQL::Types::ISO8601DateTime, null: true
+
+    def email
+      object.trackable.email
+    end
   end
 end
