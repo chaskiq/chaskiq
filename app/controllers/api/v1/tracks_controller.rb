@@ -8,9 +8,9 @@ class Api::V1::TracksController < ActionController::API
   %w[open bounce spam].each do |action|
     define_method(action) do
       find_subscriber
-      @subscriber.send("track_#{action}".to_sym, { host: get_referrer, campaign_id: @campaign.id })
+      @subscriber.send("track_#{action}".to_sym, { host: request.remote_ip, campaign_id: @campaign.id })
       #return image
-      img_path = Chaskiq::Engine.root.join("app/assets/images/chaskiq", "track.gif")
+      img_path = Rails.root.join("app/assets/images", "track.gif")
       send_data File.read(img_path, :mode => "rb"), :filename => '1x1.gif', :type => 'image/gif'
       #send_data File.read(view_context.image_url("chaskiq/track.gif"), :mode => "rb"), :filename => '1x1.gif', :type => 'image/gif'
     end

@@ -102,6 +102,11 @@ class Campaign < Message
     campaign_url = "#{host}/campaigns/#{self.id}"
   end
 
+  def campaign_api_url
+    host = Rails.application.routes.default_url_options[:host]
+    campaign_url = "#{host}/api/v1/apps/#{self.app.key}/messages/#{self.id}"
+  end
+
   def apply_premailer(opts={})
     host = Rails.application.routes.default_url_options[:host]
     skip_track_image = opts[:exclude_gif] ? "exclude_gif=true" : nil
@@ -122,7 +127,7 @@ class Campaign < Message
   def attributes_for_template(subscriber)
 
     subscriber_url = "#{campaign_url}/subscribers/#{subscriber.encoded_id}"
-    track_image    = "#{campaign_url}/tracks/#{subscriber.encoded_id}/open.gif"
+    track_image    = "#{campaign_api_url}/tracks/#{subscriber.encoded_id}/open.gif"
 
     { email: subscriber.email,
       campaign_url: campaign_url,
