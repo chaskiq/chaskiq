@@ -844,7 +844,6 @@ export default class CampaignEditor extends Component {
 
       }
     })
-
   }
 
   render() {
