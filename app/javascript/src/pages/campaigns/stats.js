@@ -376,16 +376,13 @@ export default class CampaignStats extends Component {
 
                                : undefined)
                             },
-                            {name: 'lastVisitedAt', 
-                              title: 'lastVisitedAt',
-                              getCellValue: row => (row ? <Moment fromNow>
-                                                            {row.lastVisitedAt}
-                                                          </Moment> : undefined)
-                            },
                             {name: 'action', title: 'Action'},
-                            {name: 'email', title: 'who'},
                             {name: 'host', title: 'from'},
-                            {name: 'created_at', title: 'when'},
+                            {name: 'createdAt', title: 'when',
+                            getCellValue: row => (row ? <Moment fromNow>
+                                                          {row.updatedAt}
+                                                        </Moment> : undefined)
+                            },
                             {name: 'data', title: 'data', getCellValue: row => (row ? 
                               <p>{JSON.stringify(row.data)}</p> : 
                               null 

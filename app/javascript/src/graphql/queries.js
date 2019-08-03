@@ -427,7 +427,15 @@ query Campaign($appKey: String!, $mode: String!, $id: Int!, $page: Int, $per: In
       name
       counts
       metrics(page: $page, per: $per){
-        collection
+        collection {
+          action
+          host
+          data
+          messageId
+          email
+          updatedAt
+          createdAt
+        }
         meta
       }
     }
