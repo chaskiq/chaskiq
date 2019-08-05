@@ -433,6 +433,7 @@ query Campaign($appKey: String!, $mode: String!, $id: Int!, $page: Int, $per: In
           data
           messageId
           email
+          appUserId
           updatedAt
           createdAt
         }

@@ -332,7 +332,7 @@ class ShowAppContainer extends Component {
   showUserDrawer = (o)=>{
     this.props.dispatch(
       toggleDrawer({ rightDrawer: true }, ()=>{
-        this.setAppUser(o.id)
+        this.setAppUser(o)
       })
     )
   }

@@ -223,12 +223,12 @@ export default class CampaignStats extends Component {
                   search={this.getData}
                   defaultHiddenColumnNames={[]}
                   columns={[
-                            //{field: 'id', title: 'id'},
+                            {field: 'id', title: 'id', hidden: true},
                             {field: 'email', 
                             title: 'email', 
                               render: row => (row ? 
 
-                                <NameWrapper onClick={(e)=>(this.props.actions.showUserDrawer(row))}>
+                                <NameWrapper onClick={(e)=>(this.props.actions.showUserDrawer(row.appUserId))}>
                                   <AvatarWrapper>
                                     <Badge 
                                       //className={classes.margin} 
