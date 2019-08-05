@@ -5,11 +5,15 @@ import CampaignChart from "./charts.js"
 import styled from '@emotion/styled'
 import graphql from '../../graphql/client'
 import {CAMPAIGN_METRICS} from '../../graphql/queries'
-import Badge from '@material-ui/core/Badge';
-import Avatar from '@material-ui/core/Avatar';
-import DataTable from '../../components/newTable'
+import {PURGE_METRICS} from '../../graphql/mutations'
+import Table from '../../components/table/index'
 import gravatar from '../../shared/gravatar'
-import {Typography} from '@material-ui/core'
+import {
+  Typography, 
+  Button, 
+  Avatar, 
+  Badge
+} from '@material-ui/core'
 
 const PieContainer = styled.div`
 padding: .75em;
@@ -48,80 +52,40 @@ export default class CampaignStats extends Component {
   }
 
   createHead = (withWidth: boolean) => {
-    /*return {
-      cells: [
-        {
-          key: 'action',
-          content: 'Action',
-          isSortable: true,
-          width: withWidth ? 5 : undefined,
-        },
-        {
-          key: 'email',
-          content: 'who',
-          shouldTruncate: true,
-          isSortable: true,
-          width: withWidth ? 15 : undefined,
-        },
-        {
-          key: 'host',
-          content: 'from',
-          shouldTruncate: true,
-          isSortable: true,
-          width: withWidth ? 15 : undefined,
-        },
-        
-        {
-          key: 'created_at',
-          content: 'when',
-          shouldTruncate: true,
-          isSortable: true,
-          width: withWidth ? 10 : undefined,
-        },
-  
-        {
-          key: 'data',
-          content: 'Data',
-          shouldTruncate: true,
-          isSortable: true,
-          width: withWidth ? 10 : undefined,
-        },
-      ],
-    };*/
 
     return [
       {
-        name: 'action',
+        field: 'action',
         options: {
           filter: false,
-          customBodyRender: (value, tableMeta, updateValue) => {
+          render: (value, tableMeta, updateValue) => {
             return this.renderLozenge(value)
           }
         }
       },
 
       {
-        name: 'email',
+        field: 'email',
         options: {
           filter: false
         }
       },
       {
-        name: 'host',
+        field: 'host',
         options: {
           filter: false
         }
       },
         
       {
-        name: 'created_at',
+        field: 'created_at',
         options: {
           filter: false
         }
       },
   
       {
-        name: 'data',
+        field: 'data',
         options: {
           filter: false,
           customBodyRender: (value, tableMeta, updateValue) => {
@@ -137,15 +101,6 @@ export default class CampaignStats extends Component {
 
   renderLozenge = (item)=>{
     let kind = "default"
-
-    /*
-      "default",
-      "inprogress",
-      "moved",
-      "new",
-      "removed",
-      "success",
-    */
 
     switch (item) {
       case "click":
@@ -164,63 +119,6 @@ export default class CampaignStats extends Component {
     return <div appearance={kind}>
             {item}
            </div>
-  }
-
-  getTableData(){
-
-    const head = this.createHead(true);
-
-
-    /*
-    const metrics = this.state.collection.map((metric, index) => {
-      return {
-        key: `row-${index}-${metric.id}`,
-        cells: [
-          {
-            key: `action-${metric.id}-${index}`,
-            content: (this.renderLozenge(metric) ),
-          },
-          {
-            key: `email-${metric.email}-${index}`,
-            content: <span>{metric.email}</span>,
-          },
-          {
-            key: `host-${metric.id}-${index}`,
-            content: <span>{metric.host}</span>,
-          },
-          {
-            key: `host-${metric.created_at}-${index}`,
-            content: (<span>
-                        <Moment fromNow>{metric.created_at }</Moment>
-                      </span>),
-          },
-          {
-            content: (
-
-            <DropdownMenu trigger="More" triggerType="button"
-              position={"bottom right"}>
-              <DropdownItemGroup>
-                {
-                  Object.keys(metric.data).map((k, i)=> <DropdownItem key={i}>
-                    <b>{k}</b>: {metric.data[k]}
-                  </DropdownItem> 
-                )
-                }
-                
-              </DropdownItemGroup>
-            </DropdownMenu>
-
-            ),
-          },
-        ],
-      }
-    }
-    );
-    */
-
-    //return {head: head, rows: metrics}
-
-    return {head: head}
   }
 
   componentDidMount(){
@@ -253,49 +151,25 @@ export default class CampaignStats extends Component {
     })
   }
 
-  /*getData = ()=>{
-    const url = `${this.props.url}/metrics.json?mode=${this.props.mode}&page=${this.state.meta.next_page || 1}`
-    this.setState({loading: true})
-    axios.get(url)
-    .then((response)=>{
-      this.setState({
-        collection: response.data.collection, //this.state.collection.concat(response.data.collection),
-        meta: response.data.meta,
-        loading: false
-      })
-    }).catch((err)=>{
-      console.log(err)
-    })
-  }
-
-  getCounts = ()=>{
-    const url = `${this.props.url}/metrics/counts.json?mode=${this.props.mode}`
-
-    axios.get(url)
-    .then((response)=>{
-      this.setState({
-        counts: response.data
-      })
-    }).catch((err)=>{
-      console.log(err)
-    })
-
-  }*/
-
   handleNextPage = ()=>{
     this.getData()
   }
 
   purgeMetrics = ()=>{
-    const url = `${this.props.url}/metrics/purge.json?mode=${this.props.mode}`
 
-    axios.get(url)
-      .then((response) => {
+    graphql(PURGE_METRICS, {
+      appKey: this.props.app.key, 
+      id: parseInt(this.props.match.params.id),
+    }, {
+      success: (data)=>{
         this.props.fetchCampaign()
         this.init()
-      }).catch((err) => {
-        console.log(err)
-      })
+      },
+      error: ()=>{
+
+      }
+    })
+
   }
 
   getRateFor = (type)=>{
@@ -311,8 +185,7 @@ export default class CampaignStats extends Component {
   }
 
   render(){
-    const {head, rows} = this.getTableData()
-    
+
     return <div>
               <PieContainer>
 
@@ -328,12 +201,13 @@ export default class CampaignStats extends Component {
 
 
             <div>
-              <button
-                spacing={"compact"}
-                appearance={"danger"}
+              <Button
+                variant={"contained"}
+                color={"primary"}
+                size={"small"}
                 onClick={this.purgeMetrics}>
                 purge metrics
-              </button>
+              </Button>
             </div>
 
             <hr/>
@@ -343,16 +217,16 @@ export default class CampaignStats extends Component {
               {
                 !this.state.loading ?
 
-                <DataTable
-                  rows={this.state.collection} 
+                <Table
+                  data={this.state.collection} 
                   loading={this.props.searching}
                   search={this.getData}
                   defaultHiddenColumnNames={[]}
                   columns={[
-                            //{name: 'id', title: 'id'},
-                            {name: 'email', 
+                            //{field: 'id', title: 'id'},
+                            {field: 'email', 
                             title: 'email', 
-                              getCellValue: row => (row ? 
+                              render: row => (row ? 
 
                                 <NameWrapper onClick={(e)=>(this.props.showUserDrawer(row))}>
                                   <AvatarWrapper>
@@ -376,14 +250,14 @@ export default class CampaignStats extends Component {
 
                                : undefined)
                             },
-                            {name: 'action', title: 'Action'},
-                            {name: 'host', title: 'from'},
-                            {name: 'createdAt', title: 'when',
-                            getCellValue: row => (row ? <Moment fromNow>
+                            {field: 'action', title: 'Action'},
+                            {field: 'host', title: 'from'},
+                            {field: 'createdAt', title: 'when',
+                            render: row => (row ? <Moment fromNow>
                                                           {row.updatedAt}
                                                         </Moment> : undefined)
                             },
-                            {name: 'data', title: 'data', getCellValue: row => (row ? 
+                            {field: 'data', title: 'data', render: row => (row ? 
                               <p>{JSON.stringify(row.data)}</p> : 
                               null 
                             )},
@@ -403,33 +277,6 @@ export default class CampaignStats extends Component {
                   leftColumns={ ['email']}
                   rightColumns={ ['online']} 
                   meta={this.state.meta}
-
-                  /*<DataTable 
-                    title={'metrics'}
-                    columns={head} 
-                    meta={this.state.meta}
-                    data={this.state.collection}
-                    search={this.getData}
-                    loading={this.state.loading}
-                    //onRowClick={(e)=>{
-                    //  this.showUserDrawer(e)
-                    //}}
-                  />*/
-
-                  /*<DynamicTable
-                    caption={null}
-                    head={head}
-                    rows={rows}
-                    //rowsPerPage={1}
-                    defaultPage={1}
-                    loadingSpinnerSize="large"
-                    isLoading={false}
-                    isFixedSize
-                    defaultSortKey="email"
-                    defaultSortOrder="ASC"
-                    onSort={() => console.log('onSort')}
-                    onSetPage={() => console.log('onSetPage')}
-                  />*/ 
                   /> : null 
               }
               

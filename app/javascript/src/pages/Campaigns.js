@@ -8,9 +8,7 @@ import { connect } from 'react-redux'
 import ContentWrapper from '../components/ContentWrapper';
 import PageTitle from '../components/PageTitle';
 //import Tabs from '@atlaskit/tabs';
-import {Avatar, Typography} from '@material-ui/core';
 import Moment from 'react-moment';
-
 import styled from '@emotion/styled'
 import axios from 'axios'
 import serialize from 'form-serialize'
@@ -36,12 +34,19 @@ import { PREDICATES_SEARCH,
   DELIVER_CAMPAIGN
  } from '../graphql/mutations'
 
-// @flow
-//import DataTable from '../components/dataTable'
-import DataTable from '../components/newTable'
+import Table from '../components/table/index'
 
-import Tab from '@material-ui/core/Tab';
-import Tabs from '@material-ui/core/Tabs';
+
+
+import { Done, Face } from '@material-ui/icons';
+import {
+  Typography,
+  Avatar,
+  Chip,
+  Tab,
+  Tabs
+} from '@material-ui/core'
+
 
 import gravatar from '../shared/gravatar'
 
@@ -184,8 +189,8 @@ class CampaignSegment extends Component {
       loading={this.props.searching}
       columns={[
         //{name: 'id', title: 'id'},
-        {name: 'email', title: 'email', 
-          getCellValue: row => (row ? 
+        {field: 'email', title: 'email', 
+          render: row => (row ? 
 
             <NameWrapper onClick={(e)=>(this.showUserDrawer(row))}>
               <AvatarWrapper>
@@ -209,22 +214,22 @@ class CampaignSegment extends Component {
 
            : undefined)
         },
-        {name: 'lastVisitedAt', 
+        {field: 'lastVisitedAt', 
           title: 'lastVisitedAt',
-          getCellValue: row => (row ? <Moment fromNow>
+          render: row => (row ? <Moment fromNow>
                                         {row.lastVisitedAt}
                                       </Moment> : undefined)
         },
-        {name: 'state', title: 'state'},
-        {name: 'online', title: 'online'},
-        {name: 'lat',  title: 'lat'},
-        {name: 'lng',  title: 'lng'},
-        {name: 'postal', title: 'postal'},
-        {name: 'browser', title: 'browser'},
-        {name: 'referrer', title: 'referrer'},
-        {name: 'os', title: 'os'},
-        {name: 'osVersion', title: 'osVersion'},
-        {name: 'lang', title: 'lang'},
+        {field: 'state', title: 'state'},
+        {field: 'online', title: 'online'},
+        {field: 'lat',  title: 'lat'},
+        {field: 'lng',  title: 'lng'},
+        {field: 'postal', title: 'postal'},
+        {field: 'browser', title: 'browser'},
+        {field: 'referrer', title: 'referrer'},
+        {field: 'os', title: 'os'},
+        {field: 'osVersion', title: 'osVersion'},
+        {field: 'lang', title: 'lang'},
 
       ]}
 
@@ -421,11 +426,27 @@ class CampaignForm extends Component {
     })
   }
 
+  campaignName = (name)=>{
+    console.log(name)
+    switch (name) {
+      case "campaigns":
+        return "Mailing Campaign"
+        break;
+      case "user_auto_messages":
+        return "In app messages"
+    
+      default:
+        return name
+        break;
+    }
+  }
+
 
   render() {
 
     const title = this.state.data.name ? 
-    `${this.props.mode} Campaign: ${this.state.data.name}` : `new ${this.props.mode}`
+      `${this.campaignName(this.props.mode)}: ${this.state.data.name}` : 
+      this.campaignName(this.props.mode)
 
     return <div>
 
@@ -433,11 +454,23 @@ class CampaignForm extends Component {
         title={ title }
         items={
           <Grid item>
+
+              <Chip 
+                variant="outlined" 
+                color="secondary" 
+                size="small" 
+                label="Clickable Chip"
+                deleteIcon={<Done />} 
+                //onDelete={handleDelete} 
+                icon={<Face />} 
+              />
+
+
               <Button 
                 variant="outlined" color="inherit" size="small">
                 {this.state.data.state}
               </Button>
-            </Grid>
+          </Grid>
         }
         tabsContent={
           this.isNew() ? null : this.tabsContent() 
@@ -450,18 +483,30 @@ class CampaignForm extends Component {
         
             <Grid container justify={"flex-end"}>
 
-              <Button variant="contained" color="primary" size="small" onClick={(e) => {
+              <Button variant="outlined" 
+                color="primary" 
+                size="small"
+                
+                onClick={(e) => {
                   window.open(`${window.location.origin}/apps/${this.props.app.key}/premailer/${this.state.data.id}`, '_blank');
                 }
               }>
                 Preview
               </Button>
 
-              <Button variant="contained" color="primary" size="small">
-                test delivery
-              </Button>
+              {
+                /*
+                  <Button variant="contained" color="primary" size="small">
+                    test delivery
+                  </Button>                
+                */
+              }
 
-              <Button variant="contained" color="primary" size="small" onClick={this.handleSend}>
+              <Button 
+                variant="contained" 
+                color="primary" 
+                size="small" 
+                onClick={this.handleSend}>
                 deliver email
               </Button>
 
@@ -562,7 +607,8 @@ class CampaignContainer extends Component {
 
                {
                  !this.state.loading && this.state.campaigns.length > 0 ?
-                 <DataTable
+
+                 /*<DataTable
                   rows={this.state.campaigns} 
                   loading={this.state.loading}
                   meta={this.state.meta}
@@ -591,7 +637,41 @@ class CampaignContainer extends Component {
                   ]}
                   //leftColumns={ ['email']}
                   //rightColumns={ ['online']} 
-              /> : null }
+              /> */
+
+
+              <Table
+                meta={this.state.meta}
+                data={this.state.campaigns}
+                title={"Campaigns"}
+                defaultHiddenColumnNames={[]}
+                search={this.init.bind(this)}
+                columns={[
+                  {field: 'name', title: 'name', 
+                    render: row => (row ? <Link to={`${this.props.match.url}/${row.id}`}>
+                                                {row.name}
+                                              </Link> : undefined)
+                  },
+                  {field: 'subject', title: 'subject'},
+                  {field: 'fromName', title: 'fromName', hidden: true},
+                  {field: 'fromEmail', title: 'fromEmail', hidden: true},
+                  {field: 'replyEmail', title: 'replyEmail', hidden: true},
+                  {field: 'description', title: 'description', hidden: true},
+                  {field: 'timezone', title: 'timezone'},
+                  {field: 'scheduledAt', title: 'scheduledAt', type: "datetime"},
+                  {field: 'scheduledTo', title: 'scheduledTo', type: "datetime"}
+                ]}
+              >
+                 
+              </Table>
+              
+              
+              : null
+
+
+
+
+            }
              
 
               {

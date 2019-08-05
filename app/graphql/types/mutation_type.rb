@@ -18,6 +18,7 @@ module Types
     field :campaignCreate, mutation: Mutations::Campaigns::CreateCampaign
     field :campaignUpdate, mutation: Mutations::Campaigns::UpdateCampaign
     field :campaignDeliver, mutation: Mutations::Campaigns::DeliverCampaign
+    field :purgeMetrics, mutation: Mutations::Campaigns::PurgeMetrics
     
     field :startConversation, mutation: Mutations::Conversations::StartConversation
     field :insertComment, mutation: Mutations::Conversations::InsertComment

@@ -367,6 +367,32 @@ export const DELIVER_CAMPAIGN = `
   }
 `;
 
+export const PURGE_METRICS = `
+  mutation PurgeMetrics($appKey: String!, $id: Int!, ){
+    purgeMetrics(appKey: $appKey, id: $id){
+      errors
+      campaign {
+        name
+        id
+        type
+        serializedContent
+        segments
+        scheduledAt
+        scheduledTo
+        state
+        subject
+        timezone
+        description
+        statsFields
+        configFields
+        fromName
+        fromEmail
+        replyEmail
+      }
+    }
+  }
+`;
+
 export const CREATE_CAMPAIGN = `
   mutation CreateCampaign($appKey: String!, $campaignParams: Json!, $operation: String, $mode: String!){
     campaignCreate(operation: $operation, appKey: $appKey, mode: $mode, campaignParams: $campaignParams){

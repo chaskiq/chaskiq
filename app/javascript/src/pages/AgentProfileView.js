@@ -43,8 +43,6 @@ import Content from '../components/Content'
 import Mapa from '../components/map'
 import UserListItem from '../components/UserListItem'
 import sanitizeHtml from 'sanitize-html';
-import DataTable from '../components/newTable'
-
 import DialogEditor from '../components/conversation/DialogEditor'
 import UserActionsMenu from '../components/userActionsMenu'
 

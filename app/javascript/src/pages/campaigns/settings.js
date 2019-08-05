@@ -109,10 +109,14 @@ export default class CampaignSettings extends Component {
             this.formRef = form;
           }}
         >
-          <h3>Create a new campaign</h3>
+          <h3>
+            {
+              this.state.data.id ? 
+              'Edit Campaign Settings' : 
+              'Create a new campaign'
+            }
+          </h3>
 
-
-          
           <Grid container spacing={3}>
       
             {
