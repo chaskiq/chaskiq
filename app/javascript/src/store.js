@@ -14,6 +14,7 @@ import conversation from './actions/conversation'
 import current_user from './actions/current_user'
 import status_message from './actions/status_messages'
 import current_page from './actions/navigation'
+import drawer from './actions/drawer'
 
 const rootReducer = combineReducers({
   auth,
@@ -25,7 +26,8 @@ const rootReducer = combineReducers({
   conversations,
   current_user,
   status_message,
-  current_page
+  current_page,
+  drawer
 })
 
 const middlewares = [thunkMiddleware]//, routerMiddleware(history)]

@@ -11,9 +11,8 @@ import { withRouter } from 'react-router-dom'
 import { connect } from 'react-redux'
 
 const ActivityAvatar = styled.div`
-  //display: flex;
-  align-self: center;
-  position: relative;
+  display: flex;
+  justify-content: center;
 `
 
 const UserDataList = styled.ul`
