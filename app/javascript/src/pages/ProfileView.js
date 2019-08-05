@@ -314,12 +314,12 @@ class AppUserVisits extends React.Component {
     this.fetchvisits()
   }
 
-  fetchvisits = ()=>{
+  fetchvisits = (page=null)=>{
     this.setState({loading: true}, ()=>{
       graphql(APP_USER_VISITS, {
         appKey: this.props.app.key,
         id: this.props.app_user.id,
-        page: this.state.meta.next_page || 1,
+        page: page || this.state.meta.next_page || 1,
         per: 20
       }, {
         success: (data)=>{
@@ -336,7 +336,6 @@ class AppUserVisits extends React.Component {
         }
       })
     })
-
   }
 
 
@@ -355,7 +354,7 @@ class AppUserVisits extends React.Component {
           {field: "osVersion", title: "os version"}
         ]}
         meta={this.state.meta}
-        search={this.fetchvisits}
+        search={(page)=>this.fetchvisits(page)}
       />
 
     </div>
