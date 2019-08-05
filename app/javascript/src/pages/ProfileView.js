@@ -33,7 +33,7 @@ import Content from '../components/Content'
 import Mapa from '../components/map'
 import UserListItem from '../components/UserListItem'
 import sanitizeHtml from 'sanitize-html';
-import DataTable from '../components/newTable'
+import DataTable from '../components/table'
 
 import DialogEditor from '../components/conversation/DialogEditor'
 import UserActionsMenu from '../components/userActionsMenu'
@@ -345,14 +345,14 @@ class AppUserVisits extends React.Component {
       
       <DataTable 
         title={"visits"}
-        rows={this.state.collection}
+        data={this.state.collection}
         columns={[
-          {name: "url", title: "url"},
-          {name: "title", title: "title"},
-          {name: "browserName", title: "browser name"},
-          {name: "browserVersion", title: "browser version"},
-          {name: "os", title: "os"},
-          {name: "osVersion", title: "os version"}
+          {field: "url", title: "url"},
+          {field: "title", title: "title"},
+          {field: "browserName", title: "browser name"},
+          {field: "browserVersion", title: "browser version"},
+          {field: "os", title: "os"},
+          {field: "osVersion", title: "os version"}
         ]}
         meta={this.state.meta}
         search={this.fetchvisits}

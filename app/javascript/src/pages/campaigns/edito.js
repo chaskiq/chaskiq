@@ -63,7 +63,6 @@ import theme from '../../components/conversation/theme'
 //import jsondiff from "json0-ot-diff"
 //import ot from 'ot-json0'
 
-//import { ArticlePad } from './styledBlocks'
 //import RtcView from './rtc'
 import styled from '@emotion/styled'
 
@@ -136,32 +135,7 @@ const defaultProps = {
 
 }
 
-export const ArticlePad = styled.div`
 
-  @media (max-width: 640px){
-    margin: 1rem !important;
-    margin-top: 5px !important;
-    padding: 1rem;
-  }
-
-  @media only screen and (min-width: 1200px){
-    margin: 9rem !important;
-    margin-top: 18px !important;
-  }
-
-  background: white;
-
-  padding: 2rem;
-  margin: 2rem !important;
-  margin-top: 18px !important;
-
-  border: 1px solid #dde1eb;
-  -webkit-box-shadow: 0 4px 8px 0 hsla(212,9%,64%,.16), 0 1px 2px 0 rgba(39,45,52,.08);
-  box-shadow: 0 4px 8px 0 hsla(212,9%,64%,.16), 0 1px 2px 0 rgba(39,45,52,.08);
-  .debugControls{
-    position:relative;
-  }
-`
 
 const findWithRegex = (regex, contentBlock, callback) => {
   const text = contentBlock.getText();
@@ -856,35 +830,11 @@ export default class CampaignEditor extends Component {
 
           <ButtonsContainer>
 
-            <p>{this.props.mode}</p>
-
             <div style={{ alignSelf: 'start'}}>
               <div appearance={this.state.statusButton} isBold>
                 {this.state.status}
               </div>
             </div>
-
-
-          {
-              this.props.mode === "campaigns" && (this.props.data.state != "sent" && this.props.data.state != "delivering")  ?
-              <ButtonsRow>
-
-                <button appearance="default" onClick={(e) => {
-                  window.open(`${window.location.origin}/apps/${this.props.app.key}/premailer/${this.props.data.id}`, '_blank');
-                }}>
-                  Preview
-                </button>
-
-                <button appearance="default" onClick={(e) => { console.log('test') }}>
-                  Test
-                </button>
-
-                <button appearance="primary" onClick={this.handleSend}>
-                  Send
-                </button>
-
-              </ButtonsRow> : null
-          }
 
           </ButtonsContainer> 
     

@@ -4,7 +4,7 @@ import React, {Component} from "react"
 import PieChartIcon from '@material-ui/icons/PieChart'
 import AddIcon from '@material-ui/icons/Add'
 import FormDialog from '../FormDialog'
-import DataTable from '../newTable'
+import DataTable from '../table/index'
 
 import {appUsersFormat} from './appUsersFormat' 
 import ClickAwayListener from '@material-ui/core/ClickAwayListener';
@@ -392,7 +392,7 @@ export default class SegmentManager extends Component {
               <DataTable 
                 title={'segment'}
                 meta={this.props.meta}
-                rows={this.props.collection}
+                data={this.props.collection}
                 search={this.props.search}
                 loading={this.props.loading}
                 columns={this.props.columns}

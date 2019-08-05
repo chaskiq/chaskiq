@@ -54,7 +54,14 @@ let theme = createMuiTheme({
       main: '#24862c',
       white: '#fff',
       dark: '#15501a', //'#006db3',
-    }
+    },
+   error: {
+    light: "#e57373",
+    main: "#f44336",
+    dark: "#d32f2f",
+    contrastText: "#fff",
+   }
+
   },
   shape: {
     borderRadius: 3,

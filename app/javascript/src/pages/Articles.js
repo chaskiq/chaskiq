@@ -28,7 +28,7 @@ import AddIcon from '@material-ui/icons/Add'
 
 import GestureIcon from '@material-ui/icons/Gesture'
 import CheckCircleIcon from '@material-ui/icons/CheckCircle'
-import DataTable from "../components/newTable";
+import DataTable from "../components/table";
 
 import ScrollableTabsButtonForce from '../components/scrollingTabs'
 import langs from '../shared/langsOptions'
@@ -306,23 +306,23 @@ class AllArticles extends React.Component {
                <DataTable 
                 elevation={0}
                 title={'agents'}
-                meta={{}}
-                rows={this.state.collection}
+                meta={this.state.meta}
+                data={this.state.collection}
                 search={this.search}
                 loading={this.state.loading}
                 disablePagination={true}
                 columns={[
-                  {name: "id", title: "id"},
-                  {name: "title", title: "title", 
-                    getCellValue: row => (row ? 
+                  {field: "id", title: "id"},
+                  {field: "title", title: "title", 
+                    render: row => (row ? 
                       <Link to={`/apps/${this.props.app.key}/articles/${row.id}`}>
                         {row.title ? row.title : "-- missing translation --"}
                       </Link>
                    : undefined )
 
                 },
-                  {name: "author", title: "author",
-                  getCellValue: row => (row ? 
+                  {field: "author", title: "author",
+                  render: row => (row ? 
 
                     <p>{row.author ? 
                       <span>
@@ -333,7 +333,7 @@ class AllArticles extends React.Component {
                     </p>
                   : undefined)
                 },
-                  {name: "state", title: "state", getCellValue: row => (row ?
+                  {field: "state", title: "state", render: row => (row ?
                     <Chip 
                       variant="outlined" 
                       color={row.state === "draft" ? 'secondary' : 'primary' }
@@ -345,8 +345,8 @@ class AllArticles extends React.Component {
                     /> : null 
   
                   )},
-                  {name: "collection", title: "collection", 
-                    getCellValue: row => (row ? 
+                  {field: "collection", title: "collection", 
+                    render: row => (row ? 
                     <p>{row.collection ? 
                         <Link to={`/apps/${this.props.app.key}/articles/collections/${row.collection.id}`}>
                           {row.collection.title}

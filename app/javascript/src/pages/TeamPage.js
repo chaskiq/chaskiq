@@ -24,7 +24,7 @@ import MainSection from '../components/MainSection';
 import ContentWrapper from '../components/ContentWrapper';
 import PageTitle from '../components/PageTitle';
 import logo from '../images/logo.png';
-import DataTable from "../components/newTable";
+import DataTable from "../components/table";
 
 import {Link} from 'react-router-dom'
 
@@ -136,16 +136,16 @@ class AppUsers extends React.Component {
                 elevation={0}
                 title={'agents'}
                 meta={{}}
-                rows={this.state.collection}
+                data={this.state.collection}
                 search={this.search}
                 loading={this.state.loading}
                 disablePagination={true}
                 columns={[
-                  {name: "id", title: "id"},
+                  {field: "id", title: "id"},
 
-                  {name: "avatar", title: "",
+                  {field: "avatar", title: "",
                   
-                    getCellValue: row => (row ? 
+                    render: row => (row ? 
                       <Link to={`/apps/${this.props.app.key}/agents/${row.id}`}>
                         <Avatar
                           name={row.email}
@@ -155,11 +155,11 @@ class AppUsers extends React.Component {
                       </Link>
                      : undefined)
                   },
-                  {name: "email", title: "email"},
-                  {name: "name", title: "name"},
-                  {name: "signInCount", title: "signInCount"},
-                  {name: "lastSignInAt", title: "lastSignInAt",
-                    getCellValue: row => (row.lastSignInAt ? 
+                  {field: "email", title: "email"},
+                  {field: "name", title: "name"},
+                  {field: "signInCount", title: "signInCount"},
+                  {field: "lastSignInAt", title: "lastSignInAt",
+                    render: row => (row.lastSignInAt ? 
                       <Tooltip title={row.lastSignInAt}>
                         <Moment fromNow>
                           {row.lastSignInAt}
@@ -167,8 +167,8 @@ class AppUsers extends React.Component {
                       </Tooltip> : null
                     )
                   },
-                  {name: "invitationAcceptedAt", title: "invitationAcceptedAt",
-                    getCellValue: row => (row.invitationAcceptedAt ? 
+                  {field: "invitationAcceptedAt", title: "invitationAcceptedAt",
+                    render: row => (row.invitationAcceptedAt ? 
                       <Tooltip title={row.invitationAcceptedAt}>
                         <Moment fromNow>
                           {row.invitationAcceptedAt}
@@ -176,8 +176,8 @@ class AppUsers extends React.Component {
                       </Tooltip> : null
                     )
                   },
-                  {name: "actions", title: "actions", 
-                    getCellValue: row => (row ? 
+                  {field: "actions", title: "actions", 
+                    render: row => (row ? 
 
                       <Link to={`/apps/${this.props.app.key}/agents/${row.id}`}>
                         aaa
@@ -331,9 +331,9 @@ class NonAcceptedAppUsers extends React.Component {
                   loading={this.state.loading}
                   disablePagination={true}
                   columns={[
-                    {name: "id", title: "id"},
-                    {name: "avatar", title: "",
-                      getCellValue: row => (row ? 
+                    {field: "id", title: "id"},
+                    {field: "avatar", title: "",
+                      render: row => (row ? 
                         <Link to={`/apps/${this.props.app.key}/agents/${row.id}`}>
                           <Avatar
                             name={row.email}
@@ -343,10 +343,10 @@ class NonAcceptedAppUsers extends React.Component {
                         </Link>
                        : undefined)
                     },
-                    {name: "email", title: "email"},
-                    {name: "name", title: "name"},
-                    {name: "invitationAcceptedAt", title: "invitationAcceptedAt",
-                      getCellValue: row => (row.invitationAcceptedAt ? 
+                    {field: "email", title: "email"},
+                    {field: "name", title: "name"},
+                    {field: "invitationAcceptedAt", title: "invitationAcceptedAt",
+                      render: row => (row.invitationAcceptedAt ? 
                         <Tooltip title={row.invitationAcceptedAt}>
                           <Moment fromNow>
                             {row.invitationAcceptedAt}
@@ -354,8 +354,8 @@ class NonAcceptedAppUsers extends React.Component {
                         </Tooltip> : null
                       )
                     },
-                    {name: "invitationSentAt", title: "invitationSentAt",
-                      getCellValue: row => (row.invitationSentAt ? 
+                    {field: "invitationSentAt", title: "invitationSentAt",
+                      render: row => (row.invitationSentAt ? 
                         <Tooltip title={row.invitationSentAt}>
                           <Moment fromNow>
                             {row.invitationSentAt}

@@ -11,8 +11,7 @@ import SegmentItemButton from '../segmentManager/itemButton'
 
 
 import UserData from '../UserData'
-import EnhancedTable from '../table'
-import NewTable from './newTable'
+import Table from '../table/index'
 
 import Drawer from '@material-ui/core/Drawer';
 import Button from '@material-ui/core/Button'
@@ -281,13 +280,13 @@ class AppUsers extends Component {
             }
 
 
-            <NewTable 
+            <Table 
               data={this.props.app_users} 
               loading={this.props.searching}
               columns={[
-                //{name: 'id', title: 'id'},
-                {name: 'email', title: 'email', 
-                  getCellValue: row => (row ? 
+
+                {field: 'email', title: 'email', 
+                  render: row => (row ? 
 
                     <NameWrapper 
                       onClick={(e)=>(this.showUserDrawer(row))}>
@@ -312,9 +311,22 @@ class AppUsers extends Component {
 
                    : undefined)
                 },
-                {name: 'lastVisitedAt', 
+
+                {field: 'id', title: 'id' }, 
+                {field: 'state', title: 'state', hidden: true,}, 
+                {field: 'online', title:  'online', hidden: true}, 
+                {field: 'lat', title: 'lat', hidden:true}, 
+                {field: 'lng', title:  'lng', hidden: true}, 
+                {field: 'postal', title:'postal', hidden: true},
+                {field: 'browserLanguage', title:'browserLanguage', hidden: true}, 
+                {field: 'referrer', title:'referrer', hidden: true}, 
+                {field: 'os', title:'os', hidden: true}, 
+                {field: 'osVersion', title:'osVersion', hidden: true},
+                {field: 'lang', title:'lang', hidden: true},
+
+                {field: 'lastVisitedAt', 
                   title: 'lastVisitedAt',
-                  getCellValue: row => (row ? <Moment fromNow>
+                  render: row => (row ? <Moment fromNow>
                                                 {row.lastVisitedAt}
                                               </Moment> : undefined)
                 },
@@ -330,7 +342,8 @@ class AppUsers extends Component {
                     'referrer', 
                     'os', 
                     'osVersion',
-                    'lang']}
+                    'lang']
+              }
 
               //selection [],
               tableColumnExtensions={[
@@ -347,7 +360,7 @@ class AppUsers extends Component {
               leftColumns={ ['email']}
               rightColumns={ ['online']}
 
-              rows={this.props.app_users}
+              //rows={this.props.app_users}
               meta={this.props.meta}
               search={this.props.actions.search}
               showUserDrawer={this.showUserDrawer}
