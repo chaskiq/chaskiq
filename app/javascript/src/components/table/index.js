@@ -108,7 +108,7 @@ export default class Table extends React.Component {
                   
                   {
                     this.props.enableMapView ?
-                      <IconButton onClick={this.props.onClick}>
+                      <IconButton onClick={this.props.toggleMapView}>
                         <MapIcon/>
                       </IconButton> : null 
                   }
