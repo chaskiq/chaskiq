@@ -97,19 +97,24 @@ export default class Table extends React.Component {
               </Grid>
 
               <Grid item>
-                <SimpleMenu 
-                  handleChange={this.changeColumns}
-                  options={
-                    this.state.columns
+                <Grid container justify={"space-around"}>
+
+                  <SimpleMenu 
+                    handleChange={this.changeColumns}
+                    options={
+                      this.state.columns
+                    }
+                  />
+                  
+                  {
+                    this.props.enableMapView ?
+                      <IconButton onClick={this.props.onClick}>
+                        <MapIcon/>
+                      </IconButton> : null 
                   }
-                />
 
-                <IconButton onClick={this.props.onClick}>
-                  <MapIcon/>
-                </IconButton>
-
+                </Grid>
               </Grid>
-
             </Grid>
           },
 
