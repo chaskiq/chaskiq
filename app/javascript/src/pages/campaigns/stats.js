@@ -228,7 +228,7 @@ export default class CampaignStats extends Component {
                             title: 'email', 
                               render: row => (row ? 
 
-                                <NameWrapper onClick={(e)=>(this.props.showUserDrawer(row))}>
+                                <NameWrapper onClick={(e)=>(this.props.actions.showUserDrawer(row))}>
                                   <AvatarWrapper>
                                     <Badge 
                                       //className={classes.margin} 

@@ -148,7 +148,7 @@ class CampaignSegment extends Component {
 
     this.setState({ searching: true })
     // jwt or predicates from segment
-    console.log(this.state.jwt)
+    //console.log(this.state.jwt)
     const data = this.state.jwt ? parseJwt(this.state.jwt).data : this.props.data.segments
     const predicates_data = {
       data: {
@@ -184,7 +184,6 @@ class CampaignSegment extends Component {
   }
 
   render() {
-
     return <SegmentManager {...this.props}
       loading={this.state.searching}
       predicates={this.props.data.segments}
@@ -296,6 +295,7 @@ class CampaignForm extends Component {
       data: {},
       tabValue: 0
     }
+    console.log(props)
   }
 
   url = () => {
@@ -436,7 +436,6 @@ class CampaignForm extends Component {
   }
 
   campaignName = (name)=>{
-    console.log(name)
     switch (name) {
       case "campaigns":
         return "Mailing Campaign"
@@ -612,77 +611,36 @@ class CampaignContainer extends Component {
 
             <Content actions={this.renderActions()}>
 
-              
-
-               {
+              {
                  !this.state.loading && this.state.campaigns.length > 0 ?
+                  <Table
+                    meta={this.state.meta}
+                    data={this.state.campaigns}
+                    title={"Campaigns"}
+                    defaultHiddenColumnNames={[]}
+                    search={this.init.bind(this)}
+                    columns={[
+                      {field: 'name', title: 'name', 
+                        render: row => (row ? <Link to={`${this.props.match.url}/${row.id}`}>
+                                                    {row.name}
+                                                  </Link> : undefined)
+                      },
+                      {field: 'subject', title: 'subject'},
+                      {field: 'fromName', title: 'fromName', hidden: true},
+                      {field: 'fromEmail', title: 'fromEmail', hidden: true},
+                      {field: 'replyEmail', title: 'replyEmail', hidden: true},
+                      {field: 'description', title: 'description', hidden: true},
+                      {field: 'timezone', title: 'timezone'},
+                      {field: 'scheduledAt', title: 'scheduledAt', type: "datetime"},
+                      {field: 'scheduledTo', title: 'scheduledTo', type: "datetime"}
+                    ]}
+                  >
+                    
+                  </Table>
 
-                 /*<DataTable
-                  rows={this.state.campaigns} 
-                  loading={this.state.loading}
-                  meta={this.state.meta}
-                  defaultHiddenColumnNames={[]}
-                  search={this.init.bind(this)}
-                  columns={[
-                            {name: 'name', title: 'name', 
-                             getCellValue: row => (row ? <Link to={`${this.props.match.url}/${row.id}`}>
-                                                          {row.name}
-                                                        </Link> : undefined)
-
-                          },
-                            {name: 'subject', title: 'subject'},
-                            {name: 'fromName', title: 'fromName'},
-                            {name: 'fromEmail', title: 'fromEmail'},
-                            {name: 'replyEmail', title: 'replyEmail'},
-                            {name: 'description', title: 'description'},
-                            {name: 'timezone', title: 'timezone'},
-                            {name: 'scheduledAt', title: 'scheduledAt'},
-                            {name: 'scheduledTo', title: 'scheduledTo'}
-                          ]}
-                  //selection [],
-                  tableColumnExtensions={[
-                    {name: 'name', width: 250 },
-                    {name: 'subject', width: 250 },
-                  ]}
-                  //leftColumns={ ['email']}
-                  //rightColumns={ ['online']} 
-              /> */
-
-
-              <Table
-                meta={this.state.meta}
-                data={this.state.campaigns}
-                title={"Campaigns"}
-                defaultHiddenColumnNames={[]}
-                search={this.init.bind(this)}
-                columns={[
-                  {field: 'name', title: 'name', 
-                    render: row => (row ? <Link to={`${this.props.match.url}/${row.id}`}>
-                                                {row.name}
-                                              </Link> : undefined)
-                  },
-                  {field: 'subject', title: 'subject'},
-                  {field: 'fromName', title: 'fromName', hidden: true},
-                  {field: 'fromEmail', title: 'fromEmail', hidden: true},
-                  {field: 'replyEmail', title: 'replyEmail', hidden: true},
-                  {field: 'description', title: 'description', hidden: true},
-                  {field: 'timezone', title: 'timezone'},
-                  {field: 'scheduledAt', title: 'scheduledAt', type: "datetime"},
-                  {field: 'scheduledTo', title: 'scheduledTo', type: "datetime"}
-                ]}
-              >
-                 
-              </Table>
-              
-              
-              : null
-
-
-
-
-            }
+                  : null 
+              }
              
-
               {
                 this.state.loading ? <p>loading</p> : null
               }
