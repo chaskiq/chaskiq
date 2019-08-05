@@ -260,6 +260,11 @@ const EditorPad = styled.div`
       justify-content: flex-end;
       flex-flow: column;
       height: 90vh;
+
+      .postContent {
+        height: 440px;
+        overflow: auto;
+      }
     ` : 
 
     `
@@ -292,7 +297,7 @@ const EditorMessengerEmulatorWrapper = styled.div`
     margin-right: 20px;
     box-shadow: 3px 3px 4px 0px #b5b4b4;
     border-radius: 10px;
-    padding: 39px;
+    padding: 12px;
     padding-top: 0px;
     .icon-add{
       margin-top: -2px;

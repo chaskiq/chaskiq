@@ -83,6 +83,9 @@ const Context = createContext()
 // This context contains two interesting components
 const { Provider, Consumer } = Context
 
+import {toggleDrawer} from '../actions/drawer'
+import UserData from '../components/UserData'
+
 
 class ShowAppContainer extends Component {
 
@@ -158,6 +161,7 @@ class ShowAppContainer extends Component {
       deleteSegment: this.deleteSegment,
       search: this.search,
       setAppUser: this.setAppUser,
+      showUserDrawer: this.showUserDrawer
       //fetchAppSegments: this.fetchAppSegments
     }
   }
@@ -325,6 +329,22 @@ class ShowAppContainer extends Component {
     )
   }
 
+  showUserDrawer = (o)=>{
+    this.props.dispatch(
+      toggleDrawer({ rightDrawer: true }, ()=>{
+        this.setAppUser(o.id)
+      })
+    )
+  }
+
+  toggleDrawer = (side, open) => event => {
+    if (event.type === 'keydown' && (event.key === 'Tab' || event.key === 'Shift')) {
+      return;
+    }
+
+    this.props.dispatch(toggleDrawer({rightDrawer: open }))
+  };
+
   render(){
     const {classes} = this.props
 
@@ -334,6 +354,22 @@ class ShowAppContainer extends Component {
     return <div>
       
       <Snackbar/>
+
+      <Drawer
+        anchor="right" 
+        open={this.props.drawer.rightDrawer} 
+        onClose={this.toggleDrawer('rightDrawer', false)}>
+        
+        {
+          this.props.app_user ? 
+            <UserData 
+              width={ '300px'}
+              app={this.props.app}
+              appUser={this.props.app_user} /> 
+            : null
+        }
+
+      </Drawer>
 
       {
         this.props.app && this.props.app.key ?
@@ -444,7 +480,7 @@ class ShowAppContainer extends Component {
 
 function mapStateToProps(state) {
 
-  const { auth, app, segment, app_user, current_user } = state
+  const { auth, app, segment, app_user, current_user, drawer } = state
   const { loading, isAuthenticated } = auth
   return {
     current_user,
@@ -452,7 +488,8 @@ function mapStateToProps(state) {
     segment,
     app,
     loading,
-    isAuthenticated
+    isAuthenticated,
+    drawer
   }
 }
 

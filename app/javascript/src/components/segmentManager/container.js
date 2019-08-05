@@ -12,9 +12,11 @@ import SegmentItemButton from '../segmentManager/itemButton'
 
 import UserData from '../UserData'
 import Table from '../table/index'
+import {toggleDrawer} from '../../actions/drawer'
 
 import Drawer from '@material-ui/core/Drawer';
 import Button from '@material-ui/core/Button'
+
 
 import {appUsersFormat} from '../segmentManager/appUsersFormat'
 import Map from '../map/index.js'
@@ -242,18 +244,8 @@ class AppUsers extends Component {
   }
 
   showUserDrawer = (o)=>{
-    this.setState({ rightDrawer: true }, ()=>{
-      this.getUserData(o.id)
-    });
+    this.props.actions.showUserDrawer(o)
   }
-
-  toggleDrawer = (side, open) => event => {
-    if (event.type === 'keydown' && (event.key === 'Tab' || event.key === 'Shift')) {
-      return;
-    }
-
-    this.setState({rightDrawer: open });
-  };
 
   getUserData = (id)=>{
     this.props.actions.setAppUser(id)
@@ -370,21 +362,7 @@ class AppUsers extends Component {
             />
 
 
-            <Drawer 
-              anchor="right" 
-              open={this.state.rightDrawer} 
-              onClose={this.toggleDrawer('right', false)}>
-              
-              {
-                this.props.app_user ? 
-                  <UserData 
-                    width={ '300px'}
-                    app={this.props.app}
-                    appUser={this.props.app_user} /> 
-                  : null
-              }
 
-            </Drawer>
     
           </Wrapper>
   }

@@ -34,9 +34,10 @@ import { PREDICATES_SEARCH,
   DELIVER_CAMPAIGN
  } from '../graphql/mutations'
 
+import {getAppUser} from '../actions/app_user'
+import {toggleDrawer} from '../actions/drawer'
+
 import Table from '../components/table/index'
-
-
 
 import { Done, Face } from '@material-ui/icons';
 import {
@@ -174,6 +175,14 @@ class CampaignSegment extends Component {
     })
   }
 
+  showUserDrawer = (o)=>{
+    this.props.dispatch(
+      toggleDrawer({ rightDrawer: true }, ()=>{
+        this.props.dispatch(getAppUser(o.id))
+      })
+    )
+  }
+
   render() {
 
     return <SegmentManager {...this.props}
@@ -192,7 +201,7 @@ class CampaignSegment extends Component {
         {field: 'email', title: 'email', 
           render: row => (row ? 
 
-            <NameWrapper onClick={(e)=>(this.showUserDrawer(row))}>
+            <NameWrapper onClick={(id)=> this.showUserDrawer(row) }>
               <AvatarWrapper>
                 <div 
                   //className={classes.margin} 
