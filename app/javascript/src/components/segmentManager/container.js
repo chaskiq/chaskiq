@@ -244,7 +244,7 @@ class AppUsers extends Component {
   }
 
   showUserDrawer = (o)=>{
-    this.props.actions.showUserDrawer(o)
+    this.props.actions.showUserDrawer(o.id)
   }
 
   getUserData = (id)=>{

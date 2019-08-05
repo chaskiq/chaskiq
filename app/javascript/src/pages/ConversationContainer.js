@@ -166,24 +166,6 @@ class ConversationContainer extends Component {
     this.props.dispatch(updateConversationsData({filter: option}))
   }
 
-  showUserDrawer = (id)=>{
-    this.setState({ rightDrawer: true }, ()=>{
-      this.getUserData(id)
-    });
-  }
-
-  getUserData = (id)=> {
-    this.props.dispatch(getAppUser(id))
-  }
-
-  toggleDrawer = (side, open) => event => {
-    if (event.type === 'keydown' && (event.key === 'Tab' || event.key === 'Shift')) {
-      return;
-    }
-
-    this.setState({rightDrawer: open });
-  };
-
   filterButton = (handleClick)=>{
     return <Tooltip title="filter conversations">
 
@@ -241,19 +223,6 @@ class ConversationContainer extends Component {
 
     return <RowColumnContainer>
 
-            <Drawer 
-              anchor="right" 
-              open={this.state.rightDrawer} 
-              onClose={this.toggleDrawer('right', false)}>
-              
-              {
-                this.props.app_user ? 
-                  <UserData width={ '300px'}
-                    appUser={this.props.app_user} /> : null
-              }
-
-            </Drawer>
-
             <ColumnContainer>
               
               <GridElement>
@@ -309,7 +278,7 @@ class ConversationContainer extends Component {
                                   mainUser={user}
                                   object={o.id}
                                   messageUser={o.lastMessage.appUser}
-                                  showUserDrawer={this.showUserDrawer}
+                                  showUserDrawer={()=>this.props.actions.showUserDrawer(o.lastMessage.appUser.id)}
                                   messageObject={o.lastMessage}
                                   conversation={o}
                                   //createdAt={o.lastMessage.message.created_at}

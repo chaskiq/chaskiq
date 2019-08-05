@@ -196,7 +196,8 @@ class CampaignSegment extends Component {
 
       loading={this.props.searching}
       columns={[
-        //{name: 'id', title: 'id'},
+
+        {name: 'id', title: 'id', hidden: true},
         {field: 'email', title: 'email', 
           render: row => (row ? 
 
