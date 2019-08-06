@@ -78,8 +78,7 @@ const NewStepBody = styled.div`
 class TourManager extends Component {
   
   state = {
-    enabledTour: false,
-    steps: []
+    enabledTour: false
   }
 
   componentDidMount() {
@@ -88,7 +87,8 @@ class TourManager extends Component {
     }
 
     window.TourManagerMethods = {
-      update: this.updateData
+      update: this.updateData,
+      getSteps: ()=> this.props.data.steps
     }
   }
 
@@ -109,24 +109,13 @@ class TourManager extends Component {
 
     graphql(UPDATE_CAMPAIGN, params, {
       success: (data) => {
-        debugger
-        //this.props.updateData(data.campaignUpdate.campaign, null)
+        this.props.updateData(data.campaignUpdate.campaign, null)
         //this.setState({ status: "saved" })
       },
       error: () => {
 
       }
     })
-
-    /*console.log("DDDDD", data)
-    const csrfToken = document.querySelector("meta[name=csrf-token]").content
-    axios.defaults.headers.common['X-CSRF-Token'] = csrfToken
-    axios.put(`${this.props.url}?mode=${this.props.mode}`, {
-      campaign: {
-        steps: data
-      }
-    })*/
-    //
   }
 
   openTourManager = ()=>{
@@ -146,7 +135,7 @@ class TourManager extends Component {
 
             <StepsContainer>
               {
-                this.state.steps.map((o) => {
+                this.props.data.steps.map((o) => {
                   return <TourStep step={o}
                     key={o.target}>
                     //removeItem={this.removeItem}
@@ -202,10 +191,17 @@ class TourStep extends Component {
               </StepHeader>
 
               <StepMessage>
-                <TourEditor
+                {
+                  /* 
+                  
+                  <TourEditor
                   serializedContent={this.props.step.serializedContent}
                   readOnly={true}
                 />
+                  
+                  */
+                }
+                
               </StepMessage>
            </StepBody>
            <ConnectorStep/>

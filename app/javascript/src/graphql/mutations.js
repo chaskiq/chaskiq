@@ -336,6 +336,7 @@ export const UPDATE_CAMPAIGN = `
         fromName
         fromEmail
         replyEmail
+        steps
       }
     }
   }
@@ -362,6 +363,7 @@ export const DELIVER_CAMPAIGN = `
         fromName
         fromEmail
         replyEmail
+        steps
       }
     }
   }
@@ -414,6 +416,7 @@ export const CREATE_CAMPAIGN = `
         fromName
         fromEmail
         replyEmail
+        steps
       }
     }
   }
