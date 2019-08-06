@@ -129,6 +129,7 @@ function Navigator(props, context) {
     },
     {
       id: 'Conversations',
+      icon: <PeopleIcon style={{ fontSize: 30 }}/>,
       children: [
         { id: 'Conversations', icon:  <SmsIcon/>, url: `/apps/${app.key}/conversations`},
         { id: 'Assigment Rules', icon:  <ShuffleIcon/>, url: `/apps/${app.key}/conversations/assignment_rules`},
@@ -136,6 +137,7 @@ function Navigator(props, context) {
     },
     {
       id: 'Campaigns',
+      icon: <PeopleIcon style={{ fontSize: 30 }}/>,
       children: [
         /*{ id: 'Analytics', icon: <SettingsIcon /> },
         { id: 'Performance', icon: <TimerIcon /> },
@@ -149,6 +151,7 @@ function Navigator(props, context) {
 
     {
       id: 'Help Center',
+      icon: <PeopleIcon style={{ fontSize: 30 }}/>,
       children: [
         { id: 'Articles', icon: <BookIcon/>, url: `/apps/${app.key}/articles`},
         { id: 'Collections', icon: <FolderIcon/>, url: `/apps/${app.key}/articles/collections`},
@@ -158,6 +161,7 @@ function Navigator(props, context) {
 
     {
       id: 'Settings',
+      icon: <PeopleIcon style={{ fontSize: 30 }}/>,
       children: [
         { id: 'App Settings', icon:  <SettingsIcon/>, url: `/apps/${app.key}/settings`, },
         { id: 'Team', icon: <SupervisedUserCircleIcon />, url: `/apps/${app.key}/team`, active: false },
@@ -166,6 +170,7 @@ function Navigator(props, context) {
     },
     {
       id: 'Develop',
+      icon: <PeopleIcon style={{ fontSize: 30 }}/>,
       children: [
         { id: 'Api', icon: <DnsRoundedIcon /> },
         { id: 'Storage', icon: <PermMediaOutlinedIcon /> },

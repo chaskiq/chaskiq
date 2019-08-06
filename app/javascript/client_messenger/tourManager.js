@@ -5,7 +5,7 @@ import Simmer from 'simmerjs'
 import TourEditor from './tourEditor2'
 //import Button from '@material-ui/core/Button';
 import Joyride, { ACTIONS, EVENTS, STATUS } from 'react-joyride';
-import StyledFrame from 'react-styled-frame'
+import StyledFrame from './styledFrame'
 
 
 const simmer = new Simmer(window, { 
@@ -24,12 +24,14 @@ const IntersectionFrame = styled.div`
 
 `
 
-const TourManagerContainer = styled(({ collapsedEditor, ...rest }) => (
+const TourManagerContainer22 = styled(({ collapsedEditor, ...rest }) => (
   <StyledFrame {...rest} initialContent={`<!DOCTYPE html>
   <html><head></head>
   <body style="margin:0px"><div class="frame-root">
   </div></body></html>`} />
-))`
+))
+
+const TourManagerContainer = styled.div`
     position: fixed;
     bottom: 0px;
     left: 0px;
@@ -568,8 +570,8 @@ export default class TourManager extends Component {
                   this.state.selectionMode === "edit" ? 
                   <FooterRight>
                     <div>
-                      <Button onClick={this.disableEditMode}>cancel</Button>
-                      <Button onClick={this.updateChanges}>save step</Button>
+                      <button onClick={this.disableEditMode}>cancel</button>
+                      <button onClick={this.updateChanges}>save step</button>
                     </div>
                   </FooterRight> : null
                 }

@@ -1,33 +1,19 @@
 import React, { Component, Fragment } from "react";
 import ReactDOM from "react-dom";
-import Frame, { FrameContextConsumer } from 'react-frame-component'
-import createCache from '@emotion/cache'
-import { CacheProvider } from '@emotion/core'
 import styled from '@emotion/styled'
 import { ThemeProvider } from 'emotion-theming'
-
-
 import actioncable from "actioncable"
 import axios from "axios"
-
 import UAParser from 'ua-parser-js'
-
 import theme from '../src/components/conversation/theme'
 import themeDark from '../src/components/conversation/darkTheme'
 import DraftRenderer from '../src/components/conversation/draftRenderer'
 import DanteContainer from '../src/components/conversation/editorStyles'
-
-
 import UnicornEditor from './textEditor' // from './quillEditor' //'./draftEditor' //from './editor.js'
 import gravatar from "gravatar"
 import Moment from 'react-moment';
 import { soundManager } from 'soundmanager2'
-//import Quest from './messageWindow'
-
-//import DanteContainer from './styles/dante'
-
 import UrlPattern from 'url-pattern'
-
 import {
   Container,
   UserAutoMessage,
@@ -59,54 +45,14 @@ import {
 } from './styles/styled'
 
 import sanitizeHtml from 'sanitize-html';
-//import TourManager from './tourManager'
+import TourManager from './tourManager'
 import {
   CloseIcon,
   LeftIcon,
   MessageIcon,
   } from './icons'
 
-class CssInjector extends React.Component {
-  constructor(props) {
-    super(props)
-    //const iframe = document.getElementsByTagName('iframe')[0]
-    //const iframe = document.getElementsByTagName('iframe')[0]
-    //const iframeHead = iframe.contentDocument.head
-    const iframeHead = this.props.document.head
-    this.cache = createCache({ container: iframeHead })
-  }
-
-  render() {
-    return (
-      <CacheProvider value={this.cache}>
-        {this.props.children}
-      </CacheProvider>
-    )
-  }
-}
-
-const initialFrameContent = '<!DOCTYPE html><html><head></head><body></body></html>'
-const mountTarget='#mountHere'
-
-class StyledFrame extends React.Component {
-
-
-  render(){
-    return <Frame style={this.props.style || {} }>
-            <FrameContextConsumer>
-              {
-                // Callback is invoked with iframe's window and document instances
-                ({document, window}) => {
-                  // Render Children
-                  return <CssInjector document={document}>
-                            {this.props.children}
-                          </CssInjector>
-                }
-              }
-            </FrameContextConsumer>
-          </Frame>
-  }
-}
+import StyledFrame from './styledFrame'
 
 const Button = styled.button`
   color: turquoise;
@@ -955,6 +901,12 @@ class Messenger extends Component {
                 </div>
               </Prime>  
             </StyledFrame> : null
+        }
+
+        {
+          this.isTourManagerEnabled() ?
+          <TourManager/> : null
+
         }
 
         </EditorWrapper>
