@@ -7,6 +7,8 @@ import { connect } from 'react-redux'
 import graphql from "../graphql/client"
 import {UPDATE_CAMPAIGN} from '../graphql/mutations'
 
+// INTERNAL APP TOUR
+
 
 const StepContainer = styled.div`
     display: flex;
