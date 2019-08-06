@@ -906,8 +906,9 @@ class Messenger extends Component {
         {
           this.isTourManagerEnabled() ?
           <TourManager/> : null
-
         }
+
+        <div id="TourManager"></div>
 
         </EditorWrapper>
         

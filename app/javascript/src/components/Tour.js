@@ -4,6 +4,10 @@ import axios from 'axios'
 import { withRouter } from 'react-router-dom'
 import { connect } from 'react-redux'
 
+import graphql from "../graphql/client"
+import {UPDATE_CAMPAIGN} from '../graphql/mutations'
+
+
 const StepContainer = styled.div`
     display: flex;
     flex-direction: row;
@@ -94,14 +98,34 @@ class TourManager extends Component {
   }
 
   updateData = (data)=>{
-    console.log("DDDDD", data)
+
+    const params = {
+      appKey: this.props.app.key,
+      id: this.props.data.id,
+      campaignParams: {
+        steps: data
+      }
+    }
+
+    graphql(UPDATE_CAMPAIGN, params, {
+      success: (data) => {
+        debugger
+        //this.props.updateData(data.campaignUpdate.campaign, null)
+        //this.setState({ status: "saved" })
+      },
+      error: () => {
+
+      }
+    })
+
+    /*console.log("DDDDD", data)
     const csrfToken = document.querySelector("meta[name=csrf-token]").content
     axios.defaults.headers.common['X-CSRF-Token'] = csrfToken
     axios.put(`${this.props.url}?mode=${this.props.mode}`, {
       campaign: {
         steps: data
       }
-    })
+    })*/
     //
   }
 
