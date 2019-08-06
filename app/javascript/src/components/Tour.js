@@ -109,9 +109,10 @@ class TourManager extends Component {
     this.setState({
       enabledTour: true
     }, () => {
+
       /*var winFeature =
         'location=no,toolbar=no,menubar=no,scrollbars=yes,resizable=yes';
-      open("/tester", 'null', winFeature)*/
+      open(`/tester/${this.props.app.key}`, 'null', winFeature)*/
       open(`/tester/${this.props.app.key}`)
     })
   }
