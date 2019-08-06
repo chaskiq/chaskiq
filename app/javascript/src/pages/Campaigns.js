@@ -52,7 +52,7 @@ import {
 
 import {
   CheckCircle,
-  Pause
+  Pause,
 } from '@material-ui/icons'
 
 
