@@ -415,6 +415,7 @@ query Campaign($appKey: String!, $mode: String!, $id: Int!){
       fromName
       fromEmail
       replyEmail
+      steps
     }
   }
 }

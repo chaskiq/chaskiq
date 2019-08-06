@@ -238,6 +238,7 @@ export default class TourManager extends Component {
     window.addEventListener('resize', scrollHandler.bind(this));
     document.addEventListener('scroll', scrollHandler.bind(this));
 
+    this.getSteps()
   }
 
   activatePreview = ()=>{
@@ -421,6 +422,13 @@ export default class TourManager extends Component {
       target: o.target, 
       serialized_content: o.serialized_content} )  
     ))
+  }
+
+  getSteps = ()=>{
+    let steps = []
+    if( window.opener.TourManagerMethods )
+      this.setState({steps: window.opener.TourManagerMethods.getSteps()})
+    
   }
 
   render(){

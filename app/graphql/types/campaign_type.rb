@@ -19,6 +19,7 @@ module Types
     field :segments, Types::JsonType, null: true
     field :scheduled_at, GraphQL::Types::ISO8601DateTime, null: true
     field :scheduled_to, GraphQL::Types::ISO8601DateTime, null: true
+    field :steps, [Types::JsonType], null: true
 
     field :counts, Types::JsonType, null: true
     def counts
