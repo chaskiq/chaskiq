@@ -3,6 +3,7 @@ import styled from '@emotion/styled'
 import Simmer from 'simmerjs'
 //import TourEditor from './tourEditor'
 import TourEditor from './tourEditor2'
+import TextEditor from '../src/components/TextEditor'
 //import Button from '@material-ui/core/Button';
 import Joyride, { ACTIONS, EVENTS, STATUS } from 'react-joyride';
 import StyledFrame from './styledFrame'
@@ -309,13 +310,17 @@ export default class TourManager extends Component {
   }
 
   enableEditMode = (editElement)=>{
+    debugger
     let newEl = {
       target: editElement.target,
-      content: <p>editor here</p>/*<TourEditor 
-                saveContent={this.saveContent} 
+      content: <TextEditor 
+                data={{}}
+                saveHandler={this.saveContent} 
+                updateState={()=> console.log("update here!")}
                 serializedContent={editElement.serializedContent}
-                target={editElement.target}>
-                </TourEditor>*/, 
+                target={editElement.target}
+                loading={false}>
+                </TextEditor>, 
       serializedContent: null
     }
     this.setState({
@@ -518,7 +523,7 @@ export default class TourManager extends Component {
                     return <TourStep step={o}
                                     key={o.target}
                                     removeItem={this.removeItem}
-                                    enableEditMode={this.enableEditMode}>
+                                    enableEditMode={()=>this.enableEditMode(o)}>
                           </TourStep>
                   }
                 )}
