@@ -24,6 +24,9 @@ import FlipToFrontIcon from '@material-ui/icons/FlipToFront'
 import SmsIcon from '@material-ui/icons/Sms';
 import ShuffleIcon from '@material-ui/icons/Shuffle'
 import SupervisedUserCircleIcon from '@material-ui/icons/SupervisedUserCircle'
+import MessageIcon from '@material-ui/icons/Message'
+import FilterFramesIcon from '@material-ui/icons/FilterFrames'
+import FolderIcon from '@material-ui/icons/Folder'
 
 import ExpansionPanel from '@material-ui/core/ExpansionPanel';
 import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails';
@@ -138,8 +141,8 @@ function Navigator(props, context) {
         { id: 'Performance', icon: <TimerIcon /> },
         { id: 'Test Lab', icon: <PhonelinkSetupIcon /> },*/
         { id: 'Mailing Campaigns', icon: <EmailIcon/>, url: `${appid}/messages/campaigns`},
-        { id: 'In App messages', icon: <FlipToFrontIcon/>, url: `${appid}/messages/user_auto_messages`},
-        { id: 'Guided tours', icon: <FlipToFrontIcon/>, url: `${appid}/messages/tours`,},
+        { id: 'In App messages', icon: <MessageIcon/>, url: `${appid}/messages/user_auto_messages`},
+        { id: 'Guided tours', icon: <FilterFramesIcon/>, url: `${appid}/messages/tours`,},
         { id: 'visitor auto messages', icon: <FlipToFrontIcon/>, url: `${appid}/messages/visitor_auto`}
       ],
     },
@@ -148,8 +151,8 @@ function Navigator(props, context) {
       id: 'Help Center',
       children: [
         { id: 'Articles', icon: <BookIcon/>, url: `/apps/${app.key}/articles`},
-        { id: 'Collections', icon: <BookIcon/>, url: `/apps/${app.key}/articles/collections`},
-        { id: 'Settings', icon: <BookIcon/>, url: `/apps/${app.key}/articles/settings`},
+        { id: 'Collections', icon: <FolderIcon/>, url: `/apps/${app.key}/articles/collections`},
+        { id: 'Settings', icon: <SettingsIcon/>, url: `/apps/${app.key}/articles/settings`},
       ],
     },
 
