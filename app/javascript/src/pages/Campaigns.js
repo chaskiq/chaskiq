@@ -39,14 +39,21 @@ import {toggleDrawer} from '../actions/drawer'
 
 import Table from '../components/table/index'
 
+import SelectMenu from '../components/selectMenu'
+
+
 import { Done, Face } from '@material-ui/icons';
 import {
   Typography,
   Avatar,
-  Chip,
   Tab,
-  Tabs
+  Tabs,
 } from '@material-ui/core'
+
+import {
+  CheckCircle,
+  Pause
+} from '@material-ui/icons'
 
 
 import gravatar from '../shared/gravatar'
@@ -65,6 +72,23 @@ const NameWrapper = styled.span`
 const AvatarWrapper = styled.div`
   margin-right: 8px;
 `;
+
+const options = [
+  {
+    title: 'Enabled',
+    description: 'enables the campaign',
+    icon: <CheckCircle/>,
+    id: 'enabled',
+    state: 'enabled'
+  },
+  {
+    title: 'Disabled',
+    description: 'disables the campaign ',
+    icon: <Pause/>,
+    id: 'disabled',
+    state: 'disabled'
+  },
+];
 
 class CampaignSegment extends Component {
 
@@ -450,6 +474,25 @@ class CampaignForm extends Component {
     }
   }
 
+  toggleCampaignState = ()=>{
+    graphql(UPDATE_CAMPAIGN, {
+      appKey: this.props.app.key,
+      id: this.state.data.id,
+      campaignParams: {
+        state: this.state.data.state === "enabled" ? "disabled" : "enabled"
+      }
+    }, {
+      success: (data)=>{
+        this.setState({
+          data: data.campaignUpdate.campaign
+        })
+      }, 
+      error: ()=>{
+
+      }
+    })
+  }
+
 
   render() {
 
@@ -464,21 +507,23 @@ class CampaignForm extends Component {
         items={
           <Grid item>
 
-              <Chip 
-                variant="outlined" 
-                color="secondary" 
-                size="small" 
-                label="Clickable Chip"
-                deleteIcon={<Done />} 
-                //onDelete={handleDelete} 
-                icon={<Face />} 
+              <SelectMenu 
+                options={options} 
+                selected={this.state.data.state}
+                handleClick={(e)=> this.toggleCampaignState(e.state) } 
+                toggleButton={(clickHandler)=>{
+                  return  <Button 
+                      onClick={clickHandler}
+                      variant="outlined" 
+                      color="inherit" 
+                      size="small">
+                      {this.state.data.state}
+                    </Button>
+                  }
+                }
+                
               />
 
-
-              <Button 
-                variant="outlined" color="inherit" size="small">
-                {this.state.data.state}
-              </Button>
           </Grid>
         }
         tabsContent={
