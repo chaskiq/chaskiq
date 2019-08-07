@@ -28,6 +28,14 @@ import MessageIcon from '@material-ui/icons/Message'
 import FilterFramesIcon from '@material-ui/icons/FilterFrames'
 import FolderIcon from '@material-ui/icons/Folder'
 
+import {
+  QuestionAnswerOutlined,
+  FlagOutlined,
+  BookOutlined,
+  SettingsOutlined,
+  DomainOutlined
+} from '@material-ui/icons'
+
 import ExpansionPanel from '@material-ui/core/ExpansionPanel';
 import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails';
 import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary';
@@ -119,7 +127,7 @@ function Navigator(props, context) {
 
     {
       id: 'Platform',
-      icon: <PeopleIcon style={{ fontSize: 30 }}/>,
+      icon: <DomainOutlined style={{ fontSize: 30 }}/>,
       children: app.segments.map((o)=>(
         { id: o.name , 
           icon:  null, 
@@ -129,7 +137,7 @@ function Navigator(props, context) {
     },
     {
       id: 'Conversations',
-      icon: <PeopleIcon style={{ fontSize: 30 }}/>,
+      icon: <QuestionAnswerOutlined style={{ fontSize: 30 }}/>,
       children: [
         { id: 'Conversations', icon:  <SmsIcon/>, url: `/apps/${app.key}/conversations`},
         { id: 'Assigment Rules', icon:  <ShuffleIcon/>, url: `/apps/${app.key}/conversations/assignment_rules`},
@@ -137,7 +145,7 @@ function Navigator(props, context) {
     },
     {
       id: 'Campaigns',
-      icon: <PeopleIcon style={{ fontSize: 30 }}/>,
+      icon: <FlagOutlined style={{ fontSize: 30 }}/>,
       children: [
         /*{ id: 'Analytics', icon: <SettingsIcon /> },
         { id: 'Performance', icon: <TimerIcon /> },
@@ -151,7 +159,7 @@ function Navigator(props, context) {
 
     {
       id: 'Help Center',
-      icon: <PeopleIcon style={{ fontSize: 30 }}/>,
+      icon: <BookOutlined style={{ fontSize: 30 }}/>,
       children: [
         { id: 'Articles', icon: <BookIcon/>, url: `/apps/${app.key}/articles`},
         { id: 'Collections', icon: <FolderIcon/>, url: `/apps/${app.key}/articles/collections`},
@@ -161,13 +169,14 @@ function Navigator(props, context) {
 
     {
       id: 'Settings',
-      icon: <PeopleIcon style={{ fontSize: 30 }}/>,
+      icon: <SettingsOutlined style={{ fontSize: 30 }}/>,
       children: [
         { id: 'App Settings', icon:  <SettingsIcon/>, url: `/apps/${app.key}/settings`, },
         { id: 'Team', icon: <SupervisedUserCircleIcon />, url: `/apps/${app.key}/team`, active: false },
         { id: 'Authentication', icon: <ShuffleIcon />, active: true },
       ],
     },
+    /*
     {
       id: 'Develop',
       icon: <PeopleIcon style={{ fontSize: 30 }}/>,
@@ -178,7 +187,7 @@ function Navigator(props, context) {
         { id: 'Functions', icon: <SettingsEthernetIcon /> },
         { id: 'ML Kit', icon: <SettingsInputComponentIcon /> },
       ],
-    },
+    },*/
   ];
 
   return (
