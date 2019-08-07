@@ -15,32 +15,28 @@ import { ThemeProvider } from 'emotion-theming'
 
 
 const StepContainer = styled.div`
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: flex-start;
-    flex: 0 0 auto;
-    min-width: 0;
-    min-height: 0;
-
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+  flex: 0 0 auto;
+  min-width: 0;
+  min-height: 0;
 `
 const ConnectorStep = styled.div`
-
   width: 60px;
   heigth: 60px;
   border: 1px solid #ccc;
-
 `
 
 const StepBody = styled.div`
-
-    background: #fff;
-    max-height: 148px;
-    box-shadow: 0 2px 8px 0 rgba(0,0,0,.05);
-    border: 1px solid rgba(0,0,0,.1);
-    border-radius: 5px;
-    overflow: hidden;
-    max-width: 140px;
+  background: #fff;
+  max-height: 148px;
+  box-shadow: 0 2px 8px 0 rgba(0,0,0,.05);
+  border: 1px solid rgba(0,0,0,.1);
+  border-radius: 5px;
+  overflow: hidden;
+  max-width: 140px;
 `
 
 const StepHeader = styled.div`
@@ -65,11 +61,10 @@ const Body = styled.div`
 `
 
 const NewStepContainer = styled.div`
-    background-color: #ebebeb;
-    border-radius: 4px;
-    min-width: 205px;
-    height: 150px;
-
+  background-color: #ebebeb;
+  border-radius: 4px;
+  min-width: 205px;
+  height: 150px;
 `
 
 const NewStepBody = styled.div`
@@ -78,7 +73,6 @@ const NewStepBody = styled.div`
   align-items: center;
   justify-content: center;
   height: 100%;
-
 `
 
 class TourManager extends Component {
