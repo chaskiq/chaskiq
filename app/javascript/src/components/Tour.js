@@ -140,7 +140,7 @@ class TourManager extends Component {
 
             <StepsContainer>
               {
-                this.props.data.steps.map((o) => {
+                this.props.data.steps && this.props.data.steps.map((o) => {
                   return <TourStep step={o}
                     key={o.target}>
                     //removeItem={this.removeItem}
