@@ -40,18 +40,19 @@ import Link from 'Dante2/package/es/components/decorators/link'
 import findEntities from 'Dante2/package/es/utils/find_entities'
 import {ThemeProvider} from 'emotion-theming'
 import EditorStyles from 'Dante2/package/es/styled/base'
-import theme from './conversation/theme'
+import theme from '../components/conversation/theme'
 import styled from '@emotion/styled'
 import CircularProgress from '@material-ui/core/CircularProgress';
 
 const EditorStylesExtend = styled(EditorStyles)`
 
-  line-height: 2em;
-  font-size: 1.2em; 
+  line-height: ${(props)=> props.styles.lineHeight || '2em' };
+  font-size: ${(props)=> props.styles.fontSize || '1.2em' };
 
   .graf--p{
-    line-height: 2em;
-    font-size: 1.2em; 
+    line-height: ${(props)=> props.styles.lineHeight || '2em' };
+    font-size: ${(props)=> props.styles.fontSize || '1.2em' };
+    margin-bottom: 0px;
   }
 
   .dante-menu{
@@ -500,8 +501,7 @@ export default class ArticleEditor extends Component {
       }
     }
 
-    let html3 = convertToHTML(convertOptions)(context.editorState().getCurrentContent())
-
+    let html = convertToHTML(convertOptions)(context.editorState().getCurrentContent())
     const serialized = JSON.stringify(content)
     const plain = context.getTextFromEditor(content)
 
@@ -509,12 +509,10 @@ export default class ArticleEditor extends Component {
       return
 
     this.props.updateState({
-
-
       status: "saving...",
       statusButton: "success",
       content: {
-        html: html3,
+        html: html,
         serialized: serialized
       }
     })
@@ -532,8 +530,7 @@ export default class ArticleEditor extends Component {
   render(){
 
       return <ThemeProvider theme={theme}>
-           <EditorStylesExtend campaign={true}>
-
+           <EditorStylesExtend campaign={true} styles={this.props.styles}>
 
              {
                !this.props.loading ?
@@ -549,14 +546,14 @@ export default class ArticleEditor extends Component {
                   }
                   onChange={(e) => {
                     this.dante_editor = e
-                    const newContent = convertToRaw(e.state.editorState.getCurrentContent()) //e.state.editorState.getCurrentContent().toJS()
+                    //const newContent = convertToRaw(e.state.editorState.getCurrentContent()) //e.state.editorState.getCurrentContent().toJS()
                     //this.menuResizeFunc = getVisibleSelectionRect
                     //const selectionState = e.state.editorState.getSelection();
 
-                    this.props.updateState({
+                    /*this.props.updateState({
                       currentContent: newContent,
                       //selectionPosition: selectionState.toJSON() //this.menuResizeFunc(window),
-                    })
+                    })*/
 
                   }}
                   content={this.defaultContent()}

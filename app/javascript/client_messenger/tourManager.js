@@ -3,10 +3,20 @@ import styled from '@emotion/styled'
 import Simmer from 'simmerjs'
 //import TourEditor from './tourEditor'
 import TourEditor from './tourEditor2'
-import TextEditor from '../src/components/TextEditor'
+import TextEditor from '../src/textEditor'
 //import Button from '@material-ui/core/Button';
-import Joyride, { ACTIONS, EVENTS, STATUS } from 'react-joyride';
+import Joyride, { 
+  ACTIONS, 
+  EVENTS, 
+  STATUS, 
+  BeaconRenderProps, 
+  TooltipRenderProps 
+} from 'react-joyride';
 import StyledFrame from './styledFrame'
+import DraftRenderer from '../src/textEditor/draftRenderer'
+import DanteContainer from '../src/textEditor/editorStyles'
+import theme from '../src/textEditor/theme'
+import { ThemeProvider } from 'emotion-theming'
 
 
 const simmer = new Simmer(window, { 
@@ -209,7 +219,7 @@ export default class TourManager extends Component {
       let path = {
         target: cssPath,
         content: 'default text',
-        serializedContent: null,
+        serialized_content: null,
       }
 
       if(this.state.steps.find((o)=> o.target === path.target )) {
@@ -297,31 +307,50 @@ export default class TourManager extends Component {
     }, ()=> setTimeout(() => this.setState({selecting: true}), 500 ))
   }
 
-  saveContent = (value, target)=>{
-    this.state.steps.map((o)=>{
-      if(o.target === target){
-        o.serializedContent = value;
+  saveContent = (value, element)=>{
+    const newSteps = this.state.steps.map((o)=>{
+      if(o.target === element.target){
+        o.serialized_content = value.serialized;
+        o.html = value.html
         return o
       } else {
         return o
       }
+    })
 
+    this.setState({
+      steps: newSteps
     })
   }
 
   enableEditMode = (editElement)=>{
-    debugger
     let newEl = {
       target: editElement.target,
-      content: <TextEditor 
-                data={{}}
-                saveHandler={this.saveContent} 
-                updateState={()=> console.log("update here!")}
-                serializedContent={editElement.serializedContent}
-                target={editElement.target}
-                loading={false}>
-                </TextEditor>, 
-      serializedContent: null
+      content: <React.Fragment>
+                <TextEditor 
+                  data={{}}
+                  styles={
+                    {
+                      lineHeight: '2em',
+                      fontSize: '0.9em'
+                    }
+                  }
+                  saveHandler={this.saveContent} 
+                  updateState={({status, statusButton, content})=> {
+                    console.log("get content", content)
+                    this.saveContent(content, editElement )
+                  }
+                    //console.log("update here!", uno, dos, tres)
+                  }
+                  serializedContent={editElement.serialized_content}
+                  target={editElement.target}
+                  loading={false}>
+                </TextEditor>
+
+                <button>save</button>
+
+      </React.Fragment>, 
+      serialized_content: editElement.serialized_content
     }
     this.setState({
       selectionMode: 'edit',
@@ -347,7 +376,7 @@ export default class TourManager extends Component {
       selecting: false,
       selectionMode: false,
     }, ()=>{
-      const newStep  = this.state.steps.map((o)=>{
+      const newSteps = this.state.steps.map((o)=>{
         if( o.target === this.state.editElement.target){
           this.state.editElement
           return o
@@ -356,17 +385,22 @@ export default class TourManager extends Component {
         }
          
       })
-        this.setState({ steps: newStep  })
+        this.setState({ steps: newSteps })
     })
   }
 
   prepareJoyRidyContent = ()=>{
     return this.state.steps.map((o)=>{
 
-      o.content = <TourEditor 
-                    serializedContent={o.serializedContent} 
-                    readOnly={true}>
-                  </TourEditor>
+      o.content = <React.Fragment>
+                      {/*<DanteContainer>
+                        <DraftRenderer
+                          raw={JSON.parse(o.serialized_content)}
+                        />
+                      </DanteContainer>*/}
+                      {JSON.parse(o.serialized_content)}
+                    
+                  </React.Fragment>
     
       return o
 
@@ -380,7 +414,7 @@ export default class TourManager extends Component {
   handleJoyrideCallback = data => {
     const { action, index, status, type } = data;
 
-    console.log(data)
+    //console.log(data)
 
     const centerDiv = (element)=>{
       const elementRect = element.getBoundingClientRect();
@@ -423,9 +457,14 @@ export default class TourManager extends Component {
   };
 
   handleSaveTour = ()=>{
-    window.opener.TourManagerMethods && window.opener.TourManagerMethods.update(this.state.steps.map((o)=> ( { 
-      target: o.target, 
-      serialized_content: o.serialized_content} )  
+    window.opener.TourManagerMethods && window.opener.TourManagerMethods.update(this.state.steps.map(
+      (o)=> { 
+        console.log("save tour", o)
+        return { 
+          target: o.target, 
+          serialized_content: o.serialized_content
+        }
+      }
     ))
   }
 
@@ -443,10 +482,12 @@ export default class TourManager extends Component {
 
       {
         this.state.selectionMode !== "edit" ?
-      
-          <Joyride
-            steps={this.prepareJoyRidyContent(this.state.steps)}
+          <ThemeProvider 
+            theme={ theme }>
+            <Joyride
+              steps={this.prepareJoyRidyContent(this.state.steps)}
             run={this.state.run}
+            //beaconComponent={Tooltip}
             debug={true}
             continuous
             scrollToFirstStep
@@ -457,10 +498,10 @@ export default class TourManager extends Component {
               options: {
                 zIndex: 10000,
               }
-            }}
-          /> : null 
-        
-        }
+              }}
+            />
+          </ThemeProvider> : null
+      }
 
 
       {
@@ -469,6 +510,7 @@ export default class TourManager extends Component {
             steps={[this.state.editElement]}
             run={this.state.selectionMode === "edit"}
             debug={true}
+            //beaconComponent={(props)=><Tooltip/>}
             continuous={false}
             scrollToFirstStep
             showProgress={false}
@@ -523,7 +565,7 @@ export default class TourManager extends Component {
                     return <TourStep step={o}
                                     key={o.target}
                                     removeItem={this.removeItem}
-                                    enableEditMode={()=>this.enableEditMode(o)}>
+                                    enableEditMode={this.enableEditMode}>
                           </TourStep>
                   }
                 )}
@@ -605,6 +647,7 @@ export default class TourManager extends Component {
   }
 }
 
+
 class TourStep extends Component {
 
   removeItem = (e)=>{
@@ -622,15 +665,20 @@ class TourStep extends Component {
            <StepBody>
 
               <a href="" onClick={this.removeItem}>x</a>
+
               <StepHeader>
                 
               </StepHeader>
 
               <StepMessage>
-                <TourEditor
-                  serializedContent={this.props.step.serializedContent}
-                  readOnly={true}
-                />
+                <ThemeProvider 
+                  theme={ theme }>
+                  <DanteContainer>
+                    <DraftRenderer
+                      raw={JSON.parse(this.props.step.serialized_content)}
+                    />
+                  </DanteContainer>
+                </ThemeProvider>
               </StepMessage>
            </StepBody>
            <ConnectorStep/>
@@ -667,4 +715,36 @@ class NewTourStep extends Component {
       </NewStepBody>
       </NewStepContainer>
   }
+}
+
+const Tooltip = ({
+  continuous,
+  index,
+  step,
+  backProps,
+  closeProps,
+  primaryProps,
+  tooltipProps,
+}) => {
+  return <div {...tooltipProps}>
+    {(step && step.title) && <div>{step.title}</div>}
+    <div>{step.content}</div>
+    <div id="footer">
+      {index > 0 && (
+        <button {...backProps}>
+          <p id="back">back</p>
+        </button>
+      )}
+      {continuous && (
+        <button {...primaryProps}>
+          <p id="next">next</p>
+        </button>
+      )}
+      {!continuous && (
+        <button {...closeProps}>
+          <p id="close">close</p>
+        </button>
+      )}
+    </div >
+  </div>
 }

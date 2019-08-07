@@ -7,6 +7,10 @@ import { connect } from 'react-redux'
 import graphql from "../graphql/client"
 import {UPDATE_CAMPAIGN} from '../graphql/mutations'
 
+import DraftRenderer from '../textEditor/draftRenderer'
+import DanteContainer from '../textEditor/editorStyles'
+import theme from '../textEditor/theme'
+import { ThemeProvider } from 'emotion-theming'
 // INTERNAL APP TOUR
 
 
@@ -100,7 +104,6 @@ class TourManager extends Component {
   }
 
   updateData = (data)=>{
-
     const params = {
       appKey: this.props.app.key,
       id: this.props.data.id,
@@ -193,6 +196,19 @@ class TourStep extends Component {
               </StepHeader>
 
               <StepMessage>
+
+                <ThemeProvider 
+                  theme={ theme }>
+                  
+                  <DanteContainer>
+                    <DraftRenderer
+                      raw={JSON.parse(this.props.step.serialized_content)}
+                    />
+                  </DanteContainer>
+
+                </ThemeProvider>
+
+
                 {
                   /* 
                   
