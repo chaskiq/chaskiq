@@ -2,6 +2,12 @@ import React, {Component} from 'react'
 import styled from '@emotion/styled'
 import Simmer from 'simmerjs'
 import TextEditor from '../src/textEditor'
+import Tooltip, {TooltipBody,
+  TooltipFooter,
+  TooltipButton,
+  TooltipCloseButton,
+  TooltipBackButton} from './tour/tooltip'
+
 //import Button from '@material-ui/core/Button';
 import Joyride, { 
   ACTIONS, 
@@ -324,6 +330,7 @@ export default class TourManager extends Component {
   enableEditMode = (editElement)=>{
     let newEl = {
       target: editElement.target,
+      disableBeacon: true,
       content: <React.Fragment>
                 <TextEditor 
                   data={{}}
@@ -345,9 +352,17 @@ export default class TourManager extends Component {
                   loading={false}>
                 </TextEditor>
 
-                <button>save</button>
+                {/*<select name={"next_trigger"}>
+                  <option value="click">on Click</option>
+                  <option value="hover">on Hover</option>
+                  <option value="fill">fill</option>
+                </select>
 
-      </React.Fragment>, 
+                <button>save</button>*/
+              }
+
+      </React.Fragment>,
+      save: this.handleSaveTour, 
       serialized_content: editElement.serialized_content
     }
     this.setState({
@@ -388,20 +403,12 @@ export default class TourManager extends Component {
   }
 
   prepareJoyRidyContent = ()=>{
-    return this.state.steps && this.state.steps.map((o)=>{
-
-      o.content = <React.Fragment>
-                      {/*<DanteContainer>
-                        <DraftRenderer
-                          raw={JSON.parse(o.serialized_content)}
-                        />
-                      </DanteContainer>*/}
-                      {JSON.parse(o.serialized_content)}
-                    
-                  </React.Fragment>
-    
+    return this.state.steps && this.state.steps.map((o, index)=>{
+      o.disableBeacon = index === 0
+      o.content = <DraftRenderer
+                    raw={JSON.parse(o.serialized_content)}
+                  />
       return o
-
     })
   }
 
@@ -457,13 +464,17 @@ export default class TourManager extends Component {
   handleSaveTour = ()=>{
     window.opener.TourManagerMethods && window.opener.TourManagerMethods.update(this.state.steps.map(
       (o)=> { 
-        console.log("save tour", o)
         return { 
           target: o.target, 
           serialized_content: o.serialized_content
         }
       }
     ))
+
+    this.setState({
+      selecting: false,
+      selectionMode: false,
+    })
   }
 
   getSteps = ()=>{
@@ -484,20 +495,20 @@ export default class TourManager extends Component {
             theme={ theme }>
             <Joyride
               steps={this.prepareJoyRidyContent(this.state.steps)}
-            run={this.state.run}
-            //beaconComponent={Tooltip}
-            debug={true}
-            continuous
-            scrollToFirstStep
-            showProgress
-            showSkipButton
-            callback={this.handleJoyrideCallback}
-            styles={{
-              options: {
-                zIndex: 10000,
-              }
-              }}
-            />
+              run={this.state.run}
+              tooltipComponent={Tooltip}
+              debug={true}
+              continuous
+              scrollToFirstStep
+              showProgress
+              showSkipButton
+              callback={this.handleJoyrideCallback}
+              styles={{
+                options: {
+                  zIndex: 10000,
+                }
+                }}
+              />
           </ThemeProvider> : null
       }
 
@@ -509,6 +520,7 @@ export default class TourManager extends Component {
             run={true}
             //debug={true}
             //beaconComponent={(props)=><Tooltip/>}
+            tooltipComponent={EditorTooltip}
             continuous={false}
             scrollToFirstStep
             showProgress={false}
@@ -689,7 +701,6 @@ const NewStepContainer = styled.div`
     border-radius: 4px;
     min-width: 205px;
     height: 150px;
-
 `
 
 const NewStepBody = styled.div`
@@ -698,7 +709,6 @@ const NewStepBody = styled.div`
   align-items: center;
   justify-content: center;
   height: 100%;
-
 `
 
 class NewTourStep extends Component {
@@ -715,3 +725,65 @@ class NewTourStep extends Component {
   }
 }
 
+
+
+
+// https://github.com/gilbarbara/react-joyride/blob/5679a56a49f2795244c2b4c5c641526a58602a52/src/components/Tooltip/Container.js
+const EditorTooltip = ({
+  continuous,
+  index,
+  step,
+  backProps,
+  closeProps,
+  primaryProps,
+  tooltipProps,
+  styles,
+  isLastStep,
+  size
+}) => {
+  const { back, close, last, next, skip } = step.locale;
+  const output = {
+    primary: close,
+  };
+
+  if (continuous) {
+    output.primary = isLastStep ? last : next;
+
+    if (step.showProgress) {
+      output.primary = (
+        <span>
+          {output.primary} ({index + 1}/{size})
+        </span>
+      );
+    }
+  }
+
+  return <TooltipBody {...tooltipProps}>
+    {(step && step.title) && <div>{step.title}</div>}
+    <div>
+      {step.content}
+    </div>
+    <TooltipFooter>
+      {index > 0 && (
+        <TooltipBackButton {...backProps}>
+          back
+        </TooltipBackButton>
+      )}
+      {continuous && (
+        <TooltipButton {...primaryProps}>
+          {output.primary}
+        </TooltipButton>
+      )}
+
+      <TooltipButton onClick={step.save}>
+        save
+      </TooltipButton>
+
+      {!continuous && (
+        <TooltipCloseButton {...closeProps}>
+          close
+        </TooltipCloseButton>
+      )}
+    </TooltipFooter>
+  </TooltipBody>
+}
