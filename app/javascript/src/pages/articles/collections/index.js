@@ -1,5 +1,5 @@
 import React, {Component} from 'react'
-import { withRouter, Route, Switch, Link } from 'react-router-dom'
+import { withRouter, Route, Switch } from 'react-router-dom'
 import { connect } from 'react-redux'
 import {
   Paper,
@@ -10,6 +10,7 @@ import {
   ListItemText,
   Grid
 } from '@material-ui/core'
+import {AnchorLink} from '../../../shared/RouterLink'
 import { withStyles } from '@material-ui/core/styles';
 
 import FormDialog from '../../../components/FormDialog'
@@ -318,9 +319,9 @@ class Collections extends Component {
                               </Avatar>
                             </ListItemAvatar>*/}
                             <ListItemText primary={
-                              <Link to={`/apps/${this.props.app.key}/articles/collections/${item.id}`}>
+                              <AnchorLink to={`/apps/${this.props.app.key}/articles/collections/${item.id}`}>
                                 {item.title}
-                              </Link>
+                              </AnchorLink>
                             } 
                               secondary={item.description}
                             />
