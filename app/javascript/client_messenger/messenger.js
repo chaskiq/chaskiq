@@ -10,6 +10,7 @@ import themeDark from '../src/components/conversation/darkTheme'
 import DraftRenderer from '../src/components/conversation/draftRenderer'
 import DanteContainer from '../src/components/conversation/editorStyles'
 import UnicornEditor from './textEditor' // from './quillEditor' //'./draftEditor' //from './editor.js'
+import Tour from './UserTour'
 import gravatar from "gravatar"
 import Moment from 'react-moment';
 import { soundManager } from 'soundmanager2'
@@ -198,6 +199,7 @@ class Messenger extends Component {
       availableMessages: [],
       availableMessage: null,
       display_mode: "conversations",
+      tours: [],
       open: false,
       appData: {},
       isMinimized: false,
@@ -252,11 +254,13 @@ class Messenger extends Component {
   }
 
   componentDidMount(){
+    
     this.ping(()=> {
       this.precenseSubscriber()
       this.eventsSubscriber()
       this.getConversations()
       this.getMessage()
+      this.getTours()
       this.locationChangeListener()
     })
 
@@ -754,6 +758,23 @@ class Messenger extends Component {
     return matches.indexOf(null) === -1
   }
 
+  getTours = ()=>{
+    this.axiosInstance.get(`/api/v1/apps/${this.props.app_id}/tours.json`)
+    .then((response) => {
+      this.setState({
+        tours: this.state.tours.concat(response.data)
+      })
+
+      /*if (cb)
+        cb()*/
+    })
+    .catch((error) => {
+      console.log(error);
+    });
+
+  }
+
+
 
   render() {
     return (
@@ -764,14 +785,6 @@ class Messenger extends Component {
       }}>
       
         <EditorWrapper>
-          {/*<StyledFrame style={{background: 'red'}}>
-          
-            <h1>x</h1>
-            <Button >
-              Hello World
-            </Button>
-      </StyledFrame>*/}
-
 
           {
             this.state.availableMessages ?
@@ -905,7 +918,8 @@ class Messenger extends Component {
 
         {
           this.isTourManagerEnabled() ?
-          <TourManager/> : null
+          <TourManager/> : this.state.tours.length > 0 ? 
+          <Tour tours={this.state.tours}/> : null
         }
 
         <div id="TourManager"></div>

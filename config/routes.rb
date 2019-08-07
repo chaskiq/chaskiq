@@ -60,6 +60,7 @@ Rails.application.routes.draw do
         end
         
         resources :triggers, controller: "api/v1/triggers"
+        resources :tours, controller: "api/v1/tours"
 
         resources :messages, controller: "api/v1/messages" do
           resources :tracks, controller: "api/v1/tracks" do

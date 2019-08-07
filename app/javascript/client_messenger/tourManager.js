@@ -1,8 +1,6 @@
 import React, {Component} from 'react'
 import styled from '@emotion/styled'
 import Simmer from 'simmerjs'
-//import TourEditor from './tourEditor'
-import TourEditor from './tourEditor2'
 import TextEditor from '../src/textEditor'
 //import Button from '@material-ui/core/Button';
 import Joyride, { 
@@ -508,14 +506,14 @@ export default class TourManager extends Component {
         this.state.editElement && this.state.selectionMode == "edit" ? 
           <Joyride
             steps={[this.state.editElement]}
-            run={this.state.selectionMode === "edit"}
-            debug={true}
+            run={true}
+            //debug={true}
             //beaconComponent={(props)=><Tooltip/>}
             continuous={false}
             scrollToFirstStep
             showProgress={false}
             showSkipButton={false}
-            spotlightClicks
+            //spotlightClicks
             disableOverlayClose
             styles={{
               options: {
@@ -717,34 +715,3 @@ class NewTourStep extends Component {
   }
 }
 
-const Tooltip = ({
-  continuous,
-  index,
-  step,
-  backProps,
-  closeProps,
-  primaryProps,
-  tooltipProps,
-}) => {
-  return <div {...tooltipProps}>
-    {(step && step.title) && <div>{step.title}</div>}
-    <div>{step.content}</div>
-    <div id="footer">
-      {index > 0 && (
-        <button {...backProps}>
-          <p id="back">back</p>
-        </button>
-      )}
-      {continuous && (
-        <button {...primaryProps}>
-          <p id="next">next</p>
-        </button>
-      )}
-      {!continuous && (
-        <button {...closeProps}>
-          <p id="close">close</p>
-        </button>
-      )}
-    </div >
-  </div>
-}
