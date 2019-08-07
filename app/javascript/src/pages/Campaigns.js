@@ -1,9 +1,10 @@
 import React, { Component } from "react"
 import {
   Route,
-  Link
 } from 'react-router-dom'
+
 import { withRouter } from 'react-router-dom'
+import {AnchorLink} from '../shared/RouterLink'
 import { connect } from 'react-redux'
 import ContentWrapper from '../components/ContentWrapper';
 import PageTitle from '../components/PageTitle';
@@ -48,6 +49,7 @@ import {
   Avatar,
   Tab,
   Tabs,
+  Chip
 } from '@material-ui/core'
 
 import {
@@ -641,10 +643,12 @@ class CampaignContainer extends Component {
   }
 
   renderActions = ()=>{
-    return <Button variant={"contained"} color={"primary"}
-                  onClick={this.createNewCampaign}>
-                  create new campaign
-                </Button>
+    return <Grid container justify={'flex-end'}>
+              <Button variant={"contained"} color={"primary"}
+                onClick={this.createNewCampaign}>
+                create new campaign
+              </Button>
+           </Grid>
   }
 
   render() {
@@ -667,18 +671,39 @@ class CampaignContainer extends Component {
                     search={this.init.bind(this)}
                     columns={[
                       {field: 'name', title: 'name', 
-                        render: row => (row ? <Link to={`${this.props.match.url}/${row.id}`}>
+                        render: row => (row ? <AnchorLink to={`${this.props.match.url}/${row.id}`}>
                                                     {row.name}
-                                                  </Link> : undefined)
+                                                  </AnchorLink> : undefined)
                       },
                       {field: 'subject', title: 'subject'},
-                      {field: 'fromName', title: 'fromName', hidden: true},
-                      {field: 'fromEmail', title: 'fromEmail', hidden: true},
-                      {field: 'replyEmail', title: 'replyEmail', hidden: true},
+                      {field: 'state', title: 'state', render: (row)=> {
+                        return <Chip 
+                                label={row.state} 
+                                variant="outlined" 
+                                size="small"
+                                color={row.state === "enabled" ? 'primary' : 'default'}
+                                icon={ 
+                                  row.state === "enabled" ? 
+                                  <CheckCircle/> : 
+                                  <Pause/>
+                                }
+                              />
+                      }},
+                      {field: 'fromName', title: 'from name', hidden: true},
+                      {field: 'fromEmail', title: 'from email', hidden: true},
+                      {field: 'replyEmail', title: 'reply email', hidden: true},
                       {field: 'description', title: 'description', hidden: true},
                       {field: 'timezone', title: 'timezone'},
-                      {field: 'scheduledAt', title: 'scheduledAt', type: "datetime"},
-                      {field: 'scheduledTo', title: 'scheduledTo', type: "datetime"}
+                      {field: 'scheduledAt', title: 'scheduled at', type: "datetime", 
+                        render: row => (row ? <Moment fromNow>
+                          {row.scheduledAt}
+                        </Moment> : undefined)
+                      },
+                      {field: 'scheduledTo', title: 'scheduled to', type: "datetime",
+                        render: row => (row ? <Moment fromNow>
+                          {row.scheduledTo}
+                        </Moment> : undefined)
+                      }
                     ]}
                   >
                     
