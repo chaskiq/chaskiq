@@ -5,7 +5,7 @@ class Api::V1::ToursController < ApiController
   before_action :authorize!
 
   def index
-    @tours = @app.tours
+    @tours = @app.tours.enabled
     render json: @tours.as_json(only: [:id], methods: [:steps])
     #MessengerEventsChannel.broadcast_to("#{@app.key}", {
     #  type: "triggers:receive", 
