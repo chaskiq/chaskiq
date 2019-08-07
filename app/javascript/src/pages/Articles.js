@@ -18,8 +18,10 @@ import {
         Grid,
         Tooltip,
         IconButton,
-        Link as MuiLink
+        Box
       } from '@material-ui/core';
+
+import {AnchorLink} from '../shared/RouterLink'
 
 import gravatar from '../shared/gravatar'
 import {LinkButton, LinkIconButton} from '../shared/RouterLink'
@@ -301,77 +303,80 @@ class AllArticles extends React.Component {
                 changeHandler={(index)=> this.handleLangChange( this.props.settings.availableLanguages[index] )}
               />
 
-             {
-               !this.state.loading ?
-               <DataTable 
-                elevation={0}
-                title={'agents'}
-                meta={this.state.meta}
-                data={this.state.collection}
-                search={this.search}
-                loading={this.state.loading}
-                disablePagination={true}
-                columns={[
-                  {field: "id", title: "id"},
-                  {field: "title", title: "title", 
-                    render: row => (row ? 
-                      <Link to={`/apps/${this.props.app.key}/articles/${row.id}`}>
-                        {row.title ? row.title : "-- missing translation --"}
-                      </Link>
-                   : undefined )
+              <Box mt={2}>
+                {
+                  !this.state.loading ?
+                  <DataTable 
+                    elevation={0}
+                    title={'Articles'}
+                    meta={this.state.meta}
+                    data={this.state.collection}
+                    search={this.search}
+                    loading={this.state.loading}
+                    disablePagination={true}
+                    columns={[
+                      {field: "id", title: "id"},
+                      {field: "title", title: "title", 
+                        render: row => (row ? 
+                          <AnchorLink to={`/apps/${this.props.app.key}/articles/${row.id}`}>
+                            {row.title ? row.title : "-- missing translation --"}
+                          </AnchorLink>
+                      : undefined )
 
-                },
-                  {field: "author", title: "author",
-                  render: row => (row ? 
+                    },
+                      {field: "author", title: "author",
+                      render: row => (row ? 
 
-                    <p>{row.author ? 
-                      <span>
-                        { row.author.name }<br/>
-                        {row.author.email}
-                      </span>
-                       : 'no author'}
-                    </p>
-                  : undefined)
-                },
-                  {field: "state", title: "state", render: row => (row ?
-                    <Chip 
-                      variant="outlined" 
-                      color={row.state === "draft" ? 'secondary' : 'primary' }
-                      size="small" 
-                      label={row.state}
-                      //deleteIcon={<DoneIcon />} 
-                      //onDelete={handleDelete} 
-                      icon={ row.state === "draft" ? <GestureIcon/> : <CheckCircleIcon /> } 
-                    /> : null 
-  
-                  )},
-                  {field: "collection", title: "collection", 
-                    render: row => (row ? 
-                    <p>{row.collection ? 
-                        <Link to={`/apps/${this.props.app.key}/articles/collections/${row.collection.id}`}>
-                          {row.collection.title}
-                        </Link> : 
-                      '--'}
-                    </p>
-                    : undefined)
-                  }
-                ]}
-                defaultHiddenColumnNames={[]}
-                tableColumnExtensions={[
-                  { columnName: 'title', width: 250 },
-                  { columnName: 'id', width: 10 },
-                ]}
+                        <p>{row.author ? 
+                          <span>
+                            { row.author.name }<br/>
+                            {row.author.email}
+                          </span>
+                          : 'no author'}
+                        </p>
+                      : undefined)
+                    },
+                      {field: "state", title: "state", render: row => (row ?
+                        <Chip 
+                          variant="outlined" 
+                          color={row.state === "draft" ? 'secondary' : 'primary' }
+                          size="small" 
+                          label={row.state}
+                          //deleteIcon={<DoneIcon />} 
+                          //onDelete={handleDelete} 
+                          icon={ row.state === "draft" ? <GestureIcon/> : <CheckCircleIcon /> } 
+                        /> : null 
+      
+                      )},
+                      {field: "collection", title: "collection", 
+                        render: row => (row ? 
+                        <p>{row.collection ? 
+                            <AnchorLink to={`/apps/${this.props.app.key}/articles/collections/${row.collection.id}`}>
+                              {row.collection.title}
+                            </AnchorLink> : 
+                          '--'}
+                        </p>
+                        : undefined)
+                      }
+                    ]}
+                    defaultHiddenColumnNames={[]}
+                    tableColumnExtensions={[
+                      { columnName: 'title', width: 250 },
+                      { columnName: 'id', width: 10 },
+                    ]}
 
-                //tableEdit={true}
-                //editingRowIds={["email", "name"]}
-                commitChanges={(aa, bb)=>{debugger}}
-                //leftColumns={this.props.leftColumns}
-                //rightColumns={this.props.rightColumns}
-                //toggleMapView={this.props.toggleMapView}
-                //map_view={this.props.map_view}
-                enableMapView={false}
-             /> : <CircularProgress/> 
-           }
+                    //tableEdit={true}
+                    //editingRowIds={["email", "name"]}
+                    commitChanges={(aa, bb)=>{debugger}}
+                    //leftColumns={this.props.leftColumns}
+                    //rightColumns={this.props.rightColumns}
+                    //toggleMapView={this.props.toggleMapView}
+                    //map_view={this.props.map_view}
+                    enableMapView={false}
+                /> : <CircularProgress/> 
+                }
+              </Box>
+           
            </Content>  
   }
 

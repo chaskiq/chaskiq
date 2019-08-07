@@ -90,7 +90,7 @@ export default class Table extends React.Component {
 
               <Grid item>
               
-              <Typography variant={"subtitle1"}>
+              <Typography variant={"h5"}>
                 {this.props.title}
               </Typography>
 
