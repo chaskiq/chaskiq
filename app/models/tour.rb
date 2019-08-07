@@ -4,6 +4,7 @@ class Tour < Message
   validates :scheduled_at, presence: true
   validates :scheduled_to, presence: true
   store_accessor :settings, [:hidden_constraints, :url, :steps]
+  before_save :fill_steps
 
   scope :in_time, ->{ where(['scheduled_at <= ? AND scheduled_to >= ?', Date.today, Date.today]) }
   
@@ -118,6 +119,10 @@ class Tour < Message
 
     html = LinkRenamer.convert(compiled_mustache, link_prefix)
     html
+  end
+
+  def fill_steps
+    self.steps = [] if self.steps.blank?
   end
 
 end

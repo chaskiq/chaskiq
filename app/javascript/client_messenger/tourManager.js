@@ -388,7 +388,7 @@ export default class TourManager extends Component {
   }
 
   prepareJoyRidyContent = ()=>{
-    return this.state.steps.map((o)=>{
+    return this.state.steps && this.state.steps.map((o)=>{
 
       o.content = <React.Fragment>
                       {/*<DanteContainer>
@@ -559,7 +559,7 @@ export default class TourManager extends Component {
 
                 <StepsContainer>
                 {
-                  this.state.steps.map((o) => {
+                  this.state.steps && this.state.steps.map((o) => {
                     return <TourStep step={o}
                                     key={o.target}
                                     removeItem={this.removeItem}

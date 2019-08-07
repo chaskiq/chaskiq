@@ -66,7 +66,7 @@ class UserTour extends Component {
 
   renderTour = ()=>{
     
-    if(this.props.tour.steps.length > 0){
+    if(this.props.tour.steps && this.props.tour.steps.length > 0){
       return <Joyride
                     steps={this.prepareJoyRidyContent(this.props.tour.steps)}
                     run={this.state.run}
@@ -108,15 +108,15 @@ const Beacon = (props)=>{
 
 
 const TooltipBody = styled.div`
-background-color: rgb(255, 255, 255);
-    border-radius: 5px;
-    box-sizing: border-box;
-    color: rgb(51, 51, 51);
-    font-size: 16px;
-    max-width: 100%;
-    padding: 15px;
-    position: relative;
-    width: 380px;
+  background-color: rgb(255, 255, 255);
+  border-radius: 5px;
+  box-sizing: border-box;
+  color: rgb(51, 51, 51);
+  font-size: 16px;
+  max-width: 100%;
+  padding: 15px;
+  position: relative;
+  width: 380px;
 `
 
 const TooltipFooter = styled.div`
