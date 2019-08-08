@@ -7,17 +7,8 @@ import { Provider, connect } from 'react-redux'
 import Landing from '../pages/Landing'
 import graphql from '../graphql/client'
 import {CURRENT_USER} from '../graphql/queries'
-
-import { withStyles, createMuiTheme, MuiThemeProvider } from '@material-ui/core/styles';
-
-import lightGreen from "@material-ui/core/colors/green";
-import blueGrey from "@material-ui/core/colors/blueGrey";
-
-
 import Docs from '../pages/docs'
 import store from '../store'
-
-
 
 class MainRouter extends Component {
   constructor() {
