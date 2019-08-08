@@ -323,6 +323,7 @@ export const UPDATE_CAMPAIGN = `
         name
         id
         type
+        url
         serializedContent
         segments
         scheduledAt
@@ -350,6 +351,7 @@ export const DELIVER_CAMPAIGN = `
         name
         id
         type
+        url
         serializedContent
         segments
         scheduledAt
@@ -403,6 +405,7 @@ export const CREATE_CAMPAIGN = `
         name
         id
         type
+        url
         serializedContent
         segments
         scheduledAt

@@ -3,6 +3,7 @@ module Types
     field :id, Int, null: true
     field :type, String, null: true
     field :from_name, String, null: true
+    field :url, String, null: true
     field :from_email, String, null: true
     field :reply_email, String, null: true
     field :premailer, String, null: true

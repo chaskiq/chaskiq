@@ -75,11 +75,15 @@ const NewStepBody = styled.div`
   height: 100%;
 `
 
+let __CHILD_WINDOW_HANDLE_2 = null
+
+
 class TourManager extends Component {
   
   state = {
     enabledTour: false
   }
+
 
   componentDidMount() {
     window.TourManagerEnabled = () => {
@@ -90,6 +94,35 @@ class TourManager extends Component {
       update: this.updateData,
       getSteps: ()=> this.props.data.steps
     }
+
+    // events received from child window & pingback
+    window.addEventListener('message', (e)=> {
+      console.log(e)
+
+      if(e.data.type === "ENABLE_MANAGER_TOUR")
+        __CHILD_WINDOW_HANDLE_2.postMessage(
+          { 
+            tour: this.props.data, 
+            tourManagerEnabled: true
+          }, 
+          "*"
+        );
+
+
+      if(e.data.type === "GET_TOUR")
+        __CHILD_WINDOW_HANDLE_2.postMessage({
+          type: "GET_TOUR" , 
+          data: this.props.data
+        }, "*");
+
+      if(e.data.type === "SAVE_TOUR")
+        this.updateData(e.data.steps, ()=>{
+          __CHILD_WINDOW_HANDLE_2.postMessage({
+            type: "GET_TOUR" , 
+            data: this.props.data
+          }, "*");
+        })
+    } , false);
   }
 
   componentWillUnmount() {
@@ -97,7 +130,7 @@ class TourManager extends Component {
     window.TourManagerMethods = null
   }
 
-  updateData = (data)=>{
+  updateData = (data, cb)=>{
     const params = {
       appKey: this.props.app.key,
       id: this.props.data.id,
@@ -109,6 +142,7 @@ class TourManager extends Component {
     graphql(UPDATE_CAMPAIGN, params, {
       success: (data) => {
         this.props.updateData(data.campaignUpdate.campaign, null)
+        if(cb) cb()
         //this.setState({ status: "saved" })
       },
       error: () => {
@@ -122,10 +156,25 @@ class TourManager extends Component {
       enabledTour: true
     }, () => {
 
+      __CHILD_WINDOW_HANDLE_2 = window.open(`${this.props.data.url}`, 
+      '_blank' )
+      //'width=700,height=500,left=200,top=100');
+
+      /*setTimeout(() => {
+        __CHILD_WINDOW_HANDLE_2.postMessage(
+          {tour: this.props.data, tourManagerEnabled: true}, 
+          "*"
+        );
+        
+      }, 8000);*/
+
+
+
       /*var winFeature =
         'location=no,toolbar=no,menubar=no,scrollbars=yes,resizable=yes';
       open(`/tester/${this.props.app.key}`, 'null', winFeature)*/
-      open(`/tester/${this.props.app.key}`)
+      //open(`/tester/${this.props.app.key}`)
+      //open(`${this.props.data.url}`)
     })
   }
 
