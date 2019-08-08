@@ -40,6 +40,10 @@ module Types
       #render :index
     end
 
+    def steps
+      object.respond_to?(:steps) ? object.steps : nil
+    end
+
     def url
       object.respond_to?(:url) ? object.url : nil
     end
