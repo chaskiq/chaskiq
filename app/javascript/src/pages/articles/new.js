@@ -3,9 +3,6 @@ import React, { Component } from 'react';
 
 import { withRouter, Route } from 'react-router-dom'
 import { connect } from 'react-redux'
-
-import ContentHeader from '../../components/ContentHeader'
-import Content from '../../components/Content'
 import {
         Tab ,
         Tabs ,
@@ -24,26 +21,17 @@ import {
 
 import gravatar from '../../shared/gravatar'
 
-import MainSection from '../../components/MainSection';
-import ContentWrapper from '../../components/ContentWrapper';
-
 import ArticleEditor from './editor'
-
-import {getFileMetadata, directUpload} from '../../shared/fileUploader'
-
-//import {Link} from 'react-router-dom'
 
 import graphql from '../../graphql/client'
 
 import {
   CREATE_ARTICLE, 
   EDIT_ARTICLE,
-  CREATE_DIRECT_UPLOAD,
   ARTICLE_BLOB_ATTACH,
   TOGGLE_ARTICLE,
   ARTICLE_ASSIGN_AUTHOR,
   ARTICLE_COLLECTION_CHANGE,
-  CREATE_URL_UPLOAD
 } from '../../graphql/mutations'
 
 import {
@@ -65,7 +53,6 @@ import GestureIcon from '@material-ui/icons/Gesture'
 import CheckCircleIcon from '@material-ui/icons/CheckCircle'
 import ArrowDropDownIcon from '@material-ui/icons/ArrowDropDown'
 
-import styled from '@emotion/styled'
 import {setCurrentPage} from '../../actions/navigation'
 import ScrollableTabsButtonForce from '../../components/scrollingTabs'
 import langs from '../../shared/langsOptions'
@@ -348,70 +335,20 @@ class ArticlesNew extends Component {
     this.setState(data)
   }
 
-  uploadHandler = (file, imageBlock)=>{
-
-    if(!file){
-      this.uploadFromUrl(file, imageBlock)
-    } else {
-      this.uploadFromFile(file, imageBlock)
-    }    
-  }
-
-  uploadFromUrl = (file, imageBlock)=>{
-
-    const url = imageBlock.props.blockProps.data.get("url")
-
-    graphql(CREATE_URL_UPLOAD, {url: url} , {
+  uploadHandler = ({serviceUrl, signedBlobId, imageBlock})=>{
+ 
+    graphql(ARTICLE_BLOB_ATTACH, { 
+      appKey: this.props.app.key ,
+      id: parseInt(this.state.article.id),
+      blobId: signedBlobId
+    }, {
       success: (data)=>{
-        const {signedBlobId, headers, url, serviceUrl} = data.createUrlUpload.directUpload
-        graphql(ARTICLE_BLOB_ATTACH, { 
-          appKey: this.props.app.key ,
-          id: parseInt(this.state.article.id),
-          blobId: signedBlobId
-        }, {
-          success: (data)=>{
-            imageBlock.uploadCompleted(serviceUrl)
-          },
-          error: (err)=>{
-            console.log("error on direct upload", err)
-          }
-        })
+        imageBlock.uploadCompleted(serviceUrl)
       },
-      error: ()=>{
-        debugger
+      error: (err)=>{
+        console.log("error on direct upload", err)
       }
     })
-
-
-  }
-
-  uploadFromFile = (file, imageBlock)=>{
-    getFileMetadata(file).then((input) => {
-      graphql(CREATE_DIRECT_UPLOAD, input, {
-        success: (data)=>{
-          const {signedBlobId, headers, url, serviceUrl} = data.createDirectUpload.directUpload
-       
-          directUpload(url, JSON.parse(headers), file).then(
-            () => {
-              graphql(ARTICLE_BLOB_ATTACH, { 
-                appKey: this.props.app.key ,
-                id: parseInt(this.state.article.id),
-                blobId: signedBlobId
-              }, {
-                success: (data)=>{
-                  imageBlock.uploadCompleted(serviceUrl)
-                },
-                error: (err)=>{
-                  console.log("error on direct upload", err)
-                }
-              })
-          });
-        },
-        error: (error)=>{
-         console.log("error on signing blob", error)
-        }
-      })
-    });
   }
 
   handleLangChange = (lang)=>{
@@ -590,14 +527,18 @@ class ArticlesNew extends Component {
               </div>: null
             }
 
-            <ArticleEditor 
-              article={this.state.article} 
-              data={this.props.data} 
-              app={this.props.app}
-              updateState={this.updateState}
-              loading={this.state.loading}
-              uploadHandler={this.uploadHandler}
-            />
+
+            <Box mb={2}>
+
+              <ArticleEditor 
+                article={this.state.article} 
+                data={this.props.data} 
+                app={this.props.app}
+                updateState={this.updateState}
+                loading={this.state.loading}
+                uploadHandler={this.uploadHandler}
+              />
+            </Box>
 
           </Box>
 
