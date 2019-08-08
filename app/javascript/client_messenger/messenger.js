@@ -204,6 +204,8 @@ class Messenger extends Component {
       appData: {},
       isMinimized: false,
       isMobile: false,
+      tourManagerEnabled: false,
+      ev: null
     }
 
     const data = {
@@ -266,6 +268,19 @@ class Messenger extends Component {
 
     this.updateDimensions()
     window.addEventListener("resize", this.updateDimensions);
+
+    window.addEventListener('message', (e)=> {
+      if(e.data.tourManagerEnabled){
+        console.log("EVENTO TOUR!", e)
+        this.setState({
+          tourManagerEnabled: e.data.tourManagerEnabled, 
+          ev: e
+        })
+      }
+    } , false);
+
+    window.opener && window.opener.postMessage({type: "ENABLE_MANAGER_TOUR"}, "*");
+    
   }
 
   componentDidUpdate(prevProps, prevState){
@@ -680,7 +695,6 @@ class Messenger extends Component {
 
 
     })
-
   }
 
   toggleMessenger = (e)=>{
@@ -699,8 +713,9 @@ class Messenger extends Component {
   }
 
   isTourManagerEnabled = ()=>{
-    return window.opener && window.opener.TourManagerEnabled ? 
-      window.opener.TourManagerEnabled() : null
+    return true
+    /*return window.opener && window.opener.TourManagerEnabled ? 
+      window.opener.TourManagerEnabled() : null*/
   }
 
   receiveTrigger = (trigger)=>{
@@ -917,9 +932,10 @@ class Messenger extends Component {
         }
 
         {
-          this.isTourManagerEnabled() ?
-          <TourManager/> : this.state.tours.length > 0 ? 
-          <Tour tours={this.state.tours}/> : null
+          this.state.tourManagerEnabled ?
+          <TourManager ev={this.state.ev}/> : 
+            this.state.tours.length > 0 ? 
+            <Tour tours={this.state.tours}/> : null
         }
 
         <div id="TourManager"></div>

@@ -54,7 +54,7 @@ const TourManagerContainer = styled.div`
     z-index: 300000;
     margin: 0px;
     height: ${(props)=> {
-      return props.collapsedEditor ? `38px` : `267px` } 
+      return props.collapsedEditor ? `38px` : `250px` } 
     };
     box-shadow: 1px -1px 6px 0px #ccc;
 `
@@ -253,6 +253,22 @@ export default class TourManager extends Component {
     window.addEventListener('resize', scrollHandler.bind(this));
     document.addEventListener('scroll', scrollHandler.bind(this));
 
+    window.addEventListener('message', (e)=> {
+      if(e.data.type === "steps_receive"){
+        console.log("EVENTO TOUR!", e)
+        this.setState({
+          steps: e.data.tourManagerEnabled, 
+          ev: e
+        })
+      }
+
+      if(e.data.type === "GET_TOUR"){
+        console.log("GET_STEPS")
+        this.setState({steps: e.data.data.steps})
+      }
+
+    } , false);
+
     this.getSteps()
   }
 
@@ -412,10 +428,6 @@ export default class TourManager extends Component {
     })
   }
 
-  /*a = document.querySelector().getBoundingClientRect()
-  window.scrollTo(a.x, a.y)
-  */
-
   handleJoyrideCallback = data => {
     const { action, index, status, type } = data;
 
@@ -462,14 +474,16 @@ export default class TourManager extends Component {
   };
 
   handleSaveTour = ()=>{
-    window.opener.TourManagerMethods && window.opener.TourManagerMethods.update(this.state.steps.map(
-      (o)=> { 
-        return { 
-          target: o.target, 
-          serialized_content: o.serialized_content
-        }
-      }
-    ))
+    this.props.ev.source.postMessage(
+      {
+        type: "SAVE_TOUR",
+        steps: this.state.steps.map( (o)=> { 
+            return { 
+              target: o.target, 
+              serialized_content: o.serialized_content
+            }
+        })
+    }, this.props.ev.origin)
 
     this.setState({
       selecting: false,
@@ -478,17 +492,12 @@ export default class TourManager extends Component {
   }
 
   getSteps = ()=>{
-    let steps = []
-    if( window.opener.TourManagerMethods )
-      this.setState({steps: window.opener.TourManagerMethods.getSteps()})
-    
+    this.props.ev.source.postMessage({type: "GET_TOUR"}, this.props.ev.origin)
   }
 
   render(){
 
     return <div style={{ position: 'absolute', zIndex: '100000000'}}>
-
-
       {
         this.state.selectionMode !== "edit" ?
           <ThemeProvider 

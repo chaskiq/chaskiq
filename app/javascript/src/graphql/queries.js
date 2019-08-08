@@ -377,6 +377,7 @@ query Campaigns($appKey: String!, $mode: String!){
         name
         id
         type
+        url
         serializedContent
         segments
         scheduledAt
@@ -402,6 +403,7 @@ query Campaign($appKey: String!, $mode: String!, $id: Int!){
       name
       id
       type
+      url
       serializedContent
       segments
       scheduledAt
