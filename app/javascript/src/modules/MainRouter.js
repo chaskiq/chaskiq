@@ -6,6 +6,7 @@ import App from './App';
 import { Provider, connect } from 'react-redux'
 import store from '../store'
 
+import Docs from '../pages/docs'
 import Landing from '../pages/Landing'
 import graphql from '../graphql/client'
 import {CURRENT_USER} from '../graphql/queries'
@@ -185,9 +186,6 @@ const styles = {
   },
 };
 
-
-
-
 class MainRouter extends Component {
   constructor() {
     super();
@@ -230,33 +228,18 @@ class MainRouter extends Component {
         <Provider store={store}>
           <MuiThemeProvider theme={theme}>
             <BrowserRouter>
-              
-              <Switch>
-                
-
-                <Route exact 
-                  path="/signup" 
-                  component={SignUp} 
-                />
-
-                <Route path="/agents/invitation/accept" 
-                       render={(props)=>(
-                         <AcceptInvitation {...props} {...this.props}/>
-                       )}
-                />
-                
-
-                <Route render={(props)=>(
-                    <App
-                      theme={theme}
-                      {...this.props}
-                      {...props}
-                      >
-                    </App>
-                  )}>
-                </Route>
-
-              </Switch>
+            
+                <Route
+                  render={props => { 
+                    const subdomain = window.location.hostname.split('.')
+                    const appDomains = ["chaskiq", "www", "admin"].filter((o)=> o === subdomain[0])
+                     
+                    if (subdomain && subdomain.length > 1 && appDomains.length === 0) 
+                      return <Docs {...this.props} {...props} subdomain={subdomain[0]}/>
+                     
+                    return <AppLayout {...this.props} {...props}/>
+                  }
+                }/> 
               
             </BrowserRouter>
           </MuiThemeProvider>
@@ -264,6 +247,40 @@ class MainRouter extends Component {
       
     );
   }
+}
+
+class AppLayout extends React.Component{
+
+  render(){
+    return (
+      <Switch>
+        <Route exact 
+          path="/signup" 
+          component={SignUp} 
+        />
+
+        <Route path="/agents/invitation/accept" 
+              render={(props)=>(
+                <AcceptInvitation {...props} {...this.props}/>
+              )}
+        />
+        
+
+        <Route render={(props)=>(
+            <App
+              theme={theme}
+              {...this.props}
+              {...props}
+              >
+            </App>
+          )}>
+        </Route>
+
+      </Switch>
+
+    )
+  }
+  
 }
 
 export default withStyles(styles)(MainRouter);
