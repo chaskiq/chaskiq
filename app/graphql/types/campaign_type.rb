@@ -40,5 +40,9 @@ module Types
       #render :index
     end
 
+    def url
+      object.respond_to?(:url) ? object.url : nil
+    end
+
   end
 end
