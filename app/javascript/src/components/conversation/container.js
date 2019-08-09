@@ -53,7 +53,7 @@ import {getConversation,
 
 import { camelCase, isEmpty } from 'lodash';
 
-import DraftRenderer from './draftRenderer'
+import DraftRenderer from '../../textEditor/draftRenderer'
 
 class ConversationContainerShow extends Component {
 

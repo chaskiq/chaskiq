@@ -9,7 +9,6 @@ import {isEmpty} from 'lodash'
 import graphql from '../graphql/client'
 import {
   APP_USER_CONVERSATIONS, 
-  APP_USER_VISITS,
   AGENT
 } from '../graphql/queries'
 
@@ -27,10 +26,6 @@ import {Grid,
   TextField
 } from '@material-ui/core'
 
-
-
-import { makeStyles, withStyles } from '@material-ui/core/styles';
-
 import EditIcon from '@material-ui/icons/EditOutlined'
 import gravatar from '../shared/gravatar'
 
@@ -41,7 +36,7 @@ import {
 import ContentHeader from '../components/ContentHeader'
 import Content from '../components/Content'
 import Mapa from '../components/map'
-import UserListItem from '../components/UserListItem'
+import UserListItem from '../components/conversation/UserListItem'
 import sanitizeHtml from 'sanitize-html';
 import DialogEditor from '../components/conversation/DialogEditor'
 import UserActionsMenu from '../components/userActionsMenu'

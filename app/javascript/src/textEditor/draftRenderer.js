@@ -6,7 +6,7 @@ import React, {Component} from 'react'
 import redraft from 'redraft'
 
 var Prism = require('prismjs');
-Prism.highlightAll();
+//Prism.highlightAll();
 
 const handlePrismRenderer = (syntax, children)=>{
   const code = children.map((o)=> o.flat() ).join("")

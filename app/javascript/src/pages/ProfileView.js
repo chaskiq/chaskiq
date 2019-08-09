@@ -31,7 +31,7 @@ import {
 import ContentHeader from '../components/ContentHeader'
 import Content from '../components/Content'
 import Mapa from '../components/map'
-import UserListItem from '../components/UserListItem'
+import UserListItem from '../components/conversation/UserListItem'
 import sanitizeHtml from 'sanitize-html';
 import DataTable from '../components/table'
 

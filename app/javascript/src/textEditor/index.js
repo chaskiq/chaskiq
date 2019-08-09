@@ -614,7 +614,7 @@ export default class ArticleEditor extends Component {
 
   render(){
 
-      return <ThemeProvider theme={theme}>
+      return <ThemeProvider theme={theme }>
            <EditorStylesExtend campaign={true} styles={this.props.styles}>
 
              {
@@ -642,8 +642,8 @@ export default class ArticleEditor extends Component {
 
                   }}
                   content={this.defaultContent()}
-                  tooltips={this.tooltipsConfig()}
-                  widgets={this.widgetsConfig()}
+                  tooltips={this.props.tooltipsConfig ? this.props.tooltipsConfig() : this.tooltipsConfig() }
+                  widgets={ this.props.widgetsConfig ? this.props.widgetsConfig() : this.widgetsConfig() }
                   decorators={(context) => {
                     return new MultiDecorator([
                       //this.generateDecorator("hello"),

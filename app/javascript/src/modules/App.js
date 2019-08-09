@@ -102,7 +102,7 @@ class Paperbase extends React.Component {
   render() {
     const { classes } = this.props;
     const { children } = this.props;
-    const drawerWidth = 256;
+    const drawerWidth = 264;
     
     return (
         this.props.isAuthenticated && this.props.current_user.email ?

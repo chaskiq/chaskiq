@@ -9,7 +9,7 @@ import Divider from '@material-ui/core/Divider';
 const styles = theme => ({
   root: {
     width: '100%',
-    maxWidth: '360px',
+    //maxWidth: '360px',
     backgroundColor: theme.palette.background.paper,
   },
 });

@@ -5,10 +5,10 @@ import { ThemeProvider } from 'emotion-theming'
 import actioncable from "actioncable"
 import axios from "axios"
 import UAParser from 'ua-parser-js'
-import theme from '../src/components/conversation/theme'
-import themeDark from '../src/components/conversation/darkTheme'
-import DraftRenderer from '../src/components/conversation/draftRenderer'
-import DanteContainer from '../src/components/conversation/editorStyles'
+import theme from '../src/textEditor/theme'
+import themeDark from '../src/textEditor/darkTheme'
+import DraftRenderer from '../src/textEditor/draftRenderer'
+import DanteContainer from '../src/textEditor/editorStyles'
 import UnicornEditor from './textEditor' // from './quillEditor' //'./draftEditor' //from './editor.js'
 import Tour from './UserTour'
 import gravatar from "gravatar"

@@ -77,6 +77,7 @@ export const AGENT = `
             priority
             lastMessage{
               source
+              createdAt
               message{
                 htmlContent
                 textContent
@@ -140,6 +141,7 @@ export const CONVERSATIONS = `
           priority
           lastMessage{
             source
+            createdAt
             message{
               htmlContent
               textContent
@@ -239,7 +241,9 @@ export const CONVERSATION_WITH_LAST_MESSAGE=`
         state
         readAt
         priority
+        createdAt
         lastMessage{
+          createdAt
           source
           message{
             htmlContent
@@ -327,6 +331,7 @@ query Campaigns($appKey: String!, $id: Int!, $page: Int, $per: Int){
             email
           }
           lastMessage{
+            createdAt
             appUser{
               email
               id
