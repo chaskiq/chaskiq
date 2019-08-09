@@ -52,7 +52,7 @@ import Drawer from '@material-ui/core/Drawer';
 import SendIcon from '@material-ui/icons/Send'
 import {Paper,Box, Typography} from '@material-ui/core'
 
-import UserListItem from '../components/UserListItem'
+import UserListItem from '../components/conversation/UserListItem'
 import UserData from '../components/UserData'
 import { camelCase, isEmpty } from 'lodash';
 
@@ -267,6 +267,7 @@ class ConversationContainer extends Component {
 
                   {
                     this.props.conversations.collection.map((o, i)=>{
+
                       const user = o.mainParticipant
 
                       return <div 
@@ -281,7 +282,8 @@ class ConversationContainer extends Component {
                                   showUserDrawer={()=>this.props.actions.showUserDrawer(o.lastMessage.appUser.id)}
                                   messageObject={o.lastMessage}
                                   conversation={o}
-                                  //createdAt={o.lastMessage.message.created_at}
+
+                                  createdAt={o.lastMessage.message.created_at}
                                   message={sanitizeHtml(o.lastMessage.message.htmlContent).substring(0, 250)}
                                 />
 

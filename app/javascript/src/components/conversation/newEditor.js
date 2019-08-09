@@ -1,46 +1,24 @@
 import React, { Component } from 'react'
-import {
-  isEmpty
-} from 'lodash';
 
+import TextEditor from '../../textEditor'
 import { convertToHTML } from 'draft-convert'
 import axios from 'axios'
 import graphql from '../../graphql/client'
-import { UPDATE_CAMPAIGN} from '../../graphql/mutations'
 
-//import config from "../constants/config"
-
-import {
-  CompositeDecorator,
-  EditorState,
-  convertToRaw,
-  convertFromRaw,
-  createEditorState,
-  getVisibleSelectionRect,
-  SelectionState
-} from 'draft-js'
-
-import MultiDecorator from 'draft-js-multidecorators'
-
-import Dante from "Dante2"
-import DanteEditor from 'Dante2/package/es/components/core/editor.js'
 import { DanteImagePopoverConfig } from 'Dante2/package/es/components/popovers/image.js'
 import { DanteAnchorPopoverConfig } from 'Dante2/package/es/components/popovers/link.js'
 import { DanteInlineTooltipConfig } from './EditorButtons' //'Dante2/package/es/components/popovers/addButton.js'
 import { DanteTooltipConfig } from 'Dante2/package/es/components/popovers/toolTip.js' //'Dante2/package/es/components/popovers/toolTip.js'
-import { ImageBlockConfig } from '../../pages/campaigns/article/image'
-
-import { EmbedBlockConfig } from 'Dante2/package/es/components/blocks/embed.js'
-import { VideoBlockConfig } from 'Dante2/package/es/components/blocks/video.js'
-import { PlaceholderBlockConfig } from 'Dante2/package/es/components/blocks/placeholder.js'
-import { VideoRecorderBlockConfig } from 'Dante2/package/es/components/blocks/videoRecorder'
-import { CodeBlockConfig } from 'Dante2/package/es/components/blocks/code'
-import { DividerBlockConfig } from "Dante2/package/es/components/blocks/divider";
+//import { ImageBlockConfig } from '../../pages/campaigns/article/image'
+//import { EmbedBlockConfig } from 'Dante2/package/es/components/blocks/embed.js'
+//import { VideoBlockConfig } from 'Dante2/package/es/components/blocks/video.js'
+//import { PlaceholderBlockConfig } from 'Dante2/package/es/components/blocks/placeholder.js'
+//import { VideoRecorderBlockConfig } from 'Dante2/package/es/components/blocks/videoRecorder'
+//import { CodeBlockConfig } from 'Dante2/package/es/components/blocks/code'
+//import { DividerBlockConfig } from "Dante2/package/es/components/blocks/divider";
 //import { ButtonBlockConfig } from "../../editor/components/blocks/button";
-
-import Prism from 'prismjs';
-import { PrismDraftDecorator } from 'Dante2/package/es/components/decorators/prism'
-
+//import Prism from 'prismjs';
+//import { PrismDraftDecorator } from 'Dante2/package/es/components/decorators/prism'
 //import { GiphyBlockConfig } from '../pages/campaign/article/giphyBlock'
 //import { SpeechToTextBlockConfig } from './article/speechToTextBlock'
 //import { DanteMarkdownConfig } from './article/markdown'
@@ -49,38 +27,22 @@ import Link from 'Dante2/package/es/components/decorators/link'
 import findEntities from 'Dante2/package/es/utils/find_entities'
 
 import Icons from 'Dante2/package/es/components/icons.js'
-import theme from './theme'
+
 import {ThemeProvider} from 'emotion-theming'
-import EditorContainer from './editorStyles'
+
+
+import theme from '../../textEditor/theme'
+import EditorContainer from '../../textEditor/editorStyles'
 
 import Button from '@material-ui/core/Button'
 import SendIcon from '@material-ui/icons/Send'
 
-import {imageUpload} from '../../../client_messenger/uploader'
-
-
-//import EditorContainer from './styles'
-//import EditorStyles from './editorStyles'
-
-
 import _ from "lodash"
 
-//import jsondiff from "json0-ot-diff"
-//import ot from 'ot-json0'
-
-//import { ArticlePad } from './styledBlocks'
-//import RtcView from './rtc'
 import styled from '@emotion/styled'
 
 import { makeStyles } from '@material-ui/core/styles';
 
-const styleString = (obj) => {
-  if(!obj)
-    return ""
-  return Object.keys(obj).map((o) => {
-    return `${_.snakeCase(o).replace("_", "-")}: ${obj[o]} `
-  }).join("; ")
-}
 
 const config = {
   endpoint: ""
@@ -239,38 +201,14 @@ export default class ChatEditor extends Component {
 
   constructor(props) {
     super(props)
-    this.dante_editor = null
-    this.menuResizeFunc = null
     this.state = {
       loading: true,
-      currentContent: null,
-      videoSession: false,
+      data: {},
+      status: "",
       plain: null,
       serialized: null,
       html: null,
-      data: {},
-    }
-  }
-
-  componentDidMount() {
-    window.editor = this.refs.dante_editor
-    window.addEventListener("resize", this.handleResize);
-  }
-
-  componentWillUnmount() {
-    window.removeEventListener("resize", this.handleResize);
-  }
-
-  emptyContent = () => {
-    return null
-    //return { "entityMap": {}, "blocks": [{ "key": "761n6", "text": "Write something", "type": "header-one", "depth": 0, "inlineStyleRanges": [], "entityRanges": [], "data": {} }, { "key": "f1qmb", "text": "", "type": "unstyled", "depth": 0, "inlineStyleRanges": [], "entityRanges": [], "data": {} }, { "key": "efvk7", "text": "Dante2 Inc.\nSantiago, Chile\nYou Received this email because you signed up on our website or made purchase from us.", "type": "footer", "depth": 0, "inlineStyleRanges": [{ "offset": 0, "length": 114, "style": "CUSTOM_FONT_SIZE_13px" }, { "offset": 0, "length": 114, "style": "CUSTOM_COLOR_#8d8181" }], "entityRanges": [], "data": {} }, { "key": "7gh7t", "text": "Unsubscribe", "type": "unsubscribe_button", "depth": 0, "inlineStyleRanges": [], "entityRanges": [], "data": { "enabled": false, "fill": "fill", "displayPopOver": true, "data": {}, "href": "http://mailerlite.com/some_unsubscribe_link_here", "border": "default", "forceUpload": false, "containerStyle": { "textAlign": "left", "margin": "0px 13px 0px 0px" }, "label": "click me", "float": "left", "buttonStyle": { "color": "#fff", "backgroundColor": "#3498db", "padding": "6px 12px", "display": "inline-block", "fontFamily": "Helvetica", "fontSize": 13, "float": "none", "border": "1px solid #3498db" } } }] }
-  }
-
-  defaultContent = () => {
-    try {
-      return JSON.parse(this.state.serialized) || this.emptyContent()
-    } catch (error) {
-      return this.emptyContent()
+      statusButton: "inprogress"
     }
   }
 
@@ -327,441 +265,77 @@ export default class ChatEditor extends Component {
     ]
   }
 
-  decorators = (context) => {
-    return (context) => {
-      return new MultiDecorator([
-        //PrismDraftDecorator({
-        //  prism: Prism,
-        //  defaultSyntax: 'javascript'
-        //}),
-        new CompositeDecorator(
-          [{
-            strategy: findEntities.bind(null, 'LINK', context),
-            component: Link
-          }]
-        ),
-        //generateDecorator("hello")
-
-      ])
-    }
+  uploadHandler = ({serviceUrl, imageBlock})=>{
+    imageBlock.uploadCompleted(serviceUrl)
   }
 
-  handleUpload = (file, imageBlock)=>{
-   
-    imageUpload(
-      file,
-      {
-        onLoading: (aa)=>{
-          debugger
-          /*imageBlock.updateProgressBar({ 
-            lengthComputable: true, 
-            loaded: snapshot.bytesTransferred, 
-            total: snapshot.totalBytes 
-          })*/
-        },
-        onError: (err)=>{
-          alert("error uploading")
-          console.log(err)
-        },
-        onSuccess: (attrs)=> {
-          imageBlock.uploadCompleted(attrs.link)
-        }
-      },
-      "dd",
-      false
-    )
-  }
-
-  widgetsConfig = () => {
-    return [CodeBlockConfig(),
-    ImageBlockConfig({
-      options: {
-        upload_url: `/attachments.json?&app_id=${this.props.app.key}`,
-        upload_handler: this.handleUpload,
-        image_caption_placeholder: "type a caption (optional)"
-      }
-    }),
-    DividerBlockConfig(),
-    EmbedBlockConfig({
-      breakOnContinuous: true,
-      editable: true,
-      options: {
-        placeholder: "put an external links",
-        endpoint: `/oembed?url=`
-      }
-    }),
-    VideoBlockConfig({
-      breakOnContinuous: true,
-      options: {
-        placeholder: "put embed link ie: youtube, vimeo, spotify, codepen, gist, etc..",
-        endpoint: `/oembed?url=`,
-        caption: 'optional caption'
-      }
-    }),
-    PlaceholderBlockConfig(),
-    VideoRecorderBlockConfig({
-      options: {
-        seconds_to_record: 20000,
-        upload_url: `/attachments.json?&app_id=${this.props.app.key}`,
-      }
-    }),
-    //GiphyBlockConfig(),
-    //SpeechToTextBlockConfig(),
-    //ButtonBlockConfig()
-    ]
-  
-  }
-
-  saveHandler = (context, content, cb) => {
-
-    const exportedStyles = context.editor.styleExporter(context.editor.getEditorState())
-
-    let convertOptions = {
-
-      styleToHTML: (style) => {
-        if (style === 'BOLD') {
-          return <b />;
-        }
-        if (style === 'ITALIC') {
-          return <i />;
-        }
-        if (style.includes("CUSTOM")) {
-          const s = exportedStyles[style].style
-          return <span style={s} />
-        }
-      },
-      blockToHTML: (block, oo) => {
-
-        if (block.type === "unstyled") {
-          return <p className="graf graf--p" />
-        }
-        if (block.type === "header-one") {
-          return <h1 className="graf graf--h2" />
-        }
-        if (block.type === "header-two") {
-          return <h2 className="graf graf--h3" />
-        }
-        if (block.type === "header-three") {
-          return <h3 className="graf graf--h4" />
-        }
-        if (block.type === "blockquote") {
-          return <blockquote className="graf graf--blockquote" />
-        }
-        if (block.type === "button" || block.type === "unsubscribe_button") {
-          const { href, buttonStyle, containerStyle, label } = block.data
-          const containerS = containerStyle ? styleString(containerStyle.toJS ? containerStyle.toJS() : containerStyle) : ''
-          const buttonS = containerStyle ? styleString(buttonStyle.toJS ? buttonStyle.toJS() : buttonStyle) : ''
-          return {
-            start: `<div style="width: 100%; margin: 18px 0px 47px 0px">
-                        <div 
-                          style="${containerS}">
-                          <a href="${href}"
-                            className="btn"
-                            target="_blank"
-                            ref="btn"
-                            style="${buttonS}">`,
-            end: `</a>
-                  </div>
-                </div>`}
-        }
-        if (block.type === "card") {
-          return {
-            start: `<div class="graf graf--figure">
-                  <div style="width: 100%; height: 100px; margin: 18px 0px 47px">
-                    <div class="signature">
-                      <div>
-                        <a href="#" contenteditable="false">
-                          <img src="${block.data.image}">
-                          <div></div>
-                        </a>
-                      </div>
-                      <div class="text" 
-                        style="color: rgb(153, 153, 153);
-                              font-size: 12px; 
-                              font-weight: bold">`,
-            end: `</div>
-                    </div>
-                  <div class="dante-clearfix"/>
-                </div>
-              </div>`
-          }
-        }
-        if (block.type === "jumbo") {
-          return {
-            start: `<div class="graf graf--jumbo">
-                  <div class="jumbotron">
-                    <h1>` ,
-            end: `</h1>
-                  </div>
-                </div>`
-          }
-        }
-        if (block.type === "image") {
-          const { width, height, ratio } = block.data.aspect_ratio.toJS ? block.data.aspect_ratio.toJS() : block.data.aspect_ratio
-          const { url } = block.data
-          
-          return {
-            start: `<figure class="graf graf--figure">
-                  <div>
-                    <div class="aspectRatioPlaceholder is-locked" style="max-width: 1000px; max-height: ${height}px;">
-                      <div class="aspect-ratio-fill" 
-                          style="padding-bottom: ${ratio}%;">
-                      </div>
-
-                      <img src="${url}" 
-                        class="graf-image" 
-                        contenteditable="false"
-                      >
-                    <div>
-                  </div>
-
-                  </div>
-                  <figcaption class="imageCaption">
-                    <span>
-                      <span data-text="true">`,
-            end: `</span>
-                    </span>
-                  </figcaption>
-                  </div>
-                </figure>`
-          }
-        }
-        if (block.type === "column") {
-          return <div className={`graf graf--column ${block.data.className}`} />
-        }
-        if (block.type === "footer") {
-
-          return {
-            start: `<div class="graf graf--figure"><div ><hr/><p>`,
-            end: `</p></div></div>`
-          }
-        }
-
-        if (block.type === "embed") {
-          if (!block.data.embed_data)
-            return
-
-          let data = null
-
-          // due to a bug in empbed component
-          if (typeof (block.data.embed_data.toJS) === "function") {
-            data = block.data.embed_data.toJS()
-          } else {
-            data = block.data.embed_data
-          }
-
-          if (data) {
-            return <div className="graf graf--mixtapeEmbed">
-              <span>
-                {
-                  data.images[0].url ?
-                    <a target="_blank" className="js-mixtapeImage mixtapeImage"
-                      href={block.data.provisory_text}
-                      style={{ backgroundImage: `url(${data.images[0].url})` }}>
-                    </a> : null 
-                }
-                <a className="markup--anchor markup--mixtapeEmbed-anchor"
-                  target="_blank"
-                  href={block.data.provisory_text}>
-                  <strong className="markup--strong markup--mixtapeEmbed-strong">
-                    {data.title}
-                  </strong>
-                  <em className="markup--em markup--mixtapeEmbed-em">
-                    {data.description}
-                  </em>
-                </a>
-                {data.provider_url}
-              </span>
-            </div>
-          } else {
-            <p />
-          }
-        }
-
-        if (block.type === "video"){
-          
-          if (!block.data.embed_data)
-            return
-
-          let data = null
-
-          // due to a bug in empbed component
-          if (typeof (block.data.embed_data.toJS) === "function") {
-            data = block.data.embed_data.toJS()
-          } else {
-            data = block.data.embed_data
-          }
-
-          return {
-            start: `<figure class="graf--figure graf--iframe graf--first" tabindex="0">
-                      <div class="iframeContainer">
-                        ${data.html}
-                      </div>
-                      <figcaption class="imageCaption">
-                        <div class="public-DraftStyleDefault-block public-DraftStyleDefault-ltr">
-                          <span>
-                          <span>
-                          ${block.data.provisory_text}
-                          </span>
-                          </span>
-                        </div>
-                      </figcaption>
-                    `,
-            end: `</figure>`
-          }
-        }
-
-        if (block.type === "recorded-video") {
-
-          return (<figure className="graf--figure graf--iframe graf--first" tabindex="0">
-                      <div className="iframeContainer">
-                        <video 
-                          autoplay={false} 
-                          style={{width:"100%" }}
-                          controls={true} 
-                          src={block.data.url}>
-                        </video>
-                      </div>
-                      <figcaption className="imageCaption">
-                        <div className="public-DraftStyleDefault-block public-DraftStyleDefault-ltr">
-                          <span>
-                          {block.text}
-                          </span>
-                        </div>
-                      </figcaption>
-                   
-            </figure> )
-        }
-        
-
-        if ("atomic") {
-          return <p />
-        }
-
-        if (block.type === 'PARAGRAPH') {
-          return <p />;
-        }
-      },
-      entityToHTML: (entity, originalText) => {
-        if (entity.type === 'LINK') {
-          return <a href={entity.data.url}>{originalText}</a>;
-        }
-        return originalText;
-      }
-    }
-
-    let html3 = convertToHTML(convertOptions)(context.editorState().getCurrentContent())
-
-    const serialized = JSON.stringify(content)
-    const plain = context.getTextFromEditor(content)
-
-    //console.log(html3)
-
-    if(this.props.data.serialized_content === serialized)
-      return
-
+  saveContent = (content)=>{
     this.setState({
       status: "saving...",
       statusButton: "success",
-      plain: plain,
-      serialized: serialized,
-      html: html3
+      html: content.html,
+      serialized: content.serialized
     })
-
-    if (cb)
-      cb(html3, plain, serialized)
-  }
-
-  decodeEditorContent = (raw_as_json) => {
-    const new_content = convertFromRaw(raw_as_json)
-    return EditorState.createWithContent(new_content)
-  }
-
-
-  renderSelection = (position) => {
-    //const positionObject = position //this.state.selectionPosition
-
-    const pos = Object.assign({},
-      position,
-      {
-        width: position.width === 0 ? 2 : position.width,
-        top: position.top + window.pageYOffset
-      })
-
-    return <SelectionIndicator style={pos}>
-      <span>
-        {this.props.currentUser.email}
-        <i className="arrow"></i>
-      </span>
-    </SelectionIndicator>
-  }
-
-  handleResize = () => {
-    if (this.menuResizeFunc) {
-      //console.log("POSPOSP")
-      this.setState({ selectionPosition: this.menuResizeFunc(window) })
-    }
   }
 
   handleSubmit = (e)=>{
-
     const {html, serialized, text} = this.state
+    this.props.submitData({html, serialized})
+  }
 
-    this.props.submitData({html, serialized, text})
+  saveHandler = (html3, plain, serialized) => {
+    debugger
   }
 
   render() {
+    // !this.state.loading &&
+    /*if (this.state.loading) {
+      return <Loader />
+    }*/
+
+    const serializedContent = this.state.serialized ? this.state.serialized : null
+
     return <ThemeProvider theme={theme}>
-            <EditorContainer>
-              <div style={{flexGrow: 3}}>
-                
-                <DanteEditor
-                  {...defaultProps}
-                  ref="dante_editor"
-                  debug={false}
-                  data_storage={
-                    {
-                      url: "/",
-                      save_handler: this.saveHandler
+              <EditorContainer>
+                <div style={{flexGrow: 3}}>
+                  
+                  <TextEditor theme={theme}
+                    tooltipsConfig={this.tooltipsConfig }
+                    campaign={true} 
+                    uploadHandler={this.uploadHandler}
+                    serializedContent={serializedContent }
+                    loading={this.props.loading}
+                    data={
+                        {
+                          serialized_content: serializedContent
+                        }
+                      }
+                    styles={
+                      {
+                        lineHeight: '2em',
+                        fontSize: '1.2em'
+                      }
+                    }
+                    saveHandler={this.saveHandler} 
+                    updateState={({status, statusButton, content})=> {
+                      console.log("get content", content)
+                      this.saveContent(content )
                     }
                   }
-                  onChange={(e) => {
-                    this.dante_editor = e
-                    const newContent = convertToRaw(e.state.editorState.getCurrentContent()) //e.state.editorState.getCurrentContent().toJS()
-                    this.menuResizeFunc = getVisibleSelectionRect
-                    const selectionState = e.state.editorState.getSelection();
-
-                    this.setState({
-                      currentContent: newContent,
-                    })
-
-                  }}
-                  content={this.defaultContent()}
-                  tooltips={this.tooltipsConfig()}
-                  widgets={this.widgetsConfig()}
-                  decorators={(context) => {
-                    return new MultiDecorator([
-                      new CompositeDecorator(
-                        [{
-                          strategy: findEntities.bind(null, 'LINK', context),
-                          component: Link
-                        }]
-                      )
-
-                    ])
-                  }
-                  }
+                /> 
+                </div>
+  
+                <SubmitButton 
+                  onClick={this.handleSubmit}
+                  disabled={this.state.html==="<p class=\"graf graf--p\"></p>"}
                 />
-              </div>
+  
+              </EditorContainer>
+          </ThemeProvider>
 
-              <SubmitButton 
-                onClick={this.handleSubmit}
-                disabled={this.state.html==="<p class=\"graf graf--p\"></p>"}
-              />
 
-            </EditorContainer>
-            
-           </ThemeProvider>
+
+
   }
 
 }

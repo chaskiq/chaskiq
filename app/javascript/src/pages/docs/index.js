@@ -43,9 +43,9 @@ import DirectionsIcon from '@material-ui/icons/Directions';
 
 import gravatar from "../../shared/gravatar"
 
-import DraftRenderer from '../../components/conversation/draftRenderer'
+import DraftRenderer from '../../textEditor/draftRenderer'
 import EditorStyles from 'Dante2/package/es/styled/base'
-import theme from '../../components/conversation/theme'
+import theme from '../../textEditor/theme'
 import {ThemeProvider} from 'emotion-theming'
 import Moment from 'react-moment'
 
