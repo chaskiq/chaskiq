@@ -53,6 +53,8 @@ import {
   MessageIcon,
   } from './icons'
 
+import Quest from './messageWindow'
+
 import StyledFrame from './styledFrame'
 
 const Button = styled.button`
@@ -802,8 +804,10 @@ class Messenger extends Component {
         <EditorWrapper>
 
           {
-            this.state.availableMessages ?
+            this.state.availableMessages.length > 0 ?
             <MessageFrame 
+              app_id={this.props.app_id}
+              axiosInstance={this.axiosInstance}
               availableMessages={this.state.availableMessages} 
             /> : null
           }
@@ -1252,9 +1256,9 @@ class MessageFrame extends Component {
         email: this.props.email,
         properties: this.props.properties
       }
-
       this.props.axiosInstance.get(`/api/v1/apps/${this.props.app_id}/messages/${firstKey}.json`)
         .then((response) => {
+          
           this.setState({
             messages: this.state.messages.concat(response.data.message)
           })
