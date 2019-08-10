@@ -9,12 +9,14 @@ class Api::V1::MessagesController < ApiController
     @message = @app.messages.find(params[:id]).show_notification_for(@user)
 
     # TODO: select admin users from some config (implement that config!)
-    admin = @app.admin_users.first.app_users.where(app: @app).first
+    # TODO: this must not init conversation utomatically, instead we must 
+    # let the user reply a message and then only we start the conversation
+    admin = @app.agents.first
 
     @conversation = @app.start_conversation({
-        message: @message.mustache_template_for(@user), 
+        #message: @message.mustache_template_for(@user), 
         from: admin,
-        message_source: @message,
+        messageable: @message,
         participant: @user
       }) if @message.present? && !added_message?
 
@@ -32,10 +34,13 @@ class Api::V1::MessagesController < ApiController
 private
 
   def added_message?
+
     @user.conversations
       .joins(:messages)
-      .where("conversation_parts.message_id =?", @message.id)
+      .where("conversation_parts.messageable_type = ?", "Message")
+      .where("conversation_parts.messageable_id = ?", @message.id)
       .any?
+      #.where("conversation_parts.message_id =?", @message.id) 
   end
 
   def get_app
