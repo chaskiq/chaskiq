@@ -174,10 +174,12 @@ class AppUser < ApplicationRecord
   end
 
   def encoded_id
+    return nil if self.email.blank?
     URLcrypt.encode(self.email)
   end
 
   def decoded_id
+    return nil if self.email.blank?
     URLcrypt.decode(self.email)
   end
 
