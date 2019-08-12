@@ -54,11 +54,9 @@ const renderers = {
 
     
     unstyled: (children, { keys }) => {
-      return <p  key={keys[0]} 
-                className="graf graf--p">
-                {children}
-            </p>
-
+      return children.map(
+        (o, i)=> ( <p key={keys[i]} className="graf graf--p">{o}</p>) 
+      )
     },
     blockquote: (children, { keys }) => <blockquote 
                                           key={keys[0]} 
