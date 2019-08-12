@@ -342,12 +342,13 @@ export const MessageItem = styled.div`
       flex-direction: row;
       
       .message-content-wrapper {
-        background: #f7f6f687;
+        background: #e6e6e687;
         padding: 9px;
         margin: 5px;
         border-radius: 3px;
-        box-shadow: 1px 1px 3px #ccc;
+        box-shadow: 1px 1px 2px #e0e0e0;
         border: 1px solid #dedbdb;
+        min-width: 80px;
       }
 
       .text{
@@ -364,6 +365,7 @@ export const MessageItem = styled.div`
         padding: 9px;
         margin: 5px;
         border-radius: 3px;
+        min-width: 80px;
       }
       // hack on image from user, not use position absolute
       .graf-image {
