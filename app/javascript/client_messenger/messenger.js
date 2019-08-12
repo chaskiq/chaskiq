@@ -45,6 +45,8 @@ import {
   ConversationsFooter
 } from './styles/styled'
 
+
+
 import sanitizeHtml from 'sanitize-html';
 import TourManager from './tourManager'
 import {
@@ -93,7 +95,32 @@ const SuperDuper = styled('div')`
   position: absolute;
 `
 
-const UserAutoMessageStyledFrame = styled(({ isMinimized, ...rest })=>(
+const UserAutoMessageStyledFrame = styled(StyledFrame)
+  `
+    display: block;
+    border: 0px;
+    z-index: 1000;
+    width: 350px;
+    position: absolute;
+
+    ${(props) => {
+      return props.isMinimized ? `height: 73px;` : `height: 70vh;`
+    }}
+
+    ${(props)=>{
+      return props.theme.isMessengerActive ? `
+        bottom: 77px;
+        right: 17px;
+      ` : `
+        bottom: 0px;
+        right: 0px;
+      `
+    }}
+
+    /* box-shadow: 1px 1px 100px 2px rgba(0,0,0,0.22); */
+`
+
+const UserAutoMessageStyledFrameDis = styled(({ isMinimized, ...rest })=>(
   <StyledFrame {...rest}/>
   ))`
     display: block;
@@ -816,84 +843,84 @@ class Messenger extends Component {
           {
             this.state.open ?
               <Container 
-                      open={this.state.open} 
-                      isMobile={this.state.isMobile}>
+                open={this.state.open} 
+                isMobile={this.state.isMobile}>
+                
+                <SuperDuper> 
+                  <StyledFrame style={{
+                    width: '100%',
+                    height: '100%',
+                    border: 'none'
+                  }}>
+
+                    <SuperFragment>
+                      <Header isMobile={this.state.isMobile}>
+                        <HeaderOption>
+                          { this.state.display_mode === "conversation" ? 
+                            <LeftIcon 
+                              onClick={this.displayConversationList.bind(this)}
+                              style={{margin: '20px', cursor: 'pointer'}}
+                            /> : null 
+                          }
+                          <span style={{marginLeft: '20px'}}>
+                            Hello {this.props.name}!
+                          </span>
+
+                          {
+                            this.state.isMobile ?
+                            <CloseButtonWrapper>
+                              <button onClick={() => this.toggleMessenger()}>
+                                <CloseIcon style={{ height: '16px', width: '16px'}}/>
+                              </button>
+
+                            </CloseButtonWrapper> : null
+                          }
+                          
+
+                          {/*this.props.app_id*/}
+                        </HeaderOption>
+                      </Header>
+                      <Body>
+
+                        {
+                          this.state.display_mode === "conversation" ?
+                          
+                            <Conversation
+                              isMobile={this.state.isMobile}
+                              conversation_messages={this.state.conversation_messages}
+                              conversation={this.state.conversation}
+                              conversation_messagesMeta={this.state.conversation_messagesMeta}
+                              isUserAutoMessage={this.isUserAutoMessage}
+                              insertComment={this.insertComment}
+                              setConversation={this.setconversation}
+                              setOverflow={this.setOverflow}
+
+                            /> : null
+                        } 
+
+                        {
+                          this.state.display_mode === "conversations" ? 
+                            <Conversations 
+                              isMobile={this.state.isMobile}
+                              displayConversation={this.displayConversation}
+                              displayNewConversation={this.displayNewConversation}
+                              conversationsMeta={this.state.conversationsMeta}
+                              conversations={this.state.conversations}
+                              getConversations={this.getConversations}
+                              clearAndGetConversations={this.clearAndGetConversations}
+                              email={this.props.email}
+                              app={this.state.appData}
+                            /> : null 
+                        }
+
+                      </Body> 
                       
-                      <SuperDuper> 
-                        <StyledFrame style={{
-                          width: '100%',
-                          height: '100%',
-                          border: 'none'
-                        }}>
+                    </SuperFragment>
 
-                          <SuperFragment>
-                            <Header isMobile={this.state.isMobile}>
-                              <HeaderOption>
-                                { this.state.display_mode === "conversation" ? 
-                                  <LeftIcon 
-                                    onClick={this.displayConversationList.bind(this)}
-                                    style={{margin: '20px', cursor: 'pointer'}}
-                                  /> : null 
-                                }
-                                <span style={{marginLeft: '20px'}}>
-                                  Hello {this.props.name}!
-                                </span>
+                  </StyledFrame>
 
-                                {
-                                  this.state.isMobile ?
-                                  <CloseButtonWrapper>
-                                    <button onClick={() => this.toggleMessenger()}>
-                                      <CloseIcon style={{ height: '16px', width: '16px'}}/>
-                                    </button>
-
-                                  </CloseButtonWrapper> : null
-                                }
-                                
-
-                                {/*this.props.app_id*/}
-                              </HeaderOption>
-                            </Header>
-                            <Body>
-
-                              {
-                                this.state.display_mode === "conversation" ?
-                                
-                                  <Conversation
-                                    isMobile={this.state.isMobile}
-                                    conversation_messages={this.state.conversation_messages}
-                                    conversation={this.state.conversation}
-                                    conversation_messagesMeta={this.state.conversation_messagesMeta}
-                                    isUserAutoMessage={this.isUserAutoMessage}
-                                    insertComment={this.insertComment}
-                                    setConversation={this.setconversation}
-                                    setOverflow={this.setOverflow}
-
-                                  /> : null
-                              } 
-
-                              {
-                                this.state.display_mode === "conversations" ? 
-                                  <Conversations 
-                                    isMobile={this.state.isMobile}
-                                    displayConversation={this.displayConversation}
-                                    displayNewConversation={this.displayNewConversation}
-                                    conversationsMeta={this.state.conversationsMeta}
-                                    conversations={this.state.conversations}
-                                    getConversations={this.getConversations}
-                                    clearAndGetConversations={this.clearAndGetConversations}
-                                    email={this.props.email}
-                                    app={this.state.appData}
-                                  /> : null 
-                              }
-
-                            </Body> 
-                            
-                          </SuperFragment>
-
-                        </StyledFrame>
-
-                      </SuperDuper> 
-                    
+                </SuperDuper> 
+              
                 </Container>  : null
           }
 
@@ -1041,28 +1068,6 @@ class Conversation extends Component {
                           </DanteContainer>
                         </ThemeProvider>  
                       
-                      {/*
-                        <div
-                        key={i}
-                        className={this.props.isUserAutoMessage(o) ? '' : "text"}
-                          dangerouslySetInnerHTML={
-                            { __html: `<p>${o.message.html_content}</p>` }
-                          }
-                        />
-                      */}
-
-                      
-
-                      {/*
-                        <div
-                          key={i}
-                          className={this.props.isUserAutoMessage(o) ? '' : "text"}
-                          dangerouslySetInnerHTML={
-                            { __html: `<p>${o.message.html_content}</p>` }
-                          }
-                        />
-                      */}
-
                     </div>
 
                     <span className="status">
@@ -1397,8 +1402,21 @@ class MessageContainer extends Component {
 
 
   render(){
+    
+    //const editorTheme = this.props.theme.mode === "dark" ? themeDark : theme
+    const editorTheme = theme
     return <Quest {...this.props}>
-              <div dangerouslySetInnerHTML={this.createMarkup()} />
+
+              <ThemeProvider 
+                theme={ editorTheme }>
+                <DanteContainer>
+                  <DraftRenderer
+                    raw={JSON.parse(this.props.availableMessage.serialized_content)}
+                  />
+                </DanteContainer>
+              </ThemeProvider>  
+
+              {/*<div dangerouslySetInnerHTML={this.createMarkup()} />*/}
            </Quest>
   }
 }

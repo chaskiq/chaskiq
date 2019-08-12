@@ -27,9 +27,27 @@ class CssInjector extends React.Component {
 const initialFrameContent = '<!DOCTYPE html><html><head></head><body></body></html>'
 const mountTarget='#mountHere'
 
+const StyledFrame = ({ className, style, children }) => (
+
+  <Frame className={className} style={style || {} }>
+    <FrameContextConsumer>
+      {
+        // Callback is invoked with iframe's window and document instances
+        ({document, window}) => {
+          // Render Children
+          return <CssInjector document={document}>
+                    {children}
+                  </CssInjector>
+        }
+      }
+    </FrameContextConsumer>
+  </Frame>
+)
+
+export default StyledFrame
+
+/*
 export default class StyledFrame extends React.Component {
-
-
   render(){
     return <Frame style={this.props.style || {} }>
             <FrameContextConsumer>
@@ -46,3 +64,4 @@ export default class StyledFrame extends React.Component {
           </Frame>
   }
 }
+*/
