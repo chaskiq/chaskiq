@@ -48,6 +48,7 @@ class Api::V1::AppsController < ApiController
     #data = resource_params.to_h.deep_merge(browser_params)
     data = @user_data.slice(:name, :email, :properties).deep_merge(browser_params)
     ap = @app.add_visit(data)
+ 
     render json: {
       user: ap, 
       app: @app.as_json(only: [], methods: [
