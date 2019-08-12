@@ -285,13 +285,15 @@ class Messenger extends Component {
   }
 
   componentDidMount(){
+
+    //this.eventsSubscriber()
     
     this.ping(()=> {
       this.precenseSubscriber()
       this.eventsSubscriber()
-      this.getConversations()
-      this.getMessage()
-      this.getTours()
+      //this.getConversations()
+      //this.getMessage()
+      //this.getTours()
       this.locationChangeListener()
     })
 
@@ -409,8 +411,18 @@ class Messenger extends Component {
         },
         received: (data)=> {
           switch (data.type) {
+            case "messages:receive":
+              this.setState({
+                availableMessages: data.data, 
+                availableMessage: data.data[0]
+              })
+              break
+            case "tours:receive":
+              this.setState({tours: data.data})
+              break
             case "triggers:receive":
-              return this.receiveTrigger(data.data)
+              this.receiveTrigger(data.data)
+              break
             case "true":
               return true
             default:

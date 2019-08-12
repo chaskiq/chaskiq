@@ -4,11 +4,8 @@ class MessengerEventsChannel < ApplicationCable::Channel
 
     get_user_data
 
-    visitor = nil
-
     if @user_data[:email].blank?
-      visitor = get_user_by_session
-      @app_user = visitor 
+      @app_user = get_user_by_session 
     else
       @app_user = @app.app_users
                   .where("email =?", @user_data[:email])
@@ -25,6 +22,7 @@ class MessengerEventsChannel < ApplicationCable::Channel
   def send_message(options)
     options.delete("action")
     @app_user.visits.create(options)
+    AppUserEventJob.perform_now(app_key: @app.key, user_id: @app_user.id)
   end
 
 end
