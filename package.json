@@ -11,7 +11,7 @@
     "@material-ui/pickers": "3.0.0",
     "@nivo/pie": "^0.42.1",
     "@rails/webpacker": "3.5",
-    "Dante2": "https://github.com/michelson/Dante2.git#back-to-emotion",
+    "Dante2": "0.5.0-rc20",
     "actioncable": "^5.2.0",
     "activestorage": "^5.2.3",
     "array-move": "^2.1.0",

@@ -1498,9 +1498,10 @@
     mkdirp-promise "^5.0.1"
     mz "^2.5.0"
 
-"Dante2@https://github.com/michelson/Dante2.git#back-to-emotion":
-  version "0.5.0-rc19"
-  resolved "https://github.com/michelson/Dante2.git#a850e4c3ebbd54ba3bf1a906771c7f7c9a383d6a"
+Dante2@0.5.0-rc20:
+  version "0.5.0-rc20"
+  resolved "https://registry.yarnpkg.com/Dante2/-/Dante2-0.5.0-rc20.tgz#fb62f3c8ec42b1f86a34a45a01116eb2d99d333f"
+  integrity sha512-WAo2brLK4DnzpSeQxq3hAAV7+e6MVf9bhBOpZo5rWUDLdpUagIoNLQaQBRHND7N3I5NZvNzMewECmWKGyBuo+w==
   dependencies:
     axios "^0.18.0"
     draft-convert "^2.1.2"
