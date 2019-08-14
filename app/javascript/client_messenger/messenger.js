@@ -765,7 +765,7 @@ class Messenger extends Component {
 
   // TODO: get the hardcoded data from event
   appendVolatileConversation = (o)=>{
-
+    debugger
     const conversation = {
       assignee: null,
       //created_at: "2019-08-13T02:40:19.650Z",
@@ -799,10 +799,17 @@ class Messenger extends Component {
       localStorage.setItem("chaskiq:trigger-"+trigger.id, 1)
       trigger.actions.map((o)=>{
         // open behavior
-        o.message && this.appendVolatileConversation(o)
         o.open_messenger && !this.state.open ? 
         this.setState({open: true}) : null
       })
+
+      trigger.paths.map((o, index)=>{
+        if(index != 0) return
+        const firstMessage = o.steps[0]
+        o.steps[0].message && this.appendVolatileConversation(firstMessage)
+      })
+
+
     }, trigger.after_delay*1000)
   }
 
