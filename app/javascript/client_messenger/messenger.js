@@ -234,7 +234,7 @@ class Messenger extends Component {
       isMinimized: false,
       isMobile: false,
       tourManagerEnabled: false,
-      ev: null
+      ev: null,
     }
 
     const data = {
@@ -768,8 +768,10 @@ class Messenger extends Component {
     
     const conversation = {
       assignee: null,
+      trigger: this.state.conversation.trigger,
       //created_at: "2019-08-13T02:40:19.650Z",
       //id: 67,
+      locked: o.lock,
       main_participant: {
         //display_name: "visitor 8 ",
         //email: null,
@@ -788,27 +790,44 @@ class Messenger extends Component {
 
     this.setState({
       conversation: conversation,
-      conversation_messages: [conversationMessage, o.controls],
+      conversation_messages: [o.controls, conversationMessage]
+                              .filter((o)=> o)
+                              .concat(this.state.conversation_messages),
       conversation_messagesMeta: {},
-      display_mode: "conversation"
-    })
+      display_mode: "conversation",
+    }, this.scrollToLastItem())
+  }
+
+  setTriggerStep = (path_index, step_index)=>{
+    const messages = this.state.conversation.trigger.paths[path_index]
+    const message = this.appendVolatileConversation(messages.steps[step_index])
+    message && this.appendVolatileConversation(message)
   }
 
   receiveTrigger = (trigger)=>{
     setTimeout( ()=>{
       localStorage.setItem("chaskiq:trigger-"+trigger.id, 1)
-      trigger.actions.map((o)=>{
-        // open behavior
-        o.open_messenger && !this.state.open ? 
-        this.setState({open: true}) : null
-      })
+      this.setState({
+        conversation: Object.assign({}, this.state.conversation, {
+          trigger: trigger
+        })
+      }, ()=>{
+        // this is a kind of mess
+        this.state.conversation.trigger.actions.map((o)=>{
+          // open behavior
+          o.open_messenger && !this.state.open ? 
+          this.setState({open: true}) : null
+        })
 
-      trigger.paths.map((o, index)=>{
-        if(index != 0) return
-        const firstMessage = o.steps[0]
-        o.steps[0].message && this.appendVolatileConversation(firstMessage)
-      })
+        this.setTriggerStep(0, 0)
+  
+        /*this.state.conversation.trigger.paths.map((o, index)=>{
+          if(index != 0) return
+          const firstMessage = o.steps[0]
+          o.steps[0].message && this.appendVolatileConversation(firstMessage)
+        })*/
 
+      })
 
     }, trigger.after_delay*1000)
   }
@@ -947,7 +966,7 @@ class Messenger extends Component {
                               insertComment={this.insertComment}
                               setConversation={this.setconversation}
                               setOverflow={this.setOverflow}
-
+                              appendVolatileConversation={this.appendVolatileConversation}
                             /> : null
                         } 
 
@@ -1107,9 +1126,18 @@ class Conversation extends Component {
     return  <MessageItem>
               <AppPackageBlock 
                key={i}
+               clickHandler={this.appPackageClickHandler.bind(this)}
                 {...o}
               />
             </MessageItem>
+  }
+
+  appPackageClickHandler = (item)=>{
+    console.log(this.props.conversation)
+    const newMessages = this.props.conversation.trigger.paths.map((o)=> o.steps.find(o => o.step_uid === item.next_step_uuid ))
+    if(newMessages && newMessages.length > 0 ){
+      this.props.appendVolatileConversation(newMessages[0])
+    }
   }
 
   render(){
@@ -1132,47 +1160,25 @@ class Conversation extends Component {
             //ref={this.commentWrapperRef}
             isMobile={this.props.isMobile}>
 
-
-            <div>
-
-            {/*
-            
-            
-            
-               <MessageItem>
-                 <AppPackageBlock 
-                   type={"ask_for_email"} 
-                   schema={
-                     [
-                       {element: "input", type:"text", placeholder: "enter email", name: "email", label: "enter your email"},
-                       {element: "separator"},
-                       {element: "submit", label: "submit"}
-                     ]
-                   }
-                 />
-               </MessageItem>
-
-                  */ }
-
-
-               
-            </div> 
             {
               this.props.conversation_messages.map((o, i) => {
-                {
                   return o.schema ? 
                   this.renderItemPackage(o, i) : 
                   this.renderMessage(o, i)
-                }
               })
             }
 
           </CommentsWrapper>
 
           <Footer>
-            <UnicornEditor
-              insertComment={this.props.insertComment}
-            />
+          
+            {
+              this.props.conversation.locked ? "reply above" : 
+              <UnicornEditor
+                insertComment={this.props.insertComment}
+              />
+            }
+            
           </Footer>
 
         </EditorSection>
@@ -1516,6 +1522,10 @@ class AppPackageBlock extends Component {
     )
   }
 
+  handleStepControlClick = (item)=>{
+    this.props.clickHandler(item)
+  }
+
   renderElement = (item, index)=>{
     const element = item.element
 
@@ -1528,13 +1538,22 @@ class AppPackageBlock extends Component {
               <input 
                 type={element.type} 
                 placeholder={element.placeholder}
+                onKeyDown={(e)=>{ e.keyCode === 13 ? 
+                  this.handleStepControlClick(item) : null
+                }}
               />
              </div>
 
     case "submit":
-      return <button key={index} type={"submit"}></button>
+      return <button key={index} 
+        type={"submit"}></button>
     case "button":
-      return <button key={index} type={"submit"}>{item.label}</button>
+      return <button 
+        onClick={()=> this.handleStepControlClick(item)}
+        key={index} 
+        type={"submit"}>
+        {item.label}
+        </button>
     default:
       return null
     }
