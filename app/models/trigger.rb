@@ -27,7 +27,14 @@ class Trigger
         ],
         actions: [
           open_messenger: true,
+          
           message: {
+            app_user: {
+              display_name: "miguel michelson",
+              email: "miguelmichelson@gmail.com",
+              id: 1,
+              kind: "agent" 
+            },
             serialized_content: '{"blocks":[{"key":"9oe8n","text":"hola","type":"unstyled","depth":0,"inlineStyleRanges":[],"entityRanges":[],"data":{}}],"entityMap":{}}',
             html_content: "hola"
           },

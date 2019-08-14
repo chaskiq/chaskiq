@@ -304,28 +304,25 @@ class ColorPicker extends React.Component {
                           </InputAdornment>
           ,
           endAdornment: <InputAdornment position="end">
-          
-          <React.Fragment>
-            <IconButton 
-              aria-label="Toggle color" 
-              onClick={this.handleClick}>
-              <ColorFillIcon  />
-            </IconButton>
+            <React.Fragment>
+              <IconButton 
+                aria-label="Toggle color" 
+                onClick={this.handleClick}>
+                <ColorFillIcon  />
+              </IconButton>
+      
+              { 
+                this.state.displayColorPicker ? 
+                <div style={ popover }>
+                  <div style={ cover } onClick={ this.handleClose }/>
+                  <SketchPicker 
+                    color={ this.state.value }
+                    onChangeComplete={ this.handleColorChangeComplete }
+                  />
+                </div> :  null 
+              }
     
-            { 
-              this.state.displayColorPicker ? 
-              <div style={ popover }>
-                <div style={ cover } onClick={ this.handleClose }/>
-                <SketchPicker 
-                  color={ this.state.value }
-                  onChangeComplete={ this.handleColorChangeComplete }
-                />
-              </div> :  null 
-            }
-  
-        </React.Fragment>
-
-          
+            </React.Fragment>
           </InputAdornment>,
         }}
       />
