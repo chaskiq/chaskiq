@@ -37,6 +37,7 @@ class Api::V1::ConversationsController < ApiController
         }, 
         from: user
       })
+      @messages = @conversation.messages.page(1).per(1)
     else
       # return a conversation with empty messages , if any or create new one
       # this is to avoid multiple empty convos
@@ -45,6 +46,7 @@ class Api::V1::ConversationsController < ApiController
                           .where(conversation_parts: {id: nil})
                           .uniq
                           .first || @app.conversations.create(main_participant: user)
+      @messages = @conversation.messages.page(1).per(1)
     end
     render :show
   end

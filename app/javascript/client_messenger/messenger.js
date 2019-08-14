@@ -414,6 +414,7 @@ class Messenger extends Component {
             case "messages:receive":
               this.setState({
                 availableMessages: data.data, 
+                messages: data.data, 
                 availableMessage: data.data[0]
               })
               break
@@ -482,7 +483,6 @@ class Messenger extends Component {
 
   conversationSubscriber =(cb)=>{
     this.unsubscribeFromConversation()
-
     App.conversations = App.cable.subscriptions.create(
       this.cableDataFor({
         channel: "ConversationsChannel", 
@@ -490,19 +490,18 @@ class Messenger extends Component {
       }),
     {
       connected: ()=> {
-        console.log("connected to conversations")
+        console.log("connected to conversation ", this.state.conversation.id)
         if( cb )
           cb()
       },
       disconnected: ()=> {
-        console.log("disconnected from conversations")
+        console.log("disconnected from conversation: ", this.state.conversation.id)
       },
       received: (data)=> {
         //let html = stateToHTML(JSON.parse(data.message));
         //console.log(data.message)
         //console.log(`received ${data}`)
         //console.log(this.props.email , data.app_user.email)
-
         // find message and update it, or just append message to conversation
         if ( this.state.conversation_messages.find( (o)=> o.id === data.id ) ){
           const new_collection = this.state.conversation_messages.map((o)=>{
@@ -589,7 +588,6 @@ class Messenger extends Component {
     //const html_comment = convertToHTML( comment );
 
     // this is slate
-    
     if(this.state.conversation.id){
       this.createComment(comment, cb)
     }else{
@@ -628,8 +626,18 @@ class Messenger extends Component {
       })
       .then( (response)=> {
         this.setState({
-          conversation: response.data.conversation
-        }, ()=>{ cb ? cb() : null })
+          conversation: response.data.conversation,
+          conversation_messages: response.data.messages.concat(this.state.conversation_messages)
+        }, ()=>{ 
+          
+
+          this.conversationSubscriber(() => {
+
+          })
+
+          cb ? cb() : null 
+        
+        })
       })
       .catch( (error)=> {
         console.log(error);
@@ -685,7 +693,6 @@ class Messenger extends Component {
     this.createCommentOnNewConversation(null, ()=>{
 
       this.conversationSubscriber(() => {
-
         //this.precenseSubscriber()
         this.setState({
           conversation_messages: [],
@@ -695,10 +702,7 @@ class Messenger extends Component {
           //this.getConversations() ;
           this.scrollToLastItem()
         })
-
       })
-
-
     })
   }
 
@@ -759,11 +763,43 @@ class Messenger extends Component {
       window.opener.TourManagerEnabled() : null*/
   }
 
+  // TODO: get the hardcoded data from event
+  appendVolatileConversation = (o)=>{
+
+    const conversation = {
+      assignee: null,
+      //created_at: "2019-08-13T02:40:19.650Z",
+      //id: 67,
+      main_participant: {
+        //display_name: "visitor 8 ",
+        //email: null,
+        //id: 10,
+        //kind: "lead" 
+      }
+    }
+
+    const conversationMessage = {
+      volatile: true,
+      app_user: o.message.app_user,
+      message: {
+        serialized_content: o.message.serialized_content
+      }
+    }
+
+    this.setState({
+      conversation: conversation,
+      conversation_messages: [conversationMessage],
+      conversation_messagesMeta: {},
+      display_mode: "conversation"
+    })
+  }
+
   receiveTrigger = (trigger)=>{
     setTimeout( ()=>{
       localStorage.setItem("chaskiq:trigger-"+trigger.id, 1)
       trigger.actions.map((o)=>{
         // open behavior
+        o.message && this.appendVolatileConversation(o)
         o.open_messenger && !this.state.open ? 
         this.setState({open: true}) : null
       })
@@ -829,8 +865,6 @@ class Messenger extends Component {
     });
 
   }
-
-
 
   render() {
     return (
@@ -993,12 +1027,9 @@ class Messenger extends Component {
 
 class Conversation extends Component {
 
-
-
   // TODO: skip on xhr progress
   handleConversationScroll = (e) => {
     let element = e.target
-
     //console.log(element.scrollHeight - element.scrollTop, element.clientHeight) // on bottom
     if (element.scrollTop === 0) { // on top
     //if (element.scrollTop <= 50) { // on almost top // todo skip on xhr loading
@@ -1006,7 +1037,6 @@ class Conversation extends Component {
         this.props.setConversation(this.props.conversation.id)
     }
   }
-
 
   render(){
     return <div style={{
@@ -1056,6 +1086,17 @@ class Conversation extends Component {
                   <MessageItem
                     className={userClass}
                     messageSourceType={o.message_source ? o.message_source.type : ''}>
+
+                    {
+                      !this.props.isUserAutoMessage(o) ?
+                      <ConversationSummaryAvatar>
+                        <img src={gravatar.url(o.app_user.email)} />
+                      </ConversationSummaryAvatar> : null
+                    }
+
+                    
+
+
 
                     <div className="message-content-wrapper">
 
@@ -1257,15 +1298,14 @@ class MessageFrame extends Component {
     super(props)
     this.defaultMinized = false
     this.state = {
-      isMinimized: this.fetchMinizedCache(),
-      messages: []
+      isMinimized: this.fetchMinizedCache()
     }
   }
 
   componentDidMount(){
 
-    this.props.availableMessages.map((o) => {
-
+    /*this.props.availableMessages.map((o) => {
+      
       const firstKey = o.id
 
       const data = {
@@ -1275,20 +1315,16 @@ class MessageFrame extends Component {
       }
       this.props.axiosInstance.get(`/api/v1/apps/${this.props.app_id}/messages/${firstKey}.json`)
         .then((response) => {
-          
           this.setState({
             messages: this.state.messages.concat(response.data.message)
           })
-
-          /*if (cb)
-            cb()*/
         })
         .catch((error) => {
           console.log(error);
         });
 
 
-    })
+    })*/
 
   }
 
@@ -1360,8 +1396,6 @@ class MessageFrame extends Component {
     return <UserAutoMessageStyledFrame id="messageFrame" 
       isMinimized={this.fetchMinizedCache()}>
       
-
-
        <UserAutoMessageFlex isMinimized={this.fetchMinizedCache()}>
 
         <UserAutoMessageBlock open={true}>
@@ -1374,7 +1408,7 @@ class MessageFrame extends Component {
         </UserAutoMessageBlock>
 
         {
-          this.state.messages.map((o, i) => {
+          this.props.availableMessages.map((o, i) => {
             
             return <UserAutoMessage open={true} key={o.id}>
               <MessageContainer
@@ -1435,9 +1469,9 @@ class MessageContainer extends Component {
 
 class MessageItemWrapper extends Component {
   componentDidMount(){
-    // mark as read on first render it not read & from admin
-    if(!this.props.data.read_at && this.props.data.app_user.kind != "app_user"){
-      App.conversations.perform("receive", 
+    // mark as read on first render if not read & from admin
+    if(!this.props.data.volatile && !this.props.data.read_at && this.props.data.app_user.kind != "app_user"){
+      App.conversations && App.conversations.perform("receive", 
         Object.assign({}, this.props.data, {email: this.props.email})
       )
     }
@@ -1452,19 +1486,19 @@ class MessageItemWrapper extends Component {
 class AppPackageBlock extends Component {
 
   renderElements = ()=>{
-    return this.props.schema.map((o)=>
-      this.renderElement(o)
+    return this.props.schema.map((o, i)=>
+      this.renderElement(o, i)
     )
   }
 
-  renderElement = (item)=>{
+  renderElement = (item, index)=>{
     const element = item.element
 
     switch(item.element){
     case "separator":
-      return <hr/>
+      return <hr key={index}/>
     case "input":
-      return <div>
+      return <div key={index}>
               {item.label ? <label>{item.label}</label> : null }
               <input 
                 type={element.type} 
@@ -1473,7 +1507,7 @@ class AppPackageBlock extends Component {
              </div>
 
     case "submit":
-      return <button type={"submit"}></button>
+      return <button key={index} type={"submit"}></button>
     default:
       return null
     }
