@@ -25,6 +25,31 @@ class Trigger
         rules: [
           {pages_pattern: "/tester(/:id)"},
         ],
+        paths: [
+          {
+            id: "1",
+            title: "hey",
+            steps: [
+              {
+                type: "message",
+                message: {
+                  app_user: {
+                    display_name: "miguel michelson",
+                    email: "miguelmichelson@gmail.com",
+                    id: 1,
+                    kind: "agent" 
+                  },
+                  serialized_content: '{"blocks":[{"key":"9oe8n","text":"hola","type":"unstyled","depth":0,"inlineStyleRanges":[],"entityRanges":[],"data":{}}],"entityMap":{}}',
+                  html_content: "hola", 
+                },
+                controls: [
+                  {title: "oe", action: "a"},
+                  {title: "ao", action: "o"}
+                ]
+              }
+            ]
+          }
+        ],
         actions: [
           open_messenger: true,
           
