@@ -765,7 +765,7 @@ class Messenger extends Component {
 
   // TODO: get the hardcoded data from event
   appendVolatileConversation = (o)=>{
-    debugger
+    
     const conversation = {
       assignee: null,
       //created_at: "2019-08-13T02:40:19.650Z",
@@ -788,7 +788,7 @@ class Messenger extends Component {
 
     this.setState({
       conversation: conversation,
-      conversation_messages: [conversationMessage],
+      conversation_messages: [conversationMessage, o.controls],
       conversation_messagesMeta: {},
       display_mode: "conversation"
     })
@@ -1045,6 +1045,73 @@ class Conversation extends Component {
     }
   }
 
+  renderMessage = (o, i)=>{
+    const userClass = o.app_user.kind === "agent" ? 'admin' : 'user'
+    const isAgent = o.app_user.kind === "agent"
+    const themeforMessage = o.private_note || isAgent ? theme : themeDark
+    
+    return <MessageItemWrapper
+            email={this.props.email}
+            key={o.id}
+            data={o}>
+
+            <MessageItem
+            className={userClass}
+            messageSourceType={o.message_source ? o.message_source.type : ''}>
+
+            {
+              !this.props.isUserAutoMessage(o) ?
+              <ConversationSummaryAvatar>
+                <img src={gravatar.url(o.app_user.email)} />
+              </ConversationSummaryAvatar> : null
+            }
+
+            <div className="message-content-wrapper">
+
+              {
+                this.props.isUserAutoMessage(o) ?
+                  <UserAutoChatAvatar>
+                    <img src={gravatar.url(o.app_user.email)} />
+                    <span>{o.app_user.name || o.app_user.email}</span>
+                  </UserAutoChatAvatar> : null
+              }
+
+              {/*render light theme on user or private note*/}
+              
+              <ThemeProvider 
+                theme={ themeforMessage }>
+                <DanteContainer>
+                  <DraftRenderer key={i} 
+                    raw={JSON.parse(o.message.serialized_content)}
+                  />
+                </DanteContainer>
+              </ThemeProvider>  
+
+            </div>
+
+            <span className="status">
+              {
+                o.read_at ?
+                  <Moment fromNow>
+                    {o.read_at}
+                  </Moment> : <span>not seen</span>
+              }
+            </span>
+
+            </MessageItem>
+            
+          </MessageItemWrapper>
+  }
+
+  renderItemPackage = (o, i)=>{
+    return  <MessageItem>
+              <AppPackageBlock 
+               key={i}
+                {...o}
+              />
+            </MessageItem>
+  }
+
   render(){
     return <div style={{
       position: 'absolute',
@@ -1067,6 +1134,11 @@ class Conversation extends Component {
 
 
             <div>
+
+            {/*
+            
+            
+            
                <MessageItem>
                  <AppPackageBlock 
                    type={"ask_for_email"} 
@@ -1079,68 +1151,19 @@ class Conversation extends Component {
                    }
                  />
                </MessageItem>
+
+                  */ }
+
+
+               
             </div> 
             {
               this.props.conversation_messages.map((o, i) => {
-                const userClass = o.app_user.kind === "agent" ? 'admin' : 'user'
-                const isAgent = o.app_user.kind === "agent"
-                const themeforMessage = o.private_note || isAgent ? theme : themeDark
-                
-                return <MessageItemWrapper
-                  email={this.props.email}
-                  key={o.id}
-                  data={o}>
-                  <MessageItem
-                    className={userClass}
-                    messageSourceType={o.message_source ? o.message_source.type : ''}>
-
-                    {
-                      !this.props.isUserAutoMessage(o) ?
-                      <ConversationSummaryAvatar>
-                        <img src={gravatar.url(o.app_user.email)} />
-                      </ConversationSummaryAvatar> : null
-                    }
-
-                    
-
-
-
-                    <div className="message-content-wrapper">
-
-                      {
-                        this.props.isUserAutoMessage(o) ?
-                          <UserAutoChatAvatar>
-                            <img src={gravatar.url(o.app_user.email)} />
-                            <span>{o.app_user.name || o.app_user.email}</span>
-                          </UserAutoChatAvatar> : null
-                      }
-
-
-                       
-                        {/*render light theme on user or private note*/}
-                        
-                        <ThemeProvider 
-                          theme={ themeforMessage }>
-                          <DanteContainer>
-                            <DraftRenderer key={i} 
-                              raw={JSON.parse(o.message.serialized_content)}
-                            />
-                          </DanteContainer>
-                        </ThemeProvider>  
-                      
-                    </div>
-
-                    <span className="status">
-                      {
-                        o.read_at ?
-                          <Moment fromNow>
-                            {o.read_at}
-                          </Moment> : <span>not seen</span>
-                      }
-                    </span>
-
-                  </MessageItem>
-                </MessageItemWrapper>
+                {
+                  return o.schema ? 
+                  this.renderItemPackage(o, i) : 
+                  this.renderMessage(o, i)
+                }
               })
             }
 
@@ -1310,11 +1333,8 @@ class MessageFrame extends Component {
   }
 
   componentDidMount(){
-
     /*this.props.availableMessages.map((o) => {
-      
       const firstKey = o.id
-
       const data = {
         referrer: window.location.path,
         email: this.props.email,
@@ -1329,8 +1349,6 @@ class MessageFrame extends Component {
         .catch((error) => {
           console.log(error);
         });
-
-
     })*/
 
   }
@@ -1515,6 +1533,8 @@ class AppPackageBlock extends Component {
 
     case "submit":
       return <button key={index} type={"submit"}></button>
+    case "button":
+      return <button key={index} type={"submit"}>{item.label}</button>
     default:
       return null
     }

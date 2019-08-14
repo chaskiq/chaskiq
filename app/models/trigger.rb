@@ -42,10 +42,14 @@ class Trigger
                   serialized_content: '{"blocks":[{"key":"9oe8n","text":"hola","type":"unstyled","depth":0,"inlineStyleRanges":[],"entityRanges":[],"data":{}}],"entityMap":{}}',
                   html_content: "hola", 
                 },
-                controls: [
-                  {title: "oe", action: "a"},
-                  {title: "ao", action: "o"}
-                ]
+                controls: {
+                  type: "ask_for_email",
+                  schema: [
+                      {element: "input", type:"text", placeholder: "enter email", name: "email", label: "enter your email"},
+                      {element: "separator"},
+                      {element: "submit", label: "submit"}
+                    ]
+                }
               }
             ]
           }
