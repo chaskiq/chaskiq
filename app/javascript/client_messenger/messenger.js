@@ -15,6 +15,7 @@ import gravatar from "gravatar"
 import Moment from 'react-moment';
 import { soundManager } from 'soundmanager2'
 import UrlPattern from 'url-pattern'
+import serialize from 'form-serialize'
 import {
   Container,
   UserAutoMessage,
@@ -627,7 +628,9 @@ class Messenger extends Component {
       .then( (response)=> {
         this.setState({
           conversation: response.data.conversation,
-          conversation_messages: response.data.messages.concat(this.state.conversation_messages)
+          conversation_messages: response.data.messages ? 
+            response.data.messages.concat(this.state.conversation_messages) : 
+            this.state.conversation_messages
         }, ()=>{ 
           
 
@@ -780,17 +783,21 @@ class Messenger extends Component {
       }
     }
 
-    const conversationMessage = {
-      volatile: true,
-      app_user: o.message.app_user,
-      message: {
-        serialized_content: o.message.serialized_content
+    const conversationMessages = o.messages.map((message)=>(
+      {
+        volatile: true,
+        app_user: message.app_user,
+        message: {
+          serialized_content: message.serialized_content
+        }
       }
-    }
-
+    )).reverse()
+    
+    const newMessages = [o.controls].concat(conversationMessages)
+    
     this.setState({
       conversation: conversation,
-      conversation_messages: [o.controls, conversationMessage]
+      conversation_messages:  newMessages
                               .filter((o)=> o)
                               .concat(this.state.conversation_messages),
       conversation_messagesMeta: {},
@@ -892,6 +899,11 @@ class Messenger extends Component {
 
   }
 
+  submitAppUserData = (data, next_step)=>{
+    App.events && App.events.perform('data_submit', data)
+
+  }
+
   render() {
     return (
 
@@ -967,6 +979,7 @@ class Messenger extends Component {
                               setConversation={this.setconversation}
                               setOverflow={this.setOverflow}
                               appendVolatileConversation={this.appendVolatileConversation}
+                              submitAppUserData={this.submitAppUserData}
                             /> : null
                         } 
 
@@ -1079,7 +1092,7 @@ class Conversation extends Component {
             messageSourceType={o.message_source ? o.message_source.type : ''}>
 
             {
-              !this.props.isUserAutoMessage(o) ?
+              !this.props.isUserAutoMessage(o) && isAgent ?
               <ConversationSummaryAvatar>
                 <img src={gravatar.url(o.app_user.email)} />
               </ConversationSummaryAvatar> : null
@@ -1126,7 +1139,9 @@ class Conversation extends Component {
     return  <MessageItem>
               <AppPackageBlock 
                key={i}
+               submitAppUserData={this.props.submitAppUserData.bind(this)}
                clickHandler={this.appPackageClickHandler.bind(this)}
+               appPackageSubmitHandler={this.appPackageSubmitHandler.bind(this)}
                 {...o}
               />
             </MessageItem>
@@ -1137,6 +1152,17 @@ class Conversation extends Component {
     const newMessages = this.props.conversation.trigger.paths.map((o)=> o.steps.find(o => o.step_uid === item.next_step_uuid ))
     if(newMessages && newMessages.length > 0 ){
       this.props.appendVolatileConversation(newMessages[0])
+    }
+  }
+
+  appPackageSubmitHandler = (data, next_step_uuid)=>{
+    console.log(this.props.conversation)
+    const newMessages = this.props.conversation.trigger.paths.map(
+      (o)=> o.steps.find(o => o.step_uid === next_step_uuid ))
+
+    if(newMessages && newMessages.length > 0 ){
+      this.props.appendVolatileConversation(newMessages[0])
+      this.props.submitAppUserData(data)
     }
   }
 
@@ -1516,6 +1542,8 @@ class MessageItemWrapper extends Component {
 
 class AppPackageBlock extends Component {
 
+  form = null
+
   renderElements = ()=>{
     return this.props.schema.map((o, i)=>
       this.renderElement(o, i)
@@ -1524,6 +1552,12 @@ class AppPackageBlock extends Component {
 
   handleStepControlClick = (item)=>{
     this.props.clickHandler(item)
+  }
+
+  sendAppPackageSubmit = (e)=>{
+    e.preventDefault()
+    const data = serialize(e.currentTarget, { hash: true, empty: true })
+    this.props.appPackageSubmitHandler(data, this.props.next_step_uuid)
   }
 
   renderElement = (item, index)=>{
@@ -1537,6 +1571,7 @@ class AppPackageBlock extends Component {
               {item.label ? <label>{item.label}</label> : null }
               <input 
                 type={element.type} 
+                name={item.name}
                 placeholder={element.placeholder}
                 onKeyDown={(e)=>{ e.keyCode === 13 ? 
                   this.handleStepControlClick(item) : null
@@ -1562,9 +1597,11 @@ class AppPackageBlock extends Component {
   render(){
     return <div>
               <AppPackageBlockContainer>
-                {
-                  this.renderElements()
-                }
+                <form ref={o => this.form } onSubmit={ this.sendAppPackageSubmit }>
+                  {
+                    this.renderElements()
+                  }
+                </form>
               </AppPackageBlockContainer>
             </div>
   }
