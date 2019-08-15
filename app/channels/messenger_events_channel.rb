@@ -19,6 +19,12 @@ class MessengerEventsChannel < ApplicationCable::Channel
     # Any cleanup needed when channel is unsubscribed
   end
 
+  def data_submit(data)
+    # TODO: check permitted params here!
+    data.delete('action')
+    @app_user.update(data)
+  end
+
   def send_message(options)
     options.delete("action")
     @app_user.visits.create(options)

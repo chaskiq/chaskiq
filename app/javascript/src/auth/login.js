@@ -88,7 +88,6 @@ function MadeWithLove() {
       <Link color="inherit" href="https://chaskiqapp.com/">
         Chasqik Team
       </Link>
-      {' team.'}
     </Typography>
   );
 }
