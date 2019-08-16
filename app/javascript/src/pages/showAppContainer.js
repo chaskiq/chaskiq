@@ -69,6 +69,7 @@ import {
 import ProfileView from '../pages/ProfileView'
 import AgentProfileView from '../pages/AgentProfileView'
 import Team from '../pages/TeamPage'
+import BotContainer from './BotsContainer'
 
 import {
   camelizeKeys
@@ -405,7 +406,17 @@ class ShowAppContainer extends Component {
                     classes={props.classes}
                     {...props}
                   />
-            )} />             
+            )} /> 
+            
+           <Route path={`${this.props.match.path}/bots`}
+              render={(props) => (
+                  <BotContainer
+                    currentUser={this.props.current_user}
+                    actions={this.actions()}
+                    classes={props.classes}
+                    {...props}
+                  />
+            )} /> 
 
           <Route path={`${this.props.match.path}/settings`}
             render={(props) => (

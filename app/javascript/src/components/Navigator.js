@@ -33,7 +33,8 @@ import {
   FlagOutlined,
   BookOutlined,
   SettingsOutlined,
-  DomainOutlined
+  DomainOutlined,
+  DeviceHubOutlined
 } from '@material-ui/icons'
 
 import ExpansionPanel from '@material-ui/core/ExpansionPanel';
@@ -154,6 +155,19 @@ function Navigator(props, context) {
         { id: 'In App messages', icon: <MessageIcon/>, url: `${appid}/messages/user_auto_messages`},
         { id: 'Guided tours', icon: <FilterFramesIcon/>, url: `${appid}/messages/tours`,},
         { id: 'visitor auto messages', icon: <FlipToFrontIcon/>, url: `${appid}/messages/visitor_auto`}
+      ],
+    },
+
+    {
+      id: 'Bot',
+      icon: <DeviceHubOutlined style={{ fontSize: 30 }}/>,
+      children: [
+        /*{ id: 'Analytics', icon: <SettingsIcon /> },
+        { id: 'Performance', icon: <TimerIcon /> },
+        { id: 'Test Lab', icon: <PhonelinkSetupIcon /> },*/
+        { id: 'For Leads', icon: <EmailIcon/>, url: `${appid}/bots/leads`},
+        { id: 'For Users', icon: <MessageIcon/>, url: `${appid}/bots/users`},
+        { id: 'Settings', icon: <FlipToFrontIcon/>, url: `${appid}/bots/settings`}
       ],
     },
 
