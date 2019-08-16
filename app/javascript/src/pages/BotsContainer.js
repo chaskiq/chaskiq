@@ -278,13 +278,24 @@ const Path = ({path, addSectionMessage, addSectionControl, updatePath})=>{
   )
 }
 
-const PathEditor = ({step, message, path})=>{
+const PathEditor = ({step, message, path, updatePath })=>{
 
   const saveHandler = (html, serialized)=>{
+    console.log("savr handler", serialized)
   }
 
   const saveContent = ({html, serialized})=>{
-    console.log("guarda", serialized)
+    const newMessage = Object.assign({}, message, {
+      serialized_content: serialized
+    })
+
+    const newSteps = path.steps.map((o)=>{ 
+      return o.step_uid === step.step_uid ? 
+      Object.assign({}, o, {messages: [newMessage]}) : o
+    })
+
+    const newPath = Object.assign({}, path, {steps: newSteps})
+    updatePath(newPath)
   }
 
   return (
@@ -330,15 +341,6 @@ function mapStateToProps(state) {
   }
 }
 
-
-
-// fake data generator
-const getItems = count =>
-  Array.from({ length: count }, (v, k) => k).map(k => ({
-    id: `item-${k}`,
-    content: `item ${k}`
-  }));
-
 // a little function to help us with reordering the result
 const reorder = (list, startIndex, endIndex) => {
   const result = Array.from(list);
@@ -369,8 +371,7 @@ const getListStyle = isDraggingOver => ({
   width: 250
 });
 
-class SortableSteps 
-    extends Component {
+class SortableSteps extends Component {
   constructor(props) {
     super(props);
   }
@@ -380,7 +381,7 @@ class SortableSteps
   }
 
   render() {
-    const {steps, path, deleteItem} = this.props
+    const {steps, path, deleteItem, updatePath} = this.props
     return (
       <DragDropContext onDragEnd={this.onDragEnd}>
         <Droppable droppableId="droppable">
@@ -416,6 +417,7 @@ class SortableSteps
                                 path={path}
                                 step={item} 
                                 message={message}
+                                updatePath={updatePath}
                               />
                               
                             </div>
