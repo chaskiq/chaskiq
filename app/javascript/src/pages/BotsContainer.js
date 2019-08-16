@@ -3,6 +3,9 @@ import { withRouter, Switch } from 'react-router-dom'
 import { connect } from 'react-redux'
 import TextEditor from '../textEditor'
 
+import graphql from '../graphql/client'
+import {BOT_TASK, BOT_TASKS} from '../graphql/queries'
+
 import {
   Box,
   Grid,
@@ -51,12 +54,121 @@ const pathsData = [
   },
 ]
 
+
+function create_UUID(){
+  var dt = new Date().getTime();
+  var uuid = 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+      var r = (dt + Math.random()*16)%16 | 0;
+      dt = Math.floor(dt/16);
+      return (c=='x' ? r :(r&0x3|0x8)).toString(16);
+  });
+  return uuid;
+}
+
 const BotContainer = (props)=>{
-  const [paths, setPaths] = useState(pathsData)
-  const [selectedPath, setSelectedPath] = useState(pathsData[0])
+  const [paths, setPaths] = useState([])
+  const [selectedPath, setSelectedPath] = useState(null)
 
   const handleSelection = (item)=>{
     setSelectedPath(item)
+  }
+
+  useEffect(() => {
+    graphql(BOT_TASK, {appKey: props.app.key, id: "1"}, {
+      success: (data)=>{
+        setPaths(data.app.botTask.paths)
+        setSelectedPath(data.app.botTask.paths[0])
+      },
+      error: (err)=>{
+        debugger
+      }
+    })
+  }, []);
+
+  const addSectionMessage = (path)=>{
+
+    const dummy = { id: 1,
+      step_uid: create_UUID(),
+      type: "messages",
+      messages: [{
+        app_user: {
+          display_name: "miguel michelson",
+          email: "miguelmichelson@gmail.com",
+          id: 1,
+          kind: "agent" 
+        },
+        serialized_content: '{"blocks":[{"key":"9oe8n","text":"uno nuevoooo","type":"unstyled","depth":0,"inlineStyleRanges":[],"entityRanges":[],"data":{}}],"entityMap":{}}',
+        html_content: "hola", 
+      }]
+    }
+
+    const newSteps = path.steps.concat(dummy)
+    let newPath = null
+    
+    const newPaths = paths.map((o)=>{
+      if(o.id === path.id){
+        newPath = Object.assign({}, path, {steps: newSteps })
+        return newPath
+      } else {
+        return o
+      }
+    })
+    console.log(newPaths)
+    setPaths(newPaths)
+    setSelectedPath(newPath) // redundant
+  }
+
+  const addSectionControl = (path)=>{
+    const dummy = { 
+      id: 1,
+      step_uid: create_UUID(),
+      type: "messages",
+      messages: [],
+      controls: {
+        type: "ask_option",
+        schema: [
+          {element: "button", label: "quiero saber como funciona", next_step_uuid: 2},
+          {element: "button", label: "quiero contratar el producto", next_step_uuid: 3},
+          {element: "button", label: "estoy solo mirando", next_step_uuid: 4}
+        ]
+      }
+    }
+
+    const newSteps = path.steps.concat(dummy)
+    let newPath = null
+
+    const newPaths = paths.map((o)=>{
+      if(o.id === path.id){
+        newPath = Object.assign({}, path, {steps: newSteps })
+        return newPath
+      } else {
+        return o
+      }
+    })
+    console.log(newPaths)
+    setPaths(newPaths)
+    setSelectedPath(newPath) // redundant
+  }
+
+  const addPath = (path)=>{
+    const newPaths = paths.concat(path)
+    setPaths(newPaths)
+  }
+
+  const addEmptyPath = ()=>{
+    const path = {
+      id: "ssssmsk",
+      steps: []
+    }
+    addPath(path)
+  }
+
+  const updatePath = (path)=>{
+    console.log(path)
+    
+    const newPaths = paths.map((o)=> o.id === path.id ? path : o )
+    setPaths(newPaths)
+    setSelectedPath(newPaths.find((o)=> o.id === path.id )) // redundant
   }
 
   return (
@@ -70,6 +182,8 @@ const BotContainer = (props)=>{
             handleSelection={handleSelection}
             /> ))
         }
+
+        <Button onClick={addEmptyPath}>add new path</Button>
         </Paper>
 
       </Grid>
@@ -79,8 +193,11 @@ const BotContainer = (props)=>{
         <Paper>
 
         {
-          <Path
+          selectedPath && <Path
             path={selectedPath}
+            addSectionMessage={addSectionMessage}
+            addSectionControl={addSectionControl}
+            updatePath={updatePath}
             />
         }
 
@@ -102,7 +219,17 @@ const PathList = ({path, handleSelection})=>{
   </div>
 }
 
-const Path = ({path})=>{
+const Path = ({path, addSectionMessage, addSectionControl, updatePath})=>{
+
+  const addStepMessage = (path)=>{
+    addSectionMessage(path)
+  }
+
+  const deleteItem = (path, step)=>{
+    const newSteps = path.steps.filter((o, i)=> o.step_uid != step.step_uid  )
+    const newPath = Object.assign({}, path, {steps: newSteps})
+    updatePath(newPath)
+  }
 
   return (
 
@@ -111,18 +238,42 @@ const Path = ({path})=>{
       -----
 
       {
-        path.steps.map((step)=>(
-          step.messages.map((message)=> <PathEditor 
-            path={path}
-            step={step} 
-            message={message}
-          />)
+        path.steps.map((step, index)=>(
+          <div key={`step-${step.step_uid}`}>
+            section {index} {step.step_uid}:
+            {
+              step.messages.map(
+                (message)=> 
+                <div>
+                  
+                  <PathEditor 
+                    path={path}
+                    step={step} 
+                    message={message}
+                  />
+                  
+                </div>
+              )
+            }
+
+            {JSON.stringify(step.controls)}
+
+            <Button onClick={()=> deleteItem(path, step) }>
+              delete item
+            </Button>
+
+            <hr/>
+          </div>
           )
         )
       }
 
-      <Button onClick={addMessage}>
+      <Button onClick={()=> addStepMessage(path)}>
         Add Message Bubble
+      </Button>
+
+      <Button onClick={()=> addSectionControl(path)}>
+        Add Message input
       </Button>
     </div>
 

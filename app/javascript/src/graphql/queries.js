@@ -647,3 +647,32 @@ export const ARTICLE_COLLECTION_WITH_SECTIONS = `
 `;
 
 
+export const BOT_TASKS = `
+  query BotTasks($appKey: String!, $lang: String){
+    app(key: $appKey){
+      botTasks(lang: $lang){
+        title
+        id
+        state
+      }
+    }
+  }
+`;
+
+export const BOT_TASK = `
+  query BotTask($appKey: String!, $id: String!, $lang: String){
+    app(key: $appKey){
+      botTask(id: $id, lang: $lang){
+        id
+        state
+        paths{
+          id
+          steps
+        }
+      }
+    }
+  }
+`;
+
+
+

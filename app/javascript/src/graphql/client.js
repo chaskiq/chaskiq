@@ -39,7 +39,7 @@ const graphql = (query, variables, callbacks)=>{
       if(callbacks['error'])
         return callbacks['error'](res, errors)
     }
-
+    
     callbacks['success'] ? callbacks['success'](data, res) : null
   })
   .catch(( req, error )=> {
