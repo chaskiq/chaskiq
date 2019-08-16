@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_07_27_224507) do
+ActiveRecord::Schema.define(version: 2019_08_16_024835) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -247,6 +247,31 @@ ActiveRecord::Schema.define(version: 2019_07_27_224507) do
     t.index ["app_id"], name: "index_assignment_rules_on_app_id"
   end
 
+  create_table "bot_paths", force: :cascade do |t|
+    t.string "title"
+    t.string "key"
+    t.jsonb "steps"
+    t.jsonb "settings"
+    t.bigint "bot_task_id", null: false
+    t.jsonb "predicates"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["bot_task_id"], name: "index_bot_paths_on_bot_task_id"
+    t.index ["key"], name: "index_bot_paths_on_key"
+  end
+
+  create_table "bot_tasks", force: :cascade do |t|
+    t.string "title"
+    t.string "state"
+    t.jsonb "predicates"
+    t.bigint "app_id", null: false
+    t.jsonb "settings"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["app_id"], name: "index_bot_tasks_on_app_id"
+    t.index ["state"], name: "index_bot_tasks_on_state"
+  end
+
   create_table "campaigns", force: :cascade do |t|
     t.string "key"
     t.string "from_name"
@@ -478,6 +503,8 @@ ActiveRecord::Schema.define(version: 2019_07_27_224507) do
   add_foreign_key "article_collections", "apps"
   add_foreign_key "article_settings", "apps"
   add_foreign_key "assignment_rules", "apps"
+  add_foreign_key "bot_paths", "bot_tasks"
+  add_foreign_key "bot_tasks", "apps"
   add_foreign_key "campaigns", "apps"
   add_foreign_key "collection_sections", "article_collections"
   add_foreign_key "conversation_parts", "app_users"

@@ -179,6 +179,23 @@ module Types
       object.article_collections.friendly.find(id)
     end
 
+    field :bot_tasks, [Types::BotTaskType], null: true do
+      argument :lang, String, required: false, default_value: I18n.default_locale.to_s
+    end
+
+    def bot_tasks(lang:)
+      object.bot_tasks
+    end
+
+    field :bot_task, Types::BotTaskType, null: true do
+      argument :id, String, required: true
+      argument :lang, String, required: false, default_value: I18n.default_locale.to_s
+    end
+
+    def bot_task(id:, lang:)
+      object.bot_tasks.find(id)
+    end
+
 
   end
 end
