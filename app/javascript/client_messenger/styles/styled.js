@@ -342,12 +342,12 @@ export const MessageItem = styled.div`
       flex-direction: row;
       
       .message-content-wrapper {
-        background: #e6e6e687;
-        padding: 9px;
+        background: #ebebec87;
+        padding: 16px;
         margin: 5px;
-        border-radius: 3px;
-        box-shadow: 1px 1px 2px #e0e0e0;
-        border: 1px solid #dedbdb;
+        border-radius: 20px;
+        /* box-shadow: 1px 1px 2px #e0e0e0; */
+        /* border: 1px solid #dedbdb; */
         min-width: 80px;
       }
 
@@ -362,10 +362,14 @@ export const MessageItem = styled.div`
 
       .message-content-wrapper {
         background: ${mainColor};
-        padding: 9px;
-        margin: 5px;
-        border-radius: 3px;
         min-width: 80px;
+        padding: 16px;
+        margin: 5px;
+        border-radius: 20px;
+        /* box-shadow: 1px 1px 2px #e0e0e0; */
+        /* border: 1px solid #dedbdb; */
+        min-width: 80px;
+
       }
       // hack on image from user, not use position absolute
       .graf-image {

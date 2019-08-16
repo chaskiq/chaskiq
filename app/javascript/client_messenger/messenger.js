@@ -200,15 +200,72 @@ const MessageCloseBtn = styled.a`
 `
 
 const AppPackageBlockContainer = styled.div`
-    border: 1px solid #ccc;
     padding: 1.2em;
-    width: 100%;
     border-radius: 7px;
-    background: #f5f2f2;
+    background: #f1f0f9;
+    display: flex;
+    justify-content: center;
 
+    .form-group{
+      //margin-bottom: 1rem;
+    }
+    
+    form {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      //width: 69%;
+      flex-wrap: wrap;
+      button {
+        margin: 3px;
+      }
+    }
+    label {
+      margin: 3px;
+      display: inline-block;
+      margin-bottom: .5rem;
+    }
     input {
-      padding: 1.2em;
+      margin: 3px;
+      display: block;
+      padding: .375rem .75rem;
+      font-size: 1rem;
+      line-height: 1.5;
+      color: #495057;
+      background-color: #fff;
+      background-clip: padding-box;
+      border: 1px solid #ced4da;
+      border-radius: .25rem;
+      transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+    }
+    button:not(:disabled):not(.disabled) {
+      cursor: pointer;
+    }
+    [type=reset], [type=submit], button, html [type=button] {
+        -webkit-appearance: button;
+    }
+    button {
+      //.btn-primary {
+        color: #fff;
+        background-color: #007bff;
+        border-color: #007bff;
+      //}
 
+      display: inline-block;
+      font-weight: 400;
+      text-align: center;
+      white-space: nowrap;
+      vertical-align: middle;
+      -webkit-user-select: none;
+      -moz-user-select: none;
+      -ms-user-select: none;
+      user-select: none;
+      border: 1px solid transparent;
+      padding: .375rem .75rem;
+      font-size: 1rem;
+      line-height: 1.5;
+      border-radius: .25rem;
+      transition: color .15s ease-in-out,background-color .15s ease-in-out,border-color .15s ease-in-out,box-shadow .15s ease-in-out;
     }
 `
 
@@ -783,6 +840,8 @@ class Messenger extends Component {
       }
     }
 
+    
+
     const conversationMessages = o.messages.map((message)=>(
       {
         volatile: true,
@@ -805,10 +864,15 @@ class Messenger extends Component {
     }, this.scrollToLastItem())
   }
 
-  setTriggerStep = (path_index, step_index)=>{
-    const messages = this.state.conversation.trigger.paths[path_index]
-    const message = this.appendVolatileConversation(messages.steps[step_index])
-    message && this.appendVolatileConversation(message)
+  setTriggerStep = (step_index)=>{
+    const steps = this.state.conversation.trigger.paths.map((o)=> { 
+      return o.steps.find((a)=> a.step_uid === step_index )
+    } )
+    
+    if(!steps) return
+    //const messages = this.state.conversation.trigger.paths[path_index]
+    //const message = this.appendVolatileConversation(messages)
+    this.appendVolatileConversation(steps[0])
   }
 
   receiveTrigger = (trigger)=>{
@@ -826,7 +890,7 @@ class Messenger extends Component {
           this.setState({open: true}) : null
         })
 
-        this.setTriggerStep(0, 0)
+        this.setTriggerStep(1)
   
         /*this.state.conversation.trigger.paths.map((o, index)=>{
           if(index != 0) return
@@ -1149,7 +1213,10 @@ class Conversation extends Component {
 
   appPackageClickHandler = (item)=>{
     console.log(this.props.conversation)
-    const newMessages = this.props.conversation.trigger.paths.map((o)=> o.steps.find(o => o.step_uid === item.next_step_uuid ))
+    
+    const newMessages = this.props.conversation.trigger.paths.map(
+      (o)=> o.steps.find(o => o.step_uid === item.next_step_uuid ))
+    
     if(newMessages && newMessages.length > 0 ){
       this.props.appendVolatileConversation(newMessages[0])
     }
@@ -1157,6 +1224,7 @@ class Conversation extends Component {
 
   appPackageSubmitHandler = (data, next_step_uuid)=>{
     console.log(this.props.conversation)
+
     const newMessages = this.props.conversation.trigger.paths.map(
       (o)=> o.steps.find(o => o.step_uid === next_step_uuid ))
 
@@ -1544,6 +1612,11 @@ class AppPackageBlock extends Component {
 
   form = null
 
+  state = {
+    done: false,
+    value: null
+  }
+
   renderElements = ()=>{
     return this.props.schema.map((o, i)=>
       this.renderElement(o, i)
@@ -1551,11 +1624,13 @@ class AppPackageBlock extends Component {
   }
 
   handleStepControlClick = (item)=>{
+    this.setState({done: true})
     this.props.clickHandler(item)
   }
 
   sendAppPackageSubmit = (e)=>{
     e.preventDefault()
+    this.setState({done: true})
     const data = serialize(e.currentTarget, { hash: true, empty: true })
     this.props.appPackageSubmitHandler(data, this.props.next_step_uuid)
   }
@@ -1567,12 +1642,12 @@ class AppPackageBlock extends Component {
     case "separator":
       return <hr key={index}/>
     case "input":
-      return <div key={index}>
+      return <div className={"form-group"} key={index}>
               {item.label ? <label>{item.label}</label> : null }
               <input 
-                type={element.type} 
+                type={item.type} 
                 name={item.name}
-                placeholder={element.placeholder}
+                placeholder={item.placeholder}
                 onKeyDown={(e)=>{ e.keyCode === 13 ? 
                   this.handleStepControlClick(item) : null
                 }}
@@ -1581,7 +1656,10 @@ class AppPackageBlock extends Component {
 
     case "submit":
       return <button key={index} 
-        type={"submit"}></button>
+                     style={{alignSelf: 'flex-end'}} 
+                     type={"submit"}>
+          {item.label}
+        </button>
     case "button":
       return <button 
         onClick={()=> this.handleStepControlClick(item)}
@@ -1597,11 +1675,15 @@ class AppPackageBlock extends Component {
   render(){
     return <div>
               <AppPackageBlockContainer>
+              {
+                true ? //!this.state.done ?
+              
                 <form ref={o => this.form } onSubmit={ this.sendAppPackageSubmit }>
                   {
                     this.renderElements()
                   }
-                </form>
+                </form> : <p>aa</p>
+              }
               </AppPackageBlockContainer>
             </div>
   }
