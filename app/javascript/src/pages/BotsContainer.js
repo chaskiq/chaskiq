@@ -1,6 +1,8 @@
-import React, {useState, useEffect} from 'react'
+import React, {Component, useState, useEffect} from 'react'
 import { withRouter, Switch } from 'react-router-dom'
 import { connect } from 'react-redux'
+import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
+
 import TextEditor from '../textEditor'
 
 import graphql from '../graphql/client'
@@ -231,42 +233,38 @@ const Path = ({path, addSectionMessage, addSectionControl, updatePath})=>{
     updatePath(newPath)
   }
 
+  const onDragEnd = (path, result)=> {
+    // dropped outside the list
+    if (!result.destination) {
+      return;
+    }
+
+    const newSteps = reorder(
+      path.steps,
+      result.source.index,
+      result.destination.index
+    );
+
+    const newPath = Object.assign({}, path, {steps: newSteps})
+    updatePath(newPath)
+
+  }
+
   return (
 
     <div>
       <h2>{path.id}</h2>
       -----
 
-      {
-        path.steps.map((step, index)=>(
-          <div key={`step-${step.step_uid}`}>
-            section {index} {step.step_uid}:
-            {
-              step.messages.map(
-                (message)=> 
-                <div>
-                  
-                  <PathEditor 
-                    path={path}
-                    step={step} 
-                    message={message}
-                  />
-                  
-                </div>
-              )
-            }
-
-            {JSON.stringify(step.controls)}
-
-            <Button onClick={()=> deleteItem(path, step) }>
-              delete item
-            </Button>
-
-            <hr/>
-          </div>
-          )
-        )
-      }
+      <SortableSteps 
+        steps={path.steps}
+        path={path}
+        addSectionMessage={addSectionMessage}
+        addSectionControl={addSectionControl}
+        updatePath={updatePath}
+        deleteItem={deleteItem}
+        onDragEnd={onDragEnd}
+      />
 
       <Button onClick={()=> addStepMessage(path)}>
         Add Message Bubble
@@ -331,5 +329,119 @@ function mapStateToProps(state) {
     drawer
   }
 }
+
+
+
+// fake data generator
+const getItems = count =>
+  Array.from({ length: count }, (v, k) => k).map(k => ({
+    id: `item-${k}`,
+    content: `item ${k}`
+  }));
+
+// a little function to help us with reordering the result
+const reorder = (list, startIndex, endIndex) => {
+  const result = Array.from(list);
+  const [removed] = result.splice(startIndex, 1);
+  result.splice(endIndex, 0, removed);
+
+  return result;
+};
+
+const grid = 8;
+
+const getItemStyle = (isDragging, draggableStyle) => ({
+  // some basic styles to make the items look a bit nicer
+  userSelect: "none",
+  padding: grid * 2,
+  margin: `0 0 ${grid}px 0`,
+
+  // change background colour if dragging
+  background: isDragging ? "lightgreen" : "grey",
+
+  // styles we need to apply on draggables
+  ...draggableStyle
+});
+
+const getListStyle = isDraggingOver => ({
+  background: isDraggingOver ? "lightblue" : "lightgrey",
+  padding: grid,
+  width: 250
+});
+
+class SortableSteps 
+    extends Component {
+  constructor(props) {
+    super(props);
+  }
+
+  onDragEnd =(result)=> {
+    this.props.onDragEnd(this.props.path, result)
+  }
+
+  render() {
+    const {steps, path, deleteItem} = this.props
+    return (
+      <DragDropContext onDragEnd={this.onDragEnd}>
+        <Droppable droppableId="droppable">
+          {(provided, snapshot) => (
+            <div
+              {...provided.droppableProps}
+              ref={provided.innerRef}
+              style={getListStyle(snapshot.isDraggingOver)}
+            >
+              {steps.map((item, index) => (
+                <Draggable key={item.step_uid} 
+                  draggableId={item.step_uid} 
+                  index={index}>
+                  {(provided, snapshot) => (
+                    <div
+                      ref={provided.innerRef}
+                      {...provided.draggableProps}
+                      
+                      style={getItemStyle(
+                        snapshot.isDragging,
+                        provided.draggableProps.style
+                      )}
+                    >
+
+                      <div {...provided.dragHandleProps}> drag!! </div>
+
+                        {
+                          item.messages.map(
+                            (message)=> 
+                            <div>
+                              
+                              <PathEditor 
+                                path={path}
+                                step={item} 
+                                message={message}
+                              />
+                              
+                            </div>
+                          )
+                        }
+
+                        {JSON.stringify(item.controls)}
+
+                        <Button onClick={()=> deleteItem(path, item) }>
+                          delete item
+                        </Button>
+                        
+                      </div>
+                  )}
+                </Draggable>
+              ))}
+              {provided.placeholder}
+            </div>
+          )}
+        </Droppable>
+      </DragDropContext>
+    );
+  }
+}
+
+
+
 
 export default withRouter(connect(mapStateToProps)(BotContainer))
