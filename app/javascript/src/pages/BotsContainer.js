@@ -341,6 +341,61 @@ function mapStateToProps(state) {
   }
 }
 
+
+// APp Package Preview
+
+const AppPackageBlocks = ({controls})=>{
+  const {schema, type} = controls
+
+  const renderElement = (item, index)=>{
+    const element = item.element
+
+    switch(item.element){
+    case "separator":
+      return <hr key={index}/>
+    case "input":
+      return <div className={"form-group"} key={index}>
+              {item.label ? <label>{item.label}</label> : null }
+              <input 
+                type={item.type} 
+                name={item.name}
+                placeholder={item.placeholder}
+                onKeyDown={(e)=>{ e.keyCode === 13 ? 
+                  this.handleStepControlClick(item) : null
+                }}
+              />
+             </div>
+
+    case "submit":
+      return <button key={index} 
+                     style={{alignSelf: 'flex-end'}} 
+                     type={"submit"}>
+          {item.label}
+        </button>
+    case "button":
+      return <button 
+        onClick={()=> this.handleStepControlClick(item)}
+        key={index} 
+        type={"submit"}>
+        {item.label}
+        </button>
+    default:
+      return null
+    }
+  }
+
+  const renderElements = ()=>{
+    return schema.map((o, i)=>
+      renderElement(o, i)
+    )
+  }
+
+  return (renderElements())
+}
+
+
+// SORTABLE
+
 // a little function to help us with reordering the result
 const reorder = (list, startIndex, endIndex) => {
   const result = Array.from(list);
@@ -359,16 +414,16 @@ const getItemStyle = (isDragging, draggableStyle) => ({
   margin: `0 0 ${grid}px 0`,
 
   // change background colour if dragging
-  background: isDragging ? "lightgreen" : "grey",
+  background: isDragging ? "lightgreen" : "transparent",
 
   // styles we need to apply on draggables
   ...draggableStyle
 });
 
 const getListStyle = isDraggingOver => ({
-  background: isDraggingOver ? "lightblue" : "lightgrey",
+  background: isDraggingOver ? "lightblue" : "transparent",
   padding: grid,
-  width: 250
+  //width: 250
 });
 
 class SortableSteps extends Component {
@@ -424,7 +479,10 @@ class SortableSteps extends Component {
                           )
                         }
 
-                        {JSON.stringify(item.controls)}
+                        
+                        { item.controls && <AppPackageBlocks controls={item.controls} /> }
+
+                        {/*JSON.stringify(item.controls)*/}
 
                         <Button onClick={()=> deleteItem(path, item) }>
                           delete item
