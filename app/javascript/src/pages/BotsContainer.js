@@ -2,7 +2,7 @@ import React, {Component, useState, useEffect} from 'react'
 import { withRouter, Switch } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
-
+import styled from '@emotion/styled'
 import TextEditor from '../textEditor'
 
 import graphql from '../graphql/client'
@@ -13,8 +13,14 @@ import {
   Grid,
   Typography, 
   Paper,
-  Button
+  Button,
+  IconButton
 } from '@material-ui/core'
+
+import {
+  DragHandle,
+  DeleteForever
+} from '@material-ui/icons'
 
 const pathsData = [
   {
@@ -412,10 +418,10 @@ const getItemStyle = (isDragging, draggableStyle) => ({
   userSelect: "none",
   padding: grid * 2,
   margin: `0 0 ${grid}px 0`,
-
+  display: 'flex',
+  justifyContent: 'space-evenly',
   // change background colour if dragging
   background: isDragging ? "lightgreen" : "transparent",
-
   // styles we need to apply on draggables
   ...draggableStyle
 });
@@ -425,6 +431,13 @@ const getListStyle = isDraggingOver => ({
   padding: grid,
   //width: 250
 });
+
+const ItemButtons = styled.div`
+  align-self: center;
+  /* width: 203px; */
+  align-items: center;
+  display: flex;
+`
 
 class SortableSteps extends Component {
   constructor(props) {
@@ -458,11 +471,10 @@ class SortableSteps extends Component {
                       style={getItemStyle(
                         snapshot.isDragging,
                         provided.draggableProps.style
-                      )}
-                    >
+                      )}>
 
-                      <div {...provided.dragHandleProps}> drag!! </div>
-
+                      <div style={{width: '300px'}}>
+                      
                         {
                           item.messages.map(
                             (message)=> 
@@ -478,17 +490,23 @@ class SortableSteps extends Component {
                             </div>
                           )
                         }
-
                         
                         { item.controls && <AppPackageBlocks controls={item.controls} /> }
 
                         {/*JSON.stringify(item.controls)*/}
 
-                        <Button onClick={()=> deleteItem(path, item) }>
-                          delete item
-                        </Button>
-                        
                       </div>
+
+                      <ItemButtons {...provided.dragHandleProps}>
+
+                        <DragHandle/>
+
+                        <IconButton onClick={()=> deleteItem(path, item) }>
+                          <DeleteForever/>
+                        </IconButton>
+                      </ItemButtons>
+
+                    </div>
                   )}
                 </Draggable>
               ))}
