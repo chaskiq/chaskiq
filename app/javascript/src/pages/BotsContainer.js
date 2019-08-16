@@ -22,6 +22,15 @@ import {
   DeleteForever
 } from '@material-ui/icons'
 
+import { makeStyles, createStyles } from '@material-ui/styles';
+
+const useStyles = makeStyles((theme: Theme) => createStyles({
+  root: {
+    padding: theme.spacing(1),
+    marginBottom: theme.spacing(1)
+  }
+}));
+
 const pathsData = [
   {
     id: 1,
@@ -286,6 +295,8 @@ const Path = ({path, addSectionMessage, addSectionControl, updatePath})=>{
 
 const PathEditor = ({step, message, path, updatePath })=>{
 
+  const classes = useStyles();
+
   const saveHandler = (html, serialized)=>{
     console.log("savr handler", serialized)
   }
@@ -305,7 +316,10 @@ const PathEditor = ({step, message, path, updatePath })=>{
   }
 
   return (
-    <div>
+    <Paper
+      elevation={1} 
+      square={true} 
+      classes={{root: classes.root}}>
       <TextEditor 
           //uploadHandler={this.uploadHandler}
           serializedContent={message.serialized_content}
@@ -316,8 +330,8 @@ const PathEditor = ({step, message, path, updatePath })=>{
             }
           styles={
             {
-              lineHeight: '2em',
-              fontSize: '1.2em'
+              lineHeight: '1.2em',
+              fontSize: '1em'
             }
           }
           saveHandler={saveHandler} 
@@ -327,7 +341,7 @@ const PathEditor = ({step, message, path, updatePath })=>{
           }
         }
       />
-    </div>
+    </Paper>
   )
 }
 
@@ -437,6 +451,11 @@ const ItemButtons = styled.div`
   /* width: 203px; */
   align-items: center;
   display: flex;
+`
+
+const TextEditorConainer = styled.div`
+  border: 1px solid #ccc;
+  padding: 1em;
 `
 
 class SortableSteps extends Component {
