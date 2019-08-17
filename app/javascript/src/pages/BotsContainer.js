@@ -7,6 +7,7 @@ import TextEditor from '../textEditor'
 
 import graphql from '../graphql/client'
 import {BOT_TASK, BOT_TASKS} from '../graphql/queries'
+import FormDialog from '../components/FormDialog'
 
 import {
   Box,
@@ -14,13 +15,19 @@ import {
   Typography, 
   Paper,
   Button,
-  IconButton
+  IconButton,
+  TextField,
+  List,
+  ListItem,
+  ListItemText
 } from '@material-ui/core'
 
 import {
   DragHandle,
   DeleteForever
 } from '@material-ui/icons'
+
+import FieldRenderer from '../shared/FormFields'
 
 import { makeStyles, createStyles } from '@material-ui/styles';
 
@@ -82,9 +89,71 @@ function create_UUID(){
   return uuid;
 }
 
+const configFields =  [
+  {name: "name", type: 'string', grid: {xs: 12, sm: 12 } } ,
+  {name: "description", type: 'text', grid: {xs: 12, sm: 12 } },
+]
+
+
+const PathDialog = ({open, close, isOpen, submit})=>{
+
+  let titleRef = React.createRef();
+  //const titleRef = null
+
+  const handleSubmit = ()=>{
+    submit({
+      id: create_UUID(),
+      title: titleRef.value,
+      steps: []
+    })
+  }
+
+  return (
+    isOpen && (
+      <FormDialog 
+        open={isOpen}
+        //contentText={"lipsum"}
+        titleContent={"Create Path"}
+        formComponent={
+            <form >
+             
+              <TextField
+                label="None"
+                id="title"
+                inputRef={ref => titleRef = ref }
+                placeholder={'write path title'}
+                //defaultValue="Default Value"
+                //className={classes.textField}
+                helperText="Some important text"
+              />
+
+            </form>
+
+        }
+        dialogButtons={
+          <React.Fragment>
+            <Button onClick={close} color="primary">
+              Cancel
+            </Button>
+
+            <Button onClick={handleSubmit} zcolor="primary">
+              Create
+            </Button>
+          </React.Fragment>
+        }
+        //actions={actions} 
+        //onClose={this.close} 
+        //heading={this.props.title}
+        >
+      </FormDialog>
+    )
+  )
+}
+
 const BotContainer = (props)=>{
   const [paths, setPaths] = useState([])
   const [selectedPath, setSelectedPath] = useState(null)
+  const [isOpen, setOpen] = useState(false)
 
   const handleSelection = (item)=>{
     setSelectedPath(item)
@@ -172,12 +241,9 @@ const BotContainer = (props)=>{
     setPaths(newPaths)
   }
 
-  const addEmptyPath = ()=>{
-    const path = {
-      id: "ssssmsk",
-      steps: []
-    }
-    addPath(path)
+  const addEmptyPath = (data)=>{
+    addPath(data)
+    close()
   }
 
   const updatePath = (path)=>{
@@ -188,19 +254,41 @@ const BotContainer = (props)=>{
     setSelectedPath(newPaths.find((o)=> o.id === path.id )) // redundant
   }
 
+  const open  = () => setOpen(true);
+  const close = () => setOpen(false);
+
+
+  const showPathDialog = ()=>{
+    setOpen(true)
+  }
+
+
   return (
     <Grid container alignContent={'space-around'} justify={'space-around'}>
     
+      {
+        isOpen && <PathDialog 
+          isOpen={isOpen} 
+          open={open} 
+          close={close}
+          submit={addEmptyPath}
+        />
+      }
+
       <Grid item xs={2}>
         <Paper>
-        {
-          paths.map((o)=>( <PathList
-            path={o}
-            handleSelection={handleSelection}
-            /> ))
-        }
 
-        <Button onClick={addEmptyPath}>add new path</Button>
+
+        <List component="nav" aria-label="path list">
+          {
+            paths.map((o)=>( <PathList
+              path={o}
+              handleSelection={handleSelection}
+              /> ))
+          }
+        </List>
+
+        <Button onClick={showPathDialog}>add new path</Button>
         </Paper>
 
       </Grid>
@@ -229,11 +317,9 @@ const BotContainer = (props)=>{
 }
 
 const PathList = ({path, handleSelection})=>{
-  return <div onClick={(e)=> handleSelection(path)}>
-    <Typography >{path.title}</Typography>
-
-    title: {path.title}
-  </div>
+  return <ListItem button onClick={(e)=> handleSelection(path)}>
+          <ListItemText primary={path.title} />
+        </ListItem>
 }
 
 const Path = ({path, addSectionMessage, addSectionControl, updatePath})=>{
