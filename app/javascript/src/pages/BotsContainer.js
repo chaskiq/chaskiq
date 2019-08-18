@@ -691,9 +691,13 @@ class SortableSteps extends Component {
                           </ControlWrapper>
                         </Grid>
 
-                        <Grid item xs={12} >
-                          <Button>+ add data button</Button>
-                        </Grid>
+                        {
+                          item.controls && item.controls.type === "ask_option" &&
+                        
+                            <Grid item xs={12} >
+                              <Button>+ add data button</Button>
+                            </Grid> 
+                        }
 
                       </Grid>
 
