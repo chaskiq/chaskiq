@@ -19,15 +19,15 @@ import {
   TextField,
   List,
   ListItem,
-  ListItemText
+  ListItemText,
+  Select,
+  MenuItem
 } from '@material-ui/core'
 
 import {
   DragHandle,
   DeleteForever
 } from '@material-ui/icons'
-
-import FieldRenderer from '../shared/FormFields'
 
 import { makeStyles, createStyles } from '@material-ui/styles';
 
@@ -77,6 +77,24 @@ const pathsData = [
     steps: [],
   },
 ]
+
+const ItemButtons = styled.div`
+  align-self: center;
+  /* width: 203px; */
+  align-items: center;
+  display: flex;
+`
+
+const TextEditorConainer = styled.div`
+  border: 1px solid #ccc;
+  padding: 1em;
+`
+
+const ControlWrapper = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+  flex-flow: column;
+`
 
 
 function create_UUID(){
@@ -277,18 +295,15 @@ const BotContainer = (props)=>{
 
       <Grid item xs={2}>
         <Paper>
-
-
-        <List component="nav" aria-label="path list">
-          {
-            paths.map((o)=>( <PathList
-              path={o}
-              handleSelection={handleSelection}
-              /> ))
-          }
-        </List>
-
-        <Button onClick={showPathDialog}>add new path</Button>
+          <List component="nav" aria-label="path list">
+            {
+              paths.map((o)=>( <PathList
+                path={o}
+                handleSelection={handleSelection}
+                /> ))
+            }
+          </List>
+          <Button onClick={showPathDialog}>add new path</Button>
         </Paper>
 
       </Grid>
@@ -297,14 +312,15 @@ const BotContainer = (props)=>{
 
         <Paper>
 
-        {
-          selectedPath && <Path
-            path={selectedPath}
-            addSectionMessage={addSectionMessage}
-            addSectionControl={addSectionControl}
-            updatePath={updatePath}
-            />
-        }
+          {
+            selectedPath && <Path
+              path={selectedPath}
+              paths={paths}
+              addSectionMessage={addSectionMessage}
+              addSectionControl={addSectionControl}
+              updatePath={updatePath}
+              />
+          }
 
         </Paper>
 
@@ -322,7 +338,7 @@ const PathList = ({path, handleSelection})=>{
         </ListItem>
 }
 
-const Path = ({path, addSectionMessage, addSectionControl, updatePath})=>{
+const Path = ({paths, path, addSectionMessage, addSectionControl, updatePath})=>{
 
   const addStepMessage = (path)=>{
     addSectionMessage(path)
@@ -360,6 +376,7 @@ const Path = ({path, addSectionMessage, addSectionControl, updatePath})=>{
       <SortableSteps 
         steps={path.steps}
         path={path}
+        paths={paths}
         addSectionMessage={addSectionMessage}
         addSectionControl={addSectionControl}
         updatePath={updatePath}
@@ -431,7 +448,6 @@ const PathEditor = ({step, message, path, updatePath })=>{
   )
 }
 
-
 function mapStateToProps(state) {
 
   const { auth, app, segment, app_user, current_user, drawer } = state
@@ -447,9 +463,7 @@ function mapStateToProps(state) {
   }
 }
 
-
 // APp Package Preview
-
 const AppPackageBlocks = ({controls})=>{
   const {schema, type} = controls
 
@@ -499,7 +513,6 @@ const AppPackageBlocks = ({controls})=>{
   return (renderElements())
 }
 
-
 // SORTABLE
 
 // a little function to help us with reordering the result
@@ -532,18 +545,6 @@ const getListStyle = isDraggingOver => ({
   //width: 250
 });
 
-const ItemButtons = styled.div`
-  align-self: center;
-  /* width: 203px; */
-  align-items: center;
-  display: flex;
-`
-
-const TextEditorConainer = styled.div`
-  border: 1px solid #ccc;
-  padding: 1em;
-`
-
 class SortableSteps extends Component {
   constructor(props) {
     super(props);
@@ -553,8 +554,21 @@ class SortableSteps extends Component {
     this.props.onDragEnd(this.props.path, result)
   }
 
+  updateControlPathSelector = (controls, step)=>{
+    const {path, updatePath} = this.props
+    const newStep = Object.assign({}, step, {controls: controls})
+
+    const newSteps = path.steps.map((o)=>{ 
+      return o.step_uid === newStep.step_uid ? newStep : o
+    })
+
+    const newPath = Object.assign({}, path, {steps: newSteps})
+    updatePath(newPath)
+  }
+
   render() {
-    const {steps, path, deleteItem, updatePath} = this.props
+    const {steps, path, paths, deleteItem, updatePath} = this.props
+    const options = paths.map((o)=> ({value: o.id, label: o.title}))
     return (
       <DragDropContext onDragEnd={this.onDragEnd}>
         <Droppable droppableId="droppable">
@@ -596,9 +610,40 @@ class SortableSteps extends Component {
                           )
                         }
                         
-                        { item.controls && <AppPackageBlocks controls={item.controls} /> }
 
                         {/*JSON.stringify(item.controls)*/}
+
+
+                      <Grid container>
+
+                        <Grid item xs={6}>
+                          <ControlWrapper>
+                            { item.controls && 
+                              <AppPackageBlocks controls={item.controls} /> 
+                            }
+                          </ControlWrapper>
+                        </Grid>
+  
+                        <Grid item xs={6}>
+                          <ControlWrapper>
+                          { item.controls && 
+                            <PathSelector 
+                              path={path}
+                              step={item} 
+                              options={options} 
+                              update={(opts)=> this.updateControlPathSelector(opts, item)}
+                              controls={item.controls} 
+                            />
+                          }
+                          </ControlWrapper>
+                        </Grid>
+
+                        <Grid item xs={12}>
+                          add button
+                        </Grid>
+
+                      </Grid>
+
 
                       </div>
 
@@ -611,7 +656,10 @@ class SortableSteps extends Component {
                         </IconButton>
                       </ItemButtons>
 
+
                     </div>
+
+
                   )}
                 </Draggable>
               ))}
@@ -624,7 +672,57 @@ class SortableSteps extends Component {
   }
 }
 
+const PathSelector = ({controls, update, options})=>{
 
+  const updateOption = (value, option)=>{
+    console.log(controls)
+    const newOption = Object.assign({}, option, {next_step_uuid: value})
+    const newOptions = controls.schema.map((o)=> o.label === newOption.label ? newOption : o)
+    const newControls = Object.assign({}, controls, {schema: newOptions})
+    update(newControls)
+  }
 
+  return (
+    controls.schema.map((option)=> <PathSelect 
+        value={null} 
+        update={updateOption}
+        option={option}
+        options={options}
+      />   
+    )
+  )
+}
+
+const PathSelect = ({ option, options, update})=>{
+
+  //const [value, setValue] = useEffect(value) 
+
+  const handleChange = (e)=>{
+    update(e.target.value, option)
+  }
+
+  const selectedOption = options.find((o)=> option.next_step_uuid === o.value )
+  console.log("selected option for: ", option, selectedOption)
+
+  return (
+    <Select
+      value={ selectedOption ? selectedOption.value : '' }
+      onChange={handleChange}
+      /*inputProps={{
+        name: 'age',
+        id: 'age-simple',
+      }}*/
+    >
+      {
+        options.map((option)=> <MenuItem 
+                                value={option.value}>
+                                {option.label}
+                              </MenuItem> 
+                    )
+      }
+    </Select>
+  )
+
+}
 
 export default withRouter(connect(mapStateToProps)(BotContainer))
