@@ -668,6 +668,7 @@ export const BOT_TASK = `
         paths{
           id
           steps
+          title
         }
       }
     }
