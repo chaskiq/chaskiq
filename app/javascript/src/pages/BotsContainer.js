@@ -254,6 +254,41 @@ const BotContainer = (props)=>{
     setSelectedPath(newPath) // redundant
   }
 
+  const addDataControl = (path)=>{
+    const dummy = { 
+      id: 1,
+      step_uid: create_UUID(),
+      messages: [],
+      controls: {
+        type: "data_retrieval",
+        schema: [
+          {
+            element: "input", 
+            type:"text", 
+            placeholder: "enter email", 
+            name: "email", 
+            label: "enter your email",
+          },
+        ]
+      }
+    }
+
+    const newSteps = path.steps.concat(dummy)
+    let newPath = null
+
+    const newPaths = paths.map((o)=>{
+      if(o.id === path.id){
+        newPath = Object.assign({}, path, {steps: newSteps })
+        return newPath
+      } else {
+        return o
+      }
+    })
+    console.log(newPaths)
+    setPaths(newPaths)
+    setSelectedPath(newPath) // redundant
+  }
+
   const addPath = (path)=>{
     const newPaths = paths.concat(path)
     setPaths(newPaths)
@@ -265,8 +300,6 @@ const BotContainer = (props)=>{
   }
 
   const updatePath = (path)=>{
-    console.log(path)
-    
     const newPaths = paths.map((o)=> o.id === path.id ? path : o )
     setPaths(newPaths)
     setSelectedPath(newPaths.find((o)=> o.id === path.id )) // redundant
@@ -318,6 +351,7 @@ const BotContainer = (props)=>{
               paths={paths}
               addSectionMessage={addSectionMessage}
               addSectionControl={addSectionControl}
+              addDataControl={addDataControl}
               updatePath={updatePath}
               />
           }
@@ -338,7 +372,7 @@ const PathList = ({path, handleSelection})=>{
         </ListItem>
 }
 
-const Path = ({paths, path, addSectionMessage, addSectionControl, updatePath})=>{
+const Path = ({paths, path, addSectionMessage, addSectionControl, addDataControl, updatePath})=>{
 
   const addStepMessage = (path)=>{
     addSectionMessage(path)
@@ -390,6 +424,10 @@ const Path = ({paths, path, addSectionMessage, addSectionControl, updatePath})=>
 
       <Button onClick={()=> addSectionControl(path)}>
         Add Message input
+      </Button>
+
+      <Button onClick={()=> addDataControl(path)}>
+        Add Data input
       </Button>
     </div>
 
@@ -464,7 +502,7 @@ function mapStateToProps(state) {
 }
 
 // APp Package Preview
-const AppPackageBlocks = ({controls})=>{
+const AppPackageBlocks = ({controls, path, step, update})=>{
   const {schema, type} = controls
 
   const renderElement = (item, index)=>{
@@ -476,14 +514,22 @@ const AppPackageBlocks = ({controls})=>{
     case "input":
       return <div className={"form-group"} key={index}>
               {item.label ? <label>{item.label}</label> : null }
-              <input 
+              {/*<input 
                 type={item.type} 
                 name={item.name}
                 placeholder={item.placeholder}
-                onKeyDown={(e)=>{ e.keyCode === 13 ? 
-                  this.handleStepControlClick(item) : null
-                }}
-              />
+              />*/}
+              <DataInputSelect 
+                controls={controls}
+                path={path}
+                step={step}
+                update={update}
+                item={item}
+                options={[
+                  {value: "email", label: "email"},
+                  {value: "name", label: "name"},
+                  {value: "phone", label: "phone"},
+                ]}/>
              </div>
 
     case "submit":
@@ -566,6 +612,8 @@ class SortableSteps extends Component {
     updatePath(newPath)
   }
 
+
+
   render() {
     const {steps, path, paths, deleteItem, updatePath} = this.props
     const options = paths.map((o)=> ({value: o.id, label: o.title}))
@@ -619,14 +667,19 @@ class SortableSteps extends Component {
                         <Grid item xs={6}>
                           <ControlWrapper>
                             { item.controls && 
-                              <AppPackageBlocks controls={item.controls} /> 
+                              <AppPackageBlocks 
+                                controls={item.controls} 
+                                path={path}
+                                step={item} 
+                                update={(opts)=> this.updateControlPathSelector(opts, item)}
+                              /> 
                             }
                           </ControlWrapper>
                         </Grid>
   
                         <Grid item xs={6}>
                           <ControlWrapper>
-                          { item.controls && 
+                          { item.controls && item.controls.type === "ask_option" &&
                             <PathSelector 
                               path={path}
                               step={item} 
@@ -638,8 +691,8 @@ class SortableSteps extends Component {
                           </ControlWrapper>
                         </Grid>
 
-                        <Grid item xs={12}>
-                          add button
+                        <Grid item xs={12} >
+                          <Button>+ add data button</Button>
                         </Grid>
 
                       </Grid>
@@ -694,13 +747,9 @@ const PathSelector = ({controls, update, options})=>{
 }
 
 const PathSelect = ({ option, options, update})=>{
-
-  //const [value, setValue] = useEffect(value) 
-
   const handleChange = (e)=>{
     update(e.target.value, option)
   }
-
   const selectedOption = options.find((o)=> option.next_step_uuid === o.value )
   console.log("selected option for: ", option, selectedOption)
 
@@ -723,6 +772,33 @@ const PathSelect = ({ option, options, update})=>{
     </Select>
   )
 
+}
+
+const DataInputSelect = ({item, options, update, controls, path, step})=>{
+  
+  const handleChange = (e)=>{
+    console.log(controls)
+    const newOption = Object.assign({}, item, {name: e.target.value})
+    //const newOptions = //controls.schema.map((o)=> o.name === newOption.name ? newOption : o)
+    const newControls = Object.assign({}, controls, {schema: [newOption]})
+    
+    update(newControls)
+  }
+
+  return (
+    <Select
+      value={ item.name }
+      onChange={handleChange}
+    >
+      {
+        options.map((option)=> <MenuItem 
+                                value={option.value}>
+                                {option.label}
+                              </MenuItem> 
+                    )
+      }
+    </Select>
+  )
 }
 
 export default withRouter(connect(mapStateToProps)(BotContainer))
