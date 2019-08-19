@@ -401,10 +401,18 @@ const Path = ({paths, path, addSectionMessage, addSectionControl, addDataControl
 
   }
 
+  const handleTitleChange = (e)=>{
+    const value = e.target.value
+    const newPath = Object.assign({}, path, {title: value})
+    updatePath(newPath)
+  }
+
   return (
 
     <div>
       <h2>{path.id}</h2>
+
+      <input value={path.title} onChange={handleTitleChange}/>
       -----
 
       <SortableSteps 
