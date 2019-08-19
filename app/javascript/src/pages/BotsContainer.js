@@ -249,7 +249,7 @@ const BotContainer = (props)=>{
         return o
       }
     })
-    console.log(newPaths)
+    
     setPaths(newPaths)
     setSelectedPath(newPath) // redundant
   }
@@ -284,7 +284,7 @@ const BotContainer = (props)=>{
         return o
       }
     })
-    console.log(newPaths)
+ 
     setPaths(newPaths)
     setSelectedPath(newPath) // redundant
   }
@@ -502,8 +502,29 @@ function mapStateToProps(state) {
 }
 
 // APp Package Preview
-const AppPackageBlocks = ({controls, path, step, update})=>{
+const AppPackageBlocks = ({options, controls, path, step, update})=>{
   const {schema, type} = controls
+
+
+  const updateOption = (value, option)=>{
+    const newOption = Object.assign({}, option, {next_step_uuid: value})
+    const newOptions = controls.schema.map((o)=> o.label === newOption.label ? newOption : o)
+    const newControls = Object.assign({}, controls, {schema: newOptions})
+    update(newControls)
+  }
+
+  const removeOption = (index)=>{
+    const newOptions = controls.schema.filter( (o, i )=> i != index )
+    const newControls = Object.assign({}, controls, {schema: newOptions})
+    update(newControls)
+  }
+
+  const handleInputChange = (value, option, index)=>{
+    const newOption = Object.assign({}, option, {label: value})
+    const newOptions = controls.schema.map((o, i)=> i === index ? newOption : o)
+    const newControls = Object.assign({}, controls, {schema: newOptions})
+    update(newControls)
+  }
 
   const renderElement = (item, index)=>{
     const element = item.element
@@ -512,6 +533,7 @@ const AppPackageBlocks = ({controls, path, step, update})=>{
     case "separator":
       return <hr key={index}/>
     case "input":
+      console.log("controls;", controls)
       return <div className={"form-group"} key={index}>
               {item.label ? <label>{item.label}</label> : null }
               {/*<input 
@@ -530,6 +552,7 @@ const AppPackageBlocks = ({controls, path, step, update})=>{
                   {value: "name", label: "name"},
                   {value: "phone", label: "phone"},
                 ]}/>
+
              </div>
 
     case "submit":
@@ -539,12 +562,31 @@ const AppPackageBlocks = ({controls, path, step, update})=>{
           {item.label}
         </button>
     case "button":
-      return <button 
-        onClick={()=> this.handleStepControlClick(item)}
-        key={index} 
-        type={"submit"}>
-        {item.label}
-        </button>
+      return <Grid container alignItems={"center"}>
+                <Grid item>
+                
+                  <input value={item.label} 
+                    onChange={(e)=> handleInputChange(e.target.value, item, index)} 
+                  />
+
+                </Grid>
+
+                <Grid item>
+                  {
+                    controls && controls.type === "ask_option" ?
+                    
+                    <PathSelect 
+                      option={item} 
+                      options={options} 
+                      update={updateOption}
+                    /> : null 
+                  }
+                </Grid>
+
+                <Grid item>
+                  <Button onClick={()=> removeOption(index)}>delete</Button>
+                </Grid>
+            </Grid>
     default:
       return null
     }
@@ -601,14 +643,30 @@ class SortableSteps extends Component {
   }
 
   updateControlPathSelector = (controls, step)=>{
+    this.updateControls(controls, step)
+  }
+
+  appendItemControl = (step)=>{
+    const item = {label: "example", element: "button", next_step_uuid: null}
+    const newControls = Object.assign({}, 
+      step.controls, 
+      { schema: step.controls.schema.concat( item , step) }
+    )
+
+    this.updateControls(newControls, step)
+  }
+
+  updateControls = (newControls, step)=>{
     const {path, updatePath} = this.props
-    const newStep = Object.assign({}, step, {controls: controls})
+
+    const newStep = Object.assign({}, step, {controls: newControls})
 
     const newSteps = path.steps.map((o)=>{ 
       return o.step_uid === newStep.step_uid ? newStep : o
     })
 
     const newPath = Object.assign({}, path, {steps: newSteps})
+
     updatePath(newPath)
   }
 
@@ -664,37 +722,26 @@ class SortableSteps extends Component {
 
                       <Grid container>
 
-                        <Grid item xs={6}>
+                        <Grid item xs={12}>
                           <ControlWrapper>
                             { item.controls && 
                               <AppPackageBlocks 
                                 controls={item.controls} 
                                 path={path}
-                                step={item} 
+                                step={item}
+                                options={options}
                                 update={(opts)=> this.updateControlPathSelector(opts, item)}
                               /> 
                             }
-                          </ControlWrapper>
-                        </Grid>
-  
-                        <Grid item xs={6}>
-                          <ControlWrapper>
-                          { item.controls && item.controls.type === "ask_option" &&
-                            <PathSelector 
-                              path={path}
-                              step={item} 
-                              options={options} 
-                              update={(opts)=> this.updateControlPathSelector(opts, item)}
-                              controls={item.controls} 
-                            />
-                          }
                           </ControlWrapper>
                         </Grid>
 
                         {
                           item.controls && item.controls.type === "ask_option" &&
                         
-                            <Grid item xs={12} >
+                            <Grid 
+                              item xs={12} 
+                              onClick={()=> this.appendItemControl(item)}>
                               <Button>+ add data button</Button>
                             </Grid> 
                         }
@@ -732,12 +779,13 @@ class SortableSteps extends Component {
 const PathSelector = ({controls, update, options})=>{
 
   const updateOption = (value, option)=>{
-    console.log(controls)
     const newOption = Object.assign({}, option, {next_step_uuid: value})
     const newOptions = controls.schema.map((o)=> o.label === newOption.label ? newOption : o)
     const newControls = Object.assign({}, controls, {schema: newOptions})
     update(newControls)
   }
+
+  console.log(controls.length , controls)
 
   return (
     controls.schema.map((option)=> <PathSelect 
@@ -755,7 +803,7 @@ const PathSelect = ({ option, options, update})=>{
     update(e.target.value, option)
   }
   const selectedOption = options.find((o)=> option.next_step_uuid === o.value )
-  console.log("selected option for: ", option, selectedOption)
+  //console.log("selected option for: ", option, selectedOption)
 
   return (
     <Select
@@ -781,7 +829,6 @@ const PathSelect = ({ option, options, update})=>{
 const DataInputSelect = ({item, options, update, controls, path, step})=>{
   
   const handleChange = (e)=>{
-    console.log(controls)
     const newOption = Object.assign({}, item, {name: e.target.value})
     //const newOptions = //controls.schema.map((o)=> o.name === newOption.name ? newOption : o)
     const newControls = Object.assign({}, controls, {schema: [newOption]})
