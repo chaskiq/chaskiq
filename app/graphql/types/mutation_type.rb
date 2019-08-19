@@ -58,5 +58,9 @@ module Types
 
     field :createUrlUpload, mutation: Mutations::CreateUrlUpload
     field :createDirectUpload, mutation: Mutations::CreateDirectUpload
+
+    field :createBotTask, mutation: Mutations::Bots::CreateBotTask
+    field :updateBotTask, mutation: Mutations::Bots::UpdateBotTask
+
   end
 end

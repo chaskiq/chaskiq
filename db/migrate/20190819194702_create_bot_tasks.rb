@@ -6,6 +6,7 @@ class CreateBotTasks < ActiveRecord::Migration[6.0]
       t.jsonb :predicates
       t.references :app, null: false, foreign_key: true
       t.jsonb :settings
+      t.json :paths
 
       t.timestamps
     end

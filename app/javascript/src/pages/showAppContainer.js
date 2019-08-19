@@ -408,7 +408,7 @@ class ShowAppContainer extends Component {
                   />
             )} /> 
             
-           <Route path={`${this.props.match.path}/bots`}
+           <Route path={`${this.props.match.path}/bots/:id`}
               render={(props) => (
                   <BotContainer
                     currentUser={this.props.current_user}
