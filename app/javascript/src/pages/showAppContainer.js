@@ -411,6 +411,7 @@ class ShowAppContainer extends Component {
            <Route path={`${this.props.match.path}/bots/:id`}
               render={(props) => (
                   <BotContainer
+                    history={props.history}
                     currentUser={this.props.current_user}
                     actions={this.actions()}
                     classes={props.classes}

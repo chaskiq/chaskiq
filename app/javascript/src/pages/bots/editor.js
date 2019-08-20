@@ -7,7 +7,11 @@ import TextEditor from '../../textEditor'
 
 import graphql from '../../graphql/client'
 import {BOT_TASK, BOT_TASKS} from '../../graphql/queries'
+import {UPDATE_BOT_TASK} from '../../graphql/mutations'
+import ContentHeader from '../../components/ContentHeader'
+import Content from '../../components/Content'
 import FormDialog from '../../components/FormDialog'
+
 
 import {
   Box,
@@ -39,46 +43,6 @@ const useStyles = makeStyles((theme: Theme) => createStyles({
     marginBottom: theme.spacing(1)
   }
 }));
-
-const pathsData = [
-  {
-    id: 1,
-    title: "a",
-    steps: [
-      {
-        id: 1,
-        messages: [{
-          app_user: {
-            display_name: "miguel michelson",
-            email: "miguelmichelson@gmail.com",
-            id: 1,
-            kind: "agent" 
-          },
-          serialized_content: '{"blocks":[{"key":"9oe8n","text":"por mail!","type":"unstyled","depth":0,"inlineStyleRanges":[],"entityRanges":[],"data":{}}],"entityMap":{}}',
-          html_content: "hola", 
-        }],
-        controls: {
-          type: "ask_option",
-          schema: [
-              {element: "button", label: "yes", next_step_uuid: 2},
-              {element: "button", label: "no", next_step_uuid: 3},
-              {element: "button", label: "maybe", next_step_uuid: 4}
-            ]
-        }
-      }
-    ],
-  },
-  {
-    id: 2,
-    title: "b",
-    steps: [],
-  },
-  {
-    id: 3,
-    title: "c",
-    steps: [],
-  },
-]
 
 const ItemManagerContainer = styled.div`
   flex-grow: 4;
@@ -176,7 +140,7 @@ const PathDialog = ({open, close, isOpen, submit})=>{
   )
 }
 
-const BotContainer = (props)=>{
+const BotEditor = ({match, app})=>{
   const [paths, setPaths] = useState([])
   const [selectedPath, setSelectedPath] = useState(null)
   const [isOpen, setOpen] = useState(false)
@@ -186,7 +150,7 @@ const BotContainer = (props)=>{
   }
 
   useEffect(() => {
-    graphql(BOT_TASK, {appKey: props.app.key, id: "1"}, {
+    graphql(BOT_TASK, {appKey: app.key, id: match.params.id}, {
       success: (data)=>{
         setPaths(data.app.botTask.paths)
         setSelectedPath(data.app.botTask.paths[0])
@@ -197,9 +161,30 @@ const BotContainer = (props)=>{
     })
   }, []);
 
+  const saveData = ()=>{
+
+    graphql(UPDATE_BOT_TASK, {
+      appKey: app.key, 
+      id: match.params.id, 
+      params: {
+        paths: paths,
+        // title
+      }
+    }, {
+      success: (data)=>{
+        setPaths(data.app.botTask.paths)
+        setSelectedPath(data.app.botTask.paths[0])
+      },
+      error: (err)=>{
+        debugger
+      }
+    })
+
+  }
+
   const addSectionMessage = (path)=>{
 
-    const dummy = { id: 1,
+    const dummy = {
       step_uid: create_UUID(),
       type: "messages",
       messages: [{
@@ -209,7 +194,7 @@ const BotContainer = (props)=>{
           id: 1,
           kind: "agent" 
         },
-        serialized_content: '{"blocks":[{"key":"9oe8n","text":"uno nuevoooo","type":"unstyled","depth":0,"inlineStyleRanges":[],"entityRanges":[],"data":{}}],"entityMap":{}}',
+        serialized_content: '{"blocks":[{"key":"9oe8n","text":"","type":"unstyled","depth":0,"inlineStyleRanges":[],"entityRanges":[],"data":{}}],"entityMap":{}}',
         html_content: "hola", 
       }]
     }
@@ -231,15 +216,16 @@ const BotContainer = (props)=>{
   }
 
   const addSectionControl = (path)=>{
+    const id = create_UUID()
     const dummy = { 
-      id: 1,
-      step_uid: create_UUID(),
+      id: id,
+      step_uid: id,
       type: "messages",
       messages: [],
       controls: {
         type: "ask_option",
         schema: [
-          {element: "button", label: "write here", next_step_uuid: null},
+          {id: create_UUID(), element: "button", label: "write here", next_step_uuid: null},
           //{element: "button", label: "quiero contratar el producto", next_step_uuid: 3},
           //{element: "button", label: "estoy solo mirando", next_step_uuid: 4}
         ]
@@ -263,14 +249,16 @@ const BotContainer = (props)=>{
   }
 
   const addDataControl = (path)=>{
+    const id = create_UUID()
     const dummy = { 
-      id: 1,
-      step_uid: create_UUID(),
+      id: id,
+      step_uid: id,
       messages: [],
       controls: {
         type: "data_retrieval",
         schema: [
           {
+            id: create_UUID(),
             element: "input", 
             type:"text", 
             placeholder: "enter email", 
@@ -316,60 +304,92 @@ const BotContainer = (props)=>{
   const open  = () => setOpen(true);
   const close = () => setOpen(false);
 
-
   const showPathDialog = ()=>{
     setOpen(true)
   }
 
-
   return (
-    <Grid container alignContent={'space-around'} justify={'space-around'}>
-    
-      {
-        isOpen && <PathDialog 
-          isOpen={isOpen} 
-          open={open} 
-          close={close}
-          submit={addEmptyPath}
-        />
-      }
 
-      <Grid item xs={2}>
-        <Paper>
-          <List component="nav" aria-label="path list">
-            {
-              paths.map((o)=>( <PathList
-                path={o}
-                handleSelection={handleSelection}
-                /> ))
+    <div>
+    
+    
+      <ContentHeader 
+        title={ 'title' }
+        items={ [<Grid item>
+                  <Button variant={"outlined"} onClick={saveData}> save data </Button>
+                </Grid> , 
+                <Grid item>
+                  <Button color={"default"} variant={"contained"}>
+                    set live
+                  </Button>
+                </Grid>
+              ]
             }
-          </List>
-          <Button onClick={showPathDialog}>add new path</Button>
-        </Paper>
+        tabsContent={null}
+      />
 
-      </Grid>
+      <Content>
+       
 
-      <Grid item xs={8}>
+        <Grid container alignContent={'space-around'} justify={'space-around'}>
+      
+        {
+          isOpen && <PathDialog 
+            isOpen={isOpen} 
+            open={open} 
+            close={close}
+            submit={addEmptyPath}
+          />
+        }
 
-        <Paper>
+        <Grid item xs={2}>
+          <Paper>
+            <List component="nav" aria-label="path list">
+              {
+                paths.map((o, i)=>( <PathList
+                  key={`path-list-${o.id}-${i}`}
+                  path={o}
+                  handleSelection={handleSelection}
+                  
+                  /> ))
+              }
+            </List>
+            <Button onClick={showPathDialog}>add new path</Button>
+          </Paper>
 
-          {
-            selectedPath && <Path
-              path={selectedPath}
-              paths={paths}
-              addSectionMessage={addSectionMessage}
-              addSectionControl={addSectionControl}
-              addDataControl={addDataControl}
-              updatePath={updatePath}
-              />
-          }
+        </Grid>
 
-        </Paper>
+        <Grid item xs={8}>
 
+          <Paper>
+
+            {
+              selectedPath && <Path
+                path={selectedPath}
+                paths={paths}
+                addSectionMessage={addSectionMessage}
+                addSectionControl={addSectionControl}
+                addDataControl={addDataControl}
+                updatePath={updatePath}
+                saveData={saveData}
+                setPaths={setPaths}
+                setSelectedPath={setSelectedPath}
+                />
+            }
+
+          </Paper>
+
+        </Grid>
+      
       </Grid>
     
-    </Grid>
+
+
+
+      </Content>
     
+    </div>
+
     
   )
 }
@@ -380,7 +400,17 @@ const PathList = ({path, handleSelection})=>{
         </ListItem>
 }
 
-const Path = ({paths, path, addSectionMessage, addSectionControl, addDataControl, updatePath})=>{
+const Path = ({
+  paths, 
+  path, 
+  addSectionMessage, 
+  addSectionControl, 
+  addDataControl, 
+  updatePath,
+  setPaths,
+  saveData,
+  setSelectedPath
+})=>{
 
   const addStepMessage = (path)=>{
     addSectionMessage(path)
@@ -390,6 +420,13 @@ const Path = ({paths, path, addSectionMessage, addSectionControl, addDataControl
     const newSteps = path.steps.filter((o, i)=> o.step_uid != step.step_uid  )
     const newPath = Object.assign({}, path, {steps: newSteps})
     updatePath(newPath)
+  }
+
+  const deletePath = (path)=>{
+    const newPaths = paths.filter((o)=> o.id != path.id)
+    console.log(newPaths)
+    setPaths(newPaths)
+    setSelectedPath(null)
   }
 
   const onDragEnd = (path, result)=> {
@@ -432,19 +469,9 @@ const Path = ({paths, path, addSectionMessage, addSectionControl, addDataControl
               helperText={"path title"}
             />
 
+            <Button onClick={()=>deletePath(path)}>delete path</Button>
+
           </Grid>
-
-          <Grid item xs={4}>
-            <Button color={"primary"} variant={"contained"}>
-              save
-            </Button>
-
-            <Button color={"default"} variant={"contained"}>
-              set live
-            </Button>
-          </Grid>
-
-
         </Grid>
 
         
@@ -559,7 +586,7 @@ const AppPackageBlocks = ({options, controls, path, step, update})=>{
 
   const updateOption = (value, option)=>{
     const newOption = Object.assign({}, option, {next_step_uuid: value})
-    const newOptions = controls.schema.map((o)=> o.label === newOption.label ? newOption : o)
+    const newOptions = controls.schema.map((o)=> o.id === newOption.id ? newOption : o)
     const newControls = Object.assign({}, controls, {schema: newOptions})
     update(newControls)
   }
@@ -704,7 +731,7 @@ class SortableSteps extends Component {
   }
 
   appendItemControl = (step)=>{
-    const item = {label: "example", element: "button", next_step_uuid: null}
+    const item = {id: create_UUID(), label: "example", element: "button", next_step_uuid: null}
     const newControls = Object.assign({}, 
       step.controls, 
       { schema: step.controls.schema.concat( item , step) }
@@ -853,6 +880,7 @@ const PathSelect = ({ option, options, update})=>{
     >
       {
         options.map((option)=> <MenuItem 
+                                key={`path-select-${option.value}`}
                                 value={option.value}>
                                 {option.label}
                               </MenuItem> 
@@ -892,4 +920,4 @@ const DataInputSelect = ({item, options, update, controls, path, step})=>{
   )
 }
 
-export default withRouter(connect(mapStateToProps)(BotContainer))
+export default withRouter(connect(mapStateToProps)(BotEditor))

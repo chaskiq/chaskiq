@@ -16,7 +16,7 @@ class AppUserEventJob < ApplicationJob
 
     MessengerEventsChannel.broadcast_to("#{@app.key}", {
       type: "triggers:receive", 
-      data: @app.triggers.first
+      data: @app.bot_tasks.first
     }.as_json)
 
 

@@ -848,3 +848,45 @@ export const ARTICLE_SETTINGS_UPDATE = `
     }
   }
 `;
+
+
+export const CREATE_BOT_TASK = `
+  mutation CreateBotTask($appKey: String!, $params: Json!){
+    createBotTask( 
+      appKey: $appKey,
+      params: $params
+    ){
+      botTask{
+        id
+        title
+        paths {
+          id
+          title
+          
+        }
+      }
+      errors
+    }
+  }
+`;
+
+export const UPDATE_BOT_TASK = `
+  mutation UpdateBotTask($appKey: String!, $id: String!, $params: Json!){
+    updateBotTask( 
+      appKey: $appKey,
+      params: $params,
+      id: $id
+    ){
+      botTask{
+        id
+        title
+        paths {
+          id
+          title
+          steps
+        }
+      }
+      errors
+    }
+  }
+`;
