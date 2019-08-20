@@ -865,17 +865,22 @@ class Messenger extends Component {
   }
 
   setTriggerStep = (step_index)=>{
-    const steps = this.state.conversation.trigger.paths.map((o)=> { 
+    /*const steps = this.state.conversation.trigger.paths.map((o)=> { 
       return o.steps.find((a)=> a.step_uid === step_index )
-    } )
+    } )*/
+    const t = this.state.conversation.trigger.paths.find((o)=> o.id === step_index)
     
-    if(!steps) return
+    
+    if(!t) return
+
+    const step = t.steps[0]
     //const messages = this.state.conversation.trigger.paths[path_index]
     //const message = this.appendVolatileConversation(messages)
-    this.appendVolatileConversation(steps[0])
+    this.appendVolatileConversation(step)
   }
 
   receiveTrigger = (trigger)=>{
+
     setTimeout( ()=>{
       localStorage.setItem("chaskiq:trigger-"+trigger.id, 1)
       this.setState({
@@ -884,13 +889,13 @@ class Messenger extends Component {
         })
       }, ()=>{
         // this is a kind of mess
-        this.state.conversation.trigger.actions.map((o)=>{
+        //this.state.conversation.trigger.actions.map((o)=>{
           // open behavior
-          o.open_messenger && !this.state.open ? 
-          this.setState({open: true}) : null
-        })
+        //  o.open_messenger && !this.state.open ? 
+          this.setState({open: true}) //: null
+        //})
 
-        this.setTriggerStep(1)
+        this.setTriggerStep(trigger.paths[0].id)
   
         /*this.state.conversation.trigger.paths.map((o, index)=>{
           if(index != 0) return

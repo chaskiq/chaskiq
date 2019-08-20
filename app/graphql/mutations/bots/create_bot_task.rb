@@ -1,15 +1,15 @@
 module Mutations
   module Bots
     class CreateBotTask < Mutations::BaseMutation
-      field :bot_task, Types::CampaignType, null: false
+      field :bot_task, Types::BotTaskType, null: false
       field :errors, Types::JsonType, null: true
       argument :app_key, String, required: true
       argument :params, Types::JsonType, required: true
 
       def resolve(app_key:, params:)
         find_app(app_key)
-        @bot_task = @app.bot_tasks.update(params.permit!)
-        { bot_task: @bot_task , errors: @campaign.errors }
+        @bot_task = @app.bot_tasks.create(params.permit(:title, :paths))
+        { bot_task: @bot_task , errors: @bot_task.errors }
       end
 
       def find_app(app_id)

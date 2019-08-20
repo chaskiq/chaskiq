@@ -7,7 +7,7 @@ class Api::V1::TriggersController < ApiController
   def index
 
     @trigger = @app.triggers.first
-
+=begin
     message = @trigger[:actions].find{|o| o.keys.include? :message }
 
     options = { from: @app.agents.first,
@@ -22,6 +22,7 @@ class Api::V1::TriggersController < ApiController
       type: "triggers:receive", 
       data: @app.triggers.first
     }.as_json)
+=end
   end
 
 

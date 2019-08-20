@@ -26,6 +26,7 @@ import {AnchorLink} from '../shared/RouterLink'
 import { makeStyles, createStyles } from '@material-ui/styles';
 import graphql from '../graphql/client';
 import {BOT_TASK, BOT_TASKS} from '../graphql/queries'
+import {CREATE_BOT_TASK} from '../graphql/mutations'
 
 import BotEditor from './bots/editor'
 import FormDialog from '../components/FormDialog'
@@ -38,7 +39,7 @@ const useStyles = makeStyles((theme: Theme) => createStyles({
   }
 }));
 
-const BotDataTable = ({app, match})=>{
+const BotDataTable = ({app, match, history})=>{
   const [loading, setLoading] = useState(false)
   const [botTasks, setBotTasks] = useState([])
   const [openTaskForm, setOpenTaskForm] = useState(false)
@@ -59,6 +60,8 @@ const BotDataTable = ({app, match})=>{
   const toggleTaskForm = ()=>{
     setOpenTaskForm(!openTaskForm)
   }
+
+  console.log(history)
 
   return (
 
@@ -103,7 +106,10 @@ const BotDataTable = ({app, match})=>{
       {
         openTaskForm ? 
         <BotTaskCreate 
-          handleSubmit={()=> console.log("os")}
+          match={match}
+          history={history}
+          app={app}
+          submit={()=> console.log("os")}
         /> : null
       }
 
@@ -111,7 +117,7 @@ const BotDataTable = ({app, match})=>{
   )
 }
 
-const BotTaskCreate = ({submit})=>{
+const BotTaskCreate = ({app, submit, history, match})=>{
   //const PathDialog = ({open, close, isOpen, submit})=>{
 
   const [isOpen, setIsOpen] = useState(true)
@@ -123,12 +129,27 @@ const BotTaskCreate = ({submit})=>{
   let titleRef = React.createRef();
   //const titleRef = null
   
-  const handleSubmit = ()=>{
-    submit({
-      id: create_UUID(),
+  const handleSubmit = (e)=>{
+
+    const dataParams = {
+      //id: create_UUID(),
       title: titleRef.value,
-      steps: []
+      paths: []
+    }
+
+    graphql(CREATE_BOT_TASK, {
+      appKey: app.key,
+      params: dataParams
+    }, {
+      success: (data)=>{
+        history.push(match.url + "/" + data.createBotTask.botTask.id)
+        submit && submit()
+      },
+      error: (error)=>{
+        debugger
+      }
     })
+  
   }
   
   return (
@@ -159,7 +180,7 @@ const BotTaskCreate = ({submit})=>{
               Cancel
             </Button>
 
-            <Button onClick={handleSubmit} zcolor="primary">
+            <Button onClick={handleSubmit} color="primary">
               Create
             </Button>
           </React.Fragment>
@@ -170,7 +191,8 @@ const BotTaskCreate = ({submit})=>{
   )
 }
 
-const BotContainer = ({app, match})=>{
+const BotContainer = ({app, match, history})=>{
+  console.log(history)
 
   return  (
 
@@ -178,13 +200,15 @@ const BotContainer = ({app, match})=>{
       
       <Route exact path={`${match.path}`}
           render={(props) => (
-            <BotDataTable app={app} match={match}/>
+            <BotDataTable app={app} 
+            history={history}
+            match={match}/>
         )} 
       /> 
 
       <Route exact path={`${match.path}/:id`}
         render={(props) => (
-            <BotEditor match={match}/>
+            <BotEditor app={app} match={match}/>
         )} 
       /> 
     </Switch>
