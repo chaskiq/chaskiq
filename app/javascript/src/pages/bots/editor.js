@@ -218,7 +218,6 @@ const BotEditor = ({match, app})=>{
   const addSectionControl = (path)=>{
     const id = create_UUID()
     const dummy = { 
-      id: id,
       step_uid: id,
       type: "messages",
       messages: [],
@@ -251,7 +250,6 @@ const BotEditor = ({match, app})=>{
   const addDataControl = (path)=>{
     const id = create_UUID()
     const dummy = { 
-      id: id,
       step_uid: id,
       messages: [],
       controls: {
@@ -311,8 +309,7 @@ const BotEditor = ({match, app})=>{
   return (
 
     <div>
-    
-    
+  
       <ContentHeader 
         title={ 'title' }
         items={ [<Grid item>
@@ -330,62 +327,58 @@ const BotEditor = ({match, app})=>{
 
       <Content>
        
-
         <Grid container alignContent={'space-around'} justify={'space-around'}>
       
-        {
-          isOpen && <PathDialog 
-            isOpen={isOpen} 
-            open={open} 
-            close={close}
-            submit={addEmptyPath}
-          />
-        }
+          {
+            isOpen && <PathDialog 
+              isOpen={isOpen} 
+              open={open} 
+              close={close}
+              submit={addEmptyPath}
+            />
+          }
 
-        <Grid item xs={2}>
-          <Paper>
-            <List component="nav" aria-label="path list">
+          <Grid item xs={2}>
+            <Paper>
+              <List component="nav" aria-label="path list">
+                {
+                  paths.map((o, i)=>( <PathList
+                    key={`path-list-${o.id}-${i}`}
+                    path={o}
+                    handleSelection={handleSelection}
+                    
+                    /> ))
+                }
+              </List>
+              <Button onClick={showPathDialog}>add new path</Button>
+            </Paper>
+
+          </Grid>
+
+          <Grid item xs={8}>
+
+            <Paper>
+
               {
-                paths.map((o, i)=>( <PathList
-                  key={`path-list-${o.id}-${i}`}
-                  path={o}
-                  handleSelection={handleSelection}
-                  
-                  /> ))
+                selectedPath && <Path
+                  path={selectedPath}
+                  paths={paths}
+                  addSectionMessage={addSectionMessage}
+                  addSectionControl={addSectionControl}
+                  addDataControl={addDataControl}
+                  updatePath={updatePath}
+                  saveData={saveData}
+                  setPaths={setPaths}
+                  setSelectedPath={setSelectedPath}
+                  />
               }
-            </List>
-            <Button onClick={showPathDialog}>add new path</Button>
-          </Paper>
 
-        </Grid>
+            </Paper>
 
-        <Grid item xs={8}>
-
-          <Paper>
-
-            {
-              selectedPath && <Path
-                path={selectedPath}
-                paths={paths}
-                addSectionMessage={addSectionMessage}
-                addSectionControl={addSectionControl}
-                addDataControl={addDataControl}
-                updatePath={updatePath}
-                saveData={saveData}
-                setPaths={setPaths}
-                setSelectedPath={setSelectedPath}
-                />
-            }
-
-          </Paper>
-
+          </Grid>
+        
         </Grid>
       
-      </Grid>
-    
-
-
-
       </Content>
     
     </div>
@@ -731,10 +724,18 @@ class SortableSteps extends Component {
   }
 
   appendItemControl = (step)=>{
-    const item = {id: create_UUID(), label: "example", element: "button", next_step_uuid: null}
+    const item = {
+      id: create_UUID(), 
+      label: "example", 
+      element: "button", 
+      next_step_uuid: null
+    }
     const newControls = Object.assign({}, 
       step.controls, 
-      { schema: step.controls.schema.concat( item , step) }
+      { 
+        schema: step.controls.schema.concat( item , step),
+        wait_for_input: true
+      }
     )
 
     this.updateControls(newControls, step)
@@ -758,7 +759,12 @@ class SortableSteps extends Component {
 
   render() {
     const {steps, path, paths, deleteItem, updatePath} = this.props
-    const options = paths.map((o)=> ({value: o.id, label: o.title}))
+    const options = paths.map((o)=> ({
+        value: o.steps[0] && o.steps[0].step_uid, 
+        label: o.title
+      })
+    )
+    
     return (
       <DragDropContext onDragEnd={this.onDragEnd}>
         <Droppable droppableId="droppable">
