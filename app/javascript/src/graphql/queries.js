@@ -665,6 +665,7 @@ export const BOT_TASK = `
       botTask(id: $id, lang: $lang){
         id
         state
+        title
         paths{
           id
           steps
