@@ -11,7 +11,7 @@ import {UPDATE_BOT_TASK} from '../../graphql/mutations'
 import ContentHeader from '../../components/ContentHeader'
 import Content from '../../components/Content'
 import FormDialog from '../../components/FormDialog'
-
+import Segment from './segment'
 
 import {
   Box,
@@ -174,6 +174,7 @@ const BotEditor = ({match, app})=>{
       id: match.params.id, 
       params: {
         paths: paths,
+        segments: botTask.segments
         // title
       }
     }, {
@@ -316,6 +317,8 @@ const BotEditor = ({match, app})=>{
     setTabValue(i)
   }
 
+  
+
   const tabsContent = ()=>{
     return <Tabs value={tabValue} 
               onChange={handleTabChange}
@@ -334,7 +337,11 @@ const BotEditor = ({match, app})=>{
       case 1:
         return <p>stat 1</p>
       case 2:
-        return <p>stat 2</p>
+        return <Segment 
+          app={app} 
+          data={botTask}
+          updateData={setBotTask}
+          />
       case 3:
         return renderEditor()
     }
