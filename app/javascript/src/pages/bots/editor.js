@@ -381,7 +381,7 @@ const BotEditor = ({match, app})=>{
               /> ))
           }
         </List>
-        <Button onClick={showPathDialog}>add new path</Button>
+        <Button variant={"outlined"} onClick={showPathDialog}>add new path</Button>
       </Paper>
 
     </Grid>

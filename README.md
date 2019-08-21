@@ -94,7 +94,7 @@ An the content of the campaign is managed with a state of the art wysiwyg text e
 + https://www.amocrm.com/messenger-based-sales/
 + https://www.helpscout.com/blog/beacon-preview-chat/
 + http://cliengo.com
-
++ http://postmarkapp.com
 ## data gather
 
 + https://www.quora.com/Which-is-the-most-accurate-IP-geolocation-service
