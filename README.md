@@ -92,6 +92,8 @@ An the content of the campaign is managed with a state of the art wysiwyg text e
 + https://getstream.io/enterprise/
 + https://home.pandorabots.com/home.html#pricing
 + https://www.amocrm.com/messenger-based-sales/
++ https://www.helpscout.com/blog/beacon-preview-chat/
++ http://cliengo.com
 
 ## data gather
 

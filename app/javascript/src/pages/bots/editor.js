@@ -12,6 +12,7 @@ import ContentHeader from '../../components/ContentHeader'
 import Content from '../../components/Content'
 import FormDialog from '../../components/FormDialog'
 import Segment from './segment'
+import SettingsForm from './settings'
 
 import {
   Box,
@@ -144,6 +145,7 @@ const PathDialog = ({open, close, isOpen, submit})=>{
 
 const BotEditor = ({match, app})=>{
   const [botTask, setBotTask] = useState({})
+  const [errors, setErrors] = useState({})
   const [paths, setPaths] = useState([])
   const [selectedPath, setSelectedPath] = useState(null)
   const [isOpen, setOpen] = useState(false)
@@ -174,12 +176,13 @@ const BotEditor = ({match, app})=>{
       id: match.params.id, 
       params: {
         paths: paths,
-        segments: botTask.segments
-        // title
+        segments: botTask.segments,
+        title: botTask.title
       }
     }, {
       success: (data)=>{
         setPaths(data.app.botTask.paths)
+        setErrors(data.app.botTask.errors)
         setSelectedPath(data.app.botTask.paths[0])
       },
       error: (err)=>{
@@ -335,7 +338,14 @@ const BotEditor = ({match, app})=>{
       case 0:
         return <p>stat 0</p>
       case 1:
-        return <p>stat 1</p>
+        return <SettingsForm 
+        app={app} 
+        data={botTask}
+        updateData={setBotTask}
+        errors={errors}
+        />
+
+
       case 2:
         return <Segment 
           app={app} 
