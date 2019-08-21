@@ -1264,11 +1264,15 @@ class Conversation extends Component {
       index : null 
     ).filter((o)=>o)[0]
 
-    const newStep = path.steps[index + 1]
+    const newSteps = path.steps.slice(index + 1)
 
     this.props.submitAppUserData(data)
+
+    newSteps.map((step)=> setTimeout( ()=> { 
+      this.props.appendVolatileConversation(step) 
+    }, 200 ) )
     
-    if(newStep) this.props.appendVolatileConversation(newStep)
+    //if(newStep) this.props.appendVolatileConversation(newStep)
   }
 
   render(){
