@@ -5,6 +5,7 @@ module Types
     field :predicates, Types::JsonType, null: true
     field :paths, [Types::BotPathType], null: true
     field :state, String, null: true
+    field :segments, Types::JsonType, null: true
     def paths
       object.paths.present? ? object.paths : []
     end
