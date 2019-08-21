@@ -26,7 +26,9 @@ import {
   ListItemText,
   Select,
   MenuItem,
-  Divider
+  Divider,
+  Tabs,
+  Tab
 } from '@material-ui/core'
 
 import {
@@ -141,10 +143,13 @@ const PathDialog = ({open, close, isOpen, submit})=>{
 }
 
 const BotEditor = ({match, app})=>{
+  const [botTask, setBotTask] = useState({})
   const [paths, setPaths] = useState([])
   const [selectedPath, setSelectedPath] = useState(null)
   const [isOpen, setOpen] = useState(false)
+  const [tabValue, setTabValue] = useState(0)
 
+  console.log(tabValue)
   const handleSelection = (item)=>{
     setSelectedPath(item)
   }
@@ -152,6 +157,7 @@ const BotEditor = ({match, app})=>{
   useEffect(() => {
     graphql(BOT_TASK, {appKey: app.key, id: match.params.id}, {
       success: (data)=>{
+        setBotTask(data.app.botTask)
         setPaths(data.app.botTask.paths)
         setSelectedPath(data.app.botTask.paths[0])
       },
@@ -306,12 +312,92 @@ const BotEditor = ({match, app})=>{
     setOpen(true)
   }
 
-  return (
+  const handleTabChange = (e, i)=>{
+    setTabValue(i)
+  }
 
-    <div>
+  const tabsContent = ()=>{
+    return <Tabs value={tabValue} 
+              onChange={handleTabChange}
+              textColor="inherit">
+              <Tab textColor="inherit" label="Stats" />
+              <Tab textColor="inherit" label="Settings" />
+              <Tab textColor="inherit" label="Audience" />
+              <Tab textColor="inherit" label="Editor" />
+            </Tabs>
+  }
+
+  const renderTabcontent = ()=>{
+    switch (tabValue){
+      case 0:
+        return <p>stat 0</p>
+      case 1:
+        return <p>stat 1</p>
+      case 2:
+        return <p>stat 2</p>
+      case 3:
+        return renderEditor()
+    }
+  }
+
+  const renderEditor = ()=>{
+    return <Grid container alignContent={'space-around'} justify={'space-around'}>
+      
+    {
+      isOpen && <PathDialog 
+        isOpen={isOpen} 
+        open={open} 
+        close={close}
+        submit={addEmptyPath}
+      />
+    }
+
+    <Grid item xs={2}>
+      <Paper>
+        <List component="nav" aria-label="path list">
+          {
+            paths.map((o, i)=>( <PathList
+              key={`path-list-${o.id}-${i}`}
+              path={o}
+              handleSelection={handleSelection}
+              
+              /> ))
+          }
+        </List>
+        <Button onClick={showPathDialog}>add new path</Button>
+      </Paper>
+
+    </Grid>
+
+    <Grid item xs={8}>
+
+      <Paper>
+
+        {
+          selectedPath && <Path
+            path={selectedPath}
+            paths={paths}
+            addSectionMessage={addSectionMessage}
+            addSectionControl={addSectionControl}
+            addDataControl={addDataControl}
+            updatePath={updatePath}
+            saveData={saveData}
+            setPaths={setPaths}
+            setSelectedPath={setSelectedPath}
+            />
+        }
+
+      </Paper>
+
+    </Grid>
   
+  </Grid>
+  }
+
+  return (
+    <div>
       <ContentHeader 
-        title={ 'title' }
+        title={ botTask.title }
         items={ [<Grid item>
                   <Button variant={"outlined"} onClick={saveData}> save data </Button>
                 </Grid> , 
@@ -322,68 +408,14 @@ const BotEditor = ({match, app})=>{
                 </Grid>
               ]
             }
-        tabsContent={null}
+        tabsContent={tabsContent()}
       />
 
       <Content>
-       
-        <Grid container alignContent={'space-around'} justify={'space-around'}>
-      
-          {
-            isOpen && <PathDialog 
-              isOpen={isOpen} 
-              open={open} 
-              close={close}
-              submit={addEmptyPath}
-            />
-          }
-
-          <Grid item xs={2}>
-            <Paper>
-              <List component="nav" aria-label="path list">
-                {
-                  paths.map((o, i)=>( <PathList
-                    key={`path-list-${o.id}-${i}`}
-                    path={o}
-                    handleSelection={handleSelection}
-                    
-                    /> ))
-                }
-              </List>
-              <Button onClick={showPathDialog}>add new path</Button>
-            </Paper>
-
-          </Grid>
-
-          <Grid item xs={8}>
-
-            <Paper>
-
-              {
-                selectedPath && <Path
-                  path={selectedPath}
-                  paths={paths}
-                  addSectionMessage={addSectionMessage}
-                  addSectionControl={addSectionControl}
-                  addDataControl={addDataControl}
-                  updatePath={updatePath}
-                  saveData={saveData}
-                  setPaths={setPaths}
-                  setSelectedPath={setSelectedPath}
-                  />
-              }
-
-            </Paper>
-
-          </Grid>
-        
-        </Grid>
-      
+        {renderTabcontent()}
       </Content>
     
     </div>
-
-    
   )
 }
 
