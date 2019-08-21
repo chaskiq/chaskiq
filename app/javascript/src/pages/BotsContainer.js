@@ -91,6 +91,8 @@ const BotDataTable = ({app, match, history})=>{
                                              {row.title}
                                            </AnchorLink> : undefined)
                },
+
+               {field: 'state', title: 'state'},
                
              ]}
            >

@@ -525,8 +525,7 @@ class Messenger extends Component {
   scrollToLastItem = ()=>{
     if(!this.overflow)
       return
-    
-    this.overflow.scrollTop = this.overflow.scrollHeight 
+    this.overflow.scrollTop = this.overflow.scrollHeight
   }
 
   setOverflow = (el)=>{
@@ -841,6 +840,9 @@ class Messenger extends Component {
       }
     }
 
+    
+    
+    
     const conversationMessages = o.messages.map((message)=>(
       {
         volatile: true,
@@ -852,7 +854,7 @@ class Messenger extends Component {
     )).reverse()
     
     const newMessages = [o.controls].concat(conversationMessages)
-    
+
     this.setState({
       conversation: conversation,
       conversation_messages:  newMessages
@@ -860,7 +862,7 @@ class Messenger extends Component {
                               .concat(this.state.conversation_messages),
       conversation_messagesMeta: {},
       display_mode: "conversation",
-    }, this.scrollToLastItem())
+    }, this.scrollToLastItem )
   }
 
   setTriggerStep = (step_index)=>{
