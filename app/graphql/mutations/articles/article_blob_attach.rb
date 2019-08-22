@@ -41,7 +41,7 @@ class AttachProfileAvatar < GraphQL::Schema::Mutation
             "Signed blob ID generated via `createDirectUpload` mutation",
             required: true
 
-  field :user, Types::User, null: true
+  field :user, Types::AgentType, null: true
 
   def resolve(blob_id:)
     # Active Storage retrieves the blob data from DB
