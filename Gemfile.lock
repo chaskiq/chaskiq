@@ -8,6 +8,15 @@ GIT
       request_store (~> 1.0)
 
 GIT
+  remote: https://github.com/michelson/tabs.git
+  revision: a814cab6ebaa93a4f38663e11997f0e7b3944cf1
+  branch: upgrade
+  specs:
+    tabs (1.0.1)
+      activesupport (>= 3.2)
+      redis (~> 4.1.0)
+
+GIT
   remote: https://github.com/stympy/faker.git
   revision: 840cf10c8f2d42d8348a874d2500a617ae635a9c
   specs:
@@ -521,6 +530,7 @@ DEPENDENCIES
   sidekiq-cron
   spring
   spring-watcher-listen (~> 2.0.0)
+  tabs!
   timezone (~> 1.2)
   turbolinks (~> 5)
   tzinfo-data
