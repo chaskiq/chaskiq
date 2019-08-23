@@ -31,6 +31,20 @@ const appear = keyframes`
   }
 `;
 
+
+export const Bounce = keyframes`
+  0%,
+  80%,
+  100% {
+    -webkit-transform: scale(0);
+    transform: scale(0);
+  }
+  40% {
+    -webkit-transform: scale(1.0);
+    transform: scale(1.0);
+  }
+`
+
 export const Container = styled.div`
 
   animation: ${appear} 0.6s cubic-bezier(0.390, 0.575, 0.565, 1.000) both;

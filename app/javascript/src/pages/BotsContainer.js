@@ -88,8 +88,8 @@ const BotDataTable = ({app, match, history})=>{
              columns={[
                {field: 'name', title: 'name', 
                  render: row => (row ? <AnchorLink to={`${match.url}/${row.id}`}>
-                                             {row.title}
-                                           </AnchorLink> : undefined)
+                                        {row.title}
+                                       </AnchorLink> : undefined)
                },
 
                {field: 'state', title: 'state'},

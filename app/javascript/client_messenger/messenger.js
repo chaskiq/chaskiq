@@ -43,7 +43,8 @@ import {
   ConversationSummaryBodyContent,
   Autor,
   Hint,
-  ConversationsFooter
+  ConversationsFooter,
+  Bounce
 } from './styles/styled'
 
 
@@ -170,6 +171,40 @@ const SuperFragment = styled.div`
     -ms-flex-direction: column;
     flex-direction: column;
 }
+`
+
+const MessageSpinner = styled.div`
+  display: inline-block;
+  padding: 15px 20px;
+  font-size: 14px;
+  color: #ccc;
+  border-radius: 30px;
+  line-height: 1.25em;
+  font-weight: 100;
+  opacity: 0.2;
+  margin: 0;
+  width: 30px;
+  text-align: center;
+
+  & > div {
+    width: 10px;
+    height: 10px;
+    border-radius: 100%;
+    display: inline-block;
+    -webkit-animation: ${Bounce} 1.4s infinite ease-in-out both;
+    animation: ${Bounce} 1.4s infinite ease-in-out both;
+    background: rgba(0,0,0,1);
+  }
+
+  .bounce1 {
+    -webkit-animation-delay: -0.32s;
+    animation-delay: -0.32s;
+  }
+  
+  .bounce2 {
+    -webkit-animation-delay: -0.16s;
+    animation-delay: -0.16s;
+  }
 `
 
 const UserAutoMessageFlex = styled(({ isMinimized, ...rest }) => (
@@ -823,8 +858,22 @@ class Messenger extends Component {
   }
 
   // TODO: get the hardcoded data from event
-  appendVolatileConversation = (o)=>{
+  appendVolatileConversation = (steps)=>{
+
+    this.appendDraftMessage()
+
+    setTimeout(()=> {
+      this.appendDelayed(steps.reverse())
+    }, 100)
+  }
+
+  appendDelayed = (steps)=>{
+    const o = steps.pop()
+    console.log(o, steps)
+    if(!o) return
+
     const trigger = this.state.conversation.trigger
+
     const conversation = {
       assignee: null,
       trigger: trigger,
@@ -840,9 +889,6 @@ class Messenger extends Component {
       }
     }
 
-    
-    
-    
     const conversationMessages = o.messages.map((message)=>(
       {
         volatile: true,
@@ -859,11 +905,41 @@ class Messenger extends Component {
       conversation: conversation,
       conversation_messages:  newMessages
                               .filter((o)=> o)
+                              .concat(this.state.conversation_messages)
+                              .filter((o)=> !o.draft)
+                              ,
+      conversation_messagesMeta: {},
+      display_mode: "conversation",
+    }, ()=>{
+      this.scrollToLastItem()
+
+      setTimeout(()=> {
+
+        if(steps.length > 0) this.appendDraftMessage()
+
+        setTimeout(()=> {
+          this.appendDelayed(steps)
+        }, 1000)
+
+      })
+      
+    })
+    
+  }
+
+  appendDraftMessage = ()=>{
+    const newMessage = {
+      draft: true
+    }
+
+    this.setState({
+      conversation_messages:  [newMessage]
                               .concat(this.state.conversation_messages),
       conversation_messagesMeta: {},
       display_mode: "conversation",
-    }, this.scrollToLastItem )
+    }, this.scrollToLastItem)
   }
+
 
   setTriggerStep = (step_index)=>{
     /*const steps = this.state.conversation.trigger.paths.map((o)=> { 
@@ -876,9 +952,9 @@ class Messenger extends Component {
     //const step = t.steps[0]
     //const messages = this.state.conversation.trigger.paths[path_index]
     //const message = this.appendVolatileConversation(messages)
-    t.steps.map((step)=> setTimeout( ()=> { 
-      this.appendVolatileConversation(step) 
-    }, 200 ) )
+    //t.steps.map((step)=> setTimeout( ()=> { 
+      this.appendVolatileConversation(t.steps) 
+    //}, 200 ) )
     
   }
 
@@ -1143,6 +1219,20 @@ class Conversation extends Component {
     }
   }
 
+  renderDraft = ()=>{
+    return <MessageItem>
+
+            <div className="message-content-wrapper">
+              <MessageSpinner>
+                <div className={"bounce1"}/>
+                <div className={"bounce2"}/>
+                <div className={"bounce3"}/>
+              </MessageSpinner>
+            </div>
+
+           </MessageItem>
+  }
+
   renderMessage = (o, i)=>{
     const userClass = o.app_user.kind === "agent" ? 'admin' : 'user'
     const isAgent = o.app_user.kind === "agent"
@@ -1154,8 +1244,9 @@ class Conversation extends Component {
             data={o}>
 
             <MessageItem
-            className={userClass}
-            messageSourceType={o.message_source ? o.message_source.type : ''}>
+              className={userClass}
+              messageSourceType={o.message_source ? o.message_source.type : ''}
+            >
 
             {
               !this.props.isUserAutoMessage(o) && isAgent ?
@@ -1215,7 +1306,7 @@ class Conversation extends Component {
   }
 
   appPackageClickHandler = (item)=>{
-    console.log(this.props.conversation)
+    //console.log(this.props.conversation)
 
     const paths = this.props.conversation.trigger.paths.map( 
       (path)=> path.steps.find(step => step.step_uid === item.next_step_uuid ) ? 
@@ -1238,17 +1329,19 @@ class Conversation extends Component {
       arr.push(step)
     }
     
-    console.log("REV", arr)
-    arr.forEach(step => {
+    //console.log("REV", arr)
+    /*arr.forEach(step => {
       setTimeout(()=>{
         this.props.appendVolatileConversation(step)
       })
-    });
+    });*/
+
+    this.props.appendVolatileConversation(arr)
   }
 
   appPackageSubmitHandler = (data, next_step_uuid)=>{
 
-    console.log(this.props.conversation)
+    //console.log(this.props.conversation)
 
     /*const newMessages = this.props.conversation.trigger.paths.map(
       (o)=> o.steps.find(o => o.step_uid === next_step_uuid ))
@@ -1270,10 +1363,12 @@ class Conversation extends Component {
 
     this.props.submitAppUserData(data)
 
-    newSteps.map((step)=> setTimeout( ()=> { 
+    /*newSteps.map((step)=> setTimeout( ()=> { 
       this.props.appendVolatileConversation(step) 
-    }, 200 ) )
+    }, 200 ) )*/
     
+    this.props.appendVolatileConversation(newSteps)
+
     //if(newStep) this.props.appendVolatileConversation(newStep)
   }
 
@@ -1301,7 +1396,7 @@ class Conversation extends Component {
               this.props.conversation_messages.map((o, i) => {
                   return o.schema ? 
                   this.renderItemPackage(o, i) : 
-                  this.renderMessage(o, i)
+                  o.draft ? this.renderDraft() : this.renderMessage(o, i)
               })
             }
 
