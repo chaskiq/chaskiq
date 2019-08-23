@@ -1,3 +1,4 @@
+=begin
 class ConversationsChannel < ApplicationCable::Channel
   def subscribed
     # stream_from "some_channel" # agents only
@@ -21,3 +22,4 @@ class ConversationsChannel < ApplicationCable::Channel
     binding.pry
   end
 end
+=end
