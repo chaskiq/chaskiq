@@ -2,6 +2,9 @@ import styled from '@emotion/styled';
 import { jsx, css, keyframes } from '@emotion/core'
 
 import React from 'react'
+
+import StyledFrame from '../styledFrame'
+
 export const mainColor = "#0a1a27"; //"#42a5f5";
 
 
@@ -84,9 +87,252 @@ export const Container = styled.div`
 
 `;
 
-/*
 
-*/
+const Button = styled.button`
+  color: turquoise;
+`
+
+export const SuperDuper = styled('div')`
+  /*
+  display: block;
+  overflow: scroll;
+  border: 0px;
+  z-index: 10000;
+  position: absolute;
+  width: 100%;
+  margin: 0px auto;
+  height: 415px;
+  bottom: 83px;
+
+  @media (min-width: 320px) and (max-width: 480px) {
+    display: block;
+    overflow: scroll;
+    border: 0px;
+    z-index: 1000000000;
+    position: absolute;
+    width: 100%;
+    margin: 0px auto;
+    height: 102vh;
+    bottom: -6px;
+    width: calc(100vw + 20px);
+    left: -12px;
+  }
+  */
+
+  width: 100%;
+  height: 100%;
+  position: absolute;
+`
+
+export const UserAutoMessageStyledFrame = styled(StyledFrame)
+  `
+    display: block;
+    border: 0px;
+    z-index: 1000;
+    width: 350px;
+    position: absolute;
+
+    ${(props) => {
+      return props.isMinimized ? `height: 73px;` : `height: 70vh;`
+    }}
+
+    ${(props)=>{
+      return props.theme.isMessengerActive ? `
+        bottom: 77px;
+        right: 17px;
+      ` : `
+        bottom: 0px;
+        right: 0px;
+      `
+    }}
+
+    /* box-shadow: 1px 1px 100px 2px rgba(0,0,0,0.22); */
+`
+
+export const UserAutoMessageStyledFrameDis = styled(({ isMinimized, ...rest })=>(
+  <StyledFrame {...rest}/>
+  ))`
+    display: block;
+    border: 0px;
+    z-index: 1000;
+    width: 350px;
+    position: absolute;
+
+    ${(props) => {
+      return props.isMinimized ? `height: 73px;` : `height: 70vh;`
+    }}
+
+    ${(props)=>{
+      return props.theme.isMessengerActive ? `
+        bottom: 77px;
+        right: 17px;
+      ` : `
+        bottom: 0px;
+        right: 0px;
+      `
+    }}
+
+    /* box-shadow: 1px 1px 100px 2px rgba(0,0,0,0.22); */
+`
+
+export const CloseButtonWrapper = styled.div`
+  position: absolute;
+  right: 10px;
+`
+
+export const SuperFragment = styled.div`
+    -webkit-box-pack: start;
+    -ms-flex-pack: start;
+    justify-content: flex-start;
+    overflow: hidden;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    top: 0;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+    -ms-flex-direction: column;
+    flex-direction: column;
+}
+`
+
+export const MessageSpinner = styled.div`
+  display: inline-block;
+  padding: 15px 20px;
+  font-size: 14px;
+  color: #ccc;
+  border-radius: 30px;
+  line-height: 1.25em;
+  font-weight: 100;
+  opacity: 0.2;
+  margin: 0;
+  width: 30px;
+  text-align: center;
+
+  & > div {
+    width: 10px;
+    height: 10px;
+    border-radius: 100%;
+    display: inline-block;
+    -webkit-animation: ${Bounce} 1.4s infinite ease-in-out both;
+    animation: ${Bounce} 1.4s infinite ease-in-out both;
+    background: rgba(0,0,0,1);
+  }
+
+  .bounce1 {
+    -webkit-animation-delay: -0.32s;
+    animation-delay: -0.32s;
+  }
+  
+  .bounce2 {
+    -webkit-animation-delay: -0.16s;
+    animation-delay: -0.16s;
+  }
+`
+
+export const UserAutoMessageFlex = styled(({ isMinimized, ...rest }) => (
+  <div {...rest} />
+))`
+  display: flex;
+  flex-direction: column;
+
+  ${(props) => {
+    return props.isMinimized ? `height: 70vh;` : `height: 92vh;`
+  }}
+
+  
+  justify-content: space-between;
+`
+
+export const MessageCloseBtn = styled.a`
+    display: inline-block;
+    padding: 4px;
+    background: #737373;
+    border-radius: 7px;
+    font-size: .8em;
+    -webkit-text-decoration: none;
+    text-decoration: none;
+    float: right;
+    color: white;
+    text-transform: uppercase;
+`
+
+export const AppPackageBlockContainer = styled.div`
+    padding: 1.2em;
+    border-radius: 7px;
+    background: #f1f0f9;
+    display: flex;
+    justify-content: center;
+
+    .form-group{
+      //margin-bottom: 1rem;
+    }
+    
+    form {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      //width: 69%;
+      flex-wrap: wrap;
+      button {
+        margin: 3px;
+      }
+    }
+    label {
+      margin: 3px;
+      display: inline-block;
+      margin-bottom: .5rem;
+    }
+    input {
+      margin: 3px;
+      display: block;
+      padding: .375rem .75rem;
+      font-size: 1rem;
+      line-height: 1.5;
+      color: #495057;
+      background-color: #fff;
+      background-clip: padding-box;
+      border: 1px solid #ced4da;
+      border-radius: .25rem;
+      transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+    }
+    button:not(:disabled):not(.disabled) {
+      cursor: pointer;
+    }
+    [type=reset], [type=submit], button, html [type=button] {
+        -webkit-appearance: button;
+    }
+    button {
+      //.btn-primary {
+        color: #fff;
+        background-color: #007bff;
+        border-color: #007bff;
+      //}
+
+      display: inline-block;
+      font-weight: 400;
+      text-align: center;
+      white-space: nowrap;
+      vertical-align: middle;
+      -webkit-user-select: none;
+      -moz-user-select: none;
+      -ms-user-select: none;
+      user-select: none;
+      border: 1px solid transparent;
+      padding: .375rem .75rem;
+      font-size: 1rem;
+      line-height: 1.5;
+      border-radius: .25rem;
+      transition: color .15s ease-in-out,background-color .15s ease-in-out,border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+    }
+`
+
+
+
 
 export const UserAutoMessage = styled.div`
     box-shadow: -1px 3px 3px 3px rgba(158,191,208,0.09);
