@@ -64,6 +64,8 @@ import {
 import Quest from './messageWindow'
 import StyledFrame from './styledFrame'
 
+import Home from './homePanel'
+
 
 
 let App = {}
@@ -562,6 +564,14 @@ class Messenger extends Component {
     })
   }
 
+  displayHome = (e)=>{
+    this.unsubscribeFromConversation()
+    e.preventDefault()
+    this.setState({
+      display_mode: "home"
+    })
+  }
+
   displayConversationList = (e)=>{
     this.unsubscribeFromConversation()
     e.preventDefault()
@@ -846,7 +856,8 @@ class Messenger extends Component {
                         <HeaderOption>
                           { this.state.display_mode === "conversation" ? 
                             <LeftIcon 
-                              onClick={this.displayConversationList.bind(this)}
+                              onClick={this.displayHome.bind(this)}
+                              ///onClick={this.displayConversationList.bind(this)}
                               style={{margin: '20px', cursor: 'pointer'}}
                             /> : null 
                           }
@@ -872,7 +883,7 @@ class Messenger extends Component {
 
                         {
                           this.state.display_mode === "home" && 
-                          <p>home mada</p>
+                          <Home/>
                         }
 
                         {
