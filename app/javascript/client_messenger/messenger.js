@@ -92,6 +92,8 @@ class Messenger extends Component {
       isMobile: false,
       tourManagerEnabled: false,
       ev: null,
+      headerOpacity: 1,
+      headerTranslateY: 0
     }
 
     const data = {
@@ -818,6 +820,18 @@ class Messenger extends Component {
 
   }
 
+  updateHeaderOpacity = (val)=>{
+    this.setState({
+      headerOpacity: val
+    })
+  }
+
+  updateHeaderTranslateY = (val)=>{
+    this.setState({
+      headerTranslateY: val
+    })
+  }
+
   render() {
     return (
 
@@ -852,8 +866,17 @@ class Messenger extends Component {
                   }}>
 
                     <SuperFragment>
-                      <Header isMobile={this.state.isMobile}>
-                        <HeaderOption>
+                      <Header 
+                        style={{height: '212px'}}
+                        isMobile={this.state.isMobile}>
+                        <HeaderOption 
+                          style={
+                            { 
+                              opacity: this.state.headerOpacity,
+                              transform: `translateY(${this.state.headerTranslateY}px)` 
+                            }
+                          }>
+
                           { this.state.display_mode != "home" ? 
                             <LeftIcon 
                               onClick={this.displayHome.bind(this)}
@@ -861,6 +884,7 @@ class Messenger extends Component {
                               style={{margin: '20px', cursor: 'pointer'}}
                             /> : null 
                           }
+
                           <span style={{marginLeft: '20px'}}>
                             Hello {this.props.name}!
                           </span>
@@ -886,6 +910,8 @@ class Messenger extends Component {
                           <Home 
                             displayNewConversation={this.displayNewConversation}
                             viewConversations={this.displayConversationList}
+                            handleOpacity={this.updateHeaderOpacity}
+                            handleTranslateY={this.updateHeaderTranslateY}
                           />
                         }
 
@@ -929,7 +955,7 @@ class Messenger extends Component {
 
                 </SuperDuper> 
               
-                </Container>  : null
+              </Container>  : null
           }
 
 
