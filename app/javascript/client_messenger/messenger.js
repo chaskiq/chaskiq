@@ -854,7 +854,7 @@ class Messenger extends Component {
                     <SuperFragment>
                       <Header isMobile={this.state.isMobile}>
                         <HeaderOption>
-                          { this.state.display_mode === "conversation" ? 
+                          { this.state.display_mode != "home" ? 
                             <LeftIcon 
                               onClick={this.displayHome.bind(this)}
                               ///onClick={this.displayConversationList.bind(this)}
@@ -883,7 +883,10 @@ class Messenger extends Component {
 
                         {
                           this.state.display_mode === "home" && 
-                          <Home/>
+                          <Home 
+                            displayNewConversation={this.displayNewConversation}
+                            viewConversations={this.displayConversationList}
+                          />
                         }
 
                         {
