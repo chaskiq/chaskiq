@@ -714,35 +714,45 @@ export const ChatAvatar = styled.div`
     }
 `
 
-export const NewConvoBtn = styled.a`
+export const AnchorButton = styled.a`
+  background-color: #242424;
+  -webkit-box-shadow: 0 4px 12px rgba(0,0,0,.1);
+  box-shadow: 0 4px 12px rgba(0,0,0,.1);
+  height: 40px;
+  color: rgb(255, 255, 255);
+  font-size: 13px;
+  line-height: 14px;
+  pointer-events: auto;
+  cursor: pointer;
+  border-radius: 40px;
+  display: inline-flex;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
 
-    background-color: #242424;
-    -webkit-box-shadow: 0 4px 12px rgba(0,0,0,.1);
-    box-shadow: 0 4px 12px rgba(0,0,0,.1);
+
+  padding: 0 24px;
+  display: -webkit-inline-box;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+
+`
+
+export const NewConvoBtn = styled(AnchorButton)`
     position: absolute;
     bottom: 77px;
     left: 50%;
+
     -webkit-transform: translateX(-50%);
     transform: translateX(-50%);
-
-    height: 40px;
-    color: rgb(255, 255, 255);
-    font-size: 13px;
-    line-height: 14px;
-    pointer-events: auto;
-    cursor: pointer;
-    border-radius: 40px;
     text-align: center;
     -webkit-transition: all .12s;
     transition: all .12s;
-    padding: 0 24px;
-    display: -webkit-inline-box;
-    display: -ms-inline-flexbox;
-    display: inline-flex;
-    -webkit-box-align: center;
-    -ms-flex-align: center;
-    align-items: center;
-}`
+
+`
 
 export const ConversationSummary = styled.div`
 
@@ -777,7 +787,6 @@ export const ConversationSummaryAvatar = styled.div`
         text-align: center;
         border-radius: 50%;
       }
-
 `
 
 export const ConversationSummaryBody = styled.div`

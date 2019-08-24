@@ -1,5 +1,8 @@
 import React, {Component} from 'react'
 import styled from '@emotion/styled'
+import {
+  AnchorButton
+} from './styles/styled'
 
 const articles = [
   { 
@@ -19,11 +22,28 @@ const articles = [
   },
 ]
 
-const HomePanel = ()=>{
+const agents = [
+  {
+    name: "abott",
+    url: 'https://api.adorable.io/avatars/285/abott@adorable.png',
+  },
+  {
+    name: "juan",
+    url: 'https://api.adorable.io/avatars/285/juan@adorable.png',
+  },
+  {
+    name: "paco",
+    url: 'https://api.adorable.io/avatars/285/paco@adorable.png',
+  },
+]
+
+const HomePanel = ({
+  viewConversations,
+  displayNewConversation
+})=>{
 
 
   return (
-
 
     <div style={{
       position: 'absolute',
@@ -34,9 +54,52 @@ const HomePanel = ()=>{
       overflow: 'scroll'
     }}>
 
+      <ConversationInitiator>
+      
+        <h2>Start a conversation</h2>
+        <p>people connected</p>
+
+        <CardContent>
+
+          <ConnectedPeople>
+            {
+              agents.map((agent)=>(
+                <Avatar>
+                  <img src={agent.url} title={agent.name}/>
+                </Avatar>
+              ))
+            }
+          </ConnectedPeople>
+
+          <CardButtonsGroup>
+
+            <AnchorButton onClick={displayNewConversation}>
+              start conversation
+            </AnchorButton>
+
+            <a href="#" onClick={viewConversations}>
+              see previous
+            </a>
+
+          </CardButtonsGroup>
+        
+        </CardContent>
+      
+      </ConversationInitiator>
+
+      <Card>
+        search shits
+        <ButtonWrapper>
+          <input placeholder={"search articles"}/> 
+          <button>go</button>
+        </ButtonWrapper>
+      </Card>
+
       <ArticleList>
 
-        ooooe
+        <h2>
+          Our latest articles
+        </h2>
       
         {
           articles.map((article, i)=>(
@@ -48,6 +111,79 @@ const HomePanel = ()=>{
     </div>
   )
 }
+
+const ButtonWrapper = styled.div`
+  display: flex;
+
+  input{
+    padding: 1em;
+    flex-grow: 2;
+    border: 1px solid #ccc;
+    border-right: 0px solid #ccc;
+  }
+
+  button{
+    border: 1px solid #ccc;
+    padding: 1.2em;
+    border-bottom-right-radius: 6px;
+    border-top-right-radius: 6px;
+    background: aliceblue;
+  }
+`
+
+const CardButtonsGroup = styled.div`
+  margin-top: 1em;
+  align-items: center;
+  justify-content: space-evenly;
+  display: flex;
+`
+
+const Avatar = styled.div`
+  -webkit-box-flex: 0;
+  -ms-flex: 0 0 auto;
+  flex: 0 0 auto;
+  align-self: center;
+  img {
+    width: 40px;
+    height: 40px;
+    text-align: center;
+    border-radius: 50%;
+  }
+`
+
+const Card = styled.div`
+  margin-bottom: 17px;
+  background-color: #fff;
+  border-radius: 3px;
+  font-size: 14px;
+  line-height: 1.4;
+  color: #000;
+  overflow: hidden;
+  position: relative;
+  //-webkit-box-shadow: 0 4px 15px 0 rgba(0,0,0,.1), 0 1px 2px 0 rgba(0,0,0,.1), inset 0 2px 0 0 rgba(48, 71, 236, 0.5);
+  box-shadow: 0 4px 15px 0 rgba(0,0,0,.1), 0 1px 2px 0 rgba(0,0,0,.1), inset 0 2px 0 0 rgba(48, 71, 236, 0.5);
+
+  margin: 1em;
+  padding: 2em;
+
+`
+
+const ConversationInitiator = styled(Card)`
+  h2{
+    margin: .4em 0 0.4em 0em;
+  }
+`
+
+const CardContent = styled.div`
+`
+
+const ConnectedPeople = styled.div`
+  display: flex;
+  div{
+    margin-right: -10px;
+  }
+`
+
 
 const ArticleList = styled.div`
   margin: .8em;
