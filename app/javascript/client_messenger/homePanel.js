@@ -1,4 +1,4 @@
-import React, {Component} from 'react'
+import React, {Component, useState} from 'react'
 import styled from '@emotion/styled'
 import {
   AnchorButton
@@ -39,21 +39,34 @@ const agents = [
 
 const HomePanel = ({
   viewConversations,
-  displayNewConversation
+  displayNewConversation,
+  handleOpacity,
+  handleTranslateY
 })=>{
 
+  const [opacity, setOpacity] = useState(1)
+
+  const handleScroll = (e)=>{
+    window.a = e.target
+    const target = e.target
+    const val = 1 - normalize(target.scrollTop, target.offsetHeight, 0 )
+    const pge = percentage(target.scrollTop, target.offsetHeight)
+    handleTranslateY(- pge )
+    console.log(val)
+    handleOpacity(val * 0.24 )
+  }
+
+  const normalize = (val, max, min)=> { 
+    return (val - min) / (max - min)
+  }
+
+  const percentage = (partialValue, totalValue)=>{
+    return (100 * partialValue) / totalValue;
+  }
 
   return (
 
-    <div style={{
-      position: 'absolute',
-      top: '0',
-      bottom: '0',
-      left: '0',
-      right: '0',
-      overflow: 'scroll'
-    }}>
-
+    <Panel onScroll={handleScroll}>
       <ConversationInitiator>
       
         <h2>Start a conversation</h2>
@@ -108,9 +121,20 @@ const HomePanel = ({
         }
       
       </ArticleList>
-    </div>
+    </Panel>
   )
 }
+
+const Panel = styled.div`
+  position: fixed;
+  top: 17px;
+  bottom: 0px;
+  left: 0px;
+  right: 0px;
+  overflow: scroll;
+  width: 100%;
+  height: 100%;
+`
 
 const ButtonWrapper = styled.div`
   display: flex;
@@ -169,6 +193,7 @@ const Card = styled.div`
 `
 
 const ConversationInitiator = styled(Card)`
+  margin-top: 10em;
   h2{
     margin: .4em 0 0.4em 0em;
   }
@@ -190,6 +215,7 @@ const ArticleList = styled.div`
 `
 
 const ArticleCardWrapper = styled.div`
+  background: white;
   box-shadow: rgba(0, 0, 0, 0.1) 0px 1px 3px 0px, rgba(193, 203, 212, 0.7) 0px 0px 0px 1px inset, rgb(193, 203, 212) 0px -1px 0px 0px inset;
   transform: translateZ(0px);
   border-width: initial;
