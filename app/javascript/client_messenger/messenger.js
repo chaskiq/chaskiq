@@ -51,7 +51,8 @@ import {
   MessageSpinner,
   UserAutoMessageFlex,
   MessageCloseBtn,
-  AppPackageBlockContainer
+  AppPackageBlockContainer,
+  HeaderAvatar
 } from './styles/styled'
 
 import sanitizeHtml from 'sanitize-html';
@@ -69,6 +70,8 @@ import Home from './homePanel'
 
 
 let App = {}
+
+
 
 class Messenger extends Component {
 
@@ -841,6 +844,25 @@ class Messenger extends Component {
     }) 
   }
 
+  renderAsignee = ()=>{
+    if(this.state.conversation.assignee){
+      return <HeaderAvatar>
+              <img src={gravatar.url(assignee.email)} />
+             </HeaderAvatar>
+    }else{
+      return <HeaderAvatar>
+              
+              <img src={gravatar.url('assignee.email')} />
+
+              <div>
+                <p>miguel michelson</p>
+                <span>away</span>
+              </div>
+
+             </HeaderAvatar>
+    }
+  }
+
   render() {
     return (
 
@@ -894,9 +916,11 @@ class Messenger extends Component {
                             /> : null 
                           }
 
-                          <span style={{marginLeft: '20px'}}>
-                            Hello {this.props.name}!
-                          </span>
+                          { this.state.display_mode === "conversation" &&
+                            <span>
+                              {this.renderAsignee()}
+                            </span>
+                          }
 
                           {
                             this.state.isMobile ?
@@ -953,6 +977,7 @@ class Messenger extends Component {
                               clearAndGetConversations={this.clearAndGetConversations}
                               email={this.props.email}
                               app={this.state.appData}
+                              updateHeader={this.updateHeader}
                             />
                         }
 
@@ -1024,7 +1049,6 @@ class Messenger extends Component {
 class Conversation extends Component {
 
   componentDidMount(){
-
     this.props.updateHeader(
       {
         translateY: 0 , 
@@ -1032,7 +1056,6 @@ class Conversation extends Component {
         height: '0' 
       }
     )
-
   }
 
   // TODO: skip on xhr progress
@@ -1271,6 +1294,15 @@ class Conversations extends Component {
 
   componentDidMount(){
     this.props.clearAndGetConversations()
+
+    this.props.updateHeader(
+      {
+        translateY: 0 , 
+        opacity: 1, 
+        height: '0' 
+      }
+    )
+
   }
 
   // TODO: skip on xhr progress
