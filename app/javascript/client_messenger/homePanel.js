@@ -40,8 +40,7 @@ const agents = [
 const HomePanel = ({
   viewConversations,
   displayNewConversation,
-  handleOpacity,
-  handleTranslateY
+  updateHeader
 })=>{
 
   const [opacity, setOpacity] = useState(1)
@@ -51,9 +50,15 @@ const HomePanel = ({
     const target = e.target
     const val = 1 - normalize(target.scrollTop, target.offsetHeight, 0 )
     const pge = percentage(target.scrollTop, target.offsetHeight)
-    handleTranslateY(- pge )
+    
     console.log(val)
-    handleOpacity(val * 0.24 )
+    const opacity = val * 0.24
+
+    updateHeader({
+      translateY: - pge , 
+      opacity: opacity, 
+      height: '212px' 
+    })
   }
 
   const normalize = (val, max, min)=> { 

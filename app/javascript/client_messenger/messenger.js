@@ -92,8 +92,11 @@ class Messenger extends Component {
       isMobile: false,
       tourManagerEnabled: false,
       ev: null,
-      headerOpacity: 1,
-      headerTranslateY: 0
+      header:{
+        opacity: 1,
+        translateY: 0,
+        height: 212
+      }
     }
 
     const data = {
@@ -832,6 +835,12 @@ class Messenger extends Component {
     })
   }
 
+  updateHeader = ({translateY, opacity, height})=>{
+    this.setState({
+      header: Object.assign({}, this.state.header, {translateY, opacity, height} )
+    }) 
+  }
+
   render() {
     return (
 
@@ -867,13 +876,13 @@ class Messenger extends Component {
 
                     <SuperFragment>
                       <Header 
-                        style={{height: '212px'}}
+                        style={{height: this.state.header.height}}
                         isMobile={this.state.isMobile}>
                         <HeaderOption 
                           style={
                             { 
-                              opacity: this.state.headerOpacity,
-                              transform: `translateY(${this.state.headerTranslateY}px)` 
+                              opacity: this.state.header.opacity,
+                              transform: `translateY(${this.state.header.translateY}px)` 
                             }
                           }>
 
@@ -910,8 +919,7 @@ class Messenger extends Component {
                           <Home 
                             displayNewConversation={this.displayNewConversation}
                             viewConversations={this.displayConversationList}
-                            handleOpacity={this.updateHeaderOpacity}
-                            handleTranslateY={this.updateHeaderTranslateY}
+                            updateHeader={this.updateHeader}
                           />
                         }
 
@@ -929,6 +937,7 @@ class Messenger extends Component {
                               setOverflow={this.setOverflow}
                               appendVolatileConversation={this.appendVolatileConversation}
                               submitAppUserData={this.submitAppUserData}
+                              updateHeader={this.updateHeader}
                             /> 
                         } 
 
@@ -1014,14 +1023,44 @@ class Messenger extends Component {
 
 class Conversation extends Component {
 
+  componentDidMount(){
+
+    this.props.updateHeader(
+      {
+        translateY: 0 , 
+        opacity: 1, 
+        height: '0' 
+      }
+    )
+
+  }
+
   // TODO: skip on xhr progress
   handleConversationScroll = (e) => {
     let element = e.target
+    console.log(element.scrollTop)
     //console.log(element.scrollHeight - element.scrollTop, element.clientHeight) // on bottom
     if (element.scrollTop === 0) { // on top
+
+      this.props.updateHeader(
+        {
+          translateY: 0 , 
+          opacity: 1, 
+          height: 212
+        }
+      )
+
     //if (element.scrollTop <= 50) { // on almost top // todo skip on xhr loading
       if (this.props.conversation_messagesMeta.next_page)
         this.props.setConversation(this.props.conversation.id)
+    } else {
+      this.props.updateHeader(
+        {
+          translateY: 0 , 
+          opacity: 1, 
+          height: 0
+        }
+      )
     }
   }
 
