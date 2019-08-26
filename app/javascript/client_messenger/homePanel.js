@@ -1,4 +1,4 @@
-import React, {Component, useState} from 'react'
+import React, {Component, useState, useEffect} from 'react'
 import styled from '@emotion/styled'
 import {
   AnchorButton
@@ -44,6 +44,16 @@ const HomePanel = ({
 })=>{
 
   const [opacity, setOpacity] = useState(1)
+
+  useEffect(()=>(
+    updateHeader(
+      {
+        translateY: 0 , 
+        opacity: 1, 
+        height: '212px' 
+      }
+    )
+  ), [])
 
   const handleScroll = (e)=>{
     window.a = e.target

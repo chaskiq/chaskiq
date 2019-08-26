@@ -698,6 +698,30 @@ export const HeaderOption = styled.div`
   align-items: center;
 `
 
+export const HeaderAvatar = styled.div`
+    display: flex;
+    flex: 0 0 auto;
+    align-self: center;
+    //margin-left: 15px;
+
+    img {
+      width: 40px;
+      height: 40px;
+      text-align: center;
+      border-radius: 50%;
+    }
+
+    div{
+      display: flex;
+      flex-flow: column;
+      margin-left: .6em;
+      p {
+        padding: 0px;
+        margin: 0px;
+      }
+    }
+`
+
 export const ChatAvatar = styled.div`
     //left: -52px;
     //background: rgba(0, 0, 0, 0.03);
