@@ -12,6 +12,7 @@ class CssInjector extends React.Component {
     //const iframe = document.getElementsByTagName('iframe')[0]
     //const iframeHead = iframe.contentDocument.head
     const iframeHead = this.props.document.head
+
     this.cache = createCache({ container: iframeHead })
   }
 
