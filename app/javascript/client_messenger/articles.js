@@ -6,6 +6,9 @@ import {
   FadeBottomAnimation
 } from './styles/styled'
 
+import Moment from 'react-moment';
+
+
 import { ThemeProvider } from 'emotion-theming'
 import theme from '../src/textEditor/theme'
 import themeDark from '../src/textEditor/darkTheme'
@@ -27,16 +30,28 @@ const Panel = styled.div`
   right: 0px;
   overflow: scroll;
   width: 100%;
-  height: 100%;
+  height: 80%;
 `
 
 const ContentWrapper = styled.div`
   padding: 2em;
+  ${(props)=> FadeBottomAnimation(props)}
+`
+
+const ArticleTitle = styled.h1`
+  margin-bottom: .1em;
+  margin-top: .3em;
+`
+
+const CollectionLabel = styled.strong`
+  border: 1px solid;
+  padding: 5px;
 `
 
 const Article = ({
   updateHeader,
-  articleSlug
+  articleSlug,
+  transition
 })=>{
 
   const [article, setArticle] = useState(null)
@@ -71,8 +86,20 @@ const Article = ({
     <Panel>
       {
         article && 
-        <ContentWrapper>
-          <h2>{article.title}</h2>
+        <ContentWrapper in={transition}>
+          
+          <CollectionLabel>
+            {article.collection.title}
+          </CollectionLabel>
+          <ArticleTitle>
+            {article.title}
+          </ArticleTitle>
+          <span>
+            by:<strong>{article.author.name}</strong> on {" "}
+            <Moment format="MMM Do, YYYY">
+              {article.updatedAt}
+            </Moment>
+          </span>
 
           <ThemeProvider 
             theme={ theme }>
