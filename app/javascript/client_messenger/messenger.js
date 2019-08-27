@@ -16,6 +16,7 @@ import Moment from 'react-moment';
 import { soundManager } from 'soundmanager2'
 import UrlPattern from 'url-pattern'
 import serialize from 'form-serialize'
+import {PING} from './graphql/queries'
 import {
   Container,
   UserAutoMessage,
@@ -75,7 +76,6 @@ let App = {}
 
 class Messenger extends Component {
 
-
   constructor(props){
     super(props)
 
@@ -111,6 +111,7 @@ class Messenger extends Component {
     }
 
     this.defaultHeaders = {
+      app: this.props.app_id,
       user_data: JSON.stringify(data)
     }
 
@@ -124,6 +125,7 @@ class Messenger extends Component {
     if(this.props.encryptedMode){
       
       this.defaultHeaders = { 
+        app: this.props.app_id,
         enc_data: this.props.encData,
         session_id: this.props.session_id
       }
@@ -140,7 +142,52 @@ class Messenger extends Component {
       headers: this.defaultHeaders
       /* other custom settings */
     });
-    
+
+    this.graphqlClient = (query, variables, callbacks)=>{
+      debugger
+      axios.create({
+        baseURL: `${this.props.domain}/api/graphql`,
+        headers: this.defaultHeaders
+      }).post('', {
+        query: query,
+        variables: variables,
+      }, {
+        headers: this.defaultHeaders
+      })
+      .then( r => {
+        const data = r.data.data
+        const res = r
+      
+        const errors = r.data.errors
+        if (_.isObject(errors) && !_.isEmpty(errors)) {
+          //const errors = data[Object.keys(data)[0]];
+          //callbacks['error'] ? callbacks['error'](res, errors['errors']) : null
+          if(callbacks['error'])
+            return callbacks['error'](res, errors)
+        }
+        
+        callbacks['success'] ? callbacks['success'](data, res) : null
+      })
+      .catch(( req, error )=> {
+        console.log(req, error)
+        switch (req.response.status) {
+          case 500:
+            //store.dispatch(errorMessage("server error ocurred"))
+            break;
+          case 401:
+            //store.dispatch(errorMessage("session expired"))
+            //store.dispatch(expireAuthentication())
+            break;
+          default:
+            break;
+        }
+        
+        callbacks['fatal'] ? callbacks['fatal'](error) : null
+      })
+      .then( (r) => {
+        callbacks['always'] ? callbacks['always']() : null
+      });
+    }
 
     App = {
       cable: actioncable.createConsumer(`${this.props.ws}`)
@@ -431,6 +478,16 @@ class Messenger extends Component {
   }
 
   ping =(cb)=>{
+
+    this.graphqlClient(PING, {}, {
+      success: (data)=>{
+        debugger
+      },
+      error: ()=>{
+
+      }
+    })
+
     this.axiosInstance.post(`/api/v1/apps/${this.props.app_id}/ping`)
       .then( (response)=> {
         this.setState({

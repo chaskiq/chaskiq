@@ -27,11 +27,19 @@ module Types
       ArticleSetting.find_by(subdomain: domain)
     end
 
-
     field :user_session, Types::UserType, null: false, description: "get current user email"
     def user_session
       current_user
     end
+
+    field :messenger, Types::MessengerType, null: false, description: "client messenger entry point" do
+      argument :app_key, String, required: true
+    end
+
+    def messenger(app_key:)
+      App.find_by(key: app_key)
+    end
+
 
   end
 end
