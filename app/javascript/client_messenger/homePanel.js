@@ -6,9 +6,13 @@ import {
   FadeBottomAnimation
 } from './styles/styled'
 
-import { css } from '@emotion/core'
+import graphql from '../src/graphql/client'
+import {
+  ARTICLES,
+  SEARCH_ARTICLES
+} from '../src/graphql/docsQueries'
 
-
+/*
 const articles = [
   { 
     id: 1,
@@ -25,7 +29,7 @@ const articles = [
     title: "how to",
     content: "hola gogogo agaga "
   },
-]
+]*/
 
 const agents = [
   {
@@ -51,6 +55,8 @@ const HomePanel = ({
 })=>{
 
   const [opacity, setOpacity] = useState(1)
+  const [articles, setArticles] = useState([])
+  const [meta, setMeta] = useState({})
 
   useEffect(()=>(
     updateHeader(
@@ -61,6 +67,30 @@ const HomePanel = ({
       }
     )
   ), [])
+
+  useEffect(()=>(
+    getArticles()
+  ), [])
+
+  const getArticles = ()=>{
+    graphql(ARTICLES, {
+      domain: "dev",
+      id: "test-test",
+      lang: "en",
+      page: 1,
+      per: 5,
+      lang: 'en'
+    }, {
+      success: (data)=>{
+        const {collection, meta} = data.helpCenter.articles
+        setArticles(collection)
+        setMeta(meta)
+      },
+      error: ()=>{
+        debugger
+      }
+    })
+  }
 
   const handleScroll = (e)=>{
     window.a = e.target
@@ -292,14 +322,14 @@ const ArticleCardContent = styled.div`
 const ArticleCard = ({article, displayArticle})=>{
   return (
 
-    <ArticleCardWrapper onClick={displayArticle}>
+    <ArticleCardWrapper onClick={(e)=> displayArticle(e, article) }>
     
       <ArticleCardTitle>
         {article.title}
       </ArticleCardTitle>
 
       <ArticleCardContent>
-        {article.content}
+        {article.description}
       </ArticleCardContent>
     
     </ArticleCardWrapper>

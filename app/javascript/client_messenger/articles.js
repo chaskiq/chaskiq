@@ -35,7 +35,8 @@ const ContentWrapper = styled.div`
 `
 
 const Article = ({
-  updateHeader
+  updateHeader,
+  articleSlug
 })=>{
 
   const [article, setArticle] = useState(null)
@@ -54,7 +55,7 @@ const Article = ({
   const getArticle = ()=>{
     graphql(ARTICLE, {
       domain: "dev",
-      id: "test-test",
+      id: articleSlug,
       lang: "en",
     }, {
       success: (data)=>{
