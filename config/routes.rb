@@ -1,13 +1,11 @@
 require 'sidekiq/web'
 require "subdomain_routes"
 Rails.application.routes.draw do
-
-
-  
   if Rails.env.development?
     mount GraphiQL::Rails::Engine, at: "/graphiql", graphql_path: "/graphql"
   end
   post "/graphql", to: "graphql#execute"
+  post "/api/graphql", to: "api/graphql#execute"
   mount Sidekiq::Web => '/sidekiq'
 
   devise_for :agents, controllers: { 
@@ -59,8 +57,8 @@ Rails.application.routes.draw do
           post :auth
         end
         
-        resources :triggers, controller: "api/v1/triggers"
-        resources :tours, controller: "api/v1/tours"
+        #resources :triggers, controller: "api/v1/triggers"
+        #resources :tours, controller: "api/v1/tours"
 
         resources :messages, controller: "api/v1/messages" do
           resources :tracks, controller: "api/v1/tracks" do
