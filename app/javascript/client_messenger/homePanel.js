@@ -46,7 +46,8 @@ const HomePanel = ({
   viewConversations,
   displayNewConversation,
   updateHeader,
-  transition
+  transition,
+  displayArticle
 })=>{
 
   const [opacity, setOpacity] = useState(1)
@@ -138,7 +139,10 @@ const HomePanel = ({
       
         {
           articles.map((article, i)=>(
-            <ArticleCard key={i} article={article}/>
+            <ArticleCard key={i} 
+              article={article} 
+              displayArticle={displayArticle}
+            />
           ))
         }
       
@@ -234,7 +238,6 @@ const ConnectedPeople = styled.div`
   }
 `
 
-
 const ArticleList = styled.div`
   margin: .8em;
 `
@@ -286,10 +289,10 @@ const ArticleCardContent = styled.div`
 
 `
 
-const ArticleCard = ({article})=>{
+const ArticleCard = ({article, displayArticle})=>{
   return (
 
-    <ArticleCardWrapper>
+    <ArticleCardWrapper onClick={displayArticle}>
     
       <ArticleCardTitle>
         {article.title}
