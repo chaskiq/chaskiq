@@ -1,8 +1,13 @@
 import React, {Component, useState, useEffect} from 'react'
 import styled from '@emotion/styled'
 import {
-  AnchorButton
+  AnchorButton,
+  FadeRightAnimation,
+  FadeBottomAnimation
 } from './styles/styled'
+
+import { css } from '@emotion/core'
+
 
 const articles = [
   { 
@@ -40,7 +45,8 @@ const agents = [
 const HomePanel = ({
   viewConversations,
   displayNewConversation,
-  updateHeader
+  updateHeader,
+  transition
 })=>{
 
   const [opacity, setOpacity] = useState(1)
@@ -62,7 +68,7 @@ const HomePanel = ({
     const pge = percentage(target.scrollTop, target.offsetHeight)
     
     console.log(val)
-    const opacity = val * 0.24
+    const opacity = val === 1 ? val : val * 0.3
 
     updateHeader({
       translateY: - pge , 
@@ -82,7 +88,8 @@ const HomePanel = ({
   return (
 
     <Panel onScroll={handleScroll}>
-      <ConversationInitiator>
+      
+      <ConversationInitiator in={transition}>
       
         <h2>Start a conversation</h2>
         <p>people connected</p>
@@ -115,7 +122,7 @@ const HomePanel = ({
       
       </ConversationInitiator>
 
-      <Card>
+      <Card in={transition}>
         search shits
         <ButtonWrapper>
           <input placeholder={"search articles"}/> 
@@ -136,7 +143,8 @@ const HomePanel = ({
         }
       
       </ArticleList>
-    </Panel>
+    
+      </Panel>
   )
 }
 
@@ -204,6 +212,8 @@ const Card = styled.div`
 
   margin: 1em;
   padding: 2em;
+
+  ${(props)=> FadeRightAnimation(props)}
 
 `
 

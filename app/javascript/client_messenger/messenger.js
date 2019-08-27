@@ -33,6 +33,7 @@ import {
   ReadIndicator,
   MessageItem,
   HeaderOption,
+  HeaderTitle,
   ChatAvatar,
   UserAutoChatAvatar,
   NewConvoBtn,
@@ -99,7 +100,8 @@ class Messenger extends Component {
         opacity: 1,
         translateY: 0,
         height: 212
-      }
+      },
+      transition: 'in'
     }
 
     const data = {
@@ -554,6 +556,16 @@ class Messenger extends Component {
       });
   }
 
+  setTransition = (type, cb)=>{
+    this.setState({
+      transition: type
+    }, ()=>{
+      setTimeout(()=>{
+        cb()
+      }, 200)
+    })
+  }
+
   displayNewConversation =(e)=>{
     e.preventDefault()
     this.createCommentOnNewConversation(null, ()=>{
@@ -575,17 +587,33 @@ class Messenger extends Component {
   displayHome = (e)=>{
     this.unsubscribeFromConversation()
     e.preventDefault()
+
+    this.setTransition('out', ()=>{
+      this.setDisplayMode('home')
+    })
+  }
+
+  setDisplayMode = (section, cb=null)=>{
     this.setState({
-      display_mode: "home"
+      transition: 'in'
+    }, ()=>{
+      console.log(this.state.transition)
+      this.setState({
+        display_mode: section,
+      }, ()=>{
+        cb && cb()
+      })
     })
   }
 
   displayConversationList = (e)=>{
     this.unsubscribeFromConversation()
     e.preventDefault()
-    this.setState({
-      display_mode: "conversations"
+
+    this.setTransition('out', ()=>{
+      this.setDisplayMode('conversations')
     })
+
   }
 
   displayConversation =(e, o)=>{
@@ -598,28 +626,25 @@ class Messenger extends Component {
 
         this.conversationSubscriber(() => {
 
-          //this.precenseSubscriber()
-          this.setState({
-            display_mode: "conversation"
-          }, () => {
-            //this.conversationSubscriber() ; 
-            //this.getConversations() ;
-            this.scrollToLastItem()
+          this.setTransition('out', ()=>{
+
+            //this.precenseSubscriber()
+
+            this.setDisplayMode('conversation', ()=>{
+              //this.conversationSubscriber() ; 
+              //this.getConversations() ;
+              this.scrollToLastItem()
+            })
           })
-
         })
-
-
       })
-
-
     })
   }
 
   toggleMessenger = (e)=>{
     this.setState({
       open: !this.state.open, 
-      display_mode: "conversations"
+      display_mode: "conversations",
     })
   }
 
@@ -823,7 +848,6 @@ class Messenger extends Component {
 
   submitAppUserData = (data, next_step)=>{
     App.events && App.events.perform('data_submit', data)
-
   }
 
   updateHeaderOpacity = (val)=>{
@@ -901,15 +925,12 @@ class Messenger extends Component {
                         style={{height: this.state.header.height}}
                         isMobile={this.state.isMobile}>
                         <HeaderOption 
-                          style={
-                            { 
-                              opacity: this.state.header.opacity,
-                              transform: `translateY(${this.state.header.translateY}px)` 
-                            }
-                          }>
+                          in={this.state.transition}
+                          >
 
                           { this.state.display_mode != "home" ? 
                             <LeftIcon 
+                              className="fade-in-right"
                               onClick={this.displayHome.bind(this)}
                               ///onClick={this.displayConversationList.bind(this)}
                               style={{margin: '20px', cursor: 'pointer'}}
@@ -917,9 +938,27 @@ class Messenger extends Component {
                           }
 
                           { this.state.display_mode === "conversation" &&
-                            <span>
+                            <HeaderTitle in={this.state.transition}>
                               {this.renderAsignee()}
-                            </span>
+                            </HeaderTitle>
+                          }
+
+                          { this.state.display_mode === "home" &&
+                            <HeaderTitle style={{
+                              padding: '2em',
+                              opacity: this.state.header.opacity,
+                              transform: `translateY(${this.state.header.translateY}px)`
+                            }}>
+                              <h2>Hello</h2>
+                              <p>we are here to help</p>
+                            </HeaderTitle>
+                          }
+
+
+                          { this.state.display_mode === "conversations" &&
+                            <HeaderTitle in={this.state.transition}>
+                              conversations
+                            </HeaderTitle>
                           }
 
                           {
@@ -944,6 +983,7 @@ class Messenger extends Component {
                             displayNewConversation={this.displayNewConversation}
                             viewConversations={this.displayConversationList}
                             updateHeader={this.updateHeader}
+                            transition={this.state.transition}
                           />
                         }
 
@@ -962,6 +1002,7 @@ class Messenger extends Component {
                               appendVolatileConversation={this.appendVolatileConversation}
                               submitAppUserData={this.submitAppUserData}
                               updateHeader={this.updateHeader}
+                              transition={this.state.transition}
                             /> 
                         } 
 
@@ -978,6 +1019,7 @@ class Messenger extends Component {
                               email={this.props.email}
                               app={this.state.appData}
                               updateHeader={this.updateHeader}
+                              transition={this.state.transition}
                             />
                         }
 
@@ -1359,7 +1401,9 @@ class Conversations extends Component {
             {this.props.app.tagline}
           </Hint>
 
-          <NewConvoBtn onClick={this.props.displayNewConversation}>
+          <NewConvoBtn
+            in={this.props.transition}
+            onClick={this.props.displayNewConversation}>
             create new conversation
           </NewConvoBtn>
         </ConversationsFooter>
