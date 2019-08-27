@@ -927,3 +927,27 @@ export const Hint = styled.p`
     margin: 0px;
     height: 100%;
 `
+
+
+export const SpinnerAnim = keyframes`
+  to {transform: rotate(360deg);}
+`
+
+export const Spinner = styled.div`
+  &:before {
+    content: '';
+    box-sizing: border-box;
+    //position: absolute;
+    //top: 50%;
+    //left: 50%;
+    width: 20px;
+    height: 20px;
+    //margin-top: -10px;
+    //margin-left: -10px;
+    border-radius: 50%;
+    border: 2px solid #ccc;
+    border-top-color: #000;
+    animation: ${SpinnerAnim} .6s linear infinite;
+    display:inline-block;
+  }
+`
