@@ -3,7 +3,8 @@ import styled from '@emotion/styled'
 import {
   AnchorButton,
   FadeRightAnimation,
-  FadeBottomAnimation
+  FadeBottomAnimation,
+  Spinner
 } from './styles/styled'
 
 import graphql from '../src/graphql/client'
@@ -36,9 +37,12 @@ const HomePanel = ({
   displayArticle
 })=>{
 
-  const [opacity, setOpacity] = useState(1)
+  const [loading, setLoading] = useState(false)
   const [articles, setArticles] = useState([])
+
   const [meta, setMeta] = useState({})
+
+  let textInput = React.createRef();
 
   useEffect(()=>(
     updateHeader(
@@ -79,8 +83,7 @@ const HomePanel = ({
     const target = e.target
     const val = 1 - normalize(target.scrollTop, target.offsetHeight, 0 )
     const pge = percentage(target.scrollTop, target.offsetHeight)
-    
-    console.log(val)
+    //console.log(val)
     const opacity = val === 1 ? val : val * 0.3
 
     updateHeader({
@@ -96,6 +99,35 @@ const HomePanel = ({
 
   const percentage = (partialValue, totalValue)=>{
     return (100 * partialValue) / totalValue;
+  }
+
+  function handleSearch(e) {
+    console.log(textInput.value)
+    if(e.keyCode === 13){
+      searchArticles(textInput.value)
+    } 
+  }
+
+  function searchArticles(term){
+    setLoading(true)
+    graphql(SEARCH_ARTICLES, {
+      domain: "dev",
+      term: term,
+      lang: "en",
+      page: 1,
+      per: 5,
+      lang: 'en'
+    }, {
+      success: (data)=>{
+        const {collection, meta} = data.helpCenter.search
+        setArticles(collection)
+        setMeta(meta)
+        setLoading(false)
+      },
+      error: ()=>{
+        setLoading(true)
+      }
+    })
   }
 
   return (
@@ -136,10 +168,15 @@ const HomePanel = ({
       </ConversationInitiator>
 
       <Card in={transition}>
-        search shits
+        search articles
         <ButtonWrapper>
-          <input placeholder={"search articles"}/> 
-          <button>go</button>
+          <input ref={(ref)=> textInput = ref} 
+            placeholder={"search articles"} 
+            onKeyDown={handleSearch}
+          /> 
+          <button onClick={()=> searchArticles(textInput.value)}>
+            {loading ? <Spinner/> : 'go' }
+          </button>
         </ButtonWrapper>
       </Card>
 
@@ -161,6 +198,24 @@ const HomePanel = ({
       </ArticleList>
     
       </Panel>
+  )
+}
+
+const ArticleCard = ({article, displayArticle})=>{
+  return (
+
+    <ArticleCardWrapper onClick={(e)=> displayArticle(e, article) }>
+    
+      <ArticleCardTitle>
+        {article.title}
+      </ArticleCardTitle>
+
+      <ArticleCardContent>
+        {article.description}
+      </ArticleCardContent>
+    
+    </ArticleCardWrapper>
+
   )
 }
 
@@ -233,6 +288,7 @@ const Card = styled.div`
 
 `
 
+
 const ConversationInitiator = styled(Card)`
   margin-top: 10em;
   h2{
@@ -300,24 +356,6 @@ const ArticleCardTitle = styled.div`
 const ArticleCardContent = styled.div`
 
 `
-
-const ArticleCard = ({article, displayArticle})=>{
-  return (
-
-    <ArticleCardWrapper onClick={(e)=> displayArticle(e, article) }>
-    
-      <ArticleCardTitle>
-        {article.title}
-      </ArticleCardTitle>
-
-      <ArticleCardContent>
-        {article.description}
-      </ArticleCardContent>
-    
-    </ArticleCardWrapper>
-
-  )
-}
 
 
 export default HomePanel
