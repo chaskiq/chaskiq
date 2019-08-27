@@ -28,6 +28,7 @@ export const ARTICLES = `
           title
           slug
           content 
+          description
           state
           updatedAt
           author{

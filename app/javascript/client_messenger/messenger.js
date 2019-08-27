@@ -69,8 +69,6 @@ import StyledFrame from './styledFrame'
 import Home from './homePanel'
 import Article from './articles'
 
-
-
 let App = {}
 
 
@@ -82,6 +80,7 @@ class Messenger extends Component {
     super(props)
 
     this.state = {
+      article: null,
       conversation: {},
       conversation_messages: [],
       conversation_messagesMeta: {},
@@ -594,10 +593,12 @@ class Messenger extends Component {
     })
   }
 
-  displayArticle = (e)=>{
+  displayArticle = (e, article)=>{
     e.preventDefault()
     this.setTransition('out', ()=>{
-      this.setDisplayMode('article')
+      this.setState({
+        article: article
+      }, ()=> this.setDisplayMode('article') )
     })
   }
 
@@ -1000,6 +1001,7 @@ class Messenger extends Component {
                           <Article 
                             updateHeader={this.updateHeader}
                             transition={this.state.transition}
+                            articleSlug={this.state.article.slug}
                           />
                         }
 
