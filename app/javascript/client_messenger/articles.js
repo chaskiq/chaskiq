@@ -117,4 +117,20 @@ const Article = ({
   )
 }
 
+
+const Articles = ({
+  updateHeader,
+  articleSlug,
+  transition
+})=>{
+
+  return (
+
+    
+    <p> article list</p>
+
+  )
+
+}
+
 export default Article

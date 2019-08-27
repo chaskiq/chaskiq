@@ -1006,6 +1006,17 @@ class Messenger extends Component {
                           />
                         }
 
+
+                        {
+                          this.state.display_mode === "articles" &&
+                          <Articles
+                            updateHeader={this.updateHeader}
+                            transition={this.state.transition}
+                            articleSlug={this.state.article.slug}
+                            transition={this.state.transition}
+                          />
+                        }
+
                         {
                           this.state.display_mode === "conversation" &&
                           
