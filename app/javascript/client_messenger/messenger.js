@@ -67,6 +67,7 @@ import Quest from './messageWindow'
 import StyledFrame from './styledFrame'
 
 import Home from './homePanel'
+import Article from './articles'
 
 
 
@@ -593,11 +594,17 @@ class Messenger extends Component {
     })
   }
 
+  displayArticle = (e)=>{
+    e.preventDefault()
+    this.setTransition('out', ()=>{
+      this.setDisplayMode('article')
+    })
+  }
+
   setDisplayMode = (section, cb=null)=>{
     this.setState({
       transition: 'in'
     }, ()=>{
-      console.log(this.state.transition)
       this.setState({
         display_mode: section,
       }, ()=>{
@@ -982,6 +989,15 @@ class Messenger extends Component {
                           <Home 
                             displayNewConversation={this.displayNewConversation}
                             viewConversations={this.displayConversationList}
+                            updateHeader={this.updateHeader}
+                            transition={this.state.transition}
+                            displayArticle={this.displayArticle}
+                          />
+                        }
+
+                        {
+                          this.state.display_mode === "article" &&
+                          <Article 
                             updateHeader={this.updateHeader}
                             transition={this.state.transition}
                           />
