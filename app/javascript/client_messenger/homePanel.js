@@ -12,24 +12,6 @@ import {
   SEARCH_ARTICLES
 } from '../src/graphql/docsQueries'
 
-/*
-const articles = [
-  { 
-    id: 1,
-    title: "hey ho",
-    content: "hola gogogo "
-  },
-  { 
-    id: 2,
-    title: "good byt",
-    content: "hola gogogo "
-  },
-  { 
-    id: 3,
-    title: "how to",
-    content: "hola gogogo agaga "
-  },
-]*/
 
 const agents = [
   {
