@@ -41,6 +41,15 @@ RSpec.describe GraphqlController, type: :controller do
   before :each do 
     controller.stub(:current_user).and_return(agent_role.agent)
     allow_any_instance_of(Types::BaseObject).to receive(:current_user).and_return(agent_role.agent)
+  
+    Mutations::BaseMutation.any_instance
+    .stub(:current_user)
+    .and_return(agent_role.agent)
+
+    allow_any_instance_of(GraphqlController).to receive(:authorize_by_jwt).and_return(agent_role.agent)
+    controller.instance_variable_set(:@current_agent, agent_role.agent ) 
+
+  
   end
 
 
@@ -73,7 +82,7 @@ RSpec.describe GraphqlController, type: :controller do
 
     expect(app.conversations.count).to be == 1
     expect(conversation.messages.count).to be == 1
-    expect(conversation.assignee).to be_present
+    expect(conversation.assignee).to be_blank
 
     graphql_post(type: 'CONVERSATION', variables: {
       appKey: app.key, 
@@ -88,7 +97,7 @@ RSpec.describe GraphqlController, type: :controller do
 
   it "agent add message" do
 
-    allow_any_instance_of(Mutations::Conversations::InsertComment).to receive(:current_user).and_return(agent_role.agent)
+    #allow_any_instance_of(Mutations::Conversations::InsertComment).to receive(:current_user).and_return(agent_role.agent)
 
     graphql_post(type: 'INSERT_COMMMENT', variables: {
       appKey: app.key, 

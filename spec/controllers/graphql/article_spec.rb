@@ -24,11 +24,15 @@ RSpec.describe GraphqlController, type: :controller do
   }
 
   before :each do 
+    controller.stub(:current_user).and_return(agent)
+    allow_any_instance_of(Types::BaseObject).to receive(:current_user).and_return(agent)
+  
     Mutations::BaseMutation.any_instance
     .stub(:current_user)
-    .and_return(agent)
+    .and_return( agent)
 
-    allow_any_instance_of(Types::BaseObject).to receive(:current_user).and_return(agent)
+    allow_any_instance_of(GraphqlController).to receive(:authorize_by_jwt).and_return(agent)
+    controller.instance_variable_set(:@current_agent, agent ) 
   end
 
   context "find" do 
@@ -91,7 +95,8 @@ RSpec.describe GraphqlController, type: :controller do
 
       graphql_post(type: 'EDIT_ARTICLE', variables: {
         appKey: app.key, 
-        id: article.id,
+        id: article.id.to_s,
+        description: "foo",
         title: "ss",
         content: {
           serialized: "edited!",
@@ -119,7 +124,7 @@ RSpec.describe GraphqlController, type: :controller do
 
       graphql_post(type: 'DELETE_ARTICLE', variables: {
         appKey: app.key, 
-        id: article.id
+        id: article.id.to_s
       })
 
       expect(graphql_response.data.deleteArticle).to be_present
@@ -251,7 +256,7 @@ RSpec.describe GraphqlController, type: :controller do
         appKey: app.key, 
         collectionId: 1,
         title: "edited",
-        id: section.id,
+        id: section.id.to_s,
         collectionId: collection.id
       })
 
@@ -266,7 +271,7 @@ RSpec.describe GraphqlController, type: :controller do
 
       graphql_post(type: 'ARTICLE_SECTION_DELETE', variables: {
         appKey: app.key, 
-        id: section.id,
+        id: section.id.to_s,
       })
 
       expect(graphql_response.data.articleSectionDelete).to be_present

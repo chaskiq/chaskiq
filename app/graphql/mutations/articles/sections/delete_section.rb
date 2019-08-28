@@ -6,7 +6,7 @@ module Mutations
         
         field :section, Types::SectionType, null: false
         argument :app_key, String, required: true
-        argument :id, Integer, required: true
+        argument :id, String, required: true
 
     
         def resolve(app_key: , id:)

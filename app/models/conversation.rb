@@ -55,8 +55,7 @@ class Conversation < ApplicationRecord
   end
 
   def add_private_note(opts={})
-    part = process_message_part(opts)
-    part.private_note = true
+    part = process_message_part(opts.merge!(private_note: true))
     part.save
 
     if part.errors.blank?
@@ -71,6 +70,7 @@ class Conversation < ApplicationRecord
     part.authorable = opts[:from]
     part.check_assignment_rules = opts[:check_assignment_rules]
     #part.app_user = opts[:from]
+    part.private_note = opts[:private_note]
     part.message  = opts[:message]
     part.message_source = opts[:message_source] if opts[:message_source]
     part.email_message_id = opts[:email_message_id]

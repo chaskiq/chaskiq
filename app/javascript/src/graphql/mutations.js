@@ -647,7 +647,7 @@ export const ARTICLE_ASSIGN_AUTHOR = `
 `;
 
 export const DELETE_ARTICLE = `
-  mutation DeleteArticle($appKey: String!, $id: Int!){
+  mutation DeleteArticle($appKey: String!, $id: String!){
     deleteArticle(appKey: $appKey, id: $id){
       article {
         id
@@ -801,7 +801,7 @@ export const ARTICLE_SECTION_CREATE = `
 `;
 
 export const ARTICLE_SECTION_EDIT = `
-  mutation ArticleSectionEdit($appKey: String!, $title: String!, $id: Int!, $collectionId: Int!, $lang: String){
+  mutation ArticleSectionEdit($appKey: String!, $title: String!, $id: String!, $collectionId: Int!, $lang: String){
     articleSectionEdit( 
       appKey: $appKey, 
       title: $title,
