@@ -102,7 +102,7 @@ export const APP_USER_UPDATE_STATE = `
 `;
 
 export const START_CONVERSATION = `
-  mutation StartConversation($appKey: String!, $id: Int!, $message: Json!){
+  mutation StartConversation($appKey: String!, $id: Int, $message: Json!){
     startConversation(appKey: $appKey, id: $id, message: $message){
       conversation{
         id
@@ -118,6 +118,29 @@ export const START_CONVERSATION = `
           email
           properties
         }
+
+        lastMessage{
+          source
+          createdAt
+          message{
+            htmlContent
+            textContent
+            serializedContent
+          }
+          privateNote
+          messageSource{
+            id
+            type
+          }
+          appUser {
+            id
+            email
+            kind
+            displayName
+          }
+        }
+
+
       }
     }
   }

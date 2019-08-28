@@ -1,3 +1,5 @@
+require "browser/aliases"
+
 class Api::GraphqlController < ApiController
 
   before_action :get_app
@@ -12,12 +14,13 @@ class Api::GraphqlController < ApiController
 
     context = {
       # Query context goes here, for example:
-      current_user: @user_data,
+      user_data: @user_data,
       app: @app,
       #authorize: lambda{|mode, object| authorize!(mode, object) },
       #can: lambda{| mode, object | can?( mode, object) },
       #logout!: ->{logout!},
       #session: session,
+      get_app_user: lambda{get_app_user},
       request: request,
     }
 

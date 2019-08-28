@@ -33,11 +33,11 @@ module Types
     end
 
     field :messenger, Types::MessengerType, null: false, description: "client messenger entry point" do
-      argument :app_key, String, required: true
+      #argument :app_key, String, required: true
     end
 
-    def messenger(app_key:)
-      App.find_by(key: app_key)
+    def messenger()
+      context[:app]
     end
 
 

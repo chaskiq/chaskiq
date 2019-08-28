@@ -12,6 +12,7 @@ module Types
     field :preferences, Types::JsonType, null: true
     field :encryption_key, String, null: true
     field :app_users, [Types::AppUserType], null: true
+    field :triggers, Types::JsonType, null: true
     
     field :conversations, Types::PaginatedConversationsType, null:true do
       argument :page, Integer, required: false, default_value: 1
