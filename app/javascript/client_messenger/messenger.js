@@ -14,8 +14,19 @@ import Tour from './UserTour'
 import gravatar from "gravatar"
 import Moment from 'react-moment';
 import { soundManager } from 'soundmanager2'
+import {toCamelCase} from '../src/shared/caseConverter'
 import UrlPattern from 'url-pattern'
 import serialize from 'form-serialize'
+import {
+  PING, 
+  CONVERSATIONS, 
+  CONVERSATION
+} from './graphql/queries'
+import {
+  INSERT_COMMMENT,
+  START_CONVERSATION
+} from '../src/graphql/mutations'
+
 import {
   Container,
   UserAutoMessage,
@@ -33,6 +44,7 @@ import {
   ReadIndicator,
   MessageItem,
   HeaderOption,
+  HeaderTitle,
   ChatAvatar,
   UserAutoChatAvatar,
   NewConvoBtn,
@@ -51,7 +63,8 @@ import {
   MessageSpinner,
   UserAutoMessageFlex,
   MessageCloseBtn,
-  AppPackageBlockContainer
+  AppPackageBlockContainer,
+  HeaderAvatar
 } from './styles/styled'
 
 import sanitizeHtml from 'sanitize-html';
@@ -64,17 +77,20 @@ import {
 import Quest from './messageWindow'
 import StyledFrame from './styledFrame'
 
-
+import Home from './homePanel'
+import Article from './articles'
 
 let App = {}
 
-class Messenger extends Component {
 
+
+class Messenger extends Component {
 
   constructor(props){
     super(props)
 
     this.state = {
+      article: null,
       conversation: {},
       conversation_messages: [],
       conversation_messagesMeta: {},
@@ -90,6 +106,12 @@ class Messenger extends Component {
       isMobile: false,
       tourManagerEnabled: false,
       ev: null,
+      header:{
+        opacity: 1,
+        translateY: 0,
+        height: 212
+      },
+      transition: 'in'
     }
 
     const data = {
@@ -99,6 +121,7 @@ class Messenger extends Component {
     }
 
     this.defaultHeaders = {
+      app: this.props.app_id,
       user_data: JSON.stringify(data)
     }
 
@@ -112,6 +135,7 @@ class Messenger extends Component {
     if(this.props.encryptedMode){
       
       this.defaultHeaders = { 
+        app: this.props.app_id,
         enc_data: this.props.encData,
         session_id: this.props.session_id
       }
@@ -128,7 +152,51 @@ class Messenger extends Component {
       headers: this.defaultHeaders
       /* other custom settings */
     });
-    
+
+    this.graphqlClient = (query, variables, callbacks)=>{
+      axios.create({
+        baseURL: `${this.props.domain}/api/graphql`,
+        headers: this.defaultHeaders
+      }).post('', {
+        query: query,
+        variables: variables,
+      }, {
+        headers: this.defaultHeaders
+      })
+      .then( r => {
+        const data = r.data.data
+        const res = r
+      
+        const errors = r.data.errors
+        if (_.isObject(errors) && !_.isEmpty(errors)) {
+          //const errors = data[Object.keys(data)[0]];
+          //callbacks['error'] ? callbacks['error'](res, errors['errors']) : null
+          if(callbacks['error'])
+            return callbacks['error'](res, errors)
+        }
+        
+        callbacks['success'] ? callbacks['success'](data, res) : null
+      })
+      .catch(( req, error )=> {
+        console.log(req, error)
+        switch (req.response.status) {
+          case 500:
+            //store.dispatch(errorMessage("server error ocurred"))
+            break;
+          case 401:
+            //store.dispatch(errorMessage("session expired"))
+            //store.dispatch(expireAuthentication())
+            break;
+          default:
+            break;
+        }
+        
+        callbacks['fatal'] ? callbacks['fatal'](error) : null
+      })
+      .then( (r) => {
+        callbacks['always'] ? callbacks['always']() : null
+      });
+    }
 
     App = {
       cable: actioncable.createConsumer(`${this.props.ws}`)
@@ -259,7 +327,7 @@ class Messenger extends Component {
         connected: ()=> {
           console.log("connected to events")
           this.registerVisit()
-          this.processTriggers()
+          //this.processTriggers()
         },
         disconnected: ()=> {
           console.log("disconnected from events")
@@ -352,15 +420,17 @@ class Messenger extends Component {
         console.log("disconnected from conversation: ", this.state.conversation.id)
       },
       received: (data)=> {
+        const newMessage = toCamelCase(data)
         //let html = stateToHTML(JSON.parse(data.message));
         //console.log(data.message)
         //console.log(`received ${data}`)
         //console.log(this.props.email , data.app_user.email)
         // find message and update it, or just append message to conversation
-        if ( this.state.conversation_messages.find( (o)=> o.id === data.id ) ){
+         
+        if ( this.state.conversation_messages.find( (o)=> o.id === newMessage.id ) ){
           const new_collection = this.state.conversation_messages.map((o)=>{
-              if (o.id === data.id ){
-                return data
+              if (o.id === newMessage.id ){
+                return newMessage
               } else {
                 return o
               }
@@ -372,10 +442,10 @@ class Messenger extends Component {
 
         } else {
           this.setState({
-            conversation_messages: [data].concat(this.state.conversation_messages)
+            conversation_messages: [newMessage].concat(this.state.conversation_messages)
           }, this.scrollToLastItem)
           
-          if (data.app_user.kind != "app_user") {
+          if (newMessage.appUser.kind != "app_user") {
             this.playSound()
           }
         }
@@ -390,48 +460,21 @@ class Messenger extends Component {
     });    
   }
 
-  getAvailables = (cb)=>{
-
-    const data = {
-      referrer: window.location.path,
-      email: this.props.email,
-      properties: this.props.properties
-    }
-
-    this.axiosInstance.get(`/api/v1/apps/${this.props.app_id}/messages.json`)
-      .then((response) => {
-        this.setState({ availableMessages: response.data.collection })
-        if (cb)
-          cb(response.data.collection)
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-
-  }
-
-  getMessage = (cb)=> {
-
-    this.getAvailables((collection)=>{
- 
-    })
-
-  }
-
   ping =(cb)=>{
-    this.axiosInstance.post(`/api/v1/apps/${this.props.app_id}/ping`)
-      .then( (response)=> {
-        this.setState({
-          appData: response.data.app
-        }, ()=>{
-            console.log("subscribe to events")
-            cb()
-        })
 
-      })
-      .catch(function (error) {
-        console.log(error);
-      });
+    this.graphqlClient(PING, {}, {
+      success: (data)=>{
+        this.setState({
+          appData: data.messenger.app
+        }, ()=>{
+          console.log("subscribe to events")
+          cb()
+        })
+      },
+      error: ()=>{
+
+      }
+    })
   }
 
   insertComment =(comment, cb)=>{
@@ -452,16 +495,34 @@ class Messenger extends Component {
   createComment =(comment, cb)=>{
     const id = this.state.conversation.id
     
-    let opts = {
+    /*let opts = {
       email: this.props.email,
       message: comment
+    }*/
+
+    const message = {
+      html: comment.html_content,
+      serialized: comment.serialized_content
     }
 
     // force an assigment from client
     if( this.state.conversation_messages.length === 0)
       opts['check_assignment_rules'] = true
 
-    this.axiosInstance.put(`/api/v1/apps/${this.props.app_id}/conversations/${id}.json`, 
+    this.graphqlClient(INSERT_COMMMENT, {
+      appKey: this.props.app_id,
+      id: id,
+      message: message
+    }, {
+      success: (data)=>{
+        cb(data)
+      },
+      error: ()=>{
+
+      }
+    })
+
+    /*this.axiosInstance.put(`/api/v1/apps/${this.props.app_id}/conversations/${id}.json`, 
       opts)
     .then( (response)=> {
       console.log(response)
@@ -469,11 +530,40 @@ class Messenger extends Component {
     })
     .catch( (error)=> {
       console.log(error);
-    });
-
+    });*/
   }
 
   createCommentOnNewConversation = (comment, cb)=>{
+
+    const message = {
+      html: comment.html_content,
+      serialized: comment.serialized_content
+    }
+
+    this.graphqlClient( START_CONVERSATION, {
+      appKey: this.props.app_id,
+      message: message
+    }, { 
+      success: (data)=>{
+        const {conversation} = data.startConversation
+
+        this.setState({
+          conversation: conversation,
+          conversation_messages: [conversation.lastMessage]
+            /*conversation.lastMessage ? 
+            response.data.messages.concat(this.state.conversation_messages) : 
+            this.state.conversation_messages*/
+          }, ()=>{ 
+          this.conversationSubscriber(() => {})
+          cb ? cb() : null 
+        })
+      },
+      error: ()=> {
+        debugger
+      }
+    })
+
+    /*
     this.axiosInstance.post(`/api/v1/apps/${this.props.app_id}/conversations.json`, {
         email: this.props.email,
         message: comment
@@ -484,11 +574,8 @@ class Messenger extends Component {
           conversation_messages: response.data.messages ? 
             response.data.messages.concat(this.state.conversation_messages) : 
             this.state.conversation_messages
-        }, ()=>{ 
-          
-
+          }, ()=>{ 
           this.conversationSubscriber(() => {
-
           })
 
           cb ? cb() : null 
@@ -498,7 +585,10 @@ class Messenger extends Component {
       .catch( (error)=> {
         console.log(error);
       });
-  }
+  
+  
+    */
+   }
 
   clearAndGetConversations = ()=>{
     this.setState({ conversationsMeta: {} }, this.getConversations)
@@ -513,40 +603,67 @@ class Messenger extends Component {
     }
 
     const nextPage = this.state.conversationsMeta.next_page || 1
-    
-    this.axiosInstance.get(`/api/v1/apps/${this.props.app_id}/conversations.json?page=${nextPage}`)
-      .then( (response)=> {
-        const { collection, meta } = response.data
+
+    this.graphqlClient(CONVERSATIONS, {
+      page: nextPage
+    }, {
+      success: (data)=>{
+        const { collection, meta } = data.messenger.conversations
         this.setState({
           conversations: options && options.append ? this.state.conversations.concat(collection) : collection,
           conversationsMeta: meta
         })
-        //cb ? cb() : null
-      })
-      .catch( (error)=>{
-        console.log(error);
-      });
+      },
+      error: ()=>{
+
+      }
+    })
   }
 
   setconversation = (id , cb)=>{
     const nextPage = this.state.conversation_messagesMeta.next_page || 1
-    this.axiosInstance.get(`/api/v1/apps/${this.props.app_id}/conversations/${id}.json?page=${nextPage}`)
-      .then( (response)=> {
+    this.graphqlClient(CONVERSATION, {
+      id: id,
+      page: nextPage
+    }, {
+      success: (data)=>{
+        const {conversation} = data.messenger
+        const {messages, meta} = conversation
         this.setState({
-          conversation: response.data.conversation,
-          conversation_messages: nextPage > 1 ? this.state.conversation_messages.concat(response.data.messages) : response.data.messages ,
-          conversation_messagesMeta: response.data.meta
+          conversation: conversation,
+          conversation_messages: nextPage > 1 ? this.state.conversation_messages.concat(messages.collection) : messages.collection ,
+          conversation_messagesMeta: messages.meta
         }, cb)
-        
-      })
-      .catch( (error)=> {
-        console.log(error);
-      });
+      },
+      error: (error)=>{
+        debugger
+      }
+    })
+  }
+
+  setTransition = (type, cb)=>{
+    this.setState({
+      transition: type
+    }, ()=>{
+      setTimeout(()=>{
+        cb()
+      }, 200)
+    })
   }
 
   displayNewConversation =(e)=>{
     e.preventDefault()
-    this.createCommentOnNewConversation(null, ()=>{
+
+    this.setState({
+      conversation_messages: [],
+      conversation_messagesMeta: {},
+      conversation: {
+        mainParticipant: {}
+      },
+      display_mode: "conversation"
+    })
+
+    /*this.createCommentOnNewConversation(null, ()=>{
 
       this.conversationSubscriber(() => {
         //this.precenseSubscriber()
@@ -559,15 +676,47 @@ class Messenger extends Component {
           this.scrollToLastItem()
         })
       })
+    })*/
+  }
+
+  displayHome = (e)=>{
+    this.unsubscribeFromConversation()
+    e.preventDefault()
+
+    this.setTransition('out', ()=>{
+      this.setDisplayMode('home')
+    })
+  }
+
+  displayArticle = (e, article)=>{
+    e.preventDefault()
+    this.setTransition('out', ()=>{
+      this.setState({
+        article: article
+      }, ()=> this.setDisplayMode('article') )
+    })
+  }
+
+  setDisplayMode = (section, cb=null)=>{
+    this.setState({
+      transition: 'in'
+    }, ()=>{
+      this.setState({
+        display_mode: section,
+      }, ()=>{
+        cb && cb()
+      })
     })
   }
 
   displayConversationList = (e)=>{
     this.unsubscribeFromConversation()
     e.preventDefault()
-    this.setState({
-      display_mode: "conversations"
+
+    this.setTransition('out', ()=>{
+      this.setDisplayMode('conversations')
     })
+
   }
 
   displayConversation =(e, o)=>{
@@ -580,28 +729,25 @@ class Messenger extends Component {
 
         this.conversationSubscriber(() => {
 
-          //this.precenseSubscriber()
-          this.setState({
-            display_mode: "conversation"
-          }, () => {
-            //this.conversationSubscriber() ; 
-            //this.getConversations() ;
-            this.scrollToLastItem()
+          this.setTransition('out', ()=>{
+
+            //this.precenseSubscriber()
+
+            this.setDisplayMode('conversation', ()=>{
+              //this.conversationSubscriber() ; 
+              //this.getConversations() ;
+              this.scrollToLastItem()
+            })
           })
-
         })
-
-
       })
-
-
     })
   }
 
   toggleMessenger = (e)=>{
     this.setState({
       open: !this.state.open, 
-      display_mode: "conversations"
+      display_mode: "conversations",
     })
   }
 
@@ -610,7 +756,7 @@ class Messenger extends Component {
   }
 
   isMessengerActive = ()=>{
-    return this.state.appData && this.state.appData.active_messenger == "on" || this.state.appData.active_messenger == "true" || this.state.appData.active_messenger === true
+    return this.state.appData && this.state.appData.activeMessenger == "on" || this.state.appData.activeMessenger == "true" || this.state.appData.activeMessenger === true
   }
 
   isTourManagerEnabled = ()=>{
@@ -643,7 +789,7 @@ class Messenger extends Component {
       //created_at: "2019-08-13T02:40:19.650Z",
       //id: 67,
       locked: o.controls && (o.controls.type === "ask_option" || o.controls.type === "data_retrieval"),
-      main_participant: {
+      mainParticipant: {
         //display_name: "visitor 8 ",
         //email: null,
         //id: 10,
@@ -654,9 +800,9 @@ class Messenger extends Component {
     const conversationMessages = o.messages.map((message)=>(
       {
         volatile: true,
-        app_user: message.app_user,
+        appUser: message.app_user,
         message: {
-          serialized_content: message.serialized_content
+          serializedContent: message.serialized_content
         }
       }
     )).reverse()
@@ -743,17 +889,17 @@ class Messenger extends Component {
     }, trigger.after_delay*1000)
   }
 
-  sendTrigger = ()=>{
+  /*sendTrigger = ()=>{
     console.log("send trigger")
     this.axiosInstance.get(`/api/v1/apps/${this.props.app_id}/triggers.json`)
     .then((response) => {
       console.log("trigger sent!")
-      /*this.setState({
-        messages: this.state.messages.concat(response.data.message)
-      })*/
+      //this.setState({
+      //  messages: this.state.messages.concat(response.data.message)
+      //})
 
-      /*if (cb)
-        cb()*/
+      //if (cb)
+      //  cb()
     })
     .catch((error) => {
       console.log(error);
@@ -785,27 +931,47 @@ class Messenger extends Component {
     })
 
     return matches.indexOf(null) === -1
-  }
-
-  getTours = ()=>{
-    this.axiosInstance.get(`/api/v1/apps/${this.props.app_id}/tours.json`)
-    .then((response) => {
-      this.setState({
-        tours: this.state.tours.concat(response.data)
-      })
-
-      /*if (cb)
-        cb()*/
-    })
-    .catch((error) => {
-      console.log(error);
-    });
-
-  }
+  }*/
 
   submitAppUserData = (data, next_step)=>{
     App.events && App.events.perform('data_submit', data)
+  }
 
+  updateHeaderOpacity = (val)=>{
+    this.setState({
+      headerOpacity: val
+    })
+  }
+
+  updateHeaderTranslateY = (val)=>{
+    this.setState({
+      headerTranslateY: val
+    })
+  }
+
+  updateHeader = ({translateY, opacity, height})=>{
+    this.setState({
+      header: Object.assign({}, this.state.header, {translateY, opacity, height} )
+    }) 
+  }
+
+  renderAsignee = ()=>{
+    if(this.state.conversation.assignee){
+      return <HeaderAvatar>
+              <img src={gravatar.url(assignee.email)} />
+             </HeaderAvatar>
+    }else{
+      return <HeaderAvatar>
+              
+              <img src={gravatar.url('assignee.email')} />
+
+              <div>
+                <p>miguel michelson</p>
+                <span>away</span>
+              </div>
+
+             </HeaderAvatar>
+    }
   }
 
   render() {
@@ -842,17 +1008,45 @@ class Messenger extends Component {
                   }}>
 
                     <SuperFragment>
-                      <Header isMobile={this.state.isMobile}>
-                        <HeaderOption>
-                          { this.state.display_mode === "conversation" ? 
+                      <Header 
+                        style={{height: this.state.header.height}}
+                        isMobile={this.state.isMobile}>
+                        <HeaderOption 
+                          in={this.state.transition}
+                          >
+
+                          { this.state.display_mode != "home" ? 
                             <LeftIcon 
-                              onClick={this.displayConversationList.bind(this)}
+                              className="fade-in-right"
+                              onClick={this.displayHome.bind(this)}
+                              ///onClick={this.displayConversationList.bind(this)}
                               style={{margin: '20px', cursor: 'pointer'}}
                             /> : null 
                           }
-                          <span style={{marginLeft: '20px'}}>
-                            Hello {this.props.name}!
-                          </span>
+
+                          { this.state.display_mode === "conversation" &&
+                            <HeaderTitle in={this.state.transition}>
+                              {this.renderAsignee()}
+                            </HeaderTitle>
+                          }
+
+                          { this.state.display_mode === "home" &&
+                            <HeaderTitle style={{
+                              padding: '2em',
+                              opacity: this.state.header.opacity,
+                              transform: `translateY(${this.state.header.translateY}px)`
+                            }}>
+                              <h2>Hello</h2>
+                              <p>we are here to help</p>
+                            </HeaderTitle>
+                          }
+
+
+                          { this.state.display_mode === "conversations" &&
+                            <HeaderTitle in={this.state.transition}>
+                              conversations
+                            </HeaderTitle>
+                          }
 
                           {
                             this.state.isMobile ?
@@ -872,7 +1066,34 @@ class Messenger extends Component {
 
                         {
                           this.state.display_mode === "home" && 
-                          <p>home mada</p>
+                          <Home 
+                            displayNewConversation={this.displayNewConversation}
+                            viewConversations={this.displayConversationList}
+                            updateHeader={this.updateHeader}
+                            transition={this.state.transition}
+                            displayArticle={this.displayArticle}
+                          />
+                        }
+
+                        {
+                          this.state.display_mode === "article" &&
+                          <Article 
+                            updateHeader={this.updateHeader}
+                            transition={this.state.transition}
+                            articleSlug={this.state.article.slug}
+                            transition={this.state.transition}
+                          />
+                        }
+
+
+                        {
+                          this.state.display_mode === "articles" &&
+                          <Articles
+                            updateHeader={this.updateHeader}
+                            transition={this.state.transition}
+                            articleSlug={this.state.article.slug}
+                            transition={this.state.transition}
+                          />
                         }
 
                         {
@@ -889,6 +1110,8 @@ class Messenger extends Component {
                               setOverflow={this.setOverflow}
                               appendVolatileConversation={this.appendVolatileConversation}
                               submitAppUserData={this.submitAppUserData}
+                              updateHeader={this.updateHeader}
+                              transition={this.state.transition}
                             /> 
                         } 
 
@@ -904,6 +1127,8 @@ class Messenger extends Component {
                               clearAndGetConversations={this.clearAndGetConversations}
                               email={this.props.email}
                               app={this.state.appData}
+                              updateHeader={this.updateHeader}
+                              transition={this.state.transition}
                             />
                         }
 
@@ -915,7 +1140,7 @@ class Messenger extends Component {
 
                 </SuperDuper> 
               
-                </Container>  : null
+              </Container>  : null
           }
 
 
@@ -974,14 +1199,42 @@ class Messenger extends Component {
 
 class Conversation extends Component {
 
+  componentDidMount(){
+    this.props.updateHeader(
+      {
+        translateY: 0 , 
+        opacity: 1, 
+        height: '0' 
+      }
+    )
+  }
+
   // TODO: skip on xhr progress
   handleConversationScroll = (e) => {
     let element = e.target
+    console.log(element.scrollTop)
     //console.log(element.scrollHeight - element.scrollTop, element.clientHeight) // on bottom
     if (element.scrollTop === 0) { // on top
+
+      this.props.updateHeader(
+        {
+          translateY: 0 , 
+          opacity: 1, 
+          height: 212
+        }
+      )
+
     //if (element.scrollTop <= 50) { // on almost top // todo skip on xhr loading
       if (this.props.conversation_messagesMeta.next_page)
         this.props.setConversation(this.props.conversation.id)
+    } else {
+      this.props.updateHeader(
+        {
+          translateY: 0 , 
+          opacity: 1, 
+          height: 0
+        }
+      )
     }
   }
 
@@ -1000,9 +1253,10 @@ class Conversation extends Component {
   }
 
   renderMessage = (o, i)=>{
-    const userClass = o.app_user.kind === "agent" ? 'admin' : 'user'
-    const isAgent = o.app_user.kind === "agent"
-    const themeforMessage = o.private_note || isAgent ? theme : themeDark
+    console.log(o)
+    const userClass = o.appUser.kind === "agent" ? 'admin' : 'user'
+    const isAgent = o.appUser.kind === "agent"
+    const themeforMessage = o.privateNote || isAgent ? theme : themeDark
     
     return <MessageItemWrapper
             email={this.props.email}
@@ -1011,13 +1265,13 @@ class Conversation extends Component {
 
             <MessageItem
               className={userClass}
-              messageSourceType={o.message_source ? o.message_source.type : ''}
+              messageSourceType={o.messageSource ? o.messageSource.type : ''}
             >
 
             {
               !this.props.isUserAutoMessage(o) && isAgent ?
               <ConversationSummaryAvatar>
-                <img src={gravatar.url(o.app_user.email)} />
+                <img src={gravatar.url(o.appUser.email)} />
               </ConversationSummaryAvatar> : null
             }
 
@@ -1026,8 +1280,8 @@ class Conversation extends Component {
               {
                 this.props.isUserAutoMessage(o) ?
                   <UserAutoChatAvatar>
-                    <img src={gravatar.url(o.app_user.email)} />
-                    <span>{o.app_user.name || o.app_user.email}</span>
+                    <img src={gravatar.url(o.appUser.email)} />
+                    <span>{o.appUser.name || o.appUser.email}</span>
                   </UserAutoChatAvatar> : null
               }
 
@@ -1037,7 +1291,7 @@ class Conversation extends Component {
                 theme={ themeforMessage }>
                 <DanteContainer>
                   <DraftRenderer key={i} 
-                    raw={JSON.parse(o.message.serialized_content)}
+                    raw={JSON.parse(o.message.serializedContent)}
                   />
                 </DanteContainer>
               </ThemeProvider>  
@@ -1192,6 +1446,15 @@ class Conversations extends Component {
 
   componentDidMount(){
     this.props.clearAndGetConversations()
+
+    this.props.updateHeader(
+      {
+        translateY: 0 , 
+        opacity: 1, 
+        height: '0' 
+      }
+    )
+
   }
 
   // TODO: skip on xhr progress
@@ -1228,7 +1491,7 @@ class Conversations extends Component {
           {
             this.props.conversations.map((o, i) => {
 
-              const message = o.last_message
+              const message = o.lastMessage
 
               return <CommentsItemComp
                 message={message}
@@ -1248,7 +1511,9 @@ class Conversations extends Component {
             {this.props.app.tagline}
           </Hint>
 
-          <NewConvoBtn onClick={this.props.displayNewConversation}>
+          <NewConvoBtn
+            in={this.props.transition}
+            onClick={this.props.displayNewConversation}>
             create new conversation
           </NewConvoBtn>
         </ConversationsFooter>
@@ -1286,7 +1551,7 @@ function CommentsItemComp(props){
                     <ConversationSummary>
 
                       <ConversationSummaryAvatar>
-                        <img src={gravatar.url(message.app_user.email)} />
+                        <img src={gravatar.url(message.appUser.email)} />
                       </ConversationSummaryAvatar>
 
                       <ConversationSummaryBody>
@@ -1294,11 +1559,12 @@ function CommentsItemComp(props){
                         <ConversationSummaryBodyMeta>
 
                           {
-                            !message.read_at && message.app_user.email !== email ?
+                            !message.readAt && message.appUser.email !== email ?
                               <ReadIndicator /> : null
                           }
                           <Autor>
-                            {message.app_user.email}
+                            {message.appUser.displayName}
+                            {message.appUser.email}
                           </Autor>
 
                           <Moment fromNow style={{
@@ -1309,14 +1575,14 @@ function CommentsItemComp(props){
                             fontSize: '.8em',
                             textTransform: 'unset'
                           }}>
-                            {message.created_at}
+                            {message.createdAt}
                           </Moment>
 
                         </ConversationSummaryBodyMeta>
                         {/* TODO: sanitize in backend */}
                         <ConversationSummaryBodyContent
                           dangerouslySetInnerHTML={
-                            { __html: sanitizeMessageSummary(message.message.html_content) }
+                            { __html: sanitizeMessageSummary(message.message.htmlContent) }
                           }
                         />
                       </ConversationSummaryBody>
@@ -1498,7 +1764,7 @@ class MessageContainer extends Component {
 class MessageItemWrapper extends Component {
   componentDidMount(){
     // mark as read on first render if not read & from admin
-    if(!this.props.data.volatile && !this.props.data.read_at && this.props.data.app_user.kind != "app_user"){
+    if(!this.props.data.volatile && !this.props.data.readAt && this.props.data.appUser.kind != "app_user"){
       App.conversations && App.conversations.perform("receive", 
         Object.assign({}, this.props.data, {email: this.props.email})
       )

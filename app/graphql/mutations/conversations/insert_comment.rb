@@ -14,15 +14,15 @@ module Mutations
       # TODO: define resolve method
       def resolve(app_key:, id:, message:)
         app = App.find_by(key: app_key)
-
-
+        
         conversation = app.conversations.find(id)
         
         if current_user.is_a?(Agent)
           author = app.agents.where("agents.email =?", current_user.email).first
-        else
+        elsif app_user = context[:get_app_user].call
+          author = app_user
           # TODO: check this, when permit multiple emails, check by different id
-          author = app.app_users.where(["email =?", current_user.email ]).first 
+          # author = app.app_users.where(["email =?", current_user.email ]).first
         end
 
         @message = conversation.add_message({
