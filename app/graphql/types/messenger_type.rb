@@ -26,6 +26,14 @@ module Types
 
 
 
+    field :agents, [Types::AgentType], null: true
+
+    def agents
+      object.agents.limit(5)
+    end
+
+
+
     field :conversation, Types::ConversationType, null: true do
       argument :id, Integer, required: true #, default_value: 1
       argument :page, Integer, required: false, default_value: 1

@@ -16,6 +16,10 @@ RSpec.describe "Widget management", :type => :system do
     app.add_agent({email: "test2@test.cl"})
   }
 
+  let(:serialized_content){
+    "{\"blocks\": [{\"key\":\"bl82q\",\"text\":\"foobar\",\"type\":\"unstyled\",\"depth\":0,\"inlineStyleRanges\":[],\"entityRanges\":[],\"data\":{}}],\"entityMap\":{}}"
+  }
+
   before do
 
     if ENV["CI"].present? 
@@ -73,7 +77,9 @@ RSpec.describe "Widget management", :type => :system do
   it "renders messenger on registered users creating a app user" do                       
     
     app.start_conversation({
-      message: "message", 
+      message: {
+        serialized_content: serialized_content
+      }, 
       from: user
     })
 

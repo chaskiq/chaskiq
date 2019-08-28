@@ -17,6 +17,7 @@ private
     else
       @user_data = get_user_from_unencrypted
     end
+    @user_data
   end
 
   def get_user_data
@@ -29,9 +30,7 @@ private
 
   def add_vistor
     options = {} #{app_id: @app.key}
-    
-    options.merge!({session_id: request.headers["HTTP_SESSION_ID"]}) 
-    
+    #options.merge!({session_id: request.headers["HTTP_SESSION_ID"]}) 
     if @user_data[:email].blank?
       u = @app.add_anonymous_user(options)
     end
@@ -48,7 +47,9 @@ private
   end
 
   def get_user_by_session
-    @app.app_users.find_by(session_id: request.headers["HTTP_SESSION_ID"])
+    session_id = request.headers["HTTP_SESSION_ID"]
+    return nil if session_id.blank?
+    @app.app_users.find_by(session_id: session_id)
   end
 
   def authorize!
