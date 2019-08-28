@@ -918,7 +918,8 @@ class Messenger extends Component {
   }
 
   renderAsignee = ()=>{
-    if(this.state.conversation.assignee){
+    const {assignee} =  this.state.conversation
+    if(assignee){
       return <HeaderAvatar>
               <img src={gravatar.url(assignee.email)} />
              </HeaderAvatar>

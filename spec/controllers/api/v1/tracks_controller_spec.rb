@@ -2,11 +2,11 @@ require 'rails_helper'
 
 RSpec.describe Api::V1::TracksController, type: :controller do
 
-  let(:list){ FactoryBot.create(:chaskiq_list) }
+  let(:list){ FactoryGirl.create(:chaskiq_list) }
   let(:subscriber){
-    list.create_subscriber FactoryBot.attributes_for(:chaskiq_subscriber)
+    list.create_subscriber FactoryGirl.attributes_for(:chaskiq_subscriber)
   }
-  let(:campaign){ FactoryBot.create(:chaskiq_campaign, list: list) }
+  let(:campaign){ FactoryGirl.create(:chaskiq_campaign, list: list) }
 
   %w[open bounce spam].each do |action|
     it "will track an #{action}" do

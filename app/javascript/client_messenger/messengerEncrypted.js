@@ -44,6 +44,7 @@ export default class HermessengerEncrypted {
 
     this.grapqhClient.send(AUTH, {}, {
       success: (data)=>{
+
         const user = data.messenger.user
 
         if (user.session_id){
