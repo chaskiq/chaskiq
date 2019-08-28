@@ -8,7 +8,7 @@ module Types
     end
 
     def user
-      get_user
+      context[:auth].call
     end
 
     field :conversations, Types::PaginatedConversationsType, null:true do

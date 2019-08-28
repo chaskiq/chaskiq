@@ -13,7 +13,13 @@ export const PING = `
   }
 `;
 
-
+export const AUTH = `
+  query Messenger{
+    messenger {
+      user
+    }
+  }
+`;
 
 export const CONVERSATIONS = `
   query Messenger($page: Int!){
