@@ -10,12 +10,10 @@ private
   def get_user_data_from_auth
     if @app.encryption_enabled?
       @user_data = authorize_by_encrypted_params
- 
       if @user_data[:email].blank?
         visitor = (get_user_by_session || add_vistor)
-        @user_data = @user_data.merge({session_id: visitor.session_id}) 
+        @user_data.merge!({session_id: visitor.session_id}) 
       end
-
     else
       @user_data = get_user_from_unencrypted
     end

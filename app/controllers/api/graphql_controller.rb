@@ -3,23 +3,21 @@ require "browser/aliases"
 class Api::GraphqlController < ApiController
 
   before_action :get_app
-  before_action :get_user_data_from_auth, only: :auth
-  before_action :get_user_data, except: :auth
-  before_action :authorize!
+  # before_action :authorize!
 
   def execute
     variables = ensure_hash(params[:variables])
     query = params[:query]
     operation_name = params[:operationName]
-
     context = {
       # Query context goes here, for example:
-      user_data: @user_data,
+      user_data: user_data,
       app: @app,
       #authorize: lambda{|mode, object| authorize!(mode, object) },
       #can: lambda{| mode, object | can?( mode, object) },
       #logout!: ->{logout!},
       #session: session,
+      auth: lambda{auth},
       get_app_user: lambda{get_app_user},
       request: request,
     }
@@ -54,6 +52,14 @@ class Api::GraphqlController < ApiController
   end
 
   private
+
+  def auth
+    @user_data = get_user_data_from_auth
+  end
+
+  def user_data
+    @user_data
+  end
 
   def get_app
     @app = App.find_by(key: request.headers["HTTP_APP"])
