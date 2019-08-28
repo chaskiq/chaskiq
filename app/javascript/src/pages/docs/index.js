@@ -291,7 +291,7 @@ function CustomizedInputBase({lang, history}) {
       page: 1
     },{
       success: (data)=>{
-        setResults(data.helpCenter.search)
+        setResults(data.helpCenter.search.collection)
       },
       error: ()=>{
         debugger

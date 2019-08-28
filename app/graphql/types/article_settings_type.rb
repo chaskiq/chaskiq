@@ -25,18 +25,6 @@ module Types
       object.translations.map(&:locale)
     end
 
-    field :search, [Types::ArticleType], null: true, description: "help center search" do
-      argument :lang, String, required: false , default_value: I18n.locale
-      argument :term, String, required: true
-      argument :page, Integer, required: true
-      argument :per, Integer, required: false, default_value: 10
-    end
-
-    def search(term:, lang:, page: , per: )
-      I18n.locale = lang
-      object.app.articles.published.search(term)
-    end
-
     def logo
       return "" unless object.logo_blob.present?
 
@@ -76,6 +64,18 @@ module Types
 
     def articles(page:, per:)
       object.app.articles.published.page(page).per(per)
+    end
+
+    field :search, Types::PaginatedArticlesType, null: true, description: "help center search" do
+      argument :lang, String, required: false , default_value: I18n.locale
+      argument :term, String, required: true
+      argument :page, Integer, required: true
+      argument :per, Integer, required: false, default_value: 10
+    end
+
+    def search(term:, lang:, page: , per: )
+      I18n.locale = lang
+      object.app.articles.published.search(term).page(page).per(per)
     end
 
     field :articles_uncategorized, Types::PaginatedArticlesType, null: true do

@@ -48,6 +48,52 @@ export const Bounce = keyframes`
   }
 `
 
+export const FadeInBottom = keyframes`
+    0% {
+      -webkit-transform: translateY(50px);
+              transform: translateY(50px);
+      opacity: 0;
+    }
+    100% {
+      -webkit-transform: translateY(0);
+              transform: translateY(0);
+      opacity: 1;
+    }
+`
+
+export const FadeInRight = keyframes`
+  0% {
+    transform: translateX(50px);
+    opacity: 0;
+  }
+  100% {
+    transform: translateX(0);
+    opacity: 1;
+  }
+`
+
+export const FadeOutBottom = keyframes`
+  0% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(50px);
+    opacity: 0;
+  }
+`
+
+export const FadeOutRight = keyframes`
+  0% {
+    transform: translateX(0);
+    opacity: 1;
+  }
+  100% {
+    transform: translateX(50px);
+    opacity: 0;
+  }
+`
+
 export const Container = styled.div`
 
   animation: ${appear} 0.6s cubic-bezier(0.390, 0.575, 0.565, 1.000) both;
@@ -86,6 +132,8 @@ export const Container = styled.div`
   }
 
 `;
+
+
 
 
 const Button = styled.button`
@@ -197,8 +245,39 @@ export const SuperFragment = styled.div`
     -webkit-box-direction: normal;
     -ms-flex-direction: column;
     flex-direction: column;
+    font-family: -apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol";
+
+
+    .fade-in-bottom {
+      -webkit-animation: ${FadeInBottom} 0.6s cubic-bezier(0.390, 0.575, 0.565, 1.000) both;
+              animation: ${FadeInBottom} 0.6s cubic-bezier(0.390, 0.575, 0.565, 1.000) both;
+    }
+
+    .fade-in-right {
+      animation: ${FadeInRight} 0.6s cubic-bezier(0.390, 0.575, 0.565, 1.000) both;
+    }
+
+    .fade-out-bottom {
+      animation: ${FadeOutBottom} 0.7s cubic-bezier(0.250, 0.460, 0.450, 0.940) both;
+    }
+
+    .fade-out-right {
+      animation: ${FadeOutRight} 0.7s cubic-bezier(0.250, 0.460, 0.450, 0.940) both;
+    }
 }
 `
+
+export const FadeRightAnimation = (props)=>{
+  return props.in === "in" ? 
+      `animation: ${FadeInRight.name} 0.6s cubic-bezier(0.390, 0.575, 0.565, 1.000) both;      ` : 
+      `animation: ${FadeOutRight.name} 0.7s cubic-bezier(0.250, 0.460, 0.450, 0.940) both;`
+}
+
+export const FadeBottomAnimation = (props)=>{
+  return props.in === "in" ? 
+      `animation: ${FadeInBottom.name} 0.6s cubic-bezier(0.390, 0.575, 0.565, 1.000) both;` : 
+      `animation: ${FadeOutBottom.name} 0.7s cubic-bezier(0.250, 0.460, 0.450, 0.940) both;`
+}
 
 export const MessageSpinner = styled.div`
   display: inline-block;
@@ -501,10 +580,7 @@ export const Header = styled(({isMobile, ...rest})=>(<div {...rest}></div>))`
   color: #fff;
   -webkit-transition: height 160ms ease-out;
   transition: height 160ms ease-out;
-
-
 `
-
 
 export const Body = styled.div`
   /*position: relative;
@@ -587,7 +663,7 @@ export const MessageItem = styled.div`
     position: relative;
     margin: 8px 0 15px 0;
     padding: 8px 10px;
-    max-width: ${(props) => (props.messageSourceType === "UserAutoMessage" ?  '86%' : '60%')}
+    max-width: ${(props) => (props.messageSourceType === "UserAutoMessage" ?  '86%' : '60%')};
     min-width: 25%;
     display: block;
     word-wrap: break-word;
@@ -696,6 +772,35 @@ export const HeaderOption = styled.div`
   font-weight: 400;
   display: flex;
   align-items: center;
+  ${(props)=> FadeRightAnimation(props)}
+`
+
+export const HeaderTitle = styled.span`
+  /*${(props)=> FadeRightAnimation(props)}*/
+`
+
+export const HeaderAvatar = styled.div`
+    display: flex;
+    flex: 0 0 auto;
+    align-self: center;
+    //margin-left: 15px;
+
+    img {
+      width: 40px;
+      height: 40px;
+      text-align: center;
+      border-radius: 50%;
+    }
+
+    div{
+      display: flex;
+      flex-flow: column;
+      margin-left: .6em;
+      p {
+        padding: 0px;
+        margin: 0px;
+      }
+    }
 `
 
 export const ChatAvatar = styled.div`
@@ -714,35 +819,39 @@ export const ChatAvatar = styled.div`
     }
 `
 
-export const NewConvoBtn = styled.a`
+export const AnchorButton = styled.a`
+  background-color: #242424;
+  -webkit-box-shadow: 0 4px 12px rgba(0,0,0,.1);
+  box-shadow: 0 4px 12px rgba(0,0,0,.1);
+  height: 40px;
+  color: rgb(255, 255, 255);
+  font-size: 13px;
+  line-height: 14px;
+  pointer-events: auto;
+  cursor: pointer;
+  border-radius: 40px;
+  display: inline-flex;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
 
-    background-color: #242424;
-    -webkit-box-shadow: 0 4px 12px rgba(0,0,0,.1);
-    box-shadow: 0 4px 12px rgba(0,0,0,.1);
+
+  padding: 0 24px;
+  display: -webkit-inline-box;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+
+`
+
+export const NewConvoBtn = styled(AnchorButton)`
     position: absolute;
     bottom: 77px;
-    left: 50%;
-    -webkit-transform: translateX(-50%);
-    transform: translateX(-50%);
-
-    height: 40px;
-    color: rgb(255, 255, 255);
-    font-size: 13px;
-    line-height: 14px;
-    pointer-events: auto;
-    cursor: pointer;
-    border-radius: 40px;
-    text-align: center;
-    -webkit-transition: all .12s;
-    transition: all .12s;
-    padding: 0 24px;
-    display: -webkit-inline-box;
-    display: -ms-inline-flexbox;
-    display: inline-flex;
-    -webkit-box-align: center;
-    -ms-flex-align: center;
-    align-items: center;
-}`
+    left: 25%;
+    ${(props)=> FadeBottomAnimation(props)}
+`
 
 export const ConversationSummary = styled.div`
 
@@ -777,7 +886,6 @@ export const ConversationSummaryAvatar = styled.div`
         text-align: center;
         border-radius: 50%;
       }
-
 `
 
 export const ConversationSummaryBody = styled.div`
@@ -818,4 +926,28 @@ export const Hint = styled.p`
     background: #f9f9f9;
     margin: 0px;
     height: 100%;
+`
+
+
+export const SpinnerAnim = keyframes`
+  to {transform: rotate(360deg);}
+`
+
+export const Spinner = styled.div`
+  &:before {
+    content: '';
+    box-sizing: border-box;
+    //position: absolute;
+    //top: 50%;
+    //left: 50%;
+    width: 20px;
+    height: 20px;
+    //margin-top: -10px;
+    //margin-left: -10px;
+    border-radius: 50%;
+    border: 2px solid #ccc;
+    border-top-color: #000;
+    animation: ${SpinnerAnim} .6s linear infinite;
+    display:inline-block;
+  }
 `

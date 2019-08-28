@@ -202,7 +202,7 @@ const renderers = {
   entities: {
     // key is the entity key value from raw
     LINK: (children, data, { key }) => 
-    <a key={key} href={data.url}>
+    <a key={key} href={data.url} target="_blank">
       {children}
     </a>,
   },
