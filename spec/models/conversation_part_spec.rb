@@ -36,7 +36,12 @@ RSpec.describe ConversationPart, type: :model do
     end
 
     it "add message from app user" do
-      conversation.add_message(from: app.app_users.first, message: {html_content: "foo", serialized_content: "bar"})
+      
+      serialized = "{\"blocks\":
+      [{\"key\":\"bl82q\",\"text\":\"bar\",\"type\":\"unstyled\",\"depth\":0,\"inlineStyleRanges\":[],\"entityRanges\":[],\"data\":{}}],
+      \"entityMap\":{}}"
+
+      conversation.add_message(from: app.app_users.first, message: {html_content: "foo", serialized_content: serialized})
       expect(conversation.messages.count).to be == 1
       expect(conversation.messages.first.authorable).to be_present
       expect(conversation.messages.first.message.html_content).to be_present
@@ -44,7 +49,12 @@ RSpec.describe ConversationPart, type: :model do
     end
 
     it "add message from agent" do
-      conversation.add_message(from: app.agents.first, message: {html_content: "foo", serialized_content: "bar"})
+
+      serialized = "{\"blocks\":
+      [{\"key\":\"bl82q\",\"text\":\"bar\",\"type\":\"unstyled\",\"depth\":0,\"inlineStyleRanges\":[],\"entityRanges\":[],\"data\":{}}],
+      \"entityMap\":{}}"
+
+      conversation.add_message(from: app.agents.first, message: {html_content: "foo", serialized_content: serialized})
       expect(conversation.messages.count).to be == 1
       expect(conversation.messages.first.authorable).to be_present
       expect(conversation.messages.first.message.html_content).to be_present

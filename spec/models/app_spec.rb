@@ -11,6 +11,15 @@ RSpec.describe App, type: :model do
     FactoryGirl.create :app
   }
 
+  let(:default_content){
+    { 
+      "entityMap": {},
+      "blocks": [
+        { "key": "f1qmb", "text": "", "type": "unstyled", "depth": 0, "inlineStyleRanges": [], "entityRanges": [], "data": {} }, 
+      ] 
+    }.to_json.to_s
+  }
+
   it "create app" do
     expect(app).to be_valid
     expect(app.key).to be_present
@@ -86,7 +95,7 @@ RSpec.describe App, type: :model do
   it "create_conversation" do
     app_user = app.add_user({email: "test@test.cl", first_name: "dsdsa"})
     conversations = app.start_conversation({
-      message: {serialized_content: "message"}, 
+      message: {serialized_content: default_content }, 
       from: app_user
     })
     expect(app.conversations.count).to be == 1

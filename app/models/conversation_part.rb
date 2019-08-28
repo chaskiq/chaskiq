@@ -71,6 +71,7 @@ class ConversationPart < ApplicationRecord
   end
 
   def enqueue_email_notification
+
     # not send email it it's from user auto message campaign
     EmailChatNotifierJob
     .set(wait_until: 20.seconds.from_now)
