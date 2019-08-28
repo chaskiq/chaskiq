@@ -22,6 +22,8 @@ import {
   CONVERSATIONS, 
   CONVERSATION
 } from './graphql/queries'
+import GraphqlClient from './graphql/client'
+
 import {
   INSERT_COMMMENT,
   START_CONVERSATION
@@ -153,50 +155,10 @@ class Messenger extends Component {
       /* other custom settings */
     });
 
-    this.graphqlClient = (query, variables, callbacks)=>{
-      axios.create({
-        baseURL: `${this.props.domain}/api/graphql`,
-        headers: this.defaultHeaders
-      }).post('', {
-        query: query,
-        variables: variables,
-      }, {
-        headers: this.defaultHeaders
-      })
-      .then( r => {
-        const data = r.data.data
-        const res = r
-      
-        const errors = r.data.errors
-        if (_.isObject(errors) && !_.isEmpty(errors)) {
-          //const errors = data[Object.keys(data)[0]];
-          //callbacks['error'] ? callbacks['error'](res, errors['errors']) : null
-          if(callbacks['error'])
-            return callbacks['error'](res, errors)
-        }
-        
-        callbacks['success'] ? callbacks['success'](data, res) : null
-      })
-      .catch(( req, error )=> {
-        console.log(req, error)
-        switch (req.response.status) {
-          case 500:
-            //store.dispatch(errorMessage("server error ocurred"))
-            break;
-          case 401:
-            //store.dispatch(errorMessage("session expired"))
-            //store.dispatch(expireAuthentication())
-            break;
-          default:
-            break;
-        }
-        
-        callbacks['fatal'] ? callbacks['fatal'](error) : null
-      })
-      .then( (r) => {
-        callbacks['always'] ? callbacks['always']() : null
-      });
-    }
+    this.graphqlClient = new GraphqlClient({
+      config: this.defaultHeaders,
+      baseURL: '/api/graphql'
+    })
 
     App = {
       cable: actioncable.createConsumer(`${this.props.ws}`)
@@ -462,7 +424,7 @@ class Messenger extends Component {
 
   ping =(cb)=>{
 
-    this.graphqlClient(PING, {}, {
+    this.graphqlClient.send(PING, {}, {
       success: (data)=>{
         this.setState({
           appData: data.messenger.app
@@ -509,7 +471,7 @@ class Messenger extends Component {
     if( this.state.conversation_messages.length === 0)
       opts['check_assignment_rules'] = true
 
-    this.graphqlClient(INSERT_COMMMENT, {
+    this.graphqlClient.send(INSERT_COMMMENT, {
       appKey: this.props.app_id,
       id: id,
       message: message
@@ -540,7 +502,7 @@ class Messenger extends Component {
       serialized: comment.serialized_content
     }
 
-    this.graphqlClient( START_CONVERSATION, {
+    this.graphqlClient.send( START_CONVERSATION, {
       appKey: this.props.app_id,
       message: message
     }, { 
@@ -604,7 +566,7 @@ class Messenger extends Component {
 
     const nextPage = this.state.conversationsMeta.next_page || 1
 
-    this.graphqlClient(CONVERSATIONS, {
+    this.graphqlClient.send(CONVERSATIONS, {
       page: nextPage
     }, {
       success: (data)=>{
@@ -622,7 +584,7 @@ class Messenger extends Component {
 
   setconversation = (id , cb)=>{
     const nextPage = this.state.conversation_messagesMeta.next_page || 1
-    this.graphqlClient(CONVERSATION, {
+    this.graphqlClient.send(CONVERSATION, {
       id: id,
       page: nextPage
     }, {

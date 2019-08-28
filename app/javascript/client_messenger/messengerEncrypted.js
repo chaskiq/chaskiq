@@ -2,6 +2,9 @@ import axios from 'axios'
 import Hermessenger from './messenger'
 import {setCookie, getCookie, deleteCookie} from './cookies'
 
+import {AUTH} from './graphql/queries'
+import GraphqlClient from './graphql/client'
+
 export default class HermessengerEncrypted {
 
   constructor(props) {
@@ -23,6 +26,7 @@ export default class HermessengerEncrypted {
     }
 
     this.defaultHeaders = {
+      app: this.props.app_id,
       enc_data: this.props.data,
       user_data: JSON.stringify(data),
       session_id: this.getSession()
@@ -33,26 +37,38 @@ export default class HermessengerEncrypted {
       headers: this.defaultHeaders
     });
 
-    this.axiosInstance.post(`/api/v1/apps/${this.props.app_id}/auth`)
-    .then((response) => {
-
-      if (response.data.session_id){
-        this.checkCookie(response.data.session_id)        
-      }else{
-        deleteCookie("chaskiq_session_id")  
-      }
-       
-      const messenger = new Hermessenger(
-        Object.assign({}, response.data, {
-          encData: this.props.data,
-          encryptedMode: true,
-          domain: this.props.domain,
-          ws: this.props.ws
-        }) )
-      messenger.render()
+    this.grapqhClient = new GraphqlClient({
+      config: this.defaultHeaders,
+      baseURL: '/api/graphql'
     })
-    .catch((error) => {
-        console.log("ERRR", error);
-    });
+
+    this.grapqhClient.send(AUTH, {}, {
+      success: (data)=>{
+        const user = data.messenger.user
+
+        if (user.session_id){
+          this.checkCookie(user.session_id)        
+        }else{
+          deleteCookie("chaskiq_session_id")  
+        }
+         
+        const messenger = new Hermessenger(
+          Object.assign({}, data.messenger.user, {
+            encData: this.props.data,
+            encryptedMode: true,
+            domain: this.props.domain,
+            ws: this.props.ws
+          })
+        )
+
+        messenger.render()
+
+
+      },
+      errors: ()=>{
+        debugger
+      }
+    })
+
   }
 } 
