@@ -35,14 +35,14 @@ module Types
 
 
     field :conversation, Types::ConversationType, null: true do
-      argument :id, Integer, required: true #, default_value: 1
+      argument :id, String, required: true #, default_value: 1
       argument :page, Integer, required: false, default_value: 1
       #argument :per, Integer, required: false, default_value: 20
     end
 
     def conversation(id:, page:)
       @user = context[:get_app_user].call
-      @conversation = user_conversations.find(id)
+      @conversation = user_conversations.find_by(key: id)
       #@conversation = @conversation.messages.visibles #.includes(authorable: :user)
       #                                      .order("id desc")
       #                                      .page(page)

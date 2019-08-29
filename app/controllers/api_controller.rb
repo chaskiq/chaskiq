@@ -8,13 +8,17 @@ class ApiController < ActionController::API
 private
 
   def get_user_data_from_auth
+ 
     if @app.encryption_enabled?
       @user_data = authorize_by_encrypted_params
       if @user_data[:email].blank?
         visitor = (get_user_by_session || add_vistor)
         @user_data.merge!({session_id: visitor.session_id}) 
+      else
+        app_user = get_user_by_email || @app.add_user(email: @user_data[:email])
       end
     else
+      # check this, maybe deprecate unsecure mode
       @user_data = get_user_from_unencrypted
     end
     @user_data
@@ -31,10 +35,7 @@ private
   def add_vistor
     options = {} #{app_id: @app.key}
     #options.merge!({session_id: request.headers["HTTP_SESSION_ID"]}) 
-    if @user_data[:email].blank?
-      u = @app.add_anonymous_user(options)
-    end
-
+    u = @app.add_anonymous_user(options)
   end
 
   def get_app_user

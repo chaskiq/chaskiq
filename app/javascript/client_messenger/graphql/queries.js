@@ -71,7 +71,7 @@ export const CONVERSATIONS = `
 
 
 export const CONVERSATION=`
-  query Messenger($id: Int!, $page: Int){
+  query Messenger($id: String!, $page: Int){
     messenger {
 
       conversation(id: $id){

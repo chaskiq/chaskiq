@@ -687,7 +687,7 @@ class Messenger extends Component {
 
     this.setState({conversation_messagesMeta: {} }, ()=>{
 
-      this.setconversation(o.id, () => {
+      this.setconversation(o.key, () => {
 
         this.conversationSubscriber(() => {
 
