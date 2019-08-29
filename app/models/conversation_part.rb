@@ -49,10 +49,19 @@ class ConversationPart < ApplicationRecord
   def notify_read!
     self.read_at = Time.now
     if self.save
-      ConversationsChannel.broadcast_to(
-        "#{self.conversation.app.key}-#{self.conversation.key}", 
-        self.as_json
-      ) 
+
+      #ConversationsChannel.broadcast_to(
+      #  "#{self.conversation.app.key}-#{self.conversation.key}", 
+      #  self.as_json
+      #)
+
+      MessengerEventsChannel.broadcast_to(
+        "#{self.conversation.app.key}-#{self.conversation.main_participant.session_id}",
+        { 
+          type: "conversations:conversation_part",
+          data: self.as_json
+        }
+      )
 
       EventsChannel.broadcast_to(
         "#{self.conversation.app.key}", 
