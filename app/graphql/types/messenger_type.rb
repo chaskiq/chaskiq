@@ -24,15 +24,11 @@ module Types
                                         .per(5)
     end
 
-
-
     field :agents, [Types::AgentType], null: true
 
     def agents
       object.agents.limit(5)
     end
-
-
 
     field :conversation, Types::ConversationType, null: true do
       argument :id, String, required: true #, default_value: 1

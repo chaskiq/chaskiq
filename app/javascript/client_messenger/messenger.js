@@ -11,7 +11,7 @@ import DraftRenderer from '../src/textEditor/draftRenderer'
 import DanteContainer from '../src/textEditor/editorStyles'
 import UnicornEditor from './textEditor' // from './quillEditor' //'./draftEditor' //from './editor.js'
 import Tour from './UserTour'
-import gravatar from "gravatar"
+import gravatar from "../src/shared/gravatar"
 import Moment from 'react-moment';
 import { soundManager } from 'soundmanager2'
 import {toCamelCase} from '../src/shared/caseConverter'
@@ -104,6 +104,7 @@ class Messenger extends Component {
       tours: [],
       open: false,
       appData: {},
+      agents: [],
       isMinimized: false,
       isMobile: false,
       tourManagerEnabled: false,
@@ -427,7 +428,8 @@ class Messenger extends Component {
     this.graphqlClient.send(PING, {}, {
       success: (data)=>{
         this.setState({
-          appData: data.messenger.app
+          appData: data.messenger.app,
+          agents: data.messenger.agents
         }, ()=>{
           console.log("subscribe to events")
           cb()
@@ -921,12 +923,12 @@ class Messenger extends Component {
     const {assignee} =  this.state.conversation
     if(assignee){
       return <HeaderAvatar>
-              <img src={gravatar.url(assignee.email)} />
+              <img src={gravatar(assignee.email)} />
              </HeaderAvatar>
     }else{
       return <HeaderAvatar>
               
-              <img src={gravatar.url('assignee.email')} />
+              <img src={gravatar('assignee.email')} />
 
               <div>
                 <p>miguel michelson</p>
@@ -1036,6 +1038,7 @@ class Messenger extends Component {
                             transition={this.state.transition}
                             displayArticle={this.displayArticle}
                             appData={this.state.appData}
+                            agents={this.state.agents}
                           />
                         }
 
@@ -1236,7 +1239,7 @@ class Conversation extends Component {
             {
               !this.props.isUserAutoMessage(o) && isAgent ?
               <ConversationSummaryAvatar>
-                <img src={gravatar.url(o.appUser.email)} />
+                <img src={gravatar(o.appUser.email)} />
               </ConversationSummaryAvatar> : null
             }
 
@@ -1245,7 +1248,7 @@ class Conversation extends Component {
               {
                 this.props.isUserAutoMessage(o) ?
                   <UserAutoChatAvatar>
-                    <img src={gravatar.url(o.appUser.email)} />
+                    <img src={gravatar(o.appUser.email)} />
                     <span>{o.appUser.name || o.appUser.email}</span>
                   </UserAutoChatAvatar> : null
               }
@@ -1516,7 +1519,7 @@ function CommentsItemComp(props){
                     <ConversationSummary>
 
                       <ConversationSummaryAvatar>
-                        <img src={gravatar.url(message.appUser.email)} />
+                        <img src={gravatar(message.appUser.email)} />
                       </ConversationSummaryAvatar>
 
                       <ConversationSummaryBody>
