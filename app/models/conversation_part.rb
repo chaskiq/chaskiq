@@ -50,7 +50,7 @@ class ConversationPart < ApplicationRecord
     self.read_at = Time.now
     if self.save
       ConversationsChannel.broadcast_to(
-        "#{self.conversation.app.key}-#{self.conversation.id}", 
+        "#{self.conversation.app.key}-#{self.conversation.key}", 
         self.as_json
       ) 
 

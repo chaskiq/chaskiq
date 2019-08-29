@@ -4,6 +4,7 @@ module Types
     field :assignee, Types::AppUserType, null: true
 
     field :id, Integer, null: true
+    field :key, String, null: true
     field :reply_count, Integer, null: true
     field :priority, Boolean, null: true
     field :parts_count, Integer, null: true

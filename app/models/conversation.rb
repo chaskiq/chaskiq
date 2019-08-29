@@ -78,7 +78,7 @@ class Conversation < ApplicationRecord
   end
 
   def notify_subscribers(part)
-    subscribers = ConversationsChannel.broadcast_to("#{self.app.key}-#{self.id}", 
+    subscribers = ConversationsChannel.broadcast_to("#{self.app.key}-#{self.key}", 
       part.as_json
     )
 

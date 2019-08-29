@@ -39,37 +39,57 @@ RSpec.describe "Widget management", :type => :system do
      options: options_for_selemium
   end
 
-  it "renders messenger on registered users creating a app user" do                       
-    visit "/tester/#{app.key}?sessionless=true"
+  context "anonimous user" do
 
-    prime_iframe = all("iframe").first
+    it "renders messenger on anonimous user creating a app user" do                       
+      visit "/tester/#{app.key}?sessionless=true"
 
-    Capybara.within_frame(prime_iframe){ 
-      page.find(".ckPVap").click 
-    }
+      prime_iframe = all("iframe").first
 
-    # now 2nd iframe appears on top
-    messenger_iframe = all("iframe").first
+      Capybara.within_frame(prime_iframe){ 
+        page.find("#chaskiq-prime").click 
+      }
 
-    Capybara.within_frame(messenger_iframe){ 
-      page.has_content?("Hello!") 
-    }
+      sleep(3)
 
-    expect(app.app_users.count).to be == 1
-    expect(app.app_users.first.properties).to_not be_blank
-    expect(app.app_users.first.last_visited_at).to_not be_blank
-    expect(app.app_users.first.referrer).to_not be_blank
-    expect(app.app_users.first.lat).to_not be_blank
-    expect(app.app_users.first.lng).to_not be_blank
-    expect(app.app_users.first.os).to_not be_blank
-    expect(app.app_users.first.os_version).to_not be_blank
-    expect(app.app_users.first.browser).to_not be_blank
-    expect(app.app_users.first.browser_version).to_not be_blank
-    expect(app.app_users.first.browser_language).to_not be_blank
+      # now 2nd iframe appears on top
+      messenger_iframe = all("iframe").first
 
-    visit "/tester/#{app.key}"
+      Capybara.within_frame(messenger_iframe){ 
+        #page.has_content?("Hello") 
+        expect(page).to have_content("Hello")
+      }
 
-    expect(app.app_users.count).to be == 1
+      user = app.app_users.last
+    
+      expect(app.app_users.count).to be == 2
+      expect(user.properties).to_not be_blank
+      expect(user.last_visited_at).to_not be_blank
+      #expect(user.referrer).to_not be_blank
+      #expect(user.lat).to_not be_blank
+      #expect(user.lng).to_not be_blank
+      #expect(user.os).to_not be_blank
+      #expect(user.os_version).to_not be_blank
+      #expect(user.browser).to_not be_blank
+      #expect(user.browser_version).to_not be_blank
+      #expect(user.browser_language).to_not be_blank
+
+      #visit "/tester/#{app.key}"
+      #expect(app.app_users.count).to be == 1
+
+      app.start_conversation({
+        message: {
+          serialized_content: serialized_content
+        }, 
+        from: user
+      })
+
+      
+      binding.pry
+      
+
+    end
+
 
   end
 
@@ -88,14 +108,14 @@ RSpec.describe "Widget management", :type => :system do
     prime_iframe = all("iframe").first
 
     Capybara.within_frame(prime_iframe){ 
-      page.find(".ckPVap").click 
+      page.find("#prime").click 
     }
 
     # now 2nd iframe appears on top
     messenger_iframe = all("iframe").first
 
     Capybara.within_frame(messenger_iframe){ 
-      page.has_content?("Hello!") 
+      page.has_content?("Hello") 
     }
 
     Capybara.within_frame(messenger_iframe){

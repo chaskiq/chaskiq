@@ -46,11 +46,11 @@ module Types
     end
 
     field :conversation, Types::ConversationType, null:true do
-      argument :id, Integer, required: false
+      argument :id, String, required: false
     end
 
     def conversation(id:)
-      object.conversations.find(id)
+      object.conversations.find_by(key: id)
     end
 
     field :app_user, Types::AppUserType, null:true do

@@ -3,15 +3,10 @@
   <head>
     <title>Hermes CLIENT TEST</title>
 
-
     <%= yield :head %>
-    
-    <% if Rails.env.test? %>
-      <script src="/packs-test/embed.js?<%=Time.now%>"></script>
-    <% else %>
-      <script src="/packs/embed.js?<%=Time.now%>"></script>
-    <% end %>
-
+    <%= javascript_pack_tag 'embed' %>
+    <!--<script src="/packs/embed.js?<%=Time.now%>"></script>-->
+ 
   </head>
 
   <body>

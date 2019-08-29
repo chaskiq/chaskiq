@@ -370,16 +370,16 @@ class Messenger extends Component {
     App.conversations = App.cable.subscriptions.create(
       this.cableDataFor({
         channel: "ConversationsChannel", 
-        id: this.state.conversation.id,
+        key: this.state.conversation.key,
       }),
     {
       connected: ()=> {
-        console.log("connected to conversation ", this.state.conversation.id)
+        console.log("connected to conversation ", this.state.conversation.key)
         if( cb )
           cb()
       },
       disconnected: ()=> {
-        console.log("disconnected from conversation: ", this.state.conversation.id)
+        console.log("disconnected from conversation: ", this.state.conversation.key)
       },
       received: (data)=> {
         const newMessage = toCamelCase(data)
@@ -709,7 +709,7 @@ class Messenger extends Component {
   toggleMessenger = (e)=>{
     this.setState({
       open: !this.state.open, 
-      display_mode: "conversations",
+      //display_mode: "conversations",
     })
   }
 
@@ -1119,7 +1119,7 @@ class Messenger extends Component {
                 border: 'none'
               }}>
 
-              <Prime onClick={this.toggleMessenger}>
+              <Prime id="chaskiq-prime" onClick={this.toggleMessenger}>
                 <div style={{
                   transition: 'all .2s ease-in-out',
                   transform: !this.state.open ? '' : 'rotate(180deg)',
