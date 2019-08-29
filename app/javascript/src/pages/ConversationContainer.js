@@ -272,7 +272,7 @@ class ConversationContainer extends Component {
 
                       return <div 
                                 key={o.id} 
-                                onClick={(e)=> this.props.history.push(`/apps/${appId}/conversations/${o.id}`) }>
+                                onClick={(e)=> this.props.history.push(`/apps/${appId}/conversations/${o.key}`) }>
                                         
                                 <UserListItem
                                   value={this.state.conversation.id}
