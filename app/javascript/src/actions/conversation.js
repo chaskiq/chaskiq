@@ -44,7 +44,7 @@ export function getConversation(options, cb){
 
       graphql(CONVERSATION, { 
         appKey: getState().app.key, 
-        id: parseInt(options.id), 
+        id: options.id, 
         page: nextPage
       }, {
         success: (data)=>{

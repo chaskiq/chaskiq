@@ -136,6 +136,7 @@ export const CONVERSATIONS = `
       conversations(page: $page, sort: $sort, filter: $filter){
         collection{
           id
+          key
           state
           readAt
           priority
@@ -174,13 +175,14 @@ export const CONVERSATIONS = `
 `;
 
 export const CONVERSATION=`
-  query App($appKey: String!, $id: Int!, $page: Int){
+  query App($appKey: String!, $id: String!, $page: Int){
     app(key: $appKey) {
       encryptionKey
       key
       name
       conversation(id: $id){
         id
+        key
         state
         readAt
         priority

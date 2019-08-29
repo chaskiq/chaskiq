@@ -127,7 +127,6 @@ class ConversationContainer extends Component {
   constructor(props){
     super(props)
     this.state = {
-      conversation: {},
       rightDrawer: false,
     }
   }
@@ -213,10 +212,6 @@ class ConversationContainer extends Component {
     )
   }
 
-  setConversation = (conversation, cb)=>{
-    this.setState({conversation: conversation}, cb)
-  }
-
 
   render(){
     const {appId} = this.props.match.params
@@ -272,12 +267,12 @@ class ConversationContainer extends Component {
 
                       return <div 
                                 key={o.id} 
-                                onClick={(e)=> this.props.history.push(`/apps/${appId}/conversations/${o.id}`) }>
+                                onClick={(e)=> this.props.history.push(`/apps/${appId}/conversations/${o.key}`) }>
                                         
                                 <UserListItem
-                                  value={this.state.conversation.id}
+                                  value={this.props.conversation.key}
                                   mainUser={user}
-                                  object={o.id}
+                                  object={o.key}
                                   messageUser={o.lastMessage.appUser}
                                   showUserDrawer={()=>this.props.actions.showUserDrawer(o.lastMessage.appUser.id)}
                                   messageObject={o.lastMessage}
@@ -348,8 +343,7 @@ class ConversationContainer extends Component {
                       <ConversationContainerShow
                         appId={appId}
                         app={this.props.app}
-                        conversation={this.state.conversation}
-                        setConversation={this.setConversation}
+                        conversation={this.props.conversation}
                         showUserDrawer={this.showUserDrawer}
                         currentUser={this.props.currentUser}
                         {...props}
@@ -365,12 +359,13 @@ class ConversationContainer extends Component {
 
 function mapStateToProps(state) {
 
-  const { auth, app, conversations, app_user } = state
+  const { auth, app, conversations, conversation, app_user } = state
   const { loading, isAuthenticated } = auth
   //const { sort, filter, collection , meta, loading} = conversations
 
   return {
     conversations,
+    conversation,
     app_user,
     app,
     isAuthenticated

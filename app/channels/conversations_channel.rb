@@ -2,7 +2,7 @@ class ConversationsChannel < ApplicationCable::Channel
   def subscribed
     # stream_from "some_channel"
     @app      = App.find_by(key: params[:app])
-    @conversation = @app.conversations.find(params[:id])
+    @conversation = @app.conversations.find_by(key: params[:key])
 
     get_user_data
 
@@ -23,7 +23,7 @@ class ConversationsChannel < ApplicationCable::Channel
       #@user     = @app_user.user
     end
 
-    @key      = "conversations:#{@app.key}-#{@conversation.id}"
+    @key      = "conversations:#{@app.key}-#{@conversation.key}"
     stream_from @key
   end
 
@@ -31,7 +31,7 @@ class ConversationsChannel < ApplicationCable::Channel
     # Any cleanup needed when channel is unsubscribed
   end
 
-  def receive(data)   
+  def receive(data)
     message = @conversation.messages.find(data["id"])
 
     if message.authorable != @app_user
