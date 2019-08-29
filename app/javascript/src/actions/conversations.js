@@ -9,7 +9,8 @@ import {
 
 
 import {
-  playSound
+  playSound,
+  appendMessage
 } from './conversation'
 
 export function getConversations(cb){
@@ -80,7 +81,7 @@ export function appendConversation(data, cb){
         })
 
       } else {
-        newMessages = getState().conversations.collection.map((o)=>{
+        const newConversations = getState().conversations.collection.map((o)=>{
           if(o.id === data.conversationId){
             o.lastMessage = data
             return o
@@ -89,7 +90,11 @@ export function appendConversation(data, cb){
           }
         })
 
-        dispatch(appendConversationDispatcher(newMessages))
+        console.log("AAA", conversation.id, getState().conversation.id)
+        if(conversation.id === getState().conversation.id){
+          dispatch(appendMessage(data))  
+        }
+        dispatch(appendConversationDispatcher(newConversations))
       }
 
 

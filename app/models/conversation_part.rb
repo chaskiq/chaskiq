@@ -50,11 +50,6 @@ class ConversationPart < ApplicationRecord
     self.read_at = Time.now
     if self.save
 
-      #ConversationsChannel.broadcast_to(
-      #  "#{self.conversation.app.key}-#{self.conversation.key}", 
-      #  self.as_json
-      #)
-
       MessengerEventsChannel.broadcast_to(
         "#{self.conversation.app.key}-#{self.conversation.main_participant.session_id}",
         { 

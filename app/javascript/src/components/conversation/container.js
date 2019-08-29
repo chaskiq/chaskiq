@@ -77,6 +77,10 @@ class ConversationContainerShow extends Component {
           this.getMessages(this.scrollToLastItem )
         }))
     }
+
+    if( PrevProps.conversation.collection && this.props.conversation.collection.length != PrevProps.conversation.collection.length){
+      this.scrollToLastItem()
+    }
   }
 
   handleScroll = (e) => {
@@ -98,12 +102,12 @@ class ConversationContainerShow extends Component {
   }
 
   scrollToLastItem = ()=>{
+    if(!this.refs.overflow) return
     this.refs.overflow.scrollTop = this.refs.overflow.scrollHeight;
   }
 
   getMessages = (cb)=>{
     const opts = {id: this.props.match.params.id } 
-    this.conversationSubscriber(opts.id)
 
     const lastItem = last(this.props.conversation.collection)
 
@@ -125,50 +129,6 @@ class ConversationContainerShow extends Component {
     this.props.dispatch(insertNote(comment, ()=>{
       cb ? cb() : null
     }))
-  }
-
-  unsubscribeFromConversation = ()=>{
-    if (App.conversations)
-      App.conversations.unsubscribe()
-      App.conversations = null
-  }
-
-  conversationSubscriber(key){
-
-    this.unsubscribeFromConversation()
-
-    App.conversations = App.cable.subscriptions.create({
-      channel: "ConversationsChannel",
-      app: this.props.app.key,
-      key: key,
-      email: this.props.current_user.email,
-      jwt: this.props.jwt,
-      inner_app: true,
-    },
-    {
-      connected: ()=> {
-        console.log("connected to conversations")
-        this.setState({
-          subscription: true
-        })
-        //this.props.dispatch(setLoading(false))
-      },
-      disconnected: ()=> {
-        console.log("disconnected from conversations")
-        this.setState({
-          subscription: false
-        })
-      },
-      received: (data)=> {
-        this.props.dispatch(
-          appendMessage(data, this.scrollToLastItem )
-        )
-      },
-      handleMessage: (message)=>{
-        debugger
-        console.log(`handle message`)
-      } 
-    });    
   }
 
   getAgents = (cb)=>{
@@ -285,6 +245,8 @@ class ConversationContainerShow extends Component {
                             return <MessageItemWrapper 
                                       key={`message-item-${this.props.conversation.key}-${o.id}`} 
                                       data={o} 
+                                      events={this.props.events}
+                                      conversation={this.props.conversation}
                                       email={this.props.current_user.email}>
 
                                       <ChatMessageItem 
@@ -410,9 +372,15 @@ class MessageItemWrapper extends Component {
     // mark as read on first render
     if(!this.props.data.readAt){
       //console.log(this.props.email)
-      App.conversations.perform("receive", 
-        Object.assign({}, this.props.data, {email: this.props.email})
+      this.props.events && this.props.events.perform("receive_conversation_part", 
+        Object.assign({}, {
+          conversation_id: this.props.conversation.id,
+          message_id: this.props.data.id
+        }, {email: this.props.email})
       )
+      /*App.conversations.perform("receive", 
+        Object.assign({}, this.props.data, {email: this.props.email})
+      )*/
     }
   }
   render(){
