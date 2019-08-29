@@ -72,6 +72,7 @@ export const AGENT = `
         conversations(page: $page , per: $per ){
           collection{
             id
+            key
             state
             readAt
             priority
@@ -240,6 +241,7 @@ export const CONVERSATION_WITH_LAST_MESSAGE=`
       name
       conversation(id: $id){
         id
+        key
         state
         readAt
         priority
@@ -328,6 +330,7 @@ query Campaigns($appKey: String!, $id: Int!, $page: Int, $per: Int){
 
         collection{
           id
+          key
           mainParticipant{
             id
             email
