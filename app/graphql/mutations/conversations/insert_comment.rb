@@ -8,14 +8,14 @@ module Mutations
       #field :oli, String, null: false
       # TODO: define arguments
       argument :app_key, String, required: true
-      argument :id, Int, required: true
+      argument :id, String, required: true
       argument :message, Types::JsonType, required: true
 
       # TODO: define resolve method
       def resolve(app_key:, id:, message:)
         app = App.find_by(key: app_key)
         
-        conversation = app.conversations.find(id)
+        conversation = app.conversations.find_by(key: id)
         
         if current_user.is_a?(Agent)
           author = app.agents.where("agents.email =?", current_user.email).first

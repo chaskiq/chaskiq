@@ -5,17 +5,27 @@ module GraphQL
 
   class TestClient
 
-    def self.configure
-      queries = Rails.root + "app/javascript/src/graphql/queries.js"
-      mutations = Rails.root + "app/javascript/src/graphql/mutations.js"
-      source1 = clean_file(queries)
-      source2 = clean_file(mutations)
+    def self.configure(files=[
+      Rails.root + "app/javascript/src/graphql/queries.js",
+      Rails.root + "app/javascript/src/graphql/mutations.js"
+      ])
+      #queries = Rails.root + "app/javascript/src/graphql/queries.js"
+      #mutations = Rails.root + "app/javascript/src/graphql/mutations.js"
+      #source1 = clean_file(queries)
+      #source2 = cleanYb4Y`^*Q_file(mutations)
 
-      [source1, source2].join("\n")
+      @strings = files.map{|o| clean_file(o)}.join("\n")
+
+      #[source1, source2].join("\n")
+    end
+
+    def self.reset_strings
+      @strings = nil
+      @context = nil
     end
 
     def self.context
-      @context ||= ExecJS.compile(configure)
+      @context ||= ExecJS.compile(@strings || configure)
     end
 
     def self.clean_file(path)
