@@ -1035,6 +1035,7 @@ class Messenger extends Component {
                             updateHeader={this.updateHeader}
                             transition={this.state.transition}
                             displayArticle={this.displayArticle}
+                            appData={this.state.appData}
                           />
                         }
 
@@ -1045,6 +1046,7 @@ class Messenger extends Component {
                             transition={this.state.transition}
                             articleSlug={this.state.article.slug}
                             transition={this.state.transition}
+                            appData={this.state.appData}
                           />
                         }
 

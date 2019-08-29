@@ -3,6 +3,9 @@ export const PING = `
     messenger {
       app{
         activeMessenger
+        articleSettings{
+          subdomain
+        }
         domainUrl
         tagline
         theme

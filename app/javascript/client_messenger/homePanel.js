@@ -34,7 +34,8 @@ const HomePanel = ({
   displayNewConversation,
   updateHeader,
   transition,
-  displayArticle
+  displayArticle,
+  appData
 })=>{
 
   const [loading, setLoading] = useState(false)
@@ -60,12 +61,10 @@ const HomePanel = ({
 
   const getArticles = ()=>{
     graphql(ARTICLES, {
-      domain: "dev",
-      id: "test-test",
+      domain: appData.articleSettings.subdomain,
       lang: "en",
       page: 1,
       per: 5,
-      lang: 'en'
     }, {
       success: (data)=>{
         const {collection, meta} = data.helpCenter.articles
@@ -111,12 +110,11 @@ const HomePanel = ({
   function searchArticles(term){
     setLoading(true)
     graphql(SEARCH_ARTICLES, {
-      domain: "dev",
+      domain: appData.articleSettings.subdomain,
       term: term,
       lang: "en",
       page: 1,
       per: 5,
-      lang: 'en'
     }, {
       success: (data)=>{
         const {collection, meta} = data.helpCenter.search

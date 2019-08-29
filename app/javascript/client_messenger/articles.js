@@ -51,7 +51,8 @@ const CollectionLabel = styled.strong`
 const Article = ({
   updateHeader,
   articleSlug,
-  transition
+  transition,
+  appData,
 })=>{
 
   const [article, setArticle] = useState(null)
@@ -69,7 +70,7 @@ const Article = ({
 
   const getArticle = ()=>{
     graphql(ARTICLE, {
-      domain: "dev",
+      domain: appData.articleSettings.subdomain,
       id: articleSlug,
       lang: "en",
     }, {
