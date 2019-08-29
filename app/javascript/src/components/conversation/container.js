@@ -102,7 +102,7 @@ class ConversationContainerShow extends Component {
   }
 
   getMessages = (cb)=>{
-    const opts = {id: parseInt(this.props.match.params.id)} 
+    const opts = {id: this.props.match.params.id } 
     this.conversationSubscriber(opts.id)
 
     const lastItem = last(this.props.conversation.collection)
@@ -133,14 +133,14 @@ class ConversationContainerShow extends Component {
       App.conversations = null
   }
 
-  conversationSubscriber(id){
+  conversationSubscriber(key){
 
     this.unsubscribeFromConversation()
 
     App.conversations = App.cable.subscriptions.create({
       channel: "ConversationsChannel",
       app: this.props.app.key,
-      id: id,
+      key: key,
       email: this.props.current_user.email,
       jwt: this.props.jwt,
       inner_app: true,

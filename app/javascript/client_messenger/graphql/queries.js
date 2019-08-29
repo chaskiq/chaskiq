@@ -31,6 +31,7 @@ export const CONVERSATIONS = `
       conversations(page: $page){
         collection{
           id
+          key
           state
           readAt
           priority
@@ -75,6 +76,7 @@ export const CONVERSATION=`
 
       conversation(id: $id){
         id
+        key
         state
         readAt
         priority
