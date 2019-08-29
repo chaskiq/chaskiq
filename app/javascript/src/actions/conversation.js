@@ -85,7 +85,7 @@ export function insertComment(comment, cb){
 
     graphql(INSERT_COMMMENT, { 
       appKey: getState().app.key, 
-      id: getState().conversation.id, 
+      id: getState().conversation.key, 
       message: comment
     }, {
         success: (data)=>{

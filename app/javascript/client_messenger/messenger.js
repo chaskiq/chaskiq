@@ -457,7 +457,7 @@ class Messenger extends Component {
   }
 
   createComment =(comment, cb)=>{
-    const id = this.state.conversation.id
+    const id = this.state.conversation.key
     
     /*let opts = {
       email: this.props.email,

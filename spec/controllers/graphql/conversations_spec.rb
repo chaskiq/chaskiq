@@ -72,10 +72,10 @@ RSpec.describe GraphqlController, type: :controller do
 
     graphql_post(type: 'CONVERSATION', variables: {
       appKey: app.key, 
-      id: 999
+      id: "999"
     })
 
-    expect(graphql_response.errors).to be_present
+    expect(graphql_response.data.app.conversation).to be_blank
   end
 
   it "create_conversation" do
@@ -86,7 +86,7 @@ RSpec.describe GraphqlController, type: :controller do
 
     graphql_post(type: 'CONVERSATION', variables: {
       appKey: app.key, 
-      id: conversation.id,
+      id: conversation.key,
       page: 1
     })
 
@@ -101,7 +101,7 @@ RSpec.describe GraphqlController, type: :controller do
 
     graphql_post(type: 'INSERT_COMMMENT', variables: {
       appKey: app.key, 
-      id: conversation.id,
+      id: conversation.key,
       message: "<p>helo</p>"
     })
     expect(graphql_response.data.insertComment.message.message).to_not be_blank

@@ -147,7 +147,7 @@ export const START_CONVERSATION = `
 `;
 
 export const INSERT_COMMMENT = `
-  mutation InsertComment($appKey: String!, $id: Int!, $message: Json!){
+  mutation InsertComment($appKey: String!, $id: String!, $message: Json!){
     insertComment(appKey: $appKey, id: $id, message: $message){
       message{
         message{
