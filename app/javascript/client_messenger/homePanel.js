@@ -7,27 +7,12 @@ import {
   Spinner
 } from './styles/styled'
 
+import gravatar from "../src/shared/gravatar"
 import graphql from '../src/graphql/client'
 import {
   ARTICLES,
   SEARCH_ARTICLES
 } from '../src/graphql/docsQueries'
-
-
-const agents = [
-  {
-    name: "abott",
-    url: 'https://api.adorable.io/avatars/285/abott@adorable.png',
-  },
-  {
-    name: "juan",
-    url: 'https://api.adorable.io/avatars/285/juan@adorable.png',
-  },
-  {
-    name: "paco",
-    url: 'https://api.adorable.io/avatars/285/paco@adorable.png',
-  },
-]
 
 const HomePanel = ({
   viewConversations,
@@ -35,7 +20,8 @@ const HomePanel = ({
   updateHeader,
   transition,
   displayArticle,
-  appData
+  appData,
+  agents
 })=>{
 
   const [loading, setLoading] = useState(false)
@@ -143,7 +129,7 @@ const HomePanel = ({
             {
               agents.map((agent)=>(
                 <Avatar>
-                  <img src={agent.url} title={agent.name}/>
+                  <img src={gravatar(agent.email)} title={agent.name}/>
                 </Avatar>
               ))
             }
@@ -264,6 +250,7 @@ const Avatar = styled.div`
     height: 40px;
     text-align: center;
     border-radius: 50%;
+    border: 3px solid white;
   }
 `
 

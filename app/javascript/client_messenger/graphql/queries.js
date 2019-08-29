@@ -10,10 +10,10 @@ export const PING = `
         tagline
         theme
         triggers
-        agents {
-          email
-          name
-        }
+      }
+      agents {
+        email
+        name
       }
       user
     }
