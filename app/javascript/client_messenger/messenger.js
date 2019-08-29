@@ -310,6 +310,10 @@ class Messenger extends Component {
             case "triggers:receive":
               this.receiveTrigger(data.data)
               break
+            case "conversations:conversation_part":
+              const newMessage = toCamelCase(data.data)
+              this.receiveMessage(newMessage)
+              break
             case "true":
               return true
             default:
@@ -327,6 +331,33 @@ class Messenger extends Component {
         }
       }
     )
+  }
+
+  receiveMessage = (newMessage)=>{
+
+    if ( this.state.conversation_messages.find( (o)=> o.id === newMessage.id ) ){
+      const new_collection = this.state.conversation_messages.map((o)=>{
+          if (o.id === newMessage.id ){
+            return newMessage
+          } else {
+            return o
+          }
+      })
+
+      this.setState({
+        conversation_messages: new_collection
+      })
+
+    } else {
+      this.setState({
+        conversation_messages: [newMessage].concat(this.state.conversation_messages)
+      }, this.scrollToLastItem)
+      
+      if (newMessage.appUser.kind != "app_user") {
+        this.playSound()
+      }
+    }
+
   }
 
   precenseSubscriber =()=>{
@@ -360,69 +391,6 @@ class Messenger extends Component {
     this.overflow = el
   }
 
-  unsubscribeFromConversation = ()=>{
-    if (App.conversations)
-      App.conversations.unsubscribe()
-      App.conversations = null
-  }
-
-  conversationSubscriber =(cb)=>{
-    this.unsubscribeFromConversation()
-    App.conversations = App.cable.subscriptions.create(
-      this.cableDataFor({
-        channel: "ConversationsChannel", 
-        key: this.state.conversation.key,
-      }),
-    {
-      connected: ()=> {
-        console.log("connected to conversation ", this.state.conversation.key)
-        if( cb )
-          cb()
-      },
-      disconnected: ()=> {
-        console.log("disconnected from conversation: ", this.state.conversation.key)
-      },
-      received: (data)=> {
-        const newMessage = toCamelCase(data)
-        //let html = stateToHTML(JSON.parse(data.message));
-        //console.log(data.message)
-        //console.log(`received ${data}`)
-        //console.log(this.props.email , data.app_user.email)
-        // find message and update it, or just append message to conversation
-         
-        if ( this.state.conversation_messages.find( (o)=> o.id === newMessage.id ) ){
-          const new_collection = this.state.conversation_messages.map((o)=>{
-              if (o.id === newMessage.id ){
-                return newMessage
-              } else {
-                return o
-              }
-          })
-
-          this.setState({
-            conversation_messages: new_collection
-          })
-
-        } else {
-          this.setState({
-            conversation_messages: [newMessage].concat(this.state.conversation_messages)
-          }, this.scrollToLastItem)
-          
-          if (newMessage.appUser.kind != "app_user") {
-            this.playSound()
-          }
-        }
-
-      },
-      notify: ()=>{
-        console.log(`notify!!`)
-      },
-      handleMessage: (message)=>{
-        console.log(`handle message`)
-      } 
-    });    
-  }
-
   ping =(cb)=>{
 
     this.graphqlClient.send(PING, {}, {
@@ -442,13 +410,6 @@ class Messenger extends Component {
   }
 
   insertComment =(comment, cb)=>{
-    //TODO: try to store this as json and then 
-    //convert to HTML
-
-    // for now let's save in html (this is draft)
-    //const html_comment = convertToHTML( comment );
-
-    // this is slate
     if(this.state.conversation.id){
       this.createComment(comment, cb)
     }else{
@@ -458,11 +419,6 @@ class Messenger extends Component {
 
   createComment =(comment, cb)=>{
     const id = this.state.conversation.key
-    
-    /*let opts = {
-      email: this.props.email,
-      message: comment
-    }*/
 
     const message = {
       html: comment.html_content,
@@ -485,16 +441,6 @@ class Messenger extends Component {
 
       }
     })
-
-    /*this.axiosInstance.put(`/api/v1/apps/${this.props.app_id}/conversations/${id}.json`, 
-      opts)
-    .then( (response)=> {
-      console.log(response)
-      cb()
-    })
-    .catch( (error)=> {
-      console.log(error);
-    });*/
   }
 
   createCommentOnNewConversation = (comment, cb)=>{
@@ -518,7 +464,6 @@ class Messenger extends Component {
             response.data.messages.concat(this.state.conversation_messages) : 
             this.state.conversation_messages*/
           }, ()=>{ 
-          this.conversationSubscriber(() => {})
           cb ? cb() : null 
         })
       },
@@ -526,35 +471,10 @@ class Messenger extends Component {
         debugger
       }
     })
-
-    /*
-    this.axiosInstance.post(`/api/v1/apps/${this.props.app_id}/conversations.json`, {
-        email: this.props.email,
-        message: comment
-      })
-      .then( (response)=> {
-        this.setState({
-          conversation: response.data.conversation,
-          conversation_messages: response.data.messages ? 
-            response.data.messages.concat(this.state.conversation_messages) : 
-            this.state.conversation_messages
-          }, ()=>{ 
-          this.conversationSubscriber(() => {
-          })
-
-          cb ? cb() : null 
-        
-        })
-      })
-      .catch( (error)=> {
-        console.log(error);
-      });
-  
-  
-    */
    }
 
-  clearAndGetConversations = ()=>{
+  
+   clearAndGetConversations = ()=>{
     this.setState({ conversationsMeta: {} }, this.getConversations)
   }
 
@@ -644,7 +564,7 @@ class Messenger extends Component {
   }
 
   displayHome = (e)=>{
-    this.unsubscribeFromConversation()
+    //this.unsubscribeFromConversation()
     e.preventDefault()
 
     this.setTransition('out', ()=>{
@@ -674,7 +594,7 @@ class Messenger extends Component {
   }
 
   displayConversationList = (e)=>{
-    this.unsubscribeFromConversation()
+    //this.unsubscribeFromConversation()
     e.preventDefault()
 
     this.setTransition('out', ()=>{
@@ -685,13 +605,13 @@ class Messenger extends Component {
 
   displayConversation =(e, o)=>{
 
-    this.unsubscribeFromConversation()
+    //this.unsubscribeFromConversation()
 
     this.setState({conversation_messagesMeta: {} }, ()=>{
 
       this.setconversation(o.key, () => {
 
-        this.conversationSubscriber(() => {
+        //this.conversationSubscriber(() => {
 
           this.setTransition('out', ()=>{
 
@@ -703,7 +623,8 @@ class Messenger extends Component {
               this.scrollToLastItem()
             })
           })
-        })
+
+        //})
       })
     })
   }
@@ -1229,6 +1150,7 @@ class Conversation extends Component {
     return <MessageItemWrapper
             email={this.props.email}
             key={o.id}
+            conversation={this.props.conversation}
             data={o}>
 
             <MessageItem
@@ -1411,7 +1333,6 @@ class Conversation extends Component {
 
 class Conversations extends Component {
 
-
   componentDidMount(){
     this.props.clearAndGetConversations()
 
@@ -1422,7 +1343,6 @@ class Conversations extends Component {
         height: '0' 
       }
     )
-
   }
 
   // TODO: skip on xhr progress
@@ -1500,7 +1420,7 @@ function CommentsItemComp(props){
     o, 
     sanitizeMessageSummary,
     email,
-    index
+    index,
   } = props
 
   const [display, setDisplay] = React.useState(false)
@@ -1570,24 +1490,6 @@ class MessageFrame extends Component {
   }
 
   componentDidMount(){
-    /*this.props.availableMessages.map((o) => {
-      const firstKey = o.id
-      const data = {
-        referrer: window.location.path,
-        email: this.props.email,
-        properties: this.props.properties
-      }
-      this.props.axiosInstance.get(`/api/v1/apps/${this.props.app_id}/messages/${firstKey}.json`)
-        .then((response) => {
-          this.setState({
-            messages: this.state.messages.concat(response.data.message)
-          })
-        })
-        .catch((error) => {
-          console.log(error);
-        });
-    })*/
-
   }
 
   toggleMinimize = (e) => {
@@ -1733,8 +1635,11 @@ class MessageItemWrapper extends Component {
   componentDidMount(){
     // mark as read on first render if not read & from admin
     if(!this.props.data.volatile && !this.props.data.readAt && this.props.data.appUser.kind != "app_user"){
-      App.conversations && App.conversations.perform("receive", 
-        Object.assign({}, this.props.data, {email: this.props.email})
+      App.events && App.events.perform("receive_conversation_part", 
+        Object.assign({}, {
+          conversation_id: this.props.conversation.id,
+          message_id: this.props.data.id
+        }, {email: this.props.email})
       )
     }
   }

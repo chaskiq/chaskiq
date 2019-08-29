@@ -37,6 +37,5 @@ class ConversationsChannel < ApplicationCable::Channel
     if message.authorable != @app_user
       message.read!
     end
-
   end
 end
