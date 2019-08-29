@@ -48,7 +48,7 @@ class SimpleTabs extends React.Component {
             onChange={this.handleChange}>
             {
               this.props.options.map((o)=>(
-                <Tab label={o.label} />    
+                <Tab key={ `${o.label}-tab` } label={o.label} />    
               ))
             }
           </Tabs>

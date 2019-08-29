@@ -85,9 +85,8 @@ function AlignItemsList(props) {
           backgroundColor: props.value === props.object ? 'aliceblue' : 'white'
         }}>
 
-
         <Grid 
-          container noWrap alignItems={"center"} 
+          container alignItems={"center"} 
           justify={"space-between"}>
         
           <Grid item>
@@ -285,7 +284,7 @@ function AlignItemsList(props) {
 
       </ListItem>
 
-      <Divider variant="default" component="li" />
+      <Divider variant="fullWidth" component="li" />
     </List>
   );
 }

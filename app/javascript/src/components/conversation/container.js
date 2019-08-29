@@ -252,7 +252,7 @@ class ConversationContainerShow extends Component {
                       <Tooltip title={ !this.props.conversation.priority ? "Priorize conversation" : 'Remove priority'}>
                         <IconButton onClick={this.toggleConversationPriority}>
                           <PriorityHighIcon 
-                            color={this.props.conversation.priority ? 'primary' : 'default' }
+                            color={this.props.conversation.priority ? 'primary' : 'inherit' }
                           />
                         </IconButton>
                       </Tooltip>
@@ -283,7 +283,7 @@ class ConversationContainerShow extends Component {
                             const userOrAdmin = o.appUser.kind === 'agent' ? 'admin' : 'user'
                
                             return <MessageItemWrapper 
-                                      key={o.id} 
+                                      key={`message-item-${this.props.conversation.key}-${o.id}`} 
                                       data={o} 
                                       email={this.props.current_user.email}>
 
