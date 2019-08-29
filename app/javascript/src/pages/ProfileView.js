@@ -241,16 +241,17 @@ class ProfilePage extends Component {
                 conversations
               </Typography>
               {
-                this.state.collection.map((o)=>{
+                this.state.collection.filter((o)=> o.lastMessage ).map((o)=>{
                   const user = o.mainParticipant
+                 
                   return <div 
-                            key={o.id} 
-                            onClick={(e)=> this.props.history.push(`/apps/${this.props.app.key}/conversations/${o.id}`) }>
+                            key={o.key} 
+                            onClick={(e)=> this.props.history.push(`/apps/${this.props.app.key}/conversations/${o.key}`) }>
                                     
                             <UserListItem
                               value={null}
                               mainUser={user}
-                              object={o.id}
+                              object={o.key}
                               messageUser={o.lastMessage.appUser}
                               showUserDrawer={this.showUserDrawer}
                               messageObject={o.lastMessage}
