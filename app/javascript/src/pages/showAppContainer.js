@@ -87,6 +87,8 @@ const { Provider, Consumer } = Context
 import {toggleDrawer} from '../actions/drawer'
 import UserData from '../components/UserData'
 
+import {appendMessage } from '../actions/conversation'
+
 
 class ShowAppContainer extends Component {
 
@@ -393,6 +395,7 @@ class ShowAppContainer extends Component {
             render={(props) => (
                   <ConversationContainer
                     actions={this.actions()}
+                    events={CableApp.events}
                     {...props}
                   />
             )} 

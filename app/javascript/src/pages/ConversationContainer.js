@@ -343,6 +343,7 @@ class ConversationContainer extends Component {
                       <ConversationContainerShow
                         appId={appId}
                         app={this.props.app}
+                        events={this.props.events}
                         conversation={this.props.conversation}
                         showUserDrawer={this.showUserDrawer}
                         currentUser={this.props.currentUser}

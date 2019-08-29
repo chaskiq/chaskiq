@@ -12,7 +12,7 @@ class MessengerEventsChannel < ApplicationCable::Channel
                   .first
     end
 
-    stream_from "messenger_events:#{@app.key}"
+    stream_from "messenger_events:#{@app.key}-#{@app_user.session_id}"
   end
 
   def unsubscribed
@@ -29,6 +29,15 @@ class MessengerEventsChannel < ApplicationCable::Channel
     options.delete("action")
     @app_user.visits.create(options)
     AppUserEventJob.perform_now(app_key: @app.key, user_id: @app_user.id)
+  end
+
+
+  def receive_conversation_part(data)
+    @conversation = @app.conversations.find(data["conversation_id"])
+    message = @conversation.messages.find(data["message_id"])
+    if message.authorable != @app_user
+      message.read!
+    end
   end
 
 end

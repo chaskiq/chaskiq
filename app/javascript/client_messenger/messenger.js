@@ -335,6 +335,8 @@ class Messenger extends Component {
 
   receiveMessage = (newMessage)=>{
 
+    if(newMessage.conversationId != this.state.conversation.id) return
+
     if ( this.state.conversation_messages.find( (o)=> o.id === newMessage.id ) ){
       const new_collection = this.state.conversation_messages.map((o)=>{
           if (o.id === newMessage.id ){
@@ -1190,9 +1192,9 @@ class Conversation extends Component {
 
             <span className="status">
               {
-                o.read_at ?
+                o.readAt ?
                   <Moment fromNow>
-                    {o.read_at}
+                    {o.readAt}
                   </Moment> : <span>not seen</span>
               }
             </span>

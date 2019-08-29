@@ -78,10 +78,6 @@ class Conversation < ApplicationRecord
   end
 
   def notify_subscribers(part)
-    #subscribers = ConversationsChannel.broadcast_to("#{self.app.key}-#{self.key}", 
-    #  part.as_json
-    #)
-
     MessengerEventsChannel.broadcast_to(
       "#{self.app.key}-#{self.main_participant.session_id}",
       { 
@@ -97,10 +93,6 @@ class Conversation < ApplicationRecord
         data: part.as_json
       }
     )
-
-    # logger.info("subscribers: #{subscribers}")
-    # could be events channel too
-    # ConversationsChannel.broadcast_to("#{self.app.key}-#{self.asignee.email}", {} )
   end
 
   def assign_user(user)
