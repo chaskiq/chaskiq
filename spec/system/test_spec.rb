@@ -13,12 +13,28 @@ RSpec.describe "Widget management", :type => :system do
   }
 
   let!(:agent_role){
-    app.add_agent({email: "test2@test.cl"})
+    app.add_agent({email: "test2@test.cl", name: "test agent"})
   }
 
-  let(:serialized_content){
-    "{\"blocks\": [{\"key\":\"bl82q\",\"text\":\"foobar\",\"type\":\"unstyled\",\"depth\":0,\"inlineStyleRanges\":[],\"entityRanges\":[],\"data\":{}}],\"entityMap\":{}}"
+  let(:assignment_rule){
+
+    ->(rules) {
+      app.assignment_rules.create({
+        title: "test", 
+        agent: agent_role.agent, 
+        conditions: rules || [], 
+        priority: 1 
+      })
+    }
   }
+
+  let(:user_auto_message){ 
+    FactoryGirl.create(:user_auto_message, app: app)
+  }
+
+  def serialized_content(text="foobar")
+    "{\"blocks\": [{\"key\":\"bl82q\",\"text\":\"#{text}\",\"type\":\"unstyled\",\"depth\":0,\"inlineStyleRanges\":[],\"entityRanges\":[],\"data\":{}}],\"entityMap\":{}}"
+  end
 
   before do
 
@@ -91,7 +107,7 @@ RSpec.describe "Widget management", :type => :system do
   end
 
 
-  it "renders messenger on registered users creating a app user" do                       
+  it "run previous conversations" do                       
     
     app.start_conversation({
       message: {
@@ -108,21 +124,99 @@ RSpec.describe "Widget management", :type => :system do
       page.find("#chaskiq-prime").click 
     }
 
+    sleep(2)
     # now 2nd iframe appears on top
     messenger_iframe = all("iframe").first
 
-    Capybara.within_frame(messenger_iframe){ 
-      page.has_content?("Hello") 
+    Capybara.within_frame(messenger_iframe){
+      page.click_link("see previous")
+      expect(page).to have_content(user.email)
+      expect(page).to have_content("a few seconds ago")
+      
+      page.find(:xpath, "/html/body/div/div/div/div[2]/div/div/div[1]/div").click
+      expect(page).to have_content("foobar")
+      page.find(:xpath, "/html/body/div/div/div/div[2]/div/div/div/div[2]/div/div/textarea").set("oeoe \n")
+      expect(page).to have_content("oeoe")
+      
+
+      app.conversations.first.add_message({
+        from: app.agents.first,
+        message: {
+          html_content: "<p>ss</p>",
+          serialized_content: serialized_content("1111111"),
+          text_content: serialized_content("1111111")
+        }
+      })
+
+      expect(page).to have_content("1111111")
+
     }
+
+  end
+
+
+  it "start conversation" do                       
+    
+    visit "/tester/#{app.key}"
+
+    prime_iframe = all("iframe").first
+
+    # will assign someone
+    assignment_rule[[]]
+
+    Capybara.within_frame(prime_iframe){ 
+      page.find("#chaskiq-prime").click 
+    }
+
+    sleep(2)
+    # now 2nd iframe appears on top
+    messenger_iframe = all("iframe").first
 
     Capybara.within_frame(messenger_iframe){
-      page.has_content?(user.email)
+      
+      page.click_link("start conversation")
+      
+      #expect(page).to have_content(user.email)
+      #expect(page).to have_content("a few seconds ago")
+      #
+      #page.find(:xpath, "/html/body/div/div/div/div[2]/div/div/div[1]/div").click
+      #expect(page).to have_content("foobar")
+      page.find(:xpath, "/html/body/div/div/div/div[2]/div/div/div/div[2]/div/div/textarea").set("oeoe \n")
+      expect(page).to have_content("oeoe")
+      #
+
+      app.conversations.first.add_message({
+        from: app.agents.first,
+        message: {
+          html_content: "<p>ss</p>",
+          serialized_content: serialized_content("1111111"),
+          text_content: serialized_content("1111111")
+        }
+      })
+
+      expect(page).to have_content("1111111")
+      expect(page).to have_content("test agent")
+
     }
 
-    Capybara.within_frame(messenger_iframe){
-      page.has_content?("a few seconds ago")
-    }
+  end
 
+  it "receive message" do
+   
+
+    message = FactoryGirl.create(:user_auto_message, 
+      app: app, 
+      segments: nil, #app.segments.first.predicates,
+      scheduled_at: 2.day.ago,
+      scheduled_to: 30.days.from_now,
+      settings: {"hidden_constraints"=>""}
+    )
+
+    message.enable!
+    
+    visit "/tester/#{app.key}"
+
+    binding.pry
   end
 
 

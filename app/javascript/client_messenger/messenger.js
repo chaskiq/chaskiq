@@ -321,7 +321,7 @@ class Messenger extends Component {
           }
 
 
-          console.log(`received event ${data}`)
+          console.log(`received event`, data)
         },
         notify: ()=>{
           console.log(`notify event!!`)
