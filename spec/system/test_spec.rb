@@ -201,29 +201,76 @@ RSpec.describe "Widget management", :type => :system do
 
   end
 
-  it "receive message will track open" do
 
-    message = FactoryGirl.create(:user_auto_message, 
-      app: app, 
-      segments: nil, #app.segments.first.predicates,
-      scheduled_at: 2.day.ago,
-      scheduled_to: 30.days.from_now,
-      settings: {"hidden_constraints"=>["open"]}
-    )
+  describe "user auto messages" do
 
-    message.enable!
+    before :each do
+      message = FactoryGirl.create(:user_auto_message, 
+        app: app, 
+        segments: nil, #app.segments.first.predicates,
+        scheduled_at: 2.day.ago,
+        scheduled_to: 30.days.from_now,
+        settings: {"hidden_constraints"=>["open"]}
+      )
 
-    visit "/tester/#{app.key}"
+      message.enable!
+    end
 
-    sleep(2)
+    it "receive message will track open" do
 
-    expect(all("iframe").size).to be == 2
+      visit "/tester/#{app.key}"
 
-    # on a second visit the message will dissapear
+      sleep(2)
 
-    visit "/tester/#{app.key}"
+      expect(all("iframe").size).to be == 2
 
-    expect(all("iframe").size).to be == 1
+      # on a second visit the message will dissapear
+
+      visit "/tester/#{app.key}"
+
+      sleep(2)
+
+      expect(all("iframe").size).to be == 1
+
+    end
+
+    it "receive message will track open" do
+
+      message = FactoryGirl.create(:user_auto_message, 
+        app: app, 
+        segments: nil, #app.segments.first.predicates,
+        scheduled_at: 2.day.ago,
+        scheduled_to: 30.days.from_now,
+        settings: {"hidden_constraints"=>["close"]}
+      )
+
+      message.enable!
+
+      visit "/tester/#{app.key}"
+
+      sleep(2)
+
+      expect(all("iframe").size).to be == 2
+
+      # on a second visit the message will dissapear
+
+      visit "/tester/#{app.key}"
+
+      sleep(2)
+
+      expect(all("iframe").size).to be == 2
+
+      Capybara.within_frame(all("iframe").first){ 
+        page.click_link("dismiss")
+      }
+
+      visit "/tester/#{app.key}"
+
+      sleep(2)
+
+      expect(all("iframe").size).to be == 1
+
+    end
 
   end
 

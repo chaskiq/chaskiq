@@ -1530,7 +1530,13 @@ class MessageFrame extends Component {
     }
   }
 
-  handleClose = ()=>{
+  handleClose = (message)=>{
+
+    App.events && App.events.perform("track_close", 
+      {auto_message: message}   
+    )
+
+    /*
     const appId = this.props.appId
     const availableMessage = this.state.messages[0]
     const messageId = availableMessage.id
@@ -1544,7 +1550,7 @@ class MessageFrame extends Component {
     })
     .catch((error) => {
       console.log(error);
-    });
+    });*/
   }
 
   handleMinus = (ev) => {
@@ -1564,14 +1570,13 @@ class MessageFrame extends Component {
       
        <UserAutoMessageFlex isMinimized={this.fetchMinizedCache()}>
 
-        <UserAutoMessageBlock open={true}>
+        {/*<UserAutoMessageBlock open={true}>
           <div className="close">
-            {/* eslint-disable-next-line */}
             <MessageCloseBtn href="#" onClick={this.handleCloseClick}>
               dismiss
             </MessageCloseBtn>
           </div>
-        </UserAutoMessageBlock>
+          </UserAutoMessageBlock>*/}
 
         {
           this.props.availableMessages.map((o, i) => {
@@ -1620,6 +1625,11 @@ class MessageContainer extends Component {
   render(){
     const editorTheme = theme
     return <Quest {...this.props}>
+              
+              <MessageCloseBtn href="#" 
+                onClick={()=> this.props.handleClose(this.props.availableMessage)}>
+                dismiss
+              </MessageCloseBtn>
 
               <ThemeProvider 
                 theme={ editorTheme }>

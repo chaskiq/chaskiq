@@ -44,4 +44,8 @@ class MessengerEventsChannel < ApplicationCable::Channel
     @app_user.track_open(campaign_id: data["auto_message"]["id"] )
   end
 
+  def track_close(data)
+    @app_user.track_close(campaign_id: data["auto_message"]["id"] )
+  end
+
 end
