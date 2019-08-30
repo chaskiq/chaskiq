@@ -112,6 +112,7 @@ export const START_CONVERSATION = `
         assignee {
           id
           email
+          name
         }
         mainParticipant{
           id
@@ -218,6 +219,7 @@ export const ASSIGN_USER = `
         assignee {
           id
           email
+          name
         }
         mainParticipant{
           id
@@ -305,6 +307,7 @@ export const UPDATE_CONVERSATION_STATE = `
         assignee {
           id
           email
+          name
         }
         mainParticipant{
           id
@@ -327,6 +330,7 @@ export const TOGGLE_CONVERSATION_PRIORITY = `
         assignee {
           id
           email
+          name
         }
         mainParticipant{
           id

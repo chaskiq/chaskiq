@@ -847,15 +847,18 @@ class Messenger extends Component {
     if(assignee){
       return <HeaderAvatar>
               <img src={gravatar(assignee.email)} />
+              <div>
+                <p>{assignee.name}</p>
+                <span>away</span>
+              </div>
              </HeaderAvatar>
     }else{
       return <HeaderAvatar>
               
-              <img src={gravatar('assignee.email')} />
+              <img src={gravatar('bot@chaskiq.io.png')} />
 
               <div>
-                <p>miguel michelson</p>
-                <span>away</span>
+                <p>chaskiq bot</p>
               </div>
 
              </HeaderAvatar>

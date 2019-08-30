@@ -78,7 +78,9 @@ class ConversationContainerShow extends Component {
         }))
     }
 
-    if( PrevProps.conversation.collection && this.props.conversation.collection.length != PrevProps.conversation.collection.length){
+    if( PrevProps.conversation.collection && 
+      this.props.conversation.collection && 
+      this.props.conversation.collection.length != PrevProps.conversation.collection.length){
       this.scrollToLastItem()
     }
   }
