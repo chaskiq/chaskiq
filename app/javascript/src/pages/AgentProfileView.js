@@ -263,13 +263,6 @@ class ProfilePage extends Component {
 
             <div className="controls">
 
-              <Button 
-                variant="contained" 
-                color="primary"
-                onClick={this.openStartConversationModal}>
-                start conversation
-              </Button>
-
               <UserActionsMenu
                 selected={this.state.agent.state}
                 handleClick={(item)=>{  this.updateState(item) }}

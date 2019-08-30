@@ -14,13 +14,12 @@ class AppUserEventJob < ApplicationJob
     MessengerEventsChannel.broadcast_to(key, {
       type: "tours:receive", 
       data: @tours.as_json(only: [:id], methods: [:steps])
-    }.as_json)
+    }.as_json) if @tours.any?
 
     MessengerEventsChannel.broadcast_to(key, {
       type: "triggers:receive", 
       data: @app.bot_tasks.first
-    }.as_json)
-
+    }.as_json) if @app.bot_tasks.any?
 
     @messages = @app.user_auto_messages.availables_for(app_user)
 
@@ -34,7 +33,7 @@ class AppUserEventJob < ApplicationJob
                                       :theme
                                     ])
       }
-    )
+    ) if @messages.any?
     
   end
 end

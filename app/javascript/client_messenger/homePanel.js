@@ -137,7 +137,7 @@ const HomePanel = ({
 
           <CardButtonsGroup>
 
-            <AnchorButton onClick={displayNewConversation}>
+            <AnchorButton href="#" onClick={displayNewConversation}>
               start conversation
             </AnchorButton>
 
