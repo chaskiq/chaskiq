@@ -201,22 +201,30 @@ RSpec.describe "Widget management", :type => :system do
 
   end
 
-  it "receive message" do
-   
+  it "receive message will track open" do
 
     message = FactoryGirl.create(:user_auto_message, 
       app: app, 
       segments: nil, #app.segments.first.predicates,
       scheduled_at: 2.day.ago,
       scheduled_to: 30.days.from_now,
-      settings: {"hidden_constraints"=>""}
+      settings: {"hidden_constraints"=>["open"]}
     )
 
     message.enable!
-    
+
     visit "/tester/#{app.key}"
 
-    binding.pry
+    sleep(2)
+
+    expect(all("iframe").size).to be == 2
+
+    # on a second visit the message will dissapear
+
+    visit "/tester/#{app.key}"
+
+    expect(all("iframe").size).to be == 1
+
   end
 
 

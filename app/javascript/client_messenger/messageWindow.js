@@ -110,19 +110,18 @@ export default class Quest extends React.Component  {
 
   render(){
     return <IntroStyle>
-          <InnerStyle>
-            
-            <Header>
+            <InnerStyle>
+              
+              <Header>
 
-            </Header>
+              </Header>
 
-            <Content>
-              {this.props.children}
-            </Content>
+              <Content>
+                {this.props.children}
+              </Content>
 
-          </InnerStyle>
-
-        </IntroStyle>
+            </InnerStyle>
+          </IntroStyle>
   }
 
 }

@@ -1494,9 +1494,6 @@ class MessageFrame extends Component {
     }
   }
 
-  componentDidMount(){
-  }
-
   toggleMinimize = (e) => {
     const val = !this.state.isMinimized
     //console.log("toggle, ", val, "old ", this.state.isMinimized)
@@ -1579,7 +1576,9 @@ class MessageFrame extends Component {
         {
           this.props.availableMessages.map((o, i) => {
             
-            return <UserAutoMessage open={true} key={o.id}>
+            return <UserAutoMessage 
+                    open={true} 
+                    key={`user-auto-message-${o.id}`}>
               <MessageContainer
                 isMinimized={this.state.isMinimized}
                 toggleMinimize={this.toggleMinimize}
@@ -1611,14 +1610,14 @@ class MessageFrame extends Component {
 
 class MessageContainer extends Component {
   
-  createMarkup =()=> { 
-    return { __html:  this.props.availableMessage.html_content }; 
-  };
+  componentDidMount(){
+    App.events && App.events.perform("track_open", 
+      {auto_message: this.props.availableMessage}   
+    )
+  }
 
 
   render(){
-    
-    //const editorTheme = this.props.theme.mode === "dark" ? themeDark : theme
     const editorTheme = theme
     return <Quest {...this.props}>
 
@@ -1630,8 +1629,6 @@ class MessageContainer extends Component {
                   />
                 </DanteContainer>
               </ThemeProvider>  
-
-              {/*<div dangerouslySetInnerHTML={this.createMarkup()} />*/}
            </Quest>
   }
 }
