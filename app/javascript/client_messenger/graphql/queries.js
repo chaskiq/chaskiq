@@ -86,6 +86,7 @@ export const CONVERSATION=`
         assignee {
           id
           email
+          name
         }
         mainParticipant{
           id

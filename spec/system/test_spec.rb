@@ -83,9 +83,6 @@ RSpec.describe "Widget management", :type => :system do
         }, 
         from: user
       })
-
-      
-      binding.pry
       
 
     end
@@ -108,7 +105,7 @@ RSpec.describe "Widget management", :type => :system do
     prime_iframe = all("iframe").first
 
     Capybara.within_frame(prime_iframe){ 
-      page.find("#prime").click 
+      page.find("#chaskiq-prime").click 
     }
 
     # now 2nd iframe appears on top

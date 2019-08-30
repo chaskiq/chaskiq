@@ -90,7 +90,6 @@ export function appendConversation(data, cb){
           }
         })
 
-        console.log("AAA", conversation.id, getState().conversation.id)
         if(conversation.id === getState().conversation.id){
           dispatch(appendMessage(data))  
         }
