@@ -12,14 +12,16 @@ import Joyride, {
   EVENTS, 
   STATUS, 
   BeaconRenderProps, 
-  TooltipRenderProps ,
-  
+  TooltipRenderProps,
 } from 'react-joyride';
 
 export default class UserTours extends Component {
   render(){
     return this.props.tours.length > 0 ?
-     <UserTour tour={this.props.tours[0]} /> 
+     <UserTour 
+      tour={this.props.tours[0]} 
+      events={this.props.events}
+    /> 
      : null
   }
 }
@@ -67,6 +69,30 @@ class UserTour extends Component {
     
   }
 
+  handleJoyrideCallback = data => {
+    const { action, index, status, type } = data;
+
+    if ([EVENTS.STEP_AFTER, EVENTS.TARGET_NOT_FOUND].includes(type)) {
+      // Update state to advance the tour
+      this.setState({ stepIndex: index + (action === ACTIONS.PREV ? -1 : 1) });
+    }
+    else if ([STATUS.FINISHED, STATUS.SKIPPED].includes(status)) {
+      // Need to set our running state to false, so we can restart if we click start again.
+      this.setState({ run: false });
+      this.registerEvent()
+    }
+
+    console.groupCollapsed(type);
+    console.log(data); //eslint-disable-line no-console
+    console.groupEnd();
+  };
+
+  registerEvent = ()=>{
+    this.props.events && this.props.events.perform("track_tour_finish", 
+      {campaign_id: this.props.tour.id}   
+    )
+  }
+
   renderTour = ()=>{
     
     if(this.props.tour.steps && this.props.tour.steps.length > 0){
@@ -80,7 +106,7 @@ class UserTour extends Component {
                     scrollToFirstStep
                     showProgress
                     showSkipButton
-                    //callback={this.handleJoyrideCallback}
+                    callback={this.handleJoyrideCallback}
                     styles={{
                       options: {
                         zIndex: 10000,
