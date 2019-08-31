@@ -52,11 +52,11 @@ class MessengerEventsChannel < ApplicationCable::Channel
     @app_user.track_click(campaign_id: data["auto_message"]["id"] )
   end
 
-  def track_tour_finish(data)
+  def track_tour_finished(data)
     @app_user.track_finish(campaign_id: data["campaign_id"] )
   end
 
-  def track_tour_skip(data)
+  def track_tour_skipped(data)
     @app_user.track_skip(campaign_id: data["campaign_id"] )
   end
 
