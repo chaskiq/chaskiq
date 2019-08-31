@@ -79,7 +79,7 @@ class UserTour extends Component {
     else if ([STATUS.FINISHED, STATUS.SKIPPED].includes(status)) {
       // Need to set our running state to false, so we can restart if we click start again.
       this.setState({ run: false });
-      this.registerEvent()
+      this.registerEvent(status)
     }
 
     console.groupCollapsed(type);
@@ -87,8 +87,9 @@ class UserTour extends Component {
     console.groupEnd();
   };
 
-  registerEvent = ()=>{
-    this.props.events && this.props.events.perform("track_tour_finish", 
+  registerEvent = (status)=>{
+    const path = `track_tour_${status}`
+    this.props.events && this.props.events.perform(path, 
       {campaign_id: this.props.tour.id}   
     )
   }

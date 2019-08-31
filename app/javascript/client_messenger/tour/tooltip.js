@@ -71,6 +71,7 @@ const Tooltip = ({
   closeProps,
   primaryProps,
   tooltipProps,
+  skipProps,
   styles,
   isLastStep,
   size
@@ -110,6 +111,12 @@ const Tooltip = ({
           back
         </TooltipBackButton>
       )}
+
+      <TooltipBackButton {...skipProps}>
+        skip
+      </TooltipBackButton>
+     
+
       {continuous && (
         <TooltipButton {...primaryProps}>
           {output.primary}
