@@ -11,7 +11,7 @@ class AppUserEventJob < ApplicationJob
     @tours = @app.tours.availables_for(app_user).enabled
     MessengerEventsChannel.broadcast_to(key, {
       type: "tours:receive", 
-      data: @tours.as_json(only: [:id], methods: [:steps])
+      data: @tours.as_json(only: [:id], methods: [:steps, :url])
     }.as_json) if @tours.any?
 
     MessengerEventsChannel.broadcast_to(key, {

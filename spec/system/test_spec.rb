@@ -276,8 +276,12 @@ RSpec.describe "Widget management", :type => :system do
 
 
   describe "tours" do
+
+    let(:host_port){
+      "#{Capybara.current_session.server.host}:#{Capybara.current_session.server.port}"
+    }
     
-    let!(:tour) do
+    let(:tour) do
       tour_attributes = {
         "app"=> app,
         "key"=>nil, 
@@ -297,7 +301,38 @@ RSpec.describe "Widget management", :type => :system do
         "subject"=>"oijoij", 
         "segments"=>[{"type"=>"match", "value"=>"and", "attribute"=>"match", "comparison"=>"and"}], 
         "type"=>"Tour", 
-        "settings"=>{"url"=>"http://127.0.0.1:62064/tester/#{app.key}", 
+        "settings"=>{"url"=>"/tester/#{app.key}", 
+        "steps"=>[
+          {"target"=>"H1", "serialized_content"=>"{\"blocks\":[{\"key\":\"f1qmb\",\"text\":\"this is the tour\",\"type\":\"unstyled\",\"depth\":0,\"inlineStyleRanges\":[],\"entityRanges\":[],\"data\":{}}],\"entityMap\":{}}"}, 
+          {"target"=>"H2:nth-child(3)", "serialized_content"=>"{\"blocks\":[{\"key\":\"f1qmb\",\"text\":\"final tour step\",\"type\":\"unstyled\",\"depth\":0,\"inlineStyleRanges\":[],\"entityRanges\":[],\"data\":{}}],\"entityMap\":{}}"}
+          ], 
+        "hidden_constraints"=>["skip", "finish"]
+        },
+      }
+      app.tours.create(tour_attributes)
+    end
+
+    let(:tour_with_other_url) do
+      tour_attributes = {
+        "app"=> app,
+        "key"=>nil, 
+        "from_name"=>nil, 
+        "from_email"=>nil, 
+        "reply_email"=>nil, 
+        "html_content"=>nil, 
+        "premailer"=>nil, 
+        "serialized_content"=>nil, 
+        "description"=>"oli", 
+        "sent"=>nil, 
+        "name"=>"ooioij", 
+        "scheduled_at"=>2.day.ago, 
+        "scheduled_to"=>2.day.from_now, 
+        "timezone"=>nil, 
+        "state"=>"disabled", 
+        "subject"=>"oijoij", 
+        "segments"=>[{"type"=>"match", "value"=>"and", "attribute"=>"match", "comparison"=>"and"}], 
+        "type"=>"Tour", 
+        "settings"=>{"url"=>"#{host_port}/tester/#{app.key}/alala", 
         "steps"=>[
           {"target"=>"H1", "serialized_content"=>"{\"blocks\":[{\"key\":\"f1qmb\",\"text\":\"this is the tour\",\"type\":\"unstyled\",\"depth\":0,\"inlineStyleRanges\":[],\"entityRanges\":[],\"data\":{}}],\"entityMap\":{}}"}, 
           {"target"=>"H2:nth-child(3)", "serialized_content"=>"{\"blocks\":[{\"key\":\"f1qmb\",\"text\":\"final tour step\",\"type\":\"unstyled\",\"depth\":0,\"inlineStyleRanges\":[],\"entityRanges\":[],\"data\":{}}],\"entityMap\":{}}"}
@@ -346,6 +381,17 @@ RSpec.describe "Widget management", :type => :system do
       visit "/tester/#{app.key}"
       
       expect(page).not_to have_content("this is the tour")
+    end
+
+    it "not display tour on another url" do
+      tour.enable!
+      visit "/tester/#{app.key}/another"
+      sleep(5)
+      expect(page).to_not have_content("this is the tour")
+
+      visit "/tester/#{app.key}"
+      sleep(5)
+      expect(page).to have_content("this is the tour")
     end
 
   end
