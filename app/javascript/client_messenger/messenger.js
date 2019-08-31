@@ -1079,7 +1079,10 @@ class Messenger extends Component {
           this.state.tourManagerEnabled ?
           <TourManager ev={this.state.ev}/> : 
             this.state.tours.length > 0 ? 
-            <Tour tours={this.state.tours}/> : null
+            <Tour 
+              tours={this.state.tours}
+              events={App.events}
+            /> : null
         }
 
         <div id="TourManager"></div>
