@@ -308,6 +308,13 @@ RSpec.describe "Widget management", :type => :system do
       app.tours.create(tour_attributes)
     end
 
+    it "display tour, track open" do
+      tour.enable!
+      visit "/tester/#{app.key}"
+      sleep(5)
+      expect(tour.metrics.where(trackable: AppUser.last, action: "open")).to be_any
+    end
+
 
     it "display tour, finish event" do
       tour.enable!

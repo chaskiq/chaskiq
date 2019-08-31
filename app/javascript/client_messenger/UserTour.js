@@ -51,22 +51,17 @@ class UserTour extends Component {
   }
 
   componentDidMount(){
-    this.getTour()
-  }
-
-  getTour = ()=>{
-
+    this.registerOpen()
   }
 
   prepareJoyRidyContent = ()=>{
-      return this.props.tour.steps.map((o, index)=>{
-        o.disableBeacon = index === 0
-        o.content = <DraftRenderer
-                        raw={JSON.parse(o.serialized_content)}
-                      />
-        return o
-      })
-    
+    return this.props.tour.steps.map((o, index)=>{
+      o.disableBeacon = index === 0
+      o.content = <DraftRenderer
+                      raw={JSON.parse(o.serialized_content)}
+                    />
+      return o
+    })
   }
 
   handleJoyrideCallback = data => {
@@ -90,6 +85,12 @@ class UserTour extends Component {
   registerEvent = (status)=>{
     const path = `track_tour_${status}`
     this.props.events && this.props.events.perform(path, 
+      {campaign_id: this.props.tour.id}   
+    )
+  }
+
+  registerOpen = ()=>{
+    this.props.events && this.props.events.perform("track_open", 
       {campaign_id: this.props.tour.id}   
     )
   }
