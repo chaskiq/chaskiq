@@ -305,7 +305,7 @@ class Messenger extends Component {
               })
               break
             case "tours:receive":
-              this.setState({tours: data.data})
+              this.receiveTours(data.data)
               break
             case "triggers:receive":
               this.receiveTrigger(data.data)
@@ -819,6 +819,18 @@ class Messenger extends Component {
 
     return matches.indexOf(null) === -1
   }*/
+
+  // check url pattern before trigger tours
+  receiveTours = (tours)=>{
+    window.pat = UrlPattern
+    const filteredTours = tours.filter((o)=>{
+      var pattern = new UrlPattern(o.url)
+      var url = document.location.pathname
+      return pattern.match(url);
+    })
+
+    if(filteredTours.length > 0) this.setState({tours: filteredTours})
+  }
 
   submitAppUserData = (data, next_step)=>{
     App.events && App.events.perform('data_submit', data)
