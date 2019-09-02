@@ -1,4 +1,5 @@
 class App < ApplicationRecord
+  include GlobalizeAccessors
   include Tokenable
 
   store :preferences, accessors: [ 
@@ -7,6 +8,13 @@ class App < ApplicationRecord
   #  :test_app,
   #  :assigment_rules,
   ], coder: JSON
+
+  translates :greetings, :intro, :tagline
+  self.globalize_accessors :attributes => [
+    :greetings, 
+    :intro,
+    :tagline
+  ]
 
   # http://nandovieira.com/using-postgresql-and-jsonb-with-ruby-on-rails
   # App.where('preferences @> ?', {notifications: true}.to_json)
@@ -34,7 +42,7 @@ class App < ApplicationRecord
   store_accessor :preferences, [
     :active_messenger, 
     :domain_url, 
-    :tagline ,
+    #:tagline ,
     :theme,
     :notifications,
     :gather_data, 
@@ -43,6 +51,7 @@ class App < ApplicationRecord
   ]
 
   accepts_nested_attributes_for :article_settings
+
 
 
   def encryption_enabled?

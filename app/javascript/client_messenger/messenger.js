@@ -180,6 +180,7 @@ class Messenger extends Component {
       //this.getConversations()
       //this.getMessage()
       //this.getTours()
+      console.log(this.state.appData)
       this.locationChangeListener()
     })
 
@@ -822,7 +823,6 @@ class Messenger extends Component {
 
   // check url pattern before trigger tours
   receiveTours = (tours)=>{
-    window.pat = UrlPattern
     const filteredTours = tours.filter((o)=>{
       var pattern = new UrlPattern(o.url)
       var url = document.location.pathname
@@ -939,8 +939,8 @@ class Messenger extends Component {
                               opacity: this.state.header.opacity,
                               transform: `translateY(${this.state.header.translateY}px)`
                             }}>
-                              <h2>Hello</h2>
-                              <p>we are here to help</p>
+                              <h2>{this.state.appData.greetings}</h2>
+                              <p>{this.state.appData.intro}</p>
                             </HeaderTitle>
                           }
 

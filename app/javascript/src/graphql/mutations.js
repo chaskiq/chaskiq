@@ -10,6 +10,8 @@ export const UPDATE_APP = `
         configFields
         theme
         activeMessenger
+        translations
+        availableLanguages
         segments {
           name
           id

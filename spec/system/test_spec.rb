@@ -55,6 +55,125 @@ RSpec.describe "Widget management", :type => :system do
      options: options_for_selemium
   end
 
+  context "translations" do
+    before :each do
+      app.update({
+        greetings_es: "Hola amigo", 
+        greetings_en: "hello friend",
+
+        intro_en: "we are here to help",
+        tagline_en: "estamos aqui para ayudarte",
+
+        intro_es: "somos un equipo genial",
+        tagline_es: "we are an awesome team"
+      })
+    end
+
+
+    it "english default" do
+
+      ClientTesterController.any_instance.stub(:user_options){
+        { email: "test@test.cl",
+          properties: {
+              name: "miguel",
+              lang: "en",
+              id: "localhost",
+              country: "chile",
+              role: "admin",
+              pro: true
+          }
+        } 
+      }
+      
+      visit "/tester/#{app.key}"
+
+      Capybara.within_frame(all("iframe").first){ 
+        page.find("#chaskiq-prime").click 
+      }
+
+      sleep(3)
+
+      # now 2nd iframe appears on top
+      Capybara.within_frame(all("iframe").first){ 
+        expect(page).to have_content(app.greetings_en)
+        expect(page).to have_content(app.intro_en)
+      }
+    end
+
+
+    it "spanish will render spanish greeting" do
+
+      ClientTesterController.any_instance.stub(:user_options){
+        { email: "test@test.cl",
+          properties: {
+              name: "miguel",
+              lang: "es",
+              id: "localhost",
+              country: "chile",
+              role: "admin",
+              pro: true
+          }
+        } 
+      }
+
+      visit "/tester/#{app.key}"
+
+      Capybara.within_frame(all("iframe").first){ 
+        page.find("#chaskiq-prime").click 
+      }
+
+      sleep(3)
+
+      # now 2nd iframe appears on top
+      Capybara.within_frame(all("iframe").first){ 
+        expect(page).to have_content(app.greetings_es)
+        expect(page).to have_content(app.intro_es)
+      }
+    end
+
+
+    it "english sessionless default" do
+
+      ClientTesterController.any_instance.stub(:configured_lang) { 'en' }
+
+      visit "/tester/#{app.key}?sessionless=true"
+
+      Capybara.within_frame(all("iframe").first){ 
+        page.find("#chaskiq-prime").click 
+      }
+
+      sleep(3)
+
+      # now 2nd iframe appears on top
+      Capybara.within_frame(all("iframe").first){ 
+        expect(page).to have_content(app.greetings_en)
+        expect(page).to have_content(app.intro_en)
+      }
+    end
+
+    it "spanish sessionless" do
+
+      ClientTesterController.any_instance.stub(:configured_lang) { 'es' }
+
+      visit "/tester/#{app.key}?sessionless=true"
+
+      Capybara.within_frame(all("iframe").first){ 
+        page.find("#chaskiq-prime").click 
+      }
+
+      sleep(3)
+
+      # now 2nd iframe appears on top
+      Capybara.within_frame(all("iframe").first){ 
+        expect(page).to have_content(app.greetings_es)
+        expect(page).to have_content(app.intro_es)
+      }
+
+      
+    end
+
+  end
+
   context "anonimous user" do
 
     it "renders messenger on anonimous user creating a app user" do                       
@@ -105,7 +224,6 @@ RSpec.describe "Widget management", :type => :system do
 
 
   end
-
 
   it "run previous conversations" do                       
     
@@ -234,7 +352,7 @@ RSpec.describe "Widget management", :type => :system do
 
     end
 
-    it "receive message will track open" do
+    it "dismiss message" do
 
       message = FactoryGirl.create(:user_auto_message, 
         app: app, 
@@ -383,7 +501,7 @@ RSpec.describe "Widget management", :type => :system do
       expect(page).not_to have_content("this is the tour")
     end
 
-    it "not display tour on another url" do
+    it "display on configured url" do
       tour.enable!
       visit "/tester/#{app.key}/another"
       sleep(5)

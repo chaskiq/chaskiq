@@ -2,12 +2,14 @@ export const PING = `
   query Messenger{
     messenger {
       app{
+        greetings
+        intro
+        tagline
         activeMessenger
         articleSettings{
           subdomain
         }
         domainUrl
-        tagline
         theme
         triggers
       }
