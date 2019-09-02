@@ -7,6 +7,8 @@ class App < ApplicationRecord
   #  :gather_data, 
   #  :test_app,
   #  :assigment_rules,
+    :reply_time,
+    :team_schedule
   ], coder: JSON
 
   translates :greetings, :intro, :tagline
