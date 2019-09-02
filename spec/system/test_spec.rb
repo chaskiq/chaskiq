@@ -39,16 +39,20 @@ RSpec.describe "Widget management", :type => :system do
   before do
 
     if ENV["CI"].present? 
-      Selenium::WebDriver::Chrome::Service.driver_path = ENV.fetch('GOOGLE_CHROME_BIN', nil)
-      options = Selenium::WebDriver::Chrome::Options.new
-      options.binary = ENV.fetch('GOOGLE_CHROME_SHIM', nil)
-      driver = Selenium::WebDriver.for :chrome, options: options
+      #Selenium::WebDriver::Chrome::Service.driver_path = ENV.fetch('GOOGLE_CHROME_BIN', nil)
+      #options = Selenium::WebDriver::Chrome::Options.new
+      #options.binary = ENV.fetch('GOOGLE_CHROME_SHIM', nil)
+      #driver = Selenium::WebDriver.for :chrome, options: options
+      Capybara.register_driver :chrome do |app|
+        options = Selenium::WebDriver::Chrome::Options.new(args: %w[no-sandbox headless disable-gpu])
+        Capybara::Selenium::Driver.new(app, browser: :chrome, options: options)
+      end
     end
 
     options_for_selemium = ENV["CI"].present? ? 
 
     {
-      args: ["headless", "disable-gpu", "no-sandbox", "disable-dev-shm-usage"] ,
+      args: %w[no-sandbox headless disable-gpu] ,
     } : {}
 
     driven_by :selenium, using: :chrome, screen_size: [1400, 1400],
