@@ -9,8 +9,6 @@ before_install:
   - gem install bundler -v 1.17.3
 before_script:
   - psql -c 'create database travis_ci_test;' -U postgres
-
-before_script:
   - cp config/database.yml.travis config/database.yml
   - bundle exec rails db:migrate RAILS_ENV=test
 
