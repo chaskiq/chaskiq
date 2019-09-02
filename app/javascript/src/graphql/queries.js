@@ -20,6 +20,8 @@ export const APP = `
       domainUrl
       activeMessenger
       theme
+      translations
+      availableLanguages
       segments {
         name
         id

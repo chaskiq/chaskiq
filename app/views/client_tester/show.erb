@@ -33,7 +33,8 @@
     domain:  '<%=@h[:http] +request.env["HTTP_HOST"]%>',
     ws:  '<%=@h[:ws]+ request.env["HTTP_HOST"] + "/cable" %>',
     app_id: "<%= @app.key %>",
-    data: "<%=@encrypted_data%>"
+    data: "<%=@encrypted_data%>",
+    lang: "<%= @lang %>"
   })
 </script>
 

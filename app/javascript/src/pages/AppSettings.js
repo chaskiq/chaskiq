@@ -27,6 +27,8 @@ import FavoriteBorder from '@material-ui/icons/FavoriteBorder';
 
 import ContentHeader from '../components/ContentHeader'
 import Content from '../components/Content'
+import AvailabilitySettings from './settings/Availability'
+import LanguageSettings from './settings/Language'
 import Tab from '@material-ui/core/Tab';
 import Tabs from '@material-ui/core/Tabs';
 
@@ -211,6 +213,10 @@ class AppSettingsContainer extends Component {
               <Tab textColor="inherit" label="App Information" />
               <Tab textColor="inherit" label="Security" />
               <Tab textColor="inherit" label="Appearance" />
+              <Tab textColor="inherit" label="Text" />
+              <Tab textColor="inherit" label="Availability" />
+              <Tab textColor="inherit" label="Email Requirement" />
+              <Tab textColor="inherit" label="Inbound settings" />
             </Tabs>
   }
 
@@ -308,8 +314,21 @@ class AppSettingsContainer extends Component {
                   definitions={this.definitionsForAppearance}
                   {...this.props}
                 />
+
       case 3:
-        return <p>ddkd</p>
+          return <LanguageSettings 
+                  settings={ this.props.app } 
+                  update={this.update}
+                  namespace={'app'}
+                  fields={['greetings', 'intro', 'tagline',]}
+                />
+      case 4:
+        return <AvailabilitySettings 
+                settings={ this.props.app } 
+                update={this.update}
+                namespace={'app'}
+                fields={['greetings', 'intro', 'tagline',]}
+              />
     }
   }
 

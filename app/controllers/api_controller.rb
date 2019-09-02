@@ -10,17 +10,21 @@ private
   def get_user_data_from_auth
     if @app.encryption_enabled?
       @user_data = authorize_by_encrypted_params
+
+      set_locale
+
       if @user_data[:email].blank?
         visitor = (get_user_by_session || add_vistor)
-        @user_data.merge!({session_id: visitor.session_id}) 
+        @user_data.merge!({session_id: visitor.session_id, lang: I18n.locale}) 
       else
         app_user = get_user_by_email || @app.add_user(email: @user_data[:email])
-        @user_data.merge!({session_id: app_user.session_id})
+        @user_data.merge!({session_id: app_user.session_id, lang: I18n.locale})
       end
     else
       # check this, maybe deprecate unsecure mode
       @user_data = get_user_from_unencrypted
     end
+    
     @user_data
   end
 
@@ -30,6 +34,12 @@ private
     else
       @user_data = get_user_from_unencrypted
     end
+  end
+
+  def set_locale
+    I18n.locale = request.headers["HTTP_LANG"] unless request.headers["HTTP_LANG"].blank?
+    lang = @user_data[:properties].try(:[], :lang)
+    I18n.locale = lang unless lang.blank?
   end
 
   def add_vistor
@@ -59,7 +69,6 @@ private
 
   def authorize_by_encrypted_params
     begin
-
       key = @app.encryption_key
       encrypted = request.headers["HTTP_ENC_DATA"]
       json = JWE.decrypt(encrypted, key)
