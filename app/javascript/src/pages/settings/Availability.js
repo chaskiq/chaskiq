@@ -57,59 +57,6 @@ export default function LanguageForm({settings, update, namespace, fields}){
     setSelectedOption(e.target.value)
   }
 
-  function renderLangDialog(){
-    return isOpen && (
-      <FormDialog 
-        open={isOpen}
-        //contentText={"lipsum"}
-        titleContent={"Save Assigment rule"}
-        formComponent={
-          //!loading ?
-            <form>
-
-              <Select
-                value={selectedLang}
-                onChange={handleChange}
-                inputProps={{
-                  name: 'age',
-                  id: 'age-simple',
-                }}>
-
-                {
-                  langsOptions.map((o)=>(
-                    <MenuItem key={`age-${o.value}`} value={o.value}>
-                      {o.label}
-                    </MenuItem> 
-                  ))
-                }
-                
-                
-              </Select>
-
-            </form> 
-            //: <CircularProgress/>
-        }
-        dialogButtons={
-          <React.Fragment>
-            <Button onClick={toggleDialog} color="primary">
-              Cancel
-            </Button>
-
-            <Button //onClick={this.submitAssignment } 
-              zcolor="primary"> 
-              update
-            </Button>
-
-          </React.Fragment>
-        }
-        //actions={actions} 
-        //onClose={this.close} 
-        //heading={this.props.title}
-        >
-      </FormDialog>
-    )
-  }
-
   function toggleDialog(){
     setIsOpen(!isOpen)
   }
@@ -148,7 +95,7 @@ export default function LanguageForm({settings, update, namespace, fields}){
 
       <Box m={2}>
 
-        <Typography>Your workspace’s timezone is Buenos Aires</Typography>
+        <Typography>Your workspace’s timezone is {settings.timezone}</Typography>
 
         <AvailabilitySchedule 
           records={records} 
@@ -266,21 +213,11 @@ function AvailabilityRecord({record, update, index}){
     )
   }
 
-  function genHours(){
-    var x = 30; //minutes interval
-    var times = []; // time array
-    var tt = 0; // start time
-    var ap = ['AM', 'PM']; // AM-PM
-
-    //loop to increment the time and push results in array
-    for (var i=0;tt<24*60; i++) {
-      var hh = Math.floor(tt/60); // getting hours of day in 0-24 format
-      var mm = (tt%60); // getting minutes of the hour in 0-55 format
-      times[i] = ("0" + (hh % 12)).slice(-2) + ':' + ("0" + mm).slice(-2) + ap[Math.floor(hh/12)]; // pushing data in array in [00:00 - 12:00 AM/PM format]
-      tt = tt + x;
-    }
-
-    return times
+  function genHours(t1, t2){
+    var toInt  = time => ((h,m) => h*2 + m/30)(...time.split(':').map(parseFloat)),
+    toTime = int => [Math.floor(int/2), int%2 ? '30' : '00'].join(':'),
+    range  = (from, to) => Array(to-from+1).fill().map((_,i) => from + i)
+    return range(...[t1, t2].map(toInt)).map(toTime);
   }
 
   useEffect(()=>{
@@ -329,7 +266,7 @@ function AvailabilityRecord({record, update, index}){
             }}
           >
             {
-              genHours().map((o)=>(
+              genHours("00:00", "23:30").map((o)=>(
                 <MenuItem 
                   key={`from-${o}`} 
                   value={o}>
@@ -354,7 +291,7 @@ function AvailabilityRecord({record, update, index}){
             }}
           >
             {
-              genHours().map((o)=>(
+              genHours("00:00", "23:30").map((o)=>(
                 <MenuItem key={`to-${o}`} value={o}>
                   {o}
                 </MenuItem>

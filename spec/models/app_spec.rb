@@ -124,33 +124,19 @@ RSpec.describe App, type: :model do
 
     before :each do 
       app.add_agent(email: "test@test.cl")
-
-      @biz = Biz::Schedule.new do |config|
-        config.hours = {
-          mon: {'09:00' => '17:00'},
-          tue: {'00:00' => '24:00'},
-          wed: {'09:00' => '17:00'},
-          thu: {'09:00' => '12:00', '13:00' => '17:00'},
-          sat: {'10:00' => '14:00'}
-        }
-      
-        #config.shifts = {
-        #  Date.new(2006, 1, 1) => {'09:00' => '12:00'},
-        #  Date.new(2006, 1, 7) => {'08:00' => '10:00', '12:00' => '14:00'}
-        #}
-      
-        #config.breaks = {
-        #  Date.new(2006, 1, 2) => {'10:00' => '11:30'},
-        #  Date.new(2006, 1, 3) => {'14:15' => '14:30', '15:40' => '15:50'}
-        #}
-      
-        #config.holidays = [Date.new(2016, 1, 1), Date.new(2016, 12, 25)]
-      
-        config.time_zone = 'America/Los_Angeles'
-      end
-
+      app.team_schedule = [
+        { day: "mon", from: "09:00" , to: '17:00' },
+        { day: "tue", from: "09:00" , to: '17:00' },
+        { day: "wed", from: "09:00" , to: '17:00' },
+        { day: "thu", from: "09:00" , to: '12:00' },
+        { day: "thu", from: "13:00" , to: '17:00' },
+        { day: "fri", from: "10:00" , to: '14:00' }
+      ]
     end
 
+    it "initializes business hours" do
+      expect(app.availability).to be_a(Biz::Schedule)
+    end
 
     it "will create agent" do
       expect(app.agents.count).to be == 1
@@ -159,21 +145,21 @@ RSpec.describe App, type: :model do
     it "biz time, in time" do
       # Determine if a time is in business hours
       time = Time.utc(2019, 1, 1, 11, 45)
-      expect(@biz.in_hours?(time)).to be_truthy
+      expect(app.availability.in_hours?(time)).to be_truthy
     end
 
     it "biz time, out time" do
       # Determine if a time is in business hours
       time = Time.utc(2019, 1, 1, 17, 45)
       time = time.monday + 4.hours
-      expect(@biz.in_hours?(time)).to be_falsey
+      expect(app.availability.in_hours?(time)).to be_falsey
     end
 
     it "biz time, out time" do
       # Determine if a time is in business hours
       time = Time.utc(2019, 1, 1, 17, 45)
       time = time.monday + 10.hours
-      expect(@biz.in_hours?(time)).to be_falsey
+      expect(app.availability.in_hours?(time)).to be_falsey
     end
 
   end

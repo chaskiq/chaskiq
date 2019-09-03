@@ -16,7 +16,7 @@ export const APP = `
       key
       name
       preferences
-      configFields
+      timezone
       domainUrl
       activeMessenger
       theme
