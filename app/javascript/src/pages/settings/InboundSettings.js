@@ -50,7 +50,6 @@ export default function InboundSettings(){
           }
           label="Let people start new inbound conversations with you"
         />
-
       </Grid>
 
       <Typography variant={"caption"}>
@@ -77,9 +76,39 @@ export default function InboundSettings(){
       </Typography>
 
       
+      <Grid container>
+        <FormControlLabel
+          control={
+            <Checkbox
+              checked={state.checkedB}
+              onChange={handleChange('checkedB')}
+              value="checkedB"
+              color="primary"
+            />
+          }
+          label="Users"
+        />
+      </Grid>
+
+
         All users
         Users who match certain data 
         Visitors
+
+
+        <Grid container>
+        <FormControlLabel
+          control={
+            <Checkbox
+              checked={state.checkedB}
+              onChange={handleChange('checkedB')}
+              value="checkedB"
+              color="primary"
+            />
+          }
+          label="Visitors"
+        />
+      </Grid>
 
         All visitors
         Visitors who match certain data 
