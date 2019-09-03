@@ -57,12 +57,10 @@ module Types
       @collection
     end
 
-    field :in_business_hours, Boolean, null: true do
-      argument :time, String, required: false
-    end
+    field :in_business_hours, Boolean, null: true
 
-    def in_business_hours(time:)
-      object.in_business_hours?(time)
+    def in_business_hours
+      object.in_business_hours?( Time.current )
     end
 
     field :conversation, Types::ConversationType, null:true do
