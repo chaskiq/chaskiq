@@ -209,6 +209,17 @@ class App < ApplicationRecord
     end 
   end
 
+  def business_back_in(time)
+    begin
+      a = self.availability.time(0, :hours).after(time)
+      diff = a-time
+      days =  diff.to_f / (24 * 60 * 60)
+      {at: a, diff: diff, days: days }
+    rescue Biz::Error::Configuration
+      nil
+    end
+  end
+
   def in_business_hours?(time)
     begin
       availability.in_hours?(time)
@@ -217,9 +228,11 @@ class App < ApplicationRecord
     end
   end
 
+private
   def hours_format
     h = Hash.new
-    self.team_schedule.map do |f| 
+    arr = self.team_schedule || []
+    arr.map do |f| 
       h[f["day"].to_sym] = (h[f["day"].to_sym] || {}).merge!({f["from"]=>f["to"]} )
     end
     return h

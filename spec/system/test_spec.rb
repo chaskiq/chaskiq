@@ -517,6 +517,35 @@ RSpec.describe "Widget management", :type => :system do
     end
 
   end
+
+
+  describe "availability" do
+
+    before :each do
+
+    end
+
+    it "next week" do
+      app.update(timezone: "UTC", team_schedule: [
+        { day: "tue", from: "01:00" , to: '01:30' },
+      ])
+
+      visit "/tester/#{app.key}"
+
+      Capybara.within_frame(all("iframe").first){ 
+        page.find("#chaskiq-prime").click 
+      }
+
+      sleep(3)
+
+      Capybara.within_frame(all("iframe").first){ 
+        expect(page).to have_content("volvemos la proxima semana")
+      }
+    end
+
+
+
+  end
   
 
 

@@ -176,6 +176,7 @@ RSpec.describe App, type: :model do
       time = Time.utc(2019, 9, 3, 17, 45)
       expect(time.day).to be == 3
       expect(app.in_business_hours?(time)).to be_falsey
+
       expect( app.availability.time(0, :hours).after(time).day ).to be == 10
     end
 
@@ -194,6 +195,7 @@ RSpec.describe App, type: :model do
         { day: "tue", from: "01:00" , to: '01:30' },
         { day: "wed", from: "01:00" , to: '01:30' },
       ])
+
       time = Time.utc(2019, 9, 3, 1, 35)
       expect(time.day).to be == 3
       expect(app.in_business_hours?(time)).to be_falsey
