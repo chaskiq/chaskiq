@@ -8,6 +8,7 @@ export const PING = `
         activeMessenger
         inBusinessHours
         replyTime
+        enableInbound
         businessBackIn
         articleSettings{
           subdomain

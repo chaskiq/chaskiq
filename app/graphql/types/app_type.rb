@@ -16,6 +16,7 @@ module Types
     field :triggers, Types::JsonType, null: true
     field :team_schedule, Types::JsonType, null: true
     field :reply_time, String, null: true
+    field :enable_inbound, Boolean, null: true
     field :greetings, String, null: true
     field :intro, String, null: true
     field :tagline, String, null: true
