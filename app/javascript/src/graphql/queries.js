@@ -22,6 +22,8 @@ export const APP = `
       theme
       translations
       availableLanguages
+      teamSchedule
+      replyTime
       segments {
         name
         id

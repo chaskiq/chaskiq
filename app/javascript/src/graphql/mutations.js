@@ -12,6 +12,9 @@ export const UPDATE_APP = `
         activeMessenger
         translations
         availableLanguages
+        teamSchedule
+        timezone
+        replyTime
         segments {
           name
           id
@@ -62,6 +65,8 @@ export const CREATE_APP = `
         state
         tagline
         activeMessenger
+        teamSchedule
+        timezone
       }
     }
   }

@@ -6,6 +6,9 @@ export const PING = `
         intro
         tagline
         activeMessenger
+        inBusinessHours
+        replyTime
+        businessBackIn
         articleSettings{
           subdomain
         }

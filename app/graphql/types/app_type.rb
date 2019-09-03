@@ -14,7 +14,8 @@ module Types
     field :encryption_key, String, null: true
     field :app_users, [Types::AppUserType], null: true
     field :triggers, Types::JsonType, null: true
-
+    field :team_schedule, Types::JsonType, null: true
+    field :reply_time, String, null: true
     field :greetings, String, null: true
     field :intro, String, null: true
     field :tagline, String, null: true
@@ -61,6 +62,12 @@ module Types
 
     def in_business_hours
       object.in_business_hours?( Time.current )
+    end
+
+    field :business_back_in, Types::JsonType, null: true
+
+    def business_back_in
+      object.business_back_in(Time.current)
     end
 
     field :conversation, Types::ConversationType, null:true do

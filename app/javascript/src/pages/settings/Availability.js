@@ -48,8 +48,8 @@ const options = [
 export default function LanguageForm({settings, update, namespace, fields}){
 
   const [isOpen, setIsOpen] = React.useState(false)
-  const [selectedOption, setSelectedOption] = React.useState("auto")
-  const [records, setRecords] = useState([])
+  const [selectedOption, setSelectedOption] = React.useState(settings.replyTime)
+  const [records, setRecords] = useState(settings.teamSchedule)
 
   let formRef = React.createRef();
 
@@ -68,8 +68,10 @@ export default function LanguageForm({settings, update, namespace, fields}){
     console.log(records)
     console.log(selectedOption)
     const data = {
-      team_schedule: records,
-      reply_time: selectedOption
+      app:{
+        team_schedule: records,
+        reply_time: selectedOption
+      }
     }
     update(data)
   }
@@ -172,6 +174,11 @@ function AvailabilitySchedule({records, setRecords}){
     setRecords(newRecords)
   }
 
+  function removeItem(index){
+    const newRecords = records.filter((o, i)=> i != index)
+    setRecords(newRecords)
+  }
+
   return (
 
     <div>
@@ -183,6 +190,7 @@ function AvailabilitySchedule({records, setRecords}){
             record={o} 
             update={update}
             index={index}
+            removeItem={removeItem}
           />
         ))
       }
@@ -203,7 +211,7 @@ function AvailabilitySchedule({records, setRecords}){
   )
 }
 
-function AvailabilityRecord({record, update, index}){
+function AvailabilityRecord({record, update, index, removeItem}){
 
   const [item, setRecord] = useState(record)
 
@@ -214,10 +222,8 @@ function AvailabilityRecord({record, update, index}){
   }
 
   function genHours(t1, t2){
-    var toInt  = time => ((h,m) => h*2 + m/30)(...time.split(':').map(parseFloat)),
-    toTime = int => [Math.floor(int/2), int%2 ? '30' : '00'].join(':'),
-    range  = (from, to) => Array(to-from+1).fill().map((_,i) => from + i)
-    return range(...[t1, t2].map(toInt)).map(toTime);
+    return Array(24 * 4).fill(0).map((_, i) => { return ('0' + ~~(i / 4) + ':0' + 60  * (i / 4 % 1)).replace(/\d(\d\d)/g, '$1') });
+
   }
 
   useEffect(()=>{
@@ -225,6 +231,9 @@ function AvailabilityRecord({record, update, index}){
   }, [item])
 
 
+  function deleteItem(){
+    removeItem(index)
+  }
 
   return (
     <Grid container direction="row" justify="center" alignItems="center">
@@ -300,6 +309,10 @@ function AvailabilityRecord({record, update, index}){
           </Select>
       
         </FormControl>
+      </Grid>
+
+      <Grid item xs={3}>
+         <Button onClick={deleteItem}>delete</Button>
       </Grid>
 
     </Grid>
