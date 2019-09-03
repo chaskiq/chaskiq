@@ -7,6 +7,7 @@ module Types
     field :tagline, String, null: true
     field :domain_url, String, null: true
     field :active_messenger, String, null: true
+    field :timezone, String, null: true
     field :theme, String, null: true
     field :config_fields, Types::JsonType, null: true
     field :preferences, Types::JsonType, null: true

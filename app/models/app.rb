@@ -7,6 +7,7 @@ class App < ApplicationRecord
   #  :gather_data, 
   #  :test_app,
   #  :assigment_rules,
+    :timezone,
     :reply_time,
     :team_schedule
   ], coder: JSON
@@ -107,6 +108,12 @@ class App < ApplicationRecord
         grid: {xs: 12, sm: 12 } 
       },
 
+      {name: "timezone", type: "timezone", 
+        options: ActiveSupport::TimeZone.all.map{|o| o.tzinfo.name }, 
+        multiple: false,
+        grid: {xs: 12, sm: 12 }
+      },
+
     ]
   end
 
@@ -193,5 +200,20 @@ class App < ApplicationRecord
       check_assignment_rules: true
     )
     conversation
+  end
+
+  def availability
+    @biz = Biz::Schedule.new do |config|
+      config.hours = hours_format
+      config.time_zone = 'America/Los_Angeles'
+    end
+  end
+
+  def hours_format
+    h = Hash.new
+    self.team_schedule.map do |f| 
+      h[f["day"].to_sym] = (h[f["day"].to_sym] || {}).merge!({f["from"]=>f["to"]} )
+    end
+    return h
   end
 end

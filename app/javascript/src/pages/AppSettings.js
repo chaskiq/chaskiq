@@ -28,9 +28,13 @@ import FavoriteBorder from '@material-ui/icons/FavoriteBorder';
 import ContentHeader from '../components/ContentHeader'
 import Content from '../components/Content'
 import AvailabilitySettings from './settings/Availability'
+import EmailRequirement from './settings/EmailRequirement'
 import LanguageSettings from './settings/Language'
+import InboundSettings from './settings/InboundSettings'
 import Tab from '@material-ui/core/Tab';
 import Tabs from '@material-ui/core/Tabs';
+
+import timezones from '../shared/timezones'
 
 import {
   FormControlLabel,
@@ -190,16 +194,6 @@ class AppSettingsContainer extends Component {
         console.log(d)
       })
     )
-    /*graphql(UPDATE_APP, { 
-      appKey: this.props.match.params.appId,
-      appParams: data.app
-    }, {
-      success: (data)=>{
-        this.setState({ app: data.appsUpdate.app, errors: data.appsUpdate.errors }, () => {
-          //this.props.updateData(response.data)
-        })
-      }
-    })*/
   };
 
   handleTabChange = (e, i)=>{
@@ -237,6 +231,11 @@ class AppSettingsContainer extends Component {
         type: 'text',
         hint: "messenger text on botton",
         grid: { xs: 12, sm: 12 }
+      },
+      {name: "timezone", type: "timezone", 
+        options: timezones, 
+        multiple: false,
+        grid: {xs: 12, sm: 12 }
       },
     ]
   }
@@ -329,6 +328,10 @@ class AppSettingsContainer extends Component {
                 namespace={'app'}
                 fields={['greetings', 'intro', 'tagline',]}
               />
+      case 5: 
+        return <EmailRequirement/>
+      case 6:
+        return <InboundSettings/>
     }
   }
 
