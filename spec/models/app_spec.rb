@@ -132,6 +132,8 @@ RSpec.describe App, type: :model do
         { day: "thu", from: "13:00" , to: '17:00' },
         { day: "fri", from: "10:00" , to: '14:00' }
       ]
+      app.timezone = "UTC"
+      app.save
     end
 
     it "initializes business hours" do
@@ -151,14 +153,12 @@ RSpec.describe App, type: :model do
     it "biz time, out time" do
       # Determine if a time is in business hours
       time = Time.utc(2019, 1, 1, 17, 45)
-      time = time.monday + 4.hours
       expect(app.in_business_hours?(time)).to be_falsey
     end
 
     it "biz time, out time" do
       # Determine if a time is in business hours
       time = Time.utc(2019, 1, 1, 17, 45)
-      time = time.monday + 10.hours
       expect(app.in_business_hours?(time)).to be_falsey
     end
 
@@ -167,6 +167,47 @@ RSpec.describe App, type: :model do
       time = Time.utc(2019, 1, 1, 17, 45)
       time = time.monday + 10.hours
       expect(app.in_business_hours?(time)).to be_nil
+    end
+
+    it "next week" do
+      app.update(team_schedule: [
+        { day: "tue", from: "01:00" , to: '01:30' },
+      ])
+      time = Time.utc(2019, 9, 3, 17, 45)
+      expect(time.day).to be == 3
+      expect(app.in_business_hours?(time)).to be_falsey
+      expect( app.availability.time(0, :hours).after(time).day ).to be == 10
+    end
+
+    it "same week" do
+      app.update(team_schedule: [
+        { day: "tue", from: "01:00" , to: '01:30' },
+      ])
+      time = Time.utc(2019, 9, 3, 1, 05)
+      expect(time.day).to be == 3
+      expect(app.in_business_hours?(time)).to be_truthy
+      expect( app.availability.time(0, :hours).after(time).day ).to be == 3
+    end
+
+    it "tomorrow" do
+      app.update(team_schedule: [
+        { day: "tue", from: "01:00" , to: '01:30' },
+        { day: "wed", from: "01:00" , to: '01:30' },
+      ])
+      time = Time.utc(2019, 9, 3, 1, 35)
+      expect(time.day).to be == 3
+      expect(app.in_business_hours?(time)).to be_falsey
+      expect( app.availability.time(0, :hours).after(time).day ).to be == 4
+    end
+
+    it "in the next hours" do
+      app.update(team_schedule: [
+        { day: "tue", from: "01:00" , to: '01:30' },
+      ])
+      time = Time.utc(2019, 9, 3, 0, 50)
+      expect(time.day).to be == 3
+      expect(app.in_business_hours?(time)).to be_falsey
+      expect( app.availability.time(0, :hours).after(time).day ).to be == 3
     end
 
   end

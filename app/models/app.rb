@@ -205,7 +205,7 @@ class App < ApplicationRecord
   def availability
     @biz ||= Biz::Schedule.new do |config|
       config.hours = hours_format
-      config.time_zone = 'America/Los_Angeles'
+      config.time_zone = self.timezone
     end 
   end
 

@@ -52,9 +52,9 @@ let theme = createMuiTheme({
       //main: '#009be5',
       //main: '#444',
       //main: '#dc18c1',
-      main: '#24862c',
+      main: '#0000ff', // '#24862c',
       white: '#fff',
-      dark: '#15501a', //'#006db3',
+      dark: '#0d0392', //'#15501a', //'#006db3',
     },
    error: {
     light: "#e57373",
