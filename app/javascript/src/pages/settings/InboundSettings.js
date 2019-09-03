@@ -6,7 +6,9 @@ import {
   Box,
   Typography,
   Divider,
-  Grid
+  Grid,
+  RadioGroup,
+  Radio
 } from '@material-ui/core'
 
 export default function InboundSettings(){
@@ -25,17 +27,17 @@ export default function InboundSettings(){
 
     <div>
     
-     <Typography variant={"h4"}>
-     Control inbound conversations and the launcher
-     </Typography> 
+      <Typography variant={"h4"}>
+      Control inbound conversations and the launcher
+      </Typography> 
 
-     <Typography variant={"subtitle2"}>
-     Control who can send you messages and where they see the launcher
-     </Typography>
+      <Typography variant={"subtitle2"}>
+      Control who can send you messages and where they see the launcher
+      </Typography>
 
 
       <Typography variant={"h5"}>
-       New conversations button
+      New conversations button
       </Typography>
     
       <Grid container>
@@ -75,7 +77,6 @@ export default function InboundSettings(){
         Users
       </Typography>
 
-      
       <Grid container>
         <FormControlLabel
           control={
@@ -90,13 +91,18 @@ export default function InboundSettings(){
         />
       </Grid>
 
+      <RadioGroup
+        aria-label="gender"
+        name="gender1"
+        //className={classes.group}
+        //value={value}
+        //onChange={handleChange}
+      >
+        <FormControlLabel value="female" control={<Radio />} label="All users" />
+        <FormControlLabel value="male" control={<Radio />} label="Users who match certain data " />
+      </RadioGroup>
 
-        All users
-        Users who match certain data 
-        Visitors
-
-
-        <Grid container>
+      <Grid container>
         <FormControlLabel
           control={
             <Checkbox
@@ -110,10 +116,21 @@ export default function InboundSettings(){
         />
       </Grid>
 
-        All visitors
-        Visitors who match certain data 
-        This doesn’t affect the outbound messages you send.
-        
+      <RadioGroup
+          aria-label="gender"
+          name="gender1"
+          //className={classes.group}
+          //value={value}
+          //onChange={handleChange}
+        >
+          <FormControlLabel value="female" control={<Radio />} label="All visitors" />
+          <FormControlLabel value="male" control={<Radio />} label="Visitors who match certain data " />
+        </RadioGroup>
+
+        <Typography variant="caption">
+          This doesn’t affect the outbound messages you send.
+        </Typography>
+
     
     </div>
 
