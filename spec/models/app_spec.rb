@@ -145,21 +145,28 @@ RSpec.describe App, type: :model do
     it "biz time, in time" do
       # Determine if a time is in business hours
       time = Time.utc(2019, 1, 1, 11, 45)
-      expect(app.availability.in_hours?(time)).to be_truthy
+      expect(app.in_business_hours?(time)).to be_truthy
     end
 
     it "biz time, out time" do
       # Determine if a time is in business hours
       time = Time.utc(2019, 1, 1, 17, 45)
       time = time.monday + 4.hours
-      expect(app.availability.in_hours?(time)).to be_falsey
+      expect(app.in_business_hours?(time)).to be_falsey
     end
 
     it "biz time, out time" do
       # Determine if a time is in business hours
       time = Time.utc(2019, 1, 1, 17, 45)
       time = time.monday + 10.hours
-      expect(app.availability.in_hours?(time)).to be_falsey
+      expect(app.in_business_hours?(time)).to be_falsey
+    end
+
+    it "wrong config" do
+      app.update(team_schedule: [])
+      time = Time.utc(2019, 1, 1, 17, 45)
+      time = time.monday + 10.hours
+      expect(app.in_business_hours?(time)).to be_nil
     end
 
   end
