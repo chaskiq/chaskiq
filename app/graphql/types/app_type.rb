@@ -57,6 +57,14 @@ module Types
       @collection
     end
 
+    field :in_business_hours, Boolean do
+      argument :time, String, required: false
+    end
+
+    def in_business_hours(:time)
+      object.in_business_hours?(time)
+    end
+
     field :conversation, Types::ConversationType, null:true do
       argument :id, String, required: false
     end
