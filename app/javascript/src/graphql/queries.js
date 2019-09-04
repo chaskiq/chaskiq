@@ -24,7 +24,7 @@ export const APP = `
       availableLanguages
       teamSchedule
       replyTime
-      enableInbound
+      inboundSettings
       segments {
         name
         id

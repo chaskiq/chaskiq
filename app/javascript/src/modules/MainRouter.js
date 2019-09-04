@@ -24,11 +24,8 @@ import AcceptInvitation from '../auth/AcceptInvitation'
 let theme = createMuiTheme({
 
   typography: {
-
-
     //font-family: 'IBM Plex Sans', sans-serif;
     //font-family: 'IBM Plex Sans Condensed', sans-serif;
-
     //fontFamily: "\"IBM Plex Sans\", \"Helvetica\", \"Arial\", sans-serif",
 
     fontFamily: "\"Roboto Mono\", \"Helvetica\", \"Arial\", sans-serif",
@@ -37,6 +34,13 @@ let theme = createMuiTheme({
     fontWeightRegular: 400,
     fontWeightMedium: 500,*/
 
+    h4: {
+      //fontFamily: "\"IBM Plex Sans Condensed\", \"Helvetica\", \"Arial\", sans-serif",
+      fontFamily: "\"Open Sans\", \"Helvetica\", \"Arial\", sans-serif",
+      fontWeight: 'bold',
+      fontSize: 30,
+      letterSpacing: 0.5,
+    },
 
     h5: {
       //fontFamily: "\"IBM Plex Sans Condensed\", \"Helvetica\", \"Arial\", sans-serif",

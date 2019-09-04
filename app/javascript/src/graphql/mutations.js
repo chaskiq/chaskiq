@@ -15,7 +15,7 @@ export const UPDATE_APP = `
         teamSchedule
         timezone
         replyTime
-        enableInbound
+        inboundSettings
         segments {
           name
           id
@@ -68,7 +68,7 @@ export const CREATE_APP = `
         activeMessenger
         teamSchedule
         timezone
-        enableInbound
+        inboundSettings
       }
     }
   }
