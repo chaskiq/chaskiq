@@ -192,46 +192,53 @@ function AppSegmentManager({
     cb && cb()
   }
 
-  console.log("predicates ", namespace, predicates)
-
   return (
 
     <Grid container>
-      <FormControlLabel
-        control={
-          <Checkbox
-            checked={checked}
-            onChange={updateChecked(`${namespace}_enabled`)}
-            value={checked}
-            color="primary"
+
+      <Grid item sm={6}>
+        <FormControlLabel
+          control={
+            <Checkbox
+              checked={checked}
+              onChange={updateChecked(`${namespace}_enabled`)}
+              value={checked}
+              color="primary"
+            />
+          }
+          label={label}
+        />
+      </Grid>
+
+      <Grid item={6}>
+        <RadioGroup
+          //aria-label="gender"
+          //name="gender1"
+          //className={classes.group}
+          disabled={!checked}
+          value={radioValue}
+          onChange={handleChangeRadio}
+        >
+
+          <FormControlLabel 
+            disabled={!checked}
+            value="all"
+            control={<Radio />} 
+            label={all}
           />
-        }
-        label={label}
-      />
 
-      <RadioGroup
-        //aria-label="gender"
-        //name="gender1"
-        //className={classes.group}
-        disabled={!checked}
-        value={radioValue}
-        onChange={handleChangeRadio}
-      >
+          <FormControlLabel 
+            disabled={!checked}
+            value="some"
+            control={<Radio />} 
+            label={some}
+          />
+          
 
-        <FormControlLabel 
-          disabled={!checked}
-          value="all"
-          control={<Radio />} 
-          label={all}
-        />
+        </RadioGroup>
+      </Grid>
 
-        <FormControlLabel 
-          disabled={!checked}
-          value="some"
-          control={<Radio />} 
-          label={some}
-        />
-
+      <Grid item sm={12}>
         {
           checked && radioValue === "some" ?
           <AppSegment
@@ -240,9 +247,7 @@ function AppSegmentManager({
             updateData={updatePredicates} 
           /> : null
         }
-        
-
-      </RadioGroup>
+      </Grid>
 
     </Grid>
 
