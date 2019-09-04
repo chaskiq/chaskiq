@@ -1,4 +1,4 @@
-import React, {useState} from 'react'
+import React, {Component, useState} from 'react'
 import {
   FormControlLabel,
   Checkbox,
@@ -8,45 +8,85 @@ import {
   Divider,
   Grid,
   RadioGroup,
-  Radio
+  Radio,
+  Avatar,
+  Button
 } from '@material-ui/core'
 
-export default function InboundSettings(){
+import Moment from 'react-moment';
+import SegmentManager from '../../components/segmentManager'
+import { parseJwt, generateJWT } from '../../components/segmentManager/jwt'
+
+import { PREDICATES_SEARCH} from '../../graphql/mutations'
+ import graphql from '../../graphql/client'
+ import gravatar from '../../shared/gravatar'
+
+export default function InboundSettings({settings, update}){
   const [state, setState] = React.useState({
-    checkedA: true,
-    checkedB: true,
-    checkedF: true,
-    checkedG: true,
+    enable_inbound: true,
+    visitors_enabled: true,
+    users_enabled: true,
+    users_radio: "all",
+    visitorsPredicates: [],
+    visitors_radio: "all",
+    usersPredicates: [],
   });
 
   const handleChange = name => event => {
     setState({ ...state, [name]: event.target.checked });
   };
 
+  function setPredicates(name, value){
+    setState({ ...state, [name]: value });
+  }
+
+  function handleSubmit(){
+    const {
+      enable_inbound, users_radio, usersPredicates, 
+      visitors_radio, visitors_enabled, visitorsPredicates
+    } = state
+
+    const data = {
+      app: {
+        inbound_settings: {
+          enabled: enable_inbound,
+          users: {
+            enabled_segment: users_radio,
+            predicates: usersPredicates
+          },
+          visitors: {
+            enabled_segment: visitors_radio,
+            predicates: visitorsPredicates
+          }
+        }
+      }
+    } 
+    update(data)
+  }
+
   return (
 
     <div>
     
       <Typography variant={"h4"}>
-      Control inbound conversations and the launcher
+        Control inbound conversations and the launcher
       </Typography> 
 
       <Typography variant={"subtitle2"}>
-      Control who can send you messages and where they see the launcher
+        Control who can send you messages and where they see the launcher
       </Typography>
 
-
       <Typography variant={"h5"}>
-      New conversations button
+        New conversations button
       </Typography>
     
       <Grid container>
         <FormControlLabel
           control={
             <Checkbox
-              checked={state.checkedB}
-              onChange={handleChange('checkedB')}
-              value="checkedB"
+              checked={state.enable_inbound}
+              onChange={handleChange('enable_inbound')}
+              value={state.enable_inbound}
               color="primary"
             />
           }
@@ -64,76 +104,346 @@ export default function InboundSettings(){
         visibility
       </Typography>
 
-      <Typography variant={"body"}>
+      <Typography variant={"body1"}>
         Control who sees the standard Messenger launcher on your website.
       </Typography>
 
-      <Typography variant={"body"}>
+      <Typography variant={"body1"}>
         Any messages you send will still be delivered.
       </Typography>
 
-      <Typography variant={"body"}>
+      <Typography variant={"body1"}>
         On the web, show the standard Messenger launcher to:
         Users
       </Typography>
 
-      <Grid container>
-        <FormControlLabel
-          control={
-            <Checkbox
-              checked={state.checkedB}
-              onChange={handleChange('checkedB')}
-              value="checkedB"
-              color="primary"
-            />
-          }
-          label="Users"
-        />
-      </Grid>
+      <Divider/>
+
+      <AppSegmentManager 
+        app={settings} 
+        label={"Users"}
+        namespace={"users"}
+        all={"All Users"} 
+        checked={state.users_enabled}
+        updateChecked={handleChange}
+        predicates={state.usersPredicates}
+        setPredicates={setPredicates}
+        radioValue={state.users_radio}
+        some={"Users who match certain data"} 
+      />
+
+      <Divider/>
+
+      <AppSegmentManager 
+        app={settings} 
+        label={"Visitors"}
+        all={"All Visitors"} 
+        namespace="visitors"
+        checked={state.visitors_enabled}
+        updateChecked={handleChange}
+        predicates={state.visitorsPredicates}
+        setPredicates={setPredicates}
+        radioValue={state.visitors_radio}
+        some={"Visitors who match certain data"} 
+      />
+
+      <Typography variant="caption">
+        This doesn’t affect the outbound messages you send.
+      </Typography>
+
+      <Button onClick={handleSubmit}
+        variant={"contained"} color={"primary"}>
+        Save
+      </Button>
+
+    </div>
+  )
+}
+
+
+function AppSegmentManager({
+  app, 
+  label, 
+  all, 
+  some, 
+  checked, 
+  updateChecked, 
+  namespace,
+  predicates,
+  setPredicates,
+  radioValue
+}){
+
+  //const [checked, setChecked]= useState(checked)
+  //const [radioValue, setRadioValue] = useState("all")
+  //const [predicates, setPredicates] = useState([])
+  
+  function handleChange(e){
+    updateChecked(e)
+    //setChecked(!checked)
+  }
+
+  function handleChangeRadio(e){
+    setPredicates(`${namespace}_radio`, e.target.value)
+  }
+
+  function updatePredicates(data, cb){
+    setPredicates(`${namespace}Predicates`, data.segments)
+    cb && cb()
+  }
+
+  console.log("predicates ", namespace, predicates)
+
+  return (
+
+    <Grid container>
+      <FormControlLabel
+        control={
+          <Checkbox
+            checked={checked}
+            onChange={updateChecked(`${namespace}_enabled`)}
+            value={checked}
+            color="primary"
+          />
+        }
+        label={label}
+      />
 
       <RadioGroup
-        aria-label="gender"
-        name="gender1"
+        //aria-label="gender"
+        //name="gender1"
         //className={classes.group}
-        //value={value}
-        //onChange={handleChange}
+        disabled={!checked}
+        value={radioValue}
+        onChange={handleChangeRadio}
       >
-        <FormControlLabel value="female" control={<Radio />} label="All users" />
-        <FormControlLabel value="male" control={<Radio />} label="Users who match certain data " />
+
+        <FormControlLabel 
+          disabled={!checked}
+          value="all"
+          control={<Radio />} 
+          label={all}
+        />
+
+        <FormControlLabel 
+          disabled={!checked}
+          value="some"
+          control={<Radio />} 
+          label={some}
+        />
+
+        {
+          checked && radioValue === "some" ?
+          <AppSegment
+            app={app}
+            data={{ segments: predicates }}
+            updateData={updatePredicates} 
+          /> : null
+        }
+        
+
       </RadioGroup>
 
-      <Grid container>
-        <FormControlLabel
-          control={
-            <Checkbox
-              checked={state.checkedB}
-              onChange={handleChange('checkedB')}
-              value="checkedB"
-              color="primary"
-            />
-          }
-          label="Visitors"
-        />
-      </Grid>
-
-      <RadioGroup
-          aria-label="gender"
-          name="gender1"
-          //className={classes.group}
-          //value={value}
-          //onChange={handleChange}
-        >
-          <FormControlLabel value="female" control={<Radio />} label="All visitors" />
-          <FormControlLabel value="male" control={<Radio />} label="Visitors who match certain data " />
-        </RadioGroup>
-
-        <Typography variant="caption">
-          This doesn’t affect the outbound messages you send.
-        </Typography>
-
-    
-    </div>
-
+    </Grid>
 
   )
+}
+
+
+class AppSegment extends Component {
+
+  constructor(props) {
+    super(props)
+    this.state = {
+      jwt: null,
+      app_users: [],
+      search: false,
+      meta: {}
+    }
+  }
+  componentDidMount() {
+    /*this.props.actions.fetchAppSegment(
+      this.props.app.segments[0].id
+    )*/
+    
+    this.search()
+  }
+
+  updateData = (data, cb) => {
+    const newData = Object.assign({}, this.props.data, { segments: data.data })
+    this.props.updateData(newData, cb ? cb() : null)
+  }
+
+  updatePredicate = (data, cb) => {
+    const jwtToken = generateJWT(data)
+    //console.log(parseJwt(jwtToken))
+    if (cb)
+      cb(jwtToken)
+    this.setState({ jwt: jwtToken }, () => this.updateData(parseJwt(this.state.jwt), this.search))
+  }
+
+  addPredicate = (data, cb) => {
+
+    const pending_predicate = {
+      attribute: data.name,
+      comparison: null,
+      type: data.type,
+      value: data.value
+    }
+
+    const new_predicates = this.props.data.segments.concat(pending_predicate)
+    const jwtToken = generateJWT(new_predicates)
+    //console.log(parseJwt(jwtToken))
+    if (cb)
+      cb(jwtToken)
+
+    this.setState({ jwt: jwtToken }, () => this.updateData(parseJwt(this.state.jwt)))
+  }
+
+  deletePredicate(data) {
+    const jwtToken = generateJWT(data)
+    this.setState({ jwt: jwtToken }, () => this.updateData(parseJwt(this.state.jwt), this.search))
+  }
+
+  search = (page) => {
+
+    this.setState({ searching: true })
+    // jwt or predicates from segment
+    //console.log(this.state.jwt)
+    const data = this.state.jwt ? parseJwt(this.state.jwt).data : this.props.data.segments
+    const predicates_data = {
+      data: {
+        predicates: data.filter((o) => o.comparison)
+      }
+    }
+
+    graphql(PREDICATES_SEARCH, { 
+      appKey: this.props.app.key,
+      search: predicates_data,
+      page: page || 1,
+      per: 5,
+    },{
+      success: (data) => { 
+        const appUsers = data.predicatesSearch.appUsers
+        this.setState({
+          app_users: appUsers.collection,
+          meta: appUsers.meta,
+          searching: false
+        })
+      },
+      error: (error) => {
+        debugger
+      }
+    })
+  }
+
+  showUserDrawer = (o)=>{
+    this.props.dispatch(
+      toggleDrawer({ rightDrawer: true }, ()=>{
+        this.props.dispatch(getAppUser(o.id))
+      })
+    )
+  }
+
+  render() {
+    return <SegmentManager {...this.props}
+      loading={this.state.searching}
+      predicates={this.props.data.segments}
+      meta={this.state.meta}
+      collection={this.state.app_users}
+      updatePredicate={this.updatePredicate.bind(this)}
+      addPredicate={this.addPredicate.bind(this)}
+      deletePredicate={this.deletePredicate.bind(this)}
+      search={this.search.bind(this)}
+
+      loading={this.props.searching}
+      columns={[
+
+        {name: 'id', title: 'id', hidden: true},
+        {field: 'email', title: 'email', 
+          render: row => (row ? 
+
+            <div onClick={(id)=> this.showUserDrawer(row) }>
+              
+                <div 
+                  //className={classes.margin} 
+                  color={row.online ? "primary" : 'secondary' }
+                  variant="dot">
+                  <Avatar
+                    name={row.email}
+                    size="medium"
+                    src={gravatar(row.email)}
+                  />
+                </div>
+              
+
+              <Typography>{row.name || row.displayName}</Typography>
+              
+            </div>
+
+           : undefined)
+        },
+        {field: 'lastVisitedAt', 
+          title: 'lastVisitedAt',
+          render: row => (row ? <Moment fromNow>
+                                        {row.lastVisitedAt}
+                                      </Moment> : undefined)
+        },
+        {field: 'state', title: 'state'},
+        {field: 'online', title: 'online'},
+        {field: 'lat',  title: 'lat'},
+        {field: 'lng',  title: 'lng'},
+        {field: 'postal', title: 'postal'},
+        {field: 'browser', title: 'browser'},
+        {field: 'referrer', title: 'referrer'},
+        {field: 'os', title: 'os'},
+        {field: 'osVersion', title: 'osVersion'},
+        {field: 'lang', title: 'lang'},
+
+      ]}
+
+      defaultHiddenColumnNames={
+        ['id', 
+        'state', 
+        'online', 
+        'lat', 
+        'lng', 
+        'postal',
+        'browserLanguage', 
+        'referrer', 
+        'os', 
+        'osVersion',
+        'lang'
+        ]}
+      //selection [],
+      tableColumnExtensions={[
+        //{ columnName: 'id', width: 150 },
+        { columnName: 'email', width: 250 },
+        { columnName: 'lastVisitedAt', width: 120 },
+        { columnName: 'os', width: 100 },
+        { columnName: 'osVersion', width: 100 },
+        { columnName: 'state', width: 80 },
+        { columnName: 'online', width: 80 },
+        //{ columnName: 'amount', align: 'right', width: 140 },
+      ]}
+      leftColumns={ ['email']}
+      rightColumns={ ['online']}
+      //toggleMapView={this.toggleMapView}
+      //map_view={this.state.map_view}
+      //enableMapView={true}
+    >
+      { /*
+        this.state.jwt ?
+          <Button isLoading={false}
+            appearance={'link'}
+            onClick={this.handleSave}>
+            <i className="fas fa-chart-pie"></i>
+            {" "}
+            Save Segment
+          </Button> : null
+      */
+      }
+
+    </SegmentManager>
+  }
 }
