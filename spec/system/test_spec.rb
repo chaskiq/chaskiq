@@ -36,23 +36,162 @@ RSpec.describe "Widget management", :type => :system do
     "{\"blocks\": [{\"key\":\"bl82q\",\"text\":\"#{text}\",\"type\":\"unstyled\",\"depth\":0,\"inlineStyleRanges\":[],\"entityRanges\":[],\"data\":{}}],\"entityMap\":{}}"
   end
 
+  def setting_for_user(enabled: false, 
+    users: true, 
+    user_segment: "all", 
+    user_options: [],
+    visitors: true, 
+    visitor_options: [],
+    visitor_segment: "all"
+  )
+    settings = {  
+      "enabled"=>enabled,
+      "users"=>{"enabled"=>users, "segment"=>user_segment, "predicates"=>user_options },
+      "visitors"=>{"enabled"=>visitors, "segment"=>visitor_segment, "predicates"=>visitor_options }
+    }
+    app.update(inbound_settings: settings)
+  end
+
   before do
 
     if ENV["CI"].present? 
-      Selenium::WebDriver::Chrome::Service.driver_path = ENV.fetch('GOOGLE_CHROME_BIN', nil)
-      options = Selenium::WebDriver::Chrome::Options.new
-      options.binary = ENV.fetch('GOOGLE_CHROME_SHIM', nil)
-      driver = Selenium::WebDriver.for :chrome, options: options
+      #Selenium::WebDriver::Chrome::Service.driver_path = ENV.fetch('GOOGLE_CHROME_BIN', nil)
+      #options = Selenium::WebDriver::Chrome::Options.new
+      #options.binary = ENV.fetch('GOOGLE_CHROME_SHIM', nil)
+      #driver = Selenium::WebDriver.for :chrome, options: options
+      Capybara.register_driver :chrome do |app|
+        options = Selenium::WebDriver::Chrome::Options.new(args: %w[no-sandbox headless disable-gpu])
+        Capybara::Selenium::Driver.new(app, browser: :chrome, options: options)
+      end
     end
 
     options_for_selemium = ENV["CI"].present? ? 
 
     {
-      args: ["headless", "disable-gpu", "no-sandbox", "disable-dev-shm-usage"] ,
+      args: %w[no-sandbox headless disable-gpu] ,
     } : {}
 
     driven_by :selenium, using: :chrome, screen_size: [1400, 1400],
      options: options_for_selemium
+  end
+
+  context "translations" do
+    before :each do
+      app.update({
+        greetings_es: "Hola amigo", 
+        greetings_en: "hello friend",
+
+        intro_en: "we are here to help",
+        tagline_en: "estamos aqui para ayudarte",
+
+        intro_es: "somos un equipo genial",
+        tagline_es: "we are an awesome team"
+      })
+    end
+
+
+    it "english default" do
+
+      ClientTesterController.any_instance.stub(:user_options){
+        { email: "test@test.cl",
+          properties: {
+              name: "miguel",
+              lang: "en",
+              id: "localhost",
+              country: "chile",
+              role: "admin",
+              pro: true
+          }
+        } 
+      }
+      
+      visit "/tester/#{app.key}"
+
+      Capybara.within_frame(all("iframe").first){ 
+        page.find("#chaskiq-prime").click 
+      }
+
+      sleep(3)
+
+      # now 2nd iframe appears on top
+      Capybara.within_frame(all("iframe").first){ 
+        expect(page).to have_content(app.greetings_en)
+        expect(page).to have_content(app.intro_en)
+      }
+    end
+
+
+    it "spanish will render spanish greeting" do
+
+      ClientTesterController.any_instance.stub(:user_options){
+        { email: "test@test.cl",
+          properties: {
+              name: "miguel",
+              lang: "es",
+              id: "localhost",
+              country: "chile",
+              role: "admin",
+              pro: true
+          }
+        } 
+      }
+
+      visit "/tester/#{app.key}"
+
+      Capybara.within_frame(all("iframe").first){ 
+        page.find("#chaskiq-prime").click 
+      }
+
+      sleep(3)
+
+      # now 2nd iframe appears on top
+      Capybara.within_frame(all("iframe").first){ 
+        expect(page).to have_content(app.greetings_es)
+        expect(page).to have_content(app.intro_es)
+      }
+    end
+
+
+    it "english sessionless default" do
+
+      ClientTesterController.any_instance.stub(:configured_lang) { 'en' }
+
+      visit "/tester/#{app.key}?sessionless=true"
+
+      Capybara.within_frame(all("iframe").first){ 
+        page.find("#chaskiq-prime").click 
+      }
+
+      sleep(3)
+
+      # now 2nd iframe appears on top
+      Capybara.within_frame(all("iframe").first){ 
+        expect(page).to have_content(app.greetings_en)
+        expect(page).to have_content(app.intro_en)
+      }
+    end
+
+    it "spanish sessionless" do
+
+      ClientTesterController.any_instance.stub(:configured_lang) { 'es' }
+
+      visit "/tester/#{app.key}?sessionless=true"
+
+      Capybara.within_frame(all("iframe").first){ 
+        page.find("#chaskiq-prime").click 
+      }
+
+      sleep(3)
+
+      # now 2nd iframe appears on top
+      Capybara.within_frame(all("iframe").first){ 
+        expect(page).to have_content(app.greetings_es)
+        expect(page).to have_content(app.intro_es)
+      }
+
+      
+    end
+
   end
 
   context "anonimous user" do
@@ -106,6 +245,69 @@ RSpec.describe "Widget management", :type => :system do
 
   end
 
+  context "inbound settings" do
+
+    it "return for user user" do
+      user_options = [{"attribute":"email","comparison":"contains","type":"string","value":"test"}]
+      setting_for_user(user_options: user_options)
+      expect(app.query_segment("users")).to be_any
+      visit "/tester/#{app.key}"
+      prime_iframe = all("iframe").first
+      Capybara.within_frame(prime_iframe){ 
+        expect(page).to have_css("#chaskiq-prime")
+      }   
+    end
+
+    it "no return for user" do
+      user_options = [{"attribute":"email","comparison":"not_contains","type":"string","value":"test"}]
+      setting_for_user(user_options: user_options)
+      expect(app.query_segment("users")).to_not be_any
+      visit "/tester/#{app.key}"
+      prime_iframe = all("iframe").first
+      expect(prime_iframe).to be_blank 
+    end
+
+
+    it "return for user visitor" do
+      visitor_options = [{"attribute":"name","comparison":"contains","type":"string","value":"isito"}]
+      setting_for_user(visitor_options: visitor_options)
+      visit "/tester/#{app.key}?sessionless=true"      
+      expect(app.query_segment("visitors")).to be_any
+      prime_iframe = all("iframe").first
+      Capybara.within_frame(prime_iframe){ 
+        expect(page).to have_css("#chaskiq-prime")
+      }   
+    end
+
+    it "no return for visitor on some segment" do
+      visitor_options = [{"attribute":"email","comparison":"not_contains","type":"string","value":"test"}]
+      setting_for_user(visitor_options: visitor_options)
+      visit "/tester/#{app.key}?sessionless=true"
+      expect(app.query_segment("visitors")).to_not be_any
+      prime_iframe = all("iframe").first
+      expect(prime_iframe).to be_blank 
+    end
+
+    it "no return for visitor on disabled" do
+      visitor_options = [{"attribute":"email","comparison":"not_contains","type":"string","value":"test"}]
+      setting_for_user(visitors: false, visitor_options: visitor_options)
+      visit "/tester/#{app.key}?sessionless=true"
+      expect(app.query_segment("visitors")).to_not be_any
+      prime_iframe = all("iframe").first
+      expect(prime_iframe).to be_blank 
+    end
+
+    it "return for visitor segment all" do
+      visitor_options = []
+      setting_for_user(visitor_segment: "all", visitor_options: visitor_options)
+      visit "/tester/#{app.key}?sessionless=true"
+      prime_iframe = all("iframe").first
+      Capybara.within_frame(prime_iframe){ 
+        expect(page).to have_css("#chaskiq-prime")
+      } 
+    end
+
+  end
 
   it "run previous conversations" do                       
     
@@ -234,7 +436,7 @@ RSpec.describe "Widget management", :type => :system do
 
     end
 
-    it "receive message will track open" do
+    it "dismiss message" do
 
       message = FactoryGirl.create(:user_auto_message, 
         app: app, 
@@ -273,7 +475,6 @@ RSpec.describe "Widget management", :type => :system do
     end
 
   end
-
 
   describe "tours" do
 
@@ -383,7 +584,7 @@ RSpec.describe "Widget management", :type => :system do
       expect(page).not_to have_content("this is the tour")
     end
 
-    it "not display tour on another url" do
+    it "display on configured url" do
       tour.enable!
       visit "/tester/#{app.key}/another"
       sleep(5)
@@ -393,6 +594,34 @@ RSpec.describe "Widget management", :type => :system do
       sleep(5)
       expect(page).to have_content("this is the tour")
     end
+
+  end
+
+  describe "availability" do
+
+    before :each do
+
+    end
+
+    it "next week" do
+      app.update(timezone: "UTC", team_schedule: [
+        { day: "tue", from: "01:00" , to: '01:30' },
+      ])
+
+      visit "/tester/#{app.key}"
+
+      Capybara.within_frame(all("iframe").first){ 
+        page.find("#chaskiq-prime").click 
+      }
+
+      sleep(3)
+
+      Capybara.within_frame(all("iframe").first){ 
+        expect(page).to have_content("volvemos la proxima semana")
+      }
+    end
+
+
 
   end
   

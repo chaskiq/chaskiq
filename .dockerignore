@@ -1,0 +1,39 @@
+# Ignore bundler config.
+/.bundle
+.sass-cache
+.DS_STORE
+
+# Ignore the default SQLite database.
+/db/*.sqlite3
+/db/*.sqlite3-journal
+
+# Ignore all logfiles and tempfiles.
+/log/*
+/tmp/*
+!/log/.keep
+!/tmp/.keep
+
+# Ignore uploaded files in development
+/storage/*
+
+/node_modules
+/yarn-error.log
+
+/public/assets
+.byebug_history
+
+# Ignore master key for decrypting credentials and more.
+/config/master.key
+/public/packs
+/public/packs-test
+/node_modules
+yarn-debug.log*
+.yarn-integrity
+
+
+# Ignore Byebug command history file.
+.byebug_history
+
+# Ignore .git as it's not needed with the docker built.
+.git
+.cache

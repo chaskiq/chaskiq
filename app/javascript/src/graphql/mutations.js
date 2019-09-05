@@ -10,6 +10,13 @@ export const UPDATE_APP = `
         configFields
         theme
         activeMessenger
+        translations
+        availableLanguages
+        teamSchedule
+        timezone
+        replyTime
+        inboundSettings
+        emailRequirement
         segments {
           name
           id
@@ -60,6 +67,10 @@ export const CREATE_APP = `
         state
         tagline
         activeMessenger
+        teamSchedule
+        timezone
+        inboundSettings
+        emailRequirement
       }
     }
   }

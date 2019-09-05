@@ -92,6 +92,7 @@ class Messenger extends Component {
     super(props)
 
     this.state = {
+      enabled: null,
       article: null,
       conversation: {},
       conversation_messages: [],
@@ -201,16 +202,6 @@ class Messenger extends Component {
   }
 
   componentDidUpdate(prevProps, prevState){
-    /*if(prevState.display_mode !== this.state.display_mode && this.state.display_mode === "conversations")
-      this.setState({ conversationsMeta: {} }, this.getConversations )
-     
-
-    if (prevState.open !== this.state.open && this.state.open && this.state.display_mode === "conversations")
-      this.setState({ conversationsMeta: {} }, this.getConversations)
-    */
-
-    //if(this.state.conversation.id !== prevState.conversation.id)
-      //this.conversationSubscriber()
   }
 
   componentWillUnmount() {
@@ -399,7 +390,8 @@ class Messenger extends Component {
       success: (data)=>{
         this.setState({
           appData: data.messenger.app,
-          agents: data.messenger.agents
+          agents: data.messenger.agents,
+          enabled: data.messenger.enabledForUser
         }, ()=>{
           console.log("subscribe to events")
           cb()
@@ -643,7 +635,8 @@ class Messenger extends Component {
   }
 
   isMessengerActive = ()=>{
-    return this.state.appData && this.state.appData.activeMessenger == "on" || this.state.appData.activeMessenger == "true" || this.state.appData.activeMessenger === true
+    return this.state.enabled && this.state.appData && (this.state.appData.activeMessenger == "on" || this.state.appData.activeMessenger == "true" || this.state.appData.activeMessenger === true)
+    //return this.state.appData && this.state.appData.inboundSettings && this.state.appData.inboundSettings.enabled
   }
 
   isTourManagerEnabled = ()=>{
@@ -664,7 +657,7 @@ class Messenger extends Component {
 
   appendDelayed = (steps)=>{
     const o = steps.pop()
-    console.log(o, steps)
+    //console.log(o, steps)
     if(!o) return
 
     const trigger = this.state.conversation.trigger
@@ -822,7 +815,6 @@ class Messenger extends Component {
 
   // check url pattern before trigger tours
   receiveTours = (tours)=>{
-    window.pat = UrlPattern
     const filteredTours = tours.filter((o)=>{
       var pattern = new UrlPattern(o.url)
       var url = document.location.pathname
@@ -888,7 +880,7 @@ class Messenger extends Component {
         <EditorWrapper>
 
           {
-            this.state.availableMessages.length > 0 ?
+            this.state.availableMessages.length > 0 && this.isMessengerActive() ?
             <MessageFrame 
               app_id={this.props.app_id}
               axiosInstance={this.axiosInstance}
@@ -898,7 +890,7 @@ class Messenger extends Component {
               
 
           {
-            this.state.open ?
+            this.state.open && this.isMessengerActive() ?
               <Container 
                 open={this.state.open} 
                 isMobile={this.state.isMobile}>
@@ -939,8 +931,8 @@ class Messenger extends Component {
                               opacity: this.state.header.opacity,
                               transform: `translateY(${this.state.header.translateY}px)`
                             }}>
-                              <h2>Hello</h2>
-                              <p>we are here to help</p>
+                              <h2>{this.state.appData.greetings}</h2>
+                              <p>{this.state.appData.intro}</p>
                             </HeaderTitle>
                           }
 
@@ -1051,7 +1043,7 @@ class Messenger extends Component {
 
 
           { 
-            this.state.appData && this.isMessengerActive() ?
+            this.isMessengerActive() ?
             <StyledFrame style={{
                 zIndex: '10000000',
                 position: 'absolute',
@@ -1419,11 +1411,14 @@ class Conversations extends Component {
             {this.props.app.tagline}
           </Hint>
 
-          <NewConvoBtn
-            in={this.props.transition}
-            onClick={this.props.displayNewConversation}>
-            create new conversation
-          </NewConvoBtn>
+          {
+            this.props.app.inboundSettings.enabled &&
+            <NewConvoBtn
+              in={this.props.transition}
+              onClick={this.props.displayNewConversation}>
+              create new conversation
+            </NewConvoBtn> 
+          }
         </ConversationsFooter>
 
       </div>

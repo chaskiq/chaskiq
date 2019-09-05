@@ -160,3 +160,5 @@ gem "acts_as_list", "~> 0.9.19"
 gem "friendly_id", "~> 5.2"
 
 gem "i18n-js", "~> 3.3"
+
+gem "biz", "~> 1.8"

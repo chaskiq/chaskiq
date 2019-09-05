@@ -116,6 +116,9 @@ GEM
       aws-eventstream (~> 1.0, >= 1.0.2)
     bcrypt (3.1.13)
     bindex (0.8.1)
+    biz (1.8.2)
+      clavius (~> 1.0)
+      tzinfo
     bootsnap (1.4.4)
       msgpack (~> 1.0)
     browser (2.6.1)
@@ -158,6 +161,7 @@ GEM
       archive-zip (~> 0.10)
       nokogiri (~> 1.8)
     chronic (0.10.2)
+    clavius (1.0.4)
     coderay (1.1.2)
     concurrent-ruby (1.1.5)
     connection_pool (2.2.2)
@@ -469,6 +473,7 @@ DEPENDENCIES
   acts_as_list (~> 0.9.19)
   aws-sdk-s3 (~> 1.15)
   aws-ses
+  biz (~> 1.8)
   bootsnap (>= 1.1.0)
   browser (~> 2.5)
   bugsnag (~> 6.11)

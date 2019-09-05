@@ -114,42 +114,112 @@ const HomePanel = ({
     })
   }
 
+  function renderAvailability(){
+    if(!appData.inBusinessHours){
+      return <div>
+                {
+                  aa()
+                }
+              </div>
+    }else {
+      return <p/>
+    }
+  }
+
+  function aa(){
+    const val = Math.floor(appData.businessBackIn.days)
+    switch (val) {
+      case 1:
+        return <div>volvemos mañana</div>
+      case 2:
+      case 3:
+      case 4:
+      case 5:
+        return <div>volvemos en {val} dias</div>
+      case 6:
+        return <div>volvemos la proxima semana</div>
+      default:
+        if(val === 0){
+          const a = new Date(appData.businessBackIn.at)
+          const sameDay = new Date(Date.now()).getDay() === a.getDay()
+          if(sameDay){
+            return `estaremos desde las ${a.getHours()}hrs`
+          } else {
+            return `estaremos mañana a las ${a.getHours()}hrs`
+          }
+        }
+        return <p>dont now?</p>
+
+    }
+  }
+
+  function replyTimeMessage(){
+    const replyTime = [
+      {value: "auto", label: "Automatic reply time. Currently El equipo responderá lo antes posible"}, 
+      {value: "minutes", label: "El equipo suele responder en cuestión de minutos."},
+      {value: "hours", label: "El equipo suele responder en cuestión de horas."},
+      {value: "1 day", label: "El equipo suele responder en un día."},
+    ]
+
+    const message = replyTime.find((o)=> o.value === appData.replyTime)
+
+    return message && <p>{message.label}</p>
+  }
+
   return (
 
     <Panel onScroll={handleScroll}>
       
-      <ConversationInitiator in={transition}>
-      
-        <h2>Start a conversation</h2>
-        <p>people connected</p>
+      {
+        appData.inboundSettings.enabled ?
+        <ConversationInitiator in={transition}>
+        
+          <h2>Start a conversation</h2>
 
-        <CardContent>
+          {renderAvailability()}
+          <br/>
+          {replyTimeMessage()}
 
-          <ConnectedPeople>
-            {
-              agents.map((agent)=>(
-                <Avatar>
-                  <img src={gravatar(agent.email)} title={agent.name}/>
-                </Avatar>
-              ))
-            }
-          </ConnectedPeople>
+          <CardContent>
 
+            <ConnectedPeople>
+              {
+                agents.map((agent)=>(
+                  <Avatar>
+                    <img src={gravatar(agent.email)} title={agent.name}/>
+                  </Avatar>
+                ))
+              }
+            </ConnectedPeople>
+
+            <CardButtonsGroup>
+
+              <AnchorButton href="#" onClick={displayNewConversation}>
+                start conversation
+              </AnchorButton>
+
+              <a href="#" onClick={viewConversations}>
+                see previous
+              </a>
+
+            </CardButtonsGroup>
+          
+          </CardContent>
+        
+        </ConversationInitiator> :
+
+        <ConversationsBlock in={transition}>
+          <h2>conversations</h2>
+          <CardContent>
+            bla bla , show conversations here!
+          </CardContent>
           <CardButtonsGroup>
-
-            <AnchorButton href="#" onClick={displayNewConversation}>
-              start conversation
-            </AnchorButton>
-
             <a href="#" onClick={viewConversations}>
               see previous
             </a>
-
           </CardButtonsGroup>
-        
-        </CardContent>
-      
-      </ConversationInitiator>
+        </ConversationsBlock>
+      }
 
       <Card in={transition}>
         search articles
@@ -275,6 +345,13 @@ const Card = styled.div`
 
 
 const ConversationInitiator = styled(Card)`
+  margin-top: 10em;
+  h2{
+    margin: .4em 0 0.4em 0em;
+  }
+`
+
+const ConversationsBlock = styled(Card)`
   margin-top: 10em;
   h2{
     margin: .4em 0 0.4em 0em;
