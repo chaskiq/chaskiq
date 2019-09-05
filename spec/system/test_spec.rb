@@ -36,6 +36,15 @@ RSpec.describe "Widget management", :type => :system do
     "{\"blocks\": [{\"key\":\"bl82q\",\"text\":\"#{text}\",\"type\":\"unstyled\",\"depth\":0,\"inlineStyleRanges\":[],\"entityRanges\":[],\"data\":{}}],\"entityMap\":{}}"
   end
 
+  def setting_for_user(user_options: [], visitor_options: [])
+    settings = {  
+      "enabled"=>false,
+      "users"=>{"enabled"=>true, "segment"=>"all", "predicates"=>user_options },
+      "visitors"=>{"enabled"=>true, "segment"=>"all", "predicates"=>visitor_options }
+    }
+    app.update(inbound_settings: settings)
+  end
+
   before do
 
     if ENV["CI"].present? 
@@ -229,6 +238,51 @@ RSpec.describe "Widget management", :type => :system do
 
   end
 
+  context "inbound settings" do
+
+    it "return for user user" do
+      user_options = [{"attribute":"email","comparison":"contains","type":"string","value":"test"}]
+      setting_for_user(user_options: user_options)
+      expect(app.query_segment("users")).to be_any
+      visit "/tester/#{app.key}"
+      prime_iframe = all("iframe").first
+      Capybara.within_frame(prime_iframe){ 
+        expect(page).to have_css("#chaskiq-prime")
+      }   
+    end
+
+    it "no return for user" do
+      user_options = [{"attribute":"email","comparison":"not_contains","type":"string","value":"test"}]
+      setting_for_user(user_options: user_options)
+      expect(app.query_segment("users")).to_not be_any
+      visit "/tester/#{app.key}"
+      prime_iframe = all("iframe").first
+      expect(prime_iframe).to be_blank 
+    end
+
+
+    it "return for user visitor" do
+      visitor_options = [{"attribute":"name","comparison":"contains","type":"string","value":"isito"}]
+      setting_for_user(visitor_options: visitor_options)
+      visit "/tester/#{app.key}?sessionless=true"      
+      expect(app.query_segment("visitors")).to be_any
+      prime_iframe = all("iframe").first
+      Capybara.within_frame(prime_iframe){ 
+        expect(page).to have_css("#chaskiq-prime")
+      }   
+    end
+
+    it "no return for visitor" do
+      visitor_options = [{"attribute":"email","comparison":"not_contains","type":"string","value":"test"}]
+      setting_for_user(visitor_options: visitor_options)
+      visit "/tester/#{app.key}?sessionless=true"
+      expect(app.query_segment("visitors")).to_not be_any
+      prime_iframe = all("iframe").first
+      expect(prime_iframe).to be_blank 
+    end
+
+  end
+
   it "run previous conversations" do                       
     
     app.start_conversation({
@@ -396,7 +450,6 @@ RSpec.describe "Widget management", :type => :system do
 
   end
 
-
   describe "tours" do
 
     let(:host_port){
@@ -517,7 +570,6 @@ RSpec.describe "Widget management", :type => :system do
     end
 
   end
-
 
   describe "availability" do
 

@@ -214,4 +214,46 @@ RSpec.describe App, type: :model do
 
   end
 
+  def setting_for_user(user_options: [], visitor_options: [])
+    settings = {  
+      "enabled"=>false,
+      "users"=>{"enabled"=>true, "segment"=>"all", "predicates"=>user_options },
+      "visitors"=>{"enabled"=>true, "segment"=>"all", "predicates"=>visitor_options }
+    }
+    app.update(inbound_settings: settings)
+  end
+
+  describe "inbound settings segments" do
+
+    before :each do
+      app.add_user({email: "test@test.cl", first_name: "dsdsa"})
+    end
+
+    it "return for user user" do
+      user_options = [{"attribute":"email","comparison":"contains","type":"string","value":"test"}]
+      setting_for_user(user_options: user_options)
+      expect(app.query_segment("users")).to be_any
+    end
+
+    it "no return for user" do
+      user_options = [{"attribute":"email","comparison":"not_contains","type":"string","value":"test"}]
+      setting_for_user(user_options: user_options)
+      expect(app.query_segment("users")).to_not be_any
+    end
+
+
+    it "return for visitor " do
+      visitor_options = [{"attribute":"email","comparison":"contains","type":"string","value":"test"}]
+      setting_for_user(visitor_options: visitor_options)
+      expect(app.query_segment("visitors")).to be_any
+    end
+
+    it "no return for visitors" do
+      visitor_options = [{"attribute":"email","comparison":"not_contains","type":"string","value":"test"}]
+      setting_for_user(visitor_options: visitor_options)
+      expect(app.query_segment("visitors")).to_not be_any
+    end
+
+  end
+
 end

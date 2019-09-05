@@ -204,6 +204,13 @@ class App < ApplicationRecord
     conversation
   end
 
+  def query_segment(kind)
+    predicates = inbound_settings[kind]["predicates"]
+    segment = self.segments.new
+    segment.assign_attributes(predicates: inbound_settings[kind]["predicates"])
+    app_users = segment.execute_query.availables
+  end
+
   def availability
     @biz ||= Biz::Schedule.new do |config|
       config.hours = hours_format

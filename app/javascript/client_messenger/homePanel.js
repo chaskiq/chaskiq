@@ -170,41 +170,56 @@ const HomePanel = ({
 
     <Panel onScroll={handleScroll}>
       
-      <ConversationInitiator in={transition}>
-      
-        <h2>Start a conversation</h2>
+      {
+        appData.inboundSettings.enabled ?
+        <ConversationInitiator in={transition}>
+        
+          <h2>Start a conversation</h2>
 
-        {renderAvailability()}
-        <br/>
-        {replyTimeMessage()}
+          {renderAvailability()}
+          <br/>
+          {replyTimeMessage()}
 
-        <CardContent>
+          <CardContent>
 
-          <ConnectedPeople>
-            {
-              agents.map((agent)=>(
-                <Avatar>
-                  <img src={gravatar(agent.email)} title={agent.name}/>
-                </Avatar>
-              ))
-            }
-          </ConnectedPeople>
+            <ConnectedPeople>
+              {
+                agents.map((agent)=>(
+                  <Avatar>
+                    <img src={gravatar(agent.email)} title={agent.name}/>
+                  </Avatar>
+                ))
+              }
+            </ConnectedPeople>
 
+            <CardButtonsGroup>
+
+              <AnchorButton href="#" onClick={displayNewConversation}>
+                start conversation
+              </AnchorButton>
+
+              <a href="#" onClick={viewConversations}>
+                see previous
+              </a>
+
+            </CardButtonsGroup>
+          
+          </CardContent>
+        
+        </ConversationInitiator> :
+
+        <ConversationsBlock in={transition}>
+          <h2>conversations</h2>
+          <CardContent>
+            bla bla , show conversations here!
+          </CardContent>
           <CardButtonsGroup>
-
-            <AnchorButton href="#" onClick={displayNewConversation}>
-              start conversation
-            </AnchorButton>
-
             <a href="#" onClick={viewConversations}>
               see previous
             </a>
-
           </CardButtonsGroup>
-        
-        </CardContent>
-      
-      </ConversationInitiator>
+        </ConversationsBlock>
+      }
 
       <Card in={transition}>
         search articles
@@ -330,6 +345,13 @@ const Card = styled.div`
 
 
 const ConversationInitiator = styled(Card)`
+  margin-top: 10em;
+  h2{
+    margin: .4em 0 0.4em 0em;
+  }
+`
+
+const ConversationsBlock = styled(Card)`
   margin-top: 10em;
   h2{
     margin: .4em 0 0.4em 0em;

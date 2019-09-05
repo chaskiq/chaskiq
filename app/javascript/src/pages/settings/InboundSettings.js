@@ -23,13 +23,15 @@ import gravatar from '../../shared/gravatar'
 
 export default function InboundSettings({settings, update}){
   const [state, setState] = React.useState({
-    enable_inbound: true,
-    visitors_enabled: true,
-    users_enabled: true,
-    users_radio: "all",
-    visitorsPredicates: [],
-    visitors_radio: "all",
-    usersPredicates: [],
+    enable_inbound: settings.inboundSettings.enabled,
+
+    users_radio: settings.inboundSettings.users.segment,
+    users_enabled: settings.inboundSettings.users.enabled,
+    usersPredicates: settings.inboundSettings.users.predicates,
+
+    visitors_radio: settings.inboundSettings.visitors.segment,
+    visitors_enabled: settings.inboundSettings.visitors.enabled,
+    visitorsPredicates: settings.inboundSettings.visitors.predicates,
   });
 
   const handleChange = name => event => {
@@ -42,7 +44,7 @@ export default function InboundSettings({settings, update}){
 
   function handleSubmit(){
     const {
-      enable_inbound, users_radio, usersPredicates, 
+      enable_inbound, users_enabled, users_radio, usersPredicates, 
       visitors_radio, visitors_enabled, visitorsPredicates
     } = state
 
@@ -51,11 +53,13 @@ export default function InboundSettings({settings, update}){
         inbound_settings: {
           enabled: enable_inbound,
           users: {
-            enabled_segment: users_radio,
+            enabled: users_enabled,
+            segment: users_radio,
             predicates: usersPredicates
           },
           visitors: {
-            enabled_segment: visitors_radio,
+            enabled: visitors_enabled,
+            segment: visitors_radio,
             predicates: visitorsPredicates
           }
         }

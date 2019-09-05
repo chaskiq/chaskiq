@@ -1,6 +1,8 @@
 export const PING = `
   query Messenger{
+    
     messenger {
+      enabledForUser
       app{
         greetings
         intro
