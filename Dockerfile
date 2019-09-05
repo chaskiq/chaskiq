@@ -1,4 +1,4 @@
-FROM ruby:2.6.2
+FROM ruby:2.5.0
 
 # replace shell with bash so we can source files
 RUN rm /bin/sh && ln -s /bin/bash /bin/sh
