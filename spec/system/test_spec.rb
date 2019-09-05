@@ -36,11 +36,18 @@ RSpec.describe "Widget management", :type => :system do
     "{\"blocks\": [{\"key\":\"bl82q\",\"text\":\"#{text}\",\"type\":\"unstyled\",\"depth\":0,\"inlineStyleRanges\":[],\"entityRanges\":[],\"data\":{}}],\"entityMap\":{}}"
   end
 
-  def setting_for_user(user_options: [], visitor_options: [])
+  def setting_for_user(enabled: false, 
+    users: true, 
+    user_segment: "all", 
+    user_options: [],
+    visitors: true, 
+    visitor_options: [],
+    visitor_segment: "all"
+  )
     settings = {  
-      "enabled"=>false,
-      "users"=>{"enabled"=>true, "segment"=>"all", "predicates"=>user_options },
-      "visitors"=>{"enabled"=>true, "segment"=>"all", "predicates"=>visitor_options }
+      "enabled"=>enabled,
+      "users"=>{"enabled"=>users, "segment"=>user_segment, "predicates"=>user_options },
+      "visitors"=>{"enabled"=>visitors, "segment"=>visitor_segment, "predicates"=>visitor_options }
     }
     app.update(inbound_settings: settings)
   end
@@ -272,13 +279,32 @@ RSpec.describe "Widget management", :type => :system do
       }   
     end
 
-    it "no return for visitor" do
+    it "no return for visitor on some segment" do
       visitor_options = [{"attribute":"email","comparison":"not_contains","type":"string","value":"test"}]
       setting_for_user(visitor_options: visitor_options)
       visit "/tester/#{app.key}?sessionless=true"
       expect(app.query_segment("visitors")).to_not be_any
       prime_iframe = all("iframe").first
       expect(prime_iframe).to be_blank 
+    end
+
+    it "no return for visitor on disabled" do
+      visitor_options = [{"attribute":"email","comparison":"not_contains","type":"string","value":"test"}]
+      setting_for_user(visitors: false, visitor_options: visitor_options)
+      visit "/tester/#{app.key}?sessionless=true"
+      expect(app.query_segment("visitors")).to_not be_any
+      prime_iframe = all("iframe").first
+      expect(prime_iframe).to be_blank 
+    end
+
+    it "return for visitor segment all" do
+      visitor_options = []
+      setting_for_user(visitor_segment: "all", visitor_options: visitor_options)
+      visit "/tester/#{app.key}?sessionless=true"
+      prime_iframe = all("iframe").first
+      Capybara.within_frame(prime_iframe){ 
+        expect(page).to have_css("#chaskiq-prime")
+      } 
     end
 
   end
