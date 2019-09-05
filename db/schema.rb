@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_08_19_194702) do
+ActiveRecord::Schema.define(version: 2019_08_31_233001) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -79,6 +79,18 @@ ActiveRecord::Schema.define(version: 2019_08_19_194702) do
     t.index ["unlock_token"], name: "index_agents_on_unlock_token", unique: true
   end
 
+  create_table "app_translations", force: :cascade do |t|
+    t.bigint "app_id", null: false
+    t.string "locale", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.text "greetings"
+    t.text "intro"
+    t.text "tagline"
+    t.index ["app_id"], name: "index_app_translations_on_app_id"
+    t.index ["locale"], name: "index_app_translations_on_locale"
+  end
+
   create_table "app_users", force: :cascade do |t|
     t.string "key"
     t.bigint "app_id"
@@ -125,6 +137,9 @@ ActiveRecord::Schema.define(version: 2019_08_19_194702) do
     t.datetime "updated_at", null: false
     t.index ["key"], name: "index_apps_on_key"
     t.index ["preferences"], name: "index_apps_on_preferences", using: :gin
+  end
+
+  create_table "apps_translations", force: :cascade do |t|
   end
 
   create_table "article_collection_translations", force: :cascade do |t|

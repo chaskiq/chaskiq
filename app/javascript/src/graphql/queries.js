@@ -16,10 +16,16 @@ export const APP = `
       key
       name
       preferences
-      configFields
+      timezone
       domainUrl
       activeMessenger
       theme
+      translations
+      availableLanguages
+      teamSchedule
+      replyTime
+      inboundSettings
+      emailRequirement
       segments {
         name
         id

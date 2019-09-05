@@ -1,0 +1,30 @@
+language: ruby
+addons:
+  chrome: stable
+services:
+  - postgresql
+  - redis-server
+env:
+  global:
+    - NODE_ENV=test
+cache:
+  bundler: true
+  directories:
+    - node_modules
+  yarn: true
+
+before_install:
+  - gem update --system
+  - gem install bundler -v 1.17.3
+before_script:
+  - psql -c 'create database travis_ci_test;' -U postgres
+  - cp config/database.yml.travis config/database.yml
+  - bundle exec rails db:migrate RAILS_ENV=test
+  - yarn install
+script:
+  - bundle exec rails webpacker:compile
+  - bundle exec rspec -t browser
+matrix:
+  include:
+  - rvm: 2.5.0
+    gemfile: Gemfile

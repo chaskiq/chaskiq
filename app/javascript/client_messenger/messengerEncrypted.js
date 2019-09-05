@@ -1,4 +1,3 @@
-import axios from 'axios'
 import Hermessenger from './messenger'
 import {setCookie, getCookie, deleteCookie} from './cookies'
 
@@ -29,13 +28,9 @@ export default class HermessengerEncrypted {
       app: this.props.app_id,
       enc_data: this.props.data,
       user_data: JSON.stringify(data),
-      session_id: this.getSession()
+      session_id: this.getSession(),
+      lang: this.props.lang
     }
-
-    this.axiosInstance = axios.create({
-      baseURL: `${this.props.domain}`,
-      headers: this.defaultHeaders
-    });
 
     this.grapqhClient = new GraphqlClient({
       config: this.defaultHeaders,
@@ -58,7 +53,8 @@ export default class HermessengerEncrypted {
             encData: this.props.data,
             encryptedMode: true,
             domain: this.props.domain,
-            ws: this.props.ws
+            ws: this.props.ws,
+            locale: this.props.lang
           })
         )
 

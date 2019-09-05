@@ -2,6 +2,8 @@ require 'jwe'
 require 'open-uri'
 class ClientTesterController < ApplicationController
 
+  before_action :set_lang_var
+
   layout "client"
   
   def show
@@ -18,17 +20,6 @@ class ClientTesterController < ApplicationController
       ws:   Rails.env.production? ? 'wss://' : 'ws://'
     }
 
-    user_options = { email: "test@test.cl",
-                properties: {
-                    name: "miguel",
-                    lang: "es",
-                    id: "localhost",
-                    country: "chile",
-                    role: "admin",
-                    pro: true
-                }
-              } 
-
     @json_payload = {
       domain: @h[:http] + request.env["HTTP_HOST"],
       ws: @h[:ws] + request.env["HTTP_HOST"]+ "/cable",
@@ -40,6 +31,27 @@ class ClientTesterController < ApplicationController
     @json_payload = @json_payload.to_json
 
     @encrypted_data = JWE.encrypt(@json_payload, key, alg: 'dir')
+  end
+
+  def configured_lang
+  end
+
+  def set_lang_var
+    @lang = configured_lang
+  end
+
+  def user_options
+
+    { email: "test@test.cl",
+      properties: {
+          name: "miguel",
+          lang: "es",
+          id: "localhost",
+          country: "chile",
+          role: "admin",
+          pro: true
+      }
+    } 
   end
 
   def get_app

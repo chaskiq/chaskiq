@@ -51,7 +51,7 @@ export default class Table extends React.Component {
         columns={this.state.columns}
         data={this.props.data}
         options={{
-          pageSize: this.props.data.length,
+          pageSize: this.props.data && this.props.data.length,
         }}
         components={{
           Container: props => <Paper {...props}  elevation={this.props.elevation || 0} />

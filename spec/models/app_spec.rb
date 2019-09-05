@@ -119,4 +119,141 @@ RSpec.describe App, type: :model do
     end
   end
 
+
+  describe "agents, availability" do
+
+    before :each do 
+      app.add_agent(email: "test@test.cl")
+      app.team_schedule = [
+        { day: "mon", from: "09:00" , to: '17:00' },
+        { day: "tue", from: "09:00" , to: '17:00' },
+        { day: "wed", from: "09:00" , to: '17:00' },
+        { day: "thu", from: "09:00" , to: '12:00' },
+        { day: "thu", from: "13:00" , to: '17:00' },
+        { day: "fri", from: "10:00" , to: '14:00' }
+      ]
+      app.timezone = "UTC"
+      app.save
+    end
+
+    it "initializes business hours" do
+      expect(app.availability).to be_a(Biz::Schedule)
+    end
+
+    it "will create agent" do
+      expect(app.agents.count).to be == 1
+    end
+
+    it "biz time, in time" do
+      # Determine if a time is in business hours
+      time = Time.utc(2019, 1, 1, 11, 45)
+      expect(app.in_business_hours?(time)).to be_truthy
+    end
+
+    it "biz time, out time" do
+      # Determine if a time is in business hours
+      time = Time.utc(2019, 1, 1, 17, 45)
+      expect(app.in_business_hours?(time)).to be_falsey
+    end
+
+    it "biz time, out time" do
+      # Determine if a time is in business hours
+      time = Time.utc(2019, 1, 1, 17, 45)
+      expect(app.in_business_hours?(time)).to be_falsey
+    end
+
+    it "wrong config" do
+      app.update(team_schedule: [])
+      time = Time.utc(2019, 1, 1, 17, 45)
+      time = time.monday + 10.hours
+      expect(app.in_business_hours?(time)).to be_nil
+    end
+
+    it "next week" do
+      app.update(team_schedule: [
+        { day: "tue", from: "01:00" , to: '01:30' },
+      ])
+      time = Time.utc(2019, 9, 3, 17, 45)
+      expect(time.day).to be == 3
+      expect(app.in_business_hours?(time)).to be_falsey
+
+      expect( app.availability.time(0, :hours).after(time).day ).to be == 10
+    end
+
+    it "same week" do
+      app.update(team_schedule: [
+        { day: "tue", from: "01:00" , to: '01:30' },
+      ])
+      time = Time.utc(2019, 9, 3, 1, 05)
+      expect(time.day).to be == 3
+      expect(app.in_business_hours?(time)).to be_truthy
+      expect( app.availability.time(0, :hours).after(time).day ).to be == 3
+    end
+
+    it "tomorrow" do
+      app.update(team_schedule: [
+        { day: "tue", from: "01:00" , to: '01:30' },
+        { day: "wed", from: "01:00" , to: '01:30' },
+      ])
+
+      time = Time.utc(2019, 9, 3, 1, 35)
+      expect(time.day).to be == 3
+      expect(app.in_business_hours?(time)).to be_falsey
+      expect( app.availability.time(0, :hours).after(time).day ).to be == 4
+    end
+
+    it "in the next hours" do
+      app.update(team_schedule: [
+        { day: "tue", from: "01:00" , to: '01:30' },
+      ])
+      time = Time.utc(2019, 9, 3, 0, 50)
+      expect(time.day).to be == 3
+      expect(app.in_business_hours?(time)).to be_falsey
+      expect( app.availability.time(0, :hours).after(time).day ).to be == 3
+    end
+
+  end
+
+  def setting_for_user(user_options: [], visitor_options: [])
+    settings = {  
+      "enabled"=>false,
+      "users"=>{"enabled"=>true, "segment"=>"all", "predicates"=>user_options },
+      "visitors"=>{"enabled"=>true, "segment"=>"all", "predicates"=>visitor_options }
+    }
+    app.update(inbound_settings: settings)
+  end
+
+  describe "inbound settings segments" do
+
+    before :each do
+      app.add_user({email: "test@test.cl", first_name: "dsdsa"})
+    end
+
+    it "return for user user" do
+      user_options = [{"attribute":"email","comparison":"contains","type":"string","value":"test"}]
+      setting_for_user(user_options: user_options)
+      expect(app.query_segment("users")).to be_any
+    end
+
+    it "no return for user" do
+      user_options = [{"attribute":"email","comparison":"not_contains","type":"string","value":"test"}]
+      setting_for_user(user_options: user_options)
+      expect(app.query_segment("users")).to_not be_any
+    end
+
+
+    it "return for visitor " do
+      visitor_options = [{"attribute":"email","comparison":"contains","type":"string","value":"test"}]
+      setting_for_user(visitor_options: visitor_options)
+      expect(app.query_segment("visitors")).to be_any
+    end
+
+    it "no return for visitors" do
+      visitor_options = [{"attribute":"email","comparison":"not_contains","type":"string","value":"test"}]
+      setting_for_user(visitor_options: visitor_options)
+      expect(app.query_segment("visitors")).to_not be_any
+    end
+
+  end
+
 end

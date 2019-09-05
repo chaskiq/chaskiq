@@ -7,12 +7,27 @@ module Types
     field :tagline, String, null: true
     field :domain_url, String, null: true
     field :active_messenger, String, null: true
+    field :timezone, String, null: true
     field :theme, String, null: true
     field :config_fields, Types::JsonType, null: true
     field :preferences, Types::JsonType, null: true
     field :encryption_key, String, null: true
     field :app_users, [Types::AppUserType], null: true
     field :triggers, Types::JsonType, null: true
+    field :team_schedule, Types::JsonType, null: true
+    field :reply_time, String, null: true
+    field :inbound_settings, Types::JsonType, null: true
+    field :email_requirement, String, null: true
+    field :greetings, String, null: true
+    field :intro, String, null: true
+    field :tagline, String, null: true
+
+    field :translations, [Types::JsonType], null: true
+    field :available_languages, [Types::JsonType], null: true
+
+    def available_languages
+      object.translations.map(&:locale)
+    end
     
     field :conversations, Types::PaginatedConversationsType, null:true do
       argument :page, Integer, required: false, default_value: 1
@@ -43,6 +58,18 @@ module Types
       end
 
       @collection
+    end
+
+    field :in_business_hours, Boolean, null: true
+
+    def in_business_hours
+      object.in_business_hours?( Time.current )
+    end
+
+    field :business_back_in, Types::JsonType, null: true
+
+    def business_back_in
+      object.business_back_in(Time.current)
     end
 
     field :conversation, Types::ConversationType, null:true do

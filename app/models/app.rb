@@ -1,4 +1,5 @@
 class App < ApplicationRecord
+  include GlobalizeAccessors
   include Tokenable
 
   store :preferences, accessors: [ 
@@ -6,7 +7,19 @@ class App < ApplicationRecord
   #  :gather_data, 
   #  :test_app,
   #  :assigment_rules,
+    :email_requirement,
+    :inbound_settings,
+    :timezone,
+    :reply_time,
+    :team_schedule
   ], coder: JSON
+
+  translates :greetings, :intro, :tagline
+  self.globalize_accessors :attributes => [
+    :greetings, 
+    :intro,
+    :tagline
+  ]
 
   # http://nandovieira.com/using-postgresql-and-jsonb-with-ruby-on-rails
   # App.where('preferences @> ?', {notifications: true}.to_json)
@@ -34,7 +47,7 @@ class App < ApplicationRecord
   store_accessor :preferences, [
     :active_messenger, 
     :domain_url, 
-    :tagline ,
+    #:tagline ,
     :theme,
     :notifications,
     :gather_data, 
@@ -43,6 +56,7 @@ class App < ApplicationRecord
   ]
 
   accepts_nested_attributes_for :article_settings
+
 
 
   def encryption_enabled?
@@ -94,6 +108,12 @@ class App < ApplicationRecord
         type: 'text', 
         hint: "messenger text on botton",
         grid: {xs: 12, sm: 12 } 
+      },
+
+      {name: "timezone", type: "timezone", 
+        options: ActiveSupport::TimeZone.all.map{|o| o.tzinfo.name }, 
+        multiple: false,
+        grid: {xs: 12, sm: 12 }
       },
 
     ]
@@ -182,5 +202,48 @@ class App < ApplicationRecord
       check_assignment_rules: true
     )
     conversation
+  end
+
+  def query_segment(kind)
+    predicates = inbound_settings[kind]["predicates"]
+    segment = self.segments.new
+    segment.assign_attributes(predicates: inbound_settings[kind]["predicates"])
+    app_users = segment.execute_query.availables
+  end
+
+  def availability
+    @biz ||= Biz::Schedule.new do |config|
+      config.hours = hours_format
+      config.time_zone = self.timezone
+    end 
+  end
+
+  def business_back_in(time)
+    begin
+      a = self.availability.time(0, :hours).after(time)
+      diff = a-time
+      days =  diff.to_f / (24 * 60 * 60)
+      {at: a, diff: diff, days: days }
+    rescue Biz::Error::Configuration
+      nil
+    end
+  end
+
+  def in_business_hours?(time)
+    begin
+      availability.in_hours?(time)
+    rescue Biz::Error::Configuration
+      nil
+    end
+  end
+
+private
+  def hours_format
+    h = Hash.new
+    arr = self.team_schedule || []
+    arr.map do |f| 
+      h[f["day"].to_sym] = (h[f["day"].to_sym] || {}).merge!({f["from"]=>f["to"]} )
+    end
+    return h
   end
 end
