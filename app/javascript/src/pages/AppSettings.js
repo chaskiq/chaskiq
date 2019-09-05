@@ -329,7 +329,10 @@ class AppSettingsContainer extends Component {
                 fields={['greetings', 'intro', 'tagline',]}
               />
       case 5: 
-        return <EmailRequirement/>
+        return <EmailRequirement settings={ this.props.app } 
+                                update={this.update}
+                                namespace={'app'}
+                                />
       case 6:
         return <InboundSettings
                   settings={ this.props.app } 

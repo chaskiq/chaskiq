@@ -25,6 +25,7 @@ export const APP = `
       teamSchedule
       replyTime
       inboundSettings
+      emailRequirement
       segments {
         name
         id

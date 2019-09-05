@@ -9,6 +9,7 @@ export const PING = `
         inBusinessHours
         replyTime
         inboundSettings
+        emailRequirement
         businessBackIn
         articleSettings{
           subdomain

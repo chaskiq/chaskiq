@@ -16,6 +16,7 @@ export const UPDATE_APP = `
         timezone
         replyTime
         inboundSettings
+        emailRequirement
         segments {
           name
           id
@@ -69,6 +70,7 @@ export const CREATE_APP = `
         teamSchedule
         timezone
         inboundSettings
+        emailRequirement
       }
     }
   }
