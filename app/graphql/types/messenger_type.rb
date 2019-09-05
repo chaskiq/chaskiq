@@ -39,10 +39,16 @@ module Types
     def conversation(id:, page:)
       @user = context[:get_app_user].call
       @conversation = user_conversations.find_by(key: id)
-      #@conversation = @conversation.messages.visibles #.includes(authorable: :user)
-      #                                      .order("id desc")
-      #                                      .page(page)
-      #                                      .per(5)
+    end
+
+
+    field :enabled_for_user, Boolean, null: true
+
+    def enabled_for_user
+      @user = context[:get_app_user].call
+      k = @user.model_name.name === "AppUser" ? "users" : "visitors" 
+      return if k.blank?
+      object.query_segment(k).find_by(id: @user.id)
     end
 
 private
