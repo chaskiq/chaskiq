@@ -17,6 +17,7 @@ module Types
     field :team_schedule, Types::JsonType, null: true
     field :reply_time, String, null: true
     field :inbound_settings, Types::JsonType, null: true
+    field :email_requirement, String, null: true
     field :greetings, String, null: true
     field :intro, String, null: true
     field :tagline, String, null: true

@@ -6,6 +6,9 @@ module Types
     field :paths, [Types::BotPathType], null: true
     field :state, String, null: true
     field :segments, Types::JsonType, null: true
+    def segments
+      object.segments.blank? ? [] : object.segments
+    end
     def paths
       object.paths.present? ? object.paths : []
     end

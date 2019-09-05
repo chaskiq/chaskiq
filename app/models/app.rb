@@ -7,6 +7,7 @@ class App < ApplicationRecord
   #  :gather_data, 
   #  :test_app,
   #  :assigment_rules,
+    :email_requirement,
     :inbound_settings,
     :timezone,
     :reply_time,

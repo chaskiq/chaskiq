@@ -18,8 +18,8 @@ import SegmentManager from '../../components/segmentManager'
 import { parseJwt, generateJWT } from '../../components/segmentManager/jwt'
 
 import { PREDICATES_SEARCH} from '../../graphql/mutations'
- import graphql from '../../graphql/client'
- import gravatar from '../../shared/gravatar'
+import graphql from '../../graphql/client'
+import gravatar from '../../shared/gravatar'
 
 export default function InboundSettings({settings, update}){
   const [state, setState] = React.useState({
@@ -72,7 +72,7 @@ export default function InboundSettings({settings, update}){
         Control inbound conversations and the launcher
       </Typography> 
 
-      <Typography variant={"subtitle2"}>
+      <Typography variant={"overline"}>
         Control who can send you messages and where they see the launcher
       </Typography>
 
@@ -100,15 +100,17 @@ export default function InboundSettings({settings, update}){
 
       <Divider/>
 
-      <Typography variant={"h5"}>
-        visibility
-      </Typography>
+      <Box mb={2} mt={2}>
+        <Typography variant={"h5"}>
+          visibility
+        </Typography>
+      </Box>
 
       <Typography variant={"body1"}>
         Control who sees the standard Messenger launcher on your website.
       </Typography>
 
-      <Typography variant={"body1"}>
+      <Typography variant={"overline"}>
         Any messages you send will still be delivered.
       </Typography>
 
@@ -119,42 +121,48 @@ export default function InboundSettings({settings, update}){
 
       <Divider/>
 
-      <AppSegmentManager 
-        app={settings} 
-        label={"Users"}
-        namespace={"users"}
-        all={"All Users"} 
-        checked={state.users_enabled}
-        updateChecked={handleChange}
-        predicates={state.usersPredicates}
-        setPredicates={setPredicates}
-        radioValue={state.users_radio}
-        some={"Users who match certain data"} 
-      />
+      <Box mb={2} mt={2}>
+        <AppSegmentManager 
+          app={settings} 
+          label={"Users"}
+          namespace={"users"}
+          all={"All Users"} 
+          checked={state.users_enabled}
+          updateChecked={handleChange}
+          predicates={state.usersPredicates}
+          setPredicates={setPredicates}
+          radioValue={state.users_radio}
+          some={"Users who match certain data"} 
+        />
+      </Box>
 
       <Divider/>
 
-      <AppSegmentManager 
-        app={settings} 
-        label={"Visitors"}
-        all={"All Visitors"} 
-        namespace="visitors"
-        checked={state.visitors_enabled}
-        updateChecked={handleChange}
-        predicates={state.visitorsPredicates}
-        setPredicates={setPredicates}
-        radioValue={state.visitors_radio}
-        some={"Visitors who match certain data"} 
-      />
+      <Box mb={2} mt={2}>
+        <AppSegmentManager 
+          app={settings} 
+          label={"Visitors"}
+          all={"All Visitors"} 
+          namespace="visitors"
+          checked={state.visitors_enabled}
+          updateChecked={handleChange}
+          predicates={state.visitorsPredicates}
+          setPredicates={setPredicates}
+          radioValue={state.visitors_radio}
+          some={"Visitors who match certain data"} 
+        />
+      </Box>
 
       <Typography variant="caption">
         This doesn’t affect the outbound messages you send.
       </Typography>
 
+      <Grid container>
       <Button onClick={handleSubmit}
         variant={"contained"} color={"primary"}>
         Save
       </Button>
+      </Grid>
 
     </div>
   )
