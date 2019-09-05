@@ -3,16 +3,25 @@ class App < ApplicationRecord
   include Tokenable
 
   store :preferences, accessors: [ 
-  #  :notifications, 
-  #  :gather_data, 
-  #  :test_app,
-  #  :assigment_rules,
+    #  :notifications, 
+    #  :gather_data, 
+    #  :test_app,
+    #  :assigment_rules,
+    :active_messenger, 
+    :domain_url, 
+    :theme,
+    #:notifications,
+    :gather_data, 
+    #:test_app,
+    #:assigment_rules,
     :email_requirement,
     :inbound_settings,
     :timezone,
     :reply_time,
     :team_schedule
   ], coder: JSON
+
+
 
   translates :greetings, :intro, :tagline
   self.globalize_accessors :attributes => [
@@ -44,16 +53,7 @@ class App < ApplicationRecord
 
   has_many :assignment_rules
 
-  store_accessor :preferences, [
-    :active_messenger, 
-    :domain_url, 
-    #:tagline ,
-    :theme,
-    :notifications,
-    :gather_data, 
-    :test_app,
-    :assigment_rules,
-  ]
+  before_create :set_defaults
 
   accepts_nested_attributes_for :article_settings
 
@@ -238,6 +238,12 @@ class App < ApplicationRecord
   end
 
 private
+
+  def set_defaults
+    inbound_settings = {enabled: true, users: {}, visitors: {} }
+    team_schedule = []
+  end
+
   def hours_format
     h = Hash.new
     arr = self.team_schedule || []
