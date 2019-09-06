@@ -40,6 +40,10 @@ class MessengerEventsChannel < ApplicationCable::Channel
     end
   end
 
+  def request_trigger(data)
+    AppUserTriggerJob.perform_now(app_key: @app.key, user_id: @app_user.id)
+  end
+
   def track_open(data)
     @app_user.track_open(campaign_id: data["campaign_id"] )
   end
