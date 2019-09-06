@@ -29,8 +29,8 @@ class AppUserTriggerJob < ApplicationJob
           "messages":[
             {
               "app_user":{
-              "display_name":"miguel michelson",
-              "email":"miguelmichelson@gmail.com",
+              "display_name":"bot",
+              "email":"bot@chaskiq.io",
               "id":1,
               "kind":"agent"
             },

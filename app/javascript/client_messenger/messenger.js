@@ -853,7 +853,7 @@ class Messenger extends Component {
     }else{
       return <HeaderAvatar>
               
-              <img src={gravatar('bot@chaskiq.io.png')} />
+              <img src={gravatar('bot@chaskiq.io')} />
 
               <div>
                 <p>chaskiq bot</p>
