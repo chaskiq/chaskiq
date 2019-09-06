@@ -6,13 +6,14 @@ import styled from '@emotion/styled'
 import TextEditor from '../../textEditor'
 
 import graphql from '../../graphql/client'
-import {BOT_TASK, BOT_TASKS} from '../../graphql/queries'
+import {BOT_TASK, BOT_TASKS, AGENTS} from '../../graphql/queries'
 import {UPDATE_BOT_TASK} from '../../graphql/mutations'
 import ContentHeader from '../../components/ContentHeader'
 import Content from '../../components/Content'
 import FormDialog from '../../components/FormDialog'
 import Segment from './segment'
 import SettingsForm from './settings'
+import ContextMenu from '../../components/ContextMenu'
 
 import {
   Box,
@@ -27,6 +28,8 @@ import {
   ListItemText,
   Select,
   MenuItem,
+  FormControl,
+  InputLabel,
   Divider,
   Tabs,
   Tab
@@ -392,6 +395,7 @@ const BotEditor = ({match, app})=>{
 
         {
           selectedPath && <Path
+            app={app}
             path={selectedPath}
             paths={paths}
             addSectionMessage={addSectionMessage}
@@ -403,6 +407,12 @@ const BotEditor = ({match, app})=>{
             setSelectedPath={setSelectedPath}
             />
         }
+
+        <Divider/>
+
+        <Typography variant={'subtitle1'}>Follow actions</Typography>
+
+        <FollowActionsSelect app={app} />
 
       </Paper>
 
@@ -433,6 +443,113 @@ const BotEditor = ({match, app})=>{
       </Content>
     
     </div>
+  )
+}
+
+function FollowActionsSelect({app}){
+  const options = [
+    {key: "close", name: "close", value: null },
+    {key: "assign", name: "assign", value: null },
+    //{action_name: "tag", value: null },
+    //{action_name: "app_content", value: null },
+  ]
+
+  const [selectMode, setSelectMode] = useState(null)
+  const [actions, setActions] = useState([])
+
+  function renderAddButton(){
+    return <Button onClick={()=>{setSelectMode(true)}}>
+            add option
+           </Button>
+  }
+
+  function handleClick(a){
+    setActions(actions.concat(a))
+  }
+
+  function renderActions(){
+    return actions.map((o)=> renderActionType(o))
+  }
+
+  function availableOptions(){
+    if(actions.length === 0) return options
+    return options.filter((o)=> !actions.find((a)=> a.key === o.key ))
+  }
+
+  function renderActionType(action){
+    switch (action.key) {
+      case "assign":
+        return <AgentSelector app={app} key={action.key}>
+                  {action.name}
+                </AgentSelector>
+    
+      default: 
+        return <p key={action.key}>{action.name}</p>
+    }
+  }
+
+  return(
+   
+    <div>
+      {
+        selectMode  ?
+        <ContextMenu 
+          handleClick={handleClick} 
+          options={availableOptions()}
+        />
+        :  
+        renderAddButton()
+      }
+
+      {renderActions()}
+    </div>
+  )
+}
+
+function AgentSelector({app}){
+  const [selected, setSelected] = React.useState('')
+  const [agents, setAgents] = React.useState([])
+ 
+  function getAgents(){
+    graphql(AGENTS, {appKey: app.key }, {
+      success: (data)=>{
+        setAgents(data.app.agents)
+      }, 
+      error: (error)=>{
+      }
+    })
+  }
+
+  React.useEffect(() => {
+    getAgents()
+  }, [])
+
+  function handleChange(e){
+    setSelected(e.target.value)
+  }
+
+  return (
+    <FormControl>
+      <InputLabel htmlFor="agent">agent</InputLabel>
+      <Select
+        value={selected}
+        onChange={handleChange}
+        inputProps={{
+          name: 'agent',
+          id: 'agent',
+        }}
+      >
+
+        {
+          agents.map((o)=>(
+            <MenuItem value={o.id}>
+              {o.email}
+            </MenuItem>
+          ))
+        }
+
+      </Select>
+    </FormControl> 
   )
 }
 

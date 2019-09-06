@@ -26,7 +26,7 @@ import {AnchorLink} from '../shared/RouterLink'
 import { makeStyles, createStyles } from '@material-ui/styles';
 import graphql from '../graphql/client';
 import {BOT_TASK, BOT_TASKS} from '../graphql/queries'
-import {CREATE_BOT_TASK} from '../graphql/mutations'
+import {CREATE_BOT_TASK, DELETE_BOT_TASK} from '../graphql/mutations'
 
 import BotEditor from './bots/editor'
 import FormDialog from '../components/FormDialog'
@@ -44,7 +44,7 @@ const BotDataTable = ({app, match, history})=>{
   const [botTasks, setBotTasks] = useState([])
   const [openTaskForm, setOpenTaskForm] = useState(false)
   const [meta, setMeta] = useState({})
-  const init = ()=>{
+  function init(){
     graphql(BOT_TASKS, {appKey: app.key},{
       success: (data)=>{
         setBotTasks(data.app.botTasks)
@@ -57,11 +57,21 @@ const BotDataTable = ({app, match, history})=>{
 
   useEffect(init, [])
 
-  const toggleTaskForm = ()=>{
-    setOpenTaskForm(!openTaskForm)
+  function removeBotTask(o){
+    graphql(DELETE_BOT_TASK, {appKey: app.key, id: o.id},{
+      success: (data)=>{
+        const newData = botTasks.filter((item)=> (item.id != o.id))
+        setBotTasks(newData)
+      },
+      error: ()=>{
+        debugger
+      }
+    })
   }
 
-  console.log(history)
+  function toggleTaskForm(){
+    setOpenTaskForm(!openTaskForm)
+  }
 
   return (
 
@@ -93,6 +103,11 @@ const BotDataTable = ({app, match, history})=>{
                },
 
                {field: 'state', title: 'state'},
+               {field: 'actions', title: 'actions',
+                render: row => <Button onClick={()=> removeBotTask(row)}>
+                                remove
+                               </Button> 
+              },
                
              ]}
            >
