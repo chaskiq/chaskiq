@@ -468,7 +468,7 @@ class Messenger extends Component {
    }
 
   
-   clearAndGetConversations = ()=>{
+  clearAndGetConversations = ()=>{
     this.setState({ conversationsMeta: {} }, this.getConversations)
   }
 
@@ -541,20 +541,11 @@ class Messenger extends Component {
       display_mode: "conversation"
     })
 
-    /*this.createCommentOnNewConversation(null, ()=>{
+    if( this.state.appData.emailRequirement === "Always")
+      return this.requestTrigger()
 
-      this.conversationSubscriber(() => {
-        //this.precenseSubscriber()
-        this.setState({
-          conversation_messages: [],
-          display_mode: "conversation"
-        }, () => {
-          //this.conversationSubscriber() ; 
-          //this.getConversations() ;
-          this.scrollToLastItem()
-        })
-      })
-    })*/
+    if( this.state.appData.emailRequirement === "office" && !this.state.appData.inBusinessHours)
+      return this.requestTrigger()
   }
 
   displayHome = (e)=>{
@@ -728,6 +719,9 @@ class Messenger extends Component {
     }, this.scrollToLastItem)
   }
 
+  requestTrigger = ()=>{
+    App.events && App.events.perform('request_trigger', {kind: "email_requirement"})
+  }
 
   setTriggerStep = (step_index)=>{
     /*const steps = this.state.conversation.trigger.paths.map((o)=> { 
