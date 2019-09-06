@@ -212,7 +212,7 @@ RSpec.describe "Widget management", :type => :system do
 
       Capybara.within_frame(messenger_iframe){ 
         #page.has_content?("Hello") 
-        expect(page).to have_content("Hello")
+        expect(page).to have_content("Start a conversation")
       }
 
       user = app.app_users.last
@@ -249,7 +249,7 @@ RSpec.describe "Widget management", :type => :system do
 
     it "return for user user" do
       user_options = [{"attribute":"email","comparison":"contains","type":"string","value":"test"}]
-      setting_for_user(user_options: user_options)
+      setting_for_user(user_segment: "some", user_options: user_options)
       expect(app.query_segment("users")).to be_any
       visit "/tester/#{app.key}"
       prime_iframe = all("iframe").first
@@ -260,7 +260,7 @@ RSpec.describe "Widget management", :type => :system do
 
     it "no return for user" do
       user_options = [{"attribute":"email","comparison":"not_contains","type":"string","value":"test"}]
-      setting_for_user(user_options: user_options)
+      setting_for_user(user_segment: "some", user_options: user_options)
       expect(app.query_segment("users")).to_not be_any
       visit "/tester/#{app.key}"
       prime_iframe = all("iframe").first
@@ -270,7 +270,7 @@ RSpec.describe "Widget management", :type => :system do
 
     it "return for user visitor" do
       visitor_options = [{"attribute":"name","comparison":"contains","type":"string","value":"isito"}]
-      setting_for_user(visitor_options: visitor_options)
+      setting_for_user(visitor_segment: "some", visitor_options: visitor_options)
       visit "/tester/#{app.key}?sessionless=true"      
       expect(app.query_segment("visitors")).to be_any
       prime_iframe = all("iframe").first
@@ -281,7 +281,7 @@ RSpec.describe "Widget management", :type => :system do
 
     it "no return for visitor on some segment" do
       visitor_options = [{"attribute":"email","comparison":"not_contains","type":"string","value":"test"}]
-      setting_for_user(visitor_options: visitor_options)
+      setting_for_user(visitor_segment: "some", visitor_options: visitor_options)
       visit "/tester/#{app.key}?sessionless=true"
       expect(app.query_segment("visitors")).to_not be_any
       prime_iframe = all("iframe").first
@@ -290,7 +290,7 @@ RSpec.describe "Widget management", :type => :system do
 
     it "no return for visitor on disabled" do
       visitor_options = [{"attribute":"email","comparison":"not_contains","type":"string","value":"test"}]
-      setting_for_user(visitors: false, visitor_options: visitor_options)
+      setting_for_user(visitor_segment: "some", visitors: false, visitor_options: visitor_options)
       visit "/tester/#{app.key}?sessionless=true"
       expect(app.query_segment("visitors")).to_not be_any
       prime_iframe = all("iframe").first
@@ -613,7 +613,7 @@ RSpec.describe "Widget management", :type => :system do
       Capybara.within_frame(all("iframe").first){ 
         page.find("#chaskiq-prime").click 
       }
-
+      
       sleep(3)
 
       Capybara.within_frame(all("iframe").first){ 
