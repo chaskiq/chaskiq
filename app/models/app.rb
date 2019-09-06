@@ -150,6 +150,7 @@ class App < ApplicationRecord
     ap.assign_attributes(data)
     ap.last_visited_at = Time.now
     ap.subscribe! unless ap.subscribed?
+    ap.type = "AppUser"
     ap.save
     #ap.save_page_visit(page_url)
     ap

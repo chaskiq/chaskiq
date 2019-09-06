@@ -58,7 +58,7 @@ class AppUser < ApplicationRecord
   }
 
   scope :users, ->{
-    where(type: "User")
+    where(type: "AppUser")
   }
 
   def add_created_event
