@@ -37,9 +37,9 @@ private
   end
 
   def set_locale
-    I18n.locale = request.headers["HTTP_LANG"] unless request.headers["HTTP_LANG"].blank?
+    I18n.locale = request.headers["HTTP_LANG"] unless request.headers["HTTP_LANG"].blank? rescue I18n.locale
     lang = @user_data[:properties].try(:[], :lang)
-    I18n.locale = lang unless lang.blank?
+    I18n.locale = lang unless lang.blank? rescue I18n.locale   
   end
 
   def add_vistor

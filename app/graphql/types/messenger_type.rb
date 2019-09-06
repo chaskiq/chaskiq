@@ -45,6 +45,7 @@ module Types
     field :enabled_for_user, Boolean, null: true
 
     def enabled_for_user
+      return false if object.inbound_settings.blank?
       @user = context[:get_app_user].call
       k = @user.model_name.name === "AppUser" ? "users" : "visitors" 
       return if k.blank?
