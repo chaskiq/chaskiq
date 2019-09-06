@@ -49,7 +49,7 @@ module Types
       k = @user.model_name.name === "AppUser" ? "users" : "visitors" 
       return if k.blank?
       return nil unless object.inbound_settings[k]["enabled"]
-      return true if object.inbound_settings[k]["all"]
+      return true if object.inbound_settings[k]["segment"] == "all"
       object.query_segment(k).find_by(id: @user.id)
     end
 
