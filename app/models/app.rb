@@ -150,6 +150,7 @@ class App < ApplicationRecord
     ap.assign_attributes(data)
     ap.last_visited_at = Time.now
     ap.subscribe! unless ap.subscribed?
+    ap.type = "AppUser"
     ap.save
     #ap.save_page_visit(page_url)
     ap
@@ -240,8 +241,14 @@ class App < ApplicationRecord
 private
 
   def set_defaults
-    inbound_settings = {enabled: true, users: {}, visitors: {} }
-    team_schedule = []
+    self.inbound_settings = {enabled: true, users: {
+      enabled: true,
+      segment: "all"
+    }, visitors: {
+      enabled: true,
+      segment: "all"
+    } }
+    self.team_schedule = []
   end
 
   def hours_format

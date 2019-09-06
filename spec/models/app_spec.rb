@@ -27,6 +27,7 @@ RSpec.describe App, type: :model do
 
   it "create an user" do 
     app.add_user({email: "test@test.cl", first_name: "dsdsa"})
+    expect(app.app_users.users).to be_any
     expect(app.app_users.first.first_name).to be_present  
   end
 
@@ -37,6 +38,12 @@ RSpec.describe App, type: :model do
   end
 
   describe "add anonymous user" do
+    
+    it "add visitor" do
+      app.add_anonymous_user({})
+      expect(app.app_users.visitors).to be_any
+    end
+
     it "create with session" do
 
       app.add_anonymous_user({})

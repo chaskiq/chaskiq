@@ -118,7 +118,7 @@ const HomePanel = ({
     if(!appData.inBusinessHours){
       return <div>
                 {
-                  aa()
+                  appData.businessBackIn && aa()
                 }
               </div>
     }else {
@@ -127,7 +127,17 @@ const HomePanel = ({
   }
 
   function aa(){
+    const days = ["mon", "tue", "wed", "thu", "fri", "sat", "sun"]
     const val = Math.floor(appData.businessBackIn.days)
+    const at = new Date(appData.businessBackIn.at)
+    const nextDay = at.getDay()
+    const today = new Date(Date.now()).getDay()
+    const sameDay = nextDay === today
+    const nextWeek = nextDay < today
+
+    if(nextWeek) return <div>volvemos la proxima semana</div>
+    if(sameDay) return <p>{`estaremos de vuelta aproximadamente a las ${at.getHours()}hrs`}</p>
+
     switch (val) {
       case 1:
         return <div>volvemos mañana</div>
@@ -140,8 +150,6 @@ const HomePanel = ({
         return <div>volvemos la proxima semana</div>
       default:
         if(val === 0){
-          const a = new Date(appData.businessBackIn.at)
-          const sameDay = new Date(Date.now()).getDay() === a.getDay()
           if(sameDay){
             return `estaremos desde las ${a.getHours()}hrs`
           } else {
