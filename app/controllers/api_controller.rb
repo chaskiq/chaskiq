@@ -37,9 +37,9 @@ private
   end
 
   def set_locale
-    I18n.locale = request.headers["HTTP_LANG"] unless request.headers["HTTP_LANG"].blank?
+    I18n.locale = request.headers["HTTP_LANG"] unless request.headers["HTTP_LANG"].blank? rescue I18n.locale
     lang = @user_data[:properties].try(:[], :lang)
-    I18n.locale = lang unless lang.blank?
+    I18n.locale = lang unless lang.blank? rescue I18n.locale   
   end
 
   def add_vistor
@@ -54,13 +54,13 @@ private
 
   def get_user_by_email
     return nil if get_user_data[:email].blank?
-    @app.app_users.find_by(email: get_user_data[:email]) 
+    @app.app_users.users.find_by(email: get_user_data[:email]) 
   end
 
   def get_user_by_session
     session_id = request.headers["HTTP_SESSION_ID"]
     return nil if session_id.blank?
-    @app.app_users.find_by(session_id: session_id)
+    @app.app_users.visitors.find_by(session_id: session_id)
   end
 
   def authorize!
