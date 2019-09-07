@@ -19,6 +19,7 @@ const useStyles = makeStyles(theme => ({
 }));
 
 function ContextMenu(props) {
+  const {label} = props
   const classes = useStyles();
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [selectedIndex, setSelectedIndex] = React.useState({} );
@@ -44,11 +45,11 @@ function ContextMenu(props) {
           button
           aria-haspopup="true"
           aria-controls="lock-menu"
-          aria-label="Switch application"
+          aria-label={label}
           onClick={handleClickListItem}
         >
           <ListItemText 
-            primary="Switch application" 
+            primary={label} 
             //secondary={fetchApp()}
           />
         </ListItem>

@@ -3,6 +3,7 @@ module Types
     field :id, Int, null: true
     field :title, String, null: true
     field :key, String, null: true
+    field :follow_actions, Types::JsonType, null: true
     #field :predicates, Types::JsonType, null: true
     field :steps, Types::JsonType, null: true
     def steps

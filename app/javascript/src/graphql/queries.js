@@ -682,6 +682,7 @@ export const BOT_TASK = `
           id
           steps
           title
+          followActions
         }
       }
     }
