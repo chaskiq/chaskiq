@@ -31,6 +31,8 @@ import {CREATE_BOT_TASK, DELETE_BOT_TASK} from '../graphql/mutations'
 import BotEditor from './bots/editor'
 import FormDialog from '../components/FormDialog'
 
+import SettingsForm from './bots/settings'
+
 
 const useStyles = makeStyles((theme: Theme) => createStyles({
   root: {
@@ -215,17 +217,30 @@ const BotContainer = ({app, match, history})=>{
 
     <Switch>
       
-      <Route exact path={`${match.path}`}
-          render={(props) => (
-            <BotDataTable app={app} 
-            history={history}
-            match={match}/>
-        )} 
-      /> 
-
-      <Route exact path={`${match.path}/:id`}
+      <Route exact path={[`${match.path}/settings`]}
         render={(props) => (
-            <BotEditor app={app} match={match}/>
+          <SettingsForm 
+              app={app} 
+              history={history}
+              match={match}
+              {...props}
+            />
+          )} 
+      />
+
+      <Route exact path={[`${match.path}/users`, `${match.path}/leads`]}
+        render={(props) => (
+          <BotDataTable app={app} 
+              history={history}
+              match={match}
+              {...props}
+            />
+          )} 
+      />
+
+      <Route exact path={[`${match.path}/users/:id`, `${match.path}/leads/:id`]}
+        render={(props) => (
+            <BotEditor app={app} match={match} {...props}/>
         )} 
       /> 
     </Switch>
