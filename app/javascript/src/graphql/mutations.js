@@ -911,7 +911,7 @@ export const CREATE_BOT_TASK = `
         paths {
           id
           title
-          
+          followActions
         }
       }
       errors
@@ -933,6 +933,7 @@ export const UPDATE_BOT_TASK = `
           id
           title
           steps
+          followActions
         }
       }
       errors
