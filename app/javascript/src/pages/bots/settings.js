@@ -1,84 +1,127 @@
-import React, {Component} from 'react'
+import React, {Component, useState} from 'react'
 import FieldRenderer from '../../shared/FormFields'
 import {
   Grid,
-  Button
+  Button,
+  Tabs,
+  Tab,
+  Typography
 } from '@material-ui/core'
 
 import {toSnakeCase} from '../../shared/caseConverter'
 import serialize from 'form-serialize'
 
+import ContentHeader from '../../components/ContentHeader'
+import Content from '../../components/Content'
+
 const SettingsForm = ({app, data, errors, updateData}) => {
+
+  const [tabValue, setTabValue] = useState(0)
 
   let formRef 
 
-  const definitions = () => {
-    return [
-      {
-        name: "title",
-        hint: "documentation site subdomain",
-        type: 'string',
-        grid: { xs: 12, sm: 12 }
-      },
-      {
-        name: "website",
-        hint: "link to your website",
-        type: 'string',
-        grid: { xs: 12, sm: 12 }
-      },
-    ]
+  function tabsContent(){
+    return <Tabs value={tabValue} 
+              onChange={handleTabChange}
+              textColor="inherit">
+              <Tab textColor="inherit" label="For Leads" />
+              <Tab textColor="inherit" label="For Users" />
+            </Tabs>
   }
 
-  const handleUpdateData = (params, cb) => {
-    const newData = Object.assign({}, data, params)
-    updateData(newData) //, cb ? cb() : null)
+  function handleTabChange(e, i){
+    setTabValue(i)
   }
 
-  const onSubmitHandler = ()=>{
-    const serializedData = serialize(formRef, { hash: true, empty: true })
-    handleUpdateData(serializedData.bot_task)
-  }
+  const renderTabcontent = ()=>{
+    switch (tabValue){
+      case 0:
+        return <LeadsSettings/>
+      case 1:
+        return <UsersSettings/>
+    }
+  }  
 
-  return <form ref={(ref)=> formRef = ref }>
-          <Grid container spacing={3}>
-                {
-                  definitions().map((field) => {
+  return (
 
-                    return <Grid item
-                              key={field.name} 
-                              xs={field.grid.xs} 
-                              sm={field.grid.sm}>
-                              <FieldRenderer 
-                                namespace={'bot_task'} 
-                                data={field}
-                                //errorNamespace={this.props.errorNamespace}
-                                props={{data: data }} 
-                                errors={ errors }
-                              />
-                          </Grid>
-                  })
-                }
-              </Grid>
+    <div>
+      <ContentHeader 
+        title={ "dsdsfdfs" }
+        items={ [<Grid item>
+                  <Button variant={"outlined"} > save data </Button>
+                </Grid> , 
+                <Grid item>
+                  <Button color={"default"} variant={"contained"}>
+                    set live
+                  </Button>
+                </Grid>
+              ]
+            }
+        tabsContent={tabsContent()}
+      />
+
+      <Content>
+        {renderTabcontent()}
+      </Content>
+    </div>
+  )
+}
 
 
-              <Grid container justify={"space-around"}>
-
-              <Button appearance="subtle" variant={"outlined"}>
-                Cancel
-              </Button>
-
-              <Button 
-                onClick={onSubmitHandler}
-                variant="contained" 
-                color="primary">
-                Save
-              </Button>
-            </Grid>
+function UsersSettings(){
+  return (
+    <div>
+      <Typography variant={"h5"}>
+        When users start a conversation
+      </Typography>
         
-        </form>
-  
+      <Typography variant={"h6"}>
+        Leave a 2 minute delay before triggering Task Bots during office hours
+      </Typography>
+
+    </div>
+  )
+}
 
 
+function LeadsSettings(){
+  return (
+    <div>
+      <Typography variant={"h5"}>
+        When leads start a conversation
+      </Typography>
+        
+      <Typography variant={"h6"}>
+        Leave a 2 minute delay before triggering Task Bots during office hours
+      </Typography>
+
+
+      <Typography variant={"h6"}>
+        Share your typical reply time 
+      </Typography>
+      
+
+      <Typography variant={"h6"}>
+        Route existing customers to support
+      </Typography>
+
+      Route leads to the right people by asking if they are an existing customer when they start a new conversation.
+
+      What do you want to do when they choose "Yes, I'm a customer"?
+
+      Assign the conversation
+      Close the conversation
+
+
+      Ask for contact details
+
+      If we don’t already have their contact details, Operator will suggest that customers leave their email address or their phone number to get notified whenever you reply.
+      
+      Ask for email only
+      Ask for email or mobile number 
+
+    </div>
+  )
 }
 
 export default SettingsForm
