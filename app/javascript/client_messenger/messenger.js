@@ -647,7 +647,9 @@ class Messenger extends Component {
   }
 
   appendDelayed = (steps)=>{
-    const o = steps.pop()
+    //const o = steps.pop()
+    const newSteps = [...steps]
+    const o = newSteps.pop()
     //console.log(o, steps)
     if(!o) return
 
@@ -657,8 +659,6 @@ class Messenger extends Component {
       assignee: null,
       trigger: trigger,
       currentStep: o,
-      //created_at: "2019-08-13T02:40:19.650Z",
-      //id: 67,
       locked: o.controls && (o.controls.type === "ask_option" || o.controls.type === "data_retrieval"),
       mainParticipant: {
         //display_name: "visitor 8 ",
@@ -667,6 +667,8 @@ class Messenger extends Component {
         //kind: "lead" 
       }
     }
+
+    // messages & controles will never meet together
 
     const conversationMessages = o.messages.map((message)=>(
       {
@@ -693,11 +695,12 @@ class Messenger extends Component {
       this.scrollToLastItem()
 
       setTimeout(()=> {
+        if(o.controls) return
 
-        if(steps.length > 0) this.appendDraftMessage()
+        if(newSteps.length > 0) this.appendDraftMessage()
 
         setTimeout(()=> {
-          this.appendDelayed(steps)
+          this.appendDelayed(newSteps)
         }, 1000)
 
       })
@@ -1222,8 +1225,6 @@ class Conversation extends Component {
   }
 
   appPackageClickHandler = (item)=>{
-    //console.log(this.props.conversation)
-
     const paths = this.props.conversation.trigger.paths.map( 
       (path)=> path.steps.find(step => step.step_uid === item.next_step_uuid ) ? 
       path : null   
@@ -1244,31 +1245,16 @@ class Conversation extends Component {
       }
       arr.push(step)
     }
-    
-    //console.log("REV", arr)
-    /*arr.forEach(step => {
-      setTimeout(()=>{
-        this.props.appendVolatileConversation(step)
-      })
-    });*/
-
+    console.log("ARRRR", arr)
     this.props.appendVolatileConversation(arr)
   }
 
   appPackageSubmitHandler = (data, next_step_uuid)=>{
-
-    //console.log(this.props.conversation)
-
-    /*const newMessages = this.props.conversation.trigger.paths.map(
-      (o)=> o.steps.find(o => o.step_uid === next_step_uuid ))
-
-    if(newMessages && newMessages.length > 0 ){
-      this.props.appendVolatileConversation(newMessages[0])
-      this.props.submitAppUserData(data)
-    }*/
-
+    console.log(this.props.conversation.currentStep)
+    
     const path = this.props.conversation.trigger.paths.find(
-      (o)=> o.steps.find(o => o.step_uid === this.props.conversation.currentStep.step_uid ))
+      (o)=> o.steps.find(o => o.step_uid === this.props.conversation.currentStep.step_uid )
+    )
 
     const index = path.steps.map(
       (o, index)=> o.step_uid === this.props.conversation.currentStep.step_uid ? 
@@ -1278,14 +1264,8 @@ class Conversation extends Component {
     const newSteps = path.steps.slice(index + 1)
 
     this.props.submitAppUserData(data)
-
-    /*newSteps.map((step)=> setTimeout( ()=> { 
-      this.props.appendVolatileConversation(step) 
-    }, 200 ) )*/
     
     this.props.appendVolatileConversation(newSteps)
-
-    //if(newStep) this.props.appendVolatileConversation(newStep)
   }
 
   render(){
@@ -1742,7 +1722,8 @@ class AppPackageBlock extends Component {
               {
                 true ? //!this.state.done ?
               
-                <form ref={o => this.form } onSubmit={ this.sendAppPackageSubmit }>
+                <form ref={o => this.form } 
+                  onSubmit={ this.sendAppPackageSubmit }>
                   {
                     this.renderElements()
                   }

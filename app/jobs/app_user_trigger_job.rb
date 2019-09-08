@@ -16,6 +16,37 @@ class AppUserTriggerJob < ApplicationJob
 
 
   def trigger_generation
+
+    subject = ActionTriggerFactory.new
+    subject.config do |c|
+      c.path(
+        title: "request_for_email" , 
+        steps: [
+          c.message(text: "#{@app.name} will reply as soon as they can.", uuid: 1),
+          c.controls(
+            uuid: 2,
+            type: "data_retrieval",
+            schema: [
+              c.input(
+                label: "enter your email", 
+                name: "email", 
+                placeholder: "enter your email"
+              )
+            ]
+          ),
+          c.message(text: "molte gratzie", uuid: 3),
+        ],
+        follow_actions: [c.assign(10)],
+      )
+    end
+
+    subject
+
+  end
+
+
+
+=begin
     {
     id: "alo",
     title: "ask_for_email",
@@ -60,4 +91,5 @@ class AppUserTriggerJob < ApplicationJob
     predicates: []
   }
   end
+=end
 end

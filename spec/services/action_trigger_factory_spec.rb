@@ -11,10 +11,14 @@ RSpec.describe ActionTriggerFactory do
         title: "base path" , 
         steps: [
           c.message(text: "are you an existing customer ?", uuid: 1),
-          c.controls(uuid: 2, options: [
-            c.button(text: "yes", next_uuid: 2), 
-            c.button(text: "no", next_uuid: 4)
-          ])
+          c.controls(
+            uuid: 2, 
+            type: "ask_option" , 
+            schema: [
+              c.button(text: "yes", next_uuid: 2), 
+              c.button(text: "no", next_uuid: 4)
+            ]
+          )
         ],
         follow_actions: [c.assign(10)],
       )
@@ -31,7 +35,14 @@ RSpec.describe ActionTriggerFactory do
         title: "no" , 
         steps: [
           c.message(text: "uha", uuid: 4),
-          c.input(label: "email", placeholder: "email")
+          c.controls(
+            uuid: "sss",
+            type: "data_retrieval",
+            schema: [
+              c.input(label: "email", placeholder: "email")
+            ]
+          )
+          
         ],
         follow_actions: [c.assign(10)],
       )

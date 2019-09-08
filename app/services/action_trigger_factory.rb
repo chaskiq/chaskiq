@@ -33,7 +33,7 @@ class ActionTriggerFactory
     
   end
 
-  def controls(options: [], uuid:)
+  def controls(schema: [], wait_for_input: true, uuid:, type: )
     { 
       "step_uid": uuid,
       "type":"messages",
@@ -41,9 +41,9 @@ class ActionTriggerFactory
 
       ],
       "controls":{ 
-        "type":"ask_option",
-        "schema": options,
-        "wait_for_input":true
+        "type":type,
+        "schema": schema,
+        "wait_for_input":wait_for_input
       }
     }
   end
@@ -57,10 +57,11 @@ class ActionTriggerFactory
     }
   end
 
-  def input(label:, placeholder: "")
+  def input(label:, name:, placeholder: "")
     {
       element: "input",
       id: "",
+      name: name,
       label: label,
       placeholder: placeholder,
       type: "text"
