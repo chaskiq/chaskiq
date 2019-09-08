@@ -381,6 +381,17 @@ export const UPDATE_CAMPAIGN = `
   }
 `;
 
+export const DELETE_CAMPAIGN = `
+  mutation DeleteCampaign($appKey: String!, $id: Int!){
+    deleteUpdate(appKey: $appKey, id: $id){
+      errors
+      campaign {
+        id
+      }
+    }
+  }
+`;
+
 export const DELIVER_CAMPAIGN = `
   mutation DeliverCampaign($appKey: String!, $id: Int!, ){
     campaignDeliver(appKey: $appKey, id: $id){
@@ -900,7 +911,7 @@ export const CREATE_BOT_TASK = `
         paths {
           id
           title
-          
+          followActions
         }
       }
       errors
@@ -922,7 +933,22 @@ export const UPDATE_BOT_TASK = `
           id
           title
           steps
+          followActions
         }
+      }
+      errors
+    }
+  }
+`;
+
+export const DELETE_BOT_TASK = `
+  mutation DeleteBotTask($appKey: String!, $id: Int!){
+    deleteBotTask( 
+      appKey: $appKey,
+      id: $id
+    ){
+      botTask{
+        id
       }
       errors
     }

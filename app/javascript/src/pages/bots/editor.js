@@ -6,13 +6,14 @@ import styled from '@emotion/styled'
 import TextEditor from '../../textEditor'
 
 import graphql from '../../graphql/client'
-import {BOT_TASK, BOT_TASKS} from '../../graphql/queries'
+import {BOT_TASK, BOT_TASKS, AGENTS} from '../../graphql/queries'
 import {UPDATE_BOT_TASK} from '../../graphql/mutations'
 import ContentHeader from '../../components/ContentHeader'
 import Content from '../../components/Content'
 import FormDialog from '../../components/FormDialog'
 import Segment from './segment'
 import SettingsForm from './settings'
+import ContextMenu from '../../components/ContextMenu'
 
 import {
   Box,
@@ -27,6 +28,8 @@ import {
   ListItemText,
   Select,
   MenuItem,
+  FormControl,
+  InputLabel,
   Divider,
   Tabs,
   Tab
@@ -320,8 +323,6 @@ const BotEditor = ({match, app})=>{
     setTabValue(i)
   }
 
-  
-
   const tabsContent = ()=>{
     return <Tabs value={tabValue} 
               onChange={handleTabChange}
@@ -392,6 +393,7 @@ const BotEditor = ({match, app})=>{
 
         {
           selectedPath && <Path
+            app={app}
             path={selectedPath}
             paths={paths}
             addSectionMessage={addSectionMessage}
@@ -436,6 +438,179 @@ const BotEditor = ({match, app})=>{
   )
 }
 
+function FollowActionsSelect({app, path, updatePath}){
+  const options = [
+    {key: "close", name: "close", value: null },
+    {key: "assign", name: "assign", value: null },
+    //{action_name: "tag", value: null },
+    //{action_name: "app_content", value: null },
+  ]
+
+  const [selectMode, setSelectMode] = useState(null)
+  const [actions, setActions] = useState(path.followActions || [])
+
+  useEffect(()=>{
+    updateData()
+  }, [actions])
+
+  function updateData(){
+    if(!path) return 
+    const newPath = Object.assign({}, path, {follow_actions: actions})
+    updatePath(newPath)
+  }
+
+  function renderAddButton(){
+    return <Button onClick={()=>{setSelectMode(true)}}>
+            add option
+           </Button>
+  }
+
+  function handleClick(a){
+    setActions(actions.concat(a))
+  }
+
+  function renderActions(){
+    return actions.map((o, i)=> renderActionType(o, i))
+  }
+
+  function availableOptions(){
+    if(actions.length === 0) return options
+    return options.filter((o)=> !actions.find((a)=> a.key === o.key ))
+  }
+
+  function updateAction(action, index){
+    const newActions = actions.map((o,i)=> i === index ? action : o )
+    setActions(newActions)
+  }
+
+  function removeAction(index){
+    const newActions = actions.filter((o,i)=> i != index )
+    setActions(newActions)
+  }
+
+  function renderActionType(action, i){
+    switch (action.key) {
+      case "assign":
+        return <AgentSelector app={app} 
+                              index={i}
+                              action={action}
+                              updateAction={updateAction}
+                              removeAction={removeAction}
+                              key={action.key}>
+                  {action.name}
+                </AgentSelector>
+    
+      default: 
+        return <div>
+                <p key={action.key}>{action.name}</p>
+                <Button onClick={()=> removeAction(i)}>
+                  remove
+                </Button> 
+               </div>
+    }
+  }
+
+  return(
+   
+    <div>
+      {renderActions()}
+
+      {
+        selectMode  ?
+        <ContextMenu
+          label={"add action"} 
+          handleClick={handleClick} 
+          actions={actions}
+          options={availableOptions()}
+        />
+        :  
+        renderAddButton()
+      }
+
+      
+    </div>
+  )
+}
+
+function AgentSelector({app, updateAction, removeAction, action, index}){
+  const [selected, setSelected] = React.useState('')
+  const [agents, setAgents] = React.useState([])
+  const [mode, setMode] = React.useState("button")
+ 
+  function getAgents(){
+    graphql(AGENTS, {appKey: app.key }, {
+      success: (data)=>{
+        setAgents(data.app.agents)
+      }, 
+      error: (error)=>{
+      }
+    })
+  }
+
+  React.useEffect(() => {
+    getAgents()
+  }, [])
+
+  useEffect(()=>{
+    const agent = agents.find((o)=> selected === o.id)
+    updateAction(Object.assign({}, action, {value: agent && agent.id}), index)
+  }, [selected])
+
+  function handleChange(e){
+    setSelected(e.target.value)
+    setMode("button")
+  }
+
+  function selectedAgent(){
+    const agent = agents.find((o)=> selected === o.id)
+    if(!agent) return ""
+    return agent.name || agent.email
+  }
+
+  return (
+    <div>
+
+    {
+      mode === "select" ?
+      <FormControl>
+        <InputLabel htmlFor="agent">agent</InputLabel>
+        <Select
+          value={selected}
+          onChange={handleChange}
+          inputProps={{
+            name: 'agent',
+            id: 'agent',
+          }}
+        >
+
+          {
+            agents.map((o)=>(
+              <MenuItem value={o.id}>
+                {o.email}
+              </MenuItem>
+            ))
+          }
+
+        </Select>
+      </FormControl> : 
+
+      <div>
+
+        <Button onClick={()=> setMode('select')}>
+          assign: {selectedAgent(selected)}
+        </Button> 
+
+        <Button onClick={()=> removeAction(index)}>
+          remove
+        </Button> 
+
+      </div>
+    }
+
+    </div>
+  )
+}
+
 const PathList = ({path, handleSelection})=>{
   return <ListItem button onClick={(e)=> handleSelection(path)}>
           <ListItemText primary={path.title} />
@@ -451,7 +626,8 @@ const Path = ({
   updatePath,
   setPaths,
   saveData,
-  setSelectedPath
+  setSelectedPath,
+  app
 })=>{
 
   const addStepMessage = (path)=>{
@@ -549,7 +725,15 @@ const Path = ({
   
       </Grid>
 
-      </Box>
+      <Divider/>
+
+      <Typography variant={'subtitle1'}>Follow actions</Typography>
+
+      <FollowActionsSelect app={app} 
+        updatePath={updatePath}
+        path={path} />
+
+    </Box>
 
   )
 }

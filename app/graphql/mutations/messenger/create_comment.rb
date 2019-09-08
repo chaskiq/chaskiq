@@ -9,10 +9,6 @@ module Mutations
       argument :app_user_id, Integer, required: true
 
       def resolve(conversation_id:)
-        
-        binding.pry
-        
-
         @user = context[:get_app_user].call
 
         @conversation = conversation(conversation_id)
