@@ -7,41 +7,12 @@ class AppUserTriggerJob < ApplicationJob
     app_user = @app.app_users.find(user_id)
 
     key = "#{@app.key}-#{app_user.session_id}"
-
+    trigger = ActionTriggerFactory.request_for_email(app: @app)
+    
     MessengerEventsChannel.broadcast_to(key, {
       type: "triggers:receive", 
-      data: trigger_generation
+      data: {trigger: trigger, step: trigger.paths.first[:steps].first }
     }.as_json) if @app.bot_tasks.any?
-  end
-
-
-  def trigger_generation
-
-    subject = ActionTriggerFactory.new
-    subject.config do |c|
-      c.path(
-        title: "request_for_email" , 
-        steps: [
-          c.message(text: "#{@app.name} will reply as soon as they can.", uuid: 1),
-          c.controls(
-            uuid: 2,
-            type: "data_retrieval",
-            schema: [
-              c.input(
-                label: "enter your email", 
-                name: "email", 
-                placeholder: "enter your email"
-              )
-            ]
-          ),
-          c.message(text: "molte gratzie", uuid: 3),
-        ],
-        follow_actions: [c.assign(10)],
-      )
-    end
-
-    subject
-
   end
 
 

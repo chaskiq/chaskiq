@@ -1,6 +1,9 @@
 class ActionTriggerFactory 
 
+  attr_accessor :id, :after_delay, :paths
+
   def initialize
+    @id
     @paths = []
   end
   
@@ -86,6 +89,35 @@ class ActionTriggerFactory
 
   def to_obj
     JSON.parse(self.to_json, object_class: OpenStruct)
+  end
+
+  def self.request_for_email(app:)
+    subject = ActionTriggerFactory.new
+    subject.config do |c|
+      c.id = "request_for_email"
+      c.after_delay = 2
+      c.path(
+        title: "request_for_email" , 
+        steps: [
+          c.message(text: "#{app.name} will reply as soon as they can.", uuid: 1),
+          c.controls(
+            uuid: 2,
+            type: "data_retrieval",
+            schema: [
+              c.input(
+                label: "enter your email", 
+                name: "email", 
+                placeholder: "enter your email"
+              )
+            ]
+          ),
+          c.message(text: "molte gratzie", uuid: 3),
+        ],
+        follow_actions: [c.assign(10)],
+      )
+    end
+
+    subject
   end
 
 

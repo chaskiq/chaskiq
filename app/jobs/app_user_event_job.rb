@@ -14,9 +14,11 @@ class AppUserEventJob < ApplicationJob
       data: @tours.as_json(only: [:id], methods: [:steps, :url])
     }.as_json) if @tours.any?
 
+    bot_task = @app.bot_tasks.first
+
     MessengerEventsChannel.broadcast_to(key, {
       type: "triggers:receive", 
-      data: @app.bot_tasks.first
+      data: {trigger: bot_task, step: bot_task.paths.first["steps"].first }
     }.as_json) if @app.bot_tasks.any?
 
 
