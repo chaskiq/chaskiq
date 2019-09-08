@@ -61,6 +61,7 @@ module Types
 
     field :createBotTask, mutation: Mutations::Bots::CreateBotTask
     field :updateBotTask, mutation: Mutations::Bots::UpdateBotTask
+    field :deleteBotTask, mutation: Mutations::Bots::DeleteBotTask
 
   end
 end

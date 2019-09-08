@@ -7,15 +7,17 @@ class AppUserTriggerJob < ApplicationJob
     app_user = @app.app_users.find(user_id)
 
     key = "#{@app.key}-#{app_user.session_id}"
-
+    trigger = ActionTriggerFactory.request_for_email(app: @app)
+    
     MessengerEventsChannel.broadcast_to(key, {
       type: "triggers:receive", 
-      data: trigger_generation
+      data: {trigger: trigger, step: trigger.paths.first[:steps].first }
     }.as_json) if @app.bot_tasks.any?
   end
 
 
-  def trigger_generation
+
+=begin
     {
     id: "alo",
     title: "ask_for_email",
@@ -60,4 +62,5 @@ class AppUserTriggerJob < ApplicationJob
     predicates: []
   }
   end
+=end
 end
