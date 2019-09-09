@@ -27,12 +27,16 @@ import Content from '../../components/Content'
 
 import graphql from '../../graphql/client'
 import {AGENTS} from '../../graphql/queries'
+import {UPDATE_APP} from '../../graphql/mutations'
 
-const SettingsForm = ({app, data, errors, updateData}) => {
+import { 
+  updateApp
+} from '../../actions/app'
+
+const SettingsForm = ({app, data, errors, dispatch}) => {
 
   const [tabValue, setTabValue] = useState(0)
   const [state, setState] = useState({})
-
   const [agents, setAgents] = useState([])
 
   function getAgents(){
@@ -56,6 +60,10 @@ const SettingsForm = ({app, data, errors, updateData}) => {
             </Tabs>
   }
 
+  function submit(params){
+    dispatch(updateApp(params))
+  }
+
   function handleTabChange(e, i){
     setTabValue(i)
   }
@@ -68,15 +76,21 @@ const SettingsForm = ({app, data, errors, updateData}) => {
     switch (tabValue){
       case 0:
         return <LeadsSettings 
+                  app={app}
                   updateData={updateState} 
                   agents={agents} 
                   getAgents={getAgents}
+                  submit={submit}
+                  namespace={"lead_tasks_settings"}
                 />
       case 1:
         return <UsersSettings 
+                  app={app}
                   updateData={updateState}
                   agents={agents} 
                   getAgents={getAgents}
+                  submit={submit}
+                  namespace={"user_tasks_settings"}
               />
     }
   }
@@ -107,11 +121,8 @@ const SettingsForm = ({app, data, errors, updateData}) => {
   )
 }
 
-
-function UsersSettings({updateData}){
-  const [state, setState] = React.useState({
-    delay: true,
-  });
+function UsersSettings({app, updateData, namespace, submit}){
+  const [state, setState] = React.useState(app.userTasksSettings ||{});
 
   useEffect(()=>{
     updateData({users: state})
@@ -120,6 +131,11 @@ function UsersSettings({updateData}){
   const handleChange = name => event => {
     setState({ ...state, [name]: event.target.checked });
   };
+
+  function submitData(){
+    const data = {[namespace]: state}
+    submit(data)
+  }
 
   return (
     <div>
@@ -135,19 +151,15 @@ function UsersSettings({updateData}){
         label="Leave a 2 minute delay before triggering Task Bots during office hours"
       />
 
+      <Button onClick={submitData}>save</Button>
+
     </div>
   )
 }
 
+function LeadsSettings({app, updateData, agents, getAgents, submit, namespace}){
 
-function LeadsSettings({updateData, agents, getAgents}){
-
-  const [state, setState] = React.useState({
-    delay: true,
-    routing: true,
-    email_requirement: true,
-    assignee: ""
-  });
+  const [state, setState] = React.useState(app.leadTasksSettings || {} );
 
   useEffect(()=>{
     updateData({leads: state})
@@ -163,6 +175,11 @@ function LeadsSettings({updateData, agents, getAgents}){
 
   const setValue = (name, value)=>{
     setState({ ...state, [name]: value });
+  }
+
+  function submitData(){
+    const data = {[namespace]: state}
+    submit(data)
   }
 
   return (
@@ -238,8 +255,6 @@ function LeadsSettings({updateData, agents, getAgents}){
         </RadioGroup>
       </FormControl>
 
-
-
       <Divider/>
 
       <Typography variant={"h5"}>
@@ -273,6 +288,8 @@ function LeadsSettings({updateData, agents, getAgents}){
           />
         </RadioGroup>
       </FormControl>
+
+      <Button onClick={submitData}>save</Button>
 
     </div>
   )

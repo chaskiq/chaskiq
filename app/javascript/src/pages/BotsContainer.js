@@ -210,7 +210,7 @@ const BotTaskCreate = ({app, submit, history, match})=>{
   )
 }
 
-const BotContainer = ({app, match, history})=>{
+const BotContainer = ({app, match, history, dispatch})=>{
   console.log(history)
 
   return  (
@@ -223,6 +223,7 @@ const BotContainer = ({app, match, history})=>{
               app={app} 
               history={history}
               match={match}
+              dispatch={dispatch}
               {...props}
             />
           )} 

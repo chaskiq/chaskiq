@@ -16,6 +16,8 @@ class App < ApplicationRecord
     #:assigment_rules,
     :email_requirement,
     :inbound_settings,
+    :lead_tasks_settings,
+    :user_tasks_settings,
     :timezone,
     :reply_time,
     :team_schedule

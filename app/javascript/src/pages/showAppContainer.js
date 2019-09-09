@@ -416,7 +416,6 @@ class ShowAppContainer extends Component {
                   <BotContainer
                     history={props.history}
                     currentUser={this.props.current_user}
-                    actions={this.actions()}
                     classes={props.classes}
                     {...props}
                   />

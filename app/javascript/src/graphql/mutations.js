@@ -17,6 +17,8 @@ export const UPDATE_APP = `
         replyTime
         inboundSettings
         emailRequirement
+        leadTasksSettings
+        userTasksSettings
         segments {
           name
           id
@@ -71,11 +73,12 @@ export const CREATE_APP = `
         timezone
         inboundSettings
         emailRequirement
+        leadTasksSettings
+        userTasksSettings
       }
     }
   }
 `;
-
 
 export const APP_USER_UPDATE_STATE = `
 
