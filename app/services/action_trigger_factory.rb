@@ -164,5 +164,29 @@ class ActionTriggerFactory
     subject
   end
 
+  def self.typical_reply_time(app:)
+    subject = ActionTriggerFactory.new
+    subject.config do |c|
+      c.id = "typical_reply_time"
+      c.after_delay = 2
+      c.path(
+        title: "typical_reply_time" , 
+        steps: [
+          c.message(text: "Hi, #{@app.name} will reply as soon as they can.", uuid: 1),
+        ]
+      )
+    end
+    subject
+  end
+
+  def reply_options
+    [
+      {value: "auto", label: "Automatic reply time. Currently El equipo responderá lo antes posible"}, 
+      {value: "minutes", label: "El equipo suele responder en cuestión de minutos."},
+      {value: "hours", label: "El equipo suele responder en cuestión de horas."},
+      {value: "1 day", label: "El equipo suele responder en un día."},
+    ]
+  end
+
 
 end

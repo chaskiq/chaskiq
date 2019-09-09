@@ -26,6 +26,8 @@ export const APP = `
       replyTime
       inboundSettings
       emailRequirement
+      leadTasksSettings
+      userTasksSettings
       segments {
         name
         id

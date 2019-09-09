@@ -102,18 +102,18 @@ class MessengerEventsChannel < ApplicationCable::Channel
     data["trigger"]
 
     case data["trigger"]
-    when "request_for_email"
-      trigger = ActionTriggerFactory.request_for_email(app: @app)
-      return trigger
-    when "route_support"
-      trigger = ActionTriggerFactory.route_support(app: @app)
-      return trigger
-    #  
-    else
-     Error.new("template not found") 
+      when "request_for_email"
+        trigger = ActionTriggerFactory.request_for_email(app: @app)
+        return trigger
+      when "route_support"
+        trigger = ActionTriggerFactory.route_support(app: @app)
+        return trigger
+      when "typical_reply_time"
+        trigger = ActionTriggerFactory.typical_reply_time(app: @app)
+        return trigger
+      else
+      Error.new("template not found") 
     end
-
-    
 
   end
 

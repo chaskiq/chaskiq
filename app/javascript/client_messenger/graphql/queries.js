@@ -13,6 +13,8 @@ export const PING = `
         inboundSettings
         emailRequirement
         businessBackIn
+        leadTasksSettings
+        userTasksSettings
         articleSettings{
           subdomain
         }
