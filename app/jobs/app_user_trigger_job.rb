@@ -7,7 +7,8 @@ class AppUserTriggerJob < ApplicationJob
     app_user = @app.app_users.find(user_id)
 
     key = "#{@app.key}-#{app_user.session_id}"
-    trigger = ActionTriggerFactory.request_for_email(app: @app)
+    # route_support
+    trigger = ActionTriggerFactory.route_support(app: @app)
     
     MessengerEventsChannel.broadcast_to(key, {
       type: "triggers:receive", 
@@ -15,52 +16,4 @@ class AppUserTriggerJob < ApplicationJob
     }.as_json) if @app.bot_tasks.any?
   end
 
-
-
-=begin
-    {
-    id: "alo",
-    title: "ask_for_email",
-    paths: [
-      {"id":"31e992bd-cff3-42ff-9d10-06c891dd58eb",
-      "title":"request_for_email",
-      "steps":[
-        {
-          "step_uid":"fde0229a-f9d5-486b-a50b-a97a3dffd38a",
-          "type":"messages",
-          "messages":[
-            {
-              "app_user":{
-              "display_name":"bot",
-              "email":"bot@chaskiq.io",
-              "id":1,
-              "kind":"agent"
-            },
-            "serialized_content":"{\"blocks\":[{\"key\":\"9oe8n\",\"text\":\"#{@app.name} will reply as soon as they can.\\n\\n\",\"type\":\"unstyled\",\"depth\":0,\"inlineStyleRanges\":[],\"entityRanges\":[],\"data\":{}},{\"key\":\"fka2j\",\"text\":\"Give the team a way to reach you:\",\"type\":\"unstyled\",\"depth\":0,\"inlineStyleRanges\":[],\"entityRanges\":[],\"data\":{}}],\"entityMap\":{}}",
-            "html_content":"hola"}
-          ]
-        },
-        {
-          "step_uid":"01df0852-523d-4055-9a55-57c8b1b34a89",
-          "messages":[],
-          "controls":{
-            "type":"data_retrieval",
-            "schema":[
-              {"id":"704abeec-5906-498b-8377-be4852031b08",
-                "element":"input",
-                "type":"text",
-                "placeholder":"enter email",
-                "name":"email",
-                "label":"enter your email"
-              }
-            ]
-          }
-        }
-      ]
-      }
-    ],
-    predicates: []
-  }
-  end
-=end
 end

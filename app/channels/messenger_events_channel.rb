@@ -105,7 +105,9 @@ class MessengerEventsChannel < ApplicationCable::Channel
     when "request_for_email"
       trigger = ActionTriggerFactory.request_for_email(app: @app)
       return trigger
-    #when 
+    when "route_support"
+      trigger = ActionTriggerFactory.route_support(app: @app)
+      return trigger
     #  
     else
      Error.new("template not found") 

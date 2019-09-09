@@ -51,11 +51,10 @@ class ActionTriggerFactory
     }
   end
 
-  def button(text: , next_uuid:)
-    { 
-      "id":"a67d247d-7b81-4f87-b172-e8b87371d921",
+  def button(label: , next_uuid: )
+    {
       "element":"button",
-      "label": text,
+      "label": label,
       "next_step_uuid": next_uuid
     }
   end
@@ -114,6 +113,51 @@ class ActionTriggerFactory
           c.message(text: "molte gratzie", uuid: 3),
         ],
         follow_actions: [c.assign(10)],
+      )
+    end
+
+    subject
+  end
+
+
+  def self.route_support(app:)
+    subject = ActionTriggerFactory.new
+    subject.config do |c|
+      c.id = "route_support"
+      c.after_delay = 2
+      c.path(
+        title: "route_support" , 
+        steps: [
+          c.message(text: "Hi can we help?, are you an existing customer ?.", uuid: 1),
+          c.controls(
+            uuid: 2,
+            type: "ask_option",
+            schema: [
+              c.button(
+                label: "i'm existing customer", 
+                next_uuid: 3,
+              ),
+              c.button(
+                label: "no , i'm not an existing customer", 
+                next_uuid: 4,
+              )
+            ]
+          )
+        ]
+      )
+      c.path(
+        title: "yes",
+        steps: [
+          c.message(text: "that's great!", uuid: 3)
+        ],
+        follow_actions: [c.assign(10)]
+      )
+      c.path(
+        title: "no",
+        steps: [
+          c.message(text: "oh , that sad :(", uuid: 4)
+        ],
+        follow_actions: [c.assign(10)]
       )
     end
 
