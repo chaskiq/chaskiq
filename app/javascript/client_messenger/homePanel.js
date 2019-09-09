@@ -151,9 +151,9 @@ const HomePanel = ({
       default:
         if(val === 0){
           if(sameDay){
-            return `estaremos desde las ${a.getHours()}hrs`
+            return `estaremos desde las ${at.getHours()}hrs`
           } else {
-            return `estaremos mañana a las ${a.getHours()}hrs`
+            return `estaremos mañana a las ${at.getHours()}hrs`
           }
         }
         return <p>dont now?</p>

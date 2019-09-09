@@ -32,7 +32,7 @@ class MessengerEventsChannel < ApplicationCable::Channel
   end
 
   def receive_conversation_part(data)
-    @conversation = @app.conversations.find(data["conversation_id"])
+    @conversation = @app.conversations.find_by(key: data["conversation_id"])
     message = @conversation.messages.find(data["message_id"])
     if message.authorable != @app_user
       message.read!

@@ -407,7 +407,7 @@ class Messenger extends Component {
   }
 
   insertComment =(comment, cb)=>{
-    if(this.state.conversation.id){
+    if(this.state.conversation.key){
       this.createComment(comment, cb)
     }else{
       this.createCommentOnNewConversation(comment, cb)
@@ -688,7 +688,7 @@ class Messenger extends Component {
         if(o.controls) return
 
         App.events && App.events.perform('received_trigger_step', {
-          conversation: conversation.id,
+          conversation: conversation.key,
           trigger: trigger.id,
           step: step.step_uid
         })
@@ -784,6 +784,7 @@ class Messenger extends Component {
 
   requestTrigger = ()=>{
     App.events && App.events.perform('request_trigger', {kind: "email_requirement"})
+    this.appendDraftMessage()
   }
 
   /*setTriggerStep = (step_index)=>{
@@ -1191,7 +1192,7 @@ class Conversation extends Component {
 
     //if (element.scrollTop <= 50) { // on almost top // todo skip on xhr loading
       if (this.props.conversation_messagesMeta.next_page)
-        this.props.setConversation(this.props.conversation.id)
+        this.props.setConversation(this.props.conversation.key)
     } else {
       this.props.updateHeader(
         {
@@ -1293,18 +1294,20 @@ class Conversation extends Component {
 
   appPackageClickHandler = (item)=>{
     App.events && App.events.perform('trigger_step', {
-      conversation: this.props.conversation.id,
+      conversation: this.props.conversation.key,
       trigger: this.props.conversation.trigger.id,
       step: item.next_step_uuid
     })
+    
   }
 
   appPackageSubmitHandler = (data, next_step_uuid)=>{
     App.events && App.events.perform('received_trigger_step', {
-      conversation: this.props.conversation.id,
+      conversation: this.props.conversation.key,
       trigger: this.props.conversation.trigger.id,
       step: this.props.conversation.currentStep.step_uid
     })
+    
   }
 
   render(){
@@ -1672,7 +1675,7 @@ class MessageItemWrapper extends Component {
     if(!this.props.data.volatile && !this.props.data.readAt && this.props.data.appUser.kind != "app_user"){
       App.events && App.events.perform("receive_conversation_part", 
         Object.assign({}, {
-          conversation_id: this.props.conversation.id,
+          conversation_id: this.props.conversation.key,
           message_id: this.props.data.id
         }, {email: this.props.email})
       )

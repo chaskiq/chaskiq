@@ -117,6 +117,7 @@ export const START_CONVERSATION = `
     startConversation(appKey: $appKey, id: $id, message: $message){
       conversation{
         id
+        key
         state 
         readAt
         priority
