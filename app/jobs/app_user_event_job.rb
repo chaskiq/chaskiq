@@ -16,10 +16,10 @@ class AppUserEventJob < ApplicationJob
 
     bot_task = @app.bot_tasks.first
 
-    MessengerEventsChannel.broadcast_to(key, {
-      type: "triggers:receive", 
-      data: {trigger: bot_task, step: bot_task.paths.first["steps"].first }
-    }.as_json) if @app.bot_tasks.any?
+    #MessengerEventsChannel.broadcast_to(key, {
+    #  type: "triggers:receive", 
+    #  data: {trigger: bot_task, step: bot_task.paths.first["steps"].first }
+    #}.as_json) if @app.bot_tasks.any?
 
 
     @messages = @app.user_auto_messages.availables_for(app_user)
