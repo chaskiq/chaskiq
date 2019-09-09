@@ -784,6 +784,7 @@ class Messenger extends Component {
 
   requestTrigger = ()=>{
     App.events && App.events.perform('request_trigger', {kind: "email_requirement"})
+    this.appendDraftMessage()
   }
 
   /*setTriggerStep = (step_index)=>{
@@ -1297,6 +1298,7 @@ class Conversation extends Component {
       trigger: this.props.conversation.trigger.id,
       step: item.next_step_uuid
     })
+    
   }
 
   appPackageSubmitHandler = (data, next_step_uuid)=>{
@@ -1305,6 +1307,7 @@ class Conversation extends Component {
       trigger: this.props.conversation.trigger.id,
       step: this.props.conversation.currentStep.step_uid
     })
+    
   }
 
   render(){
