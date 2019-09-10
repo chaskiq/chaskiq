@@ -544,11 +544,17 @@ class Messenger extends Component {
       display_mode: "conversation"
     })
 
-    if( this.state.appData.emailRequirement === "Always")
-      return this.requestTrigger()
+    if(this.state.appData.userTasksSettings && this.state.appData.userTasksSettings.share_typical_time && this.props.kind === "AppUser" )
+      this.requestTrigger("typical_reply_time")
+
+    if(this.state.appData.leadTasksSettings && this.state.appData.leadTasksSettings.share_typical_time && this.props.kind === "Lead" )
+      this.requestTrigger("typical_reply_time")
+
+    if( this.state.appData.emailRequirement === "Always" && this.props.kind === "Lead")
+      return this.requestTrigger("request_for_email")
 
     if( this.state.appData.emailRequirement === "office" && !this.state.appData.inBusinessHours)
-      return this.requestTrigger()
+      return this.requestTrigger("request_for_email")
   }
 
   displayHome = (e)=>{
@@ -782,8 +788,10 @@ class Messenger extends Component {
     }, this.scrollToLastItem)
   }
 
-  requestTrigger = ()=>{
-    App.events && App.events.perform('request_trigger', {kind: "email_requirement"})
+  requestTrigger = (kind)=>{
+    App.events && App.events.perform('request_trigger', {
+      trigger_id: kind
+    })
     this.appendDraftMessage()
   }
 
@@ -1777,7 +1785,7 @@ class AppPackageBlock extends Component {
 }
 
 
-export default class Hermessenger {
+export default class ChaskiqMessenger {
 
   constructor(props){
     this.props = props
@@ -1786,12 +1794,12 @@ export default class Hermessenger {
   render(){
     //document.addEventListener('DOMContentLoaded', () => {
       var g = document.createElement('div');
-      g.setAttribute("id", "hermessengerRoot");
+      g.setAttribute("id", "ChaskiqMessengerRoot");
       document.body.appendChild(g);
 
       ReactDOM.render(
         <Messenger {...this.props} />,
-        document.getElementById("hermessengerRoot")
+        document.getElementById("ChaskiqMessengerRoot")
       ) 
     //})
   }
