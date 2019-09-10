@@ -179,6 +179,57 @@ class ActionTriggerFactory
     subject
   end
 
+  def self.infer_for(app: , user:)
+
+    kind = user.model_name.name
+
+    subject = ActionTriggerFactory.new
+    subject.config do |c|
+      c.id = "infer"
+      c.after_delay = 2
+
+      path_messages = []
+
+      if app.user_tasks_settings["share_typical_time"] && kind === "AppUser" || 
+        app.lead_tasks_settings["share_typical_time"] && kind === "Lead"
+        
+        path_messages << [
+            c.message(text: "Hi, #{app.name} will reply as soon as they can.", uuid: 1),
+          ]
+        
+      end
+
+      if app.email_requirement === "Always" && kind === "Lead" ||
+        app.email_requirement === "office" && app.in_business_hours?( Time.current )
+        path_messages << [
+            c.message(text: "give us a way to reach you.", uuid: 2),
+            c.controls(
+              uuid: 3,
+              type: "data_retrieval",
+              schema: [
+                c.input(
+                  label: "enter your email", 
+                  name: "email", 
+                  placeholder: "enter your email"
+                )
+              ]
+            ),
+            c.message(text: "molte gratzie", uuid: 4),
+          ]
+
+      end
+
+      c.path(
+        title: "typical_reply_time" , 
+        steps: path_messages.flatten! 
+      )
+
+    end
+
+    subject
+
+  end
+
   def reply_options
     [
       {value: "auto", label: "Automatic reply time. Currently El equipo responderá lo antes posible"}, 

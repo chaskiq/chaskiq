@@ -544,7 +544,7 @@ class Messenger extends Component {
       display_mode: "conversation"
     })
 
-    if(this.state.appData.userTasksSettings && this.state.appData.userTasksSettings.share_typical_time && this.props.kind === "AppUser" )
+    /*if(this.state.appData.userTasksSettings && this.state.appData.userTasksSettings.share_typical_time && this.props.kind === "AppUser" )
       this.requestTrigger("typical_reply_time")
 
     if(this.state.appData.leadTasksSettings && this.state.appData.leadTasksSettings.share_typical_time && this.props.kind === "Lead" )
@@ -554,7 +554,9 @@ class Messenger extends Component {
       return this.requestTrigger("request_for_email")
 
     if( this.state.appData.emailRequirement === "office" && !this.state.appData.inBusinessHours)
-      return this.requestTrigger("request_for_email")
+      return this.requestTrigger("request_for_email")*/
+
+      this.requestTrigger("infer")
   }
 
   displayHome = (e)=>{
@@ -790,7 +792,7 @@ class Messenger extends Component {
 
   requestTrigger = (kind)=>{
     App.events && App.events.perform('request_trigger', {
-      trigger_id: kind
+      trigger: kind
     })
     this.appendDraftMessage()
   }
