@@ -99,22 +99,14 @@ const SettingsForm = ({app, data, errors, dispatch}) => {
 
     <div>
       <ContentHeader 
-        title={ "dsdsfdfs" }
-        items={ [<Grid item key="save">
-                  <Button variant={"outlined"} > save data </Button>
-                </Grid> , 
-                <Grid item key={"set-live"}>
-                  <Button color={"default"} variant={"contained"}>
-                    set live
-                  </Button>
-                </Grid>
-              ]
+        title={ "Bot default settings" }
+        items={ []
             }
         tabsContent={tabsContent()}
       />
 
       <Content>
-        {JSON.stringify(state)}
+        {/*JSON.stringify(state)*/}
         {renderTabcontent()}
       </Content>
     </div>
