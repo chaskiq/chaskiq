@@ -184,45 +184,67 @@ class ActionTriggerFactory
     kind = user.model_name.name
 
     subject = ActionTriggerFactory.new
+    
     subject.config do |c|
       c.id = "infer"
       c.after_delay = 2
 
       path_messages = []
+      follow_actions = []
 
-      if app.user_tasks_settings["share_typical_time"] && kind === "AppUser" || 
-        app.lead_tasks_settings["share_typical_time"] && kind === "Lead"
-        
+      email_requirement = [
+        c.message(text: "give us a way to reach you.", uuid: 2),
+        c.controls(
+          uuid: 3,
+          type: "data_retrieval",
+          schema: [
+            c.input(
+              label: "enter your email", 
+              name: "email", 
+              placeholder: "enter your email"
+            )
+          ]
+        ),
+        c.message(text: "molte gratzie", uuid: 4),
+      ]
+
+      if app.user_tasks_settings["share_typical_time"] && kind === "AppUser"
         path_messages << [
             c.message(text: "Hi, #{app.name} will reply as soon as they can.", uuid: 1),
           ]
-        
       end
 
-      if app.email_requirement === "Always" && kind === "Lead" ||
-        app.email_requirement === "office" && app.in_business_hours?( Time.current )
+      if app.email_requirement === "Always" && kind === "Lead" 
+
         path_messages << [
-            c.message(text: "give us a way to reach you.", uuid: 2),
-            c.controls(
-              uuid: 3,
-              type: "data_retrieval",
-              schema: [
-                c.input(
-                  label: "enter your email", 
-                  name: "email", 
-                  placeholder: "enter your email"
-                )
-              ]
-            ),
-            c.message(text: "molte gratzie", uuid: 4),
-          ]
+          c.message(text: "Hi, #{app.name} will reply as soon as they can.", uuid: 1),
+        ]
+
+        if app.email_requirement === "Always"
+          path_messages << email_requirement
+        end
+
+        if app.email_requirement === "office" && app.in_business_hours?( Time.current )
+          path_messages << email_requirement
+        end
+
+        if routing = app.lead_tasks_settings["routing"].present?
+          follow_actions << c.close() if routing == "close"
+          follow_actions << c.assign(10) if routing == "assign"
+        end
 
       end
 
-      c.path(
+      path_options = {
         title: "typical_reply_time" , 
-        steps: path_messages.flatten! 
-      )
+        steps: path_messages.flatten!, 
+      }
+
+      path_options.merge({
+        follow_actions: follow_actions
+      })
+
+      c.path(path_options)
 
     end
 
