@@ -64,13 +64,14 @@ class MessengerEventsChannel < ApplicationCable::Channel
     AppUserTriggerJob.perform_now({
         app_key: @app.key, 
         user_id: @app_user.id, 
-        trigger_id: data["trigger_id"]
+        trigger_id: data["trigger"]
       }
     )
   end
 
   def received_trigger_step(data)
     trigger = @app.bot_tasks.find(data["trigger"]) rescue find_factory_template(data)
+
     path = trigger.paths.find{|o| 
         o.with_indifferent_access["steps"].find{|a| a["step_uid"] === data["step"] 
       }.present? 
@@ -108,6 +109,8 @@ class MessengerEventsChannel < ApplicationCable::Channel
     data["trigger"]
 
     case data["trigger"]
+      when "infer"
+        trigger = ActionTriggerFactory.infer_for(app: @app, user: @app_user )
       when "request_for_email"
         trigger = ActionTriggerFactory.request_for_email(app: @app)
         return trigger
@@ -120,6 +123,7 @@ class MessengerEventsChannel < ApplicationCable::Channel
       else
       Error.new("template not found") 
     end
+
   end
 
 end

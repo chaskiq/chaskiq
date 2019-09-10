@@ -16,16 +16,18 @@ private
       if @user_data[:email].blank?
         visitor = (get_user_by_session || add_vistor)
         @user_data.merge!({
-          session_id: visitor.session_id, 
-          lang: I18n.locale, 
-          kind: visitor.model_name.name}
+            session_id: visitor.session_id, 
+            lang: I18n.locale, 
+            kind: visitor.model_name.name
+          }
         ) 
       else
         app_user = get_user_by_email || @app.add_user(email: @user_data[:email])
         @user_data.merge!({
-          session_id: app_user.session_id, 
-          lang: I18n.locale, 
-          kind: app_user.model_name.name}
+            session_id: app_user.session_id, 
+            lang: I18n.locale, 
+            kind: app_user.model_name.name
+          }
         )
       end
     else

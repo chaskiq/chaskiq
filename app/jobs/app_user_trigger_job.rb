@@ -7,7 +7,7 @@ class AppUserTriggerJob < ApplicationJob
     app_user = @app.app_users.find(user_id)
 
     key = "#{@app.key}-#{app_user.session_id}"
-    trigger = find_factory_template(trigger_id)
+    trigger = find_factory_template(trigger_id, app_user)
     
     MessengerEventsChannel.broadcast_to(key, {
       type: "triggers:receive", 
@@ -15,9 +15,11 @@ class AppUserTriggerJob < ApplicationJob
     }.as_json)
   end
 
-  def find_factory_template(id)
+  def find_factory_template(id, user)
 
     case id
+      when "infer"
+        trigger = ActionTriggerFactory.infer_for(app: @app, user: user )
       when "request_for_email"
         trigger = ActionTriggerFactory.request_for_email(app: @app)
         return trigger
