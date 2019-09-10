@@ -243,6 +243,7 @@ function LeadsSettings({app, updateData, agents, getAgents, submit, namespace}){
               agents={agents} 
               getAgents={getAgents}
               setValue={setValue}
+              value={state.assignee}
             />
           }
 
@@ -295,8 +296,8 @@ function LeadsSettings({app, updateData, agents, getAgents, submit, namespace}){
   )
 }
 
-function AgentSelector({agents, getAgents, setValue}){
-  const [selected, setSelected] = React.useState('')
+function AgentSelector({agents, getAgents, setValue, value }){
+  const [selected, setSelected] = React.useState(value)
 
   useEffect(() => {
     getAgents()
