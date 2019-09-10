@@ -542,6 +542,8 @@ class Messenger extends Component {
         mainParticipant: {}
       },
       display_mode: "conversation"
+    }, ()=>{
+      this.requestTrigger("infer")
     })
 
     /*if(this.state.appData.userTasksSettings && this.state.appData.userTasksSettings.share_typical_time && this.props.kind === "AppUser" )
@@ -556,7 +558,6 @@ class Messenger extends Component {
     if( this.state.appData.emailRequirement === "office" && !this.state.appData.inBusinessHours)
       return this.requestTrigger("request_for_email")*/
 
-      this.requestTrigger("infer")
   }
 
   displayHome = (e)=>{
