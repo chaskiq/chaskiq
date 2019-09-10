@@ -1,4 +1,4 @@
-import Hermessenger from './messenger'
+import ChaskiqMessenger from './messenger'
 import {setCookie, getCookie, deleteCookie} from './cookies'
 
 import {AUTH} from './graphql/queries'
@@ -48,7 +48,7 @@ export default class HermessengerEncrypted {
           deleteCookie("chaskiq_session_id")  
         }
          
-        const messenger = new Hermessenger(
+        const messenger = new ChaskiqMessenger(
           Object.assign({}, data.messenger.user, {
             encData: this.props.data,
             encryptedMode: true,

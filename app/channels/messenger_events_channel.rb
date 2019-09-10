@@ -39,9 +39,6 @@ class MessengerEventsChannel < ApplicationCable::Channel
     end
   end
 
-  def request_trigger(data)
-    AppUserTriggerJob.perform_now(app_key: @app.key, user_id: @app_user.id)
-  end
 
   def track_open(data)
     @app_user.track_open(campaign_id: data["campaign_id"] )
@@ -61,6 +58,15 @@ class MessengerEventsChannel < ApplicationCable::Channel
 
   def track_tour_skipped(data)
     @app_user.track_skip(campaign_id: data["campaign_id"] )
+  end
+
+  def request_trigger(data)
+    AppUserTriggerJob.perform_now({
+        app_key: @app.key, 
+        user_id: @app_user.id, 
+        trigger_id: data["trigger_id"]
+      }
+    )
   end
 
   def received_trigger_step(data)
@@ -114,7 +120,6 @@ class MessengerEventsChannel < ApplicationCable::Channel
       else
       Error.new("template not found") 
     end
-
   end
 
 end

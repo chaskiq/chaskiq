@@ -98,7 +98,7 @@ class ActionTriggerFactory
       c.path(
         title: "request_for_email" , 
         steps: [
-          c.message(text: "#{app.name} will reply as soon as they can.", uuid: 1),
+          c.message(text: "give us a way to reach you.", uuid: 1),
           c.controls(
             uuid: 2,
             type: "data_retrieval",
@@ -172,7 +172,7 @@ class ActionTriggerFactory
       c.path(
         title: "typical_reply_time" , 
         steps: [
-          c.message(text: "Hi, #{@app.name} will reply as soon as they can.", uuid: 1),
+          c.message(text: "Hi, #{app.name} will reply as soon as they can.", uuid: 1),
         ]
       )
     end

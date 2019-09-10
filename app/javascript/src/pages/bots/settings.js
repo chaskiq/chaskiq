@@ -100,10 +100,10 @@ const SettingsForm = ({app, data, errors, dispatch}) => {
     <div>
       <ContentHeader 
         title={ "dsdsfdfs" }
-        items={ [<Grid item>
+        items={ [<Grid item key="save">
                   <Button variant={"outlined"} > save data </Button>
                 </Grid> , 
-                <Grid item>
+                <Grid item key={"set-live"}>
                   <Button color={"default"} variant={"contained"}>
                     set live
                   </Button>
@@ -191,7 +191,7 @@ function LeadsSettings({app, updateData, agents, getAgents, submit, namespace}){
       <FormControlLabel
         control={
           <Checkbox 
-            //checked={state.delay} 
+            checked={state.delay} 
             onChange={handleChange('delay')} 
             value={state.delay} 
           />
@@ -202,7 +202,7 @@ function LeadsSettings({app, updateData, agents, getAgents, submit, namespace}){
       <FormControlLabel
         control={
           <Checkbox 
-            //checked={state.share_typical_time} 
+            checked={state.share_typical_time} 
             onChange={handleChange('share_typical_time')} 
             value={state.share_typical_time} 
           />
@@ -228,12 +228,12 @@ function LeadsSettings({app, updateData, agents, getAgents, submit, namespace}){
           name="routing" 
           value={state.routing} 
           onChange={handleRadioChange} 
-          column>
+          >
           <FormControlLabel
             value="assign"
             control={<Radio color="primary" />}
             label="Assign the conversation"
-            labelPlacement="right"
+            labelPlacement="end"
           />
 
           {
@@ -250,7 +250,7 @@ function LeadsSettings({app, updateData, agents, getAgents, submit, namespace}){
             value="close"
             control={<Radio color="primary" />}
             label="Close the conversation"
-            labelPlacement="right"
+            labelPlacement="end"
           />
         </RadioGroup>
       </FormControl>
@@ -273,18 +273,18 @@ function LeadsSettings({app, updateData, agents, getAgents, submit, namespace}){
           name="email_requirement" 
           value={state.email_requirement} 
           onChange={handleRadioChange} 
-          column>
+          >
           <FormControlLabel
             value="email_only"
             control={<Radio color="primary" />}
             label="Ask for email only"
-            labelPlacement="right"
+            labelPlacement="end"
           />
           <FormControlLabel
             value="email_or_phone"
             control={<Radio color="primary" />}
             label="Ask for email or mobile number"
-            labelPlacement="right"
+            labelPlacement="end"
           />
         </RadioGroup>
       </FormControl>

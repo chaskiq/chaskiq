@@ -243,13 +243,19 @@ class App < ApplicationRecord
 private
 
   def set_defaults
-    self.inbound_settings = {enabled: true, users: {
-      enabled: true,
-      segment: "all"
-    }, visitors: {
-      enabled: true,
-      segment: "all"
-    } }
+    self.user_tasks_settings = {}
+    self.lead_tasks_settings = {}
+    self.inbound_settings = {
+      enabled: true, 
+      users: {
+        enabled: true,
+        segment: "all"
+      }, 
+      visitors: {
+        enabled: true,
+        segment: "all"
+      } 
+    }
     self.team_schedule = []
   end
 
