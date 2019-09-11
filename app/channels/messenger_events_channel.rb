@@ -81,6 +81,9 @@ class MessengerEventsChannel < ApplicationCable::Channel
     next_step = path["steps"][next_index]
  
     key = "#{@app.key}-#{@app_user.session_id}"
+
+    #binding.pry if next_step.blank?
+
     MessengerEventsChannel.broadcast_to(key, {
       type: "triggers:receive", 
       data: {step: next_step, trigger: trigger }

@@ -228,9 +228,15 @@ class ActionTriggerFactory
           path_messages << email_requirement
         end
 
-        if routing = app.lead_tasks_settings["routing"].present?
+        routing = app.lead_tasks_settings["routing"]
+        
+        if routing.present?
+          
           follow_actions << c.close() if routing == "close"
-          follow_actions << c.assign(10) if routing == "assign"
+
+          if routing == "assign" && app.lead_tasks_settings["assignee"].present?
+            follow_actions << c.assign(app.lead_tasks_settings["assignee"])
+          end
         end
 
       end
@@ -240,7 +246,7 @@ class ActionTriggerFactory
         steps: path_messages.flatten, 
       }
 
-      path_options.merge({
+      path_options.merge!({
         follow_actions: follow_actions
       })
 

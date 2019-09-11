@@ -672,7 +672,7 @@ RSpec.describe "Widget management", :type => :system do
             delay: true, 
             routing: "assign", 
             email_requirement: "email_only", 
-            assignee: agent_role.agent, 
+            assignee: agent_role.agent.id, 
             share_typical_time: true
           },
           email_requirement: "Always",
@@ -694,7 +694,43 @@ RSpec.describe "Widget management", :type => :system do
     
         Capybara.within_frame(messenger_iframe){ 
           page.click_link("start conversation")
-          expect(page).to have_content("enter your email")
+          #expect(page).to have_content("enter your email")
+        }
+
+        sleep 100
+      end
+
+      it "not shows email requirement" do
+
+        app.update(
+          timezone: "UTC", 
+          lead_tasks_settings: {
+            delay: true, 
+            routing: "assign", 
+            email_requirement: "email_only", 
+            assignee: agent_role.agent, 
+            share_typical_time: true
+          },
+          email_requirement: "never",
+          team_schedule: [
+          { day: "tue", from: "01:00" , to: '01:30' },
+        ])
+
+        visit "/tester/#{app.key}?sessionless=true"
+
+        prime_iframe = all("iframe").first
+
+        Capybara.within_frame(prime_iframe){ 
+          page.find("#chaskiq-prime").click 
+        }
+    
+        sleep(2)
+        # now 2nd iframe appears on top
+        messenger_iframe = all("iframe").first
+    
+        Capybara.within_frame(messenger_iframe){ 
+          page.click_link("start conversation")
+          expect(page).to_not have_content("enter your email")
         }
       end
 
