@@ -70,27 +70,31 @@ class MessengerEventsChannel < ApplicationCable::Channel
   end
 
   def received_trigger_step(data)
-    trigger, path = find_task(data)
+    trigger, path = ActionTriggerFactory.find_task(data: data, app: @app,app_user: @app_user )
 
     next_index = path["steps"].index{|o| o["step_uid"] == data["step"]} + 1
     next_step = path["steps"][next_index]
  
     key = "#{@app.key}-#{@app_user.session_id}"
 
-    #binding.pry if next_step.blank?
+    # si no tiene 
+    # binding.pry if next_step.blank?
+
+    conversation = data["conversation"]
 
     MessengerEventsChannel.broadcast_to(key, {
       type: "triggers:receive", 
       data: {
         step: next_step, 
-        trigger: trigger 
+        trigger: trigger,
+        conversation: conversation
       }
     }.as_json) if next_step.present?
     
   end
 
   def trigger_step(data)
-    trigger, path = find_task(data)
+    trigger, path = ActionTriggerFactory.find_task(data: data, app: @app, app_user: @app_user)
   
     next_step = path["steps"].find{|o| o["step_uid"] == data["step"]}
  
@@ -102,6 +106,7 @@ class MessengerEventsChannel < ApplicationCable::Channel
     
   end
 
+=begin
   def find_factory_template(data)
     data["trigger"]
 
@@ -133,5 +138,6 @@ class MessengerEventsChannel < ApplicationCable::Channel
     
     return trigger, path
   end
+=end
 
 end

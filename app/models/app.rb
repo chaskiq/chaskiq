@@ -194,10 +194,13 @@ class App < ApplicationRecord
     user = options[:from]
     participant = options[:participant] || user
     message_source = options[:message_source]
+
     conversation = self.conversations.create({
       main_participant: participant,
-      initiator: user
+      initiator: user,
+      assignee: options[:assignee]
     })
+    
     conversation.add_message(
       from: user,
       message: message,
