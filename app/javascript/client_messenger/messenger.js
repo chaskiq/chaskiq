@@ -301,9 +301,9 @@ class Messenger extends Component {
             case "triggers:receive":
               this.receiveTrigger(data.data)
               break
-            case "triggers_step:receive":
+            /*case "triggers_step:receive":
               this.receiveTriggerStep(data.data)
-              break
+              break*/
             case "conversations:conversation_part":
               const newMessage = toCamelCase(data.data)
               this.receiveMessage(newMessage)
@@ -539,6 +539,7 @@ class Messenger extends Component {
       conversation_messages: [],
       conversation_messagesMeta: {},
       conversation: {
+        id: "volatile",
         mainParticipant: {}
       },
       display_mode: "conversation"
@@ -793,6 +794,7 @@ class Messenger extends Component {
 
   requestTrigger = (kind)=>{
     App.events && App.events.perform('request_trigger', {
+      conversation: this.state.conversation.key,
       trigger: kind
     })
     this.appendDraftMessage()

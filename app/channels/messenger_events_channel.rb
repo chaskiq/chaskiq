@@ -70,13 +70,8 @@ class MessengerEventsChannel < ApplicationCable::Channel
   end
 
   def received_trigger_step(data)
-    trigger = @app.bot_tasks.find(data["trigger"]) rescue find_factory_template(data)
+    trigger, path = find_task(data)
 
-    path = trigger.paths.find{|o| 
-        o.with_indifferent_access["steps"].find{|a| a["step_uid"] === data["step"] 
-      }.present? 
-    }.with_indifferent_access
-  
     next_index = path["steps"].index{|o| o["step_uid"] == data["step"]} + 1
     next_step = path["steps"][next_index]
  
@@ -86,17 +81,16 @@ class MessengerEventsChannel < ApplicationCable::Channel
 
     MessengerEventsChannel.broadcast_to(key, {
       type: "triggers:receive", 
-      data: {step: next_step, trigger: trigger }
+      data: {
+        step: next_step, 
+        trigger: trigger 
+      }
     }.as_json) if next_step.present?
     
   end
 
   def trigger_step(data)
-    trigger = @app.bot_tasks.find(data["trigger"]) rescue find_factory_template(data)
-    path = trigger.paths.find{|o| 
-        o.with_indifferent_access["steps"].find{|a| a["step_uid"] === data["step"] 
-      }.present? 
-    }.with_indifferent_access
+    trigger, path = find_task(data)
   
     next_step = path["steps"].find{|o| o["step_uid"] == data["step"]}
  
@@ -127,6 +121,17 @@ class MessengerEventsChannel < ApplicationCable::Channel
       Error.new("template not found") 
     end
 
+  end
+
+  def find_task(data)
+    trigger = @app.bot_tasks.find(data["trigger"]) rescue find_factory_template(data)
+    path = trigger.paths.find{|o| 
+        o.with_indifferent_access["steps"].find{|a| 
+          a["step_uid"] === data["step"] 
+      }.present? 
+    }.with_indifferent_access
+    
+    return trigger, path
   end
 
 end
