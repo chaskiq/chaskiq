@@ -101,7 +101,7 @@ class Conversation < ApplicationRecord
   end
 
   def add_default_assigne
-    if @initiator.is_a?(Agent)
+    if @initiator.is_a?(Agent) && self.assignee.blank?
       self.assignee = @initiator
       return
     end

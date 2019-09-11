@@ -206,7 +206,7 @@ class ActionTriggerFactory
           ]
         ),
         c.message(text: "molte gratzie", uuid: 4),
-      ]
+      ] 
 
       if app.user_tasks_settings["share_typical_time"] && kind === "AppUser"
         path_messages << [
@@ -220,12 +220,14 @@ class ActionTriggerFactory
           path_messages << c.message(text: "Hi, #{app.name} will reply as soon as they can.", uuid: 1)
         end
 
-        if app.email_requirement === "Always"
-          path_messages << email_requirement 
-        end
-     
-        if app.email_requirement === "office" && !app.in_business_hours?( Time.current )
-          path_messages << email_requirement
+        if user.email.blank?
+          if app.email_requirement === "Always"
+            path_messages << email_requirement 
+          end
+      
+          if app.email_requirement === "office" && !app.in_business_hours?( Time.current )
+            path_messages << email_requirement
+          end
         end
 
         routing = app.lead_tasks_settings["routing"]
@@ -258,6 +260,35 @@ class ActionTriggerFactory
 
   end
 
+  def self.find_factory_template(app:, app_user:, data:)
+      case data["trigger"]
+        when "infer"
+          trigger = ActionTriggerFactory.infer_for(app: app, user: app_user )
+        when "request_for_email"
+          trigger = ActionTriggerFactory.request_for_email(app: app)
+          return trigger
+        when "route_support"
+          trigger = ActionTriggerFactory.route_support(app: app)
+          return trigger
+        when "typical_reply_time"
+          trigger = ActionTriggerFactory.typical_reply_time(app: app)
+          return trigger
+        else
+        Error.new("template not found") 
+      end
+  end
+
+  def self.find_task(data: , app: , app_user: )
+    trigger = app.bot_tasks.find(data["trigger"]) rescue self.find_factory_template(data: data, app: app, app_user: app_user)
+    path = trigger.paths.find{|o| 
+        o.with_indifferent_access["steps"].find{|a| 
+          a["step_uid"] === data["step"] 
+      }.present? 
+    }.with_indifferent_access
+    
+    return trigger, path
+  end
+
   def reply_options
     [
       {value: "auto", label: "Automatic reply time. Currently El equipo responderá lo antes posible"}, 
@@ -266,6 +297,7 @@ class ActionTriggerFactory
       {value: "1 day", label: "El equipo suele responder en un día."},
     ]
   end
+
 
 
 end

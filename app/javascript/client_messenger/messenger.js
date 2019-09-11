@@ -349,7 +349,7 @@ class Messenger extends Component {
         conversation_messages: [newMessage].concat(this.state.conversation_messages)
       }, this.scrollToLastItem)
       
-      if (newMessage.appUser.kind != "app_user") {
+      if (newMessage.appUser.kind === "agent") {
         this.playSound()
       }
     }
@@ -407,7 +407,7 @@ class Messenger extends Component {
   }
 
   insertComment =(comment, cb)=>{
-    if(this.state.conversation.key){
+    if(this.state.conversation.key && this.state.conversation.key != 'volatile'){
       this.createComment(comment, cb)
     }else{
       this.createCommentOnNewConversation(comment, cb)
@@ -444,7 +444,8 @@ class Messenger extends Component {
 
     const message = {
       html: comment.html_content,
-      serialized: comment.serialized_content
+      serialized: comment.serialized_content,
+      volatile: this.state.conversation,
     }
 
     this.graphqlClient.send( START_CONVERSATION, {
@@ -453,10 +454,13 @@ class Messenger extends Component {
     }, { 
       success: (data)=>{
         const {conversation} = data.startConversation
+        let messages = [conversation.lastMessage]
+        if(this.state.display_mode === "conversation")
+          messages = messages.concat(this.state.conversation_messages)
 
         this.setState({
           conversation: conversation,
-          conversation_messages: [conversation.lastMessage]
+          conversation_messages: messages
             /*conversation.lastMessage ? 
             response.data.messages.concat(this.state.conversation_messages) : 
             this.state.conversation_messages*/
@@ -539,7 +543,7 @@ class Messenger extends Component {
       conversation_messages: [],
       conversation_messagesMeta: {},
       conversation: {
-        id: "volatile",
+        key: "volatile",
         mainParticipant: {}
       },
       display_mode: "conversation"
@@ -655,8 +659,8 @@ class Messenger extends Component {
 
     const trigger = this.state.conversation.trigger
 
-    const conversation = {
-      assignee: null,
+    const conversation = Object.assign({}, this.state.conversation , {
+      //assignee: null,
       trigger: trigger,
       currentStep: o,
       locked: o.controls && (o.controls.type === "ask_option" || o.controls.type === "data_retrieval"),
@@ -666,7 +670,9 @@ class Messenger extends Component {
         //id: 10,
         //kind: "lead" 
       }
-    }
+    })
+
+
 
     // messages & controles will never meet together
 
@@ -1191,7 +1197,7 @@ class Conversation extends Component {
   // TODO: skip on xhr progress
   handleConversationScroll = (e) => {
     let element = e.target
-    console.log(element.scrollTop)
+    //console.log(element.scrollTop)
     //console.log(element.scrollHeight - element.scrollTop, element.clientHeight) // on bottom
     if (element.scrollTop === 0) { // on top
 
@@ -1232,7 +1238,7 @@ class Conversation extends Component {
   }
 
   renderMessage = (o, i)=>{
-    console.log(o)
+    //console.log(o)
     const userClass = o.appUser.kind === "agent" ? 'admin' : 'user'
     const isAgent = o.appUser.kind === "agent"
     const themeforMessage = o.privateNote || isAgent ? theme : themeDark
