@@ -37,7 +37,7 @@ require 'database_cleaner'
 
 DatabaseCleaner.strategy = :truncation
 
-Capybara.default_max_wait_time = 5
+Capybara.default_max_wait_time = 15
 
 RSpec.configure do |config|
   # Remove this line if you're not using ActiveRecord or ActiveRecord fixtures

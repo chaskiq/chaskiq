@@ -8,11 +8,11 @@ class AppUserTriggerJob < ApplicationJob
 
     key = "#{@app.key}-#{app_user.session_id}"
     trigger = find_factory_template(trigger_id, app_user)
-    
+
     MessengerEventsChannel.broadcast_to(key, {
       type: "triggers:receive", 
       data: {trigger: trigger, step: trigger.paths.first[:steps].first }
-    }.as_json)
+    }.as_json) if trigger.paths.first[:steps]
   end
 
   def find_factory_template(id, user)
