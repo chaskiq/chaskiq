@@ -184,7 +184,7 @@ class ActionTriggerFactory
     kind = user.model_name.name
 
     subject = ActionTriggerFactory.new
-    
+
     subject.config do |c|
       c.id = "infer"
       c.after_delay = 2
@@ -214,17 +214,17 @@ class ActionTriggerFactory
           ]
       end
 
-      if app.email_requirement === "Always" && kind === "Lead" 
+      if kind === "Lead" 
 
-        path_messages << [
-          c.message(text: "Hi, #{app.name} will reply as soon as they can.", uuid: 1),
-        ]
-
-        if app.email_requirement === "Always"
-          path_messages << email_requirement
+        if app.lead_tasks_settings["share_typical_time"]
+          path_messages << c.message(text: "Hi, #{app.name} will reply as soon as they can.", uuid: 1)
         end
 
-        if app.email_requirement === "office" && app.in_business_hours?( Time.current )
+        if app.email_requirement === "Always"
+          path_messages << email_requirement 
+        end
+     
+        if app.email_requirement === "office" && !app.in_business_hours?( Time.current )
           path_messages << email_requirement
         end
 
@@ -237,7 +237,7 @@ class ActionTriggerFactory
 
       path_options = {
         title: "typical_reply_time" , 
-        steps: path_messages.flatten!, 
+        steps: path_messages.flatten, 
       }
 
       path_options.merge({
