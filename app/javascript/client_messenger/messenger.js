@@ -55,6 +55,7 @@ import {
   ConversationSummaryBody,
   ConversationSummaryBodyMeta,
   ConversationSummaryBodyContent,
+  ConversationSummaryBodyItems,
   Autor,
   Hint,
   ConversationsFooter,
@@ -301,9 +302,9 @@ class Messenger extends Component {
             case "triggers:receive":
               this.receiveTrigger(data.data)
               break
-            case "triggers_step:receive":
+            /*case "triggers_step:receive":
               this.receiveTriggerStep(data.data)
-              break
+              break*/
             case "conversations:conversation_part":
               const newMessage = toCamelCase(data.data)
               this.receiveMessage(newMessage)
@@ -349,7 +350,7 @@ class Messenger extends Component {
         conversation_messages: [newMessage].concat(this.state.conversation_messages)
       }, this.scrollToLastItem)
       
-      if (newMessage.appUser.kind != "app_user") {
+      if (newMessage.appUser.kind === "agent") {
         this.playSound()
       }
     }
@@ -407,7 +408,7 @@ class Messenger extends Component {
   }
 
   insertComment =(comment, cb)=>{
-    if(this.state.conversation.key){
+    if(this.state.conversation.key && this.state.conversation.key != 'volatile'){
       this.createComment(comment, cb)
     }else{
       this.createCommentOnNewConversation(comment, cb)
@@ -444,7 +445,8 @@ class Messenger extends Component {
 
     const message = {
       html: comment.html_content,
-      serialized: comment.serialized_content
+      serialized: comment.serialized_content,
+      volatile: this.state.conversation,
     }
 
     this.graphqlClient.send( START_CONVERSATION, {
@@ -453,10 +455,13 @@ class Messenger extends Component {
     }, { 
       success: (data)=>{
         const {conversation} = data.startConversation
+        let messages = [conversation.lastMessage]
+        if(this.state.display_mode === "conversation")
+          messages = messages.concat(this.state.conversation_messages)
 
         this.setState({
           conversation: conversation,
-          conversation_messages: [conversation.lastMessage]
+          conversation_messages: messages
             /*conversation.lastMessage ? 
             response.data.messages.concat(this.state.conversation_messages) : 
             this.state.conversation_messages*/
@@ -539,6 +544,7 @@ class Messenger extends Component {
       conversation_messages: [],
       conversation_messagesMeta: {},
       conversation: {
+        key: "volatile",
         mainParticipant: {}
       },
       display_mode: "conversation"
@@ -654,8 +660,8 @@ class Messenger extends Component {
 
     const trigger = this.state.conversation.trigger
 
-    const conversation = {
-      assignee: null,
+    const conversation = Object.assign({}, this.state.conversation , {
+      //assignee: null,
       trigger: trigger,
       currentStep: o,
       locked: o.controls && (o.controls.type === "ask_option" || o.controls.type === "data_retrieval"),
@@ -665,10 +671,11 @@ class Messenger extends Component {
         //id: 10,
         //kind: "lead" 
       }
-    }
+    })
+
+
 
     // messages & controles will never meet together
-
     const conversationMessages = o.messages.map((message)=>(
       {
         volatile: true,
@@ -793,6 +800,7 @@ class Messenger extends Component {
 
   requestTrigger = (kind)=>{
     App.events && App.events.perform('request_trigger', {
+      conversation: this.state.conversation.key,
       trigger: kind
     })
     this.appendDraftMessage()
@@ -1189,7 +1197,7 @@ class Conversation extends Component {
   // TODO: skip on xhr progress
   handleConversationScroll = (e) => {
     let element = e.target
-    console.log(element.scrollTop)
+    //console.log(element.scrollTop)
     //console.log(element.scrollHeight - element.scrollTop, element.clientHeight) // on bottom
     if (element.scrollTop === 0) { // on top
 
@@ -1230,7 +1238,7 @@ class Conversation extends Component {
   }
 
   renderMessage = (o, i)=>{
-    console.log(o)
+    //console.log(o)
     const userClass = o.appUser.kind === "agent" ? 'admin' : 'user'
     const isAgent = o.appUser.kind === "agent"
     const themeforMessage = o.privateNote || isAgent ? theme : themeDark
@@ -1291,8 +1299,7 @@ class Conversation extends Component {
   }
 
   renderItemPackage = (o, i)=>{
-    return  <MessageItem>
-              <AppPackageBlock 
+    return  <AppPackageBlock 
                key={i}
                conversation={this.props.conversation}
                submitAppUserData={this.props.submitAppUserData.bind(this)}
@@ -1300,7 +1307,6 @@ class Conversation extends Component {
                appPackageSubmitHandler={this.appPackageSubmitHandler.bind(this)}
                 {...o}
               />
-            </MessageItem>
   }
 
   appPackageClickHandler = (item)=>{
@@ -1312,11 +1318,12 @@ class Conversation extends Component {
     
   }
 
-  appPackageSubmitHandler = (data, next_step_uuid)=>{
+  appPackageSubmitHandler = (data)=>{
     App.events && App.events.perform('received_trigger_step', {
       conversation: this.props.conversation.key,
       trigger: this.props.conversation.trigger.id,
-      step: this.props.conversation.currentStep.step_uid
+      step: this.props.conversation.currentStep.step_uid,
+      submit: data
     })
     
   }
@@ -1481,40 +1488,48 @@ function CommentsItemComp(props){
                     <ConversationSummary>
 
                       <ConversationSummaryAvatar>
-                        <img src={gravatar(message.appUser.email)} />
+                        <img src={gravatar(o.assignee.email)} />
                       </ConversationSummaryAvatar>
 
                       <ConversationSummaryBody>
 
                         <ConversationSummaryBodyMeta>
-
                           {
                             !message.readAt && message.appUser.email !== email ?
                               <ReadIndicator /> : null
                           }
                           <Autor>
-                            {message.appUser.displayName}
-                            {message.appUser.email}
+                            {o.assignee.displayName}
                           </Autor>
 
                           <Moment fromNow style={{
                             float: 'right',
                             color: '#ccc',
-                            width: '88px',
+                            width: '115px',
                             margin: '0px 10px',
                             fontSize: '.8em',
-                            textTransform: 'unset'
+                            textTransform: 'unset',
+                            textAlign: 'right',
+                            fontWeight: '100' 
                           }}>
                             {message.createdAt}
                           </Moment>
 
                         </ConversationSummaryBodyMeta>
                         {/* TODO: sanitize in backend */}
-                        <ConversationSummaryBodyContent
-                          dangerouslySetInnerHTML={
-                            { __html: sanitizeMessageSummary(message.message.htmlContent) }
+                        {/*<img src={gravatar(message.appUser.email)} />*/}
+                        <ConversationSummaryBodyItems>
+                          {
+                            message.appUser.kind != "agent" ? 
+                              <div className="you">you:</div> : null 
                           }
-                        />
+                          <ConversationSummaryBodyContent
+                            dangerouslySetInnerHTML={
+                              { __html: sanitizeMessageSummary(message.message.htmlContent) }
+                            }
+                          />
+                        </ConversationSummaryBodyItems>
+
                       </ConversationSummaryBody>
                     </ConversationSummary> : null
                 }
@@ -1770,11 +1785,9 @@ class AppPackageBlock extends Component {
   }
 
   render(){
-    return <div>
-              <AppPackageBlockContainer>
+    return <AppPackageBlockContainer>
               {
                 true ? //!this.state.done ?
-              
                 <form ref={o => this.form } 
                   onSubmit={ this.sendAppPackageSubmit }>
                   {
@@ -1782,8 +1795,8 @@ class AppPackageBlock extends Component {
                   }
                 </form> : <p>aa</p>
               }
-              </AppPackageBlockContainer>
-            </div>
+          </AppPackageBlockContainer>
+
   }
 }
 

@@ -10,6 +10,7 @@ module Mutations
 
       # TODO: define resolve method
       def resolve(app_key:, id:, message:)
+
         if current_user.is_a?(Agent)
           app = current_user.apps.find_by(key: app_key)
           author = app.agents.where("agents.email =?", current_user.email).first
@@ -21,7 +22,7 @@ module Mutations
           participant = nil
         end
 
-        conversation = app.start_conversation({
+        options = {
           from: author,
           participant: participant,
           message: {
@@ -29,8 +30,29 @@ module Mutations
             serialized_content: message["serialized"],
             text_content: message["serialized"]
           }
-        })
-        {conversation: conversation}
+        }
+
+        trigger_id = message["volatile"]["trigger"]["id"]
+        step = message["volatile"]["currentStep"]["step_uid"]
+        data = {
+          "trigger"=> trigger_id, 
+          "step"=> step
+        }
+        
+        trigger, path = ActionTriggerFactory.find_task(data: data, app: app, app_user: app_user)
+
+        next_index = path["steps"].index{|o| o["step_uid"] == data["step"]} + 1
+        next_step = path["steps"][next_index]
+
+        assignee = path["follow_actions"].find{|o| o["name"] == "assign"}
+
+        options.merge!({assignee: app.agents.find(assignee["value"])}) if assignee
+        
+        conversation = app.start_conversation(options) 
+        
+        {
+          conversation: conversation
+        }
       end
 
 

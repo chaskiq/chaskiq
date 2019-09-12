@@ -70,7 +70,7 @@ class ConversationPart < ApplicationRecord
   end
 
   def assign_and_notify
-    assign_agent_by_rules
+    assign_agent_by_rules unless conversation.assignee.present?
     enqueue_email_notification unless send_constraints?
   end
 

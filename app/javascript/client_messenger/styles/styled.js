@@ -97,6 +97,7 @@ export const FadeOutRight = keyframes`
 export const Container = styled.div`
 
   animation: ${appear} 0.6s cubic-bezier(0.390, 0.575, 0.565, 1.000) both;
+  font-weight: 200;
 
   ${
     
@@ -246,6 +247,7 @@ export const SuperFragment = styled.div`
     -ms-flex-direction: column;
     flex-direction: column;
     font-family: -apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol";
+    font-weight: 200;
 
 
     .fade-in-bottom {
@@ -346,6 +348,7 @@ export const AppPackageBlockContainer = styled.div`
     background: #f1f0f9;
     display: flex;
     justify-content: center;
+    margin: 1.2em;
 
     .form-group{
       //margin-bottom: 1rem;
@@ -517,7 +520,7 @@ export const CommentsWrapper = styled.div`
 `
 
 export const CommentsItem = styled.div`
-    padding: 5px;
+    padding: 12px;
     /* background-color: #ccc; */
     border-bottom: 1px solid #ececec;
     cursor: pointer;
@@ -681,7 +684,7 @@ export const MessageItem = styled.div`
         background: #ebebec87;
         padding: 16px;
         margin: 5px;
-        border-radius: 20px;
+        border-radius: 6px;
         /* box-shadow: 1px 1px 2px #e0e0e0; */
         /* border: 1px solid #dedbdb; */
         min-width: 80px;
@@ -701,7 +704,7 @@ export const MessageItem = styled.div`
         min-width: 80px;
         padding: 16px;
         margin: 5px;
-        border-radius: 20px;
+        border-radius: 6px;
         /* box-shadow: 1px 1px 2px #e0e0e0; */
         /* border: 1px solid #dedbdb; */
         min-width: 80px;
@@ -905,14 +908,23 @@ export const ConversationSummaryBodyMeta = styled.div`
     margin-bottom: 8px;   
 `
 
+export const ConversationSummaryBodyItems = styled.div`
+  display: flex;
+  font-size: 12px;
+  .you{
+    margin-right:5px;
+  }
+`
 export const ConversationSummaryBodyContent = styled.div`
       -webkit-box-flex: 1;
       -ms-flex: 1;
       flex: 1;
       //padding-left: 16px;    
+      font-weight: 300;
 `
 
 export const Autor = styled.div`
+  font-weight: 100;
   font-size: 14px;
   overflow: hidden;
   text-overflow: ellipsis;

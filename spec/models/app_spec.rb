@@ -101,11 +101,28 @@ RSpec.describe App, type: :model do
 
   it "create_conversation" do
     app_user = app.add_user({email: "test@test.cl", first_name: "dsdsa"})
+    agent1 = app.add_agent({email: "test@test.cl", first_name: "dsdsa"}).agent
+    agent2 = app.add_agent({email: "test2@test.cl", first_name: "dsdsa"}).agent
     conversations = app.start_conversation({
       message: {serialized_content: default_content }, 
       from: app_user
     })
     expect(app.conversations.count).to be == 1
+    expect(conversations.assignee.id).to be == agent1.id
+  end
+
+  it "create_conversation assignee override" do
+    app_user = app.add_user({email: "test@test.cl", first_name: "dsdsa"})
+    agent1 = app.add_agent({email: "test@test.cl", first_name: "dsdsa"}).agent
+    agent2 = app.add_agent({email: "test2@test.cl", first_name: "dsdsa"}).agent
+
+    conversations = app.start_conversation({
+      assignee: agent2,
+      message: {serialized_content: default_content }, 
+      from: app_user
+    })
+    expect(app.conversations.count).to be == 1
+    expect(conversations.assignee.id).to be == agent2.id
   end
 
 

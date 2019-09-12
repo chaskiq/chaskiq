@@ -185,7 +185,7 @@ const HomePanel = ({
           <h2>Start a conversation</h2>
 
           {renderAvailability()}
-          <br/>
+          
           {replyTimeMessage()}
 
           <CardContent>
