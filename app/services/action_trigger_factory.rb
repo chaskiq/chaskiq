@@ -238,9 +238,10 @@ class ActionTriggerFactory
           path_messages << c.message(text: "Hi, #{app.name} will reply as soon as they can.", uuid: 1)
         end
 
-        path_messages << route_support
-
-        path_messages.flatten!
+        if user.email.blank?
+          path_messages << route_support 
+          path_messages.flatten!
+        end
 
         routing = app.lead_tasks_settings["routing"]
         
