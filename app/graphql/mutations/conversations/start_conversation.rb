@@ -44,9 +44,10 @@ module Mutations
         next_index = path["steps"].index{|o| o["step_uid"] == data["step"]} + 1
         next_step = path["steps"][next_index]
 
-        assignee = path["follow_actions"].find{|o| o["name"] == "assign"}
-
-        options.merge!({assignee: app.agents.find(assignee["value"])}) if assignee
+        if path["follow_actions"].present?
+          assignee = path["follow_actions"].find{|o| o["name"] == "assign"}
+          options.merge!({assignee: app.agents.find(assignee["value"])}) if assignee.present?
+        end
         
         conversation = app.start_conversation(options) 
         
