@@ -130,7 +130,7 @@ function UsersSettings({app, updateData, namespace, submit}){
   }
 
   return (
-    <Grid container>
+    <Grid container direction={"column"}>
 
       <Grid item>
         <Typography variant={"h5"}>
@@ -147,7 +147,13 @@ function UsersSettings({app, updateData, namespace, submit}){
       </Grid>
 
       <Grid item>
-        <Button onClick={submitData}>save</Button>
+        <Button 
+          color={"primary"}
+          variant={"contained"}
+          onClick={submitData}>
+          save
+        </Button>
+
       </Grid>
 
     </Grid>
@@ -291,7 +297,12 @@ function LeadsSettings({app, updateData, agents, getAgents, submit, namespace}){
       </Grid>
 
       <Grid item>
-        <Button onClick={submitData}>save</Button>
+        <Button 
+          color={"primary"}
+          variant={"contained"}
+          onClick={submitData}>
+          save
+        </Button>
       </Grid>
     </Grid>
   )
