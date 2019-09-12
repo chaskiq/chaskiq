@@ -184,7 +184,8 @@ const BotEditor = ({match, app})=>{
         segments: botTask.segments,
         title: botTask.title,
         scheduling: botTask.scheduling,
-        state: botTask.state
+        state: botTask.state,
+        urls: botTask.urls
       }
     }, {
       success: (data)=>{

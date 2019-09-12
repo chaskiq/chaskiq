@@ -1,4 +1,8 @@
-import React, {useState, useEffect} from 'react'
+import React, {
+  useState, 
+  useEffect, 
+  useRef
+} from 'react'
 import {
   Grid,
   Button,
@@ -10,6 +14,9 @@ import {
   FormLabel,
   Checkbox
 } from '@material-ui/core'
+
+import FormDialog from '../../components/FormDialog'
+
 
 const TaskSettingsForm = ({app, data, updateData, saveData, errors}) => {
 
@@ -33,6 +40,22 @@ const TaskSettingsForm = ({app, data, updateData, saveData, errors}) => {
         namespace={"scheduling"}
         submit={()=> saveData(state)}
       />
+
+      <UrlPaths
+        app={app} 
+        updateData={update} 
+        data={data}
+      />
+
+      <Grid item>
+
+        <Button variant={'contained'} 
+          color={"primary"}
+          onClick={()=> saveData(state)}>
+          save
+        </Button>
+
+      </Grid>
      
     </div>
   )
@@ -63,10 +86,7 @@ function Schedule({app, data, updateData, namespace, submit}){
 
   return (
     <div>
-
-
       <Grid container>
-
         <Grid item>
 
           <Typography variant={"h5"}>
@@ -127,20 +147,97 @@ function Schedule({app, data, updateData, namespace, submit}){
           </FormControl>
 
         </Grid>
+      </Grid>
+    </div>
+  )
+}
 
-        <Grid item>
+function UrlPaths({data, updateData}){
+  const [urls, setUrls] = useState(data.urls || [] )
+  const inputEl = useRef(null);
 
-          <Button variant={'contained'} 
-            color={"primary"}
-            onClick={submitData}>
-            save
-          </Button>
+  useEffect(()=>{
+    updateData({urls: urls})
+  }, [urls])
 
-        </Grid>
+  const [open, setOpen] = useState(false)
+
+  function remove(item){
+    const newUrls = urls.filter((o)=> o != item)
+    setUrls(newUrls)
+  }
+
+  function add(){
+    setOpen(true)
+  }
+
+  function close(){
+    setOpen(false)
+  }
+
+  function submit(e){
+    const newUrls = urls.concat(inputEl.current.value)
+    setUrls(newUrls)
+    setOpen(false)
+  }
+
+  return (
+
+    <Grid container direction={"column"}>
+
+      <Grid item>
+
+        <Typography variant={"h5"}>
+          Enable Bot
+        </Typography>
+
+        {open && (
+          <FormDialog 
+            open={open}
+            //contentText={"lipsum"}
+            titleContent={"Save Url"}
+            formComponent={
+              //!loading ?
+                <form>
+                  <input ref={inputEl} name={"oe"} />
+                </form> 
+                //: <CircularProgress/>
+            }
+            dialogButtons={
+              <React.Fragment>
+                <Button onClick={close} color="primary">
+                  Cancel
+                </Button>
+
+                <Button onClick={submit } 
+                  zcolor="primary">
+                  create
+                </Button>
+
+              </React.Fragment>
+            }>
+          </FormDialog>
+        )}
 
       </Grid>
+    
+      <Grid item>
+        <Button onClick={add}>add</Button>
+      </Grid>
 
-    </div>
+      <Grid container direction={"column"}>
+        {
+          urls.map((o)=>(
+            <Grid item>
+              <p>{o}</p>
+              <Button onClick={()=> remove(o)}>remove</Button>
+            </Grid>
+          ))
+        }
+      </Grid>
+    
+    </Grid>
+
   )
 }
 
