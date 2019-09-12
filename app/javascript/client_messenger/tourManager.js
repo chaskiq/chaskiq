@@ -56,7 +56,7 @@ const TourManagerContainer = styled.div`
     height: ${(props)=> {
       return props.collapsedEditor ? `38px` : `250px` } 
     };
-    box-shadow: 1px -1px 6px 0px #ccc;
+    box-shadow: 1px -1px 6px 0px #313030b0;
 `
 
 const TourManagerContainerDiv = styled.div`
@@ -120,6 +120,7 @@ const StepBody = styled.div`
     border-radius: 5px;
     overflow: hidden;
     max-width: 140px;
+    padding: 1.2em;
 `
 
 const StepHeader = styled.div`
@@ -152,6 +153,13 @@ const StepsContainer = styled.div`
   overflow:scroll;
   display: flex;
 `
+
+const Link = styled.a`
+color: #000;
+`
+
+
+const DeleteButton = styled(Link)``
 
 
 
@@ -683,7 +691,9 @@ class TourStep extends Component {
     return <StepContainer onClick={this.enableEditMode}>
            <StepBody>
 
-              <a href="" onClick={this.removeItem}>x</a>
+              <DeleteButton href="#" onClick={this.removeItem}>
+                x
+              </DeleteButton>
 
               <StepHeader>
                 
@@ -728,7 +738,7 @@ class NewTourStep extends Component {
   render(){
     return <NewStepContainer>
       <NewStepBody>
-        <a href="#" onClick={this.enableSelection}>new +</a>
+        <Link href="#" onClick={this.enableSelection}>new +</Link>
       </NewStepBody>
       </NewStepContainer>
   }
