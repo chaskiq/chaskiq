@@ -785,7 +785,7 @@ class Messenger extends Component {
     
   }
 
-  appendDraftMessage = ()=>{
+  appendDraftMessage = (cb)=>{
     const newMessage = {
       draft: true
     }
@@ -795,7 +795,11 @@ class Messenger extends Component {
                               .concat(this.state.conversation_messages),
       conversation_messagesMeta: {},
       display_mode: "conversation",
-    }, this.scrollToLastItem)
+    }, ()=>{
+
+      this.scrollToLastItem()
+      cb && cb()
+    })
   }
 
   requestTrigger = (kind)=>{
@@ -803,7 +807,6 @@ class Messenger extends Component {
       conversation: this.state.conversation.key,
       trigger: kind
     })
-    this.appendDraftMessage()
   }
 
   /*setTriggerStep = (step_index)=>{
@@ -830,7 +833,18 @@ class Messenger extends Component {
         //})
 
         //this.setTriggerStep(step)
-        this.appendStepMessage(step)
+
+        var min=600; 
+        var max=2000;  
+        var random = 
+        Math.floor(Math.random() * (+max - +min)) + +min;
+
+        this.appendDraftMessage(()=> {
+          setTimeout(()=>{
+            this.appendStepMessage(step)
+          }, random)
+        })
+        
       })
 
     }, trigger.after_delay*1000)
@@ -848,7 +862,7 @@ class Messenger extends Component {
         })
       }, ()=>{
           this.setState({open: true}) //: null
-        this.appendStepMessage(step)
+          this.appendStepMessage(step)
       })
 
     }, trigger.after_delay*1000)
