@@ -41,7 +41,6 @@ module Types
       @conversation = user_conversations.find_by(key: id)
     end
 
-
     field :enabled_for_user, Boolean, null: true
 
     def enabled_for_user

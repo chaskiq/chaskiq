@@ -13,7 +13,7 @@ module Types
     field :preferences, Types::JsonType, null: true
     field :encryption_key, String, null: true
     field :app_users, [Types::AppUserType], null: true
-    field :triggers, Types::JsonType, null: true
+    #field :triggers, Types::JsonType, null: true
     field :team_schedule, Types::JsonType, null: true
     field :reply_time, String, null: true
     field :inbound_settings, Types::JsonType, null: true
