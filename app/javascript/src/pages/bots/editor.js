@@ -183,7 +183,8 @@ const BotEditor = ({match, app})=>{
         paths: paths,
         segments: botTask.segments,
         title: botTask.title,
-        scheduling: botTask.scheduling
+        scheduling: botTask.scheduling,
+        state: botTask.state
       }
     }, {
       success: (data)=>{

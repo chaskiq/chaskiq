@@ -914,6 +914,7 @@ export const CREATE_BOT_TASK = `
         title
         segments
         scheduling
+        state
         paths {
           id
           title
@@ -937,6 +938,7 @@ export const UPDATE_BOT_TASK = `
         title
         scheduling
         segments
+        state
         paths {
           id
           title

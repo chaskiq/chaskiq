@@ -7,6 +7,9 @@ class BotTask < ApplicationRecord
     :scheduling
   ]
 
+  scope :enabled, -> { where(:state => 'enabled')}
+  scope :disabled, -> { where(:state => 'disabled')}
+
   #scope :availables_for, ->(user){
   #  enabled.in_time.joins("left outer join metrics 
   #    on metrics.campaign_id = campaigns.id 
