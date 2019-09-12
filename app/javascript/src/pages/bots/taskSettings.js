@@ -8,7 +8,7 @@ import {
   Radio,
   RadioGroup,
   FormLabel,
-
+  Checkbox
 } from '@material-ui/core'
 
 const TaskSettingsForm = ({app, data, updateData, saveData, errors}) => {
@@ -57,6 +57,10 @@ function Schedule({app, data, updateData, namespace, submit}){
     submit(state)
   }
 
+  const handleChange = name => event => {
+    setValue(name, event.target.checked ? "enabled" : "disabled")
+  };
+
   return (
     <div>
 
@@ -64,6 +68,21 @@ function Schedule({app, data, updateData, namespace, submit}){
       <Grid container>
 
         <Grid item>
+
+          <Typography variant={"h5"}>
+            Enable Bot
+          </Typography>
+
+          <FormControlLabel
+            control={
+              <Checkbox 
+                checked={state.state === "enabled"} 
+                onChange={handleChange('state')} 
+                value="enabled" 
+              />
+            }
+            label="enabled"
+          />
 
           <Typography variant={"h5"}>
             Set specific times to show this bot to your audience.
