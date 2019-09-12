@@ -915,7 +915,7 @@ class Messenger extends Component {
   // check url pattern before trigger tours
   receiveTours = (tours)=>{
     const filteredTours = tours.filter((o)=>{
-      var pattern = new UrlPattern(o.url)
+      var pattern = new UrlPattern(o.url.replace(/^.*\/\/[^\/]+/, ''))
       var url = document.location.pathname
       return pattern.match(url);
     })
