@@ -460,6 +460,8 @@ function FollowActionsSelect({app, path, updatePath}){
     //{action_name: "app_content", value: null },
   ]
 
+  //console.log("PATH FOLLOW ACTIONS", path.followActions, path)
+
   const [selectMode, setSelectMode] = useState(null)
   const [actions, setActions] = useState(path.followActions || [])
 
@@ -467,9 +469,16 @@ function FollowActionsSelect({app, path, updatePath}){
     updateData()
   }, [actions])
 
+  useEffect(()=>{
+    setActions(path.followActions || [])
+  }, [path.id])
+
   function updateData(){
     if(!path) return 
-    const newPath = Object.assign({}, path, {follow_actions: actions})
+    const newPath = Object.assign({}, path, {
+      follow_actions: actions, 
+      followActions: actions 
+    })
     updatePath(newPath)
   }
 
@@ -746,7 +755,8 @@ const Path = ({
 
         <Typography variant={'subtitle1'}>Follow actions</Typography>
 
-        <FollowActionsSelect app={app} 
+        <FollowActionsSelect 
+          app={app} 
           updatePath={updatePath}
           path={path} 
         />
