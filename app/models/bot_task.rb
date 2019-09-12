@@ -4,7 +4,8 @@ class BotTask < ApplicationRecord
   before_create :defaults
 
   store_accessor :settings, [ 
-    :scheduling
+    :scheduling,
+    :urls
   ]
 
   scope :enabled, -> { where(:state => 'enabled')}
