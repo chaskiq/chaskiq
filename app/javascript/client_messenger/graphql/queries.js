@@ -20,7 +20,6 @@ export const PING = `
         }
         domainUrl
         theme
-        triggers
       }
       agents {
         email

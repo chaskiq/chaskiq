@@ -121,9 +121,9 @@ class App < ApplicationRecord
     ]
   end
 
-  def triggers
-    Trigger.definition
-  end
+  #def triggers
+  #  Trigger.definition
+  #end
 
   def add_anonymous_user(attrs)
     session_id = attrs.delete(:session_id)
