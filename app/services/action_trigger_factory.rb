@@ -226,7 +226,8 @@ class ActionTriggerFactory
         )
       ]
 
-      if app.user_tasks_settings["share_typical_time"] && kind === "AppUser"
+
+      if kind === "AppUser"
         path_messages << [
             c.message(text: "Hi, #{app.name} will reply as soon as they can.", uuid: 1),
           ]
