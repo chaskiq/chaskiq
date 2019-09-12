@@ -130,22 +130,27 @@ function UsersSettings({app, updateData, namespace, submit}){
   }
 
   return (
-    <div>
-      <Typography variant={"h5"}>
-        When users start a conversation
-      </Typography>
+    <Grid container>
 
-      <FormControlLabel
-        control={
-          <Checkbox checked={state.delay} 
-          onChange={handleChange('delay')} value="delay" />
-        }
-        label="Leave a 2 minute delay before triggering Task Bots during office hours"
-      />
+      <Grid item>
+        <Typography variant={"h5"}>
+          When users start a conversation
+        </Typography>
 
-      <Button onClick={submitData}>save</Button>
+        <FormControlLabel
+          control={
+            <Checkbox checked={state.delay} 
+            onChange={handleChange('delay')} value="delay" />
+          }
+          label="Leave a 2 minute delay before triggering Task Bots during office hours"
+        />
+      </Grid>
 
-    </div>
+      <Grid item>
+        <Button onClick={submitData}>save</Button>
+      </Grid>
+
+    </Grid>
   )
 }
 
@@ -175,116 +180,120 @@ function LeadsSettings({app, updateData, agents, getAgents, submit, namespace}){
   }
 
   return (
-    <div>
-      <Typography variant={"h4"}>
-        When leads start a conversation
-      </Typography>
+    <Grid container>
 
-      <FormControlLabel
-        control={
-          <Checkbox 
-            checked={state.delay} 
-            onChange={handleChange('delay')} 
-            value={state.delay} 
-          />
-        }
-        label="Leave a 2 minute delay before triggering Task Bots during office hours"
-      />
+      <Grid item>
+        <Typography variant={"h4"}>
+          When leads start a conversation
+        </Typography>
 
-      <FormControlLabel
-        control={
-          <Checkbox 
-            checked={state.share_typical_time} 
-            onChange={handleChange('share_typical_time')} 
-            value={state.share_typical_time} 
-          />
-        }
-        label="Share your typical reply time"
-      />
-
-      <Divider/>
-      
-      <Typography variant={"h5"}>
-        Route existing customers to support
-      </Typography>
-
-      <Typography variant={"body1"}>
-        Route leads to the right people by asking if they are an existing customer when they start a new conversation.      
-      </Typography>
-
-      <FormControl component="fieldset">
-        <FormLabel component="legend">
-          What do you want to do when they choose "Yes, I'm a customer"?
-        </FormLabel>
-        <RadioGroup aria-label="position" 
-          name="routing" 
-          value={state.routing} 
-          onChange={handleRadioChange} 
-          >
-          <FormControlLabel
-            value="assign"
-            control={<Radio color="primary" />}
-            label="Assign the conversation"
-            labelPlacement="end"
-          />
-
-          {
-            state.routing === "assign" && 
-            
-            <AgentSelector 
-              agents={agents} 
-              getAgents={getAgents}
-              setValue={setValue}
-              value={state.assignee}
+        <FormControlLabel
+          control={
+            <Checkbox 
+              checked={state.delay} 
+              onChange={handleChange('delay')} 
+              value={state.delay} 
             />
           }
+          label="Leave a 2 minute delay before triggering Task Bots during office hours"
+        />
 
-          <FormControlLabel
-            value="close"
-            control={<Radio color="primary" />}
-            label="Close the conversation"
-            labelPlacement="end"
-          />
-        </RadioGroup>
-      </FormControl>
+        <FormControlLabel
+          control={
+            <Checkbox 
+              checked={state.share_typical_time} 
+              onChange={handleChange('share_typical_time')} 
+              value={state.share_typical_time} 
+            />
+          }
+          label="Share your typical reply time"
+        />
 
-      <Divider/>
+        <Divider/>
+        
+        <Typography variant={"h5"}>
+          Route existing customers to support
+        </Typography>
 
-      <Typography variant={"h5"}>
-        Ask for contact details
-      </Typography>
+        <Typography variant={"body1"}>
+          Route leads to the right people by asking if they are an existing customer when they start a new conversation.      
+        </Typography>
 
-      <Typography variant={"body1"}>
-        If we don’t already have their contact details, 
-        Operator will suggest that customers leave their email 
-        address or their phone number to get notified whenever 
-        you reply.
-      </Typography>
+        <FormControl component="fieldset">
+          <FormLabel component="legend">
+            What do you want to do when they choose "Yes, I'm a customer"?
+          </FormLabel>
+          <RadioGroup aria-label="position" 
+            name="routing" 
+            value={state.routing} 
+            onChange={handleRadioChange} 
+            >
+            <FormControlLabel
+              value="assign"
+              control={<Radio color="primary" />}
+              label="Assign the conversation"
+              labelPlacement="end"
+            />
 
-      <FormControl>
-        <RadioGroup aria-label="position" 
-          name="email_requirement" 
-          value={state.email_requirement} 
-          onChange={handleRadioChange} 
-          >
-          <FormControlLabel
-            value="email_only"
-            control={<Radio color="primary" />}
-            label="Ask for email only"
-            labelPlacement="end"
-          />
-          <FormControlLabel
-            value="email_or_phone"
-            control={<Radio color="primary" />}
-            label="Ask for email or mobile number"
-            labelPlacement="end"
-          />
-        </RadioGroup>
-      </FormControl>
+            {
+              state.routing === "assign" && 
+              
+              <AgentSelector 
+                agents={agents} 
+                getAgents={getAgents}
+                setValue={setValue}
+                value={state.assignee}
+              />
+            }
 
-      <Button onClick={submitData}>save</Button>
+            <FormControlLabel
+              value="close"
+              control={<Radio color="primary" />}
+              label="Close the conversation"
+              labelPlacement="end"
+            />
+          </RadioGroup>
+        </FormControl>
 
-    </div>
+        <Divider/>
+
+        <Typography variant={"h5"}>
+          Ask for contact details
+        </Typography>
+
+        <Typography variant={"body1"}>
+          If we don’t already have their contact details, 
+          Operator will suggest that customers leave their email 
+          address or their phone number to get notified whenever 
+          you reply.
+        </Typography>
+
+        <FormControl>
+          <RadioGroup aria-label="position" 
+            name="email_requirement" 
+            value={state.email_requirement} 
+            onChange={handleRadioChange} 
+            >
+            <FormControlLabel
+              value="email_only"
+              control={<Radio color="primary" />}
+              label="Ask for email only"
+              labelPlacement="end"
+            />
+            <FormControlLabel
+              value="email_or_phone"
+              control={<Radio color="primary" />}
+              label="Ask for email or mobile number"
+              labelPlacement="end"
+            />
+          </RadioGroup>
+        </FormControl>
+      </Grid>
+
+      <Grid item>
+        <Button onClick={submitData}>save</Button>
+      </Grid>
+    </Grid>
   )
 }
 

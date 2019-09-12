@@ -13,6 +13,7 @@ import Content from '../../components/Content'
 import FormDialog from '../../components/FormDialog'
 import Segment from './segment'
 import SettingsForm from './settings'
+import BotTaskSetting from './taskSettings'
 import ContextMenu from '../../components/ContextMenu'
 
 import {
@@ -154,7 +155,6 @@ const BotEditor = ({match, app})=>{
   const [isOpen, setOpen] = useState(false)
   const [tabValue, setTabValue] = useState(0)
 
-  console.log(tabValue)
   const handleSelection = (item)=>{
     setSelectedPath(item)
   }
@@ -172,6 +172,8 @@ const BotEditor = ({match, app})=>{
     })
   }, []);
 
+  useEffect(()=> {console.log(botTask)}, [botTask])
+
   const saveData = ()=>{
 
     graphql(UPDATE_BOT_TASK, {
@@ -180,13 +182,14 @@ const BotEditor = ({match, app})=>{
       params: {
         paths: paths,
         segments: botTask.segments,
-        title: botTask.title
+        title: botTask.title,
+        scheduling: botTask.scheduling
       }
     }, {
       success: (data)=>{
-        setPaths(data.app.botTask.paths)
-        setErrors(data.app.botTask.errors)
-        setSelectedPath(data.app.botTask.paths[0])
+        setPaths(data.updateBotTask.botTask.paths)
+        setErrors(data.updateBotTask.botTask.errors)
+        setSelectedPath(data.updateBotTask.botTask.paths[0])
       },
       error: (err)=>{
         debugger
@@ -339,12 +342,13 @@ const BotEditor = ({match, app})=>{
       case 0:
         return <p>stat 0</p>
       case 1:
-        return <SettingsForm 
-        app={app} 
-        data={botTask}
-        updateData={setBotTask}
-        errors={errors}
-        />
+        return <BotTaskSetting 
+                app={app} 
+                data={botTask}
+                updateData={setBotTask}
+                saveData={saveData}
+                errors={errors}
+              />
 
 
       case 2:
@@ -418,10 +422,19 @@ const BotEditor = ({match, app})=>{
       <ContentHeader 
         title={ botTask.title }
         items={ [<Grid item>
-                  <Button variant={"outlined"} onClick={saveData}> save data </Button>
+                  <Button                     
+                    variant="outlined" 
+                    color="inherit" 
+                    size="small" 
+                    onClick={saveData}> 
+                    save data 
+                  </Button>
                 </Grid> , 
                 <Grid item>
-                  <Button color={"default"} variant={"contained"}>
+                  <Button 
+                    variant="outlined" 
+                    color="inherit" 
+                    size="small">
                     set live
                   </Button>
                 </Grid>
@@ -710,28 +723,33 @@ const Path = ({
 
       <Grid container spacing={2} justify={"space-around"}>
 
-        
-        <Button variant={"outlined"} onClick={()=> addStepMessage(path)}>
-          Add Message Bubble
-        </Button>
+        <Box m={4}>
+          <Button variant={"outlined"} onClick={()=> addStepMessage(path)}>
+            Add Message Bubble
+          </Button>
 
-        <Button variant={"outlined"} onClick={()=> addSectionControl(path)}>
-          Add Message input
-        </Button>
+          <Button variant={"outlined"} onClick={()=> addSectionControl(path)}>
+            Add Message input
+          </Button>
 
-        <Button variant={"outlined"} onClick={()=> addDataControl(path)}>
-          Add Data input
-        </Button>
+          <Button variant={"outlined"} onClick={()=> addDataControl(path)}>
+            Add Data input
+          </Button>
+        </Box>
   
       </Grid>
 
       <Divider/>
 
-      <Typography variant={'subtitle1'}>Follow actions</Typography>
+      <Grid container spacing={2} justify={"space-around"}>
 
-      <FollowActionsSelect app={app} 
-        updatePath={updatePath}
-        path={path} />
+        <Typography variant={'subtitle1'}>Follow actions</Typography>
+
+        <FollowActionsSelect app={app} 
+          updatePath={updatePath}
+          path={path} 
+        />
+      </Grid>
 
     </Box>
 

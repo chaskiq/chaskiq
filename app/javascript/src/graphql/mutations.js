@@ -912,6 +912,8 @@ export const CREATE_BOT_TASK = `
       botTask{
         id
         title
+        segments
+        scheduling
         paths {
           id
           title
@@ -933,6 +935,8 @@ export const UPDATE_BOT_TASK = `
       botTask{
         id
         title
+        scheduling
+        segments
         paths {
           id
           title

@@ -266,7 +266,7 @@ class Messenger extends Component {
   playSound = () => {
     soundManager.createSound({
       id: 'mySound',
-      url: `${this.props.domain}/sounds/picked.mp3`,
+      url: `${this.props.domain}/sounds/pling.mp3`,
       autoLoad: true,
       autoPlay: false,
       //onload: function () {
