@@ -206,6 +206,24 @@ class ActionTriggerFactory
           ]
         ),
         c.message(text: "molte gratzie", uuid: 4),
+      ] 
+
+      route_support = [
+        c.message(text: "Hi can we help?, are you an existing customer ?.", uuid: 5),
+        c.controls(
+          uuid: 6,
+          type: "ask_option",
+          schema: [
+            c.button(
+              label: "i'm existing customer", 
+              next_uuid: 7,
+            ),
+            c.button(
+              label: "no , i'm not an existing customer", 
+              next_uuid: 8,
+            )
+          ]
+        )
       ]
 
       if app.user_tasks_settings["share_typical_time"] && kind === "AppUser"
@@ -220,17 +238,19 @@ class ActionTriggerFactory
           path_messages << c.message(text: "Hi, #{app.name} will reply as soon as they can.", uuid: 1)
         end
 
-        if app.email_requirement === "Always"
-          path_messages << email_requirement 
-        end
-     
-        if app.email_requirement === "office" && !app.in_business_hours?( Time.current )
-          path_messages << email_requirement
-        end
+        path_messages << route_support
 
-        if routing = app.lead_tasks_settings["routing"].present?
+        path_messages.flatten!
+
+        routing = app.lead_tasks_settings["routing"]
+        
+        if routing.present?
+          
           follow_actions << c.close() if routing == "close"
-          follow_actions << c.assign(10) if routing == "assign"
+
+          if routing == "assign" && app.lead_tasks_settings["assignee"].present?
+            follow_actions << c.assign(app.lead_tasks_settings["assignee"])
+          end
         end
 
       end
@@ -240,16 +260,78 @@ class ActionTriggerFactory
         steps: path_messages.flatten, 
       }
 
-      path_options.merge({
+      path_options.merge!({
         follow_actions: follow_actions
       })
 
+
       c.path(path_options)
+
+      step_7 = [c.message(text: "that's great!", uuid: 7)]
+
+      if user.email.blank?
+        if app.email_requirement === "Always"
+          step_7 << email_requirement 
+          step_7.flatten!
+        end
+    
+        if app.email_requirement === "office" && !app.in_business_hours?( Time.current )
+          step_7 << email_requirement
+          step_7.flatten!
+        end
+      else
+        step_7 << c.message(text: "molte gratzie", uuid: 4)
+      end
+
+
+
+      c.path(
+        title: "yes",
+        steps: step_7,
+        follow_actions: [c.assign(app.lead_tasks_settings["assignee"])]
+      )
+
+      c.path(
+        title: "no",
+        steps: [
+          c.message(text: "oh , that sad :(", uuid: 8)
+        ],
+        follow_actions: [c.close()]
+      )
 
     end
 
     subject
 
+  end
+
+  def self.find_factory_template(app:, app_user:, data:)
+      case data["trigger"]
+        when "infer"
+          trigger = ActionTriggerFactory.infer_for(app: app, user: app_user )
+        when "request_for_email"
+          trigger = ActionTriggerFactory.request_for_email(app: app)
+          return trigger
+        when "route_support"
+          trigger = ActionTriggerFactory.route_support(app: app)
+          return trigger
+        when "typical_reply_time"
+          trigger = ActionTriggerFactory.typical_reply_time(app: app)
+          return trigger
+        else
+        Error.new("template not found") 
+      end
+  end
+
+  def self.find_task(data: , app: , app_user: )
+    trigger = app.bot_tasks.find(data["trigger"]) rescue self.find_factory_template(data: data, app: app, app_user: app_user)
+    path = trigger.paths.find{|o| 
+        o.with_indifferent_access["steps"].find{|a| 
+          a["step_uid"] === data["step"] 
+      }.present? 
+    }.with_indifferent_access
+    
+    return trigger, path
   end
 
   def reply_options
@@ -260,6 +342,7 @@ class ActionTriggerFactory
       {value: "1 day", label: "El equipo suele responder en un día."},
     ]
   end
+
 
 
 end

@@ -19,7 +19,7 @@ module Types
     def conversations(page:, per:)
       @user = context[:get_app_user].call
       @conversations = object.conversations.where(main_participant: @user.id)
-                                        .order("id desc")
+                                        .order("updated_at desc")
                                         .page(page)
                                         .per(5)
     end
