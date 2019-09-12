@@ -644,7 +644,7 @@ class Messenger extends Component {
   }
 
   isMessengerActive = ()=>{
-    return this.state.enabled && this.state.appData && (this.state.appData.activeMessenger == "on" || this.state.appData.activeMessenger == "true" || this.state.appData.activeMessenger === true)
+    return !this.state.tourManagerEnabled && this.state.enabled && this.state.appData && (this.state.appData.activeMessenger == "on" || this.state.appData.activeMessenger == "true" || this.state.appData.activeMessenger === true)
     //return this.state.appData && this.state.appData.inboundSettings && this.state.appData.inboundSettings.enabled
   }
 
