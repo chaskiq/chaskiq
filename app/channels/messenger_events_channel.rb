@@ -19,12 +19,6 @@ class MessengerEventsChannel < ApplicationCable::Channel
     # Any cleanup needed when channel is unsubscribed
   end
 
-  def data_submit(data)
-    # TODO: check permitted params here!
-    data.delete('action')
-    @app_user.update(data)
-  end
-
   def send_message(options)
     options.delete("action")
     @app_user.visits.create(options)
@@ -69,6 +63,12 @@ class MessengerEventsChannel < ApplicationCable::Channel
     )
   end
 
+  def data_submit(data)
+    # TODO: check permitted params here!
+    data.delete('action')
+    @app_user.update(data)
+  end
+
   def received_trigger_step(data)
     trigger, path = ActionTriggerFactory.find_task(data: data, app: @app,app_user: @app_user )
 
@@ -77,8 +77,9 @@ class MessengerEventsChannel < ApplicationCable::Channel
  
     key = "#{@app.key}-#{@app_user.session_id}"
 
-    # si no tiene 
-    # binding.pry if next_step.blank?
+    if data["submit"].present?
+      data_submit(data["submit"])
+    end
 
     conversation = data["conversation"]
 

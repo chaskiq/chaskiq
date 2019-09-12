@@ -28,7 +28,7 @@ class Agent < ApplicationRecord
 
 
   def display_name
-    [self.name, self.email].join(" ")
+    [self.name].join(" ")
   end
 
 

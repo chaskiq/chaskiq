@@ -208,6 +208,24 @@ class ActionTriggerFactory
         c.message(text: "molte gratzie", uuid: 4),
       ] 
 
+      route_support = [
+        c.message(text: "Hi can we help?, are you an existing customer ?.", uuid: 5),
+        c.controls(
+          uuid: 6,
+          type: "ask_option",
+          schema: [
+            c.button(
+              label: "i'm existing customer", 
+              next_uuid: 7,
+            ),
+            c.button(
+              label: "no , i'm not an existing customer", 
+              next_uuid: 8,
+            )
+          ]
+        )
+      ]
+
       if app.user_tasks_settings["share_typical_time"] && kind === "AppUser"
         path_messages << [
             c.message(text: "Hi, #{app.name} will reply as soon as they can.", uuid: 1),
@@ -220,15 +238,9 @@ class ActionTriggerFactory
           path_messages << c.message(text: "Hi, #{app.name} will reply as soon as they can.", uuid: 1)
         end
 
-        if user.email.blank?
-          if app.email_requirement === "Always"
-            path_messages << email_requirement 
-          end
-      
-          if app.email_requirement === "office" && !app.in_business_hours?( Time.current )
-            path_messages << email_requirement
-          end
-        end
+        path_messages << route_support
+
+        path_messages.flatten!
 
         routing = app.lead_tasks_settings["routing"]
         
@@ -252,7 +264,40 @@ class ActionTriggerFactory
         follow_actions: follow_actions
       })
 
+
       c.path(path_options)
+
+      step_7 = [c.message(text: "that's great!", uuid: 7)]
+
+      if user.email.blank?
+        if app.email_requirement === "Always"
+          step_7 << email_requirement 
+          step_7.flatten!
+        end
+    
+        if app.email_requirement === "office" && !app.in_business_hours?( Time.current )
+          step_7 << email_requirement
+          step_7.flatten!
+        end
+      else
+        step_7 << c.message(text: "molte gratzie", uuid: 4)
+      end
+
+
+
+      c.path(
+        title: "yes",
+        steps: step_7,
+        follow_actions: [c.assign(app.lead_tasks_settings["assignee"])]
+      )
+
+      c.path(
+        title: "no",
+        steps: [
+          c.message(text: "oh , that sad :(", uuid: 8)
+        ],
+        follow_actions: [c.close()]
+      )
 
     end
 

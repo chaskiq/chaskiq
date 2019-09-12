@@ -49,6 +49,10 @@ export const CONVERSATIONS = `
           state
           readAt
           priority
+          assignee {
+            displayName
+            email
+          }
           lastMessage{
             source
             createdAt

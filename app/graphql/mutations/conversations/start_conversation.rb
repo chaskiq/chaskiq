@@ -22,21 +22,6 @@ module Mutations
           participant = nil
         end
 
-
-        trigger_id = message["volatile"]["trigger"]["id"]
-        step = message["volatile"]["currentStep"]["step_uid"]
-        data = {
-          "trigger"=> trigger_id, 
-          "step"=> step
-        }
-
-        trigger, path = ActionTriggerFactory.find_task(data: data, app: app, app_user: app_user)
-
-        next_index = path["steps"].index{|o| o["step_uid"] == data["step"]} + 1
-        next_step = path["steps"][next_index]
-
-        assignee = path["follow_actions"].find{|o| o["name"] == "assign"}
-
         options = {
           from: author,
           participant: participant,
@@ -47,7 +32,22 @@ module Mutations
           }
         }
 
+        trigger_id = message["volatile"]["trigger"]["id"]
+        step = message["volatile"]["currentStep"]["step_uid"]
+        data = {
+          "trigger"=> trigger_id, 
+          "step"=> step
+        }
+        
+        trigger, path = ActionTriggerFactory.find_task(data: data, app: app, app_user: app_user)
+
+        next_index = path["steps"].index{|o| o["step_uid"] == data["step"]} + 1
+        next_step = path["steps"][next_index]
+
+        assignee = path["follow_actions"].find{|o| o["name"] == "assign"}
+
         options.merge!({assignee: app.agents.find(assignee["value"])}) if assignee
+        
         conversation = app.start_conversation(options) 
         
         {
