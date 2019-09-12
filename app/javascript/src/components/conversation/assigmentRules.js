@@ -13,7 +13,12 @@ import {
   InputLabel,
   MenuItem,
   Select,
-  Grid
+  Grid,
+  List, 
+  ListItem ,
+  ListItemText ,
+  ListItemAvatar, 
+  Avatar,
 } from '@material-ui/core'
 import FormDialog from '../FormDialog'
 import FieldRenderer from '../../shared/FormFields'
@@ -39,13 +44,6 @@ import { connect } from 'react-redux'
 
 import { withStyles } from '@material-ui/core/styles';
 
-import { 
-  List, 
-  ListItem ,
-  ListItemText ,
-  ListItemAvatar, 
-  Avatar
-} from '@material-ui/core';
 import DragHandleIcon from '@material-ui/icons/DragHandle'
 import {
   sortableContainer, 
@@ -63,7 +61,7 @@ const styles = theme => ({
   },
 });
 
-const DragHandle = sortableHandle(() => <DragHandleIcon/>);
+const DragHandle = sortableHandle(() => <Box m={1}><DragHandleIcon/></Box>);
 
 const SortableItem = sortableElement(({object, deleteRule, edit, classes}) => (
     <ListItem divider>
