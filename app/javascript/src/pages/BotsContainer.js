@@ -82,7 +82,13 @@ const BotDataTable = ({app, match, history})=>{
       <ContentHeader 
         title={ 'title' }
         items={ <Grid item>
-                  <Button onClick={toggleTaskForm}> new Task </Button>
+                  <Button 
+                    variant="outlined" 
+                    color="inherit" 
+                    size="small"
+                    onClick={toggleTaskForm}> 
+                    new Task 
+                  </Button>
                 </Grid> 
             }
         tabsContent={null}

@@ -684,6 +684,7 @@ export const BOT_TASK = `
         state
         title
         segments
+        scheduling
         paths{
           id
           steps

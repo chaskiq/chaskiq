@@ -148,6 +148,7 @@ export default class Segment extends Component {
   }
 
   render() {
+    console.log("AAA", this.props.data)
     return <SegmentManager {...this.props}
       loading={this.state.searching}
       predicates={this.props.data.segments}
