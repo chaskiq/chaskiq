@@ -128,17 +128,17 @@ class ActionTriggerFactory
       c.path(
         title: "route_support" , 
         steps: [
-          c.message(text: "Hi can we help?, are you an existing customer ?.", uuid: 1),
+          c.message(text: "are you an existing customer ?.", uuid: 1),
           c.controls(
             uuid: 2,
             type: "ask_option",
             schema: [
               c.button(
-                label: "i'm existing customer", 
+                label: "yes, I'm an existing customer", 
                 next_uuid: 3,
               ),
               c.button(
-                label: "no , i'm not an existing customer", 
+                label: "no, I'm not an existing customer", 
                 next_uuid: 4,
               )
             ]
@@ -148,14 +148,14 @@ class ActionTriggerFactory
       c.path(
         title: "yes",
         steps: [
-          c.message(text: "that's great!", uuid: 3)
+          c.message(text: "great!", uuid: 3)
         ],
         follow_actions: [c.assign(10)]
       )
       c.path(
         title: "no",
         steps: [
-          c.message(text: "oh , that sad :(", uuid: 4)
+          c.message(text: "oh, that's so sad :(", uuid: 4)
         ],
         follow_actions: [c.assign(10)]
       )
@@ -205,21 +205,21 @@ class ActionTriggerFactory
             )
           ]
         ),
-        c.message(text: "molte gratzie", uuid: 4),
+        c.message(text: "thank you", uuid: 4),
       ] 
 
       route_support = [
-        c.message(text: "Hi can we help?, are you an existing customer ?.", uuid: 5),
+        c.message(text: "Are you an existing customer ?.", uuid: 5),
         c.controls(
           uuid: 6,
           type: "ask_option",
           schema: [
             c.button(
-              label: "i'm existing customer", 
+              label: "I'm existing customer", 
               next_uuid: 7,
             ),
             c.button(
-              label: "no , i'm not an existing customer", 
+              label: "No , I'm not an existing customer", 
               next_uuid: 8,
             )
           ]
@@ -295,7 +295,7 @@ class ActionTriggerFactory
       c.path(
         title: "no",
         steps: [
-          c.message(text: "oh , that sad :(", uuid: 8)
+          c.message(text: "oh , that's sad :(", uuid: 8)
         ],
         follow_actions: [c.close()]
       )
