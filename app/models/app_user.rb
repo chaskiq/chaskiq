@@ -66,8 +66,7 @@ class AppUser < ApplicationRecord
   end
 
   def display_name
-    [self.name,
-    self.email].join(" ")
+    [self.name].join(" ")
   end
 
 

@@ -55,6 +55,7 @@ import {
   ConversationSummaryBody,
   ConversationSummaryBodyMeta,
   ConversationSummaryBodyContent,
+  ConversationSummaryBodyItems,
   Autor,
   Hint,
   ConversationsFooter,
@@ -675,7 +676,6 @@ class Messenger extends Component {
 
 
     // messages & controles will never meet together
-
     const conversationMessages = o.messages.map((message)=>(
       {
         volatile: true,
@@ -1299,8 +1299,7 @@ class Conversation extends Component {
   }
 
   renderItemPackage = (o, i)=>{
-    return  <MessageItem>
-              <AppPackageBlock 
+    return  <AppPackageBlock 
                key={i}
                conversation={this.props.conversation}
                submitAppUserData={this.props.submitAppUserData.bind(this)}
@@ -1308,7 +1307,6 @@ class Conversation extends Component {
                appPackageSubmitHandler={this.appPackageSubmitHandler.bind(this)}
                 {...o}
               />
-            </MessageItem>
   }
 
   appPackageClickHandler = (item)=>{
@@ -1320,11 +1318,12 @@ class Conversation extends Component {
     
   }
 
-  appPackageSubmitHandler = (data, next_step_uuid)=>{
+  appPackageSubmitHandler = (data)=>{
     App.events && App.events.perform('received_trigger_step', {
       conversation: this.props.conversation.key,
       trigger: this.props.conversation.trigger.id,
-      step: this.props.conversation.currentStep.step_uid
+      step: this.props.conversation.currentStep.step_uid,
+      submit: data
     })
     
   }
@@ -1489,40 +1488,48 @@ function CommentsItemComp(props){
                     <ConversationSummary>
 
                       <ConversationSummaryAvatar>
-                        <img src={gravatar(message.appUser.email)} />
+                        <img src={gravatar(o.assignee.email)} />
                       </ConversationSummaryAvatar>
 
                       <ConversationSummaryBody>
 
                         <ConversationSummaryBodyMeta>
-
                           {
                             !message.readAt && message.appUser.email !== email ?
                               <ReadIndicator /> : null
                           }
                           <Autor>
-                            {message.appUser.displayName}
-                            {message.appUser.email}
+                            {o.assignee.displayName}
                           </Autor>
 
                           <Moment fromNow style={{
                             float: 'right',
                             color: '#ccc',
-                            width: '88px',
+                            width: '115px',
                             margin: '0px 10px',
                             fontSize: '.8em',
-                            textTransform: 'unset'
+                            textTransform: 'unset',
+                            textAlign: 'right',
+                            fontWeight: '100' 
                           }}>
                             {message.createdAt}
                           </Moment>
 
                         </ConversationSummaryBodyMeta>
                         {/* TODO: sanitize in backend */}
-                        <ConversationSummaryBodyContent
-                          dangerouslySetInnerHTML={
-                            { __html: sanitizeMessageSummary(message.message.htmlContent) }
+                        {/*<img src={gravatar(message.appUser.email)} />*/}
+                        <ConversationSummaryBodyItems>
+                          {
+                            message.appUser.kind != "agent" ? 
+                              <div className="you">you:</div> : null 
                           }
-                        />
+                          <ConversationSummaryBodyContent
+                            dangerouslySetInnerHTML={
+                              { __html: sanitizeMessageSummary(message.message.htmlContent) }
+                            }
+                          />
+                        </ConversationSummaryBodyItems>
+
                       </ConversationSummaryBody>
                     </ConversationSummary> : null
                 }
@@ -1778,11 +1785,9 @@ class AppPackageBlock extends Component {
   }
 
   render(){
-    return <div>
-              <AppPackageBlockContainer>
+    return <AppPackageBlockContainer>
               {
                 true ? //!this.state.done ?
-              
                 <form ref={o => this.form } 
                   onSubmit={ this.sendAppPackageSubmit }>
                   {
@@ -1790,8 +1795,8 @@ class AppPackageBlock extends Component {
                   }
                 </form> : <p>aa</p>
               }
-              </AppPackageBlockContainer>
-            </div>
+          </AppPackageBlockContainer>
+
   }
 }
 
