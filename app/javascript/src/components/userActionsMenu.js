@@ -62,6 +62,7 @@ export default function UserActionsMenu(props) {
         aria-controls="long-menu"
         aria-haspopup="true"
         onClick={handleClick}
+        color={"inherit"}
       >
         <MoreVertIcon />
       </IconButton>

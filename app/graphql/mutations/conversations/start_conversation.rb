@@ -32,21 +32,23 @@ module Mutations
           }
         }
 
-        trigger_id = message["volatile"]["trigger"]["id"]
-        step = message["volatile"]["currentStep"]["step_uid"]
-        data = {
-          "trigger"=> trigger_id, 
-          "step"=> step
-        }
-        
-        trigger, path = ActionTriggerFactory.find_task(data: data, app: app, app_user: app_user)
+        if message["volatile"].present?
+          trigger_id = message["volatile"]["trigger"]["id"]
+          step = message["volatile"]["currentStep"]["step_uid"]
+          data = {
+            "trigger"=> trigger_id, 
+            "step"=> step
+          }
+          
+          trigger, path = ActionTriggerFactory.find_task(data: data, app: app, app_user: app_user)
 
-        next_index = path["steps"].index{|o| o["step_uid"] == data["step"]} + 1
-        next_step = path["steps"][next_index]
+          next_index = path["steps"].index{|o| o["step_uid"] == data["step"]} + 1
+          next_step = path["steps"][next_index]
 
-        if path["follow_actions"].present?
-          assignee = path["follow_actions"].find{|o| o["name"] == "assign"}
-          options.merge!({assignee: app.agents.find(assignee["value"])}) if assignee.present?
+          if path["follow_actions"].present?
+            assignee = path["follow_actions"].find{|o| o["name"] == "assign"}
+            options.merge!({assignee: app.agents.find(assignee["value"])}) if assignee.present?
+          end
         end
         
         conversation = app.start_conversation(options) 
@@ -60,6 +62,7 @@ module Mutations
       def current_user
         context[:current_user]
       end
+
     end
   end
 end

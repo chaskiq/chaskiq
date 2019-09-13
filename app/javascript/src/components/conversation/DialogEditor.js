@@ -14,7 +14,7 @@ function DialogEditor(props) {
   
   React.useEffect( () => { 
     setOpen(props.open) 
-  }, [ open ] );
+  }, [ props.open ] );
 
   function handleClickOpen() {
     setOpen(true);
@@ -22,6 +22,7 @@ function DialogEditor(props) {
 
   function handleClose() {
     setOpen(false);
+    props.close()
   }
 
   return (
@@ -56,10 +57,7 @@ function DialogEditor(props) {
 
         <DialogActions>
           <Button onClick={handleClose} color="primary">
-            Disagree
-          </Button>
-          <Button onClick={handleClose} color="primary" autoFocus>
-            Agree
+            Cancel
           </Button>
         </DialogActions>
 
