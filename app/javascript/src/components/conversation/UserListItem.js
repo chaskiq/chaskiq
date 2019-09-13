@@ -60,7 +60,7 @@ const useStyles = makeStyles(theme => ({
     marginRight: '10px',
   },
   time: {
-    fontSize: '0.7em',
+    fontSize: '0.6em',
   },
   displayName: {
     width: 'calc(100% - 9px)',
@@ -88,16 +88,8 @@ const PrivateNoteIndicator = styled.div`
   border: 1px solid #f1e1a9;
 `
 
-const ContentContent = styled.div`
-
+const ContentContent = styled(Typography)`
   color: rgba(0, 0, 0, 0.54);
-  width: 100%;
-  margin: 0em;
-  display: inline-block;
-  overflow: hidden;
-  font-size: 14px;
-  white-space: nowrap;
-  text-overflow: ellipsis;
   p{
     margin: 0px;
   }
@@ -120,10 +112,13 @@ function AlignItemsList(props) {
         }}>
 
         <Grid 
-          container alignItems={"center"} 
+          container alignItems={"center"}
+          wrap="nowrap" 
           justify={"space-between"}>
+
+          
         
-          <Grid item className={classes.avatarMargin}>
+          <Grid item item xs={1}>
             <Avatar 
                 className={classes.participantAvatar}
                 onClick={()=>props.showUserDrawer(participant.id)}
@@ -132,67 +127,62 @@ function AlignItemsList(props) {
             />
           </Grid>
 
-          <Grid item style={{width: 'calc(100% - 101px)'}}>
+          <Grid item item xs={7} zeroMinWidth>
               <Typography
                 noWrap
                 component="span"
-                variant="subtitle2"
+                variant="overline"
                 display={"block"}
                 className={classes.displayName}
                 color="textPrimary">
                 {participant.displayName || 'Site visitor'}
               </Typography>
 
-
-              <Grid container>
-
-                <Typography
-                  component="span"
-                  //variant="h6"
-                  display="inline"
-                  //className={classes.inline}
-                  color="textPrimary">
-      
-                  <div className={classes.flexContainer}>
-                    
-                    {
-                      props.messageUser.id != participant.id ?
-                        <Avatar 
-                            onClick={()=>props.showUserDrawer(props.messageUser.id)} 
-                            className={classes.tinyAvatar}
-                            alt={props.messageUser.email} 
-                            src={gravatar(props.messageUser.email)} 
-                        /> : null 
+              <div className={classes.flexContainer}>
+                
+                {
+                  props.messageUser.id != participant.id ?
+                    <Avatar 
+                        onClick={()=>props.showUserDrawer(props.messageUser.id)} 
+                        className={classes.tinyAvatar}
+                        alt={props.messageUser.email} 
+                        src={gravatar(props.messageUser.email)} 
+                    /> : null 
+                }
+  
+                {
+                  props.messageObject.privateNote ? 
+                    <PrivateNoteIndicator/> : null
+                }
+  
+                {
+                  props.conversation.priority ? 
+                    <PriorityHighIcon 
+                      color={'primary'}
+                    /> : null
+                }
+  
+                <ContentContent 
+                  variant={"body2"}
+                  noWrap 
+                  color={"text.secondary"}
+                  dangerouslySetInnerHTML={
+                    { __html: props.message }
                     }
-      
-                    {
-                      props.messageObject.privateNote ? 
-                        <PrivateNoteIndicator/> : null
-                    }
-      
-                    {
-                      props.conversation.priority ? 
-                        <PriorityHighIcon 
-                          color={'primary'}
-                        /> : null
-                    }
-      
-                    <ContentContent
-                      dangerouslySetInnerHTML={
-                      { __html: props.message }
-                      }
-                    />
+                />
 
-                  </div>
-      
-                </Typography>
-      
-              </Grid>
+                {/* 
+                <ContentContent
+                  dangerouslySetInnerHTML={
+                  { __html: props.message }
+                  }
+                />*/}
 
+              </div>
 
           </Grid>
 
-          <Grid item style={{alignSelf: "flex-start"}}>
+          <Grid item item xs={2}>
             
             {
               props.messageObject.createdAt &&
@@ -208,113 +198,7 @@ function AlignItemsList(props) {
             } 
           </Grid>
         
-        
         </Grid>
-
-        {/*
-        
-        <ListItemAvatar>
-              <Avatar 
-              onClick={()=>props.showUserDrawer(props.messageUser.id)}
-              alt={props.messageUser.email} 
-              src={gravatar(props.messageUser.email)} 
-            />
-          
-        </ListItemAvatar>
-
-        <ListItemText
-          primary={
-            <Grid container justify={"space-between"}>
-
-            <Grid item>
-              <Typography
-                  noWrap
-                  component="span"
-                  variant="subtitle2"
-                  display={"inline"}
-                  className={classes.displayName}
-                  color="textPrimary">
-                  {props.messageUser.displayName}
-              </Typography>
-            </Grid>
-
-            
-
-              <Grid item>
-
-                {
-                  props.messageObject.createdAt &&
-                  <Typography
-                    component="span"
-                    variant="subtitle2"
-                    className={classes.time}
-                    color="textSecondary">
-                    <Moment fromNow ago>
-                      {props.messageObject.createdAt}
-                    </Moment>
-                  </Typography>
-                }  
-              </Grid>
-
-            </Grid>
-            
-          }
-          secondary={
-            <React.Fragment>
-
-              <Typography
-                component="span"
-                //variant="h6"
-                display="inline"
-                //className={classes.inline}
-                color="textPrimary">
-
-                <div className={classes.flexContainer}>
-                  
-                  {
-                    props.messageUser.id != props.messageUser.id ?
-                      <Avatar 
-                          onClick={()=>props.showUserDrawer(props.messageUser.id)} 
-                          className={classes.tinyAvatar}
-                          alt={props.messageUser.email} 
-                          src={gravatar(props.messageUser.email)} 
-                      /> : null 
-                  }
-
-                  {
-                    props.messageObject.privateNote ? 
-                      <PrivateNoteIndicator/> : null
-                  }
-
-
-
-                  {
-                    props.conversation.priority ? 
-                      <PriorityHighIcon 
-                        color={'primary'}
-                      /> : null
-                  }
-
-                  <span className={classes.textMargin} 
-                    dangerouslySetInnerHTML={
-                    { __html: props.message }
-                  }/>
-
-           
-                                 
-
-                </div>
-
-              </Typography>
-
-
-
-
-            </React.Fragment>
-          }
-        />
-          
-        */}
 
 
       </ListItem>
