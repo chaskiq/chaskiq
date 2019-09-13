@@ -394,8 +394,17 @@ class AppSegment extends Component {
                 </div>
               
 
-              <Typography>{row.name || row.displayName}</Typography>
-              
+                <Grid container direction={"column"}>
+
+                <Typography variant="overline" display="block">
+                  {row.displayName}
+                </Typography>
+
+                <Typography variant={"caption"}>
+                  {row.email}
+                </Typography>
+
+              </Grid>
             </div>
 
            : undefined)
