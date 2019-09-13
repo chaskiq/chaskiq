@@ -84,6 +84,7 @@ const renderers = {
         {child}
       </li>)
     }</ol>,
+
     'image': (children, {keys, data}) => {
       const data2 = data[0]
       const {url, aspect_ratio, caption} = data2
@@ -96,6 +97,8 @@ const renderers = {
       }else{
         var { height, width, ratio} = aspect_ratio 
       }
+
+      console.log("CAPTION", keys, data)
 
       return  <figure  key={keys[0]} className="graf graf--figure">
                   <div>
@@ -114,11 +117,19 @@ const renderers = {
                     </div>
 
                   </div>
-                  <figcaption className="imageCaption">
-                    <span>
-                      <span data-text="true">{caption}</span>
-                    </span>
-                  </figcaption>
+
+
+                  {
+                    caption && 
+                    caption != "type a caption (optional)"
+                    && 
+
+                    <figcaption className="imageCaption">
+                      <span>
+                        <span data-text="true">{children}</span>
+                      </span>
+                    </figcaption>
+                  }
 
               </figure>
     },
@@ -155,20 +166,26 @@ const renderers = {
 
       const {provisory_text, type, embed_data } = data[0]
       const {html} = embed_data
-
+      console.log(provisory_text)
       return <figure  key={keys[0]} className="graf--figure graf--iframe graf--first" tabindex="0">
                 <div className="iframeContainer" dangerouslySetInnerHTML={
                           { __html: `${html}` }
                         }/>
-                <figcaption className="imageCaption">
-                  <div className="public-DraftStyleDefault-block public-DraftStyleDefault-ltr">
-                    <span>
-                    <span>
-                    {provisory_text}
-                    </span>
-                    </span>
-                  </div>
-                </figcaption>
+
+                {
+                  provisory_text && 
+                  provisory_text === "type a caption (optional)"
+                  && 
+                  <figcaption className="imageCaption">
+                    <div className="public-DraftStyleDefault-block public-DraftStyleDefault-ltr">
+                      <span>
+                      <span>
+                      {provisory_text}
+                      </span>
+                      </span>
+                    </div>
+                  </figcaption> 
+                }
             </figure>
     },
     'recorded-video': (children, {keys, data})=>{
