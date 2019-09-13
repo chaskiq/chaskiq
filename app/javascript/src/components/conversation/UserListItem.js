@@ -33,14 +33,31 @@ const useStyles = makeStyles(theme => ({
     height: '20px',
     marginRight: '8px',
   },
+  participantAvatar: {
+    //margin: 10,
+    width: 40,
+    height: 40,
+  },
   flexContainer: {
     display: 'flex',
     alignItems: 'center'
   },
   textMargin: {
     color: 'rgba(0, 0, 0, 0.54)',
-    marginTop: '0.5em',
-    marginBottom: '.5em'
+    margin: '0em',
+    //marginTop: '0.5em',
+    //marginBottom: '.5em'
+    color: 'rgba(0, 0, 0, 0.54)',
+    margin: '0em',
+    fontSize: '14px',
+    display: 'inline-block',
+    overflow: 'hidden',
+    width: '100%',
+    whiteSpace: 'nowrap',
+    textOverflow: 'ellipsis'
+  },
+  avatarMargin: {
+    marginRight: '10px',
   },
   time: {
     fontSize: '0.7em',
@@ -71,6 +88,21 @@ const PrivateNoteIndicator = styled.div`
   border: 1px solid #f1e1a9;
 `
 
+const ContentContent = styled.div`
+
+  color: rgba(0, 0, 0, 0.54);
+  width: 100%;
+  margin: 0em;
+  display: inline-block;
+  overflow: hidden;
+  font-size: 14px;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  p{
+    margin: 0px;
+  }
+`
+
 
 function AlignItemsList(props) {
   const classes = useStyles();
@@ -82,6 +114,8 @@ function AlignItemsList(props) {
         //alignItems="flex-start" 
         style={{
           flexFlow: 'column',
+          paddingTop: '1.5em',
+          paddingBottom: '1.5em',
           backgroundColor: props.value === props.object ? 'aliceblue' : 'white'
         }}>
 
@@ -89,8 +123,9 @@ function AlignItemsList(props) {
           container alignItems={"center"} 
           justify={"space-between"}>
         
-          <Grid item>
+          <Grid item className={classes.avatarMargin}>
             <Avatar 
+                className={classes.participantAvatar}
                 onClick={()=>props.showUserDrawer(participant.id)}
                 alt={participant.email} 
                 src={gravatar(participant.email)} 
@@ -99,17 +134,66 @@ function AlignItemsList(props) {
 
           <Grid item style={{width: 'calc(100% - 101px)'}}>
               <Typography
-                  noWrap
-                  component="span"
-                  variant="subtitle2"
-                  display={"block"}
-                  className={classes.displayName}
-                  color="textPrimary">
-                  {props.messageUser.displayName}
+                noWrap
+                component="span"
+                variant="subtitle2"
+                display={"block"}
+                className={classes.displayName}
+                color="textPrimary">
+                {participant.displayName || 'Site visitor'}
               </Typography>
+
+
+              <Grid container>
+
+                <Typography
+                  component="span"
+                  //variant="h6"
+                  display="inline"
+                  //className={classes.inline}
+                  color="textPrimary">
+      
+                  <div className={classes.flexContainer}>
+                    
+                    {
+                      props.messageUser.id != participant.id ?
+                        <Avatar 
+                            onClick={()=>props.showUserDrawer(props.messageUser.id)} 
+                            className={classes.tinyAvatar}
+                            alt={props.messageUser.email} 
+                            src={gravatar(props.messageUser.email)} 
+                        /> : null 
+                    }
+      
+                    {
+                      props.messageObject.privateNote ? 
+                        <PrivateNoteIndicator/> : null
+                    }
+      
+                    {
+                      props.conversation.priority ? 
+                        <PriorityHighIcon 
+                          color={'primary'}
+                        /> : null
+                    }
+      
+                    <ContentContent
+                      dangerouslySetInnerHTML={
+                      { __html: props.message }
+                      }
+                    />
+
+                  </div>
+      
+                </Typography>
+      
+              </Grid>
+
+
           </Grid>
 
-          <Grid item>
+          <Grid item style={{alignSelf: "flex-start"}}>
+            
             {
               props.messageObject.createdAt &&
               <Typography
@@ -126,55 +210,6 @@ function AlignItemsList(props) {
         
         
         </Grid>
-
-        <Grid container>
-
-          <Typography
-            component="span"
-            //variant="h6"
-            display="inline"
-            //className={classes.inline}
-            color="textPrimary">
-
-            <div className={classes.flexContainer}>
-              
-              {
-                props.messageUser.id != participant.id ?
-                  <Avatar 
-                      onClick={()=>props.showUserDrawer(props.messageUser.id)} 
-                      className={classes.tinyAvatar}
-                      alt={props.messageUser.email} 
-                      src={gravatar(props.messageUser.email)} 
-                  /> : null 
-              }
-
-              {
-                props.messageObject.privateNote ? 
-                  <PrivateNoteIndicator/> : null
-              }
-
-              {
-                props.conversation.priority ? 
-                  <PriorityHighIcon 
-                    color={'primary'}
-                  /> : null
-              }
-
-              <span className={classes.textMargin} 
-                dangerouslySetInnerHTML={
-                { __html: props.message }
-              }/>
-
-      
-                            
-
-            </div>
-
-          </Typography>
-
-        </Grid>
-
-
 
         {/*
         

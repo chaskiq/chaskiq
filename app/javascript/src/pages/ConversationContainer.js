@@ -129,6 +129,8 @@ class ConversationContainer extends Component {
     this.state = {
       rightDrawer: false,
     }
+
+    this.fetching = false
   }
 
   componentDidMount(){
@@ -144,15 +146,18 @@ class ConversationContainer extends Component {
 
     //console.log(element.scrollHeight - element.scrollTop, element.clientHeight)
     if (element.scrollHeight - element.scrollTop === element.clientHeight) {
-      if (this.props.conversations.meta.next_page){
-        this.getConversations({ append: true })
+      if (this.props.conversations.meta.next_page && !this.fetching){
+        this.fetching = true
+        this.getConversations(()=>{
+          this.fetching = false
+        })
       }
     }
   }
 
   getConversations = (cb)=>{
     this.props.dispatch(getConversations( ()=>{
-      cb ? cb() : null
+      cb && cb()
     }))
   }
 
@@ -264,6 +269,8 @@ class ConversationContainer extends Component {
                     this.props.conversations.collection.map((o, i)=>{
 
                       const user = o.mainParticipant
+
+                      //console.log(o.key, this.props.conversation.key )
 
                       return <div 
                                 key={o.id} 
