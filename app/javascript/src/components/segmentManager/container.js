@@ -25,6 +25,7 @@ import {dispatchSegmentUpdate} from '../../actions/segments'
 import Badge from '@material-ui/core/Badge';
 import Avatar from '@material-ui/core/Avatar';
 import Typography from '@material-ui/core/Typography'
+import Grid from '@material-ui/core/Grid'
 import Moment from 'react-moment';
 import gravatar from '../../shared/gravatar'
 import {setCurrentPage} from '../../actions/navigation'
@@ -36,7 +37,7 @@ const Wrapper = styled.div`
 const ButtonGroup = styled.div`
   display: inline-flex;
   flex-wrap: wrap;
-
+  margin-bottom: 2em;
   button {
     margin-right: 5px !important;
   }
@@ -209,7 +210,7 @@ class AppUsers extends Component {
                   //.filter((o)=>(o.attribute !== "subscription_state"))
                     .map((o, i)=>{
                     return <SegmentItemButton 
-                            key={i}
+                            key={`segment-item-button-${i}`}
                             index={i}
                             predicate={o}
                             predicates={this.props.actions.getPredicates()}
@@ -295,10 +296,18 @@ class AppUsers extends Component {
                         </Badge>
                       </AvatarWrapper>
 
-                      <Typography>{row.email}</Typography>
-                      <Typography variant="overline" display="block">
-                        {row.name}
-                      </Typography>
+                      <Grid container direction={"column"}>
+
+                        <Typography variant="overline" display="block">
+                          {row.displayName}
+                        </Typography>
+        
+                        <Typography variant={"caption"}>
+                          {row.email}
+                        </Typography>
+
+                      </Grid>
+                    
                     </NameWrapper>
 
                    : undefined)

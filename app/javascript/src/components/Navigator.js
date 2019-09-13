@@ -154,7 +154,6 @@ function Navigator(props, context) {
         { id: 'Mailing Campaigns', icon: <EmailIcon/>, url: `${appid}/messages/campaigns`},
         { id: 'In App messages', icon: <MessageIcon/>, url: `${appid}/messages/user_auto_messages`},
         { id: 'Guided tours', icon: <FilterFramesIcon/>, url: `${appid}/messages/tours`,},
-        { id: 'visitor auto messages', icon: <FlipToFrontIcon/>, url: `${appid}/messages/visitor_auto`}
       ],
     },
 

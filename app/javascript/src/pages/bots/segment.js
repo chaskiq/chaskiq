@@ -17,7 +17,8 @@ import {
   Tab,
   Tabs,
   Chip,
-  Button
+  Button,
+  Grid
 } from '@material-ui/core'
 import gravatar from '../../shared/gravatar'
 
@@ -148,7 +149,6 @@ export default class Segment extends Component {
   }
 
   render() {
-    console.log("AAA", this.props.data)
     return <SegmentManager {...this.props}
       loading={this.state.searching}
       predicates={this.props.data.segments}
@@ -180,10 +180,17 @@ export default class Segment extends Component {
                 </div>
               </AvatarWrapper>
 
-              <Typography>{row.email}</Typography>
+              <Grid container direction={"column"}>
+
               <Typography variant="overline" display="block">
-                {row.name}
+                {row.displayName}
               </Typography>
+
+              <Typography variant={"caption"}>
+                {row.email}
+              </Typography>
+
+            </Grid>
             </NameWrapper>
 
            : undefined)

@@ -14,7 +14,6 @@ import styled from '@emotion/styled'
 import axios from 'axios'
 import serialize from 'form-serialize'
 
-import {Button, Grid} from '@material-ui/core';
 import CampaignSettings from "./campaigns/settings"
 import CampaignEditor from "./campaigns/edito"
 import SegmentManager from '../components/segmentManager'
@@ -49,7 +48,9 @@ import {
   Avatar,
   Tab,
   Tabs,
-  Chip
+  Chip,
+  Button, 
+  Grid
 } from '@material-ui/core'
 
 import {
@@ -241,10 +242,17 @@ class CampaignSegment extends Component {
                 </div>
               </AvatarWrapper>
 
-              <Typography>{row.email}</Typography>
-              <Typography variant="overline" display="block">
-                {row.name}
-              </Typography>
+              <Grid container direction={"column"}>
+
+                <Typography variant="overline" display="block">
+                  {row.displayName}
+                </Typography>
+
+                <Typography variant={"caption"}>
+                  {row.email}
+                </Typography>
+
+              </Grid>
             </NameWrapper>
 
            : undefined)

@@ -7,7 +7,6 @@ import FormDialog from '../FormDialog'
 import DataTable from '../table/index'
 
 import {appUsersFormat} from './appUsersFormat' 
-import ClickAwayListener from '@material-ui/core/ClickAwayListener';
 import SegmentItemButton from './itemButton'
 import {Map, List, fromJS} from 'immutable'
 
@@ -18,7 +17,9 @@ import {
   Radio ,
   RadioGroup ,
   FormControlLabel ,
-  TextField
+  TextField,
+  Box,
+  ClickAwayListener
 } from '@material-ui/core';
 
 import styled from '@emotion/styled'
@@ -52,6 +53,8 @@ const ContentMatchFooter = styled.div`
 const ButtonGroup = styled.div`
   //display: inline-flex;
   //display: -webkit-box;
+
+  margin-bottom: 2em;
 
   display: inline-flex;
   flex-wrap: wrap;
@@ -357,7 +360,7 @@ export default class SegmentManager extends Component {
 
   render(){
     // this.props.actions.getPredicates()
-    return <div style={{marginTop: '10px'}}>
+    return <Box mt={2}>
    
 
             <ButtonGroup>
@@ -407,6 +410,6 @@ export default class SegmentManager extends Component {
               />
             }
 
-          </div>
+          </Box>
   }
 } 
