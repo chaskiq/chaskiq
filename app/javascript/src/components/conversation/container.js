@@ -175,13 +175,14 @@ class ConversationContainerShow extends Component {
                   <FixedHeader>
                     
                     <HeaderTitle>
-                      Conversation with {" "}
-
-                      {
-                        this.props.conversation.mainParticipant ? 
-                        <b>{this.props.conversation.mainParticipant.displayName}</b> 
-                        : null
-                      }
+                      <p>
+                        Conversation with {" "}
+                        {
+                          this.props.conversation.mainParticipant ? 
+                          <b>{this.props.conversation.mainParticipant.displayName}</b> 
+                          : null
+                        }
+                      </p>
 
                     </HeaderTitle>
 

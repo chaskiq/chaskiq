@@ -91,7 +91,7 @@ class ConversationPart < ApplicationRecord
   end
 
   def as_json(*)
-    super.except("created_at", "updated_at").tap do |hash|
+    super.tap do |hash|
       hash["app_user"] = self.authorable.as_json
     end
   end
