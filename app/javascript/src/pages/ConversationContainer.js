@@ -77,7 +77,7 @@ import AssigmentRules from '../components/conversation/assigmentRules'
 
 import {setCurrentPage} from '../actions/navigation'
 
-
+/*
 class MessageItem extends Component {
   render(){
     const user = this.props.conversation.mainParticipant
@@ -120,16 +120,12 @@ class MessageItem extends Component {
       </MessageContainer>
     )
   }
-}
+}*/
 
 class ConversationContainer extends Component {
 
   constructor(props){
     super(props)
-    this.state = {
-      rightDrawer: false,
-    }
-
     this.fetching = false
   }
 
@@ -270,8 +266,6 @@ class ConversationContainer extends Component {
 
                       const user = o.mainParticipant
 
-                      //console.log(o.key, this.props.conversation.key )
-
                       return <div 
                                 key={o.id} 
                                 onClick={(e)=> this.props.history.push(`/apps/${appId}/conversations/${o.key}`) }>
@@ -281,7 +275,7 @@ class ConversationContainer extends Component {
                                   mainUser={user}
                                   object={o.key}
                                   messageUser={o.lastMessage.appUser}
-                                  showUserDrawer={()=>this.props.actions.showUserDrawer(o.lastMessage.appUser.id)}
+                                  showUserDrawer={()=>this.props.actions.showUserDrawer(user.id)}
                                   messageObject={o.lastMessage}
                                   conversation={o}
 

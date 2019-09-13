@@ -47,7 +47,7 @@ const AppUserHeaderOverlay = styled.div`
   color: #fff;
   width: 100%;
   height: 185px;
-  background: #24852b;
+  background: #0000ff8c;
   //background: linear-gradient(to bottom,rgba(250,250,250,0) 40%,#f6f6f6 100%);
   opacity: 0.6;
 `
@@ -240,7 +240,7 @@ class ProfilePage extends Component {
                   /*<input defaultValue={this.state.agent.name || 'no name'}/>*/
                   
                 }
-                  <IconButton onClick={this.toggleNameEdit}>
+                  <IconButton onClick={this.toggleNameEdit} color={"inherit"}>
                     <EditIcon/>
                   </IconButton>
                 </Typography>

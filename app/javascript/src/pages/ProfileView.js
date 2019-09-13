@@ -44,9 +44,8 @@ const AppUserHeaderOverlay = styled.div`
   color: #fff;
   width: 100%;
   height: 185px;
-  background: #24852b;
+  background: #0000ff8c;
   //background: linear-gradient(to bottom,rgba(250,250,250,0) 40%,#f6f6f6 100%);
-  opacity: 0.6;
 `
 
 const AppUserHeaderInfo = styled.div`
@@ -121,6 +120,10 @@ class ProfilePage extends Component {
     this.setState({startConversationModal: true})
   }
 
+  handleDialogClose = ()=>{
+    this.setState({startConversationModal: false})
+  }
+
   handleSubmit = ({html, serialized, text})=> {
 
     graphql(START_CONVERSATION, {
@@ -129,7 +132,9 @@ class ProfilePage extends Component {
       message: {html, serialized, text}
     }, {
       success: (data)=>{
-        console.log(data.startConversation)
+        const {conversation} = data.startConversation
+        const url = `/apps/${this.props.app.key}/conversations/${conversation.key}`
+        this.props.history.push(url)
       },
       errors: (error)=>{
         debugger
@@ -216,7 +221,7 @@ class ProfilePage extends Component {
 
               <Button 
                 variant="contained" 
-                color="primary"
+                color="secondary"
                 onClick={this.openStartConversationModal}>
                 start conversation
               </Button>
@@ -245,7 +250,7 @@ class ProfilePage extends Component {
                   const user = o.mainParticipant
                  
                   return <div 
-                            key={o.key} 
+                            key={`user-list-${o.key}`} 
                             onClick={(e)=> this.props.history.push(`/apps/${this.props.app.key}/conversations/${o.key}`) }>
                                     
                             <UserListItem
@@ -295,6 +300,7 @@ class ProfilePage extends Component {
            
             <DialogEditor 
               handleSubmit={this.handleSubmit}
+              close={this.handleDialogClose}
               open={this.state.startConversationModal}
             /> : null 
         }
