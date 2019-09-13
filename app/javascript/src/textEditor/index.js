@@ -236,6 +236,13 @@ export default class ArticleEditor extends Component {
 
   uploadHandler = (file, imageBlock)=>{
     if(!file){
+      if(imageBlock.file && imageBlock.file.constructor.name === "Blob"){
+        let blob = imageBlock.file
+        //A Blob() is almost a File() - it's just missing the two properties below which we will add
+        blob.lastModifiedDate = new Date();
+        blob.name = 'recorded';
+        return this.uploadFromFile(blob, imageBlock)
+      }
       this.uploadFromUrl(file, imageBlock)
     } else {
       this.uploadFromFile(file, imageBlock)

@@ -7,6 +7,7 @@ import EditorStyles from 'Dante2/package/es/styled/base'
 const NewEditorStyles = styled(EditorStyles)`
   
   display: flex;
+  flex-direction: column;
 
   button.inlineTooltip-button.scale {
     background: #fff;
@@ -34,6 +35,10 @@ const NewEditorStyles = styled(EditorStyles)`
 
   .graf graf--h2{
     font-size: 2.6;
+  }
+  
+  .graf graf--p{
+    font-size: 14px;
   }
 
   a{
