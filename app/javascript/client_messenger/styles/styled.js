@@ -666,7 +666,7 @@ export const MessageItem = styled.div`
     position: relative;
     margin: 8px 0 15px 0;
     padding: 8px 10px;
-    max-width: ${(props) => (props.messageSourceType === "UserAutoMessage" ?  '86%' : '60%')};
+    //max-width: ${(props) => (props.messageSourceType === "UserAutoMessage" ?  '86%' : '60%')};
     min-width: 25%;
     display: block;
     word-wrap: break-word;
@@ -881,7 +881,7 @@ export const ConversationSummaryAvatar = styled.div`
       -webkit-box-flex: 0;
       -ms-flex: 0 0 auto;
       flex: 0 0 auto;
-      align-self: center;
+      align-self: flex-end;
       margin-left: 15px;
       img {
         width: 40px;
