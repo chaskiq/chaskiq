@@ -688,6 +688,7 @@ export const MessageItem = styled.div`
         /* box-shadow: 1px 1px 2px #e0e0e0; */
         /* border: 1px solid #dedbdb; */
         min-width: 80px;
+        
       }
 
       .text{
@@ -921,6 +922,9 @@ export const ConversationSummaryBodyContent = styled.div`
       flex: 1;
       //padding-left: 16px;    
       font-weight: 300;
+      p {
+        margin: 0px;
+      }
 `
 
 export const Autor = styled.div`
