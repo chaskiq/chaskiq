@@ -42,9 +42,9 @@ class AppUser < ApplicationRecord
     :name, 
     :first_name, 
     :last_name, 
-    :country, 
+    #:country, 
     :country_code, 
-    :region, 
+    #:region, 
     :region_code
   ]
   

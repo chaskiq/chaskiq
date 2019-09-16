@@ -21,6 +21,34 @@ RSpec.describe Api::GraphqlController, type: :controller do
     GraphQL::TestClient.reset_strings
     file = Rails.root + "app/javascript/client_messenger/graphql/queries.js"
     GraphQL::TestClient.configure([file])
+
+    app.update_attributes(encryption_key: "unodostrescuatro")
+    key = app.encryption_key
+
+    encrypted_data = JWE.encrypt(data.to_json, key, alg: 'dir')
+    request.headers.merge!({
+      'HTTP_ENC_DATA' => encrypted_data , 
+      'HTTP_APP' => app.key
+    })
+
+    # Add stubs to define the results that will be returned:
+
+    Geocoder::Lookup::Test.set_default_stub(
+      [
+        {
+          'coordinates'  => [40.7143528, -74.0059731],
+          'latitude'     => 40.7143528,
+          'longitude'    => -74.0059731,
+          'address'      => 'New York, NY, USA',
+          'state'        => 'New York',
+          'city'         => 'newy york',
+          'region'       => 'new_yorke',
+          'state_code'   => 'NY',
+          'country'      => 'United States',
+          'country_code' => 'US'
+        }
+      ]
+    )
   end
 
   after do
@@ -29,26 +57,17 @@ RSpec.describe Api::GraphqlController, type: :controller do
   end
 
   it "auth encrypted" do
-    app.update_attributes(encryption_key: "unodostrescuatro")
-    key = app.encryption_key
-
+    
     expect(app.app_users).to be_blank
 
-    encrypted_data = JWE.encrypt(data.to_json, key, alg: 'dir')
-    request.headers.merge!({
-      'HTTP_ENC_DATA' => encrypted_data , 
-      'HTTP_APP' => app.key
-    })
+    graphql_post(type: 'AUTH', variables: {})
+
+    expect(graphql_response.data.messenger.user.email).to be_present
+    expect(app.reload.app_users.size).to be == 1
 
     graphql_post(type: 'PING', variables: {})
 
     expect(graphql_response.data.messenger.app).to be_present
-    expect(graphql_response.data.messenger.user.email).to be_present
-
-    expect(app.reload.app_users.size).to be == 1
-
-
-    graphql_post(type: 'PING', variables: {})
 
     # for subsequent requests it will not create a new record
     expect(app.reload.app_users.size).to be == 1
@@ -63,19 +82,18 @@ RSpec.describe Api::GraphqlController, type: :controller do
   end
 
 
-=begin
-  it "renders the index template" do
+  it "visit with geo code" do
+    graphql_post(type: 'AUTH', variables: {})
 
-    request.headers.merge!({'HTTP_USER_DATA' => data.to_json })
+    expect(graphql_response.data.messenger.user.email).to be_present
 
-    post :ping, params: { id: app.key }
-    
-    data = JSON.parse(response.body)
+    app_user = app.reload.app_users.last
 
-    expect(response).to be_ok
-    expect(JSON.parse(response.body)).to an_instance_of(Hash)
-    expect(AppUser.last.last_visited_at).to_not be_blank
+    expect(app_user.country).to be_present
+    expect(app_user.city).to be_present
+    expect(app_user.lat).to be_present
+    expect(app_user.lng).to be_present
+
   end
-=end
 
 end

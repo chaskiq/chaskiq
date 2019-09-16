@@ -50,6 +50,7 @@ module Types
     def enabled_for_user
       return false if object.inbound_settings.blank?
       @user = context[:get_app_user].call
+      return false if @user.blank?
       k = @user.model_name.name === "AppUser" ? "users" : "visitors" 
       return if k.blank?
       return nil unless object.inbound_settings[k]["enabled"]
@@ -68,14 +69,14 @@ private
       browser_params = {
         referrer:         request.referrer,
         ip:               request.remote_ip,
-        city:             request.location.data["city"],
-        region_code:      request.location.data["region_code"],
-        region:           request.location.data["region"],
-        country:          request.location.data["country_name"],
-        country_code:     request.location.data["country_code"],
-        lat:              request.location.data["latitude"],
-        lng:              request.location.data["longitude"],
-        postal:           request.location.data["zipcode"],
+        city:             request.location.city,
+        #region_code:      request.location.region,
+        region:           request.location.region,
+        country:          request.location.country,
+        country_code:     request.location.country_code,
+        lat:              request.location.latitude,
+        lng:              request.location.longitude,
+        postal:           request.location.postal_code,
         browser:          browser.name,
         browser_version:  browser.version,
         os:               browser.platform.id,
