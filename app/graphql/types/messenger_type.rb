@@ -8,7 +8,11 @@ module Types
     end
 
     def user
-      context[:auth].call
+      @user = context[:auth].call
+      # TODO. detach this, 
+      # idea. set browser data on redis, update later
+      context[:get_app_user].call.update(browser_data)
+      @user
     end
 
     field :conversations, Types::PaginatedConversationsType, null:true do
@@ -54,8 +58,8 @@ module Types
     end
 
 private
-    def get_user
-      user_data = context[:user_data]
+    def browser_data
+      user_data = @user
       request   = context[:request]
 
       browser = Browser.new(request.user_agent, accept_language: request.accept_language)
@@ -83,7 +87,7 @@ private
       # resource_params.to_h.merge(request.location.data)
       #data = resource_params.to_h.deep_merge(browser_params)
       data = user_data.slice(:name, :email, :properties).deep_merge(browser_params)
-      ap = object.add_visit(data)
+      ##ap = object.add_visit(data)
     end
 
     def user_conversations
