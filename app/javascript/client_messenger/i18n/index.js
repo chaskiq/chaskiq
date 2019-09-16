@@ -21,7 +21,19 @@ i18n
           not_seen: "not seen",
           by: "By",
           dismiss: "Dismiss",
-          article_meta: "By: <strong>{{name}}</strong> on <0>{{date}}</0>"
+          article_meta: "By: <strong>{{name}}</strong> on <0>{{date}}</0>",
+
+          "reply_time.auto": "The team will respond as soon as possible", 
+          "reply_time.minutes": "The team usually responds in minutes",
+          "reply_time.hours": "The team usually responds in a matter of hours",
+          "reply_time.1 day": "The team usually responds in one day",
+
+          "availability.aprox": `we will be back at approximately {{time}} hrs`,
+          "availability.tomorrow": "we come back tomorrow",
+          "availability.days": "we return in {{val}} days",
+          "availability.next_week": "we come back next week",
+          "availability.back_from": "we will be back online from {{hours}} hrs",
+          "availability.tomorrow_from": "we will be back online tomorrow from {{hours}} hrs"
         }
       },
       es: {
@@ -31,13 +43,25 @@ i18n
           see_previous: "Ver anteriores",
           search_articles: "Busca artículos",
           latest_articles: "Nuestro artículos recientes",
-          reply_above: "Responde arribe",
+          reply_above: "Responde arriba",
           create_new_conversation: "Crea una nueva conversación",
           you: "Tú",
           not_seen: "No visto",
           by: "Por",
           dismiss: "Descartar",
-          article_meta: "Por: <strong>{{name}}</strong> en <0>{{date}}</0>"
+          article_meta: "Por: <strong>{{name}}</strong> en <0>{{date}}</0>",
+          "reply_time.auto": "El equipo responderá lo antes posible", 
+          "reply_time.minutes": "El equipo suele responder en cuestión de minutos.",
+          "reply_time.hours": "El equipo suele responder en cuestión de horas.",
+          "reply_time.1 day": "El equipo suele responder en un día.",
+
+          "availability.aprox": `estaremos de vuelta aproximadamente a las {{time}}hrs`,
+          "availability.tomorrow": "volvemos mañana",
+          "availability.days": "volvemos en {{val}} dias",
+          "availability.next_week": "volvemos la proxima semana",
+          "availability.back_from": "volveremos a estar en linea desde las {{hours}}hrs",
+          "availability.tomorrow_from": "volveremos a estar en linea mañana desde las {{hours}}hrs"
+
         }
       },
     },
