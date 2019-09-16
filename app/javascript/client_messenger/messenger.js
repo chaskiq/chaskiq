@@ -94,6 +94,9 @@ class Messenger extends Component {
   constructor(props){
     super(props)
 
+    // set language from user auth lang props 
+    i18n.changeLanguage(this.props.lang);
+
     this.state = {
       enabled: null,
       article: null,
