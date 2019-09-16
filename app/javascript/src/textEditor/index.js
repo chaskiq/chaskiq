@@ -25,7 +25,7 @@ import { ImageBlockConfig } from '../pages/campaigns/article/image.js'
 import { EmbedBlockConfig } from 'Dante2/package/es/components/blocks/embed.js'
 import { VideoBlockConfig } from 'Dante2/package/es/components/blocks/video.js'
 import { PlaceholderBlockConfig } from 'Dante2/package/es/components/blocks/placeholder.js'
-import { VideoRecorderBlockConfig } from 'Dante2/package/es/components/blocks/videoRecorder'
+import { VideoRecorderBlockConfig } from './blocks/videoRecorder' //'Dante2/package/es/components/blocks/videoRecorder'
 import { CodeBlockConfig } from 'Dante2/package/es/components/blocks/code'
 import { DividerBlockConfig } from "Dante2/package/es/components/blocks/divider";
 //import { ButtonBlockConfig } from "../../editor/components/blocks/button";
@@ -232,7 +232,9 @@ export default class ArticleEditor extends Component {
   };
 
 
-
+  setDisabled = (val)=>{
+    this.props.setDisabled && this.props.setDisabled(val)
+  }
 
   uploadHandler = (file, imageBlock)=>{
     if(!file){
@@ -250,37 +252,22 @@ export default class ArticleEditor extends Component {
   }
 
   uploadFromUrl = (file, imageBlock)=>{
-
     const url = imageBlock.props.blockProps.data.get("url")
-
+    this.setDisabled(true)
     graphql(CREATE_URL_UPLOAD, {url: url} , {
       success: (data)=>{
         const {signedBlobId, headers, url, serviceUrl} = data.createUrlUpload.directUpload
-
         this.props.uploadHandler({signedBlobId, headers, url, serviceUrl, imageBlock})
-        /*
-        graphql(ARTICLE_BLOB_ATTACH, { 
-          appKey: this.props.app.key ,
-          id: parseInt(this.state.article.id),
-          blobId: signedBlobId
-        }, {
-          success: (data)=>{
-            imageBlock.uploadCompleted(serviceUrl)
-          },
-          error: (err)=>{
-            console.log("error on direct upload", err)
-          }
-        })*/
+        this.setDisabled(false)
       },
       error: ()=>{
         debugger
       }
     })
-
-
   }
 
   uploadFromFile = (file, imageBlock)=>{
+    this.setDisabled(true)
     getFileMetadata(file).then((input) => {
       graphql(CREATE_DIRECT_UPLOAD, input, {
         success: (data)=>{
@@ -288,6 +275,7 @@ export default class ArticleEditor extends Component {
        
           directUpload(url, JSON.parse(headers), file).then(
             () => {
+              this.setDisabled(false)
               this.props.uploadHandler({signedBlobId, headers, url, serviceUrl, imageBlock})
               /*
               graphql(ARTICLE_BLOB_ATTACH, { 
@@ -305,6 +293,7 @@ export default class ArticleEditor extends Component {
           });
         },
         error: (error)=>{
+          this.setDisabled(false)
          console.log("error on signing blob", error)
         }
       })
@@ -591,14 +580,15 @@ export default class ArticleEditor extends Component {
       }
     }
 
-    let html = convertToHTML(convertOptions)(context.editorState().getCurrentContent())
+    const currentContent = context.editorState().getCurrentContent()
+    this.props.setDisabled(!currentContent.hasText())
+
+    let html = convertToHTML(convertOptions)(currentContent)
     const serialized = JSON.stringify(content)
     const plain = context.getTextFromEditor(content)
 
     if(this.props.data.serialized_content === serialized)
       return
-
-    
 
     this.props.updateState && this.props.updateState({
       status: "saving...",
@@ -638,15 +628,6 @@ export default class ArticleEditor extends Component {
                   }
                   onChange={(e) => {
                     this.dante_editor = e
-                    //const newContent = convertToRaw(e.state.editorState.getCurrentContent()) //e.state.editorState.getCurrentContent().toJS()
-                    //this.menuResizeFunc = getVisibleSelectionRect
-                    //const selectionState = e.state.editorState.getSelection();
-
-                    /*this.props.updateState({
-                      currentContent: newContent,
-                      //selectionPosition: selectionState.toJSON() //this.menuResizeFunc(window),
-                    })*/
-
                   }}
                   content={this.defaultContent()}
                   tooltips={this.props.tooltipsConfig ? this.props.tooltipsConfig() : this.tooltipsConfig() }
