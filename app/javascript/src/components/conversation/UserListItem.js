@@ -165,7 +165,7 @@ function AlignItemsList(props) {
                 <ContentContent 
                   variant={"body2"}
                   noWrap 
-                  color={"text.secondary"}
+                  color={"secondary"}
                   dangerouslySetInnerHTML={
                     { __html: props.message }
                     }

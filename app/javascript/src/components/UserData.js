@@ -128,7 +128,11 @@ class UserData extends Component {
                 {
                   label: 'lng',
                   value: this.props.appUser.lng
-                }
+                },
+                {
+                  label: 'postal:',
+                  value: this.props.appUser.postal
+                },
                 ]
 
               },
@@ -136,11 +140,6 @@ class UserData extends Component {
                 name: "Browsing Properties",
                 component: null,
                 items: [
-                  {
-                    label: 'postal:',
-                    value: this.props.appUser.postal
-                  },
-
                   {
                     label: 'web sessions:',
                     value: this.props.appUser.webSessions
