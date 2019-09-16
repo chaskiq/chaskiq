@@ -208,7 +208,8 @@ export default class ChatEditor extends Component {
       plain: null,
       serialized: null,
       html: null,
-      statusButton: "inprogress"
+      statusButton: "inprogress",
+      disabled: true
     }
   }
 
@@ -287,6 +288,14 @@ export default class ChatEditor extends Component {
     debugger
   }
 
+  setDisabled = (val)=>{
+    this.setState({disabled: val})
+  }
+
+  isDisabled = ()=>{
+    this.state.html==="<p class=\"graf graf--p\"></p>" || this.state.disabled
+  }
+
   render() {
     // !this.state.loading &&
     /*if (this.state.loading) {
@@ -298,13 +307,14 @@ export default class ChatEditor extends Component {
     return <ThemeProvider theme={theme}>
               <EditorContainer>
                 <div style={{flexGrow: 3}}>
-                  
+
                   <TextEditor theme={theme}
                     tooltipsConfig={this.tooltipsConfig }
                     campaign={true} 
                     uploadHandler={this.uploadHandler}
                     serializedContent={serializedContent }
                     loading={this.props.loading}
+                    setDisabled={this.setDisabled}
                     data={
                         {
                           serialized_content: serializedContent
@@ -327,7 +337,7 @@ export default class ChatEditor extends Component {
   
                 <SubmitButton 
                   onClick={this.handleSubmit}
-                  disabled={this.state.html==="<p class=\"graf graf--p\"></p>"}
+                  disabled={this.state.disabled}
                 />
   
               </EditorContainer>
