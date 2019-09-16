@@ -19,7 +19,7 @@ module Mutations
 
       @segment = @app.segments.new
       @segment.name = name
-      @segment.predicates = JSON.parse(predicates.map(&:permit!).to_json)
+      @segment.predicates = predicates.map(&:permit!).as_json
 
       if operation.present? and operation == "create"
         @segment.save      
