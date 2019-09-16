@@ -79,8 +79,8 @@ export default function UserActionsMenu(props) {
           },
         }}
       >
-        {options.map(option => (
-          <MenuItem key={option} 
+        {options.map((option)=> (
+          <MenuItem key={`action-menu-${option.title}`} 
             selected={option.state === props.selected} 
             onClick={()=> handleSelected(option)}>
 

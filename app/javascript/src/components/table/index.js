@@ -171,7 +171,8 @@ function SimpleMenu(props) {
         onClose={handleClose}
       >
         {
-          props.options.map((o)=> <MenuItem 
+          props.options.map((o)=> <MenuItem
+            key={`simple-menu-${o.title}`} 
             onClick={()=>handleChange(o)}
             >
             <Checkbox

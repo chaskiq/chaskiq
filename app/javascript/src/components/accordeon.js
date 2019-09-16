@@ -71,8 +71,10 @@ function CustomizedExpansionPanels(props) {
     <div>
 
       {
-        props.items.map((o)=>(
-          <ExpansionPanel square 
+        props.items.map((o, i)=>(
+          <ExpansionPanel 
+            key={`expansion-panel-${i}`}
+            square 
             expanded={expanded === o.name} 
             onChange={handleChange(o.name)}>
 

@@ -171,11 +171,12 @@ class ProfilePage extends Component {
 
       <div>
 
-        <ContentHeader/>
+        <ContentHeader title={"contact profile"}/>
 
         <Mapa 
-          interactive={false} 
+          interactive={true} 
           data={[this.props.app_user]} 
+          forceZoom={10}
           wrapperStyle={{
             position: 'relative',
             width: '100%',
@@ -183,9 +184,7 @@ class ProfilePage extends Component {
             marginTop: '0px',
           }}>
           
-          <AppUserHeaderOverlay>
-
-          </AppUserHeaderOverlay>
+          <AppUserHeaderOverlay/>
 
           <AppUserHeaderInfo>
 
@@ -243,7 +242,7 @@ class ProfilePage extends Component {
           <Grid container spacing={2}>
 
             <Grid item xs={12} sm={8}>
-              <Typography>
+              <Typography variant="h5">
                 conversations
               </Typography>
               {

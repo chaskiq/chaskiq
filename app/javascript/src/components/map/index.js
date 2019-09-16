@@ -39,7 +39,7 @@ export default class Mapa extends React.Component{
     this.map = new mapboxgl.Map({
       container: 'react-map',
       style: 'mapbox://styles/michelson/cjcga6dyd48ww2rlq99y1tw8m',
-      zoom: 2,
+      zoom: 10,
       interactive: this.props.interactive
     });
 
@@ -142,7 +142,6 @@ export default class Mapa extends React.Component{
             this.map.getCanvas().style.cursor = '';
         });
 
-
         // When a click event occurs on a feature in the places layer, open a popup at the
         // location of the feature, with description HTML from its properties.
         this.map.on('click', 'unclustered-point', (e)=> {
@@ -172,13 +171,16 @@ export default class Mapa extends React.Component{
           this.map.getCanvas().style.cursor = '';
         });
 
-        this.fitBounds()
+      
+          this.fitBounds(()=>{
+            this.props.forceZoom && this.map.setZoom(this.props.forceZoom);
+          })
 
     });
 
   }
 
-  fitBounds =()=> {
+  fitBounds =(cb)=> {
     var bounds;
     // hack to fit bounds based on marker coords
     bounds = new mapboxgl.LngLatBounds();
@@ -189,11 +191,12 @@ export default class Mapa extends React.Component{
       return bounds.extend([o.lng, o.lat]);
     });
     if (!isEmpty(bounds)) {
-      return this.map.fitBounds(bounds, {
+      this.map.fitBounds(bounds, {
         padding: 20,
         duration: 0
       });
     }
+    cb && cb()
   }
 
   render(){
