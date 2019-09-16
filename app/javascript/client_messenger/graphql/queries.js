@@ -25,7 +25,6 @@ export const PING = `
         email
         name
       }
-      user
     }
   }
 `;
