@@ -98,8 +98,6 @@ const renderers = {
         var { height, width, ratio} = aspect_ratio 
       }
 
-      console.log("CAPTION", keys, data)
-
       return  <figure  key={keys[0]} className="graf graf--figure">
                   <div>
                     <div className="aspectRatioPlaceholder is-locked" 
@@ -166,7 +164,7 @@ const renderers = {
 
       const {provisory_text, type, embed_data } = data[0]
       const {html} = embed_data
-      console.log(provisory_text)
+      
       return <figure  key={keys[0]} className="graf--figure graf--iframe graf--first" tabindex="0">
                 <div className="iframeContainer" dangerouslySetInnerHTML={
                           { __html: `${html}` }

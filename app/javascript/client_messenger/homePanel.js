@@ -21,7 +21,8 @@ const HomePanel = ({
   transition,
   displayArticle,
   appData,
-  agents
+  agents,
+  t
 })=>{
 
   const [loading, setLoading] = useState(false)
@@ -182,7 +183,7 @@ const HomePanel = ({
         appData.inboundSettings.enabled ?
         <ConversationInitiator in={transition}>
         
-          <h2>Start a conversation</h2>
+          <h2>{t("start_conversation")}</h2>
 
           {renderAvailability()}
           
@@ -203,11 +204,11 @@ const HomePanel = ({
             <CardButtonsGroup>
 
               <AnchorButton href="#" onClick={displayNewConversation}>
-                start conversation
+                {t("start_conversation")}
               </AnchorButton>
 
               <a href="#" onClick={viewConversations}>
-                see previous
+                {t("see_previous")}
               </a>
 
             </CardButtonsGroup>
@@ -217,23 +218,23 @@ const HomePanel = ({
         </ConversationInitiator> :
 
         <ConversationsBlock in={transition}>
-          <h2>conversations</h2>
+          <h2>{t("conversations")}</h2>
           <CardContent>
             bla bla , show conversations here!
           </CardContent>
           <CardButtonsGroup>
             <a href="#" onClick={viewConversations}>
-              see previous
+              {t("see_previous")}
             </a>
           </CardButtonsGroup>
         </ConversationsBlock>
       }
 
       <Card in={transition}>
-        search articles
+        {t("search_articles")}
         <ButtonWrapper>
           <input ref={(ref)=> textInput = ref} 
-            placeholder={"search articles"} 
+            placeholder={ t("search_articles") } 
             onKeyDown={handleSearch}
           /> 
           <button onClick={()=> searchArticles(textInput.value)}>
@@ -245,7 +246,7 @@ const HomePanel = ({
       <ArticleList>
 
         <h2>
-          Our latest articles
+          {t("latest_articles")}
         </h2>
       
         {
