@@ -24,13 +24,22 @@ i18n
           article_meta: "By: <strong>{{name}}</strong> on <0>{{date}}</0>"
         }
       },
-      de: {
+      es: {
         translations: {
-          "To get started, edit <1>src/App.js</1> and save to reload.":
-            "Starte in dem du, <1>src/App.js</1> editierst und speicherst.",
-          "Welcome to React": "Willkommen bei React und react-i18next"
+          conversations: "Conversaciones",
+          start_conversation: "Inicia una conversación",
+          see_previous: "Ver anteriores",
+          search_articles: "Busca artículos",
+          latest_articles: "Nuestro artículos recientes",
+          reply_above: "Responde arribe",
+          create_new_conversation: "Crea una nueva conversación",
+          you: "Tú",
+          not_seen: "No visto",
+          by: "Por",
+          dismiss: "Descartar",
+          article_meta: "Por: <strong>{{name}}</strong> en <0>{{date}}</0>"
         }
-      }
+      },
     },
     fallbackLng: "en",
     debug: true,
