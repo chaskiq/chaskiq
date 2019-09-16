@@ -8,12 +8,12 @@ import {
 
 import Moment from 'react-moment';
 
-
 import { ThemeProvider } from 'emotion-theming'
 import theme from '../src/textEditor/theme'
 import themeDark from '../src/textEditor/darkTheme'
 import DraftRenderer from '../src/textEditor/draftRenderer'
 import DanteContainer from '../src/textEditor/editorStyles'
+import { useTranslation, Trans } from "react-i18next";
 
 
 import graphql from '../src/graphql/client'
@@ -53,9 +53,11 @@ const Article = ({
   articleSlug,
   transition,
   appData,
+  i18n
 })=>{
 
   const [article, setArticle] = useState(null)
+  const { t } = useTranslation();
 
   useEffect(()=>{
     updateHeader(
@@ -83,6 +85,12 @@ const Article = ({
     })
   }
 
+  function renderDate(){
+    return <Moment format="MMM Do, YYYY">
+            {article.updatedAt}
+          </Moment>
+  }
+
   return (
     <Panel>
       {
@@ -96,10 +104,15 @@ const Article = ({
             {article.title}
           </ArticleTitle>
           <span>
-            by:<strong>{article.author.name}</strong> on {" "}
-            <Moment format="MMM Do, YYYY">
-              {article.updatedAt}
-            </Moment>
+            <Trans 
+              i18nKey="article_meta"
+              i18n={i18n}
+              values={{name: article.author.name}}
+              components={[
+                renderDate()
+              ]}
+            />
+          
           </span>
 
           <ThemeProvider 

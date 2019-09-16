@@ -17,6 +17,8 @@ import { soundManager } from 'soundmanager2'
 import {toCamelCase} from '../src/shared/caseConverter'
 import UrlPattern from 'url-pattern'
 import serialize from 'form-serialize'
+import { withTranslation } from 'react-i18next';
+import i18n from './i18n'
 import {
   PING, 
   CONVERSATIONS, 
@@ -984,6 +986,7 @@ class Messenger extends Component {
               app_id={this.props.app_id}
               axiosInstance={this.axiosInstance}
               availableMessages={this.state.availableMessages} 
+              t={this.props.t}
             /> : null
           }
               
@@ -1038,7 +1041,7 @@ class Messenger extends Component {
 
                           { this.state.display_mode === "conversations" &&
                             <HeaderTitle in={this.state.transition}>
-                              conversations
+                              {this.props.t("conversations")}
                             </HeaderTitle>
                           }
 
@@ -1068,6 +1071,7 @@ class Messenger extends Component {
                             displayArticle={this.displayArticle}
                             appData={this.state.appData}
                             agents={this.state.agents}
+                            t={this.props.t}
                           />
                         }
 
@@ -1079,6 +1083,7 @@ class Messenger extends Component {
                             articleSlug={this.state.article.slug}
                             transition={this.state.transition}
                             appData={this.state.appData}
+                            t={this.props.t}
                           />
                         }
 
@@ -1090,6 +1095,8 @@ class Messenger extends Component {
                             transition={this.state.transition}
                             articleSlug={this.state.article.slug}
                             transition={this.state.transition}
+                            i18n={i18n}
+                            t={this.props.t}
                           />
                         }
 
@@ -1108,6 +1115,7 @@ class Messenger extends Component {
                               submitAppUserData={this.submitAppUserData}
                               updateHeader={this.updateHeader}
                               transition={this.state.transition}
+                              t={this.props.t}
                             /> 
                         } 
 
@@ -1125,6 +1133,7 @@ class Messenger extends Component {
                               app={this.state.appData}
                               updateHeader={this.updateHeader}
                               transition={this.state.transition}
+                              t={this.props.t}
                             />
                         }
 
@@ -1256,6 +1265,7 @@ class Conversation extends Component {
     const userClass = o.appUser.kind === "agent" ? 'admin' : 'user'
     const isAgent = o.appUser.kind === "agent"
     const themeforMessage = o.privateNote || isAgent ? theme : themeDark
+    const {t} = this.props
     
     return <MessageItemWrapper
             email={this.props.email}
@@ -1303,7 +1313,7 @@ class Conversation extends Component {
                 o.readAt ?
                   <Moment fromNow>
                     {o.readAt}
-                  </Moment> : <span>not seen</span>
+                  </Moment> : <span>{t("not_seen")}</span>
               }
             </span>
 
@@ -1343,6 +1353,7 @@ class Conversation extends Component {
   }
 
   render(){
+    const {t} = this.props
     return <div style={{
       position: 'absolute',
       top: '0',
@@ -1375,7 +1386,7 @@ class Conversation extends Component {
           <Footer>
           
             {
-              this.props.conversation.locked ? "reply above" : 
+              this.props.conversation.locked ? t("reply_above") : 
               <UnicornEditor
                 insertComment={this.props.insertComment}
               />
@@ -1425,6 +1436,8 @@ class Conversations extends Component {
   }
 
   render(){
+    const {t} = this.props
+
     return <div style={{
       position: 'absolute',
       top: '0',
@@ -1445,6 +1458,7 @@ class Conversations extends Component {
                 message={message}
                 o={o}
                 index={i}
+                t={t}
                 displayConversation={this.props.displayConversation}
                 sanitizeMessageSummary={this.sanitizeMessageSummary}
               />
@@ -1464,7 +1478,7 @@ class Conversations extends Component {
             <NewConvoBtn
               in={this.props.transition}
               onClick={this.props.displayNewConversation}>
-              create new conversation
+              {t("create_new_conversation")}
             </NewConvoBtn> 
           }
         </ConversationsFooter>
@@ -1484,6 +1498,7 @@ function CommentsItemComp(props){
     sanitizeMessageSummary,
     email,
     index,
+    t
   } = props
 
   const [display, setDisplay] = React.useState(false)
@@ -1535,7 +1550,7 @@ function CommentsItemComp(props){
                         <ConversationSummaryBodyItems>
                           {
                             message.appUser.kind != "agent" ? 
-                              <div className="you">you:</div> : null 
+                              <div className="you">{t("you")}:</div> : null 
                           }
                           <ConversationSummaryBodyContent
                             dangerouslySetInnerHTML={
@@ -1597,26 +1612,9 @@ class MessageFrame extends Component {
   }
 
   handleClose = (message)=>{
-
     App.events && App.events.perform("track_close", 
       {campaign_id: message.id}   
     )
-
-    /*
-    const appId = this.props.appId
-    const availableMessage = this.state.messages[0]
-    const messageId = availableMessage.id
-    const trackUrl = availableMessage.user_track_url
-    const url = `/api/v1/apps/${appId}/messages/${messageId}/tracks/${trackUrl}/close.json`
-    this.props.axiosInstance.get(url, {r: 'close'})
-    .then((response) => {
-      //console.log("handle close!!!")
-      this.props.getMessage()
-      //this.setState({ availableMessage: response.data.message })
-    })
-    .catch((error) => {
-      console.log(error);
-    });*/
   }
 
   handleMinus = (ev) => {
@@ -1636,27 +1634,20 @@ class MessageFrame extends Component {
       
        <UserAutoMessageFlex isMinimized={this.fetchMinizedCache()}>
 
-        {/*<UserAutoMessageBlock open={true}>
-          <div className="close">
-            <MessageCloseBtn href="#" onClick={this.handleCloseClick}>
-              dismiss
-            </MessageCloseBtn>
-          </div>
-          </UserAutoMessageBlock>*/}
-
         {
           this.props.availableMessages.map((o, i) => {
             
             return <UserAutoMessage 
                     open={true} 
                     key={`user-auto-message-${o.id}`}>
-              <MessageContainer
-                isMinimized={this.state.isMinimized}
-                toggleMinimize={this.toggleMinimize}
-                handleClose={this.handleClose}
-                availableMessage={o}
-              />
-            </UserAutoMessage>
+                    <MessageContainer
+                      isMinimized={this.state.isMinimized}
+                      toggleMinimize={this.toggleMinimize}
+                      handleClose={this.handleClose}
+                      availableMessage={o}
+                      t={this.props.t}
+                    />
+                  </UserAutoMessage>
 
             {
               /*
@@ -1689,12 +1680,13 @@ class MessageContainer extends Component {
 
 
   render(){
+    const {t} = this.props
     const editorTheme = theme
     return <Quest {...this.props}>
               
               <MessageCloseBtn href="#" 
                 onClick={()=> this.props.handleClose(this.props.availableMessage)}>
-                dismiss
+                {t("dismiss")}
               </MessageCloseBtn>
 
               <ThemeProvider 
@@ -1815,6 +1807,8 @@ class AppPackageBlock extends Component {
 }
 
 
+const TranslatedMessenger = withTranslation()(Messenger);
+
 export default class ChaskiqMessenger {
 
   constructor(props){
@@ -1828,7 +1822,7 @@ export default class ChaskiqMessenger {
       document.body.appendChild(g);
 
       ReactDOM.render(
-        <Messenger {...this.props} />,
+        <TranslatedMessenger {...this.props} i18n={i18n} />,
         document.getElementById("ChaskiqMessengerRoot")
       ) 
     //})
