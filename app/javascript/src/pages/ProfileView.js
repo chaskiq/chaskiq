@@ -207,6 +207,7 @@ class ProfilePage extends Component {
 
                 <Typography variant={"subtitle1"}>
                   {this.props.app_user.city}
+                  {" "}
                   {this.props.app_user.country}
                 </Typography>
 
