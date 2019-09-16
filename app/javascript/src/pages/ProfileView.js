@@ -44,7 +44,7 @@ const AppUserHeaderOverlay = styled.div`
   color: #fff;
   width: 100%;
   height: 185px;
-  background: #0000ff8c;
+  background: #01011078;
   //background: linear-gradient(to bottom,rgba(250,250,250,0) 40%,#f6f6f6 100%);
 `
 

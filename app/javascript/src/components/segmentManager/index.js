@@ -2,6 +2,8 @@
 import React, {Component} from "react"
 
 import PieChartIcon from '@material-ui/icons/PieChart'
+import SaveIcon from '@material-ui/icons/Save'
+import DeleteIcon from '@material-ui/icons/Delete'
 import AddIcon from '@material-ui/icons/Add'
 import FormDialog from '../FormDialog'
 import DataTable from '../table/index'
@@ -12,6 +14,7 @@ import {Map, List, fromJS} from 'immutable'
 
 import {
   Button,
+  IconButton,
   MenuItem,
   Menu,
   Radio ,
@@ -19,6 +22,7 @@ import {
   FormControlLabel ,
   TextField,
   Box,
+  Tooltip,
   ClickAwayListener
 } from '@material-ui/core';
 
@@ -114,24 +118,28 @@ export class SaveSegmentModal extends Component {
     return (
 
         <React.Fragment>
-          <Button isLoading={false} 
-            variant={'small'}
-            appearance={'link'}
-            onClick={this.open}
-            disabled={this.equalPredicates() || this.incompletePredicates()}>
-            <PieChartIcon variant="small" />
-            {" "}
-            Save Segment
-          </Button>
+          <div>
+            <Tooltip title="Save segment">
+              <IconButton isLoading={false} 
+                variant={'small'}
+                appearance={'link'}
+                onClick={this.open}
+                disabled={this.equalPredicates() || this.incompletePredicates()}>
+                <SaveIcon variant="small" />
+                {" "}
+              </IconButton>
+            </Tooltip>
 
-          <Button isLoading={false} 
-            variant={'small'}
-            appearance={'link danger'}
-            onClick={this.deleteAction.bind(this)}>
-            <PieChartIcon />
-            {" "}
-            remove Segment
-          </Button>
+            <Tooltip title="Delete segment">
+              <IconButton isLoading={false} 
+                variant={'small'}
+                appearance={'link danger'}
+                onClick={this.deleteAction.bind(this)}>
+                <DeleteIcon />
+              </IconButton>
+            </Tooltip>
+
+          </div>
 
 
           {isOpen && (
