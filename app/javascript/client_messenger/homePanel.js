@@ -137,24 +137,24 @@ const HomePanel = ({
     const nextWeek = nextDay < today
 
     if(nextWeek) return <div>volvemos la proxima semana</div>
-    if(sameDay) return <p>{`estaremos de vuelta aproximadamente a las ${at.getHours()}hrs`}</p>
+    if(sameDay) return <p>{t("availability.aprox", {time: at.getHours() })}</p>
 
     switch (val) {
       case 1:
-        return <div>volvemos mañana</div>
+        return <div>{t("availability.tomorrow")}</div>
       case 2:
       case 3:
       case 4:
       case 5:
-        return <div>volvemos en {val} dias</div>
+        return <div>{t("availability.days", {val: val})}</div>
       case 6:
-        return <div>volvemos la proxima semana</div>
+        return <div>{t("availability.next_week")}</div>
       default:
         if(val === 0){
           if(sameDay){
-            return `volveremos a estar en linea desde las ${at.getHours()}hrs`
+            return t("availability.back_from", {hours: at.getHours() })
           } else {
-            return `volveremos a estar en linea mañana desde las ${at.getHours()}hrs`
+            return t("availability.tomorrow_from", {hours: at.getHours() })
           }
         }
         return <p>dont now?</p>
@@ -163,7 +163,7 @@ const HomePanel = ({
   }
 
   function replyTimeMessage(){
-    const replyTime = [
+    /*const replyTime = [
       {value: "auto", label: "Automatic reply time. Currently El equipo responderá lo antes posible"}, 
       {value: "minutes", label: "El equipo suele responder en cuestión de minutos."},
       {value: "hours", label: "El equipo suele responder en cuestión de horas."},
@@ -172,7 +172,8 @@ const HomePanel = ({
 
     const message = replyTime.find((o)=> o.value === appData.replyTime)
 
-    return message && <p>{message.label}</p>
+    return message && <p>{message.label}</p>*/
+    return <p>{t(`reply_time.${appData.replyTime}`)}</p>
   }
 
   return (
