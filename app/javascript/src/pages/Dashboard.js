@@ -16,6 +16,7 @@ import SearchIcon from '@material-ui/icons/Search';
 import RefreshIcon from '@material-ui/icons/Refresh';
 import Container from '@material-ui/core/Container';
 //import Chart from './Chart';
+import moment from 'moment'
 
 import Card from '@material-ui/core/Card';
 import CardActions from '@material-ui/core/CardActions';
@@ -23,6 +24,17 @@ import CardContent from '@material-ui/core/CardContent';
 
 import DashboardCard from '../components/dashboard/card'
 import DashboardCard2 from '../components/dashboard/card2'
+
+import Title from '../components/dashboard/title';
+import Progress from '../shared/Progress'
+
+
+import HeatMap from '../components/charts/heatMap'
+import Pie from '../components/charts/pie'
+
+import {DASHBOARD} from "../graphql/queries"
+import graphql from '../graphql/client'
+
 
 const styles = theme => ({
   paperll: {
@@ -86,7 +98,17 @@ const styles = theme => ({
 });
 
 function Dashboard(props) {
-  const { classes } = props;
+  const { classes, app } = props;
+
+  console.log(props)
+
+  const initialData =  {
+    loading: true,
+    from: moment().add(-1, 'week'),
+    to: moment(), //.add(-1, 'day')
+  }
+
+  const [dashboard, setDashboard] = React.useState(initialData)
 
   const bull = <span className={classes.bullet}>•</span>;
   const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight);
@@ -317,10 +339,6 @@ function Dashboard(props) {
         */
       }
 
-
-
-
-
       <main className={classes.content}>
         <div className={classes.appBarSpacer} />
         <Container maxWidth="lg" className={classes.container}>
@@ -329,16 +347,74 @@ function Dashboard(props) {
             <Grid item xs={12} md={8} lg={9}>
               <Paper className={fixedHeightPaper}>
                 {/*<Chart />*/}
-                aaaaaa
+                <Title>Visit activity</Title>
+                 <DashboardItem
+                    chartType={"heatMap"} 
+                    dashboard={dashboard} 
+                    app={app} 
+                    kind={"visits"}
+                  />
               </Paper>
             </Grid>
             {/* Recent Deposits */}
             <Grid item xs={12} md={4} lg={3}>
               <Paper className={fixedHeightPaper}>
-                <DashboardCard />
+                <DashboardCard title={"Users browser"}>
+
+                  <DashboardItem
+                    chartType={"pie"} 
+                    dashboard={dashboard}
+                    app={app} 
+                    kind={'browser'}
+                  />
+                
+                </DashboardCard>
+                
               </Paper>
             </Grid>
-            {/* Recent Orders */}
+  
+            <Grid item xs={4}>
+              <Paper className={classes.paper}>
+              <DashboardCard title={"Lead Os"}>
+                  <DashboardItem
+                    chartType={"pie"} 
+                    dashboard={dashboard}
+                    app={app} 
+                    kind={'lead_os'}
+                  />
+                </DashboardCard>
+              </Paper>
+            </Grid>
+
+            <Grid item xs={4}>
+              <Paper className={classes.paper}>
+              <DashboardCard title={"User Os"}>
+                  <DashboardItem
+                    chartType={"pie"} 
+                    dashboard={dashboard}
+                    app={app} 
+                    kind={'user_os'}
+                  />
+                </DashboardCard>
+              </Paper>
+            </Grid>
+
+
+            <Grid item xs={4}>
+              <Paper className={classes.paper}>
+              <DashboardCard title={"User country"}>
+                  <DashboardItem
+                    chartType={"pie"} 
+                    dashboard={dashboard}
+                    app={app} 
+                    kind={'user_country'}
+                  />
+                </DashboardCard>
+              </Paper>
+            </Grid>
+
+
+
             <Grid item xs={12}>
               <Paper className={classes.paper}>
                 <DashboardCard2 />
@@ -353,6 +429,76 @@ function Dashboard(props) {
 
     </Paper>
   );
+}
+
+
+function DashboardItem(
+  {
+    app, 
+    kind, 
+    dashboard,
+    chartType
+  }){
+
+  const [data, setData] = React.useState([])
+  const [loading, setLoading] = React.useState(true)
+
+  React.useEffect(()=>{
+    getData()} 
+  , [])
+
+  function getData(){
+
+    graphql(DASHBOARD, {
+      appKey: app.key,
+      range: {
+          from: dashboard.from,
+          to: dashboard.to
+        },
+        kind: kind
+      }, {
+      success: (data)=>{
+        setData(data.app.dashboard)
+        setLoading(false)
+      },
+      error: (err)=>{
+        setLoading(false)
+        debugger
+      }
+    })
+  }
+
+  function renderChart(){
+    switch (chartType) {
+      case "heatMap":
+        return <HeatMap 
+          data={data}
+          from={dashboard.from}
+          to={dashboard.to}
+        />
+
+      case "pie":
+        return  <Pie 
+          data={data}
+          from={dashboard.from}
+          to={dashboard.to}
+        />
+      default:
+        return <p>no chart type</p>;
+    }
+  }
+
+  return (
+    <div style={{height: '200px'}}>
+
+      {
+        loading && <Progress/>
+      }
+      {
+        data.length > 0 && renderChart()
+      }
+    </div>
+  )
 }
 
 Dashboard.propTypes = {

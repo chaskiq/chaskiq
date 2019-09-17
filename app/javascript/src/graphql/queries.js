@@ -697,5 +697,13 @@ export const BOT_TASK = `
   }
 `;
 
+export const DASHBOARD = `
+  query Dashboard($appKey: String!, $range: Json!, $kind: String! )  {
+    app(key: $appKey){
+      dashboard(range: $range, kind: $kind)
+    }
+  }
+`
+
 
 
