@@ -26,6 +26,7 @@ import DashboardCard from '../components/dashboard/card'
 import DashboardCard2 from '../components/dashboard/card2'
 
 import Title from '../components/dashboard/title';
+import Progress from '../shared/Progress'
 
 
 import HeatMap from '../components/charts/heatMap'
@@ -440,12 +441,14 @@ function DashboardItem(
   }){
 
   const [data, setData] = React.useState([])
+  const [loading, setLoading] = React.useState(true)
 
   React.useEffect(()=>{
     getData()} 
   , [])
 
   function getData(){
+
     graphql(DASHBOARD, {
       appKey: app.key,
       range: {
@@ -456,8 +459,10 @@ function DashboardItem(
       }, {
       success: (data)=>{
         setData(data.app.dashboard)
+        setLoading(false)
       },
       error: (err)=>{
+        setLoading(false)
         debugger
       }
     })
@@ -485,6 +490,10 @@ function DashboardItem(
 
   return (
     <div style={{height: '200px'}}>
+
+      {
+        loading && <Progress/>
+      }
       {
         data.length > 0 && renderChart()
       }
