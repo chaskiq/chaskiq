@@ -82,6 +82,11 @@ const AppUserHeaderInfo = styled.div`
   }
 `
 
+const HeaderContainer = styled.div`
+  width: 100%;
+  height: 192px;
+`
+
 class ProfilePage extends Component {
 
   state = {
@@ -202,15 +207,7 @@ class ProfilePage extends Component {
 
         <ContentHeader/>
 
-        <Mapa 
-          interactive={false} 
-          data={[this.state.agent]} 
-          wrapperStyle={{
-            position: 'relative',
-            width: '100%',
-            height: '184px',
-            marginTop: '0px',
-          }}>
+        <HeaderContainer>
           
           <AppUserHeaderOverlay>
 
@@ -272,7 +269,7 @@ class ProfilePage extends Component {
 
           </AppUserHeaderInfo>
         
-        </Mapa>
+        </HeaderContainer>
 
         <Content>
 

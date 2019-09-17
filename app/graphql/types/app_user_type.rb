@@ -68,5 +68,19 @@ module Types
       object.conversations.page(page).per(per)
     end
 
+    def dashboard(range:,  kind:)
+      whitelist = %w(conversations visits)
+      raise "no dashboard available at this address" unless whitelist.include?(kind)
+      AgentDashboard.new(
+        app: object, 
+        range: range
+      ).send(kind)
+    end
+  
+    field :dashboard, Types::JsonType, null: true do 
+      argument :range, Types::JsonType, required: true
+      argument :kind,  String, required: true
+    end
+
   end
 end
