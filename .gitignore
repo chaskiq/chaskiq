@@ -36,3 +36,4 @@
 yarn-debug.log*
 .yarn-integrity
 latest.dump
+.env
