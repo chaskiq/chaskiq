@@ -2,6 +2,8 @@ require 'rails_helper'
 
 RSpec.describe AppUser, type: :model do
 
+  include ActiveJob::TestHelper
+
   let(:app){ FactoryGirl.create :app}
   let(:app_user){ 
     app.add_user({email: "test@test.cl", first_name: "dsdsa"})
@@ -22,7 +24,9 @@ RSpec.describe AppUser, type: :model do
       visitor
       expect(app.app_users.count).to be == 1
       expect(DataEnrichmentJob).to receive(:perform_later)
-      visitor.update(email: "miguelmichelson@gmail.com")
+      perform_enqueued_jobs do
+        visitor.update(email: "miguelmichelson@gmail.com")
+      end
     end
 
     it "not send on setting false" do

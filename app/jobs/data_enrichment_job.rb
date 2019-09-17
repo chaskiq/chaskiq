@@ -8,7 +8,7 @@ class DataEnrichmentJob < ApplicationJob
 
     fullcontact = DataEnrichmentService::FullContact.new({token: token})
 
-    response = fullcontact.get_data(params: {email: user.email})
+    response = fullcontact.get_data(params: {email: user.email, macromeasures: true})
 
     # means an error, escape it
     return if response.status.present? && response.status >= 400
@@ -22,6 +22,7 @@ class DataEnrichmentJob < ApplicationJob
     user.linkedin   = response.linkedin
     user.organization = response.organization
     user.job_title = response.title
+
     
     user.save
   end
