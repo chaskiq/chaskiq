@@ -30,7 +30,7 @@ class Dashboard
         id: k || 'unknown', 
         label: k || 'unknown', 
         value: v, 
-        color: "hsl(265, 70%, 50%)"
+        color: "hsl(#{colors}, 70%, 50%)"
       } 
     end
   end
@@ -42,18 +42,18 @@ class Dashboard
         id: k || 'unknown', 
         label: k || 'unknown', 
         value: v, 
-        color: "hsl(265, 70%, 50%)"
+        color: "hsl(#{colors}, 70%, 50%)"
       } 
     end
   end
 
   def lead_os
-    @app.app_users.leads.group(:os).count
+    @app.app_users.visitors.group(:os).count
     .map do |k,v| 
       { id: k || 'unknown', 
         label: k || 'unknown', 
         value: v, 
-        color: "hsl(265, 70%, 50%)"
+        color: "hsl(#{colors}, 70%, 50%)"
       } 
     end
   end
@@ -64,20 +64,27 @@ class Dashboard
       { id: k || 'unknown', 
         label: k || 'unknown', 
         value: v, 
-        color: "hsl(265, 70%, 50%)"
+        color: "hsl(#{colors}, 70%, 50%)"
       } 
     end
   end
 
   def user_country
-    @app.app_users.group(:country, :city).count
+    @app.app_users.group(:country).count
     .map do |k,v| 
       { id: k || 'unknown', 
         label: k || 'unknown', 
         value: v, 
-        color: "hsl(265, 70%, 50%)"
+        color: "hsl(#{colors}, 70%, 50%)"
       } 
     end
+  end
+
+private
+
+  def colors
+    array = %w(265 20 30 110 120 160 260 270 290 330 400)
+    array.shuffle.each{|x|}[0]
   end
 
 end

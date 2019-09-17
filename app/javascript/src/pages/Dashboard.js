@@ -371,7 +371,49 @@ function Dashboard(props) {
                 
               </Paper>
             </Grid>
-            {/* Recent Orders */}
+  
+            <Grid item xs={4}>
+              <Paper className={classes.paper}>
+              <DashboardCard title={"Lead Os"}>
+                  <DashboardItem
+                    chartType={"pie"} 
+                    dashboard={dashboard}
+                    app={app} 
+                    kind={'lead_os'}
+                  />
+                </DashboardCard>
+              </Paper>
+            </Grid>
+
+            <Grid item xs={4}>
+              <Paper className={classes.paper}>
+              <DashboardCard title={"User Os"}>
+                  <DashboardItem
+                    chartType={"pie"} 
+                    dashboard={dashboard}
+                    app={app} 
+                    kind={'user_os'}
+                  />
+                </DashboardCard>
+              </Paper>
+            </Grid>
+
+
+            <Grid item xs={4}>
+              <Paper className={classes.paper}>
+              <DashboardCard title={"User country"}>
+                  <DashboardItem
+                    chartType={"pie"} 
+                    dashboard={dashboard}
+                    app={app} 
+                    kind={'user_country'}
+                  />
+                </DashboardCard>
+              </Paper>
+            </Grid>
+
+
+
             <Grid item xs={12}>
               <Paper className={classes.paper}>
                 <DashboardCard2 />
