@@ -37,6 +37,7 @@ class App < ApplicationRecord
 
   has_many :app_users
   has_many :bot_tasks
+  has_many :visits, through: :app_users
   
   has_one :article_settings, class_name: "ArticleSetting", :dependent => :destroy
   has_many :articles

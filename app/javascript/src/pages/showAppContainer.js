@@ -479,8 +479,9 @@ class ShowAppContainer extends Component {
           />
 
           <Route exact path={`/apps/${this.props.app.key}`}
-              render={() => (
-                <Dashboard/>
+              render={(props) => (
+
+                <Dashboard {...this.props} {...props}/>
             )} 
           />
          </Switch>
