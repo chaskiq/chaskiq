@@ -217,6 +217,12 @@ function Navigator(props, context) {
             classes={{
               primary: classes.itemPrimary,
             }}
+            onClick={(e) => {
+              e.preventDefault()
+              //this.setActiveLink(o, ()=>{
+                context.router.history.push(`/apps/${app.key}`)
+              //})
+            }}
           >
             Project Overview
           </ListItemText>

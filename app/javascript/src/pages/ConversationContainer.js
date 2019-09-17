@@ -45,6 +45,8 @@ import {
 import Button from '@material-ui/core/Button'
 import CheckIcon from '@material-ui/icons/Check'
 import InboxIcon from '@material-ui/icons/Inbox'
+import ChatIcon from '@material-ui/icons/Chat'
+
 import PriorityHighIcon from '@material-ui/icons/PriorityHigh'
 import IconButton from '@material-ui/core/IconButton';
 import Tooltip from '@material-ui/core/Tooltip';
@@ -309,12 +311,14 @@ class ConversationContainer extends Component {
 
                         <div style={{alignSelf: 'center'}}>
                           <Paper style={{padding: '2em'}}>
-                               <Typography variant="h5" component="h3">
+
+                              <ChatIcon fontSize="large" />
+                               <Typography variant="h5">
                                   Conversations 
                                 </Typography>
 
                                 <Typography component="p">
-                                  Select a conversation or crate a new one
+                                  Select a conversation
                                 </Typography>
 
                           </Paper>

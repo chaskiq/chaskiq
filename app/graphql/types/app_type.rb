@@ -226,6 +226,25 @@ module Types
       object.bot_tasks.find(id)
     end
 
+    def dashboard(range:,  kind:)
+
+      whitelist = [
+        "visits",
+      ]
+  
+      raise "no dashboard available at this address" unless whitelist.include?(kind)
+  
+      Dashboard.new(
+        app: object, 
+        range: range
+      ).send(kind)
+    end
+  
+    field :dashboard, Types::JsonType, null: true do 
+      argument :range, Types::JsonType, required: true
+      argument :kind,  String, required: true
+    end
+
 
   end
 end
