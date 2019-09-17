@@ -25,7 +25,7 @@ class AppUser < ApplicationRecord
                             "os",
                             "os_version",
                             "browser_language",
-                            "lang"
+                            "lang",
                           ]
 
   #belongs_to :user
@@ -38,6 +38,8 @@ class AppUser < ApplicationRecord
 
   after_create :add_created_event
 
+  after_save :enqueue_social_enrichment, if: :saved_change_to_email?
+
   store_accessor :properties, [ 
     :name, 
     :first_name, 
@@ -45,7 +47,13 @@ class AppUser < ApplicationRecord
     #:country, 
     :country_code, 
     #:region, 
-    :region_code
+    :region_code,
+    :facebook,
+    :twitter,
+    :linkedin,
+    :gender,
+    :organization,
+    :job_title
   ]
   
   scope :availables, ->{ 
@@ -201,4 +209,9 @@ class AppUser < ApplicationRecord
     self.visits.create(url: url)
   end
 
+  def enqueue_social_enrichment
+    if self.app.gather_social_data && self.email.present?
+      DataEnrichmentJob.perform_later(user_id: self.id)
+    end
+  end
 end

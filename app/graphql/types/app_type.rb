@@ -23,7 +23,7 @@ module Types
     field :tagline, String, null: true
     field :user_tasks_settings, Types::JsonType, null: true
     field :lead_tasks_settings, Types::JsonType, null: true
-
+    field :gatherSocialData, Boolean, null: true
     field :translations, [Types::JsonType], null: true
     field :available_languages, [Types::JsonType], null: true
 

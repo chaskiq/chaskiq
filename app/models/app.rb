@@ -3,24 +3,18 @@ class App < ApplicationRecord
   include Tokenable
 
   store :preferences, accessors: [ 
-    #  :notifications, 
-    #  :gather_data, 
-    #  :test_app,
-    #  :assigment_rules,
     :active_messenger, 
     :domain_url, 
     :theme,
-    #:notifications,
     :gather_data, 
-    #:test_app,
-    #:assigment_rules,
     :email_requirement,
     :inbound_settings,
     :lead_tasks_settings,
     :user_tasks_settings,
     :timezone,
     :reply_time,
-    :team_schedule
+    :team_schedule,
+    :gather_social_data
   ], coder: JSON
 
 
