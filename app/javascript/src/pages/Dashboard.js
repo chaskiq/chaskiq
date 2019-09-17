@@ -28,7 +28,8 @@ import DashboardCard2 from '../components/dashboard/card2'
 import Title from '../components/dashboard/title';
 
 
-import Chart from '../components/calendar/charts'
+import HeatMap from '../components/charts/heatMap'
+import Pie from '../components/charts/pie'
 
 import {DASHBOARD} from "../graphql/queries"
 import graphql from '../graphql/client'
@@ -346,7 +347,8 @@ function Dashboard(props) {
               <Paper className={fixedHeightPaper}>
                 {/*<Chart />*/}
                 <Title>Visit activity</Title>
-                 <DashboardItem 
+                 <DashboardItem
+                    chartType={"heatMap"} 
                     dashboard={dashboard} 
                     app={app} 
                     kind={"visits"}
@@ -356,7 +358,17 @@ function Dashboard(props) {
             {/* Recent Deposits */}
             <Grid item xs={12} md={4} lg={3}>
               <Paper className={fixedHeightPaper}>
-                <DashboardCard />
+                <DashboardCard title={"Users browser"}>
+
+                  <DashboardItem
+                    chartType={"pie"} 
+                    dashboard={dashboard}
+                    app={app} 
+                    kind={'browser'}
+                  />
+                
+                </DashboardCard>
+                
               </Paper>
             </Grid>
             {/* Recent Orders */}
@@ -381,7 +393,8 @@ function DashboardItem(
   {
     app, 
     kind, 
-    dashboard
+    dashboard,
+    chartType
   }){
 
   const [data, setData] = React.useState([])
@@ -394,10 +407,11 @@ function DashboardItem(
     graphql(DASHBOARD, {
       appKey: app.key,
       range: {
-        from: dashboard.from,
-        to: dashboard.to
-      },
-      kind: kind}, {
+          from: dashboard.from,
+          to: dashboard.to
+        },
+        kind: kind
+      }, {
       success: (data)=>{
         setData(data.app.dashboard)
       },
@@ -407,24 +421,32 @@ function DashboardItem(
     })
   }
 
+  function renderChart(){
+    switch (chartType) {
+      case "heatMap":
+        return <HeatMap 
+          data={data}
+          from={dashboard.from}
+          to={dashboard.to}
+        />
+
+      case "pie":
+        return  <Pie 
+          data={data}
+          from={dashboard.from}
+          to={dashboard.to}
+        />
+      default:
+        return <p>no chart type</p>;
+    }
+  }
 
   return (
-
     <div style={{height: '200px'}}>
-
-    {
-      data.length > 0 && 
-    
-     <Chart 
-      data={data}
-      from={dashboard.from}
-      to={dashboard.to}
-      />
-
-    }
-    
+      {
+        data.length > 0 && renderChart()
+      }
     </div>
-
   )
 }
 

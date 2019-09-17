@@ -25,10 +25,59 @@ class Dashboard
 
   def browser_name
     @app.visits.group(:browser_name).count
+    .map do |k,v| 
+      {
+        id: k || 'unknown', 
+        label: k || 'unknown', 
+        value: v, 
+        color: "hsl(265, 70%, 50%)"
+      } 
+    end
   end
 
   def browser
-    @app.visits.group(:browser_name, :browser_version).count
+    @app.visits.group(:browser_name).count
+    .map do |k,v| 
+      {
+        id: k || 'unknown', 
+        label: k || 'unknown', 
+        value: v, 
+        color: "hsl(265, 70%, 50%)"
+      } 
+    end
+  end
+
+  def lead_os
+    @app.app_users.leads.group(:os).count
+    .map do |k,v| 
+      { id: k || 'unknown', 
+        label: k || 'unknown', 
+        value: v, 
+        color: "hsl(265, 70%, 50%)"
+      } 
+    end
+  end
+
+  def user_os
+    @app.app_users.group(:os).count
+    .map do |k,v| 
+      { id: k || 'unknown', 
+        label: k || 'unknown', 
+        value: v, 
+        color: "hsl(265, 70%, 50%)"
+      } 
+    end
+  end
+
+  def user_country
+    @app.app_users.group(:country, :city).count
+    .map do |k,v| 
+      { id: k || 'unknown', 
+        label: k || 'unknown', 
+        value: v, 
+        color: "hsl(265, 70%, 50%)"
+      } 
+    end
   end
 
 end
