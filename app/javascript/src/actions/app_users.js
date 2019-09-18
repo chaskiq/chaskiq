@@ -2,10 +2,7 @@ import ActionTypes from '../constants/action_types';
 import graphql from '../graphql/client'
 import { SEGMENT, APP_USER} from "../graphql/queries"
 import { 
-  PREDICATES_SEARCH, 
-  PREDICATES_CREATE, 
-  PREDICATES_UPDATE, 
-  PREDICATES_DELETE 
+  PREDICATES_SEARCH,
 } from '../graphql/mutations'
 
 import {dispatchSegmentUpdate} from './segments'
