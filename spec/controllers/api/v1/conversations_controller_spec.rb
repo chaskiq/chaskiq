@@ -1,5 +1,6 @@
 require 'rails_helper'
 
+=begin
 RSpec.describe Api::V1::ConversationsController, type: :controller do
 
   render_views
@@ -51,3 +52,4 @@ RSpec.describe Api::V1::ConversationsController, type: :controller do
     end
 
 end
+=end

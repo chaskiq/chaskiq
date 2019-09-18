@@ -19,6 +19,7 @@ export const UPDATE_APP = `
         emailRequirement
         leadTasksSettings
         userTasksSettings
+        gatherSocialData
         segments {
           name
           id
@@ -525,8 +526,8 @@ export const PREDICATES_DELETE = `
 `;
 
 export const PREDICATES_CREATE = `
-  mutation PredicatesCreate($appKey: String!, $operation: String, $name: String!, $predicates: Json!){
-    predicatesCreate(appKey: $appKey, operation: $operation, name: $name, predicates: $predicates){
+  mutation PredicatesCreate($appKey: String!, $name: String!, $predicates: Json!){
+    predicatesCreate(appKey: $appKey, name: $name, predicates: $predicates){
       segment {
         id
         name

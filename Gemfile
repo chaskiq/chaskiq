@@ -69,6 +69,8 @@ gem "globalize", github: 'globalize/globalize'
 # Reduces boot times through caching; required in config/boot.rb
 gem 'bootsnap', '>= 1.1.0', require: false
 
+gem 'dotenv-rails', groups: [:development, :test]
+
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   #gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]
@@ -162,3 +164,5 @@ gem "friendly_id", "~> 5.2"
 gem "i18n-js", "~> 3.3"
 
 gem "biz", "~> 1.8"
+
+gem "faraday", "~> 0.15.4"

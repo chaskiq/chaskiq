@@ -11,6 +11,7 @@ import {
         Avatar ,
         Typography,
         Button,
+        IconButton,
         TextField,
         Paper,
         Grid,
@@ -31,8 +32,10 @@ import {
         FormControlLabel,
         Radio,
         Link as MuiLink
-
 } from '@material-ui/core';
+
+import AddIcon from '@material-ui/icons/Add'
+import DeleteIcon from '@material-ui/icons/Delete'
 import graphql from '../../graphql/client'
 import {toSnakeCase} from '../../shared/caseConverter'
 import FormDialog from '../../components/FormDialog'
@@ -82,31 +85,15 @@ export default function LanguageForm({settings, update, namespace, fields}){
 
       <Box m={2}>
 
-        <Typography variant="h5">Set your availability</Typography>
+        <Typography variant="h4">Set your availability</Typography>
         
-        <Typography variant="subtitle1">Set team office hours and reply times</Typography>
+        <Typography variant="subtitle1" gutterBottom>Set team office hours and reply times</Typography>
 
         <Typography variant="h5">Set office hours</Typography>
         
-        <Typography variant="subtitle1">
+        <Typography variant="overline" gutterBottom>
           Outside these hours, customers see when you'll be back, 
           relative to their timezone.
-        </Typography>
-
-      </Box>
-
-      <Box m={2}>
-
-        <Typography>Your workspace’s timezone is {settings.timezone}</Typography>
-
-        <AvailabilitySchedule 
-          records={records} 
-          setRecords={setRecords} 
-        />
-
-        <Typography variant="subtitle1">
-          During office hours, let your customers know when 
-          they can expect a reply.
         </Typography>
 
       </Box>
@@ -115,32 +102,58 @@ export default function LanguageForm({settings, update, namespace, fields}){
 
       <Box m={2}>
 
-        <FormControl component="fieldset">
-          <FormLabel component="legend">Set reply time</FormLabel>
-          <RadioGroup
-            aria-label="reply time"
-            name="reply_time"
-            //className={classes.group}
-            value={selectedOption}
-            onChange={handleChange}
-          >
-            {
-              options.map((o)=>(
-                <FormControlLabel 
-                  key={o.value}
-                  value={o.value} 
-                  control={<Radio />} 
-                  label={o.label} 
-                />
-              ))
-            }
+        <Typography gutterBottom variant={"caption"}>
+          Your workspace’s timezone is {settings.timezone}
+        </Typography>
 
-          </RadioGroup>
-        </FormControl>
+        <AvailabilitySchedule 
+          records={records} 
+          setRecords={setRecords} 
+        />
+
+      </Box>
+
+      <Divider/>
+
+      <Box m={2}>
+
+        <Typography variant="h5">Set reply time</Typography>
+
+        <Typography variant="overline" gutterBottom>
+          During office hours, let your customers know when 
+          they can expect a reply.
+        </Typography>
+
+
+        <Box mt={2} mb={2}>
+          <FormControl component="fieldset">
+            
+            <RadioGroup
+              aria-label="reply time"
+              name="reply_time"
+              //className={classes.group}
+              value={selectedOption}
+              onChange={handleChange}
+            >
+              {
+                options.map((o)=>(
+                  <FormControlLabel 
+                    key={o.value}
+                    value={o.value} 
+                    control={<Radio />} 
+                    label={o.label} 
+                  />
+                ))
+              }
+
+            </RadioGroup>
+          </FormControl>
+
+        </Box>
 
       </Box>
       
-      <Typography variant="subtitle1">
+      <Typography variant="subtitle1" gutterBottom>
         Note: Operator will auto reply with your team’s availability 
         during out-of-office hours or long reply times.
       </Typography>
@@ -181,7 +194,7 @@ function AvailabilitySchedule({records, setRecords}){
 
   return (
 
-    <div>
+    <Box m={4}>
     
       {
         records.map((o, index)=>(
@@ -198,15 +211,12 @@ function AvailabilitySchedule({records, setRecords}){
 
 
       <Grid item xs={12}>
-        <Button onClick={addRecord}>Add</Button>
+        <IconButton onClick={addRecord}>
+          <AddIcon/>
+        </IconButton>
       </Grid>
-
-
-      <Typography variant="h5">Set reply time</Typography>
         
-
-      
-    </div>
+    </Box>
 
   )
 }
@@ -312,7 +322,9 @@ function AvailabilityRecord({record, update, index, removeItem}){
       </Grid>
 
       <Grid item xs={3}>
-         <Button onClick={deleteItem}>delete</Button>
+         <IconButton onClick={deleteItem}>
+          <DeleteIcon></DeleteIcon>
+         </IconButton>
       </Grid>
 
     </Grid>

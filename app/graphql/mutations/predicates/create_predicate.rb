@@ -9,22 +9,20 @@ module Mutations
     argument :id, Integer, required: false
     argument :app_key, String, required: false
 
-    argument :name, String, required: false
-    argument :operation, String, required: false
+    argument :name, String, required: true
     argument :predicates, Types::JsonType, required: false
 
-    def resolve(app_key:, name: , operation:, predicates: )
+    def resolve(app_key:, name:, predicates: )
+
       current_user = context[:current_user]
       @app = current_user.apps.find_by(key: app_key)
 
       @segment = @app.segments.new
       @segment.name = name
+
       @segment.predicates = predicates.map(&:permit!).as_json
-
-      if operation.present? and operation == "create"
-        @segment.save      
-      end
-
+      @segment.save      
+      
       { segment: @segment, errors: @segment.errors }
     end
   end

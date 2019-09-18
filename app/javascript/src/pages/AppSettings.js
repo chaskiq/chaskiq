@@ -204,7 +204,7 @@ class AppSettingsContainer extends Component {
     return <Tabs value={this.state.tabValue} 
               onChange={this.handleTabChange}
               textColor="inherit">
-              <Tab textColor="inherit" label="App Information" />
+              <Tab textColor="inherit" label="App Settings" />
               <Tab textColor="inherit" label="Security" />
               <Tab textColor="inherit" label="Appearance" />
               <Tab textColor="inherit" label="Text" />
@@ -232,10 +232,18 @@ class AppSettingsContainer extends Component {
         hint: "messenger text on botton",
         grid: { xs: 12, sm: 12 }
       },
+
       {name: "timezone", type: "timezone", 
         options: timezones, 
         multiple: false,
         grid: {xs: 12, sm: 12 }
+      },
+      {
+        name: "gatherSocialData",
+        type: 'bool',
+        label: "Collect social data about your users",
+        hint: "Collect social profiles (e.g. LinkedIn, Twitter, etc.) for my users via a third party",
+        grid: { xs: 12, sm: 12 }
       },
     ]
   }
