@@ -21,11 +21,8 @@ module Mutations
       @segment.name = name
 
       @segment.predicates = predicates.map(&:permit!).as_json
-
-      #if operation.present? and operation == "create"
       @segment.save      
-      #end
-
+      
       { segment: @segment, errors: @segment.errors }
     end
   end
