@@ -108,7 +108,7 @@ RSpec.describe App, type: :model do
       from: app_user
     })
     expect(app.conversations.count).to be == 1
-    expect(conversations.assignee.id).to be == agent1.id
+    expect(conversations.assignee).to be_blank
   end
 
   it "create_conversation assignee override" do

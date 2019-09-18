@@ -72,7 +72,6 @@ RSpec.describe GraphqlController, type: :controller do
     end
 
     it "predicates search invalid" do
-      pending("error not implemented")
 
       graphql_post(type: 'PREDICATES_SEARCH', variables: {
         appKey: app.key,
@@ -87,11 +86,10 @@ RSpec.describe GraphqlController, type: :controller do
 
 
     it "save segment" do
-      pending("save segment")
       graphql_post(type: 'PREDICATES_UPDATE', variables: {
         appKey: app.key,
-        page: 1,
-        search: invalid_segments
+        id: 1,
+        predicates: invalid_segments[:data][:predicates]
       })
 
       expect(graphql_response.errors).to_not be_present
@@ -99,11 +97,9 @@ RSpec.describe GraphqlController, type: :controller do
 
 
     it "delete segment" do
-      pending("delete segment")
       graphql_post(type: 'PREDICATES_DELETE', variables: {
         appKey: app.key,
-        page: 1,
-        search: invalid_segments
+        id: 1,
       })
 
       expect(graphql_response.errors).to_not be_present
@@ -111,11 +107,11 @@ RSpec.describe GraphqlController, type: :controller do
 
 
     it "create segment" do
-      pending("create segment")
       graphql_post(type: 'PREDICATES_CREATE', variables: {
         appKey: app.key,
+        name: "foo",
         page: 1,
-        search: invalid_segments
+        predicates: invalid_segments[:data][:predicates]
       })
 
       expect(graphql_response.errors).to_not be_present
