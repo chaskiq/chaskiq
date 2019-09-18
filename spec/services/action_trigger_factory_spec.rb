@@ -15,8 +15,8 @@ RSpec.describe ActionTriggerFactory do
             uuid: 2, 
             type: "ask_option" , 
             schema: [
-              c.button(text: "yes", next_uuid: 2), 
-              c.button(text: "no", next_uuid: 4)
+              c.button(label: "yes", next_uuid: 2), 
+              c.button(label: "no", next_uuid: 4)
             ]
           )
         ],
@@ -39,7 +39,7 @@ RSpec.describe ActionTriggerFactory do
             uuid: "sss",
             type: "data_retrieval",
             schema: [
-              c.input(label: "email", placeholder: "email")
+              c.input(name: "email", label: "email", placeholder: "email")
             ]
           )
           

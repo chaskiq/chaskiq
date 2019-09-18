@@ -22,13 +22,6 @@ import AppContent from '../components/segmentManager/container'
 import Snackbar from '../components/snackbar'
 import AtTabs from '../components/tabs'
 import graphql from "../graphql/client"
-import { APP, SEGMENT, APP_USER} from "../graphql/queries"
-import { 
-  PREDICATES_SEARCH, 
-  PREDICATES_CREATE, 
-  PREDICATES_UPDATE, 
-  PREDICATES_DELETE 
-} from '../graphql/mutations'
 
 import Dashboard from './Dashboard'
 import Articles from './Articles'
@@ -257,8 +250,7 @@ class ShowAppContainer extends Component {
   createSegment = (data, cb)=>{
 
     const params = {
-      name: data.input,
-      operation: "create",
+      name: data.input
     }
 
     this.props.dispatch(

@@ -81,7 +81,7 @@ export function createSegment(options, cb){
     const params = {
       appKey: getState().app.key,
       name: options.name,
-      operation: options.operation,
+      //operation: options.operation,
       predicates: getState().segment.predicates
     }
 
