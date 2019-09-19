@@ -67,8 +67,7 @@ RSpec.describe Api::GraphqlController, type: :controller do
 
   it "visit with geo code" do
     graphql_post(type: 'AUTH', variables: {})
-
-    expect(graphql_response.data.messenger.user.email).to be_present
+    graphql_post(type: 'PING', variables: {})
 
     app_user = app.reload.app_users.last
 
