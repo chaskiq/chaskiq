@@ -93,7 +93,7 @@ RSpec.describe Api::GraphqlController, type: :controller do
       expect(app.app_users).to be_blank
       graphql_post(type: 'AUTH', variables: {})
       expect(app.reload.app_users.size).to be == 1
-      expect(graphql_response.data.messenger.user.kind).to be == "Lead"
+      expect(graphql_response.data.messenger.user.kind).to be == "Visitor"
       expect(graphql_response.data.messenger.user.email).to be_blank
     end
 
@@ -112,7 +112,8 @@ RSpec.describe Api::GraphqlController, type: :controller do
 
       expect(app.reload.app_users.count).to be == 1
       graphql_post(type: 'AUTH', variables: {})
-      expect(graphql_response.data.messenger.user.kind).to be == "Lead"
+
+      expect(graphql_response.data.messenger.user.kind).to be == "Visitor"
       expect(graphql_response.data.messenger.user.email).to be_blank
       expect(graphql_response.data.messenger.user.session_id).to be == user.session_id
     end

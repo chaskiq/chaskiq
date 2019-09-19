@@ -62,6 +62,10 @@ class AppUser < ApplicationRecord
   }
 
   scope :visitors, ->{
+    where(type: "Visitor")
+  }
+
+  scope :leads, ->{
     where(type: "Lead")
   }
 
