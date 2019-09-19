@@ -44,12 +44,12 @@ class ClientTesterController < ApplicationController
 
     { email: "test@test.cl",
       properties: {
-          name: "miguel",
-          lang: "es",
-          id: "localhost",
-          country: "chile",
-          role: "admin",
-          pro: true
+        name: "miguel",
+        lang: "en",
+        id: "localhost",
+        country: "chile",
+        role: "admin",
+        pro: true
       }
     } 
   end

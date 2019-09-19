@@ -308,7 +308,20 @@ RSpec.describe "Widget management", :type => :system do
 
   end
 
-  it "run previous conversations" do                       
+  it "blocked user will not display" do
+    user_options = []
+    setting_for_user(user_segment: "some", user_options: user_options)
+    expect(app.query_segment("users")).to be_any
+    visit "/tester/#{app.key}"
+    expect(page).to have_selector("iframe")
+
+    app.app_users.first.block!
+    visit "/tester/#{app.key}"
+    expect(page).to_not have_selector("iframe")
+
+  end
+
+  it "run previous conversations" do
     
     app.start_conversation({
       message: {
@@ -330,8 +343,8 @@ RSpec.describe "Widget management", :type => :system do
     messenger_iframe = all("iframe").first
 
     Capybara.within_frame(messenger_iframe){
-      page.click_link("see previous")
-      expect(page).to have_content(user.email)
+      page.click_link("See previous")
+      #expect(page).to have_content(user.email)
       expect(page).to have_content("a few seconds ago")
       
       page.find(:xpath, "/html/body/div/div/div/div[2]/div/div/div[1]/div").click
@@ -356,7 +369,7 @@ RSpec.describe "Widget management", :type => :system do
   end
 
 
-  it "start conversation" do                       
+  it "start conversation" do
     
     visit "/tester/#{app.key}"
 
@@ -375,7 +388,7 @@ RSpec.describe "Widget management", :type => :system do
 
     Capybara.within_frame(messenger_iframe){
       
-      page.click_link("start conversation")
+      page.click_link("Start a conversation")
       
       #expect(page).to have_content(user.email)
       #expect(page).to have_content("a few seconds ago")
@@ -449,20 +462,19 @@ RSpec.describe "Widget management", :type => :system do
 
       visit "/tester/#{app.key}"
 
-      sleep(2)
+      sleep(6)
 
       expect(all("iframe").size).to be == 2
 
       # on a second visit the message will dissapear
-
       visit "/tester/#{app.key}"
 
-      sleep(2)
+      sleep(6)
 
       expect(all("iframe").size).to be == 2
 
       Capybara.within_frame(all("iframe").first){ 
-        page.click_link("dismiss")
+        page.click_link("Dismiss")
       }
 
       visit "/tester/#{app.key}"
@@ -470,7 +482,6 @@ RSpec.describe "Widget management", :type => :system do
       sleep(2)
 
       expect(all("iframe").size).to be == 1
-
     end
 
   end
@@ -657,7 +668,7 @@ RSpec.describe "Widget management", :type => :system do
         messenger_iframe = all("iframe").first
     
         Capybara.within_frame(messenger_iframe){ 
-          page.click_link("start conversation")
+          page.click_link("Start a conversation")
           expect(page).to have_content("will reply as soon as they can.")
         }
 
@@ -693,11 +704,9 @@ RSpec.describe "Widget management", :type => :system do
         messenger_iframe = all("iframe").first
     
         Capybara.within_frame(messenger_iframe){ 
-          page.click_link("start conversation")
+          page.click_link("Start a conversation")
           #expect(page).to have_content("enter your email")
         }
-
-        sleep 100
       end
 
       it "not shows email requirement" do
@@ -729,7 +738,7 @@ RSpec.describe "Widget management", :type => :system do
         messenger_iframe = all("iframe").first
     
         Capybara.within_frame(messenger_iframe){ 
-          page.click_link("start conversation")
+          page.click_link("Start a conversation")
           expect(page).to_not have_content("enter your email")
         }
       end

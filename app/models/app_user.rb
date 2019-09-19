@@ -69,6 +69,10 @@ class AppUser < ApplicationRecord
     where(type: "AppUser")
   }
 
+  def available?
+    ["passive", "subscribed"].include?(self.subscription_state)
+  end
+
   def add_created_event
     self.events.log(action: :user_created)
   end

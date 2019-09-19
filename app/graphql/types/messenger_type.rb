@@ -9,10 +9,17 @@ module Types
 
     def user
       @user = context[:auth].call
+
+      @user
+    end
+
+    field :update_data, Boolean, null: true
+
+    def update_data
       # TODO. detach this, 
       # idea. set browser data on redis, update later
+      # or perform job here
       context[:get_app_user].call.update(browser_data)
-      @user
     end
 
     field :conversations, Types::PaginatedConversationsType, null:true do
@@ -52,6 +59,7 @@ module Types
       return false if object.inbound_settings.blank?
       @user = context[:get_app_user].call
       return false if @user.blank?
+      return false if @user.blocked?
       k = @user.model_name.name === "AppUser" ? "users" : "visitors" 
       return if k.blank?
       return nil unless object.inbound_settings[k]["enabled"]
@@ -83,7 +91,7 @@ private
         os:               browser.platform.id,
         os_version:       browser.platform.version,
         browser_language: language.try(:code),
-        lang:             user_data[:properties].present? ? user_data[:properties].fetch(:lang) : nil
+        lang:             user_data[:properties][:lang]
       }
   
       # resource_params.to_h.merge(request.location.data)

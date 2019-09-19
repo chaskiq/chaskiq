@@ -15,20 +15,10 @@ private
 
       if @user_data[:email].blank?
         visitor = (get_user_by_session || add_vistor)
-        @user_data.merge!({
-            session_id: visitor.session_id, 
-            lang: I18n.locale, 
-            kind: visitor.model_name.name
-          }
-        ) 
+        merge_user_data(visitor)
       else
         app_user = get_user_by_email || @app.add_user(email: @user_data[:email])
-        @user_data.merge!({
-            session_id: app_user.session_id, 
-            lang: I18n.locale, 
-            kind: app_user.model_name.name
-          }
-        )
+        merge_user_data(app_user)
       end
     else
       # check this, maybe deprecate unsecure mode
@@ -36,6 +26,15 @@ private
     end
     
     @user_data
+  end
+
+  def merge_user_data(model)
+    @user_data.merge!({
+        session_id: model.session_id, 
+        lang: I18n.locale, 
+        kind: model.model_name.name
+      }
+    )
   end
 
   def get_user_data

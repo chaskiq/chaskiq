@@ -1520,7 +1520,10 @@ function CommentsItemComp(props){
                     <ConversationSummary>
 
                       <ConversationSummaryAvatar>
-                        <img src={gravatar(o.assignee.email)} />
+                        {
+                          o.assignee && <img src={gravatar(o.assignee.email)} />
+                        }
+                        
                       </ConversationSummaryAvatar>
 
                       <ConversationSummaryBody>
@@ -1531,7 +1534,7 @@ function CommentsItemComp(props){
                               <ReadIndicator /> : null
                           }
                           <Autor>
-                            {o.assignee.displayName}
+                            {o.assignee && o.assignee.displayName}
                           </Autor>
 
                           <Moment fromNow style={{
