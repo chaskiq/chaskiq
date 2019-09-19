@@ -84,7 +84,7 @@ RSpec.describe Api::GraphqlController, type: :controller do
 
   describe "unregistered" do
 
-    it "auth encrypted will create registered user" do
+    it "sessionless will create Lead" do
       
       request.headers.merge!({
         'HTTP_APP' => app.key
@@ -92,8 +92,29 @@ RSpec.describe Api::GraphqlController, type: :controller do
 
       expect(app.app_users).to be_blank
       graphql_post(type: 'AUTH', variables: {})
+      expect(app.reload.app_users.size).to be == 1
       expect(graphql_response.data.messenger.user.kind).to be == "Lead"
       expect(graphql_response.data.messenger.user.email).to be_blank
+    end
+
+
+
+    it "sessionless will return Lead" do
+
+      user = app.add_anonymous_user({})
+
+      expect(app.app_users.count).to be == 1
+      
+      request.headers.merge!({
+        'HTTP_APP' => app.key,
+        'HTTP_SESSION_ID'=> user.session_id
+      })
+
+      expect(app.reload.app_users.count).to be == 1
+      graphql_post(type: 'AUTH', variables: {})
+      expect(graphql_response.data.messenger.user.kind).to be == "Lead"
+      expect(graphql_response.data.messenger.user.email).to be_blank
+      expect(graphql_response.data.messenger.user.session_id).to be == user.session_id
     end
 
   end
