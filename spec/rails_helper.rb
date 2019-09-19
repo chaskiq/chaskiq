@@ -37,13 +37,32 @@ require 'database_cleaner'
 
 DatabaseCleaner.strategy = :truncation
 
-Capybara.default_max_wait_time = 15
+Capybara.default_max_wait_time = 6
 
 RSpec.configure do |config|
   # Remove this line if you're not using ActiveRecord or ActiveRecord fixtures
   config.fixture_path = "#{::Rails.root}/spec/fixtures"
 
   Geocoder.configure(lookup: :test, ip_lookup: :test)
+
+  # Add stubs to define the results that will be returned:
+
+  Geocoder::Lookup::Test.set_default_stub(
+    [
+      {
+        'coordinates'  => [40.7143528, -74.0059731],
+        'latitude'     => 40.7143528,
+        'longitude'    => -74.0059731,
+        'address'      => 'New York, NY, USA',
+        'state'        => 'New York',
+        'city'         => 'newy york',
+        'region'       => 'new_yorke',
+        'state_code'   => 'NY',
+        'country'      => 'United States',
+        'country_code' => 'US'
+      }
+    ]
+  )
 
   # If you're not using ActiveRecord, or you'd prefer not to run each of your
   # examples within a transaction, remove the following line or assign false

@@ -3,6 +3,7 @@ export const PING = `
     
     messenger {
       enabledForUser
+      updateData
       app{
         greetings
         intro

@@ -32,7 +32,7 @@ module Mutations
           }
         }
 
-        if message["volatile"].present?
+        if message["volatile"].present? && message["volatile"]["trigger"]
           trigger_id = message["volatile"]["trigger"]["id"]
           step = message["volatile"]["currentStep"]["step_uid"]
           data = {

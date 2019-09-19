@@ -31,24 +31,7 @@ RSpec.describe Api::GraphqlController, type: :controller do
       'HTTP_APP' => app.key
     })
 
-    # Add stubs to define the results that will be returned:
 
-    Geocoder::Lookup::Test.set_default_stub(
-      [
-        {
-          'coordinates'  => [40.7143528, -74.0059731],
-          'latitude'     => 40.7143528,
-          'longitude'    => -74.0059731,
-          'address'      => 'New York, NY, USA',
-          'state'        => 'New York',
-          'city'         => 'newy york',
-          'region'       => 'new_yorke',
-          'state_code'   => 'NY',
-          'country'      => 'United States',
-          'country_code' => 'US'
-        }
-      ]
-    )
   end
 
   after do
