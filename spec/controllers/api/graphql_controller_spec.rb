@@ -21,17 +21,7 @@ RSpec.describe Api::GraphqlController, type: :controller do
     GraphQL::TestClient.reset_strings
     file = Rails.root + "app/javascript/client_messenger/graphql/queries.js"
     GraphQL::TestClient.configure([file])
-
     app.update_attributes(encryption_key: "unodostrescuatro")
-    key = app.encryption_key
-
-    encrypted_data = JWE.encrypt(data.to_json, key, alg: 'dir')
-    request.headers.merge!({
-      'HTTP_ENC_DATA' => encrypted_data , 
-      'HTTP_APP' => app.key
-    })
-
-
   end
 
   after do
@@ -39,42 +29,72 @@ RSpec.describe Api::GraphqlController, type: :controller do
     GraphQL::TestClient.reset_strings
   end
 
-  it "auth encrypted" do
-    
-    expect(app.app_users).to be_blank
 
-    graphql_post(type: 'AUTH', variables: {})
+  describe "registered user" do
 
-    expect(graphql_response.data.messenger.user.email).to be_present
-    expect(app.reload.app_users.size).to be == 1
+    before :each do
+      encrypted_data = JWE.encrypt(data.to_json, app.encryption_key, alg: 'dir')
+      request.headers.merge!({
+        'HTTP_ENC_DATA' => encrypted_data , 
+        'HTTP_APP' => app.key
+      })
+    end
 
-    graphql_post(type: 'PING', variables: {})
+    it "auth encrypted will create registered user" do
+      
+      expect(app.app_users).to be_blank
 
-    expect(graphql_response.data.messenger.app).to be_present
+      graphql_post(type: 'AUTH', variables: {})
 
-    # for subsequent requests it will not create a new record
-    expect(app.reload.app_users.size).to be == 1
+      expect(graphql_response.data.messenger.user.email).to be_present
+      expect(graphql_response.data.messenger.user.kind).to be == "AppUser"
+      expect(app.reload.app_users.size).to be == 1
+
+      graphql_post(type: 'PING', variables: {})
+
+      expect(graphql_response.data.messenger.app).to be_present
+
+      # for subsequent requests it will not create a new record
+      expect(app.reload.app_users.size).to be == 1
 
 
-    graphql_post(type: 'CONVERSATIONS', variables: {page: 1})
+      graphql_post(type: 'CONVERSATIONS', variables: {page: 1})
 
-    expect(graphql_response.data.messenger.conversations).to respond_to(:collection)
-    expect(graphql_response.data.messenger.conversations).to respond_to(:meta)
-    
+      expect(graphql_response.data.messenger.conversations).to respond_to(:collection)
+      expect(graphql_response.data.messenger.conversations).to respond_to(:meta)
+      
+
+    end
+
+    it "visit with geo code" do
+      graphql_post(type: 'AUTH', variables: {})
+      graphql_post(type: 'PING', variables: {})
+
+      app_user = app.reload.app_users.last
+
+      expect(app_user.country).to be_present
+      expect(app_user.city).to be_present
+      expect(app_user.lat).to be_present
+      expect(app_user.lng).to be_present
+
+    end
 
   end
 
 
-  it "visit with geo code" do
-    graphql_post(type: 'AUTH', variables: {})
-    graphql_post(type: 'PING', variables: {})
+  describe "unregistered" do
 
-    app_user = app.reload.app_users.last
+    it "auth encrypted will create registered user" do
+      
+      request.headers.merge!({
+        'HTTP_APP' => app.key
+      })
 
-    expect(app_user.country).to be_present
-    expect(app_user.city).to be_present
-    expect(app_user.lat).to be_present
-    expect(app_user.lng).to be_present
+      expect(app.app_users).to be_blank
+      graphql_post(type: 'AUTH', variables: {})
+      expect(graphql_response.data.messenger.user.kind).to be == "Lead"
+      expect(graphql_response.data.messenger.user.email).to be_blank
+    end
 
   end
 

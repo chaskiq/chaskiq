@@ -13,12 +13,12 @@ private
 
       set_locale
 
-      if @user_data[:email].blank?
-        visitor = (get_user_by_session || add_vistor)
-        merge_user_data(visitor)
-      else
+      if @user_data.present? && @user_data[:email].present?
         app_user = get_user_by_email || @app.add_user(email: @user_data[:email])
         merge_user_data(app_user)
+      else
+        visitor = (get_user_by_session || add_vistor)
+        merge_user_data(visitor)
       end
     else
       # check this, maybe deprecate unsecure mode
@@ -32,7 +32,7 @@ private
     @user_data.merge!({
         session_id: model.session_id, 
         lang: I18n.locale, 
-        kind: model.model_name.name
+        kind: model.type
       }
     )
   end
@@ -47,7 +47,7 @@ private
 
   def set_locale
     I18n.locale = request.headers["HTTP_LANG"] unless request.headers["HTTP_LANG"].blank? rescue I18n.locale
-    lang = @user_data[:properties].try(:[], :lang)
+    lang = @user_data[:properties].try(:[], :lang) rescue nil
     I18n.locale = lang unless lang.blank? rescue I18n.locale   
   end
 
@@ -83,7 +83,7 @@ private
       json = JWE.decrypt(encrypted, key)
       JSON.parse(json).deep_symbolize_keys
     rescue 
-      nil
+      {}
     end
   end
 
