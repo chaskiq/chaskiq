@@ -86,9 +86,10 @@ RSpec.describe GraphqlController, type: :controller do
 
 
     it "save segment" do
+      segment = app.segments.create
       graphql_post(type: 'PREDICATES_UPDATE', variables: {
         appKey: app.key,
-        id: 1,
+        id: segment.id,
         predicates: invalid_segments[:data][:predicates]
       })
 
@@ -97,9 +98,11 @@ RSpec.describe GraphqlController, type: :controller do
 
 
     it "delete segment" do
+      segment = app.segments.create
+
       graphql_post(type: 'PREDICATES_DELETE', variables: {
         appKey: app.key,
-        id: 1,
+        id: segment.id,
       })
 
       expect(graphql_response.errors).to_not be_present
@@ -110,7 +113,6 @@ RSpec.describe GraphqlController, type: :controller do
       graphql_post(type: 'PREDICATES_CREATE', variables: {
         appKey: app.key,
         name: "foo",
-        page: 1,
         predicates: invalid_segments[:data][:predicates]
       })
 
