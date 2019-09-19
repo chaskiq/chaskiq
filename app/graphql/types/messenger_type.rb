@@ -9,7 +9,6 @@ module Types
 
     def user
       @user = context[:auth].call
-
       @user
     end
 

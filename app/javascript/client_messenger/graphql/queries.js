@@ -1,3 +1,11 @@
+export const AUTH = `
+  query Messenger{
+    messenger {
+      user
+    }
+  }
+`;
+
 export const PING = `
   query Messenger{
     
@@ -26,14 +34,6 @@ export const PING = `
         email
         name
       }
-    }
-  }
-`;
-
-export const AUTH = `
-  query Messenger{
-    messenger {
-      user
     }
   }
 `;
