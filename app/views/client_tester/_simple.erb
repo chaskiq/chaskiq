@@ -1,130 +1,124 @@
-<html>
-	<head>
-		<title>Chaskiq tester site</title>
 
-    <style>
-    
-    body{
-      background: #666;
-      color:#fff;
-      font-family:arial;
-      line-height:1.4em;
-    }
+<style>
 
-    a{
-      color:#fff;
-      text-decoration:none;
-    }
+  body{
+    background: #666;
+    color:#fff;
+    font-family:arial;
+    line-height:1.4em;
+  }
 
-    ul{
-      padding:0;
-    }
+  a{
+    color:#fff;
+    text-decoration:none;
+  }
 
-    .clr{
-      clear:both;
-    }
+  ul{
+    padding:0;
+  }
 
-    #container{
-      background: #333;
-      width:960px;
-      margin:30px auto;
-      overflow:hidden;
-      padding:10px;
-    }
+  .clr{
+    clear:both;
+  }
 
-    #nav{
-      height:40px;
-      background:#666;
-    }
+  #container{
+    background: #333;
+    width:960px;
+    margin:30px auto;
+    overflow:hidden;
+    padding:10px;
+  }
 
-    #nav ul{
-      padding-top:13px;
-      padding-left:10px;
-    }
+  #nav{
+    height:40px;
+    background:#666;
+  }
 
-    #nav li{
-      list-style:none;
-      float:left;
-      padding-right:20px;
-    }
+  #nav ul{
+    padding-top:13px;
+    padding-left:10px;
+  }
 
-    #nav .active{
-      font-weight: bold;
-      color:#000;
-    }
+  #nav li{
+    list-style:none;
+    float:left;
+    padding-right:20px;
+  }
 
-    #main{
-      float:left;
-      width:60%;
-    }
+  #nav .active{
+    font-weight: bold;
+    color:#000;
+  }
 
-    #sidebar{
-      float:right;
-      width:30%;
-      background:#666;
-      margin-top:20px;
-      padding:10px;
-    }
+  #main{
+    float:left;
+    width:60%;
+  }
 
-    #footer{
-      text-align: center;
-      padding:10px;
-      background:#666;
-      margin-top:30px;
-    }
+  #sidebar{
+    float:right;
+    width:30%;
+    background:#666;
+    margin-top:20px;
+    padding:10px;
+  }
 
-    .services li{
-      border-bottom:2px #666 dashed;
-      padding-bottom:20px;
-    }
+  #footer{
+    text-align: center;
+    padding:10px;
+    background:#666;
+    margin-top:30px;
+  }
 
-    .services a{
-      background:#666;
-      padding:10px;
-    }
+  .services li{
+    border-bottom:2px #666 dashed;
+    padding-bottom:20px;
+  }
 
-    input, textarea{
-      width:100%;
-      padding:5px;
-      margin-bottom:15px;
-    }
-    
-    </style>
-	</head>
-	<body>
-		<div id="container">
-			<div id="header">
-				<h1>Chaskiq tester site</h1>
-			</div>
+  .services a{
+    background:#666;
+    padding:10px;
+  }
 
-			<div id="nav">
-				<ul>
-					<li><a class="active" href="/tester/<%= @app.key%>">Home</a></li>
-					<li><a href="/tester/<%= @app.key%>/about">About</a></li>
-					<li><a href="/tester/<%= @app.key%>/services">Services</a></li>
-					<li><a href="/tester/<%= @app.key%>/contact">Contact</a></li>
-				</ul>
-			</div>
+  input, textarea{
+    width:100%;
+    padding:5px;
+    margin-bottom:15px;
+  }
 
-			<div id="main">
-				<h1>Welcome</h1>
-				<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nec eros orci. Aliquam erat volutpat. Vivamus id eros dictum, feugiat nisl et, semper nisi. Nulla hendrerit dignissim dolor, in rhoncus lectus viverra ut. Proin vitae commodo risus. Praesent lacinia non odio ac dignissim. Duis accumsan mi sollicitudin libero pretium consequat. Cras et erat elementum, tristique mi nec, commodo sem. Integer consectetur dui vel elit semper pretium. Vestibulum justo nisi, scelerisque vitae enim vel, porttitor dignissim velit. Aliquam posuere lectus vitae rhoncus posuere. Aenean ante erat, fringilla at odio pellentesque, dictum porttitor leo. Maecenas sodales enim rutrum, molestie libero consequat, luctus magna. Quisque tortor lectus, malesuada id tempus sit amet, sodales vel dui.</p>
-				<p>
-				Nam et lacus nec felis consequat blandit ut et nulla. Nunc turpis orci, gravida non ipsum ut, gravida ultrices mauris. Proin volutpat elit non ex hendrerit, et suscipit magna imperdiet. Fusce in laoreet augue. Vivamus imperdiet justo odio, finibus gravida justo facilisis vitae. Maecenas suscipit ornare accumsan. Sed id augue sed elit rhoncus ullamcorper. Nam accumsan laoreet arcu sit amet elementum.</p>
-			</div>
+</style>
 
-			<div id="sidebar">
-				<h3>Sidebar</h3>
-				<p>
-					Nam et lacus nec felis consequat blandit ut et nulla. Nunc turpis orci, gravida non ipsum ut, gravida ultrices mauris. Proin volutpat elit non ex hendrerit, et suscipit magna imperdiet. Fusce in laoreet augue.
-				</p>
-			</div>
+<div id="container">
+  <div id="header">
+    <h1>Chaskiq tester site</h1>
+  </div>
 
-			<div class="clr"></div>
+  <div id="nav">
+    <ul>
+      <li><a class="active" href="/tester/<%= @app.key%>">Home</a></li>
+      <li><a href="/tester/<%= @app.key%>/about">About</a></li>
+      <li><a href="/tester/<%= @app.key%>/services">Services</a></li>
+      <li><a href="/tester/<%= @app.key%>/contact">Contact</a></li>
+    </ul>
+  </div>
 
-			<div id="footer">
-				<p>Coded by Ed Rosario - <a href="http://www.EdwardRosario.com">EdwardRosario.com</a> Copyright &copy; 2017</p>
-			</div>
-		</div>
-	</body>
-</html>
+  <div id="main">
+    <h1>Welcome</h1>
+    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nec eros orci. Aliquam erat volutpat. Vivamus id eros dictum, feugiat nisl et, semper nisi. Nulla hendrerit dignissim dolor, in rhoncus lectus viverra ut. Proin vitae commodo risus. Praesent lacinia non odio ac dignissim. Duis accumsan mi sollicitudin libero pretium consequat. Cras et erat elementum, tristique mi nec, commodo sem. Integer consectetur dui vel elit semper pretium. Vestibulum justo nisi, scelerisque vitae enim vel, porttitor dignissim velit. Aliquam posuere lectus vitae rhoncus posuere. Aenean ante erat, fringilla at odio pellentesque, dictum porttitor leo. Maecenas sodales enim rutrum, molestie libero consequat, luctus magna. Quisque tortor lectus, malesuada id tempus sit amet, sodales vel dui.</p>
+    <p>
+    Nam et lacus nec felis consequat blandit ut et nulla. Nunc turpis orci, gravida non ipsum ut, gravida ultrices mauris. Proin volutpat elit non ex hendrerit, et suscipit magna imperdiet. Fusce in laoreet augue. Vivamus imperdiet justo odio, finibus gravida justo facilisis vitae. Maecenas suscipit ornare accumsan. Sed id augue sed elit rhoncus ullamcorper. Nam accumsan laoreet arcu sit amet elementum.</p>
+  </div>
+
+  <div id="sidebar">
+    <h3>Sidebar</h3>
+    <p>
+      Nam et lacus nec felis consequat blandit ut et nulla. Nunc turpis orci, gravida non ipsum ut, gravida ultrices mauris. Proin volutpat elit non ex hendrerit, et suscipit magna imperdiet. Fusce in laoreet augue.
+    </p>
+  </div>
+
+  <div class="clr"></div>
+
+  <div id="footer">
+    <p>Coded by Ed Rosario - <a href="http://www.EdwardRosario.com">EdwardRosario.com</a> Copyright &copy; 2017</p>
+  </div>
+</div>
