@@ -22,8 +22,8 @@ before_script:
   - cp config/webpacker.yml.test config/webpacker.yml
   - bundle exec rails db:migrate RAILS_ENV=test
   - yarn install
-script:
   - bundle exec rails webpacker:compile
+script:
   - bundle exec rspec -t browser
 matrix:
   include:
