@@ -13,6 +13,7 @@
     ],
     "react"
   ],
+
   "plugins": [
     "syntax-dynamic-import",
     "transform-object-rest-spread",
@@ -22,6 +23,26 @@
         "spec": true
       }
     ],
+
+    [
+      "babel-plugin-import",
+      {
+        "libraryName": "@material-ui/core",
+        "libraryDirectory": "esm",
+        "camel2DashComponentName": false
+      },
+      "core"
+    ],
+    [
+      "babel-plugin-import",
+      {
+        "libraryName": "@material-ui/icons",
+        "libraryDirectory": "esm",
+        "camel2DashComponentName": false
+      },
+      "icons"
+    ],
+
     ["prismjs", {
       "languages": ["javascript", "css", "markup", "ruby", "typescript"],
       "plugins": ["line-numbers"],
