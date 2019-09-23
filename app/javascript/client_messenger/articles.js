@@ -9,18 +9,18 @@ import {
 import Moment from 'react-moment';
 
 import { ThemeProvider } from 'emotion-theming'
-import theme from '../src/textEditor/theme'
-import themeDark from '../src/textEditor/darkTheme'
-import DraftRenderer from '../src/textEditor/draftRenderer'
-import DanteContainer from '../src/textEditor/editorStyles'
+import theme from './textEditor/theme'
+import themeDark from './textEditor/darkTheme'
+import DraftRenderer from './textEditor/draftRenderer'
+import DanteContainer from './textEditor/editorStyles'
 import { useTranslation, Trans } from "react-i18next";
 
 
-import graphql from '../src/graphql/client'
+//import graphql from './graphql/client'
 import {
   ARTICLE,
   SEARCH_ARTICLES
-} from '../src/graphql/docsQueries'
+} from './graphql/queries'
 
 const Panel = styled.div`
   position: fixed;
@@ -53,7 +53,8 @@ const Article = ({
   articleSlug,
   transition,
   appData,
-  i18n
+  i18n,
+  graphqlClient
 })=>{
 
   const [article, setArticle] = useState(null)
@@ -70,8 +71,8 @@ const Article = ({
     getArticle()
   }, [])
 
-  const getArticle = ()=>{
-    graphql(ARTICLE, {
+  function getArticle(){
+    graphqlClient.send(ARTICLE, {
       domain: appData.articleSettings.subdomain,
       id: articleSlug,
       lang: "en",

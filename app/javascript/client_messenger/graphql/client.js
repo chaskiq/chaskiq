@@ -29,7 +29,7 @@ class GraphqlClient {
           return callbacks['error'](res, errors)
       }
       
-      callbacks['success'] ? callbacks['success'](data, res) : null
+      callbacks['success'] && callbacks['success'](data, res)
     })
     .catch(( req, error )=> {
       console.log(req, error)
@@ -45,10 +45,10 @@ class GraphqlClient {
           break;
       }
       
-      callbacks['fatal'] ? callbacks['fatal'](error) : null
+      callbacks['fatal'] && callbacks['fatal'](error)
     })
     .then( (r) => {
-      callbacks['always'] ? callbacks['always']() : null
+      callbacks['always'] && callbacks['always']()
     });
   }
 }

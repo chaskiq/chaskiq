@@ -19,10 +19,11 @@ before_install:
 before_script:
   - psql -c 'create database travis_ci_test;' -U postgres
   - cp config/database.yml.travis config/database.yml
+  - cp config/webpacker.yml.test config/webpacker.yml
   - bundle exec rails db:migrate RAILS_ENV=test
   - yarn install
+  - NODE_OPTIONS="--max-old-space-size=2048" bundle exec rake assets:precompile --trace
 script:
-  - bundle exec rails webpacker:compile
   - bundle exec rspec -t browser
 matrix:
   include:
