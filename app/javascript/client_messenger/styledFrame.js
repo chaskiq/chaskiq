@@ -1,5 +1,3 @@
-import sanitizeHtml from 'sanitize-html';
-import TourManager from './tourManager'
 import React from 'react'
 import Frame, { FrameContextConsumer } from 'react-frame-component'
 import createCache from '@emotion/cache'

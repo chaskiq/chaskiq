@@ -4,7 +4,7 @@ import {setCookie, getCookie, deleteCookie} from './cookies'
 import {AUTH} from './graphql/queries'
 import GraphqlClient from './graphql/client'
 
-export default class ChaskiqMessengerEncrypted {
+export default class HermessengerEncrypted {
 
   constructor(props) {
     this.props = props
@@ -32,12 +32,12 @@ export default class ChaskiqMessengerEncrypted {
       lang: this.props.lang || navigator.language || navigator.userLanguage
     }
 
-    this.graphqlClient = new GraphqlClient({
+    this.grapqhClient = new GraphqlClient({
       config: this.defaultHeaders,
-      baseURL: `${this.props.domain}/api/graphql`
+      baseURL: '/api/graphql'
     })
 
-    this.graphqlClient.send(AUTH, {}, {
+    this.grapqhClient.send(AUTH, {}, {
       success: (data)=>{
 
         const user = data.messenger.user
@@ -54,8 +54,7 @@ export default class ChaskiqMessengerEncrypted {
             encryptedMode: true,
             domain: this.props.domain,
             ws: this.props.ws,
-            locale: this.props.lang,
-            graphqlClient: this.graphqlClient
+            locale: this.props.lang
           })
         )
 

@@ -7,12 +7,10 @@ import {GiphyBlock} from './styles/styled'
 //import GiphyPicker from 'react-giphy-picker'
 import GiphyPicker from './giphy'
 
-import {Selector, ResultSort, Rating} from "react-giphy-selector";
+//import {Selector, ResultSort, Rating} from "react-giphy-selector";
 import {Map} from 'immutable'
 
-import { 
-  ContentState, 
-  convertFromHTML, 
+import {
   EditorState,
   convertToRaw
 } from 'draft-js'; // { compose
@@ -202,7 +200,7 @@ export default class UnicornEditor extends Component {
     //IE support
     if (document.selection) {
       myField.focus();
-      sel = document.selection.createRange();
+      var sel = document.selection.createRange();
       sel.text = myValue;
     }
     //MOZILLA and others
@@ -243,7 +241,7 @@ export default class UnicornEditor extends Component {
       , () => {
       console.log("saved!")
       this.input.value = ""
-      cb ? cb() : null
+      cb && cb()
     })
   }
 
@@ -279,8 +277,6 @@ export default class UnicornEditor extends Component {
   }
 
   handleUpload = (ev)=>{
-    ev.target.files
-
     imageUpload(
       ev.target.files[0],
       {

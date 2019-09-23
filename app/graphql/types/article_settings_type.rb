@@ -27,17 +27,20 @@ module Types
 
     def logo
       return "" unless object.logo_blob.present?
-
+      url = object.logo.variant(resize_to_limit: [300, 100]).processed rescue nil
+      return nil if url.blank?
       Rails.application.routes.url_helpers.rails_representation_url(
-        object.logo.variant(resize_to_limit: [300, 100]).processed, 
+       url , 
       only_path: true)
     end
 
     def header_image
       return "" unless object.header_image_blob.present?
+      url = object.header_image.variant(resize_to_limit: [100, 100]).processed rescue nil
+      return nil if url.blank?
       Rails.application.routes.url_helpers.rails_representation_url(
-        object.header_image.variant(resize_to_limit: [100, 100]).processed, 
-      only_path: true)
+        url,
+      only_path: true) rescue nil
     end
 
     def header_image_large
