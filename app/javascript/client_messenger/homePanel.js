@@ -7,12 +7,12 @@ import {
   Spinner
 } from './styles/styled'
 
-import gravatar from "../src/shared/gravatar"
-import graphql from '../src/graphql/client'
+import gravatar from "./shared/gravatar"
+//import graphql from './graphql/client'
 import {
   ARTICLES,
   SEARCH_ARTICLES
-} from '../src/graphql/docsQueries'
+} from './graphql/queries'
 
 const HomePanel = ({
   viewConversations,
@@ -22,7 +22,8 @@ const HomePanel = ({
   displayArticle,
   appData,
   agents,
-  t
+  t,
+  graphqlClient
 })=>{
 
   const [loading, setLoading] = useState(false)
@@ -47,7 +48,7 @@ const HomePanel = ({
   ), [])
 
   const getArticles = ()=>{
-    graphql(ARTICLES, {
+    graphqlClient.send(ARTICLES, {
       domain: appData.articleSettings.subdomain,
       lang: "en",
       page: 1,
@@ -96,7 +97,7 @@ const HomePanel = ({
 
   function searchArticles(term){
     setLoading(true)
-    graphql(SEARCH_ARTICLES, {
+    graphqlClient.send(SEARCH_ARTICLES, {
       domain: appData.articleSettings.subdomain,
       term: term,
       lang: "en",

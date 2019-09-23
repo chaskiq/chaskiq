@@ -5,16 +5,16 @@ import { ThemeProvider } from 'emotion-theming'
 import actioncable from "actioncable"
 import axios from "axios"
 import UAParser from 'ua-parser-js'
-import theme from '../src/textEditor/theme'
-import themeDark from '../src/textEditor/darkTheme'
-import DraftRenderer from '../src/textEditor/draftRenderer'
-import DanteContainer from '../src/textEditor/editorStyles'
+import theme from './textEditor/theme'
+import themeDark from './textEditor/darkTheme'
+import DraftRenderer from './textEditor/draftRenderer'
+import DanteContainer from './textEditor/editorStyles'
 import UnicornEditor from './textEditor' // from './quillEditor' //'./draftEditor' //from './editor.js'
 import Tour from './UserTour'
-import gravatar from "../src/shared/gravatar"
+import gravatar from "./shared/gravatar"
 import Moment from 'react-moment';
 import { soundManager } from 'soundmanager2'
-import {toCamelCase} from '../src/shared/caseConverter'
+import {toCamelCase} from './shared/caseConverter'
 import UrlPattern from 'url-pattern'
 import serialize from 'form-serialize'
 import { withTranslation } from 'react-i18next';
@@ -22,14 +22,16 @@ import i18n from './i18n'
 import {
   PING, 
   CONVERSATIONS, 
-  CONVERSATION
+  CONVERSATION,
+  INSERT_COMMMENT,
+  START_CONVERSATION
 } from './graphql/queries'
 import GraphqlClient from './graphql/client'
 
-import {
-  INSERT_COMMMENT,
-  START_CONVERSATION
-} from '../src/graphql/mutations'
+//import {
+//  INSERT_COMMMENT,
+//  START_CONVERSATION
+//} from '../mutations'
 
 import {
   Container,
@@ -163,10 +165,11 @@ class Messenger extends Component {
       /* other custom settings */
     });
 
-    this.graphqlClient = new GraphqlClient({
+    this.graphqlClient = this.props.graphqlClient
+    /*new GraphqlClient({
       config: this.defaultHeaders,
       baseURL: '/api/graphql'
-    })
+    })*/
 
     App = {
       cable: actioncable.createConsumer(`${this.props.ws}`)
@@ -217,19 +220,19 @@ class Messenger extends Component {
   // todo: track pages here
   locationChangeListener = ()=>{
     /* These are the modifications: */
-    history.pushState = ( f => function pushState(){
+    window.history.pushState = ( f => function pushState(){
         var ret = f.apply(this, arguments);
         window.dispatchEvent(new Event('pushState'));
         window.dispatchEvent(new Event('locationchange'));
         return ret;
-    })(history.pushState);
+    })(window.history.pushState);
 
-    history.replaceState = ( f => function replaceState(){
+    window.history.replaceState = ( f => function replaceState(){
         var ret = f.apply(this, arguments);
         window.dispatchEvent(new Event('replaceState'));
         window.dispatchEvent(new Event('locationchange'));
         return ret;
-    })(history.replaceState);
+    })(window.history.replaceState);
 
     window.addEventListener('popstate',()=>{
         window.dispatchEvent(new Event('locationchange'))
@@ -429,8 +432,8 @@ class Messenger extends Component {
     }
 
     // force an assigment from client
-    if( this.state.conversation_messages.length === 0)
-      opts['check_assignment_rules'] = true
+    //if( this.state.conversation_messages.length === 0)
+    //  opts['check_assignment_rules'] = true
 
     this.graphqlClient.send(INSERT_COMMMENT, {
       appKey: this.props.app_id,
@@ -471,7 +474,7 @@ class Messenger extends Component {
             response.data.messages.concat(this.state.conversation_messages) : 
             this.state.conversation_messages*/
           }, ()=>{ 
-          cb ? cb() : null 
+          cb && cb()
         })
       },
       error: ()=> {
@@ -978,7 +981,7 @@ class Messenger extends Component {
 
       <ThemeProvider theme={{
         mode: this.state.appData ? this.state.appData.theme : 'light',
-        isMessengerActive: this.isMessengerActive() 
+        isMessengerActive: this.isMessengerActive()
       }}>
       
         <EditorWrapper>
@@ -1067,6 +1070,7 @@ class Messenger extends Component {
                         {
                           this.state.display_mode === "home" && 
                           <Home 
+                            graphqlClient={this.graphqlClient}
                             displayNewConversation={this.displayNewConversation}
                             viewConversations={this.displayConversationList}
                             updateHeader={this.updateHeader}
@@ -1081,24 +1085,12 @@ class Messenger extends Component {
                         {
                           this.state.display_mode === "article" &&
                           <Article 
+                            graphqlClient={this.graphqlClient}
                             updateHeader={this.updateHeader}
                             transition={this.state.transition}
                             articleSlug={this.state.article.slug}
                             transition={this.state.transition}
                             appData={this.state.appData}
-                            t={this.props.t}
-                          />
-                        }
-
-
-                        {
-                          this.state.display_mode === "articles" &&
-                          <Articles
-                            updateHeader={this.updateHeader}
-                            transition={this.state.transition}
-                            articleSlug={this.state.article.slug}
-                            transition={this.state.transition}
-                            i18n={i18n}
                             t={this.props.t}
                           />
                         }
@@ -1635,8 +1627,9 @@ class MessageFrame extends Component {
 
 
   render(){
-    return <UserAutoMessageStyledFrame id="messageFrame" 
-      isMinimized={this.fetchMinizedCache()}>
+    return <UserAutoMessageStyledFrame 
+            id="messageFrame" 
+            isMinimized={this.fetchMinizedCache()}>
       
        <UserAutoMessageFlex isMinimized={this.fetchMinizedCache()}>
 
@@ -1688,6 +1681,7 @@ class MessageContainer extends Component {
   render(){
     const {t} = this.props
     const editorTheme = theme
+
     return <Quest {...this.props}>
               
               <MessageCloseBtn href="#" 

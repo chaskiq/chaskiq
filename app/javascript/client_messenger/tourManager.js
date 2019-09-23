@@ -1,7 +1,7 @@
 import React, {Component} from 'react'
 import styled from '@emotion/styled'
 import Simmer from 'simmerjs'
-import TextEditor from '../src/textEditor'
+import TextEditor from './textEditor'
 import Tooltip, {TooltipBody,
   TooltipFooter,
   TooltipButton,
@@ -17,9 +17,9 @@ import Joyride, {
   TooltipRenderProps 
 } from 'react-joyride';
 import StyledFrame from './styledFrame'
-import DraftRenderer from '../src/textEditor/draftRenderer'
-import DanteContainer from '../src/textEditor/editorStyles'
-import theme from '../src/textEditor/theme'
+import DraftRenderer from './textEditor/draftRenderer'
+import DanteContainer from './textEditor/editorStyles'
+import theme from './textEditor/theme'
 import { ThemeProvider } from 'emotion-theming'
 
 
@@ -415,7 +415,7 @@ export default class TourManager extends Component {
     }, ()=>{
       const newSteps = this.state.steps.map((o)=>{
         if( o.target === this.state.editElement.target){
-          this.state.editElement
+          //this.state.editElement
           return o
         } else {
           return o

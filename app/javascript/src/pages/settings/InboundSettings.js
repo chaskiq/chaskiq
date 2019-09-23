@@ -133,7 +133,7 @@ export default function InboundSettings({settings, update}){
           all={"All Users"} 
           checked={state.users_enabled}
           updateChecked={handleChange}
-          predicates={state.usersPredicates}
+          predicates={state.usersPredicates || []}
           setPredicates={setPredicates}
           radioValue={state.users_radio}
           some={"Users who match certain data"} 
@@ -150,7 +150,7 @@ export default function InboundSettings({settings, update}){
           namespace="visitors"
           checked={state.visitors_enabled}
           updateChecked={handleChange}
-          predicates={state.visitorsPredicates}
+          predicates={state.visitorsPredicates || []}
           setPredicates={setPredicates}
           radioValue={state.visitors_radio}
           some={"Visitors who match certain data"} 

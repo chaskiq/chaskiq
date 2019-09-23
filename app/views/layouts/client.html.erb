@@ -5,11 +5,11 @@
 
     <%= yield :head %>
     <%= javascript_pack_tag 'embed' %>
-    <!--<script src="/packs/embed.js?<%=Time.now%>"></script>-->
+    <!--<script src="/chaskiq-cli.js?"></script>-->
  
   </head>
 
   <body>
-    <%= yield %>
+    <%= yield :body %>
   </body>
 </html>

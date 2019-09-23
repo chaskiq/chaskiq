@@ -89,7 +89,7 @@ export default class App extends React.Component {
 
   onSearchSubmit =(e)=>{
 
-    if (event.key != "Enter") {
+    if (e.key != "Enter") {
       return
     }
 

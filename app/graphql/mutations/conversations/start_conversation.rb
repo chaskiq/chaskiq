@@ -10,7 +10,6 @@ module Mutations
 
       # TODO: define resolve method
       def resolve(app_key:, id:, message:)
-
         if current_user.is_a?(Agent)
           app = current_user.apps.find_by(key: app_key)
           author = app.agents.where("agents.email =?", current_user.email).first
