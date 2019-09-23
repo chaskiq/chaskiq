@@ -22,7 +22,7 @@ before_script:
   - cp config/webpacker.yml.test config/webpacker.yml
   - bundle exec rails db:migrate RAILS_ENV=test
   - yarn install
-  - bundle exec rails webpacker:compile
+  - NODE_OPTIONS="--max-old-space-size=2048" bundle exec rake assets:precompile --trace
 script:
   - bundle exec rspec -t browser
 matrix:

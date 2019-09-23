@@ -17,6 +17,7 @@
     "activestorage": "^5.2.3",
     "array-move": "^2.1.0",
     "axios": "^0.18.0",
+    "babel-plugin-import": "^1.12.1",
     "babel-plugin-prismjs": "^1.1.1",
     "babel-preset-react": "^6.24.1",
     "draft-convert": "^2.1.2",
@@ -73,7 +74,6 @@
     "yarn": "^1.16.0"
   },
   "devDependencies": {
-    "babel-plugin-import": "^1.12.1",
     "webpack-dev-server": "2.11.2"
   },
   "resolutions": {

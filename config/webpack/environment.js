@@ -11,8 +11,8 @@ environment.config.merge({
   }
 })
 
-if(process.env.NODE_ENV === 'production')
-  environment.plugins.append('NonDigestPlugin', new NonDigestPlugin() );
+//if(process.env.NODE_ENV === 'production')
+//  environment.plugins.append('NonDigestPlugin', new NonDigestPlugin() );
 
 if (environment.plugins.getIndex('UglifyJs') !== -1) {
   environment.plugins.get('UglifyJs').options.uglifyOptions.compress.collapse_vars = false
