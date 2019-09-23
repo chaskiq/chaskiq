@@ -73,6 +73,7 @@
     "yarn": "^1.16.0"
   },
   "devDependencies": {
+    "babel-plugin-import": "^1.12.1",
     "webpack-dev-server": "2.11.2"
   },
   "resolutions": {
