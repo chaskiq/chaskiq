@@ -1,7 +1,7 @@
 import React, {Component} from 'react'
-import DraftRenderer from '../src/textEditor/draftRenderer'
-import DanteContainer from '../src/textEditor/editorStyles'
-import theme from '../src/textEditor/theme'
+import DraftRenderer from './textEditor/draftRenderer'
+import DanteContainer from './textEditor/editorStyles'
+import theme from './textEditor/theme'
 import styled from '@emotion/styled'
 import { ThemeProvider } from 'emotion-theming'
 

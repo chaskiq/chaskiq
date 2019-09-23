@@ -38,7 +38,7 @@ development:
     host: localhost
     port: 3036
     public: localhost:3036
-    hmr: false
+    hmr: true
     # Inline should be set to true if using HMR
     inline: true
     overlay: true
@@ -80,6 +80,7 @@ test:
 
 production:
   <<: *default
+  compress: true
   # Production depends on precompilation of packs prior to booting for performance.
   compile: false
   # Cache manifest.json for performance
