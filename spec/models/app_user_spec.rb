@@ -39,4 +39,75 @@ RSpec.describe AppUser, type: :model do
 
   end
 
+  describe "visitor become lead" do
+
+    before :each do
+      expect(visitor).to be_a(Visitor)
+      app.start_conversation({
+        message: {text_content: "aa"}, 
+        from: visitor
+      })
+    end
+
+    it "when start conversation" do
+      expect(visitor.type).to be == "Lead"
+    end
+  end
+
+  describe "verify lead (convert to AppUser)" do
+
+    it "verify will convert lead to app user" do
+      visitor.become_lead!
+      app.app_users.leads.first.verify!
+      expect(app.app_users.find(visitor.id).type).to be == "AppUser"
+    end
+
+
+    context "verify will clone lead to app user" do
+      before :each do 
+      email = "a@a.cl"
+      app_user.update(email: email, country: "chile", session_id: "123")
+      visitor.update(email: email, country: "peru", session_id: "000")
+      end
+
+      it "will dispatch session event" do
+        visitor.become_lead!
+        app.app_users.leads.first.verify!
+        expect(Event.last.action).to be == "leads.verified"
+      end
+
+      it "lead attrs have greather procedence " do
+        visitor.become_lead!
+        app.app_users.leads.first.verify!
+        expect(app_user.reload.country).to be == ("peru")
+      end
+
+      it "greather procedence but session_id will be deployed" do
+        visitor.become_lead!
+        app.app_users.leads.first.verify!
+        expect(app_user.reload.session_id).to be == ("123")
+      end
+
+      it "verify will copy lead conversations to app user" do
+        expect(app_user.conversations).to be_blank
+        app.start_conversation({
+          message: {text_content: "aa"}, 
+          from: visitor
+        })
+  
+        visitor.become_lead!
+        app.app_users.leads.first.verify!
+
+        app.app_users.where(type: "AppUser")
+
+        expect(app_user.reload.conversations).to be_any
+  
+        # for now we will keep lead record
+        #expect(app.app_users.where(email: email).count).to be == 1
+  
+      end
+    end
+
+  end
+
 end
