@@ -10,7 +10,7 @@ class ConversationPart < ApplicationRecord
   belongs_to :messageable, polymorphic: true, optional: true
   belongs_to :authorable, polymorphic: true, optional: true
 
-  has_one :conversation_part_content, dependent: :destroy
+  #has_one :conversation_part_content, dependent: :destroy
 
   after_create :assign_and_notify
 
@@ -18,19 +18,21 @@ class ConversationPart < ApplicationRecord
 
   attr_accessor :check_assignment_rules
 
-  #delegate :html_content, to: :conversation_part_content
-  #delegate :serialized_content, to: :conversation_part_content
-  #delegate :text_content, to: :conversation_part_content
-
   def message
-    self.conversation_part_content
+    #self.conversation_part_content
+    self.messageable
   end
 
   def message=(message)
     # message should be a hash containing html_content, 
     # serialized_content, text_content
-    new_message = self.build_conversation_part_content(message)
-    new_message.save
+    self.messageable = ConversationPartContent.create(message)
+    #new_message = self.build_conversation_part_content(message)
+    #new_message.save
+  end
+
+  def conversation_part_content
+    self.messageable if self.messageable.is_a?(ConversationPartContent)
   end
 
   def app_user
@@ -97,9 +99,12 @@ class ConversationPart < ApplicationRecord
   end
 
   def assign_agent_by_rules
+    return if conversation_part_content.blank?
 
     serialized_content = conversation_part_content.serialized_content
+    
     return if serialized_content.blank?
+
     text = JSON.parse(serialized_content)["blocks"].map{|o| o["text"]}.join(" ")
 
     app = conversation.app
