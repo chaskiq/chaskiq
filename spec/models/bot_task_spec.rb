@@ -28,12 +28,13 @@ RSpec.describe BotTask, type: :model do
       "title"=>"welcome", "followActions"=>[], 
       "follow_actions"=>[]},
        {"id"=>0, "steps"=>[{"step_uid"=>"4b65a9cf-4a32-4108-9718-09dbbd01f414", "type"=>"messages", "messages"=>[{"app_user"=>{"display_name"=>"miguel michelson", "email"=>"miguelmichelson@gmail.com", "id"=>1, "kind"=>"agent"}, "serialized_content"=>"{\"blocks\":[{\"key\":\"9oe8n\",\"text\":\"bravooo!\",\"type\":\"unstyled\",\"depth\":0,\"inlineStyleRanges\":[],\"entityRanges\":[],\"data\":{}}],\"entityMap\":{}}", "html_content"=>"hola"}]}], "title"=>"cuatro", "followActions"=>[{"key"=>"assign", "name"=>"assign", "value"=>1}], "follow_actions"=>[{"key"=>"assign", "name"=>"assign", "value"=>1}]}, {"id"=>19, "steps"=>[{"step_uid"=>"e93fd8df-b956-42e6-a96d-f59b818ae6ba", "type"=>"messages", "messages"=>[{"app_user"=>{"display_name"=>"miguel michelson", "email"=>"miguelmichelson@gmail.com", "id"=>1, "kind"=>"agent"}, "serialized_content"=>"{\"blocks\":[{\"key\":\"9oe8n\",\"text\":\"2 ? c'om\",\"type\":\"unstyled\",\"depth\":0,\"inlineStyleRanges\":[],\"entityRanges\":[],\"data\":{}}],\"entityMap\":{}}", "html_content"=>"hola"}]}], "title"=>"dos", "followActions"=>[], "follow_actions"=>[]}, {"id"=>0, "steps"=>[{"step_uid"=>"4b65a9cf-4a32-4108-9718-09dbbd01f414", "type"=>"messages", "messages"=>[{"app_user"=>{"display_name"=>"miguel michelson", "email"=>"miguelmichelson@gmail.com", "id"=>1, "kind"=>"agent"}, "serialized_content"=>"{\"blocks\":[{\"key\":\"9oe8n\",\"text\":\"bravooo!\",\"type\":\"unstyled\",\"depth\":0,\"inlineStyleRanges\":[],\"entityRanges\":[],\"data\":{}}],\"entityMap\":{}}", "html_content"=>"hola"}]}], "title"=>"cuatro", "followActions"=>[{"key"=>"assign", "name"=>"assign", "value"=>1}], 
-      "follow_actions"=>[{"key"=>"assign", "name"=>"assign", "value"=>1}]}], "created_at"=>Sat, 24 Aug 2019 00:27:54 UTC +00:00, "updated_at"=>Thu, 12 Sep 2019 06:50:57 UTC +00:00}
+      "follow_actions"=>[{"key"=>"assign", "name"=>"assign", "value"=>1}]}]
+    }
   }
 
 
   it "oijoij" do
-    
+
   end
 
 end
