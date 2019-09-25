@@ -233,7 +233,7 @@ class ActionTriggerFactory
           ]
       end
 
-      if kind === "Lead" 
+      if kind === "Lead" or kind === "Visitor"
 
         if app.lead_tasks_settings["share_typical_time"]
           path_messages << c.message(text: "Hi, #{app.name} will reply as soon as they can.", uuid: 1)
