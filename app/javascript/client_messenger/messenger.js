@@ -165,11 +165,16 @@ class Messenger extends Component {
       /* other custom settings */
     });
 
-    this.graphqlClient = this.props.graphqlClient
+    //this.graphqlClient = this.props.graphqlClient
     /*new GraphqlClient({
       config: this.defaultHeaders,
       baseURL: '/api/graphql'
     })*/
+
+    this.graphqlClient = new GraphqlClient({
+      config: this.defaultHeaders,
+      baseURL: `${this.props.domain}/api/graphql`
+    })
 
     App = {
       cable: actioncable.createConsumer(`${this.props.ws}`)
@@ -824,7 +829,9 @@ class Messenger extends Component {
   }*/
 
   receiveTrigger = (data)=>{
+    
     const {trigger, step} = data
+    
     setTimeout( ()=>{
       //localStorage.setItem("chaskiq:trigger-"+trigger.id, 1)
       this.setState({
@@ -849,6 +856,7 @@ class Messenger extends Component {
 
         this.appendDraftMessage(()=> {
           setTimeout(()=>{
+            debugger
             this.appendStepMessage(step)
           }, random)
         })
