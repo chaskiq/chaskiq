@@ -55,6 +55,8 @@ class Conversation < ApplicationRecord
 
   def add_message(opts={})
     part = process_message_part(opts)
+    part.step_id = opts[:step_id] unless opts[:step_id].blank?
+    part.trigger_id = opts[:trigger_id] unless opts[:trigger_id].blank?
     part.save
     
     if part.errors.blank?

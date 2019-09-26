@@ -55,6 +55,9 @@ export const CONVERSATIONS = `
           lastMessage{
             source
             createdAt
+            stepId
+            triggerId
+            fromBot
             message{
               htmlContent
               textContent
@@ -121,6 +124,9 @@ export const CONVERSATION=`
             readAt
             createdAt
             privateNote
+            stepId
+            triggerId
+            fromBot
             appUser{
               id
               email

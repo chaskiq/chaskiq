@@ -674,6 +674,8 @@ RSpec.describe "Widget management", :type => :system do
     
         Capybara.within_frame(messenger_iframe){ 
           page.click_link("Start a conversation")
+          page.find(:xpath, "/html/body/div/div/div/div[2]/div/div/div/div[2]/div/div/textarea").set("oeoe \n")
+          expect(page).to have_content("oeoe")
           expect(page).to have_content("will reply as soon as they can.")
         }
 
@@ -710,7 +712,9 @@ RSpec.describe "Widget management", :type => :system do
     
         Capybara.within_frame(messenger_iframe){ 
           page.click_link("Start a conversation")
-          #expect(page).to have_content("enter your email")
+          page.find(:xpath, "/html/body/div/div/div/div[2]/div/div/div/div[2]/div/div/textarea").set("oeoe \n")
+          expect(page).to have_content("oeoe")
+          expect(page).to have_content("Are you an existing customer ?")
         }
       end
 

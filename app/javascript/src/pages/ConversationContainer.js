@@ -281,7 +281,7 @@ class ConversationContainer extends Component {
                                   messageObject={o.lastMessage}
                                   conversation={o}
 
-                                  createdAt={o.lastMessage.message.created_at}
+                                  createdAt={o.lastMessage.message.createdAt}
                                   message={sanitizeHtml(o.lastMessage.message.htmlContent).substring(0, 250)}
                                 />
 

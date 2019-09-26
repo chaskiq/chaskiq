@@ -18,6 +18,10 @@ class ConversationPart < ApplicationRecord
 
   attr_accessor :check_assignment_rules
 
+  def from_bot?
+    self.trigger_id.present? && self.step_id.present?
+  end
+
   def message
     #self.conversation_part_content
     self.messageable
