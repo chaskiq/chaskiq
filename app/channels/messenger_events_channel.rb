@@ -31,8 +31,84 @@ class MessengerEventsChannel < ApplicationCable::Channel
     if message.authorable != @app_user
       message.read!
     end
+
+    process_next_step(message) if message.from_bot?
   end
 
+  def process_next_step(message)
+
+    trigger, path = ActionTriggerFactory.find_task(
+      data: {
+        "step"=> message.step_id, 
+        "trigger"=> message.trigger_id
+      }, 
+      app: @app,
+      app_user: @app_user 
+    )
+
+    next_index = path["steps"].index{|o| 
+      o["step_uid"].to_s == message.step_id
+    } + 1
+
+    next_step = path["steps"][next_index]
+
+    return if next_step.blank?
+
+    author = @app.agents.first
+
+    m = next_step["messages"].first
+    
+    if m.present?
+      @message = message.conversation.add_message({
+        step_id: next_step[:step_uid],
+        trigger_id: trigger.id,
+        from: author,
+        message: {
+          html_content: m[:html_content],
+          serialized_content: m[:serialized_content],
+          text_content: m[:html_content]
+        }
+      })
+    end
+
+    if next_step["controls"].present?
+      @message = message.conversation.add_message({
+        step_id: next_step[:step_uid],
+        trigger_id: trigger.id,
+        from: author,
+        controls: next_step["controls"]
+      })
+    end
+
+  end
+
+=begin
+  def received_trigger_step(data)
+
+    trigger, path = ActionTriggerFactory.find_task(data: data, app: @app,app_user: @app_user )
+
+    next_index = path["steps"].index{|o| o["step_uid"] == data["step"]} + 1
+    next_step = path["steps"][next_index]
+ 
+    key = "#{@app.key}-#{@app_user.session_id}"
+
+    if data["submit"].present?
+      data_submit(data["submit"])
+    end
+
+    conversation = data["conversation"]
+
+    MessengerEventsChannel.broadcast_to(key, {
+      type: "triggers:receive", 
+      data: {
+        step: next_step, 
+        trigger: trigger,
+        conversation: conversation
+      }
+    }.as_json) if next_step.present?
+    
+  end
+=end
 
   def track_open(data)
     @app_user.track_open(campaign_id: data["campaign_id"] )
@@ -58,6 +134,7 @@ class MessengerEventsChannel < ApplicationCable::Channel
     AppUserTriggerJob.perform_now({
         app_key: @app.key, 
         user_id: @app_user.id, 
+        conversation: data["conversation"],
         trigger_id: data["trigger"]
       }
     )
@@ -67,31 +144,6 @@ class MessengerEventsChannel < ApplicationCable::Channel
     # TODO: check permitted params here!
     data.delete('action')
     @app_user.update(data)
-  end
-
-  def received_trigger_step(data)
-    trigger, path = ActionTriggerFactory.find_task(data: data, app: @app,app_user: @app_user )
-
-    next_index = path["steps"].index{|o| o["step_uid"] == data["step"]} + 1
-    next_step = path["steps"][next_index]
- 
-    key = "#{@app.key}-#{@app_user.session_id}"
-
-    if data["submit"].present?
-      data_submit(data["submit"])
-    end
-
-    conversation = data["conversation"]
-
-    MessengerEventsChannel.broadcast_to(key, {
-      type: "triggers:receive", 
-      data: {
-        step: next_step, 
-        trigger: trigger,
-        conversation: conversation
-      }
-    }.as_json) if next_step.present?
-    
   end
 
   def trigger_step(data)
@@ -106,39 +158,4 @@ class MessengerEventsChannel < ApplicationCable::Channel
     }.as_json) if next_step.present?
     
   end
-
-=begin
-  def find_factory_template(data)
-    data["trigger"]
-
-    case data["trigger"]
-      when "infer"
-        trigger = ActionTriggerFactory.infer_for(app: @app, user: @app_user )
-      when "request_for_email"
-        trigger = ActionTriggerFactory.request_for_email(app: @app)
-        return trigger
-      when "route_support"
-        trigger = ActionTriggerFactory.route_support(app: @app)
-        return trigger
-      when "typical_reply_time"
-        trigger = ActionTriggerFactory.typical_reply_time(app: @app)
-        return trigger
-      else
-      Error.new("template not found") 
-    end
-
-  end
-
-  def find_task(data)
-    trigger = @app.bot_tasks.find(data["trigger"]) rescue find_factory_template(data)
-    path = trigger.paths.find{|o| 
-        o.with_indifferent_access["steps"].find{|a| 
-          a["step_uid"] === data["step"] 
-      }.present? 
-    }.with_indifferent_access
-    
-    return trigger, path
-  end
-=end
-
 end

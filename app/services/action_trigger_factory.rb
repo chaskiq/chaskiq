@@ -327,9 +327,10 @@ class ActionTriggerFactory
 
   def self.find_task(data: , app: , app_user: )
     trigger = app.bot_tasks.find(data["trigger"]) rescue self.find_factory_template(data: data, app: app, app_user: app_user)
+
     path = trigger.paths.find{|o| 
         o.with_indifferent_access["steps"].find{|a| 
-          a["step_uid"] === data["step"] 
+          a["step_uid"].to_s === data["step"] 
       }.present? 
     }.with_indifferent_access
     

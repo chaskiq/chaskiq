@@ -315,9 +315,6 @@ class Messenger extends Component {
             case "triggers:receive":
               this.receiveTrigger(data.data)
               break
-            /*case "triggers_step:receive":
-              this.receiveTriggerStep(data.data)
-              break*/
             case "conversations:conversation_part":
               const newMessage = toCamelCase(data.data)
               this.receiveMessage(newMessage)
@@ -479,6 +476,7 @@ class Messenger extends Component {
             response.data.messages.concat(this.state.conversation_messages) : 
             this.state.conversation_messages*/
           }, ()=>{ 
+            this.requestTrigger("infer")
           cb && cb()
         })
       },
@@ -562,7 +560,7 @@ class Messenger extends Component {
       },
       display_mode: "conversation"
     }, ()=>{
-      this.requestTrigger("infer")
+      // this.requestTrigger("infer")
     })
 
     /*if(this.state.appData.userTasksSettings && this.state.appData.userTasksSettings.share_typical_time && this.props.kind === "AppUser" )
@@ -685,8 +683,6 @@ class Messenger extends Component {
         //kind: "lead" 
       }
     })
-
-
 
     // messages & controles will never meet together
     const conversationMessages = o.messages.map((message)=>(
@@ -856,7 +852,6 @@ class Messenger extends Component {
 
         this.appendDraftMessage(()=> {
           setTimeout(()=>{
-            debugger
             this.appendStepMessage(step)
           }, random)
         })
@@ -865,23 +860,6 @@ class Messenger extends Component {
 
     }, trigger.after_delay*1000)
     
-  }
-
-  receiveTriggerStep = (data)=>{
-    const {trigger, step} = data
-    setTimeout( ()=>{
-      localStorage.setItem("chaskiq:trigger-"+trigger.id, 1)
-      this.setState({
-        conversation: Object.assign({}, this.state.conversation, {
-          trigger: trigger,
-          currentStep: step
-        })
-      }, ()=>{
-          this.setState({open: true}) //: null
-          this.appendStepMessage(step)
-      })
-
-    }, trigger.after_delay*1000)
   }
 
   /*sendTrigger = ()=>{
@@ -1712,11 +1690,13 @@ class MessageContainer extends Component {
 class MessageItemWrapper extends Component {
   componentDidMount(){
     // mark as read on first render if not read & from admin
-    if(!this.props.data.volatile && !this.props.data.readAt && this.props.data.appUser.kind != "app_user"){
+    if(!this.props.data.volatile && !this.props.data.readAt && this.props.data.appUser.kind === "agent"){
       App.events && App.events.perform("receive_conversation_part", 
         Object.assign({}, {
           conversation_id: this.props.conversation.key,
-          message_id: this.props.data.id
+          message_id: this.props.data.id,
+          step: this.props.stepId,
+          trigger: this.props.TriggerId
         }, {email: this.props.email})
       )
     }

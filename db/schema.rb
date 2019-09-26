@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_08_31_233001) do
+ActiveRecord::Schema.define(version: 2019_09_26_032859) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -356,6 +356,8 @@ ActiveRecord::Schema.define(version: 2019_08_31_233001) do
     t.string "email_message_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "step_id"
+    t.string "trigger_id"
     t.index ["app_user_id"], name: "index_conversation_parts_on_app_user_id"
     t.index ["authorable_type", "authorable_id"], name: "index_conversation_parts_on_authorable_type_and_authorable_id"
     t.index ["boolean"], name: "index_conversation_parts_on_boolean"
