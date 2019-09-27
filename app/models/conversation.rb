@@ -55,8 +55,6 @@ class Conversation < ApplicationRecord
 
   def add_message(opts={})
     part = process_message_part(opts)
-    part.step_id = opts[:step_id] unless opts[:step_id].blank?
-    part.trigger_id = opts[:trigger_id] unless opts[:trigger_id].blank?
     part.save
     
     if part.errors.blank?
@@ -82,8 +80,14 @@ class Conversation < ApplicationRecord
     part.authorable = opts[:from]
     part.check_assignment_rules = opts[:check_assignment_rules]
     #part.app_user = opts[:from]
+
+    part.step_id = opts[:step_id] unless opts[:step_id].blank?
+    part.trigger_id = opts[:trigger_id] unless opts[:trigger_id].blank?
+
+    part.controls = opts[:controls] if opts[:controls].present?
+    part.message  = opts[:message] if opts[:message].present?
+
     part.private_note = opts[:private_note]
-    part.message  = opts[:message]
     part.message_source = opts[:message_source] if opts[:message_source]
     part.email_message_id = opts[:email_message_id]
     part

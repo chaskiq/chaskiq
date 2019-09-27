@@ -80,6 +80,52 @@ class MessengerEventsChannel < ApplicationCable::Channel
       })
     end
 
+    if message["submit"].present?
+      data_submit(message["submit"])
+    end
+
+  end
+
+  def data_submit(data)
+    # TODO: check permitted params here!
+    data.delete('action')
+    @app_user.update(data)
+  end
+
+  def trigger_step(data)
+    @conversation = @app.conversations.find_by(key: data["conversation_id"])
+    message = @conversation.messages.find(data["message_id"])
+
+    trigger, path = ActionTriggerFactory.find_task(data: data, app: @app, app_user: @app_user)
+    
+    next_step = path["steps"].find{|o| o["step_uid"] == data["step"]}
+ 
+    author = @app.agents.first
+
+    m = next_step["messages"].first
+
+    if m.present?
+      @conversation.add_message({
+        step_id: next_step[:step_uid],
+        trigger_id: trigger.id,
+        from: author,
+        message: {
+          html_content: m[:html_content],
+          serialized_content: m[:serialized_content],
+          text_content: m[:html_content]
+        }
+      })
+    end
+
+    if next_step["controls"].present?
+      @conversation.add_message({
+        step_id: next_step[:step_uid],
+        trigger_id: trigger.id,
+        from: author,
+        controls: next_step["controls"]
+      })
+    end
+    
   end
 
 =begin
@@ -138,24 +184,5 @@ class MessengerEventsChannel < ApplicationCable::Channel
         trigger_id: data["trigger"]
       }
     )
-  end
-
-  def data_submit(data)
-    # TODO: check permitted params here!
-    data.delete('action')
-    @app_user.update(data)
-  end
-
-  def trigger_step(data)
-    trigger, path = ActionTriggerFactory.find_task(data: data, app: @app, app_user: @app_user)
-  
-    next_step = path["steps"].find{|o| o["step_uid"] == data["step"]}
- 
-    key = "#{@app.key}-#{@app_user.session_id}"
-    MessengerEventsChannel.broadcast_to(key, {
-      type: "triggers:receive", 
-      data: {step: next_step, trigger: trigger }
-    }.as_json) if next_step.present?
-    
   end
 end
