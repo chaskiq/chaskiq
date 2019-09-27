@@ -162,6 +162,41 @@ class ConversationContainerShow extends Component {
     }))
   }
 
+  renderMessage =(o, userOrAdmin)=>{
+    const key = `conversation-${o.id}-message-${o.id}`
+    return userOrAdmin === "admin" ?
+      <DraftRenderer key={key} 
+        raw={JSON.parse(o.message.serializedContent)}
+      /> : 
+    
+      <div  
+        key={key}
+        dangerouslySetInnerHTML={{
+          __html:  o.message.htmlContent
+        }} 
+      />
+  }
+
+  renderBlocks = (o)=>{
+    if(o.message.state != "replied") return <p>non</p>
+    console.log(o.message)
+    const item = o.message.data
+
+    
+    switch(item.element){
+      case "button":
+        return <p>{item.label}</p>
+      default:
+        if (o.message.blocks.type === "data_retrieval"){
+          return Object.keys(o.message.data).map((k)=>{
+            return <p>{k}: {o.message.data[k]}</p>
+          })
+        } else{
+          <p>{JSON.stringify(o.message.data)}</p>
+        }
+    }
+  }
+
   render(){
     return <Fragment>
           
@@ -242,8 +277,8 @@ class ConversationContainerShow extends Component {
 
                         {
                           this.props.conversation.collection.map( (o, i)=> {
-
-                            const userOrAdmin = o.appUser.kind === 'agent' ? 'admin' : 'user'
+                            const isReplied = o.message.state === "replied"
+                            const userOrAdmin = !isReplied && o.appUser.kind === 'agent' ? 'admin' : 'user'
                
                             return <MessageItemWrapper 
                                       key={`message-item-${this.props.conversation.key}-${o.id}`} 
@@ -271,20 +306,10 @@ class ConversationContainerShow extends Component {
                                           : theme 
                                         }>
                                           <EditorContainer>
-
                                             {
-                                              userOrAdmin === "admin" ?
-                                              
-                                              <DraftRenderer key={i} 
-                                                raw={JSON.parse(o.message.serializedContent)}
-                                              /> : 
-                                            
-                                              <div  
-                                                key={i}
-                                                dangerouslySetInnerHTML={{
-                                                  __html:  o.message.htmlContent
-                                                }} 
-                                              /> 
+                                              o.fromBot && o.message.blocks ? 
+                                              this.renderBlocks(o, userOrAdmin) : 
+                                              this.renderMessage(o, userOrAdmin)
                                             }
 
                                           </EditorContainer>
