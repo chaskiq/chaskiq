@@ -709,13 +709,19 @@ RSpec.describe "Widget management", :type => :system do
         sleep(2)
         # now 2nd iframe appears on top
         messenger_iframe = all("iframe").first
-    
+
         Capybara.within_frame(messenger_iframe){ 
           page.click_link("Start a conversation")
           page.find(:xpath, "/html/body/div/div/div/div[2]/div/div/div/div[2]/div/div/textarea").set("oeoe \n")
           expect(page).to have_content("oeoe")
           expect(page).to have_content("Are you an existing customer ?")
+          page.click_button("I'm existing customer")
+          expect(page).to have_content("enter your email")
+          fill_in('email', :with => 'John@apple.cl')
+          page.click_button("enter your email")
+          expect(page).to have_content("thank you")
         }
+        
       end
 
       it "not shows email requirement" do
