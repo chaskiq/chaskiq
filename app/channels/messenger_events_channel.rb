@@ -32,7 +32,19 @@ class MessengerEventsChannel < ApplicationCable::Channel
       message.read!
     end
 
-    process_next_step(message) if message.from_bot?
+    if message.from_bot?
+      process_next_step(message)
+
+      if data["submit"].present?
+        opts = [:email, :name, :first_name, :last_name, :etc]
+        @app_user.update(data.slice(opts)) # some condition from settings here?
+        data_submit(data["submit"], message)
+      end
+
+      if data["reply"].present?
+        data_submit(data["reply"], message)
+      end
+    end
   end
 
   def process_next_step(message)
@@ -80,16 +92,10 @@ class MessengerEventsChannel < ApplicationCable::Channel
       })
     end
 
-    if message["submit"].present?
-      data_submit(message["submit"])
-    end
-
   end
 
-  def data_submit(data)
-    # TODO: check permitted params here!
-    data.delete('action')
-    @app_user.update(data)
+  def data_submit(data, message)
+    message.message.save_replied(data) if message.message.respond_to?(:save_replied)
   end
 
   def trigger_step(data)
@@ -124,6 +130,12 @@ class MessengerEventsChannel < ApplicationCable::Channel
         from: author,
         controls: next_step["controls"]
       })
+    end
+
+    if message.from_bot?
+      if data["reply"].present?
+        data_submit(data["reply"], message)
+      end
     end
     
   end

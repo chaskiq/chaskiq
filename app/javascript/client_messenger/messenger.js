@@ -1219,7 +1219,8 @@ class Conversation extends Component {
       conversation_id: this.props.conversation.key,
       message_id: message.id,
       trigger: message.triggerId,
-      step: item.nextStepUuid
+      step: item.nextStepUuid,
+      reply: item
     })
     
   }
@@ -1621,8 +1622,10 @@ class AppPackageBlock extends Component {
   }
 
   renderElements = ()=>{
+    const isDisabled = this.props.message.state === "replied"
+    if(isDisabled) return this.renderDisabledElement() 
     return this.props.message.blocks.schema.map((o, i)=>
-      this.renderElement(o, i)
+       this.renderElement(o, i)
     )
   }
 
@@ -1639,8 +1642,26 @@ class AppPackageBlock extends Component {
     this.props.appPackageSubmitHandler(data, this.props)
   }
 
+  renderDisabledElement = ()=>{
+    const item = this.props.message.data
+    
+    switch(item.element){
+      case "button":
+        return <p>{item.label}</p>
+      default:
+        if (this.props.message.blocks.type === "data_retrieval"){
+          return Object.keys(this.props.message.data).map((k)=>{
+            return <p>{k}: {this.props.message.data[k]}</p>
+          })
+        } else{
+          <p>{JSON.stringify(this.props.message.data)}</p>
+        }
+    }
+  }
+
   renderElement = (item, index)=>{
     const element = item.element
+    const isDisabled = this.props.message.state === "replied"
 
     switch(item.element){
     case "separator":
@@ -1649,6 +1670,7 @@ class AppPackageBlock extends Component {
       return <div className={"form-group"} key={index}>
               {item.label ? <label>{item.label}</label> : null }
               <input 
+                disabled={isDisabled}
                 type={item.type} 
                 name={item.name}
                 placeholder={item.placeholder}
@@ -1656,21 +1678,24 @@ class AppPackageBlock extends Component {
                 //  this.handleStepControlClick(item) : null
                 //}}
               />
-              <button key={index} 
-                     style={{alignSelf: 'flex-end'}} 
-                     type={"submit"}>
+              <button disabled={isDisabled}
+                      key={index} 
+                      style={{alignSelf: 'flex-end'}} 
+                      type={"submit"}>
                 {item.label}
               </button>
              </div>
 
     case "submit":
-      return <button key={index} 
+      return <button disabled={isDisabled}
+                     key={index} 
                      style={{alignSelf: 'flex-end'}} 
                      type={"submit"}>
           {item.label}
         </button>
     case "button":
       return <button 
+        disabled={isDisabled}
         onClick={()=> this.handleStepControlClick(item)}
         key={index} 
         type={"button"}>
