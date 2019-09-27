@@ -157,7 +157,13 @@ export const CONVERSATIONS = `
           lastMessage{
             source
             createdAt
+            stepId
+            triggerId
+            fromBot
             message{
+              blocks
+              data
+              state
               htmlContent
               textContent
               serializedContent
@@ -214,7 +220,13 @@ export const CONVERSATION=`
         messages(page: $page){
           collection{
             id
+            stepId
+            triggerId
+            fromBot
             message{
+              blocks
+              data
+              state
               htmlContent
               textContent
               serializedContent
@@ -262,7 +274,12 @@ export const CONVERSATION_WITH_LAST_MESSAGE=`
         lastMessage{
           createdAt
           source
+          triggerId
+          fromBot
           message{
+            blocks
+            data
+            state
             htmlContent
             textContent
             serializedContent

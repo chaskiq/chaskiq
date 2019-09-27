@@ -752,12 +752,6 @@ class Messenger extends Component {
     })
   }
 
-  /*setTriggerStep = (step_index)=>{
-    const t = this.state.conversation.trigger.paths.find((o)=> o.id === step_index)
-    if(!t) return
-    this.appendVolatileConversation(t.steps) 
-  }*/
-
   receiveTrigger = (data)=>{ 
     debugger
   }
