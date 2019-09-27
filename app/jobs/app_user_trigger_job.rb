@@ -10,15 +10,7 @@ class AppUserTriggerJob < ApplicationJob
     key = "#{@app.key}-#{app_user.session_id}"
     trigger = @app.bot_tasks.find(trigger_id) rescue find_factory_template(trigger_id, app_user)
 
-    #MessengerEventsChannel.broadcast_to(key, {
-    #  type: "triggers:receive", 
-    #  data: {
-    #    trigger: trigger, 
-    #    step: trigger.paths.first[:steps].first 
-    #  }
-    #}.as_json) if trigger.paths.first[:steps]
-
-    # TODO: use bot
+    # TODO: use bot as agent
     author = @app.agents.first
     step = trigger.paths.first[:steps].first
     message = step[:messages].first
@@ -32,8 +24,6 @@ class AppUserTriggerJob < ApplicationJob
         text_content: message[:html_content]
       }
     })
-    
-
   end
 
   def find_factory_template(id, user)

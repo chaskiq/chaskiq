@@ -35,6 +35,10 @@ class ConversationPart < ApplicationRecord
     #new_message.save
   end
 
+  def controls=(blocks)
+    self.messageable = ConversationPartBlock.create(blocks: blocks)
+  end
+
   def conversation_part_content
     self.messageable if self.messageable.is_a?(ConversationPartContent)
   end

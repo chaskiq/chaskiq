@@ -330,7 +330,7 @@ class ActionTriggerFactory
 
     path = trigger.paths.find{|o| 
         o.with_indifferent_access["steps"].find{|a| 
-          a["step_uid"].to_s === data["step"] 
+          a["step_uid"].to_s === data["step"].to_s
       }.present? 
     }.with_indifferent_access
     

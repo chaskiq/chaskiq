@@ -1,0 +1,2 @@
+class ConversationPartBlock < ApplicationRecord
+end

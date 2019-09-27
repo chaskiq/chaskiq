@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_09_26_032859) do
+ActiveRecord::Schema.define(version: 2019_09_26_163125) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -326,6 +326,12 @@ ActiveRecord::Schema.define(version: 2019_09_26_032859) do
   end
 
   create_table "collection_sections_translations", force: :cascade do |t|
+  end
+
+  create_table "conversation_part_blocks", force: :cascade do |t|
+    t.jsonb "blocks"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
   end
 
   create_table "conversation_part_contents", force: :cascade do |t|
