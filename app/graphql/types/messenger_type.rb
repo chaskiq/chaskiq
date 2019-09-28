@@ -38,7 +38,7 @@ module Types
     field :agents, [Types::AgentType], null: true
 
     def agents
-      object.agents.limit(5)
+      object.agents.where(bot: nil).limit(5)
     end
 
     field :conversation, Types::ConversationType, null: true do

@@ -392,7 +392,6 @@ ActiveRecord::Schema.define(version: 2019_09_27_232347) do
     t.datetime "read_at"
     t.bigint "main_participant_id"
     t.boolean "priority"
-    t.string "email_message_id"
     t.string "state"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -414,7 +413,7 @@ ActiveRecord::Schema.define(version: 2019_09_27_232347) do
     t.index ["eventable_type", "eventable_id"], name: "index_events_on_eventable_type_and_eventable_id"
   end
 
-  create_table "gutentag_taggings", id: :serial, force: :cascade do |t|
+  create_table "gutentag_taggings", id: :integer, default: nil, force: :cascade do |t|
     t.integer "tag_id", null: false
     t.integer "taggable_id", null: false
     t.string "taggable_type", null: false
@@ -425,7 +424,7 @@ ActiveRecord::Schema.define(version: 2019_09_27_232347) do
     t.index ["taggable_type", "taggable_id"], name: "index_gutentag_taggings_on_taggable_type_and_taggable_id"
   end
 
-  create_table "gutentag_tags", id: :serial, force: :cascade do |t|
+  create_table "gutentag_tags", id: :integer, default: nil, force: :cascade do |t|
     t.string "name", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
