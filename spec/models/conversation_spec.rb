@@ -76,6 +76,21 @@ RSpec.describe Conversation, type: :model do
       expect(message).to be_persisted
     end
 
+
+    it "add block message" do
+      expect(conversation.events.count).to be == 1
+      expect(conversation.messages.count).to be == 1
+      expect(EventsChannel).to receive(:broadcast_to)
+      expect(MessengerEventsChannel).to receive(:broadcast_to)
+      expect_any_instance_of(ConversationPart).to receive(:enqueue_email_notification)
+      message = conversation.add_message({
+        from: app_user,
+        controls: [{a:1}]
+      })
+      expect(message).to be_persisted
+      expect(message.message[:blocks]).to be_present
+    end
+
   end
 
   context "add private message" do

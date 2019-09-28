@@ -85,6 +85,10 @@ class AppUser < ApplicationRecord
     [self.name].join(" ")
   end
 
+  def session_key
+    "#{self.app.key}-#{self.session_id}"
+  end
+
 
   def generate_token
     self.session_id = loop do
@@ -222,4 +226,5 @@ class AppUser < ApplicationRecord
       DataEnrichmentJob.perform_later(user_id: self.id)
     end
   end
+
 end

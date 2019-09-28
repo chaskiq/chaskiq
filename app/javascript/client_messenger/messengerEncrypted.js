@@ -47,15 +47,13 @@ export default class ChaskiqMessengerEncrypted {
         }else{
           deleteCookie("chaskiq_session_id")  
         }
-         
         const messenger = new ChaskiqMessenger(
-          Object.assign({}, data.messenger.user, {
+          Object.assign({}, user, {
             encData: this.props.data,
             encryptedMode: true,
             domain: this.props.domain,
             ws: this.props.ws,
             locale: this.props.lang,
-            graphqlClient: this.graphqlClient
           })
         )
 

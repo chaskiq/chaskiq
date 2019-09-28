@@ -8,6 +8,8 @@ class Conversation < ApplicationRecord
   belongs_to :main_participant, class_name: "AppUser", optional: true #, foreign_key: "user_id"
   has_many :messages, class_name: "ConversationPart", dependent: :destroy
 
+  after_create :convert_visitor_to_lead , if: :visitor_participant?
+
   before_create :add_default_assigne
   after_create :add_created_event
 
@@ -24,6 +26,14 @@ class Conversation < ApplicationRecord
     event :close, after: :add_closed_event do
       transitions :from => :opened, :to => :closed
     end
+  end
+
+  def convert_visitor_to_lead
+    main_participant.become_lead!
+  end
+
+  def visitor_participant?
+    self.main_participant.is_a?(Visitor) 
   end
 
   def add_created_event
@@ -70,8 +80,14 @@ class Conversation < ApplicationRecord
     part.authorable = opts[:from]
     part.check_assignment_rules = opts[:check_assignment_rules]
     #part.app_user = opts[:from]
+
+    part.step_id = opts[:step_id] unless opts[:step_id].blank?
+    part.trigger_id = opts[:trigger_id] unless opts[:trigger_id].blank?
+
+    part.controls = opts[:controls] if opts[:controls].present?
+    part.message  = opts[:message] if opts[:message].present?
+
     part.private_note = opts[:private_note]
-    part.message  = opts[:message]
     part.message_source = opts[:message_source] if opts[:message_source]
     part.email_message_id = opts[:email_message_id]
     part

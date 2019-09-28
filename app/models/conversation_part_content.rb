@@ -1,6 +1,6 @@
 class ConversationPartContent < ApplicationRecord
 
-  belongs_to :conversation_part
+  #belongs_to :conversation_part
 
   def as_json(*)
     super.except("created_at", 

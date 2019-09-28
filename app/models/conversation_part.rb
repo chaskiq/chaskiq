@@ -10,7 +10,7 @@ class ConversationPart < ApplicationRecord
   belongs_to :messageable, polymorphic: true, optional: true
   belongs_to :authorable, polymorphic: true, optional: true
 
-  has_one :conversation_part_content, dependent: :destroy
+  #has_one :conversation_part_content, dependent: :destroy
 
   after_create :assign_and_notify
 
@@ -18,19 +18,29 @@ class ConversationPart < ApplicationRecord
 
   attr_accessor :check_assignment_rules
 
-  #delegate :html_content, to: :conversation_part_content
-  #delegate :serialized_content, to: :conversation_part_content
-  #delegate :text_content, to: :conversation_part_content
+  def from_bot?
+    self.trigger_id.present? && self.step_id.present?
+  end
 
   def message
-    self.conversation_part_content
+    #self.conversation_part_content
+    self.messageable
   end
 
   def message=(message)
     # message should be a hash containing html_content, 
     # serialized_content, text_content
-    new_message = self.build_conversation_part_content(message)
-    new_message.save
+    self.messageable = ConversationPartContent.create(message)
+    #new_message = self.build_conversation_part_content(message)
+    #new_message.save
+  end
+
+  def controls=(blocks)
+    self.messageable = ConversationPartBlock.create(blocks: blocks)
+  end
+
+  def conversation_part_content
+    self.messageable if self.messageable.is_a?(ConversationPartContent)
   end
 
   def app_user
@@ -49,24 +59,26 @@ class ConversationPart < ApplicationRecord
   def notify_read!
     self.read_at = Time.now
     if self.save
-
-      MessengerEventsChannel.broadcast_to(
-        "#{self.conversation.app.key}-#{self.conversation.main_participant.session_id}",
-        { 
-          type: "conversations:conversation_part",
-          data: self.as_json
-        }
-      )
-
-      EventsChannel.broadcast_to(
-        "#{self.conversation.app.key}", 
-        { 
-          type: :conversation_part,
-          data: self.as_json
-        }
-      ) 
-
+      notify_to_channels
     end
+  end
+
+  def notify_to_channels
+    MessengerEventsChannel.broadcast_to(
+      "#{self.conversation.app.key}-#{self.conversation.main_participant.session_id}",
+      { 
+        type: "conversations:conversation_part",
+        data: self.as_json
+      }
+    )
+
+    EventsChannel.broadcast_to(
+      "#{self.conversation.app.key}", 
+      { 
+        type: :conversation_part,
+        data: self.as_json
+      }
+    )
   end
 
   def assign_and_notify
@@ -97,9 +109,12 @@ class ConversationPart < ApplicationRecord
   end
 
   def assign_agent_by_rules
+    return if conversation_part_content.blank?
 
     serialized_content = conversation_part_content.serialized_content
+    
     return if serialized_content.blank?
+
     text = JSON.parse(serialized_content)["blocks"].map{|o| o["text"]}.join(" ")
 
     app = conversation.app
