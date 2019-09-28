@@ -650,7 +650,7 @@ RSpec.describe "Widget management", :type => :system do
         app.update(
           timezone: "UTC", 
           lead_tasks_settings: {
-            delay: true, 
+            delay: false, 
             routing: "assign", 
             email_requirement: "email_only", 
             assignee: agent_role.agent, 
@@ -687,7 +687,7 @@ RSpec.describe "Widget management", :type => :system do
         app.update(
           timezone: "UTC", 
           lead_tasks_settings: {
-            delay: true, 
+            delay: false, 
             routing: "assign", 
             email_requirement: "email_only", 
             assignee: agent_role.agent.id, 
@@ -729,7 +729,7 @@ RSpec.describe "Widget management", :type => :system do
         app.update(
           timezone: "UTC", 
           lead_tasks_settings: {
-            delay: true, 
+            delay: false, 
             routing: "assign", 
             email_requirement: "email_only", 
             assignee: agent_role.agent, 

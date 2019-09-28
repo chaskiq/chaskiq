@@ -476,7 +476,7 @@ class Messenger extends Component {
             response.data.messages.concat(this.state.conversation_messages) : 
             this.state.conversation_messages*/
           }, ()=>{ 
-            this.requestTrigger("infer")
+            this.handleTriggerrequest("infer")
           cb && cb()
         })
       },
@@ -485,6 +485,14 @@ class Messenger extends Component {
       }
     })
    }
+
+  handleTriggerrequest = (trigger)=>{
+    if (this.state.appData.tasksSettings){
+      setTimeout(()=>{
+        this.requestTrigger(trigger)
+      }, 0 ) // 1000 * 60 * 2
+    }
+  }
 
   
   clearAndGetConversations = ()=>{
@@ -665,6 +673,7 @@ class Messenger extends Component {
       window.opener.TourManagerEnabled() : null*/
   }
 
+  /*
   appendDelayed = (steps)=>{
     //const o = steps.pop()
     const newSteps = [...steps]
@@ -727,6 +736,7 @@ class Messenger extends Component {
     })
     
   }
+  */
 
   appendDraftMessage = (cb)=>{
     const newMessage = {

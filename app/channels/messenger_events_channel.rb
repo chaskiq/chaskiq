@@ -189,7 +189,9 @@ class MessengerEventsChannel < ApplicationCable::Channel
   end
 
   def request_trigger(data)
-    AppUserTriggerJob.perform_now({
+    AppUserTriggerJob
+    .set(wait_until: 20.seconds.from_now)
+    .perform_later({
         app_key: @app.key, 
         user_id: @app_user.id, 
         conversation: data["conversation"],

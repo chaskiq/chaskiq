@@ -10,6 +10,7 @@ class Conversation < ApplicationRecord
 
   after_create :convert_visitor_to_lead , if: :visitor_participant?
 
+  before_create :add_created_flag
   before_create :add_default_assigne
   after_create :add_created_event
 
@@ -109,6 +110,16 @@ class Conversation < ApplicationRecord
         data: part.as_json
       }
     )
+
+    #if @add_created_flag
+    #  AppUserTriggerJob.perform_now({
+    #      app_key: self.app.key, 
+    #      user_id: self.main_participant.id, 
+    #      conversation: self.key,
+    #      trigger_id: "infer"
+    #    }
+    #  )
+    #end
   end
 
   def assign_user(user)
@@ -126,6 +137,10 @@ class Conversation < ApplicationRecord
   def check_conditions
     part = self.messages.last
     part.check_assignment_rules
+  end
+
+  def add_created_flag
+    @add_created_flag = true
   end
 
 end
