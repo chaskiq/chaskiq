@@ -23,6 +23,7 @@ RSpec.describe App, type: :model do
   it "create app" do
     expect(app).to be_valid
     expect(app.key).to be_present
+    expect(app.agent_bots).to be_present
   end
 
   it "create an user" do 
@@ -34,7 +35,12 @@ RSpec.describe App, type: :model do
   it "create an agent" do 
     app.add_agent({email: "test@test.cl", first_name: "dsdsa"})
     expect(app.agents).to be_any   
-    expect(app.agents.first.first_name).to be_present  
+    expect(app.agents.last.first_name).to be_present  
+  end
+
+  it "crean an agent bot" do
+    app.add_bot_agent({email: "agent@chaskiq.cl", first_name: "bot"})
+    expect(app.agent_bots).to be_any   
   end
 
   describe "add anonymous user" do
@@ -165,7 +171,7 @@ RSpec.describe App, type: :model do
     end
 
     it "will create agent" do
-      expect(app.agents.count).to be == 1
+      expect(app.agents.count).to be == 2
     end
 
     it "biz time, in time" do
