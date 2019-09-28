@@ -165,11 +165,16 @@ class Messenger extends Component {
       /* other custom settings */
     });
 
-    this.graphqlClient = this.props.graphqlClient
+    //this.graphqlClient = this.props.graphqlClient
     /*new GraphqlClient({
       config: this.defaultHeaders,
       baseURL: '/api/graphql'
     })*/
+
+    this.graphqlClient = new GraphqlClient({
+      config: this.defaultHeaders,
+      baseURL: `${this.props.domain}/api/graphql`
+    })
 
     App = {
       cable: actioncable.createConsumer(`${this.props.ws}`)
@@ -310,9 +315,6 @@ class Messenger extends Component {
             case "triggers:receive":
               this.receiveTrigger(data.data)
               break
-            /*case "triggers_step:receive":
-              this.receiveTriggerStep(data.data)
-              break*/
             case "conversations:conversation_part":
               const newMessage = toCamelCase(data.data)
               this.receiveMessage(newMessage)
@@ -474,6 +476,7 @@ class Messenger extends Component {
             response.data.messages.concat(this.state.conversation_messages) : 
             this.state.conversation_messages*/
           }, ()=>{ 
+            this.requestTrigger("infer")
           cb && cb()
         })
       },
@@ -557,7 +560,7 @@ class Messenger extends Component {
       },
       display_mode: "conversation"
     }, ()=>{
-      this.requestTrigger("infer")
+      // this.requestTrigger("infer")
     })
 
     /*if(this.state.appData.userTasksSettings && this.state.appData.userTasksSettings.share_typical_time && this.props.kind === "AppUser" )
@@ -662,74 +665,6 @@ class Messenger extends Component {
       window.opener.TourManagerEnabled() : null*/
   }
 
-  appendStepMessage = (step)=>{
-
-    const o = step
-
-    const trigger = this.state.conversation.trigger
-
-    const conversation = Object.assign({}, this.state.conversation , {
-      //assignee: null,
-      trigger: trigger,
-      currentStep: o,
-      locked: o.controls && (o.controls.type === "ask_option" || o.controls.type === "data_retrieval"),
-      mainParticipant: {
-        //display_name: "visitor 8 ",
-        //email: null,
-        //id: 10,
-        //kind: "lead" 
-      }
-    })
-
-
-
-    // messages & controles will never meet together
-    const conversationMessages = o.messages.map((message)=>(
-      {
-        volatile: true,
-        appUser: message.app_user,
-        message: {
-          serializedContent: message.serialized_content
-        }
-      }
-    )).reverse()
-    
-    const newMessages = [o.controls].concat(conversationMessages)
-
-    this.setState({
-      conversation: conversation,
-      conversation_messages:  newMessages
-                              .filter((o)=> o)
-                              .concat(this.state.conversation_messages)
-                              .filter((o)=> !o.draft)
-                              ,
-      conversation_messagesMeta: {},
-      display_mode: "conversation",
-    }, ()=>{
-      this.scrollToLastItem()
-
-      setTimeout(()=> {
-        if(o.controls) return
-
-        App.events && App.events.perform('received_trigger_step', {
-          conversation: conversation.key,
-          trigger: trigger.id,
-          step: step.step_uid
-        })
-
-        /*if(newSteps.length > 0) this.appendDraftMessage()
-
-        setTimeout(()=> {
-          this.appendDelayed(newSteps)
-        }, 1000)*/
-
-      })
-      
-    })
-
-
-  }
-
   appendDelayed = (steps)=>{
     //const o = steps.pop()
     const newSteps = [...steps]
@@ -817,63 +752,8 @@ class Messenger extends Component {
     })
   }
 
-  /*setTriggerStep = (step_index)=>{
-    const t = this.state.conversation.trigger.paths.find((o)=> o.id === step_index)
-    if(!t) return
-    this.appendVolatileConversation(t.steps) 
-  }*/
-
-  receiveTrigger = (data)=>{
-    const {trigger, step} = data
-    setTimeout( ()=>{
-      //localStorage.setItem("chaskiq:trigger-"+trigger.id, 1)
-      this.setState({
-        conversation: Object.assign({}, this.state.conversation, {
-          trigger: trigger,
-          currentStep: step
-        })
-      }, ()=>{
-        // this is a kind of mess
-        //this.state.conversation.trigger.actions.map((o)=>{
-          // open behavior
-          //  o.open_messenger && !this.state.open ? 
-          this.setState({open: true}) //: null
-        //})
-
-        //this.setTriggerStep(step)
-
-        var min=600; 
-        var max=2000;  
-        var random = 
-        Math.floor(Math.random() * (+max - +min)) + +min;
-
-        this.appendDraftMessage(()=> {
-          setTimeout(()=>{
-            this.appendStepMessage(step)
-          }, random)
-        })
-        
-      })
-
-    }, trigger.after_delay*1000)
-    
-  }
-
-  receiveTriggerStep = (data)=>{
-    const {trigger, step} = data
-    setTimeout( ()=>{
-      localStorage.setItem("chaskiq:trigger-"+trigger.id, 1)
-      this.setState({
-        conversation: Object.assign({}, this.state.conversation, {
-          trigger: trigger,
-          currentStep: step
-        })
-      }, ()=>{
-          this.setState({open: true}) //: null
-          this.appendStepMessage(step)
-      })
-
-    }, trigger.after_delay*1000)
+  receiveTrigger = (data)=>{ 
+    debugger
   }
 
   /*sendTrigger = ()=>{
@@ -1256,7 +1136,6 @@ class Conversation extends Component {
   }
 
   renderMessage = (o, i)=>{
-    //console.log(o)
     const userClass = o.appUser.kind === "agent" ? 'admin' : 'user'
     const isAgent = o.appUser.kind === "agent"
     const themeforMessage = o.privateNote || isAgent ? theme : themeDark
@@ -1320,34 +1199,39 @@ class Conversation extends Component {
   renderItemPackage = (o, i)=>{
     return  <AppPackageBlock 
                key={i}
+               message={o}
                conversation={this.props.conversation}
                submitAppUserData={this.props.submitAppUserData.bind(this)}
                clickHandler={this.appPackageClickHandler.bind(this)}
                appPackageSubmitHandler={this.appPackageSubmitHandler.bind(this)}
-                {...o}
+               {...o}
               />
   }
 
-  appPackageClickHandler = (item)=>{
+  appPackageClickHandler = (item, message)=>{
     App.events && App.events.perform('trigger_step', {
-      conversation: this.props.conversation.key,
-      trigger: this.props.conversation.trigger.id,
-      step: item.next_step_uuid
+      conversation_id: this.props.conversation.key,
+      message_id: message.id,
+      trigger: message.triggerId,
+      step: item.nextStepUuid,
+      reply: item
     })
     
   }
 
-  appPackageSubmitHandler = (data)=>{
-    App.events && App.events.perform('received_trigger_step', {
-      conversation: this.props.conversation.key,
-      trigger: this.props.conversation.trigger.id,
-      step: this.props.conversation.currentStep.step_uid,
-      submit: data
-    })
-    
+  appPackageSubmitHandler = (data, message)=>{
+    App.events && App.events.perform("receive_conversation_part", 
+      {
+        conversation_id: this.props.conversation.key,
+        message_id: message.id,
+        step: this.props.stepId,
+        trigger: this.props.TriggerId,
+        submit: data
+      })
   }
 
   render(){
+
     const {t} = this.props
     return <div style={{
       position: 'absolute',
@@ -1370,7 +1254,7 @@ class Conversation extends Component {
 
             {
               this.props.conversation_messages.map((o, i) => {
-                  return o.schema ? 
+                  return o.message.blocks ? 
                   this.renderItemPackage(o, i) : 
                   o.draft ? this.renderDraft() : this.renderMessage(o, i)
               })
@@ -1704,11 +1588,13 @@ class MessageContainer extends Component {
 class MessageItemWrapper extends Component {
   componentDidMount(){
     // mark as read on first render if not read & from admin
-    if(!this.props.data.volatile && !this.props.data.readAt && this.props.data.appUser.kind != "app_user"){
+    if(!this.props.data.volatile && !this.props.data.readAt && this.props.data.appUser.kind === "agent"){
       App.events && App.events.perform("receive_conversation_part", 
         Object.assign({}, {
           conversation_id: this.props.conversation.key,
-          message_id: this.props.data.id
+          message_id: this.props.data.id,
+          step: this.props.stepId,
+          trigger: this.props.TriggerId
         }, {email: this.props.email})
       )
     }
@@ -1730,14 +1616,16 @@ class AppPackageBlock extends Component {
   }
 
   renderElements = ()=>{
-    return this.props.schema.map((o, i)=>
-      this.renderElement(o, i)
+    const isDisabled = this.props.message.state === "replied"
+    if(isDisabled) return this.renderDisabledElement() 
+    return this.props.message.blocks.schema.map((o, i)=>
+       this.renderElement(o, i)
     )
   }
 
   handleStepControlClick = (item)=>{
     this.setState({done: true})
-    this.props.clickHandler(item)
+    this.props.clickHandler(item, this.props)
   }
 
   sendAppPackageSubmit = (e)=>{
@@ -1745,11 +1633,29 @@ class AppPackageBlock extends Component {
     this.setState({done: true})
     const data = serialize(e.currentTarget, { hash: true, empty: true })
  
-    this.props.appPackageSubmitHandler(data)
+    this.props.appPackageSubmitHandler(data, this.props)
+  }
+
+  renderDisabledElement = ()=>{
+    const item = this.props.message.data
+    
+    switch(item.element){
+      case "button":
+        return <p>{item.label}</p>
+      default:
+        if (this.props.message.blocks.type === "data_retrieval"){
+          return Object.keys(this.props.message.data).map((k)=>{
+            return <p>{k}: {this.props.message.data[k]}</p>
+          })
+        } else{
+          <p>{JSON.stringify(this.props.message.data)}</p>
+        }
+    }
   }
 
   renderElement = (item, index)=>{
     const element = item.element
+    const isDisabled = this.props.message.state === "replied"
 
     switch(item.element){
     case "separator":
@@ -1758,6 +1664,7 @@ class AppPackageBlock extends Component {
       return <div className={"form-group"} key={index}>
               {item.label ? <label>{item.label}</label> : null }
               <input 
+                disabled={isDisabled}
                 type={item.type} 
                 name={item.name}
                 placeholder={item.placeholder}
@@ -1765,21 +1672,24 @@ class AppPackageBlock extends Component {
                 //  this.handleStepControlClick(item) : null
                 //}}
               />
-              <button key={index} 
-                     style={{alignSelf: 'flex-end'}} 
-                     type={"submit"}>
+              <button disabled={isDisabled}
+                      key={index} 
+                      style={{alignSelf: 'flex-end'}} 
+                      type={"submit"}>
                 {item.label}
               </button>
              </div>
 
     case "submit":
-      return <button key={index} 
+      return <button disabled={isDisabled}
+                     key={index} 
                      style={{alignSelf: 'flex-end'}} 
                      type={"submit"}>
           {item.label}
         </button>
     case "button":
       return <button 
+        disabled={isDisabled}
         onClick={()=> this.handleStepControlClick(item)}
         key={index} 
         type={"button"}>

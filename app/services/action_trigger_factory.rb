@@ -233,7 +233,7 @@ class ActionTriggerFactory
           ]
       end
 
-      if kind === "Lead" 
+      if kind === "Lead" or kind === "Visitor"
 
         if app.lead_tasks_settings["share_typical_time"]
           path_messages << c.message(text: "Hi, #{app.name} will reply as soon as they can.", uuid: 1)
@@ -327,9 +327,10 @@ class ActionTriggerFactory
 
   def self.find_task(data: , app: , app_user: )
     trigger = app.bot_tasks.find(data["trigger"]) rescue self.find_factory_template(data: data, app: app, app_user: app_user)
+
     path = trigger.paths.find{|o| 
         o.with_indifferent_access["steps"].find{|a| 
-          a["step_uid"] === data["step"] 
+          a["step_uid"].to_s === data["step"].to_s
       }.present? 
     }.with_indifferent_access
     

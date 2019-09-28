@@ -5,6 +5,8 @@ module Types
     #field :serialized_content, String, null: true
     #field :html_content, String, null: true
     #field :text_content, String, null: true
+    field :step_id, String, null: true
+    field :trigger_id, String, null: true
     field :read_at, GraphQL::Types::ISO8601DateTime, null: true
     field :created_at, GraphQL::Types::ISO8601DateTime, null: true
     field :app_user, Types::AuthorType, null: true
@@ -14,6 +16,12 @@ module Types
     field :source, String, null: true
     field :message_source, Types::CampaignType, null: true
     field :email_message_id, String, null: true
+
+    field :from_bot, Boolean, null: true
+
+    def from_bot
+      object.from_bot?
+    end
 
     def app_user
       object.authorable

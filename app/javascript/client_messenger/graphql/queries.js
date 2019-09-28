@@ -55,10 +55,14 @@ export const CONVERSATIONS = `
           lastMessage{
             source
             createdAt
+            stepId
+            triggerId
+            fromBot
             message{
               htmlContent
               textContent
               serializedContent
+              blocks
             }
             privateNote
             messageSource{
@@ -116,11 +120,17 @@ export const CONVERSATION=`
               htmlContent
               textContent
               serializedContent
+              blocks
+              data
+              state
             }
             source
             readAt
             createdAt
             privateNote
+            stepId
+            triggerId
+            fromBot
             appUser{
               id
               email

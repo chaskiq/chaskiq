@@ -581,7 +581,7 @@ export default class ArticleEditor extends Component {
     }
 
     const currentContent = context.editorState().getCurrentContent()
-    this.props.setDisabled(!currentContent.hasText())
+    this.props.setDisabled && this.props.setDisabled(!currentContent.hasText())
 
     let html = convertToHTML(convertOptions)(currentContent)
     const serialized = JSON.stringify(content)

@@ -59,6 +59,7 @@ RSpec.describe "Widget management", :type => :system do
       #options = Selenium::WebDriver::Chrome::Options.new
       #options.binary = ENV.fetch('GOOGLE_CHROME_SHIM', nil)
       #driver = Selenium::WebDriver.for :chrome, options: options
+      
       Capybara.register_driver :chrome do |app|
         options = Selenium::WebDriver::Chrome::Options.new(args: %w[no-sandbox headless disable-gpu])
         Capybara::Selenium::Driver.new(app, browser: :chrome, options: options)
@@ -69,7 +70,9 @@ RSpec.describe "Widget management", :type => :system do
 
     {
       args: %w[no-sandbox headless disable-gpu] ,
-    } : {}
+    } : {
+      #args: %w[auto-open-devtools-for-tabs]
+    }
 
     driven_by :selenium, using: :chrome, screen_size: [1400, 1400],
      options: options_for_selemium
@@ -338,12 +341,14 @@ RSpec.describe "Widget management", :type => :system do
       page.find("#chaskiq-prime").click 
     }
 
-    sleep(2)
+    sleep(3)
+
     # now 2nd iframe appears on top
     messenger_iframe = all("iframe").first
 
     Capybara.within_frame(messenger_iframe){
       page.click_link("See previous")
+
       #expect(page).to have_content(user.email)
       expect(page).to have_content("a few seconds ago")
       
@@ -515,7 +520,7 @@ RSpec.describe "Widget management", :type => :system do
         "settings"=>{"url"=>"/tester/#{app.key}", 
         "steps"=>[
           {"target"=>"H1", "serialized_content"=>"{\"blocks\":[{\"key\":\"f1qmb\",\"text\":\"this is the tour\",\"type\":\"unstyled\",\"depth\":0,\"inlineStyleRanges\":[],\"entityRanges\":[],\"data\":{}}],\"entityMap\":{}}"}, 
-          {"target"=>"H2:nth-child(3)", "serialized_content"=>"{\"blocks\":[{\"key\":\"f1qmb\",\"text\":\"final tour step\",\"type\":\"unstyled\",\"depth\":0,\"inlineStyleRanges\":[],\"entityRanges\":[],\"data\":{}}],\"entityMap\":{}}"}
+          {"target"=>"H1", "serialized_content"=>"{\"blocks\":[{\"key\":\"f1qmb\",\"text\":\"final tour step\",\"type\":\"unstyled\",\"depth\":0,\"inlineStyleRanges\":[],\"entityRanges\":[],\"data\":{}}],\"entityMap\":{}}"}
           ], 
         "hidden_constraints"=>["skip", "finish"]
         },
@@ -546,7 +551,7 @@ RSpec.describe "Widget management", :type => :system do
         "settings"=>{"url"=>"#{host_port}/tester/#{app.key}/alala", 
         "steps"=>[
           {"target"=>"H1", "serialized_content"=>"{\"blocks\":[{\"key\":\"f1qmb\",\"text\":\"this is the tour\",\"type\":\"unstyled\",\"depth\":0,\"inlineStyleRanges\":[],\"entityRanges\":[],\"data\":{}}],\"entityMap\":{}}"}, 
-          {"target"=>"H2:nth-child(3)", "serialized_content"=>"{\"blocks\":[{\"key\":\"f1qmb\",\"text\":\"final tour step\",\"type\":\"unstyled\",\"depth\":0,\"inlineStyleRanges\":[],\"entityRanges\":[],\"data\":{}}],\"entityMap\":{}}"}
+          {"target"=>"H1", "serialized_content"=>"{\"blocks\":[{\"key\":\"f1qmb\",\"text\":\"final tour step\",\"type\":\"unstyled\",\"depth\":0,\"inlineStyleRanges\":[],\"entityRanges\":[],\"data\":{}}],\"entityMap\":{}}"}
           ], 
         "hidden_constraints"=>["skip", "finish"]
         },
@@ -669,6 +674,8 @@ RSpec.describe "Widget management", :type => :system do
     
         Capybara.within_frame(messenger_iframe){ 
           page.click_link("Start a conversation")
+          page.find(:xpath, "/html/body/div/div/div/div[2]/div/div/div/div[2]/div/div/textarea").set("oeoe \n")
+          expect(page).to have_content("oeoe")
           expect(page).to have_content("will reply as soon as they can.")
         }
 
@@ -702,11 +709,19 @@ RSpec.describe "Widget management", :type => :system do
         sleep(2)
         # now 2nd iframe appears on top
         messenger_iframe = all("iframe").first
-    
+
         Capybara.within_frame(messenger_iframe){ 
           page.click_link("Start a conversation")
-          #expect(page).to have_content("enter your email")
+          page.find(:xpath, "/html/body/div/div/div/div[2]/div/div/div/div[2]/div/div/textarea").set("oeoe \n")
+          expect(page).to have_content("oeoe")
+          expect(page).to have_content("Are you an existing customer ?")
+          page.click_button("I'm existing customer")
+          expect(page).to have_content("enter your email")
+          fill_in('email', :with => 'John@apple.cl')
+          page.click_button("enter your email")
+          expect(page).to have_content("thank you")
         }
+        
       end
 
       it "not shows email requirement" do
