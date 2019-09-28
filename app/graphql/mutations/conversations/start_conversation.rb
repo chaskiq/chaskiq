@@ -30,27 +30,8 @@ module Mutations
             text_content: message["serialized"]
           }
         }
-
-        if message["volatile"].present? && message["volatile"]["trigger"]
-          trigger_id = message["volatile"]["trigger"]["id"]
-          step = message["volatile"]["currentStep"]["step_uid"]
-          data = {
-            "trigger"=> trigger_id, 
-            "step"=> step
-          }
-          
-          trigger, path = ActionTriggerFactory.find_task(data: data, app: app, app_user: app_user)
-
-          next_index = path["steps"].index{|o| o["step_uid"] == data["step"]} + 1
-          next_step = path["steps"][next_index]
-
-          if path["follow_actions"].present?
-            assignee = path["follow_actions"].find{|o| o["name"] == "assign"}
-            options.merge!({assignee: app.agents.find(assignee["value"])}) if assignee.present?
-          end
-        end
         
-        conversation = app.start_conversation(options) 
+        conversation = app.start_conversation(options)
         
         {
           conversation: conversation
