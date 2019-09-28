@@ -66,7 +66,7 @@ class MessengerEventsChannel < ApplicationCable::Channel
 
     return if next_step.blank?
 
-    author = @app.agents.first
+    author = @app.agent_bots.first
 
     m = next_step["messages"].first
     
@@ -106,7 +106,7 @@ class MessengerEventsChannel < ApplicationCable::Channel
     
     next_step = path["steps"].find{|o| o["step_uid"] == data["step"]}
  
-    author = @app.agents.first
+    author = @app.agent_bots.first
 
     m = next_step["messages"].first
 
