@@ -51,10 +51,13 @@ class App < ApplicationRecord
   has_many :assignment_rules
 
   before_create :set_defaults
+  after_create :create_agent_bot
 
   accepts_nested_attributes_for :article_settings
 
-
+  def agent_bots
+    self.agents.where("bot =?", true)
+  end
 
   def encryption_enabled?
     self.encryption_key.present?
@@ -153,7 +156,7 @@ class App < ApplicationRecord
     ap
   end
 
-  def add_agent(attrs)
+  def add_agent(attrs, bot: nil)
 
     email = attrs.delete(:email)
     user = Agent.find_or_initialize_by(email: email)
@@ -163,16 +166,21 @@ class App < ApplicationRecord
       user.save
     end
 
-    role = roles.find_or_initialize_by(agent_id: user.id)
+    role = roles.find_or_initialize_by(agent_id: user.id, role: role)
     data = attrs.deep_merge!(properties: user.properties)
     
     user.assign_attributes(data)
+    user.bot = bot
     user.save
 
     #role.last_visited_at = Time.now
     role.save
     role
 
+  end
+
+  def add_bot_agent(attrs)
+    add_agent(attrs, bot: true)
   end
 
   def add_admin(user)
@@ -264,5 +272,9 @@ private
       h[f["day"].to_sym] = (h[f["day"].to_sym] || {}).merge!({f["from"]=>f["to"]} )
     end
     return h
+  end
+
+  def create_agent_bot
+    self.add_bot_agent({email: "bot@chaskiq", name: "chaskiq bot"})
   end
 end
