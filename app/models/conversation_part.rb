@@ -82,16 +82,16 @@ class ConversationPart < ApplicationRecord
   end
 
   def assign_and_notify
+    return self.from_bot?
     assign_agent_by_rules unless conversation.assignee.present?
     enqueue_email_notification unless send_constraints?
   end
 
   def enqueue_email_notification
-
     # not send email it it's from user auto message campaign
     EmailChatNotifierJob
     .set(wait_until: 20.seconds.from_now)
-    .perform_later(self.id)
+    .perform_later(self.id) unless self.from_bot?
   end
 
   def send_constraints?
