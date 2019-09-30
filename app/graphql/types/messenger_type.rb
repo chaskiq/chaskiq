@@ -2,7 +2,6 @@ module Types
   class MessengerType < Types::BaseObject
     field :app, Types::AppType, null: true # TODO: danger!
     field :user, Types::JsonType, null: true #Types::AppUserType, null: true
-
     def app
       object
     end

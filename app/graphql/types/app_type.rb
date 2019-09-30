@@ -27,11 +27,18 @@ module Types
     field :translations, [Types::JsonType], null: true
     field :available_languages, [Types::JsonType], null: true
 
+    field :tasks_settings, Types::JsonType, null: true
+
+    def tasks_settings
+      context[:get_app_user].call.is_a?(AppUser) ? 
+      object.user_tasks_settings : object.lead_tasks_settings
+    end
+
     def available_languages
       object.translations.map(&:locale)
     end
     
-    field :conversations, Types::PaginatedConversationsType, null:true do
+    field :conversations, Types::PaginatedConversationsType, null: true do
       argument :page, Integer, required: false, default_value: 1
       argument :per, Integer, required: false, default_value: 20
       argument :sort, String, required: false

@@ -1,4 +1,5 @@
 require "rails_helper"
+require 'sidekiq/testing' 
 
 RSpec.describe "Widget management", :type => :system do
 
@@ -53,7 +54,6 @@ RSpec.describe "Widget management", :type => :system do
   end
 
   before do
-
     if ENV["CI"].present? 
       #Selenium::WebDriver::Chrome::Service.driver_path = ENV.fetch('GOOGLE_CHROME_BIN', nil)
       #options = Selenium::WebDriver::Chrome::Options.new
@@ -76,6 +76,11 @@ RSpec.describe "Widget management", :type => :system do
 
     driven_by :selenium, using: :chrome, screen_size: [1400, 1400],
      options: options_for_selemium
+
+
+    ActiveJob::Base.queue_adapter = :test
+    ActiveJob::Base.queue_adapter.perform_enqueued_at_jobs = true
+    #Rails.application.config.active_job.queue_adapter = :test
   end
 
   context "translations" do
@@ -647,47 +652,53 @@ RSpec.describe "Widget management", :type => :system do
 
       it "shows reply time" do
 
-        app.update(
-          timezone: "UTC", 
-          lead_tasks_settings: {
-            delay: true, 
-            routing: "assign", 
-            email_requirement: "email_only", 
-            assignee: agent_role.agent, 
-            share_typical_time: true
-          },
-          team_schedule: [
-          { day: "tue", from: "01:00" , to: '01:30' },
-        ])
+        #Sidekiq::Testing.inline! do
 
-        visit "/tester/#{app.key}?sessionless=true"
+          app.update(
+            timezone: "UTC", 
+            lead_tasks_settings: {
+              delay: false, 
+              routing: "assign", 
+              email_requirement: "email_only", 
+              assignee: agent_role.agent, 
+              share_typical_time: true
+            },
+            team_schedule: [
+            { day: "tue", from: "01:00" , to: '01:30' },
+          ])
 
-        prime_iframe = all("iframe").first
+          visit "/tester/#{app.key}?sessionless=true"
 
-        Capybara.within_frame(prime_iframe){ 
-          page.find("#chaskiq-prime").click 
-        }
-    
-        sleep(2)
-        # now 2nd iframe appears on top
-        messenger_iframe = all("iframe").first
-    
-        Capybara.within_frame(messenger_iframe){ 
-          page.click_link("Start a conversation")
-          page.find(:xpath, "/html/body/div/div/div/div[2]/div/div/div/div[2]/div/div/textarea").set("oeoe \n")
-          expect(page).to have_content("oeoe")
-          expect(page).to have_content("will reply as soon as they can.")
-        }
+          prime_iframe = all("iframe").first
+
+          Capybara.within_frame(prime_iframe){ 
+            page.find("#chaskiq-prime").click 
+          }
+      
+          sleep(2)
+          # now 2nd iframe appears on top
+          messenger_iframe = all("iframe").first
+      
+          Capybara.within_frame(messenger_iframe){ 
+            page.click_link("Start a conversation")
+            page.find(:xpath, "/html/body/div/div/div/div[2]/div/div/div/div[2]/div/div/textarea").set("oeoe \n")
+            expect(page).to have_content("oeoe")
+            expect(page).to have_content("will reply as soon as they can.")
+          }
+
+        #end
 
       end
 
 
       it "shows email requirement" do
 
+        Sidekiq::Testing.inline!
+
         app.update(
           timezone: "UTC", 
           lead_tasks_settings: {
-            delay: true, 
+            delay: false, 
             routing: "assign", 
             email_requirement: "email_only", 
             assignee: agent_role.agent.id, 
@@ -725,11 +736,12 @@ RSpec.describe "Widget management", :type => :system do
       end
 
       it "not shows email requirement" do
+        Sidekiq::Testing.inline!
 
         app.update(
           timezone: "UTC", 
           lead_tasks_settings: {
-            delay: true, 
+            delay: false, 
             routing: "assign", 
             email_requirement: "email_only", 
             assignee: agent_role.agent, 
