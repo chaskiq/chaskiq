@@ -38,7 +38,7 @@ module Types
       object.translations.map(&:locale)
     end
     
-    field :conversations, Types::PaginatedConversationsType, null:true do
+    field :conversations, Types::PaginatedConversationsType, null: true do
       argument :page, Integer, required: false, default_value: 1
       argument :per, Integer, required: false, default_value: 20
       argument :sort, String, required: false

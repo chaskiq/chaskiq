@@ -140,33 +140,22 @@ class MessengerEventsChannel < ApplicationCable::Channel
     
   end
 
-=begin
-  def received_trigger_step(data)
+  def request_trigger(data)
 
-    trigger, path = ActionTriggerFactory.find_task(data: data, app: @app,app_user: @app_user )
+    #AppUserTriggerJob
+    #.set(wait_until: @app_user.delay_for_trigger)
+    #.perform_later({
 
-    next_index = path["steps"].index{|o| o["step_uid"] == data["step"]} + 1
-    next_step = path["steps"][next_index]
- 
-    key = "#{@app.key}-#{@app_user.session_id}"
-
-    if data["submit"].present?
-      data_submit(data["submit"])
-    end
-
-    conversation = data["conversation"]
-
-    MessengerEventsChannel.broadcast_to(key, {
-      type: "triggers:receive", 
-      data: {
-        step: next_step, 
-        trigger: trigger,
-        conversation: conversation
+    AppUserTriggerJob
+    .set(wait_until: @app_user.delay_for_trigger)
+    .perform_later({
+        app_key: @app.key, 
+        user_id: @app_user.id, 
+        conversation: data["conversation"],
+        trigger_id: data["trigger"]
       }
-    }.as_json) if next_step.present?
-    
+    )
   end
-=end
 
   def track_open(data)
     @app_user.track_open(campaign_id: data["campaign_id"] )
@@ -188,15 +177,4 @@ class MessengerEventsChannel < ApplicationCable::Channel
     @app_user.track_skip(campaign_id: data["campaign_id"] )
   end
 
-  def request_trigger(data)
-    AppUserTriggerJob
-    .set(wait_until: 20.seconds.from_now)
-    .perform_later({
-        app_key: @app.key, 
-        user_id: @app_user.id, 
-        conversation: data["conversation"],
-        trigger_id: data["trigger"]
-      }
-    )
-  end
 end
