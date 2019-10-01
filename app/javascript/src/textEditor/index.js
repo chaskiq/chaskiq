@@ -302,43 +302,49 @@ export default class ArticleEditor extends Component {
 
 
   widgetsConfig = () => {
-    return [CodeBlockConfig(),
-    ImageBlockConfig({
-      options: {
-        //upload_url: `/attachments.json?id=${this.props.data.id}&app_id=${this.props.app.key}`,
-        upload_handler: this.uploadHandler,
-        image_caption_placeholder: "type a caption (optional)"
-      }
-    }),
-    DividerBlockConfig(),
-    EmbedBlockConfig({
-      breakOnContinuous: true,
-      editable: true,
-      options: {
-        placeholder: "put an external links",
-        endpoint: `/oembed?url=`
-      }
-    }),
-    VideoBlockConfig({
-      breakOnContinuous: true,
-      options: {
-        placeholder: "put embed link ie: youtube, vimeo, spotify, codepen, gist, etc..",
-        endpoint: `/oembed?url=`,
-        caption: 'optional caption'
-      }
-    }),
-    PlaceholderBlockConfig(),
-    VideoRecorderBlockConfig({
-      options: {
-        seconds_to_record: 20000,
-        upload_handler: this.uploadHandler,
-        //upload_url: `/attachments.json?id=${this.props.data.id}&app_id=${this.props.app.key}`,
-      }
-    }),
-    GiphyBlockConfig(),
-    //SpeechToTextBlockConfig(),
-    //ButtonBlockConfig()
+    let widgets = [
+      CodeBlockConfig(),
+      ImageBlockConfig({
+        options: {
+          //upload_url: `/attachments.json?id=${this.props.data.id}&app_id=${this.props.app.key}`,
+          upload_handler: this.uploadHandler,
+          image_caption_placeholder: "type a caption (optional)"
+        }
+      }),
+      DividerBlockConfig(),
+      EmbedBlockConfig({
+        breakOnContinuous: true,
+        editable: true,
+        options: {
+          placeholder: "put an external links",
+          endpoint: `/oembed?url=`
+        }
+      }),
+      VideoBlockConfig({
+        breakOnContinuous: true,
+        options: {
+          placeholder: "put embed link ie: youtube, vimeo, spotify, codepen, gist, etc..",
+          endpoint: `/oembed?url=`,
+          caption: 'optional caption'
+        }
+      }),
+      PlaceholderBlockConfig(),
+      VideoRecorderBlockConfig({
+        options: {
+          seconds_to_record: 20000,
+          upload_handler: this.uploadHandler,
+          //upload_url: `/attachments.json?id=${this.props.data.id}&app_id=${this.props.app.key}`,
+        }
+      }),
+      GiphyBlockConfig(),
+      //SpeechToTextBlockConfig(),
+      //ButtonBlockConfig()
     ]
+
+    if(this.props.appendWidgets)
+      widgets = widgets.concat(this.props.appendWidgets)
+
+    return widgets
   
   }
 

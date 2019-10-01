@@ -117,6 +117,7 @@ class Messenger extends Component {
       isMinimized: false,
       isMobile: false,
       tourManagerEnabled: false,
+      currentAppBlock: null,
       ev: null,
       header:{
         opacity: 1,
@@ -866,6 +867,13 @@ class Messenger extends Component {
     }
   }
 
+  displayAppBlockFrame = (o)=>{
+    this.setState({
+      display_mode: "appBlockAppPackage",
+      currentAppBlock: o
+    })
+  }
+
   render() {
     return (
 
@@ -1000,6 +1008,7 @@ class Messenger extends Component {
                               submitAppUserData={this.submitAppUserData}
                               updateHeader={this.updateHeader}
                               transition={this.state.transition}
+                              displayAppBlockFrame={this.displayAppBlockFrame}
                               t={this.props.t}
                             /> 
                         } 
@@ -1020,6 +1029,13 @@ class Messenger extends Component {
                               transition={this.state.transition}
                               t={this.props.t}
                             />
+                        }
+
+                        {
+                          this.state.display_mode === "appBlockAppPackage" &&
+                          <AppBlockPackageFrame 
+                            block={this.state.currentAppBlock} 
+                          />
                         }
 
                       </Body> 
@@ -1087,6 +1103,20 @@ class Messenger extends Component {
         
       </ThemeProvider>
     );
+  }
+}
+
+class AppBlockPackageFrame extends Component {
+  render(){
+    return <div>
+              <iframe src={this.props.block.frame.src} 
+                style={{
+                  width: '100%',
+                  height: '100vh',
+                  border: '0px'
+                }} 
+              />
+           </div>
   }
 }
 
@@ -1184,7 +1214,9 @@ class Conversation extends Component {
               <ThemeProvider 
                 theme={ themeforMessage }>
                 <DanteContainer>
-                  <DraftRenderer key={i} 
+                  <DraftRenderer 
+                    key={i}
+                    displayAppBlockFrame={this.props.displayAppBlockFrame}
                     raw={JSON.parse(o.message.serializedContent)}
                   />
                 </DanteContainer>
