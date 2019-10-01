@@ -35,212 +35,261 @@ const addBreaklines = (children) => children.map(child => [child, <br />]);
 /**
  * Define the renderers
  */
-const renderers = {
-  /**
-   * Those callbacks will be called recursively to render a nested structure
-   */
-  inline: {
-    // The key passed here is just an index based on rendering order inside a block
-    BOLD: (children, { key }) => <strong key={key}>{children}</strong>,
-    ITALIC: (children, { key }) => <em key={key}>{children}</em>,
-    UNDERLINE: (children, { key }) => <u key={key}>{children}</u>,
-    //CODE: (children, { key }) => <span key={key} dangerouslySetInnerHTML={handlePrismRenderer(children)} />,
-  },
-  /**
-   * Blocks receive children and depth
-   * Note that children are an array of blocks with same styling,
-   */
-  blocks: {
+function renderers(props) {
 
-    
-    unstyled: (children, { keys }) => {
-      return children.map(
-        (o, i)=> ( <p key={keys[i]} className="graf graf--p">{o}</p>) 
-      )
+  return {
+    /**
+     * Those callbacks will be called recursively to render a nested structure
+     */
+    inline: {
+      // The key passed here is just an index based on rendering order inside a block
+      BOLD: (children, { key }) => <strong key={key}>{children}</strong>,
+      ITALIC: (children, { key }) => <em key={key}>{children}</em>,
+      UNDERLINE: (children, { key }) => <u key={key}>{children}</u>,
+      //CODE: (children, { key }) => <span key={key} dangerouslySetInnerHTML={handlePrismRenderer(children)} />,
     },
-    blockquote: (children, { keys }) => <blockquote 
-                                          key={keys[0]} 
-                                          className="graf graf--blockquote">
-                                {addBreaklines(children)}
-                              </blockquote>,
-    'header-one': (children, { keys }) => <h1 key={keys[0]} className="graf graf--h2">{children}</h1>,
-    'header-two': (children, { keys }) => <h2 key={keys[0]} className="graf graf--h3">{children}</h2>,
-    // You can also access the original keys of the blocks
-    'code-block': (children, { keys, data }) => {
-      return <pre className="graf graf--code" 
-                  //style={styles.codeBlock} 
-                  key={keys[0]} 
-                  dangerouslySetInnerHTML={handlePrismRenderer(data.syntax, children)}>
-                  {/*addBreaklines(children)*/}
-            </pre>},
-    // or depth for nested lists
-    'unordered-list-item': (children, { depth, keys }) => <ul key={keys[keys.length - 1]} className={`ul-level-${depth}`}>
-                                                            {children.map(child => <li className="graf graf--insertunorderedlist">
-                                                              {child}
-                                                            </li>)}
-                                                          </ul>,
-    'ordered-list-item': (children, { depth, keys }) => <ol key={keys.join('|')} className={`ol-level-${depth}`}>{
-      children.map((child, index) => <li key={keys[index]} className="graf graf--insertorderedlist">
-        {child}
-      </li>)
-    }</ol>,
+    /**
+     * Blocks receive children and depth
+     * Note that children are an array of blocks with same styling,
+     */
+    blocks: {
 
-    'image': (children, {keys, data}) => {
-      const data2 = data[0]
-      const {url, aspect_ratio, caption} = data2
+      
+      unstyled: (children, { keys }) => {
+        return children.map(
+          (o, i)=> ( <p key={keys[i]} className="graf graf--p">{o}</p>) 
+        )
+      },
+      blockquote: (children, { keys }) => <blockquote 
+                                            key={keys[0]} 
+                                            className="graf graf--blockquote">
+                                  {addBreaklines(children)}
+                                </blockquote>,
+      'header-one': (children, { keys }) => <h1 key={keys[0]} className="graf graf--h2">{children}</h1>,
+      'header-two': (children, { keys }) => <h2 key={keys[0]} className="graf graf--h3">{children}</h2>,
+      // You can also access the original keys of the blocks
+      'code-block': (children, { keys, data }) => {
+        return <pre className="graf graf--code" 
+                    //style={styles.codeBlock} 
+                    key={keys[0]} 
+                    dangerouslySetInnerHTML={handlePrismRenderer(data.syntax, children)}>
+                    {/*addBreaklines(children)*/}
+              </pre>},
+      // or depth for nested lists
+      'unordered-list-item': (children, { depth, keys }) => <ul key={keys[keys.length - 1]} className={`ul-level-${depth}`}>
+                                                              {children.map(child => <li className="graf graf--insertunorderedlist">
+                                                                {child}
+                                                              </li>)}
+                                                            </ul>,
+      'ordered-list-item': (children, { depth, keys }) => <ol key={keys.join('|')} className={`ol-level-${depth}`}>{
+        children.map((child, index) => <li key={keys[index]} className="graf graf--insertorderedlist">
+          {child}
+        </li>)
+      }</ol>,
 
- 
-      if(!aspect_ratio){
-        var height = "100%"
-        var width  = "100%"
-        var ratio  = "100%"
-      }else{
-        var { height, width, ratio} = aspect_ratio 
-      }
+      'image': (children, {keys, data}) => {
+        const data2 = data[0]
+        const {url, aspect_ratio, caption} = data2
 
-      return  <figure  key={keys[0]} className="graf graf--figure">
-                  <div>
-                    <div className="aspectRatioPlaceholder is-locked" 
-                      //style={{maxWidth: '1000px', maxHeight: `${height}px`}}
-                      >
-                      <div className="aspect-ratio-fill" 
-                          style={{paddingBottom: `${ratio}%`}}>
+  
+        if(!aspect_ratio){
+          var height = "100%"
+          var width  = "100%"
+          var ratio  = "100%"
+        }else{
+          var { height, width, ratio} = aspect_ratio 
+        }
+
+        return  <figure  key={keys[0]} className="graf graf--figure">
+                    <div>
+                      <div className="aspectRatioPlaceholder is-locked" 
+                        //style={{maxWidth: '1000px', maxHeight: `${height}px`}}
+                        >
+                        <div className="aspect-ratio-fill" 
+                            style={{paddingBottom: `${ratio}%`}}>
+                        </div>
+
+                        <img src={url}
+                          className="graf-image" 
+                          width={width}
+                          height={height}
+                          contentEditable="false"/>
                       </div>
 
-                      <img src={url}
-                        className="graf-image" 
-                        width={width}
-                        height={height}
-                        contentEditable="false"/>
                     </div>
 
-                  </div>
 
+                    {
+                      caption && 
+                      caption != "type a caption (optional)"
+                      && 
+
+                      <figcaption className="imageCaption">
+                        <span>
+                          <span data-text="true">{children}</span>
+                        </span>
+                      </figcaption>
+                    }
+
+                </figure>
+      },
+      embed: (children, {keys, data})=>{
+
+        const {provisory_text, type, embed_data } = data[0]
+        const {images, title, media, provider_url, description, url } = embed_data
+
+        return <div  key={keys[0]} className="graf graf--mixtapeEmbed">
+                <span>
+                  {
+                    images[0].url ?
+                      <a target="_blank" className="js-mixtapeImage mixtapeImage"
+                        href={provisory_text}
+                        style={{ backgroundImage: `url(${images[0].url})` }}>
+                      </a> : null 
+                  }
+                  <a className="markup--anchor markup--mixtapeEmbed-anchor"
+                    target="_blank"
+                    href={provisory_text}>
+                    <strong className="markup--strong markup--mixtapeEmbed-strong">
+                      {title}
+                    </strong>
+                    <em className="markup--em markup--mixtapeEmbed-em">
+                      {description}
+                    </em>
+                  </a>
+                  {provider_url}
+                </span>
+              </div>
+
+      },
+      video: (children, {keys, data})=>{
+
+        const {provisory_text, type, embed_data } = data[0]
+        const {html} = embed_data
+        
+        return <figure  key={keys[0]} className="graf--figure graf--iframe graf--first" tabindex="0">
+                  <div className="iframeContainer" dangerouslySetInnerHTML={
+                            { __html: `${html}` }
+                          }/>
 
                   {
-                    caption && 
-                    caption != "type a caption (optional)"
+                    provisory_text && 
+                    provisory_text === "type a caption (optional)"
                     && 
-
                     <figcaption className="imageCaption">
-                      <span>
-                        <span data-text="true">{children}</span>
-                      </span>
-                    </figcaption>
+                      <div className="public-DraftStyleDefault-block public-DraftStyleDefault-ltr">
+                        <span>
+                        <span>
+                        {provisory_text}
+                        </span>
+                        </span>
+                      </div>
+                    </figcaption> 
                   }
-
               </figure>
-    },
-    embed: (children, {keys, data})=>{
+      },
+      'recorded-video': (children, {keys, data})=>{
+        const {url, text} = data[0]
 
-      const {provisory_text, type, embed_data } = data[0]
-      const {images, title, media, provider_url, description, url } = embed_data
-
-      return <div  key={keys[0]} className="graf graf--mixtapeEmbed">
-              <span>
-                {
-                  images[0].url ?
-                    <a target="_blank" className="js-mixtapeImage mixtapeImage"
-                      href={provisory_text}
-                      style={{ backgroundImage: `url(${images[0].url})` }}>
-                    </a> : null 
-                }
-                <a className="markup--anchor markup--mixtapeEmbed-anchor"
-                  target="_blank"
-                  href={provisory_text}>
-                  <strong className="markup--strong markup--mixtapeEmbed-strong">
-                    {title}
-                  </strong>
-                  <em className="markup--em markup--mixtapeEmbed-em">
-                    {description}
-                  </em>
-                </a>
-                {provider_url}
-              </span>
-            </div>
-
-    },
-    video: (children, {keys, data})=>{
-
-      const {provisory_text, type, embed_data } = data[0]
-      const {html} = embed_data
-      
-      return <figure  key={keys[0]} className="graf--figure graf--iframe graf--first" tabindex="0">
-                <div className="iframeContainer" dangerouslySetInnerHTML={
-                          { __html: `${html}` }
-                        }/>
-
-                {
-                  provisory_text && 
-                  provisory_text === "type a caption (optional)"
-                  && 
-                  <figcaption className="imageCaption">
-                    <div className="public-DraftStyleDefault-block public-DraftStyleDefault-ltr">
-                      <span>
-                      <span>
-                      {provisory_text}
-                      </span>
-                      </span>
-                    </div>
-                  </figcaption> 
-                }
-            </figure>
-    },
-    'recorded-video': (children, {keys, data})=>{
-      const {url, text} = data[0]
-
-      return <figure  key={keys[0]} className="graf--figure graf--iframe graf--first" 
-               tabindex="0">
-              <div className="iframeContainer">
-                <video 
-                  autoplay={false} 
-                  style={{width:"100%" }}
-                  controls={true} 
-                  src={url}>
-                </video>
-              </div>
-              <figcaption className="imageCaption">
-                <div className="public-DraftStyleDefault-block public-DraftStyleDefault-ltr">
-                  <span>
-                  {text}
-                  </span>
+        return <figure  key={keys[0]} className="graf--figure graf--iframe graf--first" 
+                tabindex="0">
+                <div className="iframeContainer">
+                  <video 
+                    autoplay={false} 
+                    style={{width:"100%" }}
+                    controls={true} 
+                    src={url}>
+                  </video>
                 </div>
-              </figcaption>
-            </figure>
+                <figcaption className="imageCaption">
+                  <div className="public-DraftStyleDefault-block public-DraftStyleDefault-ltr">
+                    <span>
+                    {text}
+                    </span>
+                  </div>
+                </figcaption>
+              </figure>
+      },
+      AppPackage: (children, { keys, data }) => {
+        return <AppPackagePublicBlock data={data[0]} 
+                displayAppBlockFrame={props.displayAppBlockFrame}
+              />
+      }
+      // If your blocks use meta data it can also be accessed like keys
+      //atomic: (children, { keys, data }) => children.map((child, i) => <Atomic key={keys[i]} {...data[i]} />),
     },
-    // If your blocks use meta data it can also be accessed like keys
-    //atomic: (children, { keys, data }) => children.map((child, i) => <Atomic key={keys[i]} {...data[i]} />),
-  },
-  /**
-   * Entities receive children and the entity data
-   */
-  entities: {
-    // key is the entity key value from raw
-    LINK: (children, data, { key }) => 
-    <a key={key} href={data.url} target="_blank">
-      {children}
-    </a>,
-  },
-  /**
-   * Array of decorators,
-   * Entities receive children and the entity data,
-   * inspired by https://facebook.github.io/draft-js/docs/advanced-topics-decorators.html
-   * it's also possible to pass a custom Decorator class that matches the [DraftDecoratorType](https://github.com/facebook/draft-js/blob/master/src/model/decorators/DraftDecoratorType.js)
-   */
-  /*decorators: [
-    {
-      // by default linkStrategy receives a ContentBlock stub (more info under Creating the ContentBlock)
-      // strategy only receives first two arguments, contentState is yet not provided
-      strategy: linkStrategy,
-      // component - a callback as with other renderers
-      // decoratedText a plain string matched by the strategy
-      // if your decorator depends on draft-js contentState you need to provide convertFromRaw in redraft options
-      component: ({ children, decoratedText }) => <a href={decoratedText}>{children}</a>,
+    /**
+     * Entities receive children and the entity data
+     */
+    entities: {
+      // key is the entity key value from raw
+      LINK: (children, data, { key }) => 
+      <a key={key} href={data.url} target="_blank">
+        {children}
+      </a>,
     },
-    new CustomDecorator(someOptions),
-  ],*/
+    /**
+     * Array of decorators,
+     * Entities receive children and the entity data,
+     * inspired by https://facebook.github.io/draft-js/docs/advanced-topics-decorators.html
+     * it's also possible to pass a custom Decorator class that matches the [DraftDecoratorType](https://github.com/facebook/draft-js/blob/master/src/model/decorators/DraftDecoratorType.js)
+     */
+    /*decorators: [
+      {
+        // by default linkStrategy receives a ContentBlock stub (more info under Creating the ContentBlock)
+        // strategy only receives first two arguments, contentState is yet not provided
+        strategy: linkStrategy,
+        // component - a callback as with other renderers
+        // decoratedText a plain string matched by the strategy
+        // if your decorator depends on draft-js contentState you need to provide convertFromRaw in redraft options
+        component: ({ children, decoratedText }) => <a href={decoratedText}>{children}</a>,
+      },
+      new CustomDecorator(someOptions),
+    ],*/
+  }
 }
 
+
+class AppPackagePublicBlock extends Component {
+
+  addScript =(src)=>{
+    const script = document.createElement("script");
+    script.src = src;
+    script.async = true;
+    document.body.appendChild(script);
+  }
+
+  componentDidMount(){
+    // this.providers.map((o)=>{
+    //this.props.data.provider.scripts && this.props.data.provider.scripts.map((s)=> this.addScript(s))
+  }
+
+  renderItem = (item)=>{
+    const type = item.frame.type
+    return <button onClick={()=>this.props.displayAppBlockFrame(item)}>
+            {item.name}
+          </button>
+    /*switch (type) {
+      case "div":
+        return <div className={item.frame.class}
+                data-url={item.frame.src} 
+                style={item.frame.style}>
+              </div>
+      case "iframe":
+        return  <iframe 
+                  style={item.style}
+                  src={item.frame.src}>
+                </iframe>
+    
+      default:
+        break;
+    }*/
+  }
+
+  render(){
+    return this.renderItem(this.props.data.provider) 
+  }
+}
 
 
 export default class Renderer extends Component {
@@ -258,7 +307,7 @@ export default class Renderer extends Component {
     if (!raw) {
       return this.renderWarning();
     }
-    const rendered = redraft(raw, renderers);
+    const rendered = redraft(raw, renderers(this.props));
     // redraft returns a null if there's nothing to render
     if (!rendered) {
       return this.renderWarning();

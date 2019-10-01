@@ -87,6 +87,7 @@ export default class ConversationEditor extends Component {
                   <NewEditor
                     submitData={(formats)=> this.submitData(formats, opts)}
                     {...this.props}
+                    
                   /> : null
               }
 

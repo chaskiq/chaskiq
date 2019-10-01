@@ -43,6 +43,7 @@ import styled from '@emotion/styled'
 
 import { makeStyles } from '@material-ui/core/styles';
 
+import {AppPackageBlockConfig} from '../../textEditor/blocks/appPackage'
 
 const config = {
   endpoint: ""
@@ -315,6 +316,10 @@ export default class ChatEditor extends Component {
                     serializedContent={serializedContent }
                     loading={this.props.loading}
                     setDisabled={this.setDisabled}
+                    appendWidgets={
+                      [AppPackageBlockConfig()]
+                    }
+
                     data={
                         {
                           serialized_content: serializedContent
