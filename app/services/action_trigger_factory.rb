@@ -29,7 +29,7 @@ class ActionTriggerFactory
               "kind":"agent"
             },
             "serialized_content":"{\"blocks\":[{\"key\":\"9oe8n\",\"text\":\"#{text}\",\"type\":\"unstyled\",\"depth\":0,\"inlineStyleRanges\":[],\"entityRanges\":[],\"data\":{}}],\"entityMap\":{}}",
-            "html_content":"hola"
+            "html_content": text
           }
         ]
       }
