@@ -1,6 +1,4 @@
 import React, {Component, createContext, Fragment} from 'react'
-import axios from "axios"
-import actioncable from "actioncable"
 import {
   Route,
   Link,
