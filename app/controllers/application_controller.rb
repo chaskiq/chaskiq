@@ -38,6 +38,9 @@ class ApplicationController < ActionController::Base
     } ,:status => 401
   end
 
+  def package_iframe
+    render "app_packages/#{params[:package]}/show", layout: false
+  end
 
   def render_empty
     render html: '', :layout => 'application'

@@ -210,11 +210,13 @@ function renderers(props) {
                 </figcaption>
               </figure>
       },
-      AppPackage: (children, { keys, data }) => {
-        return <AppPackagePublicBlock data={data[0]} 
-                displayAppBlockFrame={props.displayAppBlockFrame}
+      /*AppPackage: (children, { keys, data }) => {
+        return <AppPackagePublicBlock 
+                  data={data[0]} 
+                  message={props.message}
+                  displayAppBlockFrame={props.displayAppBlockFrame}
               />
-      }
+      }*/
       // If your blocks use meta data it can also be accessed like keys
       //atomic: (children, { keys, data }) => children.map((child, i) => <Atomic key={keys[i]} {...data[i]} />),
     },
@@ -246,48 +248,6 @@ function renderers(props) {
       },
       new CustomDecorator(someOptions),
     ],*/
-  }
-}
-
-
-class AppPackagePublicBlock extends Component {
-
-  addScript =(src)=>{
-    const script = document.createElement("script");
-    script.src = src;
-    script.async = true;
-    document.body.appendChild(script);
-  }
-
-  componentDidMount(){
-    // this.providers.map((o)=>{
-    //this.props.data.provider.scripts && this.props.data.provider.scripts.map((s)=> this.addScript(s))
-  }
-
-  renderItem = (item)=>{
-    const type = item.frame.type
-    return <button onClick={()=>this.props.displayAppBlockFrame(item)}>
-            {item.name}
-          </button>
-    /*switch (type) {
-      case "div":
-        return <div className={item.frame.class}
-                data-url={item.frame.src} 
-                style={item.frame.style}>
-              </div>
-      case "iframe":
-        return  <iframe 
-                  style={item.style}
-                  src={item.frame.src}>
-                </iframe>
-    
-      default:
-        break;
-    }*/
-  }
-
-  render(){
-    return this.renderItem(this.props.data.provider) 
   }
 }
 

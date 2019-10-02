@@ -44,6 +44,7 @@ import styled from '@emotion/styled'
 import { makeStyles } from '@material-ui/core/styles';
 
 import {AppPackageBlockConfig} from '../../textEditor/blocks/appPackage'
+import AppPackagePanel from './appPackagePanel'
 
 const config = {
   endpoint: ""
@@ -210,6 +211,7 @@ export default class ChatEditor extends Component {
       serialized: null,
       html: null,
       statusButton: "inprogress",
+      openPackagePanel: false,
       disabled: true
     }
   }
@@ -297,16 +299,32 @@ export default class ChatEditor extends Component {
     this.state.html==="<p class=\"graf graf--p\"></p>" || this.state.disabled
   }
 
+  handleAppFunc  = ()=>{
+    console.log(this.props)
+    this.setState({openPackagePanel: true})
+  }
+
   render() {
     // !this.state.loading &&
     /*if (this.state.loading) {
       return <Loader />
     }*/
 
-    const serializedContent = this.state.serialized ? this.state.serialized : null
+    const serializedContent = this.state.serialized ? 
+    this.state.serialized : null
 
     return <ThemeProvider theme={theme}>
               <EditorContainer>
+
+                {this.state.openPackagePanel && <AppPackagePanel 
+                  open={this.state.openPackagePanel}
+                  close={()=>{
+                    this.setState({openPackagePanel: false})
+                  }}
+
+                  insertComment={this.props.insertAppBlockComment}
+                />}
+
                 <div style={{flexGrow: 3}}>
 
                   <TextEditor theme={theme}
@@ -317,7 +335,9 @@ export default class ChatEditor extends Component {
                     loading={this.props.loading}
                     setDisabled={this.setDisabled}
                     appendWidgets={
-                      [AppPackageBlockConfig()]
+                      [AppPackageBlockConfig({
+                        handleFunc: this.handleAppFunc
+                      })]
                     }
 
                     data={

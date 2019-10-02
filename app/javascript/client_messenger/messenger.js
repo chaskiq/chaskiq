@@ -117,7 +117,7 @@ class Messenger extends Component {
       isMinimized: false,
       isMobile: false,
       tourManagerEnabled: false,
-      currentAppBlock: null,
+      currentAppBlock: {},
       ev: null,
       header:{
         opacity: 1,
@@ -867,10 +867,28 @@ class Messenger extends Component {
     }
   }
 
-  displayAppBlockFrame = (o)=>{
+  displayAppBlockFrame = (message)=>{
     this.setState({
       display_mode: "appBlockAppPackage",
-      currentAppBlock: o
+      currentAppBlock: {
+        message: message
+      }
+    })
+  }
+
+  handleAppPackageEvent = (ev)=>{
+    console.log("data", ev.data)
+    console.log(this.state)
+
+    App.events && App.events.perform('app_package_submit', {
+      conversation_id: this.state.conversation.key,
+      message_id: this.state.currentAppBlock.message.id,
+      data: ev.data
+    })
+
+    this.setState({
+      currentAppBlock: {}, 
+      display_mode: "conversation"
     })
   }
 
@@ -908,140 +926,145 @@ class Messenger extends Component {
                     border: 'none'
                   }}>
 
-                    <SuperFragment>
-                      <Header 
-                        style={{height: this.state.header.height}}
-                        isMobile={this.state.isMobile}>
-                        <HeaderOption 
-                          in={this.state.transition}
-                          >
+                    <FrameBridge 
+                      handleAppPackageEvent={this.handleAppPackageEvent}>
 
-                          { this.state.display_mode != "home" ? 
-                            <LeftIcon 
-                              className="fade-in-right"
-                              onClick={this.displayHome.bind(this)}
-                              ///onClick={this.displayConversationList.bind(this)}
-                              style={{margin: '20px', cursor: 'pointer'}}
-                            /> : null 
-                          }
+                      <SuperFragment>
+                        <Header 
+                          style={{height: this.state.header.height}}
+                          isMobile={this.state.isMobile}>
+                          <HeaderOption 
+                            in={this.state.transition}
+                            >
 
-                          { this.state.display_mode === "conversation" &&
-                            <HeaderTitle in={this.state.transition}>
-                              {this.renderAsignee()}
-                            </HeaderTitle>
-                          }
+                            { this.state.display_mode != "home" ? 
+                              <LeftIcon 
+                                className="fade-in-right"
+                                onClick={this.displayHome.bind(this)}
+                                ///onClick={this.displayConversationList.bind(this)}
+                                style={{margin: '20px', cursor: 'pointer'}}
+                              /> : null 
+                            }
 
-                          { this.state.display_mode === "home" &&
-                            <HeaderTitle style={{
-                              padding: '2em',
-                              opacity: this.state.header.opacity,
-                              transform: `translateY(${this.state.header.translateY}px)`
-                            }}>
-                              <h2>{this.state.appData.greetings}</h2>
-                              <p>{this.state.appData.intro}</p>
-                            </HeaderTitle>
-                          }
+                            { this.state.display_mode === "conversation" &&
+                              <HeaderTitle in={this.state.transition}>
+                                {this.renderAsignee()}
+                              </HeaderTitle>
+                            }
+
+                            { this.state.display_mode === "home" &&
+                              <HeaderTitle style={{
+                                padding: '2em',
+                                opacity: this.state.header.opacity,
+                                transform: `translateY(${this.state.header.translateY}px)`
+                              }}>
+                                <h2>{this.state.appData.greetings}</h2>
+                                <p>{this.state.appData.intro}</p>
+                              </HeaderTitle>
+                            }
 
 
-                          { this.state.display_mode === "conversations" &&
-                            <HeaderTitle in={this.state.transition}>
-                              {this.props.t("conversations")}
-                            </HeaderTitle>
+                            { this.state.display_mode === "conversations" &&
+                              <HeaderTitle in={this.state.transition}>
+                                {this.props.t("conversations")}
+                              </HeaderTitle>
+                            }
+
+                            {
+                              this.state.isMobile ?
+                              <CloseButtonWrapper>
+                                <button onClick={() => this.toggleMessenger()}>
+                                  <CloseIcon style={{ height: '16px', width: '16px'}}/>
+                                </button>
+
+                              </CloseButtonWrapper> : null
+                            }
+                            
+
+                            {/*this.props.app_id*/}
+                          </HeaderOption>
+                        </Header>
+                        <Body>
+
+                          {
+                            this.state.display_mode === "home" && 
+                            <Home 
+                              graphqlClient={this.graphqlClient}
+                              displayNewConversation={this.displayNewConversation}
+                              viewConversations={this.displayConversationList}
+                              updateHeader={this.updateHeader}
+                              transition={this.state.transition}
+                              displayArticle={this.displayArticle}
+                              appData={this.state.appData}
+                              agents={this.state.agents}
+                              {...this.props}
+                              t={this.props.t}
+                            />
                           }
 
                           {
-                            this.state.isMobile ?
-                            <CloseButtonWrapper>
-                              <button onClick={() => this.toggleMessenger()}>
-                                <CloseIcon style={{ height: '16px', width: '16px'}}/>
-                              </button>
-
-                            </CloseButtonWrapper> : null
-                          }
-                          
-
-                          {/*this.props.app_id*/}
-                        </HeaderOption>
-                      </Header>
-                      <Body>
-
-                        {
-                          this.state.display_mode === "home" && 
-                          <Home 
-                            graphqlClient={this.graphqlClient}
-                            displayNewConversation={this.displayNewConversation}
-                            viewConversations={this.displayConversationList}
-                            updateHeader={this.updateHeader}
-                            transition={this.state.transition}
-                            displayArticle={this.displayArticle}
-                            appData={this.state.appData}
-                            agents={this.state.agents}
-                            t={this.props.t}
-                          />
-                        }
-
-                        {
-                          this.state.display_mode === "article" &&
-                          <Article 
-                            graphqlClient={this.graphqlClient}
-                            updateHeader={this.updateHeader}
-                            transition={this.state.transition}
-                            articleSlug={this.state.article.slug}
-                            transition={this.state.transition}
-                            appData={this.state.appData}
-                            t={this.props.t}
-                          />
-                        }
-
-                        {
-                          this.state.display_mode === "conversation" &&
-                          
-                            <Conversation
-                              isMobile={this.state.isMobile}
-                              conversation_messages={this.state.conversation_messages}
-                              conversation={this.state.conversation}
-                              conversation_messagesMeta={this.state.conversation_messagesMeta}
-                              isUserAutoMessage={this.isUserAutoMessage}
-                              insertComment={this.insertComment}
-                              setConversation={this.setconversation}
-                              setOverflow={this.setOverflow}
-                              submitAppUserData={this.submitAppUserData}
+                            this.state.display_mode === "article" &&
+                            <Article 
+                              graphqlClient={this.graphqlClient}
                               updateHeader={this.updateHeader}
                               transition={this.state.transition}
-                              displayAppBlockFrame={this.displayAppBlockFrame}
-                              t={this.props.t}
-                            /> 
-                        } 
-
-                        {
-                          this.state.display_mode === "conversations" && 
-                            <Conversations 
-                              isMobile={this.state.isMobile}
-                              displayConversation={this.displayConversation}
-                              displayNewConversation={this.displayNewConversation}
-                              conversationsMeta={this.state.conversationsMeta}
-                              conversations={this.state.conversations}
-                              getConversations={this.getConversations}
-                              clearAndGetConversations={this.clearAndGetConversations}
-                              email={this.props.email}
-                              app={this.state.appData}
-                              updateHeader={this.updateHeader}
+                              articleSlug={this.state.article.slug}
                               transition={this.state.transition}
+                              appData={this.state.appData}
                               t={this.props.t}
                             />
-                        }
+                          }
 
-                        {
-                          this.state.display_mode === "appBlockAppPackage" &&
-                          <AppBlockPackageFrame 
-                            block={this.state.currentAppBlock} 
-                          />
-                        }
+                          {
+                            this.state.display_mode === "conversation" &&
+                            
+                              <Conversation
+                                isMobile={this.state.isMobile}
+                                conversation_messages={this.state.conversation_messages}
+                                conversation={this.state.conversation}
+                                conversation_messagesMeta={this.state.conversation_messagesMeta}
+                                isUserAutoMessage={this.isUserAutoMessage}
+                                insertComment={this.insertComment}
+                                setConversation={this.setconversation}
+                                setOverflow={this.setOverflow}
+                                submitAppUserData={this.submitAppUserData}
+                                updateHeader={this.updateHeader}
+                                transition={this.state.transition}
+                                displayAppBlockFrame={this.displayAppBlockFrame}
+                                t={this.props.t}
+                              /> 
+                          } 
 
-                      </Body> 
-                      
-                    </SuperFragment>
+                          {
+                            this.state.display_mode === "conversations" && 
+                              <Conversations 
+                                isMobile={this.state.isMobile}
+                                displayConversation={this.displayConversation}
+                                displayNewConversation={this.displayNewConversation}
+                                conversationsMeta={this.state.conversationsMeta}
+                                conversations={this.state.conversations}
+                                getConversations={this.getConversations}
+                                clearAndGetConversations={this.clearAndGetConversations}
+                                email={this.props.email}
+                                app={this.state.appData}
+                                updateHeader={this.updateHeader}
+                                transition={this.state.transition}
+                                t={this.props.t}
+                              />
+                          }
 
+                          {
+                            this.state.display_mode === "appBlockAppPackage" &&
+                            <AppBlockPackageFrame 
+                              domain={this.props.domain}
+                              appBlock={this.state.currentAppBlock}
+                            />
+                          }
+
+                        </Body> 
+                        
+                      </SuperFragment>
+                    </FrameBridge>
                   </StyledFrame>
 
                 </SuperDuper> 
@@ -1106,10 +1129,42 @@ class Messenger extends Component {
   }
 }
 
-class AppBlockPackageFrame extends Component {
+// frame internals grab
+class FrameBridge extends Component {
+  constructor(props){
+    super(props)
+
+    props.window.addEventListener('message', (e)=> {
+      props.handleAppPackageEvent(e)
+    } , false);
+  }
+  
   render(){
+    return <React.Fragment>
+            {this.props.children}
+           </React.Fragment>
+  }
+}
+
+class AppBlockPackageFrame extends Component {
+
+  componentDidMount(){
+  }
+
+  render(){
+    const blocks = toCamelCase(this.props.appBlock.message.message.blocks)
+ 
+    const url = `${this.props.domain}/package_iframe/${blocks.appPackage}`
+    let src = new URL(url)
+    //Object.keys(blocks.values, (k)=>{
+    //  src.searchParams.set(k, encodeURIComponent( blocks.values[k] ))
+    //})
+    //'https://admin.typeform.com/to/cVa5IG');
+
+    src.searchParams.set("url", blocks.values.src )
+    
     return <div>
-              <iframe src={this.props.block.frame.src} 
+              <iframe src={src.href} 
                 style={{
                   width: '100%',
                   height: '100vh',
@@ -1216,7 +1271,7 @@ class Conversation extends Component {
                 <DanteContainer>
                   <DraftRenderer 
                     key={i}
-                    displayAppBlockFrame={this.props.displayAppBlockFrame}
+                    message={o}
                     raw={JSON.parse(o.message.serializedContent)}
                   />
                 </DanteContainer>
@@ -1250,7 +1305,14 @@ class Conversation extends Component {
               />
   }
 
+  appPackageBlockDisplay = (message)=>{
+    this.props.displayAppBlockFrame(message)
+  }
+
   appPackageClickHandler = (item, message)=>{
+    // run app block display here! refactor
+    if (message.message.blocks.type === "app_package") return this.appPackageBlockDisplay(message)
+    
     App.events && App.events.perform('trigger_step', {
       conversation_id: this.props.conversation.key,
       message_id: message.id,
@@ -1653,7 +1715,6 @@ class AppPackageBlock extends Component {
   form = null
 
   state = {
-    done: false,
     value: null
   }
 
@@ -1666,20 +1727,29 @@ class AppPackageBlock extends Component {
   }
 
   handleStepControlClick = (item)=>{
-    this.setState({done: true})
     this.props.clickHandler(item, this.props)
   }
 
   sendAppPackageSubmit = (e)=>{
     e.preventDefault()
-    this.setState({done: true})
     const data = serialize(e.currentTarget, { hash: true, empty: true })
  
     this.props.appPackageSubmitHandler(data, this.props)
   }
 
+  renderEmptyItem = ()=>{
+    if(this.props.message.blocks.type === "app_package"){
+      return <p>{this.props.message.blocks.app_package} replied</p>
+
+    }else{
+      return <p>mo</p>
+    }
+  }
+
   renderDisabledElement = ()=>{
     const item = this.props.message.data
+
+    if(!item) return this.renderEmptyItem()
     
     switch(item.element){
       case "button":

@@ -1,0 +1,61 @@
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>[Typeform] Widget embed API example</title>
+  <style>
+  
+  body {
+    background: url('https://www.toptal.com/designers/subtlepatterns/patterns/restaurant_icons.png');
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;  
+  }
+
+  h1 {
+    font-size: 50px;
+    text-align: center;
+  }
+
+  .container {
+    margin: 0 auto;
+    width: 100%;
+  }
+
+  .container p, .container h2 {
+    text-align: center;
+  }
+  
+  </style>
+</head>
+
+<body>
+  <div class="container">
+    <!-- This is the DOM element that will contain your embedded typeform -->
+    <div id="my-embedded-typeform" style="width: 100%; height: 100vh;"></div>
+  </div>
+  <script src="https://embed.typeform.com/embed.js" type="text/javascript"></script>
+  <script type="text/javascript">
+    window.addEventListener("DOMContentLoaded", function() {
+      var el = document.getElementById("my-embedded-typeform");
+      
+      // When instantiating a widget embed, you must provide the DOM element
+      // that will contain your typeform, the URL of your typeform, and your
+      // desired embed settings
+      window.typeformEmbed.makeWidget(el, "<%= params[:url]%>", {
+        hideFooter: true,
+        hideHeaders: true,
+        opacity: 0,
+        onSubmit: function(data){
+          window.parent.postMessage({
+            chaskiqMessage: true, 
+            type: "typeform", 
+            status: "submit"
+          })
+        }
+      });
+    });
+  </script>
+</body>
+
+</html>

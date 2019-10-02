@@ -22,6 +22,7 @@ module Types
     
     field :startConversation, mutation: Mutations::Conversations::StartConversation
     field :insertComment, mutation: Mutations::Conversations::InsertComment
+    field :insertAppBlockComment, mutation: Mutations::Conversations::InsertAppBlockComment
     field :insertNote, mutation: Mutations::Conversations::InsertNote
     field :assignUser, mutation: Mutations::Conversations::AssignUser
     field :updateConversationState, mutation: Mutations::Conversations::UpdateState
