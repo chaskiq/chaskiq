@@ -41,7 +41,8 @@ import EditorContainer from './editorStyles'
 
 import ConversationEditor from './Editor.js'
 import {getConversation, 
-  insertComment, 
+  insertComment,
+  insertAppBlockComment, 
   insertNote,
   setLoading,
   clearConversation,
@@ -51,7 +52,7 @@ import {getConversation,
   assignAgent
 } from '../../actions/conversation'
 
-import { camelCase, isEmpty } from 'lodash';
+import {toCamelCase} from '../../shared/caseConverter'
 
 import DraftRenderer from '../../textEditor/draftRenderer'
 
@@ -133,6 +134,12 @@ class ConversationContainerShow extends Component {
     }))
   }
 
+  insertAppBlockComment = (comment, cb)=>{
+    this.props.dispatch(insertAppBlockComment(comment, ()=>{
+      cb ? cb() : null
+    }))
+  }
+
   getAgents = (cb)=>{
     graphql(AGENTS, {appKey: this.props.appId }, {
       success: (data)=>{
@@ -177,12 +184,28 @@ class ConversationContainerShow extends Component {
       />
   }
 
+  renderBlockRepresentation = (block)=>{
+    const blocks = toCamelCase(block.message.blocks)
+    // TODO: display labels, schema buttons 
+    switch(blocks["type"]){
+      case "app_package":
+        return <p>app package {blocks["appPackage"]}</p>
+      case "ask_option":
+        return <p>ask option</p>
+      case "data_retrieval":
+        return <p>data retrieval</p>
+    }
+  }
+
   renderBlocks = (o)=>{
-    if(o.message.state != "replied") return <p>non</p>
+    if(o.message.state != "replied") 
+      return this.renderBlockRepresentation(o)
+
     console.log(o.message)
     const item = o.message.data
 
-    
+    if(!o.fromBot) return
+
     switch(item.element){
       case "button":
         return <p>{item.label}</p>
@@ -307,7 +330,7 @@ class ConversationContainerShow extends Component {
                                         }>
                                           <EditorContainer>
                                             {
-                                              o.fromBot && o.message.blocks ? 
+                                              o.message.blocks ? 
                                               this.renderBlocks(o, userOrAdmin) : 
                                               this.renderMessage(o, userOrAdmin)
                                             }
@@ -351,6 +374,7 @@ class ConversationContainerShow extends Component {
                         <ConversationEditor 
                           data={{}}
                           app={this.props.app}
+                          insertAppBlockComment={this.insertAppBlockComment}
                           insertComment={this.insertComment}
                           insertNote={this.insertNote}
                         />
