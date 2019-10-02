@@ -47,6 +47,12 @@ class MessengerEventsChannel < ApplicationCable::Channel
     end
   end
 
+  def app_package_submit(data)
+    @conversation = @app.conversations.find_by(key: data["conversation_id"])
+    message = @conversation.messages.find(data["message_id"])
+    data_submit(data["submit"], message)
+  end
+
   def process_next_step(message)
 
     trigger, path = ActionTriggerFactory.find_task(

@@ -161,6 +161,11 @@ export default class DanteInlineTooltip extends React.Component {
     return this.props.onChange(addNewBlock(this.props.editorState, e.type, {}))
   }
 
+  handleFunc = (e)=>{
+    this.hide()
+    return e.widget_options.funcHandler()
+  }
+
   widgets = ()=> {
     return this.props.editor.props.widgets
   }
@@ -174,6 +179,8 @@ export default class DanteInlineTooltip extends React.Component {
         return this.handlePlaceholder(request_block)
       case "insertion":
         return this.handleInsertion(request_block)
+      case "func":
+        return this.handleFunc(request_block)
       default:
         return console.log(`WRONG TYPE FOR ${ request_block.widget_options.insertion }`)
     }

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_09_27_232347) do
+ActiveRecord::Schema.define(version: 2019_09_30_224248) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -78,6 +78,27 @@ ActiveRecord::Schema.define(version: 2019_09_27_232347) do
     t.index ["key"], name: "index_agents_on_key"
     t.index ["reset_password_token"], name: "index_agents_on_reset_password_token", unique: true
     t.index ["unlock_token"], name: "index_agents_on_unlock_token", unique: true
+  end
+
+  create_table "app_package_integrations", force: :cascade do |t|
+    t.bigint "app_package_id", null: false
+    t.bigint "app_id", null: false
+    t.jsonb "settings"
+    t.string "state"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["app_id"], name: "index_app_package_integrations_on_app_id"
+    t.index ["app_package_id"], name: "index_app_package_integrations_on_app_package_id"
+  end
+
+  create_table "app_packages", force: :cascade do |t|
+    t.string "name"
+    t.text "description"
+    t.jsonb "settings"
+    t.string "state"
+    t.string "url"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
   end
 
   create_table "app_translations", force: :cascade do |t|
@@ -512,6 +533,8 @@ ActiveRecord::Schema.define(version: 2019_09_27_232347) do
   end
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
+  add_foreign_key "app_package_integrations", "app_packages"
+  add_foreign_key "app_package_integrations", "apps"
   add_foreign_key "app_users", "apps"
   add_foreign_key "article_collections", "apps"
   add_foreign_key "article_settings", "apps"

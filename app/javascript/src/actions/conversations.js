@@ -61,9 +61,9 @@ export function getConversations(cb){
 export function appendConversation(data, cb){
    
     return (dispatch, getState)=>{
-  
+      
       const conversation = getState().conversations.collection.find((o)=> 
-        o.id === data.conversationId 
+        o.key === data.conversationKey 
       )
 
       let newMessages = null
@@ -72,7 +72,7 @@ export function appendConversation(data, cb){
       if(!conversation){
         graphql(CONVERSATION_WITH_LAST_MESSAGE, {
           appKey: getState().app.key,
-          id: data.conversationId
+          id: data.conversationKey 
         },{
           success: (data)=>{
             newMessages = [data.app.conversation].concat(getState().conversations.collection)
@@ -82,7 +82,7 @@ export function appendConversation(data, cb){
 
       } else {
         const newConversations = getState().conversations.collection.map((o)=>{
-          if(o.id === data.conversationId){
+          if(o.key === data.conversationKey){
             o.lastMessage = data
             return o
           }else{
@@ -90,16 +90,15 @@ export function appendConversation(data, cb){
           }
         })
 
-        if(conversation.id === getState().conversation.id){
+        if(conversation.key === getState().conversation.key){
           dispatch(appendMessage(data))  
         }
         dispatch(appendConversationDispatcher(newConversations))
       }
 
 
-      if(getState().conversation.id != data.conversationId){
-    
-        if(data.appUser.kind === "app_user")
+      if(getState().conversation.key != data.conversationKey ){
+        if(data.appUser.kind === "lead" || data.appUser.kind === "visitor")
           playSound()  
       }
     }

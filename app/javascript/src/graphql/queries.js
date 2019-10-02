@@ -259,7 +259,7 @@ export const CONVERSATION=`
 `;
 
 export const CONVERSATION_WITH_LAST_MESSAGE=`
-  query App($appKey: String!, $id: Int!){
+  query App($appKey: String!, $id: String!){
     app(key: $appKey) {
       encryptionKey
       key
