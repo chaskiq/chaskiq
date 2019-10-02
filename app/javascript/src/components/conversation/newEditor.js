@@ -322,7 +322,12 @@ export default class ChatEditor extends Component {
                     this.setState({openPackagePanel: false})
                   }}
 
-                  insertComment={this.props.insertAppBlockComment}
+                  insertComment={(data)=>{
+                    this.props.insertAppBlockComment(data)
+                    this.setState({
+                      openPackagePanel: false
+                    })
+                  }}
                 />}
 
                 <div style={{flexGrow: 3}}>
