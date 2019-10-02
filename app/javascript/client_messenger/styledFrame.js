@@ -10,14 +10,17 @@ class CssInjector extends React.Component {
     //const iframe = document.getElementsByTagName('iframe')[0]
     //const iframeHead = iframe.contentDocument.head
     const iframeHead = this.props.document.head
-
     this.cache = createCache({ container: iframeHead })
   }
 
   render() {
     return (
       <CacheProvider value={this.cache}>
-        {this.props.children}
+        {React.cloneElement(this.props.children, {
+          document: this.props.document,
+          window: this.props.window
+        })}
+        {/*this.props.children*/}
       </CacheProvider>
     )
   }
@@ -34,7 +37,7 @@ const StyledFrame = ({ className, style, children }) => (
         // Callback is invoked with iframe's window and document instances
         ({document, window}) => {
           // Render Children
-          return <CssInjector document={document}>
+          return <CssInjector document={document} window={window}>
                     {children}
                   </CssInjector>
         }

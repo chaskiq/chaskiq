@@ -15,6 +15,7 @@ Rails.application.routes.draw do
   resources :attachments, controller: 'campaigns/attachments'
 
   resource :oembed, controller: "oembed", only: :show
+  get '/package_iframe/:package'  => "application#package_iframe"
 
   constraints(SubdomainOrDomain) do
     # TODO, regex ?
@@ -26,11 +27,9 @@ Rails.application.routes.draw do
     get '/collections' => "articles#show"
     get '/collections/:id' => "articles#show"
     get '/articles/:1/' => "articles#show"
-
     #get '*path', to: 'application#catch_all', constraints: lambda { |req|
     #  req.path.exclude? 'rails/active_storage'
     #}
-
   end
 
   #get "/user_session", to: 'application#user_session'

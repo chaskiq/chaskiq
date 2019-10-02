@@ -85,8 +85,10 @@ export default class ConversationEditor extends Component {
               {
                 !this.state.loading ? 
                   <NewEditor
+                    insertAppBlockComment={this.props.insertAppBlockComment}
                     submitData={(formats)=> this.submitData(formats, opts)}
                     {...this.props}
+                    
                   /> : null
               }
 

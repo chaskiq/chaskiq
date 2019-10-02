@@ -105,6 +105,7 @@ class ConversationPart < ApplicationRecord
   def as_json(*)
     super.tap do |hash|
       hash["app_user"] = self.authorable.as_json
+      hash["conversation_key"] = self.conversation.key
     end
   end
 

@@ -9,6 +9,7 @@ module Types
     field :priority, Boolean, null: true
     field :parts_count, Integer, null: true
     field :read_at, GraphQL::Types::ISO8601DateTime, null: true
+    field :created_at, GraphQL::Types::ISO8601DateTime, null: true
     field :main_participant, Types::AppUserType, null: true
     field :last_message, Types::ConversationPartType, null: true
 

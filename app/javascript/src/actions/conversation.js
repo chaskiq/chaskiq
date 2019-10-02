@@ -8,6 +8,7 @@ import {
 
 import { 
   INSERT_COMMMENT, 
+  INSERT_APP_BLOCK_COMMMENT,
   ASSIGN_USER,
   INSERT_NOTE,
   UPDATE_CONVERSATION_STATE,
@@ -96,7 +97,32 @@ export function insertComment(comment, cb){
           console.log(error)
         }
       })
+  }
+}
 
+export function insertAppBlockComment(comment, cb){
+  return (dispatch, getState) => {
+    const blocks = {
+      type: "app_package",
+      app_package: comment.provider.name,
+      values: comment.values,
+      schema: comment.provider.schema, 
+      wait_for_input: true
+    }
+
+    graphql(INSERT_APP_BLOCK_COMMMENT, { 
+      appKey: getState().app.key, 
+      id: getState().conversation.key, 
+      controls: blocks
+    }, {
+        success: (data)=>{
+          console.log(data)
+          cb()
+        },
+        error: (error)=>{
+          console.log(error)
+        }
+      })
   }
 }
 
