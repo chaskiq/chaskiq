@@ -9,12 +9,14 @@ class UserAutoMessage < Message
   
   scope :availables_for, ->(user){
     enabled.in_time.joins("left outer join metrics 
-      on metrics.campaign_id = campaigns.id 
+      on metrics.trackable_type = 'Message'
       AND settings->'hidden_constraints' ? metrics.action
-      AND metrics.trackable_type = 'AppUser' 
-      AND metrics.trackable_id = #{user.id}"
+      AND metrics.app_user_id = #{user.id}"
       ).where("metrics.id is null")
   }
+
+  # AND metrics.trackable_type = 'AppUser' 
+  # AND metrics.trackable_id = #{user.id}"
 
   def config_fields
     [
@@ -74,10 +76,13 @@ class UserAutoMessage < Message
     if available_for_user?(user.id)
       
       self.metrics.create(
-        trackable: user,
+        app_user_id: user.id,
+        trackable: self, 
         action: "viewed",
         message_id: user.id
       )
+
+      binding.pry
 
       self
     end

@@ -5,14 +5,28 @@ class AppUserTriggerJob < ApplicationJob
   def perform(app_key:, user_id:, trigger_id:, conversation: )
     @app = App.find_by(key: app_key)
     conversation = @app.conversations.find_by(key: conversation)
-    app_user = @app.app_users.find(user_id)
+    @app_user = @app.app_users.find(user_id)
+    trigger = @app.bot_tasks.find(trigger_id) rescue find_factory_template(trigger_id, @app_user)
+    conversation.blank? ? start_conversation(trigger) : add_message(trigger, conversation)
+  end
 
-    key = "#{@app.key}-#{app_user.session_id}"
-    trigger = @app.bot_tasks.find(trigger_id) rescue find_factory_template(trigger_id, app_user)
+  def start_conversation(trigger)
+    author = @app.agents.first
+    conversation = @app.conversations.create({
+      main_participant: @app_user,
+      initiator: author,
+      #assignee: options[:assignee]
+    })
 
+    add_message(trigger, conversation)
+    binding.pry
+    #conversation = @app.start_conversation(options)
+  end
+
+  def add_message(trigger, conversation)
     # TODO: use bot as agent
     author = @app.agents.first
-    step = trigger.paths.first[:steps].first
+    step = trigger.paths.first.with_indifferent_access[:steps].first
     message = step[:messages].first
     @message = conversation.add_message({
       step_id: step[:step_uid],
@@ -21,8 +35,9 @@ class AppUserTriggerJob < ApplicationJob
       message: {
         html_content: message[:html_content],
         serialized_content: message[:serialized_content],
-        text_content: message[:html_content]
-      }
+        text_content: message[:html_content],
+      },
+      controls: message[:controls]
     })
   end
 
