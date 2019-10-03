@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_09_30_224248) do
+ActiveRecord::Schema.define(version: 2019_10_02_234602) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -470,6 +470,8 @@ ActiveRecord::Schema.define(version: 2019_09_30_224248) do
     t.string "message_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.bigint "app_user_id", null: false
+    t.index ["app_user_id"], name: "index_metrics_on_app_user_id"
     t.index ["campaign_id"], name: "index_metrics_on_campaign_id"
     t.index ["message_id"], name: "index_metrics_on_message_id"
     t.index ["trackable_type", "trackable_id"], name: "index_metrics_on_trackable_type_and_trackable_id"
@@ -545,6 +547,7 @@ ActiveRecord::Schema.define(version: 2019_09_30_224248) do
   add_foreign_key "conversation_parts", "app_users"
   add_foreign_key "conversation_parts", "conversations"
   add_foreign_key "conversations", "apps"
+  add_foreign_key "metrics", "app_users"
   add_foreign_key "roles", "agents"
   add_foreign_key "roles", "apps"
 end

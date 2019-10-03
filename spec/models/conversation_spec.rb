@@ -68,7 +68,7 @@ RSpec.describe Conversation, type: :model do
       expect(conversation.messages.count).to be == 1
       expect(EventsChannel).to receive(:broadcast_to)
       expect(MessengerEventsChannel).to receive(:broadcast_to)
-      expect_any_instance_of(ConversationPart).to receive(:enqueue_email_notification)
+      #expect_any_instance_of(ConversationPart).to receive(:enqueue_email_notification)
       message = conversation.add_message({
         from: app_user,
         message: {text_content: "aa"}

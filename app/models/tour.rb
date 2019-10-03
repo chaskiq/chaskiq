@@ -12,10 +12,12 @@ class Tour < Message
     enabled.in_time.joins("left outer join metrics 
       on metrics.campaign_id = campaigns.id 
       AND settings->'hidden_constraints' ? metrics.action
-      AND metrics.trackable_type = 'AppUser' 
-      AND metrics.trackable_id = #{user.id}"
+      AND metrics.app_user = #{user.id}"
       ).where("metrics.id is null")
   }
+
+  #AND metrics.trackable_type = 'AppUser' 
+  #AND metrics.trackable_id = #{user.id}"
 
   def config_fields
     [
@@ -75,7 +77,8 @@ class Tour < Message
     if available_for_user?(user.id)
       
       self.metrics.create(
-        trackable: user,
+        app_user: user,
+        trackable: self,
         action: "viewed",
         message_id: user.id
       )

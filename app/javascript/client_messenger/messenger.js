@@ -758,13 +758,13 @@ class Messenger extends Component {
 
   requestTrigger = (kind)=>{
     App.events && App.events.perform('request_trigger', {
-      conversation: this.state.conversation.key,
+      conversation: this.state.conversation && this.state.conversation.key,
       trigger: kind
     })
   }
 
   receiveTrigger = (data)=>{ 
-    debugger
+    this.requestTrigger(data.trigger.id)
   }
 
   /*sendTrigger = ()=>{
