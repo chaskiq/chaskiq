@@ -12,7 +12,7 @@ class Tour < Message
     enabled.in_time.joins("left outer join metrics 
       on metrics.campaign_id = campaigns.id 
       AND settings->'hidden_constraints' ? metrics.action
-      AND metrics.app_user = #{user.id}"
+      AND metrics.app_user_id = #{user.id}"
       ).where("metrics.id is null")
   }
 

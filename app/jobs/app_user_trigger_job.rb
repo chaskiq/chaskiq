@@ -19,7 +19,6 @@ class AppUserTriggerJob < ApplicationJob
     })
 
     add_message(trigger, conversation)
-    binding.pry
     #conversation = @app.start_conversation(options)
   end
 
