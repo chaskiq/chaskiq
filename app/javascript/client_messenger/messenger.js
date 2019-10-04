@@ -1317,7 +1317,7 @@ class Conversation extends Component {
       conversation_id: this.props.conversation.key,
       message_id: message.id,
       trigger: message.triggerId,
-      step: item.nextStepUuid,
+      step: item.nextStepUuid || item.next_step_uuid,
       reply: item
     })
     
