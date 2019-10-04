@@ -74,16 +74,12 @@ class UserAutoMessage < Message
 
   def show_notification_for(user)
     if available_for_user?(user.id)
-      
       self.metrics.create(
         app_user_id: user.id,
         trackable: self, 
         action: "viewed",
         message_id: user.id
       )
-
-      binding.pry
-
       self
     end
   end

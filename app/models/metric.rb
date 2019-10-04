@@ -2,7 +2,8 @@ class Metric < ApplicationRecord
 
   #belongs_to :campaign, class_name: "Message", foreign_key: "campaign_id"
   belongs_to :trackable, polymorphic: true, required: true
-  belongs_to :app_user , foreign_key: :trackable_id
+  #belongs_to :app_user , foreign_key: :trackable_id
+  belongs_to :app_user
 
   #system output
   scope :deliveries, ->{where(action: "delivery")}
