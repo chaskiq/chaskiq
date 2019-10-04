@@ -150,11 +150,10 @@ class MessengerEventsChannel < ApplicationCable::Channel
 
     #AppUserTriggerJob
     #.set(wait_until: @app_user.delay_for_trigger)
-    #.set(wait_until: @app_user.delay_for_trigger)
     #.perform_later({
+
     AppUserTriggerJob
-    .set(wait_until: @app_user.delay_for_trigger)
-    .perform_later({
+    .perform_now({
         app_key: @app.key, 
         user_id: @app_user.id, 
         conversation: data["conversation"],
