@@ -8,19 +8,14 @@ class AppUserEventJob < ApplicationJob
 
     key = "#{@app.key}-#{app_user.session_id}"
 
-    @tours = @app.tours.availables_for(app_user).enabled
+    @tours = @app.tours.availables_for(app_user)
     MessengerEventsChannel.broadcast_to(key, {
       type: "tours:receive", 
       data: @tours.as_json(only: [:id], methods: [:steps, :url])
     }.as_json) if @tours.any?
 
-    bot_task = @app.bot_tasks.enabled.first
 
-    MessengerEventsChannel.broadcast_to(key, {
-      type: "triggers:receive", 
-      data: {trigger: bot_task, step: bot_task.paths.first["steps"].first }
-    }.as_json) if bot_task && bot_task.available_for_user?(app_user.id)
-
+    BotTask.broadcast_task_to_user(app_user)
 
     @messages = @app.user_auto_messages.availables_for(app_user)
     MessengerEventsChannel.broadcast_to(key, {
