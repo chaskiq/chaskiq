@@ -1598,8 +1598,12 @@ class MessageFrame extends Component {
   }
 
   handleClose = (message)=>{
-    App.events && App.events.perform("track_close", 
-      {campaign_id: message.id}   
+    App.events && App.events.perform(
+      "track_close",
+      {
+        trackable_id: message.id, 
+        trackable_type: "UserAutoMessage"
+      } 
     )
   }
 
@@ -1661,7 +1665,10 @@ class MessageContainer extends Component {
   
   componentDidMount(){
     App.events && App.events.perform("track_open", 
-      {campaign_id: this.props.availableMessage.id}   
+      {
+        trackable_id: this.props.availableMessage.id, 
+        trackable_type: "UserAutoMessage"  
+      }   
     )
   }
 
