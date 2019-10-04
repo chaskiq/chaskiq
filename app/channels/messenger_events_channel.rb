@@ -163,23 +163,38 @@ class MessengerEventsChannel < ApplicationCable::Channel
   end
 
   def track_open(data)
-    @app_user.track_open(campaign_id: data["campaign_id"] )
+    @app_user.track_open(
+      trackable_id: data["trackable_id"],
+      trackable_type: "Message"
+    )
   end
 
   def track_close(data)
-    @app_user.track_close(campaign_id: data["campaign_id"] )
+    @app_user.track_close(
+      trackable_id: data["trackable_id"],
+      trackable_type: "Message"
+    )
   end
 
   def track_click(data)
-    @app_user.track_click(campaign_id: data["campaign_id"] )
+    @app_user.track_click(
+      trackable_id: data["trackable_id"],
+      trackable_type: "Message"
+    )
   end
 
   def track_tour_finished(data)
-    @app_user.track_finish(campaign_id: data["campaign_id"] )
+    @app_user.track_finish(
+      trackable_id: data["trackable_id"],
+      trackable_type: "Message"
+    )
   end
 
   def track_tour_skipped(data)
-    @app_user.track_skip(campaign_id: data["campaign_id"] )
+    @app_user.track_skip(
+      trackable_id: data["trackable_id"],
+      trackable_type: "Message"
+    )
   end
 
 end

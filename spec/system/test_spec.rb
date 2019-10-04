@@ -278,7 +278,8 @@ RSpec.describe "Widget management", :type => :system do
     it "return for user visitor" do
       visitor_options = [{"attribute":"name","comparison":"contains","type":"string","value":"isito"}]
       setting_for_user(visitor_segment: "some", visitor_options: visitor_options)
-      visit "/tester/#{app.key}?sessionless=true"      
+      visit "/tester/#{app.key}?sessionless=true" 
+      sleep(3)     
       expect(app.query_segment("visitors")).to be_any
       prime_iframe = all("iframe").first
       Capybara.within_frame(prime_iframe){ 
@@ -290,6 +291,7 @@ RSpec.describe "Widget management", :type => :system do
       visitor_options = [{"attribute":"email","comparison":"not_contains","type":"string","value":"test"}]
       setting_for_user(visitor_segment: "some", visitor_options: visitor_options)
       visit "/tester/#{app.key}?sessionless=true"
+      sleep(3)
       expect(app.query_segment("visitors")).to_not be_any
       prime_iframe = all("iframe").first
       expect(prime_iframe).to be_blank 
@@ -567,8 +569,8 @@ RSpec.describe "Widget management", :type => :system do
     it "display tour, track open" do
       tour.enable!
       visit "/tester/#{app.key}"
-      sleep(5)
-      expect(tour.metrics.where(trackable: AppUser.last, action: "open")).to be_any
+      sleep(2)
+      expect(tour.metrics.where(app_user: AppUser.last, action: "open")).to be_any
     end
 
 
