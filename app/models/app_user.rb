@@ -31,7 +31,8 @@ class AppUser < ApplicationRecord
   #belongs_to :user
   belongs_to :app
   has_many :conversations, foreign_key: :main_participant_id, dependent: :destroy
-  has_many :metrics , as: :trackable
+  #has_many :metrics , as: :trackable
+  has_many :metrics
   has_many :visits
 
   include Eventable

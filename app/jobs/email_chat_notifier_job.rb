@@ -7,7 +7,9 @@ class EmailChatNotifierJob < ApplicationJob
     return if message.read?
     # TODO: handle notification of private notes with mentions (@)
     response = ChatNotifierMailer.notify(message).deliver_now
-    message.email_message_id = response.message_id
-    message.save
+    if response.present?
+      message.email_message_id = response.message_id
+      message.save
+    end
   end
 end
