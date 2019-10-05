@@ -10,13 +10,16 @@ class ChatNotifierMailer < ApplicationMailer
     author_name    = message_author.name || message_author.email.split("@").first
 
     #
-    recipient      = message_author.id != conversation.main_participant.id ? conversation.main_participant : conversation.assignee
+    recipient      = message_author.id != conversation.main_participant.id ? 
+    conversation.main_participant : conversation.assignee
 
     #recipient      = message_author.id != conversation.main_participant.id ? conversation.main_participant : admin_users.first 
     #recipient     = admin_users.map(&:email).include?(message_author.email) ? conversation.main_participant : admin_users.first 
     content_type  = "text/html"
     from_name     = "#{author_name} [#{app.name}]"
     
+    return if recipient.blank?
+
     ## TODO: configurability of email
     crypt         = URLcrypt.encode("#{app.id}+#{conversation.id}")
     from_email    = "messages+#{crypt}@hermessenger.com"

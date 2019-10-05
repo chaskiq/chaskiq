@@ -4,7 +4,7 @@ class Message < ApplicationRecord
 
   belongs_to :app
 
-  has_many :metrics, foreign_key: "campaign_id"
+  has_many :metrics, as: :trackable
   has_many_attached :attachments
 
   has_many :conversation_parts
