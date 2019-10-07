@@ -116,6 +116,8 @@ class Paperbase extends React.Component {
                 <Hidden xsDown implementation="css">
                     <nav className={classes.drawer}>
                       <Navigator 
+                        visitApp={(app)=> this.visitApp(app)}
+                        apps={this.state.apps}
                         PaperProps={{ style: { width: this.props.drawerWidth } }}
                         variant="permanent"
                         open={this.state.mobileOpen}
@@ -130,6 +132,8 @@ class Paperbase extends React.Component {
                 <Hidden smUp implementation="css">
                   <nav className={classes.drawer}>
                     <Navigator
+                      visitApp={(app)=> this.visitApp(app)}
+                      apps={this.state.apps}
                       PaperProps={{ style: { width: this.props.drawerWidth } }}
                       variant="temporary"
                       open={this.state.mobileOpen}

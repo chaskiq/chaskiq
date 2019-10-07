@@ -40,6 +40,7 @@ const ButtonGroup = styled.div`
   margin-bottom: 2em;
   button {
     margin-right: 5px !important;
+    margin: 2px
   }
 `
 

@@ -71,11 +71,16 @@ function Header(props) {
                 </Grid>
               </Hidden>
 
+            <Hidden smDown>
             <Grid item>
               <ListMenu handleClick={visitApp} options={apps}/>
             </Grid>
+            </Hidden>
 
-            <Grid item xs />
+
+            <Hidden smDown>
+              <Grid item xs />
+            </Hidden>
 
             <Grid item>
               <Typography className={classes.link} 

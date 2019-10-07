@@ -115,229 +115,8 @@ function Dashboard(props) {
 
   return (
     <Paper className={classes.paper}>
-      
-      {/*
-      <AppBar className={classes.searchBar} 
-        position="static" color="default" elevation={0}>
-        <Toolbar>
-          <Grid container spacing={10} alignItems="center">
-            <Grid item>
-              <SearchIcon className={classes.block} color="inherit" />
-            </Grid>
-            <Grid item xs>
-              <TextField
-                fullWidth
-                placeholder="Search by email address, phone number, or user UID"
-                InputProps={{
-                  disableUnderline: true,
-                  className: classes.searchInput,
-                }}
-              />
-            </Grid>
-            <Grid item>
-              <Button variant="contained" color="primary" className={classes.addUser}>
-                Add user
-              </Button>
-              <Tooltip title="Reload">
-                <IconButton>
-                  <RefreshIcon className={classes.block} color="inherit" />
-                </IconButton>
-              </Tooltip>
-            </Grid>
-          </Grid>
-        </Toolbar>
-      </AppBar>
-      */}
 
       <div className={classes.contentWrapper}>
-      
-
-      {
-        /*
-      
-        <Grid container 
-           //className={classes.root} 
-           spacing={2}>
-          <Grid item xs={12}>
-            <Grid container 
-              //className={classes.demo} 
-              justify="center" 
-              spacing={1}>
-
-              <Grid item>
-                <Card className={classes.card}>
-                  <CardContent>
-                    <Typography className={classes.title} color="textSecondary" gutterBottom>
-                      Word of the Day
-                    </Typography>
-                    <Typography variant="h5" component="h2">
-                      be
-                      {bull}
-                      nev
-                      {bull}o{bull}
-                      lent
-                    </Typography>
-                    <Typography className={classes.pos} color="textSecondary">
-                      adjective
-                    </Typography>
-                    <Typography variant="body2" component="p">
-                      well meaning and kindly.
-                      <br />
-                      {'"a benevolent smile"'}
-                    </Typography>
-                  </CardContent>
-                  <CardActions>
-                    <Button size="small">Learn More</Button>
-                  </CardActions>
-                </Card>
-              </Grid>
-          
-              <Grid item>
-                <Card className={classes.card}>
-                  <CardContent>
-                    <Typography className={classes.title} color="textSecondary" gutterBottom>
-                      Word of the Day
-                    </Typography>
-                    <Typography variant="h5" component="h2">
-                      be
-                      {bull}
-                      nev
-                      {bull}o{bull}
-                      lent
-                    </Typography>
-                    <Typography className={classes.pos} color="textSecondary">
-                      adjective
-                    </Typography>
-                    <Typography variant="body2" component="p">
-                      well meaning and kindly.
-                      <br />
-                      {'"a benevolent smile"'}
-                    </Typography>
-                  </CardContent>
-                  <CardActions>
-                    <Button size="small">Learn More</Button>
-                  </CardActions>
-                </Card>
-              </Grid>
-
-              <Grid item>
-                <Card className={classes.card}>
-                  <CardContent>
-                    <Typography className={classes.title} color="textSecondary" gutterBottom>
-                      Word of the Day
-                    </Typography>
-                    <Typography variant="h5" component="h2">
-                      be
-                      {bull}
-                      nev
-                      {bull}o{bull}
-                      lent
-                    </Typography>
-                    <Typography className={classes.pos} color="textSecondary">
-                      adjective
-                    </Typography>
-                    <Typography variant="body2" component="p">
-                      well meaning and kindly.
-                      <br />
-                      {'"a benevolent smile"'}
-                    </Typography>
-                  </CardContent>
-                  <CardActions>
-                    <Button size="small">Learn More</Button>
-                  </CardActions>
-                </Card>
-              </Grid>
-
-
-              <Grid item>
-                <Card className={classes.card}>
-                  <CardContent>
-                    <Typography className={classes.title} color="textSecondary" gutterBottom>
-                      Word of the Day
-                    </Typography>
-                    <Typography variant="h5" component="h2">
-                      be
-                      {bull}
-                      nev
-                      {bull}o{bull}
-                      lent
-                    </Typography>
-                    <Typography className={classes.pos} color="textSecondary">
-                      adjective
-                    </Typography>
-                    <Typography variant="body2" component="p">
-                      well meaning and kindly.
-                      <br />
-                      {'"a benevolent smile"'}
-                    </Typography>
-                  </CardContent>
-                  <CardActions>
-                    <Button size="small">Learn More</Button>
-                  </CardActions>
-                </Card>
-              </Grid>
-          
-              <Grid item>
-                <Card className={classes.card}>
-                  <CardContent>
-                    <Typography className={classes.title} color="textSecondary" gutterBottom>
-                      Word of the Day
-                    </Typography>
-                    <Typography variant="h5" component="h2">
-                      be
-                      {bull}
-                      nev
-                      {bull}o{bull}
-                      lent
-                    </Typography>
-                    <Typography className={classes.pos} color="textSecondary">
-                      adjective
-                    </Typography>
-                    <Typography variant="body2" component="p">
-                      well meaning and kindly.
-                      <br />
-                      {'"a benevolent smile"'}
-                    </Typography>
-                  </CardContent>
-                  <CardActions>
-                    <Button size="small">Learn More</Button>
-                  </CardActions>
-                </Card>
-              </Grid>
-
-              <Grid item>
-                <Card className={classes.card}>
-                  <CardContent>
-                    <Typography className={classes.title} color="textSecondary" gutterBottom>
-                      Word of the Day
-                    </Typography>
-                    <Typography variant="h5" component="h2">
-                      be
-                      {bull}
-                      nev
-                      {bull}o{bull}
-                      lent
-                    </Typography>
-                    <Typography className={classes.pos} color="textSecondary">
-                      adjective
-                    </Typography>
-                    <Typography variant="body2" component="p">
-                      well meaning and kindly.
-                      <br />
-                      {'"a benevolent smile"'}
-                    </Typography>
-                  </CardContent>
-                  <CardActions>
-                    <Button size="small">Learn More</Button>
-                  </CardActions>
-                </Card>
-              </Grid>
-
-            </Grid>
-          </Grid>
-        </Grid>
-        */
-      }
 
       <main className={classes.content}>
         <div className={classes.appBarSpacer} />
@@ -373,7 +152,7 @@ function Dashboard(props) {
               </Paper>
             </Grid>
   
-            <Grid item xs={4}>
+            <Grid item xs={12} md={4} lg={3}>
               <Paper className={classes.paper}>
               <DashboardCard title={"Lead Os"}>
                   <DashboardItem
@@ -386,7 +165,7 @@ function Dashboard(props) {
               </Paper>
             </Grid>
 
-            <Grid item xs={4}>
+            <Grid item xs={12} md={4} lg={3}>
               <Paper className={classes.paper}>
               <DashboardCard title={"User Os"}>
                   <DashboardItem
@@ -400,7 +179,7 @@ function Dashboard(props) {
             </Grid>
 
 
-            <Grid item xs={4}>
+            <Grid item xs={12} md={4} lg={3}>
               <Paper className={classes.paper}>
               <DashboardCard title={"User country"}>
                   <DashboardItem
