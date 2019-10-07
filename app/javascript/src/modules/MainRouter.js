@@ -241,7 +241,10 @@ class MainRouter extends Component {
                     if (subdomain && subdomain.length > 1 && appDomains.length === 0) 
                       return <Docs {...this.props} {...props} subdomain={subdomain[0]}/>
                      
-                    return <AppLayout {...this.props} {...props}/>
+                    return <AppLayout 
+                              {...this.props} 
+                              {...props}
+                            />
                   }
                 }/> 
               
@@ -275,6 +278,7 @@ class AppLayout extends React.Component{
               theme={theme}
               {...this.props}
               {...props}
+              drawerWidth={drawerWidth}
               >
             </App>
           )}>
