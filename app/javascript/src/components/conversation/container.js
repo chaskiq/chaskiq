@@ -21,7 +21,8 @@ import {
   FixedHeader,
   ChatMessageItem,
   ChatAvatar,
-  StatusItem
+  StatusItem,
+  ChatOverflow
 } from './styles'
 
 import Progress from '../../shared/Progress'
@@ -221,9 +222,7 @@ class ConversationContainerShow extends Component {
   }
 
   render(){
-    return <Fragment>
-          
-            <GridElement grow={2}>
+    return <GridElement grow={2}>
 
               {
                 this.props.conversation.id ?
@@ -287,16 +286,10 @@ class ConversationContainerShow extends Component {
                       paddingTop: '10px'
                     }}>
 
-                      <div className="overflow" 
-                          ref="overflow" 
-                          onScroll={this.handleScroll}
-                          style={{
-                            //boxShadow: 'inset 0px 1px 3px 0px #ccc',
-                            //background: 'aliceblue',
-                            flexDirection : 'column-reverse',
-                            display: 'flex',
-                            height: `calc(100vh - 462px)`
-                          }}>
+                      <ChatOverflow 
+                        className="overflow" 
+                        ref="overflow" 
+                        onScroll={this.handleScroll}>
 
                         {
                           this.props.conversation.collection.map( (o, i)=> {
@@ -367,7 +360,7 @@ class ConversationContainerShow extends Component {
 
                         {this.props.loading ? <Progress/> : null }
 
-                      </div>
+                      </ChatOverflow>
 
                       <div className="input">
                         
@@ -388,33 +381,6 @@ class ConversationContainerShow extends Component {
 
             </GridElement>
 
-              {
-                /*
-                          <GridElement>
-
-                            <FixedHeader>
-                                User information
-                            </FixedHeader>
-
-                            <Overflow style={{ 
-                              display: 'flex', 
-                              flexFlow: 'column',
-                              paddingTop: '20px'
-                            }}>
-
-                              <UserData 
-                                width={ '100%'}
-                                appUser={this.state.appUser}
-                              />
-
-                            </Overflow>
-
-                          </GridElement>
-
-                */
-              }
-
-          </Fragment>
   }
 }
 

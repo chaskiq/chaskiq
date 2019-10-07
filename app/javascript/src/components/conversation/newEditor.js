@@ -179,6 +179,12 @@ const defaultProps = {
 
 }
 
+export const ChatEditorInput = styled.div`
+   @media (min-width: 320px) and (max-width: 480px) {
+      width: 60%;
+   }
+`
+
 const useStyles = makeStyles(theme => ({
   button: {
     margin: '0px',
@@ -330,7 +336,7 @@ export default class ChatEditor extends Component {
                   }}
                 />}
 
-                <div style={{flexGrow: 3}}>
+                <ChatEditorInput style={{flexGrow: 3}}>
 
                   <TextEditor theme={theme}
                     tooltipsConfig={this.tooltipsConfig }
@@ -363,7 +369,7 @@ export default class ChatEditor extends Component {
                     }
                   }
                 /> 
-                </div>
+                </ChatEditorInput>
   
                 <SubmitButton 
                   onClick={this.handleSubmit}

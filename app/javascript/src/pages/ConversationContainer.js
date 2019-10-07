@@ -25,21 +25,7 @@ import {
   Overflow
 } from '../components/conversation/styles'
 
-import graphql from "../graphql/client"
-import { 
-    CONVERSATIONS, 
-    CONVERSATION, 
-    APP_USER ,
-    AGENTS
-  } from "../graphql/queries"
-import { 
-  INSERT_COMMMENT, 
-  ASSIGN_USER,
-  INSERT_NOTE,
-  UPDATE_CONVERSATION_STATE,
-  TOGGLE_CONVERSATION_PRIORITY
-} from '../graphql/mutations'
-
+import Hidden from '@material-ui/core/Hidden'
 import Button from '@material-ui/core/Button'
 import CheckIcon from '@material-ui/icons/Check'
 import InboxIcon from '@material-ui/icons/Inbox'
@@ -76,51 +62,6 @@ import AssigmentRules from '../components/conversation/assigmentRules'
 
 
 import {setCurrentPage} from '../actions/navigation'
-
-/*
-class MessageItem extends Component {
-  render(){
-    const user = this.props.conversation.mainParticipant
-    return (
-      <MessageContainer>
-
-        <MessageControls/>
-
-        <MessageHeader>
-        
-          <Avatar src={gravatar(user.email)} width={40} heigth={40}/>
-          
-          <MessageEmail>
-            {user.displayName}
-          </MessageEmail>
-
-          <Moment fromNow style={{ color: '#ccc', fontSize: '10px'}}>
-            {this.props.message.created_at}
-          </Moment>
-
-        </MessageHeader>
-
-        <MessageBody>
-
-          {
-            user.id != this.props.message.appUser.id ?
-            <Avatar 
-              src={gravatar(this.props.message.appUser.email)} 
-              size={'xsmall'}
-              style={{'float':'left'}}
-            /> : null
-          }  
-              
-          <span dangerouslySetInnerHTML={
-            { __html: sanitizeHtml(this.props.message.message.htmlContent).substring(0, 250) }
-          }/>
-          
-        </MessageBody>
-
-      </MessageContainer>
-    )
-  }
-}*/
 
 class ConversationContainer extends Component {
 
@@ -213,6 +154,85 @@ class ConversationContainer extends Component {
     )
   }
 
+  renderConversations = ()=>{
+    return <GridElement>
+              {/*<FixedHeader>Conversations</FixedHeader>*/}
+              
+              <FixedHeader style={{height: '82px'}}>
+          
+                <HeaderTitle>
+                  Conversations
+                </HeaderTitle>
+
+                <ConversationButtons>
+
+                  <FilterMenu 
+                    options={[
+                      {id: "opened", name: "opened", count: 1, icon: <InboxIcon/> },
+                      {id: "closed", name: "closed", count: 2, icon: <CheckIcon/>}
+                    ]}
+                    value={this.props.conversations.filter}
+                    filterHandler={this.filterConversations}
+                    triggerButton={this.filterButton}
+                  />
+
+                  <FilterMenu 
+                    options={[
+                      {id: "newest", name: "newest", count: 1, selected: true},
+                      {id: "oldest", name: "oldest", count: 1},
+                      {id: "waiting", name: "waiting", count: 1},
+                      {id: "priority-first", name: "priority first", count: 1},
+                    ]}
+                    value={this.props.conversations.sort}
+                    filterHandler={this.sortConversations}
+                    triggerButton={this.sortButton}
+                  />
+
+                </ConversationButtons>
+
+              </FixedHeader>
+
+              <Overflow onScroll={this.handleScroll}>
+
+
+                {
+                  this.props.conversations.collection.map((o, i)=>{
+
+                    const user = o.mainParticipant
+
+                    return <div 
+                              key={o.id} 
+                              onClick={(e)=> this.props.history.push(`/apps/${appId}/conversations/${o.key}`) }>
+                                      
+                              <UserListItem
+                                value={this.props.conversation.key}
+                                mainUser={user}
+                                object={o.key}
+                                messageUser={o.lastMessage.appUser}
+                                showUserDrawer={()=>this.props.actions.showUserDrawer(user.id)}
+                                messageObject={o.lastMessage}
+                                conversation={o}
+
+                                createdAt={o.lastMessage.message.createdAt}
+                                message={sanitizeHtml(o.lastMessage.message.htmlContent).substring(0, 250)}
+                              />
+
+                              {/*<MessageItem 
+                                conversation={o} 
+                                message={o.lastMessage}
+                              />*/}
+                            </div>
+                  })
+                }
+
+                {this.props.conversations.loading ? 
+                  <Progress/> 
+                : null }
+
+              </Overflow>
+            </GridElement>
+  }
+
 
   render(){
     const {appId} = this.props.match.params
@@ -221,82 +241,13 @@ class ConversationContainer extends Component {
 
             <ColumnContainer>
               
-              <GridElement>
-                {/*<FixedHeader>Conversations</FixedHeader>*/}
-                
-                <FixedHeader style={{height: '82px'}}>
-             
-                  <HeaderTitle>
-                    Conversations
-                  </HeaderTitle>
+              <Hidden smDown>
+                {this.renderConversations()}
+              </Hidden>
 
-                  <ConversationButtons>
-
-                    <FilterMenu 
-                      options={[
-                        {id: "opened", name: "opened", count: 1, icon: <InboxIcon/> },
-                        {id: "closed", name: "closed", count: 2, icon: <CheckIcon/>}
-                      ]}
-                      value={this.props.conversations.filter}
-                      filterHandler={this.filterConversations}
-                      triggerButton={this.filterButton}
-                    />
-
-                    <FilterMenu 
-                      options={[
-                        {id: "newest", name: "newest", count: 1, selected: true},
-                        {id: "oldest", name: "oldest", count: 1},
-                        {id: "waiting", name: "waiting", count: 1},
-                        {id: "priority-first", name: "priority first", count: 1},
-                      ]}
-                      value={this.props.conversations.sort}
-                      filterHandler={this.sortConversations}
-                      triggerButton={this.sortButton}
-                    />
-
-                  </ConversationButtons>
-
-                </FixedHeader>
-
-                <Overflow onScroll={this.handleScroll}>
-
-
-                  {
-                    this.props.conversations.collection.map((o, i)=>{
-
-                      const user = o.mainParticipant
-
-                      return <div 
-                                key={o.id} 
-                                onClick={(e)=> this.props.history.push(`/apps/${appId}/conversations/${o.key}`) }>
-                                        
-                                <UserListItem
-                                  value={this.props.conversation.key}
-                                  mainUser={user}
-                                  object={o.key}
-                                  messageUser={o.lastMessage.appUser}
-                                  showUserDrawer={()=>this.props.actions.showUserDrawer(user.id)}
-                                  messageObject={o.lastMessage}
-                                  conversation={o}
-
-                                  createdAt={o.lastMessage.message.createdAt}
-                                  message={sanitizeHtml(o.lastMessage.message.htmlContent).substring(0, 250)}
-                                />
-
-                                {/*<MessageItem 
-                                  conversation={o} 
-                                  message={o.lastMessage}
-                                />*/}
-                              </div>
-                    })
-                  }
-
-                  {this.props.conversations.loading ? 
-                    <Progress/> 
-                   : null }
-
-                </Overflow>
-              </GridElement>
+              <Drawer open={false} >
+                {this.renderConversations()}
+              </Drawer>
 
               <Switch>
 
