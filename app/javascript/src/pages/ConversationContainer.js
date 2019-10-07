@@ -154,7 +154,7 @@ class ConversationContainer extends Component {
     )
   }
 
-  renderConversations = ()=>{
+  renderConversations = (appId)=>{
     return <GridElement>
               {/*<FixedHeader>Conversations</FixedHeader>*/}
               
@@ -241,18 +241,35 @@ class ConversationContainer extends Component {
 
             <ColumnContainer>
               
-              <Hidden smDown>
-                {this.renderConversations()}
+    
+              <Hidden smUp>
+                <Route exact path={`/apps/${appId}/conversations`}
+                  render={(props)=>(
+                    this.renderConversations(appId)
+                  )}
+                /> 
               </Hidden>
 
-              <Drawer open={false} >
+              <Hidden smDown>
+                { 
+                  this.renderConversations(appId)
+                }
+              </Hidden>
+
+              {/*
+                <Drawer 
+                open={this.state.displayMode === "conversations"} 
+                onClose={this.hideDrawer}>
                 {this.renderConversations()}
-              </Drawer>
+                </Drawer>
+              */}
 
               <Switch>
 
+
                 <Route exact path={`/apps/${appId}/conversations`}
                   render={(props)=>(
+                    <Hidden smDown>
                       <GridElement grow={2} style={{
                         display: 'flex', 
                         justifyContent: 'space-around'
@@ -272,9 +289,8 @@ class ConversationContainer extends Component {
 
                           </Paper>
                         </div>
-
-                        
                       </GridElement>
+                    </Hidden>
                   )} />  
                 
 
