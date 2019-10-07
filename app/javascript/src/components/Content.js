@@ -16,11 +16,20 @@ import RefreshIcon from '@material-ui/icons/Refresh';
 const styles = theme => ({
   paper: {
     maxWidth: 936,
-    marginTop: '2em',
+    //marginTop: '2em',
     marginBottom: '2em',
     margin: 'auto',
     overflow: 'hidden',
-    marginBottom: 20,
+    [theme.breakpoints.down('sm')]: {
+      marginTop: '0em',
+    },
+    [theme.breakpoints.up('md')]: {
+      marginTop: '2em',
+    },
+    [theme.breakpoints.up('lg')]: {
+      marginTop: '2em',
+    },
+
   },
   searchBar: {
     borderBottom: '1px solid rgba(0, 0, 0, 0.12)',

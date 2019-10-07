@@ -44,6 +44,7 @@ import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary';
 
 import { withRouter } from 'react-router-dom'
 import { connect } from 'react-redux'
+import ListMenu from './ListMenu'
 
 
 const styles = theme => ({
@@ -109,6 +110,8 @@ function Navigator(props, context) {
     app, 
     match,
     location,
+    visitApp,
+    apps,
     ...other 
   } = props;
 
@@ -275,7 +278,14 @@ function Navigator(props, context) {
               <ListItem className={clsx(classes.firebase, classes.item, classes.itemCategory)}>
                 CHASKIQ
               </ListItem>
-              <ListItem className={clsx(classes.item, classes.itemCategory)}>
+              <ListItem 
+                className={clsx(classes.item, classes.itemCategory)}
+                onClick={(e) => {
+                  e.preventDefault()
+                  //this.setActiveLink(o, ()=>{
+                    context.router.history.push(`/apps/${app.key}`)
+                  //})
+                }}>
                 <ListItemIcon>
                   <HomeIcon />
                 </ListItemIcon>
@@ -283,16 +293,18 @@ function Navigator(props, context) {
                   classes={{
                     primary: classes.itemPrimary,
                   }}
-                  onClick={(e) => {
-                    e.preventDefault()
-                    //this.setActiveLink(o, ()=>{
-                      context.router.history.push(`/apps/${app.key}`)
-                    //})
-                  }}
                 >
                   Project Overview
                 </ListItemText>
               </ListItem>
+
+              <ListItem>
+                <ListMenu 
+                  handleClick={visitApp} 
+                  options={apps}
+                />
+              </ListItem>
+              
             </React.Fragment>
   }
 
