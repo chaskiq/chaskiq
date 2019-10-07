@@ -164,30 +164,48 @@ export const HeaderTitle = styled.div`
   align-items: center;
 `
 
+export const ChatOverflow = styled.div`
+
+
+
+                    
+`
+
 export const ChatContainer = styled.div`
 
    display: flex;
    flex-direction: column;
    height: 100%;
 
+   @media (min-width: 320px) and (max-width: 480px) {
+      width: 100vw;
+   }
+
+   
+
   .box-container{
     display: flex;
     flex: 1 1 auto;
     flex-direction: column;
     background: aliceblue;
+
+    @media (min-width: 320px) and (max-width: 480px) {
+      height: 79vh;
+    }
+    
   }
 
   .overflow {
     flex: 1 1 auto;
     overflow-y: auto;
     padding: 15px;
+    flex-direction: column-reverse;
+    display: flex;
+    height: calc(100vh - 462px);
   }
 
   .input{
-    margin: 14px;
-    /* border: 1px solid #ccc; */
-    border-radius: 0px;
-    box-shadow: 1px 1px 2px 0px #bdbbbb;
+    padding: 14px;
   }
 
 `

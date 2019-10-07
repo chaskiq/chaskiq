@@ -44,6 +44,7 @@ import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary';
 
 import { withRouter } from 'react-router-dom'
 import { connect } from 'react-redux'
+import ListMenu from './ListMenu'
 
 
 const styles = theme => ({
@@ -109,6 +110,8 @@ function Navigator(props, context) {
     app, 
     match,
     location,
+    visitApp,
+    apps,
     ...other 
   } = props;
 
@@ -203,97 +206,117 @@ function Navigator(props, context) {
     },*/
   ];
 
-  return (
-    <Drawer variant="permanent">
-      <List disablePadding>
-        <ListItem className={clsx(classes.firebase, classes.item, classes.itemCategory)}>
-          CHASKIQ
-        </ListItem>
-        <ListItem className={clsx(classes.item, classes.itemCategory)}>
-          <ListItemIcon>
-            <HomeIcon />
-          </ListItemIcon>
-          <ListItemText
-            classes={{
-              primary: classes.itemPrimary,
-            }}
-            onClick={(e) => {
-              e.preventDefault()
-              //this.setActiveLink(o, ()=>{
-                context.router.history.push(`/apps/${app.key}`)
-              //})
-            }}
-          >
-            Project Overview
-          </ListItemText>
-        </ListItem>
-
-        {categories.map(({ id, icon, children }) => (
-
-          <ExpansionPanel 
-            key={id}
-            expanded={expanded === id} 
-            onChange={handleChange(id)}>
+  function renderItemList(){
+    return (
+      categories.map(({ id, icon, children }) => (
+        <ExpansionPanel 
+          key={id}
+          expanded={expanded === id} 
+          onChange={handleChange(id)}>
 
 
-            <ExpansionPanelSummary 
-              aria-controls="panel1d-content" 
-              id="panel1d-header"
-              className={classes.expansionPanelSummary}>
-                <ListItem className={classes.categoryHeader}>
-                  {
-                    icon ? 
-                      <ListItemIcon>{icon}</ListItemIcon> : 
-                    null 
-                  }
+          <ExpansionPanelSummary 
+            aria-controls="panel1d-content" 
+            id="panel1d-header"
+            className={classes.expansionPanelSummary}>
+              <ListItem className={classes.categoryHeader}>
+                {
+                  icon ? 
+                    <ListItemIcon>{icon}</ListItemIcon> : 
+                  null 
+                }
+                <ListItemText
+                  classes={{
+                    primary: classes.categoryHeaderPrimary,
+                  }}
+                >
+                  {id}
+                </ListItemText>
+              </ListItem>
+          </ExpansionPanelSummary>
+
+          <ExpansionPanelDetails  className={classes.expansionPanelDetails}>
+            {children.map(({ id: childId, icon, active, url, onClick }) => (
+                <ListItem
+                  button
+                  dense
+                  key={childId}
+                  className={clsx(
+                    classes.item,
+                    classes.itemActionable,
+                    active && classes.itemActiveItem,
+                  )}
+                  onClick={(e) => {
+                    e.preventDefault()
+                    //this.setActiveLink(o, ()=>{
+                      url ? context.router.history.push(url) : onClick()
+                    //})
+                  }}
+                >
+                  {icon ? <ListItemIcon>{icon}</ListItemIcon> : null }
                   <ListItemText
                     classes={{
-                      primary: classes.categoryHeaderPrimary,
+                      primary: classes.itemPrimary,
+                      dense: classes.textDense,
                     }}
                   >
-                    {id}
+                    {childId}
                   </ListItemText>
                 </ListItem>
-            </ExpansionPanelSummary>
+              ))}
+              <Divider className={classes.divider} />
+      
+          </ExpansionPanelDetails>
 
-            <ExpansionPanelDetails  className={classes.expansionPanelDetails}>
-              {children.map(({ id: childId, icon, active, url, onClick }) => (
-                  <ListItem
-                    button
-                    dense
-                    key={childId}
-                    className={clsx(
-                      classes.item,
-                      classes.itemActionable,
-                      active && classes.itemActiveItem,
-                    )}
-                    onClick={(e) => {
-                      e.preventDefault()
-                      //this.setActiveLink(o, ()=>{
-                        url ? context.router.history.push(url) : onClick()
-                      //})
-                    }}
-                  >
-                    {icon ? <ListItemIcon>{icon}</ListItemIcon> : null }
-                    <ListItemText
-                      classes={{
-                        primary: classes.itemPrimary,
-                        dense: classes.textDense,
-                      }}
-                    >
-                      {childId}
-                    </ListItemText>
-                  </ListItem>
-                ))}
-                <Divider className={classes.divider} />
+        </ExpansionPanel>
+      ))
+    )
+  }
+
+  function renderListHeader(){
+    return <React.Fragment>
+              <ListItem className={clsx(classes.firebase, classes.item, classes.itemCategory)}>
+                CHASKIQ
+              </ListItem>
+              <ListItem 
+                className={clsx(classes.item, classes.itemCategory)}
+                onClick={(e) => {
+                  e.preventDefault()
+                  //this.setActiveLink(o, ()=>{
+                    context.router.history.push(`/apps/${app.key}`)
+                  //})
+                }}>
+                <ListItemIcon>
+                  <HomeIcon />
+                </ListItemIcon>
+                <ListItemText
+                  classes={{
+                    primary: classes.itemPrimary,
+                  }}
+                >
+                  Project Overview
+                </ListItemText>
+              </ListItem>
+
+              <ListItem>
+                <ListMenu 
+                  handleClick={visitApp} 
+                  options={apps}
+                />
+              </ListItem>
+              
+            </React.Fragment>
+  }
+
+  return (
+    <Drawer 
+      {...other}
+      >
+      <List disablePadding>
         
-            </ExpansionPanelDetails>
+        {renderListHeader()}
+        {renderItemList()}
 
-                
-            
-
-          </ExpansionPanel>
-        ))}
       </List>
     </Drawer>
   );
@@ -306,6 +329,7 @@ Navigator.contextTypes = {
 };
 
 Navigator.propTypes = {
+  open: PropTypes.boolean,
   classes: PropTypes.object.isRequired,
   app: PropTypes.object,
   currentUser: PropTypes.object

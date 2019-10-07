@@ -52,7 +52,9 @@ class Login extends React.Component {
       return <p>user logged! 
         <button onClick={()=>{
           this.props.dispatch(signout())
-        }}>sign out</button>
+        }}>
+          sign out
+        </button>
 
         <GetUserDataButton onClick={this.getCurrentUser}>
           getUserData
@@ -84,7 +86,7 @@ function GetUserDataButton(props){
 function MadeWithLove() {
   return (
     <Typography variant="body2" color="textSecondary" align="center">
-      {'Built with love by the'}
+      {'Built with love by the '}
       <Link color="inherit" href="https://chaskiqapp.com/">
         Chasqik Team
       </Link>
@@ -189,18 +191,22 @@ function SignIn(props) {
           >
             Sign In
           </Button>
+
           <Grid container>
+            
             <Grid item xs>
               <Link href="/forgot" variant="body2">
                 Forgot password?
               </Link>
             </Grid>
+
             <Grid item>
               <Link href="/signup" variant="body2">
                 {"Don't have an account? Sign Up"}
               </Link>
             </Grid>
           </Grid>
+
         </form>
       </div>
       <Box mt={5}>
