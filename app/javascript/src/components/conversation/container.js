@@ -31,9 +31,11 @@ import FilterMenu from './filterMenu'
 
 import Tooltip from '@material-ui/core/Tooltip';
 import IconButton from '@material-ui/core/IconButton';
+import Hidden from '@material-ui/core/Hidden'
 import Button from '@material-ui/core/Button'
 import CheckIcon from '@material-ui/icons/Check'
 import InboxIcon from '@material-ui/icons/Inbox'
+import BackIcon from '@material-ui/icons/ArrowBackIos'
 import PriorityHighIcon from '@material-ui/icons/PriorityHigh'
 
 import theme from './theme'
@@ -230,6 +232,14 @@ class ConversationContainerShow extends Component {
                 <ChatContainer>
                   
                   <FixedHeader>
+                    <Hidden smUp>
+                      <IconButton 
+                        onClick={()=> (
+                          this.props.history.push(`/apps/${this.props.app.key}/conversations`)
+                        )}>
+                        <BackIcon/>
+                      </IconButton>
+                    </Hidden>
                     
                     <HeaderTitle>
                       <span>
