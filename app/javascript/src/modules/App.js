@@ -102,7 +102,6 @@ class Paperbase extends React.Component {
   render() {
     const { classes } = this.props;
     const { children } = this.props;
-    const drawerWidth = 262;
     
     return (
         this.props.isAuthenticated && this.props.current_user.email ?
@@ -111,26 +110,45 @@ class Paperbase extends React.Component {
 
           {
             this.props.app ?
-              <nav className={classes.drawer}>
-                <Hidden smUp implementation="js">
-                  <Navigator
-                    PaperProps={{ style: { width: drawerWidth } }}
-                    variant="temporary"
-                    open={this.state.mobileOpen}
-                    onClose={this.handleDrawerToggle}
-                    //currentUser={this.props.current_user}
-                    //app={this.props.app}
-                    
-                  />
-                </Hidden>
+              <React.Fragment>
+
+              
                 <Hidden xsDown implementation="css">
-                  <Navigator 
-                    PaperProps={{ style: { width: drawerWidth } }}
-                    //currentUser={this.props.current_user}
-                    //app={this.props.app}
-                 />
+                    <nav className={classes.drawer}>
+                      <Navigator 
+                        visitApp={(app)=> this.visitApp(app)}
+                        apps={this.state.apps}
+                        PaperProps={{ style: { width: this.props.drawerWidth } }}
+                        variant="permanent"
+                        open={this.state.mobileOpen}
+                        onClose={this.handleDrawerToggle}
+                        //currentUser={this.props.current_user}
+                        //app={this.props.app}
+                    />
+                  </nav>
                 </Hidden>
-              </nav> : null
+              
+
+                <Hidden smUp implementation="css">
+                  <nav className={classes.drawer}>
+                    <Navigator
+                      visitApp={(app)=> this.visitApp(app)}
+                      apps={this.state.apps}
+                      PaperProps={{ style: { width: this.props.drawerWidth } }}
+                      variant="temporary"
+                      open={this.state.mobileOpen}
+                      onClose={this.handleDrawerToggle}
+                      //currentUser={this.props.current_user}
+                      //app={this.props.app}
+                    />
+                  </nav>
+                </Hidden>
+               
+
+
+             
+
+              </React.Fragment> : null
           }
 
           <div className={classes.appContent}>

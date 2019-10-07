@@ -23,6 +23,46 @@ import {
 } from '@material-ui/icons'
 
 import MapIcon from '@material-ui/icons/Map';
+import styled from '@emotion/styled';
+
+
+const PaperTableContainer = styled('div')`
+  width: 100vw;
+  .container{
+    overflow-x: auto;
+    margin-right: auto;
+    margin-left: auto;
+    margin-top: 50px;
+    padding: 10px;
+    margin: 10px;
+  }
+  
+  .title {
+    margin-top: 20px;
+    text-align: center;
+  }
+  
+  tr {
+    height: 40px !important;
+  }
+  
+  th {
+    max-width: 125px;
+    min-width: 125px;
+    padding: 0 !important;
+    overflow-x: auto;
+    white-space: nowrap;
+    text-align: center !important;
+  }
+  
+  td {
+    height: 40px !important;
+    padding: 5px !important;
+    text-align: center !important;
+  }
+  
+}`
+
 
 
 export default class Table extends React.Component {
@@ -46,85 +86,93 @@ export default class Table extends React.Component {
   render() {
     
     return (
-      <MaterialTable
-        title={this.props.title}
-        columns={this.state.columns}
-        data={this.props.data}
-        options={{
-          pageSize: this.props.data && this.props.data.length,
-        }}
-        components={{
-          Container: props => <Paper {...props}  elevation={this.props.elevation || 0} />
-          ,
-          Pagination: props => {
-            return <Grid container 
-                      alignItems={'center'} 
-                      justify={'flex-end'}>
-
-                    <Grid item>
-                      <IconButton disabled={!this.props.meta.prev_page}
-                        onClick={()=>this.props.search(this.props.meta.prev_page)}>
-                        <ChevronLeft/>
-                      </IconButton>
-                    </Grid>
-
-                    <Grid item>
-                      <Typography variant={'caption'}>
-                        {this.props.meta.current_page} of {this.props.meta.total_pages} pages
-                        ({this.props.meta.total_count} records)
-                      </Typography>
-                    </Grid>
-
-                    <Grid item>
-                      <IconButton disabled={!this.props.meta.next_page}
-                        onClick={()=> this.props.search(this.props.meta.next_page)}>
-                        <ChevronRight/>
-                      </IconButton>
-                    </Grid> 
-              
-                  </Grid>
-          },
-
-          Toolbar: props => {
-            return <Grid container 
-                alignItems={"center"} 
-                justify={"space-between"}>
-
-
-              <Grid item>
-              
-              <Typography variant={"h5"}>
-                {this.props.title}
-              </Typography>
-
-              </Grid>
-
-              <Grid item>
-                <Grid container justify={"space-around"}>
-
-                  <SimpleMenu 
-                    handleChange={this.changeColumns}
-                    options={
-                      this.state.columns
-                    }
-                  />
-                  
-                  {
-                    this.props.enableMapView ?
-                      <IconButton onClick={this.props.toggleMapView}>
-                        <MapIcon/>
-                      </IconButton> : null 
-                  }
-
-                </Grid>
-              </Grid>
-            </Grid>
-          },
-
-        }}
-
+      <PaperTableContainer>
         
-      />
+          <MaterialTable
+            title={this.props.title}
+            columns={this.state.columns}
+            data={this.props.data}
+            options={{
+              pageSize: this.props.data && this.props.data.length,
+            }}
+            components={{
+              Container: props => <Paper 
+                {...props} 
+                className="container"
+                elevation={this.props.elevation || 0} 
+                />
+              ,
+              Pagination: props => {
+                return <Grid container 
+                          alignItems={'center'} 
+                          justify={'flex-end'}>
+
+                        <Grid item>
+                          <IconButton disabled={!this.props.meta.prev_page}
+                            onClick={()=>this.props.search(this.props.meta.prev_page)}>
+                            <ChevronLeft/>
+                          </IconButton>
+                        </Grid>
+
+                        <Grid item>
+                          <Typography variant={'caption'}>
+                            {this.props.meta.current_page} of {this.props.meta.total_pages} pages
+                            ({this.props.meta.total_count} records)
+                          </Typography>
+                        </Grid>
+
+                        <Grid item>
+                          <IconButton disabled={!this.props.meta.next_page}
+                            onClick={()=> this.props.search(this.props.meta.next_page)}>
+                            <ChevronRight/>
+                          </IconButton>
+                        </Grid> 
+                  
+                      </Grid>
+              },
+
+              Toolbar: props => {
+                return <Grid container 
+                    alignItems={"center"} 
+                    justify={"space-between"}>
+
+
+                  <Grid item>
+                  
+                  <Typography variant={"h5"}>
+                    {this.props.title}
+                  </Typography>
+
+                  </Grid>
+
+                  <Grid item>
+                    <Grid container justify={"space-around"}>
+
+                      <SimpleMenu 
+                        handleChange={this.changeColumns}
+                        options={
+                          this.state.columns
+                        }
+                      />
+                      
+                      {
+                        this.props.enableMapView ?
+                          <IconButton onClick={this.props.toggleMapView}>
+                            <MapIcon/>
+                          </IconButton> : null 
+                      }
+
+                    </Grid>
+                  </Grid>
+                </Grid>
+              },
+
+            }}
+
+            
+          />
+       
+      </PaperTableContainer>
     )
   }
 }
