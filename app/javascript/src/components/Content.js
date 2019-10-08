@@ -44,7 +44,12 @@ const styles = theme => ({
     marginRight: theme.spacing(1),
   },
   contentWrapper: {
-    margin: '40px 16px',
+    [theme.breakpoints.up('sm')]: {
+      margin: '40px 16px',
+    },
+    [theme.breakpoints.down('sm')]: {
+      padding: '5px',
+    },
   },
 });
 

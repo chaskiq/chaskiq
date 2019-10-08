@@ -42,6 +42,10 @@ import Table from '../components/table/index'
 import SelectMenu from '../components/selectMenu'
 
 
+import EmailIcon from '@material-ui/icons/Email';
+import MessageIcon from '@material-ui/icons/Message';
+import FilterFramesIcon from '@material-ui/icons/FilterFrames';
+
 import { Done, Face } from '@material-ui/icons';
 import {
   Typography,
@@ -503,17 +507,43 @@ class CampaignForm extends Component {
     })
   }
 
+  iconMode = (name)=>{
+
+    switch (name) {
+      case "campaigns":
+        return <EmailIcon/>
+      case "user_auto_messages":
+        return <MessageIcon/>
+      case "tours":
+        return <FilterFramesIcon/>
+      default:
+        return name
+        break;
+    }
+  }
+
 
   render() {
 
     const title = this.state.data.name ? 
-      `${this.campaignName(this.props.mode)}: ${this.state.data.name}` : 
+      `${this.state.data.name}` : 
       this.campaignName(this.props.mode)
 
     return <div>
 
       <ContentHeader 
-        title={ title }
+        title={ <Grid container 
+                      alignContent="space-around"
+                      alignItems="center">
+                  <Grid item style={{
+                    display: 'flex',
+                    marginRight: '4px',
+                  }}>
+                    {this.iconMode(this.props.mode)}
+                  </Grid>
+                  <Grid item>{title}</Grid>
+                </Grid> 
+        }
         items={
           <Grid item>
 

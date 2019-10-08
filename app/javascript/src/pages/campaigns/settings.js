@@ -93,15 +93,10 @@ export default class CampaignSettings extends Component {
 
   render() {
     return (
-      <div
-        style={{
-          //display: 'flex',
-          paddingTop: '20px',
-          width: '60%',
-          margin: '0 auto',
-          flexDirection: 'row',
-        }}
-      >
+      <Grid
+        container 
+        style={{padding: '2em'}}
+        direction={"column"}>
         <form
           name="create-repo"
           onSubmit={this.onSubmitHandler.bind(this)}
@@ -153,7 +148,7 @@ export default class CampaignSettings extends Component {
 
        
         </form>
-      </div>
+      </Grid>
     );
   }
 }
