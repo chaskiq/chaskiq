@@ -16,12 +16,13 @@ import {
 } from '@material-ui/core'
 
 const PieContainer = styled.div`
-padding: .75em;
-display: grid;
-grid-template-columns: repeat(4,200px);
-grid-gap: 10px;
-width: 100%;
-margin: 25px 0 18px 0;
+  padding: .75em;
+  display: grid;
+  grid-template-columns: repeat(4,200px);
+  grid-gap: 10px;
+  width: 100vw;
+  margin: 25px 0 18px 0;
+  overflow: auto;
 `
 
 const PieItem = styled.div`

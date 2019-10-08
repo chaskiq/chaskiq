@@ -25,6 +25,8 @@ const ButtonsRow = styled.div`
 `
 
 const BrowserSimulator = styled.div`
+  display: flex;
+  flex-direction: column;
   border-radius: 4px;
   background: #fafafa;
   border: 1px solid #dde1eb;
@@ -86,9 +88,17 @@ const EditorPad = styled.div`
     `
       padding: 2em;
       background-color: white;
-      margin: 8em;
       margin-top: 23px;
       border: 1px solid #ececec;
+
+      @media all and (min-width: 1024px) and (max-width: 1280px) {
+        margin: 8em;
+      }
+
+      @media (max-width: 640px){
+        margin: 2em;
+      }
+      
     `
   } 
 `
@@ -226,9 +236,6 @@ export default class CampaignEditor extends Component {
 
           </ButtonsContainer> 
     
-
-          <hr style={{ clear: "both", border: '1px solid #ebecf0' }} />
-
           <BrowserSimulator mode={this.props.mode}>
             <BrowserSimulatorHeader>
               <BrowserSimulatorButtons>

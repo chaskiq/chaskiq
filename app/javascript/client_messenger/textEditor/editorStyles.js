@@ -32,6 +32,13 @@ const NewEditorStyles = styled(EditorStyles)`
     }` : ''
   }
 
+  @media (max-width: 500px){
+    .postContent{
+      font-size: 12px;
+      line-height: 1.9;
+    }
+  }
+
   .postContent{
     padding: 10px;
   }
