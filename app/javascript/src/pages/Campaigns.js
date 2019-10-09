@@ -56,7 +56,8 @@ import {
   Chip,
   Button, 
   Grid,
-  Badge
+  Badge,
+  CircularProgress
 } from '@material-ui/core'
 
 import {
@@ -558,7 +559,7 @@ class CampaignForm extends Component {
     newOptions = newOptions.concat(this.purgeMetricsOptions())
     return newOptions
   }
-  
+
   purgeMetricsOptions = ()=>{
     return {
       title: 'Purge Metrics',
@@ -789,7 +790,7 @@ class CampaignContainer extends Component {
               }
              
               {
-                this.state.loading ? <p>loading</p> : null
+                this.state.loading ? <CircularProgress/> : null
               }
             </Content>
           </div>
