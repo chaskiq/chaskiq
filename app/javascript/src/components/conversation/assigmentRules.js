@@ -264,10 +264,10 @@ class AssigmentRules extends React.Component {
       }
     ]
 
-    return <div style={{width: '100%'}}>
+    return <div style={{width: '100vw'}}>
 
               <Paper style={{
-                padding: '2em',
+                padding: '1em',
                 height: '100vh',
                 display: 'flex',
                 flexDirection: 'column'

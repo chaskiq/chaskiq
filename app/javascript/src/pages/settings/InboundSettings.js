@@ -2,24 +2,20 @@ import React, {Component, useState} from 'react'
 import {
   FormControlLabel,
   Checkbox,
-  FormGroup,
   Box,
   Typography,
   Divider,
   Grid,
   RadioGroup,
   Radio,
-  Avatar,
   Button
 } from '@material-ui/core'
 
-import Moment from 'react-moment';
 import SegmentManager from '../../components/segmentManager'
 import { parseJwt, generateJWT } from '../../components/segmentManager/jwt'
-
 import { PREDICATES_SEARCH} from '../../graphql/mutations'
 import graphql from '../../graphql/client'
-import gravatar from '../../shared/gravatar'
+import userFormat from '../../components/table/userFormat';
 
 export default function InboundSettings({settings, update}){
   const [state, setState] = React.useState({
@@ -374,59 +370,7 @@ class AppSegment extends Component {
       search={this.search.bind(this)}
 
       loading={this.props.searching}
-      columns={[
-
-        {name: 'id', title: 'id', hidden: true},
-        {field: 'email', title: 'email', 
-          render: row => (row ? 
-
-            <div onClick={(id)=> this.showUserDrawer(row) }>
-              
-                <div 
-                  //className={classes.margin} 
-                  color={row.online ? "primary" : 'secondary' }
-                  variant="dot">
-                  <Avatar
-                    name={row.email}
-                    size="medium"
-                    src={gravatar(row.email)}
-                  />
-                </div>
-              
-
-                <Grid container direction={"column"}>
-
-                <Typography variant="overline" display="block">
-                  {row.displayName}
-                </Typography>
-
-                <Typography variant={"caption"}>
-                  {row.email}
-                </Typography>
-
-              </Grid>
-            </div>
-
-           : undefined)
-        },
-        {field: 'lastVisitedAt', 
-          title: 'lastVisitedAt',
-          render: row => (row ? <Moment fromNow>
-                                        {row.lastVisitedAt}
-                                      </Moment> : undefined)
-        },
-        {field: 'state', title: 'state'},
-        {field: 'online', title: 'online'},
-        {field: 'lat',  title: 'lat'},
-        {field: 'lng',  title: 'lng'},
-        {field: 'postal', title: 'postal'},
-        {field: 'browser', title: 'browser'},
-        {field: 'referrer', title: 'referrer'},
-        {field: 'os', title: 'os'},
-        {field: 'osVersion', title: 'osVersion'},
-        {field: 'lang', title: 'lang'},
-
-      ]}
+      columns={userFormat(this.showUserDrawer)}
 
       defaultHiddenColumnNames={
         ['id', 

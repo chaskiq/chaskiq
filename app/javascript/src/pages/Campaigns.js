@@ -42,15 +42,11 @@ import Table from '../components/table/index'
 
 import SelectMenu from '../components/selectMenu'
 
-
 import EmailIcon from '@material-ui/icons/Email';
 import MessageIcon from '@material-ui/icons/Message';
 import FilterFramesIcon from '@material-ui/icons/FilterFrames';
-
-import { Done, Face, DeleteForever, ClearAll } from '@material-ui/icons';
+import { ClearAll } from '@material-ui/icons';
 import {
-  Typography,
-  Avatar,
   Tab,
   Tabs,
   Chip,
@@ -68,23 +64,11 @@ import {
   DeleteForeverRounded
 } from '@material-ui/icons'
 
-
-import gravatar from '../shared/gravatar'
-
 import {setCurrentPage} from '../actions/navigation'
 
-const Wrapper = styled.div`
-  min-width: 600px;
-`;
+import userFormat from '../components/table/userFormat'
 
-const NameWrapper = styled.span`
-  display: flex;
-  align-items: center;
-`;
-
-const AvatarWrapper = styled.div`
-  margin-right: 8px;
-`;
+import {errorMessage, successMessage} from '../actions/status_messages'
 
 const options = [
   {
@@ -136,6 +120,7 @@ class CampaignSegment extends Component {
     graphql(UPDATE_CAMPAIGN, params, {
       success: (data) => {
         debugger
+
         //this.props.updateData(data.campaignUpdate.campaign, null)
         //this.setState({ status: "saved" })
       },
@@ -232,59 +217,7 @@ class CampaignSegment extends Component {
       search={this.search.bind(this)}
 
       loading={this.props.searching}
-      columns={[
-
-        {name: 'id', title: 'id', hidden: true},
-        {field: 'email', title: 'email', 
-          render: row => (row ? 
-
-            <NameWrapper onClick={(id)=> this.showUserDrawer(row) }>
-              <AvatarWrapper>
-                <div 
-                  //className={classes.margin} 
-                  color={row.online ? "primary" : 'secondary' }
-                  variant="dot">
-                  <Avatar
-                    name={row.email}
-                    size="medium"
-                    src={gravatar(row.email)}
-                  />
-                </div>
-              </AvatarWrapper>
-
-              <Grid container direction={"column"}>
-
-                <Typography variant="overline" display="block">
-                  {row.displayName}
-                </Typography>
-
-                <Typography variant={"caption"}>
-                  {row.email}
-                </Typography>
-
-              </Grid>
-            </NameWrapper>
-
-           : undefined)
-        },
-        {field: 'lastVisitedAt', 
-          title: 'lastVisitedAt',
-          render: row => (row ? <Moment fromNow>
-                                        {row.lastVisitedAt}
-                                      </Moment> : undefined)
-        },
-        {field: 'state', title: 'state'},
-        {field: 'online', title: 'online'},
-        {field: 'lat',  title: 'lat'},
-        {field: 'lng',  title: 'lng'},
-        {field: 'postal', title: 'postal'},
-        {field: 'browser', title: 'browser'},
-        {field: 'referrer', title: 'referrer'},
-        {field: 'os', title: 'os'},
-        {field: 'osVersion', title: 'osVersion'},
-        {field: 'lang', title: 'lang'},
-
-      ]}
+      columns={userFormat(this.showUserDrawer)}
 
       defaultHiddenColumnNames={
         ['id', 
@@ -351,7 +284,7 @@ class CampaignForm extends Component {
     this.fetchCampaign()
   }
 
-  fetchCampaign = () => {
+  fetchCampaign = (cb) => {
     const id = this.props.match.params.id
 
     if(id === "new"){
@@ -364,7 +297,7 @@ class CampaignForm extends Component {
           success: (data) => {
             this.setState({
               data: data.campaignCreate.campaign
-            })
+            }, cb && cb)
           }
         })
     }else{
@@ -376,7 +309,7 @@ class CampaignForm extends Component {
         success: (data) => {
           this.setState({
             data: data.app.campaign
-          })
+          }, cb && cb)
         }
       })
     }
@@ -505,9 +438,10 @@ class CampaignForm extends Component {
         this.setState({
           data: data.campaignUpdate.campaign
         })
+        this.props.dispatch(successMessage("campaign updated"))
       }, 
       error: ()=>{
-
+        this.props.dispatch(errorMessage("error updating campaign"))
       }
     })
   }
@@ -577,11 +511,12 @@ class CampaignForm extends Component {
       id: parseInt(this.props.match.params.id),
     }, {
       success: (data)=>{
-        this.props.fetchCampaign()
-        this.init()
+        this.fetchCampaign(()=>{
+          this.props.dispatch(successMessage("campaign updated"))
+        })
       },
       error: ()=>{
-
+        this.props.dispatch(errorMessage("error purging metrics"))
       }
     })
   }
