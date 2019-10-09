@@ -21,7 +21,7 @@ import {
   GridElement,
   FixedHeader,
   HeaderTitle,
-  ConversationButtons,
+  ConversationsButtons,
   Overflow
 } from '../components/conversation/styles'
 
@@ -114,7 +114,9 @@ class ConversationContainer extends Component {
           aria-label="More"
           aria-controls="long-menu"
           aria-haspopup="true"
+          variant={"outlined"}
           onClick={handleClick}
+          size="small"
         >
           {/*<MoreVertIcon />*/}
           {this.props.conversations.filter}
@@ -129,7 +131,9 @@ class ConversationContainer extends Component {
           aria-label="More"
           aria-controls="long-menu"
           aria-haspopup="true"
+          variant={"outlined"}
           onClick={handleClick}
+          size="small"
         >
           {/*<MoreVertIcon />*/}
           {this.props.conversations.sort}
@@ -160,11 +164,11 @@ class ConversationContainer extends Component {
               
               <FixedHeader style={{height: '82px'}}>
           
-                <HeaderTitle>
+                {/*<HeaderTitle>
                   Conversations
-                </HeaderTitle>
+                </HeaderTitle>*/}
 
-                <ConversationButtons>
+                <ConversationsButtons>
 
                   <FilterMenu 
                     options={[
@@ -188,7 +192,7 @@ class ConversationContainer extends Component {
                     triggerButton={this.sortButton}
                   />
 
-                </ConversationButtons>
+                </ConversationsButtons>
 
               </FixedHeader>
 

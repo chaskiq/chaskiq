@@ -60,7 +60,7 @@ const useStyles = makeStyles(theme => ({
     marginRight: '10px',
   },
   time: {
-    fontSize: '0.6em',
+    fontSize: '0.8em',
   },
   displayName: {
     width: 'calc(100% - 9px)',
@@ -127,7 +127,7 @@ function AlignItemsList(props) {
             />
           </Grid>
 
-          <Grid item item xs={7} zeroMinWidth>
+          <Grid item item xs={10} zeroMinWidth>
               <Typography
                 noWrap
                 component="span"
@@ -136,7 +136,24 @@ function AlignItemsList(props) {
                 className={classes.displayName}
                 color="textPrimary">
                 {participant.displayName || 'Site visitor'}
+
+                {
+                  props.messageObject.createdAt &&
+                  <Typography
+                    component="span"
+                    variant="subtitle2"
+                    className={classes.time}
+                    color="textSecondary">
+                    {"·"}
+                    <Moment fromNow ago>
+                      {props.messageObject.createdAt}
+                    </Moment>
+                  </Typography>
+                }
+
               </Typography>
+
+              
 
               <div className={classes.flexContainer}>
                 
@@ -180,22 +197,6 @@ function AlignItemsList(props) {
 
               </div>
 
-          </Grid>
-
-          <Grid item item xs={2}>
-            
-            {
-              props.messageObject.createdAt &&
-              <Typography
-                component="span"
-                variant="subtitle2"
-                className={classes.time}
-                color="textSecondary">
-                <Moment fromNow ago>
-                  {props.messageObject.createdAt}
-                </Moment>
-              </Typography>
-            } 
           </Grid>
         
         </Grid>

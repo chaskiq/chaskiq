@@ -157,6 +157,12 @@ export const UserDataList = styled.ul`
 export const ConversationButtons = styled.div`
   display:flex;
   align-items: center;
+
+`
+
+export const ConversationsButtons = styled(ConversationButtons)`
+  justify-content: space-between;
+  width: 100%;
 `
 
 export const HeaderTitle = styled.div`

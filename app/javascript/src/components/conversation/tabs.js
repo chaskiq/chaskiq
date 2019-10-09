@@ -38,7 +38,9 @@ export default function SimpleTabs(props) {
       <AppBar position="static">
         <Tabs value={value} onChange={handleChange}>
           {
-            props.tabs.map((o)=> <Tab label={o.label} /> )
+            props.tabs.map((o)=> <Tab 
+            key={"conversation-tab"+o.label}
+            label={o.label} /> )
           }
         </Tabs>
       </AppBar>
