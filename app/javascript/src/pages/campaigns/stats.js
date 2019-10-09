@@ -5,23 +5,24 @@ import CampaignChart from "./charts.js"
 import styled from '@emotion/styled'
 import graphql from '../../graphql/client'
 import {CAMPAIGN_METRICS} from '../../graphql/queries'
-import {PURGE_METRICS} from '../../graphql/mutations'
 import Table from '../../components/table/index'
 import gravatar from '../../shared/gravatar'
 import {
   Typography, 
   Button, 
   Avatar, 
-  Badge
+  Badge,
+  Divider
 } from '@material-ui/core'
 
 const PieContainer = styled.div`
-padding: .75em;
-display: grid;
-grid-template-columns: repeat(4,200px);
-grid-gap: 10px;
-width: 100%;
-margin: 25px 0 18px 0;
+  padding: .75em;
+  display: grid;
+  grid-template-columns: repeat(4,200px);
+  grid-gap: 10px;
+  width: 100vw;
+  margin: 25px 0 18px 0;
+  overflow: auto;
 `
 
 const PieItem = styled.div`
@@ -155,26 +156,8 @@ export default class CampaignStats extends Component {
     this.getData()
   }
 
-  purgeMetrics = ()=>{
-
-    graphql(PURGE_METRICS, {
-      appKey: this.props.app.key, 
-      id: parseInt(this.props.match.params.id),
-    }, {
-      success: (data)=>{
-        this.props.fetchCampaign()
-        this.init()
-      },
-      error: ()=>{
-
-      }
-    })
-
-  }
-
   getRateFor = (type)=>{
     return type.keys.map((o)=>{
-      console.log(o)
       return {
         "id": o.name,
         "label": o.name,
@@ -191,7 +174,7 @@ export default class CampaignStats extends Component {
 
               {
                 this.props.data.statsFields.map((o)=>{
-                  return <PieItem>
+                  return  <PieItem>
                             <CampaignChart data={this.getRateFor(o)}/>
                           </PieItem>
                 })
@@ -199,18 +182,7 @@ export default class CampaignStats extends Component {
 
               </PieContainer>
 
-
-            <div>
-              <Button
-                variant={"contained"}
-                color={"primary"}
-                size={"small"}
-                onClick={this.purgeMetrics}>
-                purge metrics
-              </Button>
-            </div>
-
-            <hr/>
+            <Divider variant={"fullWidth"}/>
 
             
 

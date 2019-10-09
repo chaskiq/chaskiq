@@ -22,7 +22,6 @@ import AcceptInvitation from '../auth/AcceptInvitation'
 
 
 let theme = createMuiTheme({
-
   typography: {
     //font-family: 'IBM Plex Sans', sans-serif;
     //font-family: 'IBM Plex Sans Condensed', sans-serif;
@@ -48,6 +47,7 @@ let theme = createMuiTheme({
       fontWeight: 'bold',
       fontSize: 26,
       letterSpacing: 0.5,
+    
     },
   },
   palette: {
@@ -56,7 +56,7 @@ let theme = createMuiTheme({
       //main: '#009be5',
       //main: '#444',
       //main: '#dc18c1',
-      main: '#0000ff', // '#24862c',
+      main: '#7b16ff', //'#0000ff', // '#24862c',
       white: '#fff',
       dark: '#0d0392', //'#15501a', //'#006db3',
     },
@@ -76,6 +76,13 @@ let theme = createMuiTheme({
 theme = {
   ...theme,
   overrides: {
+    MuiTypography:{
+      h5: {
+        [theme.breakpoints.down('sm')]: {
+          fontSize: 21
+        },
+      }
+    },
     MuiDrawer: {
       paper: {
         //backgroundColor: '#18202c',
@@ -93,6 +100,12 @@ theme = {
         },
       },
     },
+    MuiBadge: {
+      colorPrimary: {
+        backgroundColor: "#10e810"
+      }
+    },
+
     MuiTabs: {
       root: {
         marginLeft: theme.spacing(1),

@@ -37,7 +37,7 @@ import {
   DeviceHubOutlined
 } from '@material-ui/icons'
 
-import ExpansionPanel from '@material-ui/core/ExpansionPanel';
+import MuiExpansionPanel from '@material-ui/core/ExpansionPanel';
 import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails';
 import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary';
 
@@ -102,6 +102,23 @@ const styles = theme => ({
     padding: '0px'
   }
 });
+
+const ExpansionPanel = withStyles({
+  root: {
+    border: '1px solid rgba(0, 0, 0, .125)',
+    //boxShadow: 'none',
+    '&:not(:last-child)': {
+      borderBottom: 0,
+    },
+    //'&:before': {
+    //  display: 'none',
+    //},
+    '&$expanded': {
+      //margin: 'auto',
+    },
+  },
+  expanded: {},
+})(MuiExpansionPanel);
 
 function Navigator(props, context) {
   const { 
