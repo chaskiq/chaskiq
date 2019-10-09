@@ -3,7 +3,9 @@ import PropTypes from 'prop-types';
 import clsx from 'clsx';
 import { withStyles } from '@material-ui/core/styles';
 import Divider from '@material-ui/core/Divider';
+import MuiFab from '@material-ui/core/Fab';
 import Drawer from '@material-ui/core/Drawer';
+import Tooltip from '@material-ui/core/Tooltip';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
@@ -17,6 +19,7 @@ import SettingsEthernetIcon from '@material-ui/icons/SettingsEthernet';
 import SettingsInputComponentIcon from '@material-ui/icons/SettingsInputComponent';
 import TimerIcon from '@material-ui/icons/Timer';
 import SettingsIcon from '@material-ui/icons/Settings';
+import ExpandMore from '@material-ui/icons/ExpandMore';
 import PhonelinkSetupIcon from '@material-ui/icons/PhonelinkSetup';
 import EmailIcon from '@material-ui/icons/Email';
 import BookIcon from '@material-ui/icons/Book';
@@ -45,6 +48,7 @@ import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary';
 import { withRouter } from 'react-router-dom'
 import { connect } from 'react-redux'
 import ListMenu from './ListMenu'
+import { Typography } from '@material-ui/core';
 
 
 const styles = theme => ({
@@ -119,6 +123,12 @@ const ExpansionPanel = withStyles({
   },
   expanded: {},
 })(MuiExpansionPanel);
+
+const Fab = withStyles({
+  root: {
+    boxShadow: '0px 0px 0px',
+  }
+})(MuiFab);
 
 function Navigator(props, context) {
   const { 
@@ -297,30 +307,46 @@ function Navigator(props, context) {
               </ListItem>
               <ListItem 
                 className={clsx(classes.item, classes.itemCategory)}
-                onClick={(e) => {
-                  e.preventDefault()
-                  //this.setActiveLink(o, ()=>{
-                    context.router.history.push(`/apps/${app.key}`)
-                  //})
-                }}>
+                >
                 <ListItemIcon>
-                  <HomeIcon />
+                  <HomeIcon onClick={(e) => {
+                    e.preventDefault()
+                    context.router.history.push(`/apps/${app.key}`)
+                  }} />
                 </ListItemIcon>
                 <ListItemText
                   classes={{
                     primary: classes.itemPrimary,
                   }}
+                  onClick={(e) => {
+                    e.preventDefault()
+                    context.router.history.push(`/apps/${app.key}`)
+                  }}
                 >
                   Project Overview
                 </ListItemText>
+
+                <ListItemIcon>
+                  
+                    <ListMenu 
+                      handleClick={visitApp} 
+                      options={apps}
+                      button={  <Tooltip 
+                                  title="Switch project" 
+                                  placement="bottom">
+                                  <Fab 
+                                    variant="inherit"
+                                    size="small">
+                                    <ExpandMore />
+                                  </Fab>
+                                </Tooltip>
+                              }
+                    />
+                  
+                </ListItemIcon>
               </ListItem>
 
-              <ListItem>
-                <ListMenu 
-                  handleClick={visitApp} 
-                  options={apps}
-                />
-              </ListItem>
+
               
             </React.Fragment>
   }
@@ -341,6 +367,11 @@ function Navigator(props, context) {
     </Drawer>
   );
 }
+
+Navigator.contextTypes = {
+  router: PropTypes.object,
+};
+
 
 Navigator.propTypes = {
   open: PropTypes.bool,

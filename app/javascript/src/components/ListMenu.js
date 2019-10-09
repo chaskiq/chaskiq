@@ -12,9 +12,9 @@ import { connect } from 'react-redux'
 
 const useStyles = makeStyles(theme => ({
   root: {
-    width: '100%',
-    maxWidth: 360,
-    backgroundColor: theme.palette.background.paper,
+    //width: '100%',
+    //maxWidth: 360,
+    //backgroundColor: theme.palette.background.paper,
   },
 }));
 
@@ -49,22 +49,34 @@ function SimpleListMenu(props) {
     return `${props.app.name} ${props.app.key}`
   }
 
+  function mergeButton(){
+    return React.cloneElement(
+      props.button,
+      {onClick: handleClickListItem}
+    )
+  }
+
   return (
     <div className={classes.root}>
-      <List component="nav">
-        <ListItem
-          button
-          aria-haspopup="true"
-          aria-controls="lock-menu"
-          aria-label="Switch application"
-          onClick={handleClickListItem}
-        >
-          <ListItemText 
-            primary="Switch application" 
-            //secondary={fetchApp()}
-          />
-        </ListItem>
-      </List>
+
+      {
+        props.button ? mergeButton() : 
+      
+        <List component="nav">
+          <ListItem
+            button
+            aria-haspopup="true"
+            aria-controls="lock-menu"
+            aria-label="Switch application"
+            onClick={handleClickListItem}
+          >
+            <ListItemText 
+              primary="Switch application" 
+              //secondary={fetchApp()}
+            />
+          </ListItem>
+        </List>
+      }
 
       <Menu id="lock-menu" anchorEl={anchorEl} 
         open={Boolean(anchorEl)} 
