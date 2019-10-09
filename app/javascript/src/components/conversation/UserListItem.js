@@ -61,6 +61,7 @@ const useStyles = makeStyles(theme => ({
   },
   time: {
     fontSize: '0.8em',
+    margin: '5px'
   },
   displayName: {
     width: 'calc(100% - 9px)',
@@ -144,7 +145,10 @@ function AlignItemsList(props) {
                     variant="subtitle2"
                     className={classes.time}
                     color="textSecondary">
-                    {"·"}
+                    <span 
+                      style={{padding: '.5em'}}>
+                      {"·"}
+                    </span>
                     <Moment fromNow ago>
                       {props.messageObject.createdAt}
                     </Moment>
