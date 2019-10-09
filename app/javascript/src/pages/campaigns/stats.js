@@ -5,7 +5,6 @@ import CampaignChart from "./charts.js"
 import styled from '@emotion/styled'
 import graphql from '../../graphql/client'
 import {CAMPAIGN_METRICS} from '../../graphql/queries'
-import {PURGE_METRICS} from '../../graphql/mutations'
 import Table from '../../components/table/index'
 import gravatar from '../../shared/gravatar'
 import {
@@ -154,23 +153,6 @@ export default class CampaignStats extends Component {
 
   handleNextPage = ()=>{
     this.getData()
-  }
-
-  purgeMetrics = ()=>{
-
-    graphql(PURGE_METRICS, {
-      appKey: this.props.app.key, 
-      id: parseInt(this.props.match.params.id),
-    }, {
-      success: (data)=>{
-        this.props.fetchCampaign()
-        this.init()
-      },
-      error: ()=>{
-
-      }
-    })
-
   }
 
   getRateFor = (type)=>{

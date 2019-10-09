@@ -31,7 +31,8 @@ import { CAMPAIGN, CAMPAIGNS  } from "../graphql/queries"
 import { PREDICATES_SEARCH, 
   UPDATE_CAMPAIGN, 
   CREATE_CAMPAIGN,
-  DELIVER_CAMPAIGN
+  DELIVER_CAMPAIGN,
+  PURGE_METRICS
  } from '../graphql/mutations'
 
 import {getAppUser} from '../actions/app_user'
@@ -46,7 +47,7 @@ import EmailIcon from '@material-ui/icons/Email';
 import MessageIcon from '@material-ui/icons/Message';
 import FilterFramesIcon from '@material-ui/icons/FilterFrames';
 
-import { Done, Face } from '@material-ui/icons';
+import { Done, Face, DeleteForever, ClearAll } from '@material-ui/icons';
 import {
   Typography,
   Avatar,
@@ -54,12 +55,16 @@ import {
   Tabs,
   Chip,
   Button, 
-  Grid
+  Grid,
+  Badge
 } from '@material-ui/core'
 
 import {
   CheckCircle,
   Pause,
+  VisibilityRounded,
+  SendRounded,
+  DeleteForeverRounded
 } from '@material-ui/icons'
 
 
@@ -82,15 +87,15 @@ const AvatarWrapper = styled.div`
 
 const options = [
   {
-    title: 'Enabled',
+    title: 'Enable',
     description: 'enables the campaign',
     icon: <CheckCircle/>,
     id: 'enabled',
     state: 'enabled'
   },
   {
-    title: 'Disabled',
-    description: 'disables the campaign ',
+    title: 'Pause',
+    description: 'pauses the campaign ',
     icon: <Pause/>,
     id: 'disabled',
     state: 'disabled'
@@ -334,7 +339,6 @@ class CampaignForm extends Component {
       data: {},
       tabValue: 0
     }
-    console.log(props)
   }
 
   url = () => {
@@ -522,6 +526,64 @@ class CampaignForm extends Component {
     }
   }
 
+  optionsForMailing = ()=>{
+    return [
+      {
+        title: 'Preview',
+        description: 'preview campaign\'s message',
+        icon: <VisibilityRounded/>,
+        id: 'preview',
+        onClick: (e) => {
+          window.open(`${window.location.origin}/apps/${this.props.app.key}/premailer/${this.state.data.id}`, '_blank');
+        }
+      },
+      {
+        title: 'Deliver',
+        description: 'delivers the campaign',
+        icon: <SendRounded/>,
+        id: 'deliver',
+        onClick: this.handleSend
+      },
+    ]
+  }
+
+  optionsForData = ()=>{
+    let newOptions = options
+    if(this.props.mode === "campaigns"){
+      newOptions = this.optionsForMailing().concat(options)
+    }
+
+    newOptions = newOptions.filter((o)=> o.state != this.state.data.state)
+
+    newOptions = this.optionsForMailing().concat(this.purgeMetricsOptions())
+    return newOptions
+  }
+  purgeMetricsOptions = ()=>{
+    return {
+      title: 'Purge Metrics',
+      description: 'purges campaign\s metrics',
+      icon: <ClearAll/>,
+      id: 'deliver',
+      onClick: this.purgeMetrics
+    }
+  }
+
+  purgeMetrics = ()=>{
+
+    graphql(PURGE_METRICS, {
+      appKey: this.props.app.key, 
+      id: parseInt(this.props.match.params.id),
+    }, {
+      success: (data)=>{
+        this.props.fetchCampaign()
+        this.init()
+      },
+      error: ()=>{
+
+      }
+    })
+  }
+
 
   render() {
 
@@ -539,16 +601,24 @@ class CampaignForm extends Component {
                     display: 'flex',
                     marginRight: '4px',
                   }}>
+                  <Badge 
+                    color={this.state.data.state === "enabled" ?
+                     "primary" : 'secondary' 
+                    }
+                    variant="dot">
                     {this.iconMode(this.props.mode)}
+                  </Badge>
+                    
                   </Grid>
                   <Grid item>{title}</Grid>
                 </Grid> 
         }
         items={
+          <React.Fragment>
           <Grid item>
 
               <SelectMenu 
-                options={options} 
+                options={this.optionsForData()} 
                 selected={this.state.data.state}
                 handleClick={(e)=> this.toggleCampaignState(e.state) } 
                 toggleButton={(clickHandler)=>{
@@ -557,7 +627,7 @@ class CampaignForm extends Component {
                       variant="outlined" 
                       color="inherit" 
                       size="small">
-                      {this.state.data.state}
+                      {"actions"}
                     </Button>
                   }
                 }
@@ -565,47 +635,14 @@ class CampaignForm extends Component {
               />
 
           </Grid>
-        }
+          </React.Fragment>
+        } 
         tabsContent={
           this.isNew() ? null : this.tabsContent() 
         }
       />
 
-      <Content actions={
-          //&& (this.state.data.state != "sent" && this.state.data.state != "delivering")  ?
-          this.props.mode === "campaigns" ?
-        
-            <Grid container justify={"flex-end"}>
-
-              <Button variant="outlined" 
-                color="primary" 
-                size="small"
-                
-                onClick={(e) => {
-                  window.open(`${window.location.origin}/apps/${this.props.app.key}/premailer/${this.state.data.id}`, '_blank');
-                }
-              }>
-                Preview
-              </Button>
-
-              {
-                /*
-                  <Button variant="contained" color="primary" size="small">
-                    test delivery
-                  </Button>                
-                */
-              }
-
-              <Button 
-                variant="contained" 
-                color="primary" 
-                size="small" 
-                onClick={this.handleSend}>
-                deliver email
-              </Button>
-
-            </Grid> : null 
-        }>
+      <Content>
 
         {
           !isEmpty(this.state.data) ? 
