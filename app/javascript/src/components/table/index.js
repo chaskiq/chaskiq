@@ -27,7 +27,10 @@ import styled from '@emotion/styled';
 
 
 const PaperTableContainer = styled('div')`
-  width: 100vw;
+  @media (max-width: 600px){
+    width: 100vw;
+  }
+  
   .container{
     overflow-x: auto;
     margin-right: auto;
@@ -107,7 +110,7 @@ export default class Table extends React.Component {
               Pagination: props => {
                 return <Grid container 
                           alignItems={'center'} 
-                          justify={'flex-end'}>
+                          justify={'center'}>
 
                         <Grid item>
                           <IconButton disabled={!this.props.meta.prev_page}
