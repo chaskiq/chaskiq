@@ -182,17 +182,6 @@ export default class CampaignStats extends Component {
 
               </PieContainer>
 
-
-            <div>
-              <Button
-                variant={"contained"}
-                color={"primary"}
-                size={"small"}
-                onClick={this.purgeMetrics}>
-                purge metrics
-              </Button>
-            </div>
-
             <hr/>
 
             
