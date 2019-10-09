@@ -93,6 +93,12 @@ theme = {
         },
       },
     },
+    MuiBadge: {
+      colorPrimary: {
+        backgroundColor: "green"
+      }
+    },
+
     MuiTabs: {
       root: {
         marginLeft: theme.spacing(1),

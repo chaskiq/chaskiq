@@ -46,19 +46,21 @@ const PaperTableContainer = styled('div')`
     height: 40px !important;
   }
   
-  th {
-    max-width: 125px;
-    min-width: 125px;
-    padding: 0 !important;
-    overflow-x: auto;
-    white-space: nowrap;
-    text-align: center !important;
-  }
-  
-  td {
-    height: 40px !important;
-    padding: 5px !important;
-    text-align: center !important;
+  @media (max-width: 640px){
+    th {
+      max-width: 125px;
+      min-width: 125px;
+      padding: 0 !important;
+      overflow-x: auto;
+      white-space: nowrap;
+      /*text-align: center !important;*/
+    }
+    
+    td {
+      height: 40px !important;
+      padding: 5px !important;
+      /*text-align: center !important;*/
+    }
   }
   
 }`

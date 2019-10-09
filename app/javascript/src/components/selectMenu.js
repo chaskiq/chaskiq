@@ -22,7 +22,7 @@ export default function UserActionsMenu(props) {
 
   function handleSelected(option){
 
-    props.handleClick(option)
+    option.onClick ? option.onClick() : props.handleClick(option)
 
     setAnchorEl(null);
   }
