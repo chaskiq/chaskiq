@@ -555,9 +555,10 @@ class CampaignForm extends Component {
 
     newOptions = newOptions.filter((o)=> o.state != this.state.data.state)
 
-    newOptions = this.optionsForMailing().concat(this.purgeMetricsOptions())
+    newOptions = newOptions.concat(this.purgeMetricsOptions())
     return newOptions
   }
+  
   purgeMetricsOptions = ()=>{
     return {
       title: 'Purge Metrics',
