@@ -198,7 +198,7 @@ const initialState = {
   name: null,
   predicates: [],
   initialPredicates: [],
-  jwt: null
+  jwt: null,
 }
 
 // Reducer

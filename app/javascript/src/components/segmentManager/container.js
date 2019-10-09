@@ -25,6 +25,7 @@ import {dispatchSegmentUpdate} from '../../actions/segments'
 
 import {setCurrentPage} from '../../actions/navigation'
 import userFormat from '../table/userFormat'
+import { CircularProgress } from '@material-ui/core'
 
 const Wrapper = styled.div`
   //min-width: 600px;
@@ -260,8 +261,7 @@ class AppUsers extends Component {
 
             }
 
-
-            <Table 
+            { !this.props.searching && <Table 
               data={this.props.app_users} 
               loading={this.props.searching}
               columns={userFormat(this.showUserDrawer)}
@@ -301,7 +301,11 @@ class AppUsers extends Component {
               toggleMapView={this.toggleMapView}
               map_view={this.state.map_view}
               enableMapView={true}
-            />
+            />}
+
+            {
+              this.props.searching && <CircularProgress/>
+            }
 
 
 
