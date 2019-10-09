@@ -28,9 +28,9 @@ export function searchAppUsers(options, cb){
       search: predicates_data,
       jwt: jwtData,
       page: page
-    }
-
-    console.log("OPTs", options)
+    }  
+    
+    dispatch(dispatchLoading())
     
     graphql(PREDICATES_SEARCH, 
       options, 
@@ -86,9 +86,7 @@ export function updateAppUserPresence(userData, cb){
 function dispatchLoading(){
   return {
     type: ActionTypes.initSearchAppUsers,
-    data: {
-      searching: true
-    }
+    data: initialState
   }  
 }
 
