@@ -30,6 +30,10 @@ import Moment from 'react-moment';
 import gravatar from '../../shared/gravatar'
 import {setCurrentPage} from '../../actions/navigation'
 
+import MuiChip from '@material-ui/core/Chip';
+import { makeStyles } from '@material-ui/core/styles';
+
+
 const Wrapper = styled.div`
   //min-width: 600px;
 `;
@@ -52,6 +56,35 @@ const NameWrapper = styled.span`
 const AvatarWrapper = styled.div`
   margin-right: 8px;
 `;
+
+
+const useStyles = makeStyles(theme => ({
+  root: {
+    //border: '1px solid rgba(0, 0, 0, .125)',
+    borderRadius: '3px',
+    '&:not(:last-child)': {
+      borderBottom: 0,
+    },
+  },
+  colorPrimary: {
+    backgroundColor: '#12af12'
+  },
+  'colorSecondary': {
+    color: theme.palette.primary.dark,
+    backgroundColor: '#fbfb91'
+  },
+}));
+
+function Chip(props) {
+  const classes = useStyles();
+
+  return (
+    <MuiChip {...props} 
+      classes={classes}>
+      Theming
+    </MuiChip>
+  );
+}
 
 
 class AppContent extends Component {
@@ -313,21 +346,27 @@ class AppUsers extends Component {
 
                    : undefined)
                 },
+                {field: 'state', title: 'state', render: (row)=>{
+                  return <Chip
+                          color={row.state === "subscribed" ? 'primary' : 'secondary'}
+                          label={row.state} 
+                          clickable={false}
+                         />
+                }}, 
 
                 {field: 'id', title: 'id' }, 
-                {field: 'state', title: 'state', hidden: true,}, 
                 {field: 'online', title:  'online', hidden: true}, 
                 {field: 'lat', title: 'lat', hidden:true}, 
                 {field: 'lng', title:  'lng', hidden: true}, 
                 {field: 'postal', title:'postal', hidden: true},
-                {field: 'browserLanguage', title:'browserLanguage', hidden: true}, 
+                {field: 'browserLanguage', title:'browser Language', hidden: true}, 
                 {field: 'referrer', title:'referrer', hidden: true}, 
                 {field: 'os', title:'os', hidden: true}, 
-                {field: 'osVersion', title:'osVersion', hidden: true},
+                {field: 'osVersion', title:'os Version', hidden: true},
                 {field: 'lang', title:'lang', hidden: true},
 
                 {field: 'lastVisitedAt', 
-                  title: 'lastVisitedAt',
+                  title: 'last visited at',
                   render: row => (row ? <Moment fromNow>
                                                 {row.lastVisitedAt}
                                               </Moment> : undefined)

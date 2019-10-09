@@ -20,14 +20,13 @@ import Login from '../auth/login'
 import SignUp from '../auth/signup'
 import AcceptInvitation from '../auth/AcceptInvitation'
 
-
 let theme = createMuiTheme({
   typography: {
     //font-family: 'IBM Plex Sans', sans-serif;
     //font-family: 'IBM Plex Sans Condensed', sans-serif;
-    //fontFamily: "\"IBM Plex Sans\", \"Helvetica\", \"Arial\", sans-serif",
+    fontFamily: "\"IBM Plex Sans\", \"Helvetica\", \"Arial\", sans-serif",
 
-    fontFamily: "\"Roboto Mono\", \"Helvetica\", \"Arial\", sans-serif",
+    //fontFamily: "\"Roboto Mono\", \"Helvetica\", \"Arial\", sans-serif",
     fontSize: 14,
     /*fontWeightLight: 300,
     fontWeightRegular: 400,
