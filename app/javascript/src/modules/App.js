@@ -113,15 +113,15 @@ class Paperbase extends React.Component {
               <React.Fragment>
 
               
-                <Hidden xsDown implementation="css">
+                <Hidden smDown implementation="css">
                     <nav className={classes.drawer}>
                       <Navigator 
                         visitApp={(app)=> this.visitApp(app)}
                         apps={this.state.apps}
                         PaperProps={{ style: { width: this.props.drawerWidth } }}
                         variant="permanent"
-                        open={this.state.mobileOpen}
-                        onClose={this.handleDrawerToggle}
+                        open={true}
+                        //onClose={this.handleDrawerToggle}
                         //currentUser={this.props.current_user}
                         //app={this.props.app}
                     />
