@@ -327,7 +327,10 @@ function Navigator(props, context) {
 
   return (
     <Drawer 
-      {...other}
+      PaperProps={props.PaperProps}
+      variant={props.variant}
+      open={props.open}
+      onClose={props.onClose}
       >
       <List disablePadding>
         
@@ -339,14 +342,8 @@ function Navigator(props, context) {
   );
 }
 
-
-Navigator.contextTypes = {
-  navOpenState: PropTypes.object,
-  router: PropTypes.object,
-};
-
 Navigator.propTypes = {
-  open: PropTypes.boolean,
+  open: PropTypes.bool,
   classes: PropTypes.object.isRequired,
   app: PropTypes.object,
   currentUser: PropTypes.object
