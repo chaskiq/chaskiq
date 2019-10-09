@@ -22,7 +22,6 @@ import AcceptInvitation from '../auth/AcceptInvitation'
 
 
 let theme = createMuiTheme({
-
   typography: {
     //font-family: 'IBM Plex Sans', sans-serif;
     //font-family: 'IBM Plex Sans Condensed', sans-serif;
@@ -48,6 +47,7 @@ let theme = createMuiTheme({
       fontWeight: 'bold',
       fontSize: 26,
       letterSpacing: 0.5,
+    
     },
   },
   palette: {
@@ -76,6 +76,13 @@ let theme = createMuiTheme({
 theme = {
   ...theme,
   overrides: {
+    MuiTypography:{
+      h5: {
+        [theme.breakpoints.down('sm')]: {
+          fontSize: 21
+        },
+      }
+    },
     MuiDrawer: {
       paper: {
         //backgroundColor: '#18202c',
