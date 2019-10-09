@@ -55,6 +55,12 @@ class UserAutoMessage < Message
         keys: [{name: "viewed" , color: "#F4F5F7"}, 
                 {name: "close", color: "#0747A6"}] 
       },
+
+      {
+        name: "OpenRateCount", label: "OpenRateCount", 
+        keys: [{name: "open" , color: "#F4F5F7"}, 
+               {name: "close", color: "#0747A6"}] 
+      },
     ]
   end
 

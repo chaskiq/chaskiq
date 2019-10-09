@@ -11,7 +11,8 @@ import {
   Typography, 
   Button, 
   Avatar, 
-  Badge
+  Badge,
+  Divider
 } from '@material-ui/core'
 
 const PieContainer = styled.div`
@@ -157,7 +158,6 @@ export default class CampaignStats extends Component {
 
   getRateFor = (type)=>{
     return type.keys.map((o)=>{
-      console.log(o)
       return {
         "id": o.name,
         "label": o.name,
@@ -174,7 +174,7 @@ export default class CampaignStats extends Component {
 
               {
                 this.props.data.statsFields.map((o)=>{
-                  return <PieItem>
+                  return  <PieItem>
                             <CampaignChart data={this.getRateFor(o)}/>
                           </PieItem>
                 })
@@ -182,7 +182,7 @@ export default class CampaignStats extends Component {
 
               </PieContainer>
 
-            <hr/>
+            <Divider variant={"fullWidth"}/>
 
             
 
