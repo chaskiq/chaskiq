@@ -58,30 +58,27 @@ function Header(props) {
         <Toolbar className={classes.apa}>
           <Grid container spacing={2} alignItems="center">
             
-              <Hidden smUp>
-                <Grid item>
-                  <IconButton
-                    color="inherit"
-                    aria-label="Open drawer"
-                    onClick={onDrawerToggle}
-                    className={classes.menuButton}
-                  >
-                    <MenuIcon />
-                  </IconButton>
-                </Grid>
-              </Hidden>
-
-            <Hidden smDown>
-            <Grid item>
-              <ListMenu handleClick={visitApp} options={apps}/>
-            </Grid>
+            <Hidden smUp>
+              <Grid item>
+                <IconButton
+                  color="inherit"
+                  aria-label="Open drawer"
+                  onClick={onDrawerToggle}
+                  className={classes.menuButton}
+                >
+                  <MenuIcon />
+                </IconButton>
+              </Grid>
             </Hidden>
 
-
             <Hidden smDown>
-              <Grid item xs />
+              <Grid item>
+                <ListMenu handleClick={visitApp} options={apps}/>
+              </Grid>
             </Hidden>
 
+            <Grid item xs />
+          
             <Grid item>
               <Typography className={classes.link} 
                 component="a" href="#">
