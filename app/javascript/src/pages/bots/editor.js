@@ -39,7 +39,8 @@ import {
 import {
   DragHandle,
   DeleteForever,
-  RemoveCircle
+  RemoveCircle,
+  DeleteForeverRounded
 } from '@material-ui/icons'
 
 import { makeStyles, createStyles } from '@material-ui/styles';
@@ -365,7 +366,9 @@ const BotEditor = ({match, app})=>{
   }
 
   const renderEditor = ()=>{
-    return <Grid container alignContent={'space-around'} justify={'space-around'}>
+    return <Grid container 
+            alignContent={'space-around'} 
+            justify={'space-around'}>
       
     {
       isOpen && <PathDialog 
@@ -376,24 +379,26 @@ const BotEditor = ({match, app})=>{
       />
     }
 
-    <Grid item xs={2}>
-      <Paper>
-        <List component="nav" aria-label="path list">
-          {
-            paths.map((o, i)=>( <PathList
-              key={`path-list-${o.id}-${i}`}
-              path={o}
-              handleSelection={handleSelection}
-              
-              /> ))
-          }
-        </List>
-        <Button variant={"outlined"} onClick={showPathDialog}>add new path</Button>
-      </Paper>
-
+    <Grid item xs={12} sm={2}>
+      <List component="nav" aria-label="path list">
+        {
+          paths.map((o, i)=>( <PathList
+            key={`path-list-${o.id}-${i}`}
+            path={o}
+            handleSelection={handleSelection}
+            
+            /> ))
+        }
+      </List>
+      <Button 
+        variant={"outlined"} 
+        onClick={showPathDialog}
+        color="primary">
+        add new path
+      </Button>
     </Grid>
 
-    <Grid item xs={8}>
+    <Grid item xs={12} sm={10}>
 
       <Paper>
 
@@ -484,7 +489,9 @@ function FollowActionsSelect({app, path, updatePath}){
   }
 
   function renderAddButton(){
-    return <Button onClick={()=>{setSelectMode(true)}}>
+    return <Button 
+            variant="outlined"
+            onClick={()=>{setSelectMode(true)}}>
             add option
            </Button>
   }
@@ -527,7 +534,9 @@ function FollowActionsSelect({app, path, updatePath}){
       default: 
         return <div>
                 <p key={action.key}>{action.name}</p>
-                <Button onClick={()=> removeAction(i)}>
+                <Button 
+                  color={"secondary"}
+                  onClick={()=> removeAction(i)}>
                   remove
                 </Button> 
                </div>
@@ -700,7 +709,7 @@ const Path = ({
 
       <Box p={2}>
 
-        <Grid container>
+        <Grid container spacing={3}>
 
           <Grid item xs={8}>
 
@@ -711,9 +720,19 @@ const Path = ({
               helperText={"path title"}
             />
 
-            <Button onClick={()=>deletePath(path)}>delete path</Button>
-
           </Grid>
+
+          <Grid item xs={4} alignItems="flex-end">
+            <Button 
+              variant="outlined"
+              color="secondary"
+              onClick={()=>deletePath(path)}>
+              delete path
+              <DeleteForeverRounded/>
+
+            </Button>
+          </Grid>
+
         </Grid>
 
         
@@ -734,25 +753,27 @@ const Path = ({
 
       <Grid container spacing={2} justify={"space-around"}>
 
-        <Box m={4}>
           <Button variant={"outlined"} onClick={()=> addStepMessage(path)}>
             Add Message Bubble
           </Button>
 
           <Button variant={"outlined"} onClick={()=> addSectionControl(path)}>
-            Add Message input
+            Add path chooser
           </Button>
 
           <Button variant={"outlined"} onClick={()=> addDataControl(path)}>
-            Add Data input
+            Ask data input
           </Button>
-        </Box>
+    
   
       </Grid>
 
-      <Divider/>
+      <Divider variant="fullWidth" style={{marginTop: '3em'}}/>
 
-      <Grid container spacing={2} justify={"space-around"}>
+      <Grid container 
+        justify={"space-around"} 
+        style={{marginTop: '2em'}}>
+
 
         <Typography variant={'subtitle1'}>Follow actions</Typography>
 
@@ -1095,8 +1116,11 @@ class SortableSteps extends Component {
                             <Grid 
                               item xs={12} 
                               onClick={()=> this.appendItemControl(item)}>
-                              <Button variant={'outlined'} size={"small"}>
-                                + add data button
+                              <Button 
+                                color={"primary"}
+                                variant={'outlined'} 
+                                size={"small"}>
+                                + add data option
                               </Button>
                             </Grid> 
                         }
