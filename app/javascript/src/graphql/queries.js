@@ -530,9 +530,9 @@ export const ARTICLE_SETTINGS = `
 `;
 
 export const ARTICLES = `
-  query App($appKey: String!, $page: Int!, $per: Int, $lang: String){
+  query App($appKey: String!, $page: Int!, $per: Int, $lang: String, $mode: String){
     app(key: $appKey) {
-      articles(page: $page, per: $per, lang: $lang){
+      articles(page: $page, per: $per, lang: $lang, mode: $mode){
         collection {
           id
           title
