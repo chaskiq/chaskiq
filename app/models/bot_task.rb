@@ -1,4 +1,8 @@
 class BotTask < ApplicationRecord
+
+
+  self.inheritance_column = nil
+
   belongs_to :app
 
   has_many :metrics, as: :trackable, dependent: :destroy
@@ -12,6 +16,9 @@ class BotTask < ApplicationRecord
 
   scope :enabled, -> { where(:state => 'enabled')}
   scope :disabled, -> { where(:state => 'disabled')}
+
+  scope :for_leads, -> { where(:type => 'leads')}
+  scope :for_users, -> { where(:type => 'users')}
 
   scope :availables_for, ->(user){
     enabled.joins("left outer join metrics 
@@ -31,6 +38,7 @@ class BotTask < ApplicationRecord
 
   def defaults
     self.predicates = [] unless self.predicates.present?
+    self.settings = {} unless self.settings.present?
   end
 
   def available_segments
