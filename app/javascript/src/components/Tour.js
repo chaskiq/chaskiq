@@ -10,9 +10,11 @@ import DraftRenderer from '../textEditor/draftRenderer'
 import DanteContainer from '../textEditor/editorStyles'
 import theme from '../textEditor/theme'
 import { ThemeProvider } from 'emotion-theming'
+import { DeleteForeverRounded } from '@material-ui/icons'
+import {IconButton, Link} from '@material-ui/core'
+
+
 // INTERNAL APP TOUR
-
-
 const StepContainer = styled.div`
   display: flex;
   flex-direction: row;
@@ -36,6 +38,13 @@ const StepBody = styled.div`
   border-radius: 5px;
   overflow: hidden;
   max-width: 140px;
+  padding: 10px;
+  position: relative;
+  .MuiIconButton-root{
+    position:absolute;
+    top: -7px;
+    right: -7px;
+  }
 `
 
 const StepHeader = styled.div`
@@ -44,9 +53,21 @@ const StepHeader = styled.div`
 
 const StepMessage = styled.div`
 
+  .contentWrap{
+    &:before {
+      content:'';
+      width:100%;
+      height:100%;    
+      position:absolute;
+      left:0;
+      top:31px;
+      background:linear-gradient(transparent 57px, white);
+    }
+  }
+
 `
 const StepsContainer = styled.div`
-  width: 50%;
+  //width: 50%;
   overflow:scroll;
   display: flex;
 `
@@ -64,6 +85,7 @@ const NewStepContainer = styled.div`
   border-radius: 4px;
   min-width: 205px;
   height: 150px;
+  border: 1px solid #ccc;
 `
 
 const NewStepBody = styled.div`
@@ -211,7 +233,7 @@ class NewTourStep extends Component {
   render() {
     return <NewStepContainer>
       <NewStepBody>
-        <a href="#" onClick = {this.enableSelection}>new +</a>
+        <Link href="#" onClick = {this.enableSelection}>new +</Link>
       </NewStepBody>
     </NewStepContainer>
   }
@@ -232,36 +254,28 @@ class TourStep extends Component {
     return <StepContainer onClick={this.enableEditMode}>
            <StepBody>
 
-              <a href="" onClick={this.removeItem}>x</a>
-              <StepHeader>
-                
-              </StepHeader>
+              <IconButton onClick={this.removeItem}>
+                <DeleteForeverRounded/>
+              </IconButton>
+
+              <StepHeader></StepHeader>
 
               <StepMessage>
 
-                <ThemeProvider 
-                  theme={ theme }>
-                  
-                  <DanteContainer>
-                    <DraftRenderer
-                      raw={JSON.parse(this.props.step.serialized_content)}
-                    />
-                  </DanteContainer>
+                <div className="contentWrap">
 
-                </ThemeProvider>
+                  <ThemeProvider 
+                    theme={ theme }>
+                    
+                    <DanteContainer>
+                      <DraftRenderer
+                        raw={JSON.parse(this.props.step.serialized_content)}
+                      />
+                    </DanteContainer>
 
-
-                {
-                  /* 
-                  
-                  <TourEditor
-                  serializedContent={this.props.step.serializedContent}
-                  readOnly={true}
-                />
-                  
-                  */
-                }
+                  </ThemeProvider>
                 
+                </div>
               </StepMessage>
            </StepBody>
            <ConnectorStep/>

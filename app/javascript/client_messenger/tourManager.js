@@ -39,13 +39,6 @@ const IntersectionFrame = styled.div`
 
 `
 
-const TourManagerContainer22 = styled(({ collapsedEditor, ...rest }) => (
-  <StyledFrame {...rest} initialContent={`<!DOCTYPE html>
-  <html><head></head>
-  <body style="margin:0px"><div class="frame-root">
-  </div></body></html>`} />
-))
-
 const TourManagerContainer = styled.div`
     position: fixed;
     bottom: 0px;
@@ -70,10 +63,7 @@ const TourManagerContainerDiv = styled.div`
 const Body = styled.div`
   padding: 30px;
   background: white;
-  
   display: flex;
-
-
   align-items: center;
   justify-content: center;
 `
@@ -100,11 +90,9 @@ const StepContainer = styled.div`
     flex: 0 0 auto;
     min-width: 0;
     min-height: 0;
-
 `
 
 const ConnectorStep = styled.div`
-
   width: 60px;
   heigth: 60px;
   border: 1px solid #ccc;
@@ -112,7 +100,6 @@ const ConnectorStep = styled.div`
 `
 
 const StepBody = styled.div`
-
     background: #fff;
     max-height: 148px;
     box-shadow: 0 2px 8px 0 rgba(0,0,0,.05);
