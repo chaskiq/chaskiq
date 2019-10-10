@@ -56,7 +56,7 @@ class App < ApplicationRecord
   has_many :assignment_rules
 
   before_create :set_defaults
-  after_create :create_agent_bot
+  after_create :create_agent_bot, :init_app_segments
 
   accepts_nested_attributes_for :article_settings
 
@@ -248,6 +248,10 @@ class App < ApplicationRecord
   end
 
 private
+
+  def init_app_segments
+    SegmentFactory.create_segments_for(self)
+  end
 
   def set_defaults
     self.user_tasks_settings = {}

@@ -41,13 +41,17 @@ const useStyles = makeStyles((theme: Theme) => createStyles({
   }
 }));
 
-const BotDataTable = ({app, match, history})=>{
+const BotDataTable = ({app, match, history, mode})=>{
   const [loading, setLoading] = useState(false)
   const [botTasks, setBotTasks] = useState([])
   const [openTaskForm, setOpenTaskForm] = useState(false)
   const [meta, setMeta] = useState({})
+
   function init(){
-    graphql(BOT_TASKS, {appKey: app.key},{
+    graphql(BOT_TASKS, {
+      appKey: app.key,
+      mode: mode
+    },{
       success: (data)=>{
         setBotTasks(data.app.botTasks)
       },
@@ -57,7 +61,9 @@ const BotDataTable = ({app, match, history})=>{
     })
   } 
 
-  useEffect(init, [])
+  useEffect(init, [match.url])
+
+  //useEffect(init [match])
 
   function removeBotTask(o){
     graphql(DELETE_BOT_TASK, {appKey: app.key, id: o.id},{
@@ -80,7 +86,7 @@ const BotDataTable = ({app, match, history})=>{
     <div>
 
       <ContentHeader 
-        title={ 'title' }
+        title={ mode }
         items={ <Grid item>
                   <Button 
                     variant="outlined" 
@@ -131,6 +137,7 @@ const BotDataTable = ({app, match, history})=>{
       {
         openTaskForm ? 
         <BotTaskCreate 
+          mode={mode}
           match={match}
           history={history}
           app={app}
@@ -142,7 +149,7 @@ const BotDataTable = ({app, match, history})=>{
   )
 }
 
-const BotTaskCreate = ({app, submit, history, match})=>{
+const BotTaskCreate = ({app, submit, history, match, mode})=>{
   //const PathDialog = ({open, close, isOpen, submit})=>{
 
   const [isOpen, setIsOpen] = useState(true)
@@ -159,7 +166,8 @@ const BotTaskCreate = ({app, submit, history, match})=>{
     const dataParams = {
       //id: create_UUID(),
       title: titleRef.value,
-      paths: []
+      paths: [],
+      type: mode
     }
 
     graphql(CREATE_BOT_TASK, {
@@ -235,21 +243,45 @@ const BotContainer = ({app, match, history, dispatch})=>{
           )} 
       />
 
-      <Route exact path={[`${match.path}/users`, `${match.path}/leads`]}
+      <Route exact path={[`${match.path}/users`]}
         render={(props) => (
           <BotDataTable app={app} 
               history={history}
               match={match}
+              mode={"users"}
               {...props}
             />
           )} 
       />
 
-      <Route exact path={[`${match.path}/users/:id`, `${match.path}/leads/:id`]}
-        render={(props) => (
-            <BotEditor app={app} match={match} {...props}/>
+      <Route exact path={[`${match.path}/leads`]}
+      render={(props) => (
+        <BotDataTable app={app} 
+            history={history}
+            match={match}
+            mode={"leads"}
+            {...props}
+          />
         )} 
-      /> 
+    />
+
+    <Route exact path={[`${match.path}/leads/:id`]}
+      render={(props) => {
+          return <BotEditor app={app} 
+          match={match} 
+          {...props}
+        />
+      }} 
+    /> 
+
+    <Route exact path={`${match.path}/users/:id`}
+    render={(props) => {
+        return <BotEditor app={app} 
+        match={match} 
+        {...props}
+      />
+    }} 
+  /> 
     </Switch>
 
   )

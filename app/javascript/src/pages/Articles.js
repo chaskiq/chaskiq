@@ -135,14 +135,23 @@ class Articles extends Component {
 
     switch (this.state.tabValue){
       case 0:
-        return <AllArticles {...this.props} settings={this.state.settings}/>
-
+        return <AllArticles 
+                  {...this.props} 
+                  settings={this.state.settings}
+                  mode={"all"}
+                />
       case 1:
-        return <PublishedArticles {...this.props} settings={this.state.settings}/>
+        return <AllArticles 
+                  {...this.props} 
+                  settings={this.state.settings}
+                  mode={"published"}
+                />
       case 2:
-        return 
-      case 3:
-        return <p>drafts</p>
+        return <AllArticles 
+                  {...this.props} 
+                  settings={this.state.settings}
+                  mode={"draft"}
+                />
     }
   }
 
@@ -251,11 +260,18 @@ class AllArticles extends React.Component {
     )
   }
 
+  componentDidUpdate(prevProps){
+    if(prevProps.mode != this.props.mode){
+      this.search()
+    }
+  }
+
   getArticles = ()=>{
     graphql(ARTICLES, {
       appKey: this.props.app.key, 
       page: 1,
-      lang: this.state.lang
+      lang: this.state.lang,
+      mode: this.props.mode
     }, {
       success: (data)=>{
         this.setState({
@@ -308,7 +324,7 @@ class AllArticles extends React.Component {
                   !this.state.loading ?
                   <DataTable 
                     elevation={0}
-                    title={'Articles'}
+                    title={`${this.props.mode} articles`}
                     meta={this.state.meta}
                     data={this.state.collection}
                     search={this.search}

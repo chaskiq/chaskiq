@@ -6,49 +6,6 @@
 #   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
 #   Character.create(name: 'Luke', movie: movies.first)
 
-default_predicate = { type: "match" ,
-                      attribute: "match",
-                      comparison: "and",
-                      value: "and"
-                    }.with_indifferent_access
-
-user_predicate = {
-                        attribute: "type", 
-                        comparison: "eq", 
-                        type: "string", 
-                        value: "User"
-                        }.with_indifferent_access
-
-
-lead_predicate = {attribute: "type", 
-                        comparison: "eq", 
-                        type: "string", 
-                        value: "Lead"}.with_indifferent_access                     
-
-Segment.create([
-  { name: "all users",  predicates: [default_predicate, user_predicate]},
-
-  { name: "all leads",  predicates: [ default_predicate, lead_predicate ]},
-
-
-  { name: "active users",  predicates: [ default_predicate, 
-                                        { attribute: "last_visited_at", 
-                                          comparison: "gt", 
-                                          type: "date", 
-                                          value: "30 days ago"
-                                        }.with_indifferent_access]                                
-  },
-
-  { name: "sleeping away",  predicates: [ default_predicate,
-                                          {attribute: "last_visited_at", 
-                                          comparison: "gteq", 
-                                          type: "date", 
-                                          value: "1 days ago"}.with_indifferent_access
-                                        ]                                 
-  }
-])
-
 
 app = App.create(name: "test app")
 app.add_admin(Agent.create(email: "miguelmichelson@gmail.com", password: "123456"))
-
