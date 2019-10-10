@@ -683,9 +683,9 @@ export const ARTICLE_COLLECTION_WITH_SECTIONS = `
 
 
 export const BOT_TASKS = `
-  query BotTasks($appKey: String!, $lang: String){
+  query BotTasks($appKey: String!, $lang: String, $mode: String){
     app(key: $appKey){
-      botTasks(lang: $lang){
+      botTasks(lang: $lang, mode: $mode){
         title
         id
         state

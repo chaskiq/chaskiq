@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_10_02_234602) do
+ActiveRecord::Schema.define(version: 2019_10_10_202220) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -293,8 +293,10 @@ ActiveRecord::Schema.define(version: 2019_10_02_234602) do
     t.json "paths"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.string "type"
     t.index ["app_id"], name: "index_bot_tasks_on_app_id"
     t.index ["state"], name: "index_bot_tasks_on_state"
+    t.index ["type"], name: "index_bot_tasks_on_type"
   end
 
   create_table "campaigns", force: :cascade do |t|

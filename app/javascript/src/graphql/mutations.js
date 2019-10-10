@@ -942,7 +942,7 @@ export const CREATE_BOT_TASK = `
   mutation CreateBotTask($appKey: String!, $params: Json!){
     createBotTask( 
       appKey: $appKey,
-      params: $params
+      params: $params,
     ){
       botTask{
         id
