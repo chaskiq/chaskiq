@@ -43,9 +43,13 @@ import {
 
 const styles = theme => ({
   root: {
-    padding: '2em',
-    margin: '2em',
-  
+    [theme.breakpoints.up('sm')]: {
+      margin: theme.spacing(3),
+    },
+    [theme.breakpoints.down('sm')]: {
+      padding: theme.spacing(2),
+    },
+
   },
   formControl: {
     margin: theme.spacing.unit,
@@ -96,13 +100,9 @@ class SettingsForm extends Component {
   }
 
   render(){
-    return <ContentWrapper>
-           
-
-            <Paper 
+    return <Paper 
               elevation={0}
               className={this.props.classes.root}>
-
               <form
                 name="create-repo"
                 onSubmit={this.onSubmitHandler.bind(this)}
@@ -150,9 +150,6 @@ class SettingsForm extends Component {
 
               </form>
             </Paper>
-
-
-          </ContentWrapper>
   }
 
 }
@@ -203,6 +200,8 @@ class AppSettingsContainer extends Component {
   tabsContent = ()=>{
     return <Tabs value={this.state.tabValue} 
               onChange={this.handleTabChange}
+              variant="scrollable"
+              scrollButtons="auto"
               textColor="inherit">
               <Tab textColor="inherit" label="App Settings" />
               <Tab textColor="inherit" label="Security" />

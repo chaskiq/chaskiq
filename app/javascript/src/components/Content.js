@@ -48,6 +48,7 @@ const styles = theme => ({
       margin: '40px 16px',
     },
     [theme.breakpoints.down('sm')]: {
+      width: '100vw',
       padding: '5px',
     },
   },
