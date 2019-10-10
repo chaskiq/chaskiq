@@ -15,6 +15,7 @@ import Segment from './segment'
 import SettingsForm from './settings'
 import BotTaskSetting from './taskSettings'
 import ContextMenu from '../../components/ContextMenu'
+import {errorMessage, successMessage} from '../../actions/status_messages'
 
 import {
   Box,
@@ -148,7 +149,7 @@ const PathDialog = ({open, close, isOpen, submit})=>{
   )
 }
 
-const BotEditor = ({match, app})=>{
+const BotEditor = ({match, app, dispatch})=>{
   const [botTask, setBotTask] = useState({})
   const [errors, setErrors] = useState({})
   const [paths, setPaths] = useState([])
@@ -193,9 +194,10 @@ const BotEditor = ({match, app})=>{
         setPaths(data.updateBotTask.botTask.paths)
         setErrors(data.updateBotTask.botTask.errors)
         setSelectedPath(data.updateBotTask.botTask.paths[0])
+        dispatch(successMessage("bot updated"))
       },
       error: (err)=>{
-        debugger
+        dispatch(errorMessage("bot updated"))
       }
     })
 
