@@ -530,9 +530,9 @@ export const ARTICLE_SETTINGS = `
 `;
 
 export const ARTICLES = `
-  query App($appKey: String!, $page: Int!, $per: Int, $lang: String){
+  query App($appKey: String!, $page: Int!, $per: Int, $lang: String, $mode: String){
     app(key: $appKey) {
-      articles(page: $page, per: $per, lang: $lang){
+      articles(page: $page, per: $per, lang: $lang, mode: $mode){
         collection {
           id
           title
@@ -683,9 +683,9 @@ export const ARTICLE_COLLECTION_WITH_SECTIONS = `
 
 
 export const BOT_TASKS = `
-  query BotTasks($appKey: String!, $lang: String){
+  query BotTasks($appKey: String!, $lang: String, $mode: String){
     app(key: $appKey){
-      botTasks(lang: $lang){
+      botTasks(lang: $lang, mode: $mode){
         title
         id
         state

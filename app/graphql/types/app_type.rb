@@ -169,11 +169,19 @@ module Types
       argument :page, Integer, required: true
       argument :per, Integer, required: false, default_value: 20
       argument :lang, String, required: false, default_value: I18n.default_locale
+      argument :mode, String, required: false, default_value: "all"
+
     end
 
-    def articles(page:, per:, lang:)
+    def articles(page:, per:, lang:, mode: )
       I18n.locale = lang
-      object.articles.page(page).per(per)
+      if mode == "all"
+        object.articles.page(page).per(per)
+      elsif mode == "published"
+        object.articles.published.page(page).per(per)
+      elsif mode == "draft"
+        object.articles.draft.page(page).per(per)
+      end
     end
 
     field :articles_uncategorized, Types::PaginatedArticlesType, null: true do
@@ -218,10 +226,15 @@ module Types
 
     field :bot_tasks, [Types::BotTaskType], null: true do
       argument :lang, String, required: false, default_value: I18n.default_locale.to_s
+      argument :mode, String, required: false, default_value: "leads"
     end
 
-    def bot_tasks(lang:)
-      object.bot_tasks
+    def bot_tasks(lang: , mode:)
+      if mode == "leads"
+        object.bot_tasks.for_leads #.page(page).per(per)
+      elsif mode == "users"
+        object.bot_tasks.for_users
+      end
     end
 
     field :bot_task, Types::BotTaskType, null: true do
