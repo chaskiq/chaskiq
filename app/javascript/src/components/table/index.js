@@ -25,6 +25,8 @@ import {
 import MapIcon from '@material-ui/icons/Map';
 import styled from '@emotion/styled';
 
+import {capitalize} from 'lodash'
+
 
 const PaperTableContainer = styled('div')`
   @media (max-width: 600px){
@@ -94,7 +96,7 @@ export default class Table extends React.Component {
       <PaperTableContainer>
         
           <MaterialTable
-            title={this.props.title}
+            title={capitalize(this.props.title)}
             columns={this.state.columns}
             data={this.props.data}
             options={{
