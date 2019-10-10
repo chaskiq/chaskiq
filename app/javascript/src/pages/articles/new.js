@@ -58,6 +58,7 @@ import ScrollableTabsButtonForce from '../../components/scrollingTabs'
 import langs from '../../shared/langsOptions'
 
 import {errorMessage, successMessage} from '../../actions/status_messages'
+import styled from '@emotion/styled'
 
 window.successMessage = successMessage
 
@@ -87,9 +88,20 @@ const styles = theme => ({
     padding: '1em',
     marginTop: '1.5em',
     paddingBottom: '6em'*/
-    margin: theme.spacing(2)
+    //margin: theme.spacing(2)
   }
 });
+
+const ArticleAuthorControls = styled.div`
+  display: flex; 
+  align-items: center;
+  margin-top: 2em;
+  margin-bottom: 2em;
+  @media (min-width: 320px) and (max-width: 480px) {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+`
 
 
 class ArticlesNew extends Component {
@@ -466,25 +478,28 @@ class ArticlesNew extends Component {
 
             {
               !this.state.loading && this.state.article.author ? 
-              <div style={{
-                display: 'flex', 
-                alignItems: 'center',
-                marginTop: '2em',
-                marginBottom: '2em'
-              }}>
-                
-                <Avatar 
-                  src={gravatar( this.state.article.author.email )}
-                />
-
-
-                <strong style={{marginLeft: '9px', marginRight: '9px'}}>
-                  written by
-                </strong>
+              <ArticleAuthorControls>
 
                 {
                   this.state.agents.length > 0 ?
-                    <div style={{ width: '300px'}}>
+                    <div style={{ 
+                      width: '300px',
+                      display: 'flex', 
+                      alignItems: 'center'
+                    }}>
+
+                    <Avatar 
+                      src={gravatar( this.state.article.author.email )}
+                    />
+                      
+                      <strong style={{
+                        marginLeft: '9px', 
+                        marginRight: '9px',
+                        width: '103px'  
+                      }}>
+                        written by
+                      </strong>
+
                       <SuggestSelect 
                         name={"author"}
                         placeholder={"select author"}
@@ -497,15 +512,18 @@ class ArticlesNew extends Component {
                         defaultData={this.state.article.author.email}
                       />
                     </div> : null 
-                } 
+                }
 
+                <div style={{ 
+                  width: '200px', 
+                  display: 'flex', 
+                  alignItems: 'center'
+                }}>
 
+                  <strong style={{marginLeft: '9px', marginRight: '9px'}}>
+                    In
+                  </strong>
 
-                <strong style={{marginLeft: '9px', marginRight: '9px'}}>
-                  In
-                </strong>
-
-                <div style={{ width: '200px'}}>
                   <SuggestSelect 
                     name={"collection"}
                     placeholder={"select collection"}
@@ -524,7 +542,7 @@ class ArticlesNew extends Component {
                 </div>
 
 
-              </div>: null
+              </ArticleAuthorControls>: null
             }
 
 
