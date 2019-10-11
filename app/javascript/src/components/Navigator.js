@@ -139,12 +139,15 @@ function Navigator(props, context) {
     location,
     visitApp,
     apps,
+    onClose,
     ...other 
   } = props;
 
   const appid = `/apps/${app.key}`
 
   const [expanded, setExpanded] = useState(current_page);
+
+  let routerListener = null
 
   useEffect( () => { 
     setExpanded(current_page) 

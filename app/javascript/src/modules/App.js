@@ -45,12 +45,14 @@ class Paperbase extends React.Component {
   };*/
 
   componentDidUpdate(prevProps){
-    //this.idleLogout()
     if(prevProps.current_user.email != this.props.current_user.email){
       this.fetchApps()
     }
-  }
 
+    if(this.props.location.key !== prevProps.location.key){
+      this.setState({ mobileOpen: false });
+    }
+  }
 
   idleLogout = ()=> {
     var time;
@@ -138,6 +140,7 @@ class Paperbase extends React.Component {
                       variant="temporary"
                       open={this.state.mobileOpen}
                       onClose={this.handleDrawerToggle}
+
                       //currentUser={this.props.current_user}
                       //app={this.props.app}
                     />
