@@ -49,11 +49,6 @@ class AppContent extends Component {
     this.getSegment = this.getSegment.bind(this)
   }
 
-  getSegment(){
-    const segmentID = this.props.match.params.segmentID
-    segmentID ? this.props.actions.fetchAppSegment(segmentID) : null    
-  }
-
   componentDidMount(){
 
     this.props.dispatch(
@@ -70,7 +65,11 @@ class AppContent extends Component {
     this.getSegment(()=>{
       this.props.actions.search()
     })
-   
+  }
+
+  getSegment(){
+    const segmentID = this.props.match.params.segmentID
+    segmentID ? this.props.actions.fetchAppSegment(segmentID) : null    
   }
 
   componentDidUpdate(prevProps, prevState) {
@@ -88,7 +87,7 @@ class AppContent extends Component {
       })
     }
 
-    if (prevProps.segment.jwt !== this.props.segment.jwt) {
+    if (prevProps.segment.jwt && prevProps.segment.jwt !== this.props.segment.jwt) {
       console.info("cambio jwt")
       this.props.actions.search()
     }
