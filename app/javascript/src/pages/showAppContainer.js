@@ -237,7 +237,9 @@ class ShowAppContainer extends Component {
 
   fetchAppSegment =(id)=>{
     this.props.dispatch(
-      fetchAppSegment(id, this.search )
+      fetchAppSegment(id, 
+        this.search 
+      )
     )
   }
 

@@ -109,7 +109,7 @@ const styles = theme => ({
 
 const ExpansionPanel = withStyles({
   root: {
-    border: '1px solid rgba(0, 0, 0, .125)',
+    //border: '1px solid rgba(0, 0, 0, .125)',
     //boxShadow: 'none',
     '&:not(:last-child)': {
       borderBottom: 0,
