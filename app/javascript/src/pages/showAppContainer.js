@@ -332,6 +332,13 @@ class ShowAppContainer extends Component {
     )
   }
 
+  hideUserDrawer = ()=>{
+    this.props.dispatch(
+      toggleDrawer({ rightDrawer: false }, ()=>{
+      })
+    )
+  }
+
   toggleDrawer = (side, open) => event => {
     if (event.type === 'keydown' && (event.key === 'Tab' || event.key === 'Shift')) {
       return;
@@ -360,7 +367,8 @@ class ShowAppContainer extends Component {
             <UserData 
               width={ '300px'}
               app={this.props.app}
-              appUser={this.props.app_user} /> 
+              appUser={this.props.app_user} 
+            /> 
             : null
         }
 

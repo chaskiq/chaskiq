@@ -9,6 +9,8 @@ import {Typography} from '@material-ui/core'
 import {Link} from 'react-router-dom'
 import { withRouter } from 'react-router-dom'
 import { connect } from 'react-redux'
+import {toggleDrawer} from '../actions/drawer'
+
 
 const ActivityAvatar = styled.div`
   display: flex;
@@ -77,7 +79,15 @@ class UserData extends Component {
                 </ActivityAvatar>
 
 
-                <Link to={`/apps/${this.props.app.key}/users/${this.props.appUser.id}`}>
+                <Link 
+                  to={`/apps/${this.props.app.key}/users/${this.props.appUser.id}`}
+                  onClick={()=> {
+                    this.props.dispatch(
+                      toggleDrawer({ rightDrawer: false }, ()=>{
+                      })
+                    )}
+                  }>
+                  
                   See full profile
                 </Link>
 

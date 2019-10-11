@@ -16,8 +16,15 @@ import { parseJwt, generateJWT } from '../../components/segmentManager/jwt'
 import { PREDICATES_SEARCH} from '../../graphql/mutations'
 import graphql from '../../graphql/client'
 import userFormat from '../../components/table/userFormat';
+import {toggleDrawer} from '../../actions/drawer'
+import {
+  getAppUser 
+} from '../../actions/app_user'
+import { withRouter, Switch } from 'react-router-dom'
+import { connect } from 'react-redux'
 
-export default function InboundSettings({settings, update}){
+
+function InboundSettings({settings, update, dispatch}){
   const [state, setState] = React.useState({
     enable_inbound: settings.inboundSettings.enabled,
 
@@ -132,6 +139,7 @@ export default function InboundSettings({settings, update}){
           predicates={state.usersPredicates || []}
           setPredicates={setPredicates}
           radioValue={state.users_radio}
+          dispatch={dispatch}
           some={"Users who match certain data"} 
         />
       </Box>
@@ -144,6 +152,7 @@ export default function InboundSettings({settings, update}){
           label={"Visitors"}
           all={"All Visitors"} 
           namespace="visitors"
+          dispatch={dispatch}
           checked={state.visitors_enabled}
           updateChecked={handleChange}
           predicates={state.visitorsPredicates || []}
@@ -168,6 +177,15 @@ export default function InboundSettings({settings, update}){
   )
 }
 
+function mapStateToProps(state) {
+  const { drawer } = state
+  return {
+    drawer
+  }
+}
+
+export default withRouter(connect(mapStateToProps)(InboundSettings))
+
 
 function AppSegmentManager({
   app, 
@@ -179,7 +197,8 @@ function AppSegmentManager({
   namespace,
   predicates,
   setPredicates,
-  radioValue
+  radioValue,
+  dispatch
 }){
 
   //const [checked, setChecked]= useState(checked)
@@ -253,6 +272,7 @@ function AppSegmentManager({
             app={app}
             data={{ segments: predicates }}
             updateData={updatePredicates} 
+            dispatch={dispatch}
           /> : null
         }
       </Grid>

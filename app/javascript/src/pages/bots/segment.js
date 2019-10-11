@@ -13,9 +13,14 @@ import {
   Button,
 } from '@material-ui/core'
 import userFormat from '../../components/table/userFormat'
+import { withRouter, Switch } from 'react-router-dom'
+import { connect } from 'react-redux'
+import {toggleDrawer} from '../../actions/drawer'
+import {
+  getAppUser 
+} from '../../actions/app_user'
 
-
-export default class Segment extends Component {
+class Segment extends Component {
 
   constructor(props) {
     super(props)
@@ -190,3 +195,12 @@ export default class Segment extends Component {
     </SegmentManager>
   }
 }
+
+function mapStateToProps(state) {
+  const { drawer } = state
+  return {
+    drawer
+  }
+}
+
+export default withRouter(connect(mapStateToProps)(Segment))
