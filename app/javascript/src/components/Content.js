@@ -49,6 +49,7 @@ const styles = theme => ({
     },
     [theme.breakpoints.down('sm')]: {
       width: '100vw',
+      padding: '1em'
     },
   },
 });

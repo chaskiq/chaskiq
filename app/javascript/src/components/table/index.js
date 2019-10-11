@@ -30,7 +30,7 @@ import {capitalize} from 'lodash'
 
 const PaperTableContainer = styled('div')`
   @media (max-width: 600px){
-    width: 100vw;
+    //width: 100vw;
   }
   
   .container{

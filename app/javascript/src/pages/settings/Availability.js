@@ -102,7 +102,7 @@ export default function LanguageForm({settings, update, namespace, fields}){
 
       <Box m={2}>
 
-        <Typography gutterBottom variant={"caption"}>
+        <Typography gutterBottom variant={"overline"}>
           Your workspace’s timezone is {settings.timezone}
         </Typography>
 
@@ -194,7 +194,7 @@ function AvailabilitySchedule({records, setRecords}){
 
   return (
 
-    <Box m={4}>
+    <Box m={2}>
     
       {
         records.map((o, index)=>(

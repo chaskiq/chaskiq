@@ -95,7 +95,6 @@ export default class CampaignSettings extends Component {
     return (
       <Grid
         container 
-        style={{padding: '2em'}}
         direction={"column"}>
         <form
           name="create-repo"

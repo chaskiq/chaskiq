@@ -101,7 +101,7 @@ function InboundSettings({settings, update, dispatch}){
         />
       </Grid>
 
-      <Typography variant={"caption"}>
+      <Typography variant={"overline"}>
         When this is turned off, people can only reply to the outbound messages  you send.
       </Typography>
 
@@ -121,14 +121,15 @@ function InboundSettings({settings, update, dispatch}){
         Any messages you send will still be delivered.
       </Typography>
 
-      <Typography variant={"body1"}>
-        On the web, show the standard Messenger launcher to:
-        Users
-      </Typography>
-
-      <Divider/>
 
       <Box mb={2} mt={2}>
+
+        <Typography variant={"subtitle1"}>
+          On the web, show the standard Messenger launcher to:
+        </Typography>
+
+        <Divider/>
+
         <AppSegmentManager 
           app={settings} 
           label={"Users"}
@@ -142,11 +143,9 @@ function InboundSettings({settings, update, dispatch}){
           dispatch={dispatch}
           some={"Users who match certain data"} 
         />
-      </Box>
 
-      <Divider/>
+        <Divider/>
 
-      <Box mb={2} mt={2}>
         <AppSegmentManager 
           app={settings} 
           label={"Visitors"}
@@ -160,17 +159,18 @@ function InboundSettings({settings, update, dispatch}){
           radioValue={state.visitors_radio}
           some={"Visitors who match certain data"} 
         />
+    
+        <Typography variant="caption">
+          This doesn’t affect the outbound messages you send.
+        </Typography>
+
       </Box>
 
-      <Typography variant="caption">
-        This doesn’t affect the outbound messages you send.
-      </Typography>
-
       <Grid container>
-      <Button onClick={handleSubmit}
-        variant={"contained"} color={"primary"}>
-        Save
-      </Button>
+        <Button onClick={handleSubmit}
+          variant={"contained"} color={"primary"}>
+          Save
+        </Button>
       </Grid>
 
     </div>

@@ -206,7 +206,7 @@ class AppSettingsContainer extends Component {
               <Tab textColor="inherit" label="App Settings" />
               <Tab textColor="inherit" label="Security" />
               <Tab textColor="inherit" label="Appearance" />
-              <Tab textColor="inherit" label="Text" />
+              <Tab textColor="inherit" label="Translations" />
               <Tab textColor="inherit" label="Availability" />
               <Tab textColor="inherit" label="Email Requirement" />
               <Tab textColor="inherit" label="Inbound settings" />

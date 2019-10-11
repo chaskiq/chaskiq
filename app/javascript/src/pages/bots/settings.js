@@ -7,6 +7,7 @@ import {
   Tab,
   Typography,
   Checkbox,
+  Box,
   FormControlLabel,
   FormControl,
   FormGroup,
@@ -133,7 +134,7 @@ function UsersSettings({app, updateData, namespace, submit}){
     <Grid container direction={"column"}>
 
       <Grid item>
-        <Typography variant={"h5"}>
+        <Typography variant={"h4"}>
           When users start a conversation
         </Typography>
 
@@ -193,27 +194,31 @@ function LeadsSettings({app, updateData, agents, getAgents, submit, namespace}){
           When leads start a conversation
         </Typography>
 
-        <FormControlLabel
-          control={
-            <Checkbox 
-              checked={state.delay} 
-              onChange={handleChange('delay')} 
-              value={state.delay} 
-            />
-          }
-          label="Leave a 2 minute delay before triggering Task Bots during office hours"
-        />
+        <Grid container direction="column">
 
-        <FormControlLabel
-          control={
-            <Checkbox 
-              checked={state.share_typical_time} 
-              onChange={handleChange('share_typical_time')} 
-              value={state.share_typical_time} 
-            />
-          }
-          label="Share your typical reply time"
-        />
+          <FormControlLabel
+            control={
+              <Checkbox 
+                checked={state.delay} 
+                onChange={handleChange('delay')} 
+                value={state.delay} 
+              />
+            }
+            label="Leave a 2 minute delay before triggering Task Bots during office hours"
+          />
+
+          <FormControlLabel
+            control={
+              <Checkbox 
+                checked={state.share_typical_time} 
+                onChange={handleChange('share_typical_time')} 
+                value={state.share_typical_time} 
+              />
+            }
+            label="Share your typical reply time"
+          />
+
+        </Grid>
 
         <Divider/>
         
@@ -225,32 +230,44 @@ function LeadsSettings({app, updateData, agents, getAgents, submit, namespace}){
           Route leads to the right people by asking if they are an existing customer when they start a new conversation.      
         </Typography>
 
-        <FormControl component="fieldset">
+        <FormControl component="fieldset" margin={"normal"}>
+          
           <FormLabel component="legend">
             What do you want to do when they choose "Yes, I'm a customer"?
           </FormLabel>
+
           <RadioGroup aria-label="position" 
             name="routing" 
             value={state.routing} 
             onChange={handleRadioChange} 
             >
-            <FormControlLabel
-              value="assign"
-              control={<Radio color="primary" />}
-              label="Assign the conversation"
-              labelPlacement="end"
-            />
 
-            {
-              state.routing === "assign" && 
+            <Box pt={2} >
+              <Grid container direction={"row"}>
+
+                <FormControlLabel
+                  value="assign"
+                  control={<Radio color="primary" />}
+                  label="Assign the conversation"
+                  labelPlacement="end"
+                />
+
+                {
+                  state.routing === "assign" && 
+                  
+                  <AgentSelector 
+                    agents={agents} 
+                    getAgents={getAgents}
+                    setValue={setValue}
+                    value={state.assignee}
+                  />
+                }
               
-              <AgentSelector 
-                agents={agents} 
-                getAgents={getAgents}
-                setValue={setValue}
-                value={state.assignee}
-              />
-            }
+              </Grid>
+            </Box>
+            
+
+
 
             <FormControlLabel
               value="close"
