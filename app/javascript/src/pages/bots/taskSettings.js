@@ -87,7 +87,7 @@ function Schedule({app, data, updateData, namespace, submit}){
   return (
     <div>
       <Grid container>
-        <Grid item>
+        <Grid container direction={"column"}>
 
           <Typography variant={"h5"}>
             Enable Bot
@@ -144,6 +144,7 @@ function Schedule({app, data, updateData, namespace, submit}){
                 labelPlacement="end"
               />
             </RadioGroup>
+
           </FormControl>
 
         </Grid>
