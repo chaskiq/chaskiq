@@ -4,6 +4,7 @@ class AppUser < ApplicationRecord
   include AASM
   include UnionScope
   include Tokenable
+  include Redis::Objects
 
   ENABLED_SEARCH_FIELDS = [
                             "email",
@@ -73,6 +74,9 @@ class AppUser < ApplicationRecord
   scope :users, ->{
     where(type: "AppUser")
   }
+
+  # from redis-objects
+  counter :new_messages
 
   def delay_for_trigger
     settings = self.is_a?(AppUser) ? app.user_tasks_settings : app.lead_tasks_settings
@@ -231,6 +235,18 @@ class AppUser < ApplicationRecord
     if self.app.gather_social_data && self.email.present?
       DataEnrichmentJob.perform_later(user_id: self.id)
     end
+  end
+
+  def increment_notification
+    #$redis.hincrby("user:#{user_id}", "alerts", 1)
+    Redis.current.hincrby("user:#{self.id}", "messages", 1)
+    #$redis.hincrby("user:#{user_id}", "notifications", 1)
+  end
+
+  def decrement_notification
+    #$redis.hincrby("user:#{user_id}", "alerts", 1)
+    Redis.current.hincrby("user:#{self.id}", "messages", -1)
+    #$redis.hincrby("user:#{user_id}", "notifications", 1)
   end
 
 end
