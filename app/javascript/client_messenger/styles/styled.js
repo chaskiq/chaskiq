@@ -539,6 +539,7 @@ export const CommentsItem = styled.div`
 `
 
 export const Prime = styled.div`
+    position: relative;
     display: block;
     width: 56px;
     height: 56px;
@@ -553,11 +554,23 @@ export const Prime = styled.div`
     transition: all .1s ease-out;
     position: relative;
     z-index: 998;
-    overflow: hidden;
+    //overflow: hidden;
     background: ${mainColor};
     float: right;
     margin: 5px 20px;
     animation: ${rotate} 0.3s cubic-bezier(0.390, 0.575, 0.565, 1.000) both;
+`
+
+export const CountBadge = styled.div`
+  position: absolute;
+  border-radius: 50%;
+  /* height: 20px; */
+  width: 13px;
+  padding: 4px;
+  background-color: red;
+  font-size: 10px;
+  text-indent: -2px;
+  top: -5px;
 `
 
 export const Header = styled(({isMobile, ...rest})=>(<div {...rest}></div>))`

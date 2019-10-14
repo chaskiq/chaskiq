@@ -57,6 +57,7 @@ class ConversationPart < ApplicationRecord
   end
 
   def notify_read!
+    return if self.read_at.present?
     self.read_at = Time.now
     if self.save
       self.conversation.main_participant.new_messages.decrement
