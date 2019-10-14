@@ -37,3 +37,4 @@ yarn-debug.log*
 .yarn-integrity
 latest.dump
 .env
+public/schema.graphql
