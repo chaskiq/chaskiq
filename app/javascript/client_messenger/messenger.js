@@ -71,7 +71,8 @@ import {
   UserAutoMessageFlex,
   MessageCloseBtn,
   AppPackageBlockContainer,
-  HeaderAvatar
+  HeaderAvatar,
+  CountBadge
 } from './styles/styled'
 
 import sanitizeHtml from 'sanitize-html';
@@ -103,6 +104,7 @@ class Messenger extends Component {
       enabled: null,
       article: null,
       conversation: {},
+      new_messages: this.props.new_messages,
       conversation_messages: [],
       conversation_messagesMeta: {},
       conversations: [],
@@ -320,6 +322,9 @@ class Messenger extends Component {
               const newMessage = toCamelCase(data.data)
               this.receiveMessage(newMessage)
               break
+            case "conversations:unreads":
+              this.receiveUnread(data.data)
+              break
             case "true":
               return true
             default:
@@ -337,6 +342,10 @@ class Messenger extends Component {
         }
       }
     )
+  }
+
+  receiveUnread = (newMessage)=>{
+    this.setState({new_messages: newMessage})
   }
 
   receiveMessage = (newMessage)=>{
@@ -937,6 +946,11 @@ class Messenger extends Component {
                             in={this.state.transition}
                             >
 
+                            { this.state.new_messages > 0 && <CountBadge>
+                                {this.state.new_messages}
+                              </CountBadge>
+                            }
+
                             { this.state.display_mode != "home" ? 
                               <LeftIcon 
                                 className="fade-in-right"
@@ -1085,11 +1099,18 @@ class Messenger extends Component {
                 border: 'none'
               }}>
 
-              <Prime id="chaskiq-prime" onClick={this.toggleMessenger}>
+              <Prime id="chaskiq-prime" 
+                onClick={this.toggleMessenger}>
                 <div style={{
                   transition: 'all .2s ease-in-out',
                   transform: !this.state.open ? '' : 'rotate(180deg)',
                 }}>
+
+                  {
+                    !this.state.open && this.state.new_messages > 0 && <CountBadge>
+                                                    {this.state.new_messages}
+                                                   </CountBadge>
+                  }
 
                   {
                     !this.state.open ?
@@ -1098,11 +1119,12 @@ class Messenger extends Component {
                         height: '43px',
                         width: '36px',
                         margin: '8px 0px'
-                      }}/> : <CloseIcon style={{
-                              height: '26px',
-                              width: '21px',
-                              margin: '11px 0px'
-                            }}
+                      }}/> : 
+                      <CloseIcon style={{
+                          height: '26px',
+                          width: '21px',
+                          margin: '11px 0px'
+                        }}
                       />
                   }
                 </div>
