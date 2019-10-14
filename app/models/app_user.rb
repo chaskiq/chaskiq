@@ -237,16 +237,4 @@ class AppUser < ApplicationRecord
     end
   end
 
-  def increment_notification
-    #$redis.hincrby("user:#{user_id}", "alerts", 1)
-    Redis.current.hincrby("user:#{self.id}", "messages", 1)
-    #$redis.hincrby("user:#{user_id}", "notifications", 1)
-  end
-
-  def decrement_notification
-    #$redis.hincrby("user:#{user_id}", "alerts", 1)
-    Redis.current.hincrby("user:#{self.id}", "messages", -1)
-    #$redis.hincrby("user:#{user_id}", "notifications", 1)
-  end
-
 end
