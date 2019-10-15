@@ -485,11 +485,12 @@ class Messenger extends Component {
       success: (data)=>{
         const {conversation} = data.startConversation
         let messages = [conversation.lastMessage]
-        if(this.state.display_mode === "conversation")
-          messages = messages.concat(this.state.conversation_messages)
+        //if(this.state.display_mode === "conversation")
+        if(this.state.conversation.messages)
+          messages = messages.concat(conversation.messages.collection)
 
         this.setState({
-          conversation: Object.assign(conversation, {messages: {collection: messages.concat(conversation.messages.collection)  }}),
+          conversation: Object.assign(conversation, {messages: {collection: messages }}),
           //conversation_messages: messages
             /*conversation.lastMessage ? 
             response.data.messages.concat(this.state.conversation_messages) : 
