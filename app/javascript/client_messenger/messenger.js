@@ -104,6 +104,7 @@ class Messenger extends Component {
       enabled: null,
       article: null,
       conversation: {},
+      inline_conversation: null,
       new_messages: this.props.new_messages,
       //conversation_messages: [],
       //conversation_messagesMeta: {},
@@ -349,9 +350,15 @@ class Messenger extends Component {
   }
 
   receiveMessage = (newMessage)=>{
-
     if(newMessage.conversationId != this.state.conversation.id) {
-      alert("has algo aqui!")
+      //alert("has algo aqui!")
+      if(!this.state.conversation.id){
+        this.setConversation(newMessage.conversationKey, ()=>{
+          this.setState({
+            inline_conversation: newMessage
+          })
+        })
+      }
       return
     }
 
@@ -506,7 +513,8 @@ class Messenger extends Component {
     })
    }
 
-  handleTriggerrequest = (trigger)=>{
+  
+   handleTriggerrequest = (trigger)=>{
     if (this.state.appData.tasksSettings){
       setTimeout(()=>{
         this.requestTrigger(trigger)
@@ -514,7 +522,6 @@ class Messenger extends Component {
     }
   }
 
-  
   clearAndGetConversations = ()=>{
     this.setState({ conversationsMeta: {} }, this.getConversations)
   }
@@ -546,7 +553,8 @@ class Messenger extends Component {
   }
 
   setConversation = (id , cb)=>{
-    const nextPage = this.getConversationMessagesMeta().next_page || 1
+    const currentMeta = this.getConversationMessagesMeta() || {}
+    const nextPage = currentMeta.next_page || 1
     this.graphqlClient.send(CONVERSATION, {
       id: id,
       page: nextPage
@@ -561,7 +569,7 @@ class Messenger extends Component {
         
         this.setState({
           conversation: Object.assign(this.state.conversation, conversation, {
-            messages: { collection:  newCollection, meta: messages.meta }
+            messages: { collection:  newCollection, meta: meta }
           }),
           //conversation_messages: nextPage > 1 ? this.state.conversation.messages.collection.concat(messages.collection) : messages.collection ,
           //conversation_messagesMeta: messages.meta
@@ -580,7 +588,7 @@ class Messenger extends Component {
   }
 
   getConversationMessagesMeta = ()=>{
-    console.log(this.state)
+    console.log("AA", this.state.conversation.messages)
     if(!this.state.conversation.messages) return {}
     const {meta} = this.state.conversation.messages
     return meta
@@ -1122,6 +1130,44 @@ class Messenger extends Component {
                 </SuperDuper> 
               
               </Container>  : null
+          }
+
+          {
+            !this.state.open && this.state.inline_conversation && <StyledFrame style={{
+              zIndex: '10000000',
+              position: 'absolute',
+              bottom: '89px',
+              width: '288px',
+              height: '26vw',
+              right: '20px',
+              border: '1 px solid red'
+            }}>
+
+              <div>
+                <button 
+                  style={{zIndex: 10000, position: 'absolute' }} 
+                  onClick={this.toggleMessenger}>
+                    mostrar mas
+                </button>
+                <Conversation
+                  clearConversation={this.clearConversation}
+                  isMobile={this.state.isMobile}
+                  //conversation_messages={this.state.conversation_messages}
+                  conversation={this.state.conversation}
+                  //conversation_messagesMeta={this.state.conversation_messagesMeta}
+                  isUserAutoMessage={this.isUserAutoMessage}
+                  insertComment={this.insertComment}
+                  setConversation={this.setConversation}
+                  setOverflow={this.setOverflow}
+                  submitAppUserData={this.submitAppUserData}
+                  updateHeader={this.updateHeader}
+                  transition={this.state.transition}
+                  displayAppBlockFrame={this.displayAppBlockFrame}
+                  t={this.props.t}
+                />
+              </div>
+            
+            </StyledFrame>
           }
 
 
