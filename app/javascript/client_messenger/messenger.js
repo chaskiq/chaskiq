@@ -105,8 +105,8 @@ class Messenger extends Component {
       article: null,
       conversation: {},
       new_messages: this.props.new_messages,
-      conversation_messages: [],
-      conversation_messagesMeta: {},
+      //conversation_messages: [],
+      //conversation_messagesMeta: {},
       conversations: [],
       conversationsMeta: {},
       availableMessages: [],
@@ -350,10 +350,14 @@ class Messenger extends Component {
 
   receiveMessage = (newMessage)=>{
 
-    if(newMessage.conversationId != this.state.conversation.id) return
+    if(newMessage.conversationId != this.state.conversation.id) {
+      alert("has algo aqui!")
+      return
+    }
 
-    if ( this.state.conversation_messages.find( (o)=> o.id === newMessage.id ) ){
-      const new_collection = this.state.conversation_messages.map((o)=>{
+    // append or update
+    if ( this.state.conversation.messages.collection.find( (o)=> o.id === newMessage.id ) ){
+      const new_collection = this.state.conversation.messages.collection.map((o)=>{
           if (o.id === newMessage.id ){
             return newMessage
           } else {
@@ -362,12 +366,17 @@ class Messenger extends Component {
       })
 
       this.setState({
-        conversation_messages: new_collection
+        conversation: Object.assign(this.state.conversation, {
+          messages: { collection: new_collection }
+        })
       })
 
     } else {
+
       this.setState({
-        conversation_messages: [newMessage].concat(this.state.conversation_messages)
+        conversation: Object.assign(this.state.conversation, {
+          messages: { collection: [newMessage].concat(this.state.conversation.messages.collection) }
+        })
       }, this.scrollToLastItem)
       
       if (newMessage.appUser.kind === "agent") {
@@ -480,8 +489,8 @@ class Messenger extends Component {
           messages = messages.concat(this.state.conversation_messages)
 
         this.setState({
-          conversation: conversation,
-          conversation_messages: messages
+          conversation: Object.assign(conversation, {messages: {collection: messages.concat(conversation.messages.collection)  }}),
+          //conversation_messages: messages
             /*conversation.lastMessage ? 
             response.data.messages.concat(this.state.conversation_messages) : 
             this.state.conversation_messages*/
@@ -535,8 +544,8 @@ class Messenger extends Component {
     })
   }
 
-  setconversation = (id , cb)=>{
-    const nextPage = this.state.conversation_messagesMeta.next_page || 1
+  setConversation = (id , cb)=>{
+    const nextPage = this.getConversationMessagesMeta().next_page || 1
     this.graphqlClient.send(CONVERSATION, {
       id: id,
       page: nextPage
@@ -544,16 +553,36 @@ class Messenger extends Component {
       success: (data)=>{
         const {conversation} = data.messenger
         const {messages, meta} = conversation
+
+        const newCollection = nextPage > 1 ? 
+        this.state.conversation.messages.collection.concat(messages.collection) : 
+        messages.collection 
+        
         this.setState({
-          conversation: conversation,
-          conversation_messages: nextPage > 1 ? this.state.conversation_messages.concat(messages.collection) : messages.collection ,
-          conversation_messagesMeta: messages.meta
+          conversation: Object.assign(this.state.conversation, conversation, {
+            messages: { collection:  newCollection, meta: messages.meta }
+          }),
+          //conversation_messages: nextPage > 1 ? this.state.conversation.messages.collection.concat(messages.collection) : messages.collection ,
+          //conversation_messagesMeta: messages.meta
         }, cb)
       },
       error: (error)=>{
         debugger
       }
     })
+  }
+
+  getConversationMessages = ()=>{
+    if(!this.state.conversation.messages) return {}
+    const {collection} = this.state.conversation.messages
+    return collection
+  }
+
+  getConversationMessagesMeta = ()=>{
+    console.log(this.state)
+    if(!this.state.conversation.messages) return {}
+    const {meta} = this.state.conversation.messages
+    return meta
   }
 
   setTransition = (type, cb)=>{
@@ -570,8 +599,8 @@ class Messenger extends Component {
     e.preventDefault()
 
     this.setState({
-      conversation_messages: [],
-      conversation_messagesMeta: {},
+      //conversation_messages: [],
+      //conversation_messagesMeta: {},
       conversation: {
         key: "volatile",
         mainParticipant: {}
@@ -593,6 +622,12 @@ class Messenger extends Component {
     if( this.state.appData.emailRequirement === "office" && !this.state.appData.inBusinessHours)
       return this.requestTrigger("request_for_email")*/
 
+  }
+
+  clearConversation = ()=>{
+    this.setState({
+      conversation: {},
+    })
   }
 
   displayHome = (e)=>{
@@ -639,9 +674,9 @@ class Messenger extends Component {
 
     //this.unsubscribeFromConversation()
 
-    this.setState({conversation_messagesMeta: {} }, ()=>{
+    //this.setState({conversation_messagesMeta: {} }, ()=>{
 
-      this.setconversation(o.key, () => {
+      this.setConversation(o.key, () => {
 
         //this.conversationSubscriber(() => {
 
@@ -658,7 +693,8 @@ class Messenger extends Component {
 
         //})
       })
-    })
+
+    //})
   }
 
   toggleMessenger = (e)=>{
@@ -748,7 +784,7 @@ class Messenger extends Component {
   }
   */
 
-  appendDraftMessage = (cb)=>{
+  /*appendDraftMessage = (cb)=>{
     const newMessage = {
       draft: true
     }
@@ -763,7 +799,7 @@ class Messenger extends Component {
       this.scrollToLastItem()
       cb && cb()
     })
-  }
+  }*/
 
   requestTrigger = (kind)=>{
     App.events && App.events.perform('request_trigger', {
@@ -1033,13 +1069,14 @@ class Messenger extends Component {
                             this.state.display_mode === "conversation" &&
                             
                               <Conversation
+                                clearConversation={this.clearConversation}
                                 isMobile={this.state.isMobile}
-                                conversation_messages={this.state.conversation_messages}
+                                //conversation_messages={this.state.conversation_messages}
                                 conversation={this.state.conversation}
-                                conversation_messagesMeta={this.state.conversation_messagesMeta}
+                                //conversation_messagesMeta={this.state.conversation_messagesMeta}
                                 isUserAutoMessage={this.isUserAutoMessage}
                                 insertComment={this.insertComment}
-                                setConversation={this.setconversation}
+                                setConversation={this.setConversation}
                                 setOverflow={this.setOverflow}
                                 submitAppUserData={this.submitAppUserData}
                                 updateHeader={this.updateHeader}
@@ -1209,6 +1246,10 @@ class Conversation extends Component {
     )
   }
 
+  componentWillUnmount(){
+    this.props.clearConversation()
+  }
+
   // TODO: skip on xhr progress
   handleConversationScroll = (e) => {
     let element = e.target
@@ -1225,7 +1266,7 @@ class Conversation extends Component {
       )
 
     //if (element.scrollTop <= 50) { // on almost top // todo skip on xhr loading
-      if (this.props.conversation_messagesMeta.next_page)
+      if (this.props.conversation.messages.meta.next_page)
         this.props.setConversation(this.props.conversation.key)
     } else {
       this.props.updateHeader(
@@ -1379,7 +1420,7 @@ class Conversation extends Component {
             isMobile={this.props.isMobile}>
 
             {
-              this.props.conversation_messages.map((o, i) => {
+              this.props.conversation.messages && this.props.conversation.messages.collection.map((o, i) => {
                   return o.message.blocks ? 
                   this.renderItemPackage(o, i) : 
                   o.draft ? this.renderDraft() : this.renderMessage(o, i)
