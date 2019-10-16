@@ -11,6 +11,7 @@ const Other = styled('div')`
 const NewEditorStyles = styled(EditorStyles)`
   
   display: flex;
+  flex-direction: column;
 
   button.inlineTooltip-button.scale {
     background: #fff;

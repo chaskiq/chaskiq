@@ -292,7 +292,8 @@ const Panel = styled.div`
   right: 0px;
   overflow: scroll;
   width: 100%;
-  height: 100%;
+  height: 97%;
+  z-index: 1000;
 `
 
 const ButtonWrapper = styled.div`
