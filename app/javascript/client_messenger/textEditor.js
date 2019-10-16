@@ -26,9 +26,11 @@ const EditorContainer = styled.div`
     bottom: 0;
     left: 0;
     right: 0;
-    min-height: 56px;
-    max-height: 200px;
-    border-top: 1px solid #e6e6e6;
+    ${(props)=>  props.footerClassName ? 
+      'min-height: 49px; max-height: 200px; border-top: none;' : 
+      'border-top: 1px solid #e6e6e6; min-height: 56px; max-height: 200px;'
+    }
+    
 
 `;
 
@@ -311,7 +313,7 @@ export default class UnicornEditor extends Component {
     return (
 
       <EditorWrapper onClick={this.handleFocus}>
-        <EditorContainer>
+        <EditorContainer footerClassName={this.props.footerClassName}>
 
           {
             this.state.emojiEnabled ? 

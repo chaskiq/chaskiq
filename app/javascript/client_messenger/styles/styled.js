@@ -227,6 +227,8 @@ export const UserAutoMessageStyledFrameDis = styled(({ isMinimized, ...rest })=>
 export const CloseButtonWrapper = styled.div`
   position: absolute;
   right: 10px;
+  z-index: 30000;
+  top: 22px;
 `
 
 export const SuperFragment = styled.div`
@@ -468,6 +470,31 @@ export const EditorWrapper = styled.div`
     bottom: 0px;
   }
 
+  .inline-frame {
+    z-index: 10000000;
+    position: absolute;
+    bottom: 89px;
+    width: 288px;
+    
+    right: 20px;
+    border: none;
+
+
+    @media screen and (min-width: 1024px) and (max-width: 1280px) { 
+      height: 26vw;
+    }
+   
+    @media screen and (min-width: 781px) and (max-width: 1024px) {
+      height: 50vw;
+    }
+   
+    @media screen and (min-width: 320px) and (max-width: 780px) {
+      height: 100vw;
+    }
+
+  }
+
+
 `
 
 export const EditorActions = styled.div`
@@ -631,6 +658,16 @@ export const Footer = styled.div`
     background: -webkit-gradient(linear,left bottom,left top,from(#fff),to(rgba(255,255,255,0)));
     background: linear-gradient(0deg,#fff,rgba(255,255,255,0));
 
+    &.inline{
+      background: transparent;
+      textarea {
+        border-radius: 4px !important;
+        box-shadow: rgba(35, 47, 53, 0.09) 4px 5px 9px 0px !important;
+      }
+      input[type="file"]{
+        display: none;
+      }
+    }
 `
 
 export const ConversationsFooter = styled.div`
@@ -694,13 +731,22 @@ export const MessageItem = styled.div`
       flex-direction: row;
       
       .message-content-wrapper {
-        background: #ebebec87;
+        background: #fff;
         padding: 16px;
         margin: 5px;
         border-radius: 6px;
         /* box-shadow: 1px 1px 2px #e0e0e0; */
         /* border: 1px solid #dedbdb; */
         min-width: 80px;
+
+        /* NEW */
+        box-shadow: rgba(35, 47, 53, 0.09) 0px 2px 8px 0px;
+        font-size: 13px;
+        line-height: 1.5;
+        height: 100%;
+        position: relative;
+        padding: 17px 22px;
+        border-radius: 5px 5px 5px 0px;
         
       }
 
@@ -723,6 +769,14 @@ export const MessageItem = styled.div`
         /* border: 1px solid #dedbdb; */
         min-width: 80px;
 
+        /* NEW STYLES */
+        box-shadow: rgba(35, 47, 53, 0.09) 0px 2px 8px 0px;
+        font-size: 13px;
+        line-height: 1.5;
+        height: 100%;
+        position: relative;
+        padding: 17px 22px;
+        border-radius: 5px 5px 0px 5px;
       }
       // hack on image from user, not use position absolute
       .graf-image {
@@ -765,14 +819,11 @@ export const MessageItem = styled.div`
 
 
     .status {
-      position: absolute;
-      bottom: -4px;
-      right: 15px;
+      display: flex;
+      justify-content: flex-end;
       color: #b1afaf;
       font-size: 12px;
       text-align: right;
-      display: flex;
-      justify-content: center;
     }
 `;
 

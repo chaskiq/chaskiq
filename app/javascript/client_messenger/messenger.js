@@ -355,7 +355,7 @@ class Messenger extends Component {
       if(!this.state.conversation.id){
         this.setConversation(newMessage.conversationKey, ()=>{
           this.setState({
-            inline_conversation: newMessage
+            inline_conversation: this.state.conversation
           })
         })
       }
@@ -946,6 +946,14 @@ class Messenger extends Component {
     })
   }
 
+  showMore = ()=>{
+    this.toggleMessenger()
+    this.setState({
+      display_mode: "conversation",
+      inline_conversation: null
+    })
+  }
+
   render() {
     return (
 
@@ -957,6 +965,7 @@ class Messenger extends Component {
         <EditorWrapper>
 
           {
+            /*
             this.state.availableMessages.length > 0 && this.isMessengerActive() ?
             <MessageFrame 
               app_id={this.props.app_id}
@@ -964,6 +973,7 @@ class Messenger extends Component {
               availableMessages={this.state.availableMessages} 
               t={this.props.t}
             /> : null
+            */
           }
               
 
@@ -984,6 +994,17 @@ class Messenger extends Component {
                       handleAppPackageEvent={this.handleAppPackageEvent}>
 
                       <SuperFragment>
+
+                        {
+                          this.state.isMobile ?
+                          <CloseButtonWrapper>
+                            <button onClick={() => this.toggleMessenger()}>
+                              <CloseIcon style={{ height: '16px', width: '16px'}}/>
+                            </button>
+
+                          </CloseButtonWrapper> : null
+                        }
+
                         <Header 
                           style={{height: this.state.header.height}}
                           isMobile={this.state.isMobile}>
@@ -1027,16 +1048,6 @@ class Messenger extends Component {
                               <HeaderTitle in={this.state.transition}>
                                 {this.props.t("conversations")}
                               </HeaderTitle>
-                            }
-
-                            {
-                              this.state.isMobile ?
-                              <CloseButtonWrapper>
-                                <button onClick={() => this.toggleMessenger()}>
-                                  <CloseIcon style={{ height: '16px', width: '16px'}}/>
-                                </button>
-
-                              </CloseButtonWrapper> : null
                             }
                             
 
@@ -1133,23 +1144,20 @@ class Messenger extends Component {
           }
 
           {
-            !this.state.open && this.state.inline_conversation && <StyledFrame style={{
-              zIndex: '10000000',
-              position: 'absolute',
-              bottom: '89px',
-              width: '288px',
-              height: '26vw',
-              right: '20px',
-              border: '1 px solid red'
-            }}>
+            !this.state.open && 
+            this.state.inline_conversation && 
+            <StyledFrame className="inline-frame" style={{}}>
 
               <div>
                 <button 
                   style={{zIndex: 10000, position: 'absolute' }} 
-                  onClick={this.toggleMessenger}>
+                  onClick={()=>{
+                    this.showMore()
+                  }}>
                     mostrar mas
                 </button>
                 <Conversation
+                  footerClassName="inline"
                   clearConversation={this.clearConversation}
                   isMobile={this.state.isMobile}
                   //conversation_messages={this.state.conversation_messages}
@@ -1176,10 +1184,10 @@ class Messenger extends Component {
             <StyledFrame style={{
                 zIndex: '10000000',
                 position: 'absolute',
-                bottom: '-14px',
+                bottom: '-18px',
                 width: '88px',
                 height: '100px',
-                right: '-9px',
+                right: '-23px',
                 border: 'none'
               }}>
 
@@ -1294,7 +1302,7 @@ class Conversation extends Component {
   }
 
   componentWillUnmount(){
-    this.props.clearConversation()
+    //this.props.clearConversation()
   }
 
   // TODO: skip on xhr progress
@@ -1384,19 +1392,19 @@ class Conversation extends Component {
                     message={o}
                     raw={JSON.parse(o.message.serializedContent)}
                   />
+
+                  <span className="status">
+                    {
+                      o.readAt ?
+                        <Moment fromNow>
+                          {o.readAt}
+                        </Moment> : <span>{t("not_seen")}</span>
+                    }
+                  </span>
                 </DanteContainer>
               </ThemeProvider>  
 
             </div>
-
-            <span className="status">
-              {
-                o.readAt ?
-                  <Moment fromNow>
-                    {o.readAt}
-                  </Moment> : <span>{t("not_seen")}</span>
-              }
-            </span>
 
             </MessageItem>
             
@@ -1476,11 +1484,12 @@ class Conversation extends Component {
 
           </CommentsWrapper>
 
-          <Footer>
+          <Footer className={this.props.footerClassName || ''}>
           
             {
               this.props.conversation.locked ? t("reply_above") : 
               <UnicornEditor
+                footerClassName={this.props.footerClassName }
                 insertComment={this.props.insertComment}
               />
             }
