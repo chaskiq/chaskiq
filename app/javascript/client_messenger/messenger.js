@@ -103,6 +103,7 @@ class Messenger extends Component {
 
     this.state = {
       enabled: null,
+      agent_typing: false,
       article: null,
       showMoredisplay: false,
       conversation: {},
@@ -131,6 +132,8 @@ class Messenger extends Component {
       },
       transition: 'in'
     }
+
+    this.delayTimer = null
 
     const data = {
       referrer: window.location.path,
@@ -325,6 +328,10 @@ class Messenger extends Component {
               const newMessage = toCamelCase(data.data)
               this.receiveMessage(newMessage)
               break
+
+            case "conversations:typing":
+              this.handleTypingNotification(toCamelCase(data.data))
+              break
             case "conversations:unreads":
               this.receiveUnread(data.data)
               break
@@ -347,28 +354,45 @@ class Messenger extends Component {
     )
   }
 
+  handleTypingNotification = (data)=>{
+    this.handleTyping(data)
+  }
+
+  handleTyping = (data)=>{
+    if(this.state.conversation.key === data.conversation){
+      this.setState({agent_typing: data}, ()=>{
+        clearTimeout(this.delayTimer);
+  
+        this.delayTimer = setTimeout(()=> {
+          this.setState({agent_typing: null})
+        }, 1000);
+      })
+    }
+  }
+
   receiveUnread = (newMessage)=>{
     this.setState({new_messages: newMessage})
   }
 
   receiveMessage = (newMessage)=>{
-    //if(newMessage.conversationId != this.state.conversation.id) {
-      //alert("has algo aqui!")
 
-      console.log("entry", this.state.open)
-      console.log(!this.state.open && !this.state.inline_conversation, "oe", this.state.inline_conversation)
+    this.setState({
+      agent_typing: false
+    })
 
-      if(!this.state.open && !this.state.inline_conversation){
-       
+    // when messenger hidden & not previous inline conversation
+    if(!this.state.open && !this.state.inline_conversation){
+      
+      this.clearConversation(()=>{
         this.setConversation(newMessage.conversationKey, ()=>{
           this.setState({
             inline_conversation: newMessage.conversationKey
-          })
+          }, ()=> setTimeout(this.scrollToLastItem, 200) )
         })
+      })
 
-        return
-      }
-    //}
+      return
+    }
 
     // return if message does not correspond to conversation
     if(this.state.conversation.key != newMessage.conversationKey) return
@@ -651,10 +675,10 @@ class Messenger extends Component {
 
   }
 
-  clearConversation = ()=>{
+  clearConversation = (cb)=>{
     this.setState({
       conversation: {},
-    })
+    } , cb)
   }
 
   displayHome = (e)=>{
@@ -969,7 +993,7 @@ class Messenger extends Component {
     this.setState({
       display_mode: "conversation",
       inline_conversation: null
-    })
+    }, ()=> setTimeout(this.scrollToLastItem, 200) )
   }
 
   clearInlineConversation = ()=>{
@@ -1127,6 +1151,7 @@ class Messenger extends Component {
                               <Conversation
                                 clearConversation={this.clearConversation}
                                 isMobile={this.state.isMobile}
+                                agent_typing={this.state.agent_typing}
                                 //conversation_messages={this.state.conversation_messages}
                                 conversation={this.state.conversation}
                                 //conversation_messagesMeta={this.state.conversation_messagesMeta}
@@ -1396,20 +1421,6 @@ class Conversation extends Component {
     }
   }
 
-  renderDraft = ()=>{
-    return <MessageItem>
-
-            <div className="message-content-wrapper">
-              <MessageSpinner>
-                <div className={"bounce1"}/>
-                <div className={"bounce2"}/>
-                <div className={"bounce3"}/>
-              </MessageSpinner>
-            </div>
-
-           </MessageItem>
-  }
-
   renderMessage = (o, i)=>{
     const userClass = o.appUser.kind === "agent" ? 'admin' : 'user'
     const isAgent = o.appUser.kind === "agent"
@@ -1514,6 +1525,26 @@ class Conversation extends Component {
       })
   }
 
+  renderTyping = ()=>{
+    return <MessageItem>
+
+            <div className="message-content-wrapper">
+              <MessageSpinner>
+                <div className={"bounce1"}/>
+                <div className={"bounce2"}/>
+                <div className={"bounce3"}/>
+              </MessageSpinner>
+              <span style={{
+                fontSize: '0.7rem', 
+                color: '#afabb3'}}>
+                {this.props.agent_typing.author.name || 'agent'}
+                is typing
+              </span>
+            </div>
+
+           </MessageItem>
+  }
+
   render(){
 
     const {t} = this.props
@@ -1537,10 +1568,13 @@ class Conversation extends Component {
             isMobile={this.props.isMobile}>
 
             {
+              this.props.agent_typing && this.renderTyping()
+            }
+            {
               this.props.conversation.messages && this.props.conversation.messages.collection.map((o, i) => {
                   return o.message.blocks ? 
                   this.renderItemPackage(o, i) : 
-                  o.draft ? this.renderDraft() : this.renderMessage(o, i)
+                  this.renderMessage(o, i)
               })
             }
 

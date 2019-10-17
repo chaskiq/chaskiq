@@ -285,7 +285,7 @@ export default class ChatEditor extends Component {
       statusButton: "success",
       html: content.html,
       serialized: content.serialized
-    })
+    }, ()=> this.props.saveContentCallback && this.props.saveContentCallback(content) )
   }
 
   handleSubmit = (e)=>{
@@ -306,7 +306,6 @@ export default class ChatEditor extends Component {
   }
 
   handleAppFunc  = ()=>{
-    console.log(this.props)
     this.setState({openPackagePanel: true})
   }
 
@@ -364,7 +363,6 @@ export default class ChatEditor extends Component {
                     }
                     saveHandler={this.saveHandler} 
                     updateState={({status, statusButton, content})=> {
-                      console.log("get content", content)
                       this.saveContent(content )
                     }
                   }
