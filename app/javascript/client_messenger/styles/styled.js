@@ -135,7 +135,30 @@ export const Container = styled.div`
 `;
 
 
+export const ShowMoreWrapper = styled.div`
 
+    z-index: 10000;
+    position: absolute;
+    width: 275px;
+    //border: 1px solid red;
+    display: flex;
+    justify-content: space-between;
+
+    ${(props)=> FadeBottomAnimation(props)}
+
+    button {
+      padding: 9px;
+      box-shadow: -1px 1px 1px #00000036;
+      border-radius: 11px;
+      background: #a6aeceaa;
+      border: none;
+    }
+
+    button.close{
+
+    }
+
+`
 
 const Button = styled.button`
   color: turquoise;

@@ -196,7 +196,7 @@ const HomePanel = ({
             <ConnectedPeople>
               {
                 agents.map((agent)=>(
-                  <Avatar>
+                  <Avatar key={`home-agent-${agent.name}`}>
                     <img src={gravatar(agent.email)} title={agent.name}/>
                   </Avatar>
                 ))
@@ -253,7 +253,7 @@ const HomePanel = ({
       
         {
           articles.map((article, i)=>(
-            <ArticleCard key={i} 
+            <ArticleCard key={`article-card-${article.id}`} 
               article={article} 
               displayArticle={displayArticle}
             />

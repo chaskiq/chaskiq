@@ -94,7 +94,9 @@ class ConversationPart < ApplicationRecord
   end
 
   def assign_and_notify
-    self.conversation.main_participant.new_messages.increment
+    if self.authorable.is_a?(Agent)
+      self.conversation.main_participant.new_messages.increment
+    end
     return if self.from_bot?
     assign_agent_by_rules unless conversation.assignee.present?
     enqueue_email_notification unless send_constraints?

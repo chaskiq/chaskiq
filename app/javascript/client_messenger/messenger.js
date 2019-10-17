@@ -72,7 +72,8 @@ import {
   MessageCloseBtn,
   AppPackageBlockContainer,
   HeaderAvatar,
-  CountBadge
+  CountBadge,
+  ShowMoreWrapper,
 } from './styles/styled'
 
 import sanitizeHtml from 'sanitize-html';
@@ -103,6 +104,7 @@ class Messenger extends Component {
     this.state = {
       enabled: null,
       article: null,
+      showMoredisplay: false,
       conversation: {},
       inline_conversation: null,
       new_messages: this.props.new_messages,
@@ -350,17 +352,26 @@ class Messenger extends Component {
   }
 
   receiveMessage = (newMessage)=>{
-    if(newMessage.conversationId != this.state.conversation.id) {
+    //if(newMessage.conversationId != this.state.conversation.id) {
       //alert("has algo aqui!")
-      if(!this.state.conversation.id){
+
+      console.log("entry", this.state.open)
+      console.log(!this.state.open && !this.state.inline_conversation, "oe", this.state.inline_conversation)
+
+      if(!this.state.open && !this.state.inline_conversation){
+       
         this.setConversation(newMessage.conversationKey, ()=>{
           this.setState({
-            inline_conversation: this.state.conversation
+            inline_conversation: newMessage.conversationKey
           })
         })
+
+        return
       }
-      return
-    }
+    //}
+
+    // return if message does not correspond to conversation
+    if(this.state.conversation.key != newMessage.conversationKey) return
 
     // append or update
     if ( this.state.conversation.messages.collection.find( (o)=> o.id === newMessage.id ) ){
@@ -374,7 +385,10 @@ class Messenger extends Component {
 
       this.setState({
         conversation: Object.assign(this.state.conversation, {
-          messages: { collection: new_collection }
+          messages: { 
+            collection: new_collection,
+            meta: this.state.conversation.messages.meta
+           }
         })
       })
 
@@ -382,7 +396,10 @@ class Messenger extends Component {
 
       this.setState({
         conversation: Object.assign(this.state.conversation, {
-          messages: { collection: [newMessage].concat(this.state.conversation.messages.collection) }
+          messages: { 
+            collection: [newMessage].concat(this.state.conversation.messages.collection) ,
+            meta: this.state.conversation.messages.meta
+          }
         })
       }, this.scrollToLastItem)
       
@@ -561,12 +578,13 @@ class Messenger extends Component {
     }, {
       success: (data)=>{
         const {conversation} = data.messenger
-        const {messages, meta} = conversation
+        const {messages} = conversation
+        const {meta, collection} = messages
 
         const newCollection = nextPage > 1 ? 
-        this.state.conversation.messages.collection.concat(messages.collection) : 
+        this.state.conversation.messages.collection.concat(collection) : 
         messages.collection 
-        
+
         this.setState({
           conversation: Object.assign(this.state.conversation, conversation, {
             messages: { collection:  newCollection, meta: meta }
@@ -954,6 +972,24 @@ class Messenger extends Component {
     })
   }
 
+  clearInlineConversation = ()=>{
+    this.setState({
+      inline_conversation: null
+    })
+  }
+
+  displayShowMore = ()=>{
+    this.setState({
+      showMoredisplay: true
+    })
+  }
+
+  hideShowMore = ()=>{
+    this.setState({
+      showMoredisplay: false
+    })
+  }
+
   render() {
     return (
 
@@ -1148,14 +1184,36 @@ class Messenger extends Component {
             this.state.inline_conversation && 
             <StyledFrame className="inline-frame" style={{}}>
 
-              <div>
-                <button 
-                  style={{zIndex: 10000, position: 'absolute' }} 
-                  onClick={()=>{
-                    this.showMore()
-                  }}>
-                    mostrar mas
-                </button>
+              <div 
+                onMouseEnter={this.displayShowMore} 
+                onMouseLeave={this.hideShowMore}
+                >
+
+                {
+                  true &&
+                
+                    <ShowMoreWrapper in={
+                      this.state.showMoredisplay ? "in" : "out"
+                    }>
+                        <button
+                          onClick={()=>{
+                            this.showMore()
+                          }}>
+                            mostrar mas
+                        </button>
+                        <button 
+                          onClick={()=>this.clearInlineConversation()} 
+                          className="close">
+                            <CloseIcon style={{
+                              height: '10px',
+                              width: '10px',
+                            }}
+                          />
+                        </button>
+                    </ShowMoreWrapper>
+
+                }
+
                 <Conversation
                   footerClassName="inline"
                   clearConversation={this.clearConversation}
@@ -1356,55 +1414,55 @@ class Conversation extends Component {
     
     return <MessageItemWrapper
             email={this.props.email}
-            key={o.id}
+            key={`conversation-item-${o.id}`}
             conversation={this.props.conversation}
             data={o}>
 
-            <MessageItem
-              className={userClass}
-              messageSourceType={o.messageSource ? o.messageSource.type : ''}
-            >
-
-            {
-              !this.props.isUserAutoMessage(o) && isAgent ?
-              <ConversationSummaryAvatar>
-                <img src={gravatar(o.appUser.email)} />
-              </ConversationSummaryAvatar> : null
-            }
-
-            <div className="message-content-wrapper">
+              <MessageItem
+                className={userClass}
+                messageSourceType={o.messageSource ? o.messageSource.type : ''}
+              >
 
               {
-                this.props.isUserAutoMessage(o) ?
-                  <UserAutoChatAvatar>
-                    <img src={gravatar(o.appUser.email)} />
-                    <span>{o.appUser.name || o.appUser.email}</span>
-                  </UserAutoChatAvatar> : null
+                !this.props.isUserAutoMessage(o) && isAgent ?
+                <ConversationSummaryAvatar>
+                  <img src={gravatar(o.appUser.email)} />
+                </ConversationSummaryAvatar> : null
               }
 
-              {/*render light theme on user or private note*/}
-              
-              <ThemeProvider 
-                theme={ themeforMessage }>
-                <DanteContainer>
-                  <DraftRenderer 
-                    key={i}
-                    message={o}
-                    raw={JSON.parse(o.message.serializedContent)}
-                  />
+              <div className="message-content-wrapper">
 
-                  <span className="status">
-                    {
-                      o.readAt ?
-                        <Moment fromNow>
-                          {o.readAt}
-                        </Moment> : <span>{t("not_seen")}</span>
-                    }
-                  </span>
-                </DanteContainer>
-              </ThemeProvider>  
+                {
+                  this.props.isUserAutoMessage(o) ?
+                    <UserAutoChatAvatar>
+                      <img src={gravatar(o.appUser.email)} />
+                      <span>{o.appUser.name || o.appUser.email}</span>
+                    </UserAutoChatAvatar> : null
+                }
 
-            </div>
+                {/*render light theme on user or private note*/}
+                
+                <ThemeProvider 
+                  theme={ themeforMessage }>
+                  <DanteContainer>
+                    <DraftRenderer 
+                      key={i}
+                      message={o}
+                      raw={JSON.parse(o.message.serializedContent)}
+                    />
+
+                    <span className="status">
+                      {
+                        o.readAt ?
+                          <Moment fromNow>
+                            {o.readAt}
+                          </Moment> : <span>{t("not_seen")}</span>
+                      }
+                    </span>
+                  </DanteContainer>
+                </ThemeProvider>  
+
+              </div>
 
             </MessageItem>
             
@@ -1557,6 +1615,7 @@ class Conversations extends Component {
               const message = o.lastMessage
 
               return <CommentsItemComp
+                key={`comments-item-comp-${o.key}`}
                 message={message}
                 o={o}
                 index={i}
