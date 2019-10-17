@@ -152,6 +152,8 @@ export const ShowMoreWrapper = styled.div`
       border-radius: 11px;
       background: #a6aeceaa;
       border: none;
+      color: white;
+      cursor: pointer;
     }
 
     button.close{

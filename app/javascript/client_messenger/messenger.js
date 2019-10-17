@@ -728,7 +728,7 @@ class Messenger extends Component {
     this.setState({
       open: !this.state.open, 
       //display_mode: "conversations",
-    })
+    }, this.clearInlineConversation )
   }
 
   isUserAutoMessage = (o)=>{
@@ -1190,7 +1190,7 @@ class Messenger extends Component {
                 >
 
                 {
-                  true &&
+                  this.state.showMoredisplay &&
                 
                     <ShowMoreWrapper in={
                       this.state.showMoredisplay ? "in" : "out"
@@ -1215,6 +1215,7 @@ class Messenger extends Component {
                 }
 
                 <Conversation
+                  disablePagination={true}
                   footerClassName="inline"
                   clearConversation={this.clearConversation}
                   isMobile={this.state.isMobile}
@@ -1365,6 +1366,9 @@ class Conversation extends Component {
 
   // TODO: skip on xhr progress
   handleConversationScroll = (e) => {
+
+    if(this.props.disablePagination) return
+    
     let element = e.target
     //console.log(element.scrollTop)
     //console.log(element.scrollHeight - element.scrollTop, element.clientHeight) // on bottom
