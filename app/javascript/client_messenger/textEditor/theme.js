@@ -7,7 +7,7 @@ const dante_control_color = '#333333'
 const dante_inversed_color = '#FFFFFF'
 const dante_accent_color = '#5BD974'
 const dante_text_color = '#4a4a4a'
-const fontSize = '14px'
+const fontSize = '.9rem'
 
 
 const theme = {
@@ -18,7 +18,7 @@ const theme = {
   dante_editor_font_size: fontSize,
 
   // Editor
-  dante_editor_font_size: '12px' ,
+  dante_editor_font_size: '1rem' ,
   dante_editor_line_height: '1.9' ,
 
   dante_font_family_sans_serif: 'comic-sans',

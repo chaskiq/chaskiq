@@ -196,6 +196,14 @@ export const INSERT_COMMMENT = `
   }
 `;
 
+export const TYPING_NOTIFIER = `
+  mutation TypingNotifier($appKey: String!, $id: String!){
+    typingNotifier(appKey: $appKey, id: $id, ){
+      message
+    }
+  }
+`;
+
 export const INSERT_APP_BLOCK_COMMMENT = `
   mutation InsertAppBlockComment($appKey: String!, $id: String!, $controls: Json!){
     insertAppBlockComment(appKey: $appKey, id: $id, controls: $controls){

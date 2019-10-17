@@ -35,7 +35,7 @@ const NewEditorStyles = styled(EditorStyles)`
 
   @media (max-width: 500px){
     .postContent{
-      font-size: 12px;
+      font-size: 1rem;
       line-height: 1.9;
     }
   }

@@ -12,7 +12,8 @@ import {
   ASSIGN_USER,
   INSERT_NOTE,
   UPDATE_CONVERSATION_STATE,
-  TOGGLE_CONVERSATION_PRIORITY
+  TOGGLE_CONVERSATION_PRIORITY,
+  TYPING_NOTIFIER
 } from '../graphql/mutations'
 
 import { camelCase } from 'lodash';
@@ -78,6 +79,23 @@ export function clearConversation(cb){
   return (dispatch, getState)=>{
     dispatch(dispatchGetConversations({}))
     cb ? cb() : null
+  }
+}
+
+export function typingNotifier(cb){
+  return (dispatch, getState) => {
+
+    graphql(TYPING_NOTIFIER, { 
+      appKey: getState().app.key, 
+      id: getState().conversation.key
+    }, {
+        success: (data)=>{
+          cb && cb()
+        },
+        error: (error)=>{
+          console.log(error)
+        }
+      })
   }
 }
 

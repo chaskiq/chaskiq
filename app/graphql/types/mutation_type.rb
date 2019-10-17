@@ -27,6 +27,7 @@ module Types
     field :assignUser, mutation: Mutations::Conversations::AssignUser
     field :updateConversationState, mutation: Mutations::Conversations::UpdateState
     field :toggleConversationPriority, mutation: Mutations::Conversations::TogglePriority
+    field :typingNotifier, mutation: Mutations::Conversations::TypingNotifier
     
     field :createAssignmentRule, mutation: Mutations::AssignRule::CreateAssignRule
     field :editAssignmentRule, mutation: Mutations::AssignRule::EditAssignRule
