@@ -355,14 +355,13 @@ class Messenger extends Component {
   }
 
   handleTypingNotification = (data)=>{
+    clearTimeout(this.delayTimer);
     this.handleTyping(data)
   }
 
   handleTyping = (data)=>{
     if(this.state.conversation.key === data.conversation){
       this.setState({agent_typing: data}, ()=>{
-        clearTimeout(this.delayTimer);
-  
         this.delayTimer = setTimeout(()=> {
           this.setState({agent_typing: null})
         }, 1000);
@@ -684,7 +683,6 @@ class Messenger extends Component {
   displayHome = (e)=>{
     //this.unsubscribeFromConversation()
     e.preventDefault()
-
     this.setTransition('out', ()=>{
       this.setDisplayMode('home')
     })
@@ -723,29 +721,14 @@ class Messenger extends Component {
 
   displayConversation =(e, o)=>{
 
-    //this.unsubscribeFromConversation()
-
-    //this.setState({conversation_messagesMeta: {} }, ()=>{
 
       this.setConversation(o.key, () => {
-
-        //this.conversationSubscriber(() => {
-
-          this.setTransition('out', ()=>{
-
-            //this.precenseSubscriber()
-
-            this.setDisplayMode('conversation', ()=>{
-              //this.conversationSubscriber() ; 
-              //this.getConversations() ;
-              this.scrollToLastItem()
-            })
+        this.setTransition('out', ()=>{
+          this.setDisplayMode('conversation', ()=>{
+            this.scrollToLastItem()
           })
-
-        //})
+        })
       })
-
-    //})
   }
 
   toggleMessenger = (e)=>{
@@ -1241,6 +1224,7 @@ class Messenger extends Component {
 
                 <Conversation
                   disablePagination={true}
+                  inline_conversation={this.state.inline_conversation}
                   footerClassName="inline"
                   clearConversation={this.clearConversation}
                   isMobile={this.state.isMobile}
@@ -1386,7 +1370,8 @@ class Conversation extends Component {
   }
 
   componentWillUnmount(){
-    //this.props.clearConversation()
+    if(!this.props.inline_conversation)
+      this.props.clearConversation()
   }
 
   // TODO: skip on xhr progress
