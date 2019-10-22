@@ -135,7 +135,32 @@ export const Container = styled.div`
 `;
 
 
+export const ShowMoreWrapper = styled.div`
 
+    z-index: 10000;
+    position: absolute;
+    width: 275px;
+    //border: 1px solid red;
+    display: flex;
+    justify-content: space-between;
+
+    ${(props)=> FadeBottomAnimation(props)}
+
+    button {
+      padding: 9px;
+      box-shadow: -1px 1px 1px #00000036;
+      border-radius: 11px;
+      background: #a6aeceaa;
+      border: none;
+      color: white;
+      cursor: pointer;
+    }
+
+    button.close{
+
+    }
+
+`
 
 const Button = styled.button`
   color: turquoise;
@@ -227,6 +252,8 @@ export const UserAutoMessageStyledFrameDis = styled(({ isMinimized, ...rest })=>
 export const CloseButtonWrapper = styled.div`
   position: absolute;
   right: 10px;
+  z-index: 30000;
+  top: 22px;
 `
 
 export const SuperFragment = styled.div`
@@ -468,6 +495,31 @@ export const EditorWrapper = styled.div`
     bottom: 0px;
   }
 
+  .inline-frame {
+    z-index: 10000000;
+    position: absolute;
+    bottom: 89px;
+    width: 288px;
+    
+    right: 20px;
+    border: none;
+
+
+    @media screen and (min-width: 1024px) and (max-width: 1280px) { 
+      height: 26vw;
+    }
+   
+    @media screen and (min-width: 781px) and (max-width: 1024px) {
+      height: 50vw;
+    }
+   
+    @media screen and (min-width: 320px) and (max-width: 780px) {
+      height: 100vw;
+    }
+
+  }
+
+
 `
 
 export const EditorActions = styled.div`
@@ -539,6 +591,7 @@ export const CommentsItem = styled.div`
 `
 
 export const Prime = styled.div`
+    position: relative;
     display: block;
     width: 56px;
     height: 56px;
@@ -553,11 +606,34 @@ export const Prime = styled.div`
     transition: all .1s ease-out;
     position: relative;
     z-index: 998;
-    overflow: hidden;
+    //overflow: hidden;
     background: ${mainColor};
     float: right;
     margin: 5px 20px;
     animation: ${rotate} 0.3s cubic-bezier(0.390, 0.575, 0.565, 1.000) both;
+`
+
+export const CountBadge = styled.div`
+  position: absolute;
+  border-radius: 50%;
+  /* height: 20px; */
+  width: 13px;
+  padding: 4px;
+  background-color: red;
+  font-size: 10px;
+  text-align: center;
+  ${(props)=> props.section === "home" ? 
+    `top: 64px;left: 14px;` : "" 
+  }
+
+  ${(props)=> props.section === "conversation" ? 
+  `top: 13px;left: 7px;` : "" }
+
+  ${(props)=> props.section === "conversations" ? 
+  `top: 13px;left: 7px;` : "" }
+
+}
+
 `
 
 export const Header = styled(({isMobile, ...rest})=>(<div {...rest}></div>))`
@@ -618,6 +694,16 @@ export const Footer = styled.div`
     background: -webkit-gradient(linear,left bottom,left top,from(#fff),to(rgba(255,255,255,0)));
     background: linear-gradient(0deg,#fff,rgba(255,255,255,0));
 
+    &.inline{
+      background: transparent;
+      textarea {
+        border-radius: 4px !important;
+        box-shadow: rgba(35, 47, 53, 0.09) 4px 5px 9px 0px !important;
+      }
+      input[type="file"]{
+        display: none;
+      }
+    }
 `
 
 export const ConversationsFooter = styled.div`
@@ -681,13 +767,22 @@ export const MessageItem = styled.div`
       flex-direction: row;
       
       .message-content-wrapper {
-        background: #ebebec87;
+        background: #fff;
         padding: 16px;
         margin: 5px;
         border-radius: 6px;
         /* box-shadow: 1px 1px 2px #e0e0e0; */
         /* border: 1px solid #dedbdb; */
         min-width: 80px;
+
+        /* NEW */
+        box-shadow: rgba(35, 47, 53, 0.09) 0px 2px 8px 0px;
+        font-size: 13px;
+        line-height: 1.5;
+        height: 100%;
+        position: relative;
+        padding: 17px 22px;
+        border-radius: 5px 5px 5px 0px;
         
       }
 
@@ -710,6 +805,14 @@ export const MessageItem = styled.div`
         /* border: 1px solid #dedbdb; */
         min-width: 80px;
 
+        /* NEW STYLES */
+        box-shadow: rgba(35, 47, 53, 0.09) 0px 2px 8px 0px;
+        font-size: 13px;
+        line-height: 1.5;
+        height: 100%;
+        position: relative;
+        padding: 17px 22px;
+        border-radius: 5px 5px 0px 5px;
       }
       // hack on image from user, not use position absolute
       .graf-image {
@@ -752,14 +855,11 @@ export const MessageItem = styled.div`
 
 
     .status {
-      position: absolute;
-      bottom: -4px;
-      right: 15px;
+      display: flex;
+      justify-content: flex-end;
       color: #b1afaf;
       font-size: 12px;
       text-align: right;
-      display: flex;
-      justify-content: center;
     }
 `;
 

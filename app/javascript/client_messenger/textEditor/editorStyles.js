@@ -11,6 +11,7 @@ const Other = styled('div')`
 const NewEditorStyles = styled(EditorStyles)`
   
   display: flex;
+  flex-direction: column;
 
   button.inlineTooltip-button.scale {
     background: #fff;
@@ -34,7 +35,7 @@ const NewEditorStyles = styled(EditorStyles)`
 
   @media (max-width: 500px){
     .postContent{
-      font-size: 12px;
+      font-size: 1rem;
       line-height: 1.9;
     }
   }

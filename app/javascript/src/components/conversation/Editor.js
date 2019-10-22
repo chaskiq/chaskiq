@@ -52,6 +52,8 @@ export default class ConversationEditor extends Component {
     loading: false
   }
 
+  delayTimer = null
+
   submitData = (formats, options)=>{
     // DANTE does not provide a way to update contentState from outside ?
     // hide and show editor hack
@@ -74,6 +76,15 @@ export default class ConversationEditor extends Component {
     })
   }
 
+  handleTyping = (content)=>{
+    // means if content empty
+    if(content.html === "<p class=\"graf graf--p\"></p>") return
+
+    clearTimeout(this.delayTimer);
+    this.delayTimer = setTimeout(()=> {
+      this.props.typingNotifier()
+    }, 400);
+  }
 
   renderEditor = (opts)=>{
     return <EditorWrapper>
@@ -87,6 +98,7 @@ export default class ConversationEditor extends Component {
                   <NewEditor
                     insertAppBlockComment={this.props.insertAppBlockComment}
                     submitData={(formats)=> this.submitData(formats, opts)}
+                    saveContentCallback={(content)=> this.handleTyping(content)}
                     {...this.props}
                     
                   /> : null

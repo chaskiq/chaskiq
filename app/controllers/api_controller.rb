@@ -32,7 +32,8 @@ private
     @user_data.merge!({
         session_id: model.session_id, 
         lang: I18n.locale, 
-        kind: model.type
+        kind: model.type,
+        new_messages: model.new_messages.value
       }
     )
   end

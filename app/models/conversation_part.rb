@@ -57,18 +57,30 @@ class ConversationPart < ApplicationRecord
   end
 
   def notify_read!
+    return if self.read_at.present?
     self.read_at = Time.now
     if self.save
+      self.conversation.main_participant.new_messages.decrement
+      #todo: decrement agent
       notify_to_channels
     end
   end
 
+  #TODO: refactor this method
   def notify_to_channels
     MessengerEventsChannel.broadcast_to(
       "#{self.conversation.app.key}-#{self.conversation.main_participant.session_id}",
       { 
         type: "conversations:conversation_part",
         data: self.as_json
+      }
+    )
+
+    MessengerEventsChannel.broadcast_to(
+      "#{self.conversation.app.key}-#{self.conversation.main_participant.session_id}",
+      { 
+        type: "conversations:unreads",
+        data: self.conversation.main_participant.new_messages.value
       }
     )
 
@@ -82,6 +94,9 @@ class ConversationPart < ApplicationRecord
   end
 
   def assign_and_notify
+    if self.authorable.is_a?(Agent)
+      self.conversation.main_participant.new_messages.increment
+    end
     return if self.from_bot?
     assign_agent_by_rules unless conversation.assignee.present?
     enqueue_email_notification unless send_constraints?

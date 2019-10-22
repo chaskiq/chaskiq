@@ -43,6 +43,20 @@ RSpec.describe Conversation, type: :model do
     expect(app.conversations.first.assignee).to be_blank
   end
 
+  it "adds counters" do
+    app.start_conversation({
+      message: {text_content: "aa"}, 
+      from: app_user
+    })
+    c = app.conversations.first
+
+    expect(c.main_participant.new_messages.value).to be == 1
+
+    c.messages.first.notify_read!
+
+    expect(c.main_participant.new_messages.value).to be == 0
+  end
+
   it "create_conversation from agent" do
     app.start_conversation({
       message: {text_content: "aa"}, 

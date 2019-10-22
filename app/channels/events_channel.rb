@@ -12,7 +12,6 @@ class EventsChannel < ApplicationCable::Channel
   def receive_conversation_part(data)
     @conversation = @app.conversations.find(data["conversation_id"])
     message = @conversation.messages.find(data["message_id"])
-
     if message.authorable_type == "AppUser" # read anyway #!= @app_user
       message.read!
     end

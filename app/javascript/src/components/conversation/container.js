@@ -44,6 +44,7 @@ import EditorContainer from './editorStyles'
 
 import ConversationEditor from './Editor.js'
 import {getConversation, 
+  typingNotifier,
   insertComment,
   insertAppBlockComment, 
   insertNote,
@@ -122,6 +123,12 @@ class ConversationContainerShow extends Component {
       // TODO: this will scroll scroll to last when new items 
       // are added on pagination (scroll up)!
       cb ? cb(lastItem ? lastItem.id : null) : null
+    }))
+  }
+
+  typingNotifier = (cb)=>{
+    this.props.dispatch(typingNotifier(()=>{
+      cb ? cb() : null
     }))
   }
 
@@ -204,7 +211,6 @@ class ConversationContainerShow extends Component {
     if(o.message.state != "replied") 
       return this.renderBlockRepresentation(o)
 
-    console.log(o.message)
     const item = o.message.data
 
     if(!o.fromBot) return
@@ -379,6 +385,7 @@ class ConversationContainerShow extends Component {
                           app={this.props.app}
                           insertAppBlockComment={this.insertAppBlockComment}
                           insertComment={this.insertComment}
+                          typingNotifier={this.typingNotifier}
                           insertNote={this.insertNote}
                         />
 

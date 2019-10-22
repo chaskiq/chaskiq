@@ -58,7 +58,7 @@ class Conversation < ApplicationRecord
     part.save
     
     if part.errors.blank?
-      notify_subscribers(part)
+      part.notify_to_channels
     end
 
     part
@@ -69,7 +69,7 @@ class Conversation < ApplicationRecord
     part.save
 
     if part.errors.blank?
-      notify_subscribers(part)
+      part.notify_to_channels
     end
 
     part
@@ -91,24 +91,6 @@ class Conversation < ApplicationRecord
     part.message_source = opts[:message_source] if opts[:message_source]
     part.email_message_id = opts[:email_message_id]
     part
-  end
-
-  def notify_subscribers(part)
-    MessengerEventsChannel.broadcast_to(
-      "#{self.app.key}-#{self.main_participant.session_id}",
-      { 
-        type: "conversations:conversation_part",
-        data: part.as_json
-      }
-    )
-
-    EventsChannel.broadcast_to(
-      "#{self.app.key}", 
-      { 
-        type: :conversation_part,
-        data: part.as_json
-      }
-    )
   end
 
   def assign_user(user)
