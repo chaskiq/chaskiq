@@ -1055,7 +1055,8 @@ class Messenger extends Component {
                             in={this.state.transition}
                             >
 
-                            { this.state.new_messages > 0 && <CountBadge>
+                            { this.state.new_messages > 0 && 
+                              <CountBadge section={this.state.display_mode}>
                                 {this.state.new_messages}
                               </CountBadge>
                             }

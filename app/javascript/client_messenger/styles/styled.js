@@ -621,8 +621,19 @@ export const CountBadge = styled.div`
   padding: 4px;
   background-color: red;
   font-size: 10px;
-  text-indent: -2px;
-  top: -5px;
+  text-align: center;
+  ${(props)=> props.section === "home" ? 
+    `top: 64px;left: 14px;` : "" 
+  }
+
+  ${(props)=> props.section === "conversation" ? 
+  `top: 13px;left: 7px;` : "" }
+
+  ${(props)=> props.section === "conversations" ? 
+  `top: 13px;left: 7px;` : "" }
+
+}
+
 `
 
 export const Header = styled(({isMobile, ...rest})=>(<div {...rest}></div>))`
