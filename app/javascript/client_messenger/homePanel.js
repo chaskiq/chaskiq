@@ -196,7 +196,7 @@ const HomePanel = ({
             <ConnectedPeople>
               {
                 agents.map((agent)=>(
-                  <Avatar>
+                  <Avatar key={`home-agent-${agent.name}`}>
                     <img src={gravatar(agent.email)} title={agent.name}/>
                   </Avatar>
                 ))
@@ -253,7 +253,7 @@ const HomePanel = ({
       
         {
           articles.map((article, i)=>(
-            <ArticleCard key={i} 
+            <ArticleCard key={`article-card-${article.id}`} 
               article={article} 
               displayArticle={displayArticle}
             />
@@ -292,7 +292,8 @@ const Panel = styled.div`
   right: 0px;
   overflow: scroll;
   width: 100%;
-  height: 100%;
+  height: 97%;
+  z-index: 1000;
 `
 
 const ButtonWrapper = styled.div`

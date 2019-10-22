@@ -166,3 +166,5 @@ gem "i18n-js", "~> 3.3"
 gem "biz", "~> 1.8"
 
 gem "faraday", "~> 0.15.4"
+
+gem "redis-objects", "~> 1.5"

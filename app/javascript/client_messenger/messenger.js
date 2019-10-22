@@ -71,7 +71,9 @@ import {
   UserAutoMessageFlex,
   MessageCloseBtn,
   AppPackageBlockContainer,
-  HeaderAvatar
+  HeaderAvatar,
+  CountBadge,
+  ShowMoreWrapper,
 } from './styles/styled'
 
 import sanitizeHtml from 'sanitize-html';
@@ -101,10 +103,14 @@ class Messenger extends Component {
 
     this.state = {
       enabled: null,
+      agent_typing: false,
       article: null,
+      showMoredisplay: false,
       conversation: {},
-      conversation_messages: [],
-      conversation_messagesMeta: {},
+      inline_conversation: null,
+      new_messages: this.props.new_messages,
+      //conversation_messages: [],
+      //conversation_messagesMeta: {},
       conversations: [],
       conversationsMeta: {},
       availableMessages: [],
@@ -126,6 +132,8 @@ class Messenger extends Component {
       },
       transition: 'in'
     }
+
+    this.delayTimer = null
 
     const data = {
       referrer: window.location.path,
@@ -320,6 +328,13 @@ class Messenger extends Component {
               const newMessage = toCamelCase(data.data)
               this.receiveMessage(newMessage)
               break
+
+            case "conversations:typing":
+              this.handleTypingNotification(toCamelCase(data.data))
+              break
+            case "conversations:unreads":
+              this.receiveUnread(data.data)
+              break
             case "true":
               return true
             default:
@@ -339,12 +354,51 @@ class Messenger extends Component {
     )
   }
 
+  handleTypingNotification = (data)=>{
+    clearTimeout(this.delayTimer);
+    this.handleTyping(data)
+  }
+
+  handleTyping = (data)=>{
+    if(this.state.conversation.key === data.conversation){
+      this.setState({agent_typing: data}, ()=>{
+        this.delayTimer = setTimeout(()=> {
+          this.setState({agent_typing: null})
+        }, 1000);
+      })
+    }
+  }
+
+  receiveUnread = (newMessage)=>{
+    this.setState({new_messages: newMessage})
+  }
+
   receiveMessage = (newMessage)=>{
 
-    if(newMessage.conversationId != this.state.conversation.id) return
+    this.setState({
+      agent_typing: false
+    })
 
-    if ( this.state.conversation_messages.find( (o)=> o.id === newMessage.id ) ){
-      const new_collection = this.state.conversation_messages.map((o)=>{
+    // when messenger hidden & not previous inline conversation
+    if(!this.state.open && !this.state.inline_conversation){
+      
+      this.clearConversation(()=>{
+        this.setConversation(newMessage.conversationKey, ()=>{
+          this.setState({
+            inline_conversation: newMessage.conversationKey
+          }, ()=> setTimeout(this.scrollToLastItem, 200) )
+        })
+      })
+
+      return
+    }
+
+    // return if message does not correspond to conversation
+    if(this.state.conversation.key != newMessage.conversationKey) return
+
+    // append or update
+    if ( this.state.conversation.messages.collection.find( (o)=> o.id === newMessage.id ) ){
+      const new_collection = this.state.conversation.messages.collection.map((o)=>{
           if (o.id === newMessage.id ){
             return newMessage
           } else {
@@ -353,12 +407,23 @@ class Messenger extends Component {
       })
 
       this.setState({
-        conversation_messages: new_collection
+        conversation: Object.assign(this.state.conversation, {
+          messages: { 
+            collection: new_collection,
+            meta: this.state.conversation.messages.meta
+           }
+        })
       })
 
     } else {
+
       this.setState({
-        conversation_messages: [newMessage].concat(this.state.conversation_messages)
+        conversation: Object.assign(this.state.conversation, {
+          messages: { 
+            collection: [newMessage].concat(this.state.conversation.messages.collection) ,
+            meta: this.state.conversation.messages.meta
+          }
+        })
       }, this.scrollToLastItem)
       
       if (newMessage.appUser.kind === "agent") {
@@ -467,12 +532,13 @@ class Messenger extends Component {
       success: (data)=>{
         const {conversation} = data.startConversation
         let messages = [conversation.lastMessage]
-        if(this.state.display_mode === "conversation")
-          messages = messages.concat(this.state.conversation_messages)
+        //if(this.state.display_mode === "conversation")
+        if(this.state.conversation.messages)
+          messages = messages.concat(conversation.messages.collection)
 
         this.setState({
-          conversation: conversation,
-          conversation_messages: messages
+          conversation: Object.assign(conversation, {messages: {collection: messages }}),
+          //conversation_messages: messages
             /*conversation.lastMessage ? 
             response.data.messages.concat(this.state.conversation_messages) : 
             this.state.conversation_messages*/
@@ -487,7 +553,8 @@ class Messenger extends Component {
     })
    }
 
-  handleTriggerrequest = (trigger)=>{
+  
+   handleTriggerrequest = (trigger)=>{
     if (this.state.appData.tasksSettings){
       setTimeout(()=>{
         this.requestTrigger(trigger)
@@ -495,7 +562,6 @@ class Messenger extends Component {
     }
   }
 
-  
   clearAndGetConversations = ()=>{
     this.setState({ conversationsMeta: {} }, this.getConversations)
   }
@@ -526,25 +592,47 @@ class Messenger extends Component {
     })
   }
 
-  setconversation = (id , cb)=>{
-    const nextPage = this.state.conversation_messagesMeta.next_page || 1
+  setConversation = (id , cb)=>{
+    const currentMeta = this.getConversationMessagesMeta() || {}
+    const nextPage = currentMeta.next_page || 1
     this.graphqlClient.send(CONVERSATION, {
       id: id,
       page: nextPage
     }, {
       success: (data)=>{
         const {conversation} = data.messenger
-        const {messages, meta} = conversation
+        const {messages} = conversation
+        const {meta, collection} = messages
+
+        const newCollection = nextPage > 1 ? 
+        this.state.conversation.messages.collection.concat(collection) : 
+        messages.collection 
+
         this.setState({
-          conversation: conversation,
-          conversation_messages: nextPage > 1 ? this.state.conversation_messages.concat(messages.collection) : messages.collection ,
-          conversation_messagesMeta: messages.meta
+          conversation: Object.assign(this.state.conversation, conversation, {
+            messages: { collection:  newCollection, meta: meta }
+          }),
+          //conversation_messages: nextPage > 1 ? this.state.conversation.messages.collection.concat(messages.collection) : messages.collection ,
+          //conversation_messagesMeta: messages.meta
         }, cb)
       },
       error: (error)=>{
         debugger
       }
     })
+  }
+
+  getConversationMessages = ()=>{
+    if(!this.state.conversation.messages) return {}
+    const {collection} = this.state.conversation.messages
+    return collection
+  }
+
+  getConversationMessagesMeta = ()=>{
+    console.log("AA", this.state.conversation.messages)
+    if(!this.state.conversation.messages) return {}
+    const {meta} = this.state.conversation.messages
+    return meta
   }
 
   setTransition = (type, cb)=>{
@@ -561,8 +649,8 @@ class Messenger extends Component {
     e.preventDefault()
 
     this.setState({
-      conversation_messages: [],
-      conversation_messagesMeta: {},
+      //conversation_messages: [],
+      //conversation_messagesMeta: {},
       conversation: {
         key: "volatile",
         mainParticipant: {}
@@ -586,10 +674,15 @@ class Messenger extends Component {
 
   }
 
+  clearConversation = (cb)=>{
+    this.setState({
+      conversation: {},
+    } , cb)
+  }
+
   displayHome = (e)=>{
     //this.unsubscribeFromConversation()
     e.preventDefault()
-
     this.setTransition('out', ()=>{
       this.setDisplayMode('home')
     })
@@ -628,35 +721,21 @@ class Messenger extends Component {
 
   displayConversation =(e, o)=>{
 
-    //this.unsubscribeFromConversation()
 
-    this.setState({conversation_messagesMeta: {} }, ()=>{
-
-      this.setconversation(o.key, () => {
-
-        //this.conversationSubscriber(() => {
-
-          this.setTransition('out', ()=>{
-
-            //this.precenseSubscriber()
-
-            this.setDisplayMode('conversation', ()=>{
-              //this.conversationSubscriber() ; 
-              //this.getConversations() ;
-              this.scrollToLastItem()
-            })
+      this.setConversation(o.key, () => {
+        this.setTransition('out', ()=>{
+          this.setDisplayMode('conversation', ()=>{
+            this.scrollToLastItem()
           })
-
-        //})
+        })
       })
-    })
   }
 
   toggleMessenger = (e)=>{
     this.setState({
       open: !this.state.open, 
       //display_mode: "conversations",
-    })
+    }, this.clearInlineConversation )
   }
 
   isUserAutoMessage = (o)=>{
@@ -739,7 +818,7 @@ class Messenger extends Component {
   }
   */
 
-  appendDraftMessage = (cb)=>{
+  /*appendDraftMessage = (cb)=>{
     const newMessage = {
       draft: true
     }
@@ -754,7 +833,7 @@ class Messenger extends Component {
       this.scrollToLastItem()
       cb && cb()
     })
-  }
+  }*/
 
   requestTrigger = (kind)=>{
     App.events && App.events.perform('request_trigger', {
@@ -892,6 +971,32 @@ class Messenger extends Component {
     })
   }
 
+  showMore = ()=>{
+    this.toggleMessenger()
+    this.setState({
+      display_mode: "conversation",
+      inline_conversation: null
+    }, ()=> setTimeout(this.scrollToLastItem, 200) )
+  }
+
+  clearInlineConversation = ()=>{
+    this.setState({
+      inline_conversation: null
+    })
+  }
+
+  displayShowMore = ()=>{
+    this.setState({
+      showMoredisplay: true
+    })
+  }
+
+  hideShowMore = ()=>{
+    this.setState({
+      showMoredisplay: false
+    })
+  }
+
   render() {
     return (
 
@@ -903,6 +1008,7 @@ class Messenger extends Component {
         <EditorWrapper>
 
           {
+            /*
             this.state.availableMessages.length > 0 && this.isMessengerActive() ?
             <MessageFrame 
               app_id={this.props.app_id}
@@ -910,6 +1016,7 @@ class Messenger extends Component {
               availableMessages={this.state.availableMessages} 
               t={this.props.t}
             /> : null
+            */
           }
               
 
@@ -930,12 +1037,29 @@ class Messenger extends Component {
                       handleAppPackageEvent={this.handleAppPackageEvent}>
 
                       <SuperFragment>
+
+                        {
+                          this.state.isMobile ?
+                          <CloseButtonWrapper>
+                            <button onClick={() => this.toggleMessenger()}>
+                              <CloseIcon style={{ height: '16px', width: '16px'}}/>
+                            </button>
+
+                          </CloseButtonWrapper> : null
+                        }
+
                         <Header 
                           style={{height: this.state.header.height}}
                           isMobile={this.state.isMobile}>
                           <HeaderOption 
                             in={this.state.transition}
                             >
+
+                            { this.state.new_messages > 0 && 
+                              <CountBadge section={this.state.display_mode}>
+                                {this.state.new_messages}
+                              </CountBadge>
+                            }
 
                             { this.state.display_mode != "home" ? 
                               <LeftIcon 
@@ -968,16 +1092,6 @@ class Messenger extends Component {
                               <HeaderTitle in={this.state.transition}>
                                 {this.props.t("conversations")}
                               </HeaderTitle>
-                            }
-
-                            {
-                              this.state.isMobile ?
-                              <CloseButtonWrapper>
-                                <button onClick={() => this.toggleMessenger()}>
-                                  <CloseIcon style={{ height: '16px', width: '16px'}}/>
-                                </button>
-
-                              </CloseButtonWrapper> : null
                             }
                             
 
@@ -1019,13 +1133,15 @@ class Messenger extends Component {
                             this.state.display_mode === "conversation" &&
                             
                               <Conversation
+                                clearConversation={this.clearConversation}
                                 isMobile={this.state.isMobile}
-                                conversation_messages={this.state.conversation_messages}
+                                agent_typing={this.state.agent_typing}
+                                //conversation_messages={this.state.conversation_messages}
                                 conversation={this.state.conversation}
-                                conversation_messagesMeta={this.state.conversation_messagesMeta}
+                                //conversation_messagesMeta={this.state.conversation_messagesMeta}
                                 isUserAutoMessage={this.isUserAutoMessage}
                                 insertComment={this.insertComment}
-                                setConversation={this.setconversation}
+                                setConversation={this.setConversation}
                                 setOverflow={this.setOverflow}
                                 submitAppUserData={this.submitAppUserData}
                                 updateHeader={this.updateHeader}
@@ -1072,24 +1188,90 @@ class Messenger extends Component {
               </Container>  : null
           }
 
+          {
+            !this.state.open && 
+            this.state.inline_conversation && 
+            <StyledFrame className="inline-frame" style={{}}>
+
+              <div 
+                onMouseEnter={this.displayShowMore} 
+                onMouseLeave={this.hideShowMore}
+                >
+
+                {
+                  this.state.showMoredisplay &&
+                
+                    <ShowMoreWrapper in={
+                      this.state.showMoredisplay ? "in" : "out"
+                    }>
+                        <button
+                          onClick={()=>{
+                            this.showMore()
+                          }}>
+                            mostrar mas
+                        </button>
+                        <button 
+                          onClick={()=>this.clearInlineConversation()} 
+                          className="close">
+                            <CloseIcon style={{
+                              height: '10px',
+                              width: '10px',
+                            }}
+                          />
+                        </button>
+                    </ShowMoreWrapper>
+
+                }
+
+                <Conversation
+                  disablePagination={true}
+                  inline_conversation={this.state.inline_conversation}
+                  footerClassName="inline"
+                  clearConversation={this.clearConversation}
+                  isMobile={this.state.isMobile}
+                  //conversation_messages={this.state.conversation_messages}
+                  conversation={this.state.conversation}
+                  //conversation_messagesMeta={this.state.conversation_messagesMeta}
+                  isUserAutoMessage={this.isUserAutoMessage}
+                  insertComment={this.insertComment}
+                  setConversation={this.setConversation}
+                  setOverflow={this.setOverflow}
+                  submitAppUserData={this.submitAppUserData}
+                  updateHeader={this.updateHeader}
+                  transition={this.state.transition}
+                  displayAppBlockFrame={this.displayAppBlockFrame}
+                  t={this.props.t}
+                />
+              </div>
+            
+            </StyledFrame>
+          }
+
 
           { 
             this.isMessengerActive() ?
             <StyledFrame style={{
                 zIndex: '10000000',
                 position: 'absolute',
-                bottom: '-14px',
+                bottom: '-18px',
                 width: '88px',
                 height: '100px',
-                right: '-9px',
+                right: '-23px',
                 border: 'none'
               }}>
 
-              <Prime id="chaskiq-prime" onClick={this.toggleMessenger}>
+              <Prime id="chaskiq-prime" 
+                onClick={this.toggleMessenger}>
                 <div style={{
                   transition: 'all .2s ease-in-out',
                   transform: !this.state.open ? '' : 'rotate(180deg)',
                 }}>
+
+                  {
+                    !this.state.open && this.state.new_messages > 0 && <CountBadge>
+                                                    {this.state.new_messages}
+                                                   </CountBadge>
+                  }
 
                   {
                     !this.state.open ?
@@ -1098,11 +1280,12 @@ class Messenger extends Component {
                         height: '43px',
                         width: '36px',
                         margin: '8px 0px'
-                      }}/> : <CloseIcon style={{
-                              height: '26px',
-                              width: '21px',
-                              margin: '11px 0px'
-                            }}
+                      }}/> : 
+                      <CloseIcon style={{
+                          height: '26px',
+                          width: '21px',
+                          margin: '11px 0px'
+                        }}
                       />
                   }
                 </div>
@@ -1187,8 +1370,16 @@ class Conversation extends Component {
     )
   }
 
+  componentWillUnmount(){
+    if(!this.props.inline_conversation)
+      this.props.clearConversation()
+  }
+
   // TODO: skip on xhr progress
   handleConversationScroll = (e) => {
+
+    if(this.props.disablePagination) return
+    
     let element = e.target
     //console.log(element.scrollTop)
     //console.log(element.scrollHeight - element.scrollTop, element.clientHeight) // on bottom
@@ -1203,7 +1394,7 @@ class Conversation extends Component {
       )
 
     //if (element.scrollTop <= 50) { // on almost top // todo skip on xhr loading
-      if (this.props.conversation_messagesMeta.next_page)
+      if (this.props.conversation.messages.meta.next_page)
         this.props.setConversation(this.props.conversation.key)
     } else {
       this.props.updateHeader(
@@ -1216,20 +1407,6 @@ class Conversation extends Component {
     }
   }
 
-  renderDraft = ()=>{
-    return <MessageItem>
-
-            <div className="message-content-wrapper">
-              <MessageSpinner>
-                <div className={"bounce1"}/>
-                <div className={"bounce2"}/>
-                <div className={"bounce3"}/>
-              </MessageSpinner>
-            </div>
-
-           </MessageItem>
-  }
-
   renderMessage = (o, i)=>{
     const userClass = o.appUser.kind === "agent" ? 'admin' : 'user'
     const isAgent = o.appUser.kind === "agent"
@@ -1238,55 +1415,55 @@ class Conversation extends Component {
     
     return <MessageItemWrapper
             email={this.props.email}
-            key={o.id}
+            key={`conversation-item-${o.id}`}
             conversation={this.props.conversation}
             data={o}>
 
-            <MessageItem
-              className={userClass}
-              messageSourceType={o.messageSource ? o.messageSource.type : ''}
-            >
-
-            {
-              !this.props.isUserAutoMessage(o) && isAgent ?
-              <ConversationSummaryAvatar>
-                <img src={gravatar(o.appUser.email)} />
-              </ConversationSummaryAvatar> : null
-            }
-
-            <div className="message-content-wrapper">
+              <MessageItem
+                className={userClass}
+                messageSourceType={o.messageSource ? o.messageSource.type : ''}
+              >
 
               {
-                this.props.isUserAutoMessage(o) ?
-                  <UserAutoChatAvatar>
-                    <img src={gravatar(o.appUser.email)} />
-                    <span>{o.appUser.name || o.appUser.email}</span>
-                  </UserAutoChatAvatar> : null
+                !this.props.isUserAutoMessage(o) && isAgent ?
+                <ConversationSummaryAvatar>
+                  <img src={gravatar(o.appUser.email)} />
+                </ConversationSummaryAvatar> : null
               }
 
-              {/*render light theme on user or private note*/}
-              
-              <ThemeProvider 
-                theme={ themeforMessage }>
-                <DanteContainer>
-                  <DraftRenderer 
-                    key={i}
-                    message={o}
-                    raw={JSON.parse(o.message.serializedContent)}
-                  />
-                </DanteContainer>
-              </ThemeProvider>  
+              <div className="message-content-wrapper">
 
-            </div>
+                {
+                  this.props.isUserAutoMessage(o) ?
+                    <UserAutoChatAvatar>
+                      <img src={gravatar(o.appUser.email)} />
+                      <span>{o.appUser.name || o.appUser.email}</span>
+                    </UserAutoChatAvatar> : null
+                }
 
-            <span className="status">
-              {
-                o.readAt ?
-                  <Moment fromNow>
-                    {o.readAt}
-                  </Moment> : <span>{t("not_seen")}</span>
-              }
-            </span>
+                {/*render light theme on user or private note*/}
+                
+                <ThemeProvider 
+                  theme={ themeforMessage }>
+                  <DanteContainer>
+                    <DraftRenderer 
+                      key={i}
+                      message={o}
+                      raw={JSON.parse(o.message.serializedContent)}
+                    />
+
+                    <span className="status">
+                      {
+                        o.readAt ?
+                          <Moment fromNow>
+                            {o.readAt}
+                          </Moment> : <span>{t("not_seen")}</span>
+                      }
+                    </span>
+                  </DanteContainer>
+                </ThemeProvider>  
+
+              </div>
 
             </MessageItem>
             
@@ -1334,6 +1511,26 @@ class Conversation extends Component {
       })
   }
 
+  renderTyping = ()=>{
+    return <MessageItem>
+
+            <div className="message-content-wrapper">
+              <MessageSpinner>
+                <div className={"bounce1"}/>
+                <div className={"bounce2"}/>
+                <div className={"bounce3"}/>
+              </MessageSpinner>
+              <span style={{
+                fontSize: '0.7rem', 
+                color: '#afabb3'}}>
+                {this.props.agent_typing.author.name || 'agent'}
+                is typing
+              </span>
+            </div>
+
+           </MessageItem>
+  }
+
   render(){
 
     const {t} = this.props
@@ -1357,20 +1554,24 @@ class Conversation extends Component {
             isMobile={this.props.isMobile}>
 
             {
-              this.props.conversation_messages.map((o, i) => {
+              this.props.agent_typing && this.renderTyping()
+            }
+            {
+              this.props.conversation.messages && this.props.conversation.messages.collection.map((o, i) => {
                   return o.message.blocks ? 
                   this.renderItemPackage(o, i) : 
-                  o.draft ? this.renderDraft() : this.renderMessage(o, i)
+                  this.renderMessage(o, i)
               })
             }
 
           </CommentsWrapper>
 
-          <Footer>
+          <Footer className={this.props.footerClassName || ''}>
           
             {
               this.props.conversation.locked ? t("reply_above") : 
               <UnicornEditor
+                footerClassName={this.props.footerClassName }
                 insertComment={this.props.insertComment}
               />
             }
@@ -1438,6 +1639,7 @@ class Conversations extends Component {
               const message = o.lastMessage
 
               return <CommentsItemComp
+                key={`comments-item-comp-${o.key}`}
                 message={message}
                 o={o}
                 index={i}

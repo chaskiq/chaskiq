@@ -4,6 +4,7 @@ class AppUser < ApplicationRecord
   include AASM
   include UnionScope
   include Tokenable
+  include Redis::Objects
 
   ENABLED_SEARCH_FIELDS = [
                             "email",
@@ -73,6 +74,9 @@ class AppUser < ApplicationRecord
   scope :users, ->{
     where(type: "AppUser")
   }
+
+  # from redis-objects
+  counter :new_messages
 
   def delay_for_trigger
     settings = self.is_a?(AppUser) ? app.user_tasks_settings : app.lead_tasks_settings

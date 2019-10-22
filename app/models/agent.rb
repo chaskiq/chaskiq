@@ -2,7 +2,7 @@ class Agent < ApplicationRecord
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
   include Devise::JWT::RevocationStrategies::JTIMatcher
-
+  include Redis::Objects
   devise :invitable, :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable, :validatable,
          :jwt_authenticatable,
@@ -15,6 +15,8 @@ class Agent < ApplicationRecord
 
   has_many :conversations, foreign_key: "assignee_id"
 
+  # from redis-objects
+  counter :new_messages
 
   store_accessor :properties, [ 
     :name, 

@@ -99,6 +99,8 @@ export const ChatMessageItem = styled.div`
     animation: zoomIn .5s cubic-bezier(.42, 0, .58, 1);
     clear: both;
     z-index: 999;
+    display: flex;
+    flex-direction: column;
 
     &.user {
       margin-left: 60px;
@@ -118,6 +120,14 @@ export const ChatMessageItem = styled.div`
       color: ${(props)=> props.message.privateNote ? `#222` : `#eceff1` };
       background: ${(props)=> props.message.privateNote ? `#feedaf` : `#2f3335` };
       align-self: flex-end;
+
+      /* NEW */
+      box-shadow: rgba(35, 47, 53, 0.09) 0px 2px 8px 0px;
+      font-size: 13px;
+      line-height: 1.5;
+      position: relative;
+      padding: 17px 22px;
+      border-radius: 5px 5px 5px 0px;
     }
 `;
 
