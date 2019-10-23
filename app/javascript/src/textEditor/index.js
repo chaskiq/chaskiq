@@ -40,7 +40,7 @@ import Link from 'Dante2/package/es/components/decorators/link'
 import findEntities from 'Dante2/package/es/utils/find_entities'
 import {ThemeProvider} from 'emotion-theming'
 import EditorStyles from 'Dante2/package/es/styled/base'
-import theme from '../components/conversation/theme'
+import theme from './theme'
 import styled from '@emotion/styled'
 import CircularProgress from '@material-ui/core/CircularProgress';
 

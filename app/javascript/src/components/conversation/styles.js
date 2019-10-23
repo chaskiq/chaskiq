@@ -112,6 +112,11 @@ export const ChatMessageItem = styled.div`
       p {
         color: #565555;
       }
+
+      box-shadow: rgba(35,47,53,0.09) 0px 2px 8px 0px;
+      padding: 17px 22px;
+      border-radius: 5px 5px 5px 0px;
+      
     }
 
     &.admin {
