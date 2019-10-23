@@ -59,6 +59,18 @@ const styles = theme => ({
   button: {
     margin: theme.spacing(1),
   },
+  wrapper: {
+    [theme.breakpoints.down('sm')]: {
+      width: '100vw'
+    },
+    [theme.breakpoints.up('md')]: {
+      width: '100%'
+    },
+    [theme.breakpoints.up('lg')]: {
+      width: '100%'
+    },
+  }
+
 });
 
 const DragHandle = sortableHandle(() => <Box m={1}><DragHandleIcon/></Box>);
@@ -255,6 +267,7 @@ class AssigmentRules extends React.Component {
 
   render(){
     const {isOpen} = this.state
+    const {classes} = this.props
     const defaultConditions = [
       { 
         "type": "match", 
@@ -264,7 +277,7 @@ class AssigmentRules extends React.Component {
       }
     ]
 
-    return <div style={{width: '100vw'}}>
+    return <div className={classes.wrapper}>
 
               <Paper style={{
                 padding: '1em',
@@ -297,7 +310,7 @@ class AssigmentRules extends React.Component {
                         index={index} 
                         value={value.id}
                         object={value}
-                        classes={this.props.classes}
+                        classes={classes}
                         edit={this.edit.bind(this)}
                         deleteRule={this.deleteRule.bind(this)} 
                       />
