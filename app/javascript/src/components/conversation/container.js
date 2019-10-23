@@ -38,8 +38,8 @@ import InboxIcon from '@material-ui/icons/Inbox'
 import BackIcon from '@material-ui/icons/ArrowBackIos'
 import PriorityHighIcon from '@material-ui/icons/PriorityHigh'
 
-import theme from './theme'
-import themeDark from './darkTheme'
+import theme from '../../textEditor/theme'
+import themeDark from '../../textEditor/darkTheme'
 import EditorContainer from './editorStyles'
 
 import ConversationEditor from './Editor.js'
@@ -349,23 +349,34 @@ class ConversationContainerShow extends Component {
 
                                         <StatusItem>
 
-                                          <Moment fromNow>
-                                            {o.createdAt}
-                                          </Moment>
-                                          {" - "}
                                           {
-                                            o.readAt ? 
-                                              <span>
-                                                {"seen "}
-                                                <Moment fromNow>
-                                                  {o.readAt}
-                                                </Moment>
-                                              </span> : 
-                                                
-                                              o.privateNote ? 
-                                              'NOTE' : <span>not seen</span>
-                                              
+                                            userOrAdmin != "admin" ? 
+
+                                            <Moment fromNow>
+                                              {o.createdAt}
+                                            </Moment> : 
+                                            <span>
+                                            
+                                              {" - "}
+                                              {
+                                                o.readAt ? 
+                                                  <span>
+                                                    {"seen "}
+                                                    {/*<Moment fromNow>
+                                                      {o.readAt}
+                                                    </Moment>*/
+                                                  }
+                                                  </span> : 
+                                                    
+                                                  o.privateNote ? 
+                                                  'NOTE' : <span>not seen</span>
+                                                  
+                                              }
+                                            </span>
                                           }
+
+                                          
+                                          
                                         </StatusItem>
                                         
                                       </ChatMessageItem>

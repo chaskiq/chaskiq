@@ -9,6 +9,8 @@ const NewEditorStyles = styled(EditorStyles)`
   display: flex;
   flex-direction: column;
 
+  font-size: 1rem;
+
   button.inlineTooltip-button.scale {
     background: #fff;
   }
@@ -31,6 +33,7 @@ const NewEditorStyles = styled(EditorStyles)`
 
   .postContent{
     padding: 10px;
+    font-size: 1rem;
   }
 
   .graf graf--h2{
