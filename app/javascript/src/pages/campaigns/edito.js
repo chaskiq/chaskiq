@@ -4,6 +4,9 @@ import { UPDATE_CAMPAIGN, DELIVER_CAMPAIGN} from '../../graphql/mutations'
 import _ from "lodash"
 import TextEditor from '../../textEditor'
 import styled from '@emotion/styled'
+import {ThemeProvider} from 'emotion-theming'
+import theme from '../../textEditor/theme'
+import EditorContainer from '../../textEditor/editorStyles'
 
 const ButtonsContainer = styled.div`
   display: flex;
@@ -253,7 +256,9 @@ export default class CampaignEditor extends Component {
                 <EditorMessengerEmulatorWrapper mode={this.props.mode}>
                   <EditorMessengerEmulatorHeader mode={this.props.mode}/>
 
-                  <TextEditor 
+                  <ThemeProvider theme={theme}>
+                    <EditorContainer campaign={true} >
+                      <TextEditor 
                       campaign={true} 
                       uploadHandler={this.uploadHandler}
                       serializedContent={this.props.data.serializedContent}
@@ -275,6 +280,9 @@ export default class CampaignEditor extends Component {
                       }
                     }
                   />
+                    </EditorContainer>
+                  </ThemeProvider>
+                  
                 
                 
                   </EditorMessengerEmulatorWrapper>

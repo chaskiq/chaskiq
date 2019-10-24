@@ -7,8 +7,14 @@ import EditorStyles from 'Dante2/package/es/styled/base'
 const NewEditorStyles = styled(EditorStyles)`
   
   display: flex;
+  flex-direction: column;
+
 
   button.inlineTooltip-button.scale {
+    background: #fff;
+  }
+
+  .inlineTooltip-button.control {
     background: #fff;
   }
 
@@ -67,7 +73,11 @@ const NewEditorStyles = styled(EditorStyles)`
   }
 
   .section-inner.layoutSingleColumn{
-    min-height: 50px;
+
+    ${(props)=> !props.campaign ? 
+      `min-height: 50px;` : ``
+    }
+    
     word-wrap: break-word;
     -ms-word-break: keep-all;
     word-break: break-word;
