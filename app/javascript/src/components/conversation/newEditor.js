@@ -1,10 +1,6 @@
 import React, { Component } from 'react'
 
 import TextEditor from '../../textEditor'
-import { convertToHTML } from 'draft-convert'
-import axios from 'axios'
-import graphql from '../../graphql/client'
-
 import { DanteImagePopoverConfig } from 'Dante2/package/es/components/popovers/image.js'
 import { DanteAnchorPopoverConfig } from 'Dante2/package/es/components/popovers/link.js'
 import { DanteInlineTooltipConfig } from './EditorButtons' //'Dante2/package/es/components/popovers/addButton.js'
