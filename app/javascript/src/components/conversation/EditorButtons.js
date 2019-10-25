@@ -163,7 +163,8 @@ export default class DanteInlineTooltip extends React.Component {
 
   handleFunc = (e)=>{
     this.hide()
-    return e.widget_options.funcHandler()
+    console.log(e.widget_options)
+    return e.widget_options.funcHandler(this)
   }
 
   widgets = ()=> {

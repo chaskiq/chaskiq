@@ -7,7 +7,7 @@ import EditorStyles from 'Dante2/package/es/styled/base'
 const NewEditorStyles = styled(EditorStyles)`
   
   display: flex;
-  flex-direction: column;
+  
 
 
   button.inlineTooltip-button.scale {

@@ -618,7 +618,8 @@ export default class ArticleEditor extends Component {
   render(){
 
       return <ThemeProvider theme={theme }>
-           <EditorStylesExtend campaign={true} styles={this.props.styles}>
+           <EditorStylesExtend campaign={true} 
+            styles={this.props.styles}>
 
              {
                !this.props.loading ?
