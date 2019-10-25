@@ -256,32 +256,30 @@ export default class CampaignEditor extends Component {
                 <EditorMessengerEmulatorWrapper mode={this.props.mode}>
                   <EditorMessengerEmulatorHeader mode={this.props.mode}/>
 
-                  <ThemeProvider theme={theme}>
-                    <EditorContainer campaign={true} >
+                  
                       <TextEditor 
-                      campaign={true} 
-                      uploadHandler={this.uploadHandler}
-                      serializedContent={this.props.data.serializedContent}
-                      data={
+                        campaign={true} 
+                        uploadHandler={this.uploadHandler}
+                        serializedContent={this.props.data.serializedContent}
+                        data={
+                            {
+                              serialized_content: this.props.data.serializedContent
+                            }
+                          }
+                        styles={
                           {
-                            serialized_content: this.props.data.serializedContent
+                            lineHeight: '2em',
+                            fontSize: '1.2em'
                           }
                         }
-                      styles={
-                        {
-                          lineHeight: '2em',
-                          fontSize: '1.2em'
+                        saveHandler={this.saveHandler} 
+                        updateState={({status, statusButton, content})=> {
+                          console.log("get content", content)
+                          this.saveContent(content )
                         }
                       }
-                      saveHandler={this.saveHandler} 
-                      updateState={({status, statusButton, content})=> {
-                        console.log("get content", content)
-                        this.saveContent(content )
-                      }
-                    }
                   />
-                    </EditorContainer>
-                  </ThemeProvider>
+                    
                   
                 
                 

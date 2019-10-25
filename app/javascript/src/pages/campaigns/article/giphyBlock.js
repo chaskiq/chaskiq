@@ -9,6 +9,8 @@ import {
   resetBlockWithType
 } from 'Dante2/package/es/model/index.js'
 
+import Giphy from '../../../textEditor/blocks/giphy'
+
 
 const giphyApiKey = "97g39PuUZ6Q49VdTRBvMYXRoKZYd1ScZ"
 
@@ -45,7 +47,6 @@ export default class GiphyBlock extends React.Component {
 
   constructor(props) {
     super(props)
-    console.log(props)
     this.state = {
       embed_data: this.defaultData(),
       error: "",
@@ -174,58 +175,26 @@ export default class GiphyBlock extends React.Component {
     //console.log(this.state.collection)
     return <div className="dante-giphy-wrapper">
 
-      <p>  
-        Giphy's search results for 
-        "<b>{this.props.block.getText()}</b>"
-        {/*<a> search again</a>*/}
-      </p>
-
-      {
-        !this.props.blockProps.getEditor().props.read_only ? 
-        <button href="#" 
-          className={"graf--media-embed-close"}
-          onClick={this.deleteSelf}>
-          x
-        </button> : null
-      }
-
-      <div className="masorny-wrapper">
-        <div className="masonry masonry--h ">
-          {
-            this.state.collection.map((o, i)=>{
-              const {url, height, width} = o.images.preview_gif
-              return <figure 
-                        onClick={(e)=>this.selectImage(e, o)}
-                        className="masonry-brick masonry-brick--h">
-                        <img 
-                          className="masonry-img" 
-                          src={url} 
-                          height={height} 
-                          width={width}
-                         />
-                      </figure>
-            })
-          }
-        </div>  
-      </div>
-
-      <div className="giphy-logo"><img src={giphimg}/></div>
-
-      <button 
-        onClick={this.handlePrev}>
-        {"< prev page"}
-      </button>
-
-      <button 
-        onClick={this.handleNext}>
-        {"next page >"}
-      </button>
+        <Giphy 
+        apiKey={giphyApiKey}
+        handleSelected={(data)=>{
+          console.log(data)
+          debugger
+        }}
+        insertComment={(data)=>{
+          this.props.insertAppBlockComment(data)
+          this.setState({
+            openGiphy: false
+          })
+        }}
+      />
 
     </div>
   }
 }
 
 export const GiphyBlockConfig = (options={})=>{
+
   let config =  {
     title: 'add an image',
     type: 'giphy',
@@ -238,8 +207,10 @@ export const GiphyBlockConfig = (options={})=>{
     selected_class: "is-selected is-mediaFocused",
     widget_options: {
       displayOnInlineTooltip: true,
-      insertion: "placeholder",
-      insert_block: "giphy"
+      //insertion: "placeholder",
+      //insert_block: "giphy",
+      insertion: "func",
+      funcHandler: options.handleFunc,
     },
     options: {
       placeholder: 'Search any gif on giphy'

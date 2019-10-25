@@ -15,10 +15,10 @@ import { DanteTooltipConfig } from 'Dante2/package/es/components/popovers/toolTi
 //import { ButtonBlockConfig } from "../../editor/components/blocks/button";
 //import Prism from 'prismjs';
 //import { PrismDraftDecorator } from 'Dante2/package/es/components/decorators/prism'
-//import { GiphyBlockConfig } from '../pages/campaign/article/giphyBlock'
+import { GiphyBlockConfig } from '../../pages/campaigns/article/giphyBlock'
 //import { SpeechToTextBlockConfig } from './article/speechToTextBlock'
 //import { DanteMarkdownConfig } from './article/markdown'
-
+import Giphy from '../../textEditor/blocks/giphy'
 import Link from 'Dante2/package/es/components/decorators/link'
 import findEntities from 'Dante2/package/es/utils/find_entities'
 
@@ -214,7 +214,8 @@ export default class ChatEditor extends Component {
       html: null,
       statusButton: "inprogress",
       openPackagePanel: false,
-      disabled: true
+      disabled: true,
+      openGiphy: false
     }
   }
 
@@ -331,6 +332,21 @@ export default class ChatEditor extends Component {
                   }}
                 />}
 
+
+                <Giphy 
+                  apiKey={"97g39PuUZ6Q49VdTRBvMYXRoKZYd1ScZ"}
+                  handleSelected={(data)=>{
+                    console.log(data)
+                    debugger
+                  }}
+                  insertComment={(data)=>{
+                    this.props.insertAppBlockComment(data)
+                    this.setState({
+                      openGiphy: false
+                    })
+                  }}
+                />
+
                 <ChatEditorInput style={{flexGrow: 3}}>
 
                   <TextEditor theme={theme}
@@ -343,7 +359,14 @@ export default class ChatEditor extends Component {
                     appendWidgets={
                       [AppPackageBlockConfig({
                         handleFunc: this.handleAppFunc
-                      })]
+                      }),
+                      GiphyBlockConfig({
+                        handleFunc: ()=>{
+                          debugger
+                          this.setState({openGiphy: true })
+                        }
+                      })
+                      ]
                     }
 
                     data={
