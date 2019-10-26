@@ -40,7 +40,7 @@ import PriorityHighIcon from '@material-ui/icons/PriorityHigh'
 
 import theme from '../../textEditor/theme'
 import themeDark from '../../textEditor/darkTheme'
-import EditorContainer from './editorStyles'
+import EditorContainer from '../../textEditor/editorStyles'
 
 import ConversationEditor from './Editor.js'
 import {getConversation, 
