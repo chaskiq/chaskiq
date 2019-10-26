@@ -162,6 +162,7 @@ export default class CampaignEditor extends Component {
       incomingSelectionPosition: [],
       data: {},
       status: "",
+      read_only: false,
       statusButton: "inprogress"
     }
   }
@@ -261,6 +262,10 @@ export default class CampaignEditor extends Component {
                         campaign={true} 
                         uploadHandler={this.uploadHandler}
                         serializedContent={this.props.data.serializedContent}
+                        read_only={this.state.read_only}
+                        toggleEditable={()=>{
+                          this.setState({read_only: !this.state.read_only})
+                        }}
                         data={
                             {
                               serialized_content: this.props.data.serializedContent

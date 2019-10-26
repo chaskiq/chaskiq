@@ -35,6 +35,7 @@ export default class ArticleEditor extends Component {
     this.menuResizeFunc = null
     this.state = {
       loading: true,
+      read_only: false,
       currentContent: null,
       diff: "",
       videoSession: false,
@@ -75,6 +76,10 @@ export default class ArticleEditor extends Component {
                       uploadHandler={this.props.uploadHandler}
                       serializedContent={serializedContent }
                       loading={this.props.loading}
+                      read_only={this.state.read_only}
+                      toggleEditable={()=>{
+                        this.setState({read_only: !this.state.read_only})
+                      }}
                       data={
                           {
                             serialized_content: serializedContent

@@ -18,7 +18,7 @@ import { DanteTooltipConfig } from 'Dante2/package/es/components/popovers/toolTi
 import { GiphyBlockConfig } from '../../pages/campaigns/article/giphyBlock'
 //import { SpeechToTextBlockConfig } from './article/speechToTextBlock'
 //import { DanteMarkdownConfig } from './article/markdown'
-import Giphy from '../../textEditor/blocks/giphy'
+
 import Link from 'Dante2/package/es/components/decorators/link'
 import findEntities from 'Dante2/package/es/utils/find_entities'
 
@@ -117,7 +117,7 @@ const ButtonsRow = styled.div`
     margin-right: 2px;
   }
 `
-
+/*
 const defaultProps = {
   content: null,
   read_only: false,
@@ -173,7 +173,7 @@ const defaultProps = {
     '` ': "code-block"
   },
 
-}
+}*/
 
 export const ChatEditorInput = styled.div`
    @media (min-width: 320px) and (max-width: 480px) {
@@ -215,7 +215,8 @@ export default class ChatEditor extends Component {
       statusButton: "inprogress",
       openPackagePanel: false,
       disabled: true,
-      openGiphy: false
+      openGiphy: false,
+      read_only: false,
     }
   }
 
@@ -332,21 +333,6 @@ export default class ChatEditor extends Component {
                   }}
                 />}
 
-
-                <Giphy 
-                  apiKey={"97g39PuUZ6Q49VdTRBvMYXRoKZYd1ScZ"}
-                  handleSelected={(data)=>{
-                    console.log(data)
-                    debugger
-                  }}
-                  insertComment={(data)=>{
-                    this.props.insertAppBlockComment(data)
-                    this.setState({
-                      openGiphy: false
-                    })
-                  }}
-                />
-
                 <ChatEditorInput style={{flexGrow: 3}}>
 
                   <TextEditor theme={theme}
@@ -356,16 +342,15 @@ export default class ChatEditor extends Component {
                     serializedContent={serializedContent }
                     loading={this.props.loading}
                     setDisabled={this.setDisabled}
+                    read_only={this.state.read_only}
+                    toggleEditable={()=>{
+                      this.setState({read_only: !this.state.read_only})
+                    }}
                     appendWidgets={
-                      [AppPackageBlockConfig({
-                        handleFunc: this.handleAppFunc
-                      }),
-                      GiphyBlockConfig({
-                        handleFunc: ()=>{
-                          debugger
-                          this.setState({openGiphy: true })
-                        }
-                      })
+                      [
+                        AppPackageBlockConfig({
+                          handleFunc: this.handleAppFunc
+                        })
                       ]
                     }
 
