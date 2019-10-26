@@ -1,7 +1,13 @@
 
 import React from "react"
-import axios from "axios"
-import giphimg from "../../../images/Poweredby_100px-White_VertText.png"
+
+import Button from '@material-ui/core/Button';
+import Dialog from '@material-ui/core/Dialog';
+import DialogActions from '@material-ui/core/DialogActions';
+import DialogContent from '@material-ui/core/DialogContent';
+import DialogContentText from '@material-ui/core/DialogContentText';
+import DialogTitle from '@material-ui/core/DialogTitle';
+import TextField from '@material-ui/core/TextField';
 
 import { 
   updateDataOfBlock, 
@@ -10,7 +16,6 @@ import {
 } from 'Dante2/package/es/model/index.js'
 
 import Giphy from '../../../textEditor/blocks/giphy'
-
 
 const giphyApiKey = "97g39PuUZ6Q49VdTRBvMYXRoKZYd1ScZ"
 
@@ -42,64 +47,19 @@ const GiphyLogo = ()=>{
 </svg>
 }
 
-
 export default class GiphyBlock extends React.Component {
 
   constructor(props) {
     super(props)
     this.state = {
       embed_data: this.defaultData(),
-      error: "",
-      collection: [],
-      batchSize: 10,
-      lang: "en",
-      rating: "G", // Y G PG PG-13 R
-      pagination: {
-        total_count: 0,
-        offset: 0,
-        count: 0
-      }
+      open: true
     }
   }
 
   componentDidMount(){
-    this.fetchGiphy(0)
-  }
-
-  fetchGiphy = (offset)=>{
-
-    const limit = this.state.batchSize
-    const q = this.props.block.getText()
-
-    const url = `https://api.giphy.com/v1/gifs/search?api_key=${giphyApiKey}&q=${q}&limit=${limit}&offset=${offset}&rating=G&lang=en`
-
-    axios.get(url)
-      .then( (response)=> {
-        this.setState({
-          collection: response.data.data,
-          pagination: response.data.pagination,
-          nextPage: offset
-        })
-        // handle success
-        console.log(response);
-      })
-      .catch( (error)=> {
-        // handle error
-        console.log(error);
-      })
-      .then( ()=> {
-        // always executed
-      });
-  }
-
-  handleNext = ()=>{
-    const page = this.state.pagination.offset + this.state.batchSize
-    this.fetchGiphy(page)
-  }
-
-  handlePrev = ()=>{
-    const page = this.state.pagination.offset - this.state.batchSize
-    this.fetchGiphy(page)
+    console.log(this.props)
+    this.props.blockProps.toggleEditable()
   }
 
   defaultData =() =>{
@@ -142,8 +102,7 @@ export default class GiphyBlock extends React.Component {
     return result
   }
 
-  selectImage = (e, giphyblock)=>{
-    e.preventDefault()
+  selectImage = (giphyblock)=>{
     const { block, blockProps } = this.props
     const { getEditorState, setEditorState } = blockProps
     const data = block.getData()
@@ -154,6 +113,8 @@ export default class GiphyBlock extends React.Component {
       aspect_ratio: this.getAspectRatio(width, height),
       forceUpload: true
     } 
+
+    this.props.blockProps.toggleEditable()
     //data.merge(this.state)
     return setEditorState(
       resetBlockWithType(getEditorState(), 
@@ -162,34 +123,46 @@ export default class GiphyBlock extends React.Component {
      )
   }
 
-  searchAgain = (e)=>{
-    e.preventDefault()
-    const { block, blockProps } = this.props
-    const { getEditorState, setEditorState } = blockProps
-    const data = block.getData()
-    const newData = data.merge(this.state)
-    return setEditorState(resetBlockWithType(getEditorState(), 'placeholder', {}))
-  }
 
   render(){
     //console.log(this.state.collection)
-    return <div className="dante-giphy-wrapper">
+    return <div 
+            className="dante-giphy-wrapper">
+              <Dialog
+                open={this.state.open}
+                onClose={()=>{
+                  this.setState({
+                    open: !this.state.open
+                  }, this.props.blockProps.toggleEditable ) 
+                }}
+                maxWidth={'sm'}
+                fullWidth={true}
+                aria-labelledby="alert-dialog-title"
+                aria-describedby="alert-dialog-description"
+              >
+                <DialogTitle id="alert-dialog-title">
+                  Compose a new message
+                </DialogTitle>
+                
+                <DialogContent>
+                  <DialogContentText id="alert-dialog-description">
+                  
+                  <Giphy 
+                    apiKey={giphyApiKey}
+                    handleSelected={(data)=>{
+                      this.selectImage(data)
+                    }}
+                  />
 
-        <Giphy 
-        apiKey={giphyApiKey}
-        handleSelected={(data)=>{
-          console.log(data)
-          debugger
-        }}
-        insertComment={(data)=>{
-          this.props.insertAppBlockComment(data)
-          this.setState({
-            openGiphy: false
-          })
-        }}
-      />
-
-    </div>
+                  </DialogContentText>
+                </DialogContent>
+        
+                <DialogActions>
+                  
+                </DialogActions>
+        
+              </Dialog>     
+          </div>
   }
 }
 
@@ -207,10 +180,10 @@ export const GiphyBlockConfig = (options={})=>{
     selected_class: "is-selected is-mediaFocused",
     widget_options: {
       displayOnInlineTooltip: true,
-      //insertion: "placeholder",
-      //insert_block: "giphy",
-      insertion: "func",
-      funcHandler: options.handleFunc,
+      insertion: "insertion",
+      insert_block: "giphy",
+      //insertion: "func",
+      //funcHandler: options.handleFunc,
     },
     options: {
       placeholder: 'Search any gif on giphy'

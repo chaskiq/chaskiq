@@ -4,16 +4,16 @@ import styled from '@emotion/styled'
 
 
 const GiphyBlock = styled.div`
-  position: absolute;
-  left: 128px;
-  bottom: 48px;
-  z-index: 10000;
-  height: 251px;
+  //position: absolute;
+  //left: 128px;
+  //bottom: 48px;
+  //z-index: 10000;
+  //height: 251px;
   background: white;
-  border: 1px solid #abaaaa;
-  border-radius: 3px;
-  width: 223px;
-  box-shadow: 1px 1px 1px #ece3e3;
+  //border: 1px solid #abaaaa;
+  //border-radius: 3px;
+  //width: 223px;
+  //box-shadow: 1px 1px 1px #ece3e3;
 `
 const Arrow = styled.div`
   position: absolute;
@@ -27,20 +27,22 @@ const Arrow = styled.div`
   -webkit-filter: drop-shadow(0 -2px 2px #AAA);
 `
 
-
 const GridListOverflow = styled.div`
   height: 187px;
   overflow: auto
 `
-const GridList = styled.div`  
+const GridList = styled.div` 
+
+display: flex;
   display: flex;
-  flex-direction: column;
-  align-items: stretch;
-  flex: 1 1 0px;
-  img{
-    //width: 250px;
-    margin-bottom: 4px;
-    border: #000 solid 1px;
+  flex-flow: row wrap;
+  margin-left: -8px;
+  width: 100%;
+  img {
+    flex: auto;
+    height: 250px;
+    min-width: 150px;
+    margin: 0 8px 8px 0;
   }
 `
 
@@ -83,7 +85,8 @@ export default class App extends React.Component {
     super(props);
     this.state = {
       gifs: [],
-      limit: 5
+      limit: 10,
+      term: ""
     };
   }
 
@@ -126,6 +129,13 @@ export default class App extends React.Component {
     });
   }
 
+  handleChange = (e)=>{
+    const term = e.target.value
+    this.setState({
+      term: term
+    })
+  }
+
   render(){
     return (
       <GiphyBlock>
@@ -134,6 +144,8 @@ export default class App extends React.Component {
           <PickerBlock>
             <Input ref="input_ref" 
               placeholder={"search gif"} 
+              value={this.state.term} 
+              onChange={this.handleChange}
               onKeyDown={this.onSearchSubmit} 
             />
           </PickerBlock>
@@ -142,7 +154,7 @@ export default class App extends React.Component {
             <GridList>
                 {
                   this.state.gifs.map((o)=>(
-                    <img onClick={(e)=>(this.props.handleSelected(o))}
+                    <img key={`giphy-${o.id}`} onClick={(e)=>(this.props.handleSelected(o))}
                       height={o.images.fixed_width_downsampled.height}
                       width={o.images.fixed_width_downsampled.width}
                       src={o.images.fixed_width_downsampled.url}
