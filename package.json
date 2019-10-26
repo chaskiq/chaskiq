@@ -47,8 +47,6 @@
     "react-color": "^2.14.1",
     "react-dom": "16.8.0",
     "react-frame-component": "^4.1.1",
-    "react-giphy-picker": "^1.1.0",
-    "react-giphy-selector": "^0.0.1",
     "react-hot-loader": "^4.12.14",
     "react-i18next": "^10.12.4",
     "react-joyride": "^2.1.1",

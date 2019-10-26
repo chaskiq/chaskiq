@@ -1,10 +1,6 @@
 import React, { Component } from 'react'
 
 import TextEditor from '../../textEditor'
-import { convertToHTML } from 'draft-convert'
-import axios from 'axios'
-import graphql from '../../graphql/client'
-
 import { DanteImagePopoverConfig } from 'Dante2/package/es/components/popovers/image.js'
 import { DanteAnchorPopoverConfig } from 'Dante2/package/es/components/popovers/link.js'
 import { DanteInlineTooltipConfig } from './EditorButtons' //'Dante2/package/es/components/popovers/addButton.js'
@@ -19,7 +15,7 @@ import { DanteTooltipConfig } from 'Dante2/package/es/components/popovers/toolTi
 //import { ButtonBlockConfig } from "../../editor/components/blocks/button";
 //import Prism from 'prismjs';
 //import { PrismDraftDecorator } from 'Dante2/package/es/components/decorators/prism'
-//import { GiphyBlockConfig } from '../pages/campaign/article/giphyBlock'
+import { GiphyBlockConfig } from '../../pages/campaigns/article/giphyBlock'
 //import { SpeechToTextBlockConfig } from './article/speechToTextBlock'
 //import { DanteMarkdownConfig } from './article/markdown'
 
@@ -121,7 +117,7 @@ const ButtonsRow = styled.div`
     margin-right: 2px;
   }
 `
-
+/*
 const defaultProps = {
   content: null,
   read_only: false,
@@ -177,7 +173,7 @@ const defaultProps = {
     '` ': "code-block"
   },
 
-}
+}*/
 
 export const ChatEditorInput = styled.div`
    @media (min-width: 320px) and (max-width: 480px) {
@@ -218,7 +214,9 @@ export default class ChatEditor extends Component {
       html: null,
       statusButton: "inprogress",
       openPackagePanel: false,
-      disabled: true
+      disabled: true,
+      openGiphy: false,
+      read_only: false,
     }
   }
 
@@ -344,10 +342,16 @@ export default class ChatEditor extends Component {
                     serializedContent={serializedContent }
                     loading={this.props.loading}
                     setDisabled={this.setDisabled}
+                    read_only={this.state.read_only}
+                    toggleEditable={()=>{
+                      this.setState({read_only: !this.state.read_only})
+                    }}
                     appendWidgets={
-                      [AppPackageBlockConfig({
-                        handleFunc: this.handleAppFunc
-                      })]
+                      [
+                        AppPackageBlockConfig({
+                          handleFunc: this.handleAppFunc
+                        })
+                      ]
                     }
 
                     data={

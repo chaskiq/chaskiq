@@ -4,6 +4,9 @@ import { UPDATE_CAMPAIGN, DELIVER_CAMPAIGN} from '../../graphql/mutations'
 import _ from "lodash"
 import TextEditor from '../../textEditor'
 import styled from '@emotion/styled'
+import {ThemeProvider} from 'emotion-theming'
+import theme from '../../textEditor/theme'
+import EditorContainer from '../../textEditor/editorStyles'
 
 const ButtonsContainer = styled.div`
   display: flex;
@@ -159,6 +162,7 @@ export default class CampaignEditor extends Component {
       incomingSelectionPosition: [],
       data: {},
       status: "",
+      read_only: false,
       statusButton: "inprogress"
     }
   }
@@ -253,28 +257,35 @@ export default class CampaignEditor extends Component {
                 <EditorMessengerEmulatorWrapper mode={this.props.mode}>
                   <EditorMessengerEmulatorHeader mode={this.props.mode}/>
 
-                  <TextEditor 
-                      campaign={true} 
-                      uploadHandler={this.uploadHandler}
-                      serializedContent={this.props.data.serializedContent}
-                      data={
+                  
+                      <TextEditor 
+                        campaign={true} 
+                        uploadHandler={this.uploadHandler}
+                        serializedContent={this.props.data.serializedContent}
+                        read_only={this.state.read_only}
+                        toggleEditable={()=>{
+                          this.setState({read_only: !this.state.read_only})
+                        }}
+                        data={
+                            {
+                              serialized_content: this.props.data.serializedContent
+                            }
+                          }
+                        styles={
                           {
-                            serialized_content: this.props.data.serializedContent
+                            lineHeight: '2em',
+                            fontSize: '1.2em'
                           }
                         }
-                      styles={
-                        {
-                          lineHeight: '2em',
-                          fontSize: '1.2em'
+                        saveHandler={this.saveHandler} 
+                        updateState={({status, statusButton, content})=> {
+                          console.log("get content", content)
+                          this.saveContent(content )
                         }
                       }
-                      saveHandler={this.saveHandler} 
-                      updateState={({status, statusButton, content})=> {
-                        console.log("get content", content)
-                        this.saveContent(content )
-                      }
-                    }
                   />
+                    
+                  
                 
                 
                   </EditorMessengerEmulatorWrapper>

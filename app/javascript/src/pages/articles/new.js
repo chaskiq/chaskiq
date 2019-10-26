@@ -495,7 +495,7 @@ class ArticlesNew extends Component {
                       <strong style={{
                         marginLeft: '9px', 
                         marginRight: '9px',
-                        width: '103px'  
+                        width: '110px'  
                       }}>
                         written by
                       </strong>

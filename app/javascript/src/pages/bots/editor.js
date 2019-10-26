@@ -794,6 +794,7 @@ const Path = ({
 const PathEditor = ({step, message, path, updatePath })=>{
 
   const classes = useStyles();
+  const [readOnly, setReadOnly] = useState(false)
 
   const saveHandler = (html, serialized)=>{
     console.log("savr handler", serialized)
@@ -821,6 +822,10 @@ const PathEditor = ({step, message, path, updatePath })=>{
       <TextEditor 
           //uploadHandler={this.uploadHandler}
           serializedContent={message.serialized_content}
+          read_only={readOnly}
+          toggleEditable={()=>{
+            setReadOnly(!readOnly)
+          }}
           data={
               {
                 serialized_content: message.serialized_content

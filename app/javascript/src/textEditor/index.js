@@ -75,7 +75,7 @@ const EditorStylesExtend = styled(EditorStyles)`
 
 const defaultProps = {
   content: null,
-  read_only: false,
+  //read_only: false,
   spellcheck: false,
   title_placeholder: "Title",
   body_placeholder: "Write your story",
@@ -618,13 +618,16 @@ export default class ArticleEditor extends Component {
   render(){
 
       return <ThemeProvider theme={theme }>
-           <EditorStylesExtend campaign={true} styles={this.props.styles}>
+           <EditorStylesExtend campaign={true} 
+            styles={this.props.styles}>
 
              {
                !this.props.loading ?
              
                 <DanteEditor
                   {...defaultProps}
+                  read_only={this.props.read_only}
+                  toggleEditable={this.props.toggleEditable}
                   debug={false}
                   data_storage={
                     {
