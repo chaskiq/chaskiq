@@ -17,6 +17,7 @@ import serialize from 'form-serialize'
 import CampaignSettings from "./campaigns/settings"
 import CampaignEditor from "./campaigns/edito"
 import SegmentManager from '../components/segmentManager'
+import DeleteDialog from '../components/deleteDialog'
 import CampaignStats from "./campaigns/stats"
 
 import { isEmpty } from 'lodash'
@@ -32,7 +33,8 @@ import { PREDICATES_SEARCH,
   UPDATE_CAMPAIGN, 
   CREATE_CAMPAIGN,
   DELIVER_CAMPAIGN,
-  PURGE_METRICS
+  PURGE_METRICS,
+  DELETE_CAMPAIGN
  } from '../graphql/mutations'
 
 import {getAppUser} from '../actions/app_user'
@@ -45,7 +47,7 @@ import SelectMenu from '../components/selectMenu'
 import EmailIcon from '@material-ui/icons/Email';
 import MessageIcon from '@material-ui/icons/Message';
 import FilterFramesIcon from '@material-ui/icons/FilterFrames';
-import { ClearAll } from '@material-ui/icons';
+import { ClearAll, DeleteOutlineRounded } from '@material-ui/icons';
 import {
   Tab,
   Tabs,
@@ -53,7 +55,8 @@ import {
   Button, 
   Grid,
   Badge,
-  CircularProgress
+  CircularProgress,
+  Typography
 } from '@material-ui/core'
 
 import {
@@ -284,6 +287,22 @@ class CampaignForm extends Component {
     this.fetchCampaign()
   }
 
+  deleteCampaign =(cb)=>{
+    graphql(DELETE_CAMPAIGN, {
+      appKey: this.props.app.key, 
+      id: this.state.data.id
+    },
+    {
+      success: (data)=>{
+        console.log(data)
+        cb && cb()
+      },
+      error: (error)=>{
+        console.log(error)
+      }
+    })
+  }
+
   fetchCampaign = (cb) => {
     const id = this.props.match.params.id
 
@@ -482,6 +501,16 @@ class CampaignForm extends Component {
     ]
   }
 
+  deleteOption = ()=>{
+    return  {
+              title: 'Delete',
+              description: 'delete the campaign',
+              icon: <DeleteOutlineRounded/>,
+              id: 'delete',
+              onClick: this.openDeleteDialog
+            }
+  }
+
   optionsForData = ()=>{
     let newOptions = options
     if(this.props.mode === "campaigns"){
@@ -491,6 +520,9 @@ class CampaignForm extends Component {
     newOptions = newOptions.filter((o)=> o.state != this.state.data.state)
 
     newOptions = newOptions.concat(this.purgeMetricsOptions())
+
+    newOptions.push(this.deleteOption())
+
     return newOptions
   }
 
@@ -502,6 +534,12 @@ class CampaignForm extends Component {
       id: 'deliver',
       onClick: this.purgeMetrics
     }
+  }
+
+  openDeleteDialog = ()=>{
+    this.setState({
+      deleteDialog: true
+    })
   }
 
   purgeMetrics = ()=>{
@@ -529,6 +567,26 @@ class CampaignForm extends Component {
       this.campaignName(this.props.mode)
 
     return <div>
+
+        { this.state.deleteDialog && <DeleteDialog 
+            open={this.state.deleteDialog}
+            title={`Delete campaign "${this.state.data.name}"`} 
+            
+            deleteHandler={()=> {
+              this.deleteCampaign(()=>{
+                this.setState({
+                  deleteDialog: false
+                }, ()=>{
+                  this.props.history.push(`/apps/${this.props.app.key}/messages/${this.props.mode}`)
+                })
+                
+              })
+            }}
+          >
+          <Typography variant="subtitle2">we will destroy any content and related data</Typography>
+          </DeleteDialog>
+        }
+      
 
       <ContentHeader 
         title={ <Grid container 
