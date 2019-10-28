@@ -430,7 +430,7 @@ export const UPDATE_CAMPAIGN = `
 
 export const DELETE_CAMPAIGN = `
   mutation DeleteCampaign($appKey: String!, $id: Int!){
-    deleteUpdate(appKey: $appKey, id: $id){
+    campaignDelete(appKey: $appKey, id: $id){
       errors
       campaign {
         id
