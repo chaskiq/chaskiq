@@ -8,7 +8,7 @@ const palette = {
     contrastText: "#fff",
     main: '#7b16ff', //'#0000ff', // '#24862c',
     white: '#fff',
-    dark: '#0d0392', //'#15501a', //'#006db3',
+    dark: '##cccccc26', //'#15501a', //'#006db3',
   },
  error: {
   light: "#e57373",

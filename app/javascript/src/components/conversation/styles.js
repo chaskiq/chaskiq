@@ -208,7 +208,10 @@ export const ChatContainer = styled.div`
     display: flex;
     flex: 1 1 auto;
     flex-direction: column;
-    background: aliceblue;
+    //background: aliceblue;
+
+    background: #555b611c;
+    box-shadow: 1px 1px 4px 0px inset #5f5d5d94;
 
     @media (min-width: 320px) and (max-width: 480px) {
       height: 79vh;
