@@ -117,7 +117,7 @@ theme = {
         backgroundColor: palette.background.dark,
       },
       colorPrimary: {
-        borderBottom: `1px solid ${palette.common.white}`
+        //borderBottom: `1px solid ${palette.common.white}`
       }
     },
 
