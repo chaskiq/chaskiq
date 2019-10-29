@@ -70,7 +70,7 @@ export const ActivityAvatar = styled.div`
 export const Overflow = styled.div`
   overflow: auto;
   //height: 100vh;
-  height: calc(100vh - 150px);
+  height: calc(100vh - 133px);
 `
 export const ActivityIndicator = styled.span`
   position: absolute;
@@ -225,7 +225,7 @@ export const ChatContainer = styled.div`
     padding: 15px;
     flex-direction: column-reverse;
     display: flex;
-    height: calc(100vh - 462px);
+    height: calc(100vh - 416px);
   }
 
   .input{

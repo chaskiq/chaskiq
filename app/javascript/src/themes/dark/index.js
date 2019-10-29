@@ -115,7 +115,10 @@ theme = {
       colorDefault: {
         color: palette.background.default,
         backgroundColor: palette.background.dark,
-      } 
+      },
+      colorPrimary: {
+        borderBottom: `1px solid ${palette.common.white}`
+      }
     },
 
     MuiTabs: {

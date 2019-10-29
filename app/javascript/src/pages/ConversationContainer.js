@@ -162,7 +162,7 @@ class ConversationContainer extends Component {
     return <GridElement>
               {/*<FixedHeader>Conversations</FixedHeader>*/}
               
-              <FixedHeader style={{height: '82px'}}>
+              <FixedHeader style={{height: '66px'}}>
           
                 {/*<HeaderTitle>
                   Conversations
