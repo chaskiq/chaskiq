@@ -26,6 +26,7 @@ import { parseJwt, generateJWT } from '../components/segmentManager/jwt'
 import TourManager from '../components/Tour'
 import ContentHeader from '../components/ContentHeader'
 import Content from '../components/Content'
+import EmptyView from '../components/emptyView'
 
 import graphql from "../graphql/client"
 import { CAMPAIGN, CAMPAIGNS  } from "../graphql/queries"
@@ -780,6 +781,19 @@ class CampaignContainer extends Component {
                   </Table>
 
                   : null 
+              }
+
+              {
+                !this.state.loading && this.state.campaigns.length === 0 ? 
+                <EmptyView 
+                  title={"No campaigns found"} 
+                  subtitle={
+                    <div>
+                    create a new one
+                    {this.renderActions()}
+                    </div>
+
+                  }/> : null
               }
              
               {

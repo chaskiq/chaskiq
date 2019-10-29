@@ -114,7 +114,7 @@ function Dashboard(props) {
   const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight);
 
   return (
-    <Paper className={classes.paper}>
+    <React.Fragment>
 
       <div className={classes.contentWrapper}>
 
@@ -206,7 +206,7 @@ function Dashboard(props) {
 
       </div>
 
-    </Paper>
+    </React.Fragment>
   );
 }
 

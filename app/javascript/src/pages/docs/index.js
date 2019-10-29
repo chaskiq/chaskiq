@@ -47,6 +47,8 @@ import DraftRenderer from '../../textEditor/draftRenderer'
 import EditorStyles from 'Dante2/package/es/styled/base'
 import theme from '../../textEditor/theme'
 import {ThemeProvider} from 'emotion-theming'
+//import themeLight from '../../themes/light'
+
 import Moment from 'react-moment'
 
 import styled from '@emotion/styled'
@@ -152,7 +154,8 @@ function MadeWithLove() {
   );
 }
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles(theme => {
+  return {
   icon: {
     marginRight: theme.spacing(2),
   },
@@ -180,7 +183,7 @@ const useStyles = makeStyles(theme => ({
     flexGrow: 1,
   },
   footer: {
-    backgroundColor: theme.palette.background.paper,
+    backgroundColor: "#ccc",
     padding: theme.spacing(6),
   },
 
@@ -258,7 +261,8 @@ const useStyles = makeStyles(theme => ({
   }
 
 
-}));
+}
+});
 
 const subdomain = window.location.host.split('.')[1] ? window.location.host.split('.')[0] : false;
 
@@ -376,7 +380,7 @@ export default function MainLAyout(){
 
         <Route  render={(props)=>(
           
-          <p>4040 not found</p>
+          <p>404 not found</p>
 
         )}/>
       </Switch>
@@ -436,6 +440,9 @@ function Docs(props) {
       }
     },
     palette: {
+      background: {
+        paper: "#fefefe"
+      },
       primary: {
         light: settings.color,
         //main: '#009be5',

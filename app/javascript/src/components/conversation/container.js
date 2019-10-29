@@ -237,7 +237,7 @@ class ConversationContainerShow extends Component {
               
                 <ChatContainer>
                   
-                  <FixedHeader>
+                  <FixedHeader style={{height: '66px'}}>
                     <Hidden smUp>
                       <IconButton 
                         onClick={()=> (
@@ -298,111 +298,111 @@ class ConversationContainerShow extends Component {
 
                   </FixedHeader>
 
-                    <div className="box-container" style={{
-                      paddingTop: '10px'
-                    }}>
+                  <div className="box-container" style={{
+                    paddingTop: '10px'
+                  }}>
 
-                      <ChatOverflow 
-                        className="overflow" 
-                        ref="overflow" 
-                        onScroll={this.handleScroll}>
+                    <ChatOverflow 
+                      className="overflow" 
+                      ref="overflow" 
+                      onScroll={this.handleScroll}>
 
-                        {
-                          this.props.conversation.collection.map( (o, i)=> {
-                            const isReplied = o.message.state === "replied"
-                            const userOrAdmin = !isReplied && o.appUser.kind === 'agent' ? 'admin' : 'user'
-               
-                            return <MessageItemWrapper 
-                                      key={`message-item-${this.props.conversation.key}-${o.id}`} 
-                                      data={o} 
-                                      events={this.props.events}
-                                      conversation={this.props.conversation}
-                                      email={this.props.current_user.email}>
+                      {
+                        this.props.conversation.collection.map( (o, i)=> {
+                          const isReplied = o.message.state === "replied"
+                          const userOrAdmin = !isReplied && o.appUser.kind === 'agent' ? 'admin' : 'user'
+              
+                          return <MessageItemWrapper 
+                                    key={`message-item-${this.props.conversation.key}-${o.id}`} 
+                                    data={o} 
+                                    events={this.props.events}
+                                    conversation={this.props.conversation}
+                                    email={this.props.current_user.email}>
 
-                                      <ChatMessageItem 
-                                        id={`message-id-${o.id}`}
-                                        message={o}
+                                    <ChatMessageItem 
+                                      id={`message-id-${o.id}`}
+                                      message={o}
+                                      className={userOrAdmin}>
+                                      
+                                      <ChatAvatar 
+                                        onClick={(e)=>this.props.showUserDrawer(o.appUser.id)}
                                         className={userOrAdmin}>
-                                        
-                                        <ChatAvatar 
-                                          onClick={(e)=>this.props.showUserDrawer(o.appUser.id)}
-                                          className={userOrAdmin}>
 
-                                          <img src={gravatar(o.appUser.email)}/>
+                                        <img src={gravatar(o.appUser.email)}/>
 
-                                        </ChatAvatar>
+                                      </ChatAvatar>
 
-                                        <ThemeProvider theme={
-                                          userOrAdmin === "admin" ? 
-                                          o.privateNote ? theme : themeDark 
-                                          : theme 
-                                        }>
-                                          <EditorContainer>
-                                            {
-                                              o.message.blocks ? 
-                                              this.renderBlocks(o, userOrAdmin) : 
-                                              this.renderMessage(o, userOrAdmin)
-                                            }
-
-                                          </EditorContainer>
-                                       </ThemeProvider>
-
-                                        <StatusItem>
-
+                                      <ThemeProvider theme={
+                                        userOrAdmin === "admin" ? 
+                                        o.privateNote ? theme : themeDark 
+                                        : theme 
+                                      }>
+                                        <EditorContainer>
                                           {
-                                            userOrAdmin != "admin" ? 
-
-                                            <Moment fromNow>
-                                              {o.createdAt}
-                                            </Moment> : 
-                                            <span>
-                                            
-                                              {" - "}
-                                              {
-                                                o.readAt ? 
-                                                  <span>
-                                                    {"seen "}
-                                                    {/*<Moment fromNow>
-                                                      {o.readAt}
-                                                    </Moment>*/
-                                                  }
-                                                  </span> : 
-                                                    
-                                                  o.privateNote ? 
-                                                  'NOTE' : <span>not seen</span>
-                                                  
-                                              }
-                                            </span>
+                                            o.message.blocks ? 
+                                            this.renderBlocks(o, userOrAdmin) : 
+                                            this.renderMessage(o, userOrAdmin)
                                           }
 
+                                        </EditorContainer>
+                                      </ThemeProvider>
+
+                                      <StatusItem>
+
+                                        {
+                                          userOrAdmin != "admin" ? 
+
+                                          <Moment fromNow>
+                                            {o.createdAt}
+                                          </Moment> : 
+                                          <span>
                                           
-                                          
-                                        </StatusItem>
+                                            {" - "}
+                                            {
+                                              o.readAt ? 
+                                                <span>
+                                                  {"seen "}
+                                                  {/*<Moment fromNow>
+                                                    {o.readAt}
+                                                  </Moment>*/
+                                                }
+                                                </span> : 
+                                                  
+                                                o.privateNote ? 
+                                                'NOTE' : <span>not seen</span>
+                                                
+                                            }
+                                          </span>
+                                        }
+
                                         
-                                      </ChatMessageItem>
+                                        
+                                      </StatusItem>
+                                      
+                                    </ChatMessageItem>
 
-                                    </MessageItemWrapper>
-                                  })
-                        }
+                                  </MessageItemWrapper>
+                                })
+                      }
 
-                        {this.props.loading ? <Progress/> : null }
+                      {this.props.loading ? <Progress/> : null }
 
-                      </ChatOverflow>
+                    </ChatOverflow>
 
-                      <div className="input">
-                        
-                        <ConversationEditor 
-                          data={{}}
-                          app={this.props.app}
-                          insertAppBlockComment={this.insertAppBlockComment}
-                          insertComment={this.insertComment}
-                          typingNotifier={this.typingNotifier}
-                          insertNote={this.insertNote}
-                        />
-
-                      </div>
+                    <div className="input">
+                      
+                      <ConversationEditor 
+                        data={{}}
+                        app={this.props.app}
+                        insertAppBlockComment={this.insertAppBlockComment}
+                        insertComment={this.insertComment}
+                        typingNotifier={this.typingNotifier}
+                        insertNote={this.insertNote}
+                      />
 
                     </div>
+
+                  </div>
 
                 </ChatContainer> : <Progress/>
              }

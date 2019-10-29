@@ -1,10 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { MuiThemeProvider, createMuiTheme, withStyles } from '@material-ui/core/styles';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import Hidden from '@material-ui/core/Hidden';
 import Navigator from '../components/Navigator';
-import Content from '../components/Content';
 import Header from '../components/Header';
 
 import { Route, Switch } from 'react-router-dom'
@@ -17,7 +15,6 @@ import AppListContainer from '../pages/appListContainer';
 
 import { withRouter } from 'react-router-dom'
 import { connect } from 'react-redux'
-import { setApp } from '../actions/app'
 
 import Login from '../auth/login'
 import {signout} from '../actions/auth'
@@ -27,7 +24,6 @@ import graphql from "../graphql/client"
 
 import { APPS } from "../graphql/queries"
 
-import Snackbar from '../components/snackbar'
 
 class Paperbase extends React.Component {
   state = {
@@ -39,10 +35,6 @@ class Paperbase extends React.Component {
     router: PropTypes.object,
     currentApp: PropTypes.object,
   };
-
-  /*static propTypes = {
-    onNavResize: PropTypes.func,
-  };*/
 
   componentDidUpdate(prevProps){
     if(prevProps.current_user.email != this.props.current_user.email){
@@ -77,7 +69,7 @@ class Paperbase extends React.Component {
     this.fetchApps()
   }
 
- fetchApps = ()=>{
+  fetchApps = ()=>{
     graphql(APPS ,{} ,{
       success: (data)=>{
         this.setState({apps: data.apps})
@@ -100,6 +92,8 @@ class Paperbase extends React.Component {
     const url = `/apps/${app.key}`
     this.props.history.push(url)
   }
+
+
 
   render() {
     const { classes } = this.props;
@@ -160,6 +154,8 @@ class Paperbase extends React.Component {
               signout={this.handleSignout}
               visitApp={(app)=> this.visitApp(app)}
               onDrawerToggle={this.handleDrawerToggle} 
+              toggleTheme={this.props.handleToggleTheme}
+              themeValue={this.props.theme}
               currentUser={this.props.current_user}
               apps={this.state.apps}
             />
@@ -248,6 +244,3 @@ function mapStateToProps(state) {
 }
 
 export default withRouter(connect(mapStateToProps)(Paperbase))
-
-//export default connect(mapStateToProps)(Paperbase)
-//export default Paperbase;
