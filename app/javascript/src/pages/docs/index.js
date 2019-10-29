@@ -47,6 +47,8 @@ import DraftRenderer from '../../textEditor/draftRenderer'
 import EditorStyles from 'Dante2/package/es/styled/base'
 import theme from '../../textEditor/theme'
 import {ThemeProvider} from 'emotion-theming'
+//import themeLight from '../../themes/light'
+
 import Moment from 'react-moment'
 
 import styled from '@emotion/styled'
@@ -376,7 +378,7 @@ export default function MainLAyout(){
 
         <Route  render={(props)=>(
           
-          <p>4040 not found</p>
+          <p>404 not found</p>
 
         )}/>
       </Switch>
