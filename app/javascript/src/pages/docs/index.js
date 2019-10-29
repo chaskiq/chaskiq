@@ -154,7 +154,8 @@ function MadeWithLove() {
   );
 }
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles(theme => {
+  return {
   icon: {
     marginRight: theme.spacing(2),
   },
@@ -182,7 +183,7 @@ const useStyles = makeStyles(theme => ({
     flexGrow: 1,
   },
   footer: {
-    backgroundColor: theme.palette.background.paper,
+    backgroundColor: "#ccc",
     padding: theme.spacing(6),
   },
 
@@ -260,7 +261,8 @@ const useStyles = makeStyles(theme => ({
   }
 
 
-}));
+}
+});
 
 const subdomain = window.location.host.split('.')[1] ? window.location.host.split('.')[0] : false;
 
@@ -438,6 +440,9 @@ function Docs(props) {
       }
     },
     palette: {
+      background: {
+        paper: "#fefefe"
+      },
       primary: {
         light: settings.color,
         //main: '#009be5',

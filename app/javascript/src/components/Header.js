@@ -44,7 +44,7 @@ const styles = theme => {
     //borderColor: lightColor,
   },
   apa: {
-    minHeight: '52px',
+    minHeight: '65px',
     color: theme.palette.primary.main,
     backgroundColor: theme.palette.background.default
   }
