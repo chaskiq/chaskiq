@@ -20,11 +20,10 @@ import Login from '../auth/login'
 import SignUp from '../auth/signup'
 import AcceptInvitation from '../auth/AcceptInvitation'
 
-//import theme from '../themes/light/index'
-import theme from '../themes/dark/index'
+import theme from '../themes/light/index'
 
-
-console.log(theme)
+import lighttheme from '../themes/light/index'
+import darktheme from '../themes/dark/index'
 
 const drawerWidth = 262;
 
@@ -57,6 +56,7 @@ class MainRouter extends Component {
     this.state = {
       currentApp: null,
       currentUser: {},
+      theme: 'light'
     }
   }
 
@@ -86,12 +86,22 @@ class MainRouter extends Component {
     }, ()=> {cb ? cb(app) : null} )
   }*/
 
+  resolveTheme = ()=>{
+    return this.state.theme === "light" ? lighttheme : darktheme
+  }
+
+  handleToggleTheme = ()=>{
+    this.setState({
+      theme: this.state.theme === "dark" ? 'light' : 'dark'
+    })
+  }
+
   render() {
 
     return (
 
         <Provider store={store}>
-          <MuiThemeProvider theme={theme}>
+          <MuiThemeProvider theme={this.resolveTheme()}>
             <BrowserRouter>
             
                 <Route
@@ -103,6 +113,8 @@ class MainRouter extends Component {
                       return <Docs {...this.props} {...props} subdomain={subdomain[0]}/>
                      
                     return <AppLayout 
+                              theme={this.state.theme}
+                              handleToggleTheme={this.handleToggleTheme}
                               {...this.props} 
                               {...props}
                             />
@@ -136,7 +148,6 @@ class AppLayout extends React.Component{
 
         <Route render={(props)=>(
             <App
-              theme={theme}
               {...this.props}
               {...props}
               drawerWidth={drawerWidth}

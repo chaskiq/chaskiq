@@ -1,6 +1,6 @@
 
 import { createMuiTheme } from '@material-ui/core/styles';
-import pallete from './pallete'
+import palette from './palette'
 
 let theme = createMuiTheme({
   typography: {
@@ -31,7 +31,7 @@ let theme = createMuiTheme({
     
     },
   },
-  palette: pallete,
+  palette: palette,
   shape: {
     borderRadius: 3,
   },
@@ -42,7 +42,7 @@ theme = {
   overrides: {
     MuiTypography:{
       root: {
-        color: pallete.primary.white
+        color: palette.common.white
       },
       h5: {
         [theme.breakpoints.down('sm')]: {
@@ -52,31 +52,31 @@ theme = {
     },
     MuiPaper: {
       root: {
-        backgroundColor: pallete.primary.black,
-        color: pallete.primary.white
+        backgroundColor: palette.primary.dark,
+        color: palette.common.white
       }
     },
 
     MuiListItemText: {
-      color: pallete.primary.white
+      color: palette.common.white
     },
 
-    MuiList: {
+    /*MuiList: {
       root: {
-        backgroundColor: pallete.background.default,
+        backgroundColor: palette.background.default,
       }
-    },
+    },*7
 
     /*MuiListItemText: {
       root: {
-        color: pallete.primary.white
+        color: palette.common.white
       }
     },*/
 
     MuiDrawer: {
       paper: {
         //backgroundColor: '#18202c',
-        backgroundColor: pallete.background.default,
+        backgroundColor: palette.background.default,
       },
     },
     MuiButton: {
@@ -98,13 +98,13 @@ theme = {
 
     MuiTableCell: {
       root: {
-        color: pallete.primary.text,
-        backgroundColor: pallete.background.dark,
-        borderBottomColor: pallete.background.default
+        color: palette.primary.text,
+        backgroundColor: palette.background.dark,
+        borderBottomColor: palette.background.default
       },
 
       body: {
-        color: pallete.primary.text
+        color: palette.primary.text
       }
   
     },
@@ -113,8 +113,8 @@ theme = {
 
     MuiAppBar: {
       colorDefault: {
-        color: pallete.background.default,
-        backgroundColor: pallete.background.dark,
+        color: palette.background.default,
+        backgroundColor: palette.background.dark,
       } 
     },
 
@@ -153,7 +153,7 @@ theme = {
     },
     MuiDivider: {
       root: {
-        backgroundColor: pallete.primary.main //'#d3e8d7', //#404854',
+        backgroundColor: palette.primary.main //'#d3e8d7', //#404854',
       },
     },
     MuiListItemText: {

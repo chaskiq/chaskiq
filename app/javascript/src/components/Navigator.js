@@ -63,7 +63,7 @@ const styles = theme => ({
     paddingTop: 4,
     paddingBottom: 4,
     //color: 'rgba(255, 255, 255, 0.7)',
-    color: theme.palette.primary.text,
+    //color: theme.palette.primary.contrastText,
   },
   itemCategory: {
     //backgroundColor: '#232f3e',
@@ -75,8 +75,8 @@ const styles = theme => ({
   firebase: {
     fontSize: 24,
     fontFamily: theme.typography.fontFamily,
-    color: theme.palette.primary.white,
-    backgroundColor: theme.palette.primary.main
+    //color: theme.palette.primary.contrastText,
+    backgroundColor: theme.palette.background.default
   },
   itemActionable: {
     '&:hover': {

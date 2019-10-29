@@ -26,6 +26,11 @@ import logo from '../images/logo'
 
 import Snackbar from '../components/snackbar'
 
+import { MuiThemeProvider } from '@material-ui/core/styles';
+
+import theme from '../themes/dark/index'
+
+
 import {
   Link as RouteLink
 } from 'react-router-dom'
@@ -97,8 +102,8 @@ function MadeWithLove() {
 const useStyles = makeStyles(theme => ({
   '@global': {
     body: {
-      backgroundColor: theme.palette.common.white,
-    },
+      backgroundColor: theme.palette.primary.dark,
+    }
   },
   paper: {
     marginTop: theme.spacing(8),
@@ -137,6 +142,7 @@ function SignIn(props) {
   }
 
   return (
+    <MuiThemeProvider theme={theme}>
     <Container component="main" maxWidth="xs">
       <CssBaseline />
       <div className={classes.paper}>
@@ -213,6 +219,7 @@ function SignIn(props) {
         <MadeWithLove />
       </Box>
     </Container>
+    </MuiThemeProvider>
   );
 }
 
