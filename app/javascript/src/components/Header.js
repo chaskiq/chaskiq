@@ -33,7 +33,7 @@ const styles = theme => {
   },
   link: {
     textDecoration: 'none',
-    color: theme.palette.primary.main,
+    color: theme.palette.primary.white,
     //'&:hover': {
     //  color: theme.palette.common.white,
     //},
@@ -43,8 +43,8 @@ const styles = theme => {
   },
   apa: {
     minHeight: '52px',
-    color: theme.palette.primary.main,
-    backgroundColor: theme.palette.primary.white
+    color: theme.palette.primary.white,
+    backgroundColor: theme.palette.primary.background
   }
 }
 }
