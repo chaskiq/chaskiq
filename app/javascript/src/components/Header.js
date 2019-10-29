@@ -17,6 +17,8 @@ import Typography from '@material-ui/core/Typography';
 import { withStyles } from '@material-ui/core/styles';
 import ListMenu from './ListMenu'
 import gravatar from "../shared/gravatar"
+import Switch from '@material-ui/core/Switch';
+
 
 const lightColor = 'rgba(255, 255, 255, 0.7)';
 
@@ -33,24 +35,24 @@ const styles = theme => {
   },
   link: {
     textDecoration: 'none',
-    color: theme.palette.primary.white,
+    color: theme.palette.primary.main,
     //'&:hover': {
     //  color: theme.palette.common.white,
     //},
   },
   button: {
-    borderColor: lightColor,
+    //borderColor: lightColor,
   },
   apa: {
     minHeight: '52px',
-    color: theme.palette.primary.white,
-    backgroundColor: theme.palette.primary.background
+    color: theme.palette.primary.main,
+    backgroundColor: theme.palette.background.default
   }
 }
 }
 
 function Header(props) {
-  const { classes, onDrawerToggle, signout, visitApp, apps } = props;
+  const { classes, onDrawerToggle, signout, visitApp, apps, toggleTheme, themeValue } = props;
 
   return (
     <React.Fragment>
@@ -84,6 +86,15 @@ function Header(props) {
                 component="a" href="#">
                 Go to docs
               </Typography>
+
+
+              <Switch
+                checked={themeValue === "light"}
+                onChange={toggleTheme}
+                value={themeValue}
+                inputProps={{ 'aria-label': 'secondary checkbox' }}
+              />
+
             </Grid>
             <Grid item>
               <Tooltip title="Alerts • No alters">

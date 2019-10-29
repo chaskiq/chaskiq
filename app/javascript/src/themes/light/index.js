@@ -1,6 +1,6 @@
 
 import { createMuiTheme } from '@material-ui/core/styles';
-import pallete from './pallete'
+import palette from './palette'
 
 let theme = createMuiTheme({
   typography: {
@@ -31,24 +31,7 @@ let theme = createMuiTheme({
     
     },
   },
-  palette: {
-    primary: {
-      light: '#63ccff',
-      //main: '#009be5',
-      //main: '#444',
-      //main: '#dc18c1',
-      main: '#7b16ff', //'#0000ff', // '#24862c',
-      white: '#fff',
-      dark: '#0d0392', //'#15501a', //'#006db3',
-    },
-   error: {
-    light: "#e57373",
-    main: "#f44336",
-    dark: "#d32f2f",
-    contrastText: "#fff",
-   }
-
-  },
+  palette: palette,
   shape: {
     borderRadius: 3,
   },

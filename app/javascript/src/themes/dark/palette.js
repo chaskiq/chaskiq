@@ -8,10 +8,11 @@ import red from '@material-ui/core/colors/red';
 import purple from '@material-ui/core/colors/purple';
 
 
-const pallete = {
+const palette = {
+  type: "dark",
   background: {
-    default: "#303030",
-    paper: "#121212"
+    default: "#121212",
+    paper: "#1d1d1d"
   },
   color: {
     default: "#ff0000"
@@ -26,12 +27,10 @@ const pallete = {
 
     light: "#fff",
     main: purple[500],
-    white: '#fff',
-    black: '#000',
-    text: '#fff',
-    background: "#000",
-    dark: '#121212', //'#15501a', //'#006db3',
+    dark: '#202229',
+    contrastText: "#fff"
 
+    
     /*contrastText: "#000",
     dark: "#121212",
     light: "#7986cb",
@@ -53,4 +52,4 @@ const pallete = {
   }
 }
 
-export default pallete
+export default palette

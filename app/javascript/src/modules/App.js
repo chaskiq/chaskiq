@@ -24,6 +24,7 @@ import graphql from "../graphql/client"
 
 import { APPS } from "../graphql/queries"
 
+
 class Paperbase extends React.Component {
   state = {
     mobileOpen: false,
@@ -34,10 +35,6 @@ class Paperbase extends React.Component {
     router: PropTypes.object,
     currentApp: PropTypes.object,
   };
-
-  /*static propTypes = {
-    onNavResize: PropTypes.func,
-  };*/
 
   componentDidUpdate(prevProps){
     if(prevProps.current_user.email != this.props.current_user.email){
@@ -72,7 +69,7 @@ class Paperbase extends React.Component {
     this.fetchApps()
   }
 
- fetchApps = ()=>{
+  fetchApps = ()=>{
     graphql(APPS ,{} ,{
       success: (data)=>{
         this.setState({apps: data.apps})
@@ -95,6 +92,8 @@ class Paperbase extends React.Component {
     const url = `/apps/${app.key}`
     this.props.history.push(url)
   }
+
+
 
   render() {
     const { classes } = this.props;
@@ -155,6 +154,8 @@ class Paperbase extends React.Component {
               signout={this.handleSignout}
               visitApp={(app)=> this.visitApp(app)}
               onDrawerToggle={this.handleDrawerToggle} 
+              toggleTheme={this.props.handleToggleTheme}
+              themeValue={this.props.theme}
               currentUser={this.props.current_user}
               apps={this.state.apps}
             />
@@ -243,6 +244,3 @@ function mapStateToProps(state) {
 }
 
 export default withRouter(connect(mapStateToProps)(Paperbase))
-
-//export default connect(mapStateToProps)(Paperbase)
-//export default Paperbase;
