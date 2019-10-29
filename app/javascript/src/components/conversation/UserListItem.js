@@ -22,7 +22,7 @@ const useStyles = makeStyles(theme => ({
     width: '100%',
     //maxWidth: 360,
     padding: '0px',
-    backgroundColor: theme.palette.background.paper,
+    //backgroundColor: theme.palette.background.paper,
   },
   inline: {
     display: 'inline',
@@ -66,6 +66,18 @@ const useStyles = makeStyles(theme => ({
   displayName: {
     width: 'calc(100% - 9px)',
     fontWeight: 'bold'
+  },
+  highlightedItem: {
+    flexFlow: 'column',
+    paddingTop: '1.5em',
+    paddingBottom: '1.5em',
+    backgroundColor: theme.palette.primary.dark
+  },
+  defaultItem: {
+    flexFlow: 'column',
+    paddingTop: '1.5em',
+    paddingBottom: '1.5em',
+    backgroundColor: theme.palette.background.paper
   }
 
 
@@ -90,7 +102,7 @@ const PrivateNoteIndicator = styled.div`
 `
 
 const ContentContent = styled(Typography)`
-  color: rgba(0, 0, 0, 0.54);
+  //color: rgba(0, 0, 0, 0.54);
   p{
     margin: 0px;
   }
@@ -105,20 +117,17 @@ function AlignItemsList(props) {
     <List className={classes.root}>
       <ListItem 
         //alignItems="flex-start" 
-        style={{
-          flexFlow: 'column',
-          paddingTop: '1.5em',
-          paddingBottom: '1.5em',
-          backgroundColor: props.value === props.object ? 'aliceblue' : 'white'
-        }}>
+        className={
+          props.value === props.object ? 
+          classes.highlightedItem : classes.defaultItem
+        }>
 
         <Grid 
-          container alignItems={"center"}
+          container 
+          alignItems={"center"}
           wrap="nowrap" 
           justify={"space-between"}>
 
-          
-        
           <Grid item item xs={1}>
             <Avatar 
                 className={classes.participantAvatar}
@@ -191,13 +200,6 @@ function AlignItemsList(props) {
                     { __html: props.message }
                     }
                 />
-
-                {/* 
-                <ContentContent
-                  dangerouslySetInnerHTML={
-                  { __html: props.message }
-                  }
-                />*/}
 
               </div>
 
