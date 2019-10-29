@@ -5,7 +5,12 @@ import { ResponsivePie } from '@nivo/pie'
 // no chart will be rendered.
 // website examples showcase many properties,
 // you'll often use just a few of them.
+
+import { useTheme } from '@material-ui/core/styles';
+
+
 export default function MyResponsivePie({ data }) {
+const theme = useTheme();
 
   return  <ResponsivePie
         data={data}
@@ -25,101 +30,37 @@ export default function MyResponsivePie({ data }) {
         //borderColor={{ from: 'color', modifiers: [ [ 'darker', '0' ] ] }}
         radialLabelsSkipAngle={25}
         radialLabelsTextXOffset={6}
-        radialLabelsTextColor="#333333"
+        radialLabelsTextColor={theme.palette.primary.light}
         radialLabelsLinkOffset={0}
         radialLabelsLinkDiagonalLength={5}
         radialLabelsLinkHorizontalLength={9}
         radialLabelsLinkStrokeWidth={5}
         //radialLabelsLinkColor={{ from: 'color', modifiers: [] }}
         slicesLabelsSkipAngle={10}
-        slicesLabelsTextColor="#333333"
+        slicesLabelsTextColor={theme.palette.primary.light}
         animate={true}
         motionStiffness={90}
         motionDamping={15}
-        /*
-        defs={[
-            {
-                id: 'dots',
-                type: 'patternDots',
-                background: 'inherit',
-                color: 'rgba(255, 255, 255, 0.3)',
-                size: 4,
-                padding: 1,
-                stagger: true
-            },
-            {
-                id: 'lines',
-                type: 'patternLines',
-                background: 'inherit',
-                color: 'rgba(255, 255, 255, 0.3)',
-                rotation: -45,
-                lineWidth: 6,
-                spacing: 10
+        theme={{
+            tooltip: {
+                container: {
+                    background: 'white',
+                    color: 'black',
+                    fontSize: 'inherit',
+                    borderRadius: '2px',
+                    boxShadow: '0 1px 2px rgba(0, 0, 0, 0.25)',
+                    padding: '5px 9px'
+                },
+                basic: {
+                    whiteSpace: 'pre',
+                    display: 'flex',
+                    alignItems: 'center'
+                },
+                table: {},
+                tableCell: {
+                    padding: '3px 5px'
+                }
             }
-        ]}
-        fill={[
-            {
-                match: {
-                    id: 'Chrome'
-                },
-                id: 'dots'
-            },
-            {
-                match: {
-                    id: 'Firefox'
-                },
-                id: 'dots'
-            },
-            {
-                match: {
-                    id: 'Safari'
-                },
-                id: 'dots'
-            },
-            {
-                match: {
-                    id: 'Explorer'
-                },
-                id: 'dots'
-            },
-            {
-                match: {
-                    id: 'Brave'
-                },
-                id: 'lines'
-            },
-            {
-                match: {
-                    id: 'Opera'
-                },
-                id: 'lines'
-            },
-            {
-                match: {
-                    id: 'Samsung'
-                },
-                id: 'lines'
-            }
-        ]}
-        legends={[
-            {
-                anchor: 'bottom',
-                direction: 'row',
-                translateY: 56,
-                itemWidth: 100,
-                itemHeight: 18,
-                itemTextColor: '#999',
-                symbolSize: 18,
-                symbolShape: 'circle',
-                effects: [
-                    {
-                        on: 'hover',
-                        style: {
-                            itemTextColor: '#000'
-                        }
-                    }
-                ]
-            }
-        ]}*/
+        }}
     />
 }

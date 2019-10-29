@@ -20,162 +20,11 @@ import Login from '../auth/login'
 import SignUp from '../auth/signup'
 import AcceptInvitation from '../auth/AcceptInvitation'
 
-let theme = createMuiTheme({
-  typography: {
-    //font-family: 'IBM Plex Sans', sans-serif;
-    //font-family: 'IBM Plex Sans Condensed', sans-serif;
-    fontFamily: "\"IBM Plex Sans\", \"Helvetica\", \"Arial\", sans-serif",
+import theme from '../themes/light/index'
+import lighttheme from '../themes/light/index'
+import darktheme from '../themes/dark/index'
 
-    //fontFamily: "\"Roboto Mono\", \"Helvetica\", \"Arial\", sans-serif",
-    fontSize: 14,
-    /*fontWeightLight: 300,
-    fontWeightRegular: 400,
-    fontWeightMedium: 500,*/
-
-    h4: {
-      //fontFamily: "\"IBM Plex Sans Condensed\", \"Helvetica\", \"Arial\", sans-serif",
-      fontFamily: "\"Open Sans\", \"Helvetica\", \"Arial\", sans-serif",
-      fontWeight: 'bold',
-      fontSize: 30,
-      letterSpacing: 0.5,
-    },
-
-    h5: {
-      //fontFamily: "\"IBM Plex Sans Condensed\", \"Helvetica\", \"Arial\", sans-serif",
-      fontFamily: "\"Open Sans\", \"Helvetica\", \"Arial\", sans-serif",
-      fontWeight: 'bold',
-      fontSize: 26,
-      letterSpacing: 0.5,
-    
-    },
-  },
-  palette: {
-    primary: {
-      light: '#63ccff',
-      //main: '#009be5',
-      //main: '#444',
-      //main: '#dc18c1',
-      main: '#7b16ff', //'#0000ff', // '#24862c',
-      white: '#fff',
-      dark: '#0d0392', //'#15501a', //'#006db3',
-    },
-   error: {
-    light: "#e57373",
-    main: "#f44336",
-    dark: "#d32f2f",
-    contrastText: "#fff",
-   }
-
-  },
-  shape: {
-    borderRadius: 3,
-  },
-});
-
-theme = {
-  ...theme,
-  overrides: {
-    MuiTypography:{
-      h5: {
-        [theme.breakpoints.down('sm')]: {
-          fontSize: 21
-        },
-      }
-    },
-    MuiDrawer: {
-      paper: {
-        //backgroundColor: '#18202c',
-        backgroundColor: '#f8f8f8',
-      },
-    },
-    MuiButton: {
-      label: {
-        textTransform: 'none',
-      },
-      contained: {
-        boxShadow: 'none',
-        '&:active': {
-          boxShadow: 'none',
-        },
-      },
-    },
-    MuiBadge: {
-      colorPrimary: {
-        backgroundColor: "#10e810"
-      }
-    },
-
-    MuiTabs: {
-      root: {
-        marginLeft: theme.spacing(1),
-      },
-      indicator: {
-        height: 3,
-        borderTopLeftRadius: 3,
-        borderTopRightRadius: 3,
-        backgroundColor: theme.palette.common.white,
-      },
-    },
-    MuiTab: {
-      root: {
-        textTransform: 'none',
-        margin: '0 16px',
-        minWidth: 0,
-        padding: 0,
-        [theme.breakpoints.up('md')]: {
-          padding: 0,
-          minWidth: 0,
-        },
-      },
-    },
-    MuiIconButton: {
-      root: {
-        padding: theme.spacing(1),
-      },
-    },
-    MuiTooltip: {
-      tooltip: {
-        borderRadius: 4,
-      },
-    },
-    MuiDivider: {
-      root: {
-        backgroundColor: '#d3e8d7', //#404854',
-      },
-    },
-    MuiListItemText: {
-      primary: {
-        fontWeight: theme.typography.fontWeightMedium,
-      },
-    },
-    MuiListItemIcon: {
-      root: {
-        color: 'inherit',
-        marginRight: 0,
-        '& svg': {
-          fontSize: 20,
-        },
-      },
-    },
-    MuiAvatar: {
-      root: {
-        width: 32,
-        height: 32,
-      },
-    },
-  },
-  props: {
-    MuiTab: {
-      disableRipple: true,
-    },
-  },
-  mixins: {
-    ...theme.mixins,
-    toolbar: {
-      minHeight: 48,
-    },
-  },
-};
+import {toggleTheme} from '../actions/theme'
 
 const drawerWidth = 262;
 
@@ -205,10 +54,13 @@ const styles = {
 class MainRouter extends Component {
   constructor() {
     super();
+    this.theme = store.getState().theme
     this.state = {
       currentApp: null,
       currentUser: {},
+      theme: theme,
     }
+    
   }
 
   componentDidMount(){
@@ -237,12 +89,28 @@ class MainRouter extends Component {
     }, ()=> {cb ? cb(app) : null} )
   }*/
 
-  render() {
+  resolveTheme = ()=>{
+    return this.state.theme === "light" ? lighttheme : darktheme
+  }
 
+  handleToggleTheme = ()=>{
+    const storeTheme = store.getState().theme
+    const siteTheme = storeTheme === "dark" ? 'light' : 'dark' 
+    
+    this.setState({
+      theme: siteTheme
+    }, ()=> {
+      store.dispatch(toggleTheme(siteTheme))
+    })
+  }
+
+  
+
+  render() {
     return (
 
         <Provider store={store}>
-          <MuiThemeProvider theme={theme}>
+          <MuiThemeProvider theme={this.resolveTheme()}>
             <BrowserRouter>
             
                 <Route
@@ -254,6 +122,8 @@ class MainRouter extends Component {
                       return <Docs {...this.props} {...props} subdomain={subdomain[0]}/>
                      
                     return <AppLayout 
+                              theme={this.state.theme}
+                              handleToggleTheme={this.handleToggleTheme}
                               {...this.props} 
                               {...props}
                             />
@@ -287,7 +157,6 @@ class AppLayout extends React.Component{
 
         <Route render={(props)=>(
             <App
-              theme={theme}
               {...this.props}
               {...props}
               drawerWidth={drawerWidth}
