@@ -15,6 +15,7 @@ import current_user from './actions/current_user'
 import status_message from './actions/status_messages'
 import current_page from './actions/navigation'
 import drawer from './actions/drawer'
+import theme from './actions/theme'
 
 const rootReducer = combineReducers({
   auth,
@@ -27,14 +28,16 @@ const rootReducer = combineReducers({
   current_user,
   status_message,
   current_page,
-  drawer
+  drawer,
+  theme
 })
 
 const middlewares = [thunkMiddleware]//, routerMiddleware(history)]
 
 const enhancer = compose(
   applyMiddleware(...middlewares),
-  persistState('auth', { key: 'AUTH' })
+  persistState('auth', { key: 'AUTH'}),
+  persistState("theme", { key: 'THEME' })
 )
 
 const store = createStore(rootReducer, composeWithDevTools(

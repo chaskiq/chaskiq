@@ -21,9 +21,10 @@ import SignUp from '../auth/signup'
 import AcceptInvitation from '../auth/AcceptInvitation'
 
 import theme from '../themes/light/index'
-
 import lighttheme from '../themes/light/index'
 import darktheme from '../themes/dark/index'
+
+import {toggleTheme} from '../actions/theme'
 
 const drawerWidth = 262;
 
@@ -53,11 +54,13 @@ const styles = {
 class MainRouter extends Component {
   constructor() {
     super();
+    this.theme = store.getState().theme
     this.state = {
       currentApp: null,
       currentUser: {},
-      theme: 'light'
+      theme: theme,
     }
+    
   }
 
   componentDidMount(){
@@ -91,13 +94,19 @@ class MainRouter extends Component {
   }
 
   handleToggleTheme = ()=>{
+    const storeTheme = store.getState().theme
+    const siteTheme = storeTheme === "dark" ? 'light' : 'dark' 
+    
     this.setState({
-      theme: this.state.theme === "dark" ? 'light' : 'dark'
+      theme: siteTheme
+    }, ()=> {
+      store.dispatch(toggleTheme(siteTheme))
     })
   }
 
-  render() {
+  
 
+  render() {
     return (
 
         <Provider store={store}>
