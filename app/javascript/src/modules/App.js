@@ -1,10 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { MuiThemeProvider, createMuiTheme, withStyles } from '@material-ui/core/styles';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import Hidden from '@material-ui/core/Hidden';
 import Navigator from '../components/Navigator';
-import Content from '../components/Content';
 import Header from '../components/Header';
 
 import { Route, Switch } from 'react-router-dom'
@@ -17,7 +15,6 @@ import AppListContainer from '../pages/appListContainer';
 
 import { withRouter } from 'react-router-dom'
 import { connect } from 'react-redux'
-import { setApp } from '../actions/app'
 
 import Login from '../auth/login'
 import {signout} from '../actions/auth'
@@ -26,8 +23,6 @@ import Pricing from '../pages/pricingPage'
 import graphql from "../graphql/client"
 
 import { APPS } from "../graphql/queries"
-
-import Snackbar from '../components/snackbar'
 
 class Paperbase extends React.Component {
   state = {
