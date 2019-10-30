@@ -1,6 +1,6 @@
-# Hermes
+# Chaskiq
 
-Hermes (Hermessenger) is a platform that enables chat comunication with users in app or via campaigns (in app messages or newsletters). The platform is made with React, Redux and Ruby on Rails on backend serving a graphql api.
+Chaskiq is a platform that enables chat comunication with users in app or via campaigns (in app messages or newsletters). The platform is made with React, Redux and Ruby on Rails on backend serving a graphql api.
 
 ## Main features:
 
@@ -19,7 +19,7 @@ widget integration
 
 ### Platform
 
-When users visits a site with the hermes integration, they are registered in the platform database which registers the data provided by the integrator and also many browser's properties. (os, os version, user agent etc..).
+When users visits a site with the Chaskiq integration, they are registered in the platform database which registers the data provided by the integrator and also many browser's properties. (os, os version, user agent etc..).
 
 In the administration page you can see who is online and add "segments" which enables filters for you to query different properties on user information. ie: active users, sleeping away etc.. It's entirely customizable.
 

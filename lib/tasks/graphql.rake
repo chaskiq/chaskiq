@@ -5,7 +5,7 @@ namespace :graphql do
     desc 'Dumps the IDL schema into ./app/hermes/schema.graphql'
     task idl: [:environment] do
       target = Rails.root.join("public/schema.graphql")
-      schema = GraphQL::Schema::Printer.print_schema(HermesSchema)
+      schema = GraphQL::Schema::Printer.print_schema(ChaskiqSchema)
       File.open(target, "w+") do |f|
         f.write(schema)
       end
@@ -15,7 +15,7 @@ namespace :graphql do
     desc 'Dumps the result of the introspection query into ./app/hermes/schema.json'
     task json: [:environment] do
       target = Rails.root.join("public/schema.json")
-      result = HermesSchema.execute(GraphQL::Introspection::INTROSPECTION_QUERY)
+      result = ChaskiqSchema.execute(GraphQL::Introspection::INTROSPECTION_QUERY)
       File.open(target, "w+") do |f|
         f.write(JSON.pretty_generate(result))
       end
