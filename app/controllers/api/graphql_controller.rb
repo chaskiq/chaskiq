@@ -22,7 +22,7 @@ class Api::GraphqlController < ApiController
       request: request,
     }
 
-    result = HermesSchema.execute(query, 
+    result = ChaskiqSchema.execute(query, 
       variables: variables, 
       context: context, 
       operation_name: operation_name
