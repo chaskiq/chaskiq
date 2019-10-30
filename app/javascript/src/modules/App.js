@@ -104,124 +104,125 @@ class Paperbase extends React.Component {
     const { children } = this.props;
     
     return (
-        this.props.isAuthenticated && this.props.current_user.email ?
-        <div className={classes.root}>
-          <CssBaseline />
+      <React.Fragment>
+        <CssBaseline />
+        {
+          this.props.isAuthenticated && this.props.current_user.email ?
+          <div className={classes.root}>
+            {
+              this.props.app ?
+                <React.Fragment>
 
-          {
-            this.props.app ?
-              <React.Fragment>
+                
+                  <Hidden smDown implementation="css">
+                      <nav className={classes.drawer}>
+                        <Navigator 
+                          visitApp={(app)=> this.visitApp(app)}
+                          apps={this.state.apps}
+                          PaperProps={{ style: { width: this.props.drawerWidth } }}
+                          variant="permanent"
+                          open={true}
+                          //onClose={this.handleDrawerToggle}
+                          //currentUser={this.props.current_user}
+                          //app={this.props.app}
+                      />
+                    </nav>
+                  </Hidden>
+                
 
-              
-                <Hidden smDown implementation="css">
+                  <Hidden smUp implementation="css">
                     <nav className={classes.drawer}>
-                      <Navigator 
+                      <Navigator
                         visitApp={(app)=> this.visitApp(app)}
                         apps={this.state.apps}
                         PaperProps={{ style: { width: this.props.drawerWidth } }}
-                        variant="permanent"
-                        open={true}
-                        //onClose={this.handleDrawerToggle}
+                        variant="temporary"
+                        open={this.state.mobileOpen}
+                        onClose={this.handleDrawerToggle}
+
                         //currentUser={this.props.current_user}
                         //app={this.props.app}
-                    />
-                  </nav>
-                </Hidden>
+                      />
+                    </nav>
+                  </Hidden>
+                
+
+
               
 
-                <Hidden smUp implementation="css">
-                  <nav className={classes.drawer}>
-                    <Navigator
-                      visitApp={(app)=> this.visitApp(app)}
-                      apps={this.state.apps}
-                      PaperProps={{ style: { width: this.props.drawerWidth } }}
-                      variant="temporary"
-                      open={this.state.mobileOpen}
-                      onClose={this.handleDrawerToggle}
-
-                      //currentUser={this.props.current_user}
-                      //app={this.props.app}
-                    />
-                  </nav>
-                </Hidden>
-               
-
-
-             
-
-              </React.Fragment> : null
-          }
-
-          <div className={classes.appContent}>
-            {/* TODO: use currentPage or other redux attr to skip header on specific pages */}
-            <Header
-              signout={this.handleSignout}
-              visitApp={(app)=> this.visitApp(app)}
-              onDrawerToggle={this.handleDrawerToggle} 
-              toggleTheme={this.props.handleToggleTheme}
-              themeValue={this.props.theme}
-              currentUser={this.props.current_user}
-              apps={this.state.apps}
-            />
-
-            <Switch>
-
-              <Route exact path="/" component={HomePage} />
-
-              <Route path="/settings" component={SettingsPage} />
-
-              <Route exact path="/apps" render={(props) => (
-                <AppListContainer
-                  {...props}
-                  currentUser={this.props.current_user}
-                  //initialNavLinks={this.props.defaultNavLinks}
-                  //navLinks={this.props.navLinks}
-                  //updateNavLinks={this.props.updateNavLinks}
-                />
-              )} />
-
-              <Route exact path={`/apps/new`}
-                render={(props) => (
-
-                   
-                
-                    <NewApp
-                      history={this.props.history}
-                      currentUser={this.props.current_user}
-                      {...props}
-                    />
-                  
-
-                )}
+                </React.Fragment> : null
+            }
+            <div className={classes.appContent}>
+              {/* TODO: use currentPage or other redux attr to skip header on specific pages */}
+              <Header
+                signout={this.handleSignout}
+                visitApp={(app)=> this.visitApp(app)}
+                onDrawerToggle={this.handleDrawerToggle} 
+                toggleTheme={this.props.handleToggleTheme}
+                themeValue={this.props.theme}
+                currentUser={this.props.current_user}
+                apps={this.state.apps}
               />
 
-              <Route path="/apps/:appId" render={(props) => (
-                <ShowAppContainer
-                  {...props}
-                  classes={classes}
+              <Switch>
 
-                  //currentApp={this.props.currentApp}
-                  //setCurrentApp={this.props.setCurrentApp}
-                  //setCurrentApp={setApp}
-                  //app={this.props.app}
-                  //segment={this.props.segment}
-                  //app_users={this.props.app_users}
-                  //currentUser={this.props.current_user}
-                  //dispatch={this.props.dispatch}
-                  //initialNavLinks={this.props.defaultNavLinks}
-                  //navLinks={this.props.navLinks}
-                  //updateNavLinks={this.props.updateNavLinks}
-                  //handleDrawerToggle={this.handleDrawerToggle}
+                <Route exact path="/" component={HomePage} />
+
+                <Route path="/settings" component={SettingsPage} />
+
+                <Route exact path="/apps" render={(props) => (
+                  <AppListContainer
+                    {...props}
+                    currentUser={this.props.current_user}
+                    //initialNavLinks={this.props.defaultNavLinks}
+                    //navLinks={this.props.navLinks}
+                    //updateNavLinks={this.props.updateNavLinks}
+                  />
+                )} />
+
+                <Route exact path={`/apps/new`}
+                  render={(props) => (
+
+                    
+                  
+                      <NewApp
+                        history={this.props.history}
+                        currentUser={this.props.current_user}
+                        {...props}
+                      />
+                    
+
+                  )}
                 />
-              )} />
 
-              <Route path="/pricing" component={Pricing}/>
+                <Route path="/apps/:appId" render={(props) => (
+                  <ShowAppContainer
+                    {...props}
+                    classes={classes}
 
-            </Switch>
+                    //currentApp={this.props.currentApp}
+                    //setCurrentApp={this.props.setCurrentApp}
+                    //setCurrentApp={setApp}
+                    //app={this.props.app}
+                    //segment={this.props.segment}
+                    //app_users={this.props.app_users}
+                    //currentUser={this.props.current_user}
+                    //dispatch={this.props.dispatch}
+                    //initialNavLinks={this.props.defaultNavLinks}
+                    //navLinks={this.props.navLinks}
+                    //updateNavLinks={this.props.updateNavLinks}
+                    //handleDrawerToggle={this.handleDrawerToggle}
+                  />
+                )} />
 
-          </div>
+                <Route path="/pricing" component={Pricing}/>
 
-        </div> : <Login/>
+              </Switch>
+
+            </div>
+          </div> : <Login/>
+        }
+      </React.Fragment>
       
     );
   }

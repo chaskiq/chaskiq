@@ -28,12 +28,10 @@ import Snackbar from '../components/snackbar'
 
 import { MuiThemeProvider } from '@material-ui/core/styles';
 
-import theme from '../themes/dark/index'
+import lightTheme from '../themes/light/index'
+import darkTheme from '../themes/dark/index'
 
 
-import {
-  Link as RouteLink
-} from 'react-router-dom'
 
 class Login extends React.Component {
   constructor(props) {
@@ -68,7 +66,10 @@ class Login extends React.Component {
     }
     return (
       <div>
-        <SignIn handleSubmit={this.handleSubmit.bind(this)}/>
+        <SignIn 
+          {...this.props}
+          handleSubmit={this.handleSubmit.bind(this)}
+        />
         {/*<h2>Login</h2>
         <p>Email: <input type="text" value={this.state.email} onChange={(e) => this.setState({ email: e.target.value })} /></p>
         <p>Password: <input type="text" value={this.state.password} onChange={(e) => this.setState({ password: e.target.value })} /></p>
@@ -140,6 +141,8 @@ function SignIn(props) {
     e.preventDefault()
     props.handleSubmit({email, password})
   }
+
+  const theme = props.theme === "light" ? lightTheme : darkTheme
 
   return (
     <MuiThemeProvider theme={theme}>
@@ -227,13 +230,14 @@ function SignIn(props) {
 
 
 function mapStateToProps(state) {
-  const { auth, current_user } = state
+  const { auth, current_user, theme } = state
   const { loading, isAuthenticated } = auth
 
   return {
     current_user,
     loading,
-    isAuthenticated
+    isAuthenticated,
+    theme
   }
 }
 

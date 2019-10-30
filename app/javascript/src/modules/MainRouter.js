@@ -54,17 +54,11 @@ const styles = {
 class MainRouter extends Component {
   constructor() {
     super();
-    this.theme = store.getState().theme
     this.state = {
       currentApp: null,
       currentUser: {},
-      theme: theme,
+      theme: store.getState().theme,
     }
-    
-  }
-
-  componentDidMount(){
-    //this.getCurrentUser()
   }
 
   getCurrentUser = ()=>{
@@ -83,12 +77,6 @@ class MainRouter extends Component {
     })
   }
 
-  /*setCurrentApp = (app , cb) =>{
-    this.setState({
-      currentApp: app
-    }, ()=> {cb ? cb(app) : null} )
-  }*/
-
   resolveTheme = ()=>{
     return this.state.theme === "light" ? lighttheme : darktheme
   }
@@ -96,15 +84,12 @@ class MainRouter extends Component {
   handleToggleTheme = ()=>{
     const storeTheme = store.getState().theme
     const siteTheme = storeTheme === "dark" ? 'light' : 'dark' 
-    
     this.setState({
       theme: siteTheme
     }, ()=> {
       store.dispatch(toggleTheme(siteTheme))
     })
   }
-
-  
 
   render() {
     return (
