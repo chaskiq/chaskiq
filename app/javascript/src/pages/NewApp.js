@@ -1,192 +1,191 @@
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
-import Button, { ButtonGroup } from '@atlaskit/button';
-import ContentWrapper from '../components/ContentWrapper';
-import PageTitle from '../components/PageTitle';
-import Modal from '@atlaskit/modal-dialog';
-import Page from '@atlaskit/page';
 
-import axios from 'axios'
+import { withRouter } from 'react-router-dom'
+import { connect } from 'react-redux'
+import ContentHeader from '../components/ContentHeader'
+import Content from '../components/Content'
+import { withStyles } from '@material-ui/core/styles';
+import Typography from '@material-ui/core/Typography'
+import Grid from '@material-ui/core/Grid'
+import Box from '@material-ui/core/Box'
+import FieldRenderer from '../shared/FormFields'
+
 import serialize from 'form-serialize'
-import Select from '@atlaskit/select';
-import FieldTextArea from '@atlaskit/field-text-area';
-import FieldText from '@atlaskit/field-text';
-import Form, { Field, FormHeader, FormSection, FormFooter } from '@atlaskit/form';
-import { DateTimePicker } from '@atlaskit/datetime-picker';
-import { Checkbox } from '@atlaskit/checkbox';
-import { isEmpty } from 'lodash'
-import graphql from "../graphql/client";
-import { APP } from "../graphql/queries"
-import { CREATE_APP } from '../graphql/mutations'
-import {
-  fieldRenderer
-} from '../shared/FormFields'
+import {SettingsForm} from './AppSettings'
+import timezones from '../shared/timezones'
 
-export default class HomePage extends Component {
-  
-  static contextTypes = {
-    showModal: PropTypes.func,
-    addFlag: PropTypes.func,
-    onConfirm: PropTypes.func,
-    onCancel: PropTypes.func,
-    onClose: PropTypes.func,
-  };
+import {
+  Paper, 
+  Button, 
+} from '@material-ui/core';
+import graphql from "../graphql/client";
+import { 
+  CREATE_APP
+ } from '../graphql/mutations'
+
+ import {errorMessage, successMessage} from '../actions/status_messages'
+
+ import { 
+  clearApp
+} from '../actions/app'
+import Snackbar from '../components/snackbar'
+
+
+
+const styles = theme => ({
+  addUser: {
+    marginRight: theme.spacing(1),
+  },
+  root: {
+    [theme.breakpoints.up('sm')]: {
+      margin: theme.spacing(3),
+    },
+    [theme.breakpoints.down('sm')]: {
+      padding: theme.spacing(2),
+    },
+  },
+  itemContent: {
+    display: 'flex',
+    alignItems: 'center'
+   },
+   pad: {
+     margin: '3em'
+   },
+   paperPad: {
+    [theme.breakpoints.up('sm')]: {
+      margin: theme.spacing(5),
+    },
+    [theme.breakpoints.down('sm')]: {
+      margin: theme.spacing(2),
+    },
+   }
+});
+
+class NewApp extends Component {
 
   state = {
-    isModalOpen: false,
-    app: null,
-    loading: false,
-    errors: {}
-  }
-
-  url = () => {
-    return `/apps/new.json`
-  }
-
-  fetchApp = () => {
-
-    graphql(CREATE_APP, {operation: 'new', appParams: {}}, {
-      success: (data)=>{
-        this.setState({app: data.appsCreate.app})
-      },
-      error: (error)=>{
-      }
-    })
-
-    /*
-    axios.get(this.url())
-      .then((response) => {
-        this.setState({ app: response.data.app })
-      }).catch((err) => {
-        console.log(err)
-      })
-    */
-  }
-
-
-  showModal = () => {
-    this.setState({ isModalOpen: true }, ()=>{
-      this.fetchApp()
-    });
-  }
-
-  hideModal = () => {
-    this.setState({ isModalOpen: false });
-  }
-
-  // Form Event Handlers
-  create = (data) => {
-
-    graphql(CREATE_APP, { operation: 'create', appParams: data.app }, {
-      success: (data) => {
-
-        this.setState({ 
-          app: data.appsCreate.app,
-          errors: data.appsCreate.errors
-         }, () => {
-          if (isEmpty(this.state.errors))
-            this.props.history.push(`/apps/${this.state.app.key}`)
-          //this.updateData(response.data)
-        })
-      },
-      error: (error) => {
-      }
-    })
-
-    /*
-    axios.post("/apps.json", data)
-      .then((response) => {
-        this.setState({ app: response.data.app }, () => {
-          this.props.history.push(`/apps/${this.state.app.key}`)
-          //this.updateData(response.data)
-        })
-      })
-      .catch((error) => {
-        if (error.response.data)
-          this.setState({ errors: error.response.data })
-
-        console.log(error);
-      })
-    */
-  
+    data: {},
   };
 
-  onSubmitHandler = (e) => {
-    e.preventDefault()
-    const data = serialize(this.formRef, { hash: true, empty: true })
-    this.create(data)
+  componentDidMount(){
+    this.props.dispatch(clearApp())
+  }
+
+  definitionsForSettings = () => {
+    return [
+      {
+        name: "name",
+        type: 'string',
+        grid: { xs: 12, sm: 6 }
+      },
+      {
+        name: "domainUrl",
+        type: 'string',
+        grid: { xs: 12, sm: 6 }
+      },
+      {
+        name: "tagline",
+        type: 'text',
+        hint: "messenger text on botton",
+        grid: { xs: 12, sm: 12 }
+      },
+
+      {name: "timezone", type: "timezone", 
+        options: timezones, 
+        multiple: false,
+        grid: {xs: 12, sm: 12 }
+      },
+      {
+        name: "gatherSocialData",
+        type: 'bool',
+        label: "Collect social data about your users",
+        hint: "Collect social profiles (e.g. LinkedIn, Twitter, etc.) for my users via a third party",
+        grid: { xs: 12, sm: 12 }
+      },
+    ]
+  }
+
+  handleSuccess = ()=>{
+    this.props.dispatch(successMessage("app created successfully"))
+    this.props.history.push(`/apps/${this.state.data.app.key}`)
+  }
+
+  handleResponse = ()=>{
+    this.state.data.app.key ? this.handleSuccess() : null
+  }
+
+
+  handleData = (data)=>{
+    graphql(CREATE_APP, {
+      appParams: data.app, 
+      operation: "create"
+    },{
+      success: (data)=>{
+        this.setState({
+          data: data.appsCreate
+        }, ()=> (this.handleResponse(data)))
+      },
+      error: (error)=>{
+        this.props.dispatch(errorMessage("server error"))
+      }
+    }
+    )
   }
 
   render() {
+
     return (
-      <ContentWrapper>
-        <PageTitle>Home</PageTitle>
-        {/*<MainSection />*/}
-        <ButtonGroup>
-          <Button
-            appearance="primary"
-            onClick={this.showModal}
-            onClose={() => { }}>
-            Create new app
-          </Button>
+      <Paper className={this.props.classes.paperPad}>
+      <Snackbar/>
+       <Grid container justify={"center"} spacing={4}>
 
-        </ButtonGroup>
+        <Grid item sm={6} className={this.props.classes.itemContent}>
 
+          <div className={this.props.classes.pad}>
+            <Typography variant="h5" gutterBottom>        
+              Create your company’s Chaskiq app
+            </Typography>
 
-        {
-          this.state.isModalOpen && (
-            <Modal
-              heading="Candy bar"
-              actions={[{ text: 'cancel', onClick: this.hideModal }]}
-              onClose={this.hideModal}
-            >
+            <Typography>
+              Provide basic information to setup Chaskiq for 
+              your team and customers.
+            </Typography>
+          </div>
 
-              {
-                this.state.app ? <form
-                  name="create-repo"
-                  onSubmit={this.onSubmitHandler.bind(this)}
-                  ref={form => {
-                    this.formRef = form;
-                  }}>
+        </Grid>
+        <Grid item sm={6}>
+          <SettingsForm 
+            data={this.state.data}
+            classes={this.props.classes}
+            update={this.handleData}
+            definitions={this.definitionsForSettings}
+          />
+        </Grid>
 
-                  <FormHeader title="App settings" />
-
-                  <FormSection>
-
-                    {
-                      this.state.app.configFields.map((field) => {
-                        return fieldRenderer('app', field, {data: this.state.app}, this.state.errors)
-                      })
-
-                    }
-
-                  </FormSection>
-
-                  <FormFooter
-                    actionsContent={[
-                      {
-                        id: 'submit-button',
-                      },
-                      {},
-                    ]}
-                  >
-                  <Button appearance="primary" type="submit">
-                      Save settings
-                  </Button>
-
-                  </FormFooter>
-
-                </form>
-                : null
-              }
- 
-
-
-            </Modal>
-          )
-        }
-
-      </ContentWrapper>
+      </Grid>
+      </Paper>
     );
   }
 }
+
+
+NewApp.contextTypes = {
+  router: PropTypes.object,
+};
+
+
+function mapStateToProps(state) {
+
+  const { auth, app } = state
+  const { isAuthenticated } = auth
+  //const { sort, filter, collection , meta, loading} = conversations
+
+  return {
+    isAuthenticated
+  }
+}
+
+
+export default withRouter(connect(mapStateToProps)(withStyles(styles)(NewApp)))
+

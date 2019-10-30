@@ -18,7 +18,9 @@ import { withStyles } from '@material-ui/core/styles';
 import ListMenu from './ListMenu'
 import gravatar from "../shared/gravatar"
 import Switch from '@material-ui/core/Switch';
-
+import { withRouter } from 'react-router-dom'
+import { connect } from 'react-redux'
+//import {clearApp} from '../actions/app'
 
 const lightColor = 'rgba(255, 255, 255, 0.7)';
 
@@ -51,8 +53,17 @@ const styles = theme => {
 }
 }
 
-function Header(props) {
-  const { classes, onDrawerToggle, signout, visitApp, apps, toggleTheme, themeValue } = props;
+
+
+function Header(props, context) {
+  const { classes, 
+    onDrawerToggle, 
+    signout, 
+    visitApp, 
+    apps,
+    toggleTheme, 
+    themeValue,
+  } = props;
 
   return (
     <React.Fragment>
@@ -104,16 +115,34 @@ function Header(props) {
               </Tooltip>
             </Grid>
             <Grid item>
-              <IconButton 
-                onClick={()=>{
-                  signout()
-                }}
-                color="inherit" 
-                className={classes.iconButtonAvatar}>
-                <Avatar className={classes.avatar} 
-                  src={gravatar(props.currentUser.email)}
-                />
-              </IconButton>
+              <ListMenu 
+                //handleClick={visitApp} 
+                button={
+                  <IconButton 
+                    //onClick={()=>{
+                    //  signout()
+                    //}}
+                    color="inherit" 
+                    className={classes.iconButtonAvatar}>
+                    <Avatar className={classes.avatar} 
+                      src={gravatar(props.currentUser.email)}
+                    />
+                  </IconButton>
+                }
+                options={[
+                  {key: "new-app", name: "Create new app", onClick: ()=>{ 
+                    //this.props.dispatch(clearApp())
+                    context.router.history.push(`/apps/new`) 
+                  }},
+                  //{type: "divider"},
+                  //{key: "terms", name: "Terms", onClick: ()=>{ alert("oe") }},
+                  //{key: "docs", name: "Chaskiq documentation", onClick: ()=>{ alert("oe") }},
+                  {type: "divider"},
+                  //{key: "profile", name: "Profile", onClick: ()=>{ context.router.history.push(`/apps/${props.app.key}/agents/${props.currentUser.id}`) }},
+                  {key: "signout", name: "Log out", onClick: ()=>{ signout() }},
+                ]}
+              />
+              
             </Grid>
           </Grid>
         </Toolbar>
@@ -122,10 +151,26 @@ function Header(props) {
   );
 }
 
+
+Header.contextTypes = {
+  router: PropTypes.object,
+};
+
 Header.propTypes = {
   classes: PropTypes.object.isRequired,
   currentUser: PropTypes.object,
   onDrawerToggle: PropTypes.func.isRequired,
 };
 
-export default withStyles(styles)(Header);
+function mapStateToProps(state) {
+
+  const { auth } = state
+  const { isAuthenticated } = auth
+  //const { sort, filter, collection , meta, loading} = conversations
+
+  return {
+    isAuthenticated
+  }
+}
+
+export default withRouter(connect(mapStateToProps)(withStyles(styles)(Header)))

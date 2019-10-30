@@ -80,13 +80,6 @@ class SettingsForm extends Component {
     }    
   }
 
-  url = ()=>{
-    const id = this.props.match.params.id
-    return this.props.isNew ? 
-    `/apps.json` : 
-    `/apps/${this.props.store.app.key}.json`
-  }
-
   tabs = ()=>{
     var b = []
     return b    
@@ -374,7 +367,7 @@ class AppSettingsContainer extends Component {
 }
 
 
-
+export {SettingsForm}
 export default withStyles(styles, { withTheme: true })(AppSettingsContainer);
 
 
