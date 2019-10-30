@@ -29,7 +29,7 @@ class GraphqlController < ApplicationController
     }
     
 
-    result = HermesSchema.execute(query, 
+    result = ChaskiqSchema.execute(query, 
       variables: variables, 
       context: context, 
       operation_name: operation_name
