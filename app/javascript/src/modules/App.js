@@ -22,6 +22,7 @@ import {signout} from '../actions/auth'
 
 import Pricing from '../pages/pricingPage'
 import graphql from "../graphql/client"
+import {isEmpty} from 'lodash'
 
 import { APPS } from "../graphql/queries"
 
@@ -38,7 +39,7 @@ class Paperbase extends React.Component {
   };
 
   componentDidUpdate(prevProps){
-    if(prevProps.current_user.email != this.props.current_user.email){
+    if(!isEmpty(this.props.current_user) && prevProps.current_user.email != this.props.current_user.email){
       this.fetchApps()
     }
 
@@ -67,7 +68,9 @@ class Paperbase extends React.Component {
 
 
   componentDidMount(){
-    this.fetchApps()
+
+    if(!isEmpty(this.props.current_user))
+      this.fetchApps()
   }
 
   fetchApps = ()=>{
