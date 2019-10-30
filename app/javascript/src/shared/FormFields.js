@@ -39,6 +39,7 @@ import { SketchPicker } from 'react-color';
 export const errorsFor = (name, errors ) => {
   if (!errors[name])
     return null
+  console.log("error for", name)
   return errors[name].map((o) => o).join(", ")
 }
 
@@ -64,9 +65,9 @@ class FieldRenderer extends React.Component {
   fieldRenderer = () => {
     
     const {namespace, data, props, errors, classes, errorNamespace} = this.props
-
-    const errorMessage = errorsFor(`${errorNamespace ? errorNamespace : ''}${data.name}`, errors)
-
+    const errorName = snakeCase(`${errorNamespace ? errorNamespace : ''}${data.name}`)
+    const errorMessage = errorsFor(errorName, errors)
+    
     switch (data.type) {
       case "string":
         // className={classes.formControl}

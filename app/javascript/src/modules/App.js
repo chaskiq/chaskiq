@@ -12,6 +12,7 @@ import HomePage from '../pages/HomePage';
 import SettingsPage from '../pages/SettingsPage';
 import ShowAppContainer from '../pages/showAppContainer';
 import AppListContainer from '../pages/appListContainer';
+import NewApp from '../pages/NewApp';
 
 import { withRouter } from 'react-router-dom'
 import { connect } from 'react-redux'
@@ -180,14 +181,12 @@ class Paperbase extends React.Component {
                 render={(props) => (
 
                    
-                  <p>
-                  new app ere
-                    {/*<NewApp
+                
+                    <NewApp
+                      history={this.props.history}
                       currentUser={this.props.current_user}
                       {...props}
-                    />*/}
-
-                  </p>
+                    />
                   
 
                 )}

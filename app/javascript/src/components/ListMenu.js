@@ -5,6 +5,7 @@ import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 import MenuItem from '@material-ui/core/MenuItem';
 import Menu from '@material-ui/core/Menu';
+import Divider from '@material-ui/core/Divider';
 
 import { withRouter } from 'react-router-dom'
 import { connect } from 'react-redux'
@@ -19,13 +20,6 @@ const useStyles = makeStyles(theme => ({
 }));
 
 
-const optionsDs = [
-  'Show some love to Material-UI',
-  'Show all notification content',
-  'Hide sensitive notification content',
-  'Hide all notification content',
-];
-
 function SimpleListMenu(props) {
   const classes = useStyles();
   const [anchorEl, setAnchorEl] = React.useState(null);
@@ -38,15 +32,11 @@ function SimpleListMenu(props) {
   function handleMenuItemClick(event, index) {
     setSelectedIndex(index);
     setAnchorEl(null);
-    props.handleClick(index)
+    index.onClick ? index.onClick(index) : props.handleClick(index)
   }
 
   function handleClose() {
     setAnchorEl(null);
-  }
-
-  function fetchApp(){
-    return `${props.app.name} ${props.app.key}`
   }
 
   function mergeButton(){
@@ -72,7 +62,6 @@ function SimpleListMenu(props) {
           >
             <ListItemText 
               primary="Switch application" 
-              //secondary={fetchApp()}
             />
           </ListItem>
         </List>
@@ -80,9 +69,19 @@ function SimpleListMenu(props) {
 
       <Menu id="lock-menu" anchorEl={anchorEl} 
         open={Boolean(anchorEl)} 
-        onClose={handleClose}>
+        onClose={handleClose}
+        /*anchorOrigin={{
+          vertical: 'bottom',
+          horizontal: 'center',
+        }}*/
+        transformOrigin={{
+          vertical: 'top',
+          horizontal: 'center',
+        }}>
 
         {props.options.map((option, index) => (
+          option.type === "divider" ? 
+          <Divider/> :
           <MenuItem
             key={option.key}
             //disabled={index === 0}

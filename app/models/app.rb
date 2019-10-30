@@ -60,6 +60,9 @@ class App < ApplicationRecord
 
   accepts_nested_attributes_for :article_settings
 
+  validates :name, presence: true
+  validates :domain_url, presence: true
+
   def agent_bots
     self.agents.where("bot =?", true)
   end

@@ -16,6 +16,8 @@ import DnsRoundedIcon from '@material-ui/icons/DnsRounded';
 import PermMediaOutlinedIcon from '@material-ui/icons/PhotoSizeSelectActual';
 import PublicIcon from '@material-ui/icons/Public';
 import SettingsEthernetIcon from '@material-ui/icons/SettingsEthernet';
+import AssignmentIndIcon from '@material-ui/icons/AssignmentInd'
+import PermIdentityIcon from '@material-ui/icons/PermIdentity'
 import SettingsInputComponentIcon from '@material-ui/icons/SettingsInputComponent';
 import TimerIcon from '@material-ui/icons/Timer';
 import SettingsIcon from '@material-ui/icons/Settings';
@@ -198,9 +200,9 @@ function Navigator(props, context) {
         /*{ id: 'Analytics', icon: <SettingsIcon /> },
         { id: 'Performance', icon: <TimerIcon /> },
         { id: 'Test Lab', icon: <PhonelinkSetupIcon /> },*/
-        { id: 'For Leads', icon: <EmailIcon/>, url: `${appid}/bots/leads`},
-        { id: 'For Users', icon: <MessageIcon/>, url: `${appid}/bots/users`},
-        { id: 'Settings', icon: <FlipToFrontIcon/>, url: `${appid}/bots/settings`}
+        { id: 'For Leads', icon: <AssignmentIndIcon/>, url: `${appid}/bots/leads`},
+        { id: 'For Users', icon: <PermIdentityIcon/>, url: `${appid}/bots/users`},
+        { id: 'Settings', icon: <SettingsIcon/>, url: `${appid}/bots/settings`}
       ],
     },
 

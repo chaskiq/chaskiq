@@ -41,20 +41,22 @@ export function signout() {
    
     const { auth } = getState()
 
-    return axios({
-      url: '/agents/sign_out.json',
-      method: 'DELETE',
-      headers: {
-        'access-token': auth.accessToken,
-        'client': auth.client,
-        'uid': auth.uid,
+    axios.delete(
+      '/agents/sign_out.json',
+      {
+        headers: {
+          'access-token': auth.accessToken,
+          'client': auth.client,
+          'uid': auth.uid,
+        }
       }
-    }).then(response => {
+    ).then(response => {
       dispatch(doSignout())
       dispatch(clearCurrentUser())
     }).catch(error => {
       console.log(error)
     })
+
   }
 }
 
