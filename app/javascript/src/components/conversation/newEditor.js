@@ -117,63 +117,6 @@ const ButtonsRow = styled.div`
     margin-right: 2px;
   }
 `
-/*
-const defaultProps = {
-  content: null,
-  read_only: false,
-  spellcheck: false,
-  title_placeholder: "Title",
-  body_placeholder: "Write your message",
-
-  default_wrappers: [
-    { className: 'graf--p', block: 'unstyled' },
-    { className: 'graf--h2', block: 'header-one' },
-    { className: 'graf--h3', block: 'header-two' },
-    { className: 'graf--h4', block: 'header-three' },
-    { className: 'graf--blockquote', block: 'blockquote' },
-    { className: 'graf--insertunorderedlist', block: 'unordered-list-item' },
-    { className: 'graf--insertorderedlist', block: 'ordered-list-item' },
-    { className: 'graf--code', block: 'code-block' },
-    { className: 'graf--bold', block: 'BOLD' },
-    { className: 'graf--italic', block: 'ITALIC' },
-    { className: 'graf--divider', block: 'divider' }
-  ],
-
-  continuousBlocks: [
-    "unstyled",
-    "blockquote",
-    "ordered-list",
-    "unordered-list",
-    "unordered-list-item",
-    "ordered-list-item",
-    "code-block"
-  ],
-
-  key_commands: {
-      "alt-shift": [{ key: 65, cmd: 'add-new-block' }],
-      "alt-cmd": [{ key: 49, cmd: 'toggle_block:header-one' },
-                  { key: 50, cmd: 'toggle_block:header-two' },
-                  { key: 53, cmd: 'toggle_block:blockquote' }],
-      "cmd": [{ key: 66, cmd: 'toggle_inline:BOLD' },
-              { key: 73, cmd: 'toggle_inline:ITALIC' },
-              { key: 75, cmd: 'insert:link' },
-              { key: 13, cmd: 'toggle_block:divider' }
-      ]
-  },
-
-  character_convert_mapping: {
-    '> ': "blockquote",
-    '*.': "unordered-list-item",
-    '* ': "unordered-list-item",
-    '- ': "unordered-list-item",
-    '1.': "ordered-list-item",
-    '# ': 'header-one',
-    '##': 'header-two',
-    '==': "unstyled",
-    '` ': "code-block"
-  },
-
-}*/
 
 export const ChatEditorInput = styled.div`
    @media (min-width: 320px) and (max-width: 480px) {
@@ -185,7 +128,13 @@ const useStyles = makeStyles(theme => ({
   button: {
     margin: '0px',
     borderLeft: '1px solid #d2d2d2',
-    borderRadius: '0px'
+    borderRadius: '0px',
+  },
+  svgIcon: {
+    fill: "#000",
+  },
+  disabledSvgIcon: {
+    fill: "#ccc",
   }
 }));
 
@@ -196,7 +145,9 @@ const SubmitButton = function(props){
           className={classes.button}
           onClick={props.onClick}
           disabled={props.disabled}>
-          <SendIcon/>
+          <SendIcon 
+            className={props.disabled ? classes.disabledSvgIcon : classes.svgIcon}
+          />
         </Button>
 }
 

@@ -12,6 +12,7 @@ import HomePage from '../pages/HomePage';
 import SettingsPage from '../pages/SettingsPage';
 import ShowAppContainer from '../pages/showAppContainer';
 import AppListContainer from '../pages/appListContainer';
+import NewApp from '../pages/NewApp';
 
 import { withRouter } from 'react-router-dom'
 import { connect } from 'react-redux'
@@ -21,6 +22,7 @@ import {signout} from '../actions/auth'
 
 import Pricing from '../pages/pricingPage'
 import graphql from "../graphql/client"
+import {isEmpty} from 'lodash'
 
 import { APPS } from "../graphql/queries"
 
@@ -37,7 +39,7 @@ class Paperbase extends React.Component {
   };
 
   componentDidUpdate(prevProps){
-    if(prevProps.current_user.email != this.props.current_user.email){
+    if(!isEmpty(this.props.current_user) && prevProps.current_user.email != this.props.current_user.email){
       this.fetchApps()
     }
 
@@ -66,7 +68,9 @@ class Paperbase extends React.Component {
 
 
   componentDidMount(){
-    this.fetchApps()
+
+    if(!isEmpty(this.props.current_user))
+      this.fetchApps()
   }
 
   fetchApps = ()=>{
@@ -180,14 +184,12 @@ class Paperbase extends React.Component {
                 render={(props) => (
 
                    
-                  <p>
-                  new app ere
-                    {/*<NewApp
+                
+                    <NewApp
+                      history={this.props.history}
                       currentUser={this.props.current_user}
                       {...props}
-                    />*/}
-
-                  </p>
+                    />
                   
 
                 )}
