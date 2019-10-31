@@ -5,7 +5,7 @@
 
 require 'connection_pool'
 Redis::Objects.redis = ConnectionPool.new(size: 5, timeout: 5) { 
-  Redis.new(:host => '127.0.0.1', :port => 6379) 
+  Redis.new(url: ENV.fetch("REDIS_URL") { "redis://localhost:6379/1" }) 
 }
 # Redis::Objects can also default to Redis.current if Redis::Objects.redis is not set.
 
