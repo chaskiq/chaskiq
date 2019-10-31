@@ -28,7 +28,7 @@ const useStyles = makeStyles(theme => ({
     color: 'black',
   },
   indicator: {
-    backgroundColor: 'black'
+    backgroundColor: theme.palette.primary.main
   }
 
 }));
