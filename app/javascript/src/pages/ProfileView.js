@@ -242,7 +242,7 @@ class ProfilePage extends Component {
           <Grid container spacing={2}>
 
             <Grid item xs={12} sm={8}>
-              <Typography variant="h5">
+              <Typography variant="h5" gutterBottom>
                 conversations
               </Typography>
               {
