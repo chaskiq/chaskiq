@@ -48,7 +48,13 @@ const styles = theme => ({
     marginRight: theme.spacing(1),
   },
   paper: {
-    margin: '9em',
+    [theme.breakpoints.down('sm')]: {
+      margin: theme.spacing(0),
+    },
+    [theme.breakpoints.up('md')]: {
+      margin: theme.spacing(4),
+    },
+    //margin: '9em',
     padding: '1em',
     marginTop: '1.5em',
     paddingBottom: '6em'
