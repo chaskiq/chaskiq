@@ -123,10 +123,7 @@ class CampaignSegment extends Component {
 
     graphql(UPDATE_CAMPAIGN, params, {
       success: (data) => {
-        debugger
-
-        //this.props.updateData(data.campaignUpdate.campaign, null)
-        //this.setState({ status: "saved" })
+        this.props.successMessage()
       },
       error: () => {
 
@@ -395,6 +392,7 @@ class CampaignForm extends Component {
                   {...this.props}
                   data={this.state.data}
                   mode={this.props.mode}
+                  successMessage={()=> this.props.dispatch(successMessage("campaign updated")) }
                   url={this.url()}
                   updateData={this.updateData}
                 />
@@ -403,6 +401,7 @@ class CampaignForm extends Component {
           {...this.props}
           data={this.state.data}
           url={this.url()}
+          successMessage={()=> this.props.dispatch(successMessage("campaign updated")) }
           updateData={this.updateData} 
         />
       case 3:
@@ -649,6 +648,7 @@ class CampaignForm extends Component {
               mode={this.props.mode}
               url={this.url()}
               updateData={this.updateData}
+              successMessage={()=> this.props.dispatch(successMessage("campaign updated")) }
             /> : this.renderTabcontent() 
           : null
         }

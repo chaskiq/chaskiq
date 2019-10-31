@@ -77,11 +77,14 @@ export default class CampaignSettings extends Component {
       campaignParams: data.campaign
     }
 
+    console.log(this.props)
+
     graphql(UPDATE_CAMPAIGN, params, {
       success: (data)=>{
         const result = data.campaignUpdate
         this.setState({ data: result.campaign, errors: result.errors  }, () => {
           this.props.updateData(result.campaign)
+          this.props.successMessage()
         })
       }, 
       error: (error)=>{
