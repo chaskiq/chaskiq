@@ -33,7 +33,13 @@ import {
 
 const styles = theme => ({
   paper: {
-    margin: theme.spacing(1),
+    [theme.breakpoints.down('sm')]: {
+      margin: theme.spacing(0),
+    },
+    [theme.breakpoints.up('md')]: {
+      margin: theme.spacing(4),
+    },
+    
     padding: theme.spacing(1),
     marginTop: theme.spacing(2),
     paddingBottom: theme.spacing(4)
@@ -192,9 +198,7 @@ class Collections extends Component {
   render(){
     const {isOpen, editCollection, itemToDelete} = this.state
     const {classes} = this.props
-    return <Grid container justify={"center"} spacing={4}>
-      <Grid item xs={12} sm={10}>
-        <Paper 
+    return <Paper 
           square={true}
           elevation={1}
           className={classes.paper}
@@ -343,8 +347,7 @@ class Collections extends Component {
             </List>
 
           </Paper>
-      </Grid>
-      </Grid>
+      
   }
 
 }

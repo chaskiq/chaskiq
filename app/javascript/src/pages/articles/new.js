@@ -546,7 +546,7 @@ class ArticlesNew extends Component {
             }
 
 
-            <Box mb={2}>
+            <Box mb={2} p={2} style={{background: "#fff"}}>
 
               <ArticleEditor 
                 article={this.state.article} 
