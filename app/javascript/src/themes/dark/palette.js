@@ -38,7 +38,7 @@ const palette = {
   },
 
   secondary: {
-    contrastText: "#000",
+    contrastText: "#fff",
     dark: "#c51162",
     light: "#ff4081",
     main: "#f50057",
@@ -48,7 +48,7 @@ const palette = {
     //light: "#e57373",
     main: "#f44336",
     //dark: "#d32f2f",
-    //contrastText: "#fff",
+    contrastText: "#fff",
   }
 }
 
