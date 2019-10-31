@@ -38,8 +38,8 @@ const PaperTableContainer = styled('div')`
     margin-right: auto;
     margin-left: auto;
     margin-top: 50px;
-    padding: 10px;
-    margin: 10px;
+    //padding: 10px;
+    //margin: 10px;
   }
   
   .title {
