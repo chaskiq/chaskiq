@@ -237,7 +237,7 @@ class ConversationContainerShow extends Component {
               
                 <ChatContainer>
                   
-                  <FixedHeader style={{height: '66px'}}>
+                  <FixedHeader style={{height: '67px'}}>
                     <Hidden smUp>
                       <IconButton 
                         onClick={()=> (
