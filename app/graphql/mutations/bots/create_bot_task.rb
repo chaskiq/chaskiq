@@ -15,6 +15,7 @@ module Mutations
       def find_app(app_id)
         @app = current_user.apps.find_by(key: app_id)
       end
+
     end
   end
 end
