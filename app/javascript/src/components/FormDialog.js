@@ -16,6 +16,7 @@ function FormDialog(props) {
 
   function handleClose() {
     setOpen(false);
+    props.handleClose && props.handleClose()
   }
 
 

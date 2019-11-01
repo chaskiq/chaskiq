@@ -672,7 +672,8 @@ class CampaignContainer extends Component {
     super(props)
     this.state = {
       campaigns: [],
-      meta: {}
+      meta: {},
+      openDeleteDialog: null
     }
   }
 
@@ -729,6 +730,22 @@ class CampaignContainer extends Component {
            </Grid>
   }
 
+  deleteCampaign =(id, cb)=>{
+    graphql(DELETE_CAMPAIGN, {
+      appKey: this.props.app.key, 
+      id: id
+    },
+    {
+      success: (data)=>{
+        console.log(data)
+        cb && cb()
+      },
+      error: (error)=>{
+        console.log(error)
+      }
+    })
+  }
+
   render() {
  
     return <div>
@@ -736,6 +753,29 @@ class CampaignContainer extends Component {
       <Route exact path={`${this.props.match.url}`}
         render={(props) => (
           <div>
+
+
+            {
+              this.state.openDeleteDialog && <DeleteDialog 
+                open={this.state.openDeleteDialog}
+                title={`Delete campaign "${this.state.openDeleteDialog.name}"`} 
+                closeHandler={()=>{
+                  this.setState({openDeleteDialog:null})
+                }}
+                deleteHandler={()=> { 
+                  this.deleteCampaign(this.state.openDeleteDialog.id, ()=>{
+                    this.init()
+                    this.setState({openDeleteDialog:null})
+                    this.props.dispatch(successMessage("campaign removed"))
+                  })
+                }}>
+
+                <Typography variant="subtitle2">
+                  we will destroy any content and related data
+                </Typography>
+
+              </DeleteDialog>
+            }
 
             <Content actions={this.renderActions()}>
 
@@ -768,7 +808,15 @@ class CampaignContainer extends Component {
                                 }
                               />
                       }},
-                      {field: 'fromName', title: 'from name', hidden: true},
+                      {field: 'actions', title: 'actions',
+                        render: row => <Button 
+                                    color={"secondary"}
+                                    variant={"contained"}
+                                    onClick={()=> this.setState({openDeleteDialog: row})}>
+                                  remove
+                               </Button> 
+                      },
+                      /*{field: 'fromName', title: 'from name', hidden: true},
                       {field: 'fromEmail', title: 'from email', hidden: true},
                       {field: 'replyEmail', title: 'reply email', hidden: true},
                       {field: 'description', title: 'description', hidden: true},
@@ -782,7 +830,7 @@ class CampaignContainer extends Component {
                         render: row => (row ? <Moment fromNow>
                           {row.scheduledTo}
                         </Moment> : undefined)
-                      }
+                      }*/
                     ]}
                   >
                     
