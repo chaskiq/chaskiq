@@ -3,21 +3,20 @@ import React, { Component } from 'react';
 
 import { withRouter, Route } from 'react-router-dom'
 import { connect } from 'react-redux'
-import {
-        Tab ,
-        Tabs ,
-        Avatar ,
-        Typography,
-        Button,
-        TextField,
-        Paper,
-        Checkbox,
-        FormControlLabel,
-        Switch,
-        ButtonGroup,
-        Box,
-        Grid
-      } from '@material-ui/core';
+
+import Tab from '@material-ui/core/Tab' 
+import Tabs from '@material-ui/core/Tabs' 
+import Avatar from '@material-ui/core/Avatar' 
+import Typography from '@material-ui/core/Typography'
+import Button from '@material-ui/core/Button'
+import TextField from '@material-ui/core/TextField'
+import Paper from '@material-ui/core/Paper'
+import Checkbox from '@material-ui/core/Checkbox'
+import FormControlLabel from '@material-ui/core/FormControlLabel'
+import Switch from '@material-ui/core/Switch'
+import ButtonGroup from '@material-ui/core/ButtonGroup'
+import Box from '@material-ui/core/Box'
+import Grid from '@material-ui/core/Grid'
 
 import gravatar from '../../shared/gravatar'
 

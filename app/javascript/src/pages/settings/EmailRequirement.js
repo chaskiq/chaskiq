@@ -1,19 +1,17 @@
 import React , {useState} from 'react'
 
-import {
-  FormControlLabel,
-  Checkbox,
-  FormGroup,
-  FormControl,
-  FormLabel,
-  Box,
-  Typography,
-  Divider,
-  Grid,
-  RadioGroup,
-  Radio,
-  Button
-} from '@material-ui/core'
+import FormControlLabel from '@material-ui/core/FormControlLabel'
+import Checkbox from '@material-ui/core/Checkbox'
+import FormGroup from '@material-ui/core/FormGroup'
+import FormControl from '@material-ui/core/FormControl'
+import FormLabel from '@material-ui/core/FormLabel'
+import Box from '@material-ui/core/Box'
+import Typography from '@material-ui/core/Typography'
+import Divider from '@material-ui/core/Divider'
+import Grid from '@material-ui/core/Grid'
+import RadioGroup from '@material-ui/core/RadioGroup'
+import Radio from '@material-ui/core/Radio'
+import Button from '@material-ui/core/Button'
 
 
 export default function EmailRequirement({settings, update}){

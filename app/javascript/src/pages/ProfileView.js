@@ -17,11 +17,12 @@ import {
   APP_USER_UPDATE_STATE
 } from '../graphql/mutations'
 
-import {Grid, 
-  Typography, 
-  Button, 
-  Avatar, 
-} from '@material-ui/core'
+
+import Grid from '@material-ui/core/Grid'
+import Typography from '@material-ui/core/Typography'
+import Button from '@material-ui/core/Button'
+import Avatar from '@material-ui/core/Avatar'
+
 import gravatar from '../shared/gravatar'
 
 import {

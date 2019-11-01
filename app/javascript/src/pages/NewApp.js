@@ -15,10 +15,8 @@ import serialize from 'form-serialize'
 import {SettingsForm} from './AppSettings'
 import timezones from '../shared/timezones'
 
-import {
-  Paper, 
-  Button, 
-} from '@material-ui/core';
+import Paper from '@material-ui/core/Paper' 
+import Button from '@material-ui/core/Button' 
 import graphql from "../graphql/client";
 import { 
   CREATE_APP

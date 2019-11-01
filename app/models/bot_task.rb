@@ -80,6 +80,15 @@ class BotTask < ApplicationRecord
     )
   end
 
+  #def stats_fields
+  #  [
+  #    {name: "DeliverRateCount", label: "DeliverRateCount", keys: [{name: "send", color: "#444"}, {name: "open", color: "#ccc"}] },
+  #    {name: "ClickRateCount", label: "ClickRateCount", keys: [{name: "send" , color: "#444"}, {name: "click", color: "#ccc"}] },
+  #    {name: "BouncesRateCount", label: "BouncesRateCount", keys: [{name: "send", color: "#444"}, {name: "bounces", color: "#ccc"}]},
+  #    {name: "ComplaintsRate", label: "ComplaintsRate", keys: [{name: "send", color: "#444"}, {name: "complaints", color: "#ccc"}]}
+  #  ]
+  #end
+
 
 
   def default_segments

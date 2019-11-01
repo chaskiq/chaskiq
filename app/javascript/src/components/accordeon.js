@@ -1,10 +1,9 @@
 import React from 'react';
 import { withStyles } from '@material-ui/core/styles';
-import { 
-  List,
-  ListItem,
-  ListItemText,
-} from '@material-ui/core';
+
+import List from '@material-ui/core/List'
+import ListItem from '@material-ui/core/ListItem'
+import ListItemText from '@material-ui/core/ListItemText'
 
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 

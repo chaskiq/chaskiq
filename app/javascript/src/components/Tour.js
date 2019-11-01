@@ -10,9 +10,10 @@ import DraftRenderer from '../textEditor/draftRenderer'
 import DanteContainer from '../textEditor/editorStyles'
 import theme from '../textEditor/theme'
 import { ThemeProvider } from 'emotion-theming'
-import { DeleteForeverRounded } from '@material-ui/icons'
-import {IconButton, Link} from '@material-ui/core'
+import DeleteForeverRounded  from '@material-ui/icons/DeleteForeverRounded'
 
+import IconButton from '@material-ui/core/IconButton'
+import Link from '@material-ui/core/Link'
 
 // INTERNAL APP TOUR
 const StepContainer = styled.div`

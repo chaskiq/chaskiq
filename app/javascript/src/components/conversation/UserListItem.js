@@ -1,17 +1,15 @@
 import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 
-import {
-  List,
-  ListItem,
-  Divider,
-  ListItemText,
-  ListItemAvatar,
-  Avatar,
-  Typography,
-  Badge,
-  Grid 
-} from '@material-ui/core';
+import List from '@material-ui/core/List'
+import ListItem from '@material-ui/core/ListItem'
+import Divider from '@material-ui/core/Divider'
+import ListItemText from '@material-ui/core/ListItemText'
+import ListItemAvatar from '@material-ui/core/ListItemAvatar'
+import Avatar from '@material-ui/core/Avatar'
+import Typography from '@material-ui/core/Typography'
+import Badge from '@material-ui/core/Badge'
+import Grid from '@material-ui/core/Grid'
 
 import gravatar from "../../shared/gravatar"
 import styled from '@emotion/styled'

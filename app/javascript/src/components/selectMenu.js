@@ -2,7 +2,9 @@ import React from 'react';
 import IconButton from '@material-ui/core/IconButton';
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
-import {Typography, ListItemText, ListItemIcon} from '@material-ui/core';
+import Typography from '@material-ui/core/Typography'
+import ListItemText from '@material-ui/core/ListItemText' 
+import ListItemIcon from '@material-ui/core/ListItemIcon'
 
 import MoreVertIcon from '@material-ui/icons/MoreVert';
 

@@ -17,32 +17,28 @@ import BotTaskSetting from './taskSettings'
 import ContextMenu from '../../components/ContextMenu'
 import {errorMessage, successMessage} from '../../actions/status_messages'
 
-import {
-  Box,
-  Grid,
-  Typography, 
-  Paper,
-  Button,
-  IconButton,
-  TextField,
-  List,
-  ListItem,
-  ListItemText,
-  Select,
-  MenuItem,
-  FormControl,
-  InputLabel,
-  Divider,
-  Tabs,
-  Tab
-} from '@material-ui/core'
+import Box from '@material-ui/core/Box'
+import Grid from '@material-ui/core/Grid'
+import Typography from '@material-ui/core/Typography' 
+import Paper from '@material-ui/core/Paper'
+import Button from '@material-ui/core/Button'
+import IconButton from '@material-ui/core/IconButton'
+import TextField from '@material-ui/core/TextField'
+import List from '@material-ui/core/List'
+import ListItem from '@material-ui/core/ListItem'
+import ListItemText from '@material-ui/core/ListItemText'
+import Select from '@material-ui/core/Select'
+import MenuItem from '@material-ui/core/MenuItem'
+import FormControl from '@material-ui/core/FormControl'
+import InputLabel from '@material-ui/core/InputLabel'
+import Divider from '@material-ui/core/Divider'
+import Tabs from '@material-ui/core/Tabs'
+import Tab from '@material-ui/core/Tab'
 
-import {
-  DragHandle,
-  DeleteForever,
-  RemoveCircle,
-  DeleteForeverRounded
-} from '@material-ui/icons'
+import DragHandle from '@material-ui/icons/DragHandle'
+import DeleteForever from '@material-ui/icons/DeleteForever'
+import RemoveCircle from '@material-ui/icons/RemoveCircle'
+import DeleteForeverRounded from '@material-ui/icons/DeleteForeverRounded'
 
 import { makeStyles, createStyles } from '@material-ui/styles';
 
