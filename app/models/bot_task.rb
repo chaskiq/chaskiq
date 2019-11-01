@@ -37,7 +37,7 @@ class BotTask < ApplicationRecord
   end
 
   def defaults
-    self.predicates = [] unless self.predicates.present?
+    self.predicates = self.default_segments unless self.predicates.present?
     self.settings = {} unless self.settings.present?
   end
 
@@ -78,6 +78,36 @@ class BotTask < ApplicationRecord
       trackable: bot_task, 
       action: "bot_tasks.delivered"
     )
+  end
+
+
+
+  def default_segments
+
+    default_predicate = { type: "match" ,
+                          attribute: "match",
+                          comparison: "and",
+                          value: "and"
+                        }.with_indifferent_access
+
+
+    user_predicate = {
+                        attribute: "type", 
+                        comparison: "eq", 
+                        type: "string", 
+                        value: "AppUser"
+                      }.with_indifferent_access
+    
+    lead_predicate = {
+                        attribute: "type", 
+                        comparison: "eq", 
+                        type: "string", 
+                        value: "Lead"
+                      }.with_indifferent_access
+
+    
+    self.type == "leads" ? [default_predicate, lead_predicate] : [default_predicate, user_predicate]
+
   end
 
 end

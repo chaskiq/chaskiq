@@ -8,6 +8,7 @@ import {
 //import {} from '../../graphql/queries'
 import { parseJwt, generateJWT } from '../../components/segmentManager/jwt'
 import SegmentManager from '../../components/segmentManager'
+import {errorMessage, successMessage} from '../../actions/status_messages'
 
 import {
   Button,
@@ -72,7 +73,10 @@ class Segment extends Component {
     //console.log(parseJwt(jwtToken))
     if (cb)
       cb(jwtToken)
-    this.setState({ jwt: jwtToken }, () => this.updateData(parseJwt(this.state.jwt), this.search))
+    this.setState({ jwt: jwtToken }, () => {
+      this.updateData(parseJwt(this.state.jwt), this.search)
+      this.props.dispatch(successMessage("bot updated"))
+    })
   }
 
   addPredicate = (data, cb) => {

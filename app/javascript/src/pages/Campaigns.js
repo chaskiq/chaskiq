@@ -602,14 +602,21 @@ class CampaignForm extends Component {
                     }
                     variant="dot">
                     {this.iconMode(this.props.mode)}
+                    
                   </Badge>
                     
                   </Grid>
-                  <Grid item>{title}</Grid>
+                  <Grid item>
+                    {title} • 
+                    <Typography variant={"overline"}>
+                      {this.state.data.state}
+                    </Typography>
+                  </Grid>
                 </Grid> 
         }
         items={
           <React.Fragment>
+          
           <Grid item>
 
               <SelectMenu 
@@ -737,7 +744,8 @@ class CampaignContainer extends Component {
                   <Table
                     meta={this.state.meta}
                     data={this.state.campaigns}
-                    title={"Campaigns"}
+                    title={`campaigns`}
+                    //title={`${this.props.match.params.message_type} campaign`}
                     defaultHiddenColumnNames={[]}
                     search={this.init.bind(this)}
                     columns={[

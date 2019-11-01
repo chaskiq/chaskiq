@@ -32,6 +32,7 @@ import BotEditor from './bots/editor'
 import FormDialog from '../components/FormDialog'
 
 import SettingsForm from './bots/settings'
+import EmptyView from '../components/emptyView'
 
 
 const useStyles = makeStyles((theme: Theme) => createStyles({
@@ -102,7 +103,7 @@ const BotDataTable = ({app, match, history, mode})=>{
 
       <Content>
         {
-          !loading && botTasks.length > 0 ?
+          !loading && botTasks.length > 0 &&
            <Table
              meta={meta}
              data={botTasks}
@@ -127,8 +128,26 @@ const BotDataTable = ({app, match, history, mode})=>{
            >
              
            </Table>
+       }
 
-           : null 
+       {
+        !loading && botTasks.length === 0 && 
+      
+          <EmptyView 
+            title={"No bot tasks found"} 
+            subtitle={
+              <div>
+                create a new one 
+                <Button 
+                    variant="text" 
+                    color="inherit" 
+                    size="small"
+                    onClick={toggleTaskForm}> 
+                    here
+                  </Button>
+              </div>
+            }/> 
+
        }
 
       </Content>

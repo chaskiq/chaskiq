@@ -49,7 +49,8 @@ import { makeStyles, createStyles } from '@material-ui/styles';
 const useStyles = makeStyles((theme: Theme) => createStyles({
   root: {
     padding: theme.spacing(3),
-    marginBottom: theme.spacing(1)
+    marginBottom: theme.spacing(1),
+    background: theme.palette.common.white
   }
 }));
 
