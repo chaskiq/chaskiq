@@ -9,15 +9,14 @@ import {appUsersFormat} from './appUsersFormat'
 import ClickAwayListener from '@material-ui/core/ClickAwayListener';
 import styled from '@emotion/styled'
 import { withStyles } from '@material-ui/core/styles';
-import {
-  Button,
-  MenuItem,
-  Menu,
-  Radio ,
-  RadioGroup ,
-  FormControlLabel ,
-  TextField
-} from '@material-ui/core';
+
+import Button from '@material-ui/core/Button'
+import MenuItem from '@material-ui/core/MenuItem'
+import Menu from '@material-ui/core/Menu'
+import Radio from '@material-ui/core/Radio'
+import RadioGroup from '@material-ui/core/RadioGroup'
+import FormControlLabel from '@material-ui/core/FormControlLabel'
+import TextField from '@material-ui/core/TextField'
 
 const TextField1 = withStyles({
   root: {

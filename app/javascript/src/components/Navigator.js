@@ -33,14 +33,13 @@ import MessageIcon from '@material-ui/icons/Message'
 import FilterFramesIcon from '@material-ui/icons/FilterFrames'
 import FolderIcon from '@material-ui/icons/Folder'
 
-import {
-  QuestionAnswerOutlined,
-  FlagOutlined,
-  BookOutlined,
-  SettingsOutlined,
-  DomainOutlined,
-  DeviceHubOutlined
-} from '@material-ui/icons'
+
+import QuestionAnswerOutlined from '@material-ui/icons/QuestionAnswerOutlined'
+import FlagOutlined from '@material-ui/icons/FlagOutlined'
+import BookOutlined from '@material-ui/icons/BookOutlined'
+import SettingsOutlined from '@material-ui/icons/SettingsOutlined'
+import DomainOutlined from '@material-ui/icons/DomainOutlined'
+import DeviceHubOutlined from '@material-ui/icons/DeviceHubOutlined'
 
 import MuiExpansionPanel from '@material-ui/core/ExpansionPanel';
 import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails';
@@ -50,7 +49,7 @@ import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary';
 import { withRouter } from 'react-router-dom'
 import { connect } from 'react-redux'
 import ListMenu from './ListMenu'
-import { Typography } from '@material-ui/core';
+import Typography from '@material-ui/core/Typography';
 
 
 const styles = theme => ({

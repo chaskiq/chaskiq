@@ -7,13 +7,12 @@ import graphql from '../../graphql/client'
 import {CAMPAIGN_METRICS} from '../../graphql/queries'
 import Table from '../../components/table/index'
 import gravatar from '../../shared/gravatar'
-import {
-  Typography, 
-  Button, 
-  Avatar, 
-  Badge,
-  Divider
-} from '@material-ui/core'
+
+import Typography from '@material-ui/core/Typography' 
+import Button from '@material-ui/core/Button' 
+import Avatar from '@material-ui/core/Avatar' 
+import Badge from '@material-ui/core/Badge'
+import Divider from '@material-ui/core/Divider'
 
 const PieContainer = styled.div`
   padding: .75em;

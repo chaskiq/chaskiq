@@ -36,7 +36,10 @@ import IconButton from '@material-ui/core/IconButton';
 import Tooltip from '@material-ui/core/Tooltip';
 import Drawer from '@material-ui/core/Drawer';
 import SendIcon from '@material-ui/icons/Send'
-import {Paper,Box, Typography} from '@material-ui/core'
+
+import Paper from '@material-ui/core/Paper'
+import Box from '@material-ui/core/Box' 
+import Typography from '@material-ui/core/Typography'
 
 import UserListItem from '../components/conversation/UserListItem'
 import UserData from '../components/UserData'

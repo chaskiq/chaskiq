@@ -5,7 +5,7 @@ import Moment from 'react-moment';
 import Accordeon from './accordeon'
 import Avatar from '@material-ui/core/Avatar';
 import { makeStyles } from '@material-ui/core/styles';
-import {Typography} from '@material-ui/core'
+import Typography from '@material-ui/core/Typography'
 import {Link} from 'react-router-dom'
 import { withRouter } from 'react-router-dom'
 import { connect } from 'react-redux'

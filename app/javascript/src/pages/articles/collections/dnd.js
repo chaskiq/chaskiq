@@ -1,15 +1,14 @@
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
-import {
-  ListItem,
-  ListItemAvatar,
-  Avatar,
-  ListItemText,
-  Button, 
-  Paper,
-  Grid
-} from '@material-ui/core'
+
+import ListItem from '@material-ui/core/ListItem'
+import ListItemAvatar from '@material-ui/core/ListItemAvatar'
+import Avatar from '@material-ui/core/Avatar'
+import ListItemText from '@material-ui/core/ListItemText'
+import Button from '@material-ui/core/Button' 
+import Paper from '@material-ui/core/Paper'
+import Grid from '@material-ui/core/Grid'
 
 import { useTheme } from '@material-ui/core/styles';
 

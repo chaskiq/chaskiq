@@ -5,34 +5,32 @@ import serialize from 'form-serialize'
 import { withRouter, Route } from 'react-router-dom'
 import { connect } from 'react-redux'
 
-import {
-        Tab ,
-        Tabs ,
-        Avatar ,
-        Typography,
-        Button,
-        IconButton,
-        TextField,
-        Paper,
-        Grid,
-        Divider,
-        Chip,
-        Select,
-        MenuItem,
-        InputLabel,
-        Box,
-        Table,
-        TableHead,
-        TableRow,
-        TableCell,
-        TableBody,
-        FormControl,
-        FormLabel,
-        RadioGroup,
-        FormControlLabel,
-        Radio,
-        Link as MuiLink
-} from '@material-ui/core';
+import Tab from '@material-ui/core/Tab'
+import Tabs from '@material-ui/core/Tabs'
+import Avatar from '@material-ui/core/Avatar'
+import Typography from '@material-ui/core/Typography'
+import Button from '@material-ui/core/Button'
+import IconButton from '@material-ui/core/IconButton'
+import TextField from '@material-ui/core/TextField'
+import Paper from '@material-ui/core/Paper'
+import Grid from '@material-ui/core/Grid'
+import Divider from '@material-ui/core/Divider'
+import Chip from '@material-ui/core/Chip'
+import Select from '@material-ui/core/Select'
+import MenuItem from '@material-ui/core/MenuItem'
+import InputLabel from '@material-ui/core/InputLabel'
+import Box from '@material-ui/core/Box'
+import Table from '@material-ui/core/Table'
+import TableHead from '@material-ui/core/TableHead'
+import TableRow from '@material-ui/core/TableRow'
+import TableCell from '@material-ui/core/TableCell'
+import TableBody from '@material-ui/core/TableBody'
+import FormControl from '@material-ui/core/FormControl'
+import FormLabel from '@material-ui/core/FormLabel'
+import RadioGroup from '@material-ui/core/RadioGroup'
+import FormControlLabel from '@material-ui/core/FormControlLabel'
+import Radio from '@material-ui/core/Radio'
+import MuiLink from '@material-ui/core/Link'
 
 import AddIcon from '@material-ui/icons/Add'
 import DeleteIcon from '@material-ui/icons/Delete'

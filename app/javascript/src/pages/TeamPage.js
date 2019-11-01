@@ -6,15 +6,14 @@ import { connect } from 'react-redux'
 import Moment from 'react-moment'
 import ContentHeader from '../components/ContentHeader'
 import Content from '../components/Content'
-import {
-        Tab ,
-        Tabs ,
-        Avatar ,
-        Typography,
-        Button,
-        TextField,
-        Tooltip
-      } from '@material-ui/core';
+
+import Tab from '@material-ui/core/Tab'
+import Tabs from '@material-ui/core/Tabs'
+import Avatar from '@material-ui/core/Avatar'
+import Typography from '@material-ui/core/Typography'
+import Button from '@material-ui/core/Button'
+import TextField from '@material-ui/core/TextField'
+import Tooltip from '@material-ui/core/Tooltip'
 
 import gravatar from '../shared/gravatar'
 import CircularProgress from '@material-ui/core/CircularProgress';

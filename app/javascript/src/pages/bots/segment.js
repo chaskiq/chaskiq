@@ -10,9 +10,7 @@ import { parseJwt, generateJWT } from '../../components/segmentManager/jwt'
 import SegmentManager from '../../components/segmentManager'
 import {errorMessage, successMessage} from '../../actions/status_messages'
 
-import {
-  Button,
-} from '@material-ui/core'
+import Button from '@material-ui/core/Button'
 import userFormat from '../../components/table/userFormat'
 import { withRouter, Switch } from 'react-router-dom'
 import { connect } from 'react-redux'

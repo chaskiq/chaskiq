@@ -1,15 +1,14 @@
 import React, {Component, useState} from 'react'
-import {
-  FormControlLabel,
-  Checkbox,
-  Box,
-  Typography,
-  Divider,
-  Grid,
-  RadioGroup,
-  Radio,
-  Button
-} from '@material-ui/core'
+
+import FormControlLabel from '@material-ui/core/FormControlLabel'
+import Checkbox from '@material-ui/core/Checkbox'
+import Box from '@material-ui/core/Box'
+import Typography from '@material-ui/core/Typography'
+import Divider from '@material-ui/core/Divider'
+import Grid from '@material-ui/core/Grid'
+import RadioGroup from '@material-ui/core/RadioGroup'
+import Radio from '@material-ui/core/Radio'
+import Button from '@material-ui/core/Button'
 
 import SegmentManager from '../../components/segmentManager'
 import { parseJwt, generateJWT } from '../../components/segmentManager/jwt'

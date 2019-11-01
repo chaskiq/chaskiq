@@ -1,24 +1,23 @@
 import React, {Component, useState, useEffect} from 'react'
 import FieldRenderer from '../../shared/FormFields'
-import {
-  Grid,
-  Button,
-  Tabs,
-  Tab,
-  Typography,
-  Checkbox,
-  Box,
-  FormControlLabel,
-  FormControl,
-  FormGroup,
-  Radio,
-  RadioGroup,
-  FormLabel,
-  Divider,
-  InputLabel,
-  Select,
-  MenuItem
-} from '@material-ui/core'
+
+import Grid from '@material-ui/core/Grid'
+import Button from '@material-ui/core/Button'
+import Tabs from '@material-ui/core/Tabs'
+import Tab from '@material-ui/core/Tab'
+import Typography from '@material-ui/core/Typography'
+import Checkbox from '@material-ui/core/Checkbox'
+import Box from '@material-ui/core/Box'
+import FormControlLabel from '@material-ui/core/FormControlLabel'
+import FormControl from '@material-ui/core/FormControl'
+import FormGroup from '@material-ui/core/FormGroup'
+import Radio from '@material-ui/core/Radio'
+import RadioGroup from '@material-ui/core/RadioGroup'
+import FormLabel from '@material-ui/core/FormLabel'
+import Divider from '@material-ui/core/Divider'
+import InputLabel from '@material-ui/core/InputLabel'
+import Select from '@material-ui/core/Select'
+import MenuItem from '@material-ui/core/MenuItem'
 
 import {toSnakeCase} from '../../shared/caseConverter'
 import serialize from 'form-serialize'

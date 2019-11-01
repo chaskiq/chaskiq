@@ -25,7 +25,7 @@ import {dispatchSegmentUpdate} from '../../actions/segments'
 
 import {setCurrentPage} from '../../actions/navigation'
 import userFormat from '../table/userFormat'
-import { CircularProgress } from '@material-ui/core'
+import CircularProgress from '@material-ui/core/CircularProgress'
 
 const Wrapper = styled.div`
   //min-width: 600px;

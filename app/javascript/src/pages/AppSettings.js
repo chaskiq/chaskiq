@@ -8,12 +8,12 @@ import PageTitle from '../components/PageTitle';
 import styled from '@emotion/styled'
 import axios from 'axios'
 import serialize from 'form-serialize'
-import {
-  Paper, 
-  Button, 
-  Typography, 
-  Grid
-} from '@material-ui/core';
+
+import Paper from '@material-ui/core/Paper'
+import Button from '@material-ui/core/Button'
+import Typography from '@material-ui/core/Typography'
+import Grid from '@material-ui/core/Grid'
+
 import FieldRenderer from '../shared/FormFields'
 import graphql from "../graphql/client";
 import { APP } from "../graphql/queries"

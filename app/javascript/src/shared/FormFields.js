@@ -7,19 +7,18 @@ import React from 'react'
 //import { Field } from '@atlaskit/form';
 import { snakeCase, camelCase } from 'lodash'
 
-import {
-  TextField ,
-  FormControl,
-  FormControlLabel,
-  FormHelperText,
-  Input,
-  MenuItem,
-  InputLabel,
-  Checkbox,
-  InputAdornment ,
-  Button,
-  IconButton
-}  from '@material-ui/core';
+
+import TextField from '@material-ui/core/TextField'
+import FormControl from '@material-ui/core/FormControl'
+import FormControlLabel from '@material-ui/core/FormControlLabel'
+import FormHelperText from '@material-ui/core/FormHelperText'
+import Input from '@material-ui/core/Input'
+import MenuItem from '@material-ui/core/MenuItem'
+import InputLabel from '@material-ui/core/InputLabel'
+import Checkbox from '@material-ui/core/Checkbox'
+import InputAdornment from '@material-ui/core/InputAdornment'
+import Button from '@material-ui/core/Button'
+import IconButton from '@material-ui/core/IconButton'
 
 import ColorFillIcon from '@material-ui/icons/FormatColorFill'
 import ChromeReaderIcon from '@material-ui/icons/ChromeReaderMode'

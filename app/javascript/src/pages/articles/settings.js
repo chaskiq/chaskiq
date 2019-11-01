@@ -4,29 +4,25 @@ import React, { Component } from 'react';
 import { withRouter, Route } from 'react-router-dom'
 import { connect } from 'react-redux'
 
-import {
-        Tab ,
-        Tabs ,
-        Avatar ,
-        Typography,
-        Button,
-        TextField,
-        Paper,
-        Grid,
-        Divider,
-        Chip,
-        Select,
-        MenuItem,
-        Box,
-
-        Table,
-        TableHead,
-        TableRow,
-        TableCell,
-        TableBody,
-        Link as MuiLink
-
-} from '@material-ui/core';
+import Tab from '@material-ui/core/Tab' 
+import Tabs from '@material-ui/core/Tabs' 
+import Avatar from '@material-ui/core/Avatar' 
+import Typography from '@material-ui/core/Typography' 
+import Button from '@material-ui/core/Button' 
+import TextField from '@material-ui/core/TextField' 
+import Paper from '@material-ui/core/Paper' 
+import Grid from '@material-ui/core/Grid' 
+import Divider from '@material-ui/core/Divider' 
+import Chip from '@material-ui/core/Chip' 
+import Select from '@material-ui/core/Select' 
+import MenuItem from '@material-ui/core/MenuItem' 
+import Box from '@material-ui/core/Box' 
+import Table from '@material-ui/core/Table' 
+import TableHead from '@material-ui/core/TableHead' 
+import TableRow from '@material-ui/core/TableRow' 
+import TableCell from '@material-ui/core/TableCell' 
+import TableBody from '@material-ui/core/TableBody' 
+import MuiLink from '@material-ui/core/Link'
 
 import {getFileMetadata, directUpload} from '../../shared/fileUploader'
 

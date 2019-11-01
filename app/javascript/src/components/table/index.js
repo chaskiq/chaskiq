@@ -3,24 +3,21 @@ import MaterialTable, {
   MTableToolbar
 } from 'material-table'
 
-import {
-  Paper,
-  Grid,
-  IconButton,
-  Typography,
-  Button,
-  Menu,
-  MenuItem,
-  Checkbox
-} from '@material-ui/core'
 
-import {
-  ChevronLeft, 
-  ChevronRight, 
-  FirstPage, 
-  LastPage,
-  ViewColumn
-} from '@material-ui/icons'
+import Paper from '@material-ui/core/Paper'
+import Grid from '@material-ui/core/Grid'
+import IconButton from '@material-ui/core/IconButton'
+import Typography from '@material-ui/core/Typography'
+import Button from '@material-ui/core/Button'
+import Menu from '@material-ui/core/Menu'
+import MenuItem from '@material-ui/core/MenuItem'
+import Checkbox from '@material-ui/core/Checkbox'
+
+import ChevronLeft from '@material-ui/icons/ChevronLeft' 
+import ChevronRight from '@material-ui/icons/ChevronRight' 
+import FirstPage from '@material-ui/icons/FirstPage' 
+import LastPage from '@material-ui/icons/LastPage'
+import ViewColumn from '@material-ui/icons/ViewColumn'
 
 import MapIcon from '@material-ui/icons/Map';
 import styled from '@emotion/styled';

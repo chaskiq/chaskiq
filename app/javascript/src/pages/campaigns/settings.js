@@ -1,6 +1,7 @@
 import React, {Component} from "react"
-import {Button, Grid} from '@material-ui/core';
 
+import Button from '@material-ui/core/Button'
+import Grid from '@material-ui/core/Grid'
 
 import {isEmpty} from 'lodash'
 import axios from 'axios'

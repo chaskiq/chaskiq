@@ -48,25 +48,24 @@ import SelectMenu from '../components/selectMenu'
 import EmailIcon from '@material-ui/icons/Email';
 import MessageIcon from '@material-ui/icons/Message';
 import FilterFramesIcon from '@material-ui/icons/FilterFrames';
-import { ClearAll, DeleteOutlineRounded } from '@material-ui/icons';
-import {
-  Tab,
-  Tabs,
-  Chip,
-  Button, 
-  Grid,
-  Badge,
-  CircularProgress,
-  Typography
-} from '@material-ui/core'
+import ClearAll from '@material-ui/icons/ClearAll'
+import DeleteOutlineRounded from '@material-ui/icons/DeleteOutlineRounded'
 
-import {
-  CheckCircle,
-  Pause,
-  VisibilityRounded,
-  SendRounded,
-  DeleteForeverRounded
-} from '@material-ui/icons'
+import Tab from '@material-ui/core/Tab'
+import Tabs from '@material-ui/core/Tabs'
+import Chip from '@material-ui/core/Chip'
+import Button from '@material-ui/core/Button' 
+import Grid from '@material-ui/core/Grid'
+import Badge from '@material-ui/core/Badge'
+import CircularProgress from '@material-ui/core/CircularProgress'
+import Typography from '@material-ui/core/Typography'
+
+
+import CheckCircle from '@material-ui/icons/CheckCircle'
+import Pause from '@material-ui/icons/Pause'
+import VisibilityRounded from '@material-ui/icons/VisibilityRounded'
+import SendRounded from '@material-ui/icons/SendRounded'
+import DeleteForeverRounded from '@material-ui/icons/DeleteForeverRounded'
 
 import {setCurrentPage} from '../actions/navigation'
 

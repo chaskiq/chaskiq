@@ -3,11 +3,10 @@ import {
   Link as RouterLink
 } from 'react-router-dom'
 
-import {
-  IconButton,
-  Button,
-  Link
-} from '@material-ui/core'
+
+import IconButton from '@material-ui/core/IconButton'
+import Button from '@material-ui/core/Button'
+import Link from '@material-ui/core/Link'
 
 const AdapterLink = React.forwardRef((props, ref) => <RouterLink innerRef={ref} {...props} />);
 

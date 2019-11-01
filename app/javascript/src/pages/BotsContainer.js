@@ -2,21 +2,19 @@ import React, {Component, useState, useEffect} from 'react'
 import { withRouter, Switch, Route } from 'react-router-dom'
 import { connect } from 'react-redux'
 
-import {
-  Box,
-  Grid,
-  Typography, 
-  Paper,
-  Button,
-  IconButton,
-  TextField,
-  List,
-  ListItem,
-  ListItemText,
-  Select,
-  MenuItem,
-  Divider
-} from '@material-ui/core'
+import Box from '@material-ui/core/Box'
+import Grid from '@material-ui/core/Grid'
+import Typography from '@material-ui/core/Typography' 
+import Paper from '@material-ui/core/Paper'
+import Button from '@material-ui/core/Button'
+import IconButton from '@material-ui/core/IconButton'
+import TextField from '@material-ui/core/TextField'
+import List from '@material-ui/core/List'
+import ListItem from '@material-ui/core/ListItem'
+import ListItemText from '@material-ui/core/ListItemText'
+import Select from '@material-ui/core/Select'
+import MenuItem from '@material-ui/core/MenuItem'
+import Divider from '@material-ui/core/Divider'
 
 import ContentHeader from '../components/ContentHeader'
 import Content from '../components/Content'
