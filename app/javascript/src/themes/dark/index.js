@@ -156,7 +156,7 @@ theme = {
     },
     MuiDivider: {
       root: {
-        backgroundColor: palette.primary.main //'#d3e8d7', //#404854',
+        backgroundColor: "#383636" //'#d3e8d7', //#404854',
       },
     },
     MuiListItemText: {

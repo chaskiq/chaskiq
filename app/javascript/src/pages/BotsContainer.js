@@ -33,7 +33,8 @@ import FormDialog from '../components/FormDialog'
 
 import SettingsForm from './bots/settings'
 import EmptyView from '../components/emptyView'
-
+import DeleteDialog from '../components/deleteDialog'
+import {successMessage} from '../actions/status_messages'
 
 const useStyles = makeStyles((theme: Theme) => createStyles({
   root: {
@@ -42,9 +43,10 @@ const useStyles = makeStyles((theme: Theme) => createStyles({
   }
 }));
 
-const BotDataTable = ({app, match, history, mode})=>{
+const BotDataTable = ({app, match, history, mode, dispatch})=>{
   const [loading, setLoading] = useState(false)
   const [botTasks, setBotTasks] = useState([])
+  const [openDeleteDialog, setOpenDeleteDialog] = useState(null)
   const [openTaskForm, setOpenTaskForm] = useState(false)
   const [meta, setMeta] = useState({})
 
@@ -71,6 +73,8 @@ const BotDataTable = ({app, match, history, mode})=>{
       success: (data)=>{
         const newData = botTasks.filter((item)=> (item.id != o.id))
         setBotTasks(newData)
+        setOpenDeleteDialog(null)
+        dispatch(successMessage("bot removed"))
       },
       error: ()=>{
         debugger
@@ -119,8 +123,11 @@ const BotDataTable = ({app, match, history, mode})=>{
 
                {field: 'state', title: 'state'},
                {field: 'actions', title: 'actions',
-                render: row => <Button onClick={()=> removeBotTask(row)}>
-                                remove
+                render: row => <Button 
+                                    color={"secondary"}
+                                    variant={"contained"}
+                                    onClick={()=> setOpenDeleteDialog(row)}>
+                                  remove
                                </Button> 
               },
                
@@ -148,6 +155,24 @@ const BotDataTable = ({app, match, history, mode})=>{
               </div>
             }/> 
 
+       }
+
+
+       {
+         openDeleteDialog && <DeleteDialog 
+          open={openDeleteDialog}
+          title={`Delete bot "${openDeleteDialog.title}"`} 
+          closeHandler={()=>{
+            console.log("delete handler")
+            setOpenDeleteDialog(null)
+          }}
+          deleteHandler={()=> { 
+            removeBotTask(openDeleteDialog)
+           }}>
+          <Typography variant="subtitle2">
+            we will destroy any content and related data
+          </Typography>
+        </DeleteDialog>
        }
 
       </Content>
@@ -244,7 +269,6 @@ const BotTaskCreate = ({app, submit, history, match, mode})=>{
 }
 
 const BotContainer = ({app, match, history, dispatch})=>{
-  console.log(history)
 
   return  (
 
@@ -268,6 +292,7 @@ const BotContainer = ({app, match, history, dispatch})=>{
               history={history}
               match={match}
               mode={"users"}
+              dispatch={dispatch}
               {...props}
             />
           )} 
@@ -279,6 +304,7 @@ const BotContainer = ({app, match, history, dispatch})=>{
             history={history}
             match={match}
             mode={"leads"}
+            dispatch={dispatch}
             {...props}
           />
         )} 

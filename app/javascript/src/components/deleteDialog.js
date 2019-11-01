@@ -2,7 +2,12 @@ import React, {Fragment, useState, useEffect} from 'react'
 import FormDialog from './FormDialog'
 import Button from "@material-ui/core/Button"
 
-export default function DeleteDialog({children, title, deleteHandler}){
+export default function DeleteDialog({
+  children, 
+  title, 
+  deleteHandler,
+  closeHandler
+}){
 
   const [isOpen, setIsOpen] = useState(false)
 
@@ -12,6 +17,7 @@ export default function DeleteDialog({children, title, deleteHandler}){
 
   function close(){
     setIsOpen(false)
+    closeHandler && closeHandler()
   }
 
   return (
@@ -21,6 +27,7 @@ export default function DeleteDialog({children, title, deleteHandler}){
       {isOpen && (
         <FormDialog 
           open={isOpen}
+          handleClose={closeHandler}
           //contentText={"lipsum"}
           titleContent={title}
           formComponent={
