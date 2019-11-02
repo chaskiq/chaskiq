@@ -3,7 +3,6 @@
 //import material.min.js
 import React from 'react';
 import ReactDOM from 'react-dom';
-import _ from "lodash"
 
 import {convertToHTML} from 'draft-convert'
 import DanteEditor from "./components/editor.js"

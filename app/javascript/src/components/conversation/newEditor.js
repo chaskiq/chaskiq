@@ -33,8 +33,6 @@ import EditorContainer from '../../textEditor/editorStyles'
 import Button from '@material-ui/core/Button'
 import SendIcon from '@material-ui/icons/Send'
 
-import _ from "lodash"
-
 import styled from '@emotion/styled'
 
 import { makeStyles } from '@material-ui/core/styles';

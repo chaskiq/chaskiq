@@ -39,9 +39,6 @@ import {
 import { withStyles } from '@material-ui/core/styles';
 import serialize from 'form-serialize'
 
-//import Loader from './loader'
-import _ from "lodash"
-
 import GestureIcon from '@material-ui/icons/Gesture'
 import CheckCircleIcon from '@material-ui/icons/CheckCircle'
 import {setCurrentPage} from '../../actions/navigation'

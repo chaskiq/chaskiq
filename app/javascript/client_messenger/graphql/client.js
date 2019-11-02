@@ -1,5 +1,5 @@
 import axios from 'axios';
-import _ from 'lodash'
+import {isObject, isEmpty} from 'lodash'
 
 
 
@@ -22,7 +22,7 @@ class GraphqlClient {
       const res = r
     
       const errors = r.data.errors
-      if (_.isObject(errors) && !_.isEmpty(errors)) {
+      if (isObject(errors) && !isEmpty(errors)) {
         //const errors = data[Object.keys(data)[0]];
         //callbacks['error'] ? callbacks['error'](res, errors['errors']) : null
         if(callbacks['error'])

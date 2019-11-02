@@ -3,6 +3,9 @@ const { environment } = require('@rails/webpacker')
 
 const NonDigestPlugin = require('non-digest-webpack-plugin');
 
+const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer')
+
+
 environment.config.merge({
   resolve: {
     alias: {
@@ -10,6 +13,16 @@ environment.config.merge({
     }
   }
 })
+
+// run this with 
+if(process.env.ANALIZE_BUNDLE === 'true' && 
+  process.env.NODE_ENV === 'production'){
+  environment.plugins.append(
+    'BundleAnalyzer',
+    new BundleAnalyzerPlugin()
+  )
+}
+
 
 //if(process.env.NODE_ENV === 'production')
 //  environment.plugins.append('NonDigestPlugin', new NonDigestPlugin() );
