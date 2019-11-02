@@ -6,7 +6,7 @@ import styled from '@emotion/styled'
 import TextEditor from '../../textEditor'
 
 import graphql from '../../graphql/client'
-import {BOT_TASK, BOT_TASKS, AGENTS} from '../../graphql/queries'
+import {BOT_TASK, BOT_TASKS, AGENTS, BOT_TASK_METRICS} from '../../graphql/queries'
 import {UPDATE_BOT_TASK} from '../../graphql/mutations'
 import ContentHeader from '../../components/ContentHeader'
 import Content from '../../components/Content'
@@ -41,6 +41,8 @@ import RemoveCircle from '@material-ui/icons/RemoveCircle'
 import DeleteForeverRounded from '@material-ui/icons/DeleteForeverRounded'
 
 import { makeStyles, createStyles } from '@material-ui/styles';
+import {isEmpty} from 'lodash'
+import Stats from '../../components/stats'
 
 const useStyles = makeStyles((theme: Theme) => createStyles({
   root: {
@@ -339,10 +341,27 @@ const BotEditor = ({match, app, dispatch})=>{
             </Tabs>
   }
 
+
+  const getStats = (params, cb)=>{
+    graphql(BOT_TASK_METRICS, params, {
+      success: (data)=>{
+        cb(data)
+      },
+      error: (error)=>{
+
+      }
+    })
+  }
+
   const renderTabcontent = ()=>{
     switch (tabValue){
       case 0:
-        return <p>stat 0</p>
+
+        return !isEmpty(botTask) && <Stats  match={match}
+                                            app={app} 
+                                            data={botTask}
+                                            getStats={getStats}
+                                            />
       case 1:
         return <BotTaskSetting 
                 app={app} 

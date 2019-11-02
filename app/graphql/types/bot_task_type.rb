@@ -7,6 +7,7 @@ module Types
     field :state, String, null: true
     field :segments, Types::JsonType, null: true
     field :scheduling, Types::JsonType, null: true
+    field :stats_fields, Types::JsonType, null: true
     field :urls, Types::JsonType, null: true
     def segments
       object.segments.blank? ? [] : object.segments
@@ -19,6 +20,11 @@ module Types
       argument :page, Integer, required: false, default_value: 1
       argument :per, Integer, required: false, default_value: 20
     end
+
+    field :counts, Types::JsonType, null: true
+    def counts
+      object.metrics.group(:action).count(:trackable_id)
+    end
     
     def metrics(page: 1 , per: 20)
       @metrics = object.metrics
@@ -27,7 +33,6 @@ module Types
                         .per(per)
       #render :index
     end
-
 
   end
 end
