@@ -41,10 +41,6 @@ import {
 
 import { withStyles } from '@material-ui/core/styles';
 
-
-//import Loader from './loader'
-import _ from "lodash"
-
 import SuggestSelect from '../../shared/suggestSelect'
 
 import SelectMenu from '../../components/selectMenu'

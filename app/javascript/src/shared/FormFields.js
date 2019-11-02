@@ -30,8 +30,6 @@ import Select from './select'
 import SuggestSelect from './suggestSelect'
 import { withStyles } from '@material-ui/core/styles';
 import DateTime from './dateTime'
-import moment from 'moment-timezone';
-
 
 import { SketchPicker } from 'react-color';
 
@@ -180,7 +178,7 @@ class FieldRenderer extends React.Component {
       case "timezone":
 
         const names = data.options.map(o=>({label: o, value: o }))
-        let defaultTZ = moment.tz.guess()
+        let defaultTZ = Intl.DateTimeFormat().resolvedOptions().timeZone
         return <SuggestSelect 
             data={names}
             label={data.name} 

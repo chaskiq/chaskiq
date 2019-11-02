@@ -1,5 +1,5 @@
 import axios from 'axios';
-import _ from 'lodash'
+import {isObject, isEmpty} from 'lodash'
 import store from '../store'
 import {errorMessage, successMessage} from '../actions/status_messages'
 import {expireAuthentication} from '../actions/auth'
@@ -33,7 +33,7 @@ const graphql = (query, variables, callbacks)=>{
     // get first key of data and check if has errors
     //const errors = data[Object.keys(data)[0]].errors || r.data.errors
 
-    if (_.isObject(errors) && !_.isEmpty(errors)) {
+    if (isObject(errors) && !isEmpty(errors)) {
       //const errors = data[Object.keys(data)[0]];
       //callbacks['error'] ? callbacks['error'](res, errors['errors']) : null
       if(callbacks['error'])
