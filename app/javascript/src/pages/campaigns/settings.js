@@ -12,7 +12,7 @@ import { UPDATE_CAMPAIGN, CREATE_CAMPAIGN } from "../../graphql/mutations"
 
 import FieldRenderer from "../../shared/FormFields"
 import {toSnakeCase} from '../../shared/caseConverter'
-import moment from 'moment-timezone';
+//import moment from 'moment-timezone';
 
 export default class CampaignSettings extends Component {
   constructor(props){
@@ -25,7 +25,7 @@ export default class CampaignSettings extends Component {
       errors: {}
     }
 
-    window.tz = moment.tz
+    //window.tz = moment.tz
   }
 
   formRef: any;

@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
 import graphql from '../../graphql/client'
 import { UPDATE_CAMPAIGN, DELIVER_CAMPAIGN} from '../../graphql/mutations'
-import _ from "lodash"
 import TextEditor from '../../textEditor'
 import styled from '@emotion/styled'
 import {ThemeProvider} from 'emotion-theming'
