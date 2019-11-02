@@ -1,8 +1,8 @@
 
 import React, { Component } from 'react';
 import styled from "@emotion/styled"
-import { Picker } from 'emoji-mart'
-import {EmojiBlock} from "./styles/emojimart"
+//import { Picker } from 'emoji-mart'
+//import {EmojiBlock} from "./styles/emojimart"
 import {GiphyBlock} from './styles/styled'
 //import GiphyPicker from 'react-giphy-picker'
 import GiphyPicker from './giphy'
@@ -315,7 +315,7 @@ export default class UnicornEditor extends Component {
       <EditorWrapper onClick={this.handleFocus}>
         <EditorContainer footerClassName={this.props.footerClassName}>
 
-          {
+          { /*
             this.state.emojiEnabled ? 
               <EmojiBlock>
                 <Picker set='emojione'
@@ -324,7 +324,7 @@ export default class UnicornEditor extends Component {
                   title="hey"
                   onSelect={this.handleEmojiInsert} />
               </EmojiBlock> : null 
-          }
+          */}
 
           {
             this.state.giphyEnabled ? 
