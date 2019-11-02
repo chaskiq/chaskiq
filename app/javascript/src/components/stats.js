@@ -1,12 +1,10 @@
 import React, {Component} from "react"
-import axios from "axios"
 import Moment from 'react-moment';
-import CampaignChart from "./charts.js"
+import CampaignChart from "./charts/charts.js"
 import styled from '@emotion/styled'
-import graphql from '../../graphql/client'
-import {CAMPAIGN_METRICS} from '../../graphql/queries'
-import Table from '../../components/table/index'
-import gravatar from '../../shared/gravatar'
+import graphql from '../graphql/client'
+import Table from './table/index'
+import gravatar from '../shared/gravatar'
 
 import Typography from '@material-ui/core/Typography' 
 import Button from '@material-ui/core/Button' 
@@ -38,7 +36,7 @@ const AvatarWrapper = styled.div`
 `;
 
 
-export default class CampaignStats extends Component {
+export default class Stats extends Component {
 
   constructor(props){
     super(props)
@@ -131,23 +129,19 @@ export default class CampaignStats extends Component {
   }
 
   getData = ()=>{
-    graphql(CAMPAIGN_METRICS, {
+    this.props.getStats({
       appKey: this.props.app.key, 
       mode: this.props.mode, 
-      id: parseInt(this.props.match.params.id),
+      id: this.props.match.params.id,
       page: this.state.meta.next_page || 1
-    }, {
-      success: (data)=>{
-        const {counts, metrics} = data.app.campaign
+    }, (data)=>{
+
+      const {counts, metrics} = data.app.botTask
         this.setState({
           meta: metrics.meta,
           counts: counts,
           collection: metrics.collection
         })
-      },
-      error: (error)=>{
-
-      }
     })
   }
 
@@ -172,7 +166,7 @@ export default class CampaignStats extends Component {
               <PieContainer>
 
               {
-                this.props.data.statsFields.map((o)=>{
+                this.props.data && this.props.data.statsFields.map((o)=>{
                   return  <PieItem>
                             <CampaignChart data={this.getRateFor(o)}/>
                           </PieItem>

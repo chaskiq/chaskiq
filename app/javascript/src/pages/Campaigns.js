@@ -18,7 +18,7 @@ import CampaignSettings from "./campaigns/settings"
 import CampaignEditor from "./campaigns/edito"
 import SegmentManager from '../components/segmentManager'
 import DeleteDialog from '../components/deleteDialog'
-import CampaignStats from "./campaigns/stats"
+import CampaignStats from "../components/stats"
 
 import { isEmpty } from 'lodash'
 
@@ -29,13 +29,13 @@ import Content from '../components/Content'
 import EmptyView from '../components/emptyView'
 
 import graphql from "../graphql/client"
-import { CAMPAIGN, CAMPAIGNS  } from "../graphql/queries"
+import { CAMPAIGN, CAMPAIGNS, CAMPAIGN_METRICS  } from "../graphql/queries"
 import { PREDICATES_SEARCH, 
   UPDATE_CAMPAIGN, 
   CREATE_CAMPAIGN,
   DELIVER_CAMPAIGN,
   PURGE_METRICS,
-  DELETE_CAMPAIGN
+  DELETE_CAMPAIGN,
  } from '../graphql/mutations'
 
 import {getAppUser} from '../actions/app_user'
@@ -374,6 +374,17 @@ class CampaignForm extends Component {
   }
 
 
+  getStats = (params, cb)=>{
+    graphql(CAMPAIGN_METRICS, params, {
+      success: (data)=>{
+        cb(data)
+      },
+      error: (error)=>{
+
+      }
+    })
+  }
+
   renderTabcontent = ()=>{
 
     switch (this.state.tabValue){
@@ -384,6 +395,7 @@ class CampaignForm extends Component {
                   data={this.state.data}
                   fetchCampaign={this.fetchCampaign}
                   updateData={this.updateData} 
+                  getStats={this.getStats}
                 />
 
       case 1:

@@ -704,11 +704,37 @@ export const BOT_TASK = `
         segments
         scheduling
         urls
+        statsFields
         paths{
           id
           steps
           title
           followActions
+        }
+      }
+    }
+  }
+`;
+
+export const BOT_TASK_METRICS = `
+  query BotTask($appKey: String!, $id: String!, $lang: String,  $page: Int, $per: Int){
+    app(key: $appKey){
+      botTask(id: $id, lang: $lang){
+        id
+        counts
+        statsFields
+        metrics(page: $page, per: $per){
+          collection {
+            action
+            host
+            data
+            messageId
+            email
+            appUserId
+            updatedAt
+            createdAt
+          }
+          meta
         }
       }
     }

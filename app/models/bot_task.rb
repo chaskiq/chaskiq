@@ -119,4 +119,10 @@ class BotTask < ApplicationRecord
 
   end
 
+  def stats_fields
+    [
+      {name: "DeliverRateCount", label: "DeliverRateCount", keys: [{name: "send", color: "#444"}, {name: "open", color: "#ccc"}] },
+    ]
+  end
+
 end
