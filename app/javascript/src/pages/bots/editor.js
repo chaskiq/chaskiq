@@ -833,7 +833,8 @@ const Path = ({
           <ListMenu 
             options={options}
             button={
-              <Fab color="primary" aria-label="add">
+              <Fab color="primary" size={"small"}
+                aria-label="add">
                 <AddIcon />
               </Fab>
             }
