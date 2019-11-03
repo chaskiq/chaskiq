@@ -14,7 +14,7 @@ import {AnchorLink} from '../../../shared/RouterLink'
 import { withStyles } from '@material-ui/core/styles';
 
 import FormDialog from '../../../components/FormDialog'
-import {setCurrentPage} from '../../../actions/navigation'
+import {setCurrentSection} from '../../../actions/navigation'
 
 import ScrollableTabsButtonForce from '../../../components/scrollingTabs'
 import langs from '../../../shared/langsOptions'
@@ -65,7 +65,7 @@ class Collections extends Component {
   componentDidMount(){
     this.getCollections()
     this.props.dispatch(
-      setCurrentPage('Help Center')
+      setCurrentSection('Help Center')
     )
   }
 

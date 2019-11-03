@@ -60,6 +60,8 @@ import {toCamelCase} from '../../shared/caseConverter'
 
 import DraftRenderer from '../../textEditor/draftRenderer'
 
+import {setCurrentPage, setCurrentSection} from '../../actions/navigation'
+
 class ConversationContainerShow extends Component {
 
   constructor(props){
@@ -74,6 +76,14 @@ class ConversationContainerShow extends Component {
 
   componentDidMount(){
     this.getMessages( this.scrollToLastItem )
+
+    this.props.dispatch(
+      setCurrentPage("Conversations")
+    )
+
+    this.props.dispatch(
+      setCurrentSection("Conversations")
+    )
   }
 
   componentDidUpdate(PrevProps, PrevState){

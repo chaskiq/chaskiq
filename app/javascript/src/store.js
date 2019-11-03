@@ -13,7 +13,7 @@ import conversations from './actions/conversations'
 import conversation from './actions/conversation'
 import current_user from './actions/current_user'
 import status_message from './actions/status_messages'
-import current_page from './actions/navigation'
+import navigation from './actions/navigation'
 import drawer from './actions/drawer'
 import theme from './actions/theme'
 
@@ -27,7 +27,7 @@ const rootReducer = combineReducers({
   conversations,
   current_user,
   status_message,
-  current_page,
+  navigation,
   drawer,
   theme
 })

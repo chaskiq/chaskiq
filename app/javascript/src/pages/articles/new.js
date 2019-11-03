@@ -48,7 +48,7 @@ import GestureIcon from '@material-ui/icons/Gesture'
 import CheckCircleIcon from '@material-ui/icons/CheckCircle'
 import ArrowDropDownIcon from '@material-ui/icons/ArrowDropDown'
 
-import {setCurrentPage} from '../../actions/navigation'
+import {setCurrentSection} from '../../actions/navigation'
 import ScrollableTabsButtonForce from '../../components/scrollingTabs'
 import langs from '../../shared/langsOptions'
 
@@ -129,7 +129,7 @@ class ArticlesNew extends Component {
     this.getCollections()
 
     this.props.dispatch(
-      setCurrentPage('Help Center')
+      setCurrentSection('Help Center')
     )
   }
 

@@ -36,6 +36,7 @@ import { withStyles } from '@material-ui/core/styles';
 import ClickAwayListener from '@material-ui/core/ClickAwayListener';
 
 import FormDialog from '../components/FormDialog'
+import { setCurrentPage, setCurrentSection } from "../actions/navigation";
 
 
 const styles = theme => ({
@@ -50,6 +51,11 @@ class TeamPage extends Component {
     meta: {},
     tabValue: 0,
   };
+
+  componentDidMount(){
+    this.props.dispatch(setCurrentSection("Settings"))
+    this.props.dispatch(setCurrentPage("team"))
+  }
 
   handleTabChange = (e, i)=>{
     this.setState({tabValue: i})

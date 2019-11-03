@@ -40,6 +40,7 @@ import {
   FormControlLabel,
   Checkbox
 } from "@material-ui/core"
+import { setCurrentPage, setCurrentSection } from "../actions/navigation";
 
 const styles = theme => ({
   root: {
@@ -160,6 +161,8 @@ class AppSettingsContainer extends Component {
 
   componentDidMount(){
     //this.fetchApp()
+    this.props.dispatch(setCurrentPage("app_settings"))
+    this.props.dispatch(setCurrentSection("Settings"))
   }
 
   url = ()=>{

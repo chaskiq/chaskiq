@@ -14,7 +14,7 @@ import Checkbox from '@material-ui/core/Checkbox'
 
 
 import FormDialog from '../../../components/FormDialog'
-import {setCurrentPage} from '../../../actions/navigation'
+import {setCurrentSection} from '../../../actions/navigation'
 import { withStyles } from '@material-ui/core/styles';
 
 import ScrollableTabsButtonForce from '../../../components/scrollingTabs'
@@ -78,7 +78,7 @@ class CollectionDetail extends Component {
   componentDidMount(){
     this.getCollection()
     this.props.dispatch(
-      setCurrentPage('Help Center')
+      setCurrentSection('Help Center')
     )
   }
 

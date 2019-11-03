@@ -53,6 +53,7 @@ import {
 import arrayMove from 'array-move';
 import {InlineFilterDialog} from '../../components/segmentManager'
 import SegmentItemButton from '../../components/segmentManager/itemButton'
+import { setCurrentPage, setCurrentSection } from '../../actions/navigation'
 
 
 const styles = theme => ({
@@ -120,6 +121,9 @@ class AssigmentRules extends React.Component {
 
   componentDidMount(){
     this.getAssignmentRules()
+
+    this.props.dispatch(setCurrentPage("Assigment Rules"))
+    this.props.dispatch(setCurrentSection("Conversations"))
   }
 
   onSortEnd = ({oldIndex, newIndex}) => {
@@ -372,7 +376,7 @@ class AssigmentRules extends React.Component {
 
 function AssignmentForm(props){
 
-  const {rule, setConditions, conditions} = props
+  const {rule, setConditions, conditions, dispatch} = props
 
   const [agents, setAgents] = React.useState([])
   const [selected, setSelected] = React.useState(rule ? rule.agent.id : '')
@@ -403,6 +407,7 @@ function AssignmentForm(props){
       {name: "browser_language", type: "string"}, 
       {name: "lang", type: "string"},
   ]
+
   function getAgents(){
     graphql(AGENTS, {appKey: props.app.key }, {
       success: (data)=>{
