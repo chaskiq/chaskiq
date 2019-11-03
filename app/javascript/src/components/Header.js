@@ -86,7 +86,10 @@ function Header(props, context) {
 
             <Hidden smDown>
               <Grid item>
-                <ListMenu handleClick={visitApp} options={apps}/>
+                <ListMenu 
+                  handleClick={visitApp} 
+                  options={apps}
+                />
               </Grid>
             </Hidden>
 
