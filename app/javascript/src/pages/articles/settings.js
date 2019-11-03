@@ -41,7 +41,7 @@ import serialize from 'form-serialize'
 
 import GestureIcon from '@material-ui/icons/Gesture'
 import CheckCircleIcon from '@material-ui/icons/CheckCircle'
-import {setCurrentPage} from '../../actions/navigation'
+import {setCurrentSection} from '../../actions/navigation'
 import FieldRenderer from '../../shared/FormFields'
 import ContentHeader from '../../components/ContentHeader'
 import Content from '../../components/Content'
@@ -74,7 +74,7 @@ class Settings extends Component {
   componentDidMount(){
     this.props.getSettings(()=> this.setState({loading: false}))
     this.props.dispatch(
-      setCurrentPage('Help Center')
+      setCurrentSection('Help Center')
     )
   }
 

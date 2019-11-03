@@ -67,7 +67,7 @@ import VisibilityRounded from '@material-ui/icons/VisibilityRounded'
 import SendRounded from '@material-ui/icons/SendRounded'
 import DeleteForeverRounded from '@material-ui/icons/DeleteForeverRounded'
 
-import {setCurrentPage} from '../actions/navigation'
+import {setCurrentSection, setCurrentPage} from '../actions/navigation'
 
 import userFormat from '../components/table/userFormat'
 
@@ -697,7 +697,11 @@ class CampaignContainer extends Component {
   componentDidMount() {
 
     this.props.dispatch(
-      setCurrentPage('Campaigns')
+      setCurrentSection('Campaigns')
+    )
+
+    this.props.dispatch(
+      setCurrentPage(this.props.match.params.message_type)
     )
 
     this.init()
@@ -764,7 +768,6 @@ class CampaignContainer extends Component {
       <Route exact path={`${this.props.match.url}`}
         render={(props) => (
           <div>
-
 
             {
               this.state.openDeleteDialog && <DeleteDialog 

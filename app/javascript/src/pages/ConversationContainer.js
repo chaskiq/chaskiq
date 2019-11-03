@@ -64,7 +64,7 @@ import {
 import AssigmentRules from '../components/conversation/assigmentRules'
 
 
-import {setCurrentPage} from '../actions/navigation'
+import {setCurrentSection, setCurrentPage} from '../actions/navigation'
 
 class ConversationContainer extends Component {
 
@@ -77,7 +77,7 @@ class ConversationContainer extends Component {
     this.getConversations()
 
     this.props.dispatch(
-      setCurrentPage('Conversations')
+      setCurrentSection('Conversations')
     )
   }
 

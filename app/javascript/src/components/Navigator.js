@@ -135,7 +135,7 @@ const Fab = withStyles({
 function Navigator(props, context) {
   const { 
     classes, 
-    current_page, 
+    navigation,
     app, 
     match,
     location,
@@ -145,19 +145,25 @@ function Navigator(props, context) {
     ...other 
   } = props;
 
+  const {current_page, current_section} = navigation
+
   const appid = `/apps/${app.key}`
 
-  const [expanded, setExpanded] = useState(current_page);
+  const [expanded, setExpanded] = useState(current_section);
 
   let routerListener = null
 
   useEffect( () => { 
-    setExpanded(current_page) 
-  }, [ current_page ] );
+    setExpanded(current_section) 
+  }, [ current_section ] );
 
   const handleChange = panel => (event, isExpanded) => {
     setExpanded(isExpanded ? panel : false);
   };
+
+  function isActivePage(page){
+    return current_page === page
+  }
 
   const categories = [
 
@@ -175,8 +181,8 @@ function Navigator(props, context) {
       id: 'Conversations',
       icon: <QuestionAnswerOutlined style={{ fontSize: 30 }}/>,
       children: [
-        { id: 'Conversations', icon:  <SmsIcon/>, url: `/apps/${app.key}/conversations`},
-        { id: 'Assigment Rules', icon:  <ShuffleIcon/>, url: `/apps/${app.key}/conversations/assignment_rules`},
+        { id: 'Conversations', icon:  <SmsIcon/>, url: `/apps/${app.key}/conversations`, active: isActivePage("Conversations") },
+        { id: 'Assigment Rules', icon:  <ShuffleIcon/>, url: `/apps/${app.key}/conversations/assignment_rules`, active: isActivePage("Assigment Rules") },
       ],
     },
     {
@@ -186,9 +192,9 @@ function Navigator(props, context) {
         /*{ id: 'Analytics', icon: <SettingsIcon /> },
         { id: 'Performance', icon: <TimerIcon /> },
         { id: 'Test Lab', icon: <PhonelinkSetupIcon /> },*/
-        { id: 'Mailing Campaigns', icon: <EmailIcon/>, url: `${appid}/messages/campaigns`},
-        { id: 'In App messages', icon: <MessageIcon/>, url: `${appid}/messages/user_auto_messages`},
-        { id: 'Guided tours', icon: <FilterFramesIcon/>, url: `${appid}/messages/tours`,},
+        { id: 'campaigns', label: 'Mailing Campaigns', icon: <EmailIcon/>, url: `${appid}/messages/campaigns`, active: isActivePage("campaigns")  },
+        { id: 'user_auto_messages', label: 'In App messages', icon: <MessageIcon/>, url: `${appid}/messages/user_auto_messages`, active: isActivePage("user_auto_messages")},
+        { id: 'tours', label: 'Guided tours',  icon: <FilterFramesIcon/>, url: `${appid}/messages/tours`, active: isActivePage("tours")},
       ],
     },
 
@@ -196,9 +202,6 @@ function Navigator(props, context) {
       id: 'Bot',
       icon: <DeviceHubOutlined style={{ fontSize: 30 }}/>,
       children: [
-        /*{ id: 'Analytics', icon: <SettingsIcon /> },
-        { id: 'Performance', icon: <TimerIcon /> },
-        { id: 'Test Lab', icon: <PhonelinkSetupIcon /> },*/
         { id: 'For Leads', icon: <AssignmentIndIcon/>, url: `${appid}/bots/leads`},
         { id: 'For Users', icon: <PermIdentityIcon/>, url: `${appid}/bots/users`},
         { id: 'Settings', icon: <SettingsIcon/>, url: `${appid}/bots/settings`}
@@ -219,9 +222,9 @@ function Navigator(props, context) {
       id: 'Settings',
       icon: <SettingsOutlined style={{ fontSize: 30 }}/>,
       children: [
-        { id: 'App Settings', icon:  <SettingsIcon/>, url: `/apps/${app.key}/settings`, },
-        { id: 'Team', icon: <SupervisedUserCircleIcon />, url: `/apps/${app.key}/team`, active: false },
-        { id: 'Authentication', icon: <ShuffleIcon />, active: true },
+        { id: 'App Settings', icon:  <SettingsIcon/>, url: `/apps/${app.key}/settings`, active: isActivePage("app_settings") },
+        { id: 'Team', icon: <SupervisedUserCircleIcon />, url: `/apps/${app.key}/team`, active: isActivePage("team") },
+        //{ id: 'Authentication', icon: <ShuffleIcon />, active: isActivePage("user_auto_messages")},
       ],
     },
     /*
@@ -239,9 +242,10 @@ function Navigator(props, context) {
   ];
 
   function renderItemList(){
+
     return (
-      categories.map(({ id, icon, children }) => (
-        <ExpansionPanel 
+      categories.map(({ id, icon, children }) => {
+        return <ExpansionPanel 
           key={id}
           expanded={expanded === id} 
           onChange={handleChange(id)}>
@@ -268,7 +272,7 @@ function Navigator(props, context) {
           </ExpansionPanelSummary>
 
           <ExpansionPanelDetails  className={classes.expansionPanelDetails}>
-            {children.map(({ id: childId, icon, active, url, onClick }) => (
+            {children.map(({ id: childId, label, icon, active, url, onClick }) => (
                 <ListItem
                   button
                   dense
@@ -292,7 +296,7 @@ function Navigator(props, context) {
                       dense: classes.textDense,
                     }}
                   >
-                    {childId}
+                    {label || childId}
                   </ListItemText>
                 </ListItem>
               ))}
@@ -301,7 +305,7 @@ function Navigator(props, context) {
           </ExpansionPanelDetails>
 
         </ExpansionPanel>
-      ))
+      })
     )
   }
 
@@ -394,8 +398,7 @@ function mapStateToProps(state, ownProps) {
     app, 
     segment, 
     app_users,
-    current_user, 
-    current_page 
+    navigation,
   } = state
   const { loading, isAuthenticated } = auth
 
@@ -407,7 +410,7 @@ function mapStateToProps(state, ownProps) {
     loading,
     isAuthenticated,*/
     app,
-    current_page,
+    navigation,
   }
 }
 

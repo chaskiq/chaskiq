@@ -23,7 +23,7 @@ import Map from '../map/index.js'
 
 import {dispatchSegmentUpdate} from '../../actions/segments'
 
-import {setCurrentPage} from '../../actions/navigation'
+import {setCurrentSection} from '../../actions/navigation'
 import userFormat from '../table/userFormat'
 import CircularProgress from '@material-ui/core/CircularProgress'
 
@@ -52,7 +52,7 @@ class AppContent extends Component {
   componentDidMount(){
 
     this.props.dispatch(
-      setCurrentPage('Platform')
+      setCurrentSection('Platform')
     )
     
     this.props.dispatch(
