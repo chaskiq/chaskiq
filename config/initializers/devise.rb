@@ -18,6 +18,13 @@ Devise.setup do |config|
                         user: [:json],
                         agent: [:json]
                       }
+    jwt.dispatch_requests = [
+      ['POST', %r{^/agents/sign_in.json$}]
+    ]
+    jwt.revocation_requests = [
+      ['DELETE', %r{^/agents/sign_out.json$}]
+    ]
+    jwt.expiration_time = 1.day.to_i
   end
 
   # ==> Controller configuration

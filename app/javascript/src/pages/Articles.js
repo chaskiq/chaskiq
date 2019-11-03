@@ -109,6 +109,8 @@ class Articles extends Component {
         this.setState({
           settings: data.articleSettingsUpdate.settings,
           errors: data.articleSettingsUpdate.errors
+        }, ()=>{
+          this.props.dispatch(successMessage("article settings updated"))
         })
       },
       error: (e)=>{

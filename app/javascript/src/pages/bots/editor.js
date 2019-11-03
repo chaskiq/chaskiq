@@ -15,6 +15,7 @@ import Segment from './segment'
 import SettingsForm from './settings'
 import BotTaskSetting from './taskSettings'
 import ContextMenu from '../../components/ContextMenu'
+import ListMenu from '../../components/ListMenu'
 import {errorMessage, successMessage} from '../../actions/status_messages'
 
 import Box from '@material-ui/core/Box'
@@ -34,7 +35,10 @@ import InputLabel from '@material-ui/core/InputLabel'
 import Divider from '@material-ui/core/Divider'
 import Tabs from '@material-ui/core/Tabs'
 import Tab from '@material-ui/core/Tab'
+import MuiSwitch from '@material-ui/core/Switch'
+import Fab from '@material-ui/core/Fab'
 
+import AddIcon from '@material-ui/icons/Add'
 import DragHandle from '@material-ui/icons/DragHandle'
 import DeleteForever from '@material-ui/icons/DeleteForever'
 import RemoveCircle from '@material-ui/icons/RemoveCircle'
@@ -48,7 +52,11 @@ const useStyles = makeStyles((theme: Theme) => createStyles({
   root: {
     padding: theme.spacing(3),
     marginBottom: theme.spacing(1),
-    background: theme.palette.common.white
+    background: theme.palette.common.white,
+  },
+  paper: {
+    display: 'flex',
+    flexDirection: 'column'
   }
 }));
 
@@ -155,6 +163,8 @@ const BotEditor = ({match, app, dispatch})=>{
   const [selectedPath, setSelectedPath] = useState(null)
   const [isOpen, setOpen] = useState(false)
   const [tabValue, setTabValue] = useState(0)
+
+  const classes = useStyles();
 
   const handleSelection = (item)=>{
     setSelectedPath(item)
@@ -356,7 +366,6 @@ const BotEditor = ({match, app, dispatch})=>{
   const renderTabcontent = ()=>{
     switch (tabValue){
       case 0:
-
         return !isEmpty(botTask) && <Stats  match={match}
                                             app={app} 
                                             data={botTask}
@@ -370,8 +379,6 @@ const BotEditor = ({match, app, dispatch})=>{
                 saveData={saveData}
                 errors={errors}
               />
-
-
       case 2:
         return <Segment 
           app={app} 
@@ -412,13 +419,14 @@ const BotEditor = ({match, app, dispatch})=>{
         variant={"outlined"} 
         onClick={showPathDialog}
         color="primary">
+        <AddIcon />
         add new path
       </Button>
     </Grid>
 
     <Grid item xs={12} sm={10}>
 
-      <Paper>
+      <Paper className={classes.paper}>
 
         {
           selectedPath && <Path
@@ -435,36 +443,62 @@ const BotEditor = ({match, app, dispatch})=>{
             />
         }
 
+
+        <Box m={2}>
+          <Button                     
+            variant="contained" 
+            color="primary" 
+            size="large" 
+            onClick={saveData}> 
+            save data 
+          </Button>
+
+        </Box>
+
       </Paper>
 
     </Grid>
+
   
   </Grid>
+  }
+
+  const toggleState = ()=>{
+
   }
 
   return (
     <div>
       <ContentHeader 
         title={ botTask.title }
-        items={ [<Grid item>
-                  <Button                     
-                    variant="outlined" 
-                    color="inherit" 
-                    size="small" 
-                    onClick={saveData}> 
-                    save data 
-                  </Button>
-                </Grid> , 
-                <Grid item>
-                  <Button 
-                    variant="outlined" 
-                    color="inherit" 
-                    size="small">
-                    set live
-                  </Button>
-                </Grid>
-              ]
-            }
+        items={ []
+          /*[
+          <MuiSwitch
+            color={"default"}
+            checked={botTask.state === "enabled"}
+            onChange={toggleState}
+            value={botTask.state}
+            inputProps={{ 'aria-label': 'enable state checkbox' }}
+          />,
+          <Grid item>
+            <Button                     
+              variant="outlined" 
+              color="inherit" 
+              size="small" 
+              onClick={saveData}> 
+              save data 
+            </Button>
+          </Grid> , 
+          <Grid item>
+            <Button 
+              variant="outlined" 
+              color="inherit" 
+              size="small">
+              set live
+            </Button>
+          </Grid>
+        ]*/
+        }
         tabsContent={tabsContent()}
       />
 
@@ -550,16 +584,24 @@ function FollowActionsSelect({app, path, updatePath}){
                 </AgentSelector>
     
       default: 
-        return <div>
-                <p key={action.key}>{action.name}</p>
-                <Button 
+        return <Grid style={{display: 'flex'}} 
+                     key={action.key} 
+                     item 
+                     alignItems={"center"}>
+                <Typography >
+                  {action.name}
+                </Typography>
+                <IconButton 
                   color={"secondary"}
                   onClick={()=> removeAction(i)}>
-                  remove
-                </Button> 
-               </div>
+                  <DeleteForeverRounded/>
+                </IconButton> 
+               </Grid>
     }
   }
+
+
+  const menuOptions = availableOptions()
 
   return(
    
@@ -567,16 +609,21 @@ function FollowActionsSelect({app, path, updatePath}){
       {renderActions()}
 
       {
+        menuOptions.length > 0 &&
+          <ContextMenu
+            label={"add action"} 
+            handleClick={handleClick} 
+            actions={actions}
+            options={menuOptions}
+          /> 
+      }
+
+      {/*
         selectMode  ?
-        <ContextMenu
-          label={"add action"} 
-          handleClick={handleClick} 
-          actions={actions}
-          options={availableOptions()}
-        />
+        
         :  
         renderAddButton()
-      }
+      */}
 
       
     </div>
@@ -584,7 +631,7 @@ function FollowActionsSelect({app, path, updatePath}){
 }
 
 function AgentSelector({app, updateAction, removeAction, action, index}){
-  const [selected, setSelected] = React.useState('')
+  const [selected, setSelected] = React.useState(action.value)
   const [agents, setAgents] = React.useState([])
   const [mode, setMode] = React.useState("button")
  
@@ -645,17 +692,22 @@ function AgentSelector({app, updateAction, removeAction, action, index}){
         </Select>
       </FormControl> : 
 
-      <div>
+      <Grid style={{display: 'flex'}} 
+                     key={action.key} 
+                     item 
+                     alignItems={"center"}>
 
         <Button onClick={()=> setMode('select')}>
           assign: {selectedAgent(selected)}
         </Button> 
 
-        <Button onClick={()=> removeAction(index)}>
-          remove
-        </Button> 
+        <IconButton 
+          color={"secondary"}
+          onClick={()=> removeAction(index)}>
+          <DeleteForeverRounded/>
+        </IconButton> 
 
-      </div>
+      </Grid>
     }
 
     </div>
@@ -721,6 +773,12 @@ const Path = ({
     updatePath(newPath)
   }
 
+  const options = [
+      {name: "Add Message Bubble", key: "add-message", onClick: ()=>{ addStepMessage(path) }},
+      {name: "Add path chooser", key: "add-path-choooser", onClick: ()=>{ addSectionControl(path) }},
+      {name: "Ask data input",key: "ask-data-input", onClick: ()=>{ addDataControl(path) }}
+  ]
+
   return (
 
     <Box p={2}>
@@ -769,37 +827,44 @@ const Path = ({
 
       {/*<Divider/>*/}
 
-      <Grid container spacing={2} justify={"space-around"}>
+      <Grid container spacing={2} justify={"flex-start"}>
 
-          <Button variant={"outlined"} onClick={()=> addStepMessage(path)}>
-            Add Message Bubble
-          </Button>
 
-          <Button variant={"outlined"} onClick={()=> addSectionControl(path)}>
-            Add path chooser
-          </Button>
+          <ListMenu 
+            options={options}
+            button={
+              <Fab color="primary" size={"small"}
+                aria-label="add">
+                <AddIcon />
+              </Fab>
+            }
+          />
 
-          <Button variant={"outlined"} onClick={()=> addDataControl(path)}>
-            Ask data input
-          </Button>
+          
     
   
       </Grid>
 
       <Divider variant="fullWidth" style={{marginTop: '3em'}}/>
 
-      <Grid container 
-        justify={"space-around"} 
+      <Grid container
         style={{marginTop: '2em'}}>
 
 
-        <Typography variant={'subtitle1'}>Follow actions</Typography>
+        <Grid item alignContent={"flex-start"}>
 
-        <FollowActionsSelect 
-          app={app} 
-          updatePath={updatePath}
-          path={path} 
-        />
+          <Typography variant={'h5'}>
+            Follow actions
+          </Typography>
+
+          <FollowActionsSelect 
+            app={app} 
+            updatePath={updatePath}
+            path={path} 
+          />    
+        
+        </Grid>
+
       </Grid>
 
     </Box>
@@ -1142,7 +1207,7 @@ class SortableSteps extends Component {
                               <Button 
                                 color={"primary"}
                                 variant={'outlined'} 
-                                size={"small"}>
+                                size="small">
                                 + add data option
                               </Button>
                             </Grid> 
