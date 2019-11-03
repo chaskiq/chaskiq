@@ -69,10 +69,11 @@
     "soundmanager2": "^2.97.20170602",
     "styled-components": "4.3.2",
     "ua-parser-js": "^0.7.20",
-    "url-pattern": "^1.0.3"
+    "url-pattern": "^1.0.3",
+    "webpack-bundle-analyzer": "^3.6.0"
   },
   "devDependencies": {
-    "webpack-bundle-analyzer": "^3.6.0",
+    
     "webpack-dev-server": "2.11.2"
   },
   "resolutions": {
