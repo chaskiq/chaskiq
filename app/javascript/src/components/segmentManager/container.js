@@ -23,7 +23,7 @@ import Map from '../map/index.js'
 
 import {dispatchSegmentUpdate} from '../../actions/segments'
 
-import {setCurrentSection} from '../../actions/navigation'
+import {setCurrentSection, setCurrentPage} from '../../actions/navigation'
 import userFormat from '../table/userFormat'
 import CircularProgress from '@material-ui/core/CircularProgress'
 
@@ -54,6 +54,10 @@ class AppContent extends Component {
     this.props.dispatch(
       setCurrentSection('Platform')
     )
+
+    this.props.dispatch(
+      setCurrentPage(`segment-${this.props.match.params.segmentID}`)
+    )
     
     this.props.dispatch(
       dispatchSegmentUpdate({
@@ -80,6 +84,10 @@ class AppContent extends Component {
           id: this.props.match.params.segmentID,
           jwt: this.props.match.params.Jwt
         })
+      )
+
+      this.props.dispatch(
+        setCurrentPage(`segment-${this.props.match.params.segmentID}`)
       )
 
       this.getSegment(()=>{
