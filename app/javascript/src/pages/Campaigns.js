@@ -696,6 +696,10 @@ class CampaignContainer extends Component {
         setCurrentPage(this.props.match.params.message_type)
       )
 
+      this.props.dispatch(
+        setCurrentSection("Campaigns")
+      )
+
     }
   }
 

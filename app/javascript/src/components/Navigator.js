@@ -85,7 +85,8 @@ const styles = theme => ({
     },
   },
   itemActiveItem: {
-    color: '#4fc3f7',
+    color: theme.palette.primary.main,
+    backgroundColor: theme.palette.background.default
   },
   itemPrimary: {
     color: 'inherit',
@@ -173,7 +174,8 @@ function Navigator(props, context) {
       children: app.segments.map((o)=>(
         { id: o.name , 
           icon:  null, 
-          url: `/apps/${app.key}/segments/${o.id}`
+          url: `/apps/${app.key}/segments/${o.id}`,
+          active: isActivePage(`segment-${o.id}`)
         }
       ))
     },

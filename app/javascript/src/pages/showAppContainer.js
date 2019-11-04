@@ -119,7 +119,6 @@ class ShowAppContainer extends Component {
     }
 
     if(prevProps.match.url !== this.props.match.url){
-      console.info("cambio match")
       this.init()
     }
 
