@@ -691,6 +691,11 @@ class CampaignContainer extends Component {
   componentDidUpdate(prevProps, prevState) {
     if (this.props.match.params.message_type !== prevProps.match.params.message_type) {
       this.init()
+
+      this.props.dispatch(
+        setCurrentPage(this.props.match.params.message_type)
+      )
+
     }
   }
 

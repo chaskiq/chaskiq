@@ -276,28 +276,7 @@ class ConversationContainer extends Component {
 
                 <Route exact path={`/apps/${appId}/conversations`}
                   render={(props)=>(
-                    <Hidden smDown>
-                      <GridElement grow={2} style={{
-                        display: 'flex', 
-                        justifyContent: 'space-around'
-                      }}>
-
-                        <div style={{alignSelf: 'center'}}>
-                          <Paper style={{padding: '2em'}}>
-
-                              <ChatIcon fontSize="large" />
-                               <Typography variant="h5">
-                                  Conversations 
-                                </Typography>
-
-                                <Typography component="p">
-                                  Select a conversation
-                                </Typography>
-
-                          </Paper>
-                        </div>
-                      </GridElement>
-                    </Hidden>
+                    <EmptyConversation dispatch={this.props.dispatch}/>
                   )} />  
                 
 
@@ -332,6 +311,40 @@ class ConversationContainer extends Component {
 
             </ColumnContainer>
           </RowColumnContainer>
+  }
+}
+
+
+class EmptyConversation extends Component {
+
+  componentDidMount(){
+    this.props.dispatch(setCurrentPage("Conversations"))
+  }
+
+  render(){
+    return <Hidden smDown>
+            <GridElement grow={2} style={{
+              display: 'flex', 
+              justifyContent: 'space-around'
+            }}>
+
+              <div style={{alignSelf: 'center'}}>
+                <Paper style={{padding: '2em'}}>
+
+                    <ChatIcon fontSize="large" />
+                    <Typography variant="h5">
+                        Conversations 
+                      </Typography>
+
+                      <Typography component="p">
+                        Select a conversation
+                      </Typography>
+
+                </Paper>
+              </div>
+            </GridElement>
+          </Hidden>
+
   }
 }
 
