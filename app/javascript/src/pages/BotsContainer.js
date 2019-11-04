@@ -33,6 +33,7 @@ import SettingsForm from './bots/settings'
 import EmptyView from '../components/emptyView'
 import DeleteDialog from '../components/deleteDialog'
 import {successMessage} from '../actions/status_messages'
+import { setCurrentSection, setCurrentPage } from '../actions/navigation'
 
 const useStyles = makeStyles((theme: Theme) => createStyles({
   root: {
@@ -49,6 +50,9 @@ const BotDataTable = ({app, match, history, mode, dispatch})=>{
   const [meta, setMeta] = useState({})
 
   function init(){
+
+    dispatch(setCurrentPage(`bot${mode}`))
+
     graphql(BOT_TASKS, {
       appKey: app.key,
       mode: mode
@@ -268,6 +272,10 @@ const BotTaskCreate = ({app, submit, history, match, mode})=>{
 
 const BotContainer = ({app, match, history, dispatch})=>{
 
+  useEffect( ()=>{
+    dispatch(setCurrentSection("Bot"))
+  } , [])
+
   return  (
 
     <Switch>
@@ -311,6 +319,7 @@ const BotContainer = ({app, match, history, dispatch})=>{
     <Route exact path={[`${match.path}/leads/:id`]}
       render={(props) => {
           return <BotEditor app={app} 
+            mode={"leads"}
           match={match} 
           {...props}
         />
@@ -320,6 +329,7 @@ const BotContainer = ({app, match, history, dispatch})=>{
     <Route exact path={`${match.path}/users/:id`}
     render={(props) => {
         return <BotEditor app={app} 
+        mode={"users"}
         match={match} 
         {...props}
       />

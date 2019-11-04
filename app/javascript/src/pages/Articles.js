@@ -56,7 +56,7 @@ import Settings from './articles/settings'
 import Collections from './articles/collections/index'
 import CollectionDetail from './articles/collections/show'
 
-import {setCurrentSection} from '../actions/navigation'
+import {setCurrentSection, setCurrentPage} from '../actions/navigation'
 import {
   ARTICLE_SETTINGS
 } from '../graphql/queries'
@@ -258,8 +258,10 @@ class AllArticles extends React.Component {
     this.search()
 
     this.props.dispatch(
-      setCurrentSection('Help Center')
+      setCurrentSection('HelpCenter')
     )
+
+    this.props.dispatch(setCurrentPage("articles"))
   }
 
   componentDidUpdate(prevProps){

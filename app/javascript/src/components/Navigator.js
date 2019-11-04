@@ -202,19 +202,20 @@ function Navigator(props, context) {
       id: 'Bot',
       icon: <DeviceHubOutlined style={{ fontSize: 30 }}/>,
       children: [
-        { id: 'For Leads', icon: <AssignmentIndIcon/>, url: `${appid}/bots/leads`},
-        { id: 'For Users', icon: <PermIdentityIcon/>, url: `${appid}/bots/users`},
-        { id: 'Settings', icon: <SettingsIcon/>, url: `${appid}/bots/settings`}
+        { id: 'For Leads', icon: <AssignmentIndIcon/>, url: `${appid}/bots/leads`, active: isActivePage("botleads")},
+        { id: 'For Users', icon: <PermIdentityIcon/>, url: `${appid}/bots/users`, active: isActivePage("botusers")},
+        { id: 'Settings', icon: <SettingsIcon/>, url: `${appid}/bots/settings`, active: isActivePage("botSettings")}
       ],
     },
 
     {
-      id: 'Help Center',
+      label: 'Help Center',
+      id: 'HelpCenter',
       icon: <BookOutlined style={{ fontSize: 30 }}/>,
       children: [
-        { id: 'Articles', icon: <BookIcon/>, url: `/apps/${app.key}/articles`},
-        { id: 'Collections', icon: <FolderIcon/>, url: `/apps/${app.key}/articles/collections`},
-        { id: 'Settings', icon: <SettingsIcon/>, url: `/apps/${app.key}/articles/settings`},
+        { id: 'Articles', icon: <BookIcon/>, url: `/apps/${app.key}/articles`, active: isActivePage("articles")},
+        { id: 'Collections', icon: <FolderIcon/>, url: `/apps/${app.key}/articles/collections`, active: isActivePage("collections")},
+        { id: 'Settings', icon: <SettingsIcon/>, url: `/apps/${app.key}/articles/settings`, active: isActivePage("settings")},
       ],
     },
 
@@ -244,7 +245,8 @@ function Navigator(props, context) {
   function renderItemList(){
 
     return (
-      categories.map(({ id, icon, children }) => {
+      categories.map(({ id, label, icon, children }) => {
+        console.log(expanded , id)
         return <ExpansionPanel 
           key={id}
           expanded={expanded === id} 
@@ -266,7 +268,7 @@ function Navigator(props, context) {
                     primary: classes.categoryHeaderPrimary,
                   }}
                 >
-                  {id}
+                  {label || id}
                 </ListItemText>
               </ListItem>
           </ExpansionPanelSummary>

@@ -32,12 +32,17 @@ import {UPDATE_APP} from '../../graphql/mutations'
 import { 
   updateApp
 } from '../../actions/app'
+import { setCurrentPage } from '../../actions/navigation'
 
 const SettingsForm = ({app, data, errors, dispatch}) => {
 
   const [tabValue, setTabValue] = useState(0)
   const [state, setState] = useState({})
   const [agents, setAgents] = useState([])
+
+  useEffect(()=>{
+    dispatch(setCurrentPage("botSettings"))
+  }, [])
 
   function getAgents(){
     graphql(AGENTS, {appKey: app.key }, {

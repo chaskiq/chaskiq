@@ -47,6 +47,8 @@ import DeleteForeverRounded from '@material-ui/icons/DeleteForeverRounded'
 import { makeStyles, createStyles } from '@material-ui/styles';
 import {isEmpty} from 'lodash'
 import Stats from '../../components/stats'
+import { setCurrentSection, setCurrentPage } from '../../actions/navigation'
+
 
 const useStyles = makeStyles((theme: Theme) => createStyles({
   root: {
@@ -83,7 +85,6 @@ const ControlWrapper = styled.div`
   flex-wrap: wrap;
   flex-flow: column;
 `
-
 
 function create_UUID(){
   var dt = new Date().getTime();
@@ -156,7 +157,7 @@ const PathDialog = ({open, close, isOpen, submit})=>{
   )
 }
 
-const BotEditor = ({match, app, dispatch})=>{
+const BotEditor = ({match, app, dispatch, mode})=>{
   const [botTask, setBotTask] = useState({})
   const [errors, setErrors] = useState({})
   const [paths, setPaths] = useState([])
@@ -165,6 +166,7 @@ const BotEditor = ({match, app, dispatch})=>{
   const [tabValue, setTabValue] = useState(0)
 
   const classes = useStyles();
+
 
   const handleSelection = (item)=>{
     setSelectedPath(item)
@@ -181,6 +183,9 @@ const BotEditor = ({match, app, dispatch})=>{
         debugger
       }
     })
+
+    dispatch(setCurrentSection("Bot"))
+    dispatch(setCurrentPage(`bot${mode}`))
   }, []);
 
   useEffect(()=> {console.log(botTask)}, [botTask])
@@ -1126,8 +1131,6 @@ class SortableSteps extends Component {
 
     updatePath(newPath)
   }
-
-
 
   render() {
     const {steps, path, paths, deleteItem, updatePath} = this.props
