@@ -1008,15 +1008,15 @@ class Messenger extends Component {
         <EditorWrapper>
 
           {
-            /*
-            this.state.availableMessages.length > 0 && this.isMessengerActive() ?
+            
+            this.state.availableMessages.length > 0 && this.isMessengerActive() &&
             <MessageFrame 
               app_id={this.props.app_id}
               axiosInstance={this.axiosInstance}
               availableMessages={this.state.availableMessages} 
               t={this.props.t}
-            /> : null
-            */
+            />
+            
           }
               
 
@@ -1866,6 +1866,7 @@ class MessageFrame extends Component {
 class MessageContainer extends Component {
   
   componentDidMount(){
+    console.log("App.events", App.events)
     App.events && App.events.perform("track_open", 
       {
         trackable_id: this.props.availableMessage.id, 

@@ -8,15 +8,22 @@ class UserAutoMessage < Message
   scope :in_time, ->{ where(['scheduled_at <= ? AND scheduled_to >= ?', Date.today, Date.today]) }
   
   scope :availables_for, ->(user){
+    ## THIS VERSION ENABLES THE HIDDEN_CONSTRAINTS, 
+    ## FOR NOW WE WILL DISABLE THIS
+
+    #enabled.in_time.joins("left outer join metrics 
+    #  on metrics.trackable_type = 'Message'
+    #  AND settings->'hidden_constraints' ? metrics.action
+    #  AND metrics.app_user_id = #{user.id}"
+    #  ).where("metrics.id is null")
+
+
+    ## THIS WILL RETURN CAMPAINGS ON EMPTY METRICS FROR USER
     enabled.in_time.joins("left outer join metrics 
       on metrics.trackable_type = 'Message'
-      AND settings->'hidden_constraints' ? metrics.action
       AND metrics.app_user_id = #{user.id}"
-      ).where("metrics.id is null")
+    ).where("metrics.id is null")
   }
-
-  # AND metrics.trackable_type = 'AppUser' 
-  # AND metrics.trackable_id = #{user.id}"
 
   def config_fields
     [
@@ -47,12 +54,12 @@ class UserAutoMessage < Message
     [
       {
         name: "DeliverRateCount", label: "DeliverRateCount", 
-        keys: [{name: "viewed", color: "#F4F5F7"}, 
+        keys: [{name: "open", color: "#F4F5F7"}, 
               {name: "click", color: "#0747A6"}] 
       },
       {
         name: "ClickRateCount", label: "ClickRateCount", 
-        keys: [{name: "viewed" , color: "#F4F5F7"}, 
+        keys: [{name: "open" , color: "#F4F5F7"}, 
                 {name: "close", color: "#0747A6"}] 
       },
 
