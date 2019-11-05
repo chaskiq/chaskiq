@@ -11,7 +11,7 @@ import React from 'react'
 import ReactDOM from 'react-dom'
 
 //import Hermessenger from "../client_messenger/messenger";
-import HermessengerEncrypted from "../client_messenger/messengerEncrypted";
+import ChaskiqMessengerEncrypted from "../client_messenger/messengerEncrypted";
 
 //window.Hermessenger = Hermessenger
-window.HermessengerEncrypted = HermessengerEncrypted
+window.ChaskiqMessengerEncrypted = ChaskiqMessengerEncrypted
