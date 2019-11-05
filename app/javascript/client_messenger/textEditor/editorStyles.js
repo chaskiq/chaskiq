@@ -13,6 +13,10 @@ const NewEditorStyles = styled(EditorStyles)`
   display: flex;
   flex-direction: column;
 
+  .graf--figure{
+    min-width: 220px;
+  }
+
   button.inlineTooltip-button.scale {
     background: #fff;
   }
