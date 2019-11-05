@@ -104,7 +104,7 @@ RSpec.describe GraphqlController, type: :controller do
       graphql_post(type: 'CAMPAIGN', variables: {
         appKey: app.key, 
         mode: 'campaigns',
-        id: campaign.id
+        id: campaign.id.to_s
       })
 
       expect(graphql_response.errors).to be_nil
@@ -120,7 +120,8 @@ RSpec.describe GraphqlController, type: :controller do
 
         graphql_post(type: 'CREATE_APP', variables: {
           appParams: {
-            name: "my app"
+            name: "my app",
+            domain_url: "http://fojfj"
           },
           operation: 'create'
         })
@@ -171,11 +172,8 @@ RSpec.describe GraphqlController, type: :controller do
 
       expect(graphql_response.errors).to be_nil
       expect(graphql_response.data.inviteAgent.agent.email).to be_present
-      expect(app.agents.count).to be == 2
+      expect(app.agents.count).to be == 3
     end
   end
-
-
-
 
 end

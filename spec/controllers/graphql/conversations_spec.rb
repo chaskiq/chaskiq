@@ -37,6 +37,12 @@ RSpec.describe GraphqlController, type: :controller do
     }) 
   }
 
+  before do
+    ActiveJob::Base.queue_adapter = :test
+    #ActiveJob::Base.queue_adapter.perform_enqueued_at_jobs = true
+    #Rails.application.config.active_job.queue_adapter = :test
+  end
+
 
   before :each do 
     controller.stub(:current_user).and_return(agent_role.agent)
