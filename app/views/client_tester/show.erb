@@ -17,7 +17,7 @@
   </pre>
 
   <script type="text/javascript">
-    var m = new window.HermessengerEncrypted({
+    var m = new window.ChaskiqMessengerEncrypted({
       domain: '<%=@h[:http] +request.env["HTTP_HOST"]%>',
       ws:  '<%=@h[:ws]+ request.env["HTTP_HOST"] + "/cable" %>',
       app_id: "<%= @app.key %>",

@@ -1,6 +1,7 @@
 FactoryGirl.define do
   factory :app do
-    
+    name "my app"
+    domain_url "http://localhost:3000"
   end
 end
 

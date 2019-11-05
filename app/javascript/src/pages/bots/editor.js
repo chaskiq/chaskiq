@@ -359,8 +359,10 @@ const BotEditor = ({match, app, dispatch, mode})=>{
 
   const getStats = (params, cb)=>{
     graphql(BOT_TASK_METRICS, params, {
+      
       success: (data)=>{
-        cb(data)
+        const d = data.app.botTask
+        cb(d)
       },
       error: (error)=>{
 
