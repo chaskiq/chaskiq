@@ -11,20 +11,9 @@ console.log('Hello World from Webpacker')
 import React from 'react'
 import ReactDOM from 'react-dom'
 
-/*
-import App from "../components2/app.js"
-
-document.addEventListener('DOMContentLoaded', () => {
-  ReactDOM.render(
-    <App />,
-    document.body.appendChild(document.getElementById('main-page')),
-  )
-})*/
-
 import MainRouter from '../src/modules/MainRouter';
 
 // eslint-disable-next-line no-undef
-
 document.addEventListener('DOMContentLoaded', () => {
   ReactDOM.render(
     <MainRouter />,

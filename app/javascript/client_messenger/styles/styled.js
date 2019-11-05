@@ -357,16 +357,20 @@ export const UserAutoMessageFlex = styled(({ isMinimized, ...rest }) => (
 `
 
 export const MessageCloseBtn = styled.a`
-    display: inline-block;
-    padding: 4px;
-    background: #737373;
-    border-radius: 7px;
-    font-size: .8em;
-    -webkit-text-decoration: none;
-    text-decoration: none;
-    float: right;
-    color: white;
-    text-transform: uppercase;
+  position: absolute;
+  right: 8px;
+  display: inline-block;
+  padding: 4px;
+  background: #73737394;
+  border-radius: 3px;
+  font-size: 0.8em;
+  -webkit-text-decoration: none;
+  -webkit-text-decoration: none;
+  text-decoration: none;
+  float: right;
+  color: white;
+  text-transform: uppercase;
+  font-weight: 100;
 `
 
 export const AppPackageBlockContainer = styled.div`

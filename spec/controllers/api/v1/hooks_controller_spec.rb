@@ -675,70 +675,76 @@ RSpec.describe Api::V1::HooksController, type: :controller do
 
   describe "SNS events" do
 
+    before do
+      ActiveJob::Base.queue_adapter = :test
+      ActiveJob::Base.queue_adapter.perform_enqueued_at_jobs = true
+      #Rails.application.config.active_job.queue_adapter = :test
+    end
+
     it "will set a open" do
-      inline_job do
+      
         allow(Metric).to receive(:find_by).and_return(metric)
         campaign
         response = send_data(open_sns_event)
         expect(response.status).to be == 200
         expect(campaign.metrics.opens.size).to be == 1
         expect(campaign.metrics.opens.last.data).to be_present
-      end
+      
     end
 
     it "will set a deliver" do
-      inline_job do
+     
         allow(Metric).to receive(:find_by).and_return(metric)
         campaign
         response = send_data(delivery_sns_event)
         expect(response.status).to be == 200
         expect(campaign.metrics.deliveries.size).to be == 1
         expect(campaign.metrics.deliveries.last.data).to be_present
-      end
+      
     end
 
     it "will set a complaint" do
-      inline_job do
+      
         allow(Metric).to receive(:find_by).and_return(metric)
         campaign
         response = send_data(complaint_sns_event )
         expect(response.status).to be == 200
         expect(campaign.metrics.spams.size).to be == 1
         expect(campaign.metrics.spams.last.data).to be_present
-      end
+      
     end
 
     it "will set a reject" do
-      inline_job do
+      
         allow(Metric).to receive(:find_by).and_return(metric)
         campaign
         response = send_data(reject_sns_event )
         expect(response.status).to be == 200
         expect(campaign.metrics.rejects.size).to be == 1
         expect(campaign.metrics.rejects.last.data).to be_present
-      end
+      
     end
 
     it "will set a click" do
-      inline_job do
+      
         allow(Metric).to receive(:find_by).and_return(metric)
         campaign
         response = send_data(click_sns_event )
         expect(response.status).to be == 200
         expect(campaign.metrics.clicks.size).to be == 1
         expect(campaign.metrics.clicks.last.data).to be_present
-      end
+      
     end
 
     it "will set a bounce" do
-      inline_job do
+      
         allow(Metric).to receive(:find_by).and_return(metric)
         campaign
         response = send_data(bounce_sns_event )
         expect(response.status).to be == 200
         expect(campaign.metrics.bounces.size).to be == 1
         expect(campaign.metrics.bounces.last.data).to be_present
-      end
+      
     end
 
     

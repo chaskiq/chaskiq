@@ -437,7 +437,7 @@ query Campaigns($appKey: String!, $mode: String!){
 `;
 
 export const CAMPAIGN = `
-query Campaign($appKey: String!, $mode: String!, $id: Int!){
+query Campaign($appKey: String!, $mode: String!, $id: String!){
   app(key: $appKey){
     campaign(mode: $mode, id: $id){
       name
@@ -464,7 +464,7 @@ query Campaign($appKey: String!, $mode: String!, $id: Int!){
 `;
 
 export const CAMPAIGN_METRICS = `
-query Campaign($appKey: String!, $mode: String!, $id: Int!, $page: Int, $per: Int){
+query Campaign($appKey: String!, $mode: String!, $id: String!, $page: Int, $per: Int){
   app(key: $appKey){
     campaign(mode: $mode, id: $id){
       name

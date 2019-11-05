@@ -33,6 +33,11 @@ RSpec.describe Conversation, type: :model do
     }
   }
 
+  #before do
+  #  ActiveJob::Base.queue_adapter = :sidekiq
+  #  ActiveJob::Base.queue_adapter.perform_enqueued_at_jobs = true
+  #end
+
   it "create_conversation from app user" do
     app.start_conversation({
       message: {text_content: "aa"}, 
