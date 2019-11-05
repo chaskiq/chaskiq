@@ -108,7 +108,7 @@ module Types
 
     field :campaign, Types::CampaignType, null:true do
       argument :mode, String, required: false
-      argument :id, Integer, required: false
+      argument :id, String, required: false
     end
 
     def campaign(mode:, id:)
