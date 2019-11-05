@@ -320,7 +320,7 @@ class CampaignForm extends Component {
       graphql(CAMPAIGN, {
         appKey: this.props.app.key,
         mode: this.props.mode,
-        id: parseInt(id),
+        id: id,
       }, {
         success: (data) => {
           this.setState({
@@ -377,7 +377,8 @@ class CampaignForm extends Component {
   getStats = (params, cb)=>{
     graphql(CAMPAIGN_METRICS, params, {
       success: (data)=>{
-        cb(data)
+        const d = data.app.campaign
+        cb(d)
       },
       error: (error)=>{
 

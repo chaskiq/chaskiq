@@ -136,7 +136,7 @@ export default class Stats extends Component {
       page: this.state.meta.next_page || 1
     }, (data)=>{
 
-      const {counts, metrics} = data.app.botTask
+      const {counts, metrics} = data
         this.setState({
           meta: metrics.meta,
           counts: counts,
