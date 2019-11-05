@@ -14,14 +14,14 @@ import {
 } from 'draft-js'
 import MultiDecorator from 'draft-js-multidecorators'
 
-import Dante from "Dante2"
+//import Dante from "Dante2"
 import DanteEditor from 'Dante2/package/es/components/core/editor.js'
 
 import { DanteImagePopoverConfig } from 'Dante2/package/es/components/popovers/image.js'
 import { DanteAnchorPopoverConfig } from 'Dante2/package/es/components/popovers/link.js'
 import { DanteInlineTooltipConfig } from 'Dante2/package/es/components/popovers/addButton.js' //'Dante2/package/es/components/popovers/addButton.js'
 import { DanteTooltipConfig } from 'Dante2/package/es/components/popovers/toolTip.js' //'Dante2/package/es/components/popovers/toolTip.js'
-import { ImageBlockConfig } from '../pages/campaigns/article/image.js'
+import { ImageBlockConfig } from '../../src/pages/campaigns/article/image.js'
 import { EmbedBlockConfig } from 'Dante2/package/es/components/blocks/embed.js'
 import { VideoBlockConfig } from 'Dante2/package/es/components/blocks/video.js'
 import { PlaceholderBlockConfig } from 'Dante2/package/es/components/blocks/placeholder.js'
@@ -33,25 +33,25 @@ import { DividerBlockConfig } from "Dante2/package/es/components/blocks/divider"
 import Prism from 'prismjs';
 import { PrismDraftDecorator } from 'Dante2/package/es/components/decorators/prism'
 
-import { GiphyBlockConfig } from '../pages/campaigns/article/giphyBlock'
+//import { GiphyBlockConfig } from 'Dante2/package/es/components/blocks/'
 //import { SpeechToTextBlockConfig } from '../campaigns/article/speechToTextBlock'
 //import { DanteMarkdownConfig } from './article/markdown'
 import Link from 'Dante2/package/es/components/decorators/link'
 import findEntities from 'Dante2/package/es/utils/find_entities'
 import {ThemeProvider} from 'emotion-theming'
 import EditorStyles from 'Dante2/package/es/styled/base'
-import theme from '../components/conversation/theme'
+import theme from './theme'
 import styled from '@emotion/styled'
 import CircularProgress from '@material-ui/core/CircularProgress';
 
-import {getFileMetadata, directUpload} from '../shared/fileUploader'
+import {getFileMetadata, directUpload} from '../../src/shared/fileUploader' //'../shared/fileUploader'
 
 import {
   CREATE_URL_UPLOAD,
-CREATE_DIRECT_UPLOAD
-} from '../graphql/mutations'
+  CREATE_DIRECT_UPLOAD
+} from '../../src/graphql/mutations'
 
-import graphql from '../graphql/client'
+import graphql from '../../src/graphql/client'
 
 const EditorStylesExtend = styled(EditorStyles)`
 
@@ -257,8 +257,9 @@ export default class ArticleEditor extends Component {
     graphql(CREATE_URL_UPLOAD, {url: url} , {
       success: (data)=>{
         const {signedBlobId, headers, url, serviceUrl} = data.createUrlUpload.directUpload
-        this.props.uploadHandler({signedBlobId, headers, url, serviceUrl, imageBlock})
-        this.setDisabled(false)
+        imageBlock.uploadCompleted(serviceUrl)
+        //this.props.uploadHandler({signedBlobId, headers, url, serviceUrl, imageBlock})
+        //this.setDisabled(false)
       },
       error: ()=>{
         debugger
@@ -272,29 +273,17 @@ export default class ArticleEditor extends Component {
       graphql(CREATE_DIRECT_UPLOAD, input, {
         success: (data)=>{
           const {signedBlobId, headers, url, serviceUrl} = data.createDirectUpload.directUpload
-       
           directUpload(url, JSON.parse(headers), file).then(
             () => {
               this.setDisabled(false)
+              imageBlock.uploadCompleted(serviceUrl)
               this.props.uploadHandler({signedBlobId, headers, url, serviceUrl, imageBlock})
-              /*
-              graphql(ARTICLE_BLOB_ATTACH, { 
-                appKey: this.props.app.key ,
-                id: parseInt(this.state.article.id),
-                blobId: signedBlobId
-              }, {
-                success: (data)=>{
-                  imageBlock.uploadCompleted(serviceUrl)
-                },
-                error: (err)=>{
-                  console.log("error on direct upload", err)
-                }
-              })*/
           });
         },
         error: (error)=>{
+          debugger
           this.setDisabled(false)
-         console.log("error on signing blob", error)
+          console.log("error on signing blob", error)
         }
       })
     });
@@ -335,7 +324,7 @@ export default class ArticleEditor extends Component {
         //upload_url: `/attachments.json?id=${this.props.data.id}&app_id=${this.props.app.key}`,
       }
     }),
-    GiphyBlockConfig(),
+    //GiphyBlockConfig(),
     //SpeechToTextBlockConfig(),
     //ButtonBlockConfig()
     ]
@@ -581,7 +570,7 @@ export default class ArticleEditor extends Component {
     }
 
     const currentContent = context.editorState().getCurrentContent()
-    this.props.setDisabled(!currentContent.hasText())
+    this.props.setDisabled && this.props.setDisabled(!currentContent.hasText())
 
     let html = convertToHTML(convertOptions)(currentContent)
     const serialized = JSON.stringify(content)

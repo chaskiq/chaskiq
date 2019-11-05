@@ -1,7 +1,7 @@
 import React, {Component} from 'react'
 import styled from '@emotion/styled'
 import Simmer from 'simmerjs'
-import TextEditor from './textEditor'
+import TextEditor from './textEditor/index'
 import Tooltip, {TooltipBody,
   TooltipFooter,
   TooltipButton,
