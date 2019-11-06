@@ -68,6 +68,21 @@ class ConversationPart < ApplicationRecord
 
   #TODO: refactor this method
   def notify_to_channels
+    notify_app_users unless self.private_note?
+    notify_agents
+  end
+
+  def notify_agents
+    EventsChannel.broadcast_to(
+      "#{self.conversation.app.key}", 
+      { 
+        type: :conversation_part,
+        data: self.as_json
+      }
+    )
+  end
+
+  def notify_app_users
     MessengerEventsChannel.broadcast_to(
       "#{self.conversation.app.key}-#{self.conversation.main_participant.session_id}",
       { 
@@ -81,14 +96,6 @@ class ConversationPart < ApplicationRecord
       { 
         type: "conversations:unreads",
         data: self.conversation.main_participant.new_messages.value
-      }
-    )
-
-    EventsChannel.broadcast_to(
-      "#{self.conversation.app.key}", 
-      { 
-        type: :conversation_part,
-        data: self.as_json
       }
     )
   end
