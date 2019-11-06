@@ -135,4 +135,26 @@ class UserAutoMessage < Message
     html
   end
 
+
+  def self.broadcast_message_to_user(user)
+    app = user.app
+    key = "#{app.key}-#{user.session_id}"
+
+    messages = app.user_auto_messages.availables_for(user)
+    return if messages.blank?
+    if messages.any?
+      MessengerEventsChannel.broadcast_to(key, {
+        type: "messages:receive", 
+        data: messages.as_json(only: [ :id,
+                                        :created_at, 
+                                        :updated_at, 
+                                        :serialized_content,
+                                        :theme
+                                      ])
+        }
+      ) 
+    end
+    return messages.any?
+  end
+
 end
