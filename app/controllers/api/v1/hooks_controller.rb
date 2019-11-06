@@ -73,9 +73,13 @@ private
 
     messageId = json_message["mail"]["messageId"] 
 
+    from = app.agents.find_by(email: from.first) || app.app_users.fin_by(email: from.first)
+    
     opts = {
-      from: app.app_users.where(["email =?", from.first]).first,
-      message: message,
+      from: from,
+      message: {
+        html_content: message
+      },
       email_message_id: mail.message_id
     }
 
