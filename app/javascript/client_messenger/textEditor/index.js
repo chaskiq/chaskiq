@@ -6,11 +6,7 @@ import { convertToHTML } from 'draft-convert'
 import {
   CompositeDecorator,
   EditorState,
-  convertToRaw,
   convertFromRaw,
-  createEditorState,
-  getVisibleSelectionRect,
-  SelectionState
 } from 'draft-js'
 import MultiDecorator from 'draft-js-multidecorators'
 
@@ -44,14 +40,7 @@ import theme from './theme'
 import styled from '@emotion/styled'
 import CircularProgress from '@material-ui/core/CircularProgress';
 
-import {getFileMetadata, directUpload} from '../../src/shared/fileUploader' //'../shared/fileUploader'
-
-import {
-  CREATE_URL_UPLOAD,
-  CREATE_DIRECT_UPLOAD
-} from '../../src/graphql/mutations'
-
-import graphql from '../../src/graphql/client'
+import {getFileMetadata} from '../../src/shared/fileUploader' //'../shared/fileUploader'
 
 const EditorStylesExtend = styled(EditorStyles)`
 
@@ -129,7 +118,6 @@ const defaultProps = {
   },
 
 }
-
 
 export default class ArticleEditor extends Component {
 
@@ -254,41 +242,15 @@ export default class ArticleEditor extends Component {
   uploadFromUrl = (file, imageBlock)=>{
     const url = imageBlock.props.blockProps.data.get("url")
     this.setDisabled(true)
-    graphql(CREATE_URL_UPLOAD, {url: url} , {
-      success: (data)=>{
-        const {signedBlobId, headers, url, serviceUrl} = data.createUrlUpload.directUpload
-        imageBlock.uploadCompleted(serviceUrl)
-        //this.props.uploadHandler({signedBlobId, headers, url, serviceUrl, imageBlock})
-        //this.setDisabled(false)
-      },
-      error: ()=>{
-        debugger
-      }
-    })
+    this.props.handleUrlUpload(url)
   }
 
   uploadFromFile = (file, imageBlock)=>{
     this.setDisabled(true)
     getFileMetadata(file).then((input) => {
-      graphql(CREATE_DIRECT_UPLOAD, input, {
-        success: (data)=>{
-          const {signedBlobId, headers, url, serviceUrl} = data.createDirectUpload.directUpload
-          directUpload(url, JSON.parse(headers), file).then(
-            () => {
-              this.setDisabled(false)
-              imageBlock.uploadCompleted(serviceUrl)
-              this.props.uploadHandler({signedBlobId, headers, url, serviceUrl, imageBlock})
-          });
-        },
-        error: (error)=>{
-          debugger
-          this.setDisabled(false)
-          console.log("error on signing blob", error)
-        }
-      })
+      this.props.handleDirectUpload(file, imageBlock, input)
     });
   }
-
 
   widgetsConfig = () => {
     return [CodeBlockConfig(),
@@ -596,7 +558,6 @@ export default class ArticleEditor extends Component {
     const new_content = convertFromRaw(raw_as_json)
     return EditorState.createWithContent(new_content)
   }
-
 
   render(){
 

@@ -338,13 +338,52 @@ export default class TourManager extends Component {
     })
   }
 
+  handleDirectUpload = (file, imageBlock, input)=>{
+
+    let a = window.addEventListener('message', (e)=> {
+      if(e.data.type === "UPLOAD_COMPLETED"){
+        imageBlock.uploadCompleted(e.data.data.serviceUrl)
+        a = null
+      }
+    } , false);
+
+    this.props.ev.source.postMessage(
+      {
+        type: "UPLOAD_IMAGE",
+        file: file,
+        //imageBlock: imageBlock,
+        input: input
+    }, this.props.ev.origin)
+  }
+
+  handleUrlUpload = (url)=>{
+
+    let a = window.addEventListener('message', (e)=> {
+      if(e.data.type === "URL_UPLOAD_COMPLETED"){
+        imageBlock.uploadCompleted(e.data.data.serviceUrl)
+        a = null
+      }
+    } , false);
+
+    this.props.ev.source.postMessage(
+      {
+        type: "URL_UPLOAD",
+        file: file,
+        //imageBlock: imageBlock,
+        input: input
+    }, this.props.ev.origin)
+
+  }
+
   enableEditMode = (editElement)=>{
     let newEl = {
       target: editElement.target,
       disableBeacon: true,
       content: <React.Fragment>
-                <TextEditor 
+                <TextEditor
                   data={{}}
+                  handleUrlUpload={this.handleUrlUpload}
+                  handleDirectUpload={this.handleDirectUpload}
                   styles={
                     {
                       lineHeight: '2em',

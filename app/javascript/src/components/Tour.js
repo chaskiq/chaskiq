@@ -4,7 +4,13 @@ import { withRouter } from 'react-router-dom'
 import { connect } from 'react-redux'
 
 import graphql from "../graphql/client"
-import {UPDATE_CAMPAIGN} from '../graphql/mutations'
+import {
+  UPDATE_CAMPAIGN,   
+  CREATE_URL_UPLOAD,
+  CREATE_DIRECT_UPLOAD
+} from '../graphql/mutations'
+
+import {getFileMetadata, directUpload} from '../shared/fileUploader' //'../shared/fileUploader'
 
 import DraftRenderer from '../textEditor/draftRenderer'
 import DanteContainer from '../textEditor/editorStyles'
@@ -97,7 +103,7 @@ const NewStepBody = styled.div`
   height: 100%;
 `
 
-let __CHILD_WINDOW_HANDLE_2 = null
+window.__CHILD_WINDOW_HANDLE_2 = null
 
 
 class TourManager extends Component {
@@ -122,7 +128,7 @@ class TourManager extends Component {
       console.log(e)
 
       if(e.data.type === "ENABLE_MANAGER_TOUR")
-        __CHILD_WINDOW_HANDLE_2.postMessage(
+        window.__CHILD_WINDOW_HANDLE_2.postMessage(
           { 
             tour: this.props.data, 
             tourManagerEnabled: true
@@ -132,18 +138,27 @@ class TourManager extends Component {
 
 
       if(e.data.type === "GET_TOUR")
-        __CHILD_WINDOW_HANDLE_2.postMessage({
+        window.__CHILD_WINDOW_HANDLE_2.postMessage({
           type: "GET_TOUR" , 
           data: this.props.data
         }, "*");
 
       if(e.data.type === "SAVE_TOUR")
         this.updateData(e.data.steps, ()=>{
-          __CHILD_WINDOW_HANDLE_2.postMessage({
+          window.__CHILD_WINDOW_HANDLE_2.postMessage({
             type: "GET_TOUR" , 
             data: this.props.data
           }, "*");
         })
+
+
+      if(e.data.type === "UPLOAD_IMAGE"){
+        this.handleDirectUpload(e.data.file, e.data.input)
+      }
+
+      if(e.data.type === "URL_IMAGE"){
+        this.handleUrlUpload(e.data.file, e.data.input)
+      }
     } , false);
   }
 
@@ -173,12 +188,72 @@ class TourManager extends Component {
     })
   }
 
+  handleUrlUpload = (url)=>{
+    graphql(CREATE_URL_UPLOAD, {url: url} , {
+      success: (data)=>{
+        const {signedBlobId, headers, url, serviceUrl} = data.createUrlUpload.directUpload
+        //imageBlock.uploadCompleted(serviceUrl)
+        //this.props.uploadHandler({signedBlobId, headers, url, serviceUrl, imageBlock})
+        //this.setDisabled(false)
+        window.__CHILD_WINDOW_HANDLE_2.postMessage({
+          type: "URL_UPLOAD_COMPLETED" , 
+          data: {signedBlobId, headers, url, serviceUrl}
+        }, "*");
+      },
+      error: ()=>{
+        debugger
+      }
+    })
+  }
+
+  handleDirectUpload = (file, input)=>{
+    graphql(CREATE_DIRECT_UPLOAD, input, {
+      success: (data)=>{
+        const {signedBlobId, headers, url, serviceUrl} = data.createDirectUpload.directUpload
+        directUpload(url, JSON.parse(headers), file).then(
+          () => {
+
+            window.__CHILD_WINDOW_HANDLE_2.postMessage({
+              type: "UPLOAD_COMPLETED" , 
+              data: {signedBlobId, headers, url, serviceUrl}
+            }, "*");
+            
+            //this.setDisabled(false)
+            //imageBlock.uploadCompleted(serviceUrl)
+            //this.props.uploadHandler({signedBlobId, headers, url, serviceUrl, imageBlock})
+        });
+      },
+      error: (error)=>{
+        debugger
+        this.setDisabled(false)
+        console.log("error on signing blob", error)
+      }
+    })
+  }
+        /*
+      graphql(CREATE_DIRECT_UPLOAD, input, {
+        success: (data)=>{
+          const {signedBlobId, headers, url, serviceUrl} = data.createDirectUpload.directUpload
+          directUpload(url, JSON.parse(headers), file).then(
+            () => {
+              this.setDisabled(false)
+              imageBlock.uploadCompleted(serviceUrl)
+              //this.props.uploadHandler({signedBlobId, headers, url, serviceUrl, imageBlock})
+          });
+        },
+        error: (error)=>{
+          debugger
+          this.setDisabled(false)
+          console.log("error on signing blob", error)
+        }
+      })*/
+
   openTourManager = ()=>{
     this.setState({
       enabledTour: true
     }, () => {
 
-      __CHILD_WINDOW_HANDLE_2 = window.open(`${this.props.data.url}`, 
+      window.__CHILD_WINDOW_HANDLE_2 = window.open(`${this.props.data.url}`, 
       '_blank' )
       //'width=700,height=500,left=200,top=100');
 
