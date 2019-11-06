@@ -1,4 +1,7 @@
 import styled from '@emotion/styled'
+//import image from '../../images/chat-texture.jpg'
+import image from '../../images/memphis-colorful.png'
+//import image from '../../images/ignasi_pattern_s.png'
 
 
 export const RowColumnContainer = styled.div`
@@ -209,14 +212,14 @@ export const ChatContainer = styled.div`
     flex: 1 1 auto;
     flex-direction: column;
     //background: aliceblue;
+    background-image: url('${image}');
 
-    background: #555b611c;
+    //background: #555b611c;
     box-shadow: 1px 1px 4px 0px inset #5f5d5d94;
 
     @media (min-width: 320px) and (max-width: 480px) {
       height: 79vh;
     }
-    
   }
 
   .overflow {
@@ -230,6 +233,7 @@ export const ChatContainer = styled.div`
 
   .input{
     padding: 14px;
+    padding-top: 0px;
   }
 
 `

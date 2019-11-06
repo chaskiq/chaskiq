@@ -72,6 +72,19 @@ An the content of the campaign is managed with a state of the art wysiwyg text e
 </CORSConfiguration>
 ```
 
+### ATTRIBUTIONS
+
++ https://www.toptal.com/designers/subtlepatterns/one-in-a-million-s/
+
++ https://www.toptal.com/designers/subtlepatterns/memphis-colorful/
+
++ https://www.shutterstock.com/search/chat+pattern
+
++ https://www.freepik.com/free-vector/modern-comics-background-pattern-with-bombs-lightening-jagged-clouds-speech-bubbles_3817784.htm
+
++ <a href="https://www.freepik.com/free-photos-vectors/background">Background vector created by macrovector_official - www.freepik.com</a>
+
+<a href="https://www.freepik.com/free-photos-vectors/background">Background vector created by vvstudio - www.freepik.com</a>
 
 ### third party services
 + https://ipapi.co/#pricing
