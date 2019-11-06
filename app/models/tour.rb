@@ -51,7 +51,6 @@ class Tour < Message
     ]
   end
 
-
   def stats_fields
     [
       {
@@ -134,6 +133,24 @@ class Tour < Message
 
   def fill_steps
     self.steps = [] if self.steps.blank?
+  end
+
+  def self.broadcast_tour_to_user(user)
+
+    app = user.app
+    key = "#{app.key}-#{user.session_id}"
+    
+    tours = app.tours.availables_for(user)
+    tour = tours.first
+    
+    return if tour.blank? or !tour.available_for_user?(user.id)
+
+    MessengerEventsChannel.broadcast_to(key, {
+      type: "tours:receive", 
+      data: tour.as_json(only: [:id], methods: [:steps, :url])
+    }.as_json) if tours.any?
+     
+    return tours.any?
   end
 
 end

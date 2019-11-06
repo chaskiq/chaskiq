@@ -78,6 +78,7 @@ class BotTask < ApplicationRecord
       trackable: bot_task, 
       action: "bot_tasks.delivered"
     )
+
   end
 
   #def stats_fields

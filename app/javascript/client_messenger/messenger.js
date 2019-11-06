@@ -319,7 +319,7 @@ class Messenger extends Component {
               })
               break
             case "tours:receive":
-              this.receiveTours(data.data)
+              this.receiveTours([data.data])
               break
             case "triggers:receive":
               this.receiveTrigger(data.data)
