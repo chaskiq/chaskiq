@@ -9,15 +9,20 @@ class Tour < Message
   scope :in_time, ->{ where(['scheduled_at <= ? AND scheduled_to >= ?', Date.today, Date.today]) }
   
   scope :availables_for, ->(user){
-    enabled.in_time.joins("left outer join metrics 
-      on metrics.campaign_id = campaigns.id 
-      AND settings->'hidden_constraints' ? metrics.action
-      AND metrics.app_user_id = #{user.id}"
-      ).where("metrics.id is null")
-  }
+    #enabled.in_time.joins("left outer join metrics 
+    #  on metrics.campaign_id = campaigns.id 
+    #  AND settings->'hidden_constraints' ? metrics.action
+    #  AND metrics.app_user_id = #{user.id}"
+    #  ).where("metrics.id is null")
 
-  #AND metrics.trackable_type = 'AppUser' 
-  #AND metrics.trackable_id = #{user.id}"
+
+    ## THIS WILL RETURN CAMPAINGS ON EMPTY METRICS FOR USER
+    enabled.in_time.joins("left outer join metrics 
+      on metrics.trackable_type = 'Message'
+      AND metrics.trackable_id = campaigns.id
+      AND metrics.app_user_id = #{user.id}"
+    ).where("metrics.id is null")
+  }
 
   def config_fields
     [
@@ -30,14 +35,17 @@ class Tour < Message
       {name: "url", type: 'string', grid: {xs: 12, sm: 12 } },
 
       {name: "description", type: 'text', grid: {xs: 12, sm: 12 } },
-      {
-        name: "hiddenConstraints", 
-        type: "select", 
-        options: ["close", "click", "viewed" ], 
-        multiple: true,
-        default: "click",
-        grid: {xs: 12, sm: 12 }
-      },
+      #{name: "hiddenConstraints", type: "select", 
+      #  options: [
+      #    {label: "close", value: "close"}, 
+      #    {label: "open", value: "open"}, 
+      #    {label: "finish", value: "finish"},
+      #    {label: "skip", value: "skip"}, 
+      #  ], 
+      #  multiple: true,
+      #  default: "open",
+      #  grid: {xs: 12, sm: 12 }
+      #},
       {name: "scheduledAt", type: 'datetime', grid: {xs: 12, sm: 6 } },
       {name: "scheduledTo", type: 'datetime', grid: {xs: 12, sm: 6 } },
     ]
@@ -47,14 +55,14 @@ class Tour < Message
   def stats_fields
     [
       {
-        name: "DeliverRateCount", label: "DeliverRateCount", 
-        keys: [{name: "viewed", color: "#F4F5F7"}, 
-              {name: "click", color: "#0747A6"}] 
+        name: "DeliverRateCount", label: "Deliver rate", 
+        keys: [{name: "open", color: "#F4F5F7"}, 
+              {name: "skip", color: "#0747A6"}] 
       },
       {
-        name: "ClickRateCount", label: "ClickRateCount", 
-        keys: [{name: "viewed" , color: "#F4F5F7"}, 
-                {name: "close", color: "#0747A6"}] 
+        name: "ClickRateCount", label: "Open/Finish rate", 
+        keys: [{name: "open" , color: "#F4F5F7"}, 
+                {name: "finish", color: "#0747A6"}] 
       },
     ]
   end

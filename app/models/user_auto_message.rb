@@ -18,9 +18,10 @@ class UserAutoMessage < Message
     #  ).where("metrics.id is null")
 
 
-    ## THIS WILL RETURN CAMPAINGS ON EMPTY METRICS FROR USER
+    ## THIS WILL RETURN CAMPAINGS ON EMPTY METRICS FOR USER
     enabled.in_time.joins("left outer join metrics 
       on metrics.trackable_type = 'Message'
+      AND metrics.trackable_id = campaigns.id
       AND metrics.app_user_id = #{user.id}"
     ).where("metrics.id is null")
   }
@@ -35,15 +36,15 @@ class UserAutoMessage < Message
       {name: "name", type: 'string' , grid: {xs: 12, sm: 12 } } ,
       {name: "subject", type: 'text' , grid: {xs: 12, sm: 12 } } ,
       {name: "description", type: 'text', grid: {xs: 12, sm: 12 } },
-      {name: "hiddenConstraints", type: "select", 
-        options: [{label: "close", value: "close"}, 
-          {label: "click", value: "click"}, 
-          {label: "viewed", value: "viewed"} 
-        ], 
-        multiple: true,
-        default: "click",
-        grid: {xs: 12, sm: 12 }
-      },
+      #{name: "hiddenConstraints", type: "select", 
+      #  options: [{label: "close", value: "close"}, 
+      #    {label: "click", value: "click"}, 
+      #    {label: "viewed", value: "viewed"} 
+      #  ], 
+      #  multiple: true,
+      #  default: "click",
+      #  grid: {xs: 12, sm: 12 }
+      #},
       {name: "scheduledAt", type: 'datetime', grid: {xs: 12, sm: 6 } },
       {name: "scheduledTo", type: 'datetime', grid: {xs: 12, sm: 6 } },
     ]
