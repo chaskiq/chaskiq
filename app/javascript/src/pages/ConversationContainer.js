@@ -301,7 +301,7 @@ class ConversationContainer extends Component {
                         app={this.props.app}
                         events={this.props.events}
                         conversation={this.props.conversation}
-                        showUserDrawer={this.showUserDrawer}
+                        showUserDrawer={this.props.actions.showUserDrawer}
                         currentUser={this.props.currentUser}
                         {...props}
                       />

@@ -22,6 +22,7 @@ const useStyles = makeStyles(theme => ({
   root: {
     flexGrow: 1,
     backgroundColor: theme.palette.background.paper,
+    boxShadow: '-1px 1px 9px #ccc'
   },
 }));
 
