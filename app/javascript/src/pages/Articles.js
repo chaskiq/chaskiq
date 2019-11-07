@@ -43,7 +43,8 @@ import {
   CREATE_ARTICLE, 
   EDIT_ARTICLE, 
   DELETE_ARTICLE,
-  ARTICLE_SETTINGS_UPDATE
+  ARTICLE_SETTINGS_UPDATE,
+  ARTICLE_SETTINGS_DELETE_LANG
 } from '../graphql/mutations'
 
 import { withStyles } from '@material-ui/core/styles';
@@ -109,6 +110,25 @@ class Articles extends Component {
         this.setState({
           settings: data.articleSettingsUpdate.settings,
           errors: data.articleSettingsUpdate.errors
+        }, ()=>{
+          this.props.dispatch(successMessage("article settings updated"))
+        })
+      },
+      error: (e)=>{
+        debugger
+      }
+    })
+  }
+
+  deleteLang = (item)=>{
+    graphql(ARTICLE_SETTINGS_DELETE_LANG, {
+      appKey: this.props.app.key,
+      langItem: item
+    }, {
+      success: (data)=>{
+        this.setState({
+          settings: data.articleSettingsDeleteLang.settings,
+          errors: data.articleSettingsDeleteLang.errors
         }, ()=>{
           this.props.dispatch(successMessage("article settings updated"))
         })
@@ -201,6 +221,7 @@ class Articles extends Component {
                           match={props.match}
                           history={props.history}
                           update={this.updateSettings}
+                          deleteLang={this.deleteLang}
                         />
               }} 
             />
