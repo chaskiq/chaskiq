@@ -36,8 +36,8 @@ class MessengerEventsChannel < ApplicationCable::Channel
       process_next_step(message)
 
       if data["submit"].present?
-        opts = [:email, :name, :first_name, :last_name, :etc]
-        @app_user.update(data.slice(opts)) # some condition from settings here?
+        opts = %w(email name first_name last_name etc)
+        @app_user.update(data["submit"].slice(*opts)) # some condition from settings here?
         data_submit(data["submit"], message)
       end
 

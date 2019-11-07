@@ -21,7 +21,9 @@ i18n
           not_seen: "not seen",
           by: "By",
           dismiss: "Dismiss",
+          submit: "Submit",
           article_meta: "By: <strong>{{name}}</strong> on <0>{{date}}</0>",
+          enter_your: "Enter your {{field}}",
 
           "reply_time.auto": "The team will respond as soon as possible", 
           "reply_time.minutes": "The team usually responds in minutes",
@@ -49,6 +51,8 @@ i18n
           not_seen: "No visto",
           by: "Por",
           dismiss: "Descartar",
+          submit: "Enviar",
+          enter_your: "Escribe tu {{field}}",
           article_meta: "Por: <strong>{{name}}</strong> en <0>{{date}}</0>",
           "reply_time.auto": "El equipo responderá lo antes posible", 
           "reply_time.minutes": "El equipo suele responder en cuestión de minutos.",
