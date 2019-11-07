@@ -248,7 +248,6 @@ function Navigator(props, context) {
 
     return (
       categories.map(({ id, label, icon, children }) => {
-        console.log(expanded , id)
         return <ExpansionPanel 
           key={id}
           expanded={expanded === id} 
