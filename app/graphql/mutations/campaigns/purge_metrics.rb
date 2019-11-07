@@ -12,7 +12,7 @@ module Mutations
         find_app(app_key)
         set_campaign(id)
         #todo: strict permit here!
-        @campaign.metrics.delete_all()
+        @campaign.metrics.destroy_all
         { campaign: @campaign , errors: @campaign.errors }
       end
 

@@ -307,7 +307,7 @@ class AllArticles extends React.Component {
                 <LinkButton 
                   variant={'contained'} 
                   color={'primary'} 
-                  to={`/apps/${this.props.app.key}/articles/new`}>
+                  onClick={()=> this.props.history.push(`/apps/${this.props.app.key}/articles/new`)}>
                   <AddIcon />
                   {" New article"}
                 </LinkButton>
