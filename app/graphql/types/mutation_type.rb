@@ -50,6 +50,7 @@ module Types
     field :changeCollectionArticle, mutation: Mutations::Articles::ChangeCollectionArticle
     field :addArticlesToCollection, mutation: Mutations::Articles::AddArticlesToCollection
     
+    field :articleSettingsDeleteLang, mutation: Mutations::Articles::ArticleSettingsDeleteLang
     field :articleSettingsUpdate, mutation: Mutations::Articles::ArticleSettingsUpdate
     
     field :articleSectionCreate, mutation: Mutations::Articles::Sections::CreateSection

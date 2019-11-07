@@ -945,6 +945,35 @@ export const ARTICLE_SETTINGS_UPDATE = `
   }
 `;
 
+export const ARTICLE_SETTINGS_DELETE_LANG = `
+  mutation ArticleSettingsDeleteLan($appKey: String!, $langItem: String!){
+    articleSettingsDeleteLang( 
+      appKey: $appKey,
+      langItem: $langItem
+    ){
+      settings{
+        id
+        subdomain
+        siteTitle
+        siteDescription
+        website
+        googleCode
+        color
+        facebook
+        twitter
+        linkedin
+        credits
+        logo
+        headerImage
+        translations
+      }
+      errors
+    }
+  }
+`;
+
+
+
 
 export const CREATE_BOT_TASK = `
   mutation CreateBotTask($appKey: String!, $params: Json!){

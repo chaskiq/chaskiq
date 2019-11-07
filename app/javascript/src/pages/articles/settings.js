@@ -46,6 +46,7 @@ import FieldRenderer from '../../shared/FormFields'
 import ContentHeader from '../../components/ContentHeader'
 import Content from '../../components/Content'
 import langsOptions from '../../shared/langsOptions'
+import DeleteDialog from '../../components/deleteDialog'
 
 
 
@@ -261,6 +262,7 @@ class Settings extends Component {
                   settings={this.props.settings}
                   //currentUser={this.props.currentUser}
                   data={this.props.settings}
+                  deleteLang={this.props.deleteLang.bind(this)}
                   update={this.props.update.bind(this)}
                   //fetchApp={this.fetchApp}
                   //classes={this.props.classes}
@@ -382,10 +384,12 @@ class SettingsForm extends Component{
   } 
 }
 
-function LanguageForm({settings, update}){
+function LanguageForm({settings, update, deleteLang}){
 
   const [isOpen, setIsOpen] = React.useState(false)
   const [selectedLang, setSelectedLang] = React.useState(null)
+  const [openDeleteDialog, setOpenDeleteDialog] = React.useState(null)
+
   const formRef = React.createRef();
 
   function handleChange(value){
@@ -407,7 +411,7 @@ function LanguageForm({settings, update}){
       <FormDialog 
         open={isOpen}
         //contentText={"lipsum"}
-        titleContent={"Save Assigment rule"}
+        titleContent={"Add new language to Help center"}
         formComponent={
           //!loading ?
             <form>
@@ -482,6 +486,7 @@ function LanguageForm({settings, update}){
                 <TableCell>Locale</TableCell>
                 <TableCell align="left">Title</TableCell>
                 <TableCell align="left">Description</TableCell>
+                <TableCell align="left"></TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
@@ -514,6 +519,12 @@ function LanguageForm({settings, update}){
                       margin="normal"
                     />
                   </TableCell>
+
+                  <TableCell align="left">
+                    <Button color="secondary" onClick={()=>setOpenDeleteDialog(row)}>
+                      delete
+                    </Button>
+                  </TableCell>
                 
                 </TableRow>
               ))}
@@ -531,6 +542,24 @@ function LanguageForm({settings, update}){
       </form>
 
       {renderLangDialog()}
+
+
+      {
+        openDeleteDialog && <DeleteDialog 
+          open={openDeleteDialog}
+          title={`Delete translation "${openDeleteDialog.locale}"`} 
+          closeHandler={()=>{
+            setOpenDeleteDialog(null)
+          }}
+          deleteHandler={()=> { 
+            deleteLang(openDeleteDialog.locale)
+            }}>
+          <Typography variant="subtitle2">
+            We will destroy translation and hide any 
+            articles with the "{openDeleteDialog.locale}" language
+          </Typography>
+        </DeleteDialog>
+      }
 
     </div>
   )
