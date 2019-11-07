@@ -118,8 +118,6 @@ function CustomizedSnackbars(props) {
         }
   }
 
-  console.log(open)
-
   return (
     <div>
       

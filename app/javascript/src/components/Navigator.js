@@ -201,7 +201,7 @@ function Navigator(props, context) {
     },
 
     {
-      id: 'Bot',
+      id: 'Routing Bots',
       icon: <DeviceHubOutlined style={{ fontSize: 30 }}/>,
       children: [
         { id: 'For Leads', icon: <AssignmentIndIcon/>, url: `${appid}/bots/leads`, active: isActivePage("botleads")},

@@ -1396,6 +1396,7 @@ class Conversation extends Component {
                submitAppUserData={this.props.submitAppUserData.bind(this)}
                clickHandler={this.appPackageClickHandler.bind(this)}
                appPackageSubmitHandler={this.appPackageSubmitHandler.bind(this)}
+               t={this.props.t}
                {...o}
               />
   }
@@ -1881,7 +1882,7 @@ class AppPackageBlock extends Component {
     
     switch(item.element){
       case "button":
-        return <p>{item.label}</p>
+        return <p>{item.name}</p>
       default:
         if (this.props.message.blocks.type === "data_retrieval"){
           return Object.keys(this.props.message.data).map((k)=>{
@@ -1896,18 +1897,18 @@ class AppPackageBlock extends Component {
   renderElement = (item, index)=>{
     const element = item.element
     const isDisabled = this.props.message.state === "replied"
-
+    const {t} = this.props
     switch(item.element){
     case "separator":
       return <hr key={index}/>
     case "input":
       return <div className={"form-group"} key={index}>
-              {item.label ? <label>{item.label}</label> : null }
+              <label>{t("enter_your", {field: item.name })}</label>
               <input 
                 disabled={isDisabled}
                 type={item.type} 
                 name={item.name}
-                placeholder={item.placeholder}
+                placeholder={t("enter_your", {field: item.name })}
                 //onKeyDown={(e)=>{ e.keyCode === 13 ? 
                 //  this.handleStepControlClick(item) : null
                 //}}
@@ -1916,7 +1917,7 @@ class AppPackageBlock extends Component {
                       key={index} 
                       style={{alignSelf: 'flex-end'}} 
                       type={"submit"}>
-                {item.label}
+                {t("submit")}
               </button>
              </div>
 
@@ -1925,7 +1926,7 @@ class AppPackageBlock extends Component {
                      key={index} 
                      style={{alignSelf: 'flex-end'}} 
                      type={"submit"}>
-          {item.label}
+          {t("submit")}
         </button>
     case "button":
       return <button 

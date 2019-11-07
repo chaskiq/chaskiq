@@ -187,7 +187,7 @@ class ShowAppContainer extends Component {
           console.log("disconnected from events")
         },
         received: (data)=> {
-          console.log(`received`, data)
+          //console.log(`received`, data)
           switch(data.type){
             case "conversation_part":
               return this.props.dispatch(appendConversation(camelizeKeys(data.data)))
@@ -418,6 +418,7 @@ class ShowAppContainer extends Component {
                     history={props.history}
                     currentUser={this.props.current_user}
                     classes={props.classes}
+                    actions={this.actions()}
                     {...props}
                   />
             )} /> 

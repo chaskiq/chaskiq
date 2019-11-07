@@ -270,7 +270,7 @@ const BotTaskCreate = ({app, submit, history, match, mode})=>{
   )
 }
 
-const BotContainer = ({app, match, history, dispatch})=>{
+const BotContainer = ({app, match, history, dispatch, actions})=>{
 
   useEffect( ()=>{
     dispatch(setCurrentSection("Bot"))
@@ -320,8 +320,9 @@ const BotContainer = ({app, match, history, dispatch})=>{
       render={(props) => {
           return <BotEditor app={app} 
             mode={"leads"}
-          match={match} 
-          {...props}
+            match={match} 
+            actions={actions}
+            {...props}
         />
       }} 
     /> 

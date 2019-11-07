@@ -157,7 +157,7 @@ const PathDialog = ({open, close, isOpen, submit})=>{
   )
 }
 
-const BotEditor = ({match, app, dispatch, mode})=>{
+const BotEditor = ({match, app, dispatch, mode, actions})=>{
   const [botTask, setBotTask] = useState({})
   const [errors, setErrors] = useState({})
   const [paths, setPaths] = useState([])
@@ -224,13 +224,13 @@ const BotEditor = ({match, app, dispatch, mode})=>{
       type: "messages",
       messages: [{
         app_user: {
-          display_name: "miguel michelson",
-          email: "miguelmichelson@gmail.com",
+          display_name: "bot",
+          email: "bot@chasqik.com",
           id: 1,
           kind: "agent" 
         },
         serialized_content: '{"blocks":[{"key":"9oe8n","text":"","type":"unstyled","depth":0,"inlineStyleRanges":[],"entityRanges":[],"data":{}}],"entityMap":{}}',
-        html_content: "hola", 
+        html_content: "--***--", 
       }]
     }
 
@@ -377,6 +377,7 @@ const BotEditor = ({match, app, dispatch, mode})=>{
                                             app={app} 
                                             data={botTask}
                                             getStats={getStats}
+                                            actions={actions}
                                             />
       case 1:
         return <BotTaskSetting 
@@ -423,7 +424,7 @@ const BotEditor = ({match, app, dispatch, mode})=>{
         }
       </List>
       <Button 
-        variant={"outlined"} 
+        variant={"contained"} 
         onClick={showPathDialog}
         color="primary">
         <AddIcon />
@@ -722,7 +723,9 @@ function AgentSelector({app, updateAction, removeAction, action, index}){
 }
 
 const PathList = ({path, handleSelection})=>{
-  return <ListItem button onClick={(e)=> handleSelection(path)}>
+  return <ListItem button 
+                   onClick={(e)=> handleSelection(path)} 
+                   variant={"outlined"}>
           <ListItemText primary={path.title} />
         </ListItem>
 }
