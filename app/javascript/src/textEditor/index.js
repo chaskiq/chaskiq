@@ -71,6 +71,10 @@ const EditorStylesExtend = styled(EditorStyles)`
   blockquote {
     margin-left: 20px;
   }
+  
+  .dante-menu-input{
+    background: #333333;
+  }
 `
 
 const defaultProps = {

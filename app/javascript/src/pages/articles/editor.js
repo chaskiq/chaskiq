@@ -1,29 +1,8 @@
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 
-import EditorStyles from 'Dante2/package/es/styled/base'
 import styled from '@emotion/styled'
-//import _ from "lodash"
 import TextEditor from '../../textEditor'
-
-const EditorStylesExtend = styled(EditorStyles)`
-
-  line-height: 2em;
-  font-size: 1.2em; 
-
-  .graf--p{
-    line-height: 2em;
-    font-size: 1.2em; 
-  }
-
-  .dante-menu{
-    z-index: 2000;
-  }
-
-  blockquote {
-    margin-left: 20px;
-  }
-`
 
 export default class ArticleEditor extends Component {
 
@@ -72,32 +51,32 @@ export default class ArticleEditor extends Component {
     const serializedContent = this.props.article.content ? this.props.article.content.serialized_content : null
 
     return <TextEditor 
-                      campaign={true} 
-                      uploadHandler={this.props.uploadHandler}
-                      serializedContent={serializedContent }
-                      loading={this.props.loading}
-                      read_only={this.state.read_only}
-                      toggleEditable={()=>{
-                        this.setState({read_only: !this.state.read_only})
-                      }}
-                      data={
-                          {
-                            serialized_content: serializedContent
-                          }
-                        }
-                      styles={
-                        {
-                          lineHeight: '2em',
-                          fontSize: '1.2em'
-                        }
-                      }
-                      saveHandler={this.saveHandler} 
-                      updateState={({status, statusButton, content})=> {
-                        console.log("get content", content)
-                        this.saveContent(content )
-                      }
+                campaign={true} 
+                uploadHandler={this.props.uploadHandler}
+                serializedContent={serializedContent }
+                loading={this.props.loading}
+                read_only={this.state.read_only}
+                toggleEditable={()=>{
+                  this.setState({read_only: !this.state.read_only})
+                }}
+                data={
+                    {
+                      serialized_content: serializedContent
                     }
-                  />  
+                  }
+                styles={
+                  {
+                    lineHeight: '2em',
+                    fontSize: '1.2em'
+                  }
+                }
+                saveHandler={this.saveHandler} 
+                updateState={({status, statusButton, content})=> {
+                  console.log("get content", content)
+                  this.saveContent(content )
+                }
+              }
+            />
   }
 
 }
