@@ -88,6 +88,7 @@ export const AGENT = `
             lastMessage{
               source
               createdAt
+              readAt
               message{
                 htmlContent
                 textContent
@@ -160,6 +161,7 @@ export const CONVERSATIONS = `
             stepId
             triggerId
             fromBot
+            readAt
             message{
               blocks
               data
@@ -276,6 +278,7 @@ export const CONVERSATION_WITH_LAST_MESSAGE=`
           source
           triggerId
           fromBot
+          readAt
           message{
             blocks
             data
@@ -367,6 +370,7 @@ query Campaigns($appKey: String!, $id: Int!, $page: Int, $per: Int){
           }
           lastMessage{
             createdAt
+            readAt
             appUser{
               email
               id
