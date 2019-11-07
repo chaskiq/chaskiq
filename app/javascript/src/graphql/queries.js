@@ -458,6 +458,7 @@ query Campaign($appKey: String!, $mode: String!, $id: String!){
       timezone
       statsFields
       configFields
+      hiddenConstraints
       fromName
       fromEmail
       replyEmail

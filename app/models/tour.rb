@@ -9,19 +9,20 @@ class Tour < Message
   scope :in_time, ->{ where(['scheduled_at <= ? AND scheduled_to >= ?', Date.today, Date.today]) }
   
   scope :availables_for, ->(user){
-    #enabled.in_time.joins("left outer join metrics 
-    #  on metrics.campaign_id = campaigns.id 
-    #  AND settings->'hidden_constraints' ? metrics.action
-    #  AND metrics.app_user_id = #{user.id}"
-    #  ).where("metrics.id is null")
-
-
-    ## THIS WILL RETURN CAMPAINGS ON EMPTY METRICS FOR USER
     enabled.in_time.joins("left outer join metrics 
       on metrics.trackable_type = 'Message'
       AND metrics.trackable_id = campaigns.id
-      AND metrics.app_user_id = #{user.id}"
-    ).where("metrics.id is null")
+      AND metrics.app_user_id = #{user.id}
+      AND settings->'hidden_constraints' ? metrics.action"
+      ).where("metrics.id is null")
+
+
+    ## THIS WILL RETURN CAMPAINGS ON EMPTY METRICS FOR USER
+    #enabled.in_time.joins("left outer join metrics 
+    #  on metrics.trackable_type = 'Message'
+    #  AND metrics.trackable_id = campaigns.id
+    #  AND metrics.app_user_id = #{user.id}"
+    #).where("metrics.id is null")
   }
 
   def config_fields
@@ -35,17 +36,17 @@ class Tour < Message
       {name: "url", type: 'string', grid: {xs: 12, sm: 12 } },
 
       {name: "description", type: 'text', grid: {xs: 12, sm: 12 } },
-      #{name: "hiddenConstraints", type: "select", 
-      #  options: [
-      #    {label: "close", value: "close"}, 
-      #    {label: "open", value: "open"}, 
-      #    {label: "finish", value: "finish"},
-      #    {label: "skip", value: "skip"}, 
-      #  ], 
-      #  multiple: true,
-      #  default: "open",
-      #  grid: {xs: 12, sm: 12 }
-      #},
+      {name: "hiddenConstraints", type: "select", 
+        options: [
+          {label: "open", value: "open"},
+          {label: "close", value: "close"}, 
+          {label: "finish", value: "finish"},
+          {label: "skip", value: "skip"}, 
+        ], 
+        multiple: true,
+        default: "open",
+        grid: {xs: 12, sm: 12 }
+      },
       {name: "scheduledAt", type: 'datetime', grid: {xs: 12, sm: 6 } },
       {name: "scheduledTo", type: 'datetime', grid: {xs: 12, sm: 6 } },
     ]
@@ -139,7 +140,7 @@ class Tour < Message
 
     app = user.app
     key = "#{app.key}-#{user.session_id}"
-    
+
     tours = app.tours.availables_for(user)
     tour = tours.first
     
