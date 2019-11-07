@@ -250,9 +250,9 @@ export default class Renderer extends Component {
   }*/
 
   renderWarning() {
-    if(this.props.message.message.htmlContent){
+    if(this.props.html){
       return <div dangerouslySetInnerHTML={
-        {__html: this.props.message.message.htmlContent }
+        {__html: this.props.html }
       }/>
     }else{
       return <div>---</div>;
