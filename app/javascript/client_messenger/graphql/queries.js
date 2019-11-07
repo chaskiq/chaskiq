@@ -57,6 +57,7 @@ export const CONVERSATIONS = `
             stepId
             triggerId
             fromBot
+            readAt
             message{
               htmlContent
               textContent
