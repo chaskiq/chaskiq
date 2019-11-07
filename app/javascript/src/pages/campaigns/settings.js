@@ -38,7 +38,9 @@ export default class CampaignSettings extends Component {
   onSubmitHandler = (e)=>{
     e.preventDefault()
     const serializedData = serialize(this.formRef, { hash: true, empty: true })
-    const data = toSnakeCase(serializedData)
+    let data = toSnakeCase(serializedData).campaign
+    
+    data["hidden_constraints"] = data.hidden_constraints.split(",")
     this.props.match.params.id === "new" ? 
       this.create(data) : this.update(data)
   }
@@ -50,7 +52,7 @@ export default class CampaignSettings extends Component {
       appKey: this.props.app.key,
       mode: this.props.mode,
       operation: "create",
-      campaignParams: data.campaign
+      campaignParams: data
     }, {
       success: (data) => {
         this.setState({
@@ -75,10 +77,8 @@ export default class CampaignSettings extends Component {
     const params = {
       appKey: this.props.app.key,
       id: this.state.data.id,
-      campaignParams: data.campaign
+      campaignParams: data
     }
-
-    console.log(this.props)
 
     graphql(UPDATE_CAMPAIGN, params, {
       success: (data)=>{

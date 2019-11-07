@@ -11,6 +11,7 @@ module Types
     field :description, String, null: true
     field :sent, Boolean, null: true
     field :config_fields, Types::JsonType, null: true
+    field :hidden_constraints, Types::JsonType, null: true
     field :stats_fields, Types::JsonType, null: true
     field :name, String, null: true
     field :timezone, String, null: true

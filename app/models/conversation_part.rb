@@ -60,7 +60,8 @@ class ConversationPart < ApplicationRecord
     return if self.read_at.present?
     self.read_at = Time.now
     if self.save
-      self.conversation.main_participant.new_messages.decrement
+      val = self.conversation.main_participant.new_messages.value
+      self.conversation.main_participant.new_messages.decrement unless val < 1
       #todo: decrement agent
       notify_to_channels
     end
@@ -82,9 +83,13 @@ class ConversationPart < ApplicationRecord
     )
   end
 
+  def broadcast_key
+    "#{self.conversation.app.key}-#{self.conversation.main_participant.session_id}"
+  end
+
   def notify_app_users
     MessengerEventsChannel.broadcast_to(
-      "#{self.conversation.app.key}-#{self.conversation.main_participant.session_id}",
+      broadcast_key,
       { 
         type: "conversations:conversation_part",
         data: self.as_json
@@ -92,7 +97,7 @@ class ConversationPart < ApplicationRecord
     )
 
     MessengerEventsChannel.broadcast_to(
-      "#{self.conversation.app.key}-#{self.conversation.main_participant.session_id}",
+      broadcast_key,
       { 
         type: "conversations:unreads",
         data: self.conversation.main_participant.new_messages.value
