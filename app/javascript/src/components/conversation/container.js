@@ -194,6 +194,7 @@ class ConversationContainerShow extends Component {
     return userOrAdmin === "admin" ?
       <DraftRenderer key={key} 
         raw={JSON.parse(o.message.serializedContent)}
+        html={o.message.htmlContent}
       /> : 
     
       <div  
