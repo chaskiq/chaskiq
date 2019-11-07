@@ -31,13 +31,13 @@ RSpec.describe Segment, type: :model do
     }
 
     it "add predicate" do
-      app.segments.create(predicates: predicates)
-      expect(app.segments.first.predicates.size).to be == 1
+      segment = app.segments.create(predicates: predicates)
+      expect(segment.predicates.size).to be == 1
     end
 
     it "add 2 predicates" do
-      app.segments.create(predicates: predicates2)
-      expect(app.segments.first.predicates.size).to be == 2
+      segment = app.segments.create(predicates: predicates2)
+      expect(segment.predicates.size).to be == 2
     end
 
 

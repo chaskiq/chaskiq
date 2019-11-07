@@ -55,25 +55,19 @@ function getStyles(name, that) {
 }
 
 class MultipleSelect extends React.Component {
-  state = {
-    name: [],
-  };
+
+
+  constructor(props){
+    super(props)
+    
+    this.state = {
+      name: this.props.values
+    }
+
+  }
 
   handleChange = event => {
     this.setState({ name: event.target.value });
-  };
-
-  handleChangeMultiple = event => {
-    const { options } = event.target;
-    const value = [];
-    for (let i = 0, l = options.length; i < l; i += 1) {
-      if (options[i].selected) {
-        value.push(options[i].value);
-      }
-    }
-    this.setState({
-      name: value,
-    });
   };
 
   render() {

@@ -138,4 +138,8 @@ class Campaign < Message
     }
   end
 
+  def hidden_constraints
+    nil
+  end
+
 end

@@ -33,10 +33,14 @@ RSpec.describe Conversation, type: :model do
     }
   }
 
-  #before do
+  before do
+    ActiveJob::Base.queue_adapter = :test
+    ActiveJob::Base.queue_adapter.perform_enqueued_at_jobs = false
+    #Rails.application.config.active_job.queue_adapter = :test
+    
   #  ActiveJob::Base.queue_adapter = :sidekiq
   #  ActiveJob::Base.queue_adapter.perform_enqueued_at_jobs = true
-  #end
+  end
 
   it "create_conversation from app user" do
     app.start_conversation({
@@ -53,9 +57,10 @@ RSpec.describe Conversation, type: :model do
       message: {text_content: "aa"}, 
       from: app_user
     })
+
     c = app.conversations.first
 
-    expect(c.main_participant.new_messages.value).to be == 1
+    expect(c.main_participant.new_messages.value).to be == 0
 
     c.messages.first.notify_read!
 
@@ -85,8 +90,21 @@ RSpec.describe Conversation, type: :model do
     it "add message" do
       expect(conversation.events.count).to be == 1
       expect(conversation.messages.count).to be == 1
+
+      message = conversation.messages.last
+
       expect(EventsChannel).to receive(:broadcast_to)
-      expect(MessengerEventsChannel).to receive(:broadcast_to)
+      
+      expect(MessengerEventsChannel).to receive(:broadcast_to).with(
+        message.broadcast_key,
+        hash_including(:type=> "conversations:conversation_part")
+      )
+
+      expect(MessengerEventsChannel).to receive(:broadcast_to).with(
+        message.broadcast_key,
+        hash_including(:type=> "conversations:unreads")
+      )
+
       #expect_any_instance_of(ConversationPart).to receive(:enqueue_email_notification)
       message = conversation.add_message({
         from: app_user,
@@ -100,7 +118,19 @@ RSpec.describe Conversation, type: :model do
       expect(conversation.events.count).to be == 1
       expect(conversation.messages.count).to be == 1
       expect(EventsChannel).to receive(:broadcast_to)
-      expect(MessengerEventsChannel).to receive(:broadcast_to)
+      
+      message = conversation.messages.last
+      
+      expect(MessengerEventsChannel).to receive(:broadcast_to).with(
+        message.broadcast_key,
+        hash_including(:type=> "conversations:conversation_part")
+      )
+
+      expect(MessengerEventsChannel).to receive(:broadcast_to).with(
+        message.broadcast_key,
+        hash_including(:type=> "conversations:unreads")
+      )
+
       expect_any_instance_of(ConversationPart).to receive(:enqueue_email_notification)
       message = conversation.add_message({
         from: app_user,
