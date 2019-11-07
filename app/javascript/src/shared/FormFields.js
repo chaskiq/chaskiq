@@ -155,6 +155,7 @@ class FieldRenderer extends React.Component {
 
           return <MultipleSelect 
                   data={data} 
+                  values={props.data[data.name]}
                   defaultData={defaultData}
                   variant="outlined"
                   //margin="normal"
