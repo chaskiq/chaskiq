@@ -13,6 +13,10 @@ const NewEditorStyles = styled(EditorStyles)`
     min-width: 320px;
   }
 
+  .dante-menu-input{
+    background: #333333;
+  }
+
 
   button.inlineTooltip-button.scale {
     background: #fff;
