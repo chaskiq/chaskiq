@@ -14,7 +14,7 @@ import Checkbox from '@material-ui/core/Checkbox'
 
 
 import FormDialog from '../../../components/FormDialog'
-import {setCurrentSection} from '../../../actions/navigation'
+import {setCurrentSection, setCurrentPage} from '../../../actions/navigation'
 import { withStyles } from '@material-ui/core/styles';
 
 import ScrollableTabsButtonForce from '../../../components/scrollingTabs'
@@ -78,7 +78,11 @@ class CollectionDetail extends Component {
   componentDidMount(){
     this.getCollection()
     this.props.dispatch(
-      setCurrentSection('Help Center')
+      setCurrentSection('HelpCenter')
+    )
+
+    this.props.dispatch(
+      setCurrentPage('collections')
     )
   }
 
@@ -189,7 +193,7 @@ class CollectionDetail extends Component {
   deleteSection = (section)=>{
     graphql(ARTICLE_SECTION_DELETE, {
       appKey: this.props.app.key,
-      id: section.id
+      id: `${section.id}`
     }, {
       success: (data)=>{
         const section = data.articleSectionDelete.section
