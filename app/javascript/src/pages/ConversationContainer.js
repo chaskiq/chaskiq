@@ -162,10 +162,9 @@ class ConversationContainer extends Component {
   }
 
   renderConversationContent = (o)=>{
-    if(o.lastMessage.message.htmlContent)
-      return sanitizeHtml(o.lastMessage.message.htmlContent).substring(0, 250)
-
-    debugger
+    const message = o.lastMessage.message
+    if(message.htmlContent)
+      return sanitizeHtml(message.htmlContent).substring(0, 250)
   }
 
   renderConversations = (appId)=>{

@@ -90,6 +90,9 @@ export const AGENT = `
               createdAt
               readAt
               message{
+                blocks
+                data
+                state
                 htmlContent
                 textContent
                 serializedContent
@@ -378,6 +381,9 @@ query Campaigns($appKey: String!, $id: Int!, $page: Int, $per: Int){
               displayName
             }
             message{
+              blocks
+              data
+              state
               serializedContent
               htmlContent
               textContent
