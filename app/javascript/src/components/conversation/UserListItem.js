@@ -15,6 +15,7 @@ import gravatar from "../../shared/gravatar"
 import styled from '@emotion/styled'
 import PriorityHighIcon from '@material-ui/icons/PriorityHigh'
 import Moment from 'react-moment'
+
 const useStyles = makeStyles(theme => ({
   root: {
     width: '100%',
@@ -111,6 +112,36 @@ function AlignItemsList(props) {
   const classes = useStyles();
   const participant = props.conversation.mainParticipant
 
+  const renderAppBlock = ()=>{
+
+    const message = props.messageObject.message
+
+    if(message.blocks){
+      
+      const replied = message.state === "replied"
+   
+      const data = message.data
+
+      return <div>
+              
+              <p>
+                {`[${message.blocks.type}] `}
+                {replied && <span>&#10003;{" "}<br/></span>}
+              
+              {
+                data && Object.keys(data).map((o)=>{
+                  return <span>{o}: {data[o]}<br/></span>
+                })
+              }
+              </p>
+             </div>
+
+    }
+
+    return null
+
+  }
+
   return (
     <List className={classes.root}>
       <ListItem 
@@ -189,15 +220,22 @@ function AlignItemsList(props) {
                       color={'primary'}
                     /> : null
                 }
-  
-                <ContentContent 
-                  variant={"body2"}
-                  noWrap 
-                  color={"secondary"}
-                  dangerouslySetInnerHTML={
-                    { __html: props.message }
-                    }
-                />
+
+
+                {
+                  renderAppBlock()
+                }
+
+                {
+                  !props.messageObject.blocks &&  <ContentContent 
+                                              variant={"body2"}
+                                              noWrap 
+                                              color={"secondary"}
+                                              dangerouslySetInnerHTML={
+                                                { __html: props.message }
+                                                }
+                                            />
+                }
 
               </div>
 
