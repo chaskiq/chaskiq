@@ -17,6 +17,7 @@ import Tooltip from '@material-ui/core/Tooltip'
 
 import gravatar from '../shared/gravatar'
 import CircularProgress from '@material-ui/core/CircularProgress';
+import {AnchorLink} from '../shared/RouterLink'
 
 
 import MainSection from '../components/MainSection';
@@ -147,9 +148,7 @@ class AppUsers extends React.Component {
                 disablePagination={true}
                 columns={[
                   {field: "id", title: "id"},
-
                   {field: "avatar", title: "",
-                  
                     render: row => (row ? 
                       <Link to={`/apps/${this.props.app.key}/agents/${row.id}`}>
                         <Avatar
@@ -160,7 +159,13 @@ class AppUsers extends React.Component {
                       </Link>
                      : undefined)
                   },
-                  {field: "email", title: "email"},
+                  {field: "email", title: "email",
+                    render: row => (row ? 
+                    <AnchorLink to={`/apps/${this.props.app.key}/agents/${row.id}`}>
+                      {row.email}
+                    </AnchorLink>
+                   : undefined)
+                  },
                   {field: "name", title: "name"},
                   {field: "signInCount", title: "signInCount"},
                   {field: "lastSignInAt", title: "lastSignInAt",
@@ -181,15 +186,6 @@ class AppUsers extends React.Component {
                       </Tooltip> : null
                     )
                   },
-                  {field: "actions", title: "actions", 
-                    render: row => (row ? 
-
-                      <Link to={`/apps/${this.props.app.key}/agents/${row.id}`}>
-                        aaa
-                      </Link>
-
-                     : undefined)
-                }
                 ]}
                 defaultHiddenColumnNames={[]}
                 tableColumnExtensions={[
@@ -331,23 +327,11 @@ class NonAcceptedAppUsers extends React.Component {
                   elevation={0}
                   title={'invitations'}
                   meta={{}}
-                  rows={this.state.collection}
+                  data={this.state.collection}
                   search={this.search}
                   loading={this.state.loading}
                   disablePagination={true}
                   columns={[
-                    {field: "id", title: "id"},
-                    {field: "avatar", title: "",
-                      render: row => (row ? 
-                        <Link to={`/apps/${this.props.app.key}/agents/${row.id}`}>
-                          <Avatar
-                            name={row.email}
-                            size="medium"
-                            src={gravatar(row.email)}
-                          />
-                        </Link>
-                       : undefined)
-                    },
                     {field: "email", title: "email"},
                     {field: "name", title: "name"},
                     {field: "invitationAcceptedAt", title: "invitationAcceptedAt",
