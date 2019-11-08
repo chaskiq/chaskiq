@@ -26,19 +26,21 @@ function AppCard(props) {
         
         <CardContent onClick={props.onClick}>
           <Typography gutterBottom variant="h5" component="h2">
-            {props.app.name}
+            {props.app.name} {props.app.state}
           </Typography>
           <Typography component="p">
             {props.app.tagline}
           </Typography>
         </CardContent>
       </CardActionArea>
+
       <CardActions>
-        <Button size="small" color="primary">
-          Share
+        <Button size="small" color="primary" onClick={props.onClick}>
+          View app
         </Button>
-        <Button size="small" color="primary">
-          Learn More
+        <Button size="small" color="primary" 
+          onClick={()=> window.open(`/tester/${props.app.key}`)}>
+          Open test app
         </Button>
       </CardActions>
     </Card>

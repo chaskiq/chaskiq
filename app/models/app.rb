@@ -17,16 +17,12 @@ class App < ApplicationRecord
     :gather_social_data
   ], coder: JSON
 
-
-
   translates :greetings, :intro, :tagline
   self.globalize_accessors :attributes => [
     :greetings, 
     :intro,
     :tagline
   ]
-
-  
 
   # http://nandovieira.com/using-postgresql-and-jsonb-with-ruby-on-rails
   # App.where('preferences @> ?', {notifications: true}.to_json)
@@ -250,8 +246,11 @@ class App < ApplicationRecord
     end
   end
 
-private
+  def generate_encryption_key
+    self.encryption_key = SecureRandom.hex(4)
+  end
 
+private
   def init_app_segments
     SegmentFactory.create_segments_for(self)
   end
@@ -271,6 +270,7 @@ private
       } 
     }
     self.team_schedule = []
+    self.generate_encryption_key if self.encryption_key.blank?
   end
 
   def hours_format

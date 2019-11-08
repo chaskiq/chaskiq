@@ -19,8 +19,8 @@ RSpec.describe Api::V1::HooksController, type: :controller do
 
   let(:metric){
     FactoryGirl.create(:metric, 
-      campaign: campaign, 
-      trackable: subscriber
+      trackable: campaign, 
+      app_user: subscriber
     )
   }
 

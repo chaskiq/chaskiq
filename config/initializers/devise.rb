@@ -13,7 +13,7 @@ Devise.setup do |config|
   
   # devise-jwt gem
   config.jwt do |jwt|
-    jwt.secret = '123456'
+    jwt.secret = config.secret_key
     jwt.request_formats = {
                         user: [:json],
                         agent: [:json]
