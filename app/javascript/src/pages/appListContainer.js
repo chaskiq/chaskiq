@@ -1,13 +1,9 @@
-import React, {Component, createContext, Fragment} from 'react'
-import axios from "axios"
-import {
-  Route,
-  Link
-} from 'react-router-dom'
-import ContentWrapper from '../components/ContentWrapper';
-import PageTitle from '../components/PageTitle';
+import React, {Component} from 'react'
 import AppCard from '../components/AppCard'
-
+import ContentHeader from '../components/ContentHeader'
+import Content from '../components/Content'
+import Grid from '@material-ui/core/Grid'
+import Typography from '@material-ui/core/Typography'
 import graphql from "../graphql/client"
 import { APPS } from "../graphql/queries"
 
@@ -42,25 +38,35 @@ export default class AppListContainer extends Component {
   }
 
   render(){
-     return <ContentWrapper>
+     return <div>
+              <ContentHeader title={"Apps"}/>
+              
 
-              <PageTitle>
-                Apps
-              </PageTitle>
-
-           
+              <Content title="joidds">
+                <Typography variant={"h4"} gutterBottom>
+                  Your applications
+                </Typography>
+                
+                <Grid container spacing={2}>
                 {
                   this.state.apps.map((o)=> (
-                    <AppCard 
-                      app={o} 
-                      onClick={() => this.props.history.push(`/apps/${o.key}`)}
-                    />
+                    <Grid item xs={12} md={4}>
+                      <AppCard 
+                        app={o} 
+                        onClick={() => this.props.history.push(`/apps/${o.key}`)}
+                      />
+                    </Grid>
                     
                   )
-
                 )}
+                </Grid>
+              </Content>
            
 
-            </ContentWrapper>
+
+            </div>
+
+              
+        
   }
 }
