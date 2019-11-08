@@ -161,6 +161,13 @@ class ConversationContainer extends Component {
     )
   }
 
+  renderConversationContent = (o)=>{
+    if(o.lastMessage.message.htmlContent)
+      return sanitizeHtml(o.lastMessage.message.htmlContent).substring(0, 250)
+
+    debugger
+  }
+
   renderConversations = (appId)=>{
     return <GridElement>
               {/*<FixedHeader>Conversations</FixedHeader>*/}
@@ -219,9 +226,8 @@ class ConversationContainer extends Component {
                                 showUserDrawer={()=>this.props.actions.showUserDrawer(user.id)}
                                 messageObject={o.lastMessage}
                                 conversation={o}
-
                                 createdAt={o.lastMessage.message.createdAt}
-                                message={sanitizeHtml(o.lastMessage.message.htmlContent).substring(0, 250)}
+                                message={this.renderConversationContent(o)}
                               />
 
                               {/*<MessageItem 
