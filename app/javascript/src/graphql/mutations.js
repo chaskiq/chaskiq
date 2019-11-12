@@ -939,6 +939,7 @@ export const ARTICLE_SETTINGS_UPDATE = `
         logo
         headerImage
         translations
+        availableLanguages
       }
       errors
     }
@@ -966,6 +967,7 @@ export const ARTICLE_SETTINGS_DELETE_LANG = `
         logo
         headerImage
         translations
+        availableLanguages
       }
       errors
     }
