@@ -24,7 +24,7 @@ jobs:
       - name: Setup Ruby
         uses: actions/setup-ruby@v1
         with:
-          ruby-version: 2.6.x
+          ruby-version: 2.5.0
       - uses: borales/actions-yarn@v2.0.0
         with:
           cmd: install
