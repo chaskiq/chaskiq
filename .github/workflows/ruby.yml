@@ -40,4 +40,4 @@ jobs:
           bundle update --bundler
           bundle install --jobs 4 --retry 3
           bundle exec rails db:prepare
-          bundle exec rails test
+          bundle exec rspec
