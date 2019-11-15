@@ -8,7 +8,7 @@ class CampaignMailer < ApplicationMailer
     return if subscriber.blank?
     
     content_type  = "text/html"
-    headers 'X-SES-CONFIGURATION-SET' => Rails.application.credentials.dig(:sns, :configuration_set)
+    headers 'X-SES-CONFIGURATION-SET' => Rails.application.credentials.dig(:sns, :configuration_set) || "metrics"
 
     attrs = subscriber.attributes
 
