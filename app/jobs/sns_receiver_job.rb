@@ -9,13 +9,14 @@ class SnsReceiverJob < ApplicationJob
     metric = Metric.find_by(message_id: message_id )
     return if metric.blank?
     
-    campaign = metric.campaign
-    app_user = metric.trackable
+    campaign = metric.trackable
+    app_user = metric.app_user
+
     # TODO: unsubscribe on spam (complaints that are non no-spam!)
     # app_user.unsubscribe! if track_type == "spam"
     app_user.send("track_#{track_type}".to_sym, {
       host: data["ipAddress"],
-      campaign_id: campaign.id,
+      trackable: campaign,
       message_id: message_id,
       data: data
     })
