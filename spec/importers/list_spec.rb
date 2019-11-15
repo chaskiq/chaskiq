@@ -32,7 +32,7 @@ describe "ListImporter" do
   let(:importer) { ListImporter.new('/dummy/file') }
 
   let(:app) {
-    App.create(name: "foo")
+    App.create(name: "foo", domain_url: "http://ggg.cc")
   }
 
   before do

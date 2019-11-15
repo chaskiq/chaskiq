@@ -199,6 +199,7 @@ class AppUser < ApplicationRecord
       m.assign_attributes(opts)
       m.action = action
       m.save
+      m
     end
   end
 

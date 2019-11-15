@@ -21,9 +21,9 @@ class ClientTesterController < ApplicationController
     }
 
     @json_payload = {
-      domain: @h[:http] + request.env["HTTP_HOST"],
-      ws: @h[:ws] + request.env["HTTP_HOST"]+ "/cable",
-      app_id: "#{@app.key}",
+      #domain: @h[:http] + request.env["HTTP_HOST"],
+      #ws: @h[:ws] + request.env["HTTP_HOST"]+ "/cable",
+      #app_id: "#{@app.key}",
     }
 
     @json_payload.merge!(user_options) unless params[:sessionless]
@@ -41,7 +41,6 @@ class ClientTesterController < ApplicationController
   end
 
   def user_options
-
     { email: "test@test.cl",
       properties: {
         name: "miguel",
