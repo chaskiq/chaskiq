@@ -13,6 +13,7 @@ class GraphqlClient {
   }
 
   send = (query, variables, callbacks)=>{
+    console.log(this.config)
     this.axiosInstance.post('', {
       query: query,
       variables: variables,
