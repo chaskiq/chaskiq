@@ -102,7 +102,7 @@ class Messenger extends Component {
     i18n.changeLanguage(this.props.lang);
 
     this.state = {
-      visible: false,
+      visible: true,
       enabled: null,
       agent_typing: false,
       article: null,
