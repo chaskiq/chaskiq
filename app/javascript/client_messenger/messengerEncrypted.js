@@ -8,7 +8,6 @@ export default class ChaskiqMessengerEncrypted {
 
   constructor(props) {
     this.props = props
-
     const data = {
       referrer: window.location.path,
       email: this.props.email,
@@ -32,6 +31,8 @@ export default class ChaskiqMessengerEncrypted {
       lang: this.props.lang || navigator.language || navigator.userLanguage
     }
 
+    console.log(this.defaultHeaders)
+
     this.graphqlClient = new GraphqlClient({
       config: this.defaultHeaders,
       baseURL: `${this.props.domain}/api/graphql`
@@ -49,6 +50,7 @@ export default class ChaskiqMessengerEncrypted {
         }
         const messenger = new ChaskiqMessenger(
           Object.assign({}, user, {
+            app_id: this.props.app_id, 
             encData: this.props.data,
             encryptedMode: true,
             domain: this.props.domain,
