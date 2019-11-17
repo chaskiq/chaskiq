@@ -69,7 +69,7 @@ const styles = theme => ({
   itemCategory: {
     //backgroundColor: '#232f3e',
     //boxShadow: '0 -1px 0 #404854 inset',
-    boxShadow: '0 -1px 0 #ececec inset',
+    boxShadow: `0 -1px 0 ${theme.palette.primary.borders} inset`,
     paddingTop: 16,
     paddingBottom: 16,
   },
@@ -347,7 +347,7 @@ function Navigator(props, context) {
                                   title="Switch project" 
                                   placement="bottom">
                                   <Fab 
-                                    variant="inherit"
+                                    variant="round"
                                     size="small">
                                     <ExpandMore />
                                   </Fab>

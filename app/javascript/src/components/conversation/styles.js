@@ -21,7 +21,7 @@ export const GridElement = styled.div`
   }}
 
   overflow: scroll;
-  border-right: 1px solid #dcdcdc;
+  border-right: 1px solid ${(props)=> props.theme.palette.primary.borders };
   h3 {
     margin-left: 20px;
   }
@@ -86,7 +86,7 @@ export const ActivityIndicator = styled.span`
 `
 export const FixedHeader = styled.div`
   padding:20px;
-  border-bottom: 1px solid #ccc;
+  border-bottom: 1px solid ${(props)=> props.theme.palette.primary.borders };
   display: flex;
   justify-content: space-between;
 `

@@ -11,7 +11,7 @@ import purple from '@material-ui/core/colors/purple';
 const palette = {
   type: "dark",
   background: {
-    default: "#121212",
+    default: "#1B1F23",
     paper: "#1d1d1d"
   },
   color: {
@@ -28,8 +28,8 @@ const palette = {
     light: "#fff",
     main: purple[500],
     dark: '#202229',
-    contrastText: "#fff"
-
+    contrastText: "#fff",
+    borders: "#2F363D"
     
     /*contrastText: "#000",
     dark: "#121212",
