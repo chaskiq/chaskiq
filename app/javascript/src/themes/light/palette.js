@@ -9,6 +9,7 @@ const palette = {
     main: '#7b16ff', //'#0000ff', // '#24862c',
     white: '#fff',
     dark: '##cccccc26', //'#15501a', //'#006db3',
+    borders: "#ccc"
   },
  error: {
   light: "#e57373",
