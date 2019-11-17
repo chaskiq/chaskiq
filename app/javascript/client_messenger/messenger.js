@@ -102,6 +102,7 @@ class Messenger extends Component {
     i18n.changeLanguage(this.props.lang);
 
     this.state = {
+      visible: false,
       enabled: null,
       agent_typing: false,
       article: null,
@@ -191,12 +192,13 @@ class Messenger extends Component {
 
     this.overflow = null
     this.commentWrapperRef = React.createRef();
-
   }
 
   componentDidMount(){
 
     //this.eventsSubscriber()
+
+    this.visibility()
     
     this.ping(()=> {
       this.precenseSubscriber()
@@ -221,7 +223,6 @@ class Messenger extends Component {
     } , false);
 
     window.opener && window.opener.postMessage({type: "ENABLE_MANAGER_TOUR"}, "*");
-    
   }
 
   componentDidUpdate(prevProps, prevState){
@@ -229,6 +230,39 @@ class Messenger extends Component {
 
   componentWillUnmount() {
     window.removeEventListener("resize", this.updateDimensions);
+  }
+
+  visibility(){
+    // Set the name of the hidden property and the change event for visibility
+    var hidden, visibilityChange; 
+    if (typeof document.hidden !== "undefined") { // Opera 12.10 and Firefox 18 and later support 
+      hidden = "hidden";
+      visibilityChange = "visibilitychange";
+    } else if (typeof document.msHidden !== "undefined") {
+      hidden = "msHidden";
+      visibilityChange = "msvisibilitychange";
+    } else if (typeof document.webkitHidden !== "undefined") {
+      hidden = "webkitHidden";
+      visibilityChange = "webkitvisibilitychange";
+    }
+    
+    const handleVisibilityChange = ()=> {
+      if (document[hidden]) {
+        //console.log("INVISIBLE")
+        this.setState({visible: false})
+      } else {
+        //console.log("VISIBLE")
+        this.setState({visible: true})
+      }
+    }
+
+    // Warn if the browser doesn't support addEventListener or the Page Visibility API
+    if (typeof document.addEventListener === "undefined" || hidden === undefined) {
+      console.log("This demo requires a browser, such as Google Chrome or Firefox, that supports the Page Visibility API.");
+    } else {
+      // Handle page visibility change   
+      document.addEventListener(visibilityChange, handleVisibilityChange, false);
+    }
   }
 
   // todo: track pages here
@@ -395,6 +429,9 @@ class Messenger extends Component {
 
     // return if message does not correspond to conversation
     if(this.state.conversation.key != newMessage.conversationKey) return
+
+    // return on existings messages, fixes in part the issue on re rendering app package blocks
+    // if(this.state.conversation.messages && this.state.conversation.messages.find((o)=> o.id === newMessage.id )) return
 
     // append or update
     if ( this.state.conversation.messages.collection.find( (o)=> o.id === newMessage.id ) ){
@@ -1051,6 +1088,7 @@ class Messenger extends Component {
                             this.state.display_mode === "conversation" &&
                             
                               <Conversation
+                                visible={this.state.visible}
                                 clearConversation={this.clearConversation}
                                 isMobile={this.state.isMobile}
                                 agent_typing={this.state.agent_typing}
@@ -1332,6 +1370,7 @@ class Conversation extends Component {
     const {t} = this.props
     
     return <MessageItemWrapper
+            visible={this.props.visible}
             email={this.props.email}
             key={`conversation-item-${o.id}`}
             conversation={this.props.conversation}
@@ -1408,7 +1447,6 @@ class Conversation extends Component {
   appPackageClickHandler = (item, message)=>{
     // run app block display here! refactor
     if (message.message.blocks.type === "app_package") return this.appPackageBlockDisplay(message)
-    
     App.events && App.events.perform('trigger_step', {
       conversation_id: this.props.conversation.key,
       message_id: message.id,
@@ -1821,7 +1859,16 @@ class MessageContainer extends Component {
 class MessageItemWrapper extends Component {
   componentDidMount(){
     // mark as read on first render if not read & from admin
-    if(!this.props.data.volatile && !this.props.data.readAt && this.props.data.appUser.kind === "agent"){
+    this.sendEvent()
+  }
+
+  componentDidUpdate(prevProps, prevState){
+    if(prevProps && prevProps.visible != this.props.visible && this.props.visible)
+      this.sendEvent()
+  }
+
+  sendEvent = ()=>{
+    if(this.props.visible && !this.props.data.volatile && !this.props.data.readAt && this.props.data.appUser.kind === "agent"){
       App.events && App.events.perform("receive_conversation_part", 
         Object.assign({}, {
           conversation_id: this.props.conversation.key,
@@ -1832,6 +1879,7 @@ class MessageItemWrapper extends Component {
       )
     }
   }
+
   render(){
     return <Fragment>
             {this.props.children}
