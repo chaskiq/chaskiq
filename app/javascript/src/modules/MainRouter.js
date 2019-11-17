@@ -12,6 +12,7 @@ import graphql from '../graphql/client'
 import {CURRENT_USER} from '../graphql/queries'
 
 import { withStyles, createMuiTheme, MuiThemeProvider } from '@material-ui/core/styles';
+import { ThemeProvider } from 'emotion-theming'
 
 import lightGreen from "@material-ui/core/colors/green";
 import blueGrey from "@material-ui/core/colors/blueGrey";
@@ -107,6 +108,7 @@ class MainRouter extends Component {
                       return <Docs {...this.props} {...props} subdomain={subdomain[0]}/>
                      
                     return <AppLayout 
+                              themeData={this.resolveTheme()}
                               theme={this.state.theme}
                               handleToggleTheme={this.handleToggleTheme}
                               {...this.props} 
@@ -127,31 +129,32 @@ class AppLayout extends React.Component{
 
   render(){
     return (
-      <Switch>
-        <Route exact 
-          path="/signup" 
-          component={SignUp} 
-        />
+      <ThemeProvider theme={this.props.themeData}>
+        <Switch>
+          <Route exact 
+            path="/signup" 
+            component={SignUp} 
+          />
 
-        <Route path="/agents/invitation/accept" 
-              render={(props)=>(
-                <AcceptInvitation {...props} {...this.props}/>
-              )}
-        />
-        
+          <Route path="/agents/invitation/accept" 
+                render={(props)=>(
+                  <AcceptInvitation {...props} {...this.props}/>
+                )}
+          />
+          
 
-        <Route render={(props)=>(
-            <App
-              {...this.props}
-              {...props}
-              drawerWidth={drawerWidth}
-              >
-            </App>
-          )}>
-        </Route>
+          <Route render={(props)=>(
+              <App
+                {...this.props}
+                {...props}
+                drawerWidth={drawerWidth}
+                >
+              </App>
+            )}>
+          </Route>
 
-      </Switch>
-
+        </Switch>
+      </ThemeProvider>
     )
   }
   

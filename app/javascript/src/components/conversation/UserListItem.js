@@ -129,8 +129,10 @@ function AlignItemsList(props) {
                 {replied && <span>&#10003;{" "}<br/></span>}
               
               {
-                data && Object.keys(data).map((o)=>{
-                  return <span>{o}: {data[o]}<br/></span>
+                data && Object.keys(data).map((o, i)=>{
+                  return <span key={`align-item-${i}`}>
+                          {o}: {data[o]}<br/>
+                        </span>
                 })
               }
               </p>

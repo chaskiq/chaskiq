@@ -81,9 +81,9 @@ function SimpleListMenu(props) {
 
         {props.options.map((option, index) => (
           option.type === "divider" ? 
-          <Divider/> :
+          <Divider key={`list-menu-${index}-${option.type}`}/> :
           <MenuItem
-            key={option.key}
+            key={`list-menu-${index}-${option.type}`}
             //disabled={index === 0}
             selected={selectedIndex.key === option.key}
             onClick={event => handleMenuItemClick(event, option)}
