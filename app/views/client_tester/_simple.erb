@@ -1,124 +1,146 @@
-
+<!doctype html>
+<title>Example</title>
 <style>
-
-  body{
-    background: #666;
-    color:#fff;
-    font-family:arial;
-    line-height:1.4em;
-  }
-
-  a{
-    color:#fff;
-    text-decoration:none;
-  }
-
-  ul{
-    padding:0;
-  }
-
-  .clr{
-    clear:both;
-  }
-
-  #container{
-    background: #333;
-    width:960px;
-    margin:30px auto;
-    overflow:hidden;
-    padding:10px;
-  }
-
-  #nav{
-    height:40px;
-    background:#666;
-  }
-
-  #nav ul{
-    padding-top:13px;
-    padding-left:10px;
-  }
-
-  #nav li{
-    list-style:none;
-    float:left;
-    padding-right:20px;
-  }
-
-  #nav .active{
-    font-weight: bold;
-    color:#000;
-  }
-
-  #main{
-    float:left;
-    width:60%;
-  }
-
-  #sidebar{
-    float:right;
-    width:30%;
-    background:#666;
-    margin-top:20px;
-    padding:10px;
-  }
-
-  #footer{
-    text-align: center;
-    padding:10px;
-    background:#666;
-    margin-top:30px;
-  }
-
-  .services li{
-    border-bottom:2px #666 dashed;
-    padding-bottom:20px;
-  }
-
-  .services a{
-    background:#666;
-    padding:10px;
-  }
-
-  input, textarea{
-    width:100%;
-    padding:5px;
-    margin-bottom:15px;
-  }
-
+body{
+  margin: 0px;
+  padding: 0px;
+}
+.wrapper {
+  display: flex;
+  justify-content: space-evenly;
+}
+.column {
+  display: flex;
+  flex-direction: column;
+}
+.column > div {
+  font-size: 4vh;
+  color: white;
+  background: royalblue;
+  margin: .1em;
+  padding: .3em 1em;
+  border-radius: 3px;
+  flex: 1;
+}
 </style>
+<div class="wrapper">
 
-<div id="container">
-  <div id="header">
-    <h1>Chaskiq tester site</h1>
+
+  <div class="column">
+    <div>
+    
+      <div id="header">
+        <h1>Chaskiq tester site</h1>
+      </div>
+
+      <div id="nav">
+        <ul>
+          <li><a class="active" href="/tester/<%= @app.key%>">Home</a></li>
+          <li><a href="/tester/<%= @app.key%>/about">About</a></li>
+          <li><a href="/tester/<%= @app.key%>/services">Services</a></li>
+          <li><a href="/tester/<%= @app.key%>/contact">Contact</a></li>
+        </ul>
+      </div>
+    
+    </div>
   </div>
-
-  <div id="nav">
-    <ul>
-      <li><a class="active" href="/tester/<%= @app.key%>">Home</a></li>
-      <li><a href="/tester/<%= @app.key%>/about">About</a></li>
-      <li><a href="/tester/<%= @app.key%>/services">Services</a></li>
-      <li><a href="/tester/<%= @app.key%>/contact">Contact</a></li>
-    </ul>
+  <div class="column">
+    <div>1</div>
+    <div>2</div>
   </div>
-
-  <div id="main">
-    <h1>Welcome</h1>
-    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nec eros orci. Aliquam erat volutpat. Vivamus id eros dictum, feugiat nisl et, semper nisi. Nulla hendrerit dignissim dolor, in rhoncus lectus viverra ut. Proin vitae commodo risus. Praesent lacinia non odio ac dignissim. Duis accumsan mi sollicitudin libero pretium consequat. Cras et erat elementum, tristique mi nec, commodo sem. Integer consectetur dui vel elit semper pretium. Vestibulum justo nisi, scelerisque vitae enim vel, porttitor dignissim velit. Aliquam posuere lectus vitae rhoncus posuere. Aenean ante erat, fringilla at odio pellentesque, dictum porttitor leo. Maecenas sodales enim rutrum, molestie libero consequat, luctus magna. Quisque tortor lectus, malesuada id tempus sit amet, sodales vel dui.</p>
-    <p>
-    Nam et lacus nec felis consequat blandit ut et nulla. Nunc turpis orci, gravida non ipsum ut, gravida ultrices mauris. Proin volutpat elit non ex hendrerit, et suscipit magna imperdiet. Fusce in laoreet augue. Vivamus imperdiet justo odio, finibus gravida justo facilisis vitae. Maecenas suscipit ornare accumsan. Sed id augue sed elit rhoncus ullamcorper. Nam accumsan laoreet arcu sit amet elementum.</p>
+  <div class="column">
+    <div>1</div>
+    <div>2</div>
+    <div>3</div>
   </div>
-
-  <div id="sidebar">
-    <h3>Sidebar</h3>
-    <p>
-      Nam et lacus nec felis consequat blandit ut et nulla. Nunc turpis orci, gravida non ipsum ut, gravida ultrices mauris. Proin volutpat elit non ex hendrerit, et suscipit magna imperdiet. Fusce in laoreet augue.
-    </p>
+  <div class="column">
+    <div>1</div>
+    <div>2</div>
+    <div>3</div>
+    <div>4</div>
   </div>
-
-  <div class="clr"></div>
-
-  <div id="footer">
-    <p>Coded by Ed Rosario - <a href="http://www.EdwardRosario.com">EdwardRosario.com</a> Copyright &copy; 2017</p>
+  <div class="column">
+    <div>1</div>
+    <div>2</div>
+    <div>3</div>
+    <div>4</div>
+    <div>5</div>
+  </div>
+  <div class="column">
+    <div>1</div>
+    <div>2</div>
+    <div>3</div>
+    <div>4</div>
+    <div>5</div>
+    <div>6</div>
+  </div>
+  <div class="column">
+    <div>1</div>
+    <div>2</div>
+    <div>3</div>
+    <div>4</div>
+    <div>5</div>
+    <div>6</div>
+    <div>7</div>
+  </div>
+  <div class="column">
+    <div>1</div>
+    <div>2</div>
+    <div>3</div>
+    <div>4</div>
+    <div>5</div>
+    <div>6</div>
+    <div>7</div>
+    <div>8</div>
+  </div>
+  <div class="column">
+    <div>1</div>
+    <div>2</div>
+    <div>3</div>
+    <div>4</div>
+    <div>5</div>
+    <div>6</div>
+    <div>7</div>
+    <div>8</div>
+    <div>9</div>
+  </div>
+  <div class="column">
+    <div>1</div>
+    <div>2</div>
+    <div>3</div>
+    <div>4</div>
+    <div>5</div>
+    <div>6</div>
+    <div>7</div>
+    <div>8</div>
+    <div>9</div>
+    <div>10</div>
+  </div>
+  <div class="column">
+    <div>1</div>
+    <div>2</div>
+    <div>3</div>
+    <div>4</div>
+    <div>5</div>
+    <div>6</div>
+    <div>7</div>
+    <div>8</div>
+    <div>9</div>
+    <div>10</div>
+    <div>11</div>
+  </div>
+  <div class="column">
+    <div>1</div>
+    <div>2</div>
+    <div>3</div>
+    <div>4</div>
+    <div>5</div>
+    <div>6</div>
+    <div>7</div>
+    <div>8</div>
+    <div>9</div>
+    <div>10</div>
+    <div>11</div>
+    <div>12</div>
   </div>
 </div>
