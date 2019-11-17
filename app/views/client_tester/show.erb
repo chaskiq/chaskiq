@@ -12,10 +12,6 @@
 <% content_for :body do %>
   <%= render "simple" %>
 
-  <pre>
-    <%= @json_payload %>
-  </pre>
-
   <script type="text/javascript">
     var m = new window.ChaskiqMessengerEncrypted({
       domain: '<%=@h[:http] +request.env["HTTP_HOST"]%>',
