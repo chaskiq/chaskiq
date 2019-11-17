@@ -1,13 +1,19 @@
 <!doctype html>
 <title>Example</title>
 <style>
-body{
+body {
   margin: 0px;
   padding: 0px;
 }
+a{
+  color: white;
+}
+a:hover{
+  color: #fefefe;
+}
 .wrapper {
   display: flex;
-  justify-content: space-evenly;
+  justify-content: space-between;
 }
 .column {
   display: flex;
@@ -21,6 +27,16 @@ body{
   padding: .3em 1em;
   border-radius: 3px;
   flex: 1;
+}
+pre {
+ white-space: pre-wrap;       /* css-3 */
+ white-space: -moz-pre-wrap;  /* Mozilla, since 1999 */
+ white-space: -pre-wrap;      /* Opera 4-6 */
+ white-space: -o-pre-wrap;    /* Opera 7 */
+ word-wrap: break-word;       /* Internet Explorer 5.5+ */
+}
+.w{
+      max-width: 312px;
 }
 </style>
 <div class="wrapper">
@@ -41,6 +57,11 @@ body{
           <li><a href="/tester/<%= @app.key%>/contact">Contact</a></li>
         </ul>
       </div>
+
+  
+      <pre class="w">
+        <%= @json_payload %>
+      </pre>
     
     </div>
   </div>
