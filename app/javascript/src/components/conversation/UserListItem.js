@@ -34,8 +34,8 @@ const useStyles = makeStyles(theme => ({
   },
   participantAvatar: {
     //margin: 10,
-    width: 40,
-    height: 40,
+    width: 50,
+    height: 50,
   },
   flexContainer: {
     display: 'flex',
@@ -159,7 +159,7 @@ function AlignItemsList(props) {
           wrap="nowrap" 
           justify={"space-between"}>
 
-          <Grid item item xs={1}>
+          <Grid item item xs={3}>
             <Avatar 
                 className={classes.participantAvatar}
                 onClick={()=>props.showUserDrawer(participant.id)}

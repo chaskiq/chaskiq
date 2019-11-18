@@ -93,6 +93,7 @@ GEM
       sshkit (>= 1.6.1, != 1.7.0)
     archive-zip (0.12.0)
       io-like (~> 0.3.0)
+    ast (2.4.0)
     aws-eventstream (1.0.3)
     aws-partitions (1.204.0)
     aws-sdk-core (3.64.0)
@@ -250,6 +251,7 @@ GEM
       mini_magick (>= 4.9.5, < 5)
       ruby-vips (>= 2.0.13, < 3)
     io-like (0.3.0)
+    jaro_winkler (1.5.4)
     jbuilder (2.9.1)
       activesupport (>= 4.2.0)
     jmespath (1.4.0)
@@ -297,6 +299,9 @@ GEM
     nokogiri (1.10.4)
       mini_portile2 (~> 2.4.0)
     orm_adapter (0.5.0)
+    parallel (1.19.0)
+    parser (2.6.5.0)
+      ast (~> 2.4.0)
     pg (1.1.4)
     pg_search (2.3.0)
       activerecord (>= 4.2)
@@ -343,6 +348,7 @@ GEM
       method_source
       rake (>= 0.8.7)
       thor (>= 0.20.3, < 2.0)
+    rainbow (3.0.0)
     rake (12.3.3)
     ransack (2.3.0)
       actionpack (>= 5.0)
@@ -385,7 +391,22 @@ GEM
       rspec-mocks (~> 3.8.0)
       rspec-support (~> 3.8.0)
     rspec-support (3.8.2)
+    rubocop (0.76.0)
+      jaro_winkler (~> 1.5.1)
+      parallel (~> 1.10)
+      parser (>= 2.6)
+      rainbow (>= 2.2.2, < 4.0)
+      ruby-progressbar (~> 1.7)
+      unicode-display_width (>= 1.4.0, < 1.7)
+    rubocop-performance (1.5.1)
+      rubocop (>= 0.71.0)
+    rubocop-rails (2.3.2)
+      rack (>= 1.1)
+      rubocop (>= 0.72.0)
+    rubocop-rspec (1.36.0)
+      rubocop (>= 0.68.1)
     ruby-oembed (0.12.0)
+    ruby-progressbar (1.10.1)
     ruby-vips (2.0.14)
       ffi (~> 1.9)
     ruby_dep (1.5.0)
@@ -444,6 +465,7 @@ GEM
     unf (0.1.4)
       unf_ext
     unf_ext (0.0.7.6)
+    unicode-display_width (1.6.0)
     urlcrypt (0.1.1)
     warden (1.2.8)
       rack (>= 2.0.6)
@@ -539,6 +561,10 @@ DEPENDENCIES
   rspec-mocks
   rspec-rails
   rspec-support
+  rubocop (~> 0.76.0)
+  rubocop-performance
+  rubocop-rails
+  rubocop-rspec
   ruby-oembed
   sass-rails (~> 5.0)
   shoulda
@@ -558,7 +584,7 @@ DEPENDENCIES
   webpacker (~> 3.5)
 
 RUBY VERSION
-   ruby 2.5.5p157
+   ruby 2.6.5p114
 
 BUNDLED WITH
-   1.16.6
+   1.17.2
