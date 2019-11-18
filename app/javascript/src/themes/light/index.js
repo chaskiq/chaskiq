@@ -105,7 +105,7 @@ theme = {
     },
     MuiDivider: {
       root: {
-        backgroundColor: '#d3e8d7', //#404854',
+        backgroundColor: theme.palette.primary.borders //'#d3e8d7', //#404854',
       },
     },
     MuiListItemText: {
