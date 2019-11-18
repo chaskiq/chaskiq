@@ -124,7 +124,7 @@ function AlignItemsList(props) {
 
       return <div>
               
-              <p>
+              <span>
                 {`[${message.blocks.type}] `}
                 {replied && <span>&#10003;{" "}<br/></span>}
               
@@ -135,7 +135,7 @@ function AlignItemsList(props) {
                         </span>
                 })
               }
-              </p>
+              </span>
              </div>
 
     }

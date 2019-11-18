@@ -43,7 +43,7 @@ import DeviceHubOutlined from '@material-ui/icons/DeviceHubOutlined'
 
 import MuiExpansionPanel from '@material-ui/core/ExpansionPanel';
 import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails';
-import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary';
+import MuiExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary';
 
 
 import { withRouter } from 'react-router-dom'
@@ -73,7 +73,7 @@ const styles = theme => ({
     paddingTop: 16,
     paddingBottom: 16,
   },
-  firebase: {
+  chaskiq: {
     fontSize: 24,
     fontFamily: theme.typography.fontFamily,
     //color: theme.palette.primary.contrastText,
@@ -111,7 +111,23 @@ const styles = theme => ({
 });
 
 const ExpansionPanel = withStyles({
+
+  
   root: {
+
+    boxShadow: 'none',
+    '&:not(:last-child)': {
+      borderBottom: 0,
+    },
+    '&:before': {
+      display: 'none',
+    },
+    '&$expanded': {
+      margin: 0,
+      borderBottom: '1px solid rgba(0, 0, 0, .125)',
+      borderTop: '1px solid rgba(0, 0, 0, .125)',
+    },
+
     //border: '1px solid rgba(0, 0, 0, .125)',
     //boxShadow: 'none',
     '&:not(:last-child)': {
@@ -120,12 +136,19 @@ const ExpansionPanel = withStyles({
     //'&:before': {
     //  display: 'none',
     //},
-    '&$expanded': {
-      //margin: 'auto',
-    },
   },
   expanded: {},
 })(MuiExpansionPanel);
+
+const ExpansionPanelSummary = withStyles({
+  root: {
+    padding: 0,
+  },
+  expanded: {
+    padding: 0,
+  },
+})(MuiExpansionPanelSummary);
+
 
 const Fab = withStyles({
   root: {
@@ -274,7 +297,7 @@ function Navigator(props, context) {
               </ListItem>
           </ExpansionPanelSummary>
 
-          <ExpansionPanelDetails  className={classes.expansionPanelDetails}>
+          <ExpansionPanelDetails className={classes.expansionPanelDetails}>
             {children.map(({ id: childId, label, icon, active, url, onClick }) => (
                 <ListItem
                   button
@@ -314,7 +337,7 @@ function Navigator(props, context) {
 
   function renderListHeader(){
     return <React.Fragment>
-              <ListItem className={clsx(classes.firebase, classes.item, classes.itemCategory)}>
+              <ListItem className={clsx(classes.chaskiq, classes.item, classes.itemCategory)}>
                 CHASKIQ
               </ListItem>
               <ListItem 
