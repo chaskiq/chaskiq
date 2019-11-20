@@ -61,7 +61,7 @@ class MultipleSelect extends React.Component {
     super(props)
     
     this.state = {
-      name: this.props.values
+      name: this.props.values || []
     }
 
   }
