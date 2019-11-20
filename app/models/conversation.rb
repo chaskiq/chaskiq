@@ -65,12 +65,17 @@ class Conversation < ApplicationRecord
   end
 
   def add_message_event(opts={})
-    conversation_ev = self.messages.new(authorable: self.app.agent_bots.first )
-    conversation_ev.event = {
+    part = self.messages.new(authorable: self.app.agent_bots.first )
+    part.event = {
       action: opts[:action],
       data: opts[:data]
     }
-    conversation_ev.save
+    
+    if part.save 
+      part.notify_to_channels
+    end
+
+    part
   end
 
   def add_private_note(opts={})
