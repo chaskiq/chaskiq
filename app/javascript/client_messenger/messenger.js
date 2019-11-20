@@ -71,6 +71,7 @@ import {
   UserAutoMessageFlex,
   MessageCloseBtn,
   AppPackageBlockContainer,
+  ConversationEventContainer,
   HeaderAvatar,
   CountBadge,
   ShowMoreWrapper,
@@ -1440,6 +1441,15 @@ class Conversation extends Component {
               />
   }
 
+  renderEventBlock = (o, i)=>{
+    const {data, action} = o.message
+    return <ConversationEventContainer>
+            <span>
+              {this.props.t(`conversations.events.${action}`, data)}
+            </span>
+           </ConversationEventContainer>
+  }
+
   appPackageBlockDisplay = (message)=>{
     this.props.displayAppBlockFrame(message)
   }
@@ -1515,9 +1525,9 @@ class Conversation extends Component {
             }
             {
               this.props.conversation.messages && this.props.conversation.messages.collection.map((o, i) => {
-                  return o.message.blocks ? 
-                  this.renderItemPackage(o, i) : 
-                  this.renderMessage(o, i)
+                  if(o.message.blocks) return this.renderItemPackage(o, i)
+                  if(o.message.action) return this.renderEventBlock(o, i)
+                  return this.renderMessage(o, i)
               })
             }
 
@@ -1669,7 +1679,7 @@ function CommentsItemComp(props){
 
                         <ConversationSummaryBodyMeta>
                           {
-                            !message.readAt && message.appUser.email !== email ?
+                            !message.readAt && message.appUser && message.appUser.email !== email ?
                               <ReadIndicator /> : null
                           }
                           <Autor>
@@ -1694,7 +1704,7 @@ function CommentsItemComp(props){
                         {/*<img src={gravatar(message.appUser.email)} />*/}
                         <ConversationSummaryBodyItems>
                           {
-                            message.appUser.kind != "agent" ? 
+                            message.appUser && message.appUser.kind != "agent" ? 
                               <div className="you">{t("you")}:</div> : null 
                           }
                           <ConversationSummaryBodyContent
@@ -1930,7 +1940,9 @@ class AppPackageBlock extends Component {
     
     switch(item.element){
       case "button":
-        return <p>{item.name}</p>
+        if (this.props.message.blocks.type === "ask_option"){
+          return <p>choosen: {item.label}</p>
+        }
       default:
         if (this.props.message.blocks.type === "data_retrieval"){
           return Object.keys(this.props.message.data).map((k)=>{

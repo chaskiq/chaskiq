@@ -202,7 +202,7 @@ function AlignItemsList(props) {
               <div className={classes.flexContainer}>
                 
                 {
-                  props.messageUser.id != participant.id ?
+                  props.messageUser && props.messageUser.id != participant.id ?
                     <Avatar 
                         onClick={()=>props.showUserDrawer(props.messageUser.id)} 
                         className={classes.tinyAvatar}

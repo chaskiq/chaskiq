@@ -1,3 +1,5 @@
+import logo from '../../images/logo.png'
+
 const palette = {
   primary: {
     light: '#63ccff',
@@ -9,7 +11,9 @@ const palette = {
     main: '#7b16ff', //'#0000ff', // '#24862c',
     white: '#fff',
     dark: '##cccccc26', //'#15501a', //'#006db3',
-    borders: "#ccc"
+    borders: "#ccc",
+    logo: logo
+
   },
  error: {
   light: "#e57373",
