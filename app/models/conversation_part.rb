@@ -22,6 +22,10 @@ class ConversationPart < ApplicationRecord
     self.trigger_id.present? && self.step_id.present?
   end
 
+  def is_event_message?
+    self.messageable.is_a?(ConversationPartEvent)
+  end
+
   def message
     #self.conversation_part_content
     self.messageable
@@ -33,6 +37,13 @@ class ConversationPart < ApplicationRecord
     self.messageable = ConversationPartContent.create(message)
     #new_message = self.build_conversation_part_content(message)
     #new_message.save
+  end
+
+  def event=(params={})
+    self.messageable = ConversationPartEvent.create(
+      data: params[:data], 
+      action: params[:action]
+    )
   end
 
   def controls=(blocks)
@@ -122,7 +133,7 @@ class ConversationPart < ApplicationRecord
   end
 
   def send_constraints?
-    is_from_auto_message_campaign? or self.private_note?
+    is_from_auto_message_campaign? or self.private_note? or self.is_event_message?
   end
   
   def is_from_auto_message_campaign?
@@ -150,8 +161,7 @@ class ConversationPart < ApplicationRecord
     app.assignment_rules.each do |rule|
       if cond = rule.check_rule_for(text, self)
         conversation = self.conversation
-        conversation.assignee = rule.agent
-        conversation.save
+        conversation.assign_user(rule.agent)
         break
       end
 

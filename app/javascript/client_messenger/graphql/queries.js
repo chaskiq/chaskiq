@@ -63,6 +63,8 @@ export const CONVERSATIONS = `
               textContent
               serializedContent
               blocks
+              action
+              data
             }
             privateNote
             messageSource{
@@ -122,6 +124,7 @@ export const CONVERSATION=`
               serializedContent
               blocks
               data
+              action
               state
             }
             source
@@ -212,6 +215,8 @@ export const START_CONVERSATION = `
             htmlContent
             textContent
             serializedContent
+            data
+            action
           }
           privateNote
           messageSource{

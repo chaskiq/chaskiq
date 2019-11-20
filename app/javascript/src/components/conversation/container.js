@@ -240,6 +240,10 @@ class ConversationContainerShow extends Component {
     }
   }
 
+  renderEventBlock = (o)=>{
+    return <p>{o.message.action} {JSON.stringify(o.message.data)}</p>
+  }
+
   render(){
     return <GridElement grow={2}>
 
@@ -320,8 +324,9 @@ class ConversationContainerShow extends Component {
 
                       {
                         this.props.conversation.collection.map( (o, i)=> {
+                          
                           const isReplied = o.message.state === "replied"
-                          const userOrAdmin = !isReplied && o.appUser.kind === 'agent' ? 'admin' : 'user'
+                          const userOrAdmin = !isReplied && o.appUser && o.appUser.kind === 'agent' ? 'admin' : 'user'
               
                           return <MessageItemWrapper 
                                     key={`message-item-${this.props.conversation.key}-${o.id}`} 
@@ -335,13 +340,15 @@ class ConversationContainerShow extends Component {
                                       message={o}
                                       className={userOrAdmin}>
                                       
-                                      <ChatAvatar 
+                                      {
+                                        o.appUser && <ChatAvatar 
                                         onClick={(e)=>this.props.showUserDrawer(o.appUser.id)}
                                         className={userOrAdmin}>
 
-                                        <img src={gravatar(o.appUser.email)}/>
+                                          <img src={gravatar(o.appUser.email)}/>
 
-                                      </ChatAvatar>
+                                        </ChatAvatar>
+                                      }
 
                                       <ThemeProvider theme={
                                         userOrAdmin === "admin" ? 
@@ -352,7 +359,7 @@ class ConversationContainerShow extends Component {
                                           {
                                             o.message.blocks ? 
                                             this.renderBlocks(o, userOrAdmin) : 
-                                            this.renderMessage(o, userOrAdmin)
+                                            o.message.action ? this.renderEventBlock(o, userOrAdmin) : this.renderMessage(o, userOrAdmin)
                                           }
 
                                         </EditorContainer>
