@@ -241,7 +241,7 @@ class ConversationContainerShow extends Component {
   }
 
   renderEventBlock = (o)=>{
-    return <p>{o.message.action} {JSON.stringify(o.message.data)}</p>
+    return <p>{o.message.action} {o.message.data.name || o.message.data.email}</p>
   }
 
   render(){
@@ -358,8 +358,10 @@ class ConversationContainerShow extends Component {
                                         <EditorContainer>
                                           {
                                             o.message.blocks ? 
-                                            this.renderBlocks(o, userOrAdmin) : 
-                                            o.message.action ? this.renderEventBlock(o, userOrAdmin) : this.renderMessage(o, userOrAdmin)
+                                              this.renderBlocks(o, userOrAdmin) : 
+                                            o.message.action ? 
+                                              this.renderEventBlock(o, userOrAdmin) : 
+                                              this.renderMessage(o, userOrAdmin)
                                           }
 
                                         </EditorContainer>

@@ -1940,7 +1940,9 @@ class AppPackageBlock extends Component {
     
     switch(item.element){
       case "button":
-        return <p>{item.name}</p>
+        if (this.props.message.blocks.type === "ask_option"){
+          return <p>choosen: {item.label}</p>
+        }
       default:
         if (this.props.message.blocks.type === "data_retrieval"){
           return Object.keys(this.props.message.data).map((k)=>{
