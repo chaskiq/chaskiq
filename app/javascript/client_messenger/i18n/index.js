@@ -25,6 +25,8 @@ i18n
           article_meta: "By: <strong>{{name}}</strong> on <0>{{date}}</0>",
           enter_your: "Enter your {{field}}",
 
+          "conversations.events.assigned": "{{name}} was assigned to this conversation",
+
           "reply_time.auto": "The team will respond as soon as possible", 
           "reply_time.minutes": "The team usually responds in minutes",
           "reply_time.hours": "The team usually responds in a matter of hours",

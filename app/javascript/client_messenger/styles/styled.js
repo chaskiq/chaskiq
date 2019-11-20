@@ -373,6 +373,15 @@ export const MessageCloseBtn = styled.a`
   font-weight: 100;
 `
 
+export const ConversationEventContainer = styled.div`
+  padding: 1.2em;
+  border-radius: 7px;
+  background: gold;
+  display: flex;
+  justify-content: center;
+  margin: 1.2em;
+`
+
 export const AppPackageBlockContainer = styled.div`
     padding: 1.2em;
     border-radius: 7px;

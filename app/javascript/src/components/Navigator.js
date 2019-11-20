@@ -33,7 +33,6 @@ import MessageIcon from '@material-ui/icons/Message'
 import FilterFramesIcon from '@material-ui/icons/FilterFrames'
 import FolderIcon from '@material-ui/icons/Folder'
 
-
 import QuestionAnswerOutlined from '@material-ui/icons/QuestionAnswerOutlined'
 import FlagOutlined from '@material-ui/icons/FlagOutlined'
 import BookOutlined from '@material-ui/icons/BookOutlined'
@@ -59,6 +58,13 @@ const styles = theme => ({
   },
   categoryHeaderPrimary: {
     color: theme.palette.common.main,
+  },
+  logo: {
+    background: `url(${theme.palette.primary.logo})`,
+    width: '100%',
+    height: '57px',
+    backgroundSize: '100%',
+    backgroundRepeat: 'no-repeat'
   },
   item: {
     paddingTop: 4,
@@ -338,7 +344,7 @@ function Navigator(props, context) {
   function renderListHeader(){
     return <React.Fragment>
               <ListItem className={clsx(classes.chaskiq, classes.item, classes.itemCategory)}>
-                CHASKIQ
+                <div className={classes.logo} />
               </ListItem>
               <ListItem 
                 className={clsx(classes.item, classes.itemCategory)}

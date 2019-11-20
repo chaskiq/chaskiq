@@ -6,7 +6,7 @@ import red from '@material-ui/core/colors/red';
 
 
 import purple from '@material-ui/core/colors/purple';
-
+import logo from '../../images/logo-dark.png'
 
 const palette = {
   type: "dark",
@@ -29,8 +29,8 @@ const palette = {
     main: purple[500],
     dark: '#202229',
     contrastText: "#fff",
-    borders: "#2F363D"
-    
+    borders: "#2F363D",
+    logo: logo
     /*contrastText: "#000",
     dark: "#121212",
     light: "#7986cb",

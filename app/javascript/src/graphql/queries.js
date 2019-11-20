@@ -235,6 +235,7 @@ export const CONVERSATION=`
               htmlContent
               textContent
               serializedContent
+              action
             }
             source
             readAt

@@ -6,16 +6,7 @@ module Types
     field :blocks, Types::JsonType, null: true
     field :state, String, null: true
     field :data, Types::JsonType, null: true
-
-    #methods = [
-    #  :serialized_content,
-    #  :html_content,
-    #  :text_content,
-    #  :blocks,
-    #  :state,
-    #  :data,
-    #]
-
+    field :action, String, null: true
 
     def serialized_content
       object.serialized_content if object.respond_to?(:serialized_content)
@@ -39,6 +30,10 @@ module Types
     
     def data
       object.data if object.respond_to?(:data)
+    end
+
+    def action
+      object.action if object.respond_to?(:action)
     end
   end
 end

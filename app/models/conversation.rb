@@ -64,6 +64,20 @@ class Conversation < ApplicationRecord
     part
   end
 
+  def add_message_event(opts={})
+    part = self.messages.new(authorable: self.app.agent_bots.first )
+    part.event = {
+      action: opts[:action],
+      data: opts[:data]
+    }
+    
+    if part.save 
+      part.notify_to_channels
+    end
+
+    part
+  end
+
   def add_private_note(opts={})
     part = process_message_part(opts.merge!(private_note: true))
     part.save
@@ -95,7 +109,16 @@ class Conversation < ApplicationRecord
 
   def assign_user(user)
     self.assignee = user
-    self.save
+    if self.save
+      self.add_message_event({
+        action: "assigned",
+        data: {
+          name: user.name,
+          id: user.id,
+          email: user.email
+        }
+      })
+    end
   end
 
   def add_default_assigne
