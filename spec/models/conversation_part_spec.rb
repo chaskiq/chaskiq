@@ -64,6 +64,8 @@ RSpec.describe ConversationPart, type: :model do
     it "assign user" do
       conversation.assign_user(app.agents.last)
       expect(conversation.assignee).to be == app.agents.last
+      expect(conversation.messages.last.messageable.action).to be == "assigned"
+      #expect(conversation.messages.last.messageable.data).to be == "assigned"
     end
 
   end
