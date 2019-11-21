@@ -1,21 +1,27 @@
 class PresenceChannel < ApplicationCable::Channel
+  after_unsubscribe :offline
+
   def subscribed
+
     @app      = App.find_by(key: params[:app])
 
     get_user_data
 
     visitor = nil
+    @key    = "presence:#{@app.key}-"
+
     # TODO , change this when leads can have mail
     if @user_data[:email].blank?
       visitor = get_user_by_session
       @app_user = visitor 
+      @key = @key + visitor.session_id
     else
       @app_user = @app.app_users
                   .where("email =?", @user_data[:email])
                   .first
+      @key = @key + @app_user.email
     end
 
-    @key      = "presence:#{@app.key}-#{visitor.present? ? visitor.session_id : @app_user.email}"
     stream_from @key
     pingback
   end
@@ -24,9 +30,10 @@ class PresenceChannel < ApplicationCable::Channel
     @app_user.online! if @app_user.offline?
   end
 
-  def unsubscribed
-    @app_user.offline! if @app_user.online?
-    # Any cleanup needed when channel is unsubscribed
+  def offline
+    puts "subs #{Redis.new.pubsub("CHANNELS", @key).size}"
+    @app_user.offline! 
+    #if Redis.new.pubsub("CHANNELS", @key).size == 1 && @app_user.online?
   end
 
 end
