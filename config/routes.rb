@@ -6,6 +6,7 @@ Rails.application.routes.draw do
   end
   post "/graphql", to: "graphql#execute"
   post "/api/graphql", to: "api/graphql#execute"
+  get :widget, to: "widgets#show", path: "/embed"
   mount Sidekiq::Web => '/sidekiq'
 
   devise_for :agents, controllers: { 
