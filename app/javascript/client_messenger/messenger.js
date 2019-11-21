@@ -667,7 +667,6 @@ class Messenger extends Component {
   }
 
   getConversationMessagesMeta = ()=>{
-    console.log("AA", this.state.conversation.messages)
     if(!this.state.conversation.messages) return {}
     const {meta} = this.state.conversation.messages
     return meta
@@ -1093,9 +1092,8 @@ class Messenger extends Component {
                                 clearConversation={this.clearConversation}
                                 isMobile={this.state.isMobile}
                                 agent_typing={this.state.agent_typing}
-                                //conversation_messages={this.state.conversation_messages}
+                                domain={this.props.domain}
                                 conversation={this.state.conversation}
-                                //conversation_messagesMeta={this.state.conversation_messagesMeta}
                                 isUserAutoMessage={this.isUserAutoMessage}
                                 insertComment={this.insertComment}
                                 setConversation={this.setConversation}
@@ -1186,6 +1184,7 @@ class Messenger extends Component {
                   footerClassName="inline"
                   clearConversation={this.clearConversation}
                   isMobile={this.state.isMobile}
+                  domain={this.props.domain}
                   //conversation_messages={this.state.conversation_messages}
                   conversation={this.state.conversation}
                   //conversation_messagesMeta={this.state.conversation_messagesMeta}
@@ -1407,6 +1406,7 @@ class Conversation extends Component {
                     <DraftRenderer 
                       key={i}
                       message={o}
+                      domain={this.props.domain}
                       raw={JSON.parse(o.message.serializedContent)}
                     />
 
@@ -1805,21 +1805,10 @@ class MessageFrame extends Component {
                       toggleMinimize={this.toggleMinimize}
                       handleClose={this.handleClose}
                       availableMessage={o}
+                      domain={this.props.domain}
                       t={this.props.t}
                     />
                   </UserAutoMessage>
-
-            {
-              /*
-              <iframe frameborder="0" height="100%"
-                src="https://prey.typeform.com/to/TxwKrk?typeform-embed=embed-widget&amp;typeform-embed-id=atsi1" 
-                width="100%"
-                data-qa="iframe" 
-                style={{border: "0px"}}>
-              </iframe>
-              */
-            }
-
           })
 
         }
@@ -1858,6 +1847,7 @@ class MessageContainer extends Component {
                 theme={ editorTheme }>
                 <DanteContainer>
                   <DraftRenderer
+                    domain={this.props.domain}
                     raw={JSON.parse(this.props.availableMessage.serialized_content)}
                   />
                 </DanteContainer>
