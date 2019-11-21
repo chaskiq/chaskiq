@@ -8,9 +8,11 @@ const NewEditorStyles = styled(EditorStyles)`
   
   display: flex;
   
-
   .graf--figure {
     min-width: 320px;
+    @media (min-width: 320px) and (max-width: 480px) {
+      min-width: 157px;
+    }
   }
 
   .dante-menu-input{
