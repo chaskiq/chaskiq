@@ -109,7 +109,7 @@ function renderers(props) {
                             style={{paddingBottom: `${ratio}%`}}>
                         </div>
 
-                        <img src={url}
+                        <img src={`${props.domain}${url}`}
                           className="graf-image" 
                           width={width}
                           height={height}
