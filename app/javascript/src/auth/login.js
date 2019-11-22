@@ -178,7 +178,7 @@ function MadeWithLove() {
 const useStyles = makeStyles(theme => ({
   '@global': {
     body: {
-      backgroundColor: theme.palette.primary.dark,
+      backgroundColor: theme.palette.background.default,
     }
   },
   paper: {
