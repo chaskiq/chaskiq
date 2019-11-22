@@ -205,13 +205,13 @@ function UrlPaths({data, updateData}){
             }
             dialogButtons={
               <React.Fragment>
-                <Button onClick={close} color="primary">
+                <Button onClick={close} color="secondary">
                   Cancel
                 </Button>
 
                 <Button onClick={submit } 
-                  zcolor="primary">
-                  create
+                  color="primary">
+                  Create
                 </Button>
 
               </React.Fragment>

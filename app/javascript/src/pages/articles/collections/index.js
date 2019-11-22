@@ -262,7 +262,7 @@ class Collections extends Component {
 
                 dialogButtons={
                   <React.Fragment>
-                    <Button onClick={this.close} color="primary">
+                    <Button onClick={this.close} color="secondary">
                       Cancel
                     </Button>
 
@@ -272,8 +272,8 @@ class Collections extends Component {
                       this.submitEdit.bind(this) :
                       this.submitCreate.bind(this) 
                     } 
-                      zcolor="primary">
-                      {editCollection ? 'update' : 'create'}
+                      color="primary">
+                      {editCollection ? 'Update' : 'Create'}
                     </Button>
 
                   </React.Fragment>
@@ -294,13 +294,13 @@ class Collections extends Component {
 
                 dialogButtons={
                   <React.Fragment>
-                    <Button onClick={this.close} color="primary">
+                    <Button onClick={this.close} color="secondary">
                       Cancel
                     </Button>
 
                     <Button onClick={ this.submitDelete } 
-                      zcolor="primary">
-                      'remove'
+                      color="primary">
+                      Remove
                     </Button>
 
                   </React.Fragment>

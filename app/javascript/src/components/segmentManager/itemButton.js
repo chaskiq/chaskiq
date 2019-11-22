@@ -5,7 +5,6 @@ import React, {Component} from "react"
 
 import AddIcon from '@material-ui/icons/Add'
 import FormDialog from '../FormDialog'
-import {appUsersFormat} from './appUsersFormat' 
 import ClickAwayListener from '@material-ui/core/ClickAwayListener';
 import styled from '@emotion/styled'
 import { withStyles } from '@material-ui/core/styles';
@@ -553,7 +552,7 @@ export default class SegmentItemButton extends Component {
                     <Button 
                       ref={(ref)=>this.setRef(ref)}
                       isLoading={false}
-                      variant="outlined" 
+                      variant={"contained"} 
                       color="primary"
                       //appearance={this.props.appearance}
                       onClick={this.toggleDialog}>

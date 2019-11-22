@@ -18,7 +18,6 @@ import Drawer from '@material-ui/core/Drawer';
 import Button from '@material-ui/core/Button'
 
 
-import {appUsersFormat} from '../segmentManager/appUsersFormat'
 import Map from '../map/index.js'
 
 import {dispatchSegmentUpdate} from '../../actions/segments'
