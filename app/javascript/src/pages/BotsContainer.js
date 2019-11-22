@@ -255,7 +255,7 @@ const BotTaskCreate = ({app, submit, history, match, mode})=>{
         }
         dialogButtons={
           <React.Fragment>
-            <Button onClick={close} color="primary">
+            <Button onClick={close} color="secondary">
               Cancel
             </Button>
 

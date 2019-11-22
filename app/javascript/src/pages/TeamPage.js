@@ -272,12 +272,12 @@ class NonAcceptedAppUsers extends React.Component {
 
                   dialogButtons={
                     <React.Fragment>
-                      <Button onClick={this.close} color="primary">
+                      <Button onClick={this.close} color="secondary">
                         Cancel
                       </Button>
 
                       <Button onClick={this.sendInvitation} 
-                        zcolor="primary">
+                        color="primary">
                         Send invitation
                       </Button>
 
