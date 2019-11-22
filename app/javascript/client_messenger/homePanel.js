@@ -182,7 +182,7 @@ const HomePanel = ({
     <Panel onScroll={handleScroll}>
       
       {
-        appData.inboundSettings.enabled ?
+        appData.inboundSettings.enabled &&
         <ConversationInitiator in={transition}>
         
           <h2>{t("start_conversation")}</h2>
@@ -217,20 +217,22 @@ const HomePanel = ({
           
           </CardContent>
         
-        </ConversationInitiator> :
-
-        <ConversationsBlock in={transition}>
-          <h2>{t("conversations")}</h2>
-          <CardContent>
-            bla bla , show conversations here!
-          </CardContent>
-          <CardButtonsGroup>
-            <a href="#" onClick={viewConversations}>
-              {t("see_previous")}
-            </a>
-          </CardButtonsGroup>
-        </ConversationsBlock>
+        </ConversationInitiator> 
       }
+
+      <ConversationsBlock in={transition}>
+        
+        <CardButtonsGroup>
+          <h2>{t("conversations")}</h2>
+          <a href="#" onClick={viewConversations}>
+            {t("see_previous")}
+          </a>
+        </CardButtonsGroup>
+        <CardContent>
+          bla bla , show conversations here!
+        </CardContent>
+      </ConversationsBlock>
+    
 
       <Card in={transition}>
         {t("search_articles")}
@@ -320,6 +322,12 @@ const CardButtonsGroup = styled.div`
   align-items: center;
   justify-content: space-evenly;
   display: flex;
+  a, a:link, a:visited, a:focus, a:hover, a:active{
+    color: rgb(0,119,204);
+    text-decoration:none; 
+    //cursor: crosshair;
+  }
+
 `
 
 const Avatar = styled.div`
@@ -364,7 +372,7 @@ const ConversationInitiator = styled(Card)`
 `
 
 const ConversationsBlock = styled(Card)`
-  margin-top: 10em;
+  margin-top: 1em;
   h2{
     margin: .4em 0 0.4em 0em;
   }
@@ -385,6 +393,7 @@ const ArticleList = styled.div`
 `
 
 const ArticleCardWrapper = styled.div`
+  cursor: pointer;
   background: white;
   box-shadow: rgba(0, 0, 0, 0.1) 0px 1px 3px 0px, rgba(193, 203, 212, 0.7) 0px 0px 0px 1px inset, rgb(193, 203, 212) 0px -1px 0px 0px inset;
   transform: translateZ(0px);
