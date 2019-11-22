@@ -35,6 +35,10 @@ const useStyles = makeStyles(theme => ({
     color: theme.palette.primary.dark,
     backgroundColor: '#fbfb91'
   },
+
+  online: {colorSecondary: theme.palette.common.green},
+  offline: {background: theme.palette.common.offline}
+  
 }));
 
 function Chip(props) {
@@ -48,26 +52,35 @@ function Chip(props) {
   );
 }
 
+function UserBadge(props) {
+  const classes = useStyles();
+  const {row} = props
+  return (
+    <Badge 
+      classes={{badge: row.online ? classes.online : classes.offline} } 
+      color={row.online ? "primary" : 'secondary' }
+      variant="dot">
+      <Avatar
+        name={row.email}
+        size="medium"
+        src={gravatar(row.email)}
+      />
+    </Badge>
+  );
+}
+
 
 const userFormat = function(showUserDrawer){
   return [
 
     {field: 'email', title: 'email', 
-      render: row => (row ? 
+      render: (row) => {
+        return row && 
 
         <NameWrapper 
           onClick={(e)=>(showUserDrawer && showUserDrawer(row))}>
           <AvatarWrapper>
-            <Badge 
-              //className={classes.margin} 
-              color={row.online ? "primary" : 'secondary' }
-              variant="dot">
-              <Avatar
-                name={row.email}
-                size="medium"
-                src={gravatar(row.email)}
-              />
-            </Badge>
+            <UserBadge row={row}/>
           </AvatarWrapper>
 
           <Grid container direction={"column"}>
@@ -83,8 +96,7 @@ const userFormat = function(showUserDrawer){
           </Grid>
         
         </NameWrapper>
-
-       : undefined)
+      }
     },
     {field: 'state', title: 'state', render: (row)=>{
       return <Chip

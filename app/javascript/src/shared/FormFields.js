@@ -76,7 +76,7 @@ class FieldRenderer extends React.Component {
                   <TextField
                     label={data.name}
                     error={errorMessage}
-                    variant="outlined"
+                    variant="standard"
                     fullWidth
                     //margin="normal"
                     name={`${namespace}[${data.name}]`}
@@ -108,7 +108,7 @@ class FieldRenderer extends React.Component {
                   
                   <TextField
                     label={data.name}
-                    variant="outlined"
+                    variant="standard"
                     error={errorMessage}
                     fullWidth
                     //margin="normal"
@@ -157,7 +157,7 @@ class FieldRenderer extends React.Component {
                   data={data} 
                   values={props.data[data.name]}
                   defaultData={defaultData}
-                  variant="outlined"
+                  variant="standard"
                   //margin="normal"
                   name={`${namespace}[${data.name}]`}
                />
@@ -290,7 +290,7 @@ class ColorPicker extends React.Component {
       <TextField
         label={this.props.label}
         error={this.props.error}
-        variant="outlined"
+        variant="standard"
         fullWidth
         defaultValue={this.state.value}
         name={this.props.name}

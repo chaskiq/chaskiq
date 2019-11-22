@@ -73,7 +73,7 @@ const useStyles = makeStyles(theme => ({
     flexFlow: 'column',
     paddingTop: '1.5em',
     paddingBottom: '1.5em',
-    backgroundColor: theme.palette.primary.dark
+    backgroundColor: theme.palette.background.paper[500]
   },
   defaultItem: {
     flexFlow: 'column',

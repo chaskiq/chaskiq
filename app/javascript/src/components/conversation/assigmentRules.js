@@ -352,13 +352,13 @@ class AssigmentRules extends React.Component {
                   }
                   dialogButtons={
                     <React.Fragment>
-                      <Button onClick={this.close} color="primary">
+                      <Button onClick={this.close} color="secondary">
                         Cancel
                       </Button>
 
                       <Button onClick={this.submitAssignment } 
-                        zcolor="primary">
-                        {this.state.currentRule ? 'update' : 'create'}
+                        color="primary">
+                        {this.state.currentRule ? 'Update' : 'Create'}
                       </Button>
 
                     </React.Fragment>

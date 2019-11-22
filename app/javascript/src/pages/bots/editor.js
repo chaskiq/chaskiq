@@ -139,11 +139,11 @@ const PathDialog = ({open, close, isOpen, submit})=>{
         }
         dialogButtons={
           <React.Fragment>
-            <Button onClick={close} color="primary">
+            <Button onClick={close} color="secondary">
               Cancel
             </Button>
 
-            <Button onClick={handleSubmit} zcolor="primary">
+            <Button onClick={handleSubmit} color="primary">
               Create
             </Button>
           </React.Fragment>
