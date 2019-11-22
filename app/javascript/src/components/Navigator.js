@@ -49,12 +49,14 @@ import { withRouter } from 'react-router-dom'
 import { connect } from 'react-redux'
 import ListMenu from './ListMenu'
 import Typography from '@material-ui/core/Typography';
+import { withTheme } from '@material-ui/core/styles';
 
 
 const styles = theme => ({
   categoryHeader: {
     //paddingTop: 16,
     //paddingBottom: 16,
+    //color: theme.palette.common.gray
   },
   categoryHeaderPrimary: {
     color: theme.palette.common.main,
@@ -117,10 +119,7 @@ const styles = theme => ({
 });
 
 const ExpansionPanel = withStyles({
-
-  
   root: {
-
     boxShadow: 'none',
     '&:not(:last-child)': {
       borderBottom: 0,
