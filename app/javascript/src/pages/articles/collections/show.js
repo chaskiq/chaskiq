@@ -317,7 +317,7 @@ class CollectionDetail extends Component {
 
               dialogButtons={
                 <React.Fragment>
-                  <Button onClick={this.close} color="primary">
+                  <Button onClick={this.close} color="secondary">
                     Cancel
                   </Button>
 
@@ -325,8 +325,8 @@ class CollectionDetail extends Component {
                     this.submitEdit.bind(this) :
                     this.submitCreate.bind(this) 
                   } 
-                    zcolor="primary">
-                    submit
+                    color="primary">
+                    Submit
                     {/*editCollection ? 'update' : 'create'*/}
                   </Button>
 
@@ -480,13 +480,13 @@ class AddArticleDialog extends Component {
 
               dialogButtons={
                 <React.Fragment>
-                  <Button onClick={this.close} color="primary">
+                  <Button onClick={this.close} color="secondary">
                     Cancel
                   </Button>
 
                   <Button onClick={ ()=> this.props.handleSubmit(this.getValues()) } 
-                    zcolor="primary">
-                    submit
+                    color="primary">
+                    Submit
                   </Button>
 
                 </React.Fragment>

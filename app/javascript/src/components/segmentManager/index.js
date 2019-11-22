@@ -8,7 +8,6 @@ import AddIcon from '@material-ui/icons/Add'
 import FormDialog from '../FormDialog'
 import DataTable from '../table/index'
 
-import {appUsersFormat} from './appUsersFormat' 
 import SegmentItemButton from './itemButton'
 import {Map, List, fromJS} from 'immutable'
 
@@ -204,12 +203,12 @@ export class SaveSegmentModal extends Component {
 
               dialogButtons={
                 <React.Fragment>
-                  <Button onClick={this.close} color="primary">
+                  <Button onClick={this.close} color="secondary">
                     Cancel
                   </Button>
 
                   <Button onClick={this.secondaryAction.bind(this)} 
-                    zcolor="primary">
+                    color="primary">
                     {
                       this.state.action === "update" ? "Save" : "Save New"
                     }

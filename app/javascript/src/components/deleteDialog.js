@@ -40,12 +40,12 @@ export default function DeleteDialog({
           dialogButtons={
             <React.Fragment>
               <Button onClick={close} 
-                color="primary">
+                color="secondary">
                 Cancel
               </Button>
 
               <Button onClick={deleteHandler } 
-                zcolor="primary">
+                color="primary">
                 Delete
               </Button>
 
