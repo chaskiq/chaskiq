@@ -675,15 +675,6 @@ export const Header = styled(({isMobile, ...rest})=>(<div {...rest}></div>))`
 `
 
 export const Body = styled.div`
-  /*position: relative;
-  background: #fff;
-  margin: 0px 0 0px 0;
-  min-height: 0;
-  font-size: 12px;
-  line-height: 18px;
-  width: 100%;
-  float: right;*/
-
     position: relative;
     -webkit-box-flex: 1;
     -ms-flex: 1;
@@ -937,11 +928,12 @@ export const ChatAvatar = styled.div`
 `
 
 export const AnchorButton = styled.a`
+  text-decoration: none;
   background-color: #242424;
   -webkit-box-shadow: 0 4px 12px rgba(0,0,0,.1);
   box-shadow: 0 4px 12px rgba(0,0,0,.1);
   height: 40px;
-  color: rgb(255, 255, 255);
+  color: rgb(255, 255, 255) !important;
   font-size: 13px;
   line-height: 14px;
   pointer-events: auto;
@@ -1030,18 +1022,19 @@ export const ConversationSummaryBodyItems = styled.div`
   }
 `
 export const ConversationSummaryBodyContent = styled.div`
-      -webkit-box-flex: 1;
-      -ms-flex: 1;
-      flex: 1;
-      //padding-left: 16px;    
-      font-weight: 300;
-      p {
-        margin: 0px;
-      }
+  color: #969696;
+  -webkit-box-flex: 1;
+  -ms-flex: 1;
+  flex: 1;
+  //padding-left: 16px;    
+  font-weight: 300;
+  p {
+    margin: 0px;
+  }
 `
 
 export const Autor = styled.div`
-  font-weight: 100;
+  font-weight: 500;
   font-size: 14px;
   overflow: hidden;
   text-overflow: ellipsis;
