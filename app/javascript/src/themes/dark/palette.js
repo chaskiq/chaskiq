@@ -20,7 +20,8 @@ const palette = {
 
   common: {
     black: "#000",
-    white: "#fff"
+    white: "#fff",
+    gray: '#ccc'
   },
 
   primary: {
@@ -30,7 +31,8 @@ const palette = {
     dark: '#202229',
     contrastText: "#fff",
     borders: "#2F363D",
-    logo: logo
+    logo: logo,
+    
     /*contrastText: "#000",
     dark: "#121212",
     light: "#7986cb",
@@ -39,7 +41,7 @@ const palette = {
 
   secondary: {
     contrastText: "#fff",
-    dark: "#c51162",
+    dark: "#c51162", 
     light: "#ff4081",
     main: "#f50057",
   },

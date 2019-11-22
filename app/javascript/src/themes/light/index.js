@@ -128,6 +128,11 @@ theme = {
         height: 32,
       },
     },
+    MuiExpansionPanel: {
+      rounded: {
+        color: theme.palette.common.gray,
+      }
+    }
   },
   props: {
     MuiTab: {
