@@ -64,7 +64,10 @@ const useStyles = makeStyles(theme => ({
   },
   displayName: {
     width: 'calc(100% - 9px)',
-    fontWeight: 'bold'
+    fontWeight: 'bold',
+    display: 'flex',
+    justifyContent: 'space-between',
+    alignItems: 'center'
   },
   highlightedItem: {
     flexFlow: 'column',
@@ -74,10 +77,15 @@ const useStyles = makeStyles(theme => ({
   },
   defaultItem: {
     flexFlow: 'column',
-    paddingTop: '1.5em',
-    paddingBottom: '1.5em',
+    paddingTop: '.5em',
+    paddingBottom: '.5em',
     backgroundColor: theme.palette.background.paper
+  },
+  contentContent: {
+    color: theme.palette.common.gray
   }
+
+
 
 
   /*badge: {
@@ -101,7 +109,6 @@ const PrivateNoteIndicator = styled.div`
 `
 
 const ContentContent = styled(Typography)`
-  //color: rgba(0, 0, 0, 0.54);
   p{
     margin: 0px;
   }
@@ -122,7 +129,7 @@ function AlignItemsList(props) {
    
       const data = message.data
 
-      return <div>
+      return <div className={classes.contentContent}>
               
               <span>
                 {`[${message.blocks.type}] `}
@@ -231,8 +238,9 @@ function AlignItemsList(props) {
                 {
                   !props.messageObject.blocks &&  <ContentContent 
                                               variant={"body2"}
+                                              className={classes.contentContent}
                                               noWrap 
-                                              color={"secondary"}
+                                              //color={"secondary"}
                                               dangerouslySetInnerHTML={
                                                 { __html: props.message }
                                                 }
@@ -248,7 +256,7 @@ function AlignItemsList(props) {
 
       </ListItem>
 
-      <Divider variant="fullWidth" component="li" />
+      <Divider variant="inset" component="li" />
     </List>
   );
 }
