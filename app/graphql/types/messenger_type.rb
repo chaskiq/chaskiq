@@ -31,7 +31,7 @@ module Types
                                         .where(main_participant: @user.id)
                                         .order("updated_at desc")
                                         .page(page)
-                                        .per(5)
+                                        .per(per)
     end
 
     field :agents, [Types::AgentType], null: true
