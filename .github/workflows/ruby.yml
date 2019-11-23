@@ -35,9 +35,29 @@ jobs:
           RAILS_ENV: test
           RAILS_MASTER_KEY: ${{ secrets.RAILS_MASTER_KEY }}
         run: |
-          sudo apt-get -yqq install libpq-dev
+
+      - name: Install dependencies
+        run: |
+          sudo apt-get -yqq install libpq-dev #chromium-chromedriver
           gem install bundler
           bundle update --bundler
           bundle install --jobs 4 --retry 3
-          bundle exec rails db:prepare
-          bundle exec rspec
+          
+      - name: Run migrations
+        run: bundle exec rails db:prepare
+
+      #- name: Run Rubocop
+      #  run: bin/rubocop
+      #- name: Run Style Lint
+      #  run: bin/stylelint
+      #- name: Run Prettier
+      #  run: bin/prettier
+      #- name: Run ESLint
+      #  run: bin/eslint
+      #- name: Run Bundler Audit
+      #  run: bin/bundler-audit --update
+      #- name: Run Brakeman
+      #  run: bin/brakeman -q -w2
+
+      - name: Run tests
+        run: bundle exec rspec
