@@ -197,14 +197,16 @@ const HomePanel = ({
         appData.inboundSettings.enabled &&
         <ConversationInitiator in={transition}>
         
+         
           <h2>{t("start_conversation")}</h2>
 
           {renderAvailability()}
           
           {replyTimeMessage()}
-
+      
           <CardContent>
 
+          
             <ConnectedPeople>
               {
                 agents.map((agent, i)=>(
@@ -226,9 +228,9 @@ const HomePanel = ({
               </a>
 
             </CardButtonsGroup>
-          
+
           </CardContent>
-        
+
         </ConversationInitiator> 
       }
 
@@ -398,6 +400,10 @@ const ConversationInitiator = styled(Card)`
   h2{
     margin: .4em 0 0.4em 0em;
   }
+`
+
+const CardPadder = styled.div`
+  padding: 2em;
 `
 
 const ConversationsBlock = styled(Card)`
