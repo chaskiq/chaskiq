@@ -6,17 +6,13 @@ import actioncable from "actioncable"
 import axios from "axios"
 import UAParser from 'ua-parser-js'
 import theme from './textEditor/theme'
-import themeDark from './textEditor/darkTheme'
 import DraftRenderer from './textEditor/draftRenderer'
 import DanteContainer from './textEditor/editorStyles'
-import UnicornEditor from './textEditor' // from './quillEditor' //'./draftEditor' //from './editor.js'
 import Tour from './UserTour'
 import gravatar from "./shared/gravatar"
-import Moment from 'react-moment';
 import { soundManager } from 'soundmanager2'
 import {toCamelCase} from './shared/caseConverter'
 import UrlPattern from 'url-pattern'
-import serialize from 'form-serialize'
 import { withTranslation } from 'react-i18next';
 import i18n from './i18n'
 import {
@@ -27,11 +23,6 @@ import {
   START_CONVERSATION
 } from './graphql/queries'
 import GraphqlClient from './graphql/client'
-
-//import {
-//  INSERT_COMMMENT,
-//  START_CONVERSATION
-//} from '../mutations'
 
 import {
   Container,
@@ -77,7 +68,6 @@ import {
   ShowMoreWrapper,
 } from './styles/styled'
 
-import sanitizeHtml from 'sanitize-html';
 import TourManager from './tourManager'
 import {
   CloseIcon,
@@ -90,9 +80,9 @@ import StyledFrame from './styledFrame'
 import Home from './homePanel'
 import Article from './articles'
 
+import {Conversation, Conversations} from './conversation.js'
+
 let App = {}
-
-
 
 class Messenger extends Component {
 
@@ -604,7 +594,7 @@ class Messenger extends Component {
     this.setState({ conversationsMeta: {} }, this.getConversations)
   }
 
-  getConversations = (options)=>{
+  getConversations = (options={})=>{
 
     const data = {
       referrer: window.location.path,
@@ -615,7 +605,8 @@ class Messenger extends Component {
     const nextPage = this.state.conversationsMeta.next_page || 1
 
     this.graphqlClient.send(CONVERSATIONS, {
-      page: nextPage
+      page: options.page || nextPage,
+      per: options.per
     }, {
       success: (data)=>{
         const { collection, meta } = data.messenger.conversations
@@ -801,6 +792,10 @@ class Messenger extends Component {
     this.requestTrigger(data.trigger.id)
   }
 
+  pushEvent = (name , data)=>{
+    App.events && App.events.perform(name, data)
+  }
+
   /*sendTrigger = ()=>{
     console.log("send trigger")
     this.axiosInstance.get(`/api/v1/apps/${this.props.app_id}/triggers.json`)
@@ -954,316 +949,319 @@ class Messenger extends Component {
 
   render() {
     return (
+        <ThemeProvider theme={{
+          mode: this.state.appData ? this.state.appData.theme : 'light',
+          isMessengerActive: this.isMessengerActive()
+        }}>
+         
+            <EditorWrapper>
 
-      <ThemeProvider theme={{
-        mode: this.state.appData ? this.state.appData.theme : 'light',
-        isMessengerActive: this.isMessengerActive()
-      }}>
-      
-        <EditorWrapper>
-
-          {
-            
-            this.state.availableMessages.length > 0 && this.isMessengerActive() &&
-            <MessageFrame 
-              app_id={this.props.app_id}
-              axiosInstance={this.axiosInstance}
-              availableMessages={this.state.availableMessages} 
-              t={this.props.t}
-            />
-            
-          }
-              
-
-          {
-            this.state.open && this.isMessengerActive() ?
-              <Container 
-                open={this.state.open} 
-                isMobile={this.state.isMobile}>
+              {
                 
-                <SuperDuper> 
-                  <StyledFrame style={{
-                    width: '100%',
-                    height: '100%',
+                this.state.availableMessages.length > 0 && this.isMessengerActive() &&
+                <MessageFrame 
+                  app_id={this.props.app_id}
+                  axiosInstance={this.axiosInstance}
+                  availableMessages={this.state.availableMessages} 
+                  t={this.props.t}
+                />
+                
+              }
+                  
+
+              {
+                this.state.open && this.isMessengerActive() ?
+                  <Container 
+                    open={this.state.open} 
+                    isMobile={this.state.isMobile}>
+                    
+                    <SuperDuper> 
+                      <StyledFrame style={{
+                        width: '100%',
+                        height: '100%',
+                        border: 'none'
+                      }}>
+
+                        <FrameBridge 
+                          handleAppPackageEvent={this.handleAppPackageEvent}>
+
+                          <SuperFragment>
+
+                            {
+                              this.state.isMobile ?
+                              <CloseButtonWrapper>
+                                <button onClick={() => this.toggleMessenger()}>
+                                  <CloseIcon style={{ height: '16px', width: '16px'}}/>
+                                </button>
+
+                              </CloseButtonWrapper> : null
+                            }
+
+                            <Header 
+                              style={{height: this.state.header.height}}
+                              isMobile={this.state.isMobile}>
+                              <HeaderOption 
+                                in={this.state.transition}
+                                >
+
+                                { this.state.new_messages > 0 && 
+                                  <CountBadge section={this.state.display_mode}>
+                                    {this.state.new_messages}
+                                  </CountBadge>
+                                }
+
+                                { this.state.display_mode != "home" ? 
+                                  <LeftIcon 
+                                    className="fade-in-right"
+                                    onClick={this.displayHome.bind(this)}
+                                    ///onClick={this.displayConversationList.bind(this)}
+                                    style={{margin: '20px', cursor: 'pointer'}}
+                                  /> : null 
+                                }
+
+                                { this.state.display_mode === "conversation" &&
+                                  <HeaderTitle in={this.state.transition}>
+                                    {this.renderAsignee()}
+                                  </HeaderTitle>
+                                }
+
+                                { this.state.display_mode === "home" &&
+                                  <HeaderTitle style={{
+                                    padding: '2em',
+                                    opacity: this.state.header.opacity,
+                                    transform: `translateY(${this.state.header.translateY}px)`
+                                  }}>
+                                    <h2>{this.state.appData.greetings}</h2>
+                                    <p>{this.state.appData.intro}</p>
+                                  </HeaderTitle>
+                                }
+
+
+                                { this.state.display_mode === "conversations" &&
+                                  <HeaderTitle in={this.state.transition}>
+                                    {this.props.t("conversations")}
+                                  </HeaderTitle>
+                                }
+                                
+
+                                {/*this.props.app_id*/}
+                              </HeaderOption>
+                            </Header>
+                            <Body>
+
+                              {
+                                this.state.display_mode === "home" && 
+                                <Home 
+                                  graphqlClient={this.graphqlClient}
+                                  displayNewConversation={this.displayNewConversation}
+                                  viewConversations={this.displayConversationList}
+                                  updateHeader={this.updateHeader}
+                                  transition={this.state.transition}
+                                  displayArticle={this.displayArticle}
+                                  appData={this.state.appData}
+                                  agents={this.state.agents}
+                                  displayConversation={this.displayConversation}
+                                  conversations={this.state.conversations}
+                                  getConversations={this.getConversations}
+                                  {...this.props}
+                                  t={this.props.t}
+                                />
+                              }
+
+                              {
+                                this.state.display_mode === "article" &&
+                                <Article 
+                                  graphqlClient={this.graphqlClient}
+                                  updateHeader={this.updateHeader}
+                                  transition={this.state.transition}
+                                  articleSlug={this.state.article.slug}
+                                  transition={this.state.transition}
+                                  appData={this.state.appData}
+                                  t={this.props.t}
+                                />
+                              }
+
+                              {
+                                this.state.display_mode === "conversation" &&
+                                
+                                  <Conversation
+                                    visible={this.state.visible}
+                                    clearConversation={this.clearConversation}
+                                    isMobile={this.state.isMobile}
+                                    agent_typing={this.state.agent_typing}
+                                    domain={this.props.domain}
+                                    conversation={this.state.conversation}
+                                    isUserAutoMessage={this.isUserAutoMessage}
+                                    insertComment={this.insertComment}
+                                    setConversation={this.setConversation}
+                                    setOverflow={this.setOverflow}
+                                    submitAppUserData={this.submitAppUserData}
+                                    updateHeader={this.updateHeader}
+                                    transition={this.state.transition}
+                                    pushEvent={this.pushEvent}
+                                    displayAppBlockFrame={this.displayAppBlockFrame}
+                                    t={this.props.t}
+                                  /> 
+                              } 
+
+                              {
+                                this.state.display_mode === "conversations" && 
+                                  <Conversations 
+                                    isMobile={this.state.isMobile}
+                                    displayConversation={this.displayConversation}
+                                    displayNewConversation={this.displayNewConversation}
+                                    conversationsMeta={this.state.conversationsMeta}
+                                    conversations={this.state.conversations}
+                                    getConversations={this.getConversations}
+                                    clearAndGetConversations={this.clearAndGetConversations}
+                                    email={this.props.email}
+                                    app={this.state.appData}
+                                    updateHeader={this.updateHeader}
+                                    transition={this.state.transition}
+                                    t={this.props.t}
+                                  />
+                              }
+
+                              {
+                                this.state.display_mode === "appBlockAppPackage" &&
+                                <AppBlockPackageFrame 
+                                  domain={this.props.domain}
+                                  appBlock={this.state.currentAppBlock}
+                                />
+                              }
+
+                            </Body> 
+                            
+                          </SuperFragment>
+                        </FrameBridge>
+                      </StyledFrame>
+
+                    </SuperDuper> 
+                  
+                  </Container>  : null
+              }
+
+              {
+                !this.state.open && 
+                this.state.inline_conversation && 
+                <StyledFrame className="inline-frame" style={{}}>
+
+                  <div 
+                    onMouseEnter={this.displayShowMore} 
+                    onMouseLeave={this.hideShowMore}
+                    >
+
+                    {
+                      this.state.showMoredisplay &&
+                    
+                        <ShowMoreWrapper in={
+                          this.state.showMoredisplay ? "in" : "out"
+                        }>
+                            <button
+                              onClick={()=>{
+                                this.showMore()
+                              }}>
+                                mostrar mas
+                            </button>
+                            <button 
+                              onClick={()=>this.clearInlineConversation()} 
+                              className="close">
+                                <CloseIcon style={{
+                                  height: '10px',
+                                  width: '10px',
+                                }}
+                              />
+                            </button>
+                        </ShowMoreWrapper>
+
+                    }
+
+                    <Conversation
+                      disablePagination={true}
+                      inline_conversation={this.state.inline_conversation}
+                      footerClassName="inline"
+                      clearConversation={this.clearConversation}
+                      isMobile={this.state.isMobile}
+                      domain={this.props.domain}
+                      //conversation_messages={this.state.conversation_messages}
+                      conversation={this.state.conversation}
+                      //conversation_messagesMeta={this.state.conversation_messagesMeta}
+                      isUserAutoMessage={this.isUserAutoMessage}
+                      insertComment={this.insertComment}
+                      setConversation={this.setConversation}
+                      setOverflow={this.setOverflow}
+                      submitAppUserData={this.submitAppUserData}
+                      updateHeader={this.updateHeader}
+                      transition={this.state.transition}
+                      displayAppBlockFrame={this.displayAppBlockFrame}
+                      t={this.props.t}
+                    />
+                  </div>
+                
+                </StyledFrame>
+              }
+
+
+              { 
+                this.isMessengerActive() ?
+                <StyledFrame style={{
+                    zIndex: '10000000',
+                    position: 'absolute',
+                    bottom: '-18px',
+                    width: '88px',
+                    height: '100px',
+                    right: '-23px',
                     border: 'none'
                   }}>
 
-                    <FrameBridge 
-                      handleAppPackageEvent={this.handleAppPackageEvent}>
+                  <Prime id="chaskiq-prime" 
+                    onClick={this.toggleMessenger}>
+                    <div style={{
+                      transition: 'all .2s ease-in-out',
+                      transform: !this.state.open ? '' : 'rotate(180deg)',
+                    }}>
 
-                      <SuperFragment>
+                      {
+                        !this.state.open && this.state.new_messages > 0 && <CountBadge>
+                                                        {this.state.new_messages}
+                                                      </CountBadge>
+                      }
 
-                        {
-                          this.state.isMobile ?
-                          <CloseButtonWrapper>
-                            <button onClick={() => this.toggleMessenger()}>
-                              <CloseIcon style={{ height: '16px', width: '16px'}}/>
-                            </button>
-
-                          </CloseButtonWrapper> : null
-                        }
-
-                        <Header 
-                          style={{height: this.state.header.height}}
-                          isMobile={this.state.isMobile}>
-                          <HeaderOption 
-                            in={this.state.transition}
-                            >
-
-                            { this.state.new_messages > 0 && 
-                              <CountBadge section={this.state.display_mode}>
-                                {this.state.new_messages}
-                              </CountBadge>
-                            }
-
-                            { this.state.display_mode != "home" ? 
-                              <LeftIcon 
-                                className="fade-in-right"
-                                onClick={this.displayHome.bind(this)}
-                                ///onClick={this.displayConversationList.bind(this)}
-                                style={{margin: '20px', cursor: 'pointer'}}
-                              /> : null 
-                            }
-
-                            { this.state.display_mode === "conversation" &&
-                              <HeaderTitle in={this.state.transition}>
-                                {this.renderAsignee()}
-                              </HeaderTitle>
-                            }
-
-                            { this.state.display_mode === "home" &&
-                              <HeaderTitle style={{
-                                padding: '2em',
-                                opacity: this.state.header.opacity,
-                                transform: `translateY(${this.state.header.translateY}px)`
-                              }}>
-                                <h2>{this.state.appData.greetings}</h2>
-                                <p>{this.state.appData.intro}</p>
-                              </HeaderTitle>
-                            }
-
-
-                            { this.state.display_mode === "conversations" &&
-                              <HeaderTitle in={this.state.transition}>
-                                {this.props.t("conversations")}
-                              </HeaderTitle>
-                            }
-                            
-
-                            {/*this.props.app_id*/}
-                          </HeaderOption>
-                        </Header>
-                        <Body>
-
-                          {
-                            this.state.display_mode === "home" && 
-                            <Home 
-                              graphqlClient={this.graphqlClient}
-                              displayNewConversation={this.displayNewConversation}
-                              viewConversations={this.displayConversationList}
-                              updateHeader={this.updateHeader}
-                              transition={this.state.transition}
-                              displayArticle={this.displayArticle}
-                              appData={this.state.appData}
-                              agents={this.state.agents}
-                              {...this.props}
-                              t={this.props.t}
-                            />
-                          }
-
-                          {
-                            this.state.display_mode === "article" &&
-                            <Article 
-                              graphqlClient={this.graphqlClient}
-                              updateHeader={this.updateHeader}
-                              transition={this.state.transition}
-                              articleSlug={this.state.article.slug}
-                              transition={this.state.transition}
-                              appData={this.state.appData}
-                              t={this.props.t}
-                            />
-                          }
-
-                          {
-                            this.state.display_mode === "conversation" &&
-                            
-                              <Conversation
-                                visible={this.state.visible}
-                                clearConversation={this.clearConversation}
-                                isMobile={this.state.isMobile}
-                                agent_typing={this.state.agent_typing}
-                                domain={this.props.domain}
-                                conversation={this.state.conversation}
-                                isUserAutoMessage={this.isUserAutoMessage}
-                                insertComment={this.insertComment}
-                                setConversation={this.setConversation}
-                                setOverflow={this.setOverflow}
-                                submitAppUserData={this.submitAppUserData}
-                                updateHeader={this.updateHeader}
-                                transition={this.state.transition}
-                                displayAppBlockFrame={this.displayAppBlockFrame}
-                                t={this.props.t}
-                              /> 
-                          } 
-
-                          {
-                            this.state.display_mode === "conversations" && 
-                              <Conversations 
-                                isMobile={this.state.isMobile}
-                                displayConversation={this.displayConversation}
-                                displayNewConversation={this.displayNewConversation}
-                                conversationsMeta={this.state.conversationsMeta}
-                                conversations={this.state.conversations}
-                                getConversations={this.getConversations}
-                                clearAndGetConversations={this.clearAndGetConversations}
-                                email={this.props.email}
-                                app={this.state.appData}
-                                updateHeader={this.updateHeader}
-                                transition={this.state.transition}
-                                t={this.props.t}
-                              />
-                          }
-
-                          {
-                            this.state.display_mode === "appBlockAppPackage" &&
-                            <AppBlockPackageFrame 
-                              domain={this.props.domain}
-                              appBlock={this.state.currentAppBlock}
-                            />
-                          }
-
-                        </Body> 
+                      {
+                        !this.state.open ?
                         
-                      </SuperFragment>
-                    </FrameBridge>
-                  </StyledFrame>
-
-                </SuperDuper> 
-              
-              </Container>  : null
-          }
-
-          {
-            !this.state.open && 
-            this.state.inline_conversation && 
-            <StyledFrame className="inline-frame" style={{}}>
-
-              <div 
-                onMouseEnter={this.displayShowMore} 
-                onMouseLeave={this.hideShowMore}
-                >
-
-                {
-                  this.state.showMoredisplay &&
-                
-                    <ShowMoreWrapper in={
-                      this.state.showMoredisplay ? "in" : "out"
-                    }>
-                        <button
-                          onClick={()=>{
-                            this.showMore()
-                          }}>
-                            mostrar mas
-                        </button>
-                        <button 
-                          onClick={()=>this.clearInlineConversation()} 
-                          className="close">
-                            <CloseIcon style={{
-                              height: '10px',
-                              width: '10px',
+                          <MessageIcon style={{ 
+                            height: '43px',
+                            width: '36px',
+                            margin: '8px 0px'
+                          }}/> : 
+                          <CloseIcon style={{
+                              height: '26px',
+                              width: '21px',
+                              margin: '11px 0px'
                             }}
                           />
-                        </button>
-                    </ShowMoreWrapper>
+                      }
+                    </div>
+                  </Prime>  
+                </StyledFrame> : null
+            }
 
-                }
+            {
+              this.state.tourManagerEnabled ?
+              <TourManager ev={this.state.ev}/> : 
+                this.state.tours.length > 0 ? 
+                <Tour 
+                  tours={this.state.tours}
+                  events={App.events}
+                /> : null
+            }
 
-                <Conversation
-                  disablePagination={true}
-                  inline_conversation={this.state.inline_conversation}
-                  footerClassName="inline"
-                  clearConversation={this.clearConversation}
-                  isMobile={this.state.isMobile}
-                  domain={this.props.domain}
-                  //conversation_messages={this.state.conversation_messages}
-                  conversation={this.state.conversation}
-                  //conversation_messagesMeta={this.state.conversation_messagesMeta}
-                  isUserAutoMessage={this.isUserAutoMessage}
-                  insertComment={this.insertComment}
-                  setConversation={this.setConversation}
-                  setOverflow={this.setOverflow}
-                  submitAppUserData={this.submitAppUserData}
-                  updateHeader={this.updateHeader}
-                  transition={this.state.transition}
-                  displayAppBlockFrame={this.displayAppBlockFrame}
-                  t={this.props.t}
-                />
-              </div>
-            
-            </StyledFrame>
-          }
+            <div id="TourManager"></div>
 
-
-          { 
-            this.isMessengerActive() ?
-            <StyledFrame style={{
-                zIndex: '10000000',
-                position: 'absolute',
-                bottom: '-18px',
-                width: '88px',
-                height: '100px',
-                right: '-23px',
-                border: 'none'
-              }}>
-
-              <Prime id="chaskiq-prime" 
-                onClick={this.toggleMessenger}>
-                <div style={{
-                  transition: 'all .2s ease-in-out',
-                  transform: !this.state.open ? '' : 'rotate(180deg)',
-                }}>
-
-                  {
-                    !this.state.open && this.state.new_messages > 0 && <CountBadge>
-                                                    {this.state.new_messages}
-                                                   </CountBadge>
-                  }
-
-                  {
-                    !this.state.open ?
-                    
-                      <MessageIcon style={{ 
-                        height: '43px',
-                        width: '36px',
-                        margin: '8px 0px'
-                      }}/> : 
-                      <CloseIcon style={{
-                          height: '26px',
-                          width: '21px',
-                          margin: '11px 0px'
-                        }}
-                      />
-                  }
-                </div>
-              </Prime>  
-            </StyledFrame> : null
-        }
-
-        {
-          this.state.tourManagerEnabled ?
-          <TourManager ev={this.state.ev}/> : 
-            this.state.tours.length > 0 ? 
-            <Tour 
-              tours={this.state.tours}
-              events={App.events}
-            /> : null
-        }
-
-        <div id="TourManager"></div>
-
-        </EditorWrapper>
-        
-      </ThemeProvider>
+            </EditorWrapper>
+         
+        </ThemeProvider>
     );
   }
 }
@@ -1312,412 +1310,6 @@ class AppBlockPackageFrame extends Component {
               />
            </div>
   }
-}
-
-class Conversation extends Component {
-
-  componentDidMount(){
-    this.props.updateHeader(
-      {
-        translateY: 0 , 
-        opacity: 1, 
-        height: '0' 
-      }
-    )
-  }
-
-  componentWillUnmount(){
-    if(!this.props.inline_conversation)
-      this.props.clearConversation()
-  }
-
-  // TODO: skip on xhr progress
-  handleConversationScroll = (e) => {
-
-    if(this.props.disablePagination) return
-    
-    let element = e.target
-    //console.log(element.scrollTop)
-    //console.log(element.scrollHeight - element.scrollTop, element.clientHeight) // on bottom
-    if (element.scrollTop === 0) { // on top
-
-      this.props.updateHeader(
-        {
-          translateY: 0 , 
-          opacity: 1, 
-          height: 212
-        }
-      )
-
-    //if (element.scrollTop <= 50) { // on almost top // todo skip on xhr loading
-      if (this.props.conversation.messages.meta.next_page)
-        this.props.setConversation(this.props.conversation.key)
-    } else {
-      this.props.updateHeader(
-        {
-          translateY: 0 , 
-          opacity: 1, 
-          height: 0
-        }
-      )
-    }
-  }
-
-  renderMessage = (o, i)=>{
-    const userClass = o.appUser.kind === "agent" ? 'admin' : 'user'
-    const isAgent = o.appUser.kind === "agent"
-    const themeforMessage = o.privateNote || isAgent ? theme : themeDark
-    const {t} = this.props
-    
-    return <MessageItemWrapper
-            visible={this.props.visible}
-            email={this.props.email}
-            key={`conversation-item-${o.id}`}
-            conversation={this.props.conversation}
-            data={o}>
-
-              <MessageItem
-                className={userClass}
-                messageSourceType={o.messageSource ? o.messageSource.type : ''}
-              >
-
-              {
-                !this.props.isUserAutoMessage(o) && isAgent ?
-                <ConversationSummaryAvatar>
-                  <img src={gravatar(o.appUser.email)} />
-                </ConversationSummaryAvatar> : null
-              }
-
-              <div className="message-content-wrapper">
-
-                {
-                  this.props.isUserAutoMessage(o) ?
-                    <UserAutoChatAvatar>
-                      <img src={gravatar(o.appUser.email)} />
-                      <span>{o.appUser.name || o.appUser.email}</span>
-                    </UserAutoChatAvatar> : null
-                }
-
-                {/*render light theme on user or private note*/}
-                
-                <ThemeProvider 
-                  theme={ themeforMessage }>
-                  <DanteContainer>
-                    <DraftRenderer 
-                      key={i}
-                      message={o}
-                      domain={this.props.domain}
-                      raw={JSON.parse(o.message.serializedContent)}
-                    />
-
-                    <span className="status">
-                      {
-                        o.readAt ?
-                          <Moment fromNow>
-                            {o.readAt}
-                          </Moment> : <span>{t("not_seen")}</span>
-                      }
-                    </span>
-                  </DanteContainer>
-                </ThemeProvider>  
-
-              </div>
-
-            </MessageItem>
-            
-          </MessageItemWrapper>
-  }
-
-  renderItemPackage = (o, i)=>{
-    return  <AppPackageBlock 
-               key={i}
-               message={o}
-               conversation={this.props.conversation}
-               submitAppUserData={this.props.submitAppUserData.bind(this)}
-               clickHandler={this.appPackageClickHandler.bind(this)}
-               appPackageSubmitHandler={this.appPackageSubmitHandler.bind(this)}
-               t={this.props.t}
-               {...o}
-              />
-  }
-
-  renderEventBlock = (o, i)=>{
-    const {data, action} = o.message
-    return <ConversationEventContainer>
-            <span>
-              {this.props.t(`conversations.events.${action}`, data)}
-            </span>
-           </ConversationEventContainer>
-  }
-
-  appPackageBlockDisplay = (message)=>{
-    this.props.displayAppBlockFrame(message)
-  }
-
-  appPackageClickHandler = (item, message)=>{
-    // run app block display here! refactor
-    if (message.message.blocks.type === "app_package") return this.appPackageBlockDisplay(message)
-    App.events && App.events.perform('trigger_step', {
-      conversation_id: this.props.conversation.key,
-      message_id: message.id,
-      trigger: message.triggerId,
-      step: item.nextStepUuid || item.next_step_uuid,
-      reply: item
-    })
-    
-  }
-
-  appPackageSubmitHandler = (data, message)=>{
-    App.events && App.events.perform("receive_conversation_part", 
-      {
-        conversation_id: this.props.conversation.key,
-        message_id: message.id,
-        step: this.props.stepId,
-        trigger: this.props.TriggerId,
-        submit: data
-      })
-  }
-
-  renderTyping = ()=>{
-    return <MessageItem>
-
-            <div className="message-content-wrapper">
-              <MessageSpinner>
-                <div className={"bounce1"}/>
-                <div className={"bounce2"}/>
-                <div className={"bounce3"}/>
-              </MessageSpinner>
-              <span style={{
-                fontSize: '0.7rem', 
-                color: '#afabb3'}}>
-                {this.props.agent_typing.author.name || 'agent'}
-                is typing
-              </span>
-            </div>
-
-           </MessageItem>
-  }
-
-  render(){
-
-    const {t} = this.props
-    return <div style={{
-      position: 'absolute',
-      top: '0',
-      bottom: '0',
-      left: '0',
-      right: '0'
-    }}>
-      <div
-        ref={comp => this.props.setOverflow(comp) }
-        onScroll={this.handleConversationScroll}
-        style={{ overflowY: 'auto', height: '100%' }}>
-
-        <EditorSection>
-
-          <CommentsWrapper
-            isReverse={true}
-            //ref={this.commentWrapperRef}
-            isMobile={this.props.isMobile}>
-
-            {
-              this.props.agent_typing && this.renderTyping()
-            }
-            {
-              this.props.conversation.messages && this.props.conversation.messages.collection.map((o, i) => {
-                  if(o.message.blocks) return this.renderItemPackage(o, i)
-                  if(o.message.action) return this.renderEventBlock(o, i)
-                  return this.renderMessage(o, i)
-              })
-            }
-
-          </CommentsWrapper>
-
-          <Footer className={this.props.footerClassName || ''}>
-          
-            {
-              this.props.conversation.locked ? t("reply_above") : 
-              <UnicornEditor
-                footerClassName={this.props.footerClassName }
-                insertComment={this.props.insertComment}
-              />
-            }
-            
-          </Footer>
-
-        </EditorSection>
-
-      </div>
-    </div>
-  }
-
-}
-
-class Conversations extends Component {
-
-  componentDidMount(){
-    this.props.clearAndGetConversations()
-
-    this.props.updateHeader(
-      {
-        translateY: 0 , 
-        opacity: 1, 
-        height: '0' 
-      }
-    )
-  }
-
-  // TODO: skip on xhr progress
-  handleConversationsScroll = (e) => {
-    let element = e.target
-
-    //console.log(element.scrollHeight - element.scrollTop , element.clientHeight)
-    if (element.scrollHeight - element.scrollTop === element.clientHeight) {
-      if (this.props.conversationsMeta.next_page)
-        this.props.getConversations({ append: true })
-    }
-  }
-
-  sanitizeMessageSummary = (message)=>{
-    if(!message)
-      return
-
-    const sanitized = sanitizeHtml(message)
-    return sanitized.length > 100 ? `${sanitized.substring(0, 100)} ...` : sanitized
-  }
-
-  render(){
-    const {t} = this.props
-
-    return <div style={{
-      position: 'absolute',
-      top: '0',
-      bottom: '0',
-      left: '0',
-      right: '0'
-    }}>
-      <div onScroll={this.handleConversationsScroll}
-        style={{ overflowY: 'auto', height: '100%' }}>
-        <CommentsWrapper 
-          isMobile={this.props.isMobile}>
-          {
-            this.props.conversations.map((o, i) => {
-
-              const message = o.lastMessage
-
-              return <CommentsItemComp
-                key={`comments-item-comp-${o.key}`}
-                message={message}
-                o={o}
-                index={i}
-                t={t}
-                displayConversation={this.props.displayConversation}
-                sanitizeMessageSummary={this.sanitizeMessageSummary}
-              />
-
-
-            })
-          }
-        </CommentsWrapper>
-
-        <ConversationsFooter>
-          <Hint>
-            {this.props.app.tagline}
-          </Hint>
-
-          {
-            this.props.app.inboundSettings.enabled &&
-            <NewConvoBtn
-              in={this.props.transition}
-              onClick={this.props.displayNewConversation}>
-              {t("create_new_conversation")}
-            </NewConvoBtn> 
-          }
-        </ConversationsFooter>
-
-      </div>
-    </div>
-
-  }
-}
-
-function CommentsItemComp(props){
-
-  const {
-    displayConversation, 
-    message, 
-    o, 
-    sanitizeMessageSummary,
-    email,
-    index,
-    t
-  } = props
-
-  const [display, setDisplay] = React.useState(false)
-
-  React.useEffect(() => {
-    setTimeout(()=> setDisplay(true), 400 ) // + (index * 100))
-  }, [])
-
-  return <CommentsItem
-                display={display}
-                key={o.id}
-                onClick={(e) => { displayConversation(e, o) }}>
-
-                {
-                  message ?
-                    <ConversationSummary>
-
-                      <ConversationSummaryAvatar>
-                        {
-                          o.assignee && <img src={gravatar(o.assignee.email)} />
-                        }
-                        
-                      </ConversationSummaryAvatar>
-
-                      <ConversationSummaryBody>
-
-                        <ConversationSummaryBodyMeta>
-                          {
-                            !message.readAt && message.appUser && message.appUser.email !== email ?
-                              <ReadIndicator /> : null
-                          }
-                          <Autor>
-                            {o.assignee && o.assignee.displayName}
-                          </Autor>
-
-                          <Moment fromNow style={{
-                            float: 'right',
-                            color: '#ccc',
-                            width: '115px',
-                            margin: '0px 10px',
-                            fontSize: '.8em',
-                            textTransform: 'unset',
-                            textAlign: 'right',
-                            fontWeight: '100' 
-                          }}>
-                            {message.createdAt}
-                          </Moment>
-
-                        </ConversationSummaryBodyMeta>
-                        {/* TODO: sanitize in backend */}
-                        {/*<img src={gravatar(message.appUser.email)} />*/}
-                        <ConversationSummaryBodyItems>
-                          {
-                            message.appUser && message.appUser.kind != "agent" ? 
-                              <div className="you">{t("you")}:</div> : null 
-                          }
-                          <ConversationSummaryBodyContent
-                            dangerouslySetInnerHTML={
-                              { __html: sanitizeMessageSummary(message.message.htmlContent) }
-                            }
-                          />
-                        </ConversationSummaryBodyItems>
-
-                      </ConversationSummaryBody>
-                    </ConversationSummary> : null
-                }
-              </CommentsItem>
 }
 
 class MessageFrame extends Component {
@@ -1853,157 +1445,6 @@ class MessageContainer extends Component {
                 </DanteContainer>
               </ThemeProvider>  
            </Quest>
-  }
-}
-
-class MessageItemWrapper extends Component {
-  componentDidMount(){
-    // mark as read on first render if not read & from admin
-    this.sendEvent()
-  }
-
-  componentDidUpdate(prevProps, prevState){
-    if(prevProps && prevProps.visible != this.props.visible && this.props.visible)
-      this.sendEvent()
-  }
-
-  sendEvent = ()=>{
-    if(this.props.visible && !this.props.data.volatile && !this.props.data.readAt && this.props.data.appUser.kind === "agent"){
-      App.events && App.events.perform("receive_conversation_part", 
-        Object.assign({}, {
-          conversation_id: this.props.conversation.key,
-          message_id: this.props.data.id,
-          step: this.props.stepId,
-          trigger: this.props.TriggerId
-        }, {email: this.props.email})
-      )
-    }
-  }
-
-  render(){
-    return <Fragment>
-            {this.props.children}
-           </Fragment>
-  }
-}
-
-class AppPackageBlock extends Component {
-
-  form = null
-
-  state = {
-    value: null
-  }
-
-  renderElements = ()=>{
-    const isDisabled = this.props.message.state === "replied"
-    if(isDisabled) return this.renderDisabledElement() 
-    return this.props.message.blocks.schema.map((o, i)=>
-       this.renderElement(o, i)
-    )
-  }
-
-  handleStepControlClick = (item)=>{
-    this.props.clickHandler(item, this.props)
-  }
-
-  sendAppPackageSubmit = (e)=>{
-    e.preventDefault()
-    const data = serialize(e.currentTarget, { hash: true, empty: true })
- 
-    this.props.appPackageSubmitHandler(data, this.props)
-  }
-
-  renderEmptyItem = ()=>{
-    if(this.props.message.blocks.type === "app_package"){
-      return <p>{this.props.message.blocks.app_package} replied</p>
-
-    }else{
-      return <p>mo</p>
-    }
-  }
-
-  renderDisabledElement = ()=>{
-    const item = this.props.message.data
-
-    if(!item) return this.renderEmptyItem()
-    
-    switch(item.element){
-      case "button":
-        if (this.props.message.blocks.type === "ask_option"){
-          return <p>choosen: {item.label}</p>
-        }
-      default:
-        if (this.props.message.blocks.type === "data_retrieval"){
-          return Object.keys(this.props.message.data).map((k)=>{
-            return <p>{k}: {this.props.message.data[k]}</p>
-          })
-        } else{
-          <p>{JSON.stringify(this.props.message.data)}</p>
-        }
-    }
-  }
-
-  renderElement = (item, index)=>{
-    const element = item.element
-    const isDisabled = this.props.message.state === "replied"
-    const {t} = this.props
-    switch(item.element){
-    case "separator":
-      return <hr key={index}/>
-    case "input":
-      return <div className={"form-group"} key={index}>
-              <label>{t("enter_your", {field: item.name })}</label>
-              <input 
-                disabled={isDisabled}
-                type={item.type} 
-                name={item.name}
-                placeholder={t("enter_your", {field: item.name })}
-                //onKeyDown={(e)=>{ e.keyCode === 13 ? 
-                //  this.handleStepControlClick(item) : null
-                //}}
-              />
-              <button disabled={isDisabled}
-                      key={index} 
-                      style={{alignSelf: 'flex-end'}} 
-                      type={"submit"}>
-                {t("submit")}
-              </button>
-             </div>
-
-    case "submit":
-      return <button disabled={isDisabled}
-                     key={index} 
-                     style={{alignSelf: 'flex-end'}} 
-                     type={"submit"}>
-          {t("submit")}
-        </button>
-    case "button":
-      return <button 
-        disabled={isDisabled}
-        onClick={()=> this.handleStepControlClick(item)}
-        key={index} 
-        type={"button"}>
-        {item.label}
-        </button>
-    default:
-      return null
-    }
-  }
-
-  render(){
-    return <AppPackageBlockContainer>
-              {
-                true ? //!this.state.done ?
-                <form ref={o => this.form } 
-                  onSubmit={ this.sendAppPackageSubmit }>
-                  {
-                    this.renderElements()
-                  }
-                </form> : <p>aa</p>
-              }
-          </AppPackageBlockContainer>
-
   }
 }
 
