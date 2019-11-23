@@ -6,8 +6,11 @@ import {
   FadeBottomAnimation,
   Spinner
 } from './styles/styled'
-
+import sanitizeHtml from 'sanitize-html';
 import gravatar from "./shared/gravatar"
+import {CommentsItemComp} from './conversation'
+import { ThemeProvider } from 'emotion-theming'
+
 //import graphql from './graphql/client'
 import {
   ARTICLES,
@@ -23,7 +26,10 @@ const HomePanel = ({
   appData,
   agents,
   t,
-  graphqlClient
+  graphqlClient,
+  displayConversation,
+  conversations,
+  getConversations
 })=>{
 
   const [loading, setLoading] = useState(false)
@@ -43,9 +49,9 @@ const HomePanel = ({
     )
   ), [])
 
-  useEffect(()=>(
-    getArticles()
-  ), [])
+  useEffect(()=> getArticles(), [])
+
+  useEffect(()=> getConversations({page: 1 , per: 1}), [] )
 
   const getArticles = ()=>{
     graphqlClient.send(ARTICLES, {
@@ -177,26 +183,34 @@ const HomePanel = ({
     return <p>{t(`reply_time.${appData.replyTime}`)}</p>
   }
 
+  function sanitizeMessageSummary(message){
+    if(!message) return
+    const sanitized = sanitizeHtml(message)
+    return sanitized.length > 100 ? `${sanitized.substring(0, 100)} ...` : sanitized
+  }
+
   return (
 
     <Panel onScroll={handleScroll}>
       
       {
-        appData.inboundSettings.enabled ?
+        appData.inboundSettings.enabled &&
         <ConversationInitiator in={transition}>
         
+         
           <h2>{t("start_conversation")}</h2>
 
           {renderAvailability()}
           
           {replyTimeMessage()}
-
+      
           <CardContent>
 
+          
             <ConnectedPeople>
               {
-                agents.map((agent)=>(
-                  <Avatar key={`home-agent-${agent.name}`}>
+                agents.map((agent, i)=>(
+                  <Avatar key={`home-agent-${i}-${agent.id}`}>
                     <img src={gravatar(agent.email)} title={agent.name}/>
                   </Avatar>
                 ))
@@ -214,22 +228,41 @@ const HomePanel = ({
               </a>
 
             </CardButtonsGroup>
-          
-          </CardContent>
-        
-        </ConversationInitiator> :
 
-        <ConversationsBlock in={transition}>
-          <h2>{t("conversations")}</h2>
-          <CardContent>
-            bla bla , show conversations here!
           </CardContent>
-          <CardButtonsGroup>
-            <a href="#" onClick={viewConversations}>
-              {t("see_previous")}
-            </a>
-          </CardButtonsGroup>
-        </ConversationsBlock>
+
+        </ConversationInitiator> 
+      }
+
+      { 
+        !appData.inboundSettings.enabled && 
+          <ConversationsBlock in={transition}>
+            
+            <CardButtonsGroup style={{padding: '2em'}}>
+              <h2>{t("conversations")}</h2>
+              <a href="#" onClick={viewConversations}>
+                {t("see_previous")}
+              </a>
+            </CardButtonsGroup>
+
+            <CardContent>
+              {
+                conversations.map((o, i) => {
+                  const message = o.lastMessage
+                  return <CommentsItemComp
+                    key={`comments-item-comp-${o.key}`}
+                    message={message}
+                    o={o}
+                    index={i}
+                    t={t}
+                    displayConversation={displayConversation}
+                    sanitizeMessageSummary={sanitizeMessageSummary}
+                  />
+                })
+              }
+            </CardContent>
+
+          </ConversationsBlock> 
       }
 
       <Card in={transition}>
@@ -318,8 +351,14 @@ const ButtonWrapper = styled.div`
 const CardButtonsGroup = styled.div`
   margin-top: 1em;
   align-items: center;
-  justify-content: space-evenly;
+  justify-content: space-between;
   display: flex;
+  a, a:link, a:visited, a:focus, a:hover, a:active{
+    color: rgb(0,119,204);
+    text-decoration:none; 
+    //cursor: crosshair;
+  }
+
 `
 
 const Avatar = styled.div`
@@ -363,8 +402,13 @@ const ConversationInitiator = styled(Card)`
   }
 `
 
+const CardPadder = styled.div`
+  padding: 2em;
+`
+
 const ConversationsBlock = styled(Card)`
   margin-top: 10em;
+  padding: 0px;
   h2{
     margin: .4em 0 0.4em 0em;
   }
@@ -385,6 +429,7 @@ const ArticleList = styled.div`
 `
 
 const ArticleCardWrapper = styled.div`
+  cursor: pointer;
   background: white;
   box-shadow: rgba(0, 0, 0, 0.1) 0px 1px 3px 0px, rgba(193, 203, 212, 0.7) 0px 0px 0px 1px inset, rgb(193, 203, 212) 0px -1px 0px 0px inset;
   transform: translateZ(0px);
