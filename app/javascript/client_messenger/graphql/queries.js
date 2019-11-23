@@ -38,9 +38,9 @@ export const PING = `
 `;
 
 export const CONVERSATIONS = `
-  query Messenger($page: Int!){
+  query Messenger($page: Int!, $per: Int){
     messenger {
-      conversations(page: $page){
+      conversations(page: $page, per: $per){
         collection{
           id
           key
