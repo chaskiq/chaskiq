@@ -254,6 +254,11 @@ export const CloseButtonWrapper = styled.div`
   right: 10px;
   z-index: 30000;
   top: 22px;
+  button {
+    border: none;
+    background: transparent;
+    cursor: pointer;
+  }
 `
 
 export const SuperFragment = styled.div`
