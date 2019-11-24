@@ -284,18 +284,22 @@ const HomePanel = ({
       </Card>
 
       { articles.length > 0 && <ArticleList>
-          <h2>
-            {t("latest_articles")}
-          </h2>
-        
-          {
-            articles.map((article, i)=>(
-              <ArticleCard key={`article-card-${article.id}`} 
-                article={article} 
-                displayArticle={displayArticle}
-              />
-            ))
-          }
+
+          <ArticlePadder>
+            <h2>
+              {t("latest_articles")}
+            </h2>
+          
+            {
+              articles.map((article, i)=>(
+                <ArticleCard key={`article-card-${article.id}`} 
+                  article={article} 
+                  displayArticle={displayArticle}
+                />
+              ))
+            }
+
+          </ArticlePadder>
         
         </ArticleList> 
       }
@@ -441,10 +445,15 @@ const ConnectedPeople = styled.div`
 `
 
 const ArticleList = styled.div`
-  margin: .8em;
+  
+  background: white;
   h2{
     font-size: 1.2em;
   }
+`
+
+const ArticlePadder = styled.div`
+  padding: .8em;
 `
 
 const ArticleCardWrapper = styled.div`
