@@ -41,6 +41,7 @@ jobs:
           bundle install --jobs 4 --retry 3
           bundle exec rails db:prepare
           bundle exec rspec ./spec
+          bundle exec rspec ./spec/system  -t browser
 
       #- name: Run migrations
       #  run: bin/rubocop
