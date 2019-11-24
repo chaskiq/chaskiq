@@ -151,6 +151,12 @@ const HomePanel = ({
     if(nextWeek) return <p>volvemos la proxima semana</p>
     if(sameDay) return <p>{t("availability.aprox", {time: at.getHours() })}</p>
 
+    const out = text(val, sameDay, at)
+
+    return out && <Availability>{out}</Availability>
+  }
+
+  function text(val, sameDay, at){
     switch (val) {
       case 1:
         return <p>{t("availability.tomorrow")}</p>
@@ -169,8 +175,7 @@ const HomePanel = ({
             return <p>{t("availability.tomorrow_from", {hours: at.getHours() })}</p>
           }
         }
-        return <p>dont now?</p>
-
+        return null
     }
   }
 
@@ -205,7 +210,7 @@ const HomePanel = ({
          
           <h2>{t("start_conversation")}</h2>
 
-          <Availability>{renderAvailability()}</Availability>
+          {renderAvailability()}
           
           {replyTimeMessage()}
       
