@@ -32,6 +32,11 @@ const styles = {
 // just a helper to add a <br /> after a block
 const addBreaklines = (children) => children.map(child => [child, <br />]);
 
+
+function getImageUrl(url, props){
+  if(url.includes("://")) return url
+  return `${props.domain}${url}`
+}
 /**
  * Define the renderers
  */
@@ -109,7 +114,7 @@ function renderers(props) {
                             style={{paddingBottom: `${ratio}%`}}>
                         </div>
 
-                        <img src={`${props.domain}${url}`}
+                        <img src={getImageUrl(url, props)}
                           className="graf-image" 
                           width={width}
                           height={height}
