@@ -77,6 +77,9 @@ const Input = styled.input`
   margin-top: 8px;
 `
 
+const trendingUrl = 'https://api.giphy.com/v1/gifs/trending'
+const searchUrl = 'https://api.giphy.com/v1/gifs/search'
+
 export default class App extends React.Component {
 
   constructor(props){
@@ -87,15 +90,21 @@ export default class App extends React.Component {
     };
   }
 
-  onSearchSubmit =(e)=>{
+  componentDidMount(){
+    const link = `${trendingUrl}?api_key=${this.props.apikey}`
+    this.getData(link)
+  }
 
+  onSearchSubmit =(e)=>{
     if (e.key != "Enter") {
       return
     }
-
     const term = this.refs.input_ref.value
+    const link = `${searchUrl}&q=${term}&limit=${this.state.limit}`;
+    this.getData(link)
+  }
 
-    const link = `https://api.giphy.com/v1/gifs/search?q=${term}&limit=${this.state.limit}&api_key=${this.props.apikey}`;
+  getData = (link)=>{
     const response = axios.get(link).then(
       (response)=> {
         // handle success
