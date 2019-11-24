@@ -50,11 +50,13 @@ const HomePanel = ({
   ), [])
 
   useEffect(()=> { 
-    if(!appData.inboundSettings.enabled )
-      getArticles()
+    getArticles()
   }, [])
 
-  useEffect(()=> getConversations({page: 1 , per: 1}), [] )
+  useEffect(()=> {
+    if(!appData.inboundSettings.enabled )
+      getConversations({page: 1 , per: 1})
+  }, [] )
 
   const getArticles = ()=>{
     graphqlClient.send(ARTICLES, {
@@ -281,22 +283,22 @@ const HomePanel = ({
         </ButtonWrapper>
       </Card>
 
-      <ArticleList>
-
-        <h2>
-          {t("latest_articles")}
-        </h2>
-      
-        {
-          articles.map((article, i)=>(
-            <ArticleCard key={`article-card-${article.id}`} 
-              article={article} 
-              displayArticle={displayArticle}
-            />
-          ))
-        }
-      
-      </ArticleList>
+      { articles.length > 0 && <ArticleList>
+          <h2>
+            {t("latest_articles")}
+          </h2>
+        
+          {
+            articles.map((article, i)=>(
+              <ArticleCard key={`article-card-${article.id}`} 
+                article={article} 
+                displayArticle={displayArticle}
+              />
+            ))
+          }
+        
+        </ArticleList> 
+      }
     
       </Panel>
   )
