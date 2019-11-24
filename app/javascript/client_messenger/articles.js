@@ -98,9 +98,10 @@ const Article = ({
         article && 
         <ContentWrapper in={transition}>
           
-          <CollectionLabel>
-            {article.collection.title}
-          </CollectionLabel>
+          { article.collection &&  <CollectionLabel>
+              {article.collection.title}
+            </CollectionLabel>
+          }
           <ArticleTitle>
             {article.title}
           </ArticleTitle>
