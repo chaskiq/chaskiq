@@ -49,7 +49,10 @@ const HomePanel = ({
     )
   ), [])
 
-  useEffect(()=> getArticles(), [])
+  useEffect(()=> { 
+    if(!appData.inboundSettings.enabled )
+      getArticles()
+  }, [])
 
   useEffect(()=> getConversations({page: 1 , per: 1}), [] )
 
@@ -124,11 +127,11 @@ const HomePanel = ({
 
   function renderAvailability(){
     if(!appData.inBusinessHours){
-      return <div>
+      return <React.Fragment>
                 {
                   appData.businessBackIn && aa()
                 }
-              </div>
+              </React.Fragment>
     }else {
       return <p/>
     }
@@ -143,25 +146,25 @@ const HomePanel = ({
     const sameDay = nextDay === today
     const nextWeek = nextDay < today
 
-    if(nextWeek) return <div>volvemos la proxima semana</div>
+    if(nextWeek) return <p>volvemos la proxima semana</p>
     if(sameDay) return <p>{t("availability.aprox", {time: at.getHours() })}</p>
 
     switch (val) {
       case 1:
-        return <div>{t("availability.tomorrow")}</div>
+        return <p>{t("availability.tomorrow")}</p>
       case 2:
       case 3:
       case 4:
       case 5:
-        return <div>{t("availability.days", {val: val})}</div>
+        return <p>{t("availability.days", {val: val})}</p>
       case 6:
-        return <div>{t("availability.next_week")}</div>
+        return <p>{t("availability.next_week")}</p>
       default:
         if(val === 0){
           if(sameDay){
-            return t("availability.back_from", {hours: at.getHours() })
+            return <p>{t("availability.back_from", {hours: at.getHours() })}</p>
           } else {
-            return t("availability.tomorrow_from", {hours: at.getHours() })
+            return <p>{t("availability.tomorrow_from", {hours: at.getHours() })}</p>
           }
         }
         return <p>dont now?</p>
@@ -200,7 +203,7 @@ const HomePanel = ({
          
           <h2>{t("start_conversation")}</h2>
 
-          {renderAvailability()}
+          <Availability>{renderAvailability()}</Availability>
           
           {replyTimeMessage()}
       
@@ -266,7 +269,7 @@ const HomePanel = ({
       }
 
       <Card in={transition}>
-        {t("search_articles")}
+        <p>{t("search_article_title")}</p>
         <ButtonWrapper>
           <input ref={(ref)=> textInput = ref} 
             placeholder={ t("search_articles") } 
@@ -327,6 +330,15 @@ const Panel = styled.div`
   width: 100%;
   height: 97%;
   z-index: 1000;
+`
+
+const Availability = styled.div`
+  background: #ecf94c;
+  padding: .5em;
+  border-radius: 7px;
+  p{
+    margin: 0px;
+  }
 `
 
 const ButtonWrapper = styled.div`
@@ -398,6 +410,8 @@ const Card = styled.div`
 const ConversationInitiator = styled(Card)`
   margin-top: 10em;
   h2{
+    font-size: 1.2em;
+    font-weight: 500;
     margin: .4em 0 0.4em 0em;
   }
 `
@@ -426,6 +440,9 @@ const ConnectedPeople = styled.div`
 
 const ArticleList = styled.div`
   margin: .8em;
+  h2{
+    font-size: 1.2em;
+  }
 `
 
 const ArticleCardWrapper = styled.div`

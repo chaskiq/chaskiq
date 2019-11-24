@@ -97,7 +97,6 @@ export const FadeOutRight = keyframes`
 export const Container = styled.div`
 
   animation: ${appear} 0.6s cubic-bezier(0.390, 0.575, 0.565, 1.000) both;
-  font-weight: 200;
 
   ${
     
@@ -278,9 +277,7 @@ export const SuperFragment = styled.div`
     -webkit-box-direction: normal;
     -ms-flex-direction: column;
     flex-direction: column;
-    font-family: -apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol";
-    font-weight: 200;
-
+    font-family: -apple-system,BlinkMacSystemFont,Helvetica,Arial,sans-serif,"Apple Color Emoji";
 
     .fade-in-bottom {
       -webkit-animation: ${FadeInBottom} 0.6s cubic-bezier(0.390, 0.575, 0.565, 1.000) both;
@@ -320,7 +317,7 @@ export const MessageSpinner = styled.div`
   color: #ccc;
   border-radius: 30px;
   line-height: 1.25em;
-  font-weight: 100;
+  font-weight: 200;
   opacity: 0.2;
   margin: 0;
   width: 30px;

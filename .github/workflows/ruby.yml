@@ -1,7 +1,7 @@
 # .github/workflows/ci.yml
 
 name: CI
-on: [pull_request]
+on: [push, pull_request]
 jobs:
   test:
     runs-on: ubuntu-latest
@@ -44,7 +44,7 @@ jobs:
           bundle install --jobs 4 --retry 3
           
       - name: Run migrations
-        run: bundle exec rails db:prepare
+        run: bundle exec rails db:prepare RAILS_ENV=test
 
       #- name: Run Rubocop
       #  run: bin/rubocop
