@@ -54,8 +54,8 @@ const HomePanel = ({
   }, [])
 
   useEffect(()=> {
-    if(!appData.inboundSettings.enabled )
-      getConversations({page: 1 , per: 1})
+    //if(!appData.inboundSettings.enabled )
+    getConversations({page: 1 , per: 1})
   }, [] )
 
   const getArticles = ()=>{
@@ -199,6 +199,25 @@ const HomePanel = ({
     return sanitized.length > 100 ? `${sanitized.substring(0, 100)} ...` : sanitized
   }
 
+  function renderLastConversation(){
+    return <CardContent>
+        {
+          conversations.map((o, i) => {
+            const message = o.lastMessage
+            return <CommentsItemComp
+              key={`comments-item-comp-${o.key}`}
+              message={message}
+              o={o}
+              index={i}
+              t={t}
+              displayConversation={displayConversation}
+              sanitizeMessageSummary={sanitizeMessageSummary}
+            />
+          })
+        }
+      </CardContent>
+  }
+
   return (
 
     <Panel onScroll={handleScroll}>
@@ -207,71 +226,67 @@ const HomePanel = ({
         appData.inboundSettings.enabled &&
         <ConversationInitiator in={transition}>
         
-         
-          <h2>{t("start_conversation")}</h2>
+          <CardPadder>
+            <h2>{t("start_conversation")}</h2>
 
-          {renderAvailability()}
-          
-          {replyTimeMessage()}
-      
-          <CardContent>
+            {renderAvailability()}
+            
+            {replyTimeMessage()}
+        
+            <CardContent>
+              <ConnectedPeople>
+                {
+                  agents.map((agent, i)=>(
+                    <Avatar key={`home-agent-${i}-${agent.id}`}>
+                      <img src={gravatar(agent.email)} title={agent.name}/>
+                    </Avatar>
+                  ))
+                }
+              </ConnectedPeople>
 
-          
-            <ConnectedPeople>
-              {
-                agents.map((agent, i)=>(
-                  <Avatar key={`home-agent-${i}-${agent.id}`}>
-                    <img src={gravatar(agent.email)} title={agent.name}/>
-                  </Avatar>
-                ))
-              }
-            </ConnectedPeople>
+              <CardButtonsGroup>
 
-            <CardButtonsGroup>
+                { 
+                  conversations.length > 0 ?
+                  <h2>{t("conversations")}</h2> : 
+                  <AnchorButton href="#" onClick={displayNewConversation}>
+                    {t("start_conversation")}
+                  </AnchorButton>
+                }
+                  
+                <a href="#" onClick={viewConversations}>
+                  {t("see_previous")}
+                </a>
 
-              <AnchorButton href="#" onClick={displayNewConversation}>
-                {t("start_conversation")}
-              </AnchorButton>
+              </CardButtonsGroup>
+            </CardContent>
 
-              <a href="#" onClick={viewConversations}>
-                {t("see_previous")}
-              </a>
+          </CardPadder>
 
-            </CardButtonsGroup>
-
-          </CardContent>
+          { conversations.length > 0 && <React.Fragment>
+              {renderLastConversation()}
+              <CardPadder>
+                <AnchorButton href="#" onClick={displayNewConversation}>
+                  {t("start_conversation")}
+                </AnchorButton>
+              </CardPadder>
+            </React.Fragment> 
+          }
 
         </ConversationInitiator> 
       }
 
       { 
-        !appData.inboundSettings.enabled && 
+        
+        !appData.inboundSettings.enabled &&
           <ConversationsBlock in={transition}>
-            
             <CardButtonsGroup style={{padding: '2em'}}>
               <h2>{t("conversations")}</h2>
               <a href="#" onClick={viewConversations}>
                 {t("see_previous")}
               </a>
             </CardButtonsGroup>
-
-            <CardContent>
-              {
-                conversations.map((o, i) => {
-                  const message = o.lastMessage
-                  return <CommentsItemComp
-                    key={`comments-item-comp-${o.key}`}
-                    message={message}
-                    o={o}
-                    index={i}
-                    t={t}
-                    displayConversation={displayConversation}
-                    sanitizeMessageSummary={sanitizeMessageSummary}
-                  />
-                })
-              }
-            </CardContent>
-
+            {renderLastConversation()}
           </ConversationsBlock> 
       }
 
@@ -420,6 +435,7 @@ const Card = styled.div`
 
 const ConversationInitiator = styled(Card)`
   margin-top: 10em;
+  padding: 0;
   h2{
     font-size: 1.2em;
     font-weight: 500;
