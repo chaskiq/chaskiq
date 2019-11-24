@@ -28,6 +28,7 @@ jobs:
       - uses: borales/actions-yarn@v2.0.0
         with:
           cmd: install
+
       - name: Build and run tests
         env:
           DATABASE_URL: postgres://postgres:@localhost:5432/test
@@ -35,15 +36,11 @@ jobs:
           RAILS_ENV: test
           RAILS_MASTER_KEY: ${{ secrets.RAILS_MASTER_KEY }}
         run: |
-
-      - name: Install dependencies
-        run: |
           sudo apt-get -yqq install libpq-dev
           gem install bundler
-          bundle update --bundler
           bundle install --jobs 4 --retry 3
           bundle exec rails db:prepare
-          bundle exec rspec
+          bundle exec rails test
 
       #- name: Run migrations
       #  run: bin/rubocop
