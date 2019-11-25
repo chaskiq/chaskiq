@@ -148,12 +148,12 @@ const HomePanel = ({
     const sameDay = nextDay === today
     const nextWeek = nextDay < today
 
-    if(nextWeek) return <p>volvemos la proxima semana</p>
-    if(sameDay) return <p>{t("availability.aprox", {time: at.getHours() })}</p>
+    if(nextWeek) return <Availability><p>volvemos la proxima semana</p></Availability>
+    if(sameDay) return <Availability><p>{t("availability.aprox", {time: at.getHours() })}</p></Availability>
 
     const out = text(val, sameDay, at)
 
-    return out && <Availability>{out}</Availability>
+    return <Availability>{out}</Availability>
   }
 
   function text(val, sameDay, at){
