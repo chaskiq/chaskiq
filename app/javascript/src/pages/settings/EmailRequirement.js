@@ -32,20 +32,20 @@ export default function EmailRequirement({settings, update}){
 
   return (
 
-    <Box>
+      <Box mb={2}>
+        <Typography variant={"h4"}>
+          Require an email for new conversations
+        </Typography>
 
-      <Typography variant={"h4"}>
-        Require an email for new conversations
-      </Typography>
-
-      <Typography variant={"overline"}>
-        So you can always get back to your website visitors
-      </Typography>
-      
-      <Box mt={2}>
-      <FormLabel component="legend">
-      Ask your website visitors to leave their email before starting a live chat:
-      </FormLabel>
+        <Typography variant={"body1"}>
+          So you can always get back to your website visitors
+        </Typography>
+        
+        <Box mt={2}>
+        <FormLabel component="legend">
+          Ask your website visitors to leave their email before starting a live chat:
+        </FormLabel>
+        
       </Box>
 
       <Box mt={2} mb={2}>
