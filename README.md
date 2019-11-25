@@ -2,6 +2,8 @@
 
 Chaskiq is a platform that enables chat comunication with users in app or via campaigns (in app messages or newsletters). The platform is made with React, Redux and Ruby on Rails on backend serving a graphql api.
 
+[![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy?template=https://github.com/michelson/chaskiq/tree/master)
+
 ## Main features:
 
 ### Intercom's like messenger. widget based chat application:
