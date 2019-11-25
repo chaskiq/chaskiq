@@ -3,10 +3,16 @@
 <% @encrypted_data %>
 
 <% content_for :head do %>
-  <meta 
-    name="viewport" 
-    content="width=device-width, initial-scale=1.0, user-scalable=no" 
-  />
+  
+  <meta content='True' name='HandheldFriendly'>
+  <meta content='320' name='MobileOptimized'>
+  <meta content='width=device-width, initial-scale=1' name='viewport'>
+  <meta content='width=device-width, initial-scale=1' media='(device-height: 568px)' name='viewport'>
+  <meta content='yes' name='mobile-web-app-capable'>
+  <meta content='VADB' name='apple-mobile-web-app-title'>
+  <meta content='yes' name='apple-mobile-web-app-capable'>
+  <meta content='black' name='apple-mobile-web-app-status-bar-style'>
+  <meta content='telephone=no' name='format-detection'>
 <% end %>
 
 <% content_for :body do %>
@@ -15,15 +21,15 @@
   <script>
     (function(d,t) {
       var g=d.createElement(t),s=d.getElementsByTagName(t)[0];
-      g.src="<%= Rails.application.routes.default_url_options[:host] %>/embed.js"
+      g.src="<%=@h[:http] +request.env["HTTP_HOST"]%>/embed.js"
       s.parentNode.insertBefore(g,s);
       g.onload=function(){
         new window.ChaskiqMessengerEncrypted({
           domain: '<%=@h[:http] +request.env["HTTP_HOST"]%>',
           ws:  '<%=@h[:ws]+ request.env["HTTP_HOST"] + "/cable" %>',
-          app_id: "<%= @app.key %>",
           data: "<%=@encrypted_data%>",
-          lang: "<%= @lang %>"
+          lang: "<%= @lang %>",
+          app_id: "<%= @app.key %>"
         })
       }
     })(document,"script");

@@ -65,7 +65,10 @@ function ContentHeader(props) {
               </Typography>
             </Grid>
             {
-              items ? items : <React.Fragment>
+              items && items 
+            }
+            {/*
+            <React.Fragment>
               <Grid item>
               <Button className={classes.button} 
                 variant="outlined" color="inherit" size="small">
@@ -79,8 +82,8 @@ function ContentHeader(props) {
                 </IconButton>
               </Tooltip>
             </Grid>
-              </React.Fragment>
-            }
+            </React.Fragment>
+            */}
             
           </Grid>
         </Toolbar>
