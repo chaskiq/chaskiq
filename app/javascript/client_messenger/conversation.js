@@ -306,6 +306,9 @@ export class Conversation extends Component {
   }
 
   isInputEnabled =()=>{
+    
+    if(isEmpty(this.props.conversation.messages)) return true
+    
     const messages = this.props.conversation.messages.collection
     if( messages.length === 0 ) return true
     
