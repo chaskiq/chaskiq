@@ -23,8 +23,7 @@ class AppUserTriggerJob < ApplicationJob
   end
 
   def add_message(trigger, conversation)
-    # TODO: use bot as agent
-    author = @app.agents.first
+    author = @app.agent_bots.first
     step = trigger.paths.first.with_indifferent_access[:steps].first
     message = step[:messages].first
     @message = conversation.add_message({
