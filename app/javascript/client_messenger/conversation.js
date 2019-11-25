@@ -10,7 +10,7 @@ import gravatar from "./shared/gravatar"
 import Moment from 'react-moment';
 import serialize from 'form-serialize'
 import UnicornEditor from './textEditor'
-
+import {isEmpty} from 'lodash'
 import {
   EditorSection,
   CommentsWrapper,
@@ -305,9 +305,19 @@ export class Conversation extends Component {
            </MessageItem>
   }
 
+  isInputEnabled =()=>{
+    const messages = this.props.conversation.messages.collection
+    if( messages.length === 0 ) return true
+    
+    const message = messages[0].message
+    if(isEmpty(message.blocks)) return true
+    return message.state === "replied"
+  }
+
   render(){
 
     const {t} = this.props
+    console.log("ENABLED???", this.isInputEnabled())
     return <div style={{
       position: 'absolute',
       top: '0',
@@ -343,7 +353,7 @@ export class Conversation extends Component {
           <Footer className={this.props.footerClassName || ''}>
           
             {
-              this.props.conversation.locked ? t("reply_above") : 
+              !this.isInputEnabled() ? t("reply_above") : 
               <UnicornEditor
                 footerClassName={this.props.footerClassName }
                 insertComment={this.props.insertComment}
