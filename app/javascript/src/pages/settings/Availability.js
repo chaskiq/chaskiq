@@ -81,14 +81,17 @@ export default function LanguageForm({settings, update, namespace, fields}){
 
     <form ref={(ref)=> formRef = ref }>
 
-      <Box m={2}>
+      <Box mb={2}>
 
         <Typography variant="h4">Set your availability</Typography>
         
         <Typography variant="subtitle1" gutterBottom>Set team office hours and reply times</Typography>
 
+      
         <Divider/>
-        
+      </Box>
+
+      <Box mb={2}>
         <Typography variant="h5">Set office hours</Typography>
         
         <Typography variant="body1" gutterBottom>
@@ -98,7 +101,7 @@ export default function LanguageForm({settings, update, namespace, fields}){
 
       </Box>
 
-      <Box m={2}>
+      <Box mb={2}>
 
         <Typography gutterBottom variant={"overline"}>
           Your workspace’s timezone is {settings.timezone}
@@ -113,11 +116,11 @@ export default function LanguageForm({settings, update, namespace, fields}){
 
       <Divider/>
 
-      <Box m={2}>
+      <Box mb={2}>
 
         <Typography variant="h5">Set reply time</Typography>
 
-        <Typography variant="overline" gutterBottom>
+        <Typography variant="body1" gutterBottom>
           During office hours, let your customers know when 
           they can expect a reply.
         </Typography>
@@ -208,10 +211,12 @@ function AvailabilitySchedule({records, setRecords}){
       
 
 
-      <Grid item xs={12}>
-        <IconButton onClick={addRecord}>
-          <AddIcon/>
-        </IconButton>
+      <Grid container gutterBottom justify={"center"}>
+        <Box m={2}>
+          <Button onClick={addRecord} color={"primary"} variant={"contained"}>
+            <AddIcon/> add availability 
+          </Button>
+        </Box>
       </Grid>
         
     </Box>
@@ -244,9 +249,13 @@ function AvailabilityRecord({record, update, index, removeItem}){
   }
 
   return (
-    <Grid container direction="row" justify="center" alignItems="center">
+    <Grid container 
+    direction="row" 
+    justify="space-around" 
+    alignItems="center"
+    gutterBottom>
  
-      <Grid item xs={3}>
+      <Grid item>
         <FormControl component="fieldset">
 
           <InputLabel htmlFor="day">day</InputLabel>
@@ -270,7 +279,7 @@ function AvailabilityRecord({record, update, index, removeItem}){
         </FormControl>
       </Grid>
 
-      <Grid item xs={3}>
+      <Grid item>
         <FormControl component="fieldset">
 
           <InputLabel htmlFor="from">from</InputLabel>
@@ -296,7 +305,7 @@ function AvailabilityRecord({record, update, index, removeItem}){
         </FormControl>
       </Grid>
 
-      <Grid item xs={3}>
+      <Grid item>
         <FormControl component="fieldset">
 
           <InputLabel htmlFor="to">to</InputLabel>
@@ -319,7 +328,7 @@ function AvailabilityRecord({record, update, index, removeItem}){
         </FormControl>
       </Grid>
 
-      <Grid item xs={3}>
+      <Grid item>
          <IconButton onClick={deleteItem}>
           <DeleteIcon></DeleteIcon>
          </IconButton>

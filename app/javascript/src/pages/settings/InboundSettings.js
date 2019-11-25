@@ -73,14 +73,15 @@ function InboundSettings({settings, update, dispatch}){
   return (
 
     <div>
-    
-      <Typography variant={"h4"}>
-        Control inbound conversations and the launcher
-      </Typography> 
 
-      <Typography variant={"overline"}>
-        Control who can send you messages and where they see the launcher
-      </Typography>
+      <Box mb={2}>
+        <Typography variant={"h4"}>
+          Control inbound conversations and the launcher
+        </Typography> 
+        <Typography variant={"body1"}>
+          Control who can send you messages and where they see the launcher
+        </Typography>
+      </Box>
 
       <Typography variant={"h5"}>
         New conversations button

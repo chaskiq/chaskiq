@@ -74,8 +74,8 @@ class SimpleSelect extends React.Component {
             inputProps={{
               name: this.props.name
             }}
-            variant={"outlined"}
-            input={<OutlinedInput 
+            variant={"standard"}
+            input={<Input 
               labelWidth={this.state.labelWidth} 
               name={this.props.data.name}
               id={this.props.name}
