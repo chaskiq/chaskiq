@@ -15,6 +15,7 @@ const Pre = styled.pre`
   background: black;
   color: white;
   font-size: 1.5em;
+  overflow: auto;
 `
 
 function WebSetup({app, classes}){
