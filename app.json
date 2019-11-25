@@ -44,7 +44,7 @@
       "plan": "heroku-redis"
     },
     {
-      "plan": "bugsnag"
+      "plan": "bugsnag:Tauron"
     },
     {
       "plan": "heroku-postgresql",
