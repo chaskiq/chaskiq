@@ -87,16 +87,16 @@ export default function LanguageForm({settings, update, namespace, fields}){
         
         <Typography variant="subtitle1" gutterBottom>Set team office hours and reply times</Typography>
 
+        <Divider/>
+        
         <Typography variant="h5">Set office hours</Typography>
         
-        <Typography variant="overline" gutterBottom>
+        <Typography variant="body1" gutterBottom>
           Outside these hours, customers see when you'll be back, 
           relative to their timezone.
         </Typography>
 
       </Box>
-
-      <Divider/>
 
       <Box m={2}>
 

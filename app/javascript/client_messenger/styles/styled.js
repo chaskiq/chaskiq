@@ -211,13 +211,15 @@ export const UserAutoMessageStyledFrame = styled(StyledFrame)
 
     ${(props)=>{
       return props.theme.isMessengerActive ? `
-        bottom: 77px;
-        right: 17px;
+        bottom: 49px;
+        right: 6px;
       ` : `
         bottom: 0px;
         right: 0px;
       `
     }}
+
+    
 
     /* box-shadow: 1px 1px 100px 2px rgba(0,0,0,0.22); */
 `
