@@ -20,6 +20,7 @@ import gravatar from "../shared/gravatar"
 import Switch from '@material-ui/core/Switch';
 import { withRouter } from 'react-router-dom'
 import { connect } from 'react-redux'
+import WebSetup from './webSetup'
 //import {clearApp} from '../actions/app'
 
 const lightColor = 'rgba(255, 255, 255, 0.7)';
@@ -49,7 +50,13 @@ const styles = theme => {
     minHeight: '65px',
     color: theme.palette.primary.main,
     backgroundColor: theme.palette.background.default
+  },
+  docItems: {
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center'
   }
+
 }
 }
 
@@ -63,6 +70,7 @@ function Header(props, context) {
     apps,
     toggleTheme, 
     themeValue,
+    app
   } = props;
 
   return (
@@ -95,12 +103,15 @@ function Header(props, context) {
 
             <Grid item xs />
           
-            <Grid item>
-              <Typography className={classes.link} 
-                component="a" href="#">
-                Go to docs
-              </Typography>
+            <Grid item className={classes.docItems}>
+              
+              {/*<Typography className={classes.link} 
+                  component="a" href="#">
+                  Go to docs
+                </Typography>
+              */}
 
+              { app && <WebSetup classes={classes}/> }
 
               <Switch
                 checked={themeValue === "light"}
@@ -167,11 +178,12 @@ Header.propTypes = {
 
 function mapStateToProps(state) {
 
-  const { auth } = state
+  const { app, auth } = state
   const { isAuthenticated } = auth
   //const { sort, filter, collection , meta, loading} = conversations
 
   return {
+    app,
     isAuthenticated
   }
 }
