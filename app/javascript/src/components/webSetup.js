@@ -66,7 +66,7 @@ function SimpleDialog(props) {
       <script>
         (function(d,t) {
           var g=d.createElement(t),s=d.getElementsByTagName(t)[0];
-          g.src="${hostnamePort}/embed.js"
+          g.src="${httpProtocol}//${hostnamePort}/embed.js"
           s.parentNode.insertBefore(g,s);
           g.onload=function(){
             new window.ChaskiqMessengerEncrypted({
