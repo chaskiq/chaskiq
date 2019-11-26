@@ -41,7 +41,8 @@ jobs:
           bundle install --jobs 4 --retry 3
           bundle exec rails db:prepare
           bundle exec rspec ./spec
-          RAILS_ENV=test bundle exec rake assets:precompile
+          cp ./config/webpacker.ci.yml ./config/webpacker.yml
+          bundle exec rake assets:precompile
           bundle exec rspec ./spec/system  -t browser
 
       #- name: Run migrations
