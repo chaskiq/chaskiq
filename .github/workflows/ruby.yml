@@ -42,8 +42,8 @@ jobs:
           bundle exec rails db:prepare
           bundle exec rspec ./spec
           cp ./config/webpacker.ci.yml ./config/webpacker.yml
-          bundle exec rake assets:precompile
-          bundle exec rspec ./spec/system  -t browser
+          #bundle exec rake assets:precompile
+          #bundle exec rspec ./spec/system  -t browser
 
       #- name: Run migrations
       #  run: bin/rubocop
