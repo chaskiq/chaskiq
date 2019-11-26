@@ -8,7 +8,7 @@ RSpec.describe App, type: :model do
   #it{ should have_many(:admin_users).through(:roles) }
 
   let(:app){
-    FactoryGirl.create :app
+    FactoryBot.create :app
   }
 
   let(:default_content){
@@ -92,7 +92,7 @@ RSpec.describe App, type: :model do
 
     describe "other app" do 
       before do 
-        @app2 = FactoryGirl.create :app
+        @app2 = FactoryBot.create :app
       end
 
       it "will update attrs for user on app2 only" do

@@ -2,7 +2,7 @@ require 'rails_helper'
 
 RSpec.describe Api::GraphqlController, type: :controller do
 
-  let!(:app){ FactoryGirl.create :app }
+  let!(:app){ FactoryBot.create :app }
   let(:ref){"http://foo.bar/foo/baz"}
   let(:data){
      {  email: "miguel.michelson@gmail.com",

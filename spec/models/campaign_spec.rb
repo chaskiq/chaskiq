@@ -14,14 +14,14 @@ RSpec.describe Campaign, type: :model do
   #it{ should belong_to :template }
 
   let(:app){
-    FactoryGirl.create :app
+    FactoryBot.create :app
   }
 
   let(:html_content){
     "<p>hola {{name}} {{email}}</p> <a href='http://google.com'>google</a>"
   }
-  #let(:template){ FactoryGirl.create(:chaskiq_template, body: html_content ) }
-  #let(:list){ FactoryGirl.create(:chaskiq_list) }
+  #let(:template){ FactoryBot.create(:chaskiq_template, body: html_content ) }
+  #let(:list){ FactoryBot.create(:chaskiq_list) }
   let(:subscriber){
     app.add_user(email: Faker::Internet.email, properties: { 
           custom_country: "albania",
@@ -33,12 +33,12 @@ RSpec.describe Campaign, type: :model do
     app.app_users.first
   }
 
-  let(:campaign){ FactoryGirl.create(:campaign, app: app) }
+  let(:campaign){ FactoryBot.create(:campaign, app: app) }
   let(:premailer_template){"<p>{{name}} {{last_name}} {{email}} {{campaign_url}} {{campaign_subscribe}} {{campaign_unsubscribe}}this is the template</p>"}
 
   describe "creation" do
     it "will create a pending campaign by default" do
-      @c = FactoryGirl.create(:campaign, app: app)
+      @c = FactoryBot.create(:campaign, app: app)
       expect(@c).to_not be_sent
       allow_any_instance_of(Campaign).to receive(:premailer).and_return(premailer_template)
     end
@@ -69,7 +69,7 @@ RSpec.describe Campaign, type: :model do
 
       app.segments.create
 
-      @c = FactoryGirl.create(:campaign, 
+      @c = FactoryBot.create(:campaign, 
         app: app, 
         segments: app.segments.first.predicates
       )

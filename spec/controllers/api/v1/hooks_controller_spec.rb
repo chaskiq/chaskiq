@@ -7,7 +7,7 @@ end
 RSpec.describe Api::V1::HooksController, type: :controller do
   #routes { Engine.routes }
   
-  let(:app){ FactoryGirl.create(:app) }
+  let(:app){ FactoryBot.create(:app) }
   let(:subscriber){
     app.add_user(email: Faker::Internet.email, properties: { 
           custom_country: "albania",
@@ -15,10 +15,10 @@ RSpec.describe Api::V1::HooksController, type: :controller do
         })
   }
 
-  let(:campaign){ FactoryGirl.create(:campaign, app: app) }
+  let(:campaign){ FactoryBot.create(:campaign, app: app) }
 
   let(:metric){
-    FactoryGirl.create(:metric, 
+    FactoryBot.create(:metric, 
       trackable: campaign, 
       app_user: subscriber
     )

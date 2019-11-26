@@ -4,7 +4,7 @@ RSpec.describe Conversation, type: :model do
   #it{ should have_many :messages}
   #it{ should belong_to :app}
 
-  let(:app){ FactoryGirl.create :app}
+  let(:app){ FactoryBot.create :app}
   let(:app_user){ 
     app.add_user({email: "test@test.cl", first_name: "dsdsa"})
   }

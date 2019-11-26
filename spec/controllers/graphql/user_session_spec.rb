@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.describe GraphqlController, type: :controller do
 
   let!(:app){
-    FactoryGirl.create(:app)
+    FactoryBot.create(:app)
   }
 
   let!(:user){

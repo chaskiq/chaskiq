@@ -5,7 +5,7 @@ RSpec.describe ConversationPart, type: :model do
   #it{ should belong_to :app_user}
 
   let!(:app){
-    FactoryGirl.create(:app)
+    FactoryBot.create(:app)
   }
 
   let!(:user){

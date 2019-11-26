@@ -4,7 +4,7 @@ RSpec.describe AppUser, type: :model do
 
   include ActiveJob::TestHelper
 
-  let(:app){ FactoryGirl.create :app}
+  let(:app){ FactoryBot.create :app}
   let(:app_user){ 
     app.add_user({email: "test@test.cl", first_name: "dsdsa"})
   }
