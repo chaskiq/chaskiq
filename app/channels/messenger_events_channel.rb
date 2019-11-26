@@ -70,7 +70,10 @@ class MessengerEventsChannel < ApplicationCable::Channel
 
     next_step = path["steps"][next_index]
 
-    return if next_step.blank?
+    if next_step.blank?
+      handle_follow_actions(path)
+      return
+    end
 
     author = @app.agent_bots.first
 
@@ -98,6 +101,27 @@ class MessengerEventsChannel < ApplicationCable::Channel
       })
     end
 
+  end
+
+  def handle_follow_actions(path)
+    follow_actions = path["follow_actions"]
+    return if follow_actions.blank?
+    follow_actions.each do |action|
+      process_follow_action(action)
+    end
+  end
+
+  def process_follow_action(action)
+    case action["key"]
+    when "assign"
+      #assign_user
+      agent = @app.agents.find(action["value"])
+      return if agent.blank?
+      @conversation.assign_user(agent)
+    when "close"
+      @conversation.close
+    else      
+    end
   end
 
   def data_submit(data, message)
