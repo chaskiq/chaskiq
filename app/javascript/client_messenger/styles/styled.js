@@ -133,6 +133,11 @@ export const Container = styled.div`
 
 `;
 
+export const AssigneeStatus = styled.span`
+  font-size: 11px;
+  color: #949292;
+`
+
 
 export const ShowMoreWrapper = styled.div`
 

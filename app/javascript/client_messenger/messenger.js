@@ -66,6 +66,7 @@ import {
   HeaderAvatar,
   CountBadge,
   ShowMoreWrapper,
+  AssigneeStatus
 } from './styles/styled'
 
 import TourManager from './tourManager'
@@ -873,27 +874,32 @@ class Messenger extends Component {
     }) 
   }
 
+  assignee =()=>{
+    const {lastMessage, assignee} = this.state.conversation
+    if(assignee) return assignee
+    if(!lastMessage) return null
+    if(!assignee && lastMessage.appUser.kind === "agent") return lastMessage.appUser
+  }
+
   renderAsignee = ()=>{
-    const {assignee} =  this.state.conversation
-    if(assignee){
-      return <HeaderAvatar>
-              <img src={gravatar(assignee.email)} />
-              <div>
-                <p>{assignee.name}</p>
-                <span>away</span>
-              </div>
-             </HeaderAvatar>
-    }else{
-      return <HeaderAvatar>
-              
-              <img src={gravatar('bot@chaskiq.io')} />
-
-              <div>
-                <p>chaskiq bot</p>
-              </div>
-
-             </HeaderAvatar>
-    }
+    const assignee = this.assignee()
+  
+    return <HeaderAvatar>
+              { assignee && 
+                <React.Fragment>
+                  <img src={gravatar(assignee.email)} />
+                  <div>
+                    <p>{assignee.name}</p>
+                    { 
+                      this.state.appData && this.state.appData.replyTime && 
+                      <AssigneeStatus>
+                        {this.props.t(`reply_time.${this.state.appData.replyTime}`)}
+                      </AssigneeStatus>
+                    }
+                  </div>
+                </React.Fragment>
+              }
+            </HeaderAvatar>
   }
 
   displayAppBlockFrame = (message)=>{

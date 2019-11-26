@@ -543,9 +543,14 @@ export function CommentsItemComp(props){
     setTimeout(()=> setDisplay(true), 400 ) // + (index * 100))
   }, [])
 
+  function agent(){
+    if(o.assignee) return o.assignee
+    if(!o.assignee && message.appUser.kind === "agent") return message.appUser
+  }
+
   return <CommentsItem
                 display={display}
-                key={o.id}
+                key={`comments-item-${o.id}`}
                 onClick={(e) => { displayConversation(e, o) }}>
 
                 {
@@ -554,9 +559,8 @@ export function CommentsItemComp(props){
 
                       <ConversationSummaryAvatar>
                         {
-                          o.assignee && <img src={gravatar(o.assignee.email)} />
+                          agent() && <img src={gravatar(agent().email)} />
                         }
-                        
                       </ConversationSummaryAvatar>
 
                       <ConversationSummaryBody>
@@ -567,7 +571,7 @@ export function CommentsItemComp(props){
                               <ReadIndicator /> : null
                           }
                           <Autor>
-                            {o.assignee && o.assignee.displayName}
+                            {agent() && agent().displayName}
                           </Autor>
 
                           <Moment fromNow style={{
