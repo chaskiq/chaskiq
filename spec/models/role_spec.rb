@@ -6,7 +6,7 @@ RSpec.describe Role, type: :model do
   #it{ should belong_to(:app) }
 
   let(:app){
-    FactoryGirl.create :app
+    FactoryBot.create :app
   }
 
   it "role" do

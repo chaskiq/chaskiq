@@ -6,7 +6,7 @@ RSpec.describe UserAutoMessage, type: :model do
   include ActiveJob::TestHelper
 
   let(:app){
-    FactoryGirl.create :app
+    FactoryBot.create :app
   }
 
   let(:html_content){
@@ -24,7 +24,7 @@ RSpec.describe UserAutoMessage, type: :model do
     app.app_users.first
   }
 
-  let(:campaign){ FactoryGirl.create(:user_auto_message, app: app) }
+  let(:campaign){ FactoryBot.create(:user_auto_message, app: app) }
   let(:premailer_template){"<p>
     {{name}} {{last_name}} {{email}} 
     {{campaign_url}} {{campaign_subscribe}} 
@@ -34,7 +34,7 @@ RSpec.describe UserAutoMessage, type: :model do
 
   describe "creation" do
     it "will create a pending campaign by default" do
-      @c = FactoryGirl.create(:user_auto_message, app: app)
+      @c = FactoryBot.create(:user_auto_message, app: app)
       expect(@c).to_not be_sent
       allow_any_instance_of(UserAutoMessage).to receive(:html_content).and_return(premailer_template)
     end
@@ -50,7 +50,7 @@ RSpec.describe UserAutoMessage, type: :model do
 
       app.segments.create
 
-      @c = FactoryGirl.create(:user_auto_message, 
+      @c = FactoryBot.create(:user_auto_message, 
         app: app, 
         segments: app.segments.first.predicates,
         scheduled_at: 2.day.ago,

@@ -75,6 +75,7 @@ group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   #gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]
   gem 'pry'
+  gem 'cypress-on-rails', '~> 1.0'
 end
 
 group :development do
@@ -109,7 +110,7 @@ group :test do
   %w[rspec-core rspec-expectations rspec-mocks rspec-support].each do |lib|
     gem lib #, :git => "https://github.com/rspec/#{lib}.git", :branch => 'master'
   end
-  gem 'factory_girl_rails'
+  gem 'factory_bot_rails'
   gem 'database_cleaner'
   gem 'shoulda'
   gem 'shoulda-matchers'

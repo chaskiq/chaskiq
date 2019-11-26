@@ -2,8 +2,8 @@ require "rails_helper"
 
 RSpec.describe CampaignMailer, type: :mailer do
 
-  #let(:template){ FactoryGirl.create(:chaskiq_template) }
-  let(:app){ FactoryGirl.create(:app) }
+  #let(:template){ FactoryBot.create(:chaskiq_template) }
+  let(:app){ FactoryBot.create(:app) }
   let!(:subscriber){
     app.add_user(email: Faker::Internet.email, properties: { 
           custom_country: "albania",
@@ -12,7 +12,7 @@ RSpec.describe CampaignMailer, type: :mailer do
           company: "Acme"
         })
   }
-  let!(:campaign){ FactoryGirl.create(:campaign, app: app) }
+  let!(:campaign){ FactoryBot.create(:campaign, app: app) }
   let(:template_html){ "<p>{{name}}</p>"}
   let(:premailer_template){"<p>
     {{name}} {{last_name}} 

@@ -4,7 +4,7 @@ require 'sidekiq/testing'
 RSpec.describe "Widget management", :type => :system do
 
   let!(:app){
-    FactoryGirl.create(:app, encryption_key: "unodostrescuatro",
+    FactoryBot.create(:app, encryption_key: "unodostrescuatro",
                               active_messenger: "true",
                               state: 'enabled')
   }
@@ -30,7 +30,7 @@ RSpec.describe "Widget management", :type => :system do
   }
 
   let(:user_auto_message){ 
-    FactoryGirl.create(:user_auto_message, app: app)
+    FactoryBot.create(:user_auto_message, app: app)
   }
 
   def serialized_content(text="foobar")
@@ -431,7 +431,7 @@ RSpec.describe "Widget management", :type => :system do
   describe "user auto messages" do
 
     before :each do
-      message = FactoryGirl.create(:user_auto_message, 
+      message = FactoryBot.create(:user_auto_message, 
         app: app, 
         segments: nil, #app.segments.first.predicates,
         scheduled_at: 2.day.ago,
@@ -462,7 +462,7 @@ RSpec.describe "Widget management", :type => :system do
 
     it "dismiss message" do
 
-      message = FactoryGirl.create(:user_auto_message, 
+      message = FactoryBot.create(:user_auto_message, 
         app: app, 
         segments: nil, #app.segments.first.predicates,
         scheduled_at: 2.day.ago,

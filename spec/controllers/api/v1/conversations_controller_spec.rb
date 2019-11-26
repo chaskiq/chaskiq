@@ -5,7 +5,7 @@ RSpec.describe Api::V1::ConversationsController, type: :controller do
 
   render_views
 
-    let!(:app){ FactoryGirl.create :app }
+    let!(:app){ FactoryBot.create :app }
     let(:ref){"http://foo.bar/foo/baz"}
     let(:data){
        {  email: "miguel.michelson@gmail.com",
