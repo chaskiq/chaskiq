@@ -54,9 +54,6 @@ jobs:
           gem install bundler
           bundle install --jobs 4 --retry 3
           bundle exec rails db:prepare
-          bundle exec rspec ./spec
-
-
 
           cp ./config/webpacker.ci.yml ./config/webpacker.yml
           bundle exec rails server -e test -p 5002 -d
