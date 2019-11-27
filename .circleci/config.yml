@@ -42,4 +42,4 @@ jobs:
       - run: bundle exec rake db:setup
 
       # Run the tests
-      - run: bundle exec rake
+      - run: bundle exec rspec
