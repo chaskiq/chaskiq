@@ -73,7 +73,8 @@
     "webpack-bundle-analyzer": "^3.6.0"
   },
   "devDependencies": {
-    
+    "cypress": "^3.6.1",
+    "cypress-xpath": "^1.4.0",
     "webpack-dev-server": "2.11.2"
   },
   "resolutions": {

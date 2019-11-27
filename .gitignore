@@ -38,3 +38,4 @@ yarn-debug.log*
 latest.dump
 .env
 public/schema.graphql
+cypress/cypress-examples

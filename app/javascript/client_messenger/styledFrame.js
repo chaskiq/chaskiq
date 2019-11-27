@@ -29,9 +29,9 @@ class CssInjector extends React.Component {
 const initialFrameContent = '<!DOCTYPE html><html><head></head><body></body></html>'
 const mountTarget='#mountHere'
 
-const StyledFrame = ({ className, style, children }) => (
+const StyledFrame = ({ className, style, children, id }) => (
 
-  <Frame className={className} style={style || {} }>
+  <Frame className={className} style={style || {} } id={id}>
     <FrameContextConsumer>
       {
         // Callback is invoked with iframe's window and document instances

@@ -37,7 +37,8 @@ RSpec.describe "Widget management", :type => :system do
     "{\"blocks\": [{\"key\":\"bl82q\",\"text\":\"#{text}\",\"type\":\"unstyled\",\"depth\":0,\"inlineStyleRanges\":[],\"entityRanges\":[],\"data\":{}}],\"entityMap\":{}}"
   end
 
-  def setting_for_user(enabled: false, 
+  def setting_for_user(
+    enabled: false, 
     users: true, 
     user_segment: "all", 
     user_options: [],
@@ -204,6 +205,7 @@ RSpec.describe "Widget management", :type => :system do
 
   context "anonimous user" do
 
+    ## OKOK
     it "renders messenger on anonimous user creating a app user" do                       
       visit "/tester/#{app.key}?sessionless=true"
 
@@ -328,7 +330,6 @@ RSpec.describe "Widget management", :type => :system do
     app.app_users.first.block!
     visit "/tester/#{app.key}"
     expect(page).to_not have_selector("iframe")
-
   end
 
   it "run previous conversations" do

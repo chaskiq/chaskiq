@@ -227,6 +227,9 @@ class ActionTriggerFactory
       ]
 
 
+      binding.pry
+
+
       if kind === "AppUser"
         path_messages << [
             c.message(text: "Hi, #{app.name} will reply as soon as they can.", uuid: 1),
@@ -272,6 +275,7 @@ class ActionTriggerFactory
       step_7 = [c.message(text: "that's great!", uuid: 7)]
 
       if user.email.blank?
+        
         if app.email_requirement === "Always"
           step_7 << email_requirement 
           step_7.flatten!
@@ -286,6 +290,8 @@ class ActionTriggerFactory
       end
 
 
+      puts "STEP 7"
+      puts step_7
 
       c.path(
         title: "yes",
@@ -308,6 +314,7 @@ class ActionTriggerFactory
   end
 
   def self.find_factory_template(app:, app_user:, data:)
+
       case data["trigger"]
         when "infer"
           trigger = ActionTriggerFactory.infer_for(app: app, user: app_user )
