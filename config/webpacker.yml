@@ -32,47 +32,14 @@ development:
   <<: *default
   compile: true
 
-  # Reference: https://webpack.js.org/configuration/dev-server/
-  dev_server:
-    https: false
-    host: localhost
-    port: 3036
-    public: localhost:3036
-    hmr: true
-    # Inline should be set to true if using HMR
-    inline: true
-    overlay: true
-    compress: true
-    disable_host_check: true
-    use_local_ip: false
-    quiet: false
-    headers:
-      'Access-Control-Allow-Origin': '*'
-    watch_options:
-      ignored: /node_modules/
-
-
 test:
   <<: *default
-  compile: true
-
-  dev_server:
-    https: false
-    host: localhost
-    port: 3036
-    public: localhost:3036
-    hmr: false
-    # Inline should be set to true if using HMR
-    inline: true
-    overlay: true
-    compress: true
-    disable_host_check: true
-    use_local_ip: false
-    quiet: false
-    headers:
-      'Access-Control-Allow-Origin': '*'
-    watch_options:
-      ignored: /node_modules/
+  compress: true
+  # Production depends on precompilation of packs prior to booting for performance.
+  compile: false
+  # Cache manifest.json for performance
+  cache_manifest: true
+  webpack_compile_output: true
 
 
   # Compile test packs to a separate directory

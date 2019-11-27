@@ -50,7 +50,7 @@ jobs:
           RAILS_ENV: test
           RAILS_MASTER_KEY: ${{ secrets.RAILS_MASTER_KEY }}
         run: |
-          sudo apt-get -yqq install libpq-dev
+          sudo apt-get -yqq install libpq-dev curl
           gem install bundler
           bundle install --jobs 4 --retry 3
           bundle exec rails db:prepare
