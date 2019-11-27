@@ -44,6 +44,7 @@ jobs:
           bundle exec rspec ./spec
           cp ./config/webpacker.ci.yml ./config/webpacker.yml
           bundle exec rails server -e test -p 5002 -d
+          ./node_modules/.bin/cypress install
           yarn cypress run
           #bundle exec rake assets:precompile
           #bundle exec rspec ./spec/system  -t browser
