@@ -4,7 +4,7 @@ jobs:
   build:
     working_directory: ~/chaskiq
     docker:
-      - image: circleci/ruby:2.4.1
+      - image: circleci/ruby:2.6.3
         environment:
           PGHOST: localhost
           PGUSER: chaskiq
