@@ -226,10 +226,6 @@ class ActionTriggerFactory
         )
       ]
 
-
-      binding.pry
-
-
       if kind === "AppUser"
         path_messages << [
             c.message(text: "Hi, #{app.name} will reply as soon as they can.", uuid: 1),
