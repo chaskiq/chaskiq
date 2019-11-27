@@ -59,8 +59,8 @@ jobs:
 
 
           cp ./config/webpacker.ci.yml ./config/webpacker.yml
-          #bundle exec rails server -e test -p 5002 -d
-          bundle exec rake assets:precompile RAILS_ENV=test
+          bundle exec rails server -e test -p 5002 -d
+          bundle exec rake assets:precompile
           ./node_modules/.bin/cypress install
           yarn cypress run
           #bundle exec rake assets:precompile
