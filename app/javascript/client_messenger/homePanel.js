@@ -70,8 +70,9 @@ const HomePanel = ({
         setArticles(collection)
         setMeta(meta)
       },
-      error: ()=>{
-        debugger
+      error: (err)=>{
+        console.log("ERROROROROR" , err)
+        //debugger
       }
     })
   }

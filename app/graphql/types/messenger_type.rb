@@ -62,6 +62,7 @@ module Types
       return if k.blank?
       return nil unless object.inbound_settings[k]["enabled"]
       return true if object.inbound_settings[k]["segment"] == "all"
+      
       object.query_segment(k).find_by(id: @user.id)
     end
 

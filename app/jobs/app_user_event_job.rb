@@ -10,7 +10,6 @@ class AppUserEventJob < ApplicationJob
 
     Tour.broadcast_tour_to_user(app_user) || 
     BotTask.broadcast_task_to_user(app_user) ||
-    UserAutoMessage.broadcast_message_to_user(app_user)
-    
+    UserAutoMessage.broadcast_message_to_user(app_user)    
   end
 end
