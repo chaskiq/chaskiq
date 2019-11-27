@@ -54,6 +54,11 @@ jobs:
           key: chaskiq-yarn-{{ checksum "yarn.lock" }}
           paths:
             - ~/.cache/yarn
+
+      - type: shell
+        command: |
+          bundle exec rspec $(circleci tests glob "spec/**/*_spec.rb" | circleci tests split --split-by=timings)
+
   test:
     parallelism: 3
     docker:
