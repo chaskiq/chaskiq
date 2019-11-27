@@ -4,6 +4,8 @@ Chaskiq is a platform that enables chat comunication with users in app or via ca
 
 [![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy?template=https://github.com/michelson/chaskiq/tree/master)
 
+[![CircleCI](https://circleci.com/gh/michelson/chaskiq.svg?style=svg)](https://circleci.com/gh/michelson/chaskiq)
+
 ## Main features:
 
 ### Intercom's like messenger. widget based chat application:
