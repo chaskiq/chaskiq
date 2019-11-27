@@ -28,6 +28,7 @@ jobs:
       - uses: borales/actions-yarn@v2.0.0
         with:
           cmd: install
+ 
 
       - name: Build and run tests
         env:
@@ -42,13 +43,10 @@ jobs:
           bundle exec rails db:prepare
           bundle exec rspec ./spec
           cp ./config/webpacker.ci.yml ./config/webpacker.yml
+          bundle exec rails server -e test -p 5002
+          yarn cypress run
           #bundle exec rake assets:precompile
           #bundle exec rspec ./spec/system  -t browser
-
-      - name: Cypress run with env
-        uses: cypress-io/github-action@v1
-        with:
-          env: host=api.dev.local,port=5002
 
 
       #- name: Run migrations
