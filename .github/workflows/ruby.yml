@@ -45,6 +45,12 @@ jobs:
           #bundle exec rake assets:precompile
           #bundle exec rspec ./spec/system  -t browser
 
+      - name: Cypress run with env
+        uses: cypress-io/github-action@v1
+        with:
+          env: host=api.dev.local,port=5002
+
+
       #- name: Run migrations
       #  run: bin/rubocop
 
