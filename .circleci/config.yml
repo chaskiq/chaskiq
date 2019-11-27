@@ -46,12 +46,27 @@ jobs:
           name: yarn
           command: yarn install --cache-folder ~/.cache/yarn
 
+      - run:
+          name: eslint
+          command: yarn run eslint
 
-      # Setup the environment
-      # - run: cp .sample.env .env
+      - run:
+          name: test
+          command: yarn test
 
-      # Setup the database
-      - run: bundle exec rake db:setup
+      # Store yarn / webpacker cache
+      - save_cache:
+          key: chaskiq-yarn-{{ checksum "yarn.lock" }}
+          paths:
+            - ~/.cache/yarn
 
-      # Run the tests
-      - run: bundle exec rspec
+      # Database setup
+      - run: yarn install --check-files
+      - run: bundle exec rake db:create
+      - run: bundle exec rake db:schema:load
+
+
+      # Run rails tests
+      - type: shell
+        command: |
+          bundle exec rspec $(circleci tests glob "spec/**/*_spec.rb" | circleci tests split --split-by=timings)
