@@ -1,72 +1,100 @@
----
 version: 2
+
+references:
+  default_docker_ruby_executor: &default_docker_ruby_executor
+    image: circleci/ruby:2.6.3-stretch-node
+    environment:
+      BUNDLE_JOBS: 3
+      BUNDLE_RETRY: 3
+      BUNDLE_PATH: vendor/bundle
+      PGHOST: 127.0.0.1
+      PGUSER: circleci-demo-ruby
+      PGPASSWORD: ""
+      RAILS_ENV: test
+  postgres: &postgres
+    image: circleci/postgres:9.5-alpine
+    environment:
+      POSTGRES_USER: circleci-demo-ruby
+      POSTGRES_DB: rails_blog_test
+      POSTGRES_PASSWORD: ""
+
 jobs:
   build:
-    working_directory: ~/chaskiq
     docker:
-      - image: circleci/ruby:2.6.3
-        environment:
-          PGHOST: localhost
-          PGUSER: chaskiq
-          RAILS_ENV: test
-      - image: postgres:9.5
-        environment:
-          POSTGRES_USER: chaskiq
-          POSTGRES_DB: chaskiq_test
-          POSTGRES_PASSWORD: ""
+      - *default_docker_ruby_executor
     steps:
       - checkout
-
-      # Restore Cached Dependencies
-      - type: cache-restore
-        name: Restore bundle cache
-        key: chaskiq-{{ checksum "Gemfile.lock" }}
-
-      # Bundle install dependencies
-      - run: bundle install --path vendor/bundle
-
-      # Cache Dependencies
-      - type: cache-save
-        name: Store bundle cache
-        key: chaskiq-{{ checksum "Gemfile.lock" }}
-        paths:
-          - vendor/bundle
-
-      # Wait for DB
-      - run: dockerize -wait tcp://localhost:5432 -timeout 1m
-
-
+      # Which version of bundler?
+      - run:
+          name: Which bundler?
+          command: bundle -v
+      # bundle cache
+      - restore_cache:
+          keys:
+            - chaskiq-bundle-v2-{{ checksum "Gemfile.lock" }}
+            - chaskiq-bundle-v2-
+      - run:
+          name: Bundle Install
+          command: bundle check || bundle install
+      # Store bundle cache
+      - save_cache:
+          key: chaskiq-bundle-v2-{{ checksum "Gemfile.lock" }}
+          paths:
+            - vendor/bundle
       # Only necessary if app uses webpacker or yarn in some other way
       - restore_cache:
           keys:
             - chaskiq-yarn-{{ checksum "yarn.lock" }}
             - chaskiq-yarn-
-
       - run:
-          name: yarn
+          name: Yarn Install
           command: yarn install --cache-folder ~/.cache/yarn
-
-      - run:
-          name: eslint
-          command: yarn run eslint
-
-      - run:
-          name: test
-          command: yarn test
-
       # Store yarn / webpacker cache
       - save_cache:
           key: chaskiq-yarn-{{ checksum "yarn.lock" }}
           paths:
             - ~/.cache/yarn
+  test:
+    parallelism: 3
+    docker:
+      - *default_docker_ruby_executor
+      - *postgres
+    steps:
+      - checkout
+      - restore_cache:
+          keys:
+            - chaskiq-bundle-v2-{{ checksum "Gemfile.lock" }}
+            - chaskiq-bundle-v2-
+      - run:
+          name: Bundle Install
+          command: bundle check || bundle install
+      - restore_cache:
+          keys:
+            - chaskiq-yarn-{{ checksum "yarn.lock" }}
+            - chaskiq-yarn-
+      - run:
+          name: Wait for DB
+          command: dockerize -wait tcp://localhost:5432 -timeout 1m
+      - run:
+          name: Database setup
+          command: bundle exec rails db:schema:load --trace
+      # Run rspec in parallel
+      - run:
+          command: |
+            mkdir /tmp/test-results
+            TESTFILES=$(circleci tests glob "spec/**/*_spec.rb" | circleci tests split --split-by=timings)
+            bundle exec rspec $TESTFILES --profile 10 --format RspecJunitFormatter --out /tmp/test-results/rspec.xml --format progress
+      - store_test_results:
+          path: /tmp/test-results
+      - store_artifacts:
+          path: /tmp/test-results
+          destination: test-results
 
-      # Database setup
-      - run: yarn install --check-files
-      - run: bundle exec rake db:create
-      - run: bundle exec rake db:schema:load
-
-
-      # Run rails tests
-      - type: shell
-        command: |
-          bundle exec rspec $(circleci tests glob "spec/**/*_spec.rb" | circleci tests split --split-by=timings)
+workflows:
+  version: 2
+  build_and_test:
+    jobs:
+      - build
+      - test:
+          requires:
+            - build
