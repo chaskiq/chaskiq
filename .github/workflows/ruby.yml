@@ -6,12 +6,6 @@ jobs:
   test:
     runs-on: ubuntu-latest
     services:
-      nginx:
-        image: nginx
-        ports: 
-          - 5002:80
-        env:
-          NGINX_PORT: 80
       db:
         image: postgres:11
         ports: ['5432:5432']
@@ -65,7 +59,7 @@ jobs:
           bundle exec rake assets:precompile
           
           curl ifconfig.me
-          bundle exec rails server -e test -p 5002 
+          bundle exec rails server -e test -p 80
           
           ./node_modules/.bin/cypress install
           yarn cypress run
