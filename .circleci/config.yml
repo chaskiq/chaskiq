@@ -35,6 +35,18 @@ jobs:
       # Wait for DB
       - run: dockerize -wait tcp://localhost:5432 -timeout 1m
 
+
+      # Only necessary if app uses webpacker or yarn in some other way
+      - restore_cache:
+          keys:
+            - chaskiq-yarn-{{ checksum "yarn.lock" }}
+            - chaskiq-yarn-
+
+      - run:
+          name: yarn
+          command: yarn install --cache-folder ~/.cache/yarn
+
+
       # Setup the environment
       # - run: cp .sample.env .env
 
