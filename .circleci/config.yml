@@ -2,8 +2,14 @@
 version: 2.1
 orbs:
   cypress: cypress-io/cypress@1
-  
+
 jobs:
+  executors:
+  with-ruby:
+    # use an image with Node and Ruby and browser dependencies
+    # https://circleci.com/docs/2.0/circleci-images/
+    docker:
+      - image: circleci/ruby:2.6.3-node-browsers
   build:
     docker:
       - image: circleci/ruby:2.6.3-node
@@ -53,12 +59,7 @@ jobs:
         command: |
           bundle exec rspec $(circleci tests glob "spec/**/*_spec.rb" | circleci tests split --split-by=timings)
 
-executors:
-  with-ruby:
-    # use an image with Node and Ruby and browser dependencies
-    # https://circleci.com/docs/2.0/circleci-images/
-    docker:
-      - image: circleci/ruby:2.6.3-node-browsers
+
 workflows:
   build:
     jobs:
