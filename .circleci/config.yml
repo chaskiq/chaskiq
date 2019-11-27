@@ -2,7 +2,6 @@
 jobs:
   build:
     docker:
-      - image: cypress-io/cypress@1
       - image: circleci/ruby:2.6.3-node
         environment:
           RAILS_ENV: test
@@ -49,6 +48,11 @@ jobs:
       - type: shell
         command: |
           bundle exec rspec $(circleci tests glob "spec/**/*_spec.rb" | circleci tests split --split-by=timings)
+
+      - type: shell
+        command: |
+          yarn cypress run
+
 
 
 workflows:
