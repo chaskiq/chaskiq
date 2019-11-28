@@ -26,6 +26,7 @@ import WebSetup from './webSetup'
 const lightColor = 'rgba(255, 255, 255, 0.7)';
 
 const styles = theme => {
+  console.log("THEME,",theme.palette)
   return {
   secondaryBar: {
     zIndex: 0,
@@ -49,7 +50,7 @@ const styles = theme => {
   apa: {
     minHeight: '65px',
     color: theme.palette.primary.main,
-    backgroundColor: theme.palette.background.default
+    backgroundColor: theme.palette.background.paper
   },
   docItems: {
     display: 'flex',

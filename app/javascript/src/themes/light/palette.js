@@ -1,6 +1,10 @@
 import logo from '../../images/logo.png'
 
 const palette = {
+  background: {
+    default: "#f7f7f7",
+    paper: "#fefefe"
+  },
   common: {
     black: "#000",
     white: "#fff",
