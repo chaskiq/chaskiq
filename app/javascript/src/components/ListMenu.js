@@ -6,6 +6,8 @@ import ListItemText from '@material-ui/core/ListItemText';
 import MenuItem from '@material-ui/core/MenuItem';
 import Menu from '@material-ui/core/Menu';
 import Divider from '@material-ui/core/Divider';
+import ExpandLess from '@material-ui/icons/ExpandLess';
+import ExpandMore from '@material-ui/icons/ExpandMore';
 
 import { withRouter } from 'react-router-dom'
 import { connect } from 'react-redux'
@@ -63,6 +65,7 @@ function SimpleListMenu(props) {
             <ListItemText 
               primary="Switch application" 
             />
+            {Boolean(anchorEl) ? <ExpandLess /> : <ExpandMore />}
           </ListItem>
         </List>
       }

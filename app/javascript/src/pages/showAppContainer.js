@@ -4,30 +4,18 @@ import {
   Route,
   Link
 } from 'react-router-dom'
-import Moment from 'react-moment';
-import PropTypes from 'prop-types';
-import styled from '@emotion/styled';
-//import Spinner from '@atlaskit/spinner';
-//import EmptyState from '@atlaskit/empty-state'
-//import UserMap from "../components/map"
 import logo from '../images/logo.png';
 import ConversationContainer from './ConversationContainer';
 import CampaignContainer from './Campaigns'
 import AppSettingsContainer from './AppSettings'
-import {parseJwt, generateJWT} from '../components/segmentManager/jwt'
-
-import ContentHeader from '../components/ContentHeader'
 import Content from '../components/Content'
 import AppContent from '../components/segmentManager/container'
 import Snackbar from '../components/snackbar'
-import AtTabs from '../components/tabs'
-import graphql from "../graphql/client"
-
 import Dashboard from './Dashboard'
 import Articles from './Articles'
 import Drawer from '@material-ui/core/Drawer';
 import Button from '@material-ui/core/Button'
-
+import LoadingView from '../components/loadingView'
 import { withRouter, Switch } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { 
@@ -352,7 +340,7 @@ class ShowAppContainer extends Component {
     const {classes} = this.props
 
     if(!this.props.app)
-      return <p>loading...</p>
+      return <LoadingView/>
    
     return <div>
       

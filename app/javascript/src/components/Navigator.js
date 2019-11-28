@@ -63,10 +63,11 @@ const styles = theme => ({
   },
   logo: {
     background: `url(${theme.palette.primary.logo})`,
-    width: '100%',
-    height: '57px',
-    backgroundSize: '100%',
-    backgroundRepeat: 'no-repeat'
+    width: '86%',
+    height: '35px',
+    backgroundSize: '87%',
+    backgroundRepeat: 'no-repeat',
+    backgroundPosition: '22px',
   },
   item: {
     paddingTop: 4,
@@ -85,7 +86,7 @@ const styles = theme => ({
     fontSize: 24,
     fontFamily: theme.typography.fontFamily,
     //color: theme.palette.primary.contrastText,
-    backgroundColor: theme.palette.background.default
+    backgroundColor: theme.palette.background.paper
   },
   itemActionable: {
     '&:hover': {
