@@ -30,18 +30,18 @@ jobs:
           cmd: install
  
 
-      #- name: Build and run tests
-      #  env:
-      #    DATABASE_URL: postgres://postgres:@localhost:5432/test
-      #    REDIS_URL: redis://localhost:6379/0
-      #    RAILS_ENV: test
-      #    RAILS_MASTER_KEY: ${{ secrets.RAILS_MASTER_KEY }}
-      #  run: |
-      #    sudo apt-get -yqq install libpq-dev
-      #    gem install bundler
-      #    bundle install --jobs 4 --retry 3
-      #    bundle exec rails db:prepare
-      #    bundle exec rspec ./spec
+      - name: Build and run tests
+        env:
+          DATABASE_URL: postgres://postgres:@localhost:5432/test
+          REDIS_URL: redis://localhost:6379/0
+          RAILS_ENV: test
+          RAILS_MASTER_KEY: ${{ secrets.RAILS_MASTER_KEY }}
+        run: |
+          sudo apt-get -yqq install libpq-dev
+          gem install bundler
+          bundle install --jobs 4 --retry 3
+          bundle exec rails db:prepare
+          bundle exec rspec ./spec
 
       - name: Build and run E2E tests
         env:
@@ -63,7 +63,7 @@ jobs:
           
           ./node_modules/.bin/cypress install
 
-          curl -L localhost:5002/embed.js
+          #curl -L localhost:5002/embed.js
           yarn cypress run
           #bundle exec rake assets:precompile
           #bundle exec rspec ./spec/system  -t browser
