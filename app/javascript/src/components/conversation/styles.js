@@ -125,8 +125,8 @@ export const ChatMessageItem = styled.div`
     &.admin {
       margin-right: 61px;
       float: right;
-      color: ${(props)=> props.message.privateNote ? `#222` : `#eceff1` };
-      background: ${(props)=> props.message.privateNote ? `#feedaf` : `#2f3335` };
+      color: ${(props)=> props.message.privateNote ? `#222` : `#292a2b` };
+      background: ${(props)=> props.message.privateNote ? `#feedaf` : `#3ec589` };
       align-self: flex-end;
 
       /* NEW */
@@ -215,7 +215,7 @@ export const ChatContainer = styled.div`
     background-image: url('${image}');
 
     //background: #555b611c;
-    box-shadow: 1px 1px 4px 0px inset #5f5d5d94;
+    box-shadow: 1px 1px 2px 0px inset #5f5d5d94;
 
     @media (min-width: 320px) and (max-width: 480px) {
       height: 79vh;

@@ -6,22 +6,22 @@ const palette = {
     paper: "#fefefe"
   },
   common: {
-    black: "#000",
+    black: "#161616",
     white: "#fff",
-    gray: '#646262',
+    gray: '#6a6a6a',
     green: 'green',
     offline: '#ccc'
   },
   primary: {
-    light: '#63ccff',
+    light: '#6a6a6a',
     //main: '#009be5',
     //main: '#444',
     //main: '#dc18c1',
     //contrastText: "#000",
     contrastText: "#fff",
-    main: '#1f93ff', //'#7b16ff', //'#0000ff', // '#24862c',
+    main: '#3aa3f2', //'#7b16ff', //'#0000ff', // '#24862c',
     white: '#fff',
-    dark: '#1974ca', //'#15501a', //'#006db3',
+    dark: '#161616', //'#15501a', //'#006db3',
     borders: "#ece9e9",
     logo: logo
 
