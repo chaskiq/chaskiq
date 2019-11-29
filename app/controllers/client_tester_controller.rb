@@ -27,13 +27,13 @@ class ClientTesterController < ApplicationController
     }
 
     @json_payload.merge!(user_options) unless params[:sessionless]
-
     @json_payload = @json_payload.to_json
 
     @encrypted_data = JWE.encrypt(@json_payload, key, alg: 'dir')
   end
 
   def configured_lang
+    params[:lang]
   end
 
   def set_lang_var
@@ -43,12 +43,13 @@ class ClientTesterController < ApplicationController
   def user_options
     { email: "test@test.cl",
       properties: {
-        name: "miguel",
-        lang: "en",
+        name: params[:name] || "miguel",
+        lang: params[:lang] || "en",
         id: "localhost",
         country: "chile",
-        role: "admin",
-        pro: true
+        role: params[:pro] || "admin",
+        pro: params[:pro],
+        plan: params[:plan] || 'pro',
       }
     } 
   end

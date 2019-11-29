@@ -1,6 +1,14 @@
 # host_port = "#{Capybara.current_session.server.host}:#{Capybara.current_session.server.port}"
 
 app = App.find_by(key: command_options.fetch('app_key'))
+default_predicates = [
+  {
+    type: "match", 
+    value: "and", 
+    attribute: "match", 
+    comparison: "and"
+  }
+]
 
 tour_attributes = {
   "app"=> app,
@@ -19,7 +27,7 @@ tour_attributes = {
   "timezone"=>nil, 
   "state"=> command_options.fetch('state'), 
   "subject"=>"oijoij", 
-  "segments"=>[{"type"=>"match", "value"=>"and", "attribute"=>"match", "comparison"=>"and"}], 
+  "segments"=>command_options.fetch('predicates', default_predicates), 
   "type"=>"Tour", 
   "settings"=>{"url"=>"#{command_options.fetch('url')}", 
   "steps"=>[
@@ -27,9 +35,8 @@ tour_attributes = {
     {"target"=>"H1", "serialized_content"=>"{\"blocks\":[{\"key\":\"f1qmb\",\"text\":\"final tour step\",\"type\":\"unstyled\",\"depth\":0,\"inlineStyleRanges\":[],\"entityRanges\":[],\"data\":{}}],\"entityMap\":{}}"}
     ], 
   "hidden_constraints"=>["skip", "finish"]
-  },
+  }
 }
-
 
 tour = app.tours.create(tour_attributes)
 tour.enable! if command_options.fetch('state') === "enabled"
