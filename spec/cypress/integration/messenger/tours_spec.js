@@ -27,7 +27,6 @@ describe('Tours Spec', function() {
         url: `/tester/${appKey}`,
         state: 'enabled'
       }).then((res)=>{
-        console.log("RSRS", res)
         cy.visit(`/tester/${appKey}`).then(()=>{
 
           //TODO:
@@ -63,7 +62,6 @@ describe('Tours Spec', function() {
         url: `/tester/${appKey}`,
         state: 'enabled'
       }).then((res)=>{
-        console.log("RSRS", res)
         cy.visit(`/tester/${appKey}`).then(()=>{
 
           //TODO:
@@ -89,7 +87,6 @@ describe('Tours Spec', function() {
         url: `/tester/${appKey}/another`,
         state: 'enabled',
       }).then((res)=>{
-        console.log("RSRS", res)
         cy.visit(`/tester/${appKey}/another`).then(()=>{
 
           //TODO:
@@ -164,12 +161,11 @@ describe('Tours Spec', function() {
         app_key: appKey, 
         url: `/tester/${appKey}/another`,
         state: 'enabled',
-        segments: [
+        predicates: [
           {type: "match", value: "and", attribute: "match", comparison: "and"},
           {attribute: "email", comparison: "contains", type: "string", value: "test"}
         ]
       }).then((res)=>{
-        console.log("RSRS", res)
         cy.visit(`/tester/${appKey}/another`).then(()=>{
 
           //TODO:
@@ -182,7 +178,168 @@ describe('Tours Spec', function() {
         })
       })
     })
+  })
 
+  it("will appear on email & property match num_devices eq 1", function(){
+
+    cy.appScenario('basic')
+
+    cy.appEval("App.last").then((results) => {
+      const appKey = results.key
+      cy.app("tour_command", {
+        app_key: appKey, 
+        url: `/tester/${appKey}/another`,
+        state: 'enabled',
+        predicates: [
+          {type: "match", value: "and", attribute: "match", comparison: "and"},
+          {attribute: "email", comparison: "contains", type: "string", value: "test"},
+          {attribute: "num_devices", comparison: "eq", type: "integer", value: 1}
+        ]
+      }).then((res)=>{
+        cy.visit(`/tester/${appKey}/another`, {qs: {num_devices: 1}}).then(()=>{
+          cy.contains("this is the tour")
+        })
+      })
+    })
+  })
+
+  it("will appear on email & property match num_devices lt 2", function(){
+
+    cy.appScenario('basic')
+
+    cy.appEval("App.last").then((results) => {
+      const appKey = results.key
+      cy.app("tour_command", {
+        app_key: appKey, 
+        url: `/tester/${appKey}/another`,
+        state: 'enabled',
+        predicates: [
+          {type: "match", value: "and", attribute: "match", comparison: "and"},
+          {attribute: "email", comparison: "contains", type: "string", value: "test"},
+          {attribute: "num_devices", comparison: "lt", type: "integer", value: 2}
+        ]
+      }).then((res)=>{
+        cy.visit(`/tester/${appKey}/another`, {qs: {num_devices: 1}}).then(()=>{
+          cy.contains("this is the tour")
+        })
+      })
+    })
+  })
+
+  it("will not appear on email & property match num_devices gt 2", function(){
+
+    cy.appScenario('basic')
+
+    cy.appEval("App.last").then((results) => {
+      const appKey = results.key
+      cy.app("tour_command", {
+        app_key: appKey, 
+        url: `/tester/${appKey}/another`,
+        state: 'enabled',
+        predicates: [
+          {type: "match", value: "and", attribute: "match", comparison: "and"},
+          {attribute: "email", comparison: "contains", type: "string", value: "test"},
+          {attribute: "num_devices", comparison: "gt", type: "integer", value: 2}
+        ]
+      }).then((res)=>{
+        cy.visit(`/tester/${appKey}/another`, {qs: {num_devices: 1}}).then(()=>{
+          cy.contains("this is the tour").should('not.exist');
+        })
+      })
+    })
+  })
+
+  it("will not appear on email & property match num_devices gt wrong string type", function(){
+
+    cy.appScenario('basic')
+
+    cy.appEval("App.last").then((results) => {
+      const appKey = results.key
+      cy.app("tour_command", {
+        app_key: appKey, 
+        url: `/tester/${appKey}/another`,
+        state: 'enabled',
+        predicates: [
+          {type: "match", value: "and", attribute: "match", comparison: "and"},
+          {attribute: "email", comparison: "contains", type: "string", value: "test"},
+          {attribute: "num_devices", comparison: "gt", type: "integer", value: 0}
+        ]
+      }).then((res)=>{
+        cy.visit(`/tester/${appKey}/another`, {qs: {num_devices: "!j"}}).then(()=>{
+          cy.contains("this is the tour").should('not.exist');
+        })
+      })
+    })
+  })
+
+  it("will appear on email & property match date gt 1 week 1", function(){
+
+    cy.appScenario('basic')
+
+    cy.appEval("App.last").then((results) => {
+      const appKey = results.key
+      cy.app("tour_command", {
+        app_key: appKey, 
+        url: `/tester/${appKey}/another`,
+        state: 'enabled',
+        predicates: [
+          {type: "match", value: "and", attribute: "match", comparison: "and"},
+          {attribute: "email", comparison: "contains", type: "string", value: "test"},
+          {attribute: "last_sign_in", comparison: "gt", type: "date", value: '1 week ago'}
+        ]
+      }).then((res)=>{
+        cy.visit(`/tester/${appKey}/another`, {qs: {num_devices: 1}}).then(()=>{
+          cy.contains("this is the tour")
+        })
+      })
+    })
+  })
+
+  it("will not appear on email & property match date gt 1 day ago", function(){
+
+    cy.appScenario('basic')
+
+    cy.appEval("App.last").then((results) => {
+      const appKey = results.key
+      cy.app("tour_command", {
+        app_key: appKey, 
+        url: `/tester/${appKey}/another`,
+        state: 'enabled',
+        predicates: [
+          {type: "match", value: "and", attribute: "match", comparison: "and"},
+          {attribute: "email", comparison: "contains", type: "string", value: "test"},
+          {attribute: "last_sign_in", comparison: "gt", type: "date", value: '1 day ago'}
+        ]
+      }).then((res)=>{
+        cy.visit(`/tester/${appKey}/another`, {qs: {num_devices: 1}}).then(()=>{
+          cy.contains("this is the tour").should("not.exist")
+        })
+      })
+    })
+  })
+
+  it("will appear on email & property match date gt 1 week ago & num devices", function(){
+
+    cy.appScenario('basic')
+
+    cy.appEval("App.last").then((results) => {
+      const appKey = results.key
+      cy.app("tour_command", {
+        app_key: appKey, 
+        url: `/tester/${appKey}/another`,
+        state: 'enabled',
+        predicates: [
+          {type: "match", value: "and", attribute: "match", comparison: "and"},
+          {attribute: "email", comparison: "contains", type: "string", value: "test"},
+          {attribute: "last_sign_in", comparison: "gt", type: "date", value: '1 week ago'},
+          {attribute: "num_devices", comparison: "gt", type: "integer", value: 0}
+        ]
+      }).then((res)=>{
+        cy.visit(`/tester/${appKey}/another`, {qs: {num_devices: 1}}).then(()=>{
+          cy.contains("this is the tour")
+        })
+      })
+    })
   })
 
   it("will not appear on email dismatch", function(){
