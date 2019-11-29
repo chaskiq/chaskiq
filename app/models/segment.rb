@@ -43,8 +43,15 @@ class Segment < ApplicationRecord
     #                .join_sources
 
     #self.app.app_users.joins(left_outer_join).where(query_builder)
-
     self.app.app_users.where(query_builder)
+  end
+
+  def cast_int(field)
+    Arel::Nodes::NamedFunction.new("cast", [field.as("int")] )
+  end
+
+  def cast_date(field)
+    Arel::Nodes::NamedFunction.new('cast', [field.as("date")])
   end
 
   # JSONB queries on steroids
@@ -53,7 +60,6 @@ class Segment < ApplicationRecord
   def query_builder
     arel_table = AppUser.arel_table
     #user_table = User.arel_table
- 
     Array(self.predicates).reduce(nil) do |query, predicate|
       next if predicate["type"] == "match"
 
@@ -61,15 +67,11 @@ class Segment < ApplicationRecord
       if AppUser.columns.map(&:name).include?(predicate["attribute"])
         field = arel_table[predicate["attribute"]]
       else
-        # included in user table ??
-        #if predicate["attribute"] == "email" 
-        #  field = user_table[predicate["attribute"]]
-
         # otherwise use in JSONB properties column
         #else
           field = Arel::Nodes::InfixOperation.new('->>', 
             arel_table[:properties], 
-            Arel::Nodes.build_quoted(predicate["attribute"])
+            Arel::Nodes.build_quoted("#{predicate["attribute"]}")
           )
         #end
       end
@@ -77,7 +79,7 @@ class Segment < ApplicationRecord
       # date predicates
       case predicate["type"]
       when "date"
-        check = field.send(predicate["comparison"], Chronic.parse(predicate["value"]) )
+        check = cast_date(field).send(predicate["comparison"], Chronic.parse(predicate["value"]) )
       when "string"
         case predicate["comparison"]
           when "contains_start"
@@ -100,8 +102,23 @@ class Segment < ApplicationRecord
             check = field.send(predicate["comparison"], predicate["value"] )
         end
         check
+      when "integer"
+        case predicate["comparison"]
+          when "is_null"
+            check = cast_int(field).eq(nil)
+          when "is_not_null"
+            check = cast_int(field).not_eq(nil)
+          else
+            if ["eq", "lt", "lte", "gt", "gte"].include?(predicate["comparison"])
+              check = cast_int(field).send(
+                predicate["comparison"], 
+                predicate["value"]
+              )
+            end
+        end
+        check
       end
-   
+
       if query.nil?
         check
       else
