@@ -967,7 +967,7 @@ export const AnchorButton = styled.a`
 export const NewConvoBtn = styled(AnchorButton)`
     position: absolute;
     bottom: 77px;
-    left: 25%;
+    left: 20%;
     ${(props)=> FadeBottomAnimation(props)}
 `
 

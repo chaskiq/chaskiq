@@ -17,6 +17,7 @@ class Api::GraphqlController < ApiController
       #can: lambda{| mode, object | can?( mode, object) },
       #logout!: ->{logout!},
       #session: session,
+      set_locale: lambda{set_locale},
       auth: lambda{auth},
       get_app_user: lambda{get_app_user},
       request: request,

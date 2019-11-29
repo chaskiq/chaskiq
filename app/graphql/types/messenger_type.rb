@@ -3,6 +3,7 @@ module Types
     field :app, Types::AppType, null: true # TODO: danger!
     field :user, Types::JsonType, null: true #Types::AppUserType, null: true
     def app
+      context[:set_locale].call
       object
     end
 
@@ -17,7 +18,7 @@ module Types
       # TODO. detach this, 
       # idea. set browser data on redis, update later
       # or perform job here
-      context[:get_app_user].call.update(browser_data)
+      context[:get_app_user].call.update(browser_data.compact)
     end
 
     field :conversations, Types::PaginatedConversationsType, null:true do
@@ -90,7 +91,7 @@ private
         os:               browser.platform.id,
         os_version:       browser.platform.version,
         browser_language: language.try(:code),
-        lang:             user_data[:properties][:lang]
+        #lang:             I18n.locale #user_data[:properties][:lang]
       }
   
       # resource_params.to_h.merge(request.location.data)

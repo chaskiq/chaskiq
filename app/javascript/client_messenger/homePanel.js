@@ -50,7 +50,8 @@ const HomePanel = ({
   ), [])
 
   useEffect(()=> { 
-    getArticles()
+    if(appData.articleSettings.subdomain)
+      getArticles()
   }, [])
 
   useEffect(()=> {

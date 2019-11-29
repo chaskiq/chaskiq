@@ -13,13 +13,20 @@ private
 
       set_locale
 
-      if @user_data.present? && @user_data[:email].present?
-        app_user = get_user_by_email || @app.add_user(email: @user_data[:email])
+      if @user_data.present? && @user_data[:email].present?        
+        app_user = get_user_by_email || @app.add_user(email: @user_data[:email] )
         merge_user_data(app_user)
+        app_user.update(
+          properties: @user_data[:properties], 
+          lang: I18n.locale 
+        )
       else
         visitor = (get_user_by_session || add_vistor)
-        merge_user_data(visitor)
+        visitor.update(lang: I18n.locale)
+        merge_user_data(visitor.reload)
       end
+
+
     else
       # check this, maybe deprecate unsecure mode
       @user_data = get_user_from_unencrypted

@@ -151,7 +151,8 @@ class Messenger extends Component {
       this.defaultHeaders = { 
         app: this.props.app_id,
         enc_data: this.props.encData,
-        session_id: this.props.session_id
+        session_id: this.props.session_id,
+        lang: this.props.locale
       }
 
       this.defaultCableData = { 
@@ -275,7 +276,7 @@ class Messenger extends Component {
     })(window.history.replaceState);
 
     window.addEventListener('popstate',()=>{
-        window.dispatchEvent(new Event('locationchange'))
+      window.dispatchEvent(new Event('locationchange'))
     });
 
     window.addEventListener('locationchange', ()=>{
