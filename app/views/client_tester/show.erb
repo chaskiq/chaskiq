@@ -24,7 +24,7 @@
       g.src="<%=@h[:http] +request.env["HTTP_HOST"]%>/embed.js"
       s.parentNode.insertBefore(g,s);
       g.onload=function(){
-        new window.ChaskiqMessengerEncrypted({
+        window.chaskiqMessenger = new window.ChaskiqMessengerEncrypted({
           domain: '<%=@h[:http] +request.env["HTTP_HOST"]%>',
           ws:  '<%=@h[:ws]+ request.env["HTTP_HOST"] + "/cable" %>',
           data: "<%=@encrypted_data%>",

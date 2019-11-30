@@ -14,7 +14,8 @@ class App < ApplicationRecord
     :timezone,
     :reply_time,
     :team_schedule,
-    :gather_social_data
+    :gather_social_data,
+    :customization_colors,
   ], coder: JSON
 
   translates :greetings, :intro, :tagline

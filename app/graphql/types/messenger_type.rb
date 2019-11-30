@@ -11,7 +11,7 @@ module Types
       @user = context[:auth].call
       @user
     end
-
+    
     field :update_data, Boolean, null: true
 
     def update_data

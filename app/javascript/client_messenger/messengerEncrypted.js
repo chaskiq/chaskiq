@@ -14,7 +14,6 @@ export default class ChaskiqMessengerEncrypted {
       properties: this.props.properties
     }
 
-
     this.getSession = ()=>{
       return getCookie("chaskiq_session_id") || "" 
     }
@@ -31,8 +30,6 @@ export default class ChaskiqMessengerEncrypted {
       lang: this.props.lang || navigator.language || navigator.userLanguage
     }
 
-    console.log(this.defaultHeaders)
-
     this.graphqlClient = new GraphqlClient({
       config: this.defaultHeaders,
       baseURL: `${this.props.domain}/api/graphql`
@@ -48,6 +45,7 @@ export default class ChaskiqMessengerEncrypted {
         }else{
           deleteCookie("chaskiq_session_id")  
         }
+
         const messenger = new ChaskiqMessenger(
           Object.assign({}, user, {
             app_id: this.props.app_id, 
@@ -67,6 +65,15 @@ export default class ChaskiqMessengerEncrypted {
         debugger
       }
     })
+
+    this.sendCommand = (action, data={})=>{
+      let event = new CustomEvent("chaskiq_events", 
+                                  {
+                                    bubbles: true, 
+                                    detail: {action: action, data: data}
+                                  }); 
+      window.document.body.dispatchEvent(event);
+    }
 
   }
 } 

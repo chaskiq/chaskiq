@@ -10,12 +10,16 @@ import sanitizeHtml from 'sanitize-html';
 import gravatar from "./shared/gravatar"
 import {CommentsItemComp} from './conversation'
 import { ThemeProvider } from 'emotion-theming'
+import {textColor} from './styles/styled'
 
 //import graphql from './graphql/client'
 import {
   ARTICLES,
   SEARCH_ARTICLES
 } from './graphql/queries'
+
+import { lighten, darken } from "polished";
+
 
 const HomePanel = ({
   viewConversations,
@@ -384,7 +388,8 @@ const ButtonWrapper = styled.div`
     padding: 1.2em;
     border-bottom-right-radius: 6px;
     border-top-right-radius: 6px;
-    background: aliceblue;
+    color: ${(props)=> textColor(props.theme.pallete.primary)};
+    background: ${(props)=>{lighten(0.1, props.theme.pallete.primary)}};
   }
 `
 
@@ -394,7 +399,7 @@ const CardButtonsGroup = styled.div`
   justify-content: space-between;
   display: flex;
   a, a:link, a:visited, a:focus, a:hover, a:active{
-    color: rgb(0,119,204);
+    color: ${(props)=> props.theme.pallete.primary};
     text-decoration:none; 
     //cursor: crosshair;
   }
@@ -425,7 +430,7 @@ const Card = styled.div`
   overflow: hidden;
   position: relative;
   //-webkit-box-shadow: 0 4px 15px 0 rgba(0,0,0,.1), 0 1px 2px 0 rgba(0,0,0,.1), inset 0 2px 0 0 rgba(48, 71, 236, 0.5);
-  box-shadow: 0 4px 15px 0 rgba(0,0,0,.1), 0 1px 2px 0 rgba(0,0,0,.1), inset 0 2px 0 0 rgba(48, 71, 236, 0.5);
+  box-shadow: 0 4px 15px 0 rgba(0,0,0,.1), 0 1px 2px 0 rgba(0,0,0,.1), inset 0 2px 0 0 ${(props)=>{lighten(0.1, props.theme.pallete.primary)}};
 
   margin: 1em;
   padding: 2em;
@@ -517,7 +522,7 @@ const ArticleCardWrapper = styled.div`
 `
 
 const ArticleCardTitle = styled.div`
-  color: rgb(0, 119, 204);
+  color: #ff0;
   line-height: 1.5;
   margin-bottom: 7px;
   transition: all 200ms linear 0s;
