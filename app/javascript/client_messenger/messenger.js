@@ -185,6 +185,22 @@ class Messenger extends Component {
 
     this.overflow = null
     this.commentWrapperRef = React.createRef();
+
+    document.addEventListener("chaskiq_events", (event)=> {
+      console.log("RECEIVED CHASKIQ EVENT", event)
+      const {data, action} = event.detail
+      switch (action) {
+        case "wakeup":
+          this.wakeup()
+          break;
+        case "toggle":
+          this.toggleMessenger()
+          break;
+        default:
+          break;
+      } 
+    });
+
   }
 
   componentDidMount(){
@@ -768,13 +784,22 @@ class Messenger extends Component {
     }, this.clearInlineConversation )
   }
 
+  wakeup = ()=>{
+    this.setState({open: true})
+  }
+
   isUserAutoMessage = (o)=>{
     return o.message_source && o.message_source.type === "UserAutoMessage"
   }
 
   isMessengerActive = ()=>{
-    return !this.state.tourManagerEnabled && this.state.enabled && this.state.appData && (this.state.appData.activeMessenger == "on" || this.state.appData.activeMessenger == "true" || this.state.appData.activeMessenger === true)
-    //return this.state.appData && this.state.appData.inboundSettings && this.state.appData.inboundSettings.enabled
+    return !this.state.tourManagerEnabled && 
+    this.state.enabled && 
+    this.state.appData && 
+    (this.state.appData.activeMessenger == "on" || 
+      this.state.appData.activeMessenger == "true" || 
+      this.state.appData.activeMessenger === true
+    )
   }
 
   isTourManagerEnabled = ()=>{
@@ -954,9 +979,19 @@ class Messenger extends Component {
     })
   }
 
+  themePalette = ()=>{
+    const {customizationColors} = this.state.appData
+    return customizationColors ? customizationColors : {
+      header: "#f00",
+      primary: "#121212",
+      secondary: "#f00"
+    }
+  }
+
   render() {
     return (
         <ThemeProvider theme={{
+          pallete: this.themePalette(),
           mode: this.state.appData ? this.state.appData.theme : 'light',
           isMessengerActive: this.isMessengerActive()
         }}>

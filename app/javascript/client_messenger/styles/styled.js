@@ -7,6 +7,13 @@ import StyledFrame from '../styledFrame'
 
 export const mainColor = "#0a1a27"; //"#42a5f5";
 
+import { lighten, darken , readableColor} from "polished";
+
+export function textColor(color){
+  const lightReturnColor = "#121212"
+  const darkReturnColor = "#f3f3f3"
+  return readableColor(color, lightReturnColor, darkReturnColor)
+}
 
 const rotate = keyframes`
   from {
@@ -33,7 +40,6 @@ const appear = keyframes`
     opacity: 1;
   }
 `;
-
 
 export const Bounce = keyframes`
   0%,
@@ -644,6 +650,7 @@ export const CountBadge = styled.div`
   background-color: red;
   font-size: 10px;
   text-align: center;
+  color: #f3f3f3;
   ${(props)=> props.section === "home" ? 
     `top: 64px;left: 14px;` : "" 
   }
@@ -660,10 +667,15 @@ export const CountBadge = styled.div`
 
 export const Header = styled(({isMobile, ...rest})=>(<div {...rest}></div>))`
   /*
+    defaults 
+    rgb(36, 36, 36);
+  */
+ 
+  /*
   font-size: 13px;
   font-family: 'Roboto';
   font-weight: 500;
-  color: #f3f3f3;
+  color: ${(props)=> textColor(props.theme.pallete.primary)};
   height: 55px;
   background: ${mainColor};
 
@@ -676,9 +688,9 @@ export const Header = styled(({isMobile, ...rest})=>(<div {...rest}></div>))`
   height: 75px;
   position: relative;
   min-height: 75px;
-  background: rgb(36, 36, 36);
-  background: linear-gradient(135deg,rgb(36, 36, 36) 0%,rgb(0, 0, 0) 100%);
-  color: #fff;
+  background: ${(props)=> props.theme.pallete.primary };
+  background: linear-gradient(135deg, ${(props)=> props.theme.pallete.primary } 0%,${(props)=> darken(0.2, props.theme.pallete.primary) } 100%);
+  color: ${(props)=> textColor(props.theme.pallete.primary)};
   -webkit-transition: height 160ms ease-out;
   transition: height 160ms ease-out;
 `
@@ -938,11 +950,11 @@ export const ChatAvatar = styled.div`
 
 export const AnchorButton = styled.a`
   text-decoration: none;
-  background-color: #242424;
+  background-color: ${(props)=> props.theme.pallete.primary };
   -webkit-box-shadow: 0 4px 12px rgba(0,0,0,.1);
   box-shadow: 0 4px 12px rgba(0,0,0,.1);
   height: 40px;
-  color: rgb(255, 255, 255) !important;
+  color: ${(props)=> textColor(props.theme.pallete.primary)} !important;
   font-size: 13px;
   line-height: 14px;
   pointer-events: auto;

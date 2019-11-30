@@ -13,6 +13,7 @@ module Types
     field :preferences, Types::JsonType, null: true
     field :encryption_key, String, null: true
     field :app_users, [Types::AppUserType], null: true
+    field :customization_colors, Types::JsonType, null: true
     #field :triggers, Types::JsonType, null: true
     field :team_schedule, Types::JsonType, null: true
     field :reply_time, String, null: true
@@ -23,7 +24,7 @@ module Types
     field :tagline, String, null: true
     field :user_tasks_settings, Types::JsonType, null: true
     field :lead_tasks_settings, Types::JsonType, null: true
-    field :gatherSocialData, Boolean, null: true
+    field :gather_social_data, Boolean, null: true
     field :translations, [Types::JsonType], null: true
     field :available_languages, [Types::JsonType], null: true
 

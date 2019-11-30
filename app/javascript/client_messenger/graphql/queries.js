@@ -23,6 +23,7 @@ export const PING = `
         emailRequirement
         businessBackIn
         tasksSettings
+        customizationColors
         articleSettings{
           subdomain
         }
