@@ -1,16 +1,21 @@
+
 class MessengerEventsChannel < ApplicationCable::Channel
+  include UserFinder
+  
   def subscribed
     @app  = App.find_by(key: params[:app])
 
     get_user_data
 
-    if @user_data[:email].blank?
-      @app_user = get_user_by_session 
-    else
-      @app_user = @app.app_users
-                  .where("email =?", @user_data[:email])
-                  .first
-    end
+    find_user
+
+    #if @user_data.blank? or @user_data[:email].blank?
+    #  @app_user = get_user_by_session 
+    #else
+    #  @app_user = @app.app_users
+    #              .where("email =?", @user_data[:email])
+    #              .first
+    #end
 
     stream_from "messenger_events:#{@app.key}-#{@app_user.session_id}"
   end

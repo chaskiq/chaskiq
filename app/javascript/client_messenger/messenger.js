@@ -147,17 +147,16 @@ class Messenger extends Component {
     }
 
     if(this.props.encryptedMode){
-      
       this.defaultHeaders = { 
         app: this.props.app_id,
-        enc_data: this.props.encData,
+        enc_data: this.props.encData || "",
         session_id: this.props.session_id,
         lang: this.props.locale
       }
 
       this.defaultCableData = { 
         app: this.props.app_id, 
-        enc_data: this.props.encData,
+        enc_data: this.props.encData || "",
         session_id: this.props.session_id
       }
     }
