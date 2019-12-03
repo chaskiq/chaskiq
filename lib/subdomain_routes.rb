@@ -17,7 +17,7 @@ end
 
 class SubdomainOrDomain
   def self.matches?(request)
-    if request.subdomain.present? && request.subdomain != "www"
+    if request.subdomain.present? && !APP_SUBDOMAINS.include?(request.subdomain)
       return true
     #elsif request.host != 'www.#{DOMAIN}'
     #   return true
