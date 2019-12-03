@@ -102,7 +102,7 @@ class MainRouter extends Component {
                 <Route
                   render={props => { 
                     const subdomain = window.location.hostname.split('.')
-                    const appDomains = ["chaskiq", "www", "admin"].filter((o)=> o === subdomain[0])
+                    const appDomains = ["chaskiq", "www", "admin", "app"].filter((o)=> o === subdomain[0])
                      
                     if (subdomain && subdomain.length > 1 && appDomains.length === 0) 
                       return <Docs {...this.props} {...props} subdomain={subdomain[0]}/>
