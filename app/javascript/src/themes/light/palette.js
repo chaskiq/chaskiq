@@ -1,9 +1,17 @@
-import logo from '../../images/logo.png'
+import logo from '../../images/logo-dark.png'
+import { lighten, darken } from "polished";
 
 const palette = {
   background: {
     default: "#f7f7f7",
-    paper: "#fefefe"
+    paper: "#fefefe",
+  },
+  sidebar: {
+    background: "#131313",
+    color: "#fefefe",
+    borders: "none",
+    activeBackground: lighten(0.06, "#131313"),
+    hoverBackground: lighten(0.3, "#131313")
   },
   common: {
     black: "#161616",

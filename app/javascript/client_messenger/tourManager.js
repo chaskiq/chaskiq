@@ -47,7 +47,7 @@ const TourManagerContainer = styled.div`
     z-index: 300000;
     margin: 0px;
     height: ${(props)=> {
-      return props.collapsedEditor ? `38px` : `250px` } 
+      return props.collapsedEditor ? `38px` : `219px` } 
     };
     box-shadow: 1px -1px 6px 0px #313030b0;
 `
@@ -795,7 +795,7 @@ class NewTourStep extends Component {
   render(){
     return <NewStepContainer>
       <NewStepBody>
-        <Link href="#" onClick={this.enableSelection}>new +</Link>
+        <Link href="#" onClick={this.enableSelection}>new + .</Link>
       </NewStepBody>
       </NewStepContainer>
   }

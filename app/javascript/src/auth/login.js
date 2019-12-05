@@ -14,6 +14,7 @@ import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Checkbox from '@material-ui/core/Checkbox';
 import Link from '@material-ui/core/Link';
 import Grid from '@material-ui/core/Grid';
+import Paper from '@material-ui/core/Paper';
 import Box from '@material-ui/core/Box';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
@@ -76,7 +77,7 @@ function MadeWithLove() {
   return (
     <Typography variant="body2" color="textSecondary" align="center">
       {'Built with love by the '}
-      <Link color="inherit" href="https://chaskiqapp.com/">
+      <Link color="inherit" href="https://chaskiq.io/">
         Chasqik Team
       </Link>
     </Typography>
@@ -91,6 +92,7 @@ const useStyles = makeStyles(theme => ({
   },
   paper: {
     marginTop: theme.spacing(8),
+    padding: theme.spacing(2),
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
@@ -129,9 +131,9 @@ function SignIn(props) {
 
   return (
     <MuiThemeProvider theme={theme}>
-    <Container component="main" maxWidth="xs">
+    <Container component="main" maxWidth="sm">
       <CssBaseline />
-      <div className={classes.paper}>
+      <Paper className={classes.paper}>
         <Avatar className={classes.avatar}>
           {/*<LockOutlinedIcon />*/}
           <img className={classes.logo} src={logo}/>
@@ -200,7 +202,7 @@ function SignIn(props) {
           </Grid>
 
         </form>
-      </div>
+      </Paper>
       <Box mt={5}>
         <MadeWithLove />
       </Box>

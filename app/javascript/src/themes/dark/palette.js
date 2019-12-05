@@ -7,6 +7,7 @@ import red from '@material-ui/core/colors/red';
 
 import purple from '@material-ui/core/colors/purple';
 import logo from '../../images/logo-dark.png'
+import { lighten, darken } from "polished";
 
 const palette = {
   type: "dark",
@@ -17,7 +18,12 @@ const palette = {
   color: {
     default: "#ff0000"
   },
-
+  sidebar: {
+    background: "#1B1F23",
+    color: "#f3f3f3",
+    border: "1px solid rgba(0, 0, 0, 0.12)",
+    activeBackground: darken(0.2, "#131313")
+  },
   common: {
     black: "#000",
     white: "#fff",
