@@ -33,7 +33,7 @@ const useStyles = makeStyles(theme => ({
   },
   'colorSecondary': {
     color: theme.palette.primary.dark,
-    backgroundColor: '#fbfb91'
+    backgroundColor: '#f5f5d5'
   },
 
   online: {colorSecondary: theme.palette.common.green},
@@ -72,7 +72,7 @@ function UserBadge(props) {
 
 const userFormat = function(showUserDrawer){
   return [
-
+    {field: 'id', title: 'id' }, 
     {field: 'email', title: 'email', 
       render: (row) => {
         return row && 
@@ -104,9 +104,7 @@ const userFormat = function(showUserDrawer){
               label={row.state} 
               clickable={false}
              />
-    }}, 
-
-    {field: 'id', title: 'id' }, 
+    }},
     {field: 'online', title:  'online', hidden: true}, 
     {field: 'lat', title: 'lat', hidden:true}, 
     {field: 'lng', title:  'lng', hidden: true}, 
