@@ -40,6 +40,11 @@ const styles = {
       flexShrink: 0,
     },
   },
+  Navigator: {
+    color: theme.palette.sidebar.color,
+    background: theme.palette.sidebar.background,
+    border: theme.palette.sidebar.borders
+  },
   appContent: {
     flex: 1,
     display: 'flex',

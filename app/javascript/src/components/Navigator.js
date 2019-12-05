@@ -50,6 +50,7 @@ import { connect } from 'react-redux'
 import ListMenu from './ListMenu'
 import Typography from '@material-ui/core/Typography';
 import { withTheme } from '@material-ui/core/styles';
+import { lighten, darken } from "polished";
 
 
 const styles = theme => ({
@@ -76,9 +77,10 @@ const styles = theme => ({
     //color: theme.palette.primary.contrastText,
   },
   itemCategory: {
+    backgroundColor: 'transparent',
     //backgroundColor: '#232f3e',
     //boxShadow: '0 -1px 0 #404854 inset',
-    boxShadow: `0 -1px 0 ${theme.palette.primary.borders} inset`,
+    boxShadow: `0 -1px 0 rgba(0, 0, 0, .125) inset`,
     paddingTop: 16,
     paddingBottom: 16,
   },
@@ -86,16 +88,16 @@ const styles = theme => ({
     fontSize: 24,
     fontFamily: theme.typography.fontFamily,
     //color: theme.palette.primary.contrastText,
-    backgroundColor: theme.palette.background.paper
+    //backgroundColor: theme.palette.background.paper
   },
   itemActionable: {
     '&:hover': {
-      backgroundColor: 'rgba(255, 255, 255, 0.08)',
+      backgroundColor: theme.palette.sidebar.hoverBackground,
     },
   },
   itemActiveItem: {
     color: theme.palette.primary.main,
-    backgroundColor: theme.palette.background.default
+    backgroundColor: theme.palette.sidebar.activeBackground
   },
   itemPrimary: {
     color: 'inherit',
@@ -121,6 +123,8 @@ const styles = theme => ({
 
 const ExpansionPanel = withStyles({
   root: {
+    backgroundColor: 'transparent',
+    color: "inherit",
     boxShadow: 'none',
     '&:not(:last-child)': {
       borderBottom: 0,
@@ -149,6 +153,7 @@ const ExpansionPanel = withStyles({
 const ExpansionPanelSummary = withStyles({
   root: {
     padding: 0,
+    backgroundColor: 'transparent'
   },
   expanded: {
     padding: 0,
@@ -386,9 +391,6 @@ function Navigator(props, context) {
                   
                 </ListItemIcon>
               </ListItem>
-
-
-              
             </React.Fragment>
   }
 

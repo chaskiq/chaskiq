@@ -97,8 +97,6 @@ class Paperbase extends React.Component {
     this.props.history.push(url)
   }
 
-
-
   render() {
     const { classes } = this.props;
     const { children } = this.props;
@@ -119,7 +117,12 @@ class Paperbase extends React.Component {
                         <Navigator 
                           visitApp={(app)=> this.visitApp(app)}
                           apps={this.state.apps}
-                          PaperProps={{ style: { width: this.props.drawerWidth } }}
+                          PaperProps={{ 
+                            classes: {root: classes.Navigator},
+                            style: { 
+                              width: this.props.drawerWidth 
+                            } 
+                          }}
                           variant="permanent"
                           open={true}
                           //onClose={this.handleDrawerToggle}
