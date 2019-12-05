@@ -16,7 +16,7 @@ export function imageUpload(
 
     const upload = new DirectUpload(
       file,
-      '/api/v1/direct_uploads'
+      `${props.domain}/api/v1/direct_uploads`
     )
     upload.create((error, blob)=>{
       if(error){

@@ -98,19 +98,27 @@ const EditorButtons = styled.div`
       background: transparent;
       border: 1px solid;
       border-color: #999;
-      color: #999;
+      //color: #999;
       border-radius: 999em;
       cursor: pointer;
       text-indent: -6px;
 
       border-width: 0px;
+      outline:none;
+      
 
       svg{
         width: 26px;
         height: 26px;
         color: #ccc;
-        path {
-          fill: #585858;
+        //path {
+        //  fill: #555;
+        //}
+
+        fill: #555;
+
+        &:hover{
+          fill: #c1c1c1
         }
       }
     }
@@ -277,7 +285,6 @@ export default class UnicornEditor extends Component {
   }
 
   handleEmojiInsert = (e)=>{
-    debugger
     this.toggleEmoji()
     this.insertAtCursor(e.native)
   }
@@ -286,6 +293,7 @@ export default class UnicornEditor extends Component {
     imageUpload(
       ev.target.files[0],
       {
+        domain: this.props.domain,
         onLoading: ()=>{
 
         },

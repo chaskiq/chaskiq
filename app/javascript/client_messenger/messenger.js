@@ -27,42 +27,18 @@ import GraphqlClient from './graphql/client'
 import {
   Container,
   UserAutoMessage,
-  UserAutoMessageBlock,
-  AvatarSection,
-  EditorSection,
   EditorWrapper,
-  EditorActions,
-  CommentsWrapper,
-  CommentsItem,
   Prime,
   Header,
   Body,
-  Footer,
-  ReadIndicator,
-  MessageItem,
   HeaderOption,
   HeaderTitle,
-  ChatAvatar,
-  UserAutoChatAvatar,
-  NewConvoBtn,
-  ConversationSummary,
-  ConversationSummaryAvatar,
-  ConversationSummaryBody,
-  ConversationSummaryBodyMeta,
-  ConversationSummaryBodyContent,
-  ConversationSummaryBodyItems,
-  Autor,
-  Hint,
-  ConversationsFooter,
   SuperDuper,
   UserAutoMessageStyledFrame,
   CloseButtonWrapper,
   SuperFragment,
-  MessageSpinner,
   UserAutoMessageFlex,
   MessageCloseBtn,
-  AppPackageBlockContainer,
-  ConversationEventContainer,
   HeaderAvatar,
   CountBadge,
   ShowMoreWrapper,
@@ -1263,9 +1239,10 @@ class Messenger extends Component {
                     }}>
 
                       {
-                        !this.state.open && this.state.new_messages > 0 && <CountBadge>
-                                                        {this.state.new_messages}
-                                                      </CountBadge>
+                        !this.state.open && this.state.new_messages > 0 && 
+                        <CountBadge>
+                          {this.state.new_messages}
+                        </CountBadge>
                       }
 
                       {
