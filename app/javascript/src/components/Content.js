@@ -51,7 +51,7 @@ const styles = theme => ({
   },
   contentWrapper: {
     [theme.breakpoints.up('sm')]: {
-      margin: '40px 16px',
+      margin: '27px 50px',
     },
     [theme.breakpoints.down('sm')]: {
       width: '100vw',
