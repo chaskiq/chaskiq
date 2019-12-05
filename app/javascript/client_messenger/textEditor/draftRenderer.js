@@ -203,7 +203,7 @@ function renderers(props) {
                     autoplay={false} 
                     style={{width:"100%" }}
                     controls={true} 
-                    src={url}>
+                    src={getImageUrl(url, props)}>
                   </video>
                 </div>
                 <figcaption className="imageCaption">
