@@ -6,6 +6,11 @@ const palette = {
     default: "#f7f7f7",
     paper: "#fefefe",
   },
+  /*states: {
+    one: '#12af12',
+    two: '#f5f5d5',
+    three: '#f00'
+  },*/
   sidebar: {
     background: "#131313",
     color: "#fefefe",

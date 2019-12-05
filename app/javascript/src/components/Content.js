@@ -17,11 +17,11 @@ const styles = theme => ({
   paper: {
     //maxWidth: 936,
     width: '80vw',
-    overflow: 'hidden',
+    overflow: 'auto',
     //marginTop: '2em',
     //marginBottom: '2em',
     //margin: 'auto',
-    overflow: 'hidden',
+    //overflow: 'hidden',
     [theme.breakpoints.down('sm')]: {
       width: '100vw',
       height: '100vh'
