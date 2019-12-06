@@ -30,7 +30,6 @@ const simmer = new Simmer(window, {
 const TourManagerContainer = styled.div`
   box-shadow: 1px -1px 6px 0px #313030b0;
 `
-
 const Body = styled.div`
   padding: 10px;
   background: white;
@@ -38,7 +37,6 @@ const Body = styled.div`
   align-items: center;
   justify-content: center;
 `
-
 const Footer = styled.div`
   background: black;
   padding: 13px;
@@ -48,11 +46,9 @@ const Footer = styled.div`
     color: white;
   }
 `
-
 const FooterRight = styled.div`
   align-self: flex-end;
 `
-
 const StepContainer = styled.div`
     display: flex;
     flex-direction: row;
@@ -62,13 +58,11 @@ const StepContainer = styled.div`
     min-width: 0;
     min-height: 0;
 `
-
 const ConnectorStep = styled.div`
   width: 60px;
   heigth: 60px;
   border: 1px solid #ccc;
 `
-
 const StepBody = styled.div`
     background: #fff;
     max-height: 88px;
@@ -83,19 +77,14 @@ const StepBody = styled.div`
       background: #f5f2f2
     }
 `
-
 const StepHeader = styled.div`
   padding: 16px 24px;
 `
-
-const StepMessage = styled.div`
-
-`
+const StepMessage = styled.div``
 
 const CssPathIndicator = styled.div`
   color: white;
 `
-
 const EventBlocker = styled.div`
     position: fixed;
     height: 100%;
@@ -108,17 +97,14 @@ const EventBlocker = styled.div`
     pointer-events: none;
     z-index: 100000000000;
 `
-
 const StepsContainer = styled.div`
   width: 100%;
   overflow:scroll;
   display: flex;
 `
-
 const Link = styled.a`
 color: #000;
 `
-
 const DeleteButton = styled(Link)`
   float: right;
   display: block;
@@ -132,7 +118,6 @@ const DeleteButton = styled(Link)`
   border: 1px solid #c1b8b8;
   box-shadow: 0px 1px 1px #ccc;
 `
-
 const Button = styled.button`
   text-align: center;
   display: inline-block;
@@ -150,8 +135,6 @@ const Button = styled.button`
   background: aqua;
   border: none;
 `
-
-
 
 export default class TourManager extends Component {
 
@@ -352,7 +335,8 @@ export default class TourManager extends Component {
   }
 
   handleDirectUpload = (file, imageBlock, input)=>{
-
+    console.log("paso por direct image")
+    console.log(file, imageBlock, input)
     let a = window.addEventListener('message', (e)=> {
       if(e.data.type === "UPLOAD_COMPLETED"){
         imageBlock.uploadCompleted(e.data.data.serviceUrl)
@@ -369,7 +353,9 @@ export default class TourManager extends Component {
     }, this.props.ev.origin)
   }
 
-  handleUrlUpload = (url)=>{
+  handleUrlUpload = (file, imageBlock, input)=>{
+    console.log("paso por direct url")
+    console.log(file, imageBlock, input)
 
     let a = window.addEventListener('message', (e)=> {
       if(e.data.type === "URL_UPLOAD_COMPLETED"){
@@ -395,6 +381,7 @@ export default class TourManager extends Component {
       content: <React.Fragment>
                 <TextEditor
                   data={{}}
+                  domain={this.props.domain}
                   handleUrlUpload={this.handleUrlUpload}
                   handleDirectUpload={this.handleDirectUpload}
                   styles={
@@ -560,7 +547,7 @@ export default class TourManager extends Component {
   }
 
   render(){
-    console.log(this.props.domain)
+
     return (
       <div>
         

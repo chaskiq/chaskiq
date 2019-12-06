@@ -207,6 +207,7 @@ class TourManager extends Component {
     graphql(CREATE_DIRECT_UPLOAD, input, {
       success: (data)=>{
         const {signedBlobId, headers, url, serviceUrl} = data.createDirectUpload.directUpload
+        console.log("DRECT", signedBlobId, headers, url, serviceUrl)
         directUpload(url, JSON.parse(headers), file).then(
           () => {
 

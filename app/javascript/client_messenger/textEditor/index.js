@@ -256,6 +256,7 @@ export default class ArticleEditor extends Component {
     return [CodeBlockConfig(),
     ImageBlockConfig({
       options: {
+        domain: this.props.domain,
         //upload_url: `/attachments.json?id=${this.props.data.id}&app_id=${this.props.app.key}`,
         upload_handler: this.uploadHandler,
         image_caption_placeholder: "type a caption (optional)"
