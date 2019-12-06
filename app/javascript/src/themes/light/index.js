@@ -35,7 +35,7 @@ let theme = createMuiTheme({
       //fontFamily: "\"IBM Plex Sans Condensed\", \"Helvetica\", \"Arial\", sans-serif",
       fontFamily: "\"Open Sans\", \"Helvetica\", \"Arial\", sans-serif",
       fontWeight: 'bold',
-      fontSize: 17,
+      fontSize: 19,
       letterSpacing: 0.5,
     },
   },

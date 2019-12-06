@@ -332,7 +332,7 @@ class CampaignForm extends Component {
   }
 
   updateData = (data, cb) => {
-    this.setState({ data: data }, cb ? cb() : null)
+    this.setState({ data: data }, cb && cb())
   }
 
   renderEditorForCampaign = ()=>{

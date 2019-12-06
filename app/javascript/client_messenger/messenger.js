@@ -1265,9 +1265,15 @@ class Messenger extends Component {
                 </StyledFrame> : null
             }
 
+            </EditorWrapper>
+
+
             {
               this.state.tourManagerEnabled ?
-              <TourManager ev={this.state.ev}/> : 
+              <TourManager 
+                ev={this.state.ev}
+                domain={this.props.domain}
+              /> : 
                 this.state.tours.length > 0 ? 
                 <Tour 
                   tours={this.state.tours}
@@ -1276,8 +1282,6 @@ class Messenger extends Component {
             }
 
             <div id="TourManager"></div>
-
-            </EditorWrapper>
          
         </ThemeProvider>
     );

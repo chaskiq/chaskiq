@@ -637,7 +637,7 @@ export const Prime = styled.div`
     //overflow: hidden;
     background: ${mainColor};
     float: right;
-    margin: 5px 20px;
+    margin: 14px 27px;
     animation: ${rotate} 0.3s cubic-bezier(0.390, 0.575, 0.565, 1.000) both;
 `
 
