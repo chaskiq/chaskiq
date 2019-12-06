@@ -335,8 +335,6 @@ export default class TourManager extends Component {
   }
 
   handleDirectUpload = (file, imageBlock, input)=>{
-    console.log("paso por direct image")
-    console.log(file, imageBlock, input)
     let a = window.addEventListener('message', (e)=> {
       if(e.data.type === "UPLOAD_COMPLETED"){
         imageBlock.uploadCompleted(e.data.data.serviceUrl)
@@ -354,9 +352,6 @@ export default class TourManager extends Component {
   }
 
   handleUrlUpload = (file, imageBlock, input)=>{
-    console.log("paso por direct url")
-    console.log(file, imageBlock, input)
-
     let a = window.addEventListener('message', (e)=> {
       if(e.data.type === "URL_UPLOAD_COMPLETED"){
         imageBlock.uploadCompleted(e.data.data.serviceUrl)
