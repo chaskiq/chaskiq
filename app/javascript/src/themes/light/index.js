@@ -7,6 +7,7 @@ let theme = createMuiTheme({
     //font-family: 'IBM Plex Sans', sans-serif;
     //font-family: 'IBM Plex Sans Condensed', sans-serif;
     fontFamily: "\"IBM Plex Sans\", \"Helvetica\", \"Arial\", sans-serif",
+    //fontFamily: "\"Poppins\", \"Helvetica\", \"Arial\", sans-serif",
 
     //fontFamily: "\"Roboto Mono\", \"Helvetica\", \"Arial\", sans-serif",
     fontSize: 14,
@@ -28,7 +29,14 @@ let theme = createMuiTheme({
       fontWeight: 'bold',
       fontSize: 26,
       letterSpacing: 0.5,
-    
+    },
+
+    h6: {
+      //fontFamily: "\"IBM Plex Sans Condensed\", \"Helvetica\", \"Arial\", sans-serif",
+      fontFamily: "\"Open Sans\", \"Helvetica\", \"Arial\", sans-serif",
+      fontWeight: 'bold',
+      fontSize: 17,
+      letterSpacing: 0.5,
     },
   },
   palette: palette,

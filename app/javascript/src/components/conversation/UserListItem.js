@@ -34,8 +34,8 @@ const useStyles = makeStyles(theme => ({
   },
   participantAvatar: {
     //margin: 10,
-    width: 50,
-    height: 50,
+    width: 45,
+    height: 45,
   },
   flexContainer: {
     display: 'flex',
@@ -77,8 +77,8 @@ const useStyles = makeStyles(theme => ({
   },
   defaultItem: {
     flexFlow: 'column',
-    paddingTop: '.5em',
-    paddingBottom: '.5em',
+    paddingTop: '.7em',
+    paddingBottom: '.7em',
     backgroundColor: theme.palette.background.paper
   },
   contentContent: {
