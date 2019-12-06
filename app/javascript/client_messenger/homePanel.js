@@ -522,7 +522,8 @@ const ArticleCardWrapper = styled.div`
 `
 
 const ArticleCardTitle = styled.div`
-  color: #ff0;
+  color: ${(props)=> (props.theme.pallete.primary)};
+  font-weight: bold;
   line-height: 1.5;
   margin-bottom: 7px;
   transition: all 200ms linear 0s;
