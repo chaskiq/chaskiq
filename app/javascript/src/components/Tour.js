@@ -233,8 +233,12 @@ class TourManager extends Component {
       enabledTour: true
     }, () => {
 
-      window.__CHILD_WINDOW_HANDLE_2 = window.open(`${this.props.data.url}`, 
-      'width=700,height=500,left=200,top=100');
+      const options = 'directories=no,titlebar=no,toolbar=no,location=no,status=no,menubar=no,scrollbars=no,resizable=no,width=700,height=500,left=200,top=100'
+      window.__CHILD_WINDOW_HANDLE_2 = window.open(
+        `${this.props.data.url}`, 
+        'win', 
+        options
+      );
       //'_blank' )
 
       /*setTimeout(() => {
