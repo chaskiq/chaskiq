@@ -1,7 +1,7 @@
 import styled from '@emotion/styled'
 
 import EditorStyles from 'Dante2/package/es/styled/base'
-
+import prismStyle from './prismStyle'
 const Other = styled('div')`
   ${(props)=>{
     debugger
@@ -101,6 +101,9 @@ const NewEditorStyles = styled(EditorStyles)`
     }
 
   }
+
+  ${prismStyle}
+
 
 `;
 
