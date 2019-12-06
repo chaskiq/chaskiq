@@ -84,9 +84,9 @@ const LoadingWrapper = styled.div`
 
 export default function LoadingView({onClick}){
   return <LoadingWrapper>
-      <section class="wrapper" onClick={onClick}>
-        <div class="card">
-          <div class="loader">
+      <section className="wrapper" onClick={onClick}>
+        <div className="card">
+          <div className="loader">
             <span></span>
             <span></span>
             <span></span>

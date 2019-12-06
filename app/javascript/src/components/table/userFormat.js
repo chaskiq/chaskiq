@@ -36,8 +36,8 @@ const useStyles = makeStyles(theme => ({
     backgroundColor: '#f5f5d5'
   },
 
-  online: {colorSecondary: theme.palette.common.green},
-  offline: {background: theme.palette.common.offline}
+  //online: {colorSecondary: theme.palette.common.green},
+  //offline: {background: theme.palette.common.offline}
   
 }));
 

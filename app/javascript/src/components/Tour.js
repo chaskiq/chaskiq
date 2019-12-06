@@ -20,6 +20,7 @@ import DeleteForeverRounded  from '@material-ui/icons/DeleteForeverRounded'
 
 import IconButton from '@material-ui/core/IconButton'
 import Link from '@material-ui/core/Link'
+import StyledFrame from '../../client_messenger/styledFrame'
 
 // INTERNAL APP TOUR
 const StepContainer = styled.div`
@@ -125,8 +126,6 @@ class TourManager extends Component {
 
     // events received from child window & pingback
     window.addEventListener('message', (e)=> {
-      console.log(e)
-
       if(e.data.type === "ENABLE_MANAGER_TOUR")
         window.__CHILD_WINDOW_HANDLE_2.postMessage(
           { 
@@ -135,7 +134,6 @@ class TourManager extends Component {
           }, 
           "*"
         );
-
 
       if(e.data.type === "GET_TOUR")
         window.__CHILD_WINDOW_HANDLE_2.postMessage({
@@ -150,7 +148,6 @@ class TourManager extends Component {
             data: this.props.data
           }, "*");
         })
-
 
       if(e.data.type === "UPLOAD_IMAGE"){
         this.handleDirectUpload(e.data.file, e.data.input)
@@ -230,23 +227,6 @@ class TourManager extends Component {
       }
     })
   }
-        /*
-      graphql(CREATE_DIRECT_UPLOAD, input, {
-        success: (data)=>{
-          const {signedBlobId, headers, url, serviceUrl} = data.createDirectUpload.directUpload
-          directUpload(url, JSON.parse(headers), file).then(
-            () => {
-              this.setDisabled(false)
-              imageBlock.uploadCompleted(serviceUrl)
-              //this.props.uploadHandler({signedBlobId, headers, url, serviceUrl, imageBlock})
-          });
-        },
-        error: (error)=>{
-          debugger
-          this.setDisabled(false)
-          console.log("error on signing blob", error)
-        }
-      })*/
 
   openTourManager = ()=>{
     this.setState({
@@ -254,8 +234,8 @@ class TourManager extends Component {
     }, () => {
 
       window.__CHILD_WINDOW_HANDLE_2 = window.open(`${this.props.data.url}`, 
-      '_blank' )
-      //'width=700,height=500,left=200,top=100');
+      'width=700,height=500,left=200,top=100');
+      //'_blank' )
 
       /*setTimeout(() => {
         __CHILD_WINDOW_HANDLE_2.postMessage(
@@ -277,7 +257,6 @@ class TourManager extends Component {
 
   render(){
     return <Body>
-
             <StepsContainer>
               {
                 this.props.data.steps && this.props.data.steps.map((o) => {
@@ -295,7 +274,6 @@ class TourManager extends Component {
               </NewTourStep>
 
             </StepsContainer>
-
           </Body>
   }
 }
