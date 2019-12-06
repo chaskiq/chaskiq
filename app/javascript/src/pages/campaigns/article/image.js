@@ -297,6 +297,11 @@ export default class ImageBlock extends React.Component {
 
   }
 
+  imageUrl =()=> {
+    if(this.state.url.includes("://")) return this.state.url
+    return `${this.config.domain}${this.state.url}`
+  }
+
   render = ()=> {
 
     return (
@@ -306,7 +311,8 @@ export default class ImageBlock extends React.Component {
           onClick={this.handleGrafFigureSelectImg}>
           <div style={{ paddingBottom: `${ this.state.aspect_ratio.ratio }%` }}
             className='aspect-ratio-fill' />
-          <img src={this.state.url}
+          <img 
+            src={this.imageUrl()}
             ref="image_tag"
             height={this.state.aspect_ratio.height}
             width={this.state.aspect_ratio.width}
@@ -391,7 +397,7 @@ export const ImageBlockConfig = (options={})=>{
     widget_options: {
       displayOnInlineTooltip: true,
       insertion: "upload",
-      insert_block: "image"
+      insert_block: "image",
     },
     options: {
       upload_url: '',

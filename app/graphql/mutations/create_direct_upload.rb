@@ -28,6 +28,7 @@ module Mutations
     field :direct_upload, DirectUpload, null: false
 
     def resolve(input:)
+
       blob = ActiveStorage::Blob.create_before_direct_upload!(input.to_h)
       {
         direct_upload: {
@@ -43,7 +44,3 @@ module Mutations
   end
 
 end
-
-
-# add this mutation to your Mutation type
-# field :create_direct_upload, mutation: CreateDirectUpload
