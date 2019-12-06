@@ -25,7 +25,8 @@ import Button from '@material-ui/core/Button'
 import Avatar from '@material-ui/core/Avatar'
 import IconButton from '@material-ui/core/IconButton' 
 import TextField from '@material-ui/core/TextField'
-
+import Paper from '@material-ui/core/Paper'
+import Box from '@material-ui/core/Box'
 
 import EditIcon from '@material-ui/icons/EditOutlined'
 import gravatar from '../shared/gravatar'
@@ -45,10 +46,10 @@ import UserActionsMenu from '../components/userActionsMenu'
 const AppUserHeaderOverlay = styled.div`
   position: absolute;
   z-index: 99;
-  color: #fff;
+  //color: #fff;
   width: 100%;
   height: 185px;
-  background: #0000ff8c;
+  background: ${(props)=>  props.theme.palette.background.default };
   //background: linear-gradient(to bottom,rgba(250,250,250,0) 40%,#f6f6f6 100%);
   opacity: 0.6;
 `
@@ -56,7 +57,7 @@ const AppUserHeaderOverlay = styled.div`
 const AppUserHeaderInfo = styled.div`
   position: absolute;
   z-index: 99;
-  color: #fff;
+  //color: #fff;
   width: 100%;
   height: 185px;
   display: flex;
@@ -277,35 +278,40 @@ class ProfilePage extends Component {
           <Grid container spacing={2}>
 
             <Grid item xs={12} sm={8}>
-              <Typography>
-                conversations
-              </Typography>
+              <Box m={1}>
+                <Typography variant={'h5'}>
+                  Conversations
+                </Typography>
+              </Box>
 
-              {
-                this.state.agent.conversations ? 
-              
-                  this.state.agent.conversations.collection.map((o)=>{
-                    const user = o.mainParticipant
-                    return <div 
-                              key={o.id} 
-                              onClick={(e)=> this.props.history.push(`/apps/${this.props.app.key}/conversations/${o.id}`) }>
-                                      
-                              <UserListItem
-                                value={null}
-                                mainUser={user}
-                                object={o.id}
-                                messageUser={o.lastMessage.appUser}
-                                showUserDrawer={this.showUserDrawer}
-                                messageObject={o.lastMessage}
-                                conversation={o}
-                                //createdAt={o.lastMessage.message.created_at}
-                                message={sanitizeHtml(o.lastMessage.message.htmlContent).substring(0, 250)}
-                              />
-                            </div>
-                  
-                  })
-                : null 
-              }
+              <Paper>
+                
+                {
+                  this.state.agent.conversations ? 
+                
+                    this.state.agent.conversations.collection.map((o)=>{
+                      const user = o.mainParticipant
+                      return <div 
+                                key={o.id} 
+                                onClick={(e)=> this.props.history.push(`/apps/${this.props.app.key}/conversations/${o.key}`) }>
+                                        
+                                <UserListItem
+                                  value={null}
+                                  mainUser={user}
+                                  object={o.id}
+                                  messageUser={o.lastMessage.appUser}
+                                  showUserDrawer={this.showUserDrawer}
+                                  messageObject={o.lastMessage}
+                                  conversation={o}
+                                  //createdAt={o.lastMessage.message.created_at}
+                                  message={sanitizeHtml(o.lastMessage.message.htmlContent).substring(0, 250)}
+                                />
+                              </div>
+                    
+                    })
+                  : null 
+                }
+              </Paper>
             </Grid>
 
             <Grid item xs={12} sm={4}>
