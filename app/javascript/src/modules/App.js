@@ -138,7 +138,10 @@ class Paperbase extends React.Component {
                       <Navigator
                         visitApp={(app)=> this.visitApp(app)}
                         apps={this.state.apps}
-                        PaperProps={{ style: { width: this.props.drawerWidth } }}
+                        PaperProps={{ 
+                          classes: {root: classes.Navigator},
+                          style: { width: this.props.drawerWidth } 
+                        }}
                         variant="temporary"
                         open={this.state.mobileOpen}
                         onClose={this.handleDrawerToggle}
