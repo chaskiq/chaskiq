@@ -24,6 +24,7 @@ export const APP = `
       availableLanguages
       teamSchedule
       replyTime
+      customizationColors
       inboundSettings
       emailRequirement
       leadTasksSettings
