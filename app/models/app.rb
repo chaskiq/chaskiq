@@ -251,16 +251,6 @@ class App < ApplicationRecord
     self.encryption_key = SecureRandom.hex(4)
   end
 
-  def primary_customization_color=(color)
-    colors = customization_colors || {}.merge(primary: color)
-    self.customization_colors = colors
-  end
-
-  def secondary_customization_color=(color)
-    colors = customization_colors || {}.merge(secondary: color)
-    self.customization_colors = colors
-  end
-
 private
   def init_app_segments
     SegmentFactory.create_segments_for(self)
