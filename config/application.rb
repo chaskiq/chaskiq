@@ -41,9 +41,5 @@ module Chaskiq
     config.available_locales = locales
     I18n.available_locales = locales
     config.i18n.default_locale = :en
-    
-
-    config.assets.enabled = false if ENV['ANYCABLE_DEPLOYMENT']
-
   end
 end
