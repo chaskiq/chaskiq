@@ -46,7 +46,7 @@ Rails.application.configure do
   config.action_controller.default_url_options = {host: 'http://localhost:3000'}
   config.action_mailer.default_url_options = {host: 'http://localhost:3000'}
 
-  # config.action_cable.url = "ws://localhost:5002/cable"
+  config.action_cable.url = "ws://localhost:5002/cable"
 
   ActiveRecord::Base.verbose_query_logs = true
 
