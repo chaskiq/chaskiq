@@ -10,8 +10,10 @@ describe('Availability spec', function() {
   it('next week', function() {
     cy.appScenario('basic')
 
+    let weekday = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'][new Date().getDay()]
+
     cy.appEval(`App.last.update(timezone: 'UTC', 
-    team_schedule: [{ day: 'tue', from: '01:00' , to: '01:30' }])`)
+    team_schedule: [{ day: "${weekday.toLowerCase()}", from: '01:00' , to: '01:30' }])`)
     
     cy.appEval("App.last").then((results) => {
       const appKey = results.key
@@ -28,7 +30,7 @@ describe('Availability spec', function() {
         cy.get('iframe:first')
         .then(function ($iframe) {
             const $body = $iframe.contents().find('body')
-            expect($body.html()).to.contain("volvemos la proxima semana")
+            expect($body.html()).to.contain("next week")
         })
 
 
