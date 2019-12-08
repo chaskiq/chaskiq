@@ -2,5 +2,5 @@
 #worker: bundle exec sidekiq -c 5 -v -q mailers,2 -q default
 
 worker: bin/heroku-worker
-web: DISABLE_ASSETS=true ANYCABLE_REDIS_URL=$REDIS_URL REDIS=$REDIS_URL ADDR="0.0.0.0:$PORT" CABLE_URL='wss://app.chaskiq.io.com/cable' bin/heroku-web
+web: ANYCABLE_REDIS_URL=$REDIS_URL REDIS=$REDIS_URL ADDR="0.0.0.0:$PORT" CABLE_URL='wss://app.chaskiq.io.com/cable' bin/heroku-web
 
