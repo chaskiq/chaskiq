@@ -706,7 +706,7 @@ export const Header = styled(({isMobile, ...rest})=>(<div {...rest}></div>))`
       return props.theme.pallete.pattern ? 
       `background-image: url(${props.theme.pallete.pattern});` : ''
     }}
-    background-size: 66px 57px, cover;
+    background-size: 210px 210px, cover;
     pointer-events: none;
   }
 
