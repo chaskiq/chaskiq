@@ -26,7 +26,7 @@
       g.onload=function(){
         window.chaskiqMessenger = new window.ChaskiqMessengerEncrypted({
           domain: '<%=@h[:http] +request.env["HTTP_HOST"]%>',
-          ws:  '<%=@h[:ws]+ request.env["HTTP_HOST"] + "/cable" %>',
+          ws:  '<%= Rails.application.config.action_cable.url %>',
           data: "<%=@encrypted_data%>",
           lang: "<%= @lang %>",
           app_id: "<%= @app.key %>"
