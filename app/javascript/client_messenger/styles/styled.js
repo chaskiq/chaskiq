@@ -693,6 +693,23 @@ export const Header = styled(({isMobile, ...rest})=>(<div {...rest}></div>))`
   color: ${(props)=> textColor(props.theme.pallete.primary)};
   -webkit-transition: height 160ms ease-out;
   transition: height 160ms ease-out;
+
+  &:before{
+    content: "";
+    opacity: 0.45;
+    top: 0px;
+    left: 0px;
+    bottom: 0px;
+    right: 0px;
+    position: absolute;
+    ${(props)=>{
+      return props.theme.pallete.pattern ? 
+      `background-image: url(${props.theme.pallete.pattern});` : ''
+    }}
+    background-size: 66px 57px, cover;
+    pointer-events: none;
+  }
+
 `
 
 export const Body = styled.div`
