@@ -11,7 +11,7 @@ import {ColorPicker} from '../../shared/FormFields'
 function CustomizationColors({settings, update, dispatch}){
   console.log("SETTINGs", settings)
   const [state, setState] = React.useState({
-    customization_colors: settings.customizationColors,
+    customization_colors: settings.customizationColors || {},
   });
 
   const handleChange = name => event => {
@@ -58,7 +58,7 @@ function CustomizationColors({settings, update, dispatch}){
 
     const data = {
       app: {
-        customization_colors: customization_colors || {}
+        customization_colors: customization_colors
       }
     } 
     update(data)
@@ -83,6 +83,7 @@ function CustomizationColors({settings, update, dispatch}){
     
       <Grid container direction={'column'}>
 
+        <Grid container direction={'row'}>
           <Grid item  xs={12} sm={4} >
             <ColorPicker 
               color={state.customization_colors.primary} 
@@ -111,8 +112,7 @@ function CustomizationColors({settings, update, dispatch}){
               Secondary color
             </Typography>
           </Grid>
-
-
+        </Grid>
 
         <Grid container direction={'row'}>
 
