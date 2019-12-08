@@ -957,9 +957,8 @@ class Messenger extends Component {
   themePalette = ()=>{
     const {customizationColors} = this.state.appData
     return customizationColors ? customizationColors : {
-      header: "#f00",
       primary: "#121212",
-      secondary: "#f00"
+      secondary: "#ccc"
     }
   }
 

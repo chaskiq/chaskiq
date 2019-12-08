@@ -58,7 +58,7 @@ function CustomizationColors({settings, update, dispatch}){
 
     const data = {
       app: {
-        customization_colors: customization_colors
+        customization_colors: customization_colors || {}
       }
     } 
     update(data)
