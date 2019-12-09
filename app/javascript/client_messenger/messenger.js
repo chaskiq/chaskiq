@@ -955,11 +955,16 @@ class Messenger extends Component {
   }
 
   themePalette = ()=>{
-    const {customizationColors} = this.state.appData
-    return customizationColors ? customizationColors : {
+    const defaultscolors = {
       primary: "#121212",
       secondary: "#121212"
     }
+    const {customizationColors} = this.state.appData
+
+    return customizationColors ? 
+    Object.assign({}, defaultscolors, customizationColors ) 
+    : defaultscolors
+    
   }
 
   render() {
