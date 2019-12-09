@@ -52,7 +52,10 @@ RSpec.describe Conversation, type: :model do
     expect(app.conversations.first.assignee).to be_blank
   end
 
-  it "adds counters" do
+  it "adds counters zero for user" do
+
+    app_user.new_messages.value = 0
+
     app.start_conversation({
       message: {text_content: "aa"}, 
       from: app_user
@@ -76,6 +79,25 @@ RSpec.describe Conversation, type: :model do
     expect(app.conversations.count).to be == 1
     expect(app.conversations.first.messages.count).to be == 1
     expect(app.conversations.first.assignee).to be_present
+  end
+
+  it "assign event does not trigger counter" do
+    app_user.new_messages.value = 0
+
+    app.start_conversation({
+      message: {text_content: "aa"}, 
+      from: agent_role.agent,
+      participant: app_user
+    })
+    conversation = app.conversations.first
+    main_participant = conversation.main_participant
+
+    expect(app.conversations.count).to be == 1
+    expect(main_participant.new_messages.value).to be == 1
+
+    conversation.assign_user(agent_role2.agent)
+    expect(conversation.messages.size).to be == 2
+    expect(main_participant.new_messages.value).to be == 1
   end
 
   context "add message" do
