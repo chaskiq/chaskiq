@@ -37,11 +37,10 @@ class PresenceChannel < ApplicationCable::Channel
   def get_session_data
     @app      = App.find_by(key: params[:app])
     get_user_data
-    visitor = nil
     @key    = "presence:#{@app.key}-"
     find_user
-    @key = @key + visitor.session_id
-    @key = @key + @app_user.email if @app_user.is_a?(AppUser)
+    @key = @key + @app_user.session_id
+    @key = @key + @app_user.email if @app_user.type == "AppUser"
   end
 
 end
