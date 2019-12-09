@@ -4,16 +4,12 @@ import { jsx, css, keyframes } from '@emotion/core'
 import React from 'react'
 
 import StyledFrame from '../styledFrame'
+import { lighten, darken } from "polished";
+
+import {textColor} from './utils' 
 
 export const mainColor = "#0a1a27"; //"#42a5f5";
 
-import { lighten, darken , readableColor} from "polished";
-
-export function textColor(color){
-  const lightReturnColor = "#121212"
-  const darkReturnColor = "#f3f3f3"
-  return readableColor(color, lightReturnColor, darkReturnColor)
-}
 
 const rotate = keyframes`
   from {
@@ -141,7 +137,7 @@ export const Container = styled.div`
 
 export const AssigneeStatus = styled.span`
   font-size: 11px;
-  color: #949292;
+  color: ${(props)=> textColor(props.theme.palette.primary)};
 `
 
 
@@ -611,7 +607,7 @@ export const CommentsItem = styled.div`
 
     transition: all 0.4s ease-out;
 
-    ${(props)=> props.display ? 
+    ${(props)=> props.displayOpacity ? 
       `opacity: 1;` : 
       `opacity: 0;` 
     }
@@ -625,17 +621,15 @@ export const Prime = styled.div`
     height: 56px;
     border-radius: 50%;
     text-align: center;
-    color: #f0f0f0;
     margin: 0 0;
     box-shadow: 0 0 4px rgba(0,0,0,.14), 0 4px 8px rgba(0,0,0,.28);
     cursor: pointer;
-    -webkit-transition: all .1s ease-out;
-    -webkit-transition: all .1s ease-out;
     transition: all .1s ease-out;
     position: relative;
     z-index: 998;
     //overflow: hidden;
-    background: ${mainColor};
+    color: ${(props)=> textColor(props.theme.palette.secondary)};
+    background: ${(props)=> props.theme.palette.secondary };
     float: right;
     margin: 14px 27px;
     animation: ${rotate} 0.3s cubic-bezier(0.390, 0.575, 0.565, 1.000) both;
@@ -675,7 +669,7 @@ export const Header = styled(({isMobile, ...rest})=>(<div {...rest}></div>))`
   font-size: 13px;
   font-family: 'Roboto';
   font-weight: 500;
-  color: ${(props)=> textColor(props.theme.pallete.primary)};
+  color: ${(props)=> textColor(props.theme.palette.primary)};
   height: 55px;
   background: ${mainColor};
 
@@ -688,25 +682,27 @@ export const Header = styled(({isMobile, ...rest})=>(<div {...rest}></div>))`
   height: 75px;
   position: relative;
   min-height: 75px;
-  background: ${(props)=> props.theme.pallete.primary };
-  background: linear-gradient(135deg, ${(props)=> props.theme.pallete.primary } 0%,${(props)=> darken(0.2, props.theme.pallete.primary) } 100%);
-  color: ${(props)=> textColor(props.theme.pallete.primary)};
+  background: ${(props)=> props.theme.palette.primary };
+  background: linear-gradient(135deg, ${(props)=> props.theme.palette.primary } 0%,${(props)=> darken(0.2, props.theme.palette.primary) } 100%);
+  color: ${(props)=> textColor(props.theme.palette.primary)};
   -webkit-transition: height 160ms ease-out;
   transition: height 160ms ease-out;
 
   &:before{
     content: "";
-    opacity: 0.45;
     top: 0px;
     left: 0px;
     bottom: 0px;
     right: 0px;
     position: absolute;
     ${(props)=>{
-      return props.theme.pallete.pattern ? 
-      `background-image: url(${props.theme.pallete.pattern});` : ''
+      return props.theme.palette.pattern ? 
+      `
+        opacity: 0.38; 
+        background-image: url(${props.theme.palette.pattern});
+      ` : ''
     }}
-    background-size: 210px 210px, cover;
+    background-size: 610px 610px, cover;
     pointer-events: none;
   }
 
@@ -930,6 +926,7 @@ export const HeaderAvatar = styled.div`
     flex: 0 0 auto;
     align-self: center;
     //margin-left: 15px;
+    color: ${(props)=> textColor(props.theme.palette.primary)};
 
     img {
       width: 40px;
@@ -967,11 +964,11 @@ export const ChatAvatar = styled.div`
 
 export const AnchorButton = styled.a`
   text-decoration: none;
-  background-color: ${(props)=> props.theme.pallete.primary };
+  background-color: ${(props)=> props.theme.palette.secondary };
   -webkit-box-shadow: 0 4px 12px rgba(0,0,0,.1);
   box-shadow: 0 4px 12px rgba(0,0,0,.1);
   height: 40px;
-  color: ${(props)=> textColor(props.theme.pallete.primary)} !important;
+  color: ${(props)=> textColor(props.theme.palette.secondary)} !important;
   font-size: 13px;
   line-height: 14px;
   pointer-events: auto;

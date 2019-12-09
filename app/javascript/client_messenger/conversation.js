@@ -237,7 +237,7 @@ export class Conversation extends Component {
 
   renderItemPackage = (o, i)=>{
     return  <AppPackageBlock 
-               key={i}
+               key={`package-${this.props.conversation.key}-${i}`}
                message={o}
                conversation={this.props.conversation}
                submitAppUserData={this.props.submitAppUserData.bind(this)}
@@ -550,7 +550,7 @@ export function CommentsItemComp(props){
   }
 
   return <CommentsItem
-                display={display}
+                displayOpacity={display}
                 key={`comments-item-${o.id}`}
                 onClick={(e) => { displayConversation(e, o) }}>
 

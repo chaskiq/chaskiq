@@ -10,7 +10,7 @@ import sanitizeHtml from 'sanitize-html';
 import gravatar from "./shared/gravatar"
 import {CommentsItemComp} from './conversation'
 import { ThemeProvider } from 'emotion-theming'
-import {textColor} from './styles/styled'
+import {textColor} from './styles/utils'
 
 //import graphql from './graphql/client'
 import {
@@ -388,8 +388,8 @@ const ButtonWrapper = styled.div`
     padding: 1.2em;
     border-bottom-right-radius: 6px;
     border-top-right-radius: 6px;
-    color: ${(props)=> textColor(props.theme.pallete.primary)};
-    background: ${(props)=>{lighten(0.1, props.theme.pallete.primary)}};
+    color: ${(props)=> textColor( props.theme.palette.secondary )};
+    background: ${(props)=> props.theme.palette.secondary };
   }
 `
 
@@ -399,7 +399,7 @@ const CardButtonsGroup = styled.div`
   justify-content: space-between;
   display: flex;
   a, a:link, a:visited, a:focus, a:hover, a:active{
-    color: ${(props)=> props.theme.pallete.primary};
+    color: ${(props)=> props.theme.palette.secondary};
     text-decoration:none; 
     //cursor: crosshair;
   }
@@ -430,7 +430,7 @@ const Card = styled.div`
   overflow: hidden;
   position: relative;
   //-webkit-box-shadow: 0 4px 15px 0 rgba(0,0,0,.1), 0 1px 2px 0 rgba(0,0,0,.1), inset 0 2px 0 0 rgba(48, 71, 236, 0.5);
-  box-shadow: 0 4px 15px 0 rgba(0,0,0,.1), 0 1px 2px 0 rgba(0,0,0,.1), inset 0 2px 0 0 ${(props)=>{lighten(0.1, props.theme.pallete.primary)}};
+  box-shadow: 0 4px 15px 0 rgba(0,0,0,.1), 0 1px 2px 0 rgba(0,0,0,.1), inset 0 2px 0 0 ${(props)=>{lighten(0.1, props.theme.palette.secondary)}};
 
   margin: 1em;
   padding: 2em;
@@ -522,7 +522,7 @@ const ArticleCardWrapper = styled.div`
 `
 
 const ArticleCardTitle = styled.div`
-  color: ${(props)=> (props.theme.pallete.primary)};
+  color: ${(props)=> (props.theme.palette.secondary)};
   font-weight: bold;
   line-height: 1.5;
   margin-bottom: 7px;

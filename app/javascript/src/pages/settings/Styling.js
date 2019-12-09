@@ -4,12 +4,34 @@ import Typography from '@material-ui/core/Typography'
 import Divider from '@material-ui/core/Divider'
 import Grid from '@material-ui/core/Grid'
 import Button from '@material-ui/core/Button'
+import Link from '@material-ui/core/Link'
 import { withRouter, Switch } from 'react-router-dom'
 import { connect } from 'react-redux'
 import {ColorPicker} from '../../shared/FormFields'
+import styled from '@emotion/styled'
+
+
+const PatternButton = styled.button`
+  padding: 0px;
+  margin: 3px;
+  display: inline-block;
+  width: 60px;
+  height: 60px;
+`
+
+const Image = styled.div`
+  width: 60px;
+  height: 60px;
+
+  ${(props)=>{
+    return props.image ? 
+    `background-image: url(${props.image});` : ''
+  }}
+
+  background-size: 310px 310px,cover;
+`
 
 function CustomizationColors({settings, update, dispatch}){
-  console.log("SETTINGs", settings)
   const [state, setState] = React.useState({
     customization_colors: settings.customizationColors || {},
   });
@@ -67,7 +89,7 @@ function CustomizationColors({settings, update, dispatch}){
   function selectPattern(pattern){
     const color = Object.assign({}, 
       state.customization_colors, 
-      {pattern: pattern.url}
+      {pattern: pattern ? pattern.url : null }
     )
     setState({customization_colors: color })
   }
@@ -119,14 +141,21 @@ function CustomizationColors({settings, update, dispatch}){
           <Grid item  xs={12} sm={6} >
 
             <Typography variant={"h6"}>
-              Choose a pattern From subtle patterns
+              Choose a pattern From 
+              <Link target={"blank"} href={"https://www.toptal.com/designers/subtlepatterns/"}>
+              Subtle patterns
+              </Link>
             </Typography>
+
+            <PatternButton onClick={(e)=>selectPattern(null)}>
+              <Image />
+            </PatternButton>
 
             {
               patterns.map((o)=>{
-                return <button onClick={(e)=>selectPattern(o)}>
-                          <img src={o.url} width={60} height={60}/>
-                        </button>
+                return <PatternButton onClick={(e)=>selectPattern(o)}>
+                          <Image image={o.url} />
+                        </PatternButton>
               })
             }
           </Grid>  
