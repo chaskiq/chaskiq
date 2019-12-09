@@ -88,6 +88,7 @@ export const FixedHeader = styled.div`
   padding:20px;
   border-bottom: 1px solid ${(props)=> props.theme.palette.primary.borders };
   display: flex;
+  background: ${(props)=> props.theme.palette.background.paper };
   justify-content: space-between;
 `
 export const ChatMessageItem = styled.div`

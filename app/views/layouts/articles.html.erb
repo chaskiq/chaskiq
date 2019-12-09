@@ -42,7 +42,7 @@
     <script type="text/javascript">
       var m = new window.ChaskiqMessengerEncrypted({
         domain:  '<%=@h[:http] +request.env["HTTP_HOST"]%>',
-        ws:  '<%=@h[:ws]+ request.env["HTTP_HOST"] + "/cable" %>',
+        ws:  '<%= Rails.application.config.action_cable.url %>',
         app_id: "<%= @app.key %>",
         data: "<%=@encrypted_data%>"
       })

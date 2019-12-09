@@ -13,7 +13,7 @@ const palette = {
   type: "dark",
   background: {
     default: "#1B1F23",
-    paper: "#1d1d1d"
+    paper: "#24292e"
   },
   color: {
     default: "#ff0000"

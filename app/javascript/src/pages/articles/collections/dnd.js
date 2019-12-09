@@ -59,7 +59,7 @@ const getItemStyle = (isDragging, draggableStyle) => {
   //padding: grid * 2,
   //margin: `0 0 ${grid}px 0`,
   // change background colour if dragging
-  background: isDragging ? 'lightgreen' : theme.palette.primary.dark,
+  background: isDragging ? 'lightgreen' : theme.palette.background.paper,
   // styles we need to apply on draggables
   ...draggableStyle
 }};
@@ -67,7 +67,7 @@ const getItemStyle = (isDragging, draggableStyle) => {
 const getListStyle = isDraggingOver => {
   const theme = useTheme();
   return {
-    background: isDraggingOver ? 'lightblue' : theme.palette.primary.dark,
+    background: isDraggingOver ? 'lightblue' : theme.palette.background.paper,
     padding: grid,
     //width: 250
   }

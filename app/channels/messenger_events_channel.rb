@@ -3,20 +3,7 @@ class MessengerEventsChannel < ApplicationCable::Channel
   include UserFinder
   
   def subscribed
-    @app  = App.find_by(key: params[:app])
-
-    get_user_data
-
-    find_user
-
-    #if @user_data.blank? or @user_data[:email].blank?
-    #  @app_user = get_user_by_session 
-    #else
-    #  @app_user = @app.app_users
-    #              .where("email =?", @user_data[:email])
-    #              .first
-    #end
-
+    get_session_data
     stream_from "messenger_events:#{@app.key}-#{@app_user.session_id}"
   end
 
@@ -25,12 +12,14 @@ class MessengerEventsChannel < ApplicationCable::Channel
   end
 
   def send_message(options)
+    get_session_data
     options.delete("action")
     @app_user.visits.create(options)
     AppUserEventJob.perform_now(app_key: @app.key, user_id: @app_user.id)
   end
 
   def receive_conversation_part(data)
+    get_session_data
     @conversation = @app.conversations.find_by(key: data["conversation_id"])
     message = @conversation.messages.find(data["message_id"])
     if message.authorable != @app_user
@@ -53,13 +42,14 @@ class MessengerEventsChannel < ApplicationCable::Channel
   end
 
   def app_package_submit(data)
+    get_session_data
     @conversation = @app.conversations.find_by(key: data["conversation_id"])
     message = @conversation.messages.find(data["message_id"])
     data_submit(data["submit"], message)
   end
 
   def process_next_step(message)
-
+    get_session_data
     trigger, path = ActionTriggerFactory.find_task(
       data: {
         "step"=> message.step_id, 
@@ -109,6 +99,7 @@ class MessengerEventsChannel < ApplicationCable::Channel
   end
 
   def handle_follow_actions(path)
+    get_session_data
     follow_actions = path["follow_actions"]
     return if follow_actions.blank?
     follow_actions.each do |action|
@@ -117,6 +108,7 @@ class MessengerEventsChannel < ApplicationCable::Channel
   end
 
   def process_follow_action(action)
+    get_session_data
     case action["key"]
     when "assign"
       #assign_user
@@ -130,10 +122,12 @@ class MessengerEventsChannel < ApplicationCable::Channel
   end
 
   def data_submit(data, message)
+    get_session_data
     message.message.save_replied(data) if message.message.respond_to?(:save_replied)
   end
 
   def trigger_step(data)
+    get_session_data
     @conversation = @app.conversations.find_by(key: data["conversation_id"])
     message = @conversation.messages.find(data["message_id"])
 
@@ -177,6 +171,7 @@ class MessengerEventsChannel < ApplicationCable::Channel
 
   def request_trigger(data)
 
+    get_session_data
     #AppUserTriggerJob
     #.set(wait_until: @app_user.delay_for_trigger)
     #.perform_later({
@@ -192,6 +187,8 @@ class MessengerEventsChannel < ApplicationCable::Channel
   end
 
   def track_open(data)
+    get_session_data
+
     @app_user.track_open(
       trackable_id: data["trackable_id"],
       trackable_type: "Message"
@@ -199,6 +196,8 @@ class MessengerEventsChannel < ApplicationCable::Channel
   end
 
   def track_close(data)
+    get_session_data
+
     @app_user.track_close(
       trackable_id: data["trackable_id"],
       trackable_type: "Message"
@@ -206,6 +205,7 @@ class MessengerEventsChannel < ApplicationCable::Channel
   end
 
   def track_click(data)
+    get_session_data
     @app_user.track_click(
       trackable_id: data["trackable_id"],
       trackable_type: "Message"
@@ -213,6 +213,7 @@ class MessengerEventsChannel < ApplicationCable::Channel
   end
 
   def track_tour_finished(data)
+    get_session_data
     @app_user.track_finish(
       trackable_id: data["trackable_id"],
       trackable_type: "Message"
@@ -220,10 +221,19 @@ class MessengerEventsChannel < ApplicationCable::Channel
   end
 
   def track_tour_skipped(data)
+    get_session_data
     @app_user.track_skip(
       trackable_id: data["trackable_id"],
       trackable_type: "Message"
     )
+  end
+
+  private
+
+  def get_session_data
+    @app  = App.find_by(key: params[:app])
+    get_user_data
+    find_user
   end
 
 end
