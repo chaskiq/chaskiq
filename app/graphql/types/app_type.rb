@@ -11,7 +11,6 @@ module Types
     field :theme, String, null: true
     field :config_fields, Types::JsonType, null: true
     field :preferences, Types::JsonType, null: true
-    field :encryption_key, String, null: true
     field :app_users, [Types::AppUserType], null: true
     field :customization_colors, Types::JsonType, null: true
     #field :triggers, Types::JsonType, null: true
@@ -28,7 +27,16 @@ module Types
     field :translations, [Types::JsonType], null: true
     field :available_languages, [Types::JsonType], null: true
 
+
+    field :encryption_key, String, null: true
+
+    def encryption_key
+      object.encryption_key unless context[:from_api]
+    end
+
     field :tasks_settings, Types::JsonType, null: true
+
+
 
     def tasks_settings
       context[:get_app_user].call.is_a?(AppUser) ? 
