@@ -1,7 +1,7 @@
 development:
   #adapter: async
   #adapter: redis
-  adapter: any_cable
+  adapter: redis
 
 test:
   adapter: async
