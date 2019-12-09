@@ -24,6 +24,7 @@ export const PING = `
         businessBackIn
         tasksSettings
         customizationColors
+        encryptionKey
         articleSettings{
           subdomain
         }
@@ -87,7 +88,6 @@ export const CONVERSATIONS = `
           }
         }
         meta
-
       }
     }
   }
@@ -208,7 +208,6 @@ export const START_CONVERSATION = `
           email
           properties
         }
-
         lastMessage{
           source
           createdAt
@@ -231,8 +230,6 @@ export const START_CONVERSATION = `
             displayName
           }
         }
-
-
       }
     }
   }
