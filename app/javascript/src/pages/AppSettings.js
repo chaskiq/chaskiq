@@ -282,7 +282,7 @@ class AppSettingsContainer extends Component {
 
   definitionsForAppearance = ()=>{
     return [
-      {
+      /*{
         name: "state",
         type: "select",
         grid: { xs: 12, sm: 6 },
@@ -293,7 +293,7 @@ class AppSettingsContainer extends Component {
         type: "select",
         options: ["dark", "light"],
         grid: { xs: 12, sm: 6 }
-      },
+      },*/
       {
         name: "activeMessenger",
         type: 'bool',

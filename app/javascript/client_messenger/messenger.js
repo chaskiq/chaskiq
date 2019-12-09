@@ -963,10 +963,11 @@ class Messenger extends Component {
   }
 
   render() {
+    const palette = this.themePalette()
     return (
         <ThemeProvider theme={{
-          pallete: this.themePalette(),
-          mode: this.state.appData ? this.state.appData.theme : 'light',
+          palette: this.themePalette(),
+          mode: 'light', // this.state.appData ? this.state.appData.theme : 
           isMessengerActive: this.isMessengerActive()
         }}>
          
@@ -1030,6 +1031,7 @@ class Messenger extends Component {
                                   <LeftIcon 
                                     className="fade-in-right"
                                     onClick={this.displayHome.bind(this)}
+                                    palette={palette}
                                     ///onClick={this.displayConversationList.bind(this)}
                                     style={{margin: '20px', cursor: 'pointer'}}
                                   /> : null 
@@ -1247,15 +1249,20 @@ class Messenger extends Component {
                       {
                         !this.state.open ?
                         
-                          <MessageIcon style={{ 
-                            height: '43px',
-                            width: '36px',
-                            margin: '8px 0px'
-                          }}/> : 
-                          <CloseIcon style={{
+                          <MessageIcon 
+                            palette={palette} 
+                            style={{ 
+                              height: '43px',
+                              width: '36px',
+                              margin: '8px 0px'
+                            }}
+                          /> : 
+                          <CloseIcon 
+                            palette={palette}
+                            style={{
                               height: '26px',
                               width: '21px',
-                              margin: '11px 0px'
+                              margin: '11px 0px',
                             }}
                           />
                       }
