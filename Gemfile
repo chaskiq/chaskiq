@@ -66,6 +66,8 @@ gem "mustache"
 gem "jwt"
 gem "jwe"
 
+gem "twitter"
+
 gem "globalize", github: 'globalize/globalize'
 
 # Reduces boot times through caching; required in config/boot.rb
