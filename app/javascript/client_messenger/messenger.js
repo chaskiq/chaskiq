@@ -958,7 +958,7 @@ class Messenger extends Component {
     const {customizationColors} = this.state.appData
     return customizationColors ? customizationColors : {
       primary: "#121212",
-      secondary: "#ccc"
+      secondary: "#121212"
     }
   }
 
