@@ -21,7 +21,7 @@ class ArticlesController < ApplicationController
 
     @json_payload = {
       domain: @h[:http] + request.env["HTTP_HOST"],
-      ws: @h[:ws] + request.env["HTTP_HOST"]+ "/cable",
+      ws: Rails.application.config.action_cable.url,
       app_id: "#{@app.key}",
     }
     @json_payload = @json_payload.to_json

@@ -41,6 +41,5 @@ module Chaskiq
     config.available_locales = locales
     I18n.available_locales = locales
     config.i18n.default_locale = :en
-    
   end
 end

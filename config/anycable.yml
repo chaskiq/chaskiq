@@ -1,0 +1,5 @@
+# config/anycable.yml
+development:
+  redis_url: redis://localhost:6379/1
+production:
+  redis_url: <%= ENV.fetch("REDIS_URL") { "redis://localhost:6379/1" } %>

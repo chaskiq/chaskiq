@@ -252,7 +252,7 @@ class FieldRenderer extends React.Component {
 }
 
 
-class ColorPicker extends React.Component {
+export class ColorPicker extends React.Component {
   state = {
     displayColorPicker: false,
     value: this.props.color
@@ -268,7 +268,9 @@ class ColorPicker extends React.Component {
   };
 
   handleColorChangeComplete = (color)=>{
-    this.setState({value: color.hex})
+    this.setState({value: color.hex}, ()=> {
+      this.props.colorHandler && this.props.colorHandler(color.hex)
+    })
     //,
     //  ()=> this.props.onChangeComplete(color.hex))
   }

@@ -57,7 +57,7 @@ import {
 } from '../actions/conversation'
 
 const CableApp = {
-  cable: actioncable.createConsumer()
+  cable: actioncable.createConsumer(window.ws_cable_url)
 }
 // Initialize a context
 const Context = createContext()

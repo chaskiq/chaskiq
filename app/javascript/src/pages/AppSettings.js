@@ -31,10 +31,12 @@ import AvailabilitySettings from './settings/Availability'
 import EmailRequirement from './settings/EmailRequirement'
 import LanguageSettings from './settings/Language'
 import InboundSettings from './settings/InboundSettings'
+import StylingSettings from './settings/Styling'
 import Tab from '@material-ui/core/Tab';
 import Tabs from '@material-ui/core/Tabs';
 
 import timezones from '../shared/timezones'
+import {getFileMetadata, directUpload} from '../shared/fileUploader'
 
 import {
   FormControlLabel,
@@ -189,6 +191,27 @@ class AppSettingsContainer extends Component {
     )
   };
 
+  uploadHandler = (file, kind)=>{
+
+    getFileMetadata(file).then((input) => {
+      graphql(CREATE_DIRECT_UPLOAD, input, {
+        success: (data)=>{
+          const {signedBlobId, headers, url, serviceUrl} = data.createDirectUpload.directUpload
+       
+          directUpload(url, JSON.parse(headers), file).then(
+            () => {
+              let params = {}
+              params[kind] = signedBlobId
+              this.props.update({settings: params})
+          });
+        },
+        error: (error)=>{
+         console.log("error on signing blob", error)
+        }
+      })
+    });
+  }
+
   handleTabChange = (e, i)=>{
     this.setState({tabValue: i})
   }
@@ -206,6 +229,7 @@ class AppSettingsContainer extends Component {
               <Tab textColor="inherit" label="Availability" />
               <Tab textColor="inherit" label="Email Requirement" />
               <Tab textColor="inherit" label="Inbound settings" />
+              <Tab textColor={"inherit"} label="Messenger Style" />
             </Tabs>
   }
 
@@ -258,7 +282,7 @@ class AppSettingsContainer extends Component {
 
   definitionsForAppearance = ()=>{
     return [
-      {
+      /*{
         name: "state",
         type: "select",
         grid: { xs: 12, sm: 6 },
@@ -269,7 +293,7 @@ class AppSettingsContainer extends Component {
         type: "select",
         options: ["dark", "light"],
         grid: { xs: 12, sm: 6 }
-      },
+      },*/
       {
         name: "activeMessenger",
         type: 'bool',
@@ -278,6 +302,37 @@ class AppSettingsContainer extends Component {
 
     ]
   }
+
+  definitionsForStyling = ()=>{
+    return [
+      {
+        name: "primary_customization_color",
+        type: 'color',
+        handler: (color)=> {
+          this.props.updateMemSettings({color: color})
+        },
+        grid: { xs: 12, sm: 4 }
+      },
+
+      {
+        name: "secondary_customization_color",
+        type: 'color',
+        handler: (color)=> {
+          this.props.updateMemSettings({color: color})
+        },
+        grid: { xs: 12, sm: 4 }
+      },
+
+      {
+        name: "header_image",
+        type: 'upload',
+        handler: (file)=> this.uploadHandler(file, "header_image"),
+        grid: { xs: 12, sm: 4 }
+      },
+    ]
+  }
+
+
 
   renderTabcontent = ()=>{
 
@@ -338,6 +393,13 @@ class AppSettingsContainer extends Component {
                                 />
       case 6:
         return <InboundSettings
+                  settings={ this.props.app } 
+                  update={this.update}
+                  namespace={'app'}
+                />
+
+      case 7:
+        return <StylingSettings
                   settings={ this.props.app } 
                   update={this.update}
                   namespace={'app'}

@@ -24,7 +24,6 @@ describe('Customization Spec', function() {
     cy.appScenario('basic')
 
     cy.appEval(`App.last.update(customization_colors: {
-      header: "#f00",
       primary: "#0f0",
       secondary: "#f00"
     })`)
@@ -40,16 +39,29 @@ describe('Customization Spec', function() {
   it('display default', function() {
     cy.appScenario('basic')
 
-    /*cy.appEval(`App.last.update(customization_colors: {
-      header: "#f00",
-      primary: "#0f0",
-      secondary: "#f00"
-    })`)*/
+    cy.appEval(`App.last.update(customization_colors: nil )`)
 
     translations()
     openMessenger(($body)=>{
       cy.appEval("App.last").then((res)=>{
         expect(res.preferences.customization_colors).to.not.exist
+      })
+    }, {params: {lang: 'en'}} )
+  })
+
+
+  it('display default on secondary color', function() {
+    cy.appScenario('basic')
+
+    cy.appEval(`App.last.update(customization_colors: {
+      primary: "#0f0",
+      pattern: 'https://www.toptal.com/designers/subtlepatterns/patterns/spikes.png'
+    })`)
+
+    translations()
+    openMessenger(($body)=>{
+      cy.appEval("App.last").then((res)=>{
+        expect(res.preferences.customization_colors).to.exist
       })
     }, {params: {lang: 'en'}} )
   })
