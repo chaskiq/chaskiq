@@ -311,6 +311,7 @@ GEM
     net-scp (2.0.0)
       net-ssh (>= 2.6.5, < 6.0.0)
     net-ssh (5.2.0)
+    nightfury (1.0.1)
     nio4r (2.4.0)
     nokogiri (1.10.4)
       mini_portile2 (~> 2.4.0)
@@ -376,6 +377,8 @@ GEM
     rb-inotify (0.10.0)
       ffi (~> 1.0)
     redis (4.1.2)
+    redis-namespace (1.6.0)
+      redis (>= 3.0.4)
     redis-objects (1.5.0)
       redis (~> 4.0)
     regexp_parser (1.6.0)
@@ -568,6 +571,7 @@ DEPENDENCIES
   listen (>= 3.0.5, < 3.2)
   mini_magick (~> 4.8)
   mustache
+  nightfury (~> 1.0)
   pg
   pg_search
   pry
@@ -576,6 +580,7 @@ DEPENDENCIES
   rails (= 6.0.0)
   ransack
   redis (~> 4.0)
+  redis-namespace (~> 1.6)
   redis-objects (~> 1.5)
   roadie
   roo
