@@ -27,8 +27,8 @@ class Api::GraphqlController < ApiController
     result = ChaskiqSchema.execute(query, 
       variables: variables, 
       context: context, 
-      operation_name: operation_name,
-      max_depth: 5
+      operation_name: operation_name
+      #max_depth: 5
     )
    
     render json: result  
