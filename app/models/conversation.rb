@@ -133,4 +133,12 @@ class Conversation < ApplicationRecord
     part.check_assignment_rules
   end
 
+  def update_first_time_reply
+    return if first_agent_reply.present?
+    now = Time.zone.now
+    self.update(first_agent_reply: now)
+    diff = (now.to_date - self.created_at.to_date ).to_f*24
+    AppIdentity.new(self.app.key).first_response_time.set(diff)
+  end
+
 end
