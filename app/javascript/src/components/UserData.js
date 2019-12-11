@@ -6,6 +6,9 @@ import Accordeon from './accordeon'
 import Avatar from '@material-ui/core/Avatar';
 import { makeStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography'
+import List from '@material-ui/core/List'
+import ListItem from '@material-ui/core/ListItem'
+import ListItemText from '@material-ui/core/ListItemText'
 import {Link} from 'react-router-dom'
 import { withRouter } from 'react-router-dom'
 import { connect } from 'react-redux'
@@ -183,19 +186,21 @@ class UserData extends Component {
 
               },
               {
-                name: "Properties", component: <UserDataList>
+                name: "Properties", 
+                component: <List dense>
                   {
-                    this.props.appUser.properties ?
+                    this.props.appUser.properties &&
                       Object.keys(this.props.appUser.properties).map((o, i) => {
-                        return <li key={i}>
-                          <strong>{o}:</strong>
-                          <Typography noWrap>
-                            {this.props.appUser.properties[o]}
-                          </Typography>
-                        </li>
-                      }) : null
+                        if(!this.props.appUser.properties[o]) return null 
+                        return <ListItem key={`app-user-${this.props.appUser.id}-${i}`}>
+                                  <ListItemText
+                                    primary={`${o}:`}
+                                    secondary={this.props.appUser.properties[o]}
+                                  />
+                                </ListItem>
+                      }) 
                   }
-                </UserDataList>
+                  </List>
               }
 
             ]} />

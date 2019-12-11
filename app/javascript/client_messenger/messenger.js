@@ -1013,7 +1013,10 @@ class Messenger extends Component {
                               this.state.isMobile ?
                               <CloseButtonWrapper>
                                 <button onClick={() => this.toggleMessenger()}>
-                                  <CloseIcon style={{ height: '16px', width: '16px'}}/>
+                                  <CloseIcon  
+                                    palette={palette}
+                                    style={{ height: '16px', width: '16px'}}
+                                  />
                                 </button>
 
                               </CloseButtonWrapper> : null
@@ -1189,7 +1192,9 @@ class Messenger extends Component {
                             <button 
                               onClick={()=>this.clearInlineConversation()} 
                               className="close">
-                                <CloseIcon style={{
+                                <CloseIcon 
+                                  palette={palette}
+                                  style={{
                                   height: '10px',
                                   width: '10px',
                                 }}
