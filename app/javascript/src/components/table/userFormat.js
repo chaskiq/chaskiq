@@ -72,8 +72,8 @@ function UserBadge(props) {
 
 const userFormat = function(showUserDrawer){
   return [
-    {field: 'id', title: 'id' }, 
-    {field: 'email', title: 'email', 
+    //{field: 'id', title: 'id' }, 
+    {field: 'email', title: 'Name', 
       render: (row) => {
         return row && 
 
@@ -98,6 +98,7 @@ const userFormat = function(showUserDrawer){
         </NameWrapper>
       }
     },
+    {field: 'email', title:  'email', hidden: true}, 
     {field: 'state', title: 'state', render: (row)=>{
       return <Chip
               color={row.state === "subscribed" ? 'primary' : 'secondary'}
@@ -114,6 +115,9 @@ const userFormat = function(showUserDrawer){
     {field: 'os', title:'os', hidden: true}, 
     {field: 'osVersion', title:'os Version', hidden: true},
     {field: 'lang', title:'lang', hidden: true},
+    {field: 'webSessions', title:'Web sessions'},
+    {field: 'LastSeen', title:'Last seen'},
+    {field: 'FirstSeen', title:'First seen'},
 
     {field: 'lastVisitedAt', 
       title: 'last visited at',
