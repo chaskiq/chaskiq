@@ -10,7 +10,7 @@ describe('Availability spec', function() {
   it('next week', function() {
     cy.appScenario('basic')
 
-    let weekday = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'][new Date().getDay()]
+    let weekday = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'][new Date().getDay()-1]
 
     cy.appEval(`App.last.update(timezone: 'UTC', 
     team_schedule: [{ day: "${weekday.toLowerCase()}", from: '01:00' , to: '01:30' }])`)
