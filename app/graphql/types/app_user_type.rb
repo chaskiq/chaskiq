@@ -29,6 +29,8 @@ module Types
     field :app, [Types::AppType], null: true
     field :online, Boolean, null: true
 
+    field :properties, Types::JsonType, null: true
+
     def state
       object.subscription_state
     end
