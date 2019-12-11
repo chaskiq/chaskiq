@@ -54,14 +54,13 @@ private
   end
 
   def set_locale
-   
-    http_locale = request.headers["HTTP_LANG"].to_sym
-    http_splitted_locale = http_locale.to_s.split("-").first.to_sym
+    http_locale = request.headers["HTTP_LANG"]
+    http_splitted_locale = http_locale ? http_locale.to_s.split("-").first.to_sym : nil
     user_locale = @user_data[:properties].try(:[], :lang) rescue nil
 
-    locale =  I18n.available_locales.include?(user_locale.to_sym) ? user_locale :
-    I18n.available_locales.include?(http_locale) ? http_locale : 
-    I18n.available_locales.include?(http_splitted_locale) ? http_splitted_locale : nil
+    locale = lang_available?(user_locale) ? user_locale :
+    lang_available?(http_locale) ? http_locale : 
+    lang_available?(http_splitted_locale) ? http_splitted_locale : nil
 
    
     I18n.locale = locale rescue I18n.locale
@@ -128,6 +127,13 @@ private
 
       render :text => '', :content_type => 'text/plain'
     end
+  end
+
+  private
+
+  def lang_available?(lang)
+    return if lang.blank? 
+    I18n.available_locales.include?(lang.to_sym)
   end
 
 end
