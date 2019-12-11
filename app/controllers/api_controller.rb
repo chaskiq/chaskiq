@@ -54,9 +54,17 @@ private
   end
 
   def set_locale
-    I18n.locale = request.headers["HTTP_LANG"] unless request.headers["HTTP_LANG"].blank? rescue I18n.locale
-    lang = @user_data[:properties].try(:[], :lang) rescue nil
-    I18n.locale = lang unless lang.blank? rescue I18n.locale   
+   
+    http_locale = request.headers["HTTP_LANG"].to_sym
+    http_splitted_locale = http_locale.to_s.split("-").first.to_sym
+    user_locale = @user_data[:properties].try(:[], :lang) rescue nil
+
+    locale =  I18n.available_locales.include?(user_locale.to_sym) ? user_locale :
+    I18n.available_locales.include?(http_locale) ? http_locale : 
+    I18n.available_locales.include?(http_splitted_locale) ? http_splitted_locale : nil
+
+   
+    I18n.locale = locale rescue I18n.locale
   end
 
   def add_vistor

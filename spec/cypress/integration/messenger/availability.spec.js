@@ -17,26 +17,36 @@ describe('Availability spec', function() {
     
     cy.appEval("App.last").then((results) => {
       const appKey = results.key
-     
       cy.visit(`/tester/${appKey}`).then(()=>{
-
-
         cy.get('iframe:first')
         .then(function ($iframe) {
             const $body = $iframe.contents().find('body')
             cy.wrap($body).find("#chaskiq-prime").click()
         })
-
         cy.get('iframe:first')
         .then(function ($iframe) {
             const $body = $iframe.contents().find('body')
             expect($body.html()).to.contain("next week")
         })
-
-
       })
-     
     })
+
+    cy.appEval("App.last").then((results) => {
+      const appKey = results.key
+      cy.visit(`/tester/${appKey}?lang=es`).then(()=>{
+        cy.get('iframe:first')
+        .then(function ($iframe) {
+            const $body = $iframe.contents().find('body')
+            cy.wrap($body).find("#chaskiq-prime").click()
+        })
+        cy.get('iframe:first')
+        .then(function ($iframe) {
+            const $body = $iframe.contents().find('body')
+            expect($body.html()).to.contain("proxima semana")
+        })
+      })
+    })
+
   })
 
 
