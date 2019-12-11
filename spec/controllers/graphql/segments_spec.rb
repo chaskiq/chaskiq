@@ -7,7 +7,7 @@ RSpec.describe GraphqlController, type: :controller do
   }
 
   let!(:user){
-    app.add_user({email: "test@test.cl"})
+    app.add_visit({email: "test@test.cl"})
   }
 
   let!(:agent_role){
