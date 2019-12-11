@@ -149,7 +149,7 @@ class App < ApplicationRecord
     ap = app_users.find_or_initialize_by(email: email)
     data = attrs.deep_merge!(properties: ap.properties)
     ap.assign_attributes(data)
-    ap.last_visited_at = Time.now
+    ap.last_visited_at = attrs[:last_visited_at] if attrs[:last_visited_at].present?
     ap.subscribe! unless ap.subscribed?
     ap.type = "AppUser"
     ap.save
@@ -190,7 +190,7 @@ class App < ApplicationRecord
   end
 
   def add_visit(opts={})
-    add_user(opts)
+    add_user(opts.merge({last_visited_at: Time.zone.now}))
   end
 
   def start_conversation(options)

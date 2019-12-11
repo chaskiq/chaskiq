@@ -154,7 +154,7 @@ const HomePanel = ({
     const sameDay = nextDay === today
     const nextWeek = nextDay < today
 
-    if(nextWeek) return <Availability><p>volvemos la proxima semana</p></Availability>
+    if(nextWeek) return <Availability><p>{t("availability.next_week")}</p></Availability>
     if(sameDay) return <Availability><p>{t("availability.aprox", {time: at.getHours() })}</p></Availability>
 
     const out = text(val, sameDay, at)

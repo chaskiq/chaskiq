@@ -352,6 +352,7 @@ query AppUser($appKey: String!, $id: Int! ) {
       lang
       displayName
       name
+      properties
     }
   }
 }

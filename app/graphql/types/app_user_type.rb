@@ -29,6 +29,8 @@ module Types
     field :app, [Types::AppType], null: true
     field :online, Boolean, null: true
 
+    field :properties, Types::JsonType, null: true
+
     def state
       object.subscription_state
     end
@@ -65,7 +67,10 @@ module Types
     end
 
     def conversations(page: , per:)
-      object.conversations.page(page).per(per)
+      object.conversations
+      .order("updated_at desc")
+      .page(page)
+      .per(per)
     end
 
     def dashboard(range:,  kind:)
