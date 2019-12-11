@@ -67,7 +67,10 @@ module Types
     end
 
     def conversations(page: , per:)
-      object.conversations.page(page).per(per)
+      object.conversations
+      .order("updated_at desc")
+      .page(page)
+      .per(per)
     end
 
     def dashboard(range:,  kind:)

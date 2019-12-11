@@ -117,7 +117,7 @@ class ConversationPart < ApplicationRecord
   end
 
   def assign_and_notify
-    if self.authorable.is_a?(Agent) && !is_event_message?
+    if self.authorable.is_a?(Agent) && !is_event_message? && !self.from_bot?
       self.conversation.main_participant.new_messages.increment
       self.conversation.update_first_time_reply
     end
