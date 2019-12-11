@@ -37,7 +37,7 @@ RSpec.describe VisitCollector do
     expect(app_user.web_sessions).to be == 1
   end
 
-  it "visit last seen 1 day ago collector will add second 2 visit" do
+  it "visit last seen 30 days collector will add second 2 visit" do
     subject.user = app_user
     subject.update_browser_data(browser_options)
     app_user.update(last_visited_at: 30.day.ago)
@@ -45,7 +45,7 @@ RSpec.describe VisitCollector do
     expect(app_user.web_sessions).to be == 2
   end
 
-  it "visit last seen 1 day ago collector will add second 2 visit" do
+  it "visit last seen 30 min ago collector will add second 2 visit" do
     subject.user = app_user
     subject.update_browser_data(browser_options)
     app_user.update(last_visited_at: 30.minutes.ago)
@@ -53,18 +53,12 @@ RSpec.describe VisitCollector do
     expect(app_user.web_sessions).to be == 2
   end
 
-  it "visit twice before 23 hours will add 2 visit" do
+  it "visit twice before 20 min will add 2 visit" do
     subject.user = app_user
     subject.update_browser_data(browser_options)
-    app_user.update(last_visited_at: 23.hours.ago)
+    app_user.update(last_visited_at: 23.minutes.ago)
     subject.update_browser_data(browser_options)
     expect(app_user.web_sessions).to be == 1
-  end
-
-  it "visit twice before 23 hours will add 2 visit" do
-    subject.user = app_user
-    subject.update_browser_data(browser_options)
-    expect(app_user.first_seen).to be_present
   end
 
 end

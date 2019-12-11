@@ -29,9 +29,9 @@ class VisitCollector
       web_sessions: user.web_sessions.to_i + 1,
       last_visited_at: Time.zone.now
     }) if user.last_visited_at.blank?
-    
+
     # last visited more than 30 minutes
-    diff = (Time.zone.now - user.last_visited_at) / 30
+    diff = (Time.zone.now - user.last_visited_at) / 60
 
     options.merge!( { 
       web_sessions: user.web_sessions.to_i + 1,
