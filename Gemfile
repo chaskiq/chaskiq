@@ -33,11 +33,15 @@ gem 'jbuilder'
 #gem 'haml'
 # Use Redis adapter to run Action Cable in production
 gem 'redis', '~> 4.0'
+gem "redis-objects", "~> 1.5"
+gem "redis-namespace", "~> 1.6"
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
+gem "nightfury", "~> 1.0"
 gem 'tabs', github: 'michelson/tabs', branch: "upgrade"
-# Use ActiveStorage variant
-# gem 'mini_magick', '~> 4.8'
+
+gem "graphql", "~> 1.9"
+gem 'graphiql-rails', group: :development
 
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development
@@ -46,25 +50,58 @@ gem 'email_reply_trimmer'
 # gem 'tunable'
 #gem 'acts_as_taggable_on'
 gem 'pg_search'
-gem 'image_processing', '~> 1.2'
+gem "groupdate"
+gem "deep_cloneable"
+gem "acts_as_list", "~> 0.9.19"
+gem "friendly_id", "~> 5.2"
+gem 'gutentag', '~> 2.4'
 gem 'aasm'
+gem "ransack"
+
+gem "geocoder", "~> 1.4"
+gem "browser", "~> 2.5"
+
+
+gem "jwt"
+gem "jwe"
+
+gem 'devise-jwt', '~> 0.5.9'
+gem "devise_invitable", "~> 2.0"
+
+
+gem 'image_processing', '~> 1.2'
+
 gem 'sidekiq'
 gem 'sidekiq-cron'
 gem 'webpacker', '~> 3.5'
-gem 'gutentag', '~> 2.4'
+
 gem 'roadie'
 gem "urlcrypt"
-gem "groupdate"
-gem "deep_cloneable"
+
+gem "mini_magick", "~> 4.8"
+gem "aws-sdk-s3", "~> 1.15"
 gem "aws-ses"
-gem "ransack"
+
+
 gem "active_importer"
 gem "roo"
 gem "ruby-oembed"
 gem "http"
+gem "faraday", "~> 0.15.4"
+
 gem "mustache"
-gem "jwt"
-gem "jwe"
+
+gem "kaminari", "~> 1.1"
+gem "chronic", "~> 0.10.2"
+
+gem "timezone", "~> 1.2"
+
+gem "rack-cors", "~> 1.0"
+gem "email_reply_parser", "~> 0.5.9"
+gem "bugsnag", "~> 6.11"
+
+gem "i18n-js", "~> 3.3"
+gem "biz", "~> 1.8"
 
 gem "twitter"
 
@@ -103,14 +140,9 @@ group :test do
   # gem 'selenium-webdriver'
   gem 'webdrivers'
   gem 'faker', github: "stympy/faker", group: [:development, :test]
-
-
   # Easy installation and use of chromedriver to run system tests with Chrome
   gem 'chromedriver-helper'
-
-
   gem 'rspec-rails' #, git: 'https://github.com/rspec/rspec-rails', branch: '4-0-dev'
-
   %w[rspec-core rspec-expectations rspec-mocks rspec-support].each do |lib|
     gem lib #, :git => "https://github.com/rspec/#{lib}.git", :branch => 'master'
   end
@@ -126,53 +158,3 @@ end
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
 gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
-
-# Added at 2018-05-30 20:31:10 -0400 by michelson:
-gem "kaminari", "~> 1.1"
-
-# Added at 2018-06-02 21:08:21 -0400 by michelson:
-gem "chronic", "~> 0.10.2"
-
-# Added at 2018-06-04 09:34:22 -0400 by michelson:
-gem "geocoder", "~> 1.4"
-
-# Added at 2018-06-04 20:46:01 -0400 by michelson:
-gem "browser", "~> 2.5"
-
-# Added at 2018-06-04 20:57:37 -0400 by michelson:
-gem "timezone", "~> 1.2"
-
-# Added at 2018-06-28 01:37:19 -0400 by michelson:
-gem "mini_magick", "~> 4.8"
-
-# Added at 2018-06-28 02:13:52 -0400 by michelson:
-gem "aws-sdk-s3", "~> 1.15"
-
-gem "rack-cors", "~> 1.0"
-
-gem "email_reply_parser", "~> 0.5.9"
-
-gem "bugsnag", "~> 6.11"
-
-gem "graphql", "~> 1.9"
-
-gem 'graphiql-rails', group: :development
-
-gem 'devise-jwt', '~> 0.5.9'
-
-#gem "devise_token_auth", path: '/Users/michelson/Documents/ruby/devise_token_auth'
-#github: "lynndylanhurley/devise_token_auth" #{}"~> 1.1"
-
-gem "devise_invitable", "~> 2.0"
-
-gem "acts_as_list", "~> 0.9.19"
-
-gem "friendly_id", "~> 5.2"
-
-gem "i18n-js", "~> 3.3"
-
-gem "biz", "~> 1.8"
-
-gem "faraday", "~> 0.15.4"
-
-gem "redis-objects", "~> 1.5"

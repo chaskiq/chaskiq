@@ -14,8 +14,13 @@ class MessengerEventsChannel < ApplicationCable::Channel
   def send_message(options)
     get_session_data
     options.delete("action")
-    @app_user.visits.create(options)
-    AppUserEventJob.perform_now(app_key: @app.key, user_id: @app_user.id)
+    
+    VisitCollector.new(user: @app_user).update_browser_data(options)
+    
+    AppUserEventJob.perform_now(
+      app_key: @app.key, 
+      user_id: @app_user.id
+    )
   end
 
   def receive_conversation_part(data)
