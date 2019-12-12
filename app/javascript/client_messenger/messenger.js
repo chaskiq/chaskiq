@@ -127,7 +127,7 @@ class Messenger extends Component {
         app: this.props.app_id,
         enc_data: this.props.encData || "",
         session_id: this.props.session_id,
-        lang: this.props.locale
+        lang: this.props.lang
       }
 
       this.defaultCableData = { 
@@ -1104,6 +1104,7 @@ class Messenger extends Component {
                                   transition={this.state.transition}
                                   appData={this.state.appData}
                                   t={this.props.t}
+                                  lang={this.props.lang}
                                 />
                               }
 

@@ -54,7 +54,8 @@ const Article = ({
   transition,
   appData,
   i18n,
-  graphqlClient
+  graphqlClient,
+  lang
 })=>{
 
   const [article, setArticle] = useState(null)
@@ -75,7 +76,7 @@ const Article = ({
     graphqlClient.send(ARTICLE, {
       domain: appData.articleSettings.subdomain,
       id: articleSlug,
-      lang: "en",
+      lang: lang,
     }, {
       success: (data)=>{
         setArticle(data.helpCenter.article)
