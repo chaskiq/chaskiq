@@ -60,7 +60,7 @@ export default class ChaskiqMessengerEncrypted {
             encryptedMode: true,
             domain: this.props.domain,
             ws: this.props.ws,
-            locale: user.lang,
+            lang: user.lang,
           })
         )
 
