@@ -299,7 +299,7 @@ export default class ImageBlock extends React.Component {
 
   imageUrl =()=> {
     if(this.state.url.includes("://")) return this.state.url
-    return `${this.config.domain}${this.state.url}`
+    return `${this.config.domain ? this.config.domain : '' }${this.state.url}`
   }
 
   render = ()=> {
