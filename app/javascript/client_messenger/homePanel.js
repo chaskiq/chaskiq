@@ -33,7 +33,8 @@ const HomePanel = ({
   graphqlClient,
   displayConversation,
   conversations,
-  getConversations
+  getConversations,
+  lang
 })=>{
 
   const [loading, setLoading] = useState(false)
@@ -66,7 +67,7 @@ const HomePanel = ({
   const getArticles = ()=>{
     graphqlClient.send(ARTICLES, {
       domain: appData.articleSettings.subdomain,
-      lang: "en",
+      lang: lang,
       page: 1,
       per: 5,
     }, {
@@ -117,7 +118,7 @@ const HomePanel = ({
     graphqlClient.send(SEARCH_ARTICLES, {
       domain: appData.articleSettings.subdomain,
       term: term,
-      lang: "en",
+      lang: lang,
       page: 1,
       per: 5,
     }, {
