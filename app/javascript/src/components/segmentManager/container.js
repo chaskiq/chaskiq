@@ -95,7 +95,7 @@ class AppContent extends Component {
     }
 
     if (prevProps.segment.jwt && prevProps.segment.jwt !== this.props.segment.jwt) {
-      console.info("cambio jwt")
+      //console.info("cambio jwt")
       this.props.actions.search()
     }
 
@@ -117,9 +117,6 @@ class AppContent extends Component {
 
   render(){
     const {searching, collection, meta} = this.props.app_users
-    //const {id, name} = this.props.segment
-    //console.log("segment:!" , segment.id, segment, this.props.segment)
- 
     return <div style={{marginTop: '20px'}}>
 
             { this.props.app.key && this.props.segment && this.props.segment.id ? 

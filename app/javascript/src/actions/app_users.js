@@ -11,18 +11,25 @@ import {parseJwt, generateJWT} from '../components/segmentManager/jwt'
 export function searchAppUsers(options, cb){
   return (dispatch, getState) => {
     
-    dispatch(dispatchLoading())
-
     let { page } = options
     const appKey = getState().app.key
 
     const segment = getState().segment
     const jwtData = segment.jwt ? parseJwt(segment.jwt).data : segment.predicates
+
+    // skip search
+    if(jwtData.find((o)=> !o.comparison || !o.value )) {
+      const incompleteSegment = Object.assign({}, segment, { predicates: jwtData })
+      dispatch(dispatchSegmentUpdate(incompleteSegment))
+      return
+    }
+
     const predicates_data = { data: {
                                 predicates: jwtData.filter( (o)=> o.comparison )
                               }
                             }                   
     
+
     options = {
       appKey: appKey,
       search: predicates_data,
@@ -47,14 +54,7 @@ export function searchAppUsers(options, cb){
         
         dispatch(dispatchSearchAppUsers(newData))
 
-        cb ? cb() : null
-
-        /*this.setState({
-          segment: Object.assign({}, this.state.segment, { predicates: jwtData }),
-          app_users: appUsers.collection,
-          meta: appUsers.meta,
-          searching: false
-        })*/
+        cb && cb()
       },
       error: (error) => {
         debugger

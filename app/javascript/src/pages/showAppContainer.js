@@ -109,23 +109,10 @@ class ShowAppContainer extends Component {
     if(prevProps.match.url !== this.props.match.url){
       this.init()
     }
-
-    /*if (prevProps.segment.jwt !== this.props.segment.jwt) {
-      console.info("cambio jwt")
-      this.search()
-    }*
-
-    /*if (prevProps.segment.id !== this.props.segment.id) {
-      console.info("cambio segmento")
-      //this.fetchApp( ()=>{
-        this.search()
-      //})
-    }*/
   }
 
   init = () => {
     this.fetchApp(() => {
-      //this.search()
       this.eventsSubscriber(this.props.app.key)
     })
   }

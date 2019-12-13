@@ -79,7 +79,7 @@ export class SaveSegmentModal extends Component {
   close = () => this.setState({ isOpen: false });
   input_ref = null
   
-  secondaryAction = ({ target }: Object) => {
+  secondaryAction = ({ target }) => {
     this.props.savePredicates({
       action: this.state.action,
       input: this.input_ref ? this.input_ref.value : null
@@ -90,7 +90,7 @@ export class SaveSegmentModal extends Component {
     })
   }
 
-  deleteAction = ({ target }: Object) => {
+  deleteAction = ({ target }) => {
     this.props.deleteSegment(this.props.segment.id, this.close )
   }
 
@@ -101,9 +101,10 @@ export class SaveSegmentModal extends Component {
   }
 
   equalPredicates = ()=>{
-    return fromJS(this.props.segment.predicates).equals( 
-      fromJS(this.props.segment.initialPredicates)
-    )
+    return fromJS(this.props.segment.predicates)
+            .equals( 
+              fromJS(this.props.segment.initialPredicates)
+            )
   }
 
   incompletePredicates = ()=>{
