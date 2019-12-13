@@ -144,7 +144,6 @@ export function updatePredicate(data, cb){
   return (dispatch, getState)=>{
     const jwtToken = generateJWT(data)
     //console.log(parseJwt(jwtToken))
-
     dispatch(
       dispatchSegmentUpdate(
         {
@@ -161,13 +160,14 @@ export function updatePredicate(data, cb){
 
 export function deletePredicate(data, cb){
   return (dispatch, getState)=>{
+    const jwtToken = generateJWT(data)  
 
     dispatch(
       dispatchSegmentUpdate(
         { 
           id: getState().segment.id,
           predicates: data,
-          jwt: null
+          jwt: jwtToken
         }
       )
     )
