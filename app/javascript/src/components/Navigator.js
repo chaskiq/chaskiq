@@ -197,6 +197,7 @@ function Navigator(props, context) {
   };
 
   function isActivePage(page){
+    ///console.log("selected page", current_page , page)
     return current_page === page
   }
 
@@ -217,8 +218,16 @@ function Navigator(props, context) {
       id: 'Conversations',
       icon: <QuestionAnswerOutlined style={{ fontSize: 30 }}/>,
       children: [
-        { id: 'Conversations', icon:  <SmsIcon/>, url: `/apps/${app.key}/conversations`, active: isActivePage("Conversations") },
-        { id: 'Assigment Rules', icon:  <ShuffleIcon/>, url: `/apps/${app.key}/conversations/assignment_rules`, active: isActivePage("Assigment Rules") },
+        { id: 'Conversations', 
+          icon:  <SmsIcon/>, 
+          url: `/apps/${app.key}/conversations`, 
+          active: isActivePage("Conversations") 
+        },
+        { id: 'Assigment Rules',
+          icon:  <ShuffleIcon/>, 
+          url: `/apps/${app.key}/conversations/assignment_rules`, 
+          active: isActivePage("Assigment Rules") 
+        },
       ],
     },
     {
@@ -228,19 +237,40 @@ function Navigator(props, context) {
         /*{ id: 'Analytics', icon: <SettingsIcon /> },
         { id: 'Performance', icon: <TimerIcon /> },
         { id: 'Test Lab', icon: <PhonelinkSetupIcon /> },*/
-        { id: 'campaigns', label: 'Mailing Campaigns', icon: <EmailIcon/>, url: `${appid}/messages/campaigns`, active: isActivePage("campaigns")  },
-        { id: 'user_auto_messages', label: 'In App messages', icon: <MessageIcon/>, url: `${appid}/messages/user_auto_messages`, active: isActivePage("user_auto_messages")},
-        { id: 'tours', label: 'Guided tours',  icon: <FilterFramesIcon/>, url: `${appid}/messages/tours`, active: isActivePage("tours")},
+        { id: 'campaigns', label: 'Mailing Campaigns', 
+          icon: <EmailIcon/>, 
+          url: `${appid}/messages/campaigns`, 
+          active: isActivePage("campaigns")  },
+        { id: 'user_auto_messages', 
+          label: 'In App messages', 
+          icon: <MessageIcon/>, 
+          url: `${appid}/messages/user_auto_messages`, 
+          active: isActivePage("user_auto_messages")
+        },
+        { id: 'tours', label: 'Guided tours',  
+          icon: <FilterFramesIcon/>, 
+          url: `${appid}/messages/tours`, 
+          active: isActivePage("tours")},
       ],
     },
 
     {
-      id: 'Routing Bots',
+      id: 'Bot',
+      label: 'Routing Bots',
       icon: <DeviceHubOutlined style={{ fontSize: 30 }}/>,
       children: [
-        { id: 'For Leads', icon: <AssignmentIndIcon/>, url: `${appid}/bots/leads`, active: isActivePage("botleads")},
-        { id: 'For Users', icon: <PermIdentityIcon/>, url: `${appid}/bots/users`, active: isActivePage("botusers")},
-        { id: 'Settings', icon: <SettingsIcon/>, url: `${appid}/bots/settings`, active: isActivePage("botSettings")}
+        { id: 'For Leads', 
+          icon: <AssignmentIndIcon/>, 
+          url: `${appid}/bots/leads`, 
+          active: isActivePage("botleads")},
+        { id: 'For Users', 
+          icon: <PermIdentityIcon/>, 
+          url: `${appid}/bots/users`, 
+          active: isActivePage("botusers")},
+        { id: 'Settings', 
+          icon: <SettingsIcon/>, 
+          url: `${appid}/bots/settings`, 
+          active: isActivePage("botSettings")}
       ],
     },
 
@@ -249,9 +279,18 @@ function Navigator(props, context) {
       id: 'HelpCenter',
       icon: <BookOutlined style={{ fontSize: 30 }}/>,
       children: [
-        { id: 'Articles', icon: <BookIcon/>, url: `/apps/${app.key}/articles`, active: isActivePage("articles")},
-        { id: 'Collections', icon: <FolderIcon/>, url: `/apps/${app.key}/articles/collections`, active: isActivePage("collections")},
-        { id: 'Settings', icon: <SettingsIcon/>, url: `/apps/${app.key}/articles/settings`, active: isActivePage("settings")},
+        { id: 'Articles', 
+          icon: <BookIcon/>,
+          url: `/apps/${app.key}/articles`, 
+          active: isActivePage("Articles")},
+        { id: 'Collections', 
+          icon: <FolderIcon/>, 
+          url: `/apps/${app.key}/articles/collections`, 
+          active: isActivePage("Collections")},
+        { id: 'Settings', 
+          icon: <SettingsIcon/>, 
+          url: `/apps/${app.key}/articles/settings`, 
+          active: isActivePage("Settings")},
       ],
     },
 
@@ -259,8 +298,11 @@ function Navigator(props, context) {
       id: 'Settings',
       icon: <SettingsOutlined style={{ fontSize: 30 }}/>,
       children: [
-        { id: 'App Settings', icon:  <SettingsIcon/>, url: `/apps/${app.key}/settings`, active: isActivePage("app_settings") },
-        { id: 'Team', icon: <SupervisedUserCircleIcon />, url: `/apps/${app.key}/team`, active: isActivePage("team") },
+        { id: 'App Settings', icon:  <SettingsIcon/>, 
+          url: `/apps/${app.key}/settings`, 
+        active: isActivePage("app_settings") },
+        { id: 'Team', icon: <SupervisedUserCircleIcon />, 
+          url: `/apps/${app.key}/team`, active: isActivePage("team") },
         //{ id: 'Authentication', icon: <ShuffleIcon />, active: isActivePage("user_auto_messages")},
       ],
     },
@@ -279,7 +321,7 @@ function Navigator(props, context) {
   ];
 
   function renderItemList(){
-
+    //console.log("kategories", categories, navigation )
     return (
       categories.map(({ id, label, icon, children }) => {
         return <ExpansionPanel 
@@ -287,16 +329,14 @@ function Navigator(props, context) {
           expanded={expanded === id} 
           onChange={handleChange(id)}>
 
-
           <ExpansionPanelSummary 
             aria-controls="panel1d-content" 
             id="panel1d-header"
             className={classes.expansionPanelSummary}>
               <ListItem className={classes.categoryHeader}>
                 {
-                  icon ? 
-                    <ListItemIcon>{icon}</ListItemIcon> : 
-                  null 
+                  icon &&
+                    <ListItemIcon>{icon}</ListItemIcon>
                 }
                 <ListItemText
                   classes={{
@@ -326,7 +366,7 @@ function Navigator(props, context) {
                     //})
                   }}
                 >
-                  {icon ? <ListItemIcon>{icon}</ListItemIcon> : null }
+                  {icon && <ListItemIcon>{icon}</ListItemIcon> }
                   <ListItemText
                     classes={{
                       primary: classes.itemPrimary,

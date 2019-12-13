@@ -82,6 +82,9 @@ class Articles extends Component {
   };
 
   componentDidMount(){
+    this.props.dispatch(
+      setCurrentSection('HelpCenter')
+    )
     this.getSettings()
   }
 
@@ -282,7 +285,7 @@ class AllArticles extends React.Component {
       setCurrentSection('HelpCenter')
     )
 
-    this.props.dispatch(setCurrentPage("articles"))
+    this.props.dispatch(setCurrentPage("Articles"))
   }
 
   componentDidUpdate(prevProps){

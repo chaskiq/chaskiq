@@ -82,7 +82,7 @@ class CollectionDetail extends Component {
     )
 
     this.props.dispatch(
-      setCurrentPage('collections')
+      setCurrentPage('Collections')
     )
   }
 
