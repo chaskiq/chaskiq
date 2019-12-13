@@ -79,7 +79,7 @@ class Settings extends Component {
     )
 
     this.props.dispatch(
-      setCurrentPage('settings')
+      setCurrentPage('Settings')
     )
   }
 

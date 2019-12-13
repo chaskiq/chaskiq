@@ -132,7 +132,7 @@ class ArticlesNew extends Component {
       setCurrentSection('HelpCenter')
     )
 
-    this.props.dispatch(setCurrentPage("articles"))
+    this.props.dispatch(setCurrentPage("Articles"))
   }
 
   componentDidUpdate(prevProps, prevState){
