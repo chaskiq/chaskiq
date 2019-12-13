@@ -32,13 +32,12 @@ const TextField1 = withStyles({
     '&$expanded': {
       margin: 'auto',
     },*/
-  },
-  expanded: {},
+  }
 })(TextField);
 
 const ContentMatchTitle = styled.h5`
   margin: 15px;
-  border-bottom: 2px solid #6f6f6f;
+  border-bottom: 2px dotted #6f6f6f26;
 `
 
 const ContentMatch = styled.div`
@@ -54,6 +53,17 @@ const ContentMatchFooter = styled.div`
   display: flex;
   align-items: baseline;
   justify-content: space-evenly;
+
+  position: absolute;
+  bottom: 1px;
+  padding: 1em;
+  background: ${(props)=> props.theme.palette.background.paper};
+  box-shadow: -1px -1px 6px 0px ${(props)=> props.theme.palette.background.paper};
+  width: 100%;
+`
+
+const ContentMatchWrapper = styled.div`
+  margin-bottom: 3em;
 `
 
 export default class SegmentItemButton extends Component {
@@ -65,12 +75,42 @@ export default class SegmentItemButton extends Component {
 
   relative_input = null
   btn_ref = null
+  blockStyleRef = React.createRef();
 
-  onRadioChange = (value, cb)=> {
+  onRadioChange = (target, cb)=> {
+    const {value} = target
+ 
+    window.blockStyleRef = this.blockStyleRef.current
+    window.target = target
+
     this.setState({
       selectedOption: value
-    }, ()=> cb ? cb() : null)
+    }, ()=> {
+
+      setTimeout(()=> {
+        const el = this.blockStyleRef.current
+        const diff = target.getBoundingClientRect().top - el.getBoundingClientRect().top
+        this.blockStyleRef.current.scrollTop = diff
+      }, 20)
+
+      cb ? cb() : null
+    })
   };
+
+  onRadioTypeChange = (target, cb)=>{
+
+    const h = {
+      comparison: this.state.selectedOption.replace("relative:", ""),
+      value: target.value
+    }
+
+    const response = Object.assign({}, this.props.predicate, h )
+    const new_predicates = this.props.predicates.map(
+      (o, i)=> this.props.index === i ? response : o  
+    )
+    
+    this.props.updatePredicate(new_predicates, this.props.predicateCallback )
+  }
 
   handleSubmit = (e)=> {
     //this.props.predicate.type
@@ -81,8 +121,17 @@ export default class SegmentItemButton extends Component {
 
     switch(this.props.predicate.type){
       case "string": {
-        value = `${this.relative_input.value}`
-        break;
+        switch (this.props.predicate.attribute) {
+          case "type":
+            // we assume here that this field is auto applied
+            // todo: set radio button on mem and update only on apply click 
+            value = `${this.props.predicate.value}`
+            break;
+          default:
+            value = `${this.relative_input.value}`
+            break;
+        }
+        break
       }
       case "date": {
         value = `${this.relative_input.value} days ago`
@@ -122,7 +171,12 @@ export default class SegmentItemButton extends Component {
 
     switch(this.props.predicate.type){
       case "string": {
-        return this.contentString()
+        switch(this.props.predicate.attribute){
+          case "type": 
+            return this.contentType()
+          default:
+            return this.contentString()
+        }
       }
 
       case "date": {
@@ -140,6 +194,78 @@ export default class SegmentItemButton extends Component {
     this.setState({dialogOpen: !this.state.dialogOpen })
   }
 
+  contentType = ()=>{
+    const compare = (value)=>{
+      return this.props.predicate.comparison === value
+    }
+
+    const relative = [
+      {label: "AppUser", value: "AppUser", defaultSelected: false},
+      {label: "Lead", value: "Lead", defaultSelected: false},
+    ]
+
+    return <ClickAwayListener onClickAway={this.toggleDialog2.bind(this)}>
+
+            <ContentMatchWrapper>
+
+              {<MenuItem>
+                <ContentMatchTitle>
+                  Select the filter for!!!!! {this.props.predicate.attribute}
+                </ContentMatchTitle>
+              </MenuItem>}
+
+              <ContentMatch ref={this.blockStyleRef}>
+                <RadioGroup
+                  aria-label="options"
+                  name="options"
+                  onChange={(e)=>{
+                    this.onRadioTypeChange(e.target)
+                  }}>
+                  {
+                    relative.map((o, i)=>(
+                      <div  key={`${o.name}-${i}`}
+                            style={{ 
+                                   display: 'flex',
+                                   flexDirection: 'column'                                 
+                                 }}>
+
+                        <FormControlLabel
+                          control={<Radio 
+                                    checked={o.label === this.props.predicate.value} 
+                                   />} 
+                          value={o.value}
+                          label={o.label} 
+                        />
+
+                      </div>
+
+                    ))
+                  }
+                </RadioGroup>
+              </ContentMatch>
+
+              <ContentMatchFooter>
+
+                { 
+                  this.state.selectedOption && 
+                  (this.state.selectedOption !== "is_null" || 
+                    this.state.selectedOption !== "is_not_null") &&
+                  
+                  <Button
+                    variant="outlined" 
+                    color="primary"
+                    size={"small"}
+                    onClick={this.handleSubmit.bind(this)}>
+                    Apply
+                  </Button>
+
+                }
+
+                { this.deleteButton()  }
+              </ContentMatchFooter> 
+            </ContentMatchWrapper>
+          </ClickAwayListener>
+  }
 
   contentString = () => {
     
@@ -160,25 +286,28 @@ export default class SegmentItemButton extends Component {
 
     return <ClickAwayListener onClickAway={this.toggleDialog2.bind(this)}>
 
-            <div>
+            <ContentMatchWrapper>
 
-              {/*<ContentMatchTitle>
-                <h5>Select the filter</h5>
-              </ContentMatchTitle>*/}
+              {<MenuItem>
+                <ContentMatchTitle>
+                  Select the filter for {this.props.predicate.attribute}
+                </ContentMatchTitle>
+              </MenuItem>}
 
-              <ContentMatch>
+              <ContentMatch ref={this.blockStyleRef}>
                 <RadioGroup
                   aria-label="options"
                   name="options"
                   onChange={(e)=>{
-                    this.onRadioChange(e.target.value)
+                    this.onRadioChange(e.target)
                   }}>
                   {
-                    relative.map((o)=>(
-                      <div style={{ 
-                                   display: 'flex',
-                                   flexDirection: 'column'                                 
-                                 }}>
+                    relative.map((o, i)=>(
+                      <div  key={`${o.name}-${i}`}
+                            style={{ 
+                              display: 'flex',
+                              flexDirection: 'column'                                 
+                            }}>
 
                         <FormControlLabel
                           control={<Radio 
@@ -217,13 +346,13 @@ export default class SegmentItemButton extends Component {
                 </RadioGroup>
               </ContentMatch>
 
-              { 
-                this.state.selectedOption && 
-                (this.state.selectedOption !== "is_null" || 
-                  this.state.selectedOption !== "is_not_null") ?
-                
-                <ContentMatchFooter>
+              <ContentMatchFooter>
 
+                { 
+                  this.state.selectedOption && 
+                  (this.state.selectedOption !== "is_null" || 
+                    this.state.selectedOption !== "is_not_null") &&
+                  
                   <Button
                     variant="outlined" 
                     color="primary"
@@ -231,28 +360,20 @@ export default class SegmentItemButton extends Component {
                     onClick={this.handleSubmit.bind(this)}>
                     Apply
                   </Button>
-                  
-                  { 
-                  !this.props.predicate.comparison ? 
-                    null : 
-                    this.deleteButton() 
-                  }
 
-                  {/*<Button
-                      variant="outlined"
-                      color="primary"
-                      onClick={this.handleSubmit.bind(this)}>
-                      cancel
-                    </Button>*/}
+                }
 
-                </ContentMatchFooter> : null
-              }
+                { this.deleteButton()  }
+                {/*<Button
+                    variant="outlined"
+                    color="primary"
+                    onClick={this.handleSubmit.bind(this)}>
+                    cancel
+                  </Button>*/}
 
+              </ContentMatchFooter> 
 
-
-              
-            
-            </div>
+            </ContentMatchWrapper>
 
           </ClickAwayListener>
 
@@ -278,22 +399,31 @@ export default class SegmentItemButton extends Component {
       {name: "has any value", value: "absolute:not_eq"},
     ]
 
-    return  <div>
-                <MenuItem disabled={true}>
-                  Select the date filter
-                </MenuItem>
+
+    const extractNum = this.props.predicate.value ? 
+                       this.props.predicate.value.match(/\d+/)[0] : ""
+    const parsedNum = parseInt(extractNum)
+
+    return  <ContentMatchWrapper>
+
+              <MenuItem disabled={true}>
+                <ContentMatchTitle>
+                  Select the date filter for {this.props.predicate.attribute}
+                </ContentMatchTitle>
+              </MenuItem>
 
 
-               <ContentMatch>
+              <ContentMatch ref={this.blockStyleRef}>
                 <RadioGroup
                   aria-label="options"
                   name="options"
                   onChange={(e)=>{
-                    this.onRadioChange(e.target.value)
+                    this.onRadioChange(e.target)
                   }}>
                   {
-                    relative.map((o)=>(
-                      <div style={{ 
+                    relative.map((o, i)=>(
+                      <div  key={`${o.name}-${i}`}
+                      style={{ 
                                    display: 'flex',
                                    flexDirection: 'column'                                 
                                  }}>
@@ -323,7 +453,7 @@ export default class SegmentItemButton extends Component {
                               label="name"
                               type="number"
                               helperText={"days ago"}
-                              defaultValue={this.props.predicate.value}
+                              defaultValue={parsedNum}
                               inputRef={input => (
                                 this.relative_input = input)
                               }
@@ -341,12 +471,10 @@ export default class SegmentItemButton extends Component {
                 </RadioGroup>
               </ContentMatch>
 
-
-              { 
-                this.state.selectedOption ?
-                
-                <ContentMatchFooter>
-
+              <ContentMatchFooter>
+                { 
+                  this.state.selectedOption &&
+                  
                   <Button
                     variant="outlined" 
                     color="primary"
@@ -354,27 +482,22 @@ export default class SegmentItemButton extends Component {
                     onClick={this.handleSubmit.bind(this)}>
                     Apply
                   </Button>
-                  
-                  { 
-                  !this.props.predicate.comparison ? 
-                    null : 
-                    this.deleteButton() 
-                  }
 
-                  {/*<Button
-                      variant="outlined"
-                      color="primary"
-                      onClick={this.handleSubmit.bind(this)}>
-                      cancel
-                    </Button>*/}
+                }
+                
+                { 
+                  this.deleteButton() 
+                }
 
-                </ContentMatchFooter> : null
-              }
+                {/*<Button
+                    variant="outlined"
+                    color="primary"
+                    onClick={this.handleSubmit.bind(this)}>
+                    cancel
+                  </Button>*/}
 
-
-
-              
-
+              </ContentMatchFooter> 
+            
                 {
                   /*
                 
@@ -434,7 +557,7 @@ export default class SegmentItemButton extends Component {
                 */}
 
                 
-              </div>
+              </ContentMatchWrapper>
 
 
   }
@@ -450,30 +573,35 @@ export default class SegmentItemButton extends Component {
       {label: "match all", comparison: "and", value: "and",  defaultSelected: compare("and")  },
     ]
 
-    return <div>
+    return <ContentMatchWrapper>
             
-              <MenuItem disabled={true}>
-                match criteria options:
-              </MenuItem>
+            <MenuItem disabled={true}>
+              <ContentMatchTitle> 
+                match criteria options for {this.props.predicate.type}
+              </ContentMatchTitle>
+             
+            </MenuItem>
 
-              {
-                relative.map((o)=>(
-                  <MenuItem
-                    key={o.name}
-                    disabled={compare(o.value)}
-                    selected={compare(o.value)}
-                    onClick={e =>   
-                      this.onRadioChange.bind(this)(
-                        o.value, 
-                        this.handleSubmit.bind(this) 
-                      )
-                    }
-                  >
-                    {o.label}
-                  </MenuItem>
-                ))
-              }
-            </div>
+
+            {
+              relative.map((o, i)=>(
+                <MenuItem
+                  key={`${o.name}-${i}`}
+                  disabled={compare(o.value)}
+                  selected={compare(o.value)}
+                  onClick={e =>   
+                    this.onRadioChange.bind(this)(
+                      o.value, 
+                      this.handleSubmit.bind(this) 
+                    )
+                  }
+                >
+                  {o.label}
+                </MenuItem>
+              ))
+            }
+
+          </ContentMatchWrapper>
            
   }
 
@@ -495,6 +623,14 @@ export default class SegmentItemButton extends Component {
     dialogOpen: !this.state.dialogOpen
   });
 
+  closeDialog = () => this.setState({ 
+    dialogOpen: false
+  });
+
+  openDialog = () => this.setState({ 
+    dialogOpen: true
+  });
+
   renderMenu = ()=>{
 
     if(!this.btn_ref)
@@ -502,11 +638,12 @@ export default class SegmentItemButton extends Component {
 
     return <Menu 
               open={this.state.dialogOpen}
+
               anchorEl={this.btn_ref}
-              anchorOrigin={{
+              /*anchorOrigin={{
                 vertical: 'bottom',
                 horizontal: 'left',
-              }}
+              }}*/
               /*transformOrigin={{
                 vertical: 'top',
                 horizontal: 'center',
@@ -516,7 +653,7 @@ export default class SegmentItemButton extends Component {
               >
 
               <ClickAwayListener 
-                onClickAway={this.toggleDialog2.bind(this)}>
+                onClickAway={this.closeDialog}>
                 {this.renderOptions()}
               </ClickAwayListener>
             </Menu>
@@ -538,13 +675,18 @@ export default class SegmentItemButton extends Component {
                     <Button 
                       ref={(ref)=>this.setRef(ref)} 
                       isLoading={false}
-                      color={this.state.dialogOpen ? 'primary' : 'secondary'}
-                      onClick={this.toggleDialog}>
+                      color={"secondary"}
+                      //{this.state.dialogOpen ? 'primary' : 'secondary'}
+                      onClick={this.openDialog}>
                       {
+                        /*
                         !this.state.dialogOpen ?
                           "Missing value!" :
                           this.props.text
+                        */
                       }
+
+                      {"Missing value!"}
                     </Button>
                     {this.renderMenu()}
                   </React.Fragment> :
@@ -555,7 +697,7 @@ export default class SegmentItemButton extends Component {
                       variant={"contained"} 
                       color="primary"
                       //appearance={this.props.appearance}
-                      onClick={this.toggleDialog}>
+                      onClick={this.openDialog}>
                       {this.props.text}
                     </Button>
                     {this.renderMenu()}
