@@ -61,6 +61,8 @@ gem "ransack"
 gem "geocoder", "~> 1.4"
 gem "browser", "~> 2.5"
 
+gem "google-cloud-dialogflow"
+
 
 gem "jwt"
 gem "jwe"
