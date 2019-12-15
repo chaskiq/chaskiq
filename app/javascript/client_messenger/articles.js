@@ -13,7 +13,9 @@ import theme from './textEditor/theme'
 import themeDark from './textEditor/darkTheme'
 import DraftRenderer from './textEditor/draftRenderer'
 import DanteContainer from './textEditor/editorStyles'
+import Loader from './loader'
 import { useTranslation, Trans } from "react-i18next";
+
 
 
 //import graphql from './graphql/client'
@@ -59,6 +61,7 @@ const Article = ({
 })=>{
 
   const [article, setArticle] = useState(null)
+  const [loading, setLoading] = useState(false)
   const { t } = useTranslation();
 
   useEffect(()=>{
@@ -73,6 +76,7 @@ const Article = ({
   }, [])
 
   function getArticle(){
+    setLoading(true)
     graphqlClient.send(ARTICLE, {
       domain: appData.articleSettings.subdomain,
       id: articleSlug,
@@ -80,8 +84,10 @@ const Article = ({
     }, {
       success: (data)=>{
         setArticle(data.helpCenter.article)
+        setLoading(false)
       },
       error: ()=>{
+        setLoading(false)
         debugger
       }
     })
@@ -95,6 +101,10 @@ const Article = ({
 
   return (
     <Panel>
+
+      {
+        loading && <Loader sm />
+      }
       {
         article && 
         <ContentWrapper in={transition}>

@@ -583,17 +583,20 @@ class Messenger extends Component {
     }
   }
 
-  clearAndGetConversations = ()=>{
-    this.setState({ conversationsMeta: {} }, this.getConversations)
+  clearAndGetConversations = (options={}, cb)=>{
+    this.setState(
+      { conversationsMeta: {} }, 
+      ()=> this.getConversations(options, cb)
+    )
   }
 
-  getConversations = (options={})=>{
+  getConversations = (options={}, cb)=>{
 
-    const data = {
+    /*const data = {
       referrer: window.location.path,
       email: this.props.email,
       properties: this.props.properties
-    }
+    }*/
 
     const nextPage = this.state.conversationsMeta.next_page || 1
 
@@ -606,7 +609,7 @@ class Messenger extends Component {
         this.setState({
           conversations: options && options.append ? this.state.conversations.concat(collection) : collection,
           conversationsMeta: meta
-        })
+        }, ()=> cb && cb() )
       },
       error: ()=>{
 
