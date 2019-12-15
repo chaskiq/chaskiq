@@ -11,6 +11,7 @@ import Moment from 'react-moment';
 import serialize from 'form-serialize'
 import UnicornEditor from './textEditor'
 import {isEmpty} from 'lodash'
+import Loader from './loader'
 import {
   EditorSection,
   CommentsWrapper,
@@ -36,8 +37,15 @@ import {
 
 export class Conversations extends Component {
 
+  state = {
+    loading: true
+  }
+
   componentDidMount(){
-    this.props.clearAndGetConversations()
+
+    this.props.clearAndGetConversations({}, ()=>{
+      this.setState({loading: false})
+    })
 
     this.props.updateHeader(
       {
@@ -55,7 +63,7 @@ export class Conversations extends Component {
     //console.log(element.scrollHeight - element.scrollTop , element.clientHeight)
     if (element.scrollHeight - element.scrollTop === element.clientHeight) {
       if (this.props.conversationsMeta.next_page)
-        this.props.getConversations({ append: true })
+        this.props.getConversations({ append: true }, )
     }
   }
 
@@ -81,6 +89,9 @@ export class Conversations extends Component {
         style={{ overflowY: 'auto', height: '100%' }}>
         <CommentsWrapper 
           isMobile={this.props.isMobile}>
+          {
+            this.state.loading && <Loader sm/>
+          }
           {
             this.props.conversations.map((o, i) => {
 

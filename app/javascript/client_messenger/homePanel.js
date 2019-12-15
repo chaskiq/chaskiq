@@ -9,8 +9,8 @@ import {
 import sanitizeHtml from 'sanitize-html';
 import gravatar from "./shared/gravatar"
 import {CommentsItemComp} from './conversation'
-import { ThemeProvider } from 'emotion-theming'
 import {textColor} from './styles/utils'
+import Loader from './loader'
 
 //import graphql from './graphql/client'
 import {
@@ -40,6 +40,8 @@ const HomePanel = ({
   const [loading, setLoading] = useState(false)
   const [articles, setArticles] = useState([])
 
+  const [conversationLoading, setConversationLoading] = useState(false)
+
   const [meta, setMeta] = useState({})
 
   let textInput = React.createRef();
@@ -61,10 +63,16 @@ const HomePanel = ({
 
   useEffect(()=> {
     //if(!appData.inboundSettings.enabled )
-    getConversations({page: 1 , per: 1})
+    setConversationLoading(true)
+
+    getConversations({page: 1 , per: 1}, ()=> {
+      setConversationLoading(false)
+    })
   }, [] )
 
   const getArticles = ()=>{
+    setLoading(true)
+
     graphqlClient.send(ARTICLES, {
       domain: appData.articleSettings.subdomain,
       lang: lang,
@@ -74,10 +82,12 @@ const HomePanel = ({
       success: (data)=>{
         const {collection, meta} = data.helpCenter.articles
         setArticles(collection)
+        setLoading(false)
         setMeta(meta)
       },
       error: (err)=>{
         console.log("ERROROROROR" , err)
+        setLoading(false)
         //debugger
       }
     })
@@ -187,16 +197,6 @@ const HomePanel = ({
   }
 
   function replyTimeMessage(){
-    /*const replyTime = [
-      {value: "auto", label: "Automatic reply time. Currently El equipo responderá lo antes posible"}, 
-      {value: "minutes", label: "El equipo suele responder en cuestión de minutos."},
-      {value: "hours", label: "El equipo suele responder en cuestión de horas."},
-      {value: "1 day", label: "El equipo suele responder en un día."},
-    ]
-
-    const message = replyTime.find((o)=> o.value === appData.replyTime)
-
-    return message && <p>{message.label}</p>*/
     return <p>{t(`reply_time.${appData.replyTime}`)}</p>
   }
 
@@ -209,7 +209,10 @@ const HomePanel = ({
   function renderLastConversation(){
     return <CardContent>
         {
-          conversations.map((o, i) => {
+          conversationLoading && <Loader xs={true}/>
+        }
+        {
+          !conversationLoading && conversations.map((o, i) => {
             const message = o.lastMessage
             return <CommentsItemComp
               key={`comments-item-comp-${o.key}`}
@@ -283,8 +286,7 @@ const HomePanel = ({
         </ConversationInitiator> 
       }
 
-      { 
-        
+      {
         !appData.inboundSettings.enabled &&
           <ConversationsBlock in={transition}>
             <CardButtonsGroup style={{padding: '2em'}}>
@@ -310,7 +312,10 @@ const HomePanel = ({
         </ButtonWrapper>
       </Card>
 
-      { articles.length > 0 && <ArticleList>
+
+      { loading && <Loader xs></Loader>}
+
+      {  articles.length > 0 && <ArticleList>
 
           <ArticlePadder>
             <h2>
