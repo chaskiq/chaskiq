@@ -11,11 +11,17 @@ describe('Availability spec', function() {
   it('next week', function() {
     cy.appScenario('basic')
     const days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat']
-    const yesterday = moment().add(-1, 'hours')
+    const now = moment()
+    const yesterday = now.add(-1, 'hours')
     const weekday = days[yesterday._d.getDay()]
 
+    const startTime = `${now._d.getHours()}:${now._d.getMinutes()}`
+
+    const moremin = now.add(30, 'minutes')
+    const endTime = `${moremin._d.getHours()}:${moremin._d.getMinutes()}`
+
     cy.appEval(`App.last.update(timezone: 'UTC', 
-    team_schedule: [{ day: "${weekday.toLowerCase()}", from: '01:00' , to: '01:30' }])`)
+    team_schedule: [{ day: "${weekday.toLowerCase()}", from: "${startTime}", to: "${endTime}" }])`)
     
     cy.appEval("App.last").then((results) => {
       const appKey = results.key
