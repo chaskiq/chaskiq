@@ -331,7 +331,7 @@ export class Conversation extends Component {
   render(){
 
     const {t} = this.props
-    console.log("ENABLED???", this.isInputEnabled())
+    //console.log("ENABLED???", this.isInputEnabled())
     return <div style={{
       position: 'absolute',
       top: '0',
@@ -354,6 +354,7 @@ export class Conversation extends Component {
             {
               this.props.agent_typing && this.renderTyping()
             }
+
             {
               this.props.conversation.messages && this.props.conversation.messages.collection.map((o, i) => {
                   if(o.message.blocks) return this.renderItemPackage(o, i)
