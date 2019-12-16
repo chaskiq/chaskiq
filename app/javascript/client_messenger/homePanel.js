@@ -163,7 +163,7 @@ const HomePanel = ({
     const nextDay = at.getDay()
     const today = new Date(Date.now()).getDay()
     const sameDay = nextDay === today
-    const nextWeek = nextDay < today
+    const nextWeek = val >= 6 && sameDay
 
     if(nextWeek) return <Availability><p>{t("availability.next_week")}</p></Availability>
     if(sameDay) return <Availability><p>{t("availability.aprox", {time: at.getHours() })}</p></Availability>

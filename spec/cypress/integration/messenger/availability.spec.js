@@ -9,16 +9,29 @@ describe('Availability spec', function() {
   })
 
   it('next week', function() {
+
+
+    function handle2digits(time){
+      return `${time.getMinutes()<10?'0':''}${time.getMinutes()}`
+    }
+
     cy.appScenario('basic')
     const days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat']
     const now = moment()
-    const yesterday = now.add(-1, 'hours')
-    const weekday = days[yesterday._d.getDay()]
 
-    const startTime = `${now._d.getHours()}:${now._d.getMinutes()}`
+    const aa = moment()
 
-    const moremin = now.add(30, 'minutes')
-    const endTime = `${moremin._d.getHours()}:${moremin._d.getMinutes()}`
+    const yesterday = now.add(-3, 'hours')
+    const nowTime = `${aa._d.getHours()}:${handle2digits(aa._d)}`
+
+    const weekday = days[now._d.getDay()]
+
+    const startTime = `${yesterday._d.getHours()}:${handle2digits(yesterday._d)}`
+    const moremin = yesterday.add(15, 'minutes')
+    const endTime = `${moremin._d.getHours()}:${handle2digits(moremin._d)}`
+    debugger
+    console.log("now: ", weekday, nowTime)
+    console.log("setting: ", weekday, startTime, endTime)
 
     cy.appEval(`App.last.update(timezone: 'UTC', 
     team_schedule: [{ day: "${weekday.toLowerCase()}", from: "${startTime}", to: "${endTime}" }])`)
