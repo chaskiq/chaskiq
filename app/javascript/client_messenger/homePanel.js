@@ -162,8 +162,11 @@ const HomePanel = ({
     const at = new Date(appData.businessBackIn.at)
     const nextDay = at.getDay()
     const today = new Date(Date.now()).getDay()
+
+    const TzDiff = Math.ceil(( at - Date.now() ) / (1000 * 3600 * 24)) 
+
     const sameDay = nextDay === today
-    const nextWeek = nextDay < today
+    const nextWeek = TzDiff >= 6 && sameDay
 
     if(nextWeek) return <Availability><p>{t("availability.next_week")}</p></Availability>
     if(sameDay) return <Availability><p>{t("availability.aprox", {time: at.getHours() })}</p></Availability>

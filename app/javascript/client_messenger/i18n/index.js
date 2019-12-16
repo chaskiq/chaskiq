@@ -33,12 +33,12 @@ i18n
           "reply_time.hours": "The team usually responds in a matter of hours",
           "reply_time.1 day": "The team usually responds in one day",
 
-          "availability.aprox": `we will be back at approximately {{time}} hrs`,
-          "availability.tomorrow": "we come back tomorrow",
-          "availability.days": "we return in {{val}} days",
-          "availability.next_week": "we come back next week",
-          "availability.back_from": "we will be back online from {{hours}} hrs",
-          "availability.tomorrow_from": "we will be back online tomorrow from {{hours}} hrs"
+          "availability.aprox": `we'll back in approximately {{time}} hrs`,
+          "availability.tomorrow": "we'll back back tomorrow",
+          "availability.days": "we'll back in {{val}} days",
+          "availability.next_week": "we'll back next week",
+          "availability.back_from": "we'll back online from {{hours}} hrs",
+          "availability.tomorrow_from": "we'll back online tomorrow from {{hours}} hrs"
         }
       },
       es: {
