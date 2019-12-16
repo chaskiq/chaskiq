@@ -5,7 +5,7 @@ ruby '2.6.3'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 #gem 'rails', '~> 5.2.0'
-gem "rails", "6.0.0" #, github: "rails/rails",
+gem "rails", "6.0.2" #, github: "rails/rails",
 gem 'pg'
 
 gem 'anycable-rails'
@@ -38,7 +38,7 @@ gem "redis-namespace", "~> 1.6"
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
 gem "nightfury", "~> 1.0"
-gem 'tabs', github: 'michelson/tabs', branch: "upgrade"
+# gem 'tabs', github: 'michelson/tabs', branch: "upgrade"
 
 gem "graphql", "~> 1.9"
 gem 'graphiql-rails', group: :development
