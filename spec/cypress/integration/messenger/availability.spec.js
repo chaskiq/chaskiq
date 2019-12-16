@@ -1,6 +1,33 @@
 
 import moment from 'moment'
 
+
+function handle2digits(time){
+  return `${time.getMinutes()<10?'0':''}${time.getMinutes()}`
+}
+
+function handle2digitsH(time){
+  return `${time.getHours()<10?'0':''}${time.getHours()}`
+}
+
+function setTime(diff){
+
+  const days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat']
+  const now = moment()
+  const aa = moment()
+  const diffTime = now.add(diff, 'hours')
+  const nowTime = `${handle2digitsH(aa._d)}:${handle2digits(aa._d)}`
+  const weekday = days[now._d.getDay()]
+  const startTime = `${handle2digitsH(diffTime._d)}:${handle2digits(diffTime._d)}`
+  const moremin = diffTime.add(15, 'minutes')
+  const endTime = `${handle2digitsH(moremin._d)}:${handle2digits(moremin._d)}`
+
+  console.log("now: ", weekday, nowTime)
+  console.log("setting: ", weekday, startTime, endTime)
+
+  return [now, weekday, startTime, endTime, days[diffTime._d.getDay()]  ]
+}
+
 describe('Availability spec', function() {
   beforeEach(() => {
     cy.app('clean') // have a look at cypress/app_commands/clean.rb
@@ -10,28 +37,9 @@ describe('Availability spec', function() {
 
   it('next week', function() {
 
-
-    function handle2digits(time){
-      return `${time.getMinutes()<10?'0':''}${time.getMinutes()}`
-    }
-
     cy.appScenario('basic')
-    const days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat']
-    const now = moment()
 
-    const aa = moment()
-
-    const yesterday = now.add(-3, 'hours')
-    const nowTime = `${aa._d.getHours()}:${handle2digits(aa._d)}`
-
-    const weekday = days[now._d.getDay()]
-
-    const startTime = `${yesterday._d.getHours()}:${handle2digits(yesterday._d)}`
-    const moremin = yesterday.add(15, 'minutes')
-    const endTime = `${moremin._d.getHours()}:${handle2digits(moremin._d)}`
-    debugger
-    console.log("now: ", weekday, nowTime)
-    console.log("setting: ", weekday, startTime, endTime)
+    const [now, weekday, startTime, endTime, diffTime] = setTime(-3)
 
     cy.appEval(`App.last.update(timezone: 'UTC', 
     team_schedule: [{ day: "${weekday.toLowerCase()}", from: "${startTime}", to: "${endTime}" }])`)
@@ -69,6 +77,96 @@ describe('Availability spec', function() {
     })
 
   })
+
+
+  it('tomorrow', function() {
+
+    cy.appScenario('basic')
+
+    const [now, weekday, startTime, endTime, diffTime] = setTime(24)
+
+    cy.appEval(`App.last.update(timezone: 'UTC', 
+    team_schedule: [{ day: "${diffTime.toLowerCase()}", from: "${startTime}", to: "${endTime}" }])`)
+    
+    cy.appEval("App.last").then((results) => {
+      const appKey = results.key
+      cy.visit(`/tester/${appKey}`).then(()=>{
+        cy.get('iframe:first')
+        .then(function ($iframe) {
+            const $body = $iframe.contents().find('body')
+            cy.wrap($body).find("#chaskiq-prime").click()
+        })
+        cy.get('iframe:first')
+        .then(function ($iframe) {
+            const $body = $iframe.contents().find('body')
+            expect($body.html()).to.contain("we'll back online tomorrow")
+        })
+      })
+    })
+
+    cy.appEval("App.last").then((results) => {
+      const appKey = results.key
+      cy.visit(`/tester/${appKey}?lang=es`).then(()=>{
+        cy.get('iframe:first')
+        .then(function ($iframe) {
+            const $body = $iframe.contents().find('body')
+            cy.wrap($body).find("#chaskiq-prime").click()
+        })
+        cy.get('iframe:first')
+        .then(function ($iframe) {
+            const $body = $iframe.contents().find('body')
+            expect($body.html()).to.contain("mañana")
+        })
+      })
+    })
+
+  })
+
+
+
+  it('couple of hours', function() {
+
+    cy.appScenario('basic')
+
+    const [now, weekday, startTime, endTime, diffTime] = setTime(4)
+
+    cy.appEval(`App.last.update(timezone: 'UTC', 
+    team_schedule: [{ day: "${diffTime.toLowerCase()}", from: "${startTime}", to: "${endTime}" }])`)
+    
+    cy.appEval("App.last").then((results) => {
+      const appKey = results.key
+      cy.visit(`/tester/${appKey}`).then(()=>{
+        cy.get('iframe:first')
+        .then(function ($iframe) {
+            const $body = $iframe.contents().find('body')
+            cy.wrap($body).find("#chaskiq-prime").click()
+        })
+        cy.get('iframe:first')
+        .then(function ($iframe) {
+            const $body = $iframe.contents().find('body')
+            expect($body.html()).to.contain("approximately")
+        })
+      })
+    })
+
+    cy.appEval("App.last").then((results) => {
+      const appKey = results.key
+      cy.visit(`/tester/${appKey}?lang=es`).then(()=>{
+        cy.get('iframe:first')
+        .then(function ($iframe) {
+            const $body = $iframe.contents().find('body')
+            cy.wrap($body).find("#chaskiq-prime").click()
+        })
+        cy.get('iframe:first')
+        .then(function ($iframe) {
+            const $body = $iframe.contents().find('body')
+            expect($body.html()).to.contain("aprox")
+        })
+      })
+    })
+
+  })
+
 
 
 })
