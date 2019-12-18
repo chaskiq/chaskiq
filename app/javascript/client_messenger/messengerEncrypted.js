@@ -24,7 +24,7 @@ export default class ChaskiqMessengerEncrypted {
     }
 
     this.checkCookie = (val)=>{
-      setCookie("chaskiq_session_id", val, 1)
+      setCookie("chaskiq_session_id", val, 365)
     }
 
     this.defaultHeaders = {
