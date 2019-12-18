@@ -57,7 +57,8 @@ const Article = ({
   appData,
   i18n,
   graphqlClient,
-  lang
+  lang,
+  domain
 })=>{
 
   const [article, setArticle] = useState(null)
@@ -132,6 +133,7 @@ const Article = ({
             theme={ theme }>
               <DanteContainer>
                 <DraftRenderer
+                  domain={domain}
                   raw={JSON.parse(article.content.serialized_content)}
                 />
               </DanteContainer>
