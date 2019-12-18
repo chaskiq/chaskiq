@@ -1,23 +1,16 @@
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
-
 import { withRouter, Route } from 'react-router-dom'
 import { connect } from 'react-redux'
-
-import Tab from '@material-ui/core/Tab' 
-import Tabs from '@material-ui/core/Tabs' 
 import Avatar from '@material-ui/core/Avatar' 
 import Typography from '@material-ui/core/Typography'
 import Button from '@material-ui/core/Button'
 import TextField from '@material-ui/core/TextField'
 import Paper from '@material-ui/core/Paper'
-import Checkbox from '@material-ui/core/Checkbox'
-import FormControlLabel from '@material-ui/core/FormControlLabel'
-import Switch from '@material-ui/core/Switch'
 import ButtonGroup from '@material-ui/core/ButtonGroup'
 import Box from '@material-ui/core/Box'
 import Grid from '@material-ui/core/Grid'
-
+import ContentHeader from '../../components/ContentHeader'
 import gravatar from '../../shared/gravatar'
 
 import ArticleEditor from './editor'
@@ -43,19 +36,17 @@ import { withStyles } from '@material-ui/core/styles';
 
 import SuggestSelect from '../../shared/suggestSelect'
 
+import {AnchorLink} from '../../shared/RouterLink'
 import SelectMenu from '../../components/selectMenu'
 import GestureIcon from '@material-ui/icons/Gesture'
 import CheckCircleIcon from '@material-ui/icons/CheckCircle'
 import ArrowDropDownIcon from '@material-ui/icons/ArrowDropDown'
-
 import {setCurrentSection, setCurrentPage} from '../../actions/navigation'
 import ScrollableTabsButtonForce from '../../components/scrollingTabs'
 import langs from '../../shared/langsOptions'
 
 import {errorMessage, successMessage} from '../../actions/status_messages'
 import styled from '@emotion/styled'
-
-window.successMessage = successMessage
 
 const options = [
   {
@@ -373,195 +364,212 @@ class ArticlesNew extends Component {
 
 
   render() {
-    const {classes} = this.props
+    const {classes, app} = this.props
     return (
 
-       <Grid container justify={"center"} spacing={4}>
-        <Grid item xs={12} sm={10}>
+      <React.Fragment>
 
-        <Paper 
-          square={true}
-          elevation={1}
-          className={classes.paper}
-          >
-          <Box m={2}>
-          
-            <Box mb={2}>
-                <ScrollableTabsButtonForce 
-                  //tabs={this.props.settings.availableLanguages} 
-                  tabs={this.props.settings.availableLanguages.map((o)=> langs.find((lang)=> lang.value === o) )} 
-                  changeHandler={(index)=> this.handleLangChange(this.props.settings.availableLanguages[index])}
-                />
-              </Box>
-          
-            {
-              !this.state.loading ? 
+        <ContentHeader 
+          //title={ 'Help Center Settings' }
+          breadcrumbs={
+            [
+            <AnchorLink className={classes.link} 
+              color="inherit" to={`/apps/${app.key}/articles`}>
+              Help Center
+            </AnchorLink>,
+            <Typography color="inherit">{this.state.article.title}</Typography>
+            ]
+          }
+        />
 
-              <React.Fragment>
-                
+        <Grid container justify={"center"} spacing={4}>
+          <Grid item xs={12} sm={10}>
 
-                <div style={{
-                  display: 'flex',
-                  justifyItems: 'self-end',
-                  justifyContent: 'space-between'
-                }}>
-
-                  <Button
-                    variant="contained"
-                    onClick={this.submitChanges}
-                    disabled={!this.state.changesAvailable}
-                    color={'primary'}>
-                    Save
-                  </Button>
-
-                  <SelectMenu options={options} 
-                    handleClick={(e)=> this.togglePublishState(e.state) } 
-                    toggleButton={this.toggleButton}
-                    selected={this.state.article.state}
+          <Paper 
+            square={true}
+            elevation={1}
+            className={classes.paper}
+            >
+            <Box m={2}>
+            
+              <Box mb={2}>
+                  <ScrollableTabsButtonForce 
+                    //tabs={this.props.settings.availableLanguages} 
+                    tabs={this.props.settings.availableLanguages.map((o)=> langs.find((lang)=> lang.value === o) )} 
+                    changeHandler={(index)=> this.handleLangChange(this.props.settings.availableLanguages[index])}
                   />
+                </Box>
+            
+              {
+                !this.state.loading ? 
+
+                <React.Fragment>
                   
-                  {/*<FormControlLabel
-                    control={
-                      <Switch
-                        defaultChecked={this.state.article.state === "published" }
-                        //onChange={this.handleHiddenChange}
-                        value="hidden"
-                        color="primary"
-                        inputRef={(ref)=> this.switch_ref = ref }
-                      />
-                    }
-                    label={this.state.article.state}
-                  />*/}
 
-                </div>
+                  <div style={{
+                    display: 'flex',
+                    justifyItems: 'self-end',
+                    justifyContent: 'space-between'
+                  }}>
 
-                <TextField
-                  id="article-title"
-                  //label="Name"
-                  placeholder={"Type articles's title"}
-                  inputProps={{
-                      style: {
-                        fontSize: "2.4em"
+                    <Button
+                      variant="contained"
+                      onClick={this.submitChanges}
+                      disabled={!this.state.changesAvailable}
+                      color={'primary'}>
+                      Save
+                    </Button>
+
+                    <SelectMenu options={options} 
+                      handleClick={(e)=> this.togglePublishState(e.state) } 
+                      toggleButton={this.toggleButton}
+                      selected={this.state.article.state}
+                    />
+                    
+                    {/*<FormControlLabel
+                      control={
+                        <Switch
+                          defaultChecked={this.state.article.state === "published" }
+                          //onChange={this.handleHiddenChange}
+                          value="hidden"
+                          color="primary"
+                          inputRef={(ref)=> this.switch_ref = ref }
+                        />
+                      }
+                      label={this.state.article.state}
+                    />*/}
+
+                  </div>
+
+                  <TextField
+                    id="article-title"
+                    //label="Name"
+                    placeholder={"Type articles's title"}
+                    inputProps={{
+                        style: {
+                          fontSize: "2.4em"
+                        }
                       }
                     }
-                  }
-                  //helperText="Full width!"
-                  fullWidth
-                  inputRef={ref => { this.titleRef = ref; }}
-                  defaultValue={this.state.article.title}
-                  margin="normal"
-                  onChange={this.handleInputChange}
-                />
-
-
-                <TextField
-                  id="article-description"
-                  //label="Description"
-                  placeholder={"Describe your article to help it get found"}
-                  //helperText="Full width!"
-                  fullWidth
-                  multiline
-                  inputRef={ref => { this.descriptionRef = ref; }}
-                  defaultValue={this.state.article.description}
-                  margin="normal"
-                  onChange={this.handleInputChange}
-                />
-
-              </React.Fragment>
-
-              : null 
-            }
-
-
-            {
-              !this.state.loading && this.state.article.author ? 
-              <ArticleAuthorControls>
-
-                {
-                  this.state.agents.length > 0 ?
-                    <div style={{ 
-                      width: '300px',
-                      display: 'flex', 
-                      alignItems: 'center'
-                    }}>
-
-                    <Avatar 
-                      src={gravatar( this.state.article.author.email )}
-                    />
-                      
-                      <strong style={{
-                        marginLeft: '9px', 
-                        marginRight: '9px',
-                        width: '110px'  
-                      }}>
-                        written by
-                      </strong>
-
-                      <SuggestSelect 
-                        name={"author"}
-                        placeholder={"select author"}
-                        data={this.state.agents.map((o)=> ({ 
-                            label: o.name || o.email, 
-                            value: o.email 
-                          }) 
-                        )}
-                        handleSingleChange={this.handleAuthorchange }
-                        defaultData={this.state.article.author.email}
-                      />
-                    </div> : null 
-                }
-
-                <div style={{ 
-                  width: '200px', 
-                  display: 'flex', 
-                  alignItems: 'center'
-                }}>
-
-                  <strong style={{marginLeft: '9px', marginRight: '9px'}}>
-                    In
-                  </strong>
-
-                  <SuggestSelect 
-                    name={"collection"}
-                    placeholder={"select collection"}
-                    data={this.state.collections.map((o)=> ({ 
-                        label: o.title, 
-                        value: o.id 
-                      }) 
-                    )}
-                    handleSingleChange={ this.handleCollectionChange }
-
-                    defaultData={
-                      this.state.article.collection ? 
-                      this.state.article.collection.id : null
-                    }
+                    //helperText="Full width!"
+                    fullWidth
+                    inputRef={ref => { this.titleRef = ref; }}
+                    defaultValue={this.state.article.title}
+                    margin="normal"
+                    onChange={this.handleInputChange}
                   />
-                </div>
 
 
-              </ArticleAuthorControls>: null
-            }
+                  <TextField
+                    id="article-description"
+                    //label="Description"
+                    placeholder={"Describe your article to help it get found"}
+                    //helperText="Full width!"
+                    fullWidth
+                    multiline
+                    inputRef={ref => { this.descriptionRef = ref; }}
+                    defaultValue={this.state.article.description}
+                    margin="normal"
+                    onChange={this.handleInputChange}
+                  />
+
+                </React.Fragment>
+
+                : null 
+              }
 
 
-            <Box mb={2} p={2} style={{background: "#fff"}}>
+              {
+                !this.state.loading && this.state.article.author ? 
+                <ArticleAuthorControls>
 
-              <ArticleEditor 
-                article={this.state.article} 
-                data={this.props.data} 
-                app={this.props.app}
-                updateState={this.updateState}
-                loading={this.state.loading}
-                uploadHandler={this.uploadHandler}
-              />
+                  {
+                    this.state.agents.length > 0 ?
+                      <div style={{ 
+                        width: '300px',
+                        display: 'flex', 
+                        alignItems: 'center'
+                      }}>
+
+                      <Avatar 
+                        src={gravatar( this.state.article.author.email )}
+                      />
+                        
+                        <strong style={{
+                          marginLeft: '9px', 
+                          marginRight: '9px',
+                          width: '110px'  
+                        }}>
+                          written by
+                        </strong>
+
+                        <SuggestSelect 
+                          name={"author"}
+                          placeholder={"select author"}
+                          data={this.state.agents.map((o)=> ({ 
+                              label: o.name || o.email, 
+                              value: o.email 
+                            }) 
+                          )}
+                          handleSingleChange={this.handleAuthorchange }
+                          defaultData={this.state.article.author.email}
+                        />
+                      </div> : null 
+                  }
+
+                  <div style={{ 
+                    width: '200px', 
+                    display: 'flex', 
+                    alignItems: 'center'
+                  }}>
+
+                    <strong style={{marginLeft: '9px', marginRight: '9px'}}>
+                      In
+                    </strong>
+
+                    <SuggestSelect 
+                      name={"collection"}
+                      placeholder={"select collection"}
+                      data={this.state.collections.map((o)=> ({ 
+                          label: o.title, 
+                          value: o.id 
+                        }) 
+                      )}
+                      handleSingleChange={ this.handleCollectionChange }
+
+                      defaultData={
+                        this.state.article.collection ? 
+                        this.state.article.collection.id : null
+                      }
+                    />
+                  </div>
+
+
+                </ArticleAuthorControls>: null
+              }
+
+
+              <Box mb={2} p={2} style={{background: "#fff"}}>
+
+                <ArticleEditor 
+                  article={this.state.article} 
+                  data={this.props.data} 
+                  app={this.props.app}
+                  updateState={this.updateState}
+                  loading={this.state.loading}
+                  uploadHandler={this.uploadHandler}
+                />
+              </Box>
+
             </Box>
 
-          </Box>
+          </Paper>
 
-        </Paper>
-
+          </Grid>
+          
         </Grid>
-        
-      </Grid>
+
+      </React.Fragment>
     );
   }
 }

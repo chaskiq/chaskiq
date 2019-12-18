@@ -66,7 +66,9 @@ module Types
     end
 
     def articles(page:, per:)
-      object.app.articles.published.page(page).per(per)
+      object.app.articles.published
+      .includes([:author , :collection, :section, article_content: :translations ])
+      .page(page).per(per)
     end
 
     field :search, Types::PaginatedArticlesType, null: true, description: "help center search" do
@@ -78,7 +80,9 @@ module Types
 
     def search(term:, lang:, page: , per: )
       I18n.locale = lang
-      object.app.articles.published.search(term).page(page).per(per)
+      object.app.articles.published
+      .includes([:author , :collection, :section, article_content: :translations ])
+      .search(term).page(page).per(per)
     end
 
     field :articles_uncategorized, Types::PaginatedArticlesType, null: true do
@@ -87,7 +91,9 @@ module Types
     end
 
     def articles_uncategorized(page: , per:)
-      object.app.articles.published.without_collection.page(page).per(per)
+      object.app.articles.published
+      .includes([:author , :collection, :section, article_content: :translations ])
+      .without_collection.page(page).per(per)
     end
 
     field :article, Types::ArticleType, null: true do
@@ -95,7 +101,9 @@ module Types
     end
 
     def article(id:)
-      object.app.articles.published.friendly.find(id)
+      object.app.articles.published
+      .includes([:author , :collection, :section, article_content: :translations ])
+      .friendly.find(id)
     end
 
     field :collections, [Types::CollectionType], null: true do

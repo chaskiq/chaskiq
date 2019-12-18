@@ -219,7 +219,8 @@ const useStyles = makeStyles(theme => {
   },
   siteLink: {
     color: "#efe",
-    display: 'flex'
+    display: 'flex',
+    cursor: 'pointer',
   },
   routeLink: {
     color: theme.palette.primary.main

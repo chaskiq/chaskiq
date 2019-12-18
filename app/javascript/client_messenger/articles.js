@@ -41,13 +41,17 @@ const ContentWrapper = styled.div`
 `
 
 const ArticleTitle = styled.h1`
-  margin-bottom: .1em;
+  margin-bottom: .3em;
   margin-top: .3em;
 `
 
 const CollectionLabel = styled.strong`
   border: 1px solid;
   padding: 5px;
+`
+
+const ArticleMeta = styled.span`
+  margin-bottom: 1em;
 `
 
 const Article = ({
@@ -117,7 +121,7 @@ const Article = ({
           <ArticleTitle>
             {article.title}
           </ArticleTitle>
-          <span>
+          <ArticleMeta>
             <Trans 
               i18nKey="article_meta"
               i18n={i18n}
@@ -127,7 +131,7 @@ const Article = ({
               ]}
             />
           
-          </span>
+          </ArticleMeta>
 
           <ThemeProvider 
             theme={ theme }>
