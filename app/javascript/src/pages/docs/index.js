@@ -398,8 +398,8 @@ function Docs(props) {
       //font-family: 'IBM Plex Sans', sans-serif;
       //font-family: 'IBM Plex Sans Condensed', sans-serif;
       //fontFamily: "\"IBM Plex Sans\", \"Helvetica\", \"Arial\", sans-serif",
-  
-      fontFamily: "\"Roboto Mono\", \"Helvetica\", \"Arial\", sans-serif",
+      fontFamily: "\"IBM Plex Sans\", \"Helvetica\", \"Arial\", sans-serif",
+      //fontFamily: "\"Roboto Mono\", \"Helvetica\", \"Arial\", sans-serif",
       fontSize: 14,
       /*fontWeightLight: 300,
       fontWeightRegular: 400,
@@ -430,7 +430,8 @@ function Docs(props) {
 
       subtitle1: {
         fontSize: '0.8rem',
-        fontFamily: '"Roboto Mono", "Helvetica", "Arial", sans-serif',
+        fontFamily: "\"IBM Plex Sans\", \"Helvetica\", \"Arial\", sans-serif",
+        //fontFamily: '"Roboto Mono", "Helvetica", "Arial", sans-serif',
         fontWeight: '400',
         lineHeight: '1.75',
         /* color: #d6d6d6; */
