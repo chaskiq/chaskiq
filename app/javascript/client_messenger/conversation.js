@@ -35,6 +35,8 @@ import {
   ConversationEventContainer,
 } from './styles/styled'
 
+import botIcon from "./icons8-bot-50.png"
+
 export class Conversations extends Component {
 
   state = {
@@ -202,7 +204,7 @@ export class Conversation extends Component {
               {
                 !this.props.isUserAutoMessage(o) && isAgent ?
                 <ConversationSummaryAvatar>
-                  <img src={gravatar(o.appUser.email)} />
+                  <img src={o.fromBot ? botIcon : gravatar(o.appUser.email)} />
                 </ConversationSummaryAvatar> : null
               }
 
@@ -211,7 +213,7 @@ export class Conversation extends Component {
                 {
                   this.props.isUserAutoMessage(o) ?
                     <UserAutoChatAvatar>
-                      <img src={gravatar(o.appUser.email)} />
+                      <img src={o.fromBot ? botIcon :  gravatar(o.appUser.email)} />
                       <span>{o.appUser.name || o.appUser.email}</span>
                     </UserAutoChatAvatar> : null
                 }
@@ -556,10 +558,18 @@ export function CommentsItemComp(props){
     setTimeout(()=> setDisplay(true), 400 ) // + (index * 100))
   }, [])
 
-  function agent(){
-    if(o.assignee) return o.assignee
-    if(!o.assignee && message.appUser.kind === "agent") return message.appUser
+  function renderAgentAvatar(){
+    const a = agent()
+    if(message && message.fromBot) return botIcon
+    return gravatar(a.email)
   }
+
+  function agent(){
+    if(message && message.appUser.kind === "agent") return message.appUser
+    if(o.assignee) return o.assignee
+  }
+
+
 
   return <CommentsItem
                 displayOpacity={display}
@@ -572,7 +582,7 @@ export function CommentsItemComp(props){
 
                       <ConversationSummaryAvatar>
                         {
-                          agent() && <img src={gravatar(agent().email)} />
+                          agent() && <img src={renderAgentAvatar()} />
                         }
                       </ConversationSummaryAvatar>
 
