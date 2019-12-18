@@ -7,6 +7,7 @@ module Types
     field :sections, [Types::SectionType], null: true
     field :base_articles, [Types::ArticleType], null: true
     field :meta, Types::JsonType, null: true
+    field :authors,[Types::AgentType], null: true
 
     def base_articles
       current_user.blank? ? 
@@ -20,12 +21,18 @@ module Types
       object.sections
     end
 
-    def meta
-
+    def authors
       articles = current_user.blank? ? 
       object.articles.published : 
       object.articles
+      
+      articles.map(&:author).uniq!
+    end
 
+    def meta
+      articles = current_user.blank? ? 
+      object.articles.published : 
+      object.articles
       {
         size: articles.size,
         authors: articles.map(&:author).uniq!

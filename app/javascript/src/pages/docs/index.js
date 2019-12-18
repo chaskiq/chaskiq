@@ -878,7 +878,7 @@ function Article(props){
                   <Box mr={2}>
                     <Avatar
                       alt={article.author.name}
-                      src={gravatar(article.author.email)}
+                      src={article.author.avatarUrl}
                     />
                   </Box>
                 </Grid>
@@ -1091,13 +1091,13 @@ function CollectionsWithSections({match, lang}){
                       <ul className="avatars">
 
                         {
-                          collections.meta.authors ? 
-                          collections.meta.authors.map((o)=>{
+                          collections.authors ? 
+                          collections.authors.map((o)=>{
                             return <li key={`authors-${o.id}`} className="avatars__item">
                                     <Tooltip title={o.display_name}>
                                       <Avatar
-                                        alt={o.email}
-                                        src={gravatar(o.email)}
+                                        alt={o.displayName}
+                                        src={o.avatarUrl}
                                       />
                                     </Tooltip>
                                   </li> 
@@ -1105,7 +1105,7 @@ function CollectionsWithSections({match, lang}){
                         }
 
                         {
-                          collections.meta.authors && collections.meta.authors.length > 5 ?
+                          collections.authors && collections.authors.length > 5 ?
                             <li className="avatars__item">
                               <span className="avatars__others">+3</span>
                             </li> : null
@@ -1141,7 +1141,7 @@ function CollectionsWithSections({match, lang}){
                                 <Avatar
                                   className={classes.avatarPad}
                                   alt={article.author.name}
-                                  src={gravatar(article.author.email)}
+                                  src={article.author.avatarUrl}
                                 />
                               </ListItemAvatar>
 
@@ -1191,7 +1191,7 @@ function CollectionsWithSections({match, lang}){
                                               <ListItemAvatar>
                                                 <Avatar
                                                   alt={article.author.displayName}
-                                                  src={gravatar(article.author.email)}
+                                                  src={article.author.avatarUrl}
                                                 />
                                               </ListItemAvatar>
 

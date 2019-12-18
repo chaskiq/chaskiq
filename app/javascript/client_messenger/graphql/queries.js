@@ -51,8 +51,8 @@ export const CONVERSATIONS = `
           readAt
           priority
           assignee {
+            id
             displayName
-            email
             avatarUrl
           }
           lastMessage{
@@ -77,7 +77,6 @@ export const CONVERSATIONS = `
             }
             appUser {
               id
-              email
               kind
               displayName
               avatarUrl
@@ -85,9 +84,9 @@ export const CONVERSATIONS = `
           }
           mainParticipant{
             id
-            email
             displayName
             properties
+            avatarUrl
           }
         }
         meta
@@ -109,12 +108,11 @@ export const CONVERSATION=`
         priority
         assignee {
           id
-          email
           name
+          avatarUrl
         }
         mainParticipant{
           id
-          email
           properties
           displayName
           avatarUrl
@@ -141,7 +139,6 @@ export const CONVERSATION=`
             fromBot
             appUser{
               id
-              email
               kind
               displayName
               avatarUrl
@@ -176,7 +173,7 @@ export const INSERT_COMMMENT = `
         readAt
         appUser{
           id
-          email
+          avatarUrl
           kind
           displayName
         }
@@ -205,13 +202,13 @@ export const START_CONVERSATION = `
         priority
         assignee {
           id
-          email
           name
+          avatarUrl
         }
         mainParticipant{
           id
-          email
           properties
+          avatarUrl
         }
         lastMessage{
           source
@@ -230,9 +227,9 @@ export const START_CONVERSATION = `
           }
           appUser {
             id
-            email
             kind
             displayName
+            avatarUrl
           }
         }
       }
@@ -277,9 +274,9 @@ export const ARTICLES = `
           state
           updatedAt
           author{
-            email
             id
             name
+            avatarUrl
           } 
           collection{
             slug
@@ -305,9 +302,9 @@ export const SEARCH_ARTICLES = `
           state
           updatedAt
           author{
-            email
             id
             name
+            avatarUrl
           } 
           collection{
             slug
@@ -333,7 +330,7 @@ export const ARTICLES_UNCATEGORIZED = `
           state
           updatedAt
           author{
-            email
+            avatarUrl
             id
             name
           } 
@@ -369,7 +366,7 @@ export const ARTICLE = `
           id
         }
         author{
-          email
+          avatarUrl
           id
           name
         }
@@ -420,7 +417,7 @@ export const ARTICLE_COLLECTION_WITH_SECTIONS = `
           updatedAt
           author{
             id
-            email
+            avatarUrl
             displayName
             name
           }
@@ -436,7 +433,7 @@ export const ARTICLE_COLLECTION_WITH_SECTIONS = `
             updatedAt
             author{
               id
-              email
+              avatarUrl
               displayName
               name
             }
