@@ -16,7 +16,9 @@ import DanteContainer from './textEditor/editorStyles'
 import Loader from './loader'
 import { useTranslation, Trans } from "react-i18next";
 
-
+const DanteContainerExtend = styled(DanteContainer)`
+  margin-top: 1.2em;
+`
 
 //import graphql from './graphql/client'
 import {
@@ -135,12 +137,12 @@ const Article = ({
 
           <ThemeProvider 
             theme={ theme }>
-              <DanteContainer>
+              <DanteContainerExtend>
                 <DraftRenderer
                   domain={domain}
                   raw={JSON.parse(article.content.serialized_content)}
                 />
-              </DanteContainer>
+              </DanteContainerExtend>
           </ThemeProvider>  
 
         </ContentWrapper>
