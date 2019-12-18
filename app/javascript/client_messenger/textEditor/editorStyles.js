@@ -2,11 +2,7 @@ import styled from '@emotion/styled'
 
 import EditorStyles from 'Dante2/package/es/styled/base'
 import prismStyle from './prismStyle'
-const Other = styled('div')`
-  ${(props)=>{
-    debugger
-  }}
-`
+
 //styled('EditorStyles')
 const NewEditorStyles = styled(EditorStyles)`
   
@@ -27,6 +23,12 @@ const NewEditorStyles = styled(EditorStyles)`
 
   .public-DraftEditorPlaceholder-root {
     font-size: inherit;
+  }
+
+  .graf--code {
+    overflow: auto;
+    font-size: .82em;
+    line-height: 1.3em;
   }
 
   ${(props)=> !props.campaign ? 

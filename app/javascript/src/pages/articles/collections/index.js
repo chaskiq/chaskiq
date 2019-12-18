@@ -7,9 +7,10 @@ import Button from '@material-ui/core/Button'
 import TextField from '@material-ui/core/TextField'
 import List from '@material-ui/core/List'
 import ListItem from '@material-ui/core/ListItem'
+import Typography from '@material-ui/core/Typography'
 import ListItemText from '@material-ui/core/ListItemText'
 import Grid from '@material-ui/core/Grid'
-
+import ContentHeader from '../../../components/ContentHeader'
 import {AnchorLink} from '../../../shared/RouterLink'
 import { withStyles } from '@material-ui/core/styles';
 
@@ -201,8 +202,25 @@ class Collections extends Component {
 
   render(){
     const {isOpen, editCollection, itemToDelete} = this.state
-    const {classes} = this.props
-    return <Paper 
+    const {classes, app} = this.props
+    return <React.Fragment>
+
+          <ContentHeader 
+          breadcrumbs={
+            [
+            <AnchorLink className={classes.link} 
+              color="inherit" to={`/apps/${app.key}/articles`}>
+              Help Center
+            </AnchorLink>,
+            <AnchorLink className={classes.link} 
+              color="inherit" to={`/apps/${app.key}/articles/collections`}>
+              Collections
+            </AnchorLink>
+            ]
+          }
+        />
+
+          <Paper 
           square={true}
           elevation={1}
           className={classes.paper}
@@ -351,7 +369,7 @@ class Collections extends Component {
             </List>
 
           </Paper>
-      
+          </React.Fragment>
   }
 
 }
