@@ -32,9 +32,9 @@ export const ARTICLES = `
           state
           updatedAt
           author{
-            email
             id
             name
+            avatarUrl
           } 
           collection{
             slug
@@ -42,7 +42,11 @@ export const ARTICLES = `
             id
           }        
         }
-        meta
+        authors{
+          id
+          displayName
+          avatarUrl
+        }
       }
     }
   }
@@ -60,9 +64,9 @@ export const SEARCH_ARTICLES = `
           state
           updatedAt
           author{
-            email
             id
             name
+            avatarUrl
           } 
           collection{
             slug
@@ -71,6 +75,11 @@ export const SEARCH_ARTICLES = `
           }
         }
         meta
+        authors{
+          id
+          displayName
+          avatarUrl
+        }
       }
     }
   }
@@ -88,9 +97,9 @@ export const ARTICLES_UNCATEGORIZED = `
           state
           updatedAt
           author{
-            email
             id
             name
+            avatarUrl
           } 
           collection{
             title
@@ -98,6 +107,11 @@ export const ARTICLES_UNCATEGORIZED = `
           }        
         }
         meta
+        authors{
+          id
+          displayName
+          avatarUrl
+        }
       }
     }
   }
@@ -124,9 +138,9 @@ export const ARTICLE = `
           id
         }
         author{
-          email
           id
           name
+          avatarUrl
         }
       }
     }
@@ -167,6 +181,11 @@ export const ARTICLE_COLLECTION_WITH_SECTIONS = `
         title
         description
         meta
+        authors{
+          id
+          displayName
+          avatarUrl
+        }
 
         baseArticles{
           id
@@ -175,7 +194,7 @@ export const ARTICLE_COLLECTION_WITH_SECTIONS = `
           updatedAt
           author{
             id
-            email
+            avatarUrl
             displayName
             name
           }
@@ -191,7 +210,6 @@ export const ARTICLE_COLLECTION_WITH_SECTIONS = `
             updatedAt
             author{
               id
-              email
               displayName
               name
             }

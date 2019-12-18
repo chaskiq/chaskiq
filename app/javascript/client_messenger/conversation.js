@@ -185,7 +185,6 @@ export class Conversation extends Component {
     const isAgent = o.appUser.kind === "agent"
     const themeforMessage = o.privateNote || isAgent ? theme : themeDark
     const {t} = this.props
-    
     return <MessageItemWrapper
             visible={this.props.visible}
             email={this.props.email}
@@ -568,8 +567,6 @@ export function CommentsItemComp(props){
     if(o.assignee) return o.assignee
   }
 
-
-
   return <CommentsItem
                 displayOpacity={display}
                 key={`comments-item-${o.id}`}
@@ -589,7 +586,7 @@ export function CommentsItemComp(props){
 
                         <ConversationSummaryBodyMeta>
                           {
-                            !message.readAt && message.appUser && message.appUser.email !== email ?
+                            !message.readAt && message.appUser.kind != "app_user" ?
                               <ReadIndicator /> : null
                           }
                           <Autor>

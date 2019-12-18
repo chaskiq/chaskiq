@@ -9,7 +9,7 @@ import theme from './textEditor/theme'
 import DraftRenderer from './textEditor/draftRenderer'
 import DanteContainer from './textEditor/editorStyles'
 import Tour from './UserTour'
-import gravatar from "./shared/gravatar"
+//import gravatar from "./shared/gravatar"
 import { soundManager } from 'soundmanager2'
 import {toCamelCase} from './shared/caseConverter'
 import UrlPattern from 'url-pattern'
@@ -891,7 +891,7 @@ class Messenger extends Component {
     return <HeaderAvatar>
               { assignee && 
                 <React.Fragment>
-                  <img src={gravatar(assignee.email)} />
+                  <img src={assignee.avatarUrl} />
                   <div>
                     <p>{assignee.name}</p>
                     { 
