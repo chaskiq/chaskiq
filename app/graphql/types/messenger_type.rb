@@ -28,7 +28,8 @@ module Types
 
     def conversations(page:, per:)
       @user = context[:get_app_user].call
-      @conversations = object.conversations.joins(:main_participant)
+      @conversations = object.conversations.preload(messages: [:messageable, :authorable])
+                                        .joins(:main_participant)
                                         .where(main_participant: @user.id)
                                         .order("updated_at desc")
                                         .page(page)
@@ -102,6 +103,7 @@ private
 
     def user_conversations
       object.conversations
+      .preload(messages: [:messageable, :authorable])
       .joins(:messages)
       .where(main_participant: @user.id)      
     end
