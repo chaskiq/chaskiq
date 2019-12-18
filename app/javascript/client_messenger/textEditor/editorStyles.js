@@ -29,6 +29,10 @@ const NewEditorStyles = styled(EditorStyles)`
     font-size: inherit;
   }
 
+  graf--code {
+    overflow: auto;
+  }
+
   ${(props)=> !props.campaign ? 
     `.public-DraftEditor-content{
       max-height: calc(35vh - 83px);
