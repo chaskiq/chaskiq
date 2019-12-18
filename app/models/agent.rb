@@ -1,3 +1,5 @@
+require 'digest/md5'
+ 
 class Agent < ApplicationRecord
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
@@ -28,9 +30,24 @@ class Agent < ApplicationRecord
     :region_code 
   ]
 
-
   def display_name
     [self.name].join(" ")
+  end
+
+  def avatar_url
+    !self.bot? ? gravatar :
+    ActionController::Base.helpers.asset_url("icons8-bot-50.png") 
+  end
+
+  def gravatar
+    # get the email from URL-parameters or what have you and make lowercase
+    email_address = self.email.downcase
+    # create the md5 hash
+    hash = Digest::MD5.hexdigest(email_address)
+
+    d = "https://api.adorable.io/avatars/130/#{hash}.png"
+    # compile URL which can be used in <img src="RIGHT_HERE"...
+    image_src = "https://www.gravatar.com/avatar/#{hash}?d=#{d}"
   end
 
 

@@ -10,6 +10,7 @@ module Types
     field :country_code, String, null: true
     field :region, String, null: true
     field :region_code, String, null: true
+    field :avatar_url, String, null: true
     
     field :display_name, String, null: true
 

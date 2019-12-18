@@ -35,8 +35,6 @@ import {
   ConversationEventContainer,
 } from './styles/styled'
 
-import botIcon from "./icons8-bot-50.png"
-
 export class Conversations extends Component {
 
   state = {
@@ -204,7 +202,7 @@ export class Conversation extends Component {
               {
                 !this.props.isUserAutoMessage(o) && isAgent ?
                 <ConversationSummaryAvatar>
-                  <img src={o.fromBot ? botIcon : gravatar(o.appUser.email)} />
+                  <img src={o.appUser.avatarUrl} />
                 </ConversationSummaryAvatar> : null
               }
 
@@ -213,8 +211,8 @@ export class Conversation extends Component {
                 {
                   this.props.isUserAutoMessage(o) ?
                     <UserAutoChatAvatar>
-                      <img src={o.fromBot ? botIcon :  gravatar(o.appUser.email)} />
-                      <span>{o.appUser.name || o.appUser.email}</span>
+                      <img src={o.appUser.avatarUrl} />
+                      <span>{o.appUser.name || '^'}</span>
                     </UserAutoChatAvatar> : null
                 }
 
@@ -560,8 +558,9 @@ export function CommentsItemComp(props){
 
   function renderAgentAvatar(){
     const a = agent()
-    if(message && message.fromBot) return botIcon
-    return gravatar(a.email)
+    //if(message && message.fromBot) return botIcon
+    //return a.avatarUrl //gravatar(a.email)
+    return a.avatarUrl
   }
 
   function agent(){
