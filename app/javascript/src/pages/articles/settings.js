@@ -552,7 +552,7 @@ function LanguageForm({settings, update, deleteLang}){
             setOpenDeleteDialog(null)
           }}
           deleteHandler={()=> { 
-            deleteLang(openDeleteDialog.locale)
+            deleteLang(openDeleteDialog.locale, ()=> setOpenDeleteDialog(false) )
             }}>
           <Typography variant="subtitle2">
             We will destroy translation and hide any 

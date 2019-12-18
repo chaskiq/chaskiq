@@ -123,7 +123,7 @@ class Articles extends Component {
     })
   }
 
-  deleteLang = (item)=>{
+  deleteLang = (item, cb)=>{
     graphql(ARTICLE_SETTINGS_DELETE_LANG, {
       appKey: this.props.app.key,
       langItem: item
@@ -133,6 +133,7 @@ class Articles extends Component {
           settings: data.articleSettingsDeleteLang.settings,
           errors: data.articleSettingsDeleteLang.errors
         }, ()=>{
+          cb && cb()
           this.props.dispatch(successMessage("article settings updated"))
         })
       },
