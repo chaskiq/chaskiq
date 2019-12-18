@@ -19,6 +19,7 @@ import Grid from '@material-ui/core/Grid'
 import Tooltip from '@material-ui/core/Tooltip'
 import IconButton from '@material-ui/core/IconButton'
 import Box from '@material-ui/core/Box'
+import {errorMessage, successMessage} from '../actions/status_messages'
 
 
 import {AnchorLink} from '../shared/RouterLink'
@@ -31,6 +32,7 @@ import AddIcon from '@material-ui/icons/Add'
 import GestureIcon from '@material-ui/icons/Gesture'
 import CheckCircleIcon from '@material-ui/icons/CheckCircle'
 import DataTable from "../components/table";
+import DeleteDialog from "../components/deleteDialog"
 
 import ScrollableTabsButtonForce from '../components/scrollingTabs'
 import langs from '../shared/langsOptions'
@@ -276,7 +278,8 @@ class AllArticles extends React.Component {
   state = {
     collection: [],
     loading: true,
-    lang: "en"
+    lang: "en",
+    openDeleteDialog: false
   }
 
   componentDidMount(){
@@ -340,7 +343,34 @@ class AllArticles extends React.Component {
             </Grid>
   }
 
+  setOpenDeleteDialog = (val)=>{
+    this.setState({openDeleteDialog: val})
+  }
+
+  removeArticle = (row)=>{
+    graphql(DELETE_ARTICLE, {
+      appKey: this.props.app.key,
+      id: row.id.toString()
+    }, {
+      success: (data)=>{
+        this.setState({
+          collection: this.state.collection.filter((o)=> o.id != row.id),
+
+        }, ()=>{
+          this.setOpenDeleteDialog(null)
+          this.props.dispatch(successMessage("article deleted"))
+        })
+      },
+      error: (e)=>{
+        debugger
+      }
+    })
+
+  }
+
   render(){
+    const {openDeleteDialog} = this.state
+
     return <Content actions={this.renderActions()} >
 
               <ScrollableTabsButtonForce
@@ -402,6 +432,16 @@ class AllArticles extends React.Component {
                           '--'}
                         </p>
                         : undefined)
+                      },
+                      {
+                        field: 'actions', title: "actions",
+                        render: row => (row && 
+                          <Button  
+                            variant={"outlined"}
+                            onClick={()=>{ this.setOpenDeleteDialog(row) }}>
+                            Delete
+                          </Button>
+                        )
                       }
                     ]}
                     defaultHiddenColumnNames={[]}
@@ -421,6 +461,23 @@ class AllArticles extends React.Component {
                 /> : <CircularProgress/> 
                 }
               </Box>
+
+
+              {
+                openDeleteDialog && <DeleteDialog 
+                 open={openDeleteDialog}
+                 title={`Delete article "${openDeleteDialog.title} ?"`} 
+                 closeHandler={()=>{
+                   this.setOpenDeleteDialog(null)
+                 }}
+                 deleteHandler={()=> { 
+                   this.removeArticle(openDeleteDialog)
+                  }}>
+                 <Typography variant="subtitle2">
+                   we will destroy any content and related data
+                 </Typography>
+               </DeleteDialog>
+              }
            
            </Content>  
   }
