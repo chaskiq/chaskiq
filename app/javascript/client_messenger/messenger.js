@@ -1107,6 +1107,7 @@ class Messenger extends Component {
                                   transition={this.state.transition}
                                   appData={this.state.appData}
                                   t={this.props.t}
+                                  domain={this.props.domain}
                                   lang={this.props.lang}
                                 />
                               }
