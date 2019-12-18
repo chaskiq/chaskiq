@@ -13,7 +13,7 @@ module Mutations
         article_settings = app.article_settings.present? ? app.article_settings : app.build_article_settings
 
         translation = article_settings.translations.find_by(locale: lang_item)
-        translation.destroy
+        translation.destroy if translation.present?
 
         {
           settings: app.article_settings, 
