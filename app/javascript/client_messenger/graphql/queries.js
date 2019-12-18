@@ -34,6 +34,7 @@ export const PING = `
       agents {
         email
         name
+        avatarUrl
       }
     }
   }
@@ -52,6 +53,7 @@ export const CONVERSATIONS = `
           assignee {
             displayName
             email
+            avatarUrl
           }
           lastMessage{
             source
@@ -78,6 +80,7 @@ export const CONVERSATIONS = `
               email
               kind
               displayName
+              avatarUrl
             }
           }
           mainParticipant{
@@ -114,6 +117,7 @@ export const CONVERSATION=`
           email
           properties
           displayName
+          avatarUrl
         }
         
         messages(page: $page){
@@ -140,6 +144,7 @@ export const CONVERSATION=`
               email
               kind
               displayName
+              avatarUrl
             }
             source
             messageSource {

@@ -251,7 +251,7 @@ const HomePanel = ({
                 {
                   agents.map((agent, i)=>(
                     <Avatar key={`home-agent-${i}-${agent.id}`}>
-                      <img src={gravatar(agent.email)} title={agent.name}/>
+                      <img src={agent.avatarUrl} title={agent.name}/>
                     </Avatar>
                   ))
                 }

@@ -78,6 +78,30 @@ class AppUser < ApplicationRecord
   # from redis-objects
   counter :new_messages
 
+  aasm :column => :subscription_state do # default column: aasm_state
+    state :passive, :initial => true
+    state :subscribed, :after_enter => :notify_subscription
+    state :unsubscribed, :after_enter => :notify_unsubscription
+    state :archived #, after_enter: :notify_archived
+    state :blocked #, after_enter: :notify_bloqued
+    
+    event :subscribe do
+      transitions from: [:passive, :unsubscribed, :archived, :blocked], to: :subscribed
+    end
+
+    event :unsubscribe do
+      transitions from: [:subscribed, :passive, :archived, :blocked], to: :unsubscribed
+    end
+
+    event :block do
+      transitions from: [:archived, :subscribed, :unsubscribed ], to: :blocked
+    end
+
+    event :archive do
+      transitions from: [:blocked, :subscribed, :unsubscribed ], to: :archived
+    end
+  end
+
   def delay_for_trigger
     settings = self.is_a?(AppUser) ? app.user_tasks_settings : app.lead_tasks_settings
     delay = settings["delay"] ? 2.minutes.from_now : 0.minutes.from_now
@@ -149,30 +173,6 @@ class AppUser < ApplicationRecord
     end
   end
 
-  aasm :column => :subscription_state do # default column: aasm_state
-    state :passive, :initial => true
-    state :subscribed, :after_enter => :notify_subscription
-    state :unsubscribed, :after_enter => :notify_unsubscription
-    state :archived #, after_enter: :notify_archived
-    state :blocked #, after_enter: :notify_bloqued
-    
-    event :subscribe do
-      transitions from: [:passive, :unsubscribed, :archived, :blocked], to: :subscribed
-    end
-
-    event :unsubscribe do
-      transitions from: [:subscribed, :passive, :archived, :blocked], to: :unsubscribed
-    end
-
-    event :block do
-      transitions from: [:archived, :subscribed, :unsubscribed ], to: :blocked
-    end
-
-    event :archive do
-      transitions from: [:blocked, :subscribed, :unsubscribed ], to: :archived
-    end
-  end
-
   def formatted_user
 
     { 
@@ -211,6 +211,10 @@ class AppUser < ApplicationRecord
   def decoded_id
     return nil if self.email.blank?
     URLcrypt.decode(self.email)
+  end
+
+  def avatar_url
+    ":)"
   end
 
   def kind
