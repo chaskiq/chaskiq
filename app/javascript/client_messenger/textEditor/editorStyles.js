@@ -55,7 +55,7 @@ const NewEditorStyles = styled(EditorStyles)`
   }
 
   a{
-    color: ${(props)=> props.theme.dante_accent_color };
+    color: ${(props)=> props.theme.palette.secondary };
   }
   
 
