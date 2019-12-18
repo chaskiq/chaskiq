@@ -11,7 +11,8 @@ import ListItemText from '@material-ui/core/ListItemText'
 import CircularProgress from '@material-ui/core/CircularProgress'
 import Typography from '@material-ui/core/Typography'
 import Checkbox from '@material-ui/core/Checkbox'
-
+import ContentHeader from '../../../components/ContentHeader'
+import {AnchorLink} from '../../../shared/RouterLink'
 
 import FormDialog from '../../../components/FormDialog'
 import {setCurrentSection, setCurrentPage} from '../../../actions/navigation'
@@ -368,40 +369,55 @@ class CollectionDetail extends Component {
     }, this.getCollection)
   }
   
-
   render(){
-    const {classes} = this.props
+    const {classes, app} = this.props
 
-    return <Paper 
-         square={true}
-         elevation={1}
-         className={classes.paper}
-         >
-
-          <ScrollableTabsButtonForce 
-            //tabs={this.props.settings.availableLanguages} 
-            tabs={this.props.settings.availableLanguages.map((o)=> langs.find((lang)=> lang.value === o) )} 
-            changeHandler={(index)=> this.handleLangChange( this.props.settings.availableLanguages[index] )}
+    return <React.Fragment>
+    
+          <ContentHeader 
+            breadcrumbs={
+              [
+              <AnchorLink className={classes.link} 
+                color="inherit" to={`/apps/${app.key}/articles`}>
+                Help Center
+              </AnchorLink>,
+              <AnchorLink className={classes.link} 
+                color="inherit" to={`/apps/${app.key}/articles/collections`}>
+                Collections
+              </AnchorLink>
+              ]
+            }
           />
+    
+          <Paper 
+            square={true}
+            elevation={1}
+            className={classes.paper}
+            >
 
-          { 
-            this.renderDialog()
-          }
+              <ScrollableTabsButtonForce 
+                //tabs={this.props.settings.availableLanguages} 
+                tabs={this.props.settings.availableLanguages.map((o)=> langs.find((lang)=> lang.value === o) )} 
+                changeHandler={(index)=> this.handleLangChange( this.props.settings.availableLanguages[index] )}
+              />
 
-          { this.state.addArticlesDialog ?
-            this.renderAddToSectionDialog() : null
-          }
+              { 
+                this.renderDialog()
+              }
 
-          {
-            this.state.loading ? 
-            <CircularProgress/> : 
-            this.renderCollection()
-          }
+              { this.state.addArticlesDialog ?
+                this.renderAddToSectionDialog() : null
+              }
 
-         </Paper>
+              {
+                this.state.loading ? 
+                <CircularProgress/> : 
+                this.renderCollection()
+              }
 
-  }
-
+          </Paper>
+         </React.Fragment>
+      }
 }
 
 class AddArticleDialog extends Component {
