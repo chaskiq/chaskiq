@@ -42,7 +42,7 @@ import gravatar from "../../shared/gravatar"
 
 import DraftRenderer from '../../textEditor/draftRenderer'
 import EditorStyles from 'Dante2/package/es/styled/base'
-import theme from '../../textEditor/theme'
+import danteTheme from '../../textEditor/theme'
 import {ThemeProvider} from 'emotion-theming'
 //import themeLight from '../../themes/light'
 
@@ -70,8 +70,17 @@ import {
 } from '../../graphql/docsQueries'
 
 const NewEditorStyles = styled(EditorStyles)`
-  
-  font-size: 16px;
+  font-size: 1.3em;
+
+  white-space: pre-wrap;      /* CSS3 */   
+  white-space: -moz-pre-wrap; /* Firefox */    
+  white-space: -pre-wrap;     /* Opera <7 */   
+  white-space: -o-pre-wrap;   /* Opera 7 */    
+  word-wrap: break-word;      /* IE */
+
+  a {
+    color: ${(props)=> props.theme.mainColor };
+  }
 `;
 
 
@@ -180,7 +189,7 @@ const useStyles = makeStyles(theme => {
     flexGrow: 1,
   },
   footer: {
-    backgroundColor: "#ccc",
+    backgroundColor: "white",
     padding: theme.spacing(6),
   },
 
@@ -232,7 +241,7 @@ const useStyles = makeStyles(theme => {
     fontWeight: 'bold'
   },
   floorPaper:{
-    background: '#eaecec',
+    background: '#f7f7f7',
     padding: theme.spacing(4)
   },
   breadCrumbs: {
@@ -240,7 +249,7 @@ const useStyles = makeStyles(theme => {
   },
   authorContainer: {
     margin: theme.spacing(1, 0, 0, 0),
-    color: '#ccc',
+    color: '#8c8989',
   },
 
   breacrumbLink:{
@@ -256,6 +265,10 @@ const useStyles = makeStyles(theme => {
   },
   searchResults: {
     width: '66%'
+  },
+
+  avatarPad: {
+
   }
 
 
@@ -430,7 +443,7 @@ function Docs(props) {
       },
 
       subtitle1: {
-        fontSize: '0.8rem',
+        fontSize: '0.9rem',
         fontFamily: "\"IBM Plex Sans\", \"Helvetica\", \"Arial\", sans-serif",
         //fontFamily: '"Roboto Mono", "Helvetica", "Arial", sans-serif',
         fontWeight: '400',
@@ -520,6 +533,12 @@ function Docs(props) {
           fontWeight: theme.typography.fontWeightMedium,
         },
       },
+      MuiListItemAvatar: {
+        root: {
+          marginRight: '.5em',
+          minWidth: '30px'
+        }
+      },
       MuiListItemIcon: {
         root: {
           color: 'inherit',
@@ -579,6 +598,7 @@ function Docs(props) {
     //history.push('/en')
   }
 
+  const newDanteTheme = Object.assign({}, danteTheme, {mainColor: settings.color})
   return (
     <div>
           <MuiThemeProvider theme={theme}>
@@ -663,9 +683,7 @@ function Docs(props) {
 
 
                     </Grid>
-
-                    
-                    
+                              
                       <Typography 
                         //variant="subtitle1" 
                         align="center" 
@@ -675,7 +693,6 @@ function Docs(props) {
                         {settings.siteDescription}
                       </Typography>
                     
-
                       { <Route render={(props)=>(
                         <CustomizedInputBase lang={lang} {...props}/>
                       )}></Route> }
@@ -718,7 +735,7 @@ function Docs(props) {
                   <Switch>
 
                       <Route exact path={`${props.match.url}/articles/:id`} render={(props)=>(
-                        <Article {...props} lang={lang} />
+                        <Article {...props} lang={lang} theme={newDanteTheme} />
                       )}/>
 
                       <Route exact path={`${props.match.url}/collections/:id`} render={(props)=>(
@@ -788,7 +805,7 @@ function Docs(props) {
 function Article(props){
   const [article, setArticle] = React.useState(null)
   const classes = useStyles();
-  const {lang} = props
+  const {lang, theme} = props
 
   React.useEffect(()=>{
     getArticle()
@@ -1122,6 +1139,7 @@ function CollectionsWithSections({match, lang}){
                             >
                               <ListItemAvatar>
                                 <Avatar
+                                  className={classes.avatarPad}
                                   alt={article.author.name}
                                   src={gravatar(article.author.email)}
                                 />

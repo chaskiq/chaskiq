@@ -988,6 +988,7 @@ class Messenger extends Component {
                   app_id={this.props.app_id}
                   axiosInstance={this.axiosInstance}
                   availableMessages={this.state.availableMessages} 
+                  domain={this.props.domain}
                   t={this.props.t}
                 />
                 
