@@ -453,6 +453,7 @@ export default class TourManager extends Component {
     return this.state.steps && this.state.steps.map((o, index)=>{
       o.disableBeacon = index === 0
       o.content = <DraftRenderer
+                    domain={this.props.domain}
                     raw={JSON.parse(o.serialized_content)}
                   />
       return o
