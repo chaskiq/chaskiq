@@ -262,6 +262,8 @@ export class InlineFilterDialog extends Component {
 
     const fields = this.props.fields || [
       {name: "email", type: "string"},
+      {name: "lang", type: "string"},  
+      {name: "type", type: "string"},  
       {name: "last_visited_at", type: "date"},
       {name: "referrer", type: "string"},
       {name: "pro", type: "string" },
@@ -282,7 +284,7 @@ export class InlineFilterDialog extends Component {
       {name: "os", type: "string"},
       {name: "os_version", type: "string"},      
       {name: "browser_language", type: "string"}, 
-      {name: "lang", type: "string"},  
+      
     ]
 
     const content = (

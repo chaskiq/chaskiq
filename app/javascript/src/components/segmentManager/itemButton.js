@@ -70,6 +70,7 @@ export default class SegmentItemButton extends Component {
   state = {
     dialogOpen: this.props.open,
     selectedOption: this.props.predicate.comparison,
+    checkedValue: this.props.predicate.value, 
     btn: null
   };
 
@@ -105,11 +106,16 @@ export default class SegmentItemButton extends Component {
     }
 
     const response = Object.assign({}, this.props.predicate, h )
+
     const new_predicates = this.props.predicates.map(
       (o, i)=> this.props.index === i ? response : o  
     )
+
+    this.setState({checkedValue: target.value})
     
-    this.props.updatePredicate(new_predicates, this.props.predicateCallback )
+    //, ()=>{
+    //  this.props.updatePredicate(new_predicates, this.props.predicateCallback )
+    //})
   }
 
   handleSubmit = (e)=> {
@@ -125,7 +131,7 @@ export default class SegmentItemButton extends Component {
           case "type":
             // we assume here that this field is auto applied
             // todo: set radio button on mem and update only on apply click 
-            value = `${this.props.predicate.value}`
+            value = `${this.state.checkedValue}`
             break;
           default:
             value = `${this.relative_input.value}`
@@ -210,7 +216,7 @@ export default class SegmentItemButton extends Component {
 
               {<MenuItem>
                 <ContentMatchTitle>
-                  Select the filter for!!!!! {this.props.predicate.attribute}
+                  Select the filter for {this.props.predicate.attribute}
                 </ContentMatchTitle>
               </MenuItem>}
 
@@ -231,7 +237,7 @@ export default class SegmentItemButton extends Component {
 
                         <FormControlLabel
                           control={<Radio 
-                                    checked={o.label === this.props.predicate.value} 
+                                    checked={o.label === this.state.checkedValue} 
                                    />} 
                           value={o.value}
                           label={o.label} 
