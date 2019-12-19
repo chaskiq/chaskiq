@@ -4,5 +4,5 @@
 
 if [ "$ANYCABLE_DEPLOYMENT" == "true" ]; then
 else
-  bundle exec sidekiq
+  bundle exec sidekiq -C bin/sidekiq.yml
 fi
