@@ -1,4 +1,5 @@
 require 'URLcrypt'
+require 'digest/md5'
 
 class AppUser < ApplicationRecord
   include AASM
@@ -214,7 +215,11 @@ class AppUser < ApplicationRecord
   end
 
   def avatar_url
-    ":)"
+    return "https://api.adorable.io/avatars/130/#{self.id}.png" if self.email.blank?
+    email_address = self.email.downcase
+    hash = Digest::MD5.hexdigest(email_address)
+    d = "https://api.adorable.io/avatars/130/#{hash}.png"
+    image_src = "https://www.gravatar.com/avatar/#{hash}?d=#{d}"
   end
 
   def kind

@@ -6,7 +6,6 @@ import theme from './textEditor/theme'
 import themeDark from './textEditor/darkTheme'
 import DraftRenderer from './textEditor/draftRenderer'
 import DanteContainer from './textEditor/editorStyles'
-import gravatar from "./shared/gravatar"
 import Moment from 'react-moment';
 import serialize from 'form-serialize'
 import UnicornEditor from './textEditor'
@@ -557,8 +556,6 @@ export function CommentsItemComp(props){
 
   function renderAgentAvatar(){
     const a = agent()
-    //if(message && message.fromBot) return botIcon
-    //return a.avatarUrl //gravatar(a.email)
     return a.avatarUrl
   }
 
@@ -608,7 +605,6 @@ export function CommentsItemComp(props){
 
                         </ConversationSummaryBodyMeta>
                         {/* TODO: sanitize in backend */}
-                        {/*<img src={gravatar(message.appUser.email)} />*/}
                         <ConversationSummaryBodyItems>
                           {
                             message.appUser && message.appUser.kind != "agent" ? 

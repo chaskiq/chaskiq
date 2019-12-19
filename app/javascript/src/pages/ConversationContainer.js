@@ -5,12 +5,7 @@ import {
   Switch,
   withRouter
 } from 'react-router-dom'
-import styled from '@emotion/styled'
-import {ThemeProvider} from 'emotion-theming'
-import gravatar from "../shared/gravatar"
-import Moment from 'react-moment';
-import Avatar from '@material-ui/core/Avatar';
-import {soundManager} from 'soundmanager2'
+
 import sanitizeHtml from 'sanitize-html';
 
 import { connect } from 'react-redux'
@@ -20,7 +15,6 @@ import {
   ColumnContainer,
   GridElement,
   FixedHeader,
-  HeaderTitle,
   ConversationsButtons,
   Overflow
 } from '../components/conversation/styles'
@@ -30,31 +24,19 @@ import Button from '@material-ui/core/Button'
 import CheckIcon from '@material-ui/icons/Check'
 import InboxIcon from '@material-ui/icons/Inbox'
 import ChatIcon from '@material-ui/icons/Chat'
-
-import PriorityHighIcon from '@material-ui/icons/PriorityHigh'
-import IconButton from '@material-ui/core/IconButton';
 import Tooltip from '@material-ui/core/Tooltip';
-import Drawer from '@material-ui/core/Drawer';
-import SendIcon from '@material-ui/icons/Send'
-
 import Paper from '@material-ui/core/Paper'
-import Box from '@material-ui/core/Box' 
 import Typography from '@material-ui/core/Typography'
-
 import UserListItem from '../components/conversation/UserListItem'
-import UserData from '../components/UserData'
-import { camelCase, isEmpty } from 'lodash';
-
 import Progress from '../shared/Progress'
-import OptionMenu from '../components/conversation/optionMenu'
 import FilterMenu from '../components/conversation/filterMenu'
-import {last} from 'lodash'
 
 import ConversationContainerShow from '../components/conversation/container'
 
 import {
   getConversations, 
-  updateConversationsData
+  updateConversationsData,
+  clearConversations,
 } from '../actions/conversations'
 
 import {
@@ -147,7 +129,7 @@ class ConversationContainer extends Component {
 
   filterConversations = (options, cb)=>{
     this.props.dispatch(
-      updateConversationsData({filter: options.id}, ()=>{
+      updateConversationsData({filter: options.id, collection: []}, ()=>{
         this.getConversations(cb)
       })
     )
@@ -155,7 +137,7 @@ class ConversationContainer extends Component {
 
   sortConversations = (options, cb)=>{
     this.props.dispatch(
-      updateConversationsData({sort: options.id}, ()=>{
+      updateConversationsData({sort: options.id, collection: []}, ()=>{
         this.getConversations(cb)
       })
     )

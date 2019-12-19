@@ -15,9 +15,6 @@ import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 import Tooltip from '@material-ui/core/Tooltip';
 
-import gravatar from "../../shared/gravatar"
-
-
 const ITEM_HEIGHT = 48;
 
 const useStyles = makeStyles(theme => ({
@@ -92,10 +89,10 @@ export default function LongMenu(props) {
           onClick={handleClick}
         >
           {/*<MoreVertIcon />*/}
-          <Avatar 
+          { assignee && <Avatar 
             className={classes.avatar}
-            src={gravatar( assignee ? assignee.email : null )}
-          />
+            src={ assignee.avatarUrl}
+          /> }
         </IconButton>
 
        </Tooltip>

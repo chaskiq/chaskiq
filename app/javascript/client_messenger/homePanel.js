@@ -7,7 +7,6 @@ import {
   Spinner
 } from './styles/styled'
 import sanitizeHtml from 'sanitize-html';
-import gravatar from "./shared/gravatar"
 import {CommentsItemComp} from './conversation'
 import {textColor} from './styles/utils'
 import Loader from './loader'

@@ -47,6 +47,7 @@ export const AGENTS = `
       agents{
         id
         email
+        avatarUrl
         name
         signInCount
         lastSignInAt
@@ -62,6 +63,7 @@ export const PENDING_AGENTS = `
       notConfirmedAgents{
         id
         email
+        avatarUrl
         name
         signInCount
         lastSignInAt
@@ -78,6 +80,7 @@ export const AGENT = `
       agent(id: $id){
         id
         email
+        avatarUrl
         name
         conversations(page: $page , per: $per ){
           collection{
@@ -106,6 +109,7 @@ export const AGENT = `
               appUser {
                 id
                 email
+                avatarUrl
                 kind
                 displayName
               }
@@ -113,6 +117,7 @@ export const AGENT = `
             mainParticipant{
               id
               email
+              avatarUrl
               displayName
               properties
             }
@@ -158,6 +163,7 @@ export const CONVERSATIONS = `
           assignee {
             displayName
             email
+            avatarUrl
           }
           lastMessage{
             source
@@ -182,6 +188,7 @@ export const CONVERSATIONS = `
             appUser {
               id
               email
+              avatarUrl
               kind
               displayName
             }
@@ -189,6 +196,7 @@ export const CONVERSATIONS = `
           mainParticipant{
             id
             email
+            avatarUrl
             displayName
             properties
           }
@@ -215,10 +223,12 @@ export const CONVERSATION=`
         assignee {
           id
           email
+          avatarUrl
         }
         mainParticipant{
           id
           email
+          avatarUrl
           properties
           displayName
         }
@@ -245,6 +255,7 @@ export const CONVERSATION=`
             appUser{
               id
               email
+              avatarUrl
               kind
               displayName
             }
@@ -299,6 +310,7 @@ export const CONVERSATION_WITH_LAST_MESSAGE=`
           }
           appUser {
             id
+            avatarUrl
             email
             kind
             displayName
@@ -307,6 +319,7 @@ export const CONVERSATION_WITH_LAST_MESSAGE=`
         mainParticipant{
           id
           email
+          avatarUrl
           displayName
           properties
         }
@@ -321,6 +334,7 @@ export const CURRENT_USER = `
   query CurrentUser {
     userSession {
       email
+      avatarUrl
     }
   }
 `;
@@ -331,6 +345,7 @@ query AppUser($appKey: String!, $id: Int! ) {
     appUser(id: $id ) {
       id
       email
+      avatarUrl
       lastVisitedAt
       referrer
       state
@@ -373,12 +388,14 @@ query Campaigns($appKey: String!, $id: Int!, $page: Int, $per: Int){
           mainParticipant{
             id
             email
+            avatarUrl
           }
           lastMessage{
             createdAt
             readAt
             appUser{
               email
+              avatarUrl
               id
               kind
               displayName
@@ -509,6 +526,7 @@ export const ASSIGNMENT_RULES = `
         agent{
           id
           email
+          avatarUrl
         }
         state
         title
@@ -556,6 +574,7 @@ export const ARTICLES = `
           description
           author{
             email
+            avatarUrl
             id
             name
           } 
@@ -584,6 +603,7 @@ export const ARTICLES_UNCATEGORIZED = `
           description
           author{
             email
+            avatarUrl
             id
             name
           } 
@@ -620,6 +640,7 @@ export const ARTICLE = `
         }
         author{
           email
+          avatarUrl
           id
           name
         }
@@ -670,6 +691,7 @@ export const ARTICLE_COLLECTION_WITH_SECTIONS = `
           author{
             id
             email
+            avatarUrl
             name
           }
         }
@@ -685,6 +707,7 @@ export const ARTICLE_COLLECTION_WITH_SECTIONS = `
             author{
               id
               email
+              avatarUrl
               name
             }
           }

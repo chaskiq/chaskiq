@@ -89,6 +89,7 @@ export const APP_USER_UPDATE_STATE = `
       appUser {
         id
         email
+        avatarUrl
         lastVisitedAt
         referrer
         state
@@ -129,12 +130,13 @@ export const START_CONVERSATION = `
           id
           email
           name
+          avatarUrl
         }
         mainParticipant{
           id
           email
           properties
-          
+          avatarUrl
         }
 
         lastMessage{
@@ -156,6 +158,7 @@ export const START_CONVERSATION = `
             email
             kind
             displayName
+            avatarUrl
           }
         }
 
@@ -181,6 +184,7 @@ export const INSERT_COMMMENT = `
           email
           kind
           displayName
+          avatarUrl
         }
         source
         messageSource {
@@ -220,6 +224,7 @@ export const INSERT_APP_BLOCK_COMMMENT = `
           email
           kind
           displayName
+          avatarUrl
         }
         source
         messageSource {
@@ -251,6 +256,7 @@ export const INSERT_NOTE = `
           email
           kind
           displayName
+          avatarUrl
         }
         source
         messageSource {
@@ -278,11 +284,13 @@ export const ASSIGN_USER = `
           id
           email
           name
+          avatarUrl
         }
         mainParticipant{
           id
           email
           properties
+          avatarUrl
         }
       }
     }
@@ -301,6 +309,7 @@ export const CREATE_ASSIGNMENT_RULE = `
         agent{
           id
           email
+          avatarUrl
         }
         state
       }
@@ -328,6 +337,7 @@ export const EDIT_ASSIGNMENT_RULE = `
         agent{
           id
           email
+          avatarUrl
         }
         state
       }
@@ -347,6 +357,7 @@ export const DELETE_ASSIGNMENT_RULE = `
         agent{
           id
           email
+          avatarUrl
         }
         state
       }
@@ -366,11 +377,13 @@ export const UPDATE_CONVERSATION_STATE = `
           id
           email
           name
+          avatarUrl
         }
         mainParticipant{
           id
           email
           properties
+          avatarUrl
         }
       }
     }
@@ -389,11 +402,13 @@ export const TOGGLE_CONVERSATION_PRIORITY = `
           id
           email
           name
+          avatarUrl
         }
         mainParticipant{
           id
           email
           properties
+          avatarUrl
         }
       }
     }
@@ -528,6 +543,7 @@ export const PREDICATES_SEARCH = `
         collection{
           id
           email
+          avatarUrl
           os
           osVersion
           lastVisitedAt
@@ -607,6 +623,7 @@ export const INVITE_AGENT = `
     inviteAgent(appKey: $appKey, email: $email){
       agent {
         email
+        avatarUrl
         name
       }
     }
@@ -618,6 +635,7 @@ export const UPDATE_AGENT = `
     updateAgent(appKey: $appKey, email: $email, name: $name){
       agent {
         email
+        avatarUrl
         name
       }
     }
@@ -635,6 +653,7 @@ export const CREATE_ARTICLE = `
         state
         author{
           email
+          avatarUrl
           id
           name
         }
@@ -654,6 +673,7 @@ export const EDIT_ARTICLE = `
         state
         author{
           email
+          avatarUrl
           id
           name
         }
@@ -673,6 +693,7 @@ export const ARTICLE_BLOB_ATTACH = `
         state
         author{
           email
+          avatarUrl
           id
           name
         }
@@ -692,6 +713,7 @@ export const TOGGLE_ARTICLE = `
         state
         author{
           email
+          avatarUrl
           id
           name
         }
@@ -711,6 +733,7 @@ export const ARTICLE_ASSIGN_AUTHOR = `
         state
         author{
           email
+          avatarUrl
           id
           name
         }

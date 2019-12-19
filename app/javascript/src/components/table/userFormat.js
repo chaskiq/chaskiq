@@ -1,6 +1,5 @@
 import React from 'react'
 import Moment from 'react-moment';
-import gravatar from '../../shared/gravatar'
 import Badge from '@material-ui/core/Badge';
 import Avatar from '@material-ui/core/Avatar';
 import Typography from '@material-ui/core/Typography'
@@ -8,8 +7,6 @@ import Grid from '@material-ui/core/Grid'
 import styled from '@emotion/styled'
 import MuiChip from '@material-ui/core/Chip';
 import { makeStyles } from '@material-ui/core/styles';
-
-
 
 const NameWrapper = styled.span`
   display: flex;
@@ -63,7 +60,7 @@ function UserBadge(props) {
       <Avatar
         name={row.email}
         size="medium"
-        src={gravatar(row.email)}
+        src={row.avatarUrl}
       />
     </Badge>
   );

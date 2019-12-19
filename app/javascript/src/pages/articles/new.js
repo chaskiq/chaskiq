@@ -11,8 +11,6 @@ import ButtonGroup from '@material-ui/core/ButtonGroup'
 import Box from '@material-ui/core/Box'
 import Grid from '@material-ui/core/Grid'
 import ContentHeader from '../../components/ContentHeader'
-import gravatar from '../../shared/gravatar'
-
 import ArticleEditor from './editor'
 
 import graphql from '../../graphql/client'
@@ -492,7 +490,7 @@ class ArticlesNew extends Component {
                       }}>
 
                       <Avatar 
-                        src={gravatar( this.state.article.author.email )}
+                        src={ this.state.article.author.avatarUrl}
                       />
                         
                         <strong style={{

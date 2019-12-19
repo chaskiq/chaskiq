@@ -1,6 +1,5 @@
 import React, {Component} from 'react'
 import styled from '@emotion/styled'
-import gravatar from "../shared/gravatar"
 import Moment from 'react-moment';
 import Accordeon from './accordeon'
 import Avatar from '@material-ui/core/Avatar';
@@ -9,11 +8,10 @@ import Typography from '@material-ui/core/Typography'
 import List from '@material-ui/core/List'
 import ListItem from '@material-ui/core/ListItem'
 import ListItemText from '@material-ui/core/ListItemText'
-import {Link} from 'react-router-dom'
 import { withRouter } from 'react-router-dom'
 import { connect } from 'react-redux'
 import {toggleDrawer} from '../actions/drawer'
-
+import {AnchorLink} from '../shared/RouterLink'
 
 const ActivityAvatar = styled.div`
   display: flex;
@@ -75,14 +73,14 @@ class UserData extends Component {
     
                 <ActivityAvatar>
                   <ImageAvatars
-                    email={this.props.appUser.email} 
-                    src={gravatar(this.props.appUser.email, {s: '130px'})}
+                    email={this.props.appUser.email}
+                    src={this.state.agent.avatarUrl + "&s=120px"}
                   />
 
                 </ActivityAvatar>
 
 
-                <Link 
+                <AnchorLink 
                   to={`/apps/${this.props.app.key}/users/${this.props.appUser.id}`}
                   onClick={()=> {
                     this.props.dispatch(
@@ -92,7 +90,7 @@ class UserData extends Component {
                   }>
                   
                   See full profile
-                </Link>
+                </AnchorLink>
 
                 <p style={{
                   fontWeight: '700'

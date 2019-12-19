@@ -10,8 +10,6 @@ import Avatar from '@material-ui/core/Avatar'
 import Typography from '@material-ui/core/Typography'
 import Badge from '@material-ui/core/Badge'
 import Grid from '@material-ui/core/Grid'
-
-import gravatar from "../../shared/gravatar"
 import styled from '@emotion/styled'
 import PriorityHighIcon from '@material-ui/icons/PriorityHigh'
 import Moment from 'react-moment'
@@ -171,7 +169,7 @@ function AlignItemsList(props) {
                 className={classes.participantAvatar}
                 onClick={()=>props.showUserDrawer(participant.id)}
                 alt={participant.email} 
-                src={gravatar(participant.email)} 
+                src={participant.avatarUrl} 
             />
           </Grid>
 
@@ -214,7 +212,7 @@ function AlignItemsList(props) {
                         onClick={()=>props.showUserDrawer(props.messageUser.id)} 
                         className={classes.tinyAvatar}
                         alt={props.messageUser.email} 
-                        src={gravatar(props.messageUser.email)} 
+                        src={props.messageUser.avatarUrl} 
                     /> : null 
                 }
   

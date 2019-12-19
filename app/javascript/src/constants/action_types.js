@@ -16,6 +16,7 @@ const actionTypes = {
 
   GetConversations: 'GET_CONVERSATIONS',
   UpdateConversations: 'UPDATE_CONVERSATIONS',
+  ClearConversations: 'CLEAR_CONVERSATIONS',
   
   UpdateConversation: 'UPDATE_CONVERSATION',
 

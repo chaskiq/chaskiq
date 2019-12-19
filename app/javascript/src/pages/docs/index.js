@@ -37,9 +37,6 @@ import MenuIcon from '@material-ui/icons/Menu';
 import LaunchIcon from '@material-ui/icons/Launch';
 import SearchIcon from '@material-ui/icons/Search';
 import DirectionsIcon from '@material-ui/icons/Directions';
-
-import gravatar from "../../shared/gravatar"
-
 import DraftRenderer from '../../textEditor/draftRenderer'
 import EditorStyles from 'Dante2/package/es/styled/base'
 import danteTheme from '../../textEditor/theme'
