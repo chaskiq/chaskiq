@@ -1300,6 +1300,7 @@ class Messenger extends Component {
                 <Tour 
                   tours={this.state.tours}
                   events={App.events}
+                  domain={this.props.domain}
                 /> : null
             }
 
