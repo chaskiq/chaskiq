@@ -30,6 +30,50 @@
     "RAILS_ENV": {
       "description": "Environment for rails middleware.",
       "value": "production"
+    },
+    "HOST": {
+      "description": "App's internet entry point ie:. https://domain.com",
+      "value": ""
+    },
+    "WS": {
+      "description": "App's websocket server, wss:://domain.com/cable",
+      "value": ""
+    },
+    "ASSET_HOST": {
+      "description": "App assets's internet entry point ie:. https://domain.com/",
+      "value": ""
+    },
+    "SNS_CONFIGURATION_SET": {
+      "description": "Amazon's SNS configuration set (for incoming email processing)",
+      "value": ""
+    },
+    "SES_ADDRESS": {
+      "description": "Amazon's SES mail address",
+      "value": ""
+    },
+    "SES_USER_NAME": {
+      "description": "Amazon's SES mail username",
+      "value": ""
+    },
+    "SES_PASSWORD": {
+      "description": "Amazon's SES mail password",
+      "value": ""
+    },
+    "AWS_ACCESS_KEY_ID": {
+      "description": "Amazon's S3 file storage key",
+      "value": ""
+    },
+    "AWS_SECRET_ACCESS_KEY": {
+      "description": "Amazon's S3 file secret access key",
+      "value": ""
+    },
+    "AWS_S3_BUCKET": {
+      "description": "Amazon's S3 file storage bucket",
+      "value": ""
+    },
+    "AWS_S3_REGION": {
+      "description": "Amazon's S3 file storage region",
+      "value": ""
     }
   },
   "formation": {
