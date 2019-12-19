@@ -2,5 +2,5 @@
 
 if [ "$ANYCABLE_DEPLOYMENT" == "true" ]; then
 else
-  bundle exec sidekiq -c 5 -v -q mailers,2 -q default
+  bundle exec sidekiq
 fi
