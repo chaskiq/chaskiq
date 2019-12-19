@@ -74,7 +74,7 @@ class UserData extends Component {
                 <ActivityAvatar>
                   <ImageAvatars
                     email={this.props.appUser.email}
-                    src={this.state.agent.avatarUrl + "&s=120px"}
+                    src={this.props.appUser.avatarUrl + "&s=120px"}
                   />
 
                 </ActivityAvatar>
