@@ -29,7 +29,6 @@ import Paper from '@material-ui/core/Paper'
 import Box from '@material-ui/core/Box'
 
 import EditIcon from '@material-ui/icons/EditOutlined'
-import gravatar from '../shared/gravatar'
 
 import {
   getAppUser
@@ -221,7 +220,7 @@ class ProfilePage extends Component {
             <div className="user-info">
 
               <Avatar style={{width: '120px', height: '120px'}}
-                src={gravatar(this.state.agent.email, {s: '120px'})}
+                src={this.state.agent.avatarUrl + "&s=120px"}
               />
 
               <div className="name-description">

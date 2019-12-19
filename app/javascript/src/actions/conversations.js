@@ -124,6 +124,15 @@ export function updateConversationItem(data){
   }
 }
 
+export function clearConversations(data){
+  return (dispatch, getState) => {
+    dispatch({
+      type: ActionTypes.ClearConversations,
+      data: data
+    })
+  }
+}
+
 function appendConversationDispatcher(data){
   return {
     type: ActionTypes.AppendConversation,
@@ -168,6 +177,11 @@ export default function reducer(state = initialState, action = {}) {
     case ActionTypes.AppendConversation: {
       return Object.assign({}, state, {collection: action.data})
     }
+
+    case ActionTypes.ClearConversations: {
+      return Object.assign({}, state, {collection: []})
+    }
+
     default:
       return state;
   }

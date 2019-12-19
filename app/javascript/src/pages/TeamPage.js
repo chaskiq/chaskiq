@@ -15,7 +15,6 @@ import Button from '@material-ui/core/Button'
 import TextField from '@material-ui/core/TextField'
 import Tooltip from '@material-ui/core/Tooltip'
 
-import gravatar from '../shared/gravatar'
 import CircularProgress from '@material-ui/core/CircularProgress';
 import {AnchorLink} from '../shared/RouterLink'
 
@@ -154,7 +153,7 @@ class AppUsers extends React.Component {
                         <Avatar
                           name={row.email}
                           size="medium"
-                          src={gravatar(row.email)}
+                          src={row.avatarUrl}
                         />
                       </Link>
                      : undefined)

@@ -24,7 +24,6 @@ import {errorMessage, successMessage} from '../actions/status_messages'
 
 import {AnchorLink} from '../shared/RouterLink'
 
-import gravatar from '../shared/gravatar'
 import {LinkButton, LinkIconButton} from '../shared/RouterLink'
 
 import AddIcon from '@material-ui/icons/Add'

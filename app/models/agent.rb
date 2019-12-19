@@ -40,16 +40,11 @@ class Agent < ApplicationRecord
   end
 
   def gravatar
-    # get the email from URL-parameters or what have you and make lowercase
     email_address = self.email.downcase
-    # create the md5 hash
     hash = Digest::MD5.hexdigest(email_address)
-
     d = "https://api.adorable.io/avatars/130/#{hash}.png"
-    # compile URL which can be used in <img src="RIGHT_HERE"...
     image_src = "https://www.gravatar.com/avatar/#{hash}?d=#{d}"
   end
-
 
   def as_json(options = nil)
     super({ 

@@ -16,7 +16,6 @@ import Tooltip from '@material-ui/core/Tooltip';
 import Typography from '@material-ui/core/Typography';
 import { withStyles } from '@material-ui/core/styles';
 import ListMenu from './ListMenu'
-import gravatar from "../shared/gravatar"
 import Switch from '@material-ui/core/Switch';
 import { withRouter } from 'react-router-dom'
 import { connect } from 'react-redux'
@@ -140,7 +139,7 @@ function Header(props, context) {
                     color="inherit" 
                     className={classes.iconButtonAvatar}>
                     <Avatar className={classes.avatar} 
-                      src={gravatar(props.currentUser.email)}
+                      src={props.currentUser.avatarUrl}
                     />
                   </IconButton>
                 }

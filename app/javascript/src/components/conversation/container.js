@@ -2,7 +2,6 @@ import React, {Component, Fragment} from 'react'
 
 import { withRouter } from 'react-router-dom'
 import { connect } from 'react-redux'
-import gravatar from "../../shared/gravatar"
 import {ThemeProvider} from 'emotion-theming'
 
 import graphql from "../../graphql/client"
@@ -228,12 +227,19 @@ class ConversationContainerShow extends Component {
 
     switch(item.element){
       case "button":
-        return <p>{item.label}</p>
+        return <p>
+                <strong>reply button:</strong>
+                {item.label}
+               </p>
       default:
         if (o.message.blocks.type === "data_retrieval"){
-          return Object.keys(o.message.data).map((k)=>{
+          const dataList = Object.keys(o.message.data).map((k)=>{
             return <p>{k}: {o.message.data[k]}</p>
           })
+          return <React.Fragment>
+                  <strong>replied:</strong> 
+                  {dataList}
+                </React.Fragment>
         } else{
           <p>{JSON.stringify(o.message.data)}</p>
         }
@@ -345,7 +351,10 @@ class ConversationContainerShow extends Component {
                                         onClick={(e)=>this.props.showUserDrawer(o.appUser.id)}
                                         className={userOrAdmin}>
 
-                                          <img src={gravatar(o.appUser.email)}/>
+                                          <img src={!isReplied ? 
+                                            o.appUser.avatarUrl : 
+                                            this.props.conversation.mainParticipant.avatarUrl}
+                                          />
 
                                         </ChatAvatar>
                                       }

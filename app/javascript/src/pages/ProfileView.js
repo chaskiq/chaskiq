@@ -23,7 +23,6 @@ import Typography from '@material-ui/core/Typography'
 import Button from '@material-ui/core/Button'
 import Avatar from '@material-ui/core/Avatar'
 
-import gravatar from '../shared/gravatar'
 
 import {
   getAppUser
@@ -193,7 +192,7 @@ class ProfilePage extends Component {
             <div className="user-info">
 
               <Avatar style={{width: '120px', height: '120px'}}
-                src={gravatar(this.props.app_user.email, {s: '120px'})}
+                src={this.state.agent.avatarUrl + "&s=120px"}
               />
 
               <div className="name-description">

@@ -186,16 +186,14 @@ export function appendMessage(data, cb){
       dispatch(dispatchGetConversations(newMessages))
 
     } else {
-
-      if (getState().current_user.email !== newData.appUser.email) {
+      //if (getState().current_user.email !== newData.appUser.email) {
+      if (newData.appUser.kind != "agent"){
         playSound()
       }
 
       const newMessages = Object.assign({}, 
-                    getState().conversation,
-                    { collection: [newData].concat(getState().conversation.collection) }, 
-        
-      )
+        getState().conversation,
+        { collection: [newData].concat(getState().conversation.collection) })
 
       dispatch(dispatchGetConversations(newMessages))
 
