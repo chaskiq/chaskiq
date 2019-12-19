@@ -134,8 +134,8 @@ class AppUser < ApplicationRecord
   #delegate :email, to: :user
 
   def as_json(options = nil)
-    super({ only: [:email, :id, :kind, :display_name] , 
-      methods: [:email, :id, :kind, :display_name, :avatar_url] }.merge(options || {}))
+    super({ only: [:id, :kind, :display_name, :avatar_url] , 
+      methods: [:id, :kind, :display_name, :avatar_url] }.merge(options || {}))
   end
 
   def offline?
