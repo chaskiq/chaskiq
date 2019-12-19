@@ -9,7 +9,7 @@ class CampaignMailer < ApplicationMailer
     
     content_type  = "text/html"
 
-    headers 'X-SES-CONFIGURATION-SET' => "metrics"
+    headers 'X-SES-CONFIGURATION-SET' => ENV['SNS_CONFIGURATION_SET']
     # Rails.application.credentials.dig(:sns, :configuration_set) 
 
     attrs = subscriber.attributes
