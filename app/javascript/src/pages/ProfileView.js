@@ -192,7 +192,7 @@ class ProfilePage extends Component {
             <div className="user-info">
 
               <Avatar style={{width: '120px', height: '120px'}}
-                src={this.state.agent.avatarUrl + "&s=120px"}
+                src={this.props.app_user.avatarUrl + "&s=120px"}
               />
 
               <div className="name-description">
