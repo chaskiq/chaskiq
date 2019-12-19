@@ -21,6 +21,7 @@ export default class UserTours extends Component {
      <UserTour 
       tour={this.props.tours[0]} 
       events={this.props.events}
+      domain={this.props.domain}
     /> 
      : null
   }
@@ -58,6 +59,7 @@ class UserTour extends Component {
     return this.props.tour.steps.map((o, index)=>{
       o.disableBeacon = index === 0
       o.content = <DraftRenderer
+                      domain={this.props.domain}
                       raw={JSON.parse(o.serialized_content)}
                     />
       return o
