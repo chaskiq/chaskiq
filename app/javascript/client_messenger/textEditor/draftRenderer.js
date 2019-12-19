@@ -34,6 +34,7 @@ const addBreaklines = (children) => children.map(child => [child, <br />]);
 
 
 function getImageUrl(url, props){
+  if(!url) return 
   if(url.includes("://")) return url
   return `${props.domain}${url}`
 }
