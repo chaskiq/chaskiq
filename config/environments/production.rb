@@ -42,9 +42,10 @@ Rails.application.configure do
   # config.active_storage.service = :local
 
   config.active_storage.service = :amazon
-  Rails.application.routes.default_url_options = {host: Rails.application.credentials.host }
-  config.action_controller.default_url_options = {host: Rails.application.credentials.host }
-  config.action_mailer.default_url_options = {host: Rails.application.credentials.host }
+  
+  Rails.application.routes.default_url_options = {host: ENV['HOST'] }
+  config.action_controller.default_url_options = {host: ENV['HOST'] }
+  config.action_mailer.default_url_options = {host: ENV['HOST'] }
 
   # Mount Action Cable outside main process or domain.
   # config.action_cable.mount_path = nil
@@ -112,8 +113,8 @@ Rails.application.configure do
   #}
 
   ActionMailer::Base.add_delivery_method :ses, AWS::SES::Base,
-    access_key_id: Rails.application.credentials.dig(:aws, :access_key_id),
-    secret_access_key: Rails.application.credentials.dig(:aws, :secret_access_key)
+    access_key_id: ENV['AWS_ACCESS_KEY_ID'],
+    secret_access_key: ENV['AWS_SECRET_ACCESS_KEY']
 
   config.action_mailer.delivery_method = :ses
 
