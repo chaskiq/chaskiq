@@ -70,6 +70,7 @@ module Types
 
     field :integrationsCreate, mutation: Mutations::AppPackageIntegrations::CreateIntegration
     field :integrationsDelete, mutation: Mutations::AppPackageIntegrations::DeleteIntegration
+    field :integrationsUpdate, mutation: Mutations::AppPackageIntegrations::UpdateIntegration
 
   end
 end
