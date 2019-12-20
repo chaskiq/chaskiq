@@ -811,6 +811,7 @@ export const APP_PACKAGE_INTEGRATIONS = `
         settings
         definitions
         icon
+        state
         description
       }
     }

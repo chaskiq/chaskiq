@@ -2,7 +2,7 @@ module Mutations
   module AppPackageIntegrations
     class DeleteIntegration < Mutations::BaseMutation
 
-      field :integration, Types::IntegrationType, null: false
+      field :integration, Types::AppPackageIntegrationType, null: false
       field :errors, Types::JsonType, null: true
       argument :app_key, String, required: true
       argument :id, Int, required: true

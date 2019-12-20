@@ -1074,9 +1074,13 @@ export const CREATE_INTEGRATION = `
     integrationsCreate(appKey: $appKey, appPackage: $appPackage, params: $params){
       errors
       integration {
-        name
         id
+        name
         settings
+        definitions
+        icon
+        state
+        description
       }
     }
   }
@@ -1090,6 +1094,10 @@ export const UPDATE_INTEGRATION = `
         id
         name
         settings
+        definitions
+        icon
+        state
+        description
       }
     }
   }
@@ -1102,6 +1110,11 @@ export const DELETE_INTEGRATION = `
       integration {
         id
         name
+        settings
+        definitions
+        icon
+        state
+        description
       }
     }
   }
