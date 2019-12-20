@@ -42,6 +42,10 @@ RSpec.describe Conversation, type: :model do
   #  ActiveJob::Base.queue_adapter.perform_enqueued_at_jobs = true
   end
 
+  before :each do
+    AppIdentity.new(app.key).delete
+  end
+
   it "create_conversation from app user" do
     app.start_conversation({
       message: {text_content: "aa"}, 
@@ -50,6 +54,8 @@ RSpec.describe Conversation, type: :model do
     expect(app.conversations.count).to be == 1
     expect(app.conversations.first.messages.count).to be == 1
     expect(app.conversations.first.assignee).to be_blank
+
+    expect(app.stats_for("opened_conversations")).to be_present
   end
 
   it "adds counters zero for user" do
@@ -79,6 +85,8 @@ RSpec.describe Conversation, type: :model do
     expect(app.conversations.count).to be == 1
     expect(app.conversations.first.messages.count).to be == 1
     expect(app.conversations.first.assignee).to be_present
+
+    expect(app.stats_for("opened_conversations")).to be_present
   end
 
   it "assign event does not trigger counter" do
@@ -199,7 +207,14 @@ RSpec.describe Conversation, type: :model do
     }
 
     it "register event on close & reopen" do
+      expect(app.stats_for("solved_conversations")).to be_blank
       conversation.close
+
+      expect(app.stats_for("opened_conversations")).to be_present
+      expect(app.stats_for("solved_conversations")).to be_present
+
+      expect(app.stats_for("resolution_avg")).to be_present
+
       expect(conversation.events.count).to be == 2
       expect(conversation.events.last.action).to be == Event.action_for(:conversation_closed)
       conversation.reopen
