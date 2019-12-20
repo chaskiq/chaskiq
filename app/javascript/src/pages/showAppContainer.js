@@ -51,6 +51,7 @@ import ProfileView from '../pages/ProfileView'
 import AgentProfileView from '../pages/AgentProfileView'
 import Team from '../pages/TeamPage'
 import BotContainer from './BotsContainer'
+import Integrations from '../pages/Integrations'
 
 import {
   camelizeKeys
@@ -454,6 +455,18 @@ class ShowAppContainer extends Component {
                       />
             }} 
           />
+
+          <Route exact path={`${this.props.match.path}/integrations`}
+          render={(props) => {
+            return <Integrations 
+                      match={props.match}
+                      history={props.history}
+                      actions={this.actions()}
+                    />
+            }} 
+          />
+
+          
 
           <Route exact path={`/apps/${this.props.app.key}`}
               render={(props) => (
