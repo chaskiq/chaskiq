@@ -18,6 +18,10 @@ RSpec.describe ConversationPart, type: :model do
 
   context "conversation" do
 
+    before :each do 
+      AppIdentity.new(app.id).delete
+    end
+
     let!(:conversation){
       app.conversations.create(main_participant: app.app_users.first)
     }
@@ -67,6 +71,37 @@ RSpec.describe ConversationPart, type: :model do
       expect(conversation.messages.last.messageable.action).to be == "assigned"
       #expect(conversation.messages.last.messageable.data).to be == "assigned"
     end
+
+    it "app user metrics incoming" do
+      serialized = "{\"blocks\":
+      [{\"key\":\"bl82q\",\"text\":\"bar\",\"type\":\"unstyled\",\"depth\":0,\"inlineStyleRanges\":[],\"entityRanges\":[],\"data\":{}}],
+      \"entityMap\":{}}"
+
+      conversation.add_message(
+        from: app.app_users.first, 
+        message: {html_content: "foo", serialized_content: serialized}
+      )
+
+      expect(AppIdentity.new(app.key).incoming_messages.get).to be_present
+    end
+
+
+    it "agent metrics outgoing" do
+      serialized = "{\"blocks\":
+      [{\"key\":\"bl82q\",\"text\":\"bar\",\"type\":\"unstyled\",\"depth\":0,\"inlineStyleRanges\":[],\"entityRanges\":[],\"data\":{}}],
+      \"entityMap\":{}}"
+
+      conversation.add_message(
+        from: app.agents.first, 
+        message: {
+          html_content: "foo", 
+          serialized_content: serialized
+        })
+
+      expect(AppIdentity.new(app.key).outgoing_messages.get).to be_present
+    end
+
+
 
   end
 

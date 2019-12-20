@@ -35,8 +35,6 @@ class ConversationPart < ApplicationRecord
     # message should be a hash containing html_content, 
     # serialized_content, text_content
     self.messageable = ConversationPartContent.create(message)
-    #new_message = self.build_conversation_part_content(message)
-    #new_message.save
   end
 
   def event=(params={})
@@ -78,7 +76,6 @@ class ConversationPart < ApplicationRecord
     end
   end
 
-  #TODO: refactor this method
   def notify_to_channels
     notify_app_users unless self.private_note?
     notify_agents
@@ -117,6 +114,8 @@ class ConversationPart < ApplicationRecord
   end
 
   def assign_and_notify
+    increment_message_stats
+
     if self.authorable.is_a?(Agent) && !is_event_message? && !self.from_bot?
       self.conversation.main_participant.new_messages.increment
       self.conversation.update_first_time_reply
@@ -167,5 +166,21 @@ class ConversationPart < ApplicationRecord
       end
 
     end
+  end
+
+  def increment_message_stats
+    self.authorable.is_a?(Agent) ?
+    increment_outgoing_messages_stat :
+    increment_incoming_messages_stat
+  end
+
+  def increment_incoming_messages_stat
+    AppIdentity.new(self.conversation.app.key)
+    .incoming_messages.incr(1, self.created_at) 
+  end
+
+  def increment_outgoing_messages_stat
+    AppIdentity.new(self.conversation.app.key)
+    .outgoing_messages.decr(1, self.created_at) 
   end
 end
