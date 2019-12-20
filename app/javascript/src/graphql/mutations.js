@@ -1065,3 +1065,57 @@ export const DELETE_BOT_TASK = `
     }
   }
 `;
+
+
+
+
+export const CREATE_INTEGRATION = `
+  mutation CreateIntegration($appKey: String!, $appPackage: String! , $params: Json!){
+    integrationsCreate(appKey: $appKey, appPackage: $appPackage, params: $params){
+      errors
+      integration {
+        id
+        name
+        settings
+        definitions
+        icon
+        state
+        description
+      }
+    }
+  }
+`;
+
+export const UPDATE_INTEGRATION = `
+  mutation UpdateIntegration($appKey: String!, $id: Int!, , $params: Json!){
+    integrationsUpdate(appKey: $appKey, id: $id, params: $params){
+      errors
+      integration {
+        id
+        name
+        settings
+        definitions
+        icon
+        state
+        description
+      }
+    }
+  }
+`;
+
+export const DELETE_INTEGRATION = `
+  mutation DeleteIntegration($appKey: String!, $id: Int!){
+    integrationsDelete(appKey: $appKey, id: $id){
+      errors
+      integration {
+        id
+        name
+        settings
+        definitions
+        icon
+        state
+        description
+      }
+    }
+  }
+`;
