@@ -25,8 +25,7 @@ import AddIcon from '@material-ui/icons/Add';
 import Tab from '@material-ui/core/Tab';
 import Tabs from '@material-ui/core/Tabs';
 
-import LoadingView from '../components/loadingView'
-
+import Progress from '../shared/Progress'
 
 import ContentHeader from '../components/ContentHeader'
 import Content from '../components/Content'
@@ -164,7 +163,7 @@ function Integrations({app}){
                   <Typography variant={"h4"}>
                     API Integrations
                   </Typography>
-                  {loading && <LoadingView/>}
+                  {loading && <Progress/>}
 
                   { <ServiceIntegration
                     services={integrations}
@@ -177,7 +176,7 @@ function Integrations({app}){
                   <Typography variant={"h4"}>
                     Available API Services
                   </Typography>
-                  {loading && <LoadingView/>}
+                  {loading && <Progress/>}
 
                   { <APIServices
                     services={services}
