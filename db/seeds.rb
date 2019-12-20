@@ -7,9 +7,10 @@
 #   Character.create(name: 'Luke', movie: movies.first)
 require_relative "./seeds/app_packages_catalog.rb"
 
-#app = App.create(name: "test app")
-#app.add_admin(Agent.create(email: "miguelmichelson@gmail.com", password: "123456"))
-
-
+app = App.create(name: "test app")
+app.add_admin(Agent.create(
+  email: "admin@test.com", 
+  password: "123456"
+))
 
 AppPackagesCatalog.import
