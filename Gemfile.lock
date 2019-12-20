@@ -76,6 +76,8 @@ GEM
       minitest (~> 5.1)
       tzinfo (~> 1.1)
       zeitwerk (~> 2.2)
+    acts-as-taggable-on (6.5.0)
+      activerecord (>= 5.0, < 6.1)
     acts_as_list (0.9.19)
       activerecord (>= 3.0)
     addressable (2.6.0)
@@ -545,6 +547,7 @@ PLATFORMS
 DEPENDENCIES
   aasm
   active_importer
+  acts-as-taggable-on (~> 6.0)
   acts_as_list (~> 0.9.19)
   anycable-rails
   aws-sdk-s3 (~> 1.15)

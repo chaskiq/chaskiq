@@ -792,9 +792,25 @@ export const APP_PACKAGES = `
   query App($appKey: String!){
     app(key: $appKey) {
       appPackages{
+        name
+        definitions
+        icon
+        description
+      }
+    }
+  }
+`;
+
+export const APP_PACKAGE_INTEGRATIONS = `
+  query App($appKey: String!){
+    app(key: $appKey) {
+      appPackageIntegrations{
         id
         name
         settings
+        definitions
+        icon
+        description
       }
     }
   }
