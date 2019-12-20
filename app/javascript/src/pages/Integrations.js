@@ -21,7 +21,7 @@ import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
 import ListItemText from '@material-ui/core/ListItemText';
 import Avatar from '@material-ui/core/Avatar';
 import IconButton from '@material-ui/core/IconButton';
-import FolderIcon from '@material-ui/icons/Folder';
+import DeleteIcon from '@material-ui/icons/Delete';
 import AddIcon from '@material-ui/icons/Add';
 import Tab from '@material-ui/core/Tab';
 import Tabs from '@material-ui/core/Tabs';
@@ -34,6 +34,10 @@ import ContentHeader from '../components/ContentHeader'
 import Content from '../components/Content'
 import FormDialog from '../components/FormDialog'
 import FieldRenderer from '../shared/FormFields'
+import DeleteDialog from "../components/deleteDialog"
+
+import {errorMessage, successMessage} from '../actions/status_messages'
+
 import graphql from '../graphql/client'
 import {
   APP_PACKAGES, 
@@ -41,20 +45,22 @@ import {
 } from '../graphql/queries'
 import {
   CREATE_INTEGRATION,
-  UPDATE_INTEGRATION
+  UPDATE_INTEGRATION,
+  DELETE_INTEGRATION
 } from '../graphql/mutations' 
 import { withRouter } from 'react-router-dom'
 import { connect } from 'react-redux'
 import serialize from 'form-serialize'
 
 
-function Integrations({app}){
+function Integrations({app, dispatch}){
 
   const [open, setOpen] = useState(false)
   const [services, setServices] = useState([])
   const [loading, setLoading] = useState(false)
   const [integrations, setIntegrations] = useState([])
   const [tabValue, setTabValue] = useState(0)
+  const [openDeleteDialog, setOpenDeleteDialog] = useState(false)
   const form = useRef(null);
 
   /*useEffect(()=>{
@@ -118,10 +124,18 @@ function Integrations({app}){
     }, {
       success: (data)=>{
         setTabValue(0)
-        getAppPackages()
+        
+        const integration = data.integrationsCreate.integration
+        const newIntegrations = integrations.map(
+          (o)=> o.name === integration.name ? integration : o
+        )
+        setIntegrations(newIntegrations)
+
         setOpen(null)
+        dispatch(successMessage("integration created"))
       },
       error: ()=>{
+        dispatch(errorMessage("error linking integration"))
       }
     })
   }
@@ -135,10 +149,39 @@ function Integrations({app}){
     }, {
       success: (data)=>{
         setTabValue(0)
-        getAppPackages()
+        const integration = data.integrationsUpdate.integration
+        const newIntegrations = integrations.map(
+          (o)=> o.name === integration.name ? integration : o
+        )
+        setIntegrations(newIntegrations)
+        //getAppPackageIntegration()
         setOpen(null)
+        dispatch(successMessage("integration updated"))
       },
       error: ()=>{
+        dispatch(errorMessage("error updating integration"))
+      }
+    })
+  }
+
+  function removeIntegration(){
+    graphql(DELETE_INTEGRATION, {
+      appKey: app.key,
+      id: parseInt(openDeleteDialog.id),
+    }, {
+      success: (data)=>{
+        setTabValue(0)
+        const integration = data.integrationsDelete.integration
+        const newIntegrations = integrations.filter(
+          (o)=> o.name != integration.name
+        )
+        setIntegrations(newIntegrations)
+        setOpen(null)
+        setOpenDeleteDialog(null)
+        dispatch(successMessage("integration removed correctly"))
+      },
+      error: ()=>{
+        dispatch(errorMessage("error removing integration"))
       }
     })
   }
@@ -179,6 +222,8 @@ function Integrations({app}){
                     services={integrations}
                     handleOpen={handleOpen}
                     getAppPackages={getAppPackageIntegration}
+                    setOpenDeleteDialog={setOpenDeleteDialog}
+                    kind={"integrations"}
                   />}
                 </React.Fragment>
       case 1:
@@ -192,7 +237,9 @@ function Integrations({app}){
                     services={services}
                     handleOpen={handleOpen}
                     getAppPackages={getAppPackages}
-                  /> }
+                    kind={"services"}
+                    /> 
+                  }
                 </React.Fragment>
     }
   }
@@ -252,12 +299,29 @@ function Integrations({app}){
               </FormDialog>
             )}
 
+            {
+              openDeleteDialog && <DeleteDialog 
+               open={openDeleteDialog}
+               title={`Delete "${openDeleteDialog.name}" integration ?`} 
+               closeHandler={()=>{
+                 this.setOpenDeleteDialog(null)
+               }}
+               deleteHandler={()=> { 
+                 removeIntegration(openDeleteDialog)
+                }}>
+               <Typography variant="subtitle2">
+                 The integration with {openDeleteDialog.dialog} service will 
+                 be disabled immediately
+               </Typography>
+             </DeleteDialog>
+            }
+
         </React.Fragment>
   }
 
 
 
-  function EmptyCard({goTo}){
+function EmptyCard({goTo}){
   return (
     <Card style={{marginTop: '2em'}}>
       <CardContent>
@@ -274,7 +338,18 @@ function Integrations({app}){
   )
 }
 
-function ServiceBlock({service, handleOpen}){
+function ServiceBlock({
+  service, 
+  handleOpen,
+  kind,
+  setOpenDeleteDialog
+}){
+
+  function available(){
+    if(kind === "services") return service.state === "enabled"
+    if(kind === "integrations") return service.id && service.state === "enabled"
+  }
+
   return (
       <ListItem>
         <ListItemAvatar>
@@ -293,13 +368,23 @@ function ServiceBlock({service, handleOpen}){
         />
 
         {
-          service.state === "enabled" &&
+          available() && 
           <ListItemSecondaryAction>
             <IconButton 
               onClick={()=> handleOpen(service)}
               edge="end" aria-label="add">
               <AddIcon  />
             </IconButton>
+
+            { 
+              service.id && <IconButton 
+                onClick={()=> setOpenDeleteDialog && setOpenDeleteDialog(service)}
+                edge="end" aria-label="add">
+                <DeleteIcon  />
+              </IconButton>
+            }
+            
+
           </ListItemSecondaryAction>
         }
       </ListItem>
@@ -309,7 +394,9 @@ function ServiceBlock({service, handleOpen}){
 function ServiceIntegration({
   services, 
   handleOpen, 
-  getAppPackages
+  getAppPackages,
+  kind,
+  setOpenDeleteDialog
 }){
 
   useEffect(()=>{
@@ -320,9 +407,11 @@ function ServiceIntegration({
 
     <List dense>
       {
-        services.map((o)=> <ServiceBlock 
+        services.map((o)=> <ServiceBlock
+                            kind={kind}
                             key={`services-${o.name}`} 
                             service={o}
+                            setOpenDeleteDialog={setOpenDeleteDialog}
                             handleOpen={handleOpen}
                             />)
       }
@@ -331,7 +420,12 @@ function ServiceIntegration({
   )
 }
 
-function APIServices({services, handleOpen, getAppPackages}){
+function APIServices({
+  services, 
+  handleOpen, 
+  getAppPackages,
+  kind
+}){
 
   useEffect(()=>{
     getAppPackages()
@@ -341,7 +435,8 @@ function APIServices({services, handleOpen, getAppPackages}){
 
     <List dense>
       {
-        services.map((o)=> <ServiceBlock 
+        services.map((o)=> <ServiceBlock
+                            kind={kind} 
                             key={`services-${o.name}`} 
                             service={o}
                             handleOpen={handleOpen}
