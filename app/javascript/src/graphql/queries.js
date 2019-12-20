@@ -786,7 +786,19 @@ export const DASHBOARD = `
       dashboard(range: $range, kind: $kind)
     }
   }
-`
+`;
+
+export const APP_PACKAGES = `
+  query App($appKey: String!){
+    app(key: $appKey) {
+      appPackages{
+        id
+        name
+        settings
+      }
+    }
+  }
+`;
 
 
 

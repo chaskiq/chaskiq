@@ -105,4 +105,17 @@ RSpec.describe GraphqlController, type: :controller do
     end
   end
 
+
+  describe "queries app_packages" do
+    it "will return list of app packages" do
+      app_package
+
+      graphql_post(type: 'APP_PACKAGES', variables: {
+        appKey: app.key,
+      })
+
+      expect(graphql_response.data.app.appPackages.size).to be == 1
+    end
+  end
+
 end
