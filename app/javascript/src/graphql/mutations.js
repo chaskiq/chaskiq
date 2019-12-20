@@ -20,6 +20,8 @@ export const UPDATE_APP = `
         leadTasksSettings
         userTasksSettings
         gatherSocialData
+        domainUrl
+        outgoingEmailDomain
         segments {
           name
           id

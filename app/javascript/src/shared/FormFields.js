@@ -74,28 +74,30 @@ class FieldRenderer extends React.Component {
                   className={classes.formControl}>
 
                   <TextField
-                    label={data.name}
+                    label={data.label || data.name}
                     error={errorMessage}
                     variant="standard"
+                    placeholder={data.placeholder}
                     fullWidth
                     //margin="normal"
                     name={`${namespace}[${data.name}]`}
                     defaultValue={props.data[camelCase(data.name)]} 
                     InputProps={{
-                      startAdornment: data.startAdornment ? <InputAdornment position="start">
+                      startAdornment: data.startAdornment && 
+                      <InputAdornment position="start">
                       {data.startAdornment}
-                      </InputAdornment> : null,
+                      </InputAdornment>,
                     }}
                     helperText={
                       <React.Fragment>
                       { 
-                        errorMessage ? 
+                        errorMessage &&
                         <FormHelperText id="component-error-text">
                           {errorMessage}
-                        </FormHelperText> : null 
+                        </FormHelperText> 
                       }
 
-                      { data.hint ? data.hint : null }
+                      { data.hint && data.hint  }
 
                       </React.Fragment>
                     }
@@ -182,7 +184,7 @@ class FieldRenderer extends React.Component {
         let defaultTZ = Intl.DateTimeFormat().resolvedOptions().timeZone
         return <SuggestSelect 
             data={names}
-            label={data.name} 
+            label={data.label || data.name} 
             defaultData={props.data[data.name] || defaultTZ}
             placeholder={'select timezone'}
             classes={classes}
@@ -193,6 +195,8 @@ class FieldRenderer extends React.Component {
         return <FormControlLabel 
                   error={errorMessage}
                   className={classes.formControl}
+                  label={data.label || data.name}
+                  hint={data.hint}
                   control={
                     <Checkbox 
                       defaultChecked={props.data[data.name]}
@@ -200,8 +204,6 @@ class FieldRenderer extends React.Component {
                       value={true}
                      />
                   }
-                  //labelPlacement="top"
-                  label={data.name}
                 />
       case "color":
         return <FormControl 

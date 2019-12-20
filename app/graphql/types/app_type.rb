@@ -26,6 +26,7 @@ module Types
     field :gather_social_data, Boolean, null: true
     field :translations, [Types::JsonType], null: true
     field :available_languages, [Types::JsonType], null: true
+    field :outgoing_email_domain, String, null: true
 
 
     field :encryption_key, String, null: true

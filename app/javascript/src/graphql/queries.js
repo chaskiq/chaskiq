@@ -30,6 +30,8 @@ export const APP = `
       leadTasksSettings
       userTasksSettings
       gatherSocialData
+      domainUrl
+      outgoingEmailDomain
       segments {
         name
         id
