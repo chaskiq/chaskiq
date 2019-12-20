@@ -1,5 +1,3 @@
-
-
 class AppPackagesCatalog
 
   def self.packages
@@ -7,8 +5,9 @@ class AppPackagesCatalog
       {
         name: "Clearbit", 
         tag_list: ["enrichment"],
-        description: "clearbit data enrichment", 
+        description: "Clearbit data enrichment", 
         icon: "https://logo.clearbit.com/clearbit.com",
+        state: "disabled", 
         definitions: [
           {
             name: "api_secret",
@@ -23,6 +22,7 @@ class AppPackagesCatalog
         tag_list: ["enrichment"],
         description: "Data Enrichment service", 
         icon: "https://logo.clearbit.com/fullcontact.com",
+        state: "enabled", 
         definitions: [
         {
           name: "api_secret",
@@ -37,6 +37,7 @@ class AppPackagesCatalog
         tag_list: ["bot"],
         description: "Convesation Bot integration from dialogflow", 
         icon: "https://logo.clearbit.com/dialogflow.com",
+        state: "disabled", 
         definitions: [
           {
             name: "api_secret",
@@ -60,7 +61,8 @@ class AppPackagesCatalog
         name: "Helpscout", 
         tag_list: ["crm"],
         description: "Will insert contacts", 
-        icon: "https://image.flaticon.com/icons/png/512/2111/2111615.png",
+        state: "disabled", 
+        icon: "https://logo.clearbit.com/helpscout.shop",
         definitions: [
           {
             name: "api_secret",
@@ -78,8 +80,9 @@ class AppPackagesCatalog
       { 
         name: "Pipedrive", 
         tag_list: ["crm"],
-        description: "Pipedrive CRM integration , will insert contacts", 
-        icon: "https://logo.clearbit.com/helpscout.com",
+        description: "Pipedrive CRM integration, will insert contacts", 
+        icon: "https://logo.clearbit.com/pipedrive.com",
+        state: "disabled", 
         definitions: [
           {
             name: "api_secret",
@@ -89,6 +92,7 @@ class AppPackagesCatalog
           {
             name: "api_key",
             type: 'string',
+            
             grid: { xs: 12, sm: 12 }
           },
         ]
@@ -96,6 +100,7 @@ class AppPackagesCatalog
       {
         name: "Slack", 
         tag_list: ["channel"],
+        state: "disabled", 
         description: "Slack channel integration", 
         icon: "https://logo.clearbit.com/slack.com",
         definitions: [
