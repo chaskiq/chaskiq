@@ -4,11 +4,16 @@ class DataEnrichmentJob < ApplicationJob
   def perform(user_id:)
     user = AppUser.find(user_id)
     
-    token = ENV['FULLCONTACT_TOKEN']
+    token = user.app.find_app_package("FullContact").api_secret
+
+    return if token.blank?
 
     fullcontact = DataEnrichmentService::FullContact.new({token: token})
 
-    response = fullcontact.get_data(params: {email: user.email, macromeasures: true})
+    response = fullcontact.get_data(params: {
+      email: user.email, 
+      macromeasures: true
+    })
 
     # means an error, escape it
     return if response.status.present? && response.status >= 400
@@ -23,7 +28,6 @@ class DataEnrichmentJob < ApplicationJob
     user.organization = response.organization
     user.job_title = response.title
 
-    
     user.save
   end
 
