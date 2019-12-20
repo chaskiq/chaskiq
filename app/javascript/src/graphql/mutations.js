@@ -1070,11 +1070,26 @@ export const DELETE_BOT_TASK = `
 
 
 export const CREATE_INTEGRATION = `
-  mutation CreateIntegration($appKey: String!, $id: Int!, $params: Json!){
-    integrationCreate(appKey: $appKey, id: $id, params: $params){
+  mutation CreateIntegration($appKey: String!, $appPackage: String! , $params: Json!){
+    integrationsCreate(appKey: $appKey, appPackage: $appPackage, params: $params){
       errors
       integration {
         name
+        id
+        settings
+      }
+    }
+  }
+`;
+
+export const UPDATE_INTEGRATION = `
+  mutation UpdateIntegration($appKey: String!, $id: Int!, , $params: Json!){
+    integrationsUpdate(appKey: $appKey, id: $id, params: $params){
+      errors
+      integration {
+        id
+        name
+        settings
       }
     }
   }
@@ -1082,10 +1097,11 @@ export const CREATE_INTEGRATION = `
 
 export const DELETE_INTEGRATION = `
   mutation DeleteIntegration($appKey: String!, $id: Int!){
-    campaignDelete(appKey: $appKey, id: $id){
+    integrationsDelete(appKey: $appKey, id: $id){
       errors
       integration {
         id
+        name
       }
     }
   }

@@ -16,7 +16,7 @@ module Mutations
 
       def delete_integration(id)
         # TODO: async relation data destroy
-        @integration = @app.app_package_integration.find(id).destroy
+        @integration = @app.app_package_integrations.find(id).destroy
       end
 
       def find_app(app_id)
