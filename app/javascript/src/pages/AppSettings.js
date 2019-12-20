@@ -21,10 +21,6 @@ import { PREDICATES_SEARCH, UPDATE_APP } from '../graphql/mutations'
 import { toSnakeCase } from '../shared/caseConverter'
 import { withStyles } from '@material-ui/core/styles';
 
-import Favorite from '@material-ui/icons/Favorite';
-import FavoriteBorder from '@material-ui/icons/FavoriteBorder';
-
-
 import ContentHeader from '../components/ContentHeader'
 import Content from '../components/Content'
 import AvailabilitySettings from './settings/Availability'
@@ -34,14 +30,8 @@ import InboundSettings from './settings/InboundSettings'
 import StylingSettings from './settings/Styling'
 import Tab from '@material-ui/core/Tab';
 import Tabs from '@material-ui/core/Tabs';
-
 import timezones from '../shared/timezones'
 import {getFileMetadata, directUpload} from '../shared/fileUploader'
-
-import {
-  FormControlLabel,
-  Checkbox
-} from "@material-ui/core"
 import { setCurrentPage, setCurrentSection } from "../actions/navigation";
 
 const styles = theme => ({
@@ -113,7 +103,6 @@ class SettingsForm extends Component {
                 <Grid container spacing={3}>
                   {
                     this.props.definitions().map((field) => {
-
                       return <Grid item
                                 key={field.name} 
                                 xs={field.grid.xs} 
@@ -134,12 +123,6 @@ class SettingsForm extends Component {
                   <Grid item xs={12} sm={6}>
                     <Button variant="contained" color="primary" type="submit">
                       Save settings
-                    </Button>
-                  </Grid>
-
-                  <Grid item xs={12} sm={6}>
-                    <Button appearance="subtle">
-                      Cancel
                     </Button>
                   </Grid>
                 </Grid>
@@ -238,13 +221,23 @@ class AppSettingsContainer extends Component {
       {
         name: "name",
         type: 'string',
-        grid: { xs: 12, sm: 6 }
+        grid: { xs: 12, sm: 12 }
       },
       {
         name: "domainUrl",
         type: 'string',
-        grid: { xs: 12, sm: 6 }
+        label: "Domain URL",
+        hint: 'this will be the host site were chaskiq will be used',
+        grid: { xs: 6, sm: 6 }
       },
+      {
+        name: "outgoingEmailDomain",
+        label: "Outgoing email Domain",
+        hint: "the email domain to send conversations, for @yourapp use 'your app'",
+        type: 'string',
+        grid: { xs: 6, sm: 6 }
+      },
+
       {
         name: "tagline",
         type: 'text',
@@ -252,16 +245,18 @@ class AppSettingsContainer extends Component {
         grid: { xs: 12, sm: 12 }
       },
 
-      {name: "timezone", type: "timezone", 
+      { name: "timezone", 
+        type: "timezone", 
         options: timezones, 
         multiple: false,
         grid: {xs: 12, sm: 12 }
       },
       {
         name: "gatherSocialData",
+        label: "Gather social data",
         type: 'bool',
         label: "Collect social data about your users",
-        hint: "Collect social profiles (e.g. LinkedIn, Twitter, etc.) for my users via a third party",
+        hint: "Collect social profiles via fullcontact service (e.g. LinkedIn, Twitter, etc.) for my users via a third party",
         grid: { xs: 12, sm: 12 }
       },
     ]
@@ -271,10 +266,11 @@ class AppSettingsContainer extends Component {
     return [
       {
         name: "encryptionKey",
+        label: "Encryption Key", 
         type: 'string',
         maxLength: 16, minLength: 16,
         placeholder: "leave it blank for no encryption",
-        hint: "this is the hint!",
+        hint: "this key will be used to encrypt and decrypt JWE user data",
         grid: { xs: 12, sm: 12 }
       },
     ]

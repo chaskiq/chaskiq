@@ -16,6 +16,7 @@ class App < ApplicationRecord
     :team_schedule,
     :gather_social_data,
     :customization_colors,
+    :outgoing_email_domain
   ], coder: JSON
 
   translates :greetings, :intro, :tagline
@@ -82,6 +83,12 @@ class App < ApplicationRecord
         grid: {xs: 12, sm: 6 } 
       },
 
+      {
+        name: "outgoingEmailDomain", 
+        type: 'string', 
+        grid: {xs: 12, sm: 6 } 
+      },
+      
       {
         name: "state", 
         type: "select", 
