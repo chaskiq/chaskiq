@@ -5,6 +5,7 @@ class AppPackageIntegration < ApplicationRecord
   store :settings, accessors: [ 
     :api_key, 
     :api_secret,
+    :project_id
   ], coder: JSON
 
   validate do

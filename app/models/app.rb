@@ -34,7 +34,7 @@ class App < ApplicationRecord
   has_many :visits, through: :app_users
 
   has_many :app_package_integrations
-  has_many :apps_packages, through: :app_package_integrations
+  has_many :app_packages, through: :app_package_integrations
   
   has_one :article_settings, class_name: "ArticleSetting", :dependent => :destroy
   has_many :articles
