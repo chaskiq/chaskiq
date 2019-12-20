@@ -28,6 +28,11 @@ module Types
     field :available_languages, [Types::JsonType], null: true
     field :outgoing_email_domain, String, null: true
 
+    field :app_packages, [Types::AppPackageType], null: true
+
+    def app_packages
+      AppPackage.all
+    end
 
     field :encryption_key, String, null: true
 
@@ -36,6 +41,7 @@ module Types
     end
 
     field :tasks_settings, Types::JsonType, null: true
+
 
 
 
