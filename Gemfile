@@ -48,7 +48,7 @@ gem 'graphiql-rails', group: :development
 
 gem 'email_reply_trimmer'
 # gem 'tunable'
-#gem 'acts_as_taggable_on'
+gem 'acts-as-taggable-on', '~> 6.0'
 gem 'pg_search'
 gem "groupdate"
 gem "deep_cloneable"

@@ -28,6 +28,19 @@ module Types
     field :available_languages, [Types::JsonType], null: true
     field :outgoing_email_domain, String, null: true
 
+    field :app_packages, [Types::AppPackageType], null: true
+
+    def app_packages
+      AppPackage
+      .left_outer_joins(:app_package_integrations)
+      .where("app_id is null")
+    end
+
+    field :app_package_integrations, [Types::AppPackageIntegrationType], null: true
+
+    def app_package_integrations
+      object.app_package_integrations
+    end
 
     field :encryption_key, String, null: true
 
@@ -36,6 +49,7 @@ module Types
     end
 
     field :tasks_settings, Types::JsonType, null: true
+
 
 
 
