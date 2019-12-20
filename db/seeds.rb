@@ -13,4 +13,4 @@ app.add_admin(Agent.create(
   password: "123456"
 ))
 
-AppPackagesCatalog.import
+AppPackagesCatalog.import unless Rails.env.test?
