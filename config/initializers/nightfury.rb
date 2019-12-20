@@ -1,0 +1,1 @@
+Nightfury.redis.namespace = "nf-#{Rails.env}"

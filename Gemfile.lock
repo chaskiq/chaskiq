@@ -8,6 +8,16 @@ GIT
       request_store (~> 1.0)
 
 GIT
+  remote: https://github.com/michelson/nightfury.git
+  revision: b9014eec30d94c52a63f724ef449a34d3b3f42c2
+  specs:
+    nightfury (1.0.1)
+      activesupport (>= 6.0)
+      i18n
+      redis (~> 4.0)
+      redis-namespace (~> 1.6)
+
+GIT
   remote: https://github.com/stympy/faker.git
   revision: 840cf10c8f2d42d8348a874d2500a617ae635a9c
   specs:
@@ -326,7 +336,6 @@ GEM
     net-scp (2.0.0)
       net-ssh (>= 2.6.5, < 6.0.0)
     net-ssh (5.2.0)
-    nightfury (1.0.1)
     nio4r (2.5.2)
     nokogiri (1.10.7)
       mini_portile2 (~> 2.4.0)
@@ -595,7 +604,7 @@ DEPENDENCIES
   listen (>= 3.0.5, < 3.2)
   mini_magick (~> 4.8)
   mustache
-  nightfury (~> 1.0)
+  nightfury!
   pg
   pg_search
   pry
