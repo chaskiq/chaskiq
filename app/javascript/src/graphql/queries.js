@@ -793,6 +793,7 @@ export const APP_PACKAGES = `
     app(key: $appKey) {
       appPackages{
         name
+        state
         definitions
         icon
         description

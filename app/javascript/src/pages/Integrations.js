@@ -12,6 +12,7 @@ import Paper from '@material-ui/core/Paper'
 import Button from '@material-ui/core/Button'
 import Typography from '@material-ui/core/Typography'
 import Grid from '@material-ui/core/Grid'
+import Link from '@material-ui/core/Link';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemAvatar from '@material-ui/core/ListItemAvatar';
@@ -24,6 +25,8 @@ import FolderIcon from '@material-ui/icons/Folder';
 import AddIcon from '@material-ui/icons/Add';
 import Tab from '@material-ui/core/Tab';
 import Tabs from '@material-ui/core/Tabs';
+import Card from '@material-ui/core/Card';
+import CardContent from '@material-ui/core/CardContent';
 
 import Progress from '../shared/Progress'
 
@@ -150,8 +153,8 @@ function Integrations({app}){
               variant="scrollable"
               scrollButtons="auto"
               textColor="inherit">
-              <Tab textColor="inherit" label="Integrations" />
-              <Tab textColor="inherit" label="more" />
+              <Tab textColor="inherit" label="App Integrations" />
+              <Tab textColor="inherit" label="API services" />
             </Tabs>
   }
 
@@ -164,6 +167,13 @@ function Integrations({app}){
                     API Integrations
                   </Typography>
                   {loading && <Progress/>}
+
+                  {
+                    integrations.length === 0 && !loading &&
+                    <EmptyCard 
+                      goTo={()=>{setTabValue(1)}}
+                    />
+                  }
 
                   { <ServiceIntegration
                     services={integrations}
@@ -189,7 +199,7 @@ function Integrations({app}){
 
   return <React.Fragment>
             <ContentHeader 
-              title={ 'Api integrations' }
+              title={ 'Third party integrations' }
               tabsContent={ tabsContent() }
             />
             <Content>
@@ -245,6 +255,25 @@ function Integrations({app}){
         </React.Fragment>
   }
 
+
+
+  function EmptyCard({goTo}){
+  return (
+    <Card style={{marginTop: '2em'}}>
+      <CardContent>
+        <Typography color="textSecondary" gutterBottom>
+        </Typography>
+        <Typography variant="h5" component="h2">
+          You don't have any api integrations yet
+        </Typography>
+        <Typography color="textSecondary">
+          search for available api services in <Link href="#" onClick={ goTo }>API Services</Link> Tab
+        </Typography>
+      </CardContent>
+    </Card>
+  )
+}
+
 function ServiceBlock({service, handleOpen}){
   return (
       <ListItem>
@@ -256,18 +285,23 @@ function ServiceBlock({service, handleOpen}){
               width={20}
             />
           </Avatar>
+
         </ListItemAvatar>
         <ListItemText
           primary={service.name}
           secondary={service.description}
         />
-        <ListItemSecondaryAction>
-          <IconButton 
-            onClick={()=> handleOpen(service)}
-            edge="end" aria-label="add">
-            <AddIcon  />
-          </IconButton>
-        </ListItemSecondaryAction>
+
+        {
+          service.state === "enabled" &&
+          <ListItemSecondaryAction>
+            <IconButton 
+              onClick={()=> handleOpen(service)}
+              edge="end" aria-label="add">
+              <AddIcon  />
+            </IconButton>
+          </ListItemSecondaryAction>
+        }
       </ListItem>
   )
 }
