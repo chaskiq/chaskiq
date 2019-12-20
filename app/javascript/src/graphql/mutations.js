@@ -1065,3 +1065,28 @@ export const DELETE_BOT_TASK = `
     }
   }
 `;
+
+
+
+
+export const CREATE_INTEGRATION = `
+  mutation CreateIntegration($appKey: String!, $id: Int!, $params: Json!){
+    integrationCreate(appKey: $appKey, id: $id, params: $params){
+      errors
+      integration {
+        name
+      }
+    }
+  }
+`;
+
+export const DELETE_INTEGRATION = `
+  mutation DeleteIntegration($appKey: String!, $id: Int!){
+    campaignDelete(appKey: $appKey, id: $id){
+      errors
+      integration {
+        id
+      }
+    }
+  }
+`;

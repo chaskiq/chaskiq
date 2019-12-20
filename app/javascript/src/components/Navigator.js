@@ -300,9 +300,15 @@ function Navigator(props, context) {
       children: [
         { id: 'App Settings', icon:  <SettingsIcon/>, 
           url: `/apps/${app.key}/settings`, 
-        active: isActivePage("app_settings") },
+          active: isActivePage("app_settings") },
         { id: 'Team', icon: <SupervisedUserCircleIcon />, 
-          url: `/apps/${app.key}/team`, active: isActivePage("team") },
+          url: `/apps/${app.key}/team`, 
+          active: isActivePage("team") 
+        },
+        { id: 'Integrations', icon: <SupervisedUserCircleIcon />, 
+          url: `/apps/${app.key}/integrations`, 
+          active: isActivePage("integrations") 
+        },
         //{ id: 'Authentication', icon: <ShuffleIcon />, active: isActivePage("user_auto_messages")},
       ],
     },

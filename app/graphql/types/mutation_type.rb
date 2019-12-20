@@ -68,5 +68,8 @@ module Types
     field :updateBotTask, mutation: Mutations::Bots::UpdateBotTask
     field :deleteBotTask, mutation: Mutations::Bots::DeleteBotTask
 
+    field :integrationsCreate, mutation: Mutations::AppPackageIntegrations::CreateIntegration
+    field :integrationsDelete, mutation: Mutations::AppPackageIntegrations::DeleteIntegration
+
   end
 end
