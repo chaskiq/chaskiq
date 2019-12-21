@@ -80,6 +80,31 @@ class Dashboard
     end
   end
 
+  def first_response_time
+    @app.stats_counts_for("first_response_time")
+  end
+  
+  def incoming_messages
+    @app.stats_counts_for("incoming_messages")
+  end
+  
+  def outgoing_messages
+    @app.stats_counts_for("outgoing_messages")
+  end
+  
+  def opened_conversations
+    @app.stats_counts_for("opened_conversations")
+  end
+  
+  def solved_conversations
+    @app.stats_counts_for("solved_conversations")
+  end
+  
+  def resolution_avg
+    @app.stats_for("resolution_avg")
+  end
+  
+
 private
 
   def colors

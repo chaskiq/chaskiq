@@ -22,7 +22,16 @@ class Event < ApplicationRecord
   after_create :trigger_webhooks
 
   def trigger_webhooks
+    action_event = "Events::"+self.action.gsub(".", "_").classify
+    klass = action_event.constantize rescue nil
+    
+    if klass.blank?
+      puts "no trigger hook for #{self.action}"
+      return
+    end
+
     puts "trigger hook on #{self.action}"
+    klass.perform(self)
   end
 
   def self.action_for(name)
