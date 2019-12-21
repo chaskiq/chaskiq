@@ -1,4 +1,5 @@
-Chaskiq is the 100% open source discussion platform built for the next decade of the Internet. Use it as a:
+
+Chaskiq is a 100% open source conversational marketing platform build as an alternative for Intercom, Drift, and others
 
 
 # Chaskiq
@@ -16,18 +17,20 @@ Chaskiq is a platform that enables chat comunication with users in app or via ca
 
 ![https://proseflow.herokuapp.com/rails/active_storage/blobs/eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaHBBaFVCIiwiZXhwIjpudWxsLCJwdXIiOiJibG9iX2lkIn19--d44a670bbacb49c154f0ba0035e452bf847b7138/image.png](https://proseflow.herokuapp.com/rails/active_storage/blobs/eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaHBBaFVCIiwiZXhwIjpudWxsLCJwdXIiOiJibG9iX2lkIn19--d44a670bbacb49c154f0ba0035e452bf847b7138/image.png)
 
-- segments
-- conversations
-  - agent auto assignment
-  - extensible editor with many kind of blocks ie: image, code, video , embed, giphy etc..
-- campaigns
+- Segments
+- Conversations
+  - Agent auto assignment
+  - Extensible editor with many kind of blocks ie: image, code, video , embed, giphy etc..
+- Campaigns
   - newsletters with programable scheduling
   - user auto messages, send messages to visitors thourgh fine grained segments
-  - onboarding tours
-- data enrichment
-- api integrations
-- programable bots and composable paths of conversations
-- report dashboard with visits avg response & resolution times
+  - Onboarding tours
+- Data enrichment
+- Api integrations
+- Programable bots and composable paths of conversations
+- Report dashboard with visits avg response & resolution times
+- Help Center/ Knowledge base in the box
+  - Create articles & collections
 
 To learn more about the philosophy and goals of the project, [visit **chaskiq.io**](https://www.chaskiq.io).
 
