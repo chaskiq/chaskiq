@@ -271,7 +271,20 @@ module Types
     end
 
     def dashboard(range:,  kind:)
-      whitelist = %w(visits browser_name browser lead_os user_os user_country)
+      whitelist = %w(
+        visits 
+        browser_name 
+        browser 
+        lead_os
+        user_os
+        user_country
+        first_response_time
+        incoming_messages
+        outgoing_messages
+        opened_conversations
+        solved_conversations
+        resolution_avg
+      )
       raise "no dashboard available at this address" unless whitelist.include?(kind)
       Dashboard.new(
         app: object, 

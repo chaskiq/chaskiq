@@ -31,6 +31,7 @@ import Progress from '../shared/Progress'
 
 import HeatMap from '../components/charts/heatMap'
 import Pie from '../components/charts/pie'
+import Count from '../components/charts/count'
 
 import {DASHBOARD} from "../graphql/queries"
 import graphql from '../graphql/client'
@@ -123,6 +124,59 @@ function Dashboard(props) {
         <Container maxWidth="lg" className={classes.container}>
           <Grid container spacing={3}>
             {/* Chart */}
+
+            <Grid item xs={6} md={3}>
+              <Paper className={classes.paper}>
+                <DashboardItem
+                  chartType={"count"} 
+                  dashboard={dashboard} 
+                  app={app} 
+                  kind={"first_response_time"}
+                  label={"Response Time avg"}
+                  appendLabel={"Hrs"}
+                />
+              </Paper>
+            </Grid>
+
+            <Grid item xs={6} md={3}>
+              <Paper className={classes.paper}>
+                <DashboardItem
+                  chartType={"count"} 
+                  dashboard={dashboard} 
+                  app={app} 
+                  kind={"opened_conversations"}
+                  label={"New conversations"}
+                  appendLabel={""}
+                />
+              </Paper>
+            </Grid>
+
+            <Grid item xs={6} md={3}>
+              <Paper className={classes.paper}>
+                <DashboardItem
+                  chartType={"count"} 
+                  dashboard={dashboard} 
+                  app={app} 
+                  kind={"solved_conversations"}
+                  label={"Resolutions"}
+                  appendLabel={""}
+                />
+              </Paper>
+            </Grid>
+
+            <Grid item xs={6} md={3}>
+              <Paper className={classes.paper}>
+                <DashboardItem
+                  chartType={"count"} 
+                  dashboard={dashboard} 
+                  app={app} 
+                  kind={"incoming_messages"}
+                  label={"Incoming Messages"}
+                  appendLabel={""}
+                />
+              </Paper>
+            </Grid>
+
             <Grid item xs={12} md={8} lg={9}>
               <Paper className={fixedHeightPaper}>
                 {/*<Chart />*/}
@@ -178,7 +232,6 @@ function Dashboard(props) {
               </Paper>
             </Grid>
 
-
             <Grid item xs={12} md={4} lg={3}>
               <Paper className={classes.paper}>
               <DashboardCard title={"User country"}>
@@ -192,13 +245,6 @@ function Dashboard(props) {
               </Paper>
             </Grid>
 
-
-
-            <Grid item xs={12}>
-              <Paper className={classes.paper}>
-                <DashboardCard2 />
-              </Paper>
-            </Grid>
           </Grid>
         </Container>
         {/*<MadeWithLove />*/}
@@ -216,7 +262,9 @@ function DashboardItem(
     app, 
     kind, 
     dashboard,
-    chartType
+    chartType,
+    label,
+    appendLabel
   }){
 
   const [data, setData] = React.useState([])
@@ -262,19 +310,27 @@ function DashboardItem(
           from={dashboard.from}
           to={dashboard.to}
         />
+      case "count":
+        return  <Count 
+          data={data}
+          from={dashboard.from}
+          to={dashboard.to}
+          label={label}
+          appendLabel={appendLabel}
+        />
       default:
         return <p>no chart type</p>;
     }
   }
 
   return (
-    <div style={{height: '200px'}}>
+    <div style={{height: '140px'}}>
 
       {
         loading && <Progress/>
       }
       {
-        data.length > 0 && renderChart()
+        !loading && renderChart()
       }
     </div>
   )
