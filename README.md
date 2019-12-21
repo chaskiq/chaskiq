@@ -20,18 +20,21 @@ It has minimal dependences , Postgres & Redis and interoperates with cdn provide
   - Embed web widget with a simple js snippet
   - Pass custom attributes to feed your segment properties
   - Secure data comunication with Encrypted data (JWE)
+  - Multilanguage and Customizable color palette
 - **Conversations**
   - Agent's auto assignment
   - Extensible Chat editor with many kind of blocks ie: image, code, video, embed, giphy and more.. it's based in <a href="http://github.com/michelson/Dante2">Dante2</a> editor
 - **Campaigns**
   - **Newsletters** with programable scheduling and Audience target
+    - track open, clicks and complaints
   - **User auto messages**, send messages to visitors through 
   segments
-  - Receive & Reply those unreaded messages from email and deliver the directly to the chat.
-  - Set Agent's team availability, days with their time frames.
+    - track open, clicks
+  - **Receive & Reply** those unreaded messages from email and deliver the directly to the chat.
+  - **Set Agent's team availability**, days with their time frames.
   - **Compose Onboarding** tours to give an awesome experience on your site
-   - track open, clicks and skips
-   - set which url the onboarding should trigger, support patterns like /*
+    - track open, clicks and skips
+    - set which url the onboarding should trigger, support patterns like /*
 
   All Campaigns messages are powered by Dante2, with all the bells and whistles.
  
@@ -76,8 +79,6 @@ Before you get started, ensure you have the following minimum versions: [Ruby 2.
 ## Setting up Chaskiq
 
 If you want to set up a Chaskiq for production use, see our [**Chaskiq Install Guide**](https://dev.chaskiq.io/en/articles/installation).
-
-If you're looking for business class hosting, see [chaskiq.io/buy](https://www.chaskiq.io/buy/).
 
 ## Requirements
 
