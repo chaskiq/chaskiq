@@ -44,15 +44,7 @@ To learn more about the philosophy and goals of the project, [visit **chaskiq.io
 
 ![image](https://user-images.githubusercontent.com/11976/71302992-3682e700-2391-11ea-9920-21617d9bd574.png)
 
-## Conversations
-
-![image](https://user-images.githubusercontent.com/11976/71303001-55817900-2391-11ea-9d73-c9f9ca7d2f9f.png)
-
-## Visitor Profile
-![image](https://user-images.githubusercontent.com/11976/71303024-b27d2f00-2391-11ea-9312-b818f29dd4cc.png)
-
 ## Help Center
-
 ![image](https://user-images.githubusercontent.com/11976/71303031-d80a3880-2391-11ea-9798-34cc7e81e9d1.png)
 
 
