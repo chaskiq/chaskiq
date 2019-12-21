@@ -59,7 +59,7 @@ Chaskiq is built for the *next* 10 years of the Internet, so our requirements ar
 
 | Browsers              | Tablets      | Phones       |
 | --------------------- | ------------ | ------------ |
-| Safari 10+           | iPad 4+      | iOS 10+       |
+| Safari 10+            | iPad 4+      | iOS 10+      |
 | Google Chrome 57+     | Android 4.4+ | Android 4.4+ |
 | Internet Explorer 11+ |              |              |
 | Firefox 52+           |              |              |
@@ -75,18 +75,8 @@ Plus *lots* of Ruby Gems, a complete list of which is at [/master/Gemfile](https
 
 ## Contributing
 
-[![Build Status](https://api.travis-ci.org/michelson/chaskiq.svg?branch=master)](https://travis-ci.org/michelson/chaskiq)
-
 Chaskiq is **100% free** and **open source**. We encourage and support an active, healthy community that
 accepts contributions from the public &ndash; including you!
-
-Before contributing to Chaskiq:
-
-We look forward to seeing your pull requests!
-
-## Security
-
-We take security very seriously at Chaskiq; all our code is 100% open source and peer reviewed. Please read [our security guide](https://github.com/michelson/chaskiq/blob/master/docs/SECURITY.md) for an overview of security measures in Chaskiq, or if you wish to report a security issue.
 
 ## The Chaskiq Team
 
