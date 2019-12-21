@@ -265,6 +265,14 @@ class App < ApplicationRecord
     .first
   end
 
+  def stats_for(name)
+    AppIdentity.new(self.key).send(name).get
+  end
+
+  def stats_counts_for(name)
+    AppIdentity.new(self.key).send(name).get.values.first rescue nil
+  end
+
 private
   def init_app_segments
     SegmentFactory.create_segments_for(self)
