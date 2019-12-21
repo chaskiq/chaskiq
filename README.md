@@ -4,7 +4,8 @@ Chaskiq is a 100% open source conversational marketing platform build as an alte
 
 # Chaskiq
 
-Chaskiq is a platform that enables chat comunication with users in app or via campaigns (in app messages or newsletters). The platform is made with React, Redux and Ruby on Rails on backend serving a graphql api.
+Chaskiq is a platform that enables chat comunication with users in app or via campaigns (in app messages or newsletters). The platform is a Ruby on Rails app serving a graphql API which is consumed by a React application.
+It has minimal dependences , Postgres & Redis and interoperates with cdn providers like Amazon s3 and Amazon SES for email delivery. You can use other providers too.
 
 [![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy?template=https://github.com/michelson/chaskiq/tree/master)
 
@@ -13,28 +14,46 @@ Chaskiq is a platform that enables chat comunication with users in app or via ca
 
 ## Main features:
 
-### Intercom's like messenger. widget based chat application:
-
-![https://dev.chaskiq.io/rails/active_storage/blobs/eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaHBQZz09IiwiZXhwIjpudWxsLCJwdXIiOiJibG9iX2lkIn19--688ff53fe05a0d4a0ba1e8860c0749d35c76f6e5/image.png](https://dev.chaskiq.io/rails/active_storage/blobs/eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaHBQZz09IiwiZXhwIjpudWxsLCJwdXIiOiJibG9iX2lkIn19--688ff53fe05a0d4a0ba1e8860c0749d35c76f6e5/image.png)
-
-- Segments
+- Segments or users filters to trigger campaigns, messages and bots.
 - Conversations
-  - Agent auto assignment
-  - Extensible editor with many kind of blocks ie: image, code, video , embed, giphy etc..
+  - Agent's auto assignment
+  - Extensible Chat editor with many kind of blocks ie: image, code, video, embed, giphy etc.. it's based in <a href="http://github.com/michelson/Dante2">Dante2</a> editor
 - Campaigns
-  - newsletters with programable scheduling
-  - user auto messages, send messages to visitors thourgh fine grained segments
+  - Newsletters with programable scheduling and Audience target
+  - User auto messages, send messages to visitors thourgh fine grained segments
   - Onboarding tours
-- Data enrichment
-- Api integrations
+- Data enrichment, through third parties
+- Api integrations & pluggable integrations
 - Programable bots and composable paths of conversations
 - Report dashboard with visits avg response & resolution times
 - Help Center/ Knowledge base in the box
   - Create articles & collections
+  - multilanguage
+
+And many features to come
 
 To learn more about the philosophy and goals of the project, [visit **chaskiq.io**](https://www.chaskiq.io).
 
 ## Screenshots
+
+### Intercom's like messenger. widget based chat application:
+
+![image](https://dev.chaskiq.io/rails/active_storage/blobs/eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaHBQZz09IiwiZXhwIjpudWxsLCJwdXIiOiJibG9iX2lkIn19--688ff53fe05a0d4a0ba1e8860c0749d35c76f6e5/image.png)
+
+## Dashboard panel
+
+![image](https://user-images.githubusercontent.com/11976/71302992-3682e700-2391-11ea-9920-21617d9bd574.png)
+
+## Conversations
+
+![image](https://user-images.githubusercontent.com/11976/71303001-55817900-2391-11ea-9d73-c9f9ca7d2f9f.png)
+
+## Visitor Profile
+![image](https://user-images.githubusercontent.com/11976/71303024-b27d2f00-2391-11ea-9312-b818f29dd4cc.png)
+
+## Help Center
+
+![image](https://user-images.githubusercontent.com/11976/71303031-d80a3880-2391-11ea-9798-34cc7e81e9d1.png)
 
 
 ## Development
@@ -43,12 +62,10 @@ To get your environment setup, follow the community setup guide for your operati
 
 1. If you're on macOS, try the [macOS development guide](https://dev.chaskiq.io/en/articles/mac-os-installation-guide).
 1. If you're on Ubuntu, try the [Ubuntu development guide](https://dev.chaskiq.io/en/articles/ubuntu-installation-guide).
-1. If you're on Windows, try the [Windows 10 development guide](https://dev.chaskiq.io/en/articles/windows-10-installation-guide
-  https://meta.chaskiq.io/t/beginners-guide-to-install-discourse-on-windows-10-for-development/75149).
+1. If you're on Windows, try the [Windows 10 development guide](https://dev.chaskiq.io/en/articles/ubuntu-installation-guide).
 
-If you're familiar with how Rails works and are comfortable setting up your own environment, you can also try out the [**Chaskiq Advanced Developer Guide**](docs/DEVELOPER-ADVANCED.md), which is aimed primarily at Ubuntu and macOS environments.
 
-Before you get started, ensure you have the following minimum versions: [Ruby 2.5+](https://www.ruby-lang.org/en/downloads/), [PostgreSQL 10+](https://www.postgresql.org/download/), [Redis 2.6+](https://redis.io/download). If you're having trouble, please see our [**TROUBLESHOOTING GUIDE**](docs/TROUBLESHOOTING.md) first!
+Before you get started, ensure you have the following minimum versions: [Ruby 2.5+](https://www.ruby-lang.org/en/downloads/), [PostgreSQL 10+](https://www.postgresql.org/download/), [Redis 2.6+](https://redis.io/download).
 
 ## Setting up Chaskiq
 
@@ -87,7 +104,7 @@ For a complete list of the many individuals that contributed to the design and i
 
 ## Copyright / License
 
-Copyright 2019 Chaskiq, Inc.
+Copyright 2019 Chaskiq.
 
 Licensed under the GNU General Public License Version 2.0 (or later);
 you may not use this work except in compliance with the License.
