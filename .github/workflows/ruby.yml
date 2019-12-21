@@ -68,24 +68,9 @@ jobs:
           #bundle exec rake assets:precompile
           #bundle exec rspec ./spec/system  -t browser
 
-
-      #- name: Run migrations
-      #  run: bin/rubocop
-
-      #- name: Run Rubocop
-      #  run: bin/rubocop
-      #- name: Run Style Lint
-      #  run: bin/stylelint
-      #- name: Run Prettier
-      #  run: bin/prettier
-      #- name: Run ESLint
-      #  run: bin/eslint
-
-      #- name: Run Bundler Audit
-      #  run: bin/bundler-audit --update
-      #- name: Run Brakeman
-      #  run: bin/brakeman -q -w2
-
-
-      #- name: Run tests
-      #  run: bin/rspec
+      - name: Deploy to Heroku
+        env:
+          HEROKU_API_TOKEN: ${{ secrets.HEROKU_API_TOKEN }}
+          HEROKU_APP_NAME: "hermesapp"
+        if: github.ref == 'refs/heads/master' && job.status == 'success'
+        run: git push https://heroku:$HEROKU_API_TOKEN@git.heroku.com/$HEROKU_APP_NAME.git origin/master:master
