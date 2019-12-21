@@ -418,7 +418,7 @@ function Navigator(props, context) {
                   Project Overview
                 </ListItemText>
 
-                <ListItemIcon>
+                {/*<ListItemIcon>
                   
                     <ListMenu 
                       handleClick={visitApp} 
@@ -435,7 +435,7 @@ function Navigator(props, context) {
                               }
                     />
                   
-                </ListItemIcon>
+                </ListItemIcon>*/}
               </ListItem>
             </React.Fragment>
   }
