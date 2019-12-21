@@ -38,9 +38,10 @@ To learn more about the philosophy and goals of the project, [visit **chaskiq.io
 
 To get your environment setup, follow the community setup guide for your operating system.
 
-1. If you're on macOS, try the [macOS development guide](https://meta.chaskiq.io/t/beginners-guide-to-install-discourse-on-macos-for-development/15772).
-1. If you're on Ubuntu, try the [Ubuntu development guide](https://meta.chaskiq.io/t/beginners-guide-to-install-discourse-on-ubuntu-for-development/14727).
-1. If you're on Windows, try the [Windows 10 development guide](https://meta.chaskiq.io/t/beginners-guide-to-install-discourse-on-windows-10-for-development/75149).
+1. If you're on macOS, try the [macOS development guide](https://dev.chaskiq.io/en/articles/mac-os-installation-guide).
+1. If you're on Ubuntu, try the [Ubuntu development guide](https://dev.chaskiq.io/en/articles/ubuntu-installation-guide).
+1. If you're on Windows, try the [Windows 10 development guide](https://dev.chaskiq.io/en/articles/windows-10-installation-guide
+  https://meta.chaskiq.io/t/beginners-guide-to-install-discourse-on-windows-10-for-development/75149).
 
 If you're familiar with how Rails works and are comfortable setting up your own environment, you can also try out the [**Chaskiq Advanced Developer Guide**](docs/DEVELOPER-ADVANCED.md), which is aimed primarily at Ubuntu and macOS environments.
 
@@ -48,7 +49,7 @@ Before you get started, ensure you have the following minimum versions: [Ruby 2.
 
 ## Setting up Chaskiq
 
-If you want to set up a Chaskiq forum for production use, see our [**Chaskiq Install Guide**](docs/INSTALL.md).
+If you want to set up a Chaskiq for production use, see our [**Chaskiq Install Guide**](https://dev.chaskiq.io/en/articles/installation).
 
 If you're looking for business class hosting, see [chaskiq.io/buy](https://www.chaskiq.io/buy/).
 
@@ -89,7 +90,7 @@ We take security very seriously at Chaskiq; all our code is 100% open source and
 
 ## The Chaskiq Team
 
-The original Chaskiq code contributors can be found in [**AUTHORS.MD**](docs/AUTHORS.md). For a complete list of the many individuals that contributed to the design and implementation of Chaskiq, please refer to [the official Chaskiq blog](https://blog.chaskiq.io/2013/02/the-discourse-team/) and [GitHub's list of contributors](https://github.com/michelson/chaskiq/contributors).
+For a complete list of the many individuals that contributed to the design and implementation of Chaskiq, please refer to [GitHub's list of contributors](https://github.com/michelson/chaskiq/contributors).
 
 ## Copyright / License
 
