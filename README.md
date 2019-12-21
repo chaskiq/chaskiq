@@ -1,3 +1,13 @@
+<a href="https://www.chaskiq.io/"><img src=
+"https://user-images.githubusercontent.com/1681963/52239617-e2683480-289c-11e9-922b-5da55472e5b4.png"
+ width="300px"></a>
+
+
+
+
+Chaskiq is the 100% open source discussion platform built for the next decade of the Internet. Use it as a:
+
+
 # Chaskiq
 
 Chaskiq is a platform that enables chat comunication with users in app or via campaigns (in app messages or newsletters). The platform is made with React, Redux and Ruby on Rails on backend serving a graphql api.
@@ -13,134 +23,93 @@ Chaskiq is a platform that enables chat comunication with users in app or via ca
 
 ![https://proseflow.herokuapp.com/rails/active_storage/blobs/eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaHBBaFVCIiwiZXhwIjpudWxsLCJwdXIiOiJibG9iX2lkIn19--d44a670bbacb49c154f0ba0035e452bf847b7138/image.png](https://proseflow.herokuapp.com/rails/active_storage/blobs/eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaHBBaFVCIiwiZXhwIjpudWxsLCJwdXIiOiJibG9iX2lkIn19--d44a670bbacb49c154f0ba0035e452bf847b7138/image.png)
 
-## Messenger app
+- segments
+- conversations
+  - agent auto assignment
+  - extensible editor with many kind of blocks ie: image, code, video , embed, giphy etc..
+- campaigns
+  - newsletters with programable scheduling
+  - user auto messages, send messages to visitors thourgh fine grained segments
+  - onboarding tours
+- data enrichment
+- api integrations
+- programable bots and composable paths of conversations
+- report dashboard with visits avg response & resolution times
 
-The widget registers users's visits and identify by a client given id. All the comunication is transmited securely via JWE (json web encryption)
+To learn more about the philosophy and goals of the project, [visit **chaskiq.io**](https://www.chaskiq.io).
 
-![https://proseflow.herokuapp.com/rails/active_storage/blobs/eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaHBBaFlCIiwiZXhwIjpudWxsLCJwdXIiOiJibG9iX2lkIn19--1a55e7a4b8fc6e16afd7b8ca63df35b85cce6f9b/image.png](https://proseflow.herokuapp.com/rails/active_storage/blobs/eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaHBBaFlCIiwiZXhwIjpudWxsLCJwdXIiOiJibG9iX2lkIn19--1a55e7a4b8fc6e16afd7b8ca63df35b85cce6f9b/image.png)
-
-widget integration
-## Backend
-
-### Platform
-
-When users visits a site with the Chaskiq integration, they are registered in the platform database which registers the data provided by the integrator and also many browser's properties. (os, os version, user agent etc..).
-
-In the administration page you can see who is online and add "segments" which enables filters for you to query different properties on user information. ie: active users, sleeping away etc.. It's entirely customizable.
-
-![https://proseflow.herokuapp.com/rails/active_storage/blobs/eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaHBBaGNCIiwiZXhwIjpudWxsLCJwdXIiOiJibG9iX2lkIn19--3876ce9cd9dd09b276faf03916d9bc27f01044bb/image.png](https://proseflow.herokuapp.com/rails/active_storage/blobs/eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaHBBaGNCIiwiZXhwIjpudWxsLCJwdXIiOiJibG9iX2lkIn19--3876ce9cd9dd09b276faf03916d9bc27f01044bb/image.png)
-
-platform's visitors list
-
-### Campaigns
-
-There are 2 modes of campaign implemented - In app message and mailing.
-
-![https://proseflow.herokuapp.com/rails/active_storage/blobs/eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaHBBaGdCIiwiZXhwIjpudWxsLCJwdXIiOiJibG9iX2lkIn19--2cdc923c57fdc387bedf4cf20800cfc1a1d81f59/image.png](https://proseflow.herokuapp.com/rails/active_storage/blobs/eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaHBBaGdCIiwiZXhwIjpudWxsLCJwdXIiOiJibG9iX2lkIn19--2cdc923c57fdc387bedf4cf20800cfc1a1d81f59/image.png)
-
-#### campaigns menu
-
-when the campaign is active you can see the metrics on the campaign. ie , who saw, click , close etc..
-
-![https://proseflow.herokuapp.com/rails/active_storage/blobs/eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaHBBaGtCIiwiZXhwIjpudWxsLCJwdXIiOiJibG9iX2lkIn19--905ba56fee749d092c477750eb1e82a80131f51c/image.png](https://proseflow.herokuapp.com/rails/active_storage/blobs/eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaHBBaGtCIiwiZXhwIjpudWxsLCJwdXIiOiJibG9iX2lkIn19--905ba56fee749d092c477750eb1e82a80131f51c/image.png)
-
-#### campaign stats
-
-Also you can configure campaign using segments to target audience:
-
-![https://proseflow.herokuapp.com/rails/active_storage/blobs/eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaHBBaG9CIiwiZXhwIjpudWxsLCJwdXIiOiJibG9iX2lkIn19--040a242d36ac66b2c61ab7ac79574eef5dfa93d7/image.png](https://proseflow.herokuapp.com/rails/active_storage/blobs/eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaHBBaG9CIiwiZXhwIjpudWxsLCJwdXIiOiJibG9iX2lkIn19--040a242d36ac66b2c61ab7ac79574eef5dfa93d7/image.png)
-
-#### campaign's segment manager
-
-An the content of the campaign is managed with a state of the art wysiwyg text editor (dante2)
-
-![https://proseflow.herokuapp.com/rails/active_storage/blobs/eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaHBBaHdCIiwiZXhwIjpudWxsLCJwdXIiOiJibG9iX2lkIn19--a04a59ec8f3dbdc3ee7ff129b2592e3cc6f25029/image.png](https://proseflow.herokuapp.com/rails/active_storage/blobs/eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaHBBaHdCIiwiZXhwIjpudWxsLCJwdXIiOiJibG9iX2lkIn19--a04a59ec8f3dbdc3ee7ff129b2592e3cc6f25029/image.png)
-
-### cors amazon policies
-
-```
-<?xml version="1.0" encoding="UTF-8"?>
-<CORSConfiguration xmlns="http://s3.amazonaws.com/doc/2006-03-01/">
-<CORSRule>
-    <AllowedOrigin>*</AllowedOrigin>
-    <AllowedMethod>GET</AllowedMethod>
-    <MaxAgeSeconds>3000</MaxAgeSeconds>
-    <AllowedHeader>Authorization</AllowedHeader>
-</CORSRule>
-<CORSRule>
-    <AllowedOrigin>*</AllowedOrigin>
-    <AllowedMethod>PUT</AllowedMethod>
-    <AllowedMethod>POST</AllowedMethod>
-    <MaxAgeSeconds>3000</MaxAgeSeconds>
-    <AllowedHeader>*</AllowedHeader>
-</CORSRule>
-</CORSConfiguration>
-```
-
-### ATTRIBUTIONS
-
-+ https://www.toptal.com/designers/subtlepatterns/one-in-a-million-s/
-
-+ https://www.toptal.com/designers/subtlepatterns/memphis-colorful/
-
-+ https://www.shutterstock.com/search/chat+pattern
-
-+ https://www.freepik.com/free-vector/modern-comics-background-pattern-with-bombs-lightening-jagged-clouds-speech-bubbles_3817784.htm
-
-+ <a href="https://www.freepik.com/free-photos-vectors/background">Background vector created by macrovector_official - www.freepik.com</a>
-
-<a href="https://www.freepik.com/free-photos-vectors/background">Background vector created by vvstudio - www.freepik.com</a>
-
-### third party services
-+ https://ipapi.co/#pricing
+## Screenshots
 
 
-## references:
-+ https://get.slaask.com/
-+ https://smooch.io/
-+ https://frontapp.com
-+ https://www.drift.com/
-+ www.jivochat.cl/‎
-+ https://www.tawk.to/
-+ https://www.tawk.to/knowledgebase/
-+ https://beebom.com/intercom-alternatives/
-+ https://purechat.com/pricing
-+ https://freshdesk.com/predictive-support
-+ https://crisp.chat/en/livechat/?ref=chatbox&domain=codetrace.io&name=CodeTrace
-+ https://getstream.io/enterprise/
-+ https://home.pandorabots.com/home.html#pricing
-+ https://www.amocrm.com/messenger-based-sales/
-+ https://www.helpscout.com/blog/beacon-preview-chat/
-+ http://cliengo.com
-+ http://postmarkapp.com
-+ http://helpcrunch.com
-+ https://www.chatbot.com
-## data gather
+## Development
 
-+ https://www.quora.com/Which-is-the-most-accurate-IP-geolocation-service
+To get your environment setup, follow the community setup guide for your operating system.
 
-+ https://ipgeolocation.io/pricing.html
-+ https://www.fullcontact.com/pricing-plans/
-+ https://clearbit.com/pricing
+1. If you're on macOS, try the [macOS development guide](https://meta.chaskiq.io/t/beginners-guide-to-install-discourse-on-macos-for-development/15772).
+1. If you're on Ubuntu, try the [Ubuntu development guide](https://meta.chaskiq.io/t/beginners-guide-to-install-discourse-on-ubuntu-for-development/14727).
+1. If you're on Windows, try the [Windows 10 development guide](https://meta.chaskiq.io/t/beginners-guide-to-install-discourse-on-windows-10-for-development/75149).
 
-+ https://www.intercom.com/help/articles/277-where-do-the-social-profiles-come-from
+If you're familiar with how Rails works and are comfortable setting up your own environment, you can also try out the [**Chaskiq Advanced Developer Guide**](docs/DEVELOPER-ADVANCED.md), which is aimed primarily at Ubuntu and macOS environments.
 
+Before you get started, ensure you have the following minimum versions: [Ruby 2.5+](https://www.ruby-lang.org/en/downloads/), [PostgreSQL 10+](https://www.postgresql.org/download/), [Redis 2.6+](https://redis.io/download). If you're having trouble, please see our [**TROUBLESHOOTING GUIDE**](docs/TROUBLESHOOTING.md) first!
 
-### messenger implementations
+## Setting up Chaskiq
 
-+ https://matrix.org/docs/projects/bots
+If you want to set up a Chaskiq forum for production use, see our [**Chaskiq Install Guide**](docs/INSTALL.md).
 
-### browser navigation
+If you're looking for business class hosting, see [chaskiq.io/buy](https://www.chaskiq.io/buy/).
 
-+ http://html2canvas.hertzen.com/
+## Requirements
 
-## auth 
+Chaskiq is built for the *next* 10 years of the Internet, so our requirements are high:
 
-+ https://github.com/saitoxu/react-devise-token-auth-sample
+| Browsers              | Tablets      | Phones       |
+| --------------------- | ------------ | ------------ |
+| Safari 10+           | iPad 4+      | iOS 10+       |
+| Google Chrome 57+     | Android 4.4+ | Android 4.4+ |
+| Internet Explorer 11+ |              |              |
+| Firefox 52+           |              |              |
 
-# themes
+## Built With
 
-+ https://preview.themeforest.net/item/react-next-modern-landing-page-template/full_screen_preview/23169879
+- [Ruby on Rails](https://github.com/rails/rails) &mdash; Our back end API is a Rails app. It responds to requests RESTfully in JSON.
+- [React.js](https://github.com/react/react.js) &mdash; Our front end is an React.js app that communicates with the Rails Graphql API.
+- [PostgreSQL](https://www.postgresql.org/) &mdash; Our main data store is in Postgres.
+- [Redis](https://redis.io/) &mdash; We use Redis as a cache and for transient data.
 
-+ https://fontsinuse.com/uses/2176/apple-advertising-of-the-1970s-80s
-+ https://fontsinuse.com/uses/2176/apple-advertising-of-the-1970s-80s
+Plus *lots* of Ruby Gems, a complete list of which is at [/master/Gemfile](https://github.com/michelson/chaskiq/blob/master/Gemfile).
+
+## Contributing
+
+[![Build Status](https://api.travis-ci.org/michelson/chaskiq.svg?branch=master)](https://travis-ci.org/michelson/chaskiq)
+
+Chaskiq is **100% free** and **open source**. We encourage and support an active, healthy community that
+accepts contributions from the public &ndash; including you!
+
+Before contributing to Chaskiq:
+
+We look forward to seeing your pull requests!
+
+## Security
+
+We take security very seriously at Chaskiq; all our code is 100% open source and peer reviewed. Please read [our security guide](https://github.com/michelson/chaskiq/blob/master/docs/SECURITY.md) for an overview of security measures in Chaskiq, or if you wish to report a security issue.
+
+## The Chaskiq Team
+
+The original Chaskiq code contributors can be found in [**AUTHORS.MD**](docs/AUTHORS.md). For a complete list of the many individuals that contributed to the design and implementation of Chaskiq, please refer to [the official Chaskiq blog](https://blog.chaskiq.io/2013/02/the-discourse-team/) and [GitHub's list of contributors](https://github.com/michelson/chaskiq/contributors).
+
+## Copyright / License
+
+Copyright 2019 Chaskiq, Inc.
+
+Licensed under the GNU General Public License Version 2.0 (or later);
+you may not use this work except in compliance with the License.
+You may obtain a copy of the License in the LICENSE file, or at:
+
+   https://www.gnu.org/licenses/old-licenses/gpl-2.0.txt
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
