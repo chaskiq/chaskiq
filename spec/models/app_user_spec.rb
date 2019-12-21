@@ -23,7 +23,7 @@ RSpec.describe AppUser, type: :model do
       App.any_instance.stub(:gather_social_data).and_return(true)
       visitor
       expect(app.app_users.count).to be == 1
-      expect(DataEnrichmentJob).to receive(:perform_later)
+      #expect(DataEnrichmentJob).to receive(:perform_later)
       perform_enqueued_jobs do
         visitor.update(email: "miguelmichelson@gmail.com")
       end
@@ -35,6 +35,39 @@ RSpec.describe AppUser, type: :model do
       expect(app.app_users.count).to be == 1
       expect(DataEnrichmentJob).to_not receive(:perform_later)
       visitor.update(email: "miguelmichelson@gmail.com")
+    end
+
+    it "run run" do
+      
+      app_package = AppPackage.create({
+        name: "FullContact", 
+        tag_list: ["enrichment"],
+        description: "Data Enrichment service", 
+        icon: "https://logo.clearbit.com/fullcontact.com",
+        state: "enabled", 
+        definitions: [
+          {
+            name: "api_secret",
+            type: 'string',
+            grid: { xs: 12, sm: 12 }
+          },
+        ]
+      })
+
+      app.app_package_integrations.create(
+        app_package: app_package,
+        api_secret: "12345"
+      )
+
+      App.any_instance.stub(:gather_social_data).and_return(true)
+      visitor
+      expect(app.app_users.count).to be == 1
+      
+      DataEnrichmentService::FullContact.any_instance.should_receive(:enrich_user)
+      
+      perform_enqueued_jobs do
+        visitor.update(email: "miguelmichelson@gmail.com")
+      end
     end
 
   end
