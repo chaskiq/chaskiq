@@ -14,19 +14,33 @@ It has minimal dependences , Postgres & Redis and interoperates with cdn provide
 
 ## Main features:
 
-- Segments or users filters to trigger campaigns, messages and bots.
-- Conversations
+- **Segments** or users filters to trigger campaigns, messages and bots.
+  - use build in attributes like "last sign in", "country", "nº of sessions" or provide your own attributes from your registered users.
+- **Embedable Widget Messenger**
+  - Embed web widget with a simple js snippet
+  - Pass custom attributes to feed your segment properties
+  - Secure data comunication with Encrypted data (JWE)
+- **Conversations**
   - Agent's auto assignment
-  - Extensible Chat editor with many kind of blocks ie: image, code, video, embed, giphy etc.. it's based in <a href="http://github.com/michelson/Dante2">Dante2</a> editor
-- Campaigns
-  - Newsletters with programable scheduling and Audience target
-  - User auto messages, send messages to visitors thourgh fine grained segments
-  - Onboarding tours
-- Data enrichment, through third parties
-- Api integrations & pluggable integrations
-- Programable bots and composable paths of conversations
-- Report dashboard with visits avg response & resolution times
-- Help Center/ Knowledge base in the box
+  - Extensible Chat editor with many kind of blocks ie: image, code, video, embed, giphy and more.. it's based in <a href="http://github.com/michelson/Dante2">Dante2</a> editor
+- **Campaigns**
+  - **Newsletters** with programable scheduling and Audience target
+  - **User auto messages**, send messages to visitors through 
+  segments
+  - Receive & Reply those unreaded messages from email and deliver the directly to the chat.
+  - Set Agent's team availability, days with their time frames.
+  - **Compose Onboarding** tours to give an awesome experience on your site
+   - track open, clicks and skips
+   - set which url the onboarding should trigger, support patterns like /*
+
+  All Campaigns messages are powered by Dante2, with all the bells and whistles.
+ 
+
+- **Data enrichment**, through third parties
+- **Api integrations** & pluggable integrations (currently on the works)
+- **Programable bots** and composable paths of conversations
+- **Report dashboard** with visits avg response & resolution times
+- **Help Center/ Knowledge base** in the box
   - Create articles & collections
   - multilanguage
 
