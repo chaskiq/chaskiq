@@ -15,7 +15,7 @@ import { DanteTooltipConfig } from 'Dante2/package/es/components/popovers/toolTi
 //import { ButtonBlockConfig } from "../../editor/components/blocks/button";
 //import Prism from 'prismjs';
 //import { PrismDraftDecorator } from 'Dante2/package/es/components/decorators/prism'
-import { GiphyBlockConfig } from '../../pages/campaigns/article/giphyBlock'
+import { GiphyBlockConfig } from '../../textEditor/blocks/giphyBlock'
 //import { SpeechToTextBlockConfig } from './article/speechToTextBlock'
 //import { DanteMarkdownConfig } from './article/markdown'
 

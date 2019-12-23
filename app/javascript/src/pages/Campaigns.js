@@ -11,11 +11,10 @@ import PageTitle from '../components/PageTitle';
 //import Tabs from '@atlaskit/tabs';
 import Moment from 'react-moment';
 import styled from '@emotion/styled'
-import axios from 'axios'
 import serialize from 'form-serialize'
 
 import CampaignSettings from "./campaigns/settings"
-import CampaignEditor from "./campaigns/edito"
+import CampaignEditor from "./campaigns/editor"
 import SegmentManager from '../components/segmentManager'
 import DeleteDialog from '../components/deleteDialog'
 import CampaignStats from "../components/stats"
