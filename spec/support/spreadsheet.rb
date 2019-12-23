@@ -1,7 +1,8 @@
+# frozen_string_literal: true
 
 class Spreadsheet
   def initialize(data)
-    data = { "Default" => data } unless data.is_a?(Hash)
+    data = { 'Default' => data } unless data.is_a?(Hash)
     @data = data
   end
 
@@ -15,6 +16,7 @@ class Spreadsheet
 
   def default_sheet=(value)
     raise "Invalid sheet '#{value}'" unless sheets.include?(value)
+
     @default_sheet = value
   end
 
@@ -23,6 +25,6 @@ class Spreadsheet
   end
 
   def row(index)
-    @data[default_sheet][index-1]
+    @data[default_sheet][index - 1]
   end
 end

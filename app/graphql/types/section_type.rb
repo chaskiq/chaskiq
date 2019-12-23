@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Types
   class SectionType < Types::BaseObject
     field :title, String, null: true

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Mutations
   module AppPackageIntegrations
     class UpdateIntegration < Mutations::BaseMutation
@@ -8,11 +10,11 @@ module Mutations
       argument :id, Integer, required: true
 
       def resolve(app_key:, id:, params:)
-        app = find_app(app_key)   
-        app_package = AppPackage.find_by(name: app_package) 
+        app = find_app(app_key)
+        app_package = AppPackage.find_by(name: app_package)
         integration = app.app_package_integrations.find(id)
         integration.update(params.permit!)
-        { integration: integration , errors: integration.errors }
+        { integration: integration, errors: integration.errors }
       end
 
       def find_app(app_id)

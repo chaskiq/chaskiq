@@ -1,9 +1,11 @@
+# frozen_string_literal: true
+
 module Mutations
   module Messenger
     class CreateComment < Mutations::BaseMutation
       field :conversation, Types::ConversationType, null: false
       field :errors, Types::JsonType, null: true
-      
+
       argument :app_key, String, required: true
       argument :conversation_id, Integer, required: true
       argument :app_user_id, Integer, required: true
@@ -14,21 +16,21 @@ module Mutations
         @conversation = conversation(conversation_id)
         @app_user = @app.agents.find(app_user_id)
         @conversation.assign_user(@app_user)
-        { conversation: @conversation , errors: @conversation.errors }
+        { conversation: @conversation, errors: @conversation.errors }
       end
 
-      def update()
+      def update
         @user = get_app_user
         @conversation = user_conversations.find(params[:id])
-    
-        @message = @conversation.add_message({
+
+        @message = @conversation.add_message(
           from: @user,
           message: {
             html_content: params[:message][:html_content],
-            serialized_content: params[:message][:serialized_content],
+            serialized_content: params[:message][:serialized_content]
           },
           check_assignment_rules: params[:check_assignment_rules]
-        })
+        )
         render :show
       end
 

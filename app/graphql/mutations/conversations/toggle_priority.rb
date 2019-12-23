@@ -1,17 +1,19 @@
+# frozen_string_literal: true
+
 module Mutations
   module Conversations
     class TogglePriority < Mutations::BaseMutation
       field :conversation, Types::ConversationType, null: false
       field :errors, Types::JsonType, null: true
-      
+
       argument :app_key, String, required: true
       argument :conversation_id, Integer, required: true
 
-      def resolve(app_key: , conversation_id:)
+      def resolve(app_key:, conversation_id:)
         find_app(app_key)
         @conversation = conversation(conversation_id)
         @conversation.toggle_priority
-        { conversation: @conversation , errors: @conversation.errors }
+        { conversation: @conversation, errors: @conversation.errors }
       end
 
       def conversation(conversation_id)

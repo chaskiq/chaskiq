@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class DeviseInvitableAddToAgents < ActiveRecord::Migration[6.0]
   def up
     change_table :agents do |t|

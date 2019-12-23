@@ -1,93 +1,91 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
-#https://docs.aws.amazon.com/ses/latest/DeveloperGuide/monitor-sending-using-notifications.html
+# https://docs.aws.amazon.com/ses/latest/DeveloperGuide/monitor-sending-using-notifications.html
 def send_data(params)
   post :create, body: params.to_json
 end
 
 RSpec.describe Api::V1::HooksController, type: :controller do
-  #routes { Engine.routes }
-  
-  let(:app){ FactoryBot.create(:app) }
-  let(:subscriber){
-    app.add_user(email: Faker::Internet.email, properties: { 
-          custom_country: "albania",
-          name: Faker::Name.unique.name 
-        })
-  }
+  # routes { Engine.routes }
 
-  let(:campaign){ FactoryBot.create(:campaign, app: app) }
+  let(:app) { FactoryBot.create(:app) }
+  let(:subscriber) do
+    app.add_user(email: Faker::Internet.email, properties: {
+                   custom_country: 'albania',
+                   name: Faker::Name.unique.name
+                 })
+  end
 
-  let(:metric){
-    FactoryBot.create(:metric, 
-      trackable: campaign, 
-      app_user: subscriber
-    )
-  }
+  let(:campaign) { FactoryBot.create(:campaign, app: app) }
 
-  let(:bounce_sns){
-     {"Message" => {
-           "notificationType"=>"Bounce",
-           "bounce"=>{
-              "bounceType"=>"Permanent",
-              "bounceSubType"=> "General",
-              "bouncedRecipients"=>[
-                 {
-                    "emailAddress"=>"#{subscriber.email}"
-                 },
-                 {
-                    "emailAddress"=>"recipient2@example.com"
-                 }
-              ],
-              "timestamp"=>"2012-05-25T14:59:38.237-07:00",
-              "feedbackId"=>"00000137860315fd-869464a4-8680-4114-98d3-716fe35851f9-000000"
-           },
-           "mail"=>{
-              "timestamp"=>"2012-05-25T14:59:38.237-07:00",
-              "messageId"=>"00000137860315fd-34208509-5b74-41f3-95c5-22c1edc3c924-000000",
-              "source"=>"#{campaign.from_email}",
-              "destination"=>[
-                 "recipient1@example.com",
-                 "recipient2@example.com",
-                 "recipient3@example.com",
-                 "recipient4@example.com"
-              ]
+  let(:metric) do
+    FactoryBot.create(:metric,
+                      trackable: campaign,
+                      app_user: subscriber)
+  end
+
+  let(:bounce_sns) do
+    { 'Message' => {
+      'notificationType' => 'Bounce',
+      'bounce' => {
+        'bounceType' => 'Permanent',
+        'bounceSubType' => 'General',
+        'bouncedRecipients' => [
+          {
+            'emailAddress' => subscriber.email.to_s
+          },
+          {
+            'emailAddress' => 'recipient2@example.com'
           }
-        }.to_json
+        ],
+        'timestamp' => '2012-05-25T14:59:38.237-07:00',
+        'feedbackId' => '00000137860315fd-869464a4-8680-4114-98d3-716fe35851f9-000000'
+      },
+      'mail' => {
+        'timestamp' => '2012-05-25T14:59:38.237-07:00',
+        'messageId' => '00000137860315fd-34208509-5b74-41f3-95c5-22c1edc3c924-000000',
+        'source' => campaign.from_email.to_s,
+        'destination' => [
+          'recipient1@example.com',
+          'recipient2@example.com',
+          'recipient3@example.com',
+          'recipient4@example.com'
+        ]
       }
-  }
+    }.to_json }
+  end
 
-  let(:complaint_sns){
-    {"Message" => {
-        "notificationType"=>"Complaint",
-        "complaint"=>{
-           "complainedRecipients"=>[
-              {
-                 "emailAddress"=>"#{subscriber.email}"
-              }
-           ],
-           "timestamp"=>"2012-05-25T14:59:38.613-07:00",
-           "feedbackId"=>"0000013786031775-fea503bc-7497-49e1-881b-a0379bb037d3-000000"
-        },
-        "mail"=>{
-           "timestamp"=>"2012-05-25T14:59:38.613-07:00",
-           "messageId"=>"0000013786031775-163e3910-53eb-4c8e-a04a-f29debf88a84-000000",
-           "source"=>"#{campaign.from_email}",
-           "destination"=>[
-              "recipient1@example.com",
-              "recipient2@example.com",
-              "recipient3@example.com",
-              "recipient4@example.com"
-           ]
-        }
-      }.to_json
-    }
-  }
-
+  let(:complaint_sns) do
+    { 'Message' => {
+      'notificationType' => 'Complaint',
+      'complaint' => {
+        'complainedRecipients' => [
+          {
+            'emailAddress' => subscriber.email.to_s
+          }
+        ],
+        'timestamp' => '2012-05-25T14:59:38.613-07:00',
+        'feedbackId' => '0000013786031775-fea503bc-7497-49e1-881b-a0379bb037d3-000000'
+      },
+      'mail' => {
+        'timestamp' => '2012-05-25T14:59:38.613-07:00',
+        'messageId' => '0000013786031775-163e3910-53eb-4c8e-a04a-f29debf88a84-000000',
+        'source' => campaign.from_email.to_s,
+        'destination' => [
+          'recipient1@example.com',
+          'recipient2@example.com',
+          'recipient3@example.com',
+          'recipient4@example.com'
+        ]
+      }
+    }.to_json }
+  end
 
   # configuration set sns events
-  let(:delivery_sns_event){
-    { "Type" => "Notification",
-      "Message" => '{
+  let(:delivery_sns_event) do
+    { 'Type' => 'Notification',
+      'Message' => '{
       "eventType": "Delivery",
       "mail": {
         "timestamp": "2016-10-19T23:20:52.240Z",
@@ -157,7 +155,7 @@ RSpec.describe Api::V1::HooksController, type: :controller do
           ],
           "myCustomTag2": [
             "myCustomTagValue2"
-          ]      
+          ]
         }
       },
       "delivery": {
@@ -169,12 +167,12 @@ RSpec.describe Api::V1::HooksController, type: :controller do
         "smtpResponse": "250 2.6.0 Message received",
         "reportingMTA": "mta.example.com"
       }
-    }'}
-  }
+    }' }
+  end
 
-  let(:complaint_sns_event){
-    { "Type" => "Notification",
-      "Message" => '{
+  let(:complaint_sns_event) do
+    { 'Type' => 'Notification',
+      'Message' => '{
       "eventType":"Complaint",
       "complaint": {
         "complainedRecipients":[
@@ -245,13 +243,12 @@ RSpec.describe Api::V1::HooksController, type: :controller do
           ]
         }
       }
-    }'
-    }
-  }
+    }' }
+  end
 
-  let(:send_sns_event){
-    { "Type" => "Notification",
-      "Message" => '{
+  let(:send_sns_event) do
+    { 'Type' => 'Notification',
+      'Message' => '{
       "eventType": "Send",
       "mail": {
         "timestamp": "2016-10-14T05:02:16.645Z",
@@ -309,7 +306,7 @@ RSpec.describe Api::V1::HooksController, type: :controller do
           ],
           "ses:from-domain": [
             "example.com"
-          ],      
+          ],
           "ses:caller-identity": [
             "ses_user"
           ],
@@ -318,16 +315,16 @@ RSpec.describe Api::V1::HooksController, type: :controller do
           ],
           "myCustomTag2": [
             "myCustomTagValue2"
-          ]      
+          ]
         }
       },
       "send": {}
-    }'}
-  }
+    }' }
+  end
 
-  let(:open_sns_event){
-    { "Type" => "Notification",
-      "Message" => '{
+  let(:open_sns_event) do
+    { 'Type' => 'Notification',
+      'Message' => '{
       "eventType": "Open",
       "mail": {
         "commonHeaders": {
@@ -395,12 +392,12 @@ RSpec.describe Api::V1::HooksController, type: :controller do
         "timestamp": "2017-08-09T22:00:19.652Z",
         "userAgent": "Mozilla/5.0 (iPhone; CPU iPhone OS 10_3_3 like Mac OS X) AppleWebKit/603.3.8 (KHTML, like Gecko) Mobile/14G60"
       }
-    }'}
-  }
+    }' }
+  end
 
-  let(:click_sns_event){
-    { "Type" => "Notification",
-      "Message" => '{
+  let(:click_sns_event) do
+    { 'Type' => 'Notification',
+      'Message' => '{
       "eventType": "Click",
       "click": {
         "ipAddress": "192.0.2.1",
@@ -481,12 +478,12 @@ RSpec.describe Api::V1::HooksController, type: :controller do
         },
         "timestamp": "2017-08-09T23:50:05.795Z"
       }
-    }'}
-  }
+    }' }
+  end
 
-  let(:reject_sns_event){
-    { "Type" => "Notification",
-      "Message"=> '{
+  let(:reject_sns_event) do
+    { 'Type' => 'Notification',
+      'Message' => '{
         "eventType": "Reject",
         "mail": {
           "timestamp": "2016-10-14T17:38:15.211Z",
@@ -507,7 +504,7 @@ RSpec.describe Api::V1::HooksController, type: :controller do
             {
               "name": "To",
               "value": "recipient@example.com"
-            },      
+            },
             {
               "name": "Subject",
               "value": "Message sent from Amazon SES"
@@ -515,7 +512,7 @@ RSpec.describe Api::V1::HooksController, type: :controller do
             {
               "name": "MIME-Version",
               "value": "1.0"
-            },      
+            },
             {
               "name": "Content-Type",
               "value": "multipart/mixed; boundary=\"qMm9M+Fa2AknHoGS\""
@@ -523,7 +520,7 @@ RSpec.describe Api::V1::HooksController, type: :controller do
             {
               "name": "X-SES-MESSAGE-TAGS",
               "value": "myCustomTag1=myCustomTagValue1, myCustomTag2=myCustomTagValue2"
-            }  
+            }
           ],
           "commonHeaders": {
             "from": [
@@ -544,7 +541,7 @@ RSpec.describe Api::V1::HooksController, type: :controller do
             ],
             "ses:from-domain": [
               "example.com"
-            ],    
+            ],
             "ses:caller-identity": [
               "ses_user"
             ],
@@ -553,20 +550,19 @@ RSpec.describe Api::V1::HooksController, type: :controller do
             ],
             "myCustomTag2": [
               "myCustomTagValue2"
-            ]      
+            ]
           }
         },
         "reject": {
           "reason": "Bad content"
         }
-      }'
-    }
-  }
+      }' }
+  end
 
-  let(:bounce_sns_event){
+  let(:bounce_sns_event) do
     {
-      "Type"=> "Notification",
-      "Message"=> '{
+      'Type' => 'Notification',
+      'Message' => '{
         "eventType":"Bounce",
         "bounce":{
           "bounceType":"Permanent",
@@ -643,35 +639,33 @@ RSpec.describe Api::V1::HooksController, type: :controller do
         }
       }'
     }
-  }
-
-=begin
-  describe "SNS notifications" do
-
-    it "will set a bounce" do
-      inline_job do
-        allow(Metric).to receive(:find_by).and_return(metric)
-        campaign
-        response = send_data(bounce_sns)
-        expect(response.status).to be == 200
-        expect(campaign.metrics.bounces.size).to be == 1
-      end
-    end
-
-    it "will set a spam metric and unsubscribe user" do
-      inline_job do
-        ActiveJob::Base.queue_adapter = :inline
-        allow(Metric).to receive(:find_by).and_return(metric)
-
-        campaign
-        response = send_data(complaint_sns)
-        expect(response.status).to be == 200
-        expect(campaign.metrics.spams.size).to be == 1
-        expect(subscriber.reload).to be_unsubscribed
-      end
-    end
   end
-=end
+
+  #   describe "SNS notifications" do
+  #
+  #     it "will set a bounce" do
+  #       inline_job do
+  #         allow(Metric).to receive(:find_by).and_return(metric)
+  #         campaign
+  #         response = send_data(bounce_sns)
+  #         expect(response.status).to be == 200
+  #         expect(campaign.metrics.bounces.size).to be == 1
+  #       end
+  #     end
+  #
+  #     it "will set a spam metric and unsubscribe user" do
+  #       inline_job do
+  #         ActiveJob::Base.queue_adapter = :inline
+  #         allow(Metric).to receive(:find_by).and_return(metric)
+  #
+  #         campaign
+  #         response = send_data(complaint_sns)
+  #         expect(response.status).to be == 200
+  #         expect(campaign.metrics.spams.size).to be == 1
+  #         expect(subscriber.reload).to be_unsubscribed
+  #       end
+  #     end
+  #   end
 
   before do
     ActiveJob::Base.queue_adapter = :test
@@ -679,75 +673,59 @@ RSpec.describe Api::V1::HooksController, type: :controller do
     ActiveJob::Base.queue_adapter.perform_enqueued_at_jobs = true
   end
 
-  describe "SNS events" do
-
-    it "will set a open" do
-      
-        allow(Metric).to receive(:find_by).and_return(metric)
-        campaign
-        response = send_data(open_sns_event)
-        expect(response.status).to be == 200
-        expect(campaign.metrics.opens.size).to be == 1
-        expect(campaign.metrics.opens.last.data).to be_present
-      
+  describe 'SNS events' do
+    it 'will set a open' do
+      allow(Metric).to receive(:find_by).and_return(metric)
+      campaign
+      response = send_data(open_sns_event)
+      expect(response.status).to be == 200
+      expect(campaign.metrics.opens.size).to be == 1
+      expect(campaign.metrics.opens.last.data).to be_present
     end
 
-    it "will set a deliver" do
-     
-        allow(Metric).to receive(:find_by).and_return(metric)
-        campaign
-        response = send_data(delivery_sns_event)
-        expect(response.status).to be == 200
-        expect(campaign.metrics.deliveries.size).to be == 1
-        expect(campaign.metrics.deliveries.last.data).to be_present
-      
+    it 'will set a deliver' do
+      allow(Metric).to receive(:find_by).and_return(metric)
+      campaign
+      response = send_data(delivery_sns_event)
+      expect(response.status).to be == 200
+      expect(campaign.metrics.deliveries.size).to be == 1
+      expect(campaign.metrics.deliveries.last.data).to be_present
     end
 
-    it "will set a complaint" do
-      
-        allow(Metric).to receive(:find_by).and_return(metric)
-        campaign
-        response = send_data(complaint_sns_event )
-        expect(response.status).to be == 200
-        expect(campaign.metrics.spams.size).to be == 1
-        expect(campaign.metrics.spams.last.data).to be_present
-      
+    it 'will set a complaint' do
+      allow(Metric).to receive(:find_by).and_return(metric)
+      campaign
+      response = send_data(complaint_sns_event)
+      expect(response.status).to be == 200
+      expect(campaign.metrics.spams.size).to be == 1
+      expect(campaign.metrics.spams.last.data).to be_present
     end
 
-    it "will set a reject" do
-      
-        allow(Metric).to receive(:find_by).and_return(metric)
-        campaign
-        response = send_data(reject_sns_event )
-        expect(response.status).to be == 200
-        expect(campaign.metrics.rejects.size).to be == 1
-        expect(campaign.metrics.rejects.last.data).to be_present
-      
+    it 'will set a reject' do
+      allow(Metric).to receive(:find_by).and_return(metric)
+      campaign
+      response = send_data(reject_sns_event)
+      expect(response.status).to be == 200
+      expect(campaign.metrics.rejects.size).to be == 1
+      expect(campaign.metrics.rejects.last.data).to be_present
     end
 
-    it "will set a click" do
-      
-        allow(Metric).to receive(:find_by).and_return(metric)
-        campaign
-        response = send_data(click_sns_event )
-        expect(response.status).to be == 200
-        expect(campaign.metrics.clicks.size).to be == 1
-        expect(campaign.metrics.clicks.last.data).to be_present
-      
+    it 'will set a click' do
+      allow(Metric).to receive(:find_by).and_return(metric)
+      campaign
+      response = send_data(click_sns_event)
+      expect(response.status).to be == 200
+      expect(campaign.metrics.clicks.size).to be == 1
+      expect(campaign.metrics.clicks.last.data).to be_present
     end
 
-    it "will set a bounce" do
-      
-        allow(Metric).to receive(:find_by).and_return(metric)
-        campaign
-        response = send_data(bounce_sns_event )
-        expect(response.status).to be == 200
-        expect(campaign.metrics.bounces.size).to be == 1
-        expect(campaign.metrics.bounces.last.data).to be_present
-      
+    it 'will set a bounce' do
+      allow(Metric).to receive(:find_by).and_return(metric)
+      campaign
+      response = send_data(bounce_sns_event)
+      expect(response.status).to be == 200
+      expect(campaign.metrics.bounces.size).to be == 1
+      expect(campaign.metrics.bounces.last.data).to be_present
     end
-
-    
-
   end
 end

@@ -132,6 +132,7 @@ GEM
       tzinfo
     bootsnap (1.4.5)
       msgpack (~> 1.0)
+    brakeman (4.7.2)
     browser (2.6.1)
     bugsnag (6.11.1)
       concurrent-ruby (~> 1.0)
@@ -563,6 +564,7 @@ DEPENDENCIES
   aws-ses
   biz (~> 1.8)
   bootsnap (>= 1.1.0)
+  brakeman
   browser (~> 2.5)
   bugsnag (~> 6.11)
   capistrano-bundle

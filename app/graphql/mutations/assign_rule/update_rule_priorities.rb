@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Mutations
   module AssignRule
     class UpdateRulePriorities < Mutations::BaseMutation
@@ -6,14 +8,14 @@ module Mutations
       argument :app_key, String, required: true
       argument :rules, [Types::JsonType], required: true
 
-      def resolve(app_key:,rules:)
+      def resolve(app_key:, rules:)
         find_app(app_key)
 
         rules.each_with_index do |object, index|
           @app.assignment_rules.find(object['id']).update(priority: index + 1)
         end
-        
-        { 
+
+        {
           errors: {}
         }
       end

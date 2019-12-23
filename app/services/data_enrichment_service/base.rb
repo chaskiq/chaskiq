@@ -1,9 +1,8 @@
+# frozen_string_literal: true
+
 module DataEnrichmentService
   class Base
-
     def initialize(provider:, token:)
-
-
       # conn.authorization :Bearer, 'mF_9.B5f-4.1JqM'
       #   conn.headers['Authorization']
       #   # => "Bearer mF_9.B5f-4.1JqM"
@@ -15,19 +14,17 @@ module DataEnrichmentService
 
       @token = token
 
-      @conn = Faraday.new :request => { 
-        :params_encoder => Faraday::FlatParamsEncoder 
+      @conn = Faraday.new request: {
+        params_encoder: Faraday::FlatParamsEncoder
       }
 
       klass = "DataEnrichmentService::#{provider.to_s.camelize}".constantize
       k = klass.new(token: token)
-      return k
+      k
     end
-
 
     def get_data(params: {})
-      puts "not implemented"
+      puts 'not implemented'
     end
-
   end
 end

@@ -1,14 +1,15 @@
-module MessageApis
-  class Slack 
+# frozen_string_literal: true
 
-    BASE_URL="https://slack.com"
+module MessageApis
+  class Slack
+    BASE_URL = 'https://slack.com'
 
     attr_accessor :key, :secret, :access_token
 
     def initialize(access_token:)
       @access_token = access_token
-      @conn = Faraday.new :request => { 
-        :params_encoder => Faraday::FlatParamsEncoder 
+      @conn = Faraday.new request: {
+        params_encoder: Faraday::FlatParamsEncoder
       }
     end
 
@@ -31,28 +32,28 @@ module MessageApis
 
       data = {
         "channel": Rails.application.credentials.integrations.dig(:slack, :channel),
-        "text":"a new user ",
-        "attachments":[
-          {"text":"Who wins the lifetime supply of chocolate?",
-            "fallback":"You could be telling the computer exactly what it can do with a lifetime supply of chocolate.",
-            "color":"#3AA3E3",
-            "attachment_type":"default",
-            "callback_id":"select_simple_1234",
-            "actions":[
-              {"name":"winners_list",
-                "text":"Who should win?",
-                "type":"select",
-                "data_source":"users"
-              }]
-            },
-            blocks:	[{
-              "type": "section", 
-              "text": {"type": "plain_text", "text": "Hello world"}
-            }]
-      ]}
+        "text": 'a new user ',
+        "attachments": [
+          { "text": 'Who wins the lifetime supply of chocolate?',
+            "fallback": 'You could be telling the computer exactly what it can do with a lifetime supply of chocolate.',
+            "color": '#3AA3E3',
+            "attachment_type": 'default',
+            "callback_id": 'select_simple_1234',
+            "actions": [
+              { "name": 'winners_list',
+                "text": 'Who should win?',
+                "type": 'select',
+                "data_source": 'users' }
+            ] },
+          blocks: [{
+            "type": 'section',
+            "text": { "type": 'plain_text', "text": 'Hello world' }
+          }]
+        ]
+      }
 
-      url = url("/api/chat.postMessage")
-      
+      url = url('/api/chat.postMessage')
+
       response = @conn.post do |req|
         req.url url
         req.headers['Content-Type'] = 'application/json; charset=utf-8'
@@ -64,15 +65,14 @@ module MessageApis
     end
 
     def create_channel
-
       authorize!
 
       data = {
-        "name": "chaskiq_channel"
+        "name": 'chaskiq_channel'
       }
 
-      url = url("/api/channels.create")
-      
+      url = url('/api/channels.create')
+
       response = @conn.post do |req|
         req.url url
         req.headers['Content-Type'] = 'application/json; charset=utf-8'
@@ -81,7 +81,6 @@ module MessageApis
 
       puts response.body
       puts response.status
-
     end
   end
 end

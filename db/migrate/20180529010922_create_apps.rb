@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class CreateApps < ActiveRecord::Migration[5.2]
   def change
     create_table :apps do |t|
@@ -12,7 +14,6 @@ class CreateApps < ActiveRecord::Migration[5.2]
       t.timestamps
     end
 
-    add_index  :apps, :preferences, using: :gin
-
+    add_index :apps, :preferences, using: :gin
   end
 end

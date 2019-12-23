@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Mutations
   module AppPackageIntegrations
     class CreateIntegration < Mutations::BaseMutation
@@ -8,12 +10,12 @@ module Mutations
       argument :app_package, String, required: true
 
       def resolve(app_key:, app_package:, params:)
-        app = find_app(app_key)   
-        app_package = AppPackage.find_by(name: app_package) 
+        app = find_app(app_key)
+        app_package = AppPackage.find_by(name: app_package)
         integration = app.app_package_integrations.new(params.permit!)
         integration.app_package = app_package
-        integration.save #if operation.present? && operation == "create"
-        { integration: integration , errors: integration.errors }
+        integration.save # if operation.present? && operation == "create"
+        { integration: integration, errors: integration.errors }
       end
 
       def find_app(app_id)
@@ -22,5 +24,3 @@ module Mutations
     end
   end
 end
-
-

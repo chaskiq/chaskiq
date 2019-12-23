@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 
 json.id conversation.id
 json.created_at conversation.created_at

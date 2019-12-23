@@ -5,8 +5,8 @@ class DeviseCreateAgents < ActiveRecord::Migration[6.0]
     create_table :agents do |t|
       t.string :key, index: true
       ## Database authenticatable
-      t.string :email,              null: false, default: ""
-      t.string :encrypted_password, null: false, default: ""
+      t.string :email,              null: false, default: ''
+      t.string :encrypted_password, null: false, default: ''
 
       ## Recoverable
       t.string   :reset_password_token
@@ -34,7 +34,6 @@ class DeviseCreateAgents < ActiveRecord::Migration[6.0]
       t.datetime :locked_at
 
       t.jsonb :properties, null: false, default: {}
-
 
       t.timestamps null: false
     end

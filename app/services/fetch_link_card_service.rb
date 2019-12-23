@@ -1,32 +1,32 @@
 # frozen_string_literal: true
+
 # from https://framagit.org/framasoft/framapiaf/
-require "http"
-require "oembed"
+require 'http'
+require 'oembed'
 
 class FetchLinkCardService < BaseService
-
-  URL_PATTERN = %r{https?://\S+}
+  URL_PATTERN = %r{https?://\S+}.freeze
 
   def call(url)
-
     # Get first http/https URL that isn't local
-    #url = parse_urls(status)
+    # url = parse_urls(status)
     return if url.nil?
-    url  = url.to_s
 
-    #card = PreviewCard.where(status: status).first_or_initialize(status: status, url: url)
+    url = url.to_s
+
+    # card = PreviewCard.where(status: status).first_or_initialize(status: status, url: url)
     card = PreviewCard.find_or_initialize_by(url: url)
     # TODO: add a TTL here
     return card if card.persisted?
 
-    res  = http_client.head(url, :ssl => { :verify_mode => OpenSSL::SSL::VERIFY_NONE })
+    res = http_client.head(url, ssl: { verify_mode: OpenSSL::SSL::VERIFY_NONE })
 
     return if res.code != 200 || res.mime_type != 'text/html'
 
     if o = attempt_oembed(card, url)
       return o
     else
-      return attempt_opengraph(card, url)  
+      return attempt_opengraph(card, url)
     end
   end
 
@@ -50,7 +50,9 @@ class FetchLinkCardService < BaseService
     else
       html  = Nokogiri::HTML(status.text)
       links = html.css('a')
-      urls  = links.map { |a| Addressable::URI.parse(a['href']).normalize unless skip_link?(a) }.compact
+      urls  = links.map do |a|
+        Addressable::URI.parse(a['href']).normalize unless skip_link?(a)
+      end .compact
     end
     urls.first
   end
@@ -62,7 +64,7 @@ class FetchLinkCardService < BaseService
 
   def attempt_oembed(card, url)
     response = OEmbed::Providers.get(url)
-    
+
     card.type          = response.type
     card.title         = response.respond_to?(:title)         ? response.title         : ''
     card.author_name   = response.respond_to?(:author_name)   ? response.author_name   : ''
@@ -73,14 +75,18 @@ class FetchLinkCardService < BaseService
     card.height        = 0
 
     if response.respond_to?(:thumbnail_url)
-      image = download_image(URI.parse(response.thumbnail_url)) rescue nil
-      card.image.attach( image) if image.present?
+      image = begin
+                download_image(URI.parse(response.thumbnail_url))
+              rescue StandardError
+                nil
+              end
+      card.image.attach(image) if image.present?
     end
-      # card.url    = response.url
+    # card.url    = response.url
     card.width  = response.width.presence  || 0
     card.height = response.height.presence || 0
     card.html   = response.try(:html)
-    #case card.type
+    # case card.type
     card.save
     card
   rescue OEmbed::NotFound
@@ -98,9 +104,13 @@ class FetchLinkCardService < BaseService
     card.title            = meta_property(page, 'og:title') || page.at_xpath('//title').content
     card.description      = meta_property(page, 'og:description') || meta_property(page, 'description')
 
-    if meta_property(page, 'og:image') 
-      image = download_image(meta_property(page, 'og:image')) rescue nil
-      card.image.attach( image ) if image.present?
+    if meta_property(page, 'og:image')
+      image = begin
+                download_image(meta_property(page, 'og:image'))
+              rescue StandardError
+                nil
+              end
+      card.image.attach(image) if image.present?
     end
 
     return if card.title.blank?
@@ -112,13 +122,13 @@ class FetchLinkCardService < BaseService
   def download_image(url)
     handle = open(url)
 
-    file = Tempfile.new("foo-#{Time.now.to_i}", :encoding => 'ascii-8bit')
+    file = Tempfile.new("foo-#{Time.now.to_i}", encoding: 'ascii-8bit')
     file.write(handle.read)
     file.close
 
     new_file = ActionDispatch::Http::UploadedFile.new(
-      filename: "foo-#{Time.now.to_i}.jpg", 
-      type: handle.content_type, 
+      filename: "foo-#{Time.now.to_i}.jpg",
+      type: handle.content_type,
       tempfile: file
     )
   end
@@ -126,7 +136,7 @@ class FetchLinkCardService < BaseService
   def meta_property(html, property)
     node = html.at_xpath("//meta[@property=\"#{property}\"]")
     return if node.blank?
+
     node.attribute('content').value || node.attribute('content').value
   end
 end
-

@@ -1,18 +1,19 @@
-class Campaigns::MailingsController < ApplicationController
+# frozen_string_literal: true
 
-  before_action :find_app, except: [:test, :deliver, :premailer_preview]
-  
-  before_action :set_campaign, only: [
-    :show, :edit, :update, :destroy, :preview
-  ] #, if: ->{request.xhr?}
+class Campaigns::MailingsController < ApplicationController
+  before_action :find_app, except: %i[test deliver premailer_preview]
+
+  before_action :set_campaign, only: %i[
+    show edit update destroy preview
+  ] # , if: ->{request.xhr?}
 
   # GET /campaigns
   # GET /campaigns.json
   def index
     @campaigns = collection
     respond_to do |format|
-      format.html{ render_empty }
-      format.json{ render "index" }
+      format.html { render_empty }
+      format.json { render 'index' }
     end
   end
 
@@ -20,25 +21,24 @@ class Campaigns::MailingsController < ApplicationController
   # GET /campaigns/1.json
   def show
     respond_to do |format|
-      format.html{ render_empty }
-      format.json{ render "show" }
+      format.html { render_empty }
+      format.json { render 'show' }
     end
   end
 
   # GET /campaigns/new
   def new
-    @campaign = collection.new #.new(type: "UserAutoMessage")
+    @campaign = collection.new # .new(type: "UserAutoMessage")
     @campaign.add_default_predicate
 
     respond_to do |format|
-      format.html{ render_empty }
-      format.json{ render "show" }
+      format.html { render_empty }
+      format.json { render 'show' }
     end
   end
 
   # GET /campaigns/1/edit
-  def edit
-  end
+  def edit; end
 
   # POST /campaigns
   # POST /campaigns.json
@@ -47,7 +47,7 @@ class Campaigns::MailingsController < ApplicationController
 
     respond_to do |format|
       if @campaign.save
-        #format.html { redirect_to @campaign, notice: 'Campaign was successfully created.' }
+        # format.html { redirect_to @campaign, notice: 'Campaign was successfully created.' }
         format.json { render :show, status: :created, location: @campaign }
       else
         format.html { render :new }
@@ -93,53 +93,53 @@ class Campaigns::MailingsController < ApplicationController
 
   def test
     @campaign.test_newsletter
-    flash[:notice] = "test sended"
-    redirect_to manage_campaigns_path()
+    flash[:notice] = 'test sended'
+    redirect_to manage_campaigns_path
   end
 
   def deliver
-    @app = App.find_by(key: params["app_id"])
-    @campaign = @app.campaigns.find(params[:id]) 
+    @app = App.find_by(key: params['app_id'])
+    @campaign = @app.campaigns.find(params[:id])
     @campaign.send_newsletter
-    flash[:notice] = "newsletter sended"
+    flash[:notice] = 'newsletter sended'
     respond_to do |format|
-      format.html{ render_empty }
-      format.json{ render "show" }
+      format.html { render_empty }
+      format.json { render 'show' }
     end
-    #redirect_to manage_campaigns_path()
+    # redirect_to manage_campaigns_path()
   end
-
 
   private
 
-    def collection
-      @app.campaigns
-    end
-    # Use callbacks to share common setup or constraints between actions.
-    def set_campaign
-      @campaign = collection.find(params[:id])
-    end
+  def collection
+    @app.campaigns
+  end
 
-    def find_app
-      @app = current_user.apps.find_by(key: params[:app_id])
-    end
+  # Use callbacks to share common setup or constraints between actions.
+  def set_campaign
+    @campaign = collection.find(params[:id])
+  end
 
-    # Never trust parameters from the scary internet, only allow the white list through.
-    def campaign_params
-      params.require(:campaign).permit! 
-      #(
-      #  :from_name, 
-      #  :from_email, 
-      #  :reply_email, 
-      #  :html_content, 
-      #  :serialized_content, 
-      #  :description, 
-      #  :name, 
-      #  :scheduled_at, 
-      #  :segments,
-      #  :subject,
-      #  :timezone,
-      #  :segments
-      #)
-    end
+  def find_app
+    @app = current_user.apps.find_by(key: params[:app_id])
+  end
+
+  # Never trust parameters from the scary internet, only allow the white list through.
+  def campaign_params
+    params.require(:campaign).permit!
+    # (
+    #  :from_name,
+    #  :from_email,
+    #  :reply_email,
+    #  :html_content,
+    #  :serialized_content,
+    #  :description,
+    #  :name,
+    #  :scheduled_at,
+    #  :segments,
+    #  :subject,
+    #  :timezone,
+    #  :segments
+    # )
+  end
 end

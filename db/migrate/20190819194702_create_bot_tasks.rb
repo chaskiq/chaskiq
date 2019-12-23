@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class CreateBotTasks < ActiveRecord::Migration[6.0]
   def change
     create_table :bot_tasks do |t|

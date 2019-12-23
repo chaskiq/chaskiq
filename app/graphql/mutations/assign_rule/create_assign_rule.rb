@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Mutations
   module AssignRule
     class CreateAssignRule < Mutations::BaseMutation
@@ -13,14 +15,14 @@ module Mutations
       def resolve(app_key:, agent_id:, title:, active:, conditions:)
         find_app(app_key)
         @agent = @app.agents.find(agent_id)
-        assignment_rule = @app.assignment_rules.create({
-          title: title, 
+        assignment_rule = @app.assignment_rules.create(
+          title: title,
           agent: @agent,
-          conditions: conditions 
-        })
-        { 
-          assignment_rule: assignment_rule , 
-          errors: assignment_rule.errors 
+          conditions: conditions
+        )
+        {
+          assignment_rule: assignment_rule,
+          errors: assignment_rule.errors
         }
       end
 
