@@ -51,8 +51,8 @@ import {
   sortableHandle,
 } from 'react-sortable-hoc';
 import arrayMove from 'array-move';
-import {InlineFilterDialog} from '../../components/segmentManager'
-import SegmentItemButton from '../../components/segmentManager/itemButton'
+import {InlineFilterDialog} from '../segmentManager'
+import SegmentItemButton from '../segmentManager/itemButton'
 import { setCurrentPage, setCurrentSection } from '../../actions/navigation'
 
 
@@ -110,7 +110,7 @@ const SortableContainer = sortableContainer(({children}) => {
   return <List>{children}</List>;
 });
 
-class AssigmentRules extends React.Component {
+class AssignmentRules extends React.Component {
 
   state = {
     isOpen: false,
@@ -122,7 +122,7 @@ class AssigmentRules extends React.Component {
   componentDidMount(){
     this.getAssignmentRules()
 
-    this.props.dispatch(setCurrentPage("Assigment Rules"))
+    this.props.dispatch(setCurrentPage("Assignment Rules"))
     this.props.dispatch(setCurrentSection("Conversations"))
   }
 
@@ -298,7 +298,7 @@ class AssigmentRules extends React.Component {
                 </Button>
 
                 <Typography variant="h5">
-                  Assigment Rules
+                  Assignment Rules
                 </Typography>
 
                 <Typography component="p" >
@@ -330,7 +330,7 @@ class AssigmentRules extends React.Component {
                 <FormDialog 
                   open={isOpen}
                   //contentText={"lipsum"}
-                  titleContent={"Save Assigment rule"}
+                  titleContent={"Save Assignment rule"}
                   formComponent={
                     //!loading ?
                       <form ref="form">
@@ -598,6 +598,6 @@ function mapStateToProps(state) {
   }
 }
 
-export default withRouter(connect(mapStateToProps)(withStyles(styles)(AssigmentRules)))
+export default withRouter(connect(mapStateToProps)(withStyles(styles)(AssignmentRules)))
 
 

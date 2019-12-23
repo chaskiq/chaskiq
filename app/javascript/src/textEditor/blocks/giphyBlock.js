@@ -15,7 +15,7 @@ import {
   resetBlockWithType
 } from 'Dante2/package/es/model/index.js'
 
-import Giphy from '../../../textEditor/blocks/giphy'
+import Giphy from './giphy'
 
 const giphyApiKey = "97g39PuUZ6Q49VdTRBvMYXRoKZYd1ScZ"
 

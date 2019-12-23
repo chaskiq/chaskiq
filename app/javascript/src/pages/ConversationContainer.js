@@ -43,7 +43,7 @@ import {
   getAppUser 
 } from '../actions/app_user'
 
-import AssigmentRules from '../components/conversation/assigmentRules'
+import AssignmentRules from '../components/conversation/assignmentRules'
 
 
 import {setCurrentSection, setCurrentPage} from '../actions/navigation'
@@ -274,7 +274,7 @@ class ConversationContainer extends Component {
                         justifyContent: 'space-around'
                       }}>
 
-                        <AssigmentRules/>
+                        <AssignmentRules/>
 
                         
                       </GridElement>
