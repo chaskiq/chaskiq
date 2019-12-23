@@ -1,36 +1,37 @@
+# frozen_string_literal: true
+
 require 'open-uri'
 
 module Mutations
-
   class CreateUrlUpload < GraphQL::Schema::Mutation
     class CreateUrlUploadInput < GraphQL::Schema::InputObject
-      description "File information required to prepare a direct upload"
+      description 'File information required to prepare a direct upload'
 
-      argument :url, String, "remote Url file", required: true
+      argument :url, String, 'remote Url file', required: true
     end
 
     argument :input, CreateUrlUploadInput, required: true
 
     class UrlUpload < GraphQL::Schema::Object
-      description "Represents direct upload credentials"
+      description 'Represents direct upload credentials'
 
-      field :url, String, "Upload URL", null: false
-      field :service_url, String, "Service URL", null: false
+      field :url, String, 'Upload URL', null: false
+      field :service_url, String, 'Service URL', null: false
       field :headers, String,
-            "HTTP request headers (JSON-encoded)",
+            'HTTP request headers (JSON-encoded)',
             null: false
-      field :blob_id, ID, "Created blob record ID", null: false
+      field :blob_id, ID, 'Created blob record ID', null: false
       field :signed_blob_id, ID,
-            "Created blob record signed ID",
+            'Created blob record signed ID',
             null: false
     end
 
     field :direct_upload, UrlUpload, null: false
 
     def download_to_file(uri)
-      stream = open(uri, "rb")
+      stream = open(uri, 'rb')
       return stream if stream.respond_to?(:path) # Already file-like
-    
+
       Tempfile.new.tap do |file|
         file.binmode
         IO.copy_stream(stream, file)
@@ -40,12 +41,12 @@ module Mutations
     end
 
     def resolve(input:)
-
       tmp_img = download_to_file(input.url)
 
       file = ActionDispatch::Http::UploadedFile.new(
-        :tempfile => tmp_img, 
-        :filename => File.basename(tmp_img))
+        tempfile: tmp_img,
+        filename: File.basename(tmp_img)
+      )
 
       blob = ActiveStorage::Blob.create_after_upload!(
         io: file,
@@ -65,9 +66,7 @@ module Mutations
       }
     end
   end
-
 end
-
 
 # add this mutation to your Mutation type
 # field :create_direct_upload, mutation: CreateUrlUpload

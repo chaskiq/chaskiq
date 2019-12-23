@@ -1,20 +1,20 @@
-require "rails_helper"
-require "roo"
-#require "#{Rails.root.join('app/importers').join('list_importer.rb')}"
+# frozen_string_literal: true
 
-describe "ListImporter" do
-  
+require 'rails_helper'
+require 'roo'
+# require "#{Rails.root.join('app/importers').join('list_importer.rb')}"
+
+describe 'ListImporter' do
   let(:spreadsheet_data) do
-    arr = [] 
+    arr = []
     arr << ['email', ' name ', 'last name', 'Department', 'Manager']
-    (1..2).each{|o| 
-        arr << [ Faker::Internet.email, 
-                 Faker::Name.name, 
-                 Faker::Name.name,
-                 Faker::Company.bs,
-                 Faker::Nation.nationality
-               ]
-       }
+    (1..2).each do |_o|
+      arr << [Faker::Internet.email,
+              Faker::Name.name,
+              Faker::Name.name,
+              Faker::Company.bs,
+              Faker::Nation.nationality]
+    end
     arr
   end
 
@@ -23,17 +23,17 @@ describe "ListImporter" do
       ['List of Lists'],
       ['Name', 'Birth Date', 'Department', 'Manager'],
       ['John Doe', '2013-10-25', 'IT'],
-      ['Invalid', '2013-10-24', 'Management'],
-      ['Invalid', '2013-10-24', 'Accounting'],
-      ['Jane Doe', '2013-10-26', 'Sales'],
+      %w[Invalid 2013-10-24 Management],
+      %w[Invalid 2013-10-24 Accounting],
+      ['Jane Doe', '2013-10-26', 'Sales']
     ]
   end
 
   let(:importer) { ListImporter.new('/dummy/file') }
 
-  let(:app) {
-    App.create(name: "foo", domain_url: "http://ggg.cc")
-  }
+  let(:app) do
+    App.create(name: 'foo', domain_url: 'http://ggg.cc')
+  end
 
   before do
     allow(Roo::Spreadsheet).to receive(:open).at_least(:once).and_return Spreadsheet.new(spreadsheet_data)
@@ -43,8 +43,7 @@ describe "ListImporter" do
   end
 
   it 'imports all data from the spreadsheet into the model' do
-     expect {ListImporter.import('/dummy/file', params: {app_id: app.id})}.to change(AppUser, :count).by(2)
-    #expect { ListImporter.import('/dummy/file') }.to change(List, :count).by(2)
+    expect { ListImporter.import('/dummy/file', params: { app_id: app.id }) }.to change(AppUser, :count).by(2)
+    # expect { ListImporter.import('/dummy/file') }.to change(List, :count).by(2)
   end
-
 end

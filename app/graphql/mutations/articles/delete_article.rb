@@ -1,7 +1,8 @@
+# frozen_string_literal: true
+
 module Mutations
   module Articles
     class DeleteArticle < Mutations::BaseMutation
-      
       field :article, Types::ArticleType, null: false
       argument :app_key, String, required: true
       argument :id, String, required: true
@@ -10,10 +11,9 @@ module Mutations
         app = App.find_by(key: app_key)
 
         @article = app.articles.find(id).delete
-        
-        {article: @article}
-      end
 
+        { article: @article }
+      end
 
       def current_user
         context[:current_user]

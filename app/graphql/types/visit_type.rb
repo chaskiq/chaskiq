@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Types
   class VisitType < Types::BaseObject
     field :url, String, null: true

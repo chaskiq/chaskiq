@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 Rails.application.configure do
   # Settings specified here will take precedence over those in config/application.rb.
 
@@ -6,8 +8,8 @@ Rails.application.configure do
   # since you don't have to restart the web server when you make code changes.
   config.cache_classes = false
 
-  #config.hosts << "dea224b3.ngrok.io"
-  config.hosts = nil #<< "/[a-z0-9]+\.chaskiq.test:3000/"
+  # config.hosts << "dea224b3.ngrok.io"
+  config.hosts = nil # << "/[a-z0-9]+\.chaskiq.test:3000/"
 
   # Do not eager load code on boot.
   config.eager_load = false
@@ -17,14 +19,13 @@ Rails.application.configure do
   # Show full error reports.
   config.consider_all_requests_local = true
 
-  Rails.application.routes.default_url_options = {host: 'http://localhost:3000'}
-  config.action_controller.default_url_options = {host: 'http://localhost:3000'}
-  config.action_mailer.default_url_options = {host: 'http://localhost:3000'}
+  Rails.application.routes.default_url_options = { host: 'http://localhost:3000' }
+  config.action_controller.default_url_options = { host: 'http://localhost:3000' }
+  config.action_mailer.default_url_options = { host: 'http://localhost:3000' }
 
   # config.action_cable.url = "ws://localhost:3334/cable"
   config.action_cable.url = 'ws://localhost:3000/cable'
-  config.action_cable.allowed_request_origins = [ 'http://localhost:3000', 'http://127.0.0.1:3000' ]
-
+  config.action_cable.allowed_request_origins = ['http://localhost:3000', 'http://127.0.0.1:3000']
 
   # Enable/disable caching. By default caching is disabled.
   # Run rails dev:cache to toggle caching.
@@ -74,23 +75,20 @@ Rails.application.configure do
   # routes, locales, etc. This feature depends on the listen gem.
   config.file_watcher = ActiveSupport::EventedFileUpdateChecker
 
-
   ActionMailer::Base.add_delivery_method :ses, AWS::SES::Base,
-    access_key_id: ENV['AWS_ACCESS_KEY_ID'],
-    secret_access_key: ENV['AWS_SECRET_ACCESS_KEY']
-
+                                         access_key_id: ENV['AWS_ACCESS_KEY_ID'],
+                                         secret_access_key: ENV['AWS_SECRET_ACCESS_KEY']
 
   config.action_mailer.perform_deliveries = false
   config.action_mailer.delivery_method = :ses
-  config.action_controller.asset_host = "http://localhost:3000/"
+  config.action_controller.asset_host = 'http://localhost:3000/'
 
-  #config.action_mailer.delivery_method = :smtp
-  #config.action_mailer.smtp_settings = {
+  # config.action_mailer.delivery_method = :smtp
+  # config.action_mailer.smtp_settings = {
   #  :address => Rails.application.credentials.dig(:ses, :address),
   #  :user_name => Rails.application.credentials.dig(:ses, :user_name), # Your SMTP user here.
   #  :password => Rails.application.credentials.dig(:ses, :password), # Your SMTP password here.
   #  :authentication => :login,
   #  :enable_starttls_auto => true
-  #}
-
+  # }
 end

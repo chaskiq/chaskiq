@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 if defined?(CypressOnRails)
   CypressOnRails.configure do |c|
     c.cypress_folder = File.expand_path("#{__dir__}/../../spec/cypress")

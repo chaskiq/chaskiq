@@ -1,8 +1,10 @@
+# frozen_string_literal: true
+
 module Types
   class AppUserType < Types::BaseObject
     field :id, Int, null: false
     field :email, String, null: true
-    #field :user, [Types::UserType], null: true
+    # field :user, [Types::UserType], null: true
     field  :last_visited_at, String, null: true
     field  :referrer, String, null: true
     field  :state, String, null: true
@@ -55,39 +57,40 @@ module Types
     end
 
     def visits(page:, per:)
-      object.visits.page(page).per(per).order("id desc")
+      object.visits.page(page).per(per).order('id desc')
     end
 
     def full_name
       "#{object.first_name} #{object.last_name}"
     end
 
-
     field :conversations, type: Types::PaginatedConversationsType, null: true do
       argument :page, Integer, required: false, default_value: 1
       argument :per, Integer, required: false, default_value: 20
     end
 
-    def conversations(page: , per:)
+    def conversations(page:, per:)
       object.conversations
-      .order("updated_at desc")
-      .page(page)
-      .per(per)
+            .order('updated_at desc')
+            .page(page)
+            .per(per)
     end
 
-    def dashboard(range:,  kind:)
-      whitelist = %w(conversations visits)
-      raise "no dashboard available at this address" unless whitelist.include?(kind)
+    def dashboard(range:, kind:)
+      whitelist = %w[conversations visits]
+      unless whitelist.include?(kind)
+        raise 'no dashboard available at this address'
+      end
+
       AgentDashboard.new(
-        app: object, 
+        app: object,
         range: range
       ).send(kind)
     end
-  
-    field :dashboard, Types::JsonType, null: true do 
+
+    field :dashboard, Types::JsonType, null: true do
       argument :range, Types::JsonType, required: true
       argument :kind,  String, required: true
     end
-
   end
 end

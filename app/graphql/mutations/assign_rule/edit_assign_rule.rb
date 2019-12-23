@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Mutations
   module AssignRule
     class EditAssignRule < Mutations::BaseMutation
@@ -15,15 +17,15 @@ module Mutations
         find_app(app_key)
         @agent = @app.agents.find(agent_id)
         assignment_rule = @app.assignment_rules.find(rule_id)
-        assignment_rule.update({
-          title: title, 
-          agent: @agent, 
+        assignment_rule.update(
+          title: title,
+          agent: @agent,
           conditions: conditions
-        })
+        )
 
-        { 
-          assignment_rule: assignment_rule , 
-          errors: assignment_rule.errors 
+        {
+          assignment_rule: assignment_rule,
+          errors: assignment_rule.errors
         }
       end
 

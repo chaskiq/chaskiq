@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class CreateAppPackages < ActiveRecord::Migration[6.0]
   def change
     create_table :app_packages do |t|

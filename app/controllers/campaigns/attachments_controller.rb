@@ -1,5 +1,6 @@
-class Campaigns::AttachmentsController < ApplicationController
+# frozen_string_literal: true
 
+class Campaigns::AttachmentsController < ApplicationController
   skip_before_action :verify_authenticity_token
   before_action :find_campaign
 
@@ -23,22 +24,23 @@ class Campaigns::AttachmentsController < ApplicationController
     create_attachment
   end
 
-protected
+  protected
 
   def find_campaign
-    @app      = current_user.apps.find_by(key: params[:app_id]) 
-    @campaign = Campaign.where(app: @app ).find(params[:id])
+    @app      = current_user.apps.find_by(key: params[:app_id])
+    @campaign = Campaign.where(app: @app).find(params[:id])
   end
 
   def resource_params
     return [] if request.get?
+
     params[:attachment] = {} unless params[:attachment].present?
     params[:attachment][:image] = params[:image] if params[:image].present?
-    params.require(:attachment).permit! #(:name)
+    params.require(:attachment).permit! # (:name)
   end
 
   def create_attachment
-    if params[:file].present? or params[:url].present?
+    if params[:file].present? || params[:url].present?
 
       # @attachment = @campaign.attachments.new
       # @attachment.user_id = @post.user.id
@@ -46,26 +48,25 @@ protected
         filename = params[:file].original_filename
         content_type = params[:file].content_type
         if File.extname(filename).empty?
-          params[:file].original_filename = "blob.#{ content_type.split("/").last}"
+          params[:file].original_filename = "blob.#{content_type.split('/').last}"
         end
 
         @attachment = @campaign.attachments.attach params[:file]
-      
+
       elsif params[:url]
         handle = open(params[:url])
         name = "foo-#{Time.now.to_i}"
-        
+
         @attachment = @campaign.attachments.attach(io: handle, filename: name, content_type: 'application/png')
 
-        #@attachment = @campaign.attachments.attach new_file
+        # @attachment = @campaign.attachments.attach new_file
       end
-   
+
       if @campaign.save
         render json: { url: url_for(@campaign.attachments.last), resource: @campaign.attachments.last }
       else
-        render json: {error: @campaign.errors}, status: 402
+        render json: { error: @campaign.errors }, status: 402
       end
     end
   end
-
 end

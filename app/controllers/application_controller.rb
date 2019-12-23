@@ -1,7 +1,8 @@
-class ApplicationController < ActionController::Base
+# frozen_string_literal: true
 
+class ApplicationController < ActionController::Base
   respond_to :json
-  #protect_from_forgery unless: -> { request.format.json? }
+  # protect_from_forgery unless: -> { request.format.json? }
   protect_from_forgery with: :null_session
 
   layout :layout_by_resource
@@ -9,33 +10,32 @@ class ApplicationController < ActionController::Base
   def preview
     @app = App.find_by(key: params[:app])
     @campaign = @app.campaigns.find(params[:id])
-    #render plain: "hello"
-    render "campaigns/iframe", layout: false
+    # render plain: "hello"
+    render 'campaigns/iframe', layout: false
   end
 
-
   def authorize_by_jwt
-    token = request.headers["HTTP_AUTHORIZATION"].gsub("Bearer ", "")
+    token = request.headers['HTTP_AUTHORIZATION'].gsub('Bearer ', '')
     # TODO: review this
-    return nil if token.blank? or token == "undefined"
+    return nil if token.blank? || (token == 'undefined')
 
     begin
       @current_agent = Warden::JWTAuth::UserDecoder.new.call(token, :agent, nil)
     rescue JWT::DecodeError
-      render_unauthorized and return
+      render_unauthorized && (return)
     rescue JWT::ExpiredSignature
-      render_unauthorized and return
+      render_unauthorized && (return)
     end
   end
 
   def access_required
-    render_unauthorized and return if @current_agent.blank?
+    render_unauthorized && return if @current_agent.blank?
   end
 
   def render_unauthorized
-    render :json => {
-      :response => 'Unable to authenticate'
-    } ,:status => 401
+    render json: {
+      response: 'Unable to authenticate'
+    }, status: 401
   end
 
   def package_iframe
@@ -43,13 +43,13 @@ class ApplicationController < ActionController::Base
   end
 
   def render_empty
-    render html: '', :layout => 'application'
+    render html: '', layout: 'application'
   end
 
   def user_session
     render json: { current_user: {
-      email: current_user.email }
-    }
+      email: current_user.email
+    } }
   end
 
   def catch_all
@@ -62,7 +62,7 @@ class ApplicationController < ActionController::Base
     headers['Access-Control-Allow-Origin'] = '*'
     headers['Access-Control-Allow-Methods'] = 'POST, GET, PUT, DELETE, OPTIONS'
     headers['Access-Control-Allow-Headers'] = 'Origin, Content-Type, Accept, Authorization, Token'
-    headers['Access-Control-Max-Age'] = "1728000"
+    headers['Access-Control-Max-Age'] = '1728000'
   end
 
   def cors_preflight_check
@@ -72,16 +72,15 @@ class ApplicationController < ActionController::Base
       headers['Access-Control-Allow-Headers'] = 'X-Requested-With, X-Prototype-Version, Token'
       headers['Access-Control-Max-Age'] = '1728000'
 
-      render :text => '', :content_type => 'text/plain'
+      render text: '', content_type: 'text/plain'
     end
   end
 
   def layout_by_resource
     if devise_controller?
-      "devise"
+      'devise'
     else
-      "application"
+      'application'
     end
   end
-
 end

@@ -1,11 +1,12 @@
+# frozen_string_literal: true
+
 require 'jwe'
 require 'open-uri'
 class ClientTesterController < ApplicationController
-
   before_action :set_lang_var
 
-  layout "client"
-  
+  layout 'client'
+
   def show
     @app = get_app
     key = @app.encryption_key
@@ -13,7 +14,7 @@ class ClientTesterController < ApplicationController
 
     @h = {
       http: Rails.env.production? ? 'https://' : 'http://',
-      ws:   Rails.env.production? ? 'wss://' : 'ws://'
+      ws: Rails.env.production? ? 'wss://' : 'ws://'
     }
 
     @json_payload = {}
@@ -32,22 +33,23 @@ class ClientTesterController < ApplicationController
   end
 
   def user_options
-    { email: "test@test.cl",
+    { email: 'test@test.cl',
       properties: {
-        name: params[:name] || "miguel",
-        lang: params[:lang] || "en",
-        id: "localhost",
-        country: params[:country] || "chile",
-        role: params[:pro] || "admin",
+        name: params[:name] || 'miguel',
+        lang: params[:lang] || 'en',
+        id: 'localhost',
+        country: params[:country] || 'chile',
+        role: params[:pro] || 'admin',
         pro: params[:pro],
         num_devices: params[:num_devices].to_i || 2,
         plan: params[:plan] || 'pro',
-        last_sign_in: params[:last_sign_in] || 2.days.ago,
-      }
-    } 
+        last_sign_in: params[:last_sign_in] || 2.days.ago
+      } }
   end
 
   def get_app
-    App.find_by(key: params[:id]) rescue App.first
+    App.find_by(key: params[:id])
+  rescue StandardError
+    App.first
   end
 end

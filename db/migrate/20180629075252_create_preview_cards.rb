@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class CreatePreviewCards < ActiveRecord::Migration[5.2]
   def change
     create_table :preview_cards do |t|
@@ -20,10 +22,9 @@ class CreatePreviewCards < ActiveRecord::Migration[5.2]
       t.integer :width
       t.integer :height
 
-      #t.attachment :image
+      # t.attachment :image
       t.timestamps
     end
     add_index :preview_cards, :status_id, unique: true
   end
 end
-
