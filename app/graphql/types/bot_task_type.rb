@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Types
   class BotTaskType < Types::BaseObject
     field :id, Int, null: true
@@ -12,11 +14,12 @@ module Types
     def segments
       object.segments.blank? ? [] : object.segments
     end
+
     def paths
       object.paths.present? ? object.paths : []
     end
 
-    field :metrics, Types::PaginatedMetricsType, null:true do
+    field :metrics, Types::PaginatedMetricsType, null: true do
       argument :page, Integer, required: false, default_value: 1
       argument :per, Integer, required: false, default_value: 20
     end
@@ -25,14 +28,13 @@ module Types
     def counts
       object.metrics.group(:action).count(:trackable_id)
     end
-    
-    def metrics(page: 1 , per: 20)
-      @metrics = object.metrics
-                        .order("id desc")
-                        .page(page)
-                        .per(per)
-      #render :index
-    end
 
+    def metrics(page: 1, per: 20)
+      @metrics = object.metrics
+                       .order('id desc')
+                       .page(page)
+                       .per(per)
+      # render :index
+    end
   end
 end

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class ArticleContent < ApplicationRecord
   include GlobalizeAccessors
 
@@ -6,5 +8,5 @@ class ArticleContent < ApplicationRecord
   has_many_attached :images
 
   translates :serialized_content
-  self.globalize_accessors :attributes => [:serialized_content]
+  globalize_accessors attributes: [:serialized_content]
 end

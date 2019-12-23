@@ -1,93 +1,89 @@
-require "link_renamer"
+# frozen_string_literal: true
+
+require 'link_renamer'
 
 class Tour < Message
   validates :scheduled_at, presence: true
   validates :scheduled_to, presence: true
-  store_accessor :settings, [:hidden_constraints, :url, :steps]
+  store_accessor :settings, %i[hidden_constraints url steps]
   before_save :fill_steps
 
-  scope :in_time, ->{ where(['scheduled_at <= ? AND scheduled_to >= ?', Date.today, Date.today]) }
-  
-  scope :availables_for, ->(user){
-    enabled.in_time.joins("left outer join metrics 
+  scope :in_time, -> { where(['scheduled_at <= ? AND scheduled_to >= ?', Date.today, Date.today]) }
+
+  scope :availables_for, lambda { |user|
+    enabled.in_time.joins("left outer join metrics
       on metrics.trackable_type = 'Message'
       AND metrics.trackable_id = campaigns.id
       AND metrics.app_user_id = #{user.id}
-      AND settings->'hidden_constraints' ? metrics.action"
-      ).where("metrics.id is null")
-
+      AND settings->'hidden_constraints' ? metrics.action").where('metrics.id is null')
 
     ## THIS WILL RETURN CAMPAINGS ON EMPTY METRICS FOR USER
-    #enabled.in_time.joins("left outer join metrics 
+    # enabled.in_time.joins("left outer join metrics
     #  on metrics.trackable_type = 'Message'
     #  AND metrics.trackable_id = campaigns.id
     #  AND metrics.app_user_id = #{user.id}"
-    #).where("metrics.id is null")
+    # ).where("metrics.id is null")
   }
 
   def config_fields
     [
-      {name: "state", type: "select", 
-        options: ["enabled", "disabled"], 
-        grid: {xs: 12, sm: 12 } 
-      },
-      {name: "name", type: 'string', grid: {xs: 12, sm: 12 } } ,
-      {name: "subject", type: 'string', grid: {xs: 12, sm: 12 } } ,
-      {name: "url", type: 'string', grid: {xs: 12, sm: 12 } },
+      { name: 'state', type: 'select',
+        options: %w[enabled disabled],
+        grid: { xs: 12, sm: 12 } },
+      { name: 'name', type: 'string', grid: { xs: 12, sm: 12 } },
+      { name: 'subject', type: 'string', grid: { xs: 12, sm: 12 } },
+      { name: 'url', type: 'string', grid: { xs: 12, sm: 12 } },
 
-      {name: "description", type: 'text', grid: {xs: 12, sm: 12 } },
-      {name: "hiddenConstraints", type: "select", 
+      { name: 'description', type: 'text', grid: { xs: 12, sm: 12 } },
+      { name: 'hiddenConstraints', type: 'select',
         options: [
-          {label: "open", value: "open"},
-          {label: "close", value: "close"}, 
-          {label: "finish", value: "finish"},
-          {label: "skip", value: "skip"}, 
-        ], 
+          { label: 'open', value: 'open' },
+          { label: 'close', value: 'close' },
+          { label: 'finish', value: 'finish' },
+          { label: 'skip', value: 'skip' }
+        ],
         multiple: true,
-        default: "open",
-        grid: {xs: 12, sm: 12 }
-      },
-      {name: "scheduledAt", type: 'datetime', grid: {xs: 12, sm: 6 } },
-      {name: "scheduledTo", type: 'datetime', grid: {xs: 12, sm: 6 } },
+        default: 'open',
+        grid: { xs: 12, sm: 12 } },
+      { name: 'scheduledAt', type: 'datetime', grid: { xs: 12, sm: 6 } },
+      { name: 'scheduledTo', type: 'datetime', grid: { xs: 12, sm: 6 } }
     ]
   end
 
   def stats_fields
     [
       {
-        name: "DeliverRateCount", label: "Deliver rate", 
-        keys: [{name: "open", color: "#F4F5F7"}, 
-              {name: "skip", color: "#0747A6"}] 
+        name: 'DeliverRateCount', label: 'Deliver rate',
+        keys: [{ name: 'open', color: '#F4F5F7' },
+               { name: 'skip', color: '#0747A6' }]
       },
       {
-        name: "ClickRateCount", label: "Open/Finish rate", 
-        keys: [{name: "open" , color: "#F4F5F7"}, 
-                {name: "finish", color: "#0747A6"}] 
-      },
+        name: 'ClickRateCount', label: 'Open/Finish rate',
+        keys: [{ name: 'open', color: '#F4F5F7' },
+               { name: 'finish', color: '#0747A6' }]
+      }
     ]
   end
 
   def track_url
-    host + "/campaigns/#{self.id}/tracks/#{subscriber.encoded_id}"
+    host + "/campaigns/#{id}/tracks/#{subscriber.encoded_id}"
   end
 
-  # or closed or consumed 
+  # or closed or consumed
   def available_for_user?(user_id)
-    begin
-      self.available_segments.find(user_id) && 
-      self.metrics.where(action: self.hidden_constraints , message_id: user_id ).empty?
-    rescue ActiveRecord::RecordNotFound
-      false
-    end
+    available_segments.find(user_id) &&
+      metrics.where(action: hidden_constraints, message_id: user_id).empty?
+  rescue ActiveRecord::RecordNotFound
+    false
   end
 
   def show_notification_for(user)
     if available_for_user?(user.id)
-      
-      self.metrics.create(
+
+      metrics.create(
         app_user: user,
         trackable: self,
-        action: "viewed",
+        action: 'viewed',
         message_id: user.id
       )
 
@@ -97,11 +93,10 @@ class Tour < Message
 
   def campaign_url
     host = Rails.application.routes.default_url_options[:host]
-    campaign_url = "#{host}/api/v1/apps/#{self.app.id}/messages/#{self.id}"
+    campaign_url = "#{host}/api/v1/apps/#{app.id}/messages/#{id}"
   end
 
   def attributes_for_template(subscriber)
-
     subscriber_url = "#{campaign_url}/subscribers/#{subscriber.encoded_id}"
     track_image    = "#{campaign_url}/tracks/#{subscriber.encoded_id}/open.gif"
 
@@ -109,23 +104,20 @@ class Tour < Message
       campaign_url: campaign_url,
       campaign_unsubscribe: "#{subscriber_url}/delete",
       campaign_subscribe: "#{campaign_url}/subscribers/new",
-      campaign_description: "#{self.description}",
-      track_image_url: track_image
-    }
+      campaign_description: description.to_s,
+      track_image_url: track_image }
   end
 
   def mustache_template_for(subscriber)
+    link_prefix = host + "/api/v1/apps/#{app.key}/messages/#{id}/tracks/#{subscriber.encoded_id}/click?r="
 
-    link_prefix = host + "/api/v1/apps/#{self.app.key}/messages/#{self.id}/tracks/#{subscriber.encoded_id}/click?r="
-
-    #html = LinkRenamer.convert(premailer, link_prefix)
+    # html = LinkRenamer.convert(premailer, link_prefix)
     subscriber_options = subscriber.attributes
-                                    .merge(attributes_for_template(subscriber))
-                                    .merge(subscriber.properties)
+                                   .merge(attributes_for_template(subscriber))
+                                   .merge(subscriber.properties)
 
-    
     # could be the serialized content!
-    compiled_premailer = self.html_content.to_s.gsub("%7B%7B", "{{").gsub("%7D%7D", "}}")                               
+    compiled_premailer = html_content.to_s.gsub('%7B%7B', '{{').gsub('%7D%7D', '}}')
     compiled_mustache = Mustache.render(compiled_premailer, subscriber_options)
 
     html = LinkRenamer.convert(compiled_mustache, link_prefix)
@@ -133,25 +125,25 @@ class Tour < Message
   end
 
   def fill_steps
-    self.steps = [] if self.steps.blank?
+    self.steps = [] if steps.blank?
   end
 
   def self.broadcast_tour_to_user(user)
-
     app = user.app
     key = "#{app.key}-#{user.session_id}"
 
     tours = app.tours.availables_for(user)
     tour = tours.first
-    
-    return if tour.blank? or !tour.available_for_user?(user.id)
 
-    MessengerEventsChannel.broadcast_to(key, {
-      type: "tours:receive", 
-      data: tour.as_json(only: [:id], methods: [:steps, :url])
-    }.as_json) if tours.any?
-     
-    return tours.any?
+    return if tour.blank? || !tour.available_for_user?(user.id)
+
+    if tours.any?
+      MessengerEventsChannel.broadcast_to(key, {
+        type: 'tours:receive',
+        data: tour.as_json(only: [:id], methods: %i[steps url])
+      }.as_json)
+    end
+
+    tours.any?
   end
-
 end

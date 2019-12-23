@@ -1,12 +1,16 @@
+# frozen_string_literal: true
+
 # This file is copied to spec/ when you run 'rails generate rspec:install'
 require 'spec_helper'
 ENV['RAILS_ENV'] ||= 'test'
-require File.expand_path('../../config/environment', __FILE__)
+require File.expand_path('../config/environment', __dir__)
 # Prevent database truncation if the environment is production
-abort("The Rails environment is running in production mode!") if Rails.env.production?
+if Rails.env.production?
+  abort('The Rails environment is running in production mode!')
+end
 require 'rspec/rails'
 
-Chromedriver.set_version "2.38"
+Chromedriver.set_version '2.38'
 # Add additional requires below this line. Rails is not loaded until this point!
 
 # Requires supporting ruby files with custom matchers and macros, etc, in
@@ -50,15 +54,15 @@ RSpec.configure do |config|
   Geocoder::Lookup::Test.set_default_stub(
     [
       {
-        'coordinates'  => [40.7143528, -74.0059731],
-        'latitude'     => 40.7143528,
-        'longitude'    => -74.0059731,
-        'address'      => 'New York, NY, USA',
-        'state'        => 'New York',
-        'city'         => 'newy york',
-        'region'       => 'new_yorke',
-        'state_code'   => 'NY',
-        'country'      => 'United States',
+        'coordinates' => [40.7143528, -74.0059731],
+        'latitude' => 40.7143528,
+        'longitude' => -74.0059731,
+        'address' => 'New York, NY, USA',
+        'state' => 'New York',
+        'city' => 'newy york',
+        'region' => 'new_yorke',
+        'state_code' => 'NY',
+        'country' => 'United States',
         'country_code' => 'US'
       }
     ]
@@ -69,12 +73,11 @@ RSpec.configure do |config|
   # instead of true.
   config.use_transactional_fixtures = true
 
-  config.define_derived_metadata(file_path: /spec\/system/) do |metadata|
+  config.define_derived_metadata(file_path: %r{spec/system}) do |metadata|
     metadata[:browser] = true
   end
 
   config.filter_run_excluding browser: true
-
 
   config.include Devise::Test::ControllerHelpers, type: :controller
   # RSpec Rails can automatically mix in different behaviours to your tests
@@ -97,18 +100,16 @@ RSpec.configure do |config|
   # arbitrary gems may also be filtered via:
   # config.filter_gems_from_backtrace("gem name")
 
-
-    # Ensures all non-javascript tests will use the faster :rack_test
+  # Ensures all non-javascript tests will use the faster :rack_test
   config.before(:all, type: :system) do
-    #driven_by :rack_test
+    # driven_by :rack_test
     # then, whenever you need to clean the DB
     DatabaseCleaner.clean
   end
 
   # Ensures that all javascript tests use :headless_chrome
-  #config.before(:each, type: :system, js: true) do
+  # config.before(:each, type: :system, js: true) do
   #  # Can be switched to :chrome if you want to see it working
   #  driven_by :headless_chrome
-  #end
-
+  # end
 end

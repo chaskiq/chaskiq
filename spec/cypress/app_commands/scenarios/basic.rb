@@ -1,6 +1,8 @@
-app = FactoryBot.create(:app, encryption_key: "unodostrescuatro",
-          active_messenger: "true",
-          state: 'enabled')
+# frozen_string_literal: true
 
-agent = app.add_agent({email: "test@test.cl", name: "sharleena"})
-#user = app.add_user({email: "test@test.cl"})
+app = FactoryBot.create(:app, encryption_key: 'unodostrescuatro',
+                              active_messenger: 'true',
+                              state: 'enabled')
+
+agent = app.add_agent(email: 'test@test.cl', name: 'sharleena')
+# user = app.add_user({email: "test@test.cl"})

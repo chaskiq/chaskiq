@@ -235,7 +235,7 @@ const useStyles = makeStyles(theme => {
     color: theme.palette.primary.main,
     fontSize: '1.5em',
     fontFamily: theme.typography.h5.fontFamily,
-    fontWeight: 'bold'
+    //fontWeight: 'bold'
   },
   floorPaper:{
     background: '#f7f7f7',

@@ -1,5 +1,7 @@
+# frozen_string_literal: true
+
 class AppIdentity < Nightfury::Identity::Base
-  #metric :number_of_users
+  # metric :number_of_users
   metric :first_response_time, :avg_time_series, step: :day
   metric :incoming_messages, :count_time_series, step: :day
   metric :outgoing_messages, :count_time_series, step: :day

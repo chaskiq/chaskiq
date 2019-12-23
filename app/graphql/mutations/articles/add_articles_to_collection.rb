@@ -1,7 +1,8 @@
+# frozen_string_literal: true
+
 module Mutations
   module Articles
     class AddArticlesToCollection < Mutations::BaseMutation
-      
       field :collection, Types::CollectionType, null: false
       argument :app_key, String, required: true
       argument :collectionId, Integer, required: true
@@ -14,10 +15,9 @@ module Mutations
         app.articles.where(id: articles_id).each do |a|
           a.update(collection: collection, section: nil)
         end
-        
-        {collection: collection}
-      end
 
+        { collection: collection }
+      end
 
       def current_user
         context[:current_user]

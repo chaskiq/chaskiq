@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # This file should contain all the record creation needed to seed the database with its default values.
 # The data can then be loaded with the rails db:seed command (or created alongside the database with db:setup).
 #
@@ -5,12 +7,12 @@
 #
 #   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
 #   Character.create(name: 'Luke', movie: movies.first)
-require_relative "./seeds/app_packages_catalog.rb"
+require_relative './seeds/app_packages_catalog.rb'
 
-app = App.create(name: "test app")
+app = App.create(name: 'test app')
 app.add_admin(Agent.create(
-  email: "admin@test.com", 
-  password: "123456"
-))
+                email: 'admin@test.com',
+                password: '123456'
+              ))
 
 AppPackagesCatalog.import unless Rails.env.test?

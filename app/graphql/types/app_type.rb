@@ -1,6 +1,7 @@
+# frozen_string_literal: true
+
 module Types
   class AppType < Types::BaseObject
-
     field :key, String, null: true
     field :name, String, null: true
     field :state, String, null: true
@@ -13,7 +14,7 @@ module Types
     field :preferences, Types::JsonType, null: true
     field :app_users, [Types::AppUserType], null: true
     field :customization_colors, Types::JsonType, null: true
-    #field :triggers, Types::JsonType, null: true
+    # field :triggers, Types::JsonType, null: true
     field :team_schedule, Types::JsonType, null: true
     field :reply_time, String, null: true
     field :inbound_settings, Types::JsonType, null: true
@@ -32,8 +33,8 @@ module Types
 
     def app_packages
       AppPackage
-      .left_outer_joins(:app_package_integrations)
-      .where("app_id is null")
+        .left_outer_joins(:app_package_integrations)
+        .where('app_id is null')
     end
 
     field :app_package_integrations, [Types::AppPackageIntegrationType], null: true
@@ -50,18 +51,15 @@ module Types
 
     field :tasks_settings, Types::JsonType, null: true
 
-
-
-
     def tasks_settings
-      context[:get_app_user].call.is_a?(AppUser) ? 
+      context[:get_app_user].call.is_a?(AppUser) ?
       object.user_tasks_settings : object.lead_tasks_settings
     end
 
     def available_languages
       object.translations.map(&:locale)
     end
-    
+
     field :conversations, Types::PaginatedConversationsType, null: true do
       argument :page, Integer, required: false, default_value: 1
       argument :per, Integer, required: false, default_value: 20
@@ -69,25 +67,25 @@ module Types
       argument :filter, String, required: false
     end
 
-    def conversations(per: , page:, filter: ,sort:)
+    def conversations(per:, page:, filter:, sort:)
       @collection = object.conversations.left_joins(:messages)
-                          .where.not(conversation_parts: {id: nil})
+                          .where.not(conversation_parts: { id: nil })
                           .distinct
                           .page(page)
                           .per(per)
 
       @collection = @collection.where(state: filter) if filter.present?
-      
+
       if sort.present?
         s = case sort
-          when "newest" then 'updated_at desc'
-          when "oldest" then 'updated_at asc'
-          when "priority-first" then 'priority asc, updated_at desc'
-          else
-            "id desc"
+            when 'newest' then 'updated_at desc'
+            when 'oldest' then 'updated_at asc'
+            when 'priority-first' then 'priority asc, updated_at desc'
+            else
+              'id desc'
         end
 
-        @collection = @collection.order( s ) 
+        @collection = @collection.order(s)
       end
 
       @collection
@@ -96,7 +94,7 @@ module Types
     field :in_business_hours, Boolean, null: true
 
     def in_business_hours
-      object.in_business_hours?( Time.current )
+      object.in_business_hours?(Time.current)
     end
 
     field :business_back_in, Types::JsonType, null: true
@@ -105,7 +103,7 @@ module Types
       object.business_back_in(Time.current)
     end
 
-    field :conversation, Types::ConversationType, null:true do
+    field :conversation, Types::ConversationType, null: true do
       argument :id, String, required: false
     end
 
@@ -113,7 +111,7 @@ module Types
       object.conversations.find_by(key: id)
     end
 
-    field :app_user, Types::AppUserType, null:true do
+    field :app_user, Types::AppUserType, null: true do
       argument :id, Integer, required: false
     end
 
@@ -121,22 +119,26 @@ module Types
       object.app_users.find(id)
     end
 
-    field :campaigns, Types::PaginatedCampaignType , null:true do
+    field :campaigns, Types::PaginatedCampaignType, null: true do
       argument :mode, String, required: false
     end
 
     def campaigns(mode:)
-      collection = object.send(mode) if ["campaigns", "user_auto_messages", "tours" ].include?(mode)
+      if %w[campaigns user_auto_messages tours].include?(mode)
+        collection = object.send(mode)
+      end
       collection.page(1).per(20)
     end
 
-    field :campaign, Types::CampaignType, null:true do
+    field :campaign, Types::CampaignType, null: true do
       argument :mode, String, required: false
       argument :id, String, required: false
     end
 
     def campaign(mode:, id:)
-      collection = object.send(mode) if ["campaigns", "user_auto_messages", "tours" ].include?(mode)
+      if %w[campaigns user_auto_messages tours].include?(mode)
+        collection = object.send(mode)
+      end
       collection.find(id)
     end
 
@@ -161,29 +163,29 @@ module Types
     end
 
     field :segments, [Types::SegmentType], null: true
-    
+
     def segments
       Segment.union_scope(
-        object.segments.all, Segment.where("app_id is null")
-      ).order("id asc")
+        object.segments.all, Segment.where('app_id is null')
+      ).order('id asc')
     end
 
-    field :segment , Types::SegmentType, null: true do 
+    field :segment, Types::SegmentType, null: true do
       argument :id, Integer, required: true
     end
 
     def segment(id:)
-      s = Segment.where("app_id is null ").where(id: id).first
+      s = Segment.where('app_id is null ').where(id: id).first
       s.present? ? s : object.segments.find(id)
     end
 
     field :assignment_rules, [Types::AssignmentRuleType], null: true
 
     def assignment_rules
-      object.assignment_rules.order("priority asc")
+      object.assignment_rules.order('priority asc')
     end
 
-    field :article_settings, Types::ArticleSettingsType, null: true 
+    field :article_settings, Types::ArticleSettingsType, null: true
 
     def article_settings
       object.article_settings.blank? ? object.build_article_settings : object.article_settings
@@ -193,17 +195,16 @@ module Types
       argument :page, Integer, required: true
       argument :per, Integer, required: false, default_value: 20
       argument :lang, String, required: false, default_value: I18n.default_locale
-      argument :mode, String, required: false, default_value: "all"
-
+      argument :mode, String, required: false, default_value: 'all'
     end
 
-    def articles(page:, per:, lang:, mode: )
+    def articles(page:, per:, lang:, mode:)
       I18n.locale = lang
-      if mode == "all"
+      if mode == 'all'
         object.articles.page(page).per(per)
-      elsif mode == "published"
+      elsif mode == 'published'
         object.articles.published.page(page).per(per)
-      elsif mode == "draft"
+      elsif mode == 'draft'
         object.articles.draft.page(page).per(per)
       end
     end
@@ -250,13 +251,13 @@ module Types
 
     field :bot_tasks, [Types::BotTaskType], null: true do
       argument :lang, String, required: false, default_value: I18n.default_locale.to_s
-      argument :mode, String, required: false, default_value: "leads"
+      argument :mode, String, required: false, default_value: 'leads'
     end
 
-    def bot_tasks(lang: , mode:)
-      if mode == "leads"
-        object.bot_tasks.for_leads #.page(page).per(per)
-      elsif mode == "users"
+    def bot_tasks(lang:, mode:)
+      if mode == 'leads'
+        object.bot_tasks.for_leads # .page(page).per(per)
+      elsif mode == 'users'
         object.bot_tasks.for_users
       end
     end
@@ -270,11 +271,11 @@ module Types
       object.bot_tasks.find(id)
     end
 
-    def dashboard(range:,  kind:)
-      whitelist = %w(
-        visits 
-        browser_name 
-        browser 
+    def dashboard(range:, kind:)
+      whitelist = %w[
+        visits
+        browser_name
+        browser
         lead_os
         user_os
         user_country
@@ -284,19 +285,20 @@ module Types
         opened_conversations
         solved_conversations
         resolution_avg
-      )
-      raise "no dashboard available at this address" unless whitelist.include?(kind)
+      ]
+      unless whitelist.include?(kind)
+        raise 'no dashboard available at this address'
+      end
+
       Dashboard.new(
-        app: object, 
+        app: object,
         range: range
       ).send(kind)
     end
-  
-    field :dashboard, Types::JsonType, null: true do 
+
+    field :dashboard, Types::JsonType, null: true do
       argument :range, Types::JsonType, required: true
       argument :kind,  String, required: true
     end
-
-
   end
 end

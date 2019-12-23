@@ -1,7 +1,8 @@
+# frozen_string_literal: true
+
 module Mutations
   module Articles
     class AssignAuthor < Mutations::BaseMutation
-      
       field :article, Types::ArticleType, null: false
       argument :app_key, String, required: true
       argument :id, String, required: true
@@ -12,9 +13,8 @@ module Mutations
         agent = app.agents.find_by(email: author_id)
         article = app.articles.find(id)
         article.update(author: agent)
-        {article: article}
+        { article: article }
       end
-
 
       def current_user
         context[:current_user]
