@@ -129,7 +129,7 @@ RSpec.describe App, type: :model do
     expect(conversations.assignee.id).to be == agent2.id
   end
 
-  describe 'assigment rules' do
+  describe 'assignment rules' do
     it 'assign rule' do
       role = app.add_agent(email: 'test@test.cl', first_name: 'dsdsa')
       agent = role.agent

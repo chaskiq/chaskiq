@@ -54,7 +54,9 @@ export default class AppListContainer extends Component {
                       <Grid container spacing={2}>
                       {
                         this.state.apps.map((o)=> (
-                          <Grid item xs={12} md={4}>
+                          <Grid 
+                            key={`app-lst-item-${o.key}`} 
+                            item xs={12} md={4}>
                             <AppCard 
                               app={o} 
                               onClick={() => this.props.history.push(`/apps/${o.key}`)}

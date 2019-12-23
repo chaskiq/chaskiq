@@ -38,3 +38,29 @@ export function openMessenger(cb, options, sessionless){
     });
   })
 }
+
+export function login(){
+  cy.appScenario('basic')
+  cy.visit('/')
+  cy.contains("Sign in")
+  cy.get('input[name="email"]')
+  .type('test@test.cl').should('have.value', 'test@test.cl')
+
+  cy.get('input[name="password"]')
+  .type('123456').should('have.value', '123456')
+
+  cy.get('button[type="submit"]').click()
+  cy.get("body").should('contain', 'Welcome to Chaskiq')
+}
+
+export function findButtonByName(name){
+  return cy.get('button').contains(name)
+}
+
+export function findElementByName(element, name){
+  return cy.get(element).contains(name)
+}
+
+export function findLinkByName(name){
+  return cy.get('a').contains(name)
+}

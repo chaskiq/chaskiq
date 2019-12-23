@@ -17,7 +17,7 @@ import { DanteImagePopoverConfig } from 'Dante2/package/es/components/popovers/i
 import { DanteAnchorPopoverConfig } from 'Dante2/package/es/components/popovers/link.js'
 import { DanteInlineTooltipConfig } from 'Dante2/package/es/components/popovers/addButton.js' //'Dante2/package/es/components/popovers/addButton.js'
 import { DanteTooltipConfig } from 'Dante2/package/es/components/popovers/toolTip.js' //'Dante2/package/es/components/popovers/toolTip.js'
-import { ImageBlockConfig } from '../../src/pages/campaigns/article/image.js'
+import { ImageBlockConfig } from '../../src/textEditor/blocks/image.js'
 import { EmbedBlockConfig } from 'Dante2/package/es/components/blocks/embed.js'
 import { VideoBlockConfig } from 'Dante2/package/es/components/blocks/video.js'
 import { PlaceholderBlockConfig } from 'Dante2/package/es/components/blocks/placeholder.js'

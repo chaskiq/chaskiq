@@ -520,7 +520,7 @@ class Messenger extends Component {
       serialized: comment.serialized_content
     }
 
-    // force an assigment from client
+    // force an Assignment from client
     //if( this.state.conversation_messages.length === 0)
     //  opts['check_assignment_rules'] = true
 
