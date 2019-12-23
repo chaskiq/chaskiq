@@ -16,8 +16,6 @@ Rails.application.routes.draw do
     sessions: 'agents/sessions'
   }
 
-  resources :attachments, controller: 'campaigns/attachments'
-
   resource :oembed, controller: 'oembed', only: :show
   get '/package_iframe/:package' => 'application#package_iframe'
 
