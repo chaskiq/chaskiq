@@ -1,9 +1,11 @@
+# frozen_string_literal: true
+
 class CreateConversations < ActiveRecord::Migration[5.2]
   def change
     create_table :conversations do |t|
       t.string :key, index: true
       t.references :app, foreign_key: true
-      t.references :assignee #, foreign_key: true
+      t.references :assignee # , foreign_key: true
       t.jsonb :admins
       t.integer :reply_count
       t.integer :parts_count

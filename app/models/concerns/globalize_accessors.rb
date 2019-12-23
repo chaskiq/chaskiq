@@ -1,15 +1,16 @@
-module GlobalizeAccessors
+# frozen_string_literal: true
 
+module GlobalizeAccessors
   extend ActiveSupport::Concern
 
   included do
-
     def self.globalize_accessors(options = {})
       options.reverse_merge!(
-        :locales => I18n.available_locales, 
-        :attributes => translated_attribute_names)
+        locales: I18n.available_locales,
+        attributes: translated_attribute_names
+      )
 
-      class_attribute :globalize_locales, :globalize_attribute_names, :instance_writer => false
+      class_attribute :globalize_locales, :globalize_attribute_names, instance_writer: false
 
       self.globalize_locales = options[:locales]
       self.globalize_attribute_names = []
@@ -41,23 +42,21 @@ module GlobalizeAccessors
     def self.define_setter(attr_name, locale)
       localized_attr_name = localized_attr_name_for(attr_name, locale)
 
-      define_method :"delete_translation_if_all_blank" do |locale|
+      define_method :delete_translation_if_all_blank do |locale|
         should_delete = true
         translated_attributes.keys.each do |key|
           should_delete = translation_for(locale)[key].blank?
-          break if not should_delete
+          break unless should_delete
         end
-        if should_delete
-          translations.where(:locale => locale).delete_all()
-        end
+        translations.where(locale: locale).delete_all if should_delete
       end
 
       define_method :"#{localized_attr_name}=" do |value|
-        if translation_for(locale,false) && value.blank?
+        if translation_for(locale, false) && value.blank?
           translation_for(locale)[attr_name] = value
           delete_translation_if_all_blank(locale)
         else
-          write_attribute(attr_name, value, :locale => locale) unless value.blank?
+          write_attribute(attr_name, value, locale: locale) unless value.blank?
           translation_for(locale)[attr_name] = value
         end
       end
@@ -65,7 +64,7 @@ module GlobalizeAccessors
       if respond_to?(:accessible_attributes) && accessible_attributes.include?(attr_name)
         attr_accessible :"#{localized_attr_name}"
       end
-      self.globalize_attribute_names << localized_attr_name.to_sym
+      globalize_attribute_names << localized_attr_name.to_sym
     end
 
     def self.each_attribute_and_locale(options)
@@ -75,7 +74,6 @@ module GlobalizeAccessors
         end
       end
     end
-
   end
 
   module InstanceMethods
@@ -85,4 +83,4 @@ module GlobalizeAccessors
   end
 end
 
-#ActiveRecord::Base.extend Globalize::Accessors
+# ActiveRecord::Base.extend Globalize::Accessors

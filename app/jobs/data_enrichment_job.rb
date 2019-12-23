@@ -1,34 +1,27 @@
+# frozen_string_literal: true
+
 class DataEnrichmentJob < ApplicationJob
   queue_as :default
 
   def perform(user_id:)
     user = AppUser.find(user_id)
-    
-    token = user.app.find_app_package("FullContact").api_secret
 
-    return if token.blank?
+    tag = ActsAsTaggableOn::Tag.find_by(name: 'enrichment')
 
-    fullcontact = DataEnrichmentService::FullContact.new({token: token})
+    return if tag.blank?
 
-    response = fullcontact.get_data(params: {
-      email: user.email, 
-      macromeasures: true
-    })
+    providers = user.app.app_package_integrations
+                    .joins(app_package: :taggings)
+                    .where('taggings.tag_id =?', tag.id)
 
-    # means an error, escape it
-    return if response.status.present? && response.status >= 400
+    providers.each do |provider|
+      service = "DataEnrichmentService::#{provider.app_package.name}".constantize
+      return if provider.api_secret.blank?
 
-    full_name = response.fullName
-    user.name = full_name
-    user.first_name = full_name.split(" ")[0]
-    user.last_name  = full_name.split(" ")[1]
-    user.twitter    = response.twitter
-    user.facebook   = response.facebook
-    user.linkedin   = response.linkedin
-    user.organization = response.organization
-    user.job_title = response.title
-
-    user.save
+      service_instance = service.new(token: provider.api_secret)
+      if service_instance.respond_to?(:enrich_user)
+        service_instance.enrich_user(user)
+      end
+    end
   end
-
 end

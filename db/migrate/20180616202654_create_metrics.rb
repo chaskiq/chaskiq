@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class CreateMetrics < ActiveRecord::Migration[5.2]
   def change
     create_table :metrics do |t|
@@ -9,6 +11,5 @@ class CreateMetrics < ActiveRecord::Migration[5.2]
       t.string :message_id, index: true
       t.timestamps
     end
-
   end
 end

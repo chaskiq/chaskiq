@@ -1,6 +1,7 @@
+# frozen_string_literal: true
+
 module Types
   class MutationType < Types::BaseObject
-
     field :appsDestroy, mutation: Mutations::Apps::DestroyApp
     field :appsUpdate, mutation: Mutations::Apps::UpdateApp
     field :appsCreate, mutation: Mutations::Apps::CreateApp
@@ -21,7 +22,7 @@ module Types
     field :campaignDelete, mutation: Mutations::Campaigns::DeleteCampaign
 
     field :purgeMetrics, mutation: Mutations::Campaigns::PurgeMetrics
-    
+
     field :startConversation, mutation: Mutations::Conversations::StartConversation
     field :insertComment, mutation: Mutations::Conversations::InsertComment
     field :insertAppBlockComment, mutation: Mutations::Conversations::InsertAppBlockComment
@@ -30,15 +31,13 @@ module Types
     field :updateConversationState, mutation: Mutations::Conversations::UpdateState
     field :toggleConversationPriority, mutation: Mutations::Conversations::TogglePriority
     field :typingNotifier, mutation: Mutations::Conversations::TypingNotifier
-    
+
     field :createAssignmentRule, mutation: Mutations::AssignRule::CreateAssignRule
     field :editAssignmentRule, mutation: Mutations::AssignRule::EditAssignRule
     field :deleteAssignmentRule, mutation: Mutations::AssignRule::DeleteAssignRule
     field :updateRulePriorities, mutation: Mutations::AssignRule::UpdateRulePriorities
-    
 
     field :appUserUpdateData, mutation: Mutations::AppUsers::UpdateAppUserState
-
 
     field :createArticle, mutation: Mutations::Articles::CreateArticle
     field :editArticle, mutation: Mutations::Articles::EditArticle
@@ -49,10 +48,10 @@ module Types
     field :reorderArticle, mutation: Mutations::Articles::ReorderArticle
     field :changeCollectionArticle, mutation: Mutations::Articles::ChangeCollectionArticle
     field :addArticlesToCollection, mutation: Mutations::Articles::AddArticlesToCollection
-    
+
     field :articleSettingsDeleteLang, mutation: Mutations::Articles::ArticleSettingsDeleteLang
     field :articleSettingsUpdate, mutation: Mutations::Articles::ArticleSettingsUpdate
-    
+
     field :articleSectionCreate, mutation: Mutations::Articles::Sections::CreateSection
     field :articleSectionEdit, mutation: Mutations::Articles::Sections::EditSection
     field :articleSectionDelete, mutation: Mutations::Articles::Sections::DeleteSection
@@ -71,6 +70,5 @@ module Types
     field :integrationsCreate, mutation: Mutations::AppPackageIntegrations::CreateIntegration
     field :integrationsDelete, mutation: Mutations::AppPackageIntegrations::DeleteIntegration
     field :integrationsUpdate, mutation: Mutations::AppPackageIntegrations::UpdateIntegration
-
   end
 end

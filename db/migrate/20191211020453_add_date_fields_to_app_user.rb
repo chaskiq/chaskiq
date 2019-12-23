@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class AddDateFieldsToAppUser < ActiveRecord::Migration[6.0]
   def change
     add_column :app_users, :last_seen, :datetime

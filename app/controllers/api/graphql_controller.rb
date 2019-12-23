@@ -1,7 +1,8 @@
-require "browser/aliases"
+# frozen_string_literal: true
+
+require 'browser/aliases'
 
 class Api::GraphqlController < ApiController
-
   before_action :get_app
   # before_action :authorize!
 
@@ -14,43 +15,41 @@ class Api::GraphqlController < ApiController
       user_data: user_data,
       app: @app,
       from_api: true,
-      #authorize: lambda{|mode, object| authorize!(mode, object) },
-      #can: lambda{| mode, object | can?( mode, object) },
-      #logout!: ->{logout!},
-      #session: session,
-      set_locale: lambda{set_locale},
-      auth: lambda{auth},
-      get_app_user: lambda{get_app_user},
-      request: request,
+      # authorize: lambda{|mode, object| authorize!(mode, object) },
+      # can: lambda{| mode, object | can?( mode, object) },
+      # logout!: ->{logout!},
+      # session: session,
+      set_locale: -> { set_locale },
+      auth: -> { auth },
+      get_app_user: -> { get_app_user },
+      request: request
     }
 
-    result = ChaskiqSchema.execute(query, 
-      variables: variables, 
-      context: context, 
-      operation_name: operation_name
-      #max_depth: 5
-    )
-   
-    render json: result  
-  
+    result = ChaskiqSchema.execute(query,
+                                   variables: variables,
+                                   context: context,
+                                   operation_name: operation_name)
+    # max_depth: 5
+
+    render json: result
   rescue ActiveRecord::RecordNotFound => e
-    render json: { 
-      errors: [{ 
-        message: "Data not found",  
-        data: {} 
+    render json: {
+      errors: [{
+        message: 'Data not found',
+        data: {}
       }]
     }, status: 200
-
   rescue ActiveRecord::RecordInvalid => e
     error_messages = e.record.errors.full_messages.join("\n")
     json_error e.record
-    #GraphQL::ExecutionError.new "Validation failed: #{error_messages}."
+    # GraphQL::ExecutionError.new "Validation failed: #{error_messages}."
   rescue StandardError => e
-    #GraphQL::ExecutionError.new e.message
-    #raise e unless Rails.env.development?
+    # GraphQL::ExecutionError.new e.message
+    # raise e unless Rails.env.development?
     handle_error_in_development e
-  rescue => e
+  rescue StandardError => e
     raise e unless Rails.env.development?
+
     handle_error_in_development e
   end
 
@@ -60,17 +59,16 @@ class Api::GraphqlController < ApiController
     @user_data = get_user_data_from_auth
   end
 
-  def user_data
-    @user_data
-  end
+  attr_reader :user_data
 
   def get_app
-    @app = App.find_by(key: request.headers["HTTP_APP"])
+    @app = App.find_by(key: request.headers['HTTP_APP'])
   end
 
-
   def set_host_for_local_storage
-    ActiveStorage::Current.host = request.base_url if Rails.application.config.active_storage.service == :local
+    if Rails.application.config.active_storage.service == :local
+      ActiveStorage::Current.host = request.base_url
+    end
   end
 
   # Handle form data, JSON body, or a blank value
@@ -97,6 +95,4 @@ class Api::GraphqlController < ApiController
 
     render json: { error: { message: e.message, backtrace: e.backtrace }, data: {} }, status: 500
   end
-  
 end
-

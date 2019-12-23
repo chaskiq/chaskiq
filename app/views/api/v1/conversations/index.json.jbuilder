@@ -1,4 +1,6 @@
-json.collection @conversations do |conversation| 
+# frozen_string_literal: true
+
+json.collection @conversations do |conversation|
   json.id conversation.id
   json.created_at conversation.created_at
   json.assignee conversation.assignee
@@ -8,8 +10,8 @@ json.collection @conversations do |conversation|
 end
 
 json.meta do
-  json.total_pages  @conversations.total_pages 
+  json.total_pages  @conversations.total_pages
   json.current_page @conversations.current_page
-  json.next_page    @conversations.next_page   
-  json.prev_page    @conversations.prev_page   
+  json.next_page    @conversations.next_page
+  json.prev_page    @conversations.prev_page
 end

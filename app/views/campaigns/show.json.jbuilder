@@ -1,2 +1,3 @@
+# frozen_string_literal: true
 
-json.partial! "campaigns/campaign", campaign: @campaign
+json.partial! 'campaigns/campaign', campaign: @campaign

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Mutations
   module Bots
     class DeleteBotTask < Mutations::BaseMutation
@@ -10,7 +12,7 @@ module Mutations
         find_app(app_key)
         @bot_task = @app.bot_tasks.find(id)
         @bot_task.destroy
-        { bot_task: @bot_task , errors: @bot_task.errors }
+        { bot_task: @bot_task, errors: @bot_task.errors }
       end
 
       def find_app(app_id)

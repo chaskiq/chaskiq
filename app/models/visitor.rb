@@ -1,9 +1,9 @@
+# frozen_string_literal: true
+
 class Visitor < AppUser
-
   def become_lead!
-    self.becomes!(Lead)
-    self.type = "Lead"
-    self.save
+    becomes!(Lead)
+    self.type = 'Lead'
+    save
   end
-
 end

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 Rails.application.configure do
   # Settings specified here will take precedence over those in config/application.rb.
 
@@ -29,7 +31,6 @@ Rails.application.configure do
   config.assets.compile = false
   config.assets.enabled = false if ENV['ANYCABLE_DEPLOYMENT']
 
-
   # Enable serving of images, stylesheets, and JavaScripts from an asset server.
   # config.action_controller.asset_host = 'http://assets.example.com'
   config.action_controller.asset_host = ENV['ASSET_HOST']
@@ -42,14 +43,14 @@ Rails.application.configure do
   # config.active_storage.service = :local
 
   config.active_storage.service = :amazon
-  
-  Rails.application.routes.default_url_options = {host: ENV['HOST'] }
-  config.action_controller.default_url_options = {host: ENV['HOST'] }
-  config.action_mailer.default_url_options = {host: ENV['HOST'] }
+
+  Rails.application.routes.default_url_options = { host: ENV['HOST'] }
+  config.action_controller.default_url_options = { host: ENV['HOST'] }
+  config.action_mailer.default_url_options = { host: ENV['HOST'] }
 
   # Mount Action Cable outside main process or domain.
   # config.action_cable.mount_path = nil
-  config.action_cable.url = ENV['CABLE_URL'] #Rails.application.credentials.ws
+  config.action_cable.url = ENV['CABLE_URL'] # Rails.application.credentials.ws
   # config.action_cable.allowed_request_origins = [ 'http://example.com', /http:\/\/example.*/ ]
 
   # Force all access to the app over SSL, use Strict-Transport-Security, and use secure cookies.
@@ -60,9 +61,9 @@ Rails.application.configure do
   config.log_level = :debug
 
   # Prepend all log lines with the following tags.
-  config.log_tags = [ :request_id ]
+  config.log_tags = [:request_id]
 
-  config.cache_store = :redis_cache_store, {url: ENV['REDIS_URL'] }
+  config.cache_store = :redis_cache_store, { url: ENV['REDIS_URL'] }
 
   # Use a different cache store in production.
   # config.cache_store = :mem_cache_store
@@ -71,7 +72,7 @@ Rails.application.configure do
   # config.active_job.queue_adapter     = :resque
   # config.active_job.queue_name_prefix = "hermes_production"
 
-  config.active_job.queue_adapter     = :sidekiq
+  config.active_job.queue_adapter = :sidekiq
   # config.active_job.queue_name_prefix = "hermes_#{Rails.env}"
 
   config.action_mailer.perform_caching = false
@@ -94,7 +95,7 @@ Rails.application.configure do
   # require 'syslog/logger'
   # config.logger = ActiveSupport::TaggedLogging.new(Syslog::Logger.new 'app-name')
 
-  if ENV["RAILS_LOG_TO_STDOUT"].present?
+  if ENV['RAILS_LOG_TO_STDOUT'].present?
     logger           = ActiveSupport::Logger.new(STDOUT)
     logger.formatter = config.log_formatter
     config.logger    = ActiveSupport::TaggedLogging.new(logger)
@@ -110,11 +111,11 @@ Rails.application.configure do
   #  :password => Rails.application.credentials.dig(:ses, :password), # Your SMTP password here.
   #  :authentication => :login,
   #  :enable_starttls_auto => true
-  #}
+  # }
 
   ActionMailer::Base.add_delivery_method :ses, AWS::SES::Base,
-    access_key_id: ENV['AWS_ACCESS_KEY_ID'],
-    secret_access_key: ENV['AWS_SECRET_ACCESS_KEY']
+                                         access_key_id: ENV['AWS_ACCESS_KEY_ID'],
+                                         secret_access_key: ENV['AWS_SECRET_ACCESS_KEY']
 
   config.action_mailer.delivery_method = :ses
 
