@@ -905,13 +905,17 @@ const PathEditor = ({step, message, path, updatePath })=>{
     updatePath(newPath)
   }
 
+  const uploadHandler = ({serviceUrl, imageBlock})=>{
+    imageBlock.uploadCompleted(serviceUrl)
+  }
+
   return (
     <Paper
       elevation={1} 
       square={true} 
       classes={{root: classes.root}}>
       <TextEditor 
-          //uploadHandler={this.uploadHandler}
+          uploadHandler={uploadHandler}
           serializedContent={message.serialized_content}
           read_only={readOnly}
           toggleEditable={()=>{
