@@ -51,8 +51,8 @@ import {
   sortableHandle,
 } from 'react-sortable-hoc';
 import arrayMove from 'array-move';
-import {InlineFilterDialog} from '../../components/segmentManager'
-import SegmentItemButton from '../../components/segmentManager/itemButton'
+import {InlineFilterDialog} from '../segmentManager'
+import SegmentItemButton from '../segmentManager/itemButton'
 import { setCurrentPage, setCurrentSection } from '../../actions/navigation'
 
 
