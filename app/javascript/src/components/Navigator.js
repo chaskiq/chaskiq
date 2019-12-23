@@ -223,10 +223,10 @@ function Navigator(props, context) {
           url: `/apps/${app.key}/conversations`, 
           active: isActivePage("Conversations") 
         },
-        { id: 'Assigment Rules',
+        { id: 'Assignment Rules',
           icon:  <ShuffleIcon/>, 
           url: `/apps/${app.key}/conversations/assignment_rules`, 
-          active: isActivePage("Assigment Rules") 
+          active: isActivePage("Assignment Rules") 
         },
       ],
     },

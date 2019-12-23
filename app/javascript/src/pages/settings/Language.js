@@ -62,7 +62,7 @@ export default function LanguageForm({settings, update, namespace, fields}){
       <FormDialog 
         open={isOpen}
         //contentText={"lipsum"}
-        titleContent={"Save Assigment rule"}
+        titleContent={"Save Assignment rule"}
         formComponent={
           //!loading ?
             <form>
