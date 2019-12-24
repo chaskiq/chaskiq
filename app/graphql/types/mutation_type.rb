@@ -38,6 +38,7 @@ module Types
     field :updateRulePriorities, mutation: Mutations::AssignRule::UpdateRulePriorities
 
     field :appUserUpdateData, mutation: Mutations::AppUsers::UpdateAppUserState
+    field :convertUser, mutation: Mutations::AppUsers::ConvertUser
 
     field :createArticle, mutation: Mutations::Articles::CreateArticle
     field :editArticle, mutation: Mutations::Articles::EditArticle
@@ -70,5 +71,7 @@ module Types
     field :integrationsCreate, mutation: Mutations::AppPackageIntegrations::CreateIntegration
     field :integrationsDelete, mutation: Mutations::AppPackageIntegrations::DeleteIntegration
     field :integrationsUpdate, mutation: Mutations::AppPackageIntegrations::UpdateIntegration
+
+
   end
 end
