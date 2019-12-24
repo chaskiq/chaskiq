@@ -20,7 +20,8 @@ import {
   CONVERSATIONS, 
   CONVERSATION,
   INSERT_COMMMENT,
-  START_CONVERSATION
+  START_CONVERSATION,
+  CONVERT
 } from './graphql/queries'
 import GraphqlClient from './graphql/client'
 
@@ -763,10 +764,8 @@ class Messenger extends Component {
       email: data.email
     }, {
       success: (data)=>{
-        
       },
       error: ()=>{
-
       }
     })
   }
