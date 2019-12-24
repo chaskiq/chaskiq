@@ -171,6 +171,8 @@ class Messenger extends Component {
         case "toggle":
           this.toggleMessenger()
           break;
+        case "convert":
+          this.convertVisitor(data)
         default:
           break;
       } 
@@ -753,6 +755,20 @@ class Messenger extends Component {
           })
         })
       })
+  }
+
+  convertVisitor(data){
+    this.graphqlClient.send(CONVERT, {
+      appKey: this.props.app_id, 
+      email: data.email
+    }, {
+      success: (data)=>{
+        
+      },
+      error: ()=>{
+
+      }
+    })
   }
 
   toggleMessenger = (e)=>{

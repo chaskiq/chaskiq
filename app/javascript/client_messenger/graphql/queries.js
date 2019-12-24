@@ -40,6 +40,14 @@ export const PING = `
   }
 `;
 
+export const CONVERT = `
+  mutation ConvertUser($appKey: String!, $email: String!){
+    convertUser(appKey: $appKey, email: $email){
+      status
+    }
+  }
+`;
+
 export const CONVERSATIONS = `
   query Messenger($page: Int!, $per: Int){
     messenger {
@@ -94,7 +102,6 @@ export const CONVERSATIONS = `
     }
   }
 `;
-
 
 export const CONVERSATION=`
   query Messenger($id: String!, $page: Int){
@@ -159,7 +166,6 @@ export const CONVERSATION=`
   }
 }
 `;
-
 
 export const INSERT_COMMMENT = `
   mutation InsertComment($appKey: String!, $id: String!, $message: Json!){
