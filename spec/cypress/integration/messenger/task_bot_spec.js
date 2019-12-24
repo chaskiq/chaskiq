@@ -13,7 +13,7 @@ describe('Task bot Spec', function() {
       cy.appEval("App.last").then((results) => {
         const appKey = results.key
   
-        cy.visit(`/tester/${appKey}?sessionless=true`).then(()=>{
+        cy.visit(`/tester/${appKey}?sessionless=true&lang=en`).then(()=>{
   
           cy.get('iframe:first')
           .then(function ($iframe) {
@@ -54,7 +54,7 @@ describe('Task bot Spec', function() {
       cy.appEval("App.last").then((results) => {
         const appKey = results.key
 
-        cy.visit(`/tester/${appKey}?sessionless=true`).then(()=>{
+        cy.visit(`/tester/${appKey}?sessionless=true&lang=en`).then(()=>{
 
           cy.get('iframe:first')
           .then(function ($iframe) {
@@ -110,7 +110,7 @@ describe('Task bot Spec', function() {
     cy.appScenario('app_bot_settings', {email_requirement: 'never'}).then(()=>{
       cy.appEval("App.last").then((results) => {
         const appKey = results.key
-        cy.visit(`/tester/${appKey}?sessionless=true`).then(()=>{
+        cy.visit(`/tester/${appKey}?sessionless=true&lang=en`).then(()=>{
   
           cy.get('iframe:first')
           .then(function ($iframe) {

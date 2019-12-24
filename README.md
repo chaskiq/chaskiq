@@ -7,9 +7,9 @@ Chaskiq is a 100% open source conversational marketing platform build as an alte
 Chaskiq is a platform that enables chat comunication with users in app or via campaigns (in app messages or newsletters). The platform is a Ruby on Rails app serving a graphql API which is consumed by a React application.
 It has minimal dependences , Postgres & Redis and interoperates with cdn providers like Amazon s3 and Amazon SES for email delivery. You can use other providers too.
 
-[![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy?template=https://github.com/michelson/chaskiq/tree/master)
+[![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy?template=https://github.com/chaskiq/chaskiq/tree/master)
 
-![CI](https://github.com/michelson/chaskiq/workflows/CI/badge.svg)
+![CI](https://github.com/chaskiq/chaskiq/workflows/CI/badge.svg)
 
 
 ## Main features:
@@ -23,7 +23,7 @@ It has minimal dependences , Postgres & Redis and interoperates with cdn provide
   - Multilanguage and Customizable color palette
 - **Conversations**
   - Agent's auto assignment
-  - Extensible Chat editor with many kind of blocks ie: image, code, video, embed, giphy and more.. it's based in <a href="http://github.com/michelson/Dante2">Dante2</a> editor
+  - Extensible Chat editor with many kind of blocks ie: image, code, video, embed, giphy and more.. it's based in <a href="http://github.com/chaskiq/Dante2">Dante2</a> editor
 - **Campaigns**
   - **Newsletters** with programable scheduling and Audience target
     - track open, clicks and complaints
@@ -98,7 +98,7 @@ Chaskiq is built for the *next* 10 years of the Internet, so our requirements ar
 - [PostgreSQL](https://www.postgresql.org/) &mdash; Our main data store is in Postgres.
 - [Redis](https://redis.io/) &mdash; We use Redis as a cache and for transient data.
 
-Plus *lots* of Ruby Gems, a complete list of which is at [/master/Gemfile](https://github.com/michelson/chaskiq/blob/master/Gemfile).
+Plus *lots* of Ruby Gems, a complete list of which is at [/master/Gemfile](https://github.com/chaskiq/chaskiq/blob/master/Gemfile).
 
 ## Contributing
 
@@ -107,7 +107,7 @@ accepts contributions from the public &ndash; including you!
 
 ## The Chaskiq Team
 
-For a complete list of the many individuals that contributed to the design and implementation of Chaskiq, please refer to [GitHub's list of contributors](https://github.com/michelson/chaskiq/contributors).
+For a complete list of the many individuals that contributed to the design and implementation of Chaskiq, please refer to [GitHub's list of contributors](https://github.com/chaskiq/chaskiq/contributors).
 
 ## Copyright / License
 
