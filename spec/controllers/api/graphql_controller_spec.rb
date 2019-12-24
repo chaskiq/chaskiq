@@ -73,35 +73,52 @@ RSpec.describe Api::GraphqlController, type: :controller do
     end
   end
 
+
+  it 'sessionless will create Lead' do
+    request.headers.merge!(
+      'HTTP_APP' => app.key
+    )
+
+    expect(app.app_users).to be_blank
+    graphql_post(type: 'AUTH', variables: {})
+    expect(app.reload.app_users.size).to be == 1
+    expect(graphql_response.data.messenger.user.kind).to be == 'Visitor'
+    expect(graphql_response.data.messenger.user.email).to be_blank
+  end
+
   describe 'unregistered' do
-    it 'sessionless will create Lead' do
-      request.headers.merge!(
-        'HTTP_APP' => app.key
-      )
+    
+    before :each do
 
-      expect(app.app_users).to be_blank
-      graphql_post(type: 'AUTH', variables: {})
-      expect(app.reload.app_users.size).to be == 1
-      expect(graphql_response.data.messenger.user.kind).to be == 'Visitor'
-      expect(graphql_response.data.messenger.user.email).to be_blank
-    end
-
-    it 'sessionless will return Lead' do
-      user = app.add_anonymous_user({})
+      @user = app.add_anonymous_user({})
 
       expect(app.app_users.count).to be == 1
 
       request.headers.merge!(
         'HTTP_APP' => app.key,
-        'HTTP_SESSION_ID' => user.session_id
+        'HTTP_SESSION_ID' => @user.session_id
       )
 
       expect(app.reload.app_users.count).to be == 1
       graphql_post(type: 'AUTH', variables: {})
 
+    end
+
+
+    it 'sessionless will return Lead' do
       expect(graphql_response.data.messenger.user.kind).to be == 'Visitor'
       expect(graphql_response.data.messenger.user.email).to be_blank
-      expect(graphql_response.data.messenger.user.session_id).to be == user.session_id
+      expect(graphql_response.data.messenger.user.session_id).to be == @user.session_id
     end
+
+    it 'convert will return Lead' do
+      graphql_post(type: 'CONVERT', variables: {
+        appKey: app.key,
+        email: "foo@bar.com"
+      })
+
+      expect(graphql_response.data.convertUser.status).to be == 'ok'
+    end
+
   end
 end
