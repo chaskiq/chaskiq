@@ -14,6 +14,14 @@ class ApplicationController < ActionController::Base
     render 'campaigns/iframe', layout: false
   end
 
+  def current_resource_owner
+    Agent.find(doorkeeper_token.resource_owner_id) if doorkeeper_token
+  end
+  
+  def current_user
+    current_resource_owner
+  end
+
   def authorize_by_jwt
     token = request.headers['HTTP_AUTHORIZATION'].gsub('Bearer ', '')
     # TODO: review this

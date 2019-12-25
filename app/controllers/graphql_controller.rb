@@ -3,16 +3,19 @@
 class GraphqlController < ApplicationController
   skip_before_action :verify_authenticity_token
 
-  before_action :authorize_by_jwt, unless: :is_from_graphiql?
+  #doorkeeper_for :all
+  before_action :doorkeeper_authorize!
+  # before_filter :authenticate_agent!
+  #before_action :authorize_by_jwt #, unless: :is_from_graphiql?
   # before_action :access_required, unless: :is_from_graphiql?
-  before_action :authorize_for_graphiql, if: :is_from_graphiql?
+  #before_action :authorize_for_graphiql, if: :is_from_graphiql?
   before_action :set_host_for_local_storage
 
 
 
-  def authorize_for_graphiql
-    @current_agent = Agent.first
-  end
+  #def authorize_for_graphiql
+  #  @current_agent = Agent.first
+  #end
 
   def is_from_graphiql?
     true
@@ -26,7 +29,7 @@ class GraphqlController < ApplicationController
 
     context = {
       # Query context goes here, for example:
-      current_user: @current_agent
+      current_user: current_user
       # authorize: lambda{|mode, object| authorize!(mode, object) },
       # can: lambda{| mode, object | can?( mode, object) },
       # logout!: ->{logout!},
