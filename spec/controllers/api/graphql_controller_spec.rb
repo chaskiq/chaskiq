@@ -118,6 +118,7 @@ RSpec.describe Api::GraphqlController, type: :controller do
       })
 
       expect(graphql_response.data.convertUser.status).to be == 'ok'
+      expect(app.app_users.first).is_a?(Lead)
     end
 
   end
