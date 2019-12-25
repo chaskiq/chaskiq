@@ -4,7 +4,7 @@ module Mutations
   module Campaigns
     class NewCampaign < Mutations::BaseMutation
       # TODO: define return fields
-      # field :post, Types::PostType, null: false
+      field :post, String, null: false
 
       # TODO: define arguments
       # argument :name, String, required: true
