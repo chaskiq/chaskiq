@@ -5,12 +5,49 @@ require 'digest/md5'
 class Agent < ApplicationRecord
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
-  include Devise::JWT::RevocationStrategies::JTIMatcher
   include Redis::Objects
-  devise :invitable, :database_authenticatable, :registerable,
-         :recoverable, :rememberable, :trackable, :validatable,
-         :jwt_authenticatable,
-         jwt_revocation_strategy: self
+
+  #JWT TOKEN
+  #include Devise::JWT::RevocationStrategies::JTIMatcher
+  #devise :invitable, :database_authenticatable, :registerable,
+  #       :recoverable, :rememberable, :trackable, :validatable,
+  #       :jwt_authenticatable,
+  #       jwt_revocation_strategy: self
+
+
+  devise :database_authenticatable,
+         :registerable,
+         :recoverable,
+         :rememberable,
+         :validatable
+
+  devise :omniauthable, omniauth_providers: %i[doorkeeper]
+
+  def self.from_omniauth(auth)
+    where(provider: auth.provider, uid: auth.uid).first_or_create do |user|
+      user.email = auth.info.email
+      user.password = Devise.friendly_token[0, 20]
+      user.name = auth.info.name
+    end
+  end
+
+  def update_doorkeeper_credentials(auth)
+    update(
+      doorkeeper_access_token: auth.credentials.token,
+      doorkeeper_refresh_token: auth.credentials.refresh_token
+    )
+  end
+
+
+  has_many :access_grants,
+         class_name: 'Doorkeeper::AccessGrant',
+         foreign_key: :resource_owner_id,
+         dependent: :delete_all # or :destroy if you need callbacks
+
+  has_many :access_tokens,
+      class_name: 'Doorkeeper::AccessToken',
+      foreign_key: :resource_owner_id,
+      dependent: :delete_all # or :destroy if you need callbacks
 
   has_many :roles, dependent: :destroy
   has_many :apps, through: :roles, source: :app
