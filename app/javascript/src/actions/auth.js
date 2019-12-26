@@ -15,8 +15,8 @@ export function authenticate(email, password, cb) {
   return (dispatch, getState) => {
     dispatch(startAuthentication())
     return axios({
-      //url: '/agents/sign_in.json',
-      url: '/oauth/token.json',
+      url: '/agents/sign_in.json',
+      //url: '/oauth/token.json',
       method: 'POST',
       /*auth: {
         username: "oez_okGx2AihZp0iRtEzp_ACAfik-JzWbIi8aQuGX6U",
@@ -26,9 +26,7 @@ export function authenticate(email, password, cb) {
         agent: { email,  password},
         email: email, 
         password: password,
-        grant_type: "password" ,
-        client_id: "oez_okGx2AihZp0iRtEzp_ACAfik-JzWbIi8aQuGX6U",
-        client_secret: "rpruGxmsm9v0NHyxdIX2czYBGLa8ZzcQi8qWCXERTNo"
+        grant_type: "password",
       }
     }).then(response => {
       /*const uid = response.headers['uid']
