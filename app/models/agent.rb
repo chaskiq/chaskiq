@@ -7,19 +7,13 @@ class Agent < ApplicationRecord
   # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
   include Redis::Objects
 
-  #JWT TOKEN
-  #include Devise::JWT::RevocationStrategies::JTIMatcher
-  #devise :invitable, :database_authenticatable, :registerable,
-  #       :recoverable, :rememberable, :trackable, :validatable,
-  #       :jwt_authenticatable,
-  #       jwt_revocation_strategy: self
-
-  devise :database_authenticatable,
-  :registerable,
-  :recoverable,
-  :rememberable,
-  :validatable,
-  :omniauthable, omniauth_providers: %i[doorkeeper]
+  devise  :invitable,
+          :database_authenticatable,
+          :registerable,
+          :recoverable,
+          :rememberable,
+          :validatable,
+          :omniauthable, omniauth_providers: %i[doorkeeper]
 
   def self.from_omniauth(auth)
     where(provider: auth.provider, uid: auth.uid).first_or_create do |user|
