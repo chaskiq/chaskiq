@@ -78,7 +78,6 @@ describe('Availability spec', function() {
 
   })
 
-
   it('tomorrow', function() {
 
     cy.appScenario('basic')
@@ -122,20 +121,20 @@ describe('Availability spec', function() {
 
   })
 
-
-
-  it('couple of hours', function() {
+  it.skip('couple of hours', function() {
 
     cy.appScenario('basic')
 
-    const [now, weekday, startTime, endTime, diffTime] = setTime(4)
+    const [now, weekday, startTime, endTime, diffTime] = setTime(1)
+
+    console.log(diffTime, startTime)
 
     cy.appEval(`App.last.update(timezone: 'UTC', 
     team_schedule: [{ day: "${diffTime.toLowerCase()}", from: "${startTime}", to: "${endTime}" }])`)
     
     cy.appEval("App.last").then((results) => {
       const appKey = results.key
-      cy.visit(`/tester/${appKey}`).then(()=>{
+      cy.visit(`/tester/${appKey}?lang=en`).then(()=>{
         cy.get('iframe:first')
         .then(function ($iframe) {
             const $body = $iframe.contents().find('body')
