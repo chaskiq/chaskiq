@@ -16,15 +16,27 @@ export function authenticate(email, password, cb) {
     dispatch(startAuthentication())
     return axios({
       url: '/agents/sign_in.json',
+      //url: '/oauth/token.json',
       method: 'POST',
-      data: { agent: {email, password} }
+      /*auth: {
+        username: "oez_okGx2AihZp0iRtEzp_ACAfik-JzWbIi8aQuGX6U",
+        password: "rpruGxmsm9v0NHyxdIX2czYBGLa8ZzcQi8qWCXERTNo"
+      },*/
+      data: { 
+        agent: { email,  password},
+        email: email, 
+        password: password,
+        grant_type: "password",
+      }
     }).then(response => {
       /*const uid = response.headers['uid']
       const client = response.headers['client']
       const accessToken = response.headers['access-token']
       const expiry = response.headers['expiry']*/
-      const jwt = response.headers['authorization']
-      dispatch(successAuthentication(jwt)) //, uid, client, accessToken, expiry))
+      //const jwt = response.headers['authorization']
+      const accessToken = response.data.access_token
+      const refreshToken = response.data.refresh_token
+      dispatch(successAuthentication(accessToken, refreshToken )) //, uid, client, accessToken, expiry))
 
       cb ? cb() : null
     }).catch(data => {
@@ -68,9 +80,14 @@ function startAuthentication() {
   return { type: REQUEST }
 }
 
-export function successAuthentication(jwt){
+export function successAuthentication(accessToken, refreshToken){
   //, uid, client, accessToken, expiry) {
-  return { type: RECEIVED, jwt} // uid, client, accessToken, expiry }
+  return { type: RECEIVED, 
+    data: {
+      refresh_token: refreshToken, 
+      access_token: accessToken 
+    }
+  } // uid, client, accessToken, expiry }
 }
 
 function failAuthentication() {
@@ -99,11 +116,12 @@ export default function reducer(state = initialState, action = {}) {
         {
           loading: false,
           isAuthenticated: true,
-          uid: action.uid,
-          client: action.client,
-          accessToken: action.accessToken,
-          jwt: action.jwt,
-          expiry: action.expiry
+          //uid: action.uid,
+          //client: action.client,
+          accessToken: action.data.access_token,
+          refreshToken: action.data.refresh_token,
+          //jwt: action.jwt,
+          //expiry: action.expiry
         }
       )
     case FAILED:

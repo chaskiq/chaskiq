@@ -15,7 +15,7 @@ const graphql = (query, variables, callbacks)=>{
     //"client":       auth.client,
     //"expiry":       auth.expiry,
     //"uid":          auth.uid,
-    "authorization": auth.jwt
+    "authorization": `Bearer ${auth.accessToken}`
   }
 
   axios.create({
