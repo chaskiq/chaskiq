@@ -22,30 +22,6 @@ class ApplicationController < ActionController::Base
     current_resource_owner
   end
 
-  def authorize_by_jwt
-    token = request.headers['HTTP_AUTHORIZATION'].gsub('Bearer ', '')
-    # TODO: review this
-    return nil if token.blank? || (token == 'undefined')
-
-    begin
-      @current_agent = Warden::JWTAuth::UserDecoder.new.call(token, :agent, nil)
-    rescue JWT::DecodeError
-      render_unauthorized && (return)
-    rescue JWT::ExpiredSignature
-      render_unauthorized && (return)
-    end
-  end
-
-  def access_required
-    render_unauthorized && return if @current_agent.blank?
-  end
-
-  def render_unauthorized
-    render json: {
-      response: 'Unable to authenticate'
-    }, status: 401
-  end
-
   def package_iframe
     render "app_packages/#{params[:package]}/show", layout: false
   end

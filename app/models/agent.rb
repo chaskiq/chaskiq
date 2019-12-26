@@ -14,14 +14,12 @@ class Agent < ApplicationRecord
   #       :jwt_authenticatable,
   #       jwt_revocation_strategy: self
 
-
   devise :database_authenticatable,
-         :registerable,
-         :recoverable,
-         :rememberable,
-         :validatable
-
-  devise :omniauthable, omniauth_providers: %i[doorkeeper]
+  :registerable,
+  :recoverable,
+  :rememberable,
+  :validatable,
+  :omniauthable, omniauth_providers: %i[doorkeeper]
 
   def self.from_omniauth(auth)
     where(provider: auth.provider, uid: auth.uid).first_or_create do |user|

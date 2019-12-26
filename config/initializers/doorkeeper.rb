@@ -5,33 +5,39 @@ Doorkeeper.configure do
   # Check the list of supported ORMs here: https://github.com/doorkeeper-gem/doorkeeper#orms
   orm :active_record
 
-  default_scopes :read
-  optional_scopes :write
-  enforce_configured_scopes
-
-  # usage
-
-  #a = Doorkeeper::Application.new :name => 'test', :redirect_uri => 'http://localhost:3000'
-  #client = OAuth2::Client.new(a.uid, a.secret, site: a.redirect_url)
-  #access_token = client.password.get_token('miguelmichelson@gmail.com', '123456')
-
+  # This block will be called to check whether the resource owner is authenticated or not.
+  resource_owner_authenticator do
+    #   #raise "Please configure doorkeeper resource_owner_authenticator block located in #{__FILE__}"
+    #   # Put your resource owner authentication logic here.
+    #   # Example implementation:
+    #   #   User.find_by(id: session[:user_id]) || redirect_to(new_user_session_url)
+    #   #current_agent || warden.authenticate!(scope: :agent)
+    current_agent || redirect_to("/sign_in")
+  end
+# 
   resource_owner_from_credentials do |routes|
     user = Agent.find_for_database_authentication(:email => params[:email] || params[:username])
-    application = Doorkeeper::Application.first #by_uid_and_secret uid, secret
-    if application && user && user.valid_for_authentication? { user.valid_password?(params[:password]) }
+    if user && user.valid_for_authentication? { user.valid_password?(params[:password]) }
       user
     end
   end
 
   admin_authenticator do |routes|
-    #binding.pry
-    Agent.first || warden.authenticate!(scope: :agent)
+    current_agent || redirect_to("/sign_in")
   end
 
-  api_only
+  #api_only
   use_refresh_token
-  grant_flows %w(password)
-  skip_authorization { true }
+  grant_flows %w(password authorization_code client_credentials)
+  #skip_authorization { true }
+
+  default_scopes :read
+  optional_scopes :write
+    
+  enforce_configured_scopes
+
+
+
 
   # If you didn't skip applications controller from Doorkeeper routes in your application routes.rb
   # file then you need to declare this block in order to restrict access to the web interface for

@@ -70,7 +70,7 @@ gem 'jwe'
 gem 'jwt'
 
 # AUTH
-gem 'devise-jwt', '~> 0.5.9'
+# gem 'devise-jwt', '~> 0.5.9'
 gem 'devise_invitable', '~> 2.0'
 gem 'omniauth-oauth2'
 gem "doorkeeper", "~> 5.2"

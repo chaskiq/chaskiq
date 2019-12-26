@@ -23,7 +23,7 @@ export function authenticate(email, password, cb) {
         password: "rpruGxmsm9v0NHyxdIX2czYBGLa8ZzcQi8qWCXERTNo"
       },*/
       data: { 
-        //agent: { email,  password},
+        agent: { email,  password},
         email: email, 
         password: password,
         grant_type: "password" ,
