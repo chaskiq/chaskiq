@@ -39,6 +39,7 @@ import BookOutlined from '@material-ui/icons/BookOutlined'
 import SettingsOutlined from '@material-ui/icons/SettingsOutlined'
 import DomainOutlined from '@material-ui/icons/DomainOutlined'
 import DeviceHubOutlined from '@material-ui/icons/DeviceHubOutlined'
+import WidgetsIcon from '@material-ui/icons/Widgets'
 
 import MuiExpansionPanel from '@material-ui/core/ExpansionPanel';
 import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails';
@@ -305,7 +306,7 @@ function Navigator(props, context) {
           url: `/apps/${app.key}/team`, 
           active: isActivePage("team") 
         },
-        { id: 'Integrations', icon: <SupervisedUserCircleIcon />, 
+        { id: 'Integrations', icon: <WidgetsIcon />, 
           url: `/apps/${app.key}/integrations`, 
           active: isActivePage("integrations") 
         },

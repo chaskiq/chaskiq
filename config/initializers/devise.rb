@@ -11,20 +11,20 @@ Devise.setup do |config|
   config.secret_key = '1a1c6e80bae4434d5c6145e733e81db9ba1047c2852eb082dbf6d9029e1920dd7da2732e4dd7814a2274a2fc3843eab27295ca9ec585a6a73494cd905f4efb84'
 
   # devise-jwt gem
-  config.jwt do |jwt|
-    jwt.secret = config.secret_key
-    jwt.request_formats = {
-      user: [:json],
-      agent: [:json]
-    }
-    jwt.dispatch_requests = [
-      ['POST', %r{^/agents/sign_in.json$}]
-    ]
-    jwt.revocation_requests = [
-      ['DELETE', %r{^/agents/sign_out.json$}]
-    ]
-    jwt.expiration_time = 1.day.to_i
-  end
+  #config.jwt do |jwt|
+  #  jwt.secret = config.secret_key
+  #  jwt.request_formats = {
+  #    user: [:json],
+  #    agent: [:json]
+  #  }
+  #  jwt.dispatch_requests = [
+  #    ['POST', %r{^/agents/sign_in.json$}]
+  #  ]
+  #  jwt.revocation_requests = [
+  #    ['DELETE', %r{^/agents/sign_out.json$}]
+  #  ]
+  #  jwt.expiration_time = 1.day.to_i
+  #end
 
   # ==> Controller configuration
   # Configure the parent class to the devise controllers.
@@ -105,7 +105,7 @@ Devise.setup do |config|
   # may want to disable generating routes to Devise's sessions controller by
   # passing skip: :sessions to `devise_for` in your config/routes.rb
   # config.skip_session_storage = [:http_auth, ]
-  config.skip_session_storage = %i[http_auth params_auth]
+  # config.skip_session_storage = %i[http_auth params_auth]
 
   # By default, Devise cleans up the CSRF token on authentication to
   # avoid CSRF token fixation attacks. This means that, when using AJAX

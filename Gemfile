@@ -69,8 +69,12 @@ gem 'google-cloud-dialogflow'
 gem 'jwe'
 gem 'jwt'
 
-gem 'devise-jwt', '~> 0.5.9'
+# AUTH
+# gem 'devise-jwt', '~> 0.5.9'
 gem 'devise_invitable', '~> 2.0'
+gem 'omniauth-oauth2'
+gem "doorkeeper", "~> 5.2"
+
 
 gem 'image_processing', '~> 1.2'
 

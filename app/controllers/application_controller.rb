@@ -2,8 +2,8 @@
 
 class ApplicationController < ActionController::Base
   respond_to :json
-  # protect_from_forgery unless: -> { request.format.json? }
-  protect_from_forgery with: :null_session
+  protect_from_forgery unless: -> { request.format.json? }
+  # protect_from_forgery with: :null_session
 
   layout :layout_by_resource
 
@@ -14,28 +14,12 @@ class ApplicationController < ActionController::Base
     render 'campaigns/iframe', layout: false
   end
 
-  def authorize_by_jwt
-    token = request.headers['HTTP_AUTHORIZATION'].gsub('Bearer ', '')
-    # TODO: review this
-    return nil if token.blank? || (token == 'undefined')
-
-    begin
-      @current_agent = Warden::JWTAuth::UserDecoder.new.call(token, :agent, nil)
-    rescue JWT::DecodeError
-      render_unauthorized && (return)
-    rescue JWT::ExpiredSignature
-      render_unauthorized && (return)
-    end
+  def current_resource_owner
+    Agent.find(doorkeeper_token.resource_owner_id) if doorkeeper_token
   end
-
-  def access_required
-    render_unauthorized && return if @current_agent.blank?
-  end
-
-  def render_unauthorized
-    render json: {
-      response: 'Unable to authenticate'
-    }, status: 401
+  
+  def current_user
+    current_resource_owner
   end
 
   def package_iframe

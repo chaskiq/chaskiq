@@ -191,29 +191,18 @@ GEM
       railties (>= 4.1.0)
       responders
       warden (~> 1.2.3)
-    devise-jwt (0.5.9)
-      devise (~> 4.0)
-      warden-jwt_auth (~> 0.3.6)
     devise_invitable (2.0.1)
       actionmailer (>= 5.0)
       devise (>= 4.6)
     diff-lcs (1.3)
     domain_name (0.5.20190701)
       unf (>= 0.0.5, < 1.0.0)
+    doorkeeper (5.2.3)
+      railties (>= 5)
     dotenv (2.7.5)
     dotenv-rails (2.7.5)
       dotenv (= 2.7.5)
       railties (>= 3.2, < 6.1)
-    dry-auto_inject (0.6.1)
-      dry-container (>= 0.3.4)
-    dry-configurable (0.8.3)
-      concurrent-ruby (~> 1.0)
-      dry-core (~> 0.4, >= 0.4.7)
-    dry-container (0.7.2)
-      concurrent-ruby (~> 1.0)
-      dry-configurable (~> 0.1, >= 0.1.3)
-    dry-core (0.4.9)
-      concurrent-ruby (~> 1.0)
     email_reply_parser (0.5.10)
     email_reply_trimmer (0.1.12)
     erubi (1.9.0)
@@ -274,6 +263,7 @@ GEM
     haml (5.1.2)
       temple (>= 0.8.0)
       tilt
+    hashie (3.6.0)
     http (4.1.1)
       addressable (~> 2.3)
       http-cookie (~> 1.0)
@@ -332,6 +322,7 @@ GEM
     minitest (5.13.0)
     msgpack (1.3.1)
     multi_json (1.14.1)
+    multi_xml (0.6.0)
     multipart-post (2.1.1)
     mustache (1.1.0)
     net-scp (2.0.0)
@@ -340,6 +331,18 @@ GEM
     nio4r (2.5.2)
     nokogiri (1.10.7)
       mini_portile2 (~> 2.4.0)
+    oauth2 (1.4.2)
+      faraday (>= 0.8, < 2.0)
+      jwt (>= 1.0, < 3.0)
+      multi_json (~> 1.3)
+      multi_xml (~> 0.5)
+      rack (>= 1.2, < 3)
+    omniauth (1.9.0)
+      hashie (>= 3.4.6, < 3.7.0)
+      rack (>= 1.6.2, < 3)
+    omniauth-oauth2 (1.6.0)
+      oauth2 (~> 1.1)
+      omniauth (~> 1.9)
     orm_adapter (0.5.0)
     os (1.0.1)
     parallel (1.19.0)
@@ -525,11 +528,6 @@ GEM
     urlcrypt (0.1.1)
     warden (1.2.8)
       rack (>= 2.0.6)
-    warden-jwt_auth (0.3.6)
-      dry-auto_inject (~> 0.6)
-      dry-configurable (~> 0.8)
-      jwt (~> 2.1)
-      warden (~> 1.2)
     web-console (4.0.1)
       actionview (>= 6.0.0)
       activemodel (>= 6.0.0)
@@ -579,8 +577,8 @@ DEPENDENCIES
   database_cleaner
   deep_cloneable
   devise (= 4.7.0)
-  devise-jwt (~> 0.5.9)
   devise_invitable (~> 2.0)
+  doorkeeper (~> 5.2)
   dotenv-rails
   email_reply_parser (~> 0.5.9)
   email_reply_trimmer
@@ -607,6 +605,7 @@ DEPENDENCIES
   mini_magick (~> 4.8)
   mustache
   nightfury!
+  omniauth-oauth2
   pg
   pg_search
   pry

@@ -32,9 +32,9 @@ module Types
     field :app_packages, [Types::AppPackageType], null: true
 
     def app_packages
-      AppPackage
-        .left_outer_joins(:app_package_integrations)
-        .where('app_id is null')
+      integrations = object.app_package_integrations.map(&:app_package_id)
+      integrations.any? ? 
+      AppPackage.where.not("id in(?)", integrations) : AppPackage.all
     end
 
     field :app_package_integrations, [Types::AppPackageIntegrationType], null: true

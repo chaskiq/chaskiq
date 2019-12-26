@@ -3,13 +3,13 @@
 module ApplicationCable
   class Channel < ActionCable::Channel::Base
     def get_user_data
-      if params[:inner_app].present?
-        user = authorize_by_jwt
-        # self.connection.env['warden'].user
-        user.class.model_name.singular
-        @user_data = user.attributes.slice('email').symbolize_keys.merge(agent: true)
-        return if @user_data.present?
-      end
+      #if params[:inner_app].present?
+      #  user = authorize_by_jwt
+      #  # self.connection.env['warden'].user
+      #  user.class.model_name.singular
+      #  @user_data = user.attributes.slice('email').symbolize_keys.merge(agent: true)
+      #  return if @user_data.present?
+      #end
 
       @user_data = if @app.encryption_enabled?
                      authorize_by_encrypted_params
