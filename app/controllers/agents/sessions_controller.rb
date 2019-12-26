@@ -18,34 +18,24 @@ class Agents::SessionsController < Devise::SessionsController
     # like customize /oauth/applications
     sign_in(resource_name, resource, {store: true})
 
-    
-    binding.pry
-    
-
     if !session[:return_to].blank?
       redirect_to session[:return_to]
       session[:return_to] = nil
     else
-      # deliver access token
-
-      #binding.pry
+      
       a = Doorkeeper::Application.first
       client = OAuth2::Client.new(a.uid, a.secret, site: a.redirect_uri)
       access_token =  client.password.get_token(
         params[:agent][:email], 
         params[:agent][:password]
       )
-
-
-      #binding.pry
-      session[:aoaoaoa] = "adoijasojas"
-
-      #respond_with_navigational(resource, status: :success) do
+      
+      respond_with_navigational(resource, status: :success) do
         render json: access_token
-      #end
-
+      end
     end
   end
+
 
   # DELETE /resource/sign_out
   def destroy
