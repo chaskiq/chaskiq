@@ -4,22 +4,24 @@ require 'sidekiq/web'
 require 'subdomain_routes'
 Rails.application.routes.draw do
   
-  use_doorkeeper
+  use_doorkeeper do
+    controllers tokens: 'agents/custom_authorizations'
+                #authorizations: 'custom_authorizations',
+                #    tokens: 'custom_authorizations',
+                #    applications: 'custom_authorizations',
+                #    token_info: 'custom_authorizations'
+  end
 
   if Rails.env.development?
     mount GraphiQL::Rails::Engine, at: '/graphiql', graphql_path: '/graphql'
   end
+
   post '/graphql', to: 'graphql#execute'
   post '/api/graphql', to: 'api/graphql#execute'
   get :widget, to: 'widgets#show', path: '/embed'
 
   get :show, to: 'api/v1/credentials#show', path: '/api/v1/me'
   mount Sidekiq::Web => '/sidekiq'
-
-  #devise_for :agents, controllers: {
-  #  invitations: 'agents/invitations',
-  #  sessions: 'agents/sessions'
-  #}
 
   devise_for :agents, controllers: {
     invitations: 'agents/invitations',
