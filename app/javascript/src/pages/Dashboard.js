@@ -36,7 +36,6 @@ import Count from '../components/charts/count'
 import {DASHBOARD} from "../graphql/queries"
 import graphql from '../graphql/client'
 
-
 const styles = theme => ({
   paperll: {
     maxWidth: 936,
@@ -132,7 +131,7 @@ function Dashboard(props) {
                   dashboard={dashboard} 
                   app={app} 
                   kind={"first_response_time"}
-                  label={"Response Time avg"}
+                  label={I18n.t('dashboard.response_avg')}
                   appendLabel={"Hrs"}
                 />
               </Paper>
@@ -145,7 +144,7 @@ function Dashboard(props) {
                   dashboard={dashboard} 
                   app={app} 
                   kind={"opened_conversations"}
-                  label={"New conversations"}
+                  label={I18n.t('dashboard.new_conversations')}
                   appendLabel={""}
                 />
               </Paper>
@@ -158,7 +157,7 @@ function Dashboard(props) {
                   dashboard={dashboard} 
                   app={app} 
                   kind={"solved_conversations"}
-                  label={"Resolutions"}
+                  label={I18n.t('dashboard.resolutions')}
                   appendLabel={""}
                 />
               </Paper>
@@ -171,7 +170,7 @@ function Dashboard(props) {
                   dashboard={dashboard} 
                   app={app} 
                   kind={"incoming_messages"}
-                  label={"Incoming Messages"}
+                  label={I18n.t('dashboard.incoming_messages')}
                   appendLabel={""}
                 />
               </Paper>
@@ -198,6 +197,7 @@ function Dashboard(props) {
                     chartType={"pie"} 
                     dashboard={dashboard}
                     app={app} 
+                    label={I18n.t('dashboasrd.browser')}
                     kind={'browser'}
                   />
                 
@@ -213,6 +213,7 @@ function Dashboard(props) {
                     chartType={"pie"} 
                     dashboard={dashboard}
                     app={app} 
+                    label={I18n.t('dashboasrd.lead_os')}
                     kind={'lead_os'}
                   />
                 </DashboardCard>
@@ -226,6 +227,7 @@ function Dashboard(props) {
                     chartType={"pie"} 
                     dashboard={dashboard}
                     app={app} 
+                    label={I18n.t('dashboasrd.user_os')}
                     kind={'user_os'}
                   />
                 </DashboardCard>
@@ -239,6 +241,7 @@ function Dashboard(props) {
                     chartType={"pie"} 
                     dashboard={dashboard}
                     app={app} 
+                    label={I18n.t('dashboasrd.user_country')}
                     kind={'user_country'}
                   />
                 </DashboardCard>

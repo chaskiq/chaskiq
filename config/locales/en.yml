@@ -1,33 +1,72 @@
-# Files in the config/locales directory are used for internationalization
-# and are automatically loaded by Rails. If you want to use locales other
-# than English, add the necessary files in this directory.
-#
-# To use the locales, use `I18n.t`:
-#
-#     I18n.t 'hello'
-#
-# In views, this is aliased to just `t`:
-#
-#     <%= t('hello') %>
-#
-# To use a different locale, set it with `I18n.locale`:
-#
-#     I18n.locale = :es
-#
-# This would use the information in config/locales/es.yml.
-#
-# The following keys must be escaped otherwise they will not be retrieved by
-# the default I18n backend:
-#
-# true, false, on, off, yes, no
-#
-# Instead, surround them with single quotes.
-#
-# en:
-#   'true': 'foo'
-#
-# To learn more, please read the Rails Internationalization guide
-# available at https://guides.rubyonrails.org/i18n.html.
 
 en:
-  hello: "Hello world"
+  dashboard:
+    response_avg: Response Time avg
+    new_conversations: New conversations
+    resolutions: Resolutions
+    incoming_messages: Incoming Messages
+    visit_activity: Visit activity
+    users_browser: Users browser
+    lead_os: Lead Os
+    user_os: User Os
+    mac_os: Mac OS
+    user_country: User country
+
+  navigator:
+    platform: Platform
+    conversations: Conversations
+    campaigns: Campaigns
+    routing_bots: Routing Bots
+    help_center: Help Center
+    settings: Settings
+
+  settings:
+    availability:
+
+      title: Set your availability
+      hint: Set team office hours and reply times
+      title2: Set office hours
+      hint2: Outside these hours, customers see when you'll be back, relative to their timezone.
+      timezone: YOUR APP’S TIMEZONE IS {{tz}}
+
+      reply_time:
+        title: Set reply time
+        hint: During office hours, let your customers know when they can expect a reply.
+
+        options:
+          - value: "auto" 
+            label: "Automatic reply time. Currently El equipo responderá lo antes posible" 
+          - value: "minutes" 
+            label: "El equipo suele responder en cuestión de minutos."
+          - value: "hours" 
+            label: "El equipo suele responder en cuestión de horas."
+          - value: "1 day" 
+            label: "El equipo suele responder en un día."
+
+        hint2: "Note: visitor will receive an auto reply with your team’s 
+                availability during out-of-office hours or long reply times."
+
+    email_requirement:
+
+      title: Require an email for new conversations
+      hint: So you can always get back to your website visitors
+      ask: "Ask your website visitors to leave their email before starting a live chat:"
+      options:
+        - label: Only outside of office hours
+          hint: REDUCES CONVERSATION VOLUME BY AROUND 5% ON AVERAGE
+        - label: Always
+          hint: REDUCES CONVERSATION VOLUME BY AROUND 30% ON AVERAGE
+        - label: Never
+          hint: WILL ALLOW WEBSITE VISITORS TO START A CONVERSATION AT ANY TIME
+
+
+    inbound:
+
+      title: New conversations button
+      checkbox: Let people start new inbound conversations with you
+      hint: WHEN THIS IS TURNED OFF, PEOPLE CAN ONLY REPLY TO THE OUTBOUND MESSAGES YOU SEND.
+
+      title2: visibility
+      hint2: Control who sees the standard Messenger launcher on your website.
+      note2: ANY MESSAGES YOU SEND WILL STILL BE DELIVERED.
+      note3: "On the web, show the standard Messenger launcher to:"

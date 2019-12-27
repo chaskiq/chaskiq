@@ -151,11 +151,7 @@ class Paperbase extends React.Component {
                       />
                     </nav>
                   </Hidden>
-                
-
-
               
-
                 </React.Fragment> : null
             }
             <div className={classes.appContent}>
@@ -180,24 +176,16 @@ class Paperbase extends React.Component {
                   <AppListContainer
                     {...props}
                     currentUser={this.props.current_user}
-                    //initialNavLinks={this.props.defaultNavLinks}
-                    //navLinks={this.props.navLinks}
-                    //updateNavLinks={this.props.updateNavLinks}
                   />
                 )} />
 
                 <Route exact path={`/apps/new`}
                   render={(props) => (
-
-                    
-                  
                       <NewApp
                         history={this.props.history}
                         currentUser={this.props.current_user}
                         {...props}
                       />
-                    
-
                   )}
                 />
 
@@ -205,19 +193,6 @@ class Paperbase extends React.Component {
                   <ShowAppContainer
                     {...props}
                     classes={classes}
-
-                    //currentApp={this.props.currentApp}
-                    //setCurrentApp={this.props.setCurrentApp}
-                    //setCurrentApp={setApp}
-                    //app={this.props.app}
-                    //segment={this.props.segment}
-                    //app_users={this.props.app_users}
-                    //currentUser={this.props.current_user}
-                    //dispatch={this.props.dispatch}
-                    //initialNavLinks={this.props.defaultNavLinks}
-                    //navLinks={this.props.navLinks}
-                    //updateNavLinks={this.props.updateNavLinks}
-                    //handleDrawerToggle={this.handleDrawerToggle}
                   />
                 )} />
 

@@ -26,6 +26,10 @@ import lighttheme from '../themes/light/index'
 import darktheme from '../themes/dark/index'
 
 import {toggleTheme} from '../actions/theme'
+import I18n from '../i18n.js.erb'
+console.log("I18n", I18n.t('.'))
+
+window.I18n = I18n
 
 const drawerWidth = 262;
 

@@ -4,11 +4,12 @@ class Agents::SessionsController < Devise::SessionsController
   skip_before_action :verify_authenticity_token, only: [:destroy]
   skip_before_action :verify_signed_out_user, only: [:destroy]
 
-  #def new
-  #  super
-  #end
+  skip_before_action :require_no_authentication, only: [:create]
+  before_action :clear_session, only: [:create]
 
   def create
+
+    require_no_authentication
 
     self.resource = warden.authenticate!(auth_options)
 
@@ -50,4 +51,8 @@ class Agents::SessionsController < Devise::SessionsController
   end
 
   private
+
+  def clear_session
+    request.env['warden'].logout
+  end
 end
