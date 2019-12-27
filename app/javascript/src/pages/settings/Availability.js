@@ -39,12 +39,13 @@ import {toSnakeCase} from '../../shared/caseConverter'
 import FormDialog from '../../components/FormDialog'
 
 
-const options = [
+//const options = I18n.t("settings.availability.reply_time.options")
+/*[
   {value: "auto", label: "Automatic reply time. Currently El equipo responderá lo antes posible"}, 
   {value: "minutes", label: "El equipo suele responder en cuestión de minutos."},
   {value: "hours", label: "El equipo suele responder en cuestión de horas."},
   {value: "1 day", label: "El equipo suele responder en un día."},
-]
+]*/
 
 export default function LanguageForm({settings, update, namespace, fields}){
 
@@ -83,20 +84,25 @@ export default function LanguageForm({settings, update, namespace, fields}){
 
       <Box mb={2}>
 
-        <Typography variant="h4">Set your availability</Typography>
+        <Typography variant="h4">
+          {I18n.t("settings.availability.title")}
+        </Typography>
         
-        <Typography variant="subtitle1" gutterBottom>Set team office hours and reply times</Typography>
+        <Typography variant="subtitle1" gutterBottom>
+          {I18n.t("settings.availability.hint")}
+        </Typography>
 
       
         <Divider/>
       </Box>
 
       <Box mb={2}>
-        <Typography variant="h5">Set office hours</Typography>
+        <Typography variant="h5">
+        {I18n.t("settings.availability.title2")}
+        </Typography>
         
         <Typography variant="body1" gutterBottom>
-          Outside these hours, customers see when you'll be back, 
-          relative to their timezone.
+          {I18n.t("settings.availability.hint2")}
         </Typography>
 
       </Box>
@@ -104,7 +110,7 @@ export default function LanguageForm({settings, update, namespace, fields}){
       <Box mb={2}>
 
         <Typography gutterBottom variant={"overline"}>
-          Your workspace’s timezone is {settings.timezone}
+          {I18n.t("settings.availability.timezone", {tz: settings.timezone })}
         </Typography>
 
         <AvailabilitySchedule 
@@ -118,11 +124,12 @@ export default function LanguageForm({settings, update, namespace, fields}){
 
       <Box mb={2}>
 
-        <Typography variant="h5">Set reply time</Typography>
+        <Typography variant="h5">
+          {I18n.t("settings.availability.reply_time.title")}
+        </Typography>
 
         <Typography variant="body1" gutterBottom>
-          During office hours, let your customers know when 
-          they can expect a reply.
+          {I18n.t("settings.availability.reply_time.hint")}
         </Typography>
 
 
@@ -137,7 +144,8 @@ export default function LanguageForm({settings, update, namespace, fields}){
               onChange={handleChange}
             >
               {
-                options.map((o)=>(
+                I18n.t("settings.availability.reply_time.options")
+                .map((o)=>(
                   <FormControlLabel 
                     key={o.value}
                     value={o.value} 
@@ -155,8 +163,7 @@ export default function LanguageForm({settings, update, namespace, fields}){
       </Box>
       
       <Typography variant="subtitle1" gutterBottom>
-        Note: Operator will auto reply with your team’s availability 
-        during out-of-office hours or long reply times.
+        {I18n.t("settings.availability.reply_time.hint2")}
       </Typography>
 
       <Button onClick={handleSubmit}
@@ -267,13 +274,13 @@ function AvailabilityRecord({record, update, index, removeItem}){
               name: 'day',
             }}
           >
-            <MenuItem value={"mon"}>Lunes</MenuItem>
-            <MenuItem value={"tue"}>Martes</MenuItem>
-            <MenuItem value={"wed"}>Miercoles</MenuItem>
-            <MenuItem value={"thu"}>Jueves</MenuItem>
-            <MenuItem value={"fri"}>Viernes</MenuItem>
-            <MenuItem value={"sat"}>Sabado</MenuItem>
-            <MenuItem value={"sun"}>Domingo</MenuItem>
+            {
+              I18n.translations.en.date.abbr_day_names.map((o, i)=>(
+                <MenuItem value={o.toLocaleLowerCase()}>{
+                  I18n.translations.en.date.day_names[i]
+                }</MenuItem>  
+              ))
+            }
           </Select>
         
         </FormControl>

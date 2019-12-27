@@ -16,6 +16,7 @@
     "Dante2": "0.5.0-rc20",
     "actioncable": "^5.2.0",
     "activestorage": "^5.2.3",
+    "add": "^2.0.6",
     "array-move": "^2.1.0",
     "axios": "^0.18.0",
     "babel-plugin-import": "^1.12.1",
@@ -28,6 +29,7 @@
     "emotion-theming": "^10.0.14",
     "form-serialize": "^0.7.2",
     "gravatar": "^1.6.0",
+    "i18n-js": "^3.5.1",
     "i18next": "^17.0.15",
     "i18next-browser-languagedetector": "^3.0.3",
     "isomorphic-fetch": "^2.2.1",
@@ -41,6 +43,7 @@
     "non-digest-webpack-plugin": "^0.0.1",
     "polished": "^3.2.0",
     "prop-types": "^15.6.1",
+    "rails-erb-loader": "^5.5.2",
     "react": "16.8.0",
     "react-beautiful-dnd": "^11.0.4",
     "react-bootstrap": "^0.32.1",
@@ -70,7 +73,8 @@
     "styled-components": "4.3.2",
     "ua-parser-js": "^0.7.20",
     "url-pattern": "^1.0.3",
-    "webpack-bundle-analyzer": "^3.6.0"
+    "webpack-bundle-analyzer": "^3.6.0",
+    "yarn": "^1.21.1"
   },
   "devDependencies": {
     "cypress": "^3.6.1",

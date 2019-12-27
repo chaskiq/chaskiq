@@ -34,16 +34,16 @@ export default function EmailRequirement({settings, update}){
 
       <Box mb={2}>
         <Typography variant={"h4"}>
-          Require an email for new conversations
+          {I18n.t("settings.email_requirement.title")}
         </Typography>
 
         <Typography variant={"body1"}>
-          So you can always get back to your website visitors
+          {I18n.t("settings.email_requirement.hint")}
         </Typography>
         
         <Box mt={2}>
         <FormLabel component="legend">
-          Ask your website visitors to leave their email before starting a live chat:
+          {I18n.t("settings.email_requirement.ask")}
         </FormLabel>
         
       </Box>
@@ -58,20 +58,21 @@ export default function EmailRequirement({settings, update}){
           onChange={handleChange}
         >
         
-          <FormControlLabel value="office" control={<Radio />} label="Only outside of office hours " />
-          <Typography variant={"overline"}>
-            Reduces conversation volume by around 5% on average
-          </Typography>
-
-          <FormControlLabel value="Always" control={<Radio />} label="Always" />
-          <Typography variant={"overline"}>
-            Reduces conversation volume by around 30% on average
-          </Typography>
-    
-          <FormControlLabel value="never" control={<Radio />} label="Never" />
-          <Typography variant={"overline"}>
-            Will allow website visitors to start a conversation at any time
-          </Typography>
+        {
+          I18n.t("settings.email_requirement.options").map((o, i)=>{
+            return <React.Fragment key={`email_requirement_options-${i}`}>
+                    <FormControlLabel 
+                      value="office" 
+                      control={<Radio />} 
+                      label={o.label}
+                    />
+                    <Typography variant={"overline"}>
+                      {o.hint}
+                    </Typography>
+                  </React.Fragment>
+          })
+        }
+        
 
         </RadioGroup>
 
