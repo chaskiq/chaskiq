@@ -1,5 +1,6 @@
 var path = require('path')
 const { environment } = require('@rails/webpacker')
+const erb =  require('./loaders/erb')
 
 const NonDigestPlugin = require('non-digest-webpack-plugin');
 
@@ -31,4 +32,5 @@ if(process.env.ANALIZE_BUNDLE === 'true' &&
 //  environment.plugins.get('UglifyJs').options.uglifyOptions.compress.collapse_vars = false
 //}
 
+environment.loaders.append('erb', erb)
 module.exports = environment
