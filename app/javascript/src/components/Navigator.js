@@ -5,27 +5,16 @@ import { withStyles } from '@material-ui/core/styles';
 import Divider from '@material-ui/core/Divider';
 import MuiFab from '@material-ui/core/Fab';
 import Drawer from '@material-ui/core/Drawer';
-import Tooltip from '@material-ui/core/Tooltip';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import HomeIcon from '@material-ui/icons/Home';
-import PeopleIcon from '@material-ui/icons/People';
-import DnsRoundedIcon from '@material-ui/icons/DnsRounded';
-import PermMediaOutlinedIcon from '@material-ui/icons/PhotoSizeSelectActual';
-import PublicIcon from '@material-ui/icons/Public';
-import SettingsEthernetIcon from '@material-ui/icons/SettingsEthernet';
 import AssignmentIndIcon from '@material-ui/icons/AssignmentInd'
 import PermIdentityIcon from '@material-ui/icons/PermIdentity'
-import SettingsInputComponentIcon from '@material-ui/icons/SettingsInputComponent';
-import TimerIcon from '@material-ui/icons/Timer';
 import SettingsIcon from '@material-ui/icons/Settings';
-import ExpandMore from '@material-ui/icons/ExpandMore';
-import PhonelinkSetupIcon from '@material-ui/icons/PhonelinkSetup';
 import EmailIcon from '@material-ui/icons/Email';
 import BookIcon from '@material-ui/icons/Book';
-import FlipToFrontIcon from '@material-ui/icons/FlipToFront'
 import SmsIcon from '@material-ui/icons/Sms';
 import ShuffleIcon from '@material-ui/icons/Shuffle'
 import SupervisedUserCircleIcon from '@material-ui/icons/SupervisedUserCircle'
@@ -45,14 +34,10 @@ import MuiExpansionPanel from '@material-ui/core/ExpansionPanel';
 import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails';
 import MuiExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary';
 
-
 import { withRouter } from 'react-router-dom'
 import { connect } from 'react-redux'
-import ListMenu from './ListMenu'
-import Typography from '@material-ui/core/Typography';
-import { withTheme } from '@material-ui/core/styles';
-import { lighten, darken } from "polished";
 
+//import I18n from '../i18n.js.erb'
 
 const styles = theme => ({
   categoryHeader: {
@@ -205,7 +190,7 @@ function Navigator(props, context) {
   const categories = [
 
     {
-      id: 'Platform',
+      id: I18n.t("navigator.platform"),
       icon: <DomainOutlined style={{ fontSize: 30 }}/>,
       children: app.segments.map((o)=>(
         { id: o.name , 
@@ -216,7 +201,7 @@ function Navigator(props, context) {
       ))
     },
     {
-      id: 'Conversations',
+      id: I18n.t("navigator.conversations"),
       icon: <QuestionAnswerOutlined style={{ fontSize: 30 }}/>,
       children: [
         { id: 'Conversations', 
@@ -232,7 +217,7 @@ function Navigator(props, context) {
       ],
     },
     {
-      id: 'Campaigns',
+      id: I18n.t("navigator.campaigns"),
       icon: <FlagOutlined style={{ fontSize: 30 }}/>,
       children: [
         /*{ id: 'Analytics', icon: <SettingsIcon /> },
@@ -257,7 +242,7 @@ function Navigator(props, context) {
 
     {
       id: 'Bot',
-      label: 'Routing Bots',
+      label: I18n.t("navigator.routing_bots"),
       icon: <DeviceHubOutlined style={{ fontSize: 30 }}/>,
       children: [
         { id: 'For Leads', 
@@ -276,7 +261,7 @@ function Navigator(props, context) {
     },
 
     {
-      label: 'Help Center',
+      label: I18n.t("navigator.help_center"),
       id: 'HelpCenter',
       icon: <BookOutlined style={{ fontSize: 30 }}/>,
       children: [
@@ -297,6 +282,7 @@ function Navigator(props, context) {
 
     {
       id: 'Settings',
+      label: I18n.t("navigator.settings"),
       icon: <SettingsOutlined style={{ fontSize: 30 }}/>,
       children: [
         { id: 'App Settings', icon:  <SettingsIcon/>, 
@@ -462,13 +448,13 @@ Navigator.contextTypes = {
   router: PropTypes.object,
 };
 
-
+/*
 Navigator.propTypes = {
   open: PropTypes.bool,
   classes: PropTypes.object.isRequired,
   app: PropTypes.object,
   currentUser: PropTypes.object
-};
+};*/
 
 //export default withStyles(styles)(Navigator);
 
@@ -484,12 +470,6 @@ function mapStateToProps(state, ownProps) {
   const { loading, isAuthenticated } = auth
 
   return {
-    /*current_user,
-    segment,
-    app_users,
-    app,
-    loading,
-    isAuthenticated,*/
     app,
     navigation,
   }
