@@ -16,8 +16,8 @@ app.add_admin(Agent.create(
               ))
 
 Doorkeeper::Application.create(
-   :name => 'authapp', 
-   :redirect_uri => 'urn:ietf:wg:oauth:2.0:oob'
+   name: "authapp", 
+   redirect_uri: "#{ENV['HOST'] || 'http://localhost:3000'}/callback"
 )
 
 AppPackagesCatalog.import unless Rails.env.test?

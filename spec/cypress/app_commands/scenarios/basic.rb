@@ -13,7 +13,8 @@ agent = app.add_agent(
 
 agent.agent
 
-d = Doorkeeper::Application.create(
-  name: "testapp", 
-  redirect_uri: "http://localhost:5002/callback"
+
+Doorkeeper::Application.create(
+   :name => 'authapp', 
+   :redirect_uri => 'http://localhost:5002'
 )
