@@ -19,7 +19,7 @@ class ApplicationController < ActionController::Base
   end
   
   def current_user
-    current_resource_owner
+    warden.authenticate(:agent) || current_resource_owner
   end
 
   def package_iframe
