@@ -43,7 +43,6 @@
     "non-digest-webpack-plugin": "^0.0.1",
     "polished": "^3.2.0",
     "prop-types": "^15.6.1",
-    "rails-erb-loader": "^5.5.2",
     "react": "16.8.0",
     "react-beautiful-dnd": "^11.0.4",
     "react-bootstrap": "^0.32.1",
