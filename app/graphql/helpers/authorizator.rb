@@ -1,4 +1,4 @@
-module Authorizator
+module Helpers::Authorizator
   def authorize!(mode, object)
     #cancancan mode
     context[:authorize].call(mode, object)
