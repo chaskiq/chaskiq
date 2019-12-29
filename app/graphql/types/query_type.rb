@@ -1,7 +1,9 @@
 # frozen_string_literal: true
+require_relative "../helpers/authorizator"
 
 module Types
   class QueryType < Types::BaseObject
+    include Authorizator
     # Add root-level fields here.
     # They will be entry points for queries on your schema.
 
@@ -10,12 +12,14 @@ module Types
     end
 
     def app(key:)
+      doorkeeper_authorize!
       @app = current_user.apps.find_by(key: key)
     end
 
     field :apps, [Types::AppType], null: false, description: 'get apps'
 
     def apps
+      doorkeeper_authorize!
       @app = current_user.apps
     end
 
@@ -31,6 +35,7 @@ module Types
 
     field :user_session, Types::UserType, null: false, description: 'get current user email'
     def user_session
+      doorkeeper_authorize!
       current_user
     end
 

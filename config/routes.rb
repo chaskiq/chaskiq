@@ -18,7 +18,6 @@ Rails.application.routes.draw do
 
   post '/graphql', to: 'graphql#execute'
   post '/api/graphql', to: 'api/graphql#execute'
-  post '/docs/graphql', to: 'graphql_docs#execute'
   get :widget, to: 'widgets#show', path: '/embed'
 
   get :show, to: 'api/v1/credentials#show', path: '/api/v1/me'
