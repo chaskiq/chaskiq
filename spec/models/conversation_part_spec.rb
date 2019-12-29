@@ -20,7 +20,7 @@ RSpec.describe ConversationPart, type: :model do
 
   context 'conversation' do
     before :each do
-      AppIdentity.new(app.id).delete
+      AppIdentity.new(app.key).delete
     end
 
     let!(:conversation) do
