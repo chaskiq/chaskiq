@@ -57,7 +57,7 @@ import {
   withRouter
 } from 'react-router-dom'
 
-import graphql from '../../graphql/docs_client'
+import graphql from '../../graphql/client'
 import {
   ARTICLE_SETTINGS,
   ARTICLE_COLLECTION_WITH_SECTIONS,

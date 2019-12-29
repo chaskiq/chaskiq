@@ -2,19 +2,8 @@
 
 class GraphqlController < ApplicationController
   skip_before_action :verify_authenticity_token
-
-  #doorkeeper_for :all
-  before_action :doorkeeper_authorize!
-  # before_filter :authenticate_agent!
-  #before_action :authorize_by_jwt #, unless: :is_from_graphiql?
-  # before_action :access_required, unless: :is_from_graphiql?
-  #before_action :authorize_for_graphiql, if: :is_from_graphiql?
+  #before_action :doorkeeper_authorize!
   before_action :set_host_for_local_storage
-
-  def is_from_graphiql?
-    true
-    #request.referrer === 'http://localhost:3000/graphiql' && !Rails.env.production?
-  end
 
   def execute
     variables = ensure_hash(params[:variables])
@@ -23,12 +12,10 @@ class GraphqlController < ApplicationController
 
     context = {
       # Query context goes here, for example:
-      current_user: current_user
-      # authorize: lambda{|mode, object| authorize!(mode, object) },
-      # can: lambda{| mode, object | can?( mode, object) },
-      # logout!: ->{logout!},
-      # session: session,
-      # request: request,
+      current_user: current_user,
+      authorize: lambda{|mode, object| authorize!(mode, object) },
+      can: lambda{| mode, object | can?( mode, object) },
+      doorkeeper_authorize: lambda{doorkeeper_authorize! },
     }
 
     result = ChaskiqSchema.execute(query,
