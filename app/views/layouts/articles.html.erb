@@ -26,6 +26,16 @@
     <div class="page" id="main-page">
     </div>
 
+
+    <% if @app.article_settings && @app.article_settings.google_code %>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', <%= @app.article_settings.google_code %> );
+    </script>
+    <% end %>
+
     <script>
       (function(d,t) {
         var g=d.createElement(t),s=d.getElementsByTagName(t)[0];
