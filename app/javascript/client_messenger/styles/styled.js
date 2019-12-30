@@ -817,7 +817,7 @@ export const MessageItem = styled.div`
         box-shadow: rgba(35, 47, 53, 0.09) 0px 2px 8px 0px;
         font-size: 13px;
         line-height: 1.5;
-        height: 100%;
+        //height: 100%;
         position: relative;
         padding: 17px 22px;
         border-radius: 5px 5px 5px 0px;
