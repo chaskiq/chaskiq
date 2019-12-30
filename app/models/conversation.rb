@@ -104,7 +104,7 @@ class Conversation < ApplicationRecord
   end
 
   def assign_user(user)
-    return if self.assignee.id === user.id
+    return if self.assignee.present? && self.assignee.id === user.id
     self.assignee = user
     if save
       add_message_event(
