@@ -40,7 +40,7 @@
         window.dataLayer = window.dataLayer || [];
         function gtag(){dataLayer.push(arguments);}
         gtag('js', new Date());
-        gtag('config', <%= @app.article_settings.google_code %> );
+        gtag('config', "<%= @app.article_settings.google_code %>" );
       </script>
     <% end %>
 
