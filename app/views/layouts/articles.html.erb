@@ -28,12 +28,20 @@
 
 
     <% if @app.article_settings && @app.article_settings.google_code %>
-    <script>
-      window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
-      gtag('js', new Date());
-      gtag('config', <%= @app.article_settings.google_code %> );
-    </script>
+
+      <script 
+        key="3"
+        async 
+        src="https://www.googletagmanager.com/gtag/js?id=<%= @app.article_settings.google_code %>"
+      >
+      </script>
+
+      <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', <%= @app.article_settings.google_code %> );
+      </script>
     <% end %>
 
     <script>
