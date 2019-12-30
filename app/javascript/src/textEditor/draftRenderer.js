@@ -9,7 +9,7 @@ var Prism = require('prismjs');
 //Prism.highlightAll();
 
 const handlePrismRenderer = (syntax, children)=>{
-  const code = children.map((o)=> o.flat() ).join("")
+  const code = children.flat().flat().map((o)=> o.props ? o.props.children.join(" ") : o ).join("\r")
   const formattedCode =  Prism.highlight(code, Prism.languages.javascript, 'javascript');
   return {__html: formattedCode }
 }

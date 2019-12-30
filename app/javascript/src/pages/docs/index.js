@@ -233,16 +233,26 @@ const useStyles = makeStyles(theme => {
   },
   articleLink: {
     color: theme.palette.primary.main,
-    fontSize: '1.5em',
     fontFamily: theme.typography.h5.fontFamily,
-    //fontWeight: 'bold'
+    [theme.breakpoints.down('md')]: {
+      fontSize: '1.1em',
+    },
+    [theme.breakpoints.up('md')]: {
+      fontSize: '1.3em',
+    },
+  },
+  articleMeta: {
+    color: "#717171",
   },
   floorPaper:{
     background: '#f7f7f7',
     padding: theme.spacing(4)
   },
   breadCrumbs: {
-    margin: theme.spacing(1.6, 0, 1.6, 0)
+    margin: theme.spacing(1.6, 0, 1.6, 0),
+    [theme.breakpoints.down('md')]: {
+      marginLeft: '10px',
+    },
   },
   authorContainer: {
     margin: theme.spacing(1, 0, 0, 0),
@@ -313,7 +323,7 @@ function CustomizedInputBase({lang, history}) {
 
   function handleReturn(e) {
     e.persist()
-    console.log(e.key)
+    //console.log(e.key)
     if (e.key === "Enter") {
       //e.preventDefault()
       search(e.target.value)
@@ -440,7 +450,7 @@ function Docs(props) {
       },
 
       subtitle1: {
-        fontSize: '0.9rem',
+        fontSize: '1rem',
         fontFamily: "\"IBM Plex Sans\", \"Helvetica\", \"Arial\", sans-serif",
         //fontFamily: '"Roboto Mono", "Helvetica", "Arial", sans-serif',
         fontWeight: '400',
@@ -555,7 +565,7 @@ function Docs(props) {
         root: {
           color: "#ccc"
         }
-      }
+      },
     },
     props: {
       MuiTab: {
@@ -880,8 +890,8 @@ function Article(props){
                   </Box>
                 </Grid>
 
-                <Grid item>
-                  <Typography variant="subtitle1" gutterBottom>
+                <Grid item className={classes.articleMeta}>
+                  <Typography variant="subtitle1">
                     written by {article.author.name}
                   </Typography>
 
