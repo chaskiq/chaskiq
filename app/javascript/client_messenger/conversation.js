@@ -32,6 +32,7 @@ import {
   MessageSpinner,
   AppPackageBlockContainer,
   ConversationEventContainer,
+  InlineConversationWrapper
 } from './styles/styled'
 
 export class Conversations extends Component {
@@ -140,7 +141,11 @@ export class Conversation extends Component {
         height: '0' 
       }
     )
+
+    this.inlineIframe = null
   }
+
+
 
   componentWillUnmount(){
     if(!this.props.inline_conversation)
@@ -157,13 +162,13 @@ export class Conversation extends Component {
     //console.log(element.scrollHeight - element.scrollTop, element.clientHeight) // on bottom
     if (element.scrollTop === 0) { // on top
 
-      this.props.updateHeader(
+      /*this.props.updateHeader(
         {
           translateY: 0 , 
           opacity: 1, 
           height: 212
         }
-      )
+      )*/
 
     //if (element.scrollTop <= 50) { // on almost top // todo skip on xhr loading
       if (this.props.conversation.messages.meta.next_page)
@@ -325,6 +330,82 @@ export class Conversation extends Component {
     if(isEmpty(message.blocks)) return true
     return message.state === "replied"
   }
+  
+  renderInlineCommentWrapper = ()=>{
+    return  <div ref={comp => this.props.setOverflow(comp) }
+                onScroll={this.handleConversationScroll}
+                style={{ overflowY: 'auto', height: '84vh' }}>
+              <CommentsWrapper
+                isReverse={true}
+                isInline={this.props.inline_conversation}
+                ref={comp => this.props.setInlineOverflow(comp)}
+                isMobile={this.props.isMobile}>
+                {this.renderMessages()}
+              </CommentsWrapper>
+            </div>
+  }
+
+  renderCommentWrapper = ()=>{
+    return  <CommentsWrapper
+              isReverse={true}
+              isMobile={this.props.isMobile}>
+              {this.renderMessages()}
+            </CommentsWrapper>
+  }
+
+  renderMessages = ()=>{
+    return <React.Fragment>
+    {
+      this.props.agent_typing && this.renderTyping()
+    }
+
+    {
+      this.props.conversation.messages && this.props.conversation.messages.collection.map((o, i) => {
+          if(o.message.blocks) return this.renderItemPackage(o, i)
+          if(o.message.action) return this.renderEventBlock(o, i)
+          return this.renderMessage(o, i)
+      })
+    }
+
+    </React.Fragment>
+  }
+
+  renderFooter = ()=>{
+    return <Footer className={this.props.footerClassName || ''}>
+            {
+              !this.isInputEnabled() ? this.props.t("reply_above") : 
+              <UnicornEditor
+                domain={this.props.domain}
+                footerClassName={this.props.footerClassName }
+                insertComment={this.props.insertComment}
+              />
+            }
+          </Footer>
+  }
+
+
+  renderInline =()=>{
+    return <div>
+              <EditorSection inline={true}>
+                {this.renderInlineCommentWrapper()}
+                {this.renderFooter()}
+              </EditorSection>
+            </div>
+  }
+
+  renderDefault = ()=>{
+    return <div
+            ref={comp => this.props.setOverflow(comp) }
+            onScroll={this.handleConversationScroll}
+            style={{ overflowY: 'auto', height: '100%' }}>
+
+            <EditorSection>
+              {this.renderCommentWrapper()}
+              {this.renderFooter()}
+            </EditorSection>
+
+          </div>
+  }
 
   render(){
 
@@ -337,48 +418,11 @@ export class Conversation extends Component {
       left: '0',
       right: '0'
     }}>
-      <div
-        ref={comp => this.props.setOverflow(comp) }
-        onScroll={this.handleConversationScroll}
-        style={{ overflowY: 'auto', height: '100%' }}>
 
-        <EditorSection>
-
-          <CommentsWrapper
-            isReverse={true}
-            //ref={this.commentWrapperRef}
-            isMobile={this.props.isMobile}>
-
-            {
-              this.props.agent_typing && this.renderTyping()
-            }
-
-            {
-              this.props.conversation.messages && this.props.conversation.messages.collection.map((o, i) => {
-                  if(o.message.blocks) return this.renderItemPackage(o, i)
-                  if(o.message.action) return this.renderEventBlock(o, i)
-                  return this.renderMessage(o, i)
-              })
-            }
-
-          </CommentsWrapper>
-
-          <Footer className={this.props.footerClassName || ''}>
-          
-            {
-              !this.isInputEnabled() ? t("reply_above") : 
-              <UnicornEditor
-                domain={this.props.domain}
-                footerClassName={this.props.footerClassName }
-                insertComment={this.props.insertComment}
-              />
-            }
-            
-          </Footer>
-
-        </EditorSection>
-
-      </div>
+      {
+        this.props.inline_conversation ? 
+        this.renderInline() : this.renderDefault()
+      }
     </div>
   }
 
@@ -621,4 +665,15 @@ export function CommentsItemComp(props){
                     </ConversationSummary> : null
                 }
               </CommentsItem>
+}
+
+export function InlineConversation({conversation}){
+
+
+  return (
+
+    <InlineConversationWrapper>
+      hola {conversation.key}
+    </InlineConversationWrapper>
+  )
 }

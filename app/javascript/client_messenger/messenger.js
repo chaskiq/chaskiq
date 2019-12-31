@@ -60,6 +60,7 @@ import Article from './articles'
 
 import {Conversation, Conversations} from './conversation.js'
 
+
 let App = {}
 
 class Messenger extends Component {
@@ -160,6 +161,7 @@ class Messenger extends Component {
     }
 
     this.overflow = null
+    this.inlineOverflow = null
     this.commentWrapperRef = React.createRef();
 
     document.addEventListener("chaskiq_events", (event)=> {
@@ -486,6 +488,10 @@ class Messenger extends Component {
 
   setOverflow = (el)=>{
     this.overflow = el
+  }
+
+  setInlineOverflow = (el)=>{
+    this.inlineOverflow = el
   }
 
   ping =(cb)=>{
@@ -1191,8 +1197,17 @@ class Messenger extends Component {
               {
                 !this.state.open && 
                 this.state.inline_conversation && 
-                <StyledFrame className="inline-frame" style={{}}>
+                <StyledFrame className="inline-frame" style={{
+                  height: this.inlineOverflow ? this.inlineOverflow.offsetHeight + "px" : ''
+                }}>
 
+
+                {/*<InlineConversation 
+                  conversation={this.state.inline_conversation}
+                />*/}
+
+                {
+                  
                   <div 
                     onMouseEnter={this.displayShowMore} 
                     onMouseLeave={this.hideShowMore}
@@ -1239,6 +1254,7 @@ class Messenger extends Component {
                       insertComment={this.insertComment}
                       setConversation={this.setConversation}
                       setOverflow={this.setOverflow}
+                      setInlineOverflow={this.setInlineOverflow}
                       submitAppUserData={this.submitAppUserData}
                       updateHeader={this.updateHeader}
                       transition={this.state.transition}
@@ -1246,6 +1262,9 @@ class Messenger extends Component {
                       t={this.props.t}
                     />
                   </div>
+                  
+                }
+                  
                 
                 </StyledFrame>
               }
