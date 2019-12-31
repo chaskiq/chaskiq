@@ -67,6 +67,8 @@ export function appendConversation(data, cb){
       )
 
       let newMessages = null
+
+      console.log("DATATA", conversation ? conversation.key : '' , data.conversationKey )
      
       // add new or update existing
       if(!conversation){
@@ -98,7 +100,7 @@ export function appendConversation(data, cb){
 
 
       if(getState().conversation.key != data.conversationKey ){
-        if(data.appUser.kind === "lead" || data.appUser.kind === "visitor")
+        if(data.appUser.kind != "agent")
           playSound()  
       }
     }
