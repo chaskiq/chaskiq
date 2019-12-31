@@ -99,11 +99,12 @@ const renderers = {
         var { height, width, ratio} = aspect_ratio 
       }
 
+      const defaultStyle = {maxWidth: `${width}px`, maxHeight: `${height}px`}
+
       return  <figure  key={keys[0]} className="graf graf--figure">
                   <div>
                     <div className="aspectRatioPlaceholder is-locked" 
-                      //style={{maxWidth: '1000px', maxHeight: `${height}px`}}
-                      >
+                      style={defaultStyle}>
                       <div className="aspect-ratio-fill" 
                           style={{paddingBottom: `${ratio}%`}}>
                       </div>

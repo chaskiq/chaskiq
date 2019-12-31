@@ -1,16 +1,25 @@
 
-Chaskiq is a 100% open source conversational marketing platform build as an alternative for Intercom, Drift, and others
+Chaskiq is a 100% open source conversational marketing platform build as an alternative for Intercom, Drift, and others, currently under active development.
+
+<div align="center">
+  <h1> Chaskiq</h1>
+  Chaskiq is a platform that enables chat comunication with users in app or via campaigns (in app messages or newsletters). The platform is a Ruby on Rails app serving a graphql API which is consumed by a React application.
+  It has minimal dependences , Postgres & Redis and interoperates with cdn providers like Amazon s3 and Amazon SES for email delivery. You can use other providers too.
+  <br/>
+</div>
+
+<p align="center">
+  <a href="https://heroku.com/deploy?template=https://github.com/chaskiq/chaskiq/tree/master" alt="Deploy to Heroku">
+     <img alt="Deploy" src="https://www.herokucdn.com/deploy/button.svg"/>
+  </a>
+</p>
+
+<p align="center">
+  <img alt="Chaskiq CI Status" src="https://github.com/chaskiq/chaskiq/workflows/CI/badge.svg"/>
+</p>
 
 
-# Chaskiq
-
-Chaskiq is a platform that enables chat comunication with users in app or via campaigns (in app messages or newsletters). The platform is a Ruby on Rails app serving a graphql API which is consumed by a React application.
-It has minimal dependences , Postgres & Redis and interoperates with cdn providers like Amazon s3 and Amazon SES for email delivery. You can use other providers too.
-
-[![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy?template=https://github.com/chaskiq/chaskiq/tree/master)
-
-![CI](https://github.com/chaskiq/chaskiq/workflows/CI/badge.svg)
-
+----
 
 ## Main features:
 
