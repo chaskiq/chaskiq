@@ -54,9 +54,12 @@ en:
       options:
         - label: Only outside of office hours
           hint: REDUCES CONVERSATION VOLUME BY AROUND 5% ON AVERAGE
+          value: office
         - label: Always
           hint: REDUCES CONVERSATION VOLUME BY AROUND 30% ON AVERAGE
+          value: Always
         - label: Never
+          value: Never
           hint: WILL ALLOW WEBSITE VISITORS TO START A CONVERSATION AT ANY TIME
 
 

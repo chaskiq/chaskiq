@@ -62,7 +62,7 @@ export default function EmailRequirement({settings, update}){
           I18n.t("settings.email_requirement.options").map((o, i)=>{
             return <React.Fragment key={`email_requirement_options-${i}`}>
                     <FormControlLabel 
-                      value="office" 
+                      value={o.value} 
                       control={<Radio />} 
                       label={o.label}
                     />
