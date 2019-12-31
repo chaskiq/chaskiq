@@ -145,8 +145,7 @@ export const ShowMoreWrapper = styled.div`
 
     z-index: 10000;
     position: absolute;
-    width: 275px;
-    //border: 1px solid red;
+    width: 331px;
     display: flex;
     justify-content: space-between;
 
@@ -504,7 +503,18 @@ export const EditorSection = styled.div`
   -ms-grid-column: 2;
   /* stylelint-enable */
   grid-area: editor-area;
+  ${(props)=>(
+    props.isInline ? `
+    height: 69vh;
+    overflow: auto;` : ``
+  )}
 `;
+
+export const InlineConversationWrapper = styled.div`
+
+    border: 1px solid red;
+
+`
 
 export const EditorWrapper = styled.div`
   width: 376px;
@@ -523,23 +533,25 @@ export const EditorWrapper = styled.div`
     z-index: 10000000;
     position: absolute;
     bottom: 89px;
-    width: 288px;
+    width: 335px;
     
     right: 20px;
     border: none;
 
 
-    @media screen and (min-width: 1024px) and (max-width: 1280px) { 
-      height: 26vw;
-    }
+
+    //@media screen and (min-width: 1024px) and (max-width: 1280px) { 
+      max-height: 73vh !important;
+      min-height: 174px;
+    //}
    
-    @media screen and (min-width: 781px) and (max-width: 1024px) {
-      height: 50vw;
-    }
+    //@media screen and (min-width: 781px) and (max-width: 1024px) {
+    //  height: 50vw !important;
+    //}
    
-    @media screen and (min-width: 320px) and (max-width: 780px) {
-      height: 100vw;
-    }
+    //@media screen and (min-width: 320px) and (max-width: 780px) {
+    //  height: 100vw !important;
+    //}
 
   }
 
@@ -557,42 +569,24 @@ export const EditorActions = styled.div`
 `
 
 export const CommentsWrapper = styled.div`
-  /*min-height: 250px;
-  overflow: auto;
-
-  ${(props)=> ( props.isMobile ? 
-  'min-height: 76vh; overflow: auto; max-height: 250px;' : 
-  'height: 248px;' 
-  )}*/
-
-  padding-bottom: 105px;
-
-  -webkit-box-flex: 1;
-  -ms-flex-positive: 1;
+  ${(props)=>(
+    props.isInline ? 
+    `padding-bottom: 0px;`
+     : 
+    `padding-bottom: 105px;`
+  )}
   flex-grow: 1;
-  -ms-flex-negative: 0;
   flex-shrink: 0;
-  -webkit-box-pack: justify;
-  -ms-flex-pack: justify;
   justify-content: space-between;
   overflow-anchor: none;
   height: auto;
-  -webkit-box-orient: vertical;
-
   ${(props)=> ( props.isReverse ? 
     `
-    -ms-flex-direction: column-reverse;
     flex-direction : column-reverse;` : `
-      -ms-flex-direction: column;
       flex-direction: column;
     `
-
   )}
-
-  display: -webkit-box;
-  display: -ms-flexbox;
   display: flex;
-  -webkit-box-direction: normal;
 `
 
 export const CommentsItem = styled.div`
@@ -734,9 +728,13 @@ export const Footer = styled.div`
 
     &.inline{
       background: transparent;
+      bottom: 9px;
       textarea {
-        border-radius: 4px !important;
-        box-shadow: rgba(35, 47, 53, 0.09) 4px 5px 9px 0px !important;
+        border-radius: 8px !important;
+        box-shadow: #0a0a0abd -1px 0px 6px 0px;
+        bottom: -2px;
+        left: 8px;
+        width: 96%;
       }
       input[type="file"]{
         display: none;
@@ -770,6 +768,7 @@ export const UserAutoChatAvatar = styled.div`
     img {
       width: 40px;
       height: 40px;
+      background: white;
       text-align: center;
       border-radius: 50%;
     }
@@ -809,12 +808,10 @@ export const MessageItem = styled.div`
         padding: 16px;
         margin: 5px;
         border-radius: 6px;
-        /* box-shadow: 1px 1px 2px #e0e0e0; */
-        /* border: 1px solid #dedbdb; */
         min-width: 80px;
 
         /* NEW */
-        box-shadow: rgba(35, 47, 53, 0.09) 0px 2px 8px 0px;
+        box-shadow: rgba(54, 59, 62, 0.46) 0px 2px 4px 0px;
         font-size: 13px;
         line-height: 1.5;
         //height: 100%;
@@ -839,12 +836,10 @@ export const MessageItem = styled.div`
         padding: 16px;
         margin: 5px;
         border-radius: 6px;
-        /* box-shadow: 1px 1px 2px #e0e0e0; */
-        /* border: 1px solid #dedbdb; */
         min-width: 80px;
 
         /* NEW STYLES */
-        box-shadow: rgba(35, 47, 53, 0.09) 0px 2px 8px 0px;
+        box-shadow: rgba(54, 59, 62, 0.46) 0px 2px 4px 0px;
         font-size: 13px;
         line-height: 1.5;
         height: 100%;
@@ -957,6 +952,7 @@ export const ChatAvatar = styled.div`
     img {
       width: 40px;
       height: 40px;
+      background: white;
       text-align: center;
       border-radius: 50%;
     }
@@ -965,7 +961,6 @@ export const ChatAvatar = styled.div`
 export const AnchorButton = styled.a`
   text-decoration: none;
   background-color: ${(props)=> props.theme.palette.secondary };
-  -webkit-box-shadow: 0 4px 12px rgba(0,0,0,.1);
   box-shadow: 0 4px 12px rgba(0,0,0,.1);
   height: 40px;
   color: ${(props)=> textColor(props.theme.palette.secondary)} !important;
@@ -975,19 +970,10 @@ export const AnchorButton = styled.a`
   cursor: pointer;
   border-radius: 40px;
   display: inline-flex;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
   align-items: center;
-
-
   padding: 0 24px;
-  display: -webkit-inline-box;
-  display: -ms-inline-flexbox;
   display: inline-flex;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
   align-items: center;
-
 `
 
 export const NewConvoBtn = styled(AnchorButton)`
@@ -998,20 +984,10 @@ export const NewConvoBtn = styled(AnchorButton)`
 `
 
 export const ConversationSummary = styled.div`
-
-    display: -webkit-box;
-    display: -ms-flexbox;
     display: flex;
-    -webkit-box-orient: horizontal;
-    -webkit-box-direction: normal;
-    -ms-flex-direction: row;
     flex-direction: row;
-    -ms-flex-wrap: nowrap;
     flex-wrap: nowrap;
-    -webkit-box-align: center;
-    -ms-flex-align: center;
     align-items: center;
-    -ms-flex-line-pack: stretch;
     align-content: stretch;
     position: relative;
     padding: 6px;
@@ -1019,32 +995,25 @@ export const ConversationSummary = styled.div`
 `
 
 export const ConversationSummaryAvatar = styled.div`
-      -webkit-box-flex: 0;
-      -ms-flex: 0 0 auto;
       flex: 0 0 auto;
       align-self: flex-end;
       margin-left: 15px;
       img {
         width: 40px;
         height: 40px;
+        background: white;
         text-align: center;
         border-radius: 50%;
       }
 `
 
 export const ConversationSummaryBody = styled.div`
-      -webkit-box-flex: 1;
-      -ms-flex: 1;
       flex: 1;
       padding-left: 16px;    
 `
 
 export const ConversationSummaryBodyMeta = styled.div`
-    display: -webkit-box;
-    display: -ms-flexbox;
     display: flex;
-    -webkit-box-pack: justify;
-    -ms-flex-pack: justify;
     justify-content: space-between;
     margin-bottom: 8px;   
 `
