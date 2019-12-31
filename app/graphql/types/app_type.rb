@@ -68,7 +68,8 @@ module Types
     end
 
     def conversations(per:, page:, filter:, sort:)
-      @collection = object.conversations.left_joins(:messages)
+      @collection = object.conversations
+                          .left_joins(:messages)
                           .where.not(conversation_parts: { id: nil })
                           .distinct
                           .page(page)
@@ -85,7 +86,9 @@ module Types
               'id desc'
         end
 
-        @collection = @collection.order(s)
+        @collection = @collection.where
+                                 .not(latest_user_visible_comment_at: nil)
+                                 .order(s)
       end
 
       @collection
