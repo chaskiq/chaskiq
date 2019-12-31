@@ -117,7 +117,10 @@ class ConversationPart < ApplicationRecord
       conversation.main_participant.new_messages.increment
       conversation.update_first_time_reply
     end
+
     return if from_bot?
+
+    conversation.update_latest_user_visible_comment_at
 
     assign_agent_by_rules unless conversation.assignee.present?
     enqueue_email_notification unless send_constraints?
