@@ -67,8 +67,6 @@ export function appendConversation(data, cb){
       )
 
       let newMessages = null
-
-      console.log("DATATA", conversation ? conversation.key : '' , data.conversationKey )
      
       // add new or update existing
       if(!conversation){
