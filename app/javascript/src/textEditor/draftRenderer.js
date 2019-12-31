@@ -65,6 +65,7 @@ const renderers = {
                               </blockquote>,
     'header-one': (children, { keys }) => <h1 key={keys[0]} className="graf graf--h2">{children}</h1>,
     'header-two': (children, { keys }) => <h2 key={keys[0]} className="graf graf--h3">{children}</h2>,
+    'header-three': (children, { keys }) => <h3 key={keys[0]} className="graf graf--h4">{children}</h3>,
     // You can also access the original keys of the blocks
     'code-block': (children, { keys, data }) => {
       return <pre className="graf graf--code" 
