@@ -31,34 +31,15 @@ class Segment extends Component {
     }
   }
   componentDidMount() {
-    /*this.props.actions.fetchAppSegment(
-      this.props.app.segments[0].id
-    )*/
     this.search()
   }
 
   handleSave = (e) => {
     const predicates = parseJwt(this.state.jwt)
-    //console.log(predicates)
-
-    const params = {
-      appKey: this.props.app.key,
-      id: this.props.data.id,
-      campaignParams: {
-        segments: predicates.data
-      }
+    if(this.props.handleSave){
+      this.props.handleSave(predicates.data)
+      return
     }
-
-    graphql(UPDATE_CAMPAIGN, params, {
-      success: (data) => {
-        debugger
-        //this.props.updateData(data.campaignUpdate.campaign, null)
-        //this.setState({ status: "saved" })
-      },
-      error: () => {
-
-      }
-    })
   }
 
   updateData = (data, cb) => {
@@ -73,7 +54,6 @@ class Segment extends Component {
       cb(jwtToken)
     this.setState({ jwt: jwtToken }, () => {
       this.updateData(parseJwt(this.state.jwt), this.search)
-      this.props.dispatch(successMessage("bot updated"))
     })
   }
 
