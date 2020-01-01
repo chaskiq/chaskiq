@@ -32,7 +32,7 @@ Chaskiq is a 100% open source conversational marketing platform build as an alte
   - Multilanguage and Customizable color palette
 - **Conversations**
   - Agent's auto assignment
-  - Extensible Chat editor with many kind of blocks ie: image, code, video, embed, giphy and more.. it's based in <a href="http://github.com/chaskiq/Dante2">Dante2</a> editor
+  - Extensible Chat editor with many kind of blocks ie: image, code, video, embed, giphy and more.. it's based in <a href="https://github.com/michelson/Dante2">Dante2</a> editor
 - **Campaigns**
   - **Newsletters** with programable scheduling and Audience target
     - track open, clicks and complaints
@@ -64,7 +64,7 @@ To learn more about the philosophy and goals of the project, [visit **chaskiq.io
 
 ### Intercom's like messenger. widget based chat application:
 
-![image](https://dev.chaskiq.io/rails/active_storage/blobs/eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaHBQZz09IiwiZXhwIjpudWxsLCJwdXIiOiJibG9iX2lkIn19--688ff53fe05a0d4a0ba1e8860c0749d35c76f6e5/image.png)
+![image](https://user-images.githubusercontent.com/11976/71646953-88026e80-2ccd-11ea-8a3f-6a80c0098dff.png)
 
 ## Dashboard panel
 
