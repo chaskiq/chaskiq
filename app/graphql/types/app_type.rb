@@ -86,9 +86,12 @@ module Types
               'id desc'
         end
 
-        @collection = @collection.where
-                                 .not(latest_user_visible_comment_at: nil)
-                                 .order(s)
+        if sort != "unfiltered"
+          @collection = @collection.where
+                                   .not(latest_user_visible_comment_at: nil)
+        end
+
+        @collection = @collection.order(s)
       end
 
       @collection

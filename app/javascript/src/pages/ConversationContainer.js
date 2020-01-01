@@ -23,6 +23,7 @@ import Hidden from '@material-ui/core/Hidden'
 import Button from '@material-ui/core/Button'
 import CheckIcon from '@material-ui/icons/Check'
 import InboxIcon from '@material-ui/icons/Inbox'
+import FilterListIcon from '@material-ui/icons/FilterList'
 import ChatIcon from '@material-ui/icons/Chat'
 import Tooltip from '@material-ui/core/Tooltip';
 import Paper from '@material-ui/core/Paper'
@@ -164,7 +165,7 @@ class ConversationContainer extends Component {
                   <FilterMenu 
                     options={[
                       {id: "opened", name: "opened", count: 1, icon: <InboxIcon/> },
-                      {id: "closed", name: "closed", count: 2, icon: <CheckIcon/>}
+                      {id: "closed", name: "closed", count: 2, icon: <CheckIcon/>},
                     ]}
                     value={this.props.conversations.filter}
                     filterHandler={this.filterConversations}
@@ -177,6 +178,7 @@ class ConversationContainer extends Component {
                       {id: "oldest", name: "oldest", count: 1},
                       {id: "waiting", name: "waiting", count: 1},
                       {id: "priority-first", name: "priority first", count: 1},
+                      {id: "unfiltered", name: "all", count: 1 }
                     ]}
                     value={this.props.conversations.sort}
                     filterHandler={this.sortConversations}
