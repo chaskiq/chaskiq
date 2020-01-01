@@ -359,7 +359,7 @@ GEM
       coderay (~> 1.1.0)
       method_source (~> 0.9.0)
     public_suffix (3.1.1)
-    puma (3.12.1)
+    puma (3.12.2)
     raabro (1.1.6)
     rack (2.0.7)
     rack-cors (1.0.3)
@@ -611,7 +611,7 @@ DEPENDENCIES
   pg
   pg_search
   pry
-  puma (~> 3.11)
+  puma (~> 3.12)
   rack-cors (~> 1.0)
   rails (= 6.0.2)
   ransack
