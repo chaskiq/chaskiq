@@ -86,7 +86,7 @@ module Types
               'id desc'
         end
 
-        if sort == "unfiltered"
+        if sort != "unfiltered"
           @collection = @collection.where
                                    .not(latest_user_visible_comment_at: nil)
         end
