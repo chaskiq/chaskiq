@@ -24,7 +24,10 @@ import {AnchorLink} from '../shared/RouterLink'
 import { makeStyles, createStyles } from '@material-ui/styles';
 import graphql from '../graphql/client';
 import {BOT_TASK, BOT_TASKS} from '../graphql/queries'
-import {CREATE_BOT_TASK, DELETE_BOT_TASK} from '../graphql/mutations'
+import {
+  CREATE_BOT_TASK, 
+  DELETE_BOT_TASK,
+} from '../graphql/mutations'
 
 import BotEditor from './bots/editor'
 import FormDialog from '../components/FormDialog'
@@ -319,21 +322,21 @@ const BotContainer = ({app, match, history, dispatch, actions})=>{
     <Route exact path={[`${match.path}/leads/:id`]}
       render={(props) => {
           return <BotEditor app={app} 
-            mode={"leads"}
-            match={match} 
-            actions={actions}
-            {...props}
-        />
+                      mode={"leads"}
+                      match={match} 
+                      actions={actions}
+                      {...props}
+                  />
       }} 
     /> 
 
     <Route exact path={`${match.path}/users/:id`}
     render={(props) => {
         return <BotEditor app={app} 
-        mode={"users"}
-        match={match} 
-        {...props}
-      />
+                  mode={"users"}
+                  match={match} 
+                  {...props}
+                />
     }} 
   /> 
     </Switch>

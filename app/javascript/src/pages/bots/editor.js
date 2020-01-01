@@ -164,6 +164,7 @@ const BotEditor = ({match, app, dispatch, mode, actions})=>{
   const [selectedPath, setSelectedPath] = useState(null)
   const [isOpen, setOpen] = useState(false)
   const [tabValue, setTabValue] = useState(0)
+  const [changed, setChanged] = useState(null)
 
   const classes = useStyles();
 
@@ -188,8 +189,6 @@ const BotEditor = ({match, app, dispatch, mode, actions})=>{
     dispatch(setCurrentPage(`bot${mode}`))
   }, []);
 
-  useEffect(()=> {console.log(botTask)}, [botTask])
-
   const saveData = ()=>{
 
     graphql(UPDATE_BOT_TASK, {
@@ -211,7 +210,7 @@ const BotEditor = ({match, app, dispatch, mode, actions})=>{
         dispatch(successMessage("bot updated"))
       },
       error: (err)=>{
-        dispatch(errorMessage("bot updated"))
+        dispatch(errorMessage("bot not updated"))
       }
     })
 
@@ -356,7 +355,6 @@ const BotEditor = ({match, app, dispatch, mode, actions})=>{
             </Tabs>
   }
 
-
   const getStats = (params, cb)=>{
     graphql(BOT_TASK_METRICS, params, {
       
@@ -391,7 +389,13 @@ const BotEditor = ({match, app, dispatch, mode, actions})=>{
         return <Segment 
           app={app} 
           data={botTask}
-          updateData={setBotTask}
+          updateData={(task)=>{ 
+            setBotTask(task);
+          }}
+          handleSave={(segments)=>{
+            setBotTask(Object.assign({}, botTask, {segments: segments}))
+            saveData()
+          }}
           />
       case 3:
         return renderEditor()
@@ -1190,10 +1194,6 @@ class SortableSteps extends Component {
                           )
                         }
                         
-
-                        {/*JSON.stringify(item.controls)*/}
-
-
                       <Grid container>
 
                         <Grid item xs={12}>
@@ -1226,7 +1226,6 @@ class SortableSteps extends Component {
                         }
 
                       </Grid>
-
 
                       </ItemManagerContainer>
 
