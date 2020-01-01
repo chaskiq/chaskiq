@@ -99,9 +99,9 @@ export default class SegmentItemButton extends Component {
   };
 
   onRadioTypeChange = (target, cb)=>{
-
+    const s = this.state.selectedOption
     const h = {
-      comparison: this.state.selectedOption.replace("relative:", ""),
+      comparison: "eq",
       value: target.value
     }
 
@@ -111,7 +111,10 @@ export default class SegmentItemButton extends Component {
       (o, i)=> this.props.index === i ? response : o  
     )
 
-    this.setState({checkedValue: target.value})
+    this.setState({
+      checkedValue: target.value,
+      selectedOption: "eq"
+    })
     
     //, ()=>{
     //  this.props.updatePredicate(new_predicates, this.props.predicateCallback )
@@ -208,6 +211,7 @@ export default class SegmentItemButton extends Component {
     const relative = [
       {label: "AppUser", value: "AppUser", defaultSelected: false},
       {label: "Lead", value: "Lead", defaultSelected: false},
+      {label: "Visitor", value: "Visitor", defaultSelected: false},
     ]
 
     return <ClickAwayListener onClickAway={this.toggleDialog2.bind(this)}>
