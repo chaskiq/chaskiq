@@ -138,4 +138,8 @@ class Conversation < ApplicationRecord
     diff = (now.to_date - created_at.to_date).to_f * 24
     AppIdentity.new(app.key).first_response_time.set(diff)
   end
+
+  def update_latest_user_visible_comment_at
+    update(latest_user_visible_comment_at: Time.zone.now)
+  end
 end

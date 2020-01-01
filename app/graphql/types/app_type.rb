@@ -68,7 +68,8 @@ module Types
     end
 
     def conversations(per:, page:, filter:, sort:)
-      @collection = object.conversations.left_joins(:messages)
+      @collection = object.conversations
+                          .left_joins(:messages)
                           .where.not(conversation_parts: { id: nil })
                           .distinct
                           .page(page)
@@ -83,6 +84,11 @@ module Types
             when 'priority-first' then 'priority asc, updated_at desc'
             else
               'id desc'
+        end
+
+        if sort != "unfiltered"
+          @collection = @collection.where
+                                   .not(latest_user_visible_comment_at: nil)
         end
 
         @collection = @collection.order(s)
