@@ -16,6 +16,7 @@ Chaskiq is a 100% open source conversational marketing platform build as an alte
 
 <p align="center">
   <img alt="Chaskiq CI Status" src="https://github.com/chaskiq/chaskiq/workflows/CI/badge.svg"/>
+  <img alt="Travis CI" src="https://travis-ci.org/chaskiq/chaskiq.svg?branch=master"/>
 </p>
 
 
