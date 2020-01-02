@@ -82,9 +82,10 @@ To get your environment setup, follow the community setup guide for your operati
 1. If you're on macOS, try the [macOS development guide](https://dev.chaskiq.io/en/articles/mac-os-installation-guide).
 1. If you're on Ubuntu, try the [Ubuntu development guide](https://dev.chaskiq.io/en/articles/ubuntu-installation-guide).
 1. If you're on Windows, try the [Windows 10 development guide](https://dev.chaskiq.io/en/articles/ubuntu-installation-guide).
+1. If you want to develop on Docker [Docker Dev Guide](https://dev.chaskiq.io/en/articles/docker-for-development)
 
 
-Before you get started, ensure you have the following minimum versions: [Ruby 2.5+](https://www.ruby-lang.org/en/downloads/), [PostgreSQL 10+](https://www.postgresql.org/download/), [Redis 2.6+](https://redis.io/download).
+Before you get started, ensure you have the following minimum versions: [Ruby 2.6+](https://www.ruby-lang.org/en/downloads/), [PostgreSQL 10+](https://www.postgresql.org/download/), [Redis 2.6+](https://redis.io/download).
 
 ## Setting up Chaskiq
 
