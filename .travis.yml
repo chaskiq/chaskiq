@@ -17,15 +17,20 @@ before_install:
   - gem update --system
   - gem install bundler -v 1.17.3
 before_script:
-  - psql -c 'create database travis_ci_test;' -U postgres
+  #- psql -c 'create database travis_ci_test;' -U postgres
   - cp config/database.yml.travis config/database.yml
-  - cp config/webpacker.yml.test config/webpacker.yml
-  - bundle exec rails db:migrate RAILS_ENV=test
+  - cp ./config/webpacker.ci.yml ./config/webpacker.yml
+  - bundle exec rails db:prepare
+  #- bundle exec rake assets:precompile
+  #- curl ifconfig.me
   - yarn install
   - NODE_OPTIONS="--max-old-space-size=2048" bundle exec rake assets:precompile --trace
+  - bundle exec rails server -e test -p 5002 -d
+  - ./node_modules/.bin/cypress install
 script:
-  - bundle exec rspec -t browser
+  - bundle exec rspec
+  - yarn cypress run
 matrix:
   include:
-  - rvm: 2.5.0
+  - rvm: 2.6.3
     gemfile: Gemfile
