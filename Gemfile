@@ -141,13 +141,7 @@ group :development do
 end
 
 group :test do
-  # Adds support for Capybara system testing and selenium driver
-  gem 'capybara' # , '>= 2.15', '< 4.0'
-  # gem 'selenium-webdriver'
   gem 'faker', github: 'stympy/faker', group: %i[development test]
-  gem 'webdrivers'
-  # Easy installation and use of chromedriver to run system tests with Chrome
-  gem 'chromedriver-helper'
   gem 'rspec-rails' # , git: 'https://github.com/rspec/rspec-rails', branch: '4-0-dev'
   %w[rspec-core rspec-expectations rspec-mocks rspec-support].each do |lib|
     gem lib # , :git => "https://github.com/rspec/#{lib}.git", :branch => 'master'
