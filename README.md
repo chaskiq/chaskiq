@@ -22,6 +22,8 @@ Chaskiq is a 100% open source conversational marketing platform build as an alte
 
 ----
 
+![image](https://user-images.githubusercontent.com/11976/71675959-c6e00500-2d5d-11ea-83cf-8cd5cf5cbd89.png)
+
 ## Main features:
 
 - **Segments** or users filters to trigger campaigns, messages and bots.
