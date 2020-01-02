@@ -25,6 +25,7 @@
 # Ignore master key for decrypting credentials and more.
 /config/master.key
 /public/packs
+/public/assets
 /public/packs-test
 /node_modules
 yarn-debug.log*
@@ -37,3 +38,6 @@ yarn-debug.log*
 # Ignore .git as it's not needed with the docker built.
 .git
 .cache
+
+.env
+.env.*
