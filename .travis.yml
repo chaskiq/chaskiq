@@ -2,35 +2,36 @@ language: ruby
 addons:
   chrome: stable
 services:
-  - postgresql
-  - redis-server
+- postgresql
+- redis-server
 env:
   global:
-    - NODE_ENV=test
+  - NODE_ENV=test
 cache:
   bundler: true
   directories:
-    - node_modules
+  - node_modules
   yarn: true
-
 before_install:
-  - gem update --system
-  - gem install bundler -v 1.17.3
+- gem update --system
+- gem install bundler -v 1.17.3
 before_script:
-  #- psql -c 'create database travis_ci_test;' -U postgres
-  - cp config/database.yml.travis config/database.yml
-  - cp ./config/webpacker.ci.yml ./config/webpacker.yml
-  - bundle exec rails db:prepare
-  #- bundle exec rake assets:precompile
-  #- curl ifconfig.me
-  - yarn install
-  - NODE_OPTIONS="--max-old-space-size=2048" bundle exec rake assets:precompile --trace
-  - bundle exec rails server -e test -p 5002 -d
-  - ./node_modules/.bin/cypress install
+- cp config/database.yml.travis config/database.yml
+- cp ./config/webpacker.ci.yml ./config/webpacker.yml
+- bundle exec rails db:prepare
+- yarn install
+- NODE_OPTIONS="--max-old-space-size=2048" bundle exec rake assets:precompile --trace
+- bundle exec rails server -e test -p 5002 -d
+- "./node_modules/.bin/cypress install"
 script:
-  - bundle exec rspec
-  - yarn cypress run
+- bundle exec rspec
+- yarn cypress run
 matrix:
   include:
   - rvm: 2.6.3
     gemfile: Gemfile
+deploy:
+  provider: heroku
+  app: hermesapp
+  api_key:
+    secure: En0VWAkGWEoHEJEGy2U0bqS9nvRcwOnCW+LMyEKG13fD5u+MOY1S7Uqha/NuwSk49sv3anUBaS8ewDLKHRK/9iBs6mq1w9vfwyOihPz5x/4gwfmyeROc4/AoyuKeOvwD6arwZh1dG6bMqrwoIwYaXvLxQRWIJJv+t3Ul66qr9WPli504ecVIa3VaQ5XlLlHp8qVvSPlBAvLX+2CsjOqvfSoK0Jyd44we02AeDhO7iRL9A3Ms/MaN4+l4RaUQ3/f0jphKb1pfSIZUFgTZ0CS8X74BB1D42fc82EfiWM66UB+Zon1bBMZYVOZzCb1OMjGXLeA9+w6jimX4NWatQtc1cZ8fI/z/dRtDYcKjqy1nnN6N9Qh+bfKzApMWHpC4miZI/wdudgHYVzvCArMKh9aovDuizGQYQPXdfBOtbc4Fvd9ussdPTZMf3Vx4SLiw/auczNUlJyAtcqCtPZTE7NBQwHku8Bz18zFTiEtaN59b1U2yoYuTdJPtjavcvZsF+BpRFQdCZeNp76O5WgBZJ609vLpewuzQwfriG/O488qSEASgh8sRqNSNrbHTl3el5H8BHaY/fcL1C85jjqB+73w8+UgyW1tfmGoZWq1fN7f1bEQZ+VFF3VBTCMHKNA6q88kDFq1LdKExCeyhC/XatxH/EjWjLUhpZMfqRcBJBeVLp+c=
