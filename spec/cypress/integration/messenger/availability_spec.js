@@ -35,7 +35,7 @@ describe('Availability spec', function() {
     cy.appEval('ActiveJob::Base.queue_adapter.perform_enqueued_at_jobs = true')
   })
 
-  it('next week', function() {
+  it.skip('next week', function() {
 
     cy.appScenario('basic')
 
@@ -78,7 +78,7 @@ describe('Availability spec', function() {
 
   })
 
-  it('tomorrow', function() {
+  it.skip('tomorrow', function() {
 
     cy.appScenario('basic')
 
@@ -165,7 +165,5 @@ describe('Availability spec', function() {
     })
 
   })
-
-
 
 })
