@@ -13,7 +13,7 @@ x-app: &app
   environment: &env
     NODE_ENV: development
     RAILS_ENV: ${RAILS_ENV:-development}
-  image: chaskiq:1.1.0
+  image: chaskiq/chaskiq:1.1.0
   tmpfs:
     - /tmp
 
