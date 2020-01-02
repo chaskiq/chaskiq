@@ -58,7 +58,6 @@ ActiveRecord::Schema.define(version: 2019_12_25_065950) do
     t.jsonb "properties", default: {}, null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.string "jti"
     t.string "invitation_token"
     t.datetime "invitation_created_at"
     t.datetime "invitation_sent_at"
@@ -74,7 +73,6 @@ ActiveRecord::Schema.define(version: 2019_12_25_065950) do
     t.index ["invitations_count"], name: "index_agents_on_invitations_count"
     t.index ["invited_by_id"], name: "index_agents_on_invited_by_id"
     t.index ["invited_by_type", "invited_by_id"], name: "index_agents_on_invited_by_type_and_invited_by_id"
-    t.index ["jti"], name: "index_agents_on_jti", unique: true
     t.index ["key"], name: "index_agents_on_key"
     t.index ["reset_password_token"], name: "index_agents_on_reset_password_token", unique: true
     t.index ["unlock_token"], name: "index_agents_on_unlock_token", unique: true
@@ -447,32 +445,6 @@ ActiveRecord::Schema.define(version: 2019_12_25_065950) do
     t.datetime "updated_at", precision: 6, null: false
     t.index ["action"], name: "index_events_on_action"
     t.index ["eventable_type", "eventable_id"], name: "index_events_on_eventable_type_and_eventable_id"
-  end
-
-  create_table "gutentag_taggings", id: :integer, default: nil, force: :cascade do |t|
-    t.integer "tag_id", null: false
-    t.integer "taggable_id", null: false
-    t.string "taggable_type", null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["tag_id"], name: "index_gutentag_taggings_on_tag_id"
-    t.index ["taggable_type", "taggable_id", "tag_id"], name: "unique_taggings", unique: true
-    t.index ["taggable_type", "taggable_id"], name: "index_gutentag_taggings_on_taggable_type_and_taggable_id"
-  end
-
-  create_table "gutentag_tags", id: :integer, default: nil, force: :cascade do |t|
-    t.string "name", null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.integer "taggings_count", default: 0, null: false
-    t.index ["name"], name: "index_gutentag_tags_on_name", unique: true
-    t.index ["taggings_count"], name: "index_gutentag_tags_on_taggings_count"
-  end
-
-  create_table "jwt_blacklist", force: :cascade do |t|
-    t.string "jti", null: false
-    t.datetime "exp", null: false
-    t.index ["jti"], name: "index_jwt_blacklist_on_jti"
   end
 
   create_table "metrics", force: :cascade do |t|
