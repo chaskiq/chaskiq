@@ -52,7 +52,7 @@ ENV LANG=C.UTF-8 \
 # ENV BUNDLE_APP_CONFIG=.bundle
 
 # Uncomment this line if you want to run binstubs without prefixing with `bin/` or `bundle exec`
-# ENV PATH /app/bin:$PATH
+ENV PATH /app/bin:$PATH
 
 # Upgrade RubyGems and install required Bundler version
 RUN gem update --system && \
