@@ -250,7 +250,7 @@ class App < ApplicationRecord
   end
 
   def generate_encryption_key
-    self.encryption_key = SecureRandom.hex(4)
+    self.encryption_key = SecureRandom.hex(8)
   end
 
   def find_app_package(name)
