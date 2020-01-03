@@ -14,7 +14,8 @@ import {
 
 import {
   START_CONVERSATION,
-  APP_USER_UPDATE_STATE
+  APP_USER_UPDATE_STATE,
+  APP_USER_UPDATE
 } from '../graphql/mutations'
 
 
@@ -37,6 +38,9 @@ import DataTable from '../components/table'
 
 import DialogEditor from '../components/conversation/DialogEditor'
 import UserActionsMenu from '../components/userActionsMenu'
+import TextField from '@material-ui/core/TextField'
+import IconButton from '@material-ui/core/IconButton' 
+import EditIcon from '@material-ui/icons/EditOutlined'
 
 const AppUserHeaderOverlay = styled.div`
   position: absolute;
@@ -62,6 +66,10 @@ const AppUserHeaderInfo = styled.div`
     display: flex;
     flex-direction: column;
     margin-left: 10px;
+    color: white;
+    input{
+      color: white;
+    }
   }
 
   .controls {
@@ -78,24 +86,24 @@ const AppUserHeaderInfo = styled.div`
   }
 `
 
-
-
 class ProfilePage extends Component {
 
   state = {
     collection: [],
     meta: {},
-    startConversationModal: false
-
+    startConversationModal: false,
+    editName: false
   }
 
   componentDidMount(){
+    this.getUser( this.fetchUserConversations )
+  }
+
+  getUser = (cb)=>{
     this.props.dispatch(
       getAppUser(
         parseInt(this.props.match.params.id)
-      , ()=>{
-        this.fetchUserConversations()
-      })
+      , cb && cb() )
     )
   }
 
@@ -166,6 +174,30 @@ class ProfilePage extends Component {
 
   }
 
+  handleEnter = (e)=>{
+    if(e.key === "Enter"){
+      graphql(APP_USER_UPDATE, {
+        appKey: this.props.app.key, 
+        id: this.props.app_user.id,
+        options: {
+          name: e.target.value,
+        }
+      }, {
+        success: (data)=>{
+          this.setState({editName: null})
+          this.getUser()
+        },
+        error: ()=>{
+
+        }
+      })
+    }
+  }
+
+  toggleNameEdit = ()=>{
+    this.setState({editName: !this.state.editName})
+  }
+
   render() {
     return (
 
@@ -197,7 +229,21 @@ class ProfilePage extends Component {
 
               <div className="name-description">
                 <Typography variant={"h5"}>
-                  {this.props.app_user.name || 'no name'}
+
+                  {
+                    this.props.app_user && this.state.editName ?
+                    <TextField
+                      //className={classes.input}
+                      onKeyUp={this.handleEnter}
+                      defaultValue={this.props.app_user.name}
+                      placeholder="enter user's name"
+                      inputProps={{ 'aria-label': 'enter agent\'s name' }}
+                    /> : this.props.app_user.name
+                  }
+
+                  <IconButton onClick={this.toggleNameEdit} color={"inherit"}>
+                    <EditIcon/>
+                  </IconButton>
                 </Typography>
 
                 <Typography variant={"h6"}>
