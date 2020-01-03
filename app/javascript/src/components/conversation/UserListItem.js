@@ -109,6 +109,9 @@ const PrivateNoteIndicator = styled.div`
 const ContentContent = styled(Typography)`
   p{
     margin: 0px;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
   }
 `
 
