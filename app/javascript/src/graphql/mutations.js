@@ -84,10 +84,8 @@ export const CREATE_APP = `
 `;
 
 export const APP_USER_UPDATE_STATE = `
-
   mutation AppUserUpdateData($appKey: String!, $id: Int!, $state: String!){
     appUserUpdateData(appKey: $appKey, id: $id, state: $state){
- 
       appUser {
         id
         email
@@ -114,7 +112,39 @@ export const APP_USER_UPDATE_STATE = `
         displayName
         name
       }
+    }
+  }
+`;
 
+export const APP_USER_UPDATE = `
+  mutation UpdateAppUser($appKey: String!, $id: Int!, $options: Json!){
+    updateAppUser(appKey: $appKey, id: $id, options: $options){
+      appUser {
+        id
+        email
+        avatarUrl
+        lastVisitedAt
+        referrer
+        state
+        ip
+        city
+        region
+        country
+        lat
+        lng
+        postal
+        webSessions
+        timezone
+        browser
+        browserVersion
+        os
+        osVersion
+        browserLanguage
+        online
+        lang
+        displayName
+        name
+      }
     }
   }
 `;

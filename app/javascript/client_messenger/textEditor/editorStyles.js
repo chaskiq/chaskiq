@@ -63,6 +63,10 @@ const NewEditorStyles = styled(EditorStyles)`
     grid-area: editor;
   }
 
+  .graf--p {
+    white-space: pre-wrap;
+  }
+
   .graf--p,
   .graf--blockquote,
   .graf--pullquote {
