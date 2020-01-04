@@ -26,11 +26,11 @@ const useStyles = makeStyles(theme => ({
       height: 'auto'
     },
     [theme.breakpoints.up('md')]: {
-      width: '100%',
+      width: '80%',
       height: 'auto'
     },
     [theme.breakpoints.up('lg')]: {
-      width: '100%',
+      width: '50%',
       height: 'auto'
     },
 
