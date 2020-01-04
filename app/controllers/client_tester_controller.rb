@@ -5,6 +5,8 @@ require 'open-uri'
 class ClientTesterController < ApplicationController
   before_action :set_lang_var
 
+  before_action :authenticate_agent!
+
   layout 'client'
 
   def show
