@@ -107,13 +107,13 @@ const PrivateNoteIndicator = styled.div`
 `
 
 const ContentContent = styled(Typography)`
-  max-width: 57vw;
+  max-width: 17vw;
   p{
     margin: 0px;
     overflow: hidden;
     white-space: nowrap;
     text-overflow: ellipsis;
-    max-width: 57vw;
+    max-width: 17vw;
   }
 `
 
