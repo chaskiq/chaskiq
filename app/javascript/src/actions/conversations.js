@@ -13,6 +13,8 @@ import {
   appendMessage
 } from './conversation'
 
+import {uniqBy} from 'lodash'
+
 export function getConversations(cb){
 
   return (dispatch, getState) => {
@@ -96,16 +98,11 @@ export function appendConversation(data, cb){
         dispatch(appendConversationDispatcher(newConversations))
       }
 
-
       if(getState().conversation.key != data.conversationKey ){
         if(data.appUser.kind != "agent")
           playSound()  
       }
     }
-
-
-    
-   
 }
 
 export function updateConversationsData(data, cb){
@@ -134,9 +131,12 @@ export function clearConversations(data){
 }
 
 function appendConversationDispatcher(data){
+  // TODO: the data here is filteres to get uniq array by conv key
+  // but the real deal solution might be a redux queue to append sequencially
+  // https://redux-loop.js.org/docs/recipes/ActionQueue.html
   return {
-    type: ActionTypes.AppendConversation,
-    data: data
+      type: ActionTypes.AppendConversation,
+      data: uniqBy(data, 'key')
   }
 }
 

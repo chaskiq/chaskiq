@@ -39,6 +39,7 @@ module Types
 
     field :appUserUpdateData, mutation: Mutations::AppUsers::UpdateAppUserState
     field :convertUser, mutation: Mutations::AppUsers::ConvertUser
+    field :updateAppUser, mutation: Mutations::AppUsers::UpdateAppUser
 
     field :createArticle, mutation: Mutations::Articles::CreateArticle
     field :editArticle, mutation: Mutations::Articles::EditArticle

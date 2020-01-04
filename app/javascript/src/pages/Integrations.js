@@ -251,6 +251,10 @@ function Integrations({app, dispatch}){
             />
             <Content>
               {renderTabcontent()}
+
+              <Link href="https://clearbit.com">
+                Logos images provided by Clearbit
+              </Link>
             </Content>
 
             {open && (

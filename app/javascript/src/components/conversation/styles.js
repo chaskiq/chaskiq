@@ -90,6 +90,7 @@ export const FixedHeader = styled.div`
   display: flex;
   background: ${(props)=> props.theme.palette.background.paper };
   justify-content: space-between;
+  align-items: center;
 `
 export const ChatMessageItem = styled.div`
     position: relative;

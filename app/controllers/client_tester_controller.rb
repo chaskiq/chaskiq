@@ -5,6 +5,8 @@ require 'open-uri'
 class ClientTesterController < ApplicationController
   before_action :set_lang_var
 
+  before_action :authenticate_agent!, if: ->{!Rails.env.test?}
+
   layout 'client'
 
   def show

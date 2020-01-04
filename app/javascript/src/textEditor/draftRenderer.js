@@ -54,9 +54,12 @@ const renderers = {
 
     
     unstyled: (children, { keys }) => {
-      return children.map(
+      return <p key={keys[0]} className="graf graf--p">
+              {addBreaklines(children)}
+            </p>
+      /*children.map(
         (o, i)=> ( <p key={keys[i]} className="graf graf--p">{o}</p>) 
-      )
+      )*/
     },
     blockquote: (children, { keys }) => <blockquote 
                                           key={keys[0]} 
