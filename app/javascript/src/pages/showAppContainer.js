@@ -11,6 +11,7 @@ import AppSettingsContainer from './AppSettings'
 import Content from '../components/Content'
 import AppContent from '../components/segmentManager/container'
 import Snackbar from '../components/snackbar'
+import ZoomImage from '../components/ImageZoomOverlay'
 import Dashboard from './Dashboard'
 import Articles from './Articles'
 import Drawer from '@material-ui/core/Drawer';
@@ -478,14 +479,23 @@ class ShowAppContainer extends Component {
 
         </div> : null
       }
- 
+
+      <ZoomImage/>
+
     </div>
   }
 }
 
 function mapStateToProps(state) {
 
-  const { auth, app, segment, app_user, current_user, drawer } = state
+  const { 
+    auth, 
+    app, 
+    segment, 
+    app_user, 
+    current_user, 
+    drawer
+   } = state
   const { loading, isAuthenticated } = auth
   return {
     current_user,

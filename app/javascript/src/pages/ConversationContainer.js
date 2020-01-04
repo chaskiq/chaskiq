@@ -45,8 +45,6 @@ import {
 } from '../actions/app_user'
 
 import AssignmentRules from '../components/conversation/assignmentRules'
-
-
 import {setCurrentSection, setCurrentPage} from '../actions/navigation'
 
 class ConversationContainer extends Component {

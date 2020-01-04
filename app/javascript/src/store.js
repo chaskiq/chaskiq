@@ -16,6 +16,7 @@ import status_message from './actions/status_messages'
 import navigation from './actions/navigation'
 import drawer from './actions/drawer'
 import theme from './actions/theme'
+import imageZoom from './actions/imageZoom'
 
 const rootReducer = combineReducers({
   auth,
@@ -29,7 +30,8 @@ const rootReducer = combineReducers({
   status_message,
   navigation,
   drawer,
-  theme
+  theme,
+  imageZoom
 })
 
 const middlewares = [thunkMiddleware]//, routerMiddleware(history)]
