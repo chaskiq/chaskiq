@@ -1,10 +1,6 @@
-import axios from 'axios'
-import graphql from '../graphql/client'
-
 import actionTypes from '../constants/action_types'
 
 export function errorMessage(message){
-
   return (dispatch, getState)=>{
     dispatch(setMessage({
       message: message, 

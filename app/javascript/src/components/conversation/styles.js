@@ -10,6 +10,19 @@ export const RowColumnContainer = styled.div`
   height: 100%;
 `;
 
+export const ImageZoomOverlay = styled.div`
+overflow: auto;
+position: fixed;
+top: 0;
+right: 0;
+left: 0;
+bottom: 0;
+padding: 80px 40px;
+background-color: rgba(255,255,255,0.9);
+text-align: center;
+z-index: 99999;
+`
+
 export const ColumnContainer = styled.div`
   display: flex;
   flex: 1;
@@ -191,10 +204,7 @@ export const HeaderTitle = styled.div`
 `
 
 export const ChatOverflow = styled.div`
-
-
-
-                    
+                 
 `
 
 export const ChatContainer = styled.div`
