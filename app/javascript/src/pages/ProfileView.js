@@ -92,7 +92,8 @@ class ProfilePage extends Component {
     collection: [],
     meta: {},
     startConversationModal: false,
-    editName: false
+    editName: false,
+    editEmail: false
   }
 
   componentDidMount(){
@@ -174,17 +175,19 @@ class ProfilePage extends Component {
 
   }
 
-  handleEnter = (e)=>{
+  handleEnter = (e, attrName)=>{
+    let attribute = {}
+    attribute[attrName] = e.target.value
+
     if(e.key === "Enter"){
       graphql(APP_USER_UPDATE, {
         appKey: this.props.app.key, 
         id: this.props.app_user.id,
-        options: {
-          name: e.target.value,
-        }
+        options: attribute
       }, {
         success: (data)=>{
           this.setState({editName: null})
+          this.setState({editEmail: null})
           this.getUser()
         },
         error: ()=>{
@@ -196,6 +199,10 @@ class ProfilePage extends Component {
 
   toggleNameEdit = ()=>{
     this.setState({editName: !this.state.editName})
+  }
+
+  toggleEmailEdit = ()=>{
+    this.setState({editEmail: !this.state.editEmail})
   }
 
   render() {
@@ -234,10 +241,10 @@ class ProfilePage extends Component {
                     this.props.app_user && this.state.editName ?
                     <TextField
                       //className={classes.input}
-                      onKeyUp={this.handleEnter}
+                      onKeyUp={(e)=>this.handleEnter(e, "name")}
                       defaultValue={this.props.app_user.name}
                       placeholder="enter user's name"
-                      inputProps={{ 'aria-label': 'enter agent\'s name' }}
+                      inputProps={{ 'aria-label': 'enter user\'s name' }}
                     /> : this.props.app_user.name
                   }
 
@@ -247,7 +254,21 @@ class ProfilePage extends Component {
                 </Typography>
 
                 <Typography variant={"h6"}>
-                  {this.props.app_user.email}
+                  {
+                    this.props.app_user && this.state.editEmail ?
+                    <TextField
+                      //className={classes.input}
+                      onKeyUp={(e)=>this.handleEnter(e, "email")}
+                      defaultValue={this.props.app_user.name}
+                      placeholder="enter user's email"
+                      inputProps={{ 'aria-label': 'user agent\'s email' }}
+                    /> : this.props.app_user.email
+                  }
+
+                  <IconButton onClick={this.toggleEmailEdit} color={"inherit"}>
+                    <EditIcon/>
+                  </IconButton>
+
                 </Typography>
 
                 <Typography variant={"subtitle1"}>
