@@ -4,6 +4,11 @@
 
 import React, {Component} from 'react'
 import redraft from 'redraft'
+import {
+  setImageZoom
+} from '../actions/imageZoom'
+import { connect } from 'react-redux'
+
 
 var Prism = require('prismjs');
 //Prism.highlightAll();
@@ -112,11 +117,40 @@ const renderers = {
                           style={{paddingBottom: `${ratio}%`}}>
                       </div>
 
-                      <img src={url}
+
+                      <ConnectedImage 
+                        url={url} 
+                        width={width}
+                        height={height} 
+                      />
+
+                      {/*<img src={url}
                         className="graf-image" 
                         width={width}
                         height={height}
-                        contentEditable="false"/>
+                        contentEditable="false"
+                        onClick={(e)=> this.props.dispatch(
+                            setImageZoom({
+                              url: url,
+                              width: width,
+                              height: height
+                            })
+                          )
+                        }
+                      />*/}
+
+                      {
+                        /*
+                      
+                        <ZoomImage
+                          imageWidth={width}
+                          imageHeight={height}
+                          src={url}
+                          contentEditable="false"
+                          className="graf-image" 
+                        /> */
+                      }
+
                     </div>
 
                   </div>
@@ -246,6 +280,31 @@ const renderers = {
   ],*/
 }
 
+
+function Image({dispatch, url, width, height}){
+  return <img src={url}
+          className="graf-image" 
+          width={width}
+          height={height}
+          contentEditable="false"
+          onClick={(e)=> dispatch(
+              setImageZoom({
+                url: url,
+                width: width,
+                height: height
+              })
+            )
+          }
+        />
+}
+
+function mapActionsToProps(dispatch) {
+  return {
+    actions: {}
+  }
+}
+
+const ConnectedImage = connect(mapActionsToProps) (Image);
 
 
 export default class Renderer extends Component {

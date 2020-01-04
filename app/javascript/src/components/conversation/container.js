@@ -372,8 +372,8 @@ class ConversationContainerShow extends Component {
                                               this.renderEventBlock(o, userOrAdmin) : 
                                               this.renderMessage(o, userOrAdmin)
                                           }
-
                                         </EditorContainer>
+                                        
                                       </ThemeProvider>
 
                                       <StatusItem>
