@@ -78,6 +78,19 @@ const Input = styled.textarea`
       -webkit-box-shadow: 0 0 100px 0 rgba(0,0,0,.1);
       box-shadow: 0 0 100px 0 rgba(0,0,0,.1);
     }
+
+    ::-webkit-input-placeholder { /* Chrome/Opera/Safari */
+      color: "#999";
+    }
+    ::-moz-placeholder { /* Firefox 19+ */
+      color: "#999";
+    }
+    :-ms-input-placeholder { /* IE 10+ */
+      color: "#999";
+    }
+    :-moz-placeholder { /* Firefox 18- */
+      color: "#999";
+    }
 }
 `
 
@@ -349,9 +362,10 @@ export default class UnicornEditor extends Component {
               /> : null
           }
 
-          <Input onKeyPress={this.handleReturn} 
+          <Input 
+            onKeyPress={this.handleReturn}
+            placeholder={this.props.t("editor.placeholder")} 
             ref={comp => this.input = comp}>
-            {/*<div id="editore" ref="editore"/>*/}
           </Input>
 
           <EditorButtons>
@@ -363,7 +377,6 @@ export default class UnicornEditor extends Component {
             <button onClick={this.toggleGiphy}>
               <GifIcon/>
             </button>
-
           
             <button onClick={this.handleInputClick}>
               <AttachIcon/>
