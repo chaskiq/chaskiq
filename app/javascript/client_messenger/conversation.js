@@ -375,6 +375,7 @@ export class Conversation extends Component {
             {
               !this.isInputEnabled() ? this.props.t("reply_above") : 
               <UnicornEditor
+                t={this.props.t}
                 domain={this.props.domain}
                 footerClassName={this.props.footerClassName }
                 insertComment={this.props.insertComment}

@@ -26,6 +26,7 @@ i18n
           article_meta: "By: <strong>{{name}}</strong> on <0>{{date}}</0>",
           enter_your: "Enter your {{field}}",
 
+          "editor.placeholder": "Send message...",
           "conversations.events.assigned": "{{name}} was assigned to this conversation",
 
           "reply_time.auto": "The team will respond as soon as possible", 
@@ -57,6 +58,7 @@ i18n
           dismiss: "Descartar",
           submit: "Enviar",
           enter_your: "Escribe tu {{field}}",
+          "editor.placeholder": "Send message...",
           article_meta: "Por: <strong>{{name}}</strong> en <0>{{date}}</0>",
           "reply_time.auto": "El equipo responderá lo antes posible", 
           "reply_time.minutes": "El equipo suele responder en cuestión de minutos.",
