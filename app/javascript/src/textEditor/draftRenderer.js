@@ -102,7 +102,7 @@ const renderers = {
       if(!aspect_ratio){
         var height = "100%"
         var width  = "100%"
-        var ratio  = "100%"
+        var ratio  = "100"
       }else{
         var { height, width, ratio} = aspect_ratio 
       }

@@ -190,7 +190,8 @@ class ConversationContainerShow extends Component {
 
   renderMessage =(o, userOrAdmin)=>{
     const key = `conversation-${o.id}-message-${o.id}`
-    return userOrAdmin === "admin" ?
+    //return userOrAdmin === "admin" ?
+    return o.message.serializedContent ?
       <DraftRenderer key={key} 
         raw={JSON.parse(o.message.serializedContent)}
         html={o.message.htmlContent}
