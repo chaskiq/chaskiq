@@ -311,8 +311,11 @@ export class Conversation extends Component {
               <span style={{
                 fontSize: '0.7rem', 
                 color: '#afabb3'}}>
-                {this.props.agent_typing.author.name || 'agent'}
-                is typing
+                {
+                  this.props.t("is_typing", {
+                    name: this.props.agent_typing.author.name || 'agent' 
+                  })
+                }
               </span>
             </div>
 
