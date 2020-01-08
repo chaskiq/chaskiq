@@ -1590,7 +1590,7 @@
     mkdirp-promise "^5.0.1"
     mz "^2.5.0"
 
-Dante2@0.5.22:
+Dante2@0.5.0-rc22:
   version "0.5.0-rc22"
   resolved "https://registry.yarnpkg.com/Dante2/-/Dante2-0.5.0-rc22.tgz#371c7102f4ef76ffcf1c35f51a6ea42261cb16a2"
   integrity sha512-kT68tc7i6WgN2ozvr0iiuPXR0qDOgYwBUV9bOZnqwt1HmWhnsXrI+V7LcR7tQAIALhH7R/zuTDO/1wWkX5L8jQ==
