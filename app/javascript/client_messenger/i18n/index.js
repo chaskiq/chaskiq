@@ -34,6 +34,7 @@ i18n
           "reply_time.hours": "The team usually responds in a matter of hours",
           "reply_time.1 day": "The team usually responds in one day",
 
+          "is_typing": "{{name}} is typing",
           "availability.aprox": `we'll back in approximately {{time}} hrs`,
           "availability.tomorrow": "we'll back back tomorrow",
           "availability.days": "we'll back in {{val}} days",
@@ -64,6 +65,8 @@ i18n
           "reply_time.minutes": "El equipo suele responder en cuestión de minutos.",
           "reply_time.hours": "El equipo suele responder en cuestión de horas.",
           "reply_time.1 day": "El equipo suele responder en un día.",
+
+          "is_typing": "{{name}} está escribiendo",
 
           "availability.aprox": `estaremos de vuelta aproximadamente a las {{time}}hrs`,
           "availability.tomorrow": "volvemos mañana",
