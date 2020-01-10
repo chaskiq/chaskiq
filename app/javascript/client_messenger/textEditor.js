@@ -91,6 +91,19 @@ const Input = styled.textarea`
     :-moz-placeholder { /* Firefox 18- */
       color: "#999";
     }
+
+    :disabled::-webkit-input-placeholder { /* WebKit browsers */
+        color: "#f3f3f3";
+    }
+    :disabled:-moz-placeholder { /* Mozilla Firefox 4 to 18 */
+        color: "#f3f3f3";
+    }
+    :disabled::-moz-placeholder { /* Mozilla Firefox 19+ */
+        color: "#f3f3f3";
+    }
+    :disabled:-ms-input-placeholder { /* Internet Explorer 10+ */
+        color: "#f3f3f3";
+    }
 }
 `
 
@@ -118,7 +131,11 @@ const EditorButtons = styled.div`
 
       border-width: 0px;
       outline:none;
-      
+
+      &:disabled{
+        opacity: 0.5; 
+        pointer-events: none;
+      }
 
       svg{
         width: 26px;
@@ -176,7 +193,6 @@ export default class UnicornEditor extends Component {
       emojiEnabled: false,
       giphyEnabled: false,
       loading: false,
-
     }
   }
 
@@ -379,24 +395,34 @@ export default class UnicornEditor extends Component {
           <EditorButtons>
 
             {
-              this.state.loading && <Loader xs wrapperStyle={{
+              this.state.loading && 
+              <Loader xs wrapperStyle={{
+                opacity: '0.5',
                 padding: '0px',
                 paddingRight: '12px'
               }}/>
             }
 
-            <button onClick={this.toggleEmojiClick}>
+            <button 
+              disabled={this.state.loading}
+              onClick={this.toggleEmojiClick}>
               <EmojiIcon/>
             </button>
 
-            <button onClick={this.toggleGiphy}>
+            <button 
+              disabled={this.state.loading}
+              onClick={this.toggleGiphy}>
               <GifIcon/>
             </button>
           
-            <button onClick={this.handleInputClick}>
+            <button 
+              disabled={this.state.loading}
+              onClick={this.handleInputClick}>
               <AttachIcon/>
-              <input type="file" 
-                ref="upload_input" 
+              <input 
+                type="file" 
+                ref="upload_input"
+                style={{display: 'none'}} 
                 onChange={this.handleUpload}
               />
             </button>
