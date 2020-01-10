@@ -47,6 +47,13 @@ const useStyles = makeStyles({
   },
 });
 
+export const LoaderWrapper = styled.div`
+  width: 300px;
+  padding: 1em;
+  display: flex;
+  justify-content: center;
+`
+
 function ImageAvatars(props) {
   const classes = useStyles();
 
