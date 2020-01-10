@@ -94,8 +94,8 @@ function CustomizedExpansionPanels(props) {
                 o.items ?
                   <List>
                   {
-                    withValues(o.items).map((item)=>(
-                         <React.Fragment>
+                    withValues(o.items).map((item, index)=>(
+                         <React.Fragment key={`expansion-detail-item-${index}`}>
                             <ListItem>
                               <ListItemText
                                 primary={item.label}
