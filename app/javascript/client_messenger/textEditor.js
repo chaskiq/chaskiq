@@ -19,7 +19,7 @@ import {
 } from 'draft-js'; // { compose
 
 import customHTML2Content from './html2Content' //'Dante2/package/es/utils/html2content.js'
-
+import Loader from './loader'
 //
 
 import {imageUpload} from './uploader'
@@ -175,7 +175,8 @@ export default class UnicornEditor extends Component {
       text: '',
       emojiEnabled: false,
       giphyEnabled: false,
-      loading: false
+      loading: false,
+
     }
   }
 
@@ -308,7 +309,7 @@ export default class UnicornEditor extends Component {
       {
         domain: this.props.domain,
         onLoading: ()=>{
-
+          this.setLock(true)
         },
         onError: (err)=>{
           alert("error uploading")
@@ -316,11 +317,18 @@ export default class UnicornEditor extends Component {
         },
         onSuccess: (attrs)=> {
           this.submitImage(attrs.link)
+          this.setLock(false)
         }
       },
       "dd",
       false
     )
+  }
+
+  setLock = (val)=>{
+    this.setState({
+      loading: val
+    })
   }
 
   handleInputClick = ()=>{
@@ -351,9 +359,6 @@ export default class UnicornEditor extends Component {
               </EmojiBlock> 
           }
 
-          
-        
-
           {
             this.state.giphyEnabled ? 
               <GiphyPicker 
@@ -362,13 +367,23 @@ export default class UnicornEditor extends Component {
               /> : null
           }
 
+          
+
           <Input 
             onKeyPress={this.handleReturn}
             placeholder={this.props.t("editor.placeholder")} 
+            disabled={this.state.loading}
             ref={comp => this.input = comp}>
           </Input>
 
           <EditorButtons>
+
+            {
+              this.state.loading && <Loader xs wrapperStyle={{
+                padding: '0px',
+                paddingRight: '12px'
+              }}/>
+            }
 
             <button onClick={this.toggleEmojiClick}>
               <EmojiIcon/>
@@ -388,6 +403,7 @@ export default class UnicornEditor extends Component {
          
 
           </EditorButtons>
+
         </EditorContainer>
 
       </EditorWrapper>

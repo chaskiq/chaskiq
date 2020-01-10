@@ -47,7 +47,7 @@ const SpinnerWrapper = styled.div`
 
 export default function Loader(props){
   return (
-    <SpinnerWrapper>
+    <SpinnerWrapper style={props.wrapperStyle}>
       <Spinner {...props}></Spinner>
     </SpinnerWrapper>
   )
