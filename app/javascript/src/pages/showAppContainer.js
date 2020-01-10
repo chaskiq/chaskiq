@@ -53,6 +53,8 @@ import AgentProfileView from '../pages/AgentProfileView'
 import Team from '../pages/TeamPage'
 import BotContainer from './BotsContainer'
 import Integrations from '../pages/Integrations'
+import CircularProgress from '@material-ui/core/CircularProgress'
+
 
 import {
   camelizeKeys
@@ -68,7 +70,7 @@ const Context = createContext()
 const { Provider, Consumer } = Context
 
 import {toggleDrawer} from '../actions/drawer'
-import UserData from '../components/UserData'
+import UserData, {LoaderWrapper} from '../components/UserData'
 
 import {appendMessage } from '../actions/conversation'
 
@@ -322,7 +324,7 @@ class ShowAppContainer extends Component {
       return;
     }
 
-    this.props.dispatch(toggleDrawer({rightDrawer: open }))
+    this.props.dispatch(toggleDrawer(side))
   };
 
   render(){
@@ -347,7 +349,9 @@ class ShowAppContainer extends Component {
               app={this.props.app}
               appUser={this.props.app_user} 
             /> 
-            : null
+            : <LoaderWrapper>
+                <CircularProgress/>
+              </LoaderWrapper>
         }
 
       </Drawer>
