@@ -41,6 +41,7 @@ import UserActionsMenu from '../components/userActionsMenu'
 import TextField from '@material-ui/core/TextField'
 import IconButton from '@material-ui/core/IconButton' 
 import EditIcon from '@material-ui/icons/EditOutlined'
+import CircularProgress from '@material-ui/core/CircularProgress'
 
 const AppUserHeaderOverlay = styled.div`
   position: absolute;
@@ -84,6 +85,12 @@ const AppUserHeaderInfo = styled.div`
     margin-left: 20px;
     margin-top: 20px;
   }
+`
+
+const ProgressWrapper = styled.div`
+  padding: 2em;
+  display:flex;
+  justify-content: center;
 `
 
 class ProfilePage extends Component {
@@ -206,6 +213,12 @@ class ProfilePage extends Component {
   }
 
   render() {
+    if(!this.props.app_user)
+      return <ProgressWrapper>
+              <CircularProgress/>
+            </ProgressWrapper>
+
+    
     return (
 
       <div>
@@ -361,7 +374,6 @@ class ProfilePage extends Component {
 
         </Content>
 
-
         {
           this.state.startConversationModal ?
            
@@ -425,7 +437,8 @@ class AppUserVisits extends React.Component {
           {field: "browserName", title: "browser name"},
           {field: "browserVersion", title: "browser version"},
           {field: "os", title: "os"},
-          {field: "osVersion", title: "os version"}
+          {field: "osVersion", title: "os version"},
+          {field: "createdAt", title: "created at"}
         ]}
         meta={this.state.meta}
         search={(page)=>this.fetchvisits(page)}

@@ -433,6 +433,7 @@ query AppUserVisits($appKey: String!, $id: Int!, $page: Int, $per: Int){
           os
           browserName
           browserVersion
+          createdAt
         }
         meta
       }
