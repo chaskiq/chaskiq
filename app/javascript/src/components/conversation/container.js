@@ -24,6 +24,8 @@ import {
   ChatOverflow
 } from './styles'
 
+import styled from '@emotion/styled'
+
 import Progress from '../../shared/Progress'
 import OptionMenu from './optionMenu'
 import FilterMenu from './filterMenu'
@@ -61,6 +63,17 @@ import DraftRenderer from '../../textEditor/draftRenderer'
 
 import {setCurrentPage, setCurrentSection} from '../../actions/navigation'
 
+
+const EditorContainerMessageBubble = styled(EditorContainer)`
+  // this is to fix the image on message bubbles
+  .aspect-ratio-fill{
+    display:none
+  }
+  .aspectRatioPlaceholder.is-locked .graf-image{
+    position: inherit;
+  }
+`
+
 class ConversationContainerShow extends Component {
 
   constructor(props){
@@ -74,7 +87,11 @@ class ConversationContainerShow extends Component {
   }
 
   componentDidMount(){
-    this.getMessages( this.scrollToLastItem )
+    this.props.dispatch(clearConversation( ()=>{
+      this.getMessages(this.scrollToLastItem )
+    }))
+
+    //this.getMessages( this.scrollToLastItem )
 
     this.props.dispatch(
       setCurrentPage("Conversations")
@@ -87,7 +104,7 @@ class ConversationContainerShow extends Component {
 
   componentDidUpdate(PrevProps, PrevState){
     if(PrevProps.match && PrevProps.match.params.id !== this.props.match.params.id){
-        this.props.dispatch(clearConversation( ()=>{
+      this.props.dispatch(clearConversation( ()=>{
           this.getMessages(this.scrollToLastItem )
         }))
     }
@@ -123,6 +140,7 @@ class ConversationContainerShow extends Component {
   }
 
   getMessages = (cb)=>{
+    
     const opts = {id: this.props.match.params.id } 
 
     const lastItem = last(this.props.conversation.collection)
@@ -189,8 +207,10 @@ class ConversationContainerShow extends Component {
   }
 
   renderMessage =(o, userOrAdmin)=>{
-    const key = `conversation-${o.id}-message-${o.id}`
+    const key = `conversation-${this.props.conversation.id}-message-${o.id}`
     //return userOrAdmin === "admin" ?
+    //console.log("KEYKEY:", key)
+
     return o.message.serializedContent ?
       <DraftRenderer key={key} 
         raw={JSON.parse(o.message.serializedContent)}
@@ -333,7 +353,10 @@ class ConversationContainerShow extends Component {
                         this.props.conversation.collection.map( (o, i)=> {
                           
                           const isReplied = o.message.state === "replied"
-                          const userOrAdmin = !isReplied && o.appUser && o.appUser.kind === 'agent' ? 'admin' : 'user'
+                          const userOrAdmin = !isReplied && 
+                                                o.appUser && 
+                                                o.appUser.kind === 'agent' 
+                                                ? 'admin' : 'user'
               
                           return <MessageItemWrapper 
                                     key={`message-item-${this.props.conversation.key}-${o.id}`} 
@@ -348,9 +371,10 @@ class ConversationContainerShow extends Component {
                                       className={userOrAdmin}>
                                       
                                       {
-                                        o.appUser && <ChatAvatar 
-                                        onClick={(e)=>this.props.showUserDrawer(o.appUser.id)}
-                                        className={userOrAdmin}>
+                                        o.appUser && 
+                                        <ChatAvatar 
+                                          onClick={(e)=> this.props.showUserDrawer(o.appUser.id) }
+                                          className={userOrAdmin}>
 
                                           <img src={!isReplied ? 
                                             o.appUser.avatarUrl : 
@@ -365,7 +389,7 @@ class ConversationContainerShow extends Component {
                                         o.privateNote ? theme : themeDark 
                                         : theme 
                                       }>
-                                        <EditorContainer>
+                                        <EditorContainerMessageBubble>
                                           {
                                             o.message.blocks ? 
                                               this.renderBlocks(o, userOrAdmin) : 
@@ -373,7 +397,7 @@ class ConversationContainerShow extends Component {
                                               this.renderEventBlock(o, userOrAdmin) : 
                                               this.renderMessage(o, userOrAdmin)
                                           }
-                                        </EditorContainer>
+                                        </EditorContainerMessageBubble>
                                         
                                       </ThemeProvider>
 
