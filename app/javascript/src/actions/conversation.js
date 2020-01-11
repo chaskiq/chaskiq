@@ -51,10 +51,7 @@ export function getConversation(options, cb){
       }, {
         success: (data)=>{
           const conversation = data.app.conversation
-
-
-          const newConversation = Object.assign({}, { 
-                                                      collection: nextPage > 1 ? 
+          const newConversation = Object.assign({}, { collection: nextPage > 1 ? 
                                                         getState().conversation.collection.concat(conversation.messages.collection) : 
                                                         conversation.messages.collection,
                                                       meta: conversation.messages.meta,
@@ -67,11 +64,8 @@ export function getConversation(options, cb){
           cb ? cb() : null
         },
         error: (error)=>{
-          
         }
-      }) 
-
-
+      })
   }
 }
 
