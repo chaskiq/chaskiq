@@ -13,6 +13,8 @@ import Grid from '@material-ui/core/Grid'
 import styled from '@emotion/styled'
 import PriorityHighIcon from '@material-ui/icons/PriorityHigh'
 import Moment from 'react-moment'
+import { lighten } from "polished";
+
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -69,15 +71,20 @@ const useStyles = makeStyles(theme => ({
   },
   highlightedItem: {
     flexFlow: 'column',
-    paddingTop: '1.5em',
-    paddingBottom: '1.5em',
-    backgroundColor: theme.palette.background.paper[500]
+    paddingTop: '.7em',
+    paddingBottom: '1.2em',
+    backgroundColor: theme.palette.background.default,
+    cursor: 'pointer'
   },
   defaultItem: {
     flexFlow: 'column',
     paddingTop: '.7em',
-    paddingBottom: '.7em',
-    backgroundColor: theme.palette.background.paper
+    paddingBottom: '1.2em',
+    backgroundColor: theme.palette.background.paper,
+    cursor: 'pointer',
+    '&:hover': {
+      backgroundColor: lighten(0.05, theme.palette.background.default)
+    }
   },
   contentContent: {
     color: theme.palette.common.gray

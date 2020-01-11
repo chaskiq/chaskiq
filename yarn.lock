@@ -122,6 +122,13 @@
   dependencies:
     regenerator-runtime "^0.13.2"
 
+"@babel/runtime@^7.5.5":
+  version "7.7.7"
+  resolved "https://registry.yarnpkg.com/@babel/runtime/-/runtime-7.7.7.tgz#194769ca8d6d7790ec23605af9ee3e42a0aa79cf"
+  integrity sha512-uCnC2JEVAu8AKB5do1WRIsvrdJ0flYx/A/9f/6chdacnEZ7LmavjdsDXr5ksYBegxtuTPR5Va9/+13QF/kFkCA==
+  dependencies:
+    regenerator-runtime "^0.13.2"
+
 "@babel/template@^7.1.0":
   version "7.4.4"
   resolved "https://registry.yarnpkg.com/@babel/template/-/template-7.4.4.tgz#f4b88d1225689a08f5bc3a17483545be9e4ed237"
@@ -1583,21 +1590,21 @@
     mkdirp-promise "^5.0.1"
     mz "^2.5.0"
 
-Dante2@0.5.0-rc20:
-  version "0.5.0-rc20"
-  resolved "https://registry.yarnpkg.com/Dante2/-/Dante2-0.5.0-rc20.tgz#fb62f3c8ec42b1f86a34a45a01116eb2d99d333f"
-  integrity sha512-WAo2brLK4DnzpSeQxq3hAAV7+e6MVf9bhBOpZo5rWUDLdpUagIoNLQaQBRHND7N3I5NZvNzMewECmWKGyBuo+w==
+Dante2@0.5.0-rc22:
+  version "0.5.0-rc22"
+  resolved "https://registry.yarnpkg.com/Dante2/-/Dante2-0.5.0-rc22.tgz#371c7102f4ef76ffcf1c35f51a6ea42261cb16a2"
+  integrity sha512-kT68tc7i6WgN2ozvr0iiuPXR0qDOgYwBUV9bOZnqwt1HmWhnsXrI+V7LcR7tQAIALhH7R/zuTDO/1wWkX5L8jQ==
   dependencies:
     axios "^0.18.0"
     draft-convert "^2.1.2"
-    draft-js "0.11.0-beta3"
+    draft-js "0.11.4"
     draft-js-custom-styles "^2.1.1"
     draft-js-export-html "^1.2.0"
     draft-js-multidecorators "^1.0.0"
     draft-js-prism "^1.0.6"
     polished "^3.4.0"
     prismjs "^1.15.0"
-    react "^16.2.0"
+    react "^16.8.0"
     react-color "^2.13.8"
     react-dev-utils "^5.0.0"
     react-dom "^16.2.0"
@@ -4861,6 +4868,15 @@ draft-convert@^2.1.2:
     immutable "~3.7.4"
     invariant "^2.2.1"
 
+draft-convert@^2.1.8:
+  version "2.1.8"
+  resolved "https://registry.yarnpkg.com/draft-convert/-/draft-convert-2.1.8.tgz#0508efafeea79e11e5793ba771948128ba151291"
+  integrity sha512-69etPa5JzZVELs4Lzobgxes1oka5IUyJC+NVIVnA9HPO5eOYLqAONFYxmav1vJjYyHsabq/20nSXj2MtIIQ4Fg==
+  dependencies:
+    "@babel/runtime" "^7.5.5"
+    immutable "~3.7.4"
+    invariant "^2.2.1"
+
 draft-js-custom-styles@^2.1.1:
   version "2.1.1"
   resolved "https://registry.yarnpkg.com/draft-js-custom-styles/-/draft-js-custom-styles-2.1.1.tgz#35bbbe7787531c723d2efe2b642cca6e6fc0ccf6"
@@ -4896,14 +4912,14 @@ draft-js-utils@^1.4.0:
   resolved "https://registry.yarnpkg.com/draft-js-utils/-/draft-js-utils-1.4.0.tgz#c60af198108f69b0f1df3572555b23836819d1cf"
   integrity sha512-8s9FFuKC+lOWGwJ0b3om2PF+uXrqQPaEQlPJI7UxdzxTYGMeKouMPA9+YlPn52zcAVElIZtd2tXj6eQmvlKelw==
 
-draft-js@0.11.0-beta3, draft-js@^0.11.0-beta3:
-  version "0.11.0-beta3"
-  resolved "https://registry.yarnpkg.com/draft-js/-/draft-js-0.11.0-beta3.tgz#4ffb2b7b5571274355fc9929bb0908f9d5264509"
-  integrity sha512-EDsLp4fPnWwzGQQy3JO/T1WgtnzgjTHGVU4LiJ9UNV0QW6+Vy2Y1y3x0x61bWsNhpxq+xkZ3lEv72a/4XPAy3A==
+draft-js@0.11.4, draft-js@^0.11.4:
+  version "0.11.4"
+  resolved "https://registry.yarnpkg.com/draft-js/-/draft-js-0.11.4.tgz#e48782b96b90a5c14f2cb34c164c2a1a359d8a48"
+  integrity sha512-BLZ59s0vkDj/zI8UPo9Nit/hPsl11ztDejxDCQlVbvEXJSWrTXqO6ZYgdw3hXLtuojq/URqq3wTrpnb3dvzvLA==
   dependencies:
     fbjs "^1.0.0"
     immutable "~3.7.4"
-    object-assign "^4.1.0"
+    object-assign "^4.1.1"
 
 duplexer@^0.1.1:
   version "0.1.1"
@@ -10634,14 +10650,14 @@ react-dom@16.8.0:
     scheduler "^0.13.0"
 
 react-dom@^16.2.0:
-  version "16.8.6"
-  resolved "https://registry.yarnpkg.com/react-dom/-/react-dom-16.8.6.tgz#71d6303f631e8b0097f56165ef608f051ff6e10f"
-  integrity sha512-1nL7PIq9LTL3fthPqwkvr2zY7phIPjYrT0jp4HjyEQrEROnw4dG41VVwi/wfoCneoleqrNX7iAD+pXebJZwrwA==
+  version "16.12.0"
+  resolved "https://registry.yarnpkg.com/react-dom/-/react-dom-16.12.0.tgz#0da4b714b8d13c2038c9396b54a92baea633fe11"
+  integrity sha512-LMxFfAGrcS3kETtQaCkTKjMiifahaMySFDn71fZUNpPHZQEzmk/GiAeIT8JSOrHB23fnuCOMruL2a8NYlw+8Gw==
   dependencies:
     loose-envify "^1.1.0"
     object-assign "^4.1.1"
     prop-types "^15.6.2"
-    scheduler "^0.13.6"
+    scheduler "^0.18.0"
 
 react-double-scrollbar@0.0.15:
   version "0.0.15"
@@ -10911,15 +10927,14 @@ react@16.8.0:
     prop-types "^15.6.2"
     scheduler "^0.13.0"
 
-react@^16.2.0:
-  version "16.8.6"
-  resolved "https://registry.yarnpkg.com/react/-/react-16.8.6.tgz#ad6c3a9614fd3a4e9ef51117f54d888da01f2bbe"
-  integrity sha512-pC0uMkhLaHm11ZSJULfOBqV4tIZkx87ZLvbbQYunNixAAvjnC+snJCg0XQXn9VIsttVsbZP/H/ewzgsd5fxKXw==
+react@^16.8.0:
+  version "16.12.0"
+  resolved "https://registry.yarnpkg.com/react/-/react-16.12.0.tgz#0c0a9c6a142429e3614834d5a778e18aa78a0b83"
+  integrity sha512-fglqy3k5E+81pA8s+7K0/T3DBCF0ZDOher1elBFzF7O6arXJgzyu/FW+COxFvAWXJoJN9KIZbT2LXlukwphYTA==
   dependencies:
     loose-envify "^1.1.0"
     object-assign "^4.1.1"
     prop-types "^15.6.2"
-    scheduler "^0.13.6"
 
 reactcss@^1.2.0:
   version "1.2.3"
@@ -11657,10 +11672,18 @@ sax@^1.2.4, sax@~1.2.1:
   resolved "https://registry.yarnpkg.com/sax/-/sax-1.2.4.tgz#2816234e2378bddc4e5354fab5caa895df7100d9"
   integrity sha512-NqVDv9TpANUjFm0N8uM5GxL36UgKi9/atZw+x7YFnQ8ckwFGKrl4xX4yWtrey3UJm5nP1kUbnYgLopqWNSRhWw==
 
-scheduler@^0.13.0, scheduler@^0.13.6:
+scheduler@^0.13.0:
   version "0.13.6"
   resolved "https://registry.yarnpkg.com/scheduler/-/scheduler-0.13.6.tgz#466a4ec332467b31a91b9bf74e5347072e4cd889"
   integrity sha512-IWnObHt413ucAYKsD9J1QShUKkbKLQQHdxRyw73sw4FN26iWr3DY/H34xGPe4nmL1DwXyWmSWmMrA9TfQbE/XQ==
+  dependencies:
+    loose-envify "^1.1.0"
+    object-assign "^4.1.1"
+
+scheduler@^0.18.0:
+  version "0.18.0"
+  resolved "https://registry.yarnpkg.com/scheduler/-/scheduler-0.18.0.tgz#5901ad6659bc1d8f3fdaf36eb7a67b0d6746b1c4"
+  integrity sha512-agTSHR1Nbfi6ulI0kYNK0203joW2Y5W4po4l+v03tOoiJKpTBbxpNhWDvqc/4IcOw+KLmSiQLTasZ4cab2/UWQ==
   dependencies:
     loose-envify "^1.1.0"
     object-assign "^4.1.1"

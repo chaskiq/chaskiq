@@ -19,7 +19,7 @@ import {
 } from 'draft-js'; // { compose
 
 import customHTML2Content from './html2Content' //'Dante2/package/es/utils/html2content.js'
-
+import Loader from './loader'
 //
 
 import {imageUpload} from './uploader'
@@ -91,6 +91,19 @@ const Input = styled.textarea`
     :-moz-placeholder { /* Firefox 18- */
       color: "#999";
     }
+
+    :disabled::-webkit-input-placeholder { /* WebKit browsers */
+        color: "#f3f3f3";
+    }
+    :disabled:-moz-placeholder { /* Mozilla Firefox 4 to 18 */
+        color: "#f3f3f3";
+    }
+    :disabled::-moz-placeholder { /* Mozilla Firefox 19+ */
+        color: "#f3f3f3";
+    }
+    :disabled:-ms-input-placeholder { /* Internet Explorer 10+ */
+        color: "#f3f3f3";
+    }
 }
 `
 
@@ -118,7 +131,11 @@ const EditorButtons = styled.div`
 
       border-width: 0px;
       outline:none;
-      
+
+      &:disabled{
+        opacity: 0.5; 
+        pointer-events: none;
+      }
 
       svg{
         width: 26px;
@@ -175,7 +192,7 @@ export default class UnicornEditor extends Component {
       text: '',
       emojiEnabled: false,
       giphyEnabled: false,
-      loading: false
+      loading: false,
     }
   }
 
@@ -308,7 +325,7 @@ export default class UnicornEditor extends Component {
       {
         domain: this.props.domain,
         onLoading: ()=>{
-
+          this.setLock(true)
         },
         onError: (err)=>{
           alert("error uploading")
@@ -316,11 +333,18 @@ export default class UnicornEditor extends Component {
         },
         onSuccess: (attrs)=> {
           this.submitImage(attrs.link)
+          this.setLock(false)
         }
       },
       "dd",
       false
     )
+  }
+
+  setLock = (val)=>{
+    this.setState({
+      loading: val
+    })
   }
 
   handleInputClick = ()=>{
@@ -351,9 +375,6 @@ export default class UnicornEditor extends Component {
               </EmojiBlock> 
           }
 
-          
-        
-
           {
             this.state.giphyEnabled ? 
               <GiphyPicker 
@@ -362,32 +383,53 @@ export default class UnicornEditor extends Component {
               /> : null
           }
 
+          
+
           <Input 
             onKeyPress={this.handleReturn}
             placeholder={this.props.t("editor.placeholder")} 
+            disabled={this.state.loading}
             ref={comp => this.input = comp}>
           </Input>
 
           <EditorButtons>
 
-            <button onClick={this.toggleEmojiClick}>
+            {
+              this.state.loading && 
+              <Loader xs wrapperStyle={{
+                opacity: '0.5',
+                padding: '0px',
+                paddingRight: '12px'
+              }}/>
+            }
+
+            <button 
+              disabled={this.state.loading}
+              onClick={this.toggleEmojiClick}>
               <EmojiIcon/>
             </button>
 
-            <button onClick={this.toggleGiphy}>
+            <button 
+              disabled={this.state.loading}
+              onClick={this.toggleGiphy}>
               <GifIcon/>
             </button>
           
-            <button onClick={this.handleInputClick}>
+            <button 
+              disabled={this.state.loading}
+              onClick={this.handleInputClick}>
               <AttachIcon/>
-              <input type="file" 
-                ref="upload_input" 
+              <input 
+                type="file" 
+                ref="upload_input"
+                style={{display: 'none'}} 
                 onChange={this.handleUpload}
               />
             </button>
          
 
           </EditorButtons>
+
         </EditorContainer>
 
       </EditorWrapper>
