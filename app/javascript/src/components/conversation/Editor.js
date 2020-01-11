@@ -98,7 +98,7 @@ export default class ConversationEditor extends Component {
                   <NewEditor
                     insertAppBlockComment={this.props.insertAppBlockComment}
                     submitData={(formats)=> this.submitData(formats, opts)}
-                    //saveContentCallback={(content)=> this.handleTyping(content)}
+                    saveContentCallback={(content)=> this.handleTyping(content)}
                     {...this.props}
                     
                   /> : null
