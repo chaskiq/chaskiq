@@ -8,5 +8,6 @@ module Types
     field :os, String, null: true
     field :browser_version, String, null: true
     field :browser_name, String, null: true
+    field :created_at, GraphQL::Types::ISO8601DateTime, null: true
   end
 end
