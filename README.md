@@ -87,6 +87,11 @@ To get your environment setup, follow the community setup guide for your operati
 1. If you want to develop on Docker [Docker Dev Guide](https://dev.chaskiq.io/en/articles/docker-for-development)
 
 
+
+
+
+
+
 Before you get started, ensure you have the following minimum versions: [Ruby 2.6+](https://www.ruby-lang.org/en/downloads/), [PostgreSQL 10+](https://www.postgresql.org/download/), [Redis 2.6+](https://redis.io/download).
 
 ## Setting up Chaskiq
