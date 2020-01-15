@@ -55,7 +55,8 @@ module MessageApis
       @keys['access_token_secret'] =  config["access_token_secret"]
     end
 
-    def register_webhook(url)
+    def register_webhook(app_package, integration)
+      url = CGI.escape("#{ENV['HOST']}/api/v1/hooks/#{integration.app.key}/#{app_package.name.underscore}/#{integration.id}")
       self.make_post_request("/1.1/account_activity/all/development/webhooks.json?url=#{url}", nil)
     end
 
@@ -159,11 +160,11 @@ module MessageApis
   
     end
 
-    def create_hook_from_params(params)
+    def create_hook_from_params(params, package)
       crc_token = params['crc_token']
       if not crc_token.nil?
         response = {}
-        response['response_token'] = "sha256=#{generate_crc_response(settings.dm_api_consumer_secret, crc_token)}"
+        response['response_token'] = "sha256=#{generate_crc_response(package.api_secret, crc_token)}"
         response
       end
     end

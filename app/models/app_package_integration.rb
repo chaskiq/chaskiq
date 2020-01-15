@@ -25,11 +25,14 @@ class AppPackageIntegration < ApplicationRecord
     "MessageApis::#{app_package.name}".constantize.new(self.settings)
   end
 
-  def handle_registration
+  def register_hook
     klass = message_api_klass
-    url = CGI.escape("https://6404e5bc.ngrok.io/api/v1/hooks/#{app.key}/#{app_package.name.underscore}/#{self.id}")
-    klass.register_webhook(url)
+    response = klass.register_webhook(app_package, self)
     klass.subscribe_to_events
+  end
+
+  def create_hook_from_params(params)
+    klass = message_api_klass.create_hook_from_params(params, self)
   end
   
 end
