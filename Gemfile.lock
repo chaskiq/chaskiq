@@ -316,6 +316,7 @@ GEM
     nio4r (2.5.2)
     nokogiri (1.10.7)
       mini_portile2 (~> 2.4.0)
+    oauth (0.5.4)
     oauth2 (1.4.2)
       faraday (>= 0.8, < 2.0)
       jwt (>= 1.0, < 3.0)
@@ -580,6 +581,7 @@ DEPENDENCIES
   mini_magick (~> 4.8)
   mustache
   nightfury!
+  oauth (~> 0.5.4)
   omniauth-oauth2
   pg
   pg_search
@@ -623,4 +625,4 @@ RUBY VERSION
    ruby 2.6.3p62
 
 BUNDLED WITH
-   2.1.2
+   2.1.3
