@@ -3,13 +3,13 @@ class Api::V1::Hooks::ProviderController < ApplicationController
   before_action :find_application_package
 
   def create
-    response = @integration_pkg.message_api_klass.create_hook_from_params(params)
+    response = @integration_pkg.create_hook_from_params(params)
     render status: 200 , json: response.to_json
   end
 
   def process_event
     @integration_pkg.message_api_klass.process_event(params)
-    render status: 200
+    render status: 200, json: {}
   end
 
   def find_application_package
