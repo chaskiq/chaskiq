@@ -63,9 +63,15 @@ Rails.application.routes.draw do
   get 'tester/:id/:id2/id3' => 'client_tester#show'
   get 'tester/:id/:id2/id3/:id4' => 'client_tester#show'
 
+  
+
   scope path: '/api' do
     scope path: '/v1' do
       resources :hooks, only: [:create], controller: 'api/v1/hooks'
+      
+      get 'hooks/:app_key/:provider/:id' => 'api/v1/hooks/provider#create'
+      post 'hooks/:app_key/:provider/:id' => 'api/v1/hooks/provider#process_event'
+
       resources :direct_uploads, only: [:create], controller: 'api/v1/direct_uploads'
       resources :apps, controller: 'api/v1/apps' do
         member do
