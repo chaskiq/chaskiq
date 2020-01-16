@@ -8,7 +8,10 @@ class Conversation < ApplicationRecord
   belongs_to :app
   belongs_to :assignee, class_name: 'Agent', optional: true
   belongs_to :main_participant, class_name: 'AppUser', optional: true # , foreign_key: "user_id"
+  has_one :conversation_source, dependent: :destroy
   has_many :messages, class_name: 'ConversationPart', dependent: :destroy
+
+  accepts_nested_attributes_for :conversation_source
 
   after_create :convert_visitor_to_lead, if: :visitor_participant?
 

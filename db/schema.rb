@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_12_25_065950) do
+ActiveRecord::Schema.define(version: 2020_01_16_184447) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -412,6 +412,15 @@ ActiveRecord::Schema.define(version: 2019_12_25_065950) do
     t.index ["string"], name: "index_conversation_parts_on_string"
   end
 
+  create_table "conversation_sources", force: :cascade do |t|
+    t.bigint "conversation_id", null: false
+    t.bigint "app_package_integration_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["app_package_integration_id"], name: "index_conversation_sources_on_app_package_integration_id"
+    t.index ["conversation_id"], name: "index_conversation_sources_on_conversation_id"
+  end
+
   create_table "conversations", force: :cascade do |t|
     t.string "key"
     t.bigint "app_id"
@@ -602,6 +611,8 @@ ActiveRecord::Schema.define(version: 2019_12_25_065950) do
   add_foreign_key "collection_sections", "article_collections"
   add_foreign_key "conversation_parts", "app_users"
   add_foreign_key "conversation_parts", "conversations"
+  add_foreign_key "conversation_sources", "app_package_integrations"
+  add_foreign_key "conversation_sources", "conversations"
   add_foreign_key "conversations", "apps"
   add_foreign_key "metrics", "app_users"
   add_foreign_key "oauth_access_grants", "agents", column: "resource_owner_id"
