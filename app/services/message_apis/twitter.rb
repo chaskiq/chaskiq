@@ -169,32 +169,95 @@ module MessageApis
       end
     end
 
-    def process_event(params)
+    def process_event(params, package)
+
+      app = package.app
+
       if params.keys.include?('direct_message_events')
         params['direct_message_events'].each do |message|
           
+          sender_id = message["message_create"]["sender_id"]
+
           message_text = message["message_create"]["message_data"]["text"]
           sender = params["users"][ message["message_create"]["sender_id"] ]
+          recipient = params["users"][ message["message_create"]["target"]["recipient_id"] ]
+          
+          agent_required = nil
+
+          if sender_id == params['for_user_id'] 
+            agent_required = true
+            twitter_user = recipient
+          else
+            twitter_user = sender
+          end
   
-          sender_name = sender["name"]
-          sender_twitter_id = sender["id"]
-  
-          response = {
-            message_id: message["id"],
-            message_text: message_text,
-            sender: sender,
-            sender_name: sender_name,
-            sender_twitter_id: sender_twitter_id
-          }.to_json
-  
-          puts response
-  
-          ## create conversation
-  
+          data = {
+            properties: {
+              name: sender["name"],
+              twitter_id: twitter_user["id"]
+            }
+          }
+          
+          participant = app.app_users.where(
+            "properties->>'twitter_id' = ?", twitter_user["id"]
+          ).first
+
+          ## todo: check user for this & previous conversation
+          ## via twitter with the twitter user id
+          participant = app.add_anonymous_user(data) if participant.blank?
+
+          conversation = participant.conversations
+          .joins(:conversation_source)
+          .where("conversation_sources.app_package_integration_id =?", package.id)
+          .first
+
+          conversation = app.conversations.create(
+            main_participant: participant,
+            conversation_source_attributes:{
+              app_package_integration: package
+            } 
+          ) unless conversation.present?
+
+          message = {
+            html_content: message_text,
+          }
+
+          conversation.add_message(
+            from: agent_required ? Agent.first : participant,
+            message: message,
+            check_assignment_rules: true
+          )
         end
       end
+    end
 
+    def message_create_header(recipient_id)
 
+      header = {}
+  
+      header['type'] = 'message_create'
+      header['message_create'] = {}
+      header['message_create']['target'] = {}
+      header['message_create']['target']['recipient_id'] = "#{recipient_id}"
+  
+      header
+  
+    end
+
+    def send_message(conversation, message)
+      event = {}
+      event['event'] = message_create_header(
+        conversation.main_participant.properties['twitter_id']
+      )
+
+      plain_message = JSON.parse(
+        message[:message][:serialized_content]
+      )["blocks"].map{|o| o["text"]}.join("\r\n")
+  
+      message_data = {}
+      message_data['text'] = plain_message
+      event['event']['message_create']['message_data'] = message_data
+      make_post_request("/1.1/direct_messages/events/new.json", event.to_json)
     end
 
     def generate_crc_response(consumer_secret, crc_token)

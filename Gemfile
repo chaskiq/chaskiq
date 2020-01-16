@@ -109,8 +109,6 @@ gem 'rack-cors', '~> 1.0'
 gem 'biz', '~> 1.8'
 gem 'i18n-js', '~> 3.3'
 
-gem 'twitter'
-
 gem 'globalize', github: 'globalize/globalize'
 
 # Reduces boot times through caching; required in config/boot.rb
