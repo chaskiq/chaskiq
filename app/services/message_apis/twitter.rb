@@ -61,7 +61,13 @@ module MessageApis
     end
 
     def get_webhooks
-      self.make_get_request("/1.1/account_activity/all/development/webhooks.json")
+      JSON.parse(self.make_get_request("/1.1/account_activity/all/development/webhooks.json"))
+    end
+
+    def delete_webhooks
+      get_webhooks.each do |o|
+        delete_webhook( o["id"] )
+      end
     end
 
     def delete_webhook(id)
@@ -178,9 +184,15 @@ module MessageApis
           
           sender_id = message["message_create"]["sender_id"]
 
-          message_text = message["message_create"]["message_data"]["text"]
+          text = message["message_create"]["message_data"]["text"]
+
+          serialized_content = serialize_content(text)
+          
           sender = params["users"][ message["message_create"]["sender_id"] ]
-          recipient = params["users"][ message["message_create"]["target"]["recipient_id"] ]
+          
+          recipient = params["users"][ 
+            message["message_create"]["target"]["recipient_id"] 
+          ]
           
           agent_required = nil
 
@@ -218,13 +230,12 @@ module MessageApis
             } 
           ) unless conversation.present?
 
-          message = {
-            html_content: message_text,
-          }
-
           conversation.add_message(
             from: agent_required ? Agent.first : participant,
-            message: message,
+            message: {
+              html_content: text,
+              serialized_content: serialized_content
+            },
             check_assignment_rules: true
           )
         end
@@ -263,6 +274,26 @@ module MessageApis
     def generate_crc_response(consumer_secret, crc_token)
       hash = OpenSSL::HMAC.digest('sha256', consumer_secret, crc_token)
       return Base64.encode64(hash).strip!
+    end
+
+    def serialize_content(text)
+      lines = text.split("\n").delete_if(&:empty?)
+      {
+        "blocks": lines.map{|o| serialized_block(o)} ,
+        "entityMap":{}
+      }.to_json
+    end
+
+    def serialized_block(text)
+      {
+        "key":"f1qmb",
+        "text": text,
+        "type":"unstyled",
+        "depth":0,
+        "inlineStyleRanges":[],
+        "entityRanges":[],
+        "data":{}
+      }
     end
 
   end
