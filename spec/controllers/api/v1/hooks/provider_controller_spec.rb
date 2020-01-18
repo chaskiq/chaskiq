@@ -172,123 +172,124 @@ RSpec.describe Api::V1::Hooks::ProviderController, type: :controller do
     }
   end
 
-  def media_data(id)
+  def image_data
     {
-      "for_user_id"=>"7472512", 
-      "direct_message_events"=>[
-        {
-          "type"=>"message_create", 
-          "id"=>"1218022650947260420", 
-          "created_timestamp"=>"1579234204409", 
-          "message_create"=>{
-            "target"=>{
-              "recipient_id"=>"7472512"
-            }, 
-            "sender_id"=>"1140620289006551040", 
-            "message_data"=>{
-              "text"=>" https://t.co/EqgUwK77ad", 
-              "entities"=>{
-                "hashtags"=>[], 
-                "symbols"=>[], 
-                "user_mentions"=>[], 
-                "urls"=>[
-                  {
-                    "url"=>"https://t.co/EqgUwK77ad", 
-                    "expanded_url"=>"https://twitter.com/messages/media/1218022650947260420", 
-                    "display_url"=>"pic.twitter.com/EqgUwK77ad", 
-                    "indices"=>[1, 24]
-                  }
-                ]
+      "text"=>" https://t.co/dOLqpmn7zX", 
+      "entities"=>{
+        "hashtags"=>[], 
+        "symbols"=>[], 
+        "user_mentions"=>[], 
+        "urls"=>[
+          {
+            "url"=>"https://t.co/dOLqpmn7zX", 
+            "expanded_url"=>"https://twitter.com/messages/media/1218168691763924998", 
+            "display_url"=>"pic.twitter.com/dOLqpmn7zX", 
+            "indices"=>[1, 24]
+          }
+        ]
+      }, 
+      "attachment"=>{
+        "type"=>"media", 
+        "media"=>{
+          "id"=>1218168684226711552, 
+          "id_str"=>"1218168684226711552", 
+          "indices"=>[1, 24], 
+          "media_url"=>"https://ton.twitter.com/1.1/ton/data/dm/1218168691763924998/1218168684226711552/7WY9gUyS.jpg", 
+          "media_url_https"=>"https://ton.twitter.com/1.1/ton/data/dm/1218168691763924998/1218168684226711552/7WY9gUyS.jpg", 
+          "url"=>"https://t.co/dOLqpmn7zX", 
+          "display_url"=>"pic.twitter.com/dOLqpmn7zX", 
+          "expanded_url"=>"https://twitter.com/messages/media/1218168691763924998", 
+          "type"=>"photo", 
+          "sizes"=>{
+            "thumb"=>{
+              "w"=>150, "h"=>150, "resize"=>"crop"
               }, 
-              "attachment"=>{
-                "type"=>"media", 
-                "media"=>{
-                  "id"=>1218022642336325632, 
-                  "id_str"=>"1218022642336325632", 
-                  "indices"=>[1, 24], 
-                  "media_url"=>"https://pbs.twimg.com/dm_gif_preview/1218022642336325632/UF-L2NL0RH3sLnu8V99AR2WbIYKXyy3OhL4E0YEw6cK-LcJ92Q.jpg", 
-                  "media_url_https"=>"https://pbs.twimg.com/dm_gif_preview/1218022642336325632/UF-L2NL0RH3sLnu8V99AR2WbIYKXyy3OhL4E0YEw6cK-LcJ92Q.jpg", 
-                  "url"=>"https://t.co/EqgUwK77ad", 
-                  "display_url"=>"pic.twitter.com/EqgUwK77ad", 
-                  "expanded_url"=>"https://twitter.com/messages/media/1218022650947260420", 
-                  "type"=>"animated_gif", 
-                  "sizes"=>{
-                    "thumb"=>{
-                      "w"=>150, 
-                      "h"=>150, 
-                      "resize"=>"crop"
-                    }, 
-                    "large"=>{
-                      "w"=>262, 
-                      "h"=>200, 
-                      "resize"=>"fit"
-                    }, 
-                    "small"=>{
-                      "w"=>262, 
-                      "h"=>200, 
-                      "resize"=>"fit"
-                    }, 
-                    "medium"=>{
-                      "w"=>262, 
-                      "h"=>200, 
-                      "resize"=>"fit"
-                    }
-                  }, 
-                  "video_info"=>{
-                    "aspect_ratio"=>[131, 100], 
-                    "variants"=>[
-                      {
-                        "bitrate"=>0, 
-                        "content_type"=>"video/mp4", 
-                        "url"=>"https://video.twimg.com/dm_gif/1218022642336325632/UF-L2NL0RH3sLnu8V99AR2WbIYKXyy3OhL4E0YEw6cK-LcJ92Q.mp4"
-                      }
-                    ]
-                  }
-                }
-              }
+            "small"=>{
+                "w"=>680, 
+                "h"=>680, 
+                "resize"=>"fit"
+              }, 
+            "medium"=>{
+                "w"=>1080, 
+                "h"=>1080, 
+                "resize"=>"fit"
+              }, 
+            "large"=>{
+                "w"=>1080, 
+                "h"=>1080, 
+                "resize"=>"fit"
             }
           }
         }
-      ], 
-                    
-      "users"=>{
-        "1140620289006551040"=>{
-          "id"=>"1140620289006551040", 
-          "created_timestamp"=>"1560780043375", 
-          "name"=>"Chaskiq", 
-          "screen_name"=>"Chaskiqapp", 
-          "description"=>"chaskiq is an open source solution for conversational marketing , repo at https://t.co/Ewm6NlNbb4", 
-          "url"=>"https://t.co/GpWQHghDlj", 
-          "protected"=>false, 
-          "verified"=>false, 
-          "followers_count"=>13, 
-          "friends_count"=>99, 
-          "statuses_count"=>1, 
-          "profile_image_url"=>"http://pbs.twimg.com/profile_images/1216829066944401414/Og9kvEko_normal.png", 
-          "profile_image_url_https"=>"https://pbs.twimg.com/profile_images/1216829066944401414/Og9kvEko_normal.png"
-        }, 
-        "7472512"=>{
-          "id"=>"7472512", 
-          "created_timestamp"=>"1184426915000", 
-          "name"=>"miguel michelson", 
-          "screen_name"=>"michelson", 
-          "location"=>"Chile", 
-          "description"=>"for (;;) {}", 
-          "url"=>"https://t.co/tiYdbaWQbN", 
-          "protected"=>false, 
-          "verified"=>false, 
-          "followers_count"=>508, 
-          "friends_count"=>763, 
-          "statuses_count"=>2077, 
-          "profile_image_url"=>"http://pbs.twimg.com/profile_images/803087380156661761/BGscrAur_normal.jpg", 
-          "profile_image_url_https"=>"https://pbs.twimg.com/profile_images/803087380156661761/BGscrAur_normal.jpg"
+      }
+    }
+  end
+
+  def video_data
+
+    {
+      "text"=>" https://t.co/EqgUwK77ad", 
+      "entities"=>{
+        "hashtags"=>[], 
+        "symbols"=>[], 
+        "user_mentions"=>[], 
+        "urls"=>[
+          {
+            "url"=>"https://t.co/EqgUwK77ad", 
+            "expanded_url"=>"https://twitter.com/messages/media/1218022650947260420", 
+            "display_url"=>"pic.twitter.com/EqgUwK77ad", 
+            "indices"=>[1, 24]
+          }
+        ]
+      }, 
+      "attachment"=>{
+        "type"=>"media", 
+        "media"=>{
+          "id"=>1218022642336325632, 
+          "id_str"=>"1218022642336325632", 
+          "indices"=>[1, 24], 
+          "media_url"=>"https://pbs.twimg.com/dm_gif_preview/1218022642336325632/UF-L2NL0RH3sLnu8V99AR2WbIYKXyy3OhL4E0YEw6cK-LcJ92Q.jpg", 
+          "media_url_https"=>"https://pbs.twimg.com/dm_gif_preview/1218022642336325632/UF-L2NL0RH3sLnu8V99AR2WbIYKXyy3OhL4E0YEw6cK-LcJ92Q.jpg", 
+          "url"=>"https://t.co/EqgUwK77ad", 
+          "display_url"=>"pic.twitter.com/EqgUwK77ad", 
+          "expanded_url"=>"https://twitter.com/messages/media/1218022650947260420", 
+          "type"=>"animated_gif", 
+          "sizes"=>{
+            "thumb"=>{
+              "w"=>150, 
+              "h"=>150, 
+              "resize"=>"crop"
+            }, 
+            "large"=>{
+              "w"=>262, 
+              "h"=>200, 
+              "resize"=>"fit"
+            }, 
+            "small"=>{
+              "w"=>262, 
+              "h"=>200, 
+              "resize"=>"fit"
+            }, 
+            "medium"=>{
+              "w"=>262, 
+              "h"=>200, 
+              "resize"=>"fit"
+            }
+          }, 
+          "video_info"=>{
+            "aspect_ratio"=>[131, 100], 
+            "variants"=>[
+              {
+                "bitrate"=>0, 
+                "content_type"=>"video/mp4", 
+                "url"=>"https://video.twimg.com/dm_gif/1218022642336325632/UF-L2NL0RH3sLnu8V99AR2WbIYKXyy3OhL4E0YEw6cK-LcJ92Q.mp4"
+              }
+            ]
+          }
         }
-    }, 
-          
-      "app_key"=>"PrpNp6p9CCvXu_QkZZufOA", 
-      "provider"=>"twitter", 
-      "id"=>"21"
-  }
+      }
+    }
+
   end
 
   let!(:app) do
@@ -423,6 +424,41 @@ RSpec.describe Api::V1::Hooks::ProviderController, type: :controller do
       blocks = JSON.parse(message.serialized_content)["blocks"]
 
       expect(blocks.size).to be == 4
+    end
+
+
+    it "receive text with video/gif" do
+
+      get(:process_event, params: data_for(
+          id: @pkg.id, 
+          sender: twitter_user, 
+          recipient: twitter_owner,
+          message_data: video_data
+        )
+      )
+
+      message = app.conversations.first.messages.first.messageable
+      
+      blocks = JSON.parse(message.serialized_content)["blocks"]
+      block  = blocks.first
+      type = block["type"]
+      expect(type).to be == "recorded-video"
+    end
+
+    it "receive text with photo" do
+      get(:process_event, params: data_for(
+          id: @pkg.id, 
+          sender: twitter_user, 
+          recipient: twitter_owner,
+          message_data: image_data
+        )
+      )
+
+      message = app.conversations.first.messages.first.messageable
+      blocks = JSON.parse(message.serialized_content)["blocks"]
+      block  = blocks.first
+      type = block["type"]
+      expect(type).to be == "image"
     end
 
     #it "reply from agent locally" do

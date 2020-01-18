@@ -8,7 +8,7 @@ class Api::V1::Hooks::ProviderController < ApplicationController
   end
 
   def process_event
-    @integration_pkg.process_event(params)
+    HookMessageReceiverJob.perform_now(@integration_pkg.id, params)
     render status: 200, json: {}
   end
 
