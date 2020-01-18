@@ -87,7 +87,6 @@ module MessageApis
       }
   
       @twitter_api = OAuth::AccessToken.from_hash(consumer, token)
-  
     end
   
     def make_post_request(uri_path, request)
@@ -184,9 +183,12 @@ module MessageApis
           
           sender_id = message["message_create"]["sender_id"]
 
-          text = message["message_create"]["message_data"]["text"]
+          message_data = message["message_create"]["message_data"]
+          text = message_data["text"]
 
-          serialized_content = serialize_content(text)
+          serialized_content = serialize_content(
+            message_data
+          )
           
           sender = params["users"][ message["message_create"]["sender_id"] ]
           
@@ -259,7 +261,7 @@ module MessageApis
       event = {}
       event['event'] = message_create_header(
         conversation.main_participant.properties['twitter_id']
-      )
+      )      
 
       plain_message = JSON.parse(
         message[:message][:serialized_content]
@@ -276,12 +278,125 @@ module MessageApis
       return Base64.encode64(hash).strip!
     end
 
-    def serialize_content(text)
+    def serialize_content(data)
+      data.keys.include?("attachment") ? 
+      attachment_block(data) : 
+      text_block(data['text'])
+    end
+
+    def text_block(text)
       lines = text.split("\n").delete_if(&:empty?)
       {
         "blocks": lines.map{|o| serialized_block(o)} ,
         "entityMap":{}
       }.to_json
+    end
+
+    def attachment_block(data)
+      attachment = data['attachment']
+      a = case attachment["type"]
+      when "media" then media_block(data)
+      end
+
+      lines = data['text'].gsub(attachment["media"]["url"], "")
+                          .split("\n").delete_if(&:empty?) 
+  
+      text_blocks = lines.map{|o| serialized_block(o)}
+
+
+      {
+        "blocks": [a , *text_blocks ].compact,
+        "entityMap":{}
+      }.to_json
+    end
+
+    def media_block(data)
+      attachment = data['attachment']
+      attachment["media"]
+
+      case attachment["media"]["type"]
+      when "animated_gif" then gif_block(data)
+      when "photo" then photo_block(data)
+      end
+    end
+
+    def gif_block(data)
+      media = data['attachment']["media"]
+
+      variant = media["video_info"]["variants"][0]
+
+      url = direct_upload(variant["url"], variant["content_type"])
+
+      text = data['text'].split(" ").last
+
+      {
+        "key": keygen,
+        "text": text,
+        "type": "recorded-video",
+        "depth": 0,
+        "inlineStyleRanges": [],
+        "entityRanges": [],
+        "data": {
+          "rejectedReason": "",
+          "secondsLeft": 0,
+          "fileReady": true,
+          "paused": false,
+          "url": url,
+          "recording": false,
+          "granted": true,
+          "loading": false,
+          "direction": "center"
+        }
+      }
+
+    end
+
+    def direct_upload(url, content_type=nil)
+      file_string = get_media(url)
+      file = StringIO.new(file_string)
+
+      blob = ActiveStorage::Blob.create_after_upload!(
+        io: file,
+        filename: "twitter-file",
+        content_type: content_type || "image/jpeg"
+      )
+      
+      Rails.application.routes.url_helpers.rails_blob_path(blob)
+    end
+
+    def photo_block(data)
+
+      media = data['attachment']['media']
+
+      url = direct_upload(media["media_url_https"])
+
+      text = data['text'].split(" ").last
+
+      {
+        "key": keygen,
+        "text": text,
+        "type":"image",
+        "depth":0,
+        "inlineStyleRanges":[],
+        "entityRanges":[],
+        "data":{
+          "aspect_ratio":{
+            "width": media["sizes"]["small"]["w"].to_i,
+            "height": media["sizes"]["small"]["h"].to_i,
+            "ratio":100
+          },
+          "width": media["sizes"]["small"]["w"].to_i,
+          "height": media["sizes"]["small"]["h"].to_i,
+          "caption": data["text"],
+          "forceUpload":false,
+          "url": url,
+          "loading_progress":0,
+          "selected":false,
+          "loading":true,
+          "file":{},
+          "direction":"center"
+        }
+      }
     end
 
     def serialized_block(text)
@@ -294,6 +409,14 @@ module MessageApis
         "entityRanges":[],
         "data":{}
       }
+    end
+
+    def get_media(url)
+      make_get_request(url)
+    end
+
+    def keygen
+      ('a'..'z').to_a.shuffle[0,8].join
     end
 
   end
