@@ -438,7 +438,7 @@ RSpec.describe Api::V1::Hooks::ProviderController, type: :controller do
       )
 
       message = app.conversations.first.messages.first.messageable
-      
+
       blocks = JSON.parse(message.serialized_content)["blocks"]
       block  = blocks.first
       type = block["type"]
@@ -464,6 +464,32 @@ RSpec.describe Api::V1::Hooks::ProviderController, type: :controller do
     #it "reply from agent locally" do
     #  pending #("this test belongs to graphql insert comment")
     #end
+
+    it "soksoks" do
+      get(:process_event, params: data_for(
+          id: @pkg.id, 
+          sender: twitter_user, 
+          recipient: twitter_owner,
+          message_data: image_data
+        )
+      )
+
+      conversation = app.conversations.first
+
+      serialized = '{"blocks":[{"key":"f1qmb","text":"pokpokpk","type":"unstyled","depth":0,"inlineStyleRanges":[],"entityRanges":[],"data":{}},{"key":"8pjai","text":"","type":"image","depth":0,"inlineStyleRanges":[],"entityRanges":[],"data":{"aspect_ratio":{"width":1000,"height":539.2545598731166,"ratio":53.92545598731166},"width":1261,"caption":"type a caption (optional)","height":680,"forceUpload":false,"url":"/rails/active_storage/blobs/eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaHBRUT09IiwiZXhwIjpudWxsLCJwdXIiOiJibG9iX2lkIn19--3e2dc661ba180d86b412c2a0c7f559aa1eb1dc0d/Captura%20de%20pantalla%202019-12-12%20a%20la(s)%2000.50.23.png","loading_progress":0,"selected":false,"loading":true,"file":{},"direction":"center"}}],"entityMap":{}}'
+
+      options = {
+        from: app.agents.first,
+        message: {
+          html_content: "aa",
+          serialized_content: serialized,
+          text_content: serialized
+        }
+      }
+      
+      conversation.conversation_source.deliver_message(options)
+
+    end
 
   end
 
