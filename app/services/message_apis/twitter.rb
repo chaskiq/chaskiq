@@ -47,6 +47,7 @@ module MessageApis
   
     def initialize(config={})
       @base_url = 'https://api.twitter.com'
+      @uploader_base_url = 'https://upload.twitter.com'
       @keys = {}
   
       @keys['consumer_key'] = config["api_key"]
@@ -81,12 +82,24 @@ module MessageApis
     #API client object is created with the @base_url context, then individual requests are made with specific URI paths passed in.
   
     def get_api_access
-      consumer = OAuth::Consumer.new(@keys['consumer_key'], @keys['consumer_secret'], {:site => @base_url})
+      consumer = OAuth::Consumer.new(
+        @keys['consumer_key'], 
+        @keys['consumer_secret'], 
+        {:site => @base_url}
+      )
+
+      uploader_consumer = OAuth::Consumer.new(
+        @keys['consumer_key'], 
+        @keys['consumer_secret'], 
+        {:site => @uploader_base_url}
+      )
+
       token = {:oauth_token => @keys['access_token'],
                :oauth_token_secret => @keys['access_token_secret']
       }
   
       @twitter_api = OAuth::AccessToken.from_hash(consumer, token)
+      @twitter_media_api = OAuth::AccessToken.from_hash(uploader_consumer, token)
     end
   
     def make_post_request(uri_path, request)
@@ -263,13 +276,38 @@ module MessageApis
         conversation.main_participant.properties['twitter_id']
       )      
 
-      plain_message = JSON.parse(
+      blocks = JSON.parse(
         message[:message][:serialized_content]
-      )["blocks"].map{|o| o["text"]}.join("\r\n")
+      )["blocks"]
+
+      plain_message = blocks.map{|o| 
+        o["text"]
+      }.join("\r\n")
   
       message_data = {}
       message_data['text'] = plain_message
       event['event']['message_create']['message_data'] = message_data
+
+      image_block = blocks.find{|o| o["type"] == "image"}
+      
+      if image_block.present?
+
+        url = image_block["data"]["url"]
+        url = ENV['HOST'] + url
+
+        if tt = upload_media(url) and tt.present?
+        
+          uploaded_data = JSON.parse(tt)
+
+          attachment = {}
+          attachment['type'] = "media"
+          attachment['media'] = {}
+          attachment['media']['id'] = uploaded_data["media_id_string"]
+          message_data['attachment'] = attachment
+
+        end
+      end
+
       make_post_request("/1.1/direct_messages/events/new.json", event.to_json)
     end
 
@@ -277,6 +315,8 @@ module MessageApis
       hash = OpenSSL::HMAC.digest('sha256', consumer_secret, crc_token)
       return Base64.encode64(hash).strip!
     end
+
+    ## MESSAGE BLOCK METHODS CONVERSION
 
     def serialize_content(data)
       data.keys.include?("attachment") ? 
@@ -419,6 +459,103 @@ module MessageApis
       ('a'..'z').to_a.shuffle[0,8].join
     end
 
+
+    def make_post_media_request(uri_path, request, headers=nil)
+      get_api_access if @twitter_media_api.nil? #token timeout?
+
+      response = @twitter_media_api.post(uri_path, request, 
+        headers || HEADERS
+      )
+  
+      if response.code.to_i >= 300
+        puts "POST ERROR occurred with #{uri_path}, request: #{request} "
+        puts "Error code: #{response.code} #{response}"
+        puts "Error Message: #{response.body}"
+      end
+  
+      if response.body.nil? #Some successful API calls have nil response bodies, but have 2## response codes.
+         return response.code #Examples include 'set subscription', 'get subscription', and 'delete subscription'
+      else
+        return response.body
+      end
+  
+    end
+
+    # @see https://dev.twitter.com/rest/public/uploading-media
+    def upload_media(media, media_category_prefix: 'dm')
+      #return chunk_upload(media, 'video/mp4', "#{media_category_prefix}_video") if File.extname(media) == '.mp4'
+      #return chunk_upload(media, 'image/gif', "#{media_category_prefix}_gif") if File.extname(media) == '.gif' && File.size(media) > 5_000_000
+
+      #return chunk_upload(file, 'image/gif', 
+      #  "#{media_category_prefix}_gif"
+      #) 
+        
+      #if File.extname(media) == '.gif' && File.size(media) > 5_000_000
+
+      require 'base64'
+
+      encoded_string = Base64.encode64(open(media, "rb").read)
+
+      make_post_media_request('/1.1/media/upload.json',
+        { 
+          #key: :media, 
+          media_category: "#{media_category_prefix}_image" ,
+          media: encoded_string
+        },
+        {'Content-Type' => 'multipart/form-data'}
+      )
+
+    end
+
+    # rubocop:disable MethodLength
+    def chunk_upload(media, media_type, media_category)
+      init = make_post_media_request('/1.1/media/upload.json',
+                                        {
+                                          command: 'INIT',
+                                          media_type: media_type,
+                                          media_category: media_category,
+                                          total_bytes: media.size
+                                        },
+                                        {'Content-Type' => 'multipart/form-data'}
+                                      )
+
+      until media.eof?
+        chunk = media.read(5_000_000)
+        seg ||= -1
+
+        make_post_media_request('/1.1/media/upload.json',
+          {
+            command: 'APPEND',
+            media_id: init[:media_id],
+            segment_index: seg += 1,
+            key: :media,
+            file: StringIO.new(chunk)
+          },
+          {'Content-Type' => 'multipart/form-data'}
+        )
+
+        #Twitter::REST::Request.new(self, :multipart_post, 'https://upload.twitter.com/1.1/media/upload.json',
+        #                          command: 'APPEND',
+        #                          media_id: init[:media_id],
+        #                          segment_index: seg += 1,
+        #                          key: :media,
+        #                          file: StringIO.new(chunk)).perform
+      end
+
+      media.close
+
+
+      make_post_media_request('/1.1/media/upload.json',
+        {
+          command: 'FINALIZE', 
+          media_id: init[:media_id]
+        }
+      )
+
+      #Twitter::REST::Request.new(self, :post, 'https://upload.twitter.com/1.1/media/upload.json',
+      #                          command: 'FINALIZE', media_id: init[:media_id]).perform
+    end
+    # rubocop:enable MethodLength
   end
 
 end
