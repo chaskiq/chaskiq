@@ -34,6 +34,9 @@ data = {
 
 =end
 
+require 'base64'
+require 'mimemagic'
+
 module MessageApis
   class Twitter
     BASE_URL = 'https://api.twitter.com'
@@ -293,18 +296,14 @@ module MessageApis
       if image_block.present?
 
         url = image_block["data"]["url"]
-        url = ENV['HOST'] + url
+        url = ENV['HOST'] + url unless image_block["data"]["url"].include?("http")
 
-        if tt = upload_media(url) and tt.present?
-        
-          uploaded_data = JSON.parse(tt)
-
+        if uploaded_data = upload_media(url) and uploaded_data.present?
           attachment = {}
           attachment['type'] = "media"
           attachment['media'] = {}
           attachment['media']['id'] = uploaded_data["media_id_string"]
           message_data['attachment'] = attachment
-
         end
       end
 
@@ -476,86 +475,72 @@ module MessageApis
       if response.body.nil? #Some successful API calls have nil response bodies, but have 2## response codes.
          return response.code #Examples include 'set subscription', 'get subscription', and 'delete subscription'
       else
-        return response.body
+        return JSON.parse(response.body)
       end
   
     end
 
     # @see https://dev.twitter.com/rest/public/uploading-media
     def upload_media(media, media_category_prefix: 'dm')
-      #return chunk_upload(media, 'video/mp4', "#{media_category_prefix}_video") if File.extname(media) == '.mp4'
-      #return chunk_upload(media, 'image/gif', "#{media_category_prefix}_gif") if File.extname(media) == '.gif' && File.size(media) > 5_000_000
 
-      #return chunk_upload(file, 'image/gif', 
-      #  "#{media_category_prefix}_gif"
-      #) 
-        
-      #if File.extname(media) == '.gif' && File.size(media) > 5_000_000
-
-      require 'base64'
-
-      encoded_string = Base64.encode64(open(media, "rb").read)
-
-      make_post_media_request('/1.1/media/upload.json',
-        { 
-          #key: :media, 
-          media_category: "#{media_category_prefix}_image" ,
-          media: encoded_string
-        },
-        {'Content-Type' => 'multipart/form-data'}
-      )
-
+      file = open(media)
+      # TODO: try to get the id of blob in case of Active storage
+      mime = MimeMagic.by_magic(file)
+ 
+      return chunk_upload(file, mime.type, "#{media_category_prefix}_video") if mime.subtype == "mp4"
+      return chunk_upload(file, mime.type, "#{media_category_prefix}_gif") if mime.subtype == "gif" #&& File.size(media) > 5_000_000
+      return chunk_upload(file, mime.type, "#{media_category_prefix}_image") if mime.mediatype == "image"
+      
+      #
+      #make_post_media_request('/1.1/media/upload.json',
+      #  { 
+      #    media_category: "#{media_category_prefix}_image" ,
+      #    media: Base64.encode64(open(media, "rb").read)
+      #  },
+      #  {'Content-Type' => 'multipart/form-data'}
+      #)
     end
 
     # rubocop:disable MethodLength
-    def chunk_upload(media, media_type, media_category)
+    def chunk_upload(file, media_type, media_category)
+
       init = make_post_media_request('/1.1/media/upload.json',
                                         {
                                           command: 'INIT',
                                           media_type: media_type,
                                           media_category: media_category,
-                                          total_bytes: media.size
+                                          total_bytes: file.size
                                         },
                                         {'Content-Type' => 'multipart/form-data'}
                                       )
 
-      until media.eof?
-        chunk = media.read(5_000_000)
+      until file.eof?
+        chunk = file.read(5_000_000)
         seg ||= -1
 
         make_post_media_request('/1.1/media/upload.json',
           {
             command: 'APPEND',
-            media_id: init[:media_id],
+            media_id: init['media_id'],
             segment_index: seg += 1,
-            key: :media,
-            file: StringIO.new(chunk)
+            Name: :media,
+            media_data: Base64.encode64(chunk)
           },
           {'Content-Type' => 'multipart/form-data'}
         )
-
-        #Twitter::REST::Request.new(self, :multipart_post, 'https://upload.twitter.com/1.1/media/upload.json',
-        #                          command: 'APPEND',
-        #                          media_id: init[:media_id],
-        #                          segment_index: seg += 1,
-        #                          key: :media,
-        #                          file: StringIO.new(chunk)).perform
       end
 
-      media.close
-
+      file.close
 
       make_post_media_request('/1.1/media/upload.json',
         {
           command: 'FINALIZE', 
-          media_id: init[:media_id]
+          media_id: init['media_id']
         }
       )
-
-      #Twitter::REST::Request.new(self, :post, 'https://upload.twitter.com/1.1/media/upload.json',
-      #                          command: 'FINALIZE', media_id: init[:media_id]).perform
     end
     # rubocop:enable MethodLength
+
   end
 
 end
