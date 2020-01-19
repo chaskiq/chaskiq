@@ -36,6 +36,7 @@ jobs:
           REDIS_URL: redis://localhost:6379/0
           RAILS_ENV: test
           RAILS_MASTER_KEY: ${{ secrets.RAILS_MASTER_KEY }}
+          HOST: http://localhost:3000
         run: |
           sudo apt-get -yqq install libpq-dev
           gem install bundler
@@ -49,6 +50,7 @@ jobs:
           REDIS_URL: redis://localhost:6379/0
           RAILS_ENV: test
           RAILS_MASTER_KEY: ${{ secrets.RAILS_MASTER_KEY }}
+          HOST: http://localhost:3000
         run: |
           sudo apt-get -yqq install libpq-dev curl
           gem install bundler
