@@ -481,6 +481,7 @@ module MessageApis
     end
 
     # @see https://dev.twitter.com/rest/public/uploading-media
+    # idea taken from twitter gem twitter/rest/upload_utils.rb
     def upload_media(media, media_category_prefix: 'dm')
 
       file = open(media)
