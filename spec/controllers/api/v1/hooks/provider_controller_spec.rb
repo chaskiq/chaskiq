@@ -339,6 +339,10 @@ RSpec.describe Api::V1::Hooks::ProviderController, type: :controller do
       AppPackageIntegration.any_instance
       .stub(:handle_registration)
       .and_return({})
+
+      MessageApis::Twitter.any_instance
+      .stub(:direct_upload)
+      .and_return("foobar")
   
       @pkg = app.app_package_integrations.create(
         api_secret: "aaa",
@@ -428,7 +432,6 @@ RSpec.describe Api::V1::Hooks::ProviderController, type: :controller do
 
 
     it "receive text with video/gif" do
-
       get(:process_event, params: data_for(
           id: @pkg.id, 
           sender: twitter_user, 
@@ -446,6 +449,7 @@ RSpec.describe Api::V1::Hooks::ProviderController, type: :controller do
     end
 
     it "receive text with photo" do
+
       get(:process_event, params: data_for(
           id: @pkg.id, 
           sender: twitter_user, 
@@ -465,7 +469,8 @@ RSpec.describe Api::V1::Hooks::ProviderController, type: :controller do
     #  pending #("this test belongs to graphql insert comment")
     #end
 
-    it "soksoks" do
+    it "send message" do
+
       get(:process_event, params: data_for(
           id: @pkg.id, 
           sender: twitter_user, 
@@ -476,7 +481,43 @@ RSpec.describe Api::V1::Hooks::ProviderController, type: :controller do
 
       conversation = app.conversations.first
 
-      serialized = '{"blocks":[{"key":"f1qmb","text":"pokpokpk","type":"unstyled","depth":0,"inlineStyleRanges":[],"entityRanges":[],"data":{}},{"key":"8pjai","text":"","type":"image","depth":0,"inlineStyleRanges":[],"entityRanges":[],"data":{"aspect_ratio":{"width":1000,"height":539.2545598731166,"ratio":53.92545598731166},"width":1261,"caption":"type a caption (optional)","height":680,"forceUpload":false,"url":"/rails/active_storage/blobs/eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaHBRUT09IiwiZXhwIjpudWxsLCJwdXIiOiJibG9iX2lkIn19--3e2dc661ba180d86b412c2a0c7f559aa1eb1dc0d/Captura%20de%20pantalla%202019-12-12%20a%20la(s)%2000.50.23.png","loading_progress":0,"selected":false,"loading":true,"file":{},"direction":"center"}}],"entityMap":{}}'
+      serialized = '{
+        "blocks":
+        [
+          {
+            "key":"f1qmb",
+            "text":"pokpokpk",
+            "type":"unstyled",
+            "depth":0,
+            "inlineStyleRanges":[],
+            "entityRanges":[],
+            "data":{}
+          },
+          {
+            "key":"8pjai",
+            "text":"",
+            "type":"image",
+            "depth":0,"inlineStyleRanges":[],"entityRanges":[],
+            "data":{
+              "aspect_ratio":{
+                "width":1000,
+                "height":539.2545598731166,
+                "ratio":53.92545598731166},
+                "width":1261,
+                "caption":"type a caption (optional)",
+                "height":680,
+                "forceUpload":false,
+                "url":"/Captura%20de%20pantalla%202019-12-12%20a%20la(s)%2000.50.23.png",
+                "loading_progress":0,
+                "selected":false,
+                "loading":true,
+                "file":{},
+                "direction":"center"
+              }
+            }
+        ],
+          "entityMap":{}
+        }'
 
       options = {
         from: app.agents.first,
@@ -486,7 +527,11 @@ RSpec.describe Api::V1::Hooks::ProviderController, type: :controller do
           text_content: serialized
         }
       }
-      
+
+      MessageApis::Twitter.any_instance.stub(:upload_media).and_return({boomer: "1"})
+
+      expect_any_instance_of(MessageApis::Twitter).to receive(:make_post_request).with(any_args) 
+
       conversation.conversation_source.deliver_message(options)
 
     end
