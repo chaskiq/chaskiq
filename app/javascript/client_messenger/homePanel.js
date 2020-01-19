@@ -199,7 +199,7 @@ const HomePanel = ({
   }
 
   function replyTimeMessage(){
-    return <p>{t(`reply_time.${appData.replyTime}`)}</p>
+    return appData.replyTime && <p>{t(`reply_time.${appData.replyTime}`)}</p>
   }
 
   function sanitizeMessageSummary(message){
