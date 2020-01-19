@@ -296,7 +296,7 @@ module MessageApis
       if image_block.present?
 
         url = image_block["data"]["url"]
-        url = ENV['HOST'] + url unless image_block["data"]["url"].include?("http")
+        url = "#{ENV['HOST']}#{url}" unless image_block["data"]["url"].include?("http")
 
         if uploaded_data = upload_media(url) and uploaded_data.present?
           attachment = {}
