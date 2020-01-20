@@ -28,7 +28,7 @@ script:
 - yarn cypress run
 matrix:
   include:
-  - rvm: 2.6.3
+  - rvm: 2.6.5
     gemfile: Gemfile
 #deploy:
 #  provider: heroku

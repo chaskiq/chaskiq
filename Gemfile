@@ -3,7 +3,7 @@
 source 'https://rubygems.org'
 git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
-ruby '2.6.3'
+ruby '2.6.5'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 # gem 'rails', '~> 5.2.0'
@@ -74,9 +74,10 @@ gem 'jwt'
 gem 'devise_invitable', '~> 2.0'
 gem 'omniauth-oauth2'
 gem "doorkeeper", "~> 5.2"
-
+gem "oauth", "~> 0.5.4"
 
 gem 'image_processing', '~> 1.2'
+gem 'mimemagic'
 
 gem 'sidekiq'
 gem 'sidekiq-cron'
@@ -108,8 +109,6 @@ gem 'rack-cors', '~> 1.0'
 
 gem 'biz', '~> 1.8'
 gem 'i18n-js', '~> 3.3'
-
-gem 'twitter'
 
 gem 'globalize', github: 'globalize/globalize'
 

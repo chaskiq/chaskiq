@@ -106,4 +106,5 @@ class Api::V1::HooksController < ActionController::API
 
     open subscribe_url
   end
+  
 end

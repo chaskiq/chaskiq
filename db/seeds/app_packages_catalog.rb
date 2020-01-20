@@ -116,6 +116,38 @@ class AppPackagesCatalog
             grid: { xs: 12, sm: 12 }
           }
         ]
+      },
+
+      {
+        name: 'Twitter',
+        tag_list: ['channel'],
+        state: 'disabled',
+        description: 'Twitter acount activity integration',
+        icon: 'https://logo.clearbit.com/twitter.com',
+        definitions: [
+          {
+            name: 'api_secret',
+            type: 'string',
+            grid: { xs: 12, sm: 12 }
+          },
+          {
+            name: 'api_key',
+            type: 'string',
+            grid: { xs: 12, sm: 12 }
+          },
+
+          {
+            name: 'access_token',
+            type: 'string',
+            grid: { xs: 12, sm: 12 }
+          },
+
+          {
+            name: 'access_token_secret',
+            type: 'string',
+            grid: { xs: 12, sm: 12 }
+          }
+        ]
       }
     ]
   end
