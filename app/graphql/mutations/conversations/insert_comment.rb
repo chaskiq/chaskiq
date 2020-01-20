@@ -3,7 +3,7 @@
 module Mutations
   module Conversations
     class InsertComment < Mutations::BaseMutation
-      field :message, Types::ConversationPartType, null: false
+      field :message, Types::ConversationPartType, null: true
       argument :app_key, String, required: true
       argument :id, String, required: true
       argument :message, Types::JsonType, required: true
@@ -20,14 +20,21 @@ module Mutations
           author = app_user
         end
 
-        @message = conversation.add_message(
+        options = {
           from: author,
           message: {
             html_content: message['html'],
             serialized_content: message['serialized'],
             text_content: message['serialized']
           }
-        )
+        }
+
+        if conversation.conversation_source.present?
+          conversation.conversation_source.deliver_message(options)
+          return { message: nil }
+        end
+
+        @message = conversation.add_message(options)
         { message: @message }
       end
 
