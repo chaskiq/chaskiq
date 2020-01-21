@@ -68,7 +68,8 @@ Rails.application.routes.draw do
   scope path: '/api' do
     scope path: '/v1' do
       resources :hooks, only: [:create], controller: 'api/v1/hooks'
-      
+
+      get 'oauth/:app_key/:provider/:id' => 'api/v1/hooks/provider#oauth'
       get 'hooks/:app_key/:provider/:id' => 'api/v1/hooks/provider#create'
       post 'hooks/:app_key/:provider/:id' => 'api/v1/hooks/provider#process_event'
 
