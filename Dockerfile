@@ -58,7 +58,19 @@ ENV PATH /app/bin:$PATH
 RUN gem update --system && \
     gem install bundler:$BUNDLER_VERSION
 
+# Install bundle of gems
+WORKDIR /tmp
+ADD Gemfile /tmp/
+ADD Gemfile.lock /tmp/
+RUN bundle install --jobs `expr $(cat /proc/cpuinfo | grep -c "cpu cores") - 1` --retry 3
+
+
 # Create a directory for the app code
 RUN mkdir -p /app
 
 WORKDIR /app
+
+# Install Yarn packages
+ADD package.json /app/
+ADD yarn.lock /app/
+RUN yarn install

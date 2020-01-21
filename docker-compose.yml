@@ -5,11 +5,11 @@ x-app: &app
     context: .
     dockerfile: ./Dockerfile
     args:
-      RUBY_VERSION: '2.6.3'
+      RUBY_VERSION: '2.6.5'
       PG_MAJOR: '11'
       NODE_MAJOR: '10'
       YARN_VERSION: '1.13.0'
-      BUNDLER_VERSION: '2.0.2'
+      BUNDLER_VERSION: '2.1.3'
   environment: &env
     NODE_ENV: development
     RAILS_ENV: ${RAILS_ENV:-development}
@@ -90,7 +90,7 @@ services:
     <<: *app
     command: ./bin/webpack-dev-server
     ports:
-      - '3035:3035'
+      - '3036:3036'
     volumes:
       - .:/app:cached
       - bundle:/usr/local/bundle
