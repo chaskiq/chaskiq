@@ -282,6 +282,19 @@ function Integrations({app, dispatch}){
                           })
                         }
                       </Grid>
+                      <Typography variant="overline" >
+                        This integration will receive webhook at:
+                      </Typography>
+                      <Typography>
+                        {`${window.location.origin}/api/v1/hooks/${app.key}/${open.name.toLocaleLowerCase()}/${open.id}`}
+                      </Typography>
+
+                      <Typography variant="overline" >
+                        Oauth callback:
+                      </Typography>
+                      <Typography>
+                        {`${window.location.origin}/api/v1/oauth/${app.key}/${open.name.toLocaleLowerCase()}/${open.id}`}
+                      </Typography>
                     </form> 
                 }
                 dialogButtons={

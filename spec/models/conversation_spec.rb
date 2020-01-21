@@ -377,4 +377,45 @@ RSpec.describe Conversation, type: :model do
       expect(app.conversations.first.assignee).to be == agent_role2.agent
     end
   end
+
+
+  let!(:app_package) do
+    definitions = [
+      {
+        name: 'access_token_secret',
+        type: 'string',
+        grid: { xs: 12, sm: 12 }
+      }
+    ]
+
+    AppPackage.create(name: 'Slack', definitions: definitions)
+  end
+
+  context 'app package integration' do
+
+    before :each do
+      @pkg = app.app_package_integrations.create(
+        api_secret: "aaa",
+        api_key: "aaa",
+        access_token: "aaa",
+        access_token_secret: "aaa",
+        app_package: app_package,
+        user_id: "michelson"
+      )
+    end
+
+
+    it "create conversation will call slack app" do
+
+      expect_any_instance_of(MessageApis::Slack).to receive(:trigger).with(any_args)
+
+      app.start_conversation(
+        message: { text_content: 'aa' },
+        from: app_user
+      )
+      expect(app.conversations.count).to be == 1
+
+
+    end
+  end
 end
