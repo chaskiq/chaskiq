@@ -41,6 +41,10 @@ class Conversation < ApplicationRecord
     main_participant.is_a?(Visitor)
   end
 
+  def add_started_event
+    events.log(action: :conversation_started)
+  end
+
   def add_created_event
     events.log(action: :conversation_opened)
   end

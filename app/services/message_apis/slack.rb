@@ -41,7 +41,7 @@ module MessageApis
     end
 
     def self.tester
-      api = MessageApis::Slack.new()
+      api = MessageApis::Slack.new
       a = AppPackageIntegration.first
       a.message_api_klass.post_message
     end
@@ -161,7 +161,7 @@ module MessageApis
 
       url = url('/api/channels.join')
 
-      @conn.authorization :Bearer, @keys["user_token"]
+      @conn.authorization :Bearer, @keys["access_token"]
 
       #url = "https://a77c6f48.ngrok.io"
 
@@ -180,12 +180,72 @@ module MessageApis
       action = event.action
 
       case action
-      when "conversations.added" then notify_added(conversation)
+      #when "conversations.added" then notify_added(conversation)
+      when "conversations.started" then notify_added(conversation)
       else
       end
     end
 
     def notify_added(conversation)
+
+      authorize!
+
+      blocks = conversation.messages.map{|o| 
+        JSON.parse(o.messageable.serialized_content)["blocks"]  
+      }.flatten
+
+      text_blocks = blocks.map{|o| o['text']}
+
+      data = {
+        "channel": @keys['channel'] || 'chaskiq_channel',
+        "text": 'New conversation from Chaskiq',
+        "blocks": [
+            {
+              "type": "section",
+              "text": {
+                "type": "mrkdwn",
+                "text": "Conversation initiated by *#{conversation.main_participant.display_name}*"
+              }
+            },
+            {
+              "type": "section",
+              "text": {
+                "type": "plain_text",
+                "text": text_blocks.first,
+                "emoji": true
+              }
+            },
+            {
+              "type": "divider"
+            },
+            {
+              "type": "actions",
+              "elements": [
+                {
+                  "type": "button",
+                  "text": {
+                    "type": "plain_text",
+                    "text": "Reply in channel",
+                    "emoji": true
+                  },
+                  "value": "conversation-#{conversation.id}"
+                }
+              ]
+            }
+          ]
+      }
+
+      url = url('/api/chat.postMessage')
+
+      response = @conn.post do |req|
+        req.url url
+        req.headers['Content-Type'] = 'application/json; charset=utf-8'
+        req.body = data.to_json
+      end
+
+      puts response.body
+      puts response.status
+      
     end
 
     def enqueue_process_event(params, package)
@@ -209,7 +269,7 @@ module MessageApis
           "elements": [
             {
               "type": "mrkdwn",
-              "text": "channel created!"
+              "text": "channel created! "
             }
           ]
         }]
@@ -217,7 +277,7 @@ module MessageApis
 
       ##pp payload
 
-      create_channel_response = create_channel("prueba_alal-#{Time.now.to_i}")
+      create_channel_response = create_channel("chaskiq-#{Time.now.to_i}")
 
       if create_channel_response["error"].blank?
         join_channel_response = join_channel(
