@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 module Events
-  class ConversationsStarted
+  class EmailChanged
     def self.perform(event)
       conversation = event.eventable
       app = conversation.app
