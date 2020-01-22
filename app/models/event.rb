@@ -6,6 +6,7 @@ class Event < ApplicationRecord
 
     { identifier: :verified_lead, name: 'leads.verified' },
 
+    { identifier: :conversation_started, name: 'conversations.started'},
     { identifier: :conversation_opened, name: 'conversations.added' },
     { identifier: :conversation_closed, name: 'conversations.closed' },
     { identifier: :conversation_reopened, name: 'conversations.reopened' },

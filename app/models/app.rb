@@ -217,6 +217,8 @@ class App < ApplicationRecord
       message_source: message_source,
       check_assignment_rules: true
     )
+
+    conversation.add_started_event
     conversation
   end
 
