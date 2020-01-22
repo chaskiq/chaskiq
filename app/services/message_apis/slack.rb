@@ -43,7 +43,7 @@ module MessageApis
     def self.tester
       api = MessageApis::Slack.new
       a = AppPackageIntegration.first
-      a.message_api_klass.post_message
+      a.message_api_klass.post_message("oli", [])
     end
 
     def authorize!
@@ -69,55 +69,13 @@ module MessageApis
       "#{BASE_URL}#{url}"
     end
 
-    def post_message
+    def post_message(message, blocks)
       authorize!
 
       data = {
         "channel": @keys['channel'] || 'chaskiq_channel',
-        "text": 'hola oeoeo',
-        "blocks": [
-            {
-              "type": "section",
-              "text": {
-                "type": "mrkdwn",
-                "text": "Hello, a conversation initiated by *Michael Scott*"
-              }
-            },
-            {
-              "type": "section",
-              "text": {
-                "type": "plain_text",
-                "text": "This is a plain text section block.",
-                "emoji": true
-              }
-            },
-            {
-              "type": "divider"
-            },
-            {
-              "type": "actions",
-              "elements": [
-                {
-                  "type": "button",
-                  "text": {
-                    "type": "plain_text",
-                    "text": "Close",
-                    "emoji": true
-                  },
-                  "value": "click_me_123"
-                },
-                {
-                  "type": "button",
-                  "text": {
-                    "type": "plain_text",
-                    "text": "Reply in channel",
-                    "emoji": true
-                  },
-                  "value": "click_me_123"
-                }
-              ]
-            }
-          ]
+        "text": message,
+        "blocks": blocks
       }
 
       url = url('/api/chat.postMessage')
@@ -176,12 +134,13 @@ module MessageApis
     end
 
     def trigger(event)
-      conversation = event.eventable
+      subject = event.eventable
       action = event.action
 
       case action
+      when "visitors.convert" then notify_new_lead(subject)
       #when "conversations.added" then notify_added(conversation)
-      when "conversations.started" then notify_added(conversation)
+      when "conversations.started" then notify_added(subject)
       else
       end
     end
@@ -196,17 +155,48 @@ module MessageApis
 
       text_blocks = blocks.map{|o| o['text']}
 
+      participant = conversation.main_participant
+
       data = {
-        "channel": @keys['channel'] || 'chaskiq_channel',
-        "text": 'New conversation from Chaskiq',
-        "blocks": [
+          "channel": @keys['channel'] || 'chaskiq_channel',
+          "text": 'New conversation from Chaskiq',
+          "blocks": [
             {
               "type": "section",
               "text": {
                 "type": "mrkdwn",
-                "text": "Conversation initiated by *#{conversation.main_participant.display_name}*"
+                "text": "Conversation initiated by *<https://google.cl|#{conversation.main_participant.display_name}>*"
               }
             },
+
+            {
+              "type": "section",
+              "fields": [
+                {
+                  "type": "mrkdwn",
+                  "text": "*From:*\n#{participant.city}"
+                },
+                {
+                  "type": "mrkdwn",
+                  "text": "*When:*\n#{I18n.l(conversation.created_at, format: :short)}"
+                },
+                {
+                  "type": "mrkdwn",
+                  "text": "*Seen:*\n#{I18n.l(participant.last_visited_at, format: :short)}"
+                },
+                {
+                  "type": "mrkdwn",
+                  "text": "*Device:*\n#{participant.browser} #{participant.browser_version} / #{participant.os}"
+                },
+
+                {
+                  "type": "mrkdwn",
+                  "text": "*From:*\n#{participant.referrer}"
+                },
+                
+              ]
+            },
+
             {
               "type": "section",
               "text": {
@@ -215,9 +205,7 @@ module MessageApis
                 "emoji": true
               }
             },
-            {
-              "type": "divider"
-            },
+
             {
               "type": "actions",
               "elements": [
@@ -225,15 +213,16 @@ module MessageApis
                   "type": "button",
                   "text": {
                     "type": "plain_text",
-                    "text": "Reply in channel",
-                    "emoji": true
+                    "emoji": true,
+                    "text": "Reply in Channel"
                   },
-                  "value": "conversation-#{conversation.id}"
-                }
+                  "style": "primary",
+                  "value": "click_me_123"
+                },
               ]
             }
           ]
-      }
+        }
 
       url = url('/api/chat.postMessage')
 
@@ -246,6 +235,47 @@ module MessageApis
       puts response.body
       puts response.status
       
+    end
+
+    def notify_new_lead(user)
+      post_message(
+        "new lead!", 
+        [
+          {
+            "type": "section",
+            "text": {
+              "type": "mrkdwn",
+              "text": "a new Lead! #{user.name}"
+            }
+          },
+          {
+            "type": "divider"
+          },
+          {
+            "type": "actions",
+            "elements": [
+              {
+                "type": "button",
+                "text": {
+                  "type": "plain_text",
+                  "text": "Close",
+                  "emoji": true
+                },
+                "value": "click_me_123"
+              },
+              {
+                "type": "button",
+                "text": {
+                  "type": "plain_text",
+                  "text": "Reply in channel",
+                  "emoji": true
+                },
+                "value": "click_me_123"
+              }
+            ]
+          }
+        ]
+      )
     end
 
     def enqueue_process_event(params, package)

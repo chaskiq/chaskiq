@@ -5,5 +5,8 @@ class Visitor < AppUser
     becomes!(Lead)
     self.type = 'Lead'
     save
+
+    self.lead_event
+    self
   end
 end

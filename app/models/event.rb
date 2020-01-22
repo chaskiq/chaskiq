@@ -3,9 +3,10 @@
 class Event < ApplicationRecord
   EVENT_CONSTANTS = [
     { identifier: :user_created, name: 'users.created' },
-
     { identifier: :verified_lead, name: 'leads.verified' },
-
+    { identifier: :email_changed, name: 'leads.email_changed' },
+    { identifier: :visitors_convert, name: 'visitors.convert' },
+    { identifier: :leads_convert, name: 'leads.convert' },
     { identifier: :conversation_started, name: 'conversations.started'},
     { identifier: :conversation_opened, name: 'conversations.added' },
     { identifier: :conversation_closed, name: 'conversations.closed' },
