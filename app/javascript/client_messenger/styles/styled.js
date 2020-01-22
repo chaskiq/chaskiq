@@ -384,16 +384,16 @@ export const MessageCloseBtn = styled.a`
 `
 
 export const ConversationEventContainer = styled.div`
-  padding: 1.2em;
   border-radius: 7px;
   background: gold;
   display: flex;
   justify-content: center;
   margin: 1.2em;
+  padding: .7em;
 `
 
 export const AppPackageBlockContainer = styled.div`
-    padding: 1.2em;
+    padding: .7em;
     border-radius: 7px;
     background: #f1f0f9;
     display: flex;
@@ -411,7 +411,8 @@ export const AppPackageBlockContainer = styled.div`
       //width: 69%;
       flex-wrap: wrap;
       button {
-        margin: 3px;
+        margin: 1px;
+        padding: 5px;
       }
     }
     label {
@@ -811,7 +812,7 @@ export const MessageItem = styled.div`
         min-width: 80px;
 
         /* NEW */
-        box-shadow: rgba(54, 59, 62, 0.46) 0px 2px 4px 0px;
+        box-shadow: rgba(54, 59, 62, 0.46) 0px 0px 3px 0px;
         font-size: 13px;
         line-height: 1.5;
         //height: 100%;
@@ -839,7 +840,7 @@ export const MessageItem = styled.div`
         min-width: 80px;
 
         /* NEW STYLES */
-        box-shadow: rgba(54, 59, 62, 0.46) 0px 2px 4px 0px;
+        box-shadow: rgba(54, 59, 62, 0.46) 0px 0px 3px 0px;
         font-size: 13px;
         line-height: 1.5;
         height: 100%;
