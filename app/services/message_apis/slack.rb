@@ -157,6 +157,11 @@ module MessageApis
 
       participant = conversation.main_participant
 
+      base = "#{ENV['HOST']}/apps/#{conversation.app.key}"
+      conversation_url = "#{base}/conversations/#{conversation.key}"
+      user_url = "#{base}/users/#{conversation.key}"
+      links = "*<#{user_url}|#{conversation.main_participant.display_name}>* <#{conversation_url}|view in chaskiq>"
+
       data = {
           "channel": @keys['channel'] || 'chaskiq_channel',
           "text": 'New conversation from Chaskiq',
@@ -165,7 +170,7 @@ module MessageApis
               "type": "section",
               "text": {
                 "type": "mrkdwn",
-                "text": "Conversation initiated by *<https://google.cl|#{conversation.main_participant.display_name}>*"
+                "text": "Conversation initiated by #{links}"
               }
             },
 
@@ -174,15 +179,15 @@ module MessageApis
               "fields": [
                 {
                   "type": "mrkdwn",
-                  "text": "*From:*\n#{participant.city}"
+                  "text": "*From:* #{participant.city}"
                 },
                 {
                   "type": "mrkdwn",
-                  "text": "*When:*\n#{I18n.l(conversation.created_at, format: :short)}"
+                  "text": "*When:* #{I18n.l(conversation.created_at, format: :short)}"
                 },
                 {
                   "type": "mrkdwn",
-                  "text": "*Seen:*\n#{I18n.l(participant.last_visited_at, format: :short)}"
+                  "text": "*Seen:* #{I18n.l(participant.last_visited_at, format: :short)}"
                 },
                 {
                   "type": "mrkdwn",
@@ -191,9 +196,24 @@ module MessageApis
 
                 {
                   "type": "mrkdwn",
-                  "text": "*From:*\n#{participant.referrer}"
+                  "text": "*From:*\n<#{participant.referrer} | link>"
                 },
+
                 
+              ]
+            },
+
+            {
+              "type": "divider"
+            },
+
+            {
+              "type": "context",
+              "elements": [
+                {
+                  "type": "mrkdwn",
+                  "text": "Message"
+                }
               ]
             },
 
@@ -207,8 +227,21 @@ module MessageApis
             },
 
             {
+              "type": "divider"
+            },
+
+            {
               "type": "actions",
               "elements": [
+                {
+                  "type": "button",
+                  "text": {
+                    "type": "plain_text",
+                    "text": "Close",
+                    "emoji": true
+                  },
+                  "value": "click_me_123"
+                },
                 {
                   "type": "button",
                   "text": {
@@ -217,7 +250,7 @@ module MessageApis
                     "text": "Reply in Channel"
                   },
                   "style": "primary",
-                  "value": "click_me_123"
+                  "value": "reply_in_channel"
                 },
               ]
             }
@@ -289,49 +322,13 @@ module MessageApis
 
     def process_event(params, package)
       payload = JSON.parse(params["payload"])
-      response_url = payload["response_url"]
+    
+      action = payload["actions"].first
 
-      data = {
-        "channel": @keys['channel'] || 'chaskiq_channel',
-        "text": payload["message"]["text"],
-        "blocks": [{
-          "type": "context",
-          "elements": [
-            {
-              "type": "mrkdwn",
-              "text": "channel created! "
-            }
-          ]
-        }]
-      }
-
-      ##pp payload
-
-      create_channel_response = create_channel("chaskiq-#{Time.now.to_i}")
-
-      if create_channel_response["error"].blank?
-        join_channel_response = join_channel(
-          create_channel_response["channel"]["id"]
-        )
+      case action['value']
+      when "reply_in_channel" then handle_reply_in_channel_action(payload)
+      else
       end
-
-      blocks = payload["message"]["blocks"].reject{|o| 
-        o["type"] == "actions"
-      } + data[:blocks]
-
-      data.merge!(
-        {
-          blocks: blocks
-        }
-      )
-
-      response = @conn.post do |req|
-        req.url response_url
-        req.headers['Content-Type'] = 'application/json; charset=utf-8'
-        req.body = data.to_json
-      end
-
-      response.body
     end
 
     def handle_challenge(params)
@@ -430,6 +427,53 @@ module MessageApis
       #})
       
       token.token
+    end
+
+
+    def handle_reply_in_channel_action(payload)
+      response_url = payload["response_url"]
+
+      data = {
+        "channel": @keys['channel'] || 'chaskiq_channel',
+        "text": payload["message"]["text"],
+        "blocks": [{
+          "type": "context",
+          "elements": [
+            {
+              "type": "mrkdwn",
+              "text": "channel created! "
+            }
+          ]
+        }]
+      }
+
+      ##pp payload
+
+      create_channel_response = create_channel("chaskiq-#{Time.now.to_i}")
+
+      if create_channel_response["error"].blank?
+        join_channel_response = join_channel(
+          create_channel_response["channel"]["id"]
+        )
+      end
+
+      blocks = payload["message"]["blocks"].reject{|o| 
+        o["type"] == "actions"
+      } + data[:blocks]
+
+      data.merge!(
+        {
+          blocks: blocks
+        }
+      )
+
+      response = @conn.post do |req|
+        req.url response_url
+        req.headers['Content-Type'] = 'application/json; charset=utf-8'
+        req.body = data.to_json
+      end
+
+      response.body
     end
 
   end
