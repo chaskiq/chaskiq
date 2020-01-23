@@ -350,7 +350,6 @@ RSpec.describe Api::V1::Hooks::ProviderController, type: :controller do
         access_token: "aaa",
         access_token_secret: "aaa",
         app_package: app_package,
-        user_id: "michelson"
       )
 
     end

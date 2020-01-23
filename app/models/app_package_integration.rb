@@ -34,7 +34,7 @@ class AppPackageIntegration < ApplicationRecord
   end
 
   def message_api_klass
-    "MessageApis::#{app_package.name.capitalize}".constantize.new(config: self.settings) rescue nil
+    @message_api_klass ||= "MessageApis::#{app_package.name.capitalize}".constantize.new(config: self.settings) rescue nil
   end
 
   def register_hook
@@ -48,7 +48,6 @@ class AppPackageIntegration < ApplicationRecord
   end
 
   def process_event(params)
-    puts "PROCESA AAKAK?"
     klass = message_api_klass.enqueue_process_event(params, self)
   end
 
