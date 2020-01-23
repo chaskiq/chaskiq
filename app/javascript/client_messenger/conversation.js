@@ -148,6 +148,7 @@ export class Conversation extends Component {
 
 
   componentWillUnmount(){
+    // todop porque?
     if(!this.props.inline_conversation)
       this.props.clearConversation()
   }
@@ -337,7 +338,13 @@ export class Conversation extends Component {
   renderInlineCommentWrapper = ()=>{
     return  <div ref={comp => this.props.setOverflow(comp) }
                 onScroll={this.handleConversationScroll}
-                style={{ overflowY: 'auto', height: '84vh' }}>
+                style={{ 
+                  overflowY: 'auto', 
+                  height: '90vh', 
+                  position: 'absolute' ,
+                  width: '100%',
+                  zIndex: '20'
+              }}>
               <CommentsWrapper
                 isReverse={true}
                 isInline={this.props.inline_conversation}
@@ -373,10 +380,19 @@ export class Conversation extends Component {
     </React.Fragment>
   }
 
+  renderReplyAbove = ()=>{
+    if(this.props.inline_conversation) return null
+    return this.props.t("reply_above")
+  }
+
   renderFooter = ()=>{
-    return <Footer className={this.props.footerClassName || ''}>
+    return <Footer 
+            isInline={this.props.inline_conversation}
+            isInputEnabled={this.isInputEnabled()}
+            className={this.props.footerClassName || ''}>
             {
-              !this.isInputEnabled() ? this.props.t("reply_above") : 
+              !this.isInputEnabled() ? 
+              this.renderReplyAbove() : 
               <UnicornEditor
                 t={this.props.t}
                 domain={this.props.domain}
@@ -439,12 +455,16 @@ class MessageItemWrapper extends Component {
   }
 
   componentDidUpdate(prevProps, prevState){
+    console.log("visible", this.props.visible)
     if(prevProps && prevProps.visible != this.props.visible && this.props.visible)
       this.sendEvent()
   }
 
   sendEvent = ()=>{
-    if(this.props.visible && !this.props.data.volatile && !this.props.data.readAt && this.props.data.appUser.kind === "agent"){
+    if(this.props.visible && 
+      !this.props.data.volatile && 
+      !this.props.data.readAt && 
+      this.props.data.appUser.kind === "agent"){
       this.props.pushEvent("receive_conversation_part", 
         Object.assign({}, {
           conversation_id: this.props.conversation.key,
