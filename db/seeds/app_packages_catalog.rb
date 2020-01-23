@@ -100,7 +100,7 @@ class AppPackagesCatalog
       },
       {
         name: 'Slack',
-        tag_list: ['channel'],
+        tag_list: ['conversations.added', 'email_changed'],
         state: 'enabled',
         description: 'Slack channel integration',
         icon: 'https://logo.clearbit.com/slack.com',

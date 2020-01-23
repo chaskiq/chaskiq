@@ -44,4 +44,19 @@ RSpec.describe AppPackageIntegration, type: :model do
     record = app.app_package_integrations.create(app_package: package, api_secret: '12344')
 
   end
+
+  it "tags for events" do
+    
+    definitions = [{
+      name: 'api_secret',
+      type: 'string',
+      grid: { xs: 12, sm: 12 }
+    }]
+    package = AppPackage.create(name: 'Twitter', definitions: definitions)
+
+    expect_any_instance_of(AppPackageIntegration).to receive(:register_hook)
+
+    record = app.app_package_integrations.create(app_package: package, api_secret: '12344')
+
+  end
 end
