@@ -8,6 +8,9 @@ import Grid from '@material-ui/core/Grid'
 import Paper from '@material-ui/core/Paper'
 import Typography from '@material-ui/core/Typography'
 import graphql from "../graphql/client"
+import {LinkButton} from '../shared/RouterLink'
+import AddIcon from '@material-ui/icons/Add'
+
 import { APPS } from "../graphql/queries"
 
 export default class AppListContainer extends Component {
@@ -50,6 +53,16 @@ export default class AppListContainer extends Component {
                       <Typography variant={"h4"} gutterBottom>
                         Your applications
                       </Typography>
+
+
+                      <LinkButton 
+                        variant={'contained'} 
+                        color={'primary'} 
+                        onClick={()=> this.props.history.push(`/apps/new`)}>
+                        <AddIcon />
+                        {"Create new app"}
+                      </LinkButton>
+
                       
                       <Grid container spacing={2}>
                       {
