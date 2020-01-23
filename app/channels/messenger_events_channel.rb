@@ -16,7 +16,8 @@ class MessengerEventsChannel < ApplicationCable::Channel
     get_session_data
     options.delete('action')
 
-    VisitCollector.new(user: @app_user).update_browser_data(options)
+    VisitCollector.new(user: @app_user)
+    .update_browser_data(options)
 
     AppUserEventJob.perform_now(
       app_key: @app.key,
@@ -34,7 +35,7 @@ class MessengerEventsChannel < ApplicationCable::Channel
       process_next_step(message)
 
       if data['submit'].present?
-        opts = %w[email name first_name last_name etc]
+        opts = %w[email name first_name last_name phone company_name company_size etc]
         @app_user.update(data['submit'].slice(*opts)) # some condition from settings here?
         data_submit(data['submit'], message)
       end
