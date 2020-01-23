@@ -3,14 +3,15 @@
 module Events
   class EmailChanged
     def self.perform(event)
-      conversation = event.eventable
-      app = conversation.app
+      user = event.eventable
+      app = user.app
       
-      # TODO query specific packages     
-      app.app_package_integrations.each do |package|
-        package.trigger(event)
+      ## this needs to be triggered in eventTrigger job!
+      if app.gather_social_data && user.email.present?
+        DataEnrichmentJob.perform_later(user_id: user.id)
       end
-      
+
+      EventTriggerProcessorJob.perform_later(id: app.id , event_id: event.id)
     end
   end
 end

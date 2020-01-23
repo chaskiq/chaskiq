@@ -6,11 +6,7 @@ module Events
       conversation = event.eventable
       app = conversation.app
       
-      # TODO query specific packages     
-      app.app_package_integrations.each do |package|
-        package.trigger(event)
-      end
-      
+      EventTriggerProcessorJob.perform_later(id: app.id , event_id: event.id)
     end
   end
 end
