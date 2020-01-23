@@ -39,6 +39,8 @@ end
 
 require 'database_cleaner'
 
+#require 'webmock/rspec'
+
 DatabaseCleaner.strategy = :truncation
 
 RSpec.configure do |config|

@@ -154,6 +154,7 @@ group :test do
   gem 'rubocop-rspec', require: false
   gem 'shoulda'
   gem 'shoulda-matchers'
+  gem 'webmock'
 end
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem

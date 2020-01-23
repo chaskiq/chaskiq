@@ -254,11 +254,6 @@ class AppUser < ApplicationRecord
   end
 
   def enqueue_social_enrichment
-    
     add_email_changed_event
-
-    if app.gather_social_data && email.present?
-      DataEnrichmentJob.perform_later(user_id: id)
-    end
   end
 end

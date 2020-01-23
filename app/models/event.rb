@@ -4,7 +4,7 @@ class Event < ApplicationRecord
   EVENT_CONSTANTS = [
     { identifier: :user_created, name: 'users.created' },
     { identifier: :verified_lead, name: 'leads.verified' },
-    { identifier: :email_changed, name: 'leads.email_changed' },
+    { identifier: :email_changed, name: 'email_changed' },
     { identifier: :visitors_convert, name: 'visitors.convert' },
     { identifier: :leads_convert, name: 'leads.convert' },
     { identifier: :conversation_started, name: 'conversations.started'},
@@ -20,7 +20,7 @@ class Event < ApplicationRecord
     # {identifier: :campaign_viewed, name: "campaign.user.read"},
   ].freeze
 
-  belongs_to :eventable
+  belongs_to :eventable, polymorphic: true
 
   after_create :trigger_webhooks
 
