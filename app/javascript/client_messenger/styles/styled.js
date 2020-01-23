@@ -728,6 +728,7 @@ export const Footer = styled.div`
     background: linear-gradient(0deg,#fff,rgba(255,255,255,0));
 
     &.inline{
+      ${(props)=> !props.isInputEnabled ? 'height: 0px;' : ''}
       background: transparent;
       bottom: 9px;
       textarea {

@@ -247,10 +247,10 @@ class Messenger extends Component {
 
     // Warn if the browser doesn't support addEventListener or the Page Visibility API
     if (typeof document.addEventListener === "undefined" || hidden === undefined) {
-      console.log("This demo requires a browser, such as Google Chrome or Firefox, that supports the Page Visibility API.");
+      console.log("Visibility browser, such as Google Chrome or Firefox, that supports the Page Visibility API.");
     } else {
       // Handle page visibility change   
-      document.addEventListener(visibilityChange, handleVisibilityChange, false);
+      // document.addEventListener(visibilityChange, handleVisibilityChange, false);
     }
   }
 
@@ -491,6 +491,9 @@ class Messenger extends Component {
   }
 
   setInlineOverflow = (el)=>{
+    if(el)
+      console.log("OVERFLOW", el.offsetHeight)
+      
     this.inlineOverflow = el
   }
 
@@ -1003,7 +1006,6 @@ class Messenger extends Component {
             <EditorWrapper>
 
               {
-                
                 this.state.availableMessages.length > 0 && this.isMessengerActive() &&
                 <MessageFrame 
                   app_id={this.props.app_id}
@@ -1012,7 +1014,6 @@ class Messenger extends Component {
                   domain={this.props.domain}
                   t={this.props.t}
                 />
-                
               }
                   
 
@@ -1241,7 +1242,9 @@ class Messenger extends Component {
                     }
 
                     <Conversation
-                      disablePagination={true}
+                      //disablePagination={true}
+                      visible={this.state.visible}
+                      pushEvent={this.pushEvent}
                       inline_conversation={this.state.inline_conversation}
                       footerClassName="inline"
                       clearConversation={this.clearConversation}
