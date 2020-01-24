@@ -593,6 +593,8 @@ export const CommentsWrapper = styled.div`
   justify-content: space-between;
   overflow-anchor: none;
   height: auto;
+  font-family: Helvetica, arial, sans-serif;
+
   ${(props)=> ( props.isReverse ? 
     `
     flex-direction : column-reverse;` : `
@@ -751,7 +753,7 @@ export const Footer = styled.div`
       bottom: 9px;
       textarea {
         border-radius: 8px !important;
-        box-shadow: #0a0a0abd -1px 0px 6px 0px;
+        box-shadow: 4px 4px 1px #00000061;
         bottom: -2px;
         left: 8px;
         width: 96%;
@@ -1011,6 +1013,7 @@ export const NewConvoBtn = styled(AnchorButton)`
     position: absolute;
     bottom: 77px;
     left: 20%;
+    padding: 0 37px;
     ${(props)=> FadeBottomAnimation(props)}
 `
 

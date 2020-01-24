@@ -59,8 +59,6 @@ export class Conversations extends Component {
   // TODO: skip on xhr progress
   handleConversationsScroll = (e) => {
     let element = e.target
-
-    //console.log(element.scrollHeight - element.scrollTop , element.clientHeight)
     if (element.scrollHeight - element.scrollTop === element.clientHeight) {
       if (this.props.conversationsMeta.next_page)
         this.props.getConversations({ append: true }, )
@@ -159,8 +157,6 @@ export class Conversation extends Component {
     if(this.props.disablePagination) return
     
     let element = e.target
-    //console.log(element.scrollTop)
-    //console.log(element.scrollHeight - element.scrollTop, element.clientHeight) // on bottom
     if (element.scrollTop === 0) { // on top
 
       /*this.props.updateHeader(
@@ -436,7 +432,6 @@ export class Conversation extends Component {
   render(){
 
     const {t} = this.props
-    //console.log("ENABLED???", this.isInputEnabled())
     return <div style={{
       position: 'absolute',
       top: '0',
@@ -461,7 +456,6 @@ class MessageItemWrapper extends Component {
   }
 
   componentDidUpdate(prevProps, prevState){
-    console.log("visible", this.props.visible)
     if(prevProps && prevProps.visible != this.props.visible && this.props.visible)
       this.sendEvent()
   }

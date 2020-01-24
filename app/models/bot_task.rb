@@ -70,15 +70,11 @@ class BotTask < ApplicationRecord
       }
     }.as_json)
 
-    bot_task.log_delivered
-    
-  end
-
-  def log_delivered
     user.metrics.create(
       trackable: bot_task,
       action: 'bot_tasks.delivered'
     )
+
   end
 
   def log_action(action)
