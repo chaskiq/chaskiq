@@ -249,11 +249,11 @@ class AppUser < ApplicationRecord
     end
   end
 
-  def save_page_visit(url)
-    visits.create(url: url)
-  end
-
   def enqueue_social_enrichment
     add_email_changed_event
+  end
+
+  def register_visit(options)
+    self.visits.register(options, app.register_visits)
   end
 end

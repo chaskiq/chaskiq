@@ -259,6 +259,14 @@ class AppSettingsContainer extends Component {
         hint: "Collect social profiles via fullcontact service (e.g. LinkedIn, Twitter, etc.) for my users via a third party",
         grid: { xs: 12, sm: 12 }
       },
+      {
+        name: "registerVisits",
+        label: "Register visits to database",
+        type: 'bool',
+        label: "Store visits for visitors",
+        hint: "Even if this is disabled we will collect global counter of visits and store the last visit information on visitor's profile",
+        grid: { xs: 12, sm: 12 }
+      },
     ]
   }
 

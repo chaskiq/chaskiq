@@ -19,6 +19,7 @@ class App < ApplicationRecord
     gather_social_data
     customization_colors
     outgoing_email_domain
+    register_visits
   ], coder: JSON
 
   translates :greetings, :intro, :tagline
@@ -161,7 +162,6 @@ class App < ApplicationRecord
     ap.subscribe! unless ap.subscribed?
     ap.type = 'AppUser'
     ap.save
-    # ap.save_page_visit(page_url)
     ap
   end
 
