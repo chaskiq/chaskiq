@@ -12,6 +12,7 @@ class BotTask < ApplicationRecord
   store_accessor :settings, %i[
     scheduling
     urls
+    outgoing_webhook
   ]
 
   scope :enabled, -> { where(state: 'enabled') }
@@ -69,9 +70,21 @@ class BotTask < ApplicationRecord
       }
     }.as_json)
 
+    bot_task.log_delivered
+    
+  end
+
+  def log_delivered
     user.metrics.create(
       trackable: bot_task,
       action: 'bot_tasks.delivered'
+    )
+  end
+
+  def log_action(action)
+    user.metrics.create(
+      trackable: bot_task,
+      action: "bot_tasks.actions.#{action}"
     )
   end
 
@@ -104,12 +117,20 @@ class BotTask < ApplicationRecord
       value: 'Lead'
     }.with_indifferent_access
 
-    type == 'leads' ? [default_predicate, lead_predicate] : [default_predicate, user_predicate]
+    type == 'leads' ? 
+    [default_predicate, lead_predicate] : 
+    [default_predicate, user_predicate]
   end
 
   def stats_fields
     [
-      { name: 'DeliverRateCount', label: 'DeliverRateCount', keys: [{ name: 'send', color: '#444' }, { name: 'open', color: '#ccc' }] }
+      { 
+        name: 'DeliverRateCount', 
+        label: 'DeliverRateCount', 
+        keys: [
+          { name: 'send', color: '#444' }, 
+          { name: 'open', color: '#ccc' }] 
+        }
     ]
   end
 end

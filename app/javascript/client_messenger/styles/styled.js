@@ -107,7 +107,7 @@ export const Container = styled.div`
       `min-height: 250px;
       box-shadow: rgba(0, 0, 0, 0.16) 0px 5px 40px;
       opacity: 1;
-      z-index: 2147483001;
+      z-index: 100000;
       width: 100%;
       height: 100%;
       max-height: none;
@@ -390,6 +390,11 @@ export const ConversationEventContainer = styled.div`
   justify-content: center;
   margin: 1.2em;
   padding: .7em;
+  ${
+    (props)=> (
+      props.isInline ? `box-shadow: 4px 4px 1px #00000061;` : ''
+    )
+  }
 `
 
 export const AppPackageBlockContainer = styled.div`
@@ -398,7 +403,14 @@ export const AppPackageBlockContainer = styled.div`
     background: #f1f0f9;
     display: flex;
     justify-content: center;
-    margin: 1.2em;
+    margin: .7em;
+
+    ${
+      (props)=> {
+        return props.isInline ? `box-shadow: 4px 4px 1px #00000061;` : ''
+      }
+    }
+    
 
     .form-group{
       //margin-bottom: 1rem;
@@ -715,7 +727,7 @@ export const Body = styled.div`
 
 export const Footer = styled.div`
 
-    z-index: 2147483001;
+    z-index: 100000;
     text-align: center;
     position: absolute;
     bottom: 0;
@@ -726,6 +738,12 @@ export const Footer = styled.div`
     /*pointer-events: none;*/
     background: -webkit-gradient(linear,left bottom,left top,from(#fff),to(rgba(255,255,255,0)));
     background: linear-gradient(0deg,#fff,rgba(255,255,255,0));
+
+    height: 38px;
+    margin: 25px 0 1px 0px;
+    font-size: .8em;
+    color: gray;
+
 
     &.inline{
       ${(props)=> !props.isInputEnabled ? 'height: 0px;' : ''}
@@ -745,7 +763,7 @@ export const Footer = styled.div`
 `
 
 export const ConversationsFooter = styled.div`
-  z-index: 2147483001;
+  z-index: 100000;
   text-align: center;
   position: absolute;
   bottom: 0;
@@ -818,8 +836,17 @@ export const MessageItem = styled.div`
         line-height: 1.5;
         //height: 100%;
         position: relative;
-        padding: 17px 22px;
+        //padding: 17px 22px;
         border-radius: 5px 5px 5px 0px;
+
+
+        padding: 6px 11px;
+
+        ${
+          (props)=> (
+            props.isInline ? `box-shadow: 4px 4px 1px #00000061;` : ''
+          )
+        }
         
       }
 
@@ -840,13 +867,15 @@ export const MessageItem = styled.div`
         border-radius: 6px;
         min-width: 80px;
 
+
         /* NEW STYLES */
         box-shadow: rgba(54, 59, 62, 0.46) 0px 0px 3px 0px;
         font-size: 13px;
         line-height: 1.5;
         height: 100%;
         position: relative;
-        padding: 17px 22px;
+        //padding: 17px 22px;
+        padding: 6px 11px;
         border-radius: 5px 5px 0px 5px;
       }
       // hack on image from user, not use position absolute
