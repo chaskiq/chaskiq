@@ -63,6 +63,7 @@ Rails.application.routes.draw do
   get 'tester/:id/:id2/id3' => 'client_tester#show'
   get 'tester/:id/:id2/id3/:id4' => 'client_tester#show'
 
+  get '/' => 'home#show', as: :agents
   
 
   scope path: '/api' do

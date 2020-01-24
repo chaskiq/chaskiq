@@ -133,7 +133,9 @@ class MessengerEventsChannel < ApplicationCable::Channel
 
   def trigger_step(data)
     get_session_data
+    
     @conversation = @app.conversations.find_by(key: data['conversation_id'])
+    
     message = @conversation.messages.find(data['message_id'])
 
     trigger, path = ActionTriggerFactory.find_task(data: data, app: @app, app_user: @app_user)

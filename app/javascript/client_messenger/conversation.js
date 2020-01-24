@@ -190,6 +190,7 @@ export class Conversation extends Component {
     const isAgent = o.appUser.kind === "agent"
     const themeforMessage = o.privateNote || isAgent ? theme : themeDark
     const {t} = this.props
+
     return <MessageItemWrapper
             visible={this.props.visible}
             email={this.props.email}
@@ -201,6 +202,7 @@ export class Conversation extends Component {
               <MessageItem
                 className={userClass}
                 messageSourceType={o.messageSource ? o.messageSource.type : ''}
+                isInline={this.props.inline_conversation}
               >
 
               {
@@ -254,6 +256,7 @@ export class Conversation extends Component {
     return  <AppPackageBlock 
                key={`package-${this.props.conversation.key}-${i}`}
                message={o}
+               isInline={this.props.inline_conversation}
                conversation={this.props.conversation}
                submitAppUserData={this.props.submitAppUserData.bind(this)}
                clickHandler={this.appPackageClickHandler.bind(this)}
@@ -265,7 +268,8 @@ export class Conversation extends Component {
 
   renderEventBlock = (o, i)=>{
     const {data, action} = o.message
-    return <ConversationEventContainer>
+    return <ConversationEventContainer                 
+            isInline={this.props.inline_conversation}>
             <span>
               {this.props.t(`conversations.events.${action}`, data)}
             </span>
@@ -278,7 +282,9 @@ export class Conversation extends Component {
 
   appPackageClickHandler = (item, message)=>{
     // run app block display here! refactor
-    if (message.message.blocks.type === "app_package") return this.appPackageBlockDisplay(message)
+    if (message.message.blocks.type === "app_package") 
+      return this.appPackageBlockDisplay(message)
+    
     this.props.pushEvent('trigger_step', {
       conversation_id: this.props.conversation.key,
       message_id: message.id,
@@ -588,7 +594,8 @@ class AppPackageBlock extends Component {
   }
 
   render(){
-    return <AppPackageBlockContainer>
+    return <AppPackageBlockContainer                 
+              isInline={this.props.isInline}>
               {
                 true ? //!this.state.done ?
                 <form ref={o => this.form } 
