@@ -165,7 +165,6 @@ class Messenger extends Component {
     this.commentWrapperRef = React.createRef();
 
     document.addEventListener("chaskiq_events", (event)=> {
-      console.log("RECEIVED CHASKIQ EVENT", event)
       const {data, action} = event.detail
       switch (action) {
         case "wakeup":
@@ -203,7 +202,7 @@ class Messenger extends Component {
 
     window.addEventListener('message', (e)=> {
       if(e.data.tourManagerEnabled){
-        console.log("EVENTO TOUR!", e)
+        //console.log("EVENTO TOUR!", e)
         this.setState({
           tourManagerEnabled: e.data.tourManagerEnabled, 
           ev: e
@@ -365,7 +364,7 @@ class Messenger extends Component {
           }
 
 
-          console.log(`received event`, data)
+          //console.log(`received event`, data)
         },
         notify: ()=>{
           console.log(`notify event!!`)
@@ -491,9 +490,6 @@ class Messenger extends Component {
   }
 
   setInlineOverflow = (el)=>{
-    if(el)
-      console.log("OVERFLOW", el.offsetHeight)
-      
     this.inlineOverflow = el
   }
 
@@ -940,9 +936,6 @@ class Messenger extends Component {
   }
 
   handleAppPackageEvent = (ev)=>{
-    console.log("data", ev.data)
-    console.log(this.state)
-
     App.events && App.events.perform('app_package_submit', {
       conversation_id: this.state.conversation.key,
       message_id: this.state.currentAppBlock.message.id,
@@ -1496,7 +1489,6 @@ class MessageFrame extends Component {
 class MessageContainer extends Component {
   
   componentDidMount(){
-    console.log("App.events", App.events)
     App.events && App.events.perform("track_open", 
       {
         trackable_id: this.props.availableMessage.id, 
