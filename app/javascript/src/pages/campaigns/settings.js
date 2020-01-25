@@ -40,7 +40,9 @@ export default class CampaignSettings extends Component {
     const serializedData = serialize(this.formRef, { hash: true, empty: true })
     let data = toSnakeCase(serializedData).campaign
     
-    data["hidden_constraints"] = data.hidden_constraints.split(",")
+    if(data.hidden_constraints)
+      data["hidden_constraints"] = data.hidden_constraints.split(",")
+    
     this.props.match.params.id === "new" ? 
       this.create(data) : this.update(data)
   }

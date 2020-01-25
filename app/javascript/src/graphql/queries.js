@@ -32,6 +32,7 @@ export const APP = `
       gatherSocialData
       domainUrl
       outgoingEmailDomain
+      customFields
       segments {
         name
         id

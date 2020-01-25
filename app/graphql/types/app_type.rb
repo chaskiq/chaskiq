@@ -28,7 +28,7 @@ module Types
     field :translations, [Types::JsonType], null: true
     field :available_languages, [Types::JsonType], null: true
     field :outgoing_email_domain, String, null: true
-
+    field :custom_fields, [Types::JsonType], null: true
     field :app_packages, [Types::AppPackageType], null: true
 
     def app_packages

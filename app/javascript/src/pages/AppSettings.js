@@ -28,6 +28,7 @@ import EmailRequirement from './settings/EmailRequirement'
 import LanguageSettings from './settings/Language'
 import InboundSettings from './settings/InboundSettings'
 import StylingSettings from './settings/Styling'
+import UserData from './settings/UserDataFields'
 import Tab from '@material-ui/core/Tab';
 import Tabs from '@material-ui/core/Tabs';
 import timezones from '../shared/timezones'
@@ -213,6 +214,7 @@ class AppSettingsContainer extends Component {
               <Tab textColor="inherit" label="Email Requirement" />
               <Tab textColor="inherit" label="Inbound settings" />
               <Tab textColor={"inherit"} label="Messenger Style" />
+              <Tab textColor={"inherit"} label="User data" />
             </Tabs>
   }
 
@@ -408,6 +410,12 @@ class AppSettingsContainer extends Component {
                   update={this.update}
                   namespace={'app'}
                 />
+      case 8:
+        return <UserData 
+          settings={ this.props.app } 
+          update={this.update}
+          namespace={'app'}
+        />
     }
   }
 
