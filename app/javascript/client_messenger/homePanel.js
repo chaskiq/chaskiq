@@ -301,22 +301,19 @@ const HomePanel = ({
           </ConversationsBlock> 
       }
 
-      {
-        articles.length > 0 &&
-          <Card in={transition}>
-            <p>{t("search_article_title")}</p>
-            <ButtonWrapper>
-              <input ref={(ref)=> textInput = ref} 
-                placeholder={ t("search_articles") } 
-                onKeyDown={handleSearch}
-              /> 
-              <button onClick={()=> searchArticles(textInput.value)}>
-                {loading ? <Spinner/> : 'go' }
-              </button>
-            </ButtonWrapper>
-          </Card>
-      }
 
+      <Card in={transition}>
+        <p>{t("search_article_title")}</p>
+        <ButtonWrapper>
+          <input ref={(ref)=> textInput = ref} 
+            placeholder={ t("search_articles") } 
+            onKeyDown={handleSearch}
+          /> 
+          <button onClick={()=> searchArticles(textInput.value)}>
+            {loading ? <Spinner/> : 'go' }
+          </button>
+        </ButtonWrapper>
+      </Card>
 
       { loading && <Loader xs></Loader>}
 
