@@ -50,7 +50,7 @@ i18n
           see_previous: "Ver anteriores",
           search_article_title: "Encuentra respuestas buscando",
           search_articles: "Busca artículos",
-          latest_articles: "Nuestro artículos recientes",
+          latest_articles: "Artículos recientes",
           reply_above: "Responde arriba",
           create_new_conversation: "Crea una nueva conversación",
           you: "Tú",
