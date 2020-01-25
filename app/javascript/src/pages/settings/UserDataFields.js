@@ -26,7 +26,7 @@ import defaultFields from '../../shared/defaultFields'
 
 function CustomizationColors({app, settings, update, dispatch}){
 
-  const [fields, setFields] = useState(app.customFields)
+  const [fields, setFields] = useState(app.customFields || [])
   const [isOpen, setOpen] = useState(false)
   const [selected, setSelected] = useState(null)
   
@@ -117,13 +117,25 @@ function CustomizationColors({app, settings, update, dispatch}){
   return (
     <div>
 
-      <Typography variant={'h4'}>Fields</Typography>
 
-      <IconButton onClick={addField} edge="end" aria-label="add">
-        <AddIcon />
-      </IconButton>
+      <Grid container>
 
-      {renderSubmitButton()}
+        <Grid item xs={12} sm={10}>
+          <Typography variant={'h4'}>Fields</Typography>
+        </Grid>
+
+        <Grid item xs={12} sm={2} justify={'space-around'}>
+
+          <IconButton onClick={addField} edge="end" aria-label="add">
+            <AddIcon />
+          </IconButton>
+
+          {renderSubmitButton()}
+        </Grid>
+
+      </Grid>
+
+      
 
       { renderModal() }
 
