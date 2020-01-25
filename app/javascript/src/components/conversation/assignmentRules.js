@@ -20,6 +20,8 @@ import ListItemText from '@material-ui/core/ListItemText'
 import ListItemAvatar from '@material-ui/core/ListItemAvatar'
 import Avatar from '@material-ui/core/Avatar'
 
+import defaultFields from '../../shared/defaultFields'
+
 import FormDialog from '../FormDialog'
 import FieldRenderer from '../../shared/FormFields'
 import { 
@@ -374,6 +376,8 @@ class AssignmentRules extends React.Component {
 } 
 
 
+
+
 function AssignmentForm(props){
 
   const {rule, setConditions, conditions, dispatch} = props
@@ -384,29 +388,13 @@ function AssignmentForm(props){
   const [checked, setChecked] = React.useState('')
   const [updater, setUpdater] = React.useState(null)
   const [predicates, setPredicates] = React.useState(conditions || [])
-  const fields = [
-      {name: "message_content", type: "string"},
-      {name: "email", type: "string"},
-      {name: "last_visited_at", type: "date"},
-      {name: "referrer", type: "string"},
-      {name: "pro", type: "string" },
-      {name: "role", type: "string" },
-      {name: "plan", type: "string" },
-      {name: "state", type: "string"},
-      {name: "ip", type: "string"},        
-      {name: "city", type: "string"},           
-      {name: "region", type: "string"},         
-      {name: "country", type: "string"},        
-      {name: "postal", type: "string"},   
-      {name: "web_sessions", type: "string"}, 
-      {name: "timezone", type: "string"}, 
-      {name: "browser", type: "string"}, 
-      {name: "browser_version", type: "string"},
-      {name: "os", type: "string"},
-      {name: "os_version", type: "string"},      
-      {name: "browser_language", type: "string"}, 
-      {name: "lang", type: "string"},
-  ]
+  //const fields = defaultFields
+
+  function availableFields(){
+    if(!props.app.customFields)
+      defaultFields
+    return props.app.customFields.concat(defaultFields)
+  }
 
   function getAgents(){
     graphql(AGENTS, {appKey: props.app.key }, {
@@ -495,7 +483,8 @@ function AssignmentForm(props){
         </div>
 
         <InlineFilterDialog 
-          fields={fields}
+          app={props.app}
+          fields={availableFields}
           addPredicate={(predicate)=>{
             addPredicate(predicate)
           }}

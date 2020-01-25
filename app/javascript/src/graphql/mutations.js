@@ -22,6 +22,7 @@ export const UPDATE_APP = `
         gatherSocialData
         domainUrl
         outgoingEmailDomain
+        customFields
         segments {
           name
           id
@@ -78,6 +79,7 @@ export const CREATE_APP = `
         emailRequirement
         leadTasksSettings
         userTasksSettings
+        customFields
       }
     }
   }

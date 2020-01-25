@@ -20,6 +20,7 @@ class App < ApplicationRecord
     customization_colors
     outgoing_email_domain
     register_visits
+    custom_fields
   ], coder: JSON
 
   translates :greetings, :intro, :tagline

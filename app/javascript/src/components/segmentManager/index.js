@@ -23,7 +23,14 @@ import Box  from '@material-ui/core/Box'
 import Tooltip  from '@material-ui/core/Tooltip'
 import ClickAwayListener  from '@material-ui/core/ClickAwayListener'
 
+import defaultFields from '../../shared/defaultFields'
+
 import styled from '@emotion/styled'
+
+import {
+  withRouter
+} from 'react-router-dom'
+import { connect } from 'react-redux'
 
 const ContentMatchTitle = styled.h5`
   margin: 15px;
@@ -257,35 +264,16 @@ export class InlineFilterDialog extends Component {
     this.setState({dialogOpen: !this.state.dialogOpen})
   }
 
+  availableFields =()=>{
+    if(!this.props.app.customFields)
+      return defaultFields
+    return this.props.app.customFields.concat(defaultFields)
+  }
+
 
   render() {
 
-    const fields = this.props.fields || [
-      {name: "email", type: "string"},
-      {name: "lang", type: "string"},  
-      {name: "type", type: "string"},  
-      {name: "last_visited_at", type: "date"},
-      {name: "referrer", type: "string"},
-      {name: "pro", type: "string" },
-      {name: "role", type: "string" },
-      {name: "plan", type: "string" },
-      {name: "state", type: "string"},
-      {name: "ip", type: "string"},        
-      {name: "city", type: "string"},           
-      {name: "region", type: "string"},         
-      {name: "country", type: "string"},        
-      {name: "lat", type: "string"},
-      {name: "lng", type: "string"},
-      {name: "postal", type: "string"},   
-      {name: "web_sessions", type: "string"}, 
-      {name: "timezone", type: "string"}, 
-      {name: "browser", type: "string"}, 
-      {name: "browser_version", type: "string"},
-      {name: "os", type: "string"},
-      {name: "os_version", type: "string"},      
-      {name: "browser_language", type: "string"}, 
-      
-    ]
+    const fields = this.availableFields()
 
     const content = (
 
@@ -348,14 +336,14 @@ export class InlineFilterDialog extends Component {
 }
 
 
-export default class SegmentManager extends Component {
+class SegmentManager extends Component {
 
   constructor(props){
     super(props)
   }
 
   handleClickOnSelectedFilter = (jwtToken)=>{
-    const url = `/apps/${this.props.store.app.key}/segments/${this.props.store.segment.id}/${jwtToken}`
+    const url = `/apps/${this.props.app.key}/segments/${this.props.store.segment.id}/${jwtToken}`
     //this.props.history.push(url) 
   }
 
@@ -392,6 +380,7 @@ export default class SegmentManager extends Component {
 
               <InlineFilterDialog
                 {...this.props}
+                app={this.props.app}
                 addPredicate={this.props.addPredicate}
                 handleClick={this.handleClickOnSelectedFilter.bind(this)}
               />
@@ -422,3 +411,13 @@ export default class SegmentManager extends Component {
           </Box>
   }
 } 
+
+
+function mapStateToProps(state) {
+  const { app } = state
+  return {
+    app
+  }
+}
+
+export default withRouter(connect(mapStateToProps)(SegmentManager))
