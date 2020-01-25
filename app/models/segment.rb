@@ -112,7 +112,7 @@ class Segment < ApplicationRecord
         when 'is_not_null'
           check = cast_int(field).not_eq(nil)
         else
-          if %w[eq lt lte gt gte].include?(predicate['comparison'])
+          if %w[eq lt lteq gt gteq].include?(predicate['comparison'])
             check = cast_int(field).send(
               predicate['comparison'],
               predicate['value']
