@@ -77,6 +77,17 @@ class BotTask < ApplicationRecord
 
   end
 
+  def register_metric(user, data, conversation)
+    label  = data['label']
+    user.metrics.create(
+      trackable: self,
+      action: "bot_tasks.actions.#{label}",
+      data: {
+        conversation_id: conversation.id,
+      }
+    )
+  end
+
   def log_action(action)
     user.metrics.create(
       trackable: bot_task,

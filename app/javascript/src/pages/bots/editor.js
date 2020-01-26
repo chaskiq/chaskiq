@@ -59,6 +59,12 @@ const useStyles = makeStyles((theme: Theme) => createStyles({
   paper: {
     display: 'flex',
     flexDirection: 'column'
+  },
+  cardPaper: {
+    padding: theme.spacing(2),
+    display: 'flex',
+    overflow: 'auto',
+    flexDirection: 'column',
   }
 }));
 
@@ -376,6 +382,7 @@ const BotEditor = ({match, app, dispatch, mode, actions})=>{
                                             data={botTask}
                                             getStats={getStats}
                                             actions={actions}
+                                            mode={'counter_blocks'}
                                             />
       case 1:
         return <BotTaskSetting 
@@ -657,7 +664,7 @@ function AgentSelector({app, updateAction, removeAction, action, index}){
     })
   }
 
-  React.useEffect(() => {
+  useEffect(() => {
     getAgents()
   }, [])
 
@@ -842,8 +849,6 @@ const Path = ({
       {/*<Divider/>*/}
 
       <Grid container spacing={2} justify={"flex-start"}>
-
-
           <ListMenu 
             options={options}
             button={
@@ -853,10 +858,6 @@ const Path = ({
               </Fab>
             }
           />
-
-          
-    
-  
       </Grid>
 
       <Divider variant="fullWidth" style={{marginTop: '3em'}}/>
@@ -926,10 +927,10 @@ const PathEditor = ({step, message, path, updatePath })=>{
             setReadOnly(!readOnly)
           }}
           data={
-              {
-                serialized_content: message.serialized_content
-              }
+            {
+              serialized_content: message.serialized_content
             }
+          }
           styles={
             {
               lineHeight: '1.2em',
@@ -945,21 +946,6 @@ const PathEditor = ({step, message, path, updatePath })=>{
       />
     </Paper>
   )
-}
-
-function mapStateToProps(state) {
-
-  const { auth, app, segment, app_user, current_user, drawer } = state
-  const { loading, isAuthenticated } = auth
-  return {
-    current_user,
-    app_user,
-    segment,
-    app,
-    loading,
-    isAuthenticated,
-    drawer
-  }
 }
 
 // APp Package Preview
@@ -1310,6 +1296,21 @@ const DataInputSelect = ({item, options, update, controls, path, step})=>{
       }
     </Select>
   )
+}
+
+function mapStateToProps(state) {
+
+  const { auth, app, segment, app_user, current_user, drawer } = state
+  const { loading, isAuthenticated } = auth
+  return {
+    current_user,
+    app_user,
+    segment,
+    app,
+    loading,
+    isAuthenticated,
+    drawer
+  }
 }
 
 export default withRouter(connect(mapStateToProps)(BotEditor))
