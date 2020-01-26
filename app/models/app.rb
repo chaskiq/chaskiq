@@ -8,7 +8,6 @@ class App < ApplicationRecord
     active_messenger
     domain_url
     theme
-    gather_data
     email_requirement
     inbound_settings
     lead_tasks_settings
