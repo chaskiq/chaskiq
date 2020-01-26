@@ -5,6 +5,7 @@ class MessengerEventsChannel < ApplicationCable::Channel
 
   def subscribed
     get_session_data
+
     stream_from "messenger_events:#{@app.key}-#{@app_user.session_id}"
   end
 
@@ -52,7 +53,7 @@ class MessengerEventsChannel < ApplicationCable::Channel
   end
 
   def process_next_step(message)
-    
+
     return if message.trigger_locked.value.present?
 
     message.trigger_locked.value = 1
@@ -240,8 +241,16 @@ class MessengerEventsChannel < ApplicationCable::Channel
   private
 
   def get_session_data
+    
     @app = App.find_by(key: params[:app])
+
+    OriginValidator.new(
+      app: @app, 
+      host: connection.env['HTTP_ORIGIN']
+    ).is_valid?
+
     get_user_data
     find_user
   end
+
 end
