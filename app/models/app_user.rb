@@ -80,6 +80,7 @@ class AppUser < ApplicationRecord
 
   # from redis-objects
   counter :new_messages
+  value :trigger_locked, expireat: lambda { Time.now + 5.seconds }
 
   aasm column: :subscription_state do # default column: aasm_state
     state :passive, initial: true

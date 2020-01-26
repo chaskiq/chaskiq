@@ -8,12 +8,21 @@ class AppUserTriggerJob < ApplicationJob
     @app = App.find_by(key: app_key)
     conversation = @app.conversations.find_by(key: conversation)
     @app_user = @app.app_users.find(user_id)
+    
+    return if @app_user.trigger_locked.value.present?
+
+    @app_user.trigger_locked.value = 1
+
     trigger = begin
                 @app.bot_tasks.find(trigger_id)
               rescue StandardError
                 find_factory_template(trigger_id, @app_user)
               end
-    conversation.blank? ? start_conversation(trigger) : add_message(trigger, conversation)
+
+    conversation.blank? ? 
+      start_conversation(trigger) : 
+      add_message(trigger, conversation)
+
   end
 
   def start_conversation(trigger)

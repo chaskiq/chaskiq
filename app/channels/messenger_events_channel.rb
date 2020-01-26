@@ -52,7 +52,11 @@ class MessengerEventsChannel < ApplicationCable::Channel
   end
 
   def process_next_step(message)
-    get_session_data
+    
+    return if message.trigger_locked.value.present?
+
+    message.trigger_locked.value = 1
+
     trigger, path = ActionTriggerFactory.find_task(
       data: {
         'step' => message.step_id,
@@ -169,7 +173,10 @@ class MessengerEventsChannel < ApplicationCable::Channel
     end
 
     if message.from_bot?
-      data_submit(data['reply'], message) if data['reply'].present?
+      if data['reply'].present?
+        data_submit(data['reply'], message) 
+        trigger.register_metric(@app_user, data['reply'], message)
+      end
     end
   end
 
