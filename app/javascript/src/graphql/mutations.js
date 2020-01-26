@@ -20,6 +20,7 @@ export const UPDATE_APP = `
         leadTasksSettings
         userTasksSettings
         gatherSocialData
+        registerVisits
         domainUrl
         outgoingEmailDomain
         customFields

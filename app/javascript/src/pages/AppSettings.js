@@ -302,6 +302,8 @@ class AppSettingsContainer extends Component {
       },*/
       {
         name: "activeMessenger",
+        label: "activate messenger",
+        hint: 'when this is activate the messenger web widget will be activated',
         type: 'bool',
         grid: { xs: 12, sm: 12 }
       },

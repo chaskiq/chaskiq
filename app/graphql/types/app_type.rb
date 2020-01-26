@@ -7,7 +7,7 @@ module Types
     field :state, String, null: true
     field :tagline, String, null: true
     field :domain_url, String, null: true
-    field :active_messenger, String, null: true
+    field :active_messenger, Boolean, null: true
     field :timezone, String, null: true
     field :theme, String, null: true
     field :config_fields, Types::JsonType, null: true
@@ -25,11 +25,25 @@ module Types
     field :user_tasks_settings, Types::JsonType, null: true
     field :lead_tasks_settings, Types::JsonType, null: true
     field :gather_social_data, Boolean, null: true
+    field :register_visits, Boolean, null: true
     field :translations, [Types::JsonType], null: true
     field :available_languages, [Types::JsonType], null: true
     field :outgoing_email_domain, String, null: true
     field :custom_fields, [Types::JsonType], null: true
     field :app_packages, [Types::AppPackageType], null: true
+
+
+    def gather_social_data
+      ActiveModel::Type::Boolean.new.cast(object.gather_social_data)
+    end
+
+    def register_visits
+      ActiveModel::Type::Boolean.new.cast(object.register_visits)
+    end
+
+    def active_messenger
+      ActiveModel::Type::Boolean.new.cast(object.active_messenger)
+    end
 
     def app_packages
       integrations = object.app_package_integrations.map(&:app_package_id)

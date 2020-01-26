@@ -45,7 +45,7 @@ const graphql = (query, variables, callbacks)=>{
   .catch(( req, error )=> {
     //throw r
     //const res = r.response
-    console.log(req, error)
+    //console.log(req, error)
     switch (req.response.status) {
       case 500:
         store.dispatch(errorMessage("server error ocurred"))
