@@ -13,6 +13,6 @@ class Visit < ApplicationRecord
   end
 
   def insert_count
-    AppIdentity.new(app.key).visits.incr(1, self.created_at)
+    AppIdentity.new(app.key).visits.incr(1, Time.zone.now)
   end
 end
