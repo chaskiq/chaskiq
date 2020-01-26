@@ -58,22 +58,26 @@ class BotTask < ApplicationRecord
   def self.broadcast_task_to_user(user)
     app = user.app
     key = "#{app.key}-#{user.session_id}"
-    bot_task = app.bot_tasks.availables_for(user).first
+    app.bot_tasks.availables_for(user).each do |bot_task|
 
-    return if bot_task.blank? || !bot_task.available_for_user?(user.id)
+      next if bot_task.blank? || !bot_task.available_for_user?(user.id)
 
-    MessengerEventsChannel.broadcast_to(key, {
-      type: 'triggers:receive',
-      data: {
-        trigger: bot_task,
-        step: bot_task.paths.first['steps'].first
-      }
-    }.as_json)
+      MessengerEventsChannel.broadcast_to(key, {
+        type: 'triggers:receive',
+        data: {
+          trigger: bot_task,
+          step: bot_task.paths.first['steps'].first
+        }
+      }.as_json)
 
-    user.metrics.create(
-      trackable: bot_task,
-      action: 'bot_tasks.delivered'
-    )
+      user.metrics.create(
+        trackable: bot_task,
+        action: 'bot_tasks.delivered'
+      )
+
+      break
+
+    end
 
   end
 
