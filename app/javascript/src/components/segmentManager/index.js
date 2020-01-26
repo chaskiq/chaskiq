@@ -311,7 +311,7 @@ export class InlineFilterDialog extends Component {
             onClick={this.toggleDialog}>
             <AddIcon />
             {" "}
-            Add filterss
+            Add filters
           </Button>
         
           <Menu 
