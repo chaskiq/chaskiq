@@ -1076,7 +1076,11 @@ class Messenger extends Component {
                                     opacity: this.state.header.opacity,
                                     transform: `translateY(${this.state.header.translateY}px)`
                                   }}>
-                                    <h2>{this.state.appData.greetings}</h2>
+                                    {
+                                      this.state.appData.logo && 
+                                        <img src={this.state.appData.logo}></img>
+                                    }
+                                    <h2 style={{margin: '0.6em 0em' }}>{this.state.appData.greetings}</h2>
                                     <p>{this.state.appData.intro}</p>
                                   </HeaderTitle>
                                 }
