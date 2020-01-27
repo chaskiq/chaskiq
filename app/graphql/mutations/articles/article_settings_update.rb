@@ -18,13 +18,6 @@ module Mutations
           settings.merge!(id: app.article_settings.id)
         end
 
-        # ugly, dry
-        if settings[:logo]
-          app.article_settings.logo.attach(settings[:logo])
-        elsif settings[:header_image]
-          app.article_settings.header_image.attach(settings[:header_image])
-        end
-
         article_settings = app.article_settings.present? ? app.article_settings : app.build_article_settings
         article_settings.update(settings)
 
