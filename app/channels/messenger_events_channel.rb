@@ -245,7 +245,7 @@ class MessengerEventsChannel < ApplicationCable::Channel
     @app = App.find_by(key: params[:app])
 
     OriginValidator.new(
-      app: @app, 
+      app: @app.domain_url, 
       host: connection.env['HTTP_ORIGIN']
     ).is_valid?
 

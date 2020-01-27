@@ -13,12 +13,11 @@ class OriginValidator
   end
 
   def is_valid?
-
     env_domain = Addressable::URI.parse(
-      @host
+      self.host
     )
 
-    app_domain = Addressable::URI.parse(@app.domain_url)
+    app_domain = Addressable::URI.parse(self.app)
 
     # for now we will check for domain
     raise NonAcceptedOrigin if app_domain.domain != env_domain.domain
