@@ -58,6 +58,7 @@ class BotTask < ApplicationRecord
   def self.broadcast_task_to_user(user)
     app = user.app
     key = "#{app.key}-#{user.session_id}"
+    ret = nil
     app.bot_tasks.availables_for(user).each do |bot_task|
 
       next if bot_task.blank? || !bot_task.available_for_user?(user.id)
@@ -75,9 +76,13 @@ class BotTask < ApplicationRecord
         action: 'bot_tasks.delivered'
       )
 
+      ret = true
+
       break
 
     end
+
+    ret
 
   end
 

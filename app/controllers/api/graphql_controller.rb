@@ -70,13 +70,6 @@ class Api::GraphqlController < ApiController
     @user_data = get_user_data_from_auth
   end
 
-  def valid_origin?
-    OriginValidator.new(
-      app: @app, 
-      host: request.env['HTTP_ORIGIN']
-    ).is_valid?
-  end
-
   attr_reader :user_data
 
   def get_app

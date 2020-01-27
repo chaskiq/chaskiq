@@ -36,6 +36,10 @@ RSpec.describe Api::GraphqlController, type: :controller do
         'HTTP_ENC_DATA' => encrypted_data,
         'HTTP_APP' => app.key
       )
+
+      OriginValidator.any_instance
+      .stub(:host)
+      .and_return("http://localhost:3000")
     end
 
     it 'auth encrypted will create registered user' do
@@ -73,8 +77,40 @@ RSpec.describe Api::GraphqlController, type: :controller do
     end
   end
 
+  describe 'other domain registered user' do
+    before :each do
+      encrypted_data = JWE.encrypt(data.to_json, app.encryption_key, alg: 'dir')
+      request.headers.merge!(
+        'HTTP_ENC_DATA' => encrypted_data,
+        'HTTP_APP' => app.key
+      )
+
+      OriginValidator.any_instance
+      .stub(:host)
+      .and_return("http://other.domain")
+    end
+
+    it 'will return 422' do
+      expect(app.app_users).to be_blank
+
+      graphql_post(type: 'AUTH', variables: {})
+
+      expect(response.status).to be == 422
+
+      graphql_post(type: 'PING', variables: {})
+
+      expect(response.status).to be == 422
+
+    end
+  end
+
 
   it 'sessionless will create Lead' do
+
+    OriginValidator.any_instance
+    .stub(:host)
+    .and_return("http://localhost:3000")
+
     request.headers.merge!(
       'HTTP_APP' => app.key
     )
@@ -93,6 +129,11 @@ RSpec.describe Api::GraphqlController, type: :controller do
       @user = app.add_anonymous_user({})
 
       expect(app.app_users.count).to be == 1
+
+
+      OriginValidator.any_instance
+      .stub(:host)
+      .and_return("http://localhost:3000")
 
       request.headers.merge!(
         'HTTP_APP' => app.key,
