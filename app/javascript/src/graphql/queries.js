@@ -16,6 +16,7 @@ export const APP = `
       key
       name
       preferences
+      logo
       timezone
       domainUrl
       activeMessenger

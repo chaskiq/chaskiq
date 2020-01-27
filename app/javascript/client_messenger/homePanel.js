@@ -362,7 +362,7 @@ const ArticleCard = ({article, displayArticle})=>{
 
 const Panel = styled.div`
   position: fixed;
-  top: 17px;
+  top: 34px;
   bottom: 0px;
   left: 0px;
   right: 0px;

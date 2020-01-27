@@ -15,6 +15,7 @@ describe('Tours Spec', function() {
     cy.app('clean') // have a look at cypress/app_commands/clean.rb
     cy.appEval('ActiveJob::Base.queue_adapter = :test')
     cy.appEval('ActiveJob::Base.queue_adapter.perform_enqueued_at_jobs = true')
+    cy.appEval('Redis.current.del("app_user:1:trigger_locked")')
   })
 
   it('display tour, finish event', function() {
@@ -27,6 +28,8 @@ describe('Tours Spec', function() {
         url: `/tester/${appKey}`,
         state: 'enabled'
       }).then((res)=>{
+
+        
         cy.visit(`/tester/${appKey}`).then(()=>{
 
           //TODO:

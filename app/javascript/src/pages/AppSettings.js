@@ -1,12 +1,4 @@
 import React, {Component} from "react"
-import {
-  Route,
-  Link
-} from 'react-router-dom'
-import ContentWrapper from '../components/ContentWrapper';
-import PageTitle from '../components/PageTitle';
-import styled from '@emotion/styled'
-import axios from 'axios'
 import serialize from 'form-serialize'
 
 import Paper from '@material-ui/core/Paper'
@@ -17,7 +9,10 @@ import Grid from '@material-ui/core/Grid'
 import FieldRenderer from '../shared/FormFields'
 import graphql from "../graphql/client";
 import { APP } from "../graphql/queries"
-import { PREDICATES_SEARCH, UPDATE_APP } from '../graphql/mutations'
+import {
+  CREATE_DIRECT_UPLOAD,
+} from '../graphql/mutations'
+
 import { toSnakeCase } from '../shared/caseConverter'
 import { withStyles } from '@material-ui/core/styles';
 
@@ -186,7 +181,8 @@ class AppSettingsContainer extends Component {
             () => {
               let params = {}
               params[kind] = signedBlobId
-              this.props.update({settings: params})
+
+              this.update({app: params })
           });
         },
         error: (error)=>{
@@ -223,8 +219,16 @@ class AppSettingsContainer extends Component {
       {
         name: "name",
         type: 'string',
-        grid: { xs: 12, sm: 12 }
+        grid: { xs: 12, sm: 8 }
       },
+
+      {
+        name: 'logo',
+        type: 'upload',
+        grid: { xs: 12, sm: 4 },
+        handler: (file)=> this.uploadHandler(file, "logo")
+      },
+
       {
         name: "domainUrl",
         type: 'string',

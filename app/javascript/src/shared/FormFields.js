@@ -55,6 +55,13 @@ const styles = theme => ({
     width: '100%',
     marginTop: theme.spacing(2),
   },
+
+  upload: {
+    display: 'flex',
+    justifyContent: 'space-around',
+    flexDirection: 'column',
+    alignItems: 'center'
+  }
 });
 
 class FieldRenderer extends React.Component {
@@ -222,7 +229,7 @@ class FieldRenderer extends React.Component {
                 </FormControl>
         
       case "upload":
-        return <React.Fragment>
+        return <div className={classes.upload}>
                 <input
                   accept="image/*"
                   style={{display: 'none'}}
@@ -237,10 +244,10 @@ class FieldRenderer extends React.Component {
                   <Button variant="contained" component="span" 
                     //className={classes.button}
                     >
-                    Upload 
+                    Upload {data.name}
                   </Button>
                 </label>
-              </React.Fragment>
+              </div>
         
       default:
         break;
