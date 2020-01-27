@@ -12,6 +12,7 @@ export const UPDATE_APP = `
         activeMessenger
         translations
         availableLanguages
+        logo
         teamSchedule
         timezone
         replyTime
@@ -75,6 +76,7 @@ export const CREATE_APP = `
         tagline
         activeMessenger
         teamSchedule
+        logo
         timezone
         inboundSettings
         emailRequirement

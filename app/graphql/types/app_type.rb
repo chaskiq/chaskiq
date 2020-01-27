@@ -320,5 +320,48 @@ module Types
       argument :range, Types::JsonType, required: true
       argument :kind,  String, required: true
     end
+
+
+    field :logo, String, null: true
+    field :logo_large, String, null: true
+
+    def logo
+      return '' unless object.logo_blob.present?
+  
+      url = begin
+              object.logo.variant(resize_to_limit: [100, 100]).processed
+            rescue StandardError
+              nil
+            end
+      return nil if url.blank?
+  
+      begin
+        Rails.application.routes.url_helpers.rails_representation_url(
+          url,
+          only_path: true
+        )
+      rescue StandardError
+        nil
+      end
+    end
+  
+    def logo_large
+      options = {
+        resize: '1280x600^',
+        gravity: 'center',
+        crop: '1280x600+0+0',
+        strip: true,
+        quality: '86'
+      }
+  
+      return '' unless object.logo_blob.present?
+  
+      Rails.application.routes.url_helpers.rails_representation_url(
+        object.logo.variant(options).processed,
+        only_path: true
+      )
+    end
+
+
   end
 end

@@ -1,10 +1,9 @@
-
-
 describe('Task bot Spec', function() {
   beforeEach(() => {
     cy.app('clean') // have a look at cypress/app_commands/clean.rb
     cy.appEval('ActiveJob::Base.queue_adapter = :test')
     cy.appEval('ActiveJob::Base.queue_adapter.perform_enqueued_at_jobs = true')
+    cy.appEval('Redis.current.del("app_user:1:trigger_locked")')
   })
 
   it('sessionless', function() {
@@ -53,7 +52,6 @@ describe('Task bot Spec', function() {
     cy.appScenario('app_bot_settings', {email_requirement: 'Always'}).then((results) => {
       cy.appEval("App.last").then((results) => {
         const appKey = results.key
-
         cy.visit(`/tester/${appKey}?sessionless=true&lang=en`).then(()=>{
 
           cy.get('iframe:first')

@@ -19,6 +19,7 @@ export const PING = `
         activeMessenger
         inBusinessHours
         replyTime
+        logo
         inboundSettings
         emailRequirement
         businessBackIn
