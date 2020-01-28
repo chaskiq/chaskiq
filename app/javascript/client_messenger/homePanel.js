@@ -392,7 +392,7 @@ const ButtonWrapper = styled.div`
   }
 
   button{
-    border: 1px solid #ccc;
+    border: 0px solid #ccc;
     padding: 1.2em;
     border-bottom-right-radius: 6px;
     border-top-right-radius: 6px;

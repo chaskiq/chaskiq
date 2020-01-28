@@ -25,6 +25,7 @@ import {
 } from './graphql/queries'
 import GraphqlClient from './graphql/client'
 
+
 import {
   Container,
   UserAutoMessage,
@@ -43,7 +44,8 @@ import {
   HeaderAvatar,
   CountBadge,
   ShowMoreWrapper,
-  AssigneeStatus
+  AssigneeStatus,
+  Overflow
 } from './styles/styled'
 
 import TourManager from './tourManager'
@@ -1319,7 +1321,15 @@ class Messenger extends Component {
                     </div>
                   </Prime>  
                 </StyledFrame> : null
-            }
+              }
+
+              {
+                (this.state.open || this.state.inline_conversation) &&
+                <div>
+                  <Overflow/>
+                </div>
+              }
+              
 
             </EditorWrapper>
 
