@@ -20,6 +20,8 @@ class App < ApplicationRecord
     outgoing_email_domain
     register_visits
     custom_fields
+    enable_articles_on_widget
+    inline_new_conversations
   ], coder: JSON
 
   translates :greetings, :intro, :tagline
@@ -90,6 +92,12 @@ class App < ApplicationRecord
 
       {
         name: 'outgoingEmailDomain',
+        type: 'string',
+        grid: { xs: 12, sm: 6 }
+      },
+
+      {
+        name: 'enable_articles_on_widget',
         type: 'string',
         grid: { xs: 12, sm: 6 }
       },

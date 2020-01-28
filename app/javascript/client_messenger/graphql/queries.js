@@ -17,6 +17,8 @@ export const PING = `
         intro
         tagline
         activeMessenger
+        enableArticlesOnWidget
+        inlineNewConversations
         inBusinessHours
         replyTime
         logo

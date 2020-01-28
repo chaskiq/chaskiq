@@ -667,7 +667,8 @@ export const CountBadge = styled.div`
   text-align: center;
   color: #f3f3f3;
   ${(props)=> props.section === "home" ? 
-    `top: 64px;left: 14px;` : "" 
+    `top: 42px;
+    left: 15px;` : "" 
   }
 
   ${(props)=> props.section === "conversation" ? 

@@ -31,6 +31,8 @@ module Types
     field :outgoing_email_domain, String, null: true
     field :custom_fields, [Types::JsonType], null: true
     field :app_packages, [Types::AppPackageType], null: true
+    field :enable_articles_on_widget, Boolean, null: true
+    field :inline_new_conversations, Boolean, null: true
 
 
     def gather_social_data
@@ -43,6 +45,14 @@ module Types
 
     def active_messenger
       ActiveModel::Type::Boolean.new.cast(object.active_messenger)
+    end
+
+    def enable_articles_on_widget
+      ActiveModel::Type::Boolean.new.cast(object.enable_articles_on_widget)
+    end
+
+    def inline_new_conversations
+      ActiveModel::Type::Boolean.new.cast(object.inline_new_conversations)
     end
 
     def app_packages
