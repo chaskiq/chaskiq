@@ -11,6 +11,8 @@ i18n
       en: {
         translations: {
           conversations: "Conversations",
+          "conversation_block.choosen": "You replied <strong>{{field}}</strong>",
+
           start_conversation: "Start a conversation",
           see_previous: "See previous",
           search_article_title: "Find answers in our article's repository",
@@ -46,6 +48,7 @@ i18n
       es: {
         translations: {
           conversations: "Conversaciones",
+          "conversation_block.choosen": "respondiste <strong>{{field}}</strong>",
           start_conversation: "Inicia una conversación",
           see_previous: "Ver anteriores",
           search_article_title: "Encuentra respuestas en nuestro centro de ayuda",

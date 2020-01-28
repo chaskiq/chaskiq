@@ -412,11 +412,11 @@ export const ConversationEventContainer = styled.div`
 export const AppPackageBlockContainer = styled.div`
     padding: .7em;
     border-radius: 7px;
-    background: #f1f0f9;
     display: flex;
     justify-content: center;
     margin: .7em;
-
+    border: 1px solid #e3e7e8;
+    background: #f9fcfd;
     ${
       (props)=> {
         return props.isInline ? `box-shadow: 4px 4px 1px #00000061;` : ''
