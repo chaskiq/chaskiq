@@ -48,7 +48,7 @@ i18n
           conversations: "Conversaciones",
           start_conversation: "Inicia una conversación",
           see_previous: "Ver anteriores",
-          search_article_title: "Encuentra respuestas buscando",
+          search_article_title: "Encuentra respuestas en nuestro centro de ayuda",
           search_articles: "Busca artículos",
           latest_articles: "Artículos recientes",
           reply_above: "Responde arriba",

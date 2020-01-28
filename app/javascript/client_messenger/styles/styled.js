@@ -203,6 +203,18 @@ export const SuperDuper = styled('div')`
   position: absolute;
 `
 
+export const Overflow = styled.div`
+  z-index: 9900000;
+  position: fixed;
+  width: 545px;
+  height: 100vh;
+  bottom: 0px;
+  right: 0px;
+  content: "";
+  pointer-events: none;
+  background: radial-gradient(at right bottom,rgba(29,39,54,0.16) 9%,rgba(0, 0, 0, 0) 72%);
+`
+
 export const UserAutoMessageStyledFrame = styled(StyledFrame)
   `
     display: block;
