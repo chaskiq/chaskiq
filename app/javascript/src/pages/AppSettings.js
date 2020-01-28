@@ -312,6 +312,20 @@ class AppSettingsContainer extends Component {
         grid: { xs: 12, sm: 12 }
       },
 
+      {
+        name: 'enableArticlesOnWidget',
+        label: "Display article blocks on messenger widget",
+        type: 'bool',
+        grid: { xs: 12, sm: 6 }
+      },
+
+      {
+        name: 'inlineNewConversations',
+        label: "Display new messages in floating box (without open the main widget)",
+        type: 'bool',
+        grid: { xs: 12, sm: 6 }
+      },
+
     ]
   }
 

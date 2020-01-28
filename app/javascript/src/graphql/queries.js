@@ -17,6 +17,8 @@ export const APP = `
       name
       preferences
       logo
+      enableArticlesOnWidget
+      inlineNewConversations
       timezone
       domainUrl
       activeMessenger

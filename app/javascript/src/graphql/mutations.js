@@ -13,6 +13,8 @@ export const UPDATE_APP = `
         translations
         availableLanguages
         logo
+        enableArticlesOnWidget
+        inlineNewConversations
         teamSchedule
         timezone
         replyTime
@@ -24,6 +26,7 @@ export const UPDATE_APP = `
         registerVisits
         domainUrl
         outgoingEmailDomain
+        customizationColors
         customFields
         segments {
           name
@@ -74,6 +77,8 @@ export const CREATE_APP = `
         theme
         state
         tagline
+        enableArticlesOnWidget
+        inlineNewConversations
         activeMessenger
         teamSchedule
         logo

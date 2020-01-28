@@ -82,8 +82,6 @@ class Messenger extends Component {
       conversation: {},
       inline_conversation: null,
       new_messages: this.props.new_messages,
-      //conversation_messages: [],
-      //conversation_messagesMeta: {},
       conversations: [],
       conversationsMeta: {},
       availableMessages: [],
@@ -407,13 +405,28 @@ class Messenger extends Component {
     if(!this.state.open && !this.state.inline_conversation){
       
       this.clearConversation(()=>{
-        this.setConversation(newMessage.conversationKey, ()=>{
-          this.setState({
-            inline_conversation: newMessage.conversationKey
-          }, ()=> setTimeout(this.scrollToLastItem, 200) )
-        })
-      })
+        
+        if(this.props.appData.inlineNewConversations){
 
+          this.setConversation(newMessage.conversationKey, ()=>{
+            this.setState({
+              inline_conversation: newMessage.conversationKey
+            }, ()=> setTimeout(this.scrollToLastItem, 200) )
+          })
+
+        }else{
+
+          this.setConversation(newMessage.conversationKey, ()=>{
+            this.setState({
+              display_mode: "conversation",
+              open: true,
+            }, ()=> setTimeout(this.scrollToLastItem, 200) )
+          })
+
+        }
+
+      })
+      
       return
     }
 
@@ -617,7 +630,9 @@ class Messenger extends Component {
       success: (data)=>{
         const { collection, meta } = data.messenger.conversations
         this.setState({
-          conversations: options && options.append ? this.state.conversations.concat(collection) : collection,
+          conversations: options && options.append ? 
+          this.state.conversations.concat(collection) : 
+          collection,
           conversationsMeta: meta
         }, ()=> cb && cb() )
       },
@@ -645,7 +660,10 @@ class Messenger extends Component {
 
         this.setState({
           conversation: Object.assign(this.state.conversation, conversation, {
-            messages: { collection:  newCollection, meta: meta }
+            messages: { 
+              collection:  newCollection, 
+              meta: meta 
+            }
           }),
           //conversation_messages: nextPage > 1 ? this.state.conversation.messages.collection.concat(messages.collection) : messages.collection ,
           //conversation_messagesMeta: messages.meta
@@ -1050,7 +1068,8 @@ class Messenger extends Component {
                                 in={this.state.transition}
                                 >
 
-                                { this.state.new_messages > 0 && 
+                                { this.state.display_mode != "home" && 
+                                  this.state.new_messages > 0 && 
                                   <CountBadge section={this.state.display_mode}>
                                     {this.state.new_messages}
                                   </CountBadge>
@@ -1103,6 +1122,7 @@ class Messenger extends Component {
                               {
                                 this.state.display_mode === "home" && 
                                 <Home 
+                                  newMessages={this.state.new_messages}
                                   graphqlClient={this.graphqlClient}
                                   displayNewConversation={this.displayNewConversation}
                                   viewConversations={this.displayConversationList}
@@ -1200,11 +1220,6 @@ class Messenger extends Component {
                 <StyledFrame className="inline-frame" style={{
                   height: this.inlineOverflow ? this.inlineOverflow.offsetHeight + "px" : ''
                 }}>
-
-
-                {/*<InlineConversation 
-                  conversation={this.state.inline_conversation}
-                />*/}
 
                 {
                   

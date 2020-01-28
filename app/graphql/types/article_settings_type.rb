@@ -18,7 +18,6 @@ module Types
     field :linkedin, String, null: true
     field :credits, String, null: true
     field :langs, String, null: true
-
     field :translations, [Types::JsonType], null: true
 
     field :available_languages, [Types::JsonType], null: true
