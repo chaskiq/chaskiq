@@ -191,7 +191,7 @@ RSpec.describe Segment, type: :model do
         expect(app.segments.first.execute_query.count).to be == 0
         comparator = SegmentComparator.new(
           user: app.app_users.last, 
-          predicates: email_predicate 
+          predicates: not_email_predicate 
         )
 
         comparator.compare
