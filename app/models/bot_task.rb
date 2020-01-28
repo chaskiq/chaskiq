@@ -48,9 +48,15 @@ class BotTask < ApplicationRecord
   end
 
   # consumed
-  def available_for_user?(user_id)
-    available_segments.find(user_id) && metrics
-      .where(app_user_id: user_id).blank?
+  def available_for_user?(user)
+
+    comparator = SegmentComparator.new(
+      user: user, 
+      predicates: segments
+    )
+
+    comparator #&& metrics.where(app_user_id: user.id).blank?
+    
   rescue ActiveRecord::RecordNotFound
     false
   end
@@ -61,7 +67,7 @@ class BotTask < ApplicationRecord
     ret = nil
     app.bot_tasks.availables_for(user).each do |bot_task|
 
-      next if bot_task.blank? || !bot_task.available_for_user?(user.id)
+      next if bot_task.blank? || !bot_task.available_for_user?(user)
 
       MessengerEventsChannel.broadcast_to(key, {
         type: 'triggers:receive',
