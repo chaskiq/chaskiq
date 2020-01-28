@@ -85,7 +85,7 @@ const HomePanel = ({
         setMeta(meta)
       },
       error: (err)=>{
-        console.log("ERROROROROR" , err)
+        console.log("ERR" , err)
         setLoading(false)
         //debugger
       }

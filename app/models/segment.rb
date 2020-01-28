@@ -177,6 +177,7 @@ class SegmentComparator
               when "is_not_null" then !user_input.blank?
               when "contains" then user_input.include?(predicate_value)
               when "not_contains" then !user_input.include?(predicate_value)
+              when "not_eq" then user_input != predicate_value
               when "eq" then user_input == predicate_value
               when "lt" then user_input < predicate_value
               when "lteq" then user_input <= predicate_value

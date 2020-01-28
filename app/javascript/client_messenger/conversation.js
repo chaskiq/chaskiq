@@ -342,7 +342,7 @@ export class Conversation extends Component {
                 onScroll={this.handleConversationScroll}
                 style={{ 
                   overflowY: 'auto', 
-                  height: '90vh', 
+                  height: '86vh', 
                   position: 'absolute' ,
                   width: '100%',
                   zIndex: '20'
@@ -523,11 +523,15 @@ class AppPackageBlock extends Component {
     const item = this.props.message.data
 
     if(!item) return this.renderEmptyItem()
+
+    const t = this.props.t
     
     switch(item.element){
       case "button":
         if (this.props.message.blocks.type === "ask_option"){
-          return <p>choosen: {item.label}</p>
+          return <span dangerouslySetInnerHTML={{ 
+            __html: this.props.t(`conversation_block.choosen`, {field: item.label} )
+          }}/>
         }
       default:
         if (this.props.message.blocks.type === "data_retrieval"){
@@ -620,7 +624,12 @@ export function CommentsItemComp(props){
   const [display, setDisplay] = React.useState(false)
 
   React.useEffect(() => {
-    setTimeout(()=> setDisplay(true), 400 ) // + (index * 100))
+    const timeout = setTimeout(()=> setDisplay(true), 400 ) // + (index * 100))
+
+    // this cancell effect
+    return function(){
+      clearTimeout(timeout);
+    }
   }, [])
 
   function renderAgentAvatar(){
