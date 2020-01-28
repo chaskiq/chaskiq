@@ -55,7 +55,7 @@ class BotTask < ApplicationRecord
       predicates: segments
     )
 
-    comparator #&& metrics.where(app_user_id: user.id).blank?
+    comparator.compare #&& metrics.where(app_user_id: user.id).blank?
     
   rescue ActiveRecord::RecordNotFound
     false
