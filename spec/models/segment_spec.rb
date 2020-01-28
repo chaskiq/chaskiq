@@ -79,6 +79,13 @@ RSpec.describe Segment, type: :model do
            value: 'foo@bar.cl' }.with_indifferent_access]
       end
 
+      let(:not_email_predicate) do
+        [{ attribute: 'email',
+           comparison: 'not_eq',
+           type: 'string',
+           value: 'foo@bar.cl' }.with_indifferent_access]
+      end
+
       let(:predicates_with_or)  do
         predicates << online_predicate
         predicates << {
@@ -126,6 +133,7 @@ RSpec.describe Segment, type: :model do
         comparator.compare
         expect(comparator.compare).to be_falsey
       end
+      
 
       it 'with multiple predicates concat or' do
         allow_any_instance_of(Segment).to receive(:predicates).and_return(predicates_with_or)
@@ -176,6 +184,18 @@ RSpec.describe Segment, type: :model do
 
         comparator.compare
         expect(comparator.compare).to be_truthy
+      end
+
+      it 'with user attribute' do
+        allow_any_instance_of(Segment).to receive(:predicates).and_return(not_email_predicate)
+        expect(app.segments.first.execute_query.count).to be == 0
+        comparator = SegmentComparator.new(
+          user: app.app_users.last, 
+          predicates: not_email_predicate 
+        )
+
+        comparator.compare
+        expect(comparator.compare).to be_falsey
       end
 
 
