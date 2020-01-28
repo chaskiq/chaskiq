@@ -175,7 +175,7 @@ module Types
     field :agents, [Types::AgentType], null: false
 
     def agents
-      object.agents.where(invitation_token: nil)
+      object.agents.with_attached_avatar.where(invitation_token: nil)
     end
 
     field :not_confirmed_agents, [Types::AgentType], null: false

@@ -673,8 +673,8 @@ export const INVITE_AGENT = `
 `;
 
 export const UPDATE_AGENT = `
-  mutation UpdateAgent($appKey: String!, $email: String!, $name: String!){
-    updateAgent(appKey: $appKey, email: $email, name: $name){
+  mutation UpdateAgent($appKey: String!, $email: String!, $params: Json!){
+    updateAgent(appKey: $appKey, email: $email, params: $params){
       agent {
         email
         avatarUrl
