@@ -153,11 +153,11 @@ class SegmentComparator
     cols = AppUser.columns
 
     Array(predicates).collect do |predicate|
+      #predicate = predicate.with_indifferent_access
       next if predicate['type'] == 'match'
-
       field = cols.map(&:name).include?(predicate['attribute']) ?
-        user.send(predicate[:attribute].to_sym) : 
-        user.properties[predicate[:attribute].to_s]
+        user.send(predicate['attribute'].to_sym) : 
+        user.properties[predicate['attribute'].to_s]
 
       query << handle_comparison(field, predicate)
     end
