@@ -406,7 +406,7 @@ class Messenger extends Component {
       
       this.clearConversation(()=>{
         
-        if(this.props.appData.inlineNewConversations){
+        if(this.state.appData.inlineNewConversations){
 
           this.setConversation(newMessage.conversationKey, ()=>{
             this.setState({
