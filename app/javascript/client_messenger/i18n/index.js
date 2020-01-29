@@ -62,7 +62,7 @@ i18n
           dismiss: "Descartar",
           submit: "Enviar",
           enter_your: "Escribe tu {{field}}",
-          "editor.placeholder": "Send message...",
+          "editor.placeholder": "Envía tu mensaje...",
           article_meta: "Por: <strong>{{name}}</strong> en <0>{{date}}</0>",
           "reply_time.auto": "El equipo responderá lo antes posible", 
           "reply_time.minutes": "El equipo suele responder en cuestión de minutos.",
