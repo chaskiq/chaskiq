@@ -200,6 +200,10 @@ class App < ApplicationRecord
     add_agent(attrs, bot: true)
   end
 
+  def create_agent_bot
+    add_bot_agent(email: "bot@#{id}-chaskiq", name: 'chaskiq bot')
+  end
+
   def add_admin(user)
     user.roles.create(app: self, role: 'admin')
     add_user(email: user.email)
@@ -315,7 +319,4 @@ class App < ApplicationRecord
     h
   end
 
-  def create_agent_bot
-    add_bot_agent(email: 'bot@chaskiq', name: 'chaskiq bot')
-  end
 end
