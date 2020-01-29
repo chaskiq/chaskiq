@@ -623,6 +623,33 @@ export function CommentsItemComp(props){
 
   const [display, setDisplay] = React.useState(false)
 
+  function renderEventBlock(o){
+    const {data, action} = o.message
+    return <span>
+              <i>{t(`conversations.events.${action}`, data)}</i>
+            </span>
+  }
+
+  function renderItemPackage(message){
+    return message.message.blocks.type
+  }
+
+  function renderMessage(message){
+    var length = 80;
+    const d = JSON.parse(message.message.serializedContent)
+    const string = d.blocks.map((block)=> block.text).join("\n")
+    var trimmedString = string.length > length ? 
+                        string.substring(0, length - 3) + "..." : 
+                        string;
+    return trimmedString
+  }
+
+  function renderMessages(message){
+    if(message.message.blocks) return renderItemPackage(message)
+    if(message.message.action) return renderEventBlock(message)
+    return renderMessage(message)
+  }
+
   React.useEffect(() => {
     const timeout = setTimeout(()=> setDisplay(true), 400 ) // + (index * 100))
 
@@ -646,9 +673,8 @@ export function CommentsItemComp(props){
                 displayOpacity={display}
                 key={`comments-item-${o.id}`}
                 onClick={(e) => { displayConversation(e, o) }}>
-
                 {
-                  message ?
+                  message &&
                     <ConversationSummary>
 
                       <ConversationSummaryAvatar>
@@ -682,23 +708,32 @@ export function CommentsItemComp(props){
                           </Moment>
 
                         </ConversationSummaryBodyMeta>
-                        {/* TODO: sanitize in backend */}
+                   
                         <ConversationSummaryBodyItems>
                           {
                             message.appUser && message.appUser.kind != "agent" ? 
                               <div className="you">{t("you")}:</div> : null 
                           }
-                          <ConversationSummaryBodyContent
-                            dangerouslySetInnerHTML={
-                              { __html: sanitizeMessageSummary(message.message.htmlContent) }
+
+                          <ConversationSummaryBodyContent>
+                            {
+                              //dangerouslySetInnerHTML={
+                              //  { __html: sanitizeMessageSummary(message.message.htmlContent) }
+                              //}
                             }
-                          />
+
+                            {renderMessages(message)}
+
+                          </ConversationSummaryBodyContent>
+
+                          
+
                         </ConversationSummaryBodyItems>
 
                       </ConversationSummaryBody>
-                    </ConversationSummary> : null
+                    </ConversationSummary>
                 }
-              </CommentsItem>
+            </CommentsItem>        
 }
 
 export function InlineConversation({conversation}){
