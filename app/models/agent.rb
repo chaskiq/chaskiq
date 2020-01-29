@@ -88,7 +88,7 @@ class Agent < ApplicationRecord
     begin
       Rails.application.routes.url_helpers.rails_representation_url(
         url,
-        only_path: true
+        #only_path: true
       )
     rescue StandardError
       nil
