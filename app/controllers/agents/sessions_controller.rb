@@ -7,6 +7,11 @@ class Agents::SessionsController < Devise::SessionsController
   skip_before_action :require_no_authentication, only: [:create]
   before_action :clear_session, only: [:create]
 
+  def new
+    redirect_to "/" and return
+  end
+  
+
   def create
 
     require_no_authentication
