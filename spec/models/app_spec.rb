@@ -31,13 +31,13 @@ RSpec.describe App, type: :model do
   it 'create an user' do
     app.add_user(email: 'test@test.cl', first_name: 'dsdsa')
     expect(app.app_users.users).to be_any
-    expect(app.app_users.first.first_name).to be_present
   end
 
   it 'create an agent' do
     app.add_agent(email: 'test@test.cl', first_name: 'dsdsa')
+    app.reload
     expect(app.agents).to be_any
-    expect(app.agents.last.first_name).to be_present
+    expect( app.agents.find_by(email: "test@test.cl").first_name ).to be_present
   end
 
   it 'crean an agent bot' do
