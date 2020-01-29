@@ -18,6 +18,7 @@ describe('Tours Spec', function() {
     cy.appEval('Redis.current.del("app_user:1:trigger_locked")')
   })
 
+  
   it('display tour, finish event', function() {
     cy.appScenario('basic')
     
@@ -34,10 +35,10 @@ describe('Tours Spec', function() {
 
           //TODO:
 
-          /*cy.appEval("Tour.last.metrics.where(app_user: AppUser.last, action: \"open\")")
-          .then((res)=>{
-            expect(res.length).to.equal(1)
-          })*/
+          //cy.appEval("Tour.last.metrics.where(app_user: AppUser.last, action: \"open\")")
+          //.then((res)=>{
+          //  expect(res.length).to.equal(1)
+          //})
 
           // expect(tour.metrics.where(app_user: AppUser.last, action: "open")).to be_any
           cy.contains("this is the tour")
@@ -53,7 +54,6 @@ describe('Tours Spec', function() {
       })
     })
   })
-
 
   it('display tour, skip event', function() {
     cy.appScenario('basic')
@@ -183,6 +183,7 @@ describe('Tours Spec', function() {
     })
   })
 
+  
   it("will appear on email & property match num_devices eq 1", function(){
 
     cy.appScenario('basic')

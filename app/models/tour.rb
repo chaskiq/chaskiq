@@ -151,7 +151,7 @@ class Tour < Message
     tours = app.tours.availables_for(user)
     tour = tours.first
 
-    return if tour.blank? || !tour.available_for_user?(user.id)
+    return if tour.blank? || !tour.available_for_user?(user)
 
     if tours.any?
       MessengerEventsChannel.broadcast_to(key, {

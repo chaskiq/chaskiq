@@ -76,15 +76,26 @@ class UserAutoMessage < Message
   end
 
   # or closed or consumed
-  def available_for_user?(user_id)
-    available_segments.find(user_id) &&
-      metrics.where(action: hidden_constraints, message_id: user_id).empty?
+  # def available_for_user?(user_id)
+  #   available_segments.find(user_id) &&
+  #     metrics.where(action: hidden_constraints, message_id: user_id).empty?
+  # rescue ActiveRecord::RecordNotFound
+  #   false
+  # end
+
+  # consumed
+  def available_for_user?(user)
+    comparator = SegmentComparator.new(
+      user: user, 
+      predicates: segments
+    )
+    comparator.compare #&& metrics.where(app_user_id: user.id).blank?
   rescue ActiveRecord::RecordNotFound
     false
   end
 
   def show_notification_for(user)
-    if available_for_user?(user.id)
+    if available_for_user?(user)
       metrics.create(
         app_user_id: user.id,
         trackable: self,
