@@ -108,8 +108,8 @@ RSpec.describe Api::GraphqlController, type: :controller do
   it 'sessionless will create Lead' do
 
     OriginValidator.any_instance
-    .stub(:host)
-    .and_return("http://localhost:3000")
+    .stub(:is_valid?)
+    .and_return(true)
 
     request.headers.merge!(
       'HTTP_APP' => app.key
