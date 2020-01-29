@@ -24,7 +24,10 @@ RSpec.describe UserAutoMessage, type: :model do
     app.app_users.first
   end
 
-  let(:campaign) { FactoryBot.create(:user_auto_message, app: app) }
+  let(:campaign) { 
+    FactoryBot.create(:user_auto_message, app: app) 
+  }
+
   let(:premailer_template) do
     "<p>
     {{name}} {{last_name}} {{email}}
@@ -43,7 +46,8 @@ RSpec.describe UserAutoMessage, type: :model do
   end
 
   describe 'trigger message detection' do
-    before do
+
+    let!(:users_segment){
       10.times do
         app.add_user(email: Faker::Internet.email, properties: {
                        custom_country: 'albania'
@@ -51,50 +55,52 @@ RSpec.describe UserAutoMessage, type: :model do
       end
 
       app.segments.create
+    }
 
-      
+    let(:message){
+      FactoryBot.create(:user_auto_message,
+      app: app,
+      segments: app.segments.first.predicates,
+      scheduled_at: 2.day.ago,
+      scheduled_to: 30.days.from_now)
+    }
 
-      @c = FactoryBot.create(:user_auto_message,
-                             app: app,
-                             segments: app.segments.first.predicates,
-                             scheduled_at: 2.day.ago,
-                             scheduled_to: 30.days.from_now)
+    before :each do 
+      UserAutoMessage.destroy_all
     end
 
     it 'detect by predicates' do
-      expect(@c.available_for_user?(subscriber)).to be_present
+      expect(message.available_for_user?(subscriber)).to be_present
     end
 
     it 'display message will create metric' do
-      @c.show_notification_for(subscriber)
-      expect(@c.metrics).to be_any
+      message.show_notification_for(subscriber)
+      expect(message.metrics).to be_any
     end
 
     it 'get collection will return any' do
-      @c.enable!
+      message.enable!
       expect(UserAutoMessage.availables_for(subscriber)).to be_any
     end
 
     it 'get collection will return any' do
-      @c.enable!
-      @c.hidden_constraints = ['viewed']
-      @c.save
-      @c.show_notification_for(subscriber)
-
-      expect(UserAutoMessage.count).to be == 2
-      expect(UserAutoMessage.availables_for(subscriber).size).to be == 1
+      message.enable!
+      message.hidden_constraints = ['viewed']
+      message.save
+      message.show_notification_for(subscriber)
+      expect(UserAutoMessage.availables_for(subscriber)).to be_blank
     end
 
     it 'get collection will return any on no hidden constraints' do
-      @c.enable!
-      @c.show_notification_for(subscriber)
+      message.enable!
+      message.show_notification_for(subscriber)
       expect(UserAutoMessage.availables_for(subscriber)).to_not be_blank
     end
 
     it 'template compilation' do
-      notification = @c.show_notification_for(subscriber)
+      notification = message.show_notification_for(subscriber)
       allow_any_instance_of(UserAutoMessage).to receive(:html_content).and_return(premailer_template)
-      html = @c.mustache_template_for(subscriber)
+      html = message.mustache_template_for(subscriber)
       expect(html).to be_include('click?r=http://google.com')
     end
   end
