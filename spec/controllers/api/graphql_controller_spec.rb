@@ -38,8 +38,8 @@ RSpec.describe Api::GraphqlController, type: :controller do
       )
 
       OriginValidator.any_instance
-      .stub(:host)
-      .and_return("http://localhost:3000")
+      .stub(:is_valid?)
+      .and_return(true)
     end
 
     it 'auth encrypted will create registered user' do
