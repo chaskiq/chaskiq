@@ -66,11 +66,11 @@ const useStyles = makeStyles(theme => ({
     margin: theme.spacing(1),
     backgroundColor: 'transparent',
     height: '120px',
-    width: '120px',
+    width: '350px',
     borderRadius: '0%'
   },
   logo: {
-    height: '100%',
+    //height: '100%',
     width: '100%'
   },
   form: {
