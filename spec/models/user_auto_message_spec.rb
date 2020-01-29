@@ -52,6 +52,8 @@ RSpec.describe UserAutoMessage, type: :model do
 
       app.segments.create
 
+      
+
       @c = FactoryBot.create(:user_auto_message,
                              app: app,
                              segments: app.segments.first.predicates,
@@ -60,7 +62,7 @@ RSpec.describe UserAutoMessage, type: :model do
     end
 
     it 'detect by predicates' do
-      expect(@c.available_for_user?(subscriber.id)).to be_present
+      expect(@c.available_for_user?(subscriber)).to be_present
     end
 
     it 'display message will create metric' do
@@ -78,7 +80,9 @@ RSpec.describe UserAutoMessage, type: :model do
       @c.hidden_constraints = ['viewed']
       @c.save
       @c.show_notification_for(subscriber)
-      expect(UserAutoMessage.availables_for(subscriber)).to be_blank
+
+      expect(UserAutoMessage.count).to be == 2
+      expect(UserAutoMessage.availables_for(subscriber).size).to be == 1
     end
 
     it 'get collection will return any on no hidden constraints' do
