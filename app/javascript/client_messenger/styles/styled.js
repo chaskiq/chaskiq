@@ -140,6 +140,17 @@ export const AssigneeStatus = styled.span`
   color: ${(props)=> textColor(props.theme.palette.primary)};
 `
 
+export const AssigneeStatusWrapper = styled.span`
+  display: flex;
+  flex-flow: column;
+  align-items: start;
+  justify-content: center;
+  margin-left: 10px;
+  p{
+    margin: 0px 0px 6px 0px;
+  }
+`
+
 
 export const ShowMoreWrapper = styled.div`
 
@@ -964,6 +975,7 @@ export const HeaderTitle = styled.span`
 
 export const HeaderAvatar = styled.div`
     display: flex;
+    align-items: center;
     flex: 0 0 auto;
     align-self: center;
     //margin-left: 15px;

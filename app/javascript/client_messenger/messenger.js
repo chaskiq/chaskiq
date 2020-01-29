@@ -45,7 +45,8 @@ import {
   CountBadge,
   ShowMoreWrapper,
   AssigneeStatus,
-  Overflow
+  Overflow,
+  AssigneeStatusWrapper
 } from './styles/styled'
 
 import TourManager from './tourManager'
@@ -932,7 +933,7 @@ class Messenger extends Component {
               { assignee && 
                 <React.Fragment>
                   <img src={assignee.avatarUrl} />
-                  <div>
+                  <AssigneeStatusWrapper>
                     <p>{assignee.name}</p>
                     { 
                       this.state.appData && this.state.appData.replyTime && 
@@ -940,7 +941,7 @@ class Messenger extends Component {
                         {this.props.t(`reply_time.${this.state.appData.replyTime}`)}
                       </AssigneeStatus>
                     }
-                  </div>
+                  </AssigneeStatusWrapper>
                 </React.Fragment>
               }
             </HeaderAvatar>

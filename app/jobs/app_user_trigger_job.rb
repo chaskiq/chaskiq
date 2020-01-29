@@ -26,7 +26,7 @@ class AppUserTriggerJob < ApplicationJob
   end
 
   def start_conversation(trigger)
-    author = @app.agents.first
+    author = @app.agent_bots.first
     conversation = @app.conversations.create(
       main_participant: @app_user,
       initiator: author
