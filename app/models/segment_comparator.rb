@@ -11,15 +11,19 @@ class SegmentComparator
     query = []
     cols = AppUser.columns
 
-    Array(predicates).collect do |predicate|
-      #predicate = predicate.with_indifferent_access
-      next if predicate['type'] == 'match'
+    condition_predicates = predicates.select{|o| o['type'] != 'match' }
+
+    condition_predicates.collect do |predicate|
+      # predicate = predicate.with_indifferent_access
+      # next if predicate['type'] == 'match'
       field = cols.map(&:name).include?(predicate['attribute']) ?
         user.send(predicate['attribute'].to_sym) : 
         user.properties[predicate['attribute'].to_s]
 
       query << handle_comparison(field, predicate)
     end
+
+    return true if query.size.zero?
     
     if predicates.find { |o| o['type'] == 'match' && o['value'] == 'or' }
       query.include?(true)
@@ -29,6 +33,7 @@ class SegmentComparator
   end
 
   def compare_with(user_input, predicate_value, comparison )
+
     result = case comparison
               when "contains_start" then user_input.start_with?(predicate_value)
               when "contains_ends" then user_input.end_with?(predicate_value)
@@ -49,6 +54,7 @@ class SegmentComparator
     case predicate['type']
       when 'date'
         val = Chronic.parse(predicate['value'])
+        field = Chronic.parse(field) if field.is_a?(String)
         check = compare_with(field, val, predicate['comparison'] )
         #check = cast_date(field).send(predicate['comparison'], Chronic.parse(predicate['value']))
       when 'string'
