@@ -128,6 +128,8 @@ export default class SegmentItemButton extends Component {
     if(this.relative_input && !this.relative_input.value)
       return this.toggleDialog2()
 
+    let comparison = this.state.selectedOption.replace("relative:", "")
+
     switch(this.props.predicate.type){
       case "string": {
         switch (this.props.predicate.attribute) {
@@ -154,14 +156,15 @@ export default class SegmentItemButton extends Component {
       }
 
       case "match": {
-        value = `${this.state.selectedOption}`
+        value = `${this.state.checkedValue}`
+        comparison = `${this.state.checkedValue}`
         break;
       }
 
     }
-    
+
     const h = {
-      comparison: this.state.selectedOption.replace("relative:", ""),
+      comparison: comparison,
       value: value
     }
 
@@ -628,23 +631,54 @@ export default class SegmentItemButton extends Component {
             </MenuItem>
 
 
-            {
-              relative.map((o, i)=>(
-                <MenuItem
-                  key={`${o.name}-${i}`}
-                  disabled={compare(o.value)}
-                  selected={compare(o.value)}
-                  onClick={e =>   
-                    this.onRadioChange.bind(this)(
-                      o.value, 
-                      this.handleSubmit.bind(this) 
-                    )
-                  }
-                >
-                  {o.label}
-                </MenuItem>
-              ))
-            }
+            <ContentMatch ref={this.blockStyleRef}>
+              <RadioGroup
+                aria-label="options"
+                name="options"
+                onChange={(e)=>{
+                  this.onRadioTypeChange(e.target)
+                }}>
+                {
+                  relative.map((o, i)=>{
+                    return <div  key={`${o.name}-${i}`}
+                          style={{ 
+                                display: 'flex',
+                                flexDirection: 'column'                                 
+                              }}>
+
+                      <FormControlLabel
+                        control={<Radio 
+                                  checked={o.value === this.state.checkedValue} 
+                                />} 
+                        value={o.value}
+                        label={o.label} 
+                      />
+
+                    </div>
+
+                  })
+                }
+              </RadioGroup>
+            </ContentMatch>
+
+            <ContentMatchFooter>
+
+                { 
+                  this.state.selectedOption && 
+                  (this.state.selectedOption !== "is_null" || 
+                    this.state.selectedOption !== "is_not_null") &&
+                  
+                  <Button
+                    variant="outlined" 
+                    color="primary"
+                    size={"small"}
+                    onClick={this.handleSubmit.bind(this)}>
+                    Apply
+                  </Button>
+
+                }
+            </ContentMatchFooter> 
+       
 
           </ContentMatchWrapper>
            

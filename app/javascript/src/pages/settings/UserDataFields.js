@@ -220,7 +220,7 @@ function FieldsForm({selected}){
       >
         <MenuItem value={'string'}>Text</MenuItem>
         <MenuItem value={'integer'}>Number</MenuItem>
-        <MenuItem value={'bool'}>Bool</MenuItem>
+        {/*<MenuItem value={'bool'}>Bool</MenuItem>*/}
         <MenuItem value={'date'}>Date</MenuItem>
       </Select>
     </React.Fragment> 
