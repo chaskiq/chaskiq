@@ -16,6 +16,9 @@ export const APP = `
       key
       name
       preferences
+      logo
+      enableArticlesOnWidget
+      inlineNewConversations
       timezone
       domainUrl
       activeMessenger
@@ -30,8 +33,10 @@ export const APP = `
       leadTasksSettings
       userTasksSettings
       gatherSocialData
+      registerVisits
       domainUrl
       outgoingEmailDomain
+      customFields
       segments {
         name
         id

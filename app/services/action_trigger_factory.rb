@@ -320,7 +320,6 @@ class ActionTriggerFactory
   end
 
   def self.find_task(data:, app:, app_user:)
-    # binding.pry
     trigger = begin
                 app.bot_tasks.find(data['trigger'])
               rescue StandardError

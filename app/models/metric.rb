@@ -19,4 +19,8 @@ class Metric < ApplicationRecord
 
   # reportery
   scope :uniques, -> { group('host') }
+
+  def self.action_counts
+    group([:action]).count
+  end
 end

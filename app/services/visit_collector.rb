@@ -12,7 +12,7 @@ class VisitCollector
     user_options.merge!(referrer: options['url'])
     !add_web_sessions.empty? && user_options.merge!(add_web_sessions)
     user.update(user_options)
-    user.visits.create(options)
+    user.register_visit(options)
   end
 
   def add_web_sessions

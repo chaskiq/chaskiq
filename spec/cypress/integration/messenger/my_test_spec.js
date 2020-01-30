@@ -47,9 +47,10 @@ function settingForUser(options = defaultOptions){
 
 function messengerVisit(options, inboundSettings, cb ){
   const {visitor, nullFrame} = options
-  createApp().then((results) => {
-    cy.appEval("App.last.add_agent({email: \"test2@test.cl\", name: \"test agent\"})")
-    const record = results[0];
+  cy.appEval('App.last').then((results) => {
+    //cy.appEval("App.last.add_agent({email: \"test2@test.cl\", name: \"test agent\"})")
+    const record = results;
+
     settingForUser(inboundSettings)
     .then((results) => {
         cy.visit(`/tester/${record.key}${visitor ? "?sessionless=true" : ''}`).then(()=>{
@@ -74,6 +75,7 @@ describe('Chaskiq Messenger', function() {
     cy.app('clean') // have a look at cypress/app_commands/clean.rb
     cy.appEval('ActiveJob::Base.queue_adapter = :test')
     cy.appEval('ActiveJob::Base.queue_adapter.perform_enqueued_at_jobs = true')
+    cy.appScenario('basic')
   })
 
   it('renders messenger on anonimous user creating a app user', function() {
@@ -173,7 +175,7 @@ describe('Chaskiq Messenger', function() {
 
     it("will not render on blocked users", ()=>{
 
-      const user_options = [{}]
+      const user_options = []
       const inboundSettings = {
         enabled: true,
         users: true,
@@ -181,13 +183,15 @@ describe('Chaskiq Messenger', function() {
         user_segment: "some"
       }
 
-      messengerVisit({visitor: false }, inboundSettings, ($body, cy)=>{
-        //expect($body.find("#chaskiq-prime").length).to.equal(1)
-
+      messengerVisit({
+        visitor: false, 
+      }, 
+        inboundSettings, ($body, cy)=>{
+        
         cy.appEval("App.last.app_users.first.block!")
   
         messengerVisit({visitor: false, nullFrame: true }, inboundSettings, ($body, cy)=>{
-          //expect($body.find("#chaskiq-prime").length).to.equal(1)
+          expect($body.find("#chaskiq-prime").length).to.equal(1)
         })
 
       })

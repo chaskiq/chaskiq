@@ -76,7 +76,7 @@
     "yarn": "^1.21.1"
   },
   "devDependencies": {
-    "cypress": "^3.6.1",
+    "cypress": "^3.8.3",
     "cypress-xpath": "^1.4.0",
     "webpack-dev-server": "2.11.2"
   },

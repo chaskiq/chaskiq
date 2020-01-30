@@ -9,7 +9,13 @@
 #   Character.create(name: 'Luke', movie: movies.first)
 require_relative './seeds/app_packages_catalog.rb'
 
-app = App.create(name: 'test app')
+domain = ENV['HOST'] || 'http://localhost:3000'
+
+app = App.create(
+   name: 'test app', 
+   domain_url: domain
+)
+
 app.add_admin(Agent.create(
                 email: 'admin@test.com',
                 password: '123456'
@@ -17,7 +23,7 @@ app.add_admin(Agent.create(
 
 Doorkeeper::Application.create(
    name: "authapp", 
-   redirect_uri: "#{ENV['HOST'] || 'http://localhost:3000'}/callback"
+   redirect_uri: "#{domain}/callback"
 )
 
 AppPackagesCatalog.import unless Rails.env.test?

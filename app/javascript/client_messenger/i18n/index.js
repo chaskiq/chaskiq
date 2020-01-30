@@ -11,6 +11,8 @@ i18n
       en: {
         translations: {
           conversations: "Conversations",
+          "conversation_block.choosen": "You replied <strong>{{field}}</strong>",
+
           start_conversation: "Start a conversation",
           see_previous: "See previous",
           search_article_title: "Find answers in our article's repository",
@@ -46,11 +48,12 @@ i18n
       es: {
         translations: {
           conversations: "Conversaciones",
+          "conversation_block.choosen": "respondiste <strong>{{field}}</strong>",
           start_conversation: "Inicia una conversación",
           see_previous: "Ver anteriores",
-          search_article_title: "Encuentra respuestas buscando",
+          search_article_title: "Encuentra respuestas en nuestro centro de ayuda",
           search_articles: "Busca artículos",
-          latest_articles: "Nuestro artículos recientes",
+          latest_articles: "Artículos recientes",
           reply_above: "Responde arriba",
           create_new_conversation: "Crea una nueva conversación",
           you: "Tú",
@@ -59,7 +62,7 @@ i18n
           dismiss: "Descartar",
           submit: "Enviar",
           enter_your: "Escribe tu {{field}}",
-          "editor.placeholder": "Send message...",
+          "editor.placeholder": "Envía tu mensaje...",
           article_meta: "Por: <strong>{{name}}</strong> en <0>{{date}}</0>",
           "reply_time.auto": "El equipo responderá lo antes posible", 
           "reply_time.minutes": "El equipo suele responder en cuestión de minutos.",

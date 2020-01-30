@@ -2,8 +2,8 @@
 
 class HookMessageReceiverJob < ApplicationJob
   queue_as :default
-  def perform(id, params)
+  def perform(id:, params:)
     pkg = AppPackageIntegration.find(id)
-    pkg.process_event(params)
+    pkg.message_api_klass.process_event(params, pkg)
   end
 end

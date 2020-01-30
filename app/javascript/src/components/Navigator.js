@@ -402,7 +402,7 @@ function Navigator(props, context) {
                     context.router.history.push(`/apps/${app.key}`)
                   }}
                 >
-                  Project Overview
+                  {app.name} Overview
                 </ListItemText>
 
                 {/*<ListItemIcon>

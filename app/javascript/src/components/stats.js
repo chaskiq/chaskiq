@@ -11,6 +11,13 @@ import Button from '@material-ui/core/Button'
 import Avatar from '@material-ui/core/Avatar' 
 import Badge from '@material-ui/core/Badge'
 import Divider from '@material-ui/core/Divider'
+import Grid from '@material-ui/core/Grid'
+import Paper from '@material-ui/core/Paper'
+import Link from '@material-ui/core/Link';
+
+import Count from './charts/count'
+import { withStyles } from '@material-ui/styles';
+
 
 const PieContainer = styled.div`
   padding: .75em;
@@ -35,8 +42,17 @@ const AvatarWrapper = styled.div`
   margin-right: 8px;
 `;
 
+const styles = theme => ({
+  cardPaper: {
+    padding: theme.spacing(2),
+    display: 'flex',
+    overflow: 'auto',
+    flexDirection: 'column',
+  }
+});
 
-export default class Stats extends Component {
+
+class Stats extends Component {
 
   constructor(props){
     super(props)
@@ -161,19 +177,74 @@ export default class Stats extends Component {
   }
 
   render(){
-
+    const { classes } = this.props;
     return <div>
+
+            {
+              !this.props.mode === "counter_blocks" &&
               <PieContainer>
 
-              {
-                this.props.data && this.props.data.statsFields.map((o)=>{
-                  return  <PieItem>
-                            <CampaignChart data={this.getRateFor(o)}/>
-                          </PieItem>
-                })
-              }
+                {
+                  this.props.data && this.props.data.statsFields.map((o)=>{
+                    return  <PieItem>
+                              <CampaignChart data={this.getRateFor(o)}/>
+                            </PieItem>
+                  })
+                }
 
               </PieContainer>
+            }
+            
+            {
+              this.props.mode === "counter_blocks" && this.props.data && 
+              
+              <Grid container spacing={3}>
+                { 
+                  Object.keys(this.state.counts).map((key)=> {
+                  return <Grid item xs={6} md={3}>
+
+                            <Paper 
+                            className={classes.cardPaper}
+                            >
+                            <Count
+                              data={this.state.counts[key]}
+                              label={key}
+                              appendLabel={""}
+                            />
+
+                            </Paper>
+
+                            {/*<Paper 
+                            //className={classes.paper}
+                            >
+                              <Typography 
+                                  //className={classes.title} 
+                                  component="h2" 
+                                  variant="h6" 
+                                  color="primary" gutterBottom>
+                                {key}
+                              </Typography>
+                              <Typography component="p" variant="h4">
+                                {this.state.counts[key]}
+                              </Typography>
+                              {/*<Typography color="textSecondary" 
+                                        //className={classes.depositContext}
+                                        >
+                                          {moment().format('LL')}
+                                </Typography>
+                              
+                              <div>
+                                <Link color="primary" href="javascript:;">
+                                  View Data
+                                </Link>
+                              </div>
+                          
+                              </Paper>*/}
+                          </Grid>
+                  })
+                }
+              </Grid>
+            }
 
             <Divider variant={"fullWidth"}/>
 
@@ -248,3 +319,5 @@ export default class Stats extends Component {
            </div>
   }
 }
+
+export default withStyles(styles)(Stats);

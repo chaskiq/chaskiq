@@ -7,6 +7,11 @@ class Agents::SessionsController < Devise::SessionsController
   skip_before_action :require_no_authentication, only: [:create]
   before_action :clear_session, only: [:create]
 
+  def new
+    redirect_to "/" and return
+  end
+  
+
   def create
 
     require_no_authentication
@@ -23,7 +28,6 @@ class Agents::SessionsController < Devise::SessionsController
       redirect_to session[:return_to]
       session[:return_to] = nil
     else
-      
       a = Doorkeeper::Application.first
       client = OAuth2::Client.new(a.uid, a.secret, site: a.redirect_uri)
 

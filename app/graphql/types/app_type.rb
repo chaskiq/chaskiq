@@ -7,7 +7,7 @@ module Types
     field :state, String, null: true
     field :tagline, String, null: true
     field :domain_url, String, null: true
-    field :active_messenger, String, null: true
+    field :active_messenger, Boolean, null: true
     field :timezone, String, null: true
     field :theme, String, null: true
     field :config_fields, Types::JsonType, null: true
@@ -25,11 +25,35 @@ module Types
     field :user_tasks_settings, Types::JsonType, null: true
     field :lead_tasks_settings, Types::JsonType, null: true
     field :gather_social_data, Boolean, null: true
+    field :register_visits, Boolean, null: true
     field :translations, [Types::JsonType], null: true
     field :available_languages, [Types::JsonType], null: true
     field :outgoing_email_domain, String, null: true
-
+    field :custom_fields, [Types::JsonType], null: true
     field :app_packages, [Types::AppPackageType], null: true
+    field :enable_articles_on_widget, Boolean, null: true
+    field :inline_new_conversations, Boolean, null: true
+
+
+    def gather_social_data
+      ActiveModel::Type::Boolean.new.cast(object.gather_social_data)
+    end
+
+    def register_visits
+      ActiveModel::Type::Boolean.new.cast(object.register_visits)
+    end
+
+    def active_messenger
+      ActiveModel::Type::Boolean.new.cast(object.active_messenger)
+    end
+
+    def enable_articles_on_widget
+      ActiveModel::Type::Boolean.new.cast(object.enable_articles_on_widget)
+    end
+
+    def inline_new_conversations
+      ActiveModel::Type::Boolean.new.cast(object.inline_new_conversations)
+    end
 
     def app_packages
       integrations = object.app_package_integrations.map(&:app_package_id)
@@ -151,7 +175,7 @@ module Types
     field :agents, [Types::AgentType], null: false
 
     def agents
-      object.agents.where(invitation_token: nil)
+      object.agents.with_attached_avatar.where(invitation_token: nil)
     end
 
     field :not_confirmed_agents, [Types::AgentType], null: false
@@ -306,5 +330,48 @@ module Types
       argument :range, Types::JsonType, required: true
       argument :kind,  String, required: true
     end
+
+
+    field :logo, String, null: true
+    field :logo_large, String, null: true
+
+    def logo
+      return '' unless object.logo_blob.present?
+  
+      url = begin
+              object.logo.variant(resize_to_limit: [100, 100]).processed
+            rescue StandardError
+              nil
+            end
+      return nil if url.blank?
+  
+      begin
+        Rails.application.routes.url_helpers.rails_representation_url(
+          url,
+          only_path: true
+        )
+      rescue StandardError
+        nil
+      end
+    end
+  
+    def logo_large
+      options = {
+        resize: '1280x600^',
+        gravity: 'center',
+        crop: '1280x600+0+0',
+        strip: true,
+        quality: '86'
+      }
+  
+      return '' unless object.logo_blob.present?
+  
+      Rails.application.routes.url_helpers.rails_representation_url(
+        object.logo.variant(options).processed,
+        only_path: true
+      )
+    end
+
+
   end
 end

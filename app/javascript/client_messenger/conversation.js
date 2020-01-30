@@ -59,8 +59,6 @@ export class Conversations extends Component {
   // TODO: skip on xhr progress
   handleConversationsScroll = (e) => {
     let element = e.target
-
-    //console.log(element.scrollHeight - element.scrollTop , element.clientHeight)
     if (element.scrollHeight - element.scrollTop === element.clientHeight) {
       if (this.props.conversationsMeta.next_page)
         this.props.getConversations({ append: true }, )
@@ -148,6 +146,7 @@ export class Conversation extends Component {
 
 
   componentWillUnmount(){
+    // todop porque?
     if(!this.props.inline_conversation)
       this.props.clearConversation()
   }
@@ -158,8 +157,6 @@ export class Conversation extends Component {
     if(this.props.disablePagination) return
     
     let element = e.target
-    //console.log(element.scrollTop)
-    //console.log(element.scrollHeight - element.scrollTop, element.clientHeight) // on bottom
     if (element.scrollTop === 0) { // on top
 
       /*this.props.updateHeader(
@@ -189,6 +186,7 @@ export class Conversation extends Component {
     const isAgent = o.appUser.kind === "agent"
     const themeforMessage = o.privateNote || isAgent ? theme : themeDark
     const {t} = this.props
+
     return <MessageItemWrapper
             visible={this.props.visible}
             email={this.props.email}
@@ -200,6 +198,7 @@ export class Conversation extends Component {
               <MessageItem
                 className={userClass}
                 messageSourceType={o.messageSource ? o.messageSource.type : ''}
+                isInline={this.props.inline_conversation}
               >
 
               {
@@ -253,6 +252,7 @@ export class Conversation extends Component {
     return  <AppPackageBlock 
                key={`package-${this.props.conversation.key}-${i}`}
                message={o}
+               isInline={this.props.inline_conversation}
                conversation={this.props.conversation}
                submitAppUserData={this.props.submitAppUserData.bind(this)}
                clickHandler={this.appPackageClickHandler.bind(this)}
@@ -264,7 +264,8 @@ export class Conversation extends Component {
 
   renderEventBlock = (o, i)=>{
     const {data, action} = o.message
-    return <ConversationEventContainer>
+    return <ConversationEventContainer                 
+            isInline={this.props.inline_conversation}>
             <span>
               {this.props.t(`conversations.events.${action}`, data)}
             </span>
@@ -277,7 +278,9 @@ export class Conversation extends Component {
 
   appPackageClickHandler = (item, message)=>{
     // run app block display here! refactor
-    if (message.message.blocks.type === "app_package") return this.appPackageBlockDisplay(message)
+    if (message.message.blocks.type === "app_package") 
+      return this.appPackageBlockDisplay(message)
+    
     this.props.pushEvent('trigger_step', {
       conversation_id: this.props.conversation.key,
       message_id: message.id,
@@ -337,7 +340,13 @@ export class Conversation extends Component {
   renderInlineCommentWrapper = ()=>{
     return  <div ref={comp => this.props.setOverflow(comp) }
                 onScroll={this.handleConversationScroll}
-                style={{ overflowY: 'auto', height: '84vh' }}>
+                style={{ 
+                  overflowY: 'auto', 
+                  height: '86vh', 
+                  position: 'absolute' ,
+                  width: '100%',
+                  zIndex: '20'
+              }}>
               <CommentsWrapper
                 isReverse={true}
                 isInline={this.props.inline_conversation}
@@ -373,10 +382,19 @@ export class Conversation extends Component {
     </React.Fragment>
   }
 
+  renderReplyAbove = ()=>{
+    if(this.props.inline_conversation) return null
+    return this.props.t("reply_above")
+  }
+
   renderFooter = ()=>{
-    return <Footer className={this.props.footerClassName || ''}>
+    return <Footer 
+            isInline={this.props.inline_conversation}
+            isInputEnabled={this.isInputEnabled()}
+            className={this.props.footerClassName || ''}>
             {
-              !this.isInputEnabled() ? this.props.t("reply_above") : 
+              !this.isInputEnabled() ? 
+              this.renderReplyAbove() : 
               <UnicornEditor
                 t={this.props.t}
                 domain={this.props.domain}
@@ -414,7 +432,6 @@ export class Conversation extends Component {
   render(){
 
     const {t} = this.props
-    //console.log("ENABLED???", this.isInputEnabled())
     return <div style={{
       position: 'absolute',
       top: '0',
@@ -444,7 +461,10 @@ class MessageItemWrapper extends Component {
   }
 
   sendEvent = ()=>{
-    if(this.props.visible && !this.props.data.volatile && !this.props.data.readAt && this.props.data.appUser.kind === "agent"){
+    if(this.props.visible && 
+      !this.props.data.volatile && 
+      !this.props.data.readAt && 
+      this.props.data.appUser.kind === "agent"){
       this.props.pushEvent("receive_conversation_part", 
         Object.assign({}, {
           conversation_id: this.props.conversation.key,
@@ -503,11 +523,15 @@ class AppPackageBlock extends Component {
     const item = this.props.message.data
 
     if(!item) return this.renderEmptyItem()
+
+    const t = this.props.t
     
     switch(item.element){
       case "button":
         if (this.props.message.blocks.type === "ask_option"){
-          return <p>choosen: {item.label}</p>
+          return <span dangerouslySetInnerHTML={{ 
+            __html: this.props.t(`conversation_block.choosen`, {field: item.label} )
+          }}/>
         }
       default:
         if (this.props.message.blocks.type === "data_retrieval"){
@@ -568,7 +592,8 @@ class AppPackageBlock extends Component {
   }
 
   render(){
-    return <AppPackageBlockContainer>
+    return <AppPackageBlockContainer                 
+              isInline={this.props.isInline}>
               {
                 true ? //!this.state.done ?
                 <form ref={o => this.form } 
@@ -598,8 +623,40 @@ export function CommentsItemComp(props){
 
   const [display, setDisplay] = React.useState(false)
 
+  function renderEventBlock(o){
+    const {data, action} = o.message
+    return <span>
+              <i>{t(`conversations.events.${action}`, data)}</i>
+            </span>
+  }
+
+  function renderItemPackage(message){
+    return message.message.blocks.type
+  }
+
+  function renderMessage(message){
+    var length = 80;
+    const d = JSON.parse(message.message.serializedContent)
+    const string = d.blocks.map((block)=> block.text).join("\n")
+    var trimmedString = string.length > length ? 
+                        string.substring(0, length - 3) + "..." : 
+                        string;
+    return trimmedString
+  }
+
+  function renderMessages(message){
+    if(message.message.blocks) return renderItemPackage(message)
+    if(message.message.action) return renderEventBlock(message)
+    return renderMessage(message)
+  }
+
   React.useEffect(() => {
-    setTimeout(()=> setDisplay(true), 400 ) // + (index * 100))
+    const timeout = setTimeout(()=> setDisplay(true), 400 ) // + (index * 100))
+
+    // this cancell effect
+    return function(){
+      clearTimeout(timeout);
+    }
   }, [])
 
   function renderAgentAvatar(){
@@ -616,9 +673,8 @@ export function CommentsItemComp(props){
                 displayOpacity={display}
                 key={`comments-item-${o.id}`}
                 onClick={(e) => { displayConversation(e, o) }}>
-
                 {
-                  message ?
+                  message &&
                     <ConversationSummary>
 
                       <ConversationSummaryAvatar>
@@ -652,23 +708,32 @@ export function CommentsItemComp(props){
                           </Moment>
 
                         </ConversationSummaryBodyMeta>
-                        {/* TODO: sanitize in backend */}
+                   
                         <ConversationSummaryBodyItems>
                           {
                             message.appUser && message.appUser.kind != "agent" ? 
                               <div className="you">{t("you")}:</div> : null 
                           }
-                          <ConversationSummaryBodyContent
-                            dangerouslySetInnerHTML={
-                              { __html: sanitizeMessageSummary(message.message.htmlContent) }
+
+                          <ConversationSummaryBodyContent>
+                            {
+                              //dangerouslySetInnerHTML={
+                              //  { __html: sanitizeMessageSummary(message.message.htmlContent) }
+                              //}
                             }
-                          />
+
+                            {renderMessages(message)}
+
+                          </ConversationSummaryBodyContent>
+
+                          
+
                         </ConversationSummaryBodyItems>
 
                       </ConversationSummaryBody>
-                    </ConversationSummary> : null
+                    </ConversationSummary>
                 }
-              </CommentsItem>
+            </CommentsItem>        
 }
 
 export function InlineConversation({conversation}){

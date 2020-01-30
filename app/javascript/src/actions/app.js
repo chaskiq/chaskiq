@@ -38,7 +38,6 @@ function getApp(app) {
 
 export function updateApp(appParams, cb){
   return (dispatch, getState)=>{
-
     graphql(UPDATE_APP, {
       appKey: getState().app.key,
       appParams: appParams

@@ -7,6 +7,7 @@ import Grid from '@material-ui/core/Grid'
 import styled from '@emotion/styled'
 import MuiChip from '@material-ui/core/Chip';
 import { makeStyles } from '@material-ui/core/styles';
+import { connect } from 'react-redux'
 
 const NameWrapper = styled.span`
   display: flex;
@@ -67,8 +68,9 @@ function UserBadge(props) {
 }
 
 
-const userFormat = function(showUserDrawer){
-  return [
+const userFormat = function(showUserDrawer, app){
+
+  let opts = [
     //{field: 'id', title: 'id' }, 
     {field: 'email', title: 'Name', 
       render: (row) => {
@@ -121,8 +123,34 @@ const userFormat = function(showUserDrawer){
       render: row => (row ? <Moment fromNow>
                                     {row.lastVisitedAt}
                                   </Moment> : undefined)
-    },
-  ]
+    }]
+
+    
+    if(app.customFields && app.customFields.length > 0){
+      const other = app.customFields.map((o)=>( 
+        {
+          hidden: true,
+          field: o.name , 
+          title: o.name, 
+          render: row => row && row.properties[o.name]
+        }
+      ))
+      opts = opts.concat(other)
+    }
+
+    
+
+    return opts
+
 }
 
 export default userFormat
+
+//function mapStateToProps(state) {
+//  const { app } = state
+//  return {
+//    app
+//  }
+//}
+//
+//export default connect(mapStateToProps)(userFormat)

@@ -107,7 +107,7 @@ export const Container = styled.div`
       `min-height: 250px;
       box-shadow: rgba(0, 0, 0, 0.16) 0px 5px 40px;
       opacity: 1;
-      z-index: 2147483001;
+      z-index: 100000;
       width: 100%;
       height: 100%;
       max-height: none;
@@ -138,6 +138,17 @@ export const Container = styled.div`
 export const AssigneeStatus = styled.span`
   font-size: 11px;
   color: ${(props)=> textColor(props.theme.palette.primary)};
+`
+
+export const AssigneeStatusWrapper = styled.span`
+  display: flex;
+  flex-flow: column;
+  align-items: start;
+  justify-content: center;
+  margin-left: 10px;
+  p{
+    margin: 0px 0px 6px 0px;
+  }
 `
 
 
@@ -201,6 +212,18 @@ export const SuperDuper = styled('div')`
   width: 100%;
   height: 100%;
   position: absolute;
+`
+
+export const Overflow = styled.div`
+  z-index: 9900000;
+  position: fixed;
+  width: 545px;
+  height: 100vh;
+  bottom: 0px;
+  right: 0px;
+  content: "";
+  pointer-events: none;
+  background: radial-gradient(at right bottom,rgba(29,39,54,0.16) 9%,rgba(0, 0, 0, 0) 72%);
 `
 
 export const UserAutoMessageStyledFrame = styled(StyledFrame)
@@ -384,21 +407,33 @@ export const MessageCloseBtn = styled.a`
 `
 
 export const ConversationEventContainer = styled.div`
-  padding: 1.2em;
   border-radius: 7px;
   background: gold;
   display: flex;
   justify-content: center;
   margin: 1.2em;
+  padding: .7em;
+  ${
+    (props)=> (
+      props.isInline ? `box-shadow: 4px 4px 1px #00000061;` : ''
+    )
+  }
 `
 
 export const AppPackageBlockContainer = styled.div`
-    padding: 1.2em;
+    padding: .7em;
     border-radius: 7px;
-    background: #f1f0f9;
     display: flex;
     justify-content: center;
-    margin: 1.2em;
+    margin: .7em;
+    border: 1px solid #e3e7e8;
+    background: #f9fcfd;
+    ${
+      (props)=> {
+        return props.isInline ? `box-shadow: 4px 4px 1px #00000061;` : ''
+      }
+    }
+    
 
     .form-group{
       //margin-bottom: 1rem;
@@ -411,7 +446,8 @@ export const AppPackageBlockContainer = styled.div`
       //width: 69%;
       flex-wrap: wrap;
       button {
-        margin: 3px;
+        margin: 1px;
+        padding: 5px;
       }
     }
     label {
@@ -580,6 +616,8 @@ export const CommentsWrapper = styled.div`
   justify-content: space-between;
   overflow-anchor: none;
   height: auto;
+  font-family: Helvetica, arial, sans-serif;
+
   ${(props)=> ( props.isReverse ? 
     `
     flex-direction : column-reverse;` : `
@@ -640,7 +678,8 @@ export const CountBadge = styled.div`
   text-align: center;
   color: #f3f3f3;
   ${(props)=> props.section === "home" ? 
-    `top: 64px;left: 14px;` : "" 
+    `top: 42px;
+    left: 15px;` : "" 
   }
 
   ${(props)=> props.section === "conversation" ? 
@@ -714,7 +753,7 @@ export const Body = styled.div`
 
 export const Footer = styled.div`
 
-    z-index: 2147483001;
+    z-index: 100000;
     text-align: center;
     position: absolute;
     bottom: 0;
@@ -726,12 +765,19 @@ export const Footer = styled.div`
     background: -webkit-gradient(linear,left bottom,left top,from(#fff),to(rgba(255,255,255,0)));
     background: linear-gradient(0deg,#fff,rgba(255,255,255,0));
 
+    height: 38px;
+    margin: 25px 0 1px 0px;
+    font-size: .8em;
+    color: gray;
+
+
     &.inline{
+      ${(props)=> !props.isInputEnabled ? 'height: 0px;' : ''}
       background: transparent;
       bottom: 9px;
       textarea {
         border-radius: 8px !important;
-        box-shadow: #0a0a0abd -1px 0px 6px 0px;
+        box-shadow: 4px 4px 1px #00000061;
         bottom: -2px;
         left: 8px;
         width: 96%;
@@ -743,7 +789,7 @@ export const Footer = styled.div`
 `
 
 export const ConversationsFooter = styled.div`
-  z-index: 2147483001;
+  z-index: 100000;
   text-align: center;
   position: absolute;
   bottom: 0;
@@ -811,13 +857,22 @@ export const MessageItem = styled.div`
         min-width: 80px;
 
         /* NEW */
-        box-shadow: rgba(54, 59, 62, 0.46) 0px 2px 4px 0px;
+        box-shadow: rgba(54, 59, 62, 0.46) 0px 0px 3px 0px;
         font-size: 13px;
         line-height: 1.5;
         //height: 100%;
         position: relative;
-        padding: 17px 22px;
+        //padding: 17px 22px;
         border-radius: 5px 5px 5px 0px;
+
+
+        padding: 6px 11px;
+
+        ${
+          (props)=> (
+            props.isInline ? `box-shadow: 4px 4px 1px #00000061;` : ''
+          )
+        }
         
       }
 
@@ -838,13 +893,15 @@ export const MessageItem = styled.div`
         border-radius: 6px;
         min-width: 80px;
 
+
         /* NEW STYLES */
-        box-shadow: rgba(54, 59, 62, 0.46) 0px 2px 4px 0px;
+        box-shadow: rgba(54, 59, 62, 0.46) 0px 0px 3px 0px;
         font-size: 13px;
         line-height: 1.5;
         height: 100%;
         position: relative;
-        padding: 17px 22px;
+        //padding: 17px 22px;
+        padding: 6px 11px;
         border-radius: 5px 5px 0px 5px;
       }
       // hack on image from user, not use position absolute
@@ -918,6 +975,7 @@ export const HeaderTitle = styled.span`
 
 export const HeaderAvatar = styled.div`
     display: flex;
+    align-items: center;
     flex: 0 0 auto;
     align-self: center;
     //margin-left: 15px;
@@ -980,6 +1038,7 @@ export const NewConvoBtn = styled(AnchorButton)`
     position: absolute;
     bottom: 77px;
     left: 20%;
+    padding: 0 37px;
     ${(props)=> FadeBottomAnimation(props)}
 `
 

@@ -80,6 +80,7 @@ class AppUser < ApplicationRecord
 
   # from redis-objects
   counter :new_messages
+  value :trigger_locked, expireat: lambda { Time.now + 5.seconds }
 
   aasm column: :subscription_state do # default column: aasm_state
     state :passive, initial: true
@@ -118,6 +119,14 @@ class AppUser < ApplicationRecord
     events.log(action: :user_created)
   end
 
+  def add_email_changed_event
+    events.log(action: :email_changed)
+  end
+
+  def lead_event
+    events.log(action: :visitors_convert)
+  end
+
   def display_name
     [name].join(' ')
   end
@@ -138,8 +147,10 @@ class AppUser < ApplicationRecord
   # delegate :email, to: :user
 
   def as_json(options = nil)
-    super({ only: %i[id kind display_name avatar_url],
-            methods: %i[id kind display_name avatar_url] }.merge(options || {}))
+    super({ 
+            only: %i[id kind display_name avatar_url],
+            methods: %i[id kind display_name avatar_url] 
+          }.merge(options || {}))
   end
 
   def offline?
@@ -239,13 +250,11 @@ class AppUser < ApplicationRecord
     end
   end
 
-  def save_page_visit(url)
-    visits.create(url: url)
+  def enqueue_social_enrichment
+    add_email_changed_event
   end
 
-  def enqueue_social_enrichment
-    if app.gather_social_data && email.present?
-      DataEnrichmentJob.perform_later(user_id: id)
-    end
+  def register_visit(options)
+    self.visits.register(options, app.register_visits)
   end
 end

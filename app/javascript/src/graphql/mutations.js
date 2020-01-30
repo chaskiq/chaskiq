@@ -12,6 +12,9 @@ export const UPDATE_APP = `
         activeMessenger
         translations
         availableLanguages
+        logo
+        enableArticlesOnWidget
+        inlineNewConversations
         teamSchedule
         timezone
         replyTime
@@ -20,8 +23,11 @@ export const UPDATE_APP = `
         leadTasksSettings
         userTasksSettings
         gatherSocialData
+        registerVisits
         domainUrl
         outgoingEmailDomain
+        customizationColors
+        customFields
         segments {
           name
           id
@@ -71,13 +77,17 @@ export const CREATE_APP = `
         theme
         state
         tagline
+        enableArticlesOnWidget
+        inlineNewConversations
         activeMessenger
         teamSchedule
+        logo
         timezone
         inboundSettings
         emailRequirement
         leadTasksSettings
         userTasksSettings
+        customFields
       }
     }
   }
@@ -598,6 +608,7 @@ export const PREDICATES_SEARCH = `
           browserVersion
           browserLanguage
           lang
+          properties
         }
         meta
       }
@@ -663,8 +674,8 @@ export const INVITE_AGENT = `
 `;
 
 export const UPDATE_AGENT = `
-  mutation UpdateAgent($appKey: String!, $email: String!, $name: String!){
-    updateAgent(appKey: $appKey, email: $email, name: $name){
+  mutation UpdateAgent($appKey: String!, $email: String!, $params: Json!){
+    updateAgent(appKey: $appKey, email: $email, params: $params){
       agent {
         email
         avatarUrl

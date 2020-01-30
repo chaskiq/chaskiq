@@ -4,7 +4,8 @@ import {
   AnchorButton,
   FadeRightAnimation,
   FadeBottomAnimation,
-  Spinner
+  Spinner,
+  CountBadge
 } from './styles/styled'
 import sanitizeHtml from 'sanitize-html';
 import {CommentsItemComp} from './conversation'
@@ -33,7 +34,8 @@ const HomePanel = ({
   displayConversation,
   conversations,
   getConversations,
-  lang
+  lang,
+  newMessages
 })=>{
 
   const [loading, setLoading] = useState(false)
@@ -69,7 +71,16 @@ const HomePanel = ({
     })
   }, [] )
 
+  function shouldDisplayArticles(){
+    return appData.enableArticlesOnWidget
+  }
+
   const getArticles = ()=>{
+
+    if(!shouldDisplayArticles()){
+      return
+    }
+
     setLoading(true)
 
     graphqlClient.send(ARTICLES, {
@@ -85,7 +96,7 @@ const HomePanel = ({
         setMeta(meta)
       },
       error: (err)=>{
-        console.log("ERROROROROR" , err)
+        console.log("ERR" , err)
         setLoading(false)
         //debugger
       }
@@ -293,6 +304,13 @@ const HomePanel = ({
           <ConversationsBlock in={transition}>
             <CardButtonsGroup style={{padding: '2em'}}>
               <h2>{t("conversations")}</h2>
+
+              { newMessages > 0 && 
+                <CountBadge section={'home'}>
+                  {newMessages}
+                </CountBadge>
+              }
+
               <a href="#" onClick={viewConversations}>
                 {t("see_previous")}
               </a>
@@ -301,19 +319,21 @@ const HomePanel = ({
           </ConversationsBlock> 
       }
 
-      <Card in={transition}>
-        <p>{t("search_article_title")}</p>
-        <ButtonWrapper>
-          <input ref={(ref)=> textInput = ref} 
-            placeholder={ t("search_articles") } 
-            onKeyDown={handleSearch}
-          /> 
-          <button onClick={()=> searchArticles(textInput.value)}>
-            {loading ? <Spinner/> : 'go' }
-          </button>
-        </ButtonWrapper>
-      </Card>
-
+      {
+        shouldDisplayArticles() &&
+          <Card in={transition}>
+            <p>{t("search_article_title")}</p>
+            <ButtonWrapper>
+              <input ref={(ref)=> textInput = ref} 
+                placeholder={ t("search_articles") } 
+                onKeyDown={handleSearch}
+              /> 
+              <button onClick={()=> searchArticles(textInput.value)}>
+                {loading ? <Spinner/> : 'go' }
+              </button>
+            </ButtonWrapper>
+          </Card>
+      }
 
       { loading && <Loader xs></Loader>}
 
@@ -362,7 +382,7 @@ const ArticleCard = ({article, displayArticle})=>{
 
 const Panel = styled.div`
   position: fixed;
-  top: 17px;
+  top: 34px;
   bottom: 0px;
   left: 0px;
   right: 0px;
@@ -392,7 +412,7 @@ const ButtonWrapper = styled.div`
   }
 
   button{
-    border: 1px solid #ccc;
+    border: 0px solid #ccc;
     padding: 1.2em;
     border-bottom-right-radius: 6px;
     border-top-right-radius: 6px;

@@ -8,7 +8,6 @@ class App < ApplicationRecord
     active_messenger
     domain_url
     theme
-    gather_data
     email_requirement
     inbound_settings
     lead_tasks_settings
@@ -19,6 +18,10 @@ class App < ApplicationRecord
     gather_social_data
     customization_colors
     outgoing_email_domain
+    register_visits
+    custom_fields
+    enable_articles_on_widget
+    inline_new_conversations
   ], coder: JSON
 
   translates :greetings, :intro, :tagline
@@ -55,6 +58,8 @@ class App < ApplicationRecord
 
   has_many :assignment_rules
 
+  has_one_attached :logo
+
   before_create :set_defaults
   after_create :create_agent_bot, :init_app_segments
 
@@ -87,6 +92,12 @@ class App < ApplicationRecord
 
       {
         name: 'outgoingEmailDomain',
+        type: 'string',
+        grid: { xs: 12, sm: 6 }
+      },
+
+      {
+        name: 'enable_articles_on_widget',
         type: 'string',
         grid: { xs: 12, sm: 6 }
       },
@@ -161,7 +172,6 @@ class App < ApplicationRecord
     ap.subscribe! unless ap.subscribed?
     ap.type = 'AppUser'
     ap.save
-    # ap.save_page_visit(page_url)
     ap
   end
 
@@ -188,6 +198,10 @@ class App < ApplicationRecord
 
   def add_bot_agent(attrs)
     add_agent(attrs, bot: true)
+  end
+
+  def create_agent_bot
+    add_bot_agent(email: "bot@#{id}-chaskiq", name: 'chaskiq bot')
   end
 
   def add_admin(user)
@@ -217,6 +231,8 @@ class App < ApplicationRecord
       message_source: message_source,
       check_assignment_rules: true
     )
+
+    conversation.add_started_event
     conversation
   end
 
@@ -303,7 +319,4 @@ class App < ApplicationRecord
     h
   end
 
-  def create_agent_bot
-    add_bot_agent(email: 'bot@chaskiq', name: 'chaskiq bot')
-  end
 end

@@ -1,12 +1,4 @@
 import React, {Component} from "react"
-import {
-  Route,
-  Link
-} from 'react-router-dom'
-import ContentWrapper from '../components/ContentWrapper';
-import PageTitle from '../components/PageTitle';
-import styled from '@emotion/styled'
-import axios from 'axios'
 import serialize from 'form-serialize'
 
 import Paper from '@material-ui/core/Paper'
@@ -17,7 +9,10 @@ import Grid from '@material-ui/core/Grid'
 import FieldRenderer from '../shared/FormFields'
 import graphql from "../graphql/client";
 import { APP } from "../graphql/queries"
-import { PREDICATES_SEARCH, UPDATE_APP } from '../graphql/mutations'
+import {
+  CREATE_DIRECT_UPLOAD,
+} from '../graphql/mutations'
+
 import { toSnakeCase } from '../shared/caseConverter'
 import { withStyles } from '@material-ui/core/styles';
 
@@ -28,6 +23,7 @@ import EmailRequirement from './settings/EmailRequirement'
 import LanguageSettings from './settings/Language'
 import InboundSettings from './settings/InboundSettings'
 import StylingSettings from './settings/Styling'
+import UserData from './settings/UserDataFields'
 import Tab from '@material-ui/core/Tab';
 import Tabs from '@material-ui/core/Tabs';
 import timezones from '../shared/timezones'
@@ -185,7 +181,8 @@ class AppSettingsContainer extends Component {
             () => {
               let params = {}
               params[kind] = signedBlobId
-              this.props.update({settings: params})
+
+              this.update({app: params })
           });
         },
         error: (error)=>{
@@ -213,6 +210,7 @@ class AppSettingsContainer extends Component {
               <Tab textColor="inherit" label="Email Requirement" />
               <Tab textColor="inherit" label="Inbound settings" />
               <Tab textColor={"inherit"} label="Messenger Style" />
+              <Tab textColor={"inherit"} label="User data" />
             </Tabs>
   }
 
@@ -221,8 +219,16 @@ class AppSettingsContainer extends Component {
       {
         name: "name",
         type: 'string',
-        grid: { xs: 12, sm: 12 }
+        grid: { xs: 12, sm: 8 }
       },
+
+      {
+        name: 'logo',
+        type: 'upload',
+        grid: { xs: 12, sm: 4 },
+        handler: (file)=> this.uploadHandler(file, "logo")
+      },
+
       {
         name: "domainUrl",
         type: 'string',
@@ -259,6 +265,14 @@ class AppSettingsContainer extends Component {
         hint: "Collect social profiles via fullcontact service (e.g. LinkedIn, Twitter, etc.) for my users via a third party",
         grid: { xs: 12, sm: 12 }
       },
+      {
+        name: "registerVisits",
+        label: "Register visits to database",
+        type: 'bool',
+        label: "Store visits for visitors",
+        hint: "Even if this is disabled we will collect global counter of visits and store the last visit information on visitor's profile",
+        grid: { xs: 12, sm: 12 }
+      },
     ]
   }
 
@@ -292,8 +306,24 @@ class AppSettingsContainer extends Component {
       },*/
       {
         name: "activeMessenger",
+        label: "activate messenger",
+        hint: 'when this is activate the messenger web widget will be activated',
         type: 'bool',
         grid: { xs: 12, sm: 12 }
+      },
+
+      {
+        name: 'enableArticlesOnWidget',
+        label: "Display article blocks on messenger widget",
+        type: 'bool',
+        grid: { xs: 12, sm: 6 }
+      },
+
+      {
+        name: 'inlineNewConversations',
+        label: "Display new messages in floating box (without open the main widget)",
+        type: 'bool',
+        grid: { xs: 12, sm: 6 }
       },
 
     ]
@@ -400,6 +430,12 @@ class AppSettingsContainer extends Component {
                   update={this.update}
                   namespace={'app'}
                 />
+      case 8:
+        return <UserData 
+          settings={ this.props.app } 
+          update={this.update}
+          namespace={'app'}
+        />
     }
   }
 

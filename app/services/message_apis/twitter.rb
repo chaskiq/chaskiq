@@ -190,6 +190,15 @@ module MessageApis
       end
     end
 
+    def enqueue_process_event(params, package)
+      HookMessageReceiverJob.perform_now(
+        id: package.id, 
+        params: params
+      )
+      
+      {status: :ok}
+    end
+
     def process_event(params, package)
 
       app = package.app

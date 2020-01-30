@@ -13,7 +13,7 @@
 // require rails-ujs
 // require activestorage
 // require turbolinks
-//= require_tree .
+// require_tree .
 
 //
 // This is optional (in case you have `I18n is not defined` error)
