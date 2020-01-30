@@ -61,15 +61,24 @@ module Types
       return false if object.inbound_settings.blank?
 
       @user = context[:get_app_user].call
-      return false if @user.blank?
-      return false if @user.blocked?
+
+      return false if @user.blank? || @user.blocked?
 
       k = @user.model_name.name === 'AppUser' ? 'users' : 'visitors'
       return if k.blank?
       return nil unless object.inbound_settings[k]['enabled']
       return true if object.inbound_settings[k]['segment'] == 'all'
 
-      object.query_segment(k).find_by(id: @user.id)
+      segments = object.inbound_settings[k]["predicates"]
+
+      return true if segments.blank?
+
+      comparator = SegmentComparator.new(
+        user: @user, 
+        predicates: segments
+      )
+
+      return comparator.compare
     end
 
     private
