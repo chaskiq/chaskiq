@@ -63,12 +63,14 @@ class Segment < ApplicationRecord
 
   def query_builder
     arel_table = AppUser.arel_table
+
+    cols = AppUser.columns
     # user_table = User.arel_table
     Array(predicates).reduce(nil) do |query, predicate|
       next if predicate['type'] == 'match'
 
       # check if its in table column
-      if AppUser.columns.map(&:name).include?(predicate['attribute'])
+      if cols.map(&:name).include?(predicate['attribute'])
         field = arel_table[predicate['attribute']]
       else
         # otherwise use in JSONB properties column
@@ -112,7 +114,7 @@ class Segment < ApplicationRecord
         when 'is_not_null'
           check = cast_int(field).not_eq(nil)
         else
-          if %w[eq lt lte gt gte].include?(predicate['comparison'])
+          if %w[eq lt lteq gt gteq].include?(predicate['comparison'])
             check = cast_int(field).send(
               predicate['comparison'],
               predicate['value']
@@ -135,3 +137,6 @@ class Segment < ApplicationRecord
     end
   end
 end
+
+
+

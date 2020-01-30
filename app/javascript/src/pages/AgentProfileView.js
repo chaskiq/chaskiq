@@ -6,6 +6,12 @@ import UserData from '../components/UserData'
 import styled from '@emotion/styled'
 import {isEmpty} from 'lodash'
 
+import {
+  CREATE_DIRECT_UPLOAD,
+} from '../graphql/mutations'
+import {getFileMetadata, directUpload} from '../shared/fileUploader'
+
+
 import graphql from '../graphql/client'
 import {
   APP_USER_CONVERSATIONS, 
@@ -188,7 +194,9 @@ class ProfilePage extends Component {
       graphql(UPDATE_AGENT, {
         appKey: this.props.app.key, 
         email: this.state.agent.email,
-        name: e.target.value
+        params:{
+          name: e.target.value
+        }
       }, {
         success: (data)=>{
           this.setState({editName: false})
@@ -199,6 +207,47 @@ class ProfilePage extends Component {
         }
       })
     }
+  }
+
+  updateAgentLogo = (signedBlobId)=>{
+    graphql(UPDATE_AGENT, {
+      appKey: this.props.app.key, 
+      email: this.state.agent.email,
+      params: {
+        avatar: signedBlobId
+      }
+    }, {
+      success: (data)=>{
+        this.setState({editName: false})
+        this.getAgent()
+      },
+      error: ()=>{
+
+      }
+    })
+  }
+
+
+  uploadHandler = (file, kind)=>{
+
+    getFileMetadata(file).then((input) => {
+      graphql(CREATE_DIRECT_UPLOAD, input, {
+        success: (data)=>{
+          const {signedBlobId, headers, url, serviceUrl} = data.createDirectUpload.directUpload
+       
+          directUpload(url, JSON.parse(headers), file).then(
+            () => {
+              let params = {}
+              params[kind] = signedBlobId
+
+              this.updateAgentLogo(signedBlobId)
+          });
+        },
+        error: (error)=>{
+         console.log("error on signing blob", error)
+        }
+      })
+    });
   }
 
   render() {
@@ -241,6 +290,30 @@ class ProfilePage extends Component {
                   <IconButton onClick={this.toggleNameEdit} color={"inherit"}>
                     <EditIcon/>
                   </IconButton>
+
+                  <div 
+                    //className={classes.upload}
+                    >
+                    <input
+                      accept="image/*"
+                      style={{display: 'none'}}
+                      //className={classes.input}
+                      id={'avatarUpload'}
+                      onChange={(e) => this.uploadHandler(e.currentTarget.files[0])}
+                      //multiple
+                      type="file"
+                    />
+
+                    
+                    <label htmlFor={'avatarUpload'}>
+                      <Button variant="contained" component="span" 
+                        //className={classes.button}
+                        >
+                        Upload avatar
+                      </Button>
+                    </label>
+                  </div>
+
                 </Typography>
 
                 <Typography variant={"h6"}>

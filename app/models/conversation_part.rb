@@ -2,6 +2,8 @@
 
 class ConversationPart < ApplicationRecord
   include Tokenable
+  include Redis::Objects
+
   belongs_to :conversation, touch: true
   # belongs_to :app_user, optional: true # todo: to be removed
   belongs_to :message_source, optional: true,
@@ -16,6 +18,8 @@ class ConversationPart < ApplicationRecord
   after_create :assign_and_notify
 
   scope :visibles, -> { where('private_note is null') }
+
+  value :trigger_locked, expireat: lambda { Time.now + 3.seconds }
 
   attr_accessor :check_assignment_rules
 

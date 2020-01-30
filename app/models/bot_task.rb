@@ -12,6 +12,7 @@ class BotTask < ApplicationRecord
   store_accessor :settings, %i[
     scheduling
     urls
+    outgoing_webhook
   ]
 
   scope :enabled, -> { where(state: 'enabled') }
@@ -47,9 +48,15 @@ class BotTask < ApplicationRecord
   end
 
   # consumed
-  def available_for_user?(user_id)
-    available_segments.find(user_id) && metrics
-      .where(app_user_id: user_id).blank?
+  def available_for_user?(user)
+
+    comparator = SegmentComparator.new(
+      user: user, 
+      predicates: segments
+    )
+
+    comparator.compare #&& metrics.where(app_user_id: user.id).blank?
+    
   rescue ActiveRecord::RecordNotFound
     false
   end
@@ -57,21 +64,49 @@ class BotTask < ApplicationRecord
   def self.broadcast_task_to_user(user)
     app = user.app
     key = "#{app.key}-#{user.session_id}"
-    bot_task = app.bot_tasks.availables_for(user).first
+    ret = nil
+    app.bot_tasks.availables_for(user).each do |bot_task|
 
-    return if bot_task.blank? || !bot_task.available_for_user?(user.id)
+      next if bot_task.blank? || !bot_task.available_for_user?(user)
 
-    MessengerEventsChannel.broadcast_to(key, {
-      type: 'triggers:receive',
+      MessengerEventsChannel.broadcast_to(key, {
+        type: 'triggers:receive',
+        data: {
+          trigger: bot_task,
+          step: bot_task.paths.first['steps'].first
+        }
+      }.as_json)
+
+      user.metrics.create(
+        trackable: bot_task,
+        action: 'bot_tasks.delivered'
+      )
+
+      ret = true
+
+      break
+
+    end
+
+    ret
+
+  end
+
+  def register_metric(user, data, conversation)
+    label  = data['label']
+    user.metrics.create(
+      trackable: self,
+      action: "bot_tasks.actions.#{label}",
       data: {
-        trigger: bot_task,
-        step: bot_task.paths.first['steps'].first
+        conversation_id: conversation.id,
       }
-    }.as_json)
+    )
+  end
 
+  def log_action(action)
     user.metrics.create(
       trackable: bot_task,
-      action: 'bot_tasks.delivered'
+      action: "bot_tasks.actions.#{action}"
     )
   end
 
@@ -104,12 +139,20 @@ class BotTask < ApplicationRecord
       value: 'Lead'
     }.with_indifferent_access
 
-    type == 'leads' ? [default_predicate, lead_predicate] : [default_predicate, user_predicate]
+    type == 'leads' ? 
+    [default_predicate, lead_predicate] : 
+    [default_predicate, user_predicate]
   end
 
   def stats_fields
     [
-      { name: 'DeliverRateCount', label: 'DeliverRateCount', keys: [{ name: 'send', color: '#444' }, { name: 'open', color: '#ccc' }] }
+      { 
+        name: 'DeliverRateCount', 
+        label: 'DeliverRateCount', 
+        keys: [
+          { name: 'send', color: '#444' }, 
+          { name: 'open', color: '#ccc' }] 
+        }
     ]
   end
 end

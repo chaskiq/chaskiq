@@ -11,11 +11,13 @@ class Tour < Message
   scope :in_time, -> { where(['scheduled_at <= ? AND scheduled_to >= ?', Date.today, Date.today]) }
 
   scope :availables_for, lambda { |user|
-    enabled.in_time.joins("left outer join metrics
+    enabled.in_time
+    .joins("left outer join metrics
       on metrics.trackable_type = 'Message'
       AND metrics.trackable_id = campaigns.id
       AND metrics.app_user_id = #{user.id}
-      AND settings->'hidden_constraints' ? metrics.action").where('metrics.id is null')
+      AND settings->'hidden_constraints' ? metrics.action")
+    .where('metrics.id is null')
 
     ## THIS WILL RETURN CAMPAINGS ON EMPTY METRICS FOR USER
     # enabled.in_time.joins("left outer join metrics
@@ -27,14 +29,19 @@ class Tour < Message
 
   def config_fields
     [
+      { name: 'name', type: 'string', grid: { xs: 12, sm: 10 } },
       { name: 'state', type: 'select',
         options: %w[enabled disabled],
-        grid: { xs: 12, sm: 12 } },
-      { name: 'name', type: 'string', grid: { xs: 12, sm: 12 } },
-      { name: 'subject', type: 'string', grid: { xs: 12, sm: 12 } },
-      { name: 'url', type: 'string', grid: { xs: 12, sm: 12 } },
+        grid: { xs: 12, sm: 2 } 
+      },
+      { name: 'subject', type: 'string', grid: { xs: 12, sm: 8 } },
+      { name: 'url', type: 'string', grid: { xs: 12, sm: 4 } },
 
       { name: 'description', type: 'text', grid: { xs: 12, sm: 12 } },
+
+      { name: 'scheduledAt', type: 'datetime', grid: { xs: 12, sm: 6 } },
+      { name: 'scheduledTo', type: 'datetime', grid: { xs: 12, sm: 6 } },
+
       { name: 'hiddenConstraints', type: 'select',
         options: [
           { label: 'open', value: 'open' },
@@ -44,9 +51,8 @@ class Tour < Message
         ],
         multiple: true,
         default: 'open',
-        grid: { xs: 12, sm: 12 } },
-      { name: 'scheduledAt', type: 'datetime', grid: { xs: 12, sm: 6 } },
-      { name: 'scheduledTo', type: 'datetime', grid: { xs: 12, sm: 6 } }
+        grid: { xs: 12, sm: 12 } }
+
     ]
   end
 
@@ -69,16 +75,26 @@ class Tour < Message
     host + "/campaigns/#{id}/tracks/#{subscriber.encoded_id}"
   end
 
-  # or closed or consumed
-  def available_for_user?(user_id)
-    available_segments.find(user_id) &&
-      metrics.where(action: hidden_constraints, message_id: user_id).empty?
+  # consumed
+  def available_for_user?(user)
+    comparator = SegmentComparator.new(
+      user: user, 
+      predicates: segments
+    )
+    comparator.compare #&& metrics.where(app_user_id: user.id).blank?
   rescue ActiveRecord::RecordNotFound
     false
   end
 
+  # or closed or consumed
+  #def available_for_user?(user_id)
+  #  available_segments.find(user_id) #&& metrics.where(action: hidden_constraints, message_id: user_id).empty?
+  #rescue ActiveRecord::RecordNotFound
+  #  false
+  #end
+
   def show_notification_for(user)
-    if available_for_user?(user.id)
+    if available_for_user?(user)
 
       metrics.create(
         app_user: user,
@@ -135,7 +151,7 @@ class Tour < Message
     tours = app.tours.availables_for(user)
     tour = tours.first
 
-    return if tour.blank? || !tour.available_for_user?(user.id)
+    return if tour.blank? || !tour.available_for_user?(user)
 
     if tours.any?
       MessengerEventsChannel.broadcast_to(key, {

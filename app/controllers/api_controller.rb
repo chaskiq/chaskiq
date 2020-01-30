@@ -79,6 +79,7 @@ class ApiController < ActionController::API
   end
 
   def get_app_user
+    valid_origin?
     get_user_by_email || get_user_by_session
   end
 
@@ -86,6 +87,13 @@ class ApiController < ActionController::API
     return nil if get_user_data[:email].blank?
 
     @app.app_users.users.find_by(email: get_user_data[:email])
+  end
+
+  def valid_origin?
+    OriginValidator.new(
+      app: @app.domain_url, 
+      host: request.env['HTTP_ORIGIN']
+    ).is_valid?
   end
 
   def get_user_by_session

@@ -61,13 +61,38 @@ class Agent < ApplicationRecord
     region_code
   ]
 
+  has_one_attached :avatar
+
   def display_name
     [name].join(' ')
   end
 
-  def avatar_url
-    !bot? ? gravatar :
+  def default_avatar
     ActionController::Base.helpers.asset_url('icons8-bot-50.png')
+  end
+
+  def avatar_url
+    return !bot? ? 
+        gravatar :
+        default_avatar unless avatar.attached?
+
+    #return '' unless object.avatar_blob.present?
+
+    url = begin
+            avatar.variant(resize_to_limit: [100, 100]).processed
+          rescue StandardError
+            nil
+          end
+    return nil if url.blank?
+
+    begin
+      Rails.application.routes.url_helpers.rails_representation_url(
+        url,
+        #only_path: true
+      )
+    rescue StandardError
+      nil
+    end
   end
 
   def gravatar

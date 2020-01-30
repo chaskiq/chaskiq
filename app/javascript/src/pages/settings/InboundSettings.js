@@ -390,7 +390,7 @@ class AppSegment extends Component {
       search={this.search.bind(this)}
 
       loading={this.props.searching}
-      columns={userFormat(this.showUserDrawer)}
+      columns={userFormat(this.showUserDrawer, this.props.app)}
 
       defaultHiddenColumnNames={
         ['id', 

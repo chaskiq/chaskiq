@@ -16,7 +16,7 @@ module Types
     field :last_message, Types::ConversationPartType, null: true
 
     def last_message
-      object.messages.last # .as_json(methods: [:app_user])
+      object.reload.messages.last # .as_json(methods: [:app_user])
     end
 
     field :state, String, null: true

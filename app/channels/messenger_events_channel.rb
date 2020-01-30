@@ -5,6 +5,7 @@ class MessengerEventsChannel < ApplicationCable::Channel
 
   def subscribed
     get_session_data
+
     stream_from "messenger_events:#{@app.key}-#{@app_user.session_id}"
   end
 
@@ -16,7 +17,8 @@ class MessengerEventsChannel < ApplicationCable::Channel
     get_session_data
     options.delete('action')
 
-    VisitCollector.new(user: @app_user).update_browser_data(options)
+    VisitCollector.new(user: @app_user)
+    .update_browser_data(options)
 
     AppUserEventJob.perform_now(
       app_key: @app.key,
@@ -34,7 +36,7 @@ class MessengerEventsChannel < ApplicationCable::Channel
       process_next_step(message)
 
       if data['submit'].present?
-        opts = %w[email name first_name last_name etc]
+        opts = %w[email name first_name last_name phone company_name company_size etc]
         @app_user.update(data['submit'].slice(*opts)) # some condition from settings here?
         data_submit(data['submit'], message)
       end
@@ -51,7 +53,11 @@ class MessengerEventsChannel < ApplicationCable::Channel
   end
 
   def process_next_step(message)
-    get_session_data
+
+    return if message.trigger_locked.value.present?
+
+    message.trigger_locked.value = 1
+
     trigger, path = ActionTriggerFactory.find_task(
       data: {
         'step' => message.step_id,
@@ -132,7 +138,9 @@ class MessengerEventsChannel < ApplicationCable::Channel
 
   def trigger_step(data)
     get_session_data
+    
     @conversation = @app.conversations.find_by(key: data['conversation_id'])
+    
     message = @conversation.messages.find(data['message_id'])
 
     trigger, path = ActionTriggerFactory.find_task(data: data, app: @app, app_user: @app_user)
@@ -166,7 +174,10 @@ class MessengerEventsChannel < ApplicationCable::Channel
     end
 
     if message.from_bot?
-      data_submit(data['reply'], message) if data['reply'].present?
+      if data['reply'].present?
+        data_submit(data['reply'], message) 
+        trigger.register_metric(@app_user, data['reply'], message)
+      end
     end
   end
 
@@ -230,8 +241,16 @@ class MessengerEventsChannel < ApplicationCable::Channel
   private
 
   def get_session_data
+    
     @app = App.find_by(key: params[:app])
+
+    OriginValidator.new(
+      app: @app.domain_url, 
+      host: connection.env['HTTP_ORIGIN']
+    ).is_valid?
+
     get_user_data
     find_user
   end
+
 end

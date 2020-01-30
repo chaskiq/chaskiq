@@ -43,7 +43,7 @@ class ClientTesterController < ApplicationController
         country: params[:country] || 'chile',
         role: params[:pro] || 'admin',
         pro: params[:pro],
-        num_devices: params[:num_devices].to_i || 2,
+        num_devices: params[:num_devices].nil? ? 2 : params[:num_devices].to_i,
         plan: params[:plan] || 'pro',
         last_sign_in: params[:last_sign_in] || 2.days.ago
       } }

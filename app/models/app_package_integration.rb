@@ -12,7 +12,8 @@ class AppPackageIntegration < ApplicationRecord
     project_id
     access_token
     access_token_secret
-    user_id
+    user_id,
+    user_token
   ], coder: JSON
 
   validate do
@@ -23,12 +24,17 @@ class AppPackageIntegration < ApplicationRecord
     end
   end
 
+  def trigger(event)
+    klass = message_api_klass
+    klass.trigger(event) if klass.respond_to?(:trigger)
+  end
+
   def handle_registration
     register_hook if message_api_klass and message_api_klass.respond_to?(:register_webhook)
   end
 
   def message_api_klass
-    "MessageApis::#{app_package.name.capitalize}".constantize.new(self.settings) rescue nil
+    @message_api_klass ||= "MessageApis::#{app_package.name.capitalize}".constantize.new(config: self.settings) rescue nil
   end
 
   def register_hook
@@ -42,11 +48,27 @@ class AppPackageIntegration < ApplicationRecord
   end
 
   def process_event(params)
-    klass = message_api_klass.process_event(params, self)
+    klass = message_api_klass.enqueue_process_event(params, self)
   end
 
   def send_message(conversation, options)
     klass = message_api_klass.send_message(conversation, options)
+  end
+
+  def oauth_authorize
+    klass = message_api_klass.oauth_authorize(self.app, self)
+  end
+
+  def hook_url
+    "#{ENV['HOST']}/api/v1/hooks/#{app.key}/#{app_package.name.downcase}/#{self.id}"
+  end
+
+  def oauth_url
+    "#{ENV['HOST']}/api/v1/oauth/#{app.key}/#{app_package.name.downcase}/#{self.id}"
+  end
+
+  def receive_oauth_code(params)
+    klass = message_api_klass.receive_oauth_code(params, self)
   end
   
 end

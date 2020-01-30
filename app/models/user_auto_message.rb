@@ -17,7 +17,8 @@ class UserAutoMessage < Message
     on metrics.trackable_type = 'Message'
     AND metrics.trackable_id = campaigns.id
     AND metrics.app_user_id = #{user.id}
-    AND settings->'hidden_constraints' ? metrics.action").where('metrics.id is null')
+    AND settings->'hidden_constraints' ? metrics.action")
+    .where('metrics.id is null')
 
     ## THIS WILL RETURN CAMPAINGS ON EMPTY METRICS FOR USER
     # enabled.in_time.joins("left outer join metrics
@@ -76,15 +77,26 @@ class UserAutoMessage < Message
   end
 
   # or closed or consumed
-  def available_for_user?(user_id)
-    available_segments.find(user_id) &&
-      metrics.where(action: hidden_constraints, message_id: user_id).empty?
+  # def available_for_user?(user_id)
+  #   available_segments.find(user_id) &&
+  #     metrics.where(action: hidden_constraints, message_id: user_id).empty?
+  # rescue ActiveRecord::RecordNotFound
+  #   false
+  # end
+
+  # consumed
+  def available_for_user?(user)
+    comparator = SegmentComparator.new(
+      user: user, 
+      predicates: segments
+    )
+    comparator.compare #&& metrics.where(app_user_id: user.id).blank?
   rescue ActiveRecord::RecordNotFound
     false
   end
 
   def show_notification_for(user)
-    if available_for_user?(user.id)
+    if available_for_user?(user)
       metrics.create(
         app_user_id: user.id,
         trackable: self,
@@ -147,4 +159,39 @@ class UserAutoMessage < Message
 
     messages.any?
   end
+
+
+=begin
+  def self.broadcast_message_to_user(user)
+    app = user.app
+    key = "#{app.key}-#{user.session_id}"
+    ret = nil
+    app.user_auto_messages.availables_for(user).each do |message|
+
+      next if message.blank? || !message.available_for_user?(user)
+
+      MessengerEventsChannel.broadcast_to(key,
+                                          type: 'messages:receive',
+                                          data: [message.as_json(
+                                            only: %i[id
+                                            created_at
+                                            updated_at
+                                            serialized_content
+                                            theme])])
+
+      user.metrics.create(
+        trackable: message,
+        action: 'messages.delivered'
+      )
+
+      ret = true
+
+      break
+
+    end
+
+    ret
+
+  end
+=end
 end

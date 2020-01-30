@@ -100,18 +100,28 @@ class AppPackagesCatalog
       },
       {
         name: 'Slack',
-        tag_list: ['channel'],
-        state: 'disabled',
+        tag_list: ['conversations.added', 'email_changed'],
+        state: 'enabled',
         description: 'Slack channel integration',
         icon: 'https://logo.clearbit.com/slack.com',
         definitions: [
+          {
+            name: 'api_key',
+            type: 'string',
+            grid: { xs: 12, sm: 12 }
+          },
           {
             name: 'api_secret',
             type: 'string',
             grid: { xs: 12, sm: 12 }
           },
           {
-            name: 'api_key',
+            name: 'access_token',
+            type: 'string',
+            grid: { xs: 12, sm: 12 }
+          },
+          {
+            name: 'access_token_secret',
             type: 'string',
             grid: { xs: 12, sm: 12 }
           }
@@ -121,7 +131,7 @@ class AppPackagesCatalog
       {
         name: 'Twitter',
         tag_list: ['channel'],
-        state: 'disabled',
+        state: 'enabled',
         description: 'Twitter acount activity integration',
         icon: 'https://logo.clearbit.com/twitter.com',
         definitions: [

@@ -9,6 +9,8 @@ class ChaskiqSchema < GraphQL::Schema
   mutation(Types::MutationType)
   query(Types::QueryType)
 
+  #use GraphQL::Batch
+
 
   def self.unauthorized_object(error)
     # Add a top-level error to the response instead of returning nil:

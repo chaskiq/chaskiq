@@ -1,3 +1,4 @@
+
 class Api::V1::Hooks::ProviderController < ApplicationController
 
   before_action :find_application_package
@@ -8,8 +9,8 @@ class Api::V1::Hooks::ProviderController < ApplicationController
   end
 
   def process_event
-    HookMessageReceiverJob.perform_now(@integration_pkg.id, params)
-    render status: 200, json: {}
+    response = @integration_pkg.process_event(params)
+    render status: 200, json: response
   end
 
   def find_application_package
@@ -21,6 +22,15 @@ class Api::V1::Hooks::ProviderController < ApplicationController
                               id: params[:id], 
                               "app_packages.name": params[:provider].capitalize
                           ).first
+  end
+
+
+  def oauth
+    response = @integration_pkg.receive_oauth_code(params)
+    render status: 200, json: response.to_json 
+  end
+
+  def auth
   end
   
 end

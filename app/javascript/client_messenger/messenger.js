@@ -25,6 +25,7 @@ import {
 } from './graphql/queries'
 import GraphqlClient from './graphql/client'
 
+
 import {
   Container,
   UserAutoMessage,
@@ -43,7 +44,9 @@ import {
   HeaderAvatar,
   CountBadge,
   ShowMoreWrapper,
-  AssigneeStatus
+  AssigneeStatus,
+  Overflow,
+  AssigneeStatusWrapper
 } from './styles/styled'
 
 import TourManager from './tourManager'
@@ -80,8 +83,6 @@ class Messenger extends Component {
       conversation: {},
       inline_conversation: null,
       new_messages: this.props.new_messages,
-      //conversation_messages: [],
-      //conversation_messagesMeta: {},
       conversations: [],
       conversationsMeta: {},
       availableMessages: [],
@@ -165,7 +166,6 @@ class Messenger extends Component {
     this.commentWrapperRef = React.createRef();
 
     document.addEventListener("chaskiq_events", (event)=> {
-      console.log("RECEIVED CHASKIQ EVENT", event)
       const {data, action} = event.detail
       switch (action) {
         case "wakeup":
@@ -203,7 +203,7 @@ class Messenger extends Component {
 
     window.addEventListener('message', (e)=> {
       if(e.data.tourManagerEnabled){
-        console.log("EVENTO TOUR!", e)
+        //console.log("EVENTO TOUR!", e)
         this.setState({
           tourManagerEnabled: e.data.tourManagerEnabled, 
           ev: e
@@ -247,10 +247,10 @@ class Messenger extends Component {
 
     // Warn if the browser doesn't support addEventListener or the Page Visibility API
     if (typeof document.addEventListener === "undefined" || hidden === undefined) {
-      console.log("This demo requires a browser, such as Google Chrome or Firefox, that supports the Page Visibility API.");
+      console.log("Visibility browser, such as Google Chrome or Firefox, that supports the Page Visibility API.");
     } else {
       // Handle page visibility change   
-      document.addEventListener(visibilityChange, handleVisibilityChange, false);
+      // document.addEventListener(visibilityChange, handleVisibilityChange, false);
     }
   }
 
@@ -365,7 +365,7 @@ class Messenger extends Component {
           }
 
 
-          console.log(`received event`, data)
+          //console.log(`received event`, data)
         },
         notify: ()=>{
           console.log(`notify event!!`)
@@ -406,13 +406,28 @@ class Messenger extends Component {
     if(!this.state.open && !this.state.inline_conversation){
       
       this.clearConversation(()=>{
-        this.setConversation(newMessage.conversationKey, ()=>{
-          this.setState({
-            inline_conversation: newMessage.conversationKey
-          }, ()=> setTimeout(this.scrollToLastItem, 200) )
-        })
-      })
+        
+        if(this.state.appData.inlineNewConversations){
 
+          this.setConversation(newMessage.conversationKey, ()=>{
+            this.setState({
+              inline_conversation: newMessage.conversationKey
+            }, ()=> setTimeout(this.scrollToLastItem, 200) )
+          })
+
+        }else{
+
+          this.setConversation(newMessage.conversationKey, ()=>{
+            this.setState({
+              display_mode: "conversation",
+              open: true,
+            }, ()=> setTimeout(this.scrollToLastItem, 200) )
+          })
+
+        }
+
+      })
+      
       return
     }
 
@@ -616,7 +631,9 @@ class Messenger extends Component {
       success: (data)=>{
         const { collection, meta } = data.messenger.conversations
         this.setState({
-          conversations: options && options.append ? this.state.conversations.concat(collection) : collection,
+          conversations: options && options.append ? 
+          this.state.conversations.concat(collection) : 
+          collection,
           conversationsMeta: meta
         }, ()=> cb && cb() )
       },
@@ -644,7 +661,10 @@ class Messenger extends Component {
 
         this.setState({
           conversation: Object.assign(this.state.conversation, conversation, {
-            messages: { collection:  newCollection, meta: meta }
+            messages: { 
+              collection:  newCollection, 
+              meta: meta 
+            }
           }),
           //conversation_messages: nextPage > 1 ? this.state.conversation.messages.collection.concat(messages.collection) : messages.collection ,
           //conversation_messagesMeta: messages.meta
@@ -913,7 +933,7 @@ class Messenger extends Component {
               { assignee && 
                 <React.Fragment>
                   <img src={assignee.avatarUrl} />
-                  <div>
+                  <AssigneeStatusWrapper>
                     <p>{assignee.name}</p>
                     { 
                       this.state.appData && this.state.appData.replyTime && 
@@ -921,7 +941,7 @@ class Messenger extends Component {
                         {this.props.t(`reply_time.${this.state.appData.replyTime}`)}
                       </AssigneeStatus>
                     }
-                  </div>
+                  </AssigneeStatusWrapper>
                 </React.Fragment>
               }
             </HeaderAvatar>
@@ -937,9 +957,6 @@ class Messenger extends Component {
   }
 
   handleAppPackageEvent = (ev)=>{
-    console.log("data", ev.data)
-    console.log(this.state)
-
     App.events && App.events.perform('app_package_submit', {
       conversation_id: this.state.conversation.key,
       message_id: this.state.currentAppBlock.message.id,
@@ -1003,7 +1020,6 @@ class Messenger extends Component {
             <EditorWrapper>
 
               {
-                
                 this.state.availableMessages.length > 0 && this.isMessengerActive() &&
                 <MessageFrame 
                   app_id={this.props.app_id}
@@ -1012,7 +1028,6 @@ class Messenger extends Component {
                   domain={this.props.domain}
                   t={this.props.t}
                 />
-                
               }
                   
 
@@ -1054,7 +1069,8 @@ class Messenger extends Component {
                                 in={this.state.transition}
                                 >
 
-                                { this.state.new_messages > 0 && 
+                                { this.state.display_mode != "home" && 
+                                  this.state.new_messages > 0 && 
                                   <CountBadge section={this.state.display_mode}>
                                     {this.state.new_messages}
                                   </CountBadge>
@@ -1082,7 +1098,11 @@ class Messenger extends Component {
                                     opacity: this.state.header.opacity,
                                     transform: `translateY(${this.state.header.translateY}px)`
                                   }}>
-                                    <h2>{this.state.appData.greetings}</h2>
+                                    {
+                                      this.state.appData.logo && 
+                                        <img src={this.props.domain + this.state.appData.logo}></img>
+                                    }
+                                    <h2 style={{margin: '0.6em 0em' }}>{this.state.appData.greetings}</h2>
                                     <p>{this.state.appData.intro}</p>
                                   </HeaderTitle>
                                 }
@@ -1103,6 +1123,7 @@ class Messenger extends Component {
                               {
                                 this.state.display_mode === "home" && 
                                 <Home 
+                                  newMessages={this.state.new_messages}
                                   graphqlClient={this.graphqlClient}
                                   displayNewConversation={this.displayNewConversation}
                                   viewConversations={this.displayConversationList}
@@ -1201,11 +1222,6 @@ class Messenger extends Component {
                   height: this.inlineOverflow ? this.inlineOverflow.offsetHeight + "px" : ''
                 }}>
 
-
-                {/*<InlineConversation 
-                  conversation={this.state.inline_conversation}
-                />*/}
-
                 {
                   
                   <div 
@@ -1241,7 +1257,9 @@ class Messenger extends Component {
                     }
 
                     <Conversation
-                      disablePagination={true}
+                      //disablePagination={true}
+                      visible={this.state.visible}
+                      pushEvent={this.pushEvent}
                       inline_conversation={this.state.inline_conversation}
                       footerClassName="inline"
                       clearConversation={this.clearConversation}
@@ -1319,7 +1337,15 @@ class Messenger extends Component {
                     </div>
                   </Prime>  
                 </StyledFrame> : null
-            }
+              }
+
+              {
+                (this.state.open || this.state.inline_conversation) &&
+                <div>
+                  <Overflow/>
+                </div>
+              }
+              
 
             </EditorWrapper>
 
@@ -1493,7 +1519,6 @@ class MessageFrame extends Component {
 class MessageContainer extends Component {
   
   componentDidMount(){
-    console.log("App.events", App.events)
     App.events && App.events.perform("track_open", 
       {
         trackable_id: this.props.availableMessage.id, 

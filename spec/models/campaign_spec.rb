@@ -85,23 +85,23 @@ RSpec.describe Campaign, type: :model do
     end
 
     it 'will send newsletter jobs for each subscriber' do
-      expect(ActiveJob::Base.queue_adapter.enqueued_jobs.size).to eq 0
+      count = ActiveJob::Base.queue_adapter.enqueued_jobs.size
       MailSenderJob.perform_now(@c)
-      expect(ActiveJob::Base.queue_adapter.enqueued_jobs.size).to eq 10
+      expect(ActiveJob::Base.queue_adapter.enqueued_jobs.size).to eq( count+10)
     end
 
     it 'will send newsletter jobs for each subscriber' do
       app.app_users.first.unsubscribe!
-      expect(ActiveJob::Base.queue_adapter.enqueued_jobs.size).to eq 0
+      count = ActiveJob::Base.queue_adapter.enqueued_jobs.size
       MailSenderJob.perform_now(@c)
-      expect(ActiveJob::Base.queue_adapter.enqueued_jobs.size).to eq 9
+      expect(ActiveJob::Base.queue_adapter.enqueued_jobs.size).to eq count+9
     end
 
     it 'will send newsletter for dispatch' do
       app.app_users.first.unsubscribe!
-      expect(ActiveJob::Base.queue_adapter.enqueued_jobs.size).to eq 0
+      count = ActiveJob::Base.queue_adapter.enqueued_jobs.size
       @c.send_newsletter
-      expect(ActiveJob::Base.queue_adapter.enqueued_jobs.size).to eq 1
+      expect(ActiveJob::Base.queue_adapter.enqueued_jobs.size).to eq count+1
     end
   end
 
