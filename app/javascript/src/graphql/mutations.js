@@ -608,6 +608,7 @@ export const PREDICATES_SEARCH = `
           browserVersion
           browserLanguage
           lang
+          properties
         }
         meta
       }

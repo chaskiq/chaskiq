@@ -267,7 +267,7 @@ class AppUsers extends Component {
             { !this.props.searching && <Table 
               data={this.props.app_users} 
               loading={this.props.searching}
-              columns={userFormat(this.showUserDrawer)}
+              columns={userFormat(this.showUserDrawer, this.props.app )}
 
               defaultHiddenColumnNames={['id', 
                     'state', 
