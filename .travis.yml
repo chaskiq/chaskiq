@@ -36,10 +36,10 @@ matrix:
   include:
   - rvm: 2.6.5
     gemfile: Gemfile
-#deploy:
-#  provider: heroku
-#  api_key:
-#    secure: vwv8k6hnHgkgUcgFELelm72rwUYQ1vC2i3Xt2VqZIxQaOzJSp0r5sZ0vx2VyDXnc9SBeYGOXNTmdzTxAsoV5PRVUtVbDCXFGMQQLUNosiTc/ghJBD9Xn93HeoyUDyL0HG7+2TSCBnT8uEPF5GvAqJ7f4iF27LZThirv9O+X8o1VwsUga9CduHh69wnbyZs19rroE4+uJvivnlhSmPWTbkqyQs31Lno3fWj4LNfxHbEQ8HS+7bd4tY8lm/fww3uToDcgbUycq7Dyr/dVV9XDaRQcPf3X5dSa+0q1Uxxbf5Ejo0x9VfM0foGzyhVgl/GAC3j+tqTcayNx3fCUFrGUKeHkLngdgPi42wmVmacPT3EdOaomoMi13LjP0CM5TX6+TtvR1+p86cO1+0mhQa21WJzjmMfMVvt4CvG8t8bQBHzZS/71kMcc8dHNC8EUsXUsm1oNC4d/G6ePIHDxYtIFgaJVf7X/xCe3VTGC+b15aOQzEizCIC3kEs5M/9vpvDLerljEBcGNP7LAhvb2WNofrAty/EqUVV93XD3nZsYV0yPvfl5RqHfVANJqX5Iz01tQBaimp7HYcjtzskLTZdYwtLKXrUS/8IbgwCA3Mj2zJmsLlO7gFn8mJ5karaAuFs5imaZwIxRGXAq0Mr01x3+rNGNShI0ptPvpnLygIUvDwZtM=
-#  app: hermesapp
-#  on:
-#    repo: chaskiq/chaskiq
+deploy:
+  provider: heroku
+  api_key:
+    secure: vwv8k6hnHgkgUcgFELelm72rwUYQ1vC2i3Xt2VqZIxQaOzJSp0r5sZ0vx2VyDXnc9SBeYGOXNTmdzTxAsoV5PRVUtVbDCXFGMQQLUNosiTc/ghJBD9Xn93HeoyUDyL0HG7+2TSCBnT8uEPF5GvAqJ7f4iF27LZThirv9O+X8o1VwsUga9CduHh69wnbyZs19rroE4+uJvivnlhSmPWTbkqyQs31Lno3fWj4LNfxHbEQ8HS+7bd4tY8lm/fww3uToDcgbUycq7Dyr/dVV9XDaRQcPf3X5dSa+0q1Uxxbf5Ejo0x9VfM0foGzyhVgl/GAC3j+tqTcayNx3fCUFrGUKeHkLngdgPi42wmVmacPT3EdOaomoMi13LjP0CM5TX6+TtvR1+p86cO1+0mhQa21WJzjmMfMVvt4CvG8t8bQBHzZS/71kMcc8dHNC8EUsXUsm1oNC4d/G6ePIHDxYtIFgaJVf7X/xCe3VTGC+b15aOQzEizCIC3kEs5M/9vpvDLerljEBcGNP7LAhvb2WNofrAty/EqUVV93XD3nZsYV0yPvfl5RqHfVANJqX5Iz01tQBaimp7HYcjtzskLTZdYwtLKXrUS/8IbgwCA3Mj2zJmsLlO7gFn8mJ5karaAuFs5imaZwIxRGXAq0Mr01x3+rNGNShI0ptPvpnLygIUvDwZtM=
+  app: hermesapp
+  on:
+    repo: chaskiq/chaskiq
