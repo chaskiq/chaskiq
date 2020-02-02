@@ -10,6 +10,10 @@ module Types
     field :description, String, null: true
     field :state, String, null: true
 
+    def self.authorized?(object, context)
+      super && context[:current_user].is_a?(Agent) && context[:current_user].apps.include?(object.app)
+    end
+
     def icon
       object.app_package.icon
     end

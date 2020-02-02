@@ -49,12 +49,19 @@ export default class AppListContainer extends Component {
               
                 <Container maxWidth="md">
                   <Box component="span" m={1}>
+
+                    <Grid container spacing={2} justify={"space-between"}>
                    
+                      <Grid item>
                       <Typography variant={"h4"} gutterBottom>
                         Your applications
                       </Typography>
 
+                      </Grid>
 
+
+
+                      <Grid item>
                       <LinkButton 
                         variant={'contained'} 
                         color={'primary'} 
@@ -62,6 +69,9 @@ export default class AppListContainer extends Component {
                         <AddIcon />
                         {"Create new app"}
                       </LinkButton>
+                      </Grid>
+
+                    </Grid>
 
                       
                       <Grid container spacing={2}>
