@@ -22,6 +22,8 @@ module MessageApis
         params_encoder: Faraday::FlatParamsEncoder
       }
 
+      @package = nil
+
       @keys = {}
       @keys['channel'] = 'chaskiq_channel'
       @keys['consumer_key'] = config["api_key"]
@@ -69,11 +71,11 @@ module MessageApis
       "#{BASE_URL}#{url}"
     end
 
-    def post_message(message, blocks)
+    def post_message(message, blocks, options={})
       authorize!
 
       data = {
-        "channel": @keys['channel'] || 'chaskiq_channel',
+        "channel": options[:channel] || @keys['channel'] || 'chaskiq_channel',
         "text": message,
         "blocks": blocks
       }
@@ -88,6 +90,8 @@ module MessageApis
 
       puts response.body
       puts response.status
+
+      response
     end
 
     def create_channel(name='chaskiq_channel')
@@ -139,8 +143,8 @@ module MessageApis
 
       case action
       when "visitors.convert" then notify_new_lead(subject)
-      #when "conversations.added" then notify_added(conversation)
-      when "conversations.started" then notify_added(subject)
+      #when "conversations.started" then notify_added(subject)
+      when "conversations.added" then notify_added(subject)
       else
       end
     end
@@ -250,7 +254,7 @@ module MessageApis
                     "text": "Reply in Channel"
                   },
                   "style": "primary",
-                  "value": "reply_in_channel"
+                  "value": "reply_in_channel_#{conversation.key}"
                 },
               ]
             }
@@ -321,14 +325,77 @@ module MessageApis
     end
 
     def process_event(params, package)
+
+      @package = package
+
+      return handle_incoming_event(params) if params['event']
+
       payload = JSON.parse(params["payload"])
-    
+
       action = payload["actions"].first
 
       case action['value']
-      when "reply_in_channel" then handle_reply_in_channel_action(payload)
+      when /^reply_in_channel/
+         handle_reply_in_channel_action(payload)
       else
       end
+    end
+
+
+    # incoming event sample
+    #{"client_msg_id"=>"257c732b-1b12-4944-966d-8bba32b3dcf4",
+    #"type"=>"message",
+    #"text"=>"pokok",
+    #"user"=>"UR2A93SRK",
+    #"ts"=>"1580785266.001000",
+    #"team"=>"TQUC0ASKT",
+    #"blocks"=>
+    #  [{"type"=>"rich_text",
+    #    "block_id"=>"n+w",
+    #    "elements"=>[{"type"=>"rich_text_section", "elements"=>[{"type"=>"text", "text"=>"pokok"}]}]}],
+    #"channel"=>"CT07YBL5T",
+    #"event_ts"=>"1580785266.001000",
+    #"channel_type"=>"channel"}
+
+    def handle_incoming_event(params)
+      event = params["event"]
+      puts "processing slack event type: #{event['type']}"
+      case event['type']
+      when 'message' then process_message(event)
+      end
+    end
+
+    def process_message(event)
+
+      #@package.app.conversations
+      conversation = @package
+      .app
+      .conversations
+      .joins(:conversation_channels)
+      .where(
+        "conversation_channels.provider =? AND 
+        conversation_channels.provider_channel_id =?", 
+        "slack", event["channel"]
+      ).first
+
+      text = event["text"]
+
+      return if conversation.blank?
+
+      return if conversation.conversation_part_channel_sources
+                            .find_by(message_source_id: event["ts"]).present?
+
+      conversation.add_message(
+        from: @package.app.agents.first, #agent_required ? Agent.first : participant,
+        message: {
+          html_content: text,
+          #serialized_content: serialized_content
+        },
+        provider: 'slack',
+        message_source_id: event["ts"],
+        check_assignment_rules: true
+      )
+
     end
 
     def handle_challenge(params)
@@ -429,9 +496,42 @@ module MessageApis
       token.token
     end
 
+    # triggered when a new chaskiq message is created
+    # will triggered just after the ws notification
+    def notify_message(conversation: , part:, channel:)
+
+      # redis cache here for provider / channel id / part
+
+      return if part.conversation_part_channel_sources.find_by(provider: "slack").present?
+
+      text = JSON.parse(
+        part.messageable.serialized_content
+      )["blocks"].map{|o| o["text"]}.join(" ") rescue part.messageable.html_content
+
+      blocks = blocks_transform(part)
+
+      response = post_message(
+        "new message", 
+        blocks.as_json,
+        {
+          channel: channel
+        }
+      )
+
+      response_data = JSON.parse(response.body)
+
+      return unless response_data["ok"]
+
+      part.conversation_part_channel_sources.create(
+        provider: 'slack', 
+        message_source_id: response_data["ts"] 
+      )
+    end
 
     def handle_reply_in_channel_action(payload)
       response_url = payload["response_url"]
+
+      reply_value = payload["actions"].first["value"].gsub("reply_in_channel_", "")
 
       data = {
         "channel": @keys['channel'] || 'chaskiq_channel',
@@ -447,13 +547,22 @@ module MessageApis
         }]
       }
 
-      ##pp payload
 
       create_channel_response = create_channel("chaskiq-#{Time.now.to_i}")
+      channel_id = create_channel_response["channel"]["id"]
+
+      conversation = @package.app.conversations.find_by(key: reply_value)
+
+      return if conversation.blank?
+      
+      conversation.conversation_channels.create({
+        provider: 'slack',
+        provider_channel_id: channel_id
+      })
 
       if create_channel_response["error"].blank?
         join_channel_response = join_channel(
-          create_channel_response["channel"]["id"]
+          channel_id
         )
       end
 
@@ -467,13 +576,60 @@ module MessageApis
         }
       )
 
-      response = @conn.post do |req|
+      response = update_reply_in_channel_message(response_url , data)
+      response.body
+    end
+
+    def update_reply_in_channel_message(response_url, data )
+      @conn.post do |req|
         req.url response_url
         req.headers['Content-Type'] = 'application/json; charset=utf-8'
         req.body = data.to_json
       end
+    end
 
-      response.body
+    def blocks_transform(part)
+
+      blocks = JSON.parse(
+        part.messageable.serialized_content
+      )["blocks"].map{|o| process_block(o) }
+
+      #text = blocks.map{|o| o["text"]}.join(" ") rescue part.messageable.html_content
+
+      blocks
+
+      #image_block = blocks.find{|o| o["type"] == "image"}
+    end
+
+    def process_block(block)
+      res = case block["type"]
+      when "unstyled"
+        {
+          "type": "section",
+          "text": {
+            "type": "mrkdwn",
+            "text": block['text']
+          },
+          "block_id": block["key"]
+        }
+      when "divider"
+        {
+			    "type": "divider"
+		    }
+      when "image"
+        {
+          "type": "image",
+          "title": {
+            "type": "plain_text",
+            "text": "image1",
+            "emoji": true
+          },
+          "image_url": block["data"]["url"],
+          "alt_text": "image1"
+        }
+      else
+        {}
+      end
     end
 
   end
@@ -489,5 +645,23 @@ end
   + recibe hook
     + se crea canal de conversacion
   + proximos mensajes se envian y reciben por ese canal
+
+
+plan:
+
+recive button chnnel , 
+
+1. asocia channel a conversacion
+2. recive mensaje con channel, checkea channel
+3. crea mensaje de channel correspondiente
+
+cuando genera mensaje desde chaskiq
+
+1. verifica si tiene channel
+2. notifica el mensaje a channel
+  2.1 actualiza el mensaje con el id del mensaje
+3.  si recibe mensaje de vuelta pero ya existe mensaje , skip
+
+
 
 =end
