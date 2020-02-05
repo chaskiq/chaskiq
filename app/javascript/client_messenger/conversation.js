@@ -637,7 +637,13 @@ export function CommentsItemComp(props){
   function renderMessage(message){
     var length = 80;
     const d = JSON.parse(message.message.serializedContent)
-    const string = d.blocks.map((block)=> block.text).join("\n")
+    let string = ""
+    if(!d){
+      string = message.message.htmlContent
+    }else{
+      string = d.blocks.map((block)=> block.text).join("\n")
+    }
+    
     var trimmedString = string.length > length ? 
                         string.substring(0, length - 3) + "..." : 
                         string;
