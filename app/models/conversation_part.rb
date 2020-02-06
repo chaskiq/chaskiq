@@ -87,7 +87,7 @@ class ConversationPart < ApplicationRecord
   def notify_to_channels(opts={})
     notify_app_users unless private_note?
     notify_agents
-    register_message_on_available_apis unless opts[:disable_api_notification]
+    enqueue_channel_notification unless opts[:disable_api_notification]
   end
 
   def notify_agents
@@ -98,7 +98,13 @@ class ConversationPart < ApplicationRecord
     )
   end
 
-  def register_message_on_available_apis
+  def enqueue_channel_notification
+    ApiChannelNotificatorJob.perform_later(
+      part_id: self.id
+    )
+  end
+
+  def notify_message_on_available_channels
     conversation.conversation_channels.each do |channel|
       channel.notify_part(conversation: conversation , part: self)
     end
