@@ -9,7 +9,10 @@ module Events
                  .opened_conversations
                  .incr(1, Time.zone.now)
 
-      EventTriggerProcessorJob.perform_later(id: app.id , event_id: event.id)
+      EventTriggerProcessorJob.perform_later(
+        id: app.id , 
+        event_id: event.id
+      )
     end
   end
 end

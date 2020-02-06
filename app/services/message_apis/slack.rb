@@ -77,7 +77,9 @@ module MessageApis
       data = {
         "channel": options[:channel] || @keys['channel'] || 'chaskiq_channel',
         "text": message,
-        "blocks": blocks
+        "blocks": blocks,
+        "username": "chahaha custom",
+        "icon_url":	"http://lorempixel.com/48/48"
       }
 
       url = url('/api/chat.postMessage')
@@ -385,6 +387,7 @@ module MessageApis
       return if conversation.conversation_part_channel_sources
                             .find_by(message_source_id: event["ts"]).present?
 
+      # TODO: serialize message                      
       conversation.add_message(
         from: @package.app.agents.first, #agent_required ? Agent.first : participant,
         message: {
@@ -510,6 +513,14 @@ module MessageApis
 
       blocks = blocks_transform(part)
 
+      blocks.prepend({
+        "type": "section",
+        "text": {
+          "type": "mrkdwn",
+          "text": "*#{part.authorable.name}* (#{part.authorable.model_name.human}) sent a message"
+        }
+      })
+
       response = post_message(
         "new message", 
         blocks.as_json,
@@ -546,7 +557,6 @@ module MessageApis
           ]
         }]
       }
-
 
       create_channel_response = create_channel("chaskiq-#{Time.now.to_i}")
       channel_id = create_channel_response["channel"]["id"]
@@ -594,11 +604,7 @@ module MessageApis
         part.messageable.serialized_content
       )["blocks"].map{|o| process_block(o) }
 
-      #text = blocks.map{|o| o["text"]}.join(" ") rescue part.messageable.html_content
-
       blocks
-
-      #image_block = blocks.find{|o| o["type"] == "image"}
     end
 
     def process_block(block)
@@ -617,6 +623,8 @@ module MessageApis
 			    "type": "divider"
 		    }
       when "image"
+        image_url = block['data']['url']
+        image_url  = "#{ENV['HOST']}#{block['data']['url']}" unless block['data']['url'].include?("://")
         {
           "type": "image",
           "title": {
@@ -624,11 +632,27 @@ module MessageApis
             "text": "image1",
             "emoji": true
           },
-          "image_url": block["data"]["url"],
+          "image_url": image_url,
           "alt_text": "image1"
         }
+      when "header-one", "header-two", "header-three", "header-four"
+        {
+          "type": "section",
+          "text": {
+            "type": "mrkdwn",
+            "text": "*#{block['text']}*"
+          },
+          "block_id": block["key"]
+        } 
       else
-        {}
+        {
+          "type": "section",
+          "text": {
+            "type": "mrkdwn",
+            "text": block['text']
+          },
+          "block_id": block["key"]
+        }
       end
     end
 
