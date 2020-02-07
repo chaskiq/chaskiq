@@ -96,12 +96,12 @@ module MessageApis
       response
     end
 
-    def create_channel(name='chaskiq_channel')
+    def create_channel(name='chaskiq_channel', user_ids="")
       authorize!
 
       data = {
         "name": name,
-        "user_ids": "UR2A93SRK"
+        "user_ids": user_ids
       }
 
       url = url('/api/conversations.create')
@@ -126,8 +126,6 @@ module MessageApis
       url = url('/api/channels.join')
 
       @conn.authorization :Bearer, @keys["access_token"]
-
-      #url = "https://a77c6f48.ngrok.io"
 
       response = @conn.post do |req|
         req.url url
@@ -343,22 +341,6 @@ module MessageApis
       end
     end
 
-
-    # incoming event sample
-    #{"client_msg_id"=>"257c732b-1b12-4944-966d-8bba32b3dcf4",
-    #"type"=>"message",
-    #"text"=>"pokok",
-    #"user"=>"UR2A93SRK",
-    #"ts"=>"1580785266.001000",
-    #"team"=>"TQUC0ASKT",
-    #"blocks"=>
-    #  [{"type"=>"rich_text",
-    #    "block_id"=>"n+w",
-    #    "elements"=>[{"type"=>"rich_text_section", "elements"=>[{"type"=>"text", "text"=>"pokok"}]}]}],
-    #"channel"=>"CT07YBL5T",
-    #"event_ts"=>"1580785266.001000",
-    #"channel_type"=>"channel"}
-
     def handle_incoming_event(params)
       event = params["event"]
       puts "processing slack event type: #{event['type']}"
@@ -503,15 +485,12 @@ module MessageApis
     # will triggered just after the ws notification
     def notify_message(conversation: , part:, channel:)
 
-      # redis cache here for provider / channel id / part
-
+      # TODO ? redis cache here for provider / channel id / part
       return if part.conversation_part_channel_sources.find_by(provider: "slack").present?
-
-      text = JSON.parse(
-        part.messageable.serialized_content
-      )["blocks"].map{|o| o["text"]}.join(" ") rescue part.messageable.html_content
-
-      blocks = blocks_transform(part)
+      
+      blocks = blocks_transform(part) 
+      
+      text = !blocks.blank? ? blocks.join(" ") : part.messageable.html_content
 
       blocks.prepend({
         "type": "section",
@@ -558,21 +537,25 @@ module MessageApis
         }]
       }
 
-      create_channel_response = create_channel("chaskiq-#{Time.now.to_i}")
-      channel_id = create_channel_response["channel"]["id"]
+      create_channel_response = create_channel(
+        "chaskiq-#{Time.now.to_i}", 
+        payload["user"]["id"]
+      )
+
+      slack_channel_id = create_channel_response["channel"]["id"]
 
       conversation = @package.app.conversations.find_by(key: reply_value)
-
+      
       return if conversation.blank?
       
       conversation.conversation_channels.create({
         provider: 'slack',
-        provider_channel_id: channel_id
+        provider_channel_id: slack_channel_id
       })
 
       if create_channel_response["error"].blank?
         join_channel_response = join_channel(
-          channel_id
+          slack_channel_id
         )
       end
 
@@ -602,7 +585,7 @@ module MessageApis
 
       blocks = JSON.parse(
         part.messageable.serialized_content
-      )["blocks"].map{|o| process_block(o) }
+      )["blocks"].map{|o| process_block(o) } rescue []
 
       blocks
     end

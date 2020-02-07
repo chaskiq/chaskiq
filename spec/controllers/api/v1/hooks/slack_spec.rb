@@ -15,7 +15,7 @@ RSpec.describe Api::V1::Hooks::ProviderController, type: :controller do
   }
 
 
-  def block_actions(id: , sender: , recipient: , message_data: {} )
+  def block_actions(id: , sender: , recipient: , message_data: {}, conversation: nil )
 
     payload = {
       "type"=>"block_actions",
@@ -60,7 +60,7 @@ RSpec.describe Api::V1::Hooks::ProviderController, type: :controller do
            "text"=>"Reply in Channel", 
            "emoji"=>true
          },
-         "value"=>"reply_in_channel_1234",
+         "value"=>"reply_in_channel_#{conversation.key}",
          "style"=>"primary",
          "type"=>"button",
          "action_ts"=>"1580837286.413915"
@@ -76,6 +76,33 @@ RSpec.describe Api::V1::Hooks::ProviderController, type: :controller do
       "id"=>id
     }
 
+
+  end
+
+  def message_blocks(channel:, id:)
+    payload = {
+      "client_msg_id"=>"xxx",
+      "type"=>"message",
+      "text"=>"the message",
+      "user"=>"AAAAA",
+      "ts"=>"1580785266.001000",
+      "team"=>"TQUC0ASKT",
+      "blocks"=>
+        [{"type"=>"rich_text",
+          "block_id"=>"n+w",
+          "elements"=>[{"type"=>"rich_text_section", 
+            "elements"=>[{"type"=>"text", "text"=>"the message"}]}]}],
+      "channel"=>channel,
+      "event_ts"=>"1580785266.001000",
+      "channel_type"=>"channel"
+      }
+
+      {
+        "event"=> payload,
+        "app_key"=> app.key, 
+        "provider"=>"slack", 
+        "id"=>id
+      }
 
   end
 
@@ -118,10 +145,22 @@ RSpec.describe Api::V1::Hooks::ProviderController, type: :controller do
     AppPackage.create(name: 'Slack', definitions: definitions)
   end
 
+  let(:conversation) do
+    app.start_conversation(
+      message: { html_content: 'message' },
+      from: user
+    )
+  end
+
 
   describe "hooks" do
 
     before :each do
+
+      ActiveJob::Base.queue_adapter = :test
+      ActiveJob::Base.queue_adapter.perform_enqueued_at_jobs = false
+
+      conversation
 
       AppPackageIntegration.any_instance
       .stub(:handle_registration)
@@ -154,6 +193,14 @@ RSpec.describe Api::V1::Hooks::ProviderController, type: :controller do
         access_token_secret: "aaa",
         app_package: app_package,
       )
+  
+      @pkg = app.app_package_integrations.create(
+        api_secret: "aaa",
+        api_key: "aaa",
+        access_token: "aaa",
+        access_token_secret: "aaa",
+        app_package: app_package,
+      )
 
     end
   
@@ -162,20 +209,93 @@ RSpec.describe Api::V1::Hooks::ProviderController, type: :controller do
       get(:process_event, params: block_actions(
         id: @pkg.id,
         sender: slack_user, 
-        recipient: slack_owner)
+        recipient: slack_owner,
+        conversation: conversation
+      )
       )
     end  
 
     it "receive reply in channel" do
-      # SPEC ON CONVERSATION
-      #allow_any_instance_of(MessageApis::Slack).to receive(:handle_reply_in_channel_action).once
       get(:process_event, params: block_actions(
         id: @pkg.id,
         sender: slack_user, 
-        recipient: slack_owner)
+        recipient: slack_owner,
+        conversation: conversation)
       )
-    end  
-    
+
+      expect(conversation.conversation_channels).to be_any
+    end
+
+    it "receive message" do
+      get(:process_event, params: block_actions(
+        id: @pkg.id,
+        sender: slack_user, 
+        recipient: slack_owner,
+        conversation: conversation)
+      )
+
+      channel = conversation.conversation_channels.find_by(provider: "slack")
+
+      get(:process_event, params: message_blocks(
+        id: @pkg.id,
+        channel: channel.provider_channel_id)
+      )
+
+      expect(conversation.messages.last.authorable).to be_a(Agent)
+
+      expect(conversation.messages.last.messageable.html_content).to be == "the message"
+      
+    end
+
+    it "send message as an app user" do
+      get(:process_event, params: block_actions(
+        id: @pkg.id,
+        sender: slack_user, 
+        recipient: slack_owner,
+        conversation: conversation)
+      )
+
+      channel = conversation.conversation_channels.find_by(provider: "slack")
+
+      r = {ok: true, ts: '1234'}
+      MessageApis::Slack.any_instance
+      .stub(:post_message)
+      .and_return(OpenStruct.new(body: r.to_json ))
+
+      perform_enqueued_jobs do
+        message = conversation.add_message(
+          from: user,
+          message: { html_content: 'aa' }
+        )
+        expect(message.conversation_part_channel_sources).to be_any
+      end
+
+    end
+
+    it "send message as an app user with error" do
+      get(:process_event, params: block_actions(
+        id: @pkg.id,
+        sender: slack_user, 
+        recipient: slack_owner,
+        conversation: conversation)
+      )
+
+      channel = conversation.conversation_channels.find_by(provider: "slack")
+
+      r = {ok: false, ts: '1234'}
+      MessageApis::Slack.any_instance
+      .stub(:post_message)
+      .and_return(OpenStruct.new(body: r.to_json ))
+
+      perform_enqueued_jobs do
+        message = conversation.add_message(
+          from: user,
+          message: { html_content: 'aa' }
+        )
+        expect(message.conversation_part_channel_sources).to be_blank
+      end
+
+    end
     
     it "receive two messages in single conversation" do
     end 
@@ -184,25 +304,13 @@ RSpec.describe Api::V1::Hooks::ProviderController, type: :controller do
 
     end
 
-
-    it "receive text with breakline" do
-    end
-
-
     it "receive text with video/gif" do
     end
 
     it "receive text with photo" do
-
     end
 
-    #it "reply from agent locally" do
-    #  pending #("this test belongs to graphql insert comment")
-    #end
-
     it "send message" do
-
-
     end
 
   end
