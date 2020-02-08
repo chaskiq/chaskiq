@@ -1,4 +1,5 @@
 require 'rails_helper'
+include ActiveJob::TestHelper
 
 RSpec.describe Api::V1::Hooks::ProviderController, type: :controller do
 
@@ -54,7 +55,7 @@ RSpec.describe Api::V1::Hooks::ProviderController, type: :controller do
     }
   }
 
-  def message_for(sender_id, recipient_id, message_data={})
+  def message_for(sender_id, recipient_id, message_data={}, message_id="1")
 
     message = {
       "text"=>"foobar", 
@@ -67,7 +68,7 @@ RSpec.describe Api::V1::Hooks::ProviderController, type: :controller do
     }.merge(message_data)
 
     {"type"=>"message_create", 
-      "id"=>"1217536143559995396", 
+      "id"=> message_id, 
       "created_timestamp"=>"1579118212009", 
       "message_create"=>{
         "target"=>{
@@ -89,12 +90,13 @@ RSpec.describe Api::V1::Hooks::ProviderController, type: :controller do
     }
   end
 
-  def data_for(id: , sender: , recipient: , message_data: {} )
+  def data_for(id: , sender: , recipient: , message_id: nil, message_data: {} )
     {"for_user_id"=>twitter_owner.keys.first, 
       "direct_message_events"=> [message_for(
         sender, 
         recipient,
-        message_data
+        message_data,
+        message_id
       )],
       "users"=>twitter_owner.merge(twitter_user), 
       "app_key"=>app.key, 
@@ -336,6 +338,9 @@ RSpec.describe Api::V1::Hooks::ProviderController, type: :controller do
 
     before :each do
 
+      ActiveJob::Base.queue_adapter = :test
+      ActiveJob::Base.queue_adapter.perform_enqueued_at_jobs = false
+
       AppPackageIntegration.any_instance
       .stub(:handle_registration)
       .and_return({})
@@ -360,6 +365,8 @@ RSpec.describe Api::V1::Hooks::ProviderController, type: :controller do
     end
   
     it "receive conversation data" do
+      #allow_any_instance_of(MessageApis::Twitter).to receive(:handle_reply_in_channel_action).once
+
       get(:process_event, params: data_for(
         id: @pkg.id, 
         sender: twitter_user, 
@@ -368,6 +375,35 @@ RSpec.describe Api::V1::Hooks::ProviderController, type: :controller do
       expect(response.status).to be == 200
       expect(app.conversations.count).to be == 1
     end  
+
+    it "send message" do
+      #channel = conversation.conversation_channels.find_by(provider: "slack")
+
+      get(:process_event, params: data_for(
+        id: @pkg.id, 
+        sender: twitter_user, 
+        recipient: twitter_owner)
+      )
+
+      event = "{\"event\":{\"type\":\"message_create\",\"id\":\"1226014113735880708\",\"created_timestamp\":\"1581139517612\",\"message_create\":{\"target\":{\"recipient_id\":\"1140620289006551040\"},\"sender_id\":\"7472512\",\"message_data\":{\"text\":\"oopkpko\",\"entities\":{\"hashtags\":[],\"symbols\":[],\"user_mentions\":[],\"urls\":[]}}}}}"
+
+      MessageApis::Twitter.any_instance
+      .stub(:make_post_request)
+      .and_return(event)
+
+
+      serialized = "{\"blocks\":
+      [{\"key\":\"bl82q\",\"text\":\"foobar\",\"type\":\"unstyled\",\"depth\":0,\"inlineStyleRanges\":[],\"entityRanges\":[],\"data\":{}}],
+      \"entityMap\":{}}"
+
+      perform_enqueued_jobs do
+        message = app.conversations.last.add_message(
+          from: user,
+          message: { html_content: 'aa', serialized_content: serialized }
+        )
+        expect(message.conversation_part_channel_sources).to be_any
+      end
+    end
     
     
     it "receive two messages in single conversation" do
@@ -391,13 +427,17 @@ RSpec.describe Api::V1::Hooks::ProviderController, type: :controller do
       get(:process_event, params: data_for(
         id: @pkg.id, 
         sender: twitter_user, 
-        recipient: twitter_owner)
+        recipient: twitter_owner,
+        message_id: 1
+        )
       )
 
       get(:process_event, params: data_for(
         id: @pkg.id, 
         sender: twitter_owner, 
-        recipient: twitter_user)
+        recipient: twitter_user,
+        message_id: 2
+      )
       )
 
       expect(response.status).to be == 200
@@ -527,11 +567,11 @@ RSpec.describe Api::V1::Hooks::ProviderController, type: :controller do
         }
       }
 
-      MessageApis::Twitter.any_instance.stub(:upload_media).and_return({boomer: "1"})
+      #MessageApis::Twitter.any_instance.stub(:upload_media).and_return({boomer: "1"})
 
-      expect_any_instance_of(MessageApis::Twitter).to receive(:make_post_request).with(any_args) 
+      #expect_any_instance_of(MessageApis::Twitter).to receive(:make_post_request).with(any_args) 
 
-      conversation.conversation_source.deliver_message(options)
+      #conversation.conversation_source.deliver_message(options)
 
     end
 
