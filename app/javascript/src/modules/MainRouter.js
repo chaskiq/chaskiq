@@ -27,7 +27,7 @@ import darktheme from '../themes/dark/index'
 
 import {toggleTheme} from '../actions/theme'
 
-const drawerWidth = 262;
+//const drawerWidth = 70;
 
 const styles = {
   root: {
@@ -36,7 +36,13 @@ const styles = {
   },
   drawer: {
     [theme.breakpoints.up('sm')]: {
-      width: drawerWidth,
+      width: '300px',
+      flexShrink: 0,
+    },
+  },
+  drawerMin: {
+    [theme.breakpoints.up('sm')]: {
+      width: '50px',
       flexShrink: 0,
     },
   },
@@ -133,6 +139,7 @@ class MainRouter extends Component {
 class AppLayout extends React.Component{
 
   render(){
+
     return (
       <ThemeProvider theme={this.props.themeData}>
         <Switch>
@@ -142,9 +149,9 @@ class AppLayout extends React.Component{
           />
 
           <Route path="/agents/invitation/accept" 
-                render={(props)=>(
-                  <AcceptInvitation {...props} {...this.props}/>
-                )}
+            render={(props)=>(
+              <AcceptInvitation {...props} {...this.props}/>
+            )}
           />
           
 
@@ -152,7 +159,7 @@ class AppLayout extends React.Component{
               <App
                 {...this.props}
                 {...props}
-                drawerWidth={drawerWidth}
+                //drawerWidth={drawerWidth}
                 >
               </App>
             )}>

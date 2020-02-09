@@ -11,15 +11,24 @@ import graphql from "../graphql/client"
 import {LinkButton} from '../shared/RouterLink'
 import AddIcon from '@material-ui/icons/Add'
 
+import { withRouter } from 'react-router-dom'
+import { connect } from 'react-redux'
+import {setCurrentSection} from '../actions/navigation'
+
+
 import { APPS } from "../graphql/queries"
 
-export default class AppListContainer extends Component {
+class AppListContainer extends Component {
 
   state = {
     apps: []
   }
 
   componentDidMount(){
+
+    this.props.dispatch(
+      setCurrentSection(null)
+    )
 
     graphql(APPS ,{} ,{
       success: (data)=>{
@@ -99,3 +108,18 @@ export default class AppListContainer extends Component {
         
   }
 }
+
+
+function mapStateToProps(state) {
+
+  const { auth, app } = state
+  const { loading, isAuthenticated } = auth
+
+  return {
+    app,
+    loading,
+    isAuthenticated
+  }
+}
+
+export default withRouter(connect(mapStateToProps)(AppListContainer))

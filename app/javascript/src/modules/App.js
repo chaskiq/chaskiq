@@ -113,14 +113,18 @@ class Paperbase extends React.Component {
 
                 
                   <Hidden smDown implementation="css">
-                      <nav className={classes.drawer}>
+                      <nav className={this.props.current_section ? classes.drawer : classes.drawerMin}>
                         <Navigator 
                           visitApp={(app)=> this.visitApp(app)}
                           apps={this.state.apps}
+                          mini={true}
+                          toggleTheme={this.props.handleToggleTheme}
+                          themeValue={this.props.theme}
                           PaperProps={{ 
                             classes: {root: classes.Navigator},
                             style: { 
-                              width: this.props.drawerWidth 
+                              display: 'flex',
+                              flexDirection: 'row'
                             } 
                           }}
                           variant="permanent"
@@ -128,7 +132,7 @@ class Paperbase extends React.Component {
                           //onClose={this.handleDrawerToggle}
                           //currentUser={this.props.current_user}
                           //app={this.props.app}
-                      />
+                        />
                     </nav>
                   </Hidden>
                 
@@ -140,8 +144,13 @@ class Paperbase extends React.Component {
                         apps={this.state.apps}
                         PaperProps={{ 
                           classes: {root: classes.Navigator},
-                          style: { width: this.props.drawerWidth } 
+                          style: { 
+                            display: 'flex',
+                            flexDirection: 'row',
+                            //this.props.drawerWidth 
+                          } 
                         }}
+                        mini={true}
                         variant="temporary"
                         open={this.state.mobileOpen}
                         onClose={this.handleDrawerToggle}
@@ -156,7 +165,8 @@ class Paperbase extends React.Component {
             }
             <div className={classes.appContent}>
               {/* TODO: use currentPage or other redux attr to skip header on specific pages */}
-              <Header
+              <Hidden smUp implementation="css">
+                <Header
                 signout={this.handleSignout}
                 visitApp={(app)=> this.visitApp(app)}
                 onDrawerToggle={this.handleDrawerToggle} 
@@ -164,7 +174,8 @@ class Paperbase extends React.Component {
                 themeValue={this.props.theme}
                 currentUser={this.props.current_user}
                 apps={this.state.apps}
-              />
+                />
+              </Hidden>
 
               <Switch>
 
@@ -215,15 +226,17 @@ Paperbase.propTypes = {
 
 
 function mapStateToProps(state) {
-  const { auth , app, segment, app_users, current_user } = state
+  const { auth , app, segment, app_users, current_user, navigation } = state
   const { loading, isAuthenticated } = auth
+  const {current_section} = navigation
   return {
     segment,
     app_users,
     current_user,
     app,
     loading,
-    isAuthenticated
+    isAuthenticated,
+    current_section
   }
 }
 

@@ -3,6 +3,7 @@ import { withRouter } from 'react-router-dom'
 
 import { connect } from 'react-redux'
 import Typography from '@material-ui/core/Typography'
+import Link from '@material-ui/core/Link'
 import Dialog from '@material-ui/core/Dialog'
 import DialogTitle from '@material-ui/core/DialogTitle'
 import DialogContent from '@material-ui/core/DialogContent'
@@ -32,10 +33,9 @@ function WebSetup({app, classes}){
 
   return  (
     <div>
-      <Typography className={classes.link} 
-        component="a" href="#" onClick={handleClickOpen}>
+      <Link onClick={handleClickOpen}>
         Web Setup
-      </Typography>
+      </Link>
 
       <SimpleDialog
         app={app}

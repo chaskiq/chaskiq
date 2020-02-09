@@ -149,7 +149,7 @@ class ConversationContainer extends Component {
   }
 
   renderConversations = (appId)=>{
-    return <GridElement>
+    return <GridElement noFlex>
               {/*<FixedHeader>Conversations</FixedHeader>*/}
               
               <FixedHeader style={{height: '67px'}}>

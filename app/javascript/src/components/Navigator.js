@@ -10,6 +10,7 @@ import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import HomeIcon from '@material-ui/icons/Home';
+import IconButton from '@material-ui/core/IconButton'
 import AssignmentIndIcon from '@material-ui/icons/AssignmentInd'
 import PermIdentityIcon from '@material-ui/icons/PermIdentity'
 import SettingsIcon from '@material-ui/icons/Settings';
@@ -21,6 +22,9 @@ import SupervisedUserCircleIcon from '@material-ui/icons/SupervisedUserCircle'
 import MessageIcon from '@material-ui/icons/Message'
 import FilterFramesIcon from '@material-ui/icons/FilterFrames'
 import FolderIcon from '@material-ui/icons/Folder'
+import Switch from '@material-ui/core/Switch';
+import Avatar from '@material-ui/core/Avatar';
+import FormControlLabel from '@material-ui/core/FormControlLabel'
 
 import QuestionAnswerOutlined from '@material-ui/icons/QuestionAnswerOutlined'
 import FlagOutlined from '@material-ui/icons/FlagOutlined'
@@ -33,9 +37,14 @@ import WidgetsIcon from '@material-ui/icons/Widgets'
 import MuiExpansionPanel from '@material-ui/core/ExpansionPanel';
 import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails';
 import MuiExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary';
+import Tooltip from '@material-ui/core/Tooltip';
 
 import { withRouter } from 'react-router-dom'
 import { connect } from 'react-redux'
+import { Typography } from '@material-ui/core';
+import WebSetup from './webSetup'
+import ListMenu from './ListMenu'
+
 
 //import I18n from '../i18n.js.erb'
 
@@ -50,11 +59,11 @@ const styles = theme => ({
   },
   logo: {
     background: `url(${theme.palette.primary.logo})`,
-    width: '86%',
-    height: '35px',
-    backgroundSize: '87%',
+    width: '100%',
+    height: '36px',
+    backgroundSize: '113%',
     backgroundRepeat: 'no-repeat',
-    backgroundPosition: '22px',
+    backgroundPosition: '-4px -1px'
   },
   item: {
     paddingTop: 4,
@@ -64,11 +73,19 @@ const styles = theme => ({
   },
   itemCategory: {
     backgroundColor: 'transparent',
+    justifyContent: 'center',
     //backgroundColor: '#232f3e',
     //boxShadow: '0 -1px 0 #404854 inset',
-    boxShadow: `0 -1px 0 rgba(0, 0, 0, .125) inset`,
+    //boxShadow: `0 -1px 0 rgba(0, 0, 0, .125) inset`,
     paddingTop: 16,
     paddingBottom: 16,
+  },
+  itemCategoryIcon: {
+    display: 'flex',
+    justifyItems: 'center',
+    margin: '0px auto',
+    marginTop: 16,
+    marginBottom: 16,
   },
   chaskiq: {
     fontSize: 24,
@@ -79,11 +96,13 @@ const styles = theme => ({
   itemActionable: {
     '&:hover': {
       backgroundColor: theme.palette.sidebar.hoverBackground,
+      borderRadius: '14px'
     },
   },
   itemActiveItem: {
     color: theme.palette.primary.main,
-    backgroundColor: theme.palette.sidebar.activeBackground
+    backgroundColor: theme.palette.sidebar.activeBackground,
+    borderRadius: '11px'
   },
   itemPrimary: {
     color: 'inherit',
@@ -104,7 +123,37 @@ const styles = theme => ({
    expansionPanelDetails: {
     display: 'inherit',
     padding: '0px'
+  },
+  categoryHeaderMini: {
+    justifyContent: 'center',
+    marginTop: '1.2em'
+  },
+  iconMini: {
+    minWidth: '22px',
+  },
+  listStyle:{
+    borderRight: `1px solid ${theme.palette.sidebar.color}`,
+    display: 'flex',
+    flexDirection: 'column'
+  },
+  list100: {
+    width: '60px',
+    backgroundColor: `${theme.palette.sidebar.darkColor}`
+  },
+  sectionTitle: {
+    marginTop: '1em',
+    marginBottom: '2em',
+    fontSize: '24px'
+  },
+
+  paperSecondaryMenu: {
+    width: '234px',
+    height: '100vh',
+    alignSelf: 'flex-end',
+    padding: '.5em',
+    backgroundColor: `${theme.palette.background.default}`
   }
+
 });
 
 const ExpansionPanel = withStyles({
@@ -156,17 +205,20 @@ const Fab = withStyles({
 function Navigator(props, context) {
   const { 
     classes, 
-    navigation,
     app, 
     match,
     location,
     visitApp,
     apps,
     onClose,
+    mini,
+    current_page,
+    current_section,
+    toggleTheme, 
+    themeValue,
+    current_user,
     ...other 
   } = props;
-
-  const {current_page, current_section} = navigation
 
   const appid = `/apps/${app.key}`
 
@@ -190,8 +242,45 @@ function Navigator(props, context) {
   const categories = [
 
     {
+      id: 'Dashboard',
+      icon: <DomainOutlined style={{ fontSize: 30 }}/>,
+      url: `/apps/${app.key}/segments/${app.segments ? app.segments[0].id : ''}`,
+      hidden: true,
+      children: [
+        { id: 'campaigns', label: 'Mailing Campaigns', 
+        icon: <EmailIcon/>, 
+        url: `${appid}/messages/campaigns`, 
+        active: isActivePage("campaigns")  },
+        {
+          render: (props)=>(
+            [
+            <ListItem
+                button
+                dense>
+              <WebSetup classes={classes}/>
+            </ListItem>,
+
+            <ListItem>
+            <FormControlLabel
+                control={
+                  <Switch
+                    checked={themeValue === "light"}
+                    onChange={toggleTheme}
+                    value={themeValue}
+                    inputProps={{ 'aria-label': 'theme change' }}
+                  />
+                }
+                label={themeValue === "light" ? `theme dark` : `theme light` }
+              />
+            </ListItem>]
+          )
+        }
+      ]
+    },
+    {
       id: I18n.t("navigator.platform"),
       icon: <DomainOutlined style={{ fontSize: 30 }}/>,
+      url: `/apps/${app.key}/segments/${app.segments ? app.segments[0].id : ''}`,
       children: app.segments.map((o)=>(
         { id: o.name , 
           icon:  null, 
@@ -203,6 +292,7 @@ function Navigator(props, context) {
     {
       id: I18n.t("navigator.conversations"),
       icon: <QuestionAnswerOutlined style={{ fontSize: 30 }}/>,
+      url: `/apps/${app.key}/conversations`,
       children: [
         { id: 'Conversations', 
           icon:  <SmsIcon/>, 
@@ -218,6 +308,7 @@ function Navigator(props, context) {
     },
     {
       id: I18n.t("navigator.campaigns"),
+      url: `/apps/${app.key}/campaigns`,
       icon: <FlagOutlined style={{ fontSize: 30 }}/>,
       children: [
         /*{ id: 'Analytics', icon: <SettingsIcon /> },
@@ -244,6 +335,7 @@ function Navigator(props, context) {
       id: 'Bot',
       label: I18n.t("navigator.routing_bots"),
       icon: <DeviceHubOutlined style={{ fontSize: 30 }}/>,
+      url: `/apps/${app.key}/bots/settings`,
       children: [
         { id: 'For Leads', 
           icon: <AssignmentIndIcon/>, 
@@ -264,6 +356,7 @@ function Navigator(props, context) {
       label: I18n.t("navigator.help_center"),
       id: 'HelpCenter',
       icon: <BookOutlined style={{ fontSize: 30 }}/>,
+      url: `/apps/${app.key}/articles`,
       children: [
         { id: 'Articles', 
           icon: <BookIcon/>,
@@ -284,6 +377,7 @@ function Navigator(props, context) {
       id: 'Settings',
       label: I18n.t("navigator.settings"),
       icon: <SettingsOutlined style={{ fontSize: 30 }}/>,
+      url: `/apps/${app.key}/settings`,
       children: [
         { id: 'App Settings', icon:  <SettingsIcon/>, 
           url: `/apps/${app.key}/settings`, 
@@ -299,19 +393,66 @@ function Navigator(props, context) {
         //{ id: 'Authentication', icon: <ShuffleIcon />, active: isActivePage("user_auto_messages")},
       ],
     },
-    /*
+
     {
-      id: 'Develop',
-      icon: <PeopleIcon style={{ fontSize: 30 }}/>,
-      children: [
-        { id: 'Api', icon: <DnsRoundedIcon /> },
-        { id: 'Storage', icon: <PermMediaOutlinedIcon /> },
-        { id: 'Hosting', icon: <PublicIcon /> },
-        { id: 'Functions', icon: <SettingsEthernetIcon /> },
-        { id: 'ML Kit', icon: <SettingsInputComponentIcon /> },
-      ],
-    },*/
+      id: "User",
+      render: ()=>(
+        <ListMenu 
+          //handleClick={visitApp} 
+          button={
+            <IconButton 
+              //onClick={()=>{
+              //  signout()
+              //}}
+              className={classes.itemCategoryIcon}
+              color="inherit">
+              <Avatar className={classes.avatar} 
+                src={current_user.avatarUrl}
+              />
+            </IconButton>
+          }
+          options={[
+            {key: "new-app", name: "Create new app", onClick: ()=>{ 
+              //this.props.dispatch(clearApp())
+              context.router.history.push(`/apps/new`) 
+            }},
+            //{type: "divider"},
+            //{key: "terms", name: "Terms", onClick: ()=>{ alert("oe") }},
+            //{key: "docs", name: "Chaskiq documentation", onClick: ()=>{ alert("oe") }},
+            {type: "divider"},
+            //{key: "profile", name: "Profile", onClick: ()=>{ context.router.history.push(`/apps/${props.app.key}/agents/${props.currentUser.id}`) }},
+            {key: "signout", name: "Log out", onClick: ()=>{ signout() }},
+          ]}
+        />
+      )
+    }
   ];
+
+  function renderMiniItemList(){
+    //console.log("kategories", categories, navigation )
+    return (
+      categories.filter((o)=> !o.hidden)
+        .map(({ id, url, label, icon, children, render }) => {
+        return render ? 
+                render() : 
+              <ListItem className={classes.categoryHeaderMini}>
+                {
+                  icon &&
+                  <Tooltip title={label || id} placement="right">
+                    <ListItemIcon className={classes.iconMini}>
+                      <IconButton onClick={()=>{ 
+                        if(url)
+                          context.router.history.push(url)  
+                      }}>
+                        {icon}
+                      </IconButton>
+                    </ListItemIcon>
+                  </Tooltip>
+                }
+              </ListItem>
+      })
+    )
+  }
 
   function renderItemList(){
     //console.log("kategories", categories, navigation )
@@ -381,19 +522,25 @@ function Navigator(props, context) {
 
   function renderListHeader(){
     return <React.Fragment>
-              <ListItem className={clsx(classes.chaskiq, classes.item, classes.itemCategory)}>
-                <div className={classes.logo} />
+              <ListItem 
+                onClick={ ()=> context.router.history.push(`/apps`) } 
+                className={clsx(classes.chaskiq, classes.item, classes.itemCategory)}>
+                  <div className={classes.logo} />
               </ListItem>
               <ListItem 
                 className={clsx(classes.item, classes.itemCategory)}
                 >
-                <ListItemIcon>
-                  <HomeIcon onClick={(e) => {
-                    e.preventDefault()
-                    context.router.history.push(`/apps/${app.key}`)
-                  }} />
+                <ListItemIcon className={classes.iconMini}>
+                    <Tooltip title={`${app.name} Overview`} placement="right">
+                      <HomeIcon onClick={(e) => {
+                          e.preventDefault()
+                          context.router.history.push(`/apps/${app.key}`)
+                        }} 
+                      />
+                  </Tooltip>
                 </ListItemIcon>
-                <ListItemText
+
+                {/*<ListItemText
                   classes={{
                     primary: classes.itemPrimary,
                   }}
@@ -403,28 +550,59 @@ function Navigator(props, context) {
                   }}
                 >
                   {app.name} Overview
-                </ListItemText>
-
-                {/*<ListItemIcon>
-                  
-                    <ListMenu 
-                      handleClick={visitApp} 
-                      options={apps}
-                      button={  <Tooltip 
-                                  title="Switch project" 
-                                  placement="bottom">
-                                  <Fab 
-                                    variant="round"
-                                    size="small">
-                                    <ExpandMore />
-                                  </Fab>
-                                </Tooltip>
-                              }
-                    />
-                  
-                </ListItemIcon>*/}
+                </ListItemText>*/}
               </ListItem>
             </React.Fragment>
+  }
+
+
+  function renderInner(){
+    return (
+      categories.filter( 
+        (o)=> o.id === current_section)
+        .map(({ id, label, icon, children }) => {
+        //  expanded={expanded === id} 
+        return <div>
+                    <Typography className={classes.sectionTitle} variant={'h4'}>
+                      {id || label}
+                    </Typography>
+                    <ExpansionPanelDetails 
+                      className={classes.expansionPanelDetails}>
+                        {children.map(({ id: childId, label, icon, active, url, onClick , render }) => (
+                            render ? render(classes) : 
+                          <ListItem
+                              button
+                              dense
+                              key={childId}
+                              className={clsx(
+                                classes.item,
+                                classes.itemActionable,
+                                active && classes.itemActiveItem,
+                              )}
+                              onClick={(e) => {
+                                e.preventDefault()
+                                //this.setActiveLink(o, ()=>{
+                                  url ? context.router.history.push(url) : onClick()
+                                //})
+                              }}
+                            >
+                              {icon && <ListItemIcon>{icon}</ListItemIcon> }
+                              <ListItemText
+                                classes={{
+                                  primary: classes.itemPrimary,
+                                  dense: classes.textDense,
+                                }}
+                              >
+                                {label || childId}
+                              </ListItemText>
+                            </ListItem>
+                        ))}
+                      <Divider className={classes.divider} />
+                  
+                </ExpansionPanelDetails>
+          </div>
+      })
+    )
   }
 
   return (
@@ -433,13 +611,22 @@ function Navigator(props, context) {
       variant={props.variant}
       open={props.open}
       onClose={props.onClose}
+      className={classes.listStyle}
       >
-      <List disablePadding>
+      <List disablePadding className={classes.list100}>
         
         {renderListHeader()}
-        {renderItemList()}
+        {renderMiniItemList()}
+        {/*renderItemList()*/}
 
       </List>
+
+      {
+        current_section &&
+          <div className={classes.paperSecondaryMenu}>
+            {renderInner()}
+          </div>
+      }
     </Drawer>
   );
 }
@@ -466,16 +653,21 @@ function mapStateToProps(state, ownProps) {
     segment, 
     app_users,
     navigation,
+    current_user
   } = state
   const { loading, isAuthenticated } = auth
 
+  const {current_page, current_section} = navigation
+
   return {
     app,
-    navigation,
+    current_user,
+    current_page,
+    current_section
   }
 }
 
-export default withRouter(connect(mapStateToProps)(withStyles(styles)(Navigator)))
+export default connect(mapStateToProps)(withStyles(styles)(Navigator))
 //export default withStyles(styles)(withRouter(connect(mapStateToProps)( Navigator )))
 
 

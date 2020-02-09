@@ -103,13 +103,13 @@ function Header(props, context) {
 
             <Grid item xs />
           
-            <Grid item className={classes.docItems}>
+            {/*<Grid item className={classes.docItems}>
               
-              {/*<Typography className={classes.link} 
+              <Typography className={classes.link} 
                   component="a" href="#">
                   Go to docs
                 </Typography>
-              */}
+              
 
               { app && <WebSetup classes={classes}/> }
 
@@ -127,7 +127,7 @@ function Header(props, context) {
                   <NotificationsIcon />
                 </IconButton>
               </Tooltip>
-            </Grid>
+            </Grid>*/}
             <Grid item>
               <ListMenu 
                 //handleClick={visitApp} 
