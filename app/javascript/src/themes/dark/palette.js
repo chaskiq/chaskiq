@@ -6,7 +6,7 @@ import red from '@material-ui/core/colors/red';
 
 
 import purple from '@material-ui/core/colors/purple';
-import logo from '../../images/logo-dark.png'
+import logo from '../../images/favicon.png'
 import { lighten, darken, opacify } from "polished";
 
 const palette = {
