@@ -32,7 +32,7 @@ function WebSetup({app, classes}){
   };
 
   return  (
-    <div>
+    <React.Fragment>
       <Link onClick={handleClickOpen}>
         Web Setup
       </Link>
@@ -42,7 +42,7 @@ function WebSetup({app, classes}){
         open={open} 
         onClose={handleClose} 
       />
-    </div>
+    </React.Fragment>
   )
 }
 
