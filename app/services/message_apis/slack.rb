@@ -13,9 +13,6 @@ module MessageApis
                   :client,
                   :base_url #Default: 'https://api.twitter.com/'
   
-
-    #include MessageApis::OauthUtils             
-
     def initialize(config: {})
       @access_token = access_token
       @conn = Faraday.new request: {
@@ -167,99 +164,99 @@ module MessageApis
       links = "*<#{user_url}|#{conversation.main_participant.display_name}>* <#{conversation_url}|view in chaskiq>"
 
       data = {
-          "channel": @keys['channel'] || 'chaskiq_channel',
-          "text": 'New conversation from Chaskiq',
-          "blocks": [
-            {
-              "type": "section",
-              "text": {
-                "type": "mrkdwn",
-                "text": "Conversation initiated by #{links}"
-              }
-            },
-
-            {
-              "type": "section",
-              "fields": [
-                {
-                  "type": "mrkdwn",
-                  "text": "*From:* #{participant.city}"
-                },
-                {
-                  "type": "mrkdwn",
-                  "text": "*When:* #{I18n.l(conversation.created_at, format: :short)}"
-                },
-                {
-                  "type": "mrkdwn",
-                  "text": "*Seen:* #{I18n.l(participant.last_visited_at, format: :short)}"
-                },
-                {
-                  "type": "mrkdwn",
-                  "text": "*Device:*\n#{participant.browser} #{participant.browser_version} / #{participant.os}"
-                },
-
-                {
-                  "type": "mrkdwn",
-                  "text": "*From:*\n<#{participant.referrer} | link>"
-                },
-
-                
-              ]
-            },
-
-            {
-              "type": "divider"
-            },
-
-            {
-              "type": "context",
-              "elements": [
-                {
-                  "type": "mrkdwn",
-                  "text": "Message"
-                }
-              ]
-            },
-
-            {
-              "type": "section",
-              "text": {
-                "type": "plain_text",
-                "text": text_blocks.first,
-                "emoji": true
-              }
-            },
-
-            {
-              "type": "divider"
-            },
-
-            {
-              "type": "actions",
-              "elements": [
-                {
-                  "type": "button",
-                  "text": {
-                    "type": "plain_text",
-                    "text": "Close",
-                    "emoji": true
-                  },
-                  "value": "click_me_123"
-                },
-                {
-                  "type": "button",
-                  "text": {
-                    "type": "plain_text",
-                    "emoji": true,
-                    "text": "Reply in Channel"
-                  },
-                  "style": "primary",
-                  "value": "reply_in_channel_#{conversation.key}"
-                },
-              ]
+        "channel": @keys['channel'] || 'chaskiq_channel',
+        "text": 'New conversation from Chaskiq',
+        "blocks": [
+          {
+            "type": "section",
+            "text": {
+              "type": "mrkdwn",
+              "text": "Conversation initiated by #{links}"
             }
-          ]
-        }
+          },
+
+          {
+            "type": "section",
+            "fields": [
+              {
+                "type": "mrkdwn",
+                "text": "*From:* #{participant.city}"
+              },
+              {
+                "type": "mrkdwn",
+                "text": "*When:* #{I18n.l(conversation.created_at, format: :short)}"
+              },
+              {
+                "type": "mrkdwn",
+                "text": "*Seen:* #{I18n.l(participant.last_visited_at, format: :short)}"
+              },
+              {
+                "type": "mrkdwn",
+                "text": "*Device:*\n#{participant.browser} #{participant.browser_version} / #{participant.os}"
+              },
+
+              {
+                "type": "mrkdwn",
+                "text": "*From:*\n<#{participant.referrer} | link>"
+              },
+
+              
+            ]
+          },
+
+          {
+            "type": "divider"
+          },
+
+          {
+            "type": "context",
+            "elements": [
+              {
+                "type": "mrkdwn",
+                "text": "Message"
+              }
+            ]
+          },
+
+          {
+            "type": "section",
+            "text": {
+              "type": "plain_text",
+              "text": text_blocks.first,
+              "emoji": true
+            }
+          },
+
+          {
+            "type": "divider"
+          },
+
+          {
+            "type": "actions",
+            "elements": [
+              {
+                "type": "button",
+                "text": {
+                  "type": "plain_text",
+                  "text": "Close",
+                  "emoji": true
+                },
+                "value": "click_me_123"
+              },
+              {
+                "type": "button",
+                "text": {
+                  "type": "plain_text",
+                  "emoji": true,
+                  "text": "Reply in Channel"
+                },
+                "style": "primary",
+                "value": "reply_in_channel_#{conversation.key}"
+              },
+            ]
+          }
+        ]
+      }
 
       url = url('/api/chat.postMessage')
 

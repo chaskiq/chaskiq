@@ -1,5 +1,5 @@
-import logo from '../../images/logo-dark.png'
-import { lighten, darken } from "polished";
+import logo from '../../images/favicon.png'
+import { lighten, darken, opacify  } from "polished";
 
 const palette = {
   background: {
@@ -12,11 +12,13 @@ const palette = {
     three: '#f00'
   },*/
   sidebar: {
-    background: "#131313",
-    color: "#fefefe",
+    background: 'inherit',
+    color: "#9e9898",
     borders: "none",
-    activeBackground: lighten(0.06, "#131313"),
-    hoverBackground: lighten(0.3, "#131313")
+    border: lighten(0.06, "#9e9898"),
+    activeBackground: lighten(0.06, "#f7f7f7"),
+    hoverBackground:  darken(0.06, "#f7f7f7"),
+    darkColor: opacify(0.1, darken(0.06, "#f7f7f7") ),
   },
   common: {
     black: "#161616",

@@ -29,7 +29,7 @@ const navigationState = {
 export default function reducer(state = navigationState, action = {}) {
   switch (action.type) {
     case ActionTypes.SetCurrentPage:
-      return Object.assign(state , action.data)
+      return Object.assign({}, state , action.data)
     default: return state
   }
 }

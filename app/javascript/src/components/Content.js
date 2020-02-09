@@ -16,21 +16,21 @@ import RefreshIcon from '@material-ui/icons/Refresh';
 const styles = theme => ({
   paper: {
     //maxWidth: 936,
-    width: '80vw',
+    //width: '80vw',
     overflow: 'auto',
     //marginTop: '2em',
     //marginBottom: '2em',
     //margin: 'auto',
     //overflow: 'hidden',
     [theme.breakpoints.down('sm')]: {
-      width: '100vw',
+      //width: '100vw',
       height: '100vh'
       //marginTop: '0em',
     },
     [theme.breakpoints.up('md')]: {
       //marginTop: '2em',
       height: '100vh',
-      width: '80vw',
+      //width: '80vw',
     },
     [theme.breakpoints.up('lg')]: {
       //marginTop: '2em',
@@ -52,6 +52,8 @@ const styles = theme => ({
   contentWrapper: {
     [theme.breakpoints.up('sm')]: {
       margin: '27px 50px',
+      maxWidth: '71vw',
+      overflowX: 'scroll'
     },
     [theme.breakpoints.down('sm')]: {
       width: '100vw',
