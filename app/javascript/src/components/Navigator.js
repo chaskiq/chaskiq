@@ -143,7 +143,8 @@ const styles = theme => ({
   sectionTitle: {
     marginTop: '1em',
     marginBottom: '2em',
-    fontSize: '24px'
+    fontSize: '24px',
+    marginLeft: '15px'
   },
 
   paperSecondaryMenu: {
@@ -247,32 +248,38 @@ function Navigator(props, context) {
       url: `/apps/${app.key}/segments/${app.segments ? app.segments[0].id : ''}`,
       hidden: true,
       children: [
-        { id: 'campaigns', label: 'Mailing Campaigns', 
-        icon: <EmailIcon/>, 
-        url: `${appid}/messages/campaigns`, 
-        active: isActivePage("campaigns")  },
+        /*{ 
+          id: 'campaigns', label: 'Mailing Campaigns', 
+          icon: <EmailIcon/>, 
+          url: `${appid}/messages/campaigns`, 
+          active: isActivePage("campaigns")  
+        }*/
         {
           render: (props)=>(
             [
-            <ListItem
-                button
-                dense>
-              <WebSetup classes={classes}/>
-            </ListItem>,
-
-            <ListItem>
-            <FormControlLabel
-                control={
-                  <Switch
-                    checked={themeValue === "light"}
-                    onChange={toggleTheme}
-                    value={themeValue}
-                    inputProps={{ 'aria-label': 'theme change' }}
-                  />
-                }
-                label={themeValue === "light" ? `theme dark` : `theme light` }
-              />
-            </ListItem>]
+              <ListItem>
+                <Typography variant={"caption"}>
+                👋 Hey!, you are viewing the {" "} 
+                  <strong>{app.name}'s</strong> dashboard!
+                  <br/>
+                  Get you installation snippet for the 
+                  {" "} <WebSetup classes={classes}/>.
+                </Typography>
+              </ListItem>,
+              <ListItem>
+                <FormControlLabel
+                  control={
+                    <Switch
+                      checked={themeValue === "light"}
+                      onChange={toggleTheme}
+                      value={themeValue}
+                      inputProps={{ 'aria-label': 'theme change' }}
+                    />
+                  }
+                  label={themeValue === "light" ? `theme dark` : `theme light` }
+                />
+              </ListItem>
+            ]
           )
         }
       ]
