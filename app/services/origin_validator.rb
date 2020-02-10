@@ -13,6 +13,7 @@ class OriginValidator
   end
 
   def is_valid?
+    return true if Rails.env.development?
     env_domain = Addressable::URI.parse(
       self.host
     )

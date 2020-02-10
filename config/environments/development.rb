@@ -83,6 +83,11 @@ Rails.application.configure do
   config.action_mailer.delivery_method = :ses
   config.action_controller.asset_host = 'http://localhost:3000/'
 
+
+  # ACTIVE JOB 
+  config.active_job.queue_adapter = :sidekiq
+
+
   # config.action_mailer.delivery_method = :smtp
   # config.action_mailer.smtp_settings = {
   #  :address => Rails.application.credentials.dig(:ses, :address),

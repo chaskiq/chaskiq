@@ -23,7 +23,6 @@ import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
 
 import DashboardCard from '../components/dashboard/card'
-import DashboardCard2 from '../components/dashboard/card2'
 
 import Title from '../components/dashboard/title';
 import Progress from '../shared/Progress'
@@ -35,6 +34,13 @@ import Count from '../components/charts/count'
 
 import {DASHBOARD} from "../graphql/queries"
 import graphql from '../graphql/client'
+
+import {setCurrentSection} from '../actions/navigation'
+import { withRouter } from 'react-router-dom'
+import Content from '../components/Content'
+import { connect } from 'react-redux'
+
+
 
 const styles = theme => ({
   paperll: {
@@ -98,9 +104,13 @@ const styles = theme => ({
 });
 
 function Dashboard(props) {
-  const { classes, app } = props;
+  const { classes, app, dispatch } = props;
 
-  console.log(props)
+  React.useEffect(()=>{
+    dispatch(
+      setCurrentSection("Dashboard")
+    )
+  }, [])
 
   const initialData =  {
     loading: true,
@@ -114,7 +124,7 @@ function Dashboard(props) {
   const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight);
 
   return (
-    <React.Fragment>
+    <Content>
 
       <div className={classes.contentWrapper}>
 
@@ -255,7 +265,7 @@ function Dashboard(props) {
 
       </div>
 
-    </React.Fragment>
+    </Content>
   );
 }
 
@@ -343,4 +353,17 @@ Dashboard.propTypes = {
   classes: PropTypes.object.isRequired,
 };
 
-export default withStyles(styles)(Dashboard);
+
+function mapStateToProps(state) {
+
+  const { auth, app } = state
+  const { loading, isAuthenticated } = auth
+
+  return {
+    app,
+    loading,
+    isAuthenticated
+  }
+}
+
+export default withRouter(connect(mapStateToProps)(withStyles(styles)(Dashboard)))

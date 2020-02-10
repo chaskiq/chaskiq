@@ -4,6 +4,7 @@ class ConversationPart < ApplicationRecord
   include Tokenable
   include Redis::Objects
 
+  has_many :conversation_part_channel_sources
   belongs_to :conversation, touch: true
   # belongs_to :app_user, optional: true # todo: to be removed
   belongs_to :message_source, optional: true,
@@ -79,13 +80,14 @@ class ConversationPart < ApplicationRecord
       val = conversation.main_participant.new_messages.value
       conversation.main_participant.new_messages.decrement unless val < 1
       # TODO: decrement agent
-      notify_to_channels
+      notify_to_channels({disable_api_notification: true})
     end
   end
 
-  def notify_to_channels
+  def notify_to_channels(opts={})
     notify_app_users unless private_note?
     notify_agents
+    enqueue_channel_notification unless opts[:disable_api_notification]
   end
 
   def notify_agents
@@ -94,6 +96,18 @@ class ConversationPart < ApplicationRecord
       type: :conversation_part,
       data: as_json
     )
+  end
+
+  def enqueue_channel_notification
+    ApiChannelNotificatorJob.perform_later(
+      part_id: self.id
+    )
+  end
+
+  def notify_message_on_available_channels
+    conversation.conversation_channels.each do |channel|
+      channel.notify_part(conversation: conversation , part: self)
+    end
   end
 
   def broadcast_key

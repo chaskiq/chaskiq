@@ -29,7 +29,7 @@ import {
 } from '../actions/app'
 import Snackbar from '../components/snackbar'
 
-
+import image from '../../../assets/images/up-icon8.png'
 
 const styles = theme => ({
   addUser: {
@@ -145,10 +145,15 @@ class NewApp extends Component {
               Create your company’s Chaskiq app
             </Typography>
 
+
             <Typography>
               Provide basic information to setup Chaskiq for 
               your team and customers.
             </Typography>
+
+            <img 
+              src={image}
+              class="is-pablo" style={{width: "100%"}}/>
           </div>
 
         </Grid>

@@ -6,8 +6,8 @@ import red from '@material-ui/core/colors/red';
 
 
 import purple from '@material-ui/core/colors/purple';
-import logo from '../../images/logo-dark.png'
-import { lighten, darken } from "polished";
+import logo from '../../images/favicon.png'
+import { lighten, darken, opacify } from "polished";
 
 const palette = {
   type: "dark",
@@ -22,7 +22,9 @@ const palette = {
     background: "#1B1F23",
     color: "#f3f3f3",
     border: "1px solid rgba(0, 0, 0, 0.12)",
-    activeBackground: darken(0.2, "#131313")
+    activeBackground: darken(0.2, "#131313"),
+    darkColor: opacify(0.1, darken(0.06, "#131313") ),
+
   },
   common: {
     black: "#000",

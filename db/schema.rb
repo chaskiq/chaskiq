@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_01_16_184447) do
+ActiveRecord::Schema.define(version: 2020_02_04_223244) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -355,12 +355,34 @@ ActiveRecord::Schema.define(version: 2020_01_16_184447) do
   create_table "collection_sections_translations", force: :cascade do |t|
   end
 
+  create_table "conversation_channels", force: :cascade do |t|
+    t.string "provider"
+    t.string "provider_channel_id"
+    t.bigint "conversation_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["conversation_id"], name: "index_conversation_channels_on_conversation_id"
+    t.index ["provider"], name: "index_conversation_channels_on_provider"
+    t.index ["provider_channel_id"], name: "index_conversation_channels_on_provider_channel_id"
+  end
+
   create_table "conversation_part_blocks", force: :cascade do |t|
     t.jsonb "blocks"
     t.string "state"
     t.jsonb "data"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+  end
+
+  create_table "conversation_part_channel_sources", force: :cascade do |t|
+    t.bigint "conversation_part_id", null: false
+    t.string "provider"
+    t.string "message_source_id"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["conversation_part_id"], name: "index_conversation_part_channel_sources_on_conversation_part_id"
+    t.index ["message_source_id"], name: "index_conversation_part_channel_sources_on_message_source_id"
+    t.index ["provider"], name: "index_conversation_part_channel_sources_on_provider"
   end
 
   create_table "conversation_part_contents", force: :cascade do |t|
@@ -609,6 +631,8 @@ ActiveRecord::Schema.define(version: 2020_01_16_184447) do
   add_foreign_key "bot_tasks", "apps"
   add_foreign_key "campaigns", "apps"
   add_foreign_key "collection_sections", "article_collections"
+  add_foreign_key "conversation_channels", "conversations"
+  add_foreign_key "conversation_part_channel_sources", "conversation_parts"
   add_foreign_key "conversation_parts", "app_users"
   add_foreign_key "conversation_parts", "conversations"
   add_foreign_key "conversation_sources", "app_package_integrations"

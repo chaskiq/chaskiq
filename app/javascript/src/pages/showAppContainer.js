@@ -7,6 +7,7 @@ import {
 import logo from '../images/logo.png';
 import ConversationContainer from './ConversationContainer';
 import CampaignContainer from './Campaigns'
+import CampaignHome from './campaigns/home'
 import AppSettingsContainer from './AppSettings'
 import Content from '../components/Content'
 import AppContent from '../components/segmentManager/container'
@@ -199,16 +200,13 @@ class ShowAppContainer extends Component {
   search = (page)=>{
     const options = {
       page: page || 1,
-
     }
 
     this.props.dispatch(
       searchAppUsers(options, ()=>{
-        
         // this.setState({
         //  segment: Object.assign({}, this.props.segment.segment, { predicates: jwtData })
         //})
-
       })
     )                      
   }
@@ -270,8 +268,7 @@ class ShowAppContainer extends Component {
 
   }
 
-  updatePredicate= (data, cb)=>{
-
+  updatePredicate = (data, cb)=>{
     this.props.dispatch(updatePredicate(data, (token)=>{
       cb ? cb(token) : null
       //this.setState({jwt: token})
@@ -441,13 +438,10 @@ class ShowAppContainer extends Component {
             }} 
           />
 
-          <Route exact path={`/apps/${this.props.app.key}/campaings`}
+          <Route exact path={`/apps/${this.props.app.key}/campaigns`}
             render={() => (
-              <p>
-              empty !!
-              {/*<EmptyState {...this.emptyprops()} />*/}
-              </p>
-              
+          
+              <CampaignHome />
             )}
           />
 
@@ -471,12 +465,10 @@ class ShowAppContainer extends Component {
             }} 
           />
 
-          
-
           <Route exact path={`/apps/${this.props.app.key}`}
               render={(props) => (
 
-                <Dashboard {...this.props} {...props}/>
+                <Dashboard />
             )} 
           />
          </Switch>

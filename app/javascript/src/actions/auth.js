@@ -98,8 +98,22 @@ export function doSignout() {
   return { type: SIGNOUT }
 }
 
+
+
+
 // Reducer
-export default function reducer(state = initialState, action = {}) {
+export default function reducer(state, action = {}) {
+
+  const initialState = {
+    loading: false,
+    isAuthenticated: false,
+    client: null,
+    accessToken: null,
+    uid: null,
+    expiry: null
+  }
+  console.log(initialState)
+
   switch (action.type) {
     case REQUEST:
       return Object.assign(
@@ -137,15 +151,6 @@ export default function reducer(state = initialState, action = {}) {
         {},
         initialState
       )
-    default: return state
+    default: return state === undefined ? initialState : state
   }
-}
-
-const initialState = {
-  loading: false,
-  isAuthenticated: false,
-  client: null,
-  accessToken: null,
-  uid: null,
-  expiry: null
 }

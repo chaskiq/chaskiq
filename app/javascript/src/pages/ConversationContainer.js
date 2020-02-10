@@ -1,4 +1,4 @@
-import React, {Component, createContext, Fragment} from 'react'
+import React, {Component} from 'react'
 import {
   Route,
   Link,
@@ -33,7 +33,7 @@ import Progress from '../shared/Progress'
 import FilterMenu from '../components/conversation/filterMenu'
 
 import ConversationContainerShow from '../components/conversation/container'
-
+import image from '../../../assets/images/empty-icon8.png'
 import {
   getConversations, 
   updateConversationsData,
@@ -52,6 +52,7 @@ class ConversationContainer extends Component {
   constructor(props){
     super(props)
     this.fetching = false
+    this.props.dispatch( clearConversations([]) )
   }
 
   componentDidMount(){
@@ -149,7 +150,9 @@ class ConversationContainer extends Component {
   }
 
   renderConversations = (appId)=>{
-    return <GridElement>
+    return <GridElement noFlex style={{
+                boxShadow: 'rgba(204, 204, 204, 0.52) 8px -4px 20px 0px'
+              }}>
               {/*<FixedHeader>Conversations</FixedHeader>*/}
               
               <FixedHeader style={{height: '67px'}}>
@@ -326,6 +329,10 @@ class EmptyConversation extends Component {
                       <Typography component="p">
                         Select a conversation
                       </Typography>
+
+                    <img 
+                      width="300px"
+                      src={image}/>
 
                 </Paper>
               </div>
