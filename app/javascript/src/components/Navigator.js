@@ -44,6 +44,7 @@ import { connect } from 'react-redux'
 import { Typography } from '@material-ui/core';
 import WebSetup from './webSetup'
 import ListMenu from './ListMenu'
+import {signout} from '../actions/auth'
 
 
 //import I18n from '../i18n.js.erb'
@@ -218,6 +219,7 @@ function Navigator(props, context) {
     toggleTheme, 
     themeValue,
     current_user,
+    dispatch,
     ...other 
   } = props;
 
@@ -238,6 +240,10 @@ function Navigator(props, context) {
   function isActivePage(page){
     ///console.log("selected page", current_page , page)
     return current_page === page
+  }
+
+  function handleSignout(){
+    dispatch(signout())
   }
 
   const categories = [
@@ -428,7 +434,7 @@ function Navigator(props, context) {
             //{key: "docs", name: "Chaskiq documentation", onClick: ()=>{ alert("oe") }},
             {type: "divider"},
             //{key: "profile", name: "Profile", onClick: ()=>{ context.router.history.push(`/apps/${props.app.key}/agents/${props.currentUser.id}`) }},
-            {key: "signout", name: "Log out", onClick: ()=>{ signout() }},
+            {key: "signout", name: "Log out", onClick: ()=>{ handleSignout() }},
           ]}
         />
       )
