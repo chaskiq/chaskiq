@@ -16,6 +16,22 @@ let theme = createMuiTheme({
     fontWeightRegular: 400,
     fontWeightMedium: 500,*/
 
+    h2: {
+      //fontFamily: "\"IBM Plex Sans Condensed\", \"Helvetica\", \"Arial\", sans-serif",
+      fontFamily: "\"Inter\", \"Helvetica\", \"Arial\", sans-serif",
+      fontWeight: 'bold',
+      fontSize: '4rem',
+      letterSpacing: 0.5,
+    },
+
+    h3: {
+      //fontFamily: "\"IBM Plex Sans Condensed\", \"Helvetica\", \"Arial\", sans-serif",
+      fontFamily: "\"Inter\", \"Helvetica\", \"Arial\", sans-serif",
+      fontWeight: 'bold',
+      fontSize: 26,
+      letterSpacing: 0.5,
+    },
+
     h4: {
       //fontFamily: "\"IBM Plex Sans Condensed\", \"Helvetica\", \"Arial\", sans-serif",
       fontFamily: "\"Inter\", \"Helvetica\", \"Arial\", sans-serif",
@@ -73,6 +89,17 @@ theme = {
         },
       },
     },
+
+    MuiAppBar: {
+      colorDefault: {
+        color: palette.background.default,
+        backgroundColor: palette.background.dark,
+      },
+      colorPrimary: {
+        //borderBottom: `1px solid ${palette.common.white}`
+      }
+    },
+    
     MuiBadge: {
       colorPrimary: {
         backgroundColor: "#10e810"

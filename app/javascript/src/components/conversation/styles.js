@@ -91,6 +91,7 @@ export const Overflow = styled.div`
   overflow: auto;
   //height: 100vh;
   height: calc(100vh - 67px);
+  background-color: ${(props)=> props.theme.palette.background.default };
 `
 export const ActivityIndicator = styled.span`
   position: absolute;

@@ -17,6 +17,15 @@ import Box from '@material-ui/core/Box';
 import {AnchorLink} from '../shared/RouterLink'
 import bg from '../../../assets/images/welcome-icon8.png'
 
+import { withRouter } from 'react-router-dom'
+import { connect } from 'react-redux'
+import {setCurrentSection} from '../actions/navigation'
+import { APPS } from "../graphql/queries"
+import graphql from "../graphql/client"
+import AddIcon from '@material-ui/icons/Add';
+import Fab from '@material-ui/core/Fab';
+
+
 const styles = theme => ({
   logo: {
     background: `url(${theme.palette.primary.logo})`,
@@ -56,7 +65,26 @@ const useStyles = makeStyles({
   },
 });
 
-function HomePage({ classes } ) {
+function HomePage({ classes, dispatch } ) {
+
+  const [apps, setApps] = React.useState([])
+
+  React.useEffect(()=>{
+    dispatch(
+      setCurrentSection(null)
+    )
+
+    graphql(APPS ,{} ,{
+      success: (data)=>{
+        setApps( data.apps )
+      }, 
+      error: (error)=>{
+
+      }
+    })
+
+  } , [])
+
 
   return (
     <React.Fragment>
@@ -70,39 +98,73 @@ function HomePage({ classes } ) {
               </Typography>
             </Grid>
 
-            <Box m={4}>
+            {/*<Box m={4}>
               <Typography variant={"body1"}>
                 Help your customers and your team
               </Typography>
-            </Box>
+            </Box>*/}
           
             <Grid container spacing={2}>
             
-              <Grid item>
-                <SimpleCard 
-                  title={'create application'} 
-                  subTitle={'opi opi'}
-                  adjective={'bla'}
-                  actions={[]}>
-                  <AnchorLink 
-                    to={`/apps/`}>
-                    {'view apps'}
-                  </AnchorLink>
-                </SimpleCard>
+              <Grid item 
+                style={{display: 'flex', margin: '2rem'}}
+                alignItems={"center"} 
+                direction={'row'}>
+
+                <AnchorLink 
+                    to={`/apps/new`}>
+                    <Fab color="primary" 
+                        aria-label="add" 
+                        //className={classes.fab}
+                      >
+                    <AddIcon />
+                </Fab>
+                </AnchorLink> 
+
+                <Box ml={2}>
+                  <Typography variant="h3">
+                    Add new application
+                  </Typography>
+                </Box>
+               
               </Grid>
 
-              <Grid item>
+            </Grid>
+
+            { apps.length > 0 && 
+              <Box mb={2}>
+                <Typography variant="h4">
+                  Your apps
+                </Typography> 
+              </Box>
+            }
+
+            <Grid container spacing={2}>
+
+              {
+                apps.map((o)=> 
+                
+                <Grid item>
                 <SimpleCard 
-                  title={'create application'} 
-                  subTitle={'opi opi'}
-                  adjective={'bla'}
+                  title={
+                    <AnchorLink 
+                    to={`/apps/${o.key}`}>
+                    {o.name}
+                    </AnchorLink> 
+                    
+                  } 
+                  subTitle={o.tagline}
+                  adjective={o.key}
                   actions={[]}>
-                  <AnchorLink 
-                    to={`/apps/new`}>
-                    {'new app'}
-                  </AnchorLink>  
+                  
                 </SimpleCard>
               </Grid>
+                
+                
+                )
+              }
+
+            
 
             </Grid>
 
@@ -152,5 +214,15 @@ function SimpleCard({
   );
 }
 
+function mapStateToProps(state) {
 
-export default withStyles(styles)(HomePage);
+  const { auth } = state
+  const { loading, isAuthenticated } = auth
+
+  return {
+    loading,
+    isAuthenticated
+  }
+}
+
+export default withRouter(connect(mapStateToProps)(withStyles(styles)(HomePage)))
