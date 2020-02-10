@@ -13,6 +13,7 @@ import SettingsPage from '../pages/SettingsPage';
 import ShowAppContainer from '../pages/showAppContainer';
 import AppListContainer from '../pages/appListContainer';
 import NewApp from '../pages/NewApp';
+import NoMatch from '../pages/NoMatch'
 
 import { withRouter } from 'react-router-dom'
 import { connect } from 'react-redux'
@@ -208,6 +209,9 @@ class Paperbase extends React.Component {
                 )} />
 
                 <Route path="/pricing" component={Pricing}/>
+
+
+                <Route component={NoMatch} />
 
               </Switch>
 

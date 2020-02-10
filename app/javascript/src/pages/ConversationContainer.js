@@ -33,7 +33,7 @@ import Progress from '../shared/Progress'
 import FilterMenu from '../components/conversation/filterMenu'
 
 import ConversationContainerShow from '../components/conversation/container'
-
+import image from '../../../assets/images/empty-icon8.png'
 import {
   getConversations, 
   updateConversationsData,
@@ -326,6 +326,10 @@ class EmptyConversation extends Component {
                       <Typography component="p">
                         Select a conversation
                       </Typography>
+
+                    <img 
+                      width="300px"
+                      src={image}/>
 
                 </Paper>
               </div>
