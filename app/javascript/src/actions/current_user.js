@@ -42,13 +42,15 @@ function successAuthentication(data) {
   return { type: SET_CURRENT_USER, data: data }
 }
 
-const initialState = {}
 
 // Reducer
-export default function reducer(state = initialState, action = {}) {
+export default function reducer(state, action = {}) {
+  const initialState = {}
+
   switch (action.type) {
     case SET_CURRENT_USER:
       return action.data
-    default: return state
+    default: 
+      return state === undefined ? initialState : state
   }
 }
