@@ -52,6 +52,7 @@ class ConversationContainer extends Component {
   constructor(props){
     super(props)
     this.fetching = false
+    this.props.dispatch( clearConversations([]) )
   }
 
   componentDidMount(){
