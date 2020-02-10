@@ -15,7 +15,7 @@ import Grid from '@material-ui/core/Grid';
 import { withStyles } from '@material-ui/core/styles';
 import Box from '@material-ui/core/Box';
 import {AnchorLink} from '../shared/RouterLink'
-import bg from '../../../assets/images/welcome-icon8.png'
+import image from '../../../assets/images/notfound-icon8.png'
 
 const styles = theme => ({
   logo: {
@@ -28,9 +28,10 @@ const styles = theme => ({
   },
   contentWrapper: {
     //margin: '40px 16px',
-    background: `url(${bg})`,
+    background: `url(${image})`,
     backgroundRepeat: 'no-repeat',
     backgroundPositionX: 'right',
+    backgroundSize: '100%',
     height: '100%',
     marginBottom: '0px'
   },
@@ -66,89 +67,20 @@ function HomePage({ classes } ) {
             <Grid container spacing={2} direction={'column'}>
               <div className={classes.logo}/>
               <Typography variant={"h2"} className={classes.title}>
-                Welcome to Chaskiq
+                Page NOT found
               </Typography>
             </Grid>
 
-            <Box m={4}>
+            {/*<Box m={4}>
               <Typography variant={"body1"}>
                 Help your customers and your team
               </Typography>
-            </Box>
-          
-            <Grid container spacing={2}>
-            
-              <Grid item>
-                <SimpleCard 
-                  title={'create application'} 
-                  subTitle={'opi opi'}
-                  adjective={'bla'}
-                  actions={[]}>
-                  <AnchorLink 
-                    to={`/apps/`}>
-                    {'view apps'}
-                  </AnchorLink>
-                </SimpleCard>
-              </Grid>
-
-              <Grid item>
-                <SimpleCard 
-                  title={'create application'} 
-                  subTitle={'opi opi'}
-                  adjective={'bla'}
-                  actions={[]}>
-                  <AnchorLink 
-                    to={`/apps/new`}>
-                    {'new app'}
-                  </AnchorLink>  
-                </SimpleCard>
-              </Grid>
-
-            </Grid>
+            </Box>*/}
 
         </Container>
         
       </div>
     </React.Fragment>
-  );
-}
-
-
-function SimpleCard({
-  title, 
-  subTitle, 
-  adjective, 
-  children,
-  actions
-}) {
-  const classes = useStyles();
-  const bull = <span className={classes.bullet}>•</span>;
-
-  return (
-    <Card className={classes.root}>
-      <CardContent>
-        <Typography 
-          className={classes.title} 
-          color="textSecondary" 
-          gutterBottom>
-          {subTitle}
-        </Typography>
-        <Typography variant="h5" component="h2">
-          {title}
-        </Typography>
-        <Typography className={classes.pos} 
-          color="textSecondary">
-          {adjective}
-        </Typography>
-        <Typography variant="body2" component="p">
-          {children}
-        </Typography>
-      </CardContent>
-      <CardActions>
-       {/* <Button size="small">Learn More</Button>*/}
-       {actions}
-      </CardActions>
-    </Card>
   );
 }
 
