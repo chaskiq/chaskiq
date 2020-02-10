@@ -8,10 +8,13 @@ class Conversation < ApplicationRecord
   belongs_to :app
   belongs_to :assignee, class_name: 'Agent', optional: true
   belongs_to :main_participant, class_name: 'AppUser', optional: true # , foreign_key: "user_id"
-  has_one :conversation_source, dependent: :destroy
+  #has_one :conversation_source, dependent: :destroy
   has_many :messages, class_name: 'ConversationPart', dependent: :destroy
+  has_many :conversation_channels
+  has_many :conversation_part_channel_sources, through: :messages
 
-  accepts_nested_attributes_for :conversation_source
+  #TODO : remove this logic
+  accepts_nested_attributes_for :conversation_channels
 
   after_create :convert_visitor_to_lead, if: :visitor_participant?
 
@@ -107,6 +110,12 @@ class Conversation < ApplicationRecord
     part.private_note = opts[:private_note]
     part.message_source = opts[:message_source] if opts[:message_source]
     part.email_message_id = opts[:email_message_id]
+
+    part.conversation_part_channel_sources.new({
+      provider: opts[:provider], 
+      message_source_id: opts[:message_source_id]
+    }) if opts[:provider].present? && opts[:message_source_id].present?
+    
     part
   end
 

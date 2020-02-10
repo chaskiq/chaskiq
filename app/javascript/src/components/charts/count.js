@@ -25,14 +25,17 @@ export default function Count({data, label, appendLabel}) {
       <Typography component="p" variant="h4">
         {data || 0} {appendLabel}
       </Typography>
-      <Typography color="textSecondary" className={classes.depositContext}>
+      <Typography 
+        color="textSecondary"
+        variant={"caption"}
+        className={classes.depositContext}>
         {moment().format('LL')}
       </Typography>
-      <div>
+      {/*<div>
         <Link color="primary" href="javascript:;">
           View Data
         </Link>
-      </div>
+      </div>*/}
     </React.Fragment>
   );
 }

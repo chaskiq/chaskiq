@@ -34,8 +34,8 @@ const useStyles = makeStyles(theme => ({
   },
   participantAvatar: {
     //margin: 10,
-    width: 45,
-    height: 45,
+    width: '2.3rem',
+    height: '2.3rem',
   },
   flexContainer: {
     display: 'flex',
@@ -274,7 +274,7 @@ function AlignItemsList(props) {
 
       </ListItem>
 
-      <Divider variant="inset" component="li" />
+      <Divider variant="fullWidth" component="li" />
     </List>
   );
 }

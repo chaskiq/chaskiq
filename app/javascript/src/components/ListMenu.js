@@ -49,7 +49,7 @@ function SimpleListMenu(props) {
   }
 
   return (
-    <div className={classes.root}>
+    <React.Fragment>
 
       {
         props.button ? mergeButton() : 
@@ -96,7 +96,7 @@ function SimpleListMenu(props) {
         ))}
       </Menu>
       
-    </div>
+    </React.Fragment>
   );
 }
 

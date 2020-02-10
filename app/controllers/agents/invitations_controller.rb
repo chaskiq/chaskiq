@@ -39,10 +39,15 @@ class Agents::InvitationsController < Devise::InvitationsController
   def accept_resource
     resource = resource_class.accept_invitation!(update_resource_params)
 
-    a = Warden::JWTAuth::UserEncoder.new.call(resource, :agent, nil)
-    resource.update(jti: a.last['jti'])
-    @token = { token: "Bearer #{a.first}" }
-    # resource.as_json(methods: [:jti, :kind, :display_name])
+    a = Doorkeeper::Application.first
+    client = OAuth2::Client.new(a.uid, a.secret, site: a.redirect_uri)
+
+    access_token =  client.password.get_token(
+      resource.email, 
+      params[:agent][:password]
+    )
+    @token = access_token
+
     resource
   end
 end

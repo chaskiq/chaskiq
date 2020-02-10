@@ -9,7 +9,7 @@ function EmptyView({title, subtitle, icon}){
         <Paper style={{padding: '2em'}}>
 
           {icon && icon}
-          <Typography variant="h5">
+          <Typography variant="h2">
             {title} 
           </Typography>
 

@@ -29,11 +29,6 @@ module Mutations
           }
         }
 
-        if conversation.conversation_source.present?
-          conversation.conversation_source.deliver_message(options)
-          return { message: nil }
-        end
-
         @message = conversation.add_message(options)
         { message: @message }
       end

@@ -8,7 +8,6 @@ module Mutations
       argument :id, Int, required: false, default_value: nil
       argument :message, Types::JsonType, required: true
 
-      # TODO: define resolve method
       def resolve(app_key:, id:, message:)
         if current_user.is_a?(Agent)
           app = current_user.apps.find_by(key: app_key)

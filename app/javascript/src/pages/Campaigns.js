@@ -1,6 +1,7 @@
 import React, { Component } from "react"
 import {
   Route,
+  Switch
 } from 'react-router-dom'
 
 import { withRouter } from 'react-router-dom'
@@ -771,135 +772,137 @@ class CampaignContainer extends Component {
   }
 
   render() {
- 
+
     return <div>
 
-      <Route exact path={`${this.props.match.url}`}
-        render={(props) => (
-          <div>
 
-            {
-              this.state.openDeleteDialog && <DeleteDialog 
-                open={this.state.openDeleteDialog}
-                title={`Delete campaign "${this.state.openDeleteDialog.name}"`} 
-                closeHandler={()=>{
-                  this.setState({openDeleteDialog:null})
-                }}
-                deleteHandler={()=> { 
-                  this.deleteCampaign(this.state.openDeleteDialog.id, ()=>{
-                    this.init()
+      <Switch>
+    
+        <Route exact path={`${this.props.match.url}/:id`}
+          render={(props) => (
+            <CampaignForm
+              currentUser={this.props.currentUser}
+              mode={this.props.match.params.message_type}
+              {...this.props}
+              {...props}
+            />          
+          )} 
+        />
+
+        <Route exact path={`${this.props.match.url}`}
+          render={(props) => (
+            <div>
+
+              {
+                this.state.openDeleteDialog && <DeleteDialog 
+                  open={this.state.openDeleteDialog}
+                  title={`Delete campaign "${this.state.openDeleteDialog.name}"`} 
+                  closeHandler={()=>{
                     this.setState({openDeleteDialog:null})
-                    this.props.dispatch(successMessage("campaign removed"))
-                  })
-                }}>
+                  }}
+                  deleteHandler={()=> { 
+                    this.deleteCampaign(this.state.openDeleteDialog.id, ()=>{
+                      this.init()
+                      this.setState({openDeleteDialog:null})
+                      this.props.dispatch(successMessage("campaign removed"))
+                    })
+                  }}>
 
-                <Typography variant="subtitle2">
-                  we will destroy any content and related data
-                </Typography>
+                  <Typography variant="subtitle2">
+                    we will destroy any content and related data
+                  </Typography>
 
-              </DeleteDialog>
-            }
-
-            <Content actions={this.renderActions()}>
-
-              {
-                 !this.state.loading && this.state.campaigns.length > 0 ?
-                  <Table
-                    meta={this.state.meta}
-                    data={this.state.campaigns}
-                    title={`campaigns`}
-                    //title={`${this.props.match.params.message_type} campaign`}
-                    defaultHiddenColumnNames={[]}
-                    search={this.init.bind(this)}
-                    columns={[
-                      {field: 'name', title: 'name', 
-                        render: row => (row ? <AnchorLink to={`${this.props.match.url}/${row.id}`}>
-                                                    {row.name}
-                                                  </AnchorLink> : undefined)
-                      },
-                      {field: 'subject', title: 'subject'},
-                      {field: 'state', title: 'state', render: (row)=> {
-                        return <Chip 
-                                label={row.state} 
-                                variant="outlined" 
-                                size="small"
-                                color={row.state === "enabled" ? 'primary' : 'default'}
-                                icon={ 
-                                  row.state === "enabled" ? 
-                                  <CheckCircle/> : 
-                                  <Pause/>
-                                }
-                              />
-                      }},
-                      {field: 'actions', title: 'actions',
-                        render: row => <Button 
-                                    color={"secondary"}
-                                    variant={"contained"}
-                                    onClick={()=> this.setState({openDeleteDialog: row})}>
-                                  remove
-                               </Button> 
-                      },
-                      /*{field: 'fromName', title: 'from name', hidden: true},
-                      {field: 'fromEmail', title: 'from email', hidden: true},
-                      {field: 'replyEmail', title: 'reply email', hidden: true},
-                      {field: 'description', title: 'description', hidden: true},
-                      {field: 'timezone', title: 'timezone'},
-                      {field: 'scheduledAt', title: 'scheduled at', type: "datetime", 
-                        render: row => (row ? <Moment fromNow>
-                          {row.scheduledAt}
-                        </Moment> : undefined)
-                      },
-                      {field: 'scheduledTo', title: 'scheduled to', type: "datetime",
-                        render: row => (row ? <Moment fromNow>
-                          {row.scheduledTo}
-                        </Moment> : undefined)
-                      }*/
-                    ]}
-                  >
-                    
-                  </Table>
-
-                  : null 
+                </DeleteDialog>
               }
 
-              {
-                !this.state.loading && this.state.campaigns.length === 0 ? 
-                <EmptyView 
-                  title={"No campaigns found"} 
-                  subtitle={
-                    <div>
-                    create a new one
-                    {this.renderActions()}
-                    </div>
+              <Content actions={this.renderActions()}>
 
-                  }/> : null
-              }
-             
-              {
-                this.state.loading ? <CircularProgress/> : null
-              }
-            </Content>
-          </div>
-        )} 
-      />
+                {
+                  !this.state.loading && this.state.campaigns.length > 0 ?
+                    <Table
+                      meta={this.state.meta}
+                      data={this.state.campaigns}
+                      title={`campaigns`}
+                      //title={`${this.props.match.params.message_type} campaign`}
+                      defaultHiddenColumnNames={[]}
+                      search={this.init.bind(this)}
+                      columns={[
+                        {field: 'name', title: 'name', 
+                          render: row => (row ? <AnchorLink to={`${this.props.match.url}/${row.id}`}>
+                                                      {row.name}
+                                                    </AnchorLink> : undefined)
+                        },
+                        {field: 'subject', title: 'subject'},
+                        {field: 'state', title: 'state', render: (row)=> {
+                          return <Chip 
+                                  label={row.state} 
+                                  variant="outlined" 
+                                  size="small"
+                                  color={row.state === "enabled" ? 'primary' : 'default'}
+                                  icon={ 
+                                    row.state === "enabled" ? 
+                                    <CheckCircle/> : 
+                                    <Pause/>
+                                  }
+                                />
+                        }},
+                        {field: 'actions', title: 'actions',
+                          render: row => <Button 
+                                      color={"secondary"}
+                                      variant={"contained"}
+                                      onClick={()=> this.setState({openDeleteDialog: row})}>
+                                    remove
+                                </Button> 
+                        },
+                        /*{field: 'fromName', title: 'from name', hidden: true},
+                        {field: 'fromEmail', title: 'from email', hidden: true},
+                        {field: 'replyEmail', title: 'reply email', hidden: true},
+                        {field: 'description', title: 'description', hidden: true},
+                        {field: 'timezone', title: 'timezone'},
+                        {field: 'scheduledAt', title: 'scheduled at', type: "datetime", 
+                          render: row => (row ? <Moment fromNow>
+                            {row.scheduledAt}
+                          </Moment> : undefined)
+                        },
+                        {field: 'scheduledTo', title: 'scheduled to', type: "datetime",
+                          render: row => (row ? <Moment fromNow>
+                            {row.scheduledTo}
+                          </Moment> : undefined)
+                        }*/
+                      ]}
+                    >
+                      
+                    </Table>
 
+                    : null 
+                }
 
-      <Route exact path={`${this.props.match.url}/:id`}
-        render={(props) => (
-          <CampaignForm
-            currentUser={this.props.currentUser}
-            mode={this.props.match.params.message_type}
-            {...this.props}
-            {...props}
-          />          
-        )} 
-      />
+                {
+                  !this.state.loading && this.state.campaigns.length === 0 ? 
+                  <EmptyView 
+                    title={"No campaigns found"} 
+                    subtitle={
+                      <div>
+                      create a new one
+                      {this.renderActions()}
+                      </div>
+
+                    }/> : null
+                }
+              
+                {
+                  this.state.loading ? <CircularProgress/> : null
+                }
+              </Content>
+            </div>
+          )} 
+        />
+
+      </Switch>
 
     </div>
   }
 }
-
-
 
 function mapStateToProps(state) {
 

@@ -28,10 +28,14 @@ export const ColumnContainer = styled.div`
   flex: 1;
 `;
 export const GridElement = styled.div`
-  flex: 1;
+  ${(props)=> props.noFlex ? '' : 'flex: 1;'}
   ${(props)=>{
     return props.grow ? `flex-grow: ${props.grow};` : null
   }}
+
+  @media (min-width: 320px) and (max-width: 480px) {
+    width: 100vw;
+  }
 
   overflow: scroll;
   border-right: 1px solid ${(props)=> props.theme.palette.primary.borders };
@@ -86,7 +90,8 @@ export const ActivityAvatar = styled.div`
 export const Overflow = styled.div`
   overflow: auto;
   //height: 100vh;
-  height: calc(100vh - 133px);
+  height: calc(100vh - 67px);
+  background-color: ${(props)=> props.theme.palette.background.default };
 `
 export const ActivityIndicator = styled.span`
   position: absolute;
@@ -125,13 +130,13 @@ export const ChatMessageItem = styled.div`
       float: left;
       color: #666;  
       align-self: flex-start;   
-      background: rgb(255, 255, 255);
-      border: 1px solid #f7f6f6;
+      background: ${(props)=> props.theme.palette.background.default};
+      box-shadow: rgba(35, 47, 53, 0.27) 4px 3px 0px 0px;
       p {
-        color: #565555;
+        color: inherit;
       }
 
-      box-shadow: rgba(35,47,53,0.09) 0px 2px 8px 0px;
+      //box-shadow: rgba(35,47,53,0.09) 0px 2px 8px 0px;
       padding: 17px 22px;
       border-radius: 5px 5px 5px 0px;
       
@@ -141,16 +146,20 @@ export const ChatMessageItem = styled.div`
       margin-right: 61px;
       float: right;
       color: ${(props)=> props.message.privateNote ? `#222` : `#292a2b` };
-      background: ${(props)=> props.message.privateNote ? `#feedaf` : `#3ec589` };
+      background: ${(props)=> props.message.privateNote ? `#feedaf` : props.theme.palette.primary.main };
       align-self: flex-end;
 
+      
+
+      box-shadow: rgba(35, 47, 53, 0.27) 4px 3px 0px 0px;
+
       /* NEW */
-      box-shadow: rgba(35, 47, 53, 0.09) 0px 2px 8px 0px;
+      //box-shadow: rgba(35, 47, 53, 0.09) 0px 2px 8px 0px;
       font-size: 13px;
       line-height: 1.5;
       position: relative;
       padding: 17px 22px;
-      border-radius: 5px 5px 5px 0px;
+      border-radius: 5px 5px 1px 5px;
     }
 `;
 
@@ -158,7 +167,7 @@ export const ChatAvatar = styled.div`
     
     //background: rgba(0, 0, 0, 0.03);
     position: absolute;
-    top: 0;
+    bottom: 0;
 
     &.user{
       left: -52px;
@@ -224,10 +233,12 @@ export const ChatContainer = styled.div`
     flex: 1 1 auto;
     flex-direction: column;
     //background: aliceblue;
-    background-image: url('${image}');
+    //background-image: url('${image}');
+
+    background: ${(props)=> props.theme.palette.background.paper };
 
     //background: #555b611c;
-    box-shadow: 1px 1px 2px 0px inset #5f5d5d94;
+    //box-shadow: 1px 1px 2px 0px inset #5f5d5d94;
 
     @media (min-width: 320px) and (max-width: 480px) {
       height: 79vh;

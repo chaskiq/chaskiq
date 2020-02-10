@@ -24,6 +24,10 @@ class AppPackageIntegration < ApplicationRecord
     end
   end
 
+  def message_api_klass
+    @message_api_klass ||= "MessageApis::#{app_package.name.capitalize}".constantize.new(config: self.settings) rescue nil
+  end
+
   def trigger(event)
     klass = message_api_klass
     klass.trigger(event) if klass.respond_to?(:trigger)
@@ -33,14 +37,15 @@ class AppPackageIntegration < ApplicationRecord
     register_hook if message_api_klass and message_api_klass.respond_to?(:register_webhook)
   end
 
-  def message_api_klass
-    @message_api_klass ||= "MessageApis::#{app_package.name.capitalize}".constantize.new(config: self.settings) rescue nil
-  end
-
   def register_hook
     klass = message_api_klass
     response = klass.register_webhook(app_package, self)
     klass.subscribe_to_events
+  end
+
+  def delete_webhooks
+    klass = message_api_klass
+    response = klass.delete_webhooks
   end
 
   def create_hook_from_params(params)

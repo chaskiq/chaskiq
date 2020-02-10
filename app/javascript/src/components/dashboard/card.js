@@ -10,7 +10,7 @@ const useStyles = makeStyles({
   },
 });
 
-export default function Deposits({children, title, subtitle, context}) {
+export default function Card({children, title, subtitle, context}) {
   const classes = useStyles();
   return (
     <React.Fragment>
@@ -21,7 +21,9 @@ export default function Deposits({children, title, subtitle, context}) {
       }
 
       { context &&
-        <Typography color="textSecondary" className={classes.depositContext}>
+        <Typography color="textSecondary"
+          variant={"caption"}
+          className={classes.depositContext}>
           {context}
         </Typography>
       }

@@ -6,18 +6,35 @@ let theme = createMuiTheme({
   typography: {
     //font-family: 'IBM Plex Sans', sans-serif;
     //font-family: 'IBM Plex Sans Condensed', sans-serif;
-    fontFamily: "\"IBM Plex Sans\", \"Helvetica\", \"Arial\", sans-serif",
-    //fontFamily: "\"Poppins\", \"Helvetica\", \"Arial\", sans-serif",
+    //fontFamily: "\"IBM Plex Sans\", \"Helvetica\", \"Arial\", sans-serif",
+    fontFamily: "\"Inter\", \"Helvetica\", \"Arial\", sans-serif",
+
 
     //fontFamily: "\"Roboto Mono\", \"Helvetica\", \"Arial\", sans-serif",
-    fontSize: 14,
+    fontSize: 15,
     /*fontWeightLight: 300,
     fontWeightRegular: 400,
     fontWeightMedium: 500,*/
 
+    h2: {
+      //fontFamily: "\"IBM Plex Sans Condensed\", \"Helvetica\", \"Arial\", sans-serif",
+      fontFamily: "\"Inter\", \"Helvetica\", \"Arial\", sans-serif",
+      fontWeight: 'bold',
+      fontSize: '4rem',
+      letterSpacing: 0.5,
+    },
+
+    h3: {
+      //fontFamily: "\"IBM Plex Sans Condensed\", \"Helvetica\", \"Arial\", sans-serif",
+      fontFamily: "\"Inter\", \"Helvetica\", \"Arial\", sans-serif",
+      fontWeight: 'bold',
+      fontSize: 26,
+      letterSpacing: 0.5,
+    },
+
     h4: {
       //fontFamily: "\"IBM Plex Sans Condensed\", \"Helvetica\", \"Arial\", sans-serif",
-      fontFamily: "\"Open Sans\", \"Helvetica\", \"Arial\", sans-serif",
+      fontFamily: "\"Inter\", \"Helvetica\", \"Arial\", sans-serif",
       fontWeight: 'bold',
       fontSize: 30,
       letterSpacing: 0.5,
@@ -25,7 +42,7 @@ let theme = createMuiTheme({
 
     h5: {
       //fontFamily: "\"IBM Plex Sans Condensed\", \"Helvetica\", \"Arial\", sans-serif",
-      fontFamily: "\"Open Sans\", \"Helvetica\", \"Arial\", sans-serif",
+      fontFamily: "\"Inter\", \"Helvetica\", \"Arial\", sans-serif",
       fontWeight: 'bold',
       fontSize: 26,
       letterSpacing: 0.5,
@@ -33,7 +50,7 @@ let theme = createMuiTheme({
 
     h6: {
       //fontFamily: "\"IBM Plex Sans Condensed\", \"Helvetica\", \"Arial\", sans-serif",
-      fontFamily: "\"Open Sans\", \"Helvetica\", \"Arial\", sans-serif",
+      fontFamily: "\"Inter\", \"Helvetica\", \"Arial\", sans-serif",
       fontWeight: 'bold',
       fontSize: 19,
       letterSpacing: 0.5,
@@ -72,6 +89,17 @@ theme = {
         },
       },
     },
+
+    MuiAppBar: {
+      colorDefault: {
+        color: palette.background.default,
+        backgroundColor: palette.background.dark,
+      },
+      colorPrimary: {
+        //borderBottom: `1px solid ${palette.common.white}`
+      }
+    },
+    
     MuiBadge: {
       colorPrimary: {
         backgroundColor: "#10e810"
