@@ -57,7 +57,7 @@ const useStyles = makeStyles({
   },
 });
 
-function HomePage({ classes } ) {
+function NoMatch({ classes } ) {
 
   return (
     <React.Fragment>
@@ -85,4 +85,4 @@ function HomePage({ classes } ) {
 }
 
 
-export default withStyles(styles)(HomePage);
+export default withStyles(styles)(NoMatch);

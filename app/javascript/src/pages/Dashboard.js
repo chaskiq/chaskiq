@@ -23,7 +23,6 @@ import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
 
 import DashboardCard from '../components/dashboard/card'
-import DashboardCard2 from '../components/dashboard/card2'
 
 import Title from '../components/dashboard/title';
 import Progress from '../shared/Progress'

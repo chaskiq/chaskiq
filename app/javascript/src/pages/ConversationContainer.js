@@ -1,4 +1,4 @@
-import React, {Component, createContext, Fragment} from 'react'
+import React, {Component} from 'react'
 import {
   Route,
   Link,
@@ -149,7 +149,9 @@ class ConversationContainer extends Component {
   }
 
   renderConversations = (appId)=>{
-    return <GridElement noFlex>
+    return <GridElement noFlex style={{
+                boxShadow: 'rgba(204, 204, 204, 0.52) 8px -4px 20px 0px'
+              }}>
               {/*<FixedHeader>Conversations</FixedHeader>*/}
               
               <FixedHeader style={{height: '67px'}}>
