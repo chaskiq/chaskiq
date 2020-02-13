@@ -10,7 +10,7 @@ class ExternalProfile < ApplicationRecord
   end
 
   def sync
-    app_package.message_api_klass.register_contact(self)
+    app_package.message_api_klass.register_contact(app_user)
   end
   
 end
