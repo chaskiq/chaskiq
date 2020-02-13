@@ -35,6 +35,8 @@ module Types
 
     field :properties, Types::JsonType, null: true
 
+    field :external_profiles, [Types::ExternalProfileType], null: true 
+
     def state
       object.subscription_state
     end
