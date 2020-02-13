@@ -56,7 +56,7 @@ class ConversationContainer extends Component {
   }
 
   componentDidMount(){
-    this.getConversations()
+    this.getConversations({page: 1})
 
     this.props.dispatch(
       setCurrentSection('Conversations')
@@ -70,15 +70,15 @@ class ConversationContainer extends Component {
     if (element.scrollHeight - element.scrollTop === element.clientHeight) {
       if (this.props.conversations.meta.next_page && !this.fetching){
         this.fetching = true
-        this.getConversations(()=>{
+        this.getConversations({}, ()=>{
           this.fetching = false
         })
       }
     }
   }
 
-  getConversations = (cb)=>{
-    this.props.dispatch(getConversations( ()=>{
+  getConversations = (options, cb)=>{
+    this.props.dispatch(getConversations(options, ()=>{
       cb && cb()
     }))
   }
@@ -130,7 +130,7 @@ class ConversationContainer extends Component {
   filterConversations = (options, cb)=>{
     this.props.dispatch(
       updateConversationsData({filter: options.id, collection: []}, ()=>{
-        this.getConversations(cb)
+        this.getConversations({page: 1}, cb)
       })
     )
   }
@@ -138,7 +138,7 @@ class ConversationContainer extends Component {
   sortConversations = (options, cb)=>{
     this.props.dispatch(
       updateConversationsData({sort: options.id, collection: []}, ()=>{
-        this.getConversations(cb)
+        this.getConversations({page: 1}, cb)
       })
     )
   }
