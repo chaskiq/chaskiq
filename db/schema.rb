@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_02_04_223244) do
+ActiveRecord::Schema.define(version: 2020_02_12_035513) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -478,6 +478,18 @@ ActiveRecord::Schema.define(version: 2020_02_04_223244) do
     t.index ["eventable_type", "eventable_id"], name: "index_events_on_eventable_type_and_eventable_id"
   end
 
+  create_table "external_profiles", force: :cascade do |t|
+    t.string "provider"
+    t.bigint "app_user_id", null: false
+    t.jsonb "data"
+    t.string "profile_id"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["app_user_id"], name: "index_external_profiles_on_app_user_id"
+    t.index ["profile_id"], name: "index_external_profiles_on_profile_id"
+    t.index ["provider"], name: "index_external_profiles_on_provider"
+  end
+
   create_table "metrics", force: :cascade do |t|
     t.bigint "campaign_id"
     t.string "trackable_type", null: false
@@ -638,6 +650,7 @@ ActiveRecord::Schema.define(version: 2020_02_04_223244) do
   add_foreign_key "conversation_sources", "app_package_integrations"
   add_foreign_key "conversation_sources", "conversations"
   add_foreign_key "conversations", "apps"
+  add_foreign_key "external_profiles", "app_users"
   add_foreign_key "metrics", "app_users"
   add_foreign_key "oauth_access_grants", "agents", column: "resource_owner_id"
   add_foreign_key "oauth_access_grants", "oauth_applications", column: "application_id"
