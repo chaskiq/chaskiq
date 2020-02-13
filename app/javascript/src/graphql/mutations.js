@@ -121,6 +121,11 @@ export const APP_USER_UPDATE_STATE = `
         lang
         displayName
         name
+        externalProfiles {
+          id
+          provider
+          data
+        }
       }
     }
   }
@@ -154,6 +159,49 @@ export const APP_USER_UPDATE = `
         lang
         displayName
         name
+        externalProfiles {
+          id
+          provider
+          data
+        }
+      }
+    }
+  }
+`;
+
+export const SYNC_EXTERNAL_PROFILE = `
+  mutation SyncExternalProfile($appKey: String!, $id: Int!, $provider: String!){
+    syncExternalProfile(appKey: $appKey, id: $id, provider: $provider){
+      appUser {
+        id
+        email
+        avatarUrl
+        lastVisitedAt
+        referrer
+        state
+        ip
+        city
+        region
+        country
+        lat
+        lng
+        postal
+        webSessions
+        timezone
+        browser
+        browserVersion
+        os
+        osVersion
+        browserLanguage
+        online
+        lang
+        displayName
+        name
+        externalProfiles {
+          id
+          provider
+          data
+        }
       }
     }
   }

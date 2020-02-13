@@ -13,7 +13,8 @@ class AppPackageIntegration < ApplicationRecord
     access_token
     access_token_secret
     user_id,
-    user_token
+    user_token,
+    credentials
   ], coder: JSON
 
   validate do
@@ -40,7 +41,13 @@ class AppPackageIntegration < ApplicationRecord
   def register_hook
     klass = message_api_klass
     response = klass.register_webhook(app_package, self)
-    klass.subscribe_to_events
+    klass.subscribe_to_events if klass.respond_to?(:subscribe_to_events)
+    response
+  end
+
+  def get_webhooks
+    klass = message_api_klass
+    response = klass.get_webhooks
   end
 
   def delete_webhooks

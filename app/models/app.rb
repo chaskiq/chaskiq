@@ -35,6 +35,7 @@ class App < ApplicationRecord
   # App.where('preferences @> ?', {notifications: true}.to_json)
 
   has_many :app_users
+  has_many :external_profiles, through: :app_users 
   has_many :bot_tasks
   has_many :visits, through: :app_users
 

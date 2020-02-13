@@ -37,6 +37,7 @@ import FieldRenderer from '../shared/FormFields'
 import DeleteDialog from "../components/deleteDialog"
 
 import {errorMessage, successMessage} from '../actions/status_messages'
+import { setCurrentPage, setCurrentSection } from "../actions/navigation";
 
 import graphql from '../graphql/client'
 import {
@@ -63,9 +64,10 @@ function Integrations({app, dispatch}){
   const [openDeleteDialog, setOpenDeleteDialog] = useState(false)
   const form = useRef(null);
 
-  /*useEffect(()=>{
-    getAppPackages()
-  }, [])*/
+  useEffect(()=>{
+    dispatch(setCurrentSection("Settings"))
+    dispatch(setCurrentPage("integrations"))
+  }, [])
 
   function getAppPackages(){
     setLoading(true)
@@ -343,7 +345,8 @@ function Integrations({app, dispatch}){
 
 
 
-function EmptyCard({goTo}){
+
+  function EmptyCard({goTo}){
   return (
     <Card style={{marginTop: '2em'}}>
       <CardContent>
