@@ -29,6 +29,7 @@ export const ColumnContainer = styled.div`
 `;
 export const GridElement = styled.div`
   ${(props)=> props.noFlex ? '' : 'flex: 1;'}
+  flex:1;
   ${(props)=>{
     return props.grow ? `flex-grow: ${props.grow};` : null
   }}
