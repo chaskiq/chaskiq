@@ -41,17 +41,12 @@ class AppPackagesCatalog
         state: 'disabled',
         definitions: [
           {
-            name: 'api_secret',
-            type: 'string',
-            grid: { xs: 12, sm: 12 }
-          },
-          {
             name: 'project_id',
             type: 'string',
             grid: { xs: 12, sm: 12 }
           },
           {
-            name: 'api_secret',
+            name: 'credentials',
             type: 'string',
             grid: { xs: 12, sm: 12 }
           }
@@ -80,22 +75,16 @@ class AppPackagesCatalog
 
       {
         name: 'Pipedrive',
-        tag_list: ['crm'],
+        tag_list: ['leads.convert', 'email_changed'],
         description: 'Pipedrive CRM integration, will insert contacts',
         icon: 'https://logo.clearbit.com/pipedrive.com',
-        state: 'disabled',
+        state: 'enabled',
         definitions: [
           {
             name: 'api_secret',
             type: 'string',
             grid: { xs: 12, sm: 12 }
           },
-          {
-            name: 'api_key',
-            type: 'string',
-
-            grid: { xs: 12, sm: 12 }
-          }
         ]
       },
       {
@@ -158,7 +147,27 @@ class AppPackagesCatalog
             grid: { xs: 12, sm: 12 }
           }
         ]
-      }
+      },
+
+      {
+        name: 'Whatsapp',
+        tag_list: ['enrichment'],
+        description: 'Clearbit data enrichment',
+        icon: 'https://logo.clearbit.com/whatsapp.com',
+        state: 'disabled',
+        definitions: [
+          {
+            name: 'api_key',
+            type: 'string',
+            grid: { xs: 12, sm: 12 }
+          },
+          {
+            name: 'api_secret',
+            type: 'string',
+            grid: { xs: 12, sm: 12 }
+          }
+        ]
+      },
     ]
   end
 
