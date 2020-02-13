@@ -38,6 +38,7 @@ class AppUser < ApplicationRecord
   # has_many :metrics , as: :trackable
   has_many :metrics
   has_many :visits
+  has_many :external_profiles
 
   include Eventable
 
@@ -58,7 +59,8 @@ class AppUser < ApplicationRecord
     :linkedin,
     :gender,
     :organization,
-    :job_title
+    :job_title,
+    :phone
   ]
 
   scope :availables, lambda {
@@ -216,19 +218,16 @@ class AppUser < ApplicationRecord
 
   def encoded_id
     return nil if email.blank?
-
     URLcrypt.encode(email)
   end
 
   def decoded_id
     return nil if email.blank?
-
     URLcrypt.decode(email)
   end
 
   def avatar_url
     return "https://api.adorable.io/avatars/130/#{id}.png?" if email.blank?
-
     email_address = email.downcase
     hash = Digest::MD5.hexdigest(email_address)
     d = "https://api.adorable.io/avatars/130/#{hash}.png"
@@ -257,4 +256,19 @@ class AppUser < ApplicationRecord
   def register_visit(options)
     self.visits.register(options, app.register_visits)
   end
+
+  def register_in_crm
+    # refactor this query
+    app.app_packages
+    .joins(:app_package_integrations)
+    .tagged_with("crm").each do |pkg|
+      pkg.app_package_integrations.each do |integration|
+        profile = self.external_profiles.find_or_create_by(
+          provider: pkg.name.downcase
+        )
+        profile.sync
+      end
+    end
+  end
+
 end

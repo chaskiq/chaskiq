@@ -1,12 +1,11 @@
 import ActionTypes from '../constants/action_types';
 import graphql from '../graphql/client'
-import { APP_USER} from "../graphql/queries"
+import { APP_USER } from "../graphql/queries"
+import {SYNC_EXTERNAL_PROFILE} from "../graphql/mutations"
 
 export function getAppUser(userId, cb){
   return (dispatch, getState) => {
-
     dispatch(dispatchSetAppUser(null))
-    
     graphql(APP_USER, {
         appKey: getState().app.key, 
         id: userId
@@ -20,10 +19,26 @@ export function getAppUser(userId, cb){
           })*/
       },
       error: ()=>{
-
       }
     })
+  }
+}
 
+
+export function syncExternalProfile(id, profile, cb){
+  return (dispatch, getState) => {
+    graphql(SYNC_EXTERNAL_PROFILE, {
+      appKey: getState().app.key,
+      id: id,
+      provider: profile.provider
+    }, 
+    {
+      success: (data)=>{
+        dispatch(dispatchSetAppUser(data.syncExternalProfile.appUser))
+        cb && cb(data)
+      }
+    , error: ()=>{}
+    })
   }
 }
 

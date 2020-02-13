@@ -5,13 +5,17 @@ import Accordeon from './accordeon'
 import Avatar from '@material-ui/core/Avatar';
 import { makeStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography'
+import Button from '@material-ui/core/Button'
 import List from '@material-ui/core/List'
 import ListItem from '@material-ui/core/ListItem'
 import ListItemText from '@material-ui/core/ListItemText'
+import Box from '@material-ui/core/Box'
 import { withRouter } from 'react-router-dom'
 import { connect } from 'react-redux'
 import {toggleDrawer} from '../actions/drawer'
 import {AnchorLink} from '../shared/RouterLink'
+
+import {syncExternalProfile} from '../actions/app_user'
 
 const ActivityAvatar = styled.div`
   display: flex;
@@ -68,6 +72,15 @@ function ImageAvatars(props) {
 }
 
 class UserData extends Component {
+
+  syncExternalProfile = (profile)=>{
+    this.props.dispatch(
+      syncExternalProfile(
+        this.props.appUser.id,
+        profile
+      )
+    )
+  }
 
   render(){
 
@@ -206,6 +219,61 @@ class UserData extends Component {
                       }) 
                   }
                   </List>
+              }, 
+              {
+                name: "External Profiles",
+                component: <div>
+
+                <List dense>
+                {
+                  this.props.appUser.externalProfiles &&
+                    this.props.appUser.externalProfiles.map((o, i) => {
+                      return <Box
+                              m={2}
+                              key={`app-user-profile-${this.props.appUser.id}-${o.id}`}>
+                                <div style={{
+                                  textAlign: 'left', 
+                                  display: 'flex',
+                                  justifyContent: 'space-between'
+                                }}>
+
+                                  <Typography variant="h6">
+                                    {o.provider}
+                                  </Typography>
+
+                                  <Button 
+                                    size="small" 
+                                    variant={'outlined'} 
+                                    onClick={()=> this.syncExternalProfile(o) }>
+                                    sync
+                                  </Button>
+
+                                </div>
+
+                                <div style={
+                                  {
+                                    display: 'flex', 
+                                    flexDirection: 'column',
+                                    textAlign: 'left'}
+                                  }>
+                                  { 
+                                    Object.keys(o.data).map((a, i) => {
+                                      if(!o.data[a] || typeof(o.data[a]) === 'object') return null 
+                                      return <Typography 
+                                                variant={"caption"}
+                                                key={`app-user-${o.provider}-${this.props.appUser.id}-${i}`}>
+                                                  {<b>{a}:</b>}{` ${o.data[a]}`}
+                                              </Typography>
+                                    }) 
+                                  }
+                                </div>
+                            </Box>
+                    }) 
+                }
+                </List>
+                
+                 
+                </div>
               }
 
             ]} />

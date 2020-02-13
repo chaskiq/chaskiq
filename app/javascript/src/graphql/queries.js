@@ -375,6 +375,11 @@ query AppUser($appKey: String!, $id: Int! ) {
       displayName
       name
       properties
+      externalProfiles {
+        id
+        provider
+        data
+      }
     }
   }
 }

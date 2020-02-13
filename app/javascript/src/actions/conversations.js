@@ -15,12 +15,13 @@ import {
 
 import {uniqBy} from 'lodash'
 
-export function getConversations(cb){
+export function getConversations(options, cb){
 
+  const {page} = options
   return (dispatch, getState) => {
     const {sort, filter , meta} = getState().conversations
 
-    const nextPage = meta.next_page || 1
+    const nextPage = page || meta.next_page || 1
 
     dispatch(dispatchDataUpate({loading: true}))
 
