@@ -26,7 +26,23 @@ class CssInjector extends React.Component {
   }
 }
 
-const initialFrameContent = '<!DOCTYPE html><html><head><style>body{margin:0px}</style></head><body><div id="mountHere"></body></html>'
+const initialFrameContent = `<!DOCTYPE html>
+                              <html>
+                                <head>
+                                  <style>
+                                    @import url('https://rsms.me/inter/inter.css');
+                                    html { font-family: 'Inter', sans-serif; }
+                                    @supports (font-variation-settings: normal) {
+                                      html { font-family: 'Inter var', sans-serif; }
+                                    }
+                                    body{ margin:0px , 
+                                    font-family: font-family: 'Inter', sans-serif; }
+                                  </style>
+                                </head>
+                                <body>
+                                <div id="mountHere">
+                                </body>
+                              </html>`
 const mountTarget='#mountHere'
 
 const StyledFrame = ({ className, style, children, id }) => (

@@ -2,6 +2,7 @@ import React, { Component, Fragment } from "react";
 import ReactDOM from "react-dom";
 //import styled from '@emotion/styled'
 import { ThemeProvider } from 'emotion-theming'
+
 import actioncable from "actioncable"
 import axios from "axios"
 import UAParser from 'ua-parser-js'
@@ -62,7 +63,6 @@ import Home from './homePanel'
 import Article from './articles'
 
 import {Conversation, Conversations} from './conversation.js'
-
 
 let App = {}
 
@@ -773,15 +773,13 @@ class Messenger extends Component {
   }
 
   displayConversation =(e, o)=>{
-
-
-      this.setConversation(o.key, () => {
-        this.setTransition('out', ()=>{
-          this.setDisplayMode('conversation', ()=>{
-            this.scrollToLastItem()
-          })
+    this.setConversation(o.key, () => {
+      this.setTransition('out', ()=>{
+        this.setDisplayMode('conversation', ()=>{
+          this.scrollToLastItem()
         })
       })
+    })
   }
 
   convertVisitor(data){
@@ -1016,7 +1014,7 @@ class Messenger extends Component {
           mode: 'light', // this.state.appData ? this.state.appData.theme : 
           isMessengerActive: this.isMessengerActive()
         }}>
-         
+
             <EditorWrapper>
 
               {
@@ -1296,7 +1294,7 @@ class Messenger extends Component {
                     bottom: '-18px',
                     width: '88px',
                     height: '100px',
-                    right: '-23px',
+                    right: '-13px',
                     border: 'none'
                   }}>
 
@@ -1489,28 +1487,28 @@ class MessageFrame extends Component {
             id="messageFrame" 
             isMinimized={this.fetchMinizedCache()}>
       
-       <UserAutoMessageFlex isMinimized={this.fetchMinizedCache()}>
+            <UserAutoMessageFlex isMinimized={this.fetchMinizedCache()}>
 
-        {
-          this.props.availableMessages.map((o, i) => {
-            
-            return <UserAutoMessage 
-                    open={true} 
-                    key={`user-auto-message-${o.id}`}>
-                    <MessageContainer
-                      isMinimized={this.state.isMinimized}
-                      toggleMinimize={this.toggleMinimize}
-                      handleClose={this.handleClose}
-                      availableMessage={o}
-                      domain={this.props.domain}
-                      t={this.props.t}
-                    />
-                  </UserAutoMessage>
-          })
+              {
+                this.props.availableMessages.map((o, i) => {
+                  
+                  return <UserAutoMessage 
+                          open={true} 
+                          key={`user-auto-message-${o.id}`}>
+                          <MessageContainer
+                            isMinimized={this.state.isMinimized}
+                            toggleMinimize={this.toggleMinimize}
+                            handleClose={this.handleClose}
+                            availableMessage={o}
+                            domain={this.props.domain}
+                            t={this.props.t}
+                          />
+                        </UserAutoMessage>
+                })
 
-        }
-          </UserAutoMessageFlex>
+              }
 
+            </UserAutoMessageFlex>
 
     </UserAutoMessageStyledFrame>
   }
