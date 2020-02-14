@@ -8,6 +8,8 @@ const NewEditorStyles = styled(EditorStyles)`
   
   display: flex;
   flex-direction: column;
+  line-height: 1.4;
+  font-size: 1em;
 
   .graf--figure{
     min-width: 220px;
