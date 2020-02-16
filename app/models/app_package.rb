@@ -9,5 +9,6 @@ class AppPackage < ApplicationRecord
   store :settings, accessors: %i[
     definitions
     icon
+    editor_definitions
   ], coder: JSON
 end

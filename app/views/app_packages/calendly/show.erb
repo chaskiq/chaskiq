@@ -33,14 +33,30 @@
 <body>
   <div class="container">
     <!-- This is the DOM element that will contain your embedded typeform -->
-    <div class="calendly-inline-widget" style="min-width:320px;height:580px;" data-auto-load="false">
+    <div class="calendly-inline-widget" 
+      style="min-width:320px;height:580px;" 
+      data-auto-load="false">
       <!-- Calendly inline widget begin -->
       <script type="text/javascript" src="https://assets.calendly.com/assets/external/widget.js"></script>
       <script>
         Calendly.initInlineWidget({
-        url: '<%= params[:url] %>'
+          url: '<%= params[:url] %>',
+          prefill: {
+            name: '<%= params[:name] %>',
+            email: '<%= params[:email] %>',
+            customAnswers: {
+                //a1: "Yes",
+                //a2: "At the Starbucks on 3rd and 16th"
+            }
+          },
+          utm: {
+              utmCampaign: "Conversation",
+              utmSource: "<%= params[:conversation_key] %>",
+              utmMedium: "ConversationMessage",
+              utmContent: "<%= params[:message_id] %>",
+              utmTerm: "Chaskiq"
+          }
         });
-
 
         function isCalendlyEvent(e) {
           return e.data.event &&
@@ -50,6 +66,7 @@
         window.addEventListener(
           'message',
           function(e) {
+            //console.log("ENENE", e)
             if (isCalendlyEvent(e) && e.data.event === "calendly.event_scheduled") {
               window.parent.postMessage({
                 chaskiqMessage: true, 

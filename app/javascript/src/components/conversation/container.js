@@ -243,8 +243,10 @@ class ConversationContainerShow extends Component {
       return this.renderBlockRepresentation(o)
 
     const item = o.message.data
+    if(!item) return "replied"
 
-    if(!o.fromBot) return
+
+    //if(!o.fromBot) return
 
     switch(item.element){
       case "button":
@@ -253,6 +255,15 @@ class ConversationContainerShow extends Component {
                 {item.label}
                </p>
       default:
+
+        if(o.message.blocks.type === "app_package"){
+          return Object.keys(o.message.data).map((k)=>{
+            const val = o.message.data[k]
+            if(typeof(val) != "string") return
+            return <p>{k}: {val}</p>
+          })
+        }
+
         if (o.message.blocks.type === "data_retrieval"){
           const dataList = Object.keys(o.message.data).map((k)=>{
             return <p>{k}: {o.message.data[k]}</p>
@@ -262,7 +273,8 @@ class ConversationContainerShow extends Component {
                   {dataList}
                 </React.Fragment>
         } else{
-          <p>{JSON.stringify(o.message.data)}</p>
+          
+          return <p>{JSON.stringify(o.message.data)}</p>
         }
     }
   }

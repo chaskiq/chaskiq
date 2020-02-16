@@ -33,7 +33,13 @@ module Types
     field :app_packages, [Types::AppPackageType], null: true
     field :enable_articles_on_widget, Boolean, null: true
     field :inline_new_conversations, Boolean, null: true
-
+    field :editor_app_packages, [Types::AppPackageType], null: true
+    
+    def editor_app_packages
+      object.app_packages.tagged_with("editor")
+      .joins(:app_package_integrations)
+      .where("app_package_integrations.id is not null")
+    end
 
     def gather_social_data
       ActiveModel::Type::Boolean.new.cast(object.gather_social_data)

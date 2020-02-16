@@ -813,6 +813,21 @@ export const APP_PACKAGES = `
   }
 `;
 
+export const EDITOR_APP_PACKAGES = `
+  query App($appKey: String!){
+    app(key: $appKey) {
+      editorAppPackages{
+        name
+        state
+        definitions
+        editorDefinitions
+        icon
+        description
+      }
+    }
+  }
+`;
+
 export const APP_PACKAGE_INTEGRATIONS = `
   query App($appKey: String!){
     app(key: $appKey) {

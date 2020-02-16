@@ -368,15 +368,17 @@ class SettingsForm extends Component{
 
         <Grid container justify={"space-around"}>
 
-          <Button appearance="subtle" variant={"outlined"}>
-            Cancel
-          </Button>
           <Button 
             onClick={this.onSubmitHandler.bind(this)}
             variant="contained" 
             color="primary">
             Save
           </Button>
+
+          <Button appearance="subtle" variant={"outlined"} color={"secondary"}>
+            Cancel
+          </Button>
+
         </Grid>
 
       </form>

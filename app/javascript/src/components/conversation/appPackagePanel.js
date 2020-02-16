@@ -6,15 +6,41 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import TextField from '@material-ui/core/TextField';
+import Typography from '@material-ui/core/Typography'
+import Box from '@material-ui/core/Box'
+import Tab from '@material-ui/core/Tab'
 import { withRouter } from 'react-router-dom'
 import { connect } from 'react-redux'
 
-function DialogEditor(props) {
+import graphql from '../../graphql/client'
+import {
+  EDITOR_APP_PACKAGES
+} from '../../graphql/queries'
+
+function AppPackagePanel(props) {
   const [open, setOpen] = React.useState(props.open);
   const [provider, setProvider] = React.useState(null)
-
+  const [providers, setProviders] = React.useState([])
   const [values, setValues] = React.useState({});
 
+  function getAppPackages(){
+    graphql(EDITOR_APP_PACKAGES, {
+      appKey: props.app.key
+    }, {
+      success: (data)=>{
+        setProviders(data.app.editorAppPackages)
+      },
+      error: ()=>{
+        debugger
+      }
+    })
+  }
+
+  React.useEffect(()=>{
+    getAppPackages()
+  }, [])
+
+  /*
   const providers =  [
     {
       name: "calendly",
@@ -55,7 +81,7 @@ function DialogEditor(props) {
         }
       ]
     }
-  ]
+  ]*/
   
   React.useEffect( () => { 
     setOpen(props.open) 
@@ -75,15 +101,18 @@ function DialogEditor(props) {
   };
 
   function renderItem(o){
-    return <div>
-            <h3>{o.name}</h3>
+    const {requires} = o.editorDefinitions
+    return <Box mt={2}>
+            
+            <Typography variant="h3">
+              {o.name}
+            </Typography>
+
             {
-              o.requires.map((r)=> renderRequirement(r))
+              requires.map((r)=> renderRequirement(r))
             }
 
-            {JSON.stringify(values)}
-            
-          </div>
+          </Box>
   }
 
   function renderRequirement(item){
@@ -107,8 +136,9 @@ function DialogEditor(props) {
   }
 
   function handleSend(){
+    const newData = Object.assign({}, provider, provider.editorDefinitions)
     props.insertComment({
-      provider: provider, 
+      provider: newData, 
       values: values
     })
   }
@@ -129,13 +159,18 @@ function DialogEditor(props) {
         
         <DialogContent>
           <DialogContentText id="alert-dialog-description">
-          {
-            providers.map((o)=>{
-              return <button onClick={()=>handleClick(o)}>
-                      {o.name}
-                     </button>
-            })
-          }
+
+            {
+              providers.map((o)=>{
+                return <Button 
+                          variant={"outlined"} 
+                          key={ `${o.name}-tab` } 
+                          onClick={()=>handleClick(o)}>
+                          <img src={o.icon} width={20} height={20}/>
+                          {o.name}
+                       </Button>
+              })
+            }
 
           {
             provider && renderItem(provider) 
@@ -145,9 +180,9 @@ function DialogEditor(props) {
 
         <DialogActions>
           <Button onClick={handleSend} color="primary">
-            save
+            Save
           </Button>
-          <Button onClick={handleClose} color="primary">
+          <Button onClick={handleClose} color="secondary">
             Cancel
           </Button>
         </DialogActions>
@@ -168,4 +203,4 @@ function mapStateToProps(state) {
 
 //export default ShowAppContainer
 
-export default withRouter(connect(mapStateToProps)(DialogEditor))
+export default withRouter(connect(mapStateToProps)(AppPackagePanel))

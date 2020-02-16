@@ -147,8 +147,8 @@ export class Conversation extends Component {
 
   componentWillUnmount(){
     // todop porque?
-    if(!this.props.inline_conversation)
-      this.props.clearConversation()
+    //if(!this.props.inline_conversation)
+    //  this.props.clearConversation()
   }
 
   // TODO: skip on xhr progress
@@ -533,7 +533,17 @@ class AppPackageBlock extends Component {
             __html: this.props.t(`conversation_block.choosen`, {field: item.label} )
           }}/>
         }
+
       default:
+
+        if(this.props.message.blocks.type === "app_package"){
+          return Object.keys(this.props.message.data).map((k)=>{
+            const val = this.props.message.data[k]
+            if(typeof(val) != "string") return
+            return <p>{k}: {this.props.message.data[k]}</p>
+          })
+        }
+
         if (this.props.message.blocks.type === "data_retrieval"){
           return Object.keys(this.props.message.data).map((k)=>{
             return <p>{k}: {this.props.message.data[k]}</p>
@@ -579,13 +589,15 @@ class AppPackageBlock extends Component {
           {t("submit")}
         </button>
     case "button":
-      return <button 
-        disabled={isDisabled}
-        onClick={()=> this.handleStepControlClick(item)}
-        key={index} 
-        type={"button"}>
-        {item.label}
-        </button>
+      return <div>
+                <button 
+                disabled={isDisabled}
+                onClick={()=> this.handleStepControlClick(item)}
+                key={index} 
+                type={"button"}>
+                {item.label}
+                </button>
+              </div>
     default:
       return null
     }

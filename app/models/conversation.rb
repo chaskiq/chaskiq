@@ -10,7 +10,7 @@ class Conversation < ApplicationRecord
   belongs_to :main_participant, class_name: 'AppUser', optional: true # , foreign_key: "user_id"
   #has_one :conversation_source, dependent: :destroy
   has_many :messages, class_name: 'ConversationPart', dependent: :destroy
-  has_many :conversation_channels
+  has_many :conversation_channels, dependent: :destroy
   has_many :conversation_part_channel_sources, through: :messages
 
   #TODO : remove this logic
