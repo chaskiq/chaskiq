@@ -166,7 +166,7 @@ RSpec.describe Conversation, type: :model do
       expect_any_instance_of(ConversationPart).to receive(:enqueue_email_notification)
       message = conversation.add_message(
         from: app_user,
-        controls: [{ a: 1 }]
+        controls: { a: 1 }
       )
       expect(message).to be_persisted
       expect(message.message[:blocks]).to be_present
