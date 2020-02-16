@@ -282,6 +282,7 @@ class ConversationContainerShow extends Component {
   renderEventBlock = (o)=>{
     return <p>{o.message.action} {o.message.data.name || o.message.data.email}</p>
   }
+  
 
   render(){
     return <GridElement grow={2}>
@@ -369,6 +370,7 @@ class ConversationContainerShow extends Component {
                                                 o.appUser && 
                                                 o.appUser.kind === 'agent' 
                                                 ? 'admin' : 'user'
+                          const appuserId = this.props.conversation.mainParticipant.id
               
                           return <MessageItemWrapper 
                                     key={`message-item-${this.props.conversation.key}-${o.id}`} 
@@ -385,7 +387,7 @@ class ConversationContainerShow extends Component {
                                       {
                                         o.appUser && 
                                         <ChatAvatar 
-                                          onClick={(e)=> this.props.showUserDrawer(o.appUser.id) }
+                                          onClick={(e)=> this.props.showUserDrawer(appuserId) }
                                           className={userOrAdmin}>
 
                                           <img src={!isReplied ? 
