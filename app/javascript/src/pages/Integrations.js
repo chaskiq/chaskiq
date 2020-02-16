@@ -22,6 +22,7 @@ import ListItemText from '@material-ui/core/ListItemText';
 import Avatar from '@material-ui/core/Avatar';
 import IconButton from '@material-ui/core/IconButton';
 import DeleteIcon from '@material-ui/icons/Delete';
+import EditIcon from '@material-ui/icons/Edit'
 import AddIcon from '@material-ui/icons/Add';
 import Tab from '@material-ui/core/Tab';
 import Tabs from '@material-ui/core/Tabs';
@@ -220,13 +221,15 @@ function Integrations({app, dispatch}){
                     />
                   }
 
-                  { <ServiceIntegration
-                    services={integrations}
-                    handleOpen={handleOpen}
-                    getAppPackages={getAppPackageIntegration}
-                    setOpenDeleteDialog={setOpenDeleteDialog}
-                    kind={"integrations"}
-                  />}
+                  { 
+                    <ServiceIntegration
+                      services={integrations}
+                      handleOpen={handleOpen}
+                      getAppPackages={getAppPackageIntegration}
+                      setOpenDeleteDialog={setOpenDeleteDialog}
+                      kind={"integrations"}
+                    />
+                  }
                 </React.Fragment>
       case 1:
         return <React.Fragment>
@@ -286,21 +289,23 @@ function Integrations({app, dispatch}){
                       </Grid>
 
                       {
-                        open.id && <React.Fragment>
+                        open.id && <Grid container direction={"column"}>
                           <Typography variant="overline" >
                             This integration will receive webhook at:
                           </Typography>
-                          <Typography>
+
+                          <Typography variant={"caption"}>
                             {`${window.location.origin}/api/v1/hooks/${app.key}/${open.name.toLocaleLowerCase()}/${open.id}`}
                           </Typography>
 
                           <Typography variant="overline" >
                             Oauth callback:
                           </Typography>
-                          <Typography>
+
+                          <Typography variant={"caption"}>
                             {`${window.location.origin}/api/v1/oauth/${app.key}/${open.name.toLocaleLowerCase()}/${open.id}`}
                           </Typography>
-                        </React.Fragment>
+                        </Grid>
                       }
                     </form> 
                 }
@@ -398,7 +403,11 @@ function ServiceBlock({
             <IconButton 
               onClick={()=> handleOpen(service)}
               edge="end" aria-label="add">
-              <AddIcon  />
+              {
+                service.id ? 
+                <EditIcon/> : 
+                <AddIcon/>
+              }
             </IconButton>
 
             { 

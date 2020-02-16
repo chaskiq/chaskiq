@@ -4,7 +4,7 @@ class ConversationPart < ApplicationRecord
   include Tokenable
   include Redis::Objects
 
-  has_many :conversation_part_channel_sources
+  has_many :conversation_part_channel_sources, dependent: :destroy
   belongs_to :conversation, touch: true
   # belongs_to :app_user, optional: true # todo: to be removed
   belongs_to :message_source, optional: true,

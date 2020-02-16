@@ -31,11 +31,13 @@ module Types
     end
 
     def data
+      return object.handled_data if object.respond_to?(:handled_data)
       object.data if object.respond_to?(:data)
     end
 
     def action
       object.action if object.respond_to?(:action)
     end
+
   end
 end

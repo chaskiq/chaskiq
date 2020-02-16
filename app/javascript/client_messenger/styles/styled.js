@@ -819,7 +819,7 @@ export const MessageItem = styled.div`
     position: relative;
     //margin: 8px 0 15px 0;
     margin: 0px;
-    padding: 8px 10px;
+    //padding: 8px 10px;
     //max-width: ${(props) => (props.messageSourceType === "UserAutoMessage" ?  '86%' : '60%')};
     min-width: 25%;
     display: block;
@@ -883,6 +883,7 @@ export const MessageItem = styled.div`
         padding: 6px 11px;
         border-radius: 5px 5px 0px 5px;
       }
+
       // hack on image from user, not use position absolute
       .graf-image {
         position: inherit !important;

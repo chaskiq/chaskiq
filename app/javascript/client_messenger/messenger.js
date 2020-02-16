@@ -1100,7 +1100,9 @@ class Messenger extends Component {
                                       this.state.appData.logo && 
                                         <img src={this.props.domain + this.state.appData.logo}></img>
                                     }
-                                    <h2 style={{margin: '0.6em 0em' }}>{this.state.appData.greetings}</h2>
+                                    <h2 style={{margin: '0.6em 0em' }}>
+                                      {this.state.appData.greetings}
+                                    </h2>
                                     <p>{this.state.appData.intro}</p>
                                   </HeaderTitle>
                                 }
@@ -1198,6 +1200,7 @@ class Messenger extends Component {
                                 this.state.display_mode === "appBlockAppPackage" &&
                                 <AppBlockPackageFrame 
                                   domain={this.props.domain}
+                                  conversation={this.state.conversation}
                                   appBlock={this.state.currentAppBlock}
                                 />
                               }
@@ -1392,9 +1395,11 @@ class AppBlockPackageFrame extends Component {
   }
 
   render(){
+    console.log("PACK", this.props)
     const blocks = toCamelCase(this.props.appBlock.message.message.blocks)
- 
-    const url = `${this.props.domain}/package_iframe/${blocks.appPackage}`
+    const conversation = this.props.appBlock.message.conversation
+    const mainParticipant = conversation.mainParticipant
+    const url = `${this.props.domain}/package_iframe/${blocks.appPackage.toLowerCase()}`
     let src = new URL(url)
     //Object.keys(blocks.values, (k)=>{
     //  src.searchParams.set(k, encodeURIComponent( blocks.values[k] ))
@@ -1402,12 +1407,15 @@ class AppBlockPackageFrame extends Component {
     //'https://admin.typeform.com/to/cVa5IG');
 
     src.searchParams.set("url", blocks.values.src )
+    src.searchParams.set("conversation_key", this.props.appBlock.message.conversation.key )
+    src.searchParams.set("name", mainParticipant.displayName )
+    src.searchParams.set("message_id", this.props.appBlock.message.id )
     
     return <div>
               <iframe src={src.href} 
                 style={{
                   width: '100%',
-                  height: '100vh',
+                  height: 'calc(100vh - 75px)',
                   border: '0px'
                 }} 
               />
