@@ -1,19 +1,26 @@
 # frozen_string_literal: true
 
+# plan
+
+# give bot agents super powers
+# assign one dialog flow integration for agents
+# tbd
+
 require 'google/cloud/dialogflow'
 
 module MessageApis
   class Dialogflow
     attr_accessor :key, :secret
 
-    def initialize(credentials:, project_id:)
-      @project_id = project_id
+    def initialize(config:)
+      credentials = JSON.parse(config['credentials']) 
+      @project_id = config["project_id"]
       @conn = Google::Cloud::Dialogflow::Sessions.new(
         credentials: credentials
       )
     end
 
-    def send_text(text:, session_id:, lang: 'en-US')
+    def send_text(text:, session_id:, lang: 'en-US')      
       @session = @conn.class.session_path @project_id, session_id
       # texts = "I need a bot for android"
       get_intent_for(text, lang)
