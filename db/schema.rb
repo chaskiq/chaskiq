@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_02_12_035513) do
+ActiveRecord::Schema.define(version: 2020_02_16_213336) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -549,6 +549,16 @@ ActiveRecord::Schema.define(version: 2020_02_12_035513) do
     t.index ["uid"], name: "index_oauth_applications_on_uid", unique: true
   end
 
+  create_table "outgoing_webhooks", force: :cascade do |t|
+    t.string "state"
+    t.bigint "app_id", null: false
+    t.string "url"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["app_id"], name: "index_outgoing_webhooks_on_app_id"
+    t.index ["state"], name: "index_outgoing_webhooks_on_state"
+  end
+
   create_table "preview_cards", force: :cascade do |t|
     t.integer "status_id"
     t.string "url", default: "", null: false
@@ -656,6 +666,7 @@ ActiveRecord::Schema.define(version: 2020_02_12_035513) do
   add_foreign_key "oauth_access_grants", "oauth_applications", column: "application_id"
   add_foreign_key "oauth_access_tokens", "agents", column: "resource_owner_id"
   add_foreign_key "oauth_access_tokens", "oauth_applications", column: "application_id"
+  add_foreign_key "outgoing_webhooks", "apps"
   add_foreign_key "roles", "agents"
   add_foreign_key "roles", "apps"
   add_foreign_key "taggings", "tags"

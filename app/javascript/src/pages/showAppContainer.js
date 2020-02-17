@@ -54,6 +54,7 @@ import AgentProfileView from '../pages/AgentProfileView'
 import Team from '../pages/TeamPage'
 import BotContainer from './BotsContainer'
 import Integrations from '../pages/Integrations'
+import Webhooks from '../pages/Webhooks'
 import CircularProgress from '@material-ui/core/CircularProgress'
 
 
@@ -458,6 +459,16 @@ class ShowAppContainer extends Component {
           <Route exact path={`${this.props.match.path}/integrations`}
           render={(props) => {
             return <Integrations 
+                      match={props.match}
+                      history={props.history}
+                      actions={this.actions()}
+                    />
+            }} 
+          />
+
+          <Route exact path={`${this.props.match.path}/webhooks`}
+          render={(props) => {
+            return <Webhooks 
                       match={props.match}
                       history={props.history}
                       actions={this.actions()}

@@ -59,6 +59,8 @@ class App < ApplicationRecord
 
   has_many :assignment_rules
 
+  has_many :outgoing_webhooks
+
   has_one_attached :logo
 
   before_create :set_defaults

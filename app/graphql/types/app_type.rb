@@ -34,6 +34,17 @@ module Types
     field :enable_articles_on_widget, Boolean, null: true
     field :inline_new_conversations, Boolean, null: true
     field :editor_app_packages, [Types::AppPackageType], null: true
+
+    field :event_types, [Types::JsonType], null: true
+    field :outgoing_webhooks, [Types::JsonType], null: true
+
+    def outgoing_webhooks
+      object.outgoing_webhooks
+    end
+
+    def event_types
+      Event::EVENT_CONSTANTS
+    end
     
     def editor_app_packages
       object.app_packages.tagged_with("editor")
