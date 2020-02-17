@@ -147,8 +147,8 @@ export class Conversation extends Component {
 
   componentWillUnmount(){
     // todop porque?
-    if(!this.props.inline_conversation)
-      this.props.clearConversation()
+    //if(!this.props.inline_conversation)
+    //  this.props.clearConversation()
   }
 
   // TODO: skip on xhr progress
@@ -159,17 +159,9 @@ export class Conversation extends Component {
     let element = e.target
     if (element.scrollTop === 0) { // on top
 
-      /*this.props.updateHeader(
-        {
-          translateY: 0 , 
-          opacity: 1, 
-          height: 212
-        }
-      )*/
-
-    //if (element.scrollTop <= 50) { // on almost top // todo skip on xhr loading
-      if (this.props.conversation.messages.meta.next_page)
-        this.props.setConversation(this.props.conversation.key)
+    const meta = this.props.conversation.messages.meta
+    if (meta && meta.next_page)
+      this.props.setConversation(this.props.conversation.key)
     } else {
       this.props.updateHeader(
         {
@@ -533,7 +525,17 @@ class AppPackageBlock extends Component {
             __html: this.props.t(`conversation_block.choosen`, {field: item.label} )
           }}/>
         }
+
       default:
+
+        if(this.props.message.blocks.type === "app_package"){
+          return Object.keys(this.props.message.data).map((k)=>{
+            const val = this.props.message.data[k]
+            if(typeof(val) != "string") return
+            return <p>{k}: {this.props.message.data[k]}</p>
+          })
+        }
+
         if (this.props.message.blocks.type === "data_retrieval"){
           return Object.keys(this.props.message.data).map((k)=>{
             return <p>{k}: {this.props.message.data[k]}</p>
@@ -579,13 +581,15 @@ class AppPackageBlock extends Component {
           {t("submit")}
         </button>
     case "button":
-      return <button 
-        disabled={isDisabled}
-        onClick={()=> this.handleStepControlClick(item)}
-        key={index} 
-        type={"button"}>
-        {item.label}
-        </button>
+      return <div>
+                <button 
+                disabled={isDisabled}
+                onClick={()=> this.handleStepControlClick(item)}
+                key={index} 
+                type={"button"}>
+                {item.label}
+                </button>
+              </div>
     default:
       return null
     }

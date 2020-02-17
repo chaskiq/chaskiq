@@ -33,6 +33,7 @@ Rails.application.routes.draw do
 
   resource :oembed, controller: 'oembed', only: :show
   get '/package_iframe/:package' => 'application#package_iframe'
+  post '/dummy_webhook' => 'application#dummy_webhook'
 
   constraints(SubdomainOrDomain) do
     # TODO, regex ?

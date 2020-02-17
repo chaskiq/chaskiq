@@ -85,18 +85,21 @@ describe('Task bot Spec', function() {
 
                   cy.wrap($body).contains("oeoe")
                   cy.wrap($body).contains("Are you an existing customer ?")
-                  cy.wrap($body).contains("I'm existing customer").click()
-                  cy.wrap($body).contains("Enter your email")
-                  
-                  cy.wrap($body)
-                  .xpath('/html/body/div/div/div/div[2]/div/div/div/div[1]/div[1]/form/div/input')
-                  .type('John@apple.cl')
+                  cy.wrap($body).contains("I'm existing customer").click().then(()=>{
 
-                  cy.wrap($body)
-                  .xpath('/html/body/div/div/div/div[2]/div/div/div/div[1]/div[1]/form/div/button')
-                  .click()
+                    cy.wrap($body).contains("Enter your email")
 
-                  cy.wrap($body).contains("thank you")
+                    cy.wrap($body)
+                    .xpath('/html/body/div/div/div/div[2]/div/div/div/div[1]/div[1]/form/div/input')
+                    .type('John@apple.cl')
+  
+                    cy.wrap($body)
+                    .xpath('/html/body/div/div/div/div[2]/div/div/div/div[1]/div[1]/form/div/button')
+                    .click()
+  
+                    cy.wrap($body).contains("thank you")
+
+                  })
 
                 })
               })

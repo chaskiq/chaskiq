@@ -14,6 +14,10 @@ class ApplicationController < ActionController::Base
     render 'campaigns/iframe', layout: false
   end
 
+  def dummy_webhook
+    render status: 200, json: {ok: true}
+  end
+
   def current_resource_owner
     Agent.find(doorkeeper_token.resource_owner_id) if doorkeeper_token
   end

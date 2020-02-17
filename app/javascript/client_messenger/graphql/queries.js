@@ -246,9 +246,6 @@ export const START_CONVERSATION = `
   }
 `;
 
-
-
-
 export const ARTICLE_SETTINGS = `
   query HelpCenter($domain: String!, $lang: String){
     helpCenter(domain: $domain, lang: $lang) {

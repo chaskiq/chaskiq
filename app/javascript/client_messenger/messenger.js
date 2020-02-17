@@ -2,6 +2,7 @@ import React, { Component, Fragment } from "react";
 import ReactDOM from "react-dom";
 //import styled from '@emotion/styled'
 import { ThemeProvider } from 'emotion-theming'
+
 import actioncable from "actioncable"
 import axios from "axios"
 import UAParser from 'ua-parser-js'
@@ -62,7 +63,6 @@ import Home from './homePanel'
 import Article from './articles'
 
 import {Conversation, Conversations} from './conversation.js'
-
 
 let App = {}
 
@@ -773,15 +773,13 @@ class Messenger extends Component {
   }
 
   displayConversation =(e, o)=>{
-
-
-      this.setConversation(o.key, () => {
-        this.setTransition('out', ()=>{
-          this.setDisplayMode('conversation', ()=>{
-            this.scrollToLastItem()
-          })
+    this.setConversation(o.key, () => {
+      this.setTransition('out', ()=>{
+        this.setDisplayMode('conversation', ()=>{
+          this.scrollToLastItem()
         })
       })
+    })
   }
 
   convertVisitor(data){
@@ -1016,7 +1014,7 @@ class Messenger extends Component {
           mode: 'light', // this.state.appData ? this.state.appData.theme : 
           isMessengerActive: this.isMessengerActive()
         }}>
-         
+
             <EditorWrapper>
 
               {
@@ -1102,7 +1100,9 @@ class Messenger extends Component {
                                       this.state.appData.logo && 
                                         <img src={this.props.domain + this.state.appData.logo}></img>
                                     }
-                                    <h2 style={{margin: '0.6em 0em' }}>{this.state.appData.greetings}</h2>
+                                    <h2 style={{margin: '0.6em 0em' }}>
+                                      {this.state.appData.greetings}
+                                    </h2>
                                     <p>{this.state.appData.intro}</p>
                                   </HeaderTitle>
                                 }
@@ -1200,6 +1200,7 @@ class Messenger extends Component {
                                 this.state.display_mode === "appBlockAppPackage" &&
                                 <AppBlockPackageFrame 
                                   domain={this.props.domain}
+                                  conversation={this.state.conversation}
                                   appBlock={this.state.currentAppBlock}
                                 />
                               }
@@ -1296,7 +1297,7 @@ class Messenger extends Component {
                     bottom: '-18px',
                     width: '88px',
                     height: '100px',
-                    right: '-23px',
+                    right: '-13px',
                     border: 'none'
                   }}>
 
@@ -1394,9 +1395,11 @@ class AppBlockPackageFrame extends Component {
   }
 
   render(){
+    console.log("PACK", this.props)
     const blocks = toCamelCase(this.props.appBlock.message.message.blocks)
- 
-    const url = `${this.props.domain}/package_iframe/${blocks.appPackage}`
+    const conversation = this.props.appBlock.message.conversation
+    const mainParticipant = conversation.mainParticipant
+    const url = `${this.props.domain}/package_iframe/${blocks.appPackage.toLowerCase()}`
     let src = new URL(url)
     //Object.keys(blocks.values, (k)=>{
     //  src.searchParams.set(k, encodeURIComponent( blocks.values[k] ))
@@ -1404,12 +1407,15 @@ class AppBlockPackageFrame extends Component {
     //'https://admin.typeform.com/to/cVa5IG');
 
     src.searchParams.set("url", blocks.values.src )
+    src.searchParams.set("conversation_key", this.props.appBlock.message.conversation.key )
+    src.searchParams.set("name", mainParticipant.displayName )
+    src.searchParams.set("message_id", this.props.appBlock.message.id )
     
     return <div>
               <iframe src={src.href} 
                 style={{
                   width: '100%',
-                  height: '100vh',
+                  height: 'calc(100vh - 75px)',
                   border: '0px'
                 }} 
               />
@@ -1489,28 +1495,28 @@ class MessageFrame extends Component {
             id="messageFrame" 
             isMinimized={this.fetchMinizedCache()}>
       
-       <UserAutoMessageFlex isMinimized={this.fetchMinizedCache()}>
+            <UserAutoMessageFlex isMinimized={this.fetchMinizedCache()}>
 
-        {
-          this.props.availableMessages.map((o, i) => {
-            
-            return <UserAutoMessage 
-                    open={true} 
-                    key={`user-auto-message-${o.id}`}>
-                    <MessageContainer
-                      isMinimized={this.state.isMinimized}
-                      toggleMinimize={this.toggleMinimize}
-                      handleClose={this.handleClose}
-                      availableMessage={o}
-                      domain={this.props.domain}
-                      t={this.props.t}
-                    />
-                  </UserAutoMessage>
-          })
+              {
+                this.props.availableMessages.map((o, i) => {
+                  
+                  return <UserAutoMessage 
+                          open={true} 
+                          key={`user-auto-message-${o.id}`}>
+                          <MessageContainer
+                            isMinimized={this.state.isMinimized}
+                            toggleMinimize={this.toggleMinimize}
+                            handleClose={this.handleClose}
+                            availableMessage={o}
+                            domain={this.props.domain}
+                            t={this.props.t}
+                          />
+                        </UserAutoMessage>
+                })
 
-        }
-          </UserAutoMessageFlex>
+              }
 
+            </UserAutoMessageFlex>
 
     </UserAutoMessageStyledFrame>
   }

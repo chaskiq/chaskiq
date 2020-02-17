@@ -168,10 +168,49 @@ class AppPackagesCatalog
           }
         ]
       },
+
+      {
+        name: 'Calendly',
+        tag_list: ['editor'],
+        description: 'Clearbit data enrichment',
+        icon: 'https://logo.clearbit.com/calendly.com',
+        state: 'enabled',
+        definitions: [
+          {
+            name: 'api_secret',
+            type: 'string',
+            grid: { xs: 12, sm: 12 }
+          }
+        ],
+        editor_definitions: {
+          requires: [
+            { type: "input", name: "src", 
+              placeholder: "put clendly url", 
+              hint: "is the calendy url"
+            }
+          ],
+          schema: [
+              {
+                name: "calendly", 
+                type: "button", 
+                label: "book a metting", 
+                element: "button", 
+                placeholder: "click button to open calendar"
+            }
+          ]
+        }
+      },
+
     ]
   end
 
   def self.import
     AppPackage.create(packages)
+  end
+
+  def self.update(kind)
+    data = packages.find{|o| o[:name].downcase === kind.downcase}
+    pkg = AppPackage.find_by(name: data[:name])
+    pkg.update(data) unless pkg.blank?
   end
 end

@@ -308,7 +308,7 @@ export const SuperFragment = styled.div`
     -webkit-box-direction: normal;
     -ms-flex-direction: column;
     flex-direction: column;
-    font-family: -apple-system,BlinkMacSystemFont,Helvetica,Arial,sans-serif,"Apple Color Emoji";
+    font-family: "Inter", Helvetica, Arial, sans-serif, "Apple Color Emoji";
 
     .fade-in-bottom {
       -webkit-animation: ${FadeInBottom} 0.6s cubic-bezier(0.390, 0.575, 0.565, 1.000) both;
@@ -553,6 +553,8 @@ export const InlineConversationWrapper = styled.div`
 `
 
 export const EditorWrapper = styled.div`
+
+
   width: 376px;
   position: fixed;
   right: 14px;
@@ -616,7 +618,7 @@ export const CommentsWrapper = styled.div`
   justify-content: space-between;
   overflow-anchor: none;
   height: auto;
-  font-family: Helvetica, arial, sans-serif;
+  font-family: "Inter", Helvetica, arial, sans-serif;
 
   ${(props)=> ( props.isReverse ? 
     `
@@ -649,8 +651,8 @@ export const CommentsItem = styled.div`
 export const Prime = styled.div`
     position: relative;
     display: block;
-    width: 56px;
-    height: 56px;
+    width: 54px;
+    height: 54px;
     border-radius: 50%;
     text-align: center;
     margin: 0 0;
@@ -663,7 +665,8 @@ export const Prime = styled.div`
     color: ${(props)=> textColor(props.theme.palette.secondary)};
     background: ${(props)=> props.theme.palette.secondary };
     float: right;
-    margin: 14px 27px;
+    //margin: 14px 27px;
+    margin: 16px 8px;
     animation: ${rotate} 0.3s cubic-bezier(0.390, 0.575, 0.565, 1.000) both;
 `
 
@@ -693,25 +696,6 @@ export const CountBadge = styled.div`
 `
 
 export const Header = styled(({isMobile, ...rest})=>(<div {...rest}></div>))`
-  /*
-    defaults 
-    rgb(36, 36, 36);
-  */
- 
-  /*
-  font-size: 13px;
-  font-family: 'Roboto';
-  font-weight: 500;
-  color: ${(props)=> textColor(props.theme.palette.primary)};
-  height: 55px;
-  background: ${mainColor};
-
-  padding-top: 8px;
-
-  border-top-left-radius: ${(props) => props.isMobile ? '0px' : '10px' };
-  border-top-right-radius: ${(props) => props.isMobile ? '0px' : '10px' };
-  */
-
   height: 75px;
   position: relative;
   min-height: 75px;
@@ -766,7 +750,7 @@ export const Footer = styled.div`
     background: linear-gradient(0deg,#fff,rgba(255,255,255,0));
 
     height: 38px;
-    margin: 25px 0 1px 0px;
+    margin: 25px 0 0px 0px;
     font-size: .8em;
     color: gray;
 
@@ -833,8 +817,9 @@ export const ReadIndicator = styled.div`
 
 export const MessageItem = styled.div`
     position: relative;
-    margin: 8px 0 15px 0;
-    padding: 8px 10px;
+    //margin: 8px 0 15px 0;
+    margin: 0px;
+    //padding: 8px 10px;
     //max-width: ${(props) => (props.messageSourceType === "UserAutoMessage" ?  '86%' : '60%')};
     min-width: 25%;
     display: block;
@@ -843,6 +828,8 @@ export const MessageItem = styled.div`
     animation: zoomIn .5s cubic-bezier(.42, 0, .58, 1);
     clear: both;
     z-index: 999;
+    
+    font-size: 15px;
 
     &.admin {
       align-self: flex-start;
@@ -856,16 +843,10 @@ export const MessageItem = styled.div`
         border-radius: 6px;
         min-width: 80px;
 
-        /* NEW */
         box-shadow: rgba(54, 59, 62, 0.46) 0px 0px 3px 0px;
-        font-size: 13px;
         line-height: 1.5;
-        //height: 100%;
         position: relative;
-        //padding: 17px 22px;
         border-radius: 5px 5px 5px 0px;
-
-
         padding: 6px 11px;
 
         ${
@@ -886,24 +867,23 @@ export const MessageItem = styled.div`
     &.user {
 
       .message-content-wrapper {
-        background: ${mainColor};
+        background: linear-gradient(135deg, ${(props)=> props.theme.palette.primary } 0%,${(props)=> darken(0.2, props.theme.palette.primary) } 100%);
+        color: ${(props)=> textColor(props.theme.palette.primary)};
+
         min-width: 80px;
         padding: 16px;
         margin: 5px;
         border-radius: 6px;
         min-width: 80px;
 
-
-        /* NEW STYLES */
         box-shadow: rgba(54, 59, 62, 0.46) 0px 0px 3px 0px;
-        font-size: 13px;
         line-height: 1.5;
         height: 100%;
         position: relative;
-        //padding: 17px 22px;
         padding: 6px 11px;
         border-radius: 5px 5px 0px 5px;
       }
+
       // hack on image from user, not use position absolute
       .graf-image {
         position: inherit !important;
