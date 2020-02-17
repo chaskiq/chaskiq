@@ -709,6 +709,33 @@ export const PREDICATES_UPDATE = `
   }
 `;
 
+export const WEBHOOK_DELETE = `
+  mutation WebhookDelete($appKey: String!, $id: Int!){
+    deleteWebhook(appKey: $appKey, id: $id){
+      webhook
+      errors
+    }
+  }
+`;
+
+export const WEBHOOK_CREATE = `
+  mutation WebhookCreate($appKey: String!, $url: String!, $tags: Json!, $state: String!){
+    createWebhook(appKey: $appKey, url: $url, tags: $tags, state: $state){
+      webhook
+      errors
+    }
+  }
+`;
+
+export const WEBHOOK_UPDATE = `
+  mutation WebhookUpdate($appKey: String!, $url: String!, $state: String!, $tags: Json!, $id: Int!){
+    updateWebhook(appKey: $appKey, url: $url, tags: $tags, id: $id, state: $state){
+      webhook
+      errors
+    }
+  }
+`;
+
 export const INVITE_AGENT = `
   mutation InviteAgent($appKey: String!, $email: String!){
     inviteAgent(appKey: $appKey, email: $email){

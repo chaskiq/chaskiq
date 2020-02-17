@@ -22,9 +22,13 @@ import SupervisedUserCircleIcon from '@material-ui/icons/SupervisedUserCircle'
 import MessageIcon from '@material-ui/icons/Message'
 import FilterFramesIcon from '@material-ui/icons/FilterFrames'
 import FolderIcon from '@material-ui/icons/Folder'
+
+import WebhookIcon from '../icons/webhookIcon'
 import Switch from '@material-ui/core/Switch';
 import Avatar from '@material-ui/core/Avatar';
 import FormControlLabel from '@material-ui/core/FormControlLabel'
+
+
 
 import QuestionAnswerOutlined from '@material-ui/icons/QuestionAnswerOutlined'
 import FlagOutlined from '@material-ui/icons/FlagOutlined'
@@ -402,6 +406,10 @@ function Navigator(props, context) {
         { id: 'Integrations', icon: <WidgetsIcon />, 
           url: `/apps/${app.key}/integrations`, 
           active: isActivePage("integrations") 
+        },
+        { id: 'Webhooks', icon: <WebhookIcon />, 
+          url: `/apps/${app.key}/webhooks`, 
+          active: isActivePage("webhooks") 
         },
         //{ id: 'Authentication', icon: <ShuffleIcon />, active: isActivePage("user_auto_messages")},
       ],

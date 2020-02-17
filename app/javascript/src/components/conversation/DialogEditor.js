@@ -56,7 +56,7 @@ function DialogEditor(props) {
         </DialogContent>
 
         <DialogActions>
-          <Button onClick={handleClose} color="primary">
+          <Button onClick={handleClose} color="secondary">
             Cancel
           </Button>
         </DialogActions>

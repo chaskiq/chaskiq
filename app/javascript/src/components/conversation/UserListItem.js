@@ -115,6 +115,7 @@ const PrivateNoteIndicator = styled.div`
 
 const ContentContent = styled(Typography)`
   max-width: 17vw;
+  font-size: .8rem;
   
   @media (min-width: 320px) and (max-width: 480px) {
     max-width: 61vw;

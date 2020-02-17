@@ -1,7 +1,8 @@
 import React from 'react'
+import WidgetsIcon from '@material-ui/icons/Widgets'
 
 function appPackage(){
-  return <span></span> 
+  return <WidgetsIcon/>
 } 
 
 export default class AppPackage extends React.Component {
