@@ -159,17 +159,9 @@ export class Conversation extends Component {
     let element = e.target
     if (element.scrollTop === 0) { // on top
 
-      /*this.props.updateHeader(
-        {
-          translateY: 0 , 
-          opacity: 1, 
-          height: 212
-        }
-      )*/
-
-    //if (element.scrollTop <= 50) { // on almost top // todo skip on xhr loading
-      if (this.props.conversation.messages.meta.next_page)
-        this.props.setConversation(this.props.conversation.key)
+    const meta = this.props.conversation.messages.meta
+    if (meta && meta.next_page)
+      this.props.setConversation(this.props.conversation.key)
     } else {
       this.props.updateHeader(
         {

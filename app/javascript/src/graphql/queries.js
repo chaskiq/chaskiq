@@ -813,6 +813,23 @@ export const APP_PACKAGES = `
   }
 `;
 
+export const EVENT_TYPES = `
+  query App($appKey: String!){
+    app(key: $appKey) {
+      eventTypes
+    }
+  }
+`;
+
+export const OUTGOING_WEBHOOKS = `
+  query App($appKey: String!){
+    app(key: $appKey) {
+      outgoingWebhooks
+    }
+  }
+`;
+
+
 export const EDITOR_APP_PACKAGES = `
   query App($appKey: String!){
     app(key: $appKey) {

@@ -25,6 +25,9 @@ class Event < ApplicationRecord
   after_create :trigger_webhooks
 
   def trigger_webhooks
+
+    OutgoingWebhookJob.perform_later(event_id: self.id)
+
     action_event = 'Events::' + action.gsub('.', '_').classify
     klass = begin
               action_event.constantize
@@ -39,6 +42,7 @@ class Event < ApplicationRecord
 
     puts "trigger hook on #{action}"
     klass.perform(self)
+
   end
 
   def self.action_for(name)

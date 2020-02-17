@@ -32,6 +32,10 @@ module Types
     field :toggleConversationPriority, mutation: Mutations::Conversations::TogglePriority
     field :typingNotifier, mutation: Mutations::Conversations::TypingNotifier
 
+    field :createWebhook, mutation: Mutations::OutgoingWebhooks::CreateWebhook
+    field :updateWebhook, mutation: Mutations::OutgoingWebhooks::UpdateWebhook
+    field :deleteWebhook, mutation: Mutations::OutgoingWebhooks::DeleteWebhook
+
     field :createAssignmentRule, mutation: Mutations::AssignRule::CreateAssignRule
     field :editAssignmentRule, mutation: Mutations::AssignRule::EditAssignRule
     field :deleteAssignmentRule, mutation: Mutations::AssignRule::DeleteAssignRule
