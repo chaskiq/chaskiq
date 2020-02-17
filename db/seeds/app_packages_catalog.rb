@@ -201,6 +201,26 @@ class AppPackagesCatalog
         }
       },
 
+      {
+        name: 'Dailytics',
+        tag_list: ['dashboard'],
+        description: 'Print Dailytics stats on your dashboard',
+        icon: 'https://logo.clearbit.com/dailytics.com',
+        state: 'enabled',
+        definitions: [
+          {
+            name: 'api_key',
+            type: 'string',
+            grid: { xs: 12, sm: 12 }
+          },
+          {
+            name: 'api_secret',
+            type: 'string',
+            grid: { xs: 12, sm: 12 }
+          }
+        ]
+      },
+
     ]
   end
 
@@ -210,7 +230,7 @@ class AppPackagesCatalog
 
   def self.update(kind)
     data = packages.find{|o| o[:name].downcase === kind.downcase}
-    pkg = AppPackage.find_by(name: data[:name])
+    pkg = AppPackage.find_or_create_by(name: data[:name])
     pkg.update(data) unless pkg.blank?
   end
 end
