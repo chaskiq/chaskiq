@@ -27,6 +27,7 @@ class ApplicationController < ActionController::Base
   end
 
   def package_iframe
+    response.headers.delete "X-Frame-Options"
     render "app_packages/#{params[:package]}/show", layout: false
   end
 
