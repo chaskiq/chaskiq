@@ -58,9 +58,13 @@ module MessageApis
         key: payload["tracking"]["utm_source"]
       )
 
+      return if conversation.blank?
+
       message = conversation.messages.find(
         payload["tracking"]["utm_content"]
       )
+
+      return if message.blank?
 
       # should format here
       message.message.save_replied(payload["event"])
