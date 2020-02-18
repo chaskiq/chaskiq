@@ -134,6 +134,21 @@ function Dashboard(props) {
           <Grid container spacing={3}>
             {/* Chart */}
 
+
+            <Grid item xs={12} md={4} lg={3}>
+              <Paper className={classes.paper}>
+              <DashboardCard title={"Integrated blocks"}>
+                  <DashboardItem
+                    chartType={"app_packages"} 
+                    dashboard={dashboard}
+                    app={app} 
+                    label={I18n.t('dashboasrd.user_country')}
+                    kind={'app_packages'}
+                  />
+                </DashboardCard>
+              </Paper>
+            </Grid>
+
             <Grid item xs={6} md={3}>
               <Paper className={classes.paper}>
                 <DashboardItem
@@ -331,6 +346,11 @@ function DashboardItem(
           label={label}
           appendLabel={appendLabel}
         />
+      case "app_packages":
+        return <DashboardAppPackages 
+                data={data}
+                dashboard={dashboard}
+               />
       default:
         return <p>no chart type</p>;
     }
@@ -348,6 +368,49 @@ function DashboardItem(
     </div>
   )
 }
+
+function DashboardAppPackages(props){
+  const packages  = props.data
+  return (
+    <div>
+      {
+        packages.map((o)=>( 
+          <DashboardAppPackage 
+            package={o} 
+            dashboard={props.dashboard} 
+          /> 
+        ))
+      }
+    </div>
+  )
+}
+
+function DashboardAppPackage(props){
+  const dashboard = props.dashboard
+  const pkg  = props.package
+  const data = pkg.data
+  return (
+    <div>
+      <p>
+        {pkg.name} {pkg.icon} {data.title} {data.subtitle}
+      </p>
+      
+        {
+          data.values && data.values.map((v)=>{
+            return <Count 
+                      data={v.value}
+                      from={dashboard.from}
+                      to={dashboard.to}
+                      label={v.label}
+                      //appendLabel={appendLabel}
+                    />
+          })
+        }
+    </div> 
+  )
+}
+
+
 
 Dashboard.propTypes = {
   classes: PropTypes.object.isRequired,

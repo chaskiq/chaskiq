@@ -14,6 +14,7 @@ module MessageApis
 
       @api_key   = config["api_key"] 
       @api_token = config["api_secret"]
+      @report_id = config["report_id"]
 
       @conn = Faraday.new request: {
         params_encoder: Faraday::FlatParamsEncoder
@@ -41,6 +42,36 @@ module MessageApis
       url = url("/reports/#{id}")
       response = @conn.get(url, nil )
       JSON.parse(response.body)
+    end
+
+
+    def get_stats
+      data = get_report(@report_id)["data"]
+
+      output = {
+        
+        "id": data["id"],
+        "title": data["name"],
+        "subtitle": data["periodicity"],
+        attributes: {
+          "ga_account_name": "VADB",
+          "ga_web_property_name": "vadb.info",
+          "ga_profile_name": "Todos los datos de sitios web"
+          },
+
+        values: [
+          {label: "last_sessions", value: data["last_sessions"]} ,
+          {label: "last_pageviews", value: data["last_pageviews"]} ,
+          {label: "last_bounce_rate", value: data["last_bounce_rate"]} ,
+          {label: "last_avg_session_duration", value: data["last_avg_session_duration"]} ,
+          {label: "last_sessions_comparisson", value: data["last_sessions_comparisson"]} ,
+          {label: "last_pageviews_comparisson", value: data["last_pageviews_comparisson"]} ,
+          {label: "last_bounce_rate_comparisson", value: data["last_bounce_rate_comparisson"]} ,
+          {label: "last_avg_session_duration_comparisson", value: data["last_avg_session_duration_comparisson"]}
+        ]
+      }
+
+
     end
   
   end

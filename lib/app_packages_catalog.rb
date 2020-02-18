@@ -217,7 +217,12 @@ class AppPackagesCatalog
             name: 'api_secret',
             type: 'string',
             grid: { xs: 12, sm: 12 }
-          }
+          },
+          {
+            name: 'report_id',
+            type: 'string',
+            grid: { xs: 12, sm: 12 }
+          },
         ]
       },
 
