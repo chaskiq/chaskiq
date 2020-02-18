@@ -45,11 +45,15 @@ module MessageApis
     end
 
 
+    def comparison_format(value)
+      return "#{value}%" if value.zero?
+      value > 0 ? "▲ #{value}%" : "▼ #{value}%"
+    end
+
     def get_stats
       data = get_report(@report_id)["data"]
 
       output = {
-        
         "id": data["id"],
         "title": data["name"],
         "subtitle": data["periodicity"],
@@ -60,14 +64,33 @@ module MessageApis
           },
 
         values: [
-          {label: "last_sessions", value: data["last_sessions"]} ,
-          {label: "last_pageviews", value: data["last_pageviews"]} ,
-          {label: "last_bounce_rate", value: data["last_bounce_rate"]} ,
-          {label: "last_avg_session_duration", value: data["last_avg_session_duration"]} ,
-          {label: "last_sessions_comparisson", value: data["last_sessions_comparisson"]} ,
-          {label: "last_pageviews_comparisson", value: data["last_pageviews_comparisson"]} ,
-          {label: "last_bounce_rate_comparisson", value: data["last_bounce_rate_comparisson"]} ,
-          {label: "last_avg_session_duration_comparisson", value: data["last_avg_session_duration_comparisson"]}
+          {
+            label: "Sessions", 
+            name: "last_sessions", 
+            value: data["last_sessions"], 
+            value2: comparison_format(data["last_sessions_comparisson"]) 
+          },
+
+          {
+            label: "Pageviews", 
+            name: "last_pageviews", 
+            value: data["last_pageviews"], 
+            value2: comparison_format(data["last_pageviews_comparisson"])
+          },
+
+          {
+            label: "Bounce Rate", 
+            name: "last_bounce_rate", 
+            value: data["last_bounce_rate"], 
+            value2: comparison_format(data["last_bounce_rate_comparisson"])
+          },
+
+          {
+            label: "Avg session duration", 
+            name: "last_avg_session_duration", 
+            value: data["last_avg_session_duration"], 
+            value2: comparison_format(data["last_avg_session_duration_comparisson"])
+          }
         ]
       }
 

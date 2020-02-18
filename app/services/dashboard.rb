@@ -122,14 +122,18 @@ class Dashboard
     @app.app_packages
     .joins(:app_package_integrations)
     .tagged_with("dashboard").each do |pkg|
-      result = pkg.app_package_integrations.map do |integration|
-        {
-          name: pkg.name,
-          icon: pkg.icon,
-          data: integration.message_api_klass.get_stats 
-        }
-      end
-    end  
+        pkg.app_package_integrations.map do |integration|
+          result << Rails.cache.fetch(
+            "#{integration.cache_key_with_version}/competing_price", 
+            expires_in: 12.hours) do
+            {
+              name: pkg.name,
+              icon: pkg.icon,
+              data: integration.message_api_klass.get_stats 
+            }
+          end
+        end
+    end 
 
     result
   end
