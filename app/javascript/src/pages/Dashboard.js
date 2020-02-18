@@ -144,6 +144,7 @@ function Dashboard(props) {
                   label={I18n.t('dashboasrd.user_country')}
                   kind={'app_packages'}
                   classes={classes}
+                  styles={{}}
                 />
               </DashboardCard>
             
@@ -293,7 +294,8 @@ function DashboardItem(
     chartType,
     label,
     appendLabel,
-    classes
+    classes,
+    styles
   }){
 
   const [data, setData] = React.useState([])
@@ -359,7 +361,7 @@ function DashboardItem(
   }
 
   return (
-    <div style={{height: '140px'}}>
+    <div style={styles || {height: '140px'} }>
 
       {
         loading && <Progress/>
