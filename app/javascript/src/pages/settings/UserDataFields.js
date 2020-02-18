@@ -118,22 +118,20 @@ function CustomizationColors({app, settings, update, dispatch}){
     <div>
 
 
-      <Grid container>
+      <Grid container justify={'space-between'}>
 
-        <Grid item xs={12} sm={10}>
           <Typography variant={'h4'}>Fields</Typography>
-        </Grid>
-
-        <Grid item xs={12} sm={2} justify={'space-around'}>
-
+     
+          <Grid item sm={3} justify={'space-between'}>
           <IconButton onClick={addField} edge="end" aria-label="add">
             <AddIcon />
           </IconButton>
 
           {renderSubmitButton()}
-        </Grid>
-
+          </Grid>
       </Grid>
+
+  
 
       
 

@@ -48,6 +48,7 @@ i18n
       es: {
         translations: {
           conversations: "Conversaciones",
+          "conversations.events.assigned": "{{name}} fue asignado a esta conversación",
           "conversation_block.choosen": "respondiste <strong>{{field}}</strong>",
           start_conversation: "Inicia una conversación",
           see_previous: "Ver anteriores",

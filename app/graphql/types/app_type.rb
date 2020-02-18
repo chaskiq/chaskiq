@@ -332,6 +332,7 @@ module Types
         opened_conversations
         solved_conversations
         resolution_avg
+        app_packages
       ]
       unless whitelist.include?(kind)
         raise 'no dashboard available at this address'
