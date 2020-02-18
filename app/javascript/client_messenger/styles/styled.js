@@ -247,10 +247,6 @@ export const UserAutoMessageStyledFrame = styled(StyledFrame)
         right: 0px;
       `
     }}
-
-    
-
-    /* box-shadow: 1px 1px 100px 2px rgba(0,0,0,0.22); */
 `
 
 export const UserAutoMessageStyledFrameDis = styled(({ isMinimized, ...rest })=>(
@@ -411,13 +407,19 @@ export const ConversationEventContainer = styled.div`
   background: gold;
   display: flex;
   justify-content: center;
-  margin: 1.2em;
+  margin: 6px 4.2em;
   padding: .7em;
+  font-size: .8em;
+  //box-shadow: 0 4px 15px 0 rgba(0,0,0,.1), 0 1px 2px 0 rgba(141, 171, 181, 0.63);
+
+  box-shadow: 0 4px 15px 0 rgba(0,0,0,.1), 0 1px 2px 0 rgba(0,0,0,.1);
+
   ${
-    (props)=> (
-      props.isInline ? `box-shadow: 4px 4px 1px #00000061;` : ''
-    )
+    (props)=> {
+      return props.isInline ? `box-shadow: 0 4px 15px 0 rgba(0, 0, 0, 0.36), 0 1px 2px 0 rgba(0, 0, 0, 0.61)` : ''
+    }
   }
+
 `
 
 export const AppPackageBlockContainer = styled.div`
@@ -426,14 +428,23 @@ export const AppPackageBlockContainer = styled.div`
     display: flex;
     justify-content: center;
     margin: .7em;
-    border: 1px solid #e3e7e8;
-    background: #f9fcfd;
+    //border: 1px solid #e3e7e8;
+    //background: #dbf6ff;
+    
+    box-shadow: 0 4px 15px 0 rgba(0,0,0,.1), 0 1px 2px 0 rgba(0,0,0,.1);
+
     ${
       (props)=> {
-        return props.isInline ? `box-shadow: 4px 4px 1px #00000061;` : ''
+        return props.isInline ? `box-shadow: 0 4px 15px 0 rgba(0, 0, 0, 0.36), 0 1px 2px 0 rgba(0, 0, 0, 0.61)` : ''
       }
     }
-    
+
+    p {
+      font-size: 0.8em;
+      font-weight: 300;
+      color: gray;
+      line-height: 1.4em;
+    }
 
     .form-group{
       //margin-bottom: 1rem;
@@ -753,6 +764,7 @@ export const Footer = styled.div`
     margin: 25px 0 0px 0px;
     font-size: .8em;
     color: gray;
+    padding: 11px 0px 0px 0px;
 
 
     &.inline{
@@ -817,9 +829,6 @@ export const ReadIndicator = styled.div`
 
 export const MessageItem = styled.div`
     position: relative;
-    //margin: 8px 0 15px 0;
-    margin: 0px;
-    //padding: 8px 10px;
     //max-width: ${(props) => (props.messageSourceType === "UserAutoMessage" ?  '86%' : '60%')};
     min-width: 25%;
     display: block;
@@ -828,6 +837,7 @@ export const MessageItem = styled.div`
     animation: zoomIn .5s cubic-bezier(.42, 0, .58, 1);
     clear: both;
     z-index: 999;
+    margin: .7em 0;
     
     font-size: 15px;
 
@@ -836,23 +846,26 @@ export const MessageItem = styled.div`
       display: flex;
       flex-direction: row;
       
+      
+      
       .message-content-wrapper {
         background: #fff;
         padding: 16px;
-        margin: 5px;
+        
+        margin: 8px 13px 0px 5px;
         border-radius: 6px;
         min-width: 80px;
-
-        box-shadow: rgba(54, 59, 62, 0.46) 0px 0px 3px 0px;
+        
         line-height: 1.5;
         position: relative;
         border-radius: 5px 5px 5px 0px;
-        padding: 6px 11px;
+
+        box-shadow: 0 4px 15px 0 rgba(0,0,0,.1), 0 1px 2px 0 rgba(0,0,0,.1);
 
         ${
-          (props)=> (
-            props.isInline ? `box-shadow: 4px 4px 1px #00000061;` : ''
-          )
+          (props)=> {
+            return props.isInline ? `box-shadow: 0 4px 15px 0 rgba(0, 0, 0, 0.36), 0 1px 2px 0 rgba(0, 0, 0, 0.61)` : ''
+          }
         }
         
       }
@@ -876,11 +889,18 @@ export const MessageItem = styled.div`
         border-radius: 6px;
         min-width: 80px;
 
-        box-shadow: rgba(54, 59, 62, 0.46) 0px 0px 3px 0px;
+
+        box-shadow: 0 4px 15px 0 rgba(0,0,0,.1), 0 1px 2px 0 rgba(0,0,0,.1);
+
+        ${
+          (props)=> {
+            return props.isInline ? `box-shadow: 0 4px 15px 0 rgba(0, 0, 0, 0.36), 0 1px 2px 0 rgba(0, 0, 0, 0.61)` : ''
+          }
+        }
+
         line-height: 1.5;
         height: 100%;
         position: relative;
-        padding: 6px 11px;
         border-radius: 5px 5px 0px 5px;
       }
 
@@ -912,7 +932,6 @@ export const MessageItem = styled.div`
       }
     }
 
-
     .text{
       margin-bottom: 1em;
       color: #eceff1; 
@@ -923,12 +942,11 @@ export const MessageItem = styled.div`
       }
     }
 
-
     .status {
       display: flex;
       justify-content: flex-end;
       color: #b1afaf;
-      font-size: 12px;
+      font-size: 10px;
       text-align: right;
     }
 `;

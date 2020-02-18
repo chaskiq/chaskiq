@@ -15,6 +15,7 @@ import { withStyles } from '@material-ui/core/styles';
 import SearchIcon from '@material-ui/icons/Search';
 import RefreshIcon from '@material-ui/icons/Refresh';
 import Container from '@material-ui/core/Container';
+import Divider from '@material-ui/core/Divider'
 //import Chart from './Chart';
 import moment from 'moment'
 
@@ -23,7 +24,6 @@ import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
 
 import DashboardCard from '../components/dashboard/card'
-
 import Title from '../components/dashboard/title';
 import Progress from '../shared/Progress'
 
@@ -81,7 +81,6 @@ const styles = theme => ({
     marginBottom: 12,
   },
 
-
   content: {
     flexGrow: 1,
     height: '100vh',
@@ -133,6 +132,23 @@ function Dashboard(props) {
         <Container maxWidth="lg" className={classes.container}>
           <Grid container spacing={3}>
             {/* Chart */}
+
+
+            <Grid item xs={12} md={12} lg={12}>
+              
+              <DashboardCard title={"Integrated blocks"}>
+                <DashboardItem
+                  chartType={"app_packages"} 
+                  dashboard={dashboard}
+                  app={app} 
+                  label={I18n.t('dashboasrd.user_country')}
+                  kind={'app_packages'}
+                  classes={classes}
+                  styles={{}}
+                />
+              </DashboardCard>
+            
+            </Grid>
 
             <Grid item xs={6} md={3}>
               <Paper className={classes.paper}>
@@ -277,7 +293,9 @@ function DashboardItem(
     dashboard,
     chartType,
     label,
-    appendLabel
+    appendLabel,
+    classes,
+    styles
   }){
 
   const [data, setData] = React.useState([])
@@ -331,13 +349,19 @@ function DashboardItem(
           label={label}
           appendLabel={appendLabel}
         />
+      case "app_packages":
+        return <DashboardAppPackages 
+                data={data}
+                dashboard={dashboard}
+                classes={classes}
+               />
       default:
         return <p>no chart type</p>;
     }
   }
 
   return (
-    <div style={{height: '140px'}}>
+    <div style={styles || {height: '140px'} }>
 
       {
         loading && <Progress/>
@@ -348,6 +372,76 @@ function DashboardItem(
     </div>
   )
 }
+
+function DashboardAppPackages(props){
+  const packages  = props.data
+  return (
+    <div>
+      {
+        packages && packages.map((o)=>( 
+          <DashboardAppPackage 
+            package={o} 
+            dashboard={props.dashboard}
+            classes={props.classes} 
+          /> 
+        ))
+      }
+    </div>
+  )
+}
+
+function DashboardAppPackage(props){
+  const dashboard = props.dashboard
+  const pkg  = props.package
+  const data = pkg.data
+  const classes = props.classes
+
+  return (
+    <Paper className={classes.paper}>
+
+    <Grid container spacing={3}>
+      <Grid item>
+        <img src={pkg.icon} width={64}/>
+      </Grid>
+
+      <Grid item>
+        <Typography variant="h5">
+          {pkg.name}: {data.title} 
+        </Typography>
+
+        <Typography variant="overline">
+          {data.subtitle}
+        </Typography>
+      </Grid>
+    </Grid>
+
+    <Divider/>
+
+      <Grid container spacing={3}>
+
+        {
+          data.values && data.values.map((v)=>{
+            return <Grid item>
+                      
+                        <Count 
+                          data={v.value}
+                          from={dashboard.from}
+                          to={dashboard.to}
+                          label={v.label}
+                          subtitle={`${v.value2}`}
+                          //appendLabel={appendLabel}
+                        />
+                     
+                    </Grid>
+          })
+        }
+
+      </Grid>
+    </Paper>
+  )
+}
+
+
 
 Dashboard.propTypes = {
   classes: PropTypes.object.isRequired,

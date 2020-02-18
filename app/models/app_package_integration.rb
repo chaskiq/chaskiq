@@ -10,6 +10,7 @@ class AppPackageIntegration < ApplicationRecord
     api_key
     api_secret
     project_id
+    report_id
     access_token
     access_token_secret
     user_id,

@@ -15,7 +15,7 @@ const useStyles = makeStyles({
   }
 });
 
-export default function Count({data, label, appendLabel}) {
+export default function Count({data, label, appendLabel, subtitle}) {
   const classes = useStyles();
   return (
     <React.Fragment>
@@ -29,7 +29,7 @@ export default function Count({data, label, appendLabel}) {
         color="textSecondary"
         variant={"caption"}
         className={classes.depositContext}>
-        {moment().format('LL')}
+        {subtitle || moment().format('LL')}
       </Typography>
       {/*<div>
         <Link color="primary" href="javascript:;">
