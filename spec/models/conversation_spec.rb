@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-require_relative '../../db/seeds/app_packages_catalog.rb'
+require 'app_packages_catalog'
 include ActiveJob::TestHelper
 
 RSpec.describe Conversation, type: :model do
