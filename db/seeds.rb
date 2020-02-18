@@ -7,7 +7,7 @@
 #
 #   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
 #   Character.create(name: 'Luke', movie: movies.first)
-require_relative './seeds/app_packages_catalog.rb'
+require 'app_packages_catalog'
 
 domain = ENV['HOST'] || 'http://localhost:3000'
 
