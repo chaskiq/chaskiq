@@ -167,7 +167,6 @@ const HomePanel = ({
   }
 
   function aa(){
-    const days = ["mon", "tue", "wed", "thu", "fri", "sat", "sun"]
     const val = Math.floor(appData.businessBackIn.days)
     const at = new Date(appData.businessBackIn.at)
     const nextDay = at.getDay()
@@ -210,7 +209,9 @@ const HomePanel = ({
   }
 
   function replyTimeMessage(){
-    return appData.replyTime && <p>{t(`reply_time.${appData.replyTime}`)}</p>
+    return appData.replyTime && <ReplyTime>
+      {t(`reply_time.${appData.replyTime}`)}
+    </ReplyTime>
   }
 
   function sanitizeMessageSummary(message){
@@ -269,14 +270,19 @@ const HomePanel = ({
 
               <CardButtonsGroup>
 
-                { 
+                { /*
                   conversations.length > 0 ?
                   <h2>{t("conversations")}</h2> : 
                   <AnchorButton href="#" onClick={displayNewConversation}>
                     {t("start_conversation")}
                   </AnchorButton>
-                }
-                  
+                */ }
+
+
+                <AnchorButton href="#" onClick={displayNewConversation}>
+                  {t("start_conversation")}
+                </AnchorButton>
+               
                 <a href="#" onClick={viewConversations}>
                   {t("see_previous")}
                 </a>
@@ -288,11 +294,6 @@ const HomePanel = ({
 
           { conversations.length > 0 && <React.Fragment>
               {renderLastConversation()}
-              <CardPadder>
-                <AnchorButton href="#" onClick={displayNewConversation}>
-                  {t("start_conversation")}
-                </AnchorButton>
-              </CardPadder>
             </React.Fragment> 
           }
 
@@ -393,12 +394,19 @@ const Panel = styled.div`
 `
 
 const Availability = styled.div`
-  background: #ecf94c;
-  padding: .5em;
+  //background: #ecf94c;
+  //padding: .5em;
   border-radius: 7px;
+  font-weight: 300;
   p{
     margin: 0px;
   }
+`
+
+const ReplyTime = styled.p`
+  color: #969696;
+  font-weight: 300;
+  font-size: .8rem;
 `
 
 const ButtonWrapper = styled.div`
