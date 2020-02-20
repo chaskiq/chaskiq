@@ -1220,7 +1220,9 @@ class Messenger extends Component {
                 !this.state.open && 
                 this.state.inline_conversation && 
                 <StyledFrame className="inline-frame" style={{
-                  height: this.inlineOverflow ? this.inlineOverflow.offsetHeight + "px" : ''
+                  height: this.inlineOverflow ? 
+                    this.inlineOverflow.offsetHeight + 35 + "px" : '',
+                  maxHeight: window.innerHeight - 100
                 }}>
 
                 {
