@@ -87,7 +87,8 @@ const useStyles = makeStyles(theme => ({
     }
   },
   contentContent: {
-    color: theme.palette.common.gray
+    color: theme.palette.common.gray,
+    fontSize: '0.9em'
   }
 
 
@@ -115,7 +116,7 @@ const PrivateNoteIndicator = styled.div`
 
 const ContentContent = styled(Typography)`
   max-width: 17vw;
-  font-size: .8rem;
+  font-size: .9em;
   
   @media (min-width: 320px) and (max-width: 480px) {
     max-width: 61vw;
