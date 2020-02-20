@@ -156,7 +156,7 @@ export const ShowMoreWrapper = styled.div`
 
     z-index: 10000;
     position: absolute;
-    width: 331px;
+    width: 315px;
     display: flex;
     justify-content: space-between;
 
@@ -429,15 +429,9 @@ export const AppPackageBlockContainer = styled.div`
     justify-content: center;
     margin: .7em;
     //border: 1px solid #e3e7e8;
-    //background: #dbf6ff;
+    background: #fff;
     
     box-shadow: 0 4px 15px 0 rgba(0,0,0,.1), 0 1px 2px 0 rgba(0,0,0,.1);
-
-    ${
-      (props)=> {
-        return props.isInline ? `box-shadow: 0 4px 15px 0 rgba(0, 0, 0, 0.36), 0 1px 2px 0 rgba(0, 0, 0, 0.61)` : ''
-      }
-    }
 
     p {
       font-size: 0.8em;
@@ -564,8 +558,6 @@ export const InlineConversationWrapper = styled.div`
 `
 
 export const EditorWrapper = styled.div`
-
-
   width: 376px;
   position: fixed;
   right: 14px;
@@ -590,7 +582,7 @@ export const EditorWrapper = styled.div`
 
 
     //@media screen and (min-width: 1024px) and (max-width: 1280px) { 
-      max-height: 73vh !important;
+      //max-height: 73vh !important;
       min-height: 174px;
     //}
    
