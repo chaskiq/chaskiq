@@ -132,15 +132,13 @@ export const ChatMessageItem = styled.div`
       color: #666;  
       align-self: flex-start;   
       background: ${(props)=> props.theme.palette.background.default};
-      box-shadow: rgba(35, 47, 53, 0.27) 4px 3px 0px 0px;
+      box-shadow: 0 4px 15px 0 rgba(0,0,0,.1), 0 1px 2px 0 rgba(0,0,0,.1);
       p {
         color: inherit;
       }
 
-      //box-shadow: rgba(35,47,53,0.09) 0px 2px 8px 0px;
       padding: 17px 22px;
       border-radius: 5px 5px 5px 0px;
-      
     }
 
     &.admin {
@@ -150,12 +148,8 @@ export const ChatMessageItem = styled.div`
       background: ${(props)=> props.message.privateNote ? `#feedaf` : props.theme.palette.primary.main };
       align-self: flex-end;
 
-      
+      box-shadow: 0 4px 15px 0 rgba(0,0,0,.1), 0 1px 2px 0 rgba(0,0,0,.1);
 
-      box-shadow: rgba(35, 47, 53, 0.27) 4px 3px 0px 0px;
-
-      /* NEW */
-      //box-shadow: rgba(35, 47, 53, 0.09) 0px 2px 8px 0px;
       font-size: 13px;
       line-height: 1.5;
       position: relative;
