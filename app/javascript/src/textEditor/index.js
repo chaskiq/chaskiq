@@ -162,6 +162,10 @@ export default class ArticleEditor extends Component {
     }
   }
 
+  componentDidMount(){
+    this.initialContent = this.defaultContent()
+  }
+
   tooltipsConfig = () => {
 
     const inlineMenu = {
@@ -303,7 +307,6 @@ export default class ArticleEditor extends Component {
       })
     });
   }
-
 
   widgetsConfig = () => {
     let widgets = [
@@ -642,7 +645,7 @@ export default class ArticleEditor extends Component {
                   onChange={(e) => {
                     this.dante_editor = e
                   }}
-                  content={this.defaultContent()}
+                  content={this.initialContent}
                   tooltips={this.props.tooltipsConfig ? this.props.tooltipsConfig() : this.tooltipsConfig() }
                   widgets={ this.props.widgetsConfig ? this.props.widgetsConfig() : this.widgetsConfig() }
                   decorators={(context) => {
