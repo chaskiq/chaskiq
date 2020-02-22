@@ -137,6 +137,11 @@ const defaultProps = {
 
 export default class ArticleEditor extends Component {
 
+  constructor(props) {
+    super(props)
+    this.initialContent = this.defaultContent()
+  }
+
   emptyContent = () => {
     return { 
       "entityMap": {},
@@ -160,10 +165,6 @@ export default class ArticleEditor extends Component {
     } catch (error) {
       return this.emptyContent()
     }
-  }
-
-  componentDidMount(){
-    this.initialContent = this.defaultContent()
   }
 
   tooltipsConfig = () => {
