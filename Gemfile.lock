@@ -409,6 +409,9 @@ GEM
     roadie (3.5.0)
       css_parser (~> 1.4)
       nokogiri (~> 1.8)
+    roadie-rails (2.1.1)
+      railties (>= 5.1, < 6.1)
+      roadie (>= 3.1, < 5.0)
     roo (2.8.2)
       nokogiri (~> 1)
       rubyzip (>= 1.2.1, < 2.0.0)
@@ -598,6 +601,7 @@ DEPENDENCIES
   redis-namespace (~> 1.6)
   redis-objects (~> 1.5)
   roadie
+  roadie-rails
   roo
   rspec-core
   rspec-expectations

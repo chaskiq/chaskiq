@@ -1,20 +1,24 @@
 # frozen_string_literal: true
 
 class ChatNotifierMailer < ApplicationMailer
+  #include Roadie::Rails::Automatic
+  include Roadie::Rails::Mailer
+
   def notify(conversation_part)
     @conversation_part = conversation_part
     conversation = conversation_part.conversation
     app          = conversation.app
+    @app_name = app.name
     # admin_users  = app.agents # set assignee !
 
     message_author = conversation_part.app_user
-    author_name    = message_author.name || message_author.email.split('@').first
+    @author_name    = message_author.name || message_author.email.split('@').first
 
     recipient = message_author.id != conversation.main_participant.id ?
     conversation.main_participant : conversation.assignee
 
     content_type  = 'text/html'
-    from_name     = "#{author_name} [#{app.name}]"
+    from_name     = "#{@author_name} [#{app.name}]"
 
     return if recipient.blank?
 
@@ -41,7 +45,7 @@ class ChatNotifierMailer < ApplicationMailer
     options.merge!('References' => reference_ids) unless reference_ids.blank?
     headers options
 
-    mail(from: "#{from_name}<#{from_email}>",
+    roadie_mail(from: "#{from_name}<#{from_email}>",
          to: email,
          subject: subject,
          content_type: content_type,
