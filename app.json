@@ -88,7 +88,7 @@
       "plan": "heroku-redis"
     },
     {
-      "plan": "bugsnag:Tauron"
+      "plan": "bugsnag:tauron2"
     },
     {
       "plan": "heroku-postgresql",
