@@ -355,7 +355,7 @@ class SettingsForm extends Component{
                           <FieldRenderer 
                             namespace={'settings'} 
                             data={field}
-                            errorNamespace={this.props.errorNamespace}
+                            //errorNamespace={this.props.errorNamespace}
                             props={{data: this.props.data }} 
                             errors={ this.props.errors }
                           />

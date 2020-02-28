@@ -15,7 +15,26 @@ module Types
     field :updated_at, type: GraphQL::Types::ISO8601DateTime, null: true
 
     def content
-      object.article_content.as_json(only: %i[html_content serialized_content text_content])
+      #object.article_content.as_json(only: %i[html_content serialized_content text_content])
+      lazy_content.as_json(only: %i[html_content serialized_content text_content])
     end
+
+    def author
+      BatchLoader::GraphQL.for(object.author_id).batch do |user_ids, loader|
+        Agent.where(id: user_ids).each { |user| loader.call(user.id, user) }
+      end
+    end
+
+    def lazy_content
+      BatchLoader.for(object.id).batch(default_value: nil) do |article_ids, loader|
+        ArticleContent.where(article_id: article_ids)
+        .each do |content|
+          loader.call(content.article_id, content)
+        end
+      end
+    end
+
+
+
   end
 end

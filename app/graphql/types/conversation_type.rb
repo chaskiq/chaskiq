@@ -16,7 +16,32 @@ module Types
     field :last_message, Types::ConversationPartType, null: true
 
     def last_message
-      object.reload.messages.last # .as_json(methods: [:app_user])
+      object.reload.messages.last
+      #lazy_comment
+    end
+
+    def lazy_comment
+      #object.reload.messages.last
+      BatchLoader.for(object.reload.id).batch(default_value: nil) do |conversation_ids, loader|
+        ConversationPart
+        .where(conversation_id: conversation_ids)
+        order("id desc")
+        .each do |comment|
+          loader.call(comment.conversation_id, comment)
+        end
+      end
+    end
+
+    def main_participant
+      BatchLoader::GraphQL.for(object.main_participant_id).batch do |user_ids, loader|
+        AppUser.where(id: user_ids).each { |user| loader.call(user.id, user) }
+      end      
+    end
+
+    def assignee
+      BatchLoader::GraphQL.for(object.assignee_id).batch do |user_ids, loader|
+        Agent.where(id: user_ids).each { |user| loader.call(user.id, user) }
+      end
     end
 
     field :state, String, null: true
