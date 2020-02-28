@@ -135,18 +135,16 @@ function Dashboard(props) {
 
 
             <Grid item xs={12} md={12} lg={12}>
-              
-              <DashboardCard title={"Integrated blocks"}>
-                <DashboardItem
-                  chartType={"app_packages"} 
-                  dashboard={dashboard}
-                  app={app} 
-                  label={I18n.t('dashboasrd.user_country')}
-                  kind={'app_packages'}
-                  classes={classes}
-                  styles={{}}
-                />
-              </DashboardCard>
+
+              <DashboardItem
+                chartType={"app_packages"} 
+                dashboard={dashboard}
+                app={app} 
+                label={I18n.t('dashboasrd.user_country')}
+                kind={'app_packages'}
+                classes={classes}
+                styles={{}}
+              />
             
             </Grid>
 

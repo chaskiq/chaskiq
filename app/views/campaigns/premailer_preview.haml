@@ -39,6 +39,12 @@
           background-color: #eee;
       }
 
+      code {
+        background: #ccc;
+        display: block;
+        padding: 1.2em;
+      }
+
       #editor-container {
           padding: 0;
           margin: 0;
@@ -339,6 +345,7 @@
       %tr
         %td
           #editor-container
+            = @subscriber.name
             = h @campaign.html_content.html_safe
 
     - unless params[:exclude_gif]

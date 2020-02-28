@@ -25,6 +25,13 @@ RSpec.describe Api::V1::HooksController, type: :controller do
                       app_user: subscriber)
   end
 
+  let(:conversation) do
+    app.start_conversation(
+      message: { text_content: 'aa' },
+      from: subscriber
+    )
+  end
+
   let(:bounce_sns) do
     { 'Message' => {
       'notificationType' => 'Bounce',
@@ -395,6 +402,94 @@ RSpec.describe Api::V1::HooksController, type: :controller do
     }' }
   end
 
+
+  let(:open_sns_event_with_part) do
+
+    crypt         = URLcrypt.encode("#{app.id}+#{conversation.id}")
+    from_email    = "messages+#{crypt}@#{app.outgoing_email_domain}"
+
+    { 'Type' => 'Notification',
+      'Message' => '{
+      "eventType": "Open",
+      "mail": {
+        "commonHeaders": {
+          "from": [
+            "sender@example.com"
+          ],
+          "messageId": "EXAMPLE7c191be45-e9aedb9a-02f9-4d12-a87d-dd0099a07f8a-000000",
+          "subject": "Message sent from Amazon SES",
+          "to": [
+            "recipient@example.com"
+          ]
+        },
+        "destination": [
+          "recipient@example.com"
+        ],
+        "headers": [
+          {"name": "Message-ID",
+             "value": "<5b35d2ed22cb2_16ad53ff7930c554c954a1@Michelsons-MacBook-Pro.local.mail>"
+          },
+          { "name": "Return-Path", 
+            "value": "'+from_email+'"
+          },
+          {
+            "name": "X-SES-CONFIGURATION-SET",
+            "value": "ConfigSet"
+          },
+
+          {
+            "name": "X-CHASKIQ-PART-ID",
+            "value": "'+conversation.messages.last.id.to_s+'"
+          },
+          {
+            "name": "From",
+            "value": "sender@example.com"
+          },
+          {
+            "name": "To",
+            "value": "recipient@example.com"
+          },
+          {
+            "name": "Subject",
+            "value": "Message sent from Amazon SES"
+          },
+          {
+            "name": "MIME-Version",
+            "value": "1.0"
+          },
+          {
+            "name": "Content-Type",
+            "value": "multipart/alternative; boundary=\"XBoundary\""
+          }
+        ],
+        "headersTruncated": false,
+        "messageId": "EXAMPLE7c191be45-e9aedb9a-02f9-4d12-a87d-dd0099a07f8a-000000",
+        "sendingAccountId": "123456789012",
+        "source": "sender@example.com",
+        "tags": {
+          "ses:caller-identity": [
+            "ses-user"
+          ],
+          "ses:configuration-set": [
+            "ConfigSet"
+          ],
+          "ses:from-domain": [
+            "example.com"
+          ],
+          "ses:source-ip": [
+            "192.0.2.0"
+          ]
+        },
+        "timestamp": "2017-08-09T21:59:49.927Z"
+      },
+      "open": {
+        "ipAddress": "192.0.2.1",
+        "timestamp": "2017-08-09T22:00:19.652Z",
+        "userAgent": "Mozilla/5.0 (iPhone; CPU iPhone OS 10_3_3 like Mac OS X) AppleWebKit/603.3.8 (KHTML, like Gecko) Mobile/14G60"
+      }
+    }' }
+  end
+
   let(:click_sns_event) do
     { 'Type' => 'Notification',
       'Message' => '{
@@ -673,7 +768,7 @@ RSpec.describe Api::V1::HooksController, type: :controller do
     ActiveJob::Base.queue_adapter.perform_enqueued_at_jobs = true
   end
 
-  describe 'SNS events' do
+  describe 'SNS events on campaign' do
     it 'will set a open' do
       allow(Metric).to receive(:find_by).and_return(metric)
       campaign
@@ -727,5 +822,17 @@ RSpec.describe Api::V1::HooksController, type: :controller do
       expect(campaign.metrics.bounces.size).to be == 1
       expect(campaign.metrics.bounces.last.data).to be_present
     end
+  end
+
+  describe "SNS events on conversation" do
+    
+    it 'will set a open' do
+      conversation
+      expect(ConversationPart.last).to_not be_read
+      response = send_data(open_sns_event_with_part)
+      expect(response.status).to be == 200
+      expect(ConversationPart.last).to be_read
+    end
+
   end
 end

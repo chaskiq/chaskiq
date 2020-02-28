@@ -74,7 +74,7 @@ class Api::V1::HooksController < ActionController::API
 
     messageId = json_message['mail']['messageId']
 
-    from = app.agents.find_by(email: from.first) || app.app_users.fin_by(email: from.first)
+    from = app.agents.find_by(email: from.first) || app.app_users.find_by(email: from.first)
 
     opts = {
       from: from,
@@ -89,6 +89,7 @@ class Api::V1::HooksController < ActionController::API
 
   def process_event_notification(request_body)
     message = parse_body_message(request_body['Message'])
+    return if message['eventType'].blank?
     track_message_for(message['eventType'].downcase, message)
   end
 

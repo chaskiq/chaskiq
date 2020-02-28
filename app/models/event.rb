@@ -22,7 +22,7 @@ class Event < ApplicationRecord
 
   belongs_to :eventable, polymorphic: true
 
-  after_create :trigger_webhooks
+  after_commit :trigger_webhooks, on: :create
 
   def trigger_webhooks
 
