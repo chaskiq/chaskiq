@@ -1,10 +1,13 @@
 # frozen_string_literal: true
 
 class ChatNotifierMailer < ApplicationMailer
-  #include Roadie::Rails::Automatic
   include Roadie::Rails::Mailer
 
   def notify(conversation_part)
+
+    headers 'X-SES-CONFIGURATION-SET' => ENV['SNS_CONFIGURATION_SET']
+    headers 'X-CHASKIQ-PART-ID' => conversation_part.id
+
     @conversation_part = conversation_part
     conversation = conversation_part.conversation
     app          = conversation.app
@@ -30,6 +33,7 @@ class ChatNotifierMailer < ApplicationMailer
 
     raise 'no outgoing_email_domain on app' if app.outgoing_email_domain.blank?
 
+    binding.pry
     ## TODO: configurability of email
     crypt         = URLcrypt.encode("#{app.id}+#{conversation.id}")
     from_email    = "messages+#{crypt}@#{app.outgoing_email_domain}"

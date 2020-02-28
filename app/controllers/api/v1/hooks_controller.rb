@@ -89,6 +89,7 @@ class Api::V1::HooksController < ActionController::API
 
   def process_event_notification(request_body)
     message = parse_body_message(request_body['Message'])
+    return if message['eventType'].blank?
     track_message_for(message['eventType'].downcase, message)
   end
 
