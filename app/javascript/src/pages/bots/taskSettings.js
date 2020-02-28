@@ -41,10 +41,6 @@ const TaskSettingsForm = ({app, data, updateData, saveData, errors}) => {
         submit={()=> saveData(state)}
       />
 
-      <Webhooks
-        data={data}
-      />
-
       <UrlPaths
         app={app} 
         updateData={update} 
@@ -65,25 +61,6 @@ const TaskSettingsForm = ({app, data, updateData, saveData, errors}) => {
   )
 }
 
-function Webhooks({}){
-  return (
-
-    <FormControl component="fieldset">
-
-      <Typography variant={"h5"}>
-        Add a webhook to send user reactions.
-      </Typography>
-
-      <TextField
-        id="standard-helperText"
-        label="Helper text"
-        defaultValue="Default Value"
-        helperText="Some important text"
-      />
-    </FormControl>
-
-  )
-}
 
 function Schedule({app, data, updateData, namespace, submit}){
   const [state, setState] = React.useState(data);

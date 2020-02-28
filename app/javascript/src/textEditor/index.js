@@ -137,6 +137,11 @@ const defaultProps = {
 
 export default class ArticleEditor extends Component {
 
+  constructor(props) {
+    super(props)
+    this.initialContent = this.defaultContent()
+  }
+
   emptyContent = () => {
     return { 
       "entityMap": {},
@@ -303,7 +308,6 @@ export default class ArticleEditor extends Component {
       })
     });
   }
-
 
   widgetsConfig = () => {
     let widgets = [
@@ -642,7 +646,7 @@ export default class ArticleEditor extends Component {
                   onChange={(e) => {
                     this.dante_editor = e
                   }}
-                  content={this.defaultContent()}
+                  content={this.initialContent}
                   tooltips={this.props.tooltipsConfig ? this.props.tooltipsConfig() : this.tooltipsConfig() }
                   widgets={ this.props.widgetsConfig ? this.props.widgetsConfig() : this.widgetsConfig() }
                   decorators={(context) => {

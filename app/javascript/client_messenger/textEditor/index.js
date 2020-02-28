@@ -136,6 +136,8 @@ export default class ArticleEditor extends Component {
         }, 
       ] 
     }
+
+    this.initialContent = this.defaultContent()
   }
 
   defaultContent = () => {
@@ -580,7 +582,7 @@ export default class ArticleEditor extends Component {
                   onChange={(e) => {
                     this.dante_editor = e
                   }}
-                  content={this.defaultContent()}
+                  content={this.initialContent}
                   tooltips={this.props.tooltipsConfig ? this.props.tooltipsConfig() : this.tooltipsConfig() }
                   widgets={ this.props.widgetsConfig ? this.props.widgetsConfig() : this.widgetsConfig() }
                   decorators={(context) => {

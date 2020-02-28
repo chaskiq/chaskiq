@@ -1590,10 +1590,10 @@
     mkdirp-promise "^5.0.1"
     mz "^2.5.0"
 
-Dante2@0.5.0-rc22:
-  version "0.5.0-rc22"
-  resolved "https://registry.yarnpkg.com/Dante2/-/Dante2-0.5.0-rc22.tgz#371c7102f4ef76ffcf1c35f51a6ea42261cb16a2"
-  integrity sha512-kT68tc7i6WgN2ozvr0iiuPXR0qDOgYwBUV9bOZnqwt1HmWhnsXrI+V7LcR7tQAIALhH7R/zuTDO/1wWkX5L8jQ==
+Dante2@0.5.0-rc25:
+  version "0.5.0-rc25"
+  resolved "https://registry.yarnpkg.com/Dante2/-/Dante2-0.5.0-rc25.tgz#e216587de46a208a4b127ac9b1b65e5d7108a4fb"
+  integrity sha512-P6VEHdVeJSwIJlG0OHK2PLamdoOnnEijqYt93pogEySy6qbZfbhVzQ6585oLn0VqKlTm6y5qMCbzuEqgEtATjg==
   dependencies:
     axios "^0.18.0"
     draft-convert "^2.1.2"

@@ -84,6 +84,7 @@ gem 'sidekiq-cron'
 gem 'webpacker', '~> 3.5'
 
 gem 'roadie'
+gem 'roadie-rails'
 gem 'urlcrypt'
 
 gem 'aws-sdk-s3', '~> 1.15'
