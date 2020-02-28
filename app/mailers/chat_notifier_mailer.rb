@@ -8,14 +8,20 @@ class ChatNotifierMailer < ApplicationMailer
     @conversation_part = conversation_part
     conversation = conversation_part.conversation
     app          = conversation.app
+    @app_key = app.key
+    @conversation_key = conversation.key
     @app_name = app.name
+    @app_logo = app.logo_url
+    
     # admin_users  = app.agents # set assignee !
 
     message_author = conversation_part.app_user
-    @author_name    = message_author.name || message_author.email.split('@').first
-
+    @author_name    = message_author.display_name || message_author.email.split('@').first
+    @author_email = message_author.email
     recipient = message_author.id != conversation.main_participant.id ?
     conversation.main_participant : conversation.assignee
+
+    @user_id =  recipient.id
 
     content_type  = 'text/html'
     from_name     = "#{@author_name} [#{app.name}]"
@@ -44,11 +50,19 @@ class ChatNotifierMailer < ApplicationMailer
 
     options.merge!('References' => reference_ids) unless reference_ids.blank?
     headers options
+    
+    template = recipient.is_a?(Agent) ? 'agent_notify' : 'notify'
+
+    #template = "agent_notify"
 
     roadie_mail(from: "#{from_name}<#{from_email}>",
          to: email,
          subject: subject,
          content_type: content_type,
-         return_path: reply_email)
+         return_path: reply_email,
+        ) do |format|
+          format.html { render "chat_notifier_mailer/#{template}" }
+          #format.text # assuming you want a text fallback as well
+        end
   end
 end

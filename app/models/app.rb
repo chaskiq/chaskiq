@@ -289,6 +289,27 @@ class App < ApplicationRecord
     nil
   end
 
+
+  def logo_url
+    return '' unless logo_blob.present?
+
+    url = begin
+            logo.variant(resize_to_limit: [100, 100]).processed
+          rescue StandardError
+            nil
+          end
+    return nil if url.blank?
+
+    begin
+      Rails.application.routes.url_helpers.rails_representation_url(
+        url,
+        only_path: false
+      )
+    rescue StandardError
+      nil
+    end
+  end
+
   private
 
   def init_app_segments
