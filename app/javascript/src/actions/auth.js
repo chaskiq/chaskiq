@@ -112,7 +112,6 @@ export default function reducer(state, action = {}) {
     uid: null,
     expiry: null
   }
-  console.log(initialState)
 
   switch (action.type) {
     case REQUEST:
