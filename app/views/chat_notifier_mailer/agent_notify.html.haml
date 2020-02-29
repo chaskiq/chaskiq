@@ -516,11 +516,11 @@
                   %tr
                     %td#user-replyAbove{:style => ""}
                       Write ABOVE to reply to
-                      %a{:target => "_blank", href: "/apps/#{@app_key}/users/#{@user_id}"}
+                      %a{:target => "_blank", href: "#{ENV['HOST']}/apps/#{@app_key}/users/#{@user_id}"}
                         = @author_name
           %td#rightSide{:align => "right", :style => "", :valign => "middle"}
             %img{:height => "16", :src => "", :style => "", :width => "16"}/
-            %a{:href => "/apps/#{@app_key}/conversations/#{@conversation_key}", :style => "", :target => "_blank"} 
+            %a{:href => "#{ENV['HOST']}/apps/#{@app_key}/conversations/#{@conversation_key}", :style => "", :target => "_blank"} 
               View conversation
   
   
