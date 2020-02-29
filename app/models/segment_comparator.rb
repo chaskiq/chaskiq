@@ -44,9 +44,9 @@ class SegmentComparator
               when "not_eq" then user_input != predicate_value
               when "eq" then user_input == predicate_value
               when "lt" then user_input < predicate_value
-              when "lteq" then user_input.to_i <= predicate_value.to_i
-              when "gt" then user_input.to_i > predicate_value.to_i
-              when "gteq" then user_input.to_i >= predicate_value.to_i
+              when "lteq" then user_input <= predicate_value
+              when "gt" then user_input > predicate_value
+              when "gteq" then user_input >= predicate_value
               end    
   end
 
@@ -58,7 +58,7 @@ class SegmentComparator
         check = compare_with(field, val, predicate['comparison'] )
         #check = cast_date(field).send(predicate['comparison'], Chronic.parse(predicate['value']))
       when 'string'
-        check = compare_with(field, predicate['value'], predicate['comparison'] )
+        check = compare_with(field.to_s, predicate['value'], predicate['comparison'] )
       when 'integer'
         check = compare_with(field.to_i, predicate['value'].to_i, predicate['comparison'] )
     end
