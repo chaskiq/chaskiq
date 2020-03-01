@@ -176,6 +176,7 @@ class MessengerEventsChannel < ApplicationCable::Channel
     if message.from_bot?
       if data['reply'].present?
         data_submit(data['reply'], message) 
+
         trigger.register_metric(
           @app_user, 
           data: data['reply'], 
@@ -183,7 +184,8 @@ class MessengerEventsChannel < ApplicationCable::Channel
             message_key: message.key,
             conversation_key: @conversation.key
           }
-        )
+        ) if trigger.respond_to?(:register_metric)
+        
       end
     end
   end
