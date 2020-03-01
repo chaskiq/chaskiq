@@ -98,7 +98,7 @@ class BotTask < ApplicationRecord
       trackable: self,
       action: "bot_tasks.actions.#{label}",
       data: {
-        conversation_id: conversation.id,
+        conversation_id: conversation.key,
       }
     )
   end
