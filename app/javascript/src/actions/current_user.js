@@ -34,7 +34,7 @@ export function getCurrentUser() {
 
 export function clearCurrentUser(){
   return (dispatch, getState) => {
-    dispatch(successAuthentication(initialState))
+    dispatch(successAuthentication({}))
   }
 }
 
