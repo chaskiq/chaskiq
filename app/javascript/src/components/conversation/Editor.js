@@ -49,10 +49,13 @@ const EditorWrapper = styled.div`
 export default class ConversationEditor extends Component {
 
   state = {
-    loading: false
+    loading: false,
   }
 
+  fallbackEditor = false
   delayTimer = null
+
+
 
   submitData = (formats, options)=>{
     // DANTE does not provide a way to update contentState from outside ?
