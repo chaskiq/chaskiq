@@ -116,6 +116,7 @@ const Input = styled.textarea`
   padding-top: 10px;
   font-size: 1em;
   resize: none;
+  background: transparent;
 `
 
 const FallbackNotice = styled.span`
