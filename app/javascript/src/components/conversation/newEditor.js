@@ -19,6 +19,14 @@ import { GiphyBlockConfig } from '../../textEditor/blocks/giphyBlock'
 //import { SpeechToTextBlockConfig } from './article/speechToTextBlock'
 //import { DanteMarkdownConfig } from './article/markdown'
 
+import customHTML2Content from 'Dante2/package/es/utils/html2content.js'
+import {Map} from 'immutable'
+import {
+  EditorState,
+  convertToRaw
+} from 'draft-js'; // { compose
+
+
 import Link from 'Dante2/package/es/components/decorators/link'
 import findEntities from 'Dante2/package/es/utils/find_entities'
 
@@ -76,45 +84,7 @@ export const SelectionIndicator = styled.span`
   background-color: red;
   }
 `
-const UserIndicator = styled.div`
-  padding: 2px;
-  position: absolute;
-  bottom: -28px;
-  right: 0px;
-  display: inline-block;
-  background: #00000094;
-  color: white;
-  border-radius: 3px;
-  padding-left: 6px;
-  padding-right: 6px;
-  border: 1px solid #000;
-  z-index: 2;
-  font-size: 0.7rem;
-  i.arrow{
-    &:after{
-     content: &#9658;
-    }
-  }
-`
 
-const ButtonsContainer = styled.div`
-  display: flex;
-  direction: column;
-  align-items: center;
-  justify-content: space-between;
-  width: 100%;
-  float: right;
-  margin: 4px 4px;
-`
-
-const ButtonsRow = styled.div`
-  align-self: flex-end;
-  clear: both;
-  margin: 0px;
-  button{
-    margin-right: 2px;
-  }
-`
 
 export const ChatEditorInput = styled.div`
    @media (min-width: 320px) and (max-width: 480px) {
@@ -136,6 +106,23 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
+const Input = styled.textarea`
+  margin: 0px;
+  width: 560px;
+  height: 81px;
+  outline: none;
+  border: none;
+  padding-left: 10px;
+  padding-top: 10px;
+  font-size: 1em;
+  resize: none;
+  background: transparent;
+`
+
+const FallbackNotice = styled.span`
+font-size: 0.7em;
+padding: 12px;
+`
 
 const SubmitButton = function(props){
   const classes = useStyles();
@@ -167,6 +154,32 @@ export default class ChatEditor extends Component {
       openGiphy: false,
       read_only: false,
     }
+
+    this.fallbackEditor = this.isMobile()
+  }
+
+  isMobile = ()=>{
+    var hasTouchScreen = false;
+    if ("maxTouchPoints" in navigator) { 
+        hasTouchScreen = navigator.maxTouchPoints > 0;
+    } else if ("msMaxTouchPoints" in navigator) {
+        hasTouchScreen = navigator.msMaxTouchPoints > 0; 
+    } else {
+        var mQ = window.matchMedia && matchMedia("(pointer:coarse)");
+        if (mQ && mQ.media === "(pointer:coarse)") {
+            hasTouchScreen = !!mQ.matches;
+        } else if ('orientation' in window) {
+            hasTouchScreen = true; // deprecated, but good fallback
+        } else {
+            // Only as a last resort, fall back to user agent sniffing
+            var UA = navigator.userAgent;
+            hasTouchScreen = (
+                /\b(BlackBerry|webOS|iPhone|IEMobile)\b/i.test(UA) ||
+                /\b(Android|Windows Phone|iPad|iPod)\b/i.test(UA)
+            );
+        }
+    }
+    return hasTouchScreen
   }
 
   tooltipsConfig = () => {
@@ -257,11 +270,6 @@ export default class ChatEditor extends Component {
   }
 
   render() {
-    // !this.state.loading &&
-    /*if (this.state.loading) {
-      return <Loader />
-    }*/
-
     const serializedContent = this.state.serialized ? 
     this.state.serialized : null
 
@@ -284,42 +292,52 @@ export default class ChatEditor extends Component {
 
                 <ChatEditorInput style={{flexGrow: 3}}>
 
-                  <TextEditor theme={theme}
-                    tooltipsConfig={this.tooltipsConfig }
-                    campaign={true} 
-                    uploadHandler={this.uploadHandler}
-                    serializedContent={serializedContent }
-                    loading={this.props.loading}
-                    setDisabled={this.setDisabled}
-                    read_only={this.state.read_only}
-                    toggleEditable={()=>{
-                      this.setState({read_only: !this.state.read_only})
-                    }}
-                    appendWidgets={
-                      [
-                        AppPackageBlockConfig({
-                          handleFunc: this.handleAppFunc
-                        })
-                      ]
-                    }
+                  {this.fallbackEditor ? 
+                    <FallbackEditor 
+                      insertComment={this.props.submitData}
+                      saveContent={this.saveContent}
+                      setDisabled={this.setDisabled}
+                      loading={this.props.loading}
+                    /> :
 
-                    data={
+                    <TextEditor theme={theme}
+                      tooltipsConfig={this.tooltipsConfig }
+                      campaign={true} 
+                      uploadHandler={this.uploadHandler}
+                      serializedContent={serializedContent }
+                      loading={this.props.loading}
+                      setDisabled={this.setDisabled}
+                      read_only={this.state.read_only}
+                      toggleEditable={()=>{
+                        this.setState({read_only: !this.state.read_only})
+                      }}
+                      appendWidgets={
+                        [
+                          AppPackageBlockConfig({
+                            handleFunc: this.handleAppFunc
+                          })
+                        ]
+                      }
+
+                      data={
+                          {
+                            serialized_content: serializedContent
+                          }
+                        }
+                      styles={
                         {
-                          serialized_content: serializedContent
+                          lineHeight: '2em',
+                          fontSize: '1.2em'
                         }
                       }
-                    styles={
-                      {
-                        lineHeight: '2em',
-                        fontSize: '1.2em'
+                      saveHandler={this.saveHandler} 
+                      updateState={({status, statusButton, content})=> {
+                        this.saveContent(content )
                       }
                     }
-                    saveHandler={this.saveHandler} 
-                    updateState={({status, statusButton, content})=> {
-                      this.saveContent(content )
-                    }
+                    /> 
                   }
-                /> 
+
                 </ChatEditorInput>
   
                 <SubmitButton 
@@ -329,10 +347,94 @@ export default class ChatEditor extends Component {
   
               </EditorContainer>
           </ThemeProvider>
+  }
+
+}
+
+function FallbackEditor({ insertComment, 
+                          setDisabled, 
+                          loading,
+                          saveContent
+                        }){
+
+  let input = React.createRef();
+
+  function convertToDraft(sampleMarkup){
+    const blockRenderMap = Map({
+      "image": {
+        element: 'figure'
+      },
+      "video": {
+        element: 'figure'
+      },
+      "embed": {
+        element: 'div'
+      },
+      'unstyled': {
+        wrapper: null,
+        element: 'div'
+      },
+      'paragraph': {
+        wrapper: null,
+        element: 'div'
+      },
+      'placeholder': {
+        wrapper: null,
+        element: 'div'
+      },
+      'code-block': {
+        element: 'pre',
+        wrapper: null
+      }
+    })
+
+    const contentState = customHTML2Content(sampleMarkup, blockRenderMap) 
+    const fstate2 = EditorState.createWithContent(contentState)
+    return JSON.stringify(convertToRaw(fstate2.getCurrentContent()))
+  }
 
 
+  function handleUp(){
+    setDisabled(!input.current.value)
+    if(input.current.value === "") return
 
+    saveContent({
+      html: input.current.value,
+      serialized: convertToDraft(input.current.value)
+    })
 
   }
 
+  function handleReturn(e) {
+    if (e.key === "Enter") {
+      handleSubmit(e)
+      return
+    }
+  }
+
+  function handleSubmit(e) {
+    e.preventDefault()
+    if(input.current.value === "") return
+
+    insertComment({
+      html: input.current.value,
+      serialized: convertToDraft(input.current.value)
+    }, () => {
+      input.current.value = ""
+    })
+  }
+
+  return (
+    <div>
+      <Input
+        disabled={ loading }
+        onKeyPress={ handleReturn }
+        onKeyUp={handleUp}
+        placeholder={"write your comment"} 
+        //disabled={this.state.loading}
+        ref={input}
+      />
+      <FallbackNotice>editor fallback mobile version</FallbackNotice>
+    </div>
+  )
 }
