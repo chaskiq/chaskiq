@@ -306,7 +306,7 @@ class AppSettingsContainer extends Component {
       },*/
       {
         name: "activeMessenger",
-        label: "activate messenger",
+        label: "Activate messenger",
         hint: 'when this is activate the messenger web widget will be activated',
         type: 'bool',
         grid: { xs: 12, sm: 12 }
@@ -314,16 +314,18 @@ class AppSettingsContainer extends Component {
 
       {
         name: 'enableArticlesOnWidget',
-        label: "Display article blocks on messenger widget",
+        label: "Display article on chat window",
+        hint: "This option will display the articles in the home section of the messenger",
         type: 'bool',
-        grid: { xs: 12, sm: 6 }
+        grid: { xs: 12, sm: 12 }
       },
 
       {
         name: 'inlineNewConversations',
-        label: "Display new messages in floating box (without open the main widget)",
+        label: "Display new messages in floating box",
+        hint: "This option will not open chat box widget",
         type: 'bool',
-        grid: { xs: 12, sm: 6 }
+        grid: { xs: 12, sm: 12 }
       },
 
     ]

@@ -960,6 +960,14 @@ export const HeaderOption = styled.div`
 `
 
 export const HeaderTitle = styled.span`
+  .title{
+    margin: 0em 0.2em;
+  }
+  p.tagline{
+    margin: 0.6em 0.3em;
+    font-size: 0.9em;
+    line-height: 1.6em;
+  }
   /*${(props)=> FadeRightAnimation(props)}*/
 `
 
