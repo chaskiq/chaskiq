@@ -50,7 +50,7 @@ const HomePanel = ({
   useEffect(()=>(
     updateHeader(
       {
-        translateY: 0 , 
+        translateY: -25, 
         opacity: 1, 
         height: '212px' 
       }
@@ -112,7 +112,7 @@ const HomePanel = ({
     const opacity = val === 1 ? val : val * 0.3
 
     updateHeader({
-      translateY: - pge , 
+      translateY: - pge - 25, 
       opacity: opacity, 
       height: '212px' 
     })
