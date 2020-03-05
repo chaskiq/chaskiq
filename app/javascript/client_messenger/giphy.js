@@ -40,7 +40,7 @@ const GridList = styled.div`
   img{
     //width: 250px;
     margin-bottom: 4px;
-    border: #000 solid 1px;
+    background-color: lightgray;
   }
 `
 

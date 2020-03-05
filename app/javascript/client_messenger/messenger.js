@@ -99,7 +99,7 @@ class Messenger extends Component {
       ev: null,
       header:{
         opacity: 1,
-        translateY: 0,
+        translateY: -25,
         height: 212
       },
       transition: 'in'
@@ -528,11 +528,12 @@ class Messenger extends Component {
     })
   }
 
-  insertComment =(comment, cb)=>{
+  insertComment =(comment, callbacks)=>{
+    callbacks['before'] && callbacks['before']() 
     if(this.state.conversation.key && this.state.conversation.key != 'volatile'){
-      this.createComment(comment, cb)
+      this.createComment(comment, callbacks['sent'])
     }else{
-      this.createCommentOnNewConversation(comment, cb)
+      this.createCommentOnNewConversation(comment, callbacks['sent'])
     }
   }
 
@@ -1098,12 +1099,16 @@ class Messenger extends Component {
                                   }}>
                                     {
                                       this.state.appData.logo && 
-                                        <img src={this.props.domain + this.state.appData.logo}></img>
+                                        <img style={{height: 50, width: 50}} 
+                                          src={this.props.domain + this.state.appData.logo}
+                                        />
                                     }
-                                    <h2 style={{margin: '0.6em 0em' }}>
+                                    <h2 className={'title'}>
                                       {this.state.appData.greetings}
                                     </h2>
-                                    <p>{this.state.appData.intro}</p>
+                                    <p className={'tagline'}>
+                                      {this.state.appData.intro}
+                                    </p>
                                   </HeaderTitle>
                                 }
 
