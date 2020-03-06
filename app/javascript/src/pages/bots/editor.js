@@ -79,6 +79,8 @@ const ItemButtons = styled.div`
   align-items: center;
   display: flex;
   flex-grow: 1;
+
+  justify-content: ${(props)=> props.first ? 'flex-start' : 'flex-end'};
 `
 
 const TextEditorConainer = styled.div`
@@ -435,11 +437,12 @@ const BotEditor = ({match, app, dispatch, mode, actions})=>{
         }
       </List>
       <Button 
+        size="small"
         variant={"contained"} 
         onClick={showPathDialog}
         color="primary">
         <AddIcon />
-        add new path
+        Add new path
       </Button>
     </Grid>
 
@@ -531,8 +534,8 @@ const BotEditor = ({match, app, dispatch, mode, actions})=>{
 
 function FollowActionsSelect({app, path, updatePath}){
   const options = [
-    {key: "close", name: "close", value: null },
-    {key: "assign", name: "assign", value: null },
+    {key: "close", name: "Close conversation", value: null },
+    {key: "assign", name: "Assign Agent", value: null },
     //{action_name: "tag", value: null },
     //{action_name: "app_content", value: null },
   ]
@@ -630,7 +633,7 @@ function FollowActionsSelect({app, path, updatePath}){
       {
         menuOptions.length > 0 &&
           <ContextMenu
-            label={"add action"} 
+            label={"Add Follow Action"} 
             handleClick={handleClick} 
             actions={actions}
             options={menuOptions}
@@ -688,28 +691,42 @@ function AgentSelector({app, updateAction, removeAction, action, index}){
     <div>
 
     {
-      mode === "select" ?
-      <FormControl>
-        <InputLabel htmlFor="agent">agent</InputLabel>
-        <Select
-          value={selected}
-          onChange={handleChange}
-          inputProps={{
-            name: 'agent',
-            id: 'agent',
-          }}
-        >
+      true ?
+        <Grid container 
+          alignItems={"flex-end"}
+          //justify={"space-between"}
+          >
+          <Grid item>
+            <FormControl>
+              <InputLabel htmlFor="agent">
+                Assignee Agent
+              </InputLabel>
+              <Select
+                value={selected}
+                onChange={handleChange}
+                inputProps={{
+                  name: 'agent',
+                  id: 'agent',
+                }}>
 
-          {
-            agents.map((o)=>(
-              <MenuItem value={o.id}>
-                {o.email}
-              </MenuItem>
-            ))
-          }
-
-        </Select>
-      </FormControl> : 
+                {
+                  agents.map((o)=>(
+                    <MenuItem value={o.id}>
+                      {o.email}
+                    </MenuItem>
+                  ))
+                }
+            </Select>
+          </FormControl>
+        </Grid>
+        <Grid item>
+          <IconButton 
+            color={"secondary"}
+            onClick={()=> removeAction(index)}>
+            <DeleteForeverRounded/>
+          </IconButton> 
+        </Grid>
+      </Grid> : 
 
       <Grid style={{display: 'flex'}} 
                      key={action.key} 
@@ -826,7 +843,6 @@ const Path = ({
               onClick={()=>deletePath(path)}>
               delete path
               <DeleteForeverRounded/>
-
             </Button>
           </Grid>
 
@@ -876,9 +892,18 @@ const Path = ({
             app={app} 
             updatePath={updatePath}
             path={path} 
-          />    
+          />  
+          
+          <Box mt={2}>
+            <Typography variant="caption">
+              Hint: Follow actions will be triggered on paths that ends with message bubbles.
+              Paths that ends with path chooser will not trigger follow actions.
+            </Typography>
+          </Box>
         
         </Grid>
+
+        
 
       </Grid>
 
@@ -1162,69 +1187,66 @@ class SortableSteps extends Component {
                         provided.draggableProps.style
                       )}>
 
+                      <ItemButtons first={true} 
+                        {...provided.dragHandleProps}>
+                        <DragHandle/>
+                      </ItemButtons>
+
                       <ItemManagerContainer>
                       
                         {
                           item.messages.map(
-                            (message)=> 
-                            <div>
-                              
+                            (message)=>
                               <PathEditor 
                                 path={path}
                                 step={item} 
                                 message={message}
                                 updatePath={updatePath}
                               />
-                              
-                            </div>
                           )
                         }
                         
-                      <Grid container>
+                        <Grid container>
 
-                        <Grid item xs={12}>
-                          <ControlWrapper>
-                            { item.controls && 
-                              <AppPackageBlocks 
-                                controls={item.controls} 
-                                path={path}
-                                step={item}
-                                options={options}
-                                update={(opts)=> this.updateControlPathSelector(opts, item)}
-                              /> 
-                            }
-                          </ControlWrapper>
+                          <Grid item xs={12}>
+                            <ControlWrapper>
+                              { item.controls && 
+                                <AppPackageBlocks 
+                                  controls={item.controls} 
+                                  path={path}
+                                  step={item}
+                                  options={options}
+                                  update={(opts)=> this.updateControlPathSelector(opts, item)}
+                                /> 
+                              }
+                            </ControlWrapper>
+                          </Grid>
+
+                          {
+                            item.controls && item.controls.type === "ask_option" &&
+                          
+                              <Grid 
+                                item xs={12} 
+                                onClick={()=> this.appendItemControl(item)}>
+                                <Button 
+                                  color={"primary"}
+                                  variant={'outlined'} 
+                                  size="small">
+                                  + add data option
+                                </Button>
+                              </Grid> 
+                          }
+
                         </Grid>
-
-                        {
-                          item.controls && item.controls.type === "ask_option" &&
-                        
-                            <Grid 
-                              item xs={12} 
-                              onClick={()=> this.appendItemControl(item)}>
-                              <Button 
-                                color={"primary"}
-                                variant={'outlined'} 
-                                size="small">
-                                + add data option
-                              </Button>
-                            </Grid> 
-                        }
-
-                      </Grid>
 
                       </ItemManagerContainer>
 
-                      <ItemButtons {...provided.dragHandleProps}>
-
-                        <DragHandle/>
-
+                      <ItemButtons>
                         <IconButton onClick={()=> deleteItem(path, item) }>
                           <DeleteForever/>
                         </IconButton>
                       </ItemButtons>
 
-                      <Divider/>
                     </div>
 
 
