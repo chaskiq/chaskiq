@@ -8,10 +8,8 @@ class PersonalizedDomain
   def self.matches?(request)
     case request.host
     when 'www.#{DOMAIN}', '#{DOMAIN}', nil
-      puts 'DOMINIOOOOOO CUSTOM!!!'
       false
     else
-      puts 'ENTRO!!!'
       request.subdomain.present? && request.subdomain != 'www'
     end
   end
@@ -32,6 +30,9 @@ end
 class NoSubdomain
   def self.matches?(request)
     # si no hay subdominio o si es www
-    !request.subdomain.present? || (request.subdomain == 'www') || (request.host != 'www.#{DOMAIN}') || (request.host != '#{DOMAIN}')
+    !request.subdomain.present? || 
+    (request.subdomain == 'www') || 
+    (request.host != 'www.#{DOMAIN}') || 
+    (request.host != '#{DOMAIN}')
   end
 end
