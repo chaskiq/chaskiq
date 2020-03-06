@@ -93,7 +93,7 @@ Before you get started, ensure you have the following minimum versions: [Ruby 2.
 
 ## Setting up Chaskiq
 
-If you want to set up a Chaskiq for production use, see our [**Chaskiq Install Guide**](https://dev.chaskiq.io/en/articles/installation).
+If you want to set up a Chaskiq for production use, see our [**Chaskiq Install Guide**](https://dev.chaskiq.io/en/collections/production-configuration).
 
 ## Requirements
 
