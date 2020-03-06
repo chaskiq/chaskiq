@@ -5,9 +5,9 @@ import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 import MenuItem from '@material-ui/core/MenuItem';
 import Menu from '@material-ui/core/Menu';
+import Button from '@material-ui/core/Button';
 
 import { withRouter } from 'react-router-dom'
-import { connect } from 'react-redux'
 
 
 const useStyles = makeStyles(theme => ({
@@ -40,7 +40,7 @@ function ContextMenu(props) {
 
   return (
     <div className={classes.root}>
-      <List component="nav">
+      {/*<List component="nav">
         <ListItem
           button
           aria-haspopup="true"
@@ -53,7 +53,13 @@ function ContextMenu(props) {
             //secondary={fetchApp()}
           />
         </ListItem>
-      </List>
+        </List>*/}
+
+      <Button 
+        variant={"outlined"} 
+        onClick={handleClickListItem}>
+        {label}
+      </Button>
 
       <Menu id="lock-menu" anchorEl={anchorEl} 
         open={Boolean(anchorEl)} 
