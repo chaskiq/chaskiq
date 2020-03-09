@@ -99,7 +99,7 @@ class Messenger extends Component {
       ev: null,
       header:{
         opacity: 1,
-        translateY: 0,
+        translateY: -25,
         height: 212
       },
       transition: 'in'
@@ -510,7 +510,7 @@ class Messenger extends Component {
   }
 
   ping =(cb)=>{
-
+    
     this.graphqlClient.send(PING, {}, {
       success: (data)=>{
         this.setState({
@@ -518,7 +518,7 @@ class Messenger extends Component {
           agents: data.messenger.agents,
           enabled: data.messenger.enabledForUser
         }, ()=>{
-          console.log("subscribe to events")
+          //console.log("subscribe to events")
           cb()
         })
       },
@@ -528,11 +528,12 @@ class Messenger extends Component {
     })
   }
 
-  insertComment =(comment, cb)=>{
+  insertComment =(comment, callbacks)=>{
+    callbacks['before'] && callbacks['before']() 
     if(this.state.conversation.key && this.state.conversation.key != 'volatile'){
-      this.createComment(comment, cb)
+      this.createComment(comment, callbacks['sent'])
     }else{
-      this.createCommentOnNewConversation(comment, cb)
+      this.createCommentOnNewConversation(comment, callbacks['sent'])
     }
   }
 
@@ -588,7 +589,7 @@ class Messenger extends Component {
             response.data.messages.concat(this.state.conversation_messages) : 
             this.state.conversation_messages*/
           }, ()=>{ 
-            this.handleTriggerrequest("infer")
+            this.handleTriggerRequest("infer")
           cb && cb()
         })
       },
@@ -599,7 +600,7 @@ class Messenger extends Component {
    }
 
   
-   handleTriggerrequest = (trigger)=>{
+   handleTriggerRequest = (trigger)=>{
     if (this.state.appData.tasksSettings){
       setTimeout(()=>{
         this.requestTrigger(trigger)
@@ -710,10 +711,11 @@ class Messenger extends Component {
       },
       display_mode: "conversation"
     }, ()=>{
-      // this.requestTrigger("infer")
+      //this.requestTrigger("infer")
     })
 
-    /*if(this.state.appData.userTasksSettings && this.state.appData.userTasksSettings.share_typical_time && this.props.kind === "AppUser" )
+    /*
+    if(this.state.appData.userTasksSettings && this.state.appData.userTasksSettings.share_typical_time && this.props.kind === "AppUser" )
       this.requestTrigger("typical_reply_time")
 
     if(this.state.appData.leadTasksSettings && this.state.appData.leadTasksSettings.share_typical_time && this.props.kind === "Lead" )
@@ -1098,12 +1100,16 @@ class Messenger extends Component {
                                   }}>
                                     {
                                       this.state.appData.logo && 
-                                        <img src={this.props.domain + this.state.appData.logo}></img>
+                                        <img style={{height: 50, width: 50}} 
+                                          src={this.props.domain + this.state.appData.logo}
+                                        />
                                     }
-                                    <h2 style={{margin: '0.6em 0em' }}>
+                                    <h2 className={'title'}>
                                       {this.state.appData.greetings}
                                     </h2>
-                                    <p>{this.state.appData.intro}</p>
+                                    <p className={'tagline'}>
+                                      {this.state.appData.intro}
+                                    </p>
                                   </HeaderTitle>
                                 }
 

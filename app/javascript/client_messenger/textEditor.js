@@ -266,11 +266,19 @@ export default class UnicornEditor extends Component {
 
   handleSubmit = (e) => {
     e.preventDefault()
+    
+    if(this.input.value === "") return
+
     this.props.insertComment({
       html_content: this.input.value,
       serialized_content: this.convertToDraft(this.input.value)
-    }, () => {
-      this.input.value = ""
+    }, {
+      before: ()=>{
+        this.input.value = ""
+      },
+      sent: () => {
+        this.input.value = ""
+      },
     })
   }
 
@@ -281,11 +289,15 @@ export default class UnicornEditor extends Component {
           html_content: html,
           serialized_content: this.convertToDraft(html)
         }
-      , () => {
-      console.log("saved!")
-      this.input.value = ""
-      cb && cb()
-    })
+      , {
+        before: ()=>{
+          this.input.value = ""
+        },
+        sent: () => {
+          this.input.value = ""
+          cb && cb()
+        }
+      })
   }
 
   handleReturn = (e) => {
