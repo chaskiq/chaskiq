@@ -102,7 +102,8 @@ class SettingsForm extends Component {
                       return <Grid item
                                 key={field.name} 
                                 xs={field.grid.xs} 
-                                sm={field.grid.sm}>
+                                sm={field.grid.sm}
+                                {...field.gridProps}>
                                 <FieldRenderer 
                                   namespace={'app'} 
                                   data={field}
@@ -219,7 +220,8 @@ class AppSettingsContainer extends Component {
       {
         name: "name",
         type: 'string',
-        grid: { xs: 12, sm: 8 }
+        grid: { xs: 12, sm: 8 },
+        gridProps: {style: {alignSelf: 'flex-end'}}
       },
 
       {
@@ -233,13 +235,13 @@ class AppSettingsContainer extends Component {
         name: "domainUrl",
         type: 'string',
         label: "Domain URL",
-        hint: 'this will be the host site were chaskiq will be used',
+        hint: 'This will be the host site were chaskiq will be used',
         grid: { xs: 6, sm: 6 }
       },
       {
         name: "outgoingEmailDomain",
         label: "Outgoing email Domain",
-        hint: "the email domain to send conversations, for @yourapp use 'your app'",
+        hint: "The email domain to send conversations, for @yourapp use 'your app'",
         type: 'string',
         grid: { xs: 6, sm: 6 }
       },
@@ -247,7 +249,7 @@ class AppSettingsContainer extends Component {
       {
         name: "tagline",
         type: 'text',
-        hint: "messenger text on botton",
+        hint: "Messenger text on botton",
         grid: { xs: 12, sm: 12 }
       },
 
@@ -283,8 +285,8 @@ class AppSettingsContainer extends Component {
         label: "Encryption Key", 
         type: 'string',
         maxLength: 16, minLength: 16,
-        placeholder: "leave it blank for no encryption",
-        hint: "this key will be used to encrypt and decrypt JWE user data",
+        placeholder: "Leave it blank for no encryption",
+        hint: "This key will be used to encrypt and decrypt JWE user data",
         grid: { xs: 12, sm: 12 }
       },
     ]
@@ -307,7 +309,7 @@ class AppSettingsContainer extends Component {
       {
         name: "activeMessenger",
         label: "Activate messenger",
-        hint: 'when this is activate the messenger web widget will be activated',
+        hint: 'When this is activate the messenger web widget will be activated',
         type: 'bool',
         grid: { xs: 12, sm: 12 }
       },
