@@ -48,6 +48,9 @@ class Agent < ApplicationRecord
 
   has_many :conversations, foreign_key: 'assignee_id'
 
+  scope :bots, ->{where(bot: true) }
+  scope :humans, ->{where(bot: nil).or(where(bot: false)) }
+
   # from redis-objects
   counter :new_messages
 
