@@ -32,8 +32,8 @@ en:
     support:
       ask: Are you an %{name} existing customer ?
       options:
-        op1: I'm existing customer
-        op2: No, I'm not an existing customer
+        op1: Yes, I'm a customer
+        op2: No, I'm not an existing customer yet
       reply:
         op1: Welcome back!
         op2: ok, let us know if you need something and an agent will reply as soon as posible

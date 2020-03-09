@@ -33,7 +33,7 @@ es:
       ask: ¿Eres un cliente existente de %{name}?
       options:
         op1: Si, soy cliente
-        op2: No, no soy cliente
+        op2: No, no soy cliente aún
       reply:
         op1: Bienvenido de vuelta!
         op2: háganos saber si necesita algo y un agente le responderá lo antes posible
