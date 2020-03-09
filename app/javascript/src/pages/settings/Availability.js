@@ -97,8 +97,8 @@ export default function LanguageForm({settings, update, namespace, fields}){
       </Box>
 
       <Box mb={2}>
-        <Typography variant="h5">
-        {I18n.t("settings.availability.title2")}
+        <Typography variant="h6">
+          {I18n.t("settings.availability.title2")}
         </Typography>
         
         <Typography variant="body1" gutterBottom>
@@ -120,11 +120,9 @@ export default function LanguageForm({settings, update, namespace, fields}){
 
       </Box>
 
-      <Divider/>
+      <Box mb={2} mt={2}>
 
-      <Box mb={2}>
-
-        <Typography variant="h5">
+        <Typography variant="h6">
           {I18n.t("settings.availability.reply_time.title")}
         </Typography>
 
@@ -161,15 +159,21 @@ export default function LanguageForm({settings, update, namespace, fields}){
         </Box>
 
       </Box>
-      
-      <Typography variant="subtitle1" gutterBottom>
-        {I18n.t("settings.availability.reply_time.hint2")}
-      </Typography>
 
-      <Button onClick={handleSubmit}
-        variant={"contained"} color={"primary"}>
-        Save
-      </Button>
+      <Box mb={2}>
+
+        <Typography variant="caption" gutterBottom>
+          {I18n.t("settings.availability.reply_time.hint2")}
+        </Typography>
+
+      </Box>
+
+      <Box>
+        <Button onClick={handleSubmit}
+          variant={"contained"} color={"primary"}>
+          Save
+        </Button>      
+      </Box>
 
     </form>
   )
@@ -202,7 +206,7 @@ function AvailabilitySchedule({records, setRecords}){
 
   return (
 
-    <Box m={2}>
+    <Box mt={2}>
     
       {
         records.map((o, index)=>(
@@ -218,8 +222,8 @@ function AvailabilitySchedule({records, setRecords}){
       
 
 
-      <Grid container gutterBottom justify={"center"}>
-        <Box m={2}>
+      <Grid container gutterBottom justify={"flex-start"}>
+        <Box mt={2} mb={2}>
           <Button onClick={addRecord} color={"primary"} variant={"contained"}>
             <AddIcon/> add availability 
           </Button>

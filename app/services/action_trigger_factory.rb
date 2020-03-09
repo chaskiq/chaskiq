@@ -12,82 +12,11 @@ class ActionTriggerFactory
     yield(self)
   end
 
-  def path(title: '', follow_actions: [], steps: [])
-    @paths << { title: title, follow_actions: follow_actions, steps: steps }
-  end
+  #Give the team a way to reach you:
 
-  def message(text:, uuid:)
-    {
-      "step_uid": uuid,
-      "type": 'messages',
-      "messages": [
-        {
-          "app_user": {
-            "display_name": 'chaskiq bot',
-            "email": 'bot@chaskiq.io',
-            "id": 1,
-            "kind": 'agent'
-          },
-          "serialized_content": "{\"blocks\":[{\"key\":\"9oe8n\",\"text\":\"#{text}\",\"type\":\"unstyled\",\"depth\":0,\"inlineStyleRanges\":[],\"entityRanges\":[],\"data\":{}}],\"entityMap\":{}}",
-          "html_content": text
-        }
-      ]
-    }
-  end
+  #Get notified by email
 
-  def controls(schema: [], wait_for_input: true, uuid:, type:)
-    {
-      "step_uid": uuid,
-      "type": 'messages',
-      "messages": [
-
-      ],
-      "controls": {
-        "type": type,
-        "schema": schema,
-        "wait_for_input": wait_for_input
-      }
-    }
-  end
-
-  def button(label:, next_uuid:)
-    {
-      "element": 'button',
-      "label": label,
-      "next_step_uuid": next_uuid
-    }
-  end
-
-  def input(label:, name:, placeholder: '')
-    {
-      element: 'input',
-      id: '',
-      name: name,
-      label: label,
-      placeholder: placeholder,
-      type: 'text'
-    }
-  end
-
-  def assign(id)
-    {
-      "key": 'assign',
-      "name": 'assign',
-      "value": id
-    }
-  end
-
-  def close
-    {
-      "key": 'close',
-      "name": 'close'
-    }
-  end
-
-  def to_obj
-    JSON.parse(to_json, object_class: OpenStruct)
-  end
-
+=begin
   def self.request_for_email(app:)
     subject = ActionTriggerFactory.new
     subject.config do |c|
@@ -108,9 +37,9 @@ class ActionTriggerFactory
               )
             ]
           ),
-          c.message(text: 'molte gratzie', uuid: 3)
+          c.message(text: 'Thanks you will be contact asap with one of our agents', uuid: 3)
         ],
-        follow_actions: [c.assign(10)]
+        follow_actions: [c.assign(app.agents.first)]
       )
     end
 
@@ -175,11 +104,16 @@ class ActionTriggerFactory
     end
     subject
   end
+=end
 
   def self.infer_for(app:, user:)
     kind = user.model_name.name
 
+    I18n.locale = user.lang
+
     subject = ActionTriggerFactory.new
+
+    bot_agent = app.agents.bots.first
 
     subject.config do |c|
       c.id = 'infer'
@@ -189,33 +123,44 @@ class ActionTriggerFactory
       follow_actions = []
 
       email_requirement = [
-        c.message(text: 'give us a way to reach you.', uuid: 2),
+        c.message(
+          text: I18n.t("task_bots.email_requirement.message"), 
+          uuid: 2,
+          agent: bot_agent
+        ),
         c.controls(
           uuid: 3,
           type: 'data_retrieval',
           schema: [
             c.input(
-              label: 'enter your email',
+              label: I18n.t("task_bots.email_requirement.input_label"),
               name: 'email',
-              placeholder: 'enter your email'
+              placeholder: I18n.t("task_bots.email_requirement.placeholder")
             )
           ]
         ),
-        c.message(text: 'thank you', uuid: 4)
+        c.message(
+          text: I18n.t("task_bots.email_requirement.ack"), 
+          uuid: 4,
+          agent: bot_agent
+        )
       ]
 
       route_support = [
-        c.message(text: 'Are you an existing customer ?.', uuid: 5),
+        c.message(
+          text: I18n.t("task_bots.support.ask", name: app.name) , 
+          uuid: 5,
+          agent: bot_agent),
         c.controls(
           uuid: 6,
           type: 'ask_option',
           schema: [
             c.button(
-              label: "I'm existing customer",
+              label: I18n.t("task_bots.support.options.op1"),
               next_uuid: 7
             ),
             c.button(
-              label: "No , I'm not an existing customer",
+              label: I18n.t("task_bots.support.options.op2"),
               next_uuid: 8
             )
           ]
@@ -224,14 +169,22 @@ class ActionTriggerFactory
 
       if kind === 'AppUser'
         path_messages << [
-          c.message(text: "Hi, #{app.name} will reply as soon as they can.", uuid: 1)
+          c.message(
+            text: I18n.t("task_bots.reply_soon", {name: app.name}), 
+            uuid: 1,
+            agent: bot_agent
+          )
         ]
       end
 
       if (kind === 'Lead') || (kind === 'Visitor')
 
         if app.lead_tasks_settings['share_typical_time']
-          path_messages << c.message(text: "Hi, #{app.name} will reply as soon as they can.", uuid: 1)
+          path_messages << c.message(
+            text: I18n.t("task_bots.reply_soon", {name: app.name}), 
+            uuid: 1,
+            agent: bot_agent
+            )
         end
 
         if user.email.blank?
@@ -263,7 +216,11 @@ class ActionTriggerFactory
 
       c.path(path_options)
 
-      step_7 = [c.message(text: "that's great!", uuid: 7)]
+      step_7 = [c.message(
+        text: I18n.t("task_bots.reply_agent", {name: app.name}), 
+        uuid: 7, 
+        agent: bot_agent
+      )]
 
       if user.email.blank?
 
@@ -276,12 +233,16 @@ class ActionTriggerFactory
           step_7 << email_requirement
           step_7.flatten!
         end
-      else
-        step_7 << c.message(text: 'molte gratzie', uuid: 4)
+      #else
+      #  step_7 << c.message(
+      #    text: I18n.t('bot_tasks.email_support'), 
+      #    uuid: 4,
+      #    agent: bot_agent
+      #  )
       end
 
-      puts 'STEP 7'
-      puts step_7
+      #puts 'STEP 7'
+      #puts step_7
 
       c.path(
         title: 'yes',
@@ -292,7 +253,11 @@ class ActionTriggerFactory
       c.path(
         title: 'no',
         steps: [
-          c.message(text: "oh , that's sad :(", uuid: 8)
+          c.message(
+            text: I18n.t("task_bots.support.reply.op2"), 
+            uuid: 8,
+            agent: bot_agent
+          )
         ],
         follow_actions: [c.close]
       )
@@ -315,7 +280,7 @@ class ActionTriggerFactory
       trigger = ActionTriggerFactory.typical_reply_time(app: app)
       trigger
     else
-      Error.new('template not found')
+      raise 'trigger template not found'
     end
   end
 
@@ -323,7 +288,11 @@ class ActionTriggerFactory
     trigger = begin
                 app.bot_tasks.find(data['trigger'])
               rescue StandardError
-                find_factory_template(data: data, app: app, app_user: app_user)
+                find_factory_template(
+                  data: data, 
+                  app: app, 
+                  app_user: app_user
+                )
               end
 
     step = data['step'].to_s
@@ -336,12 +305,80 @@ class ActionTriggerFactory
     [trigger, path]
   end
 
-  def reply_options
-    [
-      { value: 'auto', label: 'Automatic reply time. Currently El equipo responderá lo antes posible' },
-      { value: 'minutes', label: 'El equipo suele responder en cuestión de minutos.' },
-      { value: 'hours', label: 'El equipo suele responder en cuestión de horas.' },
-      { value: '1 day', label: 'El equipo suele responder en un día.' }
-    ]
+  def path(title: '', follow_actions: [], steps: [])
+    @paths << { title: title, follow_actions: follow_actions, steps: steps }
   end
+
+  def message(text:, uuid:, agent:)
+    {
+      "step_uid": uuid,
+      "type": 'messages',
+      "messages": [
+        {
+          "app_user": {
+            "display_name": agent.name,
+            "email": agent.email,
+            "id": agent.id,
+            "kind": 'agent'
+          },
+          "serialized_content": "{\"blocks\":[{\"key\":\"9oe8n\",\"text\":\"#{text}\",\"type\":\"unstyled\",\"depth\":0,\"inlineStyleRanges\":[],\"entityRanges\":[],\"data\":{}}],\"entityMap\":{}}",
+          "html_content": text
+        }
+      ]
+    }
+  end
+
+  def controls(schema: [], wait_for_input: true, uuid:, type:)
+    {
+      "step_uid": uuid,
+      "type": 'messages',
+      "messages": [
+
+      ],
+      "controls": {
+        "type": type,
+        "schema": schema,
+        "wait_for_input": wait_for_input
+      }
+    }
+  end
+
+  def button(label:, next_uuid:)
+    {
+      "element": 'button',
+      "label": label,
+      "next_step_uuid": next_uuid
+    }
+  end
+
+  def input(label:, name:, placeholder: '')
+    {
+      element: 'input',
+      id: '',
+      name: name,
+      label: label,
+      placeholder: placeholder,
+      type: 'text'
+    }
+  end
+
+  def assign(id)
+    {
+      "key": 'assign',
+      "name": 'assign',
+      "value": id
+    }
+  end
+
+  def close
+    {
+      "key": 'close',
+      "name": 'close'
+    }
+  end
+
+  def to_obj
+    JSON.parse(to_json, object_class: OpenStruct)
+  end
+
 end

@@ -58,7 +58,7 @@ function SimpleDialog(props) {
     
     const hostname = window.location.hostname
     const port = window.location.port ? ":"+window.location.port : ""
-    const secure = window.location.protocol === "https"
+    const secure = window.location.protocol === "https:"
     const httpProtocol = window.location.protocol
     const wsProtocol = secure ? "wss" : "ws"
     const hostnamePort = `${hostname}${port}`

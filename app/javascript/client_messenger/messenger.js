@@ -510,7 +510,7 @@ class Messenger extends Component {
   }
 
   ping =(cb)=>{
-
+    
     this.graphqlClient.send(PING, {}, {
       success: (data)=>{
         this.setState({
@@ -518,7 +518,7 @@ class Messenger extends Component {
           agents: data.messenger.agents,
           enabled: data.messenger.enabledForUser
         }, ()=>{
-          console.log("subscribe to events")
+          //console.log("subscribe to events")
           cb()
         })
       },
@@ -589,7 +589,7 @@ class Messenger extends Component {
             response.data.messages.concat(this.state.conversation_messages) : 
             this.state.conversation_messages*/
           }, ()=>{ 
-            this.handleTriggerrequest("infer")
+            this.handleTriggerRequest("infer")
           cb && cb()
         })
       },
@@ -600,7 +600,7 @@ class Messenger extends Component {
    }
 
   
-   handleTriggerrequest = (trigger)=>{
+   handleTriggerRequest = (trigger)=>{
     if (this.state.appData.tasksSettings){
       setTimeout(()=>{
         this.requestTrigger(trigger)
@@ -711,10 +711,11 @@ class Messenger extends Component {
       },
       display_mode: "conversation"
     }, ()=>{
-      // this.requestTrigger("infer")
+      //this.requestTrigger("infer")
     })
 
-    /*if(this.state.appData.userTasksSettings && this.state.appData.userTasksSettings.share_typical_time && this.props.kind === "AppUser" )
+    /*
+    if(this.state.appData.userTasksSettings && this.state.appData.userTasksSettings.share_typical_time && this.props.kind === "AppUser" )
       this.requestTrigger("typical_reply_time")
 
     if(this.state.appData.leadTasksSettings && this.state.appData.leadTasksSettings.share_typical_time && this.props.kind === "Lead" )
