@@ -16,7 +16,11 @@ class AppUserTriggerJob < ApplicationJob
     trigger = begin
                 @app.bot_tasks.find(trigger_id)
               rescue StandardError
-                find_factory_template(trigger_id, @app_user)
+                ActionTriggerFactory.find_factory_template(
+                  app: @app, 
+                  app_user: @app_user, 
+                  data: {'trigger'=> trigger_id} 
+                )
               end
 
     conversation.blank? ? 
@@ -54,21 +58,4 @@ class AppUserTriggerJob < ApplicationJob
     )
   end
 
-  def find_factory_template(id, user)
-    case id
-    when 'infer'
-      trigger = ActionTriggerFactory.infer_for(app: @app, user: user)
-    when 'request_for_email'
-      trigger = ActionTriggerFactory.request_for_email(app: @app)
-      trigger
-    when 'route_support'
-      trigger = ActionTriggerFactory.route_support(app: @app)
-      trigger
-    when 'typical_reply_time'
-      trigger = ActionTriggerFactory.typical_reply_time(app: @app)
-      trigger
-    else
-      Error.new('template not found')
-    end
-  end
 end

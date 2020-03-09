@@ -1,5 +1,5 @@
 
-en:
+es:
   dashboard:
     response_avg: Response Time avg
     new_conversations: New conversations
@@ -21,22 +21,22 @@ en:
     settings: Settings
 
   task_bots:
-    reply_soon: Hi, %{name} will reply as soon as they can.
-    reply_agent: you will get a reply from one of our agents
-    email_support: to get support you can email at %{email} 
+    reply_soon: Hola, %{name} responderá tan pronto como puedan.
+    reply_agent: recibirás una respuesta de uno de nuestros agentes
+    reply_time: 
     email_requirement:
-      message: Give the team a way to reach you
-      input_label: Get notified by email
-      placeholder: Enter your email
-      ack: Thank you
+      message: Dale al equipo una forma de contactarte
+      input_label: Recibe notificaciones por correo electrónico
+      placeholder: Ingresa tu correo
+      ack: Gracias
     support:
-      ask: Are you an %{name} existing customer ?
+      ask: ¿Eres un cliente existente de %{name}?
       options:
-        op1: I'm existing customer
-        op2: No, I'm not an existing customer
+        op1: Si, soy cliente
+        op2: No, no soy cliente
       reply:
-        op1: Welcome back!
-        op2: ok, let us know if you need something and an agent will reply as soon as posible
+        op1: Bienvenido de vuelta!
+        op2: háganos saber si necesita algo y un agente le responderá lo antes posible
   settings:
     availability:
 
