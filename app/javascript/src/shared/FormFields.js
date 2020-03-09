@@ -19,7 +19,7 @@ import Checkbox from '@material-ui/core/Checkbox'
 import InputAdornment from '@material-ui/core/InputAdornment'
 import Button from '@material-ui/core/Button'
 import IconButton from '@material-ui/core/IconButton'
-
+import Typography from '@material-ui/core/Typography'
 import ColorFillIcon from '@material-ui/icons/FormatColorFill'
 import ChromeReaderIcon from '@material-ui/icons/ChromeReaderMode'
 
@@ -200,19 +200,21 @@ class FieldRenderer extends React.Component {
          />        
 
       case "bool":
-        return <FormControlLabel 
+        return <div>
+                <FormControlLabel 
                   error={errorMessage}
                   className={classes.formControl}
                   label={data.label || data.name}
-                  hint={data.hint}
                   control={
-                    <Checkbox 
-                      defaultChecked={props.data[data.name]}
-                      name={`${namespace}[${data.name}]`} 
-                      value={true}
-                     />
+                      <Checkbox 
+                        defaultChecked={props.data[data.name]}
+                        name={`${namespace}[${data.name}]`} 
+                        value={true}
+                      />
                   }
                 />
+                <Typography variant="caption">{data.hint}</Typography>
+                </div>
       case "color":
         return <FormControl 
                 error={errorMessage}

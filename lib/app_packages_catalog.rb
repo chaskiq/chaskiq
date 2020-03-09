@@ -148,27 +148,7 @@ class AppPackagesCatalog
           }
         ]
       },
-
-      {
-        name: 'Whatsapp',
-        tag_list: ['enrichment'],
-        description: 'Clearbit data enrichment',
-        icon: 'https://logo.clearbit.com/whatsapp.com',
-        state: 'disabled',
-        definitions: [
-          {
-            name: 'api_key',
-            type: 'string',
-            grid: { xs: 12, sm: 12 }
-          },
-          {
-            name: 'api_secret',
-            type: 'string',
-            grid: { xs: 12, sm: 12 }
-          }
-        ]
-      },
-
+      
       {
         name: 'Calendly',
         tag_list: ['editor'],

@@ -33,7 +33,6 @@ class ChatNotifierMailer < ApplicationMailer
 
     raise 'no outgoing_email_domain on app' if app.outgoing_email_domain.blank?
 
-    binding.pry
     ## TODO: configurability of email
     crypt         = URLcrypt.encode("#{app.id}+#{conversation.id}")
     from_email    = "messages+#{crypt}@#{app.outgoing_email_domain}"
@@ -57,7 +56,7 @@ class ChatNotifierMailer < ApplicationMailer
     
     template = recipient.is_a?(Agent) ? 'agent_notify' : 'notify'
 
-    #template = "agent_notify"
+    return if recipient.is_a?(Agent) && recipient.bot?
 
     roadie_mail(from: "#{from_name}<#{from_email}>",
          to: email,
