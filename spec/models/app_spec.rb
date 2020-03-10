@@ -54,10 +54,14 @@ RSpec.describe App, type: :model do
     it 'create with session' do
       app.add_anonymous_user({})
       expect(app.app_users.first.session_id).to be_present
-      expect(app.app_users.last.name).to be_eql 'visitor 1'
+      first_user_name = app.app_users.last.name
+      expect(first_user_name).to include('visitor')
 
       app.add_anonymous_user({})
-      expect(app.app_users.last.name).to be_eql 'visitor 2'
+      last_user_name = app.app_users.last.name
+      expect(last_user_name).to include('visitor')
+
+      expect(last_user_name).to not(first_user_name)
     end
   end
 
