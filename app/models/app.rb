@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+require "dummy_name"
 
 class App < ApplicationRecord
   include GlobalizeAccessors
@@ -149,7 +150,9 @@ class App < ApplicationRecord
 
     # TODO: should lock table here ? or ..
     # https://www.postgresql.org/docs/9.3/sql-createsequence.html
-    next_id = app_users.visitors.size + 1 # self.app_users.visitors.maximum("id").to_i + 1
+    # next_id = self.app_users.visitors.maximum("id").to_i + 1
+
+    next_id = DummyName::Name.new
 
     attrs.merge!(name: "visitor #{next_id}")
 
