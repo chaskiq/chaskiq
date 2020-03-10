@@ -61,7 +61,7 @@ RSpec.describe App, type: :model do
       last_user_name = app.app_users.last.name
       expect(last_user_name).to include('visitor')
 
-      expect(last_user_name).to not(first_user_name)
+      expect(last_user_name).to_not be == first_user_name
     end
   end
 
