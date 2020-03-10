@@ -549,14 +549,18 @@ class ArticlesNew extends Component {
 
               <Box mb={2} p={2} style={{background: "#fff"}}>
 
-                <ArticleEditor 
-                  article={this.state.article} 
-                  data={this.props.data} 
-                  app={this.props.app}
-                  updateState={this.updateState}
-                  loading={this.state.loading}
-                  uploadHandler={this.uploadHandler}
-                />
+                {
+                  !this.state.loading &&
+                
+                  <ArticleEditor 
+                    article={this.state.article} 
+                    data={this.props.data} 
+                    app={this.props.app}
+                    updateState={this.updateState}
+                    loading={false}
+                    uploadHandler={this.uploadHandler}
+                  />
+                }
               </Box>
 
             </Box>
