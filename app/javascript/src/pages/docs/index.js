@@ -163,7 +163,7 @@ const useStyles = makeStyles(theme => {
     marginRight: theme.spacing(2),
   },
   heroContent: {
-    backgroundColor: theme.palette.background.paper,
+    backgroundColor: 'black',
     padding: theme.spacing(3.5, 0, 3),
     //background-attachment: local;
   },
@@ -605,7 +605,8 @@ function Docs(props) {
     //history.push('/en')
   }
 
-  const newDanteTheme = Object.assign({}, danteTheme, {mainColor: settings.color})
+  const newDanteTheme = Object.assign({}, 
+    danteTheme, {mainColor: settings.color})
   return (
     <div>
           <MuiThemeProvider theme={theme}>
@@ -895,7 +896,7 @@ function Article(props){
                     written by {article.author.name}
                   </Typography>
 
-                  <Typography variant="subtitle1" gutterBottom>
+                  <Typography variant="caption" gutterBottom>
                     {"updated "}
                     <Moment fromNow>
                       {article.updatedAt}

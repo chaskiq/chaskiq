@@ -12,6 +12,7 @@ class Conversation < ApplicationRecord
   has_many :messages, class_name: 'ConversationPart', dependent: :destroy
   has_many :conversation_channels, dependent: :destroy
   has_many :conversation_part_channel_sources, through: :messages
+  has_one :latest_message,  -> { order('id desc') }, class_name: 'ConversationPart'
 
   #TODO : remove this logic
   accepts_nested_attributes_for :conversation_channels

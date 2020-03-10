@@ -31,24 +31,31 @@ export default class ArticleEditor extends Component {
   }
 
   isLoading = ()=>{
-    return this.props.loading || !this.props.article.content
+    return this.props.loading //|| !this.props.article.content
   }
 
   render() {
 
+    console.log("mono")
+    console.log(this.props.loading)
     //!this.state.loading &&
-    if(this.props.loading || !this.props.article.content)
-      return <CircularProgress/>
-    
-    const serializedContent = this.props.article.content.serialized_content
+    //if(this.props.loading) //|| !this.props.article.content)
+    //  return <CircularProgress/>
 
+    const content = this.props.article.content
+    
+    const serializedContent = content ? content.serialized_content : null
+
+    
     return <TextEditor 
                 campaign={true} 
                 uploadHandler={this.props.uploadHandler}
                 loading={this.isLoading()}
                 read_only={this.state.read_only}
                 toggleEditable={()=>{
-                  this.setState({read_only: !this.state.read_only})
+                  this.setState({
+                    read_only: !this.state.read_only
+                  })
                 }}
                 serializedContent={serializedContent}
                 data={

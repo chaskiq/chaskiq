@@ -16,6 +16,14 @@ module Types
 
     def content
       object.article_content.as_json(only: %i[html_content serialized_content text_content])
+      #lazy_content.as_json(only: %i[html_content serialized_content text_content])
     end
+
+    def author
+      BatchLoader::GraphQL.for(object.author_id).batch do |user_ids, loader|
+        Agent.where(id: user_ids).each { |user| loader.call(user.id, user) }
+      end
+    end
+
   end
 end
