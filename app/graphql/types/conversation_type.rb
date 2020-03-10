@@ -16,20 +16,8 @@ module Types
     field :last_message, Types::ConversationPartType, null: true
 
     def last_message
-      object.reload.messages.last
-      #lazy_comment
-    end
-
-    def lazy_comment
-      #object.reload.messages.last
-      BatchLoader.for(object.reload.id).batch(default_value: nil) do |conversation_ids, loader|
-        ConversationPart
-        .where(conversation_id: conversation_ids)
-        order("id desc")
-        .each do |comment|
-          loader.call(comment.conversation_id, comment)
-        end
-      end
+      # TODO: we should use last_message_id relation to batch this properly
+      object.latest_message
     end
 
     def main_participant
