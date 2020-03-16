@@ -148,15 +148,10 @@ module MessageApis
           
           participant = add_participant(twitter_user)
 
-          #conversation = participant.conversations
-          #.joins(:conversation_source)
-          #.where("conversation_sources.app_package_integration_id =?", package.id)
-          #.first
-
-          conversation.conversation_channels.create({
-            provider: 'twitter',
-            provider_channel_id: channel_id
-          }) if conversation.present?
+          #conversation.conversation_channels.create({
+          #  provider: 'twitter',
+          #  provider_channel_id: channel_id
+          #}) if conversation.present?
 
           conversation = app.conversations.create(
             main_participant: participant,
@@ -249,6 +244,7 @@ module MessageApis
           }
         }
 
+        # use external profiles
         participant = app.app_users.where(
           "properties->>'twitter_id' = ?", twitter_user["id"]
         ).first

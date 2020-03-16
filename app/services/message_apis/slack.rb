@@ -388,60 +388,6 @@ module MessageApis
       params.keys.include?("challenge")
     end
 
-    def data2
-      [
-        {
-          "type": "section",
-          "text": {
-            "type": "mrkdwn",
-            "text": "Hello, a conversation initiated by *Michael Scott*"
-          }
-        },
-        {
-          "type": "divider"
-        },
-        {
-          "type": "section",
-          "text": {
-            "type": "mrkdwn",
-            "text": "*Farmhouse Thai Cuisine*\n:star::star::star::star: 1528 reviews\n They do have some vegan options, like the roti and curry, plus they have a ton of salad stuff and noodles can be ordered without meat!! They have something for everyone here"
-          },
-          "accessory": {
-            "type": "image",
-            "image_url": "https://s3-media3.fl.yelpcdn.com/bphoto/c7ed05m9lC2EmA3Aruue7A/o.jpg",
-            "alt_text": "alt text for image"
-          }
-        },
-        {
-          "type": "divider"
-        },
-        {
-          "type": "actions",
-          #"callback_id": "button_feedback",
-          "elements": [
-            {
-              "type": "button",
-              "text": {
-                "type": "plain_text",
-                "text": "Close",
-                "emoji": true
-              },
-              "value": "click_me_123"
-            },
-            {
-              "type": "button",
-              "text": {
-                "type": "plain_text",
-                "text": "Reply in channel",
-                "emoji": true
-              },
-              "value": "click_me_123"
-            }
-          ]
-        },
-      ]
-    end
-
     def oauth_authorize(app, package)
       oauth_client.auth_code.authorize_url(
         scope: 'channels:write',
