@@ -206,6 +206,51 @@ class AppPackagesCatalog
         ]
       },
 
+      {
+        name: 'Twilio',
+        tag_list: ['conversations.added'],
+        description: 'Interfaces twillio',
+        icon: 'https://logo.clearbit.com/twillio.com',
+        state: 'enabled',
+        definitions: [
+          {
+            name: 'api_key',
+            type: 'string',
+            grid: { xs: 12, sm: 12 }
+          },
+          {
+            name: 'api_secret',
+            type: 'string',
+            grid: { xs: 12, sm: 12 }
+          }
+        ]
+      },
+
+      {
+        name: 'Messenger',
+        tag_list: ['conversations.added'],
+        description: 'Interfaces Facebook Messenger',
+        icon: 'https://logo.clearbit.com/messenger.com',
+        state: 'enabled',
+        definitions: [
+          {
+            name: 'api_key',
+            type: 'string',
+            grid: { xs: 12, sm: 12 }
+          },
+          {
+            name: 'api_secret',
+            type: 'string',
+            grid: { xs: 12, sm: 12 }
+          },
+          {
+            name: 'verify_token',
+            type: 'string',
+            grid: { xs: 12, sm: 12 }
+          }
+        ]
+      }
+
     ]
   end
 
