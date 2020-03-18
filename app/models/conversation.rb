@@ -111,7 +111,7 @@ class Conversation < ApplicationRecord
     part.private_note = opts[:private_note]
     part.message_source = opts[:message_source] if opts[:message_source]
     part.email_message_id = opts[:email_message_id]
-
+    
     part.conversation_part_channel_sources.new({
       provider: opts[:provider], 
       message_source_id: opts[:message_source_id]

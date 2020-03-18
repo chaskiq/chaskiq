@@ -18,8 +18,6 @@ module MessageApis
         }
       )
 
-      @conn.basic_auth(@api_key, @api_token)
-
       self
     end
 
@@ -90,6 +88,7 @@ module MessageApis
 
       return unless message_id.present?
 
+      
       part.conversation_part_channel_sources.create(
         provider: 'messenger', 
         message_source_id: message_id
@@ -155,11 +154,10 @@ module MessageApis
 
       text = message["message"]["text"]
     
-       #if text.blank?
-      return if text.blank?
-
       serialized_content = serialize_content(message)
       
+      return if serialized_content.blank?
+
       participant = add_participant(messenger_user)
 
       #conversation.conversation_channels.create({
@@ -203,20 +201,19 @@ module MessageApis
 
     def serialize_content(data)
       text = data["message"]["text"]
-
-      #data["NumMedia"].to_i > 0 ? 
-      #attachment_block(data) : 
+      data["message"].keys.include?("attachments") ?
+      attachment_block(data) : 
       text_block(text)
     end
 
     def attachment_block(data)
 
-      attachment = data['attachment']
+      attachments = data["message"]["attachments"]
 
       media_blocks = []
 
-      data["NumMedia"].to_i.times do |num|
-        media_blocks << media_block(num, data)
+      attachments.each do |attachment|
+        media_blocks << media_block(attachment)
       end
 
       {
@@ -245,14 +242,14 @@ module MessageApis
       }
     end
 
-    def media_block(num, data)
-      attachment = data["MediaUrl#{num}"]
-      media_type = data["MediaContentType#{num}"]
-      text = data["Body"]
+    def media_block(attachment)
+      #attachment = data["MediaUrl#{num}"]
+      #media_type = data["MediaContentType#{num}"]
+      #text = data["Body"]
 
-      case media_type
-        when "image/gif" then photo_block(attachment, text)
-        when "image/jpeg" then photo_block(attachment, text)
+      case attachment['type']
+        when "image" then photo_block(attachment["payload"]["url"])
+        #when "image/jpeg" then photo_block(attachment, text)
       end
     end
 
@@ -283,15 +280,10 @@ module MessageApis
 
     end
 
-    def photo_block(url, text)
-
-      #media = data['attachment']['media']
-      #url = direct_upload(media["media_url_https"])
-      #text = data['text'].split(" ").last
-
+    def photo_block(url)
       {
         "key": keygen,
-        "text": text,
+        "text": '',
         "type":"image",
         "depth":0,
         "inlineStyleRanges":[],
@@ -304,7 +296,7 @@ module MessageApis
           #},
           "width": 100, #media["sizes"]["small"]["w"].to_i,
           "height": 100, #media["sizes"]["small"]["h"].to_i,
-          "caption": text,
+          "caption": '',
           "forceUpload":false,
           "url": url,
           "loading_progress":0,
@@ -320,6 +312,15 @@ module MessageApis
       ('a'..'z').to_a.shuffle[0,8].join
     end
 
+    def get_fb_profile(id)
+      #curl -X GET "https://graph.facebook.com/<PSID>?fields=first_name,last_name,profile_pic&access_token=<PAGE_ACCESS_TOKEN>"
+      url = "https://graph.facebook.com/#{id}?fields=first_name,last_name,profile_pic&access_token=#{@api_token}"
+      response = @conn.get(
+        url,
+        "Content-Type" => "application/json"
+      )
+      JSON.parse(response.body)
+    end
 
     def add_participant(messenger_user)
       app = @package.app
@@ -327,18 +328,26 @@ module MessageApis
 
         data = {
           properties: {
-            #name: messenger_user["name"],
             messenger_id: messenger_user
           }
         }
 
-        # use external profiles
+        # TODO: use external profiles
         participant = app.app_users.where(
           "properties->>'messenger_id' = ?", messenger_user
         ).first
+        
+        if participant.blank?
+          profile_data = get_fb_profile(messenger_user)
+          if profile_data.keys.include?("first_name")
+            name = "#{profile_data["first_name"]} #{profile_data["last_name"]}"
+            profile_data.merge!(name: name)
+            data.deep_merge!(
+              properties: profile_data.except("id")
+            ) 
+          end
+        end
 
-        ## todo: check user for this & previous conversation
-        ## via twitter with the twitter user id
         participant = app.add_anonymous_user(data) if participant.blank?
 
         participant
