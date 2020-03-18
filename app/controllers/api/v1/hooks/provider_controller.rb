@@ -5,7 +5,8 @@ class Api::V1::Hooks::ProviderController < ApplicationController
 
   def create
     response = @integration_pkg.create_hook_from_params(params)
-    @integration_pkg.message_api_klass.response_with_text? ?
+    api = @integration_pkg.message_api_klass
+    api.respond_to?(:response_with_text?) && api.response_with_text? ?
     render( status: 200, plain: response) :
     render( status: 200, json: response.to_json)
   end

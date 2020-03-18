@@ -152,7 +152,7 @@ class App < ApplicationRecord
 
     attrs.merge!(
       name: "visitor #{next_id}"
-    ) unless attrs[:properties][:name].present?
+    ) unless attrs.dig(:properties, :name).present?
 
     ap = app_users.visitors.find_or_initialize_by(session_id: session_id)
     # ap.type = "Visitor"
