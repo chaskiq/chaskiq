@@ -62,6 +62,7 @@ class Agent < ApplicationRecord
     country_code
     region
     region_code
+    enable_deliveries
   ]
 
   has_one_attached :avatar

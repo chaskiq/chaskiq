@@ -56,7 +56,7 @@ class ChatNotifierMailer < ApplicationMailer
     
     template = recipient.is_a?(Agent) ? 'agent_notify' : 'notify'
 
-    return if recipient.is_a?(Agent) && recipient.bot?
+    return if recipient.is_a?(Agent) && (recipient.bot? && recipient.enable_deliveries)
 
     roadie_mail(from: "#{from_name}<#{from_email}>",
          to: email,
