@@ -1,9 +1,6 @@
 
 
 describe('Conversation Spec', function() {
-  beforeEach(() => {
-    cy.app('clean') // have a look at cypress/app_commands/clean.rb
-  })
 
   it('will open message and dissapear on second visit', function() {
     cy.appScenario('basic')
