@@ -148,7 +148,52 @@ class AppPackagesCatalog
           }
         ]
       },
-      
+
+
+      {
+        name: 'Zoom',
+        tag_list: ['editor'],
+        description: 'Zoom conference calls',
+        icon: 'https://logo.clearbit.com/zoom.com',
+        state: 'enabled',
+        definitions: [
+          {
+            name: 'api_key',
+            type: 'string',
+            grid: { xs: 12, sm: 12 }
+          },
+          {
+            name: 'api_secret',
+            type: 'string',
+            grid: { xs: 12, sm: 12 }
+          },
+          {
+            name: 'access_token',
+            type: 'string',
+            grid: { xs: 12, sm: 12 }
+          }
+        ],
+        editor_definitions: {
+          requires: [
+            { type: "input", 
+              name: "src", 
+              placeholder: "zoom meeting id", 
+              hint: "is the calendy url"
+            }
+          ],
+          schema: [
+              {
+                name: "zoom", 
+                type: "button", 
+                label: "enter video call", 
+                element: "button", 
+                placeholder: "click button to open video call"
+            }
+          ]
+        }
+      },
+
+
       {
         name: 'Calendly',
         tag_list: ['editor'],

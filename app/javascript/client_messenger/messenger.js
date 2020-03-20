@@ -1418,7 +1418,8 @@ class AppBlockPackageFrame extends Component {
     src.searchParams.set("conversation_key", this.props.appBlock.message.conversation.key )
     src.searchParams.set("name", mainParticipant.displayName )
     src.searchParams.set("message_id", this.props.appBlock.message.id )
-    
+    src.searchParams.set("data", JSON.stringify(this.props.appBlock.message.message.data) )
+
     return <div>
               <iframe src={src.href} 
                 style={{

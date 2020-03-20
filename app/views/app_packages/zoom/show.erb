@@ -1,0 +1,54 @@
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>ZOOM</title>
+  <style>
+  
+  body {
+    margin: 0px;
+    background: url('https://www.toptal.com/designers/subtlepatterns/patterns/restaurant_icons.png');
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;  
+  }
+
+  h1 {
+    font-size: 50px;
+    text-align: center;
+  }
+
+  .container {
+    margin: 0 auto;
+    width: 100%;
+  }
+
+  .container p, .container h2 {
+    text-align: center;
+  }
+
+  iframe {
+    border: none;
+    width: 100%;
+    height: 100vh;
+  }
+  
+  </style>
+</head>
+
+<body>
+  <div class="container">
+    <% d = JSON.parse(params[:data])%>
+    <iframe 
+        src="https://zoom.us/wc/<%= d['meeting_id'] %>/join?prefer=0&un=TWluZGF1Z2Fz&pwd=<%= d['password'] %>" 
+        sandbox="allow-forms allow-scripts allow-same-origin" 
+        allow="microphone; camera">
+    </iframe>
+    
+    </div>
+  </div>
+  
+</body>
+
+
+</html>
