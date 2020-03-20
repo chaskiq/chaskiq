@@ -128,7 +128,16 @@ class ConversationPart < ApplicationRecord
     )
   end
 
+  def controls_ping_apis
+    if self.messageable.is_a?(ConversationPartBlock)
+      self.messageable.create_fase(conversation.app)
+    end
+  end
+
   def assign_and_notify
+
+    controls_ping_apis
+
     increment_message_stats
 
     if authorable.is_a?(Agent) && !is_event_message? && !from_bot?
