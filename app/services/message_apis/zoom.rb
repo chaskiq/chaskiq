@@ -29,6 +29,7 @@ module MessageApis
     end
 
     def create_fase(block)
+            
       response = @conn.post(
         'https://api.zoom.us/v2/users/miguelmichelson@gmail.com/meetings',
         {
@@ -61,8 +62,6 @@ module MessageApis
       #end
     end
 
-
-
     def enqueue_process_event(params, package)
       HookMessageReceiverJob.perform_now(
         id: package.id, 
@@ -74,6 +73,9 @@ module MessageApis
       @package = package
       event = params["event"]
       payload = params["payload"]
+
+      # https://marketplace.zoom.us/docs/api-reference/webhook-reference/meeting-events/meeting-ending
+
       #case event
       #when "invitee.created" then handle_created_invitee(payload)
       #when "invitee.canceled" then handle_cancelled_invitee(payload)
