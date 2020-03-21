@@ -16,9 +16,11 @@ describe('Conversation Spec', function() {
       cy.wrap($body).contains('a few seconds ago')
       cy.wrap($body).xpath("/html/body/div/div/div/div[2]/div/div[1]/div[2]/div")
       .click().then(()=>{
-      
-        cy.wrap($body).contains('foobar')
 
+        cy.wrap($body)
+        .contains('foobar')
+
+        cy.wrap($body)
         .xpath("/html/body/div/div/div/div[2]/div/div/div/div[2]/div/div/textarea")
         .type("oeoe \n")
 
@@ -41,11 +43,20 @@ describe('Conversation Spec', function() {
         cy.wrap($body)
         .xpath("/html/body/div/div/div/div[2]/div/div/div/div[2]/div/div/textarea")
         .should('be.enabled').then(()=>{
+
+          expect(
+            cy.wrap($body)
+              .xpath("/html/body/div/div/div/div[2]/div/div/div/div[2]/div/div/textarea")
+          ).to.exist
+          
           cy.wrap($body)
           .xpath("/html/body/div/div/div/div[2]/div/div/div/div[2]/div/div/textarea")
           .type("oeoe \n")
+
           cy.wrap($body).contains('oeoe')
+
           cy.app('start_conversation' , {text: '11111', app_key: appKey, rules: []})
+          
           cy.wrap($body).contains('was assigned to this conversation')
           cy.wrap($body).contains('11111')
         })

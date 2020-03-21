@@ -492,8 +492,9 @@ class AppPackageBlock extends Component {
   }
 
   handleStepControlClick = (item)=>{
-    if(this.props.message.data && this.props.message.data.join_url)
-      return window.open(this.props.message.data.join_url)
+
+    if(this.props.message.data && this.props.message.data.opener)
+      return window.open(this.props.message.data.opener)
 
     this.props.clickHandler(item, this.props)
   }
