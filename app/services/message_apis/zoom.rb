@@ -112,7 +112,7 @@ module MessageApis
     def self.display_data(data)
       return if data.blank?
       {
-        "join_url": data["join_url"],
+        "opener": data["join_url"],
         "status": data["status"],
         "password": data["password"],
         "meeting_id": data["id"]
