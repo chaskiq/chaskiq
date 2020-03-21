@@ -49,6 +49,7 @@ class App < ApplicationRecord
   has_many :sections, through: :article_collections
 
   has_many :conversations
+  has_many :conversation_parts, through: :conversations, source: :messages
   has_many :segments
 
   has_many :roles
