@@ -129,6 +129,7 @@ class ConversationPart < ApplicationRecord
   end
 
   def controls_ping_apis
+
     if self.messageable.is_a?(ConversationPartBlock)
       self.messageable.create_fase(conversation.app)
     end

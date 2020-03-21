@@ -75,40 +75,37 @@ module MessageApis
       payload = params["payload"]
 
       # https://marketplace.zoom.us/docs/api-reference/webhook-reference/meeting-events/meeting-ending
-
-      #case event
-      #when "invitee.created" then handle_created_invitee(payload)
-      #when "invitee.canceled" then handle_cancelled_invitee(payload)
-      #end
-    end
-
-    def register_webhook(app_package, integration)
-      subscription_url = "#{ENV['HOST']}/api/v1/hooks/#{integration.app.key}/#{app_package.name.underscore}/#{integration.id}"
-      data = {
-        url: subscription_url,
-        events: ['invitee.created', 'invitee.canceled']
-      }
-      url = url('/hooks')
-      response = @conn.post do |req|
-        req.url url
-        req.headers['Content-Type'] = 'application/json'
-        req.body = data.to_json
+      case event
+      when "meeting.started" then handle_started_meeting(payload)
+      when "meeting.ended" then handle_ended_meeting(payload)
       end
     end
 
-    def get_webhooks
-      url = url("/hooks")
-      response = @conn.get(url, nil )
-      JSON.parse(response.body)
+    def find_message(payload)
+      message = @package.app.conversation_parts.find_by(
+        key: payload["object"]["topic"]
+      )
+      data = message.messageable.data || {}
+
+      [message, data]
     end
 
-    def delete_webhook(id)
-      url = url("/hooks/#{id}")
-      response = @conn.delete(url, nil )
+    def handle_started_meeting(payload)
+      message, data = find_message(payload)
+      message.messageable.save_replied(
+        data.merge(status: 'meeting_started')
+      )
     end
 
-    def delete_webhooks
-      get_webhooks["data"].map{|o| delete_webhook(o["id"])}
+    def handle_ended_meeting(payload)
+      message, data = find_message(payload)      
+      message.messageable.save_replied(
+        data.merge(status: 'meeting_ended')
+      )
+    end
+
+    def register_webhook(app_package, integration)
+      
     end
 
     # for display in replied message
