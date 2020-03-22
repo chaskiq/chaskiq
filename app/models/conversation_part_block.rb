@@ -8,6 +8,8 @@ class ConversationPartBlock < ApplicationRecord
 
   def create_fase(app)
 
+    return self.blocks["app_package"].blank?
+    
     klass = "MessageApis::#{self.blocks["app_package"].capitalize}".constantize
 
     return unless klass.instance_methods.include?(:create_fase)
