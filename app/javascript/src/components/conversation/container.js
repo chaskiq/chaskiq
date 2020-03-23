@@ -38,6 +38,8 @@ import CheckIcon from '@material-ui/icons/Check'
 import InboxIcon from '@material-ui/icons/Inbox'
 import BackIcon from '@material-ui/icons/ArrowBackIos'
 import PriorityHighIcon from '@material-ui/icons/PriorityHigh'
+import Chip from '@material-ui/core/Chip'
+import Typography from '@material-ui/core/Typography'
 
 import theme from '../../textEditor/theme'
 import themeDark from '../../textEditor/darkTheme'
@@ -226,11 +228,27 @@ class ConversationContainerShow extends Component {
   }
 
   renderBlockRepresentation = (block)=>{
-    const blocks = toCamelCase(block.message.blocks)
+    const {blocks, data} = block.message
     // TODO: display labels, schema buttons 
     switch(blocks["type"]){
       case "app_package":
-        return <p>app package {blocks["appPackage"]}</p>
+        return <div>
+
+                <Typography variant="overline">
+                  {blocks["appPackage"]} 
+                </Typography>
+
+                <br/>
+                
+                <Typography variant={'caption'} >
+                  { 
+                    data && <span
+                      dangerouslySetInnerHTML={
+                      { __html: data.formattedText }
+                    }/> 
+                  }
+                </Typography>
+              </div>
       case "ask_option":
         return <p>ask option</p>
       case "data_retrieval":
@@ -239,12 +257,15 @@ class ConversationContainerShow extends Component {
   }
 
   renderBlocks = (o)=>{
+
+    const block = toCamelCase(o)
+    const {blocks, data} = block.message
+
     if(o.message.state != "replied") 
-      return this.renderBlockRepresentation(o)
+      return this.renderBlockRepresentation(block)
 
     const item = o.message.data
     if(!item) return "replied"
-
 
     //if(!o.fromBot) return
 
@@ -256,12 +277,31 @@ class ConversationContainerShow extends Component {
                </p>
       default:
 
-        if(o.message.blocks.type === "app_package"){
-          return Object.keys(o.message.data).map((k)=>{
+        if(blocks.type === "app_package"){
+          /*return Object.keys(o.message.data).map((k)=>{
             const val = o.message.data[k]
             if(typeof(val) != "string") return
             return <p>{k}: {val}</p>
-          })
+          })*/
+
+          return <div>
+
+                    <Typography variant="overline">
+                      {blocks["appPackage"]} 
+                    </Typography>
+
+                    <br/>
+                   
+                    <Typography variant={'caption'} >
+                      { 
+                        data && <span
+                          dangerouslySetInnerHTML={
+                          { __html: data.formattedText }
+                        }/> 
+                      }
+                    </Typography>
+
+                  </div>
         }
 
         if (o.message.blocks.type === "data_retrieval"){

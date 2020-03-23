@@ -5,22 +5,6 @@ import {
 } from '../../support/utils'
 
 describe('Translations Spec', function() {
-  beforeEach(() => {
-    cy.app('clean') // have a look at cypress/app_commands/clean.rb
-    /*cy.appEval(`ClientTesterController.any_instance.stub(:user_options){
-      { email: "test@test.cl",
-        properties: {
-            name: "miguel",
-            lang: "en",
-            id: "localhost",
-            country: "chile",
-            role: "admin",
-            pro: true
-        }
-      } 
-    }`)*/
-  })
-
 
   it('user lang en', function() {
     cy.appScenario('basic')

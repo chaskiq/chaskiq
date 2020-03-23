@@ -49,6 +49,7 @@ class App < ApplicationRecord
   has_many :sections, through: :article_collections
 
   has_many :conversations
+  has_many :conversation_parts, through: :conversations, source: :messages
   has_many :segments
 
   has_many :roles
@@ -148,13 +149,11 @@ class App < ApplicationRecord
   def add_anonymous_user(attrs)
     session_id = attrs.delete(:session_id)
 
-    # TODO: should lock table here ? or ..
-    # https://www.postgresql.org/docs/9.3/sql-createsequence.html
-    # next_id = self.app_users.visitors.maximum("id").to_i + 1
-
     next_id = DummyName::Name.new
 
-    attrs.merge!(name: "visitor #{next_id}")
+    attrs.merge!(
+      name: "visitor #{next_id}"
+    ) unless attrs.dig(:properties, :name).present?
 
     ap = app_users.visitors.find_or_initialize_by(session_id: session_id)
     # ap.type = "Visitor"
