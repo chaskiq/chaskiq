@@ -21,7 +21,7 @@ class ConversationPartBlock < ApplicationRecord
               .where("app_packages.name =?", self.blocks["app_package"].capitalize )
               .first.message_api_klass rescue nil
 
-    data = klass.create_fase(self)
+    data = klass.create_fase(self, klass)
 
     self.data = data
     self.save

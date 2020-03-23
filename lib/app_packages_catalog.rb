@@ -177,8 +177,8 @@ class AppPackagesCatalog
           requires: [
             { type: "input", 
               name: "src", 
-              placeholder: "zoom meeting id", 
-              hint: "is the calendy url"
+              placeholder: "user email", 
+              hint: "is the zoom owner email or zoom user id"
             }
           ],
           schema: [
