@@ -1,6 +1,5 @@
 describe('Task bot Spec', function() {
   beforeEach(() => {
-    cy.app('clean') // have a look at cypress/app_commands/clean.rb
     cy.appEval('ActiveJob::Base.queue_adapter = :test')
     cy.appEval('ActiveJob::Base.queue_adapter.perform_enqueued_at_jobs = true')
     //cy.appEval('Redis.current.del("app_user:1:trigger_locked")')
@@ -144,13 +143,13 @@ describe('Task bot Spec', function() {
                   .xpath("/html/body/div/div/div/div[2]/div/div/div/div[2]/div/div/textarea")
                   .type("oeoe \n")
                   
-                  //cy.wrap($body).contains("will reply as soon as they can.")
+                  cy.wrap($body).contains("will reply as soon as they can.")
   
-                  //cy.wrap($body).contains("oeoe")
-                  //cy.wrap($body).contains("Are you an existing customer ?")
-                  //cy.wrap($body).contains("I'm existing customer").click()
-                  //cy.wrap($body).contains("Enter your email")
-                  
+                  cy.wrap($body).contains("oeoe")
+                  cy.wrap($body).contains("existing customer ?")
+                  cy.wrap($body).contains("I'm a customer").click()
+                  cy.wrap($body).contains("You replied Yes, I'm a customer")
+                  cy.wrap($body).contains('you will get a reply from one of our agents')
                   
   
                 })

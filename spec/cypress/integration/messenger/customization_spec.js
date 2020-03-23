@@ -15,7 +15,6 @@ const defaultPredicates =  [
 
 describe('Customization Spec', function() {
   beforeEach(() => {
-    cy.app('clean') // have a look at cypress/app_commands/clean.rb
     cy.appEval('ActiveJob::Base.queue_adapter = :test')
     cy.appEval('ActiveJob::Base.queue_adapter.perform_enqueued_at_jobs = true')
   })

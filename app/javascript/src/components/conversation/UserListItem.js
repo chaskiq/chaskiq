@@ -14,6 +14,7 @@ import styled from '@emotion/styled'
 import PriorityHighIcon from '@material-ui/icons/PriorityHigh'
 import Moment from 'react-moment'
 import { lighten } from "polished";
+import {toCamelCase} from '../../shared/caseConverter'
 
 
 const useStyles = makeStyles(theme => ({
@@ -141,9 +142,10 @@ function AlignItemsList(props) {
 
   const renderAppBlock = ()=>{
 
-    const message = props.messageObject.message
+    const message = toCamelCase(props.messageObject.message)
+    const {blocks} = message
 
-    if(message.blocks){
+    if(blocks){
       
       const replied = message.state === "replied"
    
@@ -151,18 +153,21 @@ function AlignItemsList(props) {
 
       return <div className={classes.contentContent}>
               
-              <span>
-                {`[${message.blocks.type}] `}
-                {replied && <span>&#10003;{" "}<br/></span>}
+              <Typography variant="overline">
+                {blocks.app_package || blocks.appPackage} 
+              </Typography>
+
+              <br/>
               
-              {
-                data && Object.keys(data).map((o, i)=>{
-                  return <span key={`align-item-${i}`}>
-                          {o}: {data[o]}<br/>
-                        </span>
-                })
-              }
-              </span>
+              <Typography variant={'caption'} >
+                { 
+                  data && <span
+                    dangerouslySetInnerHTML={
+                    { __html: data.formatted_text || data.formattedText }
+                  }/> 
+                }
+              </Typography>
+
              </div>
 
     }

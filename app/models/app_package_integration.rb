@@ -6,6 +6,8 @@ class AppPackageIntegration < ApplicationRecord
 
   after_create :handle_registration
 
+  # possible names for api requirements, 
+  # it also holds a credentials accessor in which can hold a hash
   store :settings, accessors: %i[
     api_key
     api_secret
@@ -13,9 +15,10 @@ class AppPackageIntegration < ApplicationRecord
     report_id
     access_token
     access_token_secret
-    user_id,
-    user_token,
-    credentials
+    user_id
+    user_token
+    credentials,
+    verify_token
   ], coder: JSON
 
   validate do

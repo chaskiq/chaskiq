@@ -106,6 +106,9 @@ module MessageApis
       {
         "#{k}": "you are scheduled with 
         #{data['assigned_to'].join(", ")} 
+        at Calendly on #{data['start_time_pretty']}",
+        formatted_text: "you are scheduled with 
+        #{data['assigned_to'].join(", ")} 
         at Calendly on #{data['start_time_pretty']}"
       }
     end
