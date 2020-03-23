@@ -28,13 +28,15 @@ module MessageApis
       "#{BASE_URL}#{url}"
     end
 
-    def create_fase(block)
+    def create_fase(block, package)
             
+      value = block.blocks.dig("values", "src")
+
       response = @conn.post(
-        'https://api.zoom.us/v2/users/miguelmichelson@gmail.com/meetings',
+        "https://api.zoom.us/v2/users/#{value}/meetings",
         {
           "duration": 20,
-          "password": "string",
+          "password": DummyName::Name.new,
           "settings": {
             "audio": true,
             "host_video": true,
@@ -50,7 +52,7 @@ module MessageApis
       )
 
       puts response.body
-      return nil unless response.success?
+      #return nil unless response.success?
 
       JSON.parse(response.body)
     end
@@ -111,11 +113,22 @@ module MessageApis
     # for display in replied message
     def self.display_data(data)
       return if data.blank?
+
+      return {
+              'formatted_text': data['message']
+             } if data['message'].present?
+
       {
         "opener": data["join_url"],
         "status": data["status"],
         "password": data["password"],
-        "meeting_id": data["id"]
+        "meeting_id": data["id"], 
+        "formatted_text": "<span>
+          <a href=#{data["join_url"]} target='blank'> Zoom meeting: #{data['id']}</a> 
+          <br/> password: #{data["password"]}
+          <br/> status: #{data["status"]}
+          </span>
+        "
       }
     end
   

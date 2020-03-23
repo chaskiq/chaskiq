@@ -532,12 +532,23 @@ class AppPackageBlock extends Component {
 
       default:
 
+        const message = this.props.message
+        const {blocks, data} = message
+
         if(this.props.message.blocks.type === "app_package"){
-          return Object.keys(this.props.message.data).map((k)=>{
-            const val = this.props.message.data[k]
-            if(typeof(val) != "string") return
-            return <p>{k}: {this.props.message.data[k]}</p>
-          })
+          
+          return <p>
+                  <strong>
+                    {blocks.app_package || blocks.appPackage} 
+                  </strong>
+                  <br/>
+                    { 
+                      data && <span
+                        dangerouslySetInnerHTML={
+                        { __html: data.formatted_text || data.formattedText }
+                      }/> 
+                    }
+                </p>
         }
 
         if (this.props.message.blocks.type === "data_retrieval"){
@@ -639,7 +650,12 @@ export function CommentsItemComp(props){
   }
 
   function renderItemPackage(message){
-    return message.message.blocks.type
+    switch (message.message.blocks.type) {
+      case 'app_package':
+        return <span>{message.message.blocks.app_package}</span>
+      default:
+        return message.message.blocks.type
+    }
   }
 
   function renderMessage(message){
