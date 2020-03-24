@@ -38,7 +38,7 @@ module MessageApis
       challenge = params["hub.challenge"]
 
       verify_token = package.settings["verify_token"]
-      
+
       # Checks if a token and mode is in the query string of the request
       if mode && token 
         # Checks the mode and token sent is correct
@@ -112,7 +112,9 @@ module MessageApis
         "recipient": {
           "id": provider_channel_id
         },
-        "message": {"text": plain_message}
+        "message": {"text": plain_message},
+        "messaging_type": "MESSAGE_TAG",
+        "tag": "ACCOUNT_UPDATE"
       }
       
       response = @conn.post(
@@ -120,7 +122,6 @@ module MessageApis
         request_body.to_json,
         "Content-Type" => "application/json"
       )
-
     end
 
     def process_message(params, package)
@@ -158,11 +159,6 @@ module MessageApis
       return if serialized_content.blank?
 
       participant = add_participant(messenger_user)
-
-      #conversation.conversation_channels.create({
-      #  provider: 'messenger',
-      #  provider_channel_id: channel_id
-      #}) if conversation.blank?
 
       conversation = app.conversations.create(
         main_participant: participant,

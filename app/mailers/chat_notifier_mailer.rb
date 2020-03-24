@@ -40,6 +40,8 @@ class ChatNotifierMailer < ApplicationMailer
     subject       = "new message from #{app.name}"
     reply_email   = from_email
 
+    return if email.blank?
+
     options = { 'In-Reply-To' => from_email }
 
     # get previous 2 message ids
