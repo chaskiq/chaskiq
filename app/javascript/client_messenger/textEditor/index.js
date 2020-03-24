@@ -26,6 +26,7 @@ import { CodeBlockConfig } from 'Dante2/package/es/components/blocks/code'
 import { DividerBlockConfig } from "Dante2/package/es/components/blocks/divider";
 //import { ButtonBlockConfig } from "../../editor/components/blocks/button";
 
+
 import Prism from 'prismjs';
 import { PrismDraftDecorator } from 'Dante2/package/es/components/decorators/prism'
 
@@ -42,7 +43,13 @@ import CircularProgress from '@material-ui/core/CircularProgress';
 
 import {getFileMetadata} from '../../src/shared/fileUploader' //'../shared/fileUploader'
 
+import 'draft-js/dist/Draft.css'
+
 const EditorStylesExtend = styled(EditorStyles)`
+  
+  @import url('https://fonts.googleapis.com/css?family=Inter:100,200,300,400,500,600,700,800,900&display=swap');   
+
+  font-family: 'Inter', sans-serif;
 
   line-height: ${(props)=> props.styles.lineHeight || '2em' };
   font-size: ${(props)=> props.styles.fontSize || '1.2em' };
