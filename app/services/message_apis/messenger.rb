@@ -37,13 +37,12 @@ module MessageApis
       mode = params["hub.mode"]
       challenge = params["hub.challenge"]
 
-      # naive auth
-      key = package.app.key+package.id.to_s
-
+      verify_token = package.settings["verify_token"]
+      
       # Checks if a token and mode is in the query string of the request
       if mode && token 
         # Checks the mode and token sent is correct
-        if mode === 'subscribe' && token === key
+        if mode === 'subscribe' && token === verify_token
           # Responds with the challenge token from the request
           challenge
          else 
