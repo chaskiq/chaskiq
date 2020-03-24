@@ -382,7 +382,8 @@ export default class TourManager extends Component {
                   styles={
                     {
                       lineHeight: '2em',
-                      fontSize: '0.9em'
+                      fontSize: '0.9em',
+                      marginLeft: '31px'
                     }
                   }
                   saveHandler={this.saveContent} 

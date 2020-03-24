@@ -1,6 +1,7 @@
 import React from 'react'
 import styled from '@emotion/styled'
 import DanteContainer from '../textEditor/editorStyles'
+import 'draft-js/dist/Draft.css'
 import theme from '../textEditor/theme'
 import { ThemeProvider } from 'emotion-theming'
 import {CloseIcon} from '../icons'
