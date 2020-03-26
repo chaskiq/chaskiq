@@ -71,6 +71,10 @@ class MainRouter extends Component {
       currentUser: {},
       theme: store.getState().theme,
     }
+
+    //console.log(process.env.HOST)
+    const host = document.querySelector("meta[name='chaskiq-host']").getAttribute('content')
+    this.chaskiqHost = new URL(host).host
   }
 
   getCurrentUser = ()=>{
@@ -113,9 +117,8 @@ class MainRouter extends Component {
                 <Route
                   render={props => { 
                     const subdomain = window.location.hostname.split('.')
-                    const appDomains = ["chaskiq", "www", "admin", "app"].filter((o)=> o === subdomain[0])
-                     
-                    if (subdomain && subdomain.length > 1 && appDomains.length === 0) 
+                    console.log(this.chaskiqHost.hostname , window.location.hostname)
+                    if( this.chaskiqHost != window.location.host)
                       return <Docs {...this.props} {...props} subdomain={subdomain[0]}/>
                      
                     return <AppLayout 

@@ -38,7 +38,7 @@ import DeleteDialog from '../components/deleteDialog'
 import {successMessage} from '../actions/status_messages'
 import { setCurrentSection, setCurrentPage } from '../actions/navigation'
 
-const useStyles = makeStyles((theme: Theme) => createStyles({
+const useStyles = makeStyles((theme) => createStyles({
   root: {
     padding: theme.spacing(3),
     marginBottom: theme.spacing(1)
