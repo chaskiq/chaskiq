@@ -70,19 +70,19 @@
     "ua-parser-js": "^0.7.20",
     "url-pattern": "^1.0.3",
     "webpack-bundle-analyzer": "^3.6.0",
-    "yarn": "^1.21.1"
-  },
-  "devDependencies": {
+    "yarn": "^1.21.1",
     "@babel/plugin-transform-typescript": "^7.9.4",
     "@babel/preset-react": "^7.9.4",
     "babel-plugin-prismjs": "^1.1.1",
-    "cypress": "^3.8.3",
-    "cypress-xpath": "^1.4.0",
-    "dotenv": "^8.2.0",
     "postcss-cssnext": "^3.1.0",
     "webpack": "^4.8.3",
     "webpack-cli": "^3.1.1",
     "webpack-dev-server": "^3.1.4"
+  },
+  "devDependencies": {
+    "cypress": "^3.8.3",
+    "cypress-xpath": "^1.4.0",
+    "dotenv": "^8.2.0"
   },
   "resolutions": {
     "styled-components": "^4.3.2"
