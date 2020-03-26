@@ -154,7 +154,7 @@ function AppPackagePanel(props) {
         aria-describedby="alert-dialog-description"
       >
         <DialogTitle id="alert-dialog-title">
-          Compose a new message
+          Send App Package
         </DialogTitle>
         
         <DialogContent>
@@ -162,13 +162,19 @@ function AppPackagePanel(props) {
 
             {
               providers.map((o)=>{
-                return <Button 
-                          variant={"outlined"} 
-                          key={ `${o.name}-tab` } 
-                          onClick={()=>handleClick(o)}>
-                          <img src={o.icon} width={20} height={20}/>
-                          {o.name}
-                       </Button>
+                return <Box ml={1}>
+                          <Button 
+                              variant={"outlined"} 
+                              key={ `${o.name}-tab` } 
+                              onClick={()=>handleClick(o)}>
+                              <img src={o.icon} 
+                                width={20} 
+                                height={20}
+                              />
+                              {" "}
+                              {o.name}
+                          </Button>
+                       </Box>
               })
             }
 

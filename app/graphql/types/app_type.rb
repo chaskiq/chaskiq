@@ -49,7 +49,7 @@ module Types
     def editor_app_packages
       object.app_packages.tagged_with("editor")
       .joins(:app_package_integrations)
-      .where("app_package_integrations.id is not null")
+      .where("app_package_integrations.id is not null").uniq
     end
 
     def gather_social_data
