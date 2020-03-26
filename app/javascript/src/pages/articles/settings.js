@@ -324,7 +324,7 @@ class Settings extends Component {
 
 class SettingsForm extends Component{
 
-  formRef: any;
+  formRef
 
   onSubmitHandler = ()=>{
     const serializedData = serialize(this.formRef, { hash: true, empty: true })
