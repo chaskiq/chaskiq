@@ -43,20 +43,18 @@ import CircularProgress from '@material-ui/core/CircularProgress';
 
 import {getFileMetadata} from '../../src/shared/fileUploader' //'../shared/fileUploader'
 
-import 'draft-js/dist/Draft.css'
-
-const EditorStylesExtend = styled(EditorStyles)`
+export const EditorStylesExtend = styled(EditorStyles)`
   
   @import url('https://fonts.googleapis.com/css?family=Inter:100,200,300,400,500,600,700,800,900&display=swap');   
 
   font-family: 'Inter', sans-serif;
 
-  line-height: ${(props)=> props.styles.lineHeight || '2em' };
-  font-size: ${(props)=> props.styles.fontSize || '1.2em' };
+  line-height: ${(props)=> '2em' };
+  font-size: ${(props)=> '1.2em' };
 
   .graf--p{
-    line-height: ${(props)=> props.styles.lineHeight || '2em' };
-    font-size: ${(props)=> props.styles.fontSize || '1.2em' };
+    line-height: ${(props)=> '2em' };
+    font-size: ${(props)=> '1.2em' };
     margin-bottom: 0px;
   }
 
@@ -144,7 +142,7 @@ export default class ArticleEditor extends Component {
       ] 
     }
 
-    this.initialContent = this.defaultContent()
+    //this.initialContent = this.defaultContent()
   }
 
   defaultContent = () => {
@@ -589,7 +587,7 @@ export default class ArticleEditor extends Component {
                   onChange={(e) => {
                     this.dante_editor = e
                   }}
-                  content={this.initialContent}
+                  content={this.defaultContent()}
                   tooltips={this.props.tooltipsConfig ? this.props.tooltipsConfig() : this.tooltipsConfig() }
                   widgets={ this.props.widgetsConfig ? this.props.widgetsConfig() : this.widgetsConfig() }
                   decorators={(context) => {
