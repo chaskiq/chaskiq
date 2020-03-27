@@ -117,8 +117,8 @@ class MainRouter extends Component {
                 <Route
                   render={props => { 
                     const subdomain = window.location.hostname.split('.')
-                    console.log(this.chaskiqHost.hostname , window.location.hostname)
-                    if( this.chaskiqHost != window.location.host)
+                    console.log(this.chaskiqHost , window.location.hostname)
+                    if( this.chaskiqHost != window.location.hostname)
                       return <Docs {...this.props} {...props} subdomain={subdomain[0]}/>
                      
                     return <AppLayout 
