@@ -9,7 +9,7 @@ Rails.application.configure do
   # and recreated between test runs. Don't rely on the data there!
   config.cache_classes = ENV['CI'].present?
 
-  ENV['HOST'] = 'http://localhost'
+  ENV['HOST'] = 'http://localhost:5002'
 
   # Do not eager load code on boot. This avoids loading your whole application
   # just for the purpose of running a single test. If you are using a tool that
