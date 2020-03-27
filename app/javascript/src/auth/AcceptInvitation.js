@@ -42,7 +42,7 @@ function MadeWithLove() {
   return (
     <Typography variant="body2" color="textSecondary" align="center">
       {'Built with love by the'}
-      <Link color="inherit" href="https://chaskiqapp.com/">
+      <Link color="inherit" href="https://chaskiq.io/">
         Chasqik
       </Link>
       {' team.'}
