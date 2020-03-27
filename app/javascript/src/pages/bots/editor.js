@@ -50,7 +50,7 @@ import Stats from '../../components/stats'
 import { setCurrentSection, setCurrentPage } from '../../actions/navigation'
 
 
-const useStyles = makeStyles((theme: Theme) => createStyles({
+const useStyles = makeStyles((theme) => createStyles({
   root: {
     padding: theme.spacing(3),
     marginBottom: theme.spacing(1),

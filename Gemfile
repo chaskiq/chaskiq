@@ -82,7 +82,7 @@ gem 'mimemagic'
 
 gem 'sidekiq'
 gem 'sidekiq-cron'
-gem 'webpacker', '~> 3.5'
+gem 'webpacker', '~> 4.2'
 
 gem 'roadie'
 gem 'roadie-rails'

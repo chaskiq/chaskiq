@@ -12,16 +12,13 @@
     "@nivo/calendar": "^0.59.1",
     "@nivo/pie": "^0.42.1",
     "@rails/activestorage": "^6.0.0",
-    "@rails/webpacker": "3.5",
+    "@rails/webpacker": "4.2",
     "Dante2": "0.5.0-rc25",
     "actioncable": "^5.2.4-1",
     "activestorage": "^5.2.3",
     "add": "^2.0.6",
     "array-move": "^2.1.0",
     "axios": "^0.18.0",
-    "babel-plugin-import": "^1.12.1",
-    "babel-plugin-prismjs": "^1.1.1",
-    "babel-preset-react": "^6.24.1",
     "draft-convert": "^2.1.8",
     "draft-js": "^0.11.4",
     "emoji-mart": "^2.11.1",
@@ -73,12 +70,19 @@
     "ua-parser-js": "^0.7.20",
     "url-pattern": "^1.0.3",
     "webpack-bundle-analyzer": "^3.6.0",
-    "yarn": "^1.21.1"
+    "yarn": "^1.21.1",
+    "@babel/plugin-transform-typescript": "^7.9.4",
+    "@babel/preset-react": "^7.9.4",
+    "babel-plugin-prismjs": "^1.1.1",
+    "postcss-cssnext": "^3.1.0",
+    "webpack": "^4.8.3",
+    "webpack-cli": "^3.1.1",
+    "webpack-dev-server": "^3.1.4"
   },
   "devDependencies": {
     "cypress": "^3.8.3",
     "cypress-xpath": "^1.4.0",
-    "webpack-dev-server": "2.11.2"
+    "dotenv": "^8.2.0"
   },
   "resolutions": {
     "styled-components": "^4.3.2"

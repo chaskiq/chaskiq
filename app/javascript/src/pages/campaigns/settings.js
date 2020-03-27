@@ -28,7 +28,7 @@ export default class CampaignSettings extends Component {
     //window.tz = moment.tz
   }
 
-  formRef: any;
+  formRef
 
   // Footer Button Handlers
   submitClickHandler = () => {

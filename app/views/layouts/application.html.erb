@@ -1,12 +1,13 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>ChaskiqApp</title>
+    <title>Chaskiq App</title>
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
 
     <meta content='True' name='HandheldFriendly'>
     <meta content='320' name='MobileOptimized'>
+    <meta name="chaskiq-host" content="<%= ENV['HOST'] %>"/>
     <!--
     <meta content='width=device-width, initial-scale=1' name='viewport'>
     <meta content='width=device-width, initial-scale=1' media='(device-height: 568px)' name='viewport'>

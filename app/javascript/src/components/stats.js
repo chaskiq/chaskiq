@@ -65,7 +65,7 @@ class Stats extends Component {
     this.getData = this.getData.bind(this)
   }
 
-  createHead = (withWidth: boolean) => {
+  createHead = (withWidth) => {
 
     return [
       {
