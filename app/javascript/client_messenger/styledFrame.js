@@ -35,8 +35,10 @@ const initialFrameContent = `<!DOCTYPE html>
                                     @supports (font-variation-settings: normal) {
                                       html { font-family: 'Inter var', sans-serif; }
                                     }
-                                    body{ margin:0px , 
-                                    font-family: font-family: 'Inter', sans-serif; }
+                                    body{ 
+                                      margin:0px; 
+                                      font-family: 'Inter', sans-serif; 
+                                    }
                                   </style>
                                 </head>
                                 <body>
