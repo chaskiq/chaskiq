@@ -12,7 +12,15 @@ import Tour from 'reactour-emotion'
 import EditorStylesExtend from 'Dante2/package/es/styled/base'
 import { disableBodyScroll, enableBodyScroll } from 'body-scroll-lock'
 import GlobalStyle from './tour/globalStyle'
-import TourHelper from './tour/tourHelper'
+//import TourHelper from './tour/tourHelper'
+
+const EditorStylesForTour = styled(EditorStylesExtend)`
+.postContent{
+  font-size: 12px;
+  overflow: scroll;
+  max-height: 200px;
+}
+`
 
 const simmer = new Simmer(window, { 
   depth: 20
@@ -125,6 +133,17 @@ const Button = styled.button`
   margin-left: 10px;
   background: aqua;
   border: none;
+  cursor: pointer;
+  &:hover{
+
+  }
+`
+
+const TourFooter = styled.div`
+  display: flex;
+  justify-content: space-between;
+  border-top: 1px solid #ccc;
+  padding: 12px 0px 1px 0px;
 `
 
 export default class TourManager extends Component {
@@ -366,7 +385,7 @@ export default class TourManager extends Component {
       target: editElement.target,
       selector: editElement.target,
       disableBeacon: true,
-      content: <EditorStylesExtend campaign={true}>
+      content: <EditorStylesForTour campaign={true}>
                   <TextEditor
                     data={{}}
                     domain={this.props.domain}
@@ -390,14 +409,14 @@ export default class TourManager extends Component {
                     loading={false}>
                   </TextEditor>
 
-                  <hr/>
-
-                  <div>
-                    this shi goeas jeje
-                    <button onClick={this.handleSaveTour}>
+                  <TourFooter>
+                    <Button onClick={this.handleCancel}>
+                      Cancel
+                    </Button>
+                    <Button onClick={this.handleSaveTour}>
                       save!
-                    </button>
-                  </div>
+                    </Button>
+                  </TourFooter>
 
                   {/*
                     <select name={"next_trigger"}>
@@ -408,7 +427,7 @@ export default class TourManager extends Component {
                     <button>save</button>
                   */}
 
-                </EditorStylesExtend>,
+                </EditorStylesForTour>,
       save: this.handleSaveTour,
       close: this.handleCancel,
       serialized_content: editElement.serialized_content
@@ -456,12 +475,12 @@ export default class TourManager extends Component {
     return this.state.steps && this.state.steps.map((o, index)=>{
       o.disableBeacon = index === 0
       o.selector = o.target
-      o.content = <EditorStylesExtend campaign={true}>
+      o.content = <EditorStylesForTour campaign={true}>
                     <DraftRenderer
                       domain={this.props.domain}
                       raw={JSON.parse(o.serialized_content)}
                     />
-                  </EditorStylesExtend>
+                  </EditorStylesForTour>
       return o
     })
   }
@@ -522,25 +541,6 @@ export default class TourManager extends Component {
           {
             this.state.selectionMode !== "edit" && this.state.run ?
           
-              /*
-                <Joyride
-                steps={this.prepareJoyRidyContent(this.state.steps)}
-                run={this.state.run}
-                tooltipComponent={Tooltip}
-                debug={true}
-                continuous
-                scrollToFirstStep
-                showProgress
-                showSkipButton
-                callback={this.handleJoyrideCallback}
-                styles={{
-                  options: {
-                    zIndex: 10000,
-                  }
-                  }}
-                />
-              */
-
               <Tour
                 steps={this.prepareJoyRidyContent(this.state.steps)}
                 isOpen={this.state.run}
@@ -571,35 +571,16 @@ export default class TourManager extends Component {
                 onAfterOpen={this.disableBody}
                 onBeforeClose={this.enableBody}
                 
-                children={
+                /*children={
                   <div>
                     this shi goeas jeje
                     <button onClick={this.handleSaveTour}>
                       save!
                     </button>
                   </div>
-                }
+                }*/
               />
               : null
-
-              /*<Joyride
-                steps={[this.state.editElement]}
-                run={true}
-                //debug={true}
-                //beaconComponent={(props)=><Tooltip/>}
-                tooltipComponent={EditorTooltip}
-                continuous={false}
-                scrollToFirstStep
-                showProgress={false}
-                showSkipButton={false}
-                //spotlightClicks
-                disableOverlayClose
-                styles={{
-                  options: {
-                    zIndex: 10000,
-                  }
-                }}
-              />*/
           }
 
         </ThemeProvider>
