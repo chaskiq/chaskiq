@@ -9,6 +9,10 @@ export default function GlobalStyle() {
               outline: none;
             }
 
+            div[data-tour-elem="controls"] {
+              justify-content: center
+            }
+
             .reactour__helper {
               outline: none;
             }

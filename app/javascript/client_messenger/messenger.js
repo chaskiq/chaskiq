@@ -1367,6 +1367,7 @@ class Messenger extends Component {
               /> : 
                 this.state.tours.length > 0 ? 
                 <Tour 
+                  t={this.props.t}
                   tours={this.state.tours}
                   events={App.events}
                   domain={this.props.domain}

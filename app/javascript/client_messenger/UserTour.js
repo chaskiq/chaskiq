@@ -13,36 +13,69 @@ import GlobalStyle from './tour/globalStyle'
 
 import Tour from 'reactour-emotion'
 
+const Fade = styled.div`
 
-import Joyride, { 
-  ACTIONS, 
-  EVENTS, 
-  STATUS, 
-  BeaconRenderProps, 
-  TooltipRenderProps,
-} from 'react-joyride';
+    position: absolute; 
+    bottom: 66px;
+    height: 48px;
+    width: 91%;
+    pointer-events: none;
 
-const NewEditorStyles = styled('div')`
-  
-  display: flex;
+    background: -webkit-linear-gradient(
+        rgba(255, 255, 255, 0) 0%,
+        rgba(255, 255, 255, 1) 100%
+    ); 
+    background-image: -moz-linear-gradient(
+        rgba(255, 255, 255, 0) 0%,
+        rgba(255, 255, 255, 1) 100%
+    );
+    background-image: -o-linear-gradient(
+        rgba(255, 255, 255, 0) 0%,
+        rgba(255, 255, 255, 1) 100%
+    );
+    background-image: linear-gradient(
+        rgba(255, 255, 255, 0) 0%,
+        rgba(255, 255, 255, 1) 100%
+    );
+    background-image: -ms-linear-gradient(
+        rgba(255, 255, 255, 0) 0%,
+        rgba(255, 255, 255, 1) 100%
+    );
+`
 
-  button.inlineTooltip-button.scale {
-    background: #fff;
-  }
-
-  button.inlineTooltip-button.control {
-    background: #fff;
-  }
-
-  .public-DraftEditorPlaceholder-root {
-    font-size: inherit;
+const Button = styled.button`
+  color: #2d3748!important;
+  box-shadow: 0 1px 3px 0 rgba(0,0,0,.1),0 1px 2px 0 rgba(0,0,0,.06)!important;
+  padding-left: 1rem!important;
+  padding-right: 1rem!important;
+  padding-top: .5rem!important;
+  padding-bottom: .5rem!important;
+  font-weight: 600!important;
+  border-width: 1px!important;
+  border-radius: .25rem!important;
+  border-color: #cbd5e0!important;
+  background-color: #fff!important;
+  padding: 0;
+  line-height: inherit;
+  color: inherit;
+  cursor: pointer;
+  background-color: transparent;
+  background-image: none;
+  padding: 0;
+  -webkit-appearance: button;
+  text-transform: none;
+  overflow: visible;
+  &:hover{
+    background-color: #f7fafc!important;
   }
 `
+
 
 export default class UserTours extends Component {
   render(){
     return this.props.tours.length > 0 ?
      <UserTour 
+      t={this.props.t}
       tour={this.props.tours[0]} 
       events={this.props.events}
       domain={this.props.domain}
@@ -55,7 +88,9 @@ export default class UserTours extends Component {
 class UserTour extends Component {
 
   state = {
-    run: true
+    run: true,
+    currentStep: 0,
+    completed: false
   }
 
   componentDidMount(){
@@ -67,43 +102,41 @@ class UserTour extends Component {
   enableBody = target => enableBodyScroll(target)
 
   prepareJoyRidyContent = ()=>{
+    const count = this.props.tour.steps.length
     return this.props.tour.steps.map((o, index)=>{
       o.selector = o.target
       o.disableBeacon = index === 0
+      o.action = (a)=>{
+          //last step
+          if(count === index+1){
+            if(this.state.completed) return
+            
+            this.setState({completed: true}, ()=>{
+              this.registerEvent('finished')
+            })
+            
+            console.log("yes shitit pop", o)
+          }
+      }
       o.content = <EditorStylesExtend 
                     campaign={true} 
                     style={{
                       fontSize: '1em',
-                      lineHeight: '1em'
+                      lineHeight: '1em',
+                      overflow: 'scroll',
+                      maxHeight: '200px'
                     }}>
                     <DraftRenderer
                         domain={this.props.domain}
                         raw={JSON.parse(o.serialized_content)}
-                      />      
+                      /> 
+                    {/*<Fade/> */}  
                   </EditorStylesExtend>
 
       return o
     })
   }
-
-  handleJoyrideCallback = data => {
-    const { action, index, status, type } = data;
-
-    if ([EVENTS.STEP_AFTER, EVENTS.TARGET_NOT_FOUND].includes(type)) {
-      // Update state to advance the tour
-      this.setState({ stepIndex: index + (action === ACTIONS.PREV ? -1 : 1) });
-    }
-    else if ([STATUS.FINISHED, STATUS.SKIPPED].includes(status)) {
-      // Need to set our running state to false, so we can restart if we click start again.
-      this.setState({ run: false });
-      this.registerEvent(status)
-    }
-
-    console.groupCollapsed(type);
-    console.log(data); //eslint-disable-line no-console
-    console.groupEnd();
-  };
-
+  
   registerEvent = (status)=>{
     const path = `track_tour_${status}`
     this.props.events && this.props.events.perform(path, 
@@ -123,6 +156,15 @@ class UserTour extends Component {
     )
   }
 
+  registerClose = ()=>{
+    this.props.events && this.props.events.perform("track_close", 
+      {
+        trackable_id: this.props.tour.id,
+        trackable_type: 'Tour'
+      }   
+    )
+  }
+
   renderTour = ()=>{
     
     if(this.props.tour.steps && this.props.tour.steps.length > 0){
@@ -131,39 +173,40 @@ class UserTour extends Component {
                   isOpen={this.state.run}
                   onRequestClose={ ()=> {
                     this.setState({ run: false }, ()=>{
-                      this.registerEvent('closed')
+                      //this.registerEvent('skipped')
+                      if(this.state.completed)
+                        return
+                      this.registerClose()
                     });
                   }} 
-                  showNavigation={true}
+                  closeWithMask={false}
+                  showButtons={
+                    //this.state.currentStep < this.props.tour.steps.length
+                    true
+                  }
+                  showNavigation={
+                    //this.state.currentStep < this.props.tour.steps.length
+                    true
+                  }
                   disableInteraction={true}
                   onAfterOpen={this.disableBody}
                   onBeforeClose={this.enableBody}
-                />
-            
-      
-              {/*<Joyride
-                steps={this.prepareJoyRidyContent(this.props.tour.steps)}
-                run={this.state.run}
-                tooltipComponent={Tooltip}
-                //beaconComponent={Beacon}
-                debug={true}
-                continuous
-                scrollToFirstStep
-                showProgress
-                showSkipButton
-                callback={this.handleJoyrideCallback}
-                styles={{
-                  options: {
-                    zIndex: 10000,
+                  lastStepNextButton={
+                    <Button onClick={()=>{
+                      this.setState({ run: false }, ()=>{
+                        // it will be triggered anyway
+                        //this.registerEvent('finished')
+                      });
+                    }}>
+                      {
+                        this.props.t(`tours.done`)
+                      }
+                    </Button>
                   }
-                }}
-              />*/}
-                
-              
+                />        
       } else {
         return null 
       }
-    
   }
 
   render(){
