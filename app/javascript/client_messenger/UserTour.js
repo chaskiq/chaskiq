@@ -1,24 +1,81 @@
 import React, {Component} from 'react'
 import DraftRenderer from './textEditor/draftRenderer'
 import DanteContainer from './textEditor/editorStyles'
+import {EditorStylesExtend} from './textEditor/index'
 import theme from './textEditor/theme'
 import styled from '@emotion/styled'
 import { ThemeProvider } from 'emotion-theming'
 
 import Tooltip from './tour/tooltip'
 
-import Joyride, { 
-  ACTIONS, 
-  EVENTS, 
-  STATUS, 
-  BeaconRenderProps, 
-  TooltipRenderProps,
-} from 'react-joyride';
+import { disableBodyScroll, enableBodyScroll } from 'body-scroll-lock'
+import GlobalStyle from './tour/globalStyle'
+
+import Tour from 'reactour-emotion'
+
+const Fade = styled.div`
+
+    position: absolute; 
+    bottom: 66px;
+    height: 48px;
+    width: 91%;
+    pointer-events: none;
+
+    background: -webkit-linear-gradient(
+        rgba(255, 255, 255, 0) 0%,
+        rgba(255, 255, 255, 1) 100%
+    ); 
+    background-image: -moz-linear-gradient(
+        rgba(255, 255, 255, 0) 0%,
+        rgba(255, 255, 255, 1) 100%
+    );
+    background-image: -o-linear-gradient(
+        rgba(255, 255, 255, 0) 0%,
+        rgba(255, 255, 255, 1) 100%
+    );
+    background-image: linear-gradient(
+        rgba(255, 255, 255, 0) 0%,
+        rgba(255, 255, 255, 1) 100%
+    );
+    background-image: -ms-linear-gradient(
+        rgba(255, 255, 255, 0) 0%,
+        rgba(255, 255, 255, 1) 100%
+    );
+`
+
+const Button = styled.button`
+  color: #2d3748!important;
+  box-shadow: 0 1px 3px 0 rgba(0,0,0,.1),0 1px 2px 0 rgba(0,0,0,.06)!important;
+  padding-left: 1rem!important;
+  padding-right: 1rem!important;
+  padding-top: .5rem!important;
+  padding-bottom: .5rem!important;
+  font-weight: 600!important;
+  border-width: 1px!important;
+  border-radius: .25rem!important;
+  border-color: #cbd5e0!important;
+  background-color: #fff!important;
+  padding: 0;
+  line-height: inherit;
+  color: inherit;
+  cursor: pointer;
+  background-color: transparent;
+  background-image: none;
+  padding: 0;
+  -webkit-appearance: button;
+  text-transform: none;
+  overflow: visible;
+  &:hover{
+    background-color: #f7fafc!important;
+  }
+`
+
 
 export default class UserTours extends Component {
   render(){
     return this.props.tours.length > 0 ?
      <UserTour 
+      t={this.props.t}
       tour={this.props.tours[0]} 
       events={this.props.events}
       domain={this.props.domain}
@@ -27,63 +84,59 @@ export default class UserTours extends Component {
   }
 }
 
-const NewEditorStyles = styled('div')`
-  
-  display: flex;
-
-  button.inlineTooltip-button.scale {
-    background: #fff;
-  }
-
-  button.inlineTooltip-button.control {
-    background: #fff;
-  }
-
-  .public-DraftEditorPlaceholder-root {
-    font-size: inherit;
-  }
-`
-
 
 class UserTour extends Component {
 
   state = {
-    run: true
+    run: true,
+    currentStep: 0,
+    completed: false
   }
 
   componentDidMount(){
     this.registerOpen()
   }
 
+  disableBody = target => disableBodyScroll(target)
+  
+  enableBody = target => enableBodyScroll(target)
+
   prepareJoyRidyContent = ()=>{
+    const count = this.props.tour.steps.length
     return this.props.tour.steps.map((o, index)=>{
+      o.selector = o.target
       o.disableBeacon = index === 0
-      o.content = <DraftRenderer
-                      domain={this.props.domain}
-                      raw={JSON.parse(o.serialized_content)}
-                    />
+      o.action = (a)=>{
+          //last step
+          if(count === index+1){
+            if(this.state.completed) return
+            
+            this.setState({completed: true}, ()=>{
+              this.registerEvent('finished')
+            })
+            
+            console.log("yes shitit pop", o)
+          }
+      }
+      o.content = <EditorStylesExtend 
+                    campaign={true} 
+                    style={{
+                      fontSize: '1em',
+                      lineHeight: '1em',
+                      overflow: 'scroll',
+                      maxHeight: '200px'
+                    }}>
+                    <DraftRenderer
+                        domain={this.props.domain}
+                        raw={JSON.parse(o.serialized_content)}
+                      /> 
+                    {/*<Fade/> */}  
+                  </EditorStylesExtend>
+
       return o
     })
   }
-
-  handleJoyrideCallback = data => {
-    const { action, index, status, type } = data;
-
-    if ([EVENTS.STEP_AFTER, EVENTS.TARGET_NOT_FOUND].includes(type)) {
-      // Update state to advance the tour
-      this.setState({ stepIndex: index + (action === ACTIONS.PREV ? -1 : 1) });
-    }
-    else if ([STATUS.FINISHED, STATUS.SKIPPED].includes(status)) {
-      // Need to set our running state to false, so we can restart if we click start again.
-      this.setState({ run: false });
-      this.registerEvent(status)
-    }
-
-    console.groupCollapsed(type);
-    console.log(data); //eslint-disable-line no-console
-    console.groupEnd();
-  };
-
+  
   registerEvent = (status)=>{
     const path = `track_tour_${status}`
     this.props.events && this.props.events.perform(path, 
@@ -103,64 +156,67 @@ class UserTour extends Component {
     )
   }
 
+  registerClose = ()=>{
+    this.props.events && this.props.events.perform("track_close", 
+      {
+        trackable_id: this.props.tour.id,
+        trackable_type: 'Tour'
+      }   
+    )
+  }
+
   renderTour = ()=>{
     
     if(this.props.tour.steps && this.props.tour.steps.length > 0){
-      return <Joyride
-                    steps={this.prepareJoyRidyContent(this.props.tour.steps)}
-                    run={this.state.run}
-                    tooltipComponent={Tooltip}
-                    //beaconComponent={Beacon}
-                    debug={true}
-                    continuous
-                    scrollToFirstStep
-                    showProgress
-                    showSkipButton
-                    callback={this.handleJoyrideCallback}
-                    styles={{
-                      options: {
-                        zIndex: 10000,
+      return <Tour
+                  steps={this.prepareJoyRidyContent(this.state.steps)}
+                  isOpen={this.state.run}
+                  onRequestClose={ ()=> {
+                    this.setState({ run: false }, ()=>{
+                      //this.registerEvent('skipped')
+                      if(this.state.completed)
+                        return
+                      this.registerClose()
+                    });
+                  }} 
+                  closeWithMask={false}
+                  showButtons={
+                    //this.state.currentStep < this.props.tour.steps.length
+                    true
+                  }
+                  showNavigation={
+                    //this.state.currentStep < this.props.tour.steps.length
+                    true
+                  }
+                  disableInteraction={true}
+                  onAfterOpen={this.disableBody}
+                  onBeforeClose={this.enableBody}
+                  lastStepNextButton={
+                    <Button onClick={()=>{
+                      this.setState({ run: false }, ()=>{
+                        // it will be triggered anyway
+                        //this.registerEvent('finished')
+                      });
+                    }}>
+                      {
+                        this.props.t(`tours.done`)
                       }
-                    }}
-                  />
-                
-              
+                    </Button>
+                  }
+                />        
       } else {
         return null 
       }
-    
   }
 
   render(){
-    return (this.renderTour())
+    return (
+      <React.Fragment>
+        <GlobalStyle/>
+        <ThemeProvider theme={ theme }>
+          {this.renderTour()}
+        </ThemeProvider>      
+      </React.Fragment>
+    )
   }
 }
-
-const Beacon = (props)=>{
-  return <ThemeProvider 
-        theme={ theme }>
-        <DanteContainer>
-          {props.children}
-        </DanteContainer>
-      </ThemeProvider> 
-}
-
-
-
-
-function CloseIcon() {
-  return (
-    <svg
-      xmlns="http://www.w3.org/2000/svg"
-      preserveAspectRatio="xMidYMid"
-      viewBox="0 0 18 18"
-    >
-      <path
-        fill="#333"
-        d="M8.14 9.003L.171 17.026a.573.573 0 000 .807.562.562 0 00.8 0L9 9.749l8.028 8.084a.562.562 0 00.8 0 .573.573 0 000-.807L9.862 9.003l7.973-8.03a.573.573 0 000-.806.564.564 0 00-.801 0L9 8.257.967.166a.564.564 0 00-.801 0 .573.573 0 000 .807l7.973 8.029z"
-      />
-    </svg>
-  );
-}
-
-// https://github.com/gilbarbara/react-joyride/blob/5679a56a49f2795244c2b4c5c641526a58602a52/src/components/Tooltip/Container.js

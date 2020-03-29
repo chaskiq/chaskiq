@@ -16,7 +16,6 @@ describe('Tours Spec', function() {
     cy.appEval('ActiveJob::Base.queue_adapter.perform_enqueued_at_jobs = true')
     cy.appEval('Redis.current.del("app_user:1:trigger_locked")')
   })
-
   
   it('display tour, finish event', function() {
     cy.appScenario('basic')
@@ -41,9 +40,10 @@ describe('Tours Spec', function() {
 
           // expect(tour.metrics.where(app_user: AppUser.last, action: "open")).to be_any
           cy.contains("this is the tour")
-          cy.contains("Next (1/2)").click()
+          cy.get('button[data-tour-elem="right-arrow"]').click()
           cy.contains("final tour step") 
-          cy.contains("Last (2/2)").click()
+
+          cy.get('button[data-tour-elem="right-arrow"]').click()
           cy.contains("final tour step").should('not.exist');
 
           cy.visit(`/tester/${appKey}`).then(()=>{
@@ -69,7 +69,8 @@ describe('Tours Spec', function() {
           //TODO:
           // expect(tour.metrics.where(app_user: AppUser.last, action: "open")).to be_any
           cy.contains("this is the tour")
-          cy.contains("skip").click()
+          cy.get('button[aria-label="Close"]').click()
+          //cy.contains("skip").click()
           cy.contains("final tour step").should('not.exist');
           cy.visit(`/tester/${appKey}`).then(()=>{
             cy.contains("this is the tour").should('not.exist');
@@ -78,6 +79,7 @@ describe('Tours Spec', function() {
       })
     })
   })
+
 
   it('display on configured url', function() {
     cy.appScenario('basic')

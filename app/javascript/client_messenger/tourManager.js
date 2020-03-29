@@ -2,26 +2,25 @@ import React, {Component} from 'react'
 import styled from '@emotion/styled'
 import Simmer from 'simmerjs'
 import TextEditor from './textEditor/index'
-import Tooltip, {TooltipBody,
-  TooltipFooter,
-  TooltipButton,
-  TooltipCloseButton,
-  TooltipBackButton} from './tour/tooltip'
-
-//import Button from '@material-ui/core/Button';
-import Joyride, { 
-  ACTIONS, 
-  EVENTS, 
-  STATUS, 
-  BeaconRenderProps, 
-  TooltipRenderProps 
-} from 'react-joyride';
 import StyledFrame from './styledFrame'
 import DraftRenderer from './textEditor/draftRenderer'
 import DanteContainer from './textEditor/editorStyles'
 import theme from './textEditor/theme'
 import { ThemeProvider } from 'emotion-theming'
+import Tour from 'reactour-emotion'
 
+import EditorStylesExtend from 'Dante2/package/es/styled/base'
+import { disableBodyScroll, enableBodyScroll } from 'body-scroll-lock'
+import GlobalStyle from './tour/globalStyle'
+//import TourHelper from './tour/tourHelper'
+
+const EditorStylesForTour = styled(EditorStylesExtend)`
+.postContent{
+  font-size: 12px;
+  overflow: scroll;
+  max-height: 200px;
+}
+`
 
 const simmer = new Simmer(window, { 
   depth: 20
@@ -134,6 +133,17 @@ const Button = styled.button`
   margin-left: 10px;
   background: aqua;
   border: none;
+  cursor: pointer;
+  &:hover{
+
+  }
+`
+
+const TourFooter = styled.div`
+  display: flex;
+  justify-content: space-between;
+  border-top: 1px solid #ccc;
+  padding: 12px 0px 1px 0px;
 `
 
 export default class TourManager extends Component {
@@ -370,43 +380,54 @@ export default class TourManager extends Component {
   }
 
   enableEditMode = (editElement)=>{
+
     let newEl = {
       target: editElement.target,
+      selector: editElement.target,
       disableBeacon: true,
-      content: <React.Fragment>
-                <TextEditor
-                  data={{}}
-                  domain={this.props.domain}
-                  handleUrlUpload={this.handleUrlUpload}
-                  handleDirectUpload={this.handleDirectUpload}
-                  styles={
-                    {
-                      lineHeight: '2em',
-                      fontSize: '0.9em',
-                      marginLeft: '31px'
+      content: <EditorStylesForTour campaign={true}>
+                  <TextEditor
+                    data={{}}
+                    domain={this.props.domain}
+                    handleUrlUpload={this.handleUrlUpload}
+                    handleDirectUpload={this.handleDirectUpload}
+                    styles={
+                      {
+                        lineHeight: '2em',
+                        fontSize: '0.9em',
+                        marginLeft: '31px'
+                      }
                     }
-                  }
-                  saveHandler={this.saveContent} 
-                  updateState={({status, statusButton, content})=> {
-                    this.saveContent(content, editElement )
-                  }
-                    //console.log("update here!", uno, dos, tres)
-                  }
-                  serializedContent={editElement.serialized_content}
-                  target={editElement.target}
-                  loading={false}>
-                </TextEditor>
+                    saveHandler={this.saveContent} 
+                    updateState={({status, statusButton, content})=> {
+                      this.saveContent(content, editElement )
+                    }
+                      //console.log("update here!", uno, dos, tres)
+                    }
+                    serializedContent={editElement.serialized_content}
+                    target={editElement.target}
+                    loading={false}>
+                  </TextEditor>
 
-                {/*<select name={"next_trigger"}>
-                  <option value="click">on Click</option>
-                  <option value="hover">on Hover</option>
-                  <option value="fill">fill</option>
-                </select>
+                  <TourFooter>
+                    <Button onClick={this.handleCancel}>
+                      Cancel
+                    </Button>
+                    <Button onClick={this.handleSaveTour}>
+                      save!
+                    </Button>
+                  </TourFooter>
 
-                <button>save</button>*/
-              }
+                  {/*
+                    <select name={"next_trigger"}>
+                      <option value="click">on Click</option>
+                      <option value="hover">on Hover</option>
+                      <option value="fill">fill</option>
+                    </select>
+                    <button>save</button>
+                  */}
 
-      </React.Fragment>,
+                </EditorStylesForTour>,
       save: this.handleSaveTour,
       close: this.handleCancel,
       serialized_content: editElement.serialized_content
@@ -453,58 +474,16 @@ export default class TourManager extends Component {
   prepareJoyRidyContent = ()=>{
     return this.state.steps && this.state.steps.map((o, index)=>{
       o.disableBeacon = index === 0
-      o.content = <DraftRenderer
-                    domain={this.props.domain}
-                    raw={JSON.parse(o.serialized_content)}
-                  />
+      o.selector = o.target
+      o.content = <EditorStylesForTour campaign={true}>
+                    <DraftRenderer
+                      domain={this.props.domain}
+                      raw={JSON.parse(o.serialized_content)}
+                    />
+                  </EditorStylesForTour>
       return o
     })
   }
-
-  handleJoyrideCallback = data => {
-    const { action, index, status, type } = data;
-
-    //console.log(data)
-
-    const centerDiv = (element)=>{
-      const elementRect = element.getBoundingClientRect();
-      const absoluteElementTop = elementRect.top + window.pageYOffset;
-      const middle = absoluteElementTop - (window.innerHeight / 2);
-      window.scrollTo(0, middle);
-    }
-
-    if ([EVENTS.STEP_AFTER, EVENTS.TARGET_NOT_FOUND].includes(type)) {
-      
-      if (action === ACTIONS.NEXT || action === ACTIONS.PREV)  {
-
-        let t = null
-
-        if (action === ACTIONS.NEXT){
-          t = this.state.steps[index + 1]
-
-        } else if (action === ACTIONS.PREV) {
-          t = this.state.steps[index - 1]
-        }
-
-        if(!t) return
-        const a = document.querySelector(t.target)
-        centerDiv(a)
-      }
-
-      
-
-      // Update state to advance the tour
-      //this.setState({ stepIndex: index + (action === ACTIONS.PREV ? -1 : 1) });
-    }
-    else if ([STATUS.FINISHED, STATUS.SKIPPED].includes(status)) {
-      // Need to set our running state to false, so we can restart if we click start again.
-      this.setState({ run: false });
-    }
-
-    console.groupCollapsed(type);
-    console.log(data); //eslint-disable-line no-console
-    console.groupEnd();
-  };
 
   handleSaveTour = ()=>{
     this.props.ev.source.postMessage(
@@ -532,7 +511,9 @@ export default class TourManager extends Component {
   }
 
   getSteps = ()=>{
-    this.props.ev.source.postMessage({type: "GET_TOUR"}, this.props.ev.origin)
+    this.props.ev.source.postMessage(
+      {type: "GET_TOUR"}, 
+      this.props.ev.origin)
   }
 
   handleMouseOut = (event)=>{
@@ -543,56 +524,66 @@ export default class TourManager extends Component {
     return this.state.selectionMode || this.state.run
   }
 
+  disableBody = target => disableBodyScroll(target)
+  
+  enableBody = target => enableBodyScroll(target)
+
   render(){
 
     return (
       <div>
-        
-        {
-          this.state.selectionMode !== "edit" ?
-            <ThemeProvider 
-              theme={ theme }>
-              <Joyride
-                steps={this.prepareJoyRidyContent(this.state.steps)}
-                run={this.state.run}
-                tooltipComponent={Tooltip}
-                debug={true}
-                continuous
-                scrollToFirstStep
-                showProgress
-                showSkipButton
-                callback={this.handleJoyrideCallback}
-                styles={{
-                  options: {
-                    zIndex: 10000,
-                  }
-                  }}
-                />
-            </ThemeProvider> : null
-        }
 
-        {
-          this.state.editElement && this.state.selectionMode == "edit" ? 
-            <Joyride
-              steps={[this.state.editElement]}
-              run={true}
-              //debug={true}
-              //beaconComponent={(props)=><Tooltip/>}
-              tooltipComponent={EditorTooltip}
-              continuous={false}
-              scrollToFirstStep
-              showProgress={false}
-              showSkipButton={false}
-              //spotlightClicks
-              disableOverlayClose
-              styles={{
-                options: {
-                  zIndex: 10000,
-                }
-              }}
-            />
-            : null
-        }
+      <GlobalStyle/>
+
+      <ThemeProvider 
+        theme={ theme }>
+        
+          {
+            this.state.selectionMode !== "edit" && this.state.run ?
+          
+              <Tour
+                steps={this.prepareJoyRidyContent(this.state.steps)}
+                isOpen={this.state.run}
+                onRequestClose={ this.disablePreview } 
+                showNavigation={true}
+                disableInteraction={true}
+                onAfterOpen={this.disableBody}
+                onBeforeClose={this.enableBody}
+                //CustomHelper={TourHelper}
+              />
+
+              : null
+          }
+
+          {
+            this.state.editElement && this.state.selectionMode == "edit" ? 
+              <Tour
+                steps={[this.state.editElement]}
+                isOpen={true}
+                onRequestClose={(e, a)=>{
+                  this.disableEditMode()
+                 }
+                } 
+                closeWithMask={false}
+                showNavigation={false}
+                showButtons={false}
+                disableInteraction={true}
+                onAfterOpen={this.disableBody}
+                onBeforeClose={this.enableBody}
+                
+                /*children={
+                  <div>
+                    this shi goeas jeje
+                    <button onClick={this.handleSaveTour}>
+                      save!
+                    </button>
+                  </div>
+                }*/
+              />
+              : null
+          }
+
+        </ThemeProvider>
 
         {/*this.state.selecting ? <EventBlocker tabindex="-1" /> : null */ }
 
@@ -785,71 +776,4 @@ class NewTourStep extends Component {
       </NewStepBody>
       </NewStepContainer>
   }
-}
-
-
-
-
-// https://github.com/gilbarbara/react-joyride/blob/5679a56a49f2795244c2b4c5c641526a58602a52/src/components/Tooltip/Container.js
-const EditorTooltip = ({
-  continuous,
-  index,
-  step,
-  backProps,
-  closeProps,
-  primaryProps,
-  tooltipProps,
-  styles,
-  isLastStep,
-  size
-}) => {
-  const { back, close, last, next, skip } = step.locale;
-  const output = {
-    primary: close,
-  };
-
-  if (continuous) {
-    output.primary = isLastStep ? last : next;
-
-    if (step.showProgress) {
-      output.primary = (
-        <span>
-          {output.primary} ({index + 1}/{size})
-        </span>
-      );
-    }
-  }
-
-  return <TooltipBody {...tooltipProps}>
-    {(step && step.title) && <div>{step.title}</div>}
-    <div>
-      {step.content}
-    </div>
-    <TooltipFooter>
-      {index > 0 && (
-        <TooltipBackButton {...backProps}>
-          back
-        </TooltipBackButton>
-      )}
-      {continuous && (
-        <TooltipButton {...primaryProps}>
-          {output.primary}
-        </TooltipButton>
-      )}
-
-      <TooltipButton onClick={step.save}>
-        save
-      </TooltipButton>
-
-      {!continuous && (
-        <TooltipCloseButton {...closeProps} 
-          onClick={(e)=>{ 
-            step.close()
-            closeProps.onClick(e)
-         }}>
-          close
-        </TooltipCloseButton>
-      )}
-    </TooltipFooter>
-  </TooltipBody>
 }

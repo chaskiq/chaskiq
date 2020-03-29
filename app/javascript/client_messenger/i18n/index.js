@@ -42,7 +42,8 @@ i18n
           "availability.days": "we'll back in {{val}} days",
           "availability.next_week": "we'll back next week",
           "availability.back_from": "we'll back online from {{hours}} hrs",
-          "availability.tomorrow_from": "we'll back online tomorrow from {{hours}} hrs"
+          "availability.tomorrow_from": "we'll back online tomorrow from {{hours}} hrs",
+          "tours.done": "Done!"
         }
       },
       es: {
@@ -77,8 +78,9 @@ i18n
           "availability.days": "volvemos en {{val}} dias",
           "availability.next_week": "volvemos la proxima semana",
           "availability.back_from": "volveremos a estar en linea desde las {{hours}}hrs",
-          "availability.tomorrow_from": "volveremos a estar en linea mañana desde las {{hours}}hrs"
-
+          "availability.tomorrow_from": "volveremos a estar en linea mañana desde las {{hours}}hrs",
+          
+          "tours.done": "Listo!"
         }
       },
     },
