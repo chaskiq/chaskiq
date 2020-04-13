@@ -1,109 +1,36 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import clsx from 'clsx';
-
-import AppBar from '@material-ui/core/AppBar';
-import Toolbar from '@material-ui/core/Toolbar';
-import Typography from '@material-ui/core/Typography';
-import Paper from '@material-ui/core/Paper';
-import Grid from '@material-ui/core/Grid';
-import Button from '@material-ui/core/Button';
-import TextField from '@material-ui/core/TextField';
-import Tooltip from '@material-ui/core/Tooltip';
-import IconButton from '@material-ui/core/IconButton';
-import { withStyles } from '@material-ui/core/styles';
-import SearchIcon from '@material-ui/icons/Search';
-import RefreshIcon from '@material-ui/icons/Refresh';
-import Container from '@material-ui/core/Container';
-import Divider from '@material-ui/core/Divider'
-//import Chart from './Chart';
+import React from 'react'
+import PageHeader from '../components/PageHeader'
+import Progress from '../components/Progress'
 import moment from 'moment'
-
-import Card from '@material-ui/core/Card';
-import CardActions from '@material-ui/core/CardActions';
-import CardContent from '@material-ui/core/CardContent';
-
-import DashboardCard from '../components/dashboard/card'
-import Title from '../components/dashboard/title';
-import Progress from '../shared/Progress'
-
 
 import HeatMap from '../components/charts/heatMap'
 import Pie from '../components/charts/pie'
-import Count from '../components/charts/count'
+import Count from  '../components/charts/count'
+import DashboardCard from '../components/dashboard/card'
 
 import {DASHBOARD} from "../graphql/queries"
 import graphql from '../graphql/client'
 
 import {setCurrentSection} from '../actions/navigation'
 import { withRouter } from 'react-router-dom'
-import Content from '../components/Content'
 import { connect } from 'react-redux'
 
+import Content from '../components/Content'
+
+import I18n from '../shared/FakeI18n'
 
 
-const styles = theme => ({
-  paperll: {
-    maxWidth: 936,
-    //marginTop: '2em',
-    //marginBottom: '2em',
-    margin: 'auto',
-    //overflow: 'hidden',
-    //marginBottom: 20,
-  },
-  searchBar: {
-    borderBottom: '1px solid rgba(0, 0, 0, 0.12)',
-  },
-  searchInput: {
-    fontSize: theme.typography.fontSize,
-  },
-  block: {
-    display: 'block',
-  },
-  addUser: {
-    marginRight: theme.spacing(1),
-  },
-  contentWrapper: {
-    margin: '40px 16px',
-  },
-  card: {
-    minWidth: 275,
-  },
-  bullet: {
-    display: 'inline-block',
-    margin: '0 2px',
-    transform: 'scale(0.8)',
-  },
-  title: {
-    fontSize: 14,
-  },
-  pos: {
-    marginBottom: 12,
-  },
+export function Home(){
 
-  content: {
-    flexGrow: 1,
-    height: '100vh',
-    //overflow: 'auto',
-  },
-  container: {
-    paddingTop: theme.spacing(4),
-    paddingBottom: theme.spacing(4),
-  },
-  paper: {
-    padding: theme.spacing(2),
-    display: 'flex',
-    overflow: 'auto',
-    flexDirection: 'column',
-  },
-  fixedHeight: {
-    height: 240,
-  },
+  return <div>
+  
+    <PageHeader title={"Dashboard"}/>
+  </div>
 
-});
+}
 
 function Dashboard(props) {
-  const { classes, app, dispatch } = props;
+  const { app, dispatch } = props;
 
   React.useEffect(()=>{
     dispatch(
@@ -119,37 +46,29 @@ function Dashboard(props) {
 
   const [dashboard, setDashboard] = React.useState(initialData)
 
-  const bull = <span className={classes.bullet}>•</span>;
-  const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight);
+  const bull = <span>•</span>;
 
   return (
-    <Content>
+    <div>
 
-      <div className={classes.contentWrapper}>
+      <Content>
+        <div maxWidth="lg">
+          <div className="flex flex-wrap -mx-4">
 
-      <main className={classes.content}>
-        <div className={classes.appBarSpacer} />
-        <Container maxWidth="lg" className={classes.container}>
-          <Grid container spacing={3}>
-            {/* Chart */}
-
-
-            <Grid item xs={12} md={12} lg={12}>
-
+            <div className={'w-full p-4'}>
               <DashboardItem
                 chartType={"app_packages"} 
                 dashboard={dashboard}
                 app={app} 
                 label={I18n.t('dashboasrd.user_country')}
                 kind={'app_packages'}
-                classes={classes}
+                //classes={classes}
                 styles={{}}
               />
-            
-            </Grid>
+            </div>
 
-            <Grid item xs={6} md={3}>
-              <Paper className={classes.paper}>
+            <div className={'lg:w-1/4 w-1/2 p-4'}>
+              <div className="bg-white shadow overflow-hidden  sm:rounded-lg p-4">
                 <DashboardItem
                   chartType={"count"} 
                   dashboard={dashboard} 
@@ -158,11 +77,11 @@ function Dashboard(props) {
                   label={I18n.t('dashboard.response_avg')}
                   appendLabel={"Hrs"}
                 />
-              </Paper>
-            </Grid>
+              </div>
+            </div>
 
-            <Grid item xs={6} md={3}>
-              <Paper className={classes.paper}>
+            <div className={'lg:w-1/4 w-1/2 p-4'}>
+              <div className="bg-white shadow overflow-hidden  sm:rounded-lg p-4">
                 <DashboardItem
                   chartType={"count"} 
                   dashboard={dashboard} 
@@ -171,11 +90,11 @@ function Dashboard(props) {
                   label={I18n.t('dashboard.new_conversations')}
                   appendLabel={""}
                 />
-              </Paper>
-            </Grid>
+              </div>
+            </div>
 
-            <Grid item xs={6} md={3}>
-              <Paper className={classes.paper}>
+            <div className={'lg:w-1/4 w-1/2 p-4'}>
+              <div className="bg-white shadow overflow-hidden  sm:rounded-lg p-4">
                 <DashboardItem
                   chartType={"count"} 
                   dashboard={dashboard} 
@@ -184,11 +103,11 @@ function Dashboard(props) {
                   label={I18n.t('dashboard.resolutions')}
                   appendLabel={""}
                 />
-              </Paper>
-            </Grid>
+              </div>
+            </div>
 
-            <Grid item xs={6} md={3}>
-              <Paper className={classes.paper}>
+            <div className={'lg:w-1/4 w-1/2 p-4'}>
+              <div className="bg-white shadow overflow-hidden  sm:rounded-lg p-4">
                 <DashboardItem
                   chartType={"count"} 
                   dashboard={dashboard} 
@@ -197,24 +116,27 @@ function Dashboard(props) {
                   label={I18n.t('dashboard.incoming_messages')}
                   appendLabel={""}
                 />
-              </Paper>
-            </Grid>
+              </div>
+            </div>
 
-            <Grid item xs={12} md={8} lg={9}>
-              <Paper className={fixedHeightPaper}>
+            <div className={'w-full p-4'}>
+              <div className="bg-white shadow overflow-hidden  sm:rounded-lg p-4">
                 {/*<Chart />*/}
-                <Title>Visit activity</Title>
-                 <DashboardItem
-                    chartType={"heatMap"} 
-                    dashboard={dashboard} 
-                    app={app} 
-                    kind={"visits"}
-                  />
-              </Paper>
-            </Grid>
+                <div className="mt-1 text-3xl leading-9 font-semibold text-gray-900">
+                  Visit activity
+                </div>
+                 
+                <DashboardItem
+                  chartType={"heatMap"} 
+                  dashboard={dashboard} 
+                  app={app} 
+                  kind={"visits"}
+                />
+              </div>
+            </div>
             {/* Recent Deposits */}
-            <Grid item xs={12} md={4} lg={3}>
-              <Paper className={fixedHeightPaper}>
+            <div className={'lg:w-1/4 w-1/2 p-4'}>
+              <div className="bg-white shadow overflow-hidden  sm:rounded-lg p-4">
                 <DashboardCard title={"Users browser"}>
 
                   <DashboardItem
@@ -227,12 +149,11 @@ function Dashboard(props) {
                 
                 </DashboardCard>
                 
-              </Paper>
-            </Grid>
+              </div>
+            </div>
   
-            <Grid item xs={12} md={4} lg={3}>
-              <Paper className={classes.paper}>
-              <DashboardCard title={"Lead Os"}>
+            <div className={'lg:w-1/4 w-1/2 p-4'}>
+              <div className="bg-white shadow overflow-hidden  sm:rounded-lg p-4">
                   <DashboardItem
                     chartType={"pie"} 
                     dashboard={dashboard}
@@ -240,13 +161,11 @@ function Dashboard(props) {
                     label={I18n.t('dashboasrd.lead_os')}
                     kind={'lead_os'}
                   />
-                </DashboardCard>
-              </Paper>
-            </Grid>
+              </div>
+            </div>
 
-            <Grid item xs={12} md={4} lg={3}>
-              <Paper className={classes.paper}>
-              <DashboardCard title={"User Os"}>
+            <div className={'lg:w-1/4 w-1/2 p-4'}>
+              <div className="bg-white shadow overflow-hidden  sm:rounded-lg p-4">
                   <DashboardItem
                     chartType={"pie"} 
                     dashboard={dashboard}
@@ -254,13 +173,11 @@ function Dashboard(props) {
                     label={I18n.t('dashboasrd.user_os')}
                     kind={'user_os'}
                   />
-                </DashboardCard>
-              </Paper>
-            </Grid>
+              </div>
+            </div>
 
-            <Grid item xs={12} md={4} lg={3}>
-              <Paper className={classes.paper}>
-              <DashboardCard title={"User country"}>
+            <div className={'lg:w-1/4 w-1/2 p-4'}>
+              <div className="bg-white shadow overflow-hidden  sm:rounded-lg p-4">
                   <DashboardItem
                     chartType={"pie"} 
                     dashboard={dashboard}
@@ -268,21 +185,16 @@ function Dashboard(props) {
                     label={I18n.t('dashboasrd.user_country')}
                     kind={'user_country'}
                   />
-                </DashboardCard>
-              </Paper>
-            </Grid>
+              </div>
+            </div>
 
-          </Grid>
-        </Container>
-        {/*<MadeWithLove />*/}
-      </main>
-
-      </div>
-
-    </Content>
+          </div>
+        </div>
+      </Content>
+      
+    </div>
   );
 }
-
 
 function DashboardItem(
   {
@@ -374,10 +286,11 @@ function DashboardItem(
 function DashboardAppPackages(props){
   const packages  = props.data
   return (
-    <div>
+    <div className="bg-white shadow overflow-hidden  sm:rounded-lg p-4">
       {
         packages && packages.map((o)=>( 
           <DashboardAppPackage 
+            key={`appPackage-${o.name}`}
             package={o} 
             dashboard={props.dashboard}
             classes={props.classes} 
@@ -395,31 +308,33 @@ function DashboardAppPackage(props){
   const classes = props.classes
 
   return (
-    <Paper className={classes.paper}>
+    <div className="p-4">
 
-    <Grid container spacing={3}>
-      <Grid item>
-        <img src={pkg.icon} width={64}/>
-      </Grid>
+      <div className="flex mb-2">
+      
+        <div className="mr-4">
+          <img src={pkg.icon} width={64}/>
+        </div>
 
-      <Grid item>
-        <Typography variant="h5">
-          {pkg.name}: {data.title} 
-        </Typography>
+        <div>
+          <p className="mt-1 text-3xl leading-9 font-semibold text-gray-900">
+            {pkg.name}: {data.title} 
+          </p>
 
-        <Typography variant="overline">
-          {data.subtitle}
-        </Typography>
-      </Grid>
-    </Grid>
+          <p className="text-sm leading-5 font-medium text-gray-500 truncate">
+            {data.subtitle}
+          </p>
+        </div>
+      
+      </div>
 
-    <Divider/>
+      <hr className="my-4"/>
 
-      <Grid container spacing={3}>
+      <div className="flex">
 
         {
           data.values && data.values.map((v)=>{
-            return <Grid item>
+            return <div className="w-1/4">
                       
                         <Count 
                           data={v.value}
@@ -430,20 +345,15 @@ function DashboardAppPackage(props){
                           //appendLabel={appendLabel}
                         />
                      
-                    </Grid>
+                    </div>
           })
         }
 
-      </Grid>
-    </Paper>
+      </div>
+    </div>
   )
 }
 
-
-
-Dashboard.propTypes = {
-  classes: PropTypes.object.isRequired,
-};
 
 
 function mapStateToProps(state) {
@@ -458,4 +368,4 @@ function mapStateToProps(state) {
   }
 }
 
-export default withRouter(connect(mapStateToProps)(withStyles(styles)(Dashboard)))
+export default withRouter(connect(mapStateToProps)(Dashboard))

@@ -1,0 +1,22 @@
++ platform update app
++ assign rules check modal
++ 
+
++ forms 
+  + delete
+  + timezones
+  + datetime
+  
++ components
+  table:
+    + map
+    + select multi fields
+  segmenet manager:
+    +  save / delete
+
+sections
+
++ dashboard
++ user profile
++ app settings
++ help center

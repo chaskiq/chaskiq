@@ -1,18 +1,8 @@
 import React , {useState} from 'react'
 
-import FormControlLabel from '@material-ui/core/FormControlLabel'
-import Checkbox from '@material-ui/core/Checkbox'
-import FormGroup from '@material-ui/core/FormGroup'
-import FormControl from '@material-ui/core/FormControl'
-import FormLabel from '@material-ui/core/FormLabel'
-import Box from '@material-ui/core/Box'
-import Typography from '@material-ui/core/Typography'
-import Divider from '@material-ui/core/Divider'
-import Grid from '@material-ui/core/Grid'
-import RadioGroup from '@material-ui/core/RadioGroup'
-import Radio from '@material-ui/core/Radio'
-import Button from '@material-ui/core/Button'
-
+import I18n from '../../shared/FakeI18n'
+import Button from '../../components/Button'
+import Input from '../../components/forms/Input'
 
 export default function EmailRequirement({settings, update}){
   const [value, setValue] = useState(settings.emailRequirement)
@@ -32,25 +22,25 @@ export default function EmailRequirement({settings, update}){
 
   return (
 
-      <Box mb={2}>
-        <Typography variant={"h4"}>
+      <div className="py-4">
+        <p className="text-lg leading-6 font-medium text-gray-900 pb-2">
           {I18n.t("settings.email_requirement.title")}
-        </Typography>
+        </p>
 
-        <Typography variant={"body1"}>
+        <p className="text-md leading-6 font-medium text-gray-600 pb-2">
           {I18n.t("settings.email_requirement.hint")}
-        </Typography>
+        </p>
         
-        <Box mt={2}>
-        <FormLabel component="legend">
+        <div mt={2}>
+        <h2 className="mt-2 max-w-xl text-sm leading-5 text-gray-500">
           {I18n.t("settings.email_requirement.ask")}
-        </FormLabel>
+        </h2>
         
-      </Box>
+      </div>
 
-      <Box mt={2} mb={2}>
+      <div className="py-4">
       
-        <RadioGroup
+        {/*<RadioGroup
           aria-label="email_requirement"
           name="email_requirement"
           //className={classes.group}
@@ -66,17 +56,37 @@ export default function EmailRequirement({settings, update}){
                       control={<Radio />} 
                       label={o.label}
                     />
-                    <Typography variant={"overline"}>
+                    <p variant={"overline"}>
                       {o.hint}
-                    </Typography>
+                    </p>
                   </React.Fragment>
           })
         }
         
 
-        </RadioGroup>
+      </RadioGroup>*/}
 
-      </Box>
+
+      {
+        I18n.t("settings.email_requirement.options").map((o, i)=>{
+          return <React.Fragment key={`email_requirement_options-${i}`}>
+                  <Input
+                    name="email_requirement"
+                    //value={value}
+                    onChange={handleChange}
+                    type={'radio'} 
+                    value={o.value} 
+                    label={o.label}
+                    helperText={
+                     o.hint
+                    }
+                  />
+                </React.Fragment>
+        })
+      }
+
+
+      </div>
    
       <Button onClick={handleSubmit}
         variant={"contained"} color={"primary"}>
@@ -84,7 +94,7 @@ export default function EmailRequirement({settings, update}){
       </Button>
 
 
-    </Box>
+    </div>
 
 
   )

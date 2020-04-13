@@ -12,15 +12,14 @@ import {
 
 import {getFileMetadata, directUpload} from '../shared/fileUploader' //'../shared/fileUploader'
 
-import DraftRenderer from '../textEditor/draftRenderer'
-import DanteContainer from '../textEditor/editorStyles'
-import theme from '../textEditor/theme'
+import DraftRenderer from './textEditor/draftRenderer'
+import DanteContainer from './textEditor/editorStyles'
+import theme from './textEditor/theme'
 import { ThemeProvider } from 'emotion-theming'
-import DeleteForeverRounded  from '@material-ui/icons/DeleteForeverRounded'
+import {DeleteForeverRounded, PlusIcon}  from './icons'
+import Button from './Button'
+import tw from 'tailwind.macro';
 
-import IconButton from '@material-ui/core/IconButton'
-import Link from '@material-ui/core/Link'
-import StyledFrame from '../../client_messenger/styledFrame'
 
 // INTERNAL APP TOUR
 const StepContainer = styled.div`
@@ -89,11 +88,18 @@ const Body = styled.div`
 `
 
 const NewStepContainer = styled.div`
-  background-color: #ebebeb;
-  border-radius: 4px;
   min-width: 205px;
-  height: 150px;
-  border: 1px solid #ccc;
+  height: 100px;
+  ${tw`px-2 py-1 
+      self-center
+      rounded-lg 
+      bg-gray-100 
+      text-xl 
+      font-light 
+      uppercase 
+      shadow`}
+
+
 `
 
 const NewStepBody = styled.div`
@@ -292,7 +298,13 @@ class NewTourStep extends Component {
   render() {
     return <NewStepContainer>
       <NewStepBody>
-        <Link href="#" onClick = {this.enableSelection}>new +</Link>
+        <Button
+          onClick={this.enableSelection}
+          className="border h-12 w-12 flex justify-center"
+          variant={"icon"}
+        >
+          <PlusIcon/>
+        </Button>
       </NewStepBody>
     </NewStepContainer>
   }
@@ -313,9 +325,11 @@ class TourStep extends Component {
     return <StepContainer onClick={this.enableEditMode}>
            <StepBody>
 
-              <IconButton onClick={this.removeItem}>
+              <Button 
+                variant={'icon'}
+                onClick={this.removeItem}>
                 <DeleteForeverRounded/>
-              </IconButton>
+              </Button>
 
               <StepHeader></StepHeader>
 

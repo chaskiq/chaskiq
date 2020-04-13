@@ -1,22 +1,19 @@
 import React, {Component} from 'react'
-import { withRouter, Route, Switch } from 'react-router-dom'
+import { withRouter, Route, Switch, Link } from 'react-router-dom'
 import { connect } from 'react-redux'
 
-import Paper from '@material-ui/core/Paper'
-import Button from '@material-ui/core/Button'
-import TextField from '@material-ui/core/TextField'
-import List from '@material-ui/core/List'
-import ListItem from '@material-ui/core/ListItem'
-import Typography from '@material-ui/core/Typography'
-import ListItemText from '@material-ui/core/ListItemText'
-import Grid from '@material-ui/core/Grid'
-import ContentHeader from '../../../components/ContentHeader'
+import Button from '../../../components/Button'
+import TextField from '../../../components/forms/Input'
+import List, {
+  ListItem, 
+  ListItemText,
+  ItemListPrimaryContent,
+  ItemListSecondaryContent,
+} from '../../../components/List'
+import ContentHeader from '../../../components/PageHeader'
 import {AnchorLink} from '../../../shared/RouterLink'
-import { withStyles } from '@material-ui/core/styles';
-
 import FormDialog from '../../../components/FormDialog'
 import {setCurrentSection, setCurrentPage} from '../../../actions/navigation'
-
 import ScrollableTabsButtonForce from '../../../components/scrollingTabs'
 import langs from '../../../shared/langsOptions'
 
@@ -31,24 +28,6 @@ import {
   ARTICLE_COLLECTIONS,
   ARTICLE_SETTINGS
 } from '../../../graphql/queries'
-
-const styles = theme => ({
-  paper: {
-    [theme.breakpoints.down('sm')]: {
-      margin: theme.spacing(0),
-    },
-    [theme.breakpoints.up('md')]: {
-      margin: theme.spacing(4),
-    },
-    
-    padding: theme.spacing(1),
-    marginTop: theme.spacing(2),
-    paddingBottom: theme.spacing(4)
-  },
-  button: {
-    margin: theme.spacing(1),
-  },
-});
 
 class Collections extends Component {
 
@@ -138,7 +117,7 @@ class Collections extends Component {
   }
 
   handleRemove = (item)=>{
-    confirm
+    //confirm
   }
 
   getCollections = (e)=>{
@@ -200,46 +179,49 @@ class Collections extends Component {
     }, this.getCollections)
   }
 
+  closeItemToDelete = ()=>{
+    this.setState({
+      itemToDelete: null
+    })
+  }
+
   render(){
     const {isOpen, editCollection, itemToDelete} = this.state
     const {classes, app} = this.props
     return <React.Fragment>
 
           <ContentHeader 
-          breadcrumbs={
-            [
-            <AnchorLink className={classes.link} 
-              color="inherit" to={`/apps/${app.key}/articles`}>
-              Help Center
-            </AnchorLink>,
-            <AnchorLink className={classes.link} 
-              color="inherit" to={`/apps/${app.key}/articles/collections`}>
-              Collections
-            </AnchorLink>
-            ]
-          }
+            title={"collections"}
+            breadcrumbs={
+              [
+                {
+                  title: 'Help Center',
+                  to: `/apps/${app.key}/articles`
+                },
+                {
+                  title: 'Collections',
+                  to: `/apps/${app.key}/articles/collections`
+                }
+              ]
+            }
         />
 
-          <Paper 
+          <div 
           square={true}
           elevation={1}
-          className={classes.paper}
           >
 
-            <Grid container
-            direction="row"
-            justify="flex-end"
-            alignItems="center">
+            <div className="flex flex-row justify-end items-center">
               <Button 
-                className={classes.button}
                 variant="contained" color="primary"
                 onClick={this.displayDialog}>
                 new collection
               </Button>
-            </Grid>
+            </div>
 
             <FormDialog 
                 open={isOpen}
+                handleClose={this.close}
                 //contentText={"lipsum"}
                 titleContent={"New Article Collection"}
                 formComponent={
@@ -248,6 +230,7 @@ class Collections extends Component {
                     <TextField
                       id="collection-title"
                       //label="Name"
+                      type={'text'}
                       placeholder={"Type collection's title"}
                       inputProps={{
                           style: {
@@ -257,7 +240,7 @@ class Collections extends Component {
                       }
                       //helperText="Full width!"
                       fullWidth
-                      inputRef={ref => { this.titleRef = ref; }}
+                      ref={ref => { this.titleRef = ref; }}
                       defaultValue={ editCollection ? editCollection.title : null }
                       margin="normal"
                     />
@@ -266,11 +249,12 @@ class Collections extends Component {
                     <TextField
                       id="collection-description"
                       //label="Description"
+                      type={'textarea'}
                       placeholder={"Describe your collection to help it get found"}
                       //helperText="Full width!"
                       fullWidth
                       multiline
-                      inputRef={ref => { this.descriptionRef = ref; }}
+                      ref={ref => { this.descriptionRef = ref; }}
                       defaultValue={ editCollection ? editCollection.description : null }
                       margin="normal"
                     />
@@ -304,6 +288,7 @@ class Collections extends Component {
             
             <FormDialog 
                 open={true}
+                handleClose={this.closeItemToDelete}
                 //contentText={"lipsum"}
                 titleContent={"Confirm deletion ?"}
                 formComponent={
@@ -312,7 +297,8 @@ class Collections extends Component {
 
                 dialogButtons={
                   <React.Fragment>
-                    <Button onClick={this.close} color="secondary">
+                    <Button onClick={this.closeItemToDelete} 
+                      color="secondary">
                       Cancel
                     </Button>
 
@@ -338,27 +324,35 @@ class Collections extends Component {
   
               {
                 this.state.article_collections.map((item)=>{
-                  return  <ListItem key={item.id} divider={true}>
+                  return  <ListItem 
+                            key={item.id} 
+                            divider={true}>
                             {/*<ListItemAvatar>
                               <Avatar>
                                 <ImageIcon />
                               </Avatar>
                             </ListItemAvatar>*/}
-                            <ListItemText primary={
-                              <AnchorLink to={`/apps/${this.props.app.key}/articles/collections/${item.id}`}>
-                                {item.title}
-                              </AnchorLink>
-                            } 
-                              secondary={item.description}
+                            <ListItemText 
+                              primary={
+                                <ItemListPrimaryContent>
+                                  <Link to={`/apps/${this.props.app.key}/articles/collections/${item.id}`}>
+                                    {item.title}
+                                  </Link>
+                                </ItemListPrimaryContent>
+                              } 
+                              secondary={
+                                <ItemListSecondaryContent>
+                                  {item.description}
+                                </ItemListSecondaryContent>
+                                }
                             />
 
-                            <Button className={classes.button}
-
+                            <Button
                               variant="outlined" color="primary" onClick={()=> this.openEdit(item)}>
                               Edit
                             </Button>
 
-                            <Button className={classes.button}
+                            <Button
                               variant="text" color="primary" onClick={()=> this.requestDelete(item)}>
                               Delete
                             </Button>
@@ -368,7 +362,7 @@ class Collections extends Component {
 
             </List>
 
-          </Paper>
+          </div>
           </React.Fragment>
   }
 
@@ -390,4 +384,4 @@ function mapStateToProps(state) {
 
 //export default withRouter(connect(mapStateToProps)(withStyles(styles)(ArticlesNew)))
 //export default withRouter(connect(mapStateToProps)(Collections))
-export default withRouter(connect(mapStateToProps)(withStyles(styles)(Collections)))
+export default withRouter(connect(mapStateToProps)(Collections))

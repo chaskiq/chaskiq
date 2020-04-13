@@ -1,13 +1,6 @@
 import React from 'react'
 import Moment from 'react-moment';
-import Badge from '@material-ui/core/Badge';
-import Avatar from '@material-ui/core/Avatar';
-import Typography from '@material-ui/core/Typography'
-import Grid from '@material-ui/core/Grid'
 import styled from '@emotion/styled'
-import MuiChip from '@material-ui/core/Chip';
-import { makeStyles } from '@material-ui/core/styles';
-import { connect } from 'react-redux'
 
 const NameWrapper = styled.span`
   display: flex;
@@ -18,52 +11,18 @@ const AvatarWrapper = styled.div`
   margin-right: 8px;
 `;
 
-const useStyles = makeStyles(theme => ({
-  root: {
-    //border: '1px solid rgba(0, 0, 0, .125)',
-    borderRadius: '3px',
-    '&:not(:last-child)': {
-      borderBottom: 0,
-    },
-  },
-  colorPrimary: {
-    backgroundColor: '#12af12'
-  },
-  'colorSecondary': {
-    color: theme.palette.primary.dark,
-    backgroundColor: '#f5f5d5'
-  },
-
-  //online: {colorSecondary: theme.palette.common.green},
-  //offline: {background: theme.palette.common.offline}
-  
-}));
-
-function Chip(props) {
-  const classes = useStyles();
-
-  return (
-    <MuiChip {...props} 
-      classes={classes}>
-      Theming
-    </MuiChip>
-  );
-}
-
 function UserBadge(props) {
-  const classes = useStyles();
   const {row} = props
   return (
-    <Badge 
-      classes={{badge: row.online ? classes.online : classes.offline} } 
+    <div 
       color={row.online ? "primary" : 'secondary' }
       variant="dot">
-      <Avatar
+      <div
         name={row.email}
         size="medium"
         src={row.avatarUrl}
       />
-    </Badge>
+    </div>
   );
 }
 
@@ -75,35 +34,30 @@ const userFormat = function(showUserDrawer, app){
     {field: 'email', title: 'Name', 
       render: (row) => {
         return row && 
-
-        <NameWrapper 
-          onClick={(e)=>(showUserDrawer && showUserDrawer(row))}>
-          <AvatarWrapper>
-            <UserBadge row={row}/>
-          </AvatarWrapper>
-
-          <Grid container direction={"column"}>
-
-            <Typography variant="overline" display="block">
-              {row.displayName}
-            </Typography>
-
-            <Typography variant={"caption"}>
-              {row.email}
-            </Typography>
-
-          </Grid>
-        
-        </NameWrapper>
+        <td className="px-6 py-4 whitespace-no-wrap border-b border-gray-200">
+          <div onClick={(e)=>(showUserDrawer && showUserDrawer(row))}
+          className="flex items-center">
+            <div className="flex-shrink-0 h-10 w-10">
+              <img className="h-10 w-10 rounded-full" 
+                src={row.avatarUrl} alt="" />
+            </div>
+            <div className="ml-4">
+              <div className="text-sm leading-5 font-medium text-gray-900">{row.displayName}</div>
+              <div className="text-sm leading-5 text-gray-500">{row.email}</div>
+            </div>
+          </div>
+        </td>
       }
     },
     {field: 'email', title:  'email', hidden: true}, 
     {field: 'state', title: 'state', render: (row)=>{
-      return <Chip
-              color={row.state === "subscribed" ? 'primary' : 'secondary'}
-              label={row.state} 
-              clickable={false}
-             />
+      return <td className="px-6 py-4 whitespace-no-wrap border-b border-gray-200">
+                <span className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full 
+                ${row.state === "subscribed" ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800' }`}
+                >
+                {row.state}
+                </span>
+              </td>
     }},
     {field: 'online', title:  'online', hidden: true}, 
     {field: 'lat', title: 'lat', hidden:true}, 
@@ -120,11 +74,13 @@ const userFormat = function(showUserDrawer, app){
 
     {field: 'lastVisitedAt', 
       title: 'last visited at',
-      render: row => (row ? <Moment fromNow>
-                                    {row.lastVisitedAt}
-                                  </Moment> : undefined)
+      render: row => (row && 
+        <td className="px-6 py-4 whitespace-no-wrap border-b border-gray-200 text-sm leading-5 text-gray-500">
+          <Moment fromNow>
+            {row.lastVisitedAt}
+          </Moment> 
+        </td>)
     }]
-
     
     if(app.customFields && app.customFields.length > 0){
       const other = app.customFields.map((o)=>( 
@@ -132,7 +88,10 @@ const userFormat = function(showUserDrawer, app){
           hidden: true,
           field: o.name , 
           title: o.name, 
-          render: row => row && row.properties[o.name]
+          render: row => row && 
+            <td className="px-6 py-4 whitespace-no-wrap border-b border-gray-200 text-sm leading-5 text-gray-500">
+              { row.properties[o.name]}
+          </td> 
         }
       ))
       opts = opts.concat(other)

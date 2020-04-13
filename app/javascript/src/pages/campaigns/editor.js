@@ -1,11 +1,11 @@
 import React, { Component } from 'react'
 import graphql from '../../graphql/client'
 import { UPDATE_CAMPAIGN, DELIVER_CAMPAIGN} from '../../graphql/mutations'
-import TextEditor from '../../textEditor'
+import TextEditor from '../../components/textEditor'
 import styled from '@emotion/styled'
 import {ThemeProvider} from 'emotion-theming'
-import theme from '../../textEditor/theme'
-import EditorContainer from '../../textEditor/editorStyles'
+import theme from '../../components/textEditor/theme'
+import EditorContainer from '../../components/textEditor/editorStyles'
 
 const ButtonsContainer = styled.div`
   display: flex;
@@ -94,7 +94,7 @@ const EditorPad = styled.div`
       border: 1px solid #ececec;
 
       @media all and (min-width: 1024px) and (max-width: 1280px) {
-        margin: 8em;
+        margin: 4em;
       }
 
       @media (max-width: 640px){

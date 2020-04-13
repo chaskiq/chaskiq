@@ -13,6 +13,7 @@
 /db/*.sqlite3
 /db/*.sqlite3-journal
 
+/app/javascripts/old-src
 # Ignore all logfiles and tempfiles.
 /log/*
 /tmp/*

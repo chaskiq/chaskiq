@@ -1,42 +1,22 @@
 import React, {useState, useEffect} from 'react'
+import I18n from '../../shared/FakeI18n'
+
 import langsOptions from '../../shared/langsOptions'
 import serialize from 'form-serialize'
 
 import { withRouter, Route } from 'react-router-dom'
 import { connect } from 'react-redux'
 
-import Tab from '@material-ui/core/Tab'
-import Tabs from '@material-ui/core/Tabs'
-import Avatar from '@material-ui/core/Avatar'
-import Typography from '@material-ui/core/Typography'
-import Button from '@material-ui/core/Button'
-import IconButton from '@material-ui/core/IconButton'
-import TextField from '@material-ui/core/TextField'
-import Paper from '@material-ui/core/Paper'
-import Grid from '@material-ui/core/Grid'
-import Divider from '@material-ui/core/Divider'
-import Chip from '@material-ui/core/Chip'
-import Select from '@material-ui/core/Select'
-import MenuItem from '@material-ui/core/MenuItem'
-import InputLabel from '@material-ui/core/InputLabel'
-import Box from '@material-ui/core/Box'
-import Table from '@material-ui/core/Table'
-import TableHead from '@material-ui/core/TableHead'
-import TableRow from '@material-ui/core/TableRow'
-import TableCell from '@material-ui/core/TableCell'
-import TableBody from '@material-ui/core/TableBody'
-import FormControl from '@material-ui/core/FormControl'
-import FormLabel from '@material-ui/core/FormLabel'
-import RadioGroup from '@material-ui/core/RadioGroup'
-import FormControlLabel from '@material-ui/core/FormControlLabel'
-import Radio from '@material-ui/core/Radio'
-import MuiLink from '@material-ui/core/Link'
+import Button from '../../components/Button'
+import Table from '../../components/Table'
 
-import AddIcon from '@material-ui/icons/Add'
-import DeleteIcon from '@material-ui/icons/Delete'
+
+import {AddIcon, PlusIcon, DeleteIcon} from '../../components/icons'
 import graphql from '../../graphql/client'
 import {toSnakeCase} from '../../shared/caseConverter'
 import FormDialog from '../../components/FormDialog'
+
+import Input from '../../components/forms/Input'
 
 
 //const options = I18n.t("settings.availability.reply_time.options")
@@ -47,7 +27,12 @@ import FormDialog from '../../components/FormDialog'
   {value: "1 day", label: "El equipo suele responder en un día."},
 ]*/
 
-export default function LanguageForm({settings, update, namespace, fields}){
+export default function LanguageForm({
+  settings, 
+  update, 
+  namespace, 
+  fields
+}){
 
   const [isOpen, setIsOpen] = React.useState(false)
   const [selectedOption, setSelectedOption] = React.useState(settings.replyTime)
@@ -63,12 +48,8 @@ export default function LanguageForm({settings, update, namespace, fields}){
     setIsOpen(!isOpen)
   }
 
-  function handleSubmit(){
-    /*const serializedData = serialize(formRef, { hash: true, empty: true })
-    const data = toSnakeCase(serializedData)
-    console.log(data)*/
-    console.log(records)
-    console.log(selectedOption)
+  function handleSubmit(e){
+    e.preventDefault()
     const data = {
       app:{
         team_schedule: records,
@@ -80,61 +61,64 @@ export default function LanguageForm({settings, update, namespace, fields}){
 
   return (
 
-    <form ref={(ref)=> formRef = ref }>
+    <form 
+      className="py-4"
+      ref={(ref)=> formRef = ref }>
 
-      <Box mb={2}>
+      <div className="py-4">
 
-        <Typography variant="h4">
+        <p className="text-lg leading-6 font-medium text-gray-900 pb-2">
           {I18n.t("settings.availability.title")}
-        </Typography>
+        </p>
         
-        <Typography variant="subtitle1" gutterBottom>
+        <p variant="subtitle1" gutterBottom>
           {I18n.t("settings.availability.hint")}
-        </Typography>
+        </p>
 
-      
-        <Divider/>
-      </Box>
-
-      <Box mb={2}>
-        <Typography variant="h6">
-          {I18n.t("settings.availability.title2")}
-        </Typography>
         
-        <Typography variant="body1" gutterBottom>
+      </div>
+
+      <hr/>
+
+      <div className="py-4">
+        <p className="text-lg leading-6 font-medium text-gray-900">
+          {I18n.t("settings.availability.title2")}
+        </p>
+        
+        <p className="mt-2 max-w-xl text-sm leading-5 text-gray-500">
           {I18n.t("settings.availability.hint2")}
-        </Typography>
+        </p>
 
-      </Box>
+      </div>
 
-      <Box mb={2}>
+      <div className="py-4">
 
-        <Typography gutterBottom variant={"overline"}>
+        <p className="text-xs text-gray-900 font-bold">
           {I18n.t("settings.availability.timezone", {tz: settings.timezone })}
-        </Typography>
+        </p>
 
         <AvailabilitySchedule 
           records={records} 
           setRecords={setRecords} 
         />
 
-      </Box>
+      </div>
 
-      <Box mb={2} mt={2}>
+      <div className="py-4">
 
-        <Typography variant="h6">
+        <p className="text-lg leading-6 font-medium text-gray-900">
           {I18n.t("settings.availability.reply_time.title")}
-        </Typography>
+        </p>
 
-        <Typography variant="body1" gutterBottom>
+        <p className="mt-2 max-w-xl text-sm leading-5 text-gray-500">
           {I18n.t("settings.availability.reply_time.hint")}
-        </Typography>
+        </p>
 
 
-        <Box mt={2} mb={2}>
-          <FormControl component="fieldset">
+        <div className="py-4">
+          
             
-            <RadioGroup
+            {/*<RadioGroup
               aria-label="reply time"
               name="reply_time"
               //className={classes.group}
@@ -153,27 +137,40 @@ export default function LanguageForm({settings, update, namespace, fields}){
                 ))
               }
 
-            </RadioGroup>
-          </FormControl>
+            </RadioGroup>*/}
 
-        </Box>
+            {
+              I18n.t("settings.availability.reply_time.options")
+              .map((o)=>(
+                <Input
+                  type={'radio'} 
+                  key={o.value}
+                  name="reply_time"
+                  value={o.value}
+                  defaultChecked={o.value === settings.replyTime}
+                  label={o.label} 
+                  //value={selectedOption}
+                  onChange={handleChange}
+                />
+              ))
+            }
+        </div>
+      </div>
 
-      </Box>
+      <div>
 
-      <Box mb={2}>
-
-        <Typography variant="caption" gutterBottom>
+        <p className="mt-2 max-w-xl text-sm leading-5 text-gray-500">
           {I18n.t("settings.availability.reply_time.hint2")}
-        </Typography>
+        </p>
 
-      </Box>
+      </div>
 
-      <Box>
+      <div>
         <Button onClick={handleSubmit}
           variant={"contained"} color={"primary"}>
           Save
         </Button>      
-      </Box>
+      </div>
 
     </form>
   )
@@ -182,7 +179,9 @@ export default function LanguageForm({settings, update, namespace, fields}){
 
 function AvailabilitySchedule({records, setRecords}){
 
-  function addRecord(){
+  function addRecord(e){
+    e.preventDefault()
+
     const newRecords = records.concat({
       day: null,
       from: null,
@@ -206,7 +205,7 @@ function AvailabilitySchedule({records, setRecords}){
 
   return (
 
-    <Box mt={2}>
+    <div mt={2}>
     
       {
         records.map((o, index)=>(
@@ -220,17 +219,22 @@ function AvailabilitySchedule({records, setRecords}){
         ))
       }
       
+      <div container gutterBottom justify={"flex-start"}>
+        <div className="py-4">
+          <Button 
+            onClick={addRecord} 
+            color={"primary"}
+            className="border h-50 w-50"
 
-
-      <Grid container gutterBottom justify={"flex-start"}>
-        <Box mt={2} mb={2}>
-          <Button onClick={addRecord} color={"primary"} variant={"contained"}>
-            <AddIcon/> add availability 
+            data-ballon-pos="down"
+            aria-label={'add new availability time frame'} 
+            variant={"icon"}>
+            <PlusIcon/>
           </Button>
-        </Box>
-      </Grid>
+        </div>
+      </div>
         
-    </Box>
+    </div>
 
   )
 }
@@ -260,91 +264,90 @@ function AvailabilityRecord({record, update, index, removeItem}){
   }
 
   return (
-    <Grid container 
-    direction="row" 
-    justify="space-around" 
-    alignItems="center"
-    gutterBottom>
+    <div className="flex flex-row justify-between items-center">
  
-      <Grid item>
-        <FormControl component="fieldset">
-
-          <InputLabel htmlFor="day">day</InputLabel>
-
-          <Select
-            value={item.day}
-            onChange={(e)=>handleChange({day: e.target.value})}
-            inputProps={{
-              name: 'day',
-            }}
-          >
-            {
-              I18n.translations.en.date.abbr_day_names.map((o, i)=>(
-                <MenuItem value={o.toLocaleLowerCase()}>{
-                  I18n.translations.en.date.day_names[i]
-                }</MenuItem>  
-              ))
-            }
-          </Select>
+      <div className="w-1/4 p-1">
         
-        </FormControl>
-      </Grid>
-
-      <Grid item>
-        <FormControl component="fieldset">
-
-          <InputLabel htmlFor="from">from</InputLabel>
-
-          <Select
-            value={item.from}
-            onChange={(e)=>handleChange({from: e.target.value})}
-            inputProps={{
-              name: 'from',
-            }}
-          >
-            {
-              genHours("00:00", "23:30").map((o)=>(
-                <MenuItem 
-                  key={`from-${o}`} 
-                  value={o}>
-                  {o}
-                </MenuItem>
+        <Input
+          type={'select'}
+          label='day'
+          name='day'
+          value={ {label: item.day, value: item.day} }
+          defaultValue={{label: item.day, value: item.day}}
+          data={{}}
+          onChange={(e)=> handleChange({day: e.value}) }
+          options={
+              I18n.translations.en.date.abbr_day_names.map((o, i)=>(
+                {  
+                  value: o.toLocaleLowerCase(),
+                  label: I18n.translations.en.date.day_names[i]
+                }
               ))
             }
-          </Select>
-      
-        </FormControl>
-      </Grid>
-
-      <Grid item>
-        <FormControl component="fieldset">
-
-          <InputLabel htmlFor="to">to</InputLabel>
-          <Select
-            value={item.to}
-            onChange={(e)=>handleChange({to: e.target.value})}
-            inputProps={{
-              name: 'to',
-            }}
           >
-            {
+        </Input>
+        
+        
+      </div>
+
+      <div className="w-1/4 p-1">
+
+        <Input
+          type={'select'}
+          label='from'
+          name={'from'}
+          value={ {label: item.from, value: item.from} }
+          defaultValue={{label: item.from, value: item.from}}
+          data={{}}
+          onChange={(e)=> {
+            handleChange({from: e.value})
+          } }
+          options={
               genHours("00:00", "23:30").map((o)=>(
-                <MenuItem key={`to-${o}`} value={o}>
-                  {o}
-                </MenuItem>
+                {
+                  label: o,
+                  value: o
+                }
               ))
             }
-          </Select>
+          >
+        </Input>
       
-        </FormControl>
-      </Grid>
+        
+      </div>
 
-      <Grid item>
-         <IconButton onClick={deleteItem}>
+      <div className="w-1/4 p-1">
+        
+          <Input
+            label="to"
+            type={'select'}
+            value={ {label: item.to, value: item.to} }
+            defaultValue={{label: item.to, value: item.to}}
+            name={'to'}
+            data={{}}
+            onChange={(e)=> handleChange({to: e.value}) }
+            options={
+                genHours("00:00", "23:30").map((o)=>(
+                  {
+                    label: o,
+                    value: o
+                  }
+                ))
+              }
+            >
+          </Input>
+      
+        
+      </div>
+
+      <div className="w-1/4">
+         <Button 
+          variant="icon"
+          onClick={deleteItem}>
           <DeleteIcon></DeleteIcon>
-         </IconButton>
-      </Grid>
+         </Button>
+      </div>
 
-    </Grid>
+    </div>
   )
 }

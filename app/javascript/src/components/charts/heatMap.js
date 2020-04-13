@@ -7,10 +7,19 @@ import React from 'react'
 //import { ResponsiveCalendar } from '@nivo/calendar'
 import { ResponsiveCalendarCanvas } from '@nivo/calendar'
 
-import { useTheme } from '@material-ui/core/styles';
+//import { useTheme } from '@material-ui/core/styles';
 
 export default function MyResponsiveCalendar({data, from, to}) {
-	const theme = useTheme();
+	//const theme = useTheme();
+
+	const theme = {
+		palette: {
+			primary: {
+				light: '#112343',
+				main: '#123443'
+			}
+		}
+	}
 
   return <ResponsiveCalendarCanvas
       data={data}

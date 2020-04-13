@@ -1,27 +1,15 @@
 
 import React, {Component} from "react"
 
-import PieChartIcon from '@material-ui/icons/PieChart'
-import SaveIcon from '@material-ui/icons/Save'
-import DeleteIcon from '@material-ui/icons/Delete'
-import AddIcon from '@material-ui/icons/Add'
 import FormDialog from '../FormDialog'
-import DataTable from '../table/index'
+import DataTable from '../Table'
 
 import SegmentItemButton from './itemButton'
 import {Map, List, fromJS} from 'immutable'
+import Dropdown from '../Dropdown'
+import {ButtonIndigo} from '../Button'
 
-import Button  from '@material-ui/core/Button'
-import IconButton  from '@material-ui/core/IconButton'
-import MenuItem  from '@material-ui/core/MenuItem'
-import Menu  from '@material-ui/core/Menu'
-import Radio  from '@material-ui/core/Radio'
-import RadioGroup  from '@material-ui/core/RadioGroup'
-import FormControlLabel  from '@material-ui/core/FormControlLabel'
-import TextField  from '@material-ui/core/TextField'
-import Box  from '@material-ui/core/Box'
-import Tooltip  from '@material-ui/core/Tooltip'
-import ClickAwayListener  from '@material-ui/core/ClickAwayListener'
+//import ClickAwayListener  from '@material-ui/core/ClickAwayListener'
 
 import defaultFields from '../../shared/defaultFields'
 
@@ -32,31 +20,12 @@ import {
 } from 'react-router-dom'
 import { connect } from 'react-redux'
 
-const ContentMatchTitle = styled.h5`
-  margin: 15px;
-  border-bottom: 2px solid #6f6f6f;
-`
-
-const ContentMatch = styled.div`
-  overflow: auto;
-  width: 300px;
-  height: 121px;
-  margin-bottom: 25px;
-  padding-left: 14px;
-`
-
-const ContentMatchFooter = styled.div`
-  /* position: absolute; */
-  bottom: 0px;
-  width: 100%;
-  left: 0px;
-  padding: 9px;
-  /* background: #ccc; */
-  margin-top: 10px;
-  border-top: 1px solid #ccc;
-  display: flex;
-  align-items: baseline;
-`
+import {
+  SaveIcon,
+  DeleteIcon,
+  AddIcon,
+  PlusIcon
+} from '../icons'
 
 const ButtonGroup = styled.div`
   //display: inline-flex;
@@ -73,7 +42,9 @@ const ButtonGroup = styled.div`
   }
 `
 
-
+function Spinner(){
+  return <p>run run run...</p>
+}
 
 export class SaveSegmentModal extends Component {
   state = { 
@@ -124,26 +95,29 @@ export class SaveSegmentModal extends Component {
     return (
 
         <React.Fragment>
-          <div>
-            <Tooltip title="Save segment">
-              <IconButton isLoading={false} 
-                variant={'small'}
+          <div className="flex items-center">
+              <ButtonIndigo isLoading={false}
+                
+                data-balloon-pos="down"
+                arial-label={"Save Segment"}
+                variant={'clean'}
                 appearance={'link'}
                 onClick={this.open}
                 disabled={this.equalPredicates() || this.incompletePredicates()}>
-                <SaveIcon variant="small" />
+                <SaveIcon 
+                  variant="small" 
+                />
                 {" "}
-              </IconButton>
-            </Tooltip>
+              </ButtonIndigo>
 
-            <Tooltip title="Delete segment">
-              <IconButton isLoading={false} 
-                variant={'small'}
+              <ButtonIndigo isLoading={false} 
+                variant={'clean'}
+                data-balloon-pos="down"
+                arial-label={"Delete segment"}
                 appearance={'link danger'}
                 onClick={this.deleteAction.bind(this)}>
                 <DeleteIcon />
-              </IconButton>
-            </Tooltip>
+              </ButtonIndigo>
 
           </div>
 
@@ -151,6 +125,7 @@ export class SaveSegmentModal extends Component {
           {isOpen && (
             <FormDialog 
               open={isOpen}
+              handleClose={this.close}
 
               //contentText={"lipsum"}
               titleContent={"Save Segment"}
@@ -158,52 +133,47 @@ export class SaveSegmentModal extends Component {
                 !loading ?
                    <div>
 
+                    <p className="text-sm leading-5 text-gray-500">
+                      The changes will be saved to the app segments.
+                    </p>
 
-                    <RadioGroup
-                      aria-label="options"
-                      name="options"
+                    <label className="inline-flex items-center">
+                      <input type="radio" 
+                      className="form-radio h-4 w-4 text-indigo-600 transition duration-150 ease-in-out" 
+                      name="options" 
+                      value={'update'}
                       onChange={this.handleChange.bind(this)}
-                    >
-                      <FormControlLabel
-                        control={<Radio />} 
-                        value="update"
-                        label={`Save changes to the segment ‘${this.props.segment.name}’`} 
                       />
-                      <FormControlLabel
-                        control={<Radio />} 
-                        value="new"
-                        label="Create new segment" 
-                      />
+                      <span className="ml-2">
+                        Save changes to the <b>{this.props.segment.name}</b> segment.
+                      </span>
+                    </label>
 
-                    </RadioGroup>
+                    <label className="inline-flex items-center">
+                      <input type="radio" 
+                      className="form-radio h-4 w-4 text-indigo-600 transition duration-150 ease-in-out" 
+                      name="options" 
+                      value={'new'}
+                      onChange={this.handleChange.bind(this)}
+                      />
+                      <span className="ml-2">
+                      Create new segment
+                      </span>
+                    </label>
 
                     {
-                      this.state.action === "new" ?
-
-                        <TextField
+                      this.state.action === "new" &&
+                        <input
+                          className="mt-1 form-input block w-full py-2 px-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:shadow-outline-blue focus:border-blue-300 transition duration-150 ease-in-out sm:text-sm sm:leading-5"
                           autoFocus
                           margin="dense"
                           id="name"
                           name="name"
                           label="name"
                           type="email"
-                          ref={"input"}
                           fullWidth
-                          inputRef={input => (this.input_ref = input)}
-                        /> : null
-                    }
-
-
-                    {
-                      /*
-                      actions.map((o, i)=> (
-                        <Button key={i}
-                          onClick={o.onClick}>
-                          {o.text}
-                        </Button>
-                       )
-                      )
-                      */
+                          ref={input => (this.input_ref = input)}
+                        /> 
                     }
 
                   </div> : <Spinner/>
@@ -211,16 +181,22 @@ export class SaveSegmentModal extends Component {
 
               dialogButtons={
                 <React.Fragment>
-                  <Button onClick={this.close} color="secondary">
-                    Cancel
-                  </Button>
 
-                  <Button onClick={this.secondaryAction.bind(this)} 
+                  <button 
+                    className="inline-flex justify-center w-full rounded-md border border-transparent px-4 py-2 bg-red-600 text-base leading-6 font-medium text-white shadow-sm hover:bg-red-500 focus:outline-none focus:border-red-700 focus:shadow-outline-red transition ease-in-out duration-150 sm:text-sm sm:leading-5"
+                    onClick={this.secondaryAction.bind(this)} 
                     color="primary">
                     {
                       this.state.action === "update" ? "Save" : "Save New"
                     }
-                  </Button>
+                  </button>
+
+                  <button 
+                    onClick={this.close} 
+                    className="inline-flex justify-center w-full rounded-md border border-gray-300 px-4 py-2 bg-white text-base leading-6 font-medium text-gray-700 shadow-sm hover:text-gray-500 focus:outline-none focus:border-blue-300 focus:shadow-outline transition ease-in-out duration-150 sm:text-sm sm:leading-5"
+                    color="secondary">
+                    Cancel
+                  </button>
 
                 </React.Fragment>
               }
@@ -275,61 +251,57 @@ export class InlineFilterDialog extends Component {
 
     const fields = this.availableFields()
 
+
+    // <ClickAwayListener onClickAway={this.toggleDialog2.bind(this)}>
+    //  </ClickAwayListener>
     const content = (
+        <div className="p-2">
+          <h2 className="text-sm leading-5 font-medium text-gray-900">
+              Select fields:
+          </h2>
 
-      <ClickAwayListener onClickAway={this.toggleDialog2.bind(this)}>
-        <div>
-          <MenuItem disabled={true}>
-            Select field:
-          </MenuItem>
-
-          <div style={{height: "200px", width: '250px', overflow: 'auto'}}>
+          <div className="overflow-scroll h-48">
+            <ul>
             {
               fields.map((o)=>(
-                <MenuItem
+                <li className="p-2 border-b">
+                <button
+                  className="inline-flex justify-center w-full rounded-md border border-transparent px-1 py-1 bg-indigo-600 text-base leading-6 font-medium text-white shadow-sm hover:bg-indigo-500 focus:outline-none focus:border-indigo-700 focus:shadow-outline-indigo transition ease-in-out duration-150 sm:text-sm sm:leading-5"
                   key={o.name}
                   onClick={(e)=> this.handleClick.bind(this)(e, o)}
                 >
                   {o.name}
-                </MenuItem>
+                </button>
+                </li>
               ))
             }
+            </ul>
           </div>
          
         </div>
-       </ClickAwayListener>
     );
 
 
     return (
         <div>
-          <Button 
-            innerRef={(ref)=> this._my_field = ref}
-            isLoading={false}
-            variant="outlined"
-            color="primary"
-            onClick={this.toggleDialog}>
-            <AddIcon />
-            {" "}
-            Add filters
-          </Button>
-        
-          <Menu 
-            //content={content} 
-            anchorEl={this._my_field}
-            open={this.state.dialogOpen}
-            anchorOrigin={{
-              vertical: 'bottom',
-              horizontal: 'left',
-            }}
-            /*transformOrigin={{
-              vertical: 'top',
-              horizontal: 'center',
-            }}*/
-            //position="bottom left"
-            >
-            {content}
-          </Menu>
+          <Dropdown
+            isOpen={this.state.dialogOpen}
+            triggerButton={(cb)=>(
+              <button 
+                  innerRef={(ref)=> this._my_field = ref}
+                  isLoading={false}
+                  className="p-2 inline-flex items-center px-2.5 py-1.5 border border-transparent text-xs leading-4 font-medium rounded text-white bg-gray-600 hover:bg-gray-500 focus:outline-none focus:border-indigo-700 focus:shadow-outline-indigo active:bg-indigo-700 transition ease-in-out duration-150"
+                  variant="outlined"
+                  color="primary"
+                  onClick={cb}>
+                  <PlusIcon variant="small" />
+                  {" "}
+                  Add filters
+                </button>
+              )
+          }>
+          {content}
+        </Dropdown>
         </div>
     );
   }
@@ -344,7 +316,7 @@ class SegmentManager extends Component {
 
   handleClickOnSelectedFilter = (jwtToken)=>{
     const url = `/apps/${this.props.app.key}/segments/${this.props.store.segment.id}/${jwtToken}`
-    //this.props.history.push(url) 
+    this.props.history.push(url) 
   }
 
   getTextForPredicate = (o)=>{
@@ -357,7 +329,7 @@ class SegmentManager extends Component {
 
   render(){
     // this.props.actions.getPredicates()
-    return <Box mt={2}>
+    return <div mt={2}>
    
 
             <ButtonGroup>
@@ -389,7 +361,7 @@ class SegmentManager extends Component {
 
             </ButtonGroup>
 
-            {
+            { 
               <DataTable 
                 title={'segment'}
                 meta={this.props.meta}
@@ -404,11 +376,10 @@ class SegmentManager extends Component {
                 toggleMapView={this.props.toggleMapView}
                 map_view={this.props.map_view}
                 enableMapView={this.props.enableMapView}
-
               />
             }
 
-          </Box>
+          </div>
   }
 } 
 

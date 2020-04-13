@@ -2,21 +2,19 @@ import React, {Component} from 'react'
 import { withRouter, Route, Switch } from 'react-router-dom'
 import { connect } from 'react-redux'
 
-import Paper from '@material-ui/core/Paper'
-import Button from '@material-ui/core/Button'
-import TextField from '@material-ui/core/TextField'
-import List from '@material-ui/core/List'
-import ListItem from '@material-ui/core/ListItem'
-import ListItemText from '@material-ui/core/ListItemText'
-import CircularProgress from '@material-ui/core/CircularProgress'
-import Typography from '@material-ui/core/Typography'
-import Checkbox from '@material-ui/core/Checkbox'
-import ContentHeader from '../../../components/ContentHeader'
+import Button from '../../../components/Button'
+import TextField from '../../../components/forms/Input'
+import List, {
+  ListItem,
+  ListItemText
+} from '../../../components/List'
+import CircularProgress from '../../../components/Progress'
+import Checkbox from '../../../components/forms/Input'
+import ContentHeader from '../../../components/PageHeader'
 import {AnchorLink} from '../../../shared/RouterLink'
 
 import FormDialog from '../../../components/FormDialog'
 import {setCurrentSection, setCurrentPage} from '../../../actions/navigation'
-import { withStyles } from '@material-ui/core/styles';
 
 import ScrollableTabsButtonForce from '../../../components/scrollingTabs'
 import langs from '../../../shared/langsOptions'
@@ -42,25 +40,6 @@ import {
 } from '../../../graphql/queries'
 
 import Dnd from './dnd'
-
-
-const styles = theme => ({
-  addUser: {
-    marginRight: theme.spacing(1),
-  },
-  paper: {
-    [theme.breakpoints.down('sm')]: {
-      margin: theme.spacing(0),
-    },
-    [theme.breakpoints.up('md')]: {
-      margin: theme.spacing(4),
-    },
-    //margin: '9em',
-    padding: '1em',
-    marginTop: '1.5em',
-    paddingBottom: '6em'
-  }
-});
 
 class CollectionDetail extends Component {
 
@@ -109,7 +88,8 @@ class CollectionDetail extends Component {
 
   openNewDialog = ()=>{
     this.setState({
-      isOpen: true
+      isOpen: true,
+      editSection: null
     })
   }
 
@@ -164,13 +144,19 @@ class CollectionDetail extends Component {
   renderCollection = ()=>{
     const {collection} = this.state
     
-    return <div>
+    return <div className="py-4">
 
             {
-              collection ?
+              collection &&
               <div>
-                <h2>{collection.title}</h2>
-                <p>{collection.description}</p>
+
+                <h2 className="text-lg leading-6 font-medium text-gray-900 pb-4">
+                  {collection.title}
+                </h2>
+
+                <p className="max-w-xl text-sm leading-5 text-gray-500 mb-4">
+                  {collection.description}
+                </p>
 
                 <Button variant="contained" 
                   color={'primary'}
@@ -186,7 +172,7 @@ class CollectionDetail extends Component {
                      requestUpdate={this.requestUpdate}
                      addArticlesToSection={this.addArticlesToSection}
                 />
-              </div> : null 
+              </div>
             }
            </div>
   }
@@ -219,8 +205,8 @@ class CollectionDetail extends Component {
       appKey: this.props.app.key,
       collectionId: collection.id,
       title: this.titleRef.value,
-      lang: this.state.lang
-      //description: this.descriptionRef
+      lang: this.state.lang,
+      description: this.descriptionRef.value
     }, 
     {
       success: (data)=>{
@@ -245,9 +231,9 @@ class CollectionDetail extends Component {
       appKey: this.props.app.key,
       collectionId: collection.id,
       title: this.titleRef.value,
-      id: parseInt(this.state.editSection.id),
-      lang: this.state.lang
-      //description: this.descriptionRef
+      id: this.state.editSection.id.toString(),
+      lang: this.state.lang,
+      description: this.descriptionRef.value
     }, 
     {
       success: (data)=>{
@@ -262,7 +248,8 @@ class CollectionDetail extends Component {
     
         this.setState({
           collection: Object.assign({}, this.state.collection, {sections: sections}),
-          isOpen: false
+          isOpen: false,
+          submitEdit: null
         })
       },
       error: ()=>{
@@ -276,6 +263,7 @@ class CollectionDetail extends Component {
     const {isOpen, editSection} = this.state
     return <FormDialog 
               open={isOpen}
+              handleClose={this.close}
               //contentText={"lipsum"}
               titleContent={"New Section"}
               formComponent={
@@ -284,6 +272,7 @@ class CollectionDetail extends Component {
                   <TextField
                     id="collection-title"
                     //label="Name"
+                    type="text"
                     placeholder={"Type sections's title"}
                     inputProps={{
                         style: {
@@ -293,7 +282,7 @@ class CollectionDetail extends Component {
                     }
                     //helperText="Full width!"
                     fullWidth
-                    inputRef={ref => { this.titleRef = ref; }}
+                    ref={ref => { this.titleRef = ref; }}
                     defaultValue={ editSection ? editSection.title : null }
                     margin="normal"
                   />
@@ -301,12 +290,13 @@ class CollectionDetail extends Component {
 
                   <TextField
                     id="collection-description"
+                    type="textarea"
                     //label="Description"
                     placeholder={"Describe your collection to help it get found"}
                     //helperText="Full width!"
                     fullWidth
                     multiline
-                    inputRef={ref => { this.descriptionRef = ref; }}
+                    ref={ref => { this.descriptionRef = ref; }}
                     defaultValue={ editSection ? editSection.description : null }
                     margin="normal"
                   />
@@ -377,11 +367,11 @@ class CollectionDetail extends Component {
           <ContentHeader 
             breadcrumbs={
               [
-              <AnchorLink className={classes.link} 
+              <AnchorLink 
                 color="inherit" to={`/apps/${app.key}/articles`}>
                 Help Center
               </AnchorLink>,
-              <AnchorLink className={classes.link} 
+              <AnchorLink
                 color="inherit" to={`/apps/${app.key}/articles/collections`}>
                 Collections
               </AnchorLink>
@@ -389,10 +379,9 @@ class CollectionDetail extends Component {
             }
           />
     
-          <Paper 
+          <div 
             square={true}
             elevation={1}
-            className={classes.paper}
             >
 
               <ScrollableTabsButtonForce 
@@ -415,7 +404,7 @@ class CollectionDetail extends Component {
                 this.renderCollection()
               }
 
-          </Paper>
+          </div>
          </React.Fragment>
       }
 }
@@ -462,6 +451,7 @@ class AddArticleDialog extends Component {
     const {isOpen} = this.state
     return <FormDialog 
               open={isOpen}
+              handleClose={this.close}
               //contentText={"lipsum"}
               titleContent={"Add Articles"}
               formComponent={
@@ -482,9 +472,9 @@ class AddArticleDialog extends Component {
                       <ListItemText
                           primary={o.title}
                           secondary={
-                            <Typography noWrap>
+                            <p noWrap>
                               {o.state}
-                            </Typography>
+                            </p>
                           }
                         />
                       
@@ -527,4 +517,4 @@ function mapStateToProps(state) {
 
 //export default withRouter(connect(mapStateToProps)(withStyles(styles)(ArticlesNew)))
 //export default withRouter(connect(mapStateToProps)(CollectionDetail))
-export default withRouter(connect(mapStateToProps)(withStyles(styles)(CollectionDetail)))
+export default withRouter(connect(mapStateToProps)(CollectionDetail))

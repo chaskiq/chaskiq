@@ -10,6 +10,8 @@ import theme from './textEditor/theme'
 import DraftRenderer from './textEditor/draftRenderer'
 import DanteContainer from './textEditor/editorStyles'
 import Tour from './UserTour'
+import TourManager from './tourManager'
+
 //import gravatar from "./shared/gravatar"
 import { soundManager } from 'soundmanager2'
 import {toCamelCase} from './shared/caseConverter'
@@ -50,7 +52,6 @@ import {
   AssigneeStatusWrapper
 } from './styles/styled'
 
-import TourManager from './tourManager'
 import {
   CloseIcon,
   LeftIcon,
@@ -1372,7 +1373,7 @@ class Messenger extends Component {
                   events={App.events}
                   domain={this.props.domain}
                 /> : null
-            }
+             }
 
             <div id="TourManager"></div>
          

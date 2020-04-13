@@ -7,7 +7,6 @@ import {
 
 import {doSignout} from './auth'
 
-
 // Actions
 const SET_CURRENT_USER = 'auth/SET_CURRENT_USER'
 
@@ -46,6 +45,10 @@ function successAuthentication(data) {
 // Reducer
 export default function reducer(state, action = {}) {
   const initialState = {}
+
+  // Actions
+  const SET_CURRENT_USER = 'auth/SET_CURRENT_USER'
+
 
   switch (action.type) {
     case SET_CURRENT_USER:

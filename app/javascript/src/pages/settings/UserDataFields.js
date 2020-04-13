@@ -1,28 +1,28 @@
 import React, {useState} from 'react'
-import Typography from '@material-ui/core/Typography'
-import Divider from '@material-ui/core/Divider'
-import Grid from '@material-ui/core/Grid'
-import Button from '@material-ui/core/Button'
-import Select from '@material-ui/core/Select';
-import MenuItem from '@material-ui/core/MenuItem'
-import TextField from '@material-ui/core/TextField'
-import InputLabel from '@material-ui/core/InputLabel'
+
+import Button from '../../components/Button'
+
 import { withRouter } from 'react-router-dom'
 import { connect } from 'react-redux'
 import FormDialog from '../../components/FormDialog'
+import Content from '../../components/Content'
+import List, {
+  ListItem,
+  ListItemText,
+  ItemListPrimaryContent,
+  ItemListSecondaryContent
+} from '../../components/List'
+import TextField from '../../components/forms/Input'
 import serialize from 'form-serialize'
 
-import List from '@material-ui/core/List';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
-import ListItemText from '@material-ui/core/ListItemText';
-
-import IconButton from '@material-ui/core/IconButton';
-import DeleteIcon from '@material-ui/icons/Delete';
-import AddIcon from '@material-ui/icons/Add';
-import EditIcon from '@material-ui/icons/Edit';
+import {
+  DeleteIcon ,
+  PlusIcon,
+  EditIcon 
+} from '../../components/icons';
 
 import defaultFields from '../../shared/defaultFields'
+import Input from '../../components/forms/Input'
 
 function CustomizationColors({app, settings, update, dispatch}){
 
@@ -66,6 +66,7 @@ function CustomizationColors({app, settings, update, dispatch}){
     return isOpen && (
       <FormDialog 
         open={isOpen}
+        handleClose={close}
         //contentText={"lipsum"}
         titleContent={"Create user data field"}
         formComponent={
@@ -98,83 +99,138 @@ function CustomizationColors({app, settings, update, dispatch}){
   }
 
   function removeField(index){
-    const newFields = fields.filter((o,i)=> i != index)
+    const newFields = fields.filter((o,i)=> i !== index)
     setFields(newFields)
   }
 
   function renderSubmitButton(){
     return <Button 
-        variant={'contained'} 
-        color={'primary'} 
-        onClick={()=>update({
-          app: {
-            custom_fields: fields
-          }
-        })
-      }>Save changes</Button>
+              variant={'contained'} 
+              color={'primary'} 
+              onClick={()=>update({
+                app: {
+                  custom_fields: fields
+                }
+              })
+            }>
+            Save changes
+          </Button>
   }
   
   return (
-    <div>
+    <div className="py-4">
 
-
-      <Grid container justify={'space-between'}>
-
-          <Typography variant={'h4'}>Fields</Typography>
-     
-          <Grid item sm={3} justify={'space-between'}>
-          <IconButton onClick={addField} edge="end" aria-label="add">
-            <AddIcon />
-          </IconButton>
+      <div className="flex items-center justify-between">
+        <p className="text-lg leading-6 font-medium  text-gray-900 py-4">
+          Custom Fields
+        </p>
+    
+        <div className="flex w-1/4 justify-end">
+          <Button onClick={addField} 
+            edge="end" 
+            variant="icon"
+            aria-label="add">
+            <PlusIcon />
+          </Button>
 
           {renderSubmitButton()}
-          </Grid>
-      </Grid>
-
-  
-
-      
+        </div>
+      </div>
 
       { renderModal() }
 
-      <List dense={true}>
-        {
-          fields.map((o, i)=> (
-              <React.Fragment key={o.name}>
-                <Field 
-                  index={i}
-                  handleEdit={handleEdit}
-                  removeField={removeField}
-                  field={o} 
+      <div className="py-4">
+        <List 
+          dense={true}
+          divider={true}
+          >
+          {
+            fields.map((o, i)=> (
+                <FieldsItems
+                  primary={o.name}
+                  secondary={o.type}
+                  terciary={
+                    <React.Fragment>
+                      <Button 
+                          variant="icon"
+                          onClick={()=>handleEdit(i)} 
+                          edge="end" aria-label="delete">
+                        <EditIcon />
+                      </Button>
+          
+                      <Button 
+                        variant="icon"
+                        onClick={()=>removeField(i)} 
+                        edge="end" 
+                        aria-label="add">
+                        <DeleteIcon />
+                      </Button>
+                    </React.Fragment>
+                  }
                 />
-                <Divider variant="inset" component="li" />
-              </React.Fragment>
+              )
             )
-          )
-        }
+          }
+        </List>
+      </div>
 
-        <Typography variant={'h5'}>
-          Default types
-        </Typography>
+      <p className="text-lg leading-6 font-medium text-gray-900">
+        Default fields
+      </p>
 
-        {
-          defaultFields.map((o, i)=> (
-            <React.Fragment key={o.name}>
-              <Field 
-                field={o} 
-              />
-              <Divider variant="inset" component="li" />
-            </React.Fragment>
+      <p className="mt-2 max-w-xl text-sm leading-5 text-gray-500">
+        this fields are not editable
+      </p>
+
+      <div className="py-4">
+        <List>
+
+          {
+            defaultFields.map((o, i)=> (
+                <FieldsItems
+                  primary={o.name}
+                  secondary={o.type}
+                  //terciary={}
+                />
+              )
             )
-          )
-        }
-      </List>
+          }
+
+        </List>
+      </div>
 
       {renderSubmitButton()}
 
     </div>
   )
 
+}
+
+
+function FieldsItems({primary, secondary, terciary }){
+  return (
+    <ListItem divider={true}>
+      <ListItemText 
+        primary={
+          <ItemListPrimaryContent variant="h5">
+            <h3 className="text-lg leading-6 font-medium text-gray-900">
+              {primary}
+            </h3>
+          </ItemListPrimaryContent>
+        } 
+        secondary={
+          <ItemListSecondaryContent>
+            <p className="mt-2 max-w-xl text-sm leading-5 text-gray-500">
+              {secondary}
+            </p>
+          </ItemListSecondaryContent>
+        } 
+
+        terciary={terciary}
+      
+      />
+    </ListItem>
+  )
 }
 
 function FieldsForm({selected}){
@@ -186,11 +242,23 @@ function FieldsForm({selected}){
   }
 
   function setType(e){
-    setField( Object.assign({}, field, {type: e.target.value}) )
+    setField( Object.assign({}, field, {type: e.value}) )
+  }
+
+  const options = [
+    {value: 'string', label: 'Text'},
+    {value: 'integer', label: 'Number'},
+    {value: 'date', label: 'Date'},
+  ]
+
+  function selectedOption(){
+    const selected =  options.find((o)=> o.value === field.type)
+    if(selected) return selected
   }
 
   return (
     <React.Fragment>
+      
       <TextField
         variant="outlined"
         margin="normal"
@@ -198,6 +266,7 @@ function FieldsForm({selected}){
         fullWidth
         name="name"
         label="Field name"
+        type={'text'}
         //type="password"
         //id="password"
         autoFocus
@@ -206,21 +275,19 @@ function FieldsForm({selected}){
         onChange={setName}
       />
 
-      <InputLabel>
-        Field setType
-      </InputLabel>
-
-      <Select
+      <Input
         name={'type'}
-        value={field.type}
-        onChange={setType}
+        value={field.label}
+        defaultValue={selectedOption()}
+        onChange={(e)=>setType(e)}
         label={'field type'}
+        type={'select'}
+
+        data={{}}
+        options={options}
       >
-        <MenuItem value={'string'}>Text</MenuItem>
-        <MenuItem value={'integer'}>Number</MenuItem>
-        {/*<MenuItem value={'bool'}>Bool</MenuItem>*/}
-        <MenuItem value={'date'}>Date</MenuItem>
-      </Select>
+        
+      </Input>
     </React.Fragment> 
   )
 }
@@ -236,17 +303,23 @@ function Field({field, handleEdit, removeField, index}){
         />
 
         { 
-          handleEdit && <ListItemSecondaryAction>
-            <IconButton onClick={()=>handleEdit(index)} 
-              edge="end" aria-label="delete">
+          handleEdit && 
+          <ItemListSecondaryContent>
+            <Button 
+                    variant="icon"
+                    onClick={()=>handleEdit(index)} 
+                    edge="end" 
+                    aria-label="delete">
               <EditIcon />
-            </IconButton>
+            </Button>
 
-            <IconButton onClick={()=>removeField(index)} edge="end" aria-label="add">
+            <Button onClick={()=>removeField(index)} 
+                    edge="end" 
+                    variant="icon"
+                    aria-label="add">
               <DeleteIcon />
-            </IconButton>
-
-          </ListItemSecondaryAction> 
+            </Button>
+          </ItemListSecondaryContent> 
         }
       </ListItem>
   )

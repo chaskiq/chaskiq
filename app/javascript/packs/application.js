@@ -11,12 +11,15 @@ console.log('Hello World from Webpacker')
 import React from 'react'
 import ReactDOM from 'react-dom'
 
-import MainRouter from '../src/modules/MainRouter';
+import '../src/styles/tailwind.css'
+import App from '../src/App';
+
+//import MainRouter from '../src/modules/MainRouter';
 
 // eslint-disable-next-line no-undef
 document.addEventListener('DOMContentLoaded', () => {
   ReactDOM.render(
-    <MainRouter />,
+    <App />,
     document.body.appendChild(document.getElementById('main-page')),
   )
 })

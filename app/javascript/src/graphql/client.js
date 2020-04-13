@@ -19,7 +19,7 @@ const graphql = (query, variables, callbacks)=>{
   }
 
   axios.create({
-    baseURL: '/graphql',
+    baseURL: 'http://localhost:3000/graphql',
   }).post('', {
     query: query,
     variables: variables,
@@ -40,12 +40,12 @@ const graphql = (query, variables, callbacks)=>{
         return callbacks['error'](res, errors)
     }
     
-    callbacks['success'] ? callbacks['success'](data, res) : null
+    if(callbacks['success']) callbacks['success'](data, res)
   })
   .catch(( req, error )=> {
     //throw r
     //const res = r.response
-    //console.log(req, error)
+    console.log(req, error)
     switch (req.response.status) {
       case 500:
         store.dispatch(errorMessage("server error ocurred"))
@@ -58,10 +58,10 @@ const graphql = (query, variables, callbacks)=>{
         break;
     }
     
-    callbacks['fatal'] ? callbacks['fatal'](error) : null
+    if(callbacks['fatal']) callbacks['fatal'](error)
   })
   .then( (r) => {
-    callbacks['always'] ? callbacks['always']() : null
+    if(callbacks['always']) callbacks['always']()
   });
 }
 

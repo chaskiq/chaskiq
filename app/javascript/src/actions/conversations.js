@@ -54,7 +54,7 @@ export function getConversations(options, cb){
           loading: false
         })*/
 
-        cb ? cb() : null        
+        if(cb) cb()      
       }
     })
  
@@ -84,13 +84,14 @@ export function appendConversation(data, cb){
         })
 
       } else {
-        const newConversations = getState().conversations.collection.map((o)=>{
-          if(o.key === data.conversationKey){
-            o.lastMessage = data
-            return o
-          }else{
-            return o
-          }
+        const newConversations = getState().conversations.collection.map(
+          (o)=>{
+            if(o.key === data.conversationKey){
+              o.lastMessage = data
+              return o
+            }else{
+              return o
+            }
         })
 
         if(conversation.key === getState().conversation.key){
@@ -99,8 +100,8 @@ export function appendConversation(data, cb){
         dispatch(appendConversationDispatcher(newConversations))
       }
 
-      if(getState().conversation.key != data.conversationKey ){
-        if(data.appUser.kind != "agent")
+      if(getState().conversation.key !== data.conversationKey ){
+        if(data.appUser.kind !== "agent")
           playSound()  
       }
     }
@@ -109,7 +110,7 @@ export function appendConversation(data, cb){
 export function updateConversationsData(data, cb){
   return (dispatch, getState)=>{
     dispatch(dispatchDataUpate(data))
-    cb ? cb() : null
+    cb && cb()
   }
 }
 

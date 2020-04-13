@@ -1,13 +1,9 @@
 import React, {Component} from 'react'
 import DraftRenderer from './textEditor/draftRenderer'
-import DanteContainer from './textEditor/editorStyles'
 import {EditorStylesExtend} from './textEditor/index'
 import theme from './textEditor/theme'
 import styled from '@emotion/styled'
 import { ThemeProvider } from 'emotion-theming'
-
-import Tooltip from './tour/tooltip'
-
 import { disableBodyScroll, enableBodyScroll } from 'body-scroll-lock'
 import GlobalStyle from './tour/globalStyle'
 

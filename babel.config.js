@@ -40,6 +40,7 @@ module.exports = function(api) {
     ].filter(Boolean),
     plugins: [
       'babel-plugin-macros',
+      //'lodash',
       '@babel/plugin-syntax-dynamic-import',
       isTestEnv && 'babel-plugin-dynamic-import-node',
       '@babel/plugin-transform-destructuring',

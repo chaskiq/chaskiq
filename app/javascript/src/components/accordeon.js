@@ -1,59 +1,4 @@
 import React from 'react';
-import { withStyles } from '@material-ui/core/styles';
-
-import List from '@material-ui/core/List'
-import ListItem from '@material-ui/core/ListItem'
-import ListItemText from '@material-ui/core/ListItemText'
-
-import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
-
-import MuiExpansionPanel from '@material-ui/core/ExpansionPanel';
-import MuiExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary';
-import MuiExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails';
-import Typography from '@material-ui/core/Typography';
-import Divider from '@material-ui/core/Divider';
-
-const ExpansionPanel = withStyles({
-  root: {
-    /*border: '1px solid rgba(0, 0, 0, .125)',
-    boxShadow: 'none',
-    '&:not(:last-child)': {
-      borderBottom: 0,
-    },
-    '&:before': {
-      display: 'none',
-    },
-    '&$expanded': {
-      margin: 'auto',
-    },*/
-  },
-  expanded: {},
-})(MuiExpansionPanel);
-
-const ExpansionPanelSummary = withStyles({
-  root: {
-    //backgroundColor: 'rgba(0, 0, 0, .03)',
-    //borderBottom: '1px solid rgba(0, 0, 0, .125)',
-    //marginBottom: -1,
-    //minHeight: 56,
-    //'&$expanded': {
-    //  minHeight: 56,
-    //},
-  },
-  content: {
-    '&$expanded': {
-      //margin: '12px 0',
-    },
-  },
-  expanded: {},
-})(MuiExpansionPanelSummary);
-
-const ExpansionPanelDetails = withStyles(theme => ({
-  root: {
-    display: 'inherit',
-    padding: theme.spacing(1),
-  },
-}))(MuiExpansionPanelDetails);
 
 function CustomizedExpansionPanels(props) {
   const [expanded, setExpanded] = React.useState(props.items[0].name);
@@ -66,71 +11,117 @@ function CustomizedExpansionPanels(props) {
     return col.filter( (o)=> o.value )
   }
 
-  return (
-    <div>
+  const expandedClasses = (o)=>{
+    if(expanded === o.name){
+      return 'border-l-2 bg-grey-lightest border-indigo-600'
+    }else{
+      return 'border-l-2 border-transparent'
+    }
+  }
 
+  const isExpanded = (o)=>{
+    return expanded === o.name
+  }
+
+  function  toggleExpanded(name) {
+    if(expanded === name){
+      setExpanded(null)
+      return  
+    }
+    setExpanded(name)
+  }
+
+  return (
+
+    <section className="shadow">
       {
         props.items.map((o, i)=>(
-          <ExpansionPanel 
+
+          <article className="border-b"
             key={`expansion-panel-${i}`}
             square 
             expanded={expanded === o.name} 
             onChange={handleChange(o.name)}>
 
-            <ExpansionPanelSummary 
-              expandIcon={<ExpandMoreIcon />}
+            <div className={expandedClasses(o)}
               aria-controls={`${o.name}-content`}
-              expandIcon={<ExpandMoreIcon />}
               id="panel1d-header">
 
-              <Typography>
-                {o.name}
-              </Typography>
-            </ExpansionPanelSummary>
+              <header 
+              onClick={()=>{toggleExpanded(o.name)}}
 
-            <ExpansionPanelDetails>
+              className="flex justify-between items-center p-5 pl-8 pr-8 cursor-pointer select-none">
+                <span 
+                className="text-sm leading-5 font-medium text-gray-900">
+                    {o.name}
+                </span>
+
+
+                {
+                  isExpanded(o) && 
+                  <button 
+                    onClick={()=>{toggleExpanded(o.name)}}
+                    className="rounded-full border border border-indigo-400 w-7 h-7 flex items-center justify-center bg-indigo-600">
+                      <svg aria-hidden="true" data-reactid="281" fill="none" height="24" stroke="white" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg">
+                          <polyline points="18 15 12 9 6 15">
+                          </polyline>
+                      </svg>
+                  </button>
+                }
+
+                {
+                  !isExpanded(o) && 
+                  <button 
+                    onClick={()=>{toggleExpanded(o.name)}}
+                    className="rounded-full border border-grey w-7 h-7 flex items-center justify-center">
+                      <svg aria-hidden="true" className="" data-reactid="266" fill="none" height="24" stroke="#606F7B" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" viewbox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg">
+                          <polyline points="6 9 12 15 18 9">
+                          </polyline>
+                      </svg>
+                  </button>
+                }
+
+
+              </header>
+
 
               {
-                o.items ?
-                  <List>
-                  {
-                    withValues(o.items).map((item, index)=>(
-                         <React.Fragment key={`expansion-detail-item-${index}`}>
-                            <ListItem>
-                              <ListItemText
-                                primary={item.label}
-                                secondary={
-                                  <Typography noWrap>
-                                    {item.value}
-                                  </Typography>
-                                }
-                              />
-
-                            </ListItem>
-                            <Divider/>
-                         </React.Fragment>
-                      )) 
-                  }
-                  </List> : null 
-              }
+                isExpanded(o) &&
               
-              { o.component ? o.component : null }
+              <div>
+                <div className="pl-4 pr-4 pb-5 text-grey-darkest">
+                    {
+                      o.items ?
+                      <ul className="pl-4">
+                        {
+                          withValues(o.items).map((item, index)=>(
+                            <React.Fragment>
+                              <p className="pb-2 text-sm leading-5 text-gray-500">
+                                {item.label}
+                              </p>
+                              <p className="text-sm leading-5 text-gray-900">
+                              {item.value}
+                              </p>
+                            </React.Fragment>
+                         
+                            )) 
+                        }
+                        </ul> : null 
+                    }
+                    
+                    { o.component ? o.component : null }
+                </div>
+              </div>
 
-              {
-                /*<Typography>
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse malesuada lacus ex,
-                    sit amet blandit leo lobortis eget. Lorem ipsum dolor sit amet, consectetur adipiscing
-                    elit. Suspendisse malesuada lacus ex, sit amet blandit leo lobortis eget.
-                  </Typography>
-                */
               }
-              
-            </ExpansionPanelDetails>
-          </ExpansionPanel>
+
+            </div>
+          
+          </article>
         ))
       }
 
-    </div>
+    </section>
   );
 }
 

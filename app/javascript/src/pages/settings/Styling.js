@@ -1,14 +1,11 @@
 import React, {Component, useState} from 'react'
-import Box from '@material-ui/core/Box'
-import Typography from '@material-ui/core/Typography'
-import Divider from '@material-ui/core/Divider'
-import Grid from '@material-ui/core/Grid'
-import Button from '@material-ui/core/Button'
-import Link from '@material-ui/core/Link'
-import { withRouter, Switch } from 'react-router-dom'
+import Button from '../../components/Button'
+import { withRouter, Switch, Link } from 'react-router-dom'
 import { connect } from 'react-redux'
-import {ColorPicker} from '../../shared/FormFields'
+//import {ColorPicker} from '../../shared/FormFields'
 import styled from '@emotion/styled'
+
+import {ColorPicker} from '../../components/forms/ColorPicker'
 
 
 const PatternButton = styled.button`
@@ -97,100 +94,91 @@ function CustomizationColors({settings, update, dispatch}){
   return (
     <div>
       
-      <Box mb={2}>
-        <Typography variant={"h4"}>
+      <div className="py-6">
+        <p className="text-lg leading-6 font-medium  text-gray-900 py-4">
           Customize chat window
-        </Typography> 
-      </Box>
+        </p> 
+      </div>
     
-      <Grid container direction={'column'}>
+      <div className="flex">
+        
+        <div className="w-1/2 pr-3">
+          <ColorPicker 
+            color={state.customization_colors.primary} 
+            colorHandler={(hex)=> {
+              const color = Object.assign({}, state.customization_colors, {primary: hex})
+              setState({customization_colors: color })
+            }}
+            label={"Primary color"} 
+          />
+          <p>
+            For color backgrounds, buttons and links
+          </p>          
+        </div>
 
-        <Grid container direction={'row'}>
-          <Grid item  xs={12} sm={4} >
-            <ColorPicker 
-              color={state.customization_colors.primary} 
-              colorHandler={(hex)=> {
-                const color = Object.assign({}, state.customization_colors, {primary: hex})
-                setState({customization_colors: color })
-              }}
-              label={"Primary color"} 
-            />
-
-            <Typography variant={"overline"}>
-              For color backgrounds, buttons and links
-            </Typography>          
-          </Grid>
-
-          <Grid item  xs={12} sm={4} >
-            <ColorPicker 
-              color={state.customization_colors.secondary} 
-              colorHandler={(hex)=>{
+        <div className="w-1/2">
+          <ColorPicker 
+            color={state.customization_colors.secondary} 
+            colorHandler={
+              (hex)=>{
                 const color = Object.assign({}, state.customization_colors, {secondary: hex})
                 setState({customization_colors: color })
-              }}
-              label={"Secondary color"} 
-            />
-            <Typography variant={"overline"}>
-              Secondary color
-            </Typography>
-          </Grid>
-        </Grid>
-
-        <Grid container direction={'row'}>
-
-          <Grid item  xs={12} sm={6} >
-
-            <Typography variant={"h6"}>
-              Choose a pattern From 
-              <Link target={"blank"} href={"https://www.toptal.com/designers/subtlepatterns/"}>
-              Subtle patterns
-              </Link>
-            </Typography>
-
-            <PatternButton onClick={(e)=>selectPattern(null)}>
-              <Image />
-            </PatternButton>
-
-            {
-              patterns.map((o)=>{
-                return <PatternButton onClick={(e)=>selectPattern(o)}>
-                          <Image image={o.url} />
-                        </PatternButton>
-              })
+              }
             }
-          </Grid>  
+            label={"Secondary color"} 
+          />
+          <p>
+            Secondary color
+          </p>
+        </div>
 
+      </div>
 
-          { state.customization_colors.pattern && 
-            <Grid item  xs={12} sm={6} >
+      <div className="flex py-4">
 
-              <Typography variant={"h6"}>
-                Selected pattern
-              </Typography>
+        <div className="w-1/2">
+          
+          <div>
+              <PatternButton 
+                onClick={(e)=>selectPattern(null)}>
+                <Image />
+              </PatternButton>
+          
+              {
+                patterns.map((o)=>{
+                  return <PatternButton onClick={(e)=>selectPattern(o)}>
+                            <Image image={o.url} />
+                          </PatternButton>
+                })
+              }
 
-                <img src={state.customization_colors.pattern} />
-              
+            <p className="text-md leading-6 font-medium text-gray-400 pb-2">
+              Choose a pattern From 
+              <a target={"blank"} href={"https://www.toptal.com/designers/subtlepatterns/"}>
+              Subtle patterns
+              </a>
+            </p>
+          </div>
 
-              <br/>
-
-              <Typography variant={"overline"}>
-                From subtle patterns
-              </Typography>
-            </Grid> 
-          }
+        </div>
         
-        </Grid>
+        { 
+          state.customization_colors.pattern && 
+          <div className="w-1/2">
+            <img src={state.customization_colors.pattern} />
+          </div> 
+        }
 
-      </Grid>
+      </div>
+        
+      <hr/>
 
-      <Divider/>
-
-      <Grid container>
+      <div>
         <Button onClick={handleSubmit}
           variant={"contained"} color={"primary"}>
           Save
         </Button>
-      </Grid>
+      </div>
 
     </div>
   )
