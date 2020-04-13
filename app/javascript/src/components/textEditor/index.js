@@ -14,7 +14,6 @@ import {
 } from 'draft-js'
 import MultiDecorator from 'draft-js-multidecorators'
 
-import Dante from "Dante2"
 import DanteEditor from 'Dante2/package/es/components/core/editor.js'
 
 import { DanteImagePopoverConfig } from 'Dante2/package/es/components/popovers/image.js'
