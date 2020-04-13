@@ -86,43 +86,43 @@ class App < ApplicationRecord
       {
         name: 'name',
         type: 'string',
-        grid: { xs: 12, sm: 12 }
+        grid: { xs: 'w-full', sm: 'w-full' }
       },
 
       {
         name: 'domainUrl',
         type: 'string',
-        grid: { xs: 12, sm: 6 }
+        grid: { xs: 'w-full', sm: 'w-1/2' }
       },
 
       {
         name: 'outgoingEmailDomain',
         type: 'string',
-        grid: { xs: 12, sm: 6 }
+        grid: { xs: 'w-full', sm: 'w-1/2' }
       },
 
       {
         name: 'enable_articles_on_widget',
         type: 'string',
-        grid: { xs: 12, sm: 6 }
+        grid: { xs: 'w-full', sm: 'w-1/2' }
       },
 
       {
         name: 'state',
         type: 'select',
-        grid: { xs: 12, sm: 6 },
+        grid: { xs: 'w-full', sm: 'w-1/2' },
         options: %w[enabled disabled]
       },
 
       { name: 'activeMessenger',
         type: 'bool',
-        grid: { xs: 12, sm: 6 } },
+        grid: { xs: 'w-full', sm: 'w-1/2' } },
 
       {
         name: 'theme',
         type: 'select',
         options: %w[dark light],
-        grid: { xs: 12, sm: 6 }
+        grid: { xs: 'w-full', sm: 'w-1/2' }
       },
 
       {
@@ -130,18 +130,18 @@ class App < ApplicationRecord
         type: 'string',
         maxLength: 16, minLength: 16,
         placeholder: 'leave it blank for no encryption',
-        grid: { xs: 12, sm: 12 }
+        grid: { xs: 'w-full', sm: 'w-full' }
       },
 
       { name: 'tagline',
         type: 'text',
         hint: 'messenger text on botton',
-        grid: { xs: 12, sm: 12 } },
+        grid: { xs: 'w-full', sm: 'w-full' } },
 
       { name: 'timezone', type: 'timezone',
         options: ActiveSupport::TimeZone.all.map { |o| o.tzinfo.name },
         multiple: false,
-        grid: { xs: 12, sm: 12 } }
+        grid: { xs: 'w-full', sm: 'w-full' } }
 
     ]
   end

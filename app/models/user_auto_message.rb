@@ -33,10 +33,10 @@ class UserAutoMessage < Message
       { name: 'state',
         type: 'select',
         options: %w[enabled disabled],
-        grid: { xs: 12, sm: 12 } },
-      { name: 'name', type: 'string', grid: { xs: 12, sm: 12 } },
-      { name: 'subject', type: 'text', grid: { xs: 12, sm: 12 } },
-      { name: 'description', type: 'text', grid: { xs: 12, sm: 12 } },
+        grid: { xs: 'w-full', sm: 'w-full' } },
+      { name: 'name', type: 'string', grid: { xs: 'w-full', sm: 'w-full' } },
+      { name: 'subject', type: 'text', grid: { xs: 'w-full', sm: 'w-full' } },
+      { name: 'description', type: 'text', grid: { xs: 'w-full', sm: 'w-full' } },
       { name: 'hiddenConstraints', type: 'select',
         options: [
           { label: 'open', value: 'open' },
@@ -45,9 +45,9 @@ class UserAutoMessage < Message
         ],
         multiple: true,
         default: 'open',
-        grid: { xs: 12, sm: 12 } },
-      { name: 'scheduledAt', type: 'datetime', grid: { xs: 12, sm: 6 } },
-      { name: 'scheduledTo', type: 'datetime', grid: { xs: 12, sm: 6 } }
+        grid: { xs: 'w-full', sm: 'w-full' } },
+      { name: 'scheduledAt', type: 'datetime', grid: { xs: 'w-full', sm: 'w-1/2' } },
+      { name: 'scheduledTo', type: 'datetime', grid: { xs: 'w-full', sm: 'w-1/2' } }
     ]
   end
 
