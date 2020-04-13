@@ -1,24 +1,16 @@
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 
-import { withRouter, Route, Switch } from 'react-router-dom'
+import { withRouter, Route, Switch, Link } from 'react-router-dom'
 import { connect } from 'react-redux'
 
-import ContentHeader from '../components/ContentHeader'
 import Content from '../components/Content'
-
-import Tab from '@material-ui/core/Tab'
-import Tabs from '@material-ui/core/Tabs'
-import Avatar from '@material-ui/core/Avatar'
-import Typography from '@material-ui/core/Typography'
-import Button from '@material-ui/core/Button'
-import TextField from '@material-ui/core/TextField'
-import Chip from '@material-ui/core/Chip'
-import CircularProgress from '@material-ui/core/CircularProgress'
-import Grid from '@material-ui/core/Grid'
-import Tooltip from '@material-ui/core/Tooltip'
-import IconButton from '@material-ui/core/IconButton'
-import Box from '@material-ui/core/Box'
+import ContentHeader from '../components/PageHeader'
+import Tabs from '../components/Tabs'
+import Avatar from '../components/Avatar'
+import Button from '../components/Button'
+import TextField from '../components/forms/Input'
+import CircularProgress from '../components/Progress'
 import {errorMessage, successMessage} from '../actions/status_messages'
 
 
@@ -26,17 +18,8 @@ import {AnchorLink} from '../shared/RouterLink'
 
 import {LinkButton, LinkIconButton} from '../shared/RouterLink'
 
-import AddIcon from '@material-ui/icons/Add'
-
-import GestureIcon from '@material-ui/icons/Gesture'
-import CheckCircleIcon from '@material-ui/icons/CheckCircle'
-import DataTable from "../components/table";
-import DeleteDialog from "../components/deleteDialog"
-
 import ScrollableTabsButtonForce from '../components/scrollingTabs'
 import langs from '../shared/langsOptions'
-
-import {Link} from 'react-router-dom'
 
 import graphql from '../graphql/client'
 import {ARTICLES} from '../graphql/queries'
@@ -48,20 +31,40 @@ import {
   ARTICLE_SETTINGS_DELETE_LANG
 } from '../graphql/mutations'
 
-import { withStyles } from '@material-ui/core/styles';
-import ClickAwayListener from '@material-ui/core/ClickAwayListener';
 
 import FormDialog from '../components/FormDialog'
+import DataTable from '../components/Table'
 import ArticlesNew from './articles/new'
 import Settings from './articles/settings'
 
 import Collections from './articles/collections/index'
 import CollectionDetail from './articles/collections/show'
 
+
 import {setCurrentSection, setCurrentPage} from '../actions/navigation'
 import {
   ARTICLE_SETTINGS
 } from '../graphql/queries'
+
+
+function AddIcon(){
+  return <p>add</p>
+}         
+function GestureIcon(){
+  return <p>gest</p>
+}     
+function CheckCircleIcon(){
+  return <p>checj</p>
+} 
+    
+function DeleteDialog(){
+  return <p>koko</p>
+}   
+
+function Chip(){
+  return <p>Chip here</p>
+}
+
 
 
 const styles = theme => ({
@@ -149,42 +152,45 @@ class Articles extends Component {
   }
 
   tabsContent = ()=>{
-    return <Tabs value={this.state.tabValue} 
+    return <Tabs 
+              value={this.state.tabValue} 
               onChange={this.handleTabChange}
-              textColor="inherit">
-              <Tab textColor="inherit" label="All" />
-              <Tab textColor="inherit" label="Published" />
-              <Tab textColor="inherit" label="Draft" />
+              textColor="inherit"
+              tabs={
+                [
+                  {
+                    label: "All", 
+                    content: <AllArticles 
+                    {...this.props} 
+                    settings={this.state.settings}
+                    mode={"all"}
+                  />
+                  },
+                  {
+                    label: "Published", 
+                    content: <AllArticles 
+                    {...this.props} 
+                    settings={this.state.settings}
+                    mode={"published"}
+                  />}
+                  ,
+                  {
+                    label: "Draft", 
+                    content: <AllArticles 
+                    {...this.props} 
+                    settings={this.state.settings}
+                    mode={"draft"}
+                  /> 
+                  }
+                ]
+              }
+              >
             </Tabs>
-  }
-
-  renderTabcontent = ()=>{
-
-    switch (this.state.tabValue){
-      case 0:
-        return <AllArticles 
-                  {...this.props} 
-                  settings={this.state.settings}
-                  mode={"all"}
-                />
-      case 1:
-        return <AllArticles 
-                  {...this.props} 
-                  settings={this.state.settings}
-                  mode={"published"}
-                />
-      case 2:
-        return <AllArticles 
-                  {...this.props} 
-                  settings={this.state.settings}
-                  mode={"draft"}
-                />
-    }
   }
 
   render() {
     return (
-       <React.Fragment>
+       <Content>
 
        {
          this.state.settings ?
@@ -197,22 +203,25 @@ class Articles extends Component {
               return <React.Fragment>
                 <ContentHeader 
                   title={ 'Articles' }
-                  tabsContent={ this.tabsContent() }
-                  items={
+                  //tabsContent={ this.tabsContent() }
+                  actions={
                     <React.Fragment>
                     {
                       this.state.settings && this.state.settings.subdomain ?
-                        <Grid item>
+                        <div item>
                           <Button href={`https://${this.state.settings.subdomain}.chaskiq.io`}
-                            variant="outlined" color="inherit" size="small" target={"blank"}>
+                            variant="outlined" 
+                            color="inherit" 
+                            size="small" 
+                            target={"blank"}>
                             visit help center
                           </Button>
-                        </Grid> : null 
+                        </div> : null 
                     }
                     </React.Fragment>
                   }
                 />
-                {this.state.settings ? this.renderTabcontent() : null }
+                {this.state.settings && this.tabsContent() }
               </React.Fragment>
             }} 
           />
@@ -267,7 +276,7 @@ class Articles extends Component {
         </Switch> : null 
       }
 
-      </React.Fragment>
+      </Content>
     );
   }
 }
@@ -329,8 +338,8 @@ class AllArticles extends React.Component {
   }
 
   renderActions = ()=>{
-    return <Grid container direction="row" justify="flex-end">
-              <Grid item>
+    return <div container direction="row" justify="flex-end">
+              <div item>
                 <LinkButton 
                   variant={'contained'} 
                   color={'primary'} 
@@ -338,8 +347,8 @@ class AllArticles extends React.Component {
                   <AddIcon />
                   {" New article"}
                 </LinkButton>
-              </Grid>
-            </Grid>
+              </div>
+            </div>
   }
 
   setOpenDeleteDialog = (val)=>{
@@ -370,14 +379,15 @@ class AllArticles extends React.Component {
   render(){
     const {openDeleteDialog} = this.state
 
-    return <Content actions={this.renderActions()} >
+    return <div 
+              actions={this.renderActions()} >
 
               <ScrollableTabsButtonForce
                 tabs={this.props.settings.availableLanguages.map((o)=> langs.find((lang)=> lang.value === o) )} 
                 changeHandler={(index)=> this.handleLangChange( this.props.settings.availableLanguages[index] )}
               />
 
-              <Box mt={2}>
+              <div mt={2}>
                 {
                   !this.state.loading ?
                   <DataTable 
@@ -389,57 +399,79 @@ class AllArticles extends React.Component {
                     loading={this.state.loading}
                     disablePagination={true}
                     columns={[
-                      {field: "id", title: "id"},
+                      //{field: "id", title: "id"},
                       {field: "title", title: "title", 
                         render: row => (row ? 
-                          <AnchorLink to={`/apps/${this.props.app.key}/articles/${row.id}`}>
-                            {row.title ? row.title : "-- missing translation --"}
-                          </AnchorLink>
+                        <td className="px-6 py-4 whitespace-no-wrap border-b border-gray-200">
+                          <div
+                          className="flex items-center">
+                          {
+                            row.id &&
+                            <AnchorLink to={`/apps/${this.props.app.key}/articles/${row.id}`}>
+                              {row.title ? row.title : "-- missing translation --"}
+                            </AnchorLink>
+                          }
+                          </div>
+                        </td>
                       : undefined )
 
                     },
                       {field: "author", title: "author",
                       render: row => (row ? 
-
-                        <p>{row.author ? 
-                          <span>
-                            { row.author.name }<br/>
-                            {row.author.email}
-                          </span>
-                          : 'no author'}
-                        </p>
+                        <td className="px-6 py-4 whitespace-no-wrap border-b border-gray-200">
+                          <div
+                          className="flex items-center">
+                            <span>
+                              { row.author.name }<br/>
+                              {row.author.email}
+                            </span>
+                          </div>
+                        </td>
                       : undefined)
                     },
-                      {field: "state", title: "state", render: row => (row ?
-                        <Chip 
-                          variant="outlined" 
-                          color={row.state === "draft" ? 'secondary' : 'primary' }
-                          size="small" 
-                          label={row.state}
-                          //deleteIcon={<DoneIcon />} 
-                          //onDelete={handleDelete} 
-                          icon={ row.state === "draft" ? <GestureIcon/> : <CheckCircleIcon /> } 
-                        /> : null 
-      
+                      {field: "state", title: "state", render: row => (row &&
+                        <td className="px-6 py-4 whitespace-no-wrap border-b border-gray-200">
+                          <div
+                          className="flex items-center">
+                        
+                            <Chip 
+                              variant="outlined" 
+                              color={row.state === "draft" ? 'secondary' : 'primary' }
+                              size="small" 
+                              label={row.state}
+                              //deleteIcon={<DoneIcon />} 
+                              //onDelete={handleDelete} 
+                              icon={ row.state === "draft" ? <GestureIcon/> : <CheckCircleIcon /> } 
+                            />
+
+                          </div>
+                        </td>
                       )},
                       {field: "collection", title: "collection", 
-                        render: row => (row ? 
-                        <p>{row.collection ? 
-                            <AnchorLink to={`/apps/${this.props.app.key}/articles/collections/${row.collection.id}`}>
+                        render: row => (row &&
+                        <td className="px-6 py-4 whitespace-no-wrap border-b border-gray-200">
+                          <div
+                          className="flex items-center">
+                            {row.collection && <AnchorLink to={`/apps/${this.props.app.key}/articles/collections/${row.collection.id}`}>
                               {row.collection.title}
-                            </AnchorLink> : 
-                          '--'}
-                        </p>
-                        : undefined)
+                            </AnchorLink>}
+                          </div>
+                        </td>
+                      )
                       },
                       {
                         field: 'actions', title: "actions",
                         render: row => (row && 
-                          <Button  
-                            variant={"outlined"}
-                            onClick={()=>{ this.setOpenDeleteDialog(row) }}>
-                            Delete
-                          </Button>
+                          <td className="px-6 py-4 whitespace-no-wrap border-b border-gray-200">
+                            <div
+                            className="flex items-center">
+                              <Button  
+                                variant={"outlined"}
+                                onClick={()=>{ this.setOpenDeleteDialog(row) }}>
+                                Delete
+                              </Button>
+                            </div>
+                          </td>
                         )
                       }
                     ]}
@@ -459,7 +491,7 @@ class AllArticles extends React.Component {
                     enableMapView={false}
                 /> : <CircularProgress/> 
                 }
-              </Box>
+              </div>
 
 
               {
@@ -472,23 +504,16 @@ class AllArticles extends React.Component {
                  deleteHandler={()=> { 
                    this.removeArticle(openDeleteDialog)
                   }}>
-                 <Typography variant="subtitle2">
+                 <p variant="subtitle2">
                    we will destroy any content and related data
-                 </Typography>
+                 </p>
                </DeleteDialog>
               }
            
-           </Content>  
-  }
-
-
-}
-
-class PublishedArticles extends React.Component {
-  render(){
-    return <p>o</p>
+           </div>  
   }
 }
+
 
 function mapStateToProps(state) {
 
@@ -503,4 +528,4 @@ function mapStateToProps(state) {
 }
 
 
-export default withRouter(connect(mapStateToProps)(withStyles(styles)(Articles)))
+export default withRouter(connect(mapStateToProps)(Articles))

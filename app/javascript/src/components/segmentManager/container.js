@@ -9,22 +9,19 @@ import {
 
 import SegmentItemButton from '../segmentManager/itemButton'
 
-
 import UserData from '../UserData'
-import Table from '../table/index'
-import {toggleDrawer} from '../../actions/drawer'
-
-import Drawer from '@material-ui/core/Drawer';
-import Button from '@material-ui/core/Button'
-
-
+import Table from '../Table/index'
 import Map from '../map/index.js'
 
 import {dispatchSegmentUpdate} from '../../actions/segments'
 
 import {setCurrentSection, setCurrentPage} from '../../actions/navigation'
-import userFormat from '../table/userFormat'
-import CircularProgress from '@material-ui/core/CircularProgress'
+import userFormat from '../Table/userFormat'
+import Progress from '../Progress'
+import {toggleDrawer} from '../../actions/drawer'
+import {
+  getAppUser 
+} from '../../actions/app_user'
 
 const Wrapper = styled.div`
   //min-width: 600px;
@@ -72,7 +69,7 @@ class AppContent extends Component {
 
   getSegment(){
     const segmentID = this.props.match.params.segmentID
-    segmentID ? this.props.actions.fetchAppSegment(segmentID) : null    
+    segmentID && this.props.actions.fetchAppSegment(segmentID)   
   }
 
   componentDidUpdate(prevProps, prevState) {
@@ -130,6 +127,7 @@ class AppContent extends Component {
                 app_user={this.props.app_user}
                 meta={meta}
                 searching={searching}
+                dispatch={this.props.dispatch}
          
               /> : null 
             }
@@ -237,7 +235,11 @@ class AppUsers extends Component {
   }
 
   showUserDrawer = (o)=>{
-    this.props.actions.showUserDrawer(o.id)
+    this.props.dispatch(
+      toggleDrawer({ userDrawer: true }, ()=>{
+        this.props.dispatch(getAppUser(o.id))
+      })
+    )
   }
 
   getUserData = (id)=>{
@@ -307,7 +309,7 @@ class AppUsers extends Component {
             />}
 
             {
-              this.props.searching && <CircularProgress/>
+              this.props.searching && <Progress/>
             }
 
 

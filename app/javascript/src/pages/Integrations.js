@@ -8,35 +8,30 @@ import {
   camelizeKeys
 } from '../actions/conversation'
 
-import Paper from '@material-ui/core/Paper'
-import Button from '@material-ui/core/Button'
-import Typography from '@material-ui/core/Typography'
-import Grid from '@material-ui/core/Grid'
-import Link from '@material-ui/core/Link';
-import List from '@material-ui/core/List';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemAvatar from '@material-ui/core/ListItemAvatar';
-import ListItemIcon from '@material-ui/core/ListItemIcon';
-import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
-import ListItemText from '@material-ui/core/ListItemText';
-import Avatar from '@material-ui/core/Avatar';
-import IconButton from '@material-ui/core/IconButton';
-import DeleteIcon from '@material-ui/icons/Delete';
-import EditIcon from '@material-ui/icons/Edit'
-import AddIcon from '@material-ui/icons/Add';
-import Tab from '@material-ui/core/Tab';
-import Tabs from '@material-ui/core/Tabs';
-import Card from '@material-ui/core/Card';
-import CardContent from '@material-ui/core/CardContent';
-
-import Progress from '../shared/Progress'
-
-import ContentHeader from '../components/ContentHeader'
+import Progress from '../components/Progress'
 import Content from '../components/Content'
 import FormDialog from '../components/FormDialog'
-import FieldRenderer from '../shared/FormFields'
-import DeleteDialog from "../components/deleteDialog"
+import DeleteDialog from "../components/DeleteDialog"
+import Tabs from '../components/Tabs'
+import PageHeader from '../components/PageHeader'
+import Panel from '../components/Panel'
+import Button from '../components/Button'
+import Badge from '../components/Badge'
+import FieldRenderer from '../components/forms/FieldRenderer'
 
+import {
+  EditIcon,
+  AddIcon,
+  DeleteIcon,
+  HomeIcon
+} from '../components/icons'
+import List, {
+  ListItem, 
+  ListItemText, 
+  ItemListPrimaryContent,
+  ItemListSecondaryContent,
+  ItemAvatar
+} from '../components/List'
 import {errorMessage, successMessage} from '../actions/status_messages'
 import { setCurrentPage, setCurrentSection } from "../actions/navigation";
 
@@ -193,119 +188,118 @@ function Integrations({app, dispatch}){
     setTabValue(i)
   }
 
-  function tabsContent(){
-    return <Tabs value={tabValue} 
-              onChange={handleTabChange}
-              variant="scrollable"
-              scrollButtons="auto"
-              textColor="inherit">
-              <Tab textColor="inherit" label="App Integrations" />
-              <Tab textColor="inherit" label="API services" />
-            </Tabs>
-  }
+  return <Content>
+            <PageHeader 
+              title={'Third party integrations'} 
 
-  function renderTabcontent(){
-
-    switch (tabValue){
-      case 0:
-        return <React.Fragment>
-                  <Typography variant={"h4"}>
-                    API Integrations
-                  </Typography>
-                  {loading && <Progress/>}
-
-                  {
-                    integrations.length === 0 && !loading &&
-                    <EmptyCard 
-                      goTo={()=>{setTabValue(1)}}
-                    />
-                  }
-
-                  { 
-                    <ServiceIntegration
-                      services={integrations}
-                      handleOpen={handleOpen}
-                      getAppPackages={getAppPackageIntegration}
-                      setOpenDeleteDialog={setOpenDeleteDialog}
-                      kind={"integrations"}
-                    />
-                  }
-                </React.Fragment>
-      case 1:
-        return <React.Fragment>
-                  <Typography variant={"h4"}>
-                    Available API Services
-                  </Typography>
-                  {loading && <Progress/>}
-
-                  { <APIServices
-                    services={services}
-                    handleOpen={handleOpen}
-                    getAppPackages={getAppPackages}
-                    kind={"services"}
-                    /> 
-                  }
-                </React.Fragment>
-    }
-  }
-
-  return <React.Fragment>
-            <ContentHeader 
-              title={ 'Third party integrations' }
-              tabsContent={ tabsContent() }
             />
-            <Content>
-              {renderTabcontent()}
 
-              <Link href="https://clearbit.com">
-                Logos images provided by Clearbit
-              </Link>
-            </Content>
+            <p className="mt-2 max-w-xl text-sm leading-5 text-gray-500 py-4">
+              Logos images provided by 
+              <a href="https://clearbit.com">
+                <b>{' '} Clearbit</b>
+              </a>
+            </p>
+
+            
+          
+            <Tabs
+              currentTab={tabValue}
+              tabs={[
+                {
+                  label: "Active Webhooks", 
+                  icon: <HomeIcon/>,
+                  content: <div className="p-6">
+                              <p className="text-lg leading-6 font-medium text-gray-900 pb-4">
+                                API Integrations
+                              </p>
+                              {loading && <Progress/>}
+
+                              {
+                                integrations.length === 0 && !loading &&
+                                <EmptyCard 
+                                  goTo={()=>{setTabValue(1)}}
+                                />
+                              }
+
+                              { 
+                                <ServiceIntegration
+                                  services={integrations}
+                                  handleOpen={handleOpen}
+                                  getAppPackages={getAppPackageIntegration}
+                                  setOpenDeleteDialog={setOpenDeleteDialog}
+                                  kind={"integrations"}
+                                />
+                              }
+                            </div>
+                },
+                {
+                  label: "Disabled Webhooks", 
+                  content: <div className="p-6">
+                              <p className="text-lg leading-6 font-medium text-gray-900 pb-4">
+                                Available API Services
+                              </p>
+                              {loading && <Progress/>}
+
+                              { <APIServices
+                                services={services}
+                                handleOpen={handleOpen}
+                                getAppPackages={getAppPackages}
+                                kind={"services"}
+                                /> 
+                              }
+                            </div>
+                }
+              ]}
+            />
+
 
             {open && (
               <FormDialog 
                 open={open}
+                handleClose={close}
                 titleContent={`${open.id ? 'Update' : 'Add'} ${open.name} integration`}
                 formComponent={
                     <form ref={form}>
-                      <Grid container spacing={3}>
+                      <div container spacing={3}>
                         {
                           open.definitions.map((field) => {
-                            return <Grid item
+                            return <div item
                                       key={field.name} 
                                       xs={field.grid.xs} 
                                       sm={field.grid.sm}>
                                       <FieldRenderer 
                                         namespace={'app'} 
                                         data={camelizeKeys(field)}
+                                        type={field.type}
                                         props={{
                                           data: open.settings ? camelizeKeys(open.settings) : {}
                                         }} 
                                         errors={ {} }
                                       />
-                                  </Grid>
+                                  </div>
                           })
                         }
-                      </Grid>
+                      </div>
 
                       {
-                        open.id && <Grid container direction={"column"}>
-                          <Typography variant="overline" >
+                        open.id && <div container direction={"column"}>
+                          <p variant="overline" >
                             This integration will receive webhook at:
-                          </Typography>
+                          </p>
 
-                          <Typography variant={"caption"}>
+                          <p variant={"caption"}>
                             {`${window.location.origin}/api/v1/hooks/${app.key}/${open.name.toLocaleLowerCase()}/${open.id}`}
-                          </Typography>
+                          </p>
 
-                          <Typography variant="overline" >
+                          <p variant="overline" >
                             Oauth callback:
-                          </Typography>
+                          </p>
 
-                          <Typography variant={"caption"}>
+                          <p variant={"caption"}>
                             {`${window.location.origin}/api/v1/oauth/${app.key}/${open.name.toLocaleLowerCase()}/${open.id}`}
-                          </Typography>
-                        </Grid>
+                          </p>
+                        </div>
                       }
                     </form> 
                 }
@@ -333,19 +327,19 @@ function Integrations({app, dispatch}){
                open={openDeleteDialog}
                title={`Delete "${openDeleteDialog.name}" integration ?`} 
                closeHandler={()=>{
-                 this.setOpenDeleteDialog(null)
+                 setOpenDeleteDialog(null)
                }}
                deleteHandler={()=> { 
                  removeIntegration(openDeleteDialog)
                 }}>
-               <Typography variant="subtitle2">
+               <p variant="subtitle2">
                  The integration with {openDeleteDialog.dialog} service will 
                  be disabled immediately
-               </Typography>
+               </p>
              </DeleteDialog>
             }
 
-        </React.Fragment>
+        </Content>
   }
 
 
@@ -353,18 +347,19 @@ function Integrations({app, dispatch}){
 
   function EmptyCard({goTo}){
   return (
-    <Card style={{marginTop: '2em'}}>
-      <CardContent>
-        <Typography color="textSecondary" gutterBottom>
-        </Typography>
-        <Typography variant="h5" component="h2">
+    <div style={{marginTop: '2em'}}>
+      <div>
+        <p color="textSecondary" gutterBottom>
+        </p>
+        <p variant="h5" component="h2">
           You don't have any api integrations yet
-        </Typography>
-        <Typography color="textSecondary">
-          search for available api services in <Link href="#" onClick={ goTo }>API Services</Link> Tab
-        </Typography>
-      </CardContent>
-    </Card>
+        </p>
+        <p color="textSecondary">
+          search for available api services in 
+          <a href="#" onClick={ goTo }>API Services</a> Tab
+        </p>
+      </div>
+    </div>
   )
 }
 
@@ -381,47 +376,63 @@ function ServiceBlock({
   }
 
   return (
-      <ListItem>
-        <ListItemAvatar>
-          <Avatar>
-            <img 
-              src={service.icon}
-              height={20}
-              width={20}
-            />
-          </Avatar>
 
-        </ListItemAvatar>
-        <ListItemText
-          primary={service.name}
-          secondary={service.description}
-        />
+      <ListItem avatar={
+        <ItemAvatar avatar={service.icon}/>
+      }>
+      <ListItemText 
+        primary={
+          <ItemListPrimaryContent variant="h5">
+            {service.name} {' '}
+            <Badge>
+              {service.state}
+            </Badge>
+          </ItemListPrimaryContent>
+        } 
+        secondary={
+          <ItemListSecondaryContent>
+            {service.description}
+          </ItemListSecondaryContent>
+        } 
 
-        {
-          available() && 
-          <ListItemSecondaryAction>
-            <IconButton 
-              onClick={()=> handleOpen(service)}
-              edge="end" aria-label="add">
+        terciary={
+          <React.Fragment>
+
+            <div className="mt-2 flex items-center 
+            text-sm leading-5 text-gray-500 justify-end">
+                
               {
-                service.id ? 
-                <EditIcon/> : 
-                <AddIcon/>
+                available() && 
+                  <React.Fragment>
+                  <Button 
+                    onClick={()=> handleOpen(service)}
+                    edge="end" aria-label="add">
+                    {
+                      service.id ? 
+                      <EditIcon/> : 
+                      <AddIcon/>
+                    }
+                  </Button>
+      
+                  { 
+                    service.id && <Button 
+                      onClick={()=> setOpenDeleteDialog && setOpenDeleteDialog(service)}
+                      edge="end" aria-label="add">
+                      <DeleteIcon  />
+                    </Button>
+                  }
+                  </React.Fragment>
               }
-            </IconButton>
 
-            { 
-              service.id && <IconButton 
-                onClick={()=> setOpenDeleteDialog && setOpenDeleteDialog(service)}
-                edge="end" aria-label="add">
-                <DeleteIcon  />
-              </IconButton>
-            }
-            
-
-          </ListItemSecondaryAction>
+            </div>
+          </React.Fragment>
         }
-      </ListItem>
+      
+      />
+
+    </ListItem>
+
+
   )
 }
 
@@ -439,7 +450,7 @@ function ServiceIntegration({
 
   return (
 
-    <List dense>
+    <List>
       {
         services.map((o)=> <ServiceBlock
                             kind={kind}

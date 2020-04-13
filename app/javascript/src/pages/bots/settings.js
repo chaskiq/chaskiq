@@ -1,33 +1,16 @@
 import React, {Component, useState, useEffect} from 'react'
-import FieldRenderer from '../../shared/FormFields'
 
-import Grid from '@material-ui/core/Grid'
-import Button from '@material-ui/core/Button'
-import Tabs from '@material-ui/core/Tabs'
-import Tab from '@material-ui/core/Tab'
-import Typography from '@material-ui/core/Typography'
-import Checkbox from '@material-ui/core/Checkbox'
-import Box from '@material-ui/core/Box'
-import FormControlLabel from '@material-ui/core/FormControlLabel'
-import FormControl from '@material-ui/core/FormControl'
-import FormGroup from '@material-ui/core/FormGroup'
-import Radio from '@material-ui/core/Radio'
-import RadioGroup from '@material-ui/core/RadioGroup'
-import FormLabel from '@material-ui/core/FormLabel'
-import Divider from '@material-ui/core/Divider'
-import InputLabel from '@material-ui/core/InputLabel'
-import Select from '@material-ui/core/Select'
-import MenuItem from '@material-ui/core/MenuItem'
-
+import Button from '../../components/Button'
+import Tabs from '../../components/Tabs'
 import {toSnakeCase} from '../../shared/caseConverter'
 import serialize from 'form-serialize'
-
-import ContentHeader from '../../components/ContentHeader'
+import ContentHeader from '../../components/PageHeader'
 import Content from '../../components/Content'
-
+import Input from '../../components/forms/Input'
 import graphql from '../../graphql/client'
 import {AGENTS} from '../../graphql/queries'
 import {UPDATE_APP} from '../../graphql/mutations'
+
 
 import { 
   updateApp
@@ -59,9 +42,28 @@ const SettingsForm = ({app, data, errors, dispatch}) => {
   function tabsContent(){
     return <Tabs value={tabValue} 
               onChange={handleTabChange}
-              textColor="inherit">
-              <Tab textColor="inherit" label="For Leads" />
-              <Tab textColor="inherit" label="For Users" />
+              textColor="inherit"
+              tabs={[
+                {label: "For Leads", content: <LeadsSettings 
+                    app={app}
+                    updateData={updateState} 
+                    agents={agents} 
+                    getAgents={getAgents}
+                    submit={submit}
+                    namespace={"lead_tasks_settings"}
+                  /> 
+                },
+                {label: "For Users", content: <UsersSettings 
+                        app={app}
+                        updateData={updateState}
+                        agents={agents} 
+                        getAgents={getAgents}
+                        submit={submit}
+                        namespace={"user_tasks_settings"}
+                    /> 
+                  }
+              ]}
+              >
             </Tabs>
   }
 
@@ -77,42 +79,19 @@ const SettingsForm = ({app, data, errors, dispatch}) => {
     setState(Object.assign({}, data, newData))
   }
 
-  const renderTabcontent = ()=>{
-    switch (tabValue){
-      case 0:
-        return <LeadsSettings 
-                  app={app}
-                  updateData={updateState} 
-                  agents={agents} 
-                  getAgents={getAgents}
-                  submit={submit}
-                  namespace={"lead_tasks_settings"}
-                />
-      case 1:
-        return <UsersSettings 
-                  app={app}
-                  updateData={updateState}
-                  agents={agents} 
-                  getAgents={getAgents}
-                  submit={submit}
-                  namespace={"user_tasks_settings"}
-              />
-    }
-  }
-
   return (
 
     <div>
-      <ContentHeader 
-        title={ "Bot default settings" }
-        items={ []
-            }
-        tabsContent={tabsContent()}
-      />
 
       <Content>
+
+        <ContentHeader 
+          title={ "Bot default settings" }
+          items={ [] }
+        />
+
         {/*JSON.stringify(state)*/}
-        {renderTabcontent()}
+        {tabsContent()}
       </Content>
     </div>
   )
@@ -135,33 +114,31 @@ function UsersSettings({app, updateData, namespace, submit}){
   }
 
   return (
-    <Grid container direction={"column"}>
+    <div container direction={"column"}>
 
-      <Grid item>
-        <Typography variant={"h4"}>
+      <div className="py-4">
+        <p className="text-lg leading-6 font-medium text-gray-900 pb-4">
           When users start a conversation
-        </Typography>
+        </p>
 
-        <FormControlLabel
-          control={
-            <Checkbox checked={state.delay} 
-            onChange={handleChange('delay')} value="delay" />
-          }
+        <Input 
+          type="checkbox"
           label="Leave a 2 minute delay before triggering Task Bots during office hours"
+          checked={state.delay} 
+          onChange={handleChange('delay')} 
+          value="delay"
         />
-      </Grid>
+      </div>
 
-      <Grid item>
+      <div>
         <Button 
           color={"primary"}
           variant={"contained"}
           onClick={submitData}>
           save
         </Button>
-
-      </Grid>
-
-    </Grid>
+      </div>
+    </div>
   )
 }
 
@@ -191,16 +168,32 @@ function LeadsSettings({app, updateData, agents, getAgents, submit, namespace}){
   }
 
   return (
-    <Grid container>
+    <div container>
 
-      <Grid item>
-        <Typography variant={"h4"}>
+      <div className="py-4">
+        <p className="text-lg leading-6 font-medium text-gray-900 pb-4">
           When leads start a conversation
-        </Typography>
+        </p>
 
-        <Grid container direction="column">
+        <div container direction="column">
 
-          <FormControlLabel
+          <Input 
+            type="checkbox"
+            checked={state.delay} 
+            onChange={handleChange('delay')} 
+            value={state.delay} 
+            label="Leave a 2 minute delay before triggering Task Bots during office hours"
+          />
+
+          <Input 
+            type="checkbox"
+            checked={state.share_typical_time} 
+            onChange={handleChange('share_typical_time')} 
+            value={state.share_typical_time} 
+            label="Share your typical reply time"
+          />
+
+          {/*<FormControlLabel
             control={
               <Checkbox 
                 checked={state.delay} 
@@ -220,21 +213,64 @@ function LeadsSettings({app, updateData, agents, getAgents, submit, namespace}){
               />
             }
             label="Share your typical reply time"
-          />
+          />*/}
 
-        </Grid>
+        </div>
 
-        <Divider/>
+        <hr/>
         
-        <Typography variant={"h5"}>
+        <p className="text-lg leading-6 font-medium text-gray-900 py-4">
           Route existing customers to support
-        </Typography>
+        </p>
 
-        <Typography variant={"body1"}>
+        <p className="max-w-xl text-sm leading-5 text-gray-500 mb-4">
           Route leads to the right people by asking if they are an existing customer when they start a new conversation.      
-        </Typography>
+        </p>
 
-        <FormControl component="fieldset" margin={"normal"}>
+        <h2 className="font-bold mb-2">
+          What do you want to do when they choose "Yes, I'm a customer"?
+        </h2>
+
+        <div className="flex items-center">
+     
+          <Input 
+            type="radio"
+            name="routing" 
+            value={state.routing} 
+            onChange={handleRadioChange} 
+            //value="assign"
+            label="Assign the conversation"
+            >
+          </Input>
+
+          <div className="w-1/4 pl-5">
+          
+            {
+              state.routing === "assign" && 
+              
+              <AgentSelector 
+                agents={agents} 
+                getAgents={getAgents}
+                setValue={setValue}
+                value={state.assignee}
+              />
+            }
+
+          </div>
+        
+        </div>
+
+        <Input
+          name="routing" 
+          type="radio"
+          //value="close"
+          value={state.routing} 
+          onChange={handleRadioChange} 
+          label="Close the conversation"
+        />
+
+        {
+          /*<FormControl component="fieldset" margin={"normal"}>
           
           <FormLabel component="legend">
             What do you want to do when they choose "Yes, I'm a customer"?
@@ -246,8 +282,8 @@ function LeadsSettings({app, updateData, agents, getAgents, submit, namespace}){
             onChange={handleRadioChange} 
             >
 
-            <Box pt={2} >
-              <Grid container direction={"row"}>
+            <div pt={2} >
+              <div container direction={"row"}>
 
                 <FormControlLabel
                   value="assign"
@@ -267,12 +303,9 @@ function LeadsSettings({app, updateData, agents, getAgents, submit, namespace}){
                   />
                 }
               
-              </Grid>
-            </Box>
+              </div>
+            </div>
             
-
-
-
             <FormControlLabel
               value="close"
               control={<Radio color="primary" />}
@@ -280,22 +313,51 @@ function LeadsSettings({app, updateData, agents, getAgents, submit, namespace}){
               labelPlacement="end"
             />
           </RadioGroup>
-        </FormControl>
+          </FormControl>*/
+        }
 
-        <Divider/>
+        <hr/>
 
-        <Typography variant={"h5"}>
+        <p className="text-lg leading-6 font-medium text-gray-900 py-4">
           Ask for contact details
-        </Typography>
+        </p>
 
-        <Typography variant={"body1"}>
+        <p className="max-w-xl text-sm leading-5 text-gray-500 mb-4">
           If we don’t already have their contact details, 
           Operator will suggest that customers leave their email 
           address or their phone number to get notified whenever 
           you reply.
-        </Typography>
+        </p>
 
-        <FormControl>
+        
+        <Input
+          type="radio"
+          name="email_requirement" 
+          value={state.email_requirement} 
+          onChange={handleRadioChange} 
+          label="Close the conversation"
+        />
+
+        <Input
+          type="radio"
+          name="email_requirement" 
+          value={state.email_requirement} 
+          onChange={handleRadioChange} 
+          label="Ask for email or mobile number"
+          value="email_or_phone"
+          labelPlacement="end"
+        />
+
+        <Input
+          type="radio"
+          name="email_requirement" 
+          //value={state.email_requirement} 
+          onChange={handleRadioChange} 
+          value="email_only"
+          label="Ask for email only"
+        />
+
+        {/*<FormControl>
           <RadioGroup aria-label="position" 
             name="email_requirement" 
             value={state.email_requirement} 
@@ -314,18 +376,19 @@ function LeadsSettings({app, updateData, agents, getAgents, submit, namespace}){
               labelPlacement="end"
             />
           </RadioGroup>
-        </FormControl>
-      </Grid>
+        </FormControl>*/}
+      
+      </div>
 
-      <Grid item>
+      <div item>
         <Button 
           color={"primary"}
           variant={"contained"}
           onClick={submitData}>
           save
         </Button>
-      </Grid>
-    </Grid>
+      </div>
+    </div>
   )
 }
 
@@ -342,12 +405,35 @@ function AgentSelector({agents, getAgents, setValue, value }){
   }, [selected])
 
   function handleChange(e){
-    setSelected(e.target.value)
+    setSelected(e.value)
   }
+
+
+  const selectedAgent = agents.find((o)=> o.id === selected)
+  let defaultValue = null
+  if(selectedAgent) 
+    defaultValue = {label: selectedAgent.email, value: selectedAgent.id}
 
   return (
     <div>
-      <FormControl>
+
+    <Input
+      type="select"
+      value={defaultValue}
+      onChange={handleChange}
+      //defaultValue={selected}
+      defaultValue={defaultValue}
+      name={'agent'}
+      id={'agent'}
+      data={{}}
+      options={
+        agents.map((o)=>(
+          {label: o.email, value: o.id}
+        ))
+      }
+    >
+    </Input>
+      {/*<FormControl>
         <InputLabel htmlFor="agent">agent</InputLabel>
         <Select
           value={selected}
@@ -368,6 +454,7 @@ function AgentSelector({agents, getAgents, setValue, value }){
 
         </Select>
       </FormControl>
+      */}
     </div>
   )
 }

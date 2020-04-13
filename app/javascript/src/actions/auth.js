@@ -1,4 +1,6 @@
 import axios from 'axios'
+import {errorMessage} from './status_messages'
+import {clearCurrentUser} from './current_user'
 
 // Actions
 const REQUEST = 'auth/REQUEST'
@@ -6,15 +8,16 @@ const RECEIVED = 'auth/RECEIVED'
 const FAILED = 'auth/FAILED'
 const SIGNOUT = 'auth/SIGNOUT'
 
-import {errorMessage} from './status_messages'
-
-import {clearCurrentUser} from './current_user'
 
 // Action Creators
 export function authenticate(email, password, cb) {
   return (dispatch, getState) => {
     dispatch(startAuthentication())
+
+    axios.defaults.withCredentials = true;
+
     return axios({
+      baseURL: 'http://localhost:3000',
       url: '/agents/sign_in.json',
       //url: '/oauth/token.json',
       method: 'POST',
@@ -38,9 +41,9 @@ export function authenticate(email, password, cb) {
       const refreshToken = response.data.refresh_token
       dispatch(successAuthentication(accessToken, refreshToken )) //, uid, client, accessToken, expiry))
 
-      cb ? cb() : null
+      if(cb) cb()
     }).catch(data => {
-      const err = data.response.data ? data.response.data.error : 'error!'
+      const err = data && data.response.data ? data.response.data.error : 'error!'
       dispatch(errorMessage(err))
       dispatch(failAuthentication())
     })
@@ -103,6 +106,11 @@ export function doSignout() {
 
 // Reducer
 export default function reducer(state, action = {}) {
+
+  const REQUEST = 'auth/REQUEST'
+  const RECEIVED = 'auth/RECEIVED'
+  const FAILED = 'auth/FAILED'
+  const SIGNOUT = 'auth/SIGNOUT'
 
   const initialState = {
     loading: false,

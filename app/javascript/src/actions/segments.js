@@ -29,7 +29,7 @@ export function fetchAppSegment(id, cb){
           )
         )
 
-        cb ? cb() : null
+        cb && cb()
 
         //this.search
       },
@@ -58,7 +58,7 @@ export function updateSegment(id, cb){
           Object.assign(data.predicatesUpdate.segment, {jwt: null})
         )
 
-        cb ? cb() : null
+        cb && cb()
 
         /*this.setState({
           segment: data.predicatesUpdate.segment,
@@ -92,7 +92,7 @@ export function createSegment(options, cb){
           )
         )
 
-        cb ? cb() : null
+        cb && cb()
       },
       error: (error)=>{
 
@@ -111,7 +111,7 @@ export function deleteSegment(id, cb){
       id: id
     }, {
       success: (data)=>{
-        cb ? cb() : null
+        cb && cb()
       },
       error: (error)=>{
       }

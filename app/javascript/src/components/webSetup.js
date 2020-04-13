@@ -2,12 +2,7 @@ import React from 'react'
 import { withRouter } from 'react-router-dom'
 
 import { connect } from 'react-redux'
-import Typography from '@material-ui/core/Typography'
-import Link from '@material-ui/core/Link'
-import Dialog from '@material-ui/core/Dialog'
-import DialogTitle from '@material-ui/core/DialogTitle'
-import DialogContent from '@material-ui/core/DialogContent'
-import DialogContentText from '@material-ui/core/DialogContentText'
+import FormDialog from '../components/FormDialog'
 import Prism from 'prismjs'
 
 import styled from '@emotion/styled'
@@ -33,9 +28,9 @@ function WebSetup({app, classes}){
 
   return  (
     <React.Fragment>
-      <Link onClick={handleClickOpen}>
+      <a onClick={handleClickOpen}>
         Web Setup
-      </Link>
+      </a>
 
       <SimpleDialog
         app={app}
@@ -86,25 +81,24 @@ function SimpleDialog(props) {
 
   return (
 
-    <Dialog 
+    <FormDialog 
       fullWidth={true}
       maxWidth={'md'}
-      onClose={handleClose} 
+      handleClose={handleClose} 
       aria-labelledby="simple-dialog-title" 
-      open={open}>
-      <DialogTitle id="simple-dialog-title">
-        Web Messenger Setup
-      </DialogTitle>
-      <DialogContent>
-          <DialogContentText>
+      open={open}
+      titleContent={'Web Messenger Setup'}
+      formComponent={
+        <div>
+          <p>
             put the following script on the end of your html body tag
-          </DialogContentText>
+          </p>
           <Pre>
             <div dangerouslySetInnerHTML={{__html: setupScript() }}/>
           </Pre>
-      </DialogContent>
-      
-    </Dialog>
+        </div>
+      }
+      />
   );
 }
 

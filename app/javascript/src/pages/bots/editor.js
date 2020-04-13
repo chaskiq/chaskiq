@@ -3,70 +3,35 @@ import { withRouter, Switch } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 import styled from '@emotion/styled'
-import TextEditor from '../../textEditor'
+import TextEditor from '../../components/textEditor'
 
 import graphql from '../../graphql/client'
 import {BOT_TASK, BOT_TASKS, AGENTS, BOT_TASK_METRICS} from '../../graphql/queries'
 import {UPDATE_BOT_TASK} from '../../graphql/mutations'
-import ContentHeader from '../../components/ContentHeader'
+import ContentHeader from '../../components/PageHeader'
 import Content from '../../components/Content'
 import FormDialog from '../../components/FormDialog'
+import Input from '../../components/forms/Input'
+import Dropdown from '../../components/Dropdown'
 import Segment from './segment'
 import SettingsForm from './settings'
 import BotTaskSetting from './taskSettings'
-import ContextMenu from '../../components/ContextMenu'
-import ListMenu from '../../components/ListMenu'
 import {errorMessage, successMessage} from '../../actions/status_messages'
+import List, {ListItem, ListItemText} from '../../components/List'
+import Button from '../../components/Button'
+import Tabs from '../../components/Tabs'
 
-import Box from '@material-ui/core/Box'
-import Grid from '@material-ui/core/Grid'
-import Typography from '@material-ui/core/Typography' 
-import Paper from '@material-ui/core/Paper'
-import Button from '@material-ui/core/Button'
-import IconButton from '@material-ui/core/IconButton'
-import TextField from '@material-ui/core/TextField'
-import List from '@material-ui/core/List'
-import ListItem from '@material-ui/core/ListItem'
-import ListItemText from '@material-ui/core/ListItemText'
-import Select from '@material-ui/core/Select'
-import MenuItem from '@material-ui/core/MenuItem'
-import FormControl from '@material-ui/core/FormControl'
-import InputLabel from '@material-ui/core/InputLabel'
-import Divider from '@material-ui/core/Divider'
-import Tabs from '@material-ui/core/Tabs'
-import Tab from '@material-ui/core/Tab'
-import MuiSwitch from '@material-ui/core/Switch'
-import Fab from '@material-ui/core/Fab'
+import {PlusIcon ,
+ DragHandle ,
+ DeleteForever ,
+ //RemoveCircle ,
+ DeleteForeverRounded
+} from '../../components/icons'
 
-import AddIcon from '@material-ui/icons/Add'
-import DragHandle from '@material-ui/icons/DragHandle'
-import DeleteForever from '@material-ui/icons/DeleteForever'
-import RemoveCircle from '@material-ui/icons/RemoveCircle'
-import DeleteForeverRounded from '@material-ui/icons/DeleteForeverRounded'
-
-import { makeStyles, createStyles } from '@material-ui/styles';
 import {isEmpty} from 'lodash'
 import Stats from '../../components/stats'
 import { setCurrentSection, setCurrentPage } from '../../actions/navigation'
 
-
-const useStyles = makeStyles((theme) => createStyles({
-  root: {
-    padding: theme.spacing(3),
-    marginBottom: theme.spacing(1),
-    background: theme.palette.common.white,
-  },
-  paper: {
-    display: 'flex',
-    flexDirection: 'column'
-  },
-  cardPaper: {
-    padding: theme.spacing(2),
-    display: 'flex',
-    overflow: 'auto',
-    flexDirection: 'column',
-  }
-}));
 
 const ItemManagerContainer = styled.div`
   flex-grow: 4;
@@ -127,15 +92,17 @@ const PathDialog = ({open, close, isOpen, submit})=>{
     isOpen && (
       <FormDialog 
         open={isOpen}
+        handleClose={close}
         //contentText={"lipsum"}
         titleContent={"Create Path"}
         formComponent={
             <form >
              
-              <TextField
+              <Input
                 label="None"
                 id="title"
-                inputRef={ref => titleRef = ref }
+                type={'text'}
+                ref={ref => titleRef = ref }
                 placeholder={'write path title'}
                 //defaultValue="Default Value"
                 //className={classes.textField}
@@ -173,9 +140,6 @@ const BotEditor = ({match, app, dispatch, mode, actions})=>{
   const [isOpen, setOpen] = useState(false)
   const [tabValue, setTabValue] = useState(0)
   const [changed, setChanged] = useState(null)
-
-  const classes = useStyles();
-
 
   const handleSelection = (item)=>{
     setSelectedPath(item)
@@ -355,13 +319,54 @@ const BotEditor = ({match, app, dispatch, mode, actions})=>{
   const tabsContent = ()=>{
     return <Tabs value={tabValue} 
               onChange={handleTabChange}
-              textColor="inherit">
-              <Tab textColor="inherit" label="Stats" />
-              <Tab textColor="inherit" label="Settings" />
-              <Tab textColor="inherit" label="Audience" />
-              <Tab textColor="inherit" label="Editor" />
+              textColor="inherit"
+              tabs={
+                [
+                  { label: "Stats", content: <React.Fragment>
+
+                  {
+                    !isEmpty(botTask) && <Stats  match={match}
+                      app={app} 
+                      data={botTask}
+                      getStats={getStats}
+                      actions={actions}
+                      mode={'counter_blocks'}
+                      />}
+                      
+                    </React.Fragment> 
+                  },
+                  { 
+                    label: "Settings", content: <BotTaskSetting 
+                    app={app} 
+                    data={botTask}
+                    updateData={setBotTask}
+                    saveData={saveData}
+                    errors={errors}
+                  />
+                  },
+                  { 
+                    label: "Audience", content: <Segment 
+                    app={app} 
+                    data={botTask}
+                    updateData={(task)=>{ 
+                      setBotTask(task);
+                    }}
+                    handleSave={(segments)=>{
+                      setBotTask(Object.assign({}, botTask, {segments: segments}))
+                      saveData()
+                    }}
+                    />
+                  },
+                  { 
+                    label: "Editor", content:  renderEditor()
+                  },
+                ]
+              }
+              >
+              
             </Tabs>
   }
+
 
   const getStats = (params, cb)=>{
     graphql(BOT_TASK_METRICS, params, {
@@ -376,45 +381,8 @@ const BotEditor = ({match, app, dispatch, mode, actions})=>{
     })
   }
 
-  const renderTabcontent = ()=>{
-    switch (tabValue){
-      case 0:
-        return !isEmpty(botTask) && <Stats  match={match}
-                                            app={app} 
-                                            data={botTask}
-                                            getStats={getStats}
-                                            actions={actions}
-                                            mode={'counter_blocks'}
-                                            />
-      case 1:
-        return <BotTaskSetting 
-                app={app} 
-                data={botTask}
-                updateData={setBotTask}
-                saveData={saveData}
-                errors={errors}
-              />
-      case 2:
-        return <Segment 
-          app={app} 
-          data={botTask}
-          updateData={(task)=>{ 
-            setBotTask(task);
-          }}
-          handleSave={(segments)=>{
-            setBotTask(Object.assign({}, botTask, {segments: segments}))
-            saveData()
-          }}
-          />
-      case 3:
-        return renderEditor()
-    }
-  }
-
   const renderEditor = ()=>{
-    return <Grid container 
-            alignContent={'space-around'} 
-            justify={'space-around'}>
+    return <div className="flex justify-between py-4">
       
     {
       isOpen && <PathDialog 
@@ -425,30 +393,37 @@ const BotEditor = ({match, app, dispatch, mode, actions})=>{
       />
     }
 
-    <Grid item xs={12} sm={2}>
-      <List component="nav" aria-label="path list">
+    <div className="w-1/4">
+      
+      <List 
+        component="nav" 
+        shadowless
+        aria-label="path list">
         {
-          paths.map((o, i)=>( <PathList
-            key={`path-list-${o.id}-${i}`}
-            path={o}
-            handleSelection={handleSelection}
-            
-            /> ))
+          paths.map((o, i)=>( 
+            <PathList
+              key={`path-list-${o.id}-${i}`}
+              path={o}
+              handleSelection={handleSelection}
+            /> 
+          )
+        )
         }
       </List>
+
       <Button 
         size="small"
         variant={"contained"} 
         onClick={showPathDialog}
         color="primary">
-        <AddIcon />
+        <PlusIcon />
         Add new path
       </Button>
-    </Grid>
+    </div>
 
-    <Grid item xs={12} sm={10}>
+    <div className="w-full p-6 shadow">
 
-      <Paper className={classes.paper}>
+      <div>
 
         {
           selectedPath && <Path
@@ -466,7 +441,7 @@ const BotEditor = ({match, app, dispatch, mode, actions})=>{
         }
 
 
-        <Box m={2}>
+        <div m={2}>
           <Button                     
             variant="contained" 
             color="primary" 
@@ -475,59 +450,25 @@ const BotEditor = ({match, app, dispatch, mode, actions})=>{
             save data 
           </Button>
 
-        </Box>
+        </div>
 
-      </Paper>
+      </div>
 
-    </Grid>
+    </div>
 
   
-  </Grid>
-  }
-
-  const toggleState = ()=>{
-
+  </div>
   }
 
   return (
     <div>
-      <ContentHeader 
-        title={ botTask.title }
-        items={ []
-          /*[
-          <MuiSwitch
-            color={"default"}
-            checked={botTask.state === "enabled"}
-            onChange={toggleState}
-            value={botTask.state}
-            inputProps={{ 'aria-label': 'enable state checkbox' }}
-          />,
-          <Grid item>
-            <Button                     
-              variant="outlined" 
-              color="inherit" 
-              size="small" 
-              onClick={saveData}> 
-              save data 
-            </Button>
-          </Grid> , 
-          <Grid item>
-            <Button 
-              variant="outlined" 
-              color="inherit" 
-              size="small">
-              set live
-            </Button>
-          </Grid>
-        ]*/
-        }
-        tabsContent={tabsContent()}
-      />
-
       <Content>
-        {renderTabcontent()}
+        <ContentHeader 
+          title={ botTask.title }
+          items={ [] }
+        />
+        {tabsContent()}
       </Content>
-    
     </div>
   )
 }
@@ -606,19 +547,19 @@ function FollowActionsSelect({app, path, updatePath}){
                 </AgentSelector>
     
       default: 
-        return <Grid style={{display: 'flex'}} 
+        return <div style={{display: 'flex'}} 
                      key={action.key} 
                      item 
                      alignItems={"center"}>
-                <Typography >
+                <p >
                   {action.name}
-                </Typography>
-                <IconButton 
+                </p>
+                <Button 
                   color={"secondary"}
                   onClick={()=> removeAction(i)}>
                   <DeleteForeverRounded/>
-                </IconButton> 
-               </Grid>
+                </Button> 
+               </div>
     }
   }
 
@@ -631,16 +572,18 @@ function FollowActionsSelect({app, path, updatePath}){
       {renderActions()}
 
       {
+        /*
         menuOptions.length > 0 &&
           <ContextMenu
             label={"Add Follow Action"} 
             handleClick={handleClick} 
             actions={actions}
             options={menuOptions}
-          /> 
+          />
+        */ 
       }
 
-      {/*
+      {/* not for uncomment
         selectMode  ?
         
         :  
@@ -677,7 +620,7 @@ function AgentSelector({app, updateAction, removeAction, action, index}){
   }, [selected])
 
   function handleChange(e){
-    setSelected(e.target.value)
+    setSelected(e.value)
     setMode("button")
   }
 
@@ -692,12 +635,12 @@ function AgentSelector({app, updateAction, removeAction, action, index}){
 
     {
       true ?
-        <Grid container 
+        <div container 
           alignItems={"flex-end"}
           //justify={"space-between"}
           >
-          <Grid item>
-            <FormControl>
+          <div item>
+            {/*<FormControl>
               <InputLabel htmlFor="agent">
                 Assignee Agent
               </InputLabel>
@@ -717,18 +660,19 @@ function AgentSelector({app, updateAction, removeAction, action, index}){
                   ))
                 }
             </Select>
-          </FormControl>
-        </Grid>
-        <Grid item>
-          <IconButton 
+              </FormControl>*/}
+              form here
+        </div>
+        <div item>
+          <Button 
             color={"secondary"}
             onClick={()=> removeAction(index)}>
             <DeleteForeverRounded/>
-          </IconButton> 
-        </Grid>
-      </Grid> : 
+          </Button> 
+        </div>
+      </div> : 
 
-      <Grid style={{display: 'flex'}} 
+      <div style={{display: 'flex'}} 
                      key={action.key} 
                      item 
                      alignItems={"center"}>
@@ -737,13 +681,13 @@ function AgentSelector({app, updateAction, removeAction, action, index}){
           assign: {selectedAgent(selected)}
         </Button> 
 
-        <IconButton 
+        <Button 
           color={"secondary"}
           onClick={()=> removeAction(index)}>
           <DeleteForeverRounded/>
-        </IconButton> 
+        </Button> 
 
-      </Grid>
+      </div>
     }
 
     </div>
@@ -752,9 +696,9 @@ function AgentSelector({app, updateAction, removeAction, action, index}){
 
 const PathList = ({path, handleSelection})=>{
   return <ListItem button 
-                   onClick={(e)=> handleSelection(path)} 
+                   onClick={(e)=> handleSelection(path)}
                    variant={"outlined"}>
-          <ListItemText primary={path.title} />
+          {path.title}
         </ListItem>
 }
 
@@ -819,24 +763,25 @@ const Path = ({
 
   return (
 
-    <Box p={2}>
+    <div p={2}>
 
-      <Box p={2}>
+      <div p={2}>
 
-        <Grid container spacing={3}>
+        <div className="flex justify-between">
 
-          <Grid item xs={8}>
+          <div className="">
 
-            <TextField 
+            <Input 
+              type="text"
               value={path.title}
               onChange={handleTitleChange}
               fullWidth={true}
               helperText={"path title"}
             />
 
-          </Grid>
+          </div>
 
-          <Grid item xs={4} alignItems="flex-end">
+          <div className="items-end">
             <Button 
               variant="outlined"
               color="secondary"
@@ -844,12 +789,12 @@ const Path = ({
               delete path
               <DeleteForeverRounded/>
             </Button>
-          </Grid>
+          </div>
 
-        </Grid>
+        </div>
 
         
-      </Box>
+      </div>
 
       <SortableSteps 
         steps={path.steps}
@@ -862,31 +807,59 @@ const Path = ({
         onDragEnd={onDragEnd}
       />
 
-      {/*<Divider/>*/}
+      {/*<hr/>*/}
 
-      <Grid container spacing={2} justify={"flex-start"}>
-          <ListMenu 
+      <div container spacing={2} justify={"flex-start"}>
+          {/*<ListMenu 
             options={options}
             button={
-              <Fab color="primary" size={"small"}
+              <div color="primary" size={"small"}
                 aria-label="add">
-                <AddIcon />
-              </Fab>
+                <PlusIcon />
+              </div>
             }
-          />
-      </Grid>
+          />*/}
 
-      <Divider variant="fullWidth" style={{marginTop: '3em'}}/>
+          <Dropdown
+            isOpen={false}
+            labelButton={"add"}  
+            triggerButton={(cb)=>(
+              <Button onClick={cb} 
+                color="primary" 
+                size={"small"}
+                variant="outlined"
+                aria-label="add">
+                <PlusIcon />
+                Add new conversation part
+              </Button>
+              )
+            }>
 
-      <Grid container
-        style={{marginTop: '2em'}}>
+            <List>
+              {
+                options.map((o)=>(
+                  <ListItem
+                    key={o.key} 
+                    onClick={o.onClick}>
+                    {o.name}
+                  </ListItem>
+                ))
+              }
+            </List>
+
+          </Dropdown>
+      </div>
+
+      <hr variant="fullWidth" style={{marginTop: '3em'}}/>
+
+      <div container style={{marginTop: '2em'}}>
 
 
-        <Grid item alignContent={"flex-start"}>
+        <div item alignContent={"flex-start"}>
 
-          <Typography variant={'h5'}>
+          <p className="text-lg leading-6 font-medium text-gray-900 py-4">
             Follow actions
-          </Typography>
+          </p>
 
           <FollowActionsSelect 
             app={app} 
@@ -894,27 +867,19 @@ const Path = ({
             path={path} 
           />  
           
-          <Box mt={2}>
-            <Typography variant="caption">
-              Hint: Follow actions will be triggered on paths that ends with message bubbles.
-              Paths that ends with path chooser will not trigger follow actions.
-            </Typography>
-          </Box>
+          <p className="max-w-xl text-sm leading-5 text-gray-500 mb-4">
+            Hint: Follow actions will be triggered on paths that ends with message bubbles.
+            Paths that ends with path chooser will not trigger follow actions.
+          </p>
         
-        </Grid>
-
-        
-
-      </Grid>
-
-    </Box>
-
+        </div>
+      </div>
+    </div>
   )
 }
 
 const PathEditor = ({step, message, path, updatePath })=>{
 
-  const classes = useStyles();
   const [readOnly, setReadOnly] = useState(false)
 
   const saveHandler = (html, serialized)=>{
@@ -940,10 +905,7 @@ const PathEditor = ({step, message, path, updatePath })=>{
   }
 
   return (
-    <Paper
-      elevation={1} 
-      square={true} 
-      classes={{root: classes.root}}>
+    <div className="shadow border rounded p-6">
       <TextEditor 
           uploadHandler={uploadHandler}
           serializedContent={message.serialized_content}
@@ -969,7 +931,7 @@ const PathEditor = ({step, message, path, updatePath })=>{
           }
         }
       />
-    </Paper>
+    </div>
   )
 }
 
@@ -1008,7 +970,7 @@ const AppPackageBlocks = ({options, controls, path, step, update})=>{
       console.log("controls;", controls)
       return <div className={"form-group"} key={index}>
               {/*item.label ? <label>{item.label}</label> : null */}
-              {/*<TextField 
+              {/*<Input 
                 type={item.type} 
                 name={item.name}
                 placeholder={item.placeholder}
@@ -1034,20 +996,19 @@ const AppPackageBlocks = ({options, controls, path, step, update})=>{
                 {item.label}
               </button>
     case "button":
-      return <Grid container 
-                spacing={2} 
-                alignItems={"center"}>
+      return <div className="flex justify-between items-center">
 
-                <Grid item xs={6}>
+                <div className="w-full">
                 
-                  <TextField value={item.label} 
+                  <Input value={item.label} 
+                    type={'text'}
                     fullWidth={true}
                     onChange={(e)=> handleInputChange(e.target.value, item, index)} 
                   />
 
-                </Grid>
+                </div>
 
-                <Grid item xs={3}>
+                <div className="w-3/4 px-2">
                   {
                     controls && controls.type === "ask_option" ?
                     
@@ -1057,14 +1018,14 @@ const AppPackageBlocks = ({options, controls, path, step, update})=>{
                       update={updateOption}
                     /> : null 
                   }
-                </Grid>
+                </div>
 
-                <Grid item xs={3}>
-                  <IconButton onClick={()=> removeOption(index)}>
-                    <RemoveCircle/>
-                  </IconButton>
-                </Grid>
-            </Grid>
+                <div>
+                  <Button variant="icon" onClick={()=> removeOption(index)}>
+                    <DeleteForeverRounded/>
+                  </Button>
+                </div>
+            </div>
     default:
       return null
     }
@@ -1206,9 +1167,9 @@ class SortableSteps extends Component {
                           )
                         }
                         
-                        <Grid container>
+                        <div container>
 
-                          <Grid item xs={12}>
+                          <div item xs={12}>
                             <ControlWrapper>
                               { item.controls && 
                                 <AppPackageBlocks 
@@ -1220,12 +1181,12 @@ class SortableSteps extends Component {
                                 /> 
                               }
                             </ControlWrapper>
-                          </Grid>
+                          </div>
 
                           {
-                            item.controls && item.controls.type === "ask_option" &&
-                          
-                              <Grid 
+                            item.controls && 
+                            item.controls.type === "ask_option" &&
+                              <div 
                                 item xs={12} 
                                 onClick={()=> this.appendItemControl(item)}>
                                 <Button 
@@ -1234,17 +1195,19 @@ class SortableSteps extends Component {
                                   size="small">
                                   + add data option
                                 </Button>
-                              </Grid> 
+                              </div> 
                           }
 
-                        </Grid>
+                        </div>
 
                       </ItemManagerContainer>
 
                       <ItemButtons>
-                        <IconButton onClick={()=> deleteItem(path, item) }>
+                        <Button 
+                          variant={'icon'}
+                          onClick={()=> deleteItem(path, item) }>
                           <DeleteForever/>
-                        </IconButton>
+                        </Button>
                       </ItemButtons>
 
                     </div>
@@ -1264,29 +1227,30 @@ class SortableSteps extends Component {
 
 const PathSelect = ({ option, options, update})=>{
   const handleChange = (e)=>{
-    update(e.target.value, option)
+    update(e.value, option)
   }
   const selectedOption = options.find((o)=> option.next_step_uuid === o.value )
 
+  console.log(JSON.stringify(selectedOption))
   return (
-    <Select
-      value={ selectedOption ? selectedOption.value : '' }
+    <Input
+      type='select'
+      data={{}}
+      value={ selectedOption }
+      defaultValue={ selectedOption }
       onChange={handleChange}
       fullWidth={true}
-      /*inputProps={{
-        name: 'age',
-        id: 'age-simple',
-      }}*/
+      options={options}
     >
       {
-        options.map((option)=> <MenuItem 
+        /*options.map((option)=> <MenuItem 
                                 key={`path-select-${option.value}`}
                                 value={option.value}>
                                 {option.label}
                               </MenuItem> 
                     )
-      }
-    </Select>
+      */}
+    </Input>
   )
 
 }
@@ -1294,29 +1258,38 @@ const PathSelect = ({ option, options, update})=>{
 const DataInputSelect = ({item, options, update, controls, path, step})=>{
   
   const handleChange = (e)=>{
-    const newOption = Object.assign({}, item, {name: e.target.value})
+    const newOption = Object.assign({}, item, {name: e.value})
     //const newOptions = //controls.schema.map((o)=> o.name === newOption.name ? newOption : o)
     const newControls = Object.assign({}, controls, {schema: [newOption]})
     
     update(newControls)
   }
 
+  const selectedItem = options.find((o)=> o.value === item.name)
+  
+
   return (
-    <Select
-      value={ item.name }
+    <div>
+
+    <Input
+      type='select'
+      value={selectedItem }
+      defaultValue={selectedItem}
       onChange={handleChange}
       fullWidth={true}
       label={item.label}
       helperText={"oeoeoe"}
+      options={options}
     >
       {
-        options.map((option)=> <MenuItem 
+        /*options.map((option)=> <MenuItem 
                                 value={option.value}>
                                 {option.label}
                               </MenuItem> 
                     )
-      }
-    </Select>
+      */}
+    </Input>
+    </div>
   )
 }
 

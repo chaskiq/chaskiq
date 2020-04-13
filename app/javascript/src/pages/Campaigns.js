@@ -7,8 +7,6 @@ import {
 import { withRouter } from 'react-router-dom'
 import {AnchorLink} from '../shared/RouterLink'
 import { connect } from 'react-redux'
-import ContentWrapper from '../components/ContentWrapper';
-import PageTitle from '../components/PageTitle';
 //import Tabs from '@atlaskit/tabs';
 import Moment from 'react-moment';
 import styled from '@emotion/styled'
@@ -17,16 +15,17 @@ import serialize from 'form-serialize'
 import CampaignSettings from "./campaigns/settings"
 import CampaignEditor from "./campaigns/editor"
 import SegmentManager from '../components/segmentManager'
-import DeleteDialog from '../components/deleteDialog'
+import DeleteDialog from '../components/DeleteDialog'
 import CampaignStats from "../components/stats"
 
 import { isEmpty } from 'lodash'
 
 import { parseJwt, generateJWT } from '../components/segmentManager/jwt'
 import TourManager from '../components/Tour'
-import ContentHeader from '../components/ContentHeader'
+import ContentHeader from '../components/PageHeader'
 import Content from '../components/Content'
-import EmptyView from '../components/emptyView'
+import EmptyView from '../components/EmptyView'
+import FilterMenu from '../components/FilterMenu'
 
 import graphql from "../graphql/client"
 import { CAMPAIGN, CAMPAIGNS, CAMPAIGN_METRICS  } from "../graphql/queries"
@@ -41,35 +40,31 @@ import { PREDICATES_SEARCH,
 import {getAppUser} from '../actions/app_user'
 import {toggleDrawer} from '../actions/drawer'
 
-import Table from '../components/table/index'
+import Table from '../components/Table'
 
-import SelectMenu from '../components/selectMenu'
+//import SelectMenu from '../components/selectMenu'
 
-import EmailIcon from '@material-ui/icons/Email';
-import MessageIcon from '@material-ui/icons/Message';
-import FilterFramesIcon from '@material-ui/icons/FilterFrames';
-import ClearAll from '@material-ui/icons/ClearAll'
-import DeleteOutlineRounded from '@material-ui/icons/DeleteOutlineRounded'
-
-import Tab from '@material-ui/core/Tab'
-import Tabs from '@material-ui/core/Tabs'
-import Chip from '@material-ui/core/Chip'
-import Button from '@material-ui/core/Button' 
-import Grid from '@material-ui/core/Grid'
-import Badge from '@material-ui/core/Badge'
-import CircularProgress from '@material-ui/core/CircularProgress'
-import Typography from '@material-ui/core/Typography'
+import Tabs from '../components/Tabs'
+import Button from '../components/Button' 
+import CircularProgress from '../components/Progress'
 
 
-import CheckCircle from '@material-ui/icons/CheckCircle'
-import Pause from '@material-ui/icons/Pause'
-import VisibilityRounded from '@material-ui/icons/VisibilityRounded'
-import SendRounded from '@material-ui/icons/SendRounded'
-import DeleteForeverRounded from '@material-ui/icons/DeleteForeverRounded'
+import {
+  CheckCircle,
+  Pause,
+  VisibilityRounded,
+  SendIcon,
+  DeleteForeverRounded,
+  EmailIcon,
+  MessageIcon,
+  FilterFramesIcon,
+  ClearAll,
+  DeleteOutlineRounded 
+} from '../components/icons'
 
 import {setCurrentSection, setCurrentPage} from '../actions/navigation'
 
-import userFormat from '../components/table/userFormat'
+import userFormat from '../components/Table/userFormat'
 
 import {errorMessage, successMessage} from '../actions/status_messages'
 
@@ -206,61 +201,65 @@ class CampaignSegment extends Component {
   }
 
   render() {
-    return <SegmentManager {...this.props}
-      loading={this.state.searching}
-      predicates={this.props.data.segments}
-      meta={this.state.meta}
-      collection={this.state.app_users}
-      updatePredicate={this.updatePredicate.bind(this)}
-      addPredicate={this.addPredicate.bind(this)}
-      deletePredicate={this.deletePredicate.bind(this)}
-      search={this.search.bind(this)}
+    return (
+      <div className="mt-4">
+        <SegmentManager {...this.props}
+          loading={this.state.searching}
+          predicates={this.props.data.segments}
+          meta={this.state.meta}
+          collection={this.state.app_users}
+          updatePredicate={this.updatePredicate.bind(this)}
+          addPredicate={this.addPredicate.bind(this)}
+          deletePredicate={this.deletePredicate.bind(this)}
+          search={this.search.bind(this)}
 
-      loading={this.props.searching}
-      columns={userFormat(this.showUserDrawer, this.props.app)}
+          loading={this.props.searching}
+          columns={userFormat(this.showUserDrawer, this.props.app)}
 
-      defaultHiddenColumnNames={
-        ['id', 
-        'state', 
-        'online', 
-        'lat', 
-        'lng', 
-        'postal',
-        'browserLanguage', 
-        'referrer', 
-        'os', 
-        'osVersion',
-        'lang'
-        ]}
-      //selection [],
-      tableColumnExtensions={[
-        //{ columnName: 'id', width: 150 },
-        { columnName: 'email', width: 250 },
-        { columnName: 'lastVisitedAt', width: 120 },
-        { columnName: 'os', width: 100 },
-        { columnName: 'osVersion', width: 100 },
-        { columnName: 'state', width: 80 },
-        { columnName: 'online', width: 80 },
-        //{ columnName: 'amount', align: 'right', width: 140 },
-      ]}
-      leftColumns={ ['email']}
-      rightColumns={ ['online']}
-      //toggleMapView={this.toggleMapView}
-      //map_view={this.state.map_view}
-      //enableMapView={true}
-    >
-      {
-        this.state.jwt ?
-          <Button isLoading={false}
-            appearance={'link'}
-            onClick={this.handleSave}>
-            <i className="fas fa-chart-pie"></i>
-            {" "}
-            Save Segment
-          </Button> : null
-      }
+          defaultHiddenColumnNames={
+            ['id', 
+            'state', 
+            'online', 
+            'lat', 
+            'lng', 
+            'postal',
+            'browserLanguage', 
+            'referrer', 
+            'os', 
+            'osVersion',
+            'lang'
+            ]}
+          //selection [],
+          tableColumnExtensions={[
+            //{ columnName: 'id', width: 150 },
+            { columnName: 'email', width: 250 },
+            { columnName: 'lastVisitedAt', width: 120 },
+            { columnName: 'os', width: 100 },
+            { columnName: 'osVersion', width: 100 },
+            { columnName: 'state', width: 80 },
+            { columnName: 'online', width: 80 },
+            //{ columnName: 'amount', align: 'right', width: 140 },
+          ]}
+          leftColumns={ ['email']}
+          rightColumns={ ['online']}
+          //toggleMapView={this.toggleMapView}
+          //map_view={this.state.map_view}
+          //enableMapView={true}
+        >
+          {
+            this.state.jwt ?
+              <Button isLoading={false}
+                appearance={'link'}
+                onClick={this.handleSave}>
+                <i className="fas fa-chart-pie"></i>
+                {" "}
+                Save Segment
+              </Button> : null
+          }
 
-    </SegmentManager>
+        </SegmentManager>
+      </div>
+    )
   }
 }
 
@@ -365,11 +364,36 @@ class CampaignForm extends Component {
   tabsContent = ()=>{
     return <Tabs value={this.state.tabValue} 
               onChange={this.handleTabChange}
-              textColor="inherit">
-              <Tab textColor="inherit" label="Stats" />
-              <Tab textColor="inherit" label="Settings" />
-              <Tab textColor="inherit" label="Audience" />
-              <Tab textColor="inherit" label="Editor" />
+              textColor="inherit"
+              tabs={
+                [
+                  {label: "Stats", content: <CampaignStats  
+                                              {...this.props}
+                                              url={this.url()}
+                                              data={this.state.data}
+                                              fetchCampaign={this.fetchCampaign}
+                                              updateData={this.updateData} 
+                                              getStats={this.getStats}
+                                            /> },
+                  {label: "Settings", content: <CampaignSettings 
+                                                {...this.props}
+                                                data={this.state.data}
+                                                mode={this.props.mode}
+                                                successMessage={()=> this.props.dispatch(successMessage("campaign updated")) }
+                                                url={this.url()}
+                                                updateData={this.updateData}
+                                              />},
+                  {label: "Audience", content: <CampaignSegment
+                                                  {...this.props}
+                                                  data={this.state.data}
+                                                  url={this.url()}
+                                                  successMessage={()=> this.props.dispatch(successMessage("campaign updated")) }
+                                                  updateData={this.updateData} 
+                                                />
+               },
+                  {label: "Editor", content: this.renderEditorForCampaign()},
+                ]
+              }>
             </Tabs>
   }
 
@@ -386,40 +410,6 @@ class CampaignForm extends Component {
     })
   }
 
-  renderTabcontent = ()=>{
-
-    switch (this.state.tabValue){
-      case 0:
-        return <CampaignStats  
-                  {...this.props}
-                  url={this.url()}
-                  data={this.state.data}
-                  fetchCampaign={this.fetchCampaign}
-                  updateData={this.updateData} 
-                  getStats={this.getStats}
-                />
-
-      case 1:
-        return <CampaignSettings 
-                  {...this.props}
-                  data={this.state.data}
-                  mode={this.props.mode}
-                  successMessage={()=> this.props.dispatch(successMessage("campaign updated")) }
-                  url={this.url()}
-                  updateData={this.updateData}
-                />
-      case 2:
-        return <CampaignSegment
-          {...this.props}
-          data={this.state.data}
-          url={this.url()}
-          successMessage={()=> this.props.dispatch(successMessage("campaign updated")) }
-          updateData={this.updateData} 
-        />
-      case 3:
-        return this.renderEditorForCampaign()
-    }
-  }
 
   isNew = ()=>{
     return this.props.match.params.id === "new"
@@ -506,7 +496,7 @@ class CampaignForm extends Component {
       {
         title: 'Deliver',
         description: 'delivers the campaign',
-        icon: <SendRounded/>,
+        icon: <SendIcon/>,
         id: 'deliver',
         onClick: this.handleSend
       },
@@ -529,7 +519,7 @@ class CampaignForm extends Component {
       newOptions = this.optionsForMailing().concat(options)
     }
 
-    newOptions = newOptions.filter((o)=> o.state != this.state.data.state)
+    newOptions = newOptions.filter((o)=> o.state !== this.state.data.state)
 
     newOptions = newOptions.concat(this.purgeMetricsOptions())
 
@@ -574,6 +564,9 @@ class CampaignForm extends Component {
 
   render() {
 
+    const badgeClass = this.state.data.state === "enabled" ?
+                      "green" : 'gray' 
+
     const title = this.state.data.name ? 
       `${this.state.data.name}` : 
       this.campaignName(this.props.mode)
@@ -595,68 +588,74 @@ class CampaignForm extends Component {
               })
             }}
           >
-          <Typography variant="subtitle2">we will destroy any content and related data</Typography>
+          <p variant="subtitle2">we will destroy any content and related data</p>
           </DeleteDialog>
         }
       
-
-      <ContentHeader 
-        title={ <Grid container 
-                      alignContent="space-around"
-                      alignItems="center">
-                  <Grid item style={{
-                    display: 'flex',
-                    marginRight: '4px',
-                  }}>
-                  <Badge 
-                    color={this.state.data.state === "enabled" ?
-                     "primary" : 'secondary' 
-                    }
-                    variant="dot">
-                    {this.iconMode(this.props.mode)}
-                    
-                  </Badge>
-                    
-                  </Grid>
-                  <Grid item>
-                    {title} • 
-                    <Typography variant={"overline"}>
-                      {this.state.data.state}
-                    </Typography>
-                  </Grid>
-                </Grid> 
-        }
-        items={
-          <React.Fragment>
-          
-          <Grid item>
-
-              <SelectMenu 
-                options={this.optionsForData()} 
-                selected={this.state.data.state}
-                handleClick={(e)=> this.toggleCampaignState(e.state) } 
-                toggleButton={(clickHandler)=>{
-                  return  <Button 
-                      onClick={clickHandler}
-                      variant="outlined" 
-                      color="inherit" 
-                      size="small">
-                      {"actions"}
-                    </Button>
-                  }
-                }
-                
-              />
-
-          </Grid>
-          </React.Fragment>
-        } 
-        tabsContent={
-          this.isNew() ? null : this.tabsContent() 
-        }
-      />
-
       <Content>
+
+        <ContentHeader 
+          title={ <div container 
+                        alignContent="space-around"
+                        alignItems="center">
+                    <div item style={{
+                      display: 'flex',
+                      marginRight: '4px',
+                    }}>
+                    <div className=""
+                      color={this.state.data.state === "enabled" ?
+                      "primary" : 'secondary' 
+                      }
+                      variant="dot">
+                      {this.iconMode(this.props.mode)}
+                      
+                    </div>
+                      
+                    </div>
+                    <div item>
+                      {title}
+                      <span className={`px-2 
+                        inline-flex 
+                        text-xs 
+                        leading-5 
+                        font-semibold 
+                        rounded-full 
+                        bg-${badgeClass}-100 
+                        text-${badgeClass}-800`}>
+                        {this.state.data.state}
+                      </span>
+                    </div>
+                  </div> 
+          }
+          actions={
+            <React.Fragment>
+            
+            <div item>
+
+                <FilterMenu 
+                  options={this.optionsForData()} 
+                  value={this.state.data.state}
+                  filterHandler={(e)=> this.toggleCampaignState(e.state)}
+                  triggerButton={this.toggleButton}
+                  position={''}
+
+                  toggleButton={(clickHandler)=>{
+                    return  <Button 
+                        onClick={clickHandler}
+                        variant="outlined" 
+                        color="inherit" 
+                        size="small">
+                        {"actions"}
+                      </Button>
+                    }
+                  }
+
+                />
+
+            </div>
+            </React.Fragment>
+          }
+        />
 
         {
           !isEmpty(this.state.data) ? 
@@ -668,7 +667,7 @@ class CampaignForm extends Component {
               url={this.url()}
               updateData={this.updateData}
               successMessage={()=> this.props.dispatch(successMessage("campaign updated")) }
-            /> : this.renderTabcontent() 
+            /> : this.tabsContent()
           : null
         }
 
@@ -723,7 +722,7 @@ class CampaignContainer extends Component {
     })
 
     graphql(CAMPAIGNS, { 
-      appKey: this.props.match.params.appId, 
+      appKey: this.props.app.key, 
       mode: this.props.match.params.message_type,
       page: page || 1
     }, {
@@ -747,12 +746,12 @@ class CampaignContainer extends Component {
   }
 
   renderActions = ()=>{
-    return <Grid container justify={'flex-end'}>
+    return <div container justify={'flex-end'}>
               <Button variant={"contained"} color={"primary"}
                 onClick={this.createNewCampaign}>
                 create new campaign
               </Button>
-           </Grid>
+           </div>
   }
 
   deleteCampaign =(id, cb)=>{
@@ -772,135 +771,149 @@ class CampaignContainer extends Component {
   }
 
   render() {
+    return <div className="m-4">
+            <Switch>
+          
+              <Route exact path={`${this.props.match.url}/:id`}
+                render={(props) => (
+                  <CampaignForm
+                    currentUser={this.props.currentUser}
+                    mode={this.props.match.params.message_type}
+                    {...this.props}
+                    {...props}
+                  />          
+                )} 
+              />
 
-    return <div>
+              <Route exact path={`${this.props.match.url}`}
+                render={(props) => (
+                  <div>
 
+                    {
+                      this.state.openDeleteDialog && <DeleteDialog 
+                        open={this.state.openDeleteDialog}
+                        title={`Delete campaign "${this.state.openDeleteDialog.name}"`} 
+                        closeHandler={()=>{
+                          this.setState({openDeleteDialog:null})
+                        }}
+                        deleteHandler={()=> { 
+                          this.deleteCampaign(this.state.openDeleteDialog.id, ()=>{
+                            this.init()
+                            this.setState({openDeleteDialog:null})
+                            this.props.dispatch(successMessage("campaign removed"))
+                          })
+                        }}>
 
-      <Switch>
-    
-        <Route exact path={`${this.props.match.url}/:id`}
-          render={(props) => (
-            <CampaignForm
-              currentUser={this.props.currentUser}
-              mode={this.props.match.params.message_type}
-              {...this.props}
-              {...props}
-            />          
-          )} 
-        />
+                        <p variant="subtitle2">
+                          we will destroy any content and related data
+                        </p>
 
-        <Route exact path={`${this.props.match.url}`}
-          render={(props) => (
-            <div>
+                      </DeleteDialog>
+                    }
 
-              {
-                this.state.openDeleteDialog && <DeleteDialog 
-                  open={this.state.openDeleteDialog}
-                  title={`Delete campaign "${this.state.openDeleteDialog.name}"`} 
-                  closeHandler={()=>{
-                    this.setState({openDeleteDialog:null})
-                  }}
-                  deleteHandler={()=> { 
-                    this.deleteCampaign(this.state.openDeleteDialog.id, ()=>{
-                      this.init()
-                      this.setState({openDeleteDialog:null})
-                      this.props.dispatch(successMessage("campaign removed"))
-                    })
-                  }}>
+                    <ContentHeader 
+                      title={'Campaigns'}
+                      actions={this.renderActions()}
+                    />
 
-                  <Typography variant="subtitle2">
-                    we will destroy any content and related data
-                  </Typography>
+                    <Content>
 
-                </DeleteDialog>
-              }
+                      {
+                        !this.state.loading && this.state.campaigns.length > 0 &&
+                          <Table
+                            meta={this.state.meta}
+                            data={this.state.campaigns}
+                            title={`campaigns`}
+                            //title={`${this.props.match.params.message_type} campaign`}
+                            defaultHiddenColumnNames={[]}
+                            search={this.init.bind(this)}
+                            columns={[
+                              {field: 'name', title: 'name', 
+                                render: row => (row &&
+                                  <td className="px-6 py-4 whitespace-no-wrap border-b border-gray-200">
+                                    <div
+                                      className="flex items-center">
+                                      <div className="ml-4">
+                                        <div className="text-sm leading-5 font-medium text-gray-900">
+                                          <AnchorLink to={`${this.props.match.url}/${row.id}`}>
+                                            {row.name}
+                                          </AnchorLink> 
+                                        </div>
+                                      </div>
+                                  </div>
+                                </td>
+                                )
+                              },
+                              {field: 'subject', title: 'subject'},
+                              {field: 'state', title: 'state', render: (row)=> {
+                                return <td className="px-6 py-4 whitespace-no-wrap border-b border-gray-200">
+                                          <span className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full 
+                                          ${row.state === "subscribed" ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800' }`}
+                                          >
+                                          {/*<CheckCircle/>
+                                          <Pause/>*/}
+                                          {row.state}
+                                          </span>
+                                        </td>
+                              }},
+                              {field: 'actions', title: 'actions',
+                                render: row => <td className="px-6 py-4 whitespace-no-wrap border-b border-gray-200">
+                                                  <span className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full `}
+                                                  >
+                                                    <Button 
+                                                      color={"secondary"}
+                                                      variant={"contained"}
+                                                      onClick={()=> this.setState({openDeleteDialog: row})}>
+                                                        remove
+                                                    </Button> 
+                                                  </span>
+                                                </td>
+                                
+                                      
+                              },
+                              /*{field: 'fromName', title: 'from name', hidden: true},
+                              {field: 'fromEmail', title: 'from email', hidden: true},
+                              {field: 'replyEmail', title: 'reply email', hidden: true},
+                              {field: 'description', title: 'description', hidden: true},
+                              {field: 'timezone', title: 'timezone'},
+                              {field: 'scheduledAt', title: 'scheduled at', type: "datetime", 
+                                render: row => (row ? <Moment fromNow>
+                                  {row.scheduledAt}
+                                </Moment> : undefined)
+                              },
+                              {field: 'scheduledTo', title: 'scheduled to', type: "datetime",
+                                render: row => (row ? <Moment fromNow>
+                                  {row.scheduledTo}
+                                </Moment> : undefined)
+                              }*/
+                            ]}
+                          >
+                          </Table>
+                      }
 
-              <Content actions={this.renderActions()}>
+                      {
+                        !this.state.loading && this.state.campaigns.length === 0 ? 
+                        <EmptyView 
+                          title={"No campaigns found"} 
+                          subtitle={
+                            <div>
+                            create a new one
+                            {this.renderActions()}
+                            </div>
 
-                {
-                  !this.state.loading && this.state.campaigns.length > 0 ?
-                    <Table
-                      meta={this.state.meta}
-                      data={this.state.campaigns}
-                      title={`campaigns`}
-                      //title={`${this.props.match.params.message_type} campaign`}
-                      defaultHiddenColumnNames={[]}
-                      search={this.init.bind(this)}
-                      columns={[
-                        {field: 'name', title: 'name', 
-                          render: row => (row ? <AnchorLink to={`${this.props.match.url}/${row.id}`}>
-                                                      {row.name}
-                                                    </AnchorLink> : undefined)
-                        },
-                        {field: 'subject', title: 'subject'},
-                        {field: 'state', title: 'state', render: (row)=> {
-                          return <Chip 
-                                  label={row.state} 
-                                  variant="outlined" 
-                                  size="small"
-                                  color={row.state === "enabled" ? 'primary' : 'default'}
-                                  icon={ 
-                                    row.state === "enabled" ? 
-                                    <CheckCircle/> : 
-                                    <Pause/>
-                                  }
-                                />
-                        }},
-                        {field: 'actions', title: 'actions',
-                          render: row => <Button 
-                                      color={"secondary"}
-                                      variant={"contained"}
-                                      onClick={()=> this.setState({openDeleteDialog: row})}>
-                                    remove
-                                </Button> 
-                        },
-                        /*{field: 'fromName', title: 'from name', hidden: true},
-                        {field: 'fromEmail', title: 'from email', hidden: true},
-                        {field: 'replyEmail', title: 'reply email', hidden: true},
-                        {field: 'description', title: 'description', hidden: true},
-                        {field: 'timezone', title: 'timezone'},
-                        {field: 'scheduledAt', title: 'scheduled at', type: "datetime", 
-                          render: row => (row ? <Moment fromNow>
-                            {row.scheduledAt}
-                          </Moment> : undefined)
-                        },
-                        {field: 'scheduledTo', title: 'scheduled to', type: "datetime",
-                          render: row => (row ? <Moment fromNow>
-                            {row.scheduledTo}
-                          </Moment> : undefined)
-                        }*/
-                      ]}
-                    >
-                      
-                    </Table>
+                          }/> : null
+                      }
+                    
+                      {
+                        this.state.loading ? <CircularProgress/> : null
+                      }
+                    </Content>
+                  </div>
+                )} 
+              />
 
-                    : null 
-                }
-
-                {
-                  !this.state.loading && this.state.campaigns.length === 0 ? 
-                  <EmptyView 
-                    title={"No campaigns found"} 
-                    subtitle={
-                      <div>
-                      create a new one
-                      {this.renderActions()}
-                      </div>
-
-                    }/> : null
-                }
-              
-                {
-                  this.state.loading ? <CircularProgress/> : null
-                }
-              </Content>
-            </div>
-          )} 
-        />
-
-      </Switch>
-
-    </div>
+            </Switch>
+          </div>
   }
 }
 

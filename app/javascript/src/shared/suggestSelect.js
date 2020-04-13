@@ -254,7 +254,7 @@ export default function IntegrationReactSelect(props) {
     //if (!state.isSubmitting) { return; }
     // do your submitting with stateRef.current in here
     // then dispatch the results
-  }, [single]);
+  }, [props, single]);
 
   const selectStyles = {
     input: base => ({

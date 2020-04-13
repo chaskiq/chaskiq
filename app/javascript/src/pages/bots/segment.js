@@ -10,8 +10,8 @@ import { parseJwt, generateJWT } from '../../components/segmentManager/jwt'
 import SegmentManager from '../../components/segmentManager'
 import {errorMessage, successMessage} from '../../actions/status_messages'
 
-import Button from '@material-ui/core/Button'
-import userFormat from '../../components/table/userFormat'
+import Button from '../../components/Button'
+import userFormat from '../../components/Table/userFormat'
 import { withRouter, Switch } from 'react-router-dom'
 import { connect } from 'react-redux'
 import {toggleDrawer} from '../../actions/drawer'
@@ -120,61 +120,63 @@ class Segment extends Component {
   }
 
   render() {
-    return <SegmentManager {...this.props}
-      loading={this.state.searching}
-      predicates={this.props.data.segments}
-      meta={this.state.meta}
-      collection={this.state.app_users}
-      updatePredicate={this.updatePredicate.bind(this)}
-      addPredicate={this.addPredicate.bind(this)}
-      deletePredicate={this.deletePredicate.bind(this)}
-      search={this.search.bind(this)}
+    return <div className="py-4">
+      <SegmentManager {...this.props}
+        loading={this.state.searching}
+        predicates={this.props.data.segments}
+        meta={this.state.meta}
+        collection={this.state.app_users}
+        updatePredicate={this.updatePredicate.bind(this)}
+        addPredicate={this.addPredicate.bind(this)}
+        deletePredicate={this.deletePredicate.bind(this)}
+        search={this.search.bind(this)}
 
-      loading={this.props.searching}
-      columns={userFormat(this.showUserDrawer, this.props.app)}
+        loading={this.props.searching}
+        columns={userFormat(this.showUserDrawer, this.props.app)}
 
-      defaultHiddenColumnNames={
-        ['id', 
-        'state', 
-        'online', 
-        'lat', 
-        'lng', 
-        'postal',
-        'browserLanguage', 
-        'referrer', 
-        'os', 
-        'osVersion',
-        'lang'
+        defaultHiddenColumnNames={
+          ['id', 
+          'state', 
+          'online', 
+          'lat', 
+          'lng', 
+          'postal',
+          'browserLanguage', 
+          'referrer', 
+          'os', 
+          'osVersion',
+          'lang'
+          ]}
+        //selection [],
+        tableColumnExtensions={[
+          //{ columnName: 'id', width: 150 },
+          { columnName: 'email', width: 250 },
+          { columnName: 'lastVisitedAt', width: 120 },
+          { columnName: 'os', width: 100 },
+          { columnName: 'osVersion', width: 100 },
+          { columnName: 'state', width: 80 },
+          { columnName: 'online', width: 80 },
+          //{ columnName: 'amount', align: 'right', width: 140 },
         ]}
-      //selection [],
-      tableColumnExtensions={[
-        //{ columnName: 'id', width: 150 },
-        { columnName: 'email', width: 250 },
-        { columnName: 'lastVisitedAt', width: 120 },
-        { columnName: 'os', width: 100 },
-        { columnName: 'osVersion', width: 100 },
-        { columnName: 'state', width: 80 },
-        { columnName: 'online', width: 80 },
-        //{ columnName: 'amount', align: 'right', width: 140 },
-      ]}
-      leftColumns={ ['email']}
-      rightColumns={ ['online']}
-      //toggleMapView={this.toggleMapView}
-      //map_view={this.state.map_view}
-      //enableMapView={true}
-    >
-      {
-        this.state.jwt ?
-          <Button isLoading={false}
-            appearance={'link'}
-            onClick={this.handleSave}>
-            <i className="fas fa-chart-pie"></i>
-            {" "}
-            Save Segment
-          </Button> : null
-      }
+        leftColumns={ ['email']}
+        rightColumns={ ['online']}
+        //toggleMapView={this.toggleMapView}
+        //map_view={this.state.map_view}
+        //enableMapView={true}
+      >
+        {
+          this.state.jwt ?
+            <Button isLoading={false}
+              appearance={'link'}
+              onClick={this.handleSave}>
+              <i className="fas fa-chart-pie"></i>
+              {" "}
+              Save Segment
+            </Button> : null
+        }
 
-    </SegmentManager>
+      </SegmentManager>
+    </div>
   }
 }
 

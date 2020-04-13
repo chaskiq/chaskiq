@@ -1,26 +1,20 @@
 import React, {Component, useState} from 'react'
 
-import FormControlLabel from '@material-ui/core/FormControlLabel'
-import Checkbox from '@material-ui/core/Checkbox'
-import Box from '@material-ui/core/Box'
-import Typography from '@material-ui/core/Typography'
-import Divider from '@material-ui/core/Divider'
-import Grid from '@material-ui/core/Grid'
-import RadioGroup from '@material-ui/core/RadioGroup'
-import Radio from '@material-ui/core/Radio'
-import Button from '@material-ui/core/Button'
+
+import Button from '../../components/Button'
 
 import SegmentManager from '../../components/segmentManager'
 import { parseJwt, generateJWT } from '../../components/segmentManager/jwt'
 import { PREDICATES_SEARCH} from '../../graphql/mutations'
 import graphql from '../../graphql/client'
-import userFormat from '../../components/table/userFormat';
+import userFormat from '../../components/Table/userFormat';
 import {toggleDrawer} from '../../actions/drawer'
 import {
   getAppUser 
 } from '../../actions/app_user'
 import { withRouter, Switch } from 'react-router-dom'
 import { connect } from 'react-redux'
+import Input from '../../components/forms/Input'
 
 
 function InboundSettings({settings, update, dispatch}){
@@ -36,7 +30,7 @@ function InboundSettings({settings, update, dispatch}){
     visitorsPredicates: settings.inboundSettings.visitors.predicates,
   });
 
-  const handleChange = name => event => {
+  const handleChange = (name, event) => {
     setState({ ...state, [name]: event.target.checked });
   };
 
@@ -74,61 +68,60 @@ function InboundSettings({settings, update, dispatch}){
 
     <div>
 
-      <Box mb={2}>
-        <Typography variant={"h4"}>
+      <div className="py-4">
+        
+        <p className="text-lg leading-6 font-medium text-gray-900 pb-2">
           Control inbound conversations and the launcher
-        </Typography> 
-        <Typography variant={"body1"}>
-          Control who can send you messages and where they see the launcher
-        </Typography>
-      </Box>
+        </p> 
 
-      <Typography variant={"h5"}>
+        <p className="text-md leading-6 font-medium text-gray-600 pb-2">
+          Control who can send you messages and where they see the launcher
+        </p>
+      </div>
+
+      <p className="text-lg leading-5 font-medium text-gray-900 pb-2">
         New conversations button
-      </Typography>
+      </p>
     
-      <Grid container>
-        <FormControlLabel
-          control={
-            <Checkbox
-              checked={state.enable_inbound}
-              onChange={handleChange('enable_inbound')}
-              value={state.enable_inbound}
-              color="primary"
-            />
-          }
+      <div container>
+        <Input
+          type="checkbox"
+          checked={state.enable_inbound}
+          onChange={(e)=> handleChange('enable_inbound', e)}
+          value={state.enable_inbound}
+          color="primary"
           label="Let people start new inbound conversations with you"
         />
-      </Grid>
+      </div>
 
-      <Typography variant={"overline"}>
+      <p className="my-2 max-w-xl text-sm leading-5 text-gray-500">
         When this is turned off, people can only reply to the outbound messages  you send.
-      </Typography>
+      </p>
 
-      <Divider/>
+      <hr/>
 
-      <Box mb={2} mt={2}>
-        <Typography variant={"h5"}>
+      <div className="py-4">
+        <p className="text-lg leading-5 font-medium text-gray-900 pb-2">
           visibility
-        </Typography>
-      </Box>
+        </p>
+      </div>
 
-      <Typography variant={"body1"}>
+      <p className="text-lg leading-6 font-medium text-gray-900 pb-2">
         Control who sees the standard Messenger launcher on your website.
-      </Typography>
+      </p>
 
-      <Typography variant={"overline"}>
+      <p className="text-md leading-6 font-medium text-gray-600 pb-2">
         Any messages you send will still be delivered.
-      </Typography>
+      </p>
 
 
-      <Box mb={2} mt={2}>
+      <div className="py-4">
 
-        <Typography variant={"subtitle1"}>
+        <p className="py-2">
           On the web, show the standard Messenger launcher to:
-        </Typography>
+        </p>
 
-        <Divider/>
+        <hr/>
 
         <AppSegmentManager 
           app={settings} 
@@ -144,7 +137,7 @@ function InboundSettings({settings, update, dispatch}){
           some={"Users who match certain data"} 
         />
 
-        <Divider/>
+        <hr/>
 
         <AppSegmentManager 
           app={settings} 
@@ -160,18 +153,18 @@ function InboundSettings({settings, update, dispatch}){
           some={"Visitors who match certain data"} 
         />
     
-        <Typography variant="caption">
+        <p className="text-sm leading-6 font-medium text-gray-400 pb-2">
           This doesn’t affect the outbound messages you send.
-        </Typography>
+        </p>
 
-      </Box>
+      </div>
 
-      <Grid container>
+      <div container>
         <Button onClick={handleSubmit}
           variant={"contained"} color={"primary"}>
           Save
         </Button>
-      </Grid>
+      </div>
 
     </div>
   )
@@ -221,51 +214,51 @@ function AppSegmentManager({
 
   return (
 
-    <Grid container>
+    <div className="py-6">
+    
+      <div className="flex">
 
-      <Grid item sm={6}>
-        <FormControlLabel
-          control={
-            <Checkbox
-              checked={checked}
-              onChange={updateChecked(`${namespace}_enabled`)}
-              value={checked}
-              color="primary"
-            />
-          }
-          label={label}
-        />
-      </Grid>
+        <div className="w-1/2">
+          <Input
+            type="checkbox"
+            checked={checked}
+            defaultChecked={checked}
+            onChange={(e)=> updateChecked(`${namespace}_enabled`, e)}
+            value={checked}
+            color="primary"
+            label={namespace}
+          />
+        </div>
 
-      <Grid item={6}>
-        <RadioGroup
-          //aria-label="gender"
-          //name="gender1"
-          //className={classes.group}
-          disabled={!checked}
-          value={radioValue}
-          onChange={handleChangeRadio}
-        >
+        <div className="w-1/2">
 
-          <FormControlLabel 
+          <Input
+            type="radio"
+            name={`${namespace}_options[]`}
+            checked={radioValue === 'all'}
             disabled={!checked}
+            defaultChecked={radioValue === 'all'}
+            onChange={handleChangeRadio}
             value="all"
-            control={<Radio />} 
             label={all}
           />
 
-          <FormControlLabel 
+          <Input
+            type="radio"
+            name={`${namespace}_options[]`}
+            checked={radioValue === 'some'}
             disabled={!checked}
+            defaultChecked={radioValue === 'some'}
+            onChange={handleChangeRadio}
             value="some"
-            control={<Radio />} 
             label={some}
           />
-          
 
-        </RadioGroup>
-      </Grid>
+        </div>
 
-      <Grid item sm={12}>
+      </div>
+
+      <div className="w-full">
         {
           checked && radioValue === "some" ?
           <AppSegment
@@ -275,10 +268,8 @@ function AppSegmentManager({
             dispatch={dispatch}
           /> : null
         }
-      </Grid>
-
-    </Grid>
-
+      </div>
+    </div>
   )
 }
 
@@ -388,7 +379,6 @@ class AppSegment extends Component {
       addPredicate={this.addPredicate.bind(this)}
       deletePredicate={this.deletePredicate.bind(this)}
       search={this.search.bind(this)}
-
       loading={this.props.searching}
       columns={userFormat(this.showUserDrawer, this.props.app)}
 

@@ -51,6 +51,7 @@ export function getConversation(options, cb){
       }, {
         success: (data)=>{
           const conversation = data.app.conversation
+          
           const newConversation = Object.assign({}, { collection: nextPage > 1 ? 
                                                         getState().conversation.collection.concat(conversation.messages.collection) : 
                                                         conversation.messages.collection,
@@ -58,10 +59,10 @@ export function getConversation(options, cb){
                                                       loading: false
                                                     },
                               conversation)
-          
+          //console.log('newConversation', newConversation, nextPage)
           dispatch(dispatchGetConversations(newConversation))
 
-          cb ? cb() : null
+          if(cb) cb()
         },
         error: (error)=>{
         }
@@ -72,7 +73,7 @@ export function getConversation(options, cb){
 export function clearConversation(cb){
   return (dispatch, getState)=>{
     dispatch(dispatchGetConversations({}))
-    cb ? cb() : null
+    if(cb) cb()
   }
 }
 
@@ -181,17 +182,19 @@ export function appendMessage(data, cb){
 
     } else {
       //if (getState().current_user.email !== newData.appUser.email) {
-      if (newData.appUser.kind != "agent"){
+      if (newData.appUser.kind !== "agent"){
         playSound()
       }
+
 
       const newMessages = Object.assign({}, 
         getState().conversation,
         { collection: [newData].concat(getState().conversation.collection) })
 
+      //debugger
       dispatch(dispatchGetConversations(newMessages))
 
-      cb ? cb() : null
+      if(cb) cb()
     }
 
 
@@ -228,7 +231,7 @@ export function updateConversationState(state, cb){
         const newConversation = Object.assign({}, getState().conversation, conversation)
         dispatch(dispatchGetConversations(newConversation))
 
-        cb ? cb(newConversation) : null
+        if(cb) cb(newConversation)
       },
       error: (error)=>{
       }
@@ -248,7 +251,7 @@ export function updateConversationPriority(cb){
         const conversation = data.toggleConversationPriority.conversation
         const newConversation = Object.assign({}, getState().conversation, conversation)
         dispatch(dispatchGetConversations(newConversation))
-        cb ? cb(newConversation) : null
+        if(cb) cb(newConversation)
       },
       error: (error)=>{
       }
@@ -270,7 +273,7 @@ export function assignAgent(id, cb){
         const conversation = data.assignUser.conversation
         const newConversation = Object.assign({}, getState().conversation, conversation)
         dispatch(dispatchGetConversations(newConversation))
-        cb ? cb(data.assignUser.conversation) : null
+        if(cb) cb(data.assignUser.conversation)
       },
       error: (error)=>{
 

@@ -1,9 +1,9 @@
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
-import CircularProgress from '@material-ui/core/CircularProgress';
+import CircularProgress from '../../components/Progress';
 
 import styled from '@emotion/styled'
-import TextEditor from '../../textEditor'
+import TextEditor from '../../components/textEditor'
 
 export default class ArticleEditor extends Component {
 

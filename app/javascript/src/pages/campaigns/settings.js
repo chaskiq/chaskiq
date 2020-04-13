@@ -1,7 +1,6 @@
 import React, {Component} from "react"
 
-import Button from '@material-ui/core/Button'
-import Grid from '@material-ui/core/Grid'
+import Button from '../../components/Button'
 
 import {isEmpty} from 'lodash'
 import axios from 'axios'
@@ -10,7 +9,7 @@ import serialize from 'form-serialize'
 import graphql from "../../graphql/client"
 import { UPDATE_CAMPAIGN, CREATE_CAMPAIGN } from "../../graphql/mutations"
 
-import FieldRenderer from "../../shared/FormFields"
+import FieldRenderer from "../../components/forms/FieldRenderer"
 import {toSnakeCase} from '../../shared/caseConverter'
 //import moment from 'moment-timezone';
 
@@ -39,9 +38,6 @@ export default class CampaignSettings extends Component {
     e.preventDefault()
     const serializedData = serialize(this.formRef, { hash: true, empty: true })
     let data = toSnakeCase(serializedData).campaign
-    
-    if(data.hidden_constraints)
-      data["hidden_constraints"] = data.hidden_constraints.split(",")
     
     this.props.match.params.id === "new" ? 
       this.create(data) : this.update(data)
@@ -99,7 +95,7 @@ export default class CampaignSettings extends Component {
 
   render() {
     return (
-      <Grid
+      <div
         container 
         direction={"column"}>
         <form
@@ -109,7 +105,7 @@ export default class CampaignSettings extends Component {
             this.formRef = form;
           }}
         >
-          <h3>
+          <h3 className="text-xl font-bold my-4">
             {
               this.state.data.id ? 
               'Edit Campaign Settings' : 
@@ -117,43 +113,46 @@ export default class CampaignSettings extends Component {
             }
           </h3>
 
-          <Grid container spacing={3}>
+          <div container spacing={3}>
       
             {
               this.state.data.configFields.map((field) => {
-                return <Grid item 
+                return <div 
                           xs={field.grid.xs} 
                           sm={field.grid.sm}>
                           <FieldRenderer 
                             namespace={'campaign'} 
                             data={field}
+                            type={field.type}
                             props={this.state} 
                             errors={this.state.errors}
                           />
-                      </Grid>
+                      </div>
               })
             }
 
 
-            <Grid item>
+            <div className="flex justify-end">
 
-              <Button onClick={this.onSubmitHandler.bind(this)}
-                      variant="contained" 
-                      color="primary">
+              <Button
+                className="mr-2 p-4" 
+                onClick={this.onSubmitHandler.bind(this)}
+                variant="contained" 
+                color="primary">
                 Save
               </Button>
 
-              <Button appearance="subtle">
+              <Button appearance="subtle p-4">
                 Cancel
               </Button>
-            </Grid>
+            </div>
 
-          </Grid>
+          </div>
 
 
        
         </form>
-      </Grid>
+      </div>
     );
   }
 }

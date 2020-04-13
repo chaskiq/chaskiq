@@ -3,66 +3,30 @@
 
 import React, {Component} from "react"
 
-import AddIcon from '@material-ui/icons/Add'
 import FormDialog from '../FormDialog'
-import ClickAwayListener from '@material-ui/core/ClickAwayListener';
 import styled from '@emotion/styled'
-import { withStyles } from '@material-ui/core/styles';
+import Dropdown from '../Dropdown'
 
-import Button from '@material-ui/core/Button'
-import MenuItem from '@material-ui/core/MenuItem'
-import Menu from '@material-ui/core/Menu'
-import Radio from '@material-ui/core/Radio'
-import RadioGroup from '@material-ui/core/RadioGroup'
-import FormControlLabel from '@material-ui/core/FormControlLabel'
-import TextField from '@material-ui/core/TextField'
-
-const TextField1 = withStyles({
-  root: {
-    marginRight: '10px',
-    marginTop: '0px',
-    /*border: '1px solid rgba(0, 0, 0, .125)',
-    boxShadow: 'none',
-    '&:not(:last-child)': {
-      borderBottom: 0,
-    },
-    '&:before': {
-      display: 'none',
-    },
-    '&$expanded': {
-      margin: 'auto',
-    },*/
-  }
-})(TextField);
-
-const ContentMatchTitle = styled.h5`
+const h2 = styled.h5`
   margin: 15px;
   border-bottom: 2px dotted #6f6f6f26;
 `
 
 const ContentMatch = styled.div`
-  overflow: auto;
-  width: 300px;
-  height: 221px;
-  padding-left: 14px;
-  border-bottom: 1px solid #ccc;
-  margin-bottom: 7px;
+  height: 200px;
 `
 
 const ContentMatchFooter = styled.div`
   display: flex;
   align-items: baseline;
   justify-content: space-evenly;
-
   position: absolute;
   bottom: 1px;
   padding: 1em;
-  background: ${(props)=> props.theme.palette.background.paper};
-  box-shadow: -1px -1px 6px 0px ${(props)=> props.theme.palette.background.paper};
   width: 100%;
 `
 
-const ContentMatchWrapper = styled.div`
+const div = styled.div`
   margin-bottom: 3em;
 `
 
@@ -94,7 +58,7 @@ export default class SegmentItemButton extends Component {
         this.blockStyleRef.current.scrollTop = diff
       }, 20)
 
-      cb ? cb() : null
+      cb && cb()
     })
   };
 
@@ -115,10 +79,6 @@ export default class SegmentItemButton extends Component {
       checkedValue: target.value,
       selectedOption: "eq"
     })
-    
-    //, ()=>{
-    //  this.props.updatePredicate(new_predicates, this.props.predicateCallback )
-    //})
   }
 
   handleSubmit = (e)=> {
@@ -161,6 +121,8 @@ export default class SegmentItemButton extends Component {
         break;
       }
 
+      default: return null
+
     }
 
     const h = {
@@ -186,7 +148,6 @@ export default class SegmentItemButton extends Component {
   }
 
   renderOptions = () => {
-
     switch(this.props.predicate.type){
       case "string": {
         switch(this.props.predicate.attribute){
@@ -208,6 +169,8 @@ export default class SegmentItemButton extends Component {
       case "match": {
         return this.contentMatch() 
       }
+
+      default: return null
     }
 
   }
@@ -227,45 +190,40 @@ export default class SegmentItemButton extends Component {
       {label: "Visitor", value: "Visitor", defaultSelected: false},
     ]
 
-    return <ClickAwayListener 
-              onClickAway={this.toggleDialog2.bind(this)}>
+    // <ClickAwayListener 
+    //onClickAway={this.toggleDialog2.bind(this)}>
 
-            <ContentMatchWrapper>
-
-              {<MenuItem>
-                <ContentMatchTitle>
+    return <div>
+              {<div className="p-2">
+                <h2 className="text-sm leading-5 font-medium text-gray-900">
                   Select the filter for {this.props.predicate.attribute}
-                </ContentMatchTitle>
-              </MenuItem>}
+                </h2>
+              </div>}
 
               <ContentMatch ref={this.blockStyleRef}>
-                <RadioGroup
-                  aria-label="options"
-                  name="options"
-                  onChange={(e)=>{
-                    this.onRadioTypeChange(e.target)
-                  }}>
+
+
+                <div className="mt-2 p-2 h-32 overflow-scroll">
+
                   {
-                    relative.map((o, i)=>(
-                      <div  key={`${o.name}-${i}`}
-                            style={{ 
-                                   display: 'flex',
-                                   flexDirection: 'column'                                 
-                                 }}>
+                    relative.map((o, i)=>{
 
-                        <FormControlLabel
-                          control={<Radio 
-                                    checked={o.label === this.state.checkedValue} 
-                                   />} 
-                          value={o.value}
-                          label={o.label} 
-                        />
-
-                      </div>
-
-                    ))
+                      return <div><label className="inline-flex items-center">
+                          <input type="radio" 
+                          className="form-radio h-4 w-4 text-indigo-600 transition duration-150 ease-in-out" 
+                          name="options" 
+                          value={o.value} 
+                          checked={o.value === this.state.checkedValue} 
+                          onChange={(e)=>{
+                            this.onRadioTypeChange(e.target)
+                          }}
+                          />
+                          <span className="ml-2">{o.label}</span>
+                        </label></div>
+                    })
                   }
-                </RadioGroup>
+                </div>
+
               </ContentMatch>
 
               <ContentMatchFooter>
@@ -275,20 +233,17 @@ export default class SegmentItemButton extends Component {
                   (this.state.selectedOption !== "is_null" || 
                     this.state.selectedOption !== "is_not_null") &&
                   
-                  <Button
-                    variant="outlined" 
-                    color="primary"
-                    size={"small"}
+                  <button
+                    className="p-2 inline-flex items-center px-2.5 py-1.5 border border-transparent text-xs leading-4 font-medium rounded text-white bg-indigo-600 hover:bg-indigo-500 focus:outline-none focus:border-indigo-700 focus:shadow-outline-indigo active:bg-indigo-700 transition ease-in-out duration-150"
                     onClick={this.handleSubmit.bind(this)}>
                     Apply
-                  </Button>
+                  </button>
 
                 }
 
                 { this.deleteButton()  }
               </ContentMatchFooter> 
-            </ContentMatchWrapper>
-          </ClickAwayListener>
+            </div>
   }
 
   contentString = () => {
@@ -308,66 +263,61 @@ export default class SegmentItemButton extends Component {
       {label: "has any value", value: "is_not_null", defaultSelected: false},
     ]
 
-    return <ClickAwayListener onClickAway={this.toggleDialog2.bind(this)}>
+    // <ClickAwayListener onClickAway={this.toggleDialog2.bind(this)}>
+    // </ClickAwayListener>
+    return <div>
 
-            <ContentMatchWrapper>
-
-              {<MenuItem>
-                <ContentMatchTitle>
+              {<div className="p-2">
+                <h2 className="text-sm leading-5 font-medium text-gray-900">
                   Select the filter for {this.props.predicate.attribute}
-                </ContentMatchTitle>
-              </MenuItem>}
+                </h2>
+              </div>}
 
               <ContentMatch ref={this.blockStyleRef}>
-                <RadioGroup
-                  aria-label="options"
-                  name="options"
-                  onChange={(e)=>{
-                    this.onRadioChange(e.target)
-                  }}>
-                  {
-                    relative.map((o, i)=>(
-                      <div  key={`${o.name}-${i}`}
-                            style={{ 
-                              display: 'flex',
-                              flexDirection: 'column'                                 
-                            }}>
 
-                        <FormControlLabel
-                          control={<Radio 
-                                    checked={this.state.selectedOption === o.value} 
-                                   />} 
-                          value={o.value}
-                          label={o.label} 
-                        /> 
 
-                        {
 
-                          this.state.selectedOption && 
-                          this.state.selectedOption === o.value ?
-                          
-                        
-                            <TextField1
-                              //id="standard-uncontrolled"
-                              //label="Uncontrolled"
-                              //classes={}
-                              //variant={"outlined"}
-                              defaultValue={this.props.predicate.value}
-                              inputRef={input => (
-                                this.relative_input = input)
-                              }
-                              label={"value"}
-                              //className={classes.textField}
-                              margin="normal"
-                            /> : null
+              <div className="mt-2 p-2 mt-2 p-2 h-32 overflow-scroll">
 
-                        }
+                {
+                  relative.map((o, i)=>{
+                    return <div>
+                    <label className="inline-flex items-center">
+                        <input type="radio" 
+                        className="form-radio h-4 w-4 text-indigo-600 transition duration-150 ease-in-out" 
+                        name="options" 
+                        value={o.value} 
+                        checked={o.value === this.state.checkedValue} 
+                        onChange={(e)=>{
+                          this.onRadioTypeChange(e.target)
+                        }}
+                        />
+                        <span className="ml-2 block text-sm leading-5 font-medium text-gray-700">{o.label}</span>
+                    </label>
 
-                      </div>
+                    {
 
-                    ))
-                  }
-                </RadioGroup>
+                      this.state.checkedValue && 
+                      this.state.checkedValue === o.value &&
+                      <div>
+                        <input
+                          type="text"
+                          defaultValue={this.props.predicate.value}
+                          ref={input => (
+                            this.relative_input = input)
+                          }
+                          className={'max-w-xs rounded-md shadow-sm form-input block w-full transition duration-150 ease-in-out sm:text-sm sm:leading-5'}
+                          label={"value"}
+                          margin="normal"
+                        />
+                        </div>
+                    }
+
+                    </div>
+                  })
+                }
+              </div>
+
               </ContentMatch>
 
               <ContentMatchFooter>
@@ -377,30 +327,29 @@ export default class SegmentItemButton extends Component {
                   (this.state.selectedOption !== "is_null" || 
                     this.state.selectedOption !== "is_not_null") &&
                   
-                  <Button
+                  <button
+                    className="p-2 inline-flex items-center px-2.5 py-1.5 border border-transparent text-xs leading-4 font-medium rounded text-white bg-indigo-600 hover:bg-indigo-500 focus:outline-none focus:border-indigo-700 focus:shadow-outline-indigo active:bg-indigo-700 transition ease-in-out duration-150"
                     variant="outlined" 
                     color="primary"
                     size={"small"}
                     onClick={this.handleSubmit.bind(this)}>
                     Apply
-                  </Button>
+                  </button>
 
                 }
 
                 { this.deleteButton()  }
-                {/*<Button
+                {/*<button
+                    className="p-2 inline-flex items-center px-2.5 py-1.5 border border-transparent text-xs leading-4 font-medium rounded text-white bg-indigo-600 hover:bg-indigo-500 focus:outline-none focus:border-indigo-700 focus:shadow-outline-indigo active:bg-indigo-700 transition ease-in-out duration-150"
                     variant="outlined"
                     color="primary"
                     onClick={this.handleSubmit.bind(this)}>
                     cancel
-                  </Button>*/}
+                  </button>*/}
 
               </ContentMatchFooter> 
 
-            </ContentMatchWrapper>
-
-          </ClickAwayListener>
-
+            </div>
   }
 
   contentDate = () => {
@@ -428,16 +377,64 @@ export default class SegmentItemButton extends Component {
     
     const parsedNum = parseInt(extractNum)
 
-    return  <ContentMatchWrapper>
+    return  <div className="p-2">
 
-              <MenuItem disabled={true}>
-                <ContentMatchTitle>
+              <div>
+                <h2 className="text-sm leading-5 font-medium text-gray-900">
                   Select the date filter for {this.props.predicate.attribute}
-                </ContentMatchTitle>
-              </MenuItem>
+                </h2>
+              </div>
 
               <ContentMatch ref={this.blockStyleRef}>
-                <RadioGroup
+
+
+
+                <div className="mt-2 p-2 mt-2 p-2 h-32 overflow-scroll">
+
+                  {
+                    relative.map((o, i)=>{
+
+                      return <div>
+                        <label className="inline-flex items-center">
+                          <input type="radio" 
+                          className="form-radio h-4 w-4 text-indigo-600 transition duration-150 ease-in-out" 
+                          name="options" 
+                          value={o.value} 
+                          checked={this.state.selectedOption === o.value}
+                          onChange={(e)=>{
+                            this.onRadioChange(e.target)
+                          }}
+                          />
+                          <span className="ml-2">{o.label}</span>
+                        </label>
+
+                        {
+                          this.state.selectedOption && 
+                          this.state.selectedOption === o.value &&
+                          <div>
+                            <input
+                              type="text"
+                              defaultValue={parsedNum}
+                              ref={input => (
+                                this.relative_input = input)
+                              }
+                              className={'max-w-xs rounded-md shadow-sm form-input block w-full transition duration-150 ease-in-out sm:text-sm sm:leading-5'}
+                              label={"value"}
+                              margin="normal"
+                            />
+                            <span className="mt-2 text-sm text-gray-500">
+                              days ago
+                            </span>
+                          </div>
+                        }
+                      </div>
+                    })
+                  }
+                </div>
+
+                
+
+                {/*<RadioGroup
                   aria-label="options"
                   name="options"
                   onChange={(e)=>{
@@ -483,20 +480,21 @@ export default class SegmentItemButton extends Component {
 
                     ))
                   }
-                </RadioGroup>
+                </RadioGroup>*/}
               </ContentMatch>
 
               <ContentMatchFooter>
                 { 
                   this.state.selectedOption &&
                   
-                  <Button
+                  <button
+                    className="p-2 inline-flex items-center px-2.5 py-1.5 border border-transparent text-xs leading-4 font-medium rounded text-white bg-indigo-600 hover:bg-indigo-500 focus:outline-none focus:border-indigo-700 focus:shadow-outline-indigo active:bg-indigo-700 transition ease-in-out duration-150"
                     variant="outlined" 
                     color="primary"
                     size={"small"}
                     onClick={this.handleSubmit.bind(this)}>
                     Apply
-                  </Button>
+                  </button>
 
                 }
                 
@@ -506,9 +504,8 @@ export default class SegmentItemButton extends Component {
 
               </ContentMatchFooter> 
             
-            </ContentMatchWrapper>
+            </div>
   }
-
 
   contentInteger = () => {
   
@@ -529,16 +526,56 @@ export default class SegmentItemButton extends Component {
     
     const parsedNum = parseInt(extractNum)
 
-    return  <ContentMatchWrapper>
+    return  <div className="p-2">
 
-              <MenuItem disabled={true}>
-                <ContentMatchTitle>
+              <div>
+                <h2 className="text-sm leading-5 font-medium text-gray-900">
                   Select the integer filter for {this.props.predicate.attribute}
-                </ContentMatchTitle>
-              </MenuItem>
+                </h2>
+              </div>
 
               <ContentMatch ref={this.blockStyleRef}>
-                <RadioGroup
+
+
+              {
+                relative.map((o, i)=>{
+
+                  return <div>
+                    <label className="inline-flex items-center">
+                      <input type="radio" 
+                      className="form-radio h-4 w-4 text-indigo-600 transition duration-150 ease-in-out" 
+                      name="options" 
+                      value={o.value} 
+                      checked={this.state.selectedOption === o.value}
+                      onChange={(e)=>{
+                        this.onRadioTypeChange(e.target)
+                      }}
+                      />
+                      <span className="ml-2">{o.label}</span>
+                    </label>
+
+                    {
+                      this.state.selectedOption && 
+                      this.state.selectedOption === o.value &&
+                      <div>
+                        <input
+                          type="text"
+                          defaultValue={parsedNum}
+                          ref={input => (
+                            this.relative_input = input)
+                          }
+                          className={'max-w-xs rounded-md shadow-sm form-input block w-full transition duration-150 ease-in-out sm:text-sm sm:leading-5'}
+                          label={"value"}
+                          margin="normal"
+                        />
+                      </div>
+                    }
+                  </div>
+                })
+              }
+
+
+                {/*<RadioGroup
                   aria-label="options"
                   name="options"
                   onChange={(e)=>{
@@ -585,19 +622,21 @@ export default class SegmentItemButton extends Component {
                     ))
                   }
                 </RadioGroup>
+                */}
               </ContentMatch>
 
               <ContentMatchFooter>
                 { 
                   this.state.selectedOption &&
                   
-                  <Button
+                  <button
+                    className="p-2 inline-flex items-center px-2.5 py-1.5 border border-transparent text-xs leading-4 font-medium rounded text-white bg-indigo-600 hover:bg-indigo-500 focus:outline-none focus:border-indigo-700 focus:shadow-outline-indigo active:bg-indigo-700 transition ease-in-out duration-150"
                     variant="outlined" 
                     color="primary"
                     size={"small"}
                     onClick={this.handleSubmit.bind(this)}>
                     Apply
-                  </Button>
+                  </button>
 
                 }
                 
@@ -607,7 +646,7 @@ export default class SegmentItemButton extends Component {
 
               </ContentMatchFooter> 
             
-            </ContentMatchWrapper>
+            </div>
   }
 
   contentMatch = () => {
@@ -621,44 +660,39 @@ export default class SegmentItemButton extends Component {
       {label: "match all", comparison: "and", value: "and",  defaultSelected: compare("and")  },
     ]
 
-    return <ContentMatchWrapper>
+    return <div className="p-2">
             
-            <MenuItem disabled={true}>
-              <ContentMatchTitle> 
+            <div>
+              <h2 className="text-sm leading-5 font-medium text-gray-900"> 
                 match criteria options for {this.props.predicate.type}
-              </ContentMatchTitle>
+              </h2>
              
-            </MenuItem>
+            </div>
 
 
             <ContentMatch ref={this.blockStyleRef}>
-              <RadioGroup
-                aria-label="options"
-                name="options"
-                onChange={(e)=>{
-                  this.onRadioTypeChange(e.target)
-                }}>
+
+              <div className="mt-2 p-2 mt-2 p-2 h-32 overflow-scroll">
+
                 {
                   relative.map((o, i)=>{
-                    return <div  key={`${o.name}-${i}`}
-                          style={{ 
-                                display: 'flex',
-                                flexDirection: 'column'                                 
-                              }}>
 
-                      <FormControlLabel
-                        control={<Radio 
-                                  checked={o.value === this.state.checkedValue} 
-                                />} 
-                        value={o.value}
-                        label={o.label} 
-                      />
-
-                    </div>
-
+                    return <div>
+                      <label className="inline-flex items-center">
+                        <input type="radio" 
+                        className="form-radio h-4 w-4 text-indigo-600 transition duration-150 ease-in-out" 
+                        name="options" 
+                        value={o.value} 
+                        checked={o.value === this.state.checkedValue} 
+                        onChange={(e)=>{
+                          this.onRadioTypeChange(e.target)
+                        }}
+                        />
+                        <span className="ml-2">{o.label}</span>
+                      </label></div>
                   })
                 }
-              </RadioGroup>
+              </div>
             </ContentMatch>
 
             <ContentMatchFooter>
@@ -668,29 +702,30 @@ export default class SegmentItemButton extends Component {
                   (this.state.selectedOption !== "is_null" || 
                     this.state.selectedOption !== "is_not_null") &&
                   
-                  <Button
+                  <button
+                    className="p-2 inline-flex items-center px-2.5 py-1.5 border border-transparent text-xs leading-4 font-medium rounded text-white bg-indigo-600 hover:bg-indigo-500 focus:outline-none focus:border-indigo-700 focus:shadow-outline-indigo active:bg-indigo-700 transition ease-in-out duration-150"
                     variant="outlined" 
                     color="primary"
                     size={"small"}
                     onClick={this.handleSubmit.bind(this)}>
                     Apply
-                  </Button>
+                  </button>
 
                 }
             </ContentMatchFooter> 
        
+          </div>
 
-          </ContentMatchWrapper>
-           
   }
 
   deleteButton = () => {
-    return <Button 
+    return <button
+      className="p-2 inline-flex items-center px-2.5 py-1.5 border border-transparent text-xs leading-4 font-medium rounded text-white bg-indigo-600 hover:bg-indigo-500 focus:outline-none focus:border-indigo-700 focus:shadow-outline-indigo active:bg-indigo-700 transition ease-in-out duration-150" 
             size="small" 
             appearance="link" 
             onClick={this.handleDelete.bind(this)}>
             Delete
-           </Button>
+           </button>
   }
 
   toggleDialog = (e) => this.setState({ 
@@ -712,30 +747,10 @@ export default class SegmentItemButton extends Component {
 
   renderMenu = ()=>{
 
-    if(!this.btn_ref)
-      return
+    //if(!this.btn_ref)
+    //  return
 
-    return <Menu 
-              open={this.state.dialogOpen}
-
-              anchorEl={this.btn_ref}
-              /*anchorOrigin={{
-                vertical: 'bottom',
-                horizontal: 'left',
-              }}*/
-              /*transformOrigin={{
-                vertical: 'top',
-                horizontal: 'center',
-              }}*/
-              //position={"bottom center"}
-              //shouldFlipunion={true}
-              >
-
-              <ClickAwayListener 
-                onClickAway={this.closeDialog}>
-                {this.renderOptions()}
-              </ClickAwayListener>
-            </Menu>
+    return this.renderOptions()
   }
 
   setRef = (ref)=>{
@@ -745,48 +760,55 @@ export default class SegmentItemButton extends Component {
   render() {
     return (
       <div>
-          <React.Fragment>
-            <div >
-              {
-                !this.props.predicate.comparison ?
+        {
+          !this.props.predicate.comparison ?
+            <React.Fragment>
+              <Dropdown
+                isOpen={this.state.dialogOpen}
+                labelButton={"Missing value!"}  
+                triggerButton={(cb)=>(
+                  <button
+                    className="p-2 inline-flex items-center px-2.5 py-1.5 border border-transparent text-xs leading-4 font-medium rounded text-white bg-indigo-600 hover:bg-indigo-500 focus:outline-none focus:border-indigo-700 focus:shadow-outline-indigo active:bg-indigo-700 transition ease-in-out duration-150" 
+                    ref={(ref)=>this.setRef(ref)} 
+                    isLoading={false}
+                    color={"secondary"}
+                    //{this.state.dialogOpen ? 'primary' : 'secondary'}
+                    onClick={cb}>
+                    {
+                      /*
+                      !this.state.dialogOpen ?
+                        "Missing value!" :
+                        this.props.text
+                      */
+                    }
 
-                  <React.Fragment>
-                    <Button 
-                      ref={(ref)=>this.setRef(ref)} 
-                      isLoading={false}
-                      color={"secondary"}
-                      //{this.state.dialogOpen ? 'primary' : 'secondary'}
-                      onClick={this.openDialog}>
-                      {
-                        /*
-                        !this.state.dialogOpen ?
-                          "Missing value!" :
-                          this.props.text
-                        */
-                      }
+                    {"Missing value!"}
+                  </button>
+                  )
+                }>
 
-                      {"Missing value!"}
-                    </Button>
-                    {this.renderMenu()}
-                  </React.Fragment> :
-                  <React.Fragment>
-                    <Button 
-                      ref={(ref)=>this.setRef(ref)}
-                      isLoading={false}
-                      variant={"contained"} 
-                      color="primary"
-                      //appearance={this.props.appearance}
-                      onClick={this.openDialog}>
-                      {this.props.text}
-                    </Button>
-                    {this.renderMenu()}
-                  </React.Fragment>
-              } 
+                {this.renderMenu()}
 
-            </div>
-    
-          </React.Fragment>
-
+              </Dropdown>
+            </React.Fragment> :
+            <React.Fragment>
+              <Dropdown
+                  isOpen={this.state.dialogOpen}
+                  triggerButton={(cb)=>(
+                <button
+                  className="p-2 inline-flex items-center px-2.5 py-1.5 border border-transparent text-xs leading-4 font-medium rounded text-white bg-indigo-600 hover:bg-indigo-500 focus:outline-none focus:border-indigo-700 focus:shadow-outline-indigo active:bg-indigo-700 transition ease-in-out duration-150"
+                  ref={(ref)=>this.setRef(ref)}
+                  isLoading={false}
+                  variant={"contained"} 
+                  color="primary"
+                  //appearance={this.props.appearance}
+                  onClick={cb}>
+                  {this.props.text}
+                </button>)}>
+                {this.renderMenu()}
+              </Dropdown>
+            </React.Fragment>
+        } 
       </div>
     );
   }

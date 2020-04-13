@@ -2,29 +2,9 @@ import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
 
-import ListItem from '@material-ui/core/ListItem'
-import ListItemAvatar from '@material-ui/core/ListItemAvatar'
-import Avatar from '@material-ui/core/Avatar'
-import ListItemText from '@material-ui/core/ListItemText'
-import Button from '@material-ui/core/Button' 
-import Paper from '@material-ui/core/Paper'
-import Grid from '@material-ui/core/Grid'
 
-import { useTheme } from '@material-ui/core/styles';
-
-import { withStyles } from '@material-ui/core/styles';
-
-const styles = theme => ({
-  paper: {
-    margin: '9em',
-    padding: '1em',
-    marginTop: '1.5em',
-    paddingBottom: '6em'
-  },
-  button: {
-    margin: theme.spacing(1),
-  },
-});
+import {ListItem, ItemAvatar, ListItemText} from '../../../components/List'
+import Button from '../../../components/Button' 
 
 const reorder = (list, startIndex, endIndex) => {
   const result = Array.from(list);
@@ -51,7 +31,6 @@ const move = (source, destination, droppableSource, droppableDestination) => {
 const grid = 8;
 
 const getItemStyle = (isDragging, draggableStyle) => {
-  const theme = useTheme();
 
   return {
   // some basic styles to make the items look a bit nicer
@@ -59,18 +38,30 @@ const getItemStyle = (isDragging, draggableStyle) => {
   //padding: grid * 2,
   //margin: `0 0 ${grid}px 0`,
   // change background colour if dragging
-  background: isDragging ? 'lightgreen' : theme.palette.background.paper,
+  //background: isDragging ? 'lightgreen' : '#ff0000',
   // styles we need to apply on draggables
   ...draggableStyle
 }};
 
+const getItemClass = (isDragging, draggableStyle) => {
+
+  const dragClass = isDragging ? 'bg-gray-400 opacity-50' : ''
+  return dragClass;
+
+};
+
 const getListStyle = isDraggingOver => {
-  const theme = useTheme();
   return {
-    background: isDraggingOver ? 'lightblue' : theme.palette.background.paper,
-    padding: grid,
+    //background: isDraggingOver ? 'lightblue' : "#ff0000",
+    //padding: grid,
     //width: 250
   }
+};
+
+const getListClass = isDraggingOver => {
+
+  const dragClass = isDraggingOver ? 'bg-red-200' : 'shadow rounded border p-4'
+  return dragClass
 };
 
 class App extends Component {
@@ -158,32 +149,28 @@ class App extends Component {
                this.props.sections.map((o, i)=>(
 
                 <React.Fragment>
-                  <div style={{
-                    display: 'flex', 
-                    flexDirection: 'column'
-                    }}>
-                    <Grid container
-                      justify='space-between'
-                      alignItems="baseline">
-                      <Grid item>
-                      <h3>
-                        {o.title}
-                      </h3>
-                      </Grid>
+                  <div className="flex flex-col">
+                    <div className="flex justify-between items-baseline py-2">
+                      <div>
+                        <h3 className="text-lg leading-6 font-medium text-gray-900 pb-4">
+                          {o.title}
+                        </h3>
+                      </div>
 
-                      <Grid item>
-                      <Button variant={"outlined"} onClick={()=>this.props.requestUpdate(o)}>
-                        edit
-                      </Button>
-                      </Grid>
-                    </Grid>
+                      <div item>
+                        <Button variant={"outlined"} onClick={()=>this.props.requestUpdate(o)}>
+                          edit
+                        </Button>
+                      </div>
+                    </div>
 
 
                     <Droppable droppableId={o.id} index={i}>
                         {(provided, snapshot) => (
-                            <Paper
+                            <div
                                 ref={provided.innerRef}
-                                style={getListStyle(snapshot.isDraggingOver)}>
+                                style={getListStyle(snapshot.isDraggingOver)}
+                                className={getListClass(snapshot.isDraggingOver)}>
 
                                 {
                                   o.articles &&
@@ -197,21 +184,27 @@ class App extends Component {
                                                 ref={provided.innerRef}
                                                 {...provided.draggableProps}
                                                 {...provided.dragHandleProps}
+                                                className={getItemClass(
+                                                  snapshot.isDragging,
+                                                  provided.draggableProps.style
+                                                )}
                                                 style={getItemStyle(
                                                     snapshot.isDragging,
                                                     provided.draggableProps.style
                                                 )}>
 
                                                 <ListItem divider={true}>
-                                                  <ListItemAvatar>
-                                                    <Avatar>
-                                                     
-                                                    </Avatar>
-                                                  </ListItemAvatar>
+                                                  <ItemAvatar>
+                                                    
+                                                  </ItemAvatar>
                                                   <ListItemText 
-                                                    primary={item.title} 
+                                                    primary={
+                                                      <p className="text-lg leading-6 font-medium text-gray-900 pb-1">
+                                                        {item.title}
+                                                      </p>
+                                                    } 
                                                     secondary={
-                                                      <span>
+                                                      <span className="mt-2 max-w-xl text-sm leading-5 text-gray-500">
                                                         {item.author.name }<br/>
                                                         {item.author.email}
                                                       </span>
@@ -226,33 +219,38 @@ class App extends Component {
 
                                 {provided.placeholder}
 
-                                <Button className={classes.button} 
-                                  variant="outlined" 
-                                  color="primary"
-                                  size={"medium"}
-                                  onClick={(e)=> this.props.addArticlesToSection(o)}>
-                                  Add articles
-                                </Button>
 
-
-                                {
-                                  o.id != "base" ? 
-
-                                  <Button className={classes.button} 
-                                    size={"medium"}
+                                <div className="py-2">
+                                  <Button
                                     variant="outlined" 
-                                    color="secondary"
-                                    onClick={(e)=> this.props.deleteSection(o)}>
-                                    delete section
-                                  </Button> : null
-                                }
+                                    color="primary"
+                                    size={"medium"}
+                                    className="mr-2"
+                                    onClick={(e)=> this.props.addArticlesToSection(o)}>
+                                    Add articles
+                                  </Button>
 
-                                <p>
-                                  {o.articles.length} 
+                                  {
+                                    o.id !== "base" &&
+
+                                    <Button
+                                      size={"medium"}
+                                      variant="outlined" 
+                                      color="secondary"
+                                      onClick={(e)=> this.props.deleteSection(o)}>
+                                      Delete section
+                                    </Button>
+                                  }
+
+                                </div>
+
+                                <p className="mt-2 max-w-xl text-sm leading-5 text-gray-500">
+                                  {o.articles.length}
+                                  {' '} 
                                   articles
                                 </p>
                                 
-                            </Paper>
+                            </div>
                         )}
                     </Droppable>
                   </div>
@@ -270,4 +268,4 @@ class App extends Component {
 }
 
 
-export default withStyles(styles)(App)
+export default App

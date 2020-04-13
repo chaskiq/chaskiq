@@ -142,7 +142,7 @@ class FieldRenderer extends React.Component {
                   <DateTime
                     name={`${namespace}[${data.name}]`}
                     value={props.data[data.name]}
-                    defaultValue={props.data[data.name] || new Date}
+                    defaultValue={props.data[data.name] || new Date()}
                     label={data.name}
                   />
               </FormControl>

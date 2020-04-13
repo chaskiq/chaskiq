@@ -1,6 +1,6 @@
 import React, {Fragment, useState, useEffect} from 'react'
 import FormDialog from './FormDialog'
-import Button from "@material-ui/core/Button"
+import Button from "./Button"
 
 export default function DeleteDialog({
   children, 
@@ -28,14 +28,11 @@ export default function DeleteDialog({
         <FormDialog 
           open={isOpen}
           handleClose={closeHandler}
-          //contentText={"lipsum"}
           titleContent={title}
           formComponent={
-            //!loading ?
               <form>
                 {children}
               </form> 
-              //: <CircularProgress/>
           }
           dialogButtons={
             <React.Fragment>
@@ -51,9 +48,6 @@ export default function DeleteDialog({
 
             </React.Fragment>
           }
-          //actions={actions} 
-          //onClose={this.close} 
-          //heading={this.props.title}
           >
         </FormDialog>
       )}

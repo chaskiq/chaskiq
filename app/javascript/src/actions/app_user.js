@@ -13,7 +13,7 @@ export function getAppUser(userId, cb){
       {
         success: (data)=>{
           dispatch(dispatchSetAppUser(data.app.appUser))
-          cb ? cb(data) : null
+          cb && cb(data)
           /*this.setState({
             selectedUser: data.app.appUser
           })*/
@@ -39,13 +39,6 @@ export function syncExternalProfile(id, profile, cb){
       }
     , error: ()=>{}
     })
-  }
-}
-
-
-function dispatchClearAppUser(data) {
-  return {
-    type: ActionTypes.clearAppUser
   }
 }
 

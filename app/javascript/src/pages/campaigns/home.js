@@ -1,10 +1,10 @@
 import React from "react"
 import { connect } from 'react-redux'
 import Content from '../../components/Content'
-import EmptyView from '../../components/emptyView'
+import EmptyView from '../../components/EmptyView'
 import {setCurrentSection} from '../../actions/navigation'
 import { withRouter } from 'react-router-dom'
-import image from '../../../../assets/images/delivery-icon8.png'
+import image from '../../images/delivery-icon8.png'
 
 function CampaignHome({dispatch}){
 
@@ -18,7 +18,8 @@ function CampaignHome({dispatch}){
     <div>
       <Content> 
         <EmptyView 
-          title={"campaigns"} 
+          title={"Campaigns"} 
+          shadowless
           subtitle={
             <div>
               This is the campaigns section, you can create newsletters

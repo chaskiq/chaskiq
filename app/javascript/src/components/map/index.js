@@ -115,7 +115,7 @@ export default class Mapa extends React.Component{
             paint: {
                 "circle-color": "#11b4da",
                 "circle-radius": 4,
-                "circle-stroke-width": 1,
+                "circle-strokeWidth": 1,
                 "circle-stroke-color": "#fff"
             }
         });

@@ -4,25 +4,11 @@ import React, { Component } from 'react';
 import { withRouter, Route } from 'react-router-dom'
 import { connect } from 'react-redux'
 
-import Tab from '@material-ui/core/Tab' 
-import Tabs from '@material-ui/core/Tabs' 
-import Avatar from '@material-ui/core/Avatar' 
-import Typography from '@material-ui/core/Typography' 
-import Button from '@material-ui/core/Button' 
-import TextField from '@material-ui/core/TextField' 
-import Paper from '@material-ui/core/Paper' 
-import Grid from '@material-ui/core/Grid' 
-import Divider from '@material-ui/core/Divider' 
-import Chip from '@material-ui/core/Chip' 
-import Select from '@material-ui/core/Select' 
-import MenuItem from '@material-ui/core/MenuItem' 
-import Box from '@material-ui/core/Box' 
-import Table from '@material-ui/core/Table' 
-import TableHead from '@material-ui/core/TableHead' 
-import TableRow from '@material-ui/core/TableRow' 
-import TableCell from '@material-ui/core/TableCell' 
-import TableBody from '@material-ui/core/TableBody' 
-import MuiLink from '@material-ui/core/Link'
+import ContentHeader from '../../components/PageHeader'
+import Tabs from '../../components/Tabs' 
+import Button from '../../components/Button' 
+import Table from '../../components/Table' 
+//import Select from '@material-ui/core/Select' 
 
 import {getFileMetadata, directUpload} from '../../shared/fileUploader'
 
@@ -36,29 +22,22 @@ import {
   CREATE_DIRECT_UPLOAD,
 } from '../../graphql/mutations'
 
-import { withStyles } from '@material-ui/core/styles';
 import serialize from 'form-serialize'
 
-import GestureIcon from '@material-ui/icons/Gesture'
-import CheckCircleIcon from '@material-ui/icons/CheckCircle'
 import {setCurrentSection, setCurrentPage} from '../../actions/navigation'
-import FieldRenderer from '../../shared/FormFields'
-import ContentHeader from '../../components/ContentHeader'
 import Content from '../../components/Content'
 import langsOptions from '../../shared/langsOptions'
-import DeleteDialog from '../../components/deleteDialog'
+import DeleteDialog from '../../components/DeleteDialog'
+import Input from '../../components/forms/Input'
+import FieldRenderer, {gridClasses} from '../../components/forms/FieldRenderer'
 
 
-
-const styles = theme => ({
-
-  paper: {
-    margin: '9em',
-    padding: '1em',
-    marginTop: '1.5em',
-    paddingBottom: '6em'
-  }
-});
+function GestureIcon(){
+  return <p>icon</p>
+}
+function CheckCircleIcon(){
+  return <p>icon</p>
+}
 
 
 class Settings extends Component {
@@ -114,26 +93,26 @@ class Settings extends Component {
         name: "subdomain",
         hint: "documentation site subdomain",
         type: 'string',
-        grid: { xs: 12, sm: 12 }
+        grid: { xs: 'w-full', sm: 'w-full' }
       },
 
       {
         name: "domain",
         hint: "documentation site custom domain",
         type: 'string',
-        grid: { xs: 12, sm: 12 }
+        grid: { xs: 'w-full', sm: 'w-full' }
       },
       {
         name: "website",
         hint: "link to your website",
         type: 'string',
-        grid: { xs: 12, sm: 12 }
+        grid: { xs: 'w-full', sm: 'w-full' }
       },
       {
         name: "googleCode",
         hint: "Google Analytics Tracking ID",
         type: 'string',
-        grid: { xs: 12, sm: 12 }
+        grid: { xs: 'w-full', sm: 'w-full' }
       },
     ]
   }
@@ -146,49 +125,49 @@ class Settings extends Component {
         handler: (color)=> {
           this.props.updateMemSettings({color: color})
         },
-        grid: { xs: 12, sm: 4 }
+        grid: { xs: 'w-full', sm: 'w-1/3' }
       },
 
       {
         name: "logo",
         type: 'upload',
         handler: (file)=> this.uploadHandler(file, "logo"),
-        grid: { xs: 12, sm: 4 }
+        grid: { xs: 'w-full', sm: 'w-1/3' }
       },
 
       {
         name: "header_image",
         type: 'upload',
         handler: (file)=> this.uploadHandler(file, "header_image"),
-        grid: { xs: 12, sm: 4 }
+        grid: { xs: 'w-full', sm: 'w-1/3' }
       },
 
       {
         name: "facebook",
         startAdornment: "facebook/",
         type: 'string',
-        grid: { xs: 12, sm: 4 }
+        grid: { xs: 'w-full', sm: 'w-1/3' }
       },
 
       {
         name: "twitter",
         startAdornment: "twitter/",
         type: 'string',
-        grid: { xs: 12, sm: 4 }
+        grid: { xs: 'w-full', sm: 'w-1/3' }
       },
 
       {
         name: "linkedin",
         startAdornment: "linkedin/",
         type: 'string',
-        grid: { xs: 12, sm: 4 }
+        grid: { xs: 'w-full', sm: 'w-1/3' }
       },
 
       {
         name: "credits",
         type: 'bool',
         hint: "Display a subtle link to the Chaskiq website",
-        grid: { xs: 12, sm: 8 }
+        grid: { xs: 'w-full', sm: 'w-3/4' }
       },
     ]
   }
@@ -202,7 +181,7 @@ class Settings extends Component {
         options: langsOptions, 
         default: "es",
         hint: "Choose langs",
-        grid: { xs: 12, sm: 8 }
+        grid: { xs: 'w-full', sm: 'w-3/4' }
       },
     ]
   }
@@ -214,22 +193,12 @@ class Settings extends Component {
   tabsContent = ()=>{
     return <Tabs value={this.state.tabValue} 
               onChange={this.handleTabChange}
-              textColor="inherit">
-              <Tab textColor="inherit" label="Basic Setup" />
-              <Tab textColor="inherit" label="Lang" />
-              <Tab textColor="inherit" label="Appearance" />
-            </Tabs>
-  }
+              textColor="inherit"
+              tabs={[
 
-  renderTabcontent = ()=>{
-
-    if(this.state.loading){
-      return <p>loading...</p>
-    }
-
-    switch (this.state.tabValue){
-      case 0:
-        return <SettingsForm
+                {
+                  label: "Basic Setup", 
+                  content: <SettingsForm
                   title={"General app's information"}
                   //currentUser={this.props.currentUser}
                   data={this.props.settings}
@@ -240,83 +209,85 @@ class Settings extends Component {
                   definitions={this.definitionsForSettings}
                   errors={this.props.errors}
                   {...this.props}
-               />
+               />,
+                },
+                {
+                  label: "Lang", 
+                  content: <div className="my-2">
+                  <div>
+  
+                    <p 
+                      className="text-lg leading-6 font-medium text-gray-900 pb-4"
+                      variant="h5">
+                      Localize your Help Center
+                    </p>
+  
+                    <p 
+                      className="max-w-xl text-sm leading-5 text-gray-500 mb-4"
+                      variant="subtitle1">
+                      Manage supported languages and customize your Help 
+                      Center's header
+                    </p>
+                  </div>
+  
+                  <LanguageForm
+                    title={"Lang"}
+                    settings={this.props.settings}
+                    //currentUser={this.props.currentUser}
+                    data={this.props.settings}
+                    deleteLang={this.props.deleteLang.bind(this)}
+                    update={this.props.update.bind(this)}
+                    //fetchApp={this.fetchApp}
+                    //classes={this.props.classes}
+                    definitions={this.definitionsForLang}
+                    errors={this.state.errors}
+                    {...this.props}
+                  />
+                </div>,
+                },
+                {
+                  label: "Appearance", 
+                  content: <SettingsForm
+                            title={"Appearance settings"}
+                            //currentUser={this.props.currentUser}
+                            data={this.props.settings}
+                            update={this.props.update.bind(this)}
+                            //fetchApp={this.fetchApp}
+                            //classes={this.props.classes}
+                            definitions={this.definitionsForAppearance}
+                            errors={this.props.errors}
+                            {...this.props}
+                          />,
+                },
 
-      case 1:
-        return <div>
-
-                <Box mb={2}>
-
-                  <Typography variant="h5">
-                    Localize your Help Center
-                  </Typography>
-
-                  <Typography variant="subtitle1">
-                    Manage supported languages and customize your Help 
-                    Center's header
-                  </Typography>
-                </Box>
-
-                <LanguageForm
-                  title={"Lang"}
-                  settings={this.props.settings}
-                  //currentUser={this.props.currentUser}
-                  data={this.props.settings}
-                  deleteLang={this.props.deleteLang.bind(this)}
-                  update={this.props.update.bind(this)}
-                  //fetchApp={this.fetchApp}
-                  //classes={this.props.classes}
-                  definitions={this.definitionsForLang}
-                  errors={this.state.errors}
-                  {...this.props}
-                />
-              </div>
-      case 2:
-        return <SettingsForm
-                  title={"Appearance settings"}
-                  //currentUser={this.props.currentUser}
-                  data={this.props.settings}
-                  update={this.props.update.bind(this)}
-                  //fetchApp={this.fetchApp}
-                  //classes={this.props.classes}
-                  definitions={this.definitionsForAppearance}
-                  errors={this.props.errors}
-                  {...this.props}
-                />
-      case 3:
-        return <p>ddkd</p>
-    }
+              ]}>
+            </Tabs>
   }
 
-
   render() {
-    const {classes} = this.props
     return (
        <React.Fragment>
 
-         <ContentHeader 
-            title={ 'Help Center Settings' }
-            tabsContent={ this.tabsContent() }
-            items={
-              <React.Fragment>
-                {
-                  this.props.settings && this.props.settings.subdomain ?
-                    <Grid item>
-                      <Button href={`https://${this.props.settings.subdomain}.chaskiq.io`}
-                        variant="outlined" color="inherit" size="small" target={"blank"}>
-                        visit help center
-                      </Button>
-                    </Grid> : null 
-                }
-              </React.Fragment>
-            }
-          />
+        <ContentHeader 
+          title={ 'Help Center Settings' }
+          /*
+          tabsContent={ this.tabsContent() }
+          items={
+            <React.Fragment>
+              {
+                this.props.settings && this.props.settings.subdomain ?
+                  <div item>
+                    <Button href={`https://${this.props.settings.subdomain}.chaskiq.io`}
+                      variant="outlined" color="inherit" size="small" target={"blank"}>
+                      visit help center
+                    </Button>
+                  </div> : null 
+              }
+            </React.Fragment>
+          }*/
+        />
 
-          <Content>
-            {this.renderTabcontent()}
-          </Content>
-
-        
+        {this.tabsContent()}
       </React.Fragment>
     );
   }
@@ -326,7 +297,8 @@ class SettingsForm extends Component{
 
   formRef
 
-  onSubmitHandler = ()=>{
+  onSubmitHandler = (e)=>{
+    e.preventDefault()
     const serializedData = serialize(this.formRef, { hash: true, empty: true })
     const data = toSnakeCase(serializedData)
     this.props.update(data)
@@ -342,31 +314,38 @@ class SettingsForm extends Component{
         this.formRef = form;
       }}>
         
-        <Box mb={2}>
+        <div className={'my-2'}>
+
+          <p className="text-lg leading-6 pb-4 font-medium text-gray-900 pb-4">
+            {this.props.title}
+          </p>
         
-          <Grid container spacing={3}>
+          <div className="flex flex-wrap">
             {
               this.props.definitions().map((field) => {
 
-                return <Grid item
+                return <div
+                          className={`${gridClasses(field)} p-2`}
                           key={field.name} 
                           xs={field.grid.xs} 
                           sm={field.grid.sm}>
                           <FieldRenderer 
                             namespace={'settings'} 
                             data={field}
+                            type={field.type}
+                            handler={field.handler}
                             //errorNamespace={this.props.errorNamespace}
                             props={{data: this.props.data }} 
                             errors={ this.props.errors }
                           />
-                      </Grid>
+                      </div>
               })
             }
-          </Grid>
+          </div>
         
-        </Box>
+        </div>
 
-        <Grid container justify={"space-around"}>
+        <div container justify={"space-around"}>
 
           <Button 
             onClick={this.onSubmitHandler.bind(this)}
@@ -379,7 +358,7 @@ class SettingsForm extends Component{
             Cancel
           </Button>
 
-        </Grid>
+        </div>
 
       </form>
     )
@@ -394,8 +373,8 @@ function LanguageForm({settings, update, deleteLang}){
 
   const formRef = React.createRef();
 
-  function handleChange(value){
-    const val = value.currentTarget.dataset.value
+  function handleChange(e){
+    const val = e.value
     const serializedData = serialize(formRef.current, { hash: true, empty: true })
     const data = toSnakeCase(serializedData)
 
@@ -412,13 +391,14 @@ function LanguageForm({settings, update, deleteLang}){
     return isOpen && (
       <FormDialog 
         open={isOpen}
+        handleClose={()=> setIsOpen(false)}
         //contentText={"lipsum"}
         titleContent={"Add new language to Help center"}
         formComponent={
           //!loading ?
-            <form>
+            <form onSubmit={(e)=>e.preventDefault()}>
 
-              <Select
+              {/*<Select
                 value={selectedLang}
                 onChange={handleChange}
                 inputProps={{
@@ -435,7 +415,18 @@ function LanguageForm({settings, update, deleteLang}){
                 }
                 
                 
-              </Select>
+              </Select>*/}
+
+              <Input
+                label="select lang"
+                value={selectedLang}
+                onChange={handleChange}
+                type={'select'}
+                //defaultValue={{label: item.to, value: item.to}}
+                name={'age'}
+                data={{}}
+                options={langsOptions}>
+              </Input>
 
             </form> 
             //: <CircularProgress/>
@@ -471,18 +462,85 @@ function LanguageForm({settings, update, deleteLang}){
     update(data)
   }
 
+  function columns(){
+
+    const fields = ['locale', 'site_title', 'site_description', 'action']
+
+    let cols = fields.map(
+      (field)=> (
+            { field: field, 
+              title: field, 
+              render: (row) => {
+                return row && 
+                <td className="px-6 py-4 whitespace-no-wrap border-b border-gray-200">
+                  <div 
+                    //onClick={(e)=>(showUserDrawer && showUserDrawer(row))}
+                    className="flex items-center">
+                    { field === 'locale' ?
+                      <p className="block text-gray-700 text-sm font-bold mb-2">
+                        {row[field]}
+                      </p>
+                      : 
+                      field === 'action' ?
+                      <Button color="secondary" 
+                      onClick={()=>setOpenDeleteDialog(row)}>
+                        delete
+                      </Button> :
+                      <Input
+                      type={'text'}
+                      //id="standard-name"
+                      label={field}
+                      defaultValue={row[field]}
+                      name={`settings[${field}_${row.locale}]`}
+                      margin="normal"
+                    />}
+
+
+                    
+                  </div>
+
+                </td>
+              }
+            }
+      ))
+
+    return cols
+
+  }
+
   return (
 
-    <div>
+    <div className="py-4">
 
-      <form ref={formRef}>
+      <form ref={formRef} onSubmit={(e)=> e.preventDefault()}>
 
         <Button onClick={toggleDialog} variant={"outlined"}>
           Add language
         </Button>
 
-        <Box mt={2} mb={2}>
-          <Table>
+        <div mt={2} mb={2}>
+
+
+          { 
+            <Table 
+              title={'laguages'}
+              //meta={this.props.meta}
+              data={settings.translations}
+              //search={this.props.search}
+              //loading={this.props.loading}
+              columns={columns()}
+              //defaultHiddenColumnNames={this.props.defaultHiddenColumnNames}
+              //tableColumnExtensions={this.props.tableColumnExtensions}
+              //leftColumns={this.props.leftColumns}
+              //rightColumns={this.props.rightColumns}
+              //toggleMapView={this.props.toggleMapView}
+              //map_view={this.props.map_view}
+              //enableMapView={this.props.enableMapView}
+            />
+          }
+
+          {/*
+            <Table>
             <TableHead>
               <TableRow>
                 <TableCell>Locale</TableCell>
@@ -532,14 +590,14 @@ function LanguageForm({settings, update, deleteLang}){
               ))}
             </TableBody>
           </Table>
-          
-        </Box>
+          */}
+        </div>
 
-        <Grid container alignContent={"flex-end"}>
+        <div container alignContent={"flex-end"}>
           <Button onClick={handleSubmit} variant={"contained"} color={"primary"}>
             Submit
           </Button>        
-        </Grid>
+        </div>
 
       </form>
 
@@ -556,10 +614,10 @@ function LanguageForm({settings, update, deleteLang}){
           deleteHandler={()=> { 
             deleteLang(openDeleteDialog.locale, ()=> setOpenDeleteDialog(false) )
             }}>
-          <Typography variant="subtitle2">
+          <p variant="subtitle2">
             We will destroy translation and hide any 
             articles with the "{openDeleteDialog.locale}" language
-          </Typography>
+          </p>
         </DeleteDialog>
       }
 
@@ -581,4 +639,4 @@ function mapStateToProps(state) {
 }
 
 
-export default withRouter(connect(mapStateToProps)(withStyles(styles)(Settings)))
+export default withRouter(connect(mapStateToProps)(Settings))

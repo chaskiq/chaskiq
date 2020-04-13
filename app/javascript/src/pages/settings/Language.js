@@ -6,29 +6,16 @@ import { withRouter, Route } from 'react-router-dom'
 import { connect } from 'react-redux'
 
 
-import Tab from '@material-ui/core/Tab'
-import Tabs from '@material-ui/core/Tabs'
-import Avatar from '@material-ui/core/Avatar'
-import Typography from '@material-ui/core/Typography'
-import Button from '@material-ui/core/Button'
-import TextField from '@material-ui/core/TextField'
-import Paper from '@material-ui/core/Paper'
-import Grid from '@material-ui/core/Grid'
-import Divider from '@material-ui/core/Divider'
-import Chip from '@material-ui/core/Chip'
-import Select from '@material-ui/core/Select'
-import MenuItem from '@material-ui/core/MenuItem'
-import Box from '@material-ui/core/Box'
-import Table from '@material-ui/core/Table'
-import TableHead from '@material-ui/core/TableHead'
-import TableRow from '@material-ui/core/TableRow'
-import TableCell from '@material-ui/core/TableCell'
-import TableBody from '@material-ui/core/TableBody'
-import MuiLink from '@material-ui/core/Link'
+import Tabs from '../../components/Tabs'
+import Button from '../../components/Button'
+import Select from 'react-select'
+import Table from '../../components/Table'
+import Input from '../../components/forms/Input'
 
 import graphql from '../../graphql/client'
 import {toSnakeCase} from '../../shared/caseConverter'
 import FormDialog from '../../components/FormDialog'
+import DataTable from '../../components/Table'
 
 export default function LanguageForm({settings, update, namespace, fields}){
 
@@ -37,14 +24,18 @@ export default function LanguageForm({settings, update, namespace, fields}){
   const formRef = React.createRef();
 
   function handleChange(value){
-    const val = value.currentTarget.dataset.value
-    const serializedData = serialize(formRef.current, { hash: true, empty: true })
+    const serializedData = serialize(
+      formRef.current, { 
+        hash: true, empty: true 
+      }
+    )
     const data = toSnakeCase(serializedData)
 
     let next = {}
 
     fields.map((field)=>{
-      next[`${field}_${val}`] = ""
+      if(field !== "locale")
+        next[`${field}_${value}`] = ""
     })
 
     // const newData = Object.assign({}, data.settings, next)
@@ -57,17 +48,22 @@ export default function LanguageForm({settings, update, namespace, fields}){
     toggleDialog()
   }
 
+  function close(){
+    setIsOpen(false)
+  }
+
   function renderLangDialog(){
     return isOpen && (
       <FormDialog 
         open={isOpen}
+        handleClose={close}
         //contentText={"lipsum"}
-        titleContent={"Save Assignment rule"}
+        titleContent={"Add language"}
         formComponent={
           //!loading ?
-            <form>
+            <form onSubmit={()=> false }>
 
-              <Select
+              {/*<Select
                 value={selectedLang}
                 onChange={handleChange}
                 inputProps={{
@@ -84,7 +80,18 @@ export default function LanguageForm({settings, update, namespace, fields}){
                 }
                 
                 
-              </Select>
+              </Select>*/}
+
+              <Input
+                label="select lang"
+                type={'select'}
+                value={selectedLang}
+                //defaultValue={{label: item.to, value: item.to}}
+                name={'age'}
+                data={{}}
+                onChange={(e)=> handleChange(e.value) }
+                options={langsOptions}>
+              </Input>
 
             </form> 
             //: <CircularProgress/>
@@ -114,24 +121,83 @@ export default function LanguageForm({settings, update, namespace, fields}){
     setIsOpen(!isOpen)
   }
 
-  function handleSubmit(){
+  function handleSubmit(e){
+    e.preventDefault()
     const serializedData = serialize(formRef.current, { hash: true, empty: true })
     const data = toSnakeCase(serializedData)
     update(data)
   }
 
+  function columns(){
+
+    let cols = fields.map(
+      (field)=> (
+            {field: field, title: field, 
+              render: (row) => {
+                return row && 
+                <td className="px-6 py-4 whitespace-no-wrap border-b border-gray-200">
+                  <div 
+                    //onClick={(e)=>(showUserDrawer && showUserDrawer(row))}
+                    className="flex items-center">
+                    { field === 'locale' ?
+                      <p className="block text-gray-700 text-sm font-bold mb-2">
+                        {row[field]}
+                      </p>
+                      : <Input
+                      type={'text'}
+                      //id="standard-name"
+                      label={field}
+                      defaultValue={row[field]}
+                      name={`${namespace}[${field}_${row.locale}]`}
+                      margin="normal"
+                    />}
+                  </div>
+                </td>
+              }
+            }
+      ))
+
+    return cols
+    //return [{field: 'lang', title: 'lang', value: field}].concat(cols)
+  }
+
   return (
 
-    <div>
+    <div className="py-4">
 
-      <form ref={formRef}>
+      <p className="text-lg leading-6 font-medium 
+        text-gray-900 pb-4">
+        Languages
+      </p>
+
+      <form ref={formRef} onSubmit={(e)=> e.preventDefault() }>
 
         <Button onClick={toggleDialog} variant={"outlined"}>
           Add language
         </Button>
 
-        <Box mt={2} mb={2}>
-          <Table>
+        <div>
+
+
+        { 
+          <DataTable 
+            title={'laguages'}
+            //meta={this.props.meta}
+            data={settings.translations}
+            //search={this.props.search}
+            //loading={this.props.loading}
+            columns={columns()}
+            //defaultHiddenColumnNames={this.props.defaultHiddenColumnNames}
+            //tableColumnExtensions={this.props.tableColumnExtensions}
+            //leftColumns={this.props.leftColumns}
+            //rightColumns={this.props.rightColumns}
+            //toggleMapView={this.props.toggleMapView}
+            //map_view={this.props.map_view}
+            //enableMapView={this.props.enableMapView}
+          />
+        }
+
+          {/*<Table>
             <TableHead>
               <TableRow>
                 <TableCell>Locale</TableCell>
@@ -165,33 +231,21 @@ export default function LanguageForm({settings, update, namespace, fields}){
                     })
                   }
 
-                  {
-                    /*
-                      <TableCell align="left">
-                        <TextField
-                          //id="standard-name"
-                          label="Site Description"
-                          defaultValue={row.site_description}
-                          name={`settings[site_description_${row.locale}]`}
-                          margin="normal"
-                        />
-                      </TableCell>                    
-                    */
-                  }
-
-                
                 </TableRow>
               ))}
             </TableBody>
-          </Table>
+        </Table>*/}
           
-        </Box>
+        </div>
 
-        <Grid container alignContent={"flex-end"}>
-          <Button onClick={handleSubmit} variant={"contained"} color={"primary"}>
+        <div container alignContent={"flex-end"}>
+          <Button 
+            onClick={handleSubmit} 
+            variant={"contained"} 
+            color={"primary"}>
             Submit
           </Button>        
-        </Grid>
+        </div>
 
       </form>
 

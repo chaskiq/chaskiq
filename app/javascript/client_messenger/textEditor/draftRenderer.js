@@ -3,16 +3,15 @@
  */
 
 import React, {Component} from 'react'
-import redraft from 'redraft'
+//import redraft from 'redraft'
 
-var Prism = require('prismjs');
-//Prism.highlightAll();
+//var Prism = require('prismjs');
 
-const handlePrismRenderer = (syntax, children)=>{
+/*const handlePrismRenderer = (syntax, children)=>{
   const code = children.map((o)=> o.flat() ).join("")
   const formattedCode =  Prism.highlight(code, Prism.languages.javascript, 'javascript');
   return {__html: formattedCode }
-}
+}*/
 
 const styles = {
   code: {
@@ -78,7 +77,9 @@ function renderers(props) {
         return <pre className="graf graf--code" 
                     //style={styles.codeBlock} 
                     key={keys[0]} 
-                    dangerouslySetInnerHTML={handlePrismRenderer(data.syntax, children)}>
+                    //dangerouslySetInnerHTML={handlePrismRenderer(data.syntax, children)}
+                    >
+                    l
                     {/*addBreaklines(children)*/}
               </pre>},
       // or depth for nested lists
@@ -280,7 +281,7 @@ export default class Renderer extends Component {
     if (!raw) {
       return this.renderWarning();
     }
-    const rendered = redraft(raw, renderers(this.props));
+    const rendered = <p>dc</p> //redraft(raw, renderers(this.props));
     // redraft returns a null if there's nothing to render
     if (!rendered) {
       return this.renderWarning();

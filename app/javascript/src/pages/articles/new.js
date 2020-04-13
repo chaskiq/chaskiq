@@ -2,16 +2,14 @@ import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import { withRouter, Route } from 'react-router-dom'
 import { connect } from 'react-redux'
-import Avatar from '@material-ui/core/Avatar' 
-import Typography from '@material-ui/core/Typography'
-import Button from '@material-ui/core/Button'
-import TextField from '@material-ui/core/TextField'
-import Paper from '@material-ui/core/Paper'
-import ButtonGroup from '@material-ui/core/ButtonGroup'
-import Box from '@material-ui/core/Box'
-import Grid from '@material-ui/core/Grid'
-import ContentHeader from '../../components/ContentHeader'
+import Avatar from '../../components/Avatar' 
+import Button, {DropdownButton} from '../../components/Button'
+import Input from '../../components/forms/Input'
+import ContentHeader from '../../components/PageHeader'
+import FilterMenu from '../../components/FilterMenu'
+import Tabs from '../../components/Tabs'
 import ArticleEditor from './editor'
+
 
 import graphql from '../../graphql/client'
 
@@ -30,17 +28,18 @@ import {
   ARTICLE_COLLECTIONS
 } from '../../graphql/queries'
 
-import { withStyles } from '@material-ui/core/styles';
 
-import SuggestSelect from '../../shared/suggestSelect'
+//import SuggestSelect from '../../components/forms/suggestSelect'
 
 import {AnchorLink} from '../../shared/RouterLink'
-import SelectMenu from '../../components/selectMenu'
-import GestureIcon from '@material-ui/icons/Gesture'
-import CheckCircleIcon from '@material-ui/icons/CheckCircle'
-import ArrowDropDownIcon from '@material-ui/icons/ArrowDropDown'
+import {
+  GestureIcon,
+  CheckCircle
+} from '../../components/icons'
+//import GestureIcon from '@material-ui/icons/Gesture'
+//import CheckCircle from '@material-ui/icons/CheckCircle'
+//import ArrowDropDownIcon from '@material-ui/icons/ArrowDropDown'
 import {setCurrentSection, setCurrentPage} from '../../actions/navigation'
-import ScrollableTabsButtonForce from '../../components/scrollingTabs'
 import langs from '../../shared/langsOptions'
 
 import {errorMessage, successMessage} from '../../actions/status_messages'
@@ -48,14 +47,14 @@ import styled from '@emotion/styled'
 
 const options = [
   {
-    title: 'Published',
+    name: 'Published',
     description: 'shows article on the help center',
-    icon: <CheckCircleIcon/>,
+    icon: <CheckCircle/>,
     id: 'published',
     state: 'published'
   },
   {
-    title: 'Draft',
+    name: 'Draft',
     description: 'hides the article on the help center',
     icon: <GestureIcon/>,
     id: 'draft',
@@ -106,7 +105,7 @@ class ArticlesNew extends Component {
   switch_ref = null
 
   componentDidMount(){
-    if(this.props.match.params.id != "new"){
+    if(this.props.match.params.id !== "new"){
       this.getArticle(this.props.match.params.id)      
     } else {
       this.setState({
@@ -127,7 +126,7 @@ class ArticlesNew extends Component {
   componentDidUpdate(prevProps, prevState){
     // maybe do this ony with content and submit 
     //checkbox and agent directly and independently from content
-    if(prevState.content != this.state.content){
+    if(prevState.content !== this.state.content){
       this.registerChange()
     }
 
@@ -252,33 +251,26 @@ class ArticlesNew extends Component {
   }
 
   toggleButton = (clickHandler)=>{
-    const stateColor = this.state.article.state === "published" ? "primary" : "secondary"
-    return <ButtonGroup variant="outlined" color={stateColor}>
-              <Button onClick={clickHandler}>
-               { 
-                 this.state.article.state === "published" ? 
-                   <CheckCircleIcon/> : <GestureIcon/> 
-                }
-                {this.state.article.state}
-              </Button>
-              <Button
-                color="primary"
-                variant="contained"
-                size="small"
-                //aria-owns={open ? 'menu-list-grow' : undefined}
-                aria-haspopup="true"
+    const stateColor = this.state.article.state === "published" ? 
+    "primary" : "secondary"
+    return <div variant="outlined" color={stateColor}>
+              <DropdownButton
                 onClick={clickHandler}
-              >
-                <ArrowDropDownIcon />
-              </Button>
-           </ButtonGroup>
+                label={this.state.article.state}
+                icon={ 
+                  this.state.article.state === "published" ? 
+                    <CheckCircle/> : <GestureIcon/> 
+                }
+              />
+           </div>
   }
 
   togglePublishState = (state)=>{
+    const val = state.state
     graphql(TOGGLE_ARTICLE,{
       appKey: this.props.app.key,
       id: this.state.article.id,
-      state: state
+      state: val
     }, {
       success: (data)=>{
         this.setState({article: data.toggleArticle.article}, ()=>{
@@ -291,10 +283,10 @@ class ArticlesNew extends Component {
     })
   }
 
-  handleAuthorchange = (email)=>{
+  handleAuthorchange = (input)=>{
     graphql(ARTICLE_ASSIGN_AUTHOR, {
       appKey: this.props.app.key,
-      authorId: email,
+      authorId: input.value,
       id: this.state.article.id 
     }, {
       success: (data)=>{
@@ -310,10 +302,10 @@ class ArticlesNew extends Component {
     })
   }
 
-  handleCollectionChange = (collectionId)=>{
+  handleCollectionChange = (input)=>{
     graphql(ARTICLE_COLLECTION_CHANGE, {
       appKey: this.props.app.key,
-      collectionId: collectionId,
+      collectionId: input.value,
       id: this.state.article.id
     }, {
       success: (data)=>{
@@ -350,6 +342,8 @@ class ArticlesNew extends Component {
   }
 
   handleLangChange = (lang)=>{
+    if(!lang) return
+    if(!this.state.article.id) return
     this.setState({
       lang: lang,
       loading: true
@@ -359,7 +353,6 @@ class ArticlesNew extends Component {
   handleInputChange = (e)=>{
     this.registerChange()
   }
-
 
   render() {
     const {classes, app} = this.props
@@ -371,44 +364,50 @@ class ArticlesNew extends Component {
           //title={ 'Help Center Settings' }
           breadcrumbs={
             [
-            <AnchorLink className={classes.link} 
-              color="inherit" to={`/apps/${app.key}/articles`}>
-              Help Center
-            </AnchorLink>,
-            <Typography color="inherit">{this.state.article.title}</Typography>
+              {
+                to: `/apps/${app.key}/articles`,
+                title: 'Help Center'
+              },
+              {
+                to: '',
+                title: this.state.article.title
+              }
             ]
           }
         />
 
-        <Grid container justify={"center"} spacing={4}>
-          <Grid item xs={12} sm={10}>
+        <div container justify={"center"} spacing={4}>
+          <div item xs={12} sm={10}>
 
-          <Paper 
+          <div 
             square={true}
             elevation={1}
-            className={classes.paper}
             >
-            <Box m={2}>
+            <div m={2}>
             
-              <Box mb={2}>
-                  <ScrollableTabsButtonForce 
-                    //tabs={this.props.settings.availableLanguages} 
-                    tabs={this.props.settings.availableLanguages.map((o)=> langs.find((lang)=> lang.value === o) )} 
-                    changeHandler={(index)=> this.handleLangChange(this.props.settings.availableLanguages[index])}
-                  />
-                </Box>
+              <div mb={2}>
+                <Tabs 
+                  scrollButtons="on"
+                  //tabs={this.props.settings.availableLanguages} 
+                  tabs={this.props.settings.availableLanguages.map( (o)=> (
+                      langs.find((lang)=> lang.value === o)
+                    )
+                  )} 
+                  onChange={(index)=> {
+                    this.handleLangChange(
+                      this.props.settings.availableLanguages[index]
+                      )
+                    }
+                  }
+                />
+              </div>
             
               {
-                !this.state.loading ? 
+                !this.state.loading && 
 
                 <React.Fragment>
                   
-
-                  <div style={{
-                    display: 'flex',
-                    justifyItems: 'self-end',
-                    justifyContent: 'space-between'
-                  }}>
+                  <div className="flex justify-between items-end py-4">
 
                     <Button
                       variant="contained"
@@ -418,11 +417,18 @@ class ArticlesNew extends Component {
                       Save
                     </Button>
 
-                    <SelectMenu options={options} 
+                    <FilterMenu 
+                      options={options}
+                      value={this.state.article.state}
+                      filterHandler={this.togglePublishState}
+                      triggerButton={this.toggleButton}
+                    />
+
+                    {/*<SelectMenu options={options} 
                       handleClick={(e)=> this.togglePublishState(e.state) } 
                       toggleButton={this.toggleButton}
                       selected={this.state.article.state}
-                    />
+                    />*/}
                     
                     {/*<FormControlLabel
                       control={
@@ -439,8 +445,9 @@ class ArticlesNew extends Component {
 
                   </div>
 
-                  <TextField
+                  <Input
                     id="article-title"
+                    type={"text"}
                     //label="Name"
                     placeholder={"Type articles's title"}
                     inputProps={{
@@ -451,57 +458,50 @@ class ArticlesNew extends Component {
                     }
                     //helperText="Full width!"
                     fullWidth
-                    inputRef={ref => { this.titleRef = ref; }}
+                    ref={ref => { this.titleRef = ref; }}
                     defaultValue={this.state.article.title}
                     margin="normal"
                     onChange={this.handleInputChange}
                   />
 
-
-                  <TextField
+                  <Input
                     id="article-description"
+                    type={'textarea'}
                     //label="Description"
                     placeholder={"Describe your article to help it get found"}
                     //helperText="Full width!"
                     fullWidth
                     multiline
-                    inputRef={ref => { this.descriptionRef = ref; }}
+                    ref={ref => { this.descriptionRef = ref; }}
                     defaultValue={this.state.article.description}
                     margin="normal"
                     onChange={this.handleInputChange}
                   />
 
                 </React.Fragment>
-
-                : null 
               }
 
 
               {
-                !this.state.loading && this.state.article.author ? 
-                <ArticleAuthorControls>
+                !this.state.loading && 
+                this.state.article.author && 
+
+                <div className="flex">
 
                   {
-                    this.state.agents.length > 0 ?
-                      <div style={{ 
-                        width: '300px',
-                        display: 'flex', 
-                        alignItems: 'center'
-                      }}>
+                    this.state.agents.length > 0 &&
+                      <div className="flex items-center">
 
-                      <Avatar 
-                        src={ this.state.article.author.avatarUrl}
-                      />
-                        
-                        <strong style={{
-                          marginLeft: '9px', 
-                          marginRight: '9px',
-                          width: '110px'  
-                        }}>
+                        <Avatar 
+                          src={ this.state.article.author.avatarUrl}
+                        />
+                          
+                        <strong className="m-2">
                           written by
                         </strong>
 
-                        <SuggestSelect 
+                        {/*
+                          <SuggestSelect 
                           name={"author"}
                           placeholder={"select author"}
                           data={this.state.agents.map((o)=> ({ 
@@ -511,21 +511,36 @@ class ArticlesNew extends Component {
                           )}
                           handleSingleChange={this.handleAuthorchange }
                           defaultData={this.state.article.author.email}
-                        />
-                      </div> : null 
+                          />
+                        */}
+                          
+
+                        <Input
+                          type={'select'}
+                          className="m-2 w-32"
+                          options={
+                            this.state.agents.map((o)=> ({ 
+                              label: o.name || o.email, 
+                              value: o.email 
+                            })) 
+                          }
+                          data={{}}
+                          name={"author"}
+                          placeholder={"select author"}
+                          onChange={ this.handleAuthorchange }
+                          defaultData={this.state.article.author.email}>
+                        </Input>
+
+                      </div>
                   }
 
-                  <div style={{ 
-                    width: '200px', 
-                    display: 'flex', 
-                    alignItems: 'center'
-                  }}>
+                  <div className="flex items-center">
 
-                    <strong style={{marginLeft: '9px', marginRight: '9px'}}>
+                    <strong className="m-2">
                       In
                     </strong>
 
-                    <SuggestSelect 
+                    {/*<SuggestSelect 
                       name={"collection"}
                       placeholder={"select collection"}
                       data={this.state.collections.map((o)=> ({ 
@@ -539,15 +554,32 @@ class ArticlesNew extends Component {
                         this.state.article.collection ? 
                         this.state.article.collection.id : null
                       }
-                    />
+                    />*/}
+
+                    <Input
+                      type={'select'}
+                      options={this.state.collections.map((o)=> ({ 
+                          label: o.title, 
+                          value: o.id 
+                        }) 
+                      )}
+                      data={{}}
+                      className={'m-2 w-32'}
+                      name={"collection"}
+                      placeholder={"select collection"}
+                      onChange={ this.handleCollectionChange }
+                      defaultValue={
+                        this.state.article.collection ? 
+                        this.state.article.collection.id : null
+                      }>
+                    </Input>
                   </div>
 
-
-                </ArticleAuthorControls>: null
+                </div>
               }
 
 
-              <Box mb={2} p={2} style={{background: "#fff"}}>
+              <div className="relative z-0 p-6 shadow bg-yellow rounded">
 
                 {
                   !this.state.loading &&
@@ -561,15 +593,15 @@ class ArticlesNew extends Component {
                     uploadHandler={this.uploadHandler}
                   />
                 }
-              </Box>
+              </div>
 
-            </Box>
+            </div>
 
-          </Paper>
+          </div>
 
-          </Grid>
+          </div>
           
-        </Grid>
+        </div>
 
       </React.Fragment>
     );
@@ -590,4 +622,4 @@ function mapStateToProps(state) {
 }
 
 
-export default withRouter(connect(mapStateToProps)(withStyles(styles)(ArticlesNew)))
+export default withRouter(connect(mapStateToProps)(ArticlesNew))
