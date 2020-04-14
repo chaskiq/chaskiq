@@ -1,22 +1,11 @@
 import React, { useState, useEffect } from 'react'
 import I18n from '../../shared/FakeI18n'
-
-import langsOptions from '../../shared/langsOptions'
-import serialize from 'form-serialize'
-
-import { withRouter, Route } from 'react-router-dom'
-import { connect } from 'react-redux'
+import Tooltip from 'rc-tooltip'
 
 import Button from '../../components/Button'
 import Table from '../../components/Table'
-
-import { AddIcon, PlusIcon, DeleteIcon } from '../../components/icons'
-import graphql from '../../graphql/client'
-import { toSnakeCase } from '../../shared/caseConverter'
-import FormDialog from '../../components/FormDialog'
-
+import { PlusIcon, DeleteIcon } from '../../components/icons'
 import Input from '../../components/forms/Input'
-
 // const options = I18n.t("settings.availability.reply_time.options")
 /* [
   {value: "auto", label: "Automatic reply time. Currently El equipo responderá lo antes posible"},
@@ -213,16 +202,18 @@ function AvailabilitySchedule ({ records, setRecords }) {
 
       <div container gutterBottom justify={'flex-start'}>
         <div className="py-4">
+          <Tooltip
+            placement="right" 
+            overlay={'add new availability time frame'}>
           <Button
             onClick={addRecord}
             color={'primary'}
             className="border h-50 w-50"
-
-            data-ballon-pos="down"
             aria-label={'add new availability time frame'}
             variant={'icon'}>
             <PlusIcon/>
           </Button>
+          </Tooltip>
         </div>
       </div>
 
