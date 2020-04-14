@@ -3,15 +3,15 @@
  */
 
 import React, {Component} from 'react'
-//import redraft from 'redraft'
+import redraft from 'redraft'
 
-//var Prism = require('prismjs');
+var Prism = require('prismjs');
 
-/*const handlePrismRenderer = (syntax, children)=>{
+const handlePrismRenderer = (syntax, children)=>{
   const code = children.map((o)=> o.flat() ).join("")
   const formattedCode =  Prism.highlight(code, Prism.languages.javascript, 'javascript');
   return {__html: formattedCode }
-}*/
+}
 
 const styles = {
   code: {
@@ -32,9 +32,9 @@ const styles = {
 const addBreaklines = (children) => children.map(child => [child, <br />]);
 
 
-function getImageUrl(url, props){
-  if(!url) return 
-  if(url.includes("://")) return url
+function getImageUrl (url, props) {
+  if (!url) return 
+  if (url.includes("://")) return url
   return `${props.domain}${url}`
 }
 /**
@@ -51,7 +51,7 @@ function renderers(props) {
       BOLD: (children, { key }) => <strong key={key}>{children}</strong>,
       ITALIC: (children, { key }) => <em key={key}>{children}</em>,
       UNDERLINE: (children, { key }) => <u key={key}>{children}</u>,
-      //CODE: (children, { key }) => <span key={key} dangerouslySetInnerHTML={handlePrismRenderer(children)} />,
+      CODE: (children, { key }) => <span key={key} dangerouslySetInnerHTML={handlePrismRenderer(children)} />,
     },
     /**
      * Blocks receive children and depth
@@ -281,7 +281,7 @@ export default class Renderer extends Component {
     if (!raw) {
       return this.renderWarning();
     }
-    const rendered = <p>dc</p> //redraft(raw, renderers(this.props));
+    const rendered = redraft(raw, renderers(this.props));
     // redraft returns a null if there's nothing to render
     if (!rendered) {
       return this.renderWarning();

@@ -21,11 +21,11 @@ const Container = styled.div`
   background: url(${bg});
   background-repeat: no-repeat;
   background-position-X: right;
-  height: 100%;
+  height: 100vh;
   marginBottom: 0px;
 `
 
-function App ({ dispatch }) {
+function App ({ dispatch, loading }) {
   const [apps, setApps] = React.useState([])
 
   React.useEffect(() => {
@@ -43,6 +43,10 @@ function App ({ dispatch }) {
   return (
 
     <Container className="h-screen flex overflow-hidden bg-white">
+
+      {
+        loading && <LoadingView/>
+      }
 
       <div className="flex flex-col w-0 flex-1 overflow-hidden">
         <div className="md:hidden pl-1 pt-1 sm:pl-3 sm:pt-3">
