@@ -3,6 +3,7 @@ import React, { Component, Fragment } from 'react'
 import { withRouter } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { ThemeProvider } from 'emotion-theming'
+import Tooltip from 'rc-tooltip'
 
 import graphql from '../../graphql/client'
 import { last } from 'lodash'
@@ -350,54 +351,61 @@ function Conversation ({
               </div> */
           }
 
-          <button
-            onClick={() => {
-              const option = conversation.state === 'closed' ? 'reopen' : 'close'
-              updateConversationStateDispatch(option)
-            }}
-            data-balloon-pos="down"
-            aria-label={conversation.state === 'closed' ? 'reopen' : 'close'}
-            className="mr-1 rounded-full bg-white hover:bg-gray-100 text-gray-800 font-semibold border border-gray-400 rounded shadow">
-            <CheckmarkIcon variant="rounded"/>
-          </button>
+          <Tooltip
+            placement="bottom" 
+            overlay={conversation.state === 'closed' ? 'reopen' : 'close'}>
 
-          <button
-            onClick={toggleConversationPriority}
-            data-balloon-pos="down"
-            aria-label={
-              !conversation.priority ? 'Priorize conversation' : 'Remove priority'
-            }
-            className="mr-1 rounded-full bg-white hover:bg-gray-100 text-gray-800 font-semibold border border-gray-400 rounded shadow">
-            <PinIcon variant="rounded"/>
-          </button>
+            <button
+              onClick={() => {
+                const option = conversation.state === 'closed' ? 'reopen' : 'close'
+                updateConversationStateDispatch(option)
+              }}
+              aria-label={conversation.state === 'closed' ? 'reopen' : 'close'}
+              className="mr-1 rounded-full bg-white hover:bg-gray-100 text-gray-800 font-semibold border border-gray-400 rounded shadow">
+              <CheckmarkIcon variant="rounded"/>
+            </button>
+          </Tooltip>
 
-          {/* <OptionMenu
-            getAgents={getAgents}
-            setAgent={setAgent}
-            conversation={conversation}
-          /> */}
 
+          <Tooltip
+            placement="bottom" 
+            overlay={
+              !conversation.priority ? 
+                'Priorize conversation' : 
+                'Remove priority'
+            }>
+            <button
+              onClick={toggleConversationPriority}
+              aria-label={
+                !conversation.priority ? 'Priorize conversation' : 'Remove priority'
+              }
+              className="mr-1 rounded-full bg-white hover:bg-gray-100 text-gray-800 font-semibold border border-gray-400 rounded shadow">
+              <PinIcon variant="rounded"/>
+            </button>
+          </Tooltip>
+         
           <FilterMenu
             options={agents}
             value={conversation.assignee ? conversation.assignee.email : ''}
             filterHandler={(data) => setAgent(data.id)}
             triggerButton={(cb) => {
-              return <div
-                onClick={cb}
-                className="flex-shrink-0 h-10 w-10">
-                {
-                  conversation.assignee &&
-                    <img className="h-10 w-10 rounded-full"
-                      src={conversation.assignee.avatarUrl}
-                      alt={conversation.assignee.name}
-                    />
-                }
-              </div>
-            }
-
-            }
+              return <Tooltip
+                placement="bottom" 
+                overlay={'assign agent'}>
+                <div
+                  onClick={cb}
+                  className="flex-shrink-0 h-10 w-10">
+                  {
+                    conversation.assignee &&
+                                <img className="h-10 w-10 rounded-full"
+                                  src={conversation.assignee.avatarUrl}
+                                  alt={conversation.assignee.name}
+                                />
+                  }
+                </div>
+              </Tooltip>
+            }}
           />
-
         </div>
 
       </div>

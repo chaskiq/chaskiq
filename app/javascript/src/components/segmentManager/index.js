@@ -1,9 +1,8 @@
 
 import React, {Component} from "react"
-
+import Tooltip from 'rc-tooltip'
 import FormDialog from '../FormDialog'
 import DataTable from '../Table'
-
 import SegmentItemButton from './itemButton'
 import {Map, List, fromJS} from 'immutable'
 import Dropdown from '../Dropdown'
@@ -96,28 +95,37 @@ export class SaveSegmentModal extends Component {
 
         <React.Fragment>
           <div className="flex items-center">
-              <ButtonIndigo isLoading={false}
-                
-                data-balloon-pos="down"
-                arial-label={"Save Segment"}
-                variant={'clean'}
-                appearance={'link'}
-                onClick={this.open}
-                disabled={this.equalPredicates() || this.incompletePredicates()}>
-                <SaveIcon 
-                  variant="small" 
-                />
-                {" "}
-              </ButtonIndigo>
+              <Tooltip
+                placement="bottom" 
+                overlay={"Save Segment"}>
 
-              <ButtonIndigo isLoading={false} 
-                variant={'clean'}
-                data-balloon-pos="down"
-                arial-label={"Delete segment"}
-                appearance={'link danger'}
-                onClick={this.deleteAction.bind(this)}>
-                <DeleteIcon />
-              </ButtonIndigo>
+                <ButtonIndigo isLoading={false}
+                  
+                  arial-label={"Save Segment"}
+                  variant={'clean'}
+                  appearance={'link'}
+                  onClick={this.open}
+                  disabled={this.equalPredicates() || this.incompletePredicates()}>
+                  <SaveIcon 
+                    variant="small" 
+                  />
+                  {" "}
+                </ButtonIndigo>
+
+              </Tooltip>
+
+
+              <Tooltip
+                placement="bottom" 
+                overlay={"Delete Segment"}>
+                <ButtonIndigo isLoading={false} 
+                  variant={'clean'}
+                  arial-label={"Delete segment"}
+                  appearance={'link danger'}
+                  onClick={this.deleteAction.bind(this)}>
+                  <DeleteIcon />
+                </ButtonIndigo>
+              </Tooltip>
 
           </div>
 

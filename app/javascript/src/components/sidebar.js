@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { withRouter, Link } from 'react-router-dom'
 import { connect } from 'react-redux'
-
+import Tooltip from 'rc-tooltip'
 import logo from '../images/logo-dark.png'
 import icon from '../images/favicon.png'
 
@@ -296,7 +296,6 @@ function Sidebar ({
     {
       id: 'User',
       render: () => (
-
         <p>oko</p>
       )
     }
@@ -371,14 +370,21 @@ function Sidebar ({
               {
                 categories.map((o) => (
 
-                  <div key={`sidebar-categories-${o.id}`} className="cursor-pointer mb-4 p-3 bg-gray-200 hover:bg-gray-400 rounded-md">
-                    { o.url && <Link
-                      to={`${o.url}`}
-                      data-balloon-pos="right"
-                      aria-label={o.label}
-                      className="bg-indigo-lighter h-12 w-12 flex-- items-center justify-center-- text-black text-2xl font-semibold rounded-lg mb-1 overflow-hidden">
-                      {o.icon}
-                    </Link>}
+                  <div key={`sidebar-categories-${o.id}`} 
+                    className="cursor-pointer mb-4 p-3 
+                    bg-gray-200 hover:bg-gray-400 rounded-md">
+                    { o.url && 
+                      <Tooltip
+                        placement="right" 
+                        overlay={o.label}>
+                        <Link
+                          to={`${o.url}`}
+                          aria-label={o.label}
+                          className="bg-indigo-lighter h-12 w-12 flex-- items-center justify-center-- text-black text-2xl font-semibold rounded-lg mb-1 overflow-hidden">
+                          {o.icon}
+                        </Link>
+                    </Tooltip>
+                  }
                   </div>
                 ))
               }
