@@ -1,36 +1,35 @@
-import React, {useRef} from 'react'
+import React, { useRef } from 'react'
 import { connect } from 'react-redux'
-//import { Redirect } from 'react-router-dom'
+// import { Redirect } from 'react-router-dom'
 import { authenticate, signout } from '../../actions/auth'
-import {getCurrentUser} from '../../actions/current_user'
+import { getCurrentUser } from '../../actions/current_user'
 import logo from '../../images/logo.png'
 import serialize from 'form-serialize'
 
-function Login({dispatch}){
+function Login ({ dispatch }) {
+  const form = useRef(null)
 
-  const form = useRef(null);
-
-  function handleSubmit(e) {
+  function handleSubmit (e) {
     e.preventDefault()
-    
-    const serializedData = serialize(form.current, { 
-      hash: true, empty: true 
+
+    const serializedData = serialize(form.current, {
+      hash: true, empty: true
     })
 
-    const { email, password } = serializedData //this.state
-    dispatch(authenticate(email, password, ()=>{
+    const { email, password } = serializedData // this.state
+    dispatch(authenticate(email, password, () => {
       getCurrentUser()
     }))
   }
 
-  function getCurrentUser(){
+  function getCurrentUser () {
     dispatch(getCurrentUser())
   }
 
   return (
     <div className="min-h-screen bg-gray-50 flex flex-col justify-center py-12 sm:px-6 lg:px-8">
       <div className="sm:mx-auto sm:w-full sm:max-w-md">
-        <img className="mx-auto h-12 w-auto" 
+        <img className="mx-auto h-12 w-auto"
           src={logo} alt="Workflow" />
         <h2 className="mt-6 text-center text-3xl leading-9 font-extrabold text-gray-900">
           Sign in to your account
@@ -45,35 +44,35 @@ function Login({dispatch}){
 
       <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
         <div className="bg-white py-8 px-4 shadow sm:rounded-lg sm:px-10">
-          <form action="#" 
-          ref={form}
-          method="POST" 
-          onSubmit={handleSubmit} >
+          <form action="#"
+            ref={form}
+            method="POST"
+            onSubmit={handleSubmit} >
             <div>
-              <label 
-                for="email" 
+              <label
+                htmlFor="email"
                 className="block text-sm font-medium leading-5 text-gray-700">
                 Email address
               </label>
               <div className="mt-1 rounded-md shadow-sm">
-                <input 
-                  id="email" 
-                  type="email" 
-                  name={"email"}
+                <input
+                  id="email"
+                  type="email"
+                  name={'email'}
                   required className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md placeholder-gray-400 focus:outline-none focus:shadow-outline-blue focus:border-blue-300 transition duration-150 ease-in-out sm:text-sm sm:leading-5" />
               </div>
             </div>
 
             <div className="mt-6">
-              <label for="password" 
+              <label htmlFor="password"
                 className="block text-sm font-medium leading-5 text-gray-700">
                 Password
               </label>
               <div className="mt-1 rounded-md shadow-sm">
-                <input id="password" 
+                <input id="password"
                   type="password"
-                  name="password" 
-                  required 
+                  name="password"
+                  required
                   className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md placeholder-gray-400 focus:outline-none focus:shadow-outline-blue focus:border-blue-300 transition duration-150 ease-in-out sm:text-sm sm:leading-5" />
               </div>
             </div>
@@ -81,7 +80,7 @@ function Login({dispatch}){
             <div className="mt-6 flex items-center justify-between">
               <div className="flex items-center">
                 <input id="remember_me" type="checkbox" className="form-checkbox h-4 w-4 text-indigo-600 transition duration-150 ease-in-out" />
-                <label for="remember_me" className="ml-2 block text-sm leading-5 text-gray-900">
+                <label htmlFor="remember_me" className="ml-2 block text-sm leading-5 text-gray-900">
                   Remember me
                 </label>
               </div>
@@ -150,11 +149,10 @@ function Login({dispatch}){
       </div>
     </div>
 
-
   )
 }
 
-function mapStateToProps(state) {
+function mapStateToProps (state) {
   const { auth, current_user, theme } = state
   const { loading, isAuthenticated } = auth
 

@@ -5,13 +5,13 @@ import moment from 'moment'
 
 import HeatMap from '../components/charts/heatMap'
 import Pie from '../components/charts/pie'
-import Count from  '../components/charts/count'
+import Count from '../components/charts/count'
 import DashboardCard from '../components/dashboard/card'
 
-import {DASHBOARD} from "../graphql/queries"
+import { DASHBOARD } from '../graphql/queries'
 import graphql from '../graphql/client'
 
-import {setCurrentSection} from '../actions/navigation'
+import { setCurrentSection } from '../actions/navigation'
 import { withRouter } from 'react-router-dom'
 import { connect } from 'react-redux'
 
@@ -19,34 +19,31 @@ import Content from '../components/Content'
 
 import I18n from '../shared/FakeI18n'
 
-
-export function Home(){
-
+export function Home () {
   return <div>
-  
-    <PageHeader title={"Dashboard"}/>
-  </div>
 
+    <PageHeader title={'Dashboard'}/>
+  </div>
 }
 
-function Dashboard(props) {
-  const { app, dispatch } = props;
+function Dashboard (props) {
+  const { app, dispatch } = props
 
-  React.useEffect(()=>{
+  React.useEffect(() => {
     dispatch(
-      setCurrentSection("Dashboard")
+      setCurrentSection('Dashboard')
     )
   }, [])
 
-  const initialData =  {
+  const initialData = {
     loading: true,
     from: moment().add(-1, 'week'),
-    to: moment(), //.add(-1, 'day')
+    to: moment() // .add(-1, 'day')
   }
 
   const [dashboard, setDashboard] = React.useState(initialData)
 
-  const bull = <span>•</span>;
+  const bull = <span>•</span>
 
   return (
     <div>
@@ -57,12 +54,12 @@ function Dashboard(props) {
 
             <div className={'w-full p-4'}>
               <DashboardItem
-                chartType={"app_packages"} 
+                chartType={'app_packages'}
                 dashboard={dashboard}
-                app={app} 
+                app={app}
                 label={I18n.t('dashboasrd.user_country')}
                 kind={'app_packages'}
-                //classes={classes}
+                // classes={classes}
                 styles={{}}
               />
             </div>
@@ -70,12 +67,12 @@ function Dashboard(props) {
             <div className={'lg:w-1/4 w-1/2 p-4'}>
               <div className="bg-white shadow overflow-hidden  sm:rounded-lg p-4">
                 <DashboardItem
-                  chartType={"count"} 
-                  dashboard={dashboard} 
-                  app={app} 
-                  kind={"first_response_time"}
+                  chartType={'count'}
+                  dashboard={dashboard}
+                  app={app}
+                  kind={'first_response_time'}
                   label={I18n.t('dashboard.response_avg')}
-                  appendLabel={"Hrs"}
+                  appendLabel={'Hrs'}
                 />
               </div>
             </div>
@@ -83,12 +80,12 @@ function Dashboard(props) {
             <div className={'lg:w-1/4 w-1/2 p-4'}>
               <div className="bg-white shadow overflow-hidden  sm:rounded-lg p-4">
                 <DashboardItem
-                  chartType={"count"} 
-                  dashboard={dashboard} 
-                  app={app} 
-                  kind={"opened_conversations"}
+                  chartType={'count'}
+                  dashboard={dashboard}
+                  app={app}
+                  kind={'opened_conversations'}
                   label={I18n.t('dashboard.new_conversations')}
-                  appendLabel={""}
+                  appendLabel={''}
                 />
               </div>
             </div>
@@ -96,12 +93,12 @@ function Dashboard(props) {
             <div className={'lg:w-1/4 w-1/2 p-4'}>
               <div className="bg-white shadow overflow-hidden  sm:rounded-lg p-4">
                 <DashboardItem
-                  chartType={"count"} 
-                  dashboard={dashboard} 
-                  app={app} 
-                  kind={"solved_conversations"}
+                  chartType={'count'}
+                  dashboard={dashboard}
+                  app={app}
+                  kind={'solved_conversations'}
                   label={I18n.t('dashboard.resolutions')}
-                  appendLabel={""}
+                  appendLabel={''}
                 />
               </div>
             </div>
@@ -109,169 +106,168 @@ function Dashboard(props) {
             <div className={'lg:w-1/4 w-1/2 p-4'}>
               <div className="bg-white shadow overflow-hidden  sm:rounded-lg p-4">
                 <DashboardItem
-                  chartType={"count"} 
-                  dashboard={dashboard} 
-                  app={app} 
-                  kind={"incoming_messages"}
+                  chartType={'count'}
+                  dashboard={dashboard}
+                  app={app}
+                  kind={'incoming_messages'}
                   label={I18n.t('dashboard.incoming_messages')}
-                  appendLabel={""}
+                  appendLabel={''}
                 />
               </div>
             </div>
 
             <div className={'w-full p-4'}>
               <div className="bg-white shadow overflow-hidden  sm:rounded-lg p-4">
-                {/*<Chart />*/}
+                {/* <Chart /> */}
                 <div className="mt-1 text-3xl leading-9 font-semibold text-gray-900">
                   Visit activity
                 </div>
-                 
+
                 <DashboardItem
-                  chartType={"heatMap"} 
-                  dashboard={dashboard} 
-                  app={app} 
-                  kind={"visits"}
+                  chartType={'heatMap'}
+                  dashboard={dashboard}
+                  app={app}
+                  kind={'visits'}
                 />
               </div>
             </div>
             {/* Recent Deposits */}
             <div className={'lg:w-1/4 w-1/2 p-4'}>
               <div className="bg-white shadow overflow-hidden  sm:rounded-lg p-4">
-                <DashboardCard title={"Users browser"}>
+                <DashboardCard title={'Users browser'}>
 
                   <DashboardItem
-                    chartType={"pie"} 
+                    chartType={'pie'}
                     dashboard={dashboard}
-                    app={app} 
+                    app={app}
                     label={I18n.t('dashboasrd.browser')}
                     kind={'browser'}
                   />
-                
+
                 </DashboardCard>
-                
-              </div>
-            </div>
-  
-            <div className={'lg:w-1/4 w-1/2 p-4'}>
-              <div className="bg-white shadow overflow-hidden  sm:rounded-lg p-4">
-                  <DashboardItem
-                    chartType={"pie"} 
-                    dashboard={dashboard}
-                    app={app} 
-                    label={I18n.t('dashboasrd.lead_os')}
-                    kind={'lead_os'}
-                  />
+
               </div>
             </div>
 
             <div className={'lg:w-1/4 w-1/2 p-4'}>
               <div className="bg-white shadow overflow-hidden  sm:rounded-lg p-4">
-                  <DashboardItem
-                    chartType={"pie"} 
-                    dashboard={dashboard}
-                    app={app} 
-                    label={I18n.t('dashboasrd.user_os')}
-                    kind={'user_os'}
-                  />
+                <DashboardItem
+                  chartType={'pie'}
+                  dashboard={dashboard}
+                  app={app}
+                  label={I18n.t('dashboasrd.lead_os')}
+                  kind={'lead_os'}
+                />
               </div>
             </div>
 
             <div className={'lg:w-1/4 w-1/2 p-4'}>
               <div className="bg-white shadow overflow-hidden  sm:rounded-lg p-4">
-                  <DashboardItem
-                    chartType={"pie"} 
-                    dashboard={dashboard}
-                    app={app} 
-                    label={I18n.t('dashboasrd.user_country')}
-                    kind={'user_country'}
-                  />
+                <DashboardItem
+                  chartType={'pie'}
+                  dashboard={dashboard}
+                  app={app}
+                  label={I18n.t('dashboasrd.user_os')}
+                  kind={'user_os'}
+                />
+              </div>
+            </div>
+
+            <div className={'lg:w-1/4 w-1/2 p-4'}>
+              <div className="bg-white shadow overflow-hidden  sm:rounded-lg p-4">
+                <DashboardItem
+                  chartType={'pie'}
+                  dashboard={dashboard}
+                  app={app}
+                  label={I18n.t('dashboasrd.user_country')}
+                  kind={'user_country'}
+                />
               </div>
             </div>
 
           </div>
         </div>
       </Content>
-      
+
     </div>
-  );
+  )
 }
 
-function DashboardItem(
+function DashboardItem (
   {
-    app, 
-    kind, 
+    app,
+    kind,
     dashboard,
     chartType,
     label,
     appendLabel,
     classes,
     styles
-  }){
-
+  }) {
   const [data, setData] = React.useState([])
   const [loading, setLoading] = React.useState(true)
 
-  React.useEffect(()=>{
-    getData()} 
+  React.useEffect(() => {
+    getData()
+  }
   , [])
 
-  function getData(){
-
+  function getData () {
     graphql(DASHBOARD, {
       appKey: app.key,
       range: {
-          from: dashboard.from,
-          to: dashboard.to
-        },
-        kind: kind
-      }, {
-      success: (data)=>{
+        from: dashboard.from,
+        to: dashboard.to
+      },
+      kind: kind
+    }, {
+      success: (data) => {
         setData(data.app.dashboard)
         setLoading(false)
       },
-      error: (err)=>{
+      error: (err) => {
         setLoading(false)
         debugger
       }
     })
   }
 
-  function renderChart(){
+  function renderChart () {
     switch (chartType) {
-      case "heatMap":
-        return <HeatMap 
+      case 'heatMap':
+        return <HeatMap
           data={data}
           from={dashboard.from}
           to={dashboard.to}
         />
 
-      case "pie":
-        return  <Pie 
+      case 'pie':
+        return <Pie
           data={data}
           from={dashboard.from}
           to={dashboard.to}
         />
-      case "count":
-        return  <Count 
+      case 'count':
+        return <Count
           data={data}
           from={dashboard.from}
           to={dashboard.to}
           label={label}
           appendLabel={appendLabel}
         />
-      case "app_packages":
-        return <DashboardAppPackages 
-                data={data}
-                dashboard={dashboard}
-                classes={classes}
-               />
+      case 'app_packages':
+        return <DashboardAppPackages
+          data={data}
+          dashboard={dashboard}
+          classes={classes}
+        />
       default:
-        return <p>no chart type</p>;
+        return <p>no chart type</p>
     }
   }
 
   return (
-    <div style={styles || {height: '140px'} }>
+    <div style={styles || { height: '140px' } }>
 
       {
         loading && <Progress/>
@@ -283,27 +279,27 @@ function DashboardItem(
   )
 }
 
-function DashboardAppPackages(props){
-  const packages  = props.data
+function DashboardAppPackages (props) {
+  const packages = props.data
   return (
     <div className="bg-white shadow overflow-hidden  sm:rounded-lg p-4">
       {
-        packages && packages.map((o)=>( 
-          <DashboardAppPackage 
+        packages && packages.map((o) => (
+          <DashboardAppPackage
             key={`appPackage-${o.name}`}
-            package={o} 
+            package={o}
             dashboard={props.dashboard}
-            classes={props.classes} 
-          /> 
+            classes={props.classes}
+          />
         ))
       }
     </div>
   )
 }
 
-function DashboardAppPackage(props){
+function DashboardAppPackage (props) {
   const dashboard = props.dashboard
-  const pkg  = props.package
+  const pkg = props.package
   const data = pkg.data
   const classes = props.classes
 
@@ -311,21 +307,21 @@ function DashboardAppPackage(props){
     <div className="p-4">
 
       <div className="flex mb-2">
-      
+
         <div className="mr-4">
           <img src={pkg.icon} width={64}/>
         </div>
 
         <div>
           <p className="mt-1 text-3xl leading-9 font-semibold text-gray-900">
-            {pkg.name}: {data.title} 
+            {pkg.name}: {data.title}
           </p>
 
           <p className="text-sm leading-5 font-medium text-gray-500 truncate">
             {data.subtitle}
           </p>
         </div>
-      
+
       </div>
 
       <hr className="my-4"/>
@@ -333,19 +329,19 @@ function DashboardAppPackage(props){
       <div className="flex">
 
         {
-          data.values && data.values.map((v)=>{
+          data.values && data.values.map((v) => {
             return <div className="w-1/4">
-                      
-                        <Count 
-                          data={v.value}
-                          from={dashboard.from}
-                          to={dashboard.to}
-                          label={v.label}
-                          subtitle={`${v.value2}`}
-                          //appendLabel={appendLabel}
-                        />
-                     
-                    </div>
+
+              <Count
+                data={v.value}
+                from={dashboard.from}
+                to={dashboard.to}
+                label={v.label}
+                subtitle={`${v.value2}`}
+                // appendLabel={appendLabel}
+              />
+
+            </div>
           })
         }
 
@@ -354,10 +350,7 @@ function DashboardAppPackage(props){
   )
 }
 
-
-
-function mapStateToProps(state) {
-
+function mapStateToProps (state) {
   const { auth, app } = state
   const { loading, isAuthenticated } = auth
 

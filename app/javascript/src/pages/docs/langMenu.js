@@ -1,20 +1,20 @@
-const ITEM_HEIGHT = 48;
+const ITEM_HEIGHT = 48
 
-function LangMenu({languages, handleChange, lang, history}) {
-  const classes = useStyles();
+function LangMenu ({ languages, handleChange, lang, history }) {
+  const classes = useStyles()
 
-  const [anchorEl, setAnchorEl] = React.useState(null);
-  const open = Boolean(anchorEl);
+  const [anchorEl, setAnchorEl] = React.useState(null)
+  const open = Boolean(anchorEl)
 
-  function handleClick(event) {
-    setAnchorEl(event.currentTarget);
+  function handleClick (event) {
+    setAnchorEl(event.currentTarget)
   }
 
-  function handleClose() {
-    setAnchorEl(null);
+  function handleClose () {
+    setAnchorEl(null)
   }
 
-  function handleSelect(option) {
+  function handleSelect (option) {
     handleClose()
     handleChange(option)
   }
@@ -43,16 +43,16 @@ function LangMenu({languages, handleChange, lang, history}) {
         PaperProps={{
           style: {
             maxHeight: ITEM_HEIGHT * 4.5,
-            width: 200,
-          },
+            width: 200
+          }
         }}
       >
         {languages.map(option => (
-          <MenuItem key={option} selected={option === lang} onClick={()=> handleSelect(option)}>
+          <MenuItem key={option} selected={option === lang} onClick={() => handleSelect(option)}>
             {option}
           </MenuItem>
         ))}
       </Menu>
     </div>
-  );
+  )
 }

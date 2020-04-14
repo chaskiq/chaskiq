@@ -1,5 +1,5 @@
 import { compose, createStore, applyMiddleware, combineReducers } from 'redux'
-import { composeWithDevTools } from 'redux-devtools-extension';
+import { composeWithDevTools } from 'redux-devtools-extension'
 import thunkMiddleware from 'redux-thunk'
 import persistState from 'redux-localstorage'
 
@@ -38,12 +38,12 @@ const middlewares = [thunkMiddleware]//, routerMiddleware(history)]
 
 const enhancer = compose(
   applyMiddleware(...middlewares),
-  persistState('auth', { key: 'AUTH'}),
-  persistState("theme", { key: 'THEME' })
+  persistState('auth', { key: 'AUTH' }),
+  persistState('theme', { key: 'THEME' })
 )
 
 const store = createStore(rootReducer, composeWithDevTools(
   enhancer
-));
+))
 
 export default store

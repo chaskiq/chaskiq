@@ -1,13 +1,11 @@
 import React from 'react'
-import { withRouter } from 'react-router-dom'
+import { withRouter, Link } from 'react-router-dom'
 import { connect } from 'react-redux'
-import { Link } from 'react-router-dom'
-import Moment from 'react-moment';
+
+import Moment from 'react-moment'
 import Accordeon from './Accordeon'
 
-function UserData({app_user, app}){
-
-
+function UserData ({ app_user, app }) {
   return (
     <React.Fragment>
       {
@@ -15,22 +13,22 @@ function UserData({app_user, app}){
           <div className="overflow-hidden max-w-xs my-3">
             <div >
               <div className="flex justify-center mt-5">
-                  <img src={app_user.avatarUrl} 
-                    className="rounded-full border-solid border-white border-2 -mt-3"
-                  />		
+                <img src={app_user.avatarUrl}
+                  className="rounded-full border-solid border-white border-2 -mt-3"
+                />
               </div>
 
               <div className="text-center px-3 pb-6 pt-2">
-                
+
                 <h3 className="text-sm leading-5 font-medium text-gray-900">
                   {app_user.properties.name}
 
-                <span className={`
+                  <span className={`
                 ${app_user.online ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'}
                 px-2 inline-flex text-xs leading-5 font-semibold 
                 rounded-full bg-green-100 text-green-800`}>
-                  {app_user.online ? 'Online' : 'Offline' }
-                </span>
+                    {app_user.online ? 'Online' : 'Offline' }
+                  </span>
 
                 </h3>
 
@@ -39,7 +37,7 @@ function UserData({app_user, app}){
                 </p>
 
                 <Link
-                  className="text-sm leading-5 font-medium text-gray-900"  
+                  className="text-sm leading-5 font-medium text-gray-900"
                   to={`/apps/${app.key}/users/${app_user.id}`}
                 >
                   show profile
@@ -54,10 +52,10 @@ function UserData({app_user, app}){
                 <li>
                   <a href="#" className="block hover:bg-gray-50 focus:outline-none focus:bg-gray-50 transition duration-150 ease-in-out">
                     <div className="px-4 py-4 sm:px-6">
-                      
+
                       <div className="mt-2 sm:flex sm:justify-between">
                         <div className="sm:flex">
-                          
+
                           <div className="mt-2 flex items-center text-sm leading-5 text-gray-500 sm:mt-0">
                             <svg className="flex-shrink-0 mr-1.5 h-5 w-5 text-gray-400" fill="currentColor" viewdiv="0 0 20 20">
                               <path fillRule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clipRule="evenodd"/>
@@ -82,167 +80,166 @@ function UserData({app_user, app}){
               </ul>
             </div>
 
-            <Accordeon 
+            <Accordeon
               items={[
-              {
-                name: "Location",
-                component: null,
-                items: [{
-                  label: 'referrer',
-                  value: app_user.referrer
-                },
-
                 {
-                  label: 'city',
-                  value: app_user.city
-                },
-
-                {
-                  label: 'region',
-                  value: app_user.region
-                },
-
-                {
-                  label: 'country',
-                  value: app_user.country
-                },
-
-                {
-                  label: 'lat',
-                  value: app_user.lat
-                },
-
-                {
-                  label: 'lng',
-                  value: app_user.lng
-                },
-                {
-                  label: 'postal:',
-                  value: app_user.postal
-                },
-                ]
-
-              },
-              {
-                name: "Browsing Properties",
-                component: null,
-                items: [
-                  {
-                    label: 'web sessions:',
-                    value: app_user.webSessions
+                  name: 'Location',
+                  component: null,
+                  items: [{
+                    label: 'referrer',
+                    value: app_user.referrer
                   },
 
                   {
-                    label: 'timezone:',
-                    value: app_user.timezone
+                    label: 'city',
+                    value: app_user.city
                   },
 
                   {
-                    label: 'browser version:',
-                    value: app_user.browserVersion
+                    label: 'region',
+                    value: app_user.region
                   },
 
                   {
-                    label: 'browser:',
-                    value: app_user.browser
+                    label: 'country',
+                    value: app_user.country
                   },
 
                   {
-                    label: 'os:',
-                    value: app_user.os
+                    label: 'lat',
+                    value: app_user.lat
                   },
 
                   {
-                    label: 'os version:',
-                    value: app_user.osVersion
+                    label: 'lng',
+                    value: app_user.lng
+                  },
+                  {
+                    label: 'postal:',
+                    value: app_user.postal
                   }
-                ]
+                  ]
 
-              },
-              {
-                name: "Properties", 
-                component: <p dense>
-                  {
-                    app_user.properties &&
+                },
+                {
+                  name: 'Browsing Properties',
+                  component: null,
+                  items: [
+                    {
+                      label: 'web sessions:',
+                      value: app_user.webSessions
+                    },
+
+                    {
+                      label: 'timezone:',
+                      value: app_user.timezone
+                    },
+
+                    {
+                      label: 'browser version:',
+                      value: app_user.browserVersion
+                    },
+
+                    {
+                      label: 'browser:',
+                      value: app_user.browser
+                    },
+
+                    {
+                      label: 'os:',
+                      value: app_user.os
+                    },
+
+                    {
+                      label: 'os version:',
+                      value: app_user.osVersion
+                    }
+                  ]
+
+                },
+                {
+                  name: 'Properties',
+                  component: <p dense>
+                    {
+                      app_user.properties &&
                       Object.keys(app_user.properties).map((o, i) => {
-                        if(!app_user.properties[o]) return null 
+                        if (!app_user.properties[o]) return null
                         return <p key={`app-user-${app_user.id}-${i}`}>
-                                  <p
-                                    primary={`${o}:`}
-                                    secondary={app_user.properties[o]}
-                                  />
-                                </p>
-                      }) 
-                  }
+                          <p
+                            primary={`${o}:`}
+                            secondary={app_user.properties[o]}
+                          />
+                        </p>
+                      })
+                    }
                   </p>
-              }, 
-              {
-                name: "External Profiles",
-                component: <div>
-
-                <ul dense>
+                },
                 {
-                  app_user.externalProfiles &&
+                  name: 'External Profiles',
+                  component: <div>
+
+                    <ul dense>
+                      {
+                        app_user.externalProfiles &&
                     app_user.externalProfiles.map((o, i) => {
                       return <div
-                              m={2}
-                              key={`app-user-profile-${app_user.id}-${o.id}`}>
-                                <div style={{
-                                  textAlign: 'left', 
-                                  display: 'flex',
-                                  justifyContent: 'space-between'
-                                }}>
+                        m={2}
+                        key={`app-user-profile-${app_user.id}-${o.id}`}>
+                        <div style={{
+                          textAlign: 'left',
+                          display: 'flex',
+                          justifyContent: 'space-between'
+                        }}>
 
-                                  <p variant="h6">
-                                    {o.provider}
-                                  </p>
+                          <p variant="h6">
+                            {o.provider}
+                          </p>
 
-                                  <button 
-                                    size="small" 
-                                    variant={'outlined'} 
-                                    onClick={()=> this.syncExternalProfile(o) }>
+                          <button
+                            size="small"
+                            variant={'outlined'}
+                            onClick={() => this.syncExternalProfile(o) }>
                                     sync
-                                  </button>
+                          </button>
 
-                                </div>
+                        </div>
 
-                                <div style={
-                                  {
-                                    display: 'flex', 
-                                    flexDirection: 'column',
-                                    textAlign: 'left'}
-                                  }>
-                                  { 
-                                    Object.keys(o.data).map((a, i) => {
-                                      if(!o.data[a] || typeof(o.data[a]) === 'object') return null 
-                                      return <p 
-                                                variant={"caption"}
-                                                key={`app-user-${o.provider}-${app_user.id}-${i}`}>
-                                                  {<b>{a}:</b>}{` ${o.data[a]}`}
-                                              </p>
-                                    }) 
-                                  }
-                                </div>
-                            </div>
-                    }) 
+                        <div style={
+                          {
+                            display: 'flex',
+                            flexDirection: 'column',
+                            textAlign: 'left'
+                          }
+                        }>
+                          {
+                            Object.keys(o.data).map((a, i) => {
+                              if (!o.data[a] || typeof (o.data[a]) === 'object') return null
+                              return <p
+                                variant={'caption'}
+                                key={`app-user-${o.provider}-${app_user.id}-${i}`}>
+                                {<b>{a}:</b>}{` ${o.data[a]}`}
+                              </p>
+                            })
+                          }
+                        </div>
+                      </div>
+                    })
+                      }
+                    </ul>
+
+                  </div>
                 }
-                </ul>
-                
-                 
-                </div>
-              }
               ]}
             />
 
-          </div> 
+          </div>
       }
     </React.Fragment>
   )
 }
 
-
-function mapStateToProps(state) {
-  const { app_user, app} = state
+function mapStateToProps (state) {
+  const { app_user, app } = state
   return {
     app_user,
     app

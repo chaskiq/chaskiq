@@ -1,35 +1,33 @@
 
 import React from 'react'
-import {isEmpty} from 'lodash'
+import { isEmpty } from 'lodash'
 
-export default function Table({
-  data, 
-  columns, 
+export default function Table ({
+  data,
+  columns,
   format,
   search,
   meta
-}){
-
-
-  const visibleColumns =()=>(
-    columns.filter((o)=> !o.hidden)
+}) {
+  const visibleColumns = () => (
+    columns.filter((o) => !o.hidden)
   )
 
-  const renderDefaultRow = (value)=>{
-    return <td 
-            className="px-6 py-4 whitespace-no-wrap border-b border-gray-200">
-              {value}
-            </td>
+  const renderDefaultRow = (value) => {
+    return <td
+      className="px-6 py-4 whitespace-no-wrap border-b border-gray-200">
+      {value}
+    </td>
   }
 
-  const handleFormat = (item)=>{
-    console.log("ITEM", columns)
+  const handleFormat = (item) => {
+    console.log('ITEM', columns)
     return <tr>
-            {visibleColumns().map((o)=>(
-              o.render ? o.render(item) : 
-              renderDefaultRow(item[o])
-            ))}
-          </tr>
+      {visibleColumns().map((o) => (
+        o.render ? o.render(item)
+          : renderDefaultRow(item[o])
+      ))}
+    </tr>
   }
 
   return (
@@ -38,14 +36,14 @@ export default function Table({
         <thead>
           <tr>
 
-          {
-            visibleColumns().map((o)=>(
-              <th className="px-6 py-3 border-b border-gray-200 bg-gray-50 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">
-                {o.title}
-              </th>
-            ))
-          }
-            {/*<th className="px-6 py-3 border-b border-gray-200 bg-gray-50 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">
+            {
+              visibleColumns().map((o) => (
+                <th className="px-6 py-3 border-b border-gray-200 bg-gray-50 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">
+                  {o.title}
+                </th>
+              ))
+            }
+            {/* <th className="px-6 py-3 border-b border-gray-200 bg-gray-50 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">
               Name
             </th>
             <th className="px-6 py-3 border-b border-gray-200 bg-gray-50 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">
@@ -57,13 +55,13 @@ export default function Table({
             <th className="px-6 py-3 border-b border-gray-200 bg-gray-50 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">
               Role
             </th>
-        <th className="px-6 py-3 border-b border-gray-200 bg-gray-50"></th>*/}
+        <th className="px-6 py-3 border-b border-gray-200 bg-gray-50"></th> */}
           </tr>
         </thead>
         <tbody className="bg-white">
 
           {
-            data && data.map((o)=>(
+            data && data.map((o) => (
               handleFormat(o)
             ))
           }
@@ -71,51 +69,47 @@ export default function Table({
         </tbody>
       </table>
 
-      { meta && !isEmpty(meta) && 
+      { meta && !isEmpty(meta) &&
         <Pagination meta={meta} search={search}/>
       }
-    
-      </React.Fragment>
-  )
 
+    </React.Fragment>
+  )
 }
 
-function Pagination({meta, search}){
-
-
-
+function Pagination ({ meta, search }) {
   return (
 
     <div className="bg-white px-4 py-3 flex items-center justify-between border-t border-gray-200 sm:px-6">
-    <div className="flex-1 flex justify-between items-center">
-      
-      <button
-        onClick={()=>search(meta.prev_page)}
-        disabled={!meta.prev_page}
-        className=" inline-flex items-center px-4 py-2 border border-gray-300 text-sm leading-5 font-medium rounded-md text-gray-700 bg-white hover:text-gray-500 focus:outline-none focus:shadow-outline-blue focus:border-blue-300 active:bg-gray-100 active:text-gray-700 transition ease-in-out duration-150">
+      <div className="flex-1 flex justify-between items-center">
+
+        <button
+          onClick={() => search(meta.prev_page)}
+          disabled={!meta.prev_page}
+          className=" inline-flex items-center px-4 py-2 border border-gray-300 text-sm leading-5 font-medium rounded-md text-gray-700 bg-white hover:text-gray-500 focus:outline-none focus:shadow-outline-blue focus:border-blue-300 active:bg-gray-100 active:text-gray-700 transition ease-in-out duration-150">
           Previous
-      </button>
+        </button>
 
-      <p className="text-sm leading-5 text-gray-700">
+        <p className="text-sm leading-5 text-gray-700">
         Showing
-        <span className="font-medium ml-1 mr-1">{meta.current_page }</span>
+          <span className="font-medium ml-1 mr-1">{meta.current_page }</span>
         to
-        <span className="font-medium ml-1 mr-1">{meta.total_pages}</span>
+          <span className="font-medium ml-1 mr-1">{meta.total_pages}</span>
         of
-        <span className="font-medium ml-1 mr-1">{meta.total_count}</span>
+          <span className="font-medium ml-1 mr-1">{meta.total_count}</span>
         results
-      </p>
+        </p>
 
-      <button
-        disabled={!meta.next_page}
-        onClick={()=>search(meta.next_page)}
-        className="ml-3  inline-flex items-center px-4 py-2 border border-gray-300 text-sm leading-5 font-medium rounded-md text-gray-700 bg-white hover:text-gray-500 focus:outline-none focus:shadow-outline-blue focus:border-blue-300 active:bg-gray-100 active:text-gray-700 transition ease-in-out duration-150">
+        <button
+          disabled={!meta.next_page}
+          onClick={() => search(meta.next_page)}
+          className="ml-3  inline-flex items-center px-4 py-2 border border-gray-300 text-sm leading-5 font-medium rounded-md text-gray-700 bg-white hover:text-gray-500 focus:outline-none focus:shadow-outline-blue focus:border-blue-300 active:bg-gray-100 active:text-gray-700 transition ease-in-out duration-150">
         Next
-      </button>
+        </button>
 
-    </div>
+      </div>
 
-    {/*
+      {/*
     <div className="hidden sm:flex-1 sm:flex sm:items-center sm:justify-between">
       <div>
 
@@ -131,7 +125,7 @@ function Pagination({meta, search}){
       </div>
 
       <div>
-      
+
         <span className="relative z-0 inline-flex shadow-sm">
           <button type="button" className="relative inline-flex items-center px-2 py-2 rounded-l-md border border-gray-300 bg-white text-sm leading-5 font-medium text-gray-500 hover:text-gray-400 focus:z-10 focus:outline-none focus:border-blue-300 focus:shadow-outline-blue active:bg-gray-100 active:text-gray-500 transition ease-in-out duration-150">
             <svg className="h-5 w-5" fill="currentColor" viewBox="0 0 20 20">
@@ -169,11 +163,9 @@ function Pagination({meta, search}){
     </div>
     */}
 
-  </div>
-
+    </div>
 
   )
-
 }
 
 /*

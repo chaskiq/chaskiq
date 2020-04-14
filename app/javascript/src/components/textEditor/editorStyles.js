@@ -2,8 +2,6 @@ import styled from '@emotion/styled'
 
 import EditorStyles from 'Dante2/package/es/styled/base'
 
-
-
 const NewEditorStyles = styled(EditorStyles)`
   
   display: flex;
@@ -36,8 +34,8 @@ const NewEditorStyles = styled(EditorStyles)`
     font-size: inherit;
   }
 
-  ${(props)=> !props.campaign ? 
-    `.public-DraftEditor-content{
+  ${(props) => !props.campaign
+    ? `.public-DraftEditor-content{
       max-height: calc(35vh - 83px);
       overflow: auto;
       height: 100%;
@@ -53,7 +51,7 @@ const NewEditorStyles = styled(EditorStyles)`
   }
 
   a{
-    color: ${(props)=> props.theme.dante_accent_color };
+    color: ${(props) => props.theme.dante_accent_color};
   }
   
 
@@ -84,8 +82,8 @@ const NewEditorStyles = styled(EditorStyles)`
 
   .section-inner.layoutSingleColumn{
 
-    ${(props)=> !props.campaign ? 
-      `min-height: 50px;` : ``
+    ${(props) => !props.campaign
+      ? 'min-height: 50px;' : ''
     }
     
     word-wrap: break-word;
@@ -106,6 +104,6 @@ const NewEditorStyles = styled(EditorStyles)`
 
   }
 
-`;
+`
 
 export default NewEditorStyles

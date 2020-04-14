@@ -1,65 +1,65 @@
 import React from 'react'
 import { withRouter } from 'react-router-dom'
 import { connect } from 'react-redux'
-import {setCurrentPage, setCurrentSection} from '../../actions/navigation'
-import {errorMessage, successMessage} from '../../actions/status_messages'
+import { setCurrentPage, setCurrentSection } from '../../actions/navigation'
+import { errorMessage, successMessage } from '../../actions/status_messages'
 import FormDialog from '../FormDialog'
 import defaultFields from '../../shared/defaultFields'
 import Button from '../Button'
-import {InlineFilterDialog} from '../segmentManager'
+import { InlineFilterDialog } from '../segmentManager'
 import SegmentItemButton from '../segmentManager/itemButton'
 
 import Input from '../forms/Input'
 
-import arrayMove from 'array-move';
-/*import {
-  sortableContainer, 
+import arrayMove from 'array-move'
+/* import {
+  sortableContainer,
   sortableElement,
   sortableHandle,
-} from 'react-sortable-hoc';*/
-
-import { 
-  AGENTS,
-  ASSIGNMENT_RULES
-} from "../../graphql/queries"
+} from 'react-sortable-hoc'; */
 
 import {
-CREATE_ASSIGNMENT_RULE,
-EDIT_ASSIGNMENT_RULE,
-DELETE_ASSIGNMENT_RULE,
-UPDATE_RULE_PRIORITIES
+  AGENTS,
+  ASSIGNMENT_RULES
+} from '../../graphql/queries'
+
+import {
+  CREATE_ASSIGNMENT_RULE,
+  EDIT_ASSIGNMENT_RULE,
+  DELETE_ASSIGNMENT_RULE,
+  UPDATE_RULE_PRIORITIES
 } from '../../graphql/mutations'
 
-import graphql from "../../graphql/client"
+import graphql from '../../graphql/client'
 import serialize from 'form-serialize'
-import {QueueIcon} from '../icons'
+import { QueueIcon } from '../icons'
 
 import PageHeader from '../PageHeader'
 import Alert from '../Alert'
 
 import {
-  sortableContainer, 
+  sortableContainer,
   sortableElement,
-  sortableHandle,
-} from 'react-sortable-hoc';
+  sortableHandle
+} from 'react-sortable-hoc'
 
 const DragHandle = sortableHandle(() => <div>
-                                            <QueueIcon className="flex-shrink-0 mr-1.5 h-5 w-5 text-gray-400" />
-                                        </div>);
+  <QueueIcon className="flex-shrink-0 mr-1.5 h-5 w-5 text-gray-400" />
+</div>)
 
-const SortableItem = sortableElement(({object, deleteRule, edit, classes}) => (
+const SortableItem = sortableElement(({ object, deleteRule, edit, classes }) => (
 
   <li>
     <div href="#" className="block hover:bg-gray-50 focus:outline-none focus:bg-gray-50 transition duration-150 ease-in-out">
       <div className="flex items-center px-4 py-4 sm:px-6">
-        
+
         <div>
           <DragHandle/>
         </div>
 
         <div className="min-w-0 flex-1 flex items-center">
           <div className="flex-shrink-0">
-            <img className="h-12 w-12 rounded-full" 
+            <img className="h-12 w-12 rounded-full"
               src={`${object.avatarUrl}`} alt="" />
           </div>
           <div className="flex w-full px-4 md:div md:div-cols-2 md:gap-4 justify-between">
@@ -68,65 +68,62 @@ const SortableItem = sortableElement(({object, deleteRule, edit, classes}) => (
                 {object.title}
               </div>
               <div className="mt-2 flex items-center text-sm leading-5 text-gray-500">
-                  
+
                 <span className="truncate">{object.agent.email}</span>
               </div>
             </div>
-        
+
             <div className="hidden md:block">
 
-              {/*<div className="mt-2 flex items-center text-sm leading-5 text-gray-500">
+              {/* <div className="mt-2 flex items-center text-sm leading-5 text-gray-500">
                 <button>edit</button>
                 <button>delete</button>
-                </div>*/}
+                </div> */}
 
-              <button 
+              <button
                 variant="contained"
                 color={'outlined'}
                 className="mr-1 inline-flex items-center px-4 py-2 border border-transparent text-sm leading-5 font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-500 focus:outline-none focus:shadow-outline-indigo focus:border-indigo-700 active:bg-indigo-700 transition duration-150 ease-in-out"
-                onClick={(e)=> {
+                onClick={(e) => {
                   e.preventDefault()
-                  edit(object)}
+                  edit(object)
+                }
                 }>
                   edit
               </button>
 
-              <button 
+              <button
                 className="inline-flex items-center px-4 py-2 border border-transparent text-sm leading-5 font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-500 focus:outline-none focus:shadow-outline-indigo focus:border-indigo-700 active:bg-indigo-700 transition duration-150 ease-in-out"
-                onClick={(e)=>{
+                onClick={(e) => {
                   e.preventDefault()
                   deleteRule(object)
                 }}>
                   delete
               </button>
 
-
-              
             </div>
 
           </div>
         </div>
-        
+
       </div>
     </div>
   </li>
 
+))
 
-));
-
-const SortableContainer = sortableContainer(({children}) => {
+const SortableContainer = sortableContainer(({ children }) => {
   return <ul className="border-b">
-          {children}
-          </ul>;
-});
+    {children}
+  </ul>
+})
 
-function AssignmentRules({
-  dispatch, 
+function AssignmentRules ({
+  dispatch,
   match,
-  app,
-}){
-
-  const formRef = React.useRef();
+  app
+}) {
+  const formRef = React.useRef()
 
   const [state, setState] = React.useState({
     isOpen: false,
@@ -135,195 +132,195 @@ function AssignmentRules({
     conditions: []
   })
 
-  React.useEffect(()=>{
-    dispatch(setCurrentPage("Assignment Rules"))
-    dispatch(setCurrentSection("Conversations"))
+  React.useEffect(() => {
+    dispatch(setCurrentPage('Assignment Rules'))
+    dispatch(setCurrentSection('Conversations'))
     getAssignmentRules()
   }, [])
 
-  
-  const onSortEnd = ({oldIndex, newIndex}) => {
+  const onSortEnd = ({ oldIndex, newIndex }) => {
     setState({
       ...state,
       rules: arrayMove(state.rules, oldIndex, newIndex)
-    });
+    })
 
     updatePriorities()
-  };
-  
-  const open  = () => setState({ ...state, isOpen: true });
-  const close = () => setState({ ...state, isOpen: false });
-  
+  }
+
+  const open = () => setState({ ...state, isOpen: true })
+  const close = () => setState({ ...state, isOpen: false })
+
   const definitions = () => {
     return [
       {
-        name: "name",
+        name: 'name',
         type: 'string',
         div: { xs: 12, sm: 6 }
       },
       {
-        name: "agent",
+        name: 'agent',
         type: 'select',
-        options: ["dark", "light"],
+        options: ['dark', 'light'],
         div: { xs: 12, sm: 6 }
-      },
+      }
     ]
   }
-  
-  const updatePriorities = ()=>{
+
+  const updatePriorities = () => {
     graphql(UPDATE_RULE_PRIORITIES, {
       appKey: app.key,
       rules: state.rules
     }, {
-      success: (data)=>{
-        dispatch(successMessage("rules sorted!"))
+      success: (data) => {
+        dispatch(successMessage('rules sorted!'))
       }
     })
   }
-  
-  const submitAssignment = ()=>{
-    if(state.currentRule){
+
+  const submitAssignment = () => {
+    if (state.currentRule) {
       editAssignmentRule()
-    }else{
+    } else {
       createAssignmentRule()
     }
   }
-  
-  const getAssignmentRules = ()=>{
+
+  const getAssignmentRules = () => {
     graphql(ASSIGNMENT_RULES, {
-      appKey: app.key,
-  
-    },{
-      success: (data)=>{
-        setState({ ...state, rules: data.app.assignmentRules})
+      appKey: app.key
+
+    }, {
+      success: (data) => {
+        setState({ ...state, rules: data.app.assignmentRules })
       },
-      error: ()=>{
+      error: () => {
         debugger
       }
     })
   }
-  
-  const createAssignmentRule = (opts)=>{
+
+  const createAssignmentRule = (opts) => {
     const serializedData = serialize(formRef.current, { hash: true, empty: true })
-  
+
     graphql(CREATE_ASSIGNMENT_RULE, {
       appKey: app.key,
-      title: serializedData["title"],
-      agentId: serializedData["agent"],
-      active:  serializedData["active"],
+      title: serializedData.title,
+      agentId: serializedData.agent,
+      active: serializedData.active,
       conditions: state.conditions
     }, {
-      success: (data)=>{
+      success: (data) => {
         const rule = data.createAssignmentRule.assignmentRule
         setState({
           ...state,
-          rules: state.rules.concat(rule), 
+          rules: state.rules.concat(rule),
           isOpen: false
         })
       },
-      error: ()=>{
-  
+      error: () => {
+
       }
     })
   }
-  
-  const editAssignmentRule = (opts)=>{
+
+  const editAssignmentRule = (opts) => {
     const serializedData = serialize(formRef.current, { hash: true, empty: true })
-  
+
     graphql(EDIT_ASSIGNMENT_RULE, {
       appKey: app.key,
       ruleId: state.currentRule.id,
-      title: serializedData["title"],
-      agentId: serializedData["agent"],
-      active:  serializedData["active"],
+      title: serializedData.title,
+      agentId: serializedData.agent,
+      active: serializedData.active,
       conditions: state.conditions
     }, {
-      success: (data)=>{
+      success: (data) => {
         const rule = data.editAssignmentRule.assignmentRule
-        const collection = state.rules.map((o)=>{
-          if(o.id === rule.id){
+        const collection = state.rules.map((o) => {
+          if (o.id === rule.id) {
             return rule
           } else {
             return o
           }
         })
-  
+
         setState({
           ...state,
-          rules: collection, 
+          rules: collection,
           currentRule: null,
           isOpen: false
         })
       },
-      error: ()=>{
-  
+      error: () => {
+
       }
     })
   }
-  
-  const deleteAssignmentRule = (opts)=>{
+
+  const deleteAssignmentRule = (opts) => {
     graphql(DELETE_ASSIGNMENT_RULE, {
       appKey: app.key,
-      ruleId: opts.id,
+      ruleId: opts.id
     }, {
-      success: (data)=>{
+      success: (data) => {
         const rule = data.deleteAssignmentRule.assignmentRule
-        const collection = state.rules.filter((o)=> o.id !== rule.id)
-        setState({...state, 
-            rules: collection, 
-            currentRule: null
-          })
+        const collection = state.rules.filter((o) => o.id !== rule.id)
+        setState({
+          ...state,
+          rules: collection,
+          currentRule: null
+        })
       },
-      error: ()=>{
+      error: () => {
       }
     })
   }
-  
-  const edit = (rule)=>{
+
+  const edit = (rule) => {
     setState({
       ...state,
       currentRule: rule,
       isOpen: true
     })
   }
-  
-  const deleteRule = (rule)=>{
+
+  const deleteRule = (rule) => {
     setState({
       ...state,
       currentRule: rule
-    })   
+    })
 
     deleteAssignmentRule(rule)
   }
 
-  const {isOpen} = state
+  const { isOpen } = state
 
   const defaultConditions = [
-    { 
-      "type": "match", 
-      "attribute": "match", 
-      "comparison": "and", 
-      "value": "and"
+    {
+      type: 'match',
+      attribute: 'match',
+      comparison: 'and',
+      value: 'and'
     }
   ]
 
   return (
     <div className="p-4">
 
-      <PageHeader 
+      <PageHeader
         title="Assignment Rules"
         actionHandler={open}
         actionLabel={'New Rule'}
         actions={
 
-          <Button 
-            style={{ alignSelf: 'flex-end'}} 
+          <Button
+            style={{ alignSelf: 'flex-end' }}
             variant="contained" color="primary"
-            onClick={()=> 
+            onClick={() =>
               setState({
                 ...state,
-                isOpen: true, 
-                currentRule: null 
+                isOpen: true,
+                currentRule: null
               })
             }>
             Create Rule
@@ -332,72 +329,70 @@ function AssignmentRules({
       >
       </PageHeader>
 
-      <FormDialog 
+      <FormDialog
         open={state.isOpen}
-        titleContent={`Edit rule`}
+        titleContent={'Edit rule'}
         handleClose={close}
         formComponent={
-          <form ref={formRef} 
-            onSubmit={(e)=> (e.preventDefault())}
+          <form ref={formRef}
+            onSubmit={(e) => (e.preventDefault())}
             className="px-8 pt-6 pb-8 mb-4">
             <AssignmentForm
               rule={state.currentRule}
               conditions={
-                state.currentRule ? 
-                state.currentRule.conditions : defaultConditions
+                state.currentRule
+                  ? state.currentRule.conditions : defaultConditions
               }
-              setConditions={(conditions)=> setState({
+              setConditions={(conditions) => setState({
                 ...state,
                 conditions: conditions
               })}
               app={app}
               dispatch={dispatch}
-            /> 
+            />
 
             <div className="mt-5 sm:mt-6 sm:grid sm:grid-cols-2 sm:gap-3 sm:grid-flow-row-dense">
-            <span className="flex w-full rounded-md shadow-sm sm:col-start-2">
-              <button type="submit" 
-                onClick={submitAssignment}
-                className="inline-flex justify-center w-full rounded-md border border-transparent px-4 py-2 bg-indigo-600 text-base leading-6 font-medium text-white shadow-sm hover:bg-indigo-500 focus:outline-none focus:border-indigo-700 focus:shadow-outline-indigo transition ease-in-out duration-150 sm:text-sm sm:leading-5">
+              <span className="flex w-full rounded-md shadow-sm sm:col-start-2">
+                <button type="submit"
+                  onClick={submitAssignment}
+                  className="inline-flex justify-center w-full rounded-md border border-transparent px-4 py-2 bg-indigo-600 text-base leading-6 font-medium text-white shadow-sm hover:bg-indigo-500 focus:outline-none focus:border-indigo-700 focus:shadow-outline-indigo transition ease-in-out duration-150 sm:text-sm sm:leading-5">
                 Confirm
-              </button>
-            </span>
-            <span className="mt-3 flex w-full rounded-md shadow-sm sm:mt-0 sm:col-start-1">
-              <button type="button" 
-                onClick={close}
-                className="inline-flex justify-center w-full rounded-md border border-gray-300 px-4 py-2 bg-white text-base leading-6 font-medium text-gray-700 shadow-sm hover:text-gray-500 focus:outline-none focus:border-blue-300 focus:shadow-outline transition ease-in-out duration-150 sm:text-sm sm:leading-5">
+                </button>
+              </span>
+              <span className="mt-3 flex w-full rounded-md shadow-sm sm:mt-0 sm:col-start-1">
+                <button type="button"
+                  onClick={close}
+                  className="inline-flex justify-center w-full rounded-md border border-gray-300 px-4 py-2 bg-white text-base leading-6 font-medium text-gray-700 shadow-sm hover:text-gray-500 focus:outline-none focus:border-blue-300 focus:shadow-outline transition ease-in-out duration-150 sm:text-sm sm:leading-5">
                 Cancel
-              </button>
-            </span>
-          </div>
+                </button>
+              </span>
+            </div>
 
-          </form> 
+          </form>
 
         }
       />
 
-
-        <SortableContainer 
-            onSortEnd={onSortEnd}
-            useDragHandle>
-            {state.rules.map((value, index) => (
-              <SortableItem 
-                key={`item-${index}`} 
-                index={index} 
-                value={value.id}
-                object={value}
-                edit={edit}
-                deleteRule={()=>deleteRule(value)} 
-              />
-            ))}
-        </SortableContainer>
+      <SortableContainer
+        onSortEnd={onSortEnd}
+        useDragHandle>
+        {state.rules.map((value, index) => (
+          <SortableItem
+            key={`item-${index}`}
+            index={index}
+            value={value.id}
+            object={value}
+            edit={edit}
+            deleteRule={() => deleteRule(value)}
+          />
+        ))}
+      </SortableContainer>
     </div>
   )
 }
 
-function AssignmentForm(props){
-
-  const {rule, setConditions, conditions, dispatch} = props
+function AssignmentForm (props) {
+  const { rule, setConditions, conditions, dispatch } = props
 
   const [agents, setAgents] = React.useState([])
   const [selected, setSelected] = React.useState(rule ? rule.agent.id : '')
@@ -405,25 +400,25 @@ function AssignmentForm(props){
   const [checked, setChecked] = React.useState('')
   const [updater, setUpdater] = React.useState(null)
   const [predicates, setPredicates] = React.useState(conditions || [])
-  //const fields = defaultFields
+  // const fields = defaultFields
 
-  function availableFields(){
-    if(!props.app.customFields) return defaultFields
+  function availableFields () {
+    if (!props.app.customFields) return defaultFields
     return props.app.customFields.concat(defaultFields)
   }
 
-  function selectedValue(){
-    if(!rule) return
-    let {agent} = rule
-    return {label: agent.email, value: agent.id}
+  function selectedValue () {
+    if (!rule) return
+    const { agent } = rule
+    return { label: agent.email, value: agent.id }
   }
 
-  function getAgents(){
-    graphql(AGENTS, {appKey: props.app.key }, {
-      success: (data)=>{
+  function getAgents () {
+    graphql(AGENTS, { appKey: props.app.key }, {
+      success: (data) => {
         setAgents(data.app.agents)
-      }, 
-      error: (error)=>{
+      },
+      error: (error) => {
 
       }
     })
@@ -433,27 +428,27 @@ function AssignmentForm(props){
     getAgents()
   }, [])
 
-  React.useEffect(()=>{
+  React.useEffect(() => {
     setConditions(predicates)
   }, [predicates])
 
-  function handleChange(e){
+  function handleChange (e) {
     setSelected(e.value)
   }
 
-  function displayName(o){
-    return o.attribute.split("_").join(" ")
+  function displayName (o) {
+    return o.attribute.split('_').join(' ')
   }
 
-  function getTextForPredicate(o){
-    if(o.type === "match"){
-      return `Match ${o.value === "and" ? "all" : "any" } criteria`
-    }else{
-      return `${displayName(o)} ${o.comparison ? o.comparison : '' } ${o.value ? o.value : ''}`
+  function getTextForPredicate (o) {
+    if (o.type === 'match') {
+      return `Match ${o.value === 'and' ? 'all' : 'any'} criteria`
+    } else {
+      return `${displayName(o)} ${o.comparison ? o.comparison : ''} ${o.value ? o.value : ''}`
     }
   }
 
-  function addPredicate(data){
+  function addPredicate (data) {
     const pending_predicate = {
       attribute: data.name,
       comparison: null,
@@ -462,17 +457,17 @@ function AssignmentForm(props){
     }
     setPredicates(predicates.concat(pending_predicate))
 
-    // it forces a re render on itemButton for new predicates 
-    setTimeout(()=>{
-      setUpdater( Math.random() )
+    // it forces a re render on itemButton for new predicates
+    setTimeout(() => {
+      setUpdater(Math.random())
     }, 2)
   }
 
-  function updatePredicates(data){
+  function updatePredicates (data) {
     setPredicates(data)
   }
 
-  function deletePredicate(data){
+  function deletePredicate (data) {
     setPredicates(data)
   }
 
@@ -486,77 +481,72 @@ function AssignmentForm(props){
           flexWrap: 'wrap'
         }}>
           {
-            predicates.map((o, i)=>{
-              return <SegmentItemButton 
-                      key={i}
-                      index={i}
-                      predicate={o}
-                      predicates={predicates}
-                      open={ !o.comparison }
-                      updater={updater}
-                      appearance={ o.comparison ? "primary" : "default"} 
-                      text={getTextForPredicate(o)}
-                      updatePredicate={updatePredicates}
-                      predicateCallback={(jwtToken)=> { debugger } }
-                      deletePredicate={(items)=>{ deletePredicate(items) }}                          
-                     />
+            predicates.map((o, i) => {
+              return <SegmentItemButton
+                key={i}
+                index={i}
+                predicate={o}
+                predicates={predicates}
+                open={ !o.comparison }
+                updater={updater}
+                appearance={ o.comparison ? 'primary' : 'default'}
+                text={getTextForPredicate(o)}
+                updatePredicate={updatePredicates}
+                predicateCallback={(jwtToken) => { debugger } }
+                deletePredicate={(items) => { deletePredicate(items) }}
+              />
             })
           }
 
-
-          {<InlineFilterDialog 
+          {<InlineFilterDialog
             app={props.app}
             fields={availableFields}
-            addPredicate={(predicate)=>{
+            addPredicate={(predicate) => {
               addPredicate(predicate)
             }}
           />}
 
-
         </div>
 
-        
       </div>
 
-      <Input 
+      <Input
         label={'title'}
         value={title}
         name="title"
         type="text"
-        onChange={(e)=> setTitle(e.target.value)}
-        helperText={"ssdds"}>
+        onChange={(e) => setTitle(e.target.value)}
+        helperText={'ssdds'}>
       </Input>
 
-        {
-          agents.length > 0 &&
-            <Input  
+      {
+        agents.length > 0 &&
+            <Input
               type={'select'}
               name={'agent'}
               id={'agent'}
               label={'select agent'}
               value={selectedValue()}
-              options={agents.map((o)=>({value: o.id, label: o.email}))}
+              options={agents.map((o) => ({ value: o.id, label: o.email }))}
               onChange={handleChange}>
             </Input>
-        }
+      }
 
-      <Input 
+      <Input
         label={'Activate'}
-        type={"checkbox"} 
-        name={"active"}
+        type={'checkbox'}
+        name={'active'}
         value={checked}
-        onChange={(e)=> setChecked(e.target.checked)}
-      /> 
+        onChange={(e) => setChecked(e.target.checked)}
+      />
     </div>
   )
 }
 
-
-function mapStateToProps(state) {
-
+function mapStateToProps (state) {
   const { auth, app, conversations, app_user } = state
   const { loading, isAuthenticated } = auth
-  //const { sort, filter, collection , meta, loading} = conversations
+  // const { sort, filter, collection , meta, loading} = conversations
 
   return {
     conversations,

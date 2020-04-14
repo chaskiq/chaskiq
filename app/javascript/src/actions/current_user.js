@@ -3,57 +3,55 @@ import graphql from '../graphql/client'
 
 import {
   CURRENT_USER
-} from "../graphql/queries"
+} from '../graphql/queries'
 
-import {doSignout} from './auth'
+import { doSignout } from './auth'
 
 // Actions
 const SET_CURRENT_USER = 'auth/SET_CURRENT_USER'
 
 // Action Creators
-export function getCurrentUser() {
-  return (dispatch, getState) => {    
+export function getCurrentUser () {
+  return (dispatch, getState) => {
     graphql(CURRENT_USER, {}, {
-      success: (data)=>{
-        dispatch(successAuthentication(data.userSession ))
+      success: (data) => {
+        dispatch(successAuthentication(data.userSession))
       },
-      error: (data)=>{
-        console.error("error retriving current user. Sign out!", 
+      error: (data) => {
+        console.error('error retriving current user. Sign out!',
           data.data.errors)
         dispatch(doSignout())
-        //window.location = "/users/sign_in"
-        //console.log("error!", data.data.errors);
+        // window.location = "/users/sign_in"
+        // console.log("error!", data.data.errors);
       },
-      fatal: (response)=>{
+      fatal: (response) => {
         dispatch(doSignout())
       }
     })
   }
 }
 
-export function clearCurrentUser(){
+export function clearCurrentUser () {
   return (dispatch, getState) => {
     dispatch(successAuthentication({}))
   }
 }
 
-function successAuthentication(data) {
+function successAuthentication (data) {
   return { type: SET_CURRENT_USER, data: data }
 }
 
-
 // Reducer
-export default function reducer(state, action = {}) {
+export default function reducer (state, action = {}) {
   const initialState = {}
 
   // Actions
   const SET_CURRENT_USER = 'auth/SET_CURRENT_USER'
 
-
   switch (action.type) {
     case SET_CURRENT_USER:
       return action.data
-    default: 
+    default:
       return state === undefined ? initialState : state
   }
 }

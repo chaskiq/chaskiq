@@ -251,7 +251,7 @@ class AppUsers extends Component {
 
             {this.caption()}
 
-            { 
+            { /*
               this.state.map_view && 
               !this.props.searching && 
               this.props.app.key && 
@@ -264,7 +264,7 @@ class AppUsers extends Component {
                 data={this.props.app_users}
               /> : null
 
-            }
+            */}
 
             { !this.props.searching && <Table 
               data={this.props.app_users} 

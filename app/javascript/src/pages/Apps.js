@@ -1,20 +1,21 @@
 // src/App.js
-import React from "react";
+import React from 'react'
 import Card from '../components/Card'
 import {
   Switch,
   Route,
   Link
-} from "react-router-dom";
+  , withRouter
+} from 'react-router-dom'
 
 import bg from '../images/bg/welcome-icon8.png'
 
 import styled from '@emotion/styled'
-import graphql from "../graphql/client"
-import { APPS } from "../graphql/queries"
-import { withRouter } from 'react-router-dom'
+import graphql from '../graphql/client'
+import { APPS } from '../graphql/queries'
+
 import { connect } from 'react-redux'
-import {setCurrentSection} from '../actions/navigation'
+import { setCurrentSection } from '../actions/navigation'
 import logo from '../images/favicon.png'
 const Container = styled.div`
   background: url(${bg});
@@ -24,24 +25,23 @@ const Container = styled.div`
   marginBottom: 0px;
 `
 
-function App({dispatch}) {
-
+function App ({ dispatch }) {
   const [apps, setApps] = React.useState([])
 
-  React.useEffect(()=>{
+  React.useEffect(() => {
     dispatch(
       setCurrentSection(null)
     )
-    graphql(APPS ,{} ,{
-      success: (data)=>{
+    graphql(APPS, {}, {
+      success: (data) => {
         setApps(data.apps)
-      }, 
-      error: (error)=>{}
+      },
+      error: (error) => {}
     })
   }, [])
 
   return (
-    
+
     <Container className="h-screen flex overflow-hidden bg-white">
 
       <div className="flex flex-col w-0 flex-1 overflow-hidden">
@@ -54,24 +54,23 @@ function App({dispatch}) {
         </div>
 
         <main className="flex-1 relative z-0 overflow-y-auto pt-2 pb-6 focus:outline-none md:py-6 h-screen" tabIndex="0">
-          
-          {/*<div className="max-w-7xl mx-auto px-4 sm:px-6 md:px-8">
+
+          {/* <div className="max-w-7xl mx-auto px-4 sm:px-6 md:px-8">
               <h1 className="text-2xl font-semibold text-gray-900">Dashboard</h1>
-            </div>*/}
-    
+            </div> */}
+
           <div className="max-w-7xl mx-auto px-4 sm:px-6 md:px-8">
-          
+
             <div className="py-4">
               <div className="rounded-lg h-96">
-                
 
                 <div className="mt-10 mx-auto max-w-screen-xl px-4 sm:mt-12 sm:px-6 md:mt-16 lg:mt-20 lg:px-8 xl:mt-28">
                   <div className="sm:text-center lg:text-left">
-                    
+
                     <img src={logo} alt="logo"/>
 
                     <h2 className="text-4xl tracking-tight leading-10 font-extrabold text-gray-900 sm:text-5xl sm:leading-none md:text-6xl">
-                      Welcome To {" "}
+                      Welcome To {' '}
                       <br className="xl:hidden"/>
                       <span className="text-indigo-600">Chaskiq</span>
                     </h2>
@@ -81,14 +80,14 @@ function App({dispatch}) {
 
                     <div className="mt-5 sm:mt-8 mb-8 sm:flex sm:justify-center lg:justify-start">
                       <div className="rounded-md shadow">
-                        <Link to="/apps/new" 
+                        <Link to="/apps/new"
                           className="w-full flex items-center justify-center px-8 py-3 border border-transparent text-base leading-6 font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-500 focus:outline-none focus:shadow-outline transition duration-150 ease-in-out md:py-4 md:text-lg md:px-10">
                           Create new app
                         </Link>
                       </div>
                       <div className="mt-3 sm:mt-0 sm:ml-3">
-                        <a href="https://dev.chaskiq.io" 
-                          target={'blank'} 
+                        <a href="https://dev.chaskiq.io"
+                          target={'blank'}
                           className="w-full flex items-center justify-center px-8 py-3 border border-transparent text-base leading-6 font-medium rounded-md text-indigo-700 bg-indigo-100 hover:text-indigo-600 hover:bg-indigo-50 focus:outline-none focus:shadow-outline focus:border-indigo-300 transition duration-150 ease-in-out md:py-4 md:text-lg md:px-10">
                           Go to documentation site
                         </a>
@@ -99,9 +98,9 @@ function App({dispatch}) {
 
                 <div className="flex flex-wrap overflow-hidden sm:-mx-1">
                   {
-                    apps.map((a)=>(
+                    apps.map((a) => (
                       <div key={a.key} className="lg:w-1/4 w-screen overflow-hidden my-1 px-1">
-                        <Card 
+                        <Card
                           title={
                             <Link to={`/apps/${a.key}`}>
                               {a.name}
@@ -113,21 +112,19 @@ function App({dispatch}) {
                     ))
                   }
                 </div>
-                
 
               </div>
             </div>
-      
+
           </div>
         </main>
       </div>
     </Container>
 
-  );
+  )
 }
 
-function mapStateToProps(state) {
-
+function mapStateToProps (state) {
   const { auth, app } = state
   const { loading, isAuthenticated } = auth
 

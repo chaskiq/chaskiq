@@ -16,7 +16,7 @@ import {
 
 import translation from './translation'
 
-export default function Collections({lang, subdomain}){
+export default function Collections ({ lang, subdomain }) {
   const [collections, setCollections] = React.useState([])
   const [error, setError] = React.useState(false)
 
@@ -24,28 +24,27 @@ export default function Collections({lang, subdomain}){
     getArticles()
   }, [lang])
 
-  function getArticles(){
+  function getArticles () {
     graphql(ARTICLE_COLLECTIONS, {
       domain: subdomain,
       lang: lang
     }, {
-      success: (data)=>{
+      success: (data) => {
         setCollections(data.helpCenter.collections)
-        if(!data.helpCenter.collections)
-          setError("not_found")
+        if (!data.helpCenter.collections) { setError('not_found') }
       },
-      error: ()=>{
+      error: () => {
 
       }
     })
   }
 
-  function truncateOnWord(str, num) {
-    if(!str) return ""
+  function truncateOnWord (str, num) {
+    if (!str) return ''
     if (str.length > num) {
-      return str.slice(0, num) + "...";
+      return str.slice(0, num) + '...'
     } else {
-      return str;
+      return str
     }
   }
 
@@ -54,20 +53,19 @@ export default function Collections({lang, subdomain}){
       {/* End hero unit */}
       <div className="md:grid md:grid-cols-2 md:col-gap-8 md:row-gap-10">
         {collections.map(card => (
-          <div 
+          <div
             className="m-4"
-            item key={card.id} 
-            xs={12} 
-            sm={12} 
+            item key={card.id}
+            xs={12}
+            sm={12}
             md={4}>
-
 
             <Card
               title={
-                <Link 
+                <Link
                   className={'classes.routeLink'}
                   color={'primary'}
-                  to={`${lang}/collections/${card.slug}`}> 
+                  to={`${lang}/collections/${card.slug}`}>
                   <p gutterBottom variant="h5" component="h3">
                     { translation(card.title)}
                   </p>
@@ -77,14 +75,12 @@ export default function Collections({lang, subdomain}){
                 truncateOnWord(card.description, 120)
               }
             >
-            
+
             </Card>
 
-            {/*<Card className={classes.card}>
+            {/* <Card className={classes.card}>
 
               <CardContent className={classes.cardContent}>
-                
-                
 
                 <p>
                   {truncateOnWord(card.description, 120)}
@@ -92,7 +88,7 @@ export default function Collections({lang, subdomain}){
 
               </CardContent>
 
-            </Card>*/}
+            </Card> */}
           </div>
         ))}
       </div>

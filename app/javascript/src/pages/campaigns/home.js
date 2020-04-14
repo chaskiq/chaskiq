@@ -1,32 +1,30 @@
-import React from "react"
+import React from 'react'
 import { connect } from 'react-redux'
 import Content from '../../components/Content'
 import EmptyView from '../../components/EmptyView'
-import {setCurrentSection} from '../../actions/navigation'
+import { setCurrentSection } from '../../actions/navigation'
 import { withRouter } from 'react-router-dom'
 import image from '../../images/delivery-icon8.png'
 
-function CampaignHome({dispatch}){
-
-  React.useEffect(()=>{
+function CampaignHome ({ dispatch }) {
+  React.useEffect(() => {
     dispatch(
-      setCurrentSection("Campaigns")
+      setCurrentSection('Campaigns')
     )
   }, [])
 
   return (
     <div>
-      <Content> 
-        <EmptyView 
-          title={"Campaigns"} 
+      <Content>
+        <EmptyView
+          title={'Campaigns'}
           shadowless
           subtitle={
             <div>
               This is the campaigns section, you can create newsletters
               , popup messages and guided tours
 
-
-              <img src={image} width={"100%"}/>
+              <img src={image} width={'100%'}/>
             </div>
 
           }/>
@@ -35,10 +33,7 @@ function CampaignHome({dispatch}){
   )
 }
 
-
-
-function mapStateToProps(state) {
-
+function mapStateToProps (state) {
   const { auth, app } = state
   const { loading, isAuthenticated } = auth
 

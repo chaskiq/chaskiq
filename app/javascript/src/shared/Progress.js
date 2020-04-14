@@ -1,8 +1,7 @@
-import React from 'react';
+import React from 'react'
 import styled from '@emotion/styled'
-import {keyframes} from '@emotion/core'
+import { keyframes } from '@emotion/core'
 // based on https://codepen.io/Siddharth11/pen/xbGrpG
-
 
 const spin = keyframes`
   100% { 
@@ -15,14 +14,11 @@ const Loader = styled.div`
   border-top-color: white;
 `
 
-
-
-export default function CircularIndeterminate() {
-
+export default function CircularIndeterminate () {
   return (
     <div className="flex justify-center items-center">
-      <Loader className="loader ease-linear rounded-full 
+      <Loader className="loader ease-linear rounded-full
       border-4 border-t-4 border-gray-200 h-16 w-16"/>
     </div>
-  );
+  )
 }

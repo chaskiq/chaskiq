@@ -1,48 +1,47 @@
-import ActionTypes from '../constants/action_types';
+import ActionTypes from '../constants/action_types'
 import graphql from '../graphql/client'
-import { APP_USER } from "../graphql/queries"
-import {SYNC_EXTERNAL_PROFILE} from "../graphql/mutations"
+import { APP_USER } from '../graphql/queries'
+import { SYNC_EXTERNAL_PROFILE } from '../graphql/mutations'
 
-export function getAppUser(userId, cb){
+export function getAppUser (userId, cb) {
   return (dispatch, getState) => {
     dispatch(dispatchSetAppUser(null))
     graphql(APP_USER, {
-        appKey: getState().app.key, 
-        id: userId
-      }, 
-      {
-        success: (data)=>{
-          dispatch(dispatchSetAppUser(data.app.appUser))
-          cb && cb(data)
-          /*this.setState({
+      appKey: getState().app.key,
+      id: userId
+    },
+    {
+      success: (data) => {
+        dispatch(dispatchSetAppUser(data.app.appUser))
+        cb && cb(data)
+        /* this.setState({
             selectedUser: data.app.appUser
-          })*/
+          }) */
       },
-      error: ()=>{
+      error: () => {
       }
     })
   }
 }
 
-
-export function syncExternalProfile(id, profile, cb){
+export function syncExternalProfile (id, profile, cb) {
   return (dispatch, getState) => {
     graphql(SYNC_EXTERNAL_PROFILE, {
       appKey: getState().app.key,
       id: id,
       provider: profile.provider
-    }, 
+    },
     {
-      success: (data)=>{
+      success: (data) => {
         dispatch(dispatchSetAppUser(data.syncExternalProfile.appUser))
         cb && cb(data)
-      }
-    , error: ()=>{}
+      },
+      error: () => {}
     })
   }
 }
 
-function dispatchSetAppUser(data) {
+function dispatchSetAppUser (data) {
   return {
     type: ActionTypes.setAppUser,
     data: data
@@ -52,8 +51,8 @@ function dispatchSetAppUser(data) {
 const initialState = {}
 
 // Reducer
-export default function reducer(state = initialState, action = {}) {
-  switch(action.type) {
+export default function reducer (state = initialState, action = {}) {
+  switch (action.type) {
     case ActionTypes.setAppUser: {
       return action.data
     }
@@ -61,6 +60,6 @@ export default function reducer(state = initialState, action = {}) {
       return initialState
     }
     default:
-      return state;
+      return state
   }
 }
