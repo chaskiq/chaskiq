@@ -17,7 +17,7 @@ const actionTypes = {
   GetConversations: 'GET_CONVERSATIONS',
   UpdateConversations: 'UPDATE_CONVERSATIONS',
   ClearConversations: 'CLEAR_CONVERSATIONS',
-  
+
   UpdateConversation: 'UPDATE_CONVERSATION',
 
   SetStatusMessage: 'SET_STATUS_MESSAGE',
@@ -26,6 +26,6 @@ const actionTypes = {
   AppendConversation: 'APPEND_CONVERSATION',
 
   SetCurrentPage: 'SET_CURRENT_PAGE'
-};
+}
 
-export default actionTypes;
+export default actionTypes

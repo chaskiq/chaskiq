@@ -16,14 +16,14 @@ import {
   Link
 } from 'react-router-dom'
 import List, {
-  ListItem, 
+  ListItem,
   ListItemText,
   ItemAvatar
 } from '../../components/List'
 
 import styled from '@emotion/styled'
 
-//interference poc
+// interference poc
 const OverlapAvatars = styled.div`
 
   margin-right: 1em;
@@ -71,43 +71,42 @@ const OverlapAvatars = styled.div`
 
 `
 
-export default function CollectionsWithSections({match, lang, subdomain}){
-
+export default function CollectionsWithSections ({ match, lang, subdomain }) {
   const [collections, setCollections] = React.useState(null)
 
   React.useEffect(() => {
     getArticles()
   }, [lang])
 
-  function getArticles(){
+  function getArticles () {
     graphql(ARTICLE_COLLECTION_WITH_SECTIONS, {
       domain: subdomain,
       id: match.params.id,
       lang: lang
     },
     {
-      success: (data)=>{
+      success: (data) => {
         setCollections(data.helpCenter.collection)
       },
-      error: ()=>{
-        
+      error: () => {
+
       }
     })
   }
 
-  return(
-    
-      <div className="flex flex-row justify-center items-baseline bg-gray-100 py-8">
+  return (
 
-          {
-            collections &&
+    <div className="flex flex-row justify-center items-baseline bg-gray-100 py-8">
+
+      {
+        collections &&
             <div className="">
 
-              <Breadcrumbs 
+              <Breadcrumbs
                 aria-label="Breadcrumb"
                 breadcrumbs={[
-                  {to: '/', title: 'Collections'},
-                  {title: translation(collections.title)}
+                  { to: '/', title: 'Collections' },
+                  { title: translation(collections.title) }
                 ]}>
               </Breadcrumbs>
 
@@ -117,7 +116,7 @@ export default function CollectionsWithSections({match, lang, subdomain}){
                   <p className="py-4 mt-2 text-3xl leading-8 font-extrabold tracking-tight text-gray-900 sm:text-6xl sm:leading-10">
                     {translation(collections.title) }
                   </p>
-                  
+
                   <p className="py-4 max-w-2xl text-xl leading-7 text-gray-500">
                     {collections.description}
                   </p>
@@ -128,43 +127,43 @@ export default function CollectionsWithSections({match, lang, subdomain}){
                       <ul className="avatars">
 
                         {
-                          collections.authors ? 
-                          collections.authors.map((o)=>{
-                            return <li key={`authors-${o.id}`} className="avatars__item">
-                                    {/*<Tooltip title={o.display_name}>*/}
-                                      <Avatar
-                                        alt={o.displayName}
-                                        src={o.avatarUrl}
-                                      />
-                                    {/*</Tooltip>*/}
-                                  </li> 
-                          }) : null
+                          collections.authors
+                            ? collections.authors.map((o) => {
+                              return <li key={`authors-${o.id}`} className="avatars__item">
+                                {/* <Tooltip title={o.display_name}> */}
+                                <Avatar
+                                  alt={o.displayName}
+                                  src={o.avatarUrl}
+                                />
+                                {/* </Tooltip> */}
+                              </li>
+                            }) : null
                         }
 
                         {
-                          collections.authors && collections.authors.length > 5 ?
-                            <li className="avatars__item">
+                          collections.authors && collections.authors.length > 5
+                            ? <li className="avatars__item">
                               <span className="avatars__others">+3</span>
                             </li> : null
                         }
-                      
+
                       </ul>
-                    </OverlapAvatars> 
-                  
+                    </OverlapAvatars>
+
                     <p className="max-w-2xl text-xl leading-7 text-gray-500">
-                      {collections.baseArticles.length} 
-                      {" "} articles in this collection
+                      {collections.baseArticles.length}
+                      {' '} articles in this collection
                     </p>
 
                   </div>
 
                   <div>
                     {
-                      collections.baseArticles.map((article, i)=>(
+                      collections.baseArticles.map((article, i) => (
                         <ListItem divider key={`articles-base-${article.id}`}>
                           <ListItemText primary={
                             <div>
-                              <Link 
+                              <Link
                                 color={'primary'}
                                 to={`/${lang}/articles/${article.slug}`}>
                                 {article.title}
@@ -173,17 +172,17 @@ export default function CollectionsWithSections({match, lang, subdomain}){
                               <div container
                                 alignItems={'center'}
                               >
-                              <ItemAvatar>
-                                <Avatar
-                                  alt={article.author.name}
-                                  src={article.author.avatarUrl}
-                                />
-                              </ItemAvatar>
+                                <ItemAvatar>
+                                  <Avatar
+                                    alt={article.author.name}
+                                    src={article.author.avatarUrl}
+                                  />
+                                </ItemAvatar>
 
-                              <p variant={"subtitle1"}>
+                                <p variant={'subtitle1'}>
                                 written by <strong>{article.author.displayName}</strong>
-                              </p>
-                            </div>
+                                </p>
+                              </div>
                             </div>
                           }/>
                         </ListItem>
@@ -192,7 +191,7 @@ export default function CollectionsWithSections({match, lang, subdomain}){
                   </div>
 
                   {
-                    collections.sections.map((section)=>(
+                    collections.sections.map((section) => (
                       <div key={`sections-${section.id}`}>
 
                         <p className="mt-2 text-3xl leading-8 font-extrabold tracking-tight text-gray-900 sm:text-4xl sm:leading-10">
@@ -204,39 +203,39 @@ export default function CollectionsWithSections({match, lang, subdomain}){
                         </p>
 
                         {
-                          section.articles.length > 0 ?
-                            <div>
+                          section.articles.length > 0
+                            ? <div>
                               <List>
                                 {
-                                  section.articles.map((article)=>(
-                                      <ListItem 
-                                        divider 
-                                        key={`section-article-${article.id}`}>
-                                        <ListItemText 
-                                          primary={
-                                            <div className="flex flex-col">
-                                              <Link 
-                                                className="text-lg mb-2 leading-6 font-bold text-gray-900"
-                                                color={'primary'}
-                                                to={`/${lang}/articles/${article.slug}`}>
-                                                {translation(article.title)}
-                                              </Link>
-                                              
-                                              <div className="flex items-center">
-                                                <Avatar
-                                                  variant="small"
-                                                  alt={article.author.displayName}
-                                                  src={article.author.avatarUrl}
-                                                />
-                                                <p className="ml-4">
+                                  section.articles.map((article) => (
+                                    <ListItem
+                                      divider
+                                      key={`section-article-${article.id}`}>
+                                      <ListItemText
+                                        primary={
+                                          <div className="flex flex-col">
+                                            <Link
+                                              className="text-lg mb-2 leading-6 font-bold text-gray-900"
+                                              color={'primary'}
+                                              to={`/${lang}/articles/${article.slug}`}>
+                                              {translation(article.title)}
+                                            </Link>
+
+                                            <div className="flex items-center">
+                                              <Avatar
+                                                variant="small"
+                                                alt={article.author.displayName}
+                                                src={article.author.avatarUrl}
+                                              />
+                                              <p className="ml-4">
                                                   written by <strong>{article.author.displayName}</strong>
-                                                </p>
-                                              </div>
+                                              </p>
                                             </div>
+                                          </div>
                                         }
-                                          secondary={article.description}
-                                        />
-                                      </ListItem>
+                                        secondary={article.description}
+                                      />
+                                    </ListItem>
                                   ))
                                 }
                               </List>
@@ -246,11 +245,11 @@ export default function CollectionsWithSections({match, lang, subdomain}){
                     ))
                   }
                 </div>
-              </div> 
+              </div>
             </div>
-          }
-      
-      </div>
-    
+      }
+
+    </div>
+
   )
 }

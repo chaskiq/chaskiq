@@ -1,55 +1,52 @@
 import React, {
-  useState, 
-  useEffect, 
+  useState,
+  useEffect,
   useRef
 } from 'react'
 
 import Button from '../../components/Button'
 import Input from '../../components/forms/Input'
-//import FormControlLabel from '@material-ui/core/FormControlLabel'
-//import FormControl from '@material-ui/core/FormControl'
-//import Radio from '@material-ui/core/Radio'
-//import RadioGroup from '@material-ui/core/RadioGroup'
-//import FormLabel from '@material-ui/core/FormLabel'
-//import Checkbox from '@material-ui/core/Checkbox'
-//import TextField from '@material-ui/core/TextField'
+// import FormControlLabel from '@material-ui/core/FormControlLabel'
+// import FormControl from '@material-ui/core/FormControl'
+// import Radio from '@material-ui/core/Radio'
+// import RadioGroup from '@material-ui/core/RadioGroup'
+// import FormLabel from '@material-ui/core/FormLabel'
+// import Checkbox from '@material-ui/core/Checkbox'
+// import TextField from '@material-ui/core/TextField'
 
 import FormDialog from '../../components/FormDialog'
 
-
-const TaskSettingsForm = ({app, data, updateData, saveData, errors}) => {
-
+const TaskSettingsForm = ({ app, data, updateData, saveData, errors }) => {
   const [state, setState] = useState(data || {})
 
-  function update(data){
+  function update (data) {
     const newState = Object.assign({}, state, data)
-    //setState(newState)
+    // setState(newState)
     updateData(newState)
   }
-
 
   return (
 
     <div>
 
-      <Schedule 
-        app={app} 
-        updateData={update} 
+      <Schedule
+        app={app}
+        updateData={update}
         data={data}
-        namespace={"scheduling"}
-        submit={()=> saveData(state)}
+        namespace={'scheduling'}
+        submit={() => saveData(state)}
       />
 
-      {/*<UrlPaths
-        app={app} 
-        updateData={update} 
+      {/* <UrlPaths
+        app={app}
+        updateData={update}
         data={data}
-      />*/}
+      /> */}
 
       <div className="flex justify-end">
-        <Button variant={'contained'} 
-          color={"primary"}
-          onClick={()=> saveData(state)}>
+        <Button variant={'contained'}
+          color={'primary'}
+          onClick={() => saveData(state)}>
           save
         </Button>
       </div>
@@ -57,29 +54,28 @@ const TaskSettingsForm = ({app, data, updateData, saveData, errors}) => {
   )
 }
 
+function Schedule ({ app, data, updateData, namespace, submit }) {
+  const [state, setState] = React.useState(data)
 
-function Schedule({app, data, updateData, namespace, submit}){
-  const [state, setState] = React.useState(data);
-
-  useEffect(()=>{
+  useEffect(() => {
     updateData(state)
   }, [state])
 
-  function handleRadioChange(event) {
-    setValue(event.target.name, event.target.value);
+  function handleRadioChange (event) {
+    setValue(event.target.name, event.target.value)
   }
 
-  const setValue = (name, value)=>{
-    setState({ ...state, [name]: value });
+  const setValue = (name, value) => {
+    setState({ ...state, [name]: value })
   }
 
-  function submitData(){
+  function submitData () {
     submit(state)
   }
 
   const handleChange = name => event => {
-    setValue(name, event.target.checked ? "enabled" : "disabled")
-  };
+    setValue(name, event.target.checked ? 'enabled' : 'disabled')
+  }
 
   return (
     <div className="py-4">
@@ -90,11 +86,11 @@ function Schedule({app, data, updateData, namespace, submit}){
 
       <Input
         type='checkbox'
-        checked={state.state === "enabled"} 
-        onChange={handleChange('state')} 
-        value={state.state === "enabled"} 
+        checked={state.state === 'enabled'}
+        onChange={handleChange('state')}
+        value={state.state === 'enabled'}
         label={'enable bot task'}
-        helperText={"when enabled the bot task will start operating"} 
+        helperText={'when enabled the bot task will start operating'}
       >
 
       </Input>
@@ -107,46 +103,46 @@ function Schedule({app, data, updateData, namespace, submit}){
         Your app's timezone is {app.timezone} See your office hours.
       </p>
 
-      <Input  
-        onChange={handleRadioChange} 
-        name="scheduling" 
+      <Input
+        onChange={handleRadioChange}
+        name="scheduling"
         type='radio'
         value={'inside_office'}
-        checked={state.scheduling === 'inside_office'} 
+        checked={state.scheduling === 'inside_office'}
         label="During office hours"
         labelPlacement="end"
       />
 
       <Input
         type={'radio'}
-        onChange={handleRadioChange} 
-        name="scheduling" 
+        onChange={handleRadioChange}
+        name="scheduling"
         value={'outside_office'}
-        checked={state.scheduling === 'outside_office'} 
+        checked={state.scheduling === 'outside_office'}
         label="Outside office hours"
         labelPlacement="end"
       />
 
       <Input
-        onChange={handleRadioChange} 
-        name="scheduling" 
+        onChange={handleRadioChange}
+        name="scheduling"
         type='radio'
         disabled
         value={'custom_time'}
-        checked={state.scheduling === 'custom_time'} 
+        checked={state.scheduling === 'custom_time'}
         label="Custom time"
         labelPlacement="end"
       />
 
-      {/*<FormControl component="fieldset">
+      {/* <FormControl component="fieldset">
         <FormLabel component="legend">
           Set specific times to show this bot to your audience.
         </FormLabel>
 
-        <RadioGroup aria-label="position" 
-          name="scheduling" 
-          value={state.scheduling} 
-          onChange={handleRadioChange} 
+        <RadioGroup aria-label="position"
+          name="scheduling"
+          value={state.scheduling}
+          onChange={handleRadioChange}
           >
           <FormControlLabel
             value="inside_office"
@@ -171,35 +167,35 @@ function Schedule({app, data, updateData, namespace, submit}){
           />
         </RadioGroup>
 
-    </FormControl>*/}
+    </FormControl> */}
     </div>
   )
 }
 
-function UrlPaths({data, updateData}){
-  const [urls, setUrls] = useState(data.urls || [] )
-  const inputEl = useRef(null);
+function UrlPaths ({ data, updateData }) {
+  const [urls, setUrls] = useState(data.urls || [])
+  const inputEl = useRef(null)
 
-  useEffect(()=>{
-    updateData({urls: urls})
+  useEffect(() => {
+    updateData({ urls: urls })
   }, [urls])
 
   const [open, setOpen] = useState(false)
 
-  function remove(item){
-    const newUrls = urls.filter((o)=> o != item)
+  function remove (item) {
+    const newUrls = urls.filter((o) => o != item)
     setUrls(newUrls)
   }
 
-  function add(){
+  function add () {
     setOpen(true)
   }
 
-  function close(){
+  function close () {
     setOpen(false)
   }
 
-  function submit(e){
+  function submit (e) {
     const newUrls = urls.concat(inputEl.current.value)
     setUrls(newUrls)
     setOpen(false)
@@ -211,21 +207,21 @@ function UrlPaths({data, updateData}){
 
       <div item>
 
-        <p variant={"h5"}>
+        <p variant={'h5'}>
           Enable Bot
         </p>
 
         {open && (
-          <FormDialog 
+          <FormDialog
             open={open}
-            //contentText={"lipsum"}
-            titleContent={"Save Url"}
+            // contentText={"lipsum"}
+            titleContent={'Save Url'}
             formComponent={
-              //!loading ?
-                <form>
-                  <input ref={inputEl} name={"oe"} />
-                </form> 
-                //: <CircularProgress/>
+              //! loading ?
+              <form>
+                <input ref={inputEl} name={'oe'} />
+              </form>
+              // : <CircularProgress/>
             }
             dialogButtons={
               <div className="flex justify-end">
@@ -233,7 +229,7 @@ function UrlPaths({data, updateData}){
                   Cancel
                 </Button>
 
-                <Button onClick={submit } 
+                <Button onClick={submit }
                   color="primary">
                   Create
                 </Button>
@@ -244,22 +240,22 @@ function UrlPaths({data, updateData}){
         )}
 
       </div>
-    
+
       <div item>
         <Button onClick={add}>add</Button>
       </div>
 
       <div className="flex">
         {
-          urls.map((o)=>(
+          urls.map((o) => (
             <div item>
               <p>{o}</p>
-              <Button onClick={()=> remove(o)}>remove</Button>
+              <Button onClick={() => remove(o)}>remove</Button>
             </div>
           ))
         }
       </div>
-    
+
     </div>
 
   )

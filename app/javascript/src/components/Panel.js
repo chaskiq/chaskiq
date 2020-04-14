@@ -1,14 +1,12 @@
 import React from 'react'
 
-
-export default function Panel({title, text, variant}){
-
-  function variantClasses(){
+export default function Panel ({ title, text, variant }) {
+  function variantClasses () {
     switch (variant) {
       case 'shadowless':
         return ''
       default:
-        return 'shadow';
+        return 'shadow'
     }
   }
 

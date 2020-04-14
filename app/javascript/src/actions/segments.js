@@ -1,50 +1,44 @@
-import ActionTypes from '../constants/action_types';
+import ActionTypes from '../constants/action_types'
 import graphql from '../graphql/client'
-import { SEGMENT, APP_USER} from "../graphql/queries"
-import { 
-  PREDICATES_SEARCH, 
-  PREDICATES_CREATE, 
-  PREDICATES_UPDATE, 
-  PREDICATES_DELETE 
+import { SEGMENT, APP_USER } from '../graphql/queries'
+import {
+  PREDICATES_SEARCH,
+  PREDICATES_CREATE,
+  PREDICATES_UPDATE,
+  PREDICATES_DELETE
 } from '../graphql/mutations'
 
-import {parseJwt, generateJWT} from '../components/segmentManager/jwt'
+import { parseJwt, generateJWT } from '../components/segmentManager/jwt'
 
-export function fetchAppSegment(id, cb){
-
-  return (dispatch, getState)=>{
-
+export function fetchAppSegment (id, cb) {
+  return (dispatch, getState) => {
     graphql(SEGMENT, {
       appKey: getState().app.key,
       id: parseInt(id)
     }, {
-      success: (data)=>{
-
+      success: (data) => {
         dispatch(
           dispatchSegmentUpdate(Object.assign(
-            {}, 
-            data.app.segment, 
-            {initialPredicates: data.app.segment.predicates} 
-           )
+            {},
+            data.app.segment,
+            { initialPredicates: data.app.segment.predicates }
+          )
           )
         )
 
         cb && cb()
 
-        //this.search
+        // this.search
       },
-      error: (error)=>{
-        console.log(error);
+      error: (error) => {
+        console.log(error)
       }
     })
-
   }
 }
 
-export function updateSegment(id, cb){
-
-  return (dispatch, getState)=>{
-
+export function updateSegment (id, cb) {
+  return (dispatch, getState) => {
     const params = {
       appKey: getState().app.key,
       id: getState().segment.id,
@@ -52,32 +46,29 @@ export function updateSegment(id, cb){
     }
 
     graphql(PREDICATES_UPDATE, params, {
-      
-      success: (data)=>{
+
+      success: (data) => {
         dispatchSegmentUpdate(
-          Object.assign(data.predicatesUpdate.segment, {jwt: null})
+          Object.assign(data.predicatesUpdate.segment, { jwt: null })
         )
 
         cb && cb()
 
-        /*this.setState({
+        /* this.setState({
           segment: data.predicatesUpdate.segment,
           jwt: null
-        }, () => cb ? cb() : null)*/
+        }, () => cb ? cb() : null) */
       },
 
-      error: (error)=>{
+      error: (error) => {
       }
 
     })
-
   }
 }
 
-export function createSegment(options, cb){
-
-  return (dispatch, getState)=>{
-
+export function createSegment (options, cb) {
+  return (dispatch, getState) => {
     const params = {
       appKey: getState().app.key,
       name: options.name,
@@ -85,48 +76,44 @@ export function createSegment(options, cb){
     }
 
     graphql(PREDICATES_CREATE, params, {
-      success: (data)=>{
+      success: (data) => {
         dispatch(
           dispatchSegmentUpdate(
-            Object.assign(data.predicatesCreate.segment, {jwt: null})
+            Object.assign(data.predicatesCreate.segment, { jwt: null })
           )
         )
 
         cb && cb()
       },
-      error: (error)=>{
+      error: (error) => {
 
       }
     })
-
   }
-
 }
 
-export function deleteSegment(id, cb){
-
-  return (dispatch, getState)=>{
+export function deleteSegment (id, cb) {
+  return (dispatch, getState) => {
     graphql(PREDICATES_DELETE, {
       appKey: getState().app.key,
       id: id
     }, {
-      success: (data)=>{
+      success: (data) => {
         cb && cb()
       },
-      error: (error)=>{
+      error: (error) => {
       }
     })
   }
 }
 
-export function addPredicate(options, cb){
-  return (dispatch, getState)=>{
-
+export function addPredicate (options, cb) {
+  return (dispatch, getState) => {
     const new_predicates = getState().segment
-                                     .predicates
-                                     .concat(options)
+      .predicates
+      .concat(options)
 
-    const jwtToken = generateJWT(new_predicates)                                
+    const jwtToken = generateJWT(new_predicates)
     dispatch(
       dispatchSegmentUpdate(
         {
@@ -135,15 +122,14 @@ export function addPredicate(options, cb){
       )
     )
 
-    if(cb)
-      cb(jwtToken)
+    if (cb) { cb(jwtToken) }
   }
 }
 
-export function updatePredicate(data, cb){
-  return (dispatch, getState)=>{
+export function updatePredicate (data, cb) {
+  return (dispatch, getState) => {
     const jwtToken = generateJWT(data)
-    //console.log(parseJwt(jwtToken))
+    // console.log(parseJwt(jwtToken))
     dispatch(
       dispatchSegmentUpdate(
         {
@@ -152,19 +138,17 @@ export function updatePredicate(data, cb){
       )
     )
 
-    if(cb)
-      cb(jwtToken)
+    if (cb) { cb(jwtToken) }
   }
 }
 
-
-export function deletePredicate(data, cb){
-  return (dispatch, getState)=>{
-    const jwtToken = generateJWT(data)  
+export function deletePredicate (data, cb) {
+  return (dispatch, getState) => {
+    const jwtToken = generateJWT(data)
 
     dispatch(
       dispatchSegmentUpdate(
-        { 
+        {
           id: getState().segment.id,
           predicates: data,
           jwt: jwtToken
@@ -172,21 +156,20 @@ export function deletePredicate(data, cb){
       )
     )
 
-    if(cb)
-      cb()
+    if (cb) { cb() }
   }
 }
 
-function dispatchLoading(){
+function dispatchLoading () {
   return {
     type: ActionTypes.initSearchAppUsers,
     data: {
       searching: true
     }
-  }  
+  }
 }
 
-export function dispatchSegmentUpdate(data) {
+export function dispatchSegmentUpdate (data) {
   return {
     type: ActionTypes.updateSegment,
     data: data
@@ -198,16 +181,16 @@ const initialState = {
   name: null,
   predicates: [],
   initialPredicates: [],
-  jwt: null,
+  jwt: null
 }
 
 // Reducer
-export default function reducer(state = initialState, action = {}) {
-  switch(action.type) {
+export default function reducer (state = initialState, action = {}) {
+  switch (action.type) {
     case ActionTypes.updateSegment: {
       return Object.assign({}, state, action.data)
     }
     default:
-      return state;
+      return state
   }
 }

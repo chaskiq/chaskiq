@@ -28,7 +28,6 @@ import {
   LinkedIn
 } from './icons'
 
-
 import {
   BrowserRouter,
   Route,
@@ -38,17 +37,17 @@ import {
 } from 'react-router-dom'
 import { Global, css } from '@emotion/core'
 
-const subdomain = window.location.host.split('.')[1] ?
- window.location.host.split('.')[0] : 
- false;
+const subdomain = window.location.host.split('.')[1]
+  ? window.location.host.split('.')[0]
+  : false
 
-function Docs(props) {
-  //const classes = useStyles();
+function Docs (props) {
+  // const classes = useStyles();
   const [settings, setSettings] = React.useState({})
   const [lang, setLang] = React.useState(props.match.params.lang || 'en')
   const [error, setError] = React.useState(false)
 
-  const {history} = props
+  const { history } = props
 
   /*
   let theme = createMuiTheme({
@@ -60,7 +59,7 @@ function Docs(props) {
       fontFamily: "\"IBM Plex Sans\", \"Helvetica\", \"Arial\", sans-serif",
       //fontFamily: "\"Roboto Mono\", \"Helvetica\", \"Arial\", sans-serif",
       fontSize: 14,
-  
+
       h5: {
         //fontFamily: "\"IBM Plex Sans Condensed\", \"Helvetica\", \"Arial\", sans-serif",
         fontFamily: "\"Open Sans\", \"Helvetica\", \"Arial\", sans-serif",
@@ -68,14 +67,14 @@ function Docs(props) {
         fontSize: 26,
         letterSpacing: 0.5,
       },
-  
+
       h4: {
         fontFamily: "\"Open Sans\", \"Helvetica\", \"Arial\", sans-serif",
         fontWeight: 'bold',
         fontSize: '2.5em',
         letterSpacing: 0.5,
       },
-  
+
       h3: {
         fontFamily: "\"Open Sans\", \"Helvetica\", \"Arial\", sans-serif",
         fontWeight: 'bold',
@@ -109,7 +108,7 @@ function Docs(props) {
       borderRadius: 3,
     },
   });
-  
+
   theme = {
     ...theme,
     overrides: {
@@ -211,34 +210,33 @@ function Docs(props) {
         minHeight: 48,
       },
     },
-  };*/
+  }; */
 
   React.useEffect(() => {
     getSettings()
   }, [lang])
 
-  
-  function getSettings(){
+  function getSettings () {
     graphql(ARTICLE_SETTINGS, {
       domain: subdomain,
       lang: props.match.params.lang
     }, {
-      success: (data)=>{
+      success: (data) => {
         setSettings(data.helpCenter)
       },
-      error: ()=>{
+      error: () => {
 
       }
     })
   }
 
-  function handleLangChange(option){
+  function handleLangChange (option) {
     setLang(option.id)
     history.push(`/${option.id}`)
   }
 
-  const newDanteTheme = Object.assign({}, 
-    danteTheme, {mainColor: settings.color})
+  const newDanteTheme = Object.assign({},
+    danteTheme, { mainColor: settings.color })
 
   return (
     <div>
@@ -251,30 +249,28 @@ function Docs(props) {
         `}
       />
 
-
-          
       <React.Fragment>
 
         <main>
           {/* Hero unit */}
 
-          <div 
-            className="bg-black" 
-            //className={'classes.heroContent'} 
+          <div
+            className="bg-black"
+            // className={'classes.heroContent'}
             style={{
-            backgroundImage: `url('${settings.headerImageLarge}')`,
-          }}>
+              backgroundImage: `url('${settings.headerImageLarge}')`
+            }}>
 
             <div className="px-40" >
 
-              <div 
+              <div
                 className="flex items-center justify-between py-2">
-                  
+
                 <div>
 
                   <Link to={`/${lang}`}>
-                    <img 
-                      src={settings.logo} 
+                    <img
+                      src={settings.logo}
                       className={'classes.logoImage'}
                     />
                   </Link>
@@ -286,92 +282,89 @@ function Docs(props) {
 
                     <Button
                       variant="outlined"
-                      className={'mr-2'} 
+                      className={'mr-2'}
                       color={'primary'}
-                      onClick={(e)=> window.location = settings.website}>
+                      onClick={(e) => window.location = settings.website}>
                       <LaunchIcon/>
-                      {" Go to"} {settings.siteTitle}
+                      {' Go to'} {settings.siteTitle}
                     </Button>
 
                     <div ml={1}>
                       <hr className={'classes.hr'} />
                     </div>
-                    
+
                     {
                       settings.availableLanguages &&
-                      <FilterMenu 
+                      <FilterMenu
                         icon={
                           LangGlobeIcon
                         }
                         options={
                           settings.availableLanguages.map(
-                            (o)=> ({
+                            (o) => ({
                               name: o,
                               id: o
-                            }) 
-                        )}
+                            })
+                          )}
                         value={lang}
                         filterHandler={handleLangChange}
-                        //triggerButton={this.toggleButton}
+                        // triggerButton={this.toggleButton}
                       />
                     }
-                  </div>  
+                  </div>
                 </div>
 
               </div>
-                <p className={'py-6 text-center text-5xl leading-9 font-extrabold text-gray-100'}>
-                  {settings.siteDescription}
-                </p>
-              
-                { <Route render={(props)=>(
-                  <CustomizedInputBase 
-                    lang={lang} 
-                    {...props}
-                    subdomain={subdomain}
-                  />
-                )}></Route> }
+              <p className={'py-6 text-center text-5xl leading-9 font-extrabold text-gray-100'}>
+                {settings.siteDescription}
+              </p>
+
+              { <Route render={(props) => (
+                <CustomizedInputBase
+                  lang={lang}
+                  {...props}
+                  subdomain={subdomain}
+                />
+              )}></Route> }
             </div>
-          
+
           </div>
 
           {
-            error ?
-            <p>ERROR!</p> : null
+            error
+              ? <p>ERROR!</p> : null
           }
 
-          
           <Switch>
 
-              <Route exact path={`${props.match.url}/articles/:id`} render={(props)=>(
-                <Article {...props} 
-                  lang={lang} 
-                  subdomain={subdomain}
-                  theme={newDanteTheme} 
-                />
-              )}/>
-
-              <Route exact path={`${props.match.url}/collections/:id`} render={(props)=>(
-                <CollectionsWithSections 
-                  {...props} 
-                  lang={lang}
-                  subdomain={subdomain}
-                />
-              )}/>
-
-              <Route exact path={`${props.match.url}`} render={(props)=>(
-                <Collections 
-                  {...props} 
-                  lang={lang} 
-                  subdomain={subdomain}
-                />
-              )}
+            <Route exact path={`${props.match.url}/articles/:id`} render={(props) => (
+              <Article {...props}
+                lang={lang}
+                subdomain={subdomain}
+                theme={newDanteTheme}
               />
-              
-          </Switch>
-              
-        
-        </main> 
+            )}/>
 
+            <Route exact path={`${props.match.url}/collections/:id`} render={(props) => (
+              <CollectionsWithSections
+                {...props}
+                lang={lang}
+                subdomain={subdomain}
+              />
+            )}/>
+
+            <Route exact path={`${props.match.url}`} render={(props) => (
+              <Collections
+                {...props}
+                lang={lang}
+                subdomain={subdomain}
+              />
+            )}
+            />
+
+          </Switch>
+
+        </main>
 
         {/* Footer */}
 
@@ -389,34 +382,34 @@ function Docs(props) {
                 <Facebook/>
               </a>
             }
-            
+
             {
               settings.twitter &&
               <a href={`http://twitter.com/${settings.twitter}`}>
                 <Twitter/>
-              </a> 
+              </a>
             }
-            
+
             {
               settings.linkedin &&
                 <a href={`http://instagram.com/${settings.linkedin}`}>
                   <LinkedIn/>
-                </a> 
+                </a>
             }
 
           </div>
-            
+
           <MadeWithLove />
-          
+
         </footer>
         {/* End footer */}
       </React.Fragment>
     </div>
-    
-  );
+
+  )
 }
 
-function MadeWithLove() {
+function MadeWithLove () {
   return (
     <p className="text-center text-sm leading-5 text-gray-500">
       {'powered by '}
@@ -425,7 +418,7 @@ function MadeWithLove() {
       </a>
       {' team.'}
     </p>
-  );
+  )
 }
 
 export default Docs

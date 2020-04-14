@@ -1,25 +1,25 @@
-import React from 'react';
+import React from 'react'
 import {
   BrowserRouter,
   Route,
-  Switch,
+  Switch
 } from 'react-router-dom'
 
 import Docs from './docs'
 
-export default function MainLAyout(){
+export default function MainLAyout () {
   return (
     <BrowserRouter>
-      <Switch> 
-        <Route path={"/:lang?(en|es)?"} render={(props)=>(
+      <Switch>
+        <Route path={'/:lang?(en|es)?'} render={(props) => (
           <Docs {...props}/>
         )}/>
 
-        <Route path={"/"} render={(props)=>(
+        <Route path={'/'} render={(props) => (
           <Docs {...props}/>
         )}/>
 
-        <Route  render={(props)=>(
+        <Route render={(props) => (
           <p>404 not found</p>
         )}/>
       </Switch>

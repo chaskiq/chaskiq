@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react'
+import React, { useState, useEffect } from 'react'
 import I18n from '../../shared/FakeI18n'
 
 import langsOptions from '../../shared/langsOptions'
@@ -10,48 +10,45 @@ import { connect } from 'react-redux'
 import Button from '../../components/Button'
 import Table from '../../components/Table'
 
-
-import {AddIcon, PlusIcon, DeleteIcon} from '../../components/icons'
+import { AddIcon, PlusIcon, DeleteIcon } from '../../components/icons'
 import graphql from '../../graphql/client'
-import {toSnakeCase} from '../../shared/caseConverter'
+import { toSnakeCase } from '../../shared/caseConverter'
 import FormDialog from '../../components/FormDialog'
 
 import Input from '../../components/forms/Input'
 
-
-//const options = I18n.t("settings.availability.reply_time.options")
-/*[
-  {value: "auto", label: "Automatic reply time. Currently El equipo responderá lo antes posible"}, 
+// const options = I18n.t("settings.availability.reply_time.options")
+/* [
+  {value: "auto", label: "Automatic reply time. Currently El equipo responderá lo antes posible"},
   {value: "minutes", label: "El equipo suele responder en cuestión de minutos."},
   {value: "hours", label: "El equipo suele responder en cuestión de horas."},
   {value: "1 day", label: "El equipo suele responder en un día."},
-]*/
+] */
 
-export default function LanguageForm({
-  settings, 
-  update, 
-  namespace, 
+export default function LanguageForm ({
+  settings,
+  update,
+  namespace,
   fields
-}){
-
+}) {
   const [isOpen, setIsOpen] = React.useState(false)
   const [selectedOption, setSelectedOption] = React.useState(settings.replyTime)
   const [records, setRecords] = useState(settings.teamSchedule)
 
-  let formRef = React.createRef();
+  let formRef = React.createRef()
 
-  function handleChange(e){
+  function handleChange (e) {
     setSelectedOption(e.target.value)
   }
 
-  function toggleDialog(){
+  function toggleDialog () {
     setIsOpen(!isOpen)
   }
 
-  function handleSubmit(e){
+  function handleSubmit (e) {
     e.preventDefault()
     const data = {
-      app:{
+      app: {
         team_schedule: records,
         reply_time: selectedOption
       }
@@ -61,32 +58,31 @@ export default function LanguageForm({
 
   return (
 
-    <form 
+    <form
       className="py-4"
-      ref={(ref)=> formRef = ref }>
+      ref={(ref) => formRef = ref }>
 
       <div className="py-4">
 
         <p className="text-lg leading-6 font-medium text-gray-900 pb-2">
-          {I18n.t("settings.availability.title")}
-        </p>
-        
-        <p variant="subtitle1" gutterBottom>
-          {I18n.t("settings.availability.hint")}
+          {I18n.t('settings.availability.title')}
         </p>
 
-        
+        <p variant="subtitle1" gutterBottom>
+          {I18n.t('settings.availability.hint')}
+        </p>
+
       </div>
 
       <hr/>
 
       <div className="py-4">
         <p className="text-lg leading-6 font-medium text-gray-900">
-          {I18n.t("settings.availability.title2")}
+          {I18n.t('settings.availability.title2')}
         </p>
-        
+
         <p className="mt-2 max-w-xl text-sm leading-5 text-gray-500">
-          {I18n.t("settings.availability.hint2")}
+          {I18n.t('settings.availability.hint2')}
         </p>
 
       </div>
@@ -94,12 +90,12 @@ export default function LanguageForm({
       <div className="py-4">
 
         <p className="text-xs text-gray-900 font-bold">
-          {I18n.t("settings.availability.timezone", {tz: settings.timezone })}
+          {I18n.t('settings.availability.timezone', { tz: settings.timezone })}
         </p>
 
-        <AvailabilitySchedule 
-          records={records} 
-          setRecords={setRecords} 
+        <AvailabilitySchedule
+          records={records}
+          setRecords={setRecords}
         />
 
       </div>
@@ -107,18 +103,16 @@ export default function LanguageForm({
       <div className="py-4">
 
         <p className="text-lg leading-6 font-medium text-gray-900">
-          {I18n.t("settings.availability.reply_time.title")}
+          {I18n.t('settings.availability.reply_time.title')}
         </p>
 
         <p className="mt-2 max-w-xl text-sm leading-5 text-gray-500">
-          {I18n.t("settings.availability.reply_time.hint")}
+          {I18n.t('settings.availability.reply_time.hint')}
         </p>
 
-
         <div className="py-4">
-          
-            
-            {/*<RadioGroup
+
+          {/* <RadioGroup
               aria-label="reply time"
               name="reply_time"
               //className={classes.group}
@@ -128,58 +122,56 @@ export default function LanguageForm({
               {
                 I18n.t("settings.availability.reply_time.options")
                 .map((o)=>(
-                  <FormControlLabel 
+                  <FormControlLabel
                     key={o.value}
-                    value={o.value} 
-                    control={<Radio />} 
-                    label={o.label} 
+                    value={o.value}
+                    control={<Radio />}
+                    label={o.label}
                   />
                 ))
               }
 
-            </RadioGroup>*/}
+            </RadioGroup> */}
 
-            {
-              I18n.t("settings.availability.reply_time.options")
-              .map((o)=>(
+          {
+            I18n.t('settings.availability.reply_time.options')
+              .map((o) => (
                 <Input
-                  type={'radio'} 
+                  type={'radio'}
                   key={o.value}
                   name="reply_time"
                   value={o.value}
                   defaultChecked={o.value === settings.replyTime}
-                  label={o.label} 
-                  //value={selectedOption}
+                  label={o.label}
+                  // value={selectedOption}
                   onChange={handleChange}
                 />
               ))
-            }
+          }
         </div>
       </div>
 
       <div>
 
         <p className="mt-2 max-w-xl text-sm leading-5 text-gray-500">
-          {I18n.t("settings.availability.reply_time.hint2")}
+          {I18n.t('settings.availability.reply_time.hint2')}
         </p>
 
       </div>
 
       <div>
         <Button onClick={handleSubmit}
-          variant={"contained"} color={"primary"}>
+          variant={'contained'} color={'primary'}>
           Save
-        </Button>      
+        </Button>
       </div>
 
     </form>
   )
 }
 
-
-function AvailabilitySchedule({records, setRecords}){
-
-  function addRecord(e){
+function AvailabilitySchedule ({ records, setRecords }) {
+  function addRecord (e) {
     e.preventDefault()
 
     const newRecords = records.concat({
@@ -191,103 +183,99 @@ function AvailabilitySchedule({records, setRecords}){
     setRecords(newRecords)
   }
 
-  function update(item, index){
-    const newRecords = records.map((o, i)=>{
-      return i === index ? item : o 
+  function update (item, index) {
+    const newRecords = records.map((o, i) => {
+      return i === index ? item : o
     })
     setRecords(newRecords)
   }
 
-  function removeItem(index){
-    const newRecords = records.filter((o, i)=> i != index)
+  function removeItem (index) {
+    const newRecords = records.filter((o, i) => i != index)
     setRecords(newRecords)
   }
 
   return (
 
     <div mt={2}>
-    
+
       {
-        records.map((o, index)=>(
-          <AvailabilityRecord 
-            key={index} 
-            record={o} 
+        records.map((o, index) => (
+          <AvailabilityRecord
+            key={index}
+            record={o}
             update={update}
             index={index}
             removeItem={removeItem}
           />
         ))
       }
-      
-      <div container gutterBottom justify={"flex-start"}>
+
+      <div container gutterBottom justify={'flex-start'}>
         <div className="py-4">
-          <Button 
-            onClick={addRecord} 
-            color={"primary"}
+          <Button
+            onClick={addRecord}
+            color={'primary'}
             className="border h-50 w-50"
 
             data-ballon-pos="down"
-            aria-label={'add new availability time frame'} 
-            variant={"icon"}>
+            aria-label={'add new availability time frame'}
+            variant={'icon'}>
             <PlusIcon/>
           </Button>
         </div>
       </div>
-        
+
     </div>
 
   )
 }
 
-function AvailabilityRecord({record, update, index, removeItem}){
-
+function AvailabilityRecord ({ record, update, index, removeItem }) {
   const [item, setRecord] = useState(record)
 
-  function handleChange(data){
+  function handleChange (data) {
     setRecord(
       Object.assign({}, item, data)
     )
   }
 
-  function genHours(t1, t2){
-    return Array(24 * 4).fill(0).map((_, i) => { return ('0' + ~~(i / 4) + ':0' + 60  * (i / 4 % 1)).replace(/\d(\d\d)/g, '$1') });
-
+  function genHours (t1, t2) {
+    return Array(24 * 4).fill(0).map((_, i) => { return ('0' + ~~(i / 4) + ':0' + 60 * (i / 4 % 1)).replace(/\d(\d\d)/g, '$1') })
   }
 
-  useEffect(()=>{
+  useEffect(() => {
     update(item, index)
   }, [item])
 
-
-  function deleteItem(){
+  function deleteItem () {
     removeItem(index)
   }
 
   return (
     <div className="flex flex-row justify-between items-center">
- 
+
       <div className="w-1/4 p-1">
-        
+
         <Input
           type={'select'}
           label='day'
           name='day'
-          value={ {label: item.day, value: item.day} }
-          defaultValue={{label: item.day, value: item.day}}
+          value={ { label: item.day, value: item.day } }
+          defaultValue={{ label: item.day, value: item.day }}
           data={{}}
-          onChange={(e)=> handleChange({day: e.value}) }
+          onChange={(e) => handleChange({ day: e.value }) }
           options={
-              I18n.translations.en.date.abbr_day_names.map((o, i)=>(
-                {  
-                  value: o.toLocaleLowerCase(),
-                  label: I18n.translations.en.date.day_names[i]
-                }
-              ))
-            }
-          >
+            I18n.translations.en.date.abbr_day_names.map((o, i) => (
+              {
+                value: o.toLocaleLowerCase(),
+                label: I18n.translations.en.date.day_names[i]
+              }
+            ))
+          }
+        >
         </Input>
-        
-        
+
       </div>
 
       <div className="w-1/4 p-1">
@@ -296,56 +284,54 @@ function AvailabilityRecord({record, update, index, removeItem}){
           type={'select'}
           label='from'
           name={'from'}
-          value={ {label: item.from, value: item.from} }
-          defaultValue={{label: item.from, value: item.from}}
+          value={ { label: item.from, value: item.from } }
+          defaultValue={{ label: item.from, value: item.from }}
           data={{}}
-          onChange={(e)=> {
-            handleChange({from: e.value})
+          onChange={(e) => {
+            handleChange({ from: e.value })
           } }
           options={
-              genHours("00:00", "23:30").map((o)=>(
-                {
-                  label: o,
-                  value: o
-                }
-              ))
-            }
-          >
+            genHours('00:00', '23:30').map((o) => (
+              {
+                label: o,
+                value: o
+              }
+            ))
+          }
+        >
         </Input>
-      
-        
+
       </div>
 
       <div className="w-1/4 p-1">
-        
-          <Input
-            label="to"
-            type={'select'}
-            value={ {label: item.to, value: item.to} }
-            defaultValue={{label: item.to, value: item.to}}
-            name={'to'}
-            data={{}}
-            onChange={(e)=> handleChange({to: e.value}) }
-            options={
-                genHours("00:00", "23:30").map((o)=>(
-                  {
-                    label: o,
-                    value: o
-                  }
-                ))
+
+        <Input
+          label="to"
+          type={'select'}
+          value={ { label: item.to, value: item.to } }
+          defaultValue={{ label: item.to, value: item.to }}
+          name={'to'}
+          data={{}}
+          onChange={(e) => handleChange({ to: e.value }) }
+          options={
+            genHours('00:00', '23:30').map((o) => (
+              {
+                label: o,
+                value: o
               }
-            >
-          </Input>
-      
-        
+            ))
+          }
+        >
+        </Input>
+
       </div>
 
       <div className="w-1/4">
-         <Button 
+        <Button
           variant="icon"
           onClick={deleteItem}>
           <DeleteIcon></DeleteIcon>
-         </Button>
+        </Button>
       </div>
 
     </div>

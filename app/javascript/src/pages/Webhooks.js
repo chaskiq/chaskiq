@@ -1,24 +1,25 @@
 import React, {
-  useState, 
-  useEffect, 
+  useState,
+  useEffect,
   useRef
 } from 'react'
-import {isEmpty} from 'lodash'
+import { isEmpty } from 'lodash'
 import {
   Switch,
   Route,
   Link
-} from "react-router-dom";
-import { withRouter } from 'react-router-dom'
+  , withRouter
+} from 'react-router-dom'
+
 import { connect } from 'react-redux'
 import Content from '../components/Content'
 import {
-  errorMessage, 
+  errorMessage,
   successMessage
 } from '../actions/status_messages'
 
 import {
-  setCurrentPage, 
+  setCurrentPage,
   setCurrentSection
 } from '../actions/navigation'
 
@@ -52,23 +53,18 @@ import {
   WEBHOOK_CREATE,
   WEBHOOK_UPDATE,
   WEBHOOK_DELETE
-} from '../graphql/mutations' 
+} from '../graphql/mutations'
 
 import List, {
-  ListItem, 
-  ListItemText, 
+  ListItem,
+  ListItemText,
   ItemListPrimaryContent,
   ItemListSecondaryContent
 } from '../components/List'
 
-
 import serialize from 'form-serialize'
 
-
-
-
-function Settings({app, dispatch}){
-
+function Settings ({ app, dispatch }) {
   const [open, setOpen] = useState(false)
   const [loading, setLoading] = useState(false)
   const [eventTypes, setEventTypes] = useState([])
@@ -76,85 +72,85 @@ function Settings({app, dispatch}){
   const [webhooks, setWebhooks] = useState([])
   const [tabValue, setTabValue] = useState(0)
   const [openDeleteDialog, setOpenDeleteDialog] = useState(false)
-  const form = useRef(null);
+  const form = useRef(null)
 
-  useEffect(()=>{
-    dispatch(setCurrentSection("Settings"))
-    dispatch(setCurrentPage("webhooks"))
+  useEffect(() => {
+    dispatch(setCurrentSection('Settings'))
+    dispatch(setCurrentPage('webhooks'))
     getEventTypes()
     getWebhooks()
   }, [])
 
-  function getEventTypes(){
-    graphql(EVENT_TYPES, {appKey: app.key}, {
-      success: (data)=>{
-        const types = data.app.eventTypes.map((o)=> (
-          {label: o.identifier, value: o.name}
-          )
+  function getEventTypes () {
+    graphql(EVENT_TYPES, { appKey: app.key }, {
+      success: (data) => {
+        const types = data.app.eventTypes.map((o) => (
+          { label: o.identifier, value: o.name }
         )
-        setEventTypes(types) 
-      }, 
-      error: (data)=>{
+        )
+        setEventTypes(types)
+      },
+      error: (data) => {
         debugger
       }
     })
   }
 
-  function getWebhooks(){
+  function getWebhooks () {
     setLoading(true)
 
     setWebhooks([])
 
     graphql(OUTGOING_WEBHOOKS, {
-      appKey: app.key 
+      appKey: app.key
     }, {
-      success: (data)=>{
+      success: (data) => {
         setWebhooks(data.app.outgoingWebhooks)
         setLoading(false)
-      }, 
-      error: ()=>{
+      },
+      error: () => {
         setLoading(false)
       }
     })
   }
 
-  function handleOpen(service){
+  function handleOpen (service) {
     setOpen(service)
   }
 
-  function close(){
+  function close () {
     setOpen(false)
   }
 
-  function submit(){
-    const serializedData = serialize(form.current, { 
-      hash: true, 
-      empty: true 
+  function submit () {
+    const serializedData = serialize(form.current, {
+      hash: true,
+      empty: true
     })
-    
-    open.id ?
-    updateWebhook(serializedData) :
-    createWebhook(serializedData)
+
+    open.id
+      ? updateWebhook(serializedData)
+      : createWebhook(serializedData)
   }
 
-  function definitions(){
+  function definitions () {
     return [
       {
         name: 'url',
         type: 'string',
         label: 'url for outgoing webhook',
-        hint: 'we\'ll send POST requests', 
+        hint: 'we\'ll send POST requests',
         placeholder: 'https://mysite.com',
         grid: { xs: 'w-full', sm: 'w-full' }
       },
-      { 
+      {
         name: 'enabled',
         type: 'bool',
         label: 'enable webhook',
-        grid: { xs: 'w-full', sm: 'w-1/2' } 
+        grid: { xs: 'w-full', sm: 'w-1/2' }
       },
       {
-        name: "tag_list",
+        name: 'tag_list',
         type: 'select',
         label: 'events to send',
         hint: 'chaskiq will deliver this events to configured endpoint',
@@ -165,9 +161,9 @@ function Settings({app, dispatch}){
     ]
   }
 
-  function newWebhook(){
+  function newWebhook () {
     setOpen({
-      name: "webhook",
+      name: 'webhook',
       tag_list: [],
       description: 'Outgoing webhook',
       state: 'disabled',
@@ -176,38 +172,38 @@ function Settings({app, dispatch}){
     })
   }
 
-  function createWebhook(serializedData){
-    const {url, tag_list, enabled} = serializedData.app
+  function createWebhook (serializedData) {
+    const { url, tag_list, enabled } = serializedData.app
     graphql(WEBHOOK_CREATE, {
       appKey: app.key,
       url: url,
       state: enabled,
       tags: tag_list
     }, {
-      success: (data)=>{
+      success: (data) => {
         setTabValue(0)
         const webhook = data.createWebhook.webhook
         const errors = data.createWebhook.errors
-        if(!isEmpty(errors)) {
+        if (!isEmpty(errors)) {
           setErrors(errors)
           return
         }
-        
+
         const newIntegrations = webhooks.concat(webhook)
-        
+
         setWebhooks(newIntegrations)
 
         setOpen(null)
-        dispatch(successMessage("webhook created"))
+        dispatch(successMessage('webhook created'))
       },
-      error: ()=>{
-        dispatch(errorMessage("error adding webhook"))
+      error: () => {
+        dispatch(errorMessage('error adding webhook'))
       }
     })
   }
 
-  function updateWebhook(serializedData){
-    const {url, tag_list, enabled} = serializedData.app
+  function updateWebhook (serializedData) {
+    const { url, tag_list, enabled } = serializedData.app
     graphql(WEBHOOK_UPDATE, {
       appKey: app.key,
       appPackage: open.name,
@@ -216,300 +212,294 @@ function Settings({app, dispatch}){
       state: enabled,
       tags: tag_list
     }, {
-      success: (data)=>{
+      success: (data) => {
         setTabValue(0)
         const webhook = data.updateWebhook.webhook
         const errors = data.updateWebhook.errors
-        if(!isEmpty(errors)) {
+        if (!isEmpty(errors)) {
           setErrors(errors)
           return
         }
         const newIntegrations = webhooks.map(
-          (o)=> o.id === webhook.id ? webhook : o
+          (o) => o.id === webhook.id ? webhook : o
         )
         setWebhooks(newIntegrations)
-        //getAppPackageIntegration()
+        // getAppPackageIntegration()
         setOpen(null)
-        dispatch(successMessage("webhook updated"))
+        dispatch(successMessage('webhook updated'))
       },
-      error: ()=>{
-        dispatch(errorMessage("error updating webhook"))
+      error: () => {
+        dispatch(errorMessage('error updating webhook'))
       }
     })
   }
 
-  function removeWebhook(){
+  function removeWebhook () {
     graphql(WEBHOOK_DELETE, {
       appKey: app.key,
-      id: parseInt(openDeleteDialog.id),
+      id: parseInt(openDeleteDialog.id)
     }, {
-      success: (data)=>{
+      success: (data) => {
         setTabValue(0)
         const webhook = data.deleteWebhook.webhook
         const newIntegrations = webhooks.filter(
-          (o)=> o.id != webhook.id
+          (o) => o.id != webhook.id
         )
         const errors = data.deleteWebhook.errors
-        if(!isEmpty(errors)) {
+        if (!isEmpty(errors)) {
           setErrors(errors)
           return
         }
         setWebhooks(newIntegrations)
         setOpen(null)
         setOpenDeleteDialog(null)
-        dispatch(successMessage("webhook removed correctly"))
+        dispatch(successMessage('webhook removed correctly'))
       },
-      error: ()=>{
-        dispatch(errorMessage("error removing webhook"))
+      error: () => {
+        dispatch(errorMessage('error removing webhook'))
       }
     })
   }
 
-  function handleTabChange(e, i){
+  function handleTabChange (e, i) {
     setTabValue(i)
   }
 
-  function activeWebhooks(){
-    return webhooks.filter((o)=> o.enabled)
+  function activeWebhooks () {
+    return webhooks.filter((o) => o.enabled)
   }
 
-  function disabledWebhooks(){
-    return webhooks.filter((o)=> !o.enabled)
+  function disabledWebhooks () {
+    return webhooks.filter((o) => !o.enabled)
   }
 
   return (
     <Content>
-      
-      <PageHeader 
-        title={"Outgoing Webhooks"} 
+
+      <PageHeader
+        title={'Outgoing Webhooks'}
         actions={
-          <Button 
-            className={"transition duration-150 ease-in-out"}
-            variant={"main"} 
-            color={'primary'} 
+          <Button
+            className={'transition duration-150 ease-in-out'}
+            variant={'main'}
+            color={'primary'}
             onClick={newWebhook}>
             New webhook
           </Button>
-      }/>
+        }/>
 
       <Tabs
         currentTab={tabValue}
         tabs={[
           {
-            label: "Active Webhooks", 
+            label: 'Active Webhooks',
             icon: <HomeIcon/>,
             content: <React.Fragment>
-                      
-                        <div className="pb-2 pt-2">
-                          <Panel 
-                            title={'Active Webhooks'}
-                            text={'lorem bobob'}
-                            variant="shadowless"
-                          />
-                        </div>
 
-                        {
-                          activeWebhooks().length > 0 && 
+              <div className="pb-2 pt-2">
+                <Panel
+                  title={'Active Webhooks'}
+                  text={'lorem bobob'}
+                  variant="shadowless"
+                />
+              </div>
+
+              {
+                activeWebhooks().length > 0 &&
                           <List>
                             {
-                              activeWebhooks().map((o) => 
-                              <WebhookItem 
-                                  webhook={o} 
+                              activeWebhooks().map((o) =>
+                                <WebhookItem
+                                  webhook={o}
                                   key={`webhook-${o.id}`}
-                                  handleEdit={(o)=> setOpen(o)}
-                                  handleDelete={(o)=> setOpenDeleteDialog(o)}
+                                  handleEdit={(o) => setOpen(o)}
+                                  handleDelete={(o) => setOpenDeleteDialog(o)}
                                 />
                               )
                             }
                           </List>
-                        }
+              }
 
-
-                        {
-                          activeWebhooks().length === 0 && 
+              {
+                activeWebhooks().length === 0 &&
                           !loading &&
-                            <EmptyView 
+                            <EmptyView
                               title={'You don\'t have any active webhooks yet'}
                               subtitle={
                                 <span>
-                                  search for your webhooks in 
-                                  <a href="#" 
-                                    onClick={ ()=> setTabValue(1) }>
+                                  search for your webhooks in
+                                  <a href="#"
+                                    onClick={ () => setTabValue(1) }>
                                     disabled webhooks
                                   </a> Tab
                                 </span>
                               }
                             />
-                        }
-                    </React.Fragment>
+              }
+            </React.Fragment>
           },
           {
-            label: "Disabled Webhooks", 
+            label: 'Disabled Webhooks',
             content: <React.Fragment>
 
-                        <div className="pb-2 pt-2">
-                          <Panel 
-                            title={'Disabled Webhooks'}
-                            //text={'lorem bobob'}
-                            variant="shadowless"
-                          />
-                        </div>
+              <div className="pb-2 pt-2">
+                <Panel
+                  title={'Disabled Webhooks'}
+                  // text={'lorem bobob'}
+                  variant="shadowless"
+                />
+              </div>
 
-                        {
-                          disabledWebhooks().length > 0 && 
+              {
+                disabledWebhooks().length > 0 &&
                             <List>
                               {
-                                disabledWebhooks().map((o) => 
-                                  <WebhookItem 
-                                    webhook={o} 
+                                disabledWebhooks().map((o) =>
+                                  <WebhookItem
+                                    webhook={o}
                                     key={`webhook-${o.id}`}
-                                    handleEdit={(o)=> setOpen(o)}
-                                    handleDelete={(o)=> setOpenDeleteDialog(o)}
+                                    handleEdit={(o) => setOpen(o)}
+                                    handleDelete={(o) => setOpenDeleteDialog(o)}
                                   />
                                 )
                               }
                             </List>
-                        }
+              }
 
-                    </React.Fragment>
+            </React.Fragment>
           }
         ]}
       />
 
-
       {open && (
-        <FormDialog 
+        <FormDialog
           open={open}
           handleClose={close}
           titleContent={`${open.id ? 'Update' : 'Add'} webhook`}
           formComponent={
-              <form ref={form}>
-                  {
-                    definitions().map((field) => {
-                      return <div
-                                key={field.name} 
-                                xs={field.grid.xs} 
-                                sm={field.grid.sm}>
-                                <FieldRenderer 
-                                  namespace={'app'}
-                                  type={field.type}
-                                  data={camelizeKeys(field)}
-                                  props={{
-                                    data: camelizeKeys(open)
-                                  }} 
-                                  errors={ errors }
-                                />
-                            </div>
-                    })
-                  }
-              </form> 
+            <form ref={form}>
+              {
+                definitions().map((field) => {
+                  return <div
+                    key={field.name}
+                    xs={field.grid.xs}
+                    sm={field.grid.sm}>
+                    <FieldRenderer
+                      namespace={'app'}
+                      type={field.type}
+                      data={camelizeKeys(field)}
+                      props={{
+                        data: camelizeKeys(open)
+                      }}
+                      errors={ errors }
+                    />
+                  </div>
+                })
+              }
+            </form>
           }
           dialogButtons={
             <React.Fragment>
-              <Button 
-                onClick={close} 
+              <Button
+                onClick={close}
                 color="secondary">
                 Cancel
               </Button>
 
-              <Button onClick={ submit } 
+              <Button onClick={ submit }
                 color="primary">
                 {open ? 'Update' : 'Create'}
               </Button>
 
             </React.Fragment>
           }
-          >
+        >
         </FormDialog>
       )}
 
-      
       {
-        openDeleteDialog && <DeleteDialog 
+        openDeleteDialog && <DeleteDialog
           open={openDeleteDialog}
-          title={`Delete webhook ?`} 
-          closeHandler={()=>{
+          title={'Delete webhook ?'}
+          closeHandler={() => {
             setOpenDeleteDialog(null)
           }}
-          deleteHandler={()=> { 
+          deleteHandler={() => {
             removeWebhook(openDeleteDialog)
-            }}>
+          }}>
           <p variant="subtitle2">
-            The webhook with {openDeleteDialog.dialog} service will 
+            The webhook with {openDeleteDialog.dialog} service will
             be disabled immediately
           </p>
         </DeleteDialog>
       }
-      
-
 
     </Content>
   )
 }
 
-function WebhookItem({webhook, handleEdit, handleDelete}){
+function WebhookItem ({ webhook, handleEdit, handleDelete }) {
   return <ListItem>
-            <ListItemText 
-              primary={
-                <ItemListPrimaryContent variant="h5">
-                  {webhook.url}
-                </ItemListPrimaryContent>
-              } 
-              secondary={
-                <ItemListSecondaryContent>
-                  {
-                    webhook.tag_list.map((o)=>(
-                      <Badge
-                        key={`chip-${o}`}
-                        size="small"
-                        style={{margin: '0 0.2em .2em 0px'}}>
-                        {o}
-                      </Badge>
-                    ))
-                  }
-                </ItemListSecondaryContent>
-              } 
+    <ListItemText
+      primary={
+        <ItemListPrimaryContent variant="h5">
+          {webhook.url}
+        </ItemListPrimaryContent>
+      }
+      secondary={
+        <ItemListSecondaryContent>
+          {
+            webhook.tag_list.map((o) => (
+              <Badge
+                key={`chip-${o}`}
+                size="small"
+                style={{ margin: '0 0.2em .2em 0px' }}>
+                {o}
+              </Badge>
+            ))
+          }
+        </ItemListSecondaryContent>
+      }
 
-              terciary={
-                <React.Fragment>
-                  <div className="text-sm leading-5 text-gray-900">
-                    <Badge>
-                      {webhook.state}
-                    </Badge>
-                  </div>
+      terciary={
+        <React.Fragment>
+          <div className="text-sm leading-5 text-gray-900">
+            <Badge>
+              {webhook.state}
+            </Badge>
+          </div>
 
-                  <div className="mt-2 flex items-center text-sm leading-5 text-gray-500">
-                      <Button 
-                        onClick={()=> handleEdit(webhook)}
-                        edge="end" aria-label="add">
-                        {
-                          webhook.id ? 
-                          <EditIcon/> : 
-                          <AddIcon/>
-                        }
-                      </Button>
-        
-                      { 
-                        webhook.id && <Button 
-                          onClick={()=> handleDelete(webhook) }
-                          edge="end" aria-label="add">
-                          <DeleteIcon  />
-                        </Button>
-                      }
-                  </div>
-                </React.Fragment>
+          <div className="mt-2 flex items-center text-sm leading-5 text-gray-500">
+            <Button
+              onClick={() => handleEdit(webhook)}
+              edge="end" aria-label="add">
+              {
+                webhook.id
+                  ? <EditIcon/>
+                  : <AddIcon/>
               }
-            
-            />
+            </Button>
 
-          </ListItem>
+            {
+              webhook.id && <Button
+                onClick={() => handleDelete(webhook) }
+                edge="end" aria-label="add">
+                <DeleteIcon />
+              </Button>
+            }
+          </div>
+        </React.Fragment>
+      }
+
+    />
+
+  </ListItem>
 }
 
-
-function mapStateToProps(state) {
-  const { auth , app, segment, app_users, current_user, navigation } = state
+function mapStateToProps (state) {
+  const { auth, app, segment, app_users, current_user, navigation } = state
   const { loading, isAuthenticated } = auth
-  const {current_section} = navigation
+  const { current_section } = navigation
   return {
     segment,
     app_users,

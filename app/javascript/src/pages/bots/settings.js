@@ -1,81 +1,83 @@
-import React, {Component, useState, useEffect} from 'react'
+import React, { Component, useState, useEffect } from 'react'
 
 import Button from '../../components/Button'
 import Tabs from '../../components/Tabs'
-import {toSnakeCase} from '../../shared/caseConverter'
+import { toSnakeCase } from '../../shared/caseConverter'
 import serialize from 'form-serialize'
 import ContentHeader from '../../components/PageHeader'
 import Content from '../../components/Content'
 import Input from '../../components/forms/Input'
 import graphql from '../../graphql/client'
-import {AGENTS} from '../../graphql/queries'
-import {UPDATE_APP} from '../../graphql/mutations'
+import { AGENTS } from '../../graphql/queries'
+import { UPDATE_APP } from '../../graphql/mutations'
 
-
-import { 
+import {
   updateApp
 } from '../../actions/app'
 import { setCurrentPage } from '../../actions/navigation'
 
-const SettingsForm = ({app, data, errors, dispatch}) => {
-
+const SettingsForm = ({ app, data, errors, dispatch }) => {
   const [tabValue, setTabValue] = useState(0)
   const [state, setState] = useState({})
   const [agents, setAgents] = useState([])
 
-  useEffect(()=>{
-    dispatch(setCurrentPage("botSettings"))
+  useEffect(() => {
+    dispatch(setCurrentPage('botSettings'))
   }, [])
 
-  function getAgents(){
-    graphql(AGENTS, {appKey: app.key }, {
-      success: (data)=>{
+  function getAgents () {
+    graphql(AGENTS, { appKey: app.key }, {
+      success: (data) => {
         setAgents(data.app.agents)
-      }, 
-      error: (error)=>{
+      },
+      error: (error) => {
       }
     })
   }
 
-  let formRef 
+  let formRef
 
-  function tabsContent(){
-    return <Tabs value={tabValue} 
-              onChange={handleTabChange}
-              textColor="inherit"
-              tabs={[
-                {label: "For Leads", content: <LeadsSettings 
-                    app={app}
-                    updateData={updateState} 
-                    agents={agents} 
-                    getAgents={getAgents}
-                    submit={submit}
-                    namespace={"lead_tasks_settings"}
-                  /> 
-                },
-                {label: "For Users", content: <UsersSettings 
-                        app={app}
-                        updateData={updateState}
-                        agents={agents} 
-                        getAgents={getAgents}
-                        submit={submit}
-                        namespace={"user_tasks_settings"}
-                    /> 
-                  }
-              ]}
-              >
-            </Tabs>
+  function tabsContent () {
+    return <Tabs value={tabValue}
+      onChange={handleTabChange}
+      textColor="inherit"
+      tabs={[
+        {
+          label: 'For Leads',
+          content: <LeadsSettings
+            app={app}
+            updateData={updateState}
+            agents={agents}
+            getAgents={getAgents}
+            submit={submit}
+            namespace={'lead_tasks_settings'}
+          />
+        },
+        {
+          label: 'For Users',
+          content: <UsersSettings
+            app={app}
+            updateData={updateState}
+            agents={agents}
+            getAgents={getAgents}
+            submit={submit}
+            namespace={'user_tasks_settings'}
+          />
+        }
+      ]}
+    >
+    </Tabs>
   }
 
-  function submit(params){
+  function submit (params) {
     dispatch(updateApp(params))
   }
 
-  function handleTabChange(e, i){
+  function handleTabChange (e, i) {
     setTabValue(i)
   }
 
-  function updateState(newData){
+  function updateState (newData) {
     setState(Object.assign({}, data, newData))
   }
 
@@ -85,55 +87,55 @@ const SettingsForm = ({app, data, errors, dispatch}) => {
 
       <Content>
 
-        <ContentHeader 
-          title={ "Bot default settings" }
+        <ContentHeader
+          title={ 'Bot default settings' }
           items={ [] }
         />
 
-        {/*JSON.stringify(state)*/}
+        {/* JSON.stringify(state) */}
         {tabsContent()}
       </Content>
     </div>
   )
 }
 
-function UsersSettings({app, updateData, namespace, submit}){
-  const [state, setState] = React.useState(app.userTasksSettings ||{});
+function UsersSettings ({ app, updateData, namespace, submit }) {
+  const [state, setState] = React.useState(app.userTasksSettings || {})
 
-  useEffect(()=>{
-    updateData({users: state})
+  useEffect(() => {
+    updateData({ users: state })
   }, [state])
 
   const handleChange = name => event => {
-    setState({ ...state, [name]: event.target.checked });
-  };
+    setState({ ...state, [name]: event.target.checked })
+  }
 
-  function submitData(){
-    const data = {[namespace]: state}
+  function submitData () {
+    const data = { [namespace]: state }
     submit(data)
   }
 
   return (
-    <div container direction={"column"}>
+    <div container direction={'column'}>
 
       <div className="py-4">
         <p className="text-lg leading-6 font-medium text-gray-900 pb-4">
           When users start a conversation
         </p>
 
-        <Input 
+        <Input
           type="checkbox"
           label="Leave a 2 minute delay before triggering Task Bots during office hours"
-          checked={state.delay} 
-          onChange={handleChange('delay')} 
+          checked={state.delay}
+          onChange={handleChange('delay')}
           value="delay"
         />
       </div>
 
       <div>
-        <Button 
-          color={"primary"}
-          variant={"contained"}
+        <Button
+          color={'primary'}
+          variant={'contained'}
           onClick={submitData}>
           save
         </Button>
@@ -142,28 +144,27 @@ function UsersSettings({app, updateData, namespace, submit}){
   )
 }
 
-function LeadsSettings({app, updateData, agents, getAgents, submit, namespace}){
+function LeadsSettings ({ app, updateData, agents, getAgents, submit, namespace }) {
+  const [state, setState] = React.useState(app.leadTasksSettings || {})
 
-  const [state, setState] = React.useState(app.leadTasksSettings || {} );
-
-  useEffect(()=>{
-    updateData({leads: state})
+  useEffect(() => {
+    updateData({ leads: state })
   }, [state])
 
   const handleChange = name => event => {
     setValue(name, event.target.checked)
-  };
-
-  function handleRadioChange(event) {
-    setValue(event.target.name, event.target.value);
   }
 
-  const setValue = (name, value)=>{
-    setState({ ...state, [name]: value });
+  function handleRadioChange (event) {
+    setValue(event.target.name, event.target.value)
   }
 
-  function submitData(){
-    const data = {[namespace]: state}
+  const setValue = (name, value) => {
+    setState({ ...state, [name]: value })
+  }
+
+  function submitData () {
+    const data = { [namespace]: state }
     submit(data)
   }
 
@@ -177,28 +178,28 @@ function LeadsSettings({app, updateData, agents, getAgents, submit, namespace}){
 
         <div container direction="column">
 
-          <Input 
+          <Input
             type="checkbox"
-            checked={state.delay} 
-            onChange={handleChange('delay')} 
-            value={state.delay} 
+            checked={state.delay}
+            onChange={handleChange('delay')}
+            value={state.delay}
             label="Leave a 2 minute delay before triggering Task Bots during office hours"
           />
 
-          <Input 
+          <Input
             type="checkbox"
-            checked={state.share_typical_time} 
-            onChange={handleChange('share_typical_time')} 
-            value={state.share_typical_time} 
+            checked={state.share_typical_time}
+            onChange={handleChange('share_typical_time')}
+            value={state.share_typical_time}
             label="Share your typical reply time"
           />
 
-          {/*<FormControlLabel
+          {/* <FormControlLabel
             control={
-              <Checkbox 
-                checked={state.delay} 
-                onChange={handleChange('delay')} 
-                value={state.delay} 
+              <Checkbox
+                checked={state.delay}
+                onChange={handleChange('delay')}
+                value={state.delay}
               />
             }
             label="Leave a 2 minute delay before triggering Task Bots during office hours"
@@ -206,25 +207,25 @@ function LeadsSettings({app, updateData, agents, getAgents, submit, namespace}){
 
           <FormControlLabel
             control={
-              <Checkbox 
-                checked={state.share_typical_time} 
-                onChange={handleChange('share_typical_time')} 
-                value={state.share_typical_time} 
+              <Checkbox
+                checked={state.share_typical_time}
+                onChange={handleChange('share_typical_time')}
+                value={state.share_typical_time}
               />
             }
             label="Share your typical reply time"
-          />*/}
+          /> */}
 
         </div>
 
         <hr/>
-        
+
         <p className="text-lg leading-6 font-medium text-gray-900 py-4">
           Route existing customers to support
         </p>
 
         <p className="max-w-xl text-sm leading-5 text-gray-500 mb-4">
-          Route leads to the right people by asking if they are an existing customer when they start a new conversation.      
+          Route leads to the right people by asking if they are an existing customer when they start a new conversation.
         </p>
 
         <h2 className="font-bold mb-2">
@@ -232,24 +233,24 @@ function LeadsSettings({app, updateData, agents, getAgents, submit, namespace}){
         </h2>
 
         <div className="flex items-center">
-     
-          <Input 
+
+          <Input
             type="radio"
-            name="routing" 
-            value={state.routing} 
-            onChange={handleRadioChange} 
-            //value="assign"
+            name="routing"
+            value={state.routing}
+            onChange={handleRadioChange}
+            // value="assign"
             label="Assign the conversation"
-            >
+          >
           </Input>
 
           <div className="w-1/4 pl-5">
-          
+
             {
-              state.routing === "assign" && 
-              
-              <AgentSelector 
-                agents={agents} 
+              state.routing === 'assign' &&
+
+              <AgentSelector
+                agents={agents}
                 getAgents={getAgents}
                 setValue={setValue}
                 value={state.assignee}
@@ -257,29 +258,29 @@ function LeadsSettings({app, updateData, agents, getAgents, submit, namespace}){
             }
 
           </div>
-        
+
         </div>
 
         <Input
-          name="routing" 
+          name="routing"
           type="radio"
-          //value="close"
-          value={state.routing} 
-          onChange={handleRadioChange} 
+          // value="close"
+          value={state.routing}
+          onChange={handleRadioChange}
           label="Close the conversation"
         />
 
         {
-          /*<FormControl component="fieldset" margin={"normal"}>
-          
+          /* <FormControl component="fieldset" margin={"normal"}>
+
           <FormLabel component="legend">
             What do you want to do when they choose "Yes, I'm a customer"?
           </FormLabel>
 
-          <RadioGroup aria-label="position" 
-            name="routing" 
-            value={state.routing} 
-            onChange={handleRadioChange} 
+          <RadioGroup aria-label="position"
+            name="routing"
+            value={state.routing}
+            onChange={handleRadioChange}
             >
 
             <div pt={2} >
@@ -293,19 +294,19 @@ function LeadsSettings({app, updateData, agents, getAgents, submit, namespace}){
                 />
 
                 {
-                  state.routing === "assign" && 
-                  
-                  <AgentSelector 
-                    agents={agents} 
+                  state.routing === "assign" &&
+
+                  <AgentSelector
+                    agents={agents}
                     getAgents={getAgents}
                     setValue={setValue}
                     value={state.assignee}
                   />
                 }
-              
+
               </div>
             </div>
-            
+
             <FormControlLabel
               value="close"
               control={<Radio color="primary" />}
@@ -313,7 +314,7 @@ function LeadsSettings({app, updateData, agents, getAgents, submit, namespace}){
               labelPlacement="end"
             />
           </RadioGroup>
-          </FormControl>*/
+          </FormControl> */
         }
 
         <hr/>
@@ -323,26 +324,25 @@ function LeadsSettings({app, updateData, agents, getAgents, submit, namespace}){
         </p>
 
         <p className="max-w-xl text-sm leading-5 text-gray-500 mb-4">
-          If we don’t already have their contact details, 
-          Operator will suggest that customers leave their email 
-          address or their phone number to get notified whenever 
+          If we don’t already have their contact details,
+          Operator will suggest that customers leave their email
+          address or their phone number to get notified whenever
           you reply.
         </p>
 
-        
         <Input
           type="radio"
-          name="email_requirement" 
-          value={state.email_requirement} 
-          onChange={handleRadioChange} 
+          name="email_requirement"
+          value={state.email_requirement}
+          onChange={handleRadioChange}
           label="Close the conversation"
         />
 
         <Input
           type="radio"
-          name="email_requirement" 
-          value={state.email_requirement} 
-          onChange={handleRadioChange} 
+          name="email_requirement"
+          value={state.email_requirement}
+          onChange={handleRadioChange}
           label="Ask for email or mobile number"
           value="email_or_phone"
           labelPlacement="end"
@@ -350,18 +350,18 @@ function LeadsSettings({app, updateData, agents, getAgents, submit, namespace}){
 
         <Input
           type="radio"
-          name="email_requirement" 
-          //value={state.email_requirement} 
-          onChange={handleRadioChange} 
+          name="email_requirement"
+          // value={state.email_requirement}
+          onChange={handleRadioChange}
           value="email_only"
           label="Ask for email only"
         />
 
-        {/*<FormControl>
-          <RadioGroup aria-label="position" 
-            name="email_requirement" 
-            value={state.email_requirement} 
-            onChange={handleRadioChange} 
+        {/* <FormControl>
+          <RadioGroup aria-label="position"
+            name="email_requirement"
+            value={state.email_requirement}
+            onChange={handleRadioChange}
             >
             <FormControlLabel
               value="email_only"
@@ -376,14 +376,14 @@ function LeadsSettings({app, updateData, agents, getAgents, submit, namespace}){
               labelPlacement="end"
             />
           </RadioGroup>
-        </FormControl>*/}
-      
+        </FormControl> */}
+
       </div>
 
       <div item>
-        <Button 
-          color={"primary"}
-          variant={"contained"}
+        <Button
+          color={'primary'}
+          variant={'contained'}
           onClick={submitData}>
           save
         </Button>
@@ -392,48 +392,46 @@ function LeadsSettings({app, updateData, agents, getAgents, submit, namespace}){
   )
 }
 
-function AgentSelector({agents, getAgents, setValue, value }){
+function AgentSelector ({ agents, getAgents, setValue, value }) {
   const [selected, setSelected] = React.useState(value)
 
   useEffect(() => {
     getAgents()
   }, [])
 
-  useEffect(()=>{
-    console.log("assignee", selected)
-    setValue("assignee", selected)
+  useEffect(() => {
+    console.log('assignee', selected)
+    setValue('assignee', selected)
   }, [selected])
 
-  function handleChange(e){
+  function handleChange (e) {
     setSelected(e.value)
   }
 
-
-  const selectedAgent = agents.find((o)=> o.id === selected)
+  const selectedAgent = agents.find((o) => o.id === selected)
   let defaultValue = null
-  if(selectedAgent) 
-    defaultValue = {label: selectedAgent.email, value: selectedAgent.id}
+  if (selectedAgent) { defaultValue = { label: selectedAgent.email, value: selectedAgent.id } }
 
   return (
     <div>
 
-    <Input
-      type="select"
-      value={defaultValue}
-      onChange={handleChange}
-      //defaultValue={selected}
-      defaultValue={defaultValue}
-      name={'agent'}
-      id={'agent'}
-      data={{}}
-      options={
-        agents.map((o)=>(
-          {label: o.email, value: o.id}
-        ))
-      }
-    >
-    </Input>
-      {/*<FormControl>
+      <Input
+        type="select"
+        value={defaultValue}
+        onChange={handleChange}
+        // defaultValue={selected}
+        defaultValue={defaultValue}
+        name={'agent'}
+        id={'agent'}
+        data={{}}
+        options={
+          agents.map((o) => (
+            { label: o.email, value: o.id }
+          ))
+        }
+      >
+      </Input>
+      {/* <FormControl>
         <InputLabel htmlFor="agent">agent</InputLabel>
         <Select
           value={selected}

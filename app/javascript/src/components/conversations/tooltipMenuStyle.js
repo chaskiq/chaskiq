@@ -1,5 +1,5 @@
 import styled from '@emotion/styled'
-import {math, opacify} from 'polished'
+import { math, opacify } from 'polished'
 
 export const InlinetooltipWrapper = styled.div`
   // BASE
@@ -117,7 +117,7 @@ export const InlinetooltipWrapper = styled.div`
       //    -webkit-transition-delay: ${props => props.theme.tooltip_item_delay * props.theme.tooltip_items} + "ms"};
       //            transition-delay: ${props => props.theme.tooltip_item_delay * props.theme.tooltip_items} + "ms"};
       //  }
-      //  ${props => props.theme.tooltip_items}: ${props => props.theme.tooltip_items - 1 };
+      //  ${props => props.theme.tooltip_items}: ${props => props.theme.tooltip_items - 1};
       //}
     }
 

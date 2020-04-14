@@ -1,5 +1,5 @@
 import React from 'react'
-import mapboxgl from 'mapbox-gl';
+//import mapboxgl from 'mapbox-gl';
 import styled from '@emotion/styled'
 import {isEmpty} from 'lodash'
 const TOKEN = "pk.eyJ1IjoibWljaGVsc29uIiwiYSI6ImNpbzRpNnh3eDAxaTZ3M2tqamg1NGQ4dWsifQ.rELrEMloUCCMcu07f51Spg"
@@ -34,9 +34,9 @@ export default class Mapa extends React.Component{
 
   componentDidMount(){
 
-    mapboxgl.accessToken = TOKEN
+    window.mapboxgl.accessToken = TOKEN
 
-    this.map = new mapboxgl.Map({
+    this.map = new window.mapboxgl.Map({
       container: 'react-map',
       style: 'mapbox://styles/michelson/cjcga6dyd48ww2rlq99y1tw8m',
       zoom: 10,
