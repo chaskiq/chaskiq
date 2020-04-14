@@ -19,7 +19,8 @@ module.exports = {
     sourceType: 'module'
   },
   plugins: [
-    'react'
+    'react',
+    'unused-imports'
   ],
   rules: {
   }
