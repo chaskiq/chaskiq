@@ -39,6 +39,7 @@ module.exports = function(api) {
       ['@babel/preset-react']
     ].filter(Boolean),
     plugins: [
+      'lodash',
       'babel-plugin-macros',
       //'lodash',
       '@babel/plugin-syntax-dynamic-import',
