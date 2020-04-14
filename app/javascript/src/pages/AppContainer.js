@@ -43,16 +43,6 @@ import {
 } from '../actions/app'
 
 import {
-  fetchAppSegment,
-  updateSegment,
-  createSegment,
-  deleteSegment,
-  addPredicate,
-  updatePredicate,
-  deletePredicate
-} from '../actions/segments'
-
-import {
   searchAppUsers,
   updateAppUserPresence
 } from '../actions/app_users'
@@ -71,6 +61,7 @@ import {
 } from '../actions/drawer'
 
 import UserData from '../components/UserData'
+import LoadingView from '../components/loadingView'
 
 const CableApp = {
   cable: actioncable.createConsumer(window.ws_cable_url)
@@ -83,8 +74,10 @@ function App ({
   current_user,
   app,
   drawer,
-  app_user
+  app_user,
+  loading
 }) {
+
   React.useEffect(() => {
     dispatch(getCurrentUser())
 
@@ -173,6 +166,10 @@ function App ({
         }}>
       </div>}
 
+
+
+      
+
       {
         drawer.userDrawer &&
           <div className="navbar w-64 absolute
@@ -205,6 +202,11 @@ function App ({
             width: '100vw',
             height: '100vh'
           }}/>
+      }
+
+
+      {
+        loading && <LoadingView/>
       }
 
       {

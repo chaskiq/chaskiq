@@ -21,15 +21,11 @@ import { ThemeProvider } from 'emotion-theming'
 import SignUp from '../auth/signup'
 import AcceptInvitation from '../auth/AcceptInvitation'*/
 
+import AppRouter from './AppRoutes'
+
 import {toggleTheme} from './actions/theme'
 
 import Snackbar from './components/Alert'
-import AppContainer from './pages/AppContainer'
-import Apps from './pages/Apps'
-import Login from './pages/auth/login'
-import NewApp from './pages/NewApp'
-import NotFound from './pages/NotFound'
-import AcceptInvitation from './pages/auth/acceptInvitation'
 import Docs from './pages/docs'
 
 import { Provider, connect } from 'react-redux'
@@ -45,8 +41,6 @@ class App extends React.Component  {
   constructor() {
     super();
     this.state = {
-      currentApp: null,
-      currentUser: {},
       theme: store.getState().theme,
     }
 
@@ -96,45 +90,4 @@ class App extends React.Component  {
 }
 
 
-
-function AppRouter(){
-
-  return (
-    <Switch>         
-      <Route path="/" exact>
-        <Apps />
-      </Route>
-
-      <Route path="/apps" exact>
-        <Apps />
-      </Route>
-
-      <Route path="/apps/new" exact>
-        <NewApp />
-      </Route>
-      
-      <Route path="/apps/:appId">
-        <AppContainer/>
-      </Route>
-
-      <Route 
-        path="/signup" 
-        exact>
-        <Login/>
-      </Route> 
-
-
-      <Route path="/agents/invitation/accept" 
-        render={(props)=>(
-          <AcceptInvitation {...props} {...this.props}/>
-        )}
-      />
-
-      <Route>
-        <NotFound/>
-      </Route> 
-    </Switch>
-  )
-}
-
-export default App;
+export default App //connect(mapStateToProps)(App)
