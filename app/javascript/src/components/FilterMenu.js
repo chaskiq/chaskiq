@@ -1,29 +1,29 @@
-import React from "react";
-import Dropdown from "./Dropdown";
+import React from 'react'
+import Dropdown from './Dropdown'
 
-const ITEM_HEIGHT = 48;
+const ITEM_HEIGHT = 48
 
-export default function LongMenu({
+export default function LongMenu ({
   filterHandler,
   value,
   triggerButton,
   selectedOption,
-  options,
+  options
 }) {
-  const [anchorEl, setAnchorEl] = React.useState(null);
+  const [anchorEl, setAnchorEl] = React.useState(null)
   // const [options, setOption] = React.useState(options);
   // const open = Boolean(anchorEl);
 
-  function handleClick(event) {
-    setAnchorEl(event.currentTarget);
+  function handleClick (event) {
+    setAnchorEl(event.currentTarget)
   }
 
-  function selectOption(option) {
-    filterHandler(option, handleClose);
+  function selectOption (option) {
+    filterHandler(option, handleClose)
   }
 
-  function handleClose() {
-    setAnchorEl(null);
+  function handleClose () {
+    setAnchorEl(null)
   }
 
   return (
@@ -69,5 +69,5 @@ export default function LongMenu({
         ))}
       </Dropdown>
     </React.Fragment>
-  );
+  )
 }

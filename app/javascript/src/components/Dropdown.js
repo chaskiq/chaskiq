@@ -1,21 +1,21 @@
-import React, { useEffect } from "react";
-import useOnClickOutside from "./hooks/useClickOutside";
+import React, { useEffect } from 'react'
+import useOnClickOutside from './hooks/useClickOutside'
 
-export default function Dropdown({
+export default function Dropdown ({
   children,
   labelButton,
   triggerButton,
-  isOpen,
+  isOpen
 }) {
-  const [open, setOpen] = React.useState(isOpen);
+  const [open, setOpen] = React.useState(isOpen)
 
-  const ref = React.useRef();
+  const ref = React.useRef()
 
-  useOnClickOutside(ref, () => setOpen(false));
+  useOnClickOutside(ref, () => setOpen(false))
 
   useEffect(() => {
-    setOpen(isOpen);
-  }, [isOpen]);
+    setOpen(isOpen)
+  }, [isOpen])
 
   return (
     <React.Fragment>
@@ -69,5 +69,5 @@ export default function Dropdown({
         )}
       </div>
     </React.Fragment>
-  );
+  )
 }

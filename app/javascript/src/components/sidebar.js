@@ -1,12 +1,12 @@
-import React, { useState, useEffect } from "react";
-import { withRouter, Link } from "react-router-dom";
-import { connect } from "react-redux";
-import Tooltip from "rc-tooltip";
-import logo from "../images/logo-dark.png";
-import icon from "../images/favicon.png";
+import React, { useState, useEffect } from 'react'
+import { withRouter, Link } from 'react-router-dom'
+import { connect } from 'react-redux'
+import Tooltip from 'rc-tooltip'
+import logo from '../images/logo-dark.png'
+import icon from '../images/favicon.png'
 
-import { signout } from "../actions/auth";
-import WebSetup from "../components/webSetup";
+import { signout } from '../actions/auth'
+import WebSetup from '../components/webSetup'
 
 import {
   BookMarkIcon,
@@ -29,14 +29,14 @@ import {
   UserIcon,
   TourIcon,
   MessageIcon,
-  EmailIcon,
-} from "../components/icons";
+  EmailIcon
+} from '../components/icons'
 
-import { toggleDrawer } from "../actions/drawer";
+import { toggleDrawer } from '../actions/drawer'
 
-import I18n from "../shared/FakeI18n";
+import I18n from '../shared/FakeI18n'
 
-function mapStateToProps(state) {
+function mapStateToProps (state) {
   const {
     auth,
     drawer,
@@ -44,9 +44,9 @@ function mapStateToProps(state) {
     segment,
     app_users,
     current_user,
-    navigation,
-  } = state;
-  const { loading, isAuthenticated } = auth;
+    navigation
+  } = state
+  const { loading, isAuthenticated } = auth
   return {
     segment,
     app_users,
@@ -55,39 +55,39 @@ function mapStateToProps(state) {
     loading,
     isAuthenticated,
     navigation,
-    drawer,
-  };
+    drawer
+  }
 }
 
-function Sidebar({ app, match, dispatch, navigation, current_user, drawer }) {
-  const { current_page, current_section } = navigation;
+function Sidebar ({ app, match, dispatch, navigation, current_user, drawer }) {
+  const { current_page, current_section } = navigation
 
-  const [expanded, setExpanded] = useState(current_section);
+  const [expanded, setExpanded] = useState(current_section)
 
-  const routerListener = null;
+  const routerListener = null
 
   useEffect(() => {
-    setExpanded(current_section);
-  }, [current_section]);
+    setExpanded(current_section)
+  }, [current_section])
 
   const handleChange = (panel) => (event, isExpanded) => {
-    setExpanded(isExpanded ? panel : false);
-  };
+    setExpanded(isExpanded ? panel : false)
+  }
 
-  function isActivePage(page) {
+  function isActivePage (page) {
     /// console.log("selected page", current_page , page)
-    return current_page === page;
+    return current_page === page
   }
 
-  function handleSignout() {
-    dispatch(signout());
+  function handleSignout () {
+    dispatch(signout())
   }
 
-  const appid = `/apps/${app.key}`;
+  const appid = `/apps/${app.key}`
 
   const categories = [
     {
-      id: "Dashboard",
+      id: 'Dashboard',
       icon: <BuildingIcon style={{ fontSize: 30 }} />,
       url: `/apps/${app.key}`,
       hidden: true,
@@ -106,12 +106,12 @@ function Sidebar({ app, match, dispatch, navigation, current_user, drawer }) {
               </h2>
 
               <p className="text-xs leading-5 text-gray-500 font-light">
-                👋 Hey!, you are viewing the <strong>{app.name}'s</strong>{" "}
+                👋 Hey!, you are viewing the <strong>{app.name}'s</strong>{' '}
                 dashboard!
                 <br />
                 Get you installation snippet for the <WebSetup />.
               </p>
-            </div>,
+            </div>
             /* <li>
                 {/*<FormControlLabel
                   control={
@@ -125,47 +125,47 @@ function Sidebar({ app, match, dispatch, navigation, current_user, drawer }) {
                   label={themeValue === "light" ? `theme dark` : `theme light` }
                 />}
               </li> */
-          ],
-        },
-      ],
+          ]
+        }
+      ]
     },
     {
-      id: "Platform",
-      label: I18n.t("navigator.platform"),
+      id: 'Platform',
+      label: I18n.t('navigator.platform'),
       icon: <FactoryIcon style={{ fontSize: 30 }} />,
       url: `/apps/${app.key}/segments/${
-        app.segments ? app.segments[0].id : ""
+        app.segments ? app.segments[0].id : ''
       }`,
       children: app.segments.map((o) => ({
         id: o.name,
         icon: null,
         url: `/apps/${app.key}/segments/${o.id}`,
-        active: isActivePage(`segment-${o.id}`),
-      })),
+        active: isActivePage(`segment-${o.id}`)
+      }))
     },
     {
-      id: "Conversations",
-      label: I18n.t("navigator.conversations"),
+      id: 'Conversations',
+      label: I18n.t('navigator.conversations'),
       icon: <ConversationIcon style={{ fontSize: 30 }} />,
       url: `/apps/${app.key}/conversations`,
       children: [
         {
-          id: "Conversations",
+          id: 'Conversations',
           icon: <MessageBubbleIcon />,
           url: `/apps/${app.key}/conversations`,
-          active: isActivePage("Conversations"),
+          active: isActivePage('Conversations')
         },
         {
-          id: "Assignment Rules",
+          id: 'Assignment Rules',
           icon: <ShuffleIcon />,
           url: `/apps/${app.key}/conversations/assignment_rules`,
-          active: isActivePage("Assignment Rules"),
-        },
-      ],
+          active: isActivePage('Assignment Rules')
+        }
+      ]
     },
     {
-      id: "Campaigns",
-      label: I18n.t("navigator.campaigns"),
+      id: 'Campaigns',
+      label: I18n.t('navigator.campaigns'),
       url: `/apps/${app.key}/campaigns`,
       icon: <FlagIcon style={{ fontSize: 30 }} />,
       children: [
@@ -173,128 +173,128 @@ function Sidebar({ app, match, dispatch, navigation, current_user, drawer }) {
         { id: 'Performance', icon: <TimerIcon /> },
         { id: 'Test Lab', icon: <PhonelinkSetupIcon /> }, */
         {
-          id: "campaigns",
-          label: "Mailing Campaigns",
+          id: 'campaigns',
+          label: 'Mailing Campaigns',
           icon: <EmailIcon />,
           url: `${appid}/messages/campaigns`,
-          active: isActivePage("campaigns"),
+          active: isActivePage('campaigns')
         },
         {
-          id: "user_auto_messages",
-          label: "In App messages",
+          id: 'user_auto_messages',
+          label: 'In App messages',
           icon: <MessageIcon />,
           url: `${appid}/messages/user_auto_messages`,
-          active: isActivePage("user_auto_messages"),
+          active: isActivePage('user_auto_messages')
         },
         {
-          id: "tours",
-          label: "Guided tours",
+          id: 'tours',
+          label: 'Guided tours',
           icon: <TourIcon />,
           url: `${appid}/messages/tours`,
-          active: isActivePage("tours"),
-        },
-      ],
+          active: isActivePage('tours')
+        }
+      ]
     },
 
     {
-      id: "Bot",
-      label: I18n.t("navigator.routing_bots"),
+      id: 'Bot',
+      label: I18n.t('navigator.routing_bots'),
       icon: <LoadBalancerIcon style={{ fontSize: 30 }} />,
       url: `/apps/${app.key}/bots/settings`,
       children: [
         {
-          id: "For Leads",
+          id: 'For Leads',
           icon: <UserWalkIcon />,
           url: `${appid}/bots/leads`,
-          active: isActivePage("botleads"),
+          active: isActivePage('botleads')
         },
         {
-          id: "For Users",
+          id: 'For Users',
           icon: <UserIcon />,
           url: `${appid}/bots/users`,
-          active: isActivePage("botusers"),
+          active: isActivePage('botusers')
         },
         {
-          id: "Settings",
+          id: 'Settings',
           icon: <SettingsIcon />,
           url: `${appid}/bots/settings`,
-          active: isActivePage("botSettings"),
-        },
-      ],
+          active: isActivePage('botSettings')
+        }
+      ]
     },
 
     {
-      label: I18n.t("navigator.help_center"),
-      id: "HelpCenter",
+      label: I18n.t('navigator.help_center'),
+      id: 'HelpCenter',
       icon: <BookMarkIcon style={{ fontSize: 30 }} />,
       url: `/apps/${app.key}/articles`,
       children: [
         {
-          id: "Articles",
+          id: 'Articles',
           icon: <BookMarkIcon />,
           url: `/apps/${app.key}/articles`,
-          active: isActivePage("Articles"),
+          active: isActivePage('Articles')
         },
         {
-          id: "Collections",
+          id: 'Collections',
           icon: <FolderIcon />,
           url: `/apps/${app.key}/articles/collections`,
-          active: isActivePage("Collections"),
+          active: isActivePage('Collections')
         },
         {
-          id: "Settings",
+          id: 'Settings',
           icon: <SettingsIcon />,
           url: `/apps/${app.key}/articles/settings`,
-          active: isActivePage("Settings"),
-        },
-      ],
+          active: isActivePage('Settings')
+        }
+      ]
     },
 
     {
-      id: "Settings",
-      label: I18n.t("navigator.settings"),
+      id: 'Settings',
+      label: I18n.t('navigator.settings'),
       icon: <SettingsIcon style={{ fontSize: 30 }} />,
       url: `/apps/${app.key}/settings`,
       children: [
         {
-          id: "App Settings",
+          id: 'App Settings',
           icon: <SettingsIcon />,
           url: `/apps/${app.key}/settings`,
-          active: isActivePage("app_settings"),
+          active: isActivePage('app_settings')
         },
         {
-          id: "Team",
+          id: 'Team',
           icon: <TeamIcon />,
           url: `/apps/${app.key}/team`,
-          active: isActivePage("team"),
+          active: isActivePage('team')
         },
         {
-          id: "Integrations",
+          id: 'Integrations',
           icon: <IntegrationsIcon />,
           url: `/apps/${app.key}/integrations`,
-          active: isActivePage("integrations"),
+          active: isActivePage('integrations')
         },
         {
-          id: "Webhooks",
+          id: 'Webhooks',
           icon: <WebhooksIcon />,
           url: `/apps/${app.key}/webhooks`,
-          active: isActivePage("webhooks"),
-        },
+          active: isActivePage('webhooks')
+        }
         // { id: 'Authentication', icon: <ShuffleIcon />, active: isActivePage("user_auto_messages")},
-      ],
+      ]
     },
 
     {
-      id: "User",
-      render: () => <p>oko</p>,
-    },
-  ];
+      id: 'User',
+      render: () => <p>oko</p>
+    }
+  ]
 
-  function handleDrawer() {
-    dispatch(toggleDrawer({ open: !drawer.open }));
+  function handleDrawer () {
+    dispatch(toggleDrawer({ open: !drawer.open }))
   }
 
-  function renderInner() {
+  function renderInner () {
     return categories
       .filter((o) => o.id === current_section)
       .map(({ id, label, icon, children }) => {
@@ -316,7 +316,7 @@ function Sidebar({ app, match, dispatch, navigation, current_user, drawer }) {
                       to={url}
                       className={`
                         ${
-                          active ? "bg-white" : ""
+                          active ? 'bg-white' : ''
                         } hover:text-gray-900 hover:bg-gray-100 focus:outline-none focus:bg-gray-200
                         group flex items-center px-2 py-2 text-sm leading-5 font-medium text-gray-900 
                         rounded-md transition ease-in-out duration-150`}
@@ -336,25 +336,25 @@ function Sidebar({ app, match, dispatch, navigation, current_user, drawer }) {
               )}
             </nav>
           </div>
-        );
-      });
+        )
+      })
   }
 
   const drawerClass = !drawer.open
-    ? "hidden"
-    : "absolute flex md:flex-shrink-0 z-50 h-screen";
+    ? 'hidden'
+    : 'absolute flex md:flex-shrink-0 z-50 h-screen'
 
   return (
     <div className={`${drawerClass} md:flex md:flex-shrink-0`}>
       {app && (
         <div
           className={
-            "md:block border-r bg-gray-200 text-purple-lighter flex-none w-23 p-2 overflow-y-auto--"
+            'md:block border-r bg-gray-200 text-purple-lighter flex-none w-23 p-2 overflow-y-auto--'
           }
         >
           <div className="cursor-pointer mb-4">
             <div className="bg-white h-12 w-12 flex items-center justify-center text-black text-2xl font-semibold rounded-lg mb-1 overflow-hidden">
-              <Link to={"/apps"}>
+              <Link to={'/apps'}>
                 <img src={icon} alt="" />
               </Link>
             </div>
@@ -415,7 +415,7 @@ function Sidebar({ app, match, dispatch, navigation, current_user, drawer }) {
         </div>
       </div>
     </div>
-  );
+  )
 }
 
-export default withRouter(connect(mapStateToProps)(Sidebar));
+export default withRouter(connect(mapStateToProps)(Sidebar))

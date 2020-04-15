@@ -1,11 +1,11 @@
-import React, { useState, useEffect } from "react";
-import I18n from "../../shared/FakeI18n";
-import Tooltip from "rc-tooltip";
+import React, { useState, useEffect } from 'react'
+import I18n from '../../shared/FakeI18n'
+import Tooltip from 'rc-tooltip'
 
-import Button from "../../components/Button";
-import Table from "../../components/Table";
-import { PlusIcon, DeleteIcon } from "../../components/icons";
-import Input from "../../components/forms/Input";
+import Button from '../../components/Button'
+import Table from '../../components/Table'
+import { PlusIcon, DeleteIcon } from '../../components/icons'
+import Input from '../../components/forms/Input'
 // const options = I18n.t("settings.availability.reply_time.options")
 /* [
   {value: "auto", label: "Automatic reply time. Currently El equipo responderá lo antes posible"},
@@ -14,43 +14,43 @@ import Input from "../../components/forms/Input";
   {value: "1 day", label: "El equipo suele responder en un día."},
 ] */
 
-export default function LanguageForm({ settings, update, namespace, fields }) {
-  const [isOpen, setIsOpen] = React.useState(false);
+export default function LanguageForm ({ settings, update, namespace, fields }) {
+  const [isOpen, setIsOpen] = React.useState(false)
   const [selectedOption, setSelectedOption] = React.useState(
     settings.replyTime
-  );
-  const [records, setRecords] = useState(settings.teamSchedule);
+  )
+  const [records, setRecords] = useState(settings.teamSchedule)
 
-  let formRef = React.createRef();
+  let formRef = React.createRef()
 
-  function handleChange(e) {
-    setSelectedOption(e.target.value);
+  function handleChange (e) {
+    setSelectedOption(e.target.value)
   }
 
-  function toggleDialog() {
-    setIsOpen(!isOpen);
+  function toggleDialog () {
+    setIsOpen(!isOpen)
   }
 
-  function handleSubmit(e) {
-    e.preventDefault();
+  function handleSubmit (e) {
+    e.preventDefault()
     const data = {
       app: {
         team_schedule: records,
-        reply_time: selectedOption,
-      },
-    };
-    update(data);
+        reply_time: selectedOption
+      }
+    }
+    update(data)
   }
 
   return (
     <form className="py-4" ref={(ref) => (formRef = ref)}>
       <div className="py-4">
         <p className="text-lg leading-6 font-medium text-gray-900 pb-2">
-          {I18n.t("settings.availability.title")}
+          {I18n.t('settings.availability.title')}
         </p>
 
         <p variant="subtitle1" gutterBottom>
-          {I18n.t("settings.availability.hint")}
+          {I18n.t('settings.availability.hint')}
         </p>
       </div>
 
@@ -58,17 +58,17 @@ export default function LanguageForm({ settings, update, namespace, fields }) {
 
       <div className="py-4">
         <p className="text-lg leading-6 font-medium text-gray-900">
-          {I18n.t("settings.availability.title2")}
+          {I18n.t('settings.availability.title2')}
         </p>
 
         <p className="mt-2 max-w-xl text-sm leading-5 text-gray-500">
-          {I18n.t("settings.availability.hint2")}
+          {I18n.t('settings.availability.hint2')}
         </p>
       </div>
 
       <div className="py-4">
         <p className="text-xs text-gray-900 font-bold">
-          {I18n.t("settings.availability.timezone", { tz: settings.timezone })}
+          {I18n.t('settings.availability.timezone', { tz: settings.timezone })}
         </p>
 
         <AvailabilitySchedule records={records} setRecords={setRecords} />
@@ -76,11 +76,11 @@ export default function LanguageForm({ settings, update, namespace, fields }) {
 
       <div className="py-4">
         <p className="text-lg leading-6 font-medium text-gray-900">
-          {I18n.t("settings.availability.reply_time.title")}
+          {I18n.t('settings.availability.reply_time.title')}
         </p>
 
         <p className="mt-2 max-w-xl text-sm leading-5 text-gray-500">
-          {I18n.t("settings.availability.reply_time.hint")}
+          {I18n.t('settings.availability.reply_time.hint')}
         </p>
 
         <div className="py-4">
@@ -105,9 +105,9 @@ export default function LanguageForm({ settings, update, namespace, fields }) {
 
             </RadioGroup> */}
 
-          {I18n.t("settings.availability.reply_time.options").map((o) => (
+          {I18n.t('settings.availability.reply_time.options').map((o) => (
             <Input
-              type={"radio"}
+              type={'radio'}
               key={o.value}
               name="reply_time"
               value={o.value}
@@ -122,42 +122,42 @@ export default function LanguageForm({ settings, update, namespace, fields }) {
 
       <div>
         <p className="mt-2 max-w-xl text-sm leading-5 text-gray-500">
-          {I18n.t("settings.availability.reply_time.hint2")}
+          {I18n.t('settings.availability.reply_time.hint2')}
         </p>
       </div>
 
       <div>
-        <Button onClick={handleSubmit} variant={"contained"} color={"primary"}>
+        <Button onClick={handleSubmit} variant={'contained'} color={'primary'}>
           Save
         </Button>
       </div>
     </form>
-  );
+  )
 }
 
-function AvailabilitySchedule({ records, setRecords }) {
-  function addRecord(e) {
-    e.preventDefault();
+function AvailabilitySchedule ({ records, setRecords }) {
+  function addRecord (e) {
+    e.preventDefault()
 
     const newRecords = records.concat({
       day: null,
       from: null,
-      to: null,
-    });
+      to: null
+    })
 
-    setRecords(newRecords);
+    setRecords(newRecords)
   }
 
-  function update(item, index) {
+  function update (item, index) {
     const newRecords = records.map((o, i) => {
-      return i === index ? item : o;
-    });
-    setRecords(newRecords);
+      return i === index ? item : o
+    })
+    setRecords(newRecords)
   }
 
-  function removeItem(index) {
-    const newRecords = records.filter((o, i) => i != index);
-    setRecords(newRecords);
+  function removeItem (index) {
+    const newRecords = records.filter((o, i) => i != index)
+    setRecords(newRecords)
   }
 
   return (
@@ -172,18 +172,18 @@ function AvailabilitySchedule({ records, setRecords }) {
         />
       ))}
 
-      <div container gutterBottom justify={"flex-start"}>
+      <div container gutterBottom justify={'flex-start'}>
         <div className="py-4">
           <Tooltip
             placement="right"
-            overlay={"add new availability time frame"}
+            overlay={'add new availability time frame'}
           >
             <Button
               onClick={addRecord}
-              color={"primary"}
+              color={'primary'}
               className="border h-50 w-50"
-              aria-label={"add new availability time frame"}
-              variant={"icon"}
+              aria-label={'add new availability time frame'}
+              variant={'icon'}
             >
               <PlusIcon />
             </Button>
@@ -191,40 +191,40 @@ function AvailabilitySchedule({ records, setRecords }) {
         </div>
       </div>
     </div>
-  );
+  )
 }
 
-function AvailabilityRecord({ record, update, index, removeItem }) {
-  const [item, setRecord] = useState(record);
+function AvailabilityRecord ({ record, update, index, removeItem }) {
+  const [item, setRecord] = useState(record)
 
-  function handleChange(data) {
-    setRecord(Object.assign({}, item, data));
+  function handleChange (data) {
+    setRecord(Object.assign({}, item, data))
   }
 
-  function genHours(t1, t2) {
+  function genHours (t1, t2) {
     return Array(24 * 4)
       .fill(0)
       .map((_, i) => {
-        return ("0" + ~~(i / 4) + ":0" + 60 * ((i / 4) % 1)).replace(
+        return ('0' + ~~(i / 4) + ':0' + 60 * ((i / 4) % 1)).replace(
           /\d(\d\d)/g,
-          "$1"
-        );
-      });
+          '$1'
+        )
+      })
   }
 
   useEffect(() => {
-    update(item, index);
-  }, [item]);
+    update(item, index)
+  }, [item])
 
-  function deleteItem() {
-    removeItem(index);
+  function deleteItem () {
+    removeItem(index)
   }
 
   return (
     <div className="flex flex-row justify-between items-center">
       <div className="w-1/4 p-1">
         <Input
-          type={"select"}
+          type={'select'}
           label="day"
           name="day"
           value={{ label: item.day, value: item.day }}
@@ -233,25 +233,25 @@ function AvailabilityRecord({ record, update, index, removeItem }) {
           onChange={(e) => handleChange({ day: e.value })}
           options={I18n.translations.en.date.abbr_day_names.map((o, i) => ({
             value: o.toLocaleLowerCase(),
-            label: I18n.translations.en.date.day_names[i],
+            label: I18n.translations.en.date.day_names[i]
           }))}
         ></Input>
       </div>
 
       <div className="w-1/4 p-1">
         <Input
-          type={"select"}
+          type={'select'}
           label="from"
-          name={"from"}
+          name={'from'}
           value={{ label: item.from, value: item.from }}
           defaultValue={{ label: item.from, value: item.from }}
           data={{}}
           onChange={(e) => {
-            handleChange({ from: e.value });
+            handleChange({ from: e.value })
           }}
-          options={genHours("00:00", "23:30").map((o) => ({
+          options={genHours('00:00', '23:30').map((o) => ({
             label: o,
-            value: o,
+            value: o
           }))}
         ></Input>
       </div>
@@ -259,15 +259,15 @@ function AvailabilityRecord({ record, update, index, removeItem }) {
       <div className="w-1/4 p-1">
         <Input
           label="to"
-          type={"select"}
+          type={'select'}
           value={{ label: item.to, value: item.to }}
           defaultValue={{ label: item.to, value: item.to }}
-          name={"to"}
+          name={'to'}
           data={{}}
           onChange={(e) => handleChange({ to: e.value })}
-          options={genHours("00:00", "23:30").map((o) => ({
+          options={genHours('00:00', '23:30').map((o) => ({
             label: o,
-            value: o,
+            value: o
           }))}
         ></Input>
       </div>
@@ -278,5 +278,5 @@ function AvailabilityRecord({ record, update, index, removeItem }) {
         </Button>
       </div>
     </div>
-  );
+  )
 }

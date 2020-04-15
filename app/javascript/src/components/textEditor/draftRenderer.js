@@ -2,45 +2,45 @@
  *  You can use inline styles or classNames inside your callbacks
  */
 
-import React, { Component } from "react";
-import redraft from "redraft";
-import { setImageZoom } from "../../actions/imageZoom";
-import { connect } from "react-redux";
+import React, { Component } from 'react'
+import redraft from 'redraft'
+import { setImageZoom } from '../../actions/imageZoom'
+import { connect } from 'react-redux'
 
-var Prism = require("prismjs");
+var Prism = require('prismjs')
 // Prism.highlightAll();
 
 const handlePrismRenderer = (syntax, children) => {
   const code = children
     .flat()
     .flat()
-    .map((o) => (o.props ? o.props.children.join(" ") : o))
-    .join("\r");
+    .map((o) => (o.props ? o.props.children.join(' ') : o))
+    .join('\r')
   const formattedCode = Prism.highlight(
     code,
     Prism.languages.javascript,
-    "javascript"
-  );
-  return { __html: formattedCode };
-};
+    'javascript'
+  )
+  return { __html: formattedCode }
+}
 
 const styles = {
   code: {
-    backgroundColor: "rgba(0, 0, 0, 0.05)",
+    backgroundColor: 'rgba(0, 0, 0, 0.05)',
     fontFamily: '"Inconsolata", "Menlo", "Consolas", monospace',
     fontSize: 16,
-    padding: 2,
+    padding: 2
   },
   codeBlock: {
-    backgroundColor: "rgba(0, 0, 0, 0.05)",
+    backgroundColor: 'rgba(0, 0, 0, 0.05)',
     fontFamily: '"Inconsolata", "Menlo", "Consolas", monospace',
     fontSize: 16,
-    padding: 20,
-  },
-};
+    padding: 20
+  }
+}
 
 // just a helper to add a <br /> after a block
-const addBreaklines = (children) => children.map((child) => [child, <br />]);
+const addBreaklines = (children) => children.map((child) => [child, <br />])
 
 /**
  * Define the renderers
@@ -53,7 +53,7 @@ const renderers = {
     // The key passed here is just an index based on rendering order inside a block
     BOLD: (children, { key }) => <strong key={key}>{children}</strong>,
     ITALIC: (children, { key }) => <em key={key}>{children}</em>,
-    UNDERLINE: (children, { key }) => <u key={key}>{children}</u>,
+    UNDERLINE: (children, { key }) => <u key={key}>{children}</u>
     // CODE: (children, { key }) => <span key={key} dangerouslySetInnerHTML={handlePrismRenderer(children)} />,
   },
   /**
@@ -66,7 +66,7 @@ const renderers = {
         <p key={keys[0]} className="graf graf--p">
           {addBreaklines(children)}
         </p>
-      );
+      )
       /* children.map(
         (o, i)=> ( <p key={keys[i]} className="graf graf--p">{o}</p>)
       ) */
@@ -76,23 +76,23 @@ const renderers = {
         {addBreaklines(children)}
       </blockquote>
     ),
-    "header-one": (children, { keys }) => (
+    'header-one': (children, { keys }) => (
       <h1 key={keys[0]} className="graf graf--h2">
         {children}
       </h1>
     ),
-    "header-two": (children, { keys }) => (
+    'header-two': (children, { keys }) => (
       <h2 key={keys[0]} className="graf graf--h3">
         {children}
       </h2>
     ),
-    "header-three": (children, { keys }) => (
+    'header-three': (children, { keys }) => (
       <h3 key={keys[0]} className="graf graf--h4">
         {children}
       </h3>
     ),
     // You can also access the original keys of the blocks
-    "code-block": (children, { keys, data }) => {
+    'code-block': (children, { keys, data }) => {
       return (
         <pre
           className="graf graf--code"
@@ -102,18 +102,18 @@ const renderers = {
         >
           {/* addBreaklines(children) */}
         </pre>
-      );
+      )
     },
     // or depth for nested lists
-    "unordered-list-item": (children, { depth, keys }) => (
+    'unordered-list-item': (children, { depth, keys }) => (
       <ul key={keys[keys.length - 1]} className={`ul-level-${depth}`}>
         {children.map((child) => (
           <li className="graf graf--insertunorderedlist">{child}</li>
         ))}
       </ul>
     ),
-    "ordered-list-item": (children, { depth, keys }) => (
-      <ol key={keys.join("|")} className={`ol-level-${depth}`}>
+    'ordered-list-item': (children, { depth, keys }) => (
+      <ol key={keys.join('|')} className={`ol-level-${depth}`}>
         {children.map((child, index) => (
           <li key={keys[index]} className="graf graf--insertorderedlist">
             {child}
@@ -123,18 +123,18 @@ const renderers = {
     ),
 
     image: (children, { keys, data }) => {
-      const data2 = data[0];
-      const { url, aspect_ratio, caption } = data2;
+      const data2 = data[0]
+      const { url, aspect_ratio, caption } = data2
 
       if (!aspect_ratio) {
-        var height = "100%";
-        var width = "100%";
-        var ratio = "100";
+        var height = '100%'
+        var width = '100%'
+        var ratio = '100'
       } else {
-        var { height, width, ratio } = aspect_ratio;
+        var { height, width, ratio } = aspect_ratio
       }
 
-      const defaultStyle = { maxWidth: `${width}px`, maxHeight: `${height}px` };
+      const defaultStyle = { maxWidth: `${width}px`, maxHeight: `${height}px` }
 
       return (
         <figure key={keys[0]} className="graf graf--figure">
@@ -177,7 +177,7 @@ const renderers = {
             </div>
           </div>
 
-          {caption && caption != "type a caption (optional)" && (
+          {caption && caption != 'type a caption (optional)' && (
             <figcaption className="imageCaption">
               <span>
                 <span data-text="true">{children}</span>
@@ -185,18 +185,18 @@ const renderers = {
             </figcaption>
           )}
         </figure>
-      );
+      )
     },
     embed: (children, { keys, data }) => {
-      const { provisory_text, type, embed_data } = data[0];
+      const { provisory_text, type, embed_data } = data[0]
       const {
         images,
         title,
         media,
         provider_url,
         description,
-        url,
-      } = embed_data;
+        url
+      } = embed_data
 
       return (
         <div key={keys[0]} className="graf graf--mixtapeEmbed">
@@ -224,11 +224,11 @@ const renderers = {
             {provider_url}
           </span>
         </div>
-      );
+      )
     },
     video: (children, { keys, data }) => {
-      const { provisory_text, type, embed_data } = data[0];
-      const { html } = embed_data;
+      const { provisory_text, type, embed_data } = data[0]
+      const { html } = embed_data
 
       return (
         <figure
@@ -241,7 +241,7 @@ const renderers = {
             dangerouslySetInnerHTML={{ __html: `${html}` }}
           />
 
-          {provisory_text && provisory_text === "type a caption (optional)" && (
+          {provisory_text && provisory_text === 'type a caption (optional)' && (
             <figcaption className="imageCaption">
               <div className="public-DraftStyleDefault-block public-DraftStyleDefault-ltr">
                 <span>
@@ -251,10 +251,10 @@ const renderers = {
             </figcaption>
           )}
         </figure>
-      );
+      )
     },
-    "recorded-video": (children, { keys, data }) => {
-      const { url, text } = data[0];
+    'recorded-video': (children, { keys, data }) => {
+      const { url, text } = data[0]
 
       return (
         <figure
@@ -265,7 +265,7 @@ const renderers = {
           <div className="iframeContainer">
             <video
               autoPlay={false}
-              style={{ width: "100%" }}
+              style={{ width: '100%' }}
               controls={true}
               src={url}
             ></video>
@@ -276,8 +276,8 @@ const renderers = {
             </div>
           </figcaption>
         </figure>
-      );
-    },
+      )
+    }
     // If your blocks use meta data it can also be accessed like keys
     // atomic: (children, { keys, data }) => children.map((child, i) => <Atomic key={keys[i]} {...data[i]} />),
   },
@@ -290,8 +290,8 @@ const renderers = {
       <a key={key} href={data.url} target="_blank">
         {children}
       </a>
-    ),
-  },
+    )
+  }
   /**
    * Array of decorators,
    * Entities receive children and the entity data,
@@ -310,9 +310,9 @@ const renderers = {
     },
     new CustomDecorator(someOptions),
   ], */
-};
+}
 
-function Image({ dispatch, url, width, height }) {
+function Image ({ dispatch, url, width, height }) {
   return (
     <img
       src={url}
@@ -325,45 +325,45 @@ function Image({ dispatch, url, width, height }) {
           setImageZoom({
             url: url,
             width: width,
-            height: height,
+            height: height
           })
         )
       }
     />
-  );
+  )
 }
 
-function mapActionsToProps(dispatch) {
+function mapActionsToProps (dispatch) {
   return {
-    actions: {},
-  };
+    actions: {}
+  }
 }
 
-const ConnectedImage = connect(mapActionsToProps)(Image);
+const ConnectedImage = connect(mapActionsToProps)(Image)
 
 export default class Renderer extends Component {
   /* static propTypes = {
     raw: PropTypes.object
   } */
 
-  renderWarning() {
+  renderWarning () {
     if (this.props.html) {
-      return <div dangerouslySetInnerHTML={{ __html: this.props.html }} />;
+      return <div dangerouslySetInnerHTML={{ __html: this.props.html }} />
     } else {
-      return <div>---</div>;
+      return <div>---</div>
     }
   }
 
-  render() {
-    const { raw } = this.props;
+  render () {
+    const { raw } = this.props
     if (!raw) {
-      return this.renderWarning();
+      return this.renderWarning()
     }
-    const rendered = redraft(raw, renderers);
+    const rendered = redraft(raw, renderers)
     // redraft returns a null if there's nothing to render
     if (!rendered) {
-      return this.renderWarning();
+      return this.renderWarning()
     }
-    return <div>{rendered}</div>;
+    return <div>{rendered}</div>
   }
 }

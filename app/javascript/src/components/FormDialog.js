@@ -1,18 +1,18 @@
-import React from "react";
+import React from 'react'
 
-function FormDialog(props) {
-  const [open, setOpen] = React.useState(props.open);
+function FormDialog (props) {
+  const [open, setOpen] = React.useState(props.open)
 
-  function handleClickOpen() {
-    setOpen(true);
+  function handleClickOpen () {
+    setOpen(true)
   }
 
-  function handleClose() {
-    setOpen(false);
-    props.handleClose && props.handleClose();
+  function handleClose () {
+    setOpen(false)
+    props.handleClose && props.handleClose()
   }
 
-  React.useEffect(() => setOpen(props.open), [props.open]);
+  React.useEffect(() => setOpen(props.open), [props.open])
 
   return props.open ? (
     <Backdrop>
@@ -76,10 +76,10 @@ function FormDialog(props) {
         </div>
       </div>
     </Backdrop>
-  ) : null;
+  ) : null
 }
 
-function Backdrop({ children }) {
+function Backdrop ({ children }) {
   return (
     <div className="z-50 fixed bottom-0 inset-x-0 px-4 pb-6 sm:inset-0 sm:p-0 sm:flex sm:items-center sm:justify-center">
       <div
@@ -97,7 +97,7 @@ function Backdrop({ children }) {
 
       {children}
     </div>
-  );
+  )
 }
 
 /*
@@ -208,4 +208,4 @@ export function MessageModal({}){
 }
 */
 
-export default FormDialog;
+export default FormDialog

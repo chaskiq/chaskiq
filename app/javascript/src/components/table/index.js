@@ -1,27 +1,27 @@
-import React from "react";
-import { isEmpty } from "lodash";
+import React from 'react'
+import { isEmpty } from 'lodash'
 
-export default function Table({ data, columns, format, search, meta }) {
-  const visibleColumns = () => columns.filter((o) => !o.hidden);
+export default function Table ({ data, columns, format, search, meta }) {
+  const visibleColumns = () => columns.filter((o) => !o.hidden)
 
   const renderDefaultRow = (value) => {
     return (
       <td className="px-6 py-4 whitespace-no-wrap border-b border-gray-200">
         {value}
       </td>
-    );
-  };
+    )
+  }
 
   const handleFormat = (item) => {
-    console.log("ITEM", columns);
+    console.log('ITEM', columns)
     return (
       <tr>
         {visibleColumns().map((o) =>
           o.render ? o.render(item) : renderDefaultRow(item[o])
         )}
       </tr>
-    );
-  };
+    )
+  }
 
   return (
     <React.Fragment>
@@ -55,10 +55,10 @@ export default function Table({ data, columns, format, search, meta }) {
 
       {meta && !isEmpty(meta) && <Pagination meta={meta} search={search} />}
     </React.Fragment>
-  );
+  )
 }
 
-function Pagination({ meta, search }) {
+function Pagination ({ meta, search }) {
   return (
     <div className="bg-white px-4 py-3 flex items-center justify-between border-t border-gray-200 sm:px-6">
       <div className="flex-1 flex justify-between items-center">
@@ -143,7 +143,7 @@ function Pagination({ meta, search }) {
     </div>
     */}
     </div>
-  );
+  )
 }
 
 /*

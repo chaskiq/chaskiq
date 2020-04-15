@@ -1,6 +1,6 @@
-import styled from "@emotion/styled";
+import styled from '@emotion/styled'
 
-import EditorStyles from "Dante2/package/es/styled/base";
+import EditorStyles from 'Dante2/package/es/styled/base'
 
 const NewEditorStyles = styled(EditorStyles)`
   display: flex;
@@ -39,7 +39,7 @@ const NewEditorStyles = styled(EditorStyles)`
       overflow: auto;
       height: 100%;
     }`
-      : ""}
+      : ''}
 
   .postContent {
     padding: 10px;
@@ -79,7 +79,7 @@ const NewEditorStyles = styled(EditorStyles)`
   }
 
   .section-inner.layoutSingleColumn {
-    ${(props) => (!props.campaign ? "min-height: 50px;" : "")}
+    ${(props) => (!props.campaign ? 'min-height: 50px;' : '')}
 
     word-wrap: break-word;
     -ms-word-break: keep-all;
@@ -97,6 +97,6 @@ const NewEditorStyles = styled(EditorStyles)`
       height: 16px;
     }
   }
-`;
+`
 
-export default NewEditorStyles;
+export default NewEditorStyles

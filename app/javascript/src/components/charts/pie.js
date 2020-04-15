@@ -1,22 +1,22 @@
-import React from "react";
-import { ResponsivePie } from "@nivo/pie";
+import React from 'react'
+import { ResponsivePie } from '@nivo/pie'
 // make sure parent container have a defined height when using
 // responsive component, otherwise height will be 0 and
 // no chart will be rendered.
 // website examples showcase many properties,
 // you'll often use just a few of them.
 
-export default function MyResponsivePie({ data, label }) {
+export default function MyResponsivePie ({ data, label }) {
   // const theme = useTheme();
 
   const theme = {
     palette: {
       primary: {
-        light: "#112343",
-        main: "#123443",
-      },
-    },
-  };
+        light: '#112343',
+        main: '#123443'
+      }
+    }
+  }
 
   return (
     <ResponsivePie
@@ -26,11 +26,11 @@ export default function MyResponsivePie({ data, label }) {
       endAngle={93}
       innerRadius={0.6}
       cornerRadius={15}
-      colors={{ scheme: "purple_blue" }}
+      colors={{ scheme: 'purple_blue' }}
       borderWidth={3}
       fit={true}
       colorBy={function (e) {
-        return e.color;
+        return e.color
       }}
       borderWidth={0}
       borderColor="inherit:darker(0.2)"
@@ -51,24 +51,24 @@ export default function MyResponsivePie({ data, label }) {
       theme={{
         tooltip: {
           container: {
-            background: "white",
-            color: "black",
-            fontSize: "inherit",
-            borderRadius: "2px",
-            boxShadow: "0 1px 2px rgba(0, 0, 0, 0.25)",
-            padding: "5px 9px",
+            background: 'white',
+            color: 'black',
+            fontSize: 'inherit',
+            borderRadius: '2px',
+            boxShadow: '0 1px 2px rgba(0, 0, 0, 0.25)',
+            padding: '5px 9px'
           },
           basic: {
-            whiteSpace: "pre",
-            display: "flex",
-            alignItems: "center",
+            whiteSpace: 'pre',
+            display: 'flex',
+            alignItems: 'center'
           },
           table: {},
           tableCell: {
-            padding: "3px 5px",
-          },
-        },
+            padding: '3px 5px'
+          }
+        }
       }}
     />
-  );
+  )
 }

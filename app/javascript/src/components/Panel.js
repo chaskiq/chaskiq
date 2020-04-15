@@ -1,12 +1,12 @@
-import React from "react";
+import React from 'react'
 
-export default function Panel({ title, text, variant }) {
-  function variantClasses() {
+export default function Panel ({ title, text, variant }) {
+  function variantClasses () {
     switch (variant) {
-      case "shadowless":
-        return "";
+      case 'shadowless':
+        return ''
       default:
-        return "shadow";
+        return 'shadow'
     }
   }
 
@@ -31,5 +31,5 @@ export default function Panel({ title, text, variant }) {
         </div>
       </div>
     </div>
-  );
+  )
 }

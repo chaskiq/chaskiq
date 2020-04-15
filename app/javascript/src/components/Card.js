@@ -1,6 +1,6 @@
-import React from "react";
+import React from 'react'
 
-export default function Card({ title, description, imageSrc }) {
+export default function Card ({ title, description, imageSrc }) {
   return (
     <div className="rounded overflow-hidden shadow-lg bg-white">
       {imageSrc && (
@@ -19,5 +19,5 @@ export default function Card({ title, description, imageSrc }) {
         <span className="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700">#winter</span>
       </div> */}
     </div>
-  );
+  )
 }

@@ -1,5 +1,5 @@
-import React from "react";
+import React from 'react'
 
-export default function Card({ children }) {
-  return <p>{children}</p>;
+export default function Card ({ children }) {
+  return <p>{children}</p>
 }

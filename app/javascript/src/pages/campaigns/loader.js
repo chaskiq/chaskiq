@@ -1,14 +1,14 @@
-import React from "react";
+import React from 'react'
 
 export default class Loader extends React.Component {
-  constructor(props) {
-    super(props);
+  constructor (props) {
+    super(props)
   }
 
-  render() {
+  render () {
     return (
-      <div className="mx-auto" style={{ width: "95%" }}>
-        <div className="jumbotron" style={{ backgroundColor: "#fff" }}>
+      <div className="mx-auto" style={{ width: '95%' }}>
+        <div className="jumbotron" style={{ backgroundColor: '#fff' }}>
           <div className="row">
             <div className="col-3">
               <svg
@@ -54,6 +54,6 @@ export default class Loader extends React.Component {
           </div>
         </div>
       </div>
-    );
+    )
   }
 }

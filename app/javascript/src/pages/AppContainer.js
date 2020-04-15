@@ -1,56 +1,56 @@
-import React from "react";
-import PropTypes from "prop-types";
-import Sidebar from "../components/sidebar";
-import { Switch, Route, Link, withRouter } from "react-router-dom";
+import React from 'react'
+import PropTypes from 'prop-types'
+import Sidebar from '../components/sidebar'
+import { Switch, Route, Link, withRouter } from 'react-router-dom'
 
-import { camelizeKeys } from "../actions/conversation";
+import { camelizeKeys } from '../actions/conversation'
 
-import Dashboard from "./Dashboard";
-import Platform from "./Platform";
-import Conversations from "./Conversations";
-import Settings from "./Settings";
-import Team from "./Team";
-import Webhooks from "./Webhooks";
-import Integrations from "./Integrations";
-import Articles from "./Articles";
-import Bots from "./Bots";
-import Campaigns from "./Campaigns";
-import CampaignHome from "./campaigns/home";
-import Progress from "../components/Progress";
+import Dashboard from './Dashboard'
+import Platform from './Platform'
+import Conversations from './Conversations'
+import Settings from './Settings'
+import Team from './Team'
+import Webhooks from './Webhooks'
+import Integrations from './Integrations'
+import Articles from './Articles'
+import Bots from './Bots'
+import Campaigns from './Campaigns'
+import CampaignHome from './campaigns/home'
+import Progress from '../components/Progress'
 
-import { connect } from "react-redux";
+import { connect } from 'react-redux'
 
-import Login from "../pages/auth/login";
-import { signout } from "../actions/auth";
+import Login from '../pages/auth/login'
+import { signout } from '../actions/auth'
 
 // import Pricing from '../pages/pricingPage'
-import graphql from "../graphql/client";
-import { isEmpty } from "lodash";
-import { getCurrentUser } from "../actions/current_user";
+import graphql from '../graphql/client'
+import { isEmpty } from 'lodash'
+import { getCurrentUser } from '../actions/current_user'
 
-import { APPS } from "../graphql/queries";
-import actioncable from "actioncable";
-import { setApp, updateApp } from "../actions/app";
+import { APPS } from '../graphql/queries'
+import actioncable from 'actioncable'
+import { setApp, updateApp } from '../actions/app'
 
-import { searchAppUsers, updateAppUserPresence } from "../actions/app_users";
+import { searchAppUsers, updateAppUserPresence } from '../actions/app_users'
 
-import { getAppUser } from "../actions/app_user";
+import { getAppUser } from '../actions/app_user'
 
 import {
   updateConversationItem,
-  appendConversation,
-} from "../actions/conversations";
+  appendConversation
+} from '../actions/conversations'
 
-import { toggleDrawer } from "../actions/drawer";
+import { toggleDrawer } from '../actions/drawer'
 
-import UserData from "../components/UserData";
-import LoadingView from "../components/loadingView";
+import UserData from '../components/UserData'
+import LoadingView from '../components/loadingView'
 
 const CableApp = {
-  cable: actioncable.createConsumer(window.ws_cable_url),
-};
+  cable: actioncable.createConsumer(window.ws_cable_url)
+}
 
-function App({
+function App ({
   match,
   dispatch,
   isAuthenticated,
@@ -58,82 +58,82 @@ function App({
   app,
   drawer,
   app_user,
-  loading,
+  loading
 }) {
   React.useEffect(() => {
-    dispatch(getCurrentUser());
+    dispatch(getCurrentUser())
 
     fetchApp(() => {
-      eventsSubscriber(match.params.appId);
-    });
-  }, [match.params.appId]);
+      eventsSubscriber(match.params.appId)
+    })
+  }, [match.params.appId])
 
   const fetchApp = (cb) => {
-    const id = match.params.appId;
+    const id = match.params.appId
     dispatch(
       setApp(id, {
         success: () => {
-          cb && cb();
-        },
+          cb && cb()
+        }
       })
-    );
-  };
+    )
+  }
 
   const eventsSubscriber = (id) => {
     // unsubscribe cable ust in case
     if (CableApp.events) {
-      CableApp.events.unsubscribe();
+      CableApp.events.unsubscribe()
     }
 
     CableApp.events = CableApp.cable.subscriptions.create(
       {
-        channel: "EventsChannel",
-        app: id,
+        channel: 'EventsChannel',
+        app: id
       },
       {
         connected: () => {
-          console.log("connected to events");
+          console.log('connected to events')
         },
         disconnected: () => {
-          console.log("disconnected from events");
+          console.log('disconnected from events')
         },
         received: (data) => {
-          console.log("received", data);
+          console.log('received', data)
           switch (data.type) {
-            case "conversation_part":
-              return dispatch(appendConversation(camelizeKeys(data.data)));
-            case "presence":
-              return updateUser(camelizeKeys(data.data));
+            case 'conversation_part':
+              return dispatch(appendConversation(camelizeKeys(data.data)))
+            case 'presence':
+              return updateUser(camelizeKeys(data.data))
             default:
-              return null;
+              return null
           }
         },
         notify: () => {
-          console.log("notify!!");
+          console.log('notify!!')
         },
         handleMessage: (message) => {
-          console.log("handle message");
-        },
+          console.log('handle message')
+        }
       }
-    );
+    )
 
-    window.cable = CableApp;
-  };
-
-  function updateUser(data) {
-    dispatch(updateAppUserPresence(data));
+    window.cable = CableApp
   }
 
-  function setAppUser(id) {
-    dispatch(getAppUser(id));
+  function updateUser (data) {
+    dispatch(updateAppUserPresence(data))
   }
 
-  function handleSidebar() {
-    dispatch(toggleDrawer({ open: !drawer.open }));
+  function setAppUser (id) {
+    dispatch(getAppUser(id))
   }
 
-  function handleUserSidebar() {
-    dispatch(toggleDrawer({ userDrawer: !drawer.userDrawer }));
+  function handleSidebar () {
+    dispatch(toggleDrawer({ open: !drawer.open }))
+  }
+
+  function handleUserSidebar () {
+    dispatch(toggleDrawer({ userDrawer: !drawer.userDrawer }))
   }
 
   return (
@@ -144,12 +144,12 @@ function App({
         <div
           onClick={handleSidebar}
           style={{
-            background: "#000",
-            position: "fixed",
+            background: '#000',
+            position: 'fixed',
             opacity: 0.7,
             zIndex: 1,
-            width: "100vw",
-            height: "100vh",
+            width: '100vw',
+            height: '100vh'
           }}
         ></div>
       )}
@@ -161,7 +161,7 @@ function App({
         >
           <div className="overflow-x-scroll h-screen">
             {app_user ? (
-              <UserData width={"300px"} app={app} appUser={app_user} />
+              <UserData width={'300px'} app={app} appUser={app_user} />
             ) : (
               <Progress />
             )}
@@ -173,14 +173,14 @@ function App({
         <div
           onClick={handleUserSidebar}
           style={{
-            background: "#000",
-            position: "fixed",
+            background: '#000',
+            position: 'fixed',
             opacity: 0.6,
             zIndex: 10,
             top: 0,
             left: 0,
-            width: "100vw",
-            height: "100vh",
+            width: '100vw',
+            height: '100vh'
           }}
         />
       )}
@@ -260,10 +260,10 @@ function App({
         </div>
       )}
     </div>
-  );
+  )
 }
 
-function mapStateToProps(state) {
+function mapStateToProps (state) {
   const {
     auth,
     drawer,
@@ -272,10 +272,10 @@ function mapStateToProps(state) {
     app_user,
     app_users,
     current_user,
-    navigation,
-  } = state;
-  const { loading, isAuthenticated } = auth;
-  const { current_section } = navigation;
+    navigation
+  } = state
+  const { loading, isAuthenticated } = auth
+  const { current_section } = navigation
   return {
     segment,
     app_users,
@@ -285,8 +285,8 @@ function mapStateToProps(state) {
     loading,
     isAuthenticated,
     current_section,
-    drawer,
-  };
+    drawer
+  }
 }
 
-export default withRouter(connect(mapStateToProps)(App));
+export default withRouter(connect(mapStateToProps)(App))

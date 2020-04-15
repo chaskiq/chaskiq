@@ -1,5 +1,5 @@
-import styled from "@emotion/styled";
-import { math, opacify } from "polished";
+import styled from '@emotion/styled'
+import { math, opacify } from 'polished'
 
 export const InlinetooltipWrapper = styled.div`
   // BASE
@@ -156,4 +156,4 @@ export const InlinetooltipWrapper = styled.div`
                transform: rotate(0);
     }
 
-`;
+`

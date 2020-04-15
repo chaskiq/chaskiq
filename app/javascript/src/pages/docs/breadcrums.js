@@ -1,5 +1,5 @@
-import React from "react";
+import React from 'react'
 
-export default function Breadcrumbs() {
-  return <div>breadcrumbs</div>;
+export default function Breadcrumbs () {
+  return <div>breadcrumbs</div>
 }

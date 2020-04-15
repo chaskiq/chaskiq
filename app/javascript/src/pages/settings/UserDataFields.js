@@ -1,62 +1,62 @@
-import React, { useState } from "react";
+import React, { useState } from 'react'
 
-import Button from "../../components/Button";
+import Button from '../../components/Button'
 
-import { withRouter } from "react-router-dom";
-import { connect } from "react-redux";
-import FormDialog from "../../components/FormDialog";
-import Content from "../../components/Content";
+import { withRouter } from 'react-router-dom'
+import { connect } from 'react-redux'
+import FormDialog from '../../components/FormDialog'
+import Content from '../../components/Content'
 import List, {
   ListItem,
   ListItemText,
   ItemListPrimaryContent,
-  ItemListSecondaryContent,
-} from "../../components/List";
-import serialize from "form-serialize";
+  ItemListSecondaryContent
+} from '../../components/List'
+import serialize from 'form-serialize'
 
-import { DeleteIcon, PlusIcon, EditIcon } from "../../components/icons";
+import { DeleteIcon, PlusIcon, EditIcon } from '../../components/icons'
 
-import defaultFields from "../../shared/defaultFields";
-import Input from "../../components/forms/Input";
+import defaultFields from '../../shared/defaultFields'
+import Input from '../../components/forms/Input'
 
-function CustomizationColors({ app, settings, update, dispatch }) {
-  const [fields, setFields] = useState(app.customFields || []);
-  const [isOpen, setOpen] = useState(false);
-  const [selected, setSelected] = useState(null);
+function CustomizationColors ({ app, settings, update, dispatch }) {
+  const [fields, setFields] = useState(app.customFields || [])
+  const [isOpen, setOpen] = useState(false)
+  const [selected, setSelected] = useState(null)
 
-  const form = React.useRef(null);
+  const form = React.useRef(null)
 
-  function addField() {
-    setOpen(true);
+  function addField () {
+    setOpen(true)
   }
 
-  function close() {
-    setSelected(null);
-    setOpen(false);
+  function close () {
+    setSelected(null)
+    setOpen(false)
   }
 
-  function submit() {
-    setFields(handleFields());
-    setOpen(false);
+  function submit () {
+    setFields(handleFields())
+    setOpen(false)
   }
 
-  function handleFields() {
-    const s = serialize(form.current, { hash: true, empty: true });
+  function handleFields () {
+    const s = serialize(form.current, { hash: true, empty: true })
 
     if (selected === null) {
-      return fields.concat(s);
+      return fields.concat(s)
     }
 
     return fields.map((o, i) => {
       if (i === selected) {
-        return s;
+        return s
       }
-      return o;
-    });
+      return o
+    })
   }
 
-  function renderModal() {
-    const selectedItem = fields[selected];
+  function renderModal () {
+    const selectedItem = fields[selected]
 
     return (
       isOpen && (
@@ -64,7 +64,7 @@ function CustomizationColors({ app, settings, update, dispatch }) {
           open={isOpen}
           handleClose={close}
           // contentText={"lipsum"}
-          titleContent={"Create user data field"}
+          titleContent={'Create user data field'}
           formComponent={
             <form ref={form}>
               <FieldsForm selected={selectedItem} />
@@ -77,41 +77,41 @@ function CustomizationColors({ app, settings, update, dispatch }) {
               </Button>
 
               <Button onClick={submit} color="primary">
-                {"Create"}
+                {'Create'}
               </Button>
             </React.Fragment>
           }
         ></FormDialog>
       )
-    );
+    )
   }
 
-  function handleEdit(o) {
-    setSelected(o);
-    setOpen(true);
+  function handleEdit (o) {
+    setSelected(o)
+    setOpen(true)
   }
 
-  function removeField(index) {
-    const newFields = fields.filter((o, i) => i !== index);
-    setFields(newFields);
+  function removeField (index) {
+    const newFields = fields.filter((o, i) => i !== index)
+    setFields(newFields)
   }
 
-  function renderSubmitButton() {
+  function renderSubmitButton () {
     return (
       <Button
-        variant={"contained"}
-        color={"primary"}
+        variant={'contained'}
+        color={'primary'}
         onClick={() =>
           update({
             app: {
-              custom_fields: fields,
-            },
+              custom_fields: fields
+            }
           })
         }
       >
         Save changes
       </Button>
-    );
+    )
   }
 
   return (
@@ -186,10 +186,10 @@ function CustomizationColors({ app, settings, update, dispatch }) {
 
       {renderSubmitButton()}
     </div>
-  );
+  )
 }
 
-function FieldsItems({ primary, secondary, terciary }) {
+function FieldsItems ({ primary, secondary, terciary }) {
   return (
     <ListItem divider={true}>
       <ListItemText
@@ -210,29 +210,29 @@ function FieldsItems({ primary, secondary, terciary }) {
         terciary={terciary}
       />
     </ListItem>
-  );
+  )
 }
 
-function FieldsForm({ selected }) {
-  const [field, setField] = useState(selected || {});
+function FieldsForm ({ selected }) {
+  const [field, setField] = useState(selected || {})
 
-  function setName(e) {
-    setField(Object.assign({}, field, { name: e.target.value }));
+  function setName (e) {
+    setField(Object.assign({}, field, { name: e.target.value }))
   }
 
-  function setType(e) {
-    setField(Object.assign({}, field, { type: e.value }));
+  function setType (e) {
+    setField(Object.assign({}, field, { type: e.value }))
   }
 
   const options = [
-    { value: "string", label: "Text" },
-    { value: "integer", label: "Number" },
-    { value: "date", label: "Date" },
-  ];
+    { value: 'string', label: 'Text' },
+    { value: 'integer', label: 'Number' },
+    { value: 'date', label: 'Date' }
+  ]
 
-  function selectedOption() {
-    const selected = options.find((o) => o.value === field.type);
-    if (selected) return selected;
+  function selectedOption () {
+    const selected = options.find((o) => o.value === field.type)
+    if (selected) return selected
   }
 
   return (
@@ -244,7 +244,7 @@ function FieldsForm({ selected }) {
         fullWidth
         name="name"
         label="Field name"
-        type={"text"}
+        type={'text'}
         // type="password"
         // id="password"
         autoFocus
@@ -254,20 +254,20 @@ function FieldsForm({ selected }) {
       />
 
       <Input
-        name={"type"}
+        name={'type'}
         value={field.label}
         defaultValue={selectedOption()}
         onChange={(e) => setType(e)}
-        label={"field type"}
-        type={"select"}
+        label={'field type'}
+        type={'select'}
         data={{}}
         options={options}
       ></Input>
     </React.Fragment>
-  );
+  )
 }
 
-function Field({ field, handleEdit, removeField, index }) {
+function Field ({ field, handleEdit, removeField, index }) {
   return (
     <ListItem>
       <ListItemText primary={field.name} secondary={field.type} />
@@ -294,14 +294,14 @@ function Field({ field, handleEdit, removeField, index }) {
         </ItemListSecondaryContent>
       )}
     </ListItem>
-  );
+  )
 }
 
-function mapStateToProps(state) {
-  const { app } = state;
+function mapStateToProps (state) {
+  const { app } = state
   return {
-    app,
-  };
+    app
+  }
 }
 
-export default withRouter(connect(mapStateToProps)(CustomizationColors));
+export default withRouter(connect(mapStateToProps)(CustomizationColors))

@@ -1,52 +1,52 @@
-import React from "react";
-import graphql from "../../graphql/client";
+import React from 'react'
+import graphql from '../../graphql/client'
 import {
   ARTICLE_SETTINGS,
   ARTICLE_COLLECTION_WITH_SECTIONS,
   ARTICLE_COLLECTIONS,
   ARTICLE,
-  SEARCH_ARTICLES,
-} from "../../graphql/docsQueries";
-import Container from "../../components/Content";
-import Card from "../../components/Card";
+  SEARCH_ARTICLES
+} from '../../graphql/docsQueries'
+import Container from '../../components/Content'
+import Card from '../../components/Card'
 
-import { Link } from "react-router-dom";
+import { Link } from 'react-router-dom'
 
-import translation from "./translation";
+import translation from './translation'
 
-export default function Collections({ lang, subdomain }) {
-  const [collections, setCollections] = React.useState([]);
-  const [error, setError] = React.useState(false);
+export default function Collections ({ lang, subdomain }) {
+  const [collections, setCollections] = React.useState([])
+  const [error, setError] = React.useState(false)
 
   React.useEffect(() => {
-    getArticles();
-  }, [lang]);
+    getArticles()
+  }, [lang])
 
-  function getArticles() {
+  function getArticles () {
     graphql(
       ARTICLE_COLLECTIONS,
       {
         domain: subdomain,
-        lang: lang,
+        lang: lang
       },
       {
         success: (data) => {
-          setCollections(data.helpCenter.collections);
+          setCollections(data.helpCenter.collections)
           if (!data.helpCenter.collections) {
-            setError("not_found");
+            setError('not_found')
           }
         },
-        error: () => {},
+        error: () => {}
       }
-    );
+    )
   }
 
-  function truncateOnWord(str, num) {
-    if (!str) return "";
+  function truncateOnWord (str, num) {
+    if (!str) return ''
     if (str.length > num) {
-      return str.slice(0, num) + "...";
+      return str.slice(0, num) + '...'
     } else {
-      return str;
+      return str
     }
   }
 
@@ -59,8 +59,8 @@ export default function Collections({ lang, subdomain }) {
             <Card
               title={
                 <Link
-                  className={"classes.routeLink"}
-                  color={"primary"}
+                  className={'classes.routeLink'}
+                  color={'primary'}
                   to={`${lang}/collections/${card.slug}`}
                 >
                   <p gutterBottom variant="h5" component="h3">
@@ -86,5 +86,5 @@ export default function Collections({ lang, subdomain }) {
         ))}
       </div>
     </div>
-  );
+  )
 }
