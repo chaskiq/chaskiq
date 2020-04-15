@@ -2,12 +2,21 @@ import React from 'react'
 import { isEmpty } from 'lodash'
 import Dropdown from '../Dropdown'
 import Button from "../Button";
+import Tooltip from "rc-tooltip";
 import {
   MapIcon,
   ColumnsIcon
 } from '../icons'
 
-export default function Table ({ data, columns, format, search, meta }) {
+export default function Table ({ 
+  data, 
+  columns, 
+  format, 
+  search, 
+  meta,
+  enableMapView,
+  toggleMapView
+}) {
   const visibleColumns = (columns) => columns.filter(
     (o) => !o.hidden
   )
@@ -48,13 +57,29 @@ export default function Table ({ data, columns, format, search, meta }) {
             columns
           }
         />
+
+        {enableMapView && <Tooltip placement="bottom" 
+          overlay={"View Map"}>
+          <div className="relative inline-block text-left">
+            <Button
+              isLoading={false}
+              variant="clean"
+              onClick={toggleMapView}>
+              <MapIcon/>
+            </Button>
+          </div>
+        </Tooltip>
+      }
       </div>
+
+
 
       <table className="min-w-full">
         <thead>
           <tr>
             {visibleCols.map((o) => (
-              <th className="px-6 py-3 border-b border-gray-200 bg-gray-50 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">
+              <th key={`visible-col-${o.title}`} 
+                className="px-6 py-3 border-b border-gray-200 bg-gray-50 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">
                 {o.title}
               </th>
             ))}
@@ -124,18 +149,16 @@ function SimpleMenu (props) {
       <Dropdown
         position={'right'}
         triggerButton={(cb) => (
-          <button
-            //innerRef={(ref) => (this._my_field = ref)}
-            isLoading={false}
-            className="p-2 inline-flex items-center px-2.5 py-1.5 border border-transparent text-xs leading-4 font-medium rounded text-white bg-gray-600 hover:bg-gray-500 focus:outline-none focus:border-indigo-700 focus:shadow-outline-indigo active:bg-indigo-700 transition ease-in-out duration-150"
-            variant="outlined"
-            color="primary"
-            onClick={cb}
-          >
-            <ColumnsIcon/>
-          </button>
-        )}
-        >
+          <Tooltip placement="bottom" 
+            overlay={"select columns"}>
+            <Button
+              isLoading={false}
+              variant="clean"
+              onClick={cb}>
+              <ColumnsIcon/>
+            </Button>
+          </Tooltip>
+        )}>
         <div className="p-2 h-56 overflow-auto">
           {
             props.options.map((o)=> 
