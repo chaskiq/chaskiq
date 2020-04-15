@@ -18,6 +18,27 @@ const BaseIcon = styled.svg`
 
 // icons from http://www.zondicons.com/icons.html
 
+export function MapIcon (props){
+  return (
+    <BaseIcon {...props} fill="currentColor"
+      focusable="false" viewBox="0 0 24 24" aria-hidden="true" role="presentation">
+      <path d="M20.5 3l-.16.03L15 5.1 9 3 3.36 4.9c-.21.07-.36.25-.36.48V20.5c0 .28.22.5.5.5l.16-.03L9 18.9l6 2.1 5.64-1.9c.21-.07.36-.25.36-.48V3.5c0-.28-.22-.5-.5-.5zM15 19l-6-2.11V5l6 2.11V19z">
+      </path>
+    </BaseIcon>
+  )
+}
+
+export function ColumnsIcon (props){
+  return (
+    <BaseIcon {...props} fill="currentColor"
+    focusable="false" viewBox="0 0 24 24" 
+    aria-hidden="true" role="presentation">
+      <path d="M10 18h5V5h-5v13zm-6 0h5V5H4v13zM16 5v13h5V5h-5z">
+      </path>
+    </BaseIcon>
+  )
+}
+
 export function LeftArrow (props) {
   return (
     <BaseIcon {...props} fill="currentColor"
@@ -262,7 +283,7 @@ export function LoadBalancerIcon (props) {
   )
 }
 
-export function MapIcon (props) {
+/*export function MapIcon (props) {
   return (
     <BaseIcon {...props} fill="currentColor" viewBox="0 0 20 20">
       <path
@@ -271,7 +292,7 @@ export function MapIcon (props) {
       ></path>
     </BaseIcon>
   )
-}
+}*/
 
 export function LocationIcon (props) {
   return (

@@ -5,7 +5,8 @@ export default function Dropdown ({
   children,
   labelButton,
   triggerButton,
-  isOpen
+  isOpen,
+  position
 }) {
   const [open, setOpen] = React.useState(isOpen)
 
@@ -21,10 +22,7 @@ export default function Dropdown ({
     <React.Fragment>
       <div
         ref={ref}
-        // x-data="{ open: true }"
-        // @keydown.escape="open = false"
-        // @click.away="open = false"
-        className="relative inline-block text-left"
+        className={'relative inline-block text-left'}
       >
         <div>
           {triggerButton ? (
@@ -55,14 +53,8 @@ export default function Dropdown ({
 
         {open && (
           <div
-            // x-show="open"
-            // x-transition:enter="transition ease-out duration-100"
-            // x-transition:enter-start="transform opacity-0 scale-95"
-            // x-transition:enter-end="transform opacity-100 scale-100"
-            // x-transition:leave="transition ease-in duration-75"
-            // x-transition:leave-start="transform opacity-100 scale-100"
-            // x-transition:leave-end="transform opacity-0 scale-95"
-            className="z-50 origin-top-right absolute left-0 mt-2 w-56 rounded-md shadow-lg"
+            className={`z-50 origin-top-right absolute 
+            ${position ? position : 'left' }-0 mt-2 w-56 rounded-md shadow-lg`}
           >
             <div className="rounded-md bg-white shadow-xs">{children}</div>
           </div>

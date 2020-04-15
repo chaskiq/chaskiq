@@ -1,8 +1,20 @@
 import React from 'react'
 import { isEmpty } from 'lodash'
+import Dropdown from '../Dropdown'
+import Button from "../Button";
+import {
+  MapIcon,
+  ColumnsIcon
+} from '../icons'
 
 export default function Table ({ data, columns, format, search, meta }) {
-  const visibleColumns = () => columns.filter((o) => !o.hidden)
+  const visibleColumns = (columns) => columns.filter(
+    (o) => !o.hidden
+  )
+  const [visibleCols, setVisibleCols] = React.useState(
+    visibleColumns(columns)
+  )
+  const [open, setOpen] = React.useState(false)
 
   const renderDefaultRow = (value) => {
     return (
@@ -13,39 +25,39 @@ export default function Table ({ data, columns, format, search, meta }) {
   }
 
   const handleFormat = (item) => {
-    console.log('ITEM', columns)
     return (
       <tr>
-        {visibleColumns().map((o) =>
+        {visibleCols.map((o) =>
           o.render ? o.render(item) : renderDefaultRow(item[o])
         )}
       </tr>
     )
   }
 
+  const changeColumns = (columns) =>{
+    setVisibleCols(visibleColumns(columns))
+  }
+
   return (
     <React.Fragment>
+
+      <div className="flex justify-end">
+        <SimpleMenu 
+          handleChange={changeColumns}
+          options={
+            columns
+          }
+        />
+      </div>
+
       <table className="min-w-full">
         <thead>
           <tr>
-            {visibleColumns().map((o) => (
+            {visibleCols.map((o) => (
               <th className="px-6 py-3 border-b border-gray-200 bg-gray-50 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">
                 {o.title}
               </th>
             ))}
-            {/* <th className="px-6 py-3 border-b border-gray-200 bg-gray-50 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">
-              Name
-            </th>
-            <th className="px-6 py-3 border-b border-gray-200 bg-gray-50 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">
-              Title
-            </th>
-            <th className="px-6 py-3 border-b border-gray-200 bg-gray-50 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">
-              Status
-            </th>
-            <th className="px-6 py-3 border-b border-gray-200 bg-gray-50 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">
-              Role
-            </th>
-        <th className="px-6 py-3 border-b border-gray-200 bg-gray-50"></th> */}
           </tr>
         </thead>
         <tbody className="bg-white">
@@ -88,91 +100,65 @@ function Pagination ({ meta, search }) {
           Next
         </button>
       </div>
-
-      {/*
-    <div className="hidden sm:flex-1 sm:flex sm:items-center sm:justify-between">
-      <div>
-
-        <p className="text-sm leading-5 text-gray-700">
-          Showing
-          <span className="font-medium">{meta.current_page }</span>
-          to
-          <span className="font-medium">{meta.total_pages}</span>
-          of
-          <span className="font-medium">{meta.total_count}</span>
-          results
-        </p>
-      </div>
-
-      <div>
-
-        <span className="relative z-0 inline-flex shadow-sm">
-          <button type="button" className="relative inline-flex items-center px-2 py-2 rounded-l-md border border-gray-300 bg-white text-sm leading-5 font-medium text-gray-500 hover:text-gray-400 focus:z-10 focus:outline-none focus:border-blue-300 focus:shadow-outline-blue active:bg-gray-100 active:text-gray-500 transition ease-in-out duration-150">
-            <svg className="h-5 w-5" fill="currentColor" viewBox="0 0 20 20">
-              <path fillRule="evenodd" d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z" clipRule="evenodd"></path>
-            </svg>
-          </button>
-          <button type="button" className="-ml-px relative inline-flex items-center px-4 py-2 border border-gray-300 bg-white text-sm leading-5 font-medium text-gray-700 hover:text-gray-500 focus:z-10 focus:outline-none focus:border-blue-300 focus:shadow-outline-blue active:bg-gray-100 active:text-gray-700 transition ease-in-out duration-150">
-            1
-          </button>
-          <button type="button" className="-ml-px relative inline-flex items-center px-4 py-2 border border-gray-300 bg-white text-sm leading-5 font-medium text-gray-700 hover:text-gray-500 focus:z-10 focus:outline-none focus:border-blue-300 focus:shadow-outline-blue active:bg-gray-100 active:text-gray-700 transition ease-in-out duration-150">
-            2
-          </button>
-          <button type="button" className="hidden md:inline-flex -ml-px relative items-center px-4 py-2 border border-gray-300 bg-white text-sm leading-5 font-medium text-gray-700 hover:text-gray-500 focus:z-10 focus:outline-none focus:border-blue-300 focus:shadow-outline-blue active:bg-gray-100 active:text-gray-700 transition ease-in-out duration-150">
-            3
-          </button>
-          <span className="-ml-px relative inline-flex items-center px-4 py-2 border border-gray-300 bg-white text-sm leading-5 font-medium text-gray-700">
-            ...
-          </span>
-          <button type="button" className="hidden md:inline-flex -ml-px relative items-center px-4 py-2 border border-gray-300 bg-white text-sm leading-5 font-medium text-gray-700 hover:text-gray-500 focus:z-10 focus:outline-none focus:border-blue-300 focus:shadow-outline-blue active:bg-gray-100 active:text-gray-700 transition ease-in-out duration-150">
-            8
-          </button>
-          <button type="button" className="-ml-px relative inline-flex items-center px-4 py-2 border border-gray-300 bg-white text-sm leading-5 font-medium text-gray-700 hover:text-gray-500 focus:z-10 focus:outline-none focus:border-blue-300 focus:shadow-outline-blue active:bg-gray-100 active:text-gray-700 transition ease-in-out duration-150">
-            9
-          </button>
-          <button type="button" className="-ml-px relative inline-flex items-center px-4 py-2 border border-gray-300 bg-white text-sm leading-5 font-medium text-gray-700 hover:text-gray-500 focus:z-10 focus:outline-none focus:border-blue-300 focus:shadow-outline-blue active:bg-gray-100 active:text-gray-700 transition ease-in-out duration-150">
-            10
-          </button>
-          <button type="button" className="-ml-px relative inline-flex items-center px-2 py-2 rounded-r-md border border-gray-300 bg-white text-sm leading-5 font-medium text-gray-500 hover:text-gray-400 focus:z-10 focus:outline-none focus:border-blue-300 focus:shadow-outline-blue active:bg-gray-100 active:text-gray-500 transition ease-in-out duration-150">
-            <svg className="h-5 w-5" fill="currentColor" viewBox="0 0 20 20">
-              <path fillRule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clipRule="evenodd"></path>
-            </svg>
-          </button>
-        </span>
-      </div>
-    </div>
-    */}
     </div>
   )
 }
 
-/*
-<tr>
-            <td className="px-6 py-4 whitespace-no-wrap border-b border-gray-200">
-              <div className="flex items-center">
-                <div className="flex-shrink-0 h-10 w-10">
-                  <img className="h-10 w-10 rounded-full" src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80" alt="" />
+function SimpleMenu (props) {
+  const [anchorEl, setAnchorEl] = React.useState(null);
+  //const [options, setOptions] = React.useState(props.options);
+
+  function handleChange (o, e) {
+    const checked = e.target.checked
+    const item = Object.assign({}, o, { hidden: !checked })
+
+    const columns = props.options.map((o) => {
+      return o.title === item.title ? item : o
+    })
+    console.log(item, columns)
+    props.handleChange(columns)
+  }
+  return (
+    <div>
+
+      <Dropdown
+        position={'right'}
+        triggerButton={(cb) => (
+          <button
+            //innerRef={(ref) => (this._my_field = ref)}
+            isLoading={false}
+            className="p-2 inline-flex items-center px-2.5 py-1.5 border border-transparent text-xs leading-4 font-medium rounded text-white bg-gray-600 hover:bg-gray-500 focus:outline-none focus:border-indigo-700 focus:shadow-outline-indigo active:bg-indigo-700 transition ease-in-out duration-150"
+            variant="outlined"
+            color="primary"
+            onClick={cb}
+          >
+            <ColumnsIcon/>
+          </button>
+        )}
+        >
+        <div className="p-2 h-56 overflow-auto">
+          {
+            props.options.map((o)=> 
+              <div class="relative flex items-start" 
+                   key={`simple-menu-${o.title}`}>
+                <div class="flex items-center h-5">
+                  <input 
+                  type="checkbox" 
+                  class="form-checkbox h-4 w-4 text-indigo-600 transition duration-150 ease-in-out"
+                  defaultChecked={!o.hidden}
+                  onChange={(e)=> handleChange(o, e) }
+                  />
                 </div>
-                <div className="ml-4">
-                  <div className="text-sm leading-5 font-medium text-gray-900">Bernard Lane</div>
-                  <div className="text-sm leading-5 text-gray-500">bernardlane@example.com</div>
+                <div class="pl-7 text-sm leading-5">
+                  <label for="comments" class="font-medium text-gray-700">
+                  {o.title}
+                  </label>
                 </div>
               </div>
-            </td>
-            <td className="px-6 py-4 whitespace-no-wrap border-b border-gray-200">
-              <div className="text-sm leading-5 text-gray-900">Director</div>
-              <div className="text-sm leading-5 text-gray-500">Human Resources</div>
-            </td>
-            <td className="px-6 py-4 whitespace-no-wrap border-b border-gray-200">
-              <span className="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
-                Active
-              </span>
-            </td>
-            <td className="px-6 py-4 whitespace-no-wrap border-b border-gray-200 text-sm leading-5 text-gray-500">
-              Owner
-            </td>
-            <td className="px-6 py-4 whitespace-no-wrap text-right border-b border-gray-200 text-sm leading-5 font-medium">
-              <a href="#" className="text-indigo-600 hover:text-indigo-900 focus:outline-none focus:underline">Edit</a>
-            </td>
-          </tr>
-*/
+            )
+          }
+        </div>
+      </Dropdown>
+    </div>
+  );
+}
