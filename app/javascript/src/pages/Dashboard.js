@@ -1,122 +1,119 @@
-import React from 'react'
-import PageHeader from '../components/PageHeader'
-import Progress from '../components/Progress'
-import moment from 'moment'
+import React from "react";
+import PageHeader from "../components/PageHeader";
+import Progress from "../components/Progress";
+import moment from "moment";
 
-import HeatMap from '../components/charts/heatMap'
-import Pie from '../components/charts/pie'
-import Count from '../components/charts/count'
-import DashboardCard from '../components/dashboard/card'
+import HeatMap from "../components/charts/heatMap";
+import Pie from "../components/charts/pie";
+import Count from "../components/charts/count";
+import DashboardCard from "../components/dashboard/card";
 
-import { DASHBOARD } from '../graphql/queries'
-import graphql from '../graphql/client'
+import { DASHBOARD } from "../graphql/queries";
+import graphql from "../graphql/client";
 
-import { setCurrentSection } from '../actions/navigation'
-import { withRouter } from 'react-router-dom'
-import { connect } from 'react-redux'
+import { setCurrentSection } from "../actions/navigation";
+import { withRouter } from "react-router-dom";
+import { connect } from "react-redux";
 
-import Content from '../components/Content'
+import Content from "../components/Content";
 
-import I18n from '../shared/FakeI18n'
+import I18n from "../shared/FakeI18n";
 
-export function Home () {
-  return <div>
-
-    <PageHeader title={'Dashboard'}/>
-  </div>
+export function Home() {
+  return (
+    <div>
+      <PageHeader title={"Dashboard"} />
+    </div>
+  );
 }
 
-function Dashboard (props) {
-  const { app, dispatch } = props
+function Dashboard(props) {
+  const { app, dispatch } = props;
 
   React.useEffect(() => {
-    dispatch(
-      setCurrentSection('Dashboard')
-    )
-  }, [])
+    dispatch(setCurrentSection("Dashboard"));
+  }, []);
 
   const initialData = {
     loading: true,
-    from: moment().add(-1, 'week'),
-    to: moment() // .add(-1, 'day')
-  }
+    from: moment().add(-1, "week"),
+    to: moment(), // .add(-1, 'day')
+  };
 
-  const [dashboard, setDashboard] = React.useState(initialData)
+  const [dashboard, setDashboard] = React.useState(initialData);
 
-  const bull = <span>•</span>
+  const bull = <span>•</span>;
 
   return (
     <div>
-
       <Content>
         <div maxWidth="lg">
           <div className="flex flex-wrap -mx-4">
-
-            <div className={'w-full p-4'}>
+            <div className={"w-full p-4"}>
               <DashboardItem
-                chartType={'app_packages'}
+                chartType={"app_packages"}
                 dashboard={dashboard}
                 app={app}
-                label={I18n.t('dashboasrd.user_country')}
-                kind={'app_packages'}
+                label={I18n.t("dashboasrd.user_country")}
+                kind={"app_packages"}
                 // classes={classes}
                 styles={{}}
               />
             </div>
 
-            <div className={'lg:w-1/4 w-1/2 p-4'}>
+            <div className={"lg:w-1/4 w-1/2 p-4"}>
               <div className="bg-white shadow overflow-hidden  sm:rounded-lg p-4">
                 <DashboardItem
-                  chartType={'count'}
+                  chartType={"count"}
                   dashboard={dashboard}
                   app={app}
-                  kind={'first_response_time'}
-                  label={I18n.t('dashboard.response_avg')}
-                  appendLabel={'Hrs'}
+                  kind={"first_response_time"}
+                  label={I18n.t("dashboard.response_avg")}
+                  appendLabel={"Hrs"}
                 />
               </div>
             </div>
 
-            <div className={'lg:w-1/4 w-1/2 p-4'}>
+            <div className={"lg:w-1/4 w-1/2 p-4"}>
               <div className="bg-white shadow overflow-hidden  sm:rounded-lg p-4">
                 <DashboardItem
-                  chartType={'count'}
+                  chartType={"count"}
                   dashboard={dashboard}
                   app={app}
-                  kind={'opened_conversations'}
-                  label={I18n.t('dashboard.new_conversations')}
-                  appendLabel={''}
+                  kind={"opened_conversations"}
+                  label={I18n.t("dashboard.new_conversations")}
+                  appendLabel={""}
                 />
               </div>
             </div>
 
-            <div className={'lg:w-1/4 w-1/2 p-4'}>
+            <div className={"lg:w-1/4 w-1/2 p-4"}>
               <div className="bg-white shadow overflow-hidden  sm:rounded-lg p-4">
                 <DashboardItem
-                  chartType={'count'}
+                  chartType={"count"}
                   dashboard={dashboard}
                   app={app}
-                  kind={'solved_conversations'}
-                  label={I18n.t('dashboard.resolutions')}
-                  appendLabel={''}
+                  kind={"solved_conversations"}
+                  label={I18n.t("dashboard.resolutions")}
+                  appendLabel={""}
                 />
               </div>
             </div>
 
-            <div className={'lg:w-1/4 w-1/2 p-4'}>
+            <div className={"lg:w-1/4 w-1/2 p-4"}>
               <div className="bg-white shadow overflow-hidden  sm:rounded-lg p-4">
                 <DashboardItem
-                  chartType={'count'}
+                  chartType={"count"}
                   dashboard={dashboard}
                   app={app}
-                  kind={'incoming_messages'}
-                  label={I18n.t('dashboard.incoming_messages')}
-                  appendLabel={''}
+                  kind={"incoming_messages"}
+                  label={I18n.t("dashboard.incoming_messages")}
+                  appendLabel={""}
                 />
               </div>
             </div>
 
-            <div className={'w-full p-4'}>
+            <div className={"w-full p-4"}>
               <div className="bg-white shadow overflow-hidden  sm:rounded-lg p-4">
                 {/* <Chart /> */}
                 <div className="mt-1 text-3xl leading-9 font-semibold text-gray-900">
@@ -124,192 +121,177 @@ function Dashboard (props) {
                 </div>
 
                 <DashboardItem
-                  chartType={'heatMap'}
+                  chartType={"heatMap"}
                   dashboard={dashboard}
                   app={app}
-                  kind={'visits'}
+                  kind={"visits"}
                 />
               </div>
             </div>
             {/* Recent Deposits */}
-            <div className={'lg:w-1/4 w-1/2 p-4'}>
+            <div className={"lg:w-1/4 w-1/2 p-4"}>
               <div className="bg-white shadow overflow-hidden  sm:rounded-lg p-4">
-                <DashboardCard title={'Users browser'}>
-
+                <DashboardCard title={"Users browser"}>
                   <DashboardItem
-                    chartType={'pie'}
+                    chartType={"pie"}
                     dashboard={dashboard}
                     app={app}
-                    label={I18n.t('dashboasrd.browser')}
-                    kind={'browser'}
+                    label={I18n.t("dashboasrd.browser")}
+                    kind={"browser"}
                   />
-
                 </DashboardCard>
-
               </div>
             </div>
 
-            <div className={'lg:w-1/4 w-1/2 p-4'}>
+            <div className={"lg:w-1/4 w-1/2 p-4"}>
               <div className="bg-white shadow overflow-hidden  sm:rounded-lg p-4">
                 <DashboardItem
-                  chartType={'pie'}
+                  chartType={"pie"}
                   dashboard={dashboard}
                   app={app}
-                  label={I18n.t('dashboasrd.lead_os')}
-                  kind={'lead_os'}
+                  label={I18n.t("dashboasrd.lead_os")}
+                  kind={"lead_os"}
                 />
               </div>
             </div>
 
-            <div className={'lg:w-1/4 w-1/2 p-4'}>
+            <div className={"lg:w-1/4 w-1/2 p-4"}>
               <div className="bg-white shadow overflow-hidden  sm:rounded-lg p-4">
                 <DashboardItem
-                  chartType={'pie'}
+                  chartType={"pie"}
                   dashboard={dashboard}
                   app={app}
-                  label={I18n.t('dashboasrd.user_os')}
-                  kind={'user_os'}
+                  label={I18n.t("dashboasrd.user_os")}
+                  kind={"user_os"}
                 />
               </div>
             </div>
 
-            <div className={'lg:w-1/4 w-1/2 p-4'}>
+            <div className={"lg:w-1/4 w-1/2 p-4"}>
               <div className="bg-white shadow overflow-hidden  sm:rounded-lg p-4">
                 <DashboardItem
-                  chartType={'pie'}
+                  chartType={"pie"}
                   dashboard={dashboard}
                   app={app}
-                  label={I18n.t('dashboasrd.user_country')}
-                  kind={'user_country'}
+                  label={I18n.t("dashboasrd.user_country")}
+                  kind={"user_country"}
                 />
               </div>
             </div>
-
           </div>
         </div>
       </Content>
-
     </div>
-  )
+  );
 }
 
-function DashboardItem (
-  {
-    app,
-    kind,
-    dashboard,
-    chartType,
-    label,
-    appendLabel,
-    classes,
-    styles
-  }) {
-  const [data, setData] = React.useState([])
-  const [loading, setLoading] = React.useState(true)
+function DashboardItem({
+  app,
+  kind,
+  dashboard,
+  chartType,
+  label,
+  appendLabel,
+  classes,
+  styles,
+}) {
+  const [data, setData] = React.useState([]);
+  const [loading, setLoading] = React.useState(true);
 
   React.useEffect(() => {
-    getData()
-  }
-  , [])
+    getData();
+  }, []);
 
-  function getData () {
-    graphql(DASHBOARD, {
-      appKey: app.key,
-      range: {
-        from: dashboard.from,
-        to: dashboard.to
+  function getData() {
+    graphql(
+      DASHBOARD,
+      {
+        appKey: app.key,
+        range: {
+          from: dashboard.from,
+          to: dashboard.to,
+        },
+        kind: kind,
       },
-      kind: kind
-    }, {
-      success: (data) => {
-        setData(data.app.dashboard)
-        setLoading(false)
-      },
-      error: (err) => {
-        setLoading(false)
-        debugger
+      {
+        success: (data) => {
+          setData(data.app.dashboard);
+          setLoading(false);
+        },
+        error: (err) => {
+          setLoading(false);
+          debugger;
+        },
       }
-    })
+    );
   }
 
-  function renderChart () {
+  function renderChart() {
     switch (chartType) {
-      case 'heatMap':
-        return <HeatMap
-          data={data}
-          from={dashboard.from}
-          to={dashboard.to}
-        />
+      case "heatMap":
+        return <HeatMap data={data} from={dashboard.from} to={dashboard.to} />;
 
-      case 'pie':
-        return <Pie
-          data={data}
-          from={dashboard.from}
-          to={dashboard.to}
-        />
-      case 'count':
-        return <Count
-          data={data}
-          from={dashboard.from}
-          to={dashboard.to}
-          label={label}
-          appendLabel={appendLabel}
-        />
-      case 'app_packages':
-        return <DashboardAppPackages
-          data={data}
-          dashboard={dashboard}
-          classes={classes}
-        />
+      case "pie":
+        return <Pie data={data} from={dashboard.from} to={dashboard.to} />;
+      case "count":
+        return (
+          <Count
+            data={data}
+            from={dashboard.from}
+            to={dashboard.to}
+            label={label}
+            appendLabel={appendLabel}
+          />
+        );
+      case "app_packages":
+        return (
+          <DashboardAppPackages
+            data={data}
+            dashboard={dashboard}
+            classes={classes}
+          />
+        );
       default:
-        return <p>no chart type</p>
+        return <p>no chart type</p>;
     }
   }
 
   return (
-    <div style={styles || { height: '140px' } }>
-
-      {
-        loading && <Progress/>
-      }
-      {
-        !loading && renderChart()
-      }
+    <div style={styles || { height: "140px" }}>
+      {loading && <Progress />}
+      {!loading && renderChart()}
     </div>
-  )
+  );
 }
 
-function DashboardAppPackages (props) {
-  const packages = props.data
+function DashboardAppPackages(props) {
+  const packages = props.data;
   return (
     <div className="bg-white shadow overflow-hidden  sm:rounded-lg p-4">
-      {
-        packages && packages.map((o) => (
+      {packages &&
+        packages.map((o) => (
           <DashboardAppPackage
             key={`appPackage-${o.name}`}
             package={o}
             dashboard={props.dashboard}
             classes={props.classes}
           />
-        ))
-      }
+        ))}
     </div>
-  )
+  );
 }
 
-function DashboardAppPackage (props) {
-  const dashboard = props.dashboard
-  const pkg = props.package
-  const data = pkg.data
-  const classes = props.classes
+function DashboardAppPackage(props) {
+  const dashboard = props.dashboard;
+  const pkg = props.package;
+  const data = pkg.data;
+  const classes = props.classes;
 
   return (
     <div className="p-4">
-
       <div className="flex mb-2">
-
         <div className="mr-4">
-          <img src={pkg.icon} width={64}/>
+          <img src={pkg.icon} width={64} />
         </div>
 
         <div>
@@ -321,44 +303,40 @@ function DashboardAppPackage (props) {
             {data.subtitle}
           </p>
         </div>
-
       </div>
 
-      <hr className="my-4"/>
+      <hr className="my-4" />
 
       <div className="flex">
-
-        {
-          data.values && data.values.map((v) => {
-            return <div className="w-1/4">
-
-              <Count
-                data={v.value}
-                from={dashboard.from}
-                to={dashboard.to}
-                label={v.label}
-                subtitle={`${v.value2}`}
-                // appendLabel={appendLabel}
-              />
-
-            </div>
-          })
-        }
-
+        {data.values &&
+          data.values.map((v) => {
+            return (
+              <div className="w-1/4">
+                <Count
+                  data={v.value}
+                  from={dashboard.from}
+                  to={dashboard.to}
+                  label={v.label}
+                  subtitle={`${v.value2}`}
+                  // appendLabel={appendLabel}
+                />
+              </div>
+            );
+          })}
       </div>
     </div>
-  )
+  );
 }
 
-function mapStateToProps (state) {
-  const { auth, app } = state
-  const { loading, isAuthenticated } = auth
+function mapStateToProps(state) {
+  const { auth, app } = state;
+  const { loading, isAuthenticated } = auth;
 
   return {
     app,
     loading,
-    isAuthenticated
-  }
+    isAuthenticated,
+  };
 }
 
-export default withRouter(connect(mapStateToProps)(Dashboard))
+export default withRouter(connect(mapStateToProps)(Dashboard));

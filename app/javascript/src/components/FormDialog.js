@@ -1,48 +1,57 @@
-import React from 'react'
+import React from "react";
 
-function FormDialog (props) {
-  const [open, setOpen] = React.useState(props.open)
+function FormDialog(props) {
+  const [open, setOpen] = React.useState(props.open);
 
-  function handleClickOpen () {
-    setOpen(true)
+  function handleClickOpen() {
+    setOpen(true);
   }
 
-  function handleClose () {
-    setOpen(false)
-    props.handleClose && props.handleClose()
+  function handleClose() {
+    setOpen(false);
+    props.handleClose && props.handleClose();
   }
 
-  React.useEffect(() => (
-    setOpen(props.open)
-  ), [props.open])
+  React.useEffect(() => setOpen(props.open), [props.open]);
 
-  return (
+  return props.open ? (
+    <Backdrop>
+      <div
+        open={props.open}
+        // onClose={handleClose}
+        // x-show="open"
+        // x-transition:enter="ease-out duration-300"
+        // x-transition:enter-start="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
+        // x-transition:enter-end="opacity-100 translate-y-0 sm:scale-100"
+        // x-transition:leave="ease-in duration-200"
+        // x-transition:leave-start="opacity-100 translate-y-0 sm:scale-100"
+        // x-transition:leave-end="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
+        className="relative bg-white rounded-lg px-4 pt-5 pb-4 overflow-hidden--- shadow-xl transform transition-all sm:max-w-lg sm:w-full sm:p-6"
+      >
+        <div className="hidden sm:block absolute top-0 right-0 pt-4 pr-4">
+          <button
+            onClick={handleClose}
+            type="button"
+            className="text-gray-400 hover:text-gray-500 focus:outline-none focus:text-gray-500 transition ease-in-out duration-150"
+          >
+            <svg
+              className="h-6 w-6"
+              stroke="currentColor"
+              fill="none"
+              viewBox="0 0 24 24"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth="2"
+                d="M6 18L18 6M6 6l12 12"
+              ></path>
+            </svg>
+          </button>
+        </div>
 
-    props.open
-      ? <Backdrop>
-        <div
-          open={props.open}
-          // onClose={handleClose}
-          // x-show="open"
-          // x-transition:enter="ease-out duration-300"
-          // x-transition:enter-start="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
-          // x-transition:enter-end="opacity-100 translate-y-0 sm:scale-100"
-          // x-transition:leave="ease-in duration-200"
-          // x-transition:leave-start="opacity-100 translate-y-0 sm:scale-100"
-          // x-transition:leave-end="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
-          className="relative bg-white rounded-lg px-4 pt-5 pb-4 overflow-hidden--- shadow-xl transform transition-all sm:max-w-lg sm:w-full sm:p-6">
-
-          <div className="hidden sm:block absolute top-0 right-0 pt-4 pr-4">
-            <button onClick={handleClose} type="button" className="text-gray-400 hover:text-gray-500 focus:outline-none focus:text-gray-500 transition ease-in-out duration-150">
-              <svg className="h-6 w-6" stroke="currentColor" fill="none" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12"></path>
-              </svg>
-            </button>
-          </div>
-
-          <div className="sm:flex--dis sm:items-start">
-
-            {/* <div className="mx-auto flex-shrink-0 flex items-center justify-center h-12 w-12 rounded-full bg-red-100 sm:mx-0 sm:h-10 sm:w-10">
+        <div className="sm:flex--dis sm:items-start">
+          {/* <div className="mx-auto flex-shrink-0 flex items-center justify-center h-12 w-12 rounded-full bg-red-100 sm:mx-0 sm:h-10 sm:w-10">
                 <svg className="h-6 w-6 text-red-600" stroke="currentColor" fill="none" viewBox="0 0 24 24">
                   <path strokeLinecap="round"
                     strokeLinejoin="round"
@@ -51,40 +60,28 @@ function FormDialog (props) {
                 </svg>
               </div> */}
 
-            <div className="mt-3 text-center sm:mt-0 sm:text-left">
+          <div className="mt-3 text-center sm:mt-0 sm:text-left">
+            {props.titleContent && (
+              <h3 className="text-lg leading-6 font-medium text-gray-900">
+                {props.titleContent}
+              </h3>
+            )}
 
-              {
-                props.titleContent &&
-                  <h3 className="text-lg leading-6 font-medium text-gray-900">
-                    {props.titleContent}
-                  </h3>
-              }
-
-              <div className="mt-2">
-                {props.formComponent}
-              </div>
-            </div>
+            <div className="mt-2">{props.formComponent}</div>
           </div>
-
-          <div className="mt-5 sm:mt-4 sm:flex sm:flex-row-reverse">
-
-            {
-              props.dialogButtons
-            }
-
-          </div>
-
         </div>
-      </Backdrop> : null
 
-  )
+        <div className="mt-5 sm:mt-4 sm:flex sm:flex-row-reverse">
+          {props.dialogButtons}
+        </div>
+      </div>
+    </Backdrop>
+  ) : null;
 }
 
-function Backdrop ({ children }) {
+function Backdrop({ children }) {
   return (
-
     <div className="z-50 fixed bottom-0 inset-x-0 px-4 pb-6 sm:inset-0 sm:p-0 sm:flex sm:items-center sm:justify-center">
-
       <div
         // x-show="open"
         // x-transition:enter="ease-out duration-300"
@@ -93,14 +90,14 @@ function Backdrop ({ children }) {
         // x-transition:leave="ease-in duration-200"
         // x-transition:leave-start="opacity-100"
         // x-transition:leave-end="opacity-0"
-        className="fixed inset-0 transition-opacity">
-        <div className="absolute inset-0 bg-gray-500 opacity-75"/>
+        className="fixed inset-0 transition-opacity"
+      >
+        <div className="absolute inset-0 bg-gray-500 opacity-75" />
       </div>
 
       {children}
-
     </div>
-  )
+  );
 }
 
 /*
@@ -211,4 +208,4 @@ export function MessageModal({}){
 }
 */
 
-export default FormDialog
+export default FormDialog;

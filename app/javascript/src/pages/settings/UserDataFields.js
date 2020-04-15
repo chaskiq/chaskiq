@@ -1,129 +1,128 @@
-import React, { useState } from 'react'
+import React, { useState } from "react";
 
-import Button from '../../components/Button'
+import Button from "../../components/Button";
 
-import { withRouter } from 'react-router-dom'
-import { connect } from 'react-redux'
-import FormDialog from '../../components/FormDialog'
-import Content from '../../components/Content'
+import { withRouter } from "react-router-dom";
+import { connect } from "react-redux";
+import FormDialog from "../../components/FormDialog";
+import Content from "../../components/Content";
 import List, {
   ListItem,
   ListItemText,
   ItemListPrimaryContent,
-  ItemListSecondaryContent
-} from '../../components/List'
-import serialize from 'form-serialize'
+  ItemListSecondaryContent,
+} from "../../components/List";
+import serialize from "form-serialize";
 
-import {
-  DeleteIcon,
-  PlusIcon,
-  EditIcon
-} from '../../components/icons'
+import { DeleteIcon, PlusIcon, EditIcon } from "../../components/icons";
 
-import defaultFields from '../../shared/defaultFields'
-import Input from '../../components/forms/Input'
+import defaultFields from "../../shared/defaultFields";
+import Input from "../../components/forms/Input";
 
-function CustomizationColors ({ app, settings, update, dispatch }) {
-  const [fields, setFields] = useState(app.customFields || [])
-  const [isOpen, setOpen] = useState(false)
-  const [selected, setSelected] = useState(null)
+function CustomizationColors({ app, settings, update, dispatch }) {
+  const [fields, setFields] = useState(app.customFields || []);
+  const [isOpen, setOpen] = useState(false);
+  const [selected, setSelected] = useState(null);
 
-  const form = React.useRef(null)
+  const form = React.useRef(null);
 
-  function addField () {
-    setOpen(true)
+  function addField() {
+    setOpen(true);
   }
 
-  function close () {
-    setSelected(null)
-    setOpen(false)
+  function close() {
+    setSelected(null);
+    setOpen(false);
   }
 
-  function submit () {
-    setFields(handleFields())
-    setOpen(false)
+  function submit() {
+    setFields(handleFields());
+    setOpen(false);
   }
 
-  function handleFields () {
-    const s = serialize(form.current, { hash: true, empty: true })
+  function handleFields() {
+    const s = serialize(form.current, { hash: true, empty: true });
 
-    if (selected === null) { return fields.concat(s) }
+    if (selected === null) {
+      return fields.concat(s);
+    }
 
     return fields.map((o, i) => {
-      if (i === selected) { return s }
-      return o
-    })
+      if (i === selected) {
+        return s;
+      }
+      return o;
+    });
   }
 
-  function renderModal () {
-    const selectedItem = fields[selected]
+  function renderModal() {
+    const selectedItem = fields[selected];
 
-    return isOpen && (
-      <FormDialog
-        open={isOpen}
-        handleClose={close}
-        // contentText={"lipsum"}
-        titleContent={'Create user data field'}
-        formComponent={
-          <form ref={form}>
-            <FieldsForm selected={selectedItem}/>
-          </form>
-        }
-        dialogButtons={
-          <React.Fragment>
-            <Button onClick={close} color="secondary">
-              Cancel
-            </Button>
+    return (
+      isOpen && (
+        <FormDialog
+          open={isOpen}
+          handleClose={close}
+          // contentText={"lipsum"}
+          titleContent={"Create user data field"}
+          formComponent={
+            <form ref={form}>
+              <FieldsForm selected={selectedItem} />
+            </form>
+          }
+          dialogButtons={
+            <React.Fragment>
+              <Button onClick={close} color="secondary">
+                Cancel
+              </Button>
 
-            <Button onClick={ submit }
-              color="primary">
-              {'Create'}
-            </Button>
+              <Button onClick={submit} color="primary">
+                {"Create"}
+              </Button>
+            </React.Fragment>
+          }
+        ></FormDialog>
+      )
+    );
+  }
 
-          </React.Fragment>
+  function handleEdit(o) {
+    setSelected(o);
+    setOpen(true);
+  }
+
+  function removeField(index) {
+    const newFields = fields.filter((o, i) => i !== index);
+    setFields(newFields);
+  }
+
+  function renderSubmitButton() {
+    return (
+      <Button
+        variant={"contained"}
+        color={"primary"}
+        onClick={() =>
+          update({
+            app: {
+              custom_fields: fields,
+            },
+          })
         }
       >
-      </FormDialog>
-    )
-  }
-
-  function handleEdit (o) {
-    setSelected(o)
-    setOpen(true)
-  }
-
-  function removeField (index) {
-    const newFields = fields.filter((o, i) => i !== index)
-    setFields(newFields)
-  }
-
-  function renderSubmitButton () {
-    return <Button
-      variant={'contained'}
-      color={'primary'}
-      onClick={() => update({
-        app: {
-          custom_fields: fields
-        }
-      })
-      }>
-            Save changes
-    </Button>
+        Save changes
+      </Button>
+    );
   }
 
   return (
     <div className="py-4">
-
       <div className="flex items-center justify-between">
         <p className="text-lg leading-6 font-medium  text-gray-900 py-4">
           Custom Fields
         </p>
 
         <div className="flex w-1/4 justify-end">
-          <Button onClick={addField}
-            edge="end"
-            variant="icon"
-            aria-label="add">
+          <Button onClick={addField} edge="end" variant="icon" aria-label="add">
             <PlusIcon />
           </Button>
 
@@ -131,40 +130,37 @@ function CustomizationColors ({ app, settings, update, dispatch }) {
         </div>
       </div>
 
-      { renderModal() }
+      {renderModal()}
 
       <div className="py-4">
-        <List
-          dense={true}
-          divider={true}
-        >
-          {
-            fields.map((o, i) => (
-              <FieldsItems
-                primary={o.name}
-                secondary={o.type}
-                terciary={
-                  <React.Fragment>
-                    <Button
-                      variant="icon"
-                      onClick={() => handleEdit(i)}
-                      edge="end" aria-label="delete">
-                      <EditIcon />
-                    </Button>
+        <List dense={true} divider={true}>
+          {fields.map((o, i) => (
+            <FieldsItems
+              primary={o.name}
+              secondary={o.type}
+              terciary={
+                <React.Fragment>
+                  <Button
+                    variant="icon"
+                    onClick={() => handleEdit(i)}
+                    edge="end"
+                    aria-label="delete"
+                  >
+                    <EditIcon />
+                  </Button>
 
-                    <Button
-                      variant="icon"
-                      onClick={() => removeField(i)}
-                      edge="end"
-                      aria-label="add">
-                      <DeleteIcon />
-                    </Button>
-                  </React.Fragment>
-                }
-              />
-            )
-            )
-          }
+                  <Button
+                    variant="icon"
+                    onClick={() => removeField(i)}
+                    edge="end"
+                    aria-label="add"
+                  >
+                    <DeleteIcon />
+                  </Button>
+                </React.Fragment>
+              }
+            />
+          ))}
         </List>
       </div>
 
@@ -178,28 +174,22 @@ function CustomizationColors ({ app, settings, update, dispatch }) {
 
       <div className="py-4">
         <List>
-
-          {
-            defaultFields.map((o, i) => (
-              <FieldsItems
-                primary={o.name}
-                secondary={o.type}
-                // terciary={}
-              />
-            )
-            )
-          }
-
+          {defaultFields.map((o, i) => (
+            <FieldsItems
+              primary={o.name}
+              secondary={o.type}
+              // terciary={}
+            />
+          ))}
         </List>
       </div>
 
       {renderSubmitButton()}
-
     </div>
-  )
+  );
 }
 
-function FieldsItems ({ primary, secondary, terciary }) {
+function FieldsItems({ primary, secondary, terciary }) {
   return (
     <ListItem divider={true}>
       <ListItemText
@@ -217,39 +207,36 @@ function FieldsItems ({ primary, secondary, terciary }) {
             </p>
           </ItemListSecondaryContent>
         }
-
         terciary={terciary}
-
       />
     </ListItem>
-  )
+  );
 }
 
-function FieldsForm ({ selected }) {
-  const [field, setField] = useState(selected || {})
+function FieldsForm({ selected }) {
+  const [field, setField] = useState(selected || {});
 
-  function setName (e) {
-    setField(Object.assign({}, field, { name: e.target.value }))
+  function setName(e) {
+    setField(Object.assign({}, field, { name: e.target.value }));
   }
 
-  function setType (e) {
-    setField(Object.assign({}, field, { type: e.value }))
+  function setType(e) {
+    setField(Object.assign({}, field, { type: e.value }));
   }
 
   const options = [
-    { value: 'string', label: 'Text' },
-    { value: 'integer', label: 'Number' },
-    { value: 'date', label: 'Date' }
-  ]
+    { value: "string", label: "Text" },
+    { value: "integer", label: "Number" },
+    { value: "date", label: "Date" },
+  ];
 
-  function selectedOption () {
-    const selected = options.find((o) => o.value === field.type)
-    if (selected) return selected
+  function selectedOption() {
+    const selected = options.find((o) => o.value === field.type);
+    if (selected) return selected;
   }
 
   return (
     <React.Fragment>
-
       <Input
         variant="outlined"
         margin="normal"
@@ -257,7 +244,7 @@ function FieldsForm ({ selected }) {
         fullWidth
         name="name"
         label="Field name"
-        type={'text'}
+        type={"text"}
         // type="password"
         // id="password"
         autoFocus
@@ -267,59 +254,54 @@ function FieldsForm ({ selected }) {
       />
 
       <Input
-        name={'type'}
+        name={"type"}
         value={field.label}
         defaultValue={selectedOption()}
         onChange={(e) => setType(e)}
-        label={'field type'}
-        type={'select'}
-
+        label={"field type"}
+        type={"select"}
         data={{}}
         options={options}
-      >
-
-      </Input>
+      ></Input>
     </React.Fragment>
-  )
+  );
 }
 
-function Field ({ field, handleEdit, removeField, index }) {
+function Field({ field, handleEdit, removeField, index }) {
   return (
     <ListItem>
+      <ListItemText primary={field.name} secondary={field.type} />
 
-      <ListItemText
-        primary={field.name}
-        secondary={field.type}
-      />
+      {handleEdit && (
+        <ItemListSecondaryContent>
+          <Button
+            variant="icon"
+            onClick={() => handleEdit(index)}
+            edge="end"
+            aria-label="delete"
+          >
+            <EditIcon />
+          </Button>
 
-      {
-        handleEdit &&
-          <ItemListSecondaryContent>
-            <Button
-              variant="icon"
-              onClick={() => handleEdit(index)}
-              edge="end"
-              aria-label="delete">
-              <EditIcon />
-            </Button>
-
-            <Button onClick={() => removeField(index)}
-              edge="end"
-              variant="icon"
-              aria-label="add">
-              <DeleteIcon />
-            </Button>
-          </ItemListSecondaryContent>
-      }
+          <Button
+            onClick={() => removeField(index)}
+            edge="end"
+            variant="icon"
+            aria-label="add"
+          >
+            <DeleteIcon />
+          </Button>
+        </ItemListSecondaryContent>
+      )}
     </ListItem>
-  )
+  );
 }
 
-function mapStateToProps (state) {
-  const { app } = state
+function mapStateToProps(state) {
+  const { app } = state;
   return {
-    app
-  }
+    app,
+  };
 }
 
-export default withRouter(connect(mapStateToProps)(CustomizationColors))
+export default withRouter(connect(mapStateToProps)(CustomizationColors));

@@ -1,269 +1,286 @@
-import React from 'react'
-import ReactDOM from 'react-dom'
-
+import React from "react";
+import ReactDOM from "react-dom";
 
 import {
   addNewBlock,
   resetBlockWithType,
-  getCurrentBlock
-} from 'Dante2/package/es/model/index.js'
+  getCurrentBlock,
+} from "Dante2/package/es/model/index.js";
+
+import { getVisibleSelectionRect } from "draft-js";
 
 import {
-  getVisibleSelectionRect
-} from 'draft-js'
-
-import { getSelectionRect,
+  getSelectionRect,
   getSelection,
   getSelectedBlockNode,
-  getRelativeParent } from "Dante2/package/es/utils/selection.js"
+  getRelativeParent,
+} from "Dante2/package/es/utils/selection.js";
 
-import {InlinetooltipWrapper} from './tooltipMenuStyle'
+import { InlinetooltipWrapper } from "./tooltipMenuStyle";
 
-import {add} from "Dante2/package/es/components/icons.js"
+import { add } from "Dante2/package/es/components/icons.js";
 
 export default class DanteInlineTooltip extends React.Component {
-
   constructor(props) {
-    super(props)
+    super(props);
     this.state = {
       position: { top: 0, left: 0 },
       show: false,
       scaled: false,
-      scaledWidth: "0px"
-    }
-    this.initialPosition = 0
+      scaledWidth: "0px",
+    };
+    this.initialPosition = 0;
   }
 
-  componentDidMount(){
+  componentDidMount() {
     //this.initialPosition = this.refs.tooltip.offsetLeft
   }
 
-  display =(b)=> {
+  display = (b) => {
     if (b) {
-      return this.show()
+      return this.show();
     } else {
-      return this.hide()
+      return this.hide();
     }
-  }
+  };
 
-  show = ()=> {
+  show = () => {
     return this.setState({
-      show: true })
-  }
+      show: true,
+    });
+  };
 
-  hide = ()=> {
+  hide = () => {
     return this.setState({
-      show: false })
-  }
+      show: false,
+    });
+  };
 
-  setPosition =(coords)=> {
+  setPosition = (coords) => {
     return this.setState({
-      position: coords })
-  }
+      position: coords,
+    });
+  };
 
-  _toggleScaled =(ev)=> {
-    ev.preventDefault()
+  _toggleScaled = (ev) => {
+    ev.preventDefault();
     if (this.state.scaled) {
-      return this.collapse()
+      return this.collapse();
     } else {
-      return this.scale()
+      return this.scale();
     }
-  }
+  };
 
-  scale = ()=> {
-    if(this.state.scaled){
-      return
+  scale = () => {
+    if (this.state.scaled) {
+      return;
     }
-    return this.setState({
-      scaled: true }, ()=>{
-        this.setState({scaledWidth: "300px"})
-      })
-  }
+    return this.setState(
+      {
+        scaled: true,
+      },
+      () => {
+        this.setState({ scaledWidth: "300px" });
+      }
+    );
+  };
 
-  collapse = ()=> {
-    if(!this.state.scaled){
-      return
+  collapse = () => {
+    if (!this.state.scaled) {
+      return;
     }
-    return this.setState({
-      scaled: false }, ()=>{
-        setTimeout(()=>{
-          this.setState({scaledWidth: "0px"})
-        }, 300)
-
-      })
-  }
+    return this.setState(
+      {
+        scaled: false,
+      },
+      () => {
+        setTimeout(() => {
+          this.setState({ scaledWidth: "0px" });
+        }, 300);
+      }
+    );
+  };
 
   componentWillReceiveProps(newProps) {
-    return this.collapse()
+    return this.collapse();
   }
 
-  activeClass = ()=> {
+  activeClass = () => {
     //if @props.show then "is-active" else ""
     if (this.isActive()) {
-      return "is-active"
+      return "is-active";
     } else {
-      return ""
+      return "";
     }
-  }
+  };
 
-  isActive = ()=> {
-    return this.state.show
-  }
+  isActive = () => {
+    return this.state.show;
+  };
 
-  scaledClass = ()=> {
+  scaledClass = () => {
     //if (this.state.scaled) {
-      return "is-scaled"
+    return "is-scaled";
     //} else {
     //  return ""
     //}
-  }
+  };
 
   // expand , 1, widht 2. class
   // collapse , class, width
 
-  clickOnFileUpload = ()=> {
-    this.refs.fileInput.click()
-    this.collapse()
-    return this.hide()
-  }
+  clickOnFileUpload = () => {
+    this.refs.fileInput.click();
+    this.collapse();
+    return this.hide();
+  };
 
-  handlePlaceholder =(input)=> {
+  handlePlaceholder = (input) => {
     let opts = {
       type: input.widget_options.insert_block,
       placeholder: input.options.placeholder,
-      endpoint: input.options.endpoint
-    }
+      endpoint: input.options.endpoint,
+    };
 
-    return this.props.onChange(resetBlockWithType(this.props.editorState, 'placeholder', opts))
-  }
+    return this.props.onChange(
+      resetBlockWithType(this.props.editorState, "placeholder", opts)
+    );
+  };
 
-  insertImage =(file)=> {
+  insertImage = (file) => {
     let opts = {
       url: URL.createObjectURL(file),
-      file
-    }
+      file,
+    };
 
-    return this.props.onChange(addNewBlock(this.props.editorState, 'image', opts))
-  }
+    return this.props.onChange(
+      addNewBlock(this.props.editorState, "image", opts)
+    );
+  };
 
-  handleFileInput = (e)=> {
-    let fileList = e.target.files
+  handleFileInput = (e) => {
+    let fileList = e.target.files;
     // TODO: support multiple file uploads
     /*
     Object.keys(fileList).forEach (o)=>
       @.insertImage(fileList[0])
     */
-    return this.insertImage(fileList[0])
-  }
+    return this.insertImage(fileList[0]);
+  };
 
-  handleInsertion = (e)=>{
-    this.hide()
-    return this.props.onChange(addNewBlock(this.props.editorState, e.type, {}))
-  }
+  handleInsertion = (e) => {
+    this.hide();
+    return this.props.onChange(addNewBlock(this.props.editorState, e.type, {}));
+  };
 
-  handleFunc = (e)=>{
-    this.hide()
-    console.log(e.widget_options)
-    return e.widget_options.funcHandler(this)
-  }
+  handleFunc = (e) => {
+    this.hide();
+    console.log(e.widget_options);
+    return e.widget_options.funcHandler(this);
+  };
 
-  widgets = ()=> {
-    return this.props.editor.props.widgets
-  }
+  widgets = () => {
+    return this.props.editor.props.widgets;
+  };
 
-  clickHandler =(e, type)=> {
-    let request_block = this.widgets().find(o => o.type === type)
+  clickHandler = (e, type) => {
+    let request_block = this.widgets().find((o) => o.type === type);
     switch (request_block.widget_options.insertion) {
       case "upload":
-        return this.clickOnFileUpload(e, request_block)
+        return this.clickOnFileUpload(e, request_block);
       case "placeholder":
-        return this.handlePlaceholder(request_block)
+        return this.handlePlaceholder(request_block);
       case "insertion":
-        return this.handleInsertion(request_block)
+        return this.handleInsertion(request_block);
       case "func":
-        return this.handleFunc(request_block)
+        return this.handleFunc(request_block);
       default:
-        return console.log(`WRONG TYPE FOR ${ request_block.widget_options.insertion }`)
+        return console.log(
+          `WRONG TYPE FOR ${request_block.widget_options.insertion}`
+        );
     }
-  }
+  };
 
-  getItems = ()=> {
-    return this.widgets().filter(o => {
-      return o.widget_options ? o.widget_options.displayOnInlineTooltip : null
-    })
-  }
+  getItems = () => {
+    return this.widgets().filter((o) => {
+      return o.widget_options ? o.widget_options.displayOnInlineTooltip : null;
+    });
+  };
 
-  isDescendant =(parent, child)=> {
-    let node = child.parentNode
+  isDescendant = (parent, child) => {
+    let node = child.parentNode;
     while (node !== null) {
       if (node === parent) {
-        return true
+        return true;
       }
-      node = node.parentNode
+      node = node.parentNode;
     }
-    return false
-  }
+    return false;
+  };
 
-  relocate = ()=>{
+  relocate = () => {
+    const { editorState } = this.props;
+    const currentBlock = getCurrentBlock(this.props.editorState);
+    const blockType = currentBlock.getType();
+    const block = currentBlock;
 
-    const { editorState } = this.props
-    const currentBlock = getCurrentBlock(this.props.editorState)
-    const blockType = currentBlock.getType()
-    const block = currentBlock
-
-    if (!editorState.getSelection().isCollapsed()){
-      return
+    if (!editorState.getSelection().isCollapsed()) {
+      return;
     }
 
     // display tooltip only for unstyled
 
-    let nativeSelection = getSelection(window)
+    let nativeSelection = getSelection(window);
     if (!nativeSelection.rangeCount) {
-      return
+      return;
     }
 
-    let selectionRect = getSelectionRect(nativeSelection)
+    let selectionRect = getSelectionRect(nativeSelection);
 
-    let parent = ReactDOM.findDOMNode(this.props.editor)
+    let parent = ReactDOM.findDOMNode(this.props.editor);
 
     // hide if selected node is not in editor
     if (!this.isDescendant(parent, nativeSelection.anchorNode)) {
-      this.hide()
-      return
+      this.hide();
+      return;
     }
 
     const relativeParent = getRelativeParent(this.refs.tooltip.parentElement);
     const toolbarHeight = this.refs.tooltip.clientHeight;
     const toolbarWidth = this.refs.tooltip.clientWidth;
-    const relativeRect = (relativeParent || document.body).getBoundingClientRect();
+    const relativeRect = (
+      relativeParent || document.body
+    ).getBoundingClientRect();
 
-    if(!relativeRect || !selectionRect)
-      return
+    if (!relativeRect || !selectionRect) return;
 
-    let top = (selectionRect.top - relativeRect.top) - (toolbarHeight/5)
-    let left = (selectionRect.left - relativeRect.left + (selectionRect.width/2) ) - (toolbarWidth*1.3)
+    let top = selectionRect.top - relativeRect.top - toolbarHeight / 5;
+    let left =
+      selectionRect.left -
+      relativeRect.left +
+      selectionRect.width / 2 -
+      toolbarWidth * 1.3;
 
     if (!top || !left) {
-      return
+      return;
     }
 
-    this.display(block.getText().length === 0 && blockType === "unstyled")
+    this.display(block.getText().length === 0 && blockType === "unstyled");
 
     this.setPosition({
-      top: top , //+ window.scrollY - 5,
+      top: top, //+ window.scrollY - 5,
       left: left,
       //show: block.getText().length === 0 && blockType === "unstyled"
-    })
-  }
+    });
+  };
 
-  render(){
+  render() {
     return (
       <InlinetooltipWrapper
         ref="tooltip"
-        className={ `inlineTooltip ${ this.activeClass() } ${ this.scaledClass() }` }
-        style={ this.state.position }
+        className={`inlineTooltip ${this.activeClass()} ${this.scaledClass()}`}
+        style={this.state.position}
       >
-        
         {/*<button
             type="button"
             className="inlineTooltip-button control"
@@ -276,64 +293,55 @@ export default class DanteInlineTooltip extends React.Component {
         */}
 
         <div className="inlineTooltip-menu">
-
-          { this.getItems().map( (item, i) => {
-            return  <InlineTooltipItem
-                      item={ item }
-                      key={ i }
-                      clickHandler={ this.clickHandler }
-                    />
-            })
-          }
+          {this.getItems().map((item, i) => {
+            return (
+              <InlineTooltipItem
+                item={item}
+                key={i}
+                clickHandler={this.clickHandler}
+              />
+            );
+          })}
           <input
-           type="file"
-           accept="image/*"
-           style={ { display: 'none' } }
-           ref="fileInput"
-           multiple="multiple"
-           onChange={ this.handleFileInput }
-         />
+            type="file"
+            accept="image/*"
+            style={{ display: "none" }}
+            ref="fileInput"
+            multiple="multiple"
+            onChange={this.handleFileInput}
+          />
         </div>
       </InlinetooltipWrapper>
-    )
+    );
   }
 }
 
 class InlineTooltipItem extends React.Component {
-
-  clickHandler = (e)=> {
-    e.preventDefault()
-    return this.props.clickHandler(e, this.props.item.type)
-  }
+  clickHandler = (e) => {
+    e.preventDefault();
+    return this.props.clickHandler(e, this.props.item.type);
+  };
 
   render() {
     return (
-
       <button
         type="button"
         className="inlineTooltip-button scale"
-        title={ this.props.title }
-        onMouseDown={ this.clickHandler }
-        onClick={(e)=> e.preventDefault()}
-        style={{fontSize: '21px'}}
+        title={this.props.title}
+        onMouseDown={this.clickHandler}
+        onClick={(e) => e.preventDefault()}
+        style={{ fontSize: "21px" }}
       >
-
-      {
-        <span className={ 'tooltip-icon'}>
-          {this.props.item.icon()}
-        </span>
-      }
-
+        {<span className={"tooltip-icon"}>{this.props.item.icon()}</span>}
       </button>
-    )
+    );
   }
 }
 
-export const DanteInlineTooltipConfig = (options={})=>{
+export const DanteInlineTooltipConfig = (options = {}) => {
   let config = {
-    ref: 'add_tooltip',
-    component: DanteInlineTooltip
-  }
-  return Object.assign(config, options)
-}
-
+    ref: "add_tooltip",
+    component: DanteInlineTooltip,
+  };
+  return Object.assign(config, options);
+};

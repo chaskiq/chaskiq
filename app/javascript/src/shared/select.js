@@ -1,15 +1,15 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-import PropTypes from 'prop-types';
-import { withStyles } from '@material-ui/core/styles';
-import Input from '@material-ui/core/Input';
-import OutlinedInput from '@material-ui/core/OutlinedInput';
-import FilledInput from '@material-ui/core/FilledInput';
-import InputLabel from '@material-ui/core/InputLabel';
-import MenuItem from '@material-ui/core/MenuItem';
-import FormHelperText from '@material-ui/core/FormHelperText';
-import FormControl from '@material-ui/core/FormControl';
-import Select from '@material-ui/core/Select';
+import React from "react";
+import ReactDOM from "react-dom";
+import PropTypes from "prop-types";
+import { withStyles } from "@material-ui/core/styles";
+import Input from "@material-ui/core/Input";
+import OutlinedInput from "@material-ui/core/OutlinedInput";
+import FilledInput from "@material-ui/core/FilledInput";
+import InputLabel from "@material-ui/core/InputLabel";
+import MenuItem from "@material-ui/core/MenuItem";
+import FormHelperText from "@material-ui/core/FormHelperText";
+import FormControl from "@material-ui/core/FormControl";
+import Select from "@material-ui/core/Select";
 
 /*
 const styles = theme => ({
@@ -30,9 +30,8 @@ const styles = theme => ({
 });*/
 
 class SimpleSelect extends React.Component {
-  
-  constructor(props){
-    super(props)
+  constructor(props) {
+    super(props);
     this.state = {
       value: props.defaultData.value,
       labelWidth: 0,
@@ -40,18 +39,17 @@ class SimpleSelect extends React.Component {
   }
 
   componentDidMount() {
-
     /*this.setState({
       labelWidth: ReactDOM.findDOMNode(this.InputLabelRef).offsetWidth,
     });*/
   }
 
-  componentDidUpdate(prevProps){
-    if(this.props.value != prevProps.value)
-      this.setState({value: this.props.value})
+  componentDidUpdate(prevProps) {
+    if (this.props.value != prevProps.value)
+      this.setState({ value: this.props.value });
   }
 
-  handleChange = event => {
+  handleChange = (event) => {
     this.setState({ value: event.target.value });
   };
 
@@ -59,41 +57,37 @@ class SimpleSelect extends React.Component {
     const { classes } = this.props;
 
     return (
-      <FormControl 
-        className={classes.formControl}>
-          
-          <InputLabel 
-            htmlFor={this.props.name}>
-            {this.props.data.name}
-          </InputLabel>
+      <FormControl className={classes.formControl}>
+        <InputLabel htmlFor={this.props.name}>
+          {this.props.data.name}
+        </InputLabel>
 
-          <Select
-            name={this.props.name}
-            value={this.state.value}
-            onChange={this.handleChange}
-            inputProps={{
-              name: this.props.name
-            }}
-            variant={"standard"}
-            input={<Input 
-              labelWidth={this.state.labelWidth} 
+        <Select
+          name={this.props.name}
+          value={this.state.value}
+          onChange={this.handleChange}
+          inputProps={{
+            name: this.props.name,
+          }}
+          variant={"standard"}
+          input={
+            <Input
+              labelWidth={this.state.labelWidth}
               name={this.props.data.name}
               id={this.props.name}
-            />}
+            />
+          }
+        >
+          <MenuItem value="">
+            <em>None</em>
+          </MenuItem>
 
-          >
-            <MenuItem value="">
-              <em>None</em>
+          {this.props.data.options.map((o, i) => (
+            <MenuItem value={o} key={o}>
+              {o}
             </MenuItem>
-
-            {
-              this.props.data.options.map(
-                (o, i)=> <MenuItem value={o} key={o}>
-                        {o}
-                      </MenuItem> 
-              )
-            }
-          </Select>
+          ))}
+        </Select>
       </FormControl>
     );
   }
@@ -103,5 +97,5 @@ SimpleSelect.propTypes = {
   classes: PropTypes.object.isRequired,
 };
 
-export default SimpleSelect
+export default SimpleSelect;
 //export default withStyles(styles)(SimpleSelect);

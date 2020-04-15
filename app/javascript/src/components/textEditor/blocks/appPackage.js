@@ -1,22 +1,19 @@
-import React from 'react'
+import React from "react";
 
-function appPackage(){
-  return <i>xx</i>
-} 
-
-export default class AppPackage extends React.Component {
-  render = ()=> {
-    return (
-      <span></span>
-    )
-  }
+function appPackage() {
+  return <i>xx</i>;
 }
 
-export const AppPackageBlockConfig = (options={})=>{
-  
-  let config =  {
-    title: 'add AppPackage',
-    type: 'AppPackage',
+export default class AppPackage extends React.Component {
+  render = () => {
+    return <span></span>;
+  };
+}
+
+export const AppPackageBlockConfig = (options = {}) => {
+  let config = {
+    title: "add AppPackage",
+    type: "AppPackage",
     icon: appPackage,
     block: AppPackage,
     editable: true,
@@ -28,9 +25,9 @@ export const AppPackageBlockConfig = (options={})=>{
       displayOnInlineTooltip: true,
       insertion: "func",
       funcHandler: options.handleFunc,
-      insert_block: "AppPackage"
-    }
+      insert_block: "AppPackage",
+    },
   };
-  
-  return Object.assign(config, options)
-}
+
+  return Object.assign(config, options);
+};

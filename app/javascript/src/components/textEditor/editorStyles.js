@@ -1,11 +1,10 @@
-import styled from '@emotion/styled'
+import styled from "@emotion/styled";
 
-import EditorStyles from 'Dante2/package/es/styled/base'
+import EditorStyles from "Dante2/package/es/styled/base";
 
 const NewEditorStyles = styled(EditorStyles)`
-  
   display: flex;
-  
+
   .graf--figure {
     min-width: 320px;
     @media (min-width: 320px) and (max-width: 480px) {
@@ -13,10 +12,9 @@ const NewEditorStyles = styled(EditorStyles)`
     }
   }
 
-  .dante-menu-input{
+  .dante-menu-input {
     background: #333333;
   }
-
 
   button.inlineTooltip-button.scale {
     background: #fff;
@@ -34,28 +32,28 @@ const NewEditorStyles = styled(EditorStyles)`
     font-size: inherit;
   }
 
-  ${(props) => !props.campaign
-    ? `.public-DraftEditor-content{
+  ${(props) =>
+    !props.campaign
+      ? `.public-DraftEditor-content{
       max-height: calc(35vh - 83px);
       overflow: auto;
       height: 100%;
-    }` : ''
-  }
+    }`
+      : ""}
 
-  .postContent{
+  .postContent {
     padding: 10px;
   }
 
-  .graf graf--h2{
+  .graf graf--h2 {
     font-size: 2.6;
   }
 
-  a{
+  a {
     color: ${(props) => props.theme.dante_accent_color};
   }
-  
 
-  .layoutSingleColumn{
+  .layoutSingleColumn {
     grid-area: editor;
   }
 
@@ -65,7 +63,7 @@ const NewEditorStyles = styled(EditorStyles)`
     margin-bottom: 0px;
   }
 
-  .inlineTooltip-menu{
+  .inlineTooltip-menu {
     height: 34px;
   }
 
@@ -80,12 +78,9 @@ const NewEditorStyles = styled(EditorStyles)`
     //padding: 10px;
   }
 
-  .section-inner.layoutSingleColumn{
+  .section-inner.layoutSingleColumn {
+    ${(props) => (!props.campaign ? "min-height: 50px;" : "")}
 
-    ${(props) => !props.campaign
-      ? 'min-height: 50px;' : ''
-    }
-    
     word-wrap: break-word;
     -ms-word-break: keep-all;
     word-break: break-word;
@@ -97,13 +92,11 @@ const NewEditorStyles = styled(EditorStyles)`
   }
 
   .tooltip-icon {
-    svg{
+    svg {
       width: 16px;
-      height: 16px;      
+      height: 16px;
     }
-
   }
+`;
 
-`
-
-export default NewEditorStyles
+export default NewEditorStyles;
