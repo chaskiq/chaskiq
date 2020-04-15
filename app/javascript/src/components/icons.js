@@ -7,11 +7,11 @@ const BaseIcon = styled.svg`
   ${(props) => {
     switch (props.variant) {
       case 'small':
-        return tw`h-4 w-4 text-gray-400 outline-none`
+        return tw`h-4 w-4 outline-none`
       case 'rounded':
-        return tw`m-3 h-3 w-3 p- text-gray-400 outline-none`
+        return tw`m-3 h-3 w-3 p- outline-none`
       default:
-        return tw`h-5 w-5 text-gray-400 outline-none`
+        return tw`h-5 w-5 outline-none`
     }
   }};
 `
@@ -279,6 +279,17 @@ export function LoadBalancerIcon (props) {
   return (
     <BaseIcon {...props} fill="currentColor" viewBox="0 0 20 20">
       <path d="M17 12h-6v4h1v4H8v-4h1v-4H3v4h1v4H0v-4h1v-4a2 2 0 0 1 2-2h6V6H7V0h6v6h-2v4h6a2 2 0 0 1 2 2v4h1v4h-4v-4h1v-4z"></path>
+    </BaseIcon>
+  )
+}
+
+export function LabelIcon (props) {
+  return (
+    <BaseIcon {...props} fill="currentColor"
+      focusable="false" viewBox="0 0 24 24"
+      aria-hidden="true" role="presentation" title="fontSize small">
+      <path d="M17.63 5.84C17.27 5.33 16.67 5 16 5L5 5.01C3.9 5.01 3 5.9 3 7v10c0 1.1.9 1.99 2 1.99L16 19c.67 0 1.27-.33 1.63-.84L22 12l-4.37-6.16z">
+      </path>
     </BaseIcon>
   )
 }

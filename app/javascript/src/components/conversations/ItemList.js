@@ -2,6 +2,9 @@ import React from 'react'
 import { Link } from 'react-router-dom'
 import sanitizeHtml from 'sanitize-html'
 import Moment from 'react-moment'
+import {
+  LabelIcon
+} from '../icons'
 
 export default function ConversationItemList ({ app, conversation }) {
   const renderConversationContent = (o) => {
@@ -52,7 +55,11 @@ export default function ConversationItemList ({ app, conversation }) {
                 />
               )}
 
-              {message.privateNote && <span className="mr-2">note:</span>}
+              {message.privateNote && 
+                <span className="mr-2">
+                  <LabelIcon/>
+                </span>
+              }
 
               <span
                 dangerouslySetInnerHTML={{
