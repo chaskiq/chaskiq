@@ -1,5 +1,5 @@
-import React from "react";
+import React from 'react'
 
-const I18n = window.I18n;
+const I18n = window.I18n
 
-export default I18n;
+export default I18n

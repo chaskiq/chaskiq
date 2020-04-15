@@ -1,15 +1,15 @@
-import React from "react";
-import PropTypes from "prop-types";
+import React from 'react'
+import PropTypes from 'prop-types'
 // import { makeStyles } from '@material-ui/core/styles';
 // import AppBar from '@material-ui/core/AppBar';
-import Tabs from "../components/Tabs";
+import Tabs from '../components/Tabs'
 
-export default function ScrollableTabsButtonForce({ tabs, changeHandler }) {
-  const [value, setValue] = React.useState(0);
+export default function ScrollableTabsButtonForce ({ tabs, changeHandler }) {
+  const [value, setValue] = React.useState(0)
 
-  function handleChange(newValue) {
-    setValue(newValue);
-    changeHandler(newValue);
+  function handleChange (newValue) {
+    setValue(newValue)
+    changeHandler(newValue)
   }
 
   return (
@@ -36,5 +36,5 @@ export default function ScrollableTabsButtonForce({ tabs, changeHandler }) {
         </Tabs>
       </div>
     </div>
-  );
+  )
 }

@@ -1,24 +1,24 @@
-export function setImageZoom(data) {
+export function setImageZoom (data) {
   return (dispatch, getState) => {
-    dispatch(setImage(data));
-  };
+    dispatch(setImage(data))
+  }
 }
 
-function setImage(data) {
+function setImage (data) {
   return {
-    type: "SET_ZOOM_IMAGE",
-    data: data,
-  };
+    type: 'SET_ZOOM_IMAGE',
+    data: data
+  }
 }
 
-const initialState = {};
+const initialState = {}
 
 // Reducer
-export default function reducer(state = initialState, action = {}) {
+export default function reducer (state = initialState, action = {}) {
   switch (action.type) {
-    case "SET_ZOOM_IMAGE":
-      return action.data;
+    case 'SET_ZOOM_IMAGE':
+      return action.data
     default:
-      return state;
+      return state
   }
 }

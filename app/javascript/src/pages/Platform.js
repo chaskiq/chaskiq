@@ -1,12 +1,12 @@
-import React from "react";
-import Table from "../components/Table/index";
-import userFormat from "../components/Table/userFormat";
-import PageHeader from "../components/PageHeader";
-import Content from "../components/Content";
+import React from 'react'
+import Table from '../components/Table/index'
+import userFormat from '../components/Table/userFormat'
+import PageHeader from '../components/PageHeader'
+import Content from '../components/Content'
 
-import { withRouter } from "react-router-dom";
-import { connect } from "react-redux";
-import { setCurrentPage, setCurrentSection } from "../actions/navigation";
+import { withRouter } from 'react-router-dom'
+import { connect } from 'react-redux'
+import { setCurrentPage, setCurrentSection } from '../actions/navigation'
 import {
   dispatchSegmentUpdate,
   fetchAppSegment,
@@ -15,144 +15,144 @@ import {
   deleteSegment,
   addPredicate,
   updatePredicate,
-  deletePredicate,
-} from "../actions/segments";
-import { searchAppUsers, updateAppUserPresence } from "../actions/app_users";
+  deletePredicate
+} from '../actions/segments'
+import { searchAppUsers, updateAppUserPresence } from '../actions/app_users'
 
-import { setApp } from "../actions/app";
+import { setApp } from '../actions/app'
 
-import AppContent from "../components/segmentManager/container";
+import AppContent from '../components/segmentManager/container'
 
-import tw from "tailwind.macro";
+import tw from 'tailwind.macro'
 
 const PageContainer = tw.div`
   bg-gray-200 text-xl w-1/2
-`;
+`
 
 // <PageContainer>jiiojioj</PageContainer>
 
-function Platform({
+function Platform ({
   dispatch,
   match,
   searching,
   app,
   app_users,
   meta,
-  segment,
+  segment
 }) {
   React.useEffect(() => {
-    dispatch(setCurrentSection("Platform"));
+    dispatch(setCurrentSection('Platform'))
 
-    dispatch(setCurrentPage(`segment-${match.params.segmentID}`));
+    dispatch(setCurrentPage(`segment-${match.params.segmentID}`))
 
     dispatch(
       dispatchSegmentUpdate({
         id: match.params.segmentID,
-        jwt: match.params.Jwt,
+        jwt: match.params.Jwt
       })
-    );
+    )
 
     getSegment(() => {
-      search();
-    });
-  }, [match.params.segmentID]);
+      search()
+    })
+  }, [match.params.segmentID])
 
   const search = (page) => {
     const options = {
-      page: page || 1,
-    };
+      page: page || 1
+    }
 
-    dispatch(searchAppUsers(options, () => {}));
-  };
+    dispatch(searchAppUsers(options, () => {}))
+  }
 
   const fetchApp = () => {
-    console.log("TODO: fetch app");
+    console.log('TODO: fetch app')
 
-    dispatch(setApp(app.key));
-  };
+    dispatch(setApp(app.key))
+  }
 
   const getSegment = () => {
-    const segmentID = match.params.segmentID;
-    return segmentID ? fetchAppSegmentDispatch(segmentID) : null;
-  };
+    const segmentID = match.params.segmentID
+    return segmentID ? fetchAppSegmentDispatch(segmentID) : null
+  }
 
   const updateSegmentD = (data, cb) => {
-    dispatch(updateSegment(segment.id, cb));
-  };
+    dispatch(updateSegment(segment.id, cb))
+  }
 
   const createSegmentD = (data, cb) => {
     const params = {
-      name: data.input,
-    };
+      name: data.input
+    }
 
     dispatch(
       createSegment(params, () => {
-        const url = `/apps/${app.key}/segments/${segment.id}.json`;
+        const url = `/apps/${app.key}/segments/${segment.id}.json`
         // this.props.history.push(url)
-        cb && cb();
+        cb && cb()
       })
-    );
-  };
+    )
+  }
 
   const deleteSegmentD = (id, cb) => {
     dispatch(
       deleteSegment(id, () => {
-        cb && cb();
-        const url = `/apps/${app.key}`;
+        cb && cb()
+        const url = `/apps/${app.key}`
         // this.props.history.push(url)
-        fetchApp();
+        fetchApp()
       })
-    );
-  };
+    )
+  }
 
   const addPredicateD = (data, cb) => {
     const pending_predicate = {
       attribute: data.name,
       comparison: null,
       type: data.type,
-      value: data.value,
-    };
+      value: data.value
+    }
     dispatch(
       addPredicate(pending_predicate, (token) => {
-        cb && cb(token);
+        cb && cb(token)
       })
-    );
-  };
+    )
+  }
 
   const updatePredicateD = (data, cb) => {
     dispatch(
       updatePredicate(data, (token) => {
-        cb && cb(token);
+        cb && cb(token)
         // this.setState({jwt: token})
       })
-    );
-  };
+    )
+  }
 
   const fetchAppSegmentDispatch = (id) => {
-    dispatch(fetchAppSegment(id, search));
-  };
+    dispatch(fetchAppSegment(id, search))
+  }
 
   const getPredicates = () => {
-    return segment.predicates || [];
-  };
+    return segment.predicates || []
+  }
 
   const savePredicates = (data, cb) => {
-    if (data.action === "update") {
+    if (data.action === 'update') {
       updateSegmentD(data, () => {
-        cb();
-        fetchApp();
-      });
-    } else if (data.action === "new") {
+        cb()
+        fetchApp()
+      })
+    } else if (data.action === 'new') {
       createSegmentD(data, () => {
-        cb();
-        fetchApp();
-      });
+        cb()
+        fetchApp()
+      })
     }
-  };
+  }
 
   const deletePredicateD = (data) => {
-    dispatch(deletePredicate(data, () => updateSegment({}, fetchApp())));
-  };
+    dispatch(deletePredicate(data, () => updateSegment({}, fetchApp())))
+  }
 
   return (
     <Content>
@@ -186,21 +186,21 @@ function Platform({
             addPredicate: addPredicateD,
             updatePredicate: updatePredicateD,
             savePredicates: savePredicates,
-            deletePredicate: deletePredicateD,
+            deletePredicate: deletePredicateD
           }}
           // history={props.history}
           // actions={this.actions()}
         />
       </div>
     </Content>
-  );
+  )
 }
 
-function mapStateToProps(state) {
-  const { auth, app, segment, app_users, app_user } = state;
-  const { loading, isAuthenticated } = auth;
+function mapStateToProps (state) {
+  const { auth, app, segment, app_users, app_user } = state
+  const { loading, isAuthenticated } = auth
 
-  const { searching, meta } = app_users;
+  const { searching, meta } = app_users
 
   return {
     app_user,
@@ -210,8 +210,8 @@ function mapStateToProps(state) {
     segment,
     app,
     loading,
-    isAuthenticated,
-  };
+    isAuthenticated
+  }
 }
 
-export default withRouter(connect(mapStateToProps)(Platform));
+export default withRouter(connect(mapStateToProps)(Platform))

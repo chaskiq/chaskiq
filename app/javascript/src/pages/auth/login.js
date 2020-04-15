@@ -1,32 +1,32 @@
-import React, { useRef } from "react";
-import { connect } from "react-redux";
+import React, { useRef } from 'react'
+import { connect } from 'react-redux'
 // import { Redirect } from 'react-router-dom'
-import { authenticate, signout } from "../../actions/auth";
-import { getCurrentUser } from "../../actions/current_user";
-import logo from "../../images/logo.png";
-import serialize from "form-serialize";
+import { authenticate, signout } from '../../actions/auth'
+import { getCurrentUser } from '../../actions/current_user'
+import logo from '../../images/logo.png'
+import serialize from 'form-serialize'
 
-function Login({ dispatch }) {
-  const form = useRef(null);
+function Login ({ dispatch }) {
+  const form = useRef(null)
 
-  function handleSubmit(e) {
-    e.preventDefault();
+  function handleSubmit (e) {
+    e.preventDefault()
 
     const serializedData = serialize(form.current, {
       hash: true,
-      empty: true,
-    });
+      empty: true
+    })
 
-    const { email, password } = serializedData; // this.state
+    const { email, password } = serializedData // this.state
     dispatch(
       authenticate(email, password, () => {
-        getCurrentUser();
+        getCurrentUser()
       })
-    );
+    )
   }
 
-  function getCurrentUser() {
-    dispatch(getCurrentUser());
+  function getCurrentUser () {
+    dispatch(getCurrentUser())
   }
 
   return (
@@ -37,7 +37,7 @@ function Login({ dispatch }) {
           Sign in to your account
         </h2>
         <p className="mt-2 text-center text-sm leading-5 text-gray-600 max-w">
-          Or {" "}
+          Or {' '}
           <a
             href="#"
             className="font-medium text-indigo-600 hover:text-indigo-500 focus:outline-none focus:underline transition ease-in-out duration-150"
@@ -61,7 +61,7 @@ function Login({ dispatch }) {
                 <input
                   id="email"
                   type="email"
-                  name={"email"}
+                  name={'email'}
                   required
                   className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md placeholder-gray-400 focus:outline-none focus:shadow-outline-blue focus:border-blue-300 transition duration-150 ease-in-out sm:text-sm sm:leading-5"
                 />
@@ -199,19 +199,19 @@ function Login({ dispatch }) {
         </div>
       </div>
     </div>
-  );
+  )
 }
 
-function mapStateToProps(state) {
-  const { auth, current_user, theme } = state;
-  const { loading, isAuthenticated } = auth;
+function mapStateToProps (state) {
+  const { auth, current_user, theme } = state
+  const { loading, isAuthenticated } = auth
 
   return {
     current_user,
     loading,
     isAuthenticated,
-    theme,
-  };
+    theme
+  }
 }
 
-export default connect(mapStateToProps)(Login);
+export default connect(mapStateToProps)(Login)

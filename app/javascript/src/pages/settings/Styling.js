@@ -1,11 +1,11 @@
-import React from "react";
-import Button from "../../components/Button";
-import { withRouter } from "react-router-dom";
-import { connect } from "react-redux";
+import React from 'react'
+import Button from '../../components/Button'
+import { withRouter } from 'react-router-dom'
+import { connect } from 'react-redux'
 // import {ColorPicker} from '../../shared/FormFields'
-import styled from "@emotion/styled";
+import styled from '@emotion/styled'
 
-import { ColorPicker } from "../../components/forms/ColorPicker";
+import { ColorPicker } from '../../components/forms/ColorPicker'
 
 const PatternButton = styled.button`
   padding: 0px;
@@ -13,77 +13,77 @@ const PatternButton = styled.button`
   display: inline-block;
   width: 60px;
   height: 60px;
-`;
+`
 
 const Image = styled.div`
   width: 60px;
   height: 60px;
 
   ${(props) => {
-    return props.image ? `background-image: url(${props.image});` : "";
+    return props.image ? `background-image: url(${props.image});` : ''
   }}
 
   background-size: 310px 310px,cover;
-`;
+`
 
-function CustomizationColors({ settings, update, dispatch }) {
+function CustomizationColors ({ settings, update, dispatch }) {
   const [state, setState] = React.useState({
-    customization_colors: settings.customizationColors || {},
-  });
+    customization_colors: settings.customizationColors || {}
+  })
 
   const handleChange = (name) => (event) => {
-    setState({ ...state, [name]: event.target.checked });
-  };
+    setState({ ...state, [name]: event.target.checked })
+  }
 
   const names = [
-    "email-pattern",
-    "5-dots",
-    "greek-vase",
-    "criss-cross",
-    "chevron",
-    "blue-snow",
-    "let-there-be-sun",
-    "triangle-mosaic",
-    "dot-grid",
-    "so-white",
-    "cork-board",
-    "hotel-wallpaper",
-    "trees",
-    "beanstalk",
-    "fishnets-and-hearts",
-    "lilypads",
-    "floor-tile",
-    "beige-tiles",
-    "memphis-mini",
-    "christmas-colour",
-    "intersection",
-    "doodles",
-    "memphis-colorful",
-  ];
+    'email-pattern',
+    '5-dots',
+    'greek-vase',
+    'criss-cross',
+    'chevron',
+    'blue-snow',
+    'let-there-be-sun',
+    'triangle-mosaic',
+    'dot-grid',
+    'so-white',
+    'cork-board',
+    'hotel-wallpaper',
+    'trees',
+    'beanstalk',
+    'fishnets-and-hearts',
+    'lilypads',
+    'floor-tile',
+    'beige-tiles',
+    'memphis-mini',
+    'christmas-colour',
+    'intersection',
+    'doodles',
+    'memphis-colorful'
+  ]
 
   const pattern_base_url =
-    "https://www.toptal.com/designers/subtlepatterns/patterns/";
+    'https://www.toptal.com/designers/subtlepatterns/patterns/'
 
   const patterns = names.map((o) => {
-    return { name: o, url: pattern_base_url + o + ".png" };
-  });
+    return { name: o, url: pattern_base_url + o + '.png' }
+  })
 
-  function handleSubmit() {
-    const { customization_colors } = state;
+  function handleSubmit () {
+    const { customization_colors } = state
 
     const data = {
       app: {
-        customization_colors: customization_colors,
-      },
-    };
-    update(data);
+        customization_colors: customization_colors
+      }
+    }
+    update(data)
   }
 
-  function selectPattern(pattern) {
+  function selectPattern (pattern) {
     const color = Object.assign({}, state.customization_colors, {
-      pattern: pattern ? pattern.url : null,
-    });
-    setState({ customization_colors: color });
+      pattern: pattern ? pattern.url : null
+    })
+    setState({ customization_colors: color })
   }
 
   return (
@@ -100,11 +100,11 @@ function CustomizationColors({ settings, update, dispatch }) {
             color={state.customization_colors.primary}
             colorHandler={(hex) => {
               const color = Object.assign({}, state.customization_colors, {
-                primary: hex,
-              });
-              setState({ customization_colors: color });
+                primary: hex
+              })
+              setState({ customization_colors: color })
             }}
-            label={"Primary color"}
+            label={'Primary color'}
           />
           <p>For color backgrounds, buttons ands</p>
         </div>
@@ -114,11 +114,11 @@ function CustomizationColors({ settings, update, dispatch }) {
             color={state.customization_colors.secondary}
             colorHandler={(hex) => {
               const color = Object.assign({}, state.customization_colors, {
-                secondary: hex,
-              });
-              setState({ customization_colors: color });
+                secondary: hex
+              })
+              setState({ customization_colors: color })
             }}
-            label={"Secondary color"}
+            label={'Secondary color'}
           />
           <p>Secondary color</p>
         </div>
@@ -136,14 +136,14 @@ function CustomizationColors({ settings, update, dispatch }) {
                 <PatternButton onClick={(e) => selectPattern(o)}>
                   <Image image={o.url} />
                 </PatternButton>
-              );
+              )
             })}
 
             <p className="text-md leading-6 font-medium text-gray-400 pb-2">
               Choose a pattern From
               <a
-                target={"blank"}
-                href={"https://www.toptal.com/designers/subtlepatterns/"}
+                target={'blank'}
+                href={'https://www.toptal.com/designers/subtlepatterns/'}
               >
                 Subtle patterns
               </a>
@@ -161,19 +161,19 @@ function CustomizationColors({ settings, update, dispatch }) {
       <hr />
 
       <div>
-        <Button onClick={handleSubmit} variant={"contained"} color={"primary"}>
+        <Button onClick={handleSubmit} variant={'contained'} color={'primary'}>
           Save
         </Button>
       </div>
     </div>
-  );
+  )
 }
 
-function mapStateToProps(state) {
-  const { drawer } = state;
+function mapStateToProps (state) {
+  const { drawer } = state
   return {
-    drawer,
-  };
+    drawer
+  }
 }
 
-export default withRouter(connect(mapStateToProps)(CustomizationColors));
+export default withRouter(connect(mapStateToProps)(CustomizationColors))

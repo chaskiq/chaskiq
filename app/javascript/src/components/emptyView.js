@@ -1,10 +1,10 @@
-import React from "react";
+import React from 'react'
 
-function EmptyView({ title, subtitle, icon, image, shadowless }) {
+function EmptyView ({ title, subtitle, icon, image, shadowless }) {
   return (
     <div
       className={`bg-white overflow-hidden ${
-        shadowless ? "" : "shadow"
+        shadowless ? '' : 'shadow'
       } rounded-lg p-5 m-5`}
     >
       <div className="flex flex-col px-4 py-5 sm:p-6 items-center">
@@ -22,7 +22,7 @@ function EmptyView({ title, subtitle, icon, image, shadowless }) {
         {image && image}
       </div>
     </div>
-  );
+  )
 }
 
-export default EmptyView;
+export default EmptyView

@@ -1,21 +1,21 @@
-import React from "react";
+import React from 'react'
 
-export default function List({ children, shadowless }) {
+export default function List ({ children, shadowless }) {
   return (
     <div
       className={`
       bg-white 
-      ${shadowless ? "" : "shadow"} 
+      ${shadowless ? '' : 'shadow'} 
       overflow-hidden sm:rounded-md`}
     >
       <ul>{children}</ul>
     </div>
-  );
+  )
 }
 
-export function ListItem({ avatar, action, children, onClick, divider }) {
+export function ListItem ({ avatar, action, children, onClick, divider }) {
   return (
-    <li className={`${divider ? "border-b" : ""}`}>
+    <li className={`${divider ? 'border-b' : ''}`}>
       <div
         onClick={onClick && onClick}
         className="block
@@ -48,10 +48,10 @@ export function ListItem({ avatar, action, children, onClick, divider }) {
         </div>
       </div>
     </li>
-  );
+  )
 }
 
-export function ListItemText({ primary, secondary, terciary }) {
+export function ListItemText ({ primary, secondary, terciary }) {
   return (
     <div className="min-w-0 flex-1 px-4 md:grid md:grid-cols-2 md:gap-4">
       <div>
@@ -78,26 +78,26 @@ export function ListItemText({ primary, secondary, terciary }) {
         </div>
       </div>
     </div>
-  );
+  )
 }
 
-export function ItemAvatar({ avatar }) {
+export function ItemAvatar ({ avatar }) {
   return (
     <div className="flex-shrink-0">
       <img className="h-12 w-12 rounded-full" src={avatar} alt="" />
     </div>
-  );
+  )
 }
 
-export function ItemListPrimaryContent({ children }) {
+export function ItemListPrimaryContent ({ children }) {
   return (
     <div className="text-lg leading-5 font-medium text-indigo-600 truncate">
       {children}
     </div>
-  );
+  )
 }
 
-export function ItemListSecondaryContent({ children }) {
+export function ItemListSecondaryContent ({ children }) {
   return (
     <div className="mt-2 flex items-center text-sm leading-5 text-gray-500">
       {/* <svg className="flex-shrink-0 mr-1.5 h-5 w-5 text-gray-400" fill="currentColor" viewBox="0 0 20 20">
@@ -105,5 +105,5 @@ export function ItemListSecondaryContent({ children }) {
       </svg> */}
       <span className="truncate">{children}</span>
     </div>
-  );
+  )
 }

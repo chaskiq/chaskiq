@@ -1,50 +1,50 @@
-import React from "react";
-import { withRouter } from "react-router-dom";
-import { connect } from "react-redux";
-import { setCurrentPage, setCurrentSection } from "../../actions/navigation";
-import { errorMessage, successMessage } from "../../actions/status_messages";
-import FormDialog from "../FormDialog";
-import defaultFields from "../../shared/defaultFields";
-import Button from "../Button";
-import { InlineFilterDialog } from "../segmentManager";
-import SegmentItemButton from "../segmentManager/itemButton";
+import React from 'react'
+import { withRouter } from 'react-router-dom'
+import { connect } from 'react-redux'
+import { setCurrentPage, setCurrentSection } from '../../actions/navigation'
+import { errorMessage, successMessage } from '../../actions/status_messages'
+import FormDialog from '../FormDialog'
+import defaultFields from '../../shared/defaultFields'
+import Button from '../Button'
+import { InlineFilterDialog } from '../segmentManager'
+import SegmentItemButton from '../segmentManager/itemButton'
 
-import Input from "../forms/Input";
+import Input from '../forms/Input'
 
-import arrayMove from "array-move";
+import arrayMove from 'array-move'
 /* import {
   sortableContainer,
   sortableElement,
   sortableHandle,
 } from 'react-sortable-hoc'; */
 
-import { AGENTS, ASSIGNMENT_RULES } from "../../graphql/queries";
+import { AGENTS, ASSIGNMENT_RULES } from '../../graphql/queries'
 
 import {
   CREATE_ASSIGNMENT_RULE,
   EDIT_ASSIGNMENT_RULE,
   DELETE_ASSIGNMENT_RULE,
-  UPDATE_RULE_PRIORITIES,
-} from "../../graphql/mutations";
+  UPDATE_RULE_PRIORITIES
+} from '../../graphql/mutations'
 
-import graphql from "../../graphql/client";
-import serialize from "form-serialize";
-import { QueueIcon } from "../icons";
+import graphql from '../../graphql/client'
+import serialize from 'form-serialize'
+import { QueueIcon } from '../icons'
 
-import PageHeader from "../PageHeader";
-import Alert from "../Alert";
+import PageHeader from '../PageHeader'
+import Alert from '../Alert'
 
 import {
   sortableContainer,
   sortableElement,
-  sortableHandle,
-} from "react-sortable-hoc";
+  sortableHandle
+} from 'react-sortable-hoc'
 
 const DragHandle = sortableHandle(() => (
   <div>
     <QueueIcon className="flex-shrink-0 mr-1.5 h-5 w-5 text-gray-400" />
   </div>
-));
+))
 
 const SortableItem = sortableElement(
   ({ object, deleteRule, edit, classes }) => (
@@ -84,11 +84,11 @@ const SortableItem = sortableElement(
 
                 <button
                   variant="contained"
-                  color={"outlined"}
+                  color={'outlined'}
                   className="mr-1 inline-flex items-center px-4 py-2 border border-transparent text-sm leading-5 font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-500 focus:outline-none focus:shadow-outline-indigo focus:border-indigo-700 active:bg-indigo-700 transition duration-150 ease-in-out"
                   onClick={(e) => {
-                    e.preventDefault();
-                    edit(object);
+                    e.preventDefault()
+                    edit(object)
                   }}
                 >
                   edit
@@ -97,8 +97,8 @@ const SortableItem = sortableElement(
                 <button
                   className="inline-flex items-center px-4 py-2 border border-transparent text-sm leading-5 font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-500 focus:outline-none focus:shadow-outline-indigo focus:border-indigo-700 active:bg-indigo-700 transition duration-150 ease-in-out"
                   onClick={(e) => {
-                    e.preventDefault();
-                    deleteRule(object);
+                    e.preventDefault()
+                    deleteRule(object)
                   }}
                 >
                   delete
@@ -110,101 +110,101 @@ const SortableItem = sortableElement(
       </div>
     </li>
   )
-);
+)
 
 const SortableContainer = sortableContainer(({ children }) => {
-  return <ul className="border-b">{children}</ul>;
-});
+  return <ul className="border-b">{children}</ul>
+})
 
-function AssignmentRules({ dispatch, match, app }) {
-  const formRef = React.useRef();
+function AssignmentRules ({ dispatch, match, app }) {
+  const formRef = React.useRef()
 
   const [state, setState] = React.useState({
     isOpen: false,
     currentRule: null,
     rules: [],
-    conditions: [],
-  });
+    conditions: []
+  })
 
   React.useEffect(() => {
-    dispatch(setCurrentPage("Assignment Rules"));
-    dispatch(setCurrentSection("Conversations"));
-    getAssignmentRules();
-  }, []);
+    dispatch(setCurrentPage('Assignment Rules'))
+    dispatch(setCurrentSection('Conversations'))
+    getAssignmentRules()
+  }, [])
 
   const onSortEnd = ({ oldIndex, newIndex }) => {
     setState({
       ...state,
-      rules: arrayMove(state.rules, oldIndex, newIndex),
-    });
+      rules: arrayMove(state.rules, oldIndex, newIndex)
+    })
 
-    updatePriorities();
-  };
+    updatePriorities()
+  }
 
-  const open = () => setState({ ...state, isOpen: true });
-  const close = () => setState({ ...state, isOpen: false });
+  const open = () => setState({ ...state, isOpen: true })
+  const close = () => setState({ ...state, isOpen: false })
 
   const definitions = () => {
     return [
       {
-        name: "name",
-        type: "string",
-        div: { xs: 12, sm: 6 },
+        name: 'name',
+        type: 'string',
+        div: { xs: 12, sm: 6 }
       },
       {
-        name: "agent",
-        type: "select",
-        options: ["dark", "light"],
-        div: { xs: 12, sm: 6 },
-      },
-    ];
-  };
+        name: 'agent',
+        type: 'select',
+        options: ['dark', 'light'],
+        div: { xs: 12, sm: 6 }
+      }
+    ]
+  }
 
   const updatePriorities = () => {
     graphql(
       UPDATE_RULE_PRIORITIES,
       {
         appKey: app.key,
-        rules: state.rules,
+        rules: state.rules
       },
       {
         success: (data) => {
-          dispatch(successMessage("rules sorted!"));
-        },
+          dispatch(successMessage('rules sorted!'))
+        }
       }
-    );
-  };
+    )
+  }
 
   const submitAssignment = () => {
     if (state.currentRule) {
-      editAssignmentRule();
+      editAssignmentRule()
     } else {
-      createAssignmentRule();
+      createAssignmentRule()
     }
-  };
+  }
 
   const getAssignmentRules = () => {
     graphql(
       ASSIGNMENT_RULES,
       {
-        appKey: app.key,
+        appKey: app.key
       },
       {
         success: (data) => {
-          setState({ ...state, rules: data.app.assignmentRules });
+          setState({ ...state, rules: data.app.assignmentRules })
         },
         error: () => {
-          debugger;
-        },
+          debugger
+        }
       }
-    );
-  };
+    )
+  }
 
   const createAssignmentRule = (opts) => {
     const serializedData = serialize(formRef.current, {
       hash: true,
-      empty: true,
-    });
+      empty: true
+    })
 
     graphql(
       CREATE_ASSIGNMENT_RULE,
@@ -213,27 +213,27 @@ function AssignmentRules({ dispatch, match, app }) {
         title: serializedData.title,
         agentId: serializedData.agent,
         active: serializedData.active,
-        conditions: state.conditions,
+        conditions: state.conditions
       },
       {
         success: (data) => {
-          const rule = data.createAssignmentRule.assignmentRule;
+          const rule = data.createAssignmentRule.assignmentRule
           setState({
             ...state,
             rules: state.rules.concat(rule),
-            isOpen: false,
-          });
+            isOpen: false
+          })
         },
-        error: () => {},
+        error: () => {}
       }
-    );
-  };
+    )
+  }
 
   const editAssignmentRule = (opts) => {
     const serializedData = serialize(formRef.current, {
       hash: true,
-      empty: true,
-    });
+      empty: true
+    })
 
     graphql(
       EDIT_ASSIGNMENT_RULE,
@@ -243,97 +243,97 @@ function AssignmentRules({ dispatch, match, app }) {
         title: serializedData.title,
         agentId: serializedData.agent,
         active: serializedData.active,
-        conditions: state.conditions,
+        conditions: state.conditions
       },
       {
         success: (data) => {
-          const rule = data.editAssignmentRule.assignmentRule;
+          const rule = data.editAssignmentRule.assignmentRule
           const collection = state.rules.map((o) => {
             if (o.id === rule.id) {
-              return rule;
+              return rule
             } else {
-              return o;
+              return o
             }
-          });
+          })
 
           setState({
             ...state,
             rules: collection,
             currentRule: null,
-            isOpen: false,
-          });
+            isOpen: false
+          })
         },
-        error: () => {},
+        error: () => {}
       }
-    );
-  };
+    )
+  }
 
   const deleteAssignmentRule = (opts) => {
     graphql(
       DELETE_ASSIGNMENT_RULE,
       {
         appKey: app.key,
-        ruleId: opts.id,
+        ruleId: opts.id
       },
       {
         success: (data) => {
-          const rule = data.deleteAssignmentRule.assignmentRule;
-          const collection = state.rules.filter((o) => o.id !== rule.id);
+          const rule = data.deleteAssignmentRule.assignmentRule
+          const collection = state.rules.filter((o) => o.id !== rule.id)
           setState({
             ...state,
             rules: collection,
-            currentRule: null,
-          });
+            currentRule: null
+          })
         },
-        error: () => {},
+        error: () => {}
       }
-    );
-  };
+    )
+  }
 
   const edit = (rule) => {
     setState({
       ...state,
       currentRule: rule,
-      isOpen: true,
-    });
-  };
+      isOpen: true
+    })
+  }
 
   const deleteRule = (rule) => {
     setState({
       ...state,
-      currentRule: rule,
-    });
+      currentRule: rule
+    })
 
-    deleteAssignmentRule(rule);
-  };
+    deleteAssignmentRule(rule)
+  }
 
-  const { isOpen } = state;
+  const { isOpen } = state
 
   const defaultConditions = [
     {
-      type: "match",
-      attribute: "match",
-      comparison: "and",
-      value: "and",
-    },
-  ];
+      type: 'match',
+      attribute: 'match',
+      comparison: 'and',
+      value: 'and'
+    }
+  ]
 
   return (
     <div className="p-4">
       <PageHeader
         title="Assignment Rules"
         actionHandler={open}
-        actionLabel={"New Rule"}
+        actionLabel={'New Rule'}
         actions={
           <Button
-            style={{ alignSelf: "flex-end" }}
+            style={{ alignSelf: 'flex-end' }}
             variant="contained"
             color="primary"
             onClick={() =>
               setState({
                 ...state,
                 isOpen: true,
-                currentRule: null,
+                currentRule: null
               })
             }
           >
@@ -344,7 +344,7 @@ function AssignmentRules({ dispatch, match, app }) {
 
       <FormDialog
         open={state.isOpen}
-        titleContent={"Edit rule"}
+        titleContent={'Edit rule'}
         handleClose={close}
         formComponent={
           <form
@@ -362,7 +362,7 @@ function AssignmentRules({ dispatch, match, app }) {
               setConditions={(conditions) =>
                 setState({
                   ...state,
-                  conditions: conditions,
+                  conditions: conditions
                 })
               }
               app={app}
@@ -406,91 +406,91 @@ function AssignmentRules({ dispatch, match, app }) {
         ))}
       </SortableContainer>
     </div>
-  );
+  )
 }
 
-function AssignmentForm(props) {
-  const { rule, setConditions, conditions, dispatch } = props;
+function AssignmentForm (props) {
+  const { rule, setConditions, conditions, dispatch } = props
 
-  const [agents, setAgents] = React.useState([]);
-  const [selected, setSelected] = React.useState(rule ? rule.agent.id : "");
-  const [title, setTitle] = React.useState(rule ? rule.title : "");
-  const [checked, setChecked] = React.useState("");
-  const [updater, setUpdater] = React.useState(null);
-  const [predicates, setPredicates] = React.useState(conditions || []);
+  const [agents, setAgents] = React.useState([])
+  const [selected, setSelected] = React.useState(rule ? rule.agent.id : '')
+  const [title, setTitle] = React.useState(rule ? rule.title : '')
+  const [checked, setChecked] = React.useState('')
+  const [updater, setUpdater] = React.useState(null)
+  const [predicates, setPredicates] = React.useState(conditions || [])
   // const fields = defaultFields
 
-  function availableFields() {
-    if (!props.app.customFields) return defaultFields;
-    return props.app.customFields.concat(defaultFields);
+  function availableFields () {
+    if (!props.app.customFields) return defaultFields
+    return props.app.customFields.concat(defaultFields)
   }
 
-  function selectedValue() {
-    if (!rule) return;
-    const { agent } = rule;
-    return { label: agent.email, value: agent.id };
+  function selectedValue () {
+    if (!rule) return
+    const { agent } = rule
+    return { label: agent.email, value: agent.id }
   }
 
-  function getAgents() {
+  function getAgents () {
     graphql(
       AGENTS,
       { appKey: props.app.key },
       {
         success: (data) => {
-          setAgents(data.app.agents);
+          setAgents(data.app.agents)
         },
-        error: (error) => {},
+        error: (error) => {}
       }
-    );
+    )
   }
 
   React.useEffect(() => {
-    getAgents();
-  }, []);
+    getAgents()
+  }, [])
 
   React.useEffect(() => {
-    setConditions(predicates);
-  }, [predicates]);
+    setConditions(predicates)
+  }, [predicates])
 
-  function handleChange(e) {
-    setSelected(e.value);
+  function handleChange (e) {
+    setSelected(e.value)
   }
 
-  function displayName(o) {
-    return o.attribute.split("_").join(" ");
+  function displayName (o) {
+    return o.attribute.split('_').join(' ')
   }
 
-  function getTextForPredicate(o) {
-    if (o.type === "match") {
-      return `Match ${o.value === "and" ? "all" : "any"} criteria`;
+  function getTextForPredicate (o) {
+    if (o.type === 'match') {
+      return `Match ${o.value === 'and' ? 'all' : 'any'} criteria`
     } else {
-      return `${displayName(o)} ${o.comparison ? o.comparison : ""} ${
-        o.value ? o.value : ""
-      }`;
+      return `${displayName(o)} ${o.comparison ? o.comparison : ''} ${
+        o.value ? o.value : ''
+      }`
     }
   }
 
-  function addPredicate(data) {
+  function addPredicate (data) {
     const pending_predicate = {
       attribute: data.name,
       comparison: null,
       type: data.type,
-      value: data.value,
-    };
-    setPredicates(predicates.concat(pending_predicate));
+      value: data.value
+    }
+    setPredicates(predicates.concat(pending_predicate))
 
     // it forces a re render on itemButton for new predicates
     setTimeout(() => {
-      setUpdater(Math.random());
-    }, 2);
+      setUpdater(Math.random())
+    }, 2)
   }
 
-  function updatePredicates(data) {
-    setPredicates(data);
+  function updatePredicates (data) {
+    setPredicates(data)
   }
 
-  function deletePredicate(data) {
-    setPredicates(data);
+  function deletePredicate (data) {
+    setPredicates(data)
   }
 
   return (
@@ -498,8 +498,8 @@ function AssignmentForm(props) {
       <div>
         <div
           style={{
-            display: "flex",
-            flexWrap: "wrap",
+            display: 'flex',
+            flexWrap: 'wrap'
           }}
         >
           {predicates.map((o, i) => {
@@ -511,17 +511,17 @@ function AssignmentForm(props) {
                 predicates={predicates}
                 open={!o.comparison}
                 updater={updater}
-                appearance={o.comparison ? "primary" : "default"}
+                appearance={o.comparison ? 'primary' : 'default'}
                 text={getTextForPredicate(o)}
                 updatePredicate={updatePredicates}
                 predicateCallback={(jwtToken) => {
-                  debugger;
+                  debugger
                 }}
                 deletePredicate={(items) => {
-                  deletePredicate(items);
+                  deletePredicate(items)
                 }}
               />
-            );
+            )
           })}
 
           {
@@ -529,7 +529,7 @@ function AssignmentForm(props) {
               app={props.app}
               fields={availableFields}
               addPredicate={(predicate) => {
-                addPredicate(predicate);
+                addPredicate(predicate)
               }}
             />
           }
@@ -537,20 +537,20 @@ function AssignmentForm(props) {
       </div>
 
       <Input
-        label={"title"}
+        label={'title'}
         value={title}
         name="title"
         type="text"
         onChange={(e) => setTitle(e.target.value)}
-        helperText={"ssdds"}
+        helperText={'ssdds'}
       ></Input>
 
       {agents.length > 0 && (
         <Input
-          type={"select"}
-          name={"agent"}
-          id={"agent"}
-          label={"select agent"}
+          type={'select'}
+          name={'agent'}
+          id={'agent'}
+          label={'select agent'}
           value={selectedValue()}
           options={agents.map((o) => ({ value: o.id, label: o.email }))}
           onChange={handleChange}
@@ -558,27 +558,27 @@ function AssignmentForm(props) {
       )}
 
       <Input
-        label={"Activate"}
-        type={"checkbox"}
-        name={"active"}
+        label={'Activate'}
+        type={'checkbox'}
+        name={'active'}
         value={checked}
         onChange={(e) => setChecked(e.target.checked)}
       />
     </div>
-  );
+  )
 }
 
-function mapStateToProps(state) {
-  const { auth, app, conversations, app_user } = state;
-  const { loading, isAuthenticated } = auth;
+function mapStateToProps (state) {
+  const { auth, app, conversations, app_user } = state
+  const { loading, isAuthenticated } = auth
   // const { sort, filter, collection , meta, loading} = conversations
 
   return {
     conversations,
     app_user,
     app,
-    isAuthenticated,
-  };
+    isAuthenticated
+  }
 }
 
-export default withRouter(connect(mapStateToProps)(AssignmentRules));
+export default withRouter(connect(mapStateToProps)(AssignmentRules))

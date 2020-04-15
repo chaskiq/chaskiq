@@ -1,46 +1,46 @@
-import React from "react";
-import graphql from "../../graphql/client";
+import React from 'react'
+import graphql from '../../graphql/client'
 import {
   ARTICLE_SETTINGS,
   ARTICLE_COLLECTION_WITH_SECTIONS,
   ARTICLE_COLLECTIONS,
   ARTICLE,
-  SEARCH_ARTICLES,
-} from "../../graphql/docsQueries";
+  SEARCH_ARTICLES
+} from '../../graphql/docsQueries'
 
-import CustomizedInputBase from "./searchBar";
-import danteTheme from "../../components/textEditor/theme";
-import Container from "../../components/Content";
-import Article from "./article";
-import CollectionsWithSections from "./collectionSections";
-import Button from "../../components/Button";
-import Collections from "./collections";
-import FilterMenu from "../../components/FilterMenu";
+import CustomizedInputBase from './searchBar'
+import danteTheme from '../../components/textEditor/theme'
+import Container from '../../components/Content'
+import Article from './article'
+import CollectionsWithSections from './collectionSections'
+import Button from '../../components/Button'
+import Collections from './collections'
+import FilterMenu from '../../components/FilterMenu'
 
-import { LangGlobeIcon, LaunchIcon } from "../../components/icons";
+import { LangGlobeIcon, LaunchIcon } from '../../components/icons'
 
-import { Facebook, Twitter, LinkedIn } from "./icons";
+import { Facebook, Twitter, LinkedIn } from './icons'
 
 import {
   BrowserRouter,
   Route,
   Switch,
   Link,
-  withRouter,
-} from "react-router-dom";
-import { Global, css } from "@emotion/core";
+  withRouter
+} from 'react-router-dom'
+import { Global, css } from '@emotion/core'
 
-const subdomain = window.location.host.split(".")[1]
-  ? window.location.host.split(".")[0]
-  : false;
+const subdomain = window.location.host.split('.')[1]
+  ? window.location.host.split('.')[0]
+  : false
 
-function Docs(props) {
+function Docs (props) {
   // const classes = useStyles();
-  const [settings, setSettings] = React.useState({});
-  const [lang, setLang] = React.useState(props.match.params.lang || "en");
-  const [error, setError] = React.useState(false);
+  const [settings, setSettings] = React.useState({})
+  const [lang, setLang] = React.useState(props.match.params.lang || 'en')
+  const [error, setError] = React.useState(false)
 
-  const { history } = props;
+  const { history } = props
 
   /*
   let theme = createMuiTheme({
@@ -206,33 +206,33 @@ function Docs(props) {
   }; */
 
   React.useEffect(() => {
-    getSettings();
-  }, [lang]);
+    getSettings()
+  }, [lang])
 
-  function getSettings() {
+  function getSettings () {
     graphql(
       ARTICLE_SETTINGS,
       {
         domain: subdomain,
-        lang: props.match.params.lang,
+        lang: props.match.params.lang
       },
       {
         success: (data) => {
-          setSettings(data.helpCenter);
+          setSettings(data.helpCenter)
         },
-        error: () => {},
+        error: () => {}
       }
-    );
+    )
   }
 
-  function handleLangChange(option) {
-    setLang(option.id);
-    history.push(`/${option.id}`);
+  function handleLangChange (option) {
+    setLang(option.id)
+    history.push(`/${option.id}`)
   }
 
   const newDanteTheme = Object.assign({}, danteTheme, {
-    mainColor: settings.color,
-  });
+    mainColor: settings.color
+  })
 
   return (
     <div>
@@ -252,31 +252,31 @@ function Docs(props) {
             className="bg-black"
             // className={'classes.heroContent'}
             style={{
-              backgroundImage: `url('${settings.headerImageLarge}')`,
+              backgroundImage: `url('${settings.headerImageLarge}')`
             }}
           >
             <div className="px-40">
               <div className="flex items-center justify-between py-2">
                 <div>
                   <Link to={`/${lang}`}>
-                    <img src={settings.logo} className={"classes.logoImage"} />
+                    <img src={settings.logo} className={'classes.logoImage'} />
                   </Link>
                 </div>
 
                 <div>
-                  <div className={"flex items-center space-between"}>
+                  <div className={'flex items-center space-between'}>
                     <Button
                       variant="outlined"
-                      className={"mr-2"}
-                      color={"primary"}
+                      className={'mr-2'}
+                      color={'primary'}
                       onClick={(e) => (window.location = settings.website)}
                     >
                       <LaunchIcon />
-                      {" Go to"} {settings.siteTitle}
+                      {' Go to'} {settings.siteTitle}
                     </Button>
 
                     <div ml={1}>
-                      <hr className={"classes.hr"} />
+                      <hr className={'classes.hr'} />
                     </div>
 
                     {settings.availableLanguages && (
@@ -284,7 +284,7 @@ function Docs(props) {
                         icon={LangGlobeIcon}
                         options={settings.availableLanguages.map((o) => ({
                           name: o,
-                          id: o,
+                          id: o
                         }))}
                         value={lang}
                         filterHandler={handleLangChange}
@@ -296,7 +296,7 @@ function Docs(props) {
               </div>
               <p
                 className={
-                  "py-6 text-center text-5xl leading-9 font-extrabold text-gray-100"
+                  'py-6 text-center text-5xl leading-9 font-extrabold text-gray-100'
                 }
               >
                 {settings.siteDescription}
@@ -356,7 +356,7 @@ function Docs(props) {
 
         {/* Footer */}
 
-        <footer className={"py-8"}>
+        <footer className={'py-8'}>
           <p className="mt-2 text-base leading-6 text-gray-500 text-center">
             Chaskiq
           </p>
@@ -386,17 +386,17 @@ function Docs(props) {
         {/* End footer */}
       </React.Fragment>
     </div>
-  );
+  )
 }
 
-function MadeWithLove() {
+function MadeWithLove () {
   return (
     <p className="text-center text-sm leading-5 text-gray-500">
-      {"powered by "}
+      {'powered by '}
       <a href="https://chaskiq.io/">Chaskiq</a>
-      {" team."}
+      {' team.'}
     </p>
-  );
+  )
 }
 
-export default Docs;
+export default Docs

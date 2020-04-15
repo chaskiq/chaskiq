@@ -1,41 +1,41 @@
 // src/App.js
-import React from "react";
-import Card from "../components/Card";
-import { Switch, Route, Link, withRouter } from "react-router-dom";
+import React from 'react'
+import Card from '../components/Card'
+import { Switch, Route, Link, withRouter } from 'react-router-dom'
 
-import bg from "../images/bg/welcome-icon8.png";
+import bg from '../images/bg/welcome-icon8.png'
 
-import styled from "@emotion/styled";
-import graphql from "../graphql/client";
-import { APPS } from "../graphql/queries";
+import styled from '@emotion/styled'
+import graphql from '../graphql/client'
+import { APPS } from '../graphql/queries'
 
-import { connect } from "react-redux";
-import { setCurrentSection } from "../actions/navigation";
-import logo from "../images/favicon.png";
+import { connect } from 'react-redux'
+import { setCurrentSection } from '../actions/navigation'
+import logo from '../images/favicon.png'
 const Container = styled.div`
   background: url(${bg});
   background-repeat: no-repeat;
   background-position-x: right;
   height: 100vh;
   marginbottom: 0px;
-`;
+`
 
-function App({ dispatch, loading }) {
-  const [apps, setApps] = React.useState([]);
+function App ({ dispatch, loading }) {
+  const [apps, setApps] = React.useState([])
 
   React.useEffect(() => {
-    dispatch(setCurrentSection(null));
+    dispatch(setCurrentSection(null))
     graphql(
       APPS,
       {},
       {
         success: (data) => {
-          setApps(data.apps);
+          setApps(data.apps)
         },
-        error: (error) => {},
+        error: (error) => {}
       }
-    );
-  }, []);
+    )
+  }, [])
 
   return (
     <Container className="h-screen flex overflow-hidden bg-white">
@@ -95,7 +95,7 @@ function App({ dispatch, loading }) {
                       <div className="mt-3 sm:mt-0 sm:ml-3">
                         <a
                           href="https://dev.chaskiq.io"
-                          target={"blank"}
+                          target={'blank'}
                           className="w-full flex items-center justify-center px-8 py-3 border border-transparent text-base leading-6 font-medium rounded-md text-indigo-700 bg-indigo-100 hover:text-indigo-600 hover:bg-indigo-50 focus:outline-none focus:shadow-outline focus:border-indigo-300 transition duration-150 ease-in-out md:py-4 md:text-lg md:px-10"
                         >
                           Go to documentation site
@@ -124,18 +124,18 @@ function App({ dispatch, loading }) {
         </main>
       </div>
     </Container>
-  );
+  )
 }
 
-function mapStateToProps(state) {
-  const { auth, app } = state;
-  const { loading, isAuthenticated } = auth;
+function mapStateToProps (state) {
+  const { auth, app } = state
+  const { loading, isAuthenticated } = auth
 
   return {
     app,
     loading,
-    isAuthenticated,
-  };
+    isAuthenticated
+  }
 }
 
-export default withRouter(connect(mapStateToProps)(App));
+export default withRouter(connect(mapStateToProps)(App))

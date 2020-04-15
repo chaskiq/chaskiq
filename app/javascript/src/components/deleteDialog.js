@@ -1,22 +1,22 @@
-import React, { Fragment, useState, useEffect } from "react";
-import FormDialog from "./FormDialog";
-import Button from "./Button";
+import React, { Fragment, useState, useEffect } from 'react'
+import FormDialog from './FormDialog'
+import Button from './Button'
 
-export default function DeleteDialog({
+export default function DeleteDialog ({
   children,
   title,
   deleteHandler,
-  closeHandler,
+  closeHandler
 }) {
-  const [isOpen, setIsOpen] = useState(false);
+  const [isOpen, setIsOpen] = useState(false)
 
   useEffect(() => {
-    setIsOpen(true);
-  }, []);
+    setIsOpen(true)
+  }, [])
 
-  function close() {
-    setIsOpen(false);
-    closeHandler && closeHandler();
+  function close () {
+    setIsOpen(false)
+    closeHandler && closeHandler()
   }
 
   return (
@@ -41,5 +41,5 @@ export default function DeleteDialog({
         ></FormDialog>
       )}
     </div>
-  );
+  )
 }

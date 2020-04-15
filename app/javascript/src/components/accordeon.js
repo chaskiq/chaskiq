@@ -1,34 +1,34 @@
-import React from "react";
+import React from 'react'
 
-function CustomizedExpansionPanels(props) {
-  const [expanded, setExpanded] = React.useState(props.items[0].name);
+function CustomizedExpansionPanels (props) {
+  const [expanded, setExpanded] = React.useState(props.items[0].name)
 
   const handleChange = (panel) => (event, newExpanded) => {
-    setExpanded(newExpanded ? panel : false);
-  };
+    setExpanded(newExpanded ? panel : false)
+  }
 
   const withValues = (col) => {
-    return col.filter((o) => o.value);
-  };
+    return col.filter((o) => o.value)
+  }
 
   const expandedClasses = (o) => {
     if (expanded === o.name) {
-      return "border-l-2 bg-grey-lightest border-indigo-600";
+      return 'border-l-2 bg-grey-lightest border-indigo-600'
     } else {
-      return "border-l-2 border-transparent";
+      return 'border-l-2 border-transparent'
     }
-  };
+  }
 
   const isExpanded = (o) => {
-    return expanded === o.name;
-  };
+    return expanded === o.name
+  }
 
-  function toggleExpanded(name) {
+  function toggleExpanded (name) {
     if (expanded === name) {
-      setExpanded(null);
-      return;
+      setExpanded(null)
+      return
     }
-    setExpanded(name);
+    setExpanded(name)
   }
 
   return (
@@ -48,7 +48,7 @@ function CustomizedExpansionPanels(props) {
           >
             <header
               onClick={() => {
-                toggleExpanded(o.name);
+                toggleExpanded(o.name)
               }}
               className="flex justify-between items-center p-5 pl-8 pr-8 cursor-pointer select-none"
             >
@@ -59,7 +59,7 @@ function CustomizedExpansionPanels(props) {
               {isExpanded(o) && (
                 <button
                   onClick={() => {
-                    toggleExpanded(o.name);
+                    toggleExpanded(o.name)
                   }}
                   className="rounded-full border border border-indigo-400 w-7 h-7 flex items-center justify-center bg-indigo-600"
                 >
@@ -84,7 +84,7 @@ function CustomizedExpansionPanels(props) {
               {!isExpanded(o) && (
                 <button
                   onClick={() => {
-                    toggleExpanded(o.name);
+                    toggleExpanded(o.name)
                   }}
                   className="rounded-full border border-grey w-7 h-7 flex items-center justify-center"
                 >
@@ -134,7 +134,7 @@ function CustomizedExpansionPanels(props) {
         </article>
       ))}
     </section>
-  );
+  )
 }
 
-export default CustomizedExpansionPanels;
+export default CustomizedExpansionPanels

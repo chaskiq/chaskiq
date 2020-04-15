@@ -1,24 +1,24 @@
-import React from "react";
-import graphql from "../../graphql/client";
+import React from 'react'
+import graphql from '../../graphql/client'
 import {
   ARTICLE_SETTINGS,
   ARTICLE_COLLECTION_WITH_SECTIONS,
   ARTICLE_COLLECTIONS,
   ARTICLE,
-  SEARCH_ARTICLES,
-} from "../../graphql/docsQueries";
+  SEARCH_ARTICLES
+} from '../../graphql/docsQueries'
 
-import translation from "./translation";
-import { ThemeProvider } from "emotion-theming";
-import DraftRenderer from "../../components/textEditor/draftRenderer";
-import EditorStyles from "Dante2/package/es/styled/base";
-import danteTheme from "../../components/textEditor/theme";
-import Breadcrumbs from "../../components/Breadcrumbs";
-import Avatar from "../../components/Avatar";
-import Moment from "react-moment";
-import styled from "@emotion/styled";
+import translation from './translation'
+import { ThemeProvider } from 'emotion-theming'
+import DraftRenderer from '../../components/textEditor/draftRenderer'
+import EditorStyles from 'Dante2/package/es/styled/base'
+import danteTheme from '../../components/textEditor/theme'
+import Breadcrumbs from '../../components/Breadcrumbs'
+import Avatar from '../../components/Avatar'
+import Moment from 'react-moment'
+import styled from '@emotion/styled'
 
-import { Link } from "react-router-dom";
+import { Link } from 'react-router-dom'
 
 const NewEditorStyles = styled(EditorStyles)`
   font-size: 1.3em;
@@ -32,51 +32,51 @@ const NewEditorStyles = styled(EditorStyles)`
   a {
     color: ${(props) => props.theme.mainColor};
   }
-`;
+`
 
-export default function Article(props) {
-  const [article, setArticle] = React.useState(null);
-  const { lang, theme } = props;
+export default function Article (props) {
+  const [article, setArticle] = React.useState(null)
+  const { lang, theme } = props
 
-  const { subdomain } = props;
+  const { subdomain } = props
 
   React.useEffect(() => {
-    getArticle();
-  }, []);
+    getArticle()
+  }, [])
 
-  function getArticle() {
+  function getArticle () {
     graphql(
       ARTICLE,
       {
         domain: subdomain,
         id: props.match.params.id,
-        lang: lang,
+        lang: lang
       },
       {
         success: (data) => {
-          setArticle(data.helpCenter.article);
+          setArticle(data.helpCenter.article)
         },
         error: (e) => {
-          debugger;
-        },
+          debugger
+        }
       }
-    );
+    )
   }
 
   return (
     <div className="flex flex-row items-center justify-center bg-gray-100">
       <div className="rounded shadow p-12 m-8 w-10/12 bg-white">
         {article ? (
-          <div className={"classes.articlediv"}>
+          <div className={'classes.articlediv'}>
             <Breadcrumbs
               aria-label="Breadcrumb"
               breadcrumbs={[
-                { to: `/${lang}`, title: "Collections" },
+                { to: `/${lang}`, title: 'Collections' },
                 {
                   to: `/${lang}/collections/${article.collection.slug}`,
-                  title: translation(article.collection.title),
+                  title: translation(article.collection.title)
                 },
-                { title: translation(article.title) },
+                { title: translation(article.title) }
               ]}
             />
 
@@ -91,18 +91,18 @@ export default function Article(props) {
 
               <div className="flex flex-row items-center py-2">
                 <Avatar
-                  size={"medium"}
+                  size={'medium'}
                   alt={article.author.name}
                   src={article.author.avatarUrl}
                 />
 
-                <div className={"ml-4"}>
+                <div className={'ml-4'}>
                   <p className="text-lg leading-6 font-medium text-gray-900">
                     Written by {article.author.name}
                   </p>
 
                   <p className="text-base leading-6 text-gray-500">
-                    {"updated "}
+                    {'updated '}
                     <Moment fromNow>{article.updatedAt}</Moment>
                   </p>
                 </div>
@@ -120,5 +120,5 @@ export default function Article(props) {
         ) : null}
       </div>
     </div>
-  );
+  )
 }

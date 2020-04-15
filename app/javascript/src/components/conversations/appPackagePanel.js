@@ -1,4 +1,4 @@
-import React from "react";
+import React from 'react'
 /* import Button from '@material-ui/core/Button';
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
@@ -9,38 +9,38 @@ import TextField from '@material-ui/core/TextField';
 import p from '@material-ui/core/Typography'
 import Box from '@material-ui/core/Box'
 import Tab from '@material-ui/core/Tab' */
-import { withRouter } from "react-router-dom";
-import { connect } from "react-redux";
+import { withRouter } from 'react-router-dom'
+import { connect } from 'react-redux'
 
-import graphql from "../../graphql/client";
-import { EDITOR_APP_PACKAGES } from "../../graphql/queries";
+import graphql from '../../graphql/client'
+import { EDITOR_APP_PACKAGES } from '../../graphql/queries'
 
-function AppPackagePanel(props) {
-  const [open, setOpen] = React.useState(props.open);
-  const [provider, setProvider] = React.useState(null);
-  const [providers, setProviders] = React.useState([]);
-  const [values, setValues] = React.useState({});
+function AppPackagePanel (props) {
+  const [open, setOpen] = React.useState(props.open)
+  const [provider, setProvider] = React.useState(null)
+  const [providers, setProviders] = React.useState([])
+  const [values, setValues] = React.useState({})
 
-  function getAppPackages() {
+  function getAppPackages () {
     graphql(
       EDITOR_APP_PACKAGES,
       {
-        appKey: props.app.key,
+        appKey: props.app.key
       },
       {
         success: (data) => {
-          setProviders(data.app.editorAppPackages);
+          setProviders(data.app.editorAppPackages)
         },
         error: () => {
-          debugger;
-        },
+          debugger
+        }
       }
-    );
+    )
   }
 
   React.useEffect(() => {
-    getAppPackages();
-  }, [getAppPackages]);
+    getAppPackages()
+  }, [getAppPackages])
 
   /*
   const providers =  [
@@ -86,36 +86,36 @@ function AppPackagePanel(props) {
   ] */
 
   React.useEffect(() => {
-    setOpen(props.open);
-  }, [props.open]);
+    setOpen(props.open)
+  }, [props.open])
 
-  function handleClickOpen() {
-    setOpen(true);
+  function handleClickOpen () {
+    setOpen(true)
   }
 
-  function handleClose() {
-    setOpen(false);
-    props.close();
+  function handleClose () {
+    setOpen(false)
+    props.close()
   }
 
   const handleChange = (name) => (event) => {
-    setValues({ ...values, [name]: event.target.value });
-  };
+    setValues({ ...values, [name]: event.target.value })
+  }
 
-  function renderItem(o) {
-    const { requires } = o.editorDefinitions;
+  function renderItem (o) {
+    const { requires } = o.editorDefinitions
     return (
       <div mt={2}>
         <p variant="h3">{o.name}</p>
 
         {requires.map((r) => renderRequirement(r))}
       </div>
-    );
+    )
   }
 
-  function renderRequirement(item) {
+  function renderRequirement (item) {
     switch (item.type) {
-      case "input":
+      case 'input':
         return (
           <input
             label={item.name}
@@ -125,28 +125,28 @@ function AppPackagePanel(props) {
             helperText={item.hint}
             margin="normal"
           />
-        );
+        )
       default:
-        return <p>no input</p>;
+        return <p>no input</p>
     }
   }
 
-  function handleClick(o) {
-    setProvider(o);
+  function handleClick (o) {
+    setProvider(o)
   }
 
-  function handleSend() {
-    const newData = Object.assign({}, provider, provider.editorDefinitions);
+  function handleSend () {
+    const newData = Object.assign({}, provider, provider.editorDefinitions)
     props.insertComment({
       provider: newData,
-      values: values,
-    });
+      values: values
+    })
   }
 
   return (
     <p>dd</p>
 
-    /* <Dialog
+  /* <Dialog
         open={open}
         onClose={handleClose}
         maxWidth={'sm'}
@@ -195,17 +195,17 @@ function AppPackagePanel(props) {
         </DialogActions>
 
         </Dialog> */
-  );
+  )
 }
 
-function mapStateToProps(state) {
-  const { app_user, app } = state;
+function mapStateToProps (state) {
+  const { app_user, app } = state
   return {
     app_user,
-    app,
-  };
+    app
+  }
 }
 
 // export default ShowAppContainer
 
-export default withRouter(connect(mapStateToProps)(AppPackagePanel));
+export default withRouter(connect(mapStateToProps)(AppPackagePanel))

@@ -1,69 +1,69 @@
-import React, { useState } from "react";
-import { connect } from "react-redux";
-import { Link } from "react-router-dom";
-import Avatar from "../../components/Avatar";
-import Button from "../../components/Button";
-import TextField from "../../components/forms/Input";
-import Container from "../../components/Content";
-import axios from "axios";
-import { getCurrentUser } from "../../actions/current_user";
+import React, { useState } from 'react'
+import { connect } from 'react-redux'
+import { Link } from 'react-router-dom'
+import Avatar from '../../components/Avatar'
+import Button from '../../components/Button'
+import TextField from '../../components/forms/Input'
+import Container from '../../components/Content'
+import axios from 'axios'
+import { getCurrentUser } from '../../actions/current_user'
 import {
   successAuthentication,
   authenticate,
-  signout,
-} from "../../actions/auth";
-import logo from "../../images/logo.png";
-import Snackbar from "../../components/Alert";
-import queryString from "query-string";
-import { Redirect } from "react-router";
+  signout
+} from '../../actions/auth'
+import logo from '../../images/logo.png'
+import Snackbar from '../../components/Alert'
+import queryString from 'query-string'
+import { Redirect } from 'react-router'
 
-function MadeWithLove() {
+function MadeWithLove () {
   return (
     <p className="mt-3 text-base text-gray-500 text-center">
-      {"Built with love by the "}
+      {'Built with love by the '}
       <a color="inherit" href="https://chaskiq.io/">
         Chaskiq
       </a>
-      {" team."}
+      {' team.'}
     </p>
-  );
+  )
 }
 
-function AcceptInvitation(props) {
-  const [passwordConfirmation, setPasswordConfirmation] = useState("");
-  const [password, setPassword] = useState("");
-  const [token, setToken] = useState(queryString.parse(props.location.search));
-  const [errors, setErrors] = useState({});
+function AcceptInvitation (props) {
+  const [passwordConfirmation, setPasswordConfirmation] = useState('')
+  const [password, setPassword] = useState('')
+  const [token, setToken] = useState(queryString.parse(props.location.search))
+  const [errors, setErrors] = useState({})
 
   const handleSubmit = (e) => {
-    e.preventDefault();
+    e.preventDefault()
 
     axios
-      .put("/agents/invitation.json", {
+      .put('/agents/invitation.json', {
         agent: {
           password: password,
           password_confirmation: passwordConfirmation,
-          invitation_token: token.invitation_token,
-        },
+          invitation_token: token.invitation_token
+        }
       })
       .then(function (response) {
-        props.dispatch(successAuthentication(response.data.token));
-        props.dispatch(getCurrentUser());
+        props.dispatch(successAuthentication(response.data.token))
+        props.dispatch(getCurrentUser())
         // use router redirect + snackbar status
-        window.location = "/";
+        window.location = '/'
       })
       .catch(function (response) {
-        setErrors(response.response.data.errors);
-      });
-  };
+        setErrors(response.response.data.errors)
+      })
+  }
 
   const errorsFor = (name) => {
-    console.log(errors);
+    console.log(errors)
     if (!errors[name]) {
-      return null;
+      return null
     }
-    return errors[name].map((o) => o).join(", ");
-  };
+    return errors[name].map((o) => o).join(', ')
+  }
 
   return (
     <Container component="main" maxWidth="xs">
@@ -89,12 +89,12 @@ function AcceptInvitation(props) {
                 type="password"
                 id="password"
                 autoFocus
-                error={errorsFor("password")}
+                error={errorsFor('password')}
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 helperText={
-                  errorsFor("password") ? (
-                    <p id="component-error-text">{errorsFor("password")}</p>
+                  errorsFor('password') ? (
+                    <p id="component-error-text">{errorsFor('password')}</p>
                   ) : null
                 }
               />
@@ -109,13 +109,13 @@ function AcceptInvitation(props) {
                 type="password"
                 id="password_confirmation"
                 autoComplete="current-password"
-                error={errorsFor("password_confirmation")}
+                error={errorsFor('password_confirmation')}
                 value={passwordConfirmation}
                 onChange={(e) => setPasswordConfirmation(e.target.value)}
                 helperText={
-                  errorsFor("password_confirmation") ? (
+                  errorsFor('password_confirmation') ? (
                     <p id="component-error-text">
-                      {errorsFor("password_confirmation")}
+                      {errorsFor('password_confirmation')}
                     </p>
                   ) : null
                 }
@@ -136,18 +136,18 @@ function AcceptInvitation(props) {
         </div>
       </div>
     </Container>
-  );
+  )
 }
 
-function mapStateToProps(state) {
-  const { auth, current_user } = state;
-  const { loading, isAuthenticated } = auth;
+function mapStateToProps (state) {
+  const { auth, current_user } = state
+  const { loading, isAuthenticated } = auth
 
   return {
     current_user,
     loading,
-    isAuthenticated,
-  };
+    isAuthenticated
+  }
 }
 
-export default connect(mapStateToProps)(AcceptInvitation);
+export default connect(mapStateToProps)(AcceptInvitation)

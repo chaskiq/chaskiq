@@ -1,27 +1,27 @@
-import React from "react";
+import React from 'react'
 
-import tw from "tailwind.macro";
-import styled from "@emotion/styled";
+import tw from 'tailwind.macro'
+import styled from '@emotion/styled'
 
 const BaseIcon = styled.svg`
   ${(props) => {
     switch (props.variant) {
-      case "small":
-        return tw`h-4 w-4 text-gray-400 outline-none`;
-      case "rounded":
-        return tw`m-3 h-3 w-3 p- text-gray-400 outline-none`;
+      case 'small':
+        return tw`h-4 w-4 text-gray-400 outline-none`
+      case 'rounded':
+        return tw`m-3 h-3 w-3 p- text-gray-400 outline-none`
       default:
-        return tw`h-5 w-5 text-gray-400 outline-none`;
+        return tw`h-5 w-5 text-gray-400 outline-none`
     }
   }};
-`;
+`
 
 // icons from http://www.zondicons.com/icons.html
 
 export function LeftArrow (props) {
   return (
     <BaseIcon {...props} fill="currentColor"
-      focusable="false" viewBox="0 0 24 24" 
+      focusable="false" viewBox="0 0 24 24"
       aria-hidden="true" role="presentation">
       <path d="M11.67 3.87L9.9 2.1 0 12l9.9 9.9 1.77-1.77L3.54 12z">
       </path>
@@ -29,7 +29,7 @@ export function LeftArrow (props) {
   )
 }
 
-export function Facebook(props) {
+export function Facebook (props) {
   return (
     <BaseIcon {...props} fill="currentColor" viewBox="0 0 20 20">
       <path
@@ -37,10 +37,10 @@ export function Facebook(props) {
         id="Combined-Shape"
       ></path>
     </BaseIcon>
-  );
+  )
 }
 
-export function Twitter(props) {
+export function Twitter (props) {
   return (
     <BaseIcon {...props} fill="currentColor" viewBox="0 0 20 20">
       <path
@@ -48,10 +48,10 @@ export function Twitter(props) {
         id="Combined-Shape"
       ></path>
     </BaseIcon>
-  );
+  )
 }
 
-export function Instagram(props) {
+export function Instagram (props) {
   return (
     <BaseIcon {...props} fill="currentColor" viewBox="0 0 20 20">
       <path
@@ -59,10 +59,10 @@ export function Instagram(props) {
         id="Combined-Shape"
       ></path>
     </BaseIcon>
-  );
+  )
 }
 
-export function LinkedIn(props) {
+export function LinkedIn (props) {
   return (
     <BaseIcon {...props} fill="currentColor" viewBox="0 0 20 20">
       <path
@@ -70,10 +70,10 @@ export function LinkedIn(props) {
         id="Combined-Shape"
       ></path>
     </BaseIcon>
-  );
+  )
 }
 
-export function LaunchIcon(props) {
+export function LaunchIcon (props) {
   return (
     <BaseIcon
       {...props}
@@ -85,10 +85,10 @@ export function LaunchIcon(props) {
     >
       <path d="M19 19H5V5h7V3H5c-1.11 0-2 .9-2 2v14c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2v-7h-2v7zM14 3v2h3.59l-9.83 9.83 1.41 1.41L19 6.41V10h2V3h-7z"></path>
     </BaseIcon>
-  );
+  )
 }
 
-export function LangGlobeIcon(props) {
+export function LangGlobeIcon (props) {
   return (
     <BaseIcon
       {...props}
@@ -101,10 +101,10 @@ export function LangGlobeIcon(props) {
     >
       <path d="M11.99 2C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zm6.93 6h-2.95c-.32-1.25-.78-2.45-1.38-3.56 1.84.63 3.37 1.91 4.33 3.56zM12 4.04c.83 1.2 1.48 2.53 1.91 3.96h-3.82c.43-1.43 1.08-2.76 1.91-3.96zM4.26 14C4.1 13.36 4 12.69 4 12s.1-1.36.26-2h3.38c-.08.66-.14 1.32-.14 2 0 .68.06 1.34.14 2H4.26zm.82 2h2.95c.32 1.25.78 2.45 1.38 3.56-1.84-.63-3.37-1.9-4.33-3.56zm2.95-8H5.08c.96-1.66 2.49-2.93 4.33-3.56C8.81 5.55 8.35 6.75 8.03 8zM12 19.96c-.83-1.2-1.48-2.53-1.91-3.96h3.82c-.43 1.43-1.08 2.76-1.91 3.96zM14.34 14H9.66c-.09-.66-.16-1.32-.16-2 0-.68.07-1.35.16-2h4.68c.09.65.16 1.32.16 2 0 .68-.07 1.34-.16 2zm.25 5.56c.6-1.11 1.06-2.31 1.38-3.56h2.95c-.96 1.65-2.49 2.93-4.33 3.56zM16.36 14c.08-.66.14-1.32.14-2 0-.68-.06-1.34-.14-2h3.38c.16.64.26 1.31.26 2s-.1 1.36-.26 2h-3.38z"></path>
     </BaseIcon>
-  );
+  )
 }
 
-export function BookMarkIcon(props) {
+export function BookMarkIcon (props) {
   return (
     <BaseIcon {...props} fill="currentColor" viewBox="0 0 20 20">
       <path
@@ -112,10 +112,10 @@ export function BookMarkIcon(props) {
         id="Combined-Shape"
       ></path>
     </BaseIcon>
-  );
+  )
 }
 
-export function DockerIcon(props) {
+export function DockerIcon (props) {
   return (
     <BaseIcon
       {...props}
@@ -131,10 +131,10 @@ export function DockerIcon(props) {
       ></path>
       <path d="M13 12h7v1.5h-7zm0-2.5h7V11h-7zm0 5h7V16h-7zM21 4H3c-1.1 0-2 .9-2 2v13c0 1.1.9 2 2 2h18c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 15h-9V6h9v13z"></path>
     </BaseIcon>
-  );
+  )
 }
 
-export function PaintIcon(props) {
+export function PaintIcon (props) {
   return (
     <BaseIcon
       {...props}
@@ -147,18 +147,18 @@ export function PaintIcon(props) {
       <path d="M16.56 8.94L7.62 0 6.21 1.41l2.38 2.38-5.15 5.15c-.59.59-.59 1.54 0 2.12l5.5 5.5c.29.29.68.44 1.06.44s.77-.15 1.06-.44l5.5-5.5c.59-.58.59-1.53 0-2.12zM5.21 10L10 5.21 14.79 10H5.21zM19 11.5s-2 2.17-2 3.5c0 1.1.9 2 2 2s2-.9 2-2c0-1.33-2-3.5-2-3.5z"></path>
       <path fillOpacity=".36" d="M0 20h24v4H0z"></path>
     </BaseIcon>
-  );
+  )
 }
 
-export function QueueIcon(props) {
+export function QueueIcon (props) {
   return (
     <BaseIcon {...props} fill="currentColor" viewBox="0 0 20 20">
       <path d="M0,2 L20,2 L20,6 L0,6 L0,2 Z M0,10 L20,10 L20,12 L0,12 L0,10 Z M0,16 L20,16 L20,18 L0,18 L0,16 Z"></path>
     </BaseIcon>
-  );
+  )
 }
 
-export function GestureIcon(props) {
+export function GestureIcon (props) {
   return (
     <BaseIcon
       {...props}
@@ -170,10 +170,10 @@ export function GestureIcon(props) {
     >
       <path d="M4.59 6.89c.7-.71 1.4-1.35 1.71-1.22.5.2 0 1.03-.3 1.52-.25.42-2.86 3.89-2.86 6.31 0 1.28.48 2.34 1.34 2.98.75.56 1.74.73 2.64.46 1.07-.31 1.95-1.4 3.06-2.77 1.21-1.49 2.83-3.44 4.08-3.44 1.63 0 1.65 1.01 1.76 1.79-3.78.64-5.38 3.67-5.38 5.37 0 1.7 1.44 3.09 3.21 3.09 1.63 0 4.29-1.33 4.69-6.1H21v-2.5h-2.47c-.15-1.65-1.09-4.2-4.03-4.2-2.25 0-4.18 1.91-4.94 2.84-.58.73-2.06 2.48-2.29 2.72-.25.3-.68.84-1.11.84-.45 0-.72-.83-.36-1.92.35-1.09 1.4-2.86 1.85-3.52.78-1.14 1.3-1.92 1.3-3.28C8.95 3.69 7.31 3 6.44 3 5.12 3 3.97 4 3.72 4.25c-.36.36-.66.66-.88.93l1.75 1.71zm9.29 11.66c-.31 0-.74-.26-.74-.72 0-.6.73-2.2 2.87-2.76-.3 2.69-1.43 3.48-2.13 3.48z"></path>
     </BaseIcon>
-  );
+  )
 }
 
-export function MessageBubbleIcon(props) {
+export function MessageBubbleIcon (props) {
   return (
     <BaseIcon {...props} fill="currentColor" viewBox="0 0 20 20">
       <path
@@ -181,10 +181,10 @@ export function MessageBubbleIcon(props) {
         id="Combined-Shape"
       ></path>
     </BaseIcon>
-  );
+  )
 }
 
-export function ShuffleIcon(props) {
+export function ShuffleIcon (props) {
   return (
     <BaseIcon {...props} fill="currentColor" viewBox="0 0 20 20">
       <path
@@ -192,10 +192,10 @@ export function ShuffleIcon(props) {
         id="Combined-Shape"
       ></path>
     </BaseIcon>
-  );
+  )
 }
 
-export function ConversationIcon(props) {
+export function ConversationIcon (props) {
   return (
     <BaseIcon {...props} fill="currentColor" viewBox="0 0 20 20">
       <path
@@ -203,10 +203,10 @@ export function ConversationIcon(props) {
         id="Combined-Shape"
       ></path>
     </BaseIcon>
-  );
+  )
 }
 
-export function CogIcon(props) {
+export function CogIcon (props) {
   return (
     <BaseIcon {...props} fill="currentColor" viewBox="0 0 20 20">
       <path
@@ -214,10 +214,10 @@ export function CogIcon(props) {
         id="Combined-Shape"
       ></path>
     </BaseIcon>
-  );
+  )
 }
 
-export function FolderIcon(props) {
+export function FolderIcon (props) {
   return (
     <BaseIcon
       {...props}
@@ -229,10 +229,10 @@ export function FolderIcon(props) {
     >
       <path d="M10 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2h-8l-2-2z"></path>
     </BaseIcon>
-  );
+  )
 }
 
-export function FlagIcon(props) {
+export function FlagIcon (props) {
   return (
     <BaseIcon {...props} fill="currentColor" viewBox="0 0 20 20">
       <polygon
@@ -240,10 +240,10 @@ export function FlagIcon(props) {
         points="7.66666667 12 2 12 2 20 0 20 0 0 1 0 12 0 12.3333333 2 20 2 17 8 20 14 8 14 7.66666667 12"
       ></polygon>
     </BaseIcon>
-  );
+  )
 }
 
-export function FactoryIcon(props) {
+export function FactoryIcon (props) {
   return (
     <BaseIcon {...props} fill="currentColor" viewBox="0 0 20 20">
       <path
@@ -251,18 +251,18 @@ export function FactoryIcon(props) {
         id="Combined-Shape"
       ></path>
     </BaseIcon>
-  );
+  )
 }
 
-export function LoadBalancerIcon(props) {
+export function LoadBalancerIcon (props) {
   return (
     <BaseIcon {...props} fill="currentColor" viewBox="0 0 20 20">
       <path d="M17 12h-6v4h1v4H8v-4h1v-4H3v4h1v4H0v-4h1v-4a2 2 0 0 1 2-2h6V6H7V0h6v6h-2v4h6a2 2 0 0 1 2 2v4h1v4h-4v-4h1v-4z"></path>
     </BaseIcon>
-  );
+  )
 }
 
-export function MapIcon(props) {
+export function MapIcon (props) {
   return (
     <BaseIcon {...props} fill="currentColor" viewBox="0 0 20 20">
       <path
@@ -270,10 +270,10 @@ export function MapIcon(props) {
         id="Combined-Shape"
       ></path>
     </BaseIcon>
-  );
+  )
 }
 
-export function LocationIcon(props) {
+export function LocationIcon (props) {
   return (
     <BaseIcon {...props} fill="currentColor" viewBox="0 0 20 20">
       <path
@@ -281,10 +281,10 @@ export function LocationIcon(props) {
         id="Combined-Shape"
       ></path>
     </BaseIcon>
-  );
+  )
 }
 
-export function NotificationsIcon(props) {
+export function NotificationsIcon (props) {
   return (
     <BaseIcon {...props} fill="currentColor" viewBox="0 0 20 20">
       &lt;
@@ -293,10 +293,10 @@ export function NotificationsIcon(props) {
         id="Combined-Shape"
       ></path>
     </BaseIcon>
-  );
+  )
 }
 
-export function TagIcon(props) {
+export function TagIcon (props) {
   return (
     <BaseIcon {...props} fill="currentColor" viewBox="0 0 20 20">
       <path
@@ -304,10 +304,10 @@ export function TagIcon(props) {
         id="Combined-Shape"
       ></path>
     </BaseIcon>
-  );
+  )
 }
 
-export function ThumbsUpIcon(props) {
+export function ThumbsUpIcon (props) {
   return (
     <BaseIcon {...props} fill="currentColor" viewBox="0 0 20 20">
       <path
@@ -315,10 +315,10 @@ export function ThumbsUpIcon(props) {
         id="Fill-97"
       ></path>
     </BaseIcon>
-  );
+  )
 }
 
-export function ThumbsDownIcon(props) {
+export function ThumbsDownIcon (props) {
   return (
     <BaseIcon {...props} fill="currentColor" viewBox="0 0 20 20">
       <path
@@ -326,10 +326,10 @@ export function ThumbsDownIcon(props) {
         id="Fill-97"
       ></path>
     </BaseIcon>
-  );
+  )
 }
 
-export function TileIcon(props) {
+export function TileIcon (props) {
   return (
     <BaseIcon {...props} fill="currentColor" viewBox="0 0 20 20">
       <path
@@ -337,10 +337,10 @@ export function TileIcon(props) {
         id="Combined-Shape"
       ></path>
     </BaseIcon>
-  );
+  )
 }
 
-export function TuningIcon(props) {
+export function TuningIcon (props) {
   return (
     <BaseIcon {...props} fill="currentColor" viewBox="0 0 20 20">
       <path
@@ -348,18 +348,18 @@ export function TuningIcon(props) {
         id="Combined-Shape"
       ></path>
     </BaseIcon>
-  );
+  )
 }
 
-export function SwapIcon(props) {
+export function SwapIcon (props) {
   return (
     <BaseIcon {...props} fill="currentColor" viewBox="0 0 20 20">
       <path d="M9 6a4 4 0 1 1 8 0v8h3l-4 4-4-4h3V6a2 2 0 0 0-2-2 2 2 0 0 0-2 2v8a4 4 0 1 1-8 0V6H0l4-4 4 4H5v8a2 2 0 0 0 2 2 2 2 0 0 0 2-2V6z"></path>
     </BaseIcon>
-  );
+  )
 }
 
-export function SendIcon(props) {
+export function SendIcon (props) {
   return (
     <BaseIcon {...props} fill="currentColor" viewBox="0 0 20 20">
       <path
@@ -367,10 +367,10 @@ export function SendIcon(props) {
         id="Combined-Shape"
       ></path>
     </BaseIcon>
-  );
+  )
 }
 
-export function SaveDiskIcon(props) {
+export function SaveDiskIcon (props) {
   return (
     <BaseIcon {...props} fill="currentColor" viewBox="0 0 20 20">
       <path
@@ -378,10 +378,10 @@ export function SaveDiskIcon(props) {
         id="Combined-Shape"
       ></path>
     </BaseIcon>
-  );
+  )
 }
 
-export function UserIcon(props) {
+export function UserIcon (props) {
   return (
     <BaseIcon {...props} fill="currentColor" viewBox="0 0 20 20">
       <path
@@ -389,10 +389,10 @@ export function UserIcon(props) {
         id="Combined-Shape"
       ></path>
     </BaseIcon>
-  );
+  )
 }
 
-export function UserWalkIcon(props) {
+export function UserWalkIcon (props) {
   return (
     <BaseIcon {...props} fill="currentColor" viewBox="0 0 20 20">
       <path
@@ -400,10 +400,10 @@ export function UserWalkIcon(props) {
         id="Combined-Shape"
       ></path>
     </BaseIcon>
-  );
+  )
 }
 
-export function PlusIcon(props) {
+export function PlusIcon (props) {
   return (
     <BaseIcon
       {...props}
@@ -415,10 +415,10 @@ export function PlusIcon(props) {
     >
       <path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"></path>
     </BaseIcon>
-  );
+  )
 }
 
-export function DeleteForever(props) {
+export function DeleteForever (props) {
   return (
     <BaseIcon
       {...props}
@@ -431,10 +431,10 @@ export function DeleteForever(props) {
       <path fill="none" d="M0 0h24v24H0V0z"></path>
       <path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zm2.46-7.12l1.41-1.41L12 12.59l2.12-2.12 1.41 1.41L13.41 14l2.12 2.12-1.41 1.41L12 15.41l-2.12 2.12-1.41-1.41L10.59 14l-2.13-2.12zM15.5 4l-1-1h-5l-1 1H5v2h14V4z"></path>
     </BaseIcon>
-  );
+  )
 }
 
-export function DeleteForeverRounded(props) {
+export function DeleteForeverRounded (props) {
   return (
     <BaseIcon
       fill="currentColor"
@@ -445,10 +445,10 @@ export function DeleteForeverRounded(props) {
     >
       <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm5 11H7v-2h10v2z"></path>
     </BaseIcon>
-  );
+  )
 }
 
-export function HomeIcon(props) {
+export function HomeIcon (props) {
   return (
     <BaseIcon {...props} fill="currentColor" viewBox="0 0 20 20">
       <path
@@ -456,10 +456,10 @@ export function HomeIcon(props) {
         id="Combined-Shape"
       ></path>
     </BaseIcon>
-  );
+  )
 }
 
-export function BuildingIcon(props) {
+export function BuildingIcon (props) {
   return (
     <BaseIcon {...props} fill="currentColor" viewBox="0 0 20 20">
       <path
@@ -468,18 +468,18 @@ export function BuildingIcon(props) {
         clipRule="evenodd"
       />
     </BaseIcon>
-  );
+  )
 }
 
-export function CheckmarkIcon(props) {
+export function CheckmarkIcon (props) {
   return (
     <BaseIcon {...props} fill="currentColor" viewBox="0 0 20 20">
       <polygon id="Path-126" points="0 11 2 9 7 14 18 3 20 5 7 18"></polygon>
     </BaseIcon>
-  );
+  )
 }
 
-export function PinIcon(props) {
+export function PinIcon (props) {
   return (
     <BaseIcon {...props} fill="currentColor" viewBox="0 0 20 20">
       <path
@@ -487,10 +487,10 @@ export function PinIcon(props) {
         id="Combined-Shape"
       ></path>
     </BaseIcon>
-  );
+  )
 }
 
-export function EnvelopeIcon(props) {
+export function EnvelopeIcon (props) {
   return (
     <BaseIcon {...props} fill="currentColor" viewBox="0 0 20 20">
       <path
@@ -498,10 +498,10 @@ export function EnvelopeIcon(props) {
         id="Combined-Shape"
       ></path>
     </BaseIcon>
-  );
+  )
 }
 
-export function SaveIcon(props) {
+export function SaveIcon (props) {
   return (
     <BaseIcon
       {...props}
@@ -514,10 +514,10 @@ export function SaveIcon(props) {
     >
       <path d="M17 3H5c-1.11 0-2 .9-2 2v14c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V7l-4-4zm-5 16c-1.66 0-3-1.34-3-3s1.34-3 3-3 3 1.34 3 3-1.34 3-3 3zm3-10H5V5h10v4z"></path>
     </BaseIcon>
-  );
+  )
 }
 
-export function EditIcon(props) {
+export function EditIcon (props) {
   return (
     <BaseIcon
       {...props}
@@ -529,10 +529,10 @@ export function EditIcon(props) {
     >
       <path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04c.39-.39.39-1.02 0-1.41l-2.34-2.34a.9959.9959 0 0 0-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z"></path>
     </BaseIcon>
-  );
+  )
 }
 
-export function CheckIcon(props) {
+export function CheckIcon (props) {
   return (
     <BaseIcon
       {...props}
@@ -544,10 +544,10 @@ export function CheckIcon(props) {
     >
       <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"></path>
     </BaseIcon>
-  );
+  )
 }
 
-export function FilterFramesIcon(props) {
+export function FilterFramesIcon (props) {
   return (
     <BaseIcon
       {...props}
@@ -559,10 +559,10 @@ export function FilterFramesIcon(props) {
     >
       <path d="M5 13h14v-2H5v2zm-2 4h14v-2H3v2zM7 7v2h14V7H7z"></path>
     </BaseIcon>
-  );
+  )
 }
 
-export function ClearAll(props) {
+export function ClearAll (props) {
   return (
     <BaseIcon
       {...props}
@@ -574,10 +574,10 @@ export function ClearAll(props) {
     >
       <path d="M5 13h14v-2H5v2zm-2 4h14v-2H3v2zM7 7v2h14V7H7z"></path>
     </BaseIcon>
-  );
+  )
 }
 
-export function VisibilityRounded(props) {
+export function VisibilityRounded (props) {
   return (
     <BaseIcon
       {...props}
@@ -590,10 +590,10 @@ export function VisibilityRounded(props) {
       <path fill="none" d="M0 0h24v24H0V0z"></path>
       <path d="M12 4C7 4 2.73 7.11 1 11.5 2.73 15.89 7 19 12 19s9.27-3.11 11-7.5C21.27 7.11 17 4 12 4zm0 12.5c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5zm0-8c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z"></path>
     </BaseIcon>
-  );
+  )
 }
 
-export function EmailIcon(props) {
+export function EmailIcon (props) {
   return (
     <BaseIcon
       {...props}
@@ -605,10 +605,10 @@ export function EmailIcon(props) {
     >
       <path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"></path>
     </BaseIcon>
-  );
+  )
 }
 
-export function Pause(props) {
+export function Pause (props) {
   return (
     <BaseIcon
       {...props}
@@ -620,10 +620,10 @@ export function Pause(props) {
     >
       <path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"></path>
     </BaseIcon>
-  );
+  )
 }
 
-export function TourIcon(props) {
+export function TourIcon (props) {
   return (
     <BaseIcon
       {...props}
@@ -635,10 +635,10 @@ export function TourIcon(props) {
     >
       <path d="M20 4h-4l-4-4-4 4H4c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 16H4V6h4.52l3.52-3.5L15.52 6H20v14zM18 8H6v10h12"></path>
     </BaseIcon>
-  );
+  )
 }
 
-export function MessageIcon(props) {
+export function MessageIcon (props) {
   return (
     <BaseIcon
       {...props}
@@ -650,10 +650,10 @@ export function MessageIcon(props) {
     >
       <path d="M20 2H4c-1.1 0-1.99.9-1.99 2L2 22l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm-2 12H6v-2h12v2zm0-3H6V9h12v2zm0-3H6V6h12v2z"></path>
     </BaseIcon>
-  );
+  )
 }
 
-export function DeleteOutlineRounded(props) {
+export function DeleteOutlineRounded (props) {
   return (
     <BaseIcon
       {...props}
@@ -666,10 +666,10 @@ export function DeleteOutlineRounded(props) {
       <path fill="none" d="M0 0h24v24H0V0z"></path>
       <path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V9c0-1.1-.9-2-2-2H8c-1.1 0-2 .9-2 2v10zM9 9h6c.55 0 1 .45 1 1v8c0 .55-.45 1-1 1H9c-.55 0-1-.45-1-1v-8c0-.55.45-1 1-1zm6.5-5l-.71-.71c-.18-.18-.44-.29-.7-.29H9.91c-.26 0-.52.11-.7.29L8.5 4H6c-.55 0-1 .45-1 1s.45 1 1 1h12c.55 0 1-.45 1-1s-.45-1-1-1h-2.5z"></path>
     </BaseIcon>
-  );
+  )
 }
 
-export function SendkkkIcon(props) {
+export function SendkkkIcon (props) {
   return (
     <BaseIcon
       {...props}
@@ -682,10 +682,10 @@ export function SendkkkIcon(props) {
       <path fill="none" d="M0 0h24v24H0V0z"></path>
       <path d="M3.4 20.4l17.45-7.48c.81-.35.81-1.49 0-1.84L3.4 3.6c-.66-.29-1.39.2-1.39.91L2 9.12c0 .5.37.93.87.99L17 12 2.87 13.88c-.5.07-.87.5-.87 1l.01 4.61c0 .71.73 1.2 1.39.91z"></path>
     </BaseIcon>
-  );
+  )
 }
 
-export function DeleteIcon(props) {
+export function DeleteIcon (props) {
   return (
     <BaseIcon {...props} fill="currentColor" viewBox="0 0 20 20">
       <path
@@ -694,10 +694,10 @@ export function DeleteIcon(props) {
         clipRule="evenodd"
       ></path>
     </BaseIcon>
-  );
+  )
 }
 
-export function CheckCircle(props) {
+export function CheckCircle (props) {
   return (
     <BaseIcon
       {...props}
@@ -708,10 +708,10 @@ export function CheckCircle(props) {
     >
       <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"></path>
     </BaseIcon>
-  );
+  )
 }
 
-export function DragHandle(props) {
+export function DragHandle (props) {
   return (
     <BaseIcon
       {...props}
@@ -726,10 +726,10 @@ export function DragHandle(props) {
       </defs>
       <path d="M20 9H4v2h16V9zM4 15h16v-2H4v2z"></path>
     </BaseIcon>
-  );
+  )
 }
 
-export function AddIcon(props) {
+export function AddIcon (props) {
   return (
     <BaseIcon {...props} fill="currentColor" viewBox="0 0 20 20">
       <path
@@ -737,10 +737,10 @@ export function AddIcon(props) {
         id="Shape"
       ></path>
     </BaseIcon>
-  );
+  )
 }
 
-export function CloseIcon(props) {
+export function CloseIcon (props) {
   return (
     <BaseIcon viewBox="0 0 20 20">
       <path
@@ -748,10 +748,10 @@ export function CloseIcon(props) {
         id="Combined-Shape-Copy"
       ></path>
     </BaseIcon>
-  );
+  )
 }
 
-export function MoreIcon(props) {
+export function MoreIcon (props) {
   return (
     <BaseIcon
       {...props}
@@ -761,10 +761,10 @@ export function MoreIcon(props) {
     >
       <path d="M10 6a2 2 0 110-4 2 2 0 010 4zM10 12a2 2 0 110-4 2 2 0 010 4zM10 18a2 2 0 110-4 2 2 0 010 4z"></path>
     </BaseIcon>
-  );
+  )
 }
 
-export function WebhooksIcon(props) {
+export function WebhooksIcon (props) {
   return (
     <BaseIcon
       {...props}
@@ -777,10 +777,10 @@ export function WebhooksIcon(props) {
     >
       <path d="M10.46 19C9 21.07 6.15 21.59 4.09 20.15c-2.05-1.44-2.53-4.31-1.09-6.4a4.585 4.585 0 013.58-1.98l.05 1.43c-.91.07-1.79.54-2.36 1.36-1 1.44-.69 3.38.68 4.35 1.38.96 3.31.59 4.31-.84.31-.45.49-.94.56-1.44v-1.01l5.58-.04.07-.11c.53-.92 1.68-1.24 2.58-.72a1.9 1.9 0 01.68 2.6c-.53.91-1.69 1.23-2.59.71-.41-.23-.7-.6-.83-1.02l-4.07.02a4.96 4.96 0 01-.78 1.94m7.28-7.14c2.53.31 4.33 2.58 4.02 5.07-.31 2.5-2.61 4.27-5.14 3.96a4.629 4.629 0 01-3.43-2.21l1.24-.72a3.22 3.22 0 002.32 1.45c1.75.21 3.3-.98 3.51-2.65.21-1.67-1.03-3.2-2.76-3.41-.54-.06-1.06.01-1.53.18l-.85.44-2.58-4.77h-.22a1.906 1.906 0 01-1.85-1.95c.03-1.04.93-1.85 1.98-1.81 1.05.06 1.88.91 1.85 1.95-.02.44-.19.84-.46 1.15l1.9 3.51c.62-.2 1.3-.27 2-.19M8.25 9.14c-1-2.35.06-5.04 2.37-6.02 2.32-.98 5 .13 6 2.48.59 1.37.47 2.87-.2 4.07l-1.24-.72c.42-.81.49-1.8.09-2.73-.68-1.6-2.49-2.37-4.04-1.72-1.56.66-2.26 2.5-1.58 4.1.28.66.75 1.17 1.32 1.51l.39.21-3.07 4.99c.03.05.07.11.1.19.49.91.15 2.06-.77 2.55-.91.49-2.06.13-2.56-.81-.49-.93-.15-2.08.77-2.57.39-.21.82-.26 1.23-.17l2.31-3.77c-.47-.43-.87-.97-1.12-1.59z"></path>
     </BaseIcon>
-  );
+  )
 }
 
-export function IntegrationsIcon(props) {
+export function IntegrationsIcon (props) {
   return (
     <BaseIcon
       {...props}
@@ -792,10 +792,10 @@ export function IntegrationsIcon(props) {
     >
       <path d="M13 13v8h8v-8h-8zM3 21h8v-8H3v8zM3 3v8h8V3H3zm13.66-1.31L11 7.34 16.66 13l5.66-5.66-5.66-5.65z"></path>
     </BaseIcon>
-  );
+  )
 }
 
-export function TeamIcon(props) {
+export function TeamIcon (props) {
   return (
     <BaseIcon
       {...props}
@@ -807,10 +807,10 @@ export function TeamIcon(props) {
     >
       <path d="M11.99 2c-5.52 0-10 4.48-10 10s4.48 10 10 10 10-4.48 10-10-4.48-10-10-10zm3.61 6.34c1.07 0 1.93.86 1.93 1.93 0 1.07-.86 1.93-1.93 1.93-1.07 0-1.93-.86-1.93-1.93-.01-1.07.86-1.93 1.93-1.93zm-6-1.58c1.3 0 2.36 1.06 2.36 2.36 0 1.3-1.06 2.36-2.36 2.36s-2.36-1.06-2.36-2.36c0-1.31 1.05-2.36 2.36-2.36zm0 9.13v3.75c-2.4-.75-4.3-2.6-5.14-4.96 1.05-1.12 3.67-1.69 5.14-1.69.53 0 1.2.08 1.9.22-1.64.87-1.9 2.02-1.9 2.68zM11.99 20c-.27 0-.53-.01-.79-.04v-4.07c0-1.42 2.94-2.13 4.4-2.13 1.07 0 2.92.39 3.84 1.15-1.17 2.97-4.06 5.09-7.45 5.09z"></path>
     </BaseIcon>
-  );
+  )
 }
 
-export function SettingsIcon(props) {
+export function SettingsIcon (props) {
   return (
     <BaseIcon
       {...props}
@@ -826,5 +826,5 @@ export function SettingsIcon(props) {
         d="M15.95 10.78c.03-.25.05-.51.05-.78s-.02-.53-.06-.78l1.69-1.32c.15-.12.19-.34.1-.51l-1.6-2.77c-.1-.18-.31-.24-.49-.18l-1.99.8c-.42-.32-.86-.58-1.35-.78L12 2.34c-.03-.2-.2-.34-.4-.34H8.4c-.2 0-.36.14-.39.34l-.3 2.12c-.49.2-.94.47-1.35.78l-1.99-.8c-.18-.07-.39 0-.49.18l-1.6 2.77c-.1.18-.06.39.1.51l1.69 1.32c-.04.25-.07.52-.07.78s.02.53.06.78L2.37 12.1c-.15.12-.19.34-.1.51l1.6 2.77c.1.18.31.24.49.18l1.99-.8c.42.32.86.58 1.35.78l.3 2.12c.04.2.2.34.4.34h3.2c.2 0 .37-.14.39-.34l.3-2.12c.49-.2.94-.47 1.35-.78l1.99.8c.18.07.39 0 .49-.18l1.6-2.77c.1-.18.06-.39-.1-.51l-1.67-1.32zM10 13c-1.65 0-3-1.35-3-3s1.35-3 3-3 3 1.35 3 3-1.35 3-3 3z"
       ></path>
     </BaseIcon>
-  );
+  )
 }

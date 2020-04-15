@@ -1,6 +1,6 @@
-import React from "react";
+import React from 'react'
 
-export default function Content({ children, actions }) {
+export default function Content ({ children, actions }) {
   return (
     <main className="flex-1 relative z-0 overflow-y-auto pt-2 pb-6 focus:outline-none md:py-6">
       {/* <div className="max-w-7xl mx-auto px-4 sm:px-6 md:px-8">
@@ -17,5 +17,5 @@ export default function Content({ children, actions }) {
         </div>
       </div>
     </main>
-  );
+  )
 }

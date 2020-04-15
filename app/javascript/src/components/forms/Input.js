@@ -1,21 +1,21 @@
-import React from "react";
-import Select from "react-select";
-import Button from "../Button";
-import { isArray } from "lodash";
-import DatePicker from "react-datepicker";
-import { ColorPicker } from "./ColorPicker";
-import "react-datepicker/dist/react-datepicker.css";
+import React from 'react'
+import Select from 'react-select'
+import Button from '../Button'
+import { isArray } from 'lodash'
+import DatePicker from 'react-datepicker'
+import { ColorPicker } from './ColorPicker'
+import 'react-datepicker/dist/react-datepicker.css'
 
-function borderColor(error) {
+function borderColor (error) {
   if (error) {
-    return "red";
+    return 'red'
   }
   if (!error) {
-    return "gray";
+    return 'gray'
   }
 }
 
-const WrappedComponent = React.forwardRef(function Input(
+const WrappedComponent = React.forwardRef(function Input (
   {
     label,
     name,
@@ -31,7 +31,7 @@ const WrappedComponent = React.forwardRef(function Input(
   },
   ref
 ) {
-  function renderText() {
+  function renderText () {
     return (
       <FormField
         name={name}
@@ -55,24 +55,24 @@ const WrappedComponent = React.forwardRef(function Input(
           ref={ref}
         />
       </FormField>
-    );
+    )
   }
 
-  function renderSelect() {
+  function renderSelect () {
     const initialValue =
       props.data && props.data.multiple
         ? isArray(defaultValue)
           ? defaultValue.map((o) => ({ label: o, value: o }))
           : defaultValue
-        : defaultValue;
+        : defaultValue
 
-    const isMulti = props.data && props.data.multiple;
+    const isMulti = props.data && props.data.multiple
     return (
       <FormField name={name} label={label} helperText={helperText}>
         <Select
           isMulti={isMulti}
           options={props.options}
-          name={`${name}${props.data && props.data.multiple ? "[]" : ""}`}
+          name={`${name}${props.data && props.data.multiple ? '[]' : ''}`}
           // inputProps={{ name: name }}
           value={value}
           defaultValue={initialValue}
@@ -80,10 +80,10 @@ const WrappedComponent = React.forwardRef(function Input(
           ref={ref}
         />
       </FormField>
-    );
+    )
   }
 
-  function renderCheckbox() {
+  function renderCheckbox () {
     return (
       <div>
         <div className="flex items-center">
@@ -111,11 +111,11 @@ const WrappedComponent = React.forwardRef(function Input(
           <p className="mt-2 text-sm text-gray-500">{helperText}</p>
         )}
       </div>
-    );
+    )
   }
 
-  function renderUpload() {
-    const ref = React.createRef();
+  function renderUpload () {
+    const ref = React.createRef()
     return (
       <FormField
         name={name}
@@ -127,7 +127,7 @@ const WrappedComponent = React.forwardRef(function Input(
 
         <input
           accept="image/*"
-          style={{ display: "none" }}
+          style={{ display: 'none' }}
           name={name}
           ref={ref}
           onChange={(e) => handler(e.currentTarget.files[0])}
@@ -140,18 +140,18 @@ const WrappedComponent = React.forwardRef(function Input(
             variant="contained"
             component="span"
             onClick={(e) => {
-              e.preventDefault();
-              ref.current && ref.current.click();
+              e.preventDefault()
+              ref.current && ref.current.click()
             }}
           >
             Upload {label}
           </Button>
         </label>
       </FormField>
-    );
+    )
   }
 
-  function renderRadioButton() {
+  function renderRadioButton () {
     return (
       <label className="inline-flex items-center">
         <input
@@ -173,38 +173,38 @@ const WrappedComponent = React.forwardRef(function Input(
           )}
         </div>
       </label>
-    );
+    )
   }
 
-  function handeRenderType() {
+  function handeRenderType () {
     switch (type) {
-      case "text":
-      case "string":
-      case "password":
-        return renderText();
-      case "textarea":
-        return renderTextArea();
-      case "checkbox":
-      case "bool":
-        return renderCheckbox();
-      case "select":
-        return renderSelect();
-      case "radio":
-        return renderRadioButton();
-      case "timezone":
-        return renderTimezone();
-      case "upload":
-        return renderUpload();
-      case "datetime":
-        return renderDatetime();
-      case "color":
-        return renderColor();
+      case 'text':
+      case 'string':
+      case 'password':
+        return renderText()
+      case 'textarea':
+        return renderTextArea()
+      case 'checkbox':
+      case 'bool':
+        return renderCheckbox()
+      case 'select':
+        return renderSelect()
+      case 'radio':
+        return renderRadioButton()
+      case 'timezone':
+        return renderTimezone()
+      case 'upload':
+        return renderUpload()
+      case 'datetime':
+        return renderDatetime()
+      case 'color':
+        return renderColor()
       default:
-        return <p>nada {type}</p>;
+        return <p>nada {type}</p>
     }
   }
 
-  function renderTextArea() {
+  function renderTextArea () {
     return (
       <div className="mt-6">
         {label && (
@@ -236,39 +236,39 @@ const WrappedComponent = React.forwardRef(function Input(
           <p className="mt-2 text-sm text-gray-500">{helperText}</p>
         )}
       </div>
-    );
+    )
   }
 
-  function renderTimezone() {
-    const names = props.options.map((o) => ({ label: o, value: o }));
-    const defaultTZ = Intl.DateTimeFormat().resolvedOptions().timeZone;
+  function renderTimezone () {
+    const names = props.options.map((o) => ({ label: o, value: o }))
+    const defaultTZ = Intl.DateTimeFormat().resolvedOptions().timeZone
     return (
       <FormField name={name} label={label} helperText={helperText}>
         <Select
           options={names}
           label={label}
           defaultData={name || defaultTZ}
-          placeholder={"select timezone"}
+          placeholder={'select timezone'}
           name={name}
           ref={ref}
         />
       </FormField>
-    );
+    )
   }
 
-  function renderColor() {
+  function renderColor () {
     return (
       <ColorPicker
         color={value}
         colorHandler={props.onChange}
-        label={"Primary color"}
+        label={'Primary color'}
         error={error}
       />
-    );
+    )
   }
 
-  function renderDatetime() {
-    const val = value || defaultValue;
+  function renderDatetime () {
+    const val = value || defaultValue
 
     return (
       <FormField
@@ -284,19 +284,19 @@ const WrappedComponent = React.forwardRef(function Input(
           onChange={props.onChange}
         />
       </FormField>
-    );
+    )
   }
 
   return (
-    <div className={`mb-4 ${props.className ? props.className : ""}`}>
+    <div className={`mb-4 ${props.className ? props.className : ''}`}>
       {handeRenderType()}
     </div>
-  );
-});
+  )
+})
 
-export default WrappedComponent;
+export default WrappedComponent
 
-function FormField({ name, label, helperText, children, error }) {
+function FormField ({ name, label, helperText, children, error }) {
   return (
     <React.Fragment>
       <label
@@ -308,15 +308,15 @@ function FormField({ name, label, helperText, children, error }) {
       {children}
       {helperText && helperText}
     </React.Fragment>
-  );
+  )
 }
 
-function DatePickerWrapper({ val, name, onChange, error }) {
-  const [value, setValue] = React.useState(val);
+function DatePickerWrapper ({ val, name, onChange, error }) {
+  const [value, setValue] = React.useState(val)
 
-  function handleChange(val) {
-    setValue(val);
-    onChange && onChange(val);
+  function handleChange (val) {
+    setValue(val)
+    onChange && onChange(val)
   }
 
   return (
@@ -340,5 +340,5 @@ function DatePickerWrapper({ val, name, onChange, error }) {
       // ]}
       dateFormat="MMMM d, yyyy h:mm aa"
     />
-  );
+  )
 }

@@ -1,74 +1,74 @@
-import React, { useState } from "react";
-import { useTransition, animated } from "react-spring";
-import { withRouter } from "react-router-dom";
-import { connect } from "react-redux";
-import { isEmpty } from "lodash";
+import React, { useState } from 'react'
+import { useTransition, animated } from 'react-spring'
+import { withRouter } from 'react-router-dom'
+import { connect } from 'react-redux'
+import { isEmpty } from 'lodash'
 
-import { clearStatusMessage } from "../actions/status_messages";
+import { clearStatusMessage } from '../actions/status_messages'
 
-function CustomizedSnackbars(props) {
-  const [open, setOpen] = React.useState(!isEmpty(props.status_message));
+function CustomizedSnackbars (props) {
+  const [open, setOpen] = React.useState(!isEmpty(props.status_message))
 
-  function handleClick() {
-    setOpen(true);
+  function handleClick () {
+    setOpen(true)
   }
 
-  function handleClose(event, reason) {
-    if (reason === "clickaway") {
-      return;
+  function handleClose (event, reason) {
+    if (reason === 'clickaway') {
+      return
     }
 
-    props.dispatch(clearStatusMessage());
+    props.dispatch(clearStatusMessage())
 
-    setOpen(false);
+    setOpen(false)
   }
 
   React.useEffect(() => {
-    setOpen(!isEmpty(props.status_message));
-  }, [props]);
+    setOpen(!isEmpty(props.status_message))
+  }, [props])
 
-  function getPlacement() {
+  function getPlacement () {
     return (
       props.status_message.placement || {
-        vertical: "bottom",
-        horizontal: "left",
+        vertical: 'bottom',
+        horizontal: 'left'
       }
-    );
+    )
   }
 
-  function placementClass() {
-    let vertical = "end";
-    let horizontal = "end";
+  function placementClass () {
+    let vertical = 'end'
+    let horizontal = 'end'
 
     switch (getPlacement().vertical) {
-      case "bottom":
-        vertical = "end";
-        break;
-      case "top":
-        vertical = "start";
-        break;
-      case "center":
-        vertical = "center";
-        break;
+      case 'bottom':
+        vertical = 'end'
+        break
+      case 'top':
+        vertical = 'start'
+        break
+      case 'center':
+        vertical = 'center'
+        break
       default:
-        break;
+        break
     }
 
     switch (getPlacement().horizontal) {
-      case "left":
-        horizontal = "end";
-        break;
-      case "right":
-        horizontal = "start";
-        break;
-      case "center":
-        horizontal = "center";
-        break;
+      case 'left':
+        horizontal = 'end'
+        break
+      case 'right':
+        horizontal = 'start'
+        break
+      case 'center':
+        horizontal = 'center'
+        break
       default:
-        break;
+        break
     }
 
-    return `sm:items-${vertical} sm:justify-${horizontal}`;
+    return `sm:items-${vertical} sm:justify-${horizontal}`
   }
 
   return (
@@ -83,20 +83,20 @@ function CustomizedSnackbars(props) {
         />
       )}
     </div>
-  );
+  )
 }
 
-function Alert({ title, message, status, onClose, placementClass }) {
-  const [items, set] = useState([1]);
+function Alert ({ title, message, status, onClose, placementClass }) {
+  const [items, set] = useState([1])
   const transitions = useTransition(items, (item) => item.key, {
-    from: { transform: "translate3d(0,-40px,0)" },
-    enter: { transform: "translate3d(0,0px,0)" },
-    leave: { transform: "translate3d(0,-40px,0)" },
-  });
+    from: { transform: 'translate3d(0,-40px,0)' },
+    enter: { transform: 'translate3d(0,0px,0)' },
+    leave: { transform: 'translate3d(0,-40px,0)' }
+  })
 
-  function statusIcon() {
+  function statusIcon () {
     switch (status) {
-      case "success":
+      case 'success':
         return (
           <svg
             className="h-6 w-6 text-green-400"
@@ -111,13 +111,13 @@ function Alert({ title, message, status, onClose, placementClass }) {
               d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
             />
           </svg>
-        );
+        )
       default:
-        return <p>nu</p>;
+        return <p>nu</p>
     }
   }
 
-  function transitionsClasses(status) {
+  function transitionsClasses (status) {
     // x-show="show" x-transition:enter="transform ease-out duration-300 transition"
     // x-transition:enter-start="translate-y-2 opacity-0 sm:translate-y-0 sm:translate-x-2"
     // x-transition:enter-end="translate-y-0 opacity-100 sm:translate-x-0"
@@ -152,7 +152,7 @@ function Alert({ title, message, status, onClose, placementClass }) {
           // x-transition:leave-end="opacity-0"
           key={key}
           className={
-            "max-w-sm w-full bg-white shadow-lg rounded-lg pointer-events-auto"
+            'max-w-sm w-full bg-white shadow-lg rounded-lg pointer-events-auto'
           }
         >
           <div className="rounded-lg shadow-xs overflow-hidden">
@@ -192,14 +192,14 @@ function Alert({ title, message, status, onClose, placementClass }) {
         </animated.div>
       ))}
     </div>
-  );
+  )
 }
 
-function mapStateToProps(state) {
-  const { status_message } = state;
+function mapStateToProps (state) {
+  const { status_message } = state
   return {
-    status_message,
-  };
+    status_message
+  }
 }
 
-export default connect(mapStateToProps)(CustomizedSnackbars);
+export default connect(mapStateToProps)(CustomizedSnackbars)

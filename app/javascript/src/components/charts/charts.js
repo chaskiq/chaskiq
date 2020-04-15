@@ -1,20 +1,20 @@
-import React, { Component } from "react";
-import { ResponsivePie } from "@nivo/pie";
+import React, { Component } from 'react'
+import { ResponsivePie } from '@nivo/pie'
 // import { useTheme } from '@material-ui/core/styles';
 
 // make sure parent container have a defined height when using responsive component,
 // otherwise height will be 0 and no chart will be rendered.
 // website examples showcase many properties, you'll often use just a few of them.
-export default function CampaignPie({ data }) {
+export default function CampaignPie ({ data }) {
   // const theme = useTheme();
 
   const theme = {
     palette: {
       primary: {
-        light: "#ff000",
-      },
-    },
-  };
+        light: '#ff000'
+      }
+    }
+  }
 
   return (
     <ResponsivePie
@@ -23,7 +23,7 @@ export default function CampaignPie({ data }) {
         top: 10,
         right: 10,
         bottom: 80,
-        left: 10,
+        left: 10
       }}
       startAngle={-180}
       endAngle={280}
@@ -32,7 +32,7 @@ export default function CampaignPie({ data }) {
       cornerRadius={3}
       colors="dark2"
       colorBy={function (e) {
-        return e.color;
+        return e.color
       }}
       // colorBy="id"
       borderWidth={0}
@@ -45,62 +45,62 @@ export default function CampaignPie({ data }) {
       motionDamping={15}
       defs={[
         {
-          id: "dots",
-          type: "patternDots",
-          background: "inherit",
-          color: "rgba(255, 255, 255, 0.3)",
+          id: 'dots',
+          type: 'patternDots',
+          background: 'inherit',
+          color: 'rgba(255, 255, 255, 0.3)',
           size: 4,
           padding: 1,
-          stagger: true,
+          stagger: true
         },
         {
-          id: "lines",
-          type: "patternLines",
-          background: "inherit",
-          color: "rgba(255, 255, 255, 0.3)",
+          id: 'lines',
+          type: 'patternLines',
+          background: 'inherit',
+          color: 'rgba(255, 255, 255, 0.3)',
           rotation: -45,
           lineWidth: 6,
-          spacing: 10,
-        },
+          spacing: 10
+        }
       ]}
       theme={{
         legends: {
           text: {
-            fill: theme.palette.primary.light,
-          },
+            fill: theme.palette.primary.light
+          }
         },
         tooltip: {
           container: {
-            background: "white",
-            color: "black",
-            fontSize: "inherit",
-            borderRadius: "2px",
-            boxShadow: "0 1px 2px rgba(0, 0, 0, 0.25)",
-            padding: "5px 9px",
+            background: 'white',
+            color: 'black',
+            fontSize: 'inherit',
+            borderRadius: '2px',
+            boxShadow: '0 1px 2px rgba(0, 0, 0, 0.25)',
+            padding: '5px 9px'
           },
           basic: {
-            whiteSpace: "pre",
-            display: "flex",
-            alignItems: "center",
+            whiteSpace: 'pre',
+            display: 'flex',
+            alignItems: 'center'
           },
           table: {},
           tableCell: {
-            padding: "3px 5px",
-          },
-        },
+            padding: '3px 5px'
+          }
+        }
       }}
       legends={[
         {
-          anchor: "bottom",
-          direction: "row",
+          anchor: 'bottom',
+          direction: 'row',
           translateY: 56,
           itemWidth: 100,
           itemHeight: 18,
           symbolSize: 18,
-          symbolShape: "circle",
-          textColor: theme.palette.primary.light,
-        },
+          symbolShape: 'circle',
+          textColor: theme.palette.primary.light
+        }
       ]}
     />
-  );
+  )
 }

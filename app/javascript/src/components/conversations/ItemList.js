@@ -1,20 +1,20 @@
-import React from "react";
-import { Link } from "react-router-dom";
-import sanitizeHtml from "sanitize-html";
-import Moment from "react-moment";
+import React from 'react'
+import { Link } from 'react-router-dom'
+import sanitizeHtml from 'sanitize-html'
+import Moment from 'react-moment'
 
-export default function ConversationItemList({ app, conversation }) {
+export default function ConversationItemList ({ app, conversation }) {
   const renderConversationContent = (o) => {
-    const message = o.lastMessage.message;
+    const message = o.lastMessage.message
     if (message.htmlContent) {
-      return sanitizeHtml(message.htmlContent).substring(0, 250);
+      return sanitizeHtml(message.htmlContent).substring(0, 250)
     }
-  };
+  }
 
-  const user = conversation.mainParticipant;
-  const message = conversation.lastMessage;
-  const participant = conversation.mainParticipant;
-  const appUser = message.appUser;
+  const user = conversation.mainParticipant
+  const message = conversation.lastMessage
+  const participant = conversation.mainParticipant
+  const appUser = message.appUser
   return (
     <Link
       to={`/apps/${app.key}/conversations/${conversation.key}`}
@@ -56,7 +56,7 @@ export default function ConversationItemList({ app, conversation }) {
 
               <span
                 dangerouslySetInnerHTML={{
-                  __html: renderConversationContent(conversation),
+                  __html: renderConversationContent(conversation)
                 }}
               />
             </div>
@@ -64,5 +64,5 @@ export default function ConversationItemList({ app, conversation }) {
         </div>
       </div>
     </Link>
-  );
+  )
 }

@@ -1,40 +1,40 @@
-import React from "react";
-import graphql from "../../graphql/client";
-import { SEARCH_ARTICLES } from "../../graphql/docsQueries";
-import List, { ListItem, ListItemText } from "../../components/List";
-import { Link } from "react-router-dom";
+import React from 'react'
+import graphql from '../../graphql/client'
+import { SEARCH_ARTICLES } from '../../graphql/docsQueries'
+import List, { ListItem, ListItemText } from '../../components/List'
+import { Link } from 'react-router-dom'
 
-export default function CustomizedInputBase({ lang, history, subdomain }) {
-  const [results, setResults] = React.useState([]);
-  const [anchorEl, setAnchorEl] = React.useState(null);
+export default function CustomizedInputBase ({ lang, history, subdomain }) {
+  const [results, setResults] = React.useState([])
+  const [anchorEl, setAnchorEl] = React.useState(null)
 
-  function search(term) {
+  function search (term) {
     graphql(
       SEARCH_ARTICLES,
       {
         domain: subdomain,
         term: term,
         lang: lang,
-        page: 1,
+        page: 1
       },
       {
         success: (data) => {
-          setResults(data.helpCenter.search.collection);
+          setResults(data.helpCenter.search.collection)
         },
         error: () => {
-          debugger;
-        },
+          debugger
+        }
       }
-    );
+    )
   }
 
-  function handleReturn(e) {
-    e.persist();
+  function handleReturn (e) {
+    e.persist()
     // console.log(e.key)
-    if (e.key === "Enter") {
+    if (e.key === 'Enter') {
       // e.preventDefault()
-      search(e.target.value);
-      setAnchorEl(anchorEl ? null : e.target);
+      search(e.target.value)
+      setAnchorEl(anchorEl ? null : e.target)
     }
   }
 
@@ -88,5 +88,5 @@ export default function CustomizedInputBase({ lang, history, subdomain }) {
         </div>
       </div>
     </div>
-  );
+  )
 }

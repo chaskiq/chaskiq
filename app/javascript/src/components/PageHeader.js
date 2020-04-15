@@ -1,12 +1,12 @@
-import React from "react";
-import { Link } from "react-router-dom";
+import React from 'react'
+import { Link } from 'react-router-dom'
 
-export default function PageHeader({
+export default function PageHeader ({
   title,
   actionHandler,
   actionLabel,
   breadcrumbs,
-  actions,
+  actions
 }) {
   return (
     <div className="mb-5">
@@ -91,5 +91,5 @@ export default function PageHeader({
         </div>
       </div>
     </div>
-  );
+  )
 }

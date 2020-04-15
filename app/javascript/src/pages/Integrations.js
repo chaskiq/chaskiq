@@ -1,200 +1,200 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef } from 'react'
 
-import { camelizeKeys } from "../actions/conversation";
+import { camelizeKeys } from '../actions/conversation'
 
-import Progress from "../components/Progress";
-import Content from "../components/Content";
-import FormDialog from "../components/FormDialog";
-import DeleteDialog from "../components/DeleteDialog";
-import Tabs from "../components/Tabs";
-import PageHeader from "../components/PageHeader";
-import Panel from "../components/Panel";
-import Button from "../components/Button";
-import Badge from "../components/Badge";
-import FieldRenderer from "../components/forms/FieldRenderer";
+import Progress from '../components/Progress'
+import Content from '../components/Content'
+import FormDialog from '../components/FormDialog'
+import DeleteDialog from '../components/DeleteDialog'
+import Tabs from '../components/Tabs'
+import PageHeader from '../components/PageHeader'
+import Panel from '../components/Panel'
+import Button from '../components/Button'
+import Badge from '../components/Badge'
+import FieldRenderer from '../components/forms/FieldRenderer'
 
-import { EditIcon, AddIcon, DeleteIcon, HomeIcon } from "../components/icons";
+import { EditIcon, AddIcon, DeleteIcon, HomeIcon } from '../components/icons'
 import List, {
   ListItem,
   ListItemText,
   ItemListPrimaryContent,
   ItemListSecondaryContent,
-  ItemAvatar,
-} from "../components/List";
-import { errorMessage, successMessage } from "../actions/status_messages";
-import { setCurrentPage, setCurrentSection } from "../actions/navigation";
+  ItemAvatar
+} from '../components/List'
+import { errorMessage, successMessage } from '../actions/status_messages'
+import { setCurrentPage, setCurrentSection } from '../actions/navigation'
 
-import graphql from "../graphql/client";
-import { APP_PACKAGES, APP_PACKAGE_INTEGRATIONS } from "../graphql/queries";
+import graphql from '../graphql/client'
+import { APP_PACKAGES, APP_PACKAGE_INTEGRATIONS } from '../graphql/queries'
 import {
   CREATE_INTEGRATION,
   UPDATE_INTEGRATION,
-  DELETE_INTEGRATION,
-} from "../graphql/mutations";
-import { withRouter } from "react-router-dom";
-import { connect } from "react-redux";
-import serialize from "form-serialize";
+  DELETE_INTEGRATION
+} from '../graphql/mutations'
+import { withRouter } from 'react-router-dom'
+import { connect } from 'react-redux'
+import serialize from 'form-serialize'
 
-function Integrations({ app, dispatch }) {
-  const [open, setOpen] = useState(false);
-  const [services, setServices] = useState([]);
-  const [loading, setLoading] = useState(false);
-  const [integrations, setIntegrations] = useState([]);
-  const [tabValue, setTabValue] = useState(0);
-  const [openDeleteDialog, setOpenDeleteDialog] = useState(false);
-  const form = useRef(null);
+function Integrations ({ app, dispatch }) {
+  const [open, setOpen] = useState(false)
+  const [services, setServices] = useState([])
+  const [loading, setLoading] = useState(false)
+  const [integrations, setIntegrations] = useState([])
+  const [tabValue, setTabValue] = useState(0)
+  const [openDeleteDialog, setOpenDeleteDialog] = useState(false)
+  const form = useRef(null)
 
   useEffect(() => {
-    dispatch(setCurrentSection("Settings"));
-    dispatch(setCurrentPage("integrations"));
-  }, []);
+    dispatch(setCurrentSection('Settings'))
+    dispatch(setCurrentPage('integrations'))
+  }, [])
 
-  function getAppPackages() {
-    setLoading(true);
+  function getAppPackages () {
+    setLoading(true)
     graphql(
       APP_PACKAGES,
       {
-        appKey: app.key,
+        appKey: app.key
       },
       {
         success: (data) => {
-          setServices(data.app.appPackages);
-          setLoading(false);
+          setServices(data.app.appPackages)
+          setLoading(false)
         },
         error: () => {
-          setLoading(false);
-        },
+          setLoading(false)
+        }
       }
-    );
+    )
   }
 
-  function getAppPackageIntegration() {
-    setLoading(true);
+  function getAppPackageIntegration () {
+    setLoading(true)
     graphql(
       APP_PACKAGE_INTEGRATIONS,
       {
-        appKey: app.key,
+        appKey: app.key
       },
       {
         success: (data) => {
-          setIntegrations(data.app.appPackageIntegrations);
-          setLoading(false);
+          setIntegrations(data.app.appPackageIntegrations)
+          setLoading(false)
         },
         error: () => {
-          setLoading(false);
-        },
+          setLoading(false)
+        }
       }
-    );
+    )
   }
 
-  function handleOpen(service) {
-    setOpen(service);
+  function handleOpen (service) {
+    setOpen(service)
   }
 
-  function close() {
-    setOpen(false);
+  function close () {
+    setOpen(false)
   }
 
-  function submit() {
+  function submit () {
     const serializedData = serialize(form.current, {
       hash: true,
-      empty: true,
-    });
+      empty: true
+    })
 
     open.id
       ? updateIntegration(serializedData)
-      : createIntegration(serializedData);
+      : createIntegration(serializedData)
   }
 
-  function createIntegration(serializedData) {
+  function createIntegration (serializedData) {
     graphql(
       CREATE_INTEGRATION,
       {
         appKey: app.key,
         appPackage: open.name,
-        params: serializedData.app,
+        params: serializedData.app
       },
       {
         success: (data) => {
-          setTabValue(0);
+          setTabValue(0)
 
-          const integration = data.integrationsCreate.integration;
+          const integration = data.integrationsCreate.integration
           const newIntegrations = integrations.map((o) =>
             o.name === integration.name ? integration : o
-          );
-          setIntegrations(newIntegrations);
+          )
+          setIntegrations(newIntegrations)
 
-          setOpen(null);
-          dispatch(successMessage("integration created"));
+          setOpen(null)
+          dispatch(successMessage('integration created'))
         },
         error: () => {
-          dispatch(errorMessage("error linking integration"));
-        },
+          dispatch(errorMessage('error linking integration'))
+        }
       }
-    );
+    )
   }
 
-  function updateIntegration(serializedData) {
+  function updateIntegration (serializedData) {
     graphql(
       UPDATE_INTEGRATION,
       {
         appKey: app.key,
         appPackage: open.name,
         id: parseInt(open.id),
-        params: serializedData.app,
+        params: serializedData.app
       },
       {
         success: (data) => {
-          setTabValue(0);
-          const integration = data.integrationsUpdate.integration;
+          setTabValue(0)
+          const integration = data.integrationsUpdate.integration
           const newIntegrations = integrations.map((o) =>
             o.name === integration.name ? integration : o
-          );
-          setIntegrations(newIntegrations);
+          )
+          setIntegrations(newIntegrations)
           // getAppPackageIntegration()
-          setOpen(null);
-          dispatch(successMessage("integration updated"));
+          setOpen(null)
+          dispatch(successMessage('integration updated'))
         },
         error: () => {
-          dispatch(errorMessage("error updating integration"));
-        },
+          dispatch(errorMessage('error updating integration'))
+        }
       }
-    );
+    )
   }
 
-  function removeIntegration() {
+  function removeIntegration () {
     graphql(
       DELETE_INTEGRATION,
       {
         appKey: app.key,
-        id: parseInt(openDeleteDialog.id),
+        id: parseInt(openDeleteDialog.id)
       },
       {
         success: (data) => {
-          setTabValue(0);
-          const integration = data.integrationsDelete.integration;
+          setTabValue(0)
+          const integration = data.integrationsDelete.integration
           const newIntegrations = integrations.filter(
             (o) => o.name != integration.name
-          );
-          setIntegrations(newIntegrations);
-          setOpen(null);
-          setOpenDeleteDialog(null);
-          dispatch(successMessage("integration removed correctly"));
+          )
+          setIntegrations(newIntegrations)
+          setOpen(null)
+          setOpenDeleteDialog(null)
+          dispatch(successMessage('integration removed correctly'))
         },
         error: () => {
-          dispatch(errorMessage("error removing integration"));
-        },
+          dispatch(errorMessage('error removing integration'))
+        }
       }
-    );
+    )
   }
 
-  function handleTabChange(e, i) {
-    setTabValue(i);
+  function handleTabChange (e, i) {
+    setTabValue(i)
   }
 
   return (
     <Content>
-      <PageHeader title={"Third party integrations"} />
+      <PageHeader title={'Third party integrations'} />
 
       <p className="mt-2 max-w-xl text-sm leading-5 text-gray-500 py-4">
         Logos images provided by
@@ -207,7 +207,7 @@ function Integrations({ app, dispatch }) {
         currentTab={tabValue}
         tabs={[
           {
-            label: "Active Webhooks",
+            label: 'Active Webhooks',
             icon: <HomeIcon />,
             content: (
               <div className="p-6">
@@ -219,7 +219,7 @@ function Integrations({ app, dispatch }) {
                 {integrations.length === 0 && !loading && (
                   <EmptyCard
                     goTo={() => {
-                      setTabValue(1);
+                      setTabValue(1)
                     }}
                   />
                 )}
@@ -230,14 +230,14 @@ function Integrations({ app, dispatch }) {
                     handleOpen={handleOpen}
                     getAppPackages={getAppPackageIntegration}
                     setOpenDeleteDialog={setOpenDeleteDialog}
-                    kind={"integrations"}
+                    kind={'integrations'}
                   />
                 }
               </div>
-            ),
+            )
           },
           {
-            label: "Disabled Webhooks",
+            label: 'Disabled Webhooks',
             content: (
               <div className="p-6">
                 <p className="text-lg leading-6 font-medium text-gray-900 pb-4">
@@ -250,12 +250,12 @@ function Integrations({ app, dispatch }) {
                     services={services}
                     handleOpen={handleOpen}
                     getAppPackages={getAppPackages}
-                    kind={"services"}
+                    kind={'services'}
                   />
                 }
               </div>
-            ),
-          },
+            )
+          }
         ]}
       />
 
@@ -263,7 +263,7 @@ function Integrations({ app, dispatch }) {
         <FormDialog
           open={open}
           handleClose={close}
-          titleContent={`${open.id ? "Update" : "Add"} ${
+          titleContent={`${open.id ? 'Update' : 'Add'} ${
             open.name
           } integration`}
           formComponent={
@@ -278,28 +278,28 @@ function Integrations({ app, dispatch }) {
                       sm={field.grid.sm}
                     >
                       <FieldRenderer
-                        namespace={"app"}
+                        namespace={'app'}
                         data={camelizeKeys(field)}
                         type={field.type}
                         props={{
                           data: open.settings
                             ? camelizeKeys(open.settings)
-                            : {},
+                            : {}
                         }}
                         errors={{}}
                       />
                     </div>
-                  );
+                  )
                 })}
               </div>
 
               {open.id && (
-                <div container direction={"column"}>
+                <div container direction={'column'}>
                   <p variant="overline">
                     This integration will receive webhook at:
                   </p>
 
-                  <p variant={"caption"}>
+                  <p variant={'caption'}>
                     {`${window.location.origin}/api/v1/hooks/${
                       app.key
                     }/${open.name.toLocaleLowerCase()}/${open.id}`}
@@ -307,7 +307,7 @@ function Integrations({ app, dispatch }) {
 
                   <p variant="overline">Oauth callback:</p>
 
-                  <p variant={"caption"}>
+                  <p variant={'caption'}>
                     {`${window.location.origin}/api/v1/oauth/${
                       app.key
                     }/${open.name.toLocaleLowerCase()}/${open.id}`}
@@ -323,7 +323,7 @@ function Integrations({ app, dispatch }) {
               </Button>
 
               <Button onClick={submit} color="primary">
-                {open ? "Update" : "Create"}
+                {open ? 'Update' : 'Create'}
               </Button>
             </React.Fragment>
           }
@@ -335,10 +335,10 @@ function Integrations({ app, dispatch }) {
           open={openDeleteDialog}
           title={`Delete "${openDeleteDialog.name}" integration ?`}
           closeHandler={() => {
-            setOpenDeleteDialog(null);
+            setOpenDeleteDialog(null)
           }}
           deleteHandler={() => {
-            removeIntegration(openDeleteDialog);
+            removeIntegration(openDeleteDialog)
           }}
         >
           <p variant="subtitle2">
@@ -348,12 +348,12 @@ function Integrations({ app, dispatch }) {
         </DeleteDialog>
       )}
     </Content>
-  );
+  )
 }
 
-function EmptyCard({ goTo }) {
+function EmptyCard ({ goTo }) {
   return (
-    <div style={{ marginTop: "2em" }}>
+    <div style={{ marginTop: '2em' }}>
       <div>
         <p color="textSecondary" gutterBottom></p>
         <p variant="h5" component="h2">
@@ -363,19 +363,18 @@ function EmptyCard({ goTo }) {
           search for available api services in
           <a href="#" onClick={goTo}>
             API Services
-          </a>{" "}
+          </a>{' '}
           Tab
         </p>
       </div>
     </div>
-  );
+  )
 }
 
-function ServiceBlock({ service, handleOpen, kind, setOpenDeleteDialog }) {
-  function available() {
-    if (kind === "services") return service.state === "enabled";
-    if (kind === "integrations")
-      return service.id && service.state === "enabled";
+function ServiceBlock ({ service, handleOpen, kind, setOpenDeleteDialog }) {
+  function available () {
+    if (kind === 'services') return service.state === 'enabled'
+    if (kind === 'integrations') { return service.id && service.state === 'enabled' }
   }
 
   return (
@@ -425,19 +424,19 @@ function ServiceBlock({ service, handleOpen, kind, setOpenDeleteDialog }) {
         }
       />
     </ListItem>
-  );
+  )
 }
 
-function ServiceIntegration({
+function ServiceIntegration ({
   services,
   handleOpen,
   getAppPackages,
   kind,
-  setOpenDeleteDialog,
+  setOpenDeleteDialog
 }) {
   useEffect(() => {
-    getAppPackages();
-  }, []);
+    getAppPackages()
+  }, [])
 
   return (
     <List>
@@ -451,13 +450,13 @@ function ServiceIntegration({
         />
       ))}
     </List>
-  );
+  )
 }
 
-function APIServices({ services, handleOpen, getAppPackages, kind }) {
+function APIServices ({ services, handleOpen, getAppPackages, kind }) {
   useEffect(() => {
-    getAppPackages();
-  }, []);
+    getAppPackages()
+  }, [])
 
   return (
     <List dense>
@@ -470,15 +469,15 @@ function APIServices({ services, handleOpen, getAppPackages, kind }) {
         />
       ))}
     </List>
-  );
+  )
 }
 
-function mapStateToProps(state) {
-  const { app } = state;
+function mapStateToProps (state) {
+  const { app } = state
 
   return {
-    app,
-  };
+    app
+  }
 }
 
-export default withRouter(connect(mapStateToProps)(Integrations));
+export default withRouter(connect(mapStateToProps)(Integrations))

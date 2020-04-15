@@ -1,25 +1,25 @@
-import React from "react";
-import graphql from "../../graphql/client";
+import React from 'react'
+import graphql from '../../graphql/client'
 import {
   ARTICLE_SETTINGS,
   ARTICLE_COLLECTION_WITH_SECTIONS,
   ARTICLE_COLLECTIONS,
   ARTICLE,
-  SEARCH_ARTICLES,
-} from "../../graphql/docsQueries";
+  SEARCH_ARTICLES
+} from '../../graphql/docsQueries'
 
-import Breadcrumbs from "../../components/Breadcrumbs";
-import translation from "./translation";
-import Avatar from "../../components/Avatar";
+import Breadcrumbs from '../../components/Breadcrumbs'
+import translation from './translation'
+import Avatar from '../../components/Avatar'
 
-import { Link } from "react-router-dom";
+import { Link } from 'react-router-dom'
 import List, {
   ListItem,
   ListItemText,
-  ItemAvatar,
-} from "../../components/List";
+  ItemAvatar
+} from '../../components/List'
 
-import styled from "@emotion/styled";
+import styled from '@emotion/styled'
 
 // interference poc
 const OverlapAvatars = styled.div`
@@ -83,30 +83,30 @@ const OverlapAvatars = styled.div`
   span.avatars__others {
     background-color: #1e8fe1;
   }
-`;
+`
 
-export default function CollectionsWithSections({ match, lang, subdomain }) {
-  const [collections, setCollections] = React.useState(null);
+export default function CollectionsWithSections ({ match, lang, subdomain }) {
+  const [collections, setCollections] = React.useState(null)
 
   React.useEffect(() => {
-    getArticles();
-  }, [lang]);
+    getArticles()
+  }, [lang])
 
-  function getArticles() {
+  function getArticles () {
     graphql(
       ARTICLE_COLLECTION_WITH_SECTIONS,
       {
         domain: subdomain,
         id: match.params.id,
-        lang: lang,
+        lang: lang
       },
       {
         success: (data) => {
-          setCollections(data.helpCenter.collection);
+          setCollections(data.helpCenter.collection)
         },
-        error: () => {},
+        error: () => {}
       }
-    );
+    )
   }
 
   return (
@@ -116,8 +116,8 @@ export default function CollectionsWithSections({ match, lang, subdomain }) {
           <Breadcrumbs
             aria-label="Breadcrumb"
             breadcrumbs={[
-              { to: "/", title: "Collections" },
-              { title: translation(collections.title) },
+              { to: '/', title: 'Collections' },
+              { title: translation(collections.title) }
             ]}
           ></Breadcrumbs>
 
@@ -136,17 +136,17 @@ export default function CollectionsWithSections({ match, lang, subdomain }) {
                   <ul className="avatars">
                     {collections.authors
                       ? collections.authors.map((o) => {
-                          return (
-                            <li
-                              key={`authors-${o.id}`}
-                              className="avatars__item"
-                            >
-                              {/* <Tooltip title={o.display_name}> */}
-                              <Avatar alt={o.displayName} src={o.avatarUrl} />
-                              {/* </Tooltip> */}
-                            </li>
-                          );
-                        })
+                        return (
+                          <li
+                            key={`authors-${o.id}`}
+                            className="avatars__item"
+                          >
+                            {/* <Tooltip title={o.display_name}> */}
+                            <Avatar alt={o.displayName} src={o.avatarUrl} />
+                            {/* </Tooltip> */}
+                          </li>
+                        )
+                      })
                       : null}
 
                     {collections.authors && collections.authors.length > 5 ? (
@@ -169,13 +169,13 @@ export default function CollectionsWithSections({ match, lang, subdomain }) {
                       primary={
                         <div>
                           <Link
-                            color={"primary"}
+                            color={'primary'}
                             to={`/${lang}/articles/${article.slug}`}
                           >
                             {article.title}
                           </Link>
 
-                          <div container alignItems={"center"}>
+                          <div container alignItems={'center'}>
                             <ItemAvatar>
                               <Avatar
                                 alt={article.author.name}
@@ -183,8 +183,8 @@ export default function CollectionsWithSections({ match, lang, subdomain }) {
                               />
                             </ItemAvatar>
 
-                            <p variant={"subtitle1"}>
-                              written by{" "}
+                            <p variant={'subtitle1'}>
+                              written by{' '}
                               <strong>{article.author.displayName}</strong>
                             </p>
                           </div>
@@ -218,7 +218,7 @@ export default function CollectionsWithSections({ match, lang, subdomain }) {
                                 <div className="flex flex-col">
                                   <Link
                                     className="text-lg mb-2 leading-6 font-bold text-gray-900"
-                                    color={"primary"}
+                                    color={'primary'}
                                     to={`/${lang}/articles/${article.slug}`}
                                   >
                                     {translation(article.title)}
@@ -231,7 +231,7 @@ export default function CollectionsWithSections({ match, lang, subdomain }) {
                                       src={article.author.avatarUrl}
                                     />
                                     <p className="ml-4">
-                                      written by{" "}
+                                      written by{' '}
                                       <strong>
                                         {article.author.displayName}
                                       </strong>
@@ -253,5 +253,5 @@ export default function CollectionsWithSections({ match, lang, subdomain }) {
         </div>
       )}
     </div>
-  );
+  )
 }

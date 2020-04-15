@@ -1,62 +1,62 @@
-import React, { useState, useEffect, useRef } from "react";
-import { isEmpty } from "lodash";
-import { Switch, Route, Link, withRouter } from "react-router-dom";
+import React, { useState, useEffect, useRef } from 'react'
+import { isEmpty } from 'lodash'
+import { Switch, Route, Link, withRouter } from 'react-router-dom'
 
-import { connect } from "react-redux";
-import Content from "../components/Content";
-import { errorMessage, successMessage } from "../actions/status_messages";
+import { connect } from 'react-redux'
+import Content from '../components/Content'
+import { errorMessage, successMessage } from '../actions/status_messages'
 
-import { setCurrentPage, setCurrentSection } from "../actions/navigation";
+import { setCurrentPage, setCurrentSection } from '../actions/navigation'
 
-import { camelizeKeys } from "../actions/conversation";
+import { camelizeKeys } from '../actions/conversation'
 
-import PageHeader from "../components/PageHeader";
-import Tabs from "../components/Tabs";
-import Panel from "../components/Panel";
-import DeleteDialog from "../components/DeleteDialog";
-import EmptyView from "../components/EmptyView";
+import PageHeader from '../components/PageHeader'
+import Tabs from '../components/Tabs'
+import Panel from '../components/Panel'
+import DeleteDialog from '../components/DeleteDialog'
+import EmptyView from '../components/EmptyView'
 
-import { EditIcon, AddIcon, DeleteIcon, HomeIcon } from "../components/icons";
+import { EditIcon, AddIcon, DeleteIcon, HomeIcon } from '../components/icons'
 
-import FormDialog from "../components/FormDialog";
-import Button from "../components/Button";
-import Badge from "../components/Badge";
-import FieldRenderer from "../components/forms/FieldRenderer";
-import graphql from "../graphql/client";
-import { EVENT_TYPES, OUTGOING_WEBHOOKS } from "../graphql/queries";
+import FormDialog from '../components/FormDialog'
+import Button from '../components/Button'
+import Badge from '../components/Badge'
+import FieldRenderer from '../components/forms/FieldRenderer'
+import graphql from '../graphql/client'
+import { EVENT_TYPES, OUTGOING_WEBHOOKS } from '../graphql/queries'
 import {
   WEBHOOK_CREATE,
   WEBHOOK_UPDATE,
-  WEBHOOK_DELETE,
-} from "../graphql/mutations";
+  WEBHOOK_DELETE
+} from '../graphql/mutations'
 
 import List, {
   ListItem,
   ListItemText,
   ItemListPrimaryContent,
-  ItemListSecondaryContent,
-} from "../components/List";
+  ItemListSecondaryContent
+} from '../components/List'
 
-import serialize from "form-serialize";
+import serialize from 'form-serialize'
 
-function Settings({ app, dispatch }) {
-  const [open, setOpen] = useState(false);
-  const [loading, setLoading] = useState(false);
-  const [eventTypes, setEventTypes] = useState([]);
-  const [errors, setErrors] = useState([]);
-  const [webhooks, setWebhooks] = useState([]);
-  const [tabValue, setTabValue] = useState(0);
-  const [openDeleteDialog, setOpenDeleteDialog] = useState(false);
-  const form = useRef(null);
+function Settings ({ app, dispatch }) {
+  const [open, setOpen] = useState(false)
+  const [loading, setLoading] = useState(false)
+  const [eventTypes, setEventTypes] = useState([])
+  const [errors, setErrors] = useState([])
+  const [webhooks, setWebhooks] = useState([])
+  const [tabValue, setTabValue] = useState(0)
+  const [openDeleteDialog, setOpenDeleteDialog] = useState(false)
+  const form = useRef(null)
 
   useEffect(() => {
-    dispatch(setCurrentSection("Settings"));
-    dispatch(setCurrentPage("webhooks"));
-    getEventTypes();
-    getWebhooks();
-  }, []);
+    dispatch(setCurrentSection('Settings'))
+    dispatch(setCurrentPage('webhooks'))
+    getEventTypes()
+    getWebhooks()
+  }, [])
 
-  function getEventTypes() {
+  function getEventTypes () {
     graphql(
       EVENT_TYPES,
       { appKey: app.key },
@@ -64,131 +64,131 @@ function Settings({ app, dispatch }) {
         success: (data) => {
           const types = data.app.eventTypes.map((o) => ({
             label: o.identifier,
-            value: o.name,
-          }));
-          setEventTypes(types);
+            value: o.name
+          }))
+          setEventTypes(types)
         },
         error: (data) => {
-          debugger;
-        },
+          debugger
+        }
       }
-    );
+    )
   }
 
-  function getWebhooks() {
-    setLoading(true);
+  function getWebhooks () {
+    setLoading(true)
 
-    setWebhooks([]);
+    setWebhooks([])
 
     graphql(
       OUTGOING_WEBHOOKS,
       {
-        appKey: app.key,
+        appKey: app.key
       },
       {
         success: (data) => {
-          setWebhooks(data.app.outgoingWebhooks);
-          setLoading(false);
+          setWebhooks(data.app.outgoingWebhooks)
+          setLoading(false)
         },
         error: () => {
-          setLoading(false);
-        },
+          setLoading(false)
+        }
       }
-    );
+    )
   }
 
-  function handleOpen(service) {
-    setOpen(service);
+  function handleOpen (service) {
+    setOpen(service)
   }
 
-  function close() {
-    setOpen(false);
+  function close () {
+    setOpen(false)
   }
 
-  function submit() {
+  function submit () {
     const serializedData = serialize(form.current, {
       hash: true,
-      empty: true,
-    });
+      empty: true
+    })
 
-    open.id ? updateWebhook(serializedData) : createWebhook(serializedData);
+    open.id ? updateWebhook(serializedData) : createWebhook(serializedData)
   }
 
-  function definitions() {
+  function definitions () {
     return [
       {
-        name: "url",
-        type: "string",
-        label: "url for outgoing webhook",
+        name: 'url',
+        type: 'string',
+        label: 'url for outgoing webhook',
         hint: "we'll send POST requests",
-        placeholder: "https://mysite.com",
-        grid: { xs: "w-full", sm: "w-full" },
+        placeholder: 'https://mysite.com',
+        grid: { xs: 'w-full', sm: 'w-full' }
       },
       {
-        name: "enabled",
-        type: "bool",
-        label: "enable webhook",
-        grid: { xs: "w-full", sm: "w-1/2" },
+        name: 'enabled',
+        type: 'bool',
+        label: 'enable webhook',
+        grid: { xs: 'w-full', sm: 'w-1/2' }
       },
       {
-        name: "tag_list",
-        type: "select",
-        label: "events to send",
-        hint: "chaskiq will deliver this events to configured endpoint",
+        name: 'tag_list',
+        type: 'select',
+        label: 'events to send',
+        hint: 'chaskiq will deliver this events to configured endpoint',
         multiple: true,
         options: eventTypes,
-        grid: { xs: "w-full", sm: "w-full" },
-      },
-    ];
+        grid: { xs: 'w-full', sm: 'w-full' }
+      }
+    ]
   }
 
-  function newWebhook() {
+  function newWebhook () {
     setOpen({
-      name: "webhook",
+      name: 'webhook',
       tag_list: [],
-      description: "Outgoing webhook",
-      state: "disabled",
+      description: 'Outgoing webhook',
+      state: 'disabled',
       enabled: false,
-      definitions: definitions(),
-    });
+      definitions: definitions()
+    })
   }
 
-  function createWebhook(serializedData) {
-    const { url, tag_list, enabled } = serializedData.app;
+  function createWebhook (serializedData) {
+    const { url, tag_list, enabled } = serializedData.app
     graphql(
       WEBHOOK_CREATE,
       {
         appKey: app.key,
         url: url,
         state: enabled,
-        tags: tag_list,
+        tags: tag_list
       },
       {
         success: (data) => {
-          setTabValue(0);
-          const webhook = data.createWebhook.webhook;
-          const errors = data.createWebhook.errors;
+          setTabValue(0)
+          const webhook = data.createWebhook.webhook
+          const errors = data.createWebhook.errors
           if (!isEmpty(errors)) {
-            setErrors(errors);
-            return;
+            setErrors(errors)
+            return
           }
 
-          const newIntegrations = webhooks.concat(webhook);
+          const newIntegrations = webhooks.concat(webhook)
 
-          setWebhooks(newIntegrations);
+          setWebhooks(newIntegrations)
 
-          setOpen(null);
-          dispatch(successMessage("webhook created"));
+          setOpen(null)
+          dispatch(successMessage('webhook created'))
         },
         error: () => {
-          dispatch(errorMessage("error adding webhook"));
-        },
+          dispatch(errorMessage('error adding webhook'))
+        }
       }
-    );
+    )
   }
 
-  function updateWebhook(serializedData) {
-    const { url, tag_list, enabled } = serializedData.app;
+  function updateWebhook (serializedData) {
+    const { url, tag_list, enabled } = serializedData.app
     graphql(
       WEBHOOK_UPDATE,
       {
@@ -197,82 +197,82 @@ function Settings({ app, dispatch }) {
         id: parseInt(open.id),
         url: url,
         state: enabled,
-        tags: tag_list,
+        tags: tag_list
       },
       {
         success: (data) => {
-          setTabValue(0);
-          const webhook = data.updateWebhook.webhook;
-          const errors = data.updateWebhook.errors;
+          setTabValue(0)
+          const webhook = data.updateWebhook.webhook
+          const errors = data.updateWebhook.errors
           if (!isEmpty(errors)) {
-            setErrors(errors);
-            return;
+            setErrors(errors)
+            return
           }
           const newIntegrations = webhooks.map((o) =>
             o.id === webhook.id ? webhook : o
-          );
-          setWebhooks(newIntegrations);
+          )
+          setWebhooks(newIntegrations)
           // getAppPackageIntegration()
-          setOpen(null);
-          dispatch(successMessage("webhook updated"));
+          setOpen(null)
+          dispatch(successMessage('webhook updated'))
         },
         error: () => {
-          dispatch(errorMessage("error updating webhook"));
-        },
+          dispatch(errorMessage('error updating webhook'))
+        }
       }
-    );
+    )
   }
 
-  function removeWebhook() {
+  function removeWebhook () {
     graphql(
       WEBHOOK_DELETE,
       {
         appKey: app.key,
-        id: parseInt(openDeleteDialog.id),
+        id: parseInt(openDeleteDialog.id)
       },
       {
         success: (data) => {
-          setTabValue(0);
-          const webhook = data.deleteWebhook.webhook;
-          const newIntegrations = webhooks.filter((o) => o.id != webhook.id);
-          const errors = data.deleteWebhook.errors;
+          setTabValue(0)
+          const webhook = data.deleteWebhook.webhook
+          const newIntegrations = webhooks.filter((o) => o.id != webhook.id)
+          const errors = data.deleteWebhook.errors
           if (!isEmpty(errors)) {
-            setErrors(errors);
-            return;
+            setErrors(errors)
+            return
           }
-          setWebhooks(newIntegrations);
-          setOpen(null);
-          setOpenDeleteDialog(null);
-          dispatch(successMessage("webhook removed correctly"));
+          setWebhooks(newIntegrations)
+          setOpen(null)
+          setOpenDeleteDialog(null)
+          dispatch(successMessage('webhook removed correctly'))
         },
         error: () => {
-          dispatch(errorMessage("error removing webhook"));
-        },
+          dispatch(errorMessage('error removing webhook'))
+        }
       }
-    );
+    )
   }
 
-  function handleTabChange(e, i) {
-    setTabValue(i);
+  function handleTabChange (e, i) {
+    setTabValue(i)
   }
 
-  function activeWebhooks() {
-    return webhooks.filter((o) => o.enabled);
+  function activeWebhooks () {
+    return webhooks.filter((o) => o.enabled)
   }
 
-  function disabledWebhooks() {
-    return webhooks.filter((o) => !o.enabled);
+  function disabledWebhooks () {
+    return webhooks.filter((o) => !o.enabled)
   }
 
   return (
     <Content>
       <PageHeader
-        title={"Outgoing Webhooks"}
+        title={'Outgoing Webhooks'}
         actions={
           <Button
-            className={"transition duration-150 ease-in-out"}
-            variant={"main"}
-            color={"primary"}
+            className={'transition duration-150 ease-in-out'}
+            variant={'main'}
+            color={'primary'}
             onClick={newWebhook}
           >
             New webhook
@@ -284,14 +284,14 @@ function Settings({ app, dispatch }) {
         currentTab={tabValue}
         tabs={[
           {
-            label: "Active Webhooks",
+            label: 'Active Webhooks',
             icon: <HomeIcon />,
             content: (
               <React.Fragment>
                 <div className="pb-2 pt-2">
                   <Panel
-                    title={"Active Webhooks"}
-                    text={"lorem bobob"}
+                    title={'Active Webhooks'}
+                    text={'lorem bobob'}
                     variant="shadowless"
                   />
                 </div>
@@ -317,22 +317,22 @@ function Settings({ app, dispatch }) {
                         search for your webhooks in
                         <a href="#" onClick={() => setTabValue(1)}>
                           disabled webhooks
-                        </a>{" "}
+                        </a>{' '}
                         Tab
                       </span>
                     }
                   />
                 )}
               </React.Fragment>
-            ),
+            )
           },
           {
-            label: "Disabled Webhooks",
+            label: 'Disabled Webhooks',
             content: (
               <React.Fragment>
                 <div className="pb-2 pt-2">
                   <Panel
-                    title={"Disabled Webhooks"}
+                    title={'Disabled Webhooks'}
                     // text={'lorem bobob'}
                     variant="shadowless"
                   />
@@ -351,8 +351,8 @@ function Settings({ app, dispatch }) {
                   </List>
                 )}
               </React.Fragment>
-            ),
-          },
+            )
+          }
         ]}
       />
 
@@ -360,23 +360,23 @@ function Settings({ app, dispatch }) {
         <FormDialog
           open={open}
           handleClose={close}
-          titleContent={`${open.id ? "Update" : "Add"} webhook`}
+          titleContent={`${open.id ? 'Update' : 'Add'} webhook`}
           formComponent={
             <form ref={form}>
               {definitions().map((field) => {
                 return (
                   <div key={field.name} xs={field.grid.xs} sm={field.grid.sm}>
                     <FieldRenderer
-                      namespace={"app"}
+                      namespace={'app'}
                       type={field.type}
                       data={camelizeKeys(field)}
                       props={{
-                        data: camelizeKeys(open),
+                        data: camelizeKeys(open)
                       }}
                       errors={errors}
                     />
                   </div>
-                );
+                )
               })}
             </form>
           }
@@ -387,7 +387,7 @@ function Settings({ app, dispatch }) {
               </Button>
 
               <Button onClick={submit} color="primary">
-                {open ? "Update" : "Create"}
+                {open ? 'Update' : 'Create'}
               </Button>
             </React.Fragment>
           }
@@ -397,12 +397,12 @@ function Settings({ app, dispatch }) {
       {openDeleteDialog && (
         <DeleteDialog
           open={openDeleteDialog}
-          title={"Delete webhook ?"}
+          title={'Delete webhook ?'}
           closeHandler={() => {
-            setOpenDeleteDialog(null);
+            setOpenDeleteDialog(null)
           }}
           deleteHandler={() => {
-            removeWebhook(openDeleteDialog);
+            removeWebhook(openDeleteDialog)
           }}
         >
           <p variant="subtitle2">
@@ -412,10 +412,10 @@ function Settings({ app, dispatch }) {
         </DeleteDialog>
       )}
     </Content>
-  );
+  )
 }
 
-function WebhookItem({ webhook, handleEdit, handleDelete }) {
+function WebhookItem ({ webhook, handleEdit, handleDelete }) {
   return (
     <ListItem>
       <ListItemText
@@ -430,7 +430,7 @@ function WebhookItem({ webhook, handleEdit, handleDelete }) {
               <Badge
                 key={`chip-${o}`}
                 size="small"
-                style={{ margin: "0 0.2em .2em 0px" }}
+                style={{ margin: '0 0.2em .2em 0px' }}
               >
                 {o}
               </Badge>
@@ -466,13 +466,13 @@ function WebhookItem({ webhook, handleEdit, handleDelete }) {
         }
       />
     </ListItem>
-  );
+  )
 }
 
-function mapStateToProps(state) {
-  const { auth, app, segment, app_users, current_user, navigation } = state;
-  const { loading, isAuthenticated } = auth;
-  const { current_section } = navigation;
+function mapStateToProps (state) {
+  const { auth, app, segment, app_users, current_user, navigation } = state
+  const { loading, isAuthenticated } = auth
+  const { current_section } = navigation
   return {
     segment,
     app_users,
@@ -480,8 +480,8 @@ function mapStateToProps(state) {
     app,
     loading,
     isAuthenticated,
-    current_section,
-  };
+    current_section
+  }
 }
 
-export default withRouter(connect(mapStateToProps)(Settings));
+export default withRouter(connect(mapStateToProps)(Settings))

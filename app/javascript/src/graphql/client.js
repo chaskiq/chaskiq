@@ -1,11 +1,11 @@
-import axios from "axios";
-import { isObject, isEmpty } from "lodash";
-import store from "../store";
-import { errorMessage, successMessage } from "../actions/status_messages";
-import { expireAuthentication } from "../actions/auth";
+import axios from 'axios'
+import { isObject, isEmpty } from 'lodash'
+import store from '../store'
+import { errorMessage, successMessage } from '../actions/status_messages'
+import { expireAuthentication } from '../actions/auth'
 
 const graphql = (query, variables, callbacks) => {
-  const auth = store.getState().auth;
+  const auth = store.getState().auth
 
   const config = {
     // "access-token": auth.accessToken,
@@ -13,26 +13,26 @@ const graphql = (query, variables, callbacks) => {
     // "client":       auth.client,
     // "expiry":       auth.expiry,
     // "uid":          auth.uid,
-    authorization: `Bearer ${auth.accessToken}`,
-  };
+    authorization: `Bearer ${auth.accessToken}`
+  }
 
   axios
     .create({
-      baseURL: "/graphql",
+      baseURL: '/graphql'
     })
     .post(
-      "",
+      '',
       {
         query: query,
-        variables: variables,
+        variables: variables
       },
       { headers: config }
     )
     .then((r) => {
-      const data = r.data.data;
-      const res = r;
+      const data = r.data.data
+      const res = r
 
-      const errors = r.data.errors; // ? r.data.errors[0].message : null
+      const errors = r.data.errors // ? r.data.errors[0].message : null
       // get first key of data and check if has errors
       // const errors = data[Object.keys(data)[0]].errors || r.data.errors
 
@@ -40,33 +40,33 @@ const graphql = (query, variables, callbacks) => {
         // const errors = data[Object.keys(data)[0]];
         // callbacks['error'] ? callbacks['error'](res, errors['errors']) : null
         if (callbacks.error) {
-          return callbacks.error(res, errors);
+          return callbacks.error(res, errors)
         }
       }
 
-      if (callbacks.success) callbacks.success(data, res);
+      if (callbacks.success) callbacks.success(data, res)
     })
     .catch((req, error) => {
       // throw r
       // const res = r.response
-      console.log(req, error);
+      console.log(req, error)
       switch (req.response.status) {
         case 500:
-          store.dispatch(errorMessage("server error ocurred"));
-          break;
+          store.dispatch(errorMessage('server error ocurred'))
+          break
         case 401:
-          store.dispatch(errorMessage("session expired"));
-          store.dispatch(expireAuthentication());
-          break;
+          store.dispatch(errorMessage('session expired'))
+          store.dispatch(expireAuthentication())
+          break
         default:
-          break;
+          break
       }
 
-      if (callbacks.fatal) callbacks.fatal(error);
+      if (callbacks.fatal) callbacks.fatal(error)
     })
     .then((r) => {
-      if (callbacks.always) callbacks.always();
-    });
-};
+      if (callbacks.always) callbacks.always()
+    })
+}
 
-export default graphql;
+export default graphql

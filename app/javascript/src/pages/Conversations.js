@@ -1,63 +1,63 @@
-import React from "react";
-import { Switch, Route, Link, withRouter } from "react-router-dom";
+import React from 'react'
+import { Switch, Route, Link, withRouter } from 'react-router-dom'
 
-import { connect } from "react-redux";
-import { isEmpty } from "lodash";
-import { setCurrentPage, setCurrentSection } from "../actions/navigation";
+import { connect } from 'react-redux'
+import { isEmpty } from 'lodash'
+import { setCurrentPage, setCurrentSection } from '../actions/navigation'
 import {
   getConversations,
   updateConversationsData,
-  clearConversations,
-} from "../actions/conversations";
+  clearConversations
+} from '../actions/conversations'
 
-import FilterMenu from "../components/FilterMenu";
+import FilterMenu from '../components/FilterMenu'
 
-import styled from "@emotion/styled";
+import styled from '@emotion/styled'
 
-import UserData from "../components/UserData";
-import ConversationItemList from "../components/conversations/ItemList";
-import AssignmentRules from "../components/conversations/AssignmentRules";
-import Conversation from "../components/conversations/Conversation";
-import Progress from "../components/Progress";
-import EmptyView from "../components/EmptyView";
-import emptyImage from "../images/empty-icon8.png";
+import UserData from '../components/UserData'
+import ConversationItemList from '../components/conversations/ItemList'
+import AssignmentRules from '../components/conversations/AssignmentRules'
+import Conversation from '../components/conversations/Conversation'
+import Progress from '../components/Progress'
+import EmptyView from '../components/EmptyView'
+import emptyImage from '../images/empty-icon8.png'
 
 // import {toCamelCase} from '../shared/caseConverter'
 
-function Conversations({
+function Conversations ({
   dispatch,
   match,
   conversations,
   conversation,
   app,
   events,
-  app_user,
+  app_user
 }) {
   React.useEffect(() => {
-    dispatch(clearConversations([]));
-    fetchConversations({ page: 1 });
+    dispatch(clearConversations([]))
+    fetchConversations({ page: 1 })
 
-    dispatch(setCurrentPage("Conversations"));
+    dispatch(setCurrentPage('Conversations'))
 
-    dispatch(setCurrentSection("Conversations"));
-  }, []);
+    dispatch(setCurrentSection('Conversations'))
+  }, [])
 
   const fetchConversations = (options, cb) => {
     dispatch(
       getConversations(options, () => {
-        cb && cb();
+        cb && cb()
       })
-    );
-  };
+    )
+  }
 
   const setSort = (option) => {
-    dispatch(updateConversationsData({ sort: option }));
-    this.setState({ sort: option });
-  };
+    dispatch(updateConversationsData({ sort: option }))
+    this.setState({ sort: option })
+  }
 
   const setFilter = (option) => {
-    dispatch(updateConversationsData({ filter: option }));
-  };
+    dispatch(updateConversationsData({ filter: option }))
+  }
 
   const filterButton = (handleClick) => {
     return (
@@ -65,7 +65,7 @@ function Conversations({
         aria-label="More"
         aria-controls="long-menu"
         aria-haspopup="true"
-        variant={"outlined"}
+        variant={'outlined'}
         onClick={handleClick}
         size="small"
         className="p-1 bg-white hover:bg-gray-100 text-gray-800 font-semibold border border-gray-400 rounded shadow"
@@ -73,8 +73,8 @@ function Conversations({
         {/* <MoreVertIcon /> */}
         {conversations.filter}
       </button>
-    );
-  };
+    )
+  }
 
   const sortButton = (handleClick) => {
     return (
@@ -82,7 +82,7 @@ function Conversations({
         aria-label="More"
         aria-controls="long-menu"
         aria-haspopup="true"
-        variant={"outlined"}
+        variant={'outlined'}
         onClick={handleClick}
         size="small"
         className="p-1 bg-white hover:bg-gray-100 text-gray-800 font-semibold border border-gray-400 rounded shadow"
@@ -90,83 +90,83 @@ function Conversations({
         {/* <MoreVertIcon /> */}
         {conversations.sort}
       </button>
-    );
-  };
+    )
+  }
 
   const filterConversations = (options, cb) => {
     dispatch(
       updateConversationsData(
         {
           filter: options.id,
-          collection: [],
+          collection: []
         },
         () => {
-          fetchConversations({ page: 1 }, cb);
+          fetchConversations({ page: 1 }, cb)
           // getConversations({page: 1}, cb)
         }
       )
-    );
-  };
+    )
+  }
 
   const sortConversations = (options, cb) => {
     dispatch(
       updateConversationsData(
         {
           sort: options.id,
-          collection: [],
+          collection: []
         },
         () => {
-          fetchConversations({ page: 1 });
+          fetchConversations({ page: 1 })
           // getConversations({page: 1}, cb)
         }
       )
-    );
-  };
+    )
+  }
 
-  const renderConversations = ()=>{
+  const renderConversations = () => {
     return (
-            <React.Fragment>
-              
-              <div className="bg-white px-3 py-4 border-b border-gray-200 sm:px-3 flex justify-between">
-                <FilterMenu
-                  options={[
-                    { id: "opened", name: "opened", count: 1, icon: null },
-                    { id: "closed", name: "closed", count: 2, icon: null },
-                  ]}
-                  value={conversations.filter}
-                  filterHandler={filterConversations}
-                  triggerButton={filterButton}
-                />
+      <React.Fragment>
 
-                <FilterMenu
-                  options={[
-                    { id: "newest", name: "newest", count: 1, selected: true },
-                    { id: "oldest", name: "oldest", count: 1 },
-                    { id: "waiting", name: "waiting", count: 1 },
-                    { id: "priority-first", name: "priority first", count: 1 },
-                    { id: "unfiltered", name: "all", count: 1 },
-                  ]}
-                  value={conversations.sort}
-                  filterHandler={sortConversations}
-                  triggerButton={sortButton}
-                />
-              </div>
+        <div className="bg-white px-3 py-4 border-b border-gray-200 sm:px-3 flex justify-between">
+          <FilterMenu
+            options={[
+              { id: 'opened', name: 'opened', count: 1, icon: null },
+              { id: 'closed', name: 'closed', count: 2, icon: null }
+            ]}
+            value={conversations.filter}
+            filterHandler={filterConversations}
+            triggerButton={filterButton}
+          />
 
-              <div className="overflow-scroll">
-                {conversations.collection.map((o) => {
-                  const user = o.mainParticipant;
-                  return (
-                    <ConversationItemList
-                      key={o.key}
-                      user={user}
-                      app={app}
-                      conversation={o}
-                    />
-                  );
-                })}
-              </div>
+          <FilterMenu
+            options={[
+              { id: 'newest', name: 'newest', count: 1, selected: true },
+              { id: 'oldest', name: 'oldest', count: 1 },
+              { id: 'waiting', name: 'waiting', count: 1 },
+              { id: 'priority-first', name: 'priority first', count: 1 },
+              { id: 'unfiltered', name: 'all', count: 1 }
+            ]}
+            value={conversations.sort}
+            filterHandler={sortConversations}
+            triggerButton={sortButton}
+          />
+        </div>
 
-            </React.Fragment>
+        <div className="overflow-scroll">
+          {conversations.collection.map((o) => {
+            const user = o.mainParticipant
+            return (
+              <ConversationItemList
+                key={o.key}
+                user={user}
+                app={app}
+                conversation={o}
+              />
+            )
+          })}
+        </div>
+
+      </React.Fragment>
     )
   }
 
@@ -175,21 +175,21 @@ function Conversations({
 
       <Switch>
         <Route exact path={`/apps/${app.key}/conversations`}>
-          <div className={`w-full md:w-1/4 h-screen md:border-r sm:hidden`}>
+          <div className={'w-full md:w-1/4 h-screen md:border-r sm:hidden'}>
             {renderConversations()}
           </div>
         </Route>
       </Switch>
 
-      <div className={`w-full md:w-1/4 h-screen md:border-r hidden sm:block`}>
-        {renderConversations()}                      
+      <div className={'w-full md:w-1/4 h-screen md:border-r hidden sm:block'}>
+        {renderConversations()}
       </div>
 
       <Switch>
         <Route exact path={`/apps/${app.key}/conversations`}>
           <div className="hidden sm:block flex-grow bg-gray-50 h-12 h-screen border-r w-1/12">
             <EmptyView
-              title={"No conversations"}
+              title={'No conversations'}
               shadowless
               image={
                 <img
@@ -198,7 +198,7 @@ function Conversations({
                   alt="no conversations"
                 />
               }
-              subtitle={"choose conversations on the side"}
+              subtitle={'choose conversations on the side'}
             />
           </div>
         </Route>
@@ -215,7 +215,6 @@ function Conversations({
           </div>
         </Route>
       </Switch>
-    
 
       {!isEmpty(conversation) && (
         <div className="w-3/12 h-screen overflow-scroll hidden sm:block">
@@ -227,12 +226,12 @@ function Conversations({
         </div>
       )}
     </div>
-  );
+  )
 }
 
-function mapStateToProps(state) {
-  const { auth, app, conversations, conversation, app_user } = state;
-  const { loading, isAuthenticated } = auth;
+function mapStateToProps (state) {
+  const { auth, app, conversations, conversation, app_user } = state
+  const { loading, isAuthenticated } = auth
   // const { sort, filter, collection , meta, loading} = conversations
 
   return {
@@ -240,8 +239,8 @@ function mapStateToProps(state) {
     conversation,
     app_user,
     app,
-    isAuthenticated,
-  };
+    isAuthenticated
+  }
 }
 
-export default withRouter(connect(mapStateToProps)(Conversations));
+export default withRouter(connect(mapStateToProps)(Conversations))

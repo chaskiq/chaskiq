@@ -1,25 +1,25 @@
-import React from "react";
-import { Provider, connect } from "react-redux";
-import AppContainer from "./pages/AppContainer";
-import Apps from "./pages/Apps";
-import Login from "./pages/auth/login";
-import NewApp from "./pages/NewApp";
-import NotFound from "./pages/NotFound";
-import AcceptInvitation from "./pages/auth/acceptInvitation";
-import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
+import React from 'react'
+import { Provider, connect } from 'react-redux'
+import AppContainer from './pages/AppContainer'
+import Apps from './pages/Apps'
+import Login from './pages/auth/login'
+import NewApp from './pages/NewApp'
+import NotFound from './pages/NotFound'
+import AcceptInvitation from './pages/auth/acceptInvitation'
+import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom'
 
-function mapStateToProps(state) {
-  const { auth, current_user } = state;
-  const { loading, isAuthenticated } = auth;
+function mapStateToProps (state) {
+  const { auth, current_user } = state
+  const { loading, isAuthenticated } = auth
   return {
     current_user,
     loading,
-    isAuthenticated,
-  };
+    isAuthenticated
+  }
 }
 
-function AppRouter({ loading, isAuthenticated, current_user }) {
-  if (!isAuthenticated && !current_user.email) return <Login />;
+function AppRouter ({ loading, isAuthenticated, current_user }) {
+  if (!isAuthenticated && !current_user.email) return <Login />
 
   return (
     <Switch>
@@ -52,7 +52,7 @@ function AppRouter({ loading, isAuthenticated, current_user }) {
         <NotFound />
       </Route>
     </Switch>
-  );
+  )
 }
 
-export default connect(mapStateToProps)(AppRouter);
+export default connect(mapStateToProps)(AppRouter)
