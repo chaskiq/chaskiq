@@ -1,10 +1,7 @@
-import ActionTypes from '../constants/action_types'
-import graphql from '../graphql/client'
+import ActionTypes from "../constants/action_types";
+import graphql from "../graphql/client";
 
-import {
-  CONVERSATION,
-  AGENTS
-} from '../graphql/queries'
+import { CONVERSATION, AGENTS } from "../graphql/queries";
 
 import {
   INSERT_COMMMENT,
@@ -13,298 +10,342 @@ import {
   INSERT_NOTE,
   UPDATE_CONVERSATION_STATE,
   TOGGLE_CONVERSATION_PRIORITY,
-  TYPING_NOTIFIER
-} from '../graphql/mutations'
+  TYPING_NOTIFIER,
+} from "../graphql/mutations";
 
-import { camelCase } from 'lodash'
-import { soundManager } from 'soundmanager2'
+import { camelCase } from "lodash";
+import { soundManager } from "soundmanager2";
 
 export const camelizeKeys = (obj) => {
   if (Array.isArray(obj)) {
-    return obj.map(v => camelizeKeys(v))
+    return obj.map((v) => camelizeKeys(v));
   } else if (obj !== null && obj.constructor === Object) {
     return Object.keys(obj).reduce(
       (result, key) => ({
         ...result,
-        [camelCase(key)]: camelizeKeys(obj[key])
+        [camelCase(key)]: camelizeKeys(obj[key]),
       }),
       {}
-    )
+    );
   }
-  return obj
-}
+  return obj;
+};
 
-export function getConversation (options, cb) {
+export function getConversation(options, cb) {
   return (dispatch, getState) => {
-    setLoading(true)
+    setLoading(true);
 
-    const conversationMeta = getState().conversation.meta
-    const nextPage = conversationMeta ? (conversationMeta.next_page || 1) : 1
+    const conversationMeta = getState().conversation.meta;
+    const nextPage = conversationMeta ? conversationMeta.next_page || 1 : 1;
 
-    graphql(CONVERSATION, {
-      appKey: getState().app.key,
-      id: options.id,
-      page: nextPage
-    }, {
-      success: (data) => {
-        const conversation = data.app.conversation
+    graphql(
+      CONVERSATION,
+      {
+        appKey: getState().app.key,
+        id: options.id,
+        page: nextPage,
+      },
+      {
+        success: (data) => {
+          const conversation = data.app.conversation;
 
-        const newConversation = Object.assign({}, {
-          collection: nextPage > 1
-            ? getState().conversation.collection.concat(conversation.messages.collection)
-            : conversation.messages.collection,
-          meta: conversation.messages.meta,
-          loading: false
+          const newConversation = Object.assign(
+            {},
+            {
+              collection:
+                nextPage > 1
+                  ? getState().conversation.collection.concat(
+                      conversation.messages.collection
+                    )
+                  : conversation.messages.collection,
+              meta: conversation.messages.meta,
+              loading: false,
+            },
+            conversation
+          );
+          // console.log('newConversation', newConversation, nextPage)
+          dispatch(dispatchGetConversations(newConversation));
+
+          if (cb) cb();
         },
-        conversation)
-        // console.log('newConversation', newConversation, nextPage)
-        dispatch(dispatchGetConversations(newConversation))
-
-        if (cb) cb()
-      },
-      error: (error) => {
+        error: (error) => {},
       }
-    })
-  }
+    );
+  };
 }
 
-export function clearConversation (cb) {
+export function clearConversation(cb) {
   return (dispatch, getState) => {
-    dispatch(dispatchGetConversations({}))
-    if (cb) cb()
-  }
+    dispatch(dispatchGetConversations({}));
+    if (cb) cb();
+  };
 }
 
-export function typingNotifier (cb) {
+export function typingNotifier(cb) {
   return (dispatch, getState) => {
-    graphql(TYPING_NOTIFIER, {
-      appKey: getState().app.key,
-      id: getState().conversation.key
-    }, {
-      success: (data) => {
-        cb && cb()
+    graphql(
+      TYPING_NOTIFIER,
+      {
+        appKey: getState().app.key,
+        id: getState().conversation.key,
       },
-      error: (error) => {
-        console.log(error)
+      {
+        success: (data) => {
+          cb && cb();
+        },
+        error: (error) => {
+          console.log(error);
+        },
       }
-    })
-  }
+    );
+  };
 }
 
-export function insertComment (comment, cb) {
+export function insertComment(comment, cb) {
   return (dispatch, getState) => {
-    graphql(INSERT_COMMMENT, {
-      appKey: getState().app.key,
-      id: getState().conversation.key,
-      message: comment
-    }, {
-      success: (data) => {
-        console.log(data)
-        cb()
+    graphql(
+      INSERT_COMMMENT,
+      {
+        appKey: getState().app.key,
+        id: getState().conversation.key,
+        message: comment,
       },
-      error: (error) => {
-        console.log(error)
+      {
+        success: (data) => {
+          console.log(data);
+          cb();
+        },
+        error: (error) => {
+          console.log(error);
+        },
       }
-    })
-  }
+    );
+  };
 }
 
-export function insertAppBlockComment (comment, cb) {
+export function insertAppBlockComment(comment, cb) {
   return (dispatch, getState) => {
     const blocks = {
-      type: 'app_package',
+      type: "app_package",
       app_package: comment.provider.name,
       values: comment.values,
       schema: comment.provider.schema,
-      wait_for_input: true
-    }
+      wait_for_input: true,
+    };
 
-    graphql(INSERT_APP_BLOCK_COMMMENT, {
-      appKey: getState().app.key,
-      id: getState().conversation.key,
-      controls: blocks
-    }, {
-      success: (data) => {
-        console.log(data)
-        cb()
+    graphql(
+      INSERT_APP_BLOCK_COMMMENT,
+      {
+        appKey: getState().app.key,
+        id: getState().conversation.key,
+        controls: blocks,
       },
-      error: (error) => {
-        console.log(error)
+      {
+        success: (data) => {
+          console.log(data);
+          cb();
+        },
+        error: (error) => {
+          console.log(error);
+        },
       }
-    })
-  }
+    );
+  };
 }
 
-export function insertNote (comment, cb) {
+export function insertNote(comment, cb) {
   return (dispatch, getState) => {
-    graphql(INSERT_NOTE, {
-      appKey: getState().app.key,
-      id: getState().conversation.id,
-      message: comment
-    }, {
-      success: (data) => {
-        console.log(data)
-        cb()
+    graphql(
+      INSERT_NOTE,
+      {
+        appKey: getState().app.key,
+        id: getState().conversation.id,
+        message: comment,
       },
-      error: (error) => {
-        console.log(error)
+      {
+        success: (data) => {
+          console.log(data);
+          cb();
+        },
+        error: (error) => {
+          console.log(error);
+        },
       }
-    })
-  }
+    );
+  };
 }
 
-export function appendMessage (data, cb) {
+export function appendMessage(data, cb) {
   return (dispatch, getState) => {
-    const newData = camelizeKeys(data)
+    const newData = camelizeKeys(data);
 
     // update existing message
     if (getState().conversation.collection.find((o) => o.id === newData.id)) {
       const new_collection = getState().conversation.collection.map((o) => {
         if (o.id === newData.id) {
-          return newData
+          return newData;
         } else {
-          return o
+          return o;
         }
-      })
+      });
 
-      const newMessages = Object.assign({},
-        getState().conversation,
-        { collection: new_collection }
-      )
+      const newMessages = Object.assign({}, getState().conversation, {
+        collection: new_collection,
+      });
 
-      dispatch(dispatchGetConversations(newMessages))
+      dispatch(dispatchGetConversations(newMessages));
     } else {
       // if (getState().current_user.email !== newData.appUser.email) {
-      if (newData.appUser.kind !== 'agent') {
-        playSound()
+      if (newData.appUser.kind !== "agent") {
+        playSound();
       }
 
-      const newMessages = Object.assign({},
-        getState().conversation,
-        { collection: [newData].concat(getState().conversation.collection) })
+      const newMessages = Object.assign({}, getState().conversation, {
+        collection: [newData].concat(getState().conversation.collection),
+      });
 
       // debugger
-      dispatch(dispatchGetConversations(newMessages))
+      dispatch(dispatchGetConversations(newMessages));
 
-      if (cb) cb()
+      if (cb) cb();
     }
-  }
+  };
 }
 
-export function assignUser (key, cb) {
-  return (dispatch, getState) => {
-  }
+export function assignUser(key, cb) {
+  return (dispatch, getState) => {};
 }
 
-export function setLoading (val) {
+export function setLoading(val) {
   return (dispatch, getState) => {
-    dispatch(dispatchUpdateConversations({ loading: val }))
-  }
+    dispatch(dispatchUpdateConversations({ loading: val }));
+  };
 }
 
-export function toggleConversationPriority (key, cb) {
-  return (dispatch, getState) => {
-  }
+export function toggleConversationPriority(key, cb) {
+  return (dispatch, getState) => {};
 }
 
-export function updateConversationState (state, cb) {
+export function updateConversationState(state, cb) {
   return (dispatch, getState) => {
-    graphql(UPDATE_CONVERSATION_STATE, {
-      appKey: getState().app.key,
-      conversationId: getState().conversation.id,
-      state: state
-    }, {
-      success: (data) => {
-        const conversation = data.updateConversationState.conversation
-
-        const newConversation = Object.assign({}, getState().conversation, conversation)
-        dispatch(dispatchGetConversations(newConversation))
-
-        if (cb) cb(newConversation)
+    graphql(
+      UPDATE_CONVERSATION_STATE,
+      {
+        appKey: getState().app.key,
+        conversationId: getState().conversation.id,
+        state: state,
       },
-      error: (error) => {
+      {
+        success: (data) => {
+          const conversation = data.updateConversationState.conversation;
+
+          const newConversation = Object.assign(
+            {},
+            getState().conversation,
+            conversation
+          );
+          dispatch(dispatchGetConversations(newConversation));
+
+          if (cb) cb(newConversation);
+        },
+        error: (error) => {},
       }
-    })
-  }
+    );
+  };
 }
 
-export function updateConversationPriority (cb) {
+export function updateConversationPriority(cb) {
   return (dispatch, getState) => {
-    graphql(TOGGLE_CONVERSATION_PRIORITY, {
-      appKey: getState().app.key,
-      conversationId: getState().conversation.id
-    }, {
-      success: (data) => {
-        const conversation = data.toggleConversationPriority.conversation
-        const newConversation = Object.assign({}, getState().conversation, conversation)
-        dispatch(dispatchGetConversations(newConversation))
-        if (cb) cb(newConversation)
+    graphql(
+      TOGGLE_CONVERSATION_PRIORITY,
+      {
+        appKey: getState().app.key,
+        conversationId: getState().conversation.id,
       },
-      error: (error) => {
+      {
+        success: (data) => {
+          const conversation = data.toggleConversationPriority.conversation;
+          const newConversation = Object.assign(
+            {},
+            getState().conversation,
+            conversation
+          );
+          dispatch(dispatchGetConversations(newConversation));
+          if (cb) cb(newConversation);
+        },
+        error: (error) => {},
       }
-    })
-  }
+    );
+  };
 }
 
-export function assignAgent (id, cb) {
+export function assignAgent(id, cb) {
   return (dispatch, getState) => {
-    graphql(ASSIGN_USER, {
-      appKey: getState().app.key,
-      conversationId: getState().conversation.id,
-      appUserId: id
-    }, {
-      success: (data) => {
-        const conversation = data.assignUser.conversation
-        const newConversation = Object.assign({}, getState().conversation, conversation)
-        dispatch(dispatchGetConversations(newConversation))
-        if (cb) cb(data.assignUser.conversation)
+    graphql(
+      ASSIGN_USER,
+      {
+        appKey: getState().app.key,
+        conversationId: getState().conversation.id,
+        appUserId: id,
       },
-      error: (error) => {
-
+      {
+        success: (data) => {
+          const conversation = data.assignUser.conversation;
+          const newConversation = Object.assign(
+            {},
+            getState().conversation,
+            conversation
+          );
+          dispatch(dispatchGetConversations(newConversation));
+          if (cb) cb(data.assignUser.conversation);
+        },
+        error: (error) => {},
       }
-    })
-  }
+    );
+  };
 }
 
-function dispatchGetConversations (data) {
+function dispatchGetConversations(data) {
   return {
     type: ActionTypes.GetConversation,
-    data: data
-  }
+    data: data,
+  };
 }
 
-function dispatchUpdateConversations (data) {
+function dispatchUpdateConversations(data) {
   return {
     type: ActionTypes.GetConversation,
-    data: data
-  }
+    data: data,
+  };
 }
 
-export function playSound () {
-  soundManager.createSound({
-    id: 'mySound',
-    url: '/sounds/pling.mp3',
-    autoLoad: true,
-    autoPlay: false,
-    // onload: function () {
-    //  alert('The sound ' + this.id + ' loaded!');
-    // },
-    volume: 50
-  }).play()
+export function playSound() {
+  soundManager
+    .createSound({
+      id: "mySound",
+      url: "/sounds/pling.mp3",
+      autoLoad: true,
+      autoPlay: false,
+      // onload: function () {
+      //  alert('The sound ' + this.id + ' loaded!');
+      // },
+      volume: 50,
+    })
+    .play();
 }
 
-const initialState = {}
+const initialState = {};
 
 // Reducer
-export default function reducer (state = initialState, action = {}) {
+export default function reducer(state = initialState, action = {}) {
   switch (action.type) {
     case ActionTypes.GetConversation: {
-      return action.data
+      return action.data;
     }
     case ActionTypes.UpdateConversation: {
-      return Object.merge({}, action.data, state)
+      return Object.merge({}, action.data, state);
     }
     default:
-      return state
+      return state;
   }
 }

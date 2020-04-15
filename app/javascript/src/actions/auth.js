@@ -1,25 +1,25 @@
-import axios from 'axios'
-import { errorMessage } from './status_messages'
-import { clearCurrentUser } from './current_user'
+import axios from "axios";
+import { errorMessage } from "./status_messages";
+import { clearCurrentUser } from "./current_user";
 
 // Actions
-const REQUEST = 'auth/REQUEST'
-const RECEIVED = 'auth/RECEIVED'
-const FAILED = 'auth/FAILED'
-const SIGNOUT = 'auth/SIGNOUT'
+const REQUEST = "auth/REQUEST";
+const RECEIVED = "auth/RECEIVED";
+const FAILED = "auth/FAILED";
+const SIGNOUT = "auth/SIGNOUT";
 
 // Action Creators
-export function authenticate (email, password, cb) {
+export function authenticate(email, password, cb) {
   return (dispatch, getState) => {
-    dispatch(startAuthentication())
+    dispatch(startAuthentication());
 
-    axios.defaults.withCredentials = true
+    axios.defaults.withCredentials = true;
 
     return axios({
       //baseURL: 'http://localhost:3000',
-      url: '/agents/sign_in.json',
+      url: "/agents/sign_in.json",
       // url: '/oauth/token.json',
-      method: 'POST',
+      method: "POST",
       /* auth: {
         username: "oez_okGx2AihZp0iRtEzp_ACAfik-JzWbIi8aQuGX6U",
         password: "rpruGxmsm9v0NHyxdIX2czYBGLa8ZzcQi8qWCXERTNo"
@@ -28,82 +28,85 @@ export function authenticate (email, password, cb) {
         agent: { email, password },
         email: email,
         password: password,
-        grant_type: 'password'
-      }
-    }).then(response => {
-      /* const uid = response.headers['uid']
+        grant_type: "password",
+      },
+    })
+      .then((response) => {
+        /* const uid = response.headers['uid']
       const client = response.headers['client']
       const accessToken = response.headers['access-token']
       const expiry = response.headers['expiry'] */
-      // const jwt = response.headers['authorization']
-      const accessToken = response.data.access_token
-      const refreshToken = response.data.refresh_token
-      dispatch(successAuthentication(accessToken, refreshToken)) //, uid, client, accessToken, expiry))
+        // const jwt = response.headers['authorization']
+        const accessToken = response.data.access_token;
+        const refreshToken = response.data.refresh_token;
+        dispatch(successAuthentication(accessToken, refreshToken)); //, uid, client, accessToken, expiry))
 
-      if (cb) cb()
-    }).catch(data => {
-      const err = data && data.response.data ? data.response.data.error : 'error!'
-      dispatch(errorMessage(err))
-      dispatch(failAuthentication())
-    })
-  }
+        if (cb) cb();
+      })
+      .catch((data) => {
+        const err =
+          data && data.response.data ? data.response.data.error : "error!";
+        dispatch(errorMessage(err));
+        dispatch(failAuthentication());
+      });
+  };
 }
 
-export function signout () {
+export function signout() {
   return (dispatch, getState) => {
-    const { auth } = getState()
+    const { auth } = getState();
 
-    axios.delete(
-      '/agents/sign_out.json',
-      {
+    axios
+      .delete("/agents/sign_out.json", {
         headers: {
-          'access-token': auth.accessToken,
+          "access-token": auth.accessToken,
           client: auth.client,
-          uid: auth.uid
-        }
-      }
-    ).then(response => {
-      dispatch(doSignout())
-      dispatch(clearCurrentUser())
-    }).catch(error => {
-      console.log(error)
-    })
-  }
+          uid: auth.uid,
+        },
+      })
+      .then((response) => {
+        dispatch(doSignout());
+        dispatch(clearCurrentUser());
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
 }
 
-export function expireAuthentication () {
-  return doSignout()
+export function expireAuthentication() {
+  return doSignout();
 }
 
-function startAuthentication () {
-  return { type: REQUEST }
+function startAuthentication() {
+  return { type: REQUEST };
 }
 
-export function successAuthentication (accessToken, refreshToken) {
+export function successAuthentication(accessToken, refreshToken) {
   //, uid, client, accessToken, expiry) {
   return {
     type: RECEIVED,
     data: {
       refresh_token: refreshToken,
-      access_token: accessToken
-    }
-  } // uid, client, accessToken, expiry }
+      access_token: accessToken,
+    },
+  }; // uid, client, accessToken, expiry }
 }
 
-function failAuthentication () {
-  return { type: FAILED }
+function failAuthentication() {
+  return { type: FAILED };
 }
 
-export function doSignout () {
-  return { type: SIGNOUT }
+export function doSignout() {
+  return { type: SIGNOUT };
 }
 
 // Reducer
-export default function reducer (state, action = {}) {
-  const REQUEST = 'auth/REQUEST'
-  const RECEIVED = 'auth/RECEIVED'
-  const FAILED = 'auth/FAILED'
-  const SIGNOUT = 'auth/SIGNOUT'
+export default function reducer(state, action = {}) {
+  const REQUEST = "auth/REQUEST";
+  const RECEIVED = "auth/RECEIVED";
+  const FAILED = "auth/FAILED";
+  const SIGNOUT = "auth/SIGNOUT";
 
   const initialState = {
     loading: false,
@@ -111,46 +114,32 @@ export default function reducer (state, action = {}) {
     client: null,
     accessToken: null,
     uid: null,
-    expiry: null
-  }
+    expiry: null,
+  };
 
   switch (action.type) {
     case REQUEST:
-      return Object.assign(
-        {},
-        state,
-        {
-          loading: true
-        }
-      )
+      return Object.assign({}, state, {
+        loading: true,
+      });
     case RECEIVED:
-      return Object.assign(
-        {},
-        state,
-        {
-          loading: false,
-          isAuthenticated: true,
-          // uid: action.uid,
-          // client: action.client,
-          accessToken: action.data.access_token,
-          refreshToken: action.data.refresh_token
-          // jwt: action.jwt,
-          // expiry: action.expiry
-        }
-      )
+      return Object.assign({}, state, {
+        loading: false,
+        isAuthenticated: true,
+        // uid: action.uid,
+        // client: action.client,
+        accessToken: action.data.access_token,
+        refreshToken: action.data.refresh_token,
+        // jwt: action.jwt,
+        // expiry: action.expiry
+      });
     case FAILED:
-      return Object.assign(
-        {},
-        state,
-        {
-          loading: false
-        }
-      )
+      return Object.assign({}, state, {
+        loading: false,
+      });
     case SIGNOUT:
-      return Object.assign(
-        {},
-        initialState
-      )
-    default: return state === undefined ? initialState : state
+      return Object.assign({}, initialState);
+    default:
+      return state === undefined ? initialState : state;
   }
 }

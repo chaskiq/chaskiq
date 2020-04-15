@@ -1,12 +1,13 @@
 // import { MuiPickersUtilsProvider } from '@material-ui/pickers';
 // import DateFnsUtils from "@date-io/moment"
-import React, { useState } from 'react'
+import React, { useState } from "react";
 // import { DateTimePicker, KeyboardDateTimePicker } from "@material-ui/pickers";
 
-function InlineDateTimePickerDemo (props) {
-  const [selectedDate, handleDateChange] = useState(props.value)
+function InlineDateTimePickerDemo(props) {
+  const [selectedDate, handleDateChange] = useState(props.value);
 
-  { /* <MuiPickersUtilsProvider utils={DateFnsUtils}>
+  {
+    /* <MuiPickersUtilsProvider utils={DateFnsUtils}>
       <KeyboardDateTimePicker
         variant="inline"
         ampm={false}
@@ -20,11 +21,10 @@ function InlineDateTimePickerDemo (props) {
         //disablePast
         format="YYYY/MM/DD HH:mm"
       />
-      </MuiPickersUtilsProvider> */ }
+      </MuiPickersUtilsProvider> */
+  }
 
-  return (
-    <p>return a date picker here!</p>
-  )
+  return <p>return a date picker here!</p>;
 }
 
-export default InlineDateTimePickerDemo
+export default InlineDateTimePickerDemo;

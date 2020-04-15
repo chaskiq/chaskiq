@@ -1,11 +1,11 @@
-import React, { Component } from 'react'
-import graphql from '../../graphql/client'
-import { UPDATE_CAMPAIGN, DELIVER_CAMPAIGN} from '../../graphql/mutations'
-import TextEditor from '../../components/textEditor'
-import styled from '@emotion/styled'
-import {ThemeProvider} from 'emotion-theming'
-import theme from '../../components/textEditor/theme'
-import EditorContainer from '../../components/textEditor/editorStyles'
+import React, { Component } from "react";
+import graphql from "../../graphql/client";
+import { UPDATE_CAMPAIGN, DELIVER_CAMPAIGN } from "../../graphql/mutations";
+import TextEditor from "../../components/textEditor";
+import styled from "@emotion/styled";
+import { ThemeProvider } from "emotion-theming";
+import theme from "../../components/textEditor/theme";
+import EditorContainer from "../../components/textEditor/editorStyles";
 
 const ButtonsContainer = styled.div`
   display: flex;
@@ -15,16 +15,16 @@ const ButtonsContainer = styled.div`
   width: 100%;
   float: right;
   margin: 4px 4px;
-`
+`;
 
 const ButtonsRow = styled.div`
   align-self: flex-end;
   clear: both;
   margin: 0px;
-  button{
+  button {
     margin-right: 2px;
   }
-`
+`;
 
 const BrowserSimulator = styled.div`
   display: flex;
@@ -32,51 +32,57 @@ const BrowserSimulator = styled.div`
   border-radius: 4px;
   background: #fafafa;
   border: 1px solid #dde1eb;
-  -webkit-box-shadow: 0 4px 8px 0 hsla(212,9%,64%,.16), 0 1px 2px 0 rgba(39,45,52,.08);
-  box-shadow: 0 4px 8px 0 hsla(212,9%,64%,.16), 0 1px 2px 0 rgba(39,45,52,.08);
+  -webkit-box-shadow: 0 4px 8px 0 hsla(212, 9%, 64%, 0.16),
+    0 1px 2px 0 rgba(39, 45, 52, 0.08);
+  box-shadow: 0 4px 8px 0 hsla(212, 9%, 64%, 0.16),
+    0 1px 2px 0 rgba(39, 45, 52, 0.08);
   border-bottom-right-radius: 0;
   border-bottom-left-radius: 0;
-`
+`;
 const BrowserSimulatorHeader = styled.div`
-  background: rgb(199,199,199);
-  background: linear-gradient(0deg, rgba(199,199,199,1) 0%, rgba(223,223,223,1) 55%, rgba(233,233,233,1) 100%);
+  background: rgb(199, 199, 199);
+  background: linear-gradient(
+    0deg,
+    rgba(199, 199, 199, 1) 0%,
+    rgba(223, 223, 223, 1) 55%,
+    rgba(233, 233, 233, 1) 100%
+  );
   border-bottom: 1px solid #b1b0b0;
   padding: 10px;
-  display:flex;
-`
+  display: flex;
+`;
 const BrowserSimulatorButtons = styled.div`
   display: flex;
   justify-content: space-between;
   width: 43px;
 
-  .r{
+  .r {
     width: 10px;
     height: 10px;
     border-radius: 50%;
     background-color: #fc635e;
     border: 1px solid #dc4441;
   }
-  .y{
+  .y {
     width: 10px;
     height: 10px;
     border-radius: 50%;
     background-color: #fdbc40;
     border: 1px solid #db9c31;
   }
-  .g{
+  .g {
     width: 10px;
     height: 10px;
     border-radius: 50%;
     background-color: #35cd4b;
     border: 1px solid #24a732;
   }
-`
+`;
 
 const EditorPad = styled.div`
-
-
-  ${props => props.mode === "user_auto_messages" ? 
-    ` display:flex;
+  ${(props) =>
+    props.mode === "user_auto_messages"
+      ? ` display:flex;
       justify-content: flex-end;
       flex-flow: column;
       height: 90vh;
@@ -85,9 +91,8 @@ const EditorPad = styled.div`
         height: 440px;
         overflow: auto;
       }
-    ` : 
-
     `
+      : `
       padding: 2em;
       background-color: white;
       margin-top: 23px;
@@ -101,24 +106,24 @@ const EditorPad = styled.div`
         margin: 2em;
       }
       
-    `
-  } 
-`
+    `}
+`;
 
-const EditorContentWrapper = styled.div`
-
-`
+const EditorContentWrapper = styled.div``;
 
 const EditorMessengerEmulator = styled.div`
-  ${props => props.mode === "user_auto_messages" ? `
+  ${(props) =>
+    props.mode === "user_auto_messages"
+      ? `
   display:flex;
-  justify-content: flex-end;`: ``}
-`
+  justify-content: flex-end;`
+      : ``}
+`;
 
 const EditorMessengerEmulatorWrapper = styled.div`
-
-  ${props => props.mode === "user_auto_messages" ? 
-    `width: 380px;
+  ${(props) =>
+    props.mode === "user_auto_messages"
+      ? `width: 380px;
     background: #fff;
     border: 1px solid #f3efef;
     margin-bottom: 25px;
@@ -131,27 +136,27 @@ const EditorMessengerEmulatorWrapper = styled.div`
       margin-top: -2px;
       margin-left: -2px;
     }
-    `: ``}
-
-`
+    `
+      : ``}
+`;
 
 const EditorMessengerEmulatorHeader = styled.div`
-  ${props => props.mode === "user_auto_messages" ? `
+  ${(props) =>
+    props.mode === "user_auto_messages"
+      ? `
   padding: 1em;
   border-bottom: 1px solid #ccc;
-  ` :``}
-`
-
-
+  `
+      : ``}
+`;
 
 export default class CampaignEditor extends Component {
-
   constructor(props) {
-    super(props)
+    super(props);
 
-    this.ChannelEvents = null
-    this.conn = null
-    this.menuResizeFunc = null
+    this.ChannelEvents = null;
+    this.conn = null;
+    this.menuResizeFunc = null;
     this.state = {
       loading: true,
       currentContent: null,
@@ -162,64 +167,58 @@ export default class CampaignEditor extends Component {
       data: {},
       status: "",
       read_only: false,
-      statusButton: "inprogress"
-    }
+      statusButton: "inprogress",
+    };
   }
 
-  saveContent = (content)=>{
-    if(this.props.data.serializedContent === content.serialized)
-    return
+  saveContent = (content) => {
+    if (this.props.data.serializedContent === content.serialized) return;
 
     this.setState({
       status: "saving...",
-      statusButton: "success"
-    })
+      statusButton: "success",
+    });
 
     const params = {
       appKey: this.props.app.key,
       id: this.props.data.id,
       campaignParams: {
         html_content: content.html,
-        serialized_content: content.serialized
-    }}
+        serialized_content: content.serialized,
+      },
+    };
 
     graphql(UPDATE_CAMPAIGN, params, {
-      success: (data)=>{
-        this.props.updateData(data.campaignUpdate.campaign, null)
-        this.setState({ status: "saved" })
-      }, 
-      error: ()=>{
-
-      }
-    })
-  }
+      success: (data) => {
+        this.props.updateData(data.campaignUpdate.campaign, null);
+        this.setState({ status: "saved" });
+      },
+      error: () => {},
+    });
+  };
 
   saveHandler = (html3, plain, serialized) => {
-    debugger
-  }
+    debugger;
+  };
 
-  uploadHandler = ({serviceUrl, imageBlock})=>{
-    imageBlock.uploadCompleted(serviceUrl)
-  }
-
+  uploadHandler = ({ serviceUrl, imageBlock }) => {
+    imageBlock.uploadCompleted(serviceUrl);
+  };
 
   handleSend = (e) => {
-
     const params = {
       appKey: this.props.app.key,
       id: this.props.data.id,
-    }
+    };
 
     graphql(DELIVER_CAMPAIGN, params, {
-      success: (data)=>{
-        this.props.updateData(data.campaignDeliver.campaign, null)
-        this.setState({ status: "saved" })
-      }, 
-      error: ()=>{
-
-      }
-    })
-  }
+      success: (data) => {
+        this.props.updateData(data.campaignDeliver.campaign, null);
+        this.setState({ status: "saved" });
+      },
+      error: () => {},
+    });
+  };
 
   render() {
     // !this.state.loading &&
@@ -227,77 +226,56 @@ export default class CampaignEditor extends Component {
       return <Loader />
     }*/
 
-    return <EditorContentWrapper mode={this.props.mode}>
-
-          <ButtonsContainer>
-
-            <div style={{ alignSelf: 'start'}}>
-              <div appearance={this.state.statusButton} isBold>
-                {this.state.status}
-              </div>
+    return (
+      <EditorContentWrapper mode={this.props.mode}>
+        <ButtonsContainer>
+          <div style={{ alignSelf: "start" }}>
+            <div appearance={this.state.statusButton} isBold>
+              {this.state.status}
             </div>
+          </div>
+        </ButtonsContainer>
 
-          </ButtonsContainer> 
-    
-          <BrowserSimulator mode={this.props.mode}>
-            <BrowserSimulatorHeader>
-              <BrowserSimulatorButtons>
+        <BrowserSimulator mode={this.props.mode}>
+          <BrowserSimulatorHeader>
+            <BrowserSimulatorButtons>
+              <div className={"circleBtn r"}></div>
+              <div className={"circleBtn y"}></div>
+              <div className={"circleBtn g"}></div>
+            </BrowserSimulatorButtons>
+          </BrowserSimulatorHeader>
 
-                <div className={'circleBtn r'}></div>
-                <div className={'circleBtn y'}></div>
-                <div className={'circleBtn g'}></div>
+          <EditorPad mode={this.props.mode}>
+            <EditorMessengerEmulator mode={this.props.mode}>
+              <EditorMessengerEmulatorWrapper mode={this.props.mode}>
+                <EditorMessengerEmulatorHeader mode={this.props.mode} />
 
-              </BrowserSimulatorButtons>
-            </BrowserSimulatorHeader>
-
-            <EditorPad mode={this.props.mode}>
-
-              <EditorMessengerEmulator mode={this.props.mode}>
-                <EditorMessengerEmulatorWrapper mode={this.props.mode}>
-                  <EditorMessengerEmulatorHeader mode={this.props.mode}/>
-
-                  
-                      <TextEditor 
-                        campaign={true} 
-                        uploadHandler={this.uploadHandler}
-                        serializedContent={this.props.data.serializedContent}
-                        read_only={this.state.read_only}
-                        toggleEditable={()=>{
-                          this.setState({read_only: !this.state.read_only})
-                        }}
-                        data={
-                            {
-                              serialized_content: this.props.data.serializedContent
-                            }
-                          }
-                        styles={
-                          {
-                            lineHeight: '2em',
-                            fontSize: '1.2em'
-                          }
-                        }
-                        saveHandler={this.saveHandler} 
-                        updateState={({status, statusButton, content})=> {
-                          console.log("get content", content)
-                          this.saveContent(content )
-                        }
-                      }
-                  />
-                    
-                  
-                
-                
-                  </EditorMessengerEmulatorWrapper>
-              </EditorMessengerEmulator>
-
-
-            </EditorPad>
-
-          </BrowserSimulator>
-
-       </EditorContentWrapper>
-
-          
+                <TextEditor
+                  campaign={true}
+                  uploadHandler={this.uploadHandler}
+                  serializedContent={this.props.data.serializedContent}
+                  read_only={this.state.read_only}
+                  toggleEditable={() => {
+                    this.setState({ read_only: !this.state.read_only });
+                  }}
+                  data={{
+                    serialized_content: this.props.data.serializedContent,
+                  }}
+                  styles={{
+                    lineHeight: "2em",
+                    fontSize: "1.2em",
+                  }}
+                  saveHandler={this.saveHandler}
+                  updateState={({ status, statusButton, content }) => {
+                    console.log("get content", content);
+                    this.saveContent(content);
+                  }}
+                />
+              </EditorMessengerEmulatorWrapper>
+            </EditorMessengerEmulator>
+          </EditorPad>
+        </BrowserSimulator>
+      </EditorContentWrapper>
+    );
   }
-
 }

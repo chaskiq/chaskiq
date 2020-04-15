@@ -1,48 +1,38 @@
+import React from "react";
+import { isEmpty } from "lodash";
 
-import React from 'react'
-import { isEmpty } from 'lodash'
-
-export default function Table ({
-  data,
-  columns,
-  format,
-  search,
-  meta
-}) {
-  const visibleColumns = () => (
-    columns.filter((o) => !o.hidden)
-  )
+export default function Table({ data, columns, format, search, meta }) {
+  const visibleColumns = () => columns.filter((o) => !o.hidden);
 
   const renderDefaultRow = (value) => {
-    return <td
-      className="px-6 py-4 whitespace-no-wrap border-b border-gray-200">
-      {value}
-    </td>
-  }
+    return (
+      <td className="px-6 py-4 whitespace-no-wrap border-b border-gray-200">
+        {value}
+      </td>
+    );
+  };
 
   const handleFormat = (item) => {
-    console.log('ITEM', columns)
-    return <tr>
-      {visibleColumns().map((o) => (
-        o.render ? o.render(item)
-          : renderDefaultRow(item[o])
-      ))}
-    </tr>
-  }
+    console.log("ITEM", columns);
+    return (
+      <tr>
+        {visibleColumns().map((o) =>
+          o.render ? o.render(item) : renderDefaultRow(item[o])
+        )}
+      </tr>
+    );
+  };
 
   return (
     <React.Fragment>
       <table className="min-w-full">
         <thead>
           <tr>
-
-            {
-              visibleColumns().map((o) => (
-                <th className="px-6 py-3 border-b border-gray-200 bg-gray-50 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">
-                  {o.title}
-                </th>
-              ))
-            }
+            {visibleColumns().map((o) => (
+              <th className="px-6 py-3 border-b border-gray-200 bg-gray-50 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">
+                {o.title}
+              </th>
+            ))}
             {/* <th className="px-6 py-3 border-b border-gray-200 bg-gray-50 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">
               Name
             </th>
@@ -59,54 +49,44 @@ export default function Table ({
           </tr>
         </thead>
         <tbody className="bg-white">
-
-          {
-            data && data.map((o) => (
-              handleFormat(o)
-            ))
-          }
-
+          {data && data.map((o) => handleFormat(o))}
         </tbody>
       </table>
 
-      { meta && !isEmpty(meta) &&
-        <Pagination meta={meta} search={search}/>
-      }
-
+      {meta && !isEmpty(meta) && <Pagination meta={meta} search={search} />}
     </React.Fragment>
-  )
+  );
 }
 
-function Pagination ({ meta, search }) {
+function Pagination({ meta, search }) {
   return (
-
     <div className="bg-white px-4 py-3 flex items-center justify-between border-t border-gray-200 sm:px-6">
       <div className="flex-1 flex justify-between items-center">
-
         <button
           onClick={() => search(meta.prev_page)}
           disabled={!meta.prev_page}
-          className=" inline-flex items-center px-4 py-2 border border-gray-300 text-sm leading-5 font-medium rounded-md text-gray-700 bg-white hover:text-gray-500 focus:outline-none focus:shadow-outline-blue focus:border-blue-300 active:bg-gray-100 active:text-gray-700 transition ease-in-out duration-150">
+          className=" inline-flex items-center px-4 py-2 border border-gray-300 text-sm leading-5 font-medium rounded-md text-gray-700 bg-white hover:text-gray-500 focus:outline-none focus:shadow-outline-blue focus:border-blue-300 active:bg-gray-100 active:text-gray-700 transition ease-in-out duration-150"
+        >
           Previous
         </button>
 
         <p className="text-sm leading-5 text-gray-700">
-        Showing
-          <span className="font-medium ml-1 mr-1">{meta.current_page }</span>
-        to
+          Showing
+          <span className="font-medium ml-1 mr-1">{meta.current_page}</span>
+          to
           <span className="font-medium ml-1 mr-1">{meta.total_pages}</span>
-        of
+          of
           <span className="font-medium ml-1 mr-1">{meta.total_count}</span>
-        results
+          results
         </p>
 
         <button
           disabled={!meta.next_page}
           onClick={() => search(meta.next_page)}
-          className="ml-3  inline-flex items-center px-4 py-2 border border-gray-300 text-sm leading-5 font-medium rounded-md text-gray-700 bg-white hover:text-gray-500 focus:outline-none focus:shadow-outline-blue focus:border-blue-300 active:bg-gray-100 active:text-gray-700 transition ease-in-out duration-150">
-        Next
+          className="ml-3  inline-flex items-center px-4 py-2 border border-gray-300 text-sm leading-5 font-medium rounded-md text-gray-700 bg-white hover:text-gray-500 focus:outline-none focus:shadow-outline-blue focus:border-blue-300 active:bg-gray-100 active:text-gray-700 transition ease-in-out duration-150"
+        >
+          Next
         </button>
-
       </div>
 
       {/*
@@ -162,10 +142,8 @@ function Pagination ({ meta, search }) {
       </div>
     </div>
     */}
-
     </div>
-
-  )
+  );
 }
 
 /*

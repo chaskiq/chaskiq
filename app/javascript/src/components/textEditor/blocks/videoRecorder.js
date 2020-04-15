@@ -1,36 +1,35 @@
-import React, { Component } from 'react';
+import React, { Component } from "react";
+import { EditorBlock } from "draft-js";
+import ReactMediaRecorder from "Dante2/package/es/components/blocks/videoRecorder/MediaRecorder";
+import styled from "@emotion/styled";
+import icon from "Dante2/package/es/components/blocks/videoRecorder/icon"; //"./icon.js"
 import {
-  EditorBlock 
-} from 'draft-js'
-import ReactMediaRecorder from 'Dante2/package/es/components/blocks/videoRecorder/MediaRecorder'
-import styled from '@emotion/styled'
-import icon from "Dante2/package/es/components/blocks/videoRecorder/icon" //"./icon.js"
-import { updateDataOfBlock, addNewBlockAt } from "Dante2/package/es/model/index.js" //'../../../model/index.js'
-import axios from 'axios'
+  updateDataOfBlock,
+  addNewBlockAt,
+} from "Dante2/package/es/model/index.js"; //'../../../model/index.js'
+import axios from "axios";
 
 const VideoContainer = styled.div`
-  background: ${props => props.theme.inversed_color};
+  background: ${(props) => props.theme.inversed_color};
   padding: 0px;
   margin-bottom: 10px;
-  //border: 1px solid ${props => props.theme.dante_control_color};
-  box-shadow: 0 1px 4px ${props => props.theme.dante_control_color};
+  //border: 1px solid ${(props) => props.theme.dante_control_color};
+  box-shadow: 0 1px 4px ${(props) => props.theme.dante_control_color};
   border-radius: 10px;
   position:relative;
-`
+`;
 
 const VideoBody = styled.div`
   padding-bottom: 20px;
-`
+`;
 
-const green  = '#00ab6b'
-const red    = '#e61742'
-const green2 = '#52e617'
-const gray   = '#bbbbbb'
+const green = "#00ab6b";
+const red = "#e61742";
+const green2 = "#52e617";
+const gray = "#bbbbbb";
 
 const RecordActivity = styled.div`
-  background: ${props =>
-    props.active ? red : green
-  };
+  background: ${(props) => (props.active ? red : green)};
   position: absolute;
   height: 13px;
   width: 13px;
@@ -40,59 +39,51 @@ const RecordActivity = styled.div`
   top: 58px;
   right: 25px;
   box-shadow: inset -1px -2px 14px 0px #841744;
-
-`
+`;
 
 const EditorControls = styled.div`
-    position: absolute;
-    width: 100%;
-    display: -webkit-box;
-    display: -webkit-flex;
-    display: -ms-flexbox;
-    display: -webkit-box;
-    display: -webkit-flex;
-    display: -ms-flexbox;
-    display: flex;
-    -ms-flex-align: center;
-    -ms-flex-pack: center;
-    margin-top: 25px;
-    margin-left: 17px;
-    height: 50px;
-    z-index: 100;
-`
+  position: absolute;
+  width: 100%;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-align: center;
+  -ms-flex-pack: center;
+  margin-top: 25px;
+  margin-left: 17px;
+  height: 50px;
+  z-index: 100;
+`;
 
 const StatusBar = styled.div`
   z-index: 10;
-  position:absolute;
+  position: absolute;
   height: 100%;
   width: 100%;
-  background: ${props =>
-    props.loading ? "white" : "transparent"
-  };
-  display: ${props =>
-    props.loading ? "flex" : "none"
-  };
-  align-items:center;
+  background: ${(props) => (props.loading ? "white" : "transparent")};
+  display: ${(props) => (props.loading ? "flex" : "none")};
+  align-items: center;
 
-  opacity: ${props =>
-    props.loading ? "0.9" : "1"
-  };
-`
+  opacity: ${(props) => (props.loading ? "0.9" : "1")};
+`;
 
 const VideoPlayer = styled.video`
   width: 100%;
   background: black;
-`
+`;
 
 const SecondsLeft = styled.div`
-    //position: absolute;
-    font-size: 1rem;
-    right: 39px;
-    top: 19px;
-    font-size: 2em;
-    color: white;
-
-`
+  //position: absolute;
+  font-size: 1rem;
+  right: 39px;
+  top: 19px;
+  font-size: 2em;
+  color: white;
+`;
 
 const RecButton = styled.div`
 
@@ -160,40 +151,38 @@ const RecButton = styled.div`
     left: 4px;
   }
 
-`
+`;
 
 const Button = styled.button`
+  outline: none;
+  height: 37px;
+  /* margin-right: 10px; */
+  /* text-align: center; */
+  border-radius: 40px;
+  background: ${green};
+  border: 2px solid ${green};
+  color: #ffffff;
+  -webkit-letter-spacing: 1px;
+  -moz-letter-spacing: 1px;
+  -ms-letter-spacing: 1px;
+  letter-spacing: 1px;
+  text-shadow: 0;
+  cursor: pointer;
+  -webkit-transition: all 0.25s ease;
+  transition: all 0.25s ease;
 
-    outline: none;
-    height: 37px;
-    /* margin-right: 10px; */
-    /* text-align: center; */
-    border-radius: 40px;
-    background: ${green};
-    border: 2px solid ${green};
-    color: #ffffff;
-    -webkit-letter-spacing: 1px;
-    -moz-letter-spacing: 1px;
-    -ms-letter-spacing: 1px;
-    letter-spacing: 1px;
-    text-shadow: 0;
-    cursor: pointer;
-    -webkit-transition: all 0.25s ease;
-    transition: all 0.25s ease;
+  font-size: 12px;
+  font-weight: bold;
 
-
-    font-size:12px;
-    font-weight:bold;
- 
   cursor: pointer;
   transition: all 0.25s ease;
   &:hover {
-    color:white;
+    color: white;
     background: ${green};
   }
   &:active {
     //letter-spacing: 2px;
-    letter-spacing: 2px ;
+    letter-spacing: 2px;
   }
   //&:after {
   //  content:"SUBMIT";
@@ -201,22 +190,22 @@ const Button = styled.button`
 
   &.onclic {
     width: 24px !important;
-    border-color:${gray};
-    border-width:3px;
-    font-size:0;
-    border-left-color:${green};
+    border-color: ${gray};
+    border-width: 3px;
+    font-size: 0;
+    border-left-color: ${green};
     animation: rotating 2s 0.25s linear infinite;
 
     &:after {
-      content:"";
+      content: "";
     }
     &:hover {
-      color:$green;
+      color: $green;
       background: white;
     }
   }
 
-  &.right{
+  &.right {
     float: right;
     margin-right: 26px;
   }
@@ -229,38 +218,32 @@ const Button = styled.button`
       transform: rotate(360deg);
     }
   }
-
-
-`
-
-
+`;
 
 class VideoRecorderBlock extends React.Component {
   constructor(props) {
     super(props);
-    this.file = this.props.blockProps.data.get('file')
-    this.config = this.props.blockProps.config
-    let existing_data = this.props.block.getData().toJS()
+    this.file = this.props.blockProps.data.get("file");
+    this.config = this.props.blockProps.config;
+    let existing_data = this.props.block.getData().toJS();
 
     this.state = {
       caption: this.defaultPlaceholder(),
       direction: existing_data.direction || "center",
       granted: false,
-      rejectedReason: '',
+      rejectedReason: "",
       recording: false,
       paused: false,
       fileReady: false,
       secondsLeft: 0,
       loading: false,
-      url: this.props.block.data.get('url')
+      url: this.props.block.data.get("url"),
     };
 
-    this.video = null
+    this.video = null;
 
-    this.stopTimeout = null
-    this.secondInterval = null
-
-
+    this.stopTimeout = null;
+    this.secondInterval = null;
 
     this.handleGranted = this.handleGranted.bind(this);
     this.handleDenied = this.handleDenied.bind(this);
@@ -271,98 +254,91 @@ class VideoRecorderBlock extends React.Component {
     this.setStreamToVideo = this.setStreamToVideo.bind(this);
     this.releaseStreamFromVideo = this.releaseStreamFromVideo.bind(this);
     this.downloadVideo = this.downloadVideo.bind(this);
-
   }
 
-  componentDidMount(){
-    this.video = this.refs.app.querySelector('video');
-    if(this.state.url){
-      this.setUrlToVideo(this.state.url)
-      this.playMode()
+  componentDidMount() {
+    this.video = this.refs.app.querySelector("video");
+    if (this.state.url) {
+      this.setUrlToVideo(this.state.url);
+      this.playMode();
     }
   }
 
-
-
   // will update block state
-  updateData = (options)=> {
-    let { blockProps, block } = this.props
-    let { getEditorState } = blockProps
-    let { setEditorState } = blockProps
-    let data = block.getData()
-    let newData = data.merge(this.state).merge(options)
-    return setEditorState(updateDataOfBlock(getEditorState(), block, newData))
-  }
+  updateData = (options) => {
+    let { blockProps, block } = this.props;
+    let { getEditorState } = blockProps;
+    let { setEditorState } = blockProps;
+    let data = block.getData();
+    let newData = data.merge(this.state).merge(options);
+    return setEditorState(updateDataOfBlock(getEditorState(), block, newData));
+  };
 
   handleGranted() {
     this.setState({ granted: true });
-    console.log('Permission Granted!');
+    console.log("Permission Granted!");
   }
 
   handleDenied(err) {
     this.setState({ rejectedReason: err.name });
-    console.log('Permission Denied!', err);
+    console.log("Permission Denied!", err);
   }
 
   handleStart(stream, context) {
-
     this.setState({
       recording: true,
-      fileReady: false
+      fileReady: false,
     });
 
     this.setStreamToVideo(stream);
-    console.log('Recording Started.');
+    console.log("Recording Started.");
 
-    // max seconds to record video 
-    if(!context.config.seconds_to_record) return
-    let count = context.config.seconds_to_record / 1000
+    // max seconds to record video
+    if (!context.config.seconds_to_record) return;
+    let count = context.config.seconds_to_record / 1000;
 
-    this.setState({secondsLeft: count})
-    
-    if(this.secondInterval) 
-      clearTimeout(this.secondInterval)
+    this.setState({ secondsLeft: count });
 
-    this.secondInterval = setInterval(()=> {
-       this.setState({secondsLeft: this.state.secondsLeft - 1})
+    if (this.secondInterval) clearTimeout(this.secondInterval);
+
+    this.secondInterval = setInterval(() => {
+      this.setState({ secondsLeft: this.state.secondsLeft - 1 });
     }, 1000);
 
-    this.stopTimeout = setTimeout(()=>{
-      context.refs.mediaRecorder.stop()
-
-    }, context.config.seconds_to_record )
+    this.stopTimeout = setTimeout(() => {
+      context.refs.mediaRecorder.stop();
+    }, context.config.seconds_to_record);
   }
 
   handleStop(blob) {
-
-    if(this.stopTimeout){
-      clearTimeout(this.secondInterval)
-      this.setState({secondsLeft: 0})
-      clearTimeout(this.stopTimeout)
+    if (this.stopTimeout) {
+      clearTimeout(this.secondInterval);
+      this.setState({ secondsLeft: 0 });
+      clearTimeout(this.stopTimeout);
     }
 
     this.setState({
       recording: false,
-      fileReady: true
+      fileReady: true,
     });
 
     this.releaseStreamFromVideo();
 
-    console.log('Recording Stopped.');
-    this.file = blob
+    console.log("Recording Stopped.");
+    this.file = blob;
     this.setStreamToVideo(this.file);
-    this.playMode()
+    this.playMode();
   }
 
-  confirm = ()=>{
+  confirm = () => {
     this.downloadVideo(this.file);
-  }
+  };
 
   handlePause() {
     this.releaseStreamFromVideo();
 
     this.setState({
-      paused: true
+      paused: true,
     });
   }
 
@@ -370,7 +346,7 @@ class VideoRecorderBlock extends React.Component {
     this.setStreamToVideo(stream);
 
     this.setState({
-      paused: false
+      paused: false,
     });
   }
 
@@ -378,22 +354,21 @@ class VideoRecorderBlock extends React.Component {
     console.log(err);
   }
 
-  recordMode = ()=>{
-    this.video.loop = false
-    this.video.controls = false
-    this.video.muted = true
-  }
+  recordMode = () => {
+    this.video.loop = false;
+    this.video.controls = false;
+    this.video.muted = true;
+  };
 
-  playMode = ()=>{
-    this.video.loop = false
-    this.video.controls = true
-    this.video.muted = true
-  }
+  playMode = () => {
+    this.video.loop = false;
+    this.video.controls = true;
+    this.video.muted = true;
+  };
 
   setStreamToVideo(stream) {
-
-    let video = this.refs.app.querySelector('video');
-    this.recordMode(video)
+    let video = this.refs.app.querySelector("video");
+    this.recordMode(video);
 
     // is a mediastream
     try {
@@ -403,200 +378,190 @@ class VideoRecorderBlock extends React.Component {
     }
   }
 
-  setUrlToVideo = (url)=>{
-    this.playMode()
-    this.video.src = url
-  }
+  setUrlToVideo = (url) => {
+    this.playMode();
+    this.video.src = url;
+  };
 
   releaseStreamFromVideo() {
-    this.video.src = '';
+    this.video.src = "";
     this.video.srcObject = null;
   }
 
   downloadVideo(blob) {
     //video.loop = true
-    this.setStreamToVideo(blob)
-    this.playMode()
-    this.uploadFile(blob)
+    this.setStreamToVideo(blob);
+    this.playMode();
+    this.uploadFile(blob);
   }
-
 
   /* DANTE UPLOAD FUNCTIONS */
 
-  formatData = ()=> {
-    let formData = new FormData()
-    
-    if (this.file) {
-      let formName = this.config.upload_formName || 'file'
+  formatData = () => {
+    let formData = new FormData();
 
-      formData.append(formName, this.file)
-      return formData
+    if (this.file) {
+      let formName = this.config.upload_formName || "file";
+
+      formData.append(formName, this.file);
+      return formData;
     } else {
       //formData.append('url', this.props.blockProps.data.get("url"))
-      formData.append('url', this.state.url)
-      return formData
+      formData.append("url", this.state.url);
+      return formData;
     }
-  }
+  };
 
-  getUploadUrl = ()=> {
-    let url = this.config.upload_url
+  getUploadUrl = () => {
+    let url = this.config.upload_url;
     if (typeof url === "function") {
-      return url()
+      return url();
     } else {
-      return url
+      return url;
     }
+  };
+
+  getUploadHeaders() {
+    return this.config.upload_headers || {};
   }
 
-  getUploadHeaders()  {
-   return this.config.upload_headers || {}
-  }
-
-  stopLoader = ()=> {
+  stopLoader = () => {
     return this.setState({
       loading: false,
-      fileReady: false
-    })
-  }
+      fileReady: false,
+    });
+  };
 
-  uploadFile = (blob)=> {
-
-    this.file = blob
+  uploadFile = (blob) => {
+    this.file = blob;
 
     // custom upload handler
     if (this.config.upload_handler) {
-      return this.config.upload_handler(this.state.url, this)
+      return this.config.upload_handler(this.state.url, this);
     }
-    
-    if (!this.config.upload_url){
-      this.stopLoader()
-      return
+
+    if (!this.config.upload_url) {
+      this.stopLoader();
+      return;
     }
 
     this.setState({
       loading: true,
-    })
+    });
 
-    
     axios({
-      method: 'post',
+      method: "post",
       url: this.getUploadUrl(),
       headers: this.getUploadHeaders(),
       data: this.formatData(),
-      onUploadProgress: e => {
-        return this.updateProgressBar(e)
-      }
-    }).then(result => {
-      this.uploadCompleted(result.data.url)
-
-      if (this.config.upload_callback) {
-        return this.config.upload_callback(result, this)
-      }
-    }).catch(error => {
-      this.uploadFailed()
-
-      console.log(`ERROR: got error uploading file ${ error }`)
-      if (this.config.upload_error_callback) {
-        return this.config.upload_error_callback(error, this)
-      }
+      onUploadProgress: (e) => {
+        return this.updateProgressBar(e);
+      },
     })
+      .then((result) => {
+        this.uploadCompleted(result.data.url);
 
-    return json_response => {
-      return this.uploadCompleted(json_response.url)
-    }
-  }
+        if (this.config.upload_callback) {
+          return this.config.upload_callback(result, this);
+        }
+      })
+      .catch((error) => {
+        this.uploadFailed();
 
-  uploadFailed = ()=> {
-    this.props.blockProps.removeLock()
-    this.stopLoader()
-  }
+        console.log(`ERROR: got error uploading file ${error}`);
+        if (this.config.upload_error_callback) {
+          return this.config.upload_error_callback(error, this);
+        }
+      });
+
+    return (json_response) => {
+      return this.uploadCompleted(json_response.url);
+    };
+  };
+
+  uploadFailed = () => {
+    this.props.blockProps.removeLock();
+    this.stopLoader();
+  };
 
   uploadCompleted(url) {
-    this.setState({ url }, this.updateData)
-    this.props.blockProps.removeLock()
-    this.stopLoader()
-    this.file = null
-    this.setUrlToVideo(url)
+    this.setState({ url }, this.updateData);
+    this.props.blockProps.removeLock();
+    this.stopLoader();
+    this.file = null;
+    this.setUrlToVideo(url);
   }
 
   updateProgressBar(e) {
-    let complete = this.state.loading_progress
+    let complete = this.state.loading_progress;
     if (e.lengthComputable) {
-      complete = e.loaded / e.total * 100
-      complete = complete != null ? complete : { complete: 0 }
+      complete = (e.loaded / e.total) * 100;
+      complete = complete != null ? complete : { complete: 0 };
       this.setState({
-        loading_progress: complete })
-      return console.log(`complete: ${ complete }`)
+        loading_progress: complete,
+      });
+      return console.log(`complete: ${complete}`);
     }
   }
 
-  isReadOnly = ()=>{
-    return this.props.blockProps.getEditor().props.read_only
-  }
+  isReadOnly = () => {
+    return this.props.blockProps.getEditor().props.read_only;
+  };
 
-  placeHolderEnabled = ()=> {
-    return this.state.enabled || this.props.block.getText()
-  }
+  placeHolderEnabled = () => {
+    return this.state.enabled || this.props.block.getText();
+  };
 
-  placeholderText = ()=> {
-    return this.config.image_caption_placeholder || 'caption here (optional)'
-  }
+  placeholderText = () => {
+    return this.config.image_caption_placeholder || "caption here (optional)";
+  };
 
-  defaultPlaceholder = ()=> {
-    return this.props.blockProps.config.image_caption_placeholder
-  }
+  defaultPlaceholder = () => {
+    return this.props.blockProps.config.image_caption_placeholder;
+  };
 
   render() {
-
     const granted = this.state.granted;
     const rejectedReason = this.state.rejectedReason;
     const recording = this.state.recording;
     const paused = this.state.paused;
     return (
-
       <div ref="app">
-
         <VideoContainer>
-      
-          <ReactMediaRecorder ref="mediaRecorder"
-            constraints={
-              { 
-                audio: {
-                        "sampleSize": 16,
-                        "channelCount": 2,
-                        "echoCancellation": true,
-                        "noiseSuppression": false
-                        },
-                video: true 
-              }
-           }
+          <ReactMediaRecorder
+            ref="mediaRecorder"
+            constraints={{
+              audio: {
+                sampleSize: 16,
+                channelCount: 2,
+                echoCancellation: true,
+                noiseSuppression: false,
+              },
+              video: true,
+            }}
             timeSlice={10}
             onGranted={this.handleGranted}
             onDenied={this.handleDenied}
-            onStart={(stream)=> this.handleStart(stream, this)}
+            onStart={(stream) => this.handleStart(stream, this)}
             onStop={this.handleStop}
             onPause={this.handlePause}
             onResume={this.handleResume}
-            onError={this.handleError} 
-            render={({ start, stop, pause, resume }) => 
-            <div>
+            onError={this.handleError}
+            render={({ start, stop, pause, resume }) => (
+              <div>
+                {!this.isReadOnly() ? (
+                  <StatusBar
+                    contentEditable={false}
+                    loading={this.state.loading}
+                  >
+                    {this.state.loading ? (
+                      <Loader
+                        toggle={this.state.loading}
+                        progress={this.state.loading_progress}
+                      />
+                    ) : null}
 
-              {
-                !this.isReadOnly() ?
-
-                  <StatusBar 
-                    contentEditable={false} 
-                    loading={this.state.loading}>
-
-
-                    {
-                      this.state.loading ?
-                      <Loader toggle={this.state.loading} 
-                        progress={this.state.loading_progress} 
-                      /> : null
-                    }
-
-                    {
-                      /*
+                    {/*
 
                         <p>
                         { 
@@ -612,112 +577,107 @@ class VideoRecorderBlock extends React.Component {
                          
                         }
 
-                      */
-                    }
-                  
-                  </StatusBar> : null
-              }
+                      */}
+                  </StatusBar>
+                ) : null}
 
-              <VideoBody>
-
-
-                {
-                  !this.isReadOnly() ?
-                
+                <VideoBody>
+                  {!this.isReadOnly() ? (
                     <EditorControls contentEditable={false}>
-
                       <div>
-                        {
-                          !this.state.loading ?
+                        {!this.state.loading ? (
                           <React.Fragment>
-                            <RecButton 
-                              onClick={(e)=>{
-                                  e.preventDefault()
-                                  this.state.recording ? stop() : start()
-                                }
-                              }
+                            <RecButton
+                              onClick={(e) => {
+                                e.preventDefault();
+                                this.state.recording ? stop() : start();
+                              }}
                               disabled={this.state.recording}
-                              className={this.state.recording ? 'recording' : ''}
-                              >
-                              {this.state.recording ? `recording. (${this.state.secondsLeft} seconds left)` : `press button to start recording`}
-                            </RecButton>  
+                              className={
+                                this.state.recording ? "recording" : ""
+                              }
+                            >
+                              {this.state.recording
+                                ? `recording. (${this.state.secondsLeft} seconds left)`
+                                : `press button to start recording`}
+                            </RecButton>
 
-                            <SecondsLeft/>
-                          </React.Fragment> : null
-                        }
-                      </div>  
+                            <SecondsLeft />
+                          </React.Fragment>
+                        ) : null}
+                      </div>
 
-                      {
-                        this.state.fileReady && !this.state.loading ?
-                          <Button
-                            onClick={(e)=>{
-                              e.preventDefault()
-                              this.confirm()
-                            }}>
-                            upload video ?
-                          </Button> : null
-                      }
+                      {this.state.fileReady && !this.state.loading ? (
+                        <Button
+                          onClick={(e) => {
+                            e.preventDefault();
+                            this.confirm();
+                          }}
+                        >
+                          upload video ?
+                        </Button>
+                      ) : null}
+                    </EditorControls>
+                  ) : null}
 
-                    </EditorControls> : null
+                  <VideoPlayer autoPlay muted />
 
-                }
-
-                <VideoPlayer autoPlay muted/>
-
-                <figcaption className='imageCaption' onMouseDown={this.handleFocus}>
-                  { this.props.block.getText().length === 0 ? 
-                    <span className="danteDefaultPlaceholder">
-                      {this.placeholderText()}
-                    </span> : undefined}
-                  <EditorBlock {...Object.assign({}, this.props, { 
-                    "editable": true, "className": "imageCaption" })
-                    } />
-                </figcaption>
-
-              </VideoBody>
-
-            </div>
-          } />
-
+                  <figcaption
+                    className="imageCaption"
+                    onMouseDown={this.handleFocus}
+                  >
+                    {this.props.block.getText().length === 0 ? (
+                      <span className="danteDefaultPlaceholder">
+                        {this.placeholderText()}
+                      </span>
+                    ) : undefined}
+                    <EditorBlock
+                      {...Object.assign({}, this.props, {
+                        editable: true,
+                        className: "imageCaption",
+                      })}
+                    />
+                  </figcaption>
+                </VideoBody>
+              </div>
+            )}
+          />
         </VideoContainer>
-
       </div>
     );
   }
 }
 
 class Loader extends React.Component {
-
-  render = ()=> {
+  render = () => {
     return (
       <React.Fragment>
-        { this.props.toggle
-          ? <div className="image-upoader-loader" style={{width: '100%', textAlign: 'center'}}>
-              <p>
-                { this.props.progress === 100
-                  ? "processing video..."
-                  : <span>
-                      <span>uploading video {" "}</span> 
-                      { 
-                        Math.round( this.props.progress ) 
-                      }
-                      %
-                    </span>
-                }
-              </p>
-            </div>
-          : null
-        }
+        {this.props.toggle ? (
+          <div
+            className="image-upoader-loader"
+            style={{ width: "100%", textAlign: "center" }}
+          >
+            <p>
+              {this.props.progress === 100 ? (
+                "processing video..."
+              ) : (
+                <span>
+                  <span>uploading video </span>
+                  {Math.round(this.props.progress)}%
+                </span>
+              )}
+            </p>
+          </div>
+        ) : null}
       </React.Fragment>
-    )
-  }
+    );
+  };
 }
 
-
-export const VideoRecorderBlockConfig = (options={})=>{
-  let config =  {
-    title: 'record a video',
-    type: 'recorded-video',
+export const VideoRecorderBlockConfig = (options = {}) => {
+  let config = {
+    title: "record a video",
+    type: "recorded-video",
     icon: icon,
     block: VideoRecorderBlock,
     editable: true,
@@ -725,7 +685,7 @@ export const VideoRecorderBlockConfig = (options={})=>{
     breakOnContinuous: true,
     wrapper_class: "graf graf--video",
     selected_class: "is-selected",
-    selectedFn: block => {},
+    selectedFn: (block) => {},
     /*handleEnterWithoutText(ctx, block) {
       const { editorState } = ctx.state
       return ctx.onChange(addNewBlockAt(editorState, block.getKey()))
@@ -738,17 +698,14 @@ export const VideoRecorderBlockConfig = (options={})=>{
     widget_options: {
       displayOnInlineTooltip: true,
       insertion: "insertion",
-      insert_block: "image"
+      insert_block: "image",
     },
     options: {
-      seconds_to_record: 10000
-    }
-  
-  }
-    
-  return Object.assign(config, options)
-} 
+      seconds_to_record: 10000,
+    },
+  };
+
+  return Object.assign(config, options);
+};
 
 export default VideoRecorderBlock;
-
-

@@ -1,30 +1,30 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import classNames from 'classnames';
-import { withStyles } from '@material-ui/core/styles';
-import Input from '@material-ui/core/Input';
-import InputLabel from '@material-ui/core/InputLabel';
-import MenuItem from '@material-ui/core/MenuItem';
-import FormControl from '@material-ui/core/FormControl';
-import ListItemText from '@material-ui/core/ListItemText';
-import Select from '@material-ui/core/Select';
-import Checkbox from '@material-ui/core/Checkbox';
-import Chip from '@material-ui/core/Chip';
+import React from "react";
+import PropTypes from "prop-types";
+import classNames from "classnames";
+import { withStyles } from "@material-ui/core/styles";
+import Input from "@material-ui/core/Input";
+import InputLabel from "@material-ui/core/InputLabel";
+import MenuItem from "@material-ui/core/MenuItem";
+import FormControl from "@material-ui/core/FormControl";
+import ListItemText from "@material-ui/core/ListItemText";
+import Select from "@material-ui/core/Select";
+import Checkbox from "@material-ui/core/Checkbox";
+import Chip from "@material-ui/core/Chip";
 
-const styles = theme => ({
+const styles = (theme) => ({
   root: {
-    display: 'flex',
-    flexWrap: 'wrap',
+    display: "flex",
+    flexWrap: "wrap",
   },
   formControl: {
     margin: theme.spacing.unit,
     //minWidth: 120,
     //maxWidth: 300,
-    width: '100%'
+    width: "100%",
   },
   chips: {
-    display: 'flex',
-    flexWrap: 'wrap',
+    display: "flex",
+    flexWrap: "wrap",
   },
   chip: {
     margin: theme.spacing.unit / 4,
@@ -55,18 +55,15 @@ function getStyles(name, that) {
 }
 
 class MultipleSelect extends React.Component {
+  constructor(props) {
+    super(props);
 
-
-  constructor(props){
-    super(props)
-    
     this.state = {
-      name: this.props.values || []
-    }
-
+      name: this.props.values || [],
+    };
   }
 
-  handleChange = event => {
+  handleChange = (event) => {
     this.setState({ name: event.target.value });
   };
 
@@ -86,29 +83,25 @@ class MultipleSelect extends React.Component {
             onChange={this.handleChange}
             name={this.props.name}
             input={<Input id="select-multiple-chip" />}
-            renderValue={selected => (
+            renderValue={(selected) => (
               <div className={classes.chips}>
-                {selected.map(value => (
-                  <Chip 
-                    key={value} 
-                    label={value} 
-                    className={classes.chip} 
-                   />
+                {selected.map((value) => (
+                  <Chip key={value} label={value} className={classes.chip} />
                 ))}
               </div>
             )}
             MenuProps={MenuProps}
           >
-            {this.props.data.options.map(({label, value}) => (
-              <MenuItem 
-                key={value} 
-                value={value} 
-                style={getStyles(value, this)}>
+            {this.props.data.options.map(({ label, value }) => (
+              <MenuItem
+                key={value}
+                value={value}
+                style={getStyles(value, this)}
+              >
                 {value}
               </MenuItem>
             ))}
           </Select>
-
         </FormControl>
       </div>
     );

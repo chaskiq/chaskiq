@@ -1,47 +1,44 @@
-import React from 'react'
-import { connect } from 'react-redux'
-import Content from '../../components/Content'
-import EmptyView from '../../components/EmptyView'
-import { setCurrentSection } from '../../actions/navigation'
-import { withRouter } from 'react-router-dom'
-import image from '../../images/delivery-icon8.png'
+import React from "react";
+import { connect } from "react-redux";
+import Content from "../../components/Content";
+import EmptyView from "../../components/EmptyView";
+import { setCurrentSection } from "../../actions/navigation";
+import { withRouter } from "react-router-dom";
+import image from "../../images/delivery-icon8.png";
 
-function CampaignHome ({ dispatch }) {
+function CampaignHome({ dispatch }) {
   React.useEffect(() => {
-    dispatch(
-      setCurrentSection('Campaigns')
-    )
-  }, [])
+    dispatch(setCurrentSection("Campaigns"));
+  }, []);
 
   return (
     <div>
       <Content>
         <EmptyView
-          title={'Campaigns'}
+          title={"Campaigns"}
           shadowless
           subtitle={
             <div>
-              This is the campaigns section, you can create newsletters
-              , popup messages and guided tours
-
-              <img src={image} width={'100%'}/>
+              This is the campaigns section, you can create newsletters , popup
+              messages and guided tours
+              <img src={image} width={"100%"} />
             </div>
-
-          }/>
+          }
+        />
       </Content>
     </div>
-  )
+  );
 }
 
-function mapStateToProps (state) {
-  const { auth, app } = state
-  const { loading, isAuthenticated } = auth
+function mapStateToProps(state) {
+  const { auth, app } = state;
+  const { loading, isAuthenticated } = auth;
 
   return {
     app,
     loading,
-    isAuthenticated
-  }
+    isAuthenticated,
+  };
 }
 
-export default withRouter(connect(mapStateToProps)(CampaignHome))
+export default withRouter(connect(mapStateToProps)(CampaignHome));

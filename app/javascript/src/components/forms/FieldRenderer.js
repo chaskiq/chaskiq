@@ -1,13 +1,13 @@
-import React from 'react'
+import React from "react";
 //import Select from '@atlaskit/select';
 //import FieldTextArea from '@atlaskit/field-text-area';
 //import FieldText from '@atlaskit/field-text';
 //import { DateTimePicker } from '@atlaskit/datetime-picker';
 //import { Checkbox } from '@atlaskit/checkbox';
 //import { Field } from '@atlaskit/form';
-import { snakeCase, camelCase } from 'lodash'
+import { snakeCase, camelCase } from "lodash";
 
-import Input from './Input'
+import Input from "./Input";
 //import TextField from '@material-ui/core/TextField'
 //import FormControl from '@material-ui/core/FormControl'
 //import FormControlLabel from '@material-ui/core/FormControlLabel'
@@ -31,68 +31,72 @@ import Input from './Input'
 //import { withStyles } from '@material-ui/core/styles';
 //import DateTime from './dateTime'
 
-export const errorsFor = (name, errors ) => {
-  if (!errors[name])
-    return null
-  console.log("error for", name)
-  return errors[name].map((o) => o).join(", ")
-}
+export const errorsFor = (name, errors) => {
+  if (!errors[name]) return null;
+  console.log("error for", name);
+  return errors[name].map((o) => o).join(", ");
+};
 
-
-export function gridClasses(field){
-  return Object.keys(field.grid).map((o)=>{
-    return `${o}:${field.grid[o]}`
-  }).join(" ")
+export function gridClasses(field) {
+  return Object.keys(field.grid)
+    .map((o) => {
+      return `${o}:${field.grid[o]}`;
+    })
+    .join(" ");
 }
 
 class FieldRenderer extends React.Component {
-
   fieldRenderer = () => {
-    
-    const {namespace, type, data, props, errors, errorNamespace, handler} = this.props
-    const errorName = snakeCase(`${errorNamespace ? errorNamespace : ''}${data.name}`)
-    const errorMessage = errorsFor(errorName, errors)
-    
-    console.log( props.data[camelCase(data.name)] )
-    return <div 
-      error={errorMessage}
-      //className={classes.formControl}
-      >
+    const {
+      namespace,
+      type,
+      data,
+      props,
+      errors,
+      errorNamespace,
+      handler,
+    } = this.props;
+    const errorName = snakeCase(
+      `${errorNamespace ? errorNamespace : ""}${data.name}`
+    );
+    const errorMessage = errorsFor(errorName, errors);
 
-      <Input
-        data={data}
-        label={data.label || data.name}
+    console.log(props.data[camelCase(data.name)]);
+    return (
+      <div
         error={errorMessage}
-        variant="standard"
-        type={type}
-        placeholder={data.placeholder}
-        options={data.options}
-        fullWidth
-        name={`${namespace}[${data.name}]`}
-        defaultValue={props.data[camelCase(data.name)]} 
-        handler={handler}
-        helperText={
-          <React.Fragment>
-            { 
-              errorMessage && 
-              <p className={`text-red-500 text-xs italic`}>
-              {errorMessage}
-              </p>
-            }
+        //className={classes.formControl}
+      >
+        <Input
+          data={data}
+          label={data.label || data.name}
+          error={errorMessage}
+          variant="standard"
+          type={type}
+          placeholder={data.placeholder}
+          options={data.options}
+          fullWidth
+          name={`${namespace}[${data.name}]`}
+          defaultValue={props.data[camelCase(data.name)]}
+          handler={handler}
+          helperText={
+            <React.Fragment>
+              {errorMessage && (
+                <p className={`text-red-500 text-xs italic`}>{errorMessage}</p>
+              )}
 
-            { data.hint && 
-              <p className={`text-gray-500 text-xs`}>
-              {data.hint}
-              </p>
-            }
-          </React.Fragment>
-        }
-      />
-    </div>
-  }
+              {data.hint && (
+                <p className={`text-gray-500 text-xs`}>{data.hint}</p>
+              )}
+            </React.Fragment>
+          }
+        />
+      </div>
+    );
+  };
 
-  render(){
-    return this.fieldRenderer()
+  render() {
+    return this.fieldRenderer();
   }
 }
 

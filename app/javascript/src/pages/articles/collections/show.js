@@ -1,26 +1,22 @@
-import React, {Component} from 'react'
-import { withRouter, Route, Switch } from 'react-router-dom'
-import { connect } from 'react-redux'
+import React, { Component } from "react";
+import { withRouter, Route, Switch } from "react-router-dom";
+import { connect } from "react-redux";
 
-import Button from '../../../components/Button'
-import TextField from '../../../components/forms/Input'
-import List, {
-  ListItem,
-  ListItemText
-} from '../../../components/List'
-import CircularProgress from '../../../components/Progress'
-import Checkbox from '../../../components/forms/Input'
-import ContentHeader from '../../../components/PageHeader'
-import {AnchorLink} from '../../../shared/RouterLink'
+import Button from "../../../components/Button";
+import TextField from "../../../components/forms/Input";
+import List, { ListItem, ListItemText } from "../../../components/List";
+import CircularProgress from "../../../components/Progress";
+import Checkbox from "../../../components/forms/Input";
+import ContentHeader from "../../../components/PageHeader";
+import { AnchorLink } from "../../../shared/RouterLink";
 
-import FormDialog from '../../../components/FormDialog'
-import {setCurrentSection, setCurrentPage} from '../../../actions/navigation'
+import FormDialog from "../../../components/FormDialog";
+import { setCurrentSection, setCurrentPage } from "../../../actions/navigation";
 
-import ScrollableTabsButtonForce from '../../../components/scrollingTabs'
-import langs from '../../../shared/langsOptions'
+import ScrollableTabsButtonForce from "../../../components/scrollingTabs";
+import langs from "../../../shared/langsOptions";
 
-
-import graphql from '../../../graphql/client'
+import graphql from "../../../graphql/client";
 import {
   ARTICLE_COLLECTION_CREATE,
   ARTICLE_COLLECTION_EDIT,
@@ -30,491 +26,486 @@ import {
   REORDER_ARTICLE,
   ADD_ARTICLES_TO_COLLECTION,
   ARTICLE_SECTION_EDIT,
-} from '../../../graphql/mutations'
+} from "../../../graphql/mutations";
 
 import {
   ARTICLE_COLLECTIONS,
   ARTICLE_COLLECTION,
   ARTICLE_COLLECTION_WITH_SECTIONS,
-  ARTICLES_UNCATEGORIZED
-} from '../../../graphql/queries'
+  ARTICLES_UNCATEGORIZED,
+} from "../../../graphql/queries";
 
-import Dnd from './dnd'
+import Dnd from "./dnd";
 
 class CollectionDetail extends Component {
-
   state = {
     isOpen: false,
     addArticlesDialog: false,
     collection: null,
     lang: "en",
     languages: ["es", "en"],
-    editSection: null
+    editSection: null,
+  };
+
+  titleRef = null;
+  descriptionRef = null;
+
+  componentDidMount() {
+    this.getCollection();
+    this.props.dispatch(setCurrentSection("HelpCenter"));
+
+    this.props.dispatch(setCurrentPage("Collections"));
   }
 
-  titleRef = null
-  descriptionRef = null
-
-  componentDidMount(){
-    this.getCollection()
-    this.props.dispatch(
-      setCurrentSection('HelpCenter')
-    )
-
-    this.props.dispatch(
-      setCurrentPage('Collections')
-    )
-  }
-
-  getCollection = ()=>{
-    graphql(ARTICLE_COLLECTION_WITH_SECTIONS, {
-      appKey: this.props.app.key, 
-      id: this.props.match.params.id,
-      lang: this.state.lang
-    }, {
-      success: (data)=>{
-        this.setState({
-          collection: data.app.collection, 
-          loading: false
-        })
+  getCollection = () => {
+    graphql(
+      ARTICLE_COLLECTION_WITH_SECTIONS,
+      {
+        appKey: this.props.app.key,
+        id: this.props.match.params.id,
+        lang: this.state.lang,
       },
-      error: ()=>{
-
+      {
+        success: (data) => {
+          this.setState({
+            collection: data.app.collection,
+            loading: false,
+          });
+        },
+        error: () => {},
       }
-    })
-  }
+    );
+  };
 
-  close = ()=> this.setState({isOpen: false})
+  close = () => this.setState({ isOpen: false });
 
-  openNewDialog = ()=>{
+  openNewDialog = () => {
     this.setState({
       isOpen: true,
-      editSection: null
-    })
-  }
+      editSection: null,
+    });
+  };
 
-  handleDataUpdate = (data)=>{
+  handleDataUpdate = (data) => {
     this.setState({
-      collection: Object.assign({}, this.state.collection, {sections: data})
-    })
-  }
+      collection: Object.assign({}, this.state.collection, { sections: data }),
+    });
+  };
 
-  allCollections = ()=>{
-    const {collection} = this.state
+  allCollections = () => {
+    const { collection } = this.state;
     const baseSection = {
       id: "base",
       title: "base section",
       articles: collection.baseArticles,
-    }
-    
+    };
+
     // just concat base section if it's not present
-    if(collection.sections.find((o)=> o.id === "base")){
-      return collection.sections
-    }else{
-      return [baseSection].concat(collection.sections)  
+    if (collection.sections.find((o) => o.id === "base")) {
+      return collection.sections;
+    } else {
+      return [baseSection].concat(collection.sections);
     }
-    
-  }
+  };
 
-  saveOperation = (options)=>{
-    const params = Object.assign({}, options, {appKey: this.props.app.key})
-    graphql(REORDER_ARTICLE, params , {
-      success: (data)=>{
-        
-      },
-      error: ()=>{
-        
-      }
-    })
-  }
+  saveOperation = (options) => {
+    const params = Object.assign({}, options, { appKey: this.props.app.key });
+    graphql(REORDER_ARTICLE, params, {
+      success: (data) => {},
+      error: () => {},
+    });
+  };
 
-  addArticlesToSection = (section)=>{
+  addArticlesToSection = (section) => {
     this.setState({
-      addArticlesDialog: true
-    })
-  }
+      addArticlesDialog: true,
+    });
+  };
 
-  requestUpdate = (section)=>{
+  requestUpdate = (section) => {
     this.setState({
       isOpen: true,
-      editSection: section
-    })
-  }
+      editSection: section,
+    });
+  };
 
-  renderCollection = ()=>{
-    const {collection} = this.state
-    
-    return <div className="py-4">
+  renderCollection = () => {
+    const { collection } = this.state;
 
-            {
-              collection &&
-              <div>
+    return (
+      <div className="py-4">
+        {collection && (
+          <div>
+            <h2 className="text-lg leading-6 font-medium text-gray-900 pb-4">
+              {collection.title}
+            </h2>
 
-                <h2 className="text-lg leading-6 font-medium text-gray-900 pb-4">
-                  {collection.title}
-                </h2>
+            <p className="max-w-xl text-sm leading-5 text-gray-500 mb-4">
+              {collection.description}
+            </p>
 
-                <p className="max-w-xl text-sm leading-5 text-gray-500 mb-4">
-                  {collection.description}
-                </p>
+            <Button
+              variant="contained"
+              color={"primary"}
+              onClick={this.openNewDialog}
+            >
+              new section
+            </Button>
 
-                <Button variant="contained" 
-                  color={'primary'}
-                  onClick={this.openNewDialog}>
-                  new section
-                </Button>
+            <Dnd
+              sections={this.allCollections()}
+              handleDataUpdate={this.handleDataUpdate}
+              deleteSection={this.deleteSection}
+              collectionId={collection.id}
+              saveOperation={this.saveOperation}
+              requestUpdate={this.requestUpdate}
+              addArticlesToSection={this.addArticlesToSection}
+            />
+          </div>
+        )}
+      </div>
+    );
+  };
 
-                <Dnd sections={this.allCollections()}
-                     handleDataUpdate={ this.handleDataUpdate }
-                     deleteSection={this.deleteSection}
-                     collectionId={collection.id}
-                     saveOperation={this.saveOperation}
-                     requestUpdate={this.requestUpdate}
-                     addArticlesToSection={this.addArticlesToSection}
-                />
-              </div>
+  deleteSection = (section) => {
+    graphql(
+      ARTICLE_SECTION_DELETE,
+      {
+        appKey: this.props.app.key,
+        id: `${section.id}`,
+      },
+      {
+        success: (data) => {
+          const section = data.articleSectionDelete.section;
+          const newSections = this.state.collection.sections.filter(
+            (o) => o.id != section.id
+          );
+
+          this.setState({
+            collection: Object.assign({}, this.state.collection, {
+              sections: newSections,
+            }),
+          });
+        },
+        error: () => {},
+      }
+    );
+  };
+
+  submitCreate = () => {
+    const { collection } = this.state;
+    graphql(
+      ARTICLE_SECTION_CREATE,
+      {
+        appKey: this.props.app.key,
+        collectionId: collection.id,
+        title: this.titleRef.value,
+        lang: this.state.lang,
+        description: this.descriptionRef.value,
+      },
+      {
+        success: (data) => {
+          const section = data.articleSectionCreate.section;
+          const sections = this.state.collection.sections.concat(section);
+
+          this.setState({
+            collection: Object.assign({}, this.state.collection, {
+              sections: sections,
+            }),
+            isOpen: false,
+          });
+        },
+        error: () => {},
+      }
+    );
+  };
+
+  submitEdit = () => {
+    const { collection } = this.state;
+    graphql(
+      ARTICLE_SECTION_EDIT,
+      {
+        appKey: this.props.app.key,
+        collectionId: collection.id,
+        title: this.titleRef.value,
+        id: this.state.editSection.id.toString(),
+        lang: this.state.lang,
+        description: this.descriptionRef.value,
+      },
+      {
+        success: (data) => {
+          const section = data.articleSectionEdit.section;
+          const sections = this.state.collection.sections.map((o) => {
+            if (o.id === section.id) {
+              return Object.assign({}, o, section);
+            } else {
+              return o;
             }
-           </div>
-  }
+          });
 
-  deleteSection = (section)=>{
-    graphql(ARTICLE_SECTION_DELETE, {
-      appKey: this.props.app.key,
-      id: `${section.id}`
-    }, {
-      success: (data)=>{
-        const section = data.articleSectionDelete.section
-        const newSections = this.state.collection.sections.filter((o)=> o.id != section.id )
-
-        this.setState({
-          collection: Object.assign({}, 
-            this.state.collection, 
-            {sections: newSections}
-          )
-        })
-      },
-      error: ()=>{
-
+          this.setState({
+            collection: Object.assign({}, this.state.collection, {
+              sections: sections,
+            }),
+            isOpen: false,
+            submitEdit: null,
+          });
+        },
+        error: () => {},
       }
-    })
-  }
+    );
+  };
 
-  submitCreate = ()=>{
-    const {collection} = this.state
-    graphql(ARTICLE_SECTION_CREATE, {
-      appKey: this.props.app.key,
-      collectionId: collection.id,
-      title: this.titleRef.value,
-      lang: this.state.lang,
-      description: this.descriptionRef.value
-    }, 
-    {
-      success: (data)=>{
-        const section = data.articleSectionCreate.section
-        const sections = this.state.collection.sections.concat(section) 
+  renderDialog = () => {
+    const { isOpen, editSection } = this.state;
+    return (
+      <FormDialog
+        open={isOpen}
+        handleClose={this.close}
+        //contentText={"lipsum"}
+        titleContent={"New Section"}
+        formComponent={
+          <form ref="form">
+            <TextField
+              id="collection-title"
+              //label="Name"
+              type="text"
+              placeholder={"Type sections's title"}
+              inputProps={{
+                style: {
+                  fontSize: "1.4em",
+                },
+              }}
+              //helperText="Full width!"
+              fullWidth
+              ref={(ref) => {
+                this.titleRef = ref;
+              }}
+              defaultValue={editSection ? editSection.title : null}
+              margin="normal"
+            />
 
-        this.setState({
-          collection: Object.assign({}, this.state.collection, {sections: sections}),
-          isOpen: false
-        })
-      },
-      error: ()=>{
-
-      }
-    }
-    )
-  }
-
-  submitEdit = ()=>{
-    const {collection} = this.state
-    graphql(ARTICLE_SECTION_EDIT, {
-      appKey: this.props.app.key,
-      collectionId: collection.id,
-      title: this.titleRef.value,
-      id: this.state.editSection.id.toString(),
-      lang: this.state.lang,
-      description: this.descriptionRef.value
-    }, 
-    {
-      success: (data)=>{
-        const section = data.articleSectionEdit.section
-        const sections = this.state.collection.sections.map((o)=> {
-          if(o.id === section.id){
-            return Object.assign({}, o, section)
-          } else {
-            return o
-          }
-        }) 
-    
-        this.setState({
-          collection: Object.assign({}, this.state.collection, {sections: sections}),
-          isOpen: false,
-          submitEdit: null
-        })
-      },
-      error: ()=>{
-
-      }
-    }
-    )
-  }
-
-  renderDialog = ()=>{
-    const {isOpen, editSection} = this.state
-    return <FormDialog 
-              open={isOpen}
-              handleClose={this.close}
-              //contentText={"lipsum"}
-              titleContent={"New Section"}
-              formComponent={
-                <form ref="form">
-
-                  <TextField
-                    id="collection-title"
-                    //label="Name"
-                    type="text"
-                    placeholder={"Type sections's title"}
-                    inputProps={{
-                        style: {
-                          fontSize: "1.4em"
-                        }
-                      }
-                    }
-                    //helperText="Full width!"
-                    fullWidth
-                    ref={ref => { this.titleRef = ref; }}
-                    defaultValue={ editSection ? editSection.title : null }
-                    margin="normal"
-                  />
-
-
-                  <TextField
-                    id="collection-description"
-                    type="textarea"
-                    //label="Description"
-                    placeholder={"Describe your collection to help it get found"}
-                    //helperText="Full width!"
-                    fullWidth
-                    multiline
-                    ref={ref => { this.descriptionRef = ref; }}
-                    defaultValue={ editSection ? editSection.description : null }
-                    margin="normal"
-                  />
-
-
-
-                </form>
-              }
-
-              dialogButtons={
-                <React.Fragment>
-                  <Button onClick={this.close} color="secondary">
-                    Cancel
-                  </Button>
-
-                  <Button onClick={ editSection ? 
-                    this.submitEdit.bind(this) :
-                    this.submitCreate.bind(this) 
-                  } 
-                    color="primary">
-                    Submit
-                    {/*editCollection ? 'update' : 'create'*/}
-                  </Button>
-
-                </React.Fragment>
-              }
-          />
-  }
-
-  addArticlesHandlerSubmit = (items)=>{
-    graphql(ADD_ARTICLES_TO_COLLECTION, {
-      articlesId: items,
-      appKey: this.props.app.key,
-      collectionId: this.state.collection.id
-    }, {
-      success: (data)=>{
-        const collection = data.addArticlesToCollection.collection
-        if(collection){
-          this.getCollection()
+            <TextField
+              id="collection-description"
+              type="textarea"
+              //label="Description"
+              placeholder={"Describe your collection to help it get found"}
+              //helperText="Full width!"
+              fullWidth
+              multiline
+              ref={(ref) => {
+                this.descriptionRef = ref;
+              }}
+              defaultValue={editSection ? editSection.description : null}
+              margin="normal"
+            />
+          </form>
         }
+        dialogButtons={
+          <React.Fragment>
+            <Button onClick={this.close} color="secondary">
+              Cancel
+            </Button>
+
+            <Button
+              onClick={
+                editSection
+                  ? this.submitEdit.bind(this)
+                  : this.submitCreate.bind(this)
+              }
+              color="primary"
+            >
+              Submit
+              {/*editCollection ? 'update' : 'create'*/}
+            </Button>
+          </React.Fragment>
+        }
+      />
+    );
+  };
+
+  addArticlesHandlerSubmit = (items) => {
+    graphql(
+      ADD_ARTICLES_TO_COLLECTION,
+      {
+        articlesId: items,
+        appKey: this.props.app.key,
+        collectionId: this.state.collection.id,
       },
-      error: ()=>{
-
+      {
+        success: (data) => {
+          const collection = data.addArticlesToCollection.collection;
+          if (collection) {
+            this.getCollection();
+          }
+        },
+        error: () => {},
       }
-    })
-  }
+    );
+  };
 
-  renderAddToSectionDialog = ()=>{
-    return <AddArticleDialog  
-      app={this.props.app}
-      handleSubmit={this.addArticlesHandlerSubmit} 
-      isOpen={this.state.addArticlesDialog}
-    />
-  }
+  renderAddToSectionDialog = () => {
+    return (
+      <AddArticleDialog
+        app={this.props.app}
+        handleSubmit={this.addArticlesHandlerSubmit}
+        isOpen={this.state.addArticlesDialog}
+      />
+    );
+  };
 
   // TODO refactor
-  handleLangChange = (o)=>{
-    this.setState({
-      lang: o
-    }, this.getCollection)
-  }
-  
-  render(){
-    const {classes, app} = this.props
+  handleLangChange = (o) => {
+    this.setState(
+      {
+        lang: o,
+      },
+      this.getCollection
+    );
+  };
 
-    return <React.Fragment>
-    
-          <ContentHeader 
-            breadcrumbs={
-              [
-              <AnchorLink 
-                color="inherit" to={`/apps/${app.key}/articles`}>
-                Help Center
-              </AnchorLink>,
-              <AnchorLink
-                color="inherit" to={`/apps/${app.key}/articles/collections`}>
-                Collections
-              </AnchorLink>
-              ]
+  render() {
+    const { classes, app } = this.props;
+
+    return (
+      <React.Fragment>
+        <ContentHeader
+          breadcrumbs={[
+            <AnchorLink color="inherit" to={`/apps/${app.key}/articles`}>
+              Help Center
+            </AnchorLink>,
+            <AnchorLink
+              color="inherit"
+              to={`/apps/${app.key}/articles/collections`}
+            >
+              Collections
+            </AnchorLink>,
+          ]}
+        />
+
+        <div square={true} elevation={1}>
+          <ScrollableTabsButtonForce
+            //tabs={this.props.settings.availableLanguages}
+            tabs={this.props.settings.availableLanguages.map((o) =>
+              langs.find((lang) => lang.value === o)
+            )}
+            changeHandler={(index) =>
+              this.handleLangChange(
+                this.props.settings.availableLanguages[index]
+              )
             }
           />
-    
-          <div 
-            square={true}
-            elevation={1}
-            >
 
-              <ScrollableTabsButtonForce 
-                //tabs={this.props.settings.availableLanguages} 
-                tabs={this.props.settings.availableLanguages.map((o)=> langs.find((lang)=> lang.value === o) )} 
-                changeHandler={(index)=> this.handleLangChange( this.props.settings.availableLanguages[index] )}
-              />
+          {this.renderDialog()}
 
-              { 
-                this.renderDialog()
-              }
+          {this.state.addArticlesDialog
+            ? this.renderAddToSectionDialog()
+            : null}
 
-              { this.state.addArticlesDialog ?
-                this.renderAddToSectionDialog() : null
-              }
-
-              {
-                this.state.loading ? 
-                <CircularProgress/> : 
-                this.renderCollection()
-              }
-
-          </div>
-         </React.Fragment>
-      }
+          {this.state.loading ? <CircularProgress /> : this.renderCollection()}
+        </div>
+      </React.Fragment>
+    );
+  }
 }
 
 class AddArticleDialog extends Component {
-
   state = {
     articles: [],
-    isOpen: true
-  }
+    isOpen: true,
+  };
 
-  componentDidMount(){
-    graphql(ARTICLES_UNCATEGORIZED,{
-      appKey: this.props.app.key,
-      page: 1,
-      per: 50,
-    }, {
-      success: (data)=>{
-        this.setState({
-          articles: data.app.articlesUncategorized.collection
-        })
+  componentDidMount() {
+    graphql(
+      ARTICLES_UNCATEGORIZED,
+      {
+        appKey: this.props.app.key,
+        page: 1,
+        per: 50,
       },
-      error: ()=>{
-
+      {
+        success: (data) => {
+          this.setState({
+            articles: data.app.articlesUncategorized.collection,
+          });
+        },
+        error: () => {},
       }
-    })
+    );
   }
 
-  close  = ()=> this.setState({isOpen: false})
-  open  = ()=> this.setState({isOpen: true})
+  close = () => this.setState({ isOpen: false });
+  open = () => this.setState({ isOpen: true });
 
-  getValues = ()=>{
-    var chk_arr =  document.getElementsByName("article[]");
-    var chklength = chk_arr.length;             
-    var arr = []
-    for(let k=0;k< chklength;k++)
-    {
-        if(chk_arr[k].checked) arr.push(chk_arr[k].value)
+  getValues = () => {
+    var chk_arr = document.getElementsByName("article[]");
+    var chklength = chk_arr.length;
+    var arr = [];
+    for (let k = 0; k < chklength; k++) {
+      if (chk_arr[k].checked) arr.push(chk_arr[k].value);
     }
-    return arr
-  }
+    return arr;
+  };
 
-  render(){
-    const {isOpen} = this.state
-    return <FormDialog 
-              open={isOpen}
-              handleClose={this.close}
-              //contentText={"lipsum"}
-              titleContent={"Add Articles"}
-              formComponent={
-                <List>
-                  {
-                    this.state.articles.map((o)=>(
-                      <ListItem>
+  render() {
+    const { isOpen } = this.state;
+    return (
+      <FormDialog
+        open={isOpen}
+        handleClose={this.close}
+        //contentText={"lipsum"}
+        titleContent={"Add Articles"}
+        formComponent={
+          <List>
+            {this.state.articles.map((o) => (
+              <ListItem>
+                <Checkbox
+                  //checked={state.checkedA}
+                  //onChange={handleChange('checkedA')}
+                  value={o.id}
+                  inputProps={{
+                    name: "article[]",
+                  }}
+                />
 
-                        <Checkbox
-                          //checked={state.checkedA}
-                          //onChange={handleChange('checkedA')}
-                          value={o.id}
-                          inputProps={{
-                            'name': 'article[]',
-                          }}
-                        />
+                <ListItemText
+                  primary={o.title}
+                  secondary={<p noWrap>{o.state}</p>}
+                />
+              </ListItem>
+            ))}
+          </List>
+        }
+        dialogButtons={
+          <React.Fragment>
+            <Button onClick={this.close} color="secondary">
+              Cancel
+            </Button>
 
-                      <ListItemText
-                          primary={o.title}
-                          secondary={
-                            <p noWrap>
-                              {o.state}
-                            </p>
-                          }
-                        />
-                      
-                      </ListItem>
-                    ))
-                  }
-                </List>
-              }
-
-              dialogButtons={
-                <React.Fragment>
-                  <Button onClick={this.close} color="secondary">
-                    Cancel
-                  </Button>
-
-                  <Button onClick={ ()=> this.props.handleSubmit(this.getValues()) } 
-                    color="primary">
-                    Submit
-                  </Button>
-
-                </React.Fragment>
-              }
-          />
+            <Button
+              onClick={() => this.props.handleSubmit(this.getValues())}
+              color="primary"
+            >
+              Submit
+            </Button>
+          </React.Fragment>
+        }
+      />
+    );
   }
 }
 
-
 function mapStateToProps(state) {
-
-  const { auth, app } = state
-  const { isAuthenticated } = auth
+  const { auth, app } = state;
+  const { isAuthenticated } = auth;
   //const { sort, filter, collection , meta, loading} = conversations
 
   return {
     app,
-    isAuthenticated
-  }
+    isAuthenticated,
+  };
 }
-
 
 //export default withRouter(connect(mapStateToProps)(withStyles(styles)(ArticlesNew)))
 //export default withRouter(connect(mapStateToProps)(CollectionDetail))
-export default withRouter(connect(mapStateToProps)(CollectionDetail))
+export default withRouter(connect(mapStateToProps)(CollectionDetail));

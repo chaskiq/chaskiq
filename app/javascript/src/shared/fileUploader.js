@@ -1,17 +1,17 @@
-import { FileChecksum } from 'activestorage/src/file_checksum'
-import { BlobUpload } from 'activestorage/src/blob_upload'
+import { FileChecksum } from "activestorage/src/file_checksum";
+import { BlobUpload } from "activestorage/src/blob_upload";
 
-function calculateChecksum (file) {
+function calculateChecksum(file) {
   return new Promise((resolve, reject) => {
     FileChecksum.create(file, (error, checksum) => {
       if (error) {
-        reject(error)
-        return
+        reject(error);
+        return;
       }
 
-      resolve(checksum)
-    })
-  })
+      resolve(checksum);
+    });
+  });
 }
 
 export const getFileMetadata = (file) => {
@@ -21,21 +21,21 @@ export const getFileMetadata = (file) => {
         checksum,
         filename: file.name,
         contentType: file.type,
-        byteSize: file.size
-      })
-    })
-  })
-}
+        byteSize: file.size,
+      });
+    });
+  });
+};
 
 export const directUpload = (url, headers, file) => {
-  const upload = new BlobUpload({ file, directUploadData: { url, headers } })
+  const upload = new BlobUpload({ file, directUploadData: { url, headers } });
   return new Promise((resolve, reject) => {
-    upload.create(error => {
+    upload.create((error) => {
       if (error) {
-        reject(error)
+        reject(error);
       } else {
-        resolve()
+        resolve();
       }
-    })
-  })
-}
+    });
+  });
+};
