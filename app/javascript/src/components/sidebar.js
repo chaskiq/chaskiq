@@ -88,6 +88,7 @@ function Sidebar ({ app, match, dispatch, navigation, current_user, drawer }) {
   const categories = [
     {
       id: 'Dashboard',
+      label: I18n.t('navigator.dashboard'),
       icon: <BuildingIcon style={{ fontSize: 30 }} />,
       url: `/apps/${app.key}`,
       hidden: true,
