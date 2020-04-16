@@ -32,7 +32,7 @@ import { DividerBlockConfig } from "Dante2/package/es/components/blocks/divider"
 import Prism from "prismjs";
 import { PrismDraftDecorator } from "Dante2/package/es/components/decorators/prism";
 
-//import { GiphyBlockConfig } from './blocks/giphyBlock'
+import { GiphyBlockConfig } from './blocks/giphyBlock'
 //import { SpeechToTextBlockConfig } from '../campaigns/article/speechToTextBlock'
 //import { DanteMarkdownConfig } from './article/markdown'
 import Link from "Dante2/package/es/components/decorators/link";
@@ -370,7 +370,7 @@ export default class ArticleEditor extends Component {
           //upload_url: `/attachments.json?id=${this.props.data.id}&app_id=${this.props.app.key}`,
         },
       }),
-      //GiphyBlockConfig(),
+      GiphyBlockConfig(),
       //SpeechToTextBlockConfig(),
       //ButtonBlockConfig()
     ];

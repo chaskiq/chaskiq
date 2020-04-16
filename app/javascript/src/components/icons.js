@@ -16,7 +16,20 @@ const BaseIcon = styled.svg`
   }};
 `
 
-// icons from http://www.zondicons.com/icons.html
+export function WidgetsIcon (props) {
+  return (
+    <BaseIcon {...props} 
+      fill="currentColor" 
+      focusable="false" 
+      viewBox="0 0 24 24" 
+      aria-hidden="true" 
+      tabindex="-1" 
+      title="Widgets">
+      <path d="M13 13v8h8v-8h-8zM3 21h8v-8H3v8zM3 3v8h8V3H3zm13.66-1.31L11 7.34 16.66 13l5.66-5.66-5.66-5.65z">
+      </path>
+    </BaseIcon>
+  )
+}
 
 export function MapIcon (props){
   return (
@@ -31,8 +44,8 @@ export function MapIcon (props){
 export function ColumnsIcon (props){
   return (
     <BaseIcon {...props} fill="currentColor"
-    focusable="false" viewBox="0 0 24 24" 
-    aria-hidden="true" role="presentation">
+      focusable="false" viewBox="0 0 24 24" 
+      aria-hidden="true" role="presentation">
       <path d="M10 18h5V5h-5v13zm-6 0h5V5H4v13zM16 5v13h5V5h-5z">
       </path>
     </BaseIcon>

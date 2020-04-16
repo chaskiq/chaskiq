@@ -9,6 +9,10 @@ import TextField from '@material-ui/core/TextField';
 import p from '@material-ui/core/Typography'
 import Box from '@material-ui/core/Box'
 import Tab from '@material-ui/core/Tab' */
+
+import FormDialog from '../../components/FormDialog'
+import Button from '../../components/Button'
+import Input from '../../components/forms/Input'
 import { withRouter } from 'react-router-dom'
 import { connect } from 'react-redux'
 
@@ -40,50 +44,7 @@ function AppPackagePanel (props) {
 
   React.useEffect(() => {
     getAppPackages()
-  }, [getAppPackages])
-
-  /*
-  const providers =  [
-    {
-      name: "calendly",
-      requires: [
-        { type: "input", name: "src",
-          placeholder: "put clendly url",
-          hint: "is the calendy url"
-        }
-      ],
-      schema: [
-          {
-            name: "calendly",
-            type: "button",
-            label: "book a metting",
-            element: "button",
-            placeholder: "click button to open calendar"
-        }
-      ]
-
-    },
-    {
-      name: "typeform",
-      requires: [
-        {
-          type: "input",
-          name: "src",
-          placeholder: "typeform url",
-          hint: "typeform url"
-        }
-      ],
-      schema: [
-          {
-            name: "typeform",
-            type: "button",
-            label: "open form",
-            element: "button",
-            placeholder: "click to open form"
-        }
-      ]
-    }
-  ] */
+  }, [])
 
   React.useEffect(() => {
     setOpen(props.open)
@@ -117,7 +78,8 @@ function AppPackagePanel (props) {
     switch (item.type) {
       case 'input':
         return (
-          <input
+          <Input
+            type={'text'}
             label={item.name}
             value={values[item.name]}
             onChange={handleChange(item.name)}
@@ -136,7 +98,10 @@ function AppPackagePanel (props) {
   }
 
   function handleSend () {
-    const newData = Object.assign({}, provider, provider.editorDefinitions)
+    const newData = Object.assign({},
+      provider,
+      provider.editorDefinitions
+    )
     props.insertComment({
       provider: newData,
       values: values
@@ -144,57 +109,51 @@ function AppPackagePanel (props) {
   }
 
   return (
-    <p>dd</p>
-
-  /* <Dialog
-        open={open}
-        onClose={handleClose}
-        maxWidth={'sm'}
-        fullWidth={true}
-        aria-labelledby="alert-dialog-title"
-        aria-describedby="alert-dialog-description"
-      >
-        <DialogTitle id="alert-dialog-title">
-          Send App Package
-        </DialogTitle>
-
-        <DialogContent>
-          <DialogContentText id="alert-dialog-description">
-
-            {
-              providers.map((o)=>{
-                return <Box ml={1}>
-                          <Button
-                              variant={"outlined"}
-                              key={ `${o.name}-tab` }
-                              onClick={()=>handleClick(o)}>
-                              <img src={o.icon}
-                                width={20}
-                                height={20}
-                              />
-                              {" "}
-                              {o.name}
-                          </Button>
-                       </Box>
-              })
-            }
+    <FormDialog
+      open={open}
+      handleClose={handleClose}
+      titleContent={'Send App Package'}
+      formComponent={
+        <div>
+          {
+            providers.map((o) => {
+              return <div 
+                key={`app-package-${o.name}`} className="m-1">
+                <Button
+                  variant={'outlined'}
+                  key={ `${o.name}-tab` }
+                  onClick={() => handleClick(o)}>
+                  <img className="mr-2"
+                    src={o.icon}
+                    width={20}
+                    height={20}
+                  />
+                  {' '}
+                  {o.name}
+                </Button>
+              </div>
+            })
+          }
 
           {
             provider && renderItem(provider)
           }
-          </DialogContentText>
-        </DialogContent>
-
-        <DialogActions>
-          <Button onClick={handleSend} color="primary">
-            Save
-          </Button>
+        </div>
+      }
+      dialogButtons={
+        <React.Fragment>
           <Button onClick={handleClose} color="secondary">
             Cancel
           </Button>
-        </DialogActions>
 
-        </Dialog> */
+          <Button
+            onClick={handleSend}
+            color="primary">
+            Send
+          </Button>
+        </React.Fragment>
+      }
+    />
   )
 }
 
@@ -205,7 +164,5 @@ function mapStateToProps (state) {
     app
   }
 }
-
-// export default ShowAppContainer
 
 export default withRouter(connect(mapStateToProps)(AppPackagePanel))

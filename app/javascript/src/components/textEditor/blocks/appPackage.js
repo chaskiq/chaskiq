@@ -1,7 +1,8 @@
 import React from "react";
+import {WidgetsIcon} from '../../icons'
 
 function appPackage() {
-  return <i>xx</i>;
+  return <WidgetsIcon/>;
 }
 
 export default class AppPackage extends React.Component {

@@ -53,7 +53,6 @@ const EditorContainerMessageBubble = styled(EditorContainer)`
 
 const BgContainer = styled.div`
   //background-color: #DFDBE5;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100' height='100' viewBox='0 0 100 100'%3E%3Cg fillRule='evenodd'%3E%3Cg fill='%239C92AC' fill-opacity='0.4'%3E%3Cpath opacity='.5' d='M96 95h4v1h-4v4h-1v-4h-9v4h-1v-4h-9v4h-1v-4h-9v4h-1v-4h-9v4h-1v-4h-9v4h-1v-4h-9v4h-1v-4h-9v4h-1v-4h-9v4h-1v-4H0v-1h15v-9H0v-1h15v-9H0v-1h15v-9H0v-1h15v-9H0v-1h15v-9H0v-1h15v-9H0v-1h15v-9H0v-1h15v-9H0v-1h15V0h1v15h9V0h1v15h9V0h1v15h9V0h1v15h9V0h1v15h9V0h1v15h9V0h1v15h9V0h1v15h9V0h1v15h4v1h-4v9h4v1h-4v9h4v1h-4v9h4v1h-4v9h4v1h-4v9h4v1h-4v9h4v1h-4v9h4v1h-4v9zm-1 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-9-10h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm9-10v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-9-10h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm9-10v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-9-10h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm9-10v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-9-10h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9z'/%3E%3Cpath d='M6 5V0H5v5H0v1h5v94h1V6h94V5H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
 `
 
 function Conversation ({
@@ -122,6 +121,14 @@ function Conversation ({
   const insertNoteDispatch = (comment, cb) => {
     dispatch(
       insertNote(comment, () => {
+        cb && cb()
+      })
+    )
+  }
+
+  const insertAppBlockCommentDispatch = (data, cb) => {
+    dispatch(
+      insertAppBlockComment(data, () => {
         cb && cb()
       })
     )
@@ -219,24 +226,80 @@ function Conversation ({
   }
 
   const renderMessage = (o, userOrAdmin) => {
+    const message = o
+    const messageContent = o.message
     const key = `conversation-${conversation.id}-message-${o.id}`
     // return userOrAdmin === "admin" ?
     // console.log("KEYKEY:", key)
 
-    return o.message.serializedContent ? (
+    const content = messageContent.serializedContent ? (
       <DraftRenderer
         key={key}
-        raw={JSON.parse(o.message.serializedContent)}
-        html={o.message.htmlContent}
+        raw={JSON.parse(messageContent.serializedContent)}
+        html={messageContent.htmlContent}
       />
     ) : (
       <div
         key={key}
         dangerouslySetInnerHTML={{
-          __html: o.message.htmlContent
+          __html: messageContent.htmlContent
         }}
       />
     )
+
+    let textClass = userOrAdmin === 'admin' ? 'text-gray-100' : ''
+    const flow = userOrAdmin === 'admin' ? 'flex-row-reverse' : ''
+    const avatarM = userOrAdmin === 'admin' ? 'ml-3' : 'mr-3'
+    let bgClass =
+    userOrAdmin === 'admin' ? 'bg-black' : 'bg-green-100'
+    if (message.privateNote) {
+      bgClass = 'bg-yellow-300'
+      textClass = 'text-gray-900'
+    }
+
+    return <div
+      id={`message-id-${message.id}`}
+      className={`flex items-start py-2 text-sm ${flow}`}
+      key={`conversations-messages/${message.id}`}>
+      <img
+        alt={message.appUser.displayName}
+        src={message.appUser.avatarUrl}
+        className={`w-10 h-10 rounded ${avatarM}`}
+      />
+      <div
+        className={`${bgClass}
+        shadow-lg 
+        flex-1 
+        overflow-hidden p-3 
+        rounded-md`}
+      >
+        <div className="flex justify-between pb-4">
+          <span className={`font-bold ${textClass}`}>
+            {message.appUser.displayName}
+          </span>
+          <span className={`text-xs ${textClass}`}>
+            <Moment fromNow ago>
+              {message.createdAt}
+            </Moment>
+
+            <span className={textClass}>
+              {' - '}
+              {message.readAt ? (
+                <span>{'seen '}</span>
+              ) : message.privateNote ? (
+                'NOTE'
+              ) : (
+                <span>not seen</span>
+              )}
+            </span>
+          </span>
+        </div>
+
+        <EditorContainerMessageBubble>
+          {content}
+        </EditorContainerMessageBubble>
+      </div>
+    </div>
   }
 
   const renderBlockRepresentation = (block) => {
@@ -271,6 +334,8 @@ function Conversation ({
   const renderBlocks = (o) => {
     const block = toCamelCase(o)
     const { blocks, data } = block.message
+    const message = o
+    const messageContent = o.message
 
     if (o.message.state !== 'replied') {
       return renderBlockRepresentation(block)
@@ -281,14 +346,17 @@ function Conversation ({
 
     // if(!o.fromBot) return
 
+    let blockElement 
+
     switch (item.element) {
       case 'button':
-        return (
+        blockElement =
           <p>
             <strong>reply button:</strong>
             {item.label}
           </p>
-        )
+        
+        break
       default:
         if (blocks.type === 'app_package') {
           /* return Object.keys(o.message.data).map((k)=>{
@@ -297,8 +365,7 @@ function Conversation ({
             return <p>{k}: {val}</p>
           }) */
 
-          return (
-            <div>
+          blockElement = <div>
               <p variant="overline">{blocks.appPackage}</p>
 
               <br />
@@ -311,7 +378,8 @@ function Conversation ({
                 )}
               </p>
             </div>
-          )
+          
+          break
         }
 
         if (o.message.blocks.type === 'data_retrieval') {
@@ -322,23 +390,97 @@ function Conversation ({
               </p>
             )
           })
-          return (
+
+          blockElement = 
             <React.Fragment>
               <strong>replied:</strong>
               {dataList}
             </React.Fragment>
-          )
+            break
         } else {
-          return <p>{JSON.stringify(o.message.data)}</p>
+          blockElement = <p>{JSON.stringify(o.message.data)}</p>
+          break
         }
     }
+
+    return (
+      <div
+        id={`message-id-${message.id}`}
+        className={`flex items-start py-2 text-sm`}
+        key={`conversations-messages/${message.id}`}>
+
+        <div
+          className={`bg-gray-100
+          flex 
+          overflow-hidden p-2 
+          rounded-md mx-auto`
+          }
+        >
+          <div className="flex flex-col justify-between">
+
+            <span className={`text-xs text-center`}>
+              <Moment fromNow ago>
+                {message.createdAt}
+              </Moment>
+
+              <span>
+                {' - '}
+                {
+                  message.readAt ? <span>{'seen '}</span>
+                    : <span>not seen</span>
+                }
+              </span>
+            </span>
+
+            <p className="text-xs text-center text-bold">
+              {blockElement}
+            </p>
+          </div>
+        </div>
+      </div>
+    )
   }
 
   const renderEventBlock = (o) => {
+
+    const message = o
+    const messageContent = o.message
+
     return (
-      <p>
-        {o.message.action} {o.message.data.name || o.message.data.email}
-      </p>
+      <div
+        id={`message-id-${message.id}`}
+        className={`flex items-start py-2 text-sm`}
+        key={`conversations-messages/${message.id}`}>
+
+        <div
+          className={`bg-gray-100
+          flex 
+          overflow-hidden p-2 
+          rounded-md mx-auto`
+          }
+        >
+          <div className="flex flex-col justify-between">
+
+            <span className={`text-xs text-center`}>
+              <Moment fromNow ago>
+                {message.createdAt}
+              </Moment>
+
+              <span>
+                {' - '}
+                {
+                  message.readAt ? <span>{'seen '}</span>
+                    : <span>not seen</span>
+                }
+              </span>
+            </span>
+
+            <p className="text-md text-center font-bold">
+              {messageContent.action} {messageContent.data.name || messageContent.data.email}
+            </p>
+          </div>
+        </div>
+      </div>
     )
   }
 
@@ -358,21 +500,25 @@ function Conversation ({
           <h3 className="mb-1 text-grey-darkest">
             conversation with{' '}
             <span className="font-extrabold">
-              {conversation.mainParticipant &&
-                conversation.mainParticipant.displayName}
+              {
+                conversation.mainParticipant &&
+                conversation.mainParticipant.displayName
+              }
             </span>
           </h3>
         </div>
 
         <div className="ml-auto flex">
-          {/* <div className="relative">
+          {/*
+            <div className="relative">
               <input type="search" placeholder="Search" className="appearance-none border border-grey rounded-lg pl-8 pr-4 py-2"/>
               <div className="absolute pin-y pin-l pl-3 flex items-center justify-center">
                 <svg className="fill-current text-grey h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
                 <path d="M12.9 14.32a8 8 0 1 1 1.41-1.41l5.35 5.33-1.42 1.42-5.33-5.34zM8 14A6 6 0 1 0 8 2a6 6 0 0 0 0 12z"></path>
                 </svg>
               </div>
-              </div> */}
+              </div>
+          */}
 
           <Tooltip
             placement="bottom"
@@ -453,16 +599,6 @@ function Conversation ({
                 : 'user'
             const appuserId = conversation.mainParticipant.id
 
-            let bgClass =
-              userOrAdmin === 'admin' ? 'bg-gray-500' : 'bg-gray-300'
-            bgClass = message.message.action ? 'bg-yellow-300' : bgClass
-
-            if (message.privateNote) {
-              bgClass = 'bg-yellow-500'
-            }
-
-            const flow = userOrAdmin === 'admin' ? 'flex-row-reverse' : ''
-            const avatarM = userOrAdmin === 'admin' ? 'ml-3' : 'mr-3'
 
             return (
               <MessageItemWrapper
@@ -472,70 +608,33 @@ function Conversation ({
                 conversation={conversation}
                 email={current_user.email}
               >
-                <div
-                  id={`message-id-${message.id}`}
-                  className={`flex items-start mb-4 text-sm ${flow}`}
-                  key={`conversations-messages/${message.id}`}
+
+                <ThemeProvider
+                  theme={
+                    userOrAdmin === 'admin'
+                      ? message.privateNote
+                        ? theme
+                        : themeDark
+                      : theme
+                  }
                 >
-                  {!message.message.action && (
-                    <img
-                      alt={message.appUser.displayName}
-                      src={message.appUser.avatarUrl}
-                      className={`w-10 h-10 rounded ${avatarM}`}
-                    />
-                  )}
 
-                  <div
-                    className={`${bgClass} flex-1 overflow-hidden p-3 rounded-md`}
-                  >
-                    <div className="flex justify-between">
-                      <span className="font-bold">
-                        {message.appUser.displayName}
-                      </span>
-                      <span className="text-gray-300 text-xs">
-                        <Moment fromNow ago>
-                          {message.createdAt}
-                        </Moment>
 
-                        <span>
-                          {' - '}
-                          {message.readAt ? (
-                            <span>{'seen '}</span>
-                          ) : message.privateNote ? (
-                            'NOTE'
-                          ) : (
-                            <span>not seen</span>
-                          )}
-                        </span>
-                      </span>
-                    </div>
-
-                    <ThemeProvider
-                      theme={
-                        userOrAdmin === 'admin'
-                          ? message.privateNote
-                            ? theme
-                            : themeDark
-                          : theme
-                      }
-                    >
-                      <EditorContainerMessageBubble>
-                        {message.message.blocks
-                          ? renderBlocks(message, userOrAdmin)
-                          : message.message.action
-                            ? renderEventBlock(message, userOrAdmin)
-                            : renderMessage(message, userOrAdmin)}
-                      </EditorContainerMessageBubble>
-                    </ThemeProvider>
-                  </div>
-                </div>
+                  {
+                    message.message.blocks
+                      ? renderBlocks(message, userOrAdmin)
+                      : message.message.action
+                        ? renderEventBlock(message, userOrAdmin)
+                        : renderMessage(message, userOrAdmin)
+                  }
+                </ThemeProvider>
               </MessageItemWrapper>
             )
           })}
       </div>
 
       <div className="pb-3 px-4 flex-none">
-        <div className="bg-white flex rounded-lg border-2 border-grey overflow-hidden">
+        <div className="bg-white flex rounded-lg border-2 border-grey overflow-hidden shadow-lg">
           {/* <span className="text-3xl text-grey border-r-2 border-grey p-2">
               <svg className="fill-current h-6 w-6 block" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M16 10c0 .553-.048 1-.601 1H11v4.399c0 .552-.447.601-1 .601-.553 0-1-.049-1-.601V11H4.601C4.049 11 4 10.553 4 10c0-.553.049-1 .601-1H9V4.601C9 4.048 9.447 4 10 4c.553 0 1 .048 1 .601V9h4.399c.553 0 .601.447.601 1z"></path></svg>
               </span> */}
@@ -543,7 +642,7 @@ function Conversation ({
           <ConversationEditor
             data={{}}
             app={app}
-            insertAppBlockComment={insertAppBlockComment}
+            insertAppBlockComment={insertAppBlockCommentDispatch}
             insertComment={insertCommentDispatch}
             typingNotifier={typingNotifierDispatch}
             insertNote={insertNoteDispatch}

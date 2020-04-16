@@ -1,6 +1,7 @@
 import React from "react";
 import axios from "axios";
 import styled from "@emotion/styled";
+import Input from '../../forms/Input'
 
 const GiphyBlock = styled.div`
   //position: absolute;
@@ -117,12 +118,6 @@ const PickerBlock = styled.div`
   }
 `;
 
-const Input = styled.input`
-  padding: 10px;
-  width: 100%;
-  margin-top: 8px;
-`;
-
 export default class App extends React.Component {
   constructor(props) {
     super(props);
@@ -187,6 +182,7 @@ export default class App extends React.Component {
           <PickerBlock>
             <Input
               ref="input_ref"
+              type="text"
               placeholder={"search gif"}
               value={this.state.term}
               onChange={this.handleChange}

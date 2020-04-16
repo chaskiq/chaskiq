@@ -38,7 +38,9 @@ import EditorContainer from "../textEditor/editorStyles";
 
 import styled from "@emotion/styled";
 
-import { AppPackageBlockConfig } from "../textEditor/blocks/appPackage";
+import { 
+  AppPackageBlockConfig 
+} from "../textEditor/blocks/appPackage";
 import AppPackagePanel from "./appPackagePanel";
 
 import { SendIcon } from "../icons";
@@ -109,7 +111,10 @@ const SubmitButton = function (props) {
   return (
     <button
       className={
-        "w-1/12 bg-white hover:bg-gray-100 text-gray-800 font-semibold py-2 px-3 border-l border-gray-400 shadow"
+        `flex w-1/6 justify-center
+        bg-white hover:bg-gray-100 
+        text-gray-800 font-semibold py-2 
+        px-3 border-l border-gray-400 shadow`
       }
       onClick={props.onClick}
       disabled={props.disabled}
@@ -285,9 +290,10 @@ export default class ChatEditor extends Component {
                 this.setState({ openPackagePanel: false });
               }}
               insertComment={(data) => {
-                this.props.insertAppBlockComment(data);
-                this.setState({
-                  openPackagePanel: false,
+                this.props.insertAppBlockComment(data, ()=>{
+                  this.setState({
+                    openPackagePanel: false,
+                  });
                 });
               }}
             />

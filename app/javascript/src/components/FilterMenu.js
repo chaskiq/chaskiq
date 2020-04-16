@@ -8,7 +8,8 @@ export default function LongMenu ({
   value,
   triggerButton,
   selectedOption,
-  options
+  options,
+  position
 }) {
   const [anchorEl, setAnchorEl] = React.useState(null)
   // const [options, setOption] = React.useState(options);
@@ -34,6 +35,7 @@ export default function LongMenu ({
         id="long-menu"
         labelButton={value}
         triggerButton={triggerButton}
+        position={position}
       >
         {options.map((option) => (
           <div className="py-1">

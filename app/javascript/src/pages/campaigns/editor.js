@@ -121,6 +121,7 @@ const EditorMessengerEmulator = styled.div`
 `;
 
 const EditorMessengerEmulatorWrapper = styled.div`
+  position: relative;
   ${(props) =>
     props.mode === "user_auto_messages"
       ? `width: 380px;
