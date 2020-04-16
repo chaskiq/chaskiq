@@ -124,6 +124,7 @@ export function insertComment (comment, cb) {
 }
 
 export function insertAppBlockComment (comment, cb) {
+
   return (dispatch, getState) => {
     const blocks = {
       type: 'app_package',
@@ -143,10 +144,11 @@ export function insertAppBlockComment (comment, cb) {
       {
         success: (data) => {
           console.log(data)
-          cb()
+          cb && cb()
         },
         error: (error) => {
           console.log(error)
+          cb && cb()
         }
       }
     )

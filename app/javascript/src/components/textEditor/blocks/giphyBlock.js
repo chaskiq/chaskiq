@@ -1,12 +1,8 @@
 import React from "react";
 
-import Button from "@material-ui/core/Button";
-import Dialog from "@material-ui/core/Dialog";
-import DialogActions from "@material-ui/core/DialogActions";
-import DialogContent from "@material-ui/core/DialogContent";
-import DialogContentText from "@material-ui/core/DialogContentText";
-import DialogTitle from "@material-ui/core/DialogTitle";
-import TextField from "@material-ui/core/TextField";
+import Button from "../../Button";
+import FormDialog from "../../FormDialog";
+import TextField from "../../forms/Input";
 
 import {
   updateDataOfBlock,
@@ -153,9 +149,9 @@ export default class GiphyBlock extends React.Component {
     //console.log(this.state.collection)
     return (
       <div className="dante-giphy-wrapper">
-        <Dialog
+        <FormDialog
           open={this.state.open}
-          onClose={() => {
+          handleClose={() => {
             this.setState(
               {
                 open: !this.state.open,
@@ -163,28 +159,17 @@ export default class GiphyBlock extends React.Component {
               this.props.blockProps.toggleEditable
             );
           }}
-          maxWidth={"sm"}
-          fullWidth={true}
-          aria-labelledby="alert-dialog-title"
-          aria-describedby="alert-dialog-description"
+          title={'Compose a new message'}
+          formComponent={
+            <Giphy
+              apiKey={giphyApiKey}
+              handleSelected={(data) => {
+                this.selectImage(data);
+              }}
+            />
+          }
         >
-          <DialogTitle id="alert-dialog-title">
-            Compose a new message
-          </DialogTitle>
-
-          <DialogContent>
-            <DialogContentText id="alert-dialog-description">
-              <Giphy
-                apiKey={giphyApiKey}
-                handleSelected={(data) => {
-                  this.selectImage(data);
-                }}
-              />
-            </DialogContentText>
-          </DialogContent>
-
-          <DialogActions></DialogActions>
-        </Dialog>
+        </FormDialog>
       </div>
     );
   }

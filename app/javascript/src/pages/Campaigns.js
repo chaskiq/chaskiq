@@ -682,7 +682,7 @@ class CampaignForm extends Component {
                     value={this.state.data.state}
                     filterHandler={(e) => this.toggleCampaignState(e.state)}
                     triggerButton={this.toggleButton}
-                    position={""}
+                    position={"right"}
                     toggleButton={(clickHandler) => {
                       return (
                         <Button

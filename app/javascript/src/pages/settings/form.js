@@ -67,9 +67,12 @@ export default class SettingsForm extends Component {
             })}
           </div>
 
-          <div container spacing={4}>
-            <div item xs={12} sm={6}>
-              <Button variant="contained" color="primary" type="submit">
+          <div className="flex">
+            <div className=" w-full sm:w-1/2">
+              <Button 
+                variant="contained" 
+                color="primary" 
+                type="submit">
                 Save settings
               </Button>
             </div>
