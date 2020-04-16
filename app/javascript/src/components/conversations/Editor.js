@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import styled from "@emotion/styled";
 import Tabs from "./tabs";
 import NewEditor from "./newEditor";
+import 'draft-js/dist/Draft.css'
 
 const EditorContainer = styled.div`
   display: -webkit-box;
@@ -28,6 +29,18 @@ const EditorContainer = styled.div`
   //border: 1px solid #ccc;
   //border-radius: 2px;
   //margin-top: 1px;
+
+
+  .inlineTooltip-button{
+    width: 30px;
+    height: 30px;
+  }
+  .tooltip-icon svg {
+    width: 20px;
+    height: 20px;
+    display: flex;
+    margin-left: 6px;
+  }
 `;
 
 const EditorActions = styled.div`

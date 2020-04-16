@@ -455,26 +455,8 @@ class ArticlesNew extends Component {
                         value={this.state.article.state}
                         filterHandler={this.togglePublishState}
                         triggerButton={this.toggleButton}
+                        position={'right'}
                       />
-
-                      {/*<SelectMenu options={options} 
-                      handleClick={(e)=> this.togglePublishState(e.state) } 
-                      toggleButton={this.toggleButton}
-                      selected={this.state.article.state}
-                    />*/}
-
-                      {/*<FormControlLabel
-                      control={
-                        <Switch
-                          defaultChecked={this.state.article.state === "published" }
-                          //onChange={this.handleHiddenChange}
-                          value="hidden"
-                          color="primary"
-                          inputRef={(ref)=> this.switch_ref = ref }
-                        />
-                      }
-                      label={this.state.article.state}
-                    />*/}
                     </div>
 
                     <Input
