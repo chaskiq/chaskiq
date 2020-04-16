@@ -63,7 +63,9 @@ export default function LongMenu ({
                 </span>
 
                 {option.description && (
-                  <span className="text-xs">{option.description}</span>
+                  <span className="text-xs text-left">
+                    {option.description}
+                  </span>
                 )}
               </div>
             </button>
