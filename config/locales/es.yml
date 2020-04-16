@@ -13,6 +13,7 @@ es:
     user_country: User country
 
   navigator:
+    dashboard: Dashboard
     platform: Platform
     conversations: Conversations
     campaigns: Campaigns
