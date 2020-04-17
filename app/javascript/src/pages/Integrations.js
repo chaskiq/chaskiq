@@ -210,7 +210,7 @@ function Integrations ({ app, dispatch }) {
             label: 'Active Webhooks',
             icon: <HomeIcon />,
             content: (
-              <div className="p-6">
+              <div className="py-6">
                 <p className="text-lg leading-6 font-medium text-gray-900 pb-4">
                   API Integrations
                 </p>
@@ -239,7 +239,7 @@ function Integrations ({ app, dispatch }) {
           {
             label: 'Disabled Webhooks',
             content: (
-              <div className="p-6">
+              <div className="py-6">
                 <p className="text-lg leading-6 font-medium text-gray-900 pb-4">
                   Available API Services
                 </p>

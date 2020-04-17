@@ -52,7 +52,7 @@ export default class SettingsForm extends Component {
             {this.props.definitions().map((field) => {
               return (
                 <div
-                  className={`${gridClasses(field)} p-2`}
+                  className={`${gridClasses(field)} py-2 pr-2`}
                   {...field.gridProps}
                 >
                   <FieldRenderer

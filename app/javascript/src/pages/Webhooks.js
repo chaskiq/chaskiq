@@ -17,12 +17,12 @@ import DeleteDialog from '../components/DeleteDialog'
 import EmptyView from '../components/EmptyView'
 
 import { EditIcon, AddIcon, DeleteIcon, HomeIcon } from '../components/icons'
-
 import FormDialog from '../components/FormDialog'
 import Button from '../components/Button'
 import Badge from '../components/Badge'
-import FieldRenderer from '../components/forms/FieldRenderer'
+import FieldRenderer, {gridClasses} from '../components/forms/FieldRenderer'
 import graphql from '../graphql/client'
+
 import { EVENT_TYPES, OUTGOING_WEBHOOKS } from '../graphql/queries'
 import {
   WEBHOOK_CREATE,
@@ -365,7 +365,12 @@ function Settings ({ app, dispatch }) {
             <form ref={form}>
               {definitions().map((field) => {
                 return (
-                  <div key={field.name} xs={field.grid.xs} sm={field.grid.sm}>
+                  <div 
+                    className={`${gridClasses(field)} py-2 pr-2`}
+
+                    key={field.name} 
+                    xs={field.grid.xs} 
+                    sm={field.grid.sm}>
                     <FieldRenderer
                       namespace={'app'}
                       type={field.type}

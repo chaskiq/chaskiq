@@ -37,7 +37,6 @@
     "moment": "^2.24.0",
     "moment-timezone": "^0.5.25",
     "nivo": "^0.31.0",
-    "non-digest-webpack-plugin": "^0.0.1",
     "polished": "^3.2.0",
     "postcss-cssnext": "^3.1.0",
     "prop-types": "^15.6.1",
@@ -75,11 +74,8 @@
     "tailwindcss": "^1.2.0",
     "ua-parser-js": "^0.7.20",
     "url-pattern": "^1.0.3",
-    "webpack": "^4.8.3",
     "webpack-bundle-analyzer": "^3.6.0",
-    "webpack-cli": "^3.1.1",
-    "webpack-dev-server": "^3.1.4",
-    "yarn": "^1.21.1"
+    "webpack-dev-server": "^3.1.4"
   },
   "devDependencies": {
     "cypress": "^3.8.3",
