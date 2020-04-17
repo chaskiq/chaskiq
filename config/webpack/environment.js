@@ -1,8 +1,6 @@
 var path = require('path')
 var webpack = require('webpack')
 const { environment } = require('@rails/webpacker')
-
-const NonDigestPlugin = require('non-digest-webpack-plugin');
 const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer')
 
 environment.config.merge({

@@ -21,7 +21,7 @@ cache:
 before_install:
 - gem update --system
 - gem install bundler -v 1.17.3
-- nvm install 13.2.0
+- nvm install 10.13.0
 before_script:
 - cp config/database.yml.travis config/database.yml
 - cp ./config/webpacker.ci.yml ./config/webpacker.yml

@@ -5,7 +5,7 @@ function EmptyView ({ title, subtitle, icon, image, shadowless }) {
     <div
       className={`bg-white overflow-hidden ${
         shadowless ? '' : 'shadow'
-      } rounded-lg p-5 m-5`}
+      } rounded-lg py-5`}
     >
       <div className="flex flex-col px-4 py-5 sm:p-6 items-center">
         {icon && icon}
