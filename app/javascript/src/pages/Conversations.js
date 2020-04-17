@@ -20,6 +20,7 @@ import AssignmentRules from '../components/conversations/AssignmentRules'
 import Conversation from '../components/conversations/Conversation'
 import Progress from '../components/Progress'
 import EmptyView from '../components/EmptyView'
+import Button from '../components/Button'
 import emptyImage from '../images/empty-icon8.png'
 
 // import {toCamelCase} from '../shared/caseConverter'
@@ -61,35 +62,33 @@ function Conversations ({
 
   const filterButton = (handleClick) => {
     return (
-      <button
+      <Button
         aria-label="More"
         aria-controls="long-menu"
         aria-haspopup="true"
         variant={'outlined'}
         onClick={handleClick}
         size="small"
-        className="p-1 bg-white hover:bg-gray-100 text-gray-800 font-semibold border border-gray-400 rounded shadow"
       >
         {/* <MoreVertIcon /> */}
         {conversations.filter}
-      </button>
+      </Button>
     )
   }
 
   const sortButton = (handleClick) => {
     return (
-      <button
+      <Button
         aria-label="More"
         aria-controls="long-menu"
         aria-haspopup="true"
         variant={'outlined'}
         onClick={handleClick}
         size="small"
-        className="p-1 bg-white hover:bg-gray-100 text-gray-800 font-semibold border border-gray-400 rounded shadow"
       >
         {/* <MoreVertIcon /> */}
         {conversations.sort}
-      </button>
+      </Button>
     )
   }
 

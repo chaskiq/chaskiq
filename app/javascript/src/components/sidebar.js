@@ -102,10 +102,6 @@ function Sidebar ({ app, match, dispatch, navigation, current_user, drawer }) {
         {
           render: (props) => [
             <div>
-              <h2 className="mb-4 text-lg leading-6 font-bold text-gray-900">
-                Dashboard
-              </h2>
-
               <p className="text-xs leading-5 text-gray-500 font-light">
                 👋 Hey!, you are viewing the <strong>{app.name}'s</strong>{' '}
                 dashboard!
@@ -305,7 +301,8 @@ function Sidebar ({ app, match, dispatch, navigation, current_user, drawer }) {
             key={`sidebar-section-${id}`}
             className="h-0-- flex-1 flex flex-col pt-5 pb-4 overflow-y-auto"
           >
-            <div className="flex items-center flex-shrink-0 px-4">
+            <div className="flex items-center flex-shrink-0 px-4
+              text-lg leading-6 font-bold text-gray-900">
               <h3 className="font-bold">{label}</h3>
             </div>
             <nav className="mt-5 flex-1 px-4">
@@ -350,7 +347,12 @@ function Sidebar ({ app, match, dispatch, navigation, current_user, drawer }) {
       {app && (
         <div
           className={
-            'md:block border-r bg-gray-200 text-purple-lighter flex-none w-23 p-2 overflow-y-auto--'
+            `md:block border-r 
+            bg-gray-200 
+            text-purple-lighter 
+            flex-none w-23 
+            p-2 
+            overflow-y-auto--`
           }
         >
           <div className="cursor-pointer mb-4">
@@ -369,13 +371,17 @@ function Sidebar ({ app, match, dispatch, navigation, current_user, drawer }) {
             >
               <div
                 className="cursor-pointer mb-4 p-3
-                        bg-gray-200 hover:bg-gray-400 rounded-md"
+                        bg-gray-200 hover:bg-gray-100 rounded-md"
               >
                 {o.url && (
                   <Link
                     to={`${o.url}`}
                     aria-label={o.label}
-                    className="bg-indigo-lighter h-12 w-12 flex-- items-center justify-center-- text-black text-2xl font-semibold rounded-lg mb-1 overflow-hidden"
+                    className="bg-indigo-lighter
+                    h-12 w-12 flex-- items-center
+                    justify-center-- text-black
+                    text-2xl font-semibold rounded-lg
+                    mb-1 overflow-hidden text-gray-400"
                   >
                     {o.icon}
                   </Link>
