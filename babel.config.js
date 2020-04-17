@@ -41,7 +41,6 @@ module.exports = function(api) {
     plugins: [
       'lodash',
       'babel-plugin-macros',
-      //'lodash',
       '@babel/plugin-syntax-dynamic-import',
       isTestEnv && 'babel-plugin-dynamic-import-node',
       '@babel/plugin-transform-destructuring',
