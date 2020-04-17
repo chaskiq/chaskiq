@@ -29,7 +29,11 @@ class Agents::SessionsController < Devise::SessionsController
       session[:return_to] = nil
     else
       a = Doorkeeper::Application.first
-      client = OAuth2::Client.new(a.uid, a.secret, site: a.redirect_uri)
+      client = OAuth2::Client.new(
+        a.uid, 
+        a.secret, 
+        site: 'http://localhost:3000'
+      )
 
       access_token =  client.password.get_token(
         params[:agent][:email], 
