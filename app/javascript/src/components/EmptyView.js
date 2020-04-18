@@ -1,6 +1,6 @@
 import React from 'react'
 
-function EmptyView ({ title, subtitle, icon, image, shadowless }) {
+export default function EmptyView ({ title, subtitle, icon, image, shadowless }) {
   return (
     <div
       className={`bg-white overflow-hidden ${
@@ -24,5 +24,3 @@ function EmptyView ({ title, subtitle, icon, image, shadowless }) {
     </div>
   )
 }
-
-export default EmptyView
