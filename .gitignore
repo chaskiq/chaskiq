@@ -42,3 +42,5 @@ public/schema.graphql
 cypress/cypress-examples
 cypress/videos
 stats.json
+.DS_Store
+
