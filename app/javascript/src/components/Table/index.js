@@ -66,7 +66,7 @@ export default function Table ({
           <div className="relative inline-block text-left">
             <Button
               isLoading={false}
-              variant="clean"
+              variant="icon"
               onClick={toggleMapView}>
               <MapIcon/>
             </Button>
@@ -159,7 +159,7 @@ function SimpleMenu (props) {
             overlay={"select columns"}>
             <Button
               isLoading={false}
-              variant="clean"
+              variant="icon"
               onClick={cb}>
               <ColumnsIcon/>
             </Button>
