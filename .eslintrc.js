@@ -26,5 +26,13 @@ module.exports = {
     "no-unused-vars": "off",
     "unused-imports/no-unused-imports": 2,
     "unused-imports/no-unused-vars": 1
-  }
+  },
+  "overrides": [
+    {
+      "excludedFiles": "app/javascript/src/graphql/*.js",
+      "rules": {
+        "quotes": ["error", "single"]
+      }
+    }
+  ]
 }
