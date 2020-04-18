@@ -17,13 +17,16 @@ export default function Table ({
   enableMapView,
   toggleMapView
 }) {
-  const visibleColumns = (columns) => columns.filter(
-    (o) => !o.hidden
-  )
-  const [visibleCols, setVisibleCols] = React.useState(
-    visibleColumns(columns)
-  )
+
+  const [tableColums, setTableColums] = React.useState(columns)
+
   const [open, setOpen] = React.useState(false)
+
+  const visibleColumns = () => (
+    tableColums.filter(
+      (o) => !o.hidden
+    )  
+  )
 
   const renderDefaultRow = (value) => {
     return (
@@ -36,7 +39,7 @@ export default function Table ({
   const handleFormat = (item) => {
     return (
       <tr>
-        {visibleCols.map((o) =>
+        {visibleColumns().map((o) =>
           o.render ? o.render(item) : renderDefaultRow(item[o])
         )}
       </tr>
@@ -44,7 +47,7 @@ export default function Table ({
   }
 
   const changeColumns = (columns) =>{
-    setVisibleCols(visibleColumns(columns))
+    setTableColums(columns)
   }
 
   return (
@@ -54,7 +57,7 @@ export default function Table ({
         <SimpleMenu 
           handleChange={changeColumns}
           options={
-            columns
+            tableColums
           }
         />
 
@@ -75,9 +78,11 @@ export default function Table ({
       <table className="min-w-full">
         <thead>
           <tr>
-            {visibleCols.map((o) => (
+            {visibleColumns().map((o) => (
               <th key={`visible-col-${o.title}`} 
-                className="px-6 py-3 border-b border-gray-200 bg-gray-50 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">
+                className="px-6 py-3 border-b border-gray-200 
+                bg-gray-50 text-left text-xs leading-4 
+                font-medium text-gray-500 uppercase tracking-wider">
                 {o.title}
               </th>
             ))}
@@ -88,7 +93,11 @@ export default function Table ({
         </tbody>
       </table>
 
-      {meta && !isEmpty(meta) && <Pagination meta={meta} search={search} />}
+      {
+        meta && 
+        !isEmpty(meta) && 
+        <Pagination meta={meta} search={search} />
+      }
     </React.Fragment>
   )
 }
@@ -138,7 +147,6 @@ function SimpleMenu (props) {
     const columns = props.options.map((o) => {
       return o.title === item.title ? item : o
     })
-    console.log(item, columns)
     props.handleChange(columns)
   }
   return (

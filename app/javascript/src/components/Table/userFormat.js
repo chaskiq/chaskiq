@@ -24,7 +24,7 @@ const userFormat = function (showUserDrawer, app) {
   let opts = [
     // {field: 'id', title: 'id' },
     {
-      field: 'email',
+      field: 'name',
       title: 'Name',
       render: (row) => {
         return (
@@ -55,10 +55,10 @@ const userFormat = function (showUserDrawer, app) {
         )
       }
     },
-    { field: 'email', title: 'email', hidden: true },
+    { field: 'email', title: 'Email', hidden: true },
     {
       field: 'state',
-      title: 'state',
+      title: 'State',
       render: (row) => {
         return (
           <td className="px-6 py-4 whitespace-no-wrap border-b border-gray-200">
@@ -76,22 +76,22 @@ const userFormat = function (showUserDrawer, app) {
         )
       }
     },
-    { field: 'online', title: 'online', hidden: true },
-    { field: 'lat', title: 'lat', hidden: true },
-    { field: 'lng', title: 'lng', hidden: true },
-    { field: 'postal', title: 'postal', hidden: true },
-    { field: 'browserLanguage', title: 'browser Language', hidden: true },
-    { field: 'referrer', title: 'referrer', hidden: true },
-    { field: 'os', title: 'os', hidden: true },
-    { field: 'osVersion', title: 'os Version', hidden: true },
-    { field: 'lang', title: 'lang', hidden: true },
+    { field: 'online', title: 'Online', hidden: true },
+    { field: 'lat', title: 'Lat', hidden: true },
+    { field: 'lng', title: 'Lng', hidden: true },
+    { field: 'postal', title: 'Postal', hidden: true },
+    { field: 'browserLanguage', title: 'Browser Language', hidden: true },
+    { field: 'referrer', title: 'Referrer', hidden: true },
+    { field: 'os', title: 'Os', hidden: true },
+    { field: 'osVersion', title: 'Os Version', hidden: true },
+    { field: 'lang', title: 'Lang', hidden: true },
     { field: 'webSessions', title: 'Web sessions' },
     { field: 'LastSeen', title: 'Last seen' },
     { field: 'FirstSeen', title: 'First seen' },
 
     {
       field: 'lastVisitedAt',
-      title: 'last visited at',
+      title: 'Last visited at',
       render: (row) =>
         row && (
           <td className="px-6 py-4 whitespace-no-wrap border-b border-gray-200 text-sm leading-5 text-gray-500">
