@@ -6,7 +6,7 @@ export default function DeleteDialog ({
   children,
   title,
   deleteHandler,
-  closeHandler
+  closeHandler,
 }) {
   const [isOpen, setIsOpen] = useState(false)
 

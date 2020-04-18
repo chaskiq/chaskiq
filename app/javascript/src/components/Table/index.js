@@ -72,8 +72,6 @@ export default function Table ({
       }
       </div>
 
-
-
       <table className="min-w-full">
         <thead>
           <tr>

@@ -120,12 +120,3 @@ const userFormat = function (showUserDrawer, app) {
 }
 
 export default userFormat
-
-// function mapStateToProps(state) {
-//  const { app } = state
-//  return {
-//    app
-//  }
-// }
-//
-// export default connect(mapStateToProps)(userFormat)

@@ -56,7 +56,7 @@ export default function SimpleTabs ({ tabs, currentTab, onChange }) {
         </Scrollable>
       </div>
 
-      {<div>{tabs[value].content && tabs[value].content}</div>}
+      {<div>{tabs[value] && tabs[value].content && tabs[value].content}</div>}
     </div>
   )
 }

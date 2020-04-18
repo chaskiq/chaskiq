@@ -1,6 +1,6 @@
 import React from 'react'
 
-function CustomizedExpansionPanels (props) {
+export default function CustomizedExpansionPanels (props) {
   const [expanded, setExpanded] = React.useState(props.items[0].name)
 
   const handleChange = (panel) => (event, newExpanded) => {
@@ -136,5 +136,3 @@ function CustomizedExpansionPanels (props) {
     </section>
   )
 }
-
-export default CustomizedExpansionPanels
