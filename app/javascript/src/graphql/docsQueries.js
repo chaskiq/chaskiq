@@ -17,7 +17,7 @@ export const ARTICLE_SETTINGS = `
       availableLanguages
     }
   }
-`
+`;
 
 export const ARTICLES = `
   query HelpCenter($domain: String!, $page: Int!, $per: Int, $lang: String){
@@ -50,7 +50,7 @@ export const ARTICLES = `
       }
     }
   }
-`
+`;
 
 export const SEARCH_ARTICLES = `
   query HelpCenter($domain: String!, $page: Int!, $per: Int, $lang: String, $term: String!){
@@ -75,10 +75,15 @@ export const SEARCH_ARTICLES = `
           }
         }
         meta
+        authors{
+          id
+          displayName
+          avatarUrl
+        }
       }
     }
   }
-`
+`;
 
 export const ARTICLES_UNCATEGORIZED = `
   query HelpCenter($domain: String!, $page: Int!, $per: Int, $lang: String){
@@ -110,7 +115,7 @@ export const ARTICLES_UNCATEGORIZED = `
       }
     }
   }
-`
+`;
 
 export const ARTICLE = `
   query HelpCenter($domain: String!, $id: String!, $lang: String){
@@ -140,7 +145,8 @@ export const ARTICLE = `
       }
     }
   }
-`
+`;
+
 
 export const ARTICLE_COLLECTIONS = `
   query ArticleCollections($domain: String!, $lang: String){
@@ -153,7 +159,7 @@ export const ARTICLE_COLLECTIONS = `
       }
     }
   }
-`
+`;
 
 export const ARTICLE_COLLECTION = `
   query ArticleCollections($domain: String!, $id: String!, $lang: String){
@@ -165,7 +171,7 @@ export const ARTICLE_COLLECTION = `
       }
     }
   }
-`
+`;
 
 export const ARTICLE_COLLECTION_WITH_SECTIONS = `
   query ArticleCollections($domain: String!, $id: String!, $lang: String){
@@ -213,4 +219,4 @@ export const ARTICLE_COLLECTION_WITH_SECTIONS = `
       }
     }
   }
-`
+`;
