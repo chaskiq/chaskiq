@@ -1,5 +1,5 @@
 {
-  "name": "hermes",
+  "name": "chaskiq",
   "private": true,
   "dependencies": {
     "@babel/plugin-transform-typescript": "^7.9.4",
@@ -92,5 +92,11 @@
   },
   "resolutions": {
     "styled-components": "^4.3.2"
+  },
+  "scripts": {
+    "cypress:open": "./node_modules/.bin/cypress open",
+    "cypress:run": "./node_modules/.bin/cypress run",
+    "dev": "./bin/webpack-dev-server",
+    "build": "bundle exec rake assets:precompile"
   }
 }
