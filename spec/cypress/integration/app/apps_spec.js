@@ -23,9 +23,10 @@ describe('Login Spec', function() {
         cy.get("body").should('contain', 'Resolutions')
         cy.get("body").should('contain', 'Incoming Messages')
 
-        cy.xpath('//*[@id="main-page"]/div/div[1]/nav/div/div/ul/button')
+        //cy.xpath('//*[@id="main-page"]/div/div[1]/nav/div/div/ul/button')
+        cy.contains('User menu')
         .click().then(()=>{
-          findElementByName("li", "Create new app").click().then(()=>{
+          findElementByName("button", "Create new app").click().then(()=>{
             cy.get('body').should('contain', 'Create your company’s Chaskiq app')
 
             cy.get('input[name="app[name]"]')
@@ -43,36 +44,36 @@ describe('Login Spec', function() {
               cy.get("body").should('contain', 'Incoming Messages') 
               
               
-              cy.get(".MuiListItemIcon-root[title='Platform'] button")
-              .click().then(()=>{
+              cy.get("a[aria-label='Platform']")
+              .click({force: true}).then(()=>{
                 cy.get("body").should("contain", "all users")
                 cy.get("body").should("contain", "all leads")
                 cy.get("body").should("contain", "active users")
                 cy.get("body").should("contain", "sleeping away")
               })
 
-              cy.get(".MuiListItemIcon-root[title='Conversations'] button")
-              .click().then(()=>{
+              cy.get("a[aria-label='Conversations']")
+              .click({force: true}).then(()=>{
                 cy.get("body").should("contain", "Conversations")
                 cy.get("body").should("contain", "Assignment Rules")
               })
 
-              cy.get(".MuiListItemIcon-root[title='Campaigns'] button")
-              .click().then(()=>{
+              cy.get("a[aria-label='Campaigns']")
+              .click({force: true}).then(()=>{
                 cy.get("body").should("contain", "Mailing Campaigns")
                 cy.get("body").should("contain", "In App messages")
                 cy.get("body").should("contain", "Guided tours")
               })
 
-              cy.get(".MuiListItemIcon-root[title='Routing Bots'] button")
-              .click().then(()=>{
+              cy.get("a[aria-label='Routing Bots']")
+              .click({force: true}).then(()=>{
                 cy.get("body").should("contain", "For Leads")
                 cy.get("body").should("contain", "For Users")
                 cy.get("body").should("contain", "Settings")
               })
 
-              cy.get(".MuiListItemIcon-root[title='Settings'] button")
-              .click().then(()=>{
+              cy.get("a[aria-label='Settings']")
+              .click({force: true}).then(()=>{
                 cy.get("body").should("contain", "App Settings")
                 cy.get("body").should("contain", "Team")
                 cy.get("body").should("contain", "Integrations")

@@ -3,13 +3,14 @@ import Dropdown from './Dropdown'
 
 const ITEM_HEIGHT = 48
 
-export default function LongMenu ({
+export default function FilterMenu ({
   filterHandler,
   value,
   triggerButton,
   selectedOption,
   options,
-  position
+  position,
+  origin
 }) {
   const [anchorEl, setAnchorEl] = React.useState(null)
   // const [options, setOption] = React.useState(options);
@@ -36,6 +37,7 @@ export default function LongMenu ({
         labelButton={value}
         triggerButton={triggerButton}
         position={position}
+        origin={origin}
       >
         {options.map((option) => (
           <div className="py-1">

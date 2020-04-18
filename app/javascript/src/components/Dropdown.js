@@ -6,7 +6,8 @@ export default function Dropdown ({
   labelButton,
   triggerButton,
   isOpen,
-  position
+  position,
+  origin
 }) {
   const [open, setOpen] = React.useState(isOpen)
 
@@ -59,7 +60,9 @@ export default function Dropdown ({
         {open && (
           <div
             className={`z-50 origin-top-right absolute 
-            ${position ? position : 'left' }-0 mt-2 w-56 rounded-md shadow-lg`}
+            ${position ? position : 'left' }-0
+            ${origin ? origin : ''}
+             mt-2 w-56 rounded-md shadow-lg`}
           >
             <div className="rounded-md bg-white shadow-xs">{children}</div>
           </div>

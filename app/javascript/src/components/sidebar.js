@@ -4,7 +4,7 @@ import { connect } from 'react-redux'
 import Tooltip from 'rc-tooltip'
 import logo from '../images/logo-dark.png'
 import icon from '../images/favicon.png'
-
+import FilterMenu from '../components/FilterMenu'
 import { signout } from '../actions/auth'
 import WebSetup from '../components/webSetup'
 
@@ -59,7 +59,15 @@ function mapStateToProps (state) {
   }
 }
 
-function Sidebar ({ app, match, dispatch, navigation, current_user, drawer }) {
+function Sidebar ({ 
+  app, 
+  match, 
+  dispatch, 
+  navigation, 
+  current_user, 
+  drawer,
+  history
+}) {
   const { current_page, current_section } = navigation
 
   const [expanded, setExpanded] = useState(current_section)
@@ -166,9 +174,6 @@ function Sidebar ({ app, match, dispatch, navigation, current_user, drawer }) {
       url: `/apps/${app.key}/campaigns`,
       icon: <FlagIcon style={{ fontSize: 30 }} />,
       children: [
-        /* { id: 'Analytics', icon: <SettingsIcon /> },
-        { id: 'Performance', icon: <TimerIcon /> },
-        { id: 'Test Lab', icon: <PhonelinkSetupIcon /> }, */
         {
           id: 'campaigns',
           label: 'Mailing Campaigns',
@@ -411,11 +416,42 @@ function Sidebar ({ app, match, dispatch, navigation, current_user, drawer }) {
                 <p className="text-sm leading-5 font-medium text-gray-700 group-hover:text-gray-900">
                   {current_user.email}
                 </p>
-                <p className="text-xs leading-4 font-medium text-gray-500 group-hover:text-gray-700 group-focus:underline transition ease-in-out duration-150">
+
+                <FilterMenu
+                    options={[
+                      {
+                        title: "Create new app",
+                        description: "Create your company’s Chaskiq app",
+                        //icon: <SendIcon />,
+                        id: "new-app",
+                        onClick: ()=> history.push("/apps/new"),
+                      },
+                      {
+                          title: "Sign out",
+                          //description: "delivers the campaign",
+                          //icon: <SendIcon />,
+                          id: "sign-out",
+                          onClick: handleSignout,
+                      }
+                    ]}
+                    value={null}
+                    filterHandler={(e) => e.onClick && e.onClick() }
+                    triggerButton={(handler)=> (
+                      <button 
+                        onClick={handler}
+                        className="text-xs leading-4 font-medium text-gray-500 group-hover:text-gray-700 group-focus:underline transition ease-in-out duration-150">
+                        User menu
+                      </button>
+                    )}
+                    position={"left"}
+                    origin={"bottom-0"}
+                  />
+
+                {/*<p className="text-xs leading-4 font-medium text-gray-500 group-hover:text-gray-700 group-focus:underline transition ease-in-out duration-150">
                   <button onClick={handleSignout}>
                    logout
                   </button>
-                </p>
+                    </p>*/}
               </div>
             </div>
           </a>
