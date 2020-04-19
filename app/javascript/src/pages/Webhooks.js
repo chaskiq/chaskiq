@@ -387,11 +387,11 @@ function Settings ({ app, dispatch }) {
           }
           dialogButtons={
             <React.Fragment>
-              <Button onClick={close} color="secondary">
+              <Button onClick={close} variant="outlined">
                 Cancel
               </Button>
 
-              <Button onClick={submit} color="primary">
+              <Button onClick={submit} className="mr-1">
                 {open ? 'Update' : 'Create'}
               </Button>
             </React.Fragment>
@@ -443,15 +443,15 @@ function WebhookItem ({ webhook, handleEdit, handleDelete }) {
           </ItemListSecondaryContent>
         }
         terciary={
-          <React.Fragment>
+          <div className="flex items-center justify-between">
             <div className="text-sm leading-5 text-gray-900">
               <Badge>{webhook.state}</Badge>
             </div>
 
-            <div className="mt-2 flex items-center text-sm leading-5 text-gray-500">
+            <div className="flex items-center text-sm leading-5 text-gray-500">
               <Button
                 onClick={() => handleEdit(webhook)}
-                edge="end"
+                variant="icon"
                 aria-label="add"
               >
                 {webhook.id ? <EditIcon /> : <AddIcon />}
@@ -460,14 +460,14 @@ function WebhookItem ({ webhook, handleEdit, handleDelete }) {
               {webhook.id && (
                 <Button
                   onClick={() => handleDelete(webhook)}
-                  edge="end"
+                  variant="icon"
                   aria-label="add"
                 >
                   <DeleteIcon />
                 </Button>
               )}
             </div>
-          </React.Fragment>
+          </div>
         }
       />
     </ListItem>

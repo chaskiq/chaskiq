@@ -72,11 +72,11 @@ function CustomizationColors ({ app, settings, update, dispatch }) {
           }
           dialogButtons={
             <React.Fragment>
-              <Button onClick={close} color="secondary">
+              <Button onClick={close} variant={'outlined'}>
                 Cancel
               </Button>
 
-              <Button onClick={submit} color="primary">
+              <Button onClick={submit} className="mr-1">
                 {'Create'}
               </Button>
             </React.Fragment>
@@ -122,7 +122,9 @@ function CustomizationColors ({ app, settings, update, dispatch }) {
         </p>
 
         <div className="flex w-1/4 justify-end">
-          <Button onClick={addField} edge="end" variant="icon" aria-label="add">
+          <Button onClick={addField} 
+            edge="end" variant="icon" 
+            aria-label="add">
             <PlusIcon />
           </Button>
 

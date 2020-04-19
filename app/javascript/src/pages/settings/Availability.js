@@ -126,7 +126,7 @@ export default function LanguageForm ({ settings, update, namespace, fields }) {
         </p>
       </div>
 
-      <div>
+      <div className="py-4">
         <Button onClick={handleSubmit} variant={'contained'} color={'primary'}>
           Save
         </Button>
@@ -272,7 +272,7 @@ function AvailabilityRecord ({ record, update, index, removeItem }) {
         ></Input>
       </div>
 
-      <div className="w-1/4">
+      <div className="w-1/4 pt-3">
         <Button variant="icon" onClick={deleteItem}>
           <DeleteIcon></DeleteIcon>
         </Button>

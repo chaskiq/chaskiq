@@ -318,11 +318,11 @@ function Integrations ({ app, dispatch }) {
           }
           dialogButtons={
             <React.Fragment>
-              <Button onClick={close} color="secondary">
+              <Button onClick={close} variant="outlined">
                 Cancel
               </Button>
 
-              <Button onClick={submit} color="primary">
+              <Button onClick={submit} className="mr-1">
                 {open ? 'Update' : 'Create'}
               </Button>
             </React.Fragment>
@@ -400,8 +400,8 @@ function ServiceBlock ({ service, handleOpen, kind, setOpenDeleteDialog }) {
                 <React.Fragment>
                   <Button
                     onClick={() => handleOpen(service)}
-                    edge="end"
                     aria-label="add"
+                    variant="icon"
                   >
                     {service.id ? <EditIcon /> : <AddIcon />}
                   </Button>
@@ -411,8 +411,8 @@ function ServiceBlock ({ service, handleOpen, kind, setOpenDeleteDialog }) {
                       onClick={() =>
                         setOpenDeleteDialog && setOpenDeleteDialog(service)
                       }
-                      edge="end"
                       aria-label="add"
+                      variant="icon"
                     >
                       <DeleteIcon />
                     </Button>

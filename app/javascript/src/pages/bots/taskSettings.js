@@ -213,11 +213,11 @@ function UrlPaths ({ data, updateData }) {
             }
             dialogButtons={
               <div className="flex justify-end">
-                <Button onClick={close} color="secondary">
+                <Button onClick={close} variant="outlined">
                   Cancel
                 </Button>
 
-                <Button onClick={submit} color="primary">
+                <Button onClick={submit} className="mr-1">
                   Create
                 </Button>
               </div>

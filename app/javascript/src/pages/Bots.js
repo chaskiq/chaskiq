@@ -240,28 +240,29 @@ const BotTaskCreate = ({ app, submit, history, match, mode }) => {
     isOpen && (
       <FormDialog
         open={isOpen}
-        // contentText={"lipsum"}
+        handleClose={()=>setIsOpen(false)}
         titleContent={'Create Bot task'}
         formComponent={
           <form>
             <Input
               label="None"
               id="title"
+              type={'string'}
               ref={(ref) => (titleRef = ref)}
               placeholder={'write task title'}
               // defaultValue="Default Value"
               // className={classes.textField}
-              helperText="Some important text"
+              helperText="Task name ie: welcoming users bot task"
             />
           </form>
         }
         dialogButtons={
           <React.Fragment>
-            <Button onClick={close} color="secondary">
+            <Button onClick={close} variant="outlined">
               Cancel
             </Button>
 
-            <Button onClick={handleSubmit} color="primary">
+            <Button onClick={handleSubmit} className="mr-1">
               Create
             </Button>
           </React.Fragment>

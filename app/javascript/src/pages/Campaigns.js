@@ -23,7 +23,7 @@ import ContentHeader from "../components/PageHeader";
 import Content from "../components/Content";
 import EmptyView from "../components/EmptyView";
 import FilterMenu from "../components/FilterMenu";
-
+import Badge from '../components/Badge';
 import graphql from "../graphql/client";
 import { CAMPAIGN, CAMPAIGNS, CAMPAIGN_METRICS } from "../graphql/queries";
 import {
@@ -891,14 +891,12 @@ class CampaignContainer extends Component {
                             row && (
                               <td className="px-6 py-4 whitespace-no-wrap border-b border-gray-200">
                                 <div className="flex items-center">
-                                  <div className="ml-4">
-                                    <div className="text-sm leading-5 font-medium text-gray-900">
-                                      <AnchorLink
-                                        to={`${this.props.match.url}/${row.id}`}
-                                      >
-                                        {row.name}
-                                      </AnchorLink>
-                                    </div>
+                                  <div className="text-sm leading-5 font-medium text-gray-900">
+                                    <AnchorLink
+                                      to={`${this.props.match.url}/${row.id}`}
+                                    >
+                                      {row.name}
+                                    </AnchorLink>
                                   </div>
                                 </div>
                               </td>
@@ -911,18 +909,9 @@ class CampaignContainer extends Component {
                           render: (row) => {
                             return (
                               <td className="px-6 py-4 whitespace-no-wrap border-b border-gray-200">
-                                <span
-                                  className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full 
-                                          ${
-                                            row.state === "subscribed"
-                                              ? "bg-green-100 text-green-800"
-                                              : "bg-red-100 text-red-800"
-                                          }`}
-                                >
-                                  {/*<CheckCircle/>
-                                          <Pause/>*/}
+                                <Badge variant={row.state === 'enabled' ? 'green' : null}>
                                   {row.state}
-                                </span>
+                                </Badge>
                               </td>
                             );
                           },
@@ -937,32 +926,37 @@ class CampaignContainer extends Component {
                               >
                                 <Button
                                   color={"secondary"}
-                                  variant={"contained"}
+                                  variant={"danger"}
                                   onClick={() =>
                                     this.setState({ openDeleteDialog: row })
-                                  }
-                                >
+                                  }>
                                   remove
                                 </Button>
                               </span>
                             </td>
                           ),
                         },
-                        /*{field: 'fromName', title: 'from name', hidden: true},
-                              {field: 'fromEmail', title: 'from email', hidden: true},
-                              {field: 'replyEmail', title: 'reply email', hidden: true},
-                              {field: 'description', title: 'description', hidden: true},
-                              {field: 'timezone', title: 'timezone'},
-                              {field: 'scheduledAt', title: 'scheduled at', type: "datetime", 
-                                render: row => (row ? <Moment fromNow>
-                                  {row.scheduledAt}
-                                </Moment> : undefined)
-                              },
-                              {field: 'scheduledTo', title: 'scheduled to', type: "datetime",
-                                render: row => (row ? <Moment fromNow>
-                                  {row.scheduledTo}
-                                </Moment> : undefined)
-                              }*/
+                        {field: 'fromName', title: 'from name', hidden: true},
+                        {field: 'fromEmail', title: 'from email', hidden: true},
+                        {field: 'replyEmail', title: 'reply email', hidden: true},
+                        {field: 'description', title: 'description', hidden: true},
+                        {field: 'timezone', title: 'timezone'},
+                        {field: 'scheduledAt', title: 'scheduled at', type: "datetime", 
+                          render: row => (row ? 
+                            <td className="px-6 py-4 whitespace-no-wrap border-b border-gray-200">
+                              <Moment fromNow>
+                                {row.scheduledAt}
+                              </Moment>
+                            </td> : undefined)
+                        },
+                        {field: 'scheduledTo', title: 'scheduled to', type: "datetime",
+                          render: row => (row ? 
+                            <td className="px-6 py-4 whitespace-no-wrap border-b border-gray-200">
+                              <Moment fromNow>
+                                {row.scheduledTo}
+                              </Moment>
+                            </td> : undefined)
+                        }
                       ]}
                     ></Table>
                   )}
