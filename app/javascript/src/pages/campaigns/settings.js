@@ -9,7 +9,8 @@ import serialize from "form-serialize";
 import graphql from "../../graphql/client";
 import { UPDATE_CAMPAIGN, CREATE_CAMPAIGN } from "../../graphql/mutations";
 
-import FieldRenderer from "../../components/forms/FieldRenderer";
+import FieldRenderer, {gridClasses} from "../../components/forms/FieldRenderer";
+
 import { toSnakeCase } from "../../shared/caseConverter";
 //import moment from 'moment-timezone';
 
@@ -113,10 +114,11 @@ export default class CampaignSettings extends Component {
               : "Create a new campaign"}
           </h3>
 
-          <div container spacing={3}>
+          <div className="flex flex-wrap">
             {this.state.data.configFields.map((field) => {
               return (
-                <div xs={field.grid.xs} sm={field.grid.sm}>
+                <div 
+                  className={`${gridClasses(field)} py-2 pr-2`}>
                   <FieldRenderer
                     namespace={"campaign"}
                     data={field}

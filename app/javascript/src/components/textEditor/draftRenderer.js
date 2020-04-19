@@ -149,31 +149,6 @@ const renderers = {
               ></div>
 
               <ConnectedImage url={url} width={width} height={height} />
-
-              {/* <img src={url}
-                        className="graf-image"
-                        width={width}
-                        height={height}
-                        contentEditable="false"
-                        onClick={(e)=> this.props.dispatch(
-                            setImageZoom({
-                              url: url,
-                              width: width,
-                              height: height
-                            })
-                          )
-                        }
-                      /> */}
-
-              {/*
-
-                        <ZoomImage
-                          imageWidth={width}
-                          imageHeight={height}
-                          src={url}
-                          contentEditable="false"
-                          className="graf-image"
-                        /> */}
             </div>
           </div>
 

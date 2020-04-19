@@ -1,6 +1,8 @@
 import React from 'react'
 import Moment from 'react-moment'
 import styled from '@emotion/styled'
+import Badge from '../Badge'
+import Avatar from '../Avatar'
 
 const NameWrapper = styled.span`
   display: flex;
@@ -35,11 +37,13 @@ const userFormat = function (showUserDrawer, app) {
                 className="flex items-center"
               >
                 <div className="flex-shrink-0 h-10 w-10">
-                  <img
-                    className="h-10 w-10 rounded-full"
-                    src={row.avatarUrl}
-                    alt=""
+                  
+                  <Avatar 
+                    size={'medium'} 
+                    src={row.avatarUrl} 
+                    indicator={row.online}
                   />
+
                 </div>
                 <div className="ml-4">
                   <div className="text-sm leading-5 font-medium text-gray-900">
@@ -62,16 +66,13 @@ const userFormat = function (showUserDrawer, app) {
       render: (row) => {
         return (
           <td className="px-6 py-4 whitespace-no-wrap border-b border-gray-200">
-            <span
-              className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full 
-                ${
-                  row.state === 'subscribed'
-                    ? 'bg-green-100 text-green-800'
-                    : 'bg-red-100 text-red-800'
-                }`}
-            >
+
+            <Badge variant={
+              row.state === 'subscribed' ? 'green' : 'yellow'
+            }>
               {row.state}
-            </span>
+            </Badge>
+
           </td>
         )
       }

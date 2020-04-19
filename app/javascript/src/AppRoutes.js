@@ -7,6 +7,7 @@ import NewApp from './pages/NewApp'
 import NotFound from './pages/NotFound'
 import AcceptInvitation from './pages/auth/acceptInvitation'
 import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom'
+import ZoomImage from './components/ImageZoomOverlay'
 
 function mapStateToProps (state) {
   const { auth, current_user } = state
@@ -22,6 +23,10 @@ function AppRouter ({ loading, isAuthenticated, current_user }) {
   if (!isAuthenticated && !current_user.email) return <Login />
 
   return (
+    <div>
+
+    <ZoomImage/>
+
     <Switch>
       <Route path="/" exact>
         <Apps />
@@ -52,6 +57,7 @@ function AppRouter ({ loading, isAuthenticated, current_user }) {
         <NotFound />
       </Route>
     </Switch>
+    </div>
   )
 }
 

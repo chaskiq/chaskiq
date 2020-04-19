@@ -324,9 +324,6 @@ class SettingsForm extends Component {
               return (
                 <div
                   className={`${gridClasses(field)} py-2 pr-2`}
-                  key={field.name}
-                  xs={field.grid.xs}
-                  sm={field.grid.sm}
                 >
                   <FieldRenderer
                     namespace={"settings"}
@@ -345,6 +342,7 @@ class SettingsForm extends Component {
 
         <div container justify={"space-around"}>
           <Button
+            className="mr-2"
             onClick={this.onSubmitHandler.bind(this)}
             variant="contained"
             color="primary"
@@ -587,7 +585,7 @@ function LanguageForm({ settings, update, deleteLang }) {
           */}
         </div>
 
-        <div container alignContent={"flex-end"}>
+        <div className="flex justify-end py-2">
           <Button
             onClick={handleSubmit}
             variant={"contained"}

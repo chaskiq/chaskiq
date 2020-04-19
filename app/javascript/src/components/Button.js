@@ -5,7 +5,9 @@ import styled from '@emotion/styled'
 
 // https://nystudio107.com/blog/using-tailwind-css-with-gatsby-react-emotion-styled-components
 
+
 const BaseButton = styled.button`
+
   ${(props) => {
     switch (props.variant) {
       case 'small':
