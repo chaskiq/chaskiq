@@ -142,13 +142,13 @@ function AppPackagePanel (props) {
       }
       dialogButtons={
         <React.Fragment>
-          <Button onClick={handleClose} color="secondary">
+          <Button onClick={handleClose} 
+            variant="outlined" className="ml-2">
             Cancel
           </Button>
 
           <Button
-            onClick={handleSend}
-            color="primary">
+            onClick={handleSend}>
             Send
           </Button>
         </React.Fragment>

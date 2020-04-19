@@ -440,7 +440,11 @@ function Sidebar ({
                       <button 
                         onClick={handler}
                         className="text-xs leading-4 font-medium text-gray-500 group-hover:text-gray-700 group-focus:underline transition ease-in-out duration-150">
-                        User menu
+                        <div className="flex items-center">
+                          User menu 
+                          <MoreIcon/>
+                        </div>
+                        
                       </button>
                     )}
                     position={"left"}

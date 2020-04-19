@@ -428,12 +428,12 @@ function LanguageForm({ settings, update, deleteLang }) {
           }
           dialogButtons={
             <React.Fragment>
-              <Button onClick={toggleDialog} color="secondary">
+              <Button onClick={toggleDialog} variant="outlined">
                 Cancel
               </Button>
 
               <Button //onClick={this.submitAssignment }
-                color="primary"
+                className="mr-1"
               >
                 Update
               </Button>

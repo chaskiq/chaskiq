@@ -117,7 +117,7 @@ function UsersSettings ({ app, updateData, namespace, submit }) {
   }
 
   return (
-    <div container direction={'column'}>
+    <div>
       <div className="py-4">
         <p className="text-lg leading-6 font-medium text-gray-900 pb-4">
           When users start a conversation
@@ -132,8 +132,9 @@ function UsersSettings ({ app, updateData, namespace, submit }) {
         />
       </div>
 
-      <div>
-        <Button color={'primary'} variant={'contained'} onClick={submitData}>
+      <div className="py-4">
+        <Button size={'medium'} 
+          variant={'contained'} onClick={submitData}>
           save
         </Button>
       </div>
@@ -173,7 +174,7 @@ function LeadsSettings ({
   }
 
   return (
-    <div container>
+    <div>
       <div className="py-4">
         <p className="text-lg leading-6 font-medium text-gray-900 pb-4">
           When leads start a conversation
@@ -196,27 +197,6 @@ function LeadsSettings ({
             label="Share your typical reply time"
           />
 
-          {/* <FormControlLabel
-            control={
-              <Checkbox
-                checked={state.delay}
-                onChange={handleChange('delay')}
-                value={state.delay}
-              />
-            }
-            label="Leave a 2 minute delay before triggering Task Bots during office hours"
-          />
-
-          <FormControlLabel
-            control={
-              <Checkbox
-                checked={state.share_typical_time}
-                onChange={handleChange('share_typical_time')}
-                value={state.share_typical_time}
-              />
-            }
-            label="Share your typical reply time"
-          /> */}
         </div>
 
         <hr />
@@ -265,51 +245,6 @@ function LeadsSettings ({
           label="Close the conversation"
         />
 
-        {/* <FormControl component="fieldset" margin={"normal"}>
-
-          <FormLabel component="legend">
-            What do you want to do when they choose "Yes, I'm a customer"?
-          </FormLabel>
-
-          <RadioGroup aria-label="position"
-            name="routing"
-            value={state.routing}
-            onChange={handleRadioChange}
-            >
-
-            <div pt={2} >
-              <div container direction={"row"}>
-
-                <FormControlLabel
-                  value="assign"
-                  control={<Radio color="primary" />}
-                  label="Assign the conversation"
-                  labelPlacement="end"
-                />
-
-                {
-                  state.routing === "assign" &&
-
-                  <AgentSelector
-                    agents={agents}
-                    getAgents={getAgents}
-                    setValue={setValue}
-                    value={state.assignee}
-                  />
-                }
-
-              </div>
-            </div>
-
-            <FormControlLabel
-              value="close"
-              control={<Radio color="primary" />}
-              label="Close the conversation"
-              labelPlacement="end"
-            />
-          </RadioGroup>
-          </FormControl> */}
-
         <hr />
 
         <p className="text-lg leading-6 font-medium text-gray-900 py-4">
@@ -348,31 +283,12 @@ function LeadsSettings ({
           value="email_only"
           label="Ask for email only"
         />
-
-        {/* <FormControl>
-          <RadioGroup aria-label="position"
-            name="email_requirement"
-            value={state.email_requirement}
-            onChange={handleRadioChange}
-            >
-            <FormControlLabel
-              value="email_only"
-              control={<Radio color="primary" />}
-              label="Ask for email only"
-              labelPlacement="end"
-            />
-            <FormControlLabel
-              value="email_or_phone"
-              control={<Radio color="primary" />}
-              label="Ask for email or mobile number"
-              labelPlacement="end"
-            />
-          </RadioGroup>
-        </FormControl> */}
       </div>
 
-      <div item>
-        <Button color={'primary'} variant={'contained'} onClick={submitData}>
+      <div className="py-4">
+        <Button size={'medium'} 
+          variant={'contained'} 
+          onClick={submitData}>
           save
         </Button>
       </div>

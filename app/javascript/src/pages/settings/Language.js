@@ -69,12 +69,12 @@ export default function LanguageForm ({ settings, update, namespace, fields }) {
           }
           dialogButtons={
             <React.Fragment>
-              <Button onClick={toggleDialog} color="secondary">
+              <Button onClick={toggleDialog} variant="outlined">
                 Cancel
               </Button>
 
               <Button // onClick={this.submitAssignment }
-                color="primary"
+                className="mr-1"
               >
                 Update
               </Button>
@@ -153,7 +153,7 @@ export default function LanguageForm ({ settings, update, namespace, fields }) {
           Add language
         </Button>
 
-        <div>
+        <div className="py-4">
           {
             <DataTable
               title={'laguages'}

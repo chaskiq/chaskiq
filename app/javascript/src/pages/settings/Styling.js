@@ -160,7 +160,7 @@ function CustomizationColors ({ settings, update, dispatch }) {
 
       <hr />
 
-      <div>
+      <div className="py-4">
         <Button onClick={handleSubmit} variant={'contained'} color={'primary'}>
           Save
         </Button>

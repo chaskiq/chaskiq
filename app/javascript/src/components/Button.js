@@ -7,23 +7,32 @@ import styled from '@emotion/styled'
 
 
 const BaseButton = styled.button`
-
   ${(props) => {
     switch (props.variant) {
-      case 'small':
-        return tw`outline-none px-2 py-1 rounded-lg bg-green-400 text-green-800 text-xl font-light uppercase shadow-md hover:shadow-lg`
+      case 'success':
+        return tw`outline-none 
+        rounded-lg 
+        bg-green-400 
+        text-green-800
+        shadow-md 
+        hover:shadow-lg`
       case 'main':
-        return tw`outline-none inline-flex items-center px-4 py-2 border border-transparent text-sm leading-5 font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-500 focus:outline-none focus:shadow-outline-indigo focus:border-indigo-700 active:bg-indigo-700`
+        return tw`outline-none 
+        inline-flex 
+        items-center 
+        border 
+        border-transparent 
+        rounded-md 
+        text-white bg-indigo-600 hover:bg-indigo-500 
+        focus:outline-none focus:shadow-outline-indigo 
+        focus:border-indigo-700 active:bg-indigo-700`
       case 'clean':
         return ''
       case 'outlined':
         return tw`outline-none
         inline-flex 
         items-center 
-        px-4 py-2 
-        border 
-        text-sm 
-        leading-5 font-medium 
+        border
         border-color-gray-500
         rounded-md text-gray-500
         focus:outline-none 
@@ -32,34 +41,98 @@ const BaseButton = styled.button`
         focus:border-indigo-700 
         active:bg-indigo-700`
       case 'icon':
-        return tw`outline-none rounded-full p-1 bg-gray-10 hover:bg-gray-200`
+        return tw`outline-none 
+        rounded-full 
+        p-1 bg-gray-10 
+        hover:bg-gray-200`
       case 'danger':
-        return tw`outline-none px-2 py-1 rounded-lg bg-red-400 text-red-800 text-xl font-light uppercase shadow-md hover:shadow-lg`
+        return tw`outline-none 
+        rounded-md 
+        bg-red-400 
+        text-red-800 
+        hover:bg-red-500 
+        focus:outline-none 
+        focus:border-red-700 
+        focus:shadow-outline-red
+        `
       default:
-        return tw`uppercase outline-none inline-flex items-center 
-        px-4 py-2 border border-transparent text-sm 
-        leading-5 font-medium rounded-md text-white 
-        bg-indigo-600 hover:bg-indigo-500 focus:outline-none 
-        focus:border-indigo-700 focus:shadow-outline-indigo 
+        return tw`
+        outline-none 
+        inline-flex 
+        items-center 
+        border 
+        border-transparent
+        rounded-md 
+        text-white 
+        bg-indigo-600 
+        hover:bg-indigo-500 
+        focus:outline-none 
+        focus:border-indigo-700 
+        focus:shadow-outline-indigo 
         active:bg-indigo-700`
+    }
+  }};
+`
+
+const SizeButton = styled(BaseButton)`
+  ${(props) => {
+    switch (props.size) {
+      case 'xs':
+        return tw`
+        px-2 py-1
+        text-xs 
+        font-medium 
+      `
+      case 'small':
+        return tw`
+        px-2 py-1
+        text-sm 
+        font-medium 
+        leading-7
+      `
+      case 'medium':
+        return tw`px-4 py-2 
+        text-sm 
+        leading-7 
+        font-medium 
+        uppercase 
+        `
+      case 'large':
+        return tw`px-8 py-4 
+        text-xl 
+        font-light 
+        uppercase`
+      default:
+        //const isIcon = props.variant === "icon" ? 'p-1' : 'px-2 py-1'
+        if(props.variant === "icon"){
+          return tw`p-1`
+        } else {
+          return tw`
+          px-2 py-1
+          text-sm 
+          font-medium 
+          leading-7`
+        }
     }
   }};
 `
 
 export default function Button ({ children, ...buttonProps }) {
   return (
-    <BaseButton
+    <SizeButton
       className={'transition duration-150 ease-in-out'}
       // className="px-2 py-1 rounded-lg bg-green-400 text-green-800 text-xl font-light uppercase shadow-md hover:shadow-lg"
       {...buttonProps}
     >
       {children}
-    </BaseButton>
+    </SizeButton>
   )
 }
 
 export function ButtonIndigo ({ children, ...buttonProps }) {
-  return <BaseButton {...buttonProps}>{children}</BaseButton>
+  return <SizeButton {...buttonProps}>
+          {children}
+         </SizeButton>
 }
 
 export function DropdownButton ({ onClick, label, icon }) {

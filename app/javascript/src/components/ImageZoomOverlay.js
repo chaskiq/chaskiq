@@ -18,7 +18,7 @@ export const ImageZoomOverlay = styled.div`
   left: 0;
   bottom: 0;
   padding: 80px 40px;
-  background-color: rgba(255,255,255,0.9);
+  background-color: rgba(255,255,255,0.97);
   text-align: center;
   z-index: 99999;
   display: flex;

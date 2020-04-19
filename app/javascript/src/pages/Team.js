@@ -41,7 +41,7 @@ class TeamPage extends Component {
       <Content>
         <PageHeader
           title={"Team"}
-          actions={
+          /*actions={
             <Button
               className={"transition duration-150 ease-in-out"}
               variant={"main"}
@@ -50,7 +50,7 @@ class TeamPage extends Component {
             >
               New team member
             </Button>
-          }
+          }*/
         />
 
         <Tabs
@@ -283,11 +283,12 @@ class NonAcceptedAppUsers extends React.Component {
             }
             dialogButtons={
               <React.Fragment>
-                <Button onClick={this.close} color="secondary">
+                <Button onClick={this.close} 
+                  variant="outlined">
                   Cancel
                 </Button>
 
-                <Button onClick={this.sendInvitation} color="primary">
+                <Button className="mr-1" onClick={this.sendInvitation}>
                   Send invitation
                 </Button>
               </React.Fragment>
