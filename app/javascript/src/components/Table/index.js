@@ -75,23 +75,25 @@ export default function Table ({
       }
       </div>
 
-      <table className="min-w-full">
-        <thead>
-          <tr>
-            {visibleColumns().map((o) => (
-              <th key={`visible-col-${o.title}`} 
-                className="px-6 py-3 border-b border-gray-200 
-                bg-gray-50 text-left text-xs leading-4 
-                font-medium text-gray-500 uppercase tracking-wider">
-                {o.title}
-              </th>
-            ))}
-          </tr>
-        </thead>
-        <tbody className="bg-white">
-          {data && data.map((o) => handleFormat(o))}
-        </tbody>
-      </table>
+      <div className="overflow-auto">      
+        <table className="min-w-full">
+          <thead>
+            <tr>
+              {visibleColumns().map((o) => (
+                <th key={`visible-col-${o.title}`} 
+                  className="px-6 py-3 border-b border-gray-200 
+                  bg-gray-50 text-left text-xs leading-4 
+                  font-medium text-gray-500 uppercase tracking-wider">
+                  {o.title}
+                </th>
+              ))}
+            </tr>
+          </thead>
+          <tbody className="bg-white">
+            {data && data.map((o) => handleFormat(o))}
+          </tbody>
+        </table>
+      </div>
 
       {
         meta && 
@@ -165,10 +167,11 @@ function SimpleMenu (props) {
             </Button>
           </Tooltip>
         )}>
-        <div className="p-2 h-56 overflow-auto">
+
+        <div className="p-3 h-56 overflow-auto">
           {
             props.options.map((o)=> 
-              <div class="relative flex items-start" 
+              <div class="relative flex items-start p-1" 
                    key={`simple-menu-${o.title}`}>
                 <div class="flex items-center h-5">
                   <input 
@@ -180,7 +183,7 @@ function SimpleMenu (props) {
                 </div>
                 <div class="pl-7 text-sm leading-5">
                   <label for="comments" class="font-medium text-gray-700">
-                  {o.title}
+                    {o.title}
                   </label>
                 </div>
               </div>

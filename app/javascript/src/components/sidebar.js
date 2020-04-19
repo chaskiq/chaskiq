@@ -7,7 +7,7 @@ import icon from '../images/favicon.png'
 import FilterMenu from '../components/FilterMenu'
 import { signout } from '../actions/auth'
 import WebSetup from '../components/webSetup'
-
+import {MoreIcon} from '../components/icons'
 import {
   BookMarkIcon,
   MessageBubbleIcon,

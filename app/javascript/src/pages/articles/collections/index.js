@@ -318,53 +318,56 @@ class Collections extends Component {
             }
           />
 
-          <List
-          //className={classes.root}
-          >
-            {this.state.article_collections.map((item) => {
-              return (
-                <ListItem key={item.id} divider={true}>
-                  {/*<ListItemAvatar>
-                              <Avatar>
-                                <ImageIcon />
-                              </Avatar>
-                            </ListItemAvatar>*/}
-                  <ListItemText
-                    primary={
-                      <ItemListPrimaryContent>
-                        <Link
-                          to={`/apps/${this.props.app.key}/articles/collections/${item.id}`}
-                        >
-                          {item.title}
-                        </Link>
-                      </ItemListPrimaryContent>
-                    }
-                    secondary={
-                      <ItemListSecondaryContent>
-                        {item.description}
-                      </ItemListSecondaryContent>
-                    }
-                  />
+          <div className="py-4">
+            <List
+            //className={classes.root}
+            >
+              {this.state.article_collections.map((item) => {
+                return (
+                  <ListItem key={item.id} divider={true}>
+                    {/*<ListItemAvatar>
+                                <Avatar>
+                                  <ImageIcon />
+                                </Avatar>
+                              </ListItemAvatar>*/}
+                    <ListItemText
+                      primary={
+                        <ItemListPrimaryContent>
+                          <Link
+                            to={`/apps/${this.props.app.key}/articles/collections/${item.id}`}
+                          >
+                            {item.title}
+                          </Link>
+                        </ItemListPrimaryContent>
+                      }
+                      secondary={
+                        <ItemListSecondaryContent>
+                          {item.description}
+                        </ItemListSecondaryContent>
+                      }
+                    />
 
-                  <Button
-                    variant="outlined"
-                    color="primary"
-                    onClick={() => this.openEdit(item)}
-                  >
-                    Edit
-                  </Button>
+                    <Button
+                      className="mr-2"
+                      variant="outlined"
+                      color="primary"
+                      onClick={() => this.openEdit(item)}>
+                      Edit
+                    </Button>
 
-                  <Button
-                    variant="text"
-                    color="primary"
-                    onClick={() => this.requestDelete(item)}
-                  >
-                    Delete
-                  </Button>
-                </ListItem>
-              );
-            })}
-          </List>
+                    <Button
+                      variant="text"
+                      color="primary"
+                      onClick={() => this.requestDelete(item)}
+                    >
+                      Delete
+                    </Button>
+                  </ListItem>
+                );
+              })}
+            </List>
+          </div>
+
         </div>
       </React.Fragment>
     );

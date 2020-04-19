@@ -29,7 +29,7 @@ module.exports = {
   },
   "overrides": [
     {
-      "excludedFiles": "app/javascript/src/graphql/*.js",
+      "excludedFiles": "./app/javascript/src/graphql/*.js",
       "rules": {
         "quotes": ["error", "single"]
       }

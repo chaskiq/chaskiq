@@ -209,7 +209,7 @@ function Conversations ({
         </Route>
 
         <Route exact path={`/apps/${app.key}/conversations/:id`}>
-          <div className="flex-grow bg-gray-50 h-12 h-screen border-r w-1/12">
+          <div className="flex-grow bg-gray-200 h-12 h-screen border-r w-1/12">
             <Conversation events={events} />
           </div>
         </Route>

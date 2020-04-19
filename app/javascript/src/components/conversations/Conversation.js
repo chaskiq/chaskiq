@@ -261,11 +261,13 @@ function Conversation ({
       id={`message-id-${message.id}`}
       className={`flex items-start py-2 text-sm ${flow}`}
       key={`conversations-messages/${message.id}`}>
-      <img
-        alt={message.appUser.displayName}
-        src={message.appUser.avatarUrl}
-        className={`w-10 h-10 rounded ${avatarM}`}
-      />
+      { 
+        userOrAdmin === "user" && <img
+          alt={message.appUser.displayName}
+          src={message.appUser.avatarUrl}
+          className={`w-10 h-10 rounded ${avatarM}`}
+        />
+      }
       <div
         className={`${bgClass}
         shadow-lg 
@@ -489,7 +491,7 @@ function Conversation ({
   }
 
   return (
-    <BgContainer className="flex-1 flex flex-col bg-white overflow-hidden--">
+    <BgContainer className="flex-1 flex flex-col overflow-hidden--">
       <div className="border-b flex px-6 py-2 items-center flex-none bg-white">
         <div className="flex">
           <Link
