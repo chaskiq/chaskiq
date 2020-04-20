@@ -11,6 +11,7 @@ export const errorsFor = (name, errors) => {
 export function gridClasses(field) {
   return Object.keys(field.grid)
     .map((o) => {
+      if(o === "xs") return field.grid[o]
       return `${o}:${field.grid[o]}`;
     })
     .join(" ");

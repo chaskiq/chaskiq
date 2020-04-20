@@ -108,7 +108,7 @@ class AppUsers extends React.Component {
 
   render() {
     return (
-      <Content>
+      <React.Fragment>
         {!this.state.loading ? (
           <DataTable
             elevation={0}
@@ -210,7 +210,7 @@ class AppUsers extends React.Component {
         ) : (
           <Progress />
         )}
-      </Content>
+      </React.Fragment>
     );
   }
 }
@@ -236,7 +236,6 @@ class NonAcceptedAppUsers extends React.Component {
 
   sendInvitation = () => {
     console.log(this.input_ref.current);
-    debugger;
     graphql(
       INVITE_AGENT,
       {
@@ -260,7 +259,7 @@ class NonAcceptedAppUsers extends React.Component {
 
   inviteButton = () => {
     return (
-      <React.Fragment>
+      <div className="py-2">
         {this.state.isOpen ? (
           <FormDialog
             open={this.state.isOpen}
@@ -296,10 +295,13 @@ class NonAcceptedAppUsers extends React.Component {
           />
         ) : null}
 
-        <Button variant="contained" color="primary" onClick={this.open}>
-          Add user
+        <Button 
+          variant="contained" 
+          color="primary"
+          onClick={this.open}>
+          Add Team Member
         </Button>
-      </React.Fragment>
+      </div>
     );
   };
 
@@ -330,7 +332,7 @@ class NonAcceptedAppUsers extends React.Component {
 
   render() {
     return (
-      <Content>
+      <React.Fragment>
         {this.inviteButton()}
 
         {!this.state.loading ? (
@@ -346,18 +348,12 @@ class NonAcceptedAppUsers extends React.Component {
               { field: "email", title: "email" },
               { field: "name", title: "name" },
             ]}
-            defaultHiddenColumnNames={[]}
-            tableColumnExtensions={[
-              { columnName: "email", width: 250 },
-              { columnName: "id", width: 10 },
-              { columnName: "avatar", width: 55 },
-            ]}
             enableMapView={false}
           />
         ) : (
           <Progress />
         )}
-      </Content>
+      </React.Fragment>
     );
   }
 }
