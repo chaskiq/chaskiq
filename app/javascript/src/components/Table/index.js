@@ -39,8 +39,9 @@ export default function Table ({
   const handleFormat = (item) => {
     return (
       <tr>
-        {visibleColumns().map((o) =>
-          o.render ? o.render(item) : renderDefaultRow(item[o])
+        {visibleColumns().map((o) => {
+            return o.render ? o.render(item) : renderDefaultRow(item[o.field])
+          }
         )}
       </tr>
     )

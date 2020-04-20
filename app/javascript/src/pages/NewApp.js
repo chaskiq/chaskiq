@@ -96,8 +96,8 @@ class NewApp extends Component {
   render() {
     return (
       <div>
-        <div className="m-16 p-12 shadow rounded bg-white shadow flex">
-          <div className="w-1/2">
+        <div className="p-3 sm:m-16 sm:p-12 shadow rounded bg-white shadow flex">
+          <div className="w-1/2 hidden sm:block">
             <div className="p-8 pt-0">
               <p className="text-4xl tracking-tight leading-10 font-extrabold text-gray-900 sm:leading-none">
                 Create your company’s Chaskiq app
@@ -117,7 +117,13 @@ class NewApp extends Component {
             </div>
           </div>
 
-          <div className="w-1/2">
+          <div className="w-full sm:w-1/2">
+
+            <p className="sm:hidden text-3xl tracking-tight leading-10 
+            font-extrabold text-gray-900 sm:leading-none">
+              Create your company’s Chaskiq app
+            </p>
+
             <SettingsForm
               data={this.state.data}
               classes={this.props.classes}

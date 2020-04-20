@@ -185,7 +185,7 @@ function App ({
         />
       )}
 
-      {loading && <LoadingView />}
+      {loading || !app && <LoadingView />}
 
       {isAuthenticated && current_user.email && (
         <div className="flex flex-col w-0 flex-1 overflow-auto">
