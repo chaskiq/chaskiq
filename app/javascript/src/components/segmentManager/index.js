@@ -198,91 +198,76 @@ export class SaveSegmentModal extends Component {
   }
 }
 
-export class InlineFilterDialog extends Component {
-  state = {
-    dialogOpen: false,
-  };
+export function InlineFilterDialog({addPredicate, app}) {
 
-  _my_field = null;
+  const [dialogOpen, setDialogOpen] = React.useState(false)
 
-  toggleDialog = (e) =>
-    this.setState({
-      dialogOpen: !this.state.dialogOpen,
+  const handleClick = (e, o) => {
+    addPredicate(o, (token) => {
+      //this.props.handleClick(token)
+      setDialogOpen(false)
     });
-
-  handleClick = (e, o) => {
-    this.setState(
-      {
-        dialogOpen: !this.state.dialogOpen,
-      },
-      () => {
-        this.props.addPredicate(o, (token) => {
-          //this.props.handleClick(token)
-        });
-      }
-    );
   };
 
-  toggleDialog2 = () => {
-    this.setState({ dialogOpen: !this.state.dialogOpen });
+  const availableFields = () => {
+    if (!app.customFields) return defaultFields;
+    return app.customFields.concat(defaultFields);
   };
 
-  availableFields = () => {
-    if (!this.props.app.customFields) return defaultFields;
-    return this.props.app.customFields.concat(defaultFields);
-  };
+  const fields = availableFields();
 
-  render() {
-    const fields = this.availableFields();
+  const content = (
+    <div className="p-2">
+      <h2 className="text-sm leading-5 font-medium text-gray-900">
+        Select fields:
+      </h2>
 
-    // <ClickAwayListener onClickAway={this.toggleDialog2.bind(this)}>
-    //  </ClickAwayListener>
-    const content = (
-      <div className="p-2">
-        <h2 className="text-sm leading-5 font-medium text-gray-900">
-          Select fields:
-        </h2>
-
-        <div className="overflow-scroll h-48">
-          <ul>
-            {fields.map((o) => (
-              <li className="p-2 border-b">
-                <button
-                  className="inline-flex justify-center w-full rounded-md border border-transparent px-1 py-1 bg-indigo-600 text-base leading-6 font-medium text-white shadow-sm hover:bg-indigo-500 focus:outline-none focus:border-indigo-700 focus:shadow-outline-indigo transition ease-in-out duration-150 sm:text-sm sm:leading-5"
-                  key={o.name}
-                  onClick={(e) => this.handleClick.bind(this)(e, o)}
-                >
-                  {o.name}
-                </button>
-              </li>
-            ))}
-          </ul>
-        </div>
+      <div className="overflow-scroll h-48">
+        <ul>
+          {fields.map((o) => (
+            <li className="p-2 border-b">
+              <button
+                className="inline-flex justify-center w-full rounded-md border border-transparent px-1 py-1 bg-indigo-600 text-base leading-6 font-medium text-white shadow-sm hover:bg-indigo-500 focus:outline-none focus:border-indigo-700 focus:shadow-outline-indigo transition ease-in-out duration-150 sm:text-sm sm:leading-5"
+                key={o.name}
+                onClick={(e) => handleClick(e, o)}
+              >
+                {o.name}
+              </button>
+            </li>
+          ))}
+        </ul>
       </div>
-    );
+    </div>
+  );
 
-    return (
-      <div>
-        <Dropdown
-          isOpen={this.state.dialogOpen}
-          triggerButton={(cb) => (
-            <button
-              innerRef={(ref) => (this._my_field = ref)}
-              isLoading={false}
-              className="p-2 inline-flex items-center px-2.5 py-1.5 border border-transparent text-xs leading-4 font-medium rounded text-white bg-gray-600 hover:bg-gray-500 focus:outline-none focus:border-indigo-700 focus:shadow-outline-indigo active:bg-indigo-700 transition ease-in-out duration-150"
-              variant="outlined"
-              color="primary"
-              onClick={cb}
-            >
-              <PlusIcon variant="small" /> Add filters
-            </button>
-          )}
-        >
-          {content}
-        </Dropdown>
-      </div>
-    );
-  }
+  return (
+    <div>
+      <Dropdown
+        isOpen={dialogOpen}
+        onOpen={(v)=> setDialogOpen(v) }
+        triggerButton={(cb) => (
+          <button
+            isLoading={false}
+            className="p-2 inline-flex items-center px-2.5 
+            py-1.5 border border-transparent text-xs 
+            leading-4 font-medium rounded text-white 
+            bg-gray-600 hover:bg-gray-500 focus:outline-none 
+            focus:border-indigo-700 focus:shadow-outline-indigo 
+            active:bg-indigo-700 transition ease-in-out 
+            duration-150"
+            variant="outlined"
+            color="primary"
+            onClick={cb}
+          >
+            <PlusIcon variant="small" /> Add filters
+          </button>
+        )}
+      >
+        {content}
+      </Dropdown>
+    </div>
+  );
+  
 }
 
 class SegmentManager extends Component {
