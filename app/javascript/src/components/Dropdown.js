@@ -7,7 +7,8 @@ export default function Dropdown ({
   triggerButton,
   isOpen,
   position,
-  origin
+  origin,
+  onOpen
 }) {
   const [open, setOpen] = React.useState(isOpen)
 
@@ -19,12 +20,17 @@ export default function Dropdown ({
     setOpen(isOpen)
   }, [isOpen])
 
+  useEffect(()=>{
+    onOpen && onOpen(open)
+  }, [open])
+
   return (
     <React.Fragment>
       <div
         ref={ref}
         className={'relative inline-block text-left'}
       >
+
         <div>
           {triggerButton ? (
             triggerButton(() => setOpen(!open))

@@ -41,6 +41,16 @@ export default class SegmentItemButton extends Component {
   btn_ref = null;
   blockStyleRef = React.createRef();
 
+
+  componentDidUpdate(prevProps) {
+    if (this.props.predicate !== prevProps.predicate) {
+      this.setState({
+        selectedOption: this.props.predicate.comparison,
+        checkedValue: this.props.predicate.value
+      });
+    }
+  }
+
   onRadioChange = (target, cb) => {
     const { value } = target;
 
@@ -191,9 +201,6 @@ export default class SegmentItemButton extends Component {
       { label: "Lead", value: "Lead", defaultSelected: false },
       { label: "Visitor", value: "Visitor", defaultSelected: false },
     ];
-
-    // <ClickAwayListener
-    //onClickAway={this.toggleDialog2.bind(this)}>
 
     return (
       <div>
@@ -663,30 +670,33 @@ export default class SegmentItemButton extends Component {
 
         <ContentMatch ref={this.blockStyleRef}>
           <div className="mt-2 p-2 mt-2 p-2 h-32 overflow-scroll">
-            {relative.map((o, i) => {
-              return (
-                <div>
-                  <label className="inline-flex items-center">
-                    <input
-                      type="radio"
-                      className="form-radio h-4 w-4 text-indigo-600 transition duration-150 ease-in-out"
-                      name="options"
-                      value={o.value}
-                      checked={o.value === this.state.checkedValue}
-                      onChange={(e) => {
-                        this.onRadioTypeChange(e.target);
-                      }}
-                    />
-                    <span className="ml-2">{o.label}</span>
-                  </label>
-                </div>
-              );
+            {relative.map(
+              (o, i) => {
+                return (
+                  <div>
+                    <label className="inline-flex items-center">
+                      <input
+                        type="radio"
+                        className="form-radio h-4 w-4 text-indigo-600 transition duration-150 ease-in-out"
+                        name="options"
+                        value={o.value}
+                        checked={o.value === this.state.checkedValue}
+                        onChange={(e) => {
+                          this.onRadioTypeChange(e.target);
+                        }}
+                      />
+                      <span className="ml-2">
+                        {o.label}
+                      </span>
+                    </label>
+                  </div>
+                );
             })}
           </div>
         </ContentMatch>
 
         <ContentMatchFooter>
-          {this.state.selectedOption &&
+          { this.state.selectedOption &&
             (this.state.selectedOption !== "is_null" ||
               this.state.selectedOption !== "is_not_null") && (
               <button
@@ -717,31 +727,35 @@ export default class SegmentItemButton extends Component {
     );
   };
 
-  toggleDialog = (e) =>
+  toggleDialog = (e) =>{
     this.setState({
       dialogOpen: !this.state.dialogOpen,
       btn: e ? e.target : this.state.btn,
     });
+  }
 
-  toggleDialog2 = () =>
+  toggleDialog2 = () =>{
     this.setState({
       dialogOpen: !this.state.dialogOpen,
     });
+  }
 
-  closeDialog = () =>
+  closeDialog = () =>{
     this.setState({
       dialogOpen: false,
     });
+  }
 
-  openDialog = () =>
+  openDialog = () =>{
     this.setState({
       dialogOpen: true,
     });
+  }
 
+  
   renderMenu = () => {
     //if(!this.btn_ref)
     //  return
-
     return this.renderOptions();
   };
 

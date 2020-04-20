@@ -113,8 +113,10 @@ export function addPredicate (options, cb) {
     const new_predicates = getState().segment.predicates.concat(options)
 
     const jwtToken = generateJWT(new_predicates)
+
     dispatch(
       dispatchSegmentUpdate({
+        predicates: new_predicates,
         jwt: jwtToken
       })
     )
