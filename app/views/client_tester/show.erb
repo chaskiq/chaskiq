@@ -21,11 +21,11 @@
   <script>
     (function(d,t) {
       var g=d.createElement(t),s=d.getElementsByTagName(t)[0];
-      g.src="<%=@h[:http] +request.env["HTTP_HOST"]%>/embed.js"
+      g.src="<%= @h[:http] +request.env["HTTP_HOST"]%>/embed.js"
       s.parentNode.insertBefore(g,s);
       g.onload=function(){
         window.chaskiqMessenger = new window.ChaskiqMessengerEncrypted({
-          domain: '<%=@h[:http] +request.env["HTTP_HOST"]%>',
+          domain: '<%= @h[:http] +request.env["HTTP_HOST"] %>',
           ws:  '<%= Rails.application.config.action_cable.url %>',
           data: "<%=@encrypted_data%>",
           lang: "<%= @lang %>",

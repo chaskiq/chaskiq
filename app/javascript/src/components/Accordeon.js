@@ -37,9 +37,9 @@ export default function CustomizedExpansionPanels (props) {
         <article
           className="border-b"
           key={`expansion-panel-${i}`}
-          square
-          expanded={expanded === o.name}
-          onChange={handleChange(o.name)}
+          //square
+          //expanded={expanded === o.name}
+          //onChange={handleChange(o.name)}
         >
           <div
             className={expandedClasses(o)}
@@ -98,7 +98,7 @@ export default function CustomizedExpansionPanels (props) {
                     strokeLinecap="round"
                     strokeLinejoin="round"
                     strokeWidth="2"
-                    viewbox="0 0 24 24"
+                    viewBox="0 0 24 24"
                     width="24"
                     xmlns="http://www.w3.org/2000/svg"
                   >
@@ -114,7 +114,7 @@ export default function CustomizedExpansionPanels (props) {
                   {o.items ? (
                     <ul className="pl-4">
                       {withValues(o.items).map((item, index) => (
-                        <React.Fragment>
+                        <React.Fragment key={`expanded-${index}`}>
                           <p className="pb-2 text-sm leading-5 text-gray-500">
                             {item.label}
                           </p>

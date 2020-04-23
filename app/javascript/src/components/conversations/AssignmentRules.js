@@ -2,7 +2,7 @@ import React from 'react'
 import { withRouter } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { setCurrentPage, setCurrentSection } from '../../actions/navigation'
-import { errorMessage, successMessage } from '../../actions/status_messages'
+import { successMessage } from '../../actions/status_messages'
 import FormDialog from '../FormDialog'
 import defaultFields from '../../shared/defaultFields'
 import Button from '../Button'
@@ -32,7 +32,6 @@ import serialize from 'form-serialize'
 import { QueueIcon } from '../icons'
 
 import PageHeader from '../PageHeader'
-import Alert from '../Alert'
 
 import {
   sortableContainer,

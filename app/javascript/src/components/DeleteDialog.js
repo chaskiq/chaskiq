@@ -1,4 +1,4 @@
-import React, { Fragment, useState, useEffect } from 'react'
+import React, { useState, useEffect } from 'react'
 import FormDialog from './FormDialog'
 import Button from './Button'
 
@@ -6,7 +6,7 @@ export default function DeleteDialog ({
   children,
   title,
   deleteHandler,
-  closeHandler,
+  closeHandler
 }) {
   const [isOpen, setIsOpen] = useState(false)
 

@@ -1,6 +1,5 @@
 import React from 'react'
-import Table from '../components/Table/index'
-import userFormat from '../components/Table/userFormat'
+
 import PageHeader from '../components/PageHeader'
 import Content from '../components/Content'
 
@@ -17,7 +16,7 @@ import {
   updatePredicate,
   deletePredicate
 } from '../actions/segments'
-import { searchAppUsers, updateAppUserPresence } from '../actions/app_users'
+import { searchAppUsers } from '../actions/app_users'
 
 import { setApp } from '../actions/app'
 

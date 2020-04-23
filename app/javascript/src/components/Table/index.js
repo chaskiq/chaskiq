@@ -1,23 +1,22 @@
 import React from 'react'
 import { isEmpty } from 'lodash'
 import Dropdown from '../Dropdown'
-import Button from "../Button";
-import Tooltip from "rc-tooltip";
+import Button from '../Button'
+import Tooltip from 'rc-tooltip'
 import {
   MapIcon,
   ColumnsIcon
 } from '../icons'
 
-export default function Table ({ 
-  data, 
-  columns, 
-  format, 
-  search, 
+export default function Table ({
+  data,
+  columns,
+  format,
+  search,
   meta,
   enableMapView,
   toggleMapView
 }) {
-
   const [tableColums, setTableColums] = React.useState(columns)
 
   const [open, setOpen] = React.useState(false)
@@ -25,7 +24,7 @@ export default function Table ({
   const visibleColumns = () => (
     tableColums.filter(
       (o) => !o.hidden
-    )  
+    )
   )
 
   const renderDefaultRow = (value) => {
@@ -40,14 +39,14 @@ export default function Table ({
     return (
       <tr>
         {visibleColumns().map((o) => {
-            return o.render ? o.render(item) : renderDefaultRow(item[o.field])
-          }
+          return o.render ? o.render(item) : renderDefaultRow(item[o.field])
+        }
         )}
       </tr>
     )
   }
 
-  const changeColumns = (columns) =>{
+  const changeColumns = (columns) => {
     setTableColums(columns)
   }
 
@@ -55,15 +54,15 @@ export default function Table ({
     <React.Fragment>
 
       <div className="flex justify-end">
-        <SimpleMenu 
+        <SimpleMenu
           handleChange={changeColumns}
           options={
             tableColums
           }
         />
 
-        {enableMapView && <Tooltip placement="bottom" 
-          overlay={"View Map"}>
+        {enableMapView && <Tooltip placement="bottom"
+          overlay={'View Map'}>
           <div className="relative inline-block text-left">
             <Button
               isLoading={false}
@@ -73,17 +72,17 @@ export default function Table ({
             </Button>
           </div>
         </Tooltip>
-      }
+        }
       </div>
 
-      <div className="overflow-auto">      
+      <div className="overflow-auto">
         <table className="min-w-full">
           <thead>
             <tr>
               {visibleColumns().map((o) => (
-                <th key={`visible-col-${o.title}`} 
-                  className="px-6 py-3 border-b border-gray-200 
-                  bg-gray-50 text-left text-xs leading-4 
+                <th key={`visible-col-${o.title}`}
+                  className="px-6 py-3 border-b border-gray-200
+                  bg-gray-50 text-left text-xs leading-4
                   font-medium text-gray-500 uppercase tracking-wider">
                   {o.title}
                 </th>
@@ -97,8 +96,8 @@ export default function Table ({
       </div>
 
       {
-        meta && 
-        !isEmpty(meta) && 
+        meta &&
+        !isEmpty(meta) &&
         <Pagination meta={meta} search={search} />
       }
     </React.Fragment>
@@ -140,8 +139,8 @@ function Pagination ({ meta, search }) {
 }
 
 function SimpleMenu (props) {
-  const [anchorEl, setAnchorEl] = React.useState(null);
-  //const [options, setOptions] = React.useState(props.options);
+  const [anchorEl, setAnchorEl] = React.useState(null)
+  // const [options, setOptions] = React.useState(props.options);
 
   function handleChange (o, e) {
     const checked = e.target.checked
@@ -158,8 +157,8 @@ function SimpleMenu (props) {
       <Dropdown
         position={'right'}
         triggerButton={(cb) => (
-          <Tooltip placement="bottom" 
-            overlay={"select columns"}>
+          <Tooltip placement="bottom"
+            overlay={'select columns'}>
             <Button
               isLoading={false}
               variant="icon"
@@ -171,19 +170,19 @@ function SimpleMenu (props) {
 
         <div className="p-3 h-56 overflow-auto">
           {
-            props.options.map((o)=> 
-              <div class="relative flex items-start p-1" 
-                   key={`simple-menu-${o.title}`}>
-                <div class="flex items-center h-5">
-                  <input 
-                  type="checkbox" 
-                  class="form-checkbox h-4 w-4 text-indigo-600 transition duration-150 ease-in-out"
-                  defaultChecked={!o.hidden}
-                  onChange={(e)=> handleChange(o, e) }
+            props.options.map((o) =>
+              <div className="relative flex items-start p-1"
+                key={`simple-menu-${o.title}`}>
+                <div className="flex items-center h-5">
+                  <input
+                    type="checkbox"
+                    className="form-checkbox h-4 w-4 text-indigo-600 transition duration-150 ease-in-out"
+                    defaultChecked={!o.hidden}
+                    onChange={(e) => handleChange(o, e) }
                   />
                 </div>
-                <div class="pl-7 text-sm leading-5">
-                  <label for="comments" class="font-medium text-gray-700">
+                <div className="pl-7 text-sm leading-5">
+                  <label htmlFor="comments" className="font-medium text-gray-700">
                     {o.title}
                   </label>
                 </div>
@@ -193,5 +192,5 @@ function SimpleMenu (props) {
         </div>
       </Dropdown>
     </div>
-  );
+  )
 }

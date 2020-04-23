@@ -1,15 +1,13 @@
-import React, { Component, useState, useEffect } from 'react'
+import React, { useState, useEffect } from 'react'
 
 import Button from '../../components/Button'
 import Tabs from '../../components/Tabs'
-import { toSnakeCase } from '../../shared/caseConverter'
-import serialize from 'form-serialize'
+
 import ContentHeader from '../../components/PageHeader'
 import Content from '../../components/Content'
 import Input from '../../components/forms/Input'
 import graphql from '../../graphql/client'
 import { AGENTS } from '../../graphql/queries'
-import { UPDATE_APP } from '../../graphql/mutations'
 
 import { updateApp } from '../../actions/app'
 import { setCurrentPage } from '../../actions/navigation'
@@ -133,7 +131,7 @@ function UsersSettings ({ app, updateData, namespace, submit }) {
       </div>
 
       <div className="py-4">
-        <Button size={'medium'} 
+        <Button size={'medium'}
           variant={'contained'} onClick={submitData}>
           save
         </Button>
@@ -286,8 +284,8 @@ function LeadsSettings ({
       </div>
 
       <div className="py-4">
-        <Button size={'medium'} 
-          variant={'contained'} 
+        <Button size={'medium'}
+          variant={'contained'}
           onClick={submitData}>
           save
         </Button>

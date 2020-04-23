@@ -20,7 +20,7 @@ export default function Dropdown ({
     setOpen(isOpen)
   }, [isOpen])
 
-  useEffect(()=>{
+  useEffect(() => {
     onOpen && onOpen(open)
   }, [open])
 
@@ -66,8 +66,8 @@ export default function Dropdown ({
         {open && (
           <div
             className={`z-50 origin-top-right absolute 
-            ${position ? position : 'left' }-0
-            ${origin ? origin : ''}
+            ${position || 'left'}-0
+            ${origin || ''}
              mt-2 w-56 rounded-md shadow-lg`}
           >
             <div className="rounded-md bg-white shadow-xs">{children}</div>

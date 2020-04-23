@@ -8,6 +8,7 @@ import app from './actions/app'
 import segment from './actions/segments'
 import app_users from './actions/app_users'
 import app_user from './actions/app_user'
+import rtc from './actions/rtc'
 
 import conversations from './actions/conversations'
 import conversation from './actions/conversation'
@@ -31,7 +32,8 @@ const rootReducer = combineReducers({
   navigation,
   drawer,
   theme,
-  imageZoom
+  imageZoom,
+  rtc
 })
 
 const middlewares = [thunkMiddleware] //, routerMiddleware(history)]

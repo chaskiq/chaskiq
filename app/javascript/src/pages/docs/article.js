@@ -1,24 +1,19 @@
 import React from 'react'
 import graphql from '../../graphql/client'
 import {
-  ARTICLE_SETTINGS,
-  ARTICLE_COLLECTION_WITH_SECTIONS,
-  ARTICLE_COLLECTIONS,
-  ARTICLE,
-  SEARCH_ARTICLES
+
+  ARTICLE
 } from '../../graphql/docsQueries'
 
 import translation from './translation'
 import { ThemeProvider } from 'emotion-theming'
 import DraftRenderer from '../../components/textEditor/draftRenderer'
 import EditorStyles from 'Dante2/package/es/styled/base'
-import danteTheme from '../../components/textEditor/theme'
+
 import Breadcrumbs from '../../components/Breadcrumbs'
 import Avatar from '../../components/Avatar'
 import Moment from 'react-moment'
 import styled from '@emotion/styled'
-
-import { Link } from 'react-router-dom'
 
 const NewEditorStyles = styled(EditorStyles)`
   font-size: 1.3em;

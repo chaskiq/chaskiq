@@ -3,8 +3,7 @@ import graphql from '../graphql/client'
 
 import {
   CONVERSATIONS,
-  CONVERSATION_WITH_LAST_MESSAGE,
-  AGENTS
+  CONVERSATION_WITH_LAST_MESSAGE
 } from '../graphql/queries'
 
 import { playSound, appendMessage } from './conversation'

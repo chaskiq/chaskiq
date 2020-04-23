@@ -3,9 +3,8 @@ import React from 'react'
 // alert, info, success
 
 export default function Badge ({ variant, children }) {
-
-  function variantColor(){
-    if(!variant) return 'gray' 
+  function variantColor () {
+    if (!variant) return 'gray'
     return variant
   }
 

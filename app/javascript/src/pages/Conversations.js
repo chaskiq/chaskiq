@@ -1,5 +1,5 @@
 import React from 'react'
-import { Switch, Route, Link, withRouter } from 'react-router-dom'
+import { Switch, Route, withRouter } from 'react-router-dom'
 
 import { connect } from 'react-redux'
 import { isEmpty } from 'lodash'
@@ -11,8 +11,6 @@ import {
 } from '../actions/conversations'
 
 import FilterMenu from '../components/FilterMenu'
-
-import styled from '@emotion/styled'
 
 import UserData from '../components/UserData'
 import ConversationItemList from '../components/conversations/ItemList'
