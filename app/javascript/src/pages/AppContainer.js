@@ -1,7 +1,7 @@
 import React from 'react'
-import PropTypes from 'prop-types'
+
 import Sidebar from '../components/sidebar'
-import { Switch, Route, Link, withRouter } from 'react-router-dom'
+import { Switch, Route, withRouter } from 'react-router-dom'
 
 import { camelizeKeys } from '../actions/conversation'
 
@@ -20,24 +20,19 @@ import Progress from '../components/Progress'
 
 import { connect } from 'react-redux'
 
-import Login from '../pages/auth/login'
-import { signout } from '../actions/auth'
-
 // import Pricing from '../pages/pricingPage'
-import graphql from '../graphql/client'
-import { isEmpty } from 'lodash'
+
 import { getCurrentUser } from '../actions/current_user'
 
-import { APPS } from '../graphql/queries'
 import actioncable from 'actioncable'
-import { setApp, updateApp } from '../actions/app'
+import { setApp } from '../actions/app'
 
-import { searchAppUsers, updateAppUserPresence } from '../actions/app_users'
-
+import { updateAppUserPresence } from '../actions/app_users'
 import { getAppUser } from '../actions/app_user'
+import { updateRtcEvents} from '../actions/rtc'
 
 import {
-  updateConversationItem,
+
   appendConversation
 } from '../actions/conversations'
 
@@ -104,6 +99,8 @@ function App ({
               return dispatch(appendConversation(camelizeKeys(data.data)))
             case 'presence':
               return updateUser(camelizeKeys(data.data))
+            case 'rtc_events':
+              return dispatch(updateRtcEvents(data))
             default:
               return null
           }

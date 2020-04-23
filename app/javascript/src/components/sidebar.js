@@ -2,23 +2,22 @@ import React, { useState, useEffect } from 'react'
 import { withRouter, Link } from 'react-router-dom'
 import { connect } from 'react-redux'
 import Tooltip from 'rc-tooltip'
-import logo from '../images/logo-dark.png'
+
 import icon from '../images/favicon.png'
 import FilterMenu from '../components/FilterMenu'
 import { signout } from '../actions/auth'
 import WebSetup from '../components/webSetup'
-import {MoreIcon} from '../components/icons'
 import {
+  MoreIcon,
   BookMarkIcon,
   MessageBubbleIcon,
   ConversationIcon,
-  CogIcon,
+
   FlagIcon,
   LoadBalancerIcon,
   FactoryIcon,
   ShuffleIcon,
-  EnvelopeIcon,
-  HomeIcon,
+
   BuildingIcon,
   IntegrationsIcon,
   WebhooksIcon,
@@ -59,12 +58,12 @@ function mapStateToProps (state) {
   }
 }
 
-function Sidebar ({ 
-  app, 
-  match, 
-  dispatch, 
-  navigation, 
-  current_user, 
+function Sidebar ({
+  app,
+  match,
+  dispatch,
+  navigation,
+  current_user,
   drawer,
   history
 }) {
@@ -418,44 +417,44 @@ function Sidebar ({
                 </p>
 
                 <FilterMenu
-                    options={[
-                      {
-                        title: "Create new app",
-                        description: "Create your company’s Chaskiq app",
-                        //icon: <SendIcon />,
-                        id: "new-app",
-                        onClick: ()=> history.push("/apps/new"),
-                      },
-                      {
-                          title: "Sign out",
-                          //description: "delivers the campaign",
-                          //icon: <SendIcon />,
-                          id: "sign-out",
-                          onClick: handleSignout,
-                      }
-                    ]}
-                    value={null}
-                    filterHandler={(e) => e.onClick && e.onClick() }
-                    triggerButton={(handler)=> (
-                      <button 
-                        onClick={handler}
-                        className="text-xs leading-4 font-medium text-gray-500 group-hover:text-gray-700 group-focus:underline transition ease-in-out duration-150">
-                        <div className="flex items-center">
-                          User menu 
-                          <MoreIcon/>
-                        </div>
-                        
-                      </button>
-                    )}
-                    position={"left"}
-                    origin={"bottom-0"}
-                  />
+                  options={[
+                    {
+                      title: 'Create new app',
+                      description: 'Create your company’s Chaskiq app',
+                      // icon: <SendIcon />,
+                      id: 'new-app',
+                      onClick: () => history.push('/apps/new')
+                    },
+                    {
+                      title: 'Sign out',
+                      // description: "delivers the campaign",
+                      // icon: <SendIcon />,
+                      id: 'sign-out',
+                      onClick: handleSignout
+                    }
+                  ]}
+                  value={null}
+                  filterHandler={(e) => e.onClick && e.onClick() }
+                  triggerButton={(handler) => (
+                    <button
+                      onClick={handler}
+                      className="text-xs leading-4 font-medium text-gray-500 group-hover:text-gray-700 group-focus:underline transition ease-in-out duration-150">
+                      <div className="flex items-center">
+                          User menu
+                        <MoreIcon/>
+                      </div>
 
-                {/*<p className="text-xs leading-4 font-medium text-gray-500 group-hover:text-gray-700 group-focus:underline transition ease-in-out duration-150">
+                    </button>
+                  )}
+                  position={'left'}
+                  origin={'bottom-0'}
+                />
+
+                {/* <p className="text-xs leading-4 font-medium text-gray-500 group-hover:text-gray-700 group-focus:underline transition ease-in-out duration-150">
                   <button onClick={handleSignout}>
                    logout
                   </button>
-                    </p>*/}
+                    </p> */}
               </div>
             </div>
           </a>

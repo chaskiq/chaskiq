@@ -1,10 +1,10 @@
 import ActionTypes from '../constants/action_types'
 import graphql from '../graphql/client'
-import { SEGMENT, APP_USER } from '../graphql/queries'
+
 import { PREDICATES_SEARCH } from '../graphql/mutations'
 
 import { dispatchSegmentUpdate } from './segments'
-import { parseJwt, generateJWT } from '../components/segmentManager/jwt'
+import { parseJwt } from '../components/segmentManager/jwt'
 
 export function searchAppUsers (options, cb) {
   return (dispatch, getState) => {

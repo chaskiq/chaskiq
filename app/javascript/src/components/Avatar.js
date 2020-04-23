@@ -23,11 +23,11 @@ export default function Avatar ({ src, indicator, size }) {
       />
 
       {
-        indicator &&      
-        <span 
-          className="absolute top-0 right-0 
-          block h-3 w-3 transform  
-          -translate-y-1/2 -translate-x-1/4 rounded-full 
+        indicator &&
+        <span
+          className="absolute top-0 right-0
+          block h-3 w-3 transform
+          -translate-y-1/2 -translate-x-1/4 rounded-full
           text-white shadow-solid bg-green-400 border-white border-2">
         </span>
       }

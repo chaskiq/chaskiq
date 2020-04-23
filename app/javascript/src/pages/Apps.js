@@ -1,7 +1,7 @@
 // src/App.js
 import React from 'react'
 import Card from '../components/Card'
-import { Switch, Route, Link, withRouter } from 'react-router-dom'
+import { Link, withRouter } from 'react-router-dom'
 
 import bg from '../images/bg/welcome-icon8.png'
 

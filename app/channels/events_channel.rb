@@ -11,6 +11,15 @@ class EventsChannel < ApplicationCable::Channel
     # Any cleanup needed when channel is unsubscribed
   end
 
+  def rtc_events(data)
+    @app = App.find_by(key: params[:app])
+    @conversation = @app.conversations.find_by(key: data['conversation_id'])
+    key = "messenger_events:#{@app.key}-#{@conversation.main_participant.session_id}"
+
+    ActionCable.server.broadcast key, data
+    # ActionCable.server.broadcast "events:#{@app.key}", data
+  end
+
   def receive_conversation_part(data)
     @app = App.find_by(key: params[:app])
     @conversation = @app.conversations.find(data['conversation_id'])

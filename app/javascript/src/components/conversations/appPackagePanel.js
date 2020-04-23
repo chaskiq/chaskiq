@@ -117,7 +117,7 @@ function AppPackagePanel (props) {
         <div>
           {
             providers.map((o) => {
-              return <div 
+              return <div
                 key={`app-package-${o.name}`} className="m-1">
                 <Button
                   variant={'outlined'}
@@ -142,7 +142,7 @@ function AppPackagePanel (props) {
       }
       dialogButtons={
         <React.Fragment>
-          <Button onClick={handleClose} 
+          <Button onClick={handleClose}
             variant="outlined" className="ml-2">
             Cancel
           </Button>

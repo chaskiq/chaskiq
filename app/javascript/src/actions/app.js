@@ -3,7 +3,7 @@ import graphql from '../graphql/client'
 import { APP } from '../graphql/queries'
 import { UPDATE_APP } from '../graphql/mutations'
 
-import { errorMessage, successMessage } from './status_messages'
+import { successMessage } from './status_messages'
 import { isEmpty } from 'lodash'
 
 export function setApp (key, cb) {

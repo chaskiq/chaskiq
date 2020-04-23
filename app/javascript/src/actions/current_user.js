@@ -1,4 +1,4 @@
-import axios from 'axios'
+
 import graphql from '../graphql/client'
 
 import { CURRENT_USER } from '../graphql/queries'

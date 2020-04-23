@@ -5,7 +5,6 @@ import styled from '@emotion/styled'
 
 // https://nystudio107.com/blog/using-tailwind-css-with-gatsby-react-emotion-styled-components
 
-
 const BaseButton = styled.button`
   ${(props) => {
     switch (props.variant) {
@@ -103,8 +102,8 @@ const SizeButton = styled(BaseButton)`
         font-light 
         uppercase`
       default:
-        //const isIcon = props.variant === "icon" ? 'p-1' : 'px-2 py-1'
-        if(props.variant === "icon"){
+        // const isIcon = props.variant === "icon" ? 'p-1' : 'px-2 py-1'
+        if (props.variant === 'icon') {
           return tw`p-1`
         } else {
           return tw`
@@ -131,8 +130,8 @@ export default function Button ({ children, ...buttonProps }) {
 
 export function ButtonIndigo ({ children, ...buttonProps }) {
   return <SizeButton {...buttonProps}>
-          {children}
-         </SizeButton>
+    {children}
+  </SizeButton>
 }
 
 export function DropdownButton ({ onClick, label, icon }) {

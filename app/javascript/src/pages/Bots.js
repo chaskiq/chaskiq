@@ -1,11 +1,10 @@
-import React, { Component, useState, useEffect } from 'react'
+import React, { useState, useEffect } from 'react'
 import { withRouter, Switch, Route } from 'react-router-dom'
 import { connect } from 'react-redux'
 
 import Button from '../components/Button'
 // import TextField from '@material-ui/core/TextField'
 import Input from '../components/forms/Input'
-import List, { ListItem, ListItemText } from '../components/List'
 
 import ContentHeader from '../components/PageHeader'
 import Content from '../components/Content'
@@ -13,7 +12,7 @@ import Table from '../components/Table'
 
 import { AnchorLink } from '../shared/RouterLink'
 import graphql from '../graphql/client'
-import { BOT_TASK, BOT_TASKS } from '../graphql/queries'
+import { BOT_TASKS } from '../graphql/queries'
 import { CREATE_BOT_TASK, DELETE_BOT_TASK } from '../graphql/mutations'
 
 import BotEditor from './bots/editor'
@@ -240,7 +239,7 @@ const BotTaskCreate = ({ app, submit, history, match, mode }) => {
     isOpen && (
       <FormDialog
         open={isOpen}
-        handleClose={()=>setIsOpen(false)}
+        handleClose={() => setIsOpen(false)}
         titleContent={'Create Bot task'}
         formComponent={
           <form>

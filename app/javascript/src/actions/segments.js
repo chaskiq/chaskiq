@@ -1,14 +1,14 @@
 import ActionTypes from '../constants/action_types'
 import graphql from '../graphql/client'
-import { SEGMENT, APP_USER } from '../graphql/queries'
+import { SEGMENT } from '../graphql/queries'
 import {
-  PREDICATES_SEARCH,
+
   PREDICATES_CREATE,
   PREDICATES_UPDATE,
   PREDICATES_DELETE
 } from '../graphql/mutations'
 
-import { parseJwt, generateJWT } from '../components/segmentManager/jwt'
+import { generateJWT } from '../components/segmentManager/jwt'
 
 export function fetchAppSegment (id, cb) {
   return (dispatch, getState) => {

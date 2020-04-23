@@ -1,11 +1,8 @@
 import React from 'react'
 import graphql from '../../graphql/client'
 import {
-  ARTICLE_SETTINGS,
-  ARTICLE_COLLECTION_WITH_SECTIONS,
-  ARTICLE_COLLECTIONS,
-  ARTICLE,
-  SEARCH_ARTICLES
+
+  ARTICLE_COLLECTION_WITH_SECTIONS
 } from '../../graphql/docsQueries'
 
 import Breadcrumbs from '../../components/Breadcrumbs'

@@ -8,7 +8,7 @@ import FormDialog from '../components/FormDialog'
 import DeleteDialog from '../components/DeleteDialog'
 import Tabs from '../components/Tabs'
 import PageHeader from '../components/PageHeader'
-import Panel from '../components/Panel'
+
 import Button from '../components/Button'
 import Badge from '../components/Badge'
 import FieldRenderer from '../components/forms/FieldRenderer'

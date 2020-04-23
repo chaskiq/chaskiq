@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { useTransition, animated } from 'react-spring'
-import { withRouter } from 'react-router-dom'
+
 import { connect } from 'react-redux'
 import { isEmpty } from 'lodash'
 
@@ -114,7 +114,7 @@ function Alert ({ title, message, status, onClose, placementClass }) {
         )
       case 'error':
         return (
-          <svg 
+          <svg
             className="h-6 w-6 text-red-400"
             fill="none"
             viewBox="0 0 20 20"
