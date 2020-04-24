@@ -844,6 +844,46 @@ export function CameraOffIcon (props) {
   )
 }
 
+export function FullScreenIcon (props) {
+  return (
+    <BaseIcon {...props} fill="currentColor" viewBox="0 0 24 24"
+      aria-hidden="true" tabindex="-1" title="Fullscreen">
+      <path d="M7 14H5v5h5v-2H7v-3zm-2-4h2V7h3V5H5v5zm12 7h-3v2h5v-5h-2v3zM14 5v2h3v3h2V5h-5z">
+      </path>
+    </BaseIcon>
+  )
+}
+
+export function FullScreenExitIcon (props) {
+  return (
+    <BaseIcon {...props} fill="currentColor" viewBox="0 0 24 24" 
+      aria-hidden="true" tabindex="-1" title="FullscreenExit">
+      <path d="M5 16h3v3h2v-5H5v2zm3-8H5v2h5V5H8v3zm6 11h2v-3h3v-2h-5v5zm2-11V5h-2v5h5V8h-3z">
+      </path>
+    </BaseIcon>
+  )
+}
+
+export function ScreenShareIcon (props) {
+  return (
+    <BaseIcon {...props} fill="currentColor" viewBox="0 0 24 24" 
+      aria-hidden="true" tabindex="-1" title="ScreenShare">
+      <path d="M20 18c1.1 0 1.99-.9 1.99-2L22 6c0-1.11-.9-2-2-2H4c-1.11 0-2 .89-2 2v10c0 1.1.89 2 2 2H0v2h24v-2h-4zm-7-3.53v-2.19c-2.78 0-4.61.85-6 2.72.56-2.67 2.11-5.33 6-5.87V7l4 3.73-4 3.74z">
+      </path>
+    </BaseIcon>
+  )
+}
+
+export function ScreenShareExitIcon (props) {
+  return (
+    <BaseIcon {...props} fill="currentColor" viewBox="0 0 24 24" 
+      aria-hidden="true" tabindex="-1" title="ScreenShare">
+      <path d="M21.22 18.02l2 2H24v-2h-2.78zm.77-2l.01-10c0-1.11-.9-2-2-2H7.22l5.23 5.23c.18-.04.36-.07.55-.1V7.02l4 3.73-1.58 1.47 5.54 5.54c.61-.33 1.03-.99 1.03-1.74zM2.39 1.73L1.11 3l1.54 1.54c-.4.36-.65.89-.65 1.48v10c0 1.1.89 2 2 2H0v2h18.13l2.71 2.71 1.27-1.27L2.39 1.73zM7 15.02c.31-1.48.92-2.95 2.07-4.06l1.59 1.59c-1.54.38-2.7 1.18-3.66 2.47z">
+      </path>
+    </BaseIcon>
+  )
+}
+
 export function MoreIcon (props) {
   return (
     <BaseIcon

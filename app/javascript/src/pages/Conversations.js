@@ -20,7 +20,6 @@ import Progress from '../components/Progress'
 import EmptyView from '../components/EmptyView'
 import Button from '../components/Button'
 import emptyImage from '../images/empty-icon8.png'
-
 // import {toCamelCase} from '../shared/caseConverter'
 
 function Conversations ({

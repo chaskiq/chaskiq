@@ -66,6 +66,8 @@ import Article from './articles'
 import {Conversation, Conversations} from './conversation.js'
 import {RtcView} from '../src/components/rtc'
 
+import RtcViewWrapper from './rtcView'
+
 let App = {}
 
 class Messenger extends Component {
@@ -1118,10 +1120,10 @@ class Messenger extends Component {
                                       }
                                     }
 
-                                    <div id="callButton">call</div>
-                                    <div id="info">info</div>
-                                    <div id="localVideo">local</div>
-                                    <div id="removeVideo"></div>
+                                    <RtcViewWrapper>
+                                    
+                                    </RtcViewWrapper>
+                                    
 
                                   </HeaderTitle>
                                 }

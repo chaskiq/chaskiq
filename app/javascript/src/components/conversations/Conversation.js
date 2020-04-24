@@ -35,7 +35,13 @@ import {
   MicIcon,
   MicOffIcon,
   CameraIcon,
-  CameraOffIcon 
+  CameraOffIcon,
+  FullScreenIcon,
+  FullScreenExitIcon,
+  ScreenShareIcon,
+  ScreenShareExitIcon,
+  MoreIcon,
+  WebhooksIcon
 } from '../icons'
 
 import { getAppUser } from '../../actions/app_user'
@@ -48,6 +54,7 @@ import EditorContainer from '../textEditor/editorStyles'
 import DraftRenderer from '../textEditor/draftRenderer'
 import styled from '@emotion/styled'
 import { setCurrentPage, setCurrentSection } from '../../actions/navigation'
+import RtcDisplayWrapper from './RtcWrapper'
 
 const EditorContainerMessageBubble = styled(EditorContainer)`
   // this is to fix the image on message bubbles
@@ -61,34 +68,6 @@ const EditorContainerMessageBubble = styled(EditorContainer)`
 
 const BgContainer = styled.div`
   //background-color: #DFDBE5;
-`
-
-const LocalVideo = styled.div`
-  position:relative;
-  width: 200px;
-  video {
-    border: 1px solid blue;
-    width: 100%;
-    height: 100%
-  }
-  .call-buttons{
-    position: absolute;
-    bottom: 6px;
-    left: 8px;
-    width: 100%;
-    display: flex;
-    justify-content: center;
-    z-index: 20;
-  }
-`
-
-const RemoteVideo = styled.div`
-  //position:absolute;
-  video {
-    border: 1px solid red;
-    width: 100%;
-    height: 100%
-  }
 `
 
 function Conversation ({
@@ -575,13 +554,15 @@ function Conversation ({
           </Tooltip>
 
           <div id="hola"></div>
-          
+
+          <RtcDisplayWrapper videoSession={videoSession} />
+
           {
             events && <Rtc
               buttonElement={'hola'}
-              infoElement={'info'}
+              //infoElement={'info'}
               localVideoElement={'localVideo'}
-              remoteVideoElement={'removeVideo'}
+              remoteVideoElement={'remoteVideo'}
               handleRTCMessage={( data ) => { debugger }}
               toggleVideoSession={ () => setVideoSession(!videoSession)}
               video={videoSession}
@@ -681,28 +662,6 @@ function Conversation ({
               </MessageItemWrapper>
             )
           })}
-      </div>
-
-      <div style={{position: 'absolute'}}>
-        <div id="info"></div>
-        <LocalVideo id="localVideo">
-          <div className="call-buttons">
-            <button
-              className="mr-1 rounded-full bg-white
-              hover:bg-gray-100 text-gray-800 font-semibold
-              border border-gray-400 rounded shadow">
-              <CameraIcon/>
-            </button>
-
-            <button
-              className="mr-1 rounded-full bg-white
-              hover:bg-gray-100 text-gray-800 font-semibold
-              border border-gray-400 rounded shadow">
-              <MicIcon/>
-            </button>
-          </div>
-        </LocalVideo>
-        <RemoteVideo id="remoteVideo"></RemoteVideo>
       </div>
 
       <div className="pb-3 px-4 flex-none">

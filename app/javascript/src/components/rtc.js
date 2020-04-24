@@ -65,7 +65,7 @@ export function RtcView (props) {
     navigator
       .mediaDevices
       .getUserMedia({
-        audio: true,
+        audio: false,
         video: true
       })
       .then(stream => {
@@ -204,7 +204,6 @@ export function RtcView (props) {
       if (!element) {
         element = documentObject.createElement('video')
         element.id = `remoteVideoContainer+${userId}`
-        element.style = 'border: 1px solid red;width: 100px;height: 100px;'
         remoteVideoContainer.current.appendChild(element)
       }
 
@@ -373,7 +372,6 @@ export function RtcView (props) {
       createPortal(
         <video id="local-video"
           ref={ localVideo }
-          className="m-2"
           autoPlay>
         </video>, localVideoTarget
       )
@@ -382,7 +380,6 @@ export function RtcView (props) {
     {
       createPortal(
         <div id="remote-video-container"
-          className="m-2"
           ref={ remoteVideoContainer }>
         </div>, remoteVideoTarget)
     }
