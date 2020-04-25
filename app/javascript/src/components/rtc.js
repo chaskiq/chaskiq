@@ -43,7 +43,6 @@ export function RtcView (props) {
   const localVideoTarget = usePortal(props.localVideoElement, documentObject)
   const remoteVideoTarget = usePortal(props.remoteVideoElement, documentObject)
 
-
   React.useEffect(() => {
     props.video ? initVideoSession() : null
     // setTimeout(()=>
@@ -61,12 +60,36 @@ export function RtcView (props) {
     handleRtcData()
   }, [props.rtc])
 
+  React.useEffect(() => {
+    localStream && localStream.getTracks().forEach((track) => (
+      toggleTrack(track)
+    ))
+  }, [props.rtcVideo, props.rtcAudio])
+
+  function toggleTrack (track) {
+    switch (track.kind) {
+      case 'audio':
+        track.enabled = props.rtcAudio
+        break
+      case 'video':
+        track.enabled = props.rtcVideo
+      default:
+        break
+    }
+  }
+
   function initVideoSession () {
     navigator
       .mediaDevices
       .getUserMedia({
-        audio: false,
-        video: true
+        audio: {
+          enabled: props.rtcAudio,
+          sampleSize: 16,
+          channelCount: 2,
+          echoCancellation: true,
+          noiseSuppression: false
+        },
+        video: props.rtcVideo
       })
       .then(stream => {
         localStream = stream

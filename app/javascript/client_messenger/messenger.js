@@ -108,7 +108,9 @@ class Messenger extends Component {
       },
       transition: 'in',
       rtc: {  },
-      videoSession: false
+      videoSession: false,
+      rtcAudio: true,
+      rtcVideo: true
     }
 
     this.delayTimer = null
@@ -1018,6 +1020,10 @@ class Messenger extends Component {
     
   }
 
+  toggleAudio= ()=> this.setState({rtcAudio: !this.state.rtcAudio})
+
+  toggleVideo= ()=> this.setState({rtcVideo: !this.state.rtcVideo})
+
   render() {
     const palette = this.themePalette()
     return (
@@ -1066,6 +1072,8 @@ class Messenger extends Component {
                                 state={this.state} 
                                 props={this.props}
                                 events={App.events}
+                                toggleAudio={ this.toggleAudio }
+                                toggleVideo={ this.toggleVideo }
                                 setVideoSession={this.setVideoSession.bind(this)} 
                               /> : <div></div>
                           }
@@ -1112,19 +1120,6 @@ class Messenger extends Component {
                                 { this.state.display_mode === "conversation" &&
                                   <HeaderTitle in={this.state.transition}>
                                     {this.renderAsignee()}
-
-                                    {
-                                      ({ document, window }) => {
-                                        debugger
-                                        return <p>osos</p>
-                                      }
-                                    }
-
-                                    <RtcViewWrapper>
-                                    
-                                    </RtcViewWrapper>
-                                    
-
                                   </HeaderTitle>
                                 }
 
@@ -1219,6 +1214,17 @@ class Messenger extends Component {
                                     t={this.props.t}
                                   /> 
                               } 
+
+                              {
+                                <RtcViewWrapper 
+                                  toggleVideo={this.toggleVideo}
+                                  toggleAudio={this.toggleAudio}
+                                  rtcVideo={this.state.rtcVideo}
+                                  rtcAudio={this.state.rtcAudio}
+                                  videoSession={this.state.videoSession}>
+                                </RtcViewWrapper>
+                                
+                              }
 
                               {
                                 this.state.display_mode === "conversations" && 
@@ -1417,17 +1423,22 @@ class Messenger extends Component {
   }
 }
 
-const FrameChild = ({ document, window, state, props, events, setVideoSession }) => {
+const FrameChild = ({ document, window, state, 
+  props, events, setVideoSession, toggleAudio, toggleVideo }) => {
   return <React.Fragment>
     <RtcView 
       document={document}
       buttonElement={'callButton'}
       infoElement={'info'}
       localVideoElement={'localVideo'}
-      remoteVideoElement={'removeVideo'}
+      remoteVideoElement={'remoteVideo'}
       current_user={{ email: props.session_id }}
       rtc={state.rtc}
       handleRTCMessage={( data ) => { debugger }}
+      toggleAudio={toggleAudio}
+      toggleVideo={toggleVideo}
+      rtcAudio={state.rtcAudio}
+      rtcVideo={state.rtcVideo}
       toggleVideoSession={ () => setVideoSession(!state.videoSession)}
       video={state.videoSession}
       events={events}
