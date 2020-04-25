@@ -88,7 +88,11 @@ const RemoteVideo = styled(LocalVideo)`
   }
 `
 
-export default function RtcDisplayWrapper ({ videoSession }) {
+export default function RtcDisplayWrapper ({
+  videoSession,
+  toggleVideo, toggleAudio,
+  rtcVideo, rtcAudio 
+}) {
   const [localFullScreen, setLocalFullScreen] = React.useState(false)
   const [remoteFullScreen, setRemoteFullScreen] = React.useState(false)
 
@@ -127,7 +131,7 @@ export default function RtcDisplayWrapper ({ videoSession }) {
 
       </LocalVideo>
 
-      <div id="info" className="font-sm hidden"></div>
+      <div id="info" className="font-sm"></div>
 
       <RemoteVideo id="remoteVideo" fullScreen={remoteFullScreen}>
         <div className="call-buttons">

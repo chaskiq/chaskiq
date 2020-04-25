@@ -566,6 +566,8 @@ function Conversation ({
               handleRTCMessage={( data ) => { debugger }}
               toggleVideoSession={ () => setVideoSession(!videoSession)}
               video={videoSession}
+              rtcAudio={true}
+              rtcVideo={true}
               events={events}
             />
           }

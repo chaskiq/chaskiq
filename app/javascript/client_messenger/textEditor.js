@@ -395,8 +395,6 @@ export default class UnicornEditor extends Component {
               /> : null
           }
 
-          
-
           <Input 
             onKeyPress={this.handleReturn}
             placeholder={this.props.t("editor.placeholder")} 
@@ -438,6 +436,8 @@ export default class UnicornEditor extends Component {
                 onChange={this.handleUpload}
               />
             </button>
+
+            <div id="callButton"></div>
          
 
           </EditorButtons>
