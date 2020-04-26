@@ -3,10 +3,30 @@ import styled from '@emotion/styled'
 
 const Wrapper = styled.div`
 
-  position: absolute;
-  z-index: 2000;
-  height: 77vh;
+  ${
+    (props)=>{
+      return props.relativePosition ?
+      `position:relative;` :
+      `position: absolute;
+      z-index: 2000;
+      height: calc(100vh - 132px);`
+    }
+  }
+  
   width: 100%;
+  background: black;
+
+  display: flex;
+  justify-content: center;
+  justify-items: center;
+  align-items: center;
+  text-align: center;
+
+  #status-information {
+    color: #fff;
+    position: absolute;
+    width: 100%;
+  }
 
   #localVideo{
 
@@ -51,30 +71,78 @@ const Wrapper = styled.div`
       width:50px;
       height:50px;
       margin-right: 4px;
+
+      border: 1px solid #ccc;
+      background: white;
+      display: flex;
+      justify-content: center;
     }
+  }
+
+`
+
+export const ModalWrapper = styled.div`
+  position: absolute;
+  ${
+    (props)=>{
+      return props.expanded ? 'width:100%;' : 'width: 322px;'
+    }
+  }
+
+  height: 100vh;
+  display: flex;
+  right: 0px;
+  justify-content: center;
+  background: black;
+  z-index: 2000;
+  top: 0;
+
+  .expand-viewer{
+    position: absolute;
+    top: 10px;
+    color: white;
+    width: 20px;
+    height: 20px;
+    right: 11px;
   }
 
 `
 
 export default function RtcViewWrapper ({ 
   videoSession,
+  setVideoSession,
   toggleVideo,
   toggleAudio,
   rtcVideo,
-  rtcAudio
+  rtcAudio,
+  relativePosition,
+  expand,
+  setExpand
 }) {
   const [localFullScreen, setLocalFullScreen] = React.useState(false)
   const [remoteFullScreen, setRemoteFullScreen] = React.useState(false)
 
   return (
     <Wrapper
+      relativePosition={relativePosition}
       style={{ visibility: `${!videoSession ? 'hidden' : ''}` }}
     >
       {}
       {/* <div id="callButton">call</div>
       <div id="info">info</div> */}
+      {
+        setExpand && <button className="expand-viewer" onClick={()=> setExpand(!expand) }>
+        { !expand ? <FullScreenIcon/> : <FullScreenExitIcon/> }
+        </button>
+      }
+      
+
       <div id="localVideo"></div>
       <div id="remoteVideo"></div>
+
+      <div id="status-information">
+        call in progress
+      </div>
 
       <div className="call-buttons">
         <button 
@@ -87,6 +155,13 @@ export default function RtcViewWrapper ({
           onClick={toggleAudio}
           style={{ color: `${rtcAudio ? 'green' : 'gray' }` }}>
           <MicIcon/>
+        </button>
+
+
+        <button 
+          onClick={setVideoSession}
+          style={{ color: `${rtcAudio ? 'green' : 'gray' }` }}>
+          {!videoSession ? <CallIcon/> : <CallEndIcon/>}
         </button>
       </div>
 
@@ -103,16 +178,6 @@ export function CloseIcon (props) {
   return (
     <BaseIcon {...props} fill="currentColor" viewBox="0 0 24 24">
       <path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z">
-      </path>
-    </BaseIcon>
-  )
-}
-
-export function CallEnd (props) {
-  return (
-    <BaseIcon {...props} fill="currentColor" viewBox="0 0 24 24" 
-    aria-hidden="true" tabindex="-1" title="CallEnd">
-      <path d="M12 9c-1.6 0-3.15.25-4.6.72v3.1c0 .39-.23.74-.56.9-.98.49-1.87 1.12-2.66 1.85-.18.18-.43.28-.7.28-.28 0-.53-.11-.71-.29L.29 13.08c-.18-.17-.29-.42-.29-.7 0-.28.11-.53.29-.71C3.34 8.78 7.46 7 12 7s8.66 1.78 11.71 4.67c.18.18.29.43.29.71 0 .28-.11.53-.29.71l-2.48 2.48c-.18.18-.43.29-.71.29-.27 0-.52-.11-.7-.28-.79-.74-1.69-1.36-2.67-1.85-.33-.16-.56-.5-.56-.9v-3.1C15.15 9.25 13.6 9 12 9z">
       </path>
     </BaseIcon>
   )
@@ -193,6 +258,25 @@ export function ScreenShareExitIcon (props) {
     <BaseIcon {...props} fill="currentColor" viewBox="0 0 24 24" 
       aria-hidden="true" tabindex="-1" title="ScreenShare">
       <path d="M21.22 18.02l2 2H24v-2h-2.78zm.77-2l.01-10c0-1.11-.9-2-2-2H7.22l5.23 5.23c.18-.04.36-.07.55-.1V7.02l4 3.73-1.58 1.47 5.54 5.54c.61-.33 1.03-.99 1.03-1.74zM2.39 1.73L1.11 3l1.54 1.54c-.4.36-.65.89-.65 1.48v10c0 1.1.89 2 2 2H0v2h18.13l2.71 2.71 1.27-1.27L2.39 1.73zM7 15.02c.31-1.48.92-2.95 2.07-4.06l1.59 1.59c-1.54.38-2.7 1.18-3.66 2.47z">
+      </path>
+    </BaseIcon>
+  )
+}
+
+export function CallIcon (props) {
+  return (
+    <BaseIcon {...props} fill="currentColor" viewBox="0 0 24 24" 
+    aria-hidden="true" tabindex="-1" title="Call">
+      <path d="M20.01 15.38c-1.23 0-2.42-.2-3.53-.56-.35-.12-.74-.03-1.01.24l-1.57 1.97c-2.83-1.35-5.48-3.9-6.89-6.83l1.95-1.66c.27-.28.35-.67.24-1.02-.37-1.11-.56-2.3-.56-3.53 0-.54-.45-.99-.99-.99H4.19C3.65 3 3 3.24 3 3.99 3 13.28 10.73 21 20.01 21c.71 0 .99-.63.99-1.18v-3.45c0-.54-.45-.99-.99-.99z"></path>
+    </BaseIcon>
+  )
+}
+
+export function CallEndIcon (props) {
+  return (
+    <BaseIcon {...props} fill="currentColor" viewBox="0 0 24 24" 
+    aria-hidden="true" tabindex="-1" title="CallEnd">
+      <path d="M12 9c-1.6 0-3.15.25-4.6.72v3.1c0 .39-.23.74-.56.9-.98.49-1.87 1.12-2.66 1.85-.18.18-.43.28-.7.28-.28 0-.53-.11-.71-.29L.29 13.08c-.18-.17-.29-.42-.29-.7 0-.28.11-.53.29-.71C3.34 8.78 7.46 7 12 7s8.66 1.78 11.71 4.67c.18.18.29.43.29.71 0 .28-.11.53-.29.71l-2.48 2.48c-.18.18-.43.29-.71.29-.27 0-.52-.11-.7-.28-.79-.74-1.69-1.36-2.67-1.85-.33-.16-.56-.5-.56-.9v-3.1C15.15 9.25 13.6 9 12 9z">
       </path>
     </BaseIcon>
   )

@@ -17,12 +17,7 @@ const LocalVideo = styled.div`
 
   ${
     (props) => {
-      return `position: absolute;
-      width: 125px;
-      height: 91px;
-      bottom: 139px;
-      right: 2px;
-      z-index: 30;`
+      return ``
     }
   }
   
@@ -75,17 +70,20 @@ const LocalVideo = styled.div`
 const RemoteVideo = styled(LocalVideo)`
   ${
     (props) => {
-      return `position: absolute;
-      width: 317px;
-      height: 238px;
-      bottom: 5px;
-      right: 6px;
-      z-index: 10;
+      return `
       video{
         border: 1px solid green;
       }`
     }
   }
+`
+
+const Wrapper = styled.div`
+  background: green;
+  width: 248px;
+  height: 100%;
+  position: absolute;
+  right: 0;
 `
 
 export default function RtcDisplayWrapper ({
@@ -97,7 +95,7 @@ export default function RtcDisplayWrapper ({
   const [remoteFullScreen, setRemoteFullScreen] = React.useState(false)
 
   return (
-    <div 
+    <Wrapper 
       style={{ visibility: `${!videoSession ? 'hidden' : ''}` }}
     >
       <LocalVideo id="localVideo" fullScreen={localFullScreen}>
@@ -131,7 +129,7 @@ export default function RtcDisplayWrapper ({
 
       </LocalVideo>
 
-      <div id="info" className="font-sm"></div>
+      {/*<div id="info" className="font-sm"></div>*/}
 
       <RemoteVideo id="remoteVideo" fullScreen={remoteFullScreen}>
         <div className="call-buttons">
@@ -161,6 +159,6 @@ export default function RtcDisplayWrapper ({
           </button>
         </div>
       </RemoteVideo>
-    </div>
+    </Wrapper>
   )
 }

@@ -18,9 +18,7 @@ import {
   insertComment,
   insertAppBlockComment,
   insertNote,
-
   clearConversation,
-
   updateConversationState,
   updateConversationPriority,
   assignAgent
@@ -32,6 +30,8 @@ import {
   CheckmarkIcon,
   PinIcon,
   LeftArrow,
+  CallEnd,
+  Call,
   MicIcon,
   MicOffIcon,
   CameraIcon,
@@ -54,7 +54,7 @@ import EditorContainer from '../textEditor/editorStyles'
 import DraftRenderer from '../textEditor/draftRenderer'
 import styled from '@emotion/styled'
 import { setCurrentPage, setCurrentSection } from '../../actions/navigation'
-import RtcDisplayWrapper from './RtcWrapper'
+import RtcDisplayWrapper, {ModalWrapper} from '../../../client_messenger/rtcView' //'./RtcWrapper'
 
 const EditorContainerMessageBubble = styled(EditorContainer)`
   // this is to fix the image on message bubbles
@@ -90,6 +90,9 @@ function Conversation ({
 
   const [agents, setAgents] = React.useState([])
 
+  const [rtcAudio, setRtcAudio] = React.useState(true)
+  const [rtcVideo, setRtcVideo] = React.useState(true)
+  const [expand, setExpand] = React.useState(false)
   const [videoSession, setVideoSession] = React.useState(false)
 
   console.log('LENGHT:', messagesLength)
@@ -553,21 +556,45 @@ function Conversation ({
             </button>
           </Tooltip>
 
-          <div id="hola"></div>
+          <Tooltip
+            placement="bottom"
+            overlay={ videoSession ? 'end call' : 'start call'}
+          >
+            <button
+              className="mr-1 rounded-full bg-white hover:bg-gray-100 text-gray-800 font-semibold border border-gray-400 rounded shadow"
+              onClick={() => setVideoSession(!videoSession)}>
+              { videoSession ? <CallEnd variant="rounded"/> : <Call variant="rounded"/> }
+            </button>
+          </Tooltip>
 
-          <RtcDisplayWrapper videoSession={videoSession} />
+          <ModalWrapper expanded={expand}>
+
+            <RtcDisplayWrapper
+              videoSession={videoSession}
+              relativePosition={true}
+              toggleVideo={() => setRtcVideo(!rtcVideo)}
+              toggleAudio={() => setRtcAudio(!rtcAudio)}
+              rtcVideo={rtcVideo}
+              rtcAudio={rtcAudio}
+              expand={expand}
+              setExpand={setExpand}
+              setVideoSession={()=>setVideoSession(!videoSession)}
+            />
+          </ModalWrapper>
+
+          <div id="button-element" className="hidden"></div>
 
           {
             events && <Rtc
-              buttonElement={'hola'}
-              //infoElement={'info'}
+              buttonElement={'button-element'}
+              infoElement={'info'}
               localVideoElement={'localVideo'}
               remoteVideoElement={'remoteVideo'}
               handleRTCMessage={( data ) => { debugger }}
               toggleVideoSession={ () => setVideoSession(!videoSession)}
               video={videoSession}
-              rtcAudio={true}
-              rtcVideo={true}
+              rtcVideo={rtcVideo}
+              rtcAudio={rtcAudio}
               events={events}
             />
           }
@@ -671,6 +698,10 @@ function Conversation ({
           {/* <span className="text-3xl text-grey border-r-2 border-grey p-2">
               <svg className="fill-current h-6 w-6 block" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M16 10c0 .553-.048 1-.601 1H11v4.399c0 .552-.447.601-1 .601-.553 0-1-.049-1-.601V11H4.601C4.049 11 4 10.553 4 10c0-.553.049-1 .601-1H9V4.601C9 4.048 9.447 4 10 4c.553 0 1 .048 1 .601V9h4.399c.553 0 .601.447.601 1z"></path></svg>
               </span> */}
+
+
+          <div id="info">info:</div>
+
 
           <ConversationEditor
             data={{}}
