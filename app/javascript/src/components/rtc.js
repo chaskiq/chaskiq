@@ -20,7 +20,7 @@ const ice = {
 }
 
 // Objects
-let pcPeers = {}
+// let pcPeers = {}
 // data objects
 const localConnection = null
 const remoteConnection = null
@@ -31,7 +31,7 @@ var localStream = null
 export function RtcView (props) {
   const currentUser = props.current_user.email
 
-  const [users, setUsers] = React.useState([])
+  const [pcPeers, setPcPeers] = React.useState({})
 
   const localVideo = React.useRef(null)
   const remoteVideoContainer = React.useRef(null)
@@ -108,12 +108,11 @@ export function RtcView (props) {
 
     switch (data.event_type) {
       case JOIN_ROOM:
-        console.log('join room eepe', data)
+        console.log('join room!', data)
         return joinRoom(data)
       case EXCHANGE:
         if (data.to !== currentUser) return
-        console.log('trying exgancn', data.to, data.from)
-        setUsers(uniq(users.concat(data.from)))
+        console.log('trying exchange', data.to, data.from)
         return exchange(data)
       case REMOVE_USER:
         return removeUser(data)
@@ -132,8 +131,8 @@ export function RtcView (props) {
     for (var user in pcPeers) {
       pcPeers[user].close()
     }
-    pcPeers = {}
-
+    // pcPeers = {}
+    setPcPeers({})
     // App.session.unsubscribe();
 
     if (remoteVideoContainer) remoteVideoContainer.current.innerHTML = ''
@@ -171,12 +170,19 @@ export function RtcView (props) {
     const video = documentObject.getElementById(`remoteVideoContainer+${data.from}`)
     video && video.remove()
     console.log('peers', pcPeers)
-    delete pcPeers[data.from]
+    // delete pcPeers[data.from]
+    const newPeers = {
+      ...pcPeers
+    }
+    delete newPeers[data.from]
+    console.log('removed , current peers', newPeers)
+    setPcPeers(newPeers)
   }
 
   function createPC (userId, isOffer) {
     const pc = new RTCPeerConnection(ice)
-    pcPeers[userId] = pc
+    // pcPeers[userId] = pc
+    setPcPeers({ ...pcPeers, [userId]: pc })
     // DISABLE VIDEO
     if (props.video) {
       localStream.getTracks().forEach(function (track) {
@@ -346,7 +352,7 @@ export function RtcView (props) {
 
   return <React.Fragment>
     {
-      createPortal(
+      props.buttonElement && createPortal(
         <Button
           className={`btn btn-outline${props.video ? '-success active' : '-secondary'}`}
           onClick={() => {
@@ -360,7 +366,7 @@ export function RtcView (props) {
     }
 
     {
-      createPortal(
+      infoTarget && createPortal(
         <React.Fragment>
 
           {/* <Button
@@ -375,24 +381,22 @@ export function RtcView (props) {
             {currentUser}
           </span>
 
+          <b>connected users: </b>
+
           {
-            users.length > 0
-              ? <span>
-                {' '}
-                <b>connected users: </b>
-                {' '}
-                {users.map((o) => (
-                  <span key={`user-${o}`}>
-                    {o}
-                  </span>
-                ))}
-              </span> : null
+            Object.keys(pcPeers).map((o) => (
+              <span key={`user-${o}`}>
+                {o}
+              </span>
+            )
+            )
           }
+
         </React.Fragment>, infoTarget)
     }
 
     {
-      createPortal(
+      localVideoTarget && createPortal(
         <video id="local-video"
           ref={ localVideo }
           autoPlay>
@@ -401,7 +405,7 @@ export function RtcView (props) {
     }
 
     {
-      createPortal(
+      remoteVideoTarget && createPortal(
         <div id="remote-video-container"
           ref={ remoteVideoContainer }>
         </div>, remoteVideoTarget)

@@ -328,7 +328,10 @@ class Messenger extends Component {
   }
 
   updateRtcEvents = (data)=>{
-    this.setState({rtc: data})
+    const conversation = this.state.conversation
+    if (conversation && conversation.key === data.conversation_id ) { 
+      this.setState({rtc: data})
+    }
   }
 
   eventsSubscriber = ()=>{
@@ -1221,6 +1224,7 @@ class Messenger extends Component {
                                   toggleAudio={this.toggleAudio}
                                   rtcVideo={this.state.rtcVideo}
                                   rtcAudio={this.state.rtcAudio}
+                                  setVideoSession={this.setVideoSession.bind(this)}
                                   videoSession={this.state.videoSession}>
                                 </RtcViewWrapper>
                                 

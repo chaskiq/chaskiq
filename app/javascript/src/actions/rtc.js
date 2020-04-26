@@ -1,6 +1,15 @@
 const initialState = { }
 
 export function updateRtcEvents (data) {
+  return (dispatch, getState) => {
+    const conversation = getState().conversation
+    if (conversation && conversation.key === data.conversation_id ) { 
+      dispatch(dispatchRtcEvent(data))
+    }
+  }
+}
+
+function dispatchRtcEvent (data) {
   return {
     type: 'RTC_UPDATE',
     data: data
