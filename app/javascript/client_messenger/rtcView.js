@@ -76,6 +76,7 @@ const Wrapper = styled.div`
       background: white;
       display: flex;
       justify-content: center;
+      align-items: center;
     }
   }
 
@@ -83,6 +84,7 @@ const Wrapper = styled.div`
 
 export const ModalWrapper = styled.div`
   position: absolute;
+  ${(props)=> (!props.videoSession && 'visibility:hidden;')}
   ${
     (props)=>{
       return props.expanded ? 'width:100%;' : 'width: 322px;'
@@ -108,6 +110,44 @@ export const ModalWrapper = styled.div`
 
 `
 
+const CallStatus = styled.div`
+  #call-status{
+    position: absolute; 
+    width: 100%; 
+    height: 100vh; 
+    border: 1px solid rgb(204, 204, 204); 
+    bottom: 0; 
+    left: -1px; 
+    background: black; 
+    z-index: 2000; 
+    color: wheat; 
+    display: flex; 
+    flex-direction: column;
+    justify-content: center; 
+    align-items: center;
+  }
+
+  .call-buttons{
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 20px;
+    button {
+      border-radius:50%;
+      width:50px;
+      height:50px;
+      margin-right: 4px;
+
+      border: 1px solid #ccc;
+      background: white;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+  }
+`
+
 export default function RtcViewWrapper ({ 
   videoSession,
   setVideoSession,
@@ -123,49 +163,59 @@ export default function RtcViewWrapper ({
   const [remoteFullScreen, setRemoteFullScreen] = React.useState(false)
 
   return (
-    <Wrapper
-      relativePosition={relativePosition}
-      style={{ visibility: `${!videoSession ? 'hidden' : ''}` }}
-    >
-      {}
-      {/* <div id="callButton">call</div>
-      <div id="info">info</div> */}
-      {
-        setExpand && <button className="expand-viewer" onClick={()=> setExpand(!expand) }>
-        { !expand ? <FullScreenIcon/> : <FullScreenExitIcon/> }
-        </button>
-      }
-      
+    <React.Fragment>
 
-      <div id="localVideo"></div>
-      <div id="remoteVideo"></div>
+      <CallStatus id="callStatus">
+        
+      </CallStatus>
 
-      <div id="status-information">
-        call in progress
-      </div>
+      <Wrapper
+        relativePosition={relativePosition}
+        style={{ visibility: `${!videoSession ? 'hidden' : ''}` }}
+      >
+        {}
+        {/* <div id="callButton">call</div>
+        <div id="info">info</div> */}
+        {
+          setExpand && <button className="expand-viewer" onClick={()=> setExpand(!expand) }>
+          { !expand ? <FullScreenIcon/> : <FullScreenExitIcon/> }
+          </button>
+        }
+        
 
-      <div className="call-buttons">
-        <button 
-          onClick={toggleVideo}
-          style={{ color: `${rtcVideo ? 'green' : 'gray' }` }}>
-          <CameraIcon/>
-        </button>
+        <div id="localVideo"></div>
+        <div id="remoteVideo"></div>
 
-        <button 
-          onClick={toggleAudio}
-          style={{ color: `${rtcAudio ? 'green' : 'gray' }` }}>
-          <MicIcon/>
-        </button>
+        <div id="status-information">
+          call in progress
+        </div>
 
+        <div className="call-buttons">
+          <button
+            onClick={toggleVideo}
+            style={{ color: `${rtcVideo ? 'green' : 'gray' }` }}>
+            <CameraIcon/>
+          </button>
 
-        <button 
-          onClick={setVideoSession}
-          style={{ color: `${rtcAudio ? 'green' : 'gray' }` }}>
-          {!videoSession ? <CallIcon/> : <CallEndIcon/>}
-        </button>
-      </div>
+          <button
+            onClick={toggleAudio}
+            style={{ color: `${rtcAudio ? 'green' : 'gray' }` }}>
+            <MicIcon/>
+          </button>
 
-    </Wrapper>
+          <button
+            onClick={setVideoSession}
+            style={{
+              color: 'white',
+              background: 'red',
+              border: 0
+            }}>
+            {!videoSession ? <CallIcon/> : <CallEndIcon/>}
+          </button>
+        </div>
+
+      </Wrapper>
+    </React.Fragment>
   )
 }
 
