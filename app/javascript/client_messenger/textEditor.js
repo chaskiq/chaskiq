@@ -437,9 +437,6 @@ export default class UnicornEditor extends Component {
               />
             </button>
 
-            <div id="callButton"></div>
-         
-
           </EditorButtons>
 
         </EditorContainer>

@@ -567,7 +567,7 @@ function Conversation ({
             </button>
           </Tooltip>
 
-          <ModalWrapper expanded={expand}>
+          <ModalWrapper expanded={expand} videoSession={videoSession}>
 
             <RtcDisplayWrapper
               videoSession={videoSession}

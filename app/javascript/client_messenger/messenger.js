@@ -1227,9 +1227,8 @@ class Messenger extends Component {
                                   setVideoSession={this.setVideoSession.bind(this)}
                                   videoSession={this.state.videoSession}>
                                 </RtcViewWrapper>
-                                
                               }
-
+                              
                               {
                                 this.state.display_mode === "conversations" && 
                                   <Conversations 
@@ -1436,6 +1435,7 @@ const FrameChild = ({ document, window, state,
       infoElement={'info'}
       localVideoElement={'localVideo'}
       remoteVideoElement={'remoteVideo'}
+      callStatusElement={'callStatus'}
       current_user={{ email: props.session_id }}
       rtc={state.rtc}
       handleRTCMessage={( data ) => { debugger }}
