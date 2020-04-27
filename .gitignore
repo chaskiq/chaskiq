@@ -44,4 +44,5 @@ cypress/videos
 stats.json
 .DS_Store
 app/javascript/old-src
+.envrc
 
