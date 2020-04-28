@@ -31,7 +31,14 @@ class MessengerEventsChannel < ApplicationCable::Channel
     @conversation = @app.conversations.find_by(key: data['conversation_id'])
     key = "messenger_events:#{@app.key}-#{@app_user.session_id}"
     key2 = "events:#{@app.key}"
-    #ActionCable.server.broadcast key, data
+    if(data['event_type'] == 'JOIN_ROOM')
+      ActionCable.server.broadcast key, {
+        type: 'rtc_events',
+        app: @app.key,
+        event_type: 'READY',
+        conversation_id: @conversation.key
+      }
+    end
     ActionCable.server.broadcast key2, data
   end
 

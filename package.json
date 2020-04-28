@@ -68,6 +68,7 @@
     "redux-thunk": "^2.3.0",
     "sanitize-html": "^1.20.1",
     "simmerjs": "^0.5.6",
+    "simple-peer": "^9.7.0",
     "soundmanager2": "^2.97.20170602",
     "styled-components": "4.3.2",
     "tailwind.macro": "^1.0.0-alpha.10",
