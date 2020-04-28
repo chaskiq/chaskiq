@@ -23,6 +23,7 @@ const ice = {
 let sendChannel = null
 let receiveChannel = null
 var localStream = null
+let negotiating = false;
 
 export function RtcView (props) {
   const currentUser = props.current_user.email
@@ -41,7 +42,7 @@ export function RtcView (props) {
   const callStatusTarget = usePortal(props.callStatusElement, documentObject)
 
   React.useEffect(() => {
-    props.video ? initVideoSession() : null
+    //props.video ? initVideoSession() : null
     // setTimeout(()=>
     //  handleJoinSession(), Math.random()
     // )
@@ -103,7 +104,7 @@ export function RtcView (props) {
 
     const data = props.rtc
 
-    if (data.from === currentUser) return;
+    if (data.from === currentUser) return
 
     switch (data.event_type) {
       case JOIN_ROOM:
@@ -111,7 +112,7 @@ export function RtcView (props) {
         return joinRoom(data)
       case EXCHANGE:
         if (data.to !== currentUser) return
-        if(!props.video) return
+        if (!props.video) return
         console.log('trying exchange', data.to, data.from)
         return exchange(data)
       case REMOVE_USER:
@@ -192,7 +193,7 @@ export function RtcView (props) {
 
     if (props.video) {
       localStream.getTracks().forEach(function (track) {
-        localStream.addTrack(track)
+        // localStream.addTrack(track)
         if (pc.addTrack) {
           pc.addTrack(track, localStream)
         } else {
@@ -209,19 +210,21 @@ export function RtcView (props) {
     sendChannel.onopen = onSendChannelStateChange
     sendChannel.onclose = onSendChannelStateChange
 
-    isOffer &&
-      pc
-        .createOffer()
-        .then(offer => {
-          pc.setLocalDescription(offer)
-          broadcastData({
-            event_type: EXCHANGE,
-            from: currentUser,
-            to: userId,
-            sdp: JSON.stringify(pc.localDescription)
+    if (isOffer) {
+      pc.createOffer().then(offer => {
+        pc.setLocalDescription(offer).then(
+          () => {
+            setTimeout(() => {
+              broadcastData({
+                type: EXCHANGE,
+                from: currentUser,
+                to: userId,
+                sdp: JSON.stringify(pc.localDescription)
+              })
+            }, 0)
           })
-        })
-        .catch(logError)
+      })
+    }
 
     pc.onicecandidate = event => {
       event.candidate &&
@@ -246,15 +249,6 @@ export function RtcView (props) {
       element.srcObject = event.streams[0]
     }
 
-    /* pc.onaddstream = event => {
-      const element = documentObject.createElement('video')
-      element.id = `remoteVideoContainer+${userId}`
-      element.autoplay = 'autoplay'
-      element.srcObject = event.stream
-      element.style = 'border: 1px solid red;width: 100px;height: 100px;'
-      remoteVideoContainer.current.appendChild(element)
-    } */
-
     pc.oniceconnectionstatechange = event => {
       if (pc.iceConnectionState === 'disconnected') {
         console.log('Disconnected:', userId)
@@ -262,6 +256,16 @@ export function RtcView (props) {
           event_type: REMOVE_USER,
           from: userId
         })
+      }
+    }
+
+    pc.onnegotiationneeded = async e => {
+      try {
+        if (negotiating || pc.signalingState !== "stable") return;
+        negotiating = true;
+        /* Your async/await-using code goes here */
+      } finally {
+        negotiating = false;
       }
     }
 
@@ -295,13 +299,17 @@ export function RtcView (props) {
         .then(() => {
           if (sdp.type === 'offer') {
             pc.createAnswer().then(answer => {
-              pc.setLocalDescription(answer)
-              broadcastData({
-                event_type: EXCHANGE,
-                from: currentUser,
-                to: data.from,
-                sdp: JSON.stringify(pc.localDescription)
-              })
+              console.log("SET_LOCAL_DESCRIPTION", answer)
+              pc.setLocalDescription(answer).then(
+                () => {
+                  console.log("LOCAL_DESCRIPTION", pc.localDescription)
+                  broadcastData({
+                    event_type: EXCHANGE,
+                    from: currentUser,
+                    to: data.from,
+                    sdp: JSON.stringify(pc.localDescription)
+                  })
+                })
             })
           }
         })
@@ -317,7 +325,7 @@ export function RtcView (props) {
     }
 
     const params = Object.assign({}, data, a)
-    console.log("BROADCAST", params)
+    console.log('BROADCAST', params)
     props.events.perform('rtc_events', params)
   }
 
