@@ -2,9 +2,11 @@ import React from 'react'
 import Button from './Button'
 
 import { connect } from 'react-redux'
+import Peer from 'simple-peer'
 
 import { createPortal } from 'react-dom'
 import usePortal from './hooks/usePortal'
+import {isEmpty} from 'lodash'
 
 // Broadcast Types
 const JOIN_ROOM = 'JOIN_ROOM'
@@ -12,6 +14,9 @@ const EXCHANGE = 'EXCHANGE'
 const REMOVE_USER = 'REMOVE_USER'
 const START_CALL = 'START_CALL'
 const END_CALL = 'END_CALL'
+const SIGNAL = 'SIGNAL'
+const INIT = 'INIT'
+const READY = 'READY'
 // Ice Credentials
 
 const ice = {
@@ -24,6 +29,39 @@ let sendChannel = null
 let receiveChannel = null
 var localStream = null
 let negotiating = false;
+
+
+class VideoCall {
+  peer = null 
+  init = (stream, initiator) => {
+      
+      this.peer = new Peer({
+          initiator: initiator,
+          stream: stream,
+          trickle: false,
+          reconnectTimer: 1000,
+          iceTransportPolicy: 'relay',
+          config: {
+              iceServers: [
+                  { urls: ['stun:stun4.l.google.com:19302'] },
+                  /*{
+                      urls: process.env.REACT_APP_TURN_SERVERS.split(','),
+                      username: process.env.REACT_APP_TURN_USERNAME,
+                      credential: process.env.REACT_APP_TURN_CREDENCIAL
+                  },*/
+              ]
+          }
+      })
+      console.log("inicializó peer", this.peer)
+      return this.peer
+  }
+  connect = (otherId) => {
+    console.log("CONNECTING PEER", this.peer)
+    this.peer.signal(otherId)
+  }  
+} 
+
+
 
 export function RtcView (props) {
   const currentUser = props.current_user.email
@@ -41,281 +79,57 @@ export function RtcView (props) {
   const remoteVideoTarget = usePortal(props.remoteVideoElement, documentObject)
   const callStatusTarget = usePortal(props.callStatusElement, documentObject)
 
+  const [localStream, setLocalStream] = React.useState({})
+  const [remoteStreamUrl, setRemoteStreamUrl] = React.useState('')
+  const [streamUrl, setStreamUrl] = React.useState('')
+  const [initiator, setInitiator] = React.useState(false)
+  const [peer, setPeer] = React.useState({})
+  const [full, setFull] = React.useState(false)
+  const [connecting, setConnecting] = React.useState(false)
+  const [waiting, setWaiting] = React.useState(true)
+  const [micState, setMicState] =React.useState(true)
+  const [camState, setCamState] =React.useState(true)
+
+  const videoCall = new VideoCall();
+
   React.useEffect(() => {
     //props.video ? initVideoSession() : null
     // setTimeout(()=>
     //  handleJoinSession(), Math.random()
     // )
-    return handleLeaveSession()
+
+    //return handleLeaveSession()
   }, [])
 
   React.useEffect(() => {
-    props.video && initVideoSession()
-    !props.video && handleLeaveSession()
+    //props.video && initVideoSession()
+    //!props.video && handleLeaveSession()
+    getUserMedia().then(() => {
+      //socket.emit('join', { roomId: roomId });
+      handleJoinSession()
+    });
+
   }, [props.video])
 
+
+  React.useEffect(()=>{
+    console.log("LOCAL STREAM CHANGED?", localStream )
+    //if(localStream && localStream.id) {
+    //  enter()
+    //}
+  }, [localStream.id])
+
   React.useEffect(() => {
+    console.log("RTC CHANGED!", props.rtc)
     handleRtcData()
   }, [props.rtc])
 
   React.useEffect(() => {
-    localStream && localStream.getTracks().forEach((track) => (
-      toggleTrack(track)
-    ))
+    //localStream && localStream.getTracks().forEach((track) => (
+    //  toggleTrack(track)
+    //))
   }, [props.rtcVideo, props.rtcAudio])
 
-  function toggleTrack (track) {
-    switch (track.kind) {
-      case 'audio':
-        track.enabled = props.rtcAudio
-        break
-      case 'video':
-        track.enabled = props.rtcVideo
-      default:
-        break
-    }
-  }
-
-  function initVideoSession () {
-    navigator
-      .mediaDevices
-      .getUserMedia({
-        audio: {
-          enabled: props.rtcAudio,
-          sampleSize: 16,
-          channelCount: 2,
-          echoCancellation: true,
-          noiseSuppression: false
-        },
-        video: props.rtcVideo
-      })
-      .then(stream => {
-        localStream = stream
-        // window.localS = stream
-        localVideo.current.srcObject = stream
-        localVideo.current.muted = true
-        setTimeout(() => handleJoinSession(), Math.random())
-      })
-      .catch(logError)
-  }
-
-  function handleRtcData () {
-    // console.log('RTC UPDATE!!', props.rtc)
-
-    const data = props.rtc
-
-    if (data.from === currentUser) return
-
-    switch (data.event_type) {
-      case JOIN_ROOM:
-        console.log('join room!', data)
-        return joinRoom(data)
-      case EXCHANGE:
-        if (data.to !== currentUser) return
-        if (!props.video) return
-        console.log('trying exchange', data.to, data.from)
-        return exchange(data)
-      case REMOVE_USER:
-        return removeUser(data)
-      default:
-    }
-  }
-
-  function handleJoinSession () {
-    broadcastData({
-      event_type: JOIN_ROOM,
-      from: currentUser
-    })
-  }
-
-  function handleLeaveSession () {
-    for (var user in pcPeers) {
-      pcPeers[user].close()
-    }
-    // pcPeers = {}
-    setPcPeers({})
-    // App.session.unsubscribe();
-
-    if (remoteVideoContainer) remoteVideoContainer.current.innerHTML = ''
-
-    broadcastData({
-      event_type: REMOVE_USER,
-      from: currentUser
-    })
-
-    if (localStream) {
-      localStream.getTracks().forEach(
-        (track) => track.stop()
-      )
-    }
-
-    /*
-
-    stream.removeTrack(track);
-    if (pc.removeTrack) {
-      pc.removeTrack(pc.getSenders().find(sender => sender.track == track));
-    } else {
-      // If you have code listening for negotiationneeded events:
-      setTimeout(() => pc.dispatchEvent(new Event('negotiationneeded')));
-    }
-
-    */
-  }
-
-  function joinRoom (data) {
-    createPC(data.from, true)
-  }
-
-  function removeUser (data) {
-    console.log('removing user', data.from)
-    const video = documentObject.getElementById(`remoteVideoContainer+${data.from}`)
-    video && video.remove()
-    console.log('peers', pcPeers)
-    // delete pcPeers[data.from]
-    const newPeers = {
-      ...pcPeers
-    }
-    delete newPeers[data.from]
-    console.log('removed , current peers', newPeers)
-    setPcPeers(newPeers)
-  }
-
-  function removePeers () {
-    Object.keys(pcPeers).map((k) => removeUser({ from: k }))
-  }
-
-  function createPC (userId, isOffer) {
-    const pc = new RTCPeerConnection(ice)
-    // pcPeers[userId] = pc
-    setPcPeers({ ...pcPeers, [userId]: pc })
-    // DISABLE VIDEO
-    if (!props.video) return
-
-    if (props.video) {
-      localStream.getTracks().forEach(function (track) {
-        // localStream.addTrack(track)
-        if (pc.addTrack) {
-          pc.addTrack(track, localStream)
-        } else {
-          // If you have code listening for negotiationneeded events:
-          setTimeout(() => pc.dispatchEvent(new Event('negotiationneeded')))
-        }
-      })
-    }
-
-    pc.ondatachannel = receiveChannelCallback
-
-    sendChannel = pc.createDataChannel('sendDataChannel')
-    console.log('Created send data channel')
-    sendChannel.onopen = onSendChannelStateChange
-    sendChannel.onclose = onSendChannelStateChange
-
-    if (isOffer) {
-      pc.createOffer().then(offer => {
-        pc.setLocalDescription(offer).then(
-          () => {
-            setTimeout(() => {
-              broadcastData({
-                type: EXCHANGE,
-                from: currentUser,
-                to: userId,
-                sdp: JSON.stringify(pc.localDescription)
-              })
-            }, 0)
-          })
-      })
-    }
-
-    pc.onicecandidate = event => {
-      event.candidate &&
-        broadcastData({
-          event_type: EXCHANGE,
-          from: currentUser,
-          to: userId,
-          candidate: JSON.stringify(event.candidate)
-        })
-    }
-
-    pc.ontrack = event => {
-      const id = `remoteVideoContainer+${userId}`
-      let element = documentObject.getElementById(id)
-      if (!element) {
-        element = documentObject.createElement('video')
-        element.id = `remoteVideoContainer+${userId}`
-        remoteVideoContainer.current.appendChild(element)
-      }
-
-      element.autoplay = 'autoplay'
-      element.srcObject = event.streams[0]
-    }
-
-    pc.oniceconnectionstatechange = event => {
-      if (pc.iceConnectionState === 'disconnected') {
-        console.log('Disconnected:', userId)
-        broadcastData({
-          event_type: REMOVE_USER,
-          from: userId
-        })
-      }
-    }
-
-    pc.onnegotiationneeded = async e => {
-      try {
-        if (negotiating || pc.signalingState !== "stable") return;
-        negotiating = true;
-        /* Your async/await-using code goes here */
-      } finally {
-        negotiating = false;
-      }
-    }
-
-    return pc
-  }
-
-  function exchange (data) {
-    let pc
-
-    console.log('PC PEERS', pcPeers)
-
-    if (!pcPeers[data.from]) {
-      pc = createPC(data.from, false)
-    } else {
-      // if("candidate already exists!") return
-      pc = pcPeers[data.from]
-    }
-
-    if (data.candidate) {
-      pc
-        .addIceCandidate(new RTCIceCandidate(JSON.parse(data.candidate)))
-        .then(() => console.log('Ice candidate added'))
-        .catch(logError)
-    }
-
-    if (data.sdp) {
-      const sdp = JSON.parse(data.sdp)
-
-      pc
-        .setRemoteDescription(new RTCSessionDescription(sdp))
-        .then(() => {
-          if (sdp.type === 'offer') {
-            pc.createAnswer().then(answer => {
-              console.log("SET_LOCAL_DESCRIPTION", answer)
-              pc.setLocalDescription(answer).then(
-                () => {
-                  console.log("LOCAL_DESCRIPTION", pc.localDescription)
-                  broadcastData({
-                    event_type: EXCHANGE,
-                    from: currentUser,
-                    to: data.from,
-                    sdp: JSON.stringify(pc.localDescription)
-                  })
-                })
-            })
-          }
-        })
-        .catch(logError)
-    }
-  }
 
   function broadcastData (data) {
     const a = {
@@ -329,44 +143,250 @@ export function RtcView (props) {
     props.events.perform('rtc_events', params)
   }
 
-  const logError = error => console.warn('Whoops! Error:', error)
-
-  const receiveChannelCallback = (event) => {
-    console.log('Receive Channel Callback')
-    receiveChannel = event.channel
-    receiveChannel.onmessage = onReceiveMessageCallback
-    receiveChannel.onopen = onReceiveChannelStateChange
-    receiveChannel.onclose = onReceiveChannelStateChange
+  function handleJoinSession () {
+    broadcastData({
+      event_type: JOIN_ROOM,
+      from: currentUser
+    })
   }
 
-  /* const sendData = () => {
-    const data = props.diff
-    // console.log("data diff: ", data)
-    if (sendChannel && sendChannel.readyState === 'open') {
-      console.log('Sent Data: ' + data)
-      sendChannel.send(data)
+  function getUserMedia(cb) {
+    return new Promise((resolve, reject) => {
+      navigator.getUserMedia = navigator.getUserMedia =
+        navigator.getUserMedia ||
+        navigator.webkitGetUserMedia ||
+        navigator.mozGetUserMedia;
+      const op = {
+        video: {
+          enabled: props.rtcVideo,
+          width: { min: 160, ideal: 640, max: 1280 },
+          height: { min: 120, ideal: 360, max: 720 }
+        },
+        audio: {
+          enabled: false, //props.rtcAudio,
+          sampleSize: 16,
+          channelCount: 2,
+          echoCancellation: true,
+          noiseSuppression: false
+        },
+      };
+      navigator.getUserMedia(
+        op,
+        stream => {
+          setLocalStream(stream)
+          setStreamUrl(stream)
+          localVideo.current.srcObject = stream;
+          resolve();
+        },
+        () => {  }
+      );
+    });
+  }
+
+  function setAudioLocal(){
+    if(localStream.getAudioTracks().length>0){
+      localStream.getAudioTracks().forEach(track => {
+        track.enabled = !track.enabled;
+      });
     }
-  } */
-
-  const onReceiveMessageCallback = (event) => {
-    console.log('Received Message')
-    props.handleRTCMessage(event.data)
-    // dataChannelReceive.value = event.data;
-    // console.log(event.data)
+    setMicState(!micState)
   }
 
-  const onSendChannelStateChange = () => {
-    const readyState = sendChannel.readyState
-    console.log('Send channel state is: ' + readyState)
+  function setVideoLocal(){
+    if(localStream.getVideoTracks().length>0){
+      localStream.getVideoTracks().forEach(track => {
+        track.enabled = !track.enabled;
+      });
+    }
+    setCamState(!camState)
   }
 
-  const onReceiveChannelStateChange = () => {
-    const readyState = receiveChannel.readyState
-    console.log(`Receive channel state is: ${readyState}`)
+  function getDisplay() {
+    getDisplayStream().then(stream => {
+      stream.oninactive = () => {
+        peer.removeStream(localStream);
+        getUserMedia().then(() => {
+          peer.addStream(localStream);
+        });
+      };
+      
+      setStreamUrl(stream)
+      setLocalStream(stream)
+      localVideo.current.srcObject = stream;
+      peer.addStream(stream);
+    });
   }
+
+  function handleRtcData() {
+
+    /*
+    socket.on('init', () => {
+      component.setState({ initiator: true });
+    });
+    socket.on('ready', () => {
+      component.enter(roomId);
+    });
+    socket.on('desc', data => {
+      if (data.type === 'offer' && component.state.initiator) return;
+      if (data.type === 'answer' && !component.state.initiator) return;
+      component.call(data);
+    });
+    socket.on('disconnected', () => {
+      component.setState({ initiator: true });
+    });
+    socket.on('full', () => {
+      component.setState({ full: true });
+    });*/
+
+    const data = props.rtc
+
+    if (data.from === currentUser) return
+
+    switch (data.event_type) {
+      case JOIN_ROOM:
+        console.log('join room!', data)
+        return enter(data)
+      case SIGNAL:
+        const signal = data.signal
+        if (signal.type === 'offer' && initiator) return;
+        if (signal.type === 'answer' && !initiator) return;
+        return call(signal)
+      case INIT:
+        console.log("INIT!!!!")
+        return setInitiator(true);   
+      case READY:
+        console.log("READY!!!")
+        return enter()
+      default: console.log('default receive DATA', data)
+    }
+  }
+
+  function call (data) {
+    peer.signal(data.desc);
+  };
+
+  function enter (params) {
+    setConnecting({connecting: true} )
+
+    const peer = videoCall.init(
+      localStream,
+      initiator
+    );
+
+    setPeer( peer );
+
+    peer.on('signal', data => {
+      const signal = {
+        room: props.conversation.key,
+        desc: data
+      };
+      broadcastData({
+        event_type: 'SIGNAL',
+        from: currentUser,
+        signal: signal
+      })
+      //this.state.socket.emit('signal', signal);
+    });
+    peer.on('stream', stream => {
+      //const id = `remoteVideoContainer+${userId}`
+      const id = `remoteVideoContainer`
+      let element = documentObject.getElementById(id)
+      if (!element) {
+        element = documentObject.createElement('video')
+        element.id = id
+        remoteVideoContainer.current.appendChild(element)
+      }
+
+      element.autoplay = 'autoplay'
+      element.srcObject = stream
+
+      setConnecting(false)
+      setWaiting(false)
+    });
+
+    peer.on('error', function(err) {
+      console.log(err);
+    });
+  };
+
+
+  /*
+    function toggleTrack (track) {
+      switch (track.kind) {
+        case 'audio':
+          track.enabled = props.rtcAudio
+          break
+        case 'video':
+          track.enabled = props.rtcVideo
+        default:
+          break
+      }
+    }
+
+    function initVideoSession () {
+      navigator
+        .mediaDevices
+        .getUserMedia({
+          audio: {
+            enabled: props.rtcAudio,
+            sampleSize: 16,
+            channelCount: 2,
+            echoCancellation: true,
+            noiseSuppression: false
+          },
+          video: props.rtcVideo
+        })
+        .then(stream => {
+          localStream = stream
+          // window.localS = stream
+          localVideo.current.srcObject = stream
+          localVideo.current.muted = true
+          setTimeout(() => handleJoinSession(), Math.random())
+        })
+        .catch(logError)
+    }
+  */
+ 
 
   return <React.Fragment>
+
+
     {
+      localVideoTarget && createPortal(
+        <video id="local-video"
+          ref={ localVideo }
+          autoPlay>
+        </video>, localVideoTarget
+      )
+    }
+
+    {
+      remoteVideoTarget && createPortal(
+        <div id="remote-video-container"
+          ref={ remoteVideoContainer }>
+        </div>, remoteVideoTarget)
+    }
+
+
+    
+
+    {
+      infoTarget && createPortal(
+        <React.Fragment>
+          {connecting && (
+            <div className='status'>
+              <p>Establishing connection...</p>
+            </div>
+          )}
+          {waiting && (
+            <div className='status'>
+              <p>Waiting for someone...</p>
+            </div>
+          )}
+        </React.Fragment>, infoTarget)
+    }
+
+    {/*{
       props.buttonElement && createPortal(
         <Button
           className={`btn btn-outline${props.video ? '-success active' : '-secondary'}`}
@@ -380,39 +400,14 @@ export function RtcView (props) {
         , target)
     }
 
-    {
-      infoTarget && createPortal(
-        <React.Fragment>
 
-          {/* <Button
-          onClick={handleJoinSession}>
-                  joinkk
-        </Button> */}
 
-          {' '}
-
-          <b>you: {' '}</b>
-          <span id="current-user">
-            {currentUser}
-          </span>
-
-          <b>connected users: </b>
-
-          {
-            Object.keys(pcPeers).map((o) => (
-              <span key={`user-${o}`}>
-                {o}
-              </span>
-            )
-            )
-          }
-
-        </React.Fragment>, infoTarget)
-    }
+      
+    */}
 
     {
       props.callStatusElement && !props.video &&
-      Object.keys(pcPeers).length > 0 &&
+      peer &&
       createPortal(
         <div id="call-status">
           <p>hay un wn llamandooo</p>
@@ -431,34 +426,6 @@ export function RtcView (props) {
         </div>
         , callStatusTarget)
     }
-
-    {
-      localVideoTarget && createPortal(
-        <video id="local-video"
-          ref={ localVideo }
-          autoPlay>
-        </video>, localVideoTarget
-      )
-    }
-
-    {
-      remoteVideoTarget && createPortal(
-        <div id="remote-video-container"
-          ref={ remoteVideoContainer }>
-        </div>, remoteVideoTarget)
-    }
-
-    { /*
-        props.manualJoin && <div>
-          <button onClick={handleJoinSession}>
-            Join Session
-          </button>
-
-          <button onClick={handleLeaveSession}>
-            Leave Room
-          </button>
-        </div>
-      */}
 
   </React.Fragment>
 }
