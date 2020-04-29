@@ -16,69 +16,72 @@ const Wrapper = styled.div`
   width: 100%;
   background: black;
 
-  display: flex;
-  justify-content: center;
-  justify-items: center;
-  align-items: center;
-  text-align: center;
-
-  #status-information {
-    color: #fff;
-    position: absolute;
-    width: 100%;
-  }
-
-  #localVideo{
-
-    position: absolute;
-    z-index: 220;
-    top: 0px;
-    /* display: none; */
-
-    video {
-      background: black;
-      height: 80px;
-      width: 80px;
-      border: 2px solid limegreen;
-      margin: .3em;
-      border-radius: 50%;
-      overflow: hidden;
-      -webkit-transform: translateZ(0);
-      box-shadow: 0 19px 51px 0 rgba(0,0,0,0.16), 0 14px 19px 0 rgba(0,0,0,0.07);
-    }
-  }
-
-  #remoteVideo{
-    video{
-      height: 78vh;
-      width: 100%;
-      object-fit: cover;
-      background: black;
-    }
-  }
-
-  .call-buttons{
-    position: absolute;
-    bottom: 0px;
-    z-index: 2000;
-    width: 100%;
+  #call-wrapper {
     display: flex;
-    align-items: center;
     justify-content: center;
-    margin-bottom: 20px;
-    button {
-      border-radius:50%;
-      width:50px;
-      height:50px;
-      margin-right: 4px;
-
-      border: 1px solid #ccc;
-      background: white;
-      display: flex;
-      justify-content: center;
-      align-items: center;
+    justify-items: center;
+    align-items: center;
+    text-align: center;
+  
+    #status-information {
+      color: #fff;
+      position: absolute;
+      width: 100%;
     }
+  
+    #localVideo{
+  
+      position: absolute;
+      z-index: 220;
+      top: 15px;
+  
+      video {
+        background: black;
+        height: 80px;
+        width: 80px;
+        border: 2px solid limegreen;
+        margin: .3em;
+        border-radius: 50%;
+        overflow: hidden;
+        -webkit-transform: translateZ(0);
+        box-shadow: 0 19px 51px 0 rgba(0,0,0,0.16), 0 14px 19px 0 rgba(0,0,0,0.07);
+      }
+    }
+  
+    #remoteVideo{
+      video{
+        height: 78vh;
+        width: 100%;
+        object-fit: cover;
+        background: black;
+      }
+    }
+  
+    .call-buttons{
+      position: absolute;
+      bottom: 0px;
+      z-index: 2000;
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 20px;
+      button {
+        border-radius:50%;
+        width:50px;
+        height:50px;
+        margin-right: 4px;
+  
+        border: 1px solid #ccc;
+        background: white;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+    }
+
   }
+
 
 `
 
@@ -165,53 +168,57 @@ export default function RtcViewWrapper ({
   return (
     <React.Fragment>
 
-      <CallStatus id="callStatus">
-        
-      </CallStatus>
 
+      <CallStatus id="callStatus"/>
+
+      
       <Wrapper
         relativePosition={relativePosition}
         style={{ visibility: `${!videoSession ? 'hidden' : ''}` }}
       >
-        {}
+       
         {/* <div id="callButton">call</div>
         <div id="info">info</div> */}
-        {
-          setExpand && <button className="expand-viewer" onClick={()=> setExpand(!expand) }>
-          { !expand ? <FullScreenIcon/> : <FullScreenExitIcon/> }
-          </button>
-        }
         
+        <div id="call-wrapper" style={{ visibility: `${!videoSession ? 'hidden' : ''}` }}>
+        
+          {
+            setExpand && <button className="expand-viewer" onClick={()=> setExpand(!expand) }>
+            { !expand ? <FullScreenIcon/> : <FullScreenExitIcon/> }
+            </button>
+          }
 
-        <div id="localVideo"></div>
-        <div id="remoteVideo"></div>
+          <div id="localVideo"></div>
+          <div id="remoteVideo"></div>
 
-        <div id="status-information">
-          call in progress
-        </div>
+          <div id="status-information">
+            call in progress
+          </div>
 
-        <div className="call-buttons">
-          <button
-            onClick={toggleVideo}
-            style={{ color: `${rtcVideo ? 'green' : 'gray' }` }}>
-            <CameraIcon/>
-          </button>
+          <div className="call-buttons">
+            <button
+              onClick={toggleVideo}
+              style={{ color: `${rtcVideo ? 'green' : 'gray' }` }}>
+              <CameraIcon/>
+            </button>
 
-          <button
-            onClick={toggleAudio}
-            style={{ color: `${rtcAudio ? 'green' : 'gray' }` }}>
-            <MicIcon/>
-          </button>
+            <button
+              onClick={toggleAudio}
+              style={{ color: `${rtcAudio ? 'green' : 'gray' }` }}>
+              <MicIcon/>
+            </button>
 
-          <button
-            onClick={setVideoSession}
-            style={{
-              color: 'white',
-              background: 'red',
-              border: 0
-            }}>
-            {!videoSession ? <CallIcon/> : <CallEndIcon/>}
-          </button>
+            <button
+              onClick={setVideoSession}
+              style={{
+                color: 'white',
+                background: 'red',
+                border: 0
+              }}>
+              {!videoSession ? <CallIcon/> : <CallEndIcon/>}
+            </button>
+          </div>
+
         </div>
 
       </Wrapper>
