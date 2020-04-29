@@ -17,19 +17,18 @@ const END_CALL = 'END_CALL'
 const SIGNAL = 'SIGNAL'
 const INIT = 'INIT'
 const READY = 'READY'
+const CLOSE_SESSION = 'CLOSE_SESSION'
 // Ice Credentials
-
-const ice = {
-  iceServers: [
-    { urls: 'stun:stun.l.google.com:19302' }
-  ]
-}
 
 let sendChannel = null
 let receiveChannel = null
 var localStream = null
 let negotiating = false;
 
+
+function getDisplayStream(){
+  return navigator.mediaDevices.getDisplayMedia();
+}
 
 class VideoCall {
   peer = null 
@@ -65,9 +64,6 @@ class VideoCall {
 
 export function RtcView (props) {
   const currentUser = props.current_user.email
-
-  const [pcPeers, setPcPeers] = React.useState({})
-
   const localVideo = React.useRef(null)
   const remoteVideoContainer = React.useRef(null)
 
@@ -104,6 +100,7 @@ export function RtcView (props) {
   React.useEffect(() => {
     //props.video && initVideoSession()
     //!props.video && handleLeaveSession()
+    if(!props.video) return 
     getUserMedia().then(() => {
       //socket.emit('join', { roomId: roomId });
       handleJoinSession()
@@ -125,9 +122,8 @@ export function RtcView (props) {
   }, [props.rtc])
 
   React.useEffect(() => {
-    //localStream && localStream.getTracks().forEach((track) => (
-    //  toggleTrack(track)
-    //))
+    setAudioLocal()
+    setVideoLocal()
   }, [props.rtcVideo, props.rtcAudio])
 
 
@@ -184,21 +180,23 @@ export function RtcView (props) {
   }
 
   function setAudioLocal(){
-    if(localStream.getAudioTracks().length>0){
+    if(localStream.getAudioTracks && 
+      localStream.getAudioTracks().length > 0){
       localStream.getAudioTracks().forEach(track => {
-        track.enabled = !track.enabled;
+        track.enabled = props.rtcAudio //!track.enabled;
       });
     }
-    setMicState(!micState)
+    //setMicState(!micState)
   }
 
   function setVideoLocal(){
-    if(localStream.getVideoTracks().length>0){
+    if(localStream.getVideoTracks && 
+      localStream.getVideoTracks().length>0){
       localStream.getVideoTracks().forEach(track => {
-        track.enabled = !track.enabled;
+        track.enabled = props.rtcVideo;
       });
     }
-    setCamState(!camState)
+    //setCamState(!camState)
   }
 
   function getDisplay() {
@@ -219,19 +217,7 @@ export function RtcView (props) {
 
   function handleRtcData() {
 
-    /*
-    socket.on('init', () => {
-      component.setState({ initiator: true });
-    });
-    socket.on('ready', () => {
-      component.enter(roomId);
-    });
-    socket.on('desc', data => {
-      if (data.type === 'offer' && component.state.initiator) return;
-      if (data.type === 'answer' && !component.state.initiator) return;
-      component.call(data);
-    });
-    socket.on('disconnected', () => {
+    /*socket.on('disconnected', () => {
       component.setState({ initiator: true });
     });
     socket.on('full', () => {
@@ -241,6 +227,7 @@ export function RtcView (props) {
     const data = props.rtc
 
     if (data.from === currentUser) return
+    if (!props.video) return
 
     switch (data.event_type) {
       case JOIN_ROOM:
@@ -257,6 +244,12 @@ export function RtcView (props) {
       case READY:
         console.log("READY!!!")
         return enter()
+      case CLOSE_SESSION:
+        //localStream && localStream.getTracks().forEach(track => track.stop());
+        //peer.removeAllListeners();
+        //peer.destroy();
+        break
+
       default: console.log('default receive DATA', data)
     }
   }
@@ -285,10 +278,8 @@ export function RtcView (props) {
         from: currentUser,
         signal: signal
       })
-      //this.state.socket.emit('signal', signal);
     });
     peer.on('stream', stream => {
-      //const id = `remoteVideoContainer+${userId}`
       const id = `remoteVideoContainer`
       let element = documentObject.getElementById(id)
       if (!element) {
@@ -308,6 +299,28 @@ export function RtcView (props) {
       console.log(err);
     });
   };
+
+  function removePeers () {
+    broadcastData({
+      event_type: CLOSE_SESSION,
+      from: currentUser
+    })
+
+  }
+
+  function closePeers () {
+    if(props.video) props.toggleVideoSession()
+    peer && peer.destroy && peer.destroy() // && peer.removeAllListeners()
+    props.onCloseSession && props.onCloseSession()
+  }
+
+  function rejectCall () {
+    broadcastData({
+      event_type: 'REJECT_CALL',
+      from: currentUser
+    })
+    closePeers()
+  }
 
 
   /*
@@ -353,10 +366,18 @@ export function RtcView (props) {
 
     {
       localVideoTarget && createPortal(
+        <React.Fragment>
         <video id="local-video"
           ref={ localVideo }
           autoPlay>
-        </video>, localVideoTarget
+        </video>
+        <button
+          className='control-btn'
+          onClick={() => { getDisplay(); }}
+        >
+         share
+        </button>
+        </React.Fragment>, localVideoTarget
       )
     }
 
@@ -366,9 +387,6 @@ export function RtcView (props) {
           ref={ remoteVideoContainer }>
         </div>, remoteVideoTarget)
     }
-
-
-    
 
     {
       infoTarget && createPortal(
@@ -399,15 +417,11 @@ export function RtcView (props) {
         </Button>
         , target)
     }
-
-
-
-      
     */}
 
-    {
+    { 
       props.callStatusElement && !props.video &&
-      peer &&
+      !initiator && props.rtc.event_type &&
       createPortal(
         <div id="call-status">
           <p>hay un wn llamandooo</p>
@@ -418,17 +432,19 @@ export function RtcView (props) {
               <CallIcon style={{ height: '30px', width: '30px' }}/>
             </button>
             <button
-              onClick={() => removePeers() }
+              onClick={() => rejectCall() }
               style={{ color: 'white', backgroundColor: 'red', border: 'none' }}>
               <CallEndIcon style={{ height: '30px', width: '30px' }}/>
             </button>
           </div>
         </div>
         , callStatusTarget)
-    }
+     }
 
   </React.Fragment>
 }
+
+
 
 export function RtcWrapper (props) {
   return props.current_user ? <RtcView {...props}/> : <p>k</p>

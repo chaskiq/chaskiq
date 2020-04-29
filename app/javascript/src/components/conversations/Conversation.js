@@ -11,6 +11,8 @@ import Moment from 'react-moment'
 import { toCamelCase } from '../../shared/caseConverter'
 import ConversationEditor from './Editor.js'
 import Rtc from '../rtc'
+import { updateRtcEvents} from '../../actions/rtc'
+
 
 import {
   getConversation,
@@ -585,12 +587,13 @@ function Conversation ({
           <div id="button-element" className="hidden"></div>
 
           {
-            events && <Rtc
+            events && videoSession && <Rtc
               buttonElement={'button-element'}
               infoElement={'info'}
               localVideoElement={'localVideo'}
               remoteVideoElement={'remoteVideo'}
               handleRTCMessage={( data ) => { debugger }}
+              onCloseSession={()=> updateRtcEvents({}) }
               toggleVideoSession={ () => setVideoSession(!videoSession)}
               video={videoSession}
               rtcVideo={rtcVideo}

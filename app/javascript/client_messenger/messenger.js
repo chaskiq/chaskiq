@@ -66,7 +66,7 @@ import Article from './articles'
 import {Conversation, Conversations} from './conversation.js'
 import {RtcView} from '../src/components/rtc'
 
-import RtcViewWrapper from './rtcView'
+import RtcViewWrapper, {CallStatus} from './rtcView'
 
 let App = {}
 
@@ -330,6 +330,7 @@ class Messenger extends Component {
   updateRtcEvents = (data)=>{
     const conversation = this.state.conversation
     if (conversation && conversation.key === data.conversation_id ) { 
+      console.log("update rtc dsta", data)
       this.setState({rtc: data})
     }
   }
@@ -1075,6 +1076,7 @@ class Messenger extends Component {
                                 state={this.state} 
                                 props={this.props}
                                 events={App.events}
+                                updateRtc={(data)=> this.setState({rtc: data})}
                                 toggleAudio={ this.toggleAudio }
                                 toggleVideo={ this.toggleVideo }
                                 setVideoSession={this.setVideoSession.bind(this)} 
@@ -1426,29 +1428,37 @@ class Messenger extends Component {
   }
 }
 
-const FrameChild = ({ document, window, state, 
-  props, events, setVideoSession, toggleAudio, toggleVideo }) => {
+const FrameChild = ({ 
+  document, window, state, 
+  props, events, updateRtc, setVideoSession, 
+  toggleAudio, toggleVideo 
+}) => {
   return <React.Fragment>
-    <RtcView 
-      document={document}
-      buttonElement={'callButton'}
-      infoElement={'info'}
-      localVideoElement={'localVideo'}
-      remoteVideoElement={'remoteVideo'}
-      callStatusElement={'callStatus'}
-      current_user={{ email: props.session_id }}
-      rtc={state.rtc}
-      handleRTCMessage={( data ) => { debugger }}
-      toggleAudio={toggleAudio}
-      toggleVideo={toggleVideo}
-      rtcAudio={state.rtcAudio}
-      rtcVideo={state.rtcVideo}
-      toggleVideoSession={ () => setVideoSession(!state.videoSession)}
-      video={state.videoSession}
-      events={events}
-      AppKey={props.app_id}
-      conversation={state.conversation}
-    />
+    { 
+      <RtcView 
+        document={document}
+        buttonElement={'callButton'}
+        infoElement={'info'}
+        localVideoElement={'localVideo'}
+        remoteVideoElement={'remoteVideo'}
+        callStatusElement={'callStatus'}
+        current_user={{ email: props.session_id }}
+        rtc={state.rtc}
+        handleRTCMessage={( data ) => { debugger }}
+        toggleAudio={toggleAudio}
+        toggleVideo={toggleVideo}
+        rtcAudio={state.rtcAudio}
+        rtcVideo={state.rtcVideo}
+        onCloseSession={()=> {
+          updateRtc({})
+        } }
+        toggleVideoSession={ () => setVideoSession(!state.videoSession)}
+        video={state.videoSession}
+        events={events}
+        AppKey={props.app_id}
+        conversation={state.conversation}
+      /> 
+    }
   </React.Fragment>
 }
 
