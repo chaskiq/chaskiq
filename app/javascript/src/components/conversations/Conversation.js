@@ -99,9 +99,6 @@ function Conversation ({
   const [rtcVideo, setRtcVideo] = React.useState(true)
   const [expand, setExpand] = React.useState(false)
   const [videoSession, setVideoSession] = React.useState(false)
-
-  console.log('LENGHT:', messagesLength)
-
   const appId = app.key
 
   React.useEffect(() => {
@@ -506,10 +503,6 @@ function Conversation ({
         </div>
       </div>
     )
-  }
-
-  if (conversation.collection) {
-    console.log(conversation.collection.map((o) => o.id))
   }
 
   return (

@@ -100,10 +100,7 @@ export function RtcView (props) {
 
 
   React.useEffect(()=>{
-    console.log("LOCAL STREAM CHANGED?", localStream )
-    //if(localStream && localStream.id) {
-    //  enter()
-    //}
+    //console.log("LOCAL STREAM CHANGED?", localStream )
     gstream = localStream
   }, [localStream.id])
 
@@ -344,6 +341,7 @@ export function RtcView (props) {
       localVideoTarget && createPortal(
         <div id="local-video-wrapper">
         <video id="local-video"
+          muted
           ref={ localVideo }
           autoPlay>
         </video>
