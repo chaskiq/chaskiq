@@ -338,47 +338,7 @@ export function RtcView (props) {
     closePeers()
   }
 
-
-  /*
-    function toggleTrack (track) {
-      switch (track.kind) {
-        case 'audio':
-          track.enabled = props.rtcAudio
-          break
-        case 'video':
-          track.enabled = props.rtcVideo
-        default:
-          break
-      }
-    }
-
-    function initVideoSession () {
-      navigator
-        .mediaDevices
-        .getUserMedia({
-          audio: {
-            enabled: props.rtcAudio,
-            sampleSize: 16,
-            channelCount: 2,
-            echoCancellation: true,
-            noiseSuppression: false
-          },
-          video: props.rtcVideo
-        })
-        .then(stream => {
-          localStream = stream
-          // window.localS = stream
-          localVideo.current.srcObject = stream
-          localVideo.current.muted = true
-          setTimeout(() => broadcastJoinSession(), Math.random())
-        })
-        .catch(logError)
-    }
-  */
- 
-
   return <React.Fragment>
-
 
     {
       localVideoTarget && createPortal(
