@@ -28,7 +28,7 @@ function FormDialog (props) {
         // x-transition:leave-end="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
         className="relative bg-white rounded-lg px-4 pt-5 pb-4 overflow-hidden--- shadow-xl transform transition-all sm:max-w-lg sm:w-full sm:p-6"
       >
-        <div className="hidden sm:block absolute top-0 right-0 pt-4 pr-4">
+        <div className="absolute top-0 right-0 pt-4 pr-4">
           <button
             onClick={handleClose}
             type="button"
@@ -60,7 +60,7 @@ function FormDialog (props) {
                 </svg>
               </div> */}
 
-          <div className="mt-3 text-center sm:mt-0 sm:text-left">
+          <div className="mt-3 sm:mt-0 text-left">
             {props.titleContent && (
               <h3 className="text-lg leading-6 font-medium text-gray-900">
                 {props.titleContent}
@@ -71,7 +71,7 @@ function FormDialog (props) {
           </div>
         </div>
 
-        <div className="mt-5 sm:mt-4 sm:flex sm:flex-row-reverse">
+        <div className="mt-5 sm:mt-4 flex flex-row-reverse">
           {props.dialogButtons}
         </div>
       </div>

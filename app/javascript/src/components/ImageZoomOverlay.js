@@ -4,8 +4,8 @@ import {
   setImageZoom
 } from '../actions/imageZoom'
 
-import Button from '../components/Button';
-import {CloseIcon} from '../components/icons';
+import Button from '../components/Button'
+import { CloseIcon } from '../components/icons'
 import { connect } from 'react-redux'
 
 import styled from '@emotion/styled'
@@ -31,31 +31,28 @@ export const ImageZoomOverlay = styled.div`
   }
 `
 
-
-function ZoomImage({dispatch, imageZoom}) {
-
+function ZoomImage ({ dispatch, imageZoom }) {
   return <div>
-          { imageZoom && imageZoom.url && 
+    { imageZoom && imageZoom.url &&
             <ImageZoomOverlay>
-                <img 
-                  width={imageZoom.width} 
-                  height={imageZoom.height}
-                  //className={classes.image} 
-                  src={imageZoom.url}
+              <img
+                width={imageZoom.width}
+                height={imageZoom.height}
+                // className={classes.image}
+                src={imageZoom.url}
               />
-              <Button 
-                variant={"icon"} 
-                onClick={()=> dispatch(setImageZoom(null))}>
+              <Button
+                variant={'icon'}
+                onClick={() => dispatch(setImageZoom(null))}>
                 <CloseIcon/>
               </Button>
             </ImageZoomOverlay>
-          }
-        </div>
+    }
+  </div>
 }
 
-
-function mapStateToProps(state) {
-  const {imageZoom} = state
+function mapStateToProps (state) {
+  const { imageZoom } = state
   return {
     imageZoom
   }

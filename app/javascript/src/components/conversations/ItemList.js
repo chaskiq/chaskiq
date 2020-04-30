@@ -55,7 +55,7 @@ export default function ConversationItemList ({ app, conversation }) {
                 />
               )}
 
-              {message.privateNote && 
+              {message.privateNote &&
                 <span className="mr-2">
                   <LabelIcon/>
                 </span>

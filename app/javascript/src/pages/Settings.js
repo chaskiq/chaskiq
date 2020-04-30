@@ -123,7 +123,7 @@ class AppSettingsContainer extends Component {
         type: "string",
         label: "Domain URL",
         hint: "This will be the host site were chaskiq will be used",
-        grid: { xs: "w-1/2", sm: "w-1/2" },
+        grid: { xs: "w-full", sm: "w-1/2" },
       },
       {
         name: "outgoingEmailDomain",
@@ -131,7 +131,7 @@ class AppSettingsContainer extends Component {
         hint:
           "The email domain to send conversations, for @yourapp use 'your app'",
         type: "string",
-        grid: { xs: "w-1/2", sm: "w-1/2" },
+        grid: { xs: "w-full", sm: "w-1/2" },
       },
 
       {
@@ -139,7 +139,7 @@ class AppSettingsContainer extends Component {
         type: "text",
         label: "talgline",
         hint: "Messenger text on botton",
-        grid: { xs: "w-1/2", sm: "w-1/2" },
+        grid: { xs: "w-full", sm: "w-1/2" },
       },
 
       {
@@ -148,7 +148,7 @@ class AppSettingsContainer extends Component {
         label: "App's timezone",
         options: timezones,
         multiple: false,
-        grid: { xs: "w-1/2", sm: "w-1/2" },
+        grid: { xs: "w-full", sm: "w-1/2" },
       },
       {
         name: "gatherSocialData",
@@ -156,7 +156,7 @@ class AppSettingsContainer extends Component {
         label: "Collect social data about your users",
         hint:
           "Collect social profiles via fullcontact service (e.g. LinkedIn, Twitter, etc.) for my users via a third party",
-        grid: { xs: "w-1/2", sm: "w-1/2" },
+        grid: { xs: "w-full", sm: "w-1/2" },
       },
       {
         name: "registerVisits",
@@ -164,7 +164,7 @@ class AppSettingsContainer extends Component {
         type: "bool",
         hint:
           "Even if this is disabled we will collect global counter of visits and store the last visit information on visitor's profile",
-        grid: { xs: "w-1/2", sm: "w-1/2" },
+        grid: { xs: "w-full", sm: "w-1/2" },
       },
     ];
   };

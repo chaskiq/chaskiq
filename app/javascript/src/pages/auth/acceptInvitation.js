@@ -1,21 +1,17 @@
 import React, { useState } from 'react'
 import { connect } from 'react-redux'
-import { Link } from 'react-router-dom'
-import Avatar from '../../components/Avatar'
+
 import Button from '../../components/Button'
 import TextField from '../../components/forms/Input'
 import Container from '../../components/Content'
 import axios from 'axios'
 import { getCurrentUser } from '../../actions/current_user'
 import {
-  successAuthentication,
-  authenticate,
-  signout
+  successAuthentication
 } from '../../actions/auth'
 import logo from '../../images/logo.png'
 import Snackbar from '../../components/Alert'
 import queryString from 'query-string'
-import { Redirect } from 'react-router'
 
 function MadeWithLove () {
   return (

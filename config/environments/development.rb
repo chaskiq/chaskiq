@@ -21,14 +21,16 @@ Rails.application.configure do
 
   config.action_mailer.preview_path = "#{Rails.root}/spec/mailers/previews"
 
-
-  Rails.application.routes.default_url_options = { host: 'http://localhost:3000' }
-  config.action_controller.default_url_options = { host: 'http://localhost:3000' }
-  config.action_mailer.default_url_options = { host: 'http://localhost:3000' }
+  host = ENV.fetch('HOST'){ "http://localhost:3000" }
+  ws   = ENV.fetch('WS') { 'ws://locahost:3000/cable' }
+  
+  Rails.application.routes.default_url_options = { host: host }
+  config.action_controller.default_url_options = { host: host }
+  config.action_mailer.default_url_options = { host: host }
 
   # config.action_cable.url = "ws://localhost:3334/cable"
-  config.action_cable.url = 'ws://localhost:3000/cable'
-  config.action_cable.allowed_request_origins = ['http://localhost:3000', 'http://127.0.0.1:3000']
+  config.action_cable.url = ws
+  config.action_cable.allowed_request_origins = [host, 'http://127.0.0.1:3000']
 
   # Enable/disable caching. By default caching is disabled.
   # Run rails dev:cache to toggle caching.
@@ -84,7 +86,7 @@ Rails.application.configure do
 
   config.action_mailer.perform_deliveries = false
   config.action_mailer.delivery_method = :ses
-  config.action_controller.asset_host = 'http://localhost:3000/'
+  config.action_controller.asset_host = host
 
 
   # ACTIVE JOB 

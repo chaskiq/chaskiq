@@ -1,5 +1,5 @@
 import React from 'react'
-import { Switch, Route, Link, withRouter } from 'react-router-dom'
+import { Switch, Route, withRouter } from 'react-router-dom'
 
 import { connect } from 'react-redux'
 import { isEmpty } from 'lodash'
@@ -12,8 +12,6 @@ import {
 
 import FilterMenu from '../components/FilterMenu'
 
-import styled from '@emotion/styled'
-
 import UserData from '../components/UserData'
 import ConversationItemList from '../components/conversations/ItemList'
 import AssignmentRules from '../components/conversations/AssignmentRules'
@@ -22,7 +20,6 @@ import Progress from '../components/Progress'
 import EmptyView from '../components/EmptyView'
 import Button from '../components/Button'
 import emptyImage from '../images/empty-icon8.png'
-
 // import {toCamelCase} from '../shared/caseConverter'
 
 function Conversations ({
@@ -126,7 +123,7 @@ function Conversations ({
     return (
       <React.Fragment>
 
-        <div className="bg-white px-3 py-4 border-b border-gray-200 sm:px-3 flex justify-between">
+        <div className="bg-white px-3 py-3 border-b border-gray-200 sm:px-3 flex justify-between">
           <FilterMenu
             options={[
               { id: 'opened', name: 'opened', count: 1, icon: null },

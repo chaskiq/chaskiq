@@ -1,6 +1,6 @@
 import styled from '@emotion/styled'
 
-import React, { useState } from 'react'
+import React from 'react'
 
 // taken from https://codepen.io/sabin42/pen/odjvKy
 const LoadingWrapper = styled.div`

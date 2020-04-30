@@ -1,8 +1,8 @@
 import React, { useRef } from 'react'
 import { connect } from 'react-redux'
 // import { Redirect } from 'react-router-dom'
-import { authenticate, signout } from '../../actions/auth'
-import { getCurrentUser } from '../../actions/current_user'
+import { authenticate } from '../../actions/auth'
+
 import logo from '../../images/logo.png'
 import serialize from 'form-serialize'
 

@@ -1,5 +1,5 @@
 import styled from '@emotion/styled'
-import { math, opacify } from 'polished'
+import { opacify } from 'polished'
 
 export const InlinetooltipWrapper = styled.div`
   // BASE

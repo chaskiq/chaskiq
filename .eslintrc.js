@@ -27,12 +27,14 @@ module.exports = {
     "unused-imports/no-unused-imports": 2,
     "unused-imports/no-unused-vars": 1
   },
-  "overrides": [
+
+  /*"overrides": [
     {
+      "files": ['./app/javascript/*.js'],
       "excludedFiles": "./app/javascript/src/graphql/*.js",
       "rules": {
         "quotes": ["error", "single"]
       }
     }
-  ]
+  ]*/
 }

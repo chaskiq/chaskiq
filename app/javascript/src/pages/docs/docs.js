@@ -1,16 +1,12 @@
 import React from 'react'
 import graphql from '../../graphql/client'
 import {
-  ARTICLE_SETTINGS,
-  ARTICLE_COLLECTION_WITH_SECTIONS,
-  ARTICLE_COLLECTIONS,
-  ARTICLE,
-  SEARCH_ARTICLES
+  ARTICLE_SETTINGS
 } from '../../graphql/docsQueries'
 
 import CustomizedInputBase from './searchBar'
 import danteTheme from '../../components/textEditor/theme'
-import Container from '../../components/Content'
+
 import Article from './article'
 import CollectionsWithSections from './collectionSections'
 import Button from '../../components/Button'
@@ -22,11 +18,10 @@ import { LangGlobeIcon, LaunchIcon } from '../../components/icons'
 import { Facebook, Twitter, LinkedIn } from './icons'
 
 import {
-  BrowserRouter,
+
   Route,
   Switch,
-  Link,
-  withRouter
+  Link
 } from 'react-router-dom'
 import { Global, css } from '@emotion/core'
 

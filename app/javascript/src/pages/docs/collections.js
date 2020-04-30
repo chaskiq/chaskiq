@@ -1,13 +1,10 @@
 import React from 'react'
 import graphql from '../../graphql/client'
 import {
-  ARTICLE_SETTINGS,
-  ARTICLE_COLLECTION_WITH_SECTIONS,
-  ARTICLE_COLLECTIONS,
-  ARTICLE,
-  SEARCH_ARTICLES
+
+  ARTICLE_COLLECTIONS
 } from '../../graphql/docsQueries'
-import Container from '../../components/Content'
+
 import Card from '../../components/Card'
 
 import { Link } from 'react-router-dom'
