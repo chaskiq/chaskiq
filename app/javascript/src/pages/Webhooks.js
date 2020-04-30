@@ -291,7 +291,7 @@ function Settings ({ app, dispatch }) {
                 <div className="pb-2 pt-2">
                   <Panel
                     title={'Active Webhooks'}
-                    text={'lorem bobob'}
+                    text={'Webhooks feature it\'s all about delivering notifications of chaskiq events'}
                     variant="shadowless"
                   />
                 </div>
