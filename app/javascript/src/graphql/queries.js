@@ -1,13 +1,12 @@
-/* eslint-disable semi */
 export const APPS = `
-  query Apps{
-    apps{
-      key
-      name
-      state
-      tagline
-    }  
-  }
+query Apps{
+  apps{
+    key
+    name
+    state
+    tagline
+  }  
+}
 `;
 
 export const APP = `
@@ -154,6 +153,7 @@ export const SEGMENT = `
   }
 `;
 
+
 export const CONVERSATIONS = `
   query App($appKey: String!, $page: Int!, $sort: String, $filter: String){
     app(key: $appKey) {
@@ -215,7 +215,7 @@ export const CONVERSATIONS = `
   }
 `;
 
-export const CONVERSATION = `
+export const CONVERSATION=`
   query App($appKey: String!, $id: String!, $page: Int){
     app(key: $appKey) {
       encryptionKey
@@ -281,9 +281,9 @@ export const CONVERSATION = `
     }
   }
 }
-`
+`;
 
-export const CONVERSATION_WITH_LAST_MESSAGE = `
+export const CONVERSATION_WITH_LAST_MESSAGE=`
   query App($appKey: String!, $id: String!){
     app(key: $appKey) {
       encryptionKey
@@ -335,6 +335,8 @@ export const CONVERSATION_WITH_LAST_MESSAGE = `
   }
 `;
 
+
+
 export const CURRENT_USER = `
   query CurrentUser {
     userSession {
@@ -381,9 +383,9 @@ query AppUser($appKey: String!, $id: Int! ) {
     }
   }
 }
-`
+`;
 
-export const APP_USER_CONVERSATIONS = `
+export const APP_USER_CONVERSATIONS=`
 query Campaigns($appKey: String!, $id: Int!, $page: Int, $per: Int){
   app(key: $appKey ){
     name
@@ -424,9 +426,9 @@ query Campaigns($appKey: String!, $id: Int!, $page: Int, $per: Int){
     } 
   }
 }
-`
+`;
 
-export const APP_USER_VISITS = `
+export const APP_USER_VISITS=`
 query AppUserVisits($appKey: String!, $id: Int!, $page: Int, $per: Int){
   app(key: $appKey ){
     name
@@ -448,7 +450,7 @@ query AppUserVisits($appKey: String!, $id: Int!, $page: Int, $per: Int){
     } 
   }
 }
-`
+`;
 
 export const CAMPAIGNS = `
 query Campaigns($appKey: String!, $mode: String!){
@@ -475,7 +477,7 @@ query Campaigns($appKey: String!, $mode: String!){
     }
   }
 }
-`
+`;
 
 export const CAMPAIGN = `
 query Campaign($appKey: String!, $mode: String!, $id: String!){
@@ -503,7 +505,7 @@ query Campaign($appKey: String!, $mode: String!, $id: String!){
     }
   }
 }
-`
+`;
 
 export const CAMPAIGN_METRICS = `
 query Campaign($appKey: String!, $mode: String!, $id: String!, $page: Int, $per: Int){
@@ -527,7 +529,7 @@ query Campaign($appKey: String!, $mode: String!, $id: String!, $page: Int, $per:
     }
   }
 }
-`
+`;
 
 export const ASSIGNMENT_RULES = `
   query AssingmentRules($appKey: String!){
@@ -660,6 +662,7 @@ export const ARTICLE = `
   }
 `;
 
+
 export const ARTICLE_COLLECTIONS = `
   query ArticleCollections($appKey: String!, $lang: String){
     app(key: $appKey){
@@ -727,6 +730,7 @@ export const ARTICLE_COLLECTION_WITH_SECTIONS = `
     }
   }
 `;
+
 
 export const BOT_TASKS = `
   query BotTasks($appKey: String!, $lang: String, $mode: String){
@@ -825,6 +829,7 @@ export const OUTGOING_WEBHOOKS = `
   }
 `;
 
+
 export const EDITOR_APP_PACKAGES = `
   query App($appKey: String!){
     app(key: $appKey) {
@@ -855,3 +860,6 @@ export const APP_PACKAGE_INTEGRATIONS = `
     }
   }
 `;
+
+
+

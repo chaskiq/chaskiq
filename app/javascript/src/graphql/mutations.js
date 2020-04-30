@@ -1,4 +1,3 @@
-/* eslint-disable semi */
 export const UPDATE_APP = `
   mutation AppsUpdate($appKey: String!, $appParams: Json!){
     appsUpdate(appKey: $appKey, appParams: $appParams){
@@ -692,6 +691,7 @@ export const PREDICATES_CREATE = `
   }
 `;
 
+
 export const PREDICATES_UPDATE = `
   mutation PredicatesUpdate($appKey: String!, $predicates: Json!, $id: Int){
     predicatesUpdate(appKey: $appKey, predicates: $predicates, id: $id){
@@ -920,6 +920,7 @@ export const REORDER_ARTICLE = `
   }
 `;
 
+
 export const ARTICLE_COLLECTION_CREATE = `
   mutation ArticleCollectionCreate($appKey: String!, $title: String!, $description: String){
     articleCollectionCreate( 
@@ -1114,6 +1115,9 @@ export const ARTICLE_SETTINGS_DELETE_LANG = `
   }
 `;
 
+
+
+
 export const CREATE_BOT_TASK = `
   mutation CreateBotTask($appKey: String!, $params: Json!){
     createBotTask( 
@@ -1177,6 +1181,9 @@ export const DELETE_BOT_TASK = `
     }
   }
 `;
+
+
+
 
 export const CREATE_INTEGRATION = `
   mutation CreateIntegration($appKey: String!, $appPackage: String! , $params: Json!){
