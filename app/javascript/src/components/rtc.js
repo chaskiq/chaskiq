@@ -170,7 +170,8 @@ export function RtcView (props) {
           setStreamUrl(stream)
           localVideo.current.srcObject = stream;
           localVideo.current.muted = true
-          localVideo.current.setAttribute('muted', true)
+          localVideo.current.setAttribute('muted', 'muted')
+          localVideo.current.volume = 0;
           resolve();
         },
         () => {  }
@@ -396,7 +397,10 @@ export function RtcView (props) {
               <CallIcon style={{ height: '30px', width: '30px' }}/>
             </button>
             <button
-              onClick={() => props.toggleVideoSession() }
+              onClick={() => {
+                props.toggleVideoSession()
+                closePeers()
+              } }
               style={{ color: 'white', backgroundColor: 'red', border: 'none' }}>
               <CallEndIcon style={{ height: '30px', width: '30px' }}/>
             </button>
@@ -468,6 +472,7 @@ export function RtcView (props) {
               onClick={()=>{ 
                 stopUserMedia()
                 setCallStarted(false)
+                closePeers()
                 props.toggleVideoSession()
               }
               }
