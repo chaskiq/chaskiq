@@ -26,7 +26,7 @@ export default function Panel ({ title, text, variant }) {
             href="#"
             className="font-medium text-indigo-600 hover:text-indigo-500 transition ease-in-out duration-150"
           >
-            Learn more about our CI features →
+            Learn more about our webhook feature →
           </a>
         </div>
       </div>
