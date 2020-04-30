@@ -170,6 +170,7 @@ export function RtcView (props) {
           setStreamUrl(stream)
           localVideo.current.srcObject = stream;
           localVideo.current.muted = true
+          localVideo.current.setAttribute('muted', true)
           resolve();
         },
         () => {  }
