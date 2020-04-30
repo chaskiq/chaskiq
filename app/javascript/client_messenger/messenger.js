@@ -1137,7 +1137,7 @@ class Messenger extends Component {
                                     {
                                       this.state.appData.logo && 
                                         <img style={{height: 50, width: 50}} 
-                                          src={this.props.domain + this.state.appData.logo}
+                                          src={this.state.appData.logo}
                                         />
                                     }
                                     <h2 className={'title'}>

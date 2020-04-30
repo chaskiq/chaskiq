@@ -468,7 +468,7 @@ export function RtcView (props) {
       !initiator && callStarted &&
       createPortal(
         <div id="call-status">
-          <p>hay un wn llamandooo {callStarted ? 'si' : 'no'}</p>
+          <p>Hey! an agent is calling you</p>
           <div className="call-buttons">
             <button
               style={{ color: 'white', backgroundColor: 'green', border: 'none' }}
@@ -494,13 +494,13 @@ export function RtcView (props) {
           <div className="call-buttons">
 
             <button
-              onClick={props.toggleVideo}
+              onClick={()=> props.toggleVideo()}
               style={{ color: `${props.rtcVideo ? 'green' : 'gray' }` }}>
               <CameraIcon/>
             </button>
 
             <button
-              onClick={props.toggleAudio}
+              onClick={()=> props.toggleAudio()}
               style={{ color: `${props.rtcAudio ? 'green' : 'gray' }` }}>
               <MicIcon/>
             </button>
