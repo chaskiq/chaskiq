@@ -1442,6 +1442,7 @@ const FrameChild = ({
         localVideoElement={'localVideo'}
         remoteVideoElement={'remoteVideo'}
         callStatusElement={'callStatus'}
+        callButtonsElement={'callButtons'}
         current_user={{ email: props.session_id }}
         rtc={state.rtc}
         handleRTCMessage={( data ) => { debugger }}
