@@ -1,4 +1,3 @@
-import actionTypes from '../constants/action_types'
 
 export function toggleTheme (data, cb) {
   return (dispatch, getState) => {

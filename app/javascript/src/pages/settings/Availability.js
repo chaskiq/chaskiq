@@ -3,7 +3,7 @@ import I18n from '../../shared/FakeI18n'
 import Tooltip from 'rc-tooltip'
 
 import Button from '../../components/Button'
-import Table from '../../components/Table'
+
 import { PlusIcon, DeleteIcon } from '../../components/icons'
 import Input from '../../components/forms/Input'
 // const options = I18n.t("settings.availability.reply_time.options")

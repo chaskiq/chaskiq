@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from 'react'
+import React from 'react'
 
 import { withRouter, Link } from 'react-router-dom'
 import { connect } from 'react-redux'
@@ -10,6 +10,9 @@ import { last } from 'lodash'
 import Moment from 'react-moment'
 import { toCamelCase } from '../../shared/caseConverter'
 import ConversationEditor from './Editor.js'
+import Rtc from '../rtc'
+import { updateRtcEvents} from '../../actions/rtc'
+
 
 import {
   getConversation,
@@ -17,9 +20,7 @@ import {
   insertComment,
   insertAppBlockComment,
   insertNote,
-  setLoading,
   clearConversation,
-  appendMessage,
   updateConversationState,
   updateConversationPriority,
   assignAgent
@@ -27,8 +28,24 @@ import {
 
 import { AGENTS } from '../../graphql/queries'
 
-import { CheckmarkIcon, PinIcon, LeftArrow } from '../icons'
-import Dropdown from '../Dropdown'
+import { 
+  CheckmarkIcon,
+  PinIcon,
+  LeftArrow,
+  CallEnd,
+  Call,
+  MicIcon,
+  MicOffIcon,
+  CameraIcon,
+  CameraOffIcon,
+  FullScreenIcon,
+  FullScreenExitIcon,
+  ScreenShareIcon,
+  ScreenShareExitIcon,
+  MoreIcon,
+  WebhooksIcon
+} from '../icons'
+
 import { getAppUser } from '../../actions/app_user'
 
 import FilterMenu from '../FilterMenu'
@@ -39,7 +56,7 @@ import EditorContainer from '../textEditor/editorStyles'
 import DraftRenderer from '../textEditor/draftRenderer'
 import styled from '@emotion/styled'
 import { setCurrentPage, setCurrentSection } from '../../actions/navigation'
-import Button from '../../components/Button'
+import RtcDisplayWrapper, {ModalWrapper} from '../../../client_messenger/rtcView' //'./RtcWrapper'
 
 const EditorContainerMessageBubble = styled(EditorContainer)`
   // this is to fix the image on message bubbles
@@ -53,6 +70,9 @@ const EditorContainerMessageBubble = styled(EditorContainer)`
 
 const BgContainer = styled.div`
   //background-color: #DFDBE5;
+  background-image: radial-gradient(currentColor 2px, transparent 2px),radial-gradient(currentColor 2px, transparent 2px);
+  background-size: calc(20 * 2px) calc(20 * 2px);
+  background-position: 0 0,calc(10 * 2px) calc(10 * 2px);
 `
 
 function Conversation ({
@@ -74,6 +94,11 @@ function Conversation ({
   const { mainParticipant } = conversation
 
   const [agents, setAgents] = React.useState([])
+
+  const [rtcAudio, setRtcAudio] = React.useState(true)
+  const [rtcVideo, setRtcVideo] = React.useState(true)
+  const [expand, setExpand] = React.useState(false)
+  const [videoSession, setVideoSession] = React.useState(false)
 
   console.log('LENGHT:', messagesLength)
 
@@ -170,8 +195,6 @@ function Conversation ({
       id: matchId
     }
 
-    console.log('AAAA', opts)
-
     const lastItem = last(conversation.collection)
 
     dispatch(
@@ -261,8 +284,8 @@ function Conversation ({
       id={`message-id-${message.id}`}
       className={`flex items-start py-2 text-sm ${flow}`}
       key={`conversations-messages/${message.id}`}>
-      { 
-        userOrAdmin === "user" && <img
+      {
+        userOrAdmin === 'user' && <img
           alt={message.appUser.displayName}
           src={message.appUser.avatarUrl}
           className={`w-10 h-10 rounded ${avatarM}`}
@@ -348,7 +371,7 @@ function Conversation ({
 
     // if(!o.fromBot) return
 
-    let blockElement 
+    let blockElement
 
     switch (item.element) {
       case 'button':
@@ -357,7 +380,7 @@ function Conversation ({
             <strong>reply button:</strong>
             {item.label}
           </p>
-        
+
         break
       default:
         if (blocks.type === 'app_package') {
@@ -368,19 +391,19 @@ function Conversation ({
           }) */
 
           blockElement = <div>
-              <p variant="overline">{blocks.appPackage}</p>
+            <p variant="overline">{blocks.appPackage}</p>
 
-              <br />
+            <br />
 
-              <p variant={'caption'}>
-                {data && (
-                  <span
-                    dangerouslySetInnerHTML={{ __html: data.formattedText }}
-                  />
-                )}
-              </p>
-            </div>
-          
+            <p variant={'caption'}>
+              {data && (
+                <span
+                  dangerouslySetInnerHTML={{ __html: data.formattedText }}
+                />
+              )}
+            </p>
+          </div>
+
           break
         }
 
@@ -393,12 +416,12 @@ function Conversation ({
             )
           })
 
-          blockElement = 
+          blockElement =
             <React.Fragment>
               <strong>replied:</strong>
               {dataList}
             </React.Fragment>
-            break
+          break
         } else {
           blockElement = <p>{JSON.stringify(o.message.data)}</p>
           break
@@ -408,7 +431,7 @@ function Conversation ({
     return (
       <div
         id={`message-id-${message.id}`}
-        className={`flex items-start py-2 text-sm`}
+        className={'flex items-start py-2 text-sm'}
         key={`conversations-messages/${message.id}`}>
 
         <div
@@ -420,7 +443,7 @@ function Conversation ({
         >
           <div className="flex flex-col justify-between">
 
-            <span className={`text-xs text-center`}>
+            <span className={'text-xs text-center'}>
               <Moment fromNow ago>
                 {message.createdAt}
               </Moment>
@@ -444,14 +467,13 @@ function Conversation ({
   }
 
   const renderEventBlock = (o) => {
-
     const message = o
     const messageContent = o.message
 
     return (
       <div
         id={`message-id-${message.id}`}
-        className={`flex items-start py-2 text-sm`}
+        className={'flex items-start py-2 text-sm'}
         key={`conversations-messages/${message.id}`}>
 
         <div
@@ -463,7 +485,7 @@ function Conversation ({
         >
           <div className="flex flex-col justify-between">
 
-            <span className={`text-xs text-center`}>
+            <span className={'text-xs text-center'}>
               <Moment fromNow ago>
                 {message.createdAt}
               </Moment>
@@ -492,7 +514,7 @@ function Conversation ({
 
   return (
     <BgContainer className="flex-1 flex flex-col overflow-hidden--">
-      <div className="border-b flex px-6 py-2 items-center flex-none bg-white">
+      <div className="border-b flex px-6 py-3 items-center flex-none bg-white">
         <div className="flex">
           <Link
             to={`/apps/${app.key}/conversations`}
@@ -538,6 +560,54 @@ function Conversation ({
               <CheckmarkIcon variant="rounded" />
             </button>
           </Tooltip>
+
+          <Tooltip
+            placement="bottom"
+            overlay={ videoSession ? 'end call' : 'start call'}
+          >
+            <button
+              className="mr-1 rounded-full bg-white hover:bg-gray-100 text-gray-800 font-semibold border border-gray-400 rounded shadow"
+              onClick={() => setVideoSession(!videoSession)}>
+              { videoSession ? <CallEnd variant="rounded"/> : <Call variant="rounded"/> }
+            </button>
+          </Tooltip>
+
+          <ModalWrapper expanded={expand} videoSession={videoSession}>
+
+            <RtcDisplayWrapper
+              videoSession={videoSession}
+              relativePosition={true}
+              toggleVideo={() => setRtcVideo(!rtcVideo)}
+              toggleAudio={() => setRtcAudio(!rtcAudio)}
+              rtcVideo={rtcVideo}
+              rtcAudio={rtcAudio}
+              expand={expand}
+              setExpand={setExpand}
+              setVideoSession={()=> setVideoSession(!videoSession)}
+            />
+          </ModalWrapper>
+
+          <div id="button-element" className="hidden"></div>
+
+          {
+            events && <Rtc
+              buttonElement={'button-element'}
+              callInitiatorElement={'callInitiator'}
+              callButtonsElement={'callButtons'}
+              infoElement={'info'}
+              localVideoElement={'localVideo'}
+              remoteVideoElement={'remoteVideo'}
+              handleRTCMessage={( data ) => { debugger }}
+              onCloseSession={()=> updateRtcEvents({}) }
+              toggleVideoSession={ () => setVideoSession(!videoSession)}
+              video={videoSession}
+              rtcVideo={rtcVideo}
+              rtcAudio={rtcAudio}
+              events={events}
+            />
+          }
+
+          
 
           <Tooltip
             placement="bottom"
@@ -601,7 +671,6 @@ function Conversation ({
                 : 'user'
             const appuserId = conversation.mainParticipant.id
 
-
             return (
               <MessageItemWrapper
                 key={`message-item-${conversation.key}-${message.id}`}
@@ -620,7 +689,6 @@ function Conversation ({
                       : theme
                   }
                 >
-
 
                   {
                     message.message.blocks
@@ -656,6 +724,8 @@ function Conversation ({
     </BgContainer>
   )
 }
+
+
 
 function MessageItemWrapper ({ conversation, data, events, children }) {
   React.useEffect(() => {

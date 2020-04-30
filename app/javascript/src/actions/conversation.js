@@ -1,7 +1,7 @@
 import ActionTypes from '../constants/action_types'
 import graphql from '../graphql/client'
 
-import { CONVERSATION, AGENTS } from '../graphql/queries'
+import { CONVERSATION } from '../graphql/queries'
 
 import {
   INSERT_COMMMENT,
@@ -124,7 +124,6 @@ export function insertComment (comment, cb) {
 }
 
 export function insertAppBlockComment (comment, cb) {
-
   return (dispatch, getState) => {
     const blocks = {
       type: 'app_package',
@@ -183,7 +182,7 @@ export function appendMessage (data, cb) {
 
     // update existing message
     if (getState().conversation.collection.find((o) => o.id === newData.id)) {
-      const new_collection = getState().conversation.collection.map((o) => {
+      const newCollection = getState().conversation.collection.map((o) => {
         if (o.id === newData.id) {
           return newData
         } else {
@@ -192,7 +191,7 @@ export function appendMessage (data, cb) {
       })
 
       const newMessages = Object.assign({}, getState().conversation, {
-        collection: new_collection
+        collection: newCollection
       })
 
       dispatch(dispatchGetConversations(newMessages))

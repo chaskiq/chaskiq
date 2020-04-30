@@ -70,10 +70,10 @@ class App extends React.Component {
                             const subdomain = window.location.hostname.split(
                                 '.'
                             )
-                            console.log(
+                            /*console.log(
                                 this.chaskiqHost,
                                 window.location.hostname
-                            )
+                            )*/
                             if (
                                 this.chaskiqHost &&
                                 this.chaskiqHost != window.location.hostname

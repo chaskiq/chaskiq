@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react'
 import { isEmpty } from 'lodash'
-import { Switch, Route, Link, withRouter } from 'react-router-dom'
+import { withRouter } from 'react-router-dom'
 
 import { connect } from 'react-redux'
 import Content from '../components/Content'
@@ -20,7 +20,7 @@ import { EditIcon, AddIcon, DeleteIcon, HomeIcon } from '../components/icons'
 import FormDialog from '../components/FormDialog'
 import Button from '../components/Button'
 import Badge from '../components/Badge'
-import FieldRenderer, {gridClasses} from '../components/forms/FieldRenderer'
+import FieldRenderer, { gridClasses } from '../components/forms/FieldRenderer'
 import graphql from '../graphql/client'
 
 import { EVENT_TYPES, OUTGOING_WEBHOOKS } from '../graphql/queries'
@@ -365,11 +365,11 @@ function Settings ({ app, dispatch }) {
             <form ref={form}>
               {definitions().map((field) => {
                 return (
-                  <div 
+                  <div
                     className={`${gridClasses(field)} py-2 pr-2`}
 
-                    key={field.name} 
-                    xs={field.grid.xs} 
+                    key={field.name}
+                    xs={field.grid.xs}
                     sm={field.grid.sm}>
                     <FieldRenderer
                       namespace={'app'}

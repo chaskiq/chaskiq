@@ -1,13 +1,14 @@
 // src/App.js
 import React from 'react'
 import Card from '../components/Card'
-import { Switch, Route, Link, withRouter } from 'react-router-dom'
+import { Link, withRouter } from 'react-router-dom'
 
 import bg from '../images/bg/welcome-icon8.png'
 
 import styled from '@emotion/styled'
 import graphql from '../graphql/client'
 import { APPS } from '../graphql/queries'
+import LoadingView from '../components/loadingView'
 
 import { connect } from 'react-redux'
 import { setCurrentSection } from '../actions/navigation'
@@ -22,6 +23,7 @@ const Container = styled.div`
 
 function App ({ dispatch, loading }) {
   const [apps, setApps] = React.useState([])
+  const [ready, setReady] = React.useState(false)
 
   React.useEffect(() => {
     dispatch(setCurrentSection(null))
@@ -31,6 +33,7 @@ function App ({ dispatch, loading }) {
       {
         success: (data) => {
           setApps(data.apps)
+          setReady(true)
         },
         error: (error) => {}
       }
@@ -39,7 +42,7 @@ function App ({ dispatch, loading }) {
 
   return (
     <Container className="h-screen flex overflow-hidden bg-white">
-      {loading && <LoadingView />}
+      {loading || !ready && <LoadingView />}
 
       <div className="flex flex-col w-0 flex-1 overflow-hidden">
         <div className="md:hidden pl-1 pt-1 sm:pl-3 sm:pt-3">

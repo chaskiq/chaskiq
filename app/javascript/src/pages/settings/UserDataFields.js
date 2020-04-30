@@ -5,7 +5,7 @@ import Button from '../../components/Button'
 import { withRouter } from 'react-router-dom'
 import { connect } from 'react-redux'
 import FormDialog from '../../components/FormDialog'
-import Content from '../../components/Content'
+
 import List, {
   ListItem,
   ListItemText,
@@ -122,8 +122,8 @@ function CustomizationColors ({ app, settings, update, dispatch }) {
         </p>
 
         <div className="flex w-1/4 justify-end">
-          <Button onClick={addField} 
-            edge="end" variant="icon" 
+          <Button onClick={addField}
+            edge="end" variant="icon"
             aria-label="add">
             <PlusIcon />
           </Button>
