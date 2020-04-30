@@ -1,13 +1,14 @@
+/* eslint-disable semi */
 export const APPS = `
-query Apps{
-  apps{
-    key
-    name
-    state
-    tagline
-  }  
-}
-`
+  query Apps{
+    apps{
+      key
+      name
+      state
+      tagline
+    }  
+  }
+`;
 
 export const APP = `
   query App($appKey: String!){
@@ -46,7 +47,7 @@ export const APP = `
       tagline
     }
   }
-`
+`;
 
 export const AGENTS = `
   query App($appKey: String!){
@@ -62,7 +63,7 @@ export const AGENTS = `
       }
     }
   }
-`
+`;
 
 export const PENDING_AGENTS = `
   query App($appKey: String!){
@@ -79,7 +80,7 @@ export const PENDING_AGENTS = `
       }
     }
   }
-`
+`;
 
 export const AGENT = `
   query App($appKey: String!, $id: Int!, $page: Int, $per: Int){
@@ -134,7 +135,7 @@ export const AGENT = `
       }
     }
   }
-`
+`;
 
 export const SEGMENT = `
   query App($appKey: String!, $id: Int!){
@@ -151,7 +152,7 @@ export const SEGMENT = `
       }
     }
   }
-`
+`;
 
 export const CONVERSATIONS = `
   query App($appKey: String!, $page: Int!, $sort: String, $filter: String){
@@ -212,7 +213,7 @@ export const CONVERSATIONS = `
       }
     }
   }
-`
+`;
 
 export const CONVERSATION = `
   query App($appKey: String!, $id: String!, $page: Int){
@@ -332,7 +333,7 @@ export const CONVERSATION_WITH_LAST_MESSAGE = `
       }
     }
   }
-`
+`;
 
 export const CURRENT_USER = `
   query CurrentUser {
@@ -341,7 +342,7 @@ export const CURRENT_USER = `
       avatarUrl
     }
   }
-`
+`;
 
 export const APP_USER = `
 query AppUser($appKey: String!, $id: Int! ) {
@@ -544,7 +545,7 @@ export const ASSIGNMENT_RULES = `
       }
     }
   }
-`
+`;
 
 export const ARTICLE_SETTINGS = `
   query App($appKey: String!){
@@ -569,7 +570,7 @@ export const ARTICLE_SETTINGS = `
       }
     }
   }
-`
+`;
 
 export const ARTICLES = `
   query App($appKey: String!, $page: Int!, $per: Int, $lang: String, $mode: String){
@@ -598,7 +599,7 @@ export const ARTICLES = `
       }
     }
   }
-`
+`;
 
 export const ARTICLES_UNCATEGORIZED = `
   query App($appKey: String!, $page: Int!, $per: Int){
@@ -626,7 +627,7 @@ export const ARTICLES_UNCATEGORIZED = `
       }
     }
   }
-`
+`;
 
 export const ARTICLE = `
   query App($appKey: String!, $id: String!, $lang: String){
@@ -657,7 +658,7 @@ export const ARTICLE = `
       }
     }
   }
-`
+`;
 
 export const ARTICLE_COLLECTIONS = `
   query ArticleCollections($appKey: String!, $lang: String){
@@ -670,7 +671,7 @@ export const ARTICLE_COLLECTIONS = `
       }
     }
   }
-`
+`;
 
 export const ARTICLE_COLLECTION = `
   query ArticleCollections($appKey: String!, $id: String!, $lang: String){
@@ -683,7 +684,7 @@ export const ARTICLE_COLLECTION = `
       }
     }
   }
-`
+`;
 
 export const ARTICLE_COLLECTION_WITH_SECTIONS = `
   query ArticleCollections($appKey: String!, $id: String!, $lang: String){
@@ -725,7 +726,7 @@ export const ARTICLE_COLLECTION_WITH_SECTIONS = `
       }
     }
   }
-`
+`;
 
 export const BOT_TASKS = `
   query BotTasks($appKey: String!, $lang: String, $mode: String){
@@ -737,7 +738,7 @@ export const BOT_TASKS = `
       }
     }
   }
-`
+`;
 
 export const BOT_TASK = `
   query BotTask($appKey: String!, $id: String!, $lang: String){
@@ -759,7 +760,7 @@ export const BOT_TASK = `
       }
     }
   }
-`
+`;
 
 export const BOT_TASK_METRICS = `
   query BotTask($appKey: String!, $id: String!, $lang: String,  $page: Int, $per: Int){
@@ -784,7 +785,7 @@ export const BOT_TASK_METRICS = `
       }
     }
   }
-`
+`;
 
 export const DASHBOARD = `
   query Dashboard($appKey: String!, $range: Json!, $kind: String! )  {
@@ -792,7 +793,7 @@ export const DASHBOARD = `
       dashboard(range: $range, kind: $kind)
     }
   }
-`
+`;
 
 export const APP_PACKAGES = `
   query App($appKey: String!){
@@ -806,7 +807,7 @@ export const APP_PACKAGES = `
       }
     }
   }
-`
+`;
 
 export const EVENT_TYPES = `
   query App($appKey: String!){
@@ -814,7 +815,7 @@ export const EVENT_TYPES = `
       eventTypes
     }
   }
-`
+`;
 
 export const OUTGOING_WEBHOOKS = `
   query App($appKey: String!){
@@ -822,7 +823,7 @@ export const OUTGOING_WEBHOOKS = `
       outgoingWebhooks
     }
   }
-`
+`;
 
 export const EDITOR_APP_PACKAGES = `
   query App($appKey: String!){
@@ -837,7 +838,7 @@ export const EDITOR_APP_PACKAGES = `
       }
     }
   }
-`
+`;
 
 export const APP_PACKAGE_INTEGRATIONS = `
   query App($appKey: String!){
@@ -853,4 +854,4 @@ export const APP_PACKAGE_INTEGRATIONS = `
       }
     }
   }
-`
+`;
