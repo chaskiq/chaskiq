@@ -148,7 +148,7 @@ function Conversations ({
           />
         </div>
 
-        <div className="overflow-scroll">
+        <div className="overflow-scroll" style={{height: 'calc(100vh - 60px)'}}>
           {conversations.collection.map((o) => {
             const user = o.mainParticipant
             return (

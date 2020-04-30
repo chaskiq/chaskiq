@@ -600,6 +600,8 @@ function Conversation ({
               handleRTCMessage={( data ) => { debugger }}
               onCloseSession={()=> updateRtcEvents({}) }
               toggleVideoSession={ () => setVideoSession(!videoSession)}
+              toggleVideo={() => setRtcVideo(!rtcVideo)}
+              toggleAudio={() => setRtcAudio(!rtcAudio)}
               video={videoSession}
               rtcVideo={rtcVideo}
               rtcAudio={rtcAudio}
