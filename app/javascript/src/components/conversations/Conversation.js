@@ -70,6 +70,9 @@ const EditorContainerMessageBubble = styled(EditorContainer)`
 
 const BgContainer = styled.div`
   //background-color: #DFDBE5;
+  background-image: radial-gradient(currentColor 2px, transparent 2px),radial-gradient(currentColor 2px, transparent 2px);
+  background-size: calc(20 * 2px) calc(20 * 2px);
+  background-position: 0 0,calc(10 * 2px) calc(10 * 2px);
 `
 
 function Conversation ({
@@ -511,7 +514,7 @@ function Conversation ({
 
   return (
     <BgContainer className="flex-1 flex flex-col overflow-hidden--">
-      <div className="border-b flex px-6 py-2 items-center flex-none bg-white">
+      <div className="border-b flex px-6 py-3 items-center flex-none bg-white">
         <div className="flex">
           <Link
             to={`/apps/${app.key}/conversations`}
@@ -580,15 +583,17 @@ function Conversation ({
               rtcAudio={rtcAudio}
               expand={expand}
               setExpand={setExpand}
-              setVideoSession={()=>setVideoSession(!videoSession)}
+              setVideoSession={()=> setVideoSession(!videoSession)}
             />
           </ModalWrapper>
 
           <div id="button-element" className="hidden"></div>
 
           {
-            events && videoSession && <Rtc
+            events && <Rtc
               buttonElement={'button-element'}
+              callInitiatorElement={'callInitiator'}
+              callButtonsElement={'callButtons'}
               infoElement={'info'}
               localVideoElement={'localVideo'}
               remoteVideoElement={'remoteVideo'}
@@ -703,10 +708,6 @@ function Conversation ({
           {/* <span className="text-3xl text-grey border-r-2 border-grey p-2">
               <svg className="fill-current h-6 w-6 block" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M16 10c0 .553-.048 1-.601 1H11v4.399c0 .552-.447.601-1 .601-.553 0-1-.049-1-.601V11H4.601C4.049 11 4 10.553 4 10c0-.553.049-1 .601-1H9V4.601C9 4.048 9.447 4 10 4c.553 0 1 .048 1 .601V9h4.399c.553 0 .601.447.601 1z"></path></svg>
               </span> */}
-
-
-          <div id="info">info:</div>
-
 
           <ConversationEditor
             data={{}}
