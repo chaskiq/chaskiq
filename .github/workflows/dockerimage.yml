@@ -16,11 +16,6 @@ jobs:
 
     steps:
 
-    - name: Get Short SHA
-      id: vars
-      run: |
-        echo ::set-output name=short_sha::$(git rev-parse --short=7 ${{ github.sha }})
-
     - name: Login into Registry
       uses: azure/docker-login@v1
       with:
@@ -28,6 +23,11 @@ jobs:
         password: ${{ secrets.DOCKER_PASSWORD }}
 
     - uses: actions/checkout@v2
+
+    - name: Get Short SHA
+      id: vars
+      run: |
+        echo ::set-output name=short_sha::$(git rev-parse --short=7 ${{ github.sha }})
 
     - name: Build the Docker image
       run: |
