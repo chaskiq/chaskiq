@@ -159,8 +159,8 @@ export function RtcView (props) {
           enabled: props.rtcAudio,
           sampleSize: 16,
           channelCount: 2,
-          echoCancellation: true,
-          noiseSuppression: true
+          echoCancellation: false,
+          noiseSuppression: false
         },
       };
       navigator.getUserMedia(
@@ -301,6 +301,9 @@ export function RtcView (props) {
 
       element.autoplay = 'autoplay'
       element.srcObject = stream
+      //element.muted = true
+      //element.setAttribute('muted', 'muted')
+      element.volume = 0.9;
 
       setConnecting(false)
       setWaiting(false)
@@ -343,7 +346,7 @@ export function RtcView (props) {
       localVideoTarget && createPortal(
         <div id="local-video-wrapper">
         <video id="local-video"
-          muted
+          muted="muted"
           ref={ localVideo }
           autoPlay>
         </video>
