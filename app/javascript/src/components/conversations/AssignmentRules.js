@@ -10,13 +10,7 @@ import { InlineFilterDialog } from '../segmentManager'
 import SegmentItemButton from '../segmentManager/itemButton'
 
 import Input from '../forms/Input'
-
 import arrayMove from 'array-move'
-/* import {
-  sortableContainer,
-  sortableElement,
-  sortableHandle,
-} from 'react-sortable-hoc'; */
 
 import { AGENTS, ASSIGNMENT_RULES } from '../../graphql/queries'
 
@@ -46,7 +40,7 @@ const DragHandle = sortableHandle(() => (
 ))
 
 const SortableItem = sortableElement(
-  ({ object, deleteRule, edit, classes }) => (
+  ({ object, deleteRule, edit }) => (
     <li>
       <div
         href="#"
@@ -81,27 +75,27 @@ const SortableItem = sortableElement(
                 <button>delete</button>
                 </div> */}
 
-                <button
-                  variant="contained"
+                <Button
+                  variant="outlined"
+                  className="mr-2"
                   color={'outlined'}
-                  className="mr-1 inline-flex items-center px-4 py-2 border border-transparent text-sm leading-5 font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-500 focus:outline-none focus:shadow-outline-indigo focus:border-indigo-700 active:bg-indigo-700 transition duration-150 ease-in-out"
                   onClick={(e) => {
                     e.preventDefault()
                     edit(object)
                   }}
                 >
                   edit
-                </button>
+                </Button>
 
-                <button
-                  className="inline-flex items-center px-4 py-2 border border-transparent text-sm leading-5 font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-500 focus:outline-none focus:shadow-outline-indigo focus:border-indigo-700 active:bg-indigo-700 transition duration-150 ease-in-out"
+                <Button
+                  variant="outlined"
                   onClick={(e) => {
                     e.preventDefault()
                     deleteRule(object)
                   }}
                 >
                   delete
-                </button>
+                </Button>
               </div>
             </div>
           </div>
@@ -541,7 +535,7 @@ function AssignmentForm (props) {
         name="title"
         type="text"
         onChange={(e) => setTitle(e.target.value)}
-        helperText={'ssdds'}
+        helperText={'this is the rule name'}
       ></Input>
 
       {agents.length > 0 && (
