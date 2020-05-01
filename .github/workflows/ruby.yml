@@ -8,6 +8,10 @@ jobs:
     services:
       db:
         image: postgres:11
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_DB: postgres
         ports: ['5432:5432']
         options: >-
           --health-cmd pg_isready
