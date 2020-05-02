@@ -121,7 +121,7 @@ class Settings extends Component {
         handler: (color) => {
           this.props.updateMemSettings({ color: color });
         },
-        grid: { xs: "w-full", sm: "w-1/3" },
+        grid: { xs: "w-full", sm: "w-1/12" },
       },
 
       {

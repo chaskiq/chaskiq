@@ -113,7 +113,9 @@ function Sidebar ({
                 👋 Hey!, you are viewing the <strong>{app.name}'s</strong>{' '}
                 dashboard!
                 <br />
-                Get you installation snippet for the <WebSetup />.
+                Get you installation snippet for the web setup
+                <br />
+                <WebSetup />.
               </p>
             </div>
             /* <li>
@@ -367,7 +369,7 @@ function Sidebar ({
             </div>
           </div>
 
-          <div className="overflow-y-auto">
+          <div className="overflow-y-auto h-full">
             {categories.map((o) => (
               <Tooltip
                 key={`sidebar-categories-${o.id}`}
@@ -413,7 +415,7 @@ function Sidebar ({
                   height={40}
                 />
               </div>
-              <div className="ml-3 w-3/5">
+              <div className="ml-3 w-2/5 flex flex-wrap">
                 <p className="text-sm leading-5 font-medium text-gray-700 group-hover:text-gray-900 truncate">
                   {current_user.email}
                 </p>

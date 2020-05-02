@@ -53,7 +53,7 @@ export class ColorPicker extends React.Component {
             </Button>
 
             <input
-              class="form-input h-full block w-full rounded-none rounded-l-md pl-10 transition ease-in-out duration-150 sm:text-sm sm:leading-5"
+              class="form-input h-full block w-full rounded-none rounded-l-md pl-10 transition ease-in-out duration-150 sm:text-sm sm:leading-5 border border-gray-300"
               placeholder="#00ff00"
               type={"text"}
               defaultValue={this.state.value}
