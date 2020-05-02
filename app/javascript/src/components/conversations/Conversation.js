@@ -317,30 +317,49 @@ function Conversation ({
   const renderBlockRepresentation = (block) => {
     const { blocks, data } = block.message
     // TODO: display labels, schema buttons
+    let output = null
     switch (blocks.type) {
       case 'app_package':
-        return (
-          <div>
-            <p variant="overline">{blocks.appPackage}</p>
+        output = <div>
+                  <p variant="overline">{blocks.appPackage}</p>
 
-            <br />
+                  <br />
 
-            <p variant={'caption'}>
-              {data && (
-                <span
-                  dangerouslySetInnerHTML={{ __html: data.formattedText }}
-                />
-              )}
-            </p>
-          </div>
-        )
+                  <p variant={'caption'}>
+                    {data && (
+                      <span
+                        dangerouslySetInnerHTML={{ __html: data.formattedText }}
+                      />
+                    )}
+                  </p>
+                </div>
+        break
       case 'ask_option':
-        return <p>ask option</p>
+        output = <p>ask option</p>
+        break
       case 'data_retrieval':
-        return <p>data retrieval</p>
-      default:
-        return ''
+        output = <p>data retrieval</p>
+        break
+      default: null
     }
+
+    return (
+
+      <div
+        className={`bg-blue-400
+        flex 
+        overflow-hidden p-2 
+        rounded-md mx-auto
+        text-white`
+        }
+      >
+        <div className="flex flex-col justify-between">
+          {output}
+        </div>
+        
+      </div>
+
+    )
   }
 
   const renderBlocks = (o) => {
@@ -352,7 +371,7 @@ function Conversation ({
     if (o.message.state !== 'replied') {
       return <div
         id={`message-id-${message.id}`}
-        className={`flex items-start py-2 text-sm ${flow}`}
+        className={`flex items-start py-2 text-sm`}
         key={`conversations-messages/${message.id}`}>
         {
           renderBlockRepresentation(block)
@@ -371,8 +390,9 @@ function Conversation ({
       case 'button':
         blockElement =
           <p>
-            <strong>reply button:</strong>
-            {item.label}
+            <strong>
+            reply button:
+            </strong> {item.label}
           </p>
 
         break
@@ -429,10 +449,10 @@ function Conversation ({
         key={`conversations-messages/${message.id}`}>
 
         <div
-          className={`bg-gray-100
+          className={`bg-green-400
           flex 
           overflow-hidden p-2 
-          rounded-md mx-auto`
+          rounded-md mx-auto text-white`
           }
         >
           <div className="flex flex-col justify-between">
@@ -451,7 +471,7 @@ function Conversation ({
               </span>
             </span>
 
-            <p className="text-xs text-center text-bold">
+            <p className="text-md text-center text-bold">
               {blockElement}
             </p>
           </div>
@@ -471,7 +491,7 @@ function Conversation ({
         key={`conversations-messages/${message.id}`}>
 
         <div
-          className={`bg-gray-100
+          className={`bg-yellow-400
           flex 
           overflow-hidden p-2 
           rounded-md mx-auto`
@@ -511,8 +531,9 @@ function Conversation ({
             className="block md:hidden">
             <LeftArrow/>
           </Link>
-          <h3 className="mb-1 text-grey-darkest">
+          <h3 className="mb-1 text-xs text-grey-darkest">
             conversation with{' '}
+            <br/>
             <span className="font-extrabold">
               {
                 conversation.mainParticipant &&
