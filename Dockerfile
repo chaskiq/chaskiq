@@ -55,18 +55,14 @@ RUN apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* && \
 USER docker
 WORKDIR /usr/src/app
 
-# Yarn install packages
-COPY --chown=docker:docker package.json yarn.lock ./
-RUN NODE_ENV=${APP_ENV} yarn install --frozen-lockfile
-
 # Copy app source into container
 COPY --chown=docker:docker . /usr/src/app/
 
 # Precompile assets - production only
+# Clean up temp files and Yarn cache folder
 RUN NODE_ENV=${APP_ENV} NODE_OPTIONS="--max-old-space-size=2048" \
     SECRET_KEY_BASE=`bin/rake secret` RAILS_ENV=${APP_ENV} \
-    bundle exec rails assets:precompile
-
-# Clean up node_modules folder and Yarn cache folder
-RUN rm -rf /usr/src/app/node_modules && yarn cache clean && rm -rf /tmp/*
+    bundle exec rails assets:precompile \
+    && rm -rf /usr/src/app/node_modules /usr/src/app/tmp/cache/* /tmp/* \
+    && yarn cache clean
 
