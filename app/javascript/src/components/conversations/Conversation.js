@@ -11,8 +11,7 @@ import Moment from 'react-moment'
 import { toCamelCase } from '../../shared/caseConverter'
 import ConversationEditor from './Editor.js'
 import Rtc from '../rtc'
-import { updateRtcEvents} from '../../actions/rtc'
-
+import { updateRtcEvents } from '../../actions/rtc'
 
 import {
   getConversation,
@@ -28,22 +27,12 @@ import {
 
 import { AGENTS } from '../../graphql/queries'
 
-import { 
+import {
   CheckmarkIcon,
   PinIcon,
   LeftArrow,
   CallEnd,
-  Call,
-  MicIcon,
-  MicOffIcon,
-  CameraIcon,
-  CameraOffIcon,
-  FullScreenIcon,
-  FullScreenExitIcon,
-  ScreenShareIcon,
-  ScreenShareExitIcon,
-  MoreIcon,
-  WebhooksIcon
+  Call
 } from '../icons'
 
 import { getAppUser } from '../../actions/app_user'
@@ -56,7 +45,7 @@ import EditorContainer from '../textEditor/editorStyles'
 import DraftRenderer from '../textEditor/draftRenderer'
 import styled from '@emotion/styled'
 import { setCurrentPage, setCurrentSection } from '../../actions/navigation'
-import RtcDisplayWrapper, {ModalWrapper} from '../../../client_messenger/rtcView' //'./RtcWrapper'
+import RtcDisplayWrapper, { ModalWrapper } from '../../../client_messenger/rtcView' // './RtcWrapper'
 
 const EditorContainerMessageBubble = styled(EditorContainer)`
   // this is to fix the image on message bubbles
@@ -360,7 +349,14 @@ function Conversation ({
     const messageContent = o.message
 
     if (o.message.state !== 'replied') {
-      return renderBlockRepresentation(block)
+      return <div
+        id={`message-id-${message.id}`}
+        className={`flex items-start py-2 text-sm ${flow}`}
+        key={`conversations-messages/${message.id}`}>
+        {
+          renderBlockRepresentation(block)
+        }
+      </div>
     }
 
     const item = o.message.data
@@ -576,7 +572,7 @@ function Conversation ({
               rtcAudio={rtcAudio}
               expand={expand}
               setExpand={setExpand}
-              setVideoSession={()=> setVideoSession(!videoSession)}
+              setVideoSession={() => setVideoSession(!videoSession)}
             />
           </ModalWrapper>
 
@@ -590,8 +586,8 @@ function Conversation ({
               infoElement={'info'}
               localVideoElement={'localVideo'}
               remoteVideoElement={'remoteVideo'}
-              handleRTCMessage={( data ) => { debugger }}
-              onCloseSession={()=> updateRtcEvents({}) }
+              handleRTCMessage={(data) => { debugger }}
+              onCloseSession={() => updateRtcEvents({}) }
               toggleVideoSession={ () => setVideoSession(!videoSession)}
               toggleVideo={() => setRtcVideo(!rtcVideo)}
               toggleAudio={() => setRtcAudio(!rtcAudio)}
@@ -601,8 +597,6 @@ function Conversation ({
               events={events}
             />
           }
-
-          
 
           <Tooltip
             placement="bottom"
@@ -719,8 +713,6 @@ function Conversation ({
     </BgContainer>
   )
 }
-
-
 
 function MessageItemWrapper ({ conversation, data, events, children }) {
   React.useEffect(() => {

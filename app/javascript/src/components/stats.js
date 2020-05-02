@@ -173,13 +173,14 @@ class Stats extends Component {
 
         {this.props.mode === "counter_blocks" && this.props.data && (
           <div className="flex mb-4">
-            {Object.keys(this.state.counts).map((key) => {
+            {Object.keys(this.state.counts).map(
+              (key) => {
               return (
                 <div className="lg:w-1/4 w-screen my-1 px-1">
                   <div className="rounded shadow-lg bg-white border p-4">
                     <Count
                       data={this.state.counts[key]}
-                      label={key}
+                      label={key.replace('bot_tasks.', '')}
                       appendLabel={""}
                     />
                   </div>
@@ -189,7 +190,7 @@ class Stats extends Component {
           </div>
         )}
 
-        <hr variant={"fullWidth"} />
+        <hr className="border-gray-200"/>
 
         {!this.state.loading ? (
           <Table

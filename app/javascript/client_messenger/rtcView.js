@@ -170,11 +170,14 @@ const CallInitiator = styled.div`
   z-index: 20;
   bottom: 0px;
   #call-initiator{
-    color: wheat; 
+    color: white; 
     display: flex; 
     flex-direction: column;
     justify-content: center; 
     align-items: center;
+  }
+  p{
+    margin-bottom: 1em;
   }
 
   .call-buttons{

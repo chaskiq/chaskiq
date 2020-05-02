@@ -305,7 +305,7 @@ function DashboardAppPackage (props) {
         </div>
       </div>
 
-      <hr className="my-4" />
+      <hr className="my-4 border-gray-200" />
 
       <div className="flex">
         {data.values &&
