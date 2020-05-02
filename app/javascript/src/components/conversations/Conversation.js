@@ -282,7 +282,8 @@ function Conversation ({
         shadow-lg 
         flex-1 
         overflow-hidden p-3 
-        rounded-md`}
+        rounded-md
+        border border-gray-400`}
       >
         <div className="flex justify-between pb-4">
           <span className={`font-bold ${textClass}`}>

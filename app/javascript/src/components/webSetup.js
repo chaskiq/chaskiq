@@ -27,7 +27,10 @@ function WebSetup ({ app, classes }) {
 
   return (
     <React.Fragment>
-      <a onClick={handleClickOpen}>Web Setup</a>
+      <button className="text-xs bg-gray-600 hover:bg-gray-400 text-gray-100 font-bold py-1 px-2 rounded inline-flex items-center text-gray-100"
+      onClick={handleClickOpen}>
+        Get the snippet
+      </button>
 
       <SimpleDialog app={app} open={open} onClose={handleClose} />
     </React.Fragment>
