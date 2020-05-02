@@ -84,7 +84,7 @@ function Schedule ({ app, data, updateData, namespace, submit }) {
         checked={state.state === 'enabled'}
         onChange={handleChange('state')}
         value={state.state === 'enabled'}
-        label={'enable bot task'}
+        label={'Enable bot task'}
         helperText={'when enabled the bot task will start operating'}
       ></Input>
 

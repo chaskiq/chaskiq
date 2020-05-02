@@ -367,32 +367,34 @@ function Sidebar ({
             </div>
           </div>
 
-          {categories.map((o) => (
-            <Tooltip
-              key={`sidebar-categories-${o.id}`}
-              placement="right"
-              overlay={o.label}
-            >
-              <div
-                className="cursor-pointer mb-4 p-3
-                        bg-gray-200 hover:bg-gray-100 rounded-md"
+          <div className="overflow-y-auto">
+            {categories.map((o) => (
+              <Tooltip
+                key={`sidebar-categories-${o.id}`}
+                placement="right"
+                overlay={o.label}
               >
-                {o.url && (
-                  <Link
-                    to={`${o.url}`}
-                    aria-label={o.label}
-                    className="bg-indigo-lighter
-                    h-12 w-12 flex-- items-center
-                    justify-center-- text-black
-                    text-2xl font-semibold rounded-lg
-                    mb-1 overflow-hidden text-gray-400"
-                  >
-                    {o.icon}
-                  </Link>
-                )}
-              </div>
-            </Tooltip>
-          ))}
+                <div
+                  className="cursor-pointer mb-4 p-3
+                          bg-gray-200 hover:bg-gray-100 rounded-md"
+                >
+                  {o.url && (
+                    <Link
+                      to={`${o.url}`}
+                      aria-label={o.label}
+                      className="bg-indigo-lighter
+                      h-12 w-12 flex-- items-center
+                      justify-center-- text-black
+                      text-2xl font-semibold rounded-lg
+                      mb-1 overflow-hidden text-gray-400"
+                    >
+                      {o.icon}
+                    </Link>
+                  )}
+                </div>
+              </Tooltip>
+            ))}
+          </div>
         </div>
       )}
 
@@ -411,8 +413,8 @@ function Sidebar ({
                   height={40}
                 />
               </div>
-              <div className="ml-3">
-                <p className="text-sm leading-5 font-medium text-gray-700 group-hover:text-gray-900">
+              <div className="ml-3 w-3/5">
+                <p className="text-sm leading-5 font-medium text-gray-700 group-hover:text-gray-900 truncate">
                   {current_user.email}
                 </p>
 
@@ -438,7 +440,7 @@ function Sidebar ({
                   triggerButton={(handler) => (
                     <button
                       onClick={handler}
-                      className="truncate w-2/4 text-xs leading-4 font-medium text-gray-500 group-hover:text-gray-700 group-focus:underline transition ease-in-out duration-150">
+                      className="text-xs leading-4 font-medium text-gray-500 group-hover:text-gray-700 group-focus:underline transition ease-in-out duration-150">
                       <div className="flex items-center">
                           User menu
                         <MoreIcon/>

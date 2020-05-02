@@ -177,7 +177,7 @@ function Conversations ({
         </Route>
       </Switch>
 
-      <div className={'w-full md:w-1/3 h-screen md:border-r hidden sm:block'}>
+      <div className={'w-full md:w-1/3 h-screen md:border-r hidden sm:block border-gray-200'}>
         {renderConversations()}
       </div>
 

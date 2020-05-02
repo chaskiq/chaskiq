@@ -379,7 +379,7 @@ export function RtcView (props) {
             </div>
           )}
 
-          {waiting && (
+          {waiting && callStarted && (
             <div className='status'>
               <p>Waiting for someone...</p>
             </div>

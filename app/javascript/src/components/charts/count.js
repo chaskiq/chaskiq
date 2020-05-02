@@ -9,7 +9,7 @@ import moment from 'moment'
 export default function Count ({ data, label, appendLabel, subtitle }) {
   return (
     <React.Fragment>
-      <p className="text-lg leading-6 font-medium text-gray-900">{label}</p>
+      <p className="text-lg leading-6 font-medium text-gray-900 truncate">{label}</p>
 
       <p
         className="mt-1 text-3xl leading-9 font-semibold text-gray-900"
