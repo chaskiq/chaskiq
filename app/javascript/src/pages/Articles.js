@@ -212,11 +212,20 @@ class Articles extends Component {
                                 color="inherit"
                                 size="small"
                                 target={"blank"}
+                                className="mr-2"
                               >
                                 visit help center
                               </Button>
                             </div>
                           ) : null}
+
+                          <Button 
+                            variant={'contained'} 
+                            color={'primary'} 
+                            onClick={()=> this.props.history.push(`/apps/${this.props.app.key}/articles/new`)}>
+                            {/*<AddIcon />*/}
+                            {" New article"}
+                          </Button>
                         </React.Fragment>
                       }
                     />
