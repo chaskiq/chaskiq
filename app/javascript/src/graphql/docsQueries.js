@@ -212,6 +212,7 @@ export const ARTICLE_COLLECTION_WITH_SECTIONS = `
               id
               displayName
               name
+              avatarUrl
             }
           }
           
