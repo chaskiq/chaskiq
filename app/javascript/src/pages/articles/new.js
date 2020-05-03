@@ -401,6 +401,13 @@ class ArticlesNew extends Component {
     this.registerChange();
   };
 
+  articleCollection = ()=>{
+    console.log(this.sta)
+    return this.state.article.collection
+    ? this.state.article.collection
+    : null
+  }
+
   render() {
     const { classes, app } = this.props;
     return (
@@ -502,23 +509,7 @@ class ArticlesNew extends Component {
                     {this.state.agents.length > 0 && (
                       <div className="flex items-center">
                         <Avatar src={this.state.article.author.avatarUrl} />
-
                         <strong className="m-2">written by</strong>
-
-                        {/*
-                          <SuggestSelect 
-                          name={"author"}
-                          placeholder={"select author"}
-                          data={this.state.agents.map((o)=> ({ 
-                              label: o.name || o.email, 
-                              value: o.email 
-                            }) 
-                          )}
-                          handleSingleChange={this.handleAuthorchange }
-                          defaultData={this.state.article.author.email}
-                          />
-                        */}
-
                         <Input
                           type={"select"}
                           className="m-2 w-32"
@@ -530,30 +521,18 @@ class ArticlesNew extends Component {
                           name={"author"}
                           placeholder={"select author"}
                           onChange={this.handleAuthorchange}
-                          defaultData={this.state.article.author.email}
+                          defaultValue={
+                            { 
+                              label: this.state.article.author.email, 
+                              value: this.state.article.author.email 
+                            }
+                          }
                         ></Input>
                       </div>
                     )}
 
                     <div className="flex items-center">
                       <strong className="m-2">In</strong>
-
-                      {/*<SuggestSelect 
-                      name={"collection"}
-                      placeholder={"select collection"}
-                      data={this.state.collections.map((o)=> ({ 
-                          label: o.title, 
-                          value: o.id 
-                        }) 
-                      )}
-                      handleSingleChange={ this.handleCollectionChange }
-
-                      defaultData={
-                        this.state.article.collection ? 
-                        this.state.article.collection.id : null
-                      }
-                    />*/}
-
                       <Input
                         type={"select"}
                         options={this.state.collections.map((o) => ({
@@ -566,9 +545,10 @@ class ArticlesNew extends Component {
                         placeholder={"select collection"}
                         onChange={this.handleCollectionChange}
                         defaultValue={
-                          this.state.article.collection
-                            ? this.state.article.collection.id
-                            : null
+                          this.articleCollection() && { 
+                            label: this.articleCollection().title, 
+                            value: this.articleCollection().id
+                          }
                         }
                       ></Input>
                     </div>

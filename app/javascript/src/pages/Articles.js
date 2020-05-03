@@ -40,24 +40,11 @@ import CollectionDetail from "./articles/collections/show";
 
 import { setCurrentSection, setCurrentPage } from "../actions/navigation";
 import { ARTICLE_SETTINGS } from "../graphql/queries";
+import Badge from '../components/Badge'
 
-function AddIcon() {
-  return <p>add</p>;
-}
-function GestureIcon() {
-  return <p>gest</p>;
-}
-function CheckCircleIcon() {
-  return <p>checj</p>;
-}
-
-function DeleteDialog() {
-  return <p>koko</p>;
-}
-
-function Chip() {
-  return <p>Chip here</p>;
-}
+import {
+  AddIcon, GestureIcon, CheckCircleIcon
+} from '../components/icons'
 
 const styles = (theme) => ({
   addUser: {
@@ -453,7 +440,7 @@ class AllArticles extends React.Component {
                   render: (row) =>
                     row ? (
                       <td className="px-6 py-4 whitespace-no-wrap border-b border-gray-200">
-                        <div className="flex items-center">
+                        <div className="flex items-center text-lg font-bold">
                           {row.id && (
                             <AnchorLink
                               to={`/apps/${this.props.app.key}/articles/${row.id}`}
@@ -490,23 +477,23 @@ class AllArticles extends React.Component {
                     row && (
                       <td className="px-6 py-4 whitespace-no-wrap border-b border-gray-200">
                         <div className="flex items-center">
-                          <Chip
-                            variant="outlined"
-                            color={
-                              row.state === "draft" ? "secondary" : "primary"
+                          <Badge
+                            variant={
+                              row.state === 'draft' ? 'yellow' : 'green'
                             }
-                            size="small"
-                            label={row.state}
-                            //deleteIcon={<DoneIcon />}
-                            //onDelete={handleDelete}
-                            icon={
+                          >
+                            {
                               row.state === "draft" ? (
                                 <GestureIcon />
                               ) : (
                                 <CheckCircleIcon />
                               )
                             }
-                          />
+
+                            {" "}
+
+                            {row.state}
+                          </Badge>
                         </div>
                       </td>
                     ),

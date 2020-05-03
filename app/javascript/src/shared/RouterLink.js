@@ -7,7 +7,10 @@ const AdapterLink = React.forwardRef((props, ref) => (
   <Link innerRef={ref} {...props} />
 ))
 
-export const LinkButton = (props) => <Button {...props} component={Link} />
+export const LinkButton = (props) => <Button
+  {...props}
+  component={Link}
+/>
 // export const LinkIconButton = props => <IconButton {...props} component={Link} />;
 export const AnchorLink = (props) => (
   <Link {...props} component={AdapterLink} to={props.to}>

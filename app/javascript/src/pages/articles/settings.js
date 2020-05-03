@@ -89,26 +89,26 @@ class Settings extends Component {
         name: "subdomain",
         hint: "documentation site subdomain",
         type: "string",
-        grid: { xs: "w-full", sm: "w-full" },
+        grid: { xs: "w-full", sm: "w-1/2" },
       },
 
       {
         name: "domain",
         hint: "documentation site custom domain",
         type: "string",
-        grid: { xs: "w-full", sm: "w-full" },
+        grid: { xs: "w-full", sm: "w-1/2" },
       },
       {
         name: "website",
         hint: "link to your website",
         type: "string",
-        grid: { xs: "w-full", sm: "w-full" },
+        grid: { xs: "w-full", sm: "w-3/4" },
       },
       {
         name: "googleCode",
         hint: "Google Analytics Tracking ID",
         type: "string",
-        grid: { xs: "w-full", sm: "w-full" },
+        grid: { xs: "w-full", sm: "w-1/4" },
       },
     ];
   };

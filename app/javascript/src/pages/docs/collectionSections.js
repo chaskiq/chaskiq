@@ -1,10 +1,9 @@
 import React from 'react'
 import graphql from '../../graphql/client'
 import {
-
   ARTICLE_COLLECTION_WITH_SECTIONS
 } from '../../graphql/docsQueries'
-
+import Tooltip from 'rc-tooltip'
 import Breadcrumbs from '../../components/Breadcrumbs'
 import translation from './translation'
 import Avatar from '../../components/Avatar'
@@ -131,20 +130,25 @@ export default function CollectionsWithSections ({ match, lang, subdomain }) {
               <div className="flex items-center justify-start">
                 <OverlapAvatars>
                   <ul className="avatars">
-                    {collections.authors
-                      ? collections.authors.map((o) => {
-                        return (
-                          <li
-                            key={`authors-${o.id}`}
-                            className="avatars__item"
-                          >
-                            {/* <Tooltip title={o.display_name}> */}
-                            <Avatar alt={o.displayName} src={o.avatarUrl} />
-                            {/* </Tooltip> */}
-                          </li>
-                        )
-                      })
-                      : null}
+                    {collections.authors &&
+                     collections.authors.map((o) => {
+                       return (
+                         <li
+                           key={`authors-${o.id}`}
+                           className="avatars__item"
+                         >
+                           <Tooltip
+                             placement="bottom"
+                             overlay={o.display_name}>
+                             <Avatar
+                               alt={o.displayName}
+                               src={o.avatarUrl}
+                             />
+                           </Tooltip>
+                         </li>
+                       )
+                     })
+                    }
 
                     {collections.authors && collections.authors.length > 5 ? (
                       <li className="avatars__item">
@@ -154,9 +158,12 @@ export default function CollectionsWithSections ({ match, lang, subdomain }) {
                   </ul>
                 </OverlapAvatars>
 
-                <p className="max-w-2xl text-xl leading-7 text-gray-500">
-                  {collections.baseArticles.length} articles in this collection
-                </p>
+                {
+                  collections.baseArticles.length > 0 &&                  
+                  <p className="max-w-2xl text-md leading-7 text-gray-500">
+                    {collections.baseArticles.length} articles in this collection
+                  </p>
+                }
               </div>
 
               <div>
@@ -164,29 +171,31 @@ export default function CollectionsWithSections ({ match, lang, subdomain }) {
                   <ListItem divider key={`articles-base-${article.id}`}>
                     <ListItemText
                       primary={
-                        <div>
+                        <div className="flex flex-col">
                           <Link
+                            className="text-lg mb-2 leading-6 font-bold text-gray-900"
                             color={'primary'}
                             to={`/${lang}/articles/${article.slug}`}
                           >
-                            {article.title}
+                            {translation(article.title)}
                           </Link>
 
-                          <div container alignItems={'center'}>
-                            <ItemAvatar>
-                              <Avatar
-                                alt={article.author.name}
-                                src={article.author.avatarUrl}
-                              />
-                            </ItemAvatar>
-
-                            <p variant={'subtitle1'}>
+                          <div className="flex items-center">
+                            <Avatar
+                              variant="small"
+                              alt={article.author.displayName}
+                              src={article.author.avatarUrl}
+                            />
+                            <p className="ml-4">
                               written by{' '}
-                              <strong>{article.author.displayName}</strong>
+                              <strong>
+                                {article.author.displayName}
+                              </strong>
                             </p>
                           </div>
                         </div>
                       }
+                      secondary={article.description}
                     />
                   </ListItem>
                 ))}
@@ -198,7 +207,7 @@ export default function CollectionsWithSections ({ match, lang, subdomain }) {
                     {translation(section.title)}
                   </p>
 
-                  <p className="mt-2 mb-4 text-xl leading-7 text-gray-500 lg:mx-auto">
+                  <p className="mt-2 mb-4 text-md leading-7 text-gray-500 lg:mx-auto">
                     {section.articles.length} articles in this section
                   </p>
 
