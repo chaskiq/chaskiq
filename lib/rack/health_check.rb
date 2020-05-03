@@ -9,14 +9,10 @@ module Rack
       status = {
         redis: {
           connected: redis_connected
-        },
-        postgres: {
-          connected: postgres_connected,
-          migrations_updated: postgres_migrations_updated
         }
       }
 
-      return [503, {}, [status.to_json]] if !redis_connected || !postgres_connected
+      return [503, {}, [status.to_json]] if !redis_connected
 
       return [200, {}, [status.to_json]]
     end
@@ -25,22 +21,6 @@ module Rack
 
     def redis_connected
       Redis.current.ping == 'PONG' rescue false
-    end
-
-    def postgres_connected
-      begin
-        ApplicationRecord.establish_connection
-        ApplicationRecord.connection
-        ApplicationRecord.connected?
-      rescue
-        false
-      end
-    end
-
-    def postgres_migrations_updated
-      return false unless postgres_connected
-
-      !ApplicationRecord.connection.migration_context.needs_migration?
     end
   end
 end
