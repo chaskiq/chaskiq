@@ -76,11 +76,6 @@ export const SEARCH_ARTICLES = `
           }
         }
         meta
-        authors{
-          id
-          displayName
-          avatarUrl
-        }
       }
     }
   }
