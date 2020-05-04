@@ -31,6 +31,8 @@ function Conversations ({
   events,
   app_user
 }) {
+  let fetching = false
+
   React.useEffect(() => {
     dispatch(clearConversations([]))
     fetchConversations({ page: 1 })
@@ -51,6 +53,21 @@ function Conversations ({
   const setSort = (option) => {
     dispatch(updateConversationsData({ sort: option }))
     this.setState({ sort: option })
+  }
+
+  const handleScroll = (e) => {
+    const element = e.target
+    // console.log(element.scrollHeight - element.scrollTop, element.clientHeight)
+    if (element.scrollHeight - element.scrollTop === element.clientHeight) {
+      if (conversations.meta.next_page && !fetching) {
+        fetching = true
+        fetchConversations({
+          page: conversations.meta.next_page
+        }, () => {
+          fetching = false
+        })
+      }
+    }
   }
 
   const setFilter = (option) => {
@@ -142,13 +159,16 @@ function Conversations ({
               { id: 'priority-first', name: 'priority first', count: 1 },
               { id: 'unfiltered', name: 'all', count: 1 }
             ]}
+            position={'right'}
             value={conversations.sort}
             filterHandler={sortConversations}
             triggerButton={sortButton}
           />
         </div>
 
-        <div className="overflow-scroll" style={{height: 'calc(100vh - 60px)'}}>
+        <div className="overflow-scroll"
+          onScroll={handleScroll}
+          style={{ height: 'calc(100vh - 60px)' }}>
           {conversations.collection.map((o) => {
             const user = o.mainParticipant
             return (

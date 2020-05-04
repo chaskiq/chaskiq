@@ -36,7 +36,7 @@ module Types
 
     field :messages, Types::PaginatedConversationPartsType, null: true do
       argument :page, Integer, required: false, default_value: 1
-      argument :per, Integer, required: false, default_value: 5
+      argument :per, Integer, required: false, default_value: 7
     end
 
     def messages(per:, page:)
