@@ -116,7 +116,6 @@ function Conversation ({
   }, [mainParticipant])
 
   React.useEffect(() => {
-    console.log("SCROLLING", scrolling)
     if (!scrolling) {
       scrollToLastItem()
     }
