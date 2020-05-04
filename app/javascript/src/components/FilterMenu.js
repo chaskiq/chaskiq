@@ -40,9 +40,8 @@ export default function FilterMenu ({
         origin={origin}
       >
         {options.map((option) => (
-          <div className="py-1">
+          <div className="py-1" key={option.id}>
             <button
-              key={option.id}
               selected={value === option.name}
               onClick={() => selectOption(option)}
               className="w-full group flex items-center

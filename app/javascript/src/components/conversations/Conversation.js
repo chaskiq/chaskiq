@@ -83,7 +83,7 @@ function Conversation ({
   const { mainParticipant } = conversation
 
   const [agents, setAgents] = React.useState([])
-
+  const [scrolling, setScrolling] = React.useState(false)
   const [rtcAudio, setRtcAudio] = React.useState(true)
   const [rtcVideo, setRtcVideo] = React.useState(true)
   const [expand, setExpand] = React.useState(false)
@@ -116,9 +116,11 @@ function Conversation ({
   }, [mainParticipant])
 
   React.useEffect(() => {
-    setTimeout(() => {
+    console.log("SCROLLING", scrolling)
+    if (!scrolling) {
       scrollToLastItem()
-    }, 10)
+    }
+    setScrolling(false)
   }, [messagesLength])
 
   const insertCommentDispatch = (comment, cb) => {
@@ -154,6 +156,7 @@ function Conversation ({
     if (element.scrollTop === 0) {
       // on top
       if (conversation.meta.next_page && !conversation.loading) {
+        setScrolling(true)
         getMessages((item) => {
           scrollToItem(item)
         })
@@ -321,18 +324,18 @@ function Conversation ({
     switch (blocks.type) {
       case 'app_package':
         output = <div>
-                  <p variant="overline">{blocks.appPackage}</p>
+          <p variant="overline">{blocks.appPackage}</p>
 
-                  <br />
+          <br />
 
-                  <p variant={'caption'}>
-                    {data && (
-                      <span
-                        dangerouslySetInnerHTML={{ __html: data.formattedText }}
-                      />
-                    )}
-                  </p>
-                </div>
+          <p variant={'caption'}>
+            {data && (
+              <span
+                dangerouslySetInnerHTML={{ __html: data.formattedText }}
+              />
+            )}
+          </p>
+        </div>
         break
       case 'ask_option':
         output = <p>ask option</p>
@@ -356,7 +359,7 @@ function Conversation ({
         <div className="flex flex-col justify-between">
           {output}
         </div>
-        
+
       </div>
 
     )
@@ -371,7 +374,7 @@ function Conversation ({
     if (o.message.state !== 'replied') {
       return <div
         id={`message-id-${message.id}`}
-        className={`flex items-start py-2 text-sm`}
+        className={'flex items-start py-2 text-sm'}
         key={`conversations-messages/${message.id}`}>
         {
           renderBlockRepresentation(block)
@@ -666,52 +669,55 @@ function Conversation ({
 
       <div
         ref={overflow}
-        className="flex flex-col-reverse px-6 py-4 overflow-y-scroll"
+        className="flex flex-col overflow-y-scroll"
         onScroll={handleScroll}
         style={{
           height: 'calc(100vh - 226px)'
         }}
       >
-        {conversation &&
-          conversation.collection &&
-          conversation.collection.map((message) => {
-            const isReplied = message.message.state === 'replied'
-            const userOrAdmin =
-              !isReplied && message.appUser && message.appUser.kind === 'agent'
-                ? 'admin'
-                : 'user'
-            const appuserId = conversation.mainParticipant.id
+        <div
+          className="flex flex-col-reverse px-6 py-4">
+          {conversation &&
+            conversation.collection &&
+            conversation.collection.map((message) => {
+              const isReplied = message.message.state === 'replied'
+              const userOrAdmin =
+                !isReplied && message.appUser && message.appUser.kind === 'agent'
+                  ? 'admin'
+                  : 'user'
+              const appuserId = conversation.mainParticipant.id
 
-            return (
-              <MessageItemWrapper
-                key={`message-item-${conversation.key}-${message.id}`}
-                data={message}
-                events={events}
-                conversation={conversation}
-                email={current_user.email}
-              >
-
-                <ThemeProvider
-                  theme={
-                    userOrAdmin === 'admin'
-                      ? message.privateNote
-                        ? theme
-                        : themeDark
-                      : theme
-                  }
+              return (
+                <MessageItemWrapper
+                  key={`message-item-${conversation.key}-${message.id}`}
+                  data={message}
+                  events={events}
+                  conversation={conversation}
+                  email={current_user.email}
                 >
 
-                  {
-                    message.message.blocks
-                      ? renderBlocks(message, userOrAdmin)
-                      : message.message.action
-                        ? renderEventBlock(message, userOrAdmin)
-                        : renderMessage(message, userOrAdmin)
-                  }
-                </ThemeProvider>
-              </MessageItemWrapper>
-            )
-          })}
+                  <ThemeProvider
+                    theme={
+                      userOrAdmin === 'admin'
+                        ? message.privateNote
+                          ? theme
+                          : themeDark
+                        : theme
+                    }
+                  >
+
+                    {
+                      message.message.blocks
+                        ? renderBlocks(message, userOrAdmin)
+                        : message.message.action
+                          ? renderEventBlock(message, userOrAdmin)
+                          : renderMessage(message, userOrAdmin)
+                    }
+                  </ThemeProvider>
+                </MessageItemWrapper>
+              )
+            })}
+        </div>
       </div>
 
       <div className="pb-3 px-4 flex-none">

@@ -44,25 +44,25 @@ const LoadingWrapper = styled.div`
     top: -20px;
     perspective: 100000px;
   }
-  .loader span:nth-child(1) {
+  .loader span:nth-of-type(1) {
     left: 60px;
     animation: bounce2 1s cubic-bezier(0.04, 0.35, 0, 1) infinite;
     animation-delay: 0s;
     background: #ff756f;
   }
-  .loader span:nth-child(2) {
+  .loader span:nth-of-type(2) {
     left: 20px;
     animation: bounce2 1s cubic-bezier(0.04, 0.35, 0, 1) infinite;
     animation-delay: 0.2s;
     background: #ffde6f;
   }
-  .loader span:nth-child(3) {
+  .loader span:nth-of-type(3) {
     left: -20px;
     animation: bounce2 1s cubic-bezier(0.04, 0.35, 0, 1) infinite;
     animation-delay: 0.4s;
     background: #01de6f;
   }
-  .loader span:nth-child(4) {
+  .loader span:nth-of-type(4) {
     left: -60px;
     animation: bounce2 1s cubic-bezier(0.04, 0.35, 0, 1) infinite;
     animation-delay: 0.6s;

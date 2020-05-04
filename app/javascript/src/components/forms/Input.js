@@ -101,14 +101,14 @@ const WrappedComponent = React.forwardRef(function Input (
           />
           <label
             htmlFor={name}
-            className="ml-2 block text-sm leading-5 text-gray-900"
+            className="ml-2 block font-bold text-sm leading-5 text-gray-900"
           >
             {label}
           </label>
         </div>
 
         {helperText && (
-          <p className="mt-2 text-sm text-gray-500">{helperText}</p>
+          <p className="mt-2 text-xs text-gray-500">{helperText}</p>
         )}
       </div>
     )
@@ -166,10 +166,10 @@ const WrappedComponent = React.forwardRef(function Input (
           ref={ref}
         />
         <div className="ml-2 block">
-          <p className="text-sm leading-5 text-gray-900">{label}</p>
+          <p className="text-sm font-bold leading-5 text-gray-900">{label}</p>
 
           {helperText && (
-            <p className="mt-2 text-sm text-gray-500">{helperText}</p>
+            <p className="mt-2 text-xs text-gray-500">{helperText}</p>
           )}
         </div>
       </label>
