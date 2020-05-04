@@ -58,8 +58,6 @@ function Conversations ({
   const handleScroll = (e) => {
     const element = e.target
     const scrollDiff = Math.round(element.scrollHeight - element.scrollTop)
-    console.log(scrollDiff, element.clientHeight)
-
     if (scrollDiff === element.clientHeight) {
       if (conversations.meta.next_page && !fetching) {
         fetching = true
