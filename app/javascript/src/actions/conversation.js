@@ -219,7 +219,9 @@ export function assignUser (key, cb) {
 
 export function setLoading (val) {
   return (dispatch, getState) => {
-    dispatch(dispatchUpdateConversations({ loading: val }))
+    dispatch(dispatchUpdateConversations(
+      { ...getState().conversation, loading: val }
+    ))
   }
 }
 

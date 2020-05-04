@@ -31,7 +31,8 @@ function Conversations ({
   events,
   app_user
 }) {
-  let fetching = false
+
+  const [fetching, setFetching] = React.useState(false)
 
   React.useEffect(() => {
     dispatch(clearConversations([]))
@@ -60,11 +61,11 @@ function Conversations ({
     const scrollDiff = Math.round(element.scrollHeight - element.scrollTop)
     if (scrollDiff === element.clientHeight) {
       if (conversations.meta.next_page && !fetching) {
-        fetching = true
+        setFetching(true)
         fetchConversations({
           page: conversations.meta.next_page
         }, () => {
-          fetching = false
+          setFetching(false)
         })
       }
     }
@@ -180,6 +181,12 @@ function Conversations ({
               />
             )
           })}
+
+          {
+            fetching && <div className="m-2">
+              <Progress size="4"/>
+            </div>
+          }
         </div>
 
       </React.Fragment>

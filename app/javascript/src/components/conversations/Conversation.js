@@ -12,6 +12,7 @@ import { toCamelCase } from '../../shared/caseConverter'
 import ConversationEditor from './Editor.js'
 import Rtc from '../rtc'
 import { updateRtcEvents } from '../../actions/rtc'
+import Progress from '../Progress'
 
 import {
   getConversation,
@@ -22,7 +23,8 @@ import {
   clearConversation,
   updateConversationState,
   updateConversationPriority,
-  assignAgent
+  assignAgent,
+  setLoading
 } from '../../actions/conversation'
 
 import { AGENTS } from '../../graphql/queries'
@@ -185,6 +187,7 @@ function Conversation ({
 
     const lastItem = last(conversation.collection)
 
+    dispatch(setLoading(true))
     dispatch(
       getConversation(opts, () => {
         // this.getMainUser(this.state.conversation.mainParticipant.id)
@@ -527,7 +530,7 @@ function Conversation ({
   return (
     <BgContainer className="flex-1 flex flex-col overflow-hidden--">
       <div className="border-b flex px-6 py-3 items-center flex-none bg-white">
-        <div className="flex">
+        <div className="flex items-center">
           <Link
             to={`/apps/${app.key}/conversations`}
             className="block md:hidden">
@@ -716,6 +719,13 @@ function Conversation ({
                 </MessageItemWrapper>
               )
             })}
+
+          {
+            conversation.loading &&
+              <div className="m-2">
+                <Progress size="4"/>
+              </div>
+          }
         </div>
       </div>
 
