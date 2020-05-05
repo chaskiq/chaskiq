@@ -138,6 +138,7 @@ function CustomizationColors ({ app, settings, update, dispatch }) {
         <List dense={true} divider={true}>
           {fields.map((o, i) => (
             <FieldsItems
+              key={`fields-items-${o.name}-${i}`}
               primary={o.name}
               secondary={o.type}
               terciary={
@@ -178,6 +179,7 @@ function CustomizationColors ({ app, settings, update, dispatch }) {
         <List>
           {defaultFields.map((o, i) => (
             <FieldsItems
+              key={`default-fields-${o.type}-${i}`}
               primary={o.name}
               secondary={o.type}
               // terciary={}
