@@ -1,6 +1,6 @@
 import React from 'react'
 
-export default function Avatar ({ src, indicator, size }) {
+export default function Avatar ({ src, indicator, size, classes }) {
   function sizeClassName (size) {
     switch (size) {
       case 'small':
@@ -10,6 +10,7 @@ export default function Avatar ({ src, indicator, size }) {
       case 'large':
         return 'h-10 w-10'
       default:
+        if (!isNaN(size)) return `h-${size} w-${size}`
         return 'h-6 w-6'
     }
   }
@@ -17,7 +18,7 @@ export default function Avatar ({ src, indicator, size }) {
   return (
     <span className="inline-block relative">
       <img
-        className={`${sizeClassName(size)} rounded-full`}
+        className={`${sizeClassName(size)} rounded-full ${classes || ''}`}
         src={src}
         alt={src}
       />

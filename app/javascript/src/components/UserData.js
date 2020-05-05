@@ -5,49 +5,51 @@ import { connect } from 'react-redux'
 import Moment from 'react-moment'
 import Accordeon from './Accordeon'
 
-function UserData ({ app_user, app }) {
+function UserData ({ app_user, app, disableAvatar }) {
   return (
     <React.Fragment>
       {app_user && app_user.id && (
         <div className="overflow-hidden max-w-xs my-3">
-          <div>
-            <div className="flex justify-center mt-5">
-              <img
-                src={app_user.avatarUrl}
-                className="rounded-full border-solid border-white border-2 -mt-3"
-              />
-            </div>
+          {
+            !disableAvatar && <div>
+              <div className="flex justify-center mt-5">
+                <img
+                  src={app_user.avatarUrl}
+                  className="rounded-full border-solid border-white border-2 -mt-3"
+                />
+              </div>
 
-            <div className="text-center px-3 pb-6 pt-2">
-              <h3 className="text-sm leading-5 font-medium text-gray-900">
-                {app_user.properties.name}
+              <div className="text-center px-3 pb-6 pt-2">
+                <h3 className="text-sm leading-5 font-medium text-gray-900">
+                  {app_user.properties.name}
 
-                <span
-                  className={`
-                ${
-                  app_user.online
-                    ? 'bg-green-100 text-green-800'
-                    : 'bg-red-100 text-red-800'
-                }
-                px-2 inline-flex text-xs leading-5 font-semibold 
-                rounded-full bg-green-100 text-green-800`}
+                  <span
+                    className={`
+                  ${
+                    app_user.online
+                      ? 'bg-green-100 text-green-800'
+                      : 'bg-red-100 text-red-800'
+                  }
+                  px-2 inline-flex text-xs leading-5 font-semibold 
+                  rounded-full bg-green-100 text-green-800`}
+                  >
+                    {app_user.online ? 'Online' : 'Offline'}
+                  </span>
+                </h3>
+
+                <p className="text-sm leading-5 text-gray-500">
+                  {app_user.email}
+                </p>
+
+                <Link
+                  className="text-sm leading-5 font-medium text-gray-900"
+                  to={`/apps/${app.key}/users/${app_user.id}`}
                 >
-                  {app_user.online ? 'Online' : 'Offline'}
-                </span>
-              </h3>
-
-              <p className="text-sm leading-5 text-gray-500">
-                {app_user.email}
-              </p>
-
-              <Link
-                className="text-sm leading-5 font-medium text-gray-900"
-                to={`/apps/${app.key}/users/${app_user.id}`}
-              >
-                show profile
-              </Link>
+                  show profile
+                </Link>
+              </div>
             </div>
-          </div>
+          }
 
           <div className="bg-white shadow overflow-hidden">
             <ul>

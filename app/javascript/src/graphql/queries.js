@@ -386,7 +386,7 @@ query AppUser($appKey: String!, $id: Int! ) {
 `;
 
 export const APP_USER_CONVERSATIONS=`
-query Campaigns($appKey: String!, $id: Int!, $page: Int, $per: Int){
+query AppUserConversations($appKey: String!, $id: Int!, $page: Int, $per: Int){
   app(key: $appKey ){
     name
     key
