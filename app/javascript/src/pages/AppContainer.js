@@ -17,6 +17,7 @@ import Bots from './Bots'
 import Campaigns from './Campaigns'
 import CampaignHome from './campaigns/home'
 import Progress from '../components/Progress'
+import Profile from './Profile'
 
 import { connect } from 'react-redux'
 
@@ -224,6 +225,22 @@ function App ({
               <Route path={`${match.url}/team`}>
                 <Team />
               </Route>
+
+              <Route exact path={`${match.path}/users/:id`}
+                render={(props) => (
+                  <Profile
+                    {...props}
+                  />
+                )}
+              />
+
+              {/*<Route exact path={`${match.path}/agents/:id`}
+                render={(props) => (
+                  <AgentProfileView
+                    {...props}
+                  />
+                )}
+              />*/}
 
               <Route path={`${match.url}/webhooks`}>
                 <Webhooks />

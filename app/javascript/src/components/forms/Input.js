@@ -53,6 +53,7 @@ const WrappedComponent = React.forwardRef(function Input (
           onChange={props.onChange}
           placeholder={props.placeholder}
           ref={ref}
+          {...props}
         />
       </FormField>
     )
