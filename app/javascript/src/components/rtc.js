@@ -351,6 +351,7 @@ export function RtcView (props) {
         <div id="local-video-wrapper">
         <video id="local-video"
           muted="muted"
+          autoPlay
           ref={ localVideo }>
         </video>
         {callStarted && <button
