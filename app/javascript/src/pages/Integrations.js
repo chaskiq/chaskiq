@@ -8,6 +8,7 @@ import FormDialog from '../components/FormDialog'
 import DeleteDialog from '../components/DeleteDialog'
 import Tabs from '../components/Tabs'
 import PageHeader from '../components/PageHeader'
+import Hints from '../shared/Hints'
 
 import Button from '../components/Button'
 import Badge from '../components/Badge'
@@ -207,13 +208,17 @@ function Integrations ({ app, dispatch }) {
         currentTab={tabValue}
         tabs={[
           {
-            label: 'Active Webhooks',
-            icon: <HomeIcon />,
+            label: 'Active Integrations',
+            //icon: <HomeIcon />,
             content: (
               <div className="py-6">
                 <p className="text-lg leading-6 font-medium text-gray-900 pb-4">
                   API Integrations
                 </p>
+
+                <Hints type="Integrations"/>
+
+
                 {loading && <Progress />}
 
                 {integrations.length === 0 && !loading && (
@@ -237,7 +242,7 @@ function Integrations ({ app, dispatch }) {
             )
           },
           {
-            label: 'Disabled Webhooks',
+            label: 'Available API\'s',
             content: (
               <div className="py-6">
                 <p className="text-lg leading-6 font-medium text-gray-900 pb-4">

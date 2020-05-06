@@ -157,10 +157,14 @@ export function RtcView (props) {
         },
         audio: {
           enabled: props.rtcAudio,
-          sampleSize: 16,
-          channelCount: 2,
-          echoCancellation: false,
-          noiseSuppression: false
+          noiseSuppression: true,
+          echoCancellation: true,
+          autoGainControl: true,
+          sampleRate: 44000,
+          channelCount: {
+            ideal: 1
+          },
+          volume: 0.9
         },
       };
       navigator.getUserMedia(
@@ -347,8 +351,7 @@ export function RtcView (props) {
         <div id="local-video-wrapper">
         <video id="local-video"
           muted="muted"
-          ref={ localVideo }
-          autoPlay>
+          ref={ localVideo }>
         </video>
         {callStarted && <button
           className='control-btn'

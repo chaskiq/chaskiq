@@ -13,6 +13,7 @@ import { camelizeKeys } from '../actions/conversation'
 import PageHeader from '../components/PageHeader'
 import Tabs from '../components/Tabs'
 import Panel from '../components/Panel'
+import Hints from '../shared/Hints'
 import DeleteDialog from '../components/DeleteDialog'
 import EmptyView from '../components/EmptyView'
 
@@ -288,13 +289,8 @@ function Settings ({ app, dispatch }) {
             icon: <HomeIcon />,
             content: (
               <React.Fragment>
-                <div className="pb-2 pt-2">
-                  <Panel
-                    title={'Active Webhooks'}
-                    text={'Webhooks feature it\'s all about delivering notifications of chaskiq events'}
-                    variant="shadowless"
-                  />
-                </div>
+                
+                <Hints type="Webhooks"/>
 
                 {activeWebhooks().length > 0 && (
                   <List>

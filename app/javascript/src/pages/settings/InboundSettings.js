@@ -12,6 +12,7 @@ import { getAppUser } from "../../actions/app_user";
 import { withRouter, Switch } from "react-router-dom";
 import { connect } from "react-redux";
 import Input from "../../components/forms/Input";
+import Hints from '../../shared/Hints'
 
 function InboundSettings({ settings, update, dispatch }) {
   const [state, setState] = React.useState({
@@ -68,13 +69,9 @@ function InboundSettings({ settings, update, dispatch }) {
   return (
     <div>
       <div className="py-4">
-        <p className="text-lg leading-6 font-medium text-gray-900 pb-2">
-          Control inbound conversations and the launcher
-        </p>
 
-        <p className="text-md leading-6 font-medium text-gray-600 pb-2">
-          Control who can send you messages and where they see the launcher
-        </p>
+        <Hints type="InboundSettings"/>
+        
       </div>
 
       <p className="text-lg leading-5 font-medium text-gray-900 pb-2">

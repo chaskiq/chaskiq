@@ -7,7 +7,6 @@ import PageHeader from "../components/PageHeader";
 import Tabs from "../components/Tabs";
 import { HomeIcon } from "../components/icons";
 import { setCurrentPage, setCurrentSection } from "../actions/navigation";
-
 import SettingsForm from "./settings/form";
 
 import serialize from "form-serialize";
@@ -272,6 +271,7 @@ class AppSettingsContainer extends Component {
             content: (
               <SettingsForm
                 title={"Security Settings"}
+                hint={"Security"}
                 currentUser={this.props.currentUser}
                 data={this.props.app}
                 update={this.update.bind(this)}
