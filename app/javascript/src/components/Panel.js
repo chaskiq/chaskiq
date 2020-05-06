@@ -1,6 +1,6 @@
 import React from 'react'
 
-export default function Panel ({ title, text, variant }) {
+export default function Panel ({ title, text, variant, link, classes }) {
   function variantClasses () {
     switch (variant) {
       case 'shadowless':
@@ -11,24 +11,29 @@ export default function Panel ({ title, text, variant }) {
   }
 
   return (
-    <div className={`bg-white ${variantClasses()} sm:rounded-lg`}>
+    <div className={`bg-white ${variantClasses()} ${classes || ''} sm:rounded-lg`}>
       <div className="px-4 py-5 sm:p-6">
-        <h3 className="text-lg leading-6 font-medium text-gray-900">{title}</h3>
+        {
+          title &&
+            <h3 className="text-lg leading-6 font-medium text-gray-900">
+              {title}
+            </h3>
+        }
 
         {text && (
-          <div className="mt-2 max-w-xl text-sm leading-5 text-gray-500">
+          <div className="mt-2-- max-w-xl text-sm leading-5 text-gray-500">
             <p>{text}</p>
           </div>
         )}
 
-        <div className="mt-3 text-sm leading-5">
+        {link && <div className="mt-3 text-sm leading-5">
           <a
-            href="#"
+            href={link.href}
             className="font-medium text-indigo-600 hover:text-indigo-500 transition ease-in-out duration-150"
           >
-            Learn more about our webhook feature →
+            {link.text} →
           </a>
-        </div>
+        </div>}
       </div>
     </div>
   )

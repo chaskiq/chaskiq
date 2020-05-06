@@ -5,6 +5,7 @@ import FieldRenderer, {
   gridClasses,
 } from "../../components/forms/FieldRenderer";
 import Button from "../../components/Button";
+import Hints from "../../shared/Hints";
 
 export default class SettingsForm extends Component {
   constructor(props) {
@@ -41,6 +42,11 @@ export default class SettingsForm extends Component {
             this.formRef = form;
           }}
         >
+
+        {
+          this.props.hint && <Hints type={this.props.hint}/>
+        }
+
           <p
             className="text-lg leading-6 font-medium 
                 text-gray-900 py-4"

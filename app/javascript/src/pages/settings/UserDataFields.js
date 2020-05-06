@@ -5,7 +5,7 @@ import Button from '../../components/Button'
 import { withRouter } from 'react-router-dom'
 import { connect } from 'react-redux'
 import FormDialog from '../../components/FormDialog'
-
+import Hints from '../../shared/Hints'
 import List, {
   ListItem,
   ListItemText,
@@ -116,6 +116,10 @@ function CustomizationColors ({ app, settings, update, dispatch }) {
 
   return (
     <div className="py-4">
+
+      <Hints type="UserData" />
+
+
       <div className="flex items-center justify-between">
         <p className="text-lg leading-6 font-medium  text-gray-900 py-4">
           Custom Fields

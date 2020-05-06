@@ -3,7 +3,7 @@ import I18n from '../../shared/FakeI18n'
 import Tooltip from 'rc-tooltip'
 
 import Button from '../../components/Button'
-
+import Hints from '../../shared/Hints'
 import { PlusIcon, DeleteIcon } from '../../components/icons'
 import Input from '../../components/forms/Input'
 // const options = I18n.t("settings.availability.reply_time.options")
@@ -43,8 +43,10 @@ export default function LanguageForm ({ settings, update, namespace, fields }) {
   }
 
   return (
-    <form className="py-4" ref={(ref) => (formRef = ref)}>
+    <form ref={(ref) => (formRef = ref)}>
       <div className="py-4">
+        <Hints type="Availability"/>
+
         <p className="text-lg leading-6 font-medium text-gray-900 pb-2">
           {I18n.t('settings.availability.title')}
         </p>

@@ -12,6 +12,7 @@ import Button from "../components/Button";
 import TextField from "../components/forms/Input";
 import CircularProgress from "../components/Progress";
 import { errorMessage, successMessage } from "../actions/status_messages";
+import Hints from "../shared/Hints";
 
 import { AnchorLink } from "../shared/RouterLink";
 
@@ -147,43 +148,48 @@ class Articles extends Component {
 
   tabsContent = () => {
     return (
-      <Tabs
-        value={this.state.tabValue}
-        onChange={this.handleTabChange}
-        textColor="inherit"
-        tabs={[
-          {
-            label: "All",
-            content: (
-              <AllArticles
-                {...this.props}
-                settings={this.state.settings}
-                mode={"all"}
-              />
-            ),
-          },
-          {
-            label: "Published",
-            content: (
-              <AllArticles
-                {...this.props}
-                settings={this.state.settings}
-                mode={"published"}
-              />
-            ),
-          },
-          {
-            label: "Draft",
-            content: (
-              <AllArticles
-                {...this.props}
-                settings={this.state.settings}
-                mode={"draft"}
-              />
-            ),
-          },
-        ]}
-      ></Tabs>
+      <div>
+        <Hints type={'Articles'}/>
+        <Tabs
+          value={this.state.tabValue}
+          onChange={this.handleTabChange}
+          textColor="inherit"
+          tabs={[
+            {
+              label: "All",
+              content: (
+                <div>
+                  <AllArticles
+                    {...this.props}
+                    settings={this.state.settings}
+                    mode={"all"}
+                  />
+                </div>
+              ),
+            },
+            {
+              label: "Published",
+              content: (
+                <AllArticles
+                  {...this.props}
+                  settings={this.state.settings}
+                  mode={"published"}
+                />
+              ),
+            },
+            {
+              label: "Draft",
+              content: (
+                <AllArticles
+                  {...this.props}
+                  settings={this.state.settings}
+                  mode={"draft"}
+                />
+              ),
+            },
+          ]}
+        />
+      </div>
     );
   };
 
@@ -421,7 +427,7 @@ class AllArticles extends React.Component {
     const { openDeleteDialog } = this.state;
 
     return (
-      <div actions={this.renderActions()}>
+      <div>
         <ScrollableTabsButtonForce
           tabs={this.props.settings.availableLanguages.map((o) =>
             langs.find((lang) => lang.value === o)
