@@ -1,12 +1,11 @@
 
-Chaskiq is a 100% open source conversational marketing platform build as an alternative for Intercom, Drift, and others, currently under active development.
+![image](https://user-images.githubusercontent.com/11976/81771025-eaefe780-94af-11ea-881b-ad7910536fee.png)
 
-<div align="center">
-  <h1> Chaskiq</h1>
-  Chaskiq is a platform that enables chat comunication with users in app or via campaigns (in app messages or newsletters). The platform is a Ruby on Rails app serving a graphql API which is consumed by a React application.
-  It has minimal dependences , Postgres & Redis and interoperates with cdn providers like Amazon s3 and Amazon SES for email delivery. You can use other providers too.
-  <br/>
-</div>
+# Chaskiq 
+## Open Source Messaging Platform for Marketing, Support & Sales
+### The front line of your customer service.
+
+<img alt="Travis CI" src="https://travis-ci.org/chaskiq/chaskiq.svg?branch=master"/>
 
 <br/>
 
@@ -16,67 +15,63 @@ Chaskiq is a 100% open source conversational marketing platform build as an alte
   </a>
 </p>
 
-<p align="center">
-  <!--<img alt="Chaskiq CI Status" src="https://github.com/chaskiq/chaskiq/workflows/CI/badge.svg"/>-->
-  <img alt="Travis CI" src="https://travis-ci.org/chaskiq/chaskiq.svg?branch=master"/>
-</p>
-
 
 ----
 
-![image](https://user-images.githubusercontent.com/11976/71675959-c6e00500-2d5d-11ea-83cf-8cd5cf5cbd89.png)
-
 ## Main features:
 
-- **Segments** or users filters to trigger campaigns, messages and bots.
-  - use build in attributes like "last sign in", "country", "nº of sessions" or provide your own attributes from your registered users.
-- **Embedable Widget Messenger**
-  - Embed web widget with a simple js snippet
-  - Pass custom attributes to feed your segment properties
-  - Secure data comunication with Encrypted data (JWE)
-  - Multilanguage and Customizable color palette
-- **Conversations**
-  - Agent's auto assignment
-  - Extensible Chat editor with many kind of blocks ie: image, code, video, embed, giphy and more.. it's based in <a href="https://github.com/michelson/Dante2">Dante2</a> editor
-- **Campaigns**
-  - **Newsletters** with programable scheduling and Audience target
-    - track open, clicks and complaints
-  - **User auto messages**, send messages to visitors through 
-  segments
-    - track open, clicks
-  - **Receive & Reply** those unreaded messages from email and deliver the directly to the chat.
-  - **Set Agent's team availability**, days with their time frames.
-  - **Compose Onboarding** tours to give an awesome experience on your site
-    - track open, clicks and skips
-    - set which url the onboarding should trigger, support patterns like /*
+<img align="right" width="400" height="auto" src="https://user-images.githubusercontent.com/11976/81771031-f17e5f00-94af-11ea-9e2b-4df8128dfa6d.png">
 
-  All Campaigns messages are powered by Dante2, with all the bells and whistles.
- 
-
-- **Data enrichment**, through third parties
-- **Api integrations** & pluggable integrations (currently on the works)
-- **Programable bots** and composable paths of conversations
-- **Report dashboard** with visits avg response & resolution times
-- **Help Center/ Knowledge base** in the box
-  - Create articles & collections
-  - multilanguage
+- Customer Segment Filters with custom attributes support
+- Web Messenger embed
+- Agent's conversation routing
+- Text chat with customizable content blocks support
+- **Video Calls** !
+- Triggerable conversational bots
+- Mailing campaigns
+- Onboarding tours
+- API integrations - Whatsapp / Twitter DM / Slack / Calendly / Zoom and more!
+- CRM integration - Pipedrive supported
+- Webhooks
+- Help Center system with multilanguage support
+- API support - consumible via GrapqhQL with Oauth authorization
 
 And many features to come
 
 To learn more about the philosophy and goals of the project, [visit **chaskiq.io**](https://www.chaskiq.io).
 
-## Screenshots
 
-### Intercom's like messenger. widget based chat application:
+### Embeddable WebChat:
 
-![image](https://user-images.githubusercontent.com/11976/71646953-88026e80-2ccd-11ea-8a3f-6a80c0098dff.png)
+<img align="right" width="300" height="auto" src="https://user-images.githubusercontent.com/11976/81771091-14107800-94b0-11ea-98a8-a714b0290f66.png">
+
+- A powerful text editor for the chat based in Dante2 Wysiwyg.
+- Animated Gifs.
+- Embeddable Videos from Youtube, Vimeo.
+- Embedable webpages via Oembed protocol.
+- Video Recorder.
+- Video Calls via RTC protocol.
+- Third party apps like Calendly & Zoom.
+- Colorized Code via Prism.js.
+
+<hr>
+
+![image](https://user-images.githubusercontent.com/11976/81775079-095ae080-94ba-11ea-9992-bce7f34e3ff0.png)
 
 ## Dashboard panel
 
-![image](https://user-images.githubusercontent.com/11976/71302992-3682e700-2391-11ea-9920-21617d9bd574.png)
+<img align="right" width="300" height="auto" src="https://user-images.githubusercontent.com/11976/81775425-d5cc8600-94ba-11ea-90e2-bac4c8fa8d16.png">
+
+We have designed the dashboard with an extensible & pluggable architecture, you can implement your own dashboard blocks to customize it with external data sources.
+
+Also it can display the visit activity and the conversation performance like reply rate times & response averages.
+
 
 ## Help Center
-![image](https://user-images.githubusercontent.com/11976/71303031-d80a3880-2391-11ea-9798-34cc7e81e9d1.png)
+
+Chaskiq has a powerful article content creator which can serve as a Help Center / Knowledge base system. it can live on a custom domain or in the same webchat for your customer auto assistance.
+
+![image](https://user-images.githubusercontent.com/11976/81776113-33150700-94bc-11ea-84c7-86a694c13885.png)
 
 
 ## Development
