@@ -1,0 +1,49 @@
+name: Push Docker Image
+
+on:
+  push:
+    branches:
+      - tailwind
+  pull_request:
+    branches:
+      - tailwind
+
+jobs:
+
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+
+    - name: Login into Registry
+      uses: azure/docker-login@v1
+      with:
+        username: ${{ secrets.DOCKER_USERNAME }}
+        password: ${{ secrets.DOCKER_PASSWORD }}
+
+    - uses: actions/checkout@v2
+
+    - name: Get Short SHA
+      id: vars
+      run: |
+        echo ::set-output name=short_sha::$(git rev-parse --short=7 ${{ github.sha }})
+
+    - name: Build the Docker image
+      run: |
+        docker build --build-arg APP_ENV=production \
+             --build-arg RUBY_VERSION=2.6.5 \
+             --build-arg PG_MAJOR=11 \
+             --build-arg NODE_MAJOR=10 \
+             --build-arg YARN_VERSION=1.13.0 \
+             --build-arg BUNDLER_VERSION=2.1.3 \
+             -t $GITHUB_REPOSITORY \
+             .
+
+    - name: Tag and Push Docker image
+      run: |
+        docker tag $GITHUB_REPOSITORY $GITHUB_REPOSITORY:$SHORT_SHA
+        docker push $GITHUB_REPOSITORY:$SHORT_SHA
+        echo "SHORT_SHA: ${SHORT_SHA}"
+      env:
+        SHORT_SHA: ${{ steps.vars.outputs.short_sha }}

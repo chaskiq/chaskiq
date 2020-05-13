@@ -1,443 +1,437 @@
 // same as SegmentItemButton
 
+import React, { Component } from "react";
 
-import React, {Component} from "react"
+import FormDialog from "../FormDialog";
+import styled from "@emotion/styled";
+import Dropdown from "../Dropdown";
 
-import AddIcon from '@material-ui/icons/Add'
-import FormDialog from '../FormDialog'
-import ClickAwayListener from '@material-ui/core/ClickAwayListener';
-import styled from '@emotion/styled'
-import { withStyles } from '@material-ui/core/styles';
-
-import Button from '@material-ui/core/Button'
-import MenuItem from '@material-ui/core/MenuItem'
-import Menu from '@material-ui/core/Menu'
-import Radio from '@material-ui/core/Radio'
-import RadioGroup from '@material-ui/core/RadioGroup'
-import FormControlLabel from '@material-ui/core/FormControlLabel'
-import TextField from '@material-ui/core/TextField'
-
-const TextField1 = withStyles({
-  root: {
-    marginRight: '10px',
-    marginTop: '0px',
-    /*border: '1px solid rgba(0, 0, 0, .125)',
-    boxShadow: 'none',
-    '&:not(:last-child)': {
-      borderBottom: 0,
-    },
-    '&:before': {
-      display: 'none',
-    },
-    '&$expanded': {
-      margin: 'auto',
-    },*/
-  }
-})(TextField);
-
-const ContentMatchTitle = styled.h5`
+const h2 = styled.h5`
   margin: 15px;
   border-bottom: 2px dotted #6f6f6f26;
-`
+`;
 
 const ContentMatch = styled.div`
-  overflow: auto;
-  width: 300px;
-  height: 221px;
-  padding-left: 14px;
-  border-bottom: 1px solid #ccc;
-  margin-bottom: 7px;
-`
+  height: 200px;
+`;
 
 const ContentMatchFooter = styled.div`
   display: flex;
   align-items: baseline;
   justify-content: space-evenly;
-
   position: absolute;
   bottom: 1px;
   padding: 1em;
-  background: ${(props)=> props.theme.palette.background.paper};
-  box-shadow: -1px -1px 6px 0px ${(props)=> props.theme.palette.background.paper};
   width: 100%;
-`
+`;
 
-const ContentMatchWrapper = styled.div`
+const div = styled.div`
   margin-bottom: 3em;
-`
+`;
 
 export default class SegmentItemButton extends Component {
   state = {
     dialogOpen: this.props.open,
     selectedOption: this.props.predicate.comparison,
-    checkedValue: this.props.predicate.value, 
-    btn: null
+    checkedValue: this.props.predicate.value,
+    btn: null,
   };
 
-  relative_input = null
-  btn_ref = null
+  relative_input = null;
+  btn_ref = null;
   blockStyleRef = React.createRef();
 
-  onRadioChange = (target, cb)=> {
-    const {value} = target
- 
-    window.blockStyleRef = this.blockStyleRef.current
-    window.target = target
 
-    this.setState({
-      selectedOption: value
-    }, ()=> {
+  componentDidUpdate(prevProps) {
+    if (this.props.predicate !== prevProps.predicate) {
+      this.setState({
+        selectedOption: this.props.predicate.comparison,
+        checkedValue: this.props.predicate.value
+      });
+    }
+  }
 
-      setTimeout(()=> {
-        const el = this.blockStyleRef.current
-        const diff = target.getBoundingClientRect().top - el.getBoundingClientRect().top
-        this.blockStyleRef.current.scrollTop = diff
-      }, 20)
+  onRadioChange = (target, cb) => {
+    const { value } = target;
 
-      cb ? cb() : null
-    })
+    window.blockStyleRef = this.blockStyleRef.current;
+    window.target = target;
+
+    this.setState(
+      {
+        selectedOption: value,
+      },
+      () => {
+        setTimeout(() => {
+          const el = this.blockStyleRef.current;
+          const diff =
+            target.getBoundingClientRect().top - el.getBoundingClientRect().top;
+          this.blockStyleRef.current.scrollTop = diff;
+        }, 20);
+
+        cb && cb();
+      }
+    );
   };
 
-  onRadioTypeChange = (target, cb)=>{
-    const s = this.state.selectedOption
+  onRadioTypeChange = (target, cb) => {
+    const s = this.state.selectedOption;
     const h = {
       comparison: "eq",
-      value: target.value
-    }
+      value: target.value,
+    };
 
-    const response = Object.assign({}, this.props.predicate, h )
+    const response = Object.assign({}, this.props.predicate, h);
 
-    const new_predicates = this.props.predicates.map(
-      (o, i)=> this.props.index === i ? response : o  
-    )
+    const new_predicates = this.props.predicates.map((o, i) =>
+      this.props.index === i ? response : o
+    );
 
     this.setState({
       checkedValue: target.value,
-      selectedOption: "eq"
-    })
-    
-    //, ()=>{
-    //  this.props.updatePredicate(new_predicates, this.props.predicateCallback )
-    //})
-  }
+      selectedOption: "eq",
+    });
+  };
 
-  handleSubmit = (e)=> {
+  handleSubmit = (e) => {
     //this.props.predicate.type
-    let value = null 
-    
-    if(this.relative_input && !this.relative_input.value)
-      return this.toggleDialog2()
+    let value = null;
 
-    let comparison = this.state.selectedOption.replace("relative:", "")
+    if (this.relative_input && !this.relative_input.value)
+      return this.toggleDialog2();
 
-    switch(this.props.predicate.type){
+    let comparison = this.state.selectedOption.replace("relative:", "");
+
+    switch (this.props.predicate.type) {
       case "string": {
         switch (this.props.predicate.attribute) {
           case "type":
             // we assume here that this field is auto applied
-            // todo: set radio button on mem and update only on apply click 
-            value = `${this.state.checkedValue}`
+            // todo: set radio button on mem and update only on apply click
+            value = `${this.state.checkedValue}`;
             break;
           default:
-            value = `${this.relative_input.value}`
+            value = `${this.relative_input.value}`;
             break;
         }
-        break
+        break;
       }
 
       case "integer": {
-        value = this.relative_input.value
-        break;        
+        value = this.relative_input.value;
+        break;
       }
 
       case "date": {
-        value = `${this.relative_input.value} days ago`
+        value = `${this.relative_input.value} days ago`;
         break;
       }
 
       case "match": {
-        value = `${this.state.checkedValue}`
-        comparison = `${this.state.checkedValue}`
+        value = `${this.state.checkedValue}`;
+        comparison = `${this.state.checkedValue}`;
         break;
       }
 
+      default:
+        return null;
     }
 
     const h = {
       comparison: comparison,
-      value: value
-    }
+      value: value,
+    };
 
-    const response = Object.assign({}, this.props.predicate, h )
-    const new_predicates = this.props.predicates.map(
-      (o, i)=> this.props.index === i ? response : o  
-    )
-    
-    this.props.updatePredicate(new_predicates, this.props.predicateCallback )
+    const response = Object.assign({}, this.props.predicate, h);
+    const new_predicates = this.props.predicates.map((o, i) =>
+      this.props.index === i ? response : o
+    );
 
-    this.toggleDialog()
-  }
+    this.props.updatePredicate(new_predicates, this.props.predicateCallback);
+
+    this.toggleDialog();
+  };
 
   handleDelete = (e) => {
     //const response = Object.assign({}, this.props.predicate, h )
     //const new_predicates = this.props.predicates.map((o, i)=> this.props.index === i ? response : o  )
-    const data = this.props.predicates.filter((o,i)=> i !== this.props.index )
-    this.props.deletePredicate(data, this.props.predicateCallback)
-  }
+    const data = this.props.predicates.filter((o, i) => i !== this.props.index);
+    this.props.deletePredicate(data, this.props.predicateCallback);
+  };
 
   renderOptions = () => {
-
-    switch(this.props.predicate.type){
+    switch (this.props.predicate.type) {
       case "string": {
-        switch(this.props.predicate.attribute){
-          case "type": 
-            return this.contentType()
+        switch (this.props.predicate.attribute) {
+          case "type":
+            return this.contentType();
           default:
-            return this.contentString()
+            return this.contentString();
         }
       }
 
       case "date": {
-        return this.contentDate()
+        return this.contentDate();
       }
 
       case "integer": {
-        return this.contentInteger()
+        return this.contentInteger();
       }
 
       case "match": {
-        return this.contentMatch() 
+        return this.contentMatch();
       }
+
+      default:
+        return null;
     }
+  };
 
-  }
+  toggleDialog2 = () => {
+    this.setState({ dialogOpen: !this.state.dialogOpen });
+  };
 
-  toggleDialog2 = ()=>{
-    this.setState({dialogOpen: !this.state.dialogOpen })
-  }
-
-  contentType = ()=>{
-    const compare = (value)=>{
-      return this.props.predicate.comparison === value
-    }
+  contentType = () => {
+    const compare = (value) => {
+      return this.props.predicate.comparison === value;
+    };
 
     const relative = [
-      {label: "AppUser", value: "AppUser", defaultSelected: false},
-      {label: "Lead", value: "Lead", defaultSelected: false},
-      {label: "Visitor", value: "Visitor", defaultSelected: false},
-    ]
+      { label: "AppUser", value: "AppUser", defaultSelected: false },
+      { label: "Lead", value: "Lead", defaultSelected: false },
+      { label: "Visitor", value: "Visitor", defaultSelected: false },
+    ];
 
-    return <ClickAwayListener 
-              onClickAway={this.toggleDialog2.bind(this)}>
+    return (
+      <div>
+        {
+          <div className="p-2">
+            <h2 className="text-sm leading-5 font-medium text-gray-900">
+              Select the filter for {this.props.predicate.attribute}
+            </h2>
+          </div>
+        }
 
-            <ContentMatchWrapper>
+        <ContentMatch ref={this.blockStyleRef}>
+          <div className="mt-2 p-2 h-32 overflow-scroll">
+            {relative.map((o, i) => {
+              return (
+                <div>
+                  <label className="inline-flex items-center">
+                    <input
+                      type="radio"
+                      className="form-radio h-4 w-4 text-indigo-600 transition duration-150 ease-in-out"
+                      name="options"
+                      value={o.value}
+                      checked={o.value === this.state.checkedValue}
+                      onChange={(e) => {
+                        this.onRadioTypeChange(e.target);
+                      }}
+                    />
+                    <span className="ml-2">{o.label}</span>
+                  </label>
+                </div>
+              );
+            })}
+          </div>
+        </ContentMatch>
 
-              {<MenuItem>
-                <ContentMatchTitle>
-                  Select the filter for {this.props.predicate.attribute}
-                </ContentMatchTitle>
-              </MenuItem>}
+        <ContentMatchFooter>
+          {this.state.selectedOption &&
+            (this.state.selectedOption !== "is_null" ||
+              this.state.selectedOption !== "is_not_null") && (
+              <button
+                className="p-2 inline-flex items-center px-2.5 py-1.5 border border-transparent text-xs leading-4 font-medium rounded text-white bg-indigo-600 hover:bg-indigo-500 focus:outline-none focus:border-indigo-700 focus:shadow-outline-indigo active:bg-indigo-700 transition ease-in-out duration-150"
+                onClick={this.handleSubmit.bind(this)}
+              >
+                Apply
+              </button>
+            )}
 
-              <ContentMatch ref={this.blockStyleRef}>
-                <RadioGroup
-                  aria-label="options"
-                  name="options"
-                  onChange={(e)=>{
-                    this.onRadioTypeChange(e.target)
-                  }}>
-                  {
-                    relative.map((o, i)=>(
-                      <div  key={`${o.name}-${i}`}
-                            style={{ 
-                                   display: 'flex',
-                                   flexDirection: 'column'                                 
-                                 }}>
-
-                        <FormControlLabel
-                          control={<Radio 
-                                    checked={o.label === this.state.checkedValue} 
-                                   />} 
-                          value={o.value}
-                          label={o.label} 
-                        />
-
-                      </div>
-
-                    ))
-                  }
-                </RadioGroup>
-              </ContentMatch>
-
-              <ContentMatchFooter>
-
-                { 
-                  this.state.selectedOption && 
-                  (this.state.selectedOption !== "is_null" || 
-                    this.state.selectedOption !== "is_not_null") &&
-                  
-                  <Button
-                    variant="outlined" 
-                    color="primary"
-                    size={"small"}
-                    onClick={this.handleSubmit.bind(this)}>
-                    Apply
-                  </Button>
-
-                }
-
-                { this.deleteButton()  }
-              </ContentMatchFooter> 
-            </ContentMatchWrapper>
-          </ClickAwayListener>
-  }
+          {this.deleteButton()}
+        </ContentMatchFooter>
+      </div>
+    );
+  };
 
   contentString = () => {
-    
-    const compare = (value)=>{
-      return this.props.predicate.comparison === value
-    }
+    const compare = (value) => {
+      return this.props.predicate.comparison === value;
+    };
 
     const relative = [
-      {label: "is", value: "eq", defaultSelected: false},
-      {label: "is not", value: "not_eq", defaultSelected: false},
-      {label: "starts with", value: "contains_start", defaultSelected: false},
-      {label: "ends with", value: "contains_ends", defaultSelected: false},
-      {label: "contains", value: "contains", defaultSelected: false},
-      {label: "does not contain", value: "not_contains", defaultSelected: false},
-      {label: "is unknown", value: "is_null", defaultSelected: false},
-      {label: "has any value", value: "is_not_null", defaultSelected: false},
-    ]
+      { label: "is", value: "eq", defaultSelected: false },
+      { label: "is not", value: "not_eq", defaultSelected: false },
+      { label: "starts with", value: "contains_start", defaultSelected: false },
+      { label: "ends with", value: "contains_ends", defaultSelected: false },
+      { label: "contains", value: "contains", defaultSelected: false },
+      {
+        label: "does not contain",
+        value: "not_contains",
+        defaultSelected: false,
+      },
+      { label: "is unknown", value: "is_null", defaultSelected: false },
+      { label: "has any value", value: "is_not_null", defaultSelected: false },
+    ];
 
-    return <ClickAwayListener onClickAway={this.toggleDialog2.bind(this)}>
+    // <ClickAwayListener onClickAway={this.toggleDialog2.bind(this)}>
+    // </ClickAwayListener>
+    return (
+      <div>
+        {
+          <div className="p-2">
+            <h2 className="text-sm leading-5 font-medium text-gray-900">
+              Select the filter for {this.props.predicate.attribute}
+            </h2>
+          </div>
+        }
 
-            <ContentMatchWrapper>
+        <ContentMatch ref={this.blockStyleRef}>
+          <div className="mt-2 p-2 mt-2 p-2 h-32 overflow-scroll">
+            {relative.map((o, i) => {
+              return (
+                <div>
+                  <label className="inline-flex items-center">
+                    <input
+                      type="radio"
+                      className="form-radio h-4 w-4 text-indigo-600 transition duration-150 ease-in-out"
+                      name="options"
+                      value={o.value}
+                      checked={o.value === this.state.checkedValue}
+                      onChange={(e) => {
+                        this.onRadioTypeChange(e.target);
+                      }}
+                    />
+                    <span className="ml-2 block text-sm leading-5 font-medium text-gray-700">
+                      {o.label}
+                    </span>
+                  </label>
 
-              {<MenuItem>
-                <ContentMatchTitle>
-                  Select the filter for {this.props.predicate.attribute}
-                </ContentMatchTitle>
-              </MenuItem>}
-
-              <ContentMatch ref={this.blockStyleRef}>
-                <RadioGroup
-                  aria-label="options"
-                  name="options"
-                  onChange={(e)=>{
-                    this.onRadioChange(e.target)
-                  }}>
-                  {
-                    relative.map((o, i)=>(
-                      <div  key={`${o.name}-${i}`}
-                            style={{ 
-                              display: 'flex',
-                              flexDirection: 'column'                                 
-                            }}>
-
-                        <FormControlLabel
-                          control={<Radio 
-                                    checked={this.state.selectedOption === o.value} 
-                                   />} 
-                          value={o.value}
-                          label={o.label} 
-                        /> 
-
-                        {
-
-                          this.state.selectedOption && 
-                          this.state.selectedOption === o.value ?
-                          
-                        
-                            <TextField1
-                              //id="standard-uncontrolled"
-                              //label="Uncontrolled"
-                              //classes={}
-                              //variant={"outlined"}
-                              defaultValue={this.props.predicate.value}
-                              inputRef={input => (
-                                this.relative_input = input)
-                              }
-                              label={"value"}
-                              //className={classes.textField}
-                              margin="normal"
-                            /> : null
-
-                        }
-
+                  {this.state.checkedValue &&
+                    this.state.checkedValue === o.value && (
+                      <div>
+                        <input
+                          type="text"
+                          defaultValue={this.props.predicate.value}
+                          ref={(input) => (this.relative_input = input)}
+                          className={
+                            "max-w-xs rounded-md shadow-sm form-input block w-full transition duration-150 ease-in-out sm:text-sm sm:leading-5"
+                          }
+                          label={"value"}
+                          margin="normal"
+                        />
                       </div>
+                    )}
+                </div>
+              );
+            })}
+          </div>
+        </ContentMatch>
 
-                    ))
-                  }
-                </RadioGroup>
-              </ContentMatch>
+        <ContentMatchFooter>
+          {this.state.selectedOption &&
+            (this.state.selectedOption !== "is_null" ||
+              this.state.selectedOption !== "is_not_null") && (
+              <button
+                className="p-2 inline-flex items-center px-2.5 py-1.5 border border-transparent text-xs leading-4 font-medium rounded text-white bg-indigo-600 hover:bg-indigo-500 focus:outline-none focus:border-indigo-700 focus:shadow-outline-indigo active:bg-indigo-700 transition ease-in-out duration-150"
+                variant="outlined"
+                color="primary"
+                size={"small"}
+                onClick={this.handleSubmit.bind(this)}
+              >
+                Apply
+              </button>
+            )}
 
-              <ContentMatchFooter>
-
-                { 
-                  this.state.selectedOption && 
-                  (this.state.selectedOption !== "is_null" || 
-                    this.state.selectedOption !== "is_not_null") &&
-                  
-                  <Button
-                    variant="outlined" 
-                    color="primary"
-                    size={"small"}
-                    onClick={this.handleSubmit.bind(this)}>
-                    Apply
-                  </Button>
-
-                }
-
-                { this.deleteButton()  }
-                {/*<Button
+          {this.deleteButton()}
+          {/*<button
+                    className="p-2 inline-flex items-center px-2.5 py-1.5 border border-transparent text-xs leading-4 font-medium rounded text-white bg-indigo-600 hover:bg-indigo-500 focus:outline-none focus:border-indigo-700 focus:shadow-outline-indigo active:bg-indigo-700 transition ease-in-out duration-150"
                     variant="outlined"
                     color="primary"
                     onClick={this.handleSubmit.bind(this)}>
                     cancel
-                  </Button>*/}
-
-              </ContentMatchFooter> 
-
-            </ContentMatchWrapper>
-
-          </ClickAwayListener>
-
-  }
+                  </button>*/}
+        </ContentMatchFooter>
+      </div>
+    );
+  };
 
   contentDate = () => {
-  
-    const compare = (value)=>{
-      return this.props.predicate.comparison === value
-    }
+    const compare = (value) => {
+      return this.props.predicate.comparison === value;
+    };
 
     const relative = [
-      {label: "more than", value: "lt", defaultSelected: compare("lt")  },
-      {label: "exactly", value: "eq",  defaultSelected: compare("eq")  },
-      {label: "less than", value: "gt", defaultSelected: compare("gt")  },
-    ]
+      { label: "more than", value: "lt", defaultSelected: compare("lt") },
+      { label: "exactly", value: "eq", defaultSelected: compare("eq") },
+      { label: "less than", value: "gt", defaultSelected: compare("gt") },
+    ];
 
     const absolute = [
-      {name: "after", value: "absolute:gt"},
-      {name: "on", value: "absolute:eq"},
-      {name: "before", value: "absolute:lt"},
-      {name: "is unknown", value: "absolute:eq"},
-      {name: "has any value", value: "absolute:not_eq"},
-    ]
+      { name: "after", value: "absolute:gt" },
+      { name: "on", value: "absolute:eq" },
+      { name: "before", value: "absolute:lt" },
+      { name: "is unknown", value: "absolute:eq" },
+      { name: "has any value", value: "absolute:not_eq" },
+    ];
 
-    const extractNum = this.props.predicate.value ? 
-                       this.props.predicate.value.match(/\d+/)[0] : ""
-    
-    const parsedNum = parseInt(extractNum)
+    const extractNum = this.props.predicate.value
+      ? this.props.predicate.value.match(/\d+/)[0]
+      : "";
 
-    return  <ContentMatchWrapper>
+    const parsedNum = parseInt(extractNum);
 
-              <MenuItem disabled={true}>
-                <ContentMatchTitle>
-                  Select the date filter for {this.props.predicate.attribute}
-                </ContentMatchTitle>
-              </MenuItem>
+    return (
+      <div className="p-2">
+        <div>
+          <h2 className="text-sm leading-5 font-medium text-gray-900">
+            Select the date filter for {this.props.predicate.attribute}
+          </h2>
+        </div>
 
-              <ContentMatch ref={this.blockStyleRef}>
-                <RadioGroup
+        <ContentMatch ref={this.blockStyleRef}>
+          <div className="mt-2 p-2 mt-2 p-2 h-32 overflow-scroll">
+            {relative.map((o, i) => {
+              return (
+                <div>
+                  <label className="inline-flex items-center">
+                    <input
+                      type="radio"
+                      className="form-radio h-4 w-4 text-indigo-600 transition duration-150 ease-in-out"
+                      name="options"
+                      value={o.value}
+                      checked={this.state.selectedOption === o.value}
+                      onChange={(e) => {
+                        this.onRadioChange(e.target);
+                      }}
+                    />
+                    <span className="ml-2">{o.label}</span>
+                  </label>
+
+                  {this.state.selectedOption &&
+                    this.state.selectedOption === o.value && (
+                      <div>
+                        <input
+                          type="text"
+                          defaultValue={parsedNum}
+                          ref={(input) => (this.relative_input = input)}
+                          className={
+                            "max-w-xs rounded-md shadow-sm form-input block w-full transition duration-150 ease-in-out sm:text-sm sm:leading-5"
+                          }
+                          label={"value"}
+                          margin="normal"
+                        />
+                        <span className="mt-2 text-sm text-gray-500">
+                          days ago
+                        </span>
+                      </div>
+                    )}
+                </div>
+              );
+            })}
+          </div>
+
+          {/*<RadioGroup
                   aria-label="options"
                   name="options"
                   onChange={(e)=>{
@@ -483,62 +477,101 @@ export default class SegmentItemButton extends Component {
 
                     ))
                   }
-                </RadioGroup>
-              </ContentMatch>
+                </RadioGroup>*/}
+        </ContentMatch>
 
-              <ContentMatchFooter>
-                { 
-                  this.state.selectedOption &&
-                  
-                  <Button
-                    variant="outlined" 
-                    color="primary"
-                    size={"small"}
-                    onClick={this.handleSubmit.bind(this)}>
-                    Apply
-                  </Button>
+        <ContentMatchFooter>
+          {this.state.selectedOption && (
+            <button
+              className="p-2 inline-flex items-center px-2.5 py-1.5 border border-transparent text-xs leading-4 font-medium rounded text-white bg-indigo-600 hover:bg-indigo-500 focus:outline-none focus:border-indigo-700 focus:shadow-outline-indigo active:bg-indigo-700 transition ease-in-out duration-150"
+              variant="outlined"
+              color="primary"
+              size={"small"}
+              onClick={this.handleSubmit.bind(this)}
+            >
+              Apply
+            </button>
+          )}
 
-                }
-                
-                { 
-                  this.deleteButton() 
-                }
-
-              </ContentMatchFooter> 
-            
-            </ContentMatchWrapper>
-  }
-
+          {this.deleteButton()}
+        </ContentMatchFooter>
+      </div>
+    );
+  };
 
   contentInteger = () => {
-  
-    const compare = (value)=>{
-      return this.props.predicate.comparison === value
-    }
+    const compare = (value) => {
+      return this.props.predicate.comparison === value;
+    };
 
     const relative = [
-      {label: "exactly", value: "eq",  defaultSelected: compare("eq")  },
-      {label: "more than", value: "gt", defaultSelected: compare("gt")  },
-      {label: "more than eq", value: "gteq", defaultSelected: compare("gteq")  },
-      {label: "less than", value: "lt", defaultSelected: compare("lt")  },
-      {label: "less than eq", value: "lteq", defaultSelected: compare("lteq")  }
-    ]
+      { label: "exactly", value: "eq", defaultSelected: compare("eq") },
+      { label: "more than", value: "gt", defaultSelected: compare("gt") },
+      {
+        label: "more than eq",
+        value: "gteq",
+        defaultSelected: compare("gteq"),
+      },
+      { label: "less than", value: "lt", defaultSelected: compare("lt") },
+      {
+        label: "less than eq",
+        value: "lteq",
+        defaultSelected: compare("lteq"),
+      },
+    ];
 
-    const extractNum = this.props.predicate.value ? 
-                       this.props.predicate.value.match(/\d+/)[0] : ""
-    
-    const parsedNum = parseInt(extractNum)
+    const extractNum = this.props.predicate.value
+      ? this.props.predicate.value.match(/\d+/)[0]
+      : "";
 
-    return  <ContentMatchWrapper>
+    const parsedNum = parseInt(extractNum);
 
-              <MenuItem disabled={true}>
-                <ContentMatchTitle>
-                  Select the integer filter for {this.props.predicate.attribute}
-                </ContentMatchTitle>
-              </MenuItem>
+    return (
+      <div className="p-2">
+        <div>
+          <h2 className="text-sm leading-5 font-medium text-gray-900">
+            Select the integer filter for {this.props.predicate.attribute}
+          </h2>
+        </div>
 
-              <ContentMatch ref={this.blockStyleRef}>
-                <RadioGroup
+        <ContentMatch ref={this.blockStyleRef}>
+          {relative.map((o, i) => {
+            return (
+              <div>
+                <label className="inline-flex items-center">
+                  <input
+                    type="radio"
+                    className="form-radio h-4 w-4 text-indigo-600 transition duration-150 ease-in-out"
+                    name="options"
+                    value={o.value}
+                    checked={this.state.selectedOption === o.value}
+                    onChange={(e) => {
+                      this.onRadioTypeChange(e.target);
+                    }}
+                  />
+                  <span className="ml-2">{o.label}</span>
+                </label>
+
+                {this.state.selectedOption &&
+                  this.state.selectedOption === o.value && (
+                    <div>
+                      <input
+                        type="text"
+                        defaultValue={parsedNum}
+                        ref={(input) => (this.relative_input = input)}
+                        className={
+                          "max-w-xs rounded-md shadow-sm form-input block w-full transition duration-150 ease-in-out sm:text-sm sm:leading-5"
+                        }
+                        label={"value"}
+                        margin="normal"
+                      />
+                    </div>
+                  )}
+              </div>
+            );
+          })}
+
+          {/*<RadioGroup
                   aria-label="options"
                   name="options"
                   onChange={(e)=>{
@@ -585,208 +618,203 @@ export default class SegmentItemButton extends Component {
                     ))
                   }
                 </RadioGroup>
-              </ContentMatch>
+                */}
+        </ContentMatch>
 
-              <ContentMatchFooter>
-                { 
-                  this.state.selectedOption &&
-                  
-                  <Button
-                    variant="outlined" 
-                    color="primary"
-                    size={"small"}
-                    onClick={this.handleSubmit.bind(this)}>
-                    Apply
-                  </Button>
+        <ContentMatchFooter>
+          {this.state.selectedOption && (
+            <button
+              className="p-2 inline-flex items-center px-2.5 py-1.5 border border-transparent text-xs leading-4 font-medium rounded text-white bg-indigo-600 hover:bg-indigo-500 focus:outline-none focus:border-indigo-700 focus:shadow-outline-indigo active:bg-indigo-700 transition ease-in-out duration-150"
+              variant="outlined"
+              color="primary"
+              size={"small"}
+              onClick={this.handleSubmit.bind(this)}
+            >
+              Apply
+            </button>
+          )}
 
-                }
-                
-                { 
-                  this.deleteButton() 
-                }
-
-              </ContentMatchFooter> 
-            
-            </ContentMatchWrapper>
-  }
+          {this.deleteButton()}
+        </ContentMatchFooter>
+      </div>
+    );
+  };
 
   contentMatch = () => {
-  
-    const compare = (value)=>{
-      return this.props.predicate.value === value
-    }
+    const compare = (value) => {
+      return this.props.predicate.value === value;
+    };
 
     const relative = [
-      {label: "match any", comparison: "or", value: "or", defaultSelected: compare("or")  },
-      {label: "match all", comparison: "and", value: "and",  defaultSelected: compare("and")  },
-    ]
+      {
+        label: "match any",
+        comparison: "or",
+        value: "or",
+        defaultSelected: compare("or"),
+      },
+      {
+        label: "match all",
+        comparison: "and",
+        value: "and",
+        defaultSelected: compare("and"),
+      },
+    ];
 
-    return <ContentMatchWrapper>
-            
-            <MenuItem disabled={true}>
-              <ContentMatchTitle> 
-                match criteria options for {this.props.predicate.type}
-              </ContentMatchTitle>
-             
-            </MenuItem>
+    return (
+      <div className="p-2">
+        <div>
+          <h2 className="text-sm leading-5 font-medium text-gray-900">
+            match criteria options for {this.props.predicate.type}
+          </h2>
+        </div>
 
-
-            <ContentMatch ref={this.blockStyleRef}>
-              <RadioGroup
-                aria-label="options"
-                name="options"
-                onChange={(e)=>{
-                  this.onRadioTypeChange(e.target)
-                }}>
-                {
-                  relative.map((o, i)=>{
-                    return <div  key={`${o.name}-${i}`}
-                          style={{ 
-                                display: 'flex',
-                                flexDirection: 'column'                                 
-                              }}>
-
-                      <FormControlLabel
-                        control={<Radio 
-                                  checked={o.value === this.state.checkedValue} 
-                                />} 
+        <ContentMatch ref={this.blockStyleRef}>
+          <div className="mt-2 p-2 mt-2 p-2 h-32 overflow-scroll">
+            {relative.map(
+              (o, i) => {
+                return (
+                  <div>
+                    <label className="inline-flex items-center">
+                      <input
+                        type="radio"
+                        className="form-radio h-4 w-4 text-indigo-600 transition duration-150 ease-in-out"
+                        name="options"
                         value={o.value}
-                        label={o.label} 
+                        checked={o.value === this.state.checkedValue}
+                        onChange={(e) => {
+                          this.onRadioTypeChange(e.target);
+                        }}
                       />
+                      <span className="ml-2">
+                        {o.label}
+                      </span>
+                    </label>
+                  </div>
+                );
+            })}
+          </div>
+        </ContentMatch>
 
-                    </div>
-
-                  })
-                }
-              </RadioGroup>
-            </ContentMatch>
-
-            <ContentMatchFooter>
-
-                { 
-                  this.state.selectedOption && 
-                  (this.state.selectedOption !== "is_null" || 
-                    this.state.selectedOption !== "is_not_null") &&
-                  
-                  <Button
-                    variant="outlined" 
-                    color="primary"
-                    size={"small"}
-                    onClick={this.handleSubmit.bind(this)}>
-                    Apply
-                  </Button>
-
-                }
-            </ContentMatchFooter> 
-       
-
-          </ContentMatchWrapper>
-           
-  }
+        <ContentMatchFooter>
+          { this.state.selectedOption &&
+            (this.state.selectedOption !== "is_null" ||
+              this.state.selectedOption !== "is_not_null") && (
+              <button
+                className="p-2 inline-flex items-center px-2.5 py-1.5 border border-transparent text-xs leading-4 font-medium rounded text-white bg-indigo-600 hover:bg-indigo-500 focus:outline-none focus:border-indigo-700 focus:shadow-outline-indigo active:bg-indigo-700 transition ease-in-out duration-150"
+                variant="outlined"
+                color="primary"
+                size={"small"}
+                onClick={this.handleSubmit.bind(this)}
+              >
+                Apply
+              </button>
+            )}
+        </ContentMatchFooter>
+      </div>
+    );
+  };
 
   deleteButton = () => {
-    return <Button 
-            size="small" 
-            appearance="link" 
-            onClick={this.handleDelete.bind(this)}>
-            Delete
-           </Button>
+    return (
+      <button
+        className="p-2 inline-flex items-center px-2.5 py-1.5 border border-transparent text-xs leading-4 font-medium rounded text-white bg-indigo-600 hover:bg-indigo-500 focus:outline-none focus:border-indigo-700 focus:shadow-outline-indigo active:bg-indigo-700 transition ease-in-out duration-150"
+        size="small"
+        appearance="link"
+        onClick={this.handleDelete.bind(this)}
+      >
+        Delete
+      </button>
+    );
+  };
+
+  toggleDialog = (e) =>{
+    this.setState({
+      dialogOpen: !this.state.dialogOpen,
+      btn: e ? e.target : this.state.btn,
+    });
   }
 
-  toggleDialog = (e) => this.setState({ 
-    dialogOpen: !this.state.dialogOpen,
-    btn: e ? e.target : this.state.btn
-  });
-
-  toggleDialog2 = () => this.setState({ 
-    dialogOpen: !this.state.dialogOpen
-  });
-
-  closeDialog = () => this.setState({ 
-    dialogOpen: false
-  });
-
-  openDialog = () => this.setState({ 
-    dialogOpen: true
-  });
-
-  renderMenu = ()=>{
-
-    if(!this.btn_ref)
-      return
-
-    return <Menu 
-              open={this.state.dialogOpen}
-
-              anchorEl={this.btn_ref}
-              /*anchorOrigin={{
-                vertical: 'bottom',
-                horizontal: 'left',
-              }}*/
-              /*transformOrigin={{
-                vertical: 'top',
-                horizontal: 'center',
-              }}*/
-              //position={"bottom center"}
-              //shouldFlipunion={true}
-              >
-
-              <ClickAwayListener 
-                onClickAway={this.closeDialog}>
-                {this.renderOptions()}
-              </ClickAwayListener>
-            </Menu>
+  toggleDialog2 = () =>{
+    this.setState({
+      dialogOpen: !this.state.dialogOpen,
+    });
   }
 
-  setRef = (ref)=>{
-    this.btn_ref = ref
+  closeDialog = () =>{
+    this.setState({
+      dialogOpen: false,
+    });
   }
+
+  openDialog = () =>{
+    this.setState({
+      dialogOpen: true,
+    });
+  }
+
+  
+  renderMenu = () => {
+    //if(!this.btn_ref)
+    //  return
+    return this.renderOptions();
+  };
+
+  setRef = (ref) => {
+    this.btn_ref = ref;
+  };
 
   render() {
     return (
       <div>
+        {!this.props.predicate.comparison ? (
           <React.Fragment>
-            <div >
-              {
-                !this.props.predicate.comparison ?
+            <Dropdown
+              isOpen={this.state.dialogOpen}
+              labelButton={"Missing value!"}
+              triggerButton={(cb) => (
+                <button
+                  className="p-2 inline-flex items-center px-2.5 py-1.5 border border-transparent text-xs leading-4 font-medium rounded text-white bg-indigo-600 hover:bg-indigo-500 focus:outline-none focus:border-indigo-700 focus:shadow-outline-indigo active:bg-indigo-700 transition ease-in-out duration-150"
+                  ref={(ref) => this.setRef(ref)}
+                  isLoading={false}
+                  color={"secondary"}
+                  //{this.state.dialogOpen ? 'primary' : 'secondary'}
+                  onClick={cb}
+                >
+                  {/*
+                      !this.state.dialogOpen ?
+                        "Missing value!" :
+                        this.props.text
+                      */}
 
-                  <React.Fragment>
-                    <Button 
-                      ref={(ref)=>this.setRef(ref)} 
-                      isLoading={false}
-                      color={"secondary"}
-                      //{this.state.dialogOpen ? 'primary' : 'secondary'}
-                      onClick={this.openDialog}>
-                      {
-                        /*
-                        !this.state.dialogOpen ?
-                          "Missing value!" :
-                          this.props.text
-                        */
-                      }
-
-                      {"Missing value!"}
-                    </Button>
-                    {this.renderMenu()}
-                  </React.Fragment> :
-                  <React.Fragment>
-                    <Button 
-                      ref={(ref)=>this.setRef(ref)}
-                      isLoading={false}
-                      variant={"contained"} 
-                      color="primary"
-                      //appearance={this.props.appearance}
-                      onClick={this.openDialog}>
-                      {this.props.text}
-                    </Button>
-                    {this.renderMenu()}
-                  </React.Fragment>
-              } 
-
-            </div>
-    
+                  {"Missing value!"}
+                </button>
+              )}
+            >
+              {this.renderMenu()}
+            </Dropdown>
           </React.Fragment>
-
+        ) : (
+          <React.Fragment>
+            <Dropdown
+              isOpen={this.state.dialogOpen}
+              triggerButton={(cb) => (
+                <button
+                  className="p-2 inline-flex items-center px-2.5 py-1.5 border border-transparent text-xs leading-4 font-medium rounded text-white bg-indigo-600 hover:bg-indigo-500 focus:outline-none focus:border-indigo-700 focus:shadow-outline-indigo active:bg-indigo-700 transition ease-in-out duration-150"
+                  ref={(ref) => this.setRef(ref)}
+                  isLoading={false}
+                  variant={"contained"}
+                  color="primary"
+                  //appearance={this.props.appearance}
+                  onClick={cb}
+                >
+                  {this.props.text}
+                </button>
+              )}
+            >
+              {this.renderMenu()}
+            </Dropdown>
+          </React.Fragment>
+        )}
       </div>
     );
   }

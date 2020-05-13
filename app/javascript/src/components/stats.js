@@ -1,37 +1,29 @@
-import React, {Component} from "react"
-import Moment from 'react-moment';
-import CampaignChart from "./charts/charts.js"
-import styled from '@emotion/styled'
-import graphql from '../graphql/client'
-import Table from './table/index'
-import gravatar from '../shared/gravatar'
+import React, { Component } from "react";
+import Moment from "react-moment";
+import CampaignChart from "./charts/charts.js";
+import styled from "@emotion/styled";
+import graphql from "../graphql/client";
+import Table from "./Table";
+import gravatar from "../shared/gravatar";
 
-import Typography from '@material-ui/core/Typography' 
-import Button from '@material-ui/core/Button' 
-import Avatar from '@material-ui/core/Avatar' 
-import Badge from '@material-ui/core/Badge'
-import Divider from '@material-ui/core/Divider'
-import Grid from '@material-ui/core/Grid'
-import Paper from '@material-ui/core/Paper'
-import Link from '@material-ui/core/Link';
+import Button from "./Button";
+import Avatar from "./Avatar";
 
-import Count from './charts/count'
-import { withStyles } from '@material-ui/styles';
-
+import Count from "./charts/count";
 
 const PieContainer = styled.div`
-  padding: .75em;
+  padding: 0.75em;
   display: grid;
-  grid-template-columns: repeat(4,200px);
+  grid-template-columns: repeat(4, 200px);
   grid-gap: 10px;
   width: 100vw;
   margin: 25px 0 18px 0;
   overflow: auto;
-`
+`;
 
 const PieItem = styled.div`
-height: 200px;
-`
+  height: 200px;
+`;
 
 const NameWrapper = styled.span`
   display: flex;
@@ -42,282 +34,246 @@ const AvatarWrapper = styled.div`
   margin-right: 8px;
 `;
 
-const styles = theme => ({
-  cardPaper: {
-    padding: theme.spacing(2),
-    display: 'flex',
-    overflow: 'auto',
-    flexDirection: 'column',
-  }
-});
-
-
 class Stats extends Component {
-
-  constructor(props){
-    super(props)
+  constructor(props) {
+    super(props);
     this.state = {
       collection: [],
       meta: {},
       counts: {},
-      loading: false
-    }
-    this.getData = this.getData.bind(this)
+      loading: false,
+    };
+    this.getData = this.getData.bind(this);
   }
 
   createHead = (withWidth) => {
-
     return [
       {
-        field: 'action',
+        field: "action",
         options: {
           filter: false,
           render: (value, tableMeta, updateValue) => {
-            return this.renderLozenge(value)
-          }
-        }
+            return this.renderLozenge(value);
+          },
+        },
       },
 
       {
-        field: 'email',
+        field: "email",
         options: {
-          filter: false
-        }
+          filter: false,
+        },
       },
       {
-        field: 'host',
+        field: "host",
         options: {
-          filter: false
-        }
+          filter: false,
+        },
       },
-        
+
       {
-        field: 'created_at',
+        field: "created_at",
         options: {
-          filter: false
-        }
+          filter: false,
+        },
       },
-  
+
       {
-        field: 'data',
+        field: "data",
         options: {
           filter: false,
           customBodyRender: (value, tableMeta, updateValue) => {
-            return <p>cccc</p>
-          }
-        }
+            return <p>cccc</p>;
+          },
+        },
       },
-
-
-    ]
-
+    ];
   };
 
-  renderLozenge = (item)=>{
-    let kind = "default"
+  renderLozenge = (item) => {
+    let kind = "default";
 
     switch (item) {
       case "click":
-        kind = "success"
-        break
+        kind = "success";
+        break;
       case "viewed":
-        kind = "inprogress"
-        break
+        kind = "inprogress";
+        break;
       case "close":
-        kind = "removed"
-        break
+        kind = "removed";
+        break;
       default:
         break;
     }
 
-    return <div appearance={kind}>
-            {item}
-           </div>
+    return <div appearance={kind}>{item}</div>;
+  };
+
+  componentDidMount() {
+    this.init();
   }
 
-  componentDidMount(){
-    this.init()
-  }
-
-  init = ()=>{
-    this.getData()
+  init = () => {
+    this.getData();
     //this.getCounts()
-  }
+  };
 
-  getData = ()=>{
-    this.props.getStats({
-      appKey: this.props.app.key, 
-      mode: this.props.mode, 
-      id: this.props.match.params.id,
-      page: this.state.meta.next_page || 1
-    }, (data)=>{
-
-      const {counts, metrics} = data
+  getData = () => {
+    this.props.getStats(
+      {
+        appKey: this.props.app.key,
+        mode: this.props.mode,
+        id: this.props.match.params.id,
+        page: this.state.meta.next_page || 1,
+      },
+      (data) => {
+        const { counts, metrics } = data;
         this.setState({
           meta: metrics.meta,
           counts: counts,
-          collection: metrics.collection
-        })
-    })
-  }
-
-  handleNextPage = ()=>{
-    this.getData()
-  }
-
-  getRateFor = (type)=>{
-    return type.keys.map((o)=>{
-      return {
-        "id": o.name,
-        "label": o.name,
-        "value": this.state.counts[o.name] || 0,
-        "color": o.color
+          collection: metrics.collection,
+        });
       }
-    })
-  }
+    );
+  };
 
-  render(){
-    const { classes } = this.props;
-    return <div>
+  handleNextPage = () => {
+    this.getData();
+  };
 
-            {
-              !this.props.mode === "counter_blocks" &&
-              <PieContainer>
+  getRateFor = (type) => {
+    return type.keys.map((o) => {
+      return {
+        id: o.name,
+        label: o.name,
+        value: this.state.counts[o.name] || 0,
+        color: o.color,
+      };
+    });
+  };
 
-                {
-                  this.props.data && this.props.data.statsFields.map((o)=>{
-                    return  <PieItem>
-                              <CampaignChart data={this.getRateFor(o)}/>
-                            </PieItem>
-                  })
-                }
+  render() {
+    return (
+      <div>
+        <h3 className="text-xl font-bold my-4">Campaign stats</h3>
 
-              </PieContainer>
-            }
-            
-            {
-              this.props.mode === "counter_blocks" && this.props.data && 
-              
-              <Grid container spacing={3}>
-                { 
-                  Object.keys(this.state.counts).map((key)=> {
-                  return <Grid item xs={6} md={3}>
+        {!this.props.mode === "counter_blocks" && (
+          <PieContainer>
+            {this.props.data &&
+              this.props.data.statsFields.map((o) => {
+                return (
+                  <PieItem>
+                    <CampaignChart data={this.getRateFor(o)} />
+                  </PieItem>
+                );
+              })}
+          </PieContainer>
+        )}
 
-                            <Paper 
-                            className={classes.cardPaper}
-                            >
-                            <Count
-                              data={this.state.counts[key]}
-                              label={key}
-                              appendLabel={""}
-                            />
+        {this.props.mode === "counter_blocks" && this.props.data && (
+          <div className="flex mb-4">
+            {Object.keys(this.state.counts).map(
+              (key) => {
+              return (
+                <div className="lg:w-1/4 w-screen my-1 px-1">
+                  <div className="rounded shadow-lg bg-white border p-4">
+                    <Count
+                      data={this.state.counts[key]}
+                      label={key.replace('bot_tasks.', '')}
+                      appendLabel={""}
+                    />
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        )}
 
-                            </Paper>
+        <hr className="border-gray-200"/>
 
-                            {/*<Paper 
-                            //className={classes.paper}
-                            >
-                              <Typography 
-                                  //className={classes.title} 
-                                  component="h2" 
-                                  variant="h6" 
-                                  color="primary" gutterBottom>
-                                {key}
-                              </Typography>
-                              <Typography component="p" variant="h4">
-                                {this.state.counts[key]}
-                              </Typography>
-                              {/*<Typography color="textSecondary" 
-                                        //className={classes.depositContext}
-                                        >
-                                          {moment().format('LL')}
-                                </Typography>
-                              
-                              <div>
-                                <Link color="primary" href="javascript:;">
-                                  View Data
-                                </Link>
-                              </div>
-                          
-                              </Paper>*/}
-                          </Grid>
-                  })
-                }
-              </Grid>
-            }
-
-            <Divider variant={"fullWidth"}/>
-
-            
-
+        {!this.state.loading ? (
+          <Table
+            data={this.state.collection}
+            loading={this.props.searching}
+            search={this.getData}
+            defaultHiddenColumnNames={[]}
+            columns={[
+              { field: "id", title: "id", hidden: true },
               {
-                !this.state.loading ?
+                field: "email",
+                title: "email",
+                render: (row) =>
+                  row && (
+                    <td className="px-6 py-4 whitespace-no-wrap border-b border-gray-200">
+                      <div
+                        onClick={(e) =>
+                          this.props.actions.showUserDrawer(row.appUserId)
+                        }
+                        className="flex items-center"
+                      >
+                        <div className="flex-shrink-0 h-10 w-10">
+                          <img
+                            className="h-10 w-10 rounded-full"
+                            src={gravatar(row.email)}
+                            alt=""
+                          />
+                        </div>
+                        <div className="ml-4">
+                          <div className="text-sm leading-5 font-medium text-gray-900">
+                            {row.displayName}
+                          </div>
+                          <div className="text-sm leading-5 text-gray-500">
+                            {row.email}
+                          </div>
+                        </div>
+                      </div>
+                    </td>
+                  ),
+              },
+              { field: "action", title: "Action" },
+              { field: "host", title: "from" },
+              {
+                field: "createdAt",
+                title: "when",
+                render: (row) =>
+                  row && (
+                    <td className="px-6 py-4 whitespace-no-wrap border-b border-gray-200">
+                      <Moment fromNow>{row.updatedAt}</Moment>
+                    </td>
+                  ),
+              },
+              {
+                field: "data",
+                title: "data",
+                render: (row) =>
+                  row && (
+                    <td className="px-6 py-4 whitespace-no-wrap border-b border-gray-200">
+                      <Moment fromNow>{JSON.stringify(row.data)}</Moment>
+                    </td>
+                  ),
+              },
+            ]}
+            //selection [],
+            tableColumnExtensions={[
+              //{ columnName: 'id', width: 150 },
+              { columnName: "email", width: 250 },
+              { columnName: "lastVisitedAt", width: 120 },
+              { columnName: "os", width: 100 },
+              { columnName: "osVersion", width: 100 },
+              { columnName: "state", width: 80 },
+              { columnName: "online", width: 80 },
 
-                <Table
-                  data={this.state.collection} 
-                  loading={this.props.searching}
-                  search={this.getData}
-                  defaultHiddenColumnNames={[]}
-                  columns={[
-                            {field: 'id', title: 'id', hidden: true},
-                            {field: 'email', 
-                            title: 'email', 
-                              render: row => (row ? 
-
-                                <NameWrapper onClick={(e)=>(this.props.actions.showUserDrawer(row.appUserId))}>
-                                  <AvatarWrapper>
-                                    <Badge 
-                                      //className={classes.margin} 
-                                      color={row.online ? "primary" : 'secondary' }
-                                      variant="dot">
-                                      <Avatar
-                                        name={row.email}
-                                        size="medium"
-                                        src={gravatar(row.email)}
-                                      />
-                                    </Badge>
-                                  </AvatarWrapper>
-
-                                  <Typography>{row.email}</Typography>
-                                  <Typography variant="overline" display="block">
-                                    {row.name}
-                                  </Typography>
-                                </NameWrapper>
-
-                               : undefined)
-                            },
-                            {field: 'action', title: 'Action'},
-                            {field: 'host', title: 'from'},
-                            {field: 'createdAt', title: 'when',
-                            render: row => (row ? <Moment fromNow>
-                                                          {row.updatedAt}
-                                                        </Moment> : undefined)
-                            },
-                            {field: 'data', title: 'data', render: row => (row ? 
-                              <p>{JSON.stringify(row.data)}</p> : 
-                              null 
-                            )},
-                          ]}
-                  //selection [],
-                  tableColumnExtensions={[
-                    //{ columnName: 'id', width: 150 },
-                    { columnName: 'email', width: 250 },
-                    { columnName: 'lastVisitedAt', width: 120 },
-                    { columnName: 'os', width: 100 },
-                    { columnName: 'osVersion', width: 100 },
-                    { columnName: 'state', width: 80 },
-                    { columnName: 'online', width: 80 },
-
-                    //{ columnName: 'amount', align: 'right', width: 140 },
-                  ]}
-                  leftColumns={ ['email']}
-                  rightColumns={ ['online']} 
-                  meta={this.state.meta}
-                  /> : null 
-              }
-              
-           </div>
+              //{ columnName: 'amount', align: 'right', width: 140 },
+            ]}
+            leftColumns={["email"]}
+            rightColumns={["online"]}
+            meta={this.state.meta}
+          />
+        ) : null}
+      </div>
+    );
   }
 }
 
-export default withStyles(styles)(Stats);
+export default Stats;

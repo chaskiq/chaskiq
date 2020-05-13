@@ -1,41 +1,36 @@
 /* eslint-disable no-script-url */
 
-import React from 'react';
-import Link from '@material-ui/core/Link';
-import { makeStyles } from '@material-ui/core/styles';
-import Typography from '@material-ui/core/Typography';
-import moment from 'moment';
+import React from 'react'
+// import Link from '@material-ui/core/Link';
+// import { makeStyles } from '@material-ui/core/styles';
+// import p from '@material-ui/core/p';
+import moment from 'moment'
 
-const useStyles = makeStyles({
-  depositContext: {
-    flex: 1,
-  },
-  title: {
-    fontSize: '1.2em'
-  }
-});
-
-export default function Count({data, label, appendLabel, subtitle}) {
-  const classes = useStyles();
+export default function Count ({ data, label, appendLabel, subtitle }) {
   return (
     <React.Fragment>
-      <Typography className={classes.title} component="h2" variant="h6" color="primary" gutterBottom>
-        {label}
-      </Typography>
-      <Typography component="p" variant="h4">
+      <p className="text-lg leading-6 font-medium text-gray-900 truncate">{label}</p>
+
+      <p
+        className="mt-1 text-3xl leading-9 font-semibold text-gray-900"
+        component="p"
+        variant="h4"
+      >
         {data || 0} {appendLabel}
-      </Typography>
-      <Typography 
+      </p>
+
+      <p
+        className="mt-1 max-w-2xl text-sm leading-5 text-gray-500"
         color="textSecondary"
-        variant={"caption"}
-        className={classes.depositContext}>
+        variant={'caption'}
+      >
         {subtitle || moment().format('LL')}
-      </Typography>
-      {/*<div>
+      </p>
+      {/* <div>
         <Link color="primary" href="javascript:;">
           View Data
         </Link>
-      </div>*/}
+      </div> */}
     </React.Fragment>
-  );
+  )
 }

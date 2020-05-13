@@ -1,293 +1,274 @@
-import React, {Component} from 'react'
-import styled from '@emotion/styled'
-import Moment from 'react-moment';
-import Accordeon from './accordeon'
-import Avatar from '@material-ui/core/Avatar';
-import { makeStyles } from '@material-ui/core/styles';
-import Typography from '@material-ui/core/Typography'
-import Button from '@material-ui/core/Button'
-import List from '@material-ui/core/List'
-import ListItem from '@material-ui/core/ListItem'
-import ListItemText from '@material-ui/core/ListItemText'
-import Box from '@material-ui/core/Box'
-import { withRouter } from 'react-router-dom'
+import React from 'react'
+import { withRouter, Link } from 'react-router-dom'
 import { connect } from 'react-redux'
-import {toggleDrawer} from '../actions/drawer'
-import {AnchorLink} from '../shared/RouterLink'
 
-import {syncExternalProfile} from '../actions/app_user'
+import Moment from 'react-moment'
+import Accordeon from './Accordeon'
 
-const ActivityAvatar = styled.div`
-  display: flex;
-  justify-content: center;
-`
-
-const UserDataList = styled.ul`
-  li{
-    span{
-      margin-left:10px;
-    }
-  }
-`
-
-const UserDataInformation = styled.div`
-  padding: 20px;
-`
-
-const UserDataContent = styled.div`
-  display: inline-block;
-  align-items: center;
-  text-align: center;
-`
-
-const useStyles = makeStyles({
-  avatar: {
-    margin: 10,
-  },
-  bigAvatar: {
-    margin: 10,
-    width: 60,
-    height: 60,
-  },
-});
-
-export const LoaderWrapper = styled.div`
-  width: 300px;
-  padding: 1em;
-  display: flex;
-  justify-content: center;
-`
-
-function ImageAvatars(props) {
-  const classes = useStyles();
-
+function UserData ({ app_user, app, disableAvatar }) {
   return (
-      <Avatar 
-        style={{width: '120px', height: '120px'}}
-        alt={props.email}
-        src={props.src} 
-        className={classes.avatar} 
-      />
-  );
-}
+    <React.Fragment>
+      {app_user && app_user.id && (
+        <div className="overflow-hidden max-w-xs my-3">
+          {
+            !disableAvatar && <div>
+              <div className="flex justify-center mt-5">
+                <img
+                  src={app_user.avatarUrl}
+                  className="rounded-full border-solid border-white border-2 -mt-3"
+                />
+              </div>
 
-class UserData extends Component {
+              <div className="text-center px-3 pb-6 pt-2">
+                <h3 className="text-sm leading-5 font-medium text-gray-900">
+                  {app_user.properties.name}
 
-  syncExternalProfile = (profile)=>{
-    this.props.dispatch(
-      syncExternalProfile(
-        this.props.appUser.id,
-        profile
-      )
-    )
-  }
+                  <span
+                    className={`
+                  ${
+                    app_user.online
+                      ? 'bg-green-100 text-green-800'
+                      : 'bg-red-100 text-red-800'
+                  }
+                  px-2 inline-flex text-xs leading-5 font-semibold 
+                  rounded-full bg-green-100 text-green-800`}
+                  >
+                    {app_user.online ? 'Online' : 'Offline'}
+                  </span>
+                </h3>
 
-  render(){
-
-    return <UserDataContent style={{width: this.props.width}}>
-
-
-            {
-              !this.props.hideConactInformation ?
-              <UserDataInformation>
-    
-                <ActivityAvatar>
-                  <ImageAvatars
-                    email={this.props.appUser.email}
-                    src={this.props.appUser.avatarUrl + "&s=120px"}
-                  />
-
-                </ActivityAvatar>
-
-
-                <AnchorLink 
-                  to={`/apps/${this.props.app.key}/users/${this.props.appUser.id}`}
-                  onClick={()=> {
-                    this.props.dispatch(
-                      toggleDrawer({ rightDrawer: false }, ()=>{
-                      })
-                    )}
-                  }>
-                  
-                  See full profile
-                </AnchorLink>
-
-                <p style={{
-                  fontWeight: '700'
-                }}>
-                  {this.props.appUser.email}
+                <p className="text-sm leading-5 text-gray-500">
+                  {app_user.email}
                 </p>
 
-                <p>
-                  <Moment fromNow>
-                    {this.props.appUser.lastVisitedAt}
-                  </Moment>
-                </p>
+                <Link
+                  className="text-sm leading-5 font-medium text-gray-900"
+                  to={`/apps/${app.key}/users/${app_user.id}`}
+                >
+                  show profile
+                </Link>
+              </div>
+            </div>
+          }
 
-              </UserDataInformation> : null 
-            }
+          <div className="bg-white shadow overflow-hidden">
+            <ul>
+              <li>
+                <a
+                  href="#"
+                  className="block hover:bg-gray-50 focus:outline-none focus:bg-gray-50 transition duration-150 ease-in-out"
+                >
+                  <div className="px-4 py-4 sm:px-6">
+                    <div className="mt-2 sm:flex sm:justify-between">
+                      <div className="sm:flex">
+                        <div className="mt-2 flex items-center text-sm leading-5 text-gray-500 sm:mt-0">
+                          <svg
+                            className="flex-shrink-0 mr-1.5 h-5 w-5 text-gray-400"
+                            fill="currentColor"
+                            viewdiv="0 0 20 20"
+                          >
+                            <path
+                              fillRule="evenodd"
+                              d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z"
+                              clipRule="evenodd"
+                            />
+                          </svg>
+                          {app_user.properties.country}
+                        </div>
+                      </div>
+                      <div className="mt-2 flex items-center text-sm leading-5 text-gray-500 sm:mt-0">
+                        <svg
+                          className="flex-shrink-0 mr-1.5 h-5 w-5 text-gray-400"
+                          fill="currentColor"
+                          viewdiv="0 0 20 20"
+                        >
+                          <path
+                            fillRule="evenodd"
+                            d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z"
+                            clipRule="evenodd"
+                          />
+                        </svg>
+                        <span>
+                          <Moment fromNow ago>
+                            {Date.parse(app_user.lastVisitedAt)}
+                          </Moment>
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                </a>
+              </li>
+            </ul>
+          </div>
 
-            <Accordeon items={[
+          <Accordeon
+            items={[
               {
-                name: "Location",
+                name: 'Location',
                 component: null,
-                items: [{
-                  label: 'referrer',
-                  value: this.props.appUser.referrer
-                },
+                items: [
+                  {
+                    label: 'referrer',
+                    value: app_user.referrer
+                  },
 
-                {
-                  label: 'city',
-                  value: this.props.appUser.city
-                },
+                  {
+                    label: 'city',
+                    value: app_user.city
+                  },
 
-                {
-                  label: 'region',
-                  value: this.props.appUser.region
-                },
+                  {
+                    label: 'region',
+                    value: app_user.region
+                  },
 
-                {
-                  label: 'country',
-                  value: this.props.appUser.country
-                },
+                  {
+                    label: 'country',
+                    value: app_user.country
+                  },
 
-                {
-                  label: 'lat',
-                  value: this.props.appUser.lat
-                },
+                  {
+                    label: 'lat',
+                    value: app_user.lat
+                  },
 
-                {
-                  label: 'lng',
-                  value: this.props.appUser.lng
-                },
-                {
-                  label: 'postal:',
-                  value: this.props.appUser.postal
-                },
+                  {
+                    label: 'lng',
+                    value: app_user.lng
+                  },
+                  {
+                    label: 'postal:',
+                    value: app_user.postal
+                  }
                 ]
-
               },
               {
-                name: "Browsing Properties",
+                name: 'Browsing Properties',
                 component: null,
                 items: [
                   {
                     label: 'web sessions:',
-                    value: this.props.appUser.webSessions
+                    value: app_user.webSessions
                   },
 
                   {
                     label: 'timezone:',
-                    value: this.props.appUser.timezone
+                    value: app_user.timezone
                   },
 
                   {
                     label: 'browser version:',
-                    value: this.props.appUser.browserVersion
+                    value: app_user.browserVersion
                   },
 
                   {
                     label: 'browser:',
-                    value: this.props.appUser.browser
+                    value: app_user.browser
                   },
 
                   {
                     label: 'os:',
-                    value: this.props.appUser.os
+                    value: app_user.os
                   },
 
                   {
                     label: 'os version:',
-                    value: this.props.appUser.osVersion
+                    value: app_user.osVersion
                   }
                 ]
-
               },
               {
-                name: "Properties", 
-                component: <List dense>
-                  {
-                    this.props.appUser.properties &&
-                      Object.keys(this.props.appUser.properties).map((o, i) => {
-                        if(!this.props.appUser.properties[o]) return null 
-                        return <ListItem key={`app-user-${this.props.appUser.id}-${i}`}>
-                                  <ListItemText
-                                    primary={`${o}:`}
-                                    secondary={this.props.appUser.properties[o]}
-                                  />
-                                </ListItem>
-                      }) 
-                  }
-                  </List>
-              }, 
+                name: 'Properties',
+                component: (
+                  <p dense>
+                    {app_user.properties &&
+                      Object.keys(app_user.properties).map((o, i) => {
+                        if (!app_user.properties[o]) return null
+                        return (
+                          <p key={`app-user-${app_user.id}-${i}`}>
+                            <p
+                              primary={`${o}:`}
+                              secondary={app_user.properties[o]}
+                            />
+                          </p>
+                        )
+                      })}
+                  </p>
+                )
+              },
               {
-                name: "External Profiles",
-                component: <div>
-
-                <List dense>
-                {
-                  this.props.appUser.externalProfiles &&
-                    this.props.appUser.externalProfiles.map((o, i) => {
-                      return <Box
+                name: 'External Profiles',
+                component: (
+                  <div>
+                    <ul dense>
+                      {app_user.externalProfiles &&
+                        app_user.externalProfiles.map((o, i) => {
+                          return (
+                            <div
                               m={2}
-                              key={`app-user-profile-${this.props.appUser.id}-${o.id}`}>
-                                <div style={{
-                                  textAlign: 'left', 
+                              key={`app-user-profile-${app_user.id}-${o.id}`}
+                            >
+                              <div
+                                style={{
+                                  textAlign: 'left',
                                   display: 'flex',
                                   justifyContent: 'space-between'
-                                }}>
+                                }}
+                              >
+                                <p variant="h6">{o.provider}</p>
 
-                                  <Typography variant="h6">
-                                    {o.provider}
-                                  </Typography>
+                                <button
+                                  size="small"
+                                  variant={'outlined'}
+                                  onClick={() => this.syncExternalProfile(o)}
+                                >
+                                  sync
+                                </button>
+                              </div>
 
-                                  <Button 
-                                    size="small" 
-                                    variant={'outlined'} 
-                                    onClick={()=> this.syncExternalProfile(o) }>
-                                    sync
-                                  </Button>
-
-                                </div>
-
-                                <div style={
-                                  {
-                                    display: 'flex', 
-                                    flexDirection: 'column',
-                                    textAlign: 'left'}
-                                  }>
-                                  { 
-                                    Object.keys(o.data).map((a, i) => {
-                                      if(!o.data[a] || typeof(o.data[a]) === 'object') return null 
-                                      return <Typography 
-                                                variant={"caption"}
-                                                key={`app-user-${o.provider}-${this.props.appUser.id}-${i}`}>
-                                                  {<b>{a}:</b>}{` ${o.data[a]}`}
-                                              </Typography>
-                                    }) 
-                                  }
-                                </div>
-                            </Box>
-                    }) 
-                }
-                </List>
-                
-                 
-                </div>
+                              <div
+                                style={{
+                                  display: 'flex',
+                                  flexDirection: 'column',
+                                  textAlign: 'left'
+                                }}
+                              >
+                                {Object.keys(o.data).map((a, i) => {
+                                  if (
+                                    !o.data[a] ||
+                                    typeof o.data[a] === 'object'
+                                  ) { return null }
+                                  return (
+                                    <p
+                                      variant={'caption'}
+                                      key={`app-user-${o.provider}-${app_user.id}-${i}`}
+                                    >
+                                      {<b>{a}:</b>}
+                                      {` ${o.data[a]}`}
+                                    </p>
+                                  )
+                                })}
+                              </div>
+                            </div>
+                          )
+                        })}
+                    </ul>
+                  </div>
+                )
               }
-
-            ]} />
-    
-          </UserDataContent>
-  }
+            ]}
+          />
+        </div>
+      )}
+    </React.Fragment>
+  )
 }
 
-function mapStateToProps(state) {
-
-  const { app } = state
-
+function mapStateToProps (state) {
+  const { app_user, app } = state
   return {
-    app,
+    app_user,
+    app
   }
 }
 

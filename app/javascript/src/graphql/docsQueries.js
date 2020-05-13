@@ -1,3 +1,4 @@
+/* eslint-disable semi */
 export const ARTICLE_SETTINGS = `
   query HelpCenter($domain: String!, $lang: String){
     helpCenter(domain: $domain, lang: $lang) {
@@ -75,11 +76,6 @@ export const SEARCH_ARTICLES = `
           }
         }
         meta
-        authors{
-          id
-          displayName
-          avatarUrl
-        }
       }
     }
   }
@@ -147,7 +143,6 @@ export const ARTICLE = `
   }
 `;
 
-
 export const ARTICLE_COLLECTIONS = `
   query ArticleCollections($domain: String!, $lang: String){
     helpCenter(domain: $domain, lang: $lang){
@@ -212,6 +207,7 @@ export const ARTICLE_COLLECTION_WITH_SECTIONS = `
               id
               displayName
               name
+              avatarUrl
             }
           }
           

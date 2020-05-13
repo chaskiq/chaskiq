@@ -15,17 +15,18 @@
   <meta content='telephone=no' name='format-detection'>
 <% end %>
 
+
 <% content_for :body do %>
   <%= render "simple" %>
 
   <script>
     (function(d,t) {
       var g=d.createElement(t),s=d.getElementsByTagName(t)[0];
-      g.src="<%=@h[:http] +request.env["HTTP_HOST"]%>/embed.js"
+      g.src=`${window.location.origin}/embed.js`
       s.parentNode.insertBefore(g,s);
       g.onload=function(){
         window.chaskiqMessenger = new window.ChaskiqMessengerEncrypted({
-          domain: '<%=@h[:http] +request.env["HTTP_HOST"]%>',
+          domain: window.location.origin,
           ws:  '<%= Rails.application.config.action_cable.url %>',
           data: "<%=@encrypted_data%>",
           lang: "<%= @lang %>",

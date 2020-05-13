@@ -29,18 +29,18 @@ class Tour < Message
 
   def config_fields
     [
-      { name: 'name', type: 'string', grid: { xs: 12, sm: 10 } },
+      { name: 'name', type: 'string', grid: { xs: 'w-full', sm: 'w-3/4' } },
       { name: 'state', type: 'select',
         options: %w[enabled disabled],
-        grid: { xs: 12, sm: 2 } 
+        grid: { xs: 'w-full', sm: 'w-1/4' } 
       },
-      { name: 'subject', type: 'string', grid: { xs: 12, sm: 8 } },
-      { name: 'url', type: 'string', grid: { xs: 12, sm: 4 } },
+      { name: 'subject', type: 'string', grid: { xs: 'w-full', sm: 'w-3/4' } },
+      { name: 'url', type: 'string', grid: { xs: 'w-full', sm: 'w-1/4' } },
 
-      { name: 'description', type: 'text', grid: { xs: 12, sm: 12 } },
+      { name: 'description', type: 'text', grid: { xs: 'w-full', sm: 'w-full' } },
 
-      { name: 'scheduledAt', type: 'datetime', grid: { xs: 12, sm: 6 } },
-      { name: 'scheduledTo', type: 'datetime', grid: { xs: 12, sm: 6 } },
+      { name: 'scheduledAt', type: 'datetime', grid: { xs: 'w-full', sm: 'w-1/2' } },
+      { name: 'scheduledTo', type: 'datetime', grid: { xs: 'w-full', sm: 'w-1/2' } },
 
       { name: 'hiddenConstraints', type: 'select',
         options: [
@@ -51,7 +51,7 @@ class Tour < Message
         ],
         multiple: true,
         default: 'open',
-        grid: { xs: 12, sm: 12 } }
+        grid: { xs: 'w-full', sm: 'w-full' } }
 
     ]
   end

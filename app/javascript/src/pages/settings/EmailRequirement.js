@@ -1,91 +1,66 @@
-import React , {useState} from 'react'
+import React, { useState } from 'react'
 
-import FormControlLabel from '@material-ui/core/FormControlLabel'
-import Checkbox from '@material-ui/core/Checkbox'
-import FormGroup from '@material-ui/core/FormGroup'
-import FormControl from '@material-ui/core/FormControl'
-import FormLabel from '@material-ui/core/FormLabel'
-import Box from '@material-ui/core/Box'
-import Typography from '@material-ui/core/Typography'
-import Divider from '@material-ui/core/Divider'
-import Grid from '@material-ui/core/Grid'
-import RadioGroup from '@material-ui/core/RadioGroup'
-import Radio from '@material-ui/core/Radio'
-import Button from '@material-ui/core/Button'
+import I18n from '../../shared/FakeI18n'
+import Button from '../../components/Button'
+import Input from '../../components/forms/Input'
+import Hints from '../../shared/Hints'
 
-
-export default function EmailRequirement({settings, update}){
+export default function EmailRequirement ({ settings, update }) {
   const [value, setValue] = useState(settings.emailRequirement)
 
-  function handleChange(e){
+  function handleChange (e) {
     setValue(e.target.value)
   }
 
-  function handleSubmit(){
+  function handleSubmit () {
     const data = {
       app: {
         email_requirement: value
       }
-    } 
+    }
     update(data)
   }
 
   return (
+    <div className="py-4">
 
-      <Box mb={2}>
-        <Typography variant={"h4"}>
-          {I18n.t("settings.email_requirement.title")}
-        </Typography>
+      <Hints type="EmailRequirement"/>
 
-        <Typography variant={"body1"}>
-          {I18n.t("settings.email_requirement.hint")}
-        </Typography>
-        
-        <Box mt={2}>
-        <FormLabel component="legend">
-          {I18n.t("settings.email_requirement.ask")}
-        </FormLabel>
-        
-      </Box>
+      {/*<p className="text-lg leading-6 font-medium text-gray-900 pb-2">
+        {I18n.t('settings.email_requirement.title')}
+      </p>
 
-      <Box mt={2} mb={2}>
-      
-        <RadioGroup
-          aria-label="email_requirement"
-          name="email_requirement"
-          //className={classes.group}
-          value={value}
-          onChange={handleChange}
-        >
-        
-        {
-          I18n.t("settings.email_requirement.options").map((o, i)=>{
-            return <React.Fragment key={`email_requirement_options-${i}`}>
-                    <FormControlLabel 
-                      value={o.value} 
-                      control={<Radio />} 
-                      label={o.label}
-                    />
-                    <Typography variant={"overline"}>
-                      {o.hint}
-                    </Typography>
-                  </React.Fragment>
-          })
-        }
-        
+      <p className="text-md leading-6 font-medium text-gray-600 pb-2">
+        {I18n.t('settings.email_requirement.hint')}
+      </p>*/}
 
-        </RadioGroup>
+      <div mt={2}>
+        <h2 className="mt-2 max-w-xl text-sm leading-5 text-gray-500">
+          {I18n.t('settings.email_requirement.ask')}
+        </h2>
+      </div>
 
-      </Box>
-   
-      <Button onClick={handleSubmit}
-        variant={"contained"} color={"primary"}>
+      <div className="py-4">
+        {I18n.t('settings.email_requirement.options').map((o, i) => {
+          return (
+            <React.Fragment key={`email_requirement_options-${i}`}>
+              <Input
+                name="email_requirement"
+                // value={value}
+                onChange={handleChange}
+                type={'radio'}
+                value={o.value}
+                label={o.label}
+                helperText={o.hint}
+              />
+            </React.Fragment>
+          )
+        })}
+      </div>
+
+      <Button onClick={handleSubmit} variant={'contained'} color={'primary'}>
         Save
       </Button>
-
-
-    </Box>
-
-
+    </div>
   )
 }

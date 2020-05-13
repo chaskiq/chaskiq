@@ -13,7 +13,7 @@ class AppPackagesCatalog
           {
             name: 'api_secret',
             type: 'string',
-            grid: { xs: 12, sm: 12 }
+            grid: { xs: 'w-full', sm: 'w-full' }
           }
         ]
       },
@@ -28,7 +28,7 @@ class AppPackagesCatalog
           {
             name: 'api_secret',
             type: 'string',
-            grid: { xs: 12, sm: 12 }
+            grid: { xs: 'w-full', sm: 'w-full' }
           }
         ]
       },
@@ -43,12 +43,12 @@ class AppPackagesCatalog
           {
             name: 'project_id',
             type: 'string',
-            grid: { xs: 12, sm: 12 }
+            grid: { xs: 'w-full', sm: 'w-full' }
           },
           {
             name: 'credentials',
             type: 'string',
-            grid: { xs: 12, sm: 12 }
+            grid: { xs: 'w-full', sm: 'w-full' }
           }
         ]
       },
@@ -63,12 +63,12 @@ class AppPackagesCatalog
           {
             name: 'api_secret',
             type: 'string',
-            grid: { xs: 12, sm: 12 }
+            grid: { xs: 'w-full', sm: 'w-full' }
           },
           {
             name: 'api_key',
             type: 'string',
-            grid: { xs: 12, sm: 12 }
+            grid: { xs: 'w-full', sm: 'w-full' }
           }
         ]
       },
@@ -83,7 +83,7 @@ class AppPackagesCatalog
           {
             name: 'api_secret',
             type: 'string',
-            grid: { xs: 12, sm: 12 }
+            grid: { xs: 'w-full', sm: 'w-full' }
           },
         ]
       },
@@ -97,22 +97,22 @@ class AppPackagesCatalog
           {
             name: 'api_key',
             type: 'string',
-            grid: { xs: 12, sm: 12 }
+            grid: { xs: 'w-full', sm: 'w-full' }
           },
           {
             name: 'api_secret',
             type: 'string',
-            grid: { xs: 12, sm: 12 }
+            grid: { xs: 'w-full', sm: 'w-full' }
           },
           {
             name: 'access_token',
             type: 'string',
-            grid: { xs: 12, sm: 12 }
+            grid: { xs: 'w-full', sm: 'w-full' }
           },
           {
             name: 'access_token_secret',
             type: 'string',
-            grid: { xs: 12, sm: 12 }
+            grid: { xs: 'w-full', sm: 'w-full' }
           }
         ]
       },
@@ -127,24 +127,24 @@ class AppPackagesCatalog
           {
             name: 'api_secret',
             type: 'string',
-            grid: { xs: 12, sm: 12 }
+            grid: { xs: 'w-full', sm: 'w-full' }
           },
           {
             name: 'api_key',
             type: 'string',
-            grid: { xs: 12, sm: 12 }
+            grid: { xs: 'w-full', sm: 'w-full' }
           },
 
           {
             name: 'access_token',
             type: 'string',
-            grid: { xs: 12, sm: 12 }
+            grid: { xs: 'w-full', sm: 'w-full' }
           },
 
           {
             name: 'access_token_secret',
             type: 'string',
-            grid: { xs: 12, sm: 12 }
+            grid: { xs: 'w-full', sm: 'w-full' }
           }
         ]
       },
@@ -160,17 +160,17 @@ class AppPackagesCatalog
           {
             name: 'api_key',
             type: 'string',
-            grid: { xs: 12, sm: 12 }
+            grid: { xs: 'w-full', sm: 'w-full' }
           },
           {
             name: 'api_secret',
             type: 'string',
-            grid: { xs: 12, sm: 12 }
+            grid: { xs: 'w-full', sm: 'w-full' }
           },
           {
             name: 'access_token',
             type: 'string',
-            grid: { xs: 12, sm: 12 }
+            grid: { xs: 'w-full', sm: 'w-full' }
           }
         ],
         editor_definitions: {
@@ -204,7 +204,7 @@ class AppPackagesCatalog
           {
             name: 'api_secret',
             type: 'string',
-            grid: { xs: 12, sm: 12 }
+            grid: { xs: 'w-full', sm: 'w-full' }
           }
         ],
         editor_definitions: {
@@ -236,17 +236,17 @@ class AppPackagesCatalog
           {
             name: 'api_key',
             type: 'string',
-            grid: { xs: 12, sm: 12 }
+            grid: { xs: 'w-full', sm: 'w-full' }
           },
           {
             name: 'api_secret',
             type: 'string',
-            grid: { xs: 12, sm: 12 }
+            grid: { xs: 'w-full', sm: 'w-full' }
           },
           {
             name: 'report_id',
             type: 'string',
-            grid: { xs: 12, sm: 12 }
+            grid: { xs: 'w-full', sm: 'w-full' }
           },
         ]
       },
@@ -261,12 +261,12 @@ class AppPackagesCatalog
           {
             name: 'api_key',
             type: 'string',
-            grid: { xs: 12, sm: 12 }
+            grid: { xs: 'w-full', sm: 'w-full' }
           },
           {
             name: 'api_secret',
             type: 'string',
-            grid: { xs: 12, sm: 12 }
+            grid: { xs: 'w-full', sm: 'w-full' }
           }
         ]
       },
@@ -281,17 +281,17 @@ class AppPackagesCatalog
           {
             name: 'api_key',
             type: 'string',
-            grid: { xs: 12, sm: 12 }
+            grid: { xs: 'w-full', sm: 'w-full' }
           },
           {
             name: 'api_secret',
             type: 'string',
-            grid: { xs: 12, sm: 12 }
+            grid: { xs: 'w-full', sm: 'w-full' }
           },
           {
             name: 'verify_token',
             type: 'string',
-            grid: { xs: 12, sm: 12 }
+            grid: { xs: 'w-full', sm: 'w-full' }
           }
         ]
       }

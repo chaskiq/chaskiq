@@ -6,7 +6,7 @@ default: &default
   public_output_path: packs
   cache_path: tmp/cache/webpacker
   check_yarn_integrity: false
-
+  extract_css: true
   # Additional paths webpack should lookup modules
   # ['app/assets', 'engine/foo/app/assets']
   resolved_paths: []
@@ -88,6 +88,7 @@ production:
   compress: true
   # Production depends on precompilation of packs prior to booting for performance.
   compile: false
+  minimize: true
   # Cache manifest.json for performance
   cache_manifest: true
   webpack_compile_output: true

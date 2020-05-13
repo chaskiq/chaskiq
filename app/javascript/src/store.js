@@ -1,5 +1,5 @@
 import { compose, createStore, applyMiddleware, combineReducers } from 'redux'
-import { composeWithDevTools } from 'redux-devtools-extension';
+import { composeWithDevTools } from 'redux-devtools-extension'
 import thunkMiddleware from 'redux-thunk'
 import persistState from 'redux-localstorage'
 
@@ -8,6 +8,7 @@ import app from './actions/app'
 import segment from './actions/segments'
 import app_users from './actions/app_users'
 import app_user from './actions/app_user'
+import rtc from './actions/rtc'
 
 import conversations from './actions/conversations'
 import conversation from './actions/conversation'
@@ -31,19 +32,18 @@ const rootReducer = combineReducers({
   navigation,
   drawer,
   theme,
-  imageZoom
+  imageZoom,
+  rtc
 })
 
-const middlewares = [thunkMiddleware]//, routerMiddleware(history)]
+const middlewares = [thunkMiddleware] //, routerMiddleware(history)]
 
 const enhancer = compose(
   applyMiddleware(...middlewares),
-  persistState('auth', { key: 'AUTH'}),
-  persistState("theme", { key: 'THEME' })
+  persistState('auth', { key: 'AUTH' }),
+  persistState('theme', { key: 'THEME' })
 )
 
-const store = createStore(rootReducer, composeWithDevTools(
-  enhancer
-));
+const store = createStore(rootReducer, composeWithDevTools(enhancer))
 
 export default store
