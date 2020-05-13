@@ -6,6 +6,7 @@ import theme from './textEditor/theme'
 import themeDark from './textEditor/darkTheme'
 import DraftRenderer from './textEditor/draftRenderer'
 import DanteContainer from './textEditor/editorStyles'
+import styled from '@emotion/styled'
 import Moment from 'react-moment';
 import serialize from 'form-serialize'
 import UnicornEditor from './textEditor'
@@ -34,6 +35,13 @@ import {
   ConversationEventContainer,
   InlineConversationWrapper
 } from './styles/styled'
+
+const DanteStylesExtend  = styled(DanteContainer)`
+.graf--code{
+  width: 242px;
+  overflow: auto
+}
+`
 
 export class Conversations extends Component {
 
@@ -214,7 +222,7 @@ export class Conversation extends Component {
                 
                 <ThemeProvider 
                   theme={ themeforMessage }>
-                  <DanteContainer>
+                  <DanteStylesExtend>
                     <DraftRenderer 
                       key={i}
                       message={o}
@@ -230,7 +238,7 @@ export class Conversation extends Component {
                           </Moment> : <span>{t("not_seen")}</span>
                       }
                     </span>
-                  </DanteContainer>
+                  </DanteStylesExtend>
                 </ThemeProvider>  
 
               </div>

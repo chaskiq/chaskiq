@@ -2,12 +2,7 @@ import React from 'react'
 import { withRouter } from 'react-router-dom'
 
 import { connect } from 'react-redux'
-import Typography from '@material-ui/core/Typography'
-import Link from '@material-ui/core/Link'
-import Dialog from '@material-ui/core/Dialog'
-import DialogTitle from '@material-ui/core/DialogTitle'
-import DialogContent from '@material-ui/core/DialogContent'
-import DialogContentText from '@material-ui/core/DialogContentText'
+import FormDialog from '../components/FormDialog'
 import Prism from 'prismjs'
 
 import styled from '@emotion/styled'
@@ -19,48 +14,43 @@ const Pre = styled.pre`
   overflow: auto;
 `
 
-function WebSetup({app, classes}){
-
-  const [open, setOpen] = React.useState(false);
+function WebSetup ({ app, classes }) {
+  const [open, setOpen] = React.useState(false)
 
   const handleClickOpen = () => {
-    setOpen(true);
-  };
+    setOpen(true)
+  }
 
   const handleClose = () => {
-    setOpen(false);
-  };
+    setOpen(false)
+  }
 
-  return  (
+  return (
     <React.Fragment>
-      <Link onClick={handleClickOpen}>
-        Web Setup
-      </Link>
+      <button className="text-xs bg-gray-600 hover:bg-gray-400 text-gray-100 font-bold py-1 px-2 rounded inline-flex items-center text-gray-100"
+      onClick={handleClickOpen}>
+        Get the snippet
+      </button>
 
-      <SimpleDialog
-        app={app}
-        open={open} 
-        onClose={handleClose} 
-      />
+      <SimpleDialog app={app} open={open} onClose={handleClose} />
     </React.Fragment>
   )
 }
 
-function SimpleDialog(props) {
-  //const classes = useStyles();
-  const { onClose, open, app } = props;
+function SimpleDialog (props) {
+  // const classes = useStyles();
+  const { onClose, open, app } = props
 
   const handleClose = () => {
-    onClose();
-  };
+    onClose()
+  }
 
-  function setupScript(){
-    
+  function setupScript () {
     const hostname = window.location.hostname
-    const port = window.location.port ? ":"+window.location.port : ""
-    const secure = window.location.protocol === "https:"
+    const port = window.location.port ? ':' + window.location.port : ''
+    const secure = window.location.protocol === 'https:'
     const httpProtocol = window.location.protocol
-    const wsProtocol = secure ? "wss" : "ws"
+    const wsProtocol = secure ? 'wss' : 'ws'
     const hostnamePort = `${hostname}${port}`
 
     const code = `
@@ -81,34 +71,30 @@ function SimpleDialog(props) {
         })(document,"script");
       </script>
     `
-    return Prism.highlight(code, Prism.languages.javascript, 'javascript');
+    return Prism.highlight(code, Prism.languages.javascript, 'javascript')
   }
 
   return (
-
-    <Dialog 
+    <FormDialog
       fullWidth={true}
       maxWidth={'md'}
-      onClose={handleClose} 
-      aria-labelledby="simple-dialog-title" 
-      open={open}>
-      <DialogTitle id="simple-dialog-title">
-        Web Messenger Setup
-      </DialogTitle>
-      <DialogContent>
-          <DialogContentText>
-            put the following script on the end of your html body tag
-          </DialogContentText>
+      handleClose={handleClose}
+      aria-labelledby="simple-dialog-title"
+      open={open}
+      titleContent={'Web Messenger Setup'}
+      formComponent={
+        <div>
+          <p>put the following script on the end of your html body tag</p>
           <Pre>
-            <div dangerouslySetInnerHTML={{__html: setupScript() }}/>
+            <div dangerouslySetInnerHTML={{ __html: setupScript() }} />
           </Pre>
-      </DialogContent>
-      
-    </Dialog>
-  );
+        </div>
+      }
+    />
+  )
 }
 
-function mapStateToProps(state) {
+function mapStateToProps (state) {
   const { app } = state
   return {
     app
@@ -116,4 +102,3 @@ function mapStateToProps(state) {
 }
 
 export default withRouter(connect(mapStateToProps)(WebSetup))
-

@@ -1,43 +1,36 @@
-import React from "react"
+import React from 'react'
 import { connect } from 'react-redux'
 import Content from '../../components/Content'
-import EmptyView from '../../components/emptyView'
-import {setCurrentSection} from '../../actions/navigation'
+import EmptyView from '../../components/EmptyView'
+import { setCurrentSection } from '../../actions/navigation'
 import { withRouter } from 'react-router-dom'
-import image from '../../../../assets/images/delivery-icon8.png'
+import image from '../../images/delivery-icon8.png'
 
-function CampaignHome({dispatch}){
-
-  React.useEffect(()=>{
-    dispatch(
-      setCurrentSection("Campaigns")
-    )
+function CampaignHome ({ dispatch }) {
+  React.useEffect(() => {
+    dispatch(setCurrentSection('Campaigns'))
   }, [])
 
   return (
     <div>
-      <Content> 
-        <EmptyView 
-          title={"campaigns"} 
+      <Content>
+        <EmptyView
+          title={'Campaigns'}
+          shadowless
           subtitle={
             <div>
-              This is the campaigns section, you can create newsletters
-              , popup messages and guided tours
-
-
-              <img src={image} width={"100%"}/>
+              This is the campaigns section, you can create newsletters , popup
+              messages and guided tours
+              <img src={image} width={'100%'} />
             </div>
-
-          }/>
+          }
+        />
       </Content>
     </div>
   )
 }
 
-
-
-function mapStateToProps(state) {
-
+function mapStateToProps (state) {
   const { auth, app } = state
   const { loading, isAuthenticated } = auth
 

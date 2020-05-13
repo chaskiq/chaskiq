@@ -6,10 +6,8 @@ import React, {Component} from 'react'
 import redraft from 'redraft'
 
 var Prism = require('prismjs');
-//Prism.highlightAll();
 
-const handlePrismRenderer = (syntax, children)=>{
-  const code = children.map((o)=> o.flat() ).join("")
+const handlePrismRenderer = (syntax, code)=>{
   const formattedCode =  Prism.highlight(code, Prism.languages.javascript, 'javascript');
   return {__html: formattedCode }
 }
@@ -29,13 +27,35 @@ const styles = {
   },
 };
 
+function Pre({className, children, data}){
+
+  let el = React.useRef(null);
+  const [code, setCode] = React.useState(null)
+
+  React.useEffect( () => {
+    setCode(handlePrismRenderer(data.syntax, el.current.innerHTML ))
+  }, [] )
+
+  return <div>
+          <div ref={el} style={{display:'none'}}>
+            {children}
+          </div>
+          
+          { code && <pre 
+              className="graf graf--code"
+              dangerouslySetInnerHTML={code}
+            />
+          }
+         </div>
+}
+
 // just a helper to add a <br /> after a block
 const addBreaklines = (children) => children.map(child => [child, <br />]);
 
 
-function getImageUrl(url, props){
-  if(!url) return 
-  if(url.includes("://")) return url
+function getImageUrl (url, props) {
+  if (!url) return 
+  if (url.includes("://")) return url
   return `${props.domain}${url}`
 }
 /**
@@ -52,7 +72,10 @@ function renderers(props) {
       BOLD: (children, { key }) => <strong key={key}>{children}</strong>,
       ITALIC: (children, { key }) => <em key={key}>{children}</em>,
       UNDERLINE: (children, { key }) => <u key={key}>{children}</u>,
-      //CODE: (children, { key }) => <span key={key} dangerouslySetInnerHTML={handlePrismRenderer(children)} />,
+      /*CODE: (children, { key }) => <span 
+        key={key} 
+        dangerouslySetInnerHTML={handlePrismRenderer(children)} 
+      />,*/
     },
     /**
      * Blocks receive children and depth
@@ -75,12 +98,16 @@ function renderers(props) {
       'header-two': (children, { keys }) => <h2 key={keys[0]} className="graf graf--h3">{children}</h2>,
       // You can also access the original keys of the blocks
       'code-block': (children, { keys, data }) => {
-        return <pre className="graf graf--code" 
+        return <Pre className="graf graf--code" data={data}>
+                  {children}
+               </Pre>
+               
+               {/*<pre className="graf graf--code" 
                     //style={styles.codeBlock} 
                     key={keys[0]} 
-                    dangerouslySetInnerHTML={handlePrismRenderer(data.syntax, children)}>
-                    {/*addBreaklines(children)*/}
-              </pre>},
+                    //dangerouslySetInnerHTML={handlePrismRenderer(data.syntax, children)}
+                  >{children}</pre>*/}
+              },
       // or depth for nested lists
       'unordered-list-item': (children, { depth, keys }) => <ul key={keys[keys.length - 1]} className={`ul-level-${depth}`}>
                                                               {children.map(child => <li className="graf graf--insertunorderedlist">

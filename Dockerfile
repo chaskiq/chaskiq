@@ -1,64 +1,68 @@
 ARG RUBY_VERSION
 FROM ruby:$RUBY_VERSION-slim-buster
 
+ARG APP_ENV
+
 ARG PG_MAJOR
 ARG NODE_MAJOR
 ARG BUNDLER_VERSION
 ARG YARN_VERSION
 
-# Common dependencies
-RUN apt-get update -qq \
-  && DEBIAN_FRONTEND=noninteractive apt-get install -yq --no-install-recommends \
-    build-essential \
-    gnupg2 \
-    curl \
-    less \
-    git \
-  && apt-get clean \
-  && rm -rf /var/cache/apt/archives/* \
-  && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* \
-  && truncate -s 0 /var/log/*log
+# Copy Installers
+RUN mkdir -p /docker-files
+COPY .docker-files/ /docker-files
+RUN chmod +x /docker-files/*.sh
 
-# Add PostgreSQL to sources list
-RUN curl -sSL https://www.postgresql.org/media/keys/ACCC4CF8.asc | apt-key add - \
-  && echo 'deb http://apt.postgresql.org/pub/repos/apt/ buster-pgdg main' $PG_MAJOR > /etc/apt/sources.list.d/pgdg.list
+# Install Dependencies
+RUN /docker-files/deps.sh
 
-# Add NodeJS to sources list
-RUN curl -sL https://deb.nodesource.com/setup_$NODE_MAJOR.x | bash -
+# Install PostgreSQL
+RUN /docker-files/pg.sh
 
-# Add Yarn to the sources list
-RUN curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add - \
-  && echo 'deb http://dl.yarnpkg.com/debian/ stable main' > /etc/apt/sources.list.d/yarn.list
-
-# Install dependencies
-COPY .dockerdev/Aptfile /tmp/Aptfile
-RUN apt-get update -qq && DEBIAN_FRONTEND=noninteractive apt-get -yq dist-upgrade && \
-  DEBIAN_FRONTEND=noninteractive apt-get install -yq --no-install-recommends \
-    libpq-dev \
-    postgresql-client-$PG_MAJOR \
-    nodejs \
-    yarn=$YARN_VERSION-1 \
-    $(cat /tmp/Aptfile | xargs) && \
-    apt-get clean && \
-    rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* && \
-    truncate -s 0 /var/log/*log
+# Install NodeJS, Yarn
+RUN /docker-files/node.sh
 
 # Configure bundler
-ENV LANG=C.UTF-8 \
-  BUNDLE_JOBS=4 \
-  BUNDLE_RETRY=3
-
-# Uncomment this line if you store Bundler settings in the project's root
-# ENV BUNDLE_APP_CONFIG=.bundle
+ENV LANG=C.UTF-8 BUNDLE_JOBS=4 BUNDLE_RETRY=3
 
 # Uncomment this line if you want to run binstubs without prefixing with `bin/` or `bundle exec`
-ENV PATH /app/bin:$PATH
+# ENV PATH=/app/bin:$BUNDLE_BIN:$PATH
 
 # Upgrade RubyGems and install required Bundler version
 RUN gem update --system && \
     gem install bundler:$BUNDLER_VERSION
 
-# Create a directory for the app code
-RUN mkdir -p /app
+# Change permissions for GEM_HOME
+RUN chmod -R 777 $GEM_HOME
 
-WORKDIR /app
+# Add docker user
+RUN adduser --disabled-password --gecos "" docker && adduser docker staff
+
+# Create and change app directory permissions
+RUN mkdir /usr/src/app
+RUN chown -R docker:docker /usr/src/app
+
+# Bundler install gems
+WORKDIR /tmp
+COPY Gemfile Gemfile.lock /tmp/
+RUN bundle install -j ${BUNDLE_JOBS} --retry ${BUNDLE_RETRY}
+
+# Clean up APT when done
+RUN apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* && \
+    truncate -s 0 /var/log/*log
+
+# Change user and set workdir
+USER docker
+WORKDIR /usr/src/app
+
+# Copy app source into container
+COPY --chown=docker:docker . /usr/src/app/
+
+# Precompile assets - production only
+# Clean up temp files and Yarn cache folder
+RUN NODE_ENV=${APP_ENV} NODE_OPTIONS="--max-old-space-size=2048" \
+    SECRET_KEY_BASE=`bin/rake secret` RAILS_ENV=${APP_ENV} \
+    bundle exec rails assets:precompile \
+    && rm -rf /usr/src/app/node_modules /usr/src/app/tmp/cache/* /tmp/* \
+    && yarn cache clean
+

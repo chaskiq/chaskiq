@@ -1,245 +1,244 @@
-import React, {
-  useState, 
-  useEffect, 
-  useRef
-} from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 
-import Grid from '@material-ui/core/Grid'
-import Button from '@material-ui/core/Button'
-import Typography from '@material-ui/core/Typography'
-import FormControlLabel from '@material-ui/core/FormControlLabel'
-import FormControl from '@material-ui/core/FormControl'
-import Radio from '@material-ui/core/Radio'
-import RadioGroup from '@material-ui/core/RadioGroup'
-import FormLabel from '@material-ui/core/FormLabel'
-import Checkbox from '@material-ui/core/Checkbox'
-import TextField from '@material-ui/core/TextField'
+import Button from '../../components/Button'
+import Input from '../../components/forms/Input'
+// import FormControlLabel from '@material-ui/core/FormControlLabel'
+// import FormControl from '@material-ui/core/FormControl'
+// import Radio from '@material-ui/core/Radio'
+// import RadioGroup from '@material-ui/core/RadioGroup'
+// import FormLabel from '@material-ui/core/FormLabel'
+// import Checkbox from '@material-ui/core/Checkbox'
+// import TextField from '@material-ui/core/TextField'
 
 import FormDialog from '../../components/FormDialog'
 
-
-const TaskSettingsForm = ({app, data, updateData, saveData, errors}) => {
-
+const TaskSettingsForm = ({ app, data, updateData, saveData, errors }) => {
   const [state, setState] = useState(data || {})
 
-  function update(data){
+  function update (data) {
     const newState = Object.assign({}, state, data)
-    //setState(newState)
+    // setState(newState)
     updateData(newState)
   }
 
-
   return (
-
     <div>
-
-      <Schedule 
-        app={app} 
-        updateData={update} 
+      <Schedule
+        app={app}
+        updateData={update}
         data={data}
-        namespace={"scheduling"}
-        submit={()=> saveData(state)}
+        namespace={'scheduling'}
+        submit={() => saveData(state)}
       />
 
-      <UrlPaths
-        app={app} 
-        updateData={update} 
+      {/* <UrlPaths
+        app={app}
+        updateData={update}
         data={data}
-      />
+      /> */}
 
-      <Grid item>
-
-        <Button variant={'contained'} 
-          color={"primary"}
-          onClick={()=> saveData(state)}>
+      <div className="flex justify-end">
+        <Button
+          variant={'contained'}
+          color={'primary'}
+          onClick={() => saveData(state)}
+        >
           save
         </Button>
-
-      </Grid>
-     
+      </div>
     </div>
   )
 }
 
+function Schedule ({ app, data, updateData, namespace, submit }) {
+  const [state, setState] = React.useState(data)
 
-function Schedule({app, data, updateData, namespace, submit}){
-  const [state, setState] = React.useState(data);
-
-  useEffect(()=>{
+  useEffect(() => {
     updateData(state)
   }, [state])
 
-  function handleRadioChange(event) {
-    setValue(event.target.name, event.target.value);
+  function handleRadioChange (event) {
+    setValue(event.target.name, event.target.value)
   }
 
-  const setValue = (name, value)=>{
-    setState({ ...state, [name]: value });
+  const setValue = (name, value) => {
+    setState({ ...state, [name]: value })
   }
 
-  function submitData(){
+  function submitData () {
     submit(state)
   }
 
-  const handleChange = name => event => {
-    setValue(name, event.target.checked ? "enabled" : "disabled")
-  };
+  const handleChange = (name) => (event) => {
+    setValue(name, event.target.checked ? 'enabled' : 'disabled')
+  }
 
   return (
-    <div>
-      <Grid container>
-        <Grid container direction={"column"}>
+    <div className="py-4">
+      <p className="text-lg leading-6 font-medium text-gray-900 pb-4">
+        Bot Task settings
+      </p>
 
-          <Typography variant={"h5"}>
-            Enable Bot
-          </Typography>
+      <Input
+        type="checkbox"
+        checked={state.state === 'enabled'}
+        onChange={handleChange('state')}
+        value={state.state === 'enabled'}
+        label={'Enable bot task'}
+        helperText={'when enabled the bot task will start operating'}
+      ></Input>
 
+      <p className="text-lg leading-6 font-medium text-gray-900 pb-4">
+        Set specific times to show this bot to your audience.
+      </p>
+
+      <p className="max-w-xl text-sm leading-5 text-gray-500 mb-4">
+        Your app's timezone is {app.timezone} See your office hours.
+      </p>
+
+      <Input
+        onChange={handleRadioChange}
+        name="scheduling"
+        type="radio"
+        value={'inside_office'}
+        checked={state.scheduling === 'inside_office'}
+        label="During office hours"
+        labelPlacement="end"
+      />
+
+      <Input
+        type={'radio'}
+        onChange={handleRadioChange}
+        name="scheduling"
+        value={'outside_office'}
+        checked={state.scheduling === 'outside_office'}
+        label="Outside office hours"
+        labelPlacement="end"
+      />
+
+      <Input
+        onChange={handleRadioChange}
+        name="scheduling"
+        type="radio"
+        disabled
+        value={'custom_time'}
+        checked={state.scheduling === 'custom_time'}
+        label="Custom time"
+        labelPlacement="end"
+      />
+
+      {/* <FormControl component="fieldset">
+        <FormLabel component="legend">
+          Set specific times to show this bot to your audience.
+        </FormLabel>
+
+        <RadioGroup aria-label="position"
+          name="scheduling"
+          value={state.scheduling}
+          onChange={handleRadioChange}
+          >
           <FormControlLabel
-            control={
-              <Checkbox 
-                checked={state.state === "enabled"} 
-                onChange={handleChange('state')} 
-                value="enabled" 
-              />
-            }
-            label="enabled"
+            value="inside_office"
+            control={<Radio color="primary" />}
+            label="During office hours"
+            labelPlacement="end"
           />
 
-          <Typography variant={"h5"}>
-            Set specific times to show this bot to your audience.
-          </Typography>
+          <FormControlLabel
+            value="outside_office"
+            control={<Radio color="primary" />}
+            label="Outside office hours"
+            labelPlacement="end"
+          />
 
-          <Typography variant={"overline"}>
-            Your app's timezone is {app.timezone} See your office hours.
-          </Typography>
+          <FormControlLabel
+            value="custom_time"
+            control={<Radio color="primary" />}
+            label="Custom time"
+            disabled={true}
+            labelPlacement="end"
+          />
+        </RadioGroup>
 
-          <FormControl component="fieldset">
-            <FormLabel component="legend">
-              Set specific times to show this bot to your audience.
-            </FormLabel>
-
-            <RadioGroup aria-label="position" 
-              name="scheduling" 
-              value={state.scheduling} 
-              onChange={handleRadioChange} 
-              >
-              <FormControlLabel
-                value="inside_office"
-                control={<Radio color="primary" />}
-                label="During office hours"
-                labelPlacement="end"
-              />
-
-              <FormControlLabel
-                value="outside_office"
-                control={<Radio color="primary" />}
-                label="Outside office hours"
-                labelPlacement="end"
-              />
-
-              <FormControlLabel
-                value="custom_time"
-                control={<Radio color="primary" />}
-                label="Custom time"
-                disabled={true}
-                labelPlacement="end"
-              />
-            </RadioGroup>
-
-          </FormControl>
-
-        </Grid>
-      </Grid>
+    </FormControl> */}
     </div>
   )
 }
 
-function UrlPaths({data, updateData}){
-  const [urls, setUrls] = useState(data.urls || [] )
-  const inputEl = useRef(null);
+function UrlPaths ({ data, updateData }) {
+  const [urls, setUrls] = useState(data.urls || [])
+  const inputEl = useRef(null)
 
-  useEffect(()=>{
-    updateData({urls: urls})
+  useEffect(() => {
+    updateData({ urls: urls })
   }, [urls])
 
   const [open, setOpen] = useState(false)
 
-  function remove(item){
-    const newUrls = urls.filter((o)=> o != item)
+  function remove (item) {
+    const newUrls = urls.filter((o) => o != item)
     setUrls(newUrls)
   }
 
-  function add(){
+  function add () {
     setOpen(true)
   }
 
-  function close(){
+  function close () {
     setOpen(false)
   }
 
-  function submit(e){
+  function submit (e) {
     const newUrls = urls.concat(inputEl.current.value)
     setUrls(newUrls)
     setOpen(false)
   }
 
   return (
-
-    <Grid container direction={"column"}>
-
-      <Grid item>
-
-        <Typography variant={"h5"}>
-          Enable Bot
-        </Typography>
+    <div className="flex">
+      <div item>
+        <p variant={'h5'}>Enable Bot</p>
 
         {open && (
-          <FormDialog 
+          <FormDialog
             open={open}
-            //contentText={"lipsum"}
-            titleContent={"Save Url"}
+            // contentText={"lipsum"}
+            titleContent={'Save Url'}
             formComponent={
-              //!loading ?
-                <form>
-                  <input ref={inputEl} name={"oe"} />
-                </form> 
-                //: <CircularProgress/>
+              //! loading ?
+              <form>
+                <input ref={inputEl} name={'oe'} />
+              </form>
+              // : <CircularProgress/>
             }
             dialogButtons={
-              <React.Fragment>
-                <Button onClick={close} color="secondary">
+              <div className="flex justify-end">
+                <Button onClick={close} variant="outlined">
                   Cancel
                 </Button>
 
-                <Button onClick={submit } 
-                  color="primary">
+                <Button onClick={submit} className="mr-1">
                   Create
                 </Button>
-
-              </React.Fragment>
-            }>
-          </FormDialog>
+              </div>
+            }
+          ></FormDialog>
         )}
+      </div>
 
-      </Grid>
-    
-      <Grid item>
+      <div item>
         <Button onClick={add}>add</Button>
-      </Grid>
+      </div>
 
-      <Grid container direction={"column"}>
-        {
-          urls.map((o)=>(
-            <Grid item>
-              <p>{o}</p>
-              <Button onClick={()=> remove(o)}>remove</Button>
-            </Grid>
-          ))
-        }
-      </Grid>
-    
-    </Grid>
-
+      <div className="flex">
+        {urls.map((o) => (
+          <div item>
+            <p>{o}</p>
+            <Button onClick={() => remove(o)}>remove</Button>
+          </div>
+        ))}
+      </div>
+    </div>
   )
 }
 

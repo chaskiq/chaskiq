@@ -10,6 +10,8 @@ import theme from './textEditor/theme'
 import DraftRenderer from './textEditor/draftRenderer'
 import DanteContainer from './textEditor/editorStyles'
 import Tour from './UserTour'
+import TourManager from './tourManager'
+
 //import gravatar from "./shared/gravatar"
 import { soundManager } from 'soundmanager2'
 import {toCamelCase} from './shared/caseConverter'
@@ -50,7 +52,6 @@ import {
   AssigneeStatusWrapper
 } from './styles/styled'
 
-import TourManager from './tourManager'
 import {
   CloseIcon,
   LeftIcon,
@@ -63,6 +64,9 @@ import Home from './homePanel'
 import Article from './articles'
 
 import {Conversation, Conversations} from './conversation.js'
+import {RtcView} from '../src/components/rtc'
+
+import RtcViewWrapper, {CallStatus} from './rtcView'
 
 let App = {}
 
@@ -102,7 +106,11 @@ class Messenger extends Component {
         translateY: -25,
         height: 212
       },
-      transition: 'in'
+      transition: 'in',
+      rtc: {  },
+      videoSession: false,
+      rtcAudio: true,
+      rtcVideo: true
     }
 
     this.delayTimer = null
@@ -145,12 +153,6 @@ class Messenger extends Component {
       headers: this.defaultHeaders
       /* other custom settings */
     });
-
-    //this.graphqlClient = this.props.graphqlClient
-    /*new GraphqlClient({
-      config: this.defaultHeaders,
-      baseURL: '/api/graphql'
-    })*/
 
     this.graphqlClient = new GraphqlClient({
       config: this.defaultHeaders,
@@ -219,6 +221,10 @@ class Messenger extends Component {
 
   componentWillUnmount() {
     window.removeEventListener("resize", this.updateDimensions);
+  }
+
+  setVideoSession(){
+    this.setState({videoSession: !this.state.videoSession})
   }
 
   visibility(){
@@ -321,8 +327,17 @@ class Messenger extends Component {
     }).play()
   }
 
+  updateRtcEvents = (data)=>{
+    const conversation = this.state.conversation
+    if (conversation && conversation.key === data.conversation_id ) { 
+      console.log("update rtc dsta", data)
+      this.setState({rtc: data})
+    }
+  }
+
   eventsSubscriber = ()=>{
-    App.events = App.cable.subscriptions.create(this.cableDataFor({channel: "MessengerEventsChannel"}),
+    App.events = App.cable.subscriptions.create(
+      this.cableDataFor({channel: "MessengerEventsChannel"}),
       {
         connected: ()=> {
           console.log("connected to events")
@@ -351,13 +366,14 @@ class Messenger extends Component {
               const newMessage = toCamelCase(data.data)
               this.receiveMessage(newMessage)
               break
-
             case "conversations:typing":
               this.handleTypingNotification(toCamelCase(data.data))
               break
             case "conversations:unreads":
               this.receiveUnread(data.data)
               break
+            case 'rtc_events':
+              return this.updateRtcEvents(data)
             case "true":
               return true
             default:
@@ -371,7 +387,7 @@ class Messenger extends Component {
           console.log(`notify event!!`)
         },
         handleMessage: (message)=>{
-          console.log(`handle event message`)
+          console.log(`handle event message`, message)
         }
       }
     )
@@ -1008,6 +1024,10 @@ class Messenger extends Component {
     
   }
 
+  toggleAudio= ()=> this.setState({rtcAudio: !this.state.rtcAudio})
+
+  toggleVideo= ()=> this.setState({rtcVideo: !this.state.rtcVideo})
+
   render() {
     const palette = this.themePalette()
     return (
@@ -1016,6 +1036,8 @@ class Messenger extends Component {
           mode: 'light', // this.state.appData ? this.state.appData.theme : 
           isMessengerActive: this.isMessengerActive()
         }}>
+
+            
 
             <EditorWrapper>
 
@@ -1045,7 +1067,21 @@ class Messenger extends Component {
                       }}>
 
                         <FrameBridge 
-                          handleAppPackageEvent={this.handleAppPackageEvent}>
+                          handleAppPackageEvent={this.handleAppPackageEvent}
+                          >
+
+                          { 
+                            this.state.display_mode === "conversation" ?
+                              <FrameChild 
+                                state={this.state} 
+                                props={this.props}
+                                events={App.events}
+                                updateRtc={(data)=> this.setState({rtc: data})}
+                                toggleAudio={ this.toggleAudio }
+                                toggleVideo={ this.toggleVideo }
+                                setVideoSession={this.setVideoSession.bind(this)} 
+                              /> : <div></div>
+                          }
 
                           <SuperFragment>
 
@@ -1101,7 +1137,7 @@ class Messenger extends Component {
                                     {
                                       this.state.appData.logo && 
                                         <img style={{height: 50, width: 50}} 
-                                          src={this.props.domain + this.state.appData.logo}
+                                          src={this.state.appData.logo}
                                         />
                                     }
                                     <h2 className={'title'}>
@@ -1161,7 +1197,7 @@ class Messenger extends Component {
                                 />
                               }
 
-                              {
+                              { 
                                 this.state.display_mode === "conversation" &&
                                 
                                   <Conversation
@@ -1184,6 +1220,17 @@ class Messenger extends Component {
                                   /> 
                               } 
 
+                              {
+                                <RtcViewWrapper 
+                                  toggleVideo={this.toggleVideo}
+                                  toggleAudio={this.toggleAudio}
+                                  rtcVideo={this.state.rtcVideo}
+                                  rtcAudio={this.state.rtcAudio}
+                                  setVideoSession={this.setVideoSession.bind(this)}
+                                  videoSession={this.state.videoSession}>
+                                </RtcViewWrapper>
+                              }
+                              
                               {
                                 this.state.display_mode === "conversations" && 
                                   <Conversations 
@@ -1300,12 +1347,12 @@ class Messenger extends Component {
               { 
                 this.isMessengerActive() ?
                 <StyledFrame style={{
-                    zIndex: '10000000',
+                    zIndex: '10000',
                     position: 'absolute',
                     bottom: '-18px',
                     width: '88px',
                     height: '100px',
-                    right: '-13px',
+                    right: '0px',
                     border: 'none'
                   }}>
 
@@ -1372,13 +1419,48 @@ class Messenger extends Component {
                   events={App.events}
                   domain={this.props.domain}
                 /> : null
-            }
+             }
 
             <div id="TourManager"></div>
          
         </ThemeProvider>
     );
   }
+}
+
+const FrameChild = ({ 
+  document, window, state, 
+  props, events, updateRtc, setVideoSession, 
+  toggleAudio, toggleVideo 
+}) => {
+  return <React.Fragment>
+    { 
+      <RtcView 
+        document={document}
+        buttonElement={'callButton'}
+        infoElement={'info'}
+        localVideoElement={'localVideo'}
+        remoteVideoElement={'remoteVideo'}
+        callStatusElement={'callStatus'}
+        callButtonsElement={'callButtons'}
+        current_user={{ email: props.session_id }}
+        rtc={state.rtc}
+        handleRTCMessage={( data ) => { debugger }}
+        toggleAudio={toggleAudio}
+        toggleVideo={toggleVideo}
+        rtcAudio={state.rtcAudio}
+        rtcVideo={state.rtcVideo}
+        onCloseSession={()=> {
+          updateRtc({})
+        } }
+        toggleVideoSession={ () => setVideoSession(!state.videoSession)}
+        video={state.videoSession}
+        events={events}
+        AppKey={props.app_id}
+        conversation={state.conversation}
+      /> 
+    }
+  </React.Fragment>
 }
 
 // frame internals grab
@@ -1392,8 +1474,17 @@ class FrameBridge extends Component {
   }
   
   render(){
+    const {props} = this
+
+    const children = React.Children.map(this.props.children, (child, index) => {
+      return React.cloneElement(child, {
+        window: props.window, 
+        document: props.document
+      });
+    })
+
     return <React.Fragment>
-            {this.props.children}
+            {children}
            </React.Fragment>
   }
 }

@@ -9,19 +9,19 @@ class Campaign < Message
 
   def config_fields
     [
-      { name: 'name', type: 'string', grid: { xs: 12, sm: 12 } },
-      { name: 'subject', type: 'text', grid: { xs: 12, sm: 12 } },
-      { name: 'fromName', type: 'string', grid: { xs: 12, sm: 6 } },
-      { name: 'fromEmail', type: 'string', grid: { xs: 12, sm: 6 } },
-      { name: 'replyEmail', type: 'string', grid: { xs: 12, sm: 6 } },
-      { name: 'description', type: 'text', grid: { xs: 12, sm: 12 } },
+      { name: 'name', type: 'string', grid: { xs: 'w-full', sm: 'w-full' } },
+      { name: 'subject', type: 'text', grid: { xs: 'w-full', sm: 'w-full' } },
+      { name: 'fromName', type: 'string', grid: { xs: 'w-full', sm: 'w-1/2' } },
+      { name: 'fromEmail', type: 'string', grid: { xs: 'w-full', sm: 'w-1/2' } },
+      { name: 'replyEmail', type: 'string', grid: { xs: 'w-full', sm: 'w-1/2' } },
+      { name: 'description', type: 'text', grid: { xs: 'w-full', sm: 'w-full' } },
       { name: 'timezone', type: 'timezone',
         options: ActiveSupport::TimeZone.all.map { |o| o.tzinfo.name },
         multiple: false,
-        grid: { xs: 12, sm: 12 } },
+        grid: { xs: 'w-full', sm: 'w-full' } },
       # {name: "settings", type: 'string'} ,
-      { name: 'scheduledAt', type: 'datetime', grid: { xs: 12, sm: 6 } },
-      { name: 'scheduledTo', type: 'datetime', grid: { xs: 12, sm: 6 } }
+      { name: 'scheduledAt', type: 'datetime', grid: { xs: 'w-full', sm: 'w-1/2' } },
+      { name: 'scheduledTo', type: 'datetime', grid: { xs: 'w-full', sm: 'w-1/2' } }
     ]
   end
 

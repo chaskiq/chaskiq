@@ -23,7 +23,7 @@ app.add_admin(Agent.create(
 
 Doorkeeper::Application.create(
    name: "authapp", 
-   redirect_uri: "#{domain}/callback"
+   #redirect_uri: "#{domain}/callback"
 )
 
 AppPackagesCatalog.import unless Rails.env.test?

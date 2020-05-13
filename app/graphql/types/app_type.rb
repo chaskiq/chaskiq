@@ -365,8 +365,8 @@ module Types
   
       begin
         Rails.application.routes.url_helpers.rails_representation_url(
-          url,
-          only_path: true
+          url #,
+          #only_path: true
         )
       rescue StandardError
         nil

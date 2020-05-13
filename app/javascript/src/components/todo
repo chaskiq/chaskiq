@@ -1,0 +1,16 @@
++ components
+  table:
+    + map
+    + select multi fields
+
+sections
+
++ dashboard
++ user profile
+
++ table fields checkboxes
+
+
++ conversations
+  + style on conversations
+  + mobile friendly on conversation

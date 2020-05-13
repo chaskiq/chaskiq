@@ -38,7 +38,7 @@ Doorkeeper.configure do
     
   enforce_configured_scopes
 
-
+  allow_blank_redirect_uri true
 
 
   # If you didn't skip applications controller from Doorkeeper routes in your application routes.rb

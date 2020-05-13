@@ -1,20 +1,26 @@
-import React from 'react';
-import { makeStyles } from '@material-ui/core/styles';
-import CircularProgress from '@material-ui/core/CircularProgress';
+import React from 'react'
+import styled from '@emotion/styled'
+import { keyframes } from '@emotion/core'
+// based on https://codepen.io/Siddharth11/pen/xbGrpG
 
-const useStyles = makeStyles(theme => ({
-  progress: {
-    margin: theme.spacing(2),
-  },
-}));
+const spin = keyframes`
+  100% { 
+    transform: rotate(360deg); 
+  } 
+`
 
-export default function CircularIndeterminate() {
-  const classes = useStyles();
+const Loader = styled.div`
+  animation: ${spin} 0.5s infinite linear;
+  border-top-color: white;
+`
 
+export default function CircularIndeterminate () {
   return (
-    <div>
-      <CircularProgress className={classes.progress} />
-      {/*<CircularProgress className={classes.progress} color="secondary" />*/}
+    <div className="flex justify-center items-center">
+      <Loader
+        className="loader ease-linear rounded-full
+      border-4 border-t-4 border-gray-200 h-16 w-16"
+      />
     </div>
-  );
+  )
 }

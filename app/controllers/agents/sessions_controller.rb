@@ -29,13 +29,11 @@ class Agents::SessionsController < Devise::SessionsController
       session[:return_to] = nil
     else
       a = Doorkeeper::Application.first
-      client = OAuth2::Client.new(a.uid, a.secret, site: a.redirect_uri)
 
-      access_token =  client.password.get_token(
-        params[:agent][:email], 
-        params[:agent][:password]
+      access_token = Doorkeeper::AccessToken.find_or_create_for(
+        a, resource, "", 1.hour, true
       )
-      
+
       respond_with_navigational(resource, status: :success) do
         render json: access_token
       end

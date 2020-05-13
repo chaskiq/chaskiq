@@ -38,7 +38,7 @@ module Types
 
       Rails.application.routes.url_helpers.rails_representation_url(
         url,
-        only_path: true
+        #only_path: true
       )
     end
 
@@ -55,7 +55,7 @@ module Types
       begin
         Rails.application.routes.url_helpers.rails_representation_url(
           url,
-          only_path: true
+          #only_path: true
         )
       rescue StandardError
         nil
@@ -75,7 +75,7 @@ module Types
 
       Rails.application.routes.url_helpers.rails_representation_url(
         object.header_image.variant(options).processed,
-        only_path: true
+        #only_path: true
       )
     end
 
