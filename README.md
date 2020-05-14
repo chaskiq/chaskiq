@@ -5,15 +5,25 @@
 ## Open Source Messaging Platform for Marketing, Support & Sales
 ### The front line of your customer service.
 
-<img alt="Travis CI" src="https://travis-ci.org/chaskiq/chaskiq.svg?branch=master"/>
+
+<a href="https://travis-ci.org/chaskiq/chaskiq">
+  <img src="https://travis-ci.org/chaskiq/chaskiq.svg?branch=master" alt="CI">
+</a>
+
+<a href="https://hub.docker.com/r/chaskiq/chaskiq">
+  <img src="https://img.shields.io/docker/pulls/chaskiq/chaskiq.svg" alt="CI">
+</a>
+
+<a href="https://hub.docker.com/r/chaskiq/chaskiq">
+  <img src="https://img.shields.io/docker/cloud/build/chaskiq/chaskiq" alt="CI">
+</a>
 
 <br/>
 
-<p align="center">
-  <a href="https://heroku.com/deploy?template=https://github.com/chaskiq/chaskiq/tree/master" alt="Deploy to Heroku">
-     <img alt="Deploy" src="https://www.herokucdn.com/deploy/button.svg"/>
-  </a>
-</p>
+<a href="https://heroku.com/deploy?template=https://github.com/chaskiq/chaskiq/tree/master" alt="Deploy to Heroku">
+    <img alt="Deploy" src="https://www.herokucdn.com/deploy/button.svg"/>
+</a>
+
 
 
 ----

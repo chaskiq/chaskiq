@@ -1,1 +1,2 @@
 ./app/javascript/src/graphql/*.js
+./spec/cypress/*.js

@@ -561,7 +561,7 @@ class AppPackageBlock extends Component {
 
         if (this.props.message.blocks.type === "data_retrieval"){
           return Object.keys(this.props.message.data).map((k)=>{
-            return <p>{k}: {this.props.message.data[k]}</p>
+            return <p key={`data-retrieval-${k}`}>{k}: {this.props.message.data[k]}</p>
           })
         } else{
           <p>{JSON.stringify(this.props.message.data)}</p>
@@ -573,11 +573,12 @@ class AppPackageBlock extends Component {
     const element = item.element
     const isDisabled = this.props.message.state === "replied"
     const {t} = this.props
+    const key = `${item.type}-${index}`
     switch(item.element){
     case "separator":
-      return <hr key={index}/>
+      return <hr key={key}/>
     case "input":
-      return <div className={"form-group"} key={index}>
+      return <div className={"form-group"} key={key}>
               <label>{t("enter_your", {field: item.name })}</label>
               <input 
                 disabled={isDisabled}
@@ -589,7 +590,7 @@ class AppPackageBlock extends Component {
                 //}}
               />
               <button disabled={isDisabled}
-                      key={index} 
+                      key={key} 
                       style={{alignSelf: 'flex-end'}} 
                       type={"submit"}>
                 {t("submit")}
@@ -598,7 +599,7 @@ class AppPackageBlock extends Component {
 
     case "submit":
       return <button disabled={isDisabled}
-                     key={index} 
+                     key={key} 
                      style={{alignSelf: 'flex-end'}} 
                      type={"submit"}>
           {t("submit")}
@@ -608,7 +609,7 @@ class AppPackageBlock extends Component {
                 <button 
                 disabled={isDisabled}
                 onClick={()=> this.handleStepControlClick(item)}
-                key={index} 
+                key={key} 
                 type={"button"}>
                 {item.label}
                 </button>
