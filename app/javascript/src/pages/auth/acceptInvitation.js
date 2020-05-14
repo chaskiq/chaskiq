@@ -43,7 +43,7 @@ function AcceptInvitation (props) {
         }
       })
       .then(function (response) {
-        props.dispatch(successAuthentication(response.data.token))
+        props.dispatch(successAuthentication(response.data.access_token))
         props.dispatch(getCurrentUser())
         // use router redirect + snackbar status
         window.location = '/'
