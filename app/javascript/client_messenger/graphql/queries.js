@@ -222,6 +222,7 @@ export const START_CONVERSATION = `
         lastMessage{
           source
           createdAt
+          id
           message{
             htmlContent
             textContent
