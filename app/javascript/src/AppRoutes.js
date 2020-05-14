@@ -20,14 +20,26 @@ function mapStateToProps (state) {
 }
 
 function AppRouter ({ loading, isAuthenticated, current_user }) {
-  if (!isAuthenticated && !current_user.email) return <Login />
-
   return (
     <div>
 
       <ZoomImage/>
 
       <Switch>
+
+        <Route
+          path="/agents/invitation/accept"
+          render={(props) => (
+            <AcceptInvitation {...props} />
+          )}
+        />
+
+        { !isAuthenticated && !current_user.email &&
+          <Route path="/">
+            <Login />
+          </Route>
+        }
+
         <Route path="/" exact>
           <Apps />
         </Route>
@@ -47,11 +59,6 @@ function AppRouter ({ loading, isAuthenticated, current_user }) {
         <Route path="/signup" exact>
           <Login />
         </Route>
-
-        <Route
-          path="/agents/invitation/accept"
-          render={(props) => <AcceptInvitation {...props} {...this.props} />}
-        />
 
         <Route>
           <NotFound />
