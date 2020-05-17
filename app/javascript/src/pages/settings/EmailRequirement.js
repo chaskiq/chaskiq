@@ -46,7 +46,7 @@ export default function EmailRequirement ({ settings, update }) {
             <React.Fragment key={`email_requirement_options-${i}`}>
               <Input
                 name="email_requirement"
-                // value={value}
+                defaultChecked={settings.emailRequirement === o.value}
                 onChange={handleChange}
                 type={'radio'}
                 value={o.value}
