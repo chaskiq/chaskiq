@@ -58,6 +58,7 @@ export default class SettingsForm extends Component {
             {this.props.definitions().map((field) => {
               return (
                 <div
+                  key={`field-${field.name}`}
                   className={`${gridClasses(field)} py-2 pr-2`}
                   {...field.gridProps}
                 >

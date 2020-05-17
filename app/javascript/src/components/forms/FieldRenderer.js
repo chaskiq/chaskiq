@@ -32,6 +32,7 @@ class FieldRenderer extends React.Component {
       `${errorNamespace ? errorNamespace : ""}${data.name}`
     );
     const errorMessage = errorsFor(errorName, errors);
+    const camelCasedName = camelCase(data.name)
 
     return (
       <div
@@ -48,16 +49,16 @@ class FieldRenderer extends React.Component {
           options={data.options}
           fullWidth
           name={`${namespace}[${data.name}]`}
-          defaultValue={props.data[camelCase(data.name)]}
+          defaultValue={props.data[camelCasedName]}
           handler={handler}
           helperText={
             <React.Fragment>
               {errorMessage && (
-                <p className={`text-red-500 text-xs italic`}>{errorMessage}</p>
+                <div className={`text-red-500 text-xs italic`}>{errorMessage}</div>
               )}
 
               {data.hint && (
-                <p className={`text-gray-500 text-xs`}>{data.hint}</p>
+                <div className={`text-gray-500 text-xs`}>{data.hint}</div>
               )}
             </React.Fragment>
           }

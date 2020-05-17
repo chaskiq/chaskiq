@@ -20,6 +20,8 @@
 !/log/.keep
 !/tmp/.keep
 
+cypress
+
 # Ignore uploaded files in development
 /storage/*
 
