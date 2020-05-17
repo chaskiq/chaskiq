@@ -50,8 +50,6 @@ describe('Task bot Spec', function() {
 
   it('sessionless 2', function() {
     
-    cy.wait(6000)
-
     cy.appScenario('app_bot_settings', {email_requirement: 'Always'}).then((results) => {
       cy.appEval("App.last").then((results) => {
         const appKey = results.key
@@ -84,7 +82,7 @@ describe('Task bot Spec', function() {
 
                   cy.wrap($body).contains("oeoe")
            
-                  cy.wrap($body).contains("existing customer ?")
+                  cy.wrap($body).contains("Are you an existing")
                   cy.wrap($body).contains("Yes, I'm a customer").click().then(()=>{
 
                     cy.wrap($body).contains("Enter your email")
@@ -112,8 +110,6 @@ describe('Task bot Spec', function() {
 
 
   it('sessionless 3', function() {
-
-    cy.wait(6000)
 
     cy.appScenario('app_bot_settings', {email_requirement: 'never'}).then(()=>{
       cy.appEval("App.last").then((results) => {
@@ -146,7 +142,7 @@ describe('Task bot Spec', function() {
                   cy.wrap($body).contains("will reply as soon as they can.")
   
                   cy.wrap($body).contains("oeoe")
-                  cy.wrap($body).contains("existing customer ?")
+                  cy.wrap($body).contains("Are you an existing")
                   cy.wrap($body).contains("I'm a customer").click()
                   cy.wrap($body).contains("You replied Yes, I'm a customer")
                   cy.wrap($body).contains('you will get a reply from one of our agents')
