@@ -138,7 +138,8 @@ class App < ApplicationRecord
         hint: 'messenger text on botton',
         grid: { xs: 'w-full', sm: 'w-full' } },
 
-      { name: 'timezone', type: 'timezone',
+      { name: 'timezone', 
+        type: 'timezone',
         options: ActiveSupport::TimeZone.all.map { |o| o.tzinfo.name },
         multiple: false,
         grid: { xs: 'w-full', sm: 'w-full' } }

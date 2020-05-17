@@ -109,7 +109,7 @@ const WrappedComponent = React.forwardRef(function Input (
         </div>
 
         {helperText && (
-          <p className="mt-2 text-xs text-gray-500">{helperText}</p>
+          <div className="mt-2 text-xs text-gray-500">{helperText}</div>
         )}
       </div>
     )
@@ -167,10 +167,10 @@ const WrappedComponent = React.forwardRef(function Input (
           ref={ref}
         />
         <div className="ml-2 block">
-          <p className="text-sm font-bold leading-5 text-gray-900">{label}</p>
+          <div className="text-sm font-bold leading-5 text-gray-900">{label}</div>
 
           {helperText && (
-            <p className="mt-2 text-xs text-gray-500">{helperText}</p>
+            <div className="mt-2 text-xs text-gray-500">{helperText}</div>
           )}
         </div>
       </label>
@@ -234,7 +234,7 @@ const WrappedComponent = React.forwardRef(function Input (
           ></textarea>
         </div>
         {helperText && (
-          <p className="mt-2 text-sm text-gray-500">{helperText}</p>
+          <div className="mt-2 text-sm text-gray-500">{helperText}</div>
         )}
       </div>
     )
@@ -243,16 +243,25 @@ const WrappedComponent = React.forwardRef(function Input (
   function renderTimezone () {
     const names = props.options.map((o) => ({ label: o, value: o }))
     const defaultTZ = Intl.DateTimeFormat().resolvedOptions().timeZone
+    const defaultData = defaultValue || defaultTZ
     return (
-      <FormField name={name} label={label} helperText={helperText}>
+      <FormField name={name} 
+        label={label}
+        helperText={helperText}>
         <Select
           options={names}
           label={label}
-          defaultData={name || defaultTZ}
+          defaultValue={ {label: defaultData, value: defaultData} }
           placeholder={'select timezone'}
           name={name}
           ref={ref}
         />
+        {
+          defaultTZ &&
+          <div class="text-gray-500 text-xs"> 
+            Your browser timezone is <b className="text-bold">{defaultTZ}</b>
+          </div>
+        }
       </FormField>
     )
   }

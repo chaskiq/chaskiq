@@ -31,13 +31,13 @@ en:
       placeholder: Enter your email
       ack: Thank you
     support:
-      ask: Are you an %{name} existing customer ?
+      ask: Are you an existing %{name} customer ?
       options:
         op1: Yes, I'm a customer
         op2: No, I'm not an existing customer yet
       reply:
         op1: Welcome back!
-        op2: ok, let us know if you need something and an agent will reply as soon as posible
+        op2: ok, let us know if you need something and an agent will reply as soon as possible
   settings:
     availability:
 
