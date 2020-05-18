@@ -63,4 +63,10 @@ RUN gem update --system && \
 # Create a directory for the app code
 RUN mkdir -p /app
 
+# Bundler install gems
+WORKDIR /tmp
+COPY Gemfile Gemfile.lock /tmp/
+RUN bundle install -j ${BUNDLE_JOBS} --retry ${BUNDLE_RETRY}
+
+
 WORKDIR /app
