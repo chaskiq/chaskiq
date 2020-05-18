@@ -8,4 +8,6 @@ apt-get update -qq \
     curl \
     less \
     git \
-    vim
+    vim \
+    imagemagick \
+    zlib1g-dev

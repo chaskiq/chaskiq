@@ -1,12 +1,11 @@
 name: Push Docker Image
 
-on:
-  push:
+on: 
+  push: 
     branches:
-      - tailwind
-  pull_request:
-    branches:
-      - tailwind
+      - master
+  pull_request: 
+    types: [ opened, synchronize, reopened ]
 
 jobs:
 
