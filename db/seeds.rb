@@ -16,11 +16,6 @@ app = App.create(
    domain_url: domain
 )
 
-app.add_admin(Agent.create(
-                email: 'admin@test.com',
-                password: '123456'
-              ))
-
 Doorkeeper::Application.create(
    name: "authapp", 
    #redirect_uri: "#{domain}/callback"
