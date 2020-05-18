@@ -159,7 +159,8 @@ function LeadsSettings ({
   }
 
   function handleRadioChange (event) {
-    setValue(event.target.name, event.target.value)
+    const name = event.target.name
+    setState({ ...state, [name]: event.target.value })
   }
 
   const setValue = (name, value) => {
@@ -216,9 +217,10 @@ function LeadsSettings ({
           <Input
             type="radio"
             name="routing"
-            value={state.routing}
+            //value={state.routing}
             onChange={handleRadioChange}
-            // value="assign"
+            value="assign"
+            defaultChecked={state.routing === "assign"}
             label="Assign the conversation"
           ></Input>
 
@@ -237,8 +239,9 @@ function LeadsSettings ({
         <Input
           name="routing"
           type="radio"
-          // value="close"
-          value={state.routing}
+          value="close"
+          defaultChecked={state.routing === "close"}
+          //value={state.routing}
           onChange={handleRadioChange}
           label="Close the conversation"
         />
@@ -258,16 +261,18 @@ function LeadsSettings ({
         <Input
           type="radio"
           name="email_requirement"
-          value={state.email_requirement}
+          defaultChecked={state.email_requirement === 'never'}
+          value={'never'}
           onChange={handleRadioChange}
-          label="Close the conversation"
+          label="Don't ask for email"
         />
 
         <Input
           type="radio"
           name="email_requirement"
-          value={state.email_requirement}
+          //value={state.email_requirement}
           onChange={handleRadioChange}
+          defaultChecked={state.email_requirement === 'email_or_phone'}
           label="Ask for email or mobile number"
           value="email_or_phone"
           labelPlacement="end"
@@ -279,6 +284,7 @@ function LeadsSettings ({
           // value={state.email_requirement}
           onChange={handleRadioChange}
           value="email_only"
+          defaultChecked={state.email_requirement === 'email_only'}
           label="Ask for email only"
         />
       </div>
