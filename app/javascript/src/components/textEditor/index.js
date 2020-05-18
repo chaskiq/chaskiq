@@ -73,6 +73,20 @@ const EditorStylesExtend = styled(EditorStyles)`
   .dante-menu-input {
     background: #333333;
   }
+
+
+  ${(props) => (
+    !props.inlineMenu ? `.tooltip-icon{
+      display: inline-block;
+    }
+  
+    .inlineTooltip-menu {
+      display: inline-block;
+      margin-left: 41px !important;
+      background: white;
+    }` : ''
+  )}
+
 `;
 
 const defaultProps = {
@@ -654,7 +668,10 @@ export default class ArticleEditor extends Component {
   render() {
     return (
       <ThemeProvider theme={theme}>
-        <EditorStylesExtend campaign={true} styles={this.props.styles}>
+        <EditorStylesExtend 
+          campaign={true} 
+          inlineMenu={this.props.inlineMenu} 
+          styles={this.props.styles}>
           {!this.props.loading ? (
             <DanteEditor
               {...defaultProps}

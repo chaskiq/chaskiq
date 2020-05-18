@@ -310,6 +310,7 @@ export default class ChatEditor extends Component {
             ) : (
               <TextEditor
                 theme={theme}
+                inlineMenu={true}
                 tooltipsConfig={this.tooltipsConfig}
                 campaign={true}
                 uploadHandler={this.uploadHandler}

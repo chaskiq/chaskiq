@@ -33,8 +33,6 @@ export default class ArticleEditor extends Component {
   };
 
   render() {
-    console.log("mono");
-    console.log(this.props.loading);
     //!this.state.loading &&
     //if(this.props.loading) //|| !this.props.article.content)
     //  return <CircularProgress/>
