@@ -67,6 +67,7 @@ services:
       - postgres:/var/lib/postgresql/data
       - ./log:/root/log:cached
     environment:
+      POSTGRES_USER: postgresql
       PSQL_HISTFILE: /root/log/.psql_history
     ports:
       - 5432
@@ -90,7 +91,7 @@ services:
     <<: *app
     command: ./bin/webpack-dev-server
     ports:
-      - '3035:3035'
+      - '3036:3036'
     volumes:
       - .:/app:cached
       - bundle:/usr/local/bundle
