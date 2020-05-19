@@ -172,7 +172,7 @@ class Stats extends Component {
         )}
 
         {this.props.mode === "counter_blocks" && this.props.data && (
-          <div className="flex mb-4">
+          <div className="flex pb-5 overflow-x-auto">
             {Object.keys(this.state.counts).map(
               (key) => {
               return (
