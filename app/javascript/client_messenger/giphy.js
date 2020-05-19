@@ -1,7 +1,7 @@
 import React from 'react'
 import axios from 'axios'
 import styled from '@emotion/styled'
-
+import attribution from './icons/Poweredby_100px-White_VertText.png'
 
 const GiphyBlock = styled.div`
   position: absolute;
@@ -49,6 +49,19 @@ const Container = styled.div`
   background: "#ccc";
 `
 
+const Attribution = styled.div`
+  display: flex;
+  justify-content: center;
+  img {
+    height: 20px
+  }
+
+  position: absolute;
+  bottom: 5px;
+  width: 100%;
+  background: white;
+  padding: 4px 0px;
+`
 
 const PickerBlock = styled.div`
 
@@ -95,12 +108,12 @@ export default class App extends React.Component {
     this.getData(link)
   }
 
-  onSearchSubmit =(e)=>{
+  onSearchSubmit = (e)=>{
     if (e.key != "Enter") {
       return
     }
     const term = this.refs.input_ref.value
-    const link = `${searchUrl}&q=${term}&limit=${this.state.limit}`;
+    const link = `${searchUrl}?q=${term}&limit=${this.state.limit}&api_key=${this.props.apikey}`;
     this.getData(link)
   }
 
@@ -124,7 +137,6 @@ export default class App extends React.Component {
   }
 
   render(){
-    console.log(this.state)
     return (
       <GiphyBlock>
         <Container>
@@ -150,6 +162,9 @@ export default class App extends React.Component {
             </GridList>
           </GridListOverflow>
         </Container>
+        <Attribution>
+          <img src={attribution}/>
+        </Attribution>
         {/*<Arrow/>*/}
       </GiphyBlock>
     );

@@ -6,7 +6,7 @@ const NewEditorStyles = styled(EditorStyles)`
   display: flex;
 
   .graf--figure {
-    min-width: 320px;
+    min-width: 287px;
     @media (min-width: 320px) and (max-width: 480px) {
       min-width: 157px;
     }

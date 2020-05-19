@@ -2,7 +2,7 @@ import React from "react";
 import axios from "axios";
 import styled from "@emotion/styled";
 import Input from '../../forms/Input'
-
+import attribution from '../../../images/Poweredby_100px-White_VertText.png'
 const GiphyBlock = styled.div`
   //position: absolute;
   //left: 128px;
@@ -188,6 +188,7 @@ export default class App extends React.Component {
               onChange={this.handleChange}
               onKeyDown={this.onSearchSubmit}
             />
+            
           </PickerBlock>
 
           <GridListOverflow>
@@ -203,6 +204,10 @@ export default class App extends React.Component {
               ))}
             </GridList>
           </GridListOverflow>
+
+          <div className="flex justify-center mt-2">
+            <img src={attribution} className="h-6 mt-2" />
+          </div>
         </Container>
         {/*<Arrow/>*/}
       </GiphyBlock>
