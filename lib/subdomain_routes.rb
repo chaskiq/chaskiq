@@ -17,6 +17,7 @@ end
 
 class SubdomainOrDomain
   def self.matches?(request)
+    return false if ENV.fetch("SKIP_SUBDOMAIN_CHECK", "false") == "true"
     if request.subdomain.present? && !APP_SUBDOMAINS.include?(request.subdomain)
       true
     # elsif request.host != 'www.#{DOMAIN}'

@@ -19,6 +19,7 @@ x-app: &app
     ASSET_HOST: "${PULLPREVIEW_URL:-http://localhost:3000}"
     RAILS_SERVE_STATIC_FILES: "true"
     RAILS_LOG_TO_STDOUT: "true"
+    SKIP_SUBDOMAIN_CHECK: "true"
 
 x-backend: &backend
   <<: *app
@@ -79,6 +80,8 @@ services:
     image: caddy:2-alpine
     command: "caddy reverse-proxy --from '${PULLPREVIEW_URL}' --to rails:3000"
     restart: unless-stopped
+    volumes:
+      - proxy:/data/caddy
     depends_on:
       - rails
     ports:
@@ -87,3 +90,4 @@ services:
 volumes:
   postgres:
   redis:
+  proxy:
