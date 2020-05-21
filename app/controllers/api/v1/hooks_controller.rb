@@ -88,6 +88,9 @@ class Api::V1::HooksController < ActionController::API
     # to notify that the email was not delivered, which is the mos probable case
     # but whe should inspect the status of this
 
+    # we have found notification like this: 
+    #  ""An error occurred while trying to deliver the mail to the following recipients:<br/>miguel@chaskiq.io""
+
     # for now just skip the message
     return if from.blank?
 
