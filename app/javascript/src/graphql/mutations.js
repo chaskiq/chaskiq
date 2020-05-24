@@ -1183,7 +1183,6 @@ export const DELETE_BOT_TASK = `
 `;
 
 
-
 export const CREATE_OAUTH_APP = `
   mutation CreateOauthApplication($appKey: String!, $params: Json!){
     createOauthApplication( 
