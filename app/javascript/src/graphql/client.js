@@ -6,13 +6,7 @@ import { expireAuthentication } from '../actions/auth'
 
 const graphql = (query, variables, callbacks) => {
   const auth = store.getState().auth
-
   const config = {
-    // "access-token": auth.accessToken,
-    // "token-type":   "Bearer",
-    // "client":       auth.client,
-    // "expiry":       auth.expiry,
-    // "uid":          auth.uid,
     authorization: `Bearer ${auth.accessToken}`
   }
 

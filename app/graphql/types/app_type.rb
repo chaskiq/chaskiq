@@ -349,7 +349,6 @@ module Types
       argument :kind,  String, required: true
     end
 
-
     field :logo, String, null: true
     field :logo_large, String, null: true
 
@@ -390,6 +389,24 @@ module Types
       )
     end
 
+    # OAUTH
+    field :oauth_applications, [OauthApplicationType], null: true
+    def oauth_applications
+      Doorkeeper.config.application_model.ordered_by(:created_at)
+    end
+
+    field :oauth_application, OauthApplicationType, null: true do
+      argument :uid, String, required: false
+    end
+
+    def oauth_application(uid:)
+      Doorkeeper.config.application_model.find_by(uid: uid)
+    end
+
+    field :authorized_oauth_applications, [OauthApplicationType], null: true
+    def authorized_oauth_applications
+      Doorkeeper.config.application_model.authorized_for(current_user)
+    end
 
   end
 end

@@ -17,10 +17,6 @@ class ApplicationController < ActionController::Base
   def dummy_webhook
     render status: 200, json: {ok: true}
   end
-
-  def current_resource_owner
-    Agent.find(doorkeeper_token.resource_owner_id) if doorkeeper_token
-  end
   
   def current_user
     current_resource_owner || warden.authenticate(:agent) rescue nil
@@ -45,7 +41,28 @@ class ApplicationController < ActionController::Base
     render_empty
   end
 
+  # Devise code
+  before_action :configure_permitted_parameters, if: :devise_controller?
+
+  protected
+  
+  # Devise methods
+  # Authentication key(:username) and password field will be added automatically by devise.
+  def configure_permitted_parameters
+    added_attrs = [:email, :first_name, :last_name]
+    devise_parameter_sanitizer.permit :sign_up, keys: added_attrs
+    devise_parameter_sanitizer.permit :account_update, keys: added_attrs
+  end
+
   private
+
+  def current_resource_owner
+    if doorkeeper_token
+      agent = Agent.find(doorkeeper_token.resource_owner_id) 
+      sign_in(agent, scope: "agent")
+      agent
+    end
+  end
 
   def cors_set_access_control_headers
     headers['Access-Control-Allow-Origin'] = '*'
