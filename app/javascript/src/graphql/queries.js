@@ -78,7 +78,7 @@ export const OAUTH_APP = `
       }
     }
   }
-`
+`;
 
 export const AUTHORIZED_OAUTH_APPS = `
   query App($appKey: String!){

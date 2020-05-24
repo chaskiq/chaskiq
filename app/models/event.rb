@@ -36,19 +36,17 @@ class Event < ApplicationRecord
             end
 
     if klass.blank?
-      puts "no trigger hook for #{action}"
+      #puts "no trigger hook for #{action}"
       return
     end
 
-    puts "trigger hook on #{action}"
+    #puts "trigger hook on #{action}"
     klass.perform(self)
-
   end
 
   def self.action_for(name)
     ev = self::EVENT_CONSTANTS.find { |o| o[:identifier] == name }.try(:[], :name)
     raise "event \"#{name}\" constant missing" if ev.blank?
-
     ev
   end
 end
