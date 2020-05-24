@@ -2,6 +2,7 @@ import React, { useRef } from 'react'
 import { connect } from 'react-redux'
 // import { Redirect } from 'react-router-dom'
 import { authenticate } from '../../actions/auth'
+import {getCurrentUser} from '../../actions/current_user'
 
 import logo from '../../images/logo.png'
 import serialize from 'form-serialize'
@@ -20,12 +21,12 @@ function Login ({ dispatch }) {
     const { email, password } = serializedData // this.state
     dispatch(
       authenticate(email, password, () => {
-        getCurrentUser()
+        getUser()
       })
     )
   }
 
-  function getCurrentUser () {
+  function getUser () {
     dispatch(getCurrentUser())
   }
 

@@ -15,7 +15,7 @@ class GraphqlController < ApplicationController
       current_user: current_user,
       authorize: lambda{|mode, object| authorize!(mode, object) },
       can: lambda{| mode, object | can?( mode, object) },
-      doorkeeper_authorize: lambda{doorkeeper_authorize! },
+      doorkeeper_authorize: lambda{api_authorize! },
     }
 
     result = ChaskiqSchema.execute(query,
@@ -58,6 +58,11 @@ class GraphqlController < ApplicationController
   end
 
   private
+
+  def api_authorize!
+    binding.pry
+    doorkeeper_authorize!
+  end
 
   def set_host_for_local_storage
     if Rails.application.config.active_storage.service == :local

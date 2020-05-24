@@ -28,7 +28,8 @@ import {
   UserIcon,
   TourIcon,
   MessageIcon,
-  EmailIcon
+  EmailIcon,
+  ApiIcon
 } from '../components/icons'
 
 import { toggleDrawer } from '../actions/drawer'
@@ -282,6 +283,12 @@ function Sidebar ({
           icon: <WebhooksIcon />,
           url: `/apps/${app.key}/webhooks`,
           active: isActivePage('webhooks')
+        },
+        {
+          id: 'Api access',
+          icon: <ApiIcon />,
+          url: `/apps/${app.key}/oauth_applications`,
+          active: isActivePage('oauth_applications')
         }
         // { id: 'Authentication', icon: <ShuffleIcon />, active: isActivePage("user_auto_messages")},
       ]

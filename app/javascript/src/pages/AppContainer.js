@@ -18,6 +18,7 @@ import Campaigns from './Campaigns'
 import CampaignHome from './campaigns/home'
 import Progress from '../components/Progress'
 import Profile from './Profile'
+import Api from './Api'
 
 import { connect } from 'react-redux'
 
@@ -256,6 +257,10 @@ function App ({
 
               <Route path={`${match.url}/conversations`}>
                 <Conversations events={CableApp.events} />
+              </Route>
+
+              <Route path={`${match.url}/oauth_applications`}>
+                <Api />
               </Route>
 
               <Route path={`${match.url}/bots`}>
