@@ -41,6 +41,8 @@ Doorkeeper.configure do
 
   allow_blank_redirect_uri true
 
+  access_token_expires_in 2.hours
+
 
   # If you didn't skip applications controller from Doorkeeper routes in your application routes.rb
   # file then you need to declare this block in order to restrict access to the web interface for
@@ -76,7 +78,7 @@ Doorkeeper.configure do
   # Access token expiration time (default: 2 hours).
   # If you want to disable expiration, set this to `nil`.
   #
-  access_token_expires_in 10.seconds
+  # access_token_expires_in 2.minutes
 
   # Assign custom TTL for access tokens. Will be used instead of access_token_expires_in
   # option if defined. In case the block returns `nil` value Doorkeeper fallbacks to
