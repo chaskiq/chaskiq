@@ -258,7 +258,7 @@ const WrappedComponent = React.forwardRef(function Input (
         />
         {
           defaultTZ &&
-          <div class="text-gray-500 text-xs"> 
+          <div className="text-gray-500 text-xs"> 
             Your browser timezone is <b className="text-bold">{defaultTZ}</b>
           </div>
         }

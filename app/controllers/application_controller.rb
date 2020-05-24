@@ -57,7 +57,7 @@ class ApplicationController < ActionController::Base
   private
 
   def current_resource_owner
-    if doorkeeper_token
+    if doorkeeper_token && !doorkeeper_token.expired?
       agent = Agent.find(doorkeeper_token.resource_owner_id) 
       sign_in(agent, scope: "agent")
       agent

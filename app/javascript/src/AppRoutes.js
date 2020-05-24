@@ -34,7 +34,7 @@ function AppRouter ({ loading, isAuthenticated, current_user }) {
           )}
         />
 
-        { !isAuthenticated && !current_user.email &&
+        { !isAuthenticated &&
           <Route path="/">
             <Login />
           </Route>
