@@ -15,7 +15,7 @@ class GraphqlController < ApplicationController
       current_user: current_user,
       authorize: lambda{|mode, object| authorize!(mode, object) },
       can: lambda{| mode, object | can?( mode, object) },
-      doorkeeper_authorize: lambda{api_authorize! },
+      doorkeeper_authorize: lambda{ api_authorize! },
     }
 
     result = ChaskiqSchema.execute(query,
@@ -60,7 +60,6 @@ class GraphqlController < ApplicationController
   private
 
   def api_authorize!
-    binding.pry
     doorkeeper_authorize!
   end
 
