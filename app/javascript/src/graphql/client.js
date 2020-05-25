@@ -2,7 +2,8 @@ import axios from 'axios'
 import { isObject, isEmpty } from 'lodash'
 import store from '../store'
 import { errorMessage } from '../actions/status_messages'
-import { expireAuthentication } from '../actions/auth'
+import { expireAuthentication, refreshToken } from '../actions/auth'
+//import history from "../history.js";
 
 const graphql = (query, variables, callbacks) => {
   const auth = store.getState().auth
@@ -42,8 +43,12 @@ const graphql = (query, variables, callbacks) => {
           store.dispatch(errorMessage('server error ocurred'))
           break
         case 401:
+          console.log("AA: ", req.response)
+          //history.push("/")
           store.dispatch(errorMessage('session expired'))
-          store.dispatch(expireAuthentication())
+          store.dispatch(refreshToken(auth))
+          //store.dispatch(expireAuthentication())
+          //refreshToken(auth)
           break
         default:
           break
@@ -55,5 +60,7 @@ const graphql = (query, variables, callbacks) => {
       callbacks.always ? callbacks.always() : null
     })
 }
+
+
 
 export default graphql
