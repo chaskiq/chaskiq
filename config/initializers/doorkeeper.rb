@@ -40,6 +40,7 @@ Doorkeeper.configure do
 
   access_token_expires_in 4.hours
 
+  enable_application_owner :confirmation => false
 
   # If you didn't skip applications controller from Doorkeeper routes in your application routes.rb
   # file then you need to declare this block in order to restrict access to the web interface for

@@ -8,13 +8,9 @@ module Mutations
 
       def resolve(app_key:, uid:)
         find_app(app_key)
-        @application = Doorkeeper.config.application_model.find_by(uid: uid)
+        @application = @app.oauth_applications.find_by(uid: uid)
         @application.destroy
         { oauth_application: @application, errors: @application.errors }
-      end
-
-      def oauth_application(oauth_application_id)
-        oauth_application = @app.oauth_applications.find(oauth_application_id)
       end
 
       def find_app(app_id)
