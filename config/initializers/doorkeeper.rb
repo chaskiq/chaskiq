@@ -1,7 +1,4 @@
 # frozen_string_literal: true
-
-
-
 Doorkeeper.configure do
   # Change the ORM that doorkeeper will use (requires ORM extensions installed).
   # Check the list of supported ORMs here: https://github.com/doorkeeper-gem/doorkeeper#orms
@@ -41,7 +38,7 @@ Doorkeeper.configure do
 
   allow_blank_redirect_uri true
 
-  access_token_expires_in 2.hours
+  access_token_expires_in 4.hours
 
 
   # If you didn't skip applications controller from Doorkeeper routes in your application routes.rb
@@ -462,4 +459,4 @@ module CustomTokenResponse
 end
 
 Doorkeeper::OAuth::TokenResponse.send :prepend, CustomTokenResponse
-Doorkeeper::OAuth::ErrorResponse.send :prepend, CustomTokenErrorResponse
+# Doorkeeper::OAuth::ErrorResponse.send :prepend, CustomTokenErrorResponse
