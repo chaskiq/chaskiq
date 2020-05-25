@@ -102,7 +102,7 @@ class GraphqlController < ApplicationController
 
     render json: { error: { 
         message: e.message, 
-        backtrace: Rails.env.production ? nil : e.backtrace 
+        backtrace: Rails.env.production? ? nil : e.backtrace 
       }, data: {} 
     }, status: 500
   end

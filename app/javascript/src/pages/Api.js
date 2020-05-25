@@ -449,7 +449,7 @@ class OauthList extends React.Component {
 
   inviteButton = () => {
     return (
-      <div className="py-2">
+      <div className="py-2 flex justify-end">
         {this.state.isOpen ? (
           <FormDialog
             open={this.state.isOpen}

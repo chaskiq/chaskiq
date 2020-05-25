@@ -63,6 +63,8 @@ class App < ApplicationRecord
 
   has_many :outgoing_webhooks
 
+  has_many :oauth_applications, class_name: 'Doorkeeper::Application', as: :owner
+
   has_one_attached :logo
 
   before_create :set_defaults

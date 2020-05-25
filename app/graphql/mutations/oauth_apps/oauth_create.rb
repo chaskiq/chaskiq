@@ -9,14 +9,13 @@ module Mutations
 
       def resolve(app_key:, params: )
         find_app(app_key)
-        @application = Doorkeeper.config.application_model.create(
-          params.permit(:name, :redirect_to, :scopes, :confidential)
+        @application = @app.oauth_applications.new(
+          params.permit(:name, :redirect_uri, :scopes, :confidential)
         )
-        { oauth_application: @application, errors: @application.errors }
-      end
+        @application.owner = @app
+        @application.save
 
-      def oauth_application(oauth_application_id)
-        oauth_application = @app.oauth_applications.find(oauth_application_id)
+        { oauth_application: @application, errors: @application.errors }
       end
 
       def find_app(app_id)

@@ -392,7 +392,7 @@ module Types
     # OAUTH
     field :oauth_applications, [OauthApplicationType], null: true
     def oauth_applications
-      Doorkeeper.config.application_model.ordered_by(:created_at)
+      object.oauth_applications.ordered_by(:created_at)
     end
 
     field :oauth_application, OauthApplicationType, null: true do
@@ -400,12 +400,12 @@ module Types
     end
 
     def oauth_application(uid:)
-      Doorkeeper.config.application_model.find_by(uid: uid)
+      object.oauth_applications.find_by(uid: uid)
     end
 
     field :authorized_oauth_applications, [OauthApplicationType], null: true
     def authorized_oauth_applications
-      Doorkeeper.config.application_model.authorized_for(current_user)
+      object.oauth_applications.authorized_for(current_user)
     end
 
   end
