@@ -17,10 +17,6 @@ if App.none?
      domain_url: domain
   )
 
-  Doorkeeper::Application.create(
-     name: "authapp", 
-     #redirect_uri: "#{domain}/callback"
-  )
 
   AppPackagesCatalog.import unless Rails.env.test?
 end
