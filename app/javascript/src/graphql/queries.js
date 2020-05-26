@@ -48,6 +48,54 @@ export const APP = `
   }
 `;
 
+export const OAUTH_APPS = `
+  query App($appKey: String!){
+    app(key: $appKey) {
+      oauthApplications{
+        name
+        confidential
+        redirectUri
+        scopes
+        uid
+        secret
+        createdAt
+      }
+    }
+  }
+`;
+
+export const OAUTH_APP = `
+  query App($appKey: String!, $uid: String!){
+    app(key: $appKey) {
+      oauthApplication(uid: $uid){
+        name
+        confidential
+        redirectUri
+        scopes
+        uid
+        secret
+        createdAt
+      }
+    }
+  }
+`;
+
+export const AUTHORIZED_OAUTH_APPS = `
+  query App($appKey: String!){
+    app(key: $appKey) {
+      authorizedOauthApplications{
+        name
+        confidential
+        redirectUri
+        scopes
+        uid
+        secret
+        createdAt
+      }
+    }
+  }
+`;
+
 export const AGENTS = `
   query App($appKey: String!){
     app(key: $appKey) {

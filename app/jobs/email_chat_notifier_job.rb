@@ -8,7 +8,7 @@ class EmailChatNotifierJob < ApplicationJob
     message = ConversationPart.find(conversation_part_id)
     return if message.read?
     return if message.conversation.app.outgoing_email_domain.blank?
-
+    return if message.authorable.blank?
     # TODO: handle notification of private notes with mentions (@)
     response = ChatNotifierMailer.notify(message).deliver_now
     if response.present?

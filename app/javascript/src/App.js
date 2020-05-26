@@ -3,6 +3,7 @@ import React from 'react'
 import Button from './components/Button'
 import Sidebar from './components/sidebar'
 import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom'
+import history from "./history.js";
 
 /*import Docs from '../pages/docs'
 import Landing from '../pages/Landing'*/
@@ -64,7 +65,7 @@ class App extends React.Component {
             <Provider store={store}>
                 <Snackbar />
 
-                <Router>
+                <Router history={history}>
                     <Route
                         render={(props) => {
                             const subdomain = window.location.hostname.split(

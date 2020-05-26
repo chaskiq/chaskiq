@@ -7,23 +7,23 @@ const REQUEST = 'auth/REQUEST'
 const RECEIVED = 'auth/RECEIVED'
 const FAILED = 'auth/FAILED'
 const SIGNOUT = 'auth/SIGNOUT'
+const REFRESHING = 'auth/REFRESHING'
 
 // Action Creators
 export function authenticate (email, password, cb) {
   return (dispatch, getState) => {
+
+    if(getState().auth.loading) return 
+
     dispatch(startAuthentication())
 
     axios.defaults.withCredentials = true
 
     return axios({
       // baseURL: 'http://localhost:3000',
-      url: '/agents/sign_in.json',
-      // url: '/oauth/token.json',
+      // url: '/agents/sign_in.json',
+      url: '/oauth/token.json',
       method: 'POST',
-      /* auth: {
-        username: "oez_okGx2AihZp0iRtEzp_ACAfik-JzWbIi8aQuGX6U",
-        password: "rpruGxmsm9v0NHyxdIX2czYBGLa8ZzcQi8qWCXERTNo"
-      }, */
       data: {
         agent: { email, password },
         email: email,
@@ -32,11 +32,6 @@ export function authenticate (email, password, cb) {
       }
     })
       .then((response) => {
-        /* const uid = response.headers['uid']
-      const client = response.headers['client']
-      const accessToken = response.headers['access-token']
-      const expiry = response.headers['expiry'] */
-        // const jwt = response.headers['authorization']
         const accessToken = response.data.access_token
         const refreshToken = response.data.refresh_token
         dispatch(successAuthentication(accessToken, refreshToken)) //, uid, client, accessToken, expiry))
@@ -45,7 +40,7 @@ export function authenticate (email, password, cb) {
       })
       .catch((data) => {
         const err =
-          data && data.response.data ? data.response.data.error : 'error!'
+          data && data.response.data ? data.response.data.message : 'error!'
         dispatch(errorMessage(err))
         dispatch(failAuthentication())
       })
@@ -79,7 +74,7 @@ export function expireAuthentication () {
 }
 
 function startAuthentication () {
-  return { type: REQUEST }
+  return { type: 'auth/REQUEST' }
 }
 
 export function successAuthentication (accessToken, refreshToken) {
@@ -93,12 +88,37 @@ export function successAuthentication (accessToken, refreshToken) {
   } // uid, client, accessToken, expiry }
 }
 
+export function refreshToken (auth) {
+  return (dispatch, getState) => {
+    dispatch(startAuthentication())
+    dispatch(errorMessage('refresh token, hang tight'))
+
+    axios.create({
+      baseURL: '/oauth/token'
+    }).post('', {
+      refresh_token: auth.refreshToken,
+      grant_type: 'refresh_token'
+    }).then(res => {
+      const accessToken = res.data.access_token
+      const refreshToken = res.data.refresh_token
+      dispatch(successAuthentication(accessToken, refreshToken))
+      window.location = "/"
+    }).catch(c => {
+      dispatch(expireAuthentication())
+    })
+  }
+}
+
 function failAuthentication () {
   return { type: FAILED }
 }
 
 export function doSignout () {
   return { type: SIGNOUT }
+}
+
+export function doRefresh () {
+  return { type: REFRESHING }
 }
 
 // Reducer
@@ -114,7 +134,8 @@ export default function reducer (state, action = {}) {
     client: null,
     accessToken: null,
     uid: null,
-    expiry: null
+    expiry: null,
+    status: null
   }
 
   switch (action.type) {
