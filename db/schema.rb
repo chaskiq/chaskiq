@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_04_17_030708) do
+ActiveRecord::Schema.define(version: 2020_05_25_033626) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -58,6 +58,7 @@ ActiveRecord::Schema.define(version: 2020_04_17_030708) do
     t.jsonb "properties", default: {}, null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.string "jti"
     t.string "invitation_token"
     t.datetime "invitation_created_at"
     t.datetime "invitation_sent_at"
@@ -73,6 +74,7 @@ ActiveRecord::Schema.define(version: 2020_04_17_030708) do
     t.index ["invitations_count"], name: "index_agents_on_invitations_count"
     t.index ["invited_by_id"], name: "index_agents_on_invited_by_id"
     t.index ["invited_by_type", "invited_by_id"], name: "index_agents_on_invited_by_type_and_invited_by_id"
+    t.index ["jti"], name: "index_agents_on_jti", unique: true
     t.index ["key"], name: "index_agents_on_key"
     t.index ["reset_password_token"], name: "index_agents_on_reset_password_token", unique: true
     t.index ["unlock_token"], name: "index_agents_on_unlock_token", unique: true
@@ -490,6 +492,12 @@ ActiveRecord::Schema.define(version: 2020_04_17_030708) do
     t.index ["provider"], name: "index_external_profiles_on_provider"
   end
 
+  create_table "jwt_blacklist", force: :cascade do |t|
+    t.string "jti", null: false
+    t.datetime "exp", null: false
+    t.index ["jti"], name: "index_jwt_blacklist_on_jti"
+  end
+
   create_table "metrics", force: :cascade do |t|
     t.bigint "campaign_id"
     t.string "trackable_type", null: false
@@ -509,7 +517,7 @@ ActiveRecord::Schema.define(version: 2020_04_17_030708) do
 
   create_table "oauth_access_grants", force: :cascade do |t|
     t.bigint "resource_owner_id", null: false
-    t.bigint "application_id", null: false
+    t.bigint "application_id"
     t.string "token", null: false
     t.integer "expires_in", null: false
     t.text "redirect_uri", null: false
@@ -523,7 +531,7 @@ ActiveRecord::Schema.define(version: 2020_04_17_030708) do
 
   create_table "oauth_access_tokens", force: :cascade do |t|
     t.bigint "resource_owner_id"
-    t.bigint "application_id", null: false
+    t.bigint "application_id"
     t.string "token", null: false
     t.string "refresh_token"
     t.integer "expires_in"
@@ -546,6 +554,9 @@ ActiveRecord::Schema.define(version: 2020_04_17_030708) do
     t.boolean "confidential", default: true, null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.integer "owner_id"
+    t.string "owner_type"
+    t.index ["owner_id", "owner_type"], name: "index_oauth_applications_on_owner_id_and_owner_type"
     t.index ["uid"], name: "index_oauth_applications_on_uid", unique: true
   end
 

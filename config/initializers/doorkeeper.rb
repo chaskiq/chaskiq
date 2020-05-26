@@ -1,5 +1,4 @@
 # frozen_string_literal: true
-
 Doorkeeper.configure do
   # Change the ORM that doorkeeper will use (requires ORM extensions installed).
   # Check the list of supported ORMs here: https://github.com/doorkeeper-gem/doorkeeper#orms
@@ -13,8 +12,7 @@ Doorkeeper.configure do
     #   # Put your resource owner authentication logic here.
     #   # Example implementation:
     #   #   User.find_by(id: session[:user_id]) || redirect_to(new_user_session_url)
-    #   #current_agent || warden.authenticate!(scope: :agent)
-    current_agent or raise "not authorized"
+    warden.authenticate!(scope: :agent) or raise "not authorized"
   end
 # 
   resource_owner_from_credentials do |routes|
@@ -25,7 +23,7 @@ Doorkeeper.configure do
   end
 
   admin_authenticator do |routes|
-    current_agent || redirect_to("/sign_in")
+    current_agent || warden.authenticate!(scope: :agent)
   end
 
   #api_only
@@ -40,6 +38,9 @@ Doorkeeper.configure do
 
   allow_blank_redirect_uri true
 
+  access_token_expires_in 4.hours
+
+  enable_application_owner :confirmation => false
 
   # If you didn't skip applications controller from Doorkeeper routes in your application routes.rb
   # file then you need to declare this block in order to restrict access to the web interface for
@@ -75,7 +76,7 @@ Doorkeeper.configure do
   # Access token expiration time (default: 2 hours).
   # If you want to disable expiration, set this to `nil`.
   #
-  # access_token_expires_in 2.hours
+  # access_token_expires_in 2.minutes
 
   # Assign custom TTL for access tokens. Will be used instead of access_token_expires_in
   # option if defined. In case the block returns `nil` value Doorkeeper fallbacks to
@@ -432,3 +433,31 @@ Doorkeeper.configure do
   #
   # realm "Doorkeeper"
 end
+
+
+module CustomTokenErrorResponse
+  def body
+    {
+      status_code: 401,
+      message: I18n.t('devise.failure.invalid', authentication_keys: Agent.authentication_keys.join('/')),
+      result: []
+    }
+    # or merge with existing values by
+    # super.merge({key: value})
+  end
+end
+
+module CustomTokenResponse
+  def body
+    user_details = Agent.find(@token.resource_owner_id)
+    # call original `#body` method and merge its result with the additional data hash
+   	super.merge({
+   		status_code: 200,
+   		message: I18n.t('devise.sessions.signed_in'),
+   		result: user_details
+   	})
+  end
+end
+
+Doorkeeper::OAuth::TokenResponse.send :prepend, CustomTokenResponse
+# Doorkeeper::OAuth::ErrorResponse.send :prepend, CustomTokenErrorResponse

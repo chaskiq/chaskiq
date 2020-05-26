@@ -22,7 +22,7 @@ class Agents::SessionsController < Devise::SessionsController
     # for credential (aprove)
     # TODO: figure out how can avoid this 
     # like customize /oauth/applications
-    sign_in(resource_name, resource, {store: true})
+    # sign_in(resource_name, resource, {store: true})
 
     if !session[:return_to].blank?
       redirect_to session[:return_to]
@@ -35,7 +35,11 @@ class Agents::SessionsController < Devise::SessionsController
       )
 
       respond_with_navigational(resource, status: :success) do
-        render json: access_token
+        render json: {
+          access_token: access_token.token,
+          refresh_token: access_token.refresh_token,
+          expires_in: access_token.expires_in
+        }
       end
     end
   end

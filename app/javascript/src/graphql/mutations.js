@@ -1183,6 +1183,58 @@ export const DELETE_BOT_TASK = `
 `;
 
 
+export const CREATE_OAUTH_APP = `
+  mutation CreateOauthApplication($appKey: String!, $params: Json!){
+    createOauthApplication( 
+      appKey: $appKey,
+      params: $params,
+    ){
+      oauthApplication{
+        name
+        redirectUri
+        secret
+        uid
+      }
+      errors
+    }
+  }
+`;
+
+export const UPDATE_OAUTH_APP = `
+  mutation UpdateOauthApplication($appKey: String!, $uid: String!, $params: Json!){
+    updateOauthApplication( 
+      appKey: $appKey,
+      params: $params,
+      uid: $uid
+    ){
+      oauthApplication{
+        name
+        redirectUri
+        secret
+        uid
+      }
+      errors
+    }
+  }
+`;
+
+export const DELETE_OAUTH_APP = `
+  mutation DeleteOauthApplication($appKey: String!, $uid: String!){
+    deleteOauthApplication( 
+      appKey: $appKey,
+      uid: $uid
+    ){
+      oauthApplication{
+        name
+        redirectUri
+        secret
+        uid
+      }
+      errors
+    }
+  }
+`;
+
 
 
 export const CREATE_INTEGRATION = `

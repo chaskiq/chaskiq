@@ -5,8 +5,8 @@ module Helpers::Authorizator
   end
 
   def doorkeeper_authorize!
-    raise "not logged user" if current_user.blank? 
-    #context[:doorkeeper_authorize].call() # will do a redirect, not what we want
+    #raise "not logged user" if context[:current_user].blank? 
+    context[:doorkeeper_authorize].call()
   end
 
   def can?(mode, object)
