@@ -3,7 +3,7 @@ import styled from '@emotion/styled'
 import EditorStyles from 'Dante2/package/es/styled/base'
 
 const NewEditorStyles = styled(EditorStyles)`
-  display: flex;
+  //display: flex;
 
   .graf--figure {
     min-width: 287px;

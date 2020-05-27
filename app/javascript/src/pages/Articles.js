@@ -457,13 +457,13 @@ class AllArticles extends React.Component {
                       <td className="px-6 py-4 whitespace-no-wrap border-b border-gray-200">
                         <div className="flex items-center text-lg font-bold">
                           {row.id && (
-                            <AnchorLink
-                              to={`/apps/${this.props.app.key}/articles/${row.id}`}
+                            <Link
+                              to={`/apps/${this.props.app.key}/articles/${row.slug}`}
                             >
                               {row.title
                                 ? row.title
-                                : "-- missing translation --"}
-                            </AnchorLink>
+                                : `-- missing translation --`}
+                            </Link>
                           )}
                         </div>
                       </td>
@@ -521,11 +521,11 @@ class AllArticles extends React.Component {
                       <td className="px-6 py-4 whitespace-no-wrap border-b border-gray-200">
                         <div className="flex items-center">
                           {row.collection && (
-                            <AnchorLink
+                            <Link
                               to={`/apps/${this.props.app.key}/articles/collections/${row.collection.id}`}
                             >
                               {row.collection.title}
-                            </AnchorLink>
+                            </Link>
                           )}
                         </div>
                       </td>
