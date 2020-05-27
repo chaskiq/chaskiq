@@ -255,7 +255,7 @@ function Conversations ({
 
           {
             fixedSidebarOpen &&
-              <div className="hidden flex items-center text-gray-300 absolute mt-5">
+              <div className="hidden md:block items-center text-gray-300 absolute mt-5">
                 <Button
                   variant="clean"
                   onClick={ toggleFixedSidebar }>
