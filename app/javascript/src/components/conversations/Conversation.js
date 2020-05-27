@@ -13,6 +13,7 @@ import ConversationEditor from './Editor.js'
 import Rtc from '../rtc'
 import { updateRtcEvents } from '../../actions/rtc'
 import Progress from '../Progress'
+import Button from '../Button'
 
 import {
   getConversation,
@@ -34,13 +35,13 @@ import {
   PinIcon,
   LeftArrow,
   CallEnd,
-  Call
+  Call,
 } from '../icons'
 
 import { getAppUser } from '../../actions/app_user'
+import { toggleDrawer } from '../../actions/drawer'
 
 import FilterMenu from '../FilterMenu'
-
 import theme from '../textEditor/theme'
 import themeDark from '../textEditor/darkTheme'
 import EditorContainer from '../textEditor/editorStyles'
@@ -50,6 +51,9 @@ import { setCurrentPage, setCurrentSection } from '../../actions/navigation'
 import RtcDisplayWrapper, { ModalWrapper } from '../../../client_messenger/rtcView' // './RtcWrapper'
 
 const EditorContainerMessageBubble = styled(EditorContainer)`
+  //display: flex;
+  //justify-content: center;
+
   // this is to fix the image on message bubbles
   .aspect-ratio-fill {
     display: none;
@@ -72,7 +76,10 @@ function Conversation ({
   match,
   app,
   current_user,
-  events
+  drawer,
+  events,
+  toggleFixedSidebar,
+  fixedSidebarOpen
 }) {
   const overflow = React.useRef(null)
 
@@ -243,8 +250,6 @@ function Conversation ({
     const message = o
     const messageContent = o.message
     const key = `conversation-${conversation.id}-message-${o.id}`
-    // return userOrAdmin === "admin" ?
-    // console.log("KEYKEY:", key)
 
     const content = messageContent.serializedContent ? (
       <DraftRenderer
@@ -279,6 +284,7 @@ function Conversation ({
         userOrAdmin === 'user' && <img
           alt={message.appUser.displayName}
           src={message.appUser.avatarUrl}
+          onClick={handleUserSidebar}
           className={`w-10 h-10 rounded ${avatarM}`}
         />
       }
@@ -287,8 +293,7 @@ function Conversation ({
         shadow-lg 
         flex-1 
         overflow-hidden p-3 
-        rounded-md
-        border border-gray-400`}
+        rounded-md`}
       >
         <div className="flex justify-between pb-4">
           <span className={`font-bold ${textClass}`}>
@@ -527,6 +532,11 @@ function Conversation ({
     )
   }
 
+  const handleUserSidebar = () => {
+    dispatch(toggleDrawer({ userDrawer: !drawer.userDrawer }))
+  }
+
+
   return (
     <BgContainer className="flex-1 flex flex-col overflow-hidden-- h-screen">
       <div className="border-b flex px-6 py-3 items-center flex-none bg-white">
@@ -539,7 +549,7 @@ function Conversation ({
           <h3 className="mb-1 text-xs text-grey-darkest">
             conversation with{' '}
             <br/>
-            <span className="font-extrabold">
+            <span className="font-extrabold" onClick={handleUserSidebar}>
               {
                 conversation.mainParticipant &&
                 conversation.mainParticipant.displayName
@@ -666,6 +676,23 @@ function Conversation ({
               )
             }}
           />
+
+          {
+            !fixedSidebarOpen &&
+            <div className="flex items-center text-gray-300"
+              style={{
+                marginRight: '-30px',
+                marginLeft: '16px'
+              }}>
+              <Button
+                variant="clean"
+                className="hidden md:block"
+                onClick={ toggleFixedSidebar }>
+                <LeftArrow/>
+              </Button>
+            </div>
+          }
+
         </div>
       </div>
 
@@ -774,7 +801,7 @@ function MessageItemWrapper ({ conversation, data, events, children }) {
 }
 
 function mapStateToProps (state) {
-  const { auth, app, conversation, app_user, current_user } = state
+  const { auth, app, conversation, app_user, current_user, drawer } = state
   const { isAuthenticated } = auth
   const { messages, loading } = conversation
   const { jwt } = auth
@@ -787,6 +814,7 @@ function mapStateToProps (state) {
     loading,
     app_user,
     app,
+    drawer,
     isAuthenticated
   }
 }

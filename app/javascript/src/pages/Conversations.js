@@ -20,6 +20,10 @@ import Progress from '../components/Progress'
 import EmptyView from '../components/EmptyView'
 import Button from '../components/Button'
 import emptyImage from '../images/empty-icon8.png'
+
+import {
+  LeftArrow
+} from '../components/icons'
 // import {toCamelCase} from '../shared/caseConverter'
 
 function Conversations ({
@@ -31,8 +35,8 @@ function Conversations ({
   events,
   app_user
 }) {
-
   const [fetching, setFetching] = React.useState(false)
+  const [fixedSidebarOpen, setFixedSidebarOpen] = React.useState(false)
 
   React.useEffect(() => {
     dispatch(clearConversations([]))
@@ -193,6 +197,10 @@ function Conversations ({
     )
   }
 
+  const toggleFixedSidebar = () => {
+    setFixedSidebarOpen(!fixedSidebarOpen)
+  }
+
   return (
     <div className="flex">
 
@@ -234,13 +242,28 @@ function Conversations ({
 
         <Route exact path={`/apps/${app.key}/conversations/:id`}>
           <div className="flex-grow bg-gray-200 h-12 h-screen border-r w-1/12">
-            <Conversation events={events} />
+            <Conversation events={events}
+              fixedSidebarOpen={fixedSidebarOpen}
+              toggleFixedSidebar={toggleFixedSidebar}
+            />
           </div>
         </Route>
       </Switch>
 
-      {!isEmpty(conversation) && (
+      {!isEmpty(conversation) && fixedSidebarOpen && (
         <div className="w-3/12 h-screen overflow-scroll hidden sm:block">
+
+          {
+            fixedSidebarOpen &&
+              <div className="hidden md:block items-center text-gray-300 absolute mt-5">
+                <Button
+                  variant="clean"
+                  onClick={ toggleFixedSidebar }>
+                  <LeftArrow/>
+                </Button>
+              </div>
+          }
+
           {app_user && app_user.id ? (
             <UserData data={conversation.mainParticipant} />
           ) : (
