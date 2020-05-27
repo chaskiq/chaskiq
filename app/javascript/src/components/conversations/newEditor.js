@@ -282,7 +282,7 @@ export default class ChatEditor extends Component {
 
     return (
       <ThemeProvider theme={theme}>
-        <EditorContainer>
+        <EditorContainer className="flex">
           {this.state.openPackagePanel && (
             <AppPackagePanel
               open={this.state.openPackagePanel}
