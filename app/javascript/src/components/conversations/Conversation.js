@@ -686,6 +686,7 @@ function Conversation ({
               }}>
               <Button
                 variant="clean"
+                className="hidden md:block"
                 onClick={ toggleFixedSidebar }>
                 <LeftArrow/>
               </Button>
