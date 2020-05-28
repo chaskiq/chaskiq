@@ -30,19 +30,15 @@ class Tour < Message
   def config_fields
     [
       { name: 'name', type: 'string', grid: { xs: 'w-full', sm: 'w-3/4' } },
-      { name: 'state', type: 'select',
-        options: %w[enabled disabled],
-        grid: { xs: 'w-full', sm: 'w-1/4' } 
-      },
       { name: 'subject', type: 'string', grid: { xs: 'w-full', sm: 'w-3/4' } },
       { name: 'url', type: 'string', grid: { xs: 'w-full', sm: 'w-1/4' } },
 
       { name: 'description', type: 'text', grid: { xs: 'w-full', sm: 'w-full' } },
 
-      { name: 'scheduledAt', type: 'datetime', grid: { xs: 'w-full', sm: 'w-1/2' } },
-      { name: 'scheduledTo', type: 'datetime', grid: { xs: 'w-full', sm: 'w-1/2' } },
+      { name: 'scheduledAt', label: "Scheduled at", type: 'datetime', grid: { xs: 'w-full', sm: 'w-1/2' } },
+      { name: 'scheduledTo', label: "Scheduled to", type: 'datetime', grid: { xs: 'w-full', sm: 'w-1/2' } },
 
-      { name: 'hiddenConstraints', type: 'select',
+      { name: 'hiddenConstraints', label: "Hidden constraints", type: 'select',
         options: [
           { label: 'open', value: 'open' },
           { label: 'close', value: 'close' },

@@ -65,23 +65,6 @@ import userFormat from "../components/Table/userFormat";
 
 import { errorMessage, successMessage } from "../actions/status_messages";
 
-const options = [
-  {
-    title: "Enable",
-    description: "enables the campaign",
-    icon: <CheckCircle />,
-    id: "enabled",
-    state: "enabled",
-  },
-  {
-    title: "Pause",
-    description: "pauses the campaign ",
-    icon: <Pause />,
-    id: "disabled",
-    state: "disabled",
-  },
-];
-
 class CampaignSegment extends Component {
   constructor(props) {
     super(props);
@@ -477,6 +460,25 @@ class CampaignForm extends Component {
     }
   };
 
+  options = ()=> ([
+    {
+      title: "Enable",
+      description: "enables the campaign",
+      icon: <CheckCircle />,
+      id: "enabled",
+      state: "enabled",
+      onClick: this.toggleCampaignState
+    },
+    {
+      title: "Pause",
+      description: "pauses the campaign ",
+      icon: <Pause />,
+      id: "disabled",
+      state: "disabled",
+      onClick: this.toggleCampaignState
+    }
+  ])
+
   toggleCampaignState = () => {
     graphql(
       UPDATE_CAMPAIGN,
@@ -550,9 +552,9 @@ class CampaignForm extends Component {
   };
 
   optionsForData = () => {
-    let newOptions = options;
+    let newOptions = this.options();
     if (this.props.mode === "campaigns") {
-      newOptions = this.optionsForMailing().concat(options);
+      newOptions = this.optionsForMailing().concat(this.options());
     }
 
     newOptions = newOptions.filter((o) => o.state !== this.state.data.state);
@@ -637,30 +639,26 @@ class CampaignForm extends Component {
         <Content>
           <ContentHeader
             title={
-              <div container alignContent="space-around" alignItems="center">
-                <div
-                  item
-                  style={{
-                    display: "flex",
-                    marginRight: "4px",
-                  }}
-                >
-                  <div
-                    className=""
-                    color={
-                      this.state.data.state === "enabled"
-                        ? "primary"
-                        : "secondary"
-                    }
-                    variant="dot"
-                  >
-                    {this.iconMode(this.props.mode)}
+              <div className="justify-around items-center">
+
+                <div className="flex items-center">
+                  <div className="mr-2">
+                    <div
+                      className=""
+                      color={
+                        this.state.data.state === "enabled"
+                          ? "primary"
+                          : "secondary"
+                      }
+                      variant="dot"
+                    >
+                      {this.iconMode(this.props.mode)}
+                    </div>
                   </div>
-                </div>
-                <div item>
+
                   {title}
                   <span
-                    className={`px-2 
+                    className={`ml-2 px-2 
                         inline-flex 
                         text-xs 
                         leading-5 
@@ -680,7 +678,9 @@ class CampaignForm extends Component {
                   <FilterMenu
                     options={this.optionsForData()}
                     value={this.state.data.state}
-                    filterHandler={(e) => this.toggleCampaignState(e.state)}
+                    filterHandler={(option, closeHandler ) => {
+                      return (option.onClick && option.onClick(option))
+                    }}
                     triggerButton={this.toggleButton}
                     position={"right"}
                     toggleButton={(clickHandler) => {

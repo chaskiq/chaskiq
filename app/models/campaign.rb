@@ -11,17 +11,17 @@ class Campaign < Message
     [
       { name: 'name', type: 'string', grid: { xs: 'w-full', sm: 'w-full' } },
       { name: 'subject', type: 'text', grid: { xs: 'w-full', sm: 'w-full' } },
-      { name: 'fromName', type: 'string', grid: { xs: 'w-full', sm: 'w-1/2' } },
-      { name: 'fromEmail', type: 'string', grid: { xs: 'w-full', sm: 'w-1/2' } },
-      { name: 'replyEmail', type: 'string', grid: { xs: 'w-full', sm: 'w-1/2' } },
+      { name: 'fromName', label: "From Name", type: 'string', grid: { xs: 'w-full', sm: 'w-1/2' } },
+      { name: 'fromEmail', label: "From Email", type: 'string', grid: { xs: 'w-full', sm: 'w-1/2' } },
+      { name: 'replyEmail', label: "Reply email", type: 'string', grid: { xs: 'w-full', sm: 'w-1/2' } },
       { name: 'description', type: 'text', grid: { xs: 'w-full', sm: 'w-full' } },
       { name: 'timezone', type: 'timezone',
         options: ActiveSupport::TimeZone.all.map { |o| o.tzinfo.name },
         multiple: false,
         grid: { xs: 'w-full', sm: 'w-full' } },
       # {name: "settings", type: 'string'} ,
-      { name: 'scheduledAt', type: 'datetime', grid: { xs: 'w-full', sm: 'w-1/2' } },
-      { name: 'scheduledTo', type: 'datetime', grid: { xs: 'w-full', sm: 'w-1/2' } }
+      { name: 'scheduledAt', label: "Scheduled at", type: 'datetime', grid: { xs: 'w-full', sm: 'w-1/2' } },
+      { name: 'scheduledTo', label: "Scheduled to", type: 'datetime', grid: { xs: 'w-full', sm: 'w-1/2' } }
     ]
   end
 
