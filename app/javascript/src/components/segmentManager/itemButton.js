@@ -74,10 +74,10 @@ export default class SegmentItemButton extends Component {
     );
   };
 
-  onRadioTypeChange = (target, cb) => {
+  onRadioTypeChange = (target, o, cb) => {
     const s = this.state.selectedOption;
     const h = {
-      comparison: "eq",
+      comparison: o.value,
       value: target.value,
     };
 
@@ -89,7 +89,7 @@ export default class SegmentItemButton extends Component {
 
     this.setState({
       checkedValue: target.value,
-      selectedOption: "eq",
+      selectedOption: o.value,
     });
   };
 
@@ -223,9 +223,9 @@ export default class SegmentItemButton extends Component {
                       className="form-radio h-4 w-4 text-indigo-600 transition duration-150 ease-in-out"
                       name="options"
                       value={o.value}
-                      checked={o.value === this.state.checkedValue}
+                      checked={o.value === this.state.selectedOption}
                       onChange={(e) => {
-                        this.onRadioTypeChange(e.target);
+                        this.onRadioTypeChange(e.target, o);
                       }}
                     />
                     <span className="ml-2">{o.label}</span>
@@ -276,6 +276,7 @@ export default class SegmentItemButton extends Component {
 
     // <ClickAwayListener onClickAway={this.toggleDialog2.bind(this)}>
     // </ClickAwayListener>
+
     return (
       <div>
         {
@@ -297,9 +298,9 @@ export default class SegmentItemButton extends Component {
                       className="form-radio h-4 w-4 text-indigo-600 transition duration-150 ease-in-out"
                       name="options"
                       value={o.value}
-                      checked={o.value === this.state.checkedValue}
+                      checked={o.value === this.state.selectedOption}
                       onChange={(e) => {
-                        this.onRadioTypeChange(e.target);
+                        this.onRadioTypeChange(e.target, o);
                       }}
                     />
                     <span className="ml-2 block text-sm leading-5 font-medium text-gray-700">
@@ -315,7 +316,7 @@ export default class SegmentItemButton extends Component {
                           defaultValue={this.props.predicate.value}
                           ref={(input) => (this.relative_input = input)}
                           className={
-                            "max-w-xs rounded-md shadow-sm form-input block w-full transition duration-150 ease-in-out sm:text-sm sm:leading-5"
+                            "mb-3 p-1 border max-w-xs rounded-md shadow-sm form-input block w-full transition duration-150 ease-in-out sm:text-sm sm:leading-5"
                           }
                           label={"value"}
                           margin="normal"
@@ -344,13 +345,6 @@ export default class SegmentItemButton extends Component {
             )}
 
           {this.deleteButton()}
-          {/*<button
-                    className="p-2 inline-flex items-center px-2.5 py-1.5 border border-transparent text-xs leading-4 font-medium rounded text-white bg-indigo-600 hover:bg-indigo-500 focus:outline-none focus:border-indigo-700 focus:shadow-outline-indigo active:bg-indigo-700 transition ease-in-out duration-150"
-                    variant="outlined"
-                    color="primary"
-                    onClick={this.handleSubmit.bind(this)}>
-                    cancel
-                  </button>*/}
         </ContentMatchFooter>
       </div>
     );
@@ -416,7 +410,7 @@ export default class SegmentItemButton extends Component {
                           defaultValue={parsedNum}
                           ref={(input) => (this.relative_input = input)}
                           className={
-                            "max-w-xs rounded-md shadow-sm form-input block w-full transition duration-150 ease-in-out sm:text-sm sm:leading-5"
+                            "mb-3 p-1 border max-w-xs rounded-md shadow-sm form-input block w-full transition duration-150 ease-in-out sm:text-sm sm:leading-5"
                           }
                           label={"value"}
                           margin="normal"
@@ -430,54 +424,6 @@ export default class SegmentItemButton extends Component {
               );
             })}
           </div>
-
-          {/*<RadioGroup
-                  aria-label="options"
-                  name="options"
-                  onChange={(e)=>{
-                    this.onRadioChange(e.target)
-                  }}>
-                  {
-                    relative.map((o, i)=>(
-                      <div  
-                        key={`${o.name}-${i}`}
-                        style={{ 
-                                display: 'flex',
-                                flexDirection: 'column'                                 
-                              }}>
-
-                        <FormControlLabel
-                          control={<Radio 
-                          checked={this.state.selectedOption === o.value}/>} 
-                          value={o.value}
-                          label={o.label} 
-                        /> 
-
-
-                        {
-                          this.state.selectedOption && 
-                          this.state.selectedOption === o.value ?
-                            <TextField1
-                              autoFocus
-                              id="name"
-                              name="name"
-                              label="name"
-                              type="number"
-                              helperText={'days ago'}
-                              defaultValue={parsedNum}
-                              inputRef={input => (
-                                this.relative_input = input)
-                              }
-                              label={"value"}
-                              margin="normal"
-                            /> : null
-                        }
-
-                      </div>
-
-                    ))
-                  }
-                </RadioGroup>*/}
         </ContentMatch>
 
         <ContentMatchFooter>
@@ -546,7 +492,7 @@ export default class SegmentItemButton extends Component {
                     value={o.value}
                     checked={this.state.selectedOption === o.value}
                     onChange={(e) => {
-                      this.onRadioTypeChange(e.target);
+                      this.onRadioTypeChange(e.target, o);
                     }}
                   />
                   <span className="ml-2">{o.label}</span>
@@ -560,7 +506,7 @@ export default class SegmentItemButton extends Component {
                         defaultValue={parsedNum}
                         ref={(input) => (this.relative_input = input)}
                         className={
-                          "max-w-xs rounded-md shadow-sm form-input block w-full transition duration-150 ease-in-out sm:text-sm sm:leading-5"
+                          "mb-3 p-1 border max-w-xs rounded-md shadow-sm form-input block w-full transition duration-150 ease-in-out sm:text-sm sm:leading-5"
                         }
                         label={"value"}
                         margin="normal"
@@ -571,54 +517,6 @@ export default class SegmentItemButton extends Component {
             );
           })}
 
-          {/*<RadioGroup
-                  aria-label="options"
-                  name="options"
-                  onChange={(e)=>{
-                    this.onRadioChange(e.target)
-                  }}>
-                  {
-                    relative.map((o, i)=>(
-                      <div  
-                        key={`${o.name}-${i}`}
-                        style={{ 
-                                display: 'flex',
-                                flexDirection: 'column'                                 
-                              }}>
-
-                        <FormControlLabel
-                          control={<Radio 
-                          checked={this.state.selectedOption === o.value}/>} 
-                          value={o.value}
-                          label={o.label} 
-                        /> 
-
-
-                        {
-                          this.state.selectedOption && 
-                          this.state.selectedOption === o.value ?
-                            <TextField1
-                              autoFocus
-                              id="name"
-                              name="name"
-                              label="name"
-                              type="number"
-                              helperText={"any number"}
-                              defaultValue={parsedNum}
-                              inputRef={input => (
-                                this.relative_input = input)
-                              }
-                              label={"value"}
-                              margin="normal"
-                            /> : null
-                        }
-
-                      </div>
-
-                    ))
-                  }
-                </RadioGroup>
-                */}
         </ContentMatch>
 
         <ContentMatchFooter>
@@ -682,7 +580,7 @@ export default class SegmentItemButton extends Component {
                         value={o.value}
                         checked={o.value === this.state.checkedValue}
                         onChange={(e) => {
-                          this.onRadioTypeChange(e.target);
+                          this.onRadioTypeChange(e.target, o);
                         }}
                       />
                       <span className="ml-2">

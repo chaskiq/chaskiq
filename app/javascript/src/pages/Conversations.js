@@ -40,10 +40,12 @@ function Conversations ({
 
   React.useEffect(() => {
     dispatch(clearConversations([]))
-    fetchConversations({ page: 1 })
+    setFetching(true)
+    fetchConversations({ page: 1 }, ()=> {
+      setFetching(false)
+    })
 
     dispatch(setCurrentPage('Conversations'))
-
     dispatch(setCurrentSection('Conversations'))
   }, [])
 
@@ -188,7 +190,9 @@ function Conversations ({
 
           {
             fetching && <div className="m-2">
-              <Progress size="4"/>
+              <Progress size={
+                conversations.collection.length === 0 ? '16' : '4'
+              }/>
             </div>
           }
         </div>
