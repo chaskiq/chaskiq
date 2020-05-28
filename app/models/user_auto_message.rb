@@ -30,10 +30,6 @@ class UserAutoMessage < Message
 
   def config_fields
     [
-      { name: 'state',
-        type: 'select',
-        options: %w[enabled disabled],
-        grid: { xs: 'w-full', sm: 'w-full' } },
       { name: 'name', type: 'string', grid: { xs: 'w-full', sm: 'w-full' } },
       { name: 'subject', type: 'text', grid: { xs: 'w-full', sm: 'w-full' } },
       { name: 'description', type: 'text', grid: { xs: 'w-full', sm: 'w-full' } },
@@ -46,8 +42,8 @@ class UserAutoMessage < Message
         multiple: true,
         default: 'open',
         grid: { xs: 'w-full', sm: 'w-full' } },
-      { name: 'scheduledAt', type: 'datetime', grid: { xs: 'w-full', sm: 'w-1/2' } },
-      { name: 'scheduledTo', type: 'datetime', grid: { xs: 'w-full', sm: 'w-1/2' } }
+      { name: 'scheduledAt', label: "Scheduled at", type: 'datetime', grid: { xs: 'w-full', sm: 'w-1/2' } },
+      { name: 'scheduledTo', label: "Scheduled to", type: 'datetime', grid: { xs: 'w-full', sm: 'w-1/2' } }
     ]
   end
 

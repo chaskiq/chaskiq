@@ -317,7 +317,7 @@ class NewTourStep extends Component {
         <NewStepBody>
           <Button
             onClick={this.enableSelection}
-            className="border h-12 w-12 flex justify-center"
+            className="border h-12 w-12 flex justify-center items-center"
             variant={"icon"}
           >
             <PlusIcon />

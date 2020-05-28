@@ -182,7 +182,7 @@ function SimpleMenu (props) {
                   />
                 </div>
                 <div className="pl-7 text-sm leading-5">
-                  <label htmlFor="comments" className="font-medium text-gray-700">
+                  <label htmlFor="comments" className="ml-2 font-medium text-gray-700">
                     {o.title}
                   </label>
                 </div>
