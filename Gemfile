@@ -101,7 +101,7 @@ gem 'ruby-oembed'
 gem 'mustache'
 
 gem 'chronic', '~> 0.10.2'
-gem 'kaminari', '~> 1.1'
+gem 'kaminari', '~> 1.2'
 
 gem 'timezone', '~> 1.2'
 
