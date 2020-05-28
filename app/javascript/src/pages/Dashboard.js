@@ -220,7 +220,6 @@ function DashboardItem ({
         },
         error: (err) => {
           setLoading(false)
-          debugger
         }
       }
     )
@@ -269,9 +268,8 @@ function DashboardAppPackages (props) {
   return (
     packages &&
       packages.map((o) => (
-        <div className="bg-white shadow overflow-hidden  sm:rounded-lg p-4">
+        <div key={`appPackage-${o.name}`} className="bg-white shadow overflow-hidden  sm:rounded-lg p-4">
           <DashboardAppPackage
-            key={`appPackage-${o.name}`}
             package={o}
             dashboard={props.dashboard}
             classes={props.classes}
@@ -285,7 +283,6 @@ function DashboardAppPackage (props) {
   const dashboard = props.dashboard
   const pkg = props.package
   const data = pkg.data
-  const classes = props.classes
 
   return (
     <div className="p-4">
