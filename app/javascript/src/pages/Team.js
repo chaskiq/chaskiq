@@ -16,9 +16,13 @@ import { HomeIcon } from "../components/icons";
 import { Link } from "react-router-dom";
 import graphql from "../graphql/client";
 import { AGENTS, PENDING_AGENTS } from "../graphql/queries";
-import { INVITE_AGENT } from "../graphql/mutations";
+import { 
+  INVITE_AGENT, 
+  RESEND_INVITE_AGENT 
+} from "../graphql/mutations";
 
 import FormDialog from "../components/FormDialog";
+import { successMessage, errorMessage } from '../actions/status_messages'
 import { setCurrentPage, setCurrentSection } from "../actions/navigation";
 
 class TeamPage extends Component {
@@ -58,7 +62,7 @@ class TeamPage extends Component {
           tabs={[
             {
               label: "Team",
-              icon: <HomeIcon />,
+              //icon: <HomeIcon />,
               content: <AppUsers {...this.props} />,
             },
             {
@@ -235,7 +239,6 @@ class NonAcceptedAppUsers extends React.Component {
   }
 
   sendInvitation = () => {
-    console.log(this.input_ref.current);
     graphql(
       INVITE_AGENT,
       {
@@ -244,6 +247,7 @@ class NonAcceptedAppUsers extends React.Component {
       },
       {
         success: (data) => {
+          this.props.dispatch(successMessage('invitation sent!'))
           this.setState(
             {
               sent: true,
@@ -252,14 +256,17 @@ class NonAcceptedAppUsers extends React.Component {
             this.search
           );
         },
-        error: () => {},
+        error: () => {
+          this.props.dispatch(errorMessage('invitation not sent!'))
+
+        },
       }
     );
   };
 
   inviteButton = () => {
     return (
-      <div className="py-2">
+      <div className="flex py-2 justify-end">
         {this.state.isOpen ? (
           <FormDialog
             open={this.state.isOpen}
@@ -330,6 +337,22 @@ class NonAcceptedAppUsers extends React.Component {
     );
   };
 
+  resendInvitation = (email)=>{
+    graphql(INVITE_AGENT, {
+      appKey: this.props.app.key,
+      email: email,
+    }, {
+      success: (data)=>{          
+        this.props.dispatch(successMessage('invitation sent!'))
+        console.log("inivited")
+      },
+      error: ()=>{          
+        this.props.dispatch(errorMessage('invitation not sent!'))
+        console.log("error invited")
+      }
+    })
+  }
+
   render() {
     return (
       <React.Fragment>
@@ -347,6 +370,16 @@ class NonAcceptedAppUsers extends React.Component {
             columns={[
               { field: "email", title: "email" },
               { field: "name", title: "name" },
+              { field: "actions", title: "actions", render: (row)=> {
+                  return <tr className="flex items-center px-6 py-4 whitespace-no-wrap border-b border-gray-200">
+                          <Button 
+                            onClick={ ()=> this.resendInvitation(row.email) } 
+                            variant="outlined" size="md">
+                            resend invitation
+                          </Button>
+                        </tr>
+                }
+              }
             ]}
             enableMapView={false}
           />
