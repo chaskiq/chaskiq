@@ -43,12 +43,18 @@ function AcceptInvitation (props) {
         }
       })
       .then(function (response) {
-        props.dispatch(successAuthentication(response.data.access_token))
+        props.dispatch(
+          successAuthentication(
+            response.data.token, 
+            response.data.refreshToken
+          )
+        )
         props.dispatch(getCurrentUser())
         // use router redirect + snackbar status
         window.location = '/'
       })
       .catch(function (response) {
+        debugger
         setErrors(response.response.data.errors)
       })
   }

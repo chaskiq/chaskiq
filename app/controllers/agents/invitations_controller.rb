@@ -39,15 +39,17 @@ class Agents::InvitationsController < Devise::InvitationsController
   def accept_resource
     resource = resource_class.accept_invitation!(update_resource_params)
 
-    a = Doorkeeper::Application.first
-    client = OAuth2::Client.new(a.uid, a.secret, site: a.redirect_uri)
-
-    access_token =  client.password.get_token(
-      resource.email, 
-      params[:agent][:password]
+    access_token = Doorkeeper::AccessToken.create!(
+      application_id: nil,
+      resource_owner_id: resource.id,
+      expires_in: 2.hours,
+      scopes: 'public'
     )
-    @token = access_token
 
+    @token = {
+      token: access_token.token, 
+      refresh_token: access_token.refresh_token
+    }
     resource
   end
 end
