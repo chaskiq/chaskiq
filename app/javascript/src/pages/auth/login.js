@@ -104,7 +104,7 @@ function Login ({ dispatch }) {
 
               <div className="text-sm leading-5">
                 <a
-                  href="#"
+                  href="/agents/password/new"
                   className="font-medium text-indigo-600 hover:text-indigo-500 focus:outline-none focus:underline transition ease-in-out duration-150"
                 >
                   Forgot your password?
