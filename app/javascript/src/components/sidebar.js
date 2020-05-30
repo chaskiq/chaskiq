@@ -407,7 +407,7 @@ function Sidebar ({
         </div>
       )}
 
-      <div className="md:flex flex-col w-56 border-r border-gray-200 bg-gray-100">
+      <div className="md:flex flex-col w-56 border-r border-gray-200 bg-gray-100 shadow-inner">
         {renderInner()}
 
         <div className="flex-shrink-0 flex border-t border-gray-200 p-4">
