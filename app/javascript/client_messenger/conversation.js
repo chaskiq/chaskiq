@@ -584,6 +584,7 @@ class AppPackageBlock extends Component {
                 disabled={isDisabled}
                 type={item.type} 
                 name={item.name}
+                required
                 placeholder={t("enter_your", {field: item.name })}
                 //onKeyDown={(e)=>{ e.keyCode === 13 ? 
                 //  this.handleStepControlClick(item) : null
