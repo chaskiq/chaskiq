@@ -131,18 +131,31 @@ class AppUsers extends React.Component {
                     <td className="px-6 py-4 whitespace-no-wrap border-b border-gray-200">
                       <div className="flex items-center">
                         <div className="flex-shrink-0 h-10 w-10">
-                          <img
-                            className="h-10 w-10 rounded-full"
-                            src={row.avatarUrl}
-                            alt=""
-                          />
+                          <Link
+                            to={`/apps/${this.props.app.key}/agents/${row.id}`}
+                            >
+                            <img
+                              className="h-10 w-10 rounded-full"
+                              src={row.avatarUrl}
+                              alt=""
+                            />
+                          </Link>
                         </div>
+
                         <div className="ml-4">
                           <div className="text-sm leading-5 font-medium text-gray-900">
-                            {row.displayName}
+                            <Link
+                              to={`/apps/${this.props.app.key}/agents/${row.id}`}
+                              >
+                              {row.displayName}
+                            </Link>
                           </div>
                           <div className="text-sm leading-5 text-gray-500">
-                            {row.email}
+                            <Link
+                              to={`/apps/${this.props.app.key}/agents/${row.id}`}
+                              >
+                              {row.email}
+                            </Link>
                           </div>
                         </div>
                       </div>

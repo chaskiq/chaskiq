@@ -17,7 +17,7 @@ class AppPackageIntegration < ApplicationRecord
     access_token_secret
     user_id
     user_token
-    credentials,
+    credentials
     verify_token
   ], coder: JSON
 
