@@ -227,6 +227,7 @@ export const START_CONVERSATION = `
           email
           properties
           avatarUrl
+          displayName
         }
 
         lastMessage{
@@ -381,6 +382,7 @@ export const ASSIGN_USER = `
           email
           properties
           avatarUrl
+          displayName
         }
       }
     }
@@ -474,6 +476,7 @@ export const UPDATE_CONVERSATION_STATE = `
           email
           properties
           avatarUrl
+          displayName
         }
       }
     }
@@ -499,6 +502,7 @@ export const TOGGLE_CONVERSATION_PRIORITY = `
           email
           properties
           avatarUrl
+          displayName
         }
       }
     }
