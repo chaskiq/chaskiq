@@ -18,6 +18,8 @@ import Campaigns from './Campaigns'
 import CampaignHome from './campaigns/home'
 import Progress from '../components/Progress'
 import Profile from './Profile'
+import AgentProfile from './AgentProfile'
+
 import Api from './Api'
 
 import { connect } from 'react-redux'
@@ -235,13 +237,13 @@ function App ({
                 )}
               />
 
-              {/*<Route exact path={`${match.path}/agents/:id`}
+              <Route exact path={`${match.path}/agents/:id`}
                 render={(props) => (
-                  <AgentProfileView
+                  <AgentProfile
                     {...props}
                   />
                 )}
-              />*/}
+              />
 
               <Route path={`${match.url}/webhooks`}>
                 <Webhooks />
@@ -258,6 +260,7 @@ function App ({
               <Route path={`${match.url}/conversations`}>
                 <Conversations events={CableApp.events} />
               </Route>
+              
 
               <Route path={`${match.url}/oauth_applications`}>
                 <Api />
