@@ -69,14 +69,6 @@ export function signout () {
   }
 }
 
-export function expireAuthentication () {
-  return doSignout()
-}
-
-function startAuthentication () {
-  return { type: 'auth/REQUEST' }
-}
-
 export function successAuthentication (accessToken, refreshToken) {
   //, uid, client, accessToken, expiry) {
   return {
@@ -107,6 +99,14 @@ export function refreshToken (auth) {
       dispatch(expireAuthentication())
     })
   }
+}
+
+export function expireAuthentication () {
+  return doSignout()
+}
+
+export function startAuthentication () {
+  return { type: REQUEST }
 }
 
 function failAuthentication () {
