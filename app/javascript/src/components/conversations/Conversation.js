@@ -657,9 +657,15 @@ function Conversation ({
           </Tooltip>
 
           <FilterMenu
-            options={agents}
+            options={agents.map(o => ( { 
+              key: o.email, 
+              name: o.name || o.email,
+              id: o.id
+            } ))}
             value={conversation.assignee ? conversation.assignee.email : ''}
             filterHandler={(data) => setAgent(data.id)}
+            position={'right'}
+            origin={'top-50'}
             triggerButton={(cb) => {
               return (
                 <Tooltip placement="bottom" overlay={'assign agent'}>

@@ -12,43 +12,36 @@ export default function FilterMenu ({
   position,
   origin
 }) {
-  const [anchorEl, setAnchorEl] = React.useState(null)
-  // const [options, setOption] = React.useState(options);
-  // const open = Boolean(anchorEl);
-
-  function handleClick (event) {
-    setAnchorEl(event.currentTarget)
-  }
+  const [open, setOpen] = React.useState(false)
 
   function selectOption (option) {
     filterHandler(option, handleClose)
   }
 
   function handleClose () {
-    setAnchorEl(null)
+    setOpen(false)
   }
 
   return (
     <React.Fragment>
-      {/* triggerButton ? triggerButton(handleClick) : null */}
-
       <Dropdown
         id="long-menu"
         labelButton={value}
         triggerButton={triggerButton}
         position={position}
         origin={origin}
+        isOpen={open}
       >
         {options.map((option) => (
           <div className="py-1" key={option.id}>
             <button
-              selected={value === option.name}
               onClick={() => selectOption(option)}
-              className="w-full group flex items-center
+              className={`w-full group flex items-center
               px-4 py-2 text-sm leading-5 text-gray-700
+              ${value === option.name ? 'bg-gray-100 text-gray-900' : ''}
               hover:bg-gray-100 hover:text-gray-900
               focus:outline-none focus:bg-gray-100
-              focus:text-gray-900"
+              focus:text-gray-900`}
             >
               {/* <svg className="mr-3 h-5 w-5 text-gray-400 group-hover:text-gray-500 group-focus:text-gray-500" fill="currentColor" viewBox="0 0 20 20">
                 <path d="M17.414 2.586a2 2 0 00-2.828 0L7 10.172V13h2.828l7.586-7.586a2 2 0 000-2.828z"/>
