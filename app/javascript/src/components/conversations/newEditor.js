@@ -114,7 +114,7 @@ const SubmitButton = function (props) {
         `flex w-1/6 justify-center
         bg-white hover:bg-gray-100 
         text-gray-800 font-semibold py-2 
-        px-3 border-l border-gray-400 shadow`
+        px-3 border-l border-gray-400 shadow items-center`
       }
       onClick={props.onClick}
       disabled={props.disabled}
