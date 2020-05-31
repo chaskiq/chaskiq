@@ -225,7 +225,6 @@ const BotEditor = ({ match, app, dispatch, mode, actions }) => {
         return o;
       }
     });
-    console.log(newPaths);
     setPaths(newPaths);
     setSelectedPath(newPath); // redundant
   };
@@ -416,6 +415,9 @@ const BotEditor = ({ match, app, dispatch, mode, actions }) => {
         )}
 
         <div className="w-1/4">
+          <h3 className="text-sm leading-5 font-medium text-gray-900">
+            Paths
+          </h3>
           <List component="nav" shadowless aria-label="path list">
             {paths.map((o, i) => (
               <PathList
@@ -458,10 +460,10 @@ const BotEditor = ({ match, app, dispatch, mode, actions }) => {
               <Button
                 variant="contained"
                 color="primary"
-                size="large"
+                size="medium"
                 onClick={saveData}
               >
-                save data
+                Save data
               </Button>
             </div>
           </div>
@@ -571,7 +573,10 @@ function FollowActionsSelect({ app, path, updatePath }) {
             alignItems={"center"}
           >
             <p>{action.name}</p>
-            <Button color={"secondary"} onClick={() => removeAction(i)}>
+            <Button 
+              variant="icon"
+              color={"secondary"} 
+              onClick={() => removeAction(i)}>
               <DeleteForeverRounded />
             </Button>
           </div>
@@ -594,6 +599,37 @@ function FollowActionsSelect({ app, path, updatePath }) {
             options={menuOptions}
           />
         */}
+
+      { 
+        menuOptions.length > 0 &&
+        <div className="py-4">
+          <Dropdown
+            isOpen={false}
+            labelButton={"add"}
+            triggerButton={(cb) => (
+              <Button
+                onClick={cb}
+                color="primary"
+                size={"small"}
+                variant="outlined"
+                aria-label="add"
+              >
+                <PlusIcon />
+                Add Follow Action
+              </Button>
+            )}
+          >
+            <List>
+              {menuOptions.map((o) => (
+                <ListItem key={o.key} onClick={()=> handleClick(o)}>
+                  {o.name}
+                </ListItem>
+              ))}
+            </List>
+          </Dropdown> 
+        </div>
+      }
+
 
       {/* not for uncomment
         selectMode  ?
@@ -643,76 +679,53 @@ function AgentSelector({ app, updateAction, removeAction, action, index }) {
   function selectedAgent() {
     const agent = agents.find((o) => selected === o.id);
     if (!agent) return "";
-    return agent.name || agent.email;
+    return {label: agent.name || agent.email, value: selected};
   }
 
   return (
     <div>
-      {true ? (
-        <div
-          container
-          alignItems={"flex-end"}
-          //justify={"space-between"}
-        >
-          <div item>
-            {/*<FormControl>
-              <InputLabel htmlFor="agent">
-                Assignee Agent
-              </InputLabel>
-              <Select
-                value={selected}
-                onChange={handleChange}
-                inputProps={{
-                  name: 'agent',
-                  id: 'agent',
-                }}>
+    
+      <div className="flex items-center">
+        <div className="w-64">
 
-                {
-                  agents.map((o)=>(
-                    <MenuItem value={o.id}>
-                      {o.email}
-                    </MenuItem>
-                  ))
-                }
-            </Select>
-              </FormControl>*/}
-            form here
-          </div>
-          <div item>
-            <Button color={"secondary"} onClick={() => removeAction(index)}>
-              <DeleteForeverRounded />
-            </Button>
-          </div>
+          <Input
+            type="select"
+            value={ selectedAgent() }
+            onChange={handleChange}
+            defaultValue={selectedAgent()}
+            name={'agent'}
+            id={'agent'}
+            label={"Assignee Agent"}
+            data={{}}
+            options={
+              agents.map((o) => ({ label: o.email, value: o.id }))
+            }>
+          </Input>
         </div>
-      ) : (
-        <div
-          style={{ display: "flex" }}
-          key={action.key}
-          item
-          alignItems={"center"}
-        >
-          <Button onClick={() => setMode("select")}>
-            assign: {selectedAgent(selected)}
-          </Button>
 
-          <Button color={"secondary"} onClick={() => removeAction(index)}>
+        <div>
+          <Button 
+            variant={"icon"} 
+            onClick={() => removeAction(index)}>
             <DeleteForeverRounded />
           </Button>
         </div>
-      )}
+      </div>
+    
     </div>
   );
 }
 
 const PathList = ({ path, handleSelection }) => {
   return (
-    <ListItem
-      button
-      onClick={(e) => handleSelection(path)}
-      variant={"outlined"}
-    >
-      {path.title}
-    </ListItem>
+    <li className="pr-4 pb-2">
+      <Button 
+        className="w-full py-2 px-2"
+        onClick={(e) => handleSelection(path)}
+        variant={"outlined"}>
+        {path.title}
+      </Button>
+    </li>
   );
 };
 
@@ -1271,7 +1284,7 @@ const DataInputSelect = ({ item, options, update, controls, path, step }) => {
         onChange={handleChange}
         fullWidth={true}
         label={item.label}
-        helperText={"oeoeoe"}
+        //helperText={"oeoeoe"}
         options={options}
       >
         {/*options.map((option)=> <MenuItem 

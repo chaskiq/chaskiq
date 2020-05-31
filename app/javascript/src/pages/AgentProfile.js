@@ -45,52 +45,6 @@ import { EditIcon, ArchiveIcon,
   MoreIcon
 } from '../components/icons'
 
-const AppUserHeaderOverlay = styled.div`
-  position: absolute;
-  z-index: 99;
-  //color: #fff;
-  width: 100%;
-  height: 185px;
-  //background: {(props)=>  props.theme.palette.background.default };
-  //background: linear-gradient(to bottom,rgba(250,250,250,0) 40%,#f6f6f6 100%);
-  opacity: 0.6;
-`
-
-const AppUserHeaderInfo = styled.div`
-  position: absolute;
-  z-index: 99;
-  //color: #fff;
-  width: 100%;
-  height: 185px;
-  display: flex;
-  align-items: self-start;
-  justify-content: space-between;
-
-  .name-description {
-    display: flex;
-    flex-direction: column;
-    margin-left: 10px;
-  }
-
-  .controls {
-    display:flex;
-    margin-top: 10px;
-    margin-right: 10px;
-  }
-
-  .user-info {
-    display: flex;
-    align-items: center;
-    margin-left: 20px;
-    margin-top: 20px;
-  }
-`
-
-const HeaderContainer = styled.div`
-  width: 100%;
-  height: 192px;
-`
-
 class ProfilePage extends Component {
 
   state = {
@@ -280,10 +234,10 @@ class ProfilePage extends Component {
     return (
       <div>
         <button
-        onClick={clickHandler}
-        className="text-xs leading-4 font-medium text-gray-100 
-        group-hover:text-gray-300 group-focus:underline transition 
-        ease-in-out duration-150">
+          onClick={clickHandler}
+          className="text-xs leading-4 font-medium text-gray-100 
+          group-hover:text-gray-300 group-focus:underline transition 
+          ease-in-out duration-150">
           <MoreIcon/>
         </button>
       </div>
@@ -306,9 +260,7 @@ class ProfilePage extends Component {
                 src={this.state.agent.avatarUrl + "&s=120px"}
               />
 
-              <div 
-                //className={classes.upload}
-                >
+              <div>
                 <input
                   accept="image/*"
                   style={{display: 'none'}}

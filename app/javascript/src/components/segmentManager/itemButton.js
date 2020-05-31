@@ -75,21 +75,22 @@ export default class SegmentItemButton extends Component {
   };
 
   onRadioTypeChange = (target, o, cb) => {
-    const s = this.state.selectedOption;
-    const h = {
-      comparison: o.value,
-      value: target.value,
-    };
-
-    const response = Object.assign({}, this.props.predicate, h);
-
-    const new_predicates = this.props.predicates.map((o, i) =>
-      this.props.index === i ? response : o
-    );
+    window.blockStyleRef = this.blockStyleRef.current;
+    window.target = target;
 
     this.setState({
       checkedValue: target.value,
       selectedOption: o.value,
+    }, () => {
+      setTimeout(() => {
+        const el = this.blockStyleRef.current;
+        if(!el) return
+        const diff =
+          target.getBoundingClientRect().top - el.getBoundingClientRect().top;
+        this.blockStyleRef.current.scrollTop = diff;
+      }, 20);
+
+      cb && cb();
     });
   };
 
@@ -109,6 +110,7 @@ export default class SegmentItemButton extends Component {
             // we assume here that this field is auto applied
             // todo: set radio button on mem and update only on apply click
             value = `${this.state.checkedValue}`;
+            comparison = 'eq';
             break;
           default:
             value = `${this.relative_input.value}`;
@@ -212,8 +214,8 @@ export default class SegmentItemButton extends Component {
           </div>
         }
 
-        <ContentMatch ref={this.blockStyleRef}>
-          <div className="mt-2 p-2 h-32 overflow-scroll">
+        <ContentMatch>
+          <div ref={this.blockStyleRef} className="mt-2 p-2 h-32 overflow-scroll">
             {relative.map((o, i) => {
               return (
                 <div>
@@ -223,7 +225,7 @@ export default class SegmentItemButton extends Component {
                       className="form-radio h-4 w-4 text-indigo-600 transition duration-150 ease-in-out"
                       name="options"
                       value={o.value}
-                      checked={o.value === this.state.selectedOption}
+                      checked={o.value === this.state.checkedValue}
                       onChange={(e) => {
                         this.onRadioTypeChange(e.target, o);
                       }}
@@ -237,9 +239,9 @@ export default class SegmentItemButton extends Component {
         </ContentMatch>
 
         <ContentMatchFooter>
-          {this.state.selectedOption &&
-            (this.state.selectedOption !== "is_null" ||
-              this.state.selectedOption !== "is_not_null") && (
+          {this.state.checkedValue &&
+            (this.state.checkedValue !== "is_null" ||
+              this.state.checkedValue !== "is_not_null") && (
               <button
                 className="p-2 inline-flex items-center px-2.5 py-1.5 border border-transparent text-xs leading-4 font-medium rounded text-white bg-indigo-600 hover:bg-indigo-500 focus:outline-none focus:border-indigo-700 focus:shadow-outline-indigo active:bg-indigo-700 transition ease-in-out duration-150"
                 onClick={this.handleSubmit.bind(this)}
@@ -287,8 +289,8 @@ export default class SegmentItemButton extends Component {
           </div>
         }
 
-        <ContentMatch ref={this.blockStyleRef}>
-          <div className="mt-2 p-2 mt-2 p-2 h-32 overflow-scroll">
+        <ContentMatch>
+          <div ref={this.blockStyleRef} className="mt-2 p-2 mt-2 p-2 h-32 overflow-scroll">
             {relative.map((o, i) => {
               return (
                 <div>
@@ -308,8 +310,8 @@ export default class SegmentItemButton extends Component {
                     </span>
                   </label>
 
-                  {this.state.checkedValue &&
-                    this.state.checkedValue === o.value && (
+                  {this.state.selectedOption &&
+                    this.state.selectedOption === o.value && (
                       <div>
                         <input
                           type="text"
@@ -383,8 +385,8 @@ export default class SegmentItemButton extends Component {
           </h2>
         </div>
 
-        <ContentMatch ref={this.blockStyleRef}>
-          <div className="mt-2 p-2 mt-2 p-2 h-32 overflow-scroll">
+        <ContentMatch>
+          <div ref={this.blockStyleRef} className="mt-2 p-2 mt-2 p-2 h-32 overflow-scroll">
             {relative.map((o, i) => {
               return (
                 <div>
@@ -404,18 +406,18 @@ export default class SegmentItemButton extends Component {
 
                   {this.state.selectedOption &&
                     this.state.selectedOption === o.value && (
-                      <div>
+                      <div className="mb-3 ">
                         <input
-                          type="text"
-                          defaultValue={parsedNum}
+                          type="number"
+                          defaultValue={isNaN(parsedNum) ? null : parsedNum }
                           ref={(input) => (this.relative_input = input)}
                           className={
-                            "mb-3 p-1 border max-w-xs rounded-md shadow-sm form-input block w-full transition duration-150 ease-in-out sm:text-sm sm:leading-5"
+                            "p-1 border max-w-xs rounded-md shadow-sm form-input block w-full transition duration-150 ease-in-out sm:text-sm sm:leading-5"
                           }
                           label={"value"}
                           margin="normal"
                         />
-                        <span className="mt-2 text-sm text-gray-500">
+                        <span className="mt-1 text-sm leading-5 text-gray-500">
                           days ago
                         </span>
                       </div>
@@ -503,7 +505,7 @@ export default class SegmentItemButton extends Component {
                     <div>
                       <input
                         type="text"
-                        defaultValue={parsedNum}
+                        defaultValue={parsedNum || 0}
                         ref={(input) => (this.relative_input = input)}
                         className={
                           "mb-3 p-1 border max-w-xs rounded-md shadow-sm form-input block w-full transition duration-150 ease-in-out sm:text-sm sm:leading-5"
@@ -566,8 +568,8 @@ export default class SegmentItemButton extends Component {
           </h2>
         </div>
 
-        <ContentMatch ref={this.blockStyleRef}>
-          <div className="mt-2 p-2 mt-2 p-2 h-32 overflow-scroll">
+        <ContentMatch>
+          <div ref={this.blockStyleRef} className="mt-2 p-2 mt-2 p-2 h-32 overflow-scroll">
             {relative.map(
               (o, i) => {
                 return (
@@ -650,7 +652,6 @@ export default class SegmentItemButton extends Component {
     });
   }
 
-  
   renderMenu = () => {
     //if(!this.btn_ref)
     //  return

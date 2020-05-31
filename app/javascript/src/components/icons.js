@@ -563,13 +563,21 @@ export function SaveIcon (props) {
     <BaseIcon
       {...props}
       fill="currentColor"
-      focusable="false"
-      viewBox="0 0 24 24"
-      aria-hidden="true"
-      role="presentation"
-      variant="small"
+      viewBox="0 0 22 22"
     >
       <path d="M17 3H5c-1.11 0-2 .9-2 2v14c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V7l-4-4zm-5 16c-1.66 0-3-1.34-3-3s1.34-3 3-3 3 1.34 3 3-1.34 3-3 3zm3-10H5V5h10v4z"></path>
+    </BaseIcon>
+  )
+}
+
+export function DeleteIcon (props) {
+  return (
+    <BaseIcon {...props} fill="currentColor" viewBox="0 0 20 20">
+      <path
+        fillRule="evenodd"
+        d="M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 000 2v10a2 2 0 002 2h8a2 2 0 002-2V6a1 1 0 100-2h-3.382l-.724-1.447A1 1 0 0011 2H9zM7 8a1 1 0 012 0v6a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v6a1 1 0 102 0V8a1 1 0 00-1-1z"
+        clipRule="evenodd"
+      ></path>
     </BaseIcon>
   )
 }
@@ -772,18 +780,6 @@ export function SendkkkIcon (props) {
     >
       <path fill="none" d="M0 0h24v24H0V0z"></path>
       <path d="M3.4 20.4l17.45-7.48c.81-.35.81-1.49 0-1.84L3.4 3.6c-.66-.29-1.39.2-1.39.91L2 9.12c0 .5.37.93.87.99L17 12 2.87 13.88c-.5.07-.87.5-.87 1l.01 4.61c0 .71.73 1.2 1.39.91z"></path>
-    </BaseIcon>
-  )
-}
-
-export function DeleteIcon (props) {
-  return (
-    <BaseIcon {...props} fill="currentColor" viewBox="0 0 20 20">
-      <path
-        fillRule="evenodd"
-        d="M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 000 2v10a2 2 0 002 2h8a2 2 0 002-2V6a1 1 0 100-2h-3.382l-.724-1.447A1 1 0 0011 2H9zM7 8a1 1 0 012 0v6a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v6a1 1 0 102 0V8a1 1 0 00-1-1z"
-        clipRule="evenodd"
-      ></path>
     </BaseIcon>
   )
 }
