@@ -11,9 +11,6 @@ import DraftRenderer from './textEditor/draftRenderer'
 import DanteContainer from './textEditor/editorStyles'
 import Tour from './UserTour'
 import TourManager from './tourManager'
-
-//import gravatar from "./shared/gravatar"
-import { soundManager } from 'soundmanager2'
 import {toCamelCase} from './shared/caseConverter'
 import UrlPattern from 'url-pattern'
 import { withTranslation } from 'react-i18next';
@@ -183,6 +180,7 @@ class Messenger extends Component {
       } 
     });
 
+    this.pling = new Audio(`${this.props.domain}/sounds/pling.mp3`)
   }
 
   componentDidMount(){
@@ -315,16 +313,8 @@ class Messenger extends Component {
   }
 
   playSound = () => {
-    soundManager.createSound({
-      id: 'mySound',
-      url: `${this.props.domain}/sounds/pling.mp3`,
-      autoLoad: true,
-      autoPlay: false,
-      //onload: function () {
-      //  alert('The sound ' + this.id + ' loaded!');
-      //},
-      volume: 50
-    }).play()
+    this.pling.volume = 0.4
+    this.pling.play()
   }
 
   updateRtcEvents = (data)=>{

@@ -14,7 +14,8 @@ import {
 } from '../graphql/mutations'
 
 import { camelCase } from 'lodash'
-import { soundManager } from 'soundmanager2'
+
+const pling = new Audio('/sounds/pling.mp3')
 
 export const camelizeKeys = (obj) => {
   if (Array.isArray(obj)) {
@@ -323,18 +324,8 @@ function dispatchUpdateConversations (data) {
 }
 
 export function playSound () {
-  soundManager
-    .createSound({
-      id: 'mySound',
-      url: '/sounds/pling.mp3',
-      autoLoad: true,
-      autoPlay: false,
-      // onload: function () {
-      //  alert('The sound ' + this.id + ' loaded!');
-      // },
-      volume: 50
-    })
-    .play()
+  pling.volume = 0.4
+  pling.play()
 }
 
 const initialState = {}
