@@ -103,7 +103,7 @@ export class SaveSegmentModal extends Component {
           <Tooltip placement="bottom" overlay={"Delete Segment"}>
             <ButtonIndigo
               isLoading={false}
-              variant={"clean"}
+              variant={"icon"}
               arial-label={"Delete segment"}
               appearance={"link danger"}
               onClick={this.deleteAction.bind(this)}
