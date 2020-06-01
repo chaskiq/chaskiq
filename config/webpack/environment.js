@@ -14,6 +14,12 @@ environment.config.merge({
   }
 })
 
+// https://github.com/jmblog/how-to-optimize-momentjs-with-webpack
+environment.plugins.append(
+  'ContextReplacementPlugin',
+  new webpack.ContextReplacementPlugin(/moment[/\\]locale$/, /en|es/)
+)
+
 // run this with
 if (process.env.ANALIZE_BUNDLE === 'true' &&
   process.env.NODE_ENV === 'production') {

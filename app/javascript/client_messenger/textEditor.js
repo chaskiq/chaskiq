@@ -1,7 +1,7 @@
 
 import React, { Component } from 'react';
 import styled from "@emotion/styled"
-import { Picker } from 'emoji-mart'
+import { Picker } from 'mr-emoji'
 import {EmojiBlock} from "./styles/emojimart"
 
 //import EmojiPicker from 'emoji-picker-react';
@@ -326,9 +326,9 @@ export default class UnicornEditor extends Component {
     this.setState({ giphyEnabled: !this.state.giphyEnabled })
   }
 
-  handleEmojiInsert = (e)=>{
+  handleEmojiInsert = (emoji, e)=>{
     this.toggleEmoji()
-    this.insertAtCursor(e.native)
+    this.insertAtCursor(emoji.native)
   }
 
   handleUpload = (ev)=>{
@@ -379,11 +379,11 @@ export default class UnicornEditor extends Component {
           { 
             this.state.emojiEnabled && 
               <EmojiBlock>
-                <Picker set='emojione'
+                <Picker set='apple'
                   emojiSize={20}
                   emoji='' 
                   title="hey"
-                  onSelect={this.handleEmojiInsert} />
+                  onClick={this.handleEmojiInsert} />
               </EmojiBlock> 
           }
 
