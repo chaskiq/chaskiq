@@ -11,6 +11,7 @@ import { APPS } from '../graphql/queries'
 import LoadingView from '../components/loadingView'
 
 import { connect } from 'react-redux'
+import { clearApp } from '../actions/app'
 import { setCurrentSection } from '../actions/navigation'
 import logo from '../images/favicon.png'
 const Container = styled.div`
@@ -27,6 +28,7 @@ function App ({ dispatch, loading }) {
 
   React.useEffect(() => {
     dispatch(setCurrentSection(null))
+    dispatch(clearApp())
     graphql(
       APPS,
       {},

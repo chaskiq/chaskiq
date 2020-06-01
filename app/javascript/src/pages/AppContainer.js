@@ -33,7 +33,7 @@ import { setApp } from '../actions/app'
 
 import { updateAppUserPresence } from '../actions/app_users'
 import { getAppUser } from '../actions/app_user'
-import { updateRtcEvents} from '../actions/rtc'
+import { updateRtcEvents } from '../actions/rtc'
 
 import {
 
@@ -59,9 +59,9 @@ function App ({
   app_user,
   loading
 }) {
+
   React.useEffect(() => {
     dispatch(getCurrentUser())
-
     fetchApp(() => {
       eventsSubscriber(match.params.appId)
     })
@@ -260,7 +260,6 @@ function App ({
               <Route path={`${match.url}/conversations`}>
                 <Conversations events={CableApp.events} />
               </Route>
-              
 
               <Route path={`${match.url}/oauth_applications`}>
                 <Api />

@@ -575,47 +575,49 @@ class AppPackageBlock extends Component {
     const {t} = this.props
     const key = `${item.type}-${index}`
     switch(item.element){
-    case "separator":
-      return <hr key={key}/>
-    case "input":
-      return <div className={"form-group"} key={key}>
-              <label>{t("enter_your", {field: item.name })}</label>
-              <input 
-                disabled={isDisabled}
-                type={item.type} 
-                name={item.name}
-                placeholder={t("enter_your", {field: item.name })}
-                //onKeyDown={(e)=>{ e.keyCode === 13 ? 
-                //  this.handleStepControlClick(item) : null
-                //}}
-              />
-              <button disabled={isDisabled}
-                      key={key} 
-                      style={{alignSelf: 'flex-end'}} 
-                      type={"submit"}>
-                {t("submit")}
-              </button>
-             </div>
-
-    case "submit":
-      return <button disabled={isDisabled}
-                     key={key} 
-                     style={{alignSelf: 'flex-end'}} 
-                     type={"submit"}>
-          {t("submit")}
-        </button>
-    case "button":
-      return <div>
-                <button 
-                disabled={isDisabled}
-                onClick={()=> this.handleStepControlClick(item)}
-                key={key} 
-                type={"button"}>
-                {item.label}
+      case "separator":
+        return <hr key={key}/>
+      case "input":
+        const isEmailType = item.name === "email" ? "email" : null
+        return <div className={"form-group"} key={key}>
+                <label>{t("enter_your", {field: item.name })}</label>
+                <input 
+                  disabled={isDisabled}
+                  type={isEmailType || item.type} 
+                  name={item.name}
+                  required
+                  placeholder={t("enter_your", {field: item.name })}
+                  //onKeyDown={(e)=>{ e.keyCode === 13 ? 
+                  //  this.handleStepControlClick(item) : null
+                  //}}
+                />
+                <button disabled={isDisabled}
+                        key={key} 
+                        style={{alignSelf: 'flex-end'}} 
+                        type={"submit"}>
+                  {t("submit")}
                 </button>
               </div>
-    default:
-      return null
+
+      case "submit":
+        return <button disabled={isDisabled}
+                       key={key} 
+                       style={{alignSelf: 'flex-end'}} 
+                       type={"submit"}>
+            {t("submit")}
+          </button>
+      case "button":
+        return <div>
+                  <button 
+                    disabled={isDisabled}
+                    onClick={()=> this.handleStepControlClick(item)}
+                    key={key} 
+                    type={"button"}>
+                  {item.label}
+                  </button>
+                </div>
+      default:
+        return null
     }
   }
 
