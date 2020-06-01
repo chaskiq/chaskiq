@@ -7739,6 +7739,11 @@ move-concurrently@^1.0.1:
     rimraf "^2.5.4"
     run-queue "^1.0.3"
 
+mr-emoji@^1.1.4:
+  version "1.1.4"
+  resolved "https://registry.yarnpkg.com/mr-emoji/-/mr-emoji-1.1.4.tgz#adba0af0a034754eb18d89189ed5d5e9862a902b"
+  integrity sha512-TjzmTVvV6Q5Ys07IyY0AdJ5I97A7n/rePbVIgLfYgW5Hgb1Pc95mJIzYjG0xyLqoptm+ewLhVIW5S56sHIczBQ==
+
 ms@2.0.0:
   version "2.0.0"
   resolved "https://registry.yarnpkg.com/ms/-/ms-2.0.0.tgz#5608aeadfc00be6c2901df5f9861788de0d597c8"
@@ -11504,11 +11509,6 @@ sort-keys@^1.0.0:
   integrity sha1-RBttTTRnmPG05J6JIK37oOVD+a0=
   dependencies:
     is-plain-obj "^1.0.0"
-
-soundmanager2@^2.97.20170602:
-  version "2.97.20170602"
-  resolved "https://registry.yarnpkg.com/soundmanager2/-/soundmanager2-2.97.20170602.tgz#fe3bc731bfc4d54c1364e71980263e6816981879"
-  integrity sha512-2ee7ES9SJ++WkD7PGHMeT4QUuJr7uC3wacD6RoCDlKjdSp9lpEOaKm3lKWKld119DLILjS2l9U6xpXJN6U0KPQ==
 
 source-list-map@^2.0.0:
   version "2.0.0"
