@@ -160,6 +160,7 @@ function Conversation ({
   }
 
   const handleScroll = (e) => {
+    if (conversation.loading) return
     const element = e.target
     if (element.scrollTop === 0) {
       // on top
@@ -669,7 +670,10 @@ function Conversation ({
             triggerButton={(cb) => {
               return (
                 <Tooltip placement="bottom" overlay={'assign agent'}>
-                  <div onClick={cb} className="flex-shrink-0 h-10 w-10">
+                  <div onClick={cb}
+                    className="flex-shrink-0 h-10 w-10 mr-1 rounded-full bg-white hover:bg-gray-100
+                    text-gray-800 font-semibold border border-gray-400
+                    rounded shadow">
                     {conversation.assignee && (
                       <img
                         className="h-10 w-10 rounded-full"
