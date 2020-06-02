@@ -145,11 +145,7 @@ export function RtcView (props) {
 
   function getUserMedia(cb) {
     return new Promise((resolve, reject) => {
-      navigator.getUserMedia = navigator.getUserMedia =
-        navigator.getUserMedia ||
-        navigator.webkitGetUserMedia ||
-        navigator.mozGetUserMedia;
-      const op = {
+      /*const op = {
         video: {
           enabled: props.rtcVideo,
           width: { min: 160, ideal: 640, max: 1280 },
@@ -166,20 +162,26 @@ export function RtcView (props) {
           },
           volume: 0.9
         },
-      };
-      navigator.getUserMedia(
-        op,
-        stream => {
-          setLocalStream(stream)
+      };*/
+
+      const op = {
+        audio: true,
+        video: true
+      }
+      
+      navigator.mediaDevices.getUserMedia(op).then(gotMedia).catch((err) => {
+        console.log("error on RTC", err)
+      })
+
+      function gotMedia(stream){
+        setLocalStream(stream)
           setStreamUrl(stream)
           localVideo.current.srcObject = stream;
           localVideo.current.muted = true
           localVideo.current.setAttribute('muted', 'muted')
           localVideo.current.volume = 0;
           resolve();
-        },
-        () => {  }
-      );
+      }
     });
   }
 
