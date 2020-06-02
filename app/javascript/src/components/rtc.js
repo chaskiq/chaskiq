@@ -170,7 +170,7 @@ export function RtcView (props) {
       }
       
       navigator.mediaDevices.getUserMedia(op).then(gotMedia).catch((err) => {
-        console.log("oeoeoe", err)
+        console.log("error on RTC", err)
       })
 
       function gotMedia(stream){
