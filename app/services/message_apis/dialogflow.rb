@@ -1,67 +1,77 @@
-# frozen_string_literal: true
-
-# plan
-
-# give bot agents super powers
-# assign one dialog flow integration for agents
-# tbd
 
 require 'google/cloud/dialogflow'
 
 module MessageApis
   class Dialogflow
-    attr_accessor :key, :secret
 
     def initialize(config:)
       credentials = JSON.parse(config['credentials']) 
       @project_id = config["project_id"]
-      @conn = Google::Cloud::Dialogflow::Sessions.new(
-        credentials: credentials
+      @conn = Google::Cloud::Dialogflow::sessions do |config|
+        config.credentials = credentials
+      end
+    end
+
+    def create_hook_from_params(params, package)
+
+    end
+
+    def process_event(params, package)
+
+    end
+
+    def notify_message(conversation:, part:, channel:)
+      return if conversation.assignee.present? || part.authorable_type != "AppUser"
+
+      part.read!
+
+      message = part.message.as_json
+
+      blocks = JSON.parse(
+        message["serialized_content"]
+      )["blocks"]
+
+      text = blocks.map{|o| 
+        o["text"]
+      }.join("\r\n")
+
+      response_text = get_intent_for(text: text, session_id: conversation.id)
+
+      return if response_text.empty?
+
+      conversation.add_message(
+        from: conversation.app.agents.first,
+        message: {
+          html_content: response_text
+        },
+        provider: 'dialogflow'
       )
     end
 
-    def send_text(text:, session_id:, lang: 'en-US')      
-      @session = @conn.class.session_path @project_id, session_id
-      # texts = "I need a bot for android"
-      get_intent_for(text, lang)
-    end
-
-    def get_intent_for(text, lang)
+    def get_intent_for(text:, session_id:, lang: 'en-US')
       query_input = {
         text: {
           text: text,
           language_code: lang
         }
       }
-      response = @conn.detect_intent @session, query_input
+
+      request = Google::Cloud::Dialogflow::V2::DetectIntentRequest.new(
+        session: "projects/#{@project_id}/agent/sessions/#{session_id}",
+        query_input: query_input
+      )
+
+      response = @conn.detect_intent request
+
       query_result = response.query_result
 
       puts "Query text:        #{query_result.query_text}"
       puts "Intent detected:   #{query_result.intent.display_name}"
       puts "Intent confidence: #{query_result.intent_detection_confidence}"
-      puts "Fulfillment text:  #{query_result.fulfillment_text}\n"
-      puts '-------------------'
-      if query_result.intent_detection_confidence > 0.7
-        query_result.fulfillment_text
-      end
-    end
+      puts "Fulfillment text:  #{query_result.fulfillment_text}"
+      puts "Required params present:  #{query_result.all_required_params_present}" 
 
-    def self.tester(text: 'I need a bot for android')
-      key_file   = Rails.application.credentials.integrations.dig(:dialogflow, :key_file)
-      project_id = Rails.application.credentials.integrations.dig(:dialogflow, :project_id)
-
-      json_credentials = JSON.parse(open(key_file).readlines.join)
-      # project_id = "faq-fhmkon"
-
-      a = MessageApis::Dialogflow.new(
-        credentials: json_credentials,
-        project_id: project_id
-      )
-
-      a.send_text(
-        text: text,
-        session_id: '1234'
-      )
+      query_result.fulfillment_text
     end
   end
 end
