@@ -68,8 +68,7 @@ module MessageApis
       puts "Query text:        #{query_result.query_text}"
       puts "Intent detected:   #{query_result.intent.display_name}"
       puts "Intent confidence: #{query_result.intent_detection_confidence}"
-      puts "Fulfillment text:  #{query_result.fulfillment_text}"
-      puts "Required params present:  #{query_result.all_required_params_present}" 
+      puts "Fulfillment text:  #{query_result.fulfillment_text}" 
 
       query_result.fulfillment_text
     end
