@@ -12,14 +12,6 @@ module MessageApis
       end
     end
 
-    def create_hook_from_params(params, package)
-
-    end
-
-    def process_event(params, package)
-
-    end
-
     def notify_message(conversation:, part:, channel:)
       return if conversation.assignee.present? || part.authorable_type != "AppUser"
 
@@ -35,7 +27,7 @@ module MessageApis
         o["text"]
       }.join("\r\n")
 
-      response_text = get_intent_for(text: text, session_id: conversation.id)
+      response_text = get_response_for(text: text, session_id: conversation.id)
 
       return if response_text.empty?
 
@@ -48,7 +40,7 @@ module MessageApis
       )
     end
 
-    def get_intent_for(text:, session_id:, lang: 'en-US')
+    def get_response_for(text:, session_id:, lang: 'en-US')
       query_input = {
         text: {
           text: text,
@@ -72,5 +64,13 @@ module MessageApis
 
       query_result.fulfillment_text
     end
+  end
+
+  def create_hook_from_params(params, package)
+
+  end
+
+  def process_event(params, package)
+
   end
 end
