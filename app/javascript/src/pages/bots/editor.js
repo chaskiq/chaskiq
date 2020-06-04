@@ -43,6 +43,18 @@ const ItemManagerContainer = styled.div`
   margin-right: 19px;
 `;
 
+const ItemsContainer = styled.div`
+  box-shadow: 0 24px 0 0 #fff, 0 -24px 0 0 #fff, 16px 0 32px -12px rgba(0,0,0,.1), -16px 0 32px -12px rgba(0,0,0,.1);
+`
+
+const PathActionsContainer = styled.div`
+align-items: flex-end;
+border-radius: 0 0 8px 8px;
+box-sizing: border-box;
+box-shadow: 0 16px 32px -12px rgba(0,0,0,.1), 0 -24px 0 0 #fff, 16px 0 32px -12px rgba(0,0,0,.1), -16px 0 32px -12px rgba(0,0,0,.1);
+padding: 20px 20px 24px;
+`
+
 const ItemButtons = styled.div`
   align-self: center;
   /* width: 203px; */
@@ -51,11 +63,6 @@ const ItemButtons = styled.div`
   flex-grow: 1;
 
   justify-content: ${(props) => (props.first ? "flex-start" : "flex-end")};
-`;
-
-const TextEditorConainer = styled.div`
-  border: 1px solid #ccc;
-  padding: 1em;
 `;
 
 const ControlWrapper = styled.div`
@@ -75,11 +82,6 @@ function create_UUID() {
   });
   return uuid;
 }
-
-const configFields = [
-  { name: "name", type: "string", grid: { xs: 12, sm: 12 } },
-  { name: "description", type: "text", grid: { xs: 12, sm: 12 } },
-];
 
 const PathDialog = ({ open, close, isOpen, submit }) => {
   let titleRef = React.createRef();
@@ -402,9 +404,25 @@ const BotEditor = ({ match, app, dispatch, mode, actions }) => {
     });
   };
 
+  const onDragEnd = (result) => {
+    // dropped outside the list
+    if (!result.destination) {
+      return;
+    }
+
+    const newPaths = reorder(
+      paths,
+      result.source.index,
+      result.destination.index
+    );
+
+    setPaths(newPaths);
+  };
+
+
   const renderEditor = () => {
     return (
-      <div className="flex justify-between py-4">
+      <div className="flex justify-between my-4 border-1 border-gray-400 rounded-md shadow">
         {isOpen && (
           <PathDialog
             isOpen={isOpen}
@@ -414,32 +432,70 @@ const BotEditor = ({ match, app, dispatch, mode, actions }) => {
           />
         )}
 
-        <div className="w-1/4">
-          <h3 className="text-sm leading-5 font-medium text-gray-900">
+        <div className="w-1/4 bg-gray-100 flex flex-col">
+          <h3 className="text-sm leading-5 font-medium text-gray-900 my-2 text-center">
             Paths
           </h3>
-          <List component="nav" shadowless aria-label="path list">
-            {paths.map((o, i) => (
-              <PathList
-                key={`path-list-${o.id}-${i}`}
-                path={o}
-                handleSelection={handleSelection}
-              />
-            ))}
-          </List>
+
+          <DragDropContext onDragEnd={onDragEnd}>
+            <Droppable droppableId="droppablePaths">
+              {(provided, snapshot) => (
+                <div
+                  {...provided.droppableProps}
+                  ref={provided.innerRef}
+                  style={getPathStyle(snapshot.isDraggingOver)}
+                >
+                  {paths.map((item, index) => ( 
+                    <Draggable
+                      key={`path-list-${item.id}-${index}`}
+                      draggableId={item.id}
+                      index={index}
+                    >
+                      {(provided, snapshot) => (
+                        <div
+                          ref={provided.innerRef}
+                          {...provided.draggableProps}
+                          style={getItemStyle(
+                            snapshot.isDragging,
+                            provided.draggableProps.style
+                          )}
+                          className="mb-2 mx-2 items-center"
+                        >
+                          
+                          <strong className="mr-2">{index}.</strong>
+
+                          <PathList
+                            path={item}
+                            handleSelection={handleSelection}
+                          />
+
+                          <ItemButtons first={true} {...provided.dragHandleProps}>
+                            <DragHandle />
+                          </ItemButtons>
+                        </div>
+                      )}
+                    </Draggable>
+                  ))}
+                  {provided.placeholder}
+                </div>
+              )}
+            </Droppable>
+          </DragDropContext>
+
 
           <Button
             size="small"
             variant={"contained"}
             onClick={showPathDialog}
             color="primary"
+            className="self-center"
           >
             <PlusIcon />
             Add new path
           </Button>
         </div>
 
-        <div className="w-full p-6 shadow">
+        <div className="w-full shadow">
           <div>
             {selectedPath && (
               <Path
@@ -456,7 +512,7 @@ const BotEditor = ({ match, app, dispatch, mode, actions }) => {
               />
             )}
 
-            <div m={2}>
+            <div className="m-4">
               <Button
                 variant="contained"
                 color="primary"
@@ -506,7 +562,7 @@ function FollowActionsSelect({ app, path, updatePath }) {
   function updateData() {
     if (!path) return;
     const newPath = Object.assign({}, path, {
-      follow_actions: actions,
+      //follow_actions: actions,
       followActions: actions,
     });
     updatePath(newPath);
@@ -567,10 +623,8 @@ function FollowActionsSelect({ app, path, updatePath }) {
       default:
         return (
           <div
-            style={{ display: "flex" }}
+            className={'flex items-center mb-2'}
             key={action.key}
-            item
-            alignItems={"center"}
           >
             <p>{action.name}</p>
             <Button 
@@ -589,17 +643,6 @@ function FollowActionsSelect({ app, path, updatePath }) {
   return (
     <div>
       {renderActions()}
-
-      {/*
-        menuOptions.length > 0 &&
-          <ContextMenu
-            label={"Add Follow Action"} 
-            handleClick={handleClick} 
-            actions={actions}
-            options={menuOptions}
-          />
-        */}
-
       { 
         menuOptions.length > 0 &&
         <div className="py-4">
@@ -629,14 +672,6 @@ function FollowActionsSelect({ app, path, updatePath }) {
           </Dropdown> 
         </div>
       }
-
-
-      {/* not for uncomment
-        selectMode  ?
-        
-        :  
-        renderAddButton()
-      */}
     </div>
   );
 }
@@ -718,9 +753,9 @@ function AgentSelector({ app, updateAction, removeAction, action, index }) {
 
 const PathList = ({ path, handleSelection }) => {
   return (
-    <li className="pr-4 pb-2">
+    <li className="pr-4 pb-2 w-full w-1/3">
       <Button 
-        className="w-full py-2 px-2"
+        className="w-full py-2 px-2 bg-white border-1 shadow max-w-3xl break-all"
         onClick={(e) => handleSelection(path)}
         variant={"outlined"}>
         {path.title}
@@ -741,6 +776,9 @@ const Path = ({
   setSelectedPath,
   app,
 }) => {
+
+  const [showActions, setShowActions] = React.useState(false)
+
   const addStepMessage = (path) => {
     addSectionMessage(path);
   };
@@ -764,13 +802,19 @@ const Path = ({
       return;
     }
 
-    const newSteps = reorder(
-      path.steps,
+    let newSteps = reorder(
+      path.steps.filter((o)=> !o.controls ),
       result.source.index,
       result.destination.index
     );
 
-    const newPath = Object.assign({}, path, { steps: newSteps });
+    const controlStep = path.steps.find((o)=> o.controls ) 
+
+    if(controlStep) 
+      newSteps = newSteps.concat(controlStep)
+
+    const newPath = { ...path, steps: newSteps }
+
     updatePath(newPath);
   };
 
@@ -788,13 +832,13 @@ const Path = ({
         addStepMessage(path);
       },
     },
-    {
+    /*{
       name: "Add path chooser",
       key: "add-path-choooser",
       onClick: () => {
         addSectionControl(path);
       },
-    },
+    },*/
     {
       name: "Ask data input",
       key: "ask-data-input",
@@ -804,17 +848,58 @@ const Path = ({
     },
   ];
 
+
+  const updateControlPathSelector = (controls, step) => {
+    updateControls(controls, step);
+  };
+
+  const appendItemControl = (step) => {
+    const item = {
+      id: create_UUID(),
+      label: "example",
+      element: "button",
+      next_step_uuid: null,
+    };
+    const newControls = Object.assign({}, step.controls, {
+      schema: step.controls.schema.concat(item, step),
+      wait_for_input: true,
+    });
+    updateControls(newControls, step);
+  };
+
+  const updateControls = (newControls, step) => {
+    const newStep = Object.assign({}, step, { controls: newControls });
+
+    const newSteps = path.steps.map((o) => {
+      return o.step_uid === newStep.step_uid ? newStep : o;
+    });
+
+    const newPath = Object.assign({}, path, { steps: newSteps });
+    updatePath(newPath);
+  };
+
+
+  const findControlItemStep = ()=>(
+    path.steps.find((o)=> o.controls )
+  )
+
+  const controlStep = findControlItemStep()
+
+  const stepOptions = paths.map((o) => ({
+    value: o.steps[0] && o.steps[0].step_uid,
+    label: o.title,
+  }));
+
   return (
-    <div p={2}>
-      <div p={2}>
+    <div>
+      <div className="w-full p-6 border-b-2 border-gray-200">
         <div className="flex justify-between">
           <div className="">
             <Input
               type="text"
               value={path.title}
               onChange={handleTitleChange}
-              fullWidth={true}
-              helperText={"path title"}
+              hint={"path title"}
             />
           </div>
 
@@ -831,73 +916,173 @@ const Path = ({
         </div>
       </div>
 
-      <SortableSteps
-        steps={path.steps}
-        path={path}
-        paths={paths}
-        addSectionMessage={addSectionMessage}
-        addSectionControl={addSectionControl}
-        updatePath={updatePath}
-        deleteItem={deleteItem}
-        onDragEnd={onDragEnd}
-      />
+      <div className="p-4 flex flex-col justify-center items-center">
 
-      {/*<hr/>*/}
+        <ItemsContainer className="p-4 w-3/4 mt-8">
+          <SortableSteps
+            steps={path.steps}
+            path={path}
+            paths={paths}
+            addSectionMessage={addSectionMessage}
+            addSectionControl={addSectionControl}
+            updatePath={updatePath}
+            deleteItem={deleteItem}
+            onDragEnd={onDragEnd}
 
-      <div container spacing={2} justify={"flex-start"}>
-        {/*<ListMenu 
-            options={options}
-            button={
-              <div color="primary" size={"small"}
-                aria-label="add">
-                <PlusIcon />
-              </div>
-            }
-          />*/}
+          />
 
-        <Dropdown
-          isOpen={false}
-          labelButton={"add"}
-          triggerButton={(cb) => (
-            <Button
-              onClick={cb}
-              color="primary"
-              size={"small"}
-              variant="outlined"
-              aria-label="add"
+          <div className="flex justify-start">
+
+            <Dropdown
+              isOpen={false}
+              labelButton={"add"}
+              triggerButton={(cb) => (
+                <Button
+                  onClick={cb}
+                  color="primary"
+                  size={"small"}
+                  variant="outlined"
+                  aria-label="add"
+                >
+                  <PlusIcon />
+                  Add new conversation part
+                </Button>
+              )}
             >
-              <PlusIcon />
-              Add new conversation part
-            </Button>
-          )}
-        >
-          <List>
-            {options.map((o) => (
-              <ListItem key={o.key} onClick={o.onClick}>
-                {o.name}
-              </ListItem>
-            ))}
-          </List>
-        </Dropdown>
+              <List>
+                {options.map((o) => (
+                  <ListItem key={o.key} onClick={o.onClick}>
+                    {o.name}
+                  </ListItem>
+                ))}
+              </List>
+            </Dropdown>
+          </div>
+
+        </ItemsContainer>
+
+        {/*<hr/>*/}
+
       </div>
 
-      <hr variant="fullWidth" style={{ marginTop: "3em" }} />
+      <hr  className="my-4 w-full border-4" />
 
-      <div container style={{ marginTop: "2em" }}>
-        <div item alignContent={"flex-start"}>
-          <p className="text-lg leading-6 font-medium text-gray-900 py-4">
-            Follow actions
-          </p>
+      <div className="p-4 flex flex-col justify-center items-center">
+        
+        <div className="flex">
+          {
+            !controlStep && !showActions &&
+              <div class="flex items-center mr-4">
+                Continue bot with 
+                <Button variant="outlined" 
+                  className="ml-2"
+                  onClick={()=> addSectionControl(path)}>
+                  reply button
+                </Button>
+              </div>
+          }
 
-          <FollowActionsSelect app={app} updatePath={updatePath} path={path} />
+          {
+            !controlStep && !showActions && (!path.followActions || path.followActions.length === 0) &&
+              <div class="flex items-center">
+                End bot with
+                <Button variant="outlined" 
+                  className="ml-2"
+                  onClick={()=> setShowActions(true)}>
+                  follow actions
+                </Button>
+              </div>
+          }
 
-          <p className="max-w-xl text-sm leading-5 text-gray-500 mb-4">
-            Hint: Follow actions will be triggered on paths that ends with
-            message bubbles. Paths that ends with path chooser will not trigger
-            follow actions.
-          </p>
         </div>
+
+        {controlStep && 
+          <PathActionsContainer className="w-3/4 mt-8">
+
+            <p className="text-lg leading-6 font-medium text-gray-900 py-4">
+              Continue bot with reply button
+            </p> 
+
+            <ItemButtons className="self-end">
+              <Button
+                variant={"icon"}
+                onClick={() => deleteItem(path, controlStep)}
+              >
+                <DeleteForever />
+              </Button>
+            </ItemButtons>
+
+            <div className="flex flex-col">
+              <div className="w-full">
+                <ControlWrapper>
+                  {controlStep.controls && (
+                    <AppPackageBlocks
+                      controls={controlStep.controls}
+                      path={path}
+                      step={controlStep}
+                      options={stepOptions}
+                      update={(opts) =>
+                        updateControlPathSelector(opts, controlStep)
+                      }
+                    />
+                  )}
+                </ControlWrapper>
+
+              </div>
+
+              {controlStep.controls &&
+                controlStep.controls.type === "ask_option" && (
+                  <div
+                    className="w-full"
+                    onClick={() => appendItemControl(controlStep)}
+                  >
+                    <Button
+                      color={"primary"}
+                      variant={"outlined"}
+                      size="small"
+                    >
+                      + add data option
+                    </Button>
+                  </div>
+                )}
+            </div>
+
+          </PathActionsContainer> 
+        }
+
+        {
+          (showActions || (!controlStep && path.followActions && path.followActions.length > 0)) &&
+          <div className="flex align-start flex-col w-3/4">
+
+            <p className="text-lg leading-6 font-medium text-gray-900 py-4">
+              End bot with follow actions
+            </p>
+
+            <div className="self-end">
+              <Button
+                variant="icon"
+                color="secondary"
+                onClick={() => {
+                  updatePath({...path, followActions: [] })
+                  setShowActions(false)
+                }}
+              >
+                <DeleteForever />
+              </Button>
+            </div>
+
+            <FollowActionsSelect app={app} updatePath={updatePath} path={path} />
+
+            {/*<p className="max-w-xl text-sm leading-5 text-gray-500 mb-4">
+              Hint: Follow actions will be triggered on paths that ends with
+              message bubbles. Paths that ends with path chooser will not trigger
+              follow actions.
+            </p>*/}
+          </div>
+        }
+
       </div>
+      
     </div>
   );
 };
@@ -929,7 +1114,7 @@ const PathEditor = ({ step, message, path, updatePath }) => {
   };
 
   return (
-    <div className="shadow border rounded p-6 relative">
+    <div className="shadow border rounded p-6 relative bg-gray-100 max-w-sm">
       <TextEditor
         uploadHandler={uploadHandler}
         serializedContent={message.serialized_content}
@@ -1021,12 +1206,11 @@ const AppPackageBlocks = ({ options, controls, path, step, update }) => {
         );
       case "button":
         return (
-          <div className="flex justify-between items-center">
+          <div className="flex justify-between items-center relative">
             <div className="w-full">
               <Input
                 value={item.label}
                 type={"text"}
-                fullWidth={true}
                 onChange={(e) => handleInputChange(e.target.value, item, index)}
               />
             </div>
@@ -1076,8 +1260,8 @@ const grid = 8;
 const getItemStyle = (isDragging, draggableStyle) => ({
   // some basic styles to make the items look a bit nicer
   userSelect: "none",
-  padding: grid * 2,
-  margin: `0 0 ${grid}px 0`,
+  //padding: grid * 2,
+  //margin: `0 0 ${grid}px 0`,
   display: "flex",
   justifyContent: "space-evenly",
   // change background colour if dragging
@@ -1092,6 +1276,12 @@ const getListStyle = (isDraggingOver) => ({
   //width: 250
 });
 
+const getPathStyle = (isDraggingOver) => ({
+  background: isDraggingOver ? "lightblue" : "transparent",
+  padding: 2,
+  //width: 250
+});
+
 class SortableSteps extends Component {
   constructor(props) {
     super(props);
@@ -1101,45 +1291,10 @@ class SortableSteps extends Component {
     this.props.onDragEnd(this.props.path, result);
   };
 
-  updateControlPathSelector = (controls, step) => {
-    this.updateControls(controls, step);
-  };
-
-  appendItemControl = (step) => {
-    const item = {
-      id: create_UUID(),
-      label: "example",
-      element: "button",
-      next_step_uuid: null,
-    };
-    const newControls = Object.assign({}, step.controls, {
-      schema: step.controls.schema.concat(item, step),
-      wait_for_input: true,
-    });
-
-    this.updateControls(newControls, step);
-  };
-
-  updateControls = (newControls, step) => {
-    const { path, updatePath } = this.props;
-
-    const newStep = Object.assign({}, step, { controls: newControls });
-
-    const newSteps = path.steps.map((o) => {
-      return o.step_uid === newStep.step_uid ? newStep : o;
-    });
-
-    const newPath = Object.assign({}, path, { steps: newSteps });
-
-    updatePath(newPath);
-  };
-
   render() {
     const { steps, path, paths, deleteItem, updatePath } = this.props;
-    const options = paths.map((o) => ({
-      value: o.steps[0] && o.steps[0].step_uid,
-      label: o.title,
-    }));
+
+    const stepsWithoutcontrols = steps.filter((o)=> !o.controls )
 
     return (
       <DragDropContext onDragEnd={this.onDragEnd}>
@@ -1150,7 +1305,7 @@ class SortableSteps extends Component {
               ref={provided.innerRef}
               style={getListStyle(snapshot.isDraggingOver)}
             >
-              {steps.map((item, index) => (
+              {stepsWithoutcontrols.map((item, index) => (
                 <Draggable
                   key={item.step_uid}
                   draggableId={item.step_uid}
@@ -1160,6 +1315,7 @@ class SortableSteps extends Component {
                     <div
                       ref={provided.innerRef}
                       {...provided.draggableProps}
+                      className="mb-4"
                       style={getItemStyle(
                         snapshot.isDragging,
                         provided.draggableProps.style
@@ -1172,6 +1328,7 @@ class SortableSteps extends Component {
                       <ItemManagerContainer>
                         {item.messages.map((message) => (
                           <PathEditor
+                            key={`path-editor-${path.id}`}
                             path={path}
                             step={item}
                             message={message}
@@ -1179,40 +1336,6 @@ class SortableSteps extends Component {
                           />
                         ))}
 
-                        <div container>
-                          <div item xs={12}>
-                            <ControlWrapper>
-                              {item.controls && (
-                                <AppPackageBlocks
-                                  controls={item.controls}
-                                  path={path}
-                                  step={item}
-                                  options={options}
-                                  update={(opts) =>
-                                    this.updateControlPathSelector(opts, item)
-                                  }
-                                />
-                              )}
-                            </ControlWrapper>
-                          </div>
-
-                          {item.controls &&
-                            item.controls.type === "ask_option" && (
-                              <div
-                                item
-                                xs={12}
-                                onClick={() => this.appendItemControl(item)}
-                              >
-                                <Button
-                                  color={"primary"}
-                                  variant={"outlined"}
-                                  size="small"
-                                >
-                                  + add data option
-                                </Button>
-                              </div>
-                            )}
-                        </div>
                       </ItemManagerContainer>
 
                       <ItemButtons>
@@ -1253,13 +1376,6 @@ const PathSelect = ({ option, options, update }) => {
       fullWidth={true}
       options={options}
     >
-      {/*options.map((option)=> <MenuItem 
-                                key={`path-select-${option.value}`}
-                                value={option.value}>
-                                {option.label}
-                              </MenuItem> 
-                    )
-      */}
     </Input>
   );
 };
@@ -1287,12 +1403,6 @@ const DataInputSelect = ({ item, options, update, controls, path, step }) => {
         //helperText={"oeoeoe"}
         options={options}
       >
-        {/*options.map((option)=> <MenuItem 
-                                value={option.value}>
-                                {option.label}
-                              </MenuItem> 
-                    )
-      */}
       </Input>
     </div>
   );
