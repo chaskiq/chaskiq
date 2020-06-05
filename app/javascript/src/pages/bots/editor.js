@@ -810,12 +810,12 @@ const Path = ({
     }
 
     let newSteps = reorder(
-      path.steps.filter((o)=> !o.controls ),
+      path.steps.filter((o)=> !o.controls || o.controls.type !== "ask_option" ),
       result.source.index,
       result.destination.index
     );
 
-    const controlStep = path.steps.find((o)=> o.controls ) 
+    const controlStep = path.steps.find((o)=> o.controls && o.controls.type === "ask_option" ) 
 
     if(controlStep) 
       newSteps = newSteps.concat(controlStep)
@@ -887,7 +887,7 @@ const Path = ({
 
 
   const findControlItemStep = ()=>(
-    path.steps.find((o)=> o.controls )
+    path.steps.find((o)=> o.controls && o.controls.type === "ask_option" )
   )
 
   const controlStep = findControlItemStep()
@@ -935,6 +935,7 @@ const Path = ({
             updatePath={updatePath}
             deleteItem={deleteItem}
             onDragEnd={onDragEnd}
+            updateControlPathSelector={updateControlPathSelector}
 
           />
 
@@ -1299,9 +1300,14 @@ class SortableSteps extends Component {
   };
 
   render() {
-    const { steps, path, paths, deleteItem, updatePath } = this.props;
+    const { steps, path, paths, deleteItem, updatePath, updateControlPathSelector } = this.props;
 
-    const stepsWithoutcontrols = steps.filter((o)=> !o.controls )
+    const stepsWithoutcontrols = steps.filter((o)=> !o.controls || o.controls.type !== "ask_option" )
+
+    const stepOptions = paths.map((o) => ({
+      value: o.steps[0] && o.steps[0].step_uid,
+      label: o.title,
+    }));
 
     return (
       <DragDropContext onDragEnd={this.onDragEnd}>
@@ -1342,6 +1348,23 @@ class SortableSteps extends Component {
                             updatePath={updatePath}
                           />
                         ))}
+
+                        <div>	
+                          <ControlWrapper>	
+                            {item.controls && item.controls.type !== "ask_option" && (	
+                              <AppPackageBlocks	
+                                controls={item.controls}	
+                                path={path}	
+                                step={item}	
+                                options={stepOptions}	
+                                update={(opts) =>	
+                                  updateControlPathSelector(opts, item)	
+                                }	
+                              />	
+                            )}	
+                          </ControlWrapper>	
+                        </div>	
+
 
                       </ItemManagerContainer>
 
