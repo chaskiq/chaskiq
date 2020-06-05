@@ -169,13 +169,20 @@ const BotEditor = ({ match, app, dispatch, mode, actions }) => {
   }, []);
 
   const saveData = () => {
+
+    const snake_case_paths = paths.map((o)=> {
+      let b = Object.assign({}, o, { follow_actions: o.followActions } ) 
+      delete b['followActions']
+      return b
+     })
+
     graphql(
       UPDATE_BOT_TASK,
       {
         appKey: app.key,
         id: match.params.id,
         params: {
-          paths: paths,
+          paths: snake_case_paths,
           segments: botTask.segments,
           title: botTask.title,
           scheduling: botTask.scheduling,
@@ -971,8 +978,8 @@ const Path = ({
         
         <div className="flex">
           {
-            !controlStep && !showActions &&
-              <div class="flex items-center mr-4">
+            !controlStep && !showActions && (!path.followActions || path.followActions.length === 0) &&
+              <div className="flex items-center mr-4">
                 Continue bot with 
                 <Button variant="outlined" 
                   className="ml-2"
@@ -983,8 +990,8 @@ const Path = ({
           }
 
           {
-            !controlStep && !showActions && (!path.followActions || path.followActions.length === 0) &&
-              <div class="flex items-center">
+            !controlStep && !showActions && (!path.followActions || path.followActions.length < 1) &&
+              <div className="flex items-center">
                 End bot with
                 <Button variant="outlined" 
                   className="ml-2"
