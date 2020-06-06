@@ -1173,7 +1173,7 @@ export const UPDATE_BOT_TASK = `
 `;
 
 export const DELETE_BOT_TASK = `
-  mutation DeleteBotTask($appKey: String!, $id: Int!){
+  mutation DeleteBotTask($appKey: String!, $id: String!){
     deleteBotTask( 
       appKey: $appKey,
       id: $id
