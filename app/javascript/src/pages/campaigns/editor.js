@@ -268,7 +268,7 @@ export default class CampaignEditor extends Component {
                   }}
                   saveHandler={this.saveHandler}
                   updateState={({ status, statusButton, content }) => {
-                    console.log("get content", content);
+                    //console.log("get content", content);
                     this.saveContent(content);
                   }}
                 />
