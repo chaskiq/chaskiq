@@ -289,6 +289,12 @@ function Sidebar ({
           icon: <ApiIcon />,
           url: `/apps/${app.key}/oauth_applications`,
           active: isActivePage('oauth_applications')
+        },
+        {
+          id: 'Billing',
+          icon: <ApiIcon />,
+          url: `/apps/${app.key}/billing`,
+          active: isActivePage('billing')
         }
         // { id: 'Authentication', icon: <ShuffleIcon />, active: isActivePage("user_auto_messages")},
       ]
