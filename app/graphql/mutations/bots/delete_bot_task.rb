@@ -5,7 +5,7 @@ module Mutations
     class DeleteBotTask < Mutations::BaseMutation
       field :bot_task, Types::BotTaskType, null: false
       field :errors, Types::JsonType, null: true
-      argument :id, Integer, required: true
+      argument :id, String, required: true
       argument :app_key, String, required: true
 
       def resolve(app_key:, id:)

@@ -2,7 +2,7 @@
 
 module Types
   class BotPathType < Types::BaseObject
-    field :id, Int, null: true
+    field :id, String, null: true
     field :title, String, null: true
     field :key, String, null: true
     field :follow_actions, Types::JsonType, null: true
