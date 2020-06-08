@@ -9,12 +9,12 @@ class Campaign < Message
 
   def config_fields
     [
-      { name: 'name', type: 'string', grid: { xs: 'w-full', sm: 'w-full' } },
-      { name: 'subject', type: 'text', grid: { xs: 'w-full', sm: 'w-full' } },
+      { name: 'name', label: "Campaign's name",  hint: "This will not be shown in the email",  type: 'string', grid: { xs: 'w-full', sm: 'w-full' } },
+      { name: 'subject', label: "Email Subject", hint: "This is the email subject itself", type: 'text', grid: { xs: 'w-full', sm: 'w-full' } },
       { name: 'fromName', label: "From Name", type: 'string', grid: { xs: 'w-full', sm: 'w-1/2' } },
       { name: 'fromEmail', label: "From Email", type: 'string', grid: { xs: 'w-full', sm: 'w-1/2' } },
       { name: 'replyEmail', label: "Reply email", type: 'string', grid: { xs: 'w-full', sm: 'w-1/2' } },
-      { name: 'description', type: 'text', grid: { xs: 'w-full', sm: 'w-full' } },
+      { name: 'description', type: 'textarea', grid: { xs: 'w-full', sm: 'w-full' } },
       { name: 'timezone', type: 'timezone',
         options: ActiveSupport::TimeZone.all.map { |o| o.tzinfo.name },
         multiple: false,
@@ -27,10 +27,11 @@ class Campaign < Message
 
   def stats_fields
     [
-      { name: 'DeliverRateCount', label: 'DeliverRateCount', keys: [{ name: 'send', color: '#444' }, { name: 'open', color: '#ccc' }] },
-      { name: 'ClickRateCount', label: 'ClickRateCount', keys: [{ name: 'send', color: '#444' }, { name: 'click', color: '#ccc' }] },
+      { name: 'DeliverRateCount', label: 'DeliverRateCount', keys: [{ name: 'send', color: '#444' }, { name: 'delivery', color: '#ccc' }] },
       { name: 'BouncesRateCount', label: 'BouncesRateCount', keys: [{ name: 'send', color: '#444' }, { name: 'bounces', color: '#ccc' }] },
-      { name: 'ComplaintsRate', label: 'ComplaintsRate', keys: [{ name: 'send', color: '#444' }, { name: 'complaints', color: '#ccc' }] }
+      { name: 'DeliverRateCount', label: 'DeliverRateCount', keys: [{ name: 'delivery', color: '#444' }, { name: 'open', color: '#ccc' }] },
+      { name: 'ClickRateCount', label: 'ClickRateCount', keys: [{ name: 'open', color: '#444' }, { name: 'click', color: '#ccc' }] },
+      #{ name: 'ComplaintsRate', label: 'ComplaintsRate', keys: [{ name: 'send', color: '#444' }, { name: 'complaints', color: '#ccc' }] }
     ]
   end
 

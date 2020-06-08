@@ -233,7 +233,8 @@ class CampaignSegment extends Component {
           {this.state.jwt ? (
             <Button
               isLoading={false}
-              appearance={"link"}
+              variant={"icon"}
+              size={"small"}
               onClick={this.handleSave}
             >
               <i className="fas fa-chart-pie"></i> Save Segment
@@ -791,6 +792,7 @@ class CampaignContainer extends Component {
         <Button
           variant={"contained"}
           color={"primary"}
+          size={"small"}
           onClick={this.createNewCampaign}
         >
           create new campaign
@@ -913,6 +915,27 @@ class CampaignContainer extends Component {
                             );
                           },
                         },
+                        {field: 'fromName', title: 'from name', hidden: true},
+                        {field: 'fromEmail', title: 'from email', hidden: true},
+                        {field: 'replyEmail', title: 'reply email', hidden: true},
+                        {field: 'description', title: 'description', hidden: true},
+                        {field: 'timezone', title: 'timezone'},
+                        {field: 'scheduledAt', title: 'scheduled at', hidden: true, type: "datetime", 
+                          render: row => (row ? 
+                            <td className="px-6 py-4 whitespace-no-wrap border-b border-gray-200">
+                              <Moment fromNow>
+                                {row.scheduledAt}
+                              </Moment>
+                            </td> : undefined)
+                        },
+                        {field: 'scheduledTo', title: 'scheduled to', hidden: true, type: "datetime",
+                          render: row => (row ? 
+                            <td className="px-6 py-4 whitespace-no-wrap border-b border-gray-200">
+                              <Moment fromNow>
+                                {row.scheduledTo}
+                              </Moment>
+                            </td> : undefined)
+                        },
                         {
                           field: "actions",
                           title: "actions",
@@ -933,27 +956,6 @@ class CampaignContainer extends Component {
                             </td>
                           ),
                         },
-                        {field: 'fromName', title: 'from name', hidden: true},
-                        {field: 'fromEmail', title: 'from email', hidden: true},
-                        {field: 'replyEmail', title: 'reply email', hidden: true},
-                        {field: 'description', title: 'description', hidden: true},
-                        {field: 'timezone', title: 'timezone'},
-                        {field: 'scheduledAt', title: 'scheduled at', type: "datetime", 
-                          render: row => (row ? 
-                            <td className="px-6 py-4 whitespace-no-wrap border-b border-gray-200">
-                              <Moment fromNow>
-                                {row.scheduledAt}
-                              </Moment>
-                            </td> : undefined)
-                        },
-                        {field: 'scheduledTo', title: 'scheduled to', type: "datetime",
-                          render: row => (row ? 
-                            <td className="px-6 py-4 whitespace-no-wrap border-b border-gray-200">
-                              <Moment fromNow>
-                                {row.scheduledTo}
-                              </Moment>
-                            </td> : undefined)
-                        }
                       ]}
                     ></Table>
                   )}
@@ -963,7 +965,6 @@ class CampaignContainer extends Component {
                       title={"No campaigns found"}
                       subtitle={
                         <div>
-                          Create a new one
                           {this.renderActions()}
                         </div>
                       }

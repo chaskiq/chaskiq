@@ -151,14 +151,13 @@ const BotDataTable = ({ app, match, history, mode, dispatch }) => {
             title={'No bot tasks found'}
             subtitle={
               <div>
-                create a new one
                 <Button
                   variant="text"
                   color="inherit"
-                  size="small"
+                  size="large"
                   onClick={toggleTaskForm}
                 >
-                  here
+                  Create a new one
                 </Button>
               </div>
             }
