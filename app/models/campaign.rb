@@ -79,7 +79,7 @@ class Campaign < Message
     self.css = template.css
   end
 
-  def mustache_template_for(subscriber)
+  def mustache_template_for(subscriber, html: nil)
     link_prefix = host + "/campaigns/#{id}/tracks/#{subscriber.encoded_id}/click?r="
 
     # html = LinkRenamer.convert(premailer, link_prefix)
@@ -87,7 +87,7 @@ class Campaign < Message
                                    .merge(attributes_for_template(subscriber))
                                    .merge(subscriber.properties)
 
-    compiled_premailer = premailer.gsub('%7B%7B', '{{').gsub('%7D%7D', '}}')
+    compiled_premailer = (html || premailer).gsub('%7B%7B', '{{').gsub('%7D%7D', '}}')
     Mustache.render(compiled_premailer, subscriber_options)
 
     # html = LinkRenamer.convert(compiled_mustache, link_prefix)

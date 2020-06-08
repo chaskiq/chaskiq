@@ -8,7 +8,7 @@ class MailSenderJob < ActiveJob::Base
     campaign.apply_premailer
     campaign
       .available_segments
-      .where.not(email: nil).each do |app_user|
+      .where.not(email: nil).find_each do |app_user|
       campaign.push_notification(app_user)
     end
 

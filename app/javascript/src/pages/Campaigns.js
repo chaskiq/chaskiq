@@ -343,8 +343,6 @@ class CampaignForm extends Component {
             data={this.state.data}
           />
         );
-        break;
-
       default:
         return (
           <CampaignEditor
@@ -354,7 +352,6 @@ class CampaignForm extends Component {
             data={this.state.data}
           />
         );
-        break;
     }
   };
 
@@ -519,7 +516,7 @@ class CampaignForm extends Component {
 
   optionsForMailing = () => {
     return [
-      {
+      /*{
         title: "Preview",
         description: "preview campaign's message",
         icon: <VisibilityRounded />,
@@ -530,7 +527,7 @@ class CampaignForm extends Component {
             "_blank"
           );
         },
-      },
+      },*/
       {
         title: "Deliver",
         description: "delivers the campaign",
@@ -674,7 +671,7 @@ class CampaignForm extends Component {
             }
             actions={
               <React.Fragment>
-                <div item>
+                <div>
                   <FilterMenu
                     options={this.optionsForData()}
                     value={this.state.data.state}
@@ -966,7 +963,7 @@ class CampaignContainer extends Component {
                       title={"No campaigns found"}
                       subtitle={
                         <div>
-                          create a new one
+                          Create a new one
                           {this.renderActions()}
                         </div>
                       }
