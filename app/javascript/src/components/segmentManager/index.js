@@ -26,7 +26,7 @@ const ButtonGroup = styled.div`
 
   display: inline-flex;
   flex-wrap: wrap;
-
+  align-items: center;
   button {
     margin-right: 5px !important;
     margin: 2px;
@@ -92,8 +92,8 @@ export class SaveSegmentModal extends Component {
               isLoading={false}
               arial-label={"Save Segment"}
               variant={"icon"}
-              appearance={"link"}
               onClick={this.open}
+              size={"small"}
               disabled={this.equalPredicates() || this.incompletePredicates()}
             >
               <SaveIcon variant="small" />{" "}

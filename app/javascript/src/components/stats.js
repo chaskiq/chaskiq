@@ -136,20 +136,28 @@ class Stats extends Component {
   render() {
     return (
       <div>
-        <h3 className="text-xl font-bold my-4">Campaign stats</h3>
+        <div className="flex justify-between items-center">
+          <h3 className="text-xl font-bold my-4">Campaign stats</h3>
+          <Button onClick={this.getData}>
+            refresh data
+          </Button>
+        </div>
 
-        {!this.props.mode === "counter_blocks" && (
+      
+        {this.props.data && this.props.mode !== "counter_blocks" &&
           <PieContainer>
-            {this.props.data &&
+            {
               this.props.data.statsFields.map((o) => {
                 return (
                   <PieItem>
                     <CampaignChart data={this.getRateFor(o)} />
                   </PieItem>
                 );
-              })}
+              })
+            }
           </PieContainer>
-        )}
+        }
+       
 
         {this.props.mode === "counter_blocks" && this.props.data && (
           <div className="flex pb-5 overflow-x-auto">

@@ -37,12 +37,14 @@ class SnsReceiverJob < ApplicationJob
       o["name"] === "X-CHASKIQ-CAMPAIGN-TO" 
     }.dig("value")
 
-    campaign = Campaign.find(campaign_id)
-    app_user = AppUser.find(user_id)
+    campaign = Campaign.find_by(id: campaign_id)
+    app_user = AppUser.find_by(id: user_id)
 
     # TODO: unsubscribe on spam (complaints that are non no-spam!)
     # app_user.unsubscribe! if track_type == "spam"
 
+    return if campaign.blank? or app_user.blank?
+    
     app_user.send("track_#{track_type}".to_sym,
                   host: data['ipAddress'],
                   trackable: campaign,
