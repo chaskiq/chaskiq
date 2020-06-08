@@ -115,6 +115,14 @@ RSpec.describe Api::V1::HooksController, type: :controller do
             "value": "recipient@example.com"
           },
           {
+            "name": "X-CHASKIQ-CAMPAIGN-ID",
+            "value": "'+campaign.id.to_s+'"
+          },
+          {
+            "name": "X-CHASKIQ-CAMPAIGN-TO",
+            "value": "'+subscriber.id.to_s+'"
+          },
+          {
             "name": "Subject",
             "value": "Message sent from Amazon SES"
           },
@@ -214,6 +222,14 @@ RSpec.describe Api::V1::HooksController, type: :controller do
             "value":"recipient@example.com"
           },
           {
+            "name": "X-CHASKIQ-CAMPAIGN-ID",
+            "value": "'+campaign.id.to_s+'"
+          },
+          {
+            "name": "X-CHASKIQ-CAMPAIGN-TO",
+            "value": "'+subscriber.id.to_s+'"
+          },
+          {
             "name":"Subject",
             "value":"Message sent from Amazon SES"
           },
@@ -280,6 +296,14 @@ RSpec.describe Api::V1::HooksController, type: :controller do
           {
             "name": "Subject",
             "value": "Message sent from Amazon SES"
+          },
+          {
+            "name": "X-CHASKIQ-CAMPAIGN-ID",
+            "value": "'+campaign.id.to_s+'"
+          },
+          {
+            "name": "X-CHASKIQ-CAMPAIGN-TO",
+            "value": "'+subscriber.id.to_s+'"
           },
           {
             "name": "MIME-Version",
@@ -352,6 +376,14 @@ RSpec.describe Api::V1::HooksController, type: :controller do
           {
             "name": "X-SES-CONFIGURATION-SET",
             "value": "ConfigSet"
+          },
+          {
+            "name": "X-CHASKIQ-CAMPAIGN-ID",
+            "value": "'+campaign.id.to_s+'"
+          },
+          {
+            "name": "X-CHASKIQ-CAMPAIGN-TO",
+            "value": "'+subscriber.id.to_s+'"
           },
           {
             "name": "From",
@@ -431,6 +463,14 @@ RSpec.describe Api::V1::HooksController, type: :controller do
           },
           { "name": "Return-Path", 
             "value": "'+from_email+'"
+          },
+          {
+            "name": "X-CHASKIQ-CAMPAIGN-ID",
+            "value": "'+campaign.id.to_s+'"
+          },
+          {
+            "name": "X-CHASKIQ-CAMPAIGN-TO",
+            "value": "'+subscriber.id.to_s+'"
           },
           {
             "name": "X-SES-CONFIGURATION-SET",
@@ -529,6 +569,14 @@ RSpec.describe Api::V1::HooksController, type: :controller do
             "value": "ConfigSet"
           },
           {
+            "name": "X-CHASKIQ-CAMPAIGN-ID",
+            "value": "'+campaign.id.to_s+'"
+          },
+          {
+            "name": "X-CHASKIQ-CAMPAIGN-TO",
+            "value": "'+subscriber.id.to_s+'"
+          },
+          {
             "name": "From",
             "value": "sender@example.com"
           },
@@ -599,6 +647,14 @@ RSpec.describe Api::V1::HooksController, type: :controller do
             {
               "name": "To",
               "value": "recipient@example.com"
+            },
+            {
+              "name": "X-CHASKIQ-CAMPAIGN-ID",
+              "value": "'+campaign.id.to_s+'"
+            },
+            {
+              "name": "X-CHASKIQ-CAMPAIGN-TO",
+              "value": "'+subscriber.id.to_s+'"
             },
             {
               "name": "Subject",
@@ -689,6 +745,14 @@ RSpec.describe Api::V1::HooksController, type: :controller do
             {
               "name":"From",
               "value":"Sender Name <sender@example.com>"
+            },
+            {
+              "name": "X-CHASKIQ-CAMPAIGN-ID",
+              "value": "'+campaign.id.to_s+'"
+            },
+            {
+              "name": "X-CHASKIQ-CAMPAIGN-TO",
+              "value": "'+subscriber.id.to_s+'"
             },
             {
               "name":"To",

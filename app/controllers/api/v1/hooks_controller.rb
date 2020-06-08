@@ -12,7 +12,7 @@ class Api::V1::HooksController < ActionController::API
     # amz_sns_topic.to_s.downcase == 'arn:aws:sns:us-west-2:867544872691:User_Data_Updates'
     request_body = JSON.parse request.body.read
     # if this is the first time confirmation of subscription, then confirm it
-    if amz_message_type.to_s.downcase == 'subscriptionconfirmation'
+    if amz_message_type.to_s.downcase == 'subscriptionconfirmation' || request_body["notificationType"] === "AmazonSnsSubscriptionSucceeded"
       send_subscription_confirmation request_body
       render(plain: 'ok') && return
     end
@@ -99,12 +99,13 @@ class Api::V1::HooksController < ActionController::API
 
   def process_event_notification(request_body)
     message = parse_body_message(request_body['Message'])
+    return if message.blank?
     return if message['eventType'].blank?
     track_message_for(message['eventType'].downcase, message)
   end
 
   def parse_body_message(body)
-    JSON.parse(body)
+    JSON.parse(body) rescue nil
   end
 
   def track_message_for(track_type, m)

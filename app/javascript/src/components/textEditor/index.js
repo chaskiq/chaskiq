@@ -447,36 +447,35 @@ export default class ArticleEditor extends Component {
                 </div>`}
         }*/
         if (block.type === "card") {
-          return {
-            start: `<div className="graf graf--figure">
-                  <div style="width: 100%; height: 100px; margin: 18px 0px 47px">
+          return (
+            <div className="graf graf--figure">
+                  <div style={{width: '100%', height: '100px', margin: '18px 0px 47px'}}>
                     <div className="signature">
                       <div>
-                        <a href="#" contenteditable="false">
-                          <img src="${block.data.image}">
+                        <a href="#" contentEditable={false}>
+                          <img src={block.data.image}/>
                           <div></div>
                         </a>
                       </div>
                       <div className="text" 
-                        style="color: rgb(153, 153, 153);
-                              font-size: 12px; 
-                              font-weight: bold">`,
-            end: `</div>
+                        style={{color: 'rgb(153, 153, 153)',
+                              fontSize: '12px', 
+                              fontWeight: 'bold'}}>
+                      </div>
                     </div>
                   <div className="dante-clearfix"/>
                 </div>
-              </div>`,
-          };
+              </div>
+          )
         }
         if (block.type === "jumbo") {
-          return {
-            start: `<div className="graf graf--jumbo">
+          return ( 
+            <div className="graf graf--jumbo">
                   <div className="jumbotron">
-                    <h1>`,
-            end: `</h1>
+                    <h1></h1>
                   </div>
-                </div>`,
-          };
+                </div>
+          )
         }
         if (block.type === "image") {
           const { width, height, ratio } = block.data.aspect_ratio.toJS
@@ -484,31 +483,29 @@ export default class ArticleEditor extends Component {
             : block.data.aspect_ratio;
           const { url } = block.data;
 
-          return {
-            start: `<figure className="graf graf--figure">
-                  <div>
-                    <div className="aspectRatioPlaceholder is-locked" style="max-width: 1000px; max-height: ${height}px;">
-                      <div className="aspect-ratio-fill" 
-                          style="padding-bottom: ${ratio}%;">
-                      </div>
+          return (
+            <figure className="graf graf--figure">
+              <div>
+                <div className="aspectRatioPlaceholder is-locked">
 
-                      <img src="${url}" 
-                        className="graf-image" 
-                        contenteditable="false"
-                      >
-                    <div>
+                  <div className="aspect-ratio-fill" 
+                      style={{paddingBottom: `${ratio}%`}}>
                   </div>
 
-                  </div>
-                  <figcaption className="imageCaption">
-                    <span>
-                      <span data-text="true">`,
-            end: `</span>
-                    </span>
-                  </figcaption>
-                  </div>
-                </figure>`,
-          };
+                  <img src={url} 
+                    className="graf-image" 
+                    contentEditable={false}
+                  />
+                </div>
+              </div>
+
+              <figcaption className="imageCaption">
+                <span>
+                  <span data-text="true">{block.text}</span>
+                </span>
+              </figcaption>
+            </figure>
+          )
         }
         if (block.type === "column") {
           return (
@@ -516,10 +513,12 @@ export default class ArticleEditor extends Component {
           );
         }
         if (block.type === "footer") {
-          return {
-            start: `<div className="graf graf--figure"><div ><hr/><p>`,
-            end: `</p></div></div>`,
-          };
+          return <div className="graf graf--figure">
+                    <div >
+                      <hr/><p></p>
+                    </div>
+                 </div>
+          
         }
 
         if (block.type === "embed") {
@@ -579,23 +578,22 @@ export default class ArticleEditor extends Component {
             data = block.data.embed_data;
           }
 
-          return {
-            start: `<figure className="graf--figure graf--iframe graf--first" tabindex="0">
+          return (
+            <figure className="graf--figure graf--iframe graf--first" tabindex="0">
                       <div className="iframeContainer">
-                        ${data.html}
+                        {data.html}
                       </div>
                       <figcaption className="imageCaption">
                         <div className="public-DraftStyleDefault-block public-DraftStyleDefault-ltr">
                           <span>
                           <span>
-                          ${block.data.provisory_text}
+                          {block.data.provisory_text}
                           </span>
                           </span>
                         </div>
                       </figcaption>
-                    `,
-            end: `</figure>`,
-          };
+            </figure>
+          )
         }
 
         if (block.type === "recorded-video") {

@@ -326,8 +326,12 @@
       %tr
         %td
           #editor-container
-            = h @campaign.html_content.html_safe
+            - if params[:preview]
+              = h @campaign.mustache_template_for( @campaign.available_segments.where.not(email: nil).last, html: @campaign.html_content.html_safe ).html_safe 
+            - else
+              = @campaign.html_content.html_safe
     
 
-    - unless params[:exclude_gif]
+    -#
+      - unless params[:exclude_gif]
       <img src='{{track_image_url}}' width='1' height='1'/>
