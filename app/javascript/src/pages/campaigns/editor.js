@@ -2,10 +2,12 @@ import React, { Component } from "react";
 import graphql from "../../graphql/client";
 import { UPDATE_CAMPAIGN, DELIVER_CAMPAIGN } from "../../graphql/mutations";
 import TextEditor from "../../components/textEditor";
+import Button from '../../components/Button'
+import Badge from '../../components/Badge'
 import styled from "@emotion/styled";
-import { ThemeProvider } from "emotion-theming";
-import theme from "../../components/textEditor/theme";
-import EditorContainer from "../../components/textEditor/editorStyles";
+import {
+  VisibilityRounded
+} from '../../components/icons'
 
 const ButtonsContainer = styled.div`
   display: flex;
@@ -169,6 +171,7 @@ export default class CampaignEditor extends Component {
       status: "",
       read_only: false,
       statusButton: "inprogress",
+      preview: false,
     };
   }
 
@@ -221,6 +224,10 @@ export default class CampaignEditor extends Component {
     });
   };
 
+  togglePreview = ()=>{
+    this.setState({preview: !this.state.preview })
+  }
+
   render() {
     // !this.state.loading &&
     /*if (this.state.loading) {
@@ -230,10 +237,20 @@ export default class CampaignEditor extends Component {
     return (
       <EditorContentWrapper mode={this.props.mode}>
         <ButtonsContainer>
-          <div style={{ alignSelf: "start" }}>
-            <div appearance={this.state.statusButton} isBold>
-              {this.state.status}
-            </div>
+          <div className="w-full flex justify-between my-2">
+            <Badge variant={
+              this.state.statusButton === 'subscribed' ? 'green' : 'yellow'
+            }>
+              {this.state.statusButton}
+            </Badge>
+            <Button 
+              variant={ this.state.preview ? "contained" : "outlined" }
+              size="small" 
+              onClick={this.togglePreview}>
+              <VisibilityRounded/>
+              {' '}
+              Preview
+            </Button>
           </div>
         </ButtonsContainer>
 
@@ -251,27 +268,37 @@ export default class CampaignEditor extends Component {
               <EditorMessengerEmulatorWrapper mode={this.props.mode}>
                 <EditorMessengerEmulatorHeader mode={this.props.mode} />
 
-                <TextEditor
-                  campaign={true}
-                  uploadHandler={this.uploadHandler}
-                  serializedContent={this.props.data.serializedContent}
-                  read_only={this.state.read_only}
-                  toggleEditable={() => {
-                    this.setState({ read_only: !this.state.read_only });
-                  }}
-                  data={{
-                    serialized_content: this.props.data.serializedContent,
-                  }}
-                  styles={{
-                    lineHeight: "2em",
-                    fontSize: "1.2em",
-                  }}
-                  saveHandler={this.saveHandler}
-                  updateState={({ status, statusButton, content }) => {
-                    //console.log("get content", content);
-                    this.saveContent(content);
-                  }}
-                />
+                { !this.state.preview && 
+                  <TextEditor
+                    campaign={true}
+                    uploadHandler={this.uploadHandler}
+                    serializedContent={this.props.data.serializedContent}
+                    read_only={this.state.read_only}
+                    toggleEditable={() => {
+                      this.setState({ read_only: !this.state.read_only });
+                    }}
+                    data={{
+                      serialized_content: this.props.data.serializedContent,
+                    }}
+                    styles={{
+                      lineHeight: "2em",
+                      fontSize: "1.2em",
+                    }}
+                    saveHandler={this.saveHandler}
+                    updateState={({ status, statusButton, content }) => {
+                      //console.log("get content", content);
+                      this.saveContent(content);
+                    }}
+                  />
+                }
+
+                { this.state.preview && 
+                  <Preview 
+                    app={this.props.app}
+                    campaign={this.props.data}
+                  />
+                }
+
               </EditorMessengerEmulatorWrapper>
             </EditorMessengerEmulator>
           </EditorPad>
@@ -279,4 +306,37 @@ export default class CampaignEditor extends Component {
       </EditorContentWrapper>
     );
   }
+}
+
+
+function Preview({campaign, app}){
+  return (
+    <div>
+
+      <div className="rounded-md bg-yellow-100 p-4 border-2 border-yellow-400">
+        <div className="flex">
+          <div className="flex-shrink-0">
+            <svg className="h-5 w-5 text-yellow-400" viewBox="0 0 20 20" fill="currentColor">
+              <path fill-rule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clip-rule="evenodd"/>
+            </svg>
+          </div>
+          <div className="ml-3">
+            <h3 className="text-sm leading-5 font-medium text-yellow-800">
+              This is a preview
+            </h3>
+            <div className="mt-2 text-sm leading-5 text-yellow-700">
+              <p>
+                This is how your email should display. If 
+                you are using variables like {`{{name}} `} 
+                it should be displayed here.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <iframe height="800px" width="100%" 
+        src={`/apps/${app.key}/premailer/${campaign.id}?preview=true`} />
+      </div>
+  )
 }
