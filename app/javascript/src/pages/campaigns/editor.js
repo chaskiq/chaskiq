@@ -168,9 +168,8 @@ export default class CampaignEditor extends Component {
       selectionPosition: null,
       incomingSelectionPosition: [],
       data: {},
-      status: "",
+      status: null,
       read_only: false,
-      statusButton: "inprogress",
       preview: false,
     };
   }
@@ -180,7 +179,6 @@ export default class CampaignEditor extends Component {
 
     this.setState({
       status: "saving...",
-      statusButton: "success",
     });
 
     const params = {
@@ -195,9 +193,11 @@ export default class CampaignEditor extends Component {
     graphql(UPDATE_CAMPAIGN, params, {
       success: (data) => {
         this.props.updateData(data.campaignUpdate.campaign, null);
-        this.setState({ status: "saved" });
+        this.setState({ status: null });
       },
-      error: () => {},
+      error: () => {
+        this.setState({ status: "error" });
+      },
     });
   };
 
@@ -237,15 +237,19 @@ export default class CampaignEditor extends Component {
     return (
       <EditorContentWrapper mode={this.props.mode}>
         <ButtonsContainer>
-          <div className="w-full flex justify-between my-2">
-            <Badge variant={
-              this.state.statusButton === 'subscribed' ? 'green' : 'yellow'
-            }>
-              {this.state.statusButton}
-            </Badge>
+          <div className="w-full flex justify-end my-2">
+            { this.state.status && 
+              <Badge 
+                className="mr-2" 
+                variant={
+                this.state.status === 'error' ? 'red' : 'green'
+                }>
+                {this.state.status}
+              </Badge>
+            }
             <Button 
               variant={ this.state.preview ? "contained" : "outlined" }
-              size="small" 
+              size="small"
               onClick={this.togglePreview}>
               <VisibilityRounded/>
               {' '}

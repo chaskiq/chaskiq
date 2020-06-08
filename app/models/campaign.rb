@@ -26,11 +26,19 @@ class Campaign < Message
   end
 
   def stats_fields
+    colors = {
+      delivery: "#9ae6b4",
+      send: "#faf089",
+      click: "#d6bcfa",
+      open: "#90cdf4",
+      bounces: "#ccc"
+    }
+
     [
-      { name: 'DeliverRateCount', label: 'DeliverRateCount', keys: [{ name: 'send', color: '#444' }, { name: 'delivery', color: '#ccc' }] },
-      { name: 'BouncesRateCount', label: 'BouncesRateCount', keys: [{ name: 'send', color: '#444' }, { name: 'bounces', color: '#ccc' }] },
-      { name: 'DeliverRateCount', label: 'DeliverRateCount', keys: [{ name: 'delivery', color: '#444' }, { name: 'open', color: '#ccc' }] },
-      { name: 'ClickRateCount', label: 'ClickRateCount', keys: [{ name: 'open', color: '#444' }, { name: 'click', color: '#ccc' }] },
+      { name: 'DeliverRateCount', label: 'DeliverRateCount', keys: [{ name: 'send', color: colors[:send] }, { name: 'delivery', color: colors[:delivery] }] },
+      { name: 'BouncesRateCount', label: 'BouncesRateCount', keys: [{ name: 'send', color: colors[:send] }, { name: 'bounces', color: colors[:bounces] }] },
+      { name: 'DeliverRateCount', label: 'DeliverRateCount', keys: [{ name: 'delivery', color: colors[:delivery] }, { name: 'open', color: colors[:open] }] },
+      { name: 'ClickRateCount', label: 'ClickRateCount', keys: [{ name: 'open', color: colors[:open] }, { name: 'click', color: colors[:click] }] },
       #{ name: 'ComplaintsRate', label: 'ComplaintsRate', keys: [{ name: 'send', color: '#444' }, { name: 'complaints', color: '#ccc' }] }
     ]
   end
@@ -140,6 +148,18 @@ class Campaign < Message
       campaign_subscribe: "#{campaign_url}/subscribers/new",
       campaign_description: description.to_s,
       track_image_url: track_image }
+  end
+
+  def broadcast_event()
+    key = self.app.key
+    EventsChannel.broadcast_to(key, {
+      type: 'campaigns',
+      data: {
+        campaign: self.id,
+        state: "sent",
+        ts: Time.now.to_i
+      }
+    }.as_json)
   end
 
   def hidden_constraints
