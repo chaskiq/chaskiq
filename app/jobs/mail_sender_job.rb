@@ -14,5 +14,6 @@ class MailSenderJob < ActiveJob::Base
 
     campaign.state = 'sent'
     campaign.save
+    campaign.broadcast_event()
   end
 end

@@ -139,7 +139,7 @@ class Stats extends Component {
         <div className="flex justify-between items-center">
           <h3 className="text-xl font-bold my-4">Campaign stats</h3>
           <Button onClick={this.getData}>
-            refresh data
+            Refresh data
           </Button>
         </div>
 

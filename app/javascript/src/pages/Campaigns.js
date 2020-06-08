@@ -265,6 +265,13 @@ class CampaignForm extends Component {
     this.fetchCampaign();
   }
 
+  componentDidUpdate(prevProps, prevState){
+    if(this.props.campaigns.campaign === this.state.data.id &&
+      this.props.campaigns.ts !== prevProps.campaigns.ts ){
+      this.fetchCampaign();
+    }
+  }
+
   deleteCampaign = (cb) => {
     graphql(
       DELETE_CAMPAIGN,
@@ -675,7 +682,7 @@ class CampaignForm extends Component {
                 <div>
                   <FilterMenu
                     options={this.optionsForData()}
-                    value={this.state.data.state}
+                    value={'Actions'}
                     filterHandler={(option, closeHandler ) => {
                       return (option.onClick && option.onClick(option))
                     }}
@@ -983,13 +990,14 @@ class CampaignContainer extends Component {
 }
 
 function mapStateToProps(state) {
-  const { auth, app } = state;
+  const { auth, app, campaigns } = state;
   const { loading, isAuthenticated } = auth;
 
   return {
     app,
     loading,
     isAuthenticated,
+    campaigns
   };
 }
 
