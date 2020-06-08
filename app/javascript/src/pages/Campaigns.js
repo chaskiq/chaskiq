@@ -233,7 +233,8 @@ class CampaignSegment extends Component {
           {this.state.jwt ? (
             <Button
               isLoading={false}
-              appearance={"link"}
+              variant={"icon"}
+              size={"small"}
               onClick={this.handleSave}
             >
               <i className="fas fa-chart-pie"></i> Save Segment
@@ -262,6 +263,13 @@ class CampaignForm extends Component {
 
   componentDidMount() {
     this.fetchCampaign();
+  }
+
+  componentDidUpdate(prevProps, prevState){
+    if(this.props.campaigns.campaign === this.state.data.id &&
+      this.props.campaigns.ts !== prevProps.campaigns.ts ){
+      this.fetchCampaign();
+    }
   }
 
   deleteCampaign = (cb) => {
@@ -343,8 +351,6 @@ class CampaignForm extends Component {
             data={this.state.data}
           />
         );
-        break;
-
       default:
         return (
           <CampaignEditor
@@ -354,7 +360,6 @@ class CampaignForm extends Component {
             data={this.state.data}
           />
         );
-        break;
     }
   };
 
@@ -519,7 +524,7 @@ class CampaignForm extends Component {
 
   optionsForMailing = () => {
     return [
-      {
+      /*{
         title: "Preview",
         description: "preview campaign's message",
         icon: <VisibilityRounded />,
@@ -530,7 +535,7 @@ class CampaignForm extends Component {
             "_blank"
           );
         },
-      },
+      },*/
       {
         title: "Deliver",
         description: "delivers the campaign",
@@ -674,10 +679,10 @@ class CampaignForm extends Component {
             }
             actions={
               <React.Fragment>
-                <div item>
+                <div>
                   <FilterMenu
                     options={this.optionsForData()}
-                    value={this.state.data.state}
+                    value={'Actions'}
                     filterHandler={(option, closeHandler ) => {
                       return (option.onClick && option.onClick(option))
                     }}
@@ -794,6 +799,7 @@ class CampaignContainer extends Component {
         <Button
           variant={"contained"}
           color={"primary"}
+          size={"small"}
           onClick={this.createNewCampaign}
         >
           create new campaign
@@ -916,6 +922,27 @@ class CampaignContainer extends Component {
                             );
                           },
                         },
+                        {field: 'fromName', title: 'from name', hidden: true},
+                        {field: 'fromEmail', title: 'from email', hidden: true},
+                        {field: 'replyEmail', title: 'reply email', hidden: true},
+                        {field: 'description', title: 'description', hidden: true},
+                        {field: 'timezone', title: 'timezone'},
+                        {field: 'scheduledAt', title: 'scheduled at', hidden: true, type: "datetime", 
+                          render: row => (row ? 
+                            <td className="px-6 py-4 whitespace-no-wrap border-b border-gray-200">
+                              <Moment fromNow>
+                                {row.scheduledAt}
+                              </Moment>
+                            </td> : undefined)
+                        },
+                        {field: 'scheduledTo', title: 'scheduled to', hidden: true, type: "datetime",
+                          render: row => (row ? 
+                            <td className="px-6 py-4 whitespace-no-wrap border-b border-gray-200">
+                              <Moment fromNow>
+                                {row.scheduledTo}
+                              </Moment>
+                            </td> : undefined)
+                        },
                         {
                           field: "actions",
                           title: "actions",
@@ -936,27 +963,6 @@ class CampaignContainer extends Component {
                             </td>
                           ),
                         },
-                        {field: 'fromName', title: 'from name', hidden: true},
-                        {field: 'fromEmail', title: 'from email', hidden: true},
-                        {field: 'replyEmail', title: 'reply email', hidden: true},
-                        {field: 'description', title: 'description', hidden: true},
-                        {field: 'timezone', title: 'timezone'},
-                        {field: 'scheduledAt', title: 'scheduled at', type: "datetime", 
-                          render: row => (row ? 
-                            <td className="px-6 py-4 whitespace-no-wrap border-b border-gray-200">
-                              <Moment fromNow>
-                                {row.scheduledAt}
-                              </Moment>
-                            </td> : undefined)
-                        },
-                        {field: 'scheduledTo', title: 'scheduled to', type: "datetime",
-                          render: row => (row ? 
-                            <td className="px-6 py-4 whitespace-no-wrap border-b border-gray-200">
-                              <Moment fromNow>
-                                {row.scheduledTo}
-                              </Moment>
-                            </td> : undefined)
-                        }
                       ]}
                     ></Table>
                   )}
@@ -966,7 +972,6 @@ class CampaignContainer extends Component {
                       title={"No campaigns found"}
                       subtitle={
                         <div>
-                          create a new one
                           {this.renderActions()}
                         </div>
                       }
@@ -985,13 +990,14 @@ class CampaignContainer extends Component {
 }
 
 function mapStateToProps(state) {
-  const { auth, app } = state;
+  const { auth, app, campaigns } = state;
   const { loading, isAuthenticated } = auth;
 
   return {
     app,
     loading,
     isAuthenticated,
+    campaigns
   };
 }
 

@@ -26,6 +26,7 @@ const ButtonGroup = styled.div`
   display: inline-flex;
   flex-wrap: wrap;
   margin-bottom: 2em;
+  align-items: center;
   button {
     margin-right: 5px !important;
     margin: 2px;
