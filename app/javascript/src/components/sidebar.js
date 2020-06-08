@@ -29,7 +29,8 @@ import {
   TourIcon,
   MessageIcon,
   EmailIcon,
-  ApiIcon
+  ApiIcon,
+  CardIcon
 } from '../components/icons'
 
 import { toggleDrawer } from '../actions/drawer'
@@ -292,7 +293,7 @@ function Sidebar ({
         },
         {
           id: 'Billing',
-          icon: <ApiIcon />,
+          icon: <CardIcon />,
           url: `/apps/${app.key}/billing`,
           active: isActivePage('billing')
         }
