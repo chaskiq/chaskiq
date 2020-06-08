@@ -6,36 +6,49 @@ class SnsReceiverJob < ApplicationJob
   # Receive hook
   def perform(track_type, m, _referrer)
     
-    part = conversation_part_header = m["mail"]["headers"].find{|o| 
+    part = m["mail"]["headers"].find{|o| 
       o["name"] == "X-CHASKIQ-PART-ID" 
+    }
+
+    campaign = m["mail"]["headers"].find{|o| 
+      o["name"] === "X-CHASKIQ-CAMPAIGN-ID" 
     }
 
     # handle conversation and exit
     if part.present? 
-      handle_chat_message(track_type, m, part["value"]) 
-      return
+      handle_chat_message(track_type, m, part["value"])
     end
 
     # handle campaign
-    handle_campaign_message(track_type, m, _referrer)
-
+    if campaign.present?
+      handle_campaign_message(track_type, m, _referrer)
+    end
   end
 
   def handle_campaign_message(track_type, m, _referrer)
     data = m[track_type]
-    message_id = parsed_message_id(m)
-    metric = Metric.find_by(message_id: message_id)
-    return if metric.blank?
+    #message_id = parsed_message_id(m)
 
-    campaign = metric.trackable
-    app_user = metric.app_user
+    campaign_id = m["mail"]["headers"].find{|o| 
+      o["name"] === "X-CHASKIQ-CAMPAIGN-ID" 
+    }.dig("value")
+
+    user_id = m["mail"]["headers"].find{|o| 
+      o["name"] === "X-CHASKIQ-CAMPAIGN-TO" 
+    }.dig("value")
+
+    campaign = Campaign.find_by(id: campaign_id)
+    app_user = AppUser.find_by(id: user_id)
 
     # TODO: unsubscribe on spam (complaints that are non no-spam!)
     # app_user.unsubscribe! if track_type == "spam"
+
+    return if campaign.blank? or app_user.blank?
+    
     app_user.send("track_#{track_type}".to_sym,
                   host: data['ipAddress'],
                   trackable: campaign,
-                  message_id: message_id,
+                  #message_id: message_id,
                   data: data)
   end
 
@@ -48,6 +61,8 @@ class SnsReceiverJob < ApplicationJob
   end
 
   def parsed_message_id(m)
-    m['mail']['headers'].find { |o| o['name'] == 'Message-ID' }['value'].split('@').first.gsub('<', '')
+    m['mail']['headers'].find { |o| 
+      o['name'] == 'Message-ID' 
+    }['value'].split('@').first.gsub('<', '')
   end
 end

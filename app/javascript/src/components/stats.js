@@ -5,7 +5,7 @@ import styled from "@emotion/styled";
 import graphql from "../graphql/client";
 import Table from "./Table";
 import gravatar from "../shared/gravatar";
-
+import Badge from './Badge'
 import Button from "./Button";
 import Avatar from "./Avatar";
 
@@ -46,50 +46,6 @@ class Stats extends Component {
     this.getData = this.getData.bind(this);
   }
 
-  createHead = (withWidth) => {
-    return [
-      {
-        field: "action",
-        options: {
-          filter: false,
-          render: (value, tableMeta, updateValue) => {
-            return this.renderLozenge(value);
-          },
-        },
-      },
-
-      {
-        field: "email",
-        options: {
-          filter: false,
-        },
-      },
-      {
-        field: "host",
-        options: {
-          filter: false,
-        },
-      },
-
-      {
-        field: "created_at",
-        options: {
-          filter: false,
-        },
-      },
-
-      {
-        field: "data",
-        options: {
-          filter: false,
-          customBodyRender: (value, tableMeta, updateValue) => {
-            return <p>cccc</p>;
-          },
-        },
-      },
-    ];
-  };
-
   renderLozenge = (item) => {
     let kind = "default";
 
@@ -109,6 +65,30 @@ class Stats extends Component {
 
     return <div appearance={kind}>{item}</div>;
   };
+
+  renderBadgeKind = (row)=>{
+    let variant = null
+    switch (row.action) {
+      case 'send':
+        variant = 'yellow';
+        break
+      case 'delivery':
+        variant = 'green';
+        break
+      case 'open':
+        variant = 'blue';
+        break
+      case 'click':
+        variant = 'purple';
+        break
+      default:
+        break;
+    }
+
+    return <Badge variant={variant}>
+            {row.action}
+           </Badge>
+  }
 
   componentDidMount() {
     this.init();
@@ -156,20 +136,28 @@ class Stats extends Component {
   render() {
     return (
       <div>
-        <h3 className="text-xl font-bold my-4">Campaign stats</h3>
+        <div className="flex justify-between items-center">
+          <h3 className="text-xl font-bold my-4">Campaign stats</h3>
+          <Button onClick={this.getData}>
+            Refresh data
+          </Button>
+        </div>
 
-        {!this.props.mode === "counter_blocks" && (
+      
+        {this.props.data && this.props.mode !== "counter_blocks" &&
           <PieContainer>
-            {this.props.data &&
+            {
               this.props.data.statsFields.map((o) => {
                 return (
                   <PieItem>
                     <CampaignChart data={this.getRateFor(o)} />
                   </PieItem>
                 );
-              })}
+              })
+            }
           </PieContainer>
-        )}
+        }
+       
 
         {this.props.mode === "counter_blocks" && this.props.data && (
           <div className="flex pb-5 overflow-x-auto">
@@ -231,7 +219,11 @@ class Stats extends Component {
                     </td>
                   ),
               },
-              { field: "action", title: "Action" },
+              { field: "action", title: "Action", 
+                render: (row)=> <td className="px-6 py-4 whitespace-no-wrap border-b border-gray-200">
+                  {this.renderBadgeKind(row)}
+                </td> 
+              },
               { field: "host", title: "from" },
               {
                 field: "createdAt",
@@ -249,7 +241,7 @@ class Stats extends Component {
                 render: (row) =>
                   row && (
                     <td className="px-6 py-4 whitespace-no-wrap border-b border-gray-200">
-                      <Moment fromNow>{JSON.stringify(row.data)}</Moment>
+                      <div>{JSON.stringify(row.data)}</div>
                     </td>
                   ),
               },

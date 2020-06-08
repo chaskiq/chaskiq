@@ -9,12 +9,12 @@ class Campaign < Message
 
   def config_fields
     [
-      { name: 'name', type: 'string', grid: { xs: 'w-full', sm: 'w-full' } },
-      { name: 'subject', type: 'text', grid: { xs: 'w-full', sm: 'w-full' } },
+      { name: 'name', label: "Campaign's name",  hint: "This will not be shown in the email",  type: 'string', grid: { xs: 'w-full', sm: 'w-full' } },
+      { name: 'subject', label: "Email Subject", hint: "This is the email subject itself", type: 'text', grid: { xs: 'w-full', sm: 'w-full' } },
       { name: 'fromName', label: "From Name", type: 'string', grid: { xs: 'w-full', sm: 'w-1/2' } },
       { name: 'fromEmail', label: "From Email", type: 'string', grid: { xs: 'w-full', sm: 'w-1/2' } },
       { name: 'replyEmail', label: "Reply email", type: 'string', grid: { xs: 'w-full', sm: 'w-1/2' } },
-      { name: 'description', type: 'text', grid: { xs: 'w-full', sm: 'w-full' } },
+      { name: 'description', type: 'textarea', grid: { xs: 'w-full', sm: 'w-full' } },
       { name: 'timezone', type: 'timezone',
         options: ActiveSupport::TimeZone.all.map { |o| o.tzinfo.name },
         multiple: false,
@@ -26,11 +26,20 @@ class Campaign < Message
   end
 
   def stats_fields
+    colors = {
+      delivery: "#9ae6b4",
+      send: "#faf089",
+      click: "#d6bcfa",
+      open: "#90cdf4",
+      bounces: "#ccc"
+    }
+
     [
-      { name: 'DeliverRateCount', label: 'DeliverRateCount', keys: [{ name: 'send', color: '#444' }, { name: 'open', color: '#ccc' }] },
-      { name: 'ClickRateCount', label: 'ClickRateCount', keys: [{ name: 'send', color: '#444' }, { name: 'click', color: '#ccc' }] },
-      { name: 'BouncesRateCount', label: 'BouncesRateCount', keys: [{ name: 'send', color: '#444' }, { name: 'bounces', color: '#ccc' }] },
-      { name: 'ComplaintsRate', label: 'ComplaintsRate', keys: [{ name: 'send', color: '#444' }, { name: 'complaints', color: '#ccc' }] }
+      { name: 'DeliverRateCount', label: 'DeliverRateCount', keys: [{ name: 'send', color: colors[:send] }, { name: 'delivery', color: colors[:delivery] }] },
+      { name: 'BouncesRateCount', label: 'BouncesRateCount', keys: [{ name: 'send', color: colors[:send] }, { name: 'bounces', color: colors[:bounces] }] },
+      { name: 'DeliverRateCount', label: 'DeliverRateCount', keys: [{ name: 'delivery', color: colors[:delivery] }, { name: 'open', color: colors[:open] }] },
+      { name: 'ClickRateCount', label: 'ClickRateCount', keys: [{ name: 'open', color: colors[:open] }, { name: 'click', color: colors[:click] }] },
+      #{ name: 'ComplaintsRate', label: 'ComplaintsRate', keys: [{ name: 'send', color: '#444' }, { name: 'complaints', color: '#ccc' }] }
     ]
   end
 
@@ -79,7 +88,7 @@ class Campaign < Message
     self.css = template.css
   end
 
-  def mustache_template_for(subscriber)
+  def mustache_template_for(subscriber, html: nil)
     link_prefix = host + "/campaigns/#{id}/tracks/#{subscriber.encoded_id}/click?r="
 
     # html = LinkRenamer.convert(premailer, link_prefix)
@@ -87,7 +96,7 @@ class Campaign < Message
                                    .merge(attributes_for_template(subscriber))
                                    .merge(subscriber.properties)
 
-    compiled_premailer = premailer.gsub('%7B%7B', '{{').gsub('%7D%7D', '}}')
+    compiled_premailer = (html || premailer).gsub('%7B%7B', '{{').gsub('%7D%7D', '}}')
     Mustache.render(compiled_premailer, subscriber_options)
 
     # html = LinkRenamer.convert(compiled_mustache, link_prefix)
@@ -139,6 +148,18 @@ class Campaign < Message
       campaign_subscribe: "#{campaign_url}/subscribers/new",
       campaign_description: description.to_s,
       track_image_url: track_image }
+  end
+
+  def broadcast_event()
+    key = self.app.key
+    EventsChannel.broadcast_to(key, {
+      type: 'campaigns',
+      data: {
+        campaign: self.id,
+        state: "sent",
+        ts: Time.now.to_i
+      }
+    }.as_json)
   end
 
   def hidden_constraints

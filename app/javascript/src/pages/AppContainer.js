@@ -34,6 +34,7 @@ import { setApp } from '../actions/app'
 import { updateAppUserPresence } from '../actions/app_users'
 import { getAppUser } from '../actions/app_user'
 import { updateRtcEvents } from '../actions/rtc'
+import { updateCampaignEvents } from '../actions/campaigns'
 
 import {
 
@@ -105,6 +106,8 @@ function App ({
               return updateUser(camelizeKeys(data.data))
             case 'rtc_events':
               return dispatch(updateRtcEvents(data))
+            case 'campaigns':
+              return dispatch(updateCampaignEvents(data.data))
             default:
               return null
           }
