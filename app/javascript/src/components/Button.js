@@ -48,7 +48,7 @@ const BaseButton = styled.button`
         return tw`outline-none 
         rounded-md 
         bg-red-400 
-        text-red-800 
+        text-white
         hover:bg-red-500 
         focus:outline-none 
         focus:border-red-700 
