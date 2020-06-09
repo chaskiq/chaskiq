@@ -32,6 +32,26 @@ module Types
       ArticleSetting.find_by(subdomain: domain)
     end
 
+    field :campaign_subscription_toggle, Types::JsonType, null: false, description: 'toggle subscription' do
+      argument :encoded, String, required: true   
+      argument :op, Boolean, required: false   
+    end
+
+    def campaign_subscription_toggle(encoded:, op: )
+      subscriber_email = URLcrypt.decode(encoded)
+      app_user = AppUser.find_by(email: subscriber_email)
+      if !op
+        app_user.unsubscribe! if !app_user.unsubscribed? 
+      else
+        app_user.subscribe! if !app_user.subscribed?
+      end
+
+      {
+        state: app_user.subscription_state,
+        email: app_user.email
+      }
+    end
+
     field :user_session, Types::UserType, null: false, description: 'get current user email'
     def user_session
       doorkeeper_authorize!
