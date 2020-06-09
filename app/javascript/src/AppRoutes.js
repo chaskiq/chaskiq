@@ -5,6 +5,7 @@ import Apps from './pages/Apps'
 import Login from './pages/auth/login'
 import NewApp from './pages/NewApp'
 import NotFound from './pages/NotFound'
+import UnSubscribe from './pages/UnSubscribe'
 import AcceptInvitation from './pages/auth/acceptInvitation'
 import { Switch, Route } from 'react-router-dom'
 import ZoomImage from './components/ImageZoomOverlay'
@@ -33,6 +34,13 @@ function AppRouter ({ loading, isAuthenticated, current_user }) {
             <AcceptInvitation {...props} />
           )}
         />
+
+        <Route
+          path={"/campaigns/:id/subscribers/:subscriber/delete"}
+          render={(props) => (
+            <UnSubscribe {...props} />
+          )}>
+        </Route>
 
         { !isAuthenticated &&
           <Route path="/">
