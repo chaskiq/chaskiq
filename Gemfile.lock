@@ -211,7 +211,7 @@ GEM
     fugit (1.3.2)
       et-orbi (~> 1.1, >= 1.1.8)
       raabro (~> 1.1)
-    geocoder (1.5.1)
+    geocoder (1.6.1)
     globalid (0.4.2)
       activesupport (>= 4.2.0)
     google-cloud-dialogflow (0.11.1)
@@ -572,7 +572,7 @@ DEPENDENCIES
   faker!
   faraday (~> 0.15.4)
   friendly_id (~> 5.2)
-  geocoder (~> 1.4)
+  geocoder (~> 1.6)
   globalize!
   google-cloud-dialogflow
   graphiql-rails

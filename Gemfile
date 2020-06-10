@@ -63,7 +63,7 @@ gem 'pg_search'
 gem 'ransack'
 
 gem 'browser', '~> 2.5'
-gem 'geocoder', '~> 1.4'
+gem 'geocoder', '~> 1.6'
 
 gem 'google-cloud-dialogflow'
 
