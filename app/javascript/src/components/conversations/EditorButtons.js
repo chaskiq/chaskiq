@@ -158,14 +158,27 @@ export default class DanteInlineTooltip extends React.Component {
     );
   };
 
+  insertFile = (file) => {
+    let opts = {
+      url: URL.createObjectURL(file),
+      file,
+    };
+
+    return this.props.onChange(
+      addNewBlock(this.props.editorState, "file", opts)
+    );
+  };
+
   handleFileInput = (e) => {
     let fileList = e.target.files;
+    const file = fileList[0]
     // TODO: support multiple file uploads
     /*
     Object.keys(fileList).forEach (o)=>
       @.insertImage(fileList[0])
     */
-    return this.insertImage(fileList[0]);
+    if(file.type.match("image/")) return this.insertImage(file)
+    return this.insertFile(file);
   };
 
   handleInsertion = (e) => {
@@ -304,10 +317,10 @@ export default class DanteInlineTooltip extends React.Component {
           })}
           <input
             type="file"
-            accept="image/*"
+            //accept="image/*"
             style={{ display: "none" }}
             ref="fileInput"
-            multiple="multiple"
+            //multiple="multiple"
             onChange={this.handleFileInput}
           />
         </div>
