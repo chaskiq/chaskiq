@@ -21,6 +21,7 @@ import { DanteAnchorPopoverConfig } from "Dante2/package/es/components/popovers/
 import { DanteInlineTooltipConfig } from "Dante2/package/es/components/popovers/addButton.js"; //'Dante2/package/es/components/popovers/addButton.js'
 import { DanteTooltipConfig } from "Dante2/package/es/components/popovers/toolTip.js"; //'Dante2/package/es/components/popovers/toolTip.js'
 import { ImageBlockConfig } from "./blocks/image";
+import { FileBlockConfig } from './blocks/fileBlock';
 import { EmbedBlockConfig } from "Dante2/package/es/components/blocks/embed.js";
 import { VideoBlockConfig } from "Dante2/package/es/components/blocks/video.js";
 import { PlaceholderBlockConfig } from "Dante2/package/es/components/blocks/placeholder.js";
@@ -325,19 +326,6 @@ export default class ArticleEditor extends Component {
               serviceUrl,
               imageBlock,
             });
-            /*
-              graphql(ARTICLE_BLOB_ATTACH, { 
-                appKey: this.props.app.key ,
-                id: parseInt(this.state.article.id),
-                blobId: signedBlobId
-              }, {
-                success: (data)=>{
-                  imageBlock.uploadCompleted(serviceUrl)
-                },
-                error: (err)=>{
-                  console.log("error on direct upload", err)
-                }
-              })*/
           });
         },
         error: (error) => {
@@ -352,6 +340,13 @@ export default class ArticleEditor extends Component {
     let widgets = [
       CodeBlockConfig(),
       ImageBlockConfig({
+        options: {
+          //upload_url: `/attachments.json?id=${this.props.data.id}&app_id=${this.props.app.key}`,
+          upload_handler: this.uploadHandler,
+          image_caption_placeholder: "type a caption (optional)",
+        },
+      }),
+      FileBlockConfig({
         options: {
           //upload_url: `/attachments.json?id=${this.props.data.id}&app_id=${this.props.app.key}`,
           upload_handler: this.uploadHandler,

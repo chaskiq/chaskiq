@@ -527,6 +527,12 @@ query Campaigns($appKey: String!, $mode: String!){
 }
 `;
 
+export const CAMPAIGN_SUBSCRIPTION_TOGGLE = `
+  query CampaignSubscriptionToggle($encoded: String!, $op: Boolean){
+    campaignSubscriptionToggle(encoded: $encoded, op: $op)
+  }
+`;
+
 export const CAMPAIGN = `
 query Campaign($appKey: String!, $mode: String!, $id: String!){
   app(key: $appKey){

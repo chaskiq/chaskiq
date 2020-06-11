@@ -24,12 +24,12 @@ class ChatNotifierMailer < ApplicationMailer
     recipient = message_author.id != conversation.main_participant.id ?
     conversation.main_participant : conversation.assignee
 
+    return if recipient.blank?
+
     @user_id =  recipient.id
 
     content_type  = 'text/html'
     from_name     = "#{@author_name} [#{app.name}]"
-
-    return if recipient.blank?
 
     raise 'no outgoing_email_domain on app' if app.outgoing_email_domain.blank?
 
