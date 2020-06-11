@@ -47,14 +47,7 @@ Rails.application.routes.draw do
     get '/collections' => 'articles#show'
     get '/collections/:id' => 'articles#show'
     get '/articles/:1/' => 'articles#show'
-    # get '*path', to: 'application#catch_all', constraints: lambda { |req|
-    #  req.path.exclude? 'rails/active_storage'
-    # }
   end
-
-  # get "/user_session", to: 'application#user_session'
-  # get "/aaaa", to: 'application#user_session', as: 'user_auto_message'
-  # get "/apps/:app_id/segments/:id/:jwt", to: 'segments#show', constraints: { jwt: /.+/ }
 
   root to: 'home#show'
   get '/apps/:app/premailer/:id/' => 'application#preview'
@@ -78,30 +71,7 @@ Rails.application.routes.draw do
       post 'hooks/:app_key/:provider/:id' => 'api/v1/hooks/provider#process_event'
 
       resources :direct_uploads, only: [:create], controller: 'api/v1/direct_uploads'
-      resources :apps, controller: 'api/v1/apps' do
-        member do
-          #  post :ping
-          post :auth
-        end
 
-        # resources :triggers, controller: "api/v1/triggers"
-        # resources :tours, controller: "api/v1/tours"
-
-        resources :messages, controller: 'api/v1/messages' do
-          resources :tracks, controller: 'api/v1/tracks' do
-            member do
-              get :open
-              get :bounce
-              get :spam
-              get :click
-              get :close
-            end
-          end
-        end
-
-        # resources :conversations, controller: "api/v1/conversations" do
-        # end
-      end
     end
   end
 

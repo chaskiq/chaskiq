@@ -837,9 +837,6 @@ export const MessageItem = styled.div`
       align-self: flex-start;
       display: flex;
       flex-direction: row;
-      
-      
-      
       .message-content-wrapper {
         background: #fff;
         padding: 16px;
@@ -914,6 +911,10 @@ export const MessageItem = styled.div`
         flex-direction: row-reverse;
 
       `)}
+
+      a{
+        color: white;
+      }
 
       color: #eceff1; 
 

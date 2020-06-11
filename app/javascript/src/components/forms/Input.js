@@ -220,6 +220,7 @@ const WrappedComponent = React.forwardRef(function Input (
           <textarea
             id="about"
             rows="3"
+            name={name}
             className={`shadow appearance-none border border-${borderColor(
               error
             )}-500 rounded 
