@@ -230,11 +230,8 @@ export default class UnicornEditor extends Component {
     })
 
     const contentState = customHTML2Content(sampleMarkup, this.extendedBlockRenderMap) 
-    
-
     const fstate2 = EditorState.createWithContent(contentState)
     return JSON.stringify(convertToRaw(fstate2.getCurrentContent()))
-
   }
 
   //https://stackoverflow.com/questions/11076975/insert-text-into-textarea-at-cursor-position-javascript
@@ -283,7 +280,25 @@ export default class UnicornEditor extends Component {
   }
 
   submitImage = (link, cb)=>{
-    const html = `<img width=100% src="${link}"/>`
+    const html = `<img width=100% src="${link}" data-type="image"/>`
+    this.props.insertComment(
+        {
+          html_content: html,
+          serialized_content: this.convertToDraft(html)
+        }
+      , {
+        before: ()=>{
+          this.input.value = ""
+        },
+        sent: () => {
+          this.input.value = ""
+          cb && cb()
+        }
+      })
+  }
+
+  submitFile = (attrs, cb)=>{
+    const html = `<img src="${attrs.link}" data-filename="${attrs.filename}" data-type="file" data-content-type="${attrs.content_type}"/>`
     this.props.insertComment(
         {
           html_content: html,
@@ -344,7 +359,11 @@ export default class UnicornEditor extends Component {
           console.log(err)
         },
         onSuccess: (attrs)=> {
-          this.submitImage(attrs.link)
+          if( attrs.content_type.match(/image\/(jpg|png|jpeg|gif)/) ){
+            this.submitImage(attrs.link)
+          } else {
+            this.submitFile(attrs)
+          }
           this.setLock(false)
         }
       },
@@ -371,6 +390,7 @@ export default class UnicornEditor extends Component {
   }
 
   render() {
+    const permittedFiles = "text/plain, text/markdown, text/x-markdown, image/jpg, image/gif, image/jpeg, image/png, application/pdf, application/csv, application/xls, application/xlsx"
     return (
 
       <EditorWrapper onClick={this.handleFocus}>
@@ -432,6 +452,7 @@ export default class UnicornEditor extends Component {
               <input 
                 type="file" 
                 ref="upload_input"
+                accept={permittedFiles}
                 style={{display: 'none'}} 
                 onChange={this.handleUpload}
               />

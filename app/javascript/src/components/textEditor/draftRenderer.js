@@ -6,6 +6,9 @@ import React, { Component } from 'react'
 import redraft from 'redraft'
 import { setImageZoom } from '../../actions/imageZoom'
 import { connect } from 'react-redux'
+import {
+  AttachmentIcon
+} from '../icons'
 
 var Prism = require('prismjs')
 // Prism.highlightAll();
@@ -121,6 +124,20 @@ const renderers = {
         ))}
       </ol>
     ),
+
+    file: (children, { keys, data }) => {
+      const fileName = data[0].url.split("/").pop()
+      return (
+        <div>
+          <a href={data[0].url}
+            target="blank" 
+            className="flex items-center border rounded bg-gray-800 border-gray-600 p-4 py-2">
+            <AttachmentIcon></AttachmentIcon> 
+            {fileName}
+          </a>
+        </div>
+      )
+    },
 
     image: (children, { keys, data }) => {
       const data2 = data[0]
