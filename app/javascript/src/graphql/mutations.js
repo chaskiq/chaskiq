@@ -124,6 +124,7 @@ export const APP_USER_UPDATE_STATE = `
         externalProfiles {
           id
           provider
+          profileId
           data
         }
       }
@@ -162,6 +163,7 @@ export const APP_USER_UPDATE = `
         externalProfiles {
           id
           provider
+          profileId
           data
         }
       }
@@ -200,6 +202,7 @@ export const SYNC_EXTERNAL_PROFILE = `
         externalProfiles {
           id
           provider
+          profileId
           data
         }
       }
