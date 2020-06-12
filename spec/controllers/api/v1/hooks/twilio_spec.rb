@@ -172,16 +172,14 @@ RSpec.describe Api::V1::Hooks::ProviderController, type: :controller do
         id: @pkg.id, 
         sender: user_phone, 
         recipient: owner_phone,
-        message_id: 1
-        )
+        message_id: 1)
       )
 
       get(:process_event, params: data_for(
         id: @pkg.id, 
         sender: owner_phone, 
         recipient: user_phone,
-        message_id: 2
-      )
+        message_id: 2)
       )
 
       expect(response.status).to be == 200
