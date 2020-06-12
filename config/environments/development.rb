@@ -91,6 +91,7 @@ Rails.application.configure do
 
   # ACTIVE JOB 
   config.active_job.queue_adapter = :sidekiq
+  # config.active_job.queue_adapter = :async
 
 
   # config.action_mailer.delivery_method = :smtp

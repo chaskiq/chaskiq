@@ -426,6 +426,7 @@ query AppUser($appKey: String!, $id: Int! ) {
       externalProfiles {
         id
         provider
+        profileId
         data
       }
     }

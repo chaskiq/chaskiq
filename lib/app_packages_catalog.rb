@@ -259,12 +259,21 @@ class AppPackagesCatalog
         state: 'enabled',
         definitions: [
           {
+            name: 'user_id',
+            label: 'Phone',
+            type: 'string',
+            hint: 'The Twillio Whatsapp number (format: +14155231223)',
+            grid: { xs: 'w-full', sm: 'w-full' }
+          },
+          {
             name: 'api_key',
+            label: 'Account SID',
             type: 'string',
             grid: { xs: 'w-full', sm: 'w-full' }
           },
           {
             name: 'api_secret',
+            label: 'Auth Token', 
             type: 'string',
             grid: { xs: 'w-full', sm: 'w-full' }
           }
@@ -307,5 +316,12 @@ class AppPackagesCatalog
     data = packages.find{|o| o[:name].downcase === kind.downcase}
     pkg = AppPackage.find_or_create_by(name: data[:name])
     pkg.update(data) unless pkg.blank?
+  end
+
+  def self.update_all
+    packages.each do |pkg|
+      package = AppPackage.find_or_create_by(name: pkg[:name])
+      package.update(pkg)
+    end
   end
 end

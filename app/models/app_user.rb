@@ -38,7 +38,7 @@ class AppUser < ApplicationRecord
   # has_many :metrics , as: :trackable
   has_many :metrics
   has_many :visits
-  has_many :external_profiles
+  has_many :external_profiles, dependent: :destroy
 
   include Eventable
 
