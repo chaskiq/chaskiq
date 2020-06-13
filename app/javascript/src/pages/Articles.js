@@ -149,14 +149,14 @@ class Articles extends Component {
   tabsContent = () => {
     return (
       <div>
-        <Hints type={'Articles'}/>
+        <Hints type={'articles'}/>
         <Tabs
           value={this.state.tabValue}
           onChange={this.handleTabChange}
           textColor="inherit"
           tabs={[
             {
-              label: "All",
+              label: I18n.t("articles.all"),
               content: (
                 <div>
                   <AllArticles
@@ -168,7 +168,7 @@ class Articles extends Component {
               ),
             },
             {
-              label: "Published",
+              label: I18n.t('articles.published'),
               content: (
                 <AllArticles
                   {...this.props}
@@ -178,7 +178,7 @@ class Articles extends Component {
               ),
             },
             {
-              label: "Draft",
+              label: I18n.t('articles.draft'),
               content: (
                 <AllArticles
                   {...this.props}
@@ -205,7 +205,7 @@ class Articles extends Component {
                 return (
                   <React.Fragment>
                     <ContentHeader
-                      title={"Articles"}
+                      title={ I18n.t('articles.title')}
                       //tabsContent={ this.tabsContent() }
                       actions={
                         <React.Fragment>
@@ -220,7 +220,7 @@ class Articles extends Component {
                                 target={"blank"}
                                 className="mr-2"
                               >
-                                visit help center
+                                {I18n.t('articles.visit')}
                               </Button>
                             </div>
                           ) : null}
@@ -230,7 +230,7 @@ class Articles extends Component {
                             color={'primary'} 
                             onClick={()=> this.props.history.push(`/apps/${this.props.app.key}/articles/new`)}>
                             {/*<AddIcon />*/}
-                            {" New article"}
+                            {I18n.t('articles.new')}
                           </Button>
                         </React.Fragment>
                       }

@@ -8,7 +8,7 @@ import defaultFields from '../../shared/defaultFields'
 import Button from '../Button'
 import { InlineFilterDialog } from '../segmentManager'
 import SegmentItemButton from '../segmentManager/itemButton'
-
+import I18n from '../../shared/FakeI18n'
 import Input from '../forms/Input'
 import arrayMove from 'array-move'
 
@@ -84,7 +84,7 @@ const SortableItem = sortableElement(
                     edit(object)
                   }}
                 >
-                  edit
+                  {I18n.t("common.edit")}
                 </Button>
 
                 <Button
@@ -94,7 +94,7 @@ const SortableItem = sortableElement(
                     deleteRule(object)
                   }}
                 >
-                  delete
+                  {I18n.t("common.delete")}
                 </Button>
               </div>
             </div>
@@ -162,7 +162,9 @@ function AssignmentRules ({ dispatch, match, app }) {
       },
       {
         success: (data) => {
-          dispatch(successMessage('rules sorted!'))
+          dispatch(successMessage(
+            I18n.t("assignment_rules.success_message")
+          ))
         }
       }
     )
@@ -330,7 +332,9 @@ function AssignmentRules ({ dispatch, match, app }) {
               })
             }
           >
-            Create Rule
+            {
+              I18n.t("assignment_rules.create_button")
+            }
           </Button>
         }
       ></PageHeader>

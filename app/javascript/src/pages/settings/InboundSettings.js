@@ -70,7 +70,7 @@ function InboundSettings({ settings, update, dispatch }) {
     <div>
       <div className="py-4">
 
-        <Hints type="InboundSettings"/>
+        <Hints type="inbound_settings"/>
         
       </div>
 

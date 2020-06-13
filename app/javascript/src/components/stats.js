@@ -8,8 +8,8 @@ import gravatar from "../shared/gravatar";
 import Badge from './Badge'
 import Button from "./Button";
 import Avatar from "./Avatar";
-
 import Count from "./charts/count";
+import I18n from '../shared/FakeI18n'
 
 const PieContainer = styled.div`
   padding: 0.75em;
@@ -137,9 +137,9 @@ class Stats extends Component {
     return (
       <div>
         <div className="flex justify-between items-center">
-          <h3 className="text-xl font-bold my-4">Campaign stats</h3>
+          <h3 className="text-xl font-bold my-4">{I18n.t('campaign.stats.title')}</h3>
           <Button onClick={this.getData}>
-            Refresh data
+            {I18n.t('campaign.stats.refresh_data')}
           </Button>
         </div>
 

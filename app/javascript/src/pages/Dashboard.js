@@ -112,7 +112,7 @@ function Dashboard (props) {
               <div className="bg-white shadow overflow-hidden  sm:rounded-lg p-4">
                 {/* <Chart /> */}
                 <div className="mt-1 text-3xl leading-9 font-semibold text-gray-900">
-                  Visit activity
+                  {I18n.t('dashboard.visit_activity')}
                 </div>
 
                 <DashboardItem
@@ -126,7 +126,7 @@ function Dashboard (props) {
             {/* Recent Deposits */}
             <div className={'lg:w-1/4 w-1/2 p-4'}>
               <div className="bg-white shadow overflow-hidden  sm:rounded-lg p-4">
-                <DashboardCard title={'Users browser'}>
+                <DashboardCard title={I18n.t('dashboard.users_browser')}>
                   <DashboardItem
                     chartType={'pie'}
                     dashboard={dashboard}
@@ -140,37 +140,44 @@ function Dashboard (props) {
 
             <div className={'lg:w-1/4 w-1/2 p-4'}>
               <div className="bg-white shadow overflow-hidden  sm:rounded-lg p-4">
-                <DashboardItem
-                  chartType={'pie'}
-                  dashboard={dashboard}
-                  app={app}
-                  label={I18n.t('dashboasrd.lead_os')}
-                  kind={'lead_os'}
-                />
+                <DashboardCard title={I18n.t('dashboard.lead_os')}>
+                  <DashboardItem
+                    chartType={'pie'}
+                    dashboard={dashboard}
+                    app={app}
+                    label={I18n.t('dashboasrd.lead_os')}
+                    kind={'lead_os'}
+                  />
+                </DashboardCard>
               </div>
             </div>
 
             <div className={'lg:w-1/4 w-1/2 p-4'}>
               <div className="bg-white shadow overflow-hidden  sm:rounded-lg p-4">
-                <DashboardItem
-                  chartType={'pie'}
-                  dashboard={dashboard}
-                  app={app}
-                  label={I18n.t('dashboasrd.user_os')}
-                  kind={'user_os'}
-                />
+                <DashboardCard title={I18n.t('dashboard.user_os')}>
+                  <DashboardItem
+                    chartType={'pie'}
+                    dashboard={dashboard}
+                    app={app}
+                    label={I18n.t('dashboasrd.user_os')}
+                    kind={'user_os'}
+                  />
+                </DashboardCard>
+
               </div>
             </div>
 
             <div className={'lg:w-1/4 w-1/2 p-4'}>
               <div className="bg-white shadow overflow-hidden  sm:rounded-lg p-4">
-                <DashboardItem
-                  chartType={'pie'}
-                  dashboard={dashboard}
-                  app={app}
-                  label={I18n.t('dashboasrd.user_country')}
-                  kind={'user_country'}
-                />
+                <DashboardCard title={I18n.t('dashboard.user_country')}>
+                  <DashboardItem
+                    chartType={'pie'}
+                    dashboard={dashboard}
+                    app={app}
+                    label={I18n.t('dashboasrd.user_country')}
+                    kind={'user_country'}
+                  />
+                </DashboardCard>
               </div>
             </div>
           </div>

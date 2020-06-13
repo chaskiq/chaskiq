@@ -252,7 +252,7 @@ class AppSettingsContainer extends Component {
         textColor="inherit"
         tabs={[
           {
-            label: "App Settings",
+            label: I18n.t("settings.app.app_settings"),
             content: (
               <SettingsForm
                 title={"General app's information"}
@@ -267,7 +267,7 @@ class AppSettingsContainer extends Component {
             ),
           },
           {
-            label: "Security",
+            label: I18n.t("settings.app.security"),
             content: (
               <SettingsForm
                 title={"Security Settings"}
@@ -283,10 +283,10 @@ class AppSettingsContainer extends Component {
             ),
           },
           {
-            label: "Appearance",
+            label: I18n.t("settings.app.appearance"),
             content: (
               <SettingsForm
-                title={"Appearance settings"}
+                title={I18n.t("settings.app.appearance_title")}
                 currentUser={this.props.currentUser}
                 data={this.props.app}
                 update={this.update.bind(this)}
@@ -298,7 +298,7 @@ class AppSettingsContainer extends Component {
             ),
           },
           {
-            label: "Translations",
+            label: I18n.t("settings.app.translations"),
             content: (
               <LanguageSettings
                 settings={this.props.app}
@@ -309,7 +309,7 @@ class AppSettingsContainer extends Component {
             ),
           },
           {
-            label: "Availability",
+            label: I18n.t("settings.app.availability"),
             content: (
               <AvailabilitySettings
                 settings={this.props.app}
@@ -320,7 +320,7 @@ class AppSettingsContainer extends Component {
             ),
           },
           {
-            label: "Email Requirement",
+            label: I18n.t("settings.app.email_requirement"),
             content: (
               <EmailRequirement
                 settings={this.props.app}
@@ -330,7 +330,7 @@ class AppSettingsContainer extends Component {
             ),
           },
           {
-            label: "Inbound settings",
+            label: I18n.t("settings.app.inbound_settings"),
             content: (
               <InboundSettings
                 settings={this.props.app}
@@ -340,7 +340,7 @@ class AppSettingsContainer extends Component {
             ),
           },
           {
-            label: "Messenger Style",
+            label:  I18n.t("settings.app.messenger_style"),
             content: (
               <StylingSettings
                 settings={this.props.app}
@@ -350,7 +350,7 @@ class AppSettingsContainer extends Component {
             ),
           },
           {
-            label: "User data",
+            label:  I18n.t("settings.app.user_data"),
             content: (
               <UserData
                 settings={this.props.app}
@@ -369,7 +369,7 @@ class AppSettingsContainer extends Component {
       <Content>
         {this.props.app && (
           <React.Fragment>
-            <ContentHeader title={"App Settings"} />
+            <ContentHeader title={I18n.t("settings.app.app_settings")} />
 
             {this.tabsContent()}
           </React.Fragment>

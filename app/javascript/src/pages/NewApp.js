@@ -100,12 +100,12 @@ class NewApp extends Component {
           <div className="w-1/2 hidden sm:block">
             <div className="p-8 pt-0">
               <p className="text-4xl tracking-tight leading-10 font-extrabold text-gray-900 sm:leading-none">
-                Create your company’s Chaskiq app
+                {I18n.t('new_app.title')}
               </p>
 
               <p className="mt-3 text-base text-gray-500 sm:mt-5 sm:text-lg sm:max-w-xl sm:mx-auto md:mt-5 md:text-xl lg:mx-0">
-                Provide basic information to setup Chaskiq for your team and
-                customers.
+
+                {I18n.t('new_app.text')}
               </p>
 
               <img
@@ -121,7 +121,7 @@ class NewApp extends Component {
 
             <p className="sm:hidden text-3xl tracking-tight leading-10 
             font-extrabold text-gray-900 sm:leading-none">
-              Create your company’s Chaskiq app
+              {I18n.t("new_app.hint")}
             </p>
 
             <SettingsForm

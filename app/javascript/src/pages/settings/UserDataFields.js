@@ -117,7 +117,7 @@ function CustomizationColors ({ app, settings, update, dispatch }) {
   return (
     <div className="py-4">
 
-      <Hints type="UserData" />
+      <Hints type="user_data" />
 
 
       <div className="flex items-center justify-between">
