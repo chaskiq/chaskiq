@@ -15,6 +15,12 @@ en:
     get_snippet: Get the snippet
     submit: Submit
     confirm_deletion: "Confirm deletion ?"
+    next: Next
+    prev: Prev
+    showing: Mostrando
+    to: to
+    of: of
+    results: resultados
   home:
     welcome: Welcome to
     welcome_site: Chaskiq

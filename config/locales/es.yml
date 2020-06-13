@@ -16,6 +16,13 @@
       submit: Enviar
       confirm_deletion: "¿Confirmar Eliminación?"
 
+      next: Siguente
+      prev: Anterior
+      showing: Mostrando
+      to: a
+      of: de
+      results: resultados
+
     home:
       welcome: Bienvenido a
       welcome_site: Chaskiq
@@ -341,9 +348,9 @@
     
     articles:
       title: Artículos
-      all: Todas
-      published: Publicado
-      draft: Sequía
+      all: Todos
+      published: Publicados
+      draft: Borradores
       visit: visite el centro de ayuda
       new: Articulo nuevo
       add: Agregar artículo
