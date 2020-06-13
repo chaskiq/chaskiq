@@ -232,6 +232,7 @@
         messenger_style: Estilo mensajero
         user_data: Datos del usuario
       integrations:
+        title: Integraciones con APIs de terceros
         create_success: Integración creada
         create_error: Error al vincular integración
         update_success: Integración actualizada

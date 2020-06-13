@@ -243,6 +243,7 @@ en:
       user_data: User data
 
     integrations:
+      title: Third party integrations
       create_success: Integration created
       create_error: Error linking integration
       update_success: Integration updated

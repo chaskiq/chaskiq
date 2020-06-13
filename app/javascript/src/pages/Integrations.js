@@ -195,7 +195,7 @@ function Integrations ({ app, dispatch }) {
 
   return (
     <Content>
-      <PageHeader title={'Third party integrations'} />
+      <PageHeader title={ I18n.t('settings.integrations.title') } />
 
       <p className="mt-2 max-w-xl text-sm leading-5 text-gray-500 py-4">
         Logos images provided by
