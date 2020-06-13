@@ -45,7 +45,7 @@ export default function LanguageForm ({ settings, update, namespace, fields }) {
   return (
     <form ref={(ref) => (formRef = ref)}>
       <div className="py-4">
-        <Hints type="Availability"/>
+        <Hints type="availability"/>
 
         <p className="text-lg leading-6 font-medium text-gray-900 pb-2">
           {I18n.t('settings.availability.title')}

@@ -1,6 +1,31 @@
 
 en:
+  common:
+    edit: Edit
+    new: New
+    update: Update
+    remove: Remove
+    delete: Delete
+    create: Create
+    save: Save
+    preview: Preview
+    cancel: Cancel
+    back_to_site: Back to site
+    not_found: The page you are looking for does not exist. 
+    get_snippet: Get the snippet
+    submit: Submit
+    confirm_deletion: "Confirm deletion ?"
+  home:
+    welcome: Welcome to
+    welcome_site: Chaskiq
+    tagline: Find your current applications here
+    create_new: Create new app
+    go_to_doc: Go to documentation
   dashboard:
+    hey: "👋 Hey!, you are viewing the <strong>%{name}'s</strong> dashboard!
+    <br />
+    Get you installation snippet for the web setup
+    <br />"
     response_avg: Response Time avg
     new_conversations: New conversations
     resolutions: Resolutions
@@ -13,6 +38,7 @@ en:
     user_country: User country
 
   navigator:
+    
     dashboard: Dashboard
     platform: Platform
     conversations: Conversations
@@ -20,6 +46,106 @@ en:
     routing_bots: Routing Bots
     help_center: Help Center
     settings: Settings
+
+    childs:
+      conversations: Conversations
+      assignment_rules: Assignment Rules
+      mailing_campaigns: Mailing Campaigns
+      in_app_messages: In App Messages
+      guided_tours: Guided Tours
+      for_leads: For Leads
+      for_users: For Users
+      bot_settings: Settings
+      articles: Articles
+      collections: Collections
+      article_settings: Settings
+      app_settings: App Settings
+      team: Team
+      integrations: Integrations
+      webhooks: Webhooks
+      api_access: API access
+
+    user_menu:
+      create_app: 'Create new app'
+      create_app_description: 'Create your company’s Chaskiq app'
+      signout: Sign out
+      title: User menu
+
+  conversations:
+    start_conversation: Start conversation
+    title: Conversations
+
+    menu:
+      conversations: Conversations
+      assignment_rules: Agent routing Rules
+    states:
+      opened: Opened
+      closed: Closed
+    sorts:
+      newest: Newest
+      oldest: Oldest
+      waiting: Waiting
+      priority_first: Priorized
+      all: All
+    empty:
+      title: No conversations
+      text: Choose conversations on the side
+
+  conversation:
+    with: Conversation with
+    actions:
+      priorize: Priorize conversation
+      remove_priority: Remove priority
+      close: Close
+      reopen: Reopen
+      start_call: Start videocall
+      end_call: End Call
+      assign_agent: Assign Agent
+    messages:
+      seen: Seen
+      not_seen: Not seen
+      note: Note
+  assignment_rules:
+    title: Assignment Rules
+    create_button: Create Rule
+    success_message: Assignment rule created sucessfully
+
+
+  campaigns:
+    title: Campaign
+    home:
+      title: Campaigns
+      text: This is the campaigns section, you can create newsletters , popup messages and guided tours
+    remove_success: Campaign removed
+    remove_hint: We will destroy any content and related data
+    delete_campaign: Delete campaign %{name}
+    create_new: Create new campaign
+    empty:
+      title: No campaigns found
+
+    campaign_updated: Campaign updated
+    updated_error: Error updating campaign
+    error_purge: Error purging metrics
+    purge_description: Purges campaigns metrics
+    purge_title: Purge Metrics
+    deliver_title: Deliver
+    deliver_description: Delivers the campaign
+
+  campaign:
+    edit: Edit Campaign Settings
+    create: Create a new campaign
+    preview: This is a preview
+    preview_hint: This is how your email should display. If you are using variables like {{name}} it should be displayed here.
+    
+    stats:
+      title: Campaign Stats
+      refresh_data: Refresh data
+
+    unsubscribe:
+      status: You've been %{state}
+      success: Success, %{ email } will no longer receive emails from this sender. Was this a mistake? 
+      resubscribe: Resubscribe from this list
+      cancel: Cancel your subscription
 
   task_bots:
     reply_soon: Hi, %{name} will reply as soon as they can.
@@ -38,7 +164,109 @@ en:
       reply:
         op1: Welcome back!
         op2: ok, let us know if you need something and an agent will reply as soon as possible
+  
+    settings:
+      leads: 
+        tab: For Leads
+        start_conversation: When leads start a conversation
+        delay: Leave a 2 minute delay before triggering Task Bots during office hours
+        share_time: Share your typical reply time 
+
+        route: Route existing customers to support
+        route_desc: Route leads to the right people by asking if they are an existing customer when they start a new conversation.
+        route_costumer: What do you want to do when they choose "Yes, I'm a customer"?
+        assign: Assign the conversation
+        close: Close the conversation
+        ask: Ask for contact details
+        ask_hint: If we don’t already have their contact details, Operator will suggest that customers leave their email address or their phone number to get notified whenever you reply.
+        dont_ask_email: Don't ask for email
+        ask_email_phone: Ask for email or mobile number
+        email_only: Ask for email only
+      users:
+        tab: For Users
+        start_conversation: When users start a conversation
+        delay: Leave a 2 minute delay before triggering Task Bots during office hours
+  
+      settings_title: Bot Task settings
+      specific_times_title: Set specific times to show this bot to your audience.
+      tz_hint: Your app's timezone is ${timezone} See your office hours.
+      office_hours: During office hours
+      outside_office: Outside office hours
+      custom_time: Custom time
+
+      enable_title: Enable bot task
+      enable_hint: when enabled the bot task will start operating
+
+    title: Bot Tasks
+    new: Create new task
+    remove_success: bot removed
+    empty:
+      title: No bot tasks found
+      create_new: Create a new one
+    delete:
+      title: Delete bot "%{name}"
+      hint: we will destroy any content and related data
+    create:
+      title: Create Bot task
+
+  new_app:
+    title: "Create your company’s Chaskiq app"
+    text: Provide basic information to setup Chaskiq for your team and customers.
+    hint: Create your company’s Chaskiq app
   settings:
+    api:
+      title: Oauth Applications
+      tabs:
+        apps: OAUTH Applications
+        authorized: Authorized OAUTH Applications
+      oauth_information: Oauth App Information
+      details: Oauth details and credentials.
+      delete_app: Delete Oauth App?
+      create_app: Create Oauth App
+      hint: We will destroy any content and related data
+      invite:
+        title: Add a new agent
+        text: send an activable invitation
+
+    app:
+      app_settings: App Settings
+      security: Security
+      app_settings: App Settings
+      security: Security
+      appearance: Appearance
+      appearance_title: Appearance settings
+      translations: Translations
+      availability: Availability
+      email_requirement: Email Requirement
+      inbound_settings: Inbound settings
+      messenger_style: Messenger Style
+      user_data: User data
+
+    integrations:
+      create_success: Integration created
+      create_error: Error linking integration
+      update_success: Integration updated
+      update_error: Error updating integration
+      remove_success: Integration removed correctly
+      remove_error: Error removing integration
+      active:
+        title: Active Integrations
+        text: API Integrations
+      available:
+        title: "Available API's"
+        text:  Available API Services
+
+      hints:
+        hook_url: This integration will receive webhook at
+      delete_dialog:
+        title: Delete "%{openDeleteDialog.name}" integration ?
+        text: The integration with %{name} service will be disabled immediately
+
+      empty:
+        title: You don't have any api integrations yet
+        text: Search for available api services in
+
+
     availability:
 
       title: Set your availability
@@ -91,3 +319,73 @@ en:
       hint2: Control who sees the standard Messenger launcher on your website.
       note2: ANY MESSAGES YOU SEND WILL STILL BE DELIVERED.
       note3: "On the web, show the standard Messenger launcher to:"
+
+    team:
+      title: Team
+      invitations: invitations
+      agents: Agents
+      invitation_success: invitation sent!
+      invitatin_error: invitation not sent!
+      action_button: add user
+      title_content: Add a new agent
+      content_text: send an activable invitation 
+      hint: the new team member will be notified by it's email
+      send_invitation: Send invitation
+      resend_invitation: Resend invitation
+      add_new: Add Team Member
+
+    webhooks:
+      title: Webhooks
+      create_success: Webhook created
+      create_error: Error adding webhook
+      update_success: Webhook updated
+      update_error: Error updating webhook
+      delete_success: Webhook removed correctly
+      delete_error: Error removing webhook
+      outgoing_webhooks: Outgoing webhooks
+      new_webhook: New webhook
+      active_webhooks: Active Webhooks
+      disabled_webhooks: Disabled Webhooks
+      empty:
+        title: You don't have any active webhooks yet
+        desc: Search for your webhooks in
+        disabled_webhooks: Disabled webhooks
+      delete:
+        title: Delete webhook ?
+        text: The webhook with %{name} service will be disabled immediately
+
+  
+  articles:
+    title: Artículos
+    all: Todas
+    published: Publicado
+    draft: Sequía
+    visit: visite el centro de ayuda
+    new: Articulo nuevo
+    add: Agregar artículo
+    collections: Colecciones
+    help_center: Centro de ayuda
+    description_placeholder: Describa su colección para ayudarla a encontrarla.
+    title_placeholder: Escriba el título de las secciones
+    new_section: Nueva sección
+    new_collection: Nueva colección
+    create:
+      title: Nueva colección de artículos
+      placeholder: Escriba el título de la colección
+      description: Describa su colección para ayudarla a encontrarla.
+    settings:
+      title: Configuraciones del Centro de ayuda
+      add_language: Agregar idioma
+      select_lang: Seleccione el idioma
+      add_language_to_help: Agregar nuevo idioma al Centro de ayuda
+      delete:
+        title: Eliminar traducción "%{name}"
+        text: Destruiremos la traducción y ocultaremos cualquier artículo con el idioma "%{name}"
+      appearance: Apariencia
+      appearance_settings: Configuración de la apariencia
+      lang: Sólo
+      lang_title: Localiza tu Centro de ayuda
+      lang_desc: Administre los idiomas admitidos y personalice el encabezado de su
+        Centro de ayuda
+      basic: Configuración básica
+      general_app: Información general de la aplicación

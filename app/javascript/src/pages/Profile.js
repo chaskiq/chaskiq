@@ -302,7 +302,7 @@ class ProfilePage extends Component {
                     variant="contained" 
                     color="secondary"
                     onClick={this.openStartConversationModal}>
-                    start conversation
+                    {I18n.t("conversations.start_conversation")}
                   </Button>
 
                   <FilterMenu
@@ -341,6 +341,7 @@ class ProfilePage extends Component {
           <div className="w-full md:w-3/4 p-3 shadow rounded m-4">
             <p className="text-2xl font-bold leading-6 text-gray-900 sm:text-2xl sm:leading-9 sm:truncate">
               conversations
+              {I18n.t("conversations.title")}
             </p>
             {
               this.state.collection.filter((o)=> o.lastMessage ).map((o)=>{

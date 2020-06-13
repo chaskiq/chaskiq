@@ -11,6 +11,7 @@ import { AGENTS } from '../../graphql/queries'
 
 import { updateApp } from '../../actions/app'
 import { setCurrentPage } from '../../actions/navigation'
+import I18n from '../../shared/FakeI18n'
 
 const SettingsForm = ({ app, data, errors, dispatch }) => {
   const [tabValue, setTabValue] = useState(0)
@@ -44,7 +45,7 @@ const SettingsForm = ({ app, data, errors, dispatch }) => {
         textColor="inherit"
         tabs={[
           {
-            label: 'For Leads',
+            label: I18n.t('task_bots.settings.leads.tab'),
             content: (
               <LeadsSettings
                 app={app}
@@ -57,7 +58,7 @@ const SettingsForm = ({ app, data, errors, dispatch }) => {
             )
           },
           {
-            label: 'For Users',
+            label: I18n.t('task_bots.settings.users.tab'),
             content: (
               <UsersSettings
                 app={app}
@@ -118,12 +119,12 @@ function UsersSettings ({ app, updateData, namespace, submit }) {
     <div>
       <div className="py-4">
         <p className="text-lg leading-6 font-medium text-gray-900 pb-4">
-          When users start a conversation
+          {I18n.t("task_bots.settings.users.start_conversation")}
         </p>
 
         <Input
           type="checkbox"
-          label="Leave a 2 minute delay before triggering Task Bots during office hours"
+          label={I18n.t('task_bots.settings.users.delay')}
           checked={state.delay}
           onChange={handleChange('delay')}
           value="delay"
@@ -133,7 +134,7 @@ function UsersSettings ({ app, updateData, namespace, submit }) {
       <div className="py-4">
         <Button size={'medium'}
           variant={'contained'} onClick={submitData}>
-          save
+          {I18n.t("common.save")}
         </Button>
       </div>
     </div>
@@ -176,7 +177,7 @@ function LeadsSettings ({
     <div>
       <div className="py-4">
         <p className="text-lg leading-6 font-medium text-gray-900 pb-4">
-          When leads start a conversation
+          {I18n.t("task_bots.settings.leads.start_conversation")}
         </p>
 
         <div container direction="column">
@@ -185,7 +186,7 @@ function LeadsSettings ({
             checked={state.delay}
             onChange={handleChange('delay')}
             value={state.delay}
-            label="Leave a 2 minute delay before triggering Task Bots during office hours"
+            label={I18n.t("task_bots.settings.leads.delay")}
           />
 
           <Input
@@ -193,7 +194,7 @@ function LeadsSettings ({
             checked={state.share_typical_time}
             onChange={handleChange('share_typical_time')}
             value={state.share_typical_time}
-            label="Share your typical reply time"
+            label={I18n.t("task_bots.settings.leads.share_time")}
           />
 
         </div>
@@ -201,16 +202,15 @@ function LeadsSettings ({
         <hr />
 
         <p className="text-lg leading-6 font-medium text-gray-900 py-4">
-          Route existing customers to support
+          {I18n.t('task_bots.settings.leads.route')}
         </p>
 
         <p className="max-w-xl text-sm leading-5 text-gray-500 mb-4">
-          Route leads to the right people by asking if they are an existing
-          customer when they start a new conversation.
+          {I18n.t('task_bots.settings.leads.route_desc')}
         </p>
 
         <h2 className="font-bold mb-2">
-          What do you want to do when they choose "Yes, I'm a customer"?
+          {I18n.t('task_bots.settings.leads.route_costumer')}
         </h2>
 
         <div className="flex items-center">
@@ -221,7 +221,7 @@ function LeadsSettings ({
             onChange={handleRadioChange}
             value="assign"
             defaultChecked={state.routing === "assign"}
-            label="Assign the conversation"
+            label={I18n.t('task_bots.settings.leads.assign')}
           ></Input>
 
           <div className="w-1/4 pl-5">
@@ -243,19 +243,17 @@ function LeadsSettings ({
           defaultChecked={state.routing === "close"}
           //value={state.routing}
           onChange={handleRadioChange}
-          label="Close the conversation"
+          label={I18n.t('task_bots.settings.leads.close')}
         />
 
         <hr />
 
         <p className="text-lg leading-6 font-medium text-gray-900 py-4">
-          Ask for contact details
+          {I18n.t('task_bots.settings.leads.ask')}
         </p>
 
         <p className="max-w-xl text-sm leading-5 text-gray-500 mb-4">
-          If we don’t already have their contact details, Operator will suggest
-          that customers leave their email address or their phone number to get
-          notified whenever you reply.
+          {I18n.t('task_bots.settings.leads.ask_hint')}
         </p>
 
         <Input
@@ -264,7 +262,7 @@ function LeadsSettings ({
           defaultChecked={state.email_requirement === 'never'}
           value={'never'}
           onChange={handleRadioChange}
-          label="Don't ask for email"
+          label={I18n.t('task_bots.settings.leads.dont_ask_email')}
         />
 
         <Input
@@ -273,7 +271,7 @@ function LeadsSettings ({
           //value={state.email_requirement}
           onChange={handleRadioChange}
           defaultChecked={state.email_requirement === 'email_or_phone'}
-          label="Ask for email or mobile number"
+          label={I18n.t('task_bots.settings.leads.ask_email_phone')}
           value="email_or_phone"
           labelPlacement="end"
         />
@@ -285,7 +283,7 @@ function LeadsSettings ({
           onChange={handleRadioChange}
           value="email_only"
           defaultChecked={state.email_requirement === 'email_only'}
-          label="Ask for email only"
+          label={I18n.t('task_bots.settings.leads.email_only')}
         />
       </div>
 
@@ -293,7 +291,7 @@ function LeadsSettings ({
         <Button size={'medium'}
           variant={'contained'}
           onClick={submitData}>
-          save
+          {I18n.t('common.save')}
         </Button>
       </div>
     </div>
@@ -335,28 +333,6 @@ function AgentSelector ({ agents, getAgents, setValue, value }) {
         data={{}}
         options={agents.map((o) => ({ label: o.email, value: o.id }))}
       ></Input>
-      {/* <FormControl>
-        <InputLabel htmlFor="agent">agent</InputLabel>
-        <Select
-          value={selected}
-          onChange={handleChange}
-          inputProps={{
-            name: 'agent',
-            id: 'agent',
-          }}
-        >
-
-          {
-            agents.map((o)=>(
-              <MenuItem key={`agent-${o.id}`} value={o.id}>
-                {o.email}
-              </MenuItem>
-            ))
-          }
-
-        </Select>
-      </FormControl>
-      */}
     </div>
   )
 }

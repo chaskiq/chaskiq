@@ -4,6 +4,7 @@ import EmptyView from '../components/EmptyView'
 import image from '../images/notfound-icon8.png'
 import logo from '../images/logo.png'
 import { Link } from 'react-router-dom'
+import I18n from '../shared/FakeI18n'
 
 export default function NoFound () {
   return (
@@ -14,8 +15,8 @@ export default function NoFound () {
         title="Not found"
         subtitle={
           <span>
-            The page you are looking for does not exist.{' '}
-            <Link to="/">Back to site</Link>
+            {I18n.t('common.not_found')}
+            <Link to="/">{I18n.t('common.back_to_site')}</Link>
           </span>
         }
         image={<img src={image} alt="not found" />}
