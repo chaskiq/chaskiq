@@ -9,19 +9,19 @@ class Campaign < Message
 
   def config_fields
     [
-      { name: 'name', label: "Campaign's name",  hint: "This will not be shown in the email",  type: 'string', grid: { xs: 'w-full', sm: 'w-full' } },
-      { name: 'subject', label: "Email Subject", hint: "This is the email subject itself", type: 'text', grid: { xs: 'w-full', sm: 'w-full' } },
-      { name: 'fromName', label: "From Name", type: 'string', grid: { xs: 'w-full', sm: 'w-1/2' } },
-      { name: 'fromEmail', label: "From Email", type: 'string', grid: { xs: 'w-full', sm: 'w-1/2' } },
-      { name: 'replyEmail', label: "Reply email", type: 'string', grid: { xs: 'w-full', sm: 'w-1/2' } },
+      { name: 'name', label: I18n.t("definitions.campaigns.campaign_name.label"),  hint: I18n.t("definitions.campaigns.campaign_name.hint"),  type: 'string', grid: { xs: 'w-full', sm: 'w-full' } },
+      { name: 'subject', label: I18n.t("definitions.campaigns.email_subject.label"), hint: I18n.t("definitions.campaigns.email_subject.hint"), type: 'text', grid: { xs: 'w-full', sm: 'w-full' } },
+      { name: 'fromName', label: I18n.t("definitions.campaigns.from_name.label"), type: 'string', grid: { xs: 'w-full', sm: 'w-1/2' } },
+      { name: 'fromEmail', label: I18n.t("definitions.campaigns.from_email.label"), type: 'string', grid: { xs: 'w-full', sm: 'w-1/2' } },
+      { name: 'replyEmail', label: I18n.t("definitions.campaigns.reply_email.label"), type: 'string', grid: { xs: 'w-full', sm: 'w-1/2' } },
       { name: 'description', type: 'textarea', grid: { xs: 'w-full', sm: 'w-full' } },
       { name: 'timezone', type: 'timezone',
         options: ActiveSupport::TimeZone.all.map { |o| o.tzinfo.name },
         multiple: false,
         grid: { xs: 'w-full', sm: 'w-full' } },
       # {name: "settings", type: 'string'} ,
-      { name: 'scheduledAt', label: "Scheduled at", type: 'datetime', grid: { xs: 'w-full', sm: 'w-1/2' } },
-      { name: 'scheduledTo', label: "Scheduled to", type: 'datetime', grid: { xs: 'w-full', sm: 'w-1/2' } }
+      { name: 'scheduledAt', label: I18n.t("definitions.campaigns.scheduled_at.label"), type: 'datetime', grid: { xs: 'w-full', sm: 'w-1/2' } },
+      { name: 'scheduledTo', label: I18n.t("definitions.campaigns.scheduled_to.label"), type: 'datetime', grid: { xs: 'w-full', sm: 'w-1/2' } }
     ]
   end
 

@@ -4,6 +4,7 @@ class GraphqlController < ApplicationController
   skip_before_action :verify_authenticity_token
   #before_action :doorkeeper_authorize!
   before_action :set_host_for_local_storage
+  before_action :set_locale
 
   def execute
     variables = ensure_hash(params[:variables])

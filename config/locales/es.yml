@@ -28,6 +28,7 @@
       welcome_site: Chaskiq
       tagline: Encuentra tus aplicaciones actuales aquí
       create_new: Crear nueva aplicación
+      choose_lang: Elegir lenguaje
       go_to_doc: Ir a la documentación
     dashboard:
       hey: "\U0001F44B ¡Hola !, estás viendo el panel de control de <strong> %{name}</strong>
@@ -38,7 +39,7 @@
       incoming_messages: Mensajes entrantes
       visit_activity: Actividad de visita
       users_browser: Navegador de usuarios
-      lead_os: Os de plomo
+      lead_os: Os de Leads
       user_os: Usuario Os
       mac_os: Mac OS
       user_country: País del usuario
@@ -48,7 +49,7 @@
       platform: Plataforma
       conversations: Conversaciones
       campaigns: Campañas
-      routing_bots: Enrutando Bots
+      routing_bots: Bots
       help_center: Centro de ayuda
       settings: Configuraciones
       childs:
@@ -63,7 +64,7 @@
         articles: Artículos
         collections: Colecciones
         article_settings: Configuraciones
-        app_settings: Ajustes de Aplicacion
+        app_settings: Ajustes de Aplicación
         team: Equipo
         integrations: Integraciones
         webhooks: Webhooks
@@ -146,6 +147,7 @@
         cancel: Cancele su suscripción
 
     task_bots:
+      title: Configuración general de Bots
       reply_soon: Hola, %{name} responderá tan pronto como puedan.
       reply_agent: recibirá una respuesta de uno de nuestros agentes
       email_support: para obtener asistencia, puede enviar un correo electrónico a %{email}
@@ -190,7 +192,7 @@
         settings_title: Configuración de tareas de bot
         specific_times_title: Establezca horarios específicos para mostrar este bot
           a su audiencia.
-        tz_hint: La zona horaria de su aplicación es $ {timezone} Vea sus horas de oficina.
+        tz_hint: La zona horaria de su aplicación es %{timezone} Vea sus horas de oficina.
         office_hours: En horario de oficina
         outside_office: Fuera del horario de oficina
         custom_time: Tiempo personalizado
@@ -312,6 +314,21 @@
         note2: CUALQUIER MENSAJE QUE ENVÍE TODAVÍA SERÁ ENTREGADO.
         note3: 'En la web, muestre el iniciador de Messenger estándar para:'
 
+        filters:
+          users:
+            label: Usuarios
+            all: Todos los usuarios
+            some: Usuarios que calzan con el filtro
+          leads:
+            label: Visitantes
+            all: Todos los visitantes
+            some: Usuarios que calzan con el filtro
+          hint: Esto no afecta a los mensajes salientes que envías
+
+
+      languages: 
+        add: Agregar Idioma
+        title: Idiomas
       team:
         title: Equipo
         invitations: invitaciones
@@ -360,6 +377,9 @@
       title_placeholder: Escriba el título de las secciones
       new_section: Nueva sección
       new_collection: Nueva colección
+      create_article:
+        placeholder: Escribe el titulo del artículo
+        description_placeholder: Añade un resumen para poder encontrar el articulo mas tarde
       create:
         title: Nueva colección de artículos
         placeholder: Escriba el título de la colección

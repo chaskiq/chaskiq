@@ -6,9 +6,13 @@ import { expireAuthentication, refreshToken } from '../actions/auth'
 //import history from "../history.js";
 
 const graphql = (query, variables, callbacks) => {
-  const auth = store.getState().auth
+  const {auth, current_user} = store.getState()
+
+  const locale = current_user ? current_user.lang : I18n.defaultLocale
+
   const config = {
-    authorization: `Bearer ${auth.accessToken}`
+    authorization: `Bearer ${auth.accessToken}`,
+    lang: locale
   }
 
   axios.create({

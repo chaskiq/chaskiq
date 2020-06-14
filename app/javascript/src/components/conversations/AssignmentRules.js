@@ -84,7 +84,7 @@ const SortableItem = sortableElement(
                     edit(object)
                   }}
                 >
-                  {I18n.t("common.edit")}
+                  {I18n.t('common.edit')}
                 </Button>
 
                 <Button
@@ -94,7 +94,7 @@ const SortableItem = sortableElement(
                     deleteRule(object)
                   }}
                 >
-                  {I18n.t("common.delete")}
+                  {I18n.t('common.delete')}
                 </Button>
               </div>
             </div>
@@ -163,7 +163,7 @@ function AssignmentRules ({ dispatch, match, app }) {
       {
         success: (data) => {
           dispatch(successMessage(
-            I18n.t("assignment_rules.success_message")
+            I18n.t('assignment_rules.success_message')
           ))
         }
       }
@@ -316,7 +316,7 @@ function AssignmentRules ({ dispatch, match, app }) {
   return (
     <div className="p-4">
       <PageHeader
-        title="Assignment Rules"
+        title={I18n.t('assignment_rules.title')}
         actionHandler={open}
         actionLabel={'New Rule'}
         actions={
@@ -333,7 +333,7 @@ function AssignmentRules ({ dispatch, match, app }) {
             }
           >
             {
-              I18n.t("assignment_rules.create_button")
+              I18n.t('assignment_rules.create_button')
             }
           </Button>
         }

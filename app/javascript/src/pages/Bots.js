@@ -107,7 +107,7 @@ const BotDataTable = ({ app, match, history, mode, dispatch }) => {
             columns={[
               {
                 field: 'name',
-                title: 'name',
+                title: I18n.t('definitions.bot_tasks.name.label'),
                 render: (row) =>
                   row && (
                     <td className="px-6 py-4 whitespace-no-wrap border-b border-gray-200">
@@ -122,10 +122,10 @@ const BotDataTable = ({ app, match, history, mode, dispatch }) => {
                   )
               },
 
-              { field: 'state', title: 'state' },
+              { field: 'state', title: I18n.t('definitions.bot_tasks.state.label') },
               {
                 field: 'actions',
-                title: 'actions',
+                title: I18n.t('definitions.bot_tasks.actions.label'),
                 render: (row) => (
                   <td className="px-6 py-4 whitespace-no-wrap border-b border-gray-200">
                     <div className="flex items-center">
@@ -242,14 +242,14 @@ const BotTaskCreate = ({ app, submit, history, match, mode }) => {
         formComponent={
           <form>
             <Input
-              label="None"
+              label={I18n.t('definitions.bot_tasks.title.label')}
               id="title"
               type={'string'}
               ref={(ref) => (titleRef = ref)}
-              placeholder={'write task title'}
+              placeholder={I18n.t('definitions.bot_tasks.title.placeholder.placeholder')}
               // defaultValue="Default Value"
               // className={classes.textField}
-              helperText="Task name ie: welcoming users bot task"
+              helperText={I18n.t('definitions.bot_tasks.title.placeholder.hint')}
             />
           </form>
         }

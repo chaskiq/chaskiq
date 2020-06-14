@@ -75,7 +75,7 @@ function InboundSettings({ settings, update, dispatch }) {
       </div>
 
       <p className="text-lg leading-5 font-medium text-gray-900 pb-2">
-        New conversations button
+        {I18n.t('settings.inbound.title')}
       </p>
 
       <div container>
@@ -85,58 +85,57 @@ function InboundSettings({ settings, update, dispatch }) {
           onChange={(e) => handleChange("enable_inbound", e)}
           value={state.enable_inbound}
           color="primary"
-          label="Let people start new inbound conversations with you"
+          label={I18n.t("settings.inbound.checkbox")}
         />
       </div>
 
       <p className="my-2 max-w-xl text-sm leading-5 text-gray-500">
-        When this is turned off, people can only reply to the outbound messages
-        you send.
+        {I18n.t("settings.inbound.hint")}
       </p>
 
       <hr />
 
       <div className="py-4">
         <p className="text-lg leading-5 font-medium text-gray-900 pb-2">
-          visibility
+        {I18n.t("settings.inbound.title2")}
         </p>
       </div>
 
       <p className="text-lg leading-6 font-medium text-gray-900 pb-2">
-        Control who sees the standard Messenger launcher on your website.
+        {I18n.t("settings.inbound.hint2")}
       </p>
 
       <p className="text-md leading-6 font-medium text-gray-600 pb-2">
-        Any messages you send will still be delivered.
+      {I18n.t("settings.inbound.note2")}
       </p>
 
       <div className="py-4">
         <p className="py-2">
-          On the web, show the standard Messenger launcher to:
+          {I18n.t("settings.inbound.note3")}
         </p>
 
         <hr />
 
         <AppSegmentManager
           app={settings}
-          label={"Users"}
+          label={I18n.t("settings.inbound.filters.users.label")}
           namespace={"users"}
-          all={"All Users"}
+          all={I18n.t("settings.inbound.filters.users.all")}
           checked={state.users_enabled}
           updateChecked={handleChange}
           predicates={state.usersPredicates || []}
           setPredicates={setPredicates}
           radioValue={state.users_radio}
           dispatch={dispatch}
-          some={"Users who match certain data"}
+          some={I18n.t("settings.inbound.filters.users.some")}
         />
 
         <hr />
 
         <AppSegmentManager
           app={settings}
-          label={"Visitors"}
-          all={"All Visitors"}
+          label={I18n.t("settings.inbound.filters.leads.label")}
+          all={I18n.t("settings.inbound.filters.leads.all")}
           namespace="visitors"
           dispatch={dispatch}
           checked={state.visitors_enabled}
@@ -144,17 +143,17 @@ function InboundSettings({ settings, update, dispatch }) {
           predicates={state.visitorsPredicates || []}
           setPredicates={setPredicates}
           radioValue={state.visitors_radio}
-          some={"Visitors who match certain data"}
+          some={I18n.t("settings.inbound.filters.leads.some")}
         />
 
         <p className="text-sm leading-6 font-medium text-gray-400 pb-2">
-          This doesn’t affect the outbound messages you send.
+         { I18n.t("settings.inbound.filters.hint")}
         </p>
       </div>
 
       <div container>
         <Button onClick={handleSubmit} variant={"contained"} color={"primary"}>
-          Save
+          {I18n.t('common.save')}
         </Button>
       </div>
     </div>

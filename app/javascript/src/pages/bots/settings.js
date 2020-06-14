@@ -90,7 +90,9 @@ const SettingsForm = ({ app, data, errors, dispatch }) => {
   return (
     <div>
       <Content>
-        <ContentHeader title={'Bot default settings'} items={[]} />
+        <ContentHeader title={
+          I18n.t('task_bots.title')
+        } items={[]} />
 
         {/* JSON.stringify(state) */}
         {tabsContent()}

@@ -26,6 +26,7 @@ en:
     welcome_site: Chaskiq
     tagline: Find your current applications here
     create_new: Create new app
+    choose_lang: Choose language
     go_to_doc: Go to documentation
   dashboard:
     hey: "👋 Hey!, you are viewing the <strong>%{name}'s</strong> dashboard!
@@ -116,7 +117,6 @@ en:
     create_button: Create Rule
     success_message: Assignment rule created sucessfully
 
-
   campaigns:
     title: Campaign
     home:
@@ -154,6 +154,7 @@ en:
       cancel: Cancel your subscription
 
   task_bots:
+    title: Bot default settings
     reply_soon: Hi, %{name} will reply as soon as they can.
     reply_agent: you will get a reply from one of our agents
     email_support: to get support you can email at %{email} 
@@ -316,16 +317,29 @@ en:
           hint: WILL ALLOW WEBSITE VISITORS TO START A CONVERSATION AT ANY TIME
 
 
+    languages:
+      add: Add Language
+      title: Languages
     inbound:
-
       title: New conversations button
       checkbox: Let people start new inbound conversations with you
-      hint: WHEN THIS IS TURNED OFF, PEOPLE CAN ONLY REPLY TO THE OUTBOUND MESSAGES YOU SEND.
+      hint: When this is turned off, people can only reply to the outbound messages you send.
 
       title2: visibility
       hint2: Control who sees the standard Messenger launcher on your website.
       note2: ANY MESSAGES YOU SEND WILL STILL BE DELIVERED.
       note3: "On the web, show the standard Messenger launcher to:"
+
+      filters:
+        users:
+          label: Users
+          all: All Users
+          some: Users who match certain data
+        leads:
+          label: Leads
+          all: All Visitors
+          some: Visitors who match certain data
+        hint: This doesn’t affect the outbound messages you send.
 
     team:
       title: Team
@@ -376,6 +390,9 @@ en:
     title_placeholder: Escriba el título de las secciones
     new_section: Nueva sección
     new_collection: Nueva colección
+    create_article:
+      placeholder: Type articles's title
+      description_placeholder: Describe your article to help it get found
     create:
       title: Nueva colección de artículos
       placeholder: Escriba el título de la colección

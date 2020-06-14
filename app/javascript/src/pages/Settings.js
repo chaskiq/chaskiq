@@ -105,6 +105,7 @@ class AppSettingsContainer extends Component {
     return [
       {
         name: "name",
+        label: I18n.t('definitions.settings.name.label'),
         type: "string",
         grid: { xs: "w-full", sm: "w-3/4" },
         gridProps: { style: { alignSelf: "flex-end" } },
@@ -112,6 +113,7 @@ class AppSettingsContainer extends Component {
 
       {
         name: "logo",
+        label: I18n.t('definitions.settings.logo.label'),
         type: "upload",
         grid: { xs: "w-full", sm: "w-1/4" },
         handler: (file) => this.uploadHandler(file, "logo"),
@@ -120,31 +122,31 @@ class AppSettingsContainer extends Component {
       {
         name: "domainUrl",
         type: "string",
-        label: "Domain URL",
-        hint: "This will be the host site were chaskiq will be used",
+        label: I18n.t('definitions.settings.domain.label'),
+        hint: I18n.t('definitions.settings.domain.hint'),
         grid: { xs: "w-full", sm: "w-1/2" },
       },
       {
         name: "outgoingEmailDomain",
-        label: "Outgoing email Domain",
-        hint:
-          "The email domain to send conversations, for @yourapp use 'your app'",
+        label: I18n.t('definitions.settings.outgoing_email_domain.label'),
+        hint: I18n.t('definitions.settings.outgoing_email_domain.hint'),
         type: "string",
         grid: { xs: "w-full", sm: "w-1/2" },
       },
 
       {
         name: "tagline",
+        label: I18n.t('definitions.settings.tagline.label'),
         type: "text",
         label: "talgline",
-        hint: "Messenger text on botton",
+        hint: I18n.t('definitions.settings.tagline.hint'),
         grid: { xs: "w-full", sm: "w-1/2" },
       },
 
       {
         name: "timezone",
         type: "timezone",
-        label: "App's timezone",
+        label: I18n.t('definitions.settings.timezone.label'),
         options: timezones,
         multiple: false,
         grid: { xs: "w-full", sm: "w-1/2" },
@@ -152,17 +154,15 @@ class AppSettingsContainer extends Component {
       {
         name: "gatherSocialData",
         type: "bool",
-        label: "Collect social data about your users",
-        hint:
-          "Collect social profiles via fullcontact service (e.g. LinkedIn, Twitter, etc.) for my users via a third party",
+        label: I18n.t('definitions.settings.gather_social_data.label'),
+        hint: I18n.t('definitions.settings.gather_social_data.hint'),
         grid: { xs: "w-full", sm: "w-1/2" },
       },
       {
         name: "registerVisits",
-        label: "Register & Store visits to database",
+        label: I18n.t('definitions.settings.register_visits.label'),
         type: "bool",
-        hint:
-          "Even if this is disabled we will collect global counter of visits and store the last visit information on visitor's profile",
+        hint: I18n.t('definitions.settings.register_visits.hint'),
         grid: { xs: "w-full", sm: "w-1/2" },
       },
     ];
@@ -172,12 +172,12 @@ class AppSettingsContainer extends Component {
     return [
       {
         name: "encryptionKey",
-        label: "Encryption Key",
+        label: I18n.t('definitions.settings.encryption_key.label'),
         type: "string",
         maxLength: 16,
         minLength: 16,
-        placeholder: "Leave it blank for no encryption",
-        hint: "This key will be used to encrypt and decrypt JWE user data",
+        placeholder: I18n.t('definitions.settings.encryption_key.placeholder'),
+        hint: I18n.t('definitions.settings.encryption_key.hint'),
         grid: { xs: "w-full", sm: "w-full" },
       },
     ];
@@ -187,26 +187,24 @@ class AppSettingsContainer extends Component {
     return [
       {
         name: "activeMessenger",
-        label: "Activate messenger",
-        hint:
-          "When this is activate the messenger web widget will be activated",
+        label: I18n.t('definitions.settings.active_messenger.label'),
+        hint: I18n.t('definitions.settings.active_messenger.hint'),
         type: "bool",
         grid: { xs: "w-full", sm: "w-full" },
       },
 
       {
         name: "enableArticlesOnWidget",
-        label: "Display article on chat window",
-        hint:
-          "This option will display the articles in the home section of the messenger",
+        label: I18n.t('definitions.settings.enable_articles.label'),
+        hint: I18n.t('definitions.settings.enable_articles.hint'),
         type: "bool",
         grid: { xs: "w-full", sm: "w-full" },
       },
 
       {
         name: "inlineNewConversations",
-        label: "Display new messages in floating box",
-        hint: "This option will not open chat box widget",
+        label: I18n.t('definitions.settings.inline_conversation.label'),
+        hint: I18n.t('definitions.settings.inline_conversation.hint'),
         type: "bool",
         grid: { xs: "w-full", sm: "w-full" },
       },
