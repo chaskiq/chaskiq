@@ -54,7 +54,33 @@ class ApplicationController < ActionController::Base
     devise_parameter_sanitizer.permit :account_update, keys: added_attrs
   end
 
+  def set_locale
+    http_locale = request.headers['HTTP_LANG'] || params[:lang] || cookies[:lang]
+    http_splitted_locale = http_locale ? http_locale.to_s.split('-').first.to_sym : nil
+    user_locale = begin
+                    @user_data[:properties].try(:[], :lang)
+                  rescue StandardError
+                    nil
+                  end
+
+    locale = lang_available?(user_locale) ? user_locale :
+    lang_available?(http_locale) ? http_locale :
+    lang_available?(http_splitted_locale) ? http_splitted_locale : nil
+
+    I18n.locale = begin
+                    locale
+                  rescue StandardError
+                    I18n.locale
+                  end
+    cookies[:lang] = I18n.locale
+  end
+
   private
+
+  def lang_available?(lang)
+    return unless lang.present?
+    I18n.available_locales.include?(lang.to_sym)
+  end
 
   def current_resource_owner
     if doorkeeper_token && !doorkeeper_token.expired?

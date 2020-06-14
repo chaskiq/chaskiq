@@ -506,6 +506,4 @@ function mapStateToProps(state) {
   };
 }
 
-//export default withRouter(connect(mapStateToProps)(withStyles(styles)(ArticlesNew)))
-//export default withRouter(connect(mapStateToProps)(CollectionDetail))
 export default withRouter(connect(mapStateToProps)(CollectionDetail));

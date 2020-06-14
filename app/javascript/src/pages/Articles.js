@@ -448,10 +448,10 @@ class AllArticles extends React.Component {
               loading={this.state.loading}
               disablePagination={true}
               columns={[
-                //{field: "id", title: "id"},
+                //{field: "id", title: I18n.t("definitions.articles.id.label")},
                 {
                   field: "title",
-                  title: "title",
+                  title: I18n.t("definitions.articles.title.label"),
                   render: (row) =>
                     row ? (
                       <td className="px-6 py-4 whitespace-no-wrap border-b border-gray-200">
@@ -471,7 +471,7 @@ class AllArticles extends React.Component {
                 },
                 {
                   field: "author",
-                  title: "author",
+                  title: I18n.t("definitions.articles.author.label"),
                   render: (row) =>
                     row ? (
                       <td className="px-6 py-4 whitespace-no-wrap border-b border-gray-200">
@@ -487,7 +487,7 @@ class AllArticles extends React.Component {
                 },
                 {
                   field: "state",
-                  title: "state",
+                  title: I18n.t("definitions.articles.state.label"),
                   render: (row) =>
                     row && (
                       <td className="px-6 py-4 whitespace-no-wrap border-b border-gray-200">
@@ -515,7 +515,7 @@ class AllArticles extends React.Component {
                 },
                 {
                   field: "collection",
-                  title: "collection",
+                  title: I18n.t("definitions.articles.collection.label"),
                   render: (row) =>
                     row && (
                       <td className="px-6 py-4 whitespace-no-wrap border-b border-gray-200">
@@ -533,7 +533,7 @@ class AllArticles extends React.Component {
                 },
                 {
                   field: "actions",
-                  title: "actions",
+                  title: I18n.t("definitions.articles.actions.label"),
                   render: (row) =>
                     row && (
                       <td className="px-6 py-4 whitespace-no-wrap border-b border-gray-200">

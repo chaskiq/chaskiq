@@ -68,7 +68,7 @@ function Schedule ({ app, data, updateData, namespace, submit }) {
   return (
     <div className="py-4">
       <p className="text-lg leading-6 font-medium text-gray-900 pb-4">
-        {I18n.t('task_bot.settings.settings_title')}
+        {I18n.t('task_bots.settings.settings_title')}
       </p>
 
       <Input
@@ -76,16 +76,16 @@ function Schedule ({ app, data, updateData, namespace, submit }) {
         checked={state.state === 'enabled'}
         onChange={handleChange('state')}
         value={state.state === 'enabled'}
-        label={I18n.t('task_bot.settings.enable_title')}
-        hint={I18n.t('task_bot.settings.enable_hint')}
+        label={I18n.t('task_bots.settings.enable_title')}
+        hint={I18n.t('task_bots.settings.enable_hint')}
       ></Input>
 
       <p className="text-lg leading-6 font-medium text-gray-900 pb-4">
-        {I18n.t('task_bot.settings.specific_times_title')}
+        {I18n.t('task_bots.settings.specific_times_title')}
       </p>
 
       <p className="max-w-xl text-sm leading-5 text-gray-500 mb-4">
-        {I18n.t('task_bot.settings.tz_hint', {timezone: app.timezone })}
+        {I18n.t('task_bots.settings.tz_hint', {timezone: app.timezone })}
       </p>
 
       <Input
@@ -94,7 +94,7 @@ function Schedule ({ app, data, updateData, namespace, submit }) {
         type="radio"
         value={'inside_office'}
         checked={state.scheduling === 'inside_office'}
-        label={I18n.t('task_bot.settings.office_hours')}
+        label={I18n.t('task_bots.settings.office_hours')}
         labelPlacement="end"
       />
 
@@ -104,7 +104,7 @@ function Schedule ({ app, data, updateData, namespace, submit }) {
         name="scheduling"
         value={'outside_office'}
         checked={state.scheduling === 'outside_office'}
-        label={I18n.t('task_bot.settings.outside_office')}
+        label={I18n.t('task_bots.settings.outside_office')}
         labelPlacement="end"
       />
 
@@ -115,7 +115,7 @@ function Schedule ({ app, data, updateData, namespace, submit }) {
         disabled
         value={'custom_time'}
         checked={state.scheduling === 'custom_time'}
-        label={I18n.t('task_bot.settings.custom_time')}
+        label={I18n.t('task_bots.settings.custom_time')}
         labelPlacement="end"
       />
     </div>

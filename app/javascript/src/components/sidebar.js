@@ -7,6 +7,7 @@ import icon from '../images/favicon.png'
 import FilterMenu from '../components/FilterMenu'
 import { signout } from '../actions/auth'
 import WebSetup from '../components/webSetup'
+import LangChooser from '../components/LangChooser'
 import {
   MoreIcon,
   BookMarkIcon,
@@ -71,6 +72,8 @@ function Sidebar ({
   const { current_page, current_section } = navigation
 
   const [expanded, setExpanded] = useState(current_section)
+
+  const [langChooser, setLangChooser] = useState(false)
 
   const routerListener = null
 
@@ -356,6 +359,12 @@ function Sidebar ({
       })
   }
 
+  function openLangChooser () {
+    setLangChooser(true)
+  }
+
+
+
   const drawerClass = !drawer.open
     ? 'hidden'
     : 'absolute flex md:flex-shrink-0 z-50 h-screen'
@@ -412,6 +421,13 @@ function Sidebar ({
         </div>
       )}
 
+      { langChooser &&
+        <LangChooser
+          open={langChooser}
+          handleClose={setLangChooser}
+        />
+      }
+
       <div className="md:flex flex-col w-56 border-r border-gray-200 bg-gray-100 shadow-inner">
         {renderInner()}
 
@@ -440,6 +456,11 @@ function Sidebar ({
                       // icon: <SendIcon />,
                       id: 'new-app',
                       onClick: () => history.push('/apps/new')
+                    },
+
+                    {
+                      title: I18n.t('home.choose_lang'),
+                      onClick: openLangChooser
                     },
                     {
                       title: I18n.t('navigator.user_menu.signout'),

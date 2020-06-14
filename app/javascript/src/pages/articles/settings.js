@@ -83,30 +83,35 @@ class Settings extends Component {
     });
   };
 
+  
   definitionsForSettings = () => {
     return [
       {
         name: "subdomain",
-        hint: "documentation site subdomain",
+        label: I18n.t('definitions.articles.subdomain.label'),
+        hint: I18n.t('definitions.articles.subdomain.hint'),
         type: "string",
         grid: { xs: "w-full", sm: "w-1/2" },
       },
 
       {
         name: "domain",
-        hint: "documentation site custom domain",
+        hint: I18n.t('definitions.articles.domain.hint'),
+        label: I18n.t('definitions.articles.domain.label'),
         type: "string",
         grid: { xs: "w-full", sm: "w-1/2" },
       },
       {
         name: "website",
-        hint: "link to your website",
+        hint: I18n.t('definitions.articles.website.hint'),
+        label: I18n.t('definitions.articles.website.label'),
         type: "string",
         grid: { xs: "w-full", sm: "w-3/4" },
       },
       {
         name: "googleCode",
-        hint: "Google Analytics Tracking ID",
+        label: I18n.t('definitions.articles.google_code.label'),
+        hint: I18n.t('definitions.articles.google_code.hint'),
         type: "string",
         grid: { xs: "w-full", sm: "w-1/4" },
       },
@@ -119,7 +124,7 @@ class Settings extends Component {
         name: "color",
         type: "color",
         handler: (color) => {
-          this.props.updateMemSettings({ color: color });
+          this.props.updateMemSettings({ color: color })
         },
         grid: { xs: "w-full", sm: "w-1/12" },
       },
@@ -140,6 +145,7 @@ class Settings extends Component {
 
       {
         name: "facebook",
+        label: "Facebook",
         startAdornment: "facebook/",
         type: "string",
         grid: { xs: "w-full", sm: "w-1/3" },
@@ -147,6 +153,7 @@ class Settings extends Component {
 
       {
         name: "twitter",
+        label: "Twitter",
         startAdornment: "twitter/",
         type: "string",
         grid: { xs: "w-full", sm: "w-1/3" },
@@ -154,6 +161,7 @@ class Settings extends Component {
 
       {
         name: "linkedin",
+        label: "Linkedin",
         startAdornment: "linkedin/",
         type: "string",
         grid: { xs: "w-full", sm: "w-1/3" },
@@ -161,8 +169,9 @@ class Settings extends Component {
 
       {
         name: "credits",
+        label: I18n.t('definitions.articles.credits.label'), 
         type: "bool",
-        hint: "Display a subtle link to the Chaskiq website",
+        hint: I18n.t('definitions.articles.credits.hint'),
         grid: { xs: "w-full", sm: "w-3/4" },
       },
     ];
@@ -394,7 +403,7 @@ function LanguageForm({ settings, update, deleteLang }) {
             //!loading ?
             <form onSubmit={(e) => e.preventDefault()}>
               <Input
-                label={I18n.t('articles.settings.select_lang.update')}
+                label={I18n.t('articles.settings.select_lang')}
                 value={selectedLang}
                 onChange={handleChange}
                 type={"select"}

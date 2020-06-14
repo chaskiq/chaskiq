@@ -900,7 +900,7 @@ class CampaignContainer extends Component {
                       columns={[
                         {
                           field: "name",
-                          title: "name",
+                          title: I18n.t("definitions.campaigns.campaign_name.label"),
                           render: (row) =>
                             row && (
                               <td className="px-6 py-4 whitespace-no-wrap border-b border-gray-200">
@@ -916,10 +916,10 @@ class CampaignContainer extends Component {
                               </td>
                             ),
                         },
-                        { field: "subject", title: "subject" },
+                        { field: "subject", title: I18n.t("definitions.campaigns.email_subject.label") },
                         {
                           field: "state",
-                          title: "state",
+                          title: I18n.t("definitions.campaigns.state.label"),
                           render: (row) => {
                             return (
                               <td className="px-6 py-4 whitespace-no-wrap border-b border-gray-200">
@@ -930,12 +930,12 @@ class CampaignContainer extends Component {
                             );
                           },
                         },
-                        {field: 'fromName', title: 'from name', hidden: true},
-                        {field: 'fromEmail', title: 'from email', hidden: true},
-                        {field: 'replyEmail', title: 'reply email', hidden: true},
-                        {field: 'description', title: 'description', hidden: true},
+                        {field: 'fromName', title: I18n.t("definitions.campaigns.from_name.label"), hidden: true},
+                        {field: 'fromEmail', title: I18n.t("definitions.campaigns.from_email.label"), hidden: true},
+                        {field: 'replyEmail', title: I18n.t("definitions.campaigns.reply_email.label"), hidden: true},
+                        {field: 'description', title: I18n.t("definitions.campaigns.description.label"), hidden: true},
                         {field: 'timezone', title: 'timezone'},
-                        {field: 'scheduledAt', title: 'scheduled at', hidden: true, type: "datetime", 
+                        {field: 'scheduledAt', title: I18n.t("definitions.campaigns.scheduled_at.label"), hidden: true, type: "datetime", 
                           render: row => (row ? 
                             <td className="px-6 py-4 whitespace-no-wrap border-b border-gray-200">
                               <Moment fromNow>
@@ -943,7 +943,7 @@ class CampaignContainer extends Component {
                               </Moment>
                             </td> : undefined)
                         },
-                        {field: 'scheduledTo', title: 'scheduled to', hidden: true, type: "datetime",
+                        {field: 'scheduledTo', title: I18n.t("definitions.campaigns.scheduled_to.label"), hidden: true, type: "datetime",
                           render: row => (row ? 
                             <td className="px-6 py-4 whitespace-no-wrap border-b border-gray-200">
                               <Moment fromNow>
@@ -953,7 +953,7 @@ class CampaignContainer extends Component {
                         },
                         {
                           field: "actions",
-                          title: "actions",
+                          title: I18n.t("definitions.campaigns.actions.label"),
                           render: (row) => (
                             <td className="px-6 py-4 whitespace-no-wrap border-b border-gray-200">
                               <span

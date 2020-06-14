@@ -20,7 +20,17 @@ function mapStateToProps (state) {
   }
 }
 
-function AppRouter ({ loading, isAuthenticated, current_user }) {
+function AppRouter ({
+  loading,
+  isAuthenticated,
+  current_user,
+}) {
+
+  React.useEffect(() => {
+    console.log("SETTING LANG TO", current_user.lang )
+    I18n.locale = current_user.lang
+  }, [current_user.lang])
+
   return (
     <div>
 
@@ -36,7 +46,7 @@ function AppRouter ({ loading, isAuthenticated, current_user }) {
         />
 
         <Route
-          path={"/campaigns/:id/subscribers/:subscriber/delete"}
+          path={'/campaigns/:id/subscribers/:subscriber/delete'}
           render={(props) => (
             <UnSubscribe {...props} />
           )}>
