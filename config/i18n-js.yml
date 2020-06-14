@@ -1,0 +1,2 @@
+translations:
+  - except: ['*.faker', '*.ransack']
