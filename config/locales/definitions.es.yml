@@ -104,14 +104,14 @@
           hint: El dominio de correo electrónico para enviar conversaciones, para @yourapp
             use 'su aplicación'
         tagline:
-          label: lema
+          label: Tagline
           hint: Define una frase para el tagline, lo mostraremos en la parte inferior del chat
         timezone:
           label: Zona horaria
         gather_social_data:
           label: Recopilar datos sociales
           hint: Recopilar perfiles sociales a través de un servicio de contacto completo
-            (por ejemplo, LinkedIn, Twitter, etc.) para mis usuarios a través de un tercero
+            (por ejemplo, LinkedIn, Twitter, etc.) para mis usuarios a través API de enrequecimiento de datos
         register_visits:
           label: Registrar visitas
           hint: Incluso si esto está deshabilitado, recopilaremos un contador global de

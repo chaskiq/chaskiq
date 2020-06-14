@@ -8,6 +8,9 @@ import FormDialog from '../components/FormDialog'
 import graphql from '../graphql/client'
 import { getCurrentUser } from '../actions/current_user'
 import Button from '../components/Button'
+import Input from "../components/forms/Input";
+import CircularProgress from '../components/Progress';
+
 
 function LangChooser ({ 
   open, 
@@ -17,6 +20,9 @@ function LangChooser ({
   app,
   dispatch
 }) {
+
+  const [setted, setSetted] = React.useState(false)
+
   function setLang (lang) {
     graphql(UPDATE_AGENT, {
       appKey: app.key,
@@ -26,12 +32,19 @@ function LangChooser ({
       }
     }, {
       success: (data) => {
+        // This dispatch will trigger an effect on AppRoutes.js 
+        // which will refresh the components
         dispatch(getCurrentUser())
+        setSetted(true)
       },
       error: () => {
 
       }
     })
+  }
+
+  function handleChange(e){
+    setLang(e.value)
   }
 
   return (
@@ -47,15 +60,30 @@ function LangChooser ({
       formComponent={
         <div>
         
-          {setted && <div>redirecting .... </div>}
+          {
+            setted && <div>
+                        <CircularProgress/>
+                      </div>
+          }
 
-          <Button onClick={() => setLang('es')}>
-            Español
-          </Button>
+          {!setted && <Input
+            type="select"
+            //value={ selectedAgent() }
+            onChange={handleChange}
+            defaultValue={{
+              value: I18n.locale, 
+              label: I18n.t(`common.langs.${I18n.locale}`) 
+            }}
+            label={"select language"}
+            data={{}}
+            options={
+              [
+                { label: I18n.t('common.langs.es'), value: "es" },
+                { label: I18n.t('common.langs.en'), value: "en" },
+              ]
+            }>
+          </Input>}
 
-          <Button onClick={() => setLang('en')}>
-            Ingles
-          </Button>
         </div>
       }
       // dialogButtons={}
