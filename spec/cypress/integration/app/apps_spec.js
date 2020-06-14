@@ -37,7 +37,7 @@ describe('Login Spec', function() {
             .type("http://test.cl")
             .should('have.value', 'http://test.cl')
 
-            findButtonByName("Save settings").click().then(()=>{
+            findButtonByName("Save").click().then(()=>{
               cy.get("body").should('contain', 'Visit activity')
               cy.get("body").should('contain', 'New conversations')
               cy.get("body").should('contain', 'Resolutions')
@@ -61,8 +61,8 @@ describe('Login Spec', function() {
               cy.get("a[aria-label='Campaigns']")
               .click({force: true}).then(()=>{
                 cy.get("body").should("contain", "Mailing Campaigns")
-                cy.get("body").should("contain", "In App messages")
-                cy.get("body").should("contain", "Guided tours")
+                cy.get("body").should("contain", "In App Messages")
+                cy.get("body").should("contain", "Guided Tours")
               })
 
               cy.get("a[aria-label='Routing Bots']")

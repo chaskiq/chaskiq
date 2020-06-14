@@ -34,15 +34,16 @@ function AppRouter ({
   }, [])
 
   React.useEffect(() => {
-    if(!current_user.lang)
-      return
-
-    I18n.locale = current_user.lang
-    setReload(true)
-    setTimeout(() => {
-      setReload(false)
-    }, 400);
+    if(current_user.lang){
+      I18n.locale = current_user.lang
+      setReload(true)
+      setTimeout(() => {
+        setReload(false)
+      }, 400);
+    }
   }, [current_user.lang])
+
+  console.log("LALALAL", I18n.locale)
 
   return (
     <div>
