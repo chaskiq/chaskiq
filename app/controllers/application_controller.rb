@@ -55,24 +55,17 @@ class ApplicationController < ActionController::Base
   end
 
   def set_locale
-    http_locale = request.headers['HTTP_LANG'] || params[:lang] || cookies[:lang]
+    http_locale = request.headers['HTTP_LANG']
     http_splitted_locale = http_locale ? http_locale.to_s.split('-').first.to_sym : nil
-    user_locale = begin
-                    @user_data[:properties].try(:[], :lang)
-                  rescue StandardError
-                    nil
-                  end
 
-    locale = lang_available?(user_locale) ? user_locale :
-    lang_available?(http_locale) ? http_locale :
-    lang_available?(http_splitted_locale) ? http_splitted_locale : nil
+    locale = lang_available?(http_splitted_locale) ? 
+      http_splitted_locale : I18n.default_locale
 
     I18n.locale = begin
                     locale
                   rescue StandardError
-                    I18n.locale
+                    I18n.default_locale
                   end
-    cookies[:lang] = I18n.locale
   end
 
   private

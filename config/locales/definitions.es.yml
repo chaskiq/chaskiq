@@ -11,7 +11,7 @@
         collection:
           label: Colección
         actions:
-          label: Comportamiento
+          label: Acciones
         website:
           label: Sitio web
           hint: Sitio web de su dominio principal
@@ -49,14 +49,14 @@
         description:
           label: Descripción
         actions:
-          label: Comportamiento
+          label: Acciones
       bot_tasks:
         state:
           label: Estado
         name:
           label: Nombre
         actions:
-          label: Comportamiento
+          label: Acciones
         title:
           label: Título
           placeholder: escribir el título de la tarea
@@ -71,7 +71,7 @@
         from:
           label: Desde
         actions:
-          label: Comportamiento
+          label: Acciones
         when:
           label: Cuando
         data:
