@@ -8,7 +8,7 @@ import { expireAuthentication, refreshToken } from '../actions/auth'
 const graphql = (query, variables, callbacks) => {
   const {auth, current_user} = store.getState()
 
-  const locale = current_user ? current_user.lang : I18n.defaultLocale
+  const locale = current_user.lang || I18n.defaultLocale
 
   const config = {
     authorization: `Bearer ${auth.accessToken}`,
