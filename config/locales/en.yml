@@ -21,6 +21,11 @@ en:
     to: to
     of: of
     results: resultados
+    langs:
+      en: English
+      es: Spanish
+      redirecting: Redirecting
+      select_language: Select Language
   home:
     welcome: Welcome to
     welcome_site: Chaskiq
@@ -28,6 +33,7 @@ en:
     create_new: Create new app
     choose_lang: Choose language
     go_to_doc: Go to documentation
+
   dashboard:
     hey: "👋 Hey!, you are viewing the <strong>%{name}'s</strong> dashboard!
     <br />
@@ -376,40 +382,41 @@ en:
         text: The webhook with %{name} service will be disabled immediately
 
   
+
   articles:
-    title: Artículos
-    all: Todas
-    published: Publicado
-    draft: Sequía
-    visit: visite el centro de ayuda
-    new: Articulo nuevo
-    add: Agregar artículo
-    collections: Colecciones
-    help_center: Centro de ayuda
-    description_placeholder: Describa su colección para ayudarla a encontrarla.
-    title_placeholder: Escriba el título de las secciones
-    new_section: Nueva sección
-    new_collection: Nueva colección
+    title: Articles
+    all: Everybody
+    published: Posted
+    draft: Erasers
+    visit: visit the help center
+    new: New article
+    add: Add item
+    collections: Collections
+    help_center: Help Center
+    description_placeholder: Describe your collection to help you find it.
+    title_placeholder: Write the title of the sections
+    new_section: New section
+    new_collection: New collection
     create_article:
-      placeholder: Type articles's title
-      description_placeholder: Describe your article to help it get found
+      placeholder: Write the title of the article
+      description_placeholder: Add a summary to find the article later
     create:
-      title: Nueva colección de artículos
-      placeholder: Escriba el título de la colección
-      description: Describa su colección para ayudarla a encontrarla.
+      title: New collection of articles
+      placeholder: Enter the title of the collection
+      description: Describe your collection to help you find it.
     settings:
-      title: Configuraciones del Centro de ayuda
-      add_language: Agregar idioma
-      select_lang: Seleccione el idioma
-      add_language_to_help: Agregar nuevo idioma al Centro de ayuda
+      title: Help Center settings
+      add_language: Add language
+      select_lang: Select language
+      add_language_to_help: Add new language to Help Center
       delete:
-        title: Eliminar traducción "%{name}"
-        text: Destruiremos la traducción y ocultaremos cualquier artículo con el idioma "%{name}"
-      appearance: Apariencia
-      appearance_settings: Configuración de la apariencia
-      lang: Sólo
-      lang_title: Localiza tu Centro de ayuda
-      lang_desc: Administre los idiomas admitidos y personalice el encabezado de su
-        Centro de ayuda
-      basic: Configuración básica
-      general_app: Información general de la aplicación
+        title: Delete translation "% {name}"
+        text: We will destroy the translation and hide any article with the language
+          "% {name}"
+      appearance: Appearance
+      appearance_settings: Appearance settings
+      lang: Language
+      lang_title: Find your Help Center
+      lang_desc: Manage supported languages and customize your Help Center header
+      basic: Basic setup
+      general_app: Application overview

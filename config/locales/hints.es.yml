@@ -24,7 +24,7 @@
         description: Para que siempre pueda volver a los visitantes de su sitio web
       inbound_settings:
         title: Controla las conversaciones entrantes y el lanzador
-        description: Controla quién puede enviarte mensajes y dónde ven el lanzador
+        description: Controla quién puede enviarte mensajes y dónde ven el chat
       user_data:
         title: Administrar atributos de usuario
         description: Los atributos del usuario proporcionan una forma de personalizar
