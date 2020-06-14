@@ -30,6 +30,10 @@ function AppRouter ({
   const [reload, setReload] = React.useState(false)
 
   React.useEffect(() => {
+    I18n.locale = current_user.lang || I18n.default_locale
+  }, [])
+
+  React.useEffect(() => {
     I18n.locale = current_user.lang
     setReload(true)
     setTimeout(() => {
