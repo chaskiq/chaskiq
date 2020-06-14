@@ -211,7 +211,7 @@ const WrappedComponent = React.forwardRef(function Input (
         {label && (
           <label
             htmlFor="about"
-            className="block text-sm leading-5 font-medium text-gray-700"
+            className="block text-gray-700 text-sm font-bold mb-2"
           >
             {label}
           </label>
@@ -259,8 +259,10 @@ const WrappedComponent = React.forwardRef(function Input (
         />
         {
           defaultTZ &&
-          <div className="text-gray-500 text-xs"> 
-            Your browser timezone is <b className="text-bold">{defaultTZ}</b>
+          <div className="text-gray-500 text-xs" 
+           dangerouslySetInnerHTML={
+              { __html: I18n.t('common.tz_hint', {timezone: defaultTZ }) }
+           }>
           </div>
         }
       </FormField>

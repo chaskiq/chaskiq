@@ -28,36 +28,31 @@ class NewApp extends Component {
     return [
       {
         name: "name",
+        label: I18n.t("definitions.settings.name.label"),
         type: "string",
         grid: { xs: "w-full", sm: "w-1/2" },
       },
       {
         name: "domainUrl",
+        label: I18n.t("definitions.settings.domain.label"),
         type: "string",
         grid: { xs: "w-full", sm: "w-1/2" },
       },
       {
         name: "tagline",
+        label: I18n.t("definitions.settings.tagline.label"),
         type: "textarea",
-        hint: "messenger text on botton",
+        hint: I18n.t("definitions.settings.tagline.hint"),
         grid: { xs: "w-full", sm: "w-full" },
       },
-
       {
         name: "timezone",
         type: "timezone",
+        label: I18n.t("definitions.settings.timezone.label"),
         options: timezones,
         multiple: false,
         grid: { xs: "w-full", sm: "w-full" },
-      },
-      {
-        name: "gatherSocialData",
-        type: "bool",
-        label: "Collect social data about your users",
-        hint:
-          "Collect social profiles (e.g. LinkedIn, Twitter, etc.) for my users via a third party",
-        grid: { xs: "w-full", sm: "w-full" },
-      },
+      }
     ];
   };
 
@@ -110,7 +105,6 @@ class NewApp extends Component {
 
               <img
                 src={image}
-                class="is-pablo"
                 style={{ width: "100%" }}
                 alt=""
               />

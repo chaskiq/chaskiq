@@ -21,6 +21,8 @@ en:
     to: to
     of: of
     results: resultados
+    tz_hint: Your browser timezone is <b className="text-bold">%{timezone}</b>
+
     langs:
       en: English
       es: Spanish
