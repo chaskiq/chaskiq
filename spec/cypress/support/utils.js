@@ -43,6 +43,9 @@ export function login(){
   cy.appScenario('basic')
   cy.visit('/')
   cy.contains("Sign in")
+  
+  cy.wait(1000)
+
   cy.get('input[name="email"]')
   .type('test@test.cl').should('have.value', 'test@test.cl')
 
@@ -51,7 +54,7 @@ export function login(){
 
   cy.get('button[type="submit"]').click()
 
-  cy.get("body").should('contain', 'Welcome To Chaskiq')
+  cy.get("body").should('contain', 'Welcome to Chaskiq')
 }
 
 export function findButtonByName(name){
