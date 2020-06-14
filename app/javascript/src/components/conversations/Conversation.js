@@ -712,7 +712,7 @@ function Conversation ({
 
       <div
         ref={overflow}
-        className="flex flex-col overflow-y-scroll"
+        className="overflow-y-scroll"
         onScroll={handleScroll}
         style={{
           height: 'calc(100vh - 222px)'
