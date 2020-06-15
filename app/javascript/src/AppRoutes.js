@@ -43,8 +43,6 @@ function AppRouter ({
     }
   }, [current_user.lang])
 
-  console.log("LALALAL", I18n.locale)
-
   return (
     <div>
 

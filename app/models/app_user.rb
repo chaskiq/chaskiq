@@ -198,12 +198,12 @@ class AppUser < ApplicationRecord
   end
 
   def notify_unsubscription
-    puts 'app user unsubscribe'
+    # puts 'app user unsubscribe'
   end
 
   def notify_subscription
     # we should only unsubscribe when process is made from interface, not from sns notification
-    puts 'app user subscribe'
+    # puts 'app user subscribe'
   end
 
   %w[open send delivery reject bounce complaint click close skip finish].each do |action|
