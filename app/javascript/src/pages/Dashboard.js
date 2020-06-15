@@ -42,7 +42,7 @@ function Dashboard (props) {
   return (
     <div>
       <Content>
-        <div maxWidth="lg">
+        <div>
           <div className="flex flex-wrap -mx-4">
             <div className={'w-full p-4'}>
               <DashboardItem
