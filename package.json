@@ -98,6 +98,7 @@
     "rails-cy": "bundle exec rails server -e test -p 5002",
     "cypress:open": "./node_modules/.bin/cypress open",
     "cypress:run": "./node_modules/.bin/cypress run",
+    "cypress:ci": "./node_modules/.bin/cypress run --record --key 0998a03f-f6fe-4acf-8444-b81533c950cd",
     "dev": "./bin/webpack-dev-server",
     "build": "bundle exec rake assets:precompile"
   }
