@@ -2,6 +2,7 @@ import React from 'react'
 import graphql from '../graphql/client'
 import Button from '../components/Button'
 import CircularProgress from '../components/Progress'
+import I18n from '../shared/FakeI18n'
 
 import {
   CAMPAIGN_SUBSCRIPTION_TOGGLE
@@ -54,18 +55,18 @@ export default function UnSubscribe ({ match }) {
                 !loading &&
                 <div>
                   <h3 className="text-lg leading-6 font-medium text-gray-900">
-                    You've been {data.state}
+                    {I18n.t("campaign.unsubscribe.status", {state: data.state})}
                   </h3>
                   <div className="mt-2 max-w-xl text-sm leading-5 text-gray-500">
 
                     {
                       data.state === 'unsubscribed' && <p>
-                      Success, { data.email } will no longer receive emails from this sender.
-                      Was this a mistake? <Button
+                      {I18n.t("campaign.unsubscribe.success", {email: data.email })}
+                      <Button
                           onClick={reSubscribe}
                           className="ml-4 my-3"
                           size="small">
-                        Resubscribe from this list
+                          { I18n.t("campaign.unsubscribe.resubscribe") }
                         </Button>
                       </p>
                     }
@@ -76,7 +77,7 @@ export default function UnSubscribe ({ match }) {
                           onClick={subscribe}
                           className="ml-4 my-3"
                           size="small">
-                        Cancel your subscription
+                          {I18n.t("campaign.unsubscribe.cancel")}
                         </Button>
                       </p>
                     }

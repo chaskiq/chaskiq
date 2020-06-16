@@ -24,7 +24,7 @@ export default function EmailRequirement ({ settings, update }) {
   return (
     <div className="py-4">
 
-      <Hints type="EmailRequirement"/>
+      <Hints type="email_requirement"/>
 
       {/*<p className="text-lg leading-6 font-medium text-gray-900 pb-2">
         {I18n.t('settings.email_requirement.title')}

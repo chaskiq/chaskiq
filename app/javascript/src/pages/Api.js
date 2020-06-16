@@ -13,6 +13,7 @@ import Input from "../components/forms/Input";
 import Button from "../components/Button";
 import DeleteDialog from '../components/DeleteDialog'
 import { HomeIcon } from "../components/icons";
+import I18n from '../shared/FakeI18n'
 import { 
   Link, 
   Route, 
@@ -127,7 +128,7 @@ class ApiPage extends Component {
     return (
       <Content>
         <PageHeader
-          title={"Oauth Applications"}
+          title={I18n.t("settings.api.title")}
           /*actions={
             <Button
               className={"transition duration-150 ease-in-out"}
@@ -147,11 +148,11 @@ class ApiPage extends Component {
               currentTab={this.state.tabValue}
               tabs={[
                 {
-                  label: "OAUTH Applications",
+                  label: I18n.t("settings.api.tabs.apps"),
                   content: <OauthList getApps={this.getApps} {...this.props} />,
                 },
                 {
-                  label: "Authorized OAUTH Applications",
+                  label: I18n.t("settings.api.tabs.authorized"),
                   content: <OauthList getApps={this.getAuthorizedApps} {...this.props} />,
                 },
               ]}
@@ -252,22 +253,22 @@ function OauthApp(props){
     <div className="bg-white shadow overflow-hidden  sm:rounded-lg">
       <div className="px-4 py-5 border-b border-gray-200 sm:px-6">
         <h3 className="text-lg leading-6 font-medium text-gray-900">
-          Oauth App Information
+          {I18n.t("settings.api.oauth_information")}
         </h3>
         <div className="flex justify-between">
           <p className="mt-1 max-w-2xl text-sm leading-5 text-gray-500">
-            Oauth details and credentials.
+            {I18n.t("settings.api.details")}
           </p>
           <div>
             <Button
               className="mr-3" 
               onClick={()=> setEditIsOpen(true)}>
-              Edit
+              {I18n.t("common.edit")}
             </Button>
             <Button 
               variant="danger"
               onClick={()=> setOpenDeleteDialog(true)}>
-              Delete
+              {I18n.t("common.delete")}
             </Button>
           </div>
         </div>
@@ -363,11 +364,11 @@ function OauthApp(props){
               <React.Fragment>
                 <Button onClick={()=> setEditIsOpen(false)} 
                   variant="outlined">
-                  Cancel
+                  {I18n.t("common.cancel")}
                 </Button>
 
                 <Button className="mr-1" onClick={ updateApp }>
-                  Update
+                  {I18n.t("common.update")}
                 </Button>
               </React.Fragment>
             }
@@ -378,7 +379,7 @@ function OauthApp(props){
       {openDeleteDialog && (
         <DeleteDialog
           open={openDeleteDialog}
-          title={`Delete Oauth App?"`}
+          title={I18n.t("settings.api.delete_app")}
           closeHandler={() => {
             setOpenDeleteDialog(null);
           }}
@@ -387,7 +388,7 @@ function OauthApp(props){
           }}
         >
           <p variant="subtitle2">
-            we will destroy any content and related data
+            {I18n.t("settings.api.delete_app_hint")}
           </p>
         </DeleteDialog>
       )}
@@ -455,8 +456,8 @@ class OauthList extends React.Component {
             open={this.state.isOpen}
             handleClose={this.close}
             actionButton={"add user"}
-            titleContent={"Add a new agent"}
-            contentText={"send an activable invitation"}
+            titleContent={I18n.t("settings.api.invite.title")}
+            contentText={I18n.t("settings.api.invite.text")}
             formComponent={
               <form
                 name="create-repo"
@@ -492,11 +493,11 @@ class OauthList extends React.Component {
               <React.Fragment>
                 <Button onClick={this.close} 
                   variant="outlined">
-                  Cancel
+                  {I18n.t("common.cancel")}
                 </Button>
 
                 <Button className="mr-1" onClick={this.createApp}>
-                  Create Oauth App
+                  {I18n.t("settings.api.create_app")}
                 </Button>
               </React.Fragment>
             }
@@ -507,7 +508,7 @@ class OauthList extends React.Component {
           variant="contained" 
           color="primary"
           onClick={this.open}>
-          Create new oauth app
+          {I18n.t("settings.api.create_app")}
         </Button>
       </div>
     );

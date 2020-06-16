@@ -4,6 +4,7 @@ import { withRouter } from 'react-router-dom'
 import { connect } from 'react-redux'
 import FormDialog from '../components/FormDialog'
 import Prism from 'prismjs'
+import I18n from '../shared/FakeI18n'
 
 import styled from '@emotion/styled'
 
@@ -29,7 +30,7 @@ function WebSetup ({ app, classes }) {
     <React.Fragment>
       <button className="text-xs bg-gray-600 hover:bg-gray-400 text-gray-100 font-bold py-1 px-2 rounded inline-flex items-center text-gray-100"
       onClick={handleClickOpen}>
-        Get the snippet
+        {I18n.t("common.get_snippet")}
       </button>
 
       <SimpleDialog app={app} open={open} onClose={handleClose} />

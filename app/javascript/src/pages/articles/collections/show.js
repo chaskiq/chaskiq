@@ -149,7 +149,7 @@ class CollectionDetail extends Component {
               color={"primary"}
               onClick={this.openNewDialog}
             >
-              new section
+              {I18n.t("articles.new_section")}
             </Button>
 
             <Dnd
@@ -270,7 +270,7 @@ class CollectionDetail extends Component {
               id="collection-title"
               //label="Name"
               type="text"
-              placeholder={"Type sections's title"}
+              placeholder={I18n.t("articles.title_placeholder")}
               inputProps={{
                 style: {
                   fontSize: "1.4em",
@@ -289,7 +289,7 @@ class CollectionDetail extends Component {
               id="collection-description"
               type="textarea"
               //label="Description"
-              placeholder={"Describe your collection to help it get found"}
+              placeholder={I18n.t("articles.description_placeholder")}
               //helperText="Full width!"
               fullWidth
               multiline
@@ -304,7 +304,7 @@ class CollectionDetail extends Component {
         dialogButtons={
           <React.Fragment>
             <Button onClick={this.close} variant="outlined">
-              Cancel
+              {I18n.t("articles.cancel")}
             </Button>
 
             <Button
@@ -315,7 +315,7 @@ class CollectionDetail extends Component {
               }
               className="mr-1"
             >
-              Submit
+              {I18n.t("common.submit")}
               {/*editCollection ? 'update' : 'create'*/}
             </Button>
           </React.Fragment>
@@ -372,13 +372,13 @@ class CollectionDetail extends Component {
         <ContentHeader
           breadcrumbs={[
             <AnchorLink color="inherit" to={`/apps/${app.key}/articles`}>
-              Help Center
+              {I18n.t("articles.help_center")}
             </AnchorLink>,
             <AnchorLink
               color="inherit"
               to={`/apps/${app.key}/articles/collections`}
             >
-              Collections
+              {I18n.t("articles.collections")}
             </AnchorLink>,
           ]}
         />
@@ -454,7 +454,7 @@ class AddArticleDialog extends Component {
         open={isOpen}
         handleClose={this.close}
         //contentText={"lipsum"}
-        titleContent={"Add Articles"}
+        titleContent={I18n.t("articles.add")}
         formComponent={
           <List>
             {this.state.articles.map((o) => (
@@ -479,14 +479,14 @@ class AddArticleDialog extends Component {
         dialogButtons={
           <React.Fragment>
             <Button onClick={this.close} variant="outlined">
-              Cancel
+              {I18n.t("common.cancel")}
             </Button>
 
             <Button
               onClick={() => this.props.handleSubmit(this.getValues())}
               className="mr-1"
             >
-              Submit
+              {I18n.t("common.submit")}
             </Button>
           </React.Fragment>
         }
@@ -506,6 +506,4 @@ function mapStateToProps(state) {
   };
 }
 
-//export default withRouter(connect(mapStateToProps)(withStyles(styles)(ArticlesNew)))
-//export default withRouter(connect(mapStateToProps)(CollectionDetail))
 export default withRouter(connect(mapStateToProps)(CollectionDetail));

@@ -14,7 +14,7 @@ import Rtc from '../rtc'
 import { updateRtcEvents } from '../../actions/rtc'
 import Progress from '../Progress'
 import Button from '../Button'
-
+import I18n from '../../shared/FakeI18n'
 import {
   getConversation,
   typingNotifier,
@@ -308,11 +308,11 @@ function Conversation ({
             <span className={textClass}>
               {' - '}
               {message.readAt ? (
-                <span>{'seen '}</span>
+                <span>{I18n.t("conversation.messages.seen")}</span>
               ) : message.privateNote ? (
-                'NOTE'
+                I18n.t("conversation.messages.note")
               ) : (
-                <span>not seen</span>
+                <span>{I18n.t("conversation.messages.not_seen")}</span>
               )}
             </span>
           </span>
@@ -476,8 +476,8 @@ function Conversation ({
               <span>
                 {' - '}
                 {
-                  message.readAt ? <span>{'seen '}</span>
-                    : <span>not seen</span>
+                  message.readAt ? <span>{I18n.t("conversation.messages.seen")}</span>
+                    : <span>{I18n.t("conversation.messages.not_seen")}</span>
                 }
               </span>
             </span>
@@ -518,8 +518,8 @@ function Conversation ({
               <span>
                 {' - '}
                 {
-                  message.readAt ? <span>{'seen '}</span>
-                    : <span>not seen</span>
+                  message.readAt ? <span>{I18n.t("conversation.messages.seen")}</span>
+                    : <span>{I18n.t("conversation.messages.not_seen")}</span>
                 }
               </span>
             </span>
@@ -548,7 +548,7 @@ function Conversation ({
             <LeftArrow/>
           </Link>
           <h3 className="mb-1 text-xs text-grey-darkest">
-            conversation with{' '}
+            {I18n.t('conversation.with')}{' '}
             <br/>
             <span className="font-extrabold" onClick={handleUserSidebar}>
               {
@@ -573,7 +573,9 @@ function Conversation ({
 
           <Tooltip
             placement="bottom"
-            overlay={conversation.state === 'closed' ? 'reopen' : 'close'}
+            overlay={
+              I18n.t(`conversation.actions.${conversation.state === 'closed' ? 'reopen' : 'close'}`)
+            }
           >
             <button
               onClick={() => {
@@ -581,7 +583,7 @@ function Conversation ({
                   conversation.state === 'closed' ? 'reopen' : 'close'
                 updateConversationStateDispatch(option)
               }}
-              aria-label={conversation.state === 'closed' ? 'reopen' : 'close'}
+              aria-label={I18n.t(`conversation.actions.${conversation.state === 'closed' ? 'reopen' : 'close'}`)}
               className="mr-1 rounded-full bg-white hover:bg-gray-100 text-gray-800 font-semibold border border-gray-400 rounded shadow"
             >
               <CheckmarkIcon variant="rounded" />
@@ -590,7 +592,9 @@ function Conversation ({
 
           <Tooltip
             placement="bottom"
-            overlay={ videoSession ? 'end call' : 'start call'}
+            overlay={ 
+              I18n.t(`conversation.actions.${videoSession ? 'end_call' : 'start_call'}`)
+            }
           >
             <button
               className="mr-1 rounded-full bg-white hover:bg-gray-100 text-gray-800 font-semibold border border-gray-400 rounded shadow"
@@ -639,17 +643,13 @@ function Conversation ({
           <Tooltip
             placement="bottom"
             overlay={
-              !conversation.priority
-                ? 'Priorize conversation'
-                : 'Remove priority'
+              I18n.t(`conversation.actions.${!conversation.priority ? 'priorize' : 'remove_priority'}`)
             }
           >
             <button
               onClick={toggleConversationPriority}
               aria-label={
-                !conversation.priority
-                  ? 'Priorize conversation'
-                  : 'Remove priority'
+                I18n.t(`conversation.actions.${!conversation.priority ? 'priorize' : 'remove_priority'}`)
               }
               className="mr-1 rounded-full bg-white hover:bg-gray-100 text-gray-800 font-semibold border border-gray-400 rounded shadow"
             >
@@ -669,7 +669,11 @@ function Conversation ({
             origin={'top-50'}
             triggerButton={(cb) => {
               return (
-                <Tooltip placement="bottom" overlay={'assign agent'}>
+                <Tooltip placement="bottom" 
+                  overlay={
+                    I18n.t(`conversation.actions.assign_agent`)
+                  }
+                  >
                   <div onClick={cb}
                     className="flex-shrink-0 h-10 w-10 mr-1 rounded-full bg-white hover:bg-gray-100
                     text-gray-800 font-semibold border border-gray-400
@@ -708,7 +712,7 @@ function Conversation ({
 
       <div
         ref={overflow}
-        className="flex flex-col overflow-y-scroll"
+        className="overflow-y-scroll"
         onScroll={handleScroll}
         style={{
           height: 'calc(100vh - 222px)'

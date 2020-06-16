@@ -14,8 +14,18 @@ module Mutations
 
         agent = app.agents.find_by(email: email) # , name: 'John Doe')
 
-
-        data = params.permit(:name, :avatar)
+        data = params.permit(
+          :name, 
+          :avatar, 
+          :lang, 
+          :first_name,
+          :last_name,
+          :country,
+          :country_code,
+          :region,
+          :region_code,
+          :enable_deliveries
+        )
 
         #data.merge!({avatar: avatar}) if avatar.present?
 

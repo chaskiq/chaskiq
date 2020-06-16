@@ -190,7 +190,7 @@ export class Conversation extends Component {
     return <MessageItemWrapper
             visible={this.props.visible}
             email={this.props.email}
-            key={`conversation-item-${o.id}`}
+            key={`conversation-${this.props.conversation.key}-item-${o.id}`}
             conversation={this.props.conversation}
             pushEvent={this.props.pushEvent}
             data={o}>
@@ -224,7 +224,6 @@ export class Conversation extends Component {
                   theme={ themeforMessage }>
                   <DanteStylesExtend>
                     <DraftRenderer 
-                      key={i}
                       message={o}
                       domain={this.props.domain}
                       raw={JSON.parse(o.message.serializedContent)}

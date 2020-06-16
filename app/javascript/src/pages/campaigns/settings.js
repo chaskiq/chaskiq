@@ -12,6 +12,7 @@ import { UPDATE_CAMPAIGN, CREATE_CAMPAIGN } from "../../graphql/mutations";
 import FieldRenderer, {gridClasses} from "../../components/forms/FieldRenderer";
 
 import { toSnakeCase } from "../../shared/caseConverter";
+import I18n from '../../shared/FakeI18n'
 //import moment from 'moment-timezone';
 
 export default class CampaignSettings extends Component {
@@ -109,9 +110,9 @@ export default class CampaignSettings extends Component {
           }}
         >
           <h3 className="text-xl font-bold my-4">
-            {this.state.data.id
-              ? "Edit Campaign Settings"
-              : "Create a new campaign"}
+            {
+              I18n.t(`campaign.${this.state.data.id ? 'edit' : 'create'}`)
+            }
           </h3>
 
           <div className="flex flex-wrap">
@@ -137,10 +138,12 @@ export default class CampaignSettings extends Component {
                 variant="contained"
                 color="primary"
               >
-                Save
+                {I18n.t('common.save')}
               </Button>
 
-              <Button appearance="subtle p-4">Cancel</Button>
+              <Button appearance="subtle p-4">
+              {I18n.t('common.cancel')}
+              </Button>
             </div>
           </div>
         </form>

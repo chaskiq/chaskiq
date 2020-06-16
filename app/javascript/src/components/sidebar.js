@@ -7,6 +7,7 @@ import icon from '../images/favicon.png'
 import FilterMenu from '../components/FilterMenu'
 import { signout } from '../actions/auth'
 import WebSetup from '../components/webSetup'
+import LangChooser from '../components/LangChooser'
 import {
   MoreIcon,
   BookMarkIcon,
@@ -72,6 +73,8 @@ function Sidebar ({
 
   const [expanded, setExpanded] = useState(current_section)
 
+  const [langChooser, setLangChooser] = useState(false)
+
   const routerListener = null
 
   useEffect(() => {
@@ -109,15 +112,12 @@ function Sidebar ({
         } */
         {
           render: (props) => [
-            <div>
-              <p className="text-xs leading-5 text-gray-500 font-light">
-                👋 Hey!, you are viewing the <strong>{app.name}'s</strong>{' '}
-                dashboard!
-                <br />
-                Get you installation snippet for the web setup
-                <br />
-                <WebSetup />.
-              </p>
+            <div key={'dashboard-hey'}>
+              <p className="text-xs leading-5 text-gray-500 font-light"
+                dangerouslySetInnerHTML={
+                  { __html: I18n.t('dashboard.hey', { name: app.name }) }
+                }/>
+              <WebSetup />
             </div>
             /* <li>
                 {/*<FormControlLabel
@@ -158,6 +158,7 @@ function Sidebar ({
       children: [
         {
           id: 'Conversations',
+          label: I18n.t('navigator.childs.conversations'),
           icon: <MessageBubbleIcon />,
           url: `/apps/${app.key}/conversations`,
           active: isActivePage('Conversations')
@@ -165,6 +166,7 @@ function Sidebar ({
         {
           id: 'Assignment Rules',
           icon: <ShuffleIcon />,
+          label: I18n.t('navigator.childs.assignment_rules'),
           url: `/apps/${app.key}/conversations/assignment_rules`,
           active: isActivePage('Assignment Rules')
         }
@@ -178,21 +180,21 @@ function Sidebar ({
       children: [
         {
           id: 'campaigns',
-          label: 'Mailing Campaigns',
+          label: I18n.t('navigator.childs.mailing_campaigns'),
           icon: <EmailIcon />,
           url: `${appid}/messages/campaigns`,
           active: isActivePage('campaigns')
         },
         {
           id: 'user_auto_messages',
-          label: 'In App messages',
+          label: I18n.t('navigator.childs.in_app_messages'),
           icon: <MessageIcon />,
           url: `${appid}/messages/user_auto_messages`,
           active: isActivePage('user_auto_messages')
         },
         {
           id: 'tours',
-          label: 'Guided tours',
+          label: I18n.t('navigator.childs.guided_tours'),
           icon: <TourIcon />,
           url: `${appid}/messages/tours`,
           active: isActivePage('tours')
@@ -208,18 +210,21 @@ function Sidebar ({
       children: [
         {
           id: 'For Leads',
+          label: I18n.t('navigator.childs.for_leads'),
           icon: <UserWalkIcon />,
           url: `${appid}/bots/leads`,
           active: isActivePage('botleads')
         },
         {
           id: 'For Users',
+          label: I18n.t('navigator.childs.for_users'),
           icon: <UserIcon />,
           url: `${appid}/bots/users`,
           active: isActivePage('botusers')
         },
         {
           id: 'Settings',
+          label: I18n.t('navigator.childs.bot_settings'),
           icon: <SettingsIcon />,
           url: `${appid}/bots/settings`,
           active: isActivePage('botSettings')
@@ -235,18 +240,21 @@ function Sidebar ({
       children: [
         {
           id: 'Articles',
+          label: I18n.t('navigator.childs.articles'),
           icon: <BookMarkIcon />,
           url: `/apps/${app.key}/articles`,
           active: isActivePage('Articles')
         },
         {
           id: 'Collections',
+          label: I18n.t('navigator.childs.collections'),
           icon: <FolderIcon />,
           url: `/apps/${app.key}/articles/collections`,
           active: isActivePage('Collections')
         },
         {
           id: 'Settings',
+          label: I18n.t('navigator.childs.article_settings'),
           icon: <SettingsIcon />,
           url: `/apps/${app.key}/articles/settings`,
           active: isActivePage('Settings')
@@ -262,41 +270,41 @@ function Sidebar ({
       children: [
         {
           id: 'App Settings',
+          label: I18n.t('navigator.childs.app_settings'),
           icon: <SettingsIcon />,
           url: `/apps/${app.key}/settings`,
           active: isActivePage('app_settings')
         },
         {
           id: 'Team',
+          label: I18n.t('navigator.childs.team'),
           icon: <TeamIcon />,
           url: `/apps/${app.key}/team`,
           active: isActivePage('team')
         },
         {
           id: 'Integrations',
+          label: I18n.t('navigator.childs.integrations'),
           icon: <IntegrationsIcon />,
           url: `/apps/${app.key}/integrations`,
           active: isActivePage('integrations')
         },
         {
           id: 'Webhooks',
+          label: I18n.t('navigator.childs.webhooks'),
           icon: <WebhooksIcon />,
           url: `/apps/${app.key}/webhooks`,
           active: isActivePage('webhooks')
         },
         {
           id: 'Api access',
+          label: I18n.t('navigator.childs.api_access'),
           icon: <ApiIcon />,
           url: `/apps/${app.key}/oauth_applications`,
           active: isActivePage('oauth_applications')
         }
         // { id: 'Authentication', icon: <ShuffleIcon />, active: isActivePage("user_auto_messages")},
       ]
-    },
-
-    {
-      id: 'User',
-      render: () => <p>oko</p>
     }
   ]
 
@@ -350,6 +358,12 @@ function Sidebar ({
         )
       })
   }
+
+  function openLangChooser () {
+    setLangChooser(true)
+  }
+
+
 
   const drawerClass = !drawer.open
     ? 'hidden'
@@ -407,6 +421,13 @@ function Sidebar ({
         </div>
       )}
 
+      { langChooser &&
+        <LangChooser
+          open={langChooser}
+          handleClose={setLangChooser}
+        />
+      }
+
       <div className="md:flex flex-col w-56 border-r border-gray-200 bg-gray-100 shadow-inner">
         {renderInner()}
 
@@ -430,14 +451,19 @@ function Sidebar ({
                 <FilterMenu
                   options={[
                     {
-                      title: 'Create new app',
-                      description: 'Create your company’s Chaskiq app',
+                      title: I18n.t('navigator.user_menu.create_app'),
+                      description: I18n.t('navigator.user_menu.create_app_description'),
                       // icon: <SendIcon />,
                       id: 'new-app',
                       onClick: () => history.push('/apps/new')
                     },
+
                     {
-                      title: 'Sign out',
+                      title: I18n.t('home.choose_lang'),
+                      onClick: openLangChooser
+                    },
+                    {
+                      title: I18n.t('navigator.user_menu.signout'),
                       // description: "delivers the campaign",
                       // icon: <SendIcon />,
                       id: 'sign-out',
@@ -451,7 +477,7 @@ function Sidebar ({
                       onClick={handler}
                       className="text-xs leading-4 font-medium text-gray-500 group-hover:text-gray-700 group-focus:underline transition ease-in-out duration-150">
                       <div className="flex items-center">
-                          User menu
+                        {I18n.t('navigator.user_menu.title')}
                         <MoreIcon/>
                       </div>
 
@@ -460,12 +486,6 @@ function Sidebar ({
                   position={'left'}
                   origin={'bottom-0'}
                 />
-
-                {/* <p className="text-xs leading-4 font-medium text-gray-500 group-hover:text-gray-700 group-focus:underline transition ease-in-out duration-150">
-                  <button onClick={handleSignout}>
-                   logout
-                  </button>
-                    </p> */}
               </div>
             </div>
           </a>

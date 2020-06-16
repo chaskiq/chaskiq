@@ -28,36 +28,31 @@ class NewApp extends Component {
     return [
       {
         name: "name",
+        label: I18n.t("definitions.settings.name.label"),
         type: "string",
         grid: { xs: "w-full", sm: "w-1/2" },
       },
       {
         name: "domainUrl",
+        label: I18n.t("definitions.settings.domain.label"),
         type: "string",
         grid: { xs: "w-full", sm: "w-1/2" },
       },
       {
         name: "tagline",
+        label: I18n.t("definitions.settings.tagline.label"),
         type: "textarea",
-        hint: "messenger text on botton",
+        hint: I18n.t("definitions.settings.tagline.hint"),
         grid: { xs: "w-full", sm: "w-full" },
       },
-
       {
         name: "timezone",
         type: "timezone",
+        label: I18n.t("definitions.settings.timezone.label"),
         options: timezones,
         multiple: false,
         grid: { xs: "w-full", sm: "w-full" },
-      },
-      {
-        name: "gatherSocialData",
-        type: "bool",
-        label: "Collect social data about your users",
-        hint:
-          "Collect social profiles (e.g. LinkedIn, Twitter, etc.) for my users via a third party",
-        grid: { xs: "w-full", sm: "w-full" },
-      },
+      }
     ];
   };
 
@@ -100,17 +95,16 @@ class NewApp extends Component {
           <div className="w-1/2 hidden sm:block">
             <div className="p-8 pt-0">
               <p className="text-4xl tracking-tight leading-10 font-extrabold text-gray-900 sm:leading-none">
-                Create your company’s Chaskiq app
+                {I18n.t('new_app.title')}
               </p>
 
               <p className="mt-3 text-base text-gray-500 sm:mt-5 sm:text-lg sm:max-w-xl sm:mx-auto md:mt-5 md:text-xl lg:mx-0">
-                Provide basic information to setup Chaskiq for your team and
-                customers.
+
+                {I18n.t('new_app.text')}
               </p>
 
               <img
                 src={image}
-                class="is-pablo"
                 style={{ width: "100%" }}
                 alt=""
               />
@@ -121,7 +115,7 @@ class NewApp extends Component {
 
             <p className="sm:hidden text-3xl tracking-tight leading-10 
             font-extrabold text-gray-900 sm:leading-none">
-              Create your company’s Chaskiq app
+              {I18n.t("new_app.hint")}
             </p>
 
             <SettingsForm

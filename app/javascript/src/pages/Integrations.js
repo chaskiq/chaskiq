@@ -9,7 +9,7 @@ import DeleteDialog from '../components/DeleteDialog'
 import Tabs from '../components/Tabs'
 import PageHeader from '../components/PageHeader'
 import Hints from '../shared/Hints'
-
+import I18n from '../shared/FakeI18n'
 import Button from '../components/Button'
 import Badge from '../components/Badge'
 import FieldRenderer from '../components/forms/FieldRenderer'
@@ -126,10 +126,10 @@ function Integrations ({ app, dispatch }) {
           setIntegrations(newIntegrations)
 
           setOpen(null)
-          dispatch(successMessage('integration created'))
+          dispatch(successMessage(I18n.t('settings.integrations.create_success')))
         },
         error: () => {
-          dispatch(errorMessage('error linking integration'))
+          dispatch(errorMessage(I18n.t('settings.integrations.create_error')))
         }
       }
     )
@@ -154,10 +154,10 @@ function Integrations ({ app, dispatch }) {
           setIntegrations(newIntegrations)
           // getAppPackageIntegration()
           setOpen(null)
-          dispatch(successMessage('integration updated'))
+          dispatch(successMessage(I18n.t('settings.integrations.update_success')))
         },
         error: () => {
-          dispatch(errorMessage('error updating integration'))
+          dispatch(errorMessage(I18n.t('settings.integrations.update_error')))
         }
       }
     )
@@ -175,15 +175,15 @@ function Integrations ({ app, dispatch }) {
           setTabValue(0)
           const integration = data.integrationsDelete.integration
           const newIntegrations = integrations.filter(
-            (o) => o.name != integration.name
+            (o) => o.name !== integration.name
           )
           setIntegrations(newIntegrations)
           setOpen(null)
           setOpenDeleteDialog(null)
-          dispatch(successMessage('integration removed correctly'))
+          dispatch(successMessage(I18n.t('settings.integrations.remove_success')))
         },
         error: () => {
-          dispatch(errorMessage('error removing integration'))
+          dispatch(errorMessage(I18n.t('settings.integrations.remove_error')))
         }
       }
     )
@@ -195,7 +195,7 @@ function Integrations ({ app, dispatch }) {
 
   return (
     <Content>
-      <PageHeader title={'Third party integrations'} />
+      <PageHeader title={ I18n.t('settings.integrations.title') } />
 
       <p className="mt-2 max-w-xl text-sm leading-5 text-gray-500 py-4">
         Logos images provided by
@@ -208,15 +208,15 @@ function Integrations ({ app, dispatch }) {
         currentTab={tabValue}
         tabs={[
           {
-            label: 'Active Integrations',
-            //icon: <HomeIcon />,
+            label: I18n.t('settings.integrations.active.title'),
+            // icon: <HomeIcon />,
             content: (
               <div className="py-6">
                 <p className="text-lg leading-6 font-medium text-gray-900 pb-4">
-                  API Integrations
+                  {I18n.t('settings.integrations.active.text')}
                 </p>
 
-                <Hints type="Integrations"/>
+                <Hints type="integrations"/>
 
 
                 {loading && <Progress />}
@@ -242,11 +242,11 @@ function Integrations ({ app, dispatch }) {
             )
           },
           {
-            label: 'Available API\'s',
+            label: I18n.t('settings.integrations.available.title'),
             content: (
               <div className="py-6">
                 <p className="text-lg leading-6 font-medium text-gray-900 pb-4">
-                  Available API Services
+                  {I18n.t('settings.integrations.available.text')}
                 </p>
                 {loading && <Progress />}
 
@@ -301,7 +301,7 @@ function Integrations ({ app, dispatch }) {
               {open.id && (
                 <div container direction={'column'}>
                   <p variant="overline">
-                    This integration will receive webhook at:
+                    {I18n.t('settings.integrations.hints.hooks')}
                   </p>
 
                   <p variant={'caption'}>
@@ -324,11 +324,12 @@ function Integrations ({ app, dispatch }) {
           dialogButtons={
             <React.Fragment>
               <Button onClick={close} variant="outlined">
-                Cancel
+                {I18n.t('common.cancel')}
               </Button>
 
               <Button onClick={submit} className="mr-1">
-                {open ? 'Update' : 'Create'}
+                {open ? 
+                  I18n.t('common.update') : I18n.t('common.create')}
               </Button>
             </React.Fragment>
           }
@@ -338,7 +339,7 @@ function Integrations ({ app, dispatch }) {
       {openDeleteDialog && (
         <DeleteDialog
           open={openDeleteDialog}
-          title={`Delete "${openDeleteDialog.name}" integration ?`}
+          title={I18n.t('settings.integrations.delete_dialog.title', { name: openDeleteDialog.name }) }
           closeHandler={() => {
             setOpenDeleteDialog(null)
           }}
@@ -347,8 +348,7 @@ function Integrations ({ app, dispatch }) {
           }}
         >
           <p variant="subtitle2">
-            The integration with {openDeleteDialog.dialog} service will be
-            disabled immediately
+            {I18n.t('settings.integrations.delete_dialog.text', {name: openDeleteDialog.dialog })}
           </p>
         </DeleteDialog>
       )}
@@ -362,14 +362,13 @@ function EmptyCard ({ goTo }) {
       <div>
         <p color="textSecondary" gutterBottom></p>
         <p variant="h5" component="h2">
-          You don't have any api integrations yet
+          {I18n.t('settings.integrations.empty.title')}
         </p>
         <p color="textSecondary">
-          search for available api services in
+          {I18n.t('settings.integrations.empty.text')}
           <a href="#" onClick={goTo}>
-            API Services
-          </a>{' '}
-          Tab
+            API Services Tab
+          </a>
         </p>
       </div>
     </div>
