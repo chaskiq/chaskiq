@@ -32,7 +32,7 @@ before_script:
 - "./node_modules/.bin/cypress install"
 script:
 - bundle exec rspec
-- yarn cypress run
+- yarn cypress:ci
 matrix:
   include:
   - rvm: 2.6.5
