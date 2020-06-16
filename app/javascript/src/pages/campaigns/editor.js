@@ -253,7 +253,7 @@ export default class CampaignEditor extends Component {
               onClick={this.togglePreview}>
               <VisibilityRounded/>
               {' '}
-              Preview
+              {I18n.t("common.preview")}
             </Button>
           </div>
         </ButtonsContainer>
@@ -326,13 +326,11 @@ function Preview({campaign, app}){
           </div>
           <div className="ml-3">
             <h3 className="text-sm leading-5 font-medium text-yellow-800">
-              This is a preview
+              {I18n.t('campaign.preview')}
             </h3>
             <div className="mt-2 text-sm leading-5 text-yellow-700">
               <p>
-                This is how your email should display. If 
-                you are using variables like {`{{name}} `} 
-                it should be displayed here.
+                {I18n.t("campaign.preview_hint")}
               </p>
             </div>
           </div>

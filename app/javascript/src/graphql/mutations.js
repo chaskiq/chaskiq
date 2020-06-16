@@ -762,6 +762,7 @@ export const UPDATE_AGENT = `
         email
         avatarUrl
         name
+        lang
       }
     }
   }

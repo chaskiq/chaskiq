@@ -5,7 +5,7 @@ class ArticlesController < ApplicationController
 
   def show
     messenger_data
-    render html: '', layout: true, layout: 'articles'
+    render html: '', layout: 'articles'
   end
 
   private

@@ -499,10 +499,14 @@ class CampaignForm extends Component {
           this.setState({
             data: data.campaignUpdate.campaign,
           });
-          this.props.dispatch(successMessage("campaign updated"));
+          this.props.dispatch(successMessage(
+            I18n.t("campaigns.campaign_updated")
+          ));
         },
         error: () => {
-          this.props.dispatch(errorMessage("error updating campaign"));
+          this.props.dispatch(errorMessage(
+            I18n.t("campaigns.updated_error")
+          ));
         },
       }
     );
@@ -537,8 +541,8 @@ class CampaignForm extends Component {
         },
       },*/
       {
-        title: "Deliver",
-        description: "delivers the campaign",
+        title: I18n.t("campaigns.deliver_title"),
+        description: I18n.t("campaigns.deliver_description"),
         icon: <SendIcon />,
         id: "deliver",
         onClick: this.handleSend,
@@ -548,8 +552,8 @@ class CampaignForm extends Component {
 
   deleteOption = () => {
     return {
-      title: "Delete",
-      description: "delete the campaign",
+      title: I18n.t("common.delete"),
+      description: I18n.t("campaigns.delete_campaign", {name: this.state.data.name}),
       icon: <DeleteOutlineRounded />,
       id: "delete",
       onClick: this.openDeleteDialog,
@@ -573,8 +577,8 @@ class CampaignForm extends Component {
 
   purgeMetricsOptions = () => {
     return {
-      title: "Purge Metrics",
-      description: "purges campaigns metrics",
+      title: I18n.t("campaigns.purge_title"),
+      description: I18n.t("campaigns.purge_description"),
       icon: <ClearAll />,
       id: "deliver",
       onClick: this.purgeMetrics,
@@ -619,7 +623,7 @@ class CampaignForm extends Component {
         {this.state.deleteDialog && (
           <DeleteDialog
             open={this.state.deleteDialog}
-            title={`Delete campaign "${this.state.data.name}"`}
+            title={I18n.t("campaigns.delete_campaign", {name: title })}
             deleteHandler={() => {
               this.deleteCampaign(() => {
                 this.setState(
@@ -636,7 +640,7 @@ class CampaignForm extends Component {
             }}
           >
             <p variant="subtitle2">
-              we will destroy any content and related data
+              {I18n.t("campaigns.remove_hint")}
             </p>
           </DeleteDialog>
         )}
@@ -802,7 +806,7 @@ class CampaignContainer extends Component {
           size={"small"}
           onClick={this.createNewCampaign}
         >
-          create new campaign
+          {I18n.t("campaigns.create_new")}
         </Button>
       </div>
     );
@@ -852,7 +856,9 @@ class CampaignContainer extends Component {
                 {this.state.openDeleteDialog && (
                   <DeleteDialog
                     open={this.state.openDeleteDialog}
-                    title={`Delete campaign "${this.state.openDeleteDialog.name}"`}
+                    title={
+                      I18n.t("campaigns.delete_campaign", {name: this.state.openDeleteDialog.name})
+                    }
                     closeHandler={() => {
                       this.setState({ openDeleteDialog: null });
                     }}
@@ -863,20 +869,22 @@ class CampaignContainer extends Component {
                           this.init();
                           this.setState({ openDeleteDialog: null });
                           this.props.dispatch(
-                            successMessage("campaign removed")
+                            successMessage(
+                              I18n.t("campaigns.remove_success")
+                            )
                           );
                         }
                       );
                     }}
                   >
                     <p variant="subtitle2">
-                      we will destroy any content and related data
+                      {I18n.t("campaigns.remove_hint")}
                     </p>
                   </DeleteDialog>
                 )}
 
                 <ContentHeader
-                  title={"Campaigns"}
+                  title={I18n.t("campaigns.home.title")}
                   actions={this.renderActions()}
                 />
 
@@ -885,14 +893,14 @@ class CampaignContainer extends Component {
                     <Table
                       meta={this.state.meta}
                       data={this.state.campaigns}
-                      title={`campaigns`}
+                      title={I18n.t("campaigns.title")}
                       //title={`${this.props.match.params.message_type} campaign`}
                       defaultHiddenColumnNames={[]}
                       search={this.init.bind(this)}
                       columns={[
                         {
                           field: "name",
-                          title: "name",
+                          title: I18n.t("definitions.campaigns.campaign_name.label"),
                           render: (row) =>
                             row && (
                               <td className="px-6 py-4 whitespace-no-wrap border-b border-gray-200">
@@ -908,10 +916,10 @@ class CampaignContainer extends Component {
                               </td>
                             ),
                         },
-                        { field: "subject", title: "subject" },
+                        { field: "subject", title: I18n.t("definitions.campaigns.email_subject.label") },
                         {
                           field: "state",
-                          title: "state",
+                          title: I18n.t("definitions.campaigns.state.label"),
                           render: (row) => {
                             return (
                               <td className="px-6 py-4 whitespace-no-wrap border-b border-gray-200">
@@ -922,12 +930,12 @@ class CampaignContainer extends Component {
                             );
                           },
                         },
-                        {field: 'fromName', title: 'from name', hidden: true},
-                        {field: 'fromEmail', title: 'from email', hidden: true},
-                        {field: 'replyEmail', title: 'reply email', hidden: true},
-                        {field: 'description', title: 'description', hidden: true},
+                        {field: 'fromName', title: I18n.t("definitions.campaigns.from_name.label"), hidden: true},
+                        {field: 'fromEmail', title: I18n.t("definitions.campaigns.from_email.label"), hidden: true},
+                        {field: 'replyEmail', title: I18n.t("definitions.campaigns.reply_email.label"), hidden: true},
+                        {field: 'description', title: I18n.t("definitions.campaigns.description.label"), hidden: true},
                         {field: 'timezone', title: 'timezone'},
-                        {field: 'scheduledAt', title: 'scheduled at', hidden: true, type: "datetime", 
+                        {field: 'scheduledAt', title: I18n.t("definitions.campaigns.scheduled_at.label"), hidden: true, type: "datetime", 
                           render: row => (row ? 
                             <td className="px-6 py-4 whitespace-no-wrap border-b border-gray-200">
                               <Moment fromNow>
@@ -935,7 +943,7 @@ class CampaignContainer extends Component {
                               </Moment>
                             </td> : undefined)
                         },
-                        {field: 'scheduledTo', title: 'scheduled to', hidden: true, type: "datetime",
+                        {field: 'scheduledTo', title: I18n.t("definitions.campaigns.scheduled_to.label"), hidden: true, type: "datetime",
                           render: row => (row ? 
                             <td className="px-6 py-4 whitespace-no-wrap border-b border-gray-200">
                               <Moment fromNow>
@@ -945,7 +953,7 @@ class CampaignContainer extends Component {
                         },
                         {
                           field: "actions",
-                          title: "actions",
+                          title: I18n.t("definitions.campaigns.actions.label"),
                           render: (row) => (
                             <td className="px-6 py-4 whitespace-no-wrap border-b border-gray-200">
                               <span
@@ -957,7 +965,7 @@ class CampaignContainer extends Component {
                                   onClick={() =>
                                     this.setState({ openDeleteDialog: row })
                                   }>
-                                  remove
+                                  {I18n.t("common.remove")}
                                 </Button>
                               </span>
                             </td>
@@ -969,7 +977,7 @@ class CampaignContainer extends Component {
 
                   {!this.state.loading && this.state.campaigns.length === 0 ? (
                     <EmptyView
-                      title={"No campaigns found"}
+                      title={I18n.t("campaigns.empty.title")}
                       subtitle={
                         <div>
                           {this.renderActions()}

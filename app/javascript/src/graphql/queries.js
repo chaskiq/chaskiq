@@ -390,6 +390,7 @@ export const CURRENT_USER = `
     userSession {
       email
       avatarUrl
+      lang
     }
   }
 `;

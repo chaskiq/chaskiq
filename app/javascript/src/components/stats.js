@@ -8,8 +8,8 @@ import gravatar from "../shared/gravatar";
 import Badge from './Badge'
 import Button from "./Button";
 import Avatar from "./Avatar";
-
 import Count from "./charts/count";
+import I18n from '../shared/FakeI18n'
 
 const PieContainer = styled.div`
   padding: 0.75em;
@@ -137,9 +137,9 @@ class Stats extends Component {
     return (
       <div>
         <div className="flex justify-between items-center">
-          <h3 className="text-xl font-bold my-4">Campaign stats</h3>
+          <h3 className="text-xl font-bold my-4">{I18n.t('campaign.stats.title')}</h3>
           <Button onClick={this.getData}>
-            Refresh data
+            {I18n.t('campaign.stats.refresh_data')}
           </Button>
         </div>
 
@@ -190,7 +190,7 @@ class Stats extends Component {
               { field: "id", title: "id", hidden: true },
               {
                 field: "email",
-                title: "email",
+                title: I18n.t("definitions.stats.email.label"),
                 render: (row) =>
                   row && (
                     <td className="px-6 py-4 whitespace-no-wrap border-b border-gray-200">
@@ -219,15 +219,15 @@ class Stats extends Component {
                     </td>
                   ),
               },
-              { field: "action", title: "Action", 
+              { field: "action", title: I18n.t("definitions.stats.actions.label"), 
                 render: (row)=> <td className="px-6 py-4 whitespace-no-wrap border-b border-gray-200">
                   {this.renderBadgeKind(row)}
                 </td> 
               },
-              { field: "host", title: "from" },
+              { field: "host", title: I18n.t("definitions.stats.from.label") },
               {
                 field: "createdAt",
-                title: "when",
+                title: I18n.t("definitions.stats.when.label"),
                 render: (row) =>
                   row && (
                     <td className="px-6 py-4 whitespace-no-wrap border-b border-gray-200">
@@ -237,7 +237,7 @@ class Stats extends Component {
               },
               {
                 field: "data",
-                title: "data",
+                title: I18n.t("definitions.stats.data.label"),
                 render: (row) =>
                   row && (
                     <td className="px-6 py-4 whitespace-no-wrap border-b border-gray-200">

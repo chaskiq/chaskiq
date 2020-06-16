@@ -44,7 +44,7 @@ class TeamPage extends Component {
     return (
       <Content>
         <PageHeader
-          title={"Team"}
+          title={I18n.t("settings.team.title")}
           /*actions={
             <Button
               className={"transition duration-150 ease-in-out"}
@@ -61,12 +61,12 @@ class TeamPage extends Component {
           currentTab={this.state.tabValue}
           tabs={[
             {
-              label: "Team",
+              label: I18n.t("settings.team.title"),
               //icon: <HomeIcon />,
               content: <AppUsers {...this.props} />,
             },
             {
-              label: "Invitations",
+              label: I18n.t("settings.team.invitations"),
               content: <NonAcceptedAppUsers {...this.props} />,
             },
           ]}
@@ -116,7 +116,7 @@ class AppUsers extends React.Component {
         {!this.state.loading ? (
           <DataTable
             elevation={0}
-            title={"agents"}
+            title={I18n.t("settings.team.agents")}
             meta={{}}
             data={this.state.collection}
             search={this.search}
@@ -260,7 +260,7 @@ class NonAcceptedAppUsers extends React.Component {
       },
       {
         success: (data) => {
-          this.props.dispatch(successMessage('invitation sent!'))
+          this.props.dispatch(successMessage(I18n.t("settings.team.invitation_success")))
           this.setState(
             {
               sent: true,
@@ -270,7 +270,7 @@ class NonAcceptedAppUsers extends React.Component {
           );
         },
         error: () => {
-          this.props.dispatch(errorMessage('invitation not sent!'))
+          this.props.dispatch(errorMessage(I18n.t("settings.team.invitation_error")))
 
         },
       }
@@ -284,9 +284,9 @@ class NonAcceptedAppUsers extends React.Component {
           <FormDialog
             open={this.state.isOpen}
             handleClose={this.close}
-            actionButton={"add user"}
-            titleContent={"Add a new agent"}
-            contentText={"send an activable invitation"}
+            actionButton={I18n.t("settings.team.action_button")}
+            titleContent={I18n.t("settings.team.title_content")}
+            contentText={I18n.t("settings.team.content_text")}
             formComponent={
               <Input
                 autoFocus
@@ -294,7 +294,7 @@ class NonAcceptedAppUsers extends React.Component {
                 id="email"
                 name="email"
                 label="email"
-                helperText="the new team member will be notified by it's email"
+                helperText={I18n.t("settings.team.hint")}
                 type="string"
                 fullWidth
                 ref={this.input_ref}
@@ -304,11 +304,11 @@ class NonAcceptedAppUsers extends React.Component {
               <React.Fragment>
                 <Button onClick={this.close} 
                   variant="outlined">
-                  Cancel
+                  {I18n.t("common.cancel")}
                 </Button>
 
                 <Button className="mr-1" onClick={this.sendInvitation}>
-                  Send invitation
+                  {I18n.t("settings.team.send_invitation")}
                 </Button>
               </React.Fragment>
             }
@@ -319,7 +319,7 @@ class NonAcceptedAppUsers extends React.Component {
           variant="contained" 
           color="primary"
           onClick={this.open}>
-          Add Team Member
+          {I18n.t("settings.team.add_new")}
         </Button>
       </div>
     );
@@ -356,12 +356,10 @@ class NonAcceptedAppUsers extends React.Component {
       email: email,
     }, {
       success: (data)=>{          
-        this.props.dispatch(successMessage('invitation sent!'))
-        console.log("inivited")
+        this.props.dispatch(successMessage(I18n.t("settings.team.invitation_success")))
       },
       error: ()=>{          
-        this.props.dispatch(errorMessage('invitation not sent!'))
-        console.log("error invited")
+        this.props.dispatch(errorMessage(I18n.t("settings.team.invitation_error")))
       }
     })
   }
@@ -374,7 +372,7 @@ class NonAcceptedAppUsers extends React.Component {
         {!this.state.loading ? (
           <DataTable
             elevation={0}
-            title={"invitations"}
+            title={I18n.t("settings.team.invitations")}
             meta={{}}
             data={this.state.collection}
             search={this.search}
@@ -388,7 +386,7 @@ class NonAcceptedAppUsers extends React.Component {
                           <Button 
                             onClick={ ()=> this.resendInvitation(row.email) } 
                             variant="outlined" size="md">
-                            resend invitation
+                            {I18n.t("settings.team.resend_invitation")}
                           </Button>
                         </tr>
                 }

@@ -417,7 +417,7 @@ class ArticlesNew extends Component {
           breadcrumbs={[
             {
               to: `/apps/${app.key}/articles`,
-              title: "Help Center",
+              title: I18n.t('articles.help_center'),
             },
             {
               to: "",
@@ -454,7 +454,7 @@ class ArticlesNew extends Component {
                         disabled={!this.state.changesAvailable}
                         color={"primary"}
                       >
-                        Save
+                        {I18n.t('common.save')}
                       </Button>
 
                       <FilterMenu
@@ -470,7 +470,7 @@ class ArticlesNew extends Component {
                       id="article-title"
                       type={"text"}
                       //label="Name"
-                      placeholder={"Type articles's title"}
+                      placeholder={I18n.t('articles.create_article.placeholder')}
                       inputProps={{
                         style: {
                           fontSize: "2.4em",
@@ -490,7 +490,7 @@ class ArticlesNew extends Component {
                       id="article-description"
                       type={"textarea"}
                       //label="Description"
-                      placeholder={"Describe your article to help it get found"}
+                      placeholder={I18n.t('articles.create_article.description_placeholder')}
                       //helperText="Full width!"
                       fullWidth
                       multiline

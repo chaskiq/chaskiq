@@ -83,30 +83,35 @@ class Settings extends Component {
     });
   };
 
+  
   definitionsForSettings = () => {
     return [
       {
         name: "subdomain",
-        hint: "documentation site subdomain",
+        label: I18n.t('definitions.articles.subdomain.label'),
+        hint: I18n.t('definitions.articles.subdomain.hint'),
         type: "string",
         grid: { xs: "w-full", sm: "w-1/2" },
       },
 
       {
         name: "domain",
-        hint: "documentation site custom domain",
+        hint: I18n.t('definitions.articles.domain.hint'),
+        label: I18n.t('definitions.articles.domain.label'),
         type: "string",
         grid: { xs: "w-full", sm: "w-1/2" },
       },
       {
         name: "website",
-        hint: "link to your website",
+        hint: I18n.t('definitions.articles.website.hint'),
+        label: I18n.t('definitions.articles.website.label'),
         type: "string",
         grid: { xs: "w-full", sm: "w-3/4" },
       },
       {
         name: "googleCode",
-        hint: "Google Analytics Tracking ID",
+        label: I18n.t('definitions.articles.google_code.label'),
+        hint: I18n.t('definitions.articles.google_code.hint'),
         type: "string",
         grid: { xs: "w-full", sm: "w-1/4" },
       },
@@ -119,7 +124,7 @@ class Settings extends Component {
         name: "color",
         type: "color",
         handler: (color) => {
-          this.props.updateMemSettings({ color: color });
+          this.props.updateMemSettings({ color: color })
         },
         grid: { xs: "w-full", sm: "w-1/12" },
       },
@@ -140,6 +145,7 @@ class Settings extends Component {
 
       {
         name: "facebook",
+        label: "Facebook",
         startAdornment: "facebook/",
         type: "string",
         grid: { xs: "w-full", sm: "w-1/3" },
@@ -147,6 +153,7 @@ class Settings extends Component {
 
       {
         name: "twitter",
+        label: "Twitter",
         startAdornment: "twitter/",
         type: "string",
         grid: { xs: "w-full", sm: "w-1/3" },
@@ -154,6 +161,7 @@ class Settings extends Component {
 
       {
         name: "linkedin",
+        label: "Linkedin",
         startAdornment: "linkedin/",
         type: "string",
         grid: { xs: "w-full", sm: "w-1/3" },
@@ -161,8 +169,9 @@ class Settings extends Component {
 
       {
         name: "credits",
+        label: I18n.t('definitions.articles.credits.label'), 
         type: "bool",
-        hint: "Display a subtle link to the Chaskiq website",
+        hint: I18n.t('definitions.articles.credits.hint'),
         grid: { xs: "w-full", sm: "w-3/4" },
       },
     ];
@@ -194,10 +203,10 @@ class Settings extends Component {
         textColor="inherit"
         tabs={[
           {
-            label: "Basic Setup",
+            label:  I18n.t('articles.settings.basic'),
             content: (
               <SettingsForm
-                title={"General app's information"}
+                title={ I18n.t('articles.settings.general_app')}
                 //currentUser={this.props.currentUser}
                 data={this.props.settings}
                 update={this.props.update.bind(this)}
@@ -211,7 +220,7 @@ class Settings extends Component {
             ),
           },
           {
-            label: "Lang",
+            label: I18n.t('articles.settings.lang'),
             content: (
               <div className="my-2">
                 <div>
@@ -219,15 +228,14 @@ class Settings extends Component {
                     className="text-lg leading-6 font-medium text-gray-900 pb-4"
                     variant="h5"
                   >
-                    Localize your Help Center
+                    {I18n.t('articles.settings.lang_title')}
                   </p>
 
                   <p
                     className="max-w-xl text-sm leading-5 text-gray-500 mb-4"
                     variant="subtitle1"
                   >
-                    Manage supported languages and customize your Help Center's
-                    header
+                    {I18n.t('articles.settings.lang_desc')}
                   </p>
                 </div>
 
@@ -248,10 +256,10 @@ class Settings extends Component {
             ),
           },
           {
-            label: "Appearance",
+            label: I18n.t('articles.settings.appearance'),
             content: (
               <SettingsForm
-                title={"Appearance settings"}
+                title={I18n.t('articles.settings.appearance_settings')}
                 //currentUser={this.props.currentUser}
                 data={this.props.settings}
                 update={this.props.update.bind(this)}
@@ -272,7 +280,7 @@ class Settings extends Component {
     return (
       <React.Fragment>
         <ContentHeader
-          title={"Help Center Settings"}
+          title={I18n.t('articles.settings.title')}
           /*
           tabsContent={ this.tabsContent() }
           items={
@@ -347,11 +355,11 @@ class SettingsForm extends Component {
             variant="contained"
             color="primary"
           >
-            Save
+            {I18n.t('common.save')}
           </Button>
 
           <Button appearance="subtle" variant={"outlined"} color={"secondary"}>
-            Cancel
+            {I18n.t('common.cancel')}
           </Button>
         </div>
       </form>
@@ -390,31 +398,12 @@ function LanguageForm({ settings, update, deleteLang }) {
           open={isOpen}
           handleClose={() => setIsOpen(false)}
           //contentText={"lipsum"}
-          titleContent={"Add new language to Help center"}
+          titleContent={I18n.t('articles.settings.add_language_to_help')}
           formComponent={
             //!loading ?
             <form onSubmit={(e) => e.preventDefault()}>
-              {/*<Select
-                value={selectedLang}
-                onChange={handleChange}
-                inputProps={{
-                  name: 'age',
-                  id: 'age-simple',
-                }}>
-
-                {
-                  langsOptions.map((o)=>(
-                    <MenuItem value={o.value}>
-                      {o.label}
-                    </MenuItem> 
-                  ))
-                }
-                
-                
-              </Select>*/}
-
               <Input
-                label="select lang"
+                label={I18n.t('articles.settings.select_lang')}
                 value={selectedLang}
                 onChange={handleChange}
                 type={"select"}
@@ -429,13 +418,13 @@ function LanguageForm({ settings, update, deleteLang }) {
           dialogButtons={
             <React.Fragment>
               <Button onClick={toggleDialog} variant="outlined">
-                Cancel
+                {I18n.t('common.cancel')}
               </Button>
 
               <Button //onClick={this.submitAssignment }
                 className="mr-1"
               >
-                Update
+                {I18n.t('common.update')}
               </Button>
             </React.Fragment>
           }
@@ -483,7 +472,7 @@ function LanguageForm({ settings, update, deleteLang }) {
                     color="secondary"
                     onClick={() => setOpenDeleteDialog(row)}
                   >
-                    delete
+                    {I18n.t('common.delete')}
                   </Button>
                 ) : (
                   <Input
@@ -509,7 +498,7 @@ function LanguageForm({ settings, update, deleteLang }) {
     <div className="py-4">
       <form ref={formRef} onSubmit={(e) => e.preventDefault()}>
         <Button onClick={toggleDialog} variant={"outlined"}>
-          Add language
+          {I18n.t('articles.settings.add_language')}
         </Button>
 
         <div mt={2} mb={2}>
@@ -530,59 +519,6 @@ function LanguageForm({ settings, update, deleteLang }) {
               //enableMapView={this.props.enableMapView}
             />
           }
-
-          {/*
-            <Table>
-            <TableHead>
-              <TableRow>
-                <TableCell>Locale</TableCell>
-                <TableCell align="left">Title</TableCell>
-                <TableCell align="left">Description</TableCell>
-                <TableCell align="left"></TableCell>
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {settings.translations.map(row => (
-                <TableRow key={row.locale}>
-                  <TableCell component="th" scope="row">
-                    {row.locale}
-                  </TableCell>
-                  <TableCell align="left">
-                    <TextField
-                      //id="standard-name"
-                      label="Site Title"
-                      defaultValue={row.site_title}
-                      name={`settings[site_title_${row.locale}]`}
-                      //className={classes.textField}
-                      //value={values.name}
-                      //onChange={handleChange('name')}
-                      margin="normal"
-                    />
-                  </TableCell>
-                  <TableCell align="left">
-                    <TextField
-                      //id="standard-name"
-                      label="Site Description"
-                      defaultValue={row.site_description}
-                      name={`settings[site_description_${row.locale}]`}
-                      //className={classes.textField}
-                      //value={values.name}
-                      //onChange={handleChange('name')}
-                      margin="normal"
-                    />
-                  </TableCell>
-
-                  <TableCell align="left">
-                    <Button color="secondary" onClick={()=>setOpenDeleteDialog(row)}>
-                      delete
-                    </Button>
-                  </TableCell>
-                
-                </TableRow>
-              ))}
-            </TableBody>
-          </Table>
-          */}
         </div>
 
         <div className="flex justify-end py-2">
@@ -591,7 +527,7 @@ function LanguageForm({ settings, update, deleteLang }) {
             variant={"contained"}
             color={"primary"}
           >
-            Submit
+            {I18n.t('common.submit')}
           </Button>
         </div>
       </form>
@@ -601,7 +537,9 @@ function LanguageForm({ settings, update, deleteLang }) {
       {openDeleteDialog && (
         <DeleteDialog
           open={openDeleteDialog}
-          title={`Delete translation "${openDeleteDialog.locale}"`}
+          title={
+            I18n.t('articles.settings.delete.title', {name: openDeleteDialog.locale})
+          }
           closeHandler={() => {
             setOpenDeleteDialog(null);
           }}
@@ -612,8 +550,7 @@ function LanguageForm({ settings, update, deleteLang }) {
           }}
         >
           <p variant="subtitle2">
-            We will destroy translation and hide any articles with the "
-            {openDeleteDialog.locale}" language
+            {I18n.t('articles.settings.delete.text', {name: openDeleteDialog.locale})}
           </p>
         </DeleteDialog>
       )}

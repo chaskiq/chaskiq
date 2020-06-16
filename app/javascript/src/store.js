@@ -43,6 +43,7 @@ const middlewares = [thunkMiddleware] //, routerMiddleware(history)]
 const enhancer = compose(
   applyMiddleware(...middlewares),
   persistState('auth', { key: 'AUTH' }),
+  persistState('current_user', { key: 'CURRENT_USER' }),
   persistState('theme', { key: 'THEME' })
 )
 
