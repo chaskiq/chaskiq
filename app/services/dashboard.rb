@@ -128,8 +128,8 @@ class Dashboard
         "#{integration.cache_key_with_version}/dashboard-packages", 
         expires_in: 1.hours) do
         {
-          name: integration.package.name,
-          icon: integration.package.icon,
+          name: integration.app_package.name,
+          icon: integration.app_package.icon,
           data: integration.message_api_klass.get_stats 
         }
       end
