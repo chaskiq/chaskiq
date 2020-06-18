@@ -30,6 +30,17 @@ module MessageApis
       @keys['user_token'] = config["user_token"]
     end
 
+    def self.process_global_hook(params)
+      
+      return params[:challenge] if params[:challenge]
+
+      app_package = AppPackage.find_by(name: params["provider"].capitalize)
+      integration_pkg = app_package.app_package_integrations.find_by(
+        external_id: params["team_id"]
+      )
+      response = integration_pkg.process_event(params)
+    end
+
     def after_install
       # TODO here create the configured channel and join it
     end
@@ -416,6 +427,7 @@ module MessageApis
       token_hash = token.to_hash
 
       package.update(
+        external_id: token_hash["team"]["id"],
         project_id: token_hash["app_id"],
         access_token: token_hash[:access_token],
         access_token_secret: token.to_hash["authed_user"]["access_token"]
