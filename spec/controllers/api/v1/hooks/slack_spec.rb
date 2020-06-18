@@ -71,9 +71,10 @@ RSpec.describe Api::V1::Hooks::ProviderController, type: :controller do
 
     {
       "payload"=> payload.to_json,
-      "app_key"=> app.key, 
-      "provider"=>"slack", 
-      "id"=>id
+      "id" => @pkg.encoded_id
+      #"app_key"=> app.key, 
+      #"provider"=>"slack", 
+      #"id"=>id
     }
 
 
@@ -95,14 +96,15 @@ RSpec.describe Api::V1::Hooks::ProviderController, type: :controller do
       "channel"=>channel,
       "event_ts"=>"1580785266.001000",
       "channel_type"=>"channel"
-      }
+    }
 
-      {
-        "event"=> payload,
-        "app_key"=> app.key, 
-        "provider"=>"slack", 
-        "id"=>id
-      }
+    {
+      "event"=> payload,
+      #"app_key"=> app.key, 
+      #"provider"=>"slack", 
+      #"id"=>id,
+      "id" => @pkg.encoded_id
+    }
 
   end
 
@@ -203,6 +205,8 @@ RSpec.describe Api::V1::Hooks::ProviderController, type: :controller do
       )
 
     end
+
+
   
     it "receive reply in channel" do
       allow_any_instance_of(MessageApis::Slack).to receive(:handle_reply_in_channel_action).once

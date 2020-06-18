@@ -1,6 +1,5 @@
 # frozen_string_literal: true
 
-require 'URLcrypt'
 require 'digest/md5'
 
 class AppUser < ApplicationRecord

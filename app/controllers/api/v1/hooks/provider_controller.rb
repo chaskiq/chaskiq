@@ -17,20 +17,14 @@ class Api::V1::Hooks::ProviderController < ApplicationController
   end
 
   def find_application_package
-    app = App.find_by(key: params[:app_key])
-
-    @integration_pkg = app.app_package_integrations
-                          .joins(:app_package)
-                          .where(
-                              id: params[:id], 
-                              "app_packages.name": params[:provider].capitalize
-                          ).first
+    @integration_pkg = AppPackageIntegration.decode(params[:id])
+    app = @integration_pkg.app
   end
-
 
   def oauth
     response = @integration_pkg.receive_oauth_code(params)
-    render status: 200, json: response.to_json 
+    pkg = AppPackageIntegration.decode(params[:id])
+    redirect_to "/apps/#{pkg.app.key}/integrations"
   end
 
   def auth

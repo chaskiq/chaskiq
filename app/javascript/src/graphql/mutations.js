@@ -1257,6 +1257,7 @@ export const CREATE_INTEGRATION = `
         icon
         state
         description
+        hookUrl
       }
     }
   }
