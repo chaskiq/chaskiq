@@ -114,7 +114,7 @@ function Integrations ({ app, dispatch }) {
       {
         appKey: app.key,
         appPackage: open.name,
-        params: serializedData.app
+        params: serializedData.app || {}
       },
       {
         success: (data) => {

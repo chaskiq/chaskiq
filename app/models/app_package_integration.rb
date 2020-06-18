@@ -31,8 +31,13 @@ class AppPackageIntegration < ApplicationRecord
 
   def message_api_klass
     @message_api_klass ||= "MessageApis::#{app_package.name.capitalize}".constantize.new(
-      config: self.settings.dup.merge( self.app_package.credentials || {} )
+      config: self.settings.dup.merge( 
+        self.app_package.credentials || {} 
+      )
     ) rescue nil
+  end
+
+  def merged_credentials
   end
 
   def trigger(event)

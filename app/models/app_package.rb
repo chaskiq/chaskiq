@@ -12,4 +12,13 @@ class AppPackage < ApplicationRecord
     editor_definitions
     credentials
   ], coder: JSON
+
+  def process_global_hook(params)
+    self.message_api_klass.process_global_hook(params)
+  end
+
+  def message_api_klass
+    @message_api_klass ||= "MessageApis::#{self.name.capitalize}".constantize
+  end
+
 end
