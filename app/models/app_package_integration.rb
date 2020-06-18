@@ -30,7 +30,9 @@ class AppPackageIntegration < ApplicationRecord
   end
 
   def message_api_klass
-    @message_api_klass ||= "MessageApis::#{app_package.name.capitalize}".constantize.new(config: self.settings) rescue nil
+    @message_api_klass ||= "MessageApis::#{app_package.name.capitalize}".constantize.new(
+      config: self.settings.dup.merge( self.app_package.credentials || {} )
+    ) rescue nil
   end
 
   def trigger(event)
@@ -40,6 +42,7 @@ class AppPackageIntegration < ApplicationRecord
 
   def handle_registration
     register_hook if message_api_klass and message_api_klass.respond_to?(:register_webhook)
+    message_api_klass.after_install if message_api_klass.respond_to?(:after_install)
   end
 
   def register_hook
@@ -60,27 +63,37 @@ class AppPackageIntegration < ApplicationRecord
   end
 
   def create_hook_from_params(params)
-    klass = message_api_klass.create_hook_from_params(params, self)
+    message_api_klass.create_hook_from_params(params, self)
   end
 
   def process_event(params)
-    klass = message_api_klass.enqueue_process_event(params, self)
+    message_api_klass.enqueue_process_event(params, self)
   end
 
   def send_message(conversation, options)
-    klass = message_api_klass.send_message(conversation, options)
+    message_api_klass.send_message(conversation, options)
   end
 
   def oauth_authorize
-    klass = message_api_klass.oauth_authorize(self.app, self)
+    message_api_klass.oauth_authorize(self.app, self) if message_api_klass.respond_to?(:oauth_authorize)
+  end
+
+  def encoded_id
+    URLcrypt.encode("#{app.key}+#{self.id}")
+  end
+
+  def self.decode(encoded)
+    result = URLcrypt.decode(encoded).split("+")
+    App.find_by(key: result.first).app_package_integrations.find(result.last)
   end
 
   def hook_url
-    "#{ENV['HOST']}/api/v1/hooks/#{app.key}/#{app_package.name.downcase}/#{self.id}"
+    "#{ENV['HOST']}/api/v1/hooks/receiver/#{encoded_id}"
+    #"#{ENV['HOST']}/api/v1/hooks/#{app.key}/#{app_package.name.downcase}/#{self.id}"
   end
 
   def oauth_url
-    "#{ENV['HOST']}/api/v1/oauth/#{app.key}/#{app_package.name.downcase}/#{self.id}"
+    "#{ENV['HOST']}/api/v1/oauth/callback/#{encoded_id}"
   end
 
   def receive_oauth_code(params)

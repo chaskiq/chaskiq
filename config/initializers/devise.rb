@@ -8,23 +8,7 @@ Devise.setup do |config|
   # confirmation, reset password and unlock tokens in the database.
   # Devise will use the `secret_key_base` as its `secret_key`
   # by default. You can change it below and use your own secret key.
-  config.secret_key = '1a1c6e80bae4434d5c6145e733e81db9ba1047c2852eb082dbf6d9029e1920dd7da2732e4dd7814a2274a2fc3843eab27295ca9ec585a6a73494cd905f4efb84'
-
-  # devise-jwt gem
-  #config.jwt do |jwt|
-  #  jwt.secret = config.secret_key
-  #  jwt.request_formats = {
-  #    user: [:json],
-  #    agent: [:json]
-  #  }
-  #  jwt.dispatch_requests = [
-  #    ['POST', %r{^/agents/sign_in.json$}]
-  #  ]
-  #  jwt.revocation_requests = [
-  #    ['DELETE', %r{^/agents/sign_out.json$}]
-  #  ]
-  #  jwt.expiration_time = 1.day.to_i
-  #end
+  # config.secret_key = '1a1c6e80bae4434d5c6145e733e81db9ba1047c2852eb082dbf6d9029e1920dd7da2732e4dd7814a2274a2fc3843eab27295ca9ec585a6a73494cd905f4efb84'
 
   # ==> Controller configuration
   # Configure the parent class to the devise controllers.

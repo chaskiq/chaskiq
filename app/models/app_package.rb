@@ -10,5 +10,6 @@ class AppPackage < ApplicationRecord
     definitions
     icon
     editor_definitions
+    credentials
   ], coder: JSON
 end

@@ -13,8 +13,9 @@ import I18n from '../shared/FakeI18n'
 import Button from '../components/Button'
 import Badge from '../components/Badge'
 import FieldRenderer from '../components/forms/FieldRenderer'
+import Avatar from '../components/Avatar'
 
-import { EditIcon, AddIcon, DeleteIcon, HomeIcon } from '../components/icons'
+import { EditIcon, AddIcon, DeleteIcon } from '../components/icons'
 import List, {
   ListItem,
   ListItemText,
@@ -218,7 +219,6 @@ function Integrations ({ app, dispatch }) {
 
                 <Hints type="integrations"/>
 
-
                 {loading && <Progress />}
 
                 {integrations.length === 0 && !loading && (
@@ -300,22 +300,41 @@ function Integrations ({ app, dispatch }) {
 
               {open.id && (
                 <div container direction={'column'}>
+
+                  {
+                    open.oauthAuthorize && <div className="mb-4">
+
+                      <p variant="overline">
+                          Authorize App
+                      </p>
+
+                      <Button onClick={() => window.location = open.oauthAuthorize}
+                        variant="outlined">
+                        <Avatar size={10}
+                          classes={'mr-4'}
+                          src={open.icon}
+                        />
+                          Install {open.name}
+                      </Button>
+                    </div>
+                  }
+
                   <p variant="overline">
-                    {I18n.t('settings.integrations.hints.hooks')}
+                    {I18n.t('settings.integrations.hints.hook_url')}
                   </p>
 
-                  <p variant={'caption'}>
-                    {`${window.location.origin}/api/v1/hooks/${
+                  <p variant={'caption ellipsis w-64'}>
+                    {/* `${window.location.origin}/api/v1/hooks/${
                       app.key
-                    }/${open.name.toLocaleLowerCase()}/${open.id}`}
-                  </p>
-
-                  <p variant="overline">Oauth callback:</p>
-
-                  <p variant={'caption'}>
-                    {`${window.location.origin}/api/v1/oauth/${
-                      app.key
-                    }/${open.name.toLocaleLowerCase()}/${open.id}`}
+                    }/${open.name.toLocaleLowerCase()}/${open.id}` */}
+                    <input
+                      className={`shadow appearance-none border border-gray-500 
+                          rounded w-full py-2 px-3 text-gray-700
+                          leading-tight focus:outline-none focus:shadow-outline`}
+                      type={'text'}
+                      defaultValue={open.hookUrl}
+                      disabled={true}
+                    />
                   </p>
                 </div>
               )}
@@ -328,8 +347,8 @@ function Integrations ({ app, dispatch }) {
               </Button>
 
               <Button onClick={submit} className="mr-1">
-                {open ? 
-                  I18n.t('common.update') : I18n.t('common.create')}
+                {open
+                  ? I18n.t('common.update') : I18n.t('common.create')}
               </Button>
             </React.Fragment>
           }
@@ -348,7 +367,7 @@ function Integrations ({ app, dispatch }) {
           }}
         >
           <p variant="subtitle2">
-            {I18n.t('settings.integrations.delete_dialog.text', {name: openDeleteDialog.dialog })}
+            {I18n.t('settings.integrations.delete_dialog.text', { name: openDeleteDialog.name })}
           </p>
         </DeleteDialog>
       )}

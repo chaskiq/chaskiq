@@ -264,7 +264,7 @@
         hints:
           hook_url: Esta integración recibirá webhook en
         delete_dialog:
-          title: ¿Eliminar la integración "%{openDeleteDialog.name}"?
+          title: ¿Eliminar la integración "%{name}"?
           text: La integración con el servicio %{name} se deshabilitará de inmediato.
         empty:
           title: Aún no tienes integraciones de API

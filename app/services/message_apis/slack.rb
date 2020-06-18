@@ -30,6 +30,10 @@ module MessageApis
       @keys['user_token'] = config["user_token"]
     end
 
+    def after_install
+      # TODO here create the configured channel and join it
+    end
+
     def get_api_access
       @base_url = BASE_URL
 
@@ -39,13 +43,12 @@ module MessageApis
       }.with_indifferent_access
     end
 
-    def self.tester
-      api = MessageApis::Slack.new
-      a = AppPackageIntegration.first
-      a.message_api_klass.post_message("oli", [])
+    def authorize_bot!
+      get_api_access
+      @conn.authorization :Bearer, @keys["access_token"]
     end
 
-    def authorize!
+    def authorize_user!
       get_api_access
       @conn.authorization :Bearer, @keys["access_token_secret"]
     end
@@ -55,8 +58,8 @@ module MessageApis
         @keys['consumer_key'], 
         @keys['consumer_secret'], 
         site: 'https://slack.com',
-        authorize_url: '/oauth/authorize',
-        token_url: '/api/oauth.access'
+        authorize_url: '/oauth/v2/authorize',
+        token_url: '/api/oauth.v2.access'
       )
     end
 
@@ -69,7 +72,7 @@ module MessageApis
     end
 
     def post_message(message, blocks, options={})
-      authorize!
+      authorize_bot!
 
       data = {
         "channel": options[:channel] || @keys['channel'] || 'chaskiq_channel',
@@ -94,7 +97,7 @@ module MessageApis
     end
 
     def create_channel(name='chaskiq_channel', user_ids="")
-      authorize!
+      authorize_bot!
 
       data = {
         "name": name,
@@ -114,20 +117,15 @@ module MessageApis
     end
 
     def join_channel(id)
-      authorize!
-
       data = {
         "channel": id
       }
 
-      url = url('/api/channels.join')
-
-      @conn.authorization :Bearer, @keys["access_token"]
-
+      url = url('/api/conversations.join')
+      #@conn.authorization :Bearer, key
       response = @conn.post do |req|
         req.url url
         req.headers['Content-Type'] = 'application/json; charset=utf-8'
-        #req.headers['X-Slack-User'] = 'UR2A93SRK'
         req.body = data.to_json
       end
 
@@ -148,7 +146,7 @@ module MessageApis
 
     def notify_added(conversation)
 
-      authorize!
+      authorize_bot!
 
       blocks = conversation.messages.map{|o| 
         JSON.parse(o.messageable.serialized_content)["blocks"]  
@@ -260,6 +258,11 @@ module MessageApis
 
       url = url('/api/chat.postMessage')
 
+      puts "************"
+      puts data
+      puts "============"
+
+      #binding.pry
       response = @conn.post do |req|
         req.url url
         req.headers['Content-Type'] = 'application/json; charset=utf-8'
@@ -390,7 +393,8 @@ module MessageApis
 
     def oauth_authorize(app, package)
       oauth_client.auth_code.authorize_url(
-        scope: 'channels:write',
+        user_scope: 'chat:write,channels:history,channels:write,groups:write,mpim:write,im:write',
+        scope: 'channels:history,channels:join,chat:write,channels:manage',
         redirect_uri: package.oauth_url
       )
     end
@@ -406,22 +410,18 @@ module MessageApis
       token = oauth_client.auth_code.get_token(
         code, 
         :redirect_uri => package.oauth_url, 
-        :token_method => :post,
-        #:params => { 
-        #  code: code
-        #}.to_json
+        :token_method => :post
       )
 
-      package.update(user_token: token.token)
+      token_hash = token.to_hash
 
-      puts "EL TOKEN #{token.token}"
-      
-      #response = token.get('/api/oauth.access', :params => { 
-      #  'code' => code,
-      #  'query_foo' => 'bar' 
-      #})
-      
-      token.token
+      package.update(
+        project_id: token_hash["app_id"],
+        access_token: token_hash[:access_token],
+        access_token_secret: token.to_hash["authed_user"]["access_token"]
+      )
+
+      true
     end
 
     # triggered when a new chaskiq message is created
@@ -497,9 +497,14 @@ module MessageApis
       })
 
       if create_channel_response["error"].blank?
-        join_channel_response = join_channel(
-          slack_channel_id
-        )
+
+        # joins user who clicked message
+        authorize_user!
+        join_channel(slack_channel_id)
+
+        # joins bot
+        authorize_bot!
+        join_channel(slack_channel_id)
       end
 
       blocks = payload["message"]["blocks"].reject{|o| 
