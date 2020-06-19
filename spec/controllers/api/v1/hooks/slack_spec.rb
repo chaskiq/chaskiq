@@ -81,15 +81,13 @@ RSpec.describe Api::V1::Hooks::ProviderController, type: :controller do
 
   def message_blocks(global: false, channel: nil)
     payload = {
-      "client_msg_id"=>"xxx",
+      "team_id"=>"TQUC0ASKT",
+      "event"=>{
+        "client_msg_id"=>"xxx",
       "type"=>"message",
       "text"=>"the message",
       "user"=>"AAAAA",
       "ts"=>"1580785266.001000",
-      "team"=>{
-        "id"=>"TQUC0ASKT", 
-        "domain"=>"chaskiq"
-      },
       "blocks"=>
         [{"type"=>"rich_text",
           "block_id"=>"n+w",
@@ -98,16 +96,16 @@ RSpec.describe Api::V1::Hooks::ProviderController, type: :controller do
       "channel"=>channel,
       "event_ts"=>"1580785266.001000",
       "channel_type"=>"channel"
+      }
     }
 
-    global ? {
-      "event"=> payload,
+    return payload.merge!({
       "provider"=>"slack",         
-    } : 
-    {
-      "event"=> payload,
-      "id" => @pkg.encoded_id
-    }
+    }) if global
+
+    payload.merge!({
+      "id" => @pkg.encoded_id     
+    })
 
   end
 
