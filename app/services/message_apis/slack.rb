@@ -34,9 +34,11 @@ module MessageApis
       
       return params[:challenge] if params[:challenge]
 
+      team_id = params["team_id"] || JSON.parse(params[:payload])["team"]["id"]
+
       app_package = AppPackage.find_by(name: params["provider"].capitalize)
       integration_pkg = app_package.app_package_integrations.find_by(
-        external_id: params["team_id"]
+        external_id: team_id
       )
       response = integration_pkg.process_event(params)
     end
@@ -157,6 +159,8 @@ module MessageApis
 
     def notify_added(conversation)
 
+      #return unless conversation.has_user_visible_comment?
+
       authorize_bot!
 
       blocks = conversation.messages.map{|o| 
@@ -269,11 +273,6 @@ module MessageApis
 
       url = url('/api/chat.postMessage')
 
-      puts "************"
-      puts data
-      puts "============"
-
-      #binding.pry
       response = @conn.post do |req|
         req.url url
         req.headers['Content-Type'] = 'application/json; charset=utf-8'
@@ -326,6 +325,7 @@ module MessageApis
       )
     end
 
+    # this call process event in async job
     def enqueue_process_event(params, package)
       return handle_challenge(params) if is_challenge?(params) 
       #process_event(params, package)
@@ -362,7 +362,9 @@ module MessageApis
 
     def process_message(event)
 
-      #@package.app.conversations
+      # TODO: add a conversation_event_type for this type
+      return if event['subtype'] === "channel_join"
+
       conversation = @package
       .app
       .conversations

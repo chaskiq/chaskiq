@@ -157,6 +157,10 @@ class Conversation < ApplicationRecord
   end
 
   def update_latest_user_visible_comment_at
-    update(latest_user_visible_comment_at: Time.zone.now)
+    update_column(:latest_user_visible_comment_at, Time.zone.now)
+  end
+
+  def has_user_visible_comment?
+    latest_user_visible_comment_at.present?
   end
 end
