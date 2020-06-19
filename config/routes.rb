@@ -66,8 +66,12 @@ Rails.application.routes.draw do
     scope path: '/v1' do
       resources :hooks, only: [:create], controller: 'api/v1/hooks'
 
-      post 'hooks/globalkk/:provider' => 'api/v1/hooks/provider#global_process_event'
+      post 'hooks/global/:provider' => 'api/v1/hooks/provider#global_process_event'
+      get 'hooks/global/:provider' => 'api/v1/hooks/provider#global_process_event'
+
       post 'hooks/receiver/:id' => 'api/v1/hooks/provider#process_event'
+      get 'hooks/receiver/:id' => 'api/v1/hooks/provider#process_event'
+
       post 'oauth/callback/:id' => 'api/v1/hooks/provider#oauth'
       get 'oauth/callback/:id' => 'api/v1/hooks/provider#oauth'
 

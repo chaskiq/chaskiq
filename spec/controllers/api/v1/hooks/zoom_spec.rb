@@ -44,8 +44,8 @@ RSpec.describe Api::V1::Hooks::ProviderController, type: :controller do
           "host_id"=>"gakETMlISPCYrkeR6SlYHA"
           }
         }, 
-      "app_key"=> app.key, 
-      "provider"=>"zoom", 
+      #"app_key"=> app.key, 
+      #"provider"=>"zoom", 
       "id"=>"#{id}"
     }   
   end
@@ -116,12 +116,12 @@ RSpec.describe Api::V1::Hooks::ProviderController, type: :controller do
 
     it "receive hook" do
       allow_any_instance_of(MessageApis::Zoom).to receive(:enqueue_process_event).once
-      post(:process_event, params: data_for(id: @pkg.id, app: app) )
+      post(:process_event, params: data_for(id: @pkg.encoded_id, app: app) )
     end
 
     it "meeting started" do
       perform_enqueued_jobs do
-        post(:process_event, params: data_for(id: @pkg.id, app: app) ) 
+        post(:process_event, params: data_for(id: @pkg.encoded_id, app: app) ) 
         expect(message.reload.message.data).to be_present
         expect(message.reload.message.data["aa"]).to be_present
         expect(message.reload.message.data["status"]).to be_present
@@ -130,7 +130,7 @@ RSpec.describe Api::V1::Hooks::ProviderController, type: :controller do
 
     it "meeting ended" do
       perform_enqueued_jobs do
-        post(:process_event, params: data_for(id: @pkg.id, app: app) ) 
+        post(:process_event, params: data_for(id: @pkg.encoded_id, app: app) ) 
         expect(message.reload.message.data).to be_present
         expect(message.reload.message.data["aa"]).to be_present
         expect(message.reload.message.data["status"]).to be_present
