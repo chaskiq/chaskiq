@@ -61,6 +61,10 @@ class Conversation < ApplicationRecord
     events.log(action: :conversation_reopened)
   end
 
+  def first_user_interaction
+    events.log(action: :first_comment_from_user)
+  end
+
   def toggle_priority
     self.priority = !priority
     save
@@ -157,7 +161,10 @@ class Conversation < ApplicationRecord
   end
 
   def update_latest_user_visible_comment_at
-    update_column(:latest_user_visible_comment_at, Time.zone.now)
+    unless has_user_visible_comment?
+      update_column(:latest_user_visible_comment_at, Time.zone.now)
+      first_user_interaction
+    end
   end
 
   def has_user_visible_comment?
