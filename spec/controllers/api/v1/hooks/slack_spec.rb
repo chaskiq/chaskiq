@@ -145,7 +145,11 @@ RSpec.describe Api::V1::Hooks::ProviderController, type: :controller do
       }
     ]
 
-    AppPackage.create(name: 'Slack', definitions: definitions)
+    AppPackage.create(
+      name: 'Slack', 
+      tag_list: ['email_changed', 'conversation.user.first.comment'],
+      definitions: definitions
+    )
   end
 
   let(:conversation) do
@@ -153,6 +157,54 @@ RSpec.describe Api::V1::Hooks::ProviderController, type: :controller do
       message: { html_content: 'message' },
       from: user
     )
+  end
+
+  describe "triggers" do
+
+    before :each do 
+      ActiveJob::Base.queue_adapter = :test
+      ActiveJob::Base.queue_adapter.perform_enqueued_at_jobs = true
+
+      @pkg = app.app_package_integrations.create(
+        api_secret: "aaa",
+        api_key: "aaa",
+        access_token: "aaa",
+        access_token_secret: "aaa",
+        app_package: app_package,
+        external_id: 'TQUC0ASKT'
+      )
+
+    end
+
+
+    it "triggers on conversation first user message" do
+
+      AppUser.any_instance
+      .stub(:last_visited_at)
+      .and_return(Time.now)
+
+      AppUser.any_instance
+      .stub(:last_visited_at)
+      .and_return(Time.now)
+
+
+      AppUser.any_instance
+      .stub(:last_visited_at)
+      .and_return(Time.now)
+
+      ConversationPartContent.any_instance.stub(:serialized_content)
+      .and_return(
+        "{\"blocks\": [{\"key\":\"bl82q\",\"text\":\"foobar\",\"type\":\"unstyled\",\"depth\":0,\"inlineStyleRanges\":[],\"entityRanges\":[],\"data\":{}}],\"entityMap\":{}}"
+      )
+
+      MessageApis::Slack.any_instance.stub(:post_data).and_return({foo: "stubbed"})
+        
+      #expect_any_instance_of(MessageApis::Slack).to receive(:notify_added)
+
+      perform_enqueued_jobs do
+        conversation
+      end
+    end
   end
 
 

@@ -146,28 +146,28 @@ module MessageApis
     end
 
     def trigger(event)
+      
       subject = event.eventable
       action = event.action
 
       case action
       when "visitors.convert" then notify_new_lead(subject)
-      #when "conversations.started" then notify_added(subject)
-      when "conversations.added" then notify_added(subject)
+      when "conversation.user.first.comment" then notify_added(subject)
+      #when "conversations.added" then notify_added(subject)
       else
       end
     end
 
     def notify_added(conversation)
 
-      #return unless conversation.has_user_visible_comment?
-
       authorize_bot!
 
-      blocks = conversation.messages.map{|o| 
-        JSON.parse(o.messageable.serialized_content)["blocks"]  
-      }.flatten
-
-      text_blocks = blocks.map{|o| o['text']}
+      message = conversation.messages.where.not(authorable_type: "Agent").last
+      
+      text_blocks = JSON.parse(message.messageable.serialized_content)["blocks"]
+      .map{|o| 
+        o['text']
+      }
 
       participant = conversation.main_participant
 
@@ -272,15 +272,10 @@ module MessageApis
       }
 
       url = url('/api/chat.postMessage')
+      response = post_data(url, data)
 
-      response = @conn.post do |req|
-        req.url url
-        req.headers['Content-Type'] = 'application/json; charset=utf-8'
-        req.body = data.to_json
-      end
-
-      puts response.body
-      puts response.status
+      #puts response.body
+      #puts response.status
       
     end
 
@@ -599,6 +594,15 @@ module MessageApis
           "block_id": block["key"]
         }
       end
+    end
+
+    def post_data(data)
+      response = @conn.post do |req|
+        req.url url
+        req.headers['Content-Type'] = 'application/json; charset=utf-8'
+        req.body = data.to_json
+      end
+      response
     end
 
   end
