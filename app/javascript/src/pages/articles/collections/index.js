@@ -210,8 +210,8 @@ class Collections extends Component {
           ]}
         />
 
-        <div square={true} elevation={1}>
-          <div className="flex flex-row justify-end items-center">
+        <div>
+          <div className="flex flex-row justify-end items-center mb-4">
             <Button
               variant="contained"
               color="primary"

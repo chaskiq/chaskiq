@@ -905,7 +905,7 @@ class CampaignContainer extends Component {
                             row && (
                               <td className="px-6 py-4 whitespace-no-wrap border-b border-gray-200">
                                 <div className="flex items-center">
-                                  <div className="text-sm leading-5 font-medium text-gray-900">
+                                  <div className="text-lg leading-5 font-bold text-gray-900">
                                     <AnchorLink
                                       to={`${this.props.match.url}/${row.id}`}
                                     >

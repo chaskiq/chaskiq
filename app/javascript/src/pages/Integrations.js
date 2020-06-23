@@ -14,6 +14,7 @@ import Button from '../components/Button'
 import Badge from '../components/Badge'
 import FieldRenderer from '../components/forms/FieldRenderer'
 import Avatar from '../components/Avatar'
+import logos from '../shared/logos'
 
 import { EditIcon, AddIcon, DeleteIcon } from '../components/icons'
 import List, {
@@ -198,13 +199,6 @@ function Integrations ({ app, dispatch }) {
     <Content>
       <PageHeader title={ I18n.t('settings.integrations.title') } />
 
-      <p className="mt-2 max-w-xl text-sm leading-5 text-gray-500 py-4">
-        Logos images provided by
-        <a href="https://clearbit.com">
-          <b> Clearbit</b>
-        </a>
-      </p>
-
       <Tabs
         currentTab={tabValue}
         tabs={[
@@ -312,7 +306,7 @@ function Integrations ({ app, dispatch }) {
                         variant="outlined">
                         <Avatar size={10}
                           classes={'mr-4'}
-                          src={open.icon}
+                          src={logos[open.name.toLocaleLowerCase()]}
                         />
                           Install {open.name}
                       </Button>
@@ -401,11 +395,13 @@ function ServiceBlock ({ service, handleOpen, kind, setOpenDeleteDialog }) {
   }
 
   return (
-    <ListItem avatar={<ItemAvatar avatar={service.icon} />}>
+    <ListItem avatar={<ItemAvatar avatar={logos[service.name.toLocaleLowerCase()]} />}>
       <ListItemText
         primary={
           <ItemListPrimaryContent variant="h5">
-            {service.name} <Badge>{service.state}</Badge>
+            {service.name} <Badge variant={service.state === 'enabled' ? 'green' : 'gray' }>
+              {service.state}
+            </Badge>
           </ItemListPrimaryContent>
         }
         secondary={
