@@ -162,7 +162,9 @@ module MessageApis
 
       authorize_bot!
 
-      message = conversation.messages.where.not(authorable_type: "Agent").last
+      message = conversation.messages.where.not(
+        authorable_type: "Agent"
+      ).last
       
       text_blocks = JSON.parse(message.messageable.serialized_content)["blocks"]
       .map{|o| 
@@ -275,8 +277,7 @@ module MessageApis
       response = post_data(url, data)
 
       #puts response.body
-      #puts response.status
-      
+      #puts response.status      
     end
 
     def notify_new_lead(user)
@@ -527,7 +528,14 @@ module MessageApis
       )
 
       response = update_reply_in_channel_message(response_url , data)
-      response.body
+      #response.body
+      
+      # sync all messages
+      ConversationChannelSyncJob.perform_later(
+        conversation_id: conversation.id,
+        app_package_id: @package.id
+      )
+
     end
 
     def update_reply_in_channel_message(response_url, data )
@@ -596,13 +604,39 @@ module MessageApis
       end
     end
 
-    def post_data(data)
+    def post_data(url, data)
       response = @conn.post do |req|
         req.url url
         req.headers['Content-Type'] = 'application/json; charset=utf-8'
         req.body = data.to_json
       end
       response
+    end
+
+    def sync_messages_without_channel(conversation)
+      
+      parts = conversation.messages.includes(:conversation_part_channel_sources)
+      .where.not(conversation_part_channel_sources: {
+        provider: 'slack'
+      }).or(
+        conversation.messages.includes(:conversation_part_channel_sources)
+        .where(conversation_part_channel_sources: {
+          conversation_part_id: nil
+        })
+      )
+
+      channel = conversation.conversation_channels.find_by(
+        provider: "slack"
+      )
+
+
+      parts.each do |part|
+        notify_message(
+          conversation: conversation , 
+          part: part, 
+          channel: channel.provider_channel_id
+        )
+      end
     end
 
   end
