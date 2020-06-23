@@ -30,6 +30,23 @@ module MessageApis
       @keys['user_token'] = config["user_token"]
     end
 
+    def self.process_global_hook(params)
+      
+      return params[:challenge] if params[:challenge]
+
+      team_id = params["team_id"] || JSON.parse(params[:payload])["team"]["id"]
+
+      app_package = AppPackage.find_by(name: params["provider"].capitalize)
+      integration_pkg = app_package.app_package_integrations.find_by(
+        external_id: team_id
+      )
+      response = integration_pkg.process_event(params)
+    end
+
+    def after_install
+      # TODO here create the configured channel and join it
+    end
+
     def get_api_access
       @base_url = BASE_URL
 
@@ -39,13 +56,12 @@ module MessageApis
       }.with_indifferent_access
     end
 
-    def self.tester
-      api = MessageApis::Slack.new
-      a = AppPackageIntegration.first
-      a.message_api_klass.post_message("oli", [])
+    def authorize_bot!
+      get_api_access
+      @conn.authorization :Bearer, @keys["access_token"]
     end
 
-    def authorize!
+    def authorize_user!
       get_api_access
       @conn.authorization :Bearer, @keys["access_token_secret"]
     end
@@ -55,8 +71,8 @@ module MessageApis
         @keys['consumer_key'], 
         @keys['consumer_secret'], 
         site: 'https://slack.com',
-        authorize_url: '/oauth/authorize',
-        token_url: '/api/oauth.access'
+        authorize_url: '/oauth/v2/authorize',
+        token_url: '/api/oauth.v2.access'
       )
     end
 
@@ -69,7 +85,7 @@ module MessageApis
     end
 
     def post_message(message, blocks, options={})
-      authorize!
+      authorize_bot!
 
       data = {
         "channel": options[:channel] || @keys['channel'] || 'chaskiq_channel',
@@ -94,7 +110,7 @@ module MessageApis
     end
 
     def create_channel(name='chaskiq_channel', user_ids="")
-      authorize!
+      authorize_bot!
 
       data = {
         "name": name,
@@ -114,20 +130,15 @@ module MessageApis
     end
 
     def join_channel(id)
-      authorize!
-
       data = {
         "channel": id
       }
 
-      url = url('/api/channels.join')
-
-      @conn.authorization :Bearer, @keys["access_token"]
-
+      url = url('/api/conversations.join')
+      #@conn.authorization :Bearer, key
       response = @conn.post do |req|
         req.url url
         req.headers['Content-Type'] = 'application/json; charset=utf-8'
-        #req.headers['X-Slack-User'] = 'UR2A93SRK'
         req.body = data.to_json
       end
 
@@ -135,26 +146,30 @@ module MessageApis
     end
 
     def trigger(event)
+      
       subject = event.eventable
       action = event.action
 
       case action
       when "visitors.convert" then notify_new_lead(subject)
-      #when "conversations.started" then notify_added(subject)
-      when "conversations.added" then notify_added(subject)
+      when "conversation.user.first.comment" then notify_added(subject)
+      #when "conversations.added" then notify_added(subject)
       else
       end
     end
 
     def notify_added(conversation)
 
-      authorize!
+      authorize_bot!
 
-      blocks = conversation.messages.map{|o| 
-        JSON.parse(o.messageable.serialized_content)["blocks"]  
-      }.flatten
-
-      text_blocks = blocks.map{|o| o['text']}
+      message = conversation.messages.where.not(
+        authorable_type: "Agent"
+      ).last
+      
+      text_blocks = JSON.parse(message.messageable.serialized_content)["blocks"]
+      .map{|o| 
+        o['text']
+      }
 
       participant = conversation.main_participant
 
@@ -259,16 +274,10 @@ module MessageApis
       }
 
       url = url('/api/chat.postMessage')
+      response = post_data(url, data)
 
-      response = @conn.post do |req|
-        req.url url
-        req.headers['Content-Type'] = 'application/json; charset=utf-8'
-        req.body = data.to_json
-      end
-
-      puts response.body
-      puts response.status
-      
+      #puts response.body
+      #puts response.status      
     end
 
     def notify_new_lead(user)
@@ -312,6 +321,7 @@ module MessageApis
       )
     end
 
+    # this call process event in async job
     def enqueue_process_event(params, package)
       return handle_challenge(params) if is_challenge?(params) 
       #process_event(params, package)
@@ -348,7 +358,9 @@ module MessageApis
 
     def process_message(event)
 
-      #@package.app.conversations
+      # TODO: add a conversation_event_type for this type
+      return if event['subtype'] === "channel_join"
+
       conversation = @package
       .app
       .conversations
@@ -390,7 +402,8 @@ module MessageApis
 
     def oauth_authorize(app, package)
       oauth_client.auth_code.authorize_url(
-        scope: 'channels:write',
+        user_scope: 'chat:write,channels:history,channels:write,groups:write,mpim:write,im:write',
+        scope: 'channels:history,channels:join,chat:write,channels:manage',
         redirect_uri: package.oauth_url
       )
     end
@@ -406,22 +419,19 @@ module MessageApis
       token = oauth_client.auth_code.get_token(
         code, 
         :redirect_uri => package.oauth_url, 
-        :token_method => :post,
-        #:params => { 
-        #  code: code
-        #}.to_json
+        :token_method => :post
       )
 
-      package.update(user_token: token.token)
+      token_hash = token.to_hash
 
-      puts "EL TOKEN #{token.token}"
-      
-      #response = token.get('/api/oauth.access', :params => { 
-      #  'code' => code,
-      #  'query_foo' => 'bar' 
-      #})
-      
-      token.token
+      package.update(
+        external_id: token_hash["team"]["id"],
+        project_id: token_hash["app_id"],
+        access_token: token_hash[:access_token],
+        access_token_secret: token.to_hash["authed_user"]["access_token"]
+      )
+
+      true
     end
 
     # triggered when a new chaskiq message is created
@@ -497,9 +507,14 @@ module MessageApis
       })
 
       if create_channel_response["error"].blank?
-        join_channel_response = join_channel(
-          slack_channel_id
-        )
+
+        # joins user who clicked message
+        authorize_user!
+        join_channel(slack_channel_id)
+
+        # joins bot
+        authorize_bot!
+        join_channel(slack_channel_id)
       end
 
       blocks = payload["message"]["blocks"].reject{|o| 
@@ -513,7 +528,14 @@ module MessageApis
       )
 
       response = update_reply_in_channel_message(response_url , data)
-      response.body
+      #response.body
+      
+      # sync all messages
+      ConversationChannelSyncJob.perform_later(
+        conversation_id: conversation.id,
+        app_package_id: @package.id
+      )
+
     end
 
     def update_reply_in_channel_message(response_url, data )
@@ -579,6 +601,41 @@ module MessageApis
           },
           "block_id": block["key"]
         }
+      end
+    end
+
+    def post_data(url, data)
+      response = @conn.post do |req|
+        req.url url
+        req.headers['Content-Type'] = 'application/json; charset=utf-8'
+        req.body = data.to_json
+      end
+      response
+    end
+
+    def sync_messages_without_channel(conversation)
+      
+      parts = conversation.messages.includes(:conversation_part_channel_sources)
+      .where.not(conversation_part_channel_sources: {
+        provider: 'slack'
+      }).or(
+        conversation.messages.includes(:conversation_part_channel_sources)
+        .where(conversation_part_channel_sources: {
+          conversation_part_id: nil
+        })
+      )
+
+      channel = conversation.conversation_channels.find_by(
+        provider: "slack"
+      )
+
+
+      parts.each do |part|
+        notify_message(
+          conversation: conversation , 
+          part: part, 
+          channel: channel.provider_channel_id
+        )
       end
     end
 

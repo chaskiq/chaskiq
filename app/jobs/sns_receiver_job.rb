@@ -57,7 +57,9 @@ class SnsReceiverJob < ApplicationJob
     recipient = m["mail"]["headers"].find{|o| o["name"] == "Return-Path" }["value"]
     recipient_parts = URLcrypt.decode(recipient.split('@').first.split('+').last)
     app_id, conversation_id = recipient_parts.split('+')
-    Conversation.find(conversation_id).messages.find(part_id).read!
+    conversation = Conversation.find_by(id: conversation_id)
+    return if conversation.blank?
+    conversation.messages.find(part_id)&.read!
   end
 
   def parsed_message_id(m)

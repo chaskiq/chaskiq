@@ -912,6 +912,8 @@ export const APP_PACKAGE_INTEGRATIONS = `
         icon
         state
         description
+        hookUrl
+        oauthAuthorize
       }
     }
   }

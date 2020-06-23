@@ -89,32 +89,28 @@ class AppPackagesCatalog
       },
       {
         name: 'Slack',
-        tag_list: ['conversations.added', 'email_changed'],
+        tag_list: ['email_changed', 'conversation.user.first.comment'],
         state: 'enabled',
         description: 'Slack channel integration',
         icon: 'https://logo.clearbit.com/slack.com',
-        definitions: [
+        credentials: (ENV['SLACK_CLIENT_ID'] && ENV['SLACK_CLIENT_SECRET']) ? {
+          api_key: ENV['SLACK_CLIENT_ID'],
+          api_secret: ENV['SLACK_CLIENT_SECRET']
+        } : {},
+        definitions: (!ENV['SLACK_CLIENT_ID'] && !ENV['SLACK_CLIENT_SECRET']) ? [
           {
             name: 'api_key',
+            label: 'App ID',
             type: 'string',
             grid: { xs: 'w-full', sm: 'w-full' }
           },
           {
             name: 'api_secret',
-            type: 'string',
-            grid: { xs: 'w-full', sm: 'w-full' }
-          },
-          {
-            name: 'access_token',
-            type: 'string',
-            grid: { xs: 'w-full', sm: 'w-full' }
-          },
-          {
-            name: 'access_token_secret',
+            label: 'Client Secret',
             type: 'string',
             grid: { xs: 'w-full', sm: 'w-full' }
           }
-        ]
+        ] : []
       },
 
       {

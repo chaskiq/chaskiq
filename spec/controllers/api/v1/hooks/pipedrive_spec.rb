@@ -10,37 +10,10 @@ RSpec.describe Api::V1::Hooks::ProviderController, type: :controller do
 
     {
       "payload"=> payload.to_json,
-      "app_key"=> app.key, 
-      "provider"=>"pipedrive", 
+      #"app_key"=> app.key, 
+      #"provider"=>"pipedrive", 
       "id"=>id
     }
-
-  end
-
-  def message_blocks(channel:, id:)
-    payload = {
-      "client_msg_id"=>"xxx",
-      "type"=>"message",
-      "text"=>"the message",
-      "user"=>"AAAAA",
-      "ts"=>"1580785266.001000",
-      "team"=>"TQUC0ASKT",
-      "blocks"=>
-        [{"type"=>"rich_text",
-          "block_id"=>"n+w",
-          "elements"=>[{"type"=>"rich_text_section", 
-            "elements"=>[{"type"=>"text", "text"=>"the message"}]}]}],
-      "channel"=>channel,
-      "event_ts"=>"1580785266.001000",
-      "channel_type"=>"channel"
-      }
-
-      {
-        "event"=> payload,
-        "app_key"=> app.key, 
-        "provider"=>"slack", 
-        "id"=>id
-      }
 
   end
 
@@ -53,8 +26,8 @@ RSpec.describe Api::V1::Hooks::ProviderController, type: :controller do
       "current"=>{"id"=>11, "company_id"=>7468915, "owner_id"=>11379745, "org_id"=>nil, "name"=>"test users", "first_name"=>"test", "last_name"=>"users", "open_deals_count"=>0, "related_open_deals_count"=>0, "closed_deals_count"=>0, "related_closed_deals_count"=>0, "participant_open_deals_count"=>0, "participant_closed_deals_count"=>0, "email_messages_count"=>0, "activities_count"=>0, "done_activities_count"=>0, "undone_activities_count"=>0, "reference_activities_count"=>0, "files_count"=>0, "notes_count"=>0, "followers_count"=>1, "won_deals_count"=>0, "related_won_deals_count"=>0, "lost_deals_count"=>0, "related_lost_deals_count"=>0, "active_flag"=>true, "phone"=>[{"value"=>"", "primary"=>true}], "email"=>[{"label"=>"work", "value"=>"aa@aa.cl", "primary"=>true}], "first_char"=>"t", "update_time"=>"2020-02-13 17:03:54", "add_time"=>"2020-02-13 17:03:53", "visible_to"=>"3", "google_contact_id"=>nil, "picture_id"=>nil, "next_activity_date"=>nil, "next_activity_time"=>nil, "next_activity_id"=>nil, "last_activity_id"=>nil, "last_activity_date"=>nil, "last_incoming_mail_time"=>nil, "last_outgoing_mail_time"=>nil, "label"=>nil, "org_name"=>nil, "cc_email"=>"michelson@pipedrivemail.com", "owner_name"=>"miguel"}, "previous"=>{"id"=>11, "company_id"=>7468915, "owner_id"=>11379745, "org_id"=>nil, "name"=>"test users", "first_name"=>"test", "last_name"=>"users", "open_deals_count"=>0, "related_open_deals_count"=>0, "closed_deals_count"=>0, "related_closed_deals_count"=>0, "participant_open_deals_count"=>0, "participant_closed_deals_count"=>0, "email_messages_count"=>0, "activities_count"=>0, "done_activities_count"=>0, "undone_activities_count"=>0, "reference_activities_count"=>0, "files_count"=>0, "notes_count"=>0, "followers_count"=>0, "won_deals_count"=>0, "related_won_deals_count"=>0, "lost_deals_count"=>0, "related_lost_deals_count"=>0, "active_flag"=>true, "phone"=>[{"value"=>"", "primary"=>true}], "email"=>[{"label"=>"work", "value"=>"aa@aa.cl", "primary"=>true}], "first_char"=>"t", "update_time"=>"2020-02-13 17:03:53", "add_time"=>"2020-02-13 17:03:53", "visible_to"=>"3", "google_contact_id"=>nil, "picture_id"=>nil, "next_activity_date"=>nil, "next_activity_time"=>nil, "next_activity_id"=>nil, "last_activity_id"=>nil, "last_activity_date"=>nil, "last_incoming_mail_time"=>nil, "last_outgoing_mail_time"=>nil, "label"=>nil, "org_name"=>nil, "cc_email"=>"michelson@pipedrivemail.com", "owner_name"=>"miguel"}, 
       "event"=>"updated.person", 
       "retry"=>0, 
-      "app_key"=>app.key, 
-      "provider"=>"pipedrive", 
+      #"app_key"=>app.key, 
+      #"provider"=>"pipedrive", 
       "id"=> id
     }
   end
@@ -74,8 +47,8 @@ RSpec.describe Api::V1::Hooks::ProviderController, type: :controller do
         "previous"=>{"id"=>profile_id, "company_id"=>7468915, "owner_id"=>11379745, "org_id"=>nil, "name"=>"test users", "first_name"=>"test", "last_name"=>"users", "open_deals_count"=>0, "related_open_deals_count"=>0, "closed_deals_count"=>0, "related_closed_deals_count"=>0, "participant_open_deals_count"=>0, "participant_closed_deals_count"=>0, "email_messages_count"=>0, "activities_count"=>0, "done_activities_count"=>0, "undone_activities_count"=>0, "reference_activities_count"=>0, "files_count"=>0, "notes_count"=>0, "followers_count"=>1, "won_deals_count"=>0, "related_won_deals_count"=>0, "lost_deals_count"=>0, "related_lost_deals_count"=>0, "active_flag"=>true, "phone"=>[{"value"=>"", "primary"=>true}], "email"=>[{"label"=>"work", "value"=>"aa@aa.cl", "primary"=>true}], "first_char"=>"t", "update_time"=>"2020-02-13 17:03:54", "add_time"=>"2020-02-13 17:03:53", "visible_to"=>"3", "google_contact_id"=>nil, "picture_id"=>nil, "next_activity_date"=>nil, "next_activity_time"=>nil, "next_activity_id"=>nil, "last_activity_id"=>nil, "last_activity_date"=>nil, "last_incoming_mail_time"=>nil, "last_outgoing_mail_time"=>nil, "label"=>nil, "org_name"=>nil, "cc_email"=>"michelson@pipedrivemail.com"}, 
         "event"=>"updated.person", 
         "retry"=>0, 
-        "app_key"=> app.key, 
-        "provider"=>"pipedrive", 
+        #"app_key"=> app.key, 
+        #"provider"=>"pipedrive", 
         "id"=> id
     }
   end
@@ -88,9 +61,8 @@ RSpec.describe Api::V1::Hooks::ProviderController, type: :controller do
       "previous"=>{"id"=>1, "company_id"=>7468915, "owner_id"=>11379745, "org_id"=>nil, "name"=>"Chaskiq editado 22oijoij oijijoijojoi", "first_name"=>"Chaskiq editado 22oijoij", "last_name"=>"oijijoijojoi", "open_deals_count"=>0, "related_open_deals_count"=>0, "closed_deals_count"=>0, "related_closed_deals_count"=>0, "participant_open_deals_count"=>0, "participant_closed_deals_count"=>0, "email_messages_count"=>0, "activities_count"=>0, "done_activities_count"=>0, "undone_activities_count"=>0, "reference_activities_count"=>0, "files_count"=>0, "notes_count"=>0, "followers_count"=>1, "won_deals_count"=>0, "related_won_deals_count"=>0, "lost_deals_count"=>0, "related_lost_deals_count"=>0, "active_flag"=>true, "phone"=>[{"label"=>"work", "value"=>"0992302305", "primary"=>true}], "email"=>[{"value"=>"", "primary"=>true}], "first_char"=>"c", "update_time"=>"2020-02-12 05:50:32", "add_time"=>"2020-02-12 02:27:09", "visible_to"=>"3", "google_contact_id"=>nil, "picture_id"=>nil, "sync_needed"=>false, "next_activity_date"=>nil, "next_activity_time"=>nil, "next_activity_id"=>nil, "last_activity_id"=>nil, "last_activity_date"=>nil, "last_incoming_mail_time"=>nil, "last_outgoing_mail_time"=>nil, "label"=>nil, "service_reference"=>"[]", "org_name"=>nil, "cc_email"=>"michelson@pipedrivemail.com"}, 
       "event"=>"deleted.person", 
       "retry"=>0, 
-      #"action"=>"process_event", 
-      "app_key"=> app.key, 
-      "provider"=>"pipedrive", 
+      #"app_key"=> app.key, 
+      #"provider"=>"pipedrive", 
       "id"=>id
     }
 
@@ -124,7 +96,6 @@ RSpec.describe Api::V1::Hooks::ProviderController, type: :controller do
     AppPackage.create(
       name: 'Pipedrive', 
       definitions: definitions,
-      name: 'Pipedrive',
       tag_list: ['leads.convert', 'email_changed'],
       description: 'Pipedrive CRM integration, will insert contacts',
       icon: 'https://logo.clearbit.com/pipedrive.com',
@@ -165,25 +136,25 @@ RSpec.describe Api::V1::Hooks::ProviderController, type: :controller do
 
     it "receive contact" do
       allow_any_instance_of(MessageApis::Pipedrive).to receive(:enqueue_process_event).once
-      post(:process_event, params: data_for(id: @pkg.id, app: app) )
+      post(:process_event, params: data_for(id: @pkg.encoded_id, app: app) )
     end
 
     it "receive contact" do
       allow_any_instance_of(MessageApis::Pipedrive).to receive(:process_event).once
     
       expect {  
-        post(:process_event, params: data_for(id: @pkg.id, app: app) ) 
+        post(:process_event, params: data_for(id: @pkg.encoded_id, app: app) ) 
       }.to_not change { AppUser.count } #.by(1)
     end
 
     it "update profile" do
       allow_any_instance_of(MessageApis::Pipedrive).to receive(:update_app_user_profile).once
-      post(:process_event, params: data_for(id: @pkg.id, app: app) )
+      post(:process_event, params: data_for(id: @pkg.encoded_id, app: app) )
     end
 
     it "delete profile" do
       allow_any_instance_of(MessageApis::Pipedrive).to receive(:delete_app_user_profile).once
-      post(:process_event, params: delete_data_for(id: @pkg.id, app: app) )
+      post(:process_event, params: delete_data_for(id: @pkg.encoded_id, app: app) )
     end
 
     describe "with external_profile" do
@@ -192,12 +163,12 @@ RSpec.describe Api::V1::Hooks::ProviderController, type: :controller do
       end
       it "will destroy profile" do
         expect {  
-          post(:process_event, params: delete_data_for(id: @pkg.id, app: app) )
+          post(:process_event, params: delete_data_for(id: @pkg.encoded_id, app: app) )
         }.to change { ExternalProfile.count }
       end
 
       it "will update profile" do
-        post(:process_event, params: update_data_for(id: @pkg.id, app: app, profile_id: 1) )
+        post(:process_event, params: update_data_for(id: @pkg.encoded_id, app: app, profile_id: 1) )
         expect(user.external_profiles.first.data).to be_present
         user.reload
         expect(user.first_name).to be_present
