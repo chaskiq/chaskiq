@@ -8,8 +8,8 @@ RSpec.describe Api::V1::Hooks::ProviderController, type: :controller do
     {
       "crc_token"=>"xxx", 
       "nonce"=>"xxxx", 
-      "app_key"=>app.key, 
-      "provider"=>"twitter", 
+      #"app_key"=>app.key, 
+      #"provider"=>"twitter", 
       "id"=>id
     }
   end
@@ -360,7 +360,7 @@ RSpec.describe Api::V1::Hooks::ProviderController, type: :controller do
     end
 
     it "receive challenge" do
-      get(:create, params: crc_data(@pkg.id))
+      get(:process_event, params: crc_data(@pkg.encoded_id))
       expect(response.status).to be == 200
     end
   
@@ -368,7 +368,7 @@ RSpec.describe Api::V1::Hooks::ProviderController, type: :controller do
       #allow_any_instance_of(MessageApis::Twitter).to receive(:handle_reply_in_channel_action).once
 
       get(:process_event, params: data_for(
-        id: @pkg.id, 
+        id: @pkg.encoded_id, 
         sender: twitter_user, 
         recipient: twitter_owner)
       )
@@ -380,7 +380,7 @@ RSpec.describe Api::V1::Hooks::ProviderController, type: :controller do
       #channel = conversation.conversation_channels.find_by(provider: "slack")
 
       get(:process_event, params: data_for(
-        id: @pkg.id, 
+        id: @pkg.encoded_id, 
         sender: twitter_user, 
         recipient: twitter_owner)
       )
@@ -408,12 +408,12 @@ RSpec.describe Api::V1::Hooks::ProviderController, type: :controller do
     
     it "receive two messages in single conversation" do
       get(:process_event, params: data_for(
-        id: @pkg.id, 
+        id: @pkg.encoded_id, 
         sender: twitter_user, 
         recipient: twitter_owner)
       )
       get(:process_event, params: data_for(
-        id: @pkg.id, 
+        id: @pkg.encoded_id, 
         sender: twitter_user, 
         recipient: twitter_owner)
       )
@@ -425,7 +425,7 @@ RSpec.describe Api::V1::Hooks::ProviderController, type: :controller do
     it "reply from agent on twitter" do
 
       get(:process_event, params: data_for(
-        id: @pkg.id, 
+        id: @pkg.encoded_id, 
         sender: twitter_user, 
         recipient: twitter_owner,
         message_id: 1
@@ -433,7 +433,7 @@ RSpec.describe Api::V1::Hooks::ProviderController, type: :controller do
       )
 
       get(:process_event, params: data_for(
-        id: @pkg.id, 
+        id: @pkg.encoded_id, 
         sender: twitter_owner, 
         recipient: twitter_user,
         message_id: 2
@@ -450,7 +450,7 @@ RSpec.describe Api::V1::Hooks::ProviderController, type: :controller do
     it "receive text with breakline" do
 
       get(:process_event, params: data_for(
-          id: @pkg.id, 
+          id: @pkg.encoded_id, 
           sender: twitter_user, 
           recipient: twitter_owner,
           message_data: {
@@ -472,7 +472,7 @@ RSpec.describe Api::V1::Hooks::ProviderController, type: :controller do
 
     it "receive text with video/gif" do
       get(:process_event, params: data_for(
-          id: @pkg.id, 
+          id: @pkg.encoded_id, 
           sender: twitter_user, 
           recipient: twitter_owner,
           message_data: video_data
@@ -490,7 +490,7 @@ RSpec.describe Api::V1::Hooks::ProviderController, type: :controller do
     it "receive text with photo" do
 
       get(:process_event, params: data_for(
-          id: @pkg.id, 
+          id: @pkg.encoded_id, 
           sender: twitter_user, 
           recipient: twitter_owner,
           message_data: image_data
@@ -511,7 +511,7 @@ RSpec.describe Api::V1::Hooks::ProviderController, type: :controller do
     it "send message" do
 
       get(:process_event, params: data_for(
-          id: @pkg.id, 
+          id: @pkg.encoded_id, 
           sender: twitter_user, 
           recipient: twitter_owner,
           message_data: image_data

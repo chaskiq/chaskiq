@@ -275,7 +275,7 @@ en:
       hints:
         hook_url: This integration will receive webhook at
       delete_dialog:
-        title: Delete "%{openDeleteDialog.name}" integration ?
+        title: Delete "%{name}" integration ?
         text: The integration with %{name} service will be disabled immediately
 
       empty:
@@ -389,7 +389,7 @@ en:
     title: Articles
     all: Everybody
     published: Posted
-    draft: Erasers
+    draft: Drafts
     visit: visit the help center
     new: New article
     add: Add item

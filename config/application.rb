@@ -8,6 +8,8 @@ require 'rails/all'
 # you've limited to :test, :development, or :production.
 Bundler.require(*Rails.groups)
 
+require 'URLcrypt'
+
 Dotenv::Railtie.load if defined?(Dotenv::Railtie)
 
 module Chaskiq
@@ -37,6 +39,8 @@ module Chaskiq
         resource '*', headers: :any, methods: %i[get post put options]
       end
     end
+
+    URLcrypt::key = [ENV['SECRET_KEY_BASE']].pack('H*')
 
     locales = %w[af sq ar eu bg be ca hr cs da nl en eo et fo fi fr gl de el iw hu is ga it ja ko lv lt mk mt no pl pt ro ru gd sr sr sk sl es sv tr uk]
     config.available_locales = locales

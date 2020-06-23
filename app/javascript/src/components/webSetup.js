@@ -28,7 +28,7 @@ function WebSetup ({ app, classes }) {
 
   return (
     <React.Fragment>
-      <button className="text-xs bg-gray-600 hover:bg-gray-400 text-gray-100 font-bold py-1 px-2 rounded inline-flex items-center text-gray-100"
+      <button className="text-xs bg-green-500 hover:bg-green-600 text-green-100 font-bold py-1 px-2 rounded inline-flex items-center text-gray-100"
       onClick={handleClickOpen}>
         {I18n.t("common.get_snippet")}
       </button>

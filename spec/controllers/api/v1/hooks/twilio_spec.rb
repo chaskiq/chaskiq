@@ -28,7 +28,7 @@ RSpec.describe Api::V1::Hooks::ProviderController, type: :controller do
       "action"=>"process_event",
       "provider"=>"twilio", 
       "app_key"=>app.key, 
-      "id"=>@pkg.id
+      "id"=>@pkg.encoded_id
     }
   end
 
@@ -51,7 +51,8 @@ RSpec.describe Api::V1::Hooks::ProviderController, type: :controller do
       "provider"=>"twilio", 
       "controller"=>"api/v1/hooks/provider",
       "app_key"=>app.key, 
-      "id"=>@pkg.id    }
+      "id"=>@pkg.encoded_id    
+    }
   end
 
 
