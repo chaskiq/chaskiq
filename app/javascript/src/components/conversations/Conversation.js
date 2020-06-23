@@ -286,7 +286,7 @@ function Conversation ({
           alt={message.appUser.displayName}
           src={message.appUser.avatarUrl}
           onClick={handleUserSidebar}
-          className={`w-10 h-10 rounded ${avatarM}`}
+          className={`cursor-pointer w-10 h-10 rounded ${avatarM}`}
         />
       }
       <div
