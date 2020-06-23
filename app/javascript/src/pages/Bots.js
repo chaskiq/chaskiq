@@ -246,10 +246,10 @@ const BotTaskCreate = ({ app, submit, history, match, mode }) => {
               id="title"
               type={'string'}
               ref={(ref) => (titleRef = ref)}
-              placeholder={I18n.t('definitions.bot_tasks.title.placeholder.placeholder')}
+              placeholder={I18n.t('definitions.bot_tasks.title.placeholder')}
               // defaultValue="Default Value"
               // className={classes.textField}
-              helperText={I18n.t('definitions.bot_tasks.title.placeholder.hint')}
+              helperText={I18n.t('definitions.bot_tasks.title.hint')}
             />
           </form>
         }
