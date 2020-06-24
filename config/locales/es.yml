@@ -50,6 +50,7 @@
       user_os: Sistema operativo de Usuarios
       mac_os: Mac OS
       user_country: País del usuario
+      snippet: Inserta el snippet de código en al final de la etiqueta <body> de tu documento html
 
     navigator:
       dashboard: Tablero

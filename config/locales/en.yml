@@ -51,6 +51,7 @@ en:
     user_os: User Os
     mac_os: Mac OS
     user_country: User country
+    snippet: Put the following script on the end of your html <body> tag
 
   navigator:
     

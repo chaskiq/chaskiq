@@ -11,7 +11,7 @@ import styled from '@emotion/styled'
 const Pre = styled.pre`
   background: black;
   color: white;
-  font-size: 1.5em;
+  font-size: .8em;
   overflow: auto;
 `
 
@@ -85,7 +85,7 @@ function SimpleDialog (props) {
       titleContent={'Web Messenger Setup'}
       formComponent={
         <div>
-          <p>put the following script on the end of your html body tag</p>
+          <p>{I18n.t('dashboard.snippet')}</p>
           <Pre>
             <div dangerouslySetInnerHTML={{ __html: setupScript() }} />
           </Pre>
