@@ -40,7 +40,7 @@ class AssignmentRule < ApplicationRecord
 
   def check_string_comparison(rule, part)
     # check where to search on the value
-    #  app user or message ?
+    # app user or message ?
     cond = case rule['comparison']
            when 'eq' then rule['value'] == part
            when 'not_eq' then rule['value'] != part
@@ -62,6 +62,6 @@ class AssignmentRule < ApplicationRecord
   end
 
   def subject_value_for(attr, app_user)
-    app_user.send(attr) if AppUser::ENABLED_SEARCH_FIELDS.include?(attr)
+    app_user.send(attr) if app_user.app.searcheable_fields_list.include?(attr)
   end
 end

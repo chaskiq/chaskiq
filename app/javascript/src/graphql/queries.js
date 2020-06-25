@@ -825,6 +825,7 @@ export const BOT_TASK = `
 export const BOT_TASK_METRICS = `
   query BotTask($appKey: String!, $id: String!, $lang: String,  $page: Int, $per: Int){
     app(key: $appKey){
+      searcheableFields
       botTask(id: $id, lang: $lang){
         id
         counts

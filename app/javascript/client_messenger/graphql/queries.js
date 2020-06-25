@@ -28,6 +28,7 @@ export const PING = `
         tasksSettings
         customizationColors
         encryptionKey
+        searcheableFields
         articleSettings{
           subdomain
         }

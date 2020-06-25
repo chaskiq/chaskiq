@@ -1191,6 +1191,7 @@ class Messenger extends Component {
                                 this.state.display_mode === "conversation" &&
                                 
                                   <Conversation
+                                    appData={this.state.appData}
                                     visible={this.state.visible}
                                     clearConversation={this.clearConversation}
                                     isMobile={this.state.isMobile}
@@ -1303,6 +1304,7 @@ class Messenger extends Component {
                     }
 
                     <Conversation
+                      appData={this.state.appData}
                       //disablePagination={true}
                       visible={this.state.visible}
                       pushEvent={this.pushEvent}

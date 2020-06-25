@@ -1,3 +1,4 @@
+// TODO, deprecate this, use AppType#searchableFields
 const defaultData = [
   { name: 'email', type: 'string' },
   { name: 'lang', type: 'string' },
