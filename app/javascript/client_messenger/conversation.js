@@ -257,6 +257,7 @@ export class Conversation extends Component {
                clickHandler={this.appPackageClickHandler.bind(this)}
                appPackageSubmitHandler={this.appPackageSubmitHandler.bind(this)}
                t={this.props.t}
+               searcheableFields={this.props.appData.searcheableFields}
                {...o}
               />
   }
@@ -487,7 +488,13 @@ class AppPackageBlock extends Component {
   form = null
 
   state = {
-    value: null
+    value: null,
+    errors: {},
+    loading: false
+  }
+
+  setLoading = (val)=>{
+    this.setState({loading: val})
   }
 
   renderElements = ()=>{
@@ -507,10 +514,37 @@ class AppPackageBlock extends Component {
   }
 
   sendAppPackageSubmit = (e)=>{
+
+    if(this.state.loading) return
+
+    this.setLoading(true)
+
     e.preventDefault()
+
+    console.log(this.props.searcheableFields)
     const data = serialize(e.currentTarget, { hash: true, empty: true })
- 
-    this.props.appPackageSubmitHandler(data, this.props)
+    let errors = {}
+
+    Object.keys(data).map((o)=> { 
+      const item = this.props.searcheableFields.find((f)=> f.name === o )
+      if (!item) return
+      if (!item.validation) return
+
+      var args = [ 'value', item.validation ];
+      var validationFunc = Function.apply(null, args);
+      const err = validationFunc(data[o])
+      if(!err) return
+      if (err.length === 0) return
+      errors = Object.assign(
+        errors, {[o]: err })
+    })
+
+    this.setState({ errors: errors, loading: false }, ()=> {
+      console.log(this.state.errors)
+      console.log(isEmpty(this.state.errors) ? 'SISISI' : 'nonon')
+    })
+
+    //this.props.appPackageSubmitHandler(data, this.props)
   }
 
   renderEmptyItem = ()=>{
@@ -570,7 +604,7 @@ class AppPackageBlock extends Component {
 
   renderElement = (item, index)=>{
     const element = item.element
-    const isDisabled = this.props.message.state === "replied"
+    const isDisabled = this.props.message.state === "replied" || this.state.loading
     const {t} = this.props
     const key = `${item.type}-${index}`
     switch(item.element){
@@ -590,6 +624,10 @@ class AppPackageBlock extends Component {
                   //  this.handleStepControlClick(item) : null
                   //}}
                 />
+                {
+                  this.state.errors[item.name] && 
+                  <span>ooeee entero malo el {item.name}</span>
+                }
                 <button disabled={isDisabled}
                         key={key} 
                         style={{alignSelf: 'flex-end'}} 
@@ -612,7 +650,7 @@ class AppPackageBlock extends Component {
                     onClick={()=> this.handleStepControlClick(item)}
                     key={key} 
                     type={"button"}>
-                  {item.label}
+                    {item.label}
                   </button>
                 </div>
       default:

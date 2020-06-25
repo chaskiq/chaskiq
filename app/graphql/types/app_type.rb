@@ -38,6 +38,8 @@ module Types
     field :event_types, [Types::JsonType], null: true
     field :outgoing_webhooks, [Types::JsonType], null: true
 
+    field :searcheable_fields, [Types::JsonType], null: true
+
     def outgoing_webhooks
       object.outgoing_webhooks
     end
