@@ -316,7 +316,7 @@ class App < ApplicationRecord
   end
 
   def searcheable_fields
-    self.custom_fields + AppUser::ENABLED_SEARCH_FIELDS
+    (self.custom_fields || []) + AppUser::ENABLED_SEARCH_FIELDS
   end
 
   def searcheable_fields_list
