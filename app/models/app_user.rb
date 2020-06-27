@@ -10,6 +10,16 @@ class AppUser < ApplicationRecord
 
   ENABLED_SEARCH_FIELDS = [
     { 'name'=> 'email', 'type'=> 'string' },
+    { 'name'=> 'postal', 'type'=> 'string' },
+    { 'name'=> 'name', 'type'=> 'string' },
+    { 'name'=> 'first_name', 'type'=> 'string' },
+    { 'name'=> 'last_name', 'type'=> 'string' },
+    { 'name'=> 'company_name', 'type'=> 'string' },
+    { 'name'=> 'company_size', 'type'=> 'string' },
+    { 'name'=> 'phone', 'type'=> 'string' }
+  ].freeze
+
+  BROWSING_FIELDS = [
     { 'name'=> 'lang', 'type'=> 'string' },
     { 'name'=> 'type', 'type'=> 'string' },
     { 'name'=> 'last_visited_at', 'type'=> 'date' },
@@ -21,7 +31,6 @@ class AppUser < ApplicationRecord
     { 'name'=> 'country', 'type'=> 'string' },
     { 'name'=> 'lat', 'type'=> 'string' },
     { 'name'=> 'lng', 'type'=> 'string' },
-    { 'name'=> 'postal', 'type'=> 'string' },
     { 'name'=> 'web_sessions', 'type'=> 'string' },
     { 'name'=> 'timezone', 'type'=> 'string' },
     { 'name'=> 'browser', 'type'=> 'string' },

@@ -175,6 +175,8 @@ class Messenger extends Component {
           break;
         case "convert":
           this.convertVisitor(data)
+        case "trigger":
+          this.requestTrigger(data)
         default:
           break;
       } 
@@ -209,7 +211,7 @@ class Messenger extends Component {
           ev: e
         })
       }
-    } , false);
+    }, false);
 
     window.opener && window.opener.postMessage({type: "ENABLE_MANAGER_TOUR"}, "*");
   }

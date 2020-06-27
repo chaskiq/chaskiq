@@ -525,6 +525,7 @@ class AppPackageBlock extends Component {
     const data = serialize(e.currentTarget, { hash: true, empty: true })
     let errors = {}
 
+    // check custom functions and validate 
     Object.keys(data).map((o)=> { 
       const item = this.props.searcheableFields.find((f)=> f.name === o )
       if (!item) return
@@ -539,12 +540,15 @@ class AppPackageBlock extends Component {
         errors, {[o]: err })
     })
 
+    console.log(errors)
+
     this.setState({ errors: errors, loading: false }, ()=> {
-      console.log(this.state.errors)
-      console.log(isEmpty(this.state.errors) ? 'SISISI' : 'nonon')
+      // console.log(this.state.errors)
+      // console.log(isEmpty(this.state.errors) ? 'valid' : 'errors')
+      if(!isEmpty(this.state.errors)) return
+      this.props.appPackageSubmitHandler(data, this.props)
     })
 
-    //this.props.appPackageSubmitHandler(data, this.props)
   }
 
   renderEmptyItem = ()=>{
@@ -612,8 +616,12 @@ class AppPackageBlock extends Component {
         return <hr key={key}/>
       case "input":
         const isEmailType = item.name === "email" ? "email" : null
-        return <div className={"form-group"} key={key}>
-                <label>{t("enter_your", {field: item.name })}</label>
+        const errorClass = this.state.errors[item.name] ? 'error' : ''
+        return <div className={`form-group ${errorClass}`} 
+                key={key}>
+                <label>
+                  {t("enter_your", {field: item.name })}
+                </label>
                 <input 
                   disabled={isDisabled}
                   type={isEmailType || item.type} 
@@ -626,7 +634,9 @@ class AppPackageBlock extends Component {
                 />
                 {
                   this.state.errors[item.name] && 
-                  <span>ooeee entero malo el {item.name}</span>
+                  <span className="errors">
+                    {t('invalid', { name: item.name} )}
+                  </span>
                 }
                 <button disabled={isDisabled}
                         key={key} 

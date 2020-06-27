@@ -454,6 +454,22 @@ export const AppPackageBlockContainer = styled.div`
         margin: 1px;
         padding: 5px;
       }
+
+      .form-group {
+        display: flex;
+        flex-direction: column;
+        &.error{
+          input {
+            border: 1px solid red;
+          }
+        }
+        .errors {
+          font-size: 0.7em;
+          color: red;
+          margin-left: 4px;
+        }
+        
+      }
     }
     label {
       margin: 3px;
