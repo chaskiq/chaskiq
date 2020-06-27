@@ -99,6 +99,7 @@
         waiting: En espera
         priority_first: Priorizado
         all: Todas
+        unfiltered: Todas
       empty:
         title: Sin conversaciones
         text: Elige conversaciones de la lista
