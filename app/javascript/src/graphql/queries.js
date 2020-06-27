@@ -203,12 +203,12 @@ export const SEGMENT = `
 
 
 export const CONVERSATIONS = `
-  query App($appKey: String!, $page: Int!, $sort: String, $filter: String){
+  query App($appKey: String!, $page: Int!, $sort: String, $filter: String, $agentId: Int){
     app(key: $appKey) {
       encryptionKey
       key
       name
-      conversations(page: $page, sort: $sort, filter: $filter){
+      conversations(page: $page, sort: $sort, filter: $filter, agentId: $agentId){
         collection{
           id
           key
@@ -258,6 +258,20 @@ export const CONVERSATIONS = `
         }
         meta
 
+      }
+    }
+  }
+`;
+
+export const CONVERSATIONS_COUNTS = `
+  query App($appKey: String!){
+    app(key: $appKey) {
+      conversationsCounts
+      agents{
+        id
+        avatarUrl
+        name
+        email
       }
     }
   }

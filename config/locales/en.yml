@@ -104,6 +104,7 @@ en:
       waiting: Waiting
       priority_first: Priorized
       all: All
+      unfiltered: All
     empty:
       title: No conversations
       text: Choose conversations on the side

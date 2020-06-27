@@ -33,6 +33,8 @@ import {
   ApiIcon
 } from '../components/icons'
 
+import SidebarAgents from '../components/conversations/SidebarAgents'
+
 import { toggleDrawer } from '../actions/drawer'
 
 import I18n from '../shared/FakeI18n'
@@ -119,19 +121,6 @@ function Sidebar ({
                 }/>
               <WebSetup />
             </div>
-            /* <li>
-                {/*<FormControlLabel
-                  control={
-                    <Switch
-                      checked={themeValue === "light"}
-                      onChange={toggleTheme}
-                      value={themeValue}
-                      inputProps={{ 'aria-label': 'theme change' }}
-                    />
-                  }
-                  label={themeValue === "light" ? `theme dark` : `theme light` }
-                />}
-              </li> */
           ]
         }
       ]
@@ -169,6 +158,11 @@ function Sidebar ({
           label: I18n.t('navigator.childs.assignment_rules'),
           url: `/apps/${app.key}/conversations/assignment_rules`,
           active: isActivePage('Assignment Rules')
+        },
+        {
+          render: ()=>[
+            <SidebarAgents/>
+          ]
         }
       ]
     },
