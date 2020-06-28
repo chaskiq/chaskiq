@@ -47,15 +47,21 @@ function SidebarAgents ({ app, dispatch, conversations }) {
   }
 
   function filterAgent (option) {
-    console.log("agent to filter,", option)
+    console.log('agent to filter', option)
     const agentID = option ? option.id : 0
     dispatch(clearConversations([]))
     dispatch(
       updateConversationsData({
-        agentId: agentID
+        agentId: agentID,
+        sort: 'unfiltered'
       }, () => {
         fetchConversations(
-          { page: 1, agentId: agentID }
+          {
+            page: 1,
+            agentId: agentID,
+            sort: 'unfiltered',
+            filter: 'opened'
+          }
         )
       })
     )
@@ -65,7 +71,9 @@ function SidebarAgents ({ app, dispatch, conversations }) {
     <div>
 
       <div className="mt-4 flex items-center flex-shrink-0 px-4 text-md leading-6 font-bold text-gray-900">
-        <h3 className="font-bold">Conversaciones</h3>
+        <h3 className="font-bold">
+          Conversaciones
+        </h3>
       </div>
 
       {
@@ -76,7 +84,9 @@ function SidebarAgents ({ app, dispatch, conversations }) {
             agent={findAgent(o)}
             count={counts[o]}
             filterHandler={filterAgent}
-            label={ o === 'all' ? 'All conversations' : null }
+            label={ o === 'all' ?
+              'All conversations' : null
+            }
           />
         ))
       }
@@ -88,12 +98,15 @@ function SidebarAgents ({ app, dispatch, conversations }) {
         <ListItem name="Bot" count={340} />
       */}
 
-      {/* <div className="mt-4 flex items-center flex-shrink-0 px-4 text-md leading-6 font-bold text-gray-900">
-        <h3 className="font-bold">Tags</h3>
-      </div>
+      {/*
 
-      <ListItem name="For sales" count={798} />
-    <ListItem name="Support" count={0} /> */}
+        <div className="mt-4 flex items-center flex-shrink-0 px-4 text-md leading-6 font-bold text-gray-900">
+          <h3 className="font-bold">Tags</h3>
+        </div>
+
+        <ListItem name="For sales" count={798} />
+        <ListItem name="Support" count={0} /> 
+      */}
 
     </div>
   )

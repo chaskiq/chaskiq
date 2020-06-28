@@ -9,6 +9,7 @@ module Mutations
       argument :email, String, required: true
 
 
+      # TODO ROLE AWARE
       def resolve(app_key:, email:, params:)
         app = current_user.apps.find_by(key: app_key)
 
@@ -24,7 +25,8 @@ module Mutations
           :country_code,
           :region,
           :region_code,
-          :enable_deliveries
+          :enable_deliveries,
+          :available
         )
 
         #data.merge!({avatar: avatar}) if avatar.present?

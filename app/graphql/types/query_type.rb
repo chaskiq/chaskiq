@@ -52,7 +52,7 @@ module Types
       }
     end
 
-    field :user_session, Types::UserType, null: false, description: 'get current user email'
+    field :user_session, Types::AgentType, null: false, description: 'get current user email'
     def user_session
       doorkeeper_authorize!
       current_user

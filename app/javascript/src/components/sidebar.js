@@ -8,6 +8,7 @@ import FilterMenu from '../components/FilterMenu'
 import { signout } from '../actions/auth'
 import WebSetup from '../components/webSetup'
 import LangChooser from '../components/LangChooser'
+import Toggle from '../components/forms/Toggle'
 import {
   MoreIcon,
   BookMarkIcon,
@@ -38,6 +39,13 @@ import SidebarAgents from '../components/conversations/SidebarAgents'
 import { toggleDrawer } from '../actions/drawer'
 
 import I18n from '../shared/FakeI18n'
+
+import {
+  UPDATE_AGENT
+} from '../graphql/mutations'
+import graphql from '../graphql/client'
+import { getCurrentUser } from '../actions/current_user'
+
 
 function mapStateToProps (state) {
   const {
@@ -74,6 +82,7 @@ function Sidebar ({
   const { current_page, current_section } = navigation
 
   const [expanded, setExpanded] = useState(current_section)
+  const [loading, setLoading] = useState(false)
 
   const [langChooser, setLangChooser] = useState(false)
 
@@ -160,7 +169,7 @@ function Sidebar ({
           active: isActivePage('Assignment Rules')
         },
         {
-          render: ()=>[
+          render: () => [
             <SidebarAgents/>
           ]
         }
@@ -357,7 +366,25 @@ function Sidebar ({
     setLangChooser(true)
   }
 
+  function handleAwaymode (e) {
+    setLoading(true)
 
+    graphql(UPDATE_AGENT, {
+      appKey: app.key,
+      email: current_user.email,
+      params: {
+        available: !current_user.available
+      }
+    }, {
+      success: (data) => {
+        dispatch(getCurrentUser())
+        setLoading(false)
+      },
+      error: () => {
+        setLoading(false)
+      }
+    })
+  }
 
   const drawerClass = !drawer.open
     ? 'hidden'
@@ -471,7 +498,18 @@ function Sidebar ({
                       onClick={handler}
                       className="text-xs leading-4 font-medium text-gray-500 group-hover:text-gray-700 group-focus:underline transition ease-in-out duration-150">
                       <div className="flex items-center">
-                        {I18n.t('navigator.user_menu.title')}
+                        {/*
+                          I18n.t('navigator.user_menu.title')
+                        */}
+
+                        <Toggle
+                          id="user-away-mode-toggle"
+                          text="Away mode"
+                          checked={current_user.available}
+                          disabled={loading}
+                          onChange={handleAwaymode}
+                        />
+
                         <MoreIcon/>
                       </div>
 

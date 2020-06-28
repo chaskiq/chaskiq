@@ -405,6 +405,7 @@ export const CURRENT_USER = `
       email
       avatarUrl
       lang
+      available
     }
   }
 `;
