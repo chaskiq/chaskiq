@@ -10,11 +10,11 @@ const ToggleStyle = styled.div`
 
   .track {
     transition-property: all;
-    ${tw`w-12 h-6 bg-gray-600 rounded-full shadow-inner`}
+    ${tw`w-12 h-4 bg-gray-600 rounded-full shadow-inner`}
   }
 
   .thumb {
-    ${tw`absolute top-0 w-6 h-6 bg-white border-2 border-gray-600 rounded-full`}
+    ${tw`absolute top-0 w-4 h-4 bg-white border-2 border-gray-600 rounded-full`}
   }
 
   input[type='checkbox']:checked ~ .thumb {
