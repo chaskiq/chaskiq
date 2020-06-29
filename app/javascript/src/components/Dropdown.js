@@ -31,7 +31,7 @@ export default function Dropdown ({
         className={'relative inline-block text-left'}
       >
 
-        <div>
+        <div className="flex">
           {triggerButton ? (
             triggerButton(() => setOpen(!open))
           ) : (
