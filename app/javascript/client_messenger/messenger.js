@@ -213,7 +213,9 @@ class Messenger extends Component {
       }
     }, false);
 
-    window.opener && window.opener.postMessage({type: "ENABLE_MANAGER_TOUR"}, "*");
+    window.opener && window.opener.postMessage(
+      {type: "ENABLE_MANAGER_TOUR"}, "*"
+    );
   }
 
   componentDidUpdate(prevProps, prevState){
