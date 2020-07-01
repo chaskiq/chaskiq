@@ -521,7 +521,6 @@ class AppPackageBlock extends Component {
 
     e.preventDefault()
 
-    console.log(this.props.searcheableFields)
     const data = serialize(e.currentTarget, { hash: true, empty: true })
     let errors = {}
 
@@ -540,7 +539,6 @@ class AppPackageBlock extends Component {
         errors, {[o]: err })
     })
 
-    console.log(errors)
 
     this.setState({ errors: errors, loading: false }, ()=> {
       // console.log(this.state.errors)
