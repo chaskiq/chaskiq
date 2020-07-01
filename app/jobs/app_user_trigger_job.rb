@@ -5,8 +5,9 @@ class AppUserTriggerJob < ApplicationJob
 
   # send the first trigger step
   def perform(app_key:, user_id:, trigger_id:, conversation:)
+
     @app = App.find_by(key: app_key)
-    conversation = @app.conversations.find_by(key: conversation)
+    convo = @app.conversations.find_by(key: conversation)
     @app_user = @app.app_users.find(user_id)
     
     return if @app_user.trigger_locked.value.present?
@@ -23,9 +24,9 @@ class AppUserTriggerJob < ApplicationJob
                 )
               end
 
-    conversation.blank? ? 
+    convo.blank? ? 
       start_conversation(trigger) : 
-      add_message(trigger, conversation)
+      add_message(trigger, convo)
 
   end
 
@@ -45,6 +46,7 @@ class AppUserTriggerJob < ApplicationJob
     author = @app.agent_bots.first
     step = trigger.paths.first.with_indifferent_access[:steps].first
     message = step[:messages].first
+    
     @message = conversation.add_message(
       step_id: step[:step_uid],
       trigger_id: trigger.id,

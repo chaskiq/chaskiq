@@ -64,7 +64,7 @@ function CustomizationColors ({ app, settings, update, dispatch }) {
           open={isOpen}
           handleClose={close}
           // contentText={"lipsum"}
-          titleContent={'Create user data field'}
+          titleContent={I18n.t('settings.user_data.modal.title')}
           formComponent={
             <form ref={form}>
               <FieldsForm selected={selectedItem} />
@@ -73,11 +73,11 @@ function CustomizationColors ({ app, settings, update, dispatch }) {
           dialogButtons={
             <React.Fragment>
               <Button onClick={close} variant={'outlined'}>
-                Cancel
+                {I18n.t('common.cancel')}
               </Button>
 
               <Button onClick={submit} className="mr-1">
-                {'Create'}
+                {I18n.t('common.create')}
               </Button>
             </React.Fragment>
           }
@@ -109,7 +109,7 @@ function CustomizationColors ({ app, settings, update, dispatch }) {
           })
         }
       >
-        Save changes
+        {I18n.t('common.save')}
       </Button>
     )
   }
@@ -119,10 +119,9 @@ function CustomizationColors ({ app, settings, update, dispatch }) {
 
       <Hints type="user_data" />
 
-
       <div className="flex items-center justify-between">
         <p className="text-lg leading-6 font-medium  text-gray-900 py-4">
-          Custom Fields
+          {I18n.t('settings.user_data.title')}
         </p>
 
         <div className="flex w-1/4 justify-end">
@@ -144,7 +143,8 @@ function CustomizationColors ({ app, settings, update, dispatch }) {
             <FieldsItems
               key={`fields-items-${o.name}-${i}`}
               primary={o.name}
-              secondary={o.type}
+              // secondary={o.type}
+              secondary={I18n.t(`settings.user_data.attr_types.${o.type}`)}
               terciary={
                 <React.Fragment>
                   <Button
@@ -172,11 +172,11 @@ function CustomizationColors ({ app, settings, update, dispatch }) {
       </div>
 
       <p className="text-lg leading-6 font-medium text-gray-900">
-        Default fields
+        {I18n.t('settings.user_data.default_fields')}
       </p>
 
       <p className="mt-2 max-w-xl text-sm leading-5 text-gray-500">
-        this fields are not editable
+        {I18n.t('settings.user_data.non_editable')}
       </p>
 
       <div className="py-4">
@@ -185,8 +185,8 @@ function CustomizationColors ({ app, settings, update, dispatch }) {
             <FieldsItems
               key={`default-fields-${o.type}-${i}`}
               primary={o.name}
-              secondary={o.type}
-              // terciary={}
+              // secondary={o.type}
+              secondary={I18n.t(`settings.user_data.attr_types.${o.type}`)}
             />
           ))}
         </List>
@@ -232,10 +232,14 @@ function FieldsForm ({ selected }) {
     setField(Object.assign({}, field, { type: e.value }))
   }
 
+  function setValidation (e) {
+    setField(Object.assign({}, field, { validation: e.value }))
+  }
+
   const options = [
-    { value: 'string', label: 'Text' },
-    { value: 'integer', label: 'Number' },
-    { value: 'date', label: 'Date' }
+    { value: 'string', label: I18n.t('settings.user_data.attr_types.string') },
+    { value: 'integer', label: I18n.t('settings.user_data.attr_types.integer') },
+    { value: 'date', label: I18n.t('settings.user_data.attr_types.date') }
   ]
 
   function selectedOption () {
@@ -251,7 +255,7 @@ function FieldsForm ({ selected }) {
         required
         fullWidth
         name="name"
-        label="Field name"
+        label={ I18n.t('settings.user_data.inputs.name')}
         type={'text'}
         // type="password"
         // id="password"
@@ -266,10 +270,19 @@ function FieldsForm ({ selected }) {
         value={field.label}
         defaultValue={selectedOption()}
         onChange={(e) => setType(e)}
-        label={'field type'}
+        label={I18n.t('settings.user_data.inputs.type')}
         type={'select'}
         data={{}}
         options={options}
+      ></Input>
+
+      <Input
+        name={'validation'}
+        value={field.validation}
+        onChange={setValidation}
+        label={I18n.t('settings.user_data.inputs.validation')}
+        helperText={I18n.t('settings.user_data.inputs.validation_hint')}
+        type={'textarea'}
       ></Input>
     </React.Fragment>
   )
@@ -278,7 +291,10 @@ function FieldsForm ({ selected }) {
 function Field ({ field, handleEdit, removeField, index }) {
   return (
     <ListItem>
-      <ListItemText primary={field.name} secondary={field.type} />
+      <ListItemText
+        primary={field.name}
+        secondary={I18n.t(`settings.user_data.attr_types.${field.type}`)}
+      />
 
       {handleEdit && (
         <ItemListSecondaryContent>
@@ -286,7 +302,7 @@ function Field ({ field, handleEdit, removeField, index }) {
             variant="icon"
             onClick={() => handleEdit(index)}
             edge="end"
-            aria-label="delete"
+            aria-label={I18n.t('common.delete')}
           >
             <EditIcon />
           </Button>
@@ -295,7 +311,7 @@ function Field ({ field, handleEdit, removeField, index }) {
             onClick={() => removeField(index)}
             edge="end"
             variant="icon"
-            aria-label="add"
+            aria-label={I18n.t('common.add')}
           >
             <DeleteIcon />
           </Button>

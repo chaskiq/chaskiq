@@ -175,6 +175,8 @@ class Messenger extends Component {
           break;
         case "convert":
           this.convertVisitor(data)
+        case "trigger":
+          this.requestTrigger(data)
         default:
           break;
       } 
@@ -209,9 +211,11 @@ class Messenger extends Component {
           ev: e
         })
       }
-    } , false);
+    }, false);
 
-    window.opener && window.opener.postMessage({type: "ENABLE_MANAGER_TOUR"}, "*");
+    window.opener && window.opener.postMessage(
+      {type: "ENABLE_MANAGER_TOUR"}, "*"
+    );
   }
 
   componentDidUpdate(prevProps, prevState){
@@ -1191,6 +1195,7 @@ class Messenger extends Component {
                                 this.state.display_mode === "conversation" &&
                                 
                                   <Conversation
+                                    appData={this.state.appData}
                                     visible={this.state.visible}
                                     clearConversation={this.clearConversation}
                                     isMobile={this.state.isMobile}
@@ -1303,6 +1308,7 @@ class Messenger extends Component {
                     }
 
                     <Conversation
+                      appData={this.state.appData}
                       //disablePagination={true}
                       visible={this.state.visible}
                       pushEvent={this.pushEvent}

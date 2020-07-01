@@ -3,6 +3,7 @@
     common:
       edit: Editar
       new: Nuevo
+      add: Agregar
       update: Actualizar
       remove: Eliminar
       delete: Eliminar
@@ -98,6 +99,7 @@
         waiting: En espera
         priority_first: Priorizado
         all: Todas
+        unfiltered: Todas
       empty:
         title: Sin conversaciones
         text: Elige conversaciones de la lista
@@ -371,6 +373,23 @@
           title: "¿Eliminar webhook?"
           text: El webhook con el servicio %{name} se deshabilitará de inmediato.
     
+      user_data:
+        title: Atributo personalizado
+        default_field: Atributos por defecto
+        non_editable: Estos atributos no son editables
+        modal:
+          title: Crear un atributo personalizado
+        inputs:
+          name: Nombre del atributo
+          type: Tipo de atributo
+          validation: Validación
+          validation_hint: La validación es opcional 
+        attr_types:
+          date: Fecha
+          integer: Número
+          string: Texto
+
+
     articles:
       title: Artículos
       all: Todos
