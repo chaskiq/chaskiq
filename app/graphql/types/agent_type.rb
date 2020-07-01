@@ -14,6 +14,7 @@ module Types
     field :region_code, String, null: true
     field :avatar_url, String, null: true
     field :lang, String, null: true
+    field :available, Boolean, null: true
 
     field :display_name, String, null: true
 

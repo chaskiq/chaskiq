@@ -143,6 +143,7 @@ const BotEditor = ({ match, app, dispatch, mode, actions }) => {
   const [isOpen, setOpen] = useState(false);
   const [tabValue, setTabValue] = useState(0);
   const [changed, setChanged] = useState(null);
+  const [searchFields, setSearchFields] = useState([])
 
   const handleSelection = (item) => {
     setSelectedPath(item);
@@ -151,7 +152,10 @@ const BotEditor = ({ match, app, dispatch, mode, actions }) => {
   useEffect(() => {
     graphql(
       BOT_TASK,
-      { appKey: app.key, id: match.params.id },
+      { 
+        appKey: app.key, 
+        id: match.params.id 
+      },
       {
         success: (data) => {
           setBotTask(data.app.botTask);
@@ -404,6 +408,7 @@ const BotEditor = ({ match, app, dispatch, mode, actions }) => {
   const getStats = (params, cb) => {
     graphql(BOT_TASK_METRICS, params, {
       success: (data) => {
+        setSearchFields(data.app.searcheableFields)
         const d = data.app.botTask;
         cb(d);
       },
@@ -515,6 +520,7 @@ const BotEditor = ({ match, app, dispatch, mode, actions }) => {
                 saveData={saveData}
                 setPaths={setPaths}
                 setSelectedPath={setSelectedPath}
+                searchFields={searchFields}
               />
             )}
 
@@ -780,6 +786,7 @@ const Path = ({
   setPaths,
   saveData,
   setSelectedPath,
+  searchFields,
   app,
 }) => {
 
@@ -934,8 +941,8 @@ const Path = ({
             updatePath={updatePath}
             deleteItem={deleteItem}
             onDragEnd={onDragEnd}
+            searchFields={searchFields}
             updateControlPathSelector={updateControlPathSelector}
-
           />
 
           <div className="flex justify-start">
@@ -1028,6 +1035,7 @@ const Path = ({
                       path={path}
                       step={controlStep}
                       options={stepOptions}
+                      searchFields={searchFields}
                       update={(opts) =>
                         updateControlPathSelector(opts, controlStep)
                       }
@@ -1147,7 +1155,7 @@ const PathEditor = ({ step, message, path, updatePath }) => {
 };
 
 // APp Package Preview
-const AppPackageBlocks = ({ options, controls, path, step, update }) => {
+const AppPackageBlocks = ({ options, controls, path, step, update, searchFields }) => {
   const { schema, type } = controls;
 
   const updateOption = (value, option) => {
@@ -1184,23 +1192,40 @@ const AppPackageBlocks = ({ options, controls, path, step, update }) => {
         console.log("controls;", controls);
         return (
           <div className={"form-group"} key={index}>
+            
             {/*item.label ? <label>{item.label}</label> : null */}
-            {/*<Input 
+            
+            {
+              /*<Input 
                 type={item.type} 
                 name={item.name}
                 placeholder={item.placeholder}
-              />*/}
+              />*/
+            }
+
+            {/*
+              [
+                { value: "email", label: "email" },
+                { value: "name", label: "name" },
+                { value: "phone", label: "phone" },
+                ]
+              */
+            }
+
             <DataInputSelect
               controls={controls}
               path={path}
               step={step}
               update={update}
               item={item}
-              options={[
-                { value: "email", label: "email" },
-                { value: "name", label: "name" },
-                { value: "phone", label: "phone" },
-              ]}
+              options={
+                searchFields.map(
+                  (o)=> ({ 
+                    value: o.name, 
+                    label: o.name 
+                  })
+                )
+              }
             />
           </div>
         );
@@ -1299,7 +1324,10 @@ class SortableSteps extends Component {
   };
 
   render() {
-    const { steps, path, paths, deleteItem, updatePath, updateControlPathSelector } = this.props;
+    const { steps, path, paths, deleteItem, 
+      updatePath, updateControlPathSelector ,
+      searchFields
+    } = this.props;
 
     const stepsWithoutcontrols = steps.filter((o)=> !o.controls || o.controls.type !== "ask_option" )
 
@@ -1356,6 +1384,7 @@ class SortableSteps extends Component {
                                 path={path}	
                                 step={item}	
                                 options={stepOptions}	
+                                searchFields={searchFields}
                                 update={(opts) =>	
                                   updateControlPathSelector(opts, item)	
                                 }	

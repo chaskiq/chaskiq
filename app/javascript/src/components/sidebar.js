@@ -8,6 +8,7 @@ import FilterMenu from '../components/FilterMenu'
 import { signout } from '../actions/auth'
 import WebSetup from '../components/webSetup'
 import LangChooser from '../components/LangChooser'
+import Toggle from '../components/forms/Toggle'
 import {
   MoreIcon,
   BookMarkIcon,
@@ -33,9 +34,18 @@ import {
   ApiIcon
 } from '../components/icons'
 
+import SidebarAgents from '../components/conversations/SidebarAgents'
+
 import { toggleDrawer } from '../actions/drawer'
 
 import I18n from '../shared/FakeI18n'
+
+import {
+  UPDATE_AGENT
+} from '../graphql/mutations'
+import graphql from '../graphql/client'
+import { getCurrentUser } from '../actions/current_user'
+
 
 function mapStateToProps (state) {
   const {
@@ -72,6 +82,7 @@ function Sidebar ({
   const { current_page, current_section } = navigation
 
   const [expanded, setExpanded] = useState(current_section)
+  const [loading, setLoading] = useState(false)
 
   const [langChooser, setLangChooser] = useState(false)
 
@@ -119,19 +130,6 @@ function Sidebar ({
                 }/>
               <WebSetup />
             </div>
-            /* <li>
-                {/*<FormControlLabel
-                  control={
-                    <Switch
-                      checked={themeValue === "light"}
-                      onChange={toggleTheme}
-                      value={themeValue}
-                      inputProps={{ 'aria-label': 'theme change' }}
-                    />
-                  }
-                  label={themeValue === "light" ? `theme dark` : `theme light` }
-                />}
-              </li> */
           ]
         }
       ]
@@ -169,6 +167,11 @@ function Sidebar ({
           label: I18n.t('navigator.childs.assignment_rules'),
           url: `/apps/${app.key}/conversations/assignment_rules`,
           active: isActivePage('Assignment Rules')
+        },
+        {
+          render: () => [
+            <SidebarAgents/>
+          ]
         }
       ]
     },
@@ -363,7 +366,25 @@ function Sidebar ({
     setLangChooser(true)
   }
 
+  function handleAwaymode (e) {
+    setLoading(true)
 
+    graphql(UPDATE_AGENT, {
+      appKey: app.key,
+      email: current_user.email,
+      params: {
+        available: !current_user.available
+      }
+    }, {
+      success: (data) => {
+        dispatch(getCurrentUser())
+        setLoading(false)
+      },
+      error: () => {
+        setLoading(false)
+      }
+    })
+  }
 
   const drawerClass = !drawer.open
     ? 'hidden'
@@ -448,44 +469,63 @@ function Sidebar ({
                   {current_user.email}
                 </p>
 
-                <FilterMenu
-                  options={[
-                    {
-                      title: I18n.t('navigator.user_menu.create_app'),
-                      description: I18n.t('navigator.user_menu.create_app_description'),
-                      // icon: <SendIcon />,
-                      id: 'new-app',
-                      onClick: () => history.push('/apps/new')
-                    },
 
-                    {
-                      title: I18n.t('home.choose_lang'),
-                      onClick: openLangChooser
-                    },
-                    {
-                      title: I18n.t('navigator.user_menu.signout'),
-                      // description: "delivers the campaign",
-                      // icon: <SendIcon />,
-                      id: 'sign-out',
-                      onClick: handleSignout
+                <div className="flex items-center">
+                  <Toggle
+                    id="user-away-mode-toggle"
+                    text={
+                      <span className="text-xs text-gray-500">
+                        Away mode
+                      </span>
                     }
-                  ]}
-                  value={null}
-                  filterHandler={(e) => e.onClick && e.onClick() }
-                  triggerButton={(handler) => (
-                    <button
-                      onClick={handler}
-                      className="text-xs leading-4 font-medium text-gray-500 group-hover:text-gray-700 group-focus:underline transition ease-in-out duration-150">
-                      <div className="flex items-center">
-                        {I18n.t('navigator.user_menu.title')}
-                        <MoreIcon/>
-                      </div>
+                    checked={current_user.available}
+                    disabled={loading}
+                    onChange={handleAwaymode}
+                  />
 
-                    </button>
-                  )}
-                  position={'left'}
-                  origin={'bottom-0'}
-                />
+                  <FilterMenu
+                    options={[
+                      {
+                        title: I18n.t('navigator.user_menu.create_app'),
+                        description: I18n.t('navigator.user_menu.create_app_description'),
+                        // icon: <SendIcon />,
+                        id: 'new-app',
+                        onClick: () => history.push('/apps/new')
+                      },
+
+                      {
+                        title: I18n.t('home.choose_lang'),
+                        onClick: openLangChooser
+                      },
+                      {
+                        title: I18n.t('navigator.user_menu.signout'),
+                        // description: "delivers the campaign",
+                        // icon: <SendIcon />,
+                        id: 'sign-out',
+                        onClick: handleSignout
+                      }
+                    ]}
+                    value={null}
+                    filterHandler={(e) => e.onClick && e.onClick() }
+                    triggerButton={(handler) => (
+                      <button
+                        onClick={handler}
+                        id="user_menu"
+                        className="text-xs leading-4 font-medium text-gray-500 group-hover:text-gray-700 group-focus:underline transition ease-in-out duration-150">
+                        <div className="flex items-center">
+                          {/*
+                            I18n.t('navigator.user_menu.title')
+                          */}
+                          <MoreIcon/>
+                        </div>
+
+                      </button>
+                    )}
+                    position={'left'}
+                    origin={'bottom-0'}
+                  />
+                </div>
+
               </div>
             </div>
           </a>

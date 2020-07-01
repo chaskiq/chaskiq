@@ -3,6 +3,9 @@
 class BotTask < ApplicationRecord
   self.inheritance_column = nil
 
+
+  acts_as_list scope: %i[app_id]
+
   belongs_to :app
 
   has_many :metrics, as: :trackable, dependent: :destroy

@@ -3,6 +3,7 @@ en:
   common:
     edit: Edit
     new: New
+    add: Add
     update: Update
     remove: Remove
     delete: Delete
@@ -103,6 +104,7 @@ en:
       waiting: Waiting
       priority_first: Priorized
       all: All
+      unfiltered: All
     empty:
       title: No conversations
       text: Choose conversations on the side
@@ -205,7 +207,7 @@ en:
   
       settings_title: Bot Task settings
       specific_times_title: Set specific times to show this bot to your audience.
-      tz_hint: Your app's timezone is ${timezone} See your office hours.
+      tz_hint: Your app's timezone is %{timezone} See your office hours.
       office_hours: During office hours
       outside_office: Outside office hours
       custom_time: Custom time
@@ -283,7 +285,6 @@ en:
         title: You don't have any api integrations yet
         text: Search for available api services in
 
-
     availability:
 
       title: Set your availability
@@ -324,7 +325,6 @@ en:
         - label: Never
           value: Never
           hint: WILL ALLOW WEBSITE VISITORS TO START A CONVERSATION AT ANY TIME
-
 
     languages:
       add: Add Language
@@ -384,7 +384,22 @@ en:
         title: Delete webhook ?
         text: The webhook with %{name} service will be disabled immediately
 
-  
+    user_data:
+      title: Custom Fields
+      default_fields: Atributos por defecto
+      non_editable: This fields are not editable
+      modal:
+        title: Create user data field
+      inputs:
+        name: Field name
+        type: Field type
+        validation: Validation
+        validation_hint: Validation is optional
+      attr_types:
+        date: Date
+        int: Integer
+        string: String
+
 
   articles:
     title: Articles

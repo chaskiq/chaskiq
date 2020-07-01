@@ -38,6 +38,8 @@ module Types
     field :event_types, [Types::JsonType], null: true
     field :outgoing_webhooks, [Types::JsonType], null: true
 
+    field :searcheable_fields, [Types::JsonType], null: true
+
     def outgoing_webhooks
       object.outgoing_webhooks
     end
@@ -106,17 +108,21 @@ module Types
       argument :per, Integer, required: false, default_value: 20
       argument :sort, String, required: false
       argument :filter, String, required: false
+      argument :agent_id, Integer, required: false
     end
 
-    def conversations(per:, page:, filter:, sort:)
+    def conversations(per:, page:, filter:, sort:, agent_id: nil)
       @collection = object.conversations
                           .left_joins(:messages)
                           .where.not(conversation_parts: { id: nil })
                           .distinct
-                          .page(page)
-                          .per(per)
 
       @collection = @collection.where(state: filter) if filter.present?
+      if agent_id.present?
+        agent = agent_id.zero? ? nil : agent_id
+        @collection = @collection.where(assignee_id: agent) 
+      end
+      @collection = @collection.page(page).per(per)
 
       if sort.present?
         s = case sort
@@ -127,7 +133,7 @@ module Types
               'id desc'
         end
 
-        if sort != "unfiltered"
+        if sort != "unfiltered" #&& agent_id.blank?
           @collection = @collection.where
                                    .not(latest_user_visible_comment_at: nil)
         end
@@ -136,6 +142,15 @@ module Types
       end
 
       @collection
+    end
+
+    field :conversations_counts, Types::JsonType, null: true
+
+    def conversations_counts
+      result = object.conversations.group('assignee_id').count.dup
+      result.merge({
+        all: object.conversations.size
+      })
     end
 
     field :in_business_hours, Boolean, null: true

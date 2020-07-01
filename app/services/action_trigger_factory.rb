@@ -16,30 +16,40 @@ class ActionTriggerFactory
 
   #Get notified by email
 
-=begin
+
   def self.request_for_email(app:)
     subject = ActionTriggerFactory.new
+    bot_agent = app.agents.bots.first
+
     subject.config do |c|
       c.id = 'request_for_email'
       c.after_delay = 2
       c.path(
         title: 'request_for_email',
         steps: [
-          c.message(text: 'give us a way to reach you.', uuid: 1),
+          c.message(
+            text: I18n.t("task_bots.email_requirement.message"), 
+            uuid: 1,
+            agent: bot_agent
+          ),
           c.controls(
             uuid: 2,
             type: 'data_retrieval',
             schema: [
               c.input(
-                label: 'enter your email',
+                label: I18n.t("task_bots.email_requirement.input_label"),
                 name: 'email',
-                placeholder: 'enter your email'
+                placeholder: I18n.t("task_bots.email_requirement.placeholder")
               )
             ]
           ),
-          c.message(text: 'Thanks you will be contact asap with one of our agents', uuid: 3)
+          c.message(
+            text: I18n.t("task_bots.email_requirement.ack"), 
+            uuid: 3,
+            agent: bot_agent
+          )
         ],
-        follow_actions: [c.assign(app.agents.first)]
+        follow_actions: [c.assign(app.lead_tasks_settings['assignee'])]
       )
     end
 
@@ -48,23 +58,29 @@ class ActionTriggerFactory
 
   def self.route_support(app:)
     subject = ActionTriggerFactory.new
+    bot_agent = app.agents.bots.first
+
     subject.config do |c|
       c.id = 'route_support'
       c.after_delay = 2
+
       c.path(
         title: 'route_support',
         steps: [
-          c.message(text: 'are you an existing customer ?.', uuid: 1),
+          c.message(
+            text: I18n.t("task_bots.support.ask", name: app.name) , 
+            uuid: 1,
+            agent: bot_agent),
           c.controls(
             uuid: 2,
             type: 'ask_option',
             schema: [
               c.button(
-                label: "yes, I'm an existing customer",
+                label: I18n.t("task_bots.support.options.op1"),
                 next_uuid: 3
               ),
               c.button(
-                label: "no, I'm not an existing customer",
+                label: I18n.t("task_bots.support.options.op2"),
                 next_uuid: 4
               )
             ]
@@ -74,16 +90,16 @@ class ActionTriggerFactory
       c.path(
         title: 'yes',
         steps: [
-          c.message(text: 'great!', uuid: 3)
+          c.message(text: 'great!', uuid: 3, agent: bot_agent)
         ],
-        follow_actions: [c.assign(10)]
+        follow_actions: [c.assign(app.lead_tasks_settings['assignee'])]
       )
       c.path(
         title: 'no',
         steps: [
-          c.message(text: "oh, that's so sad :(", uuid: 4)
+          c.message(text: "oh, that's so sad :(", uuid: 4, agent: bot_agent)
         ],
-        follow_actions: [c.assign(10)]
+        follow_actions: [c.assign(app.lead_tasks_settings['assignee'])]
       )
     end
 
@@ -92,19 +108,24 @@ class ActionTriggerFactory
 
   def self.typical_reply_time(app:)
     subject = ActionTriggerFactory.new
+    bot_agent = app.agents.bots.first
+
     subject.config do |c|
       c.id = 'typical_reply_time'
       c.after_delay = 2
       c.path(
         title: 'typical_reply_time',
         steps: [
-          c.message(text: "Hi, #{app.name} will reply as soon as they can.", uuid: 1)
+          c.message(
+            text: I18n.t("task_bots.reply_soon", {name: app.name}), 
+            uuid: 1, 
+            agent: bot_agent
+          )
         ]
       )
     end
     subject
   end
-=end
 
   def self.infer_for(app:, user:)
     kind = user.model_name.name
