@@ -18,6 +18,7 @@ export default function ConversationItemList ({ app, conversation }) {
   const message = conversation.lastMessage
   const participant = conversation.mainParticipant
   const appUser = message.appUser
+  const tags = conversation.tagList
   return (
     <Link
       to={`/apps/${app.key}/conversations/${conversation.key}`}
@@ -34,8 +35,9 @@ export default function ConversationItemList ({ app, conversation }) {
           </div>
 
           <div className="ml-4 truncate w-full">
+
             <div className="flex justify-between">
-              <span className="text-sm leading-5 font-medium text-gray-900">
+              <span className="text-md leading-5 font-semibold text-gray-800">
                 {user.displayName}
               </span>
 
@@ -46,7 +48,7 @@ export default function ConversationItemList ({ app, conversation }) {
               </span>
             </div>
 
-            <div className="text-sm leading-5 text-gray-500 flex">
+            <div className="text-sm leading-5 text-gray-500 flex pb-2 pt-1">
               {appUser && appUser.id !== participant.id && (
                 <img
                   alt={appUser.displayName}
@@ -67,6 +69,16 @@ export default function ConversationItemList ({ app, conversation }) {
                 }}
               />
             </div>
+
+            {
+              tags.map((o) =>
+                <span key={`conversation-${conversation.key}-tag-${o}`}
+                  className="inline-block bg-red-200 rounded-full px-2 py-1 text-xs font-semibold text-gray-700 mr-2">
+                  #{o}
+                </span>
+              )
+            }
+
           </div>
         </div>
       </div>
