@@ -31,6 +31,7 @@ module Types
     field :updateConversationState, mutation: Mutations::Conversations::UpdateState
     field :toggleConversationPriority, mutation: Mutations::Conversations::TogglePriority
     field :typingNotifier, mutation: Mutations::Conversations::TypingNotifier
+    field :updateConversationTags, mutation: Mutations::Conversations::UpdateTags
 
     field :createWebhook, mutation: Mutations::OutgoingWebhooks::CreateWebhook
     field :updateWebhook, mutation: Mutations::OutgoingWebhooks::UpdateWebhook

@@ -151,7 +151,6 @@ function dispatchGetConversations (data) {
 }
 
 function dispatchDataUpate (data) {
-  console.log("DATATA", data)
   return {
     type: ActionTypes.UpdateConversations,
     data: data
@@ -184,6 +183,17 @@ export default function reducer (state = initialState, action = {}) {
 
     case ActionTypes.ClearConversations: {
       return Object.assign({}, state, { collection: [] })
+    }
+
+    case ActionTypes.UpdateConversationItem: {
+      return {
+        ...state,
+        collection: state.collection.map(
+          item => item.id === action.data.id
+            ? { ...item, ...action.data }
+            : item
+        )
+      }
     }
 
     default:

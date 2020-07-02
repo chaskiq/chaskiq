@@ -153,6 +153,14 @@ module Types
       })
     end
 
+    field :conversations_tag_counts, Types::JsonType, null: true
+
+    def conversations_tag_counts
+      object.conversations.tag_counts.map{|o| 
+        { tag: o.name, count: o.taggings_count } 
+      }
+    end
+
     field :in_business_hours, Boolean, null: true
 
     def in_business_hours
