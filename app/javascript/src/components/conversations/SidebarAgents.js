@@ -73,6 +73,25 @@ function SidebarAgents ({ app, dispatch, conversations }) {
     )
   }
 
+  function handleTagFilter (tag) {
+    dispatch(clearConversations([]))
+    dispatch(
+      updateConversationsData({
+        tag: tag,
+        sort: 'unfiltered'
+      }, () => {
+        fetchConversations(
+          {
+            page: 1,
+            tag: tag,
+            sort: 'unfiltered',
+            filter: 'opened'
+          }
+        )
+      })
+    )
+  }
+
   return (
     <div>
 
@@ -117,6 +136,9 @@ function SidebarAgents ({ app, dispatch, conversations }) {
             key={`sidebar-agent-tag-${o.tag}`}
             label={o.tag}
             count={o.count}
+            filterHandler={
+              ()=> handleTagFilter(o.tag)
+            }
             icon={<LabelIcon className="-ml-1 mr-3"/>}
           />
         ))
