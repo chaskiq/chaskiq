@@ -23,6 +23,7 @@ class App < ApplicationRecord
     custom_fields
     enable_articles_on_widget
     inline_new_conversations
+    tag_list
   ], coder: JSON
 
   translates :greetings, :intro, :tagline
@@ -66,8 +67,6 @@ class App < ApplicationRecord
   has_many :oauth_applications, class_name: 'Doorkeeper::Application', as: :owner
 
   has_one_attached :logo
-
-  acts_as_taggable_on :tags
 
   before_create :set_defaults
   after_create :create_agent_bot, :init_app_segments

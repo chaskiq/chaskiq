@@ -1,14 +1,18 @@
 import React, { useState, useEffect } from 'react'
 import FormDialog from './FormDialog'
 import Button from './Button'
-import { Creatable } from 'react-select'
+//import { Creatable } from 'react-select'
+import Select from 'react-select'
 
-export default function TagDialog ({
+import { connect } from 'react-redux'
+
+function TagDialog ({
   children,
   title,
   saveHandler,
   closeHandler,
-  tags
+  tags,
+  app
 }) {
   const tagList = tags.map((o) => ({
     label: o, value: o
@@ -26,11 +30,9 @@ export default function TagDialog ({
     closeHandler && closeHandler()
   }
 
-  const colourOptions = [
-    { label: 'aa', value: 'aa' },
-    { label: 'bb', value: 'bb' },
-    { label: 'vv', value: 'vv' }
-  ]
+  const colourOptions = app.tagList.map( (o) => ({
+    label: o.name, value: o.name, color: o.color
+  }))
 
   function handleChange (changes) {
     setSelectedTags(changes)
@@ -47,7 +49,7 @@ export default function TagDialog ({
             <form>
               {children}
 
-              <Creatable
+              <Select
                 isClearable
                 isMulti
                 defaultValue={tagList}
@@ -77,3 +79,12 @@ export default function TagDialog ({
     </div>
   )
 }
+
+function mapStateToProps (state) {
+  const {app } = state
+  return {
+    app
+  }
+}
+
+export default connect(mapStateToProps)(TagDialog)

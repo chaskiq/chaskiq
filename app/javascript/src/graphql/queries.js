@@ -37,6 +37,7 @@ export const APP = `
       domainUrl
       outgoingEmailDomain
       customFields
+      tagList
       segments {
         name
         id

@@ -24,6 +24,7 @@ import EmailRequirement from "./settings/EmailRequirement";
 import LanguageSettings from "./settings/Language";
 import InboundSettings from "./settings/InboundSettings";
 import StylingSettings from "./settings/Styling";
+import Tags from "./settings/Tags";
 import UserData from "./settings/UserDataFields";
 import timezones from "../shared/timezones";
 import { getFileMetadata, directUpload } from "../shared/fileUploader";
@@ -351,6 +352,16 @@ class AppSettingsContainer extends Component {
             label:  I18n.t("settings.app.user_data"),
             content: (
               <UserData
+                settings={this.props.app}
+                update={this.update}
+                namespace={"app"}
+              />
+            ),
+          },
+          {
+            label:  I18n.t("settings.app.tags"),
+            content: (
+              <Tags
                 settings={this.props.app}
                 update={this.update}
                 namespace={"app"}
