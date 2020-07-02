@@ -255,8 +255,6 @@ export const START_CONVERSATION = `
             avatarUrl
           }
         }
-
-
       }
     }
   }
@@ -455,6 +453,33 @@ export const DELETE_ASSIGNMENT_RULE = `
           avatarUrl
         }
         state
+      }
+    }
+  }
+`;
+
+export const UPDATE_CONVERSATION_TAG_LIST = `
+  mutation UpdateConversationTags($appKey: String!, $conversationId: Int!, $tagList: [String!]!){
+    updateConversationTags(appKey: $appKey, conversationId: $conversationId, tagList: $tagList){
+      conversation{
+        id
+        state 
+        readAt
+        priority
+        tagList
+        assignee {
+          id
+          email
+          name
+          avatarUrl
+        }
+        mainParticipant{
+          id
+          email
+          properties
+          avatarUrl
+          displayName
+        }
       }
     }
   }
