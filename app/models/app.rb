@@ -67,6 +67,8 @@ class App < ApplicationRecord
 
   has_one_attached :logo
 
+  acts_as_taggable_on :tags
+
   before_create :set_defaults
   after_create :create_agent_bot, :init_app_segments
 
