@@ -9,12 +9,16 @@ const BaseButton = styled.button`
   ${(props) => {
     switch (props.variant) {
       case 'success':
-        return tw`outline-none 
-        rounded-lg 
+        return tw`
+        outline-none 
+        rounded-md 
         bg-green-400 
-        text-green-800
-        shadow-md 
-        hover:shadow-lg`
+        text-white
+        hover:bg-green-500 
+        focus:outline-none 
+        focus:border-green-700 
+        focus:shadow-outline-green
+        `
       case 'main':
         return tw`outline-none 
         inline-flex 
