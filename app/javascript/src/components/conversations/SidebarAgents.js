@@ -3,6 +3,10 @@ import graphql from '../../graphql/client'
 import { withRouter } from 'react-router-dom'
 import { connect } from 'react-redux'
 import Avatar from '../Avatar'
+import {
+  FolderIcon,
+  LabelIcon
+} from '../icons'
 
 import {
   getConversations,
@@ -17,6 +21,7 @@ import {
 function SidebarAgents ({ app, dispatch, conversations }) {
   const [counts, setCounts] = useState(null)
   const [agents, setAgents] = useState(null)
+  const [tagCounts, setTagCounts] = useState(null)
 
   useEffect(() => {
     getCounts()
@@ -26,6 +31,7 @@ function SidebarAgents ({ app, dispatch, conversations }) {
     graphql(CONVERSATIONS_COUNTS, { appKey: app.key }, {
       success: (data) => {
         setCounts(data.app.conversationsCounts)
+        setTagCounts(data.app.conversationsTagCounts)
         setAgents(data.app.agents)
       },
       error: () => {}
@@ -84,8 +90,8 @@ function SidebarAgents ({ app, dispatch, conversations }) {
             agent={findAgent(o)}
             count={counts[o]}
             filterHandler={filterAgent}
-            label={ o === 'all' ?
-              'All conversations' : null
+            label={ o === 'all'
+              ? 'All conversations' : null
             }
           />
         ))
@@ -98,29 +104,39 @@ function SidebarAgents ({ app, dispatch, conversations }) {
         <ListItem name="Bot" count={340} />
       */}
 
-      {/*
+      {
+        tagCounts && 
+          <div className="mt-4 flex items-center flex-shrink-0 px-4 text-md leading-6 font-bold text-gray-900">
+            <h3 className="font-bold">Tags</h3>
+          </div>
+      }
 
-        <div className="mt-4 flex items-center flex-shrink-0 px-4 text-md leading-6 font-bold text-gray-900">
-          <h3 className="font-bold">Tags</h3>
-        </div>
-
-        <ListItem name="For sales" count={798} />
-        <ListItem name="Support" count={0} /> 
-      */}
+      {
+        tagCounts && tagCounts.map((o) => (
+          <ListItem
+            key={`sidebar-agent-tag-${o.tag}`}
+            label={o.tag}
+            count={o.count}
+            icon={<LabelIcon className="-ml-1 mr-3"/>}
+          />
+        ))
+      }
 
     </div>
   )
 }
 
-function ListItem ({ agent, count, label, filterHandler }) {
+function ListItem ({ agent, count, label, filterHandler, icon }) {
   return (
     <a href="#"
       onClick={ () => filterHandler(agent)}
       className="mt-1 group flex items-center px-3 py-2 text-sm leading-5 font-medium text-gray-600 rounded-md hover:text-gray-900 hover:bg-gray-50 focus:outline-none focus:text-gray-900 focus:bg-gray-200 transition ease-in-out duration-150">
       {
-        !agent && <svg className="flex-shrink-0 -ml-1 mr-3 h-6 w-6 text-gray-400 group-focus:text-gray-500 transition ease-in-out duration-150" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-6l-2-2H5a2 2 0 00-2 2z"/>
-        </svg>
+        !agent && icon
+      }
+
+      {
+        !agent && !icon && <FolderIcon className="-ml-1 mr-3"/>
       }
 
       {
