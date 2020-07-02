@@ -8,7 +8,7 @@ ruby '2.6.5'
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 # gem 'rails', '~> 5.2.0'
 gem 'pg'
-gem 'rails', '6.0.2' # , github: "rails/rails",
+gem 'rails', '6.0.3.2' # , github: "rails/rails",
 
 gem 'anycable-rails'
 # Use sqlite3 as the database for Active Record
@@ -58,7 +58,6 @@ gem 'acts_as_list', '~> 0.9.19'
 gem 'deep_cloneable'
 gem 'friendly_id', '~> 5.2'
 gem 'groupdate'
-gem 'gutentag', '~> 2.4'
 gem 'pg_search'
 gem 'ransack'
 
