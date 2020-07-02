@@ -215,6 +215,7 @@ export const CONVERSATIONS = `
           state
           readAt
           priority
+          tagList
           assignee {
             displayName
             email
@@ -267,6 +268,7 @@ export const CONVERSATIONS_COUNTS = `
   query App($appKey: String!){
     app(key: $appKey) {
       conversationsCounts
+      conversationsTagCounts
       agents{
         id
         avatarUrl
@@ -289,6 +291,7 @@ export const CONVERSATION=`
         state
         readAt
         priority
+        tagList
         assignee {
           id
           email
@@ -358,6 +361,7 @@ export const CONVERSATION_WITH_LAST_MESSAGE=`
         readAt
         priority
         createdAt
+        tagList
         lastMessage{
           createdAt
           source
