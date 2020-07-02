@@ -203,12 +203,12 @@ export const SEGMENT = `
 
 
 export const CONVERSATIONS = `
-  query App($appKey: String!, $page: Int!, $sort: String, $filter: String, $agentId: Int){
+  query App($appKey: String!, $page: Int!, $sort: String, $filter: String, $agentId: Int, $tag: String){
     app(key: $appKey) {
       encryptionKey
       key
       name
-      conversations(page: $page, sort: $sort, filter: $filter, agentId: $agentId){
+      conversations(page: $page, sort: $sort, filter: $filter, agentId: $agentId, tag: $tag){
         collection{
           id
           key

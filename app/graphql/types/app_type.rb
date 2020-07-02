@@ -109,19 +109,22 @@ module Types
       argument :sort, String, required: false
       argument :filter, String, required: false
       argument :agent_id, Integer, required: false
+      argument :tag, String, required: false
     end
 
-    def conversations(per:, page:, filter:, sort:, agent_id: nil)
+    def conversations(per:, page:, filter:, sort:, agent_id: nil, tag: nil)
       @collection = object.conversations
                           .left_joins(:messages)
                           .where.not(conversation_parts: { id: nil })
                           .distinct
 
       @collection = @collection.where(state: filter) if filter.present?
+      
       if agent_id.present?
         agent = agent_id.zero? ? nil : agent_id
         @collection = @collection.where(assignee_id: agent) 
       end
+
       @collection = @collection.page(page).per(per)
 
       if sort.present?
@@ -140,6 +143,8 @@ module Types
 
         @collection = @collection.order(s)
       end
+
+      @collection = @collection.tagged_with(tag) if tag.present?
 
       @collection
     end
