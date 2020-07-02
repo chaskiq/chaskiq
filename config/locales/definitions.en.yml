@@ -44,8 +44,8 @@ en:
         label: Outgoing Email Domain
         hint: The email domain to send conversations, for @yourapp use 'your app'
       tagline: 
-        label: tagline
-        hint: 
+        label: Tagline
+        hint: This will be rendered in the bottom of the Chat box
       timezone: 
         label: Timezone
         hint: 

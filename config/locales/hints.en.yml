@@ -43,6 +43,12 @@ en:
       description: User attributes provides a way to customize data for segment filtering
       # link: {href: '/', text: 'Learn how segments work on Chaskiq'}
 
+    tags:
+      title: Manage app tags
+      description: Tags attributes provides a way to customize data for segment filtering and organize conversations
+      # link: {href: '/', text: 'Learn how segments work on Chaskiq'}
+
+
     articles:
       title: Chaskiq HelpCenter platform
       description: Here you can manage the articles of Chaskiq

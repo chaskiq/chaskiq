@@ -92,6 +92,13 @@ function SidebarAgents ({ app, dispatch, conversations }) {
     )
   }
 
+  function tagColor (tag) {
+    if (!app.tagList) return '#ccc'
+    const findedTag = app.tagList.find((o) => o.name === tag)
+    if (!findedTag) return '#ccc'
+    return findedTag.color
+  }
+
   return (
     <div>
 
@@ -124,8 +131,9 @@ function SidebarAgents ({ app, dispatch, conversations }) {
       */}
 
       {
-        tagCounts && 
-          <div className="mt-4 flex items-center flex-shrink-0 px-4 text-md leading-6 font-bold text-gray-900">
+        tagCounts &&
+          <div className="mt-4 flex items-center flex-shrink-0 px-4
+            text-md leading-6 font-bold text-gray-900">
             <h3 className="font-bold">Tags</h3>
           </div>
       }
@@ -137,9 +145,13 @@ function SidebarAgents ({ app, dispatch, conversations }) {
             label={o.tag}
             count={o.count}
             filterHandler={
-              ()=> handleTagFilter(o.tag)
+              () => handleTagFilter(o.tag)
             }
-            icon={<LabelIcon className="-ml-1 mr-3"/>}
+            icon={
+              <LabelIcon className="-ml-1 mr-3"
+                style={{ color: tagColor(o.tag) }}
+              />
+            }
           />
         ))
       }

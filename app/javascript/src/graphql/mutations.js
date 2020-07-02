@@ -28,6 +28,7 @@ export const UPDATE_APP = `
         outgoingEmailDomain
         customizationColors
         customFields
+        tagList
         segments {
           name
           id

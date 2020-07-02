@@ -259,6 +259,7 @@ en:
       inbound_settings: Inbound settings
       messenger_style: Messenger Style
       user_data: User data
+      tags: Tags
 
     integrations:
       title: Third party integrations
@@ -384,6 +385,17 @@ en:
         title: Delete webhook ?
         text: The webhook with %{name} service will be disabled immediately
 
+
+
+    tags:
+      title: Tags
+      modal:
+        title: Create app's tag
+      inputs:
+        name: Field name
+        color: Field color
+
+
     user_data:
       title: Custom Fields
       default_fields: Atributos por defecto
@@ -397,7 +409,7 @@ en:
         validation_hint: Validation is optional
       attr_types:
         date: Date
-        int: Integer
+        integer: Integer
         string: String
 
 

@@ -34,6 +34,11 @@ module Types
     field :enable_articles_on_widget, Boolean, null: true
     field :inline_new_conversations, Boolean, null: true
     field :editor_app_packages, [Types::AppPackageType], null: true
+    field :tag_list, [Types::JsonType], null: true
+
+    def tag_list
+      object.tag_list || []
+    end
 
     field :event_types, [Types::JsonType], null: true
     field :outgoing_webhooks, [Types::JsonType], null: true
