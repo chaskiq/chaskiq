@@ -18,8 +18,8 @@ import { DeleteIcon, PlusIcon, EditIcon } from '../../components/icons'
 
 import Input from '../../components/forms/Input'
 
-function CustomizationColors ({ app, settings, update, dispatch }) {
-  const [fields, setFields] = useState(app.customFields || [])
+function CustomizationColors ({ app, update, dispatch }) {
+  const [fields, setFields] = useState(app.tagList || [])
   const [isOpen, setOpen] = useState(false)
   const [selected, setSelected] = useState(null)
 
@@ -116,7 +116,7 @@ function CustomizationColors ({ app, settings, update, dispatch }) {
   return (
     <div className="py-4">
 
-      <Hints type="user_data" />
+      <Hints type="tags" />
 
       <div className="flex items-center justify-between">
         <p className="text-lg leading-6 font-medium  text-gray-900 py-4">

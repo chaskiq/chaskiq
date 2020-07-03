@@ -391,6 +391,8 @@ en:
       title: Tags
       modal:
         title: Create app's tag
+        hint: Looking for more tags ? look at 
+        link: account settings
       inputs:
         name: Field name
         color: Field color

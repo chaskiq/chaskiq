@@ -3,6 +3,7 @@ import FormDialog from './FormDialog'
 import Button from './Button'
 //import { Creatable } from 'react-select'
 import Select from 'react-select'
+import {Link} from 'react-router-dom'
 
 import { connect } from 'react-redux'
 
@@ -58,6 +59,14 @@ function TagDialog ({
                 options={colourOptions}
               />
 
+              <p className="text-sm leading-5 text-gray-500">
+                { I18n.t('settings.tags.modal.hint') } {' '}
+                <Link to={`/apps/${app.key}/settings`} 
+                  className="no-underline hover:underline text-green-500">
+                  { I18n.t('settings.tags.modal.link') }
+                </Link>
+              </p>
+
             </form>
           }
           dialogButtons={
@@ -66,11 +75,11 @@ function TagDialog ({
                 className="ml-2"
                 onClick={ () => saveHandler(selectedTags.map((o) => o.value)) }
                 variant="success">
-                Save
+                {I18n.t('common.save')}
               </Button>
               <Button onClick={close}
                 variant="outlined">
-                Cancel
+                {I18n.t('common.cancel')}
               </Button>
             </React.Fragment>
           }

@@ -378,6 +378,8 @@
         title: Etiquetas
         modal:
           title: Crear una etiqueta de app
+          hint: ¿ Buscas crear mas etiquetas ? Mira en 
+          link: configuración de applicación
         inputs:
           name: Nombre de etiqueta
           color: Color de etiqueta
