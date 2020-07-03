@@ -23,7 +23,6 @@ import {
 
 import { ARTICLE, AGENTS, ARTICLE_COLLECTIONS } from "../../graphql/queries";
 
-//import SuggestSelect from '../../components/forms/suggestSelect'
 
 import { AnchorLink } from "../../shared/RouterLink";
 import { GestureIcon, CheckCircle } from "../../components/icons";

@@ -273,8 +273,11 @@ const WrappedComponent = React.forwardRef(function Input (
     return (
       <ColorPicker
         color={value}
+        name={name}
+        label={label}
+        placeholder={props.placeholder}
         colorHandler={props.onChange}
-        label={'Primary color'}
+        //label={'Primary color'}
         error={error}
       />
     )

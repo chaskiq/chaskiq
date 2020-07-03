@@ -274,7 +274,9 @@ function Conversations ({
           }
 
           {app_user && app_user.id ? (
-            <UserData data={conversation.mainParticipant} />
+            <UserData
+              data={conversation.mainParticipant}
+            />
           ) : (
             <Progress />
           )}

@@ -250,6 +250,7 @@
         inbound_settings: Configuraciones entrantes
         messenger_style: Estilo mensajero
         user_data: Datos del usuario
+        tags: Etiquetas
       integrations:
         title: Integraciones con APIs de terceros
         create_success: Integración creada
@@ -373,6 +374,16 @@
           title: "¿Eliminar webhook?"
           text: El webhook con el servicio %{name} se deshabilitará de inmediato.
     
+      tags:
+        title: Etiquetas
+        modal:
+          title: Crear una etiqueta de app
+          hint: ¿ Buscas crear mas etiquetas ? Mira en 
+          link: configuración de applicación
+        inputs:
+          name: Nombre de etiqueta
+          color: Color de etiqueta
+
       user_data:
         title: Atributo personalizado
         default_field: Atributos por defecto

@@ -37,6 +37,7 @@ export const APP = `
       domainUrl
       outgoingEmailDomain
       customFields
+      tagList
       segments {
         name
         id
@@ -203,18 +204,19 @@ export const SEGMENT = `
 
 
 export const CONVERSATIONS = `
-  query App($appKey: String!, $page: Int!, $sort: String, $filter: String, $agentId: Int){
+  query App($appKey: String!, $page: Int!, $sort: String, $filter: String, $agentId: Int, $tag: String){
     app(key: $appKey) {
       encryptionKey
       key
       name
-      conversations(page: $page, sort: $sort, filter: $filter, agentId: $agentId){
+      conversations(page: $page, sort: $sort, filter: $filter, agentId: $agentId, tag: $tag){
         collection{
           id
           key
           state
           readAt
           priority
+          tagList
           assignee {
             displayName
             email
@@ -267,6 +269,7 @@ export const CONVERSATIONS_COUNTS = `
   query App($appKey: String!){
     app(key: $appKey) {
       conversationsCounts
+      conversationsTagCounts
       agents{
         id
         avatarUrl
@@ -289,6 +292,7 @@ export const CONVERSATION=`
         state
         readAt
         priority
+        tagList
         assignee {
           id
           email
@@ -358,6 +362,7 @@ export const CONVERSATION_WITH_LAST_MESSAGE=`
         readAt
         priority
         createdAt
+        tagList
         lastMessage{
           createdAt
           source

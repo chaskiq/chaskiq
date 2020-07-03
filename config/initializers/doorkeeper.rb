@@ -38,7 +38,7 @@ Doorkeeper.configure do
 
   allow_blank_redirect_uri true
 
-  access_token_expires_in 4.hours
+  access_token_expires_in 12.hours
 
   enable_application_owner :confirmation => false
 

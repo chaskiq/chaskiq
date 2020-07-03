@@ -267,7 +267,7 @@ function Integrations ({ app, dispatch }) {
           } integration`}
           formComponent={
             <form ref={form}>
-              <div container spacing={3}>
+              <div>
                 {open.definitions.map((field) => {
                   return (
                     <div
@@ -293,23 +293,33 @@ function Integrations ({ app, dispatch }) {
               </div>
 
               {open.id && (
-                <div container direction={'column'}>
+                <div>
 
                   {
                     open.oauthAuthorize && <div className="mb-4">
 
                       <p variant="overline">
-                          Authorize App
+                        Authorize App
                       </p>
 
-                      <Button onClick={() => window.location = open.oauthAuthorize}
-                        variant="outlined">
+                      <a href={open.oauthAuthorize}
+                      className="p-2 outline-none
+                      inline-flex
+                      items-center
+                      border
+                      border-color-gray-500
+                      rounded-md text-gray-500
+                      focus:outline-none
+                      border-1
+                      focus:shadow-outline-indigo
+                      focus:border-indigo-700
+                      active:bg-indigo-700">
                         <Avatar size={10}
                           classes={'mr-4'}
                           src={logos[open.name.toLocaleLowerCase()]}
                         />
-                          Install {open.name}
-                      </Button>
+                        Install {open.name}
+                      </a>
                     </div>
                   }
 

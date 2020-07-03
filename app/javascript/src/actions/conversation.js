@@ -10,10 +10,9 @@ import {
   INSERT_NOTE,
   UPDATE_CONVERSATION_STATE,
   TOGGLE_CONVERSATION_PRIORITY,
-  TYPING_NOTIFIER
+  TYPING_NOTIFIER,
+  UPDATE_CONVERSATION_TAG_LIST
 } from '../graphql/mutations'
-
-import { camelCase } from 'lodash'
 
 const pling = new Audio('/sounds/pling.mp3')
 
@@ -67,6 +66,43 @@ export function getConversation (options, cb) {
           // console.log('newConversation', newConversation, nextPage)
           dispatch(dispatchGetConversations(newConversation))
 
+          if (cb) cb()
+        },
+        error: (error) => {}
+      }
+    )
+  }
+}
+
+export function updateConversationTagList (options, cb) {
+  return (dispatch, getState) => {
+    graphql(
+      UPDATE_CONVERSATION_TAG_LIST,
+      {
+        appKey: getState().app.key,
+        conversationId: options.id,
+        tagList: options.tagList
+      },
+      {
+        success: (data) => {
+          const tags = data.updateConversationTags.conversation.tagList
+          //updateTags(tags)
+
+          dispatch(
+            dispatchUpdateConversations(
+              {
+                ...getState().conversation,
+                tagList: tags
+              }
+            )
+          )
+
+          dispatch(
+            dispatchUpdateListItemTagList({
+              id: options.id,
+              tagList: tags
+            })
+          )
           if (cb) cb()
         },
         error: (error) => {}
@@ -226,6 +262,17 @@ export function setLoading (val) {
   }
 }
 
+export function updateTags (val) {
+  return (dispatch, getState) => {
+    dispatch(dispatchUpdateConversations(
+      {
+        ...getState().conversation,
+        tagList: val
+      }
+    ))
+  }
+}
+
 export function toggleConversationPriority (key, cb) {
   return (dispatch, getState) => {}
 }
@@ -306,6 +353,13 @@ export function assignAgent (id, cb) {
         error: (error) => {}
       }
     )
+  }
+}
+
+function dispatchUpdateListItemTagList (data) {
+  return {
+    type: ActionTypes.UpdateConversationItem,
+    data: data
   }
 }
 
