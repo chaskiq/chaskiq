@@ -14,6 +14,8 @@ import {
   UPDATE_CONVERSATION_TAG_LIST
 } from '../graphql/mutations'
 
+import { camelCase } from 'lodash'
+
 const pling = new Audio('/sounds/pling.mp3')
 
 export const camelizeKeys = (obj) => {
@@ -86,7 +88,7 @@ export function updateConversationTagList (options, cb) {
       {
         success: (data) => {
           const tags = data.updateConversationTags.conversation.tagList
-          //updateTags(tags)
+          // updateTags(tags)
 
           dispatch(
             dispatchUpdateConversations(
