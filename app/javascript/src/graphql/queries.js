@@ -304,6 +304,7 @@ export const CONVERSATION=`
           avatarUrl
           properties
           displayName
+          kind
         }
         
         messages(page: $page){
@@ -444,6 +445,7 @@ query AppUser($appKey: String!, $id: Int! ) {
       displayName
       name
       properties
+      type
       externalProfiles {
         id
         provider

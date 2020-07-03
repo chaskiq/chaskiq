@@ -17,7 +17,7 @@
       submit: Enviar
       confirm_deletion: "¿Confirmar Eliminación?"
       tz_hint: La zona horaria de tu navegador es <b className="text-bold">%{timezone}</b>
-
+      send: Enviar
 
       next: Siguente
       prev: Anterior
@@ -117,6 +117,15 @@
         seen: Visto
         not_seen: No visto
         note: Nota
+      editor:
+        panels:
+          bot:
+            title: Iniciar un flujo de chat
+            confirm: Confirmar el trigger de %{title} 
+            confirm_msg: Este flujo de chat será enviado a esta conversación, si el visitante salió del chat se creará una nueva conversación
+            empty: No hay tareas de bot disponibles
+            choose_another: Elige otra tarea
+
     assignment_rules:
       title: Reglas de asignación
       create_button: Crear regla
