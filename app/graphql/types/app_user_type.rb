@@ -23,6 +23,7 @@ module Types
     field  :os_version, String, null: true
     field  :browser_language, String, null: true
     field  :lang, String, null: true
+    field :type, String, null: true
 
     field :display_name, String, null: true
     field :full_name, String, null: true
@@ -36,6 +37,12 @@ module Types
     field :properties, Types::JsonType, null: true
 
     field :external_profiles, [Types::ExternalProfileType], null: true 
+    
+    field :kind, String, null: false
+
+    def kind
+      object.class.model_name.singular
+    end
 
     def state
       object.subscription_state

@@ -14,7 +14,7 @@ module Mutations
         find_app(app_key)
         @conversation = conversation(conversation_id)
         user = @conversation.main_participant
-        key = "#{app.key}-#{user.session_id}"
+        key = "#{@app.key}-#{user.session_id}"
         bot_task = @app.bot_tasks.find(trigger_id)
 
         # TODO: move this method to conversation model?

@@ -281,7 +281,7 @@ export default class ChatEditor extends Component {
     this.setState({ openPackagePanel: true });
   };
 
-  handleAppFunc = () => {
+  handleBotFunc = () => {
     this.setState({ openTriggersPanel: true });
   };
 
@@ -314,7 +314,7 @@ export default class ChatEditor extends Component {
             <TriggersPanel
               open={this.state.openTriggersPanel}
               close={() => {
-                this.setState({ openPackagePanel: false });
+                this.setState({ openTriggersPanel: false });
               }}
               insertComment={(data) => {
                 this.props.insertAppBlockComment(data, ()=>{
@@ -353,7 +353,7 @@ export default class ChatEditor extends Component {
                     handleFunc: this.handleAppFunc,
                   }),
                   OnDemandTriggersBlockConfig({
-                    handleFunc: this.handleAppFunc,
+                    handleFunc: this.handleBotFunc,
                   }),
                 ]}
                 data={{
