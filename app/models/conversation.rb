@@ -14,7 +14,8 @@ class Conversation < ApplicationRecord
   has_many :conversation_part_channel_sources, through: :messages
   has_one :latest_message,  -> { order('id desc') }, class_name: 'ConversationPart'
 
-  #TODO : remove this logic
+  acts_as_taggable_on :tags
+
   accepts_nested_attributes_for :conversation_channels
 
   after_create :convert_visitor_to_lead, if: :visitor_participant?

@@ -32,4 +32,8 @@
       articles:
         title: Plataforma Chaskiq HelpCenter
         description: Aquí puedes gestionar los artículos de Chaskiq
-  
+
+      tags:
+        title: Administrar etiquetas de applicación
+        description: Las etiquetas de applicación proporcionan una forma de personalizar
+          los datos para el filtrado de segmentos y la organización de usuarios y conversaciones

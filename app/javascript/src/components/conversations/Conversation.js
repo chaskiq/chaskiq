@@ -25,8 +25,11 @@ import {
   updateConversationState,
   updateConversationPriority,
   assignAgent,
-  setLoading
+  setLoading,
+  updateConversationTagList
 } from '../../actions/conversation'
+
+import { successMessage } from '../../actions/status_messages'
 
 import { AGENTS } from '../../graphql/queries'
 
@@ -36,6 +39,7 @@ import {
   LeftArrow,
   CallEnd,
   Call,
+  LabelIcon
 } from '../icons'
 
 import { getAppUser } from '../../actions/app_user'
@@ -49,6 +53,7 @@ import DraftRenderer from '../textEditor/draftRenderer'
 import styled from '@emotion/styled'
 import { setCurrentPage, setCurrentSection } from '../../actions/navigation'
 import RtcDisplayWrapper, { ModalWrapper } from '../../../client_messenger/rtcView' // './RtcWrapper'
+import TagDialog from '../TagDialog'
 
 const EditorContainerMessageBubble = styled(EditorContainer)`
   //display: flex;
@@ -97,6 +102,7 @@ function Conversation ({
   const [rtcVideo, setRtcVideo] = React.useState(true)
   const [expand, setExpand] = React.useState(false)
   const [videoSession, setVideoSession] = React.useState(false)
+  const [openTagManager, setOpenTagManager] = React.useState(false)
   const appId = app.key
 
   React.useEffect(() => {
@@ -308,11 +314,11 @@ function Conversation ({
             <span className={textClass}>
               {' - '}
               {message.readAt ? (
-                <span>{I18n.t("conversation.messages.seen")}</span>
+                <span>{I18n.t('conversation.messages.seen')}</span>
               ) : message.privateNote ? (
-                I18n.t("conversation.messages.note")
+                I18n.t('conversation.messages.note')
               ) : (
-                <span>{I18n.t("conversation.messages.not_seen")}</span>
+                <span>{I18n.t('conversation.messages.not_seen')}</span>
               )}
             </span>
           </span>
@@ -476,8 +482,8 @@ function Conversation ({
               <span>
                 {' - '}
                 {
-                  message.readAt ? <span>{I18n.t("conversation.messages.seen")}</span>
-                    : <span>{I18n.t("conversation.messages.not_seen")}</span>
+                  message.readAt ? <span>{I18n.t('conversation.messages.seen')}</span>
+                    : <span>{I18n.t('conversation.messages.not_seen')}</span>
                 }
               </span>
             </span>
@@ -518,8 +524,8 @@ function Conversation ({
               <span>
                 {' - '}
                 {
-                  message.readAt ? <span>{I18n.t("conversation.messages.seen")}</span>
-                    : <span>{I18n.t("conversation.messages.not_seen")}</span>
+                  message.readAt ? <span>{I18n.t('conversation.messages.seen')}</span>
+                    : <span>{I18n.t('conversation.messages.not_seen')}</span>
                 }
               </span>
             </span>
@@ -537,6 +543,16 @@ function Conversation ({
     dispatch(toggleDrawer({ userDrawer: !drawer.userDrawer }))
   }
 
+  const updateTags = (tags) => {
+    dispatch(updateConversationTagList({
+      id: conversation.id,
+      tagList: tags,
+      appKey: app.key
+    }, () => {
+      dispatch(successMessage('tags updated'))
+      setOpenTagManager(false)
+    }))
+  }
 
   return (
     <BgContainer className="flex-1 flex flex-col overflow-hidden-- h-screen">
@@ -584,7 +600,7 @@ function Conversation ({
                 updateConversationStateDispatch(option)
               }}
               aria-label={I18n.t(`conversation.actions.${conversation.state === 'closed' ? 'reopen' : 'close'}`)}
-              className="mr-1 rounded-full bg-white hover:bg-gray-100 text-gray-800 font-semibold border border-gray-400 rounded shadow"
+              className="focus:outline-none outline-none mr-1 rounded-full bg-white hover:bg-gray-100 text-gray-800 font-semibold border border-gray-400 rounded shadow"
             >
               <CheckmarkIcon variant="rounded" />
             </button>
@@ -592,12 +608,12 @@ function Conversation ({
 
           <Tooltip
             placement="bottom"
-            overlay={ 
+            overlay={
               I18n.t(`conversation.actions.${videoSession ? 'end_call' : 'start_call'}`)
             }
           >
             <button
-              className="mr-1 rounded-full bg-white hover:bg-gray-100 text-gray-800 font-semibold border border-gray-400 rounded shadow"
+              className="focus:outline-none outline-none mr-1 rounded-full bg-white hover:bg-gray-100 text-gray-800 font-semibold border border-gray-400 rounded shadow"
               onClick={() => setVideoSession(!videoSession)}>
               { videoSession ? <CallEnd variant="rounded"/> : <Call variant="rounded"/> }
             </button>
@@ -651,29 +667,57 @@ function Conversation ({
               aria-label={
                 I18n.t(`conversation.actions.${!conversation.priority ? 'priorize' : 'remove_priority'}`)
               }
-              className="mr-1 rounded-full bg-white hover:bg-gray-100 text-gray-800 font-semibold border border-gray-400 rounded shadow"
+              className="focus:outline-none outline-none mr-1 rounded-full bg-white hover:bg-gray-100 text-gray-800 font-semibold border border-gray-400 rounded shadow"
             >
               <PinIcon variant="rounded" />
             </button>
           </Tooltip>
 
+          <Tooltip
+            placement="bottom"
+            overlay={
+              'tag conversation'
+            }
+          >
+            <button
+              onClick={() => setOpenTagManager(true)}
+              aria-label={
+                'tag conversation'
+              }
+              className="focus:outline-none outline-none mr-1 rounded-full bg-white hover:bg-gray-100 text-gray-800 font-semibold border border-gray-400 rounded shadow"
+            >
+              <LabelIcon variant="rounded" />
+            </button>
+          </Tooltip>
+
+          {
+            openTagManager &&
+                <TagDialog
+                  title={'manage conversation tags'}
+                  tags={conversation.tagList}
+                  saveHandler={(tags) => updateTags(tags)}
+                  closeHandler={() => setOpenTagManager(false)}>
+
+                </TagDialog>
+          }
+
           <FilterMenu
-            options={agents.map(o => ( { 
-              key: o.email, 
+            options={agents.map(o => ({
+              key: o.email,
               name: o.name || o.email,
               id: o.id
-            } ))}
+            }))}
             value={conversation.assignee ? conversation.assignee.email : ''}
             filterHandler={(data) => setAgent(data.id)}
             position={'right'}
             origin={'top-50'}
             triggerButton={(cb) => {
               return (
-                <Tooltip placement="bottom" 
+                <Tooltip placement="bottom"
                   overlay={
-                    I18n.t(`conversation.actions.assign_agent`)
+                    I18n.t('conversation.actions.assign_agent')
                   }
-                  >
+                >
                   <div onClick={cb}
                     className="flex-shrink-0 h-10 w-10 mr-1 rounded-full bg-white hover:bg-gray-100
                     text-gray-800 font-semibold border border-gray-400

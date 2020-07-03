@@ -34,6 +34,11 @@ module Types
     field :enable_articles_on_widget, Boolean, null: true
     field :inline_new_conversations, Boolean, null: true
     field :editor_app_packages, [Types::AppPackageType], null: true
+    field :tag_list, [Types::JsonType], null: true
+
+    def tag_list
+      object.tag_list || []
+    end
 
     field :event_types, [Types::JsonType], null: true
     field :outgoing_webhooks, [Types::JsonType], null: true
@@ -109,19 +114,22 @@ module Types
       argument :sort, String, required: false
       argument :filter, String, required: false
       argument :agent_id, Integer, required: false
+      argument :tag, String, required: false
     end
 
-    def conversations(per:, page:, filter:, sort:, agent_id: nil)
+    def conversations(per:, page:, filter:, sort:, agent_id: nil, tag: nil)
       @collection = object.conversations
                           .left_joins(:messages)
                           .where.not(conversation_parts: { id: nil })
                           .distinct
 
       @collection = @collection.where(state: filter) if filter.present?
+      
       if agent_id.present?
         agent = agent_id.zero? ? nil : agent_id
         @collection = @collection.where(assignee_id: agent) 
       end
+
       @collection = @collection.page(page).per(per)
 
       if sort.present?
@@ -141,6 +149,8 @@ module Types
         @collection = @collection.order(s)
       end
 
+      @collection = @collection.tagged_with(tag) if tag.present?
+
       @collection
     end
 
@@ -151,6 +161,14 @@ module Types
       result.merge({
         all: object.conversations.size
       })
+    end
+
+    field :conversations_tag_counts, Types::JsonType, null: true
+
+    def conversations_tag_counts
+      object.conversations.tag_counts.map{|o| 
+        { tag: o.name, count: o.taggings_count } 
+      }
     end
 
     field :in_business_hours, Boolean, null: true

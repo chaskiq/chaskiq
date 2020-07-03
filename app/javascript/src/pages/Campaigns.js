@@ -799,7 +799,7 @@ class CampaignContainer extends Component {
 
   renderActions = () => {
     return (
-      <div container justify={"flex-end"}>
+      <div>
         <Button
           variant={"contained"}
           color={"primary"}

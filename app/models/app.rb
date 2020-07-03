@@ -23,6 +23,7 @@ class App < ApplicationRecord
     custom_fields
     enable_articles_on_widget
     inline_new_conversations
+    tag_list
   ], coder: JSON
 
   translates :greetings, :intro, :tagline
