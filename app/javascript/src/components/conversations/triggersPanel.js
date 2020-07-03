@@ -5,9 +5,14 @@ import Input from '../../components/forms/Input'
 import { withRouter } from 'react-router-dom'
 import { connect } from 'react-redux'
 import graphql from '../../graphql/client'
-import { EDITOR_APP_PACKAGES } from '../../graphql/queries'
+import { BOT_TASKS } from '../../graphql/queries'
 
-function AppPackagePanel (props) {
+// TODO:
+
+// check mode, conversations for users get user bot 
+// tasks while visitors got lead bot tasks
+
+function TriggersPanel (props) {
   const [open, setOpen] = React.useState(props.open)
   const [provider, setProvider] = React.useState(null)
   const [providers, setProviders] = React.useState([])
@@ -15,13 +20,15 @@ function AppPackagePanel (props) {
 
   function getAppPackages () {
     graphql(
-      EDITOR_APP_PACKAGES,
+      BOT_TASKS,
       {
-        appKey: props.app.key
+        appKey: props.app.key,
+        lang: 'es',
+        mode: 'users'
       },
       {
         success: (data) => {
-          setProviders(data.app.editorAppPackages)
+          setProviders(data.app.botTasks)
         },
         error: () => {
           debugger
@@ -52,33 +59,11 @@ function AppPackagePanel (props) {
   }
 
   function renderItem (o) {
-    const { requires } = o.editorDefinitions
     return (
-      <div mt={2}>
-        <p variant="h3">{o.name}</p>
-
-        {requires.map((r) => renderRequirement(r))}
+      <div>
+        <p variant="h3">{o.title}</p>
       </div>
     )
-  }
-
-  function renderRequirement (item) {
-    switch (item.type) {
-      case 'input':
-        return (
-          <Input
-            type={'text'}
-            label={item.name}
-            value={values[item.name]}
-            onChange={handleChange(item.name)}
-            placeholder={item.placeholder}
-            helperText={item.hint}
-            margin="normal"
-          />
-        )
-      default:
-        return <p>no input</p>
-    }
   }
 
   function handleClick (o) {
@@ -100,27 +85,26 @@ function AppPackagePanel (props) {
     <FormDialog
       open={open}
       handleClose={handleClose}
-      titleContent={'Send App Package'}
+      titleContent={'Start a Bot Task'}
       formComponent={
         <div>
           {
             providers.map((o) => {
               return <div
-                key={`app-package-${o.name}`} className="m-1">
+                key={`triggerable-${o.id}`}
+                className="m-1">
                 <Button
                   variant={'outlined'}
-                  key={ `${o.name}-tab` }
+                  key={ `${o.id}-tab` }
                   onClick={() => handleClick(o)}>
-                  <img className="mr-2"
-                    src={o.icon}
-                    width={20}
-                    height={20}
-                  />
-                  {' '}
-                  {o.name}
+                  {o.title}
                 </Button>
               </div>
             })
+          }
+
+          {
+            providers.length === 0 && <p>no tasks available</p>
           }
 
           {
@@ -153,4 +137,4 @@ function mapStateToProps (state) {
   }
 }
 
-export default withRouter(connect(mapStateToProps)(AppPackagePanel))
+export default withRouter(connect(mapStateToProps)(TriggersPanel))
