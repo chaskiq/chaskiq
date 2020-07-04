@@ -119,7 +119,11 @@ function TriggersPanel (props) {
       titleContent={I18n.t('conversation.editor.panels.bot.title')}
       formComponent={
         <div>
-          {!botTask && <div className="mt-2 bg-white shadow overflow-hidden sm:rounded-md">
+          {!botTask && <div
+            style={
+              {maxHeight: '16rem' }
+            }
+            className="mt-2 bg-white shadow overflow-hidden sm:rounded-md overflow-y-auto">
             <ul>
               {
                 botTasks.map((o) => {
