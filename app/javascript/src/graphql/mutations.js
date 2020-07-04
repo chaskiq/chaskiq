@@ -333,6 +333,20 @@ export const INSERT_APP_BLOCK_COMMMENT = `
   }
 `;
 
+export const SEND_TRIGGER = `
+  mutation SendTrigger($appKey: String!, $conversationId: Int!, $triggerId: Int!){
+    sendTrigger(appKey: $appKey, conversationId: $conversationId, triggerId: $triggerId){
+      conversation{
+        id
+        key
+        state 
+        readAt
+        priority
+      }
+    }
+  }
+`;
+
 export const INSERT_NOTE = `
   mutation InsertNote($appKey: String!, $id: Int!, $message: Json!){
     insertNote(appKey: $appKey, id: $id, message: $message){

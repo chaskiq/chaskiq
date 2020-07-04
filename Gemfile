@@ -87,7 +87,7 @@ gem 'roadie'
 gem 'roadie-rails'
 gem 'urlcrypt'
 
-gem 'aws-sdk-s3', '~> 1.15'
+gem 'aws-sdk-s3', "~> 1.48"
 gem 'aws-ses'
 gem 'mini_magick', '~> 4.8'
 
