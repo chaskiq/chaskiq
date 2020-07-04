@@ -41,8 +41,13 @@ import styled from "@emotion/styled";
 import { 
   AppPackageBlockConfig 
 } from "../textEditor/blocks/appPackage";
-import AppPackagePanel from "./appPackagePanel";
 
+import {
+  OnDemandTriggersBlockConfig
+} from "../textEditor/blocks/onDemandTriggers";
+
+import AppPackagePanel from "./appPackagePanel";
+import TriggersPanel from "./triggersPanel";
 import { SendIcon } from "../icons";
 
 const config = {
@@ -136,6 +141,7 @@ export default class ChatEditor extends Component {
       html: null,
       statusButton: "inprogress",
       openPackagePanel: false,
+      openTriggersPanel: false,
       disabled: true,
       openGiphy: false,
       read_only: false,
@@ -275,6 +281,10 @@ export default class ChatEditor extends Component {
     this.setState({ openPackagePanel: true });
   };
 
+  handleBotFunc = () => {
+    this.setState({ openTriggersPanel: true });
+  };
+
   render() {
     const serializedContent = this.state.serialized
       ? this.state.serialized
@@ -293,6 +303,23 @@ export default class ChatEditor extends Component {
                 this.props.insertAppBlockComment(data, ()=>{
                   this.setState({
                     openPackagePanel: false,
+                  });
+                });
+              }}
+            />
+          )}
+
+
+          {this.state.openTriggersPanel && (
+            <TriggersPanel
+              open={this.state.openTriggersPanel}
+              close={() => {
+                this.setState({ openTriggersPanel: false });
+              }}
+              insertComment={(data) => {
+                this.props.insertAppBlockComment(data, ()=>{
+                  this.setState({
+                    openTriggersPanel: false,
                   });
                 });
               }}
@@ -324,6 +351,9 @@ export default class ChatEditor extends Component {
                 appendWidgets={[
                   AppPackageBlockConfig({
                     handleFunc: this.handleAppFunc,
+                  }),
+                  OnDemandTriggersBlockConfig({
+                    handleFunc: this.handleBotFunc,
                   }),
                 ]}
                 data={{

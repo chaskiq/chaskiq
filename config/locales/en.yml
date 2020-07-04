@@ -23,7 +23,7 @@ en:
     of: of
     results: resultados
     tz_hint: Your browser timezone is <b className="text-bold">%{timezone}</b>
-
+    send: Send
     langs:
       en: English
       es: Spanish
@@ -123,6 +123,16 @@ en:
       seen: Seen
       not_seen: Not seen
       note: Note
+
+    editor:
+      panels:
+        bot:
+          title: Start a Bot Task
+          confirm: Confirm %{title} trigger 
+          confirm_msg: This bot task will be delivered on user's current conversation or in a new one if the user left the chat.
+          empty: no bots available
+          choose_another: Choose another
+
   assignment_rules:
     title: Assignment Rules
     create_button: Create Rule
