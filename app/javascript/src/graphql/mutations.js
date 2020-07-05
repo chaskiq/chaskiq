@@ -783,6 +783,43 @@ export const WEBHOOK_UPDATE = `
   }
 `;
 
+export const QUICK_REPLY_CREATE = `
+  mutation QuickReplyCreate($appKey: String!, $title: String!, $content: String!, $lang: String){
+    createQuickReply(appKey: $appKey, title: $title, content: $content, lang: $lang){
+      quickReply {
+        id
+        title
+        content
+      }
+      errors
+    }
+  }
+`;
+
+export const QUICK_REPLY_UPDATE = `
+  mutation QuickReplyUpdate($appKey: String!, $title: String!, $content: String!, $id: Int!, $lang: String ){
+    updateQuickReply(appKey: $appKey, title: $title, content: $content, id: $id, lang: $lang ){
+      quickReply {
+        id
+        title
+        content
+      }
+      errors
+    }
+  }
+`;
+
+export const QUICK_REPLY_DELETE = `
+  mutation QuickReplyDelete($appKey: String!, $id: Int! ){
+    deleteQuickReply(appKey: $appKey, id: $id){
+      quickReply {
+        id
+      }
+      errors
+    }
+  }
+`;
+
 export const INVITE_AGENT = `
   mutation InviteAgent($appKey: String!, $email: String!){
     inviteAgent(appKey: $appKey, email: $email){

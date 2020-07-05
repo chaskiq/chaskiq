@@ -51,7 +51,7 @@ export default function LanguageForm ({ settings, update, namespace, fields }) {
             //! loading ?
             <form onSubmit={() => false}>
               <Input
-                label={I18n.t('definitions.settings.language.select_lang')}
+                label={I18n.t('definitions.settings.languages.select_lang')}
                 type={'select'}
                 value={selectedLang}
                 // defaultValue={{label: item.to, value: item.to}}

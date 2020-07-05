@@ -228,7 +228,19 @@
         hint: Borraremos cualquier contenido y datos relacionados
       create:
         title: Crear tarea Bot
+
+
+    quick_replies:
+      title: Respuestas Rápidas
+      empty:
+        title: No hay respuestas rápidas creadas aun
+        create_new: Crea una nueva
+
+      delete:
+        title: Borrar la respuesta %{name}
+        hint: Vamos a borrar todo el contenido asociado, pero las conversaciones en curso mantendrán el contenido de las respuestas que ya enviaste
   
+    
     new_app:
       title: Crea la aplicación Chaskiq de tu empresa
       text: Proporcione información básica para configurar Chaskiq para su equipo y
@@ -260,6 +272,8 @@
         messenger_style: Estilo mensajero
         user_data: Datos del usuario
         tags: Etiquetas
+        quick_replies: Respuestas rápidas
+
       integrations:
         title: Integraciones con APIs de terceros
         create_success: Integración creada
