@@ -132,6 +132,12 @@ en:
           confirm_msg: This bot task will be delivered on user's current conversation or in a new one if the user left the chat.
           empty: no bots available
           choose_another: Choose another
+        quick_reply:
+          title: Send a quick reply
+          confirm: Confirm send %{title} ? 
+          confirm_msg: This quick reply will be delivered on user's current conversation.
+          empty: no quick replies available
+          choose_another: Choose another
 
   assignment_rules:
     title: Assignment Rules
@@ -236,9 +242,6 @@ en:
       hint: we will destroy any content and related data
     create:
       title: Create Bot task
-
-
-
 
   quick_replies:
     title: Quick Replies
