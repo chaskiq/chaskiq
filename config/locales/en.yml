@@ -192,7 +192,7 @@ en:
       reply:
         op1: Welcome back!
         op2: ok, let us know if you need something and an agent will reply as soon as possible
-  
+
     settings:
       leads: 
         tab: For Leads
@@ -237,6 +237,19 @@ en:
     create:
       title: Create Bot task
 
+
+
+
+  quick_replies:
+    title: Quick Replies
+    empty:
+      title: No quick replies
+      create_new: Create new
+    delete:
+      title: Delete quick reply %{name}
+      hint: we will destroy any content and related data, conversations will keep content though
+
+
   new_app:
     title: "Create your company’s Chaskiq app"
     text: Provide basic information to setup Chaskiq for your team and customers.
@@ -270,6 +283,8 @@ en:
       messenger_style: Messenger Style
       user_data: User data
       tags: Tags
+      quick_replies: Quick Replies
+
 
     integrations:
       title: Third party integrations

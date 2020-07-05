@@ -627,6 +627,30 @@ export const ASSIGNMENT_RULES = `
   }
 `;
 
+export const QUICK_REPLIES = `
+  query App($appKey: String!, $lang: String){
+    app(key: $appKey) {
+      quickReplies(lang: $lang){
+        id
+        title
+        content
+      }
+    }
+  }
+`;
+
+export const QUICK_REPLY = `
+  query App($appKey: String!, $id: Int!, $lang: String){
+    app(key: $appKey) {
+      quickReply(id: $id, lang: $lang){
+        id
+        title
+        content
+      }
+    }
+  }
+`;
+
 export const ARTICLE_SETTINGS = `
   query App($appKey: String!){
     app(key: $appKey) {

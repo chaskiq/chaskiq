@@ -41,6 +41,8 @@ class App < ApplicationRecord
   has_many :bot_tasks
   has_many :visits, through: :app_users
 
+  has_many :quick_replies
+
   has_many :app_package_integrations
   has_many :app_packages, through: :app_package_integrations
 

@@ -48,6 +48,10 @@ en:
       description: Tags attributes provides a way to customize data for segment filtering and organize conversations
       # link: {href: '/', text: 'Learn how segments work on Chaskiq'}
 
+    quick_replies:
+      title: Manage quick replies
+      description: Quick replies provides a way to organize common anwsers for your bussiness
+      # link: {href: '/', text: 'Learn how segments work on Chaskiq'}
 
     articles:
       title: Chaskiq HelpCenter platform

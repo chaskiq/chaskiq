@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_06_27_085440) do
+ActiveRecord::Schema.define(version: 2020_07_04_220911) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -589,6 +589,28 @@ ActiveRecord::Schema.define(version: 2020_06_27_085440) do
     t.index ["status_id"], name: "index_preview_cards_on_status_id", unique: true
   end
 
+  create_table "quick_replies", force: :cascade do |t|
+    t.string "title"
+    t.text "content"
+    t.bigint "app_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["app_id"], name: "index_quick_replies_on_app_id"
+  end
+
+  create_table "quick_replies_translations", force: :cascade do |t|
+  end
+
+  create_table "quick_reply_translations", force: :cascade do |t|
+    t.bigint "quick_reply_id", null: false
+    t.string "locale", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.text "content"
+    t.index ["locale"], name: "index_quick_reply_translations_on_locale"
+    t.index ["quick_reply_id"], name: "index_quick_reply_translations_on_quick_reply_id"
+  end
+
   create_table "roles", force: :cascade do |t|
     t.bigint "app_id"
     t.bigint "agent_id"
@@ -674,6 +696,7 @@ ActiveRecord::Schema.define(version: 2020_06_27_085440) do
   add_foreign_key "oauth_access_tokens", "agents", column: "resource_owner_id"
   add_foreign_key "oauth_access_tokens", "oauth_applications", column: "application_id"
   add_foreign_key "outgoing_webhooks", "apps"
+  add_foreign_key "quick_replies", "apps"
   add_foreign_key "roles", "agents"
   add_foreign_key "roles", "apps"
   add_foreign_key "taggings", "tags"
