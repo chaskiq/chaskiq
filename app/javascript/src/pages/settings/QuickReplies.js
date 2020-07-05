@@ -17,7 +17,8 @@ import {
 import {
   QUICK_REPLY_CREATE,
   QUICK_REPLY_UPDATE,
-  QUICK_REPLY_DELETE
+  QUICK_REPLY_DELETE,
+  CREATE_DIRECT_UPLOAD,
 } from '../../graphql/mutations'
 
 import CircularProgress from "../../components/Progress";
@@ -168,27 +169,12 @@ function CustomizationColors ({ app, update, dispatch }) {
 
   function isSelected(o){
     if(!quickReply) return ''
-    return o.id === quickReply.id ? 'bg-gray-100' : ''
+    return o.id === quickReply.id ? 'bg-blue-100' : ''
   }
 
-  /*uploadHandler = ({ serviceUrl, signedBlobId, imageBlock }) {
-    graphql(
-      ARTICLE_BLOB_ATTACH,
-      {
-        appKey: app.key,
-        id: parseInt(this.state.article.id),
-        blobId: signedBlobId,
-      },
-      {
-        success: (data) => {
-          imageBlock.uploadCompleted(serviceUrl);
-        },
-        error: (err) => {
-          console.log("error on direct upload", err);
-        },
-      }
-    );
-  };*/
+  function uploadHandler ({ serviceUrl, signedBlobId, imageBlock }) {
+    imageBlock.uploadCompleted(serviceUrl);
+  };
 
   function renderEditor({lang}){
     
@@ -211,7 +197,7 @@ function CustomizationColors ({ app, update, dispatch }) {
               }
               </div>
             </div> 
-            <div className="border p-4 border-blue-200 rounded bg-blue-100">         
+            <div className="border-2 p-4 border-blue-200 rounded">         
               {
                 !loading && <ArticleEditor
                   article={{
@@ -221,12 +207,14 @@ function CustomizationColors ({ app, update, dispatch }) {
                   app={app}
                   updateState={ (data)=> updateState(data, lang) }
                   loading={loading}
-                  //uploadHandler={this.uploadHandler}
+                  uploadHandler={uploadHandler}
                 />
               }
             </div>
           </div>
   }
+
+  
 
   function tabs () {
     return availableLanguages().map( (lang)=> (
@@ -271,15 +259,15 @@ function CustomizationColors ({ app, update, dispatch }) {
       { quickReplies && 
         <div className="flex">
         
-          <div className="w-1/3 bg-white shadow overflow-hidden sm:rounded-md">
+          <div className="w-1/3 bg-white shadow overflow-hidden rounded rounded-r-none">
             <ul>
 
               {
                 quickReplies.map((o)=>(
-                  <li className={`border-t border-gray-200 ${isSelected(o)}`}>
+                  <li className={`border-t hover:bg-gray-100 border-gray-200 ${isSelected(o)}`}>
                     <a href="#" 
                       onClick={ ()=> getQuickReply(o) } 
-                      className="block hover:bg-gray-50 focus:outline-none focus:bg-gray-50 transition duration-150 ease-in-out">
+                      className="block focus:outline-none transition duration-150 ease-in-out">
                       <div className="flex items-center px-4 py-4 sm:px-6">
                         <div className="min-w-0 flex-1 flex items-center">
                           
@@ -306,7 +294,7 @@ function CustomizationColors ({ app, update, dispatch }) {
             </ul>
           </div>
 
-          <div className="w-2/3 relative z-0 p-6 shadow bg-yellow rounded">
+          <div className="w-2/3 relative z-0 p-6 shadow bg-yellow rounded rounded-l-none">
             
             {
               quickReply && !quickReply.id && 
