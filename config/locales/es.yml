@@ -125,6 +125,12 @@
             confirm_msg: Este flujo de chat será enviado a esta conversación, si el visitante salió del chat se creará una nueva conversación
             empty: No hay tareas de bot disponibles
             choose_another: Elige otra tarea
+          quick_replies:
+            title: Send a quick reply
+            confirm: Confirm send %{title} ? 
+            confirm_msg: This quick reply will be delivered on user's current conversation.
+            empty: no quick replies available
+            choose_another: Choose another
 
     assignment_rules:
       title: Reglas de asignación

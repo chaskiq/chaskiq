@@ -46,8 +46,14 @@ import {
   OnDemandTriggersBlockConfig
 } from "../textEditor/blocks/onDemandTriggers";
 
+import {
+  QuickRepliesBlockConfig
+} from '../textEditor/blocks/quickReplies'
+
 import AppPackagePanel from "./appPackagePanel";
 import TriggersPanel from "./triggersPanel";
+import QuickReplyPanel from "./quickRepliesPanel";
+
 import { SendIcon } from "../icons";
 
 const config = {
@@ -142,6 +148,7 @@ export default class ChatEditor extends Component {
       statusButton: "inprogress",
       openPackagePanel: false,
       openTriggersPanel: false,
+      openQuickReplyPanel: false,
       disabled: true,
       openGiphy: false,
       read_only: false,
@@ -285,6 +292,10 @@ export default class ChatEditor extends Component {
     this.setState({ openTriggersPanel: true });
   };
 
+  handleQuickRepliesFunc = ()=>{
+    this.setState({ openQuickReplyPanel: true });
+  }
+
   render() {
     const serializedContent = this.state.serialized
       ? this.state.serialized
@@ -309,6 +320,21 @@ export default class ChatEditor extends Component {
             />
           )}
 
+          {this.state.openQuickReplyPanel && (
+            <QuickReplyPanel
+              open={this.state.openQuickReplyPanel}
+              close={() => {
+                this.setState({ openQuickReplyPanel: false });
+              }}
+              insertComment={(data) => {
+                this.props.insertAppBlockComment(data, ()=>{
+                  this.setState({
+                    openQuickReplyPanel: false,
+                  });
+                });
+              }}
+            />
+          )}
 
           {this.state.openTriggersPanel && (
             <TriggersPanel
@@ -354,6 +380,9 @@ export default class ChatEditor extends Component {
                   }),
                   OnDemandTriggersBlockConfig({
                     handleFunc: this.handleBotFunc,
+                  }),
+                  QuickRepliesBlockConfig({
+                    handleFunc: this.handleQuickRepliesFunc,
                   }),
                 ]}
                 data={{
