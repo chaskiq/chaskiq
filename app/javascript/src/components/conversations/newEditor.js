@@ -327,7 +327,7 @@ export default class ChatEditor extends Component {
                 this.setState({ openQuickReplyPanel: false });
               }}
               insertComment={(data) => {
-                this.props.insertAppBlockComment(data, ()=>{
+                this.props.insertComment(data, ()=>{
                   this.setState({
                     openQuickReplyPanel: false,
                   });
