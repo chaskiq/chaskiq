@@ -252,6 +252,15 @@ en:
       title: Delete quick reply %{name}
       hint: we will destroy any content and related data, conversations will keep content though
 
+    create:
+      success: Quick reply was created successfully
+      error: Error creating quick reply
+    update:
+      success: Quick reply was updated successfully
+      error: Error updating quick reply
+
+    add_as_dialog:
+      title: Add this message as a Quick Reply
 
   new_app:
     title: "Create your company’s Chaskiq app"

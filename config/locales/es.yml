@@ -241,12 +241,20 @@
       empty:
         title: No hay respuestas rápidas creadas aun
         create_new: Crea una nueva
-
       delete:
         title: Borrar la respuesta %{name}
         hint: Vamos a borrar todo el contenido asociado, pero las conversaciones en curso mantendrán el contenido de las respuestas que ya enviaste
-  
-    
+      create:
+        success: La respuesta rápida fue creada exitosamente
+        error: Error creando la respuesta
+      update:
+        success: La respuesta rápida fue editada exitosamente
+        error: Error editando la respuesta
+
+      add_as_dialog:
+        title: Agregar este mensaje como respuesta rápida
+
+
     new_app:
       title: Crea la aplicación Chaskiq de tu empresa
       text: Proporcione información básica para configurar Chaskiq para su equipo y
