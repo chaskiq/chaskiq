@@ -125,6 +125,12 @@
             confirm_msg: Este flujo de chat será enviado a esta conversación, si el visitante salió del chat se creará una nueva conversación
             empty: No hay tareas de bot disponibles
             choose_another: Elige otra tarea
+          quick_replies:
+            title: Send a quick reply
+            confirm: Confirm send %{title} ? 
+            confirm_msg: This quick reply will be delivered on user's current conversation.
+            empty: no quick replies available
+            choose_another: Choose another
 
     assignment_rules:
       title: Reglas de asignación
@@ -228,7 +234,30 @@
         hint: Borraremos cualquier contenido y datos relacionados
       create:
         title: Crear tarea Bot
-  
+
+
+    quick_replies:
+      title: Respuestas Rápidas
+      search: Buscar respuestas rápidas
+      will_send: La versión "%{lang}" serña enviada a la conversación.
+
+      empty:
+        title: No hay respuestas rápidas creadas aun
+        create_new: Crea una nueva
+      delete:
+        title: Borrar la respuesta %{name}
+        hint: Vamos a borrar todo el contenido asociado, pero las conversaciones en curso mantendrán el contenido de las respuestas que ya enviaste
+      create:
+        success: La respuesta rápida fue creada exitosamente
+        error: Error creando la respuesta
+      update:
+        success: La respuesta rápida fue editada exitosamente
+        error: Error editando la respuesta
+
+      add_as_dialog:
+        title: Agregar este mensaje como respuesta rápida
+
+
     new_app:
       title: Crea la aplicación Chaskiq de tu empresa
       text: Proporcione información básica para configurar Chaskiq para su equipo y
@@ -260,6 +289,8 @@
         messenger_style: Estilo mensajero
         user_data: Datos del usuario
         tags: Etiquetas
+        quick_replies: Respuestas rápidas
+
       integrations:
         title: Integraciones con APIs de terceros
         create_success: Integración creada

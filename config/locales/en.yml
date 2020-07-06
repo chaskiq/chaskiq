@@ -132,6 +132,12 @@ en:
           confirm_msg: This bot task will be delivered on user's current conversation or in a new one if the user left the chat.
           empty: no bots available
           choose_another: Choose another
+        quick_reply:
+          title: Send a quick reply
+          confirm: Confirm send %{title} ? 
+          confirm_msg: This quick reply will be delivered on user's current conversation.
+          empty: no quick replies available
+          choose_another: Choose another
 
   assignment_rules:
     title: Assignment Rules
@@ -192,7 +198,7 @@ en:
       reply:
         op1: Welcome back!
         op2: ok, let us know if you need something and an agent will reply as soon as possible
-  
+
     settings:
       leads: 
         tab: For Leads
@@ -237,6 +243,28 @@ en:
     create:
       title: Create Bot task
 
+  quick_replies:
+    title: Quick Replies
+    search: Search Quick replies
+    will_send: The "%{lang}" version will be sent to the conversation.
+    empty:
+      title: No quick replies
+      create_new: Create new
+
+    delete:
+      title: Delete quick reply %{name}
+      hint: we will destroy any content and related data, conversations will keep content though
+
+    create:
+      success: Quick reply was created successfully
+      error: Error creating quick reply
+    update:
+      success: Quick reply was updated successfully
+      error: Error updating quick reply
+
+    add_as_dialog:
+      title: Add this message as a Quick Reply
+
   new_app:
     title: "Create your company’s Chaskiq app"
     text: Provide basic information to setup Chaskiq for your team and customers.
@@ -270,6 +298,8 @@ en:
       messenger_style: Messenger Style
       user_data: User data
       tags: Tags
+      quick_replies: Quick Replies
+
 
     integrations:
       title: Third party integrations
