@@ -231,7 +231,7 @@ function QuickReplies ({ app, update, dispatch }) {
 
       {!loading && quickReplies.length === 0 && !quickReply && (
         <EmptyView
-          title={I18n.t('task_bots.empty.title')}
+          title={I18n.t('quick_replies.empty.title')}
           subtitle={
             <div>
               <Button
@@ -247,14 +247,16 @@ function QuickReplies ({ app, update, dispatch }) {
         />
       )}
 
-      <div className="flex justify-end">
-        <Button variant="outlined" 
-          className="mr-2 my-4" onClick={createNewQuickReply}>
-          {I18n.t('common.create')}
-        </Button>
-      </div>
+      { (quickReply || quickReplies.length > 0) && 
+        <div className="flex justify-end">
+          <Button variant="outlined" 
+            className="mr-2 my-4" onClick={createNewQuickReply}>
+            {I18n.t('common.create')}
+          </Button>
+        </div>
+      }
 
-      { quickReplies && 
+      { (quickReply || quickReplies.length > 0) && 
         <div className="flex">
         
           <div className="w-1/3 bg-white shadow overflow-hidden rounded rounded-r-none">
@@ -339,7 +341,7 @@ function QuickReplies ({ app, update, dispatch }) {
             {openDeleteDialog && (
               <DeleteDialog
                 open={openDeleteDialog}
-                title={I18n.t("quick_replies.delete.title")}
+                title={I18n.t("quick_replies.delete.title", { name: openDeleteDialog.title })}
                 closeHandler={() => {
                   setOpenDeleteDialog(null);
                 }}
