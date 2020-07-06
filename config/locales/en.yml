@@ -245,9 +245,12 @@ en:
 
   quick_replies:
     title: Quick Replies
+    search: Search Quick replies
+    will_send: The "%{lang}" version will be sent to the conversation.
     empty:
       title: No quick replies
       create_new: Create new
+
     delete:
       title: Delete quick reply %{name}
       hint: we will destroy any content and related data, conversations will keep content though

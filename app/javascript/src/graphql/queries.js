@@ -628,9 +628,9 @@ export const ASSIGNMENT_RULES = `
 `;
 
 export const QUICK_REPLIES = `
-  query App($appKey: String!, $lang: String){
+  query App($appKey: String!, $lang: String, $q: String){
     app(key: $appKey) {
-      quickReplies(lang: $lang){
+      quickReplies(lang: $lang, q: $q){
         id
         title
         content

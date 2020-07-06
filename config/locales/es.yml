@@ -238,6 +238,9 @@
 
     quick_replies:
       title: Respuestas Rápidas
+      search: Buscar respuestas rápidas
+      will_send: La versión "%{lang}" serña enviada a la conversación.
+
       empty:
         title: No hay respuestas rápidas creadas aun
         create_new: Crea una nueva
