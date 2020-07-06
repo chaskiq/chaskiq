@@ -38,6 +38,12 @@ module Types
     field :updateWebhook, mutation: Mutations::OutgoingWebhooks::UpdateWebhook
     field :deleteWebhook, mutation: Mutations::OutgoingWebhooks::DeleteWebhook
 
+
+    field :createQuickReply, mutation: Mutations::QuickReplies::CreateQuickReply
+    field :updateQuickReply, mutation: Mutations::QuickReplies::UpdateQuickReply
+    field :deleteQuickReply, mutation: Mutations::QuickReplies::DeleteQuickReply
+
+
     field :createAssignmentRule, mutation: Mutations::AssignRule::CreateAssignRule
     field :editAssignmentRule, mutation: Mutations::AssignRule::EditAssignRule
     field :deleteAssignmentRule, mutation: Mutations::AssignRule::DeleteAssignRule

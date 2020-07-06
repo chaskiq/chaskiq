@@ -469,6 +469,7 @@ query AppUserConversations($appKey: String!, $id: Int!, $page: Int, $per: Int){
         collection{
           id
           key
+          tagList
           mainParticipant{
             id
             email
@@ -622,6 +623,30 @@ export const ASSIGNMENT_RULES = `
         state
         title
         conditions
+      }
+    }
+  }
+`;
+
+export const QUICK_REPLIES = `
+  query App($appKey: String!, $lang: String, $q: String){
+    app(key: $appKey) {
+      quickReplies(lang: $lang, q: $q){
+        id
+        title
+        content
+      }
+    }
+  }
+`;
+
+export const QUICK_REPLY = `
+  query App($appKey: String!, $id: Int!, $lang: String){
+    app(key: $appKey) {
+      quickReply(id: $id, lang: $lang){
+        id
+        title
+        content
       }
     }
   }

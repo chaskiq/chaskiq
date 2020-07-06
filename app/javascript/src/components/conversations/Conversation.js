@@ -28,6 +28,7 @@ import {
   setLoading,
   updateConversationTagList
 } from '../../actions/conversation'
+import QuickRepliesDialog from './QuickReplyDialog'
 
 import { successMessage } from '../../actions/status_messages'
 
@@ -39,7 +40,8 @@ import {
   LeftArrow,
   CallEnd,
   Call,
-  LabelIcon
+  LabelIcon,
+  MoreIcon
 } from '../icons'
 
 import { getAppUser } from '../../actions/app_user'
@@ -103,6 +105,7 @@ function Conversation ({
   const [expand, setExpand] = React.useState(false)
   const [videoSession, setVideoSession] = React.useState(false)
   const [openTagManager, setOpenTagManager] = React.useState(false)
+  const [quickReplyDialogOpen, setQuickReplyDialogOpen] = React.useState(false)
   const appId = app.key
 
   React.useEffect(() => {
@@ -253,6 +256,10 @@ function Conversation ({
     dispatch(assignAgent(id, cb))
   }
 
+  const addAsReply = (content) => {
+    setQuickReplyDialogOpen(content)
+  }
+
   const renderMessage = (o, userOrAdmin) => {
     const message = o
     const messageContent = o.message
@@ -283,6 +290,8 @@ function Conversation ({
       textClass = 'text-gray-900'
     }
 
+    const isAdmin = userOrAdmin === 'admin'
+
     return <div
       id={`message-id-${message.id}`}
       className={`flex items-start py-2 text-sm ${flow}`}
@@ -299,13 +308,39 @@ function Conversation ({
         className={`${bgClass}
         shadow-lg 
         flex-1 
-        overflow-hidden p-3 
+        overflow-hidden-dis p-3 
         rounded-md`}
       >
         <div className="flex justify-between pb-4">
-          <span className={`font-bold ${textClass}`}>
-            {message.appUser.displayName}
-          </span>
+          <div className="flex items-center">
+            {
+              isAdmin && messageContent.serializedContent &&
+
+              <FilterMenu
+                options={[
+                  {
+                    title: I18n.t('quick_replies.add_as_dialog.title'),
+                    onClick: ()=> { addAsReply(messageContent.serializedContent) }
+                  }
+                ]}
+                value={null}
+                filterHandler={(e) => e.onClick && e.onClick() }
+                triggerButton={(handler) => (
+                  <Button variant="icon"
+                    onClick={handler}
+                    className="" >
+                    <MoreIcon className="text-gray-400"/>
+                  </Button>
+                )}
+                position={'left'}
+                origin={'bottom-0'}
+              />
+            }
+
+            <span className={`font-bold ${textClass}`}>
+              {message.appUser.displayName}
+            </span>
+          </div>
           <span className={`text-xs ${textClass}`}>
             <Moment fromNow ago>
               {message.createdAt}
@@ -832,6 +867,15 @@ function Conversation ({
           {/* <input type="text" className="w-full px-4" placeholder="Message #general"/> */}
         </div>
       </div>
+
+      <QuickRepliesDialog
+        title={ I18n.t('quick_reply.add_as_dialog.title') }
+        closeHandler={
+          ()=> setQuickReplyDialogOpen(null)
+        }
+        open={quickReplyDialogOpen}>
+      </QuickRepliesDialog>
+
     </BgContainer>
   )
 }

@@ -240,7 +240,7 @@ class ProfilePage extends Component {
             />
 
             <div className="flex flex-col w-full pl-3">
-              <h5 className="text-2xl font-bold leading-7 text-white sm:text-3xl sm:leading-9 sm:truncate">
+              <h5 className="w-1/3 text-2xl font-bold leading-7 text-white sm:text-3xl sm:leading-9 sm:truncate">
 
                 {
                   this.props.app_user && this.state.editName ?
@@ -260,14 +260,13 @@ class ProfilePage extends Component {
                 </Button>
               </h5>
 
-              <h6 className="font-bold leading-7 text-gray-100 sm:text-1xl sm:leading-9 sm:truncate">
+              <h6 className="w-1/3 font-bold leading-7 text-gray-100 sm:text-1xl sm:leading-9 sm:truncate flex items-center">
                 {
                   this.props.app_user && this.state.editEmail ?
                   <TextField
                     type={'text'}
-                    //className={classes.input}
                     onKeyUp={(e)=>this.handleEnter(e, "email")}
-                    defaultValue={this.props.app_user.name}
+                    defaultValue={this.props.app_user.email}
                     placeholder="enter user's email"
                     inputProps={{ 'aria-label': 'user agent\'s email' }}
                   /> : this.props.app_user.email
