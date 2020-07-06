@@ -10,6 +10,10 @@ import DraftRenderer from '../textEditor/draftRenderer'
 import Tabs from '../Tabs'
 
 import {
+  SeachIcon
+} from '../icons'
+
+import {
   QUICK_REPLIES,
   QUICK_REPLY
 } from '../../graphql/queries'
@@ -21,18 +25,23 @@ function QuickRepliesPanel (props) {
   const [values, setValues] = React.useState({})
   const [lang, setLang] = React.useState(props.app.availableLanguages[0] || 'en')
   const [loading, setLoading] = React.useState(false)
+  const [term, setTerm] = React.useState(null)
 
   React.useEffect(() => {
     getQuickReplies()
   }, [])
 
-  React.useEffect(()=>{
-    if(quickReply) getQuickReply(quickReply)
+  React.useEffect(() => {
+    if (quickReply) getQuickReply(quickReply)
   }, [lang])
 
   React.useEffect(() => {
     setOpen(props.open)
   }, [props.open])
+
+  React.useEffect(() => {
+    getQuickReplies()
+  }, [term])
 
   function handleClickOpen () {
     setOpen(true)
@@ -78,7 +87,7 @@ function QuickRepliesPanel (props) {
               />
             )}
 
-            <p>the {lang} version will be sent</p>
+            <p>{ I18n.t('quick_replies.will_send', { lang: lang }) }</p>
 
             <div className="mt-2">
               <p className="text-sm leading-5 text-gray-500">
@@ -106,7 +115,8 @@ function QuickRepliesPanel (props) {
       QUICK_REPLIES,
       {
         appKey: props.app.key,
-        lang: lang
+        lang: lang,
+        q: term
       },
       {
         success: (data) => {
@@ -119,20 +129,20 @@ function QuickRepliesPanel (props) {
     )
   }
 
-  function getQuickReply(o) {
+  function getQuickReply (o) {
     setLoading(true)
     graphql(QUICK_REPLY, {
       appKey: props.app.key,
       id: o.id,
       lang: lang
     }, {
-      success: (data)=>{
+      success: (data) => {
         setQuickReply(data.app.quickReply)
         setLoading(false)
       },
-      error: (err)=>{
+      error: (err) => {
         setLoading(false)
-        //dispatch(errorMessage('error updating quick reply'))
+        // dispatch(errorMessage('error updating quick reply'))
       }
     })
   }
@@ -168,6 +178,10 @@ function QuickRepliesPanel (props) {
     return props.app.availableLanguages || ['en']
   }
 
+  function handleSearch(value){
+    setTerm(value)
+  }
+
   return (
     <FormDialog
       open={open}
@@ -177,11 +191,19 @@ function QuickRepliesPanel (props) {
       }
       formComponent={
         <div>
+
+          {
+            !quickReply && <SearchInput
+              onSubmit={handleSearch}
+            />
+          }
+
           {!quickReply && <div
             style={
               { maxHeight: '16rem' }
             }
             className="mt-2 bg-white shadow overflow-hidden sm:rounded-md overflow-y-auto">
+
             <ul>
               {
                 quickReplies.map((o) => {
@@ -237,6 +259,33 @@ function QuickRepliesPanel (props) {
       }
     />
   )
+}
+
+function SearchInput ({onSubmit}) {
+
+  const [value, setValue] = React.useState(null)
+
+  return <div className="my-4">
+
+    <div className="mt-1 flex rounded-md shadow-sm">
+      <div className="relative flex-grow focus-within:z-10">
+        <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+          <SeachIcon/>
+        </div>
+        <input id="email"
+          value={value}
+          onChange={(e)=> { setValue(e.target.value)} }
+          className="py-3 border border-r-none block w-full rounded-none rounded-l-md pl-10 transition ease-in-out duration-150 sm:text-sm sm:leading-5"
+          placeholder={I18n.t('quick_replies.search')}
+        />
+      </div>
+
+      <button onClick={()=> onSubmit(value)} 
+        className="-ml-px relative inline-flex items-center px-4 py-2 border border-gray-300 text-sm leading-5 font-medium rounded-r-md text-gray-700 bg-gray-50 hover:text-gray-500 hover:bg-white focus:outline-none focus:shadow-outline-blue focus:border-blue-300 active:bg-gray-100 active:text-gray-700 transition ease-in-out duration-150">
+        <span className="ml-2">{I18n.t('common.submit')}</span>
+      </button>
+    </div>
+  </div>
 }
 
 function mapStateToProps (state) {

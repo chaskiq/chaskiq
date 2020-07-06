@@ -267,10 +267,16 @@ module Types
 
     field :quick_replies, [Types::QuickReplyType], null: true do 
       argument :lang, String, required: false, default_value: I18n.default_locale
+      argument :q, String, required: false, default_value: nil
     end
 
-    def quick_replies(lang:)
+    def quick_replies(lang:, q:)
       I18n.locale = lang
+
+      return object.quick_replies.
+      ransack(title_cont: q).
+      result(distinct: true) if q.present?
+
       object.quick_replies
     end
 
