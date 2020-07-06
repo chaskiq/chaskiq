@@ -469,6 +469,7 @@ query AppUserConversations($appKey: String!, $id: Int!, $page: Int, $per: Int){
         collection{
           id
           key
+          tagList
           mainParticipant{
             id
             email
