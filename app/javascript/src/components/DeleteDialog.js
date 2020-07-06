@@ -30,10 +30,10 @@ export default function DeleteDialog ({
           dialogButtons={
             <React.Fragment>
               <Button onClick={deleteHandler} className="ml-2" variant="danger">
-                Delete
+                {I18n.t('common.delete')}
               </Button>
               <Button onClick={close} variant="outlined">
-                Cancel
+                {I18n.t('common.cancel')}
               </Button>
             </React.Fragment>
           }

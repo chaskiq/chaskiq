@@ -18,15 +18,13 @@ import {
   QUICK_REPLY_CREATE,
   QUICK_REPLY_UPDATE,
   QUICK_REPLY_DELETE,
-  CREATE_DIRECT_UPLOAD,
 } from '../../graphql/mutations'
 
 import CircularProgress from "../../components/Progress";
-import styled from "@emotion/styled";
 import TextEditor from "../../components/textEditor";
 import Button from "../../components/Button";
 
-function CustomizationColors ({ app, update, dispatch }) {
+function QuickReplies ({ app, update, dispatch }) {
   const [quickReplies, setQuickReplies] = React.useState([])
   const [quickReply, setQuickReply] = React.useState(null)
   const [loading, setLoading] = React.useState(false)
@@ -67,10 +65,10 @@ function CustomizationColors ({ app, update, dispatch }) {
       success: (data)=>{
         setQuickReply(data.createQuickReply.quickReply)
         getQuickReplies()
-        dispatch(successMessage('quick reply created successfully'))
+        dispatch(successMessage(I18n.t('quick_replies.create.success')))
       },
       error: (err)=>{
-        dispatch(errorMessage('error creting quick reply created'))
+        dispatch(errorMessage(I18n.t('quick_replies.create.success')))
       }
     })
   }
@@ -86,10 +84,10 @@ function CustomizationColors ({ app, update, dispatch }) {
       success: (data)=>{
         setQuickReply(data.updateQuickReply.quickReply)
         getQuickReplies()
-        dispatch(successMessage('quick reply updated successfully'))
+        dispatch(successMessage(I18n.t('quick_replies.update.success')))
       },
       error: (err)=>{
-        dispatch(errorMessage('error updating quick reply'))
+        dispatch(errorMessage(I18n.t('quick_replies.update.error')))
       }
     })
   }
@@ -107,7 +105,7 @@ function CustomizationColors ({ app, update, dispatch }) {
       },
       error: (err)=>{
         setLoading(false)
-        dispatch(errorMessage('error updating quick reply'))
+        dispatch(errorMessage(I18n.t('quick_replies.update.error')))
       }
     })
   }
@@ -368,7 +366,7 @@ function mapStateToProps (state) {
   }
 }
 
-export default withRouter(connect(mapStateToProps)(CustomizationColors))
+export default withRouter(connect(mapStateToProps)(QuickReplies))
 
 
 class ArticleEditor extends Component {
