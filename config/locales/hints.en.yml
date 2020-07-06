@@ -7,7 +7,7 @@ en:
 
     webhooks: 
       title: Active Webhooks
-      description: Webhooks feature it\'s all about delivering notifications of chaskiq events
+      description: "Webhooks feature it's all about delivering notifications of chaskiq events"
       #link: { href: '/', text: 'Learn how webhooks works on our knowledge base'}
 
     Integrations:
