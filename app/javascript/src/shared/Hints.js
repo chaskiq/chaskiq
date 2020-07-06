@@ -14,7 +14,7 @@ const Hints = ({ type }) => {
           text={content.description}
           link={content.link}
           variant="shadowless"
-          classes="border"
+          classes="bg-white border border-1 border-yellow-400 sm:rounded-lg bg-yellow-200"
         />
       </div>
     }
