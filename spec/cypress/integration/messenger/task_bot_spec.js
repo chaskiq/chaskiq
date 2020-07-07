@@ -160,6 +160,8 @@ describe('Task bot Spec', function () {
         app_key: appKey,
       }).then((res)=>{
 
+        cy.log(res)
+
         cy.visit(`/tester/${appKey}?sessionless=true`).then(()=>{
 
 
