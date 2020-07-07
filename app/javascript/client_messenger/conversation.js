@@ -390,7 +390,9 @@ export class Conversation extends Component {
   }
 
   handleBeforeSubmit = ()=>{
-    const message = this.props.conversation.messages.collection[0]
+    const { messages } = this.props.conversation
+    if(isEmpty(messages)) return
+    const message = messages.collection[0]
     if(!message) return
     if(!message.message) return
     if(message.message.blocks && message.message.blocks.type === 'wait_for_reply') {

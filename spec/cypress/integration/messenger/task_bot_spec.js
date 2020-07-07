@@ -5,7 +5,7 @@ describe('Task bot Spec', function () {
     // cy.appEval('Redis.current.del("app_user:1:trigger_locked")')
   })
 
-  it('sessionless', function () {
+  it('sessionless never ask email', function () {
 
     cy.appScenario('app_bot_settings', { email_requirement: 'never' }).then(() => {
       cy.appEval('App.last').then((results) => {
@@ -43,7 +43,7 @@ describe('Task bot Spec', function () {
     })
   })
 
-  it('sessionless 2', function () {
+  it('sessionless 2 always ask email', function () {
     cy.wait(5000)
     cy.appScenario('app_bot_settings', { email_requirement: 'Always' }).then((results) => {
       cy.appEval('App.last').then((results) => {
@@ -99,7 +99,7 @@ describe('Task bot Spec', function () {
     })
   })
 
-  it('sessionless 3', function () {
+  it('sessionless 3 never ask email', function () {
 
     cy.appScenario('app_bot_settings', { email_requirement: 'never' }).then(() => {
       cy.appEval('App.last').then((results) => {
@@ -143,4 +143,44 @@ describe('Task bot Spec', function () {
       })
     })
   })
+
+
+  it('sessionless bot task wait for reply', function() {
+    cy.appScenario('basic')
+
+    beforeEach(() => {
+      cy.appEval('ActiveJob::Base.queue_adapter = :test')
+      cy.appEval('ActiveJob::Base.queue_adapter.perform_enqueued_at_jobs = true')
+      cy.appEval('Redis.current.del("app_user:1:trigger_locked")')
+    })
+    
+    cy.appEval("App.last").then((results) => {
+      const appKey = results.key
+      cy.app("bot_task_command", {
+        app_key: appKey,
+      }).then((res)=>{
+
+        cy.visit(`/tester/${appKey}?sessionless=true`).then(()=>{
+
+
+          cy.get('[data-chaskiq-container] iframe')
+          .then( function ($iframe) {
+            const $body = $iframe.contents().find('body')
+
+            cy.wrap($body).contains('one')
+            cy.wrap($body).contains('two')
+            cy.wrap($body).contains('tree')
+
+            cy.wrap($body)
+              .xpath('/html/body/div/div/div/div[2]/div/div/div/div[2]/div/div/textarea')
+              .type('oeoe \n')
+              cy.wrap($body).contains('four')
+          })
+          
+        })
+      })
+    })
+  })
+
+
 })
