@@ -1,15 +1,14 @@
-import styled from '@emotion/styled';
-import { jsx, css, keyframes } from '@emotion/core'
+import styled from '@emotion/styled'
+import { keyframes } from '@emotion/core'
 
 import React from 'react'
 
 import StyledFrame from '../styledFrame'
-import { lighten, darken } from "polished";
+import { darken } from 'polished'
 
-import {textColor} from './utils' 
+import { textColor } from './utils'
 
-export const mainColor = "#0a1a27"; //"#42a5f5";
-
+export const mainColor = '#0a1a27' // "#42a5f5";
 
 const rotate = keyframes`
   from {
@@ -23,7 +22,7 @@ const rotate = keyframes`
     //transform: scale(1);
     transform: translateY(-8px);
   }
-`;
+`
 
 const appear = keyframes`
   from {
@@ -35,7 +34,7 @@ const appear = keyframes`
     transform: translateY(0);
     opacity: 1;
   }
-`;
+`
 
 export const Bounce = keyframes`
   0%,
@@ -101,10 +100,10 @@ export const Container = styled.div`
   animation: ${appear} 0.6s cubic-bezier(0.390, 0.575, 0.565, 1.000) both;
 
   ${
-    
-    (props)=> props.isMobile ? 
-  
-      `min-height: 250px;
+
+    (props) => props.isMobile
+
+      ? `min-height: 250px;
       box-shadow: rgba(0, 0, 0, 0.16) 0px 5px 40px;
       opacity: 1;
       z-index: 100000;
@@ -117,9 +116,9 @@ export const Container = styled.div`
       bottom: 0px;
       position: fixed;
       overflow: hidden;
-      border-radius: 0px;` : 
+      border-radius: 0px;`
 
-      `z-index: 2147483000;
+      : `z-index: 2147483000;
       position: fixed;
       bottom: 100px;
       right: 20px;
@@ -133,11 +132,11 @@ export const Container = styled.div`
       overflow: hidden;`
   }
 
-`;
+`
 
 export const AssigneeStatus = styled.span`
   font-size: 11px;
-  color: ${(props)=> textColor(props.theme.palette.primary)};
+  color: ${(props) => textColor(props.theme.palette.primary)};
 `
 
 export const AssigneeStatusWrapper = styled.span`
@@ -151,7 +150,6 @@ export const AssigneeStatusWrapper = styled.span`
   }
 `
 
-
 export const ShowMoreWrapper = styled.div`
 
     z-index: 10000;
@@ -160,7 +158,7 @@ export const ShowMoreWrapper = styled.div`
     display: flex;
     justify-content: space-between;
 
-    ${(props)=> FadeBottomAnimation(props)}
+    ${(props) => FadeBottomAnimation(props)}
 
     button {
       padding: 9px;
@@ -226,8 +224,7 @@ export const Overflow = styled.div`
   background: radial-gradient(at right bottom,rgba(29,39,54,0.16) 9%,rgba(0, 0, 0, 0) 72%);
 `
 
-export const UserAutoMessageStyledFrame = styled(StyledFrame)
-  `
+export const UserAutoMessageStyledFrame = styled(StyledFrame)`
     display: block;
     border: 0px;
     z-index: 1000;
@@ -235,10 +232,10 @@ export const UserAutoMessageStyledFrame = styled(StyledFrame)
     position: absolute;
 
     ${(props) => {
-      return props.isMinimized ? `height: 73px;` : `height: 70vh;`
+      return props.isMinimized ? 'height: 73px;' : 'height: 70vh;'
     }}
 
-    ${(props)=>{
+    ${(props) => {
       return props.theme.isMessengerActive ? `
         bottom: 49px;
         right: 6px;
@@ -249,9 +246,9 @@ export const UserAutoMessageStyledFrame = styled(StyledFrame)
     }}
 `
 
-export const UserAutoMessageStyledFrameDis = styled(({ isMinimized, ...rest })=>(
+export const UserAutoMessageStyledFrameDis = styled(({ isMinimized, ...rest }) => (
   <StyledFrame {...rest}/>
-  ))`
+))`
     display: block;
     border: 0px;
     z-index: 1000;
@@ -259,10 +256,10 @@ export const UserAutoMessageStyledFrameDis = styled(({ isMinimized, ...rest })=>
     position: absolute;
 
     ${(props) => {
-      return props.isMinimized ? `height: 73px;` : `height: 70vh;`
+      return props.isMinimized ? 'height: 73px;' : 'height: 70vh;'
     }}
 
-    ${(props)=>{
+    ${(props) => {
       return props.theme.isMessengerActive ? `
         bottom: 77px;
         right: 17px;
@@ -325,16 +322,16 @@ export const SuperFragment = styled.div`
 }
 `
 
-export const FadeRightAnimation = (props)=>{
-  return props.in === "in" ? 
-      `animation: ${FadeInRight.name} 0.6s cubic-bezier(0.390, 0.575, 0.565, 1.000) both;      ` : 
-      `animation: ${FadeOutRight.name} 0.7s cubic-bezier(0.250, 0.460, 0.450, 0.940) both;`
+export const FadeRightAnimation = (props) => {
+  return props.in === 'in'
+    ? `animation: ${FadeInRight.name} 0.6s cubic-bezier(0.390, 0.575, 0.565, 1.000) both;      `
+    : `animation: ${FadeOutRight.name} 0.7s cubic-bezier(0.250, 0.460, 0.450, 0.940) both;`
 }
 
-export const FadeBottomAnimation = (props)=>{
-  return props.in === "in" ? 
-      `animation: ${FadeInBottom.name} 0.6s cubic-bezier(0.390, 0.575, 0.565, 1.000) both;` : 
-      `animation: ${FadeOutBottom.name} 0.7s cubic-bezier(0.250, 0.460, 0.450, 0.940) both;`
+export const FadeBottomAnimation = (props) => {
+  return props.in === 'in'
+    ? `animation: ${FadeInBottom.name} 0.6s cubic-bezier(0.390, 0.575, 0.565, 1.000) both;`
+    : `animation: ${FadeOutBottom.name} 0.7s cubic-bezier(0.250, 0.460, 0.450, 0.940) both;`
 }
 
 export const MessageSpinner = styled.div`
@@ -378,7 +375,7 @@ export const UserAutoMessageFlex = styled(({ isMinimized, ...rest }) => (
   flex-direction: column;
 
   ${(props) => {
-    return props.isMinimized ? `height: 70vh;` : `height: 92vh;`
+    return props.isMinimized ? 'height: 70vh;' : 'height: 92vh;'
   }}
 
   
@@ -415,8 +412,8 @@ export const ConversationEventContainer = styled.div`
   box-shadow: 0 4px 15px 0 rgba(0,0,0,.1), 0 1px 2px 0 rgba(0,0,0,.1);
 
   ${
-    (props)=> {
-      return props.isInline ? `box-shadow: 0 4px 15px 0 rgba(0, 0, 0, 0.36), 0 1px 2px 0 rgba(0, 0, 0, 0.61)` : ''
+    (props) => {
+      return props.isInline ? 'box-shadow: 0 4px 15px 0 rgba(0, 0, 0, 0.36), 0 1px 2px 0 rgba(0, 0, 0, 0.61)' : ''
     }
   }
 
@@ -430,6 +427,7 @@ export const AppPackageBlockContainer = styled.div`
     margin: .7em;
     //border: 1px solid #e3e7e8;
     background: #fff;
+    ${(props) => props.isHidden ? 'display:none;' : ''}
     
     box-shadow: 0 4px 15px 0 rgba(0,0,0,.1), 0 1px 2px 0 rgba(0,0,0,.1);
 
@@ -520,9 +518,6 @@ export const AppPackageBlockContainer = styled.div`
     }
 `
 
-
-
-
 export const UserAutoMessage = styled.div`
     box-shadow: -1px 3px 3px 3px rgba(158,191,208,0.09);
     border: 1px solid #f3f0f0;
@@ -552,7 +547,7 @@ export const AvatarSection = styled.div`
   /* stylelint-enable */
   grid-area: avatar-area;
   margin-right: 8px;
-`;
+`
 
 export const EditorSection = styled.div`
   /* stylelint-disable value-no-vendor-prefix */
@@ -560,12 +555,12 @@ export const EditorSection = styled.div`
   -ms-grid-column: 2;
   /* stylelint-enable */
   grid-area: editor-area;
-  ${(props)=>(
+  ${(props) => (
     props.isInline ? `
     height: 69vh;
-    overflow: auto;` : ``
+    overflow: auto;` : ''
   )}
-`;
+`
 
 export const InlineConversationWrapper = styled.div`
 
@@ -626,11 +621,10 @@ export const EditorActions = styled.div`
 `
 
 export const CommentsWrapper = styled.div`
-  ${(props)=>(
-    props.isInline ? 
-    `padding-bottom: 0px;`
-     : 
-    `padding-bottom: 105px;`
+  ${(props) => (
+    props.isInline
+    ? 'padding-bottom: 0px;'
+     : 'padding-bottom: 105px;'
   )}
   flex-grow: 1;
   flex-shrink: 0;
@@ -639,8 +633,8 @@ export const CommentsWrapper = styled.div`
   height: auto;
   font-family: "Inter", Helvetica, arial, sans-serif;
 
-  ${(props)=> ( props.isReverse ? 
-    `
+  ${(props) => (props.isReverse
+    ? `
     flex-direction : column-reverse;` : `
       flex-direction: column;
     `
@@ -660,9 +654,9 @@ export const CommentsItem = styled.div`
 
     transition: all 0.4s ease-out;
 
-    ${(props)=> props.displayOpacity ? 
-      `opacity: 1;` : 
-      `opacity: 0;` 
+    ${(props) => props.displayOpacity
+      ? 'opacity: 1;'
+      : 'opacity: 0;'
     }
     
 `
@@ -681,8 +675,8 @@ export const Prime = styled.div`
     position: relative;
     z-index: 998;
     //overflow: hidden;
-    color: ${(props)=> textColor(props.theme.palette.secondary)};
-    background: ${(props)=> props.theme.palette.secondary };
+    color: ${(props) => textColor(props.theme.palette.secondary)};
+    background: ${(props) => props.theme.palette.secondary};
     float: right;
     //margin: 14px 27px;
     margin: 16px 8px;
@@ -699,28 +693,28 @@ export const CountBadge = styled.div`
   font-size: 10px;
   text-align: center;
   color: #f3f3f3;
-  ${(props)=> props.section === "home" ? 
-    `top: 42px;
-    left: 15px;` : "" 
+  ${(props) => props.section === 'home'
+    ? `top: 42px;
+    left: 15px;` : ''
   }
 
-  ${(props)=> props.section === "conversation" ? 
-  `top: 13px;left: 7px;` : "" }
+  ${(props) => props.section === 'conversation'
+  ? 'top: 13px;left: 7px;' : ''}
 
-  ${(props)=> props.section === "conversations" ? 
-  `top: 13px;left: 7px;` : "" }
+  ${(props) => props.section === 'conversations'
+  ? 'top: 13px;left: 7px;' : ''}
 
 }
 
 `
 
-export const Header = styled(({isMobile, ...rest})=>(<div {...rest}></div>))`
+export const Header = styled(({ isMobile, ...rest }) => (<div {...rest}></div>))`
   height: 75px;
   position: relative;
   min-height: 75px;
-  background: ${(props)=> props.theme.palette.primary };
-  background: linear-gradient(135deg, ${(props)=> props.theme.palette.primary } 0%,${(props)=> darken(0.2, props.theme.palette.primary) } 100%);
-  color: ${(props)=> textColor(props.theme.palette.primary)};
+  background: ${(props) => props.theme.palette.primary};
+  background: linear-gradient(135deg, ${(props) => props.theme.palette.primary} 0%,${(props) => darken(0.2, props.theme.palette.primary)} 100%);
+  color: ${(props) => textColor(props.theme.palette.primary)};
   -webkit-transition: height 160ms ease-out;
   transition: height 160ms ease-out;
 
@@ -731,9 +725,9 @@ export const Header = styled(({isMobile, ...rest})=>(<div {...rest}></div>))`
     bottom: 0px;
     right: 0px;
     position: absolute;
-    ${(props)=>{
-      return props.theme.palette.pattern ? 
-      `
+    ${(props) => {
+      return props.theme.palette.pattern
+      ? `
         opacity: 0.38; 
         background-image: url(${props.theme.palette.pattern});
       ` : ''
@@ -776,7 +770,7 @@ export const Footer = styled.div`
 
 
     &.inline{
-      ${(props)=> !props.isInputEnabled ? 'height: 0px;' : ''}
+      ${(props) => !props.isInputEnabled ? 'height: 0px;' : ''}
       background: transparent;
       bottom: 9px;
       textarea {
@@ -837,7 +831,7 @@ export const ReadIndicator = styled.div`
 
 export const MessageItem = styled.div`
     position: relative;
-    //max-width: ${(props) => (props.messageSourceType === "UserAutoMessage" ?  '86%' : '60%')};
+    //max-width: ${(props) => (props.messageSourceType === 'UserAutoMessage' ? '86%' : '60%')};
     min-width: 25%;
     display: block;
     word-wrap: break-word;
@@ -868,8 +862,8 @@ export const MessageItem = styled.div`
         box-shadow: 0 4px 15px 0 rgba(0,0,0,.1), 0 1px 2px 0 rgba(0,0,0,.1);
 
         ${
-          (props)=> {
-            return props.isInline ? `box-shadow: 0 4px 15px 0 rgba(0, 0, 0, 0.36), 0 1px 2px 0 rgba(0, 0, 0, 0.61)` : ''
+          (props) => {
+            return props.isInline ? 'box-shadow: 0 4px 15px 0 rgba(0, 0, 0, 0.36), 0 1px 2px 0 rgba(0, 0, 0, 0.61)' : ''
           }
         }
         
@@ -885,8 +879,8 @@ export const MessageItem = styled.div`
     &.user {
 
       .message-content-wrapper {
-        background: linear-gradient(135deg, ${(props)=> props.theme.palette.primary } 0%,${(props)=> darken(0.2, props.theme.palette.primary) } 100%);
-        color: ${(props)=> textColor(props.theme.palette.primary)};
+        background: linear-gradient(135deg, ${(props) => props.theme.palette.primary} 0%,${(props) => darken(0.2, props.theme.palette.primary)} 100%);
+        color: ${(props) => textColor(props.theme.palette.primary)};
 
         min-width: 80px;
         padding: 16px;
@@ -898,8 +892,8 @@ export const MessageItem = styled.div`
         box-shadow: 0 4px 15px 0 rgba(0,0,0,.1), 0 1px 2px 0 rgba(0,0,0,.1);
 
         ${
-          (props)=> {
-            return props.isInline ? `box-shadow: 0 4px 15px 0 rgba(0, 0, 0, 0.36), 0 1px 2px 0 rgba(0, 0, 0, 0.61)` : ''
+          (props) => {
+            return props.isInline ? 'box-shadow: 0 4px 15px 0 rgba(0, 0, 0, 0.36), 0 1px 2px 0 rgba(0, 0, 0, 0.61)' : ''
           }
         }
 
@@ -915,7 +909,7 @@ export const MessageItem = styled.div`
       }
 
 
-      ${(props) => (props.messageSourceType === "UserAutoMessage" ? `
+      ${(props) => (props.messageSourceType === 'UserAutoMessage' ? `
         align-self: center;
         border: 1px solid #f1f0f0;
       ` : `
@@ -958,7 +952,7 @@ export const MessageItem = styled.div`
       font-size: 10px;
       text-align: right;
     }
-`;
+`
 
 export const HeaderOption = styled.div`
   //float: left;
@@ -973,7 +967,7 @@ export const HeaderOption = styled.div`
   font-weight: 400;
   display: flex;
   align-items: center;
-  ${(props)=> FadeRightAnimation(props)}
+  ${(props) => FadeRightAnimation(props)}
 `
 
 export const HeaderTitle = styled.span`
@@ -985,7 +979,7 @@ export const HeaderTitle = styled.span`
     font-size: 0.9em;
     line-height: 1.6em;
   }
-  /*${(props)=> FadeRightAnimation(props)}*/
+  /*${(props) => FadeRightAnimation(props)}*/
 `
 
 export const HeaderAvatar = styled.div`
@@ -994,7 +988,7 @@ export const HeaderAvatar = styled.div`
     flex: 0 0 auto;
     align-self: center;
     //margin-left: 15px;
-    color: ${(props)=> textColor(props.theme.palette.primary)};
+    color: ${(props) => textColor(props.theme.palette.primary)};
 
     img {
       width: 40px;
@@ -1033,10 +1027,10 @@ export const ChatAvatar = styled.div`
 
 export const AnchorButton = styled.a`
   text-decoration: none;
-  background-color: ${(props)=> props.theme.palette.secondary };
+  background-color: ${(props) => props.theme.palette.secondary};
   box-shadow: 0 4px 12px rgba(0,0,0,.1);
   height: 40px;
-  color: ${(props)=> textColor(props.theme.palette.secondary)} !important;
+  color: ${(props) => textColor(props.theme.palette.secondary)} !important;
   font-size: 13px;
   line-height: 14px;
   pointer-events: auto;
@@ -1054,7 +1048,7 @@ export const NewConvoBtn = styled(AnchorButton)`
     bottom: 77px;
     left: 20%;
     padding: 0 37px;
-    ${(props)=> FadeBottomAnimation(props)}
+    ${(props) => FadeBottomAnimation(props)}
 `
 
 export const ConversationSummary = styled.div`
@@ -1127,7 +1121,6 @@ export const Hint = styled.p`
     margin: 0px;
     height: 100%;
 `
-
 
 export const SpinnerAnim = keyframes`
   to {transform: rotate(360deg);}

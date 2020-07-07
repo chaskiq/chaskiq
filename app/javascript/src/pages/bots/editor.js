@@ -242,6 +242,34 @@ const BotEditor = ({ match, app, dispatch, mode, actions }) => {
     setSelectedPath(newPath); // redundant
   };
 
+  const addWaitUserMessage = (path) => {
+    const id = create_UUID();
+    const dummy = {
+      step_uid: id,
+      type: "messages",
+      messages: [],
+      controls: {
+        type: "wait_for_reply",
+        schema: [],
+      },
+    };
+
+    const newSteps = path.steps.concat(dummy);
+    let newPath = null;
+
+    const newPaths = paths.map((o) => {
+      if (o.id === path.id) {
+        newPath = Object.assign({}, path, { steps: newSteps });
+        return newPath;
+      } else {
+        return o;
+      }
+    });
+
+    setPaths(newPaths);
+    setSelectedPath(newPath); // redundant
+  };
+
   const addSectionControl = (path) => {
     const id = create_UUID();
     const dummy = {
@@ -513,6 +541,7 @@ const BotEditor = ({ match, app, dispatch, mode, actions }) => {
                 app={app}
                 path={selectedPath}
                 paths={paths}
+                addWaitUserMessage={addWaitUserMessage}
                 addSectionMessage={addSectionMessage}
                 addSectionControl={addSectionControl}
                 addDataControl={addDataControl}
@@ -780,6 +809,7 @@ const Path = ({
   paths,
   path,
   addSectionMessage,
+  addWaitUserMessage,
   addSectionControl,
   addDataControl,
   updatePath,
@@ -852,6 +882,14 @@ const Path = ({
         addSectionControl(path);
       },
     },*/
+    ,
+    {
+      name: "Wait for user input",
+      key: "wait-user-input",
+      onClick: () => {
+        addWaitUserMessage(path);
+      },
+    },
     {
       name: "Ask data input",
       key: "ask-data-input",
@@ -1048,7 +1086,7 @@ const Path = ({
               {controlStep.controls &&
                 controlStep.controls.type === "ask_option" && (
                   <div
-                    className="w-full"
+                    className="w-full flex items-center"
                     onClick={() => appendItemControl(controlStep)}
                   >
                     <Button
@@ -1058,6 +1096,12 @@ const Path = ({
                     >
                       + add data option
                     </Button>
+
+                    {/*<p>
+                      Save this value to user properties
+                      <
+                      [save]
+                    </p>*/}
                   </div>
                 )}
             </div>
@@ -1366,6 +1410,15 @@ class SortableSteps extends Component {
                       </ItemButtons>
 
                       <ItemManagerContainer>
+
+                        {
+                          item.controls && item.controls.type === "wait_for_reply" &&
+                          <div className="p-4 bg-blue-100 text-blue-300 border border-md border-blue-300 rounded-md">
+                            ... wait for user input ...
+                          </div>
+                        }
+
+
                         {item.messages.map((message) => (
                           <PathEditor
                             key={`path-editor-${path.id}`}
