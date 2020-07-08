@@ -24,7 +24,7 @@ module MessageApis
       @keys = {}
       @keys['channel'] = 'chaskiq_channel'
       @keys['consumer_key'] = config["api_key"]
-      @keys['consumer_secret'] =  config["api_secret"]
+      @keys['consumer_secret'] = config["api_secret"]
       @keys['access_token'] =  config["access_token"]
       @keys['access_token_secret'] =  config["access_token_secret"]
       @keys['user_token'] = config["user_token"]
@@ -90,10 +90,10 @@ module MessageApis
       data = {
         "channel": options[:channel] || @keys['channel'] || 'chaskiq_channel',
         "text": message,
-        "blocks": blocks,
-        "username": "chahaha custom",
-        "icon_url":	"http://lorempixel.com/48/48"
+        "blocks": blocks
       }
+
+      data.merge!(options) if options.present?
 
       url = url('/api/chat.postMessage')
 
@@ -240,35 +240,6 @@ module MessageApis
               "text": text_blocks.first,
               "emoji": true
             }
-          },
-
-          {
-            "type": "divider"
-          },
-
-          {
-            "type": "actions",
-            "elements": [
-              {
-                "type": "button",
-                "text": {
-                  "type": "plain_text",
-                  "text": "Close",
-                  "emoji": true
-                },
-                "value": "click_me_123"
-              },
-              {
-                "type": "button",
-                "text": {
-                  "type": "plain_text",
-                  "emoji": true,
-                  "text": "Reply in Channel"
-                },
-                "style": "primary",
-                "value": "reply_in_channel_#{conversation.key}"
-              },
-            ]
           }
         ]
       }
@@ -276,8 +247,15 @@ module MessageApis
       url = url('/api/chat.postMessage')
       response = post_data(url, data)
 
-      #puts response.body
-      #puts response.status      
+      response_data = JSON.parse(response.body)
+
+      return unless response_data["ok"]
+
+      conversation.conversation_channels.create({
+        provider: 'slack',
+        provider_channel_id: response_data["ts"]
+      })
+    
     end
 
     def notify_new_lead(user)
@@ -343,7 +321,7 @@ module MessageApis
 
       case action['value']
       when /^reply_in_channel/
-         handle_reply_in_channel_action(payload)
+         # handle_reply_in_channel_action(payload)
       else
       end
     end
@@ -360,6 +338,7 @@ module MessageApis
 
       # TODO: add a conversation_event_type for this type
       return if event['subtype'] === "channel_join"
+      return if event['thread_ts'].blank?
 
       conversation = @package
       .app
@@ -368,7 +347,7 @@ module MessageApis
       .where(
         "conversation_channels.provider =? AND 
         conversation_channels.provider_channel_id =?", 
-        "slack", event["channel"]
+        "slack", event['thread_ts']
       ).first
 
       text = event["text"]
@@ -378,9 +357,9 @@ module MessageApis
       return if conversation.conversation_part_channel_sources
                             .find_by(message_source_id: event["ts"]).present?
 
-      # TODO: serialize message                      
+      # TODO: serialize message
       conversation.add_message(
-        from: @package.app.agents.first, #agent_required ? Agent.first : participant,
+        from: get_agent_from_event(event),
         message: {
           html_content: text,
           #serialized_content: serialized_content
@@ -390,6 +369,19 @@ module MessageApis
         check_assignment_rules: true
       )
 
+    end
+
+    def get_agent_from_event(event)
+      begin
+        authorize_bot!
+        url = url('/api/users.info')
+        response = get_data(url, {user: event["user"]})
+        user_email = JSON.parse(response.body)["user"]["profile"]["email"]
+        agent = @package.app.agents.find_by(email: user_email )
+        agent || @package.app.agents.first
+      rescue 
+        @package.app.agents.first
+      end
     end
 
     def handle_challenge(params)
@@ -403,7 +395,7 @@ module MessageApis
     def oauth_authorize(app, package)
       oauth_client.auth_code.authorize_url(
         user_scope: 'chat:write,channels:history,channels:write,groups:write,mpim:write,im:write',
-        scope: 'channels:history,channels:join,chat:write,channels:manage',
+        scope: 'channels:history,channels:join,chat:write,channels:manage,chat:write.customize,users:read,users:read.email',
         redirect_uri: package.oauth_url
       )
     end
@@ -431,6 +423,9 @@ module MessageApis
         access_token_secret: token.to_hash["authed_user"]["access_token"]
       )
 
+      # this will create the channel
+      package.message_api_klass.create_channel
+
       true
     end
 
@@ -445,19 +440,28 @@ module MessageApis
       
       text = !blocks.blank? ? blocks.join(" ") : part.messageable.html_content
 
-      blocks.prepend({
-        "type": "section",
-        "text": {
-          "type": "mrkdwn",
-          "text": "*#{part.authorable.name}* (#{part.authorable.model_name.human}) sent a message"
-        }
-      })
+      #blocks.prepend({
+      #  "type": "section",
+      #  "text": {
+      #    "type": "mrkdwn",
+      #    "text": "*#{part.authorable.name}* (#{part.authorable.model_name.human}) sent a message"
+      #  }
+      #})
+
+
+      provider_channel_id = conversation.conversation_channels
+      .find_by(provider: 'slack')&.provider_channel_id
+
+      return if provider_channel_id.blank?
 
       response = post_message(
         "new message", 
         blocks.as_json,
         {
-          channel: channel
+          channel: @keys['channel'],
+          thread_ts: provider_channel_id,
+          username: "#{part.authorable.name} (#{part.authorable.model_name.human})",
+          icon_url: part&.authorable&.avatar_url
         }
       )
 
@@ -611,6 +615,10 @@ module MessageApis
         req.body = data.to_json
       end
       response
+    end
+
+    def get_data(url, data)
+      response = @conn.get(url, data)
     end
 
     def sync_messages_without_channel(conversation)
