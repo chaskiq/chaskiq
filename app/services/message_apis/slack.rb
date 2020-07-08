@@ -178,76 +178,86 @@ module MessageApis
       user_url = "#{base}/users/#{conversation.key}"
       links = "*<#{user_url}|#{conversation.main_participant.display_name}>* <#{conversation_url}|view in chaskiq>"
 
-      data = {
-        "channel": @keys['channel'] || 'chaskiq_channel',
-        "text": 'New conversation from Chaskiq',
-        "blocks": [
-          {
-            "type": "section",
-            "text": {
-              "type": "mrkdwn",
-              "text": "Conversation initiated by #{links}"
-            }
-          },
-
-          {
-            "type": "section",
-            "fields": [
-              {
-                "type": "mrkdwn",
-                "text": "*From:* #{participant.city}"
-              },
-              {
-                "type": "mrkdwn",
-                "text": "*When:* #{I18n.l(conversation.created_at, format: :short)}"
-              },
-              {
-                "type": "mrkdwn",
-                "text": "*Seen:* #{I18n.l(participant.last_visited_at, format: :short)}"
-              },
-              {
-                "type": "mrkdwn",
-                "text": "*Device:*\n#{participant.browser} #{participant.browser_version} / #{participant.os}"
-              },
-
-              {
-                "type": "mrkdwn",
-                "text": "*From:*\n<#{participant.referrer} | link>"
-              },
-
-              
-            ]
-          },
-
-          {
-            "type": "divider"
-          },
-
-          {
-            "type": "context",
-            "elements": [
-              {
-                "type": "mrkdwn",
-                "text": "Message"
-              }
-            ]
-          },
-
-          {
-            "type": "section",
-            "text": {
-              "type": "plain_text",
-              "text": text_blocks.first,
-              "emoji": true
-            }
+      data = [
+        {
+          "type": "section",
+          "text": {
+            "type": "mrkdwn",
+            "text": "Conversation initiated by #{links}"
           }
-        ]
-      }
+        },
 
-      url = url('/api/chat.postMessage')
-      response = post_data(url, data)
+        {
+          "type": "section",
+          "fields": [
+            {
+              "type": "mrkdwn",
+              "text": "*From:* #{participant.city}"
+            },
+            {
+              "type": "mrkdwn",
+              "text": "*When:* #{I18n.l(conversation.created_at, format: :short)}"
+            },
+            {
+              "type": "mrkdwn",
+              "text": "*Seen:* #{I18n.l(participant.last_visited_at, format: :short)}"
+            },
+            {
+              "type": "mrkdwn",
+              "text": "*Device:*\n#{participant.browser} #{participant.browser_version} / #{participant.os}"
+            },
 
-      response_data = JSON.parse(response.body)
+            {
+              "type": "mrkdwn",
+              "text": "*From:*\n<#{participant.referrer} | link>"
+            },
+
+            
+          ]
+        },
+
+        {
+          "type": "divider"
+        },
+
+        {
+          "type": "context",
+          "elements": [
+            {
+              "type": "mrkdwn",
+              "text": "Message"
+            }
+          ]
+        },
+
+        {
+          "type": "section",
+          "text": {
+            "type": "plain_text",
+            "text": text_blocks.first,
+            "emoji": true
+          }
+        },
+        {
+          "type": "section",
+          "text": {
+            "type": "plain_text",
+            "text": "to reply just reply on a thread",
+            "emoji": true
+          }
+        }
+      ]
+
+      response_data = json_body(
+        post_message(
+          'New conversation from Chaskiq',
+          data.as_json,
+          {
+            "channel": @keys['channel'] || 'chaskiq_channel',
+            "text": 'New conversation from Chaskiq',
+          }
+        )
+      )
 
       return unless response_data["ok"]
 
@@ -256,6 +266,10 @@ module MessageApis
         provider_channel_id: response_data["ts"]
       })
     
+    end
+
+    def json_body(response)
+      JSON.parse(response.body)
     end
 
     def notify_new_lead(user)
@@ -313,17 +327,7 @@ module MessageApis
 
       @package = package
 
-      return handle_incoming_event(params) if params['event']
-
-      payload = JSON.parse(params["payload"])
-
-      action = payload["actions"].first
-
-      case action['value']
-      when /^reply_in_channel/
-         # handle_reply_in_channel_action(payload)
-      else
-      end
+      handle_incoming_event(params) if params['event']
     end
 
     def handle_incoming_event(params)
@@ -453,7 +457,7 @@ module MessageApis
       .find_by(provider: 'slack')&.provider_channel_id
 
       return if provider_channel_id.blank?
-
+      
       response = post_message(
         "new message", 
         blocks.as_json,
@@ -465,7 +469,7 @@ module MessageApis
         }
       )
 
-      response_data = JSON.parse(response.body)
+      response_data = json_body(response)
 
       return unless response_data["ok"]
 
@@ -473,81 +477,6 @@ module MessageApis
         provider: 'slack', 
         message_source_id: response_data["ts"] 
       )
-    end
-
-    def handle_reply_in_channel_action(payload)
-      response_url = payload["response_url"]
-
-      reply_value = payload["actions"].first["value"].gsub("reply_in_channel_", "")
-
-      data = {
-        "channel": @keys['channel'] || 'chaskiq_channel',
-        "text": payload["message"]["text"],
-        "blocks": [{
-          "type": "context",
-          "elements": [
-            {
-              "type": "mrkdwn",
-              "text": "channel created! "
-            }
-          ]
-        }]
-      }
-
-      create_channel_response = create_channel(
-        "chaskiq-#{Time.now.to_i}", 
-        payload["user"]["id"]
-      )
-
-      slack_channel_id = create_channel_response["channel"]["id"]
-
-      conversation = @package.app.conversations.find_by(key: reply_value)
-      
-      return if conversation.blank?
-      
-      conversation.conversation_channels.create({
-        provider: 'slack',
-        provider_channel_id: slack_channel_id
-      })
-
-      if create_channel_response["error"].blank?
-
-        # joins user who clicked message
-        authorize_user!
-        join_channel(slack_channel_id)
-
-        # joins bot
-        authorize_bot!
-        join_channel(slack_channel_id)
-      end
-
-      blocks = payload["message"]["blocks"].reject{|o| 
-        o["type"] == "actions"
-      } + data[:blocks]
-
-      data.merge!(
-        {
-          blocks: blocks
-        }
-      )
-
-      response = update_reply_in_channel_message(response_url , data)
-      #response.body
-      
-      # sync all messages
-      ConversationChannelSyncJob.perform_later(
-        conversation_id: conversation.id,
-        app_package_id: @package.id
-      )
-
-    end
-
-    def update_reply_in_channel_message(response_url, data )
-      @conn.post do |req|
-        req.url response_url
-        req.headers['Content-Type'] = 'application/json; charset=utf-8'
-        req.body = data.to_json
-      end
     end
 
     def blocks_transform(part)
