@@ -22,7 +22,7 @@ module MessageApis
       @package = nil
 
       @keys = {}
-      @keys['channel'] = 'chaskiq_channel'
+      @keys['channel'] = Rails.env.development? ? 'chaskiq_channel-local' : 'chaskiq_channel'
       @keys['consumer_key'] = config["api_key"]
       @keys['consumer_secret'] = config["api_secret"]
       @keys['access_token'] =  config["access_token"]
@@ -88,7 +88,7 @@ module MessageApis
       authorize_bot!
 
       data = {
-        "channel": options[:channel] || @keys['channel'] || 'chaskiq_channel',
+        "channel": options[:channel] || @keys['channel'],
         "text": message,
         "blocks": blocks
       }
@@ -109,11 +109,11 @@ module MessageApis
       response
     end
 
-    def create_channel(name='chaskiq_channel', user_ids="")
+    def create_channel(name=nil, user_ids="")
       authorize_bot!
 
       data = {
-        "name": name,
+        "name": name || @keys['channel'],
         "user_ids": user_ids
       }
 
@@ -253,7 +253,7 @@ module MessageApis
           'New conversation from Chaskiq',
           data.as_json,
           {
-            "channel": @keys['channel'] || 'chaskiq_channel',
+            "channel": @keys['channel'],
             "text": 'New conversation from Chaskiq',
           }
         )
@@ -440,9 +440,36 @@ module MessageApis
       # TODO ? redis cache here for provider / channel id / part
       return if part.conversation_part_channel_sources.find_by(provider: "slack").present?
       
-      blocks = blocks_transform(part) 
-      
-      text = !blocks.blank? ? blocks.join(" ") : part.messageable.html_content
+      blocks = blocks_transform(part) rescue nil
+
+      user_options = {
+        username: "#{part.authorable.name} (#{part.authorable.model_name.human})",
+        icon_url: part&.authorable&.avatar_url
+      }
+
+      #text = !blocks.blank? ? 
+      #        blocks.join(" ") : 
+      #        part.messageable.html_content rescue nil
+
+      if part.messageable.is_a?(ConversationPartBlock) 
+        return if !part.messageable.replied?
+        data_label = part.messageable.data['label']
+        blocks = [{
+          "type": "section",
+          "text": {
+            "type": "mrkdwn",
+            "text": "*replied*: #{data_label}",
+          },
+          "block_id": 'replied-1'
+        }]
+
+        user = conversation.main_participant
+
+        user_options.merge!({
+          username: "#{user.display_name} (#{user.model_name.human})",
+          icon_url: user&.avatar_url
+        })
+      end 
 
       #blocks.prepend({
       #  "type": "section",
@@ -452,7 +479,6 @@ module MessageApis
       #  }
       #})
 
-
       provider_channel_id = conversation.conversation_channels
       .find_by(provider: 'slack')&.provider_channel_id
 
@@ -461,12 +487,10 @@ module MessageApis
       response = post_message(
         "new message", 
         blocks.as_json,
-        {
+        user_options.merge!({
           channel: @keys['channel'],
           thread_ts: provider_channel_id,
-          username: "#{part.authorable.name} (#{part.authorable.model_name.human})",
-          icon_url: part&.authorable&.avatar_url
-        }
+        })
       )
 
       response_data = json_body(response)
