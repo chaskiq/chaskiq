@@ -145,6 +145,7 @@ export const AGENT = `
             state
             readAt
             priority
+            tagList
             lastMessage{
               source
               createdAt
