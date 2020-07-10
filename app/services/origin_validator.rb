@@ -14,13 +14,26 @@ class OriginValidator
 
   def is_valid?
     return true if Rails.env.development?
+
+    raise NonAcceptedOrigin if @app.split(",").map{ |domain|
+      validate_domain(domain)
+    }.none?{ |r| 
+      r == true 
+    }
+
+    true
+  end
+
+
+  def validate_domain(domain)
     env_domain = Addressable::URI.parse(
       self.host
     )
 
-    app_domain = Addressable::URI.parse(self.app)
+    app_domain = Addressable::URI.parse(domain)
 
     # for now we will check for domain
-    raise NonAcceptedOrigin if app_domain.domain != env_domain.domain
+    return false if app_domain.domain != env_domain.domain
+    true
   end
 end
