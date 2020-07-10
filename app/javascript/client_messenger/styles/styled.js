@@ -445,12 +445,17 @@ export const AppPackageBlockContainer = styled.div`
     form {
       display: flex;
       align-items: center;
-      justify-content: space-between;
+      //justify-content: space-between;
       //width: 69%;
       flex-wrap: wrap;
       button {
         margin: 1px;
         padding: 5px;
+        white-space: normal;
+        background: transparent;
+        border: 1px solid #007bff;
+        color: #007bff;
+        font-size: 0.9em;
       }
 
       .form-group {
