@@ -472,7 +472,7 @@ const BotEditor = ({ match, app, dispatch, mode, actions }) => {
           />
         )}
 
-        <div className="w-1/4 bg-gray-100 flex flex-col py-3">
+        <div className="w-2/4 bg-gray-100 flex flex-col py-3">
           <h3 className="text-sm leading-5 font-medium text-gray-900 my-2 text-center">
             Paths
           </h3>
