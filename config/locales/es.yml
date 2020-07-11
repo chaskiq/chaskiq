@@ -211,7 +211,7 @@
           email_only: Solicitar solo correo electrónico
           override:
             label: Sobreescribe el comportamiento por defecto con un bot propio
-            hint: Cuando haga esto, el comportamiento predeterminado a continuación no tendrá lugar y la tarea se activará en cada nueva conversación
+            hint: Cuando activas esto, el comportamiento predeterminado no tendrá lugar y esta tarea de bot se activará en cada nueva conversación
         users:
           tab: Para los usuarios
           start_conversation: Cuando los usuarios comienzan una conversación
