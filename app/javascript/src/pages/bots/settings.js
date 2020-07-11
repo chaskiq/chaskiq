@@ -7,7 +7,7 @@ import ContentHeader from '../../components/PageHeader'
 import Content from '../../components/Content'
 import Input from '../../components/forms/Input'
 import graphql from '../../graphql/client'
-import { AGENTS } from '../../graphql/queries'
+import { AGENTS, BOT_TASKS } from '../../graphql/queries'
 
 import { updateApp } from '../../actions/app'
 import { setCurrentPage } from '../../actions/navigation'
@@ -17,6 +17,7 @@ const SettingsForm = ({ app, data, errors, dispatch }) => {
   const [tabValue, setTabValue] = useState(0)
   const [state, setState] = useState({})
   const [agents, setAgents] = useState([])
+  const [tasks, setTasks] = useState([])
 
   useEffect(() => {
     dispatch(setCurrentPage('botSettings'))
@@ -33,6 +34,23 @@ const SettingsForm = ({ app, data, errors, dispatch }) => {
         error: (error) => {}
       }
     )
+  }
+
+  function getTasks (mode) {
+    graphql(
+      BOT_TASKS,
+      { appKey: app.key, mode: mode },
+      {
+        success: (data) => {
+          setTasks(data.app.botTasks)
+        },
+        error: (error) => {}
+      }
+    )
+  }
+
+  const getTasksFor = (name) => () => {
+    getTasks(name)
   }
 
   let formRef
@@ -52,6 +70,8 @@ const SettingsForm = ({ app, data, errors, dispatch }) => {
                 updateData={updateState}
                 agents={agents}
                 getAgents={getAgents}
+                tasks={tasks}
+                getTasks={getTasksFor('leads')}
                 submit={submit}
                 namespace={'lead_tasks_settings'}
               />
@@ -65,6 +85,8 @@ const SettingsForm = ({ app, data, errors, dispatch }) => {
                 updateData={updateState}
                 agents={agents}
                 getAgents={getAgents}
+                tasks={tasks}
+                getTasks={getTasksFor('users')}
                 submit={submit}
                 namespace={'user_tasks_settings'}
               />
@@ -93,23 +115,36 @@ const SettingsForm = ({ app, data, errors, dispatch }) => {
         <ContentHeader title={
           I18n.t('task_bots.title')
         } items={[]} />
-
-        {/* JSON.stringify(state) */}
         {tabsContent()}
       </Content>
     </div>
   )
 }
 
-function UsersSettings ({ app, updateData, namespace, submit }) {
+function UsersSettings ({
+  app,
+  updateData,
+  namespace,
+  submit,
+  tasks,
+  getTasks
+}) {
   const [state, setState] = React.useState(app.userTasksSettings || {})
 
   useEffect(() => {
     updateData({ users: state })
   }, [state])
 
+  useEffect(() => {
+    if (!state.override_with_task) setState({ ...state, trigger: null })
+  }, [state.override_with_task])
+
   const handleChange = (name) => (event) => {
     setState({ ...state, [name]: event.target.checked })
+  }
+
+  const setValue = (name, value) => {
+    setState({ ...state, [name]: value })
   }
 
   function submitData () {
@@ -131,6 +166,27 @@ function UsersSettings ({ app, updateData, namespace, submit }) {
           onChange={handleChange('delay')}
           value="delay"
         />
+
+        <Input
+          type="checkbox"
+          checked={state.override_with_task}
+          onChange={handleChange('override_with_task')}
+          value={state.override_with_task}
+          label={ I18n.t('task_bots.settings.users.override.label') }
+          hint={ I18n.t('task_bots.settings.users.override.hint') }
+        />
+
+        {
+          state.override_with_task &&
+          <div className="w-1/4 pl-5">
+            <TaskSelector
+              tasks={tasks}
+              getTasks={getTasks}
+              setValue={setValue}
+              value={state.trigger}
+            />
+          </div>
+        }
       </div>
 
       <div className="py-4">
@@ -149,13 +205,19 @@ function LeadsSettings ({
   agents,
   getAgents,
   submit,
-  namespace
+  namespace,
+  tasks,
+  getTasks
 }) {
   const [state, setState] = React.useState(app.leadTasksSettings || {})
 
   useEffect(() => {
     updateData({ leads: state })
   }, [state])
+
+  useEffect(() => {
+    if (!state.override_with_task) setState({ ...state, trigger: null })
+  }, [state.override_with_task])
 
   const handleChange = (name) => (event) => {
     setValue(name, event.target.checked)
@@ -199,6 +261,26 @@ function LeadsSettings ({
             label={I18n.t("task_bots.settings.leads.share_time")}
           />
 
+          <Input
+            type="checkbox"
+            checked={ state.override_with_task }
+            onChange={ handleChange('override_with_task') }
+            value={ state.override_with_task }
+            label={ I18n.t('task_bots.settings.leads.override.label') }
+            helperText={ I18n.t('task_bots.settings.leads.override.hint') }
+          />
+
+          {
+            state.override_with_task &&
+            <div className="w-1/4 pl-5">
+              <TaskSelector
+                tasks={tasks}
+                getTasks={getTasks}
+                setValue={setValue}
+                value={state.trigger}
+              />
+            </div>
+          }
         </div>
 
         <hr />
@@ -308,7 +390,6 @@ function AgentSelector ({ agents, getAgents, setValue, value }) {
   }, [])
 
   useEffect(() => {
-    console.log('assignee', selected)
     setValue('assignee', selected)
   }, [selected])
 
@@ -334,6 +415,48 @@ function AgentSelector ({ agents, getAgents, setValue, value }) {
         id={'agent'}
         data={{}}
         options={agents.map((o) => ({ label: o.email, value: o.id }))}
+      ></Input>
+    </div>
+  )
+}
+
+function TaskSelector ({ tasks, getTasks, setValue, value }) {
+  const [selected, setSelected] = React.useState(value)
+
+  useEffect(() => {
+    getTasks()
+  }, [])
+
+  useEffect(() => {
+    setValue('trigger', selected)
+  }, [selected])
+
+  function handleChange (e) {
+    setSelected(e.value)
+  }
+
+  const selectedAgent = tasks.find((o) => o.id === selected)
+  let defaultValue = null
+  if (selectedAgent) {
+    defaultValue = { label: selectedAgent.title, value: selectedAgent.id }
+  }
+
+  const options = [{label: 'none', value: null}].concat(
+    tasks.map((o) => ({ label: o.title, value: o.id }))
+  )
+
+  return (
+    <div>
+      <Input
+        type="select"
+        value={defaultValue}
+        onChange={handleChange}
+        // defaultValue={selected}
+        defaultValue={defaultValue}
+        name={'trigger'}
+        id={'trigger'}
+        data={{}}
+        options={options}
       ></Input>
     </div>
   )

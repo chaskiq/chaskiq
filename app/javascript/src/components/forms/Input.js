@@ -322,7 +322,10 @@ function FormField ({ name, label, helperText, children, error }) {
         {label}
       </label>
       {children}
-      {helperText && helperText}
+
+      {helperText && (
+        <div className="mt-2 text-xs text-gray-500">{helperText}</div>
+      )}
     </React.Fragment>
   )
 }

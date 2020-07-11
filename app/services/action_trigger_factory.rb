@@ -287,10 +287,25 @@ class ActionTriggerFactory
     subject
   end
 
+  def self.find_configured_bot_for_user(app: , user:)
+    if user.is_a?(Lead) 
+      id = app.lead_tasks_settings['trigger']
+      return if id.blank?
+      return app.bot_tasks.find(id) 
+    elsif(user.is_a?(AppUser))
+      id = app.user_tasks_settings['trigger']
+      return if id.blank?
+      return app.bot_tasks.find(id)
+    end
+    nil
+  end
+
+
   def self.find_factory_template(app:, app_user:, data:)
     case data['trigger']
     when 'infer'
-      trigger = ActionTriggerFactory.infer_for(app: app, user: app_user)
+      trigger = ActionTriggerFactory.find_configured_bot_for_user(app: app, user: app_user) || 
+        ActionTriggerFactory.infer_for(app: app, user: app_user)
     when 'request_for_email'
       trigger = ActionTriggerFactory.request_for_email(app: app)
       trigger

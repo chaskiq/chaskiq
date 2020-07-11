@@ -1,3 +1,5 @@
+import helpers from './helpers.js'
+
 describe('Task bot Spec', function () {
   beforeEach(() => {
     cy.appEval('ActiveJob::Base.queue_adapter = :test')
@@ -6,7 +8,6 @@ describe('Task bot Spec', function () {
   })
 
   it('sessionless never ask email', function () {
-
     cy.appScenario('app_bot_settings', { email_requirement: 'never' }).then(() => {
       cy.appEval('App.last').then((results) => {
         const appKey = results.key
@@ -100,7 +101,6 @@ describe('Task bot Spec', function () {
   })
 
   it('sessionless 3 never ask email', function () {
-
     cy.appScenario('app_bot_settings', { email_requirement: 'never' }).then(() => {
       cy.appEval('App.last').then((results) => {
         const appKey = results.key
@@ -130,7 +130,7 @@ describe('Task bot Spec', function () {
 
                           cy.wrap($body).contains('will reply as soon as they can.')
 
-                          //cy.wrap($body).contains('oeoe')
+                          // cy.wrap($body).contains('oeoe')
                           cy.wrap($body).contains('Are you an existing')
                           cy.wrap($body).contains("I'm a customer").click()
                           cy.wrap($body).contains("You replied Yes, I'm a customer")
@@ -144,8 +144,7 @@ describe('Task bot Spec', function () {
     })
   })
 
-
-  it('sessionless bot task wait for reply', function() {
+  it('sessionless bot task wait for reply', function () {
     cy.appScenario('basic')
 
     beforeEach(() => {
@@ -153,36 +152,185 @@ describe('Task bot Spec', function () {
       cy.appEval('ActiveJob::Base.queue_adapter.perform_enqueued_at_jobs = true')
       cy.appEval('Redis.current.del("app_user:1:trigger_locked")')
     })
-    
-    cy.appEval("App.last").then((results) => {
-      const appKey = results.key
-      cy.app("bot_task_command", {
-        app_key: appKey,
-      }).then((res)=>{
 
+    cy.appEval('App.last').then((results) => {
+      const appKey = results.key
+      cy.app('bot_task_command', {
+        app_key: appKey
+      }).then((res) => {
         cy.log(res)
 
-        cy.visit(`/tester/${appKey}?sessionless=true`).then(()=>{
-
-
+        cy.visit(`/tester/${appKey}?sessionless=true`).then(() => {
           cy.get('[data-chaskiq-container] iframe')
-          .then( function ($iframe) {
-            const $body = $iframe.contents().find('body')
+            .then(function ($iframe) {
+              const $body = $iframe.contents().find('body')
 
-            cy.wrap($body).contains('one')
-            cy.wrap($body).contains('two')
-            cy.wrap($body).contains('tree')
+              cy.wrap($body).contains('one')
+              cy.wrap($body).contains('two')
+              cy.wrap($body).contains('tree')
 
-            cy.wrap($body)
-              .xpath('/html/body/div/div/div/div[2]/div/div/div/div[2]/div/div/textarea')
-              .type('oeoe \n')
+              cy.wrap($body)
+                .xpath('/html/body/div/div/div/div[2]/div/div/div/div[2]/div/div/textarea')
+                .type('oeoe \n')
               cy.wrap($body).contains('four')
-          })
-          
+            })
         })
       })
     })
   })
 
+  describe('Task bot Spec', function () {
+    beforeEach(() => {
+      cy.appEval('ActiveJob::Base.queue_adapter = :test')
+      cy.appEval('ActiveJob::Base.queue_adapter.perform_enqueued_at_jobs = true')
+      // cy.appEval('Redis.current.del("app_user:1:trigger_locked")')
 
+      cy.appScenario('basic')
+      cy.appEval('Redis.current.del("app_user:1:trigger_locked")')
+    })
+
+    it('sessionless enter bot on new conversation', function () {
+      cy.appEval('App.last').then((results) => {
+        const appKey = results.key
+        cy.appEval(`App.find_by(key: '${appKey}').update(lead_tasks_settings: {trigger: 1} )`)
+  
+        cy.app('bot_task_command', {
+          app_key: appKey
+        }).then((res) => {
+          cy.appEval(`BotTask.find(${res.id}).update(state: 'disabled' )`)
+  
+          cy.log(res)
+  
+          helpers.openMessenger('?sessionless=true', ($body, appKey) => {
+            expect($body.html()).to.contain('Start a conversation')
+            cy.wrap($body)
+              .xpath('/html/body/div/div/div/div[2]/div/div[1]/div/div/div[2]/a[1]')
+              .click()
+              .then(() => {
+                cy.wrap($body)
+                  .xpath('/html/body/div/div/div/div[2]/div/div/div/div[2]/div/div/textarea')
+                  .should('be.enabled').then(() => {
+                    cy.wrap($body)
+                      .xpath('/html/body/div/div/div/div[2]/div/div/div/div[2]/div/div/textarea')
+                      .type('oeoe \n').then(() => {
+                        cy.wrap($body).contains('oeoe')
+                        cy.wrap($body).contains('one')
+                        cy.wrap($body).contains('two')
+                        cy.wrap($body).contains('tree')
+                      })
+                  })
+              })
+          })
+        })
+      })
+    })
+
+    it('sessionless default bot new conversation', function () {
+      cy.appEval('App.last').then((results) => {
+        const appKey = results.key
+        //cy.appEval(`App.find_by(key: '${appKey}').update(lead_tasks_settings: {trigger: 1} )`)
+  
+        cy.app('bot_task_command', {
+          app_key: appKey
+        }).then((res) => {
+          cy.appEval(`BotTask.find(${res.id}).update(state: 'disabled' )`)
+  
+          cy.log(res)
+  
+          helpers.openMessenger('?sessionless=true', ($body, appKey) => {
+            expect($body.html()).to.contain('Start a conversation')
+            cy.wrap($body)
+              .xpath('/html/body/div/div/div/div[2]/div/div[1]/div/div/div[2]/a[1]')
+              .click()
+              .then(() => {
+                cy.wrap($body)
+                  .xpath('/html/body/div/div/div/div[2]/div/div/div/div[2]/div/div/textarea')
+                  .should('be.enabled').then(() => {
+                    cy.wrap($body)
+                      .xpath('/html/body/div/div/div/div[2]/div/div/div/div[2]/div/div/textarea')
+                      .type('oeoe \n').then(() => {
+                        cy.wrap($body).contains('oeoe')
+                        cy.wrap($body).contains('Are you')
+                      })
+                  })
+              })
+          })
+        })
+      })
+    })
+
+    it('user session default bot new conversation', function () {
+      cy.appEval('App.last').then((results) => {
+        const appKey = results.key
+        cy.appEval(`App.find_by(key: '${appKey}').update(user_tasks_settings: {trigger: 1} )`)
+  
+        cy.app('bot_task_command', {
+          app_key: appKey
+        }).then((res) => {
+          cy.appEval(`BotTask.find(${res.id}).update(state: 'disabled' )`)
+  
+          cy.log(res)
+  
+          helpers.openMessenger('', ($body, appKey) => {
+            expect($body.html()).to.contain('Start a conversation')
+            cy.wrap($body)
+              .xpath('/html/body/div/div/div/div[2]/div/div[1]/div/div/div[2]/a[1]')
+              .click()
+              .then(() => {
+                cy.wrap($body)
+                  .xpath('/html/body/div/div/div/div[2]/div/div/div/div[2]/div/div/textarea')
+                  .should('be.enabled').then(() => {
+                    cy.wrap($body)
+                      .xpath('/html/body/div/div/div/div[2]/div/div/div/div[2]/div/div/textarea')
+                      .type('oeoe \n').then(() => {
+                        cy.wrap($body).contains('oeoe')
+                        
+                        cy.wrap($body).contains('one')
+                        cy.wrap($body).contains('two')
+                        cy.wrap($body).contains('tree')
+                      })
+                  })
+              })
+          })
+        })
+      })
+    })
+
+    it('user session default bot new conversation', function () {
+      cy.appEval('App.last').then((results) => {
+        const appKey = results.key
+        cy.appEval(`App.find_by(key: '${appKey}').update(user_tasks_settings: {trigger: 1} )`)
+  
+        cy.app('bot_task_command', {
+          app_key: appKey
+        }).then((res) => {
+          cy.appEval(`BotTask.find(${res.id}).update(state: 'disabled' )`)
+  
+          cy.log(res)
+  
+          helpers.openMessenger('', ($body, appKey) => {
+            expect($body.html()).to.contain('Start a conversation')
+            cy.wrap($body)
+              .xpath('/html/body/div/div/div/div[2]/div/div[1]/div/div/div[2]/a[1]')
+              .click()
+              .then(() => {
+                cy.wrap($body)
+                  .xpath('/html/body/div/div/div/div[2]/div/div/div/div[2]/div/div/textarea')
+                  .should('be.enabled').then(() => {
+                    cy.wrap($body)
+                      .xpath('/html/body/div/div/div/div[2]/div/div/div/div[2]/div/div/textarea')
+                      .type('oeoe \n').then(() => {
+                        cy.wrap($body).contains('oeoe')
+                        
+                        cy.wrap($body).contains('one')
+                        cy.wrap($body).contains('two')
+                        cy.wrap($body).contains('tree')
+                      })
+                  })
+              })
+          })
+        })
+      })
+    })
+  })
 })
