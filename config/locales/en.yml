@@ -216,11 +216,17 @@ en:
         dont_ask_email: Don't ask for email
         ask_email_phone: Ask for email or mobile number
         email_only: Ask for email only
+        override:
+          label: Override default behavior with your own task bot
+          hint: "When you do this the default behavior below will not take place and the task will be triggered on each new conversation"
       users:
         tab: For Users
         start_conversation: When users start a conversation
         delay: Leave a 2 minute delay before triggering Task Bots during office hours
-  
+        override:
+          label: Override default behavior with your own task
+          hint: hint!
+
       settings_title: Bot Task settings
       specific_times_title: Set specific times to show this bot to your audience.
       tz_hint: Your app's timezone is %{timezone} See your office hours.
