@@ -171,8 +171,9 @@ describe('Task bot Spec', function () {
 
               cy.wrap($body)
                 .xpath('/html/body/div/div/div/div[2]/div/div/div/div[2]/div/div/textarea')
-                .type('oeoe \n')
-              cy.wrap($body).contains('four')
+                .type('oeoe \n').then(()=> {
+                  cy.wrap($body).contains('four')
+                })
             })
         })
       })
