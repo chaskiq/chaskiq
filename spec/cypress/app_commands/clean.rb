@@ -4,10 +4,7 @@ ActiveRecord::Base.connection_pool.with_connection do
 
   if defined?(DatabaseCleaner)
     # cleaning the database using database_cleaner
-    DatabaseCleaner.strategy = :truncation
-    DatabaseCleaner.clean
-
-    DatabaseCleaner.strategy = :truncation
+    #DatabaseCleaner.strategy = :truncation
     DatabaseCleaner.clean
     # see https://github.com/bmabey/database_cleaner/issues/99
     #begin
