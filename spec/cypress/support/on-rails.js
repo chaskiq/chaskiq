@@ -35,6 +35,12 @@ Cypress.Commands.add('appFixtures', function (options) {
 });
 // CypressOnRails: end
 
+before(()=>{
+  cy.appEval(`
+    DatabaseCleaner.clean_with(:transaction)
+    DatabaseCleaner.start
+  `)
+})
 // The next is optional
  beforeEach(() => {
   cy.app('clean') // have a look at cypress/app_commands/clean.rb
@@ -45,7 +51,13 @@ Cypress.on('fail', (err, runnable) => {
   // allow app to generate additional logging data
   Cypress.$.ajax({
     url: '/__cypress__/command',
-    data: JSON.stringify({name: 'log_fail', options: {error_message: err.message, runnable_full_title: runnable.fullTitle() }}),
+    data: JSON.stringify({
+      name: 'log_fail',
+      options: {
+        error_message: err.message, 
+        runnable_full_title: runnable.fullTitle()
+      }
+    }),
     async: false,
     method: 'POST'
   });
