@@ -20,6 +20,8 @@ export const PING = `
         enableArticlesOnWidget
         inlineNewConversations
         inBusinessHours
+        leadTasksSettings
+        userTasksSettings
         replyTime
         logo
         inboundSettings

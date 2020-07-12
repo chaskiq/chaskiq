@@ -287,10 +287,38 @@ class ActionTriggerFactory
     subject
   end
 
+  def self.find_configured_bot_for_user(app:, user:)
+    settings_namespace = user.is_a?(Lead) ? :lead_tasks_settings : :user_tasks_settings
+
+    return if !app.send(settings_namespace)['override_with_task']
+    return if app.send(settings_namespace)['task_rules'].empty?
+
+    return find_by_segment(
+      app: app, 
+      user: user, 
+      rules: app.send(settings_namespace)['task_rules'] 
+    )
+  end
+
+  def self.find_by_segment(app: , user:, rules:)
+    rules.find{|o|
+      comparator = SegmentComparator.new(
+        user: user, 
+        predicates: o['predicates'] || []
+      )
+      if comparator.compare && trigger = app.bot_tasks.find(o['trigger'])
+        return trigger
+      end
+      nil
+    }
+  end
+
+
   def self.find_factory_template(app:, app_user:, data:)
     case data['trigger']
     when 'infer'
-      trigger = ActionTriggerFactory.infer_for(app: app, user: app_user)
+      trigger = ActionTriggerFactory.find_configured_bot_for_user(app: app, user: app_user) || 
+        ActionTriggerFactory.infer_for(app: app, user: app_user)
     when 'request_for_email'
       trigger = ActionTriggerFactory.request_for_email(app: app)
       trigger

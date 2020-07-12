@@ -1,11 +1,13 @@
 language: ruby
-#addons:
-#  chrome: stable
 addons:
+  postgresql: 11
+  chrome: stable
   apt:
     packages:
       # Ubuntu 16+ does not install this dependency by default, so we need to install it ourselves
       - libgconf-2-4
+      - postgresql-11
+      - postgresql-client-11
 
 services:
 - postgresql
@@ -13,15 +15,20 @@ services:
 env:
   global:
   - NODE_ENV=test
+  - PGPORT=5433
 cache:
   bundler: true
-  directories:
-  - node_modules
+  npm: true
   yarn: true
+  directories:
+    - node_modules
+    - ~/.cache
 before_install:
 - gem update --system
 - gem install bundler -v 1.17.3
 - nvm install 10.13.0
+#- google-chrome-beta --headless --disable-gpu --remote-debugging-port=9222 http://localhost &
+
 before_script:
 - cp config/database.yml.travis config/database.yml
 - cp ./config/webpacker.ci.yml ./config/webpacker.yml

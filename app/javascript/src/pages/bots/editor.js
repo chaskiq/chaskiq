@@ -242,6 +242,34 @@ const BotEditor = ({ match, app, dispatch, mode, actions }) => {
     setSelectedPath(newPath); // redundant
   };
 
+  const addWaitUserMessage = (path) => {
+    const id = create_UUID();
+    const dummy = {
+      step_uid: id,
+      type: "messages",
+      messages: [],
+      controls: {
+        type: "wait_for_reply",
+        schema: [],
+      },
+    };
+
+    const newSteps = path.steps.concat(dummy);
+    let newPath = null;
+
+    const newPaths = paths.map((o) => {
+      if (o.id === path.id) {
+        newPath = Object.assign({}, path, { steps: newSteps });
+        return newPath;
+      } else {
+        return o;
+      }
+    });
+
+    setPaths(newPaths);
+    setSelectedPath(newPath); // redundant
+  };
+
   const addSectionControl = (path) => {
     const id = create_UUID();
     const dummy = {
@@ -444,7 +472,7 @@ const BotEditor = ({ match, app, dispatch, mode, actions }) => {
           />
         )}
 
-        <div className="w-1/4 bg-gray-100 flex flex-col py-3">
+        <div className="w-2/4 bg-gray-100 flex flex-col py-3">
           <h3 className="text-sm leading-5 font-medium text-gray-900 my-2 text-center">
             Paths
           </h3>
@@ -513,6 +541,7 @@ const BotEditor = ({ match, app, dispatch, mode, actions }) => {
                 app={app}
                 path={selectedPath}
                 paths={paths}
+                addWaitUserMessage={addWaitUserMessage}
                 addSectionMessage={addSectionMessage}
                 addSectionControl={addSectionControl}
                 addDataControl={addDataControl}
@@ -573,6 +602,7 @@ function FollowActionsSelect({ app, path, updatePath }) {
 
   function updateData() {
     if (!path) return;
+    
     const newPath = Object.assign({}, path, {
       //follow_actions: actions,
       followActions: actions,
@@ -655,6 +685,7 @@ function FollowActionsSelect({ app, path, updatePath }) {
   return (
     <div>
       {renderActions()}
+
       { 
         menuOptions.length > 0 &&
         <div className="py-4">
@@ -684,6 +715,7 @@ function FollowActionsSelect({ app, path, updatePath }) {
           </Dropdown> 
         </div>
       }
+
     </div>
   );
 }
@@ -705,6 +737,10 @@ function AgentSelector({ app, updateAction, removeAction, action, index }) {
       }
     );
   }
+
+  useEffect(()=>{
+    setSelected(action.value)
+  },[action.value])
 
   useEffect(() => {
     getAgents();
@@ -780,6 +816,7 @@ const Path = ({
   paths,
   path,
   addSectionMessage,
+  addWaitUserMessage,
   addSectionControl,
   addDataControl,
   updatePath,
@@ -852,6 +889,14 @@ const Path = ({
         addSectionControl(path);
       },
     },*/
+    ,
+    {
+      name: "Wait for user input",
+      key: "wait-user-input",
+      onClick: () => {
+        addWaitUserMessage(path);
+      },
+    },
     {
       name: "Ask data input",
       key: "ask-data-input",
@@ -1048,7 +1093,7 @@ const Path = ({
               {controlStep.controls &&
                 controlStep.controls.type === "ask_option" && (
                   <div
-                    className="w-full"
+                    className="w-full flex items-center"
                     onClick={() => appendItemControl(controlStep)}
                   >
                     <Button
@@ -1058,6 +1103,12 @@ const Path = ({
                     >
                       + add data option
                     </Button>
+
+                    {/*<p>
+                      Save this value to user properties
+                      <
+                      [save]
+                    </p>*/}
                   </div>
                 )}
             </div>
@@ -1086,7 +1137,11 @@ const Path = ({
               </Button>
             </div>
 
-            <FollowActionsSelect app={app} updatePath={updatePath} path={path} />
+            <FollowActionsSelect 
+              app={app} 
+              updatePath={updatePath} 
+              path={path} 
+            />
 
             {/*<p className="max-w-xl text-sm leading-5 text-gray-500 mb-4">
               Hint: Follow actions will be triggered on paths that ends with
@@ -1366,6 +1421,15 @@ class SortableSteps extends Component {
                       </ItemButtons>
 
                       <ItemManagerContainer>
+
+                        {
+                          item.controls && item.controls.type === "wait_for_reply" &&
+                          <div className="p-4 bg-blue-100 text-blue-300 border border-md border-blue-300 rounded-md">
+                            ... wait for user input ...
+                          </div>
+                        }
+
+
                         {item.messages.map((message) => (
                           <PathEditor
                             key={`path-editor-${path.id}`}
@@ -1423,7 +1487,6 @@ const PathSelect = ({ option, options, update }) => {
   };
   const selectedOption = options.find((o) => option.next_step_uuid === o.value);
 
-  console.log(JSON.stringify(selectedOption));
   return (
     <Input
       type="select"
