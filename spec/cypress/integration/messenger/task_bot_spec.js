@@ -147,13 +147,17 @@ describe('Task bot Spec', function () {
 
   it('sessionless bot task wait for reply', function () {
 
-    cy.appScenario('basic').then(()=>{
+    cy.appScenario('basic').then((basic)=>{
+      cy.log('basic', JSON.stringify(basic))
+
       cy.appEval('App.last').then((results) => {
         const appKey = results.key
+        cy.log('APP.last', JSON.stringify(results))
+
         cy.app('bot_task_command', {
           app_key: appKey
         }).then((res) => {
-          cy.log(res)
+          cy.log('bot task command', JSON.stringify(res))
   
           cy.visit(`/tester/${appKey}?sessionless=true`).then(() => {
             cy.get('[data-chaskiq-container] iframe')
@@ -235,6 +239,8 @@ describe('Task bot Spec', function () {
       cy.appScenario('basic').then(()=>{
         cy.appEval('App.last').then((results) => {
           const appKey = results.key
+          cy.log('App.last', JSON.stringify(results))
+
           cy.appEval(`App.find_by(key: '${appKey}').update(lead_tasks_settings: {
             override_with_task: true,
             task_rules: [
@@ -242,13 +248,16 @@ describe('Task bot Spec', function () {
                 predicates: []
               }
             ]
-          })`).then(() => {
+          })`).then((app2) => {
+            cy.log('App.last2', JSON.stringify(app2))
+
             cy.app('bot_task_command', {
               app_key: appKey
             }).then((res) => {
               cy.appEval(`BotTask.find(${res.id}).update(state: 'disabled' )`)
       
-              cy.log(res)
+              cy.log('task command', JSON.stringify(res))
+
       
               helpers.openMessenger('?sessionless=true&lang=en', ($body, appKey) => {
                 expect($body.html()).to.contain('Start a conversation')
