@@ -146,7 +146,7 @@ describe('Task bot Spec', function () {
   })
 
   it('sessionless bot task wait for reply', function () {
-    cy.app.clean()
+    cy.app('clean')
     cy.wait(6000)
     cy.appScenario('basic').then((basic)=>{
       cy.log('basic', JSON.stringify(basic))
@@ -184,7 +184,7 @@ describe('Task bot Spec', function () {
   describe('Task bot Spec', function () {
 
     beforeEach(()=>{
-      cy.app.clean()
+      cy.app('clean')
       cy.wait(6000)
     })
     
