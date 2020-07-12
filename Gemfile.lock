@@ -123,7 +123,7 @@ GEM
       xml-simple
     aws-sigv4 (1.2.1)
       aws-eventstream (~> 1, >= 1.0.2)
-    batch-loader (1.4.1)
+    batch-loader (1.5.0)
     bcrypt (3.1.13)
     bindex (0.8.1)
     biz (1.8.2)

@@ -1,11 +1,10 @@
 
 describe('Conversation Spec', function () {
-  describe('run previous', function () {
-    beforeEach(() => {
-      cy.appScenario('start_conversation_from_agent')
-    })
 
+  describe('run previous', function () {
     it('run previous conversations', function () {
+      cy.appScenario('start_conversation_from_agent')
+
       openMessenger(($body) => {
         expect($body.html()).to.contain('Start a conversation')
         cy.appEval('App.last.app_users.size').then((res) => {
@@ -29,11 +28,8 @@ describe('Conversation Spec', function () {
   })
 
   describe('basic', function () {
-    beforeEach(() => {
-      cy.appScenario('basic')
-    })
-
     it('start_conversation', function () {
+      cy.appScenario('basic')
       openMessenger(($body, appKey) => {
         expect($body.html()).to.contain('Start a conversation')
 
@@ -50,7 +46,7 @@ describe('Conversation Spec', function () {
                   .type('oeoe \n').then(() => {
                     cy.wrap($body).contains('oeoe')
 
-                    cy.app('start_conversation', { text: '11111', app_key: appKey, rules: [] })
+                    cy.app('start_conversation_command', { text: '11111', app_key: appKey, rules: [] })
 
                     cy.wrap($body).contains('was assigned to this conversation')
                     cy.wrap($body).contains('11111')

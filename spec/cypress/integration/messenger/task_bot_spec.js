@@ -130,7 +130,7 @@ describe('Task bot Spec', function () {
 
                           cy.wrap($body).contains('will reply as soon as they can.')
 
-                          // cy.wrap($body).contains('oeoe')
+                          cy.wrap($body).contains('oeoe')
                           cy.wrap($body).contains('Are you an existing')
                           cy.wrap($body).contains("I'm a customer").click()
                           cy.wrap($body).contains("You replied Yes, I'm a customer")
@@ -226,7 +226,7 @@ describe('Task bot Spec', function () {
                       cy.wrap($body)
                         .xpath('/html/body/div/div/div/div[2]/div/div/div/div[2]/div/div/textarea')
                         .type('oeoe \n').then(() => {
-                          //cy.wrap($body).contains('oeoe')
+                          cy.wrap($body).contains('oeoe')
                           cy.wrap($body).contains('one')
                           cy.wrap($body).contains('two')
                           cy.wrap($body).contains('tree')
@@ -270,7 +270,7 @@ describe('Task bot Spec', function () {
                       cy.wrap($body)
                         .xpath('/html/body/div/div/div/div[2]/div/div/div/div[2]/div/div/textarea')
                         .type('oeoe \n').then(() => {
-                          //cy.wrap($body).contains('oeoe')
+                          cy.wrap($body).contains('oeoe')
                           cy.wrap($body).contains('one')
                           cy.wrap($body).contains('two')
                           cy.wrap($body).contains('tree')
@@ -305,7 +305,7 @@ describe('Task bot Spec', function () {
                     cy.wrap($body)
                       .xpath('/html/body/div/div/div/div[2]/div/div/div/div[2]/div/div/textarea')
                       .type('oeoe \n').then(() => {
-                        //cy.wrap($body).contains('oeoe')
+                        cy.wrap($body).contains('oeoe')
                         cy.wrap($body).contains('Are you')
                       })
                   })
@@ -358,7 +358,7 @@ describe('Task bot Spec', function () {
                       cy.wrap($body)
                         .xpath('/html/body/div/div/div/div[2]/div/div/div/div[2]/div/div/textarea')
                         .type('oeoe \n').then(() => {
-                          //cy.wrap($body).contains('oeoe')
+                          cy.wrap($body).contains('oeoe')
                           
                           cy.wrap($body).contains('one')
                           cy.wrap($body).contains('two')
@@ -409,7 +409,7 @@ describe('Task bot Spec', function () {
                       cy.wrap($body)
                         .xpath('/html/body/div/div/div/div[2]/div/div/div/div[2]/div/div/textarea')
                         .type('oeoe \n').then(() => {
-                          //cy.wrap($body).contains('oeoe')
+                          cy.wrap($body).contains('oeoe')
                           
                           cy.wrap($body).contains('one')
                           cy.wrap($body).contains('two')

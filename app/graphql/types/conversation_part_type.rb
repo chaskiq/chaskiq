@@ -39,13 +39,16 @@ module Types
     end
 
     def message
-      id = object.messageable_id
-      key = object.messageable_type
+      object.messageable
+      #id = object.messageable_id
+      #key = object.messageable_type
     
-      BatchLoader::GraphQL.for(id).batch(key: key) do |ids, loader, args|
-        model = Object.const_get(args[:key])
-        model.where(id: ids).each { |record| loader.call(record.id, record) }
-      end
+      #BatchLoader::GraphQL.for(id).batch(key: key) do |ids, loader, args|
+      #  model = Object.const_get(args[:key])
+      #  model.where(id: ids).each { |record| 
+      #    loader.call(record.id, record) 
+      #  }
+      #end
     end
   end
 end
