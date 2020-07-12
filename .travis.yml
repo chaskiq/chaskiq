@@ -19,9 +19,11 @@ env:
   - PGPORT=5433
 cache:
   bundler: true
-  directories:
-  - node_modules
+  npm: true
   yarn: true
+  directories:
+    - node_modules
+    - ~/.cache
 before_install:
 - gem update --system
 - gem install bundler -v 1.17.3
