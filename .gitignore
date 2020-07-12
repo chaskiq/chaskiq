@@ -20,7 +20,7 @@
 !/log/.keep
 !/tmp/.keep
 
-cypress
+/cypress
 
 # Ignore uploaded files in development
 /storage/*
@@ -48,3 +48,4 @@ stats.json
 app/javascript/old-src
 .envrc
 
+spec/cypress/videos/**/*

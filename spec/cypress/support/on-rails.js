@@ -45,7 +45,13 @@ Cypress.on('fail', (err, runnable) => {
   // allow app to generate additional logging data
   Cypress.$.ajax({
     url: '/__cypress__/command',
-    data: JSON.stringify({name: 'log_fail', options: {error_message: err.message, runnable_full_title: runnable.fullTitle() }}),
+    data: JSON.stringify({
+      name: 'log_fail',
+      options: {
+        error_message: err.message, 
+        runnable_full_title: runnable.fullTitle()
+      }
+    }),
     async: false,
     method: 'POST'
   });

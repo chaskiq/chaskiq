@@ -209,11 +209,17 @@
           dont_ask_email: No pedir correo electrónico
           ask_email_phone: Solicitar correo electrónico o número de teléfono móvil
           email_only: Solicitar solo correo electrónico
+          override:
+            label: Sobreescribe el comportamiento por defecto con un bot propio
+            hint: Cuando activas esto, el comportamiento predeterminado no tendrá lugar y esta tarea de bot se activará en cada nueva conversación
         users:
           tab: Para los usuarios
           start_conversation: Cuando los usuarios comienzan una conversación
           delay: Deje un retraso de 2 minutos antes de activar Task Bots durante el
             horario de oficina
+          override:
+            label: Sobreescribe el comportamiento por defecto con un bot propio
+            hint: hint!
         settings_title: Configuración de tareas de bot
         specific_times_title: Establezca horarios específicos para mostrar este bot
           a su audiencia.

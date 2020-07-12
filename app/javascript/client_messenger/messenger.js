@@ -1050,6 +1050,7 @@ class Messenger extends Component {
               {
                 this.state.open && this.isMessengerActive() ?
                   <Container 
+                    data-chaskiq-container='true'
                     open={this.state.open} 
                     isMobile={this.state.isMobile}>
                     

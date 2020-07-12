@@ -265,15 +265,18 @@ export default class UnicornEditor extends Component {
     e.preventDefault()
     
     if(this.input.value === "") return
-
-    this.props.insertComment({
+    const opts = {
       html_content: this.input.value,
       serialized_content: this.convertToDraft(this.input.value)
-    }, {
+    }
+
+    this.props.insertComment(opts, {
       before: ()=>{
+        this.props.beforeSubmit && this.props.beforeSubmit(opts)
         this.input.value = ""
       },
       sent: () => {
+        this.props.onSent && this.props.onSent(opts)
         this.input.value = ""
       },
     })
@@ -281,34 +284,38 @@ export default class UnicornEditor extends Component {
 
   submitImage = (link, cb)=>{
     const html = `<img width=100% src="${link}" data-type="image"/>`
-    this.props.insertComment(
-        {
-          html_content: html,
-          serialized_content: this.convertToDraft(html)
-        }
-      , {
+    const opts = {
+      html_content: html,
+      serialized_content: this.convertToDraft(html)
+    }
+    this.props.insertComment(opts, 
+      {
         before: ()=>{
+          this.props.beforeSubmit && this.props.beforeSubmit(opts)
           this.input.value = ""
         },
         sent: () => {
+          this.props.onSent && this.props.onSent(opts)
           this.input.value = ""
           cb && cb()
-        }
+        },
       })
   }
 
   submitFile = (attrs, cb)=>{
     const html = `<img src="${attrs.link}" data-filename="${attrs.filename}" data-type="file" data-content-type="${attrs.content_type}"/>`
-    this.props.insertComment(
-        {
-          html_content: html,
-          serialized_content: this.convertToDraft(html)
-        }
-      , {
+    opts = {
+      html_content: html,
+      serialized_content: this.convertToDraft(html)
+    }
+    this.props.insertComment(opts, 
+      {
         before: ()=>{
+          this.props.beforeSubmit && this.props.beforeSubmit(opts)
           this.input.value = ""
         },
         sent: () => {
+          this.props.onSent && this.props.onSent(opts)
           this.input.value = ""
           cb && cb()
         }

@@ -1,24 +1,16 @@
 # frozen_string_literal: true
 
-ActiveRecord::Base.connection_pool.with_connection do
+#require 'database_cleaner/active_record'
+#require 'database_cleaner/redis'
 
-  if defined?(DatabaseCleaner)
-    # cleaning the database using database_cleaner
-    DatabaseCleaner.strategy = :truncation
-    DatabaseCleaner.clean
 
-    DatabaseCleaner.strategy = :truncation
-    DatabaseCleaner.clean
-    # see https://github.com/bmabey/database_cleaner/issues/99
-    #begin
-    #  ActiveRecord::Base.connection.send :rollback_transaction_records, true
-    #rescue
-    #end
-  else
-    logger.warn 'add database_cleaner or update clean_db'
-    #Post.delete_all if defined?(Post)
-  end
+DatabaseCleaner.strategy = :truncation
 
-  Rails.logger.info 'APPCLEANED' # used by log_fail.rb
-    # code
+#DatabaseCleaner[:redis].strategy = :truncation, { only: ["test:*"] }
+# then, whenever you need to clean the DB
+begin
+  DatabaseCleaner.clean 
+rescue => e
+  sleep 2
+  DatabaseCleaner.clean_with :deletion
 end

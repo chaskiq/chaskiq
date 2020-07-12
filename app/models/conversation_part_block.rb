@@ -45,6 +45,10 @@ class ConversationPartBlock < ApplicationRecord
     end
   end
 
+  def replied?
+    self.state == 'replied'
+  end
+
   def save_replied(data)
     self.state = 'replied'
     self.data = data unless data.blank?

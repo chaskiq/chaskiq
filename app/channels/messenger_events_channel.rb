@@ -52,7 +52,7 @@ class MessengerEventsChannel < ApplicationCable::Channel
       process_next_step(message)
 
       if data['submit'].present?
-        opts = %w[email name first_name last_name phone company_name company_size etc]
+        opts = @app.searcheable_fields_list
         @app_user.update(data['submit'].slice(*opts)) # some condition from settings here?
         data_submit(data['submit'], message)
       end
@@ -180,16 +180,8 @@ class MessengerEventsChannel < ApplicationCable::Channel
       )
     end
 
-    if next_step['controls'].present?
-      @conversation.add_message(
-        step_id: next_step[:step_uid],
-        trigger_id: trigger.id,
-        from: author,
-        controls: next_step['controls']
-      )
-    end
-
     if message.from_bot?
+
       if data['reply'].present?
         data_submit(data['reply'], message) 
 
@@ -204,6 +196,18 @@ class MessengerEventsChannel < ApplicationCable::Channel
         
       end
     end
+
+    if next_step['controls'].present?
+      @conversation.add_message(
+        step_id: next_step[:step_uid],
+        trigger_id: trigger.id,
+        from: author,
+        controls: next_step['controls']
+      )
+    end
+
+
+
   end
 
   def request_trigger(data)

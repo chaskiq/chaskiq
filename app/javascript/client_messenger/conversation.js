@@ -1,5 +1,4 @@
 import React, { Component, Fragment } from "react";
-import ReactDOM from "react-dom";
 import { ThemeProvider } from 'emotion-theming'
 import sanitizeHtml from 'sanitize-html';
 import theme from './textEditor/theme'
@@ -144,9 +143,11 @@ export class Conversation extends Component {
       {
         translateY: 0 , 
         opacity: 1, 
-        height: '0' 
+        height: '0' ,
       }
     )
+
+    this.wait_for_input = null
 
     this.inlineIframe = null
   }
@@ -334,6 +335,7 @@ export class Conversation extends Component {
     
     const message = messages[0].message
     if(isEmpty(message.blocks)) return true
+    if(message.blocks && message.blocks.type === "wait_for_reply") return true
     return message.state === "replied"
   }
   
@@ -387,6 +389,35 @@ export class Conversation extends Component {
     return this.props.t("reply_above")
   }
 
+  handleBeforeSubmit = ()=>{
+    const { messages } = this.props.conversation
+    if(isEmpty(messages)) return
+    const message = messages.collection[0]
+    if(!message) return
+    if(!message.message) return
+    if(message.message.blocks && message.message.blocks.type === 'wait_for_reply') {
+      this.wait_for_input = message
+    }
+  }
+
+  handleSent = ()=>{
+
+    if (!this.wait_for_input) return
+  
+    const message = this.wait_for_input
+
+    this.props.pushEvent("receive_conversation_part", 
+    {
+      conversation_id: this.props.conversation.key,
+      message_id: message.id,
+      step: message.stepId,
+      trigger: message.triggerId,
+      //submit: data
+    })
+
+    this.wait_for_input = null
+  }
+
   renderFooter = ()=>{
     return <Footer 
             isInline={this.props.inline_conversation}
@@ -397,6 +428,8 @@ export class Conversation extends Component {
               this.renderReplyAbove() : 
               <UnicornEditor
                 t={this.props.t}
+                beforeSubmit={(data)=>this.handleBeforeSubmit(data)}
+                onSent={(data)=>this.handleSent(data)}
                 domain={this.props.domain}
                 footerClassName={this.props.footerClassName }
                 insertComment={this.props.insertComment}
@@ -666,9 +699,15 @@ class AppPackageBlock extends Component {
     }
   }
 
+  isHidden=()=>{
+    // will hide this kind of message since is only a placeholder from bot
+    return this.props.message.blocks.type === 'wait_for_reply'
+  }
+
   render(){
     return <AppPackageBlockContainer                 
-              isInline={this.props.isInline}>
+              isInline={this.props.isInline}
+              isHidden={this.isHidden()}>
               {
                 true ? //!this.state.done ?
                 <form ref={o => this.form } 
