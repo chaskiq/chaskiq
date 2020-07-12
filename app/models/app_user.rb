@@ -266,16 +266,15 @@ class AppUser < ApplicationRecord
   end
 
   def register_in_crm
-    # refactor this query
-    app.app_packages
-    .joins(:app_package_integrations)
-    .tagged_with("crm").each do |pkg|
-      pkg.app_package_integrations.each do |integration|
-        profile = self.external_profiles.find_or_create_by(
-          provider: pkg.name.downcase
-        )
-        profile.sync
-      end
+    crm_tags = app.app_packages.tagged_with("crm").pluck(:id)
+    integrations = app.app_package_integrations.includes(:app_package)
+    .where(app_package: crm_tags)
+
+    integrations.each do |integration|
+      profile = self.external_profiles.find_or_create_by(
+        provider: pkg.name.downcase
+      )
+      profile.sync
     end
   end
 
