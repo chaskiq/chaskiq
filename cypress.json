@@ -4,7 +4,7 @@
   "baseUrl": "http://localhost:5002",
   "blacklistHosts": null,
   "chromeWebSecurity": true,
-  "defaultCommandTimeout": 10000,
+  "defaultCommandTimeout": 30000,
   "env": {},
   "execTimeout": 60000,
   "fileServerFolder": "",
