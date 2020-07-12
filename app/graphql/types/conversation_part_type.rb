@@ -27,7 +27,6 @@ module Types
 
     def app_user
       #object.authorable
-
       id = object.authorable_id
       key = object.authorable_type
     
@@ -35,7 +34,6 @@ module Types
         model = Object.const_get(args[:key])
         model.where(id: ids).each { |record| loader.call(record.id, record) }
       end
-
     end
 
     def message
