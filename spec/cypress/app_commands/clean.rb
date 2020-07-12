@@ -1,21 +1,11 @@
 # frozen_string_literal: true
 
-ActiveRecord::Base.connection_pool.with_connection do
-
-  if defined?(DatabaseCleaner)
-    # cleaning the database using database_cleaner
-    #DatabaseCleaner.strategy = :truncation
-    DatabaseCleaner.clean
-    # see https://github.com/bmabey/database_cleaner/issues/99
-    #begin
-    #  ActiveRecord::Base.connection.send :rollback_transaction_records, true
-    #rescue
-    #end
-  else
-    logger.warn 'add database_cleaner or update clean_db'
-    #Post.delete_all if defined?(Post)
-  end
-
-  Rails.logger.info 'APPCLEANED' # used by log_fail.rb
-    # code
+if defined?(DatabaseCleaner)
+  # cleaning the database using database_cleaner
+  DatabaseCleaner.strategy = :truncation
+  DatabaseCleaner.clean
+else
+  logger.warn "add database_cleaner or update cypress/app_commands/clean.rb"
 end
+
+Rails.logger.info "APPCLEANED" # used by log_fail.rb
