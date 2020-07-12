@@ -35,12 +35,6 @@ Cypress.Commands.add('appFixtures', function (options) {
 });
 // CypressOnRails: end
 
-before(()=>{
-  cy.appEval(`
-    DatabaseCleaner.clean_with(:transaction)
-    DatabaseCleaner.start
-  `)
-})
 // The next is optional
  beforeEach(() => {
   cy.app('clean') // have a look at cypress/app_commands/clean.rb
