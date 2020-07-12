@@ -434,14 +434,14 @@ function AgentSelector ({ agents, getAgents, setValue, value }) {
 }
 
 function TasksList ({ app, tasks, getTasks, setValue, value }) {
-  const [items, setItems] = React.useState(value.tasks_rules || [])
+  const [items, setItems] = React.useState(value.task_rules || [])
 
   useEffect(() => {
     getTasks()
   }, [])
 
   useEffect(()=> {
-    setValue('tasks_rules', items)
+    setValue('task_rules', items)
   }, [JSON.stringify(items)])
 
   function addItem (item) {
