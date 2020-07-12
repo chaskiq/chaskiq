@@ -123,7 +123,7 @@ GEM
       xml-simple
     aws-sigv4 (1.2.1)
       aws-eventstream (~> 1, >= 1.0.2)
-    batch-loader (1.4.1)
+    batch-loader (1.5.0)
     bcrypt (3.1.13)
     bindex (0.8.1)
     biz (1.8.2)
@@ -169,9 +169,15 @@ GEM
     crass (1.0.6)
     css_parser (1.7.0)
       addressable
-    cypress-on-rails (1.6.0)
+    cypress-on-rails (1.7.0)
       rack
-    database_cleaner (1.7.0)
+    database_cleaner (1.8.5)
+    database_cleaner-active_record (1.8.0)
+      activerecord
+      database_cleaner (~> 1.8.0)
+    database_cleaner-redis (1.8.0)
+      database_cleaner (~> 1.8.0)
+      redis
     deep_cloneable (3.0.0)
       activerecord (>= 3.1.0, < 7)
     devise (4.7.1)
@@ -555,7 +561,8 @@ DEPENDENCIES
   capistrano3-puma
   chronic (~> 0.10.2)
   cypress-on-rails (~> 1.0)
-  database_cleaner
+  database_cleaner-active_record
+  database_cleaner-redis
   deep_cloneable
   devise (= 4.7.1)
   devise_invitable (~> 2.0)
