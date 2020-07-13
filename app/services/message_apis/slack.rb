@@ -197,7 +197,7 @@ module MessageApis
       base = "#{ENV['HOST']}/apps/#{conversation.app.key}"
       conversation_url = "#{base}/conversations/#{conversation.key}"
       user_url = "#{base}/users/#{conversation.key}"
-      links = "*<#{user_url}|#{conversation.main_participant.display_name}>* <#{conversation_url}|view in chaskiq>"
+      links = "*<#{user_url}|#{format_user_name(conversation.main_participant)}>* <#{conversation_url}|view in chaskiq>"
 
       data = [
         {
@@ -229,7 +229,7 @@ module MessageApis
             },
             {
               "type": "mrkdwn",
-              "text": "*Assignee:* #{conversation.assignee&.display_name || 'Unassigned'}"
+              "text": "*Assignee:* #{conversation.assignee&.display_name || conversation.assignee&.email || 'Unassigned'}"
             },
             {
               "type": "mrkdwn",
@@ -480,7 +480,7 @@ module MessageApis
       blocks = blocks_transform(part) rescue nil
 
       user_options = {
-        username: "#{part.authorable.name} (#{part.authorable.model_name.human})",
+        username: "#{format_user_name(part.authorable)}",
         icon_url: part&.authorable&.avatar_url
       }
 
@@ -490,12 +490,17 @@ module MessageApis
 
       if part.messageable.is_a?(ConversationPartBlock) 
         return if !part.messageable.replied?
-        data_label = part.messageable.data['label']
+        data = part.messageable.data
+        data_label = data['label']
+        
+        data_fmt = data.is_a?(Hash) ?
+        data.map { |k,v| "#{k.capitalize}: #{v}" }.join("\n") : ''
+
         blocks = [{
           "type": "section",
           "text": {
             "type": "mrkdwn",
-            "text": "*replied*: #{data_label}",
+            "text": "*replied*: #{data_label || data_fmt}",
           },
           "block_id": 'replied-1'
         }]
