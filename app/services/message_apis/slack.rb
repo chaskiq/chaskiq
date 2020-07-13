@@ -22,7 +22,7 @@ module MessageApis
       @package = nil
 
       @keys = {}
-      @keys['channel'] = Rails.env.development? ? 'chaskiq_channel-local' : 'chaskiq_channel'
+      @keys['channel'] = Rails.env.development? ? 'chaskiq_channel-local4' : 'chaskiq_channel'
       @keys['consumer_key'] = config["api_key"]
       @keys['consumer_secret'] = config["api_secret"]
       @keys['access_token'] =  config["access_token"]
@@ -145,6 +145,27 @@ module MessageApis
       JSON.parse(response.body)
     end
 
+    def channel_info(id)
+      data = {
+        "channel": id
+      }
+
+      url = url('/api/conversations.join')
+      #@conn.authorization :Bearer, key
+      response = @conn.post do |req|
+        req.url url
+        req.headers['Content-Type'] = 'application/json; charset=utf-8'
+        req.body = data.to_json
+      end
+
+      JSON.parse(response.body)
+    end
+
+    def join_user_to_package_channel(id)
+      authorize_user!
+      join_channel(id)
+    end
+
     def trigger(event)
       
       subject = event.eventable
@@ -192,7 +213,11 @@ module MessageApis
           "fields": [
             {
               "type": "mrkdwn",
-              "text": "*From:* #{participant.city}"
+              "text": "*Info:* #{participant.display_name} #{participant.email}"
+            },
+            {
+              "type": "mrkdwn",
+              "text": "*From:* #{participant.city}, #{participant.region} "
             },
             {
               "type": "mrkdwn",
@@ -204,12 +229,16 @@ module MessageApis
             },
             {
               "type": "mrkdwn",
+              "text": "*Assignee:* #{conversation.assignee&.display_name || 'Unassigned'}"
+            },
+            {
+              "type": "mrkdwn",
               "text": "*Device:*\n#{participant.browser} #{participant.browser_version} / #{participant.os}"
             },
 
             {
               "type": "mrkdwn",
-              "text": "*From:*\n<#{participant.referrer} | link>"
+              "text": "*From:*\n<#{participant.referrer} | URL: #{participant.referrer}>"
             },
 
             
@@ -428,9 +457,17 @@ module MessageApis
       )
 
       # this will create the channel
-      package.message_api_klass.create_channel
+      package.message_api_klass.after_authorize
 
       true
+    end
+
+    def after_authorize
+      response = create_channel
+      if !response["error"] and chann_id = response.dig("channel").dig("id")
+        authorize_user!
+        join_channel(chann_id)
+      end
     end
 
     # triggered when a new chaskiq message is created
@@ -466,7 +503,7 @@ module MessageApis
         user = conversation.main_participant
 
         user_options.merge!({
-          username: "#{user.display_name} (#{user.model_name.human})",
+          username: format_user_name(user),
           icon_url: user&.avatar_url
         })
       end 
@@ -501,6 +538,11 @@ module MessageApis
         provider: 'slack', 
         message_source_id: response_data["ts"] 
       )
+    end
+
+    def format_user_name(user)
+      display = [user.display_name, user.email].join(" · ")
+      "#{display} · (#{user.model_name.human})"
     end
 
     def blocks_transform(part)
@@ -602,34 +644,3 @@ module MessageApis
 
   end
 end
-
-## PLAN
-
-=begin
- 
-+ usuario crea conversacion
-  + se manda mensaje por canal chaskiq
-    + con opcoin de responder en canal
-  + recibe hook
-    + se crea canal de conversacion
-  + proximos mensajes se envian y reciben por ese canal
-
-
-plan:
-
-recive button chnnel , 
-
-1. asocia channel a conversacion
-2. recive mensaje con channel, checkea channel
-3. crea mensaje de channel correspondiente
-
-cuando genera mensaje desde chaskiq
-
-1. verifica si tiene channel
-2. notifica el mensaje a channel
-  2.1 actualiza el mensaje con el id del mensaje
-3.  si recibe mensaje de vuelta pero ya existe mensaje , skip
-
-
-
-=end
