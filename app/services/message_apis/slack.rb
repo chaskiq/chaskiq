@@ -145,22 +145,6 @@ module MessageApis
       JSON.parse(response.body)
     end
 
-    def channel_info(id)
-      data = {
-        "channel": id
-      }
-
-      url = url('/api/conversations.join')
-      #@conn.authorization :Bearer, key
-      response = @conn.post do |req|
-        req.url url
-        req.headers['Content-Type'] = 'application/json; charset=utf-8'
-        req.body = data.to_json
-      end
-
-      JSON.parse(response.body)
-    end
-
     def join_user_to_package_channel(id)
       authorize_user!
       join_channel(id)
@@ -229,7 +213,7 @@ module MessageApis
             },
             {
               "type": "mrkdwn",
-              "text": "*Assignee:* #{conversation.assignee&.display_name || conversation.assignee&.email || 'Unassigned'}"
+              "text": "*Assignee:* #{ assignee_display(conversation.assignee) || 'Unassigned'}"
             },
             {
               "type": "mrkdwn",
@@ -295,6 +279,11 @@ module MessageApis
         provider_channel_id: response_data["ts"]
       })
     
+    end
+
+    def assignee_display(assignee)
+      return assignee.blank?
+      assignee&.display_name.blank? ? assignee&.email : assignee.display_name
     end
 
     def json_body(response)
@@ -492,7 +481,7 @@ module MessageApis
         return if !part.messageable.replied?
         data = part.messageable.data
         data_label = data['label']
-        
+
         data_fmt = data.is_a?(Hash) ?
         data.map { |k,v| "#{k.capitalize}: #{v}" }.join("\n") : ''
 
