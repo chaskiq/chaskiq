@@ -171,10 +171,7 @@ module MessageApis
         authorable_type: "Agent"
       ).last
       
-      text_blocks = JSON.parse(message.messageable.serialized_content)["blocks"]
-      .map{|o| 
-        o['text']
-      }
+      text_blocks = blocks_transform(message)
 
       participant = conversation.main_participant
 
@@ -241,30 +238,31 @@ module MessageApis
               "text": "Message"
             }
           ]
+        }
+      ]
+
+      data << text_blocks
+      
+      data << [
+        {
+          "type": "divider"
         },
 
         {
-          "type": "section",
-          "text": {
-            "type": "plain_text",
-            "text": text_blocks.first,
-            "emoji": true
-          }
-        },
-        {
-          "type": "section",
-          "text": {
-            "type": "plain_text",
-            "text": "to reply just reply on a thread",
-            "emoji": true
-          }
+          "type": "context",
+          "elements": [
+            {
+              "type": "mrkdwn",
+              "text": "To reply just reply on a thread",
+            }
+          ]
         }
       ]
 
       response_data = json_body(
         post_message(
           'New conversation from Chaskiq',
-          data.as_json,
+          data.flatten.as_json,
           {
             "channel": @keys['channel'],
             "text": 'New conversation from Chaskiq',
