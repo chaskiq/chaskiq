@@ -33,7 +33,7 @@ export default function FilterMenu ({
         isOpen={open}
       >
         {options.map((option) => (
-          <div className="py-1" key={option.id}>
+          <div className="py-1" key={`filter-menu-${option.id}`}>
             <button
               onClick={() => selectOption(option)}
               className={`w-full group flex items-center
