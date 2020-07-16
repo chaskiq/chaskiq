@@ -60,6 +60,7 @@ const EditorWrapper = styled.div`
 export default class ConversationEditor extends Component {
   state = {
     loading: false,
+    sendMode: 'enter'
   };
 
   fallbackEditor = false;
@@ -86,6 +87,12 @@ export default class ConversationEditor extends Component {
     });
   };
 
+  toggleSendMode = (e)=>{
+    this.setState({
+      sendMode: this.state.sendMode === 'enter' ? '' : 'enter'
+    })
+  }
+
   handleTyping = (content) => {
     // means if content empty
     if (content.html === '<p className="graf graf--p"></p>') return;
@@ -108,6 +115,7 @@ export default class ConversationEditor extends Component {
               insertAppBlockComment={this.props.insertAppBlockComment}
               submitData={(formats) => this.submitData(formats, opts)}
               saveContentCallback={(content) => this.handleTyping(content)}
+              sendMode={ this.state.sendMode }
               {...this.props}
             />
           ) : null}
@@ -126,6 +134,25 @@ export default class ConversationEditor extends Component {
       <Tabs
         tabs={tabs}
         onSelect={(tab, index) => console.log("Selected Tab", index + 1)}
+        buttons={()=>(
+          <div className="flex flex-grow items-center justify-end pr-3">
+            
+            <input
+              id="send_mode"
+              type="checkbox"
+              checked={this.state.sendMode === 'enter'}
+              onChange={(e)=>{ this.toggleSendMode(e)}}
+              className="form-checkbox h-4 w-4 text-indigo-600 transition duration-150 ease-in-out"
+            />
+            <label
+              htmlFor="send_mode"
+              className="ml-2 block text-xs leading-5 text-gray-900"
+            >
+              {I18n.t('common.send_on_enter')}
+            </label>
+            
+          </div>
+        )}
       />
     );
   }
