@@ -87,7 +87,13 @@ function QuickRepliesPanel (props) {
               />
             )}
 
-            <p>{ I18n.t('quick_replies.will_send', { lang: lang }) }</p>
+            <p>
+              {
+                I18n.t('quick_replies.will_send', {
+                  lang: lang || I18n.defaultLocale
+                })
+              }
+            </p>
 
             <div className="mt-2">
               <p className="text-sm leading-5 text-gray-500">
