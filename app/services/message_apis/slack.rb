@@ -4,6 +4,9 @@ require 'oauth2'
 
 module MessageApis
   class Slack
+
+    include MessageApis::Helpers
+
     BASE_URL = 'https://slack.com'
     HEADERS = {"content-type" => "application/json"} #Suggested set? Any?
 
@@ -31,7 +34,6 @@ module MessageApis
     end
 
     def self.process_global_hook(params)
-      
       return params[:challenge] if params[:challenge]
 
       team_id = params["team_id"] || JSON.parse(params[:payload])["team"]["id"]
@@ -370,6 +372,9 @@ module MessageApis
         "slack", event['thread_ts']
       ).first
 
+
+      serialized_blocks = serialize_content(event)
+      
       text = event["text"]
 
       return if conversation.blank?
@@ -382,7 +387,7 @@ module MessageApis
         from: get_agent_from_event(event),
         message: {
           html_content: text,
-          #serialized_content: serialized_content
+          serialized_content: serialized_blocks
         },
         provider: 'slack',
         message_source_id: event["ts"],
@@ -415,7 +420,7 @@ module MessageApis
     def oauth_authorize(app, package)
       oauth_client.auth_code.authorize_url(
         user_scope: 'chat:write,channels:history,channels:write,groups:write,mpim:write,im:write',
-        scope: 'channels:history,channels:join,chat:write,channels:manage,chat:write.customize,users:read,users:read.email',
+        scope: 'files:read,channels:history,channels:join,chat:write,channels:manage,chat:write.customize,users:read,users:read.email',
         redirect_uri: package.oauth_url
       )
     end
@@ -662,6 +667,91 @@ module MessageApis
           channel: channel.provider_channel_id
         )
       end
+    end
+
+
+    ### serialization to dante format
+
+    def serialize_content(data)
+
+      if data.keys.include?("files") 
+        images = data["files"]
+        o = attachment_block(data)
+      else
+        o = process_blocks(data)
+      end
+
+    end
+
+    def process_blocks(data)
+      images = data['blocks'].select{ |o| 
+        o['type'] === 'image' 
+      }.map do |block|
+        media_block( 
+          {
+            url: block["image_url"],
+            w: block["image_width"],
+            h: block["image_height"],
+            title: block["alt_text"],
+            mimetype: 'image/'
+          })
+      end
+
+      { blocks: [
+          serialized_block(data['text']), 
+          images
+        ].flatten.compact
+      }.to_json
+    end
+
+    def attachment_block(data)
+      files = data["files"].map{|o|
+    
+        begin
+          url = direct_upload(
+            o['url_private_download'], 
+            o["mimetype"]
+          ) 
+        rescue 
+          return nil
+        end
+
+        {
+          url: url,
+          w: o["original_w"],
+          h: o["original_h"],
+          title: o["title"],
+          mimetype: o["mimetype"]
+        }
+      }
+
+      serialized_blocks = files.compact.map{|o| 
+        media_block( o ) 
+      }
+
+      lines = data['text'].split("\n").delete_if(&:empty?) 
+      text_blocks = lines.map{|o| serialized_block(o)}
+
+      {
+        "blocks": [ text_blocks, serialized_blocks ].flatten.compact,
+        "entityMap":{}
+      }.to_json
+    end
+
+    def media_block(data)
+      params = data.slice(:url, :title, :w, :h)
+      return photo_block(params) if data[:mimetype].include?("image/") 
+    end
+
+    def direct_upload(url, content_type=nil)
+      authorize_bot!
+      file = StringIO.new(get_data(url, {}).body)
+      blob = ActiveStorage::Blob.create_after_upload!(
+        io: file,
+        filename: "twitter-file",
+        content_type: content_type || "image/jpeg"
+      )
+      Rails.application.routes.url_helpers.rails_blob_path(blob)
     end
 
   end

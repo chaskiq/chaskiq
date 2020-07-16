@@ -14,7 +14,235 @@ RSpec.describe Api::V1::Hooks::ProviderController, type: :controller do
     }
   }
 
-  def message_blocks(global: false, channel: nil)
+  ## bot giphy images
+  let(:giphy_images_content){
+    {"bot_id"=>"BRMFTGU0M",
+      "type"=>"message",
+      "text"=>"oli",
+      "user"=>"UR2A93SRK",
+      "ts"=>"1594871580.009800",
+      "team"=>"TQUC0ASKT",
+      "bot_profile"=>
+       {"id"=>"BRMFTGU0M",
+        "deleted"=>false,
+        "name"=>"giphy",
+        "updated"=>1576177886,
+        "app_id"=>"A0F827J2C",
+        "icons"=>
+         {"image_36"=>"https://a.slack-edge.com/dc483/img/plugins/giphy/service_72.png",
+          "image_48"=>"https://a.slack-edge.com/dc483/img/plugins/giphy/service_48.png",
+          "image_72"=>"https://a.slack-edge.com/dc483/img/plugins/giphy/service_72.png"},
+        "team_id"=>"TQUC0ASKT"},
+      "blocks"=>
+       [{"type"=>"image",
+         "block_id"=>"3tq8",
+         "image_url"=>
+          "https://media1.giphy.com/media/h4f1jbWGaAEmhsPKgm/giphy-downsized.gif?cid=6104955edb49637847dd3757de339fc9e299f1de3bbdf9b1&rid=giphy-downsized.gif",
+         "alt_text"=>"oli",
+         "title"=>{"type"=>"plain_text", "text"=>"oli", "emoji"=>true},
+         "fallback"=>"336x336px image",
+         "image_width"=>336,
+         "image_height"=>336,
+         "image_bytes"=>1665779,
+         "is_animated"=>true},
+        {"type"=>"context",
+         "block_id"=>"+AcM",
+         "elements"=>
+          [{"fallback"=>"32x32px image",
+            "image_url"=>"https://a.slack-edge.com/dc483/img/plugins/giphy/service_32.png",
+            "image_width"=>32,
+            "image_height"=>32,
+            "image_bytes"=>603,
+            "type"=>"image",
+            "alt_text"=>"giphy logo"},
+           {"type"=>"mrkdwn",
+            "text"=>"Posted using /giphy | GIF by <https://giphy.com/SWR-Kindernetz/|SWR Kindernetz>",
+            "verbatim"=>false}]}],
+      "parent_user_id"=>"U015X9F5AD7",
+      "event_ts"=>"1594871580.009800",
+      "channel_type"=>"channel"
+    }
+  }
+
+  # multiple lines & 
+  let(:multiple_lines_content){
+    {
+      "type"=>"message",
+      "text"=>"okokoko\ndsocsdokcosdkc\nsdcoksdcodsc",
+      "files"=>
+        [{"id"=>"F017K1PTCTB",
+          "created"=>1594870622,
+          "timestamp"=>1594870622,
+          "name"=>"Captura de pantalla 2020-07-14 a la(s) 17.51.12.png",
+          "title"=>"Captura de pantalla 2020-07-14 a la(s) 17.51.12.png",
+          "mimetype"=>"image/png",
+          "filetype"=>"png",
+          "pretty_type"=>"PNG",
+          "user"=>"UR2A93SRK",
+          "editable"=>false,
+          "size"=>51822,
+          "mode"=>"hosted",
+          "is_external"=>false,
+          "external_type"=>"",
+          "is_public"=>true,
+          "public_url_shared"=>false,
+          "display_as_bot"=>false,
+          "username"=>"",
+          "url_private"=>
+          "https://files.slack.com/files-pri/TQUC0ASKT-F017K1PTCTB/captura_de_pantalla_2020-07-14_a_la_s__17.51.12.png",
+          "url_private_download"=>
+          "https://files.slack.com/files-pri/TQUC0ASKT-F017K1PTCTB/download/captura_de_pantalla_2020-07-14_a_la_s__17.51.12.png",
+          "thumb_64"=>
+          "https://files.slack.com/files-tmb/TQUC0ASKT-F017K1PTCTB-95df27f537/captura_de_pantalla_2020-07-14_a_la_s__17.51.12_64.png",
+          "thumb_80"=>
+          "https://files.slack.com/files-tmb/TQUC0ASKT-F017K1PTCTB-95df27f537/captura_de_pantalla_2020-07-14_a_la_s__17.51.12_80.png",
+          "thumb_360"=>
+          "https://files.slack.com/files-tmb/TQUC0ASKT-F017K1PTCTB-95df27f537/captura_de_pantalla_2020-07-14_a_la_s__17.51.12_360.png",
+          "thumb_360_w"=>360,
+          "thumb_360_h"=>267,
+          "thumb_480"=>
+          "https://files.slack.com/files-tmb/TQUC0ASKT-F017K1PTCTB-95df27f537/captura_de_pantalla_2020-07-14_a_la_s__17.51.12_480.png",
+          "thumb_480_w"=>480,
+          "thumb_480_h"=>356,
+          "thumb_160"=>
+          "https://files.slack.com/files-tmb/TQUC0ASKT-F017K1PTCTB-95df27f537/captura_de_pantalla_2020-07-14_a_la_s__17.51.12_160.png",
+          "original_w"=>569,
+          "original_h"=>422,
+          "thumb_tiny"=>
+          "AwAjADCkMHrSnA9KTGR2oxigBKKKKACiiigBQcUFiaFx3p2B7fnQAyinHGO34UbR60ANopSvuPzoIx3H4GgAI+UUlOP3FptA2FFFFAgooooA/9k=",
+          "permalink"=>
+          "https://chaskiq.slack.com/files/UR2A93SRK/F017K1PTCTB/captura_de_pantalla_2020-07-14_a_la_s__17.51.12.png",
+          "permalink_public"=>
+          "https://slack-files.com/TQUC0ASKT-F017K1PTCTB-e0164c3fcb",
+          "has_rich_preview"=>false}],
+      "upload"=>false,
+      "blocks"=>
+        [{"type"=>"rich_text",
+          "block_id"=>"ujt",
+          "elements"=>
+          [{"type"=>"rich_text_section",
+            "elements"=>
+              [{"type"=>"text",
+                "text"=>"okokoko\ndsocsdokcosdkc\nsdcoksdcodsc"}]}]}],
+      "user"=>"UR2A93SRK",
+      "display_as_bot"=>false,
+      "ts"=>"1594870635.008700",
+      "parent_user_id"=>"U015X9F5AD7",
+      "subtype"=>"file_share",
+      "event_ts"=>"1594870635.008700",
+      "channel_type"=>"channel"
+    }
+  }
+
+  # with files
+  let(:files_content){
+    {
+      "type"=>"message",
+      "text"=>"plplplpl",
+      "files"=>
+        [{"id"=>"F016RLCADJB",
+          "created"=>1594870713,
+          "timestamp"=>1594870713,
+          "name"=>"Captura de pantalla 2020-07-08 a la(s) 09.36.04.png",
+          "title"=>"Captura de pantalla 2020-07-08 a la(s) 09.36.04.png",
+          "mimetype"=>"image/png",
+          "filetype"=>"png",
+          "pretty_type"=>"PNG",
+          "user"=>"UR2A93SRK",
+          "editable"=>false,
+          "size"=>63059,
+          "mode"=>"hosted",
+          "is_external"=>false,
+          "external_type"=>"",
+          "is_public"=>true,
+          "public_url_shared"=>false,
+          "display_as_bot"=>false,
+          "username"=>"",
+          "url_private"=>
+          "https://files.slack.com/files-pri/TQUC0ASKT-F016RLCADJB/captura_de_pantalla_2020-07-08_a_la_s__09.36.04.png",
+          "url_private_download"=>
+          "https://files.slack.com/files-pri/TQUC0ASKT-F016RLCADJB/download/captura_de_pantalla_2020-07-08_a_la_s__09.36.04.png",
+          "thumb_64"=>
+          "https://files.slack.com/files-tmb/TQUC0ASKT-F016RLCADJB-3d514c52ad/captura_de_pantalla_2020-07-08_a_la_s__09.36.04_64.png",
+          "thumb_80"=>
+          "https://files.slack.com/files-tmb/TQUC0ASKT-F016RLCADJB-3d514c52ad/captura_de_pantalla_2020-07-08_a_la_s__09.36.04_80.png",
+          "thumb_360"=>
+          "https://files.slack.com/files-tmb/TQUC0ASKT-F016RLCADJB-3d514c52ad/captura_de_pantalla_2020-07-08_a_la_s__09.36.04_360.png",
+          "thumb_360_w"=>206,
+          "thumb_360_h"=>119,
+          "thumb_160"=>
+          "https://files.slack.com/files-tmb/TQUC0ASKT-F016RLCADJB-3d514c52ad/captura_de_pantalla_2020-07-08_a_la_s__09.36.04_160.png",
+          "original_w"=>206,
+          "original_h"=>119,
+          "thumb_tiny"=>
+          "AwAbADDPAoY44FKKCvegY0Einq2TinDpxTduHNMLDqQ0tNNACClJ4phOCQKTqKQEgfvSb+STTF5IobrQFyXdmkNRVJ2oEf/Z",
+          "permalink"=>
+          "https://chaskiq.slack.com/files/UR2A93SRK/F016RLCADJB/captura_de_pantalla_2020-07-08_a_la_s__09.36.04.png",
+          "permalink_public"=>
+          "https://slack-files.com/TQUC0ASKT-F016RLCADJB-7f8a06bcb2",
+          "has_rich_preview"=>false},
+        {"id"=>"F017CJ7V1AQ",
+          "created"=>1594870726,
+          "timestamp"=>1594870726,
+          "name"=>"Captura de pantalla 2020-07-08 a la(s) 16.35.15.png",
+          "title"=>"Captura de pantalla 2020-07-08 a la(s) 16.35.15.png",
+          "mimetype"=>"image/png",
+          "filetype"=>"png",
+          "pretty_type"=>"PNG",
+          "user"=>"UR2A93SRK",
+          "editable"=>false,
+          "size"=>48233,
+          "mode"=>"hosted",
+          "is_external"=>false,
+          "external_type"=>"",
+          "is_public"=>true,
+          "public_url_shared"=>false,
+          "display_as_bot"=>false,
+          "username"=>"",
+          "url_private"=>
+          "https://files.slack.com/files-pri/TQUC0ASKT-F017CJ7V1AQ/captura_de_pantalla_2020-07-08_a_la_s__16.35.15.png",
+          "url_private_download"=>
+          "https://files.slack.com/files-pri/TQUC0ASKT-F017CJ7V1AQ/download/captura_de_pantalla_2020-07-08_a_la_s__16.35.15.png",
+          "thumb_64"=>
+          "https://files.slack.com/files-tmb/TQUC0ASKT-F017CJ7V1AQ-da86263119/captura_de_pantalla_2020-07-08_a_la_s__16.35.15_64.png",
+          "thumb_80"=>
+          "https://files.slack.com/files-tmb/TQUC0ASKT-F017CJ7V1AQ-da86263119/captura_de_pantalla_2020-07-08_a_la_s__16.35.15_80.png",
+          "thumb_360"=>
+          "https://files.slack.com/files-tmb/TQUC0ASKT-F017CJ7V1AQ-da86263119/captura_de_pantalla_2020-07-08_a_la_s__16.35.15_360.png",
+          "thumb_360_w"=>360,
+          "thumb_360_h"=>92,
+          "thumb_480"=>
+          "https://files.slack.com/files-tmb/TQUC0ASKT-F017CJ7V1AQ-da86263119/captura_de_pantalla_2020-07-08_a_la_s__16.35.15_480.png",
+          "thumb_480_w"=>480,
+          "thumb_480_h"=>122,
+          "thumb_160"=>
+          "https://files.slack.com/files-tmb/TQUC0ASKT-F017CJ7V1AQ-da86263119/captura_de_pantalla_2020-07-08_a_la_s__16.35.15_160.png",
+          "original_w"=>598,
+          "original_h"=>152,
+          "thumb_tiny"=>
+          "AwAMADC2ElWV2aTKH7oHanZPqfzqXrSYHoKAGZOOtG40/aPQUbRnNADN59qcpz1FLgeg/KloA//Z",
+          "permalink"=>
+          "https://chaskiq.slack.com/files/UR2A93SRK/F017CJ7V1AQ/captura_de_pantalla_2020-07-08_a_la_s__16.35.15.png",
+          "permalink_public"=>
+          "https://slack-files.com/TQUC0ASKT-F017CJ7V1AQ-e7c034c6a6",
+          "has_rich_preview"=>false}],
+      "upload"=>false,
+      "blocks"=>
+        [{"type"=>"rich_text",
+          "block_id"=>"nqEvv",
+          "elements"=>
+          [{"type"=>"rich_text_section",
+            "elements"=>[{"type"=>"text", "text"=>"plplplpl"}]}]}],
+      "user"=>"UR2A93SRK",
+      "ts"=>"1594870731.009100",
+      "parent_user_id"=>"U015X9F5AD7",
+      "subtype"=>"file_share",
+      "event_ts"=>"1594870731.009100",
+      "channel_type"=>"channel"
+    }
+  }
+  
+  def message_blocks(global: false, channel: nil, additional_data: nil)
     payload = {
       "team_id"=>"TQUC0ASKT",
       "event"=>{
@@ -34,6 +262,8 @@ RSpec.describe Api::V1::Hooks::ProviderController, type: :controller do
       "channel_type"=>"channel"
       }
     }
+
+    payload.deep_merge!({"event"=>additional_data}) if additional_data
 
     return payload.merge!({
       "provider"=>"slack",         
@@ -264,24 +494,43 @@ RSpec.describe Api::V1::Hooks::ProviderController, type: :controller do
 
     describe "global hook" do
 
-      it "receive message" do
-
+      before :each do 
         conversation.conversation_channels.create({
           provider: 'slack',
           provider_channel_id: '123'
         })
-  
-        channel = conversation.conversation_channels.find_by(provider: "slack")
-  
+        @channel = conversation.conversation_channels.find_by(provider: "slack")
+      end
+
+      it "receive message" do
         get(:global_process_event, params: message_blocks(
           global: true,
-          channel: channel.provider_channel_id)
+          channel: @channel.provider_channel_id)
         )
-  
         expect(conversation.messages.last.authorable).to be_a(Agent)
-  
         expect(conversation.messages.last.messageable.html_content).to be == "the message"
-        
+      end
+
+      it "receive message multiline" do
+        get(:global_process_event, params: message_blocks(
+          global: true,
+          additional_data: multiple_lines_content,
+          channel: @channel.provider_channel_id)
+        )
+        expect(conversation.messages.last.authorable).to be_a(Agent)
+        expect(conversation.messages.last.messageable.serialized_content).to include("okokoko")
+        expect(conversation.messages.last.messageable.html_content).to be == "okokoko\ndsocsdokcosdkc\nsdcoksdcodsc"
+      end
+
+      it "receive message giphy" do
+        get(:global_process_event, params: message_blocks(
+          global: true,
+          additional_data: giphy_images_content,
+          channel: @channel.provider_channel_id)
+        )
+        expect(conversation.messages.last.authorable).to be_a(Agent)
+        expect(conversation.messages.last.messageable.serialized_content).to include("oli")
+        expect(conversation.messages.last.messageable.html_content).to be == "oli"
       end
   
       it "send message as an app user" do
