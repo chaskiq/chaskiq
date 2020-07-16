@@ -466,6 +466,8 @@ module MessageApis
       
       blocks = blocks_transform(part) rescue nil
 
+      messageable = part.messageable
+
       user_options = {
         username: "#{format_user_name(part.authorable)}",
         icon_url: part&.authorable&.avatar_url
@@ -476,8 +478,8 @@ module MessageApis
       #        part.messageable.html_content rescue nil
 
       if part.messageable.is_a?(ConversationPartBlock) 
-        return if !part.messageable.replied?
-        data = part.messageable.data
+        return if !messageable.replied?
+        data = messageable.data
         data_label = data['label']
 
         data_fmt = data.is_a?(Hash) ?
@@ -498,6 +500,34 @@ module MessageApis
           username: format_user_name(user),
           icon_url: user&.avatar_url
         })
+      end 
+
+
+      if part.messageable.is_a?(ConversationPartEvent) 
+        data = messageable.data
+        data_label = data['label']
+
+        data_fmt = data.is_a?(Hash) ?
+        data.reject{|k,v| v.blank? or ["id"].include?(k) }
+        .map { |k,v| 
+          "*#{k.upcase}*: #{v}" 
+        }.join(" ") : ''
+
+        blocks = [{
+          "type": "section",
+          "text": {
+            "type": "mrkdwn",
+            "text": "*event*: #{messageable.action} \n #{data_fmt}",
+          },
+          "block_id": 'replied-1'
+        }]
+
+        user = conversation.main_participant
+
+        #user_options.merge!({
+        #  username: format_user_name(user),
+        #  icon_url: user&.avatar_url
+        #})
       end 
 
       #blocks.prepend({
