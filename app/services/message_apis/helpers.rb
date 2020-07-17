@@ -38,9 +38,6 @@ module MessageApis
     end
 
     def photo_block(url:, title:, w:, h:)
-
-      #url = direct_upload(media["media_url_https"])
-
       {
         "key": keygen,
         "text": title,
@@ -57,6 +54,27 @@ module MessageApis
           "width": w.to_i,
           "height": h.to_i,
           "caption": title,
+          "forceUpload":false,
+          "url": url,
+          "loading_progress":0,
+          "selected":false,
+          "loading":true,
+          "file":{},
+          "direction":"center"
+        }
+      }
+    end
+
+    def file_block(url:, text:)
+      {
+        "key": keygen,
+        "text": text,
+        "type":"file",
+        "depth":0,
+        "inlineStyleRanges":[],
+        "entityRanges":[],
+        "data":{
+          "caption": text,
           "forceUpload":false,
           "url": url,
           "loading_progress":0,
