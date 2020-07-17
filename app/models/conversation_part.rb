@@ -185,15 +185,14 @@ class ConversationPart < ApplicationRecord
 
     return if serialized_content.blank?
 
-    text = JSON.parse(serialized_content)['blocks']
-    .select{ |o| o['type'] === 'text'}
-    .map { |o| o['text'] }.join(' ')
+    text = JSON.parse(serialized_content)['blocks'].map { |o| 
+      o['text'] 
+    }.join(' ')
 
     app = conversation.app
 
     app.assignment_rules.each do |rule|
       next unless cond = rule.check_rule_for(text, self)
-      conversation = self.conversation
       conversation.assign_user(rule.agent)
       break
     end
