@@ -266,13 +266,13 @@ function ImageRenderer ({children, blockKey, data, props}) {
   if (!aspect_ratio) {
     var height = '100%'
     var width = '100%'
-    var ratio = '100'
+    var ratio = '0'
   } else {
     var { height, width, ratio } = aspect_ratio
   }
 
   const defaultStyle = { maxWidth: `${width}px`, maxHeight: `${height}px` }
-
+  
   return (
     <figure key={blockKey} className="graf graf--figure">
       <div>

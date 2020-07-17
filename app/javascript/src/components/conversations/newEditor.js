@@ -248,7 +248,9 @@ export default class ChatEditor extends Component {
   };
 
   uploadHandler = ({ serviceUrl, imageBlock }) => {
-    imageBlock.uploadCompleted(serviceUrl);
+    imageBlock.uploadCompleted(serviceUrl, ()=>{
+      this.setDisabled(false);
+    });
   };
 
   saveContent = (content) => {
@@ -373,7 +375,7 @@ export default class ChatEditor extends Component {
                 setDisabled={this.setDisabled}
                 read_only={this.state.read_only}
                 handleReturn={(e, isEmptyDraft)=>{
-                  if(isEmptyDraft) return
+                  if(isEmptyDraft || this.isDisabled()) return
                   if (this.props.sendMode == 'enter' && !e.nativeEvent.shiftKey) {
                     return this.handleSubmit()
                   }
