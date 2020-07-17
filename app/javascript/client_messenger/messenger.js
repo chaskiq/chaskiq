@@ -785,10 +785,12 @@ class Messenger extends Component {
   }
 
   displayConversation =(e, o)=>{
-    this.setConversation(o.key, () => {
-      this.setTransition('out', ()=>{
-        this.setDisplayMode('conversation', ()=>{
-          this.scrollToLastItem()
+    this.clearConversation(()=>{
+      this.setConversation(o.key, () => {
+        this.setTransition('out', ()=>{
+          this.setDisplayMode('conversation', ()=>{
+            this.scrollToLastItem()
+          })
         })
       })
     })
