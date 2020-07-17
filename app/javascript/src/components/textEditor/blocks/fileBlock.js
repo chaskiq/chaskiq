@@ -116,7 +116,6 @@ export default class FileBlock extends React.Component {
   };
 
   handleUpload = () => {
-    debugger
     this.startLoader();
     this.updateData();
     return this.uploadFile();
