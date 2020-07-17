@@ -29,6 +29,7 @@ en:
       es: Spanish
       redirecting: Redirecting
       select_language: Select Language
+    send_on_enter: Publish on enter
   home:
     welcome: Welcome to
     welcome_site: Chaskiq

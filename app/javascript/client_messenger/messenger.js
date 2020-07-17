@@ -324,7 +324,7 @@ class Messenger extends Component {
   updateRtcEvents = (data)=>{
     const conversation = this.state.conversation
     if (conversation && conversation.key === data.conversation_id ) { 
-      console.log("update rtc dsta", data)
+      //console.log("update rtc dsta", data)
       this.setState({rtc: data})
     }
   }
@@ -334,12 +334,12 @@ class Messenger extends Component {
       this.cableDataFor({channel: "MessengerEventsChannel"}),
       {
         connected: ()=> {
-          console.log("connected to events")
+          //console.log("connected to events")
           this.registerVisit()
           //this.processTriggers()
         },
         disconnected: ()=> {
-          console.log("disconnected from events")
+          //console.log("disconnected from events")
         },
         received: (data)=> {
           switch (data.type) {
@@ -488,7 +488,7 @@ class Messenger extends Component {
     App.precense = App.cable.subscriptions.create(this.cableDataFor({channel: "PresenceChannel"}),
     {
         connected: ()=> {
-          console.log("connected to presence")
+          //console.log("connected to presence")
         },
         disconnected: ()=> {
           console.log("disconnected from presence")
@@ -785,10 +785,12 @@ class Messenger extends Component {
   }
 
   displayConversation =(e, o)=>{
-    this.setConversation(o.key, () => {
-      this.setTransition('out', ()=>{
-        this.setDisplayMode('conversation', ()=>{
-          this.scrollToLastItem()
+    this.clearConversation(()=>{
+      this.setConversation(o.key, () => {
+        this.setTransition('out', ()=>{
+          this.setDisplayMode('conversation', ()=>{
+            this.scrollToLastItem()
+          })
         })
       })
     })
@@ -1492,7 +1494,7 @@ class AppBlockPackageFrame extends Component {
   }
 
   render(){
-    console.log("PACK", this.props)
+    //console.log("PACK", this.props)
     const blocks = toCamelCase(this.props.appBlock.message.message.blocks)
     const conversation = this.props.appBlock.message.conversation
     const mainParticipant = conversation.mainParticipant

@@ -494,6 +494,7 @@ function Sidebar ({
                       },
 
                       {
+                        id: 'choose-lang',
                         title: I18n.t('home.choose_lang'),
                         onClick: openLangChooser
                       },

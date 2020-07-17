@@ -155,6 +155,21 @@ export default class ArticleEditor extends Component {
     this.initialContent = this.defaultContent();
   }
 
+  isEmptyDraftJs = () => {
+    if (!this.props.serializedContent) { 
+      // filter undefined and {}
+      return true;
+    }
+    const raw = JSON.parse(this.props.serializedContent)
+    const contentState = convertFromRaw(raw);
+
+    if((raw.blocks.filter((o)=>(o.type != 'unstyled')).length > 0 ))
+      return false
+
+    return !(contentState.hasText() && (contentState.getPlainText().trim() !== '' ))
+  };
+
+
   emptyContent = () => {
     return {
       entityMap: {},
@@ -318,7 +333,6 @@ export default class ArticleEditor extends Component {
           } = data.createDirectUpload.directUpload;
 
           directUpload(url, JSON.parse(headers), file).then(() => {
-            this.setDisabled(false);
             this.props.uploadHandler({
               signedBlobId,
               headers,
@@ -674,6 +688,10 @@ export default class ArticleEditor extends Component {
               data_storage={{
                 url: "/",
                 save_handler: this.saveHandler,
+              }}
+              handleReturn={(e)=>{
+                return this.props.handleReturn && this.props.handleReturn(
+                  e, this.isEmptyDraftJs())
               }}
               onChange={(e) => {
                 this.dante_editor = e;

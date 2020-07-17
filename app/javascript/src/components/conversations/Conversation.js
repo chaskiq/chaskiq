@@ -635,7 +635,19 @@ function Conversation ({
                 updateConversationStateDispatch(option)
               }}
               aria-label={I18n.t(`conversation.actions.${conversation.state === 'closed' ? 'reopen' : 'close'}`)}
-              className="focus:outline-none outline-none mr-1 rounded-full bg-white hover:bg-gray-100 text-gray-800 font-semibold border border-gray-400 rounded shadow"
+              className={`focus:outline-none 
+                outline-none 
+                mr-1 rounded-full 
+                ${
+                  conversation.state === 'closed' ?
+                  'bg-green-600 border-green-700 hover:bg-green-700 hover:border-green-800 text-gray-100' :
+                  'bg-white hover:bg-gray-100 text-gray-800'
+                }
+                 
+                font-semibold 
+                border 
+                rounded shadow`
+              }
             >
               <CheckmarkIcon variant="rounded" />
             </button>
@@ -754,12 +766,12 @@ function Conversation ({
                   }
                 >
                   <div onClick={cb}
-                    className="flex-shrink-0 h-10 w-10 mr-1 rounded-full bg-white hover:bg-gray-100
-                    text-gray-800 font-semibold border border-gray-400
-                    rounded shadow">
+                    className="flex flex-shrink-0 h-10 w-10 mr-1 rounded-full
+                    bg-white hover:bg-gray-100 text-gray-800 font-semibold
+                    border border-gray-400 rounded shadow items-center justify-center">
                     {conversation.assignee && (
                       <img
-                        className="h-10 w-10 rounded-full"
+                        className="h-6 w-6 rounded-full"
                         src={conversation.assignee.avatarUrl}
                         alt={conversation.assignee.name}
                       />

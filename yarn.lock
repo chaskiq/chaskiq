@@ -1784,10 +1784,10 @@
   resolved "https://registry.yarnpkg.com/@xtuc/long/-/long-4.2.2.tgz#d291c6a4e97989b5c61d9acf396ae4fe133a718d"
   integrity sha512-NuHqBY1PB/D8xU6s/thBgOAiAP7HOYDQ32+BFZILJ8ivkUkAHQnWfn6WhL79Owj1qmUnoN/YPhktdIoucipkAQ==
 
-Dante2@0.5.0-rc25:
-  version "0.5.0-rc25"
-  resolved "https://registry.yarnpkg.com/Dante2/-/Dante2-0.5.0-rc25.tgz#e216587de46a208a4b127ac9b1b65e5d7108a4fb"
-  integrity sha512-P6VEHdVeJSwIJlG0OHK2PLamdoOnnEijqYt93pogEySy6qbZfbhVzQ6585oLn0VqKlTm6y5qMCbzuEqgEtATjg==
+Dante2@0.5.0-rc26:
+  version "0.5.0-rc26"
+  resolved "https://registry.yarnpkg.com/Dante2/-/Dante2-0.5.0-rc26.tgz#c5057ad133c875d69f5abfa6c0d6d74c9adebb29"
+  integrity sha512-CatJfDzjb2QoKhgwS/HmJS2arNV7WFjk3CDiXqtpj6A5SIKwH1IL+YwlQLRXzCaqdZNj/TQi+FG2wy71wo/gBw==
   dependencies:
     axios "^0.18.0"
     draft-convert "^2.1.2"

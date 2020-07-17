@@ -594,7 +594,7 @@ function FollowActionsSelect({ app, path, updatePath }) {
 
   useEffect(() => {
     updateData();
-  }, [actions]);
+  }, [JSON.stringify(actions)]);
 
   useEffect(() => {
     setActions(path.followActions || []);
@@ -739,7 +739,7 @@ function AgentSelector({ app, updateAction, removeAction, action, index }) {
   }
 
   useEffect(()=>{
-    setSelected(action.value)
+    if(action.value) setSelected(action.value)
   },[action.value])
 
   useEffect(() => {
@@ -770,7 +770,6 @@ function AgentSelector({ app, updateAction, removeAction, action, index }) {
     
       <div className="flex items-center">
         <div className="w-64">
-
           <Input
             type="select"
             value={ selectedAgent() }

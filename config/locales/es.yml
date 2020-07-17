@@ -30,6 +30,8 @@
         es: Español
         redirecting: Redireccionando
         select_language: Seleccionar Idioma
+      send_on_enter: Publicar presionando "enter"
+
 
     home:
       welcome: Bienvenido a
