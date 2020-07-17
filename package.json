@@ -12,7 +12,7 @@
     "@nivo/pie": "^0.42.1",
     "@rails/activestorage": "^6.0.0",
     "@rails/webpacker": "5.0.1",
-    "Dante2": "0.5.0-rc25",
+    "Dante2": "0.5.0-rc26",
     "actioncable": "^5.2.4-1",
     "activestorage": "^5.2.3",
     "add": "^2.0.6",

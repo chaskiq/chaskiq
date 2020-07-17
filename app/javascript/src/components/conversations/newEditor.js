@@ -125,7 +125,8 @@ const SubmitButton = function (props) {
         `flex w-1/6 justify-center
         bg-white hover:bg-gray-100 
         text-gray-800 font-semibold py-2 
-        px-3 border-l border-gray-400 shadow items-center`
+        px-3 border-l border-gray-400 shadow items-center m-2 
+        rounded border`
       }
       onClick={props.onClick}
       disabled={props.disabled}
@@ -247,7 +248,9 @@ export default class ChatEditor extends Component {
   };
 
   uploadHandler = ({ serviceUrl, imageBlock }) => {
-    imageBlock.uploadCompleted(serviceUrl);
+    imageBlock.uploadCompleted(serviceUrl, ()=>{
+      this.setDisabled(false);
+    });
   };
 
   saveContent = (content) => {
@@ -371,9 +374,16 @@ export default class ChatEditor extends Component {
                 loading={this.props.loading}
                 setDisabled={this.setDisabled}
                 read_only={this.state.read_only}
+                handleReturn={(e, isEmptyDraft)=>{
+                  if(isEmptyDraft || this.isDisabled()) return
+                  if (this.props.sendMode == 'enter' && !e.nativeEvent.shiftKey) {
+                    return this.handleSubmit()
+                  }
+                }}
                 toggleEditable={() => {
                   this.setState({ read_only: !this.state.read_only });
                 }}
+                
                 appendWidgets={[
                   AppPackageBlockConfig({
                     handleFunc: this.handleAppFunc,
@@ -400,10 +410,13 @@ export default class ChatEditor extends Component {
             )}
           </ChatEditorInput>
 
-          <SubmitButton
-            onClick={this.handleSubmit}
-            disabled={this.state.disabled}
-          />
+          {
+            this.props.sendMode != 'enter' && <SubmitButton
+              onClick={this.handleSubmit}
+              disabled={this.state.disabled}
+            />
+          }
+
         </EditorContainer>
       </ThemeProvider>
     );

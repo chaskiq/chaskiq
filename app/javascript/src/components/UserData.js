@@ -4,8 +4,24 @@ import { connect } from 'react-redux'
 
 import Moment from 'react-moment'
 import Accordeon from './Accordeon'
+import {compact} from 'lodash'
 
 function UserData ({ app_user, app, disableAvatar }) {
+  function getPropertiesItems () {
+
+    const fields = app.customFields.map((field)=> field.name)
+
+    const items = fields.map((f)=> {
+      const val = app_user.properties[f]
+      if (!val) return null
+      return {
+        label: `${f}:`,
+        value: val
+      }
+    })
+
+    return compact(items)
+  }
   return (
     <React.Fragment>
       {app_user && app_user.id && (
@@ -179,22 +195,8 @@ function UserData ({ app_user, app, disableAvatar }) {
               },
               {
                 name: 'Properties',
-                component: (
-                  <p dense>
-                    {app_user.properties &&
-                      Object.keys(app_user.properties).map((o, i) => {
-                        if (!app_user.properties[o]) return null
-                        return (
-                          <p key={`app-user-${app_user.id}-${i}`}>
-                            <p
-                              primary={`${o}:`}
-                              secondary={app_user.properties[o]}
-                            />
-                          </p>
-                        )
-                      })}
-                  </p>
-                )
+                component: null,
+                items: getPropertiesItems()
               },
               {
                 name: 'External Profiles',

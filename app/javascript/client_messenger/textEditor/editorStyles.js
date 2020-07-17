@@ -117,12 +117,14 @@ const NewEditorStyles = styled(EditorStyles)`
       width: 16px;
       height: 16px;      
     }
+  }
 
+
+  .imageCaption {
+    word-break: break-word;
   }
 
   ${prismStyle}
-
-
 `;
 
 export default NewEditorStyles

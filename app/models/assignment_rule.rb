@@ -15,7 +15,6 @@ class AssignmentRule < ApplicationRecord
     return true if query_conditions.blank?
 
     subject = nil
-
     matches = query_conditions.map do |r|
       subject = if r['attribute'] === 'message_content'
                   text
@@ -62,6 +61,7 @@ class AssignmentRule < ApplicationRecord
   end
 
   def subject_value_for(attr, app_user)
-    app_user.send(attr) if app_user.app.searcheable_fields_list.include?(attr)
+    fields = app_user.app.searcheable_fields_list
+    app_user.send(attr) if fields.include?(attr)
   end
 end

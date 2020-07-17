@@ -134,47 +134,15 @@ function renderers (props) {
       },
 
       image: (children, { keys, data }) => {
-        const data2 = data[0]
-        const { url, aspect_ratio, caption } = data2
-
-        if (!aspect_ratio) {
-          var height = '100%'
-          var width = '100%'
-          var ratio = '100%'
-        } else {
-          var { height, width, ratio } = aspect_ratio
-        }
-
-        return <figure key={keys[0]} className="graf graf--figure">
-          <div>
-            <div className="aspectRatioPlaceholder is-locked"
-              // style={{maxWidth: '1000px', maxHeight: `${height}px`}}
-            >
-              <div className="aspect-ratio-fill"
-                style={{ paddingBottom: `${ratio}%` }}>
-              </div>
-
-              <img src={getImageUrl(url, props)}
-                className="graf-image"
-                width={width}
-                height={height}
-                contentEditable="false"/>
-            </div>
-
-          </div>
-
-          {
-            caption &&
-                      caption != 'type a caption (optional)' &&
-
-                      <figcaption className="imageCaption">
-                        <span>
-                          <span data-text="true">{children}</span>
-                        </span>
-                      </figcaption>
-          }
-
-        </figure>
+        return keys.map(
+          (key, index) => <ImageRenderer
+            blockKey={key}
+            key={`image-${key}`}
+            data={data[index]}
+            props={props}>
+            {children[index]}
+          </ImageRenderer>
+        )
       },
       embed: (children, { keys, data }) => {
         const { provisory_text, type, embed_data } = data[0]
@@ -288,6 +256,56 @@ function renderers (props) {
       new CustomDecorator(someOptions),
     ], */
   }
+}
+
+
+function ImageRenderer ({children, blockKey, data, props}) {
+  const data2 = data
+  const { url, aspect_ratio, caption } = data2
+
+  if (!aspect_ratio) {
+    var height = '100%'
+    var width = '100%'
+    var ratio = '0'
+  } else {
+    var { height, width, ratio } = aspect_ratio
+  }
+
+  const defaultStyle = { maxWidth: `${width}px`, maxHeight: `${height}px` }
+  
+  return (
+    <figure key={blockKey} className="graf graf--figure">
+      <div>
+        <div
+          className="aspectRatioPlaceholder is-locked"
+          style={defaultStyle}
+        >
+          <div
+            className="aspect-ratio-fill"
+            style={{ paddingBottom: `${ratio}%` }}
+          ></div>
+
+          {/*<ConnectedImage url={url} width={width} height={height} />*/}
+
+          <img src={getImageUrl(url, props)}
+                className="graf-image"
+                width={width}
+                height={height}
+                contentEditable="false"/>
+        </div>
+      </div>
+
+      {caption && caption !== 'type a caption (optional)' && (
+        <figcaption className="imageCaption">
+          <span>
+            <span data-text="true">
+              {children}
+            </span>
+          </span>
+        </figcaption>
+      )}
+    </figure>
+  )
 }
 
 export default class Renderer extends Component {
