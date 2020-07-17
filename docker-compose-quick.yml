@@ -1,0 +1,51 @@
+version: '2'
+services:
+  chaskiq:
+    image: chaskiq/chaskiq
+    environment:
+      SECRET_TOKEN: zJDEBL9VzJDEBL9zJDEBd53szJDEBL9VFQ4Mivcd53sfHBcd53sivcd53sfHB
+      RACK_ENV: development
+      RAILS_ENV: development
+      HOST: http://localhost:3000
+      WS: ws://localhost:3000/cable
+      SECRET_KEY_BASE: myhbmyhbMqPmuihRjFtCCLQeVbMqPmuihRjFtCCbMqPmuihRjFtCCLQeVTnADt
+      DATABASE_URL: postgres://postgres:postgres@postgres:5432
+      REDIS_URL: redis://redis:6379/
+      ADMIN_EMAIL: admin@example.com
+      ADMIN_PASSWORD: password
+      SNS_CONFIGURATION_SET: metrics
+      SES_ADDRESS: email-smtp.us-east-1.amazonaws.com
+      SES_USER_NAME: admin
+      SES_PASSWORD: admin
+      AWS_ACCESS_KEY_ID: key
+      AWS_SECRET_ACCESS_KEY: secret
+      AWS_S3_BUCKET: thebucket
+      AWS_S3_REGION: us-east-1
+      FULLCONTACT_TOKEN: dskjlhdjkahld
+    stdin_open: true
+    tty: true
+    command:
+    - bundle
+    - exec
+    - rails
+    - server
+    - -b
+    - 0.0.0.0
+    ports:
+    - 3000:3000
+    labels:
+      io.rancher.container.pull_image: always
+  redis:
+    image: redis:3.2-alpine
+    stdin_open: true
+    tty: true
+    labels:
+      io.rancher.container.pull_image: always
+  postgres:
+    image: postgres:9.5
+    environment:
+      POSTGRES_PASSWORD: postgres
+    stdin_open: true
+    tty: true
+    labels:
+      io.rancher.container.pull_image: always
