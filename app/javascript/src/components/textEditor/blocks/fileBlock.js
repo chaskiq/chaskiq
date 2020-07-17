@@ -34,7 +34,7 @@ export default class FileBlock extends React.Component {
   }
 
   componentDidMount() {
-    //return this.replaceImg();
+    return this.replaceFile();
   }
 
   componentWillUnmount() {
@@ -59,6 +59,18 @@ export default class FileBlock extends React.Component {
     } else {
       return this.props.blockProps.data.src;
     }
+  };
+
+  replaceFile = () => {
+    // exit only when not blob and not forceUload
+    if (
+      !this.state.url.includes("blob:") &&
+      !this.props.block.data.get("forceUpload")
+    ) {
+      return;
+    }
+
+    this.handleUpload();
   };
 
   defaultPlaceholder = () => {
@@ -104,6 +116,7 @@ export default class FileBlock extends React.Component {
   };
 
   handleUpload = () => {
+    debugger
     this.startLoader();
     this.updateData();
     return this.uploadFile();

@@ -304,7 +304,7 @@ export default class UnicornEditor extends Component {
 
   submitFile = (attrs, cb)=>{
     const html = `<img src="${attrs.link}" data-filename="${attrs.filename}" data-type="file" data-content-type="${attrs.content_type}"/>`
-    opts = {
+    const opts = {
       html_content: html,
       serialized_content: this.convertToDraft(html)
     }

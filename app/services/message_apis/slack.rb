@@ -243,7 +243,7 @@ module MessageApis
         }
       ]
 
-      data << text_blocks
+      data << text_blocks unless text_blocks.empty?
       
       data << [
         {
@@ -260,6 +260,8 @@ module MessageApis
           ]
         }
       ]
+
+      puts data
 
       response_data = json_body(
         post_message(
@@ -282,7 +284,7 @@ module MessageApis
     end
 
     def assignee_display(assignee)
-      return assignee.blank?
+      return nil if assignee.blank?
       assignee&.display_name.blank? ? assignee&.email : assignee.display_name
     end
 
@@ -469,7 +471,7 @@ module MessageApis
       # TODO ? redis cache here for provider / channel id / part
       return if part.conversation_part_channel_sources.find_by(provider: "slack").present?
       
-      blocks = blocks_transform(part) rescue nil
+      blocks = blocks_transform(part)
 
       messageable = part.messageable
 
@@ -576,7 +578,7 @@ module MessageApis
 
       blocks = JSON.parse(
         part.messageable.serialized_content
-      )["blocks"].map{|o| process_block(o) } rescue []
+      )["blocks"].map{ |o| process_block(o) }.compact rescue []
 
       blocks
     end
@@ -584,6 +586,8 @@ module MessageApis
     def process_block(block)
       res = case block["type"]
       when "unstyled"
+        return nil if block['text'].blank?
+
         {
           "type": "section",
           "text": {
@@ -608,6 +612,15 @@ module MessageApis
           },
           "image_url": image_url,
           "alt_text": "image1"
+        }
+      when 'file'
+        {
+          "type": "section",
+          "text": {
+            "type": "mrkdwn",
+            "text": "*File sent*: <#{ENV['HOST']}#{block["data"]["url"]}|go to file>"
+          },
+          "block_id": block["key"]
         }
       when "header-one", "header-two", "header-three", "header-four"
         {
@@ -712,7 +725,9 @@ module MessageApis
             o['url_private_download'], 
             o["mimetype"]
           ) 
-        rescue 
+        rescue => e
+          puts e.message
+          puts e.backtrace
           return nil
         end
 
@@ -740,7 +755,8 @@ module MessageApis
 
     def media_block(data)
       params = data.slice(:url, :title, :w, :h)
-      return photo_block(params) if data[:mimetype].include?("image/") 
+      return photo_block(params) if data[:mimetype].include?("image/")
+      return file_block(url: data[:url], text: data[:title]) 
     end
 
     def direct_upload(url, content_type=nil)
@@ -748,7 +764,7 @@ module MessageApis
       file = StringIO.new(get_data(url, {}).body)
       blob = ActiveStorage::Blob.create_after_upload!(
         io: file,
-        filename: "twitter-file",
+        filename: File.basename(url),
         content_type: content_type || "image/jpeg"
       )
       Rails.application.routes.url_helpers.rails_blob_path(blob)

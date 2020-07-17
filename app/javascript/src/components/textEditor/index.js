@@ -162,8 +162,11 @@ export default class ArticleEditor extends Component {
     }
     const raw = JSON.parse(this.props.serializedContent)
     const contentState = convertFromRaw(raw);
-    
-    return !(contentState.hasText() && (contentState.getPlainText().trim() !== ''));
+
+    if((raw.blocks.filter((o)=>(o.type != 'unstyled')).length > 0 ))
+      return false
+
+    return !(contentState.hasText() && (contentState.getPlainText().trim() !== '' ))
   };
 
 
