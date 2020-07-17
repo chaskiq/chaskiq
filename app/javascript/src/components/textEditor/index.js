@@ -333,7 +333,6 @@ export default class ArticleEditor extends Component {
           } = data.createDirectUpload.directUpload;
 
           directUpload(url, JSON.parse(headers), file).then(() => {
-            this.setDisabled(false);
             this.props.uploadHandler({
               signedBlobId,
               headers,
