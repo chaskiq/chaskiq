@@ -75,6 +75,23 @@ RSpec.describe Api::GraphqlController, type: :controller do
       expect(app_user.lat).to be_present
       expect(app_user.lng).to be_present
     end
+
+
+    it 'visit without geo code' do
+
+      Geocoder.stub(:search).and_return([])
+
+      graphql_post(type: 'AUTH', variables: {})
+      graphql_post(type: 'PING', variables: {})
+
+      app_user = app.reload.app_users.last
+      expect(app_user).to be_present
+      expect(app_user.ip).to be_present
+      expect(app_user.city).to be_nil
+      expect(app_user.lat).to be_nil
+      expect(app_user.lng).to be_nil
+    end
+
   end
 
   describe 'other domain registered user' do
