@@ -63,6 +63,7 @@ gem 'ransack'
 
 gem 'browser', '~> 2.5'
 gem 'geocoder', '~> 1.6'
+gem 'geoip'
 
 gem 'google-cloud-dialogflow'
 
