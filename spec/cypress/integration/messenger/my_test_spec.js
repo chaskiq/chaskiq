@@ -11,7 +11,7 @@ const defaultOptions = {
 function createApp (data = {}) {
   const defaultData = {
     name: 'Good bye Mars',
-    domain_url: 'http://localhost:3400',
+    domain_url: 'http://localhost:5002',
     encryption_key: 'unodostrescuatro',
     active_messenger: 'true',
     state: 'enabled',
