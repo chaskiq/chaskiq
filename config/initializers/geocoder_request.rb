@@ -12,18 +12,22 @@ module GeocoderRequestOverride
     #  ip_lookup: GEOCODER_SERVICES.sample.slice(:name)[:name]  
     #)
 
-    @location ||= Geocoder.search(
-      geocoder_spoofable_ip, 
-      ip_address: true,
-      ip_lookup: DEFAULT_GEOCODER_SERVICE[:name],
-      #api_key: DEFAULT_GEOCODER_SERVICE[:api_key]
-    ).first
-
     # default
     # @location ||= Geocoder.search(
     #  geocoder_spoofable_ip, 
     #  ip_address: true
     # ).first
+
+    @location ||= Geocoder.search(
+      geocoder_spoofable_ip, 
+      ip_address: true,
+      ip_lookup: default_geocoder_service,
+      #api_key: DEFAULT_GEOCODER_SERVICE[:api_key]
+    ).first
+  end
+
+  def default_geocoder_service
+    DEFAULT_GEOCODER_SERVICE[:name]
   end
 end
 
