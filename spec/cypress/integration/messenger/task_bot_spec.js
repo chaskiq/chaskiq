@@ -9,6 +9,8 @@ describe('Task bot Spec', function () {
   })
 
   it('sessionless never ask email', function () {
+    cy.app('clean')
+    cy.wait(6000)
     cy.appScenario('app_bot_settings', { email_requirement: 'never' }).then(() => {
       cy.appEval('App.last').then((results) => {
         const appKey = results.key
@@ -46,7 +48,8 @@ describe('Task bot Spec', function () {
   })
 
   it('sessionless 2 always ask email', function () {
-    cy.wait(5000)
+    cy.app('clean')
+    cy.wait(6000)
     cy.appScenario('app_bot_settings', { email_requirement: 'Always' }).then((results) => {
       cy.appEval('App.last').then((results) => {
         const appKey = results.key
@@ -102,6 +105,8 @@ describe('Task bot Spec', function () {
   })
 
   it('sessionless 3 never ask email', function () {
+    cy.app('clean')
+    cy.wait(6000)
     cy.appScenario('app_bot_settings', { email_requirement: 'never' }).then(() => {
       cy.appEval('App.last').then((results) => {
         const appKey = results.key
