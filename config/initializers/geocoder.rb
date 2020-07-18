@@ -9,11 +9,14 @@ GEOCODER_SERVICES = [
   },
   { name: :maxmind_local,
     file: File.join(Rails.root, 'vendor/data', 'GeoLiteCityv6.dat')
+  },
+  {
+    name: :test
   }
 ]
 
 DEFAULT_GEOCODER_SERVICE = GEOCODER_SERVICES.find do |o| 
-  o[:name].to_s === (ENV['DEFAULT_GEOCODER_SERVICE'] || 'maxmind_local')
+  o[:name].to_s === (ENV['DEFAULT_GEOCODER_SERVICE'] || ( Rails.env.test? ? 'test' : 'maxmind_local' ) )
 end
 
 Geocoder.configure(
