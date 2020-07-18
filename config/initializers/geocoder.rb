@@ -13,7 +13,7 @@ GEOCODER_SERVICES = [
 ]
 
 DEFAULT_GEOCODER_SERVICE = GEOCODER_SERVICES.find do |o| 
-  o[:name] === (ENV['DEFAULT_GEOCODER_SERVICE'] || :maxmind_local)
+  o[:name].to_s === (ENV['DEFAULT_GEOCODER_SERVICE'] || 'maxmind_local')
 end
 
 Geocoder.configure(
