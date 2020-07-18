@@ -1341,7 +1341,9 @@ class Messenger extends Component {
 
               { 
                 this.isMessengerActive() ?
-                <StyledFrame style={{
+                <StyledFrame
+                  id='chaskiqPrime' 
+                  style={{
                     zIndex: '10000',
                     position: 'absolute',
                     bottom: '-18px',
