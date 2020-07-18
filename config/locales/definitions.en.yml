@@ -148,6 +148,9 @@ en:
       email: Email
       state: State
       online: Online
+      ip: Ip
+      country: Country
+      city: City
       lat: Lat
       lng: Lng
       postal: Postal
