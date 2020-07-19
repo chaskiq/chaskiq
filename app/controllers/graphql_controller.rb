@@ -27,7 +27,7 @@ class GraphqlController < ApplicationController
     render json: result
   # rescue => e
   #  raise e unless Rails.env.development?
-  #  handle_error_in_development e
+  #  handle_error_message e
   # end
 
   # rescue CanCan::AccessDenied => e
@@ -58,10 +58,7 @@ class GraphqlController < ApplicationController
   rescue StandardError => e
     # GraphQL::ExecutionError.new e.message
     # raise e unless Rails.env.development?
-    handle_error_in_development e
-  rescue StandardError => e
-    # raise e unless Rails.env.development?
-    handle_error_in_development e
+    handle_error_message e
   end
 
   private
@@ -97,7 +94,7 @@ class GraphqlController < ApplicationController
     end
   end
 
-  def handle_error_in_development(e)
+  def handle_error_message(e)
     logger.error e.message
     logger.error e.backtrace.join("\n")
 

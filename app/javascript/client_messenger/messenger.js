@@ -175,8 +175,10 @@ class Messenger extends Component {
           break;
         case "convert":
           this.convertVisitor(data)
+          break;
         case "trigger":
           this.requestTrigger(data)
+          break;
         default:
           break;
       } 
@@ -1032,11 +1034,7 @@ class Messenger extends Component {
           mode: 'light', // this.state.appData ? this.state.appData.theme : 
           isMessengerActive: this.isMessengerActive()
         }}>
-
-            
-
             <EditorWrapper>
-
               {
                 this.state.availableMessages.length > 0 && this.isMessengerActive() &&
                 <MessageFrame 
@@ -1047,7 +1045,6 @@ class Messenger extends Component {
                   t={this.props.t}
                 />
               }
-                  
 
               {
                 this.state.open && this.isMessengerActive() ?
@@ -1342,10 +1339,11 @@ class Messenger extends Component {
                 </StyledFrame>
               }
 
-
               { 
                 this.isMessengerActive() ?
-                <StyledFrame style={{
+                <StyledFrame
+                  id='chaskiqPrime' 
+                  style={{
                     zIndex: '10000',
                     position: 'absolute',
                     bottom: '-18px',
@@ -1404,7 +1402,6 @@ class Messenger extends Component {
 
             </EditorWrapper>
 
-
             {
               this.state.tourManagerEnabled ?
               <TourManager 
@@ -1418,10 +1415,10 @@ class Messenger extends Component {
                   events={App.events}
                   domain={this.props.domain}
                 /> : null
-             }
+              }
 
             <div id="TourManager"></div>
-         
+          
         </ThemeProvider>
     );
   }

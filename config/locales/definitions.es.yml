@@ -126,14 +126,17 @@
         email: Correo electrónico
         state: Estado
         online: En línea
-        lat: años
+        lat: Lat
         lng: Lng
+        id: Ip
+        country: País
+        city: Ciudad
         postal: Postal
         browser: Navegador
         referrer: Referencia
-        os: los
-        os_version: La versión
-        lang: Sólo
+        os: SO
+        os_version: La versión SO
+        lang: Lenguaje
         web_sessions: Sesiones web
         last_seen: Primero visto
         first_seen: Ultima vez visto

@@ -218,6 +218,7 @@ GEM
       et-orbi (~> 1.1, >= 1.1.8)
       raabro (~> 1.1)
     geocoder (1.6.1)
+    geoip (1.6.4)
     globalid (0.4.2)
       activesupport (>= 4.2.0)
     google-cloud-dialogflow (0.11.1)
@@ -575,6 +576,7 @@ DEPENDENCIES
   faraday (~> 0.15.4)
   friendly_id (~> 5.2)
   geocoder (~> 1.6)
+  geoip
   globalize!
   google-cloud-dialogflow
   graphiql-rails
