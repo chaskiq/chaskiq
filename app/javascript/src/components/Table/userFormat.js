@@ -60,6 +60,10 @@ const userFormat = function (showUserDrawer, app) {
       }
     },
     { field: 'email', title: I18n.t('data_tables.users.email'), hidden: true },
+    { field: 'ip', title: I18n.t('data_tables.users.ip'), hidden: true },
+    { field: 'country', title: I18n.t('data_tables.users.country'), hidden: true },
+    { field: 'city', title: I18n.t('data_tables.users.city'), hidden: true },
+
     {
       field: 'state',
       title: I18n.t('data_tables.users.state'),

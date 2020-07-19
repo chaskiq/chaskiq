@@ -4,14 +4,14 @@ import { connect } from 'react-redux'
 
 import Moment from 'react-moment'
 import Accordeon from './Accordeon'
-import {compact} from 'lodash'
+import { compact } from 'lodash'
 
 function UserData ({ app_user, app, disableAvatar }) {
   function getPropertiesItems () {
+    if (!app.customFields) return []
+    const fields = app.customFields.map((field) => field.name)
 
-    const fields = app.customFields.map((field)=> field.name)
-
-    const items = fields.map((f)=> {
+    const items = fields.map((f) => {
       const val = app_user.properties[f]
       if (!val) return null
       return {
