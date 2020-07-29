@@ -458,6 +458,7 @@ class AllArticles extends React.Component {
                         <div className="flex items-center text-lg font-bold">
                           {row.id && (
                             <Link
+                              className="truncate w-64"
                               to={`/apps/${this.props.app.key}/articles/${row.slug}`}
                             >
                               {row.title
@@ -477,7 +478,9 @@ class AllArticles extends React.Component {
                       <td className="px-6 py-4 whitespace-no-wrap border-b border-gray-200">
                         <div className="flex items-center">
                           <span>
-                            {row.author.name}
+                            <b className="font-bold">
+                              {row.author.name}
+                            </b>
                             <br />
                             {row.author.email}
                           </span>
@@ -539,7 +542,7 @@ class AllArticles extends React.Component {
                       <td className="px-6 py-4 whitespace-no-wrap border-b border-gray-200">
                         <div className="flex items-center">
                           <Button
-                            variant={"outlined"}
+                            variant={"danger"}
                             onClick={() => {
                               this.setOpenDeleteDialog(row);
                             }}

@@ -465,6 +465,57 @@ class ArticlesNew extends Component {
                       />
                     </div>
 
+                    {!this.state.loading && this.state.article.author && (
+                      <div className="flex">
+                        {this.state.agents.length > 0 && (
+                          <div className="flex items-center">
+                            <Avatar src={this.state.article.author.avatarUrl} />
+                            <strong className="m-2">written by</strong>
+                            <Input
+                              type={"select"}
+                              className="m-2 w-32"
+                              options={this.state.agents.map((o) => ({
+                                label: o.name || o.email,
+                                value: o.email,
+                              }))}
+                              data={{}}
+                              name={"author"}
+                              placeholder={"select author"}
+                              onChange={this.handleAuthorchange}
+                              defaultValue={
+                                { 
+                                  label: this.state.article.author.email, 
+                                  value: this.state.article.author.email 
+                                }
+                              }
+                            ></Input>
+                          </div>
+                        )}
+    
+                        <div className="flex items-center">
+                          <strong className="m-2">In</strong>
+                          <Input
+                            type={"select"}
+                            options={this.state.collections.map((o) => ({
+                              label: o.title,
+                              value: o.id,
+                            }))}
+                            data={{}}
+                            className={"m-2 w-32"}
+                            name={"collection"}
+                            placeholder={"select collection"}
+                            onChange={this.handleCollectionChange}
+                            defaultValue={
+                              this.articleCollection() && { 
+                                label: this.articleCollection().title, 
+                                value: this.articleCollection().id
+                              }
+                            }
+                          ></Input>
+                        </div>
+                      </div>
+                    )}
+
                     <Input
                       id="article-title"
                       type={"text"}
@@ -503,58 +554,7 @@ class ArticlesNew extends Component {
                   </React.Fragment>
                 )}
 
-                {!this.state.loading && this.state.article.author && (
-                  <div className="flex">
-                    {this.state.agents.length > 0 && (
-                      <div className="flex items-center">
-                        <Avatar src={this.state.article.author.avatarUrl} />
-                        <strong className="m-2">written by</strong>
-                        <Input
-                          type={"select"}
-                          className="m-2 w-32"
-                          options={this.state.agents.map((o) => ({
-                            label: o.name || o.email,
-                            value: o.email,
-                          }))}
-                          data={{}}
-                          name={"author"}
-                          placeholder={"select author"}
-                          onChange={this.handleAuthorchange}
-                          defaultValue={
-                            { 
-                              label: this.state.article.author.email, 
-                              value: this.state.article.author.email 
-                            }
-                          }
-                        ></Input>
-                      </div>
-                    )}
-
-                    <div className="flex items-center">
-                      <strong className="m-2">In</strong>
-                      <Input
-                        type={"select"}
-                        options={this.state.collections.map((o) => ({
-                          label: o.title,
-                          value: o.id,
-                        }))}
-                        data={{}}
-                        className={"m-2 w-32"}
-                        name={"collection"}
-                        placeholder={"select collection"}
-                        onChange={this.handleCollectionChange}
-                        defaultValue={
-                          this.articleCollection() && { 
-                            label: this.articleCollection().title, 
-                            value: this.articleCollection().id
-                          }
-                        }
-                      ></Input>
-                    </div>
-                  </div>
-                )}
-
-                <div className="relative z-0 p-6 shadow bg-yellow rounded">
+                <div className="relative z-0 p-6 shadow bg-yellow rounded border border-gray-400 mb-4">
                   {!this.state.loading && (
                     <ArticleEditor
                       article={this.state.article}

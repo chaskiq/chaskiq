@@ -126,7 +126,7 @@ class Settings extends Component {
         handler: (color) => {
           this.props.updateMemSettings({ color: color })
         },
-        grid: { xs: "w-full", sm: "w-1/12" },
+        grid: { xs: "w-full", sm: "w-1/3" },
       },
 
       {
@@ -327,7 +327,7 @@ class SettingsForm extends Component {
             {this.props.title}
           </p>
 
-          <div className="flex flex-wrap">
+          <div className="flex flex-wrap items-center">
             {this.props.definitions().map((field) => {
               return (
                 <div
@@ -337,6 +337,7 @@ class SettingsForm extends Component {
                     namespace={"settings"}
                     data={field}
                     type={field.type}
+                    defaultValue={field.defaultValue}
                     handler={field.handler}
                     //errorNamespace={this.props.errorNamespace}
                     props={{ data: this.props.data }}
@@ -469,6 +470,7 @@ function LanguageForm({ settings, update, deleteLang }) {
                   </p>
                 ) : field === "action" ? (
                   <Button
+                    variant="danger"
                     color="secondary"
                     onClick={() => setOpenDeleteDialog(row)}
                   >
