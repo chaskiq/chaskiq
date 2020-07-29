@@ -358,7 +358,7 @@ class Collections extends Component {
                     </Button>
 
                     <Button
-                      variant="text"
+                      variant="danger"
                       color="primary"
                       onClick={() => this.requestDelete(item)}
                     >

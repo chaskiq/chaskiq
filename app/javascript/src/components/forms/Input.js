@@ -93,7 +93,7 @@ const WrappedComponent = React.forwardRef(function Input (
             name={name}
             type="checkbox"
             checked={value}
-            value={true}
+            value={value || true}
             disabled={disabled}
             onChange={props.onChange}
             defaultChecked={defaultValue}
@@ -124,7 +124,9 @@ const WrappedComponent = React.forwardRef(function Input (
         label={label}
         helperText={helperText}
       >
-        <img src={defaultValue} alt={name} />
+        <img src={defaultValue}
+          alt={label || name} 
+        />
 
         <input
           accept="image/*"

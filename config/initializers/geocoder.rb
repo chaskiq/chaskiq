@@ -19,6 +19,8 @@ DEFAULT_GEOCODER_SERVICE = GEOCODER_SERVICES.find do |o|
   o[:name].to_s === (ENV['DEFAULT_GEOCODER_SERVICE'] || ( Rails.env.test? ? 'test' : 'maxmind_local' ) )
 end
 
+
+
 Geocoder.configure(
   # Geocoding options
   timeout: 3, # geocoding service timeout (secs)
