@@ -117,7 +117,7 @@ function App ({ dispatch, loading }) {
                   {apps.map((a) => (
                     <div
                       key={a.key}
-                      className="lg:w-1/4 w-screen overflow-hidden my-1 px-1"
+                      className="lg:w-1/4 w-screen overflow-hidden-- my-1 px-1"
                     >
                       <Card
                         title={<Link to={`/apps/${a.key}`}>{a.name}</Link>}

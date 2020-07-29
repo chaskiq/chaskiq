@@ -108,7 +108,7 @@ export default function CollectionsWithSections ({ match, lang, subdomain }) {
   return (
     <div className="flex flex-row justify-center items-baseline bg-gray-100 py-8">
       {collections && (
-        <div className="">
+        <div className="lg:w-3/4 w-full mx-3">
           <Breadcrumbs
             aria-label="Breadcrumb"
             breadcrumbs={[
@@ -119,7 +119,7 @@ export default function CollectionsWithSections ({ match, lang, subdomain }) {
 
           <div className="py-4">
             <div>
-              <p className="py-4 mt-2 text-3xl leading-8 font-extrabold tracking-tight text-gray-900 sm:text-6xl sm:leading-10">
+              <p className="py-4 mt-2 text-2xl lg:text-3xl leading-8 font-extrabold tracking-tight text-gray-900 sm:text-6xl sm:leading-10">
                 {translation(collections.title)}
               </p>
 
@@ -127,7 +127,7 @@ export default function CollectionsWithSections ({ match, lang, subdomain }) {
                 {collections.description}
               </p>
 
-              <div className="flex items-center justify-start">
+              <div className="flex items-center justify-end">
                 <OverlapAvatars>
                   <ul className="avatars">
                     {collections.authors &&
