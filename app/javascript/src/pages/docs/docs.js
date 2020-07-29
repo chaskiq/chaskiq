@@ -86,7 +86,7 @@ function Docs (props) {
               backgroundImage: `url('${settings.headerImageLarge}')`
             }}
           >
-            <div className="px-40">
+            <div className="lg:px-40 px-2">
               <div className="flex items-center justify-between py-2">
                 <div>
                   <Link to={`/${lang}`}>
@@ -127,7 +127,7 @@ function Docs (props) {
               </div>
               <p
                 className={
-                  'py-6 text-center text-5xl leading-9 font-extrabold text-gray-100'
+                  'py-6 text-center text-3xl lg:text-5xl leading-9 font-extrabold text-gray-100'
                 }
               >
                 {settings.siteDescription}

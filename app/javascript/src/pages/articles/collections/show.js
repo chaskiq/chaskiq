@@ -6,7 +6,7 @@ import Button from "../../../components/Button";
 import TextField from "../../../components/forms/Input";
 import List, { ListItem, ListItemText } from "../../../components/List";
 import CircularProgress from "../../../components/Progress";
-import Checkbox from "../../../components/forms/Input";
+import Input from "../../../components/forms/Input";
 import ContentHeader from "../../../components/PageHeader";
 import { AnchorLink } from "../../../shared/RouterLink";
 
@@ -135,22 +135,23 @@ class CollectionDetail extends Component {
     return (
       <div className="py-4">
         {collection && (
-          <div>
-            <h2 className="text-lg leading-6 font-medium text-gray-900 pb-4">
+          <div className="flex flex-col">
+            <h2 className="text-4xl leading-6 font-bold text-gray-900 pb-4">
               {collection.title}
             </h2>
 
-            <p className="max-w-xl text-sm leading-5 text-gray-500 mb-4">
+            <p className="max-w-xl text-lg leading-5 text-gray-500 mb-4">
               {collection.description}
             </p>
 
-            <Button
-              variant="contained"
-              color={"primary"}
-              onClick={this.openNewDialog}
-            >
-              {I18n.t("articles.new_section")}
-            </Button>
+            <div className="self-end">
+              <Button
+                variant="contained"
+                color={"primary"}
+                onClick={this.openNewDialog}>
+                {I18n.t("articles.new_section")}
+              </Button>
+            </div>
 
             <Dnd
               sections={this.allCollections()}
@@ -348,6 +349,7 @@ class CollectionDetail extends Component {
     return (
       <AddArticleDialog
         app={this.props.app}
+        handleClose={()=> this.setState({addArticlesDialog: false})}
         handleSubmit={this.addArticlesHandlerSubmit}
         isOpen={this.state.addArticlesDialog}
       />
@@ -412,7 +414,7 @@ class CollectionDetail extends Component {
 class AddArticleDialog extends Component {
   state = {
     articles: [],
-    isOpen: true,
+    isOpen: this.props.isOpen,
   };
 
   componentDidMount() {
@@ -434,8 +436,14 @@ class AddArticleDialog extends Component {
     );
   }
 
-  close = () => this.setState({ isOpen: false });
-  open = () => this.setState({ isOpen: true });
+  close = () => {
+    this.setState({ isOpen: false }); 
+    this.props.handleClose && this.props.handleClose()
+  }
+  open = () => {
+    this.setState({ isOpen: true });
+    this.props.handleClose && this.props.handleClose()
+  }
 
   getValues = () => {
     var chk_arr = document.getElementsByName("article[]");
@@ -459,13 +467,12 @@ class AddArticleDialog extends Component {
           <List>
             {this.state.articles.map((o) => (
               <ListItem>
-                <Checkbox
-                  //checked={state.checkedA}
+                <Input
+                  type="checkbox"
+                  checked={o.id}
                   //onChange={handleChange('checkedA')}
                   value={o.id}
-                  inputProps={{
-                    name: "article[]",
-                  }}
+                  name="article[]"
                 />
 
                 <ListItemText

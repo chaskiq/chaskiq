@@ -142,7 +142,7 @@ class App extends Component {
               <div className="flex flex-col">
                 <div className="flex justify-between items-baseline py-2">
                   <div>
-                    <h3 className="text-lg leading-6 font-medium text-gray-900 pb-4">
+                    <h3 className="text-3xl leading-6 font-medium text-gray-900 py-4">
                       {o.title}
                     </h3>
                   </div>
@@ -152,7 +152,7 @@ class App extends Component {
                       variant={"outlined"}
                       onClick={() => this.props.requestUpdate(o)}
                     >
-                      edit
+                      Edit
                     </Button>
                   </div>
                 </div>
@@ -186,7 +186,9 @@ class App extends Component {
                                 )}
                               >
                                 <ListItem divider={true}>
-                                  <ItemAvatar></ItemAvatar>
+                                  <ItemAvatar 
+                                    avatar={item.author.avatarUrl}
+                                  />
                                   <ListItemText
                                     primary={
                                       <p className="text-lg leading-6 font-medium text-gray-900 pb-1">
@@ -213,7 +215,7 @@ class App extends Component {
                         <Button
                           variant="outlined"
                           color="primary"
-                          size={"medium"}
+                          size={"small"}
                           className="mr-2"
                           onClick={(e) => this.props.addArticlesToSection(o)}
                         >
@@ -222,8 +224,8 @@ class App extends Component {
 
                         {o.id !== "base" && (
                           <Button
-                            size={"medium"}
-                            variant="outlined"
+                            size={"small"}
+                            variant="danger"
                             color="secondary"
                             onClick={(e) => this.props.deleteSection(o)}
                           >
