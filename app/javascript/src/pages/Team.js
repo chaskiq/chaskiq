@@ -203,7 +203,7 @@ class AppUsers extends React.Component {
             open={this.state.isOpen}
             handleClose={this.close}
             actionButton={I18n.t("settings.team.action_button")}
-            titleContent={I18n.t("settings.team.title_content")}
+            titleContent={I18n.t("settings.team.update_agent_title")}
             contentText={I18n.t("settings.team.content_text")}
             formComponent={
               <form ref={this.form}>
@@ -239,7 +239,7 @@ class AppUsers extends React.Component {
                 <Button 
                   className="mr-1" 
                   onClick={this.submit}>
-                  {I18n.t("settings.team.send_invitation")}
+                  {I18n.t("settings.team.update_agent")}
                 </Button>
               </React.Fragment>
             }

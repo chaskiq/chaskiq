@@ -400,8 +400,9 @@
         send_invitation: Enviar invitacion
         resend_invitation: Reenviar invitacíon
         add_new: Agregar miembro del equipo
+        update_agent_title: Update Agent information
         updated_agent: Se actualizó la información correctamente
-
+        update_agent: Actualizar datos de agente
       webhooks:
         title: Webhooks
         create_success: Webhook creado
