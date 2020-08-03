@@ -27,6 +27,7 @@ module GeocoderRequestOverride
   end
 
   def default_geocoder_service
+    # Rails.env.test? ? :test : DEFAULT_GEOCODER_SERVICE[:name]
     DEFAULT_GEOCODER_SERVICE[:name]
   end
 end

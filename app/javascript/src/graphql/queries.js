@@ -102,12 +102,31 @@ export const AGENTS = `
     app(key: $appKey) {
       agents{
         id
+        name
         email
+        displayName
+      }
+    }
+  }
+`;
+
+export const ROLE_AGENTS = `
+  query App($appKey: String!) { 
+    app(key: $appKey){
+      key
+      roleAgents {
+        id
+        role
+        accessList
+        owner
+        agentId
         avatarUrl
         name
-        signInCount
+        email
+        displayName
         lastSignInAt
         invitationAcceptedAt
+        invitationSentAt
       }
     }
   }
@@ -207,7 +226,6 @@ export const SEGMENT = `
 export const CONVERSATIONS = `
   query App($appKey: String!, $page: Int!, $sort: String, $filter: String, $agentId: Int, $tag: String){
     app(key: $appKey) {
-      encryptionKey
       key
       name
       conversations(page: $page, sort: $sort, filter: $filter, agentId: $agentId, tag: $tag){
@@ -284,7 +302,6 @@ export const CONVERSATIONS_COUNTS = `
 export const CONVERSATION=`
   query App($appKey: String!, $id: String!, $page: Int){
     app(key: $appKey) {
-      encryptionKey
       key
       name
       conversation(id: $id){
@@ -354,7 +371,6 @@ export const CONVERSATION=`
 export const CONVERSATION_WITH_LAST_MESSAGE=`
   query App($appKey: String!, $id: String!){
     app(key: $appKey) {
-      encryptionKey
       key
       name
       conversation(id: $id){

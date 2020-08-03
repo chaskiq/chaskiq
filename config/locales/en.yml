@@ -307,7 +307,6 @@ en:
       tags: Tags
       quick_replies: Quick Replies
 
-
     integrations:
       title: Third party integrations
       create_success: Integration created
@@ -411,6 +410,7 @@ en:
       send_invitation: Send invitation
       resend_invitation: Resend invitation
       add_new: Add Team Member
+      updated_agent: Information updated successfully
 
     webhooks:
       title: Webhooks

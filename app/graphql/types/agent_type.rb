@@ -22,8 +22,6 @@ module Types
       object.name
     end
 
-    field :app, [Types::AppType], null: true
-
     field :online, Boolean, null: true
     def online
       object.online?

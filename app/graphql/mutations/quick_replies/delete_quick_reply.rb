@@ -9,7 +9,7 @@ module Mutations
       argument :id, Integer, required: true
 
       def resolve(app_key:, id:) #, lang:)
-        app = App.find_by(key: app_key)
+        app = current_user.apps.find_by(key: app_key)
 
         quick_reply = app.quick_replies.find(id)
         quick_reply.destroy
