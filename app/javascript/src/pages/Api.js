@@ -545,7 +545,7 @@ class OauthList extends React.Component {
             columns={[
               { field: "name", title: "name", render: (row)=>{
                 return <td className="px-6 py-4 whitespace-no-wrap border-b border-gray-200">
-                  <Link to={`${this.props.match.path}/${row.uid}`}>
+                  <Link className="font-bold text-2xl" to={`${this.props.match.path}/${row.uid}`}>
                     {row.name}
                   </Link>
                 </td>
@@ -572,18 +572,7 @@ class OauthList extends React.Component {
                       </span>
                     </td>
                   ),
-              },
-
-              {
-                field: "actions",
-                title: "actions",
-                render: (row) =>
-                  row && (
-                    <td className="px-6 py-4 whitespace-no-wrap border-b border-gray-200">
-                      <button>edit</button>
-                    </td>
-                  ),
-              },
+              }
             ]}
             enableMapView={false}
           />

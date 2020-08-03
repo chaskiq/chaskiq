@@ -14,8 +14,6 @@ class GraphqlController < ApplicationController
     context = {
       # Query context goes here, for example:
       current_user: current_user,
-      authorize: lambda{|mode, object| authorize!(mode, object) },
-      can: lambda{| mode, object | can?( mode, object) },
       doorkeeper_authorize: lambda{ api_authorize! },
     }
 
@@ -25,41 +23,52 @@ class GraphqlController < ApplicationController
                                    operation_name: operation_name)
 
     render json: result
-  # rescue => e
-  #  raise e unless Rails.env.development?
-  #  handle_error_message e
-  # end
+    # rescue => e
+    #  raise e unless Rails.env.development?
+    #  handle_error_message e
+    # end
 
-  # rescue CanCan::AccessDenied => e
-  #  render json: {
-  #    errors: [{
-  #              message: e.message,
-  #              data: {}
-  #            }]
-  #  }, status: 200
+    # rescue CanCan::AccessDenied => e
+    #  render json: {
+    #    errors: [{
+    #              message: e.message,
+    #              data: {}
+    #            }]
+    #  }, status: 200
 
-  rescue OauthExeption => e
-    render json: { 
-      error: { 
-        message: "token not valid", 
-      }, data: {} 
-    }, status: 401
-  rescue ActiveRecord::RecordNotFound => e
-    render json: {
-      errors: [{
-        message: 'Data not found',
-        data: {}
-      }]
-    }, status: 200
-  rescue ActiveRecord::RecordInvalid => e
-    error_messages = e.record.errors.full_messages.join("\n")
-    json_error e.record
-    # GraphQL::ExecutionError.new "Validation failed: #{error_messages}."
-  rescue StandardError => e
-    # GraphQL::ExecutionError.new e.message
-    # raise e unless Rails.env.development?
-    handle_error_message e
-  end
+    rescue OauthExeption => e
+      render json: { 
+        error: { 
+          message: "token not valid", 
+        }, data: {} 
+      }, status: 401
+    rescue ActiveRecord::RecordNotFound => e
+      render json: {
+        errors: [{
+          message: 'Data not found',
+          data: {}
+        }]
+      }, status: 200
+    rescue ActiveRecord::RecordInvalid => e
+      error_messages = e.record.errors.full_messages.join("\n")
+      json_error e.record
+      # GraphQL::ExecutionError.new "Validation failed: #{error_messages}."
+    rescue StandardError => e
+      # GraphQL::ExecutionError.new e.message
+      # raise e unless Rails.env.development?
+      handle_error_message e
+    rescue ActionPolicy::Unauthorized => exp
+      raise GraphQL::ExecutionError.new(
+        # use result.message (backed by i18n) as an error message
+        exp.result.message,
+        # use GraphQL error extensions to provide more context
+        extensions: {
+          code: :unauthorized,
+          fullMessages: exp.result.reasons.full_messages,
+          details: exp.result.reasons.details
+        }
+      )
+    end
 
   private
 

@@ -15,13 +15,10 @@ class Api::GraphqlController < ApiController
       user_data: user_data,
       app: @app,
       from_api: true,
-      # authorize: lambda{|mode, object| authorize!(mode, object) },
-      # can: lambda{| mode, object | can?( mode, object) },
-      # logout!: ->{logout!},
-      # session: session,
       set_locale: -> { set_locale },
       auth: -> { auth },
       get_app_user: -> { get_app_user },
+      current_user: get_app_user,
       request: request
     }
 

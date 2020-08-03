@@ -103,7 +103,8 @@ class ApiController < ActionController::API
     @app.app_users.where(type: %w[Visitor Lead]).find_by(session_id: session_id)
   end
 
-  def authorize!
+  # THIS IS NOT BEIGN USED?
+  def authorize_user_data!
     render(json: {}, status: 406) && return if @user_data.blank?
   end
 
