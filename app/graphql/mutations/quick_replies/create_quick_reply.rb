@@ -13,7 +13,7 @@ module Mutations
       def resolve(app_key:, content:, title:, lang:)
         I18n.locale = lang
 
-        app = App.find_by(key: app_key)
+        app = current_user.apps.find_by(key: app_key)
 
         quick_reply = app.quick_replies.create(
           title: title,

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_07_04_220911) do
+ActiveRecord::Schema.define(version: 2020_07_30_031419) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -163,6 +163,7 @@ ActiveRecord::Schema.define(version: 2020_07_04_220911) do
     t.jsonb "preferences", default: "{}", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "owner_id"
     t.index ["key"], name: "index_apps_on_key"
     t.index ["preferences"], name: "index_apps_on_preferences", using: :gin
   end

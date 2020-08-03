@@ -384,7 +384,6 @@
             some: Usuarios que calzan con el filtro
           hint: Esto no afecta a los mensajes salientes que envías
 
-
       languages: 
         add: Agregar Idioma
         title: Idiomas
@@ -401,6 +400,7 @@
         send_invitation: Enviar invitacion
         resend_invitation: Reenviar invitacíon
         add_new: Agregar miembro del equipo
+        updated_agent: Se actualizó la información correctamente
 
       webhooks:
         title: Webhooks

@@ -29,7 +29,6 @@ export const PING = `
         businessBackIn
         tasksSettings
         customizationColors
-        encryptionKey
         searcheableFields
         articleSettings{
           subdomain

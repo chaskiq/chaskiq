@@ -2,20 +2,20 @@
 
 module Mutations
   module Agents
-    class UpdateAgent < Mutations::BaseMutation
+    class UpdateAgentRole < Mutations::BaseMutation
       field :agent, Types::AgentType, null: false
       argument :app_key, String, required: true
       argument :params, Types::JsonType, required: true
-      argument :email, String, required: true
+      argument :id, String, required: true
 
-
-      # TODO ROLE AWARE
-      def resolve(app_key:, email:, params:)
+      def resolve(app_key:, id:, params:)
         app = current_user.apps.find_by(key: app_key)
 
         authorize! app, to: :update_agent?, with: AppPolicy
         
-        agent = app.agents.find_by(email: email) # , name: 'John Doe')
+        role = app.roles.find_by(id: id)
+        
+        agent = role&.agent # , name: 'John Doe')
 
         data = params.permit(
           :name, 
@@ -28,12 +28,13 @@ module Mutations
           :region,
           :region_code,
           :enable_deliveries,
-          :available
+          :available,
+          :access_list
         )
 
-        #data.merge!({avatar: avatar}) if avatar.present?
-
         agent.update(data)
+
+        role.update(access_list: params[:access_list])
 
         { agent: agent }
       end

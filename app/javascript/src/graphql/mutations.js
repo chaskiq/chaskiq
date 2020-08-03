@@ -45,22 +45,6 @@ export const DESTROY_APP = `
   mutation AppsUpdate($appKey: String!){
     appsDestroy(appKey: $appKey){
       errors
-      app{
-        encryptionKey
-        key
-        name
-        preferences
-        configFields
-        theme
-        activeMessenger
-        segments {
-          name
-          id
-          properties
-        }
-        state
-        tagline
-      }
     }
   }
 `;
@@ -835,6 +819,19 @@ export const INVITE_AGENT = `
 export const UPDATE_AGENT = `
   mutation UpdateAgent($appKey: String!, $email: String!, $params: Json!){
     updateAgent(appKey: $appKey, email: $email, params: $params){
+      agent {
+        email
+        avatarUrl
+        name
+        lang
+      }
+    }
+  }
+`;
+
+export const UPDATE_AGENT_ROLE = `
+  mutation UpdateAgentRole($appKey: String!, $id: String!, $params: Json!){
+    updateAgentRole(appKey: $appKey, id: $id, params: $params){
       agent {
         email
         avatarUrl
