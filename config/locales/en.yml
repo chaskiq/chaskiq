@@ -410,7 +410,9 @@ en:
       send_invitation: Send invitation
       resend_invitation: Resend invitation
       add_new: Add Team Member
+      update_agent_title: Update Agent information
       updated_agent: Information updated successfully
+      update_agent: Update
 
     webhooks:
       title: Webhooks
