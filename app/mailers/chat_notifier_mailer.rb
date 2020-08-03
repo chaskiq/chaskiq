@@ -60,7 +60,9 @@ class ChatNotifierMailer < ApplicationMailer
 
     return if recipient.is_a?(Agent) && (recipient.bot? && !recipient.enable_deliveries)
 
-    roadie_mail(from: "#{from_name}<#{from_email}>",
+    from_name_parametrized = from_name.parameterize(separator: ' ').capitalize.titleize
+
+    roadie_mail(from: "#{from_name_parametrized}<#{from_email}>",
          to: email,
          subject: subject,
          content_type: content_type,

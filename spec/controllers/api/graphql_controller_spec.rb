@@ -22,6 +22,13 @@ RSpec.describe Api::GraphqlController, type: :controller do
     file = Rails.root + 'app/javascript/client_messenger/graphql/queries.js'
     GraphQL::TestClient.configure([file])
     app.update(encryption_key: 'unodostrescuatro')
+
+    
+    allow_any_instance_of(GeocoderRequestOverride).to receive(
+      :default_geocoder_service
+    ).and_return(:test)
+
+    
   end
 
   after do
@@ -76,7 +83,6 @@ RSpec.describe Api::GraphqlController, type: :controller do
       expect(app_user.lng).to be_present
     end
 
-
     it 'visit without geo code' do
 
       Geocoder.stub(:search).and_return([])
@@ -120,7 +126,6 @@ RSpec.describe Api::GraphqlController, type: :controller do
 
     end
   end
-
 
   it 'sessionless will create Lead' do
 
@@ -179,5 +184,143 @@ RSpec.describe Api::GraphqlController, type: :controller do
       expect(app.app_users.first).is_a?(Lead)
     end
 
+  end
+
+  describe 'app security, forbidden fields' do
+
+    before :each do
+      @user = app.add_anonymous_user({})
+
+      expect(app.app_users.count).to be == 1
+
+      OriginValidator.any_instance
+      .stub(:host)
+      .and_return("http://localhost:3000")
+
+      request.headers.merge!(
+        'HTTP_APP' => app.key,
+        'HTTP_SESSION_ID' => @user.session_id
+      )
+    end
+    
+    it 'get agents' do
+      q = "query Messenger{
+        messenger {
+          user
+          app {
+            key
+            encryptionKey
+          }
+        }
+      }"
+
+      graphql_raw_post(raw: q, variables: {})
+      expect(graphql_response.data.messenger.app.encryptionKey).to be_blank
+    end
+
+    it 'get agents' do
+      q = "query Messenger{
+        messenger {
+          user
+          app {
+            agents {
+              name
+            }
+          }
+        }
+      }"
+      graphql_raw_post(raw: q, variables: {})
+      expect(graphql_response.errors).to be_present
+    end
+
+    it 'secure on oauthApplications' do
+      
+      q = "query Messenger{
+        messenger {
+          user
+          app {
+            key
+            oauthApplications {
+              secret
+            }
+          }
+        }
+      }"
+
+      graphql_raw_post(raw: q, variables: {})
+      expect(graphql_response.errors).to be_present
+    end
+
+    it 'secure on authorizedOauthApplications' do
+      
+      q = "query Messenger{
+        messenger {
+          user
+          app {
+            key
+            authorizedOauthApplications {
+              secret
+            }
+          }
+        }
+      }"
+
+      graphql_raw_post(raw: q, variables: {})
+      expect(graphql_response.errors).to be_present
+    end
+
+    it 'secure on agents' do
+      
+      q = "query Messenger{
+        messenger {
+          user
+          app {
+            key
+            agents {
+              email
+            }
+          }
+        }
+      }"
+
+      graphql_raw_post(raw: q, variables: {})
+
+      expect(graphql_response.errors).to be_present
+    end
+
+    it 'conversations' do
+      
+      app.start_conversation(
+        message: { text_content: 'aa' },
+        from: app.app_users.first
+      )
+
+      q = "query Messenger{
+        messenger {
+          user
+
+          conversations(){
+            collection{
+              id
+              key
+              state
+            }
+            meta
+          }
+          app {
+            key
+            agents {
+              email
+            }
+          }
+        }
+      }"
+
+      graphql_raw_post(raw: q, variables: {
+        page: 1, per: 20
+      })
+
+      expect(graphql_response.errors).to be_present
+    end
   end
 end

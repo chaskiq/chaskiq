@@ -45,6 +45,7 @@ gem 'nightfury', github: 'michelson/nightfury' # "~> 1.0"
 
 gem 'graphiql-rails', group: :development
 gem 'graphql', '~> 1.9'
+gem "action_policy-graphql", "~> 0.3"
 gem 'batch-loader'
 
 # Use Capistrano for deployment
@@ -162,4 +163,3 @@ end
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
 gem 'tzinfo-data', platforms: %i[mingw mswin x64_mingw jruby]
-gem "cancancan", "~> 3.0"

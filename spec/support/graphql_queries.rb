@@ -53,6 +53,14 @@ def graphql_post(type:, variables: {})
   post :execute, body: data.to_json, as: :json, xhr: true
 end
 
+def graphql_raw_post(raw:, variables: {})
+  data = {
+    query: raw,
+    variables: variables
+  }
+  post :execute, body: data.to_json, as: :json, xhr: true
+end
+
 #def graphql_errors
 #  data = graphql_data
 #  data[data.keys.first]["errors"]

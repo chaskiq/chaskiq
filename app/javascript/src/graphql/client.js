@@ -33,7 +33,12 @@ const graphql = (query, variables, callbacks) => {
       if (isObject(errors) && !isEmpty(errors)) {
       // const errors = data[Object.keys(data)[0]];
       // callbacks['error'] ? callbacks['error'](res, errors['errors']) : null
-        if (callbacks.error) { return callbacks.error(res, errors) }
+        if (errors[0].extensions &&
+          errors[0].extensions.code === 'unauthorized')
+          return store.dispatch(errorMessage(errors[0].message))
+        if (callbacks.error) {
+          return callbacks.error(res, errors)
+        }
       }
 
       callbacks.success ? callbacks.success(data, res) : null

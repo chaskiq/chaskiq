@@ -15,7 +15,7 @@ module Mutations
 
         I18n.locale = lang
         
-        app = App.find_by(key: app_key)
+        app = current_user.apps.find_by(key: app_key)
 
         quick_reply = app.quick_replies.find(id)
         quick_reply.update(

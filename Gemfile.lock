@@ -29,6 +29,10 @@ GEM
   specs:
     aasm (5.0.5)
       concurrent-ruby (~> 1.0)
+    action_policy (0.4.4)
+    action_policy-graphql (0.4.0)
+      action_policy (>= 0.3.0)
+      graphql (>= 1.9.3)
     actioncable (6.0.3.2)
       actionpack (= 6.0.3.2)
       nio4r (~> 2.0)
@@ -136,7 +140,6 @@ GEM
     bugsnag (6.11.1)
       concurrent-ruby (~> 1.0)
     builder (3.2.4)
-    cancancan (3.0.1)
     capistrano (3.11.0)
       airbrussh (>= 1.0.0)
       i18n
@@ -542,6 +545,7 @@ PLATFORMS
 
 DEPENDENCIES
   aasm
+  action_policy-graphql (~> 0.3)
   active_importer
   acts-as-taggable-on (~> 6.0)
   acts_as_list (~> 0.9.19)
@@ -554,7 +558,6 @@ DEPENDENCIES
   brakeman
   browser (~> 2.5)
   bugsnag (~> 6.11)
-  cancancan (~> 3.0)
   capistrano-bundle
   capistrano-rails
   capistrano-rvm

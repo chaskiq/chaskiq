@@ -6,7 +6,7 @@ module Types
     # Add root-level fields here.
     # They will be entry points for queries on your schema.
 
-    field :app, Types::AppType, null: false, description: 'get app' do
+    field :app, Types::AppType, null: false, description: 'get app', authorize: true do
       argument :key, String, required: true
     end
 

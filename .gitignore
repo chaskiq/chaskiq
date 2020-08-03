@@ -21,6 +21,7 @@
 !/tmp/.keep
 
 /cypress
+/spec/cypress/screenshots
 
 # Ignore uploaded files in development
 /storage/*

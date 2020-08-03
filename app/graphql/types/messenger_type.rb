@@ -98,7 +98,7 @@ module Types
         os: browser.platform.id,
         os_version: browser.platform.version,
         browser_language: language.try(:code)
-        # lang:             I18n.locale #user_data[:properties][:lang]
+        # lang: I18n.locale #user_data[:properties][:lang]
       }
 
       location_params = {
