@@ -21,6 +21,7 @@ import { DanteAnchorPopoverConfig } from "Dante2/package/es/components/popovers/
 import { DanteInlineTooltipConfig } from "Dante2/package/es/components/popovers/addButton.js"; //'Dante2/package/es/components/popovers/addButton.js'
 import { DanteTooltipConfig } from "Dante2/package/es/components/popovers/toolTip.js"; //'Dante2/package/es/components/popovers/toolTip.js'
 import { ImageBlockConfig } from "./blocks/image";
+import { FileBlockConfig } from './blocks/fileBlock';
 import { EmbedBlockConfig } from "Dante2/package/es/components/blocks/embed.js";
 import { VideoBlockConfig } from "Dante2/package/es/components/blocks/video.js";
 import { PlaceholderBlockConfig } from "Dante2/package/es/components/blocks/placeholder.js";
@@ -153,6 +154,21 @@ export default class ArticleEditor extends Component {
     super(props);
     this.initialContent = this.defaultContent();
   }
+
+  isEmptyDraftJs = () => {
+    if (!this.props.serializedContent) { 
+      // filter undefined and {}
+      return true;
+    }
+    const raw = JSON.parse(this.props.serializedContent)
+    const contentState = convertFromRaw(raw);
+
+    if((raw.blocks.filter((o)=>(o.type != 'unstyled')).length > 0 ))
+      return false
+
+    return !(contentState.hasText() && (contentState.getPlainText().trim() !== '' ))
+  };
+
 
   emptyContent = () => {
     return {
@@ -317,7 +333,6 @@ export default class ArticleEditor extends Component {
           } = data.createDirectUpload.directUpload;
 
           directUpload(url, JSON.parse(headers), file).then(() => {
-            this.setDisabled(false);
             this.props.uploadHandler({
               signedBlobId,
               headers,
@@ -325,19 +340,6 @@ export default class ArticleEditor extends Component {
               serviceUrl,
               imageBlock,
             });
-            /*
-              graphql(ARTICLE_BLOB_ATTACH, { 
-                appKey: this.props.app.key ,
-                id: parseInt(this.state.article.id),
-                blobId: signedBlobId
-              }, {
-                success: (data)=>{
-                  imageBlock.uploadCompleted(serviceUrl)
-                },
-                error: (err)=>{
-                  console.log("error on direct upload", err)
-                }
-              })*/
           });
         },
         error: (error) => {
@@ -352,6 +354,13 @@ export default class ArticleEditor extends Component {
     let widgets = [
       CodeBlockConfig(),
       ImageBlockConfig({
+        options: {
+          //upload_url: `/attachments.json?id=${this.props.data.id}&app_id=${this.props.app.key}`,
+          upload_handler: this.uploadHandler,
+          image_caption_placeholder: "type a caption (optional)",
+        },
+      }),
+      FileBlockConfig({
         options: {
           //upload_url: `/attachments.json?id=${this.props.data.id}&app_id=${this.props.app.key}`,
           upload_handler: this.uploadHandler,
@@ -679,6 +688,10 @@ export default class ArticleEditor extends Component {
               data_storage={{
                 url: "/",
                 save_handler: this.saveHandler,
+              }}
+              handleReturn={(e)=>{
+                return this.props.handleReturn && this.props.handleReturn(
+                  e, this.isEmptyDraftJs())
               }}
               onChange={(e) => {
                 this.dante_editor = e;

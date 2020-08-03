@@ -93,7 +93,7 @@ const WrappedComponent = React.forwardRef(function Input (
             name={name}
             type="checkbox"
             checked={value}
-            value={true}
+            value={value || true}
             disabled={disabled}
             onChange={props.onChange}
             defaultChecked={defaultValue}
@@ -124,7 +124,9 @@ const WrappedComponent = React.forwardRef(function Input (
         label={label}
         helperText={helperText}
       >
-        <img src={defaultValue} alt={name} />
+        <img src={defaultValue}
+          alt={label || name} 
+        />
 
         <input
           accept="image/*"
@@ -211,7 +213,7 @@ const WrappedComponent = React.forwardRef(function Input (
         {label && (
           <label
             htmlFor="about"
-            className="block text-sm leading-5 font-medium text-gray-700"
+            className="block text-gray-700 text-sm font-bold mb-2"
           >
             {label}
           </label>
@@ -220,6 +222,7 @@ const WrappedComponent = React.forwardRef(function Input (
           <textarea
             id="about"
             rows="3"
+            name={name}
             className={`shadow appearance-none border border-${borderColor(
               error
             )}-500 rounded 
@@ -258,8 +261,10 @@ const WrappedComponent = React.forwardRef(function Input (
         />
         {
           defaultTZ &&
-          <div className="text-gray-500 text-xs"> 
-            Your browser timezone is <b className="text-bold">{defaultTZ}</b>
+          <div className="text-gray-500 text-xs" 
+           dangerouslySetInnerHTML={
+              { __html: I18n.t('common.tz_hint', {timezone: defaultTZ }) }
+           }>
           </div>
         }
       </FormField>
@@ -270,8 +275,11 @@ const WrappedComponent = React.forwardRef(function Input (
     return (
       <ColorPicker
         color={value}
+        name={name}
+        label={label}
+        placeholder={props.placeholder}
         colorHandler={props.onChange}
-        label={'Primary color'}
+        //label={'Primary color'}
         error={error}
       />
     )
@@ -316,7 +324,10 @@ function FormField ({ name, label, helperText, children, error }) {
         {label}
       </label>
       {children}
-      {helperText && helperText}
+
+      {helperText && (
+        <div className="mt-2 text-xs text-gray-500">{helperText}</div>
+      )}
     </React.Fragment>
   )
 }

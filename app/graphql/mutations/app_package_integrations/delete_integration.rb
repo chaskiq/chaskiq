@@ -11,13 +11,16 @@ module Mutations
 
       def resolve(id:, app_key:)
         find_app(app_key)
+        authorize! @app, to: :manage?, with: AppPolicy
+
         delete_integration(id)
         { integration: @integration, errors: @integration.errors }
       end
 
       def delete_integration(id)
         # TODO: async relation data destroy
-        @integration = @app.app_package_integrations.find(id).destroy
+        @integration = @app.app_package_integrations.find(id)
+        @integration.destroy
       end
 
       def find_app(app_id)

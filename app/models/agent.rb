@@ -30,7 +30,6 @@ class Agent < ApplicationRecord
     )
   end
 
-
   has_many :access_grants,
          class_name: 'Doorkeeper::AccessGrant',
          foreign_key: :resource_owner_id,
@@ -43,9 +42,9 @@ class Agent < ApplicationRecord
 
   has_many :roles, dependent: :destroy
   has_many :apps, through: :roles, source: :app
+  has_many :owned_apps, class_name: "App", foreign_key: 'owner_id'
   has_many :assignment_rules
   has_many :articles, foreign_key: 'author_id'
-
   has_many :conversations, foreign_key: 'assignee_id'
 
   scope :bots, ->{where(bot: true) }
@@ -63,9 +62,15 @@ class Agent < ApplicationRecord
     region
     region_code
     enable_deliveries
+    lang
+    permissions
   ]
 
   has_one_attached :avatar
+
+  def can_create_apps?
+    return true
+  end
 
   def display_name
     [name].join(' ')

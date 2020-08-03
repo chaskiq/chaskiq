@@ -7,9 +7,10 @@ Rails.application.configure do
   # test suite. You never need to work with it otherwise. Remember that
   # your test database is "scratch space" for the test suite and is wiped
   # and recreated between test runs. Don't rely on the data there!
-  config.cache_classes = ENV['CI'].present?
+  config.cache_classes = false #ENV['CI'].present?
 
   ENV['HOST'] = 'http://localhost:5002'
+  ENV['WS'] = 'ws://localhost:5002'
 
   # Do not eager load code on boot. This avoids loading your whole application
   # just for the purpose of running a single test. If you are using a tool that
@@ -46,9 +47,9 @@ Rails.application.configure do
   # Print deprecation notices to the stderr.
   config.active_support.deprecation = :stderr
 
-  Rails.application.routes.default_url_options = { host: 'http://localhost:3000' }
-  config.action_controller.default_url_options = { host: 'http://localhost:3000' }
-  config.action_mailer.default_url_options = { host: 'http://localhost:3000' }
+  Rails.application.routes.default_url_options = { host: ENV['HOST'] }
+  config.action_controller.default_url_options = { host: ENV['HOST'] }
+  config.action_mailer.default_url_options = { host: ENV['HOST'] }
 
   config.action_cable.url = 'ws://localhost:5002/cable'
 

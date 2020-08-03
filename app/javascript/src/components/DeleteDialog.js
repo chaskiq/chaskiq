@@ -29,12 +29,11 @@ export default function DeleteDialog ({
           formComponent={<form>{children}</form>}
           dialogButtons={
             <React.Fragment>
-              <Button onClick={close} variant="outlined" className="ml-2">
-                Cancel
+              <Button onClick={deleteHandler} className="ml-2" variant="danger">
+                {I18n.t('common.delete')}
               </Button>
-
-              <Button onClick={deleteHandler} variant="danger">
-                Delete
+              <Button onClick={close} variant="outlined">
+                {I18n.t('common.cancel')}
               </Button>
             </React.Fragment>
           }

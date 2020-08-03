@@ -41,7 +41,18 @@ import styled from "@emotion/styled";
 import { 
   AppPackageBlockConfig 
 } from "../textEditor/blocks/appPackage";
+
+import {
+  OnDemandTriggersBlockConfig
+} from "../textEditor/blocks/onDemandTriggers";
+
+import {
+  QuickRepliesBlockConfig
+} from '../textEditor/blocks/quickReplies'
+
 import AppPackagePanel from "./appPackagePanel";
+import TriggersPanel from "./triggersPanel";
+import QuickReplyPanel from "./quickRepliesPanel";
 
 import { SendIcon } from "../icons";
 
@@ -114,7 +125,8 @@ const SubmitButton = function (props) {
         `flex w-1/6 justify-center
         bg-white hover:bg-gray-100 
         text-gray-800 font-semibold py-2 
-        px-3 border-l border-gray-400 shadow items-center`
+        px-3 border-l border-gray-400 shadow items-center m-2 
+        rounded border`
       }
       onClick={props.onClick}
       disabled={props.disabled}
@@ -136,6 +148,8 @@ export default class ChatEditor extends Component {
       html: null,
       statusButton: "inprogress",
       openPackagePanel: false,
+      openTriggersPanel: false,
+      openQuickReplyPanel: false,
       disabled: true,
       openGiphy: false,
       read_only: false,
@@ -234,7 +248,9 @@ export default class ChatEditor extends Component {
   };
 
   uploadHandler = ({ serviceUrl, imageBlock }) => {
-    imageBlock.uploadCompleted(serviceUrl);
+    imageBlock.uploadCompleted(serviceUrl, ()=>{
+      this.setDisabled(false);
+    });
   };
 
   saveContent = (content) => {
@@ -275,6 +291,14 @@ export default class ChatEditor extends Component {
     this.setState({ openPackagePanel: true });
   };
 
+  handleBotFunc = () => {
+    this.setState({ openTriggersPanel: true });
+  };
+
+  handleQuickRepliesFunc = ()=>{
+    this.setState({ openQuickReplyPanel: true });
+  }
+
   render() {
     const serializedContent = this.state.serialized
       ? this.state.serialized
@@ -293,6 +317,38 @@ export default class ChatEditor extends Component {
                 this.props.insertAppBlockComment(data, ()=>{
                   this.setState({
                     openPackagePanel: false,
+                  });
+                });
+              }}
+            />
+          )}
+
+          {this.state.openQuickReplyPanel && (
+            <QuickReplyPanel
+              open={this.state.openQuickReplyPanel}
+              close={() => {
+                this.setState({ openQuickReplyPanel: false });
+              }}
+              insertComment={(data) => {
+                this.props.insertComment(data, ()=>{
+                  this.setState({
+                    openQuickReplyPanel: false,
+                  });
+                });
+              }}
+            />
+          )}
+
+          {this.state.openTriggersPanel && (
+            <TriggersPanel
+              open={this.state.openTriggersPanel}
+              close={() => {
+                this.setState({ openTriggersPanel: false });
+              }}
+              insertComment={(data) => {
+                this.props.insertAppBlockComment(data, ()=>{
+                  this.setState({
+                    openTriggersPanel: false,
                   });
                 });
               }}
@@ -318,12 +374,25 @@ export default class ChatEditor extends Component {
                 loading={this.props.loading}
                 setDisabled={this.setDisabled}
                 read_only={this.state.read_only}
+                handleReturn={(e, isEmptyDraft)=>{
+                  if(isEmptyDraft || this.isDisabled()) return
+                  if (this.props.sendMode == 'enter' && !e.nativeEvent.shiftKey) {
+                    return this.handleSubmit()
+                  }
+                }}
                 toggleEditable={() => {
                   this.setState({ read_only: !this.state.read_only });
                 }}
+                
                 appendWidgets={[
                   AppPackageBlockConfig({
                     handleFunc: this.handleAppFunc,
+                  }),
+                  OnDemandTriggersBlockConfig({
+                    handleFunc: this.handleBotFunc,
+                  }),
+                  QuickRepliesBlockConfig({
+                    handleFunc: this.handleQuickRepliesFunc,
                   }),
                 ]}
                 data={{
@@ -341,10 +410,13 @@ export default class ChatEditor extends Component {
             )}
           </ChatEditorInput>
 
-          <SubmitButton
-            onClick={this.handleSubmit}
-            disabled={this.state.disabled}
-          />
+          {
+            this.props.sendMode != 'enter' && <SubmitButton
+              onClick={this.handleSubmit}
+              disabled={this.state.disabled}
+            />
+          }
+
         </EditorContainer>
       </ThemeProvider>
     );

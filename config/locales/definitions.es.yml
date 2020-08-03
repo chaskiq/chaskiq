@@ -1,0 +1,147 @@
+---
+  es:
+    definitions:
+      articles:
+        title:
+          label: Título
+        author:
+          label: Autor
+        state:
+          label: Estado
+        collection:
+          label: Colección
+        actions:
+          label: Acciones
+        website:
+          label: Sitio web
+          hint: Sitio web de su dominio principal
+        domain:
+          label: Dominio
+          hint: Dominio del Centro de ayuda
+        subdomain:
+          label: Subdominio
+          hint: Subdominio en el que estará disponible el Centro de ayuda
+        google_code:
+          label: Código de Google
+          hint: ID de seguimiento de Google
+        credits:
+          label: mostrar créditos
+          hint: ''
+      campaigns:
+        campaign_name:
+          label: Nombre de campaña
+          hint: Esto no se mostrará en el correo electrónico
+        email_subject:
+          label: Asunto del email
+          hint: Este es el asunto del correo electrónico.
+        from_name:
+          label: Del nombre
+        from_email:
+          label: Desde el e-mail
+        reply_email:
+          label: Contestar correo electrónico
+        scheduled_at:
+          label: Programado a las
+        scheduled_to:
+          label: Programado para
+        state:
+          label: Estado
+        description:
+          label: Descripción
+        actions:
+          label: Acciones
+      bot_tasks:
+        state:
+          label: Estado
+        name:
+          label: Nombre
+        actions:
+          label: Acciones
+        title:
+          label: Título
+          placeholder: escribir el título de la tarea
+          hint: 'Nombre de la tarea, es decir: dar la bienvenida a la tarea del bot'
+      stats:
+        email:
+          label: Correo electrónico
+        host:
+          label: Anfitrión
+        createdAt:
+          label: Creado en
+        from:
+          label: Desde
+        actions:
+          label: Acciones
+        when:
+          label: Cuando
+        data:
+          label: Datos
+    
+
+      settings:
+        name:
+          label: Nombre
+        logo:
+          label: Logo
+        enable_articles:
+          label: Mostrar artículo en la ventana de chat
+          hint: Esta opción mostrará los artículos en la sección de inicio del messenger
+        inline_conversation:
+          label: Mostrar nuevos mensajes en caja flotante
+          hint: Esta opción no abrirá el widget de cuadro de chat
+        encryption_key:
+          label: Clave de encriptación
+          placeholder: Déjelo en blanco para que no se cifre
+          hint: Esta clave se usará para cifrar y descifrar datos de usuario JWE
+        active_messenger:
+          label: Activar messenger
+          hint: Cuando esto esté activado, se activará el widget web de Messenger
+        domain:
+          label: URL de dominio
+          hint: Este será el sitio anfitrión donde se usará chaskiq
+        outgoing_email_domain:
+          label: Dominio de correo electrónico saliente
+          hint: El dominio de correo electrónico para enviar conversaciones, para @yourapp
+            use 'su aplicación'
+        tagline:
+          label: Tagline
+          hint: Define una frase para el tagline, lo mostraremos en la parte inferior del chat
+        timezone:
+          label: Zona horaria
+        gather_social_data:
+          label: Recopilar datos sociales
+          hint: Recopilar perfiles sociales a través de un servicio de contacto completo
+            (por ejemplo, LinkedIn, Twitter, etc.) para mis usuarios a través API de enrequecimiento de datos
+        register_visits:
+          label: Registrar visitas
+          hint: Incluso si esto está deshabilitado, recopilaremos un contador global de
+            visitas y almacenaremos la información de la última visita en el perfil del
+            visitante
+        languages:
+          select_lang: "Seleccionar Idioma"
+    
+    data_tables:
+      users:
+        name: Nombre
+        email: Correo electrónico
+        state: Estado
+        online: En línea
+        lat: Lat
+        lng: Lng
+        id: Ip
+        country: País
+        city: Ciudad
+        postal: Postal
+        browser: Navegador
+        referrer: Referencia
+        os: SO
+        os_version: La versión SO
+        lang: Lenguaje
+        web_sessions: Sesiones web
+        last_seen: Primero visto
+        first_seen: Ultima vez visto
+        subscription_status:
+          subscribed: Suscrito
+          unsubscribed: Darse de baja
+          passive: Pasivo
+  

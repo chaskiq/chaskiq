@@ -2,7 +2,7 @@ import React from 'react'
 
 export default function Card ({ title, description, imageSrc }) {
   return (
-    <div className="rounded overflow-hidden shadow-lg bg-white">
+    <div className="rounded overflow-hidden shadow-lg bg-white h-full">
       {imageSrc && (
         <img className="w-full" src={imageSrc} alt="Sunset in the mountains" />
       )}

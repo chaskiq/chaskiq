@@ -1,4 +1,4 @@
-export function translations(){
+export function translations () {
   cy.appEval(`App.last.update({
     greetings_es: "Hola amigo", 
     greetings_en: "hello friend",
@@ -11,57 +11,60 @@ export function translations(){
   })`)
 }
 
-export function openMessenger(cb, options, sessionless){
-
-  cy.appEval("App.last").then((results) => {
+export function openMessenger (cb, options, sessionless) {
+  cy.appEval('App.last').then((results) => {
     const appKey = results.key
     const params = options.params
-    let urlParams = params 
-    if(sessionless)
+    let urlParams = params
+    if (sessionless) {
       urlParams = Object.assign(
-        urlParams, {}, {sessionless: sessionless }
+        urlParams, {}, { sessionless: sessionless }
       )
+    }
 
-    cy.visit(`/tester/${appKey}`, {qs: urlParams, headers: options.headers || {}})
-    .then(()=>{
-      cy.get('iframe:first')
-      .then(function ($iframe) {
-        const $body = $iframe.contents().find('body')
-        cy.wrap($body).find("#chaskiq-prime").click()
-      })
+    cy.visit(`/tester/${appKey}`, { qs: urlParams, headers: options.headers || {} })
+      .then(() => {
+        cy.get('iframe:first')
+          .then(function ($iframe) {
+            const $body = $iframe.contents().find('body')
+            cy.wrap($body).find('#chaskiq-prime').click()
+          })
 
-      cy.get('iframe:first')
-      .then(function ($iframe) {
-        const $body = $iframe.contents().find('body')
-        cb($body, appKey )
+        cy.get('iframe:first')
+          .then(function ($iframe) {
+            const $body = $iframe.contents().find('body')
+            cb($body, appKey)
+          })
       })
-    });
   })
 }
 
-export function login(){
+export function login () {
   cy.appScenario('basic')
   cy.visit('/')
-  cy.contains("Sign in")
+  cy.contains('Sign in')
+
+  cy.wait(1000)
+
   cy.get('input[name="email"]')
-  .type('test@test.cl').should('have.value', 'test@test.cl')
+    .type('test@test.cl').should('have.value', 'test@test.cl')
 
   cy.get('input[name="password"]')
-  .type('123456').should('have.value', '123456')
+    .type('123456').should('have.value', '123456')
 
   cy.get('button[type="submit"]').click()
 
-  cy.get("body").should('contain', 'Welcome To Chaskiq')
+  cy.get('body').should('contain', 'Welcome to Chaskiq')
 }
 
-export function findButtonByName(name){
+export function findButtonByName (name) {
   return cy.get('button').contains(name)
 }
 
-export function findElementByName(element, name){
+export function findElementByName (element, name) {
   return cy.get(element).contains(name)
 }
 
-export function findLinkByName(name){
+export function findLinkByName (name) {
   return cy.get('a').contains(name)
 }

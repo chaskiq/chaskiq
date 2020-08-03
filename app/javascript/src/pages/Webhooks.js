@@ -17,12 +17,13 @@ import Hints from '../shared/Hints'
 import DeleteDialog from '../components/DeleteDialog'
 import EmptyView from '../components/EmptyView'
 
-import { EditIcon, AddIcon, DeleteIcon, HomeIcon } from '../components/icons'
+import { EditIcon, AddIcon, DeleteIcon } from '../components/icons'
 import FormDialog from '../components/FormDialog'
 import Button from '../components/Button'
 import Badge from '../components/Badge'
 import FieldRenderer, { gridClasses } from '../components/forms/FieldRenderer'
 import graphql from '../graphql/client'
+import I18n from '../shared/FakeI18n'
 
 import { EVENT_TYPES, OUTGOING_WEBHOOKS } from '../graphql/queries'
 import {
@@ -179,10 +180,10 @@ function Settings ({ app, dispatch }) {
           setWebhooks(newIntegrations)
 
           setOpen(null)
-          dispatch(successMessage('webhook created'))
+          dispatch(successMessage(I18n.t("settings.webhooks.create_success")))
         },
         error: () => {
-          dispatch(errorMessage('error adding webhook'))
+          dispatch(errorMessage(I18n.t("settings.webhooks.create_error")))
         }
       }
     )
@@ -215,10 +216,10 @@ function Settings ({ app, dispatch }) {
           setWebhooks(newIntegrations)
           // getAppPackageIntegration()
           setOpen(null)
-          dispatch(successMessage('webhook updated'))
+          dispatch(successMessage(I18n.t("settings.webhooks.update_success")))
         },
         error: () => {
-          dispatch(errorMessage('error updating webhook'))
+          dispatch(errorMessage(I18n.t("settings.webhooks.update_error")))
         }
       }
     )
@@ -244,10 +245,10 @@ function Settings ({ app, dispatch }) {
           setWebhooks(newIntegrations)
           setOpen(null)
           setOpenDeleteDialog(null)
-          dispatch(successMessage('webhook removed correctly'))
+          dispatch(successMessage(I18n.t("settings.webhooks.delete_success")))
         },
         error: () => {
-          dispatch(errorMessage('error removing webhook'))
+          dispatch(errorMessage(I18n.t("settings.webhooks.delete_error")))
         }
       }
     )
@@ -268,7 +269,7 @@ function Settings ({ app, dispatch }) {
   return (
     <Content>
       <PageHeader
-        title={'Outgoing Webhooks'}
+        title={I18n.t("settings.webhooks.outgoing_webhooks")}
         actions={
           <Button
             className={'transition duration-150 ease-in-out'}
@@ -276,7 +277,7 @@ function Settings ({ app, dispatch }) {
             color={'primary'}
             onClick={newWebhook}
           >
-            New webhook
+            {I18n.t("settings.webhooks.new_webhook")}
           </Button>
         }
       />
@@ -285,12 +286,12 @@ function Settings ({ app, dispatch }) {
         currentTab={tabValue}
         tabs={[
           {
-            label: 'Active Webhooks',
-            icon: <HomeIcon />,
+            label: I18n.t("settings.webhooks.active_webhooks"),
+            //icon: <HomeIcon />,
             content: (
               <React.Fragment>
                 
-                <Hints type="Webhooks"/>
+                <Hints type="webhooks"/>
 
                 {activeWebhooks().length > 0 && (
                   <List>
@@ -307,14 +308,14 @@ function Settings ({ app, dispatch }) {
 
                 {activeWebhooks().length === 0 && !loading && (
                   <EmptyView
-                    title={"You don't have any active webhooks yet"}
+                    title={I18n.t("settings.webhooks.empty.title")}
                     subtitle={
                       <span>
-                        search for your webhooks in
+                        {I18n.t("settings.webhooks.empty.desc")}
+                        {' '}
                         <a href="#" onClick={() => setTabValue(1)}>
-                          disabled webhooks
-                        </a>{' '}
-                        Tab
+                          {I18n.t("settings.webhooks.empty.disabled_webhooks")}
+                        </a>
                       </span>
                     }
                   />
@@ -323,12 +324,12 @@ function Settings ({ app, dispatch }) {
             )
           },
           {
-            label: 'Disabled Webhooks',
+            label: I18n.t("settings.webhooks.disabled_webhooks"),
             content: (
               <React.Fragment>
                 <div className="pb-2 pt-2">
                   <Panel
-                    title={'Disabled Webhooks'}
+                    title={I18n.t("settings.webhooks.disabled_webhooks")}
                     // text={'lorem bobob'}
                     variant="shadowless"
                   />
@@ -356,7 +357,8 @@ function Settings ({ app, dispatch }) {
         <FormDialog
           open={open}
           handleClose={close}
-          titleContent={`${open.id ? 'Update' : 'Add'} webhook`}
+          titleContent={`${open.id ? I18n.t("common.update") : I18n.t("common.add")
+          } webhook`}
           formComponent={
             <form ref={form}>
               {definitions().map((field) => {
@@ -384,11 +386,11 @@ function Settings ({ app, dispatch }) {
           dialogButtons={
             <React.Fragment>
               <Button onClick={close} variant="outlined">
-                Cancel
+                {I18n.t("common.cancel")}
               </Button>
 
               <Button onClick={submit} className="mr-1">
-                {open ? 'Update' : 'Create'}
+                {open ? I18n.t("common.update") : I18n.t("common.add")}
               </Button>
             </React.Fragment>
           }
@@ -398,7 +400,7 @@ function Settings ({ app, dispatch }) {
       {openDeleteDialog && (
         <DeleteDialog
           open={openDeleteDialog}
-          title={'Delete webhook ?'}
+          title={I18n.t("settings.webhooks.delete.title")}
           closeHandler={() => {
             setOpenDeleteDialog(null)
           }}
@@ -407,8 +409,7 @@ function Settings ({ app, dispatch }) {
           }}
         >
           <p variant="subtitle2">
-            The webhook with {openDeleteDialog.dialog} service will be disabled
-            immediately
+            {I18n.t("settings.webhooks.delete.text", {name: openDeleteDialog.dialog})}
           </p>
         </DeleteDialog>
       )}

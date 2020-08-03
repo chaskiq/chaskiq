@@ -2,6 +2,7 @@
 import React from 'react'
 import Card from '../components/Card'
 import { Link, withRouter } from 'react-router-dom'
+import I18n from '../shared/FakeI18n'
 
 import bg from '../images/bg/welcome-icon8.png'
 
@@ -81,11 +82,13 @@ function App ({ dispatch, loading }) {
                     <img src={logo} alt="logo" />
 
                     <h2 className="text-4xl tracking-tight leading-10 font-extrabold text-gray-900 sm:text-5xl sm:leading-none md:text-6xl">
-                      Welcome To <br className="xl:hidden" />
-                      <span className="text-indigo-600">Chaskiq</span>
+                      {I18n.t('home.welcome')} <br className="xl:hidden" />
+                      <span className="text-indigo-600">
+                        {I18n.t('home.welcome_site')}
+                      </span>
                     </h2>
                     <p className="mt-3 text-base text-gray-500 sm:mt-5 sm:text-lg sm:max-w-xl sm:mx-auto md:mt-5 md:text-xl lg:mx-0">
-                      Find your current applications here
+                      {I18n.t('home.tagline')}
                     </p>
 
                     <div className="mt-5 sm:mt-8 mb-8 sm:flex sm:justify-center lg:justify-start">
@@ -94,7 +97,7 @@ function App ({ dispatch, loading }) {
                           to="/apps/new"
                           className="w-full flex items-center justify-center px-8 py-3 border border-transparent text-base leading-6 font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-500 focus:outline-none focus:shadow-outline transition duration-150 ease-in-out md:py-4 md:text-lg md:px-10"
                         >
-                          Create new app
+                          {I18n.t('home.create_new')}
                         </Link>
                       </div>
                       <div className="mt-3 sm:mt-0 sm:ml-3">
@@ -103,7 +106,7 @@ function App ({ dispatch, loading }) {
                           target={'blank'}
                           className="w-full flex items-center justify-center px-8 py-3 border border-transparent text-base leading-6 font-medium rounded-md text-indigo-700 bg-indigo-100 hover:text-indigo-600 hover:bg-indigo-50 focus:outline-none focus:shadow-outline focus:border-indigo-300 transition duration-150 ease-in-out md:py-4 md:text-lg md:px-10"
                         >
-                          Go to documentation site
+                          {I18n.t('home.go_to_doc')}
                         </a>
                       </div>
                     </div>
@@ -114,7 +117,7 @@ function App ({ dispatch, loading }) {
                   {apps.map((a) => (
                     <div
                       key={a.key}
-                      className="lg:w-1/4 w-screen overflow-hidden my-1 px-1"
+                      className="lg:w-1/4 w-screen overflow-hidden-- my-1 px-1"
                     >
                       <Card
                         title={<Link to={`/apps/${a.key}`}>{a.name}</Link>}

@@ -4,8 +4,24 @@ import { connect } from 'react-redux'
 
 import Moment from 'react-moment'
 import Accordeon from './Accordeon'
+import { compact } from 'lodash'
 
 function UserData ({ app_user, app, disableAvatar }) {
+  function getPropertiesItems () {
+    if (!app.customFields) return []
+    const fields = app.customFields.map((field) => field.name)
+
+    const items = fields.map((f) => {
+      const val = app_user.properties[f]
+      if (!val) return null
+      return {
+        label: `${f}:`,
+        value: val
+      }
+    })
+
+    return compact(items)
+  }
   return (
     <React.Fragment>
       {app_user && app_user.id && (
@@ -20,7 +36,7 @@ function UserData ({ app_user, app, disableAvatar }) {
               </div>
 
               <div className="text-center px-3 pb-6 pt-2">
-                <h3 className="text-sm leading-5 font-medium text-gray-900">
+                <h3 className="text-sm leading-5 font-medium text-gray-900 flex flex-col justify-center items-center">
                   {app_user.properties.name}
 
                   <span
@@ -28,10 +44,10 @@ function UserData ({ app_user, app, disableAvatar }) {
                   ${
                     app_user.online
                       ? 'bg-green-100 text-green-800'
-                      : 'bg-red-100 text-red-800'
+                      : 'bg-yellow-100 text-yellow-800'
                   }
                   px-2 inline-flex text-xs leading-5 font-semibold 
-                  rounded-full bg-green-100 text-green-800`}
+                  rounded-full`}
                   >
                     {app_user.online ? 'Online' : 'Offline'}
                   </span>
@@ -179,22 +195,8 @@ function UserData ({ app_user, app, disableAvatar }) {
               },
               {
                 name: 'Properties',
-                component: (
-                  <p dense>
-                    {app_user.properties &&
-                      Object.keys(app_user.properties).map((o, i) => {
-                        if (!app_user.properties[o]) return null
-                        return (
-                          <p key={`app-user-${app_user.id}-${i}`}>
-                            <p
-                              primary={`${o}:`}
-                              secondary={app_user.properties[o]}
-                            />
-                          </p>
-                        )
-                      })}
-                  </p>
-                )
+                component: null,
+                items: getPropertiesItems()
               },
               {
                 name: 'External Profiles',
@@ -209,21 +211,23 @@ function UserData ({ app_user, app, disableAvatar }) {
                               key={`app-user-profile-${app_user.id}-${o.id}`}
                             >
                               <div
-                                style={{
-                                  textAlign: 'left',
-                                  display: 'flex',
-                                  justifyContent: 'space-between'
-                                }}
+                                className="flex flex-col"
                               >
-                                <p variant="h6">{o.provider}</p>
+                                <div className="flex flex-col">
+                                  <p className="font-bold">
+                                    {o.provider}
+                                  </p>
+                                  <p variant="h6">{o.profileId}</p>
+                                </div>
 
-                                <button
+                                {/* <Button
                                   size="small"
                                   variant={'outlined'}
+                                  className="w-24"
                                   onClick={() => this.syncExternalProfile(o)}
                                 >
                                   sync
-                                </button>
+                                </Button> */}
                               </div>
 
                               <div
@@ -233,7 +237,7 @@ function UserData ({ app_user, app, disableAvatar }) {
                                   textAlign: 'left'
                                 }}
                               >
-                                {Object.keys(o.data).map((a, i) => {
+                                {o.data && Object.keys(o.data).map((a, i) => {
                                   if (
                                     !o.data[a] ||
                                     typeof o.data[a] === 'object'

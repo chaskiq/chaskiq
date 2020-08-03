@@ -80,7 +80,7 @@ export default class SettingsForm extends Component {
                 variant="contained" 
                 color="primary" 
                 type="submit">
-                Save settings
+                {I18n.t('common.save')}
               </Button>
             </div>
           </div>

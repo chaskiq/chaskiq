@@ -1,6 +1,5 @@
 # frozen_string_literal: true
 
-require 'URLcrypt'
 require 'digest/md5'
 
 class AppUser < ApplicationRecord
@@ -9,27 +8,36 @@ class AppUser < ApplicationRecord
   include Tokenable
   include Redis::Objects
 
-  ENABLED_SEARCH_FIELDS = %w[
-    email
-    last_visited_at
-    referrer
-    pro
-    role
-    plan
-    state
-    ip
-    city
-    region
-    country
-    postal
-    web_sessions
-    timezone
-    browser
-    browser_version
-    os
-    os_version
-    browser_language
-    lang
+  ENABLED_SEARCH_FIELDS = [
+    { 'name'=> 'email', 'type'=> 'string' },
+    { 'name'=> 'postal', 'type'=> 'string' },
+    { 'name'=> 'name', 'type'=> 'string' },
+    { 'name'=> 'first_name', 'type'=> 'string' },
+    { 'name'=> 'last_name', 'type'=> 'string' },
+    { 'name'=> 'company_name', 'type'=> 'string' },
+    { 'name'=> 'company_size', 'type'=> 'string' },
+    { 'name'=> 'phone', 'type'=> 'string' }
+  ].freeze
+
+  BROWSING_FIELDS = [
+    { 'name'=> 'lang', 'type'=> 'string' },
+    { 'name'=> 'type', 'type'=> 'string' },
+    { 'name'=> 'last_visited_at', 'type'=> 'date' },
+    { 'name'=> 'referrer', 'type'=> 'string' },
+    { 'name'=> 'state', 'type'=> 'string' },
+    { 'name'=> 'ip', 'type'=> 'string' },
+    { 'name'=> 'city', 'type'=> 'string' },
+    { 'name'=> 'region', 'type'=> 'string' },
+    { 'name'=> 'country', 'type'=> 'string' },
+    { 'name'=> 'lat', 'type'=> 'string' },
+    { 'name'=> 'lng', 'type'=> 'string' },
+    { 'name'=> 'web_sessions', 'type'=> 'string' },
+    { 'name'=> 'timezone', 'type'=> 'string' },
+    { 'name'=> 'browser', 'type'=> 'string' },
+    { 'name'=> 'browser_version', 'type'=> 'string' },
+    { 'name'=> 'os', 'type'=> 'string' },
+    { 'name'=> 'os_version', 'type'=> 'string' },
+    { 'name'=> 'browser_language', 'type'=> 'string' }
   ].freeze
 
   # belongs_to :user
@@ -38,7 +46,7 @@ class AppUser < ApplicationRecord
   # has_many :metrics , as: :trackable
   has_many :metrics
   has_many :visits
-  has_many :external_profiles
+  has_many :external_profiles, dependent: :destroy
 
   include Eventable
 
@@ -198,12 +206,12 @@ class AppUser < ApplicationRecord
   end
 
   def notify_unsubscription
-    puts 'app user unsubscribe'
+    # puts 'app user unsubscribe'
   end
 
   def notify_subscription
     # we should only unsubscribe when process is made from interface, not from sns notification
-    puts 'app user subscribe'
+    # puts 'app user subscribe'
   end
 
   %w[open send delivery reject bounce complaint click close skip finish].each do |action|
@@ -258,16 +266,15 @@ class AppUser < ApplicationRecord
   end
 
   def register_in_crm
-    # refactor this query
-    app.app_packages
-    .joins(:app_package_integrations)
-    .tagged_with("crm").each do |pkg|
-      pkg.app_package_integrations.each do |integration|
-        profile = self.external_profiles.find_or_create_by(
-          provider: pkg.name.downcase
-        )
-        profile.sync
-      end
+    crm_tags = app.app_packages.tagged_with("crm").pluck(:id)
+    integrations = app.app_package_integrations.includes(:app_package)
+    .where(app_package: crm_tags)
+
+    integrations.each do |integration|
+      profile = self.external_profiles.find_or_create_by(
+        provider: pkg.name.downcase
+      )
+      profile.sync
     end
   end
 

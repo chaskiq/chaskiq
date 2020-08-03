@@ -827,6 +827,13 @@ export function AddIcon (props) {
   )
 }
 
+export function SeachIcon (props) {
+  return <BaseIcon {...props} fill="currentColor" viewBox="0 0 20 20">
+    <path d="M0 0h24v24H0z" fill="none"/>
+    <path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/>
+  </BaseIcon>
+}
+
 export function CloseIcon (props) {
   return (
     <BaseIcon {...props} fill="currentColor" viewBox="0 0 24 24">
@@ -955,6 +962,19 @@ export function CardIcon (props) {
       fill="currentColor">
       <path d="M0 0h24v24H0z" fill="none"/>
       <path d="M20 4H4c-1.11 0-1.99.89-1.99 2L2 18c0 1.11.89 2 2 2h16c1.11 0 2-.89 2-2V6c0-1.11-.89-2-2-2zm0 14H4v-6h16v6zm0-10H4V6h16v2z"/>
+    </BaseIcon>
+  )
+}
+
+export function AttachmentIcon (props) {
+  return (
+    <BaseIcon
+      fill="currentColor"
+      focusable="false"
+      viewBox="0 0 24 24"
+      aria-hidden="true">
+      <path d="M16.5 6v11.5c0 2.21-1.79 4-4 4s-4-1.79-4-4V5c0-1.38 1.12-2.5 2.5-2.5s2.5 1.12 2.5 2.5v10.5c0 .55-.45 1-1 1s-1-.45-1-1V6H10v9.5c0 1.38 1.12 2.5 2.5 2.5s2.5-1.12 2.5-2.5V5c0-2.21-1.79-4-4-4S7 2.79 7 5v12.5c0 3.04 2.46 5.5 5.5 5.5s5.5-2.46 5.5-5.5V6h-1.5z">
+      </path>
     </BaseIcon>
   )
 }

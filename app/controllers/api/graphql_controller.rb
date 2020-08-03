@@ -15,13 +15,10 @@ class Api::GraphqlController < ApiController
       user_data: user_data,
       app: @app,
       from_api: true,
-      # authorize: lambda{|mode, object| authorize!(mode, object) },
-      # can: lambda{| mode, object | can?( mode, object) },
-      # logout!: ->{logout!},
-      # session: session,
       set_locale: -> { set_locale },
       auth: -> { auth },
       get_app_user: -> { get_app_user },
+      current_user: get_app_user,
       request: request
     }
 
@@ -56,11 +53,7 @@ class Api::GraphqlController < ApiController
   rescue StandardError => e
     # GraphQL::ExecutionError.new e.message
     # raise e unless Rails.env.development?
-    handle_error_in_development e
-  rescue StandardError => e
-    raise e unless Rails.env.development?
-
-    handle_error_in_development e
+    handle_error_message e
   end
 
   private
@@ -100,10 +93,16 @@ class Api::GraphqlController < ApiController
     end
   end
 
-  def handle_error_in_development(e)
+  def handle_error_message(e)
     logger.error e.message
     logger.error e.backtrace.join("\n")
 
-    render json: { error: { message: e.message, backtrace: e.backtrace }, data: {} }, status: 500
+    render json: { 
+      error: { 
+        message: e.message, 
+        backtrace: Rails.env.production? ? nil : e.backtrace.join("\n")
+      }, 
+      data: {} 
+    }, status: 500
   end
 end

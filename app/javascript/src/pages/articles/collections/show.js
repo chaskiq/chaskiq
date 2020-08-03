@@ -6,7 +6,7 @@ import Button from "../../../components/Button";
 import TextField from "../../../components/forms/Input";
 import List, { ListItem, ListItemText } from "../../../components/List";
 import CircularProgress from "../../../components/Progress";
-import Checkbox from "../../../components/forms/Input";
+import Input from "../../../components/forms/Input";
 import ContentHeader from "../../../components/PageHeader";
 import { AnchorLink } from "../../../shared/RouterLink";
 
@@ -135,22 +135,23 @@ class CollectionDetail extends Component {
     return (
       <div className="py-4">
         {collection && (
-          <div>
-            <h2 className="text-lg leading-6 font-medium text-gray-900 pb-4">
+          <div className="flex flex-col">
+            <h2 className="text-4xl leading-6 font-bold text-gray-900 pb-4">
               {collection.title}
             </h2>
 
-            <p className="max-w-xl text-sm leading-5 text-gray-500 mb-4">
+            <p className="max-w-xl text-lg leading-5 text-gray-500 mb-4">
               {collection.description}
             </p>
 
-            <Button
-              variant="contained"
-              color={"primary"}
-              onClick={this.openNewDialog}
-            >
-              new section
-            </Button>
+            <div className="self-end">
+              <Button
+                variant="contained"
+                color={"primary"}
+                onClick={this.openNewDialog}>
+                {I18n.t("articles.new_section")}
+              </Button>
+            </div>
 
             <Dnd
               sections={this.allCollections()}
@@ -270,7 +271,7 @@ class CollectionDetail extends Component {
               id="collection-title"
               //label="Name"
               type="text"
-              placeholder={"Type sections's title"}
+              placeholder={I18n.t("articles.title_placeholder")}
               inputProps={{
                 style: {
                   fontSize: "1.4em",
@@ -289,7 +290,7 @@ class CollectionDetail extends Component {
               id="collection-description"
               type="textarea"
               //label="Description"
-              placeholder={"Describe your collection to help it get found"}
+              placeholder={I18n.t("articles.description_placeholder")}
               //helperText="Full width!"
               fullWidth
               multiline
@@ -304,7 +305,7 @@ class CollectionDetail extends Component {
         dialogButtons={
           <React.Fragment>
             <Button onClick={this.close} variant="outlined">
-              Cancel
+              {I18n.t("articles.cancel")}
             </Button>
 
             <Button
@@ -315,7 +316,7 @@ class CollectionDetail extends Component {
               }
               className="mr-1"
             >
-              Submit
+              {I18n.t("common.submit")}
               {/*editCollection ? 'update' : 'create'*/}
             </Button>
           </React.Fragment>
@@ -348,6 +349,7 @@ class CollectionDetail extends Component {
     return (
       <AddArticleDialog
         app={this.props.app}
+        handleClose={()=> this.setState({addArticlesDialog: false})}
         handleSubmit={this.addArticlesHandlerSubmit}
         isOpen={this.state.addArticlesDialog}
       />
@@ -372,13 +374,13 @@ class CollectionDetail extends Component {
         <ContentHeader
           breadcrumbs={[
             <AnchorLink color="inherit" to={`/apps/${app.key}/articles`}>
-              Help Center
+              {I18n.t("articles.help_center")}
             </AnchorLink>,
             <AnchorLink
               color="inherit"
               to={`/apps/${app.key}/articles/collections`}
             >
-              Collections
+              {I18n.t("articles.collections")}
             </AnchorLink>,
           ]}
         />
@@ -412,7 +414,7 @@ class CollectionDetail extends Component {
 class AddArticleDialog extends Component {
   state = {
     articles: [],
-    isOpen: true,
+    isOpen: this.props.isOpen,
   };
 
   componentDidMount() {
@@ -434,8 +436,14 @@ class AddArticleDialog extends Component {
     );
   }
 
-  close = () => this.setState({ isOpen: false });
-  open = () => this.setState({ isOpen: true });
+  close = () => {
+    this.setState({ isOpen: false }); 
+    this.props.handleClose && this.props.handleClose()
+  }
+  open = () => {
+    this.setState({ isOpen: true });
+    this.props.handleClose && this.props.handleClose()
+  }
 
   getValues = () => {
     var chk_arr = document.getElementsByName("article[]");
@@ -454,18 +462,17 @@ class AddArticleDialog extends Component {
         open={isOpen}
         handleClose={this.close}
         //contentText={"lipsum"}
-        titleContent={"Add Articles"}
+        titleContent={I18n.t("articles.add")}
         formComponent={
           <List>
             {this.state.articles.map((o) => (
               <ListItem>
-                <Checkbox
-                  //checked={state.checkedA}
+                <Input
+                  type="checkbox"
+                  checked={o.id}
                   //onChange={handleChange('checkedA')}
                   value={o.id}
-                  inputProps={{
-                    name: "article[]",
-                  }}
+                  name="article[]"
                 />
 
                 <ListItemText
@@ -479,14 +486,14 @@ class AddArticleDialog extends Component {
         dialogButtons={
           <React.Fragment>
             <Button onClick={this.close} variant="outlined">
-              Cancel
+              {I18n.t("common.cancel")}
             </Button>
 
             <Button
               onClick={() => this.props.handleSubmit(this.getValues())}
               className="mr-1"
             >
-              Submit
+              {I18n.t("common.submit")}
             </Button>
           </React.Fragment>
         }
@@ -506,6 +513,4 @@ function mapStateToProps(state) {
   };
 }
 
-//export default withRouter(connect(mapStateToProps)(withStyles(styles)(ArticlesNew)))
-//export default withRouter(connect(mapStateToProps)(CollectionDetail))
 export default withRouter(connect(mapStateToProps)(CollectionDetail));

@@ -54,7 +54,6 @@ function AcceptInvitation (props) {
         window.location = '/'
       })
       .catch(function (response) {
-        debugger
         setErrors(response.response.data.errors)
       })
   }

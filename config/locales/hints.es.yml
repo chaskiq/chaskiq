@@ -1,0 +1,45 @@
+---
+  es:
+    hints:
+      platform:
+        title: Aquí puede administrar su lista de contactos a través de segmentos
+        description: Los segmentos permiten filtrar contactos específicos a través de
+          filtros múltiples
+      webhooks:
+        title: Webhooks activos
+        description: La función Webhooks se trata de entregar notificaciones de eventos
+          chaskiq
+      Integrations:
+        description: Esta es la sección de integraciones de API de terceros.
+      security:
+        title: Seguridad
+        description: Esta es la clave de cifrado para identificar a los usuarios registrados
+          en su servicio.
+      availability:
+        title: Configuración de disponibilidad del equipo
+        description: La configuración de disponibilidad le permite a su equipo establecer
+          horas de oficina y tiempos de respuesta.
+      email_requirement:
+        title: Requerir un correo electrónico para nuevas conversaciones
+        description: Para que siempre pueda volver a los visitantes de su sitio web
+      inbound_settings:
+        title: Controla las conversaciones entrantes y el lanzador
+        description: Controla quién puede enviarte mensajes y dónde ven el chat
+      user_data:
+        title: Administrar atributos de usuario
+        description: Los atributos del usuario proporcionan una forma de personalizar
+          los datos para el filtrado de segmentos
+      articles:
+        title: Plataforma Chaskiq HelpCenter
+        description: Aquí puedes gestionar los artículos de Chaskiq
+
+      tags:
+        title: Administrar etiquetas de applicación
+        description: Las etiquetas de applicación proporcionan una forma de personalizar
+          los datos para el filtrado de segmentos y la organización de usuarios y conversaciones
+
+      quick_replies:
+        title: Administra las respuestas rápidas
+        description: Las respuestas rápidas permiten organizar las respuestas típicas de tu negocio
+        # link: {href: '/', text: 'Learn how segments work on Chaskiq'}
+  

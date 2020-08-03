@@ -331,7 +331,15 @@
             - else
               = @campaign.html_content.html_safe
     
+      %tr
+        %td{:style => "display:table-cell;font-size:13px;border-top-width:1px;border-top-color:#e5e5e5;border-top-style:solid;padding:.5rem 0"}
+          %small {{campaign_description}}
+          %br/
+          %small
+          %a{ :href => "{{campaign_unsubscribe}}", :style => "color:#757575;font-weight:400;text-decoration:none", :target => "_blank"} 
+            Unsubscribe from emails
 
-    -#
-      - unless params[:exclude_gif]
-      <img src='{{track_image_url}}' width='1' height='1'/>
+
+-#
+  - unless params[:exclude_gif]
+    <img src='{{track_image_url}}' width='1' height='1'/>

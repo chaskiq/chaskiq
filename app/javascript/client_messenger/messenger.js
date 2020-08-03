@@ -175,6 +175,10 @@ class Messenger extends Component {
           break;
         case "convert":
           this.convertVisitor(data)
+          break;
+        case "trigger":
+          this.requestTrigger(data)
+          break;
         default:
           break;
       } 
@@ -209,9 +213,11 @@ class Messenger extends Component {
           ev: e
         })
       }
-    } , false);
+    }, false);
 
-    window.opener && window.opener.postMessage({type: "ENABLE_MANAGER_TOUR"}, "*");
+    window.opener && window.opener.postMessage(
+      {type: "ENABLE_MANAGER_TOUR"}, "*"
+    );
   }
 
   componentDidUpdate(prevProps, prevState){
@@ -320,7 +326,7 @@ class Messenger extends Component {
   updateRtcEvents = (data)=>{
     const conversation = this.state.conversation
     if (conversation && conversation.key === data.conversation_id ) { 
-      console.log("update rtc dsta", data)
+      //console.log("update rtc dsta", data)
       this.setState({rtc: data})
     }
   }
@@ -330,12 +336,12 @@ class Messenger extends Component {
       this.cableDataFor({channel: "MessengerEventsChannel"}),
       {
         connected: ()=> {
-          console.log("connected to events")
+          //console.log("connected to events")
           this.registerVisit()
           //this.processTriggers()
         },
         disconnected: ()=> {
-          console.log("disconnected from events")
+          //console.log("disconnected from events")
         },
         received: (data)=> {
           switch (data.type) {
@@ -484,7 +490,7 @@ class Messenger extends Component {
     App.precense = App.cable.subscriptions.create(this.cableDataFor({channel: "PresenceChannel"}),
     {
         connected: ()=> {
-          console.log("connected to presence")
+          //console.log("connected to presence")
         },
         disconnected: ()=> {
           console.log("disconnected from presence")
@@ -781,10 +787,12 @@ class Messenger extends Component {
   }
 
   displayConversation =(e, o)=>{
-    this.setConversation(o.key, () => {
-      this.setTransition('out', ()=>{
-        this.setDisplayMode('conversation', ()=>{
-          this.scrollToLastItem()
+    this.clearConversation(()=>{
+      this.setConversation(o.key, () => {
+        this.setTransition('out', ()=>{
+          this.setDisplayMode('conversation', ()=>{
+            this.scrollToLastItem()
+          })
         })
       })
     })
@@ -1026,11 +1034,7 @@ class Messenger extends Component {
           mode: 'light', // this.state.appData ? this.state.appData.theme : 
           isMessengerActive: this.isMessengerActive()
         }}>
-
-            
-
             <EditorWrapper>
-
               {
                 this.state.availableMessages.length > 0 && this.isMessengerActive() &&
                 <MessageFrame 
@@ -1041,11 +1045,11 @@ class Messenger extends Component {
                   t={this.props.t}
                 />
               }
-                  
 
               {
                 this.state.open && this.isMessengerActive() ?
                   <Container 
+                    data-chaskiq-container='true'
                     open={this.state.open} 
                     isMobile={this.state.isMobile}>
                     
@@ -1191,6 +1195,7 @@ class Messenger extends Component {
                                 this.state.display_mode === "conversation" &&
                                 
                                   <Conversation
+                                    appData={this.state.appData}
                                     visible={this.state.visible}
                                     clearConversation={this.clearConversation}
                                     isMobile={this.state.isMobile}
@@ -1303,6 +1308,7 @@ class Messenger extends Component {
                     }
 
                     <Conversation
+                      appData={this.state.appData}
                       //disablePagination={true}
                       visible={this.state.visible}
                       pushEvent={this.pushEvent}
@@ -1333,10 +1339,11 @@ class Messenger extends Component {
                 </StyledFrame>
               }
 
-
               { 
                 this.isMessengerActive() ?
-                <StyledFrame style={{
+                <StyledFrame
+                  id='chaskiqPrime' 
+                  style={{
                     zIndex: '10000',
                     position: 'absolute',
                     bottom: '-18px',
@@ -1395,7 +1402,6 @@ class Messenger extends Component {
 
             </EditorWrapper>
 
-
             {
               this.state.tourManagerEnabled ?
               <TourManager 
@@ -1409,10 +1415,10 @@ class Messenger extends Component {
                   events={App.events}
                   domain={this.props.domain}
                 /> : null
-             }
+              }
 
             <div id="TourManager"></div>
-         
+          
         </ThemeProvider>
     );
   }
@@ -1485,7 +1491,7 @@ class AppBlockPackageFrame extends Component {
   }
 
   render(){
-    console.log("PACK", this.props)
+    //console.log("PACK", this.props)
     const blocks = toCamelCase(this.props.appBlock.message.message.blocks)
     const conversation = this.props.appBlock.message.conversation
     const mainParticipant = conversation.mainParticipant

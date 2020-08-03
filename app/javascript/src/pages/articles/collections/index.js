@@ -197,27 +197,27 @@ class Collections extends Component {
     return (
       <React.Fragment>
         <ContentHeader
-          title={"collections"}
+          title={I18n.t("articles.collections")}
           breadcrumbs={[
             {
-              title: "Help Center",
+              title: I18n.t("articles.help_center"),
               to: `/apps/${app.key}/articles`,
             },
             {
-              title: "Collections",
+              title: I18n.t("articles.collections"),
               to: `/apps/${app.key}/articles/collections`,
             },
           ]}
         />
 
-        <div square={true} elevation={1}>
-          <div className="flex flex-row justify-end items-center">
+        <div>
+          <div className="flex flex-row justify-end items-center mb-4">
             <Button
               variant="contained"
               color="primary"
               onClick={this.displayDialog}
             >
-              new collection
+              {I18n.t('articles.new_collection')}
             </Button>
           </div>
 
@@ -225,14 +225,14 @@ class Collections extends Component {
             open={isOpen}
             handleClose={this.close}
             //contentText={"lipsum"}
-            titleContent={"New Article Collection"}
+            titleContent={I18n.t("articles.create.title")}
             formComponent={
               <form ref="form">
                 <TextField
                   id="collection-title"
                   //label="Name"
                   type={"text"}
-                  placeholder={"Type collection's title"}
+                  placeholder={I18n.t("articles.create.placeholder")}
                   inputProps={{
                     style: {
                       fontSize: "1.4em",
@@ -251,7 +251,7 @@ class Collections extends Component {
                   id="collection-description"
                   //label="Description"
                   type={"textarea"}
-                  placeholder={"Describe your collection to help it get found"}
+                  placeholder={I18n.t('articles.create.description')}
                   //helperText="Full width!"
                   fullWidth
                   multiline
@@ -268,7 +268,7 @@ class Collections extends Component {
             dialogButtons={
               <React.Fragment>
                 <Button onClick={this.close} variant="outlined">
-                  Cancel
+                 {I18n.t("common.cancel")}
                 </Button>
 
                 <Button
@@ -279,7 +279,7 @@ class Collections extends Component {
                   }
                   className="mr-1"
                 >
-                  {editCollection ? "Update" : "Create"}
+                  {editCollection ? I18n.t("common.update") : I18n.t("common.create") }
                 </Button>
               </React.Fragment>
             }
@@ -290,18 +290,18 @@ class Collections extends Component {
               open={true}
               handleClose={this.closeItemToDelete}
               //contentText={"lipsum"}
-              titleContent={"Confirm deletion ?"}
+              titleContent={I18n.t("common.confirm_deletion")}
               formComponent={<p>are you ready to delete ?</p>}
               dialogButtons={
                 <React.Fragment>
                   <Button onClick={this.closeItemToDelete} 
                     variant="outlined">
-                    Cancel
+                    {I18n.t("common.cancel")}
                   </Button>
 
                   <Button onClick={this.submitDelete} 
                     className="mr-1">
-                    Remove
+                    {I18n.t("common.remove")}
                   </Button>
                 </React.Fragment>
               }
@@ -354,15 +354,15 @@ class Collections extends Component {
                       variant="outlined"
                       color="primary"
                       onClick={() => this.openEdit(item)}>
-                      Edit
+                      {I18n.t('common.edit')}
                     </Button>
 
                     <Button
-                      variant="text"
+                      variant="danger"
                       color="primary"
                       onClick={() => this.requestDelete(item)}
                     >
-                      Delete
+                      {I18n.t('common.delete')}
                     </Button>
                   </ListItem>
                 );

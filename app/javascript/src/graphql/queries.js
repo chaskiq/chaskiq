@@ -37,6 +37,7 @@ export const APP = `
       domainUrl
       outgoingEmailDomain
       customFields
+      tagList
       segments {
         name
         id
@@ -101,12 +102,31 @@ export const AGENTS = `
     app(key: $appKey) {
       agents{
         id
+        name
         email
+        displayName
+      }
+    }
+  }
+`;
+
+export const ROLE_AGENTS = `
+  query App($appKey: String!) { 
+    app(key: $appKey){
+      key
+      roleAgents {
+        id
+        role
+        accessList
+        owner
+        agentId
         avatarUrl
         name
-        signInCount
+        email
+        displayName
         lastSignInAt
         invitationAcceptedAt
+        invitationSentAt
       }
     }
   }
@@ -144,6 +164,7 @@ export const AGENT = `
             state
             readAt
             priority
+            tagList
             lastMessage{
               source
               createdAt
@@ -203,18 +224,18 @@ export const SEGMENT = `
 
 
 export const CONVERSATIONS = `
-  query App($appKey: String!, $page: Int!, $sort: String, $filter: String){
+  query App($appKey: String!, $page: Int!, $sort: String, $filter: String, $agentId: Int, $tag: String){
     app(key: $appKey) {
-      encryptionKey
       key
       name
-      conversations(page: $page, sort: $sort, filter: $filter){
+      conversations(page: $page, sort: $sort, filter: $filter, agentId: $agentId, tag: $tag){
         collection{
           id
           key
           state
           readAt
           priority
+          tagList
           assignee {
             displayName
             email
@@ -263,10 +284,24 @@ export const CONVERSATIONS = `
   }
 `;
 
+export const CONVERSATIONS_COUNTS = `
+  query App($appKey: String!){
+    app(key: $appKey) {
+      conversationsCounts
+      conversationsTagCounts
+      agents{
+        id
+        avatarUrl
+        name
+        email
+      }
+    }
+  }
+`;
+
 export const CONVERSATION=`
   query App($appKey: String!, $id: String!, $page: Int){
     app(key: $appKey) {
-      encryptionKey
       key
       name
       conversation(id: $id){
@@ -275,6 +310,7 @@ export const CONVERSATION=`
         state
         readAt
         priority
+        tagList
         assignee {
           id
           email
@@ -286,6 +322,7 @@ export const CONVERSATION=`
           avatarUrl
           properties
           displayName
+          kind
         }
         
         messages(page: $page){
@@ -334,7 +371,6 @@ export const CONVERSATION=`
 export const CONVERSATION_WITH_LAST_MESSAGE=`
   query App($appKey: String!, $id: String!){
     app(key: $appKey) {
-      encryptionKey
       key
       name
       conversation(id: $id){
@@ -344,6 +380,7 @@ export const CONVERSATION_WITH_LAST_MESSAGE=`
         readAt
         priority
         createdAt
+        tagList
         lastMessage{
           createdAt
           source
@@ -390,6 +427,8 @@ export const CURRENT_USER = `
     userSession {
       email
       avatarUrl
+      lang
+      available
     }
   }
 `;
@@ -423,9 +462,11 @@ query AppUser($appKey: String!, $id: Int! ) {
       displayName
       name
       properties
+      type
       externalProfiles {
         id
         provider
+        profileId
         data
       }
     }
@@ -445,6 +486,7 @@ query AppUserConversations($appKey: String!, $id: Int!, $page: Int, $per: Int){
         collection{
           id
           key
+          tagList
           mainParticipant{
             id
             email
@@ -527,6 +569,12 @@ query Campaigns($appKey: String!, $mode: String!){
 }
 `;
 
+export const CAMPAIGN_SUBSCRIPTION_TOGGLE = `
+  query CampaignSubscriptionToggle($encoded: String!, $op: Boolean){
+    campaignSubscriptionToggle(encoded: $encoded, op: $op)
+  }
+`;
+
 export const CAMPAIGN = `
 query Campaign($appKey: String!, $mode: String!, $id: String!){
   app(key: $appKey){
@@ -592,6 +640,30 @@ export const ASSIGNMENT_RULES = `
         state
         title
         conditions
+      }
+    }
+  }
+`;
+
+export const QUICK_REPLIES = `
+  query App($appKey: String!, $lang: String, $q: String){
+    app(key: $appKey) {
+      quickReplies(lang: $lang, q: $q){
+        id
+        title
+        content
+      }
+    }
+  }
+`;
+
+export const QUICK_REPLY = `
+  query App($appKey: String!, $id: Int!, $lang: String){
+    app(key: $appKey) {
+      quickReply(id: $id, lang: $lang){
+        id
+        title
+        content
       }
     }
   }
@@ -817,6 +889,7 @@ export const BOT_TASK = `
 export const BOT_TASK_METRICS = `
   query BotTask($appKey: String!, $id: String!, $lang: String,  $page: Int, $per: Int){
     app(key: $appKey){
+      searcheableFields
       botTask(id: $id, lang: $lang){
         id
         counts
@@ -904,6 +977,8 @@ export const APP_PACKAGE_INTEGRATIONS = `
         icon
         state
         description
+        hookUrl
+        oauthAuthorize
       }
     }
   }

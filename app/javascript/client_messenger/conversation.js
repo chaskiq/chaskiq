@@ -1,5 +1,4 @@
 import React, { Component, Fragment } from "react";
-import ReactDOM from "react-dom";
 import { ThemeProvider } from 'emotion-theming'
 import sanitizeHtml from 'sanitize-html';
 import theme from './textEditor/theme'
@@ -144,9 +143,11 @@ export class Conversation extends Component {
       {
         translateY: 0 , 
         opacity: 1, 
-        height: '0' 
+        height: '0' ,
       }
     )
+
+    this.wait_for_input = null
 
     this.inlineIframe = null
   }
@@ -190,7 +191,7 @@ export class Conversation extends Component {
     return <MessageItemWrapper
             visible={this.props.visible}
             email={this.props.email}
-            key={`conversation-item-${o.id}`}
+            key={`conversation-${this.props.conversation.key}-item-${o.id}`}
             conversation={this.props.conversation}
             pushEvent={this.props.pushEvent}
             data={o}>
@@ -224,7 +225,6 @@ export class Conversation extends Component {
                   theme={ themeforMessage }>
                   <DanteStylesExtend>
                     <DraftRenderer 
-                      key={i}
                       message={o}
                       domain={this.props.domain}
                       raw={JSON.parse(o.message.serializedContent)}
@@ -258,6 +258,7 @@ export class Conversation extends Component {
                clickHandler={this.appPackageClickHandler.bind(this)}
                appPackageSubmitHandler={this.appPackageSubmitHandler.bind(this)}
                t={this.props.t}
+               searcheableFields={this.props.appData.searcheableFields}
                {...o}
               />
   }
@@ -334,6 +335,7 @@ export class Conversation extends Component {
     
     const message = messages[0].message
     if(isEmpty(message.blocks)) return true
+    if(message.blocks && message.blocks.type === "wait_for_reply") return true
     return message.state === "replied"
   }
   
@@ -387,6 +389,35 @@ export class Conversation extends Component {
     return this.props.t("reply_above")
   }
 
+  handleBeforeSubmit = ()=>{
+    const { messages } = this.props.conversation
+    if(isEmpty(messages)) return
+    const message = messages.collection[0]
+    if(!message) return
+    if(!message.message) return
+    if(message.message.blocks && message.message.blocks.type === 'wait_for_reply') {
+      this.wait_for_input = message
+    }
+  }
+
+  handleSent = ()=>{
+
+    if (!this.wait_for_input) return
+  
+    const message = this.wait_for_input
+
+    this.props.pushEvent("receive_conversation_part", 
+    {
+      conversation_id: this.props.conversation.key,
+      message_id: message.id,
+      step: message.stepId,
+      trigger: message.triggerId,
+      //submit: data
+    })
+
+    this.wait_for_input = null
+  }
+
   renderFooter = ()=>{
     return <Footer 
             isInline={this.props.inline_conversation}
@@ -397,6 +428,8 @@ export class Conversation extends Component {
               this.renderReplyAbove() : 
               <UnicornEditor
                 t={this.props.t}
+                beforeSubmit={(data)=>this.handleBeforeSubmit(data)}
+                onSent={(data)=>this.handleSent(data)}
                 domain={this.props.domain}
                 footerClassName={this.props.footerClassName }
                 insertComment={this.props.insertComment}
@@ -488,7 +521,13 @@ class AppPackageBlock extends Component {
   form = null
 
   state = {
-    value: null
+    value: null,
+    errors: {},
+    loading: false
+  }
+
+  setLoading = (val)=>{
+    this.setState({loading: val})
   }
 
   renderElements = ()=>{
@@ -508,10 +547,39 @@ class AppPackageBlock extends Component {
   }
 
   sendAppPackageSubmit = (e)=>{
+
+    if(this.state.loading) return
+
+    this.setLoading(true)
+
     e.preventDefault()
+
     const data = serialize(e.currentTarget, { hash: true, empty: true })
- 
-    this.props.appPackageSubmitHandler(data, this.props)
+    let errors = {}
+
+    // check custom functions and validate 
+    Object.keys(data).map((o)=> { 
+      const item = this.props.searcheableFields.find((f)=> f.name === o )
+      if (!item) return
+      if (!item.validation) return
+
+      var args = [ 'value', item.validation ];
+      var validationFunc = Function.apply(null, args);
+      const err = validationFunc(data[o])
+      if(!err) return
+      if (err.length === 0) return
+      errors = Object.assign(
+        errors, {[o]: err })
+    })
+
+
+    this.setState({ errors: errors, loading: false }, ()=> {
+      // console.log(this.state.errors)
+      // console.log(isEmpty(this.state.errors) ? 'valid' : 'errors')
+      if(!isEmpty(this.state.errors)) return
+      this.props.appPackageSubmitHandler(data, this.props)
+    })
+
   }
 
   renderEmptyItem = ()=>{
@@ -571,7 +639,7 @@ class AppPackageBlock extends Component {
 
   renderElement = (item, index)=>{
     const element = item.element
-    const isDisabled = this.props.message.state === "replied"
+    const isDisabled = this.props.message.state === "replied" || this.state.loading
     const {t} = this.props
     const key = `${item.type}-${index}`
     switch(item.element){
@@ -579,8 +647,12 @@ class AppPackageBlock extends Component {
         return <hr key={key}/>
       case "input":
         const isEmailType = item.name === "email" ? "email" : null
-        return <div className={"form-group"} key={key}>
-                <label>{t("enter_your", {field: item.name })}</label>
+        const errorClass = this.state.errors[item.name] ? 'error' : ''
+        return <div className={`form-group ${errorClass}`} 
+                key={key}>
+                <label>
+                  {t("enter_your", {field: item.name })}
+                </label>
                 <input 
                   disabled={isDisabled}
                   type={isEmailType || item.type} 
@@ -591,6 +663,12 @@ class AppPackageBlock extends Component {
                   //  this.handleStepControlClick(item) : null
                   //}}
                 />
+                {
+                  this.state.errors[item.name] && 
+                  <span className="errors">
+                    {t('invalid', { name: item.name} )}
+                  </span>
+                }
                 <button disabled={isDisabled}
                         key={key} 
                         style={{alignSelf: 'flex-end'}} 
@@ -613,7 +691,7 @@ class AppPackageBlock extends Component {
                     onClick={()=> this.handleStepControlClick(item)}
                     key={key} 
                     type={"button"}>
-                  {item.label}
+                    {item.label}
                   </button>
                 </div>
       default:
@@ -621,9 +699,15 @@ class AppPackageBlock extends Component {
     }
   }
 
+  isHidden=()=>{
+    // will hide this kind of message since is only a placeholder from bot
+    return this.props.message.blocks.type === 'wait_for_reply'
+  }
+
   render(){
     return <AppPackageBlockContainer                 
-              isInline={this.props.isInline}>
+              isInline={this.props.isInline}
+              isHidden={this.isHidden()}>
               {
                 true ? //!this.state.done ?
                 <form ref={o => this.form } 

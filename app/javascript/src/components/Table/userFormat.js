@@ -27,7 +27,7 @@ const userFormat = function (showUserDrawer, app) {
     // {field: 'id', title: 'id' },
     {
       field: 'name',
-      title: 'Name',
+      title: I18n.t('data_tables.users.name'),
       render: (row) => {
         return (
           row && (
@@ -59,10 +59,14 @@ const userFormat = function (showUserDrawer, app) {
         )
       }
     },
-    { field: 'email', title: 'Email', hidden: true },
+    { field: 'email', title: I18n.t('data_tables.users.email'), hidden: true },
+    { field: 'ip', title: I18n.t('data_tables.users.ip'), hidden: true },
+    { field: 'country', title: I18n.t('data_tables.users.country'), hidden: true },
+    { field: 'city', title: I18n.t('data_tables.users.city'), hidden: true },
+
     {
       field: 'state',
-      title: 'State',
+      title: I18n.t('data_tables.users.state'),
       render: (row) => {
         return (
           <td className="px-6 py-4 whitespace-no-wrap border-b border-gray-200">
@@ -70,25 +74,25 @@ const userFormat = function (showUserDrawer, app) {
             <Badge variant={
               row.state === 'subscribed' ? 'green' : 'yellow'
             }>
-              {row.state}
+              {I18n.t(`data_tables.users.subscription_status.${row.state}`)}
             </Badge>
 
           </td>
         )
       }
     },
-    { field: 'online', title: 'Online', hidden: true },
-    { field: 'lat', title: 'Lat', hidden: true },
-    { field: 'lng', title: 'Lng', hidden: true },
-    { field: 'postal', title: 'Postal', hidden: true },
-    { field: 'browserLanguage', title: 'Browser Language', hidden: true },
-    { field: 'referrer', title: 'Referrer', hidden: true },
-    { field: 'os', title: 'Os', hidden: true },
-    { field: 'osVersion', title: 'Os Version', hidden: true },
-    { field: 'lang', title: 'Lang', hidden: true },
-    { field: 'webSessions', title: 'Web sessions' },
-    { field: 'LastSeen', title: 'Last seen' },
-    { field: 'FirstSeen', title: 'First seen' },
+    { field: 'online', title: I18n.t('data_tables.users.online'), hidden: true },
+    { field: 'lat', title: I18n.t('data_tables.users.lat'), hidden: true },
+    { field: 'lng', title: I18n.t('data_tables.users.lng'), hidden: true },
+    { field: 'postal', title: I18n.t('data_tables.users.postal'), hidden: true },
+    { field: 'browserLanguage', title: I18n.t('data_tables.users.browser'), hidden: true },
+    { field: 'referrer', title: I18n.t('data_tables.users.referrer'), hidden: true },
+    { field: 'os', title: I18n.t('data_tables.users.os'), hidden: true },
+    { field: 'osVersion', title: I18n.t('data_tables.users.os_version'), hidden: true },
+    { field: 'lang', title: I18n.t('data_tables.users.lang'), hidden: true },
+    { field: 'webSessions', title: I18n.t('data_tables.users.web_sessions') },
+    { field: 'LastSeen', title: I18n.t('data_tables.users.last_seen') },
+    { field: 'FirstSeen', title: I18n.t('data_tables.users.first_seen') },
 
     {
       field: 'lastVisitedAt',

@@ -75,6 +75,16 @@ const NewEditorStyles = styled(EditorStyles)`
     margin-bottom: 0px;
   }
 
+  .graf--attachment {
+    display: flex;
+    align-items: center;
+    border: 1px solid #cac8c8;
+    border-radius: 4px;
+    //background: #e8e8e8;
+    padding: 10px 6px;
+    margin: 2px 3px 13px;
+  }
+
   .inlineTooltip-menu{
     height: 34px;
   }
@@ -107,12 +117,14 @@ const NewEditorStyles = styled(EditorStyles)`
       width: 16px;
       height: 16px;      
     }
+  }
 
+
+  .imageCaption {
+    word-break: break-word;
   }
 
   ${prismStyle}
-
-
 `;
 
 export default NewEditorStyles

@@ -2,7 +2,7 @@
 
 module Mutations
   class BaseMutation < GraphQL::Schema::Mutation
-    include Helpers::Authorizator
+    include ActionPolicy::GraphQL::Behaviour
     def current_user
       context[:current_user]
     end

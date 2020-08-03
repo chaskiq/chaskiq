@@ -32,9 +32,9 @@ RSpec.describe Api::V1::Hooks::ProviderController, type: :controller do
           ],
       "controller"=>"api/v1/hooks/provider",
       "action"=>"process_event",
-      "provider"=>"messenger", 
-      "app_key"=>app.key, 
-      "id"=>@pkg.id
+      #"provider"=>"messenger", 
+      #"app_key"=>app.key, 
+      "id"=>@pkg.encoded_id
     }
 
 
@@ -78,8 +78,8 @@ RSpec.describe Api::V1::Hooks::ProviderController, type: :controller do
       ],
       "controller"=>"api/v1/hooks/provider",
       "action"=>"process_event",
-      "app_key"=> @pkg.app.key,
-      "provider"=>"messenger",
+      #"app_key"=> @pkg.app.key,
+      #"provider"=>"messenger",
       "id"=> id
     }
 
@@ -160,20 +160,19 @@ RSpec.describe Api::V1::Hooks::ProviderController, type: :controller do
         "hub.challenge"=>"41132213", 
         "hub.verify_token"=>"uQIUx8iou44wJvzV8utsqA2", 
         "controller"=>"api/v1/hooks/provider", 
-        "action"=>"create", 
-        "provider"=>"messenger", 
-        "app_key"=>app.key, 
-        "id"=>@pkg.id
+        #"provider"=>"messenger", 
+        #"app_key"=>app.key, 
+        "id"=>@pkg.encoded_id
      }
 
-      get(:create, params: params)
+      get(:process_event, params: params)
       expect(response.status).to be == 200
     end
   
     it "receive conversation data" do
       get(:process_event, 
         params: data_for({
-          id: @pkg.id, 
+          id: @pkg.encoded_id, 
           sender: owner, 
           recipient: messenger_user,
           message_data: {
@@ -193,7 +192,7 @@ RSpec.describe Api::V1::Hooks::ProviderController, type: :controller do
 
       get(:process_event, 
         params: data_for_media({
-          id: @pkg.id, 
+          id: @pkg.encoded_id, 
           sender: owner, 
           recipient: messenger_user,
           message_data: {
@@ -216,7 +215,7 @@ RSpec.describe Api::V1::Hooks::ProviderController, type: :controller do
       expect(app.app_users).to be_empty
 
       get(:process_event, params: data_for(
-        id: @pkg.id, 
+        id: @pkg.encoded_id, 
         sender: messenger_user, 
         recipient: owner,
         message_data: {
@@ -228,7 +227,7 @@ RSpec.describe Api::V1::Hooks::ProviderController, type: :controller do
       expect(app.app_users.size).to be == 1
 
       get(:process_event, params: data_for(
-        id: @pkg.id, 
+        id: @pkg.encoded_id, 
         sender: messenger_user, 
         recipient: owner,
         message_data: {
@@ -247,7 +246,7 @@ RSpec.describe Api::V1::Hooks::ProviderController, type: :controller do
     it "reply from agent on messenger" do
 
       get(:process_event, params: data_for(
-        id: @pkg.id, 
+        id: @pkg.encoded_id, 
         sender: messenger_user, 
         recipient: owner,
         message_data: {
@@ -257,7 +256,7 @@ RSpec.describe Api::V1::Hooks::ProviderController, type: :controller do
       ))
 
       get(:process_event, params: data_for(
-        id: @pkg.id, 
+        id: @pkg.encoded_id, 
         sender: owner, 
         recipient: messenger_user,
         message_data: {
@@ -276,7 +275,7 @@ RSpec.describe Api::V1::Hooks::ProviderController, type: :controller do
     it "receive text with breakline" do
 
       get(:process_event, params: data_for(
-          id: @pkg.id, 
+          id: @pkg.encoded_id, 
           sender: messenger_user, 
           recipient: owner,
           message_data: {

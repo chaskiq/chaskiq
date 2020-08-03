@@ -1,12 +1,52 @@
 # frozen_string_literal: true
 
+
+GEOCODER_SERVICES = [
+  {
+    name: :ipinfo_io,
+    api_key: ENV['GEOCODER_API_KEY'],
+    timeout: 2
+  },
+  { name: :maxmind_local,
+    file: File.join(Rails.root, 'vendor/data', 'GeoLiteCityv6.dat')
+  },
+  {
+    name: :test
+  }
+]
+
+DEFAULT_GEOCODER_SERVICE = GEOCODER_SERVICES.find do |o| 
+  o[:name].to_s === (ENV['DEFAULT_GEOCODER_SERVICE'] || ( Rails.env.test? ? 'test' : 'maxmind_local' ) )
+end
+
+
+
 Geocoder.configure(
   # Geocoding options
   timeout: 3, # geocoding service timeout (secs)
   # lookup: :nominatim,         # name of geocoding service (symbol)
-  ip_lookup: :ipinfo_io, # name of IP address geocoding service (symbol)
+  # ip_lookup: :ipinfo_io, # name of IP address geocoding service (symbol)
   # ip_lookup: :ipapi_com,
-  api_key: ENV['GEOCODER_API_KEY'],
+
+  ipinfo_io: {
+    api_key: ENV['GEOCODER_API_KEY'],
+    timeout: 2
+  },
+
+  maxmind_local: {
+    file: File.join(Rails.root, 'vendor/data', 'GeoLiteCityv6.dat')
+  },
+
+  #baidu: {
+  #  api_key: "..."
+  #},
+
+  #maxmind: {
+  #  api_key: "...",
+  #  service: :omni
+  #}
+
+  # ip_lookup: :maxmind_local, maxmind_local: {file: File.join('folder', 'GeoLiteCity.dat')}
   # timeout: 10,
   # ip_lookup: :telize,
   # language: :en,              # ISO-639 language code
@@ -14,7 +54,8 @@ Geocoder.configure(
   # http_proxy: nil,            # HTTP proxy server (user:pass@host:port)
   # https_proxy: nil,           # HTTPS proxy server (user:pass@host:port)
   # api_key: nil,               # API key for geocoding service
-  # cache: nil,                 # cache object (must respond to #[], #[]=, and #del)
+  # cache: nil, 
+  cache: Redis.new,             # cache object (must respond to #[], #[]=, and #del)
   cache_prefix: 'geocoder:', # prefix (string) to use for all cache keys
 
   # Exceptions that should not be rescued by default
@@ -25,7 +66,4 @@ Geocoder.configure(
   # Calculation options
   # units: :mi,                 # :km for kilometers or :mi for miles
   # distances: :linear          # :spherical or :linear
-  maxmind_local: {
-    file: File.join(Rails.root, 'vendor/data', 'GeoLiteCityv6.dat')
-  }
 )

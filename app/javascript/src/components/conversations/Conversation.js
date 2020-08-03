@@ -14,7 +14,7 @@ import Rtc from '../rtc'
 import { updateRtcEvents } from '../../actions/rtc'
 import Progress from '../Progress'
 import Button from '../Button'
-
+import I18n from '../../shared/FakeI18n'
 import {
   getConversation,
   typingNotifier,
@@ -25,8 +25,12 @@ import {
   updateConversationState,
   updateConversationPriority,
   assignAgent,
-  setLoading
+  setLoading,
+  updateConversationTagList
 } from '../../actions/conversation'
+import QuickRepliesDialog from './QuickReplyDialog'
+
+import { successMessage } from '../../actions/status_messages'
 
 import { AGENTS } from '../../graphql/queries'
 
@@ -36,6 +40,8 @@ import {
   LeftArrow,
   CallEnd,
   Call,
+  LabelIcon,
+  MoreIcon
 } from '../icons'
 
 import { getAppUser } from '../../actions/app_user'
@@ -49,6 +55,7 @@ import DraftRenderer from '../textEditor/draftRenderer'
 import styled from '@emotion/styled'
 import { setCurrentPage, setCurrentSection } from '../../actions/navigation'
 import RtcDisplayWrapper, { ModalWrapper } from '../../../client_messenger/rtcView' // './RtcWrapper'
+import TagDialog from '../TagDialog'
 
 const EditorContainerMessageBubble = styled(EditorContainer)`
   //display: flex;
@@ -97,6 +104,8 @@ function Conversation ({
   const [rtcVideo, setRtcVideo] = React.useState(true)
   const [expand, setExpand] = React.useState(false)
   const [videoSession, setVideoSession] = React.useState(false)
+  const [openTagManager, setOpenTagManager] = React.useState(false)
+  const [quickReplyDialogOpen, setQuickReplyDialogOpen] = React.useState(false)
   const appId = app.key
 
   React.useEffect(() => {
@@ -247,6 +256,10 @@ function Conversation ({
     dispatch(assignAgent(id, cb))
   }
 
+  const addAsReply = (content) => {
+    setQuickReplyDialogOpen(content)
+  }
+
   const renderMessage = (o, userOrAdmin) => {
     const message = o
     const messageContent = o.message
@@ -277,6 +290,8 @@ function Conversation ({
       textClass = 'text-gray-900'
     }
 
+    const isAdmin = userOrAdmin === 'admin'
+
     return <div
       id={`message-id-${message.id}`}
       className={`flex items-start py-2 text-sm ${flow}`}
@@ -286,20 +301,46 @@ function Conversation ({
           alt={message.appUser.displayName}
           src={message.appUser.avatarUrl}
           onClick={handleUserSidebar}
-          className={`w-10 h-10 rounded ${avatarM}`}
+          className={`cursor-pointer w-10 h-10 rounded ${avatarM}`}
         />
       }
       <div
         className={`${bgClass}
         shadow-lg 
         flex-1 
-        overflow-hidden p-3 
+        overflow-hidden-dis p-3 
         rounded-md`}
       >
         <div className="flex justify-between pb-4">
-          <span className={`font-bold ${textClass}`}>
-            {message.appUser.displayName}
-          </span>
+          <div className="flex items-center">
+            {
+              isAdmin && messageContent.serializedContent &&
+
+              <FilterMenu
+                options={[
+                  {
+                    title: I18n.t('quick_replies.add_as_dialog.title'),
+                    onClick: ()=> { addAsReply(messageContent.serializedContent) }
+                  }
+                ]}
+                value={null}
+                filterHandler={(e) => e.onClick && e.onClick() }
+                triggerButton={(handler) => (
+                  <Button variant="icon"
+                    onClick={handler}
+                    className="" >
+                    <MoreIcon className="text-gray-400"/>
+                  </Button>
+                )}
+                position={'left'}
+                origin={'bottom-0'}
+              />
+            }
+
+            <span className={`font-bold ${textClass}`}>
+              {message.appUser.displayName}
+            </span>
+          </div>
           <span className={`text-xs ${textClass}`}>
             <Moment fromNow ago>
               {message.createdAt}
@@ -308,11 +349,11 @@ function Conversation ({
             <span className={textClass}>
               {' - '}
               {message.readAt ? (
-                <span>{'seen '}</span>
+                <span>{I18n.t('conversation.messages.seen')}</span>
               ) : message.privateNote ? (
-                'NOTE'
+                I18n.t('conversation.messages.note')
               ) : (
-                <span>not seen</span>
+                <span>{I18n.t('conversation.messages.not_seen')}</span>
               )}
             </span>
           </span>
@@ -476,8 +517,8 @@ function Conversation ({
               <span>
                 {' - '}
                 {
-                  message.readAt ? <span>{'seen '}</span>
-                    : <span>not seen</span>
+                  message.readAt ? <span>{I18n.t('conversation.messages.seen')}</span>
+                    : <span>{I18n.t('conversation.messages.not_seen')}</span>
                 }
               </span>
             </span>
@@ -518,8 +559,8 @@ function Conversation ({
               <span>
                 {' - '}
                 {
-                  message.readAt ? <span>{'seen '}</span>
-                    : <span>not seen</span>
+                  message.readAt ? <span>{I18n.t('conversation.messages.seen')}</span>
+                    : <span>{I18n.t('conversation.messages.not_seen')}</span>
                 }
               </span>
             </span>
@@ -537,6 +578,16 @@ function Conversation ({
     dispatch(toggleDrawer({ userDrawer: !drawer.userDrawer }))
   }
 
+  const updateTags = (tags) => {
+    dispatch(updateConversationTagList({
+      id: conversation.id,
+      tagList: tags,
+      appKey: app.key
+    }, () => {
+      dispatch(successMessage('tags updated'))
+      setOpenTagManager(false)
+    }))
+  }
 
   return (
     <BgContainer className="flex-1 flex flex-col overflow-hidden-- h-screen">
@@ -548,7 +599,7 @@ function Conversation ({
             <LeftArrow/>
           </Link>
           <h3 className="mb-1 text-xs text-grey-darkest">
-            conversation with{' '}
+            {I18n.t('conversation.with')}{' '}
             <br/>
             <span className="font-extrabold" onClick={handleUserSidebar}>
               {
@@ -573,7 +624,9 @@ function Conversation ({
 
           <Tooltip
             placement="bottom"
-            overlay={conversation.state === 'closed' ? 'reopen' : 'close'}
+            overlay={
+              I18n.t(`conversation.actions.${conversation.state === 'closed' ? 'reopen' : 'close'}`)
+            }
           >
             <button
               onClick={() => {
@@ -581,8 +634,20 @@ function Conversation ({
                   conversation.state === 'closed' ? 'reopen' : 'close'
                 updateConversationStateDispatch(option)
               }}
-              aria-label={conversation.state === 'closed' ? 'reopen' : 'close'}
-              className="mr-1 rounded-full bg-white hover:bg-gray-100 text-gray-800 font-semibold border border-gray-400 rounded shadow"
+              aria-label={I18n.t(`conversation.actions.${conversation.state === 'closed' ? 'reopen' : 'close'}`)}
+              className={`focus:outline-none 
+                outline-none 
+                mr-1 rounded-full 
+                ${
+                  conversation.state === 'closed' ?
+                  'bg-green-600 border-green-700 hover:bg-green-700 hover:border-green-800 text-gray-100' :
+                  'bg-white hover:bg-gray-100 text-gray-800'
+                }
+                 
+                font-semibold 
+                border 
+                rounded shadow`
+              }
             >
               <CheckmarkIcon variant="rounded" />
             </button>
@@ -590,10 +655,12 @@ function Conversation ({
 
           <Tooltip
             placement="bottom"
-            overlay={ videoSession ? 'end call' : 'start call'}
+            overlay={
+              I18n.t(`conversation.actions.${videoSession ? 'end_call' : 'start_call'}`)
+            }
           >
             <button
-              className="mr-1 rounded-full bg-white hover:bg-gray-100 text-gray-800 font-semibold border border-gray-400 rounded shadow"
+              className="focus:outline-none outline-none mr-1 rounded-full bg-white hover:bg-gray-100 text-gray-800 font-semibold border border-gray-400 rounded shadow"
               onClick={() => setVideoSession(!videoSession)}>
               { videoSession ? <CallEnd variant="rounded"/> : <Call variant="rounded"/> }
             </button>
@@ -639,44 +706,72 @@ function Conversation ({
           <Tooltip
             placement="bottom"
             overlay={
-              !conversation.priority
-                ? 'Priorize conversation'
-                : 'Remove priority'
+              I18n.t(`conversation.actions.${!conversation.priority ? 'priorize' : 'remove_priority'}`)
             }
           >
             <button
               onClick={toggleConversationPriority}
               aria-label={
-                !conversation.priority
-                  ? 'Priorize conversation'
-                  : 'Remove priority'
+                I18n.t(`conversation.actions.${!conversation.priority ? 'priorize' : 'remove_priority'}`)
               }
-              className="mr-1 rounded-full bg-white hover:bg-gray-100 text-gray-800 font-semibold border border-gray-400 rounded shadow"
+              className="focus:outline-none outline-none mr-1 rounded-full bg-white hover:bg-gray-100 text-gray-800 font-semibold border border-gray-400 rounded shadow"
             >
               <PinIcon variant="rounded" />
             </button>
           </Tooltip>
 
+          <Tooltip
+            placement="bottom"
+            overlay={
+              'tag conversation'
+            }
+          >
+            <button
+              onClick={() => setOpenTagManager(true)}
+              aria-label={
+                'tag conversation'
+              }
+              className="focus:outline-none outline-none mr-1 rounded-full bg-white hover:bg-gray-100 text-gray-800 font-semibold border border-gray-400 rounded shadow"
+            >
+              <LabelIcon variant="rounded" />
+            </button>
+          </Tooltip>
+
+          {
+            openTagManager &&
+                <TagDialog
+                  title={'manage conversation tags'}
+                  tags={conversation.tagList}
+                  saveHandler={(tags) => updateTags(tags)}
+                  closeHandler={() => setOpenTagManager(false)}>
+
+                </TagDialog>
+          }
+
           <FilterMenu
-            options={agents.map(o => ( { 
-              key: o.email, 
+            options={agents.map(o => ({
+              key: o.email,
               name: o.name || o.email,
               id: o.id
-            } ))}
+            }))}
             value={conversation.assignee ? conversation.assignee.email : ''}
             filterHandler={(data) => setAgent(data.id)}
             position={'right'}
             origin={'top-50'}
             triggerButton={(cb) => {
               return (
-                <Tooltip placement="bottom" overlay={'assign agent'}>
+                <Tooltip placement="bottom"
+                  overlay={
+                    I18n.t('conversation.actions.assign_agent')
+                  }
+                >
                   <div onClick={cb}
-                    className="flex-shrink-0 h-10 w-10 mr-1 rounded-full bg-white hover:bg-gray-100
-                    text-gray-800 font-semibold border border-gray-400
-                    rounded shadow">
+                    className="flex flex-shrink-0 h-10 w-10 mr-1 rounded-full
+                    bg-white hover:bg-gray-100 text-gray-800 font-semibold
+                    border border-gray-400 rounded shadow items-center justify-center">
                     {conversation.assignee && (
                       <img
-                        className="h-10 w-10 rounded-full"
+                        className="h-6 w-6 rounded-full"
                         src={conversation.assignee.avatarUrl}
                         alt={conversation.assignee.name}
                       />
@@ -708,7 +803,7 @@ function Conversation ({
 
       <div
         ref={overflow}
-        className="flex flex-col overflow-y-scroll"
+        className="overflow-y-scroll"
         onScroll={handleScroll}
         style={{
           height: 'calc(100vh - 222px)'
@@ -784,6 +879,15 @@ function Conversation ({
           {/* <input type="text" className="w-full px-4" placeholder="Message #general"/> */}
         </div>
       </div>
+
+      <QuickRepliesDialog
+        title={ I18n.t('quick_reply.add_as_dialog.title') }
+        closeHandler={
+          ()=> setQuickReplyDialogOpen(null)
+        }
+        open={quickReplyDialogOpen}>
+      </QuickRepliesDialog>
+
     </BgContainer>
   )
 }
