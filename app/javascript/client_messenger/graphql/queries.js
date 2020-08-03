@@ -20,6 +20,8 @@ export const PING = `
         enableArticlesOnWidget
         inlineNewConversations
         inBusinessHours
+        leadTasksSettings
+        userTasksSettings
         replyTime
         logo
         inboundSettings
@@ -27,7 +29,7 @@ export const PING = `
         businessBackIn
         tasksSettings
         customizationColors
-        encryptionKey
+        searcheableFields
         articleSettings{
           subdomain
         }

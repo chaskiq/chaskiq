@@ -115,6 +115,9 @@ module MessageApis
 
     # incoming events from webhook
     def process_event(params, package)
+
+      return create_hook_from_params(params, package) if params['crc_token'].present?
+
       @package = package
 
       app = package.app

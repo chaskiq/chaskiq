@@ -11,7 +11,10 @@ module Events
         DataEnrichmentJob.perform_later(user_id: user.id)
       end
 
-      EventTriggerProcessorJob.perform_later(id: app.id , event_id: event.id)
+      EventTriggerProcessorJob.perform_later(
+        id: user.app_id, 
+        event_id: event.id
+      )
     end
   end
 end

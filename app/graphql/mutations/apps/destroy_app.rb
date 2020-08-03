@@ -11,6 +11,9 @@ module Mutations
 
     def resolve(app_key:)
       @app = current_user.apps.find_by(key: app_key)
+
+      authorize! @app, to: :manage?, with: AppPolicy
+
       @app.destroy
       { app: @app, errors: @app.errors }
     end

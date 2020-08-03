@@ -49,7 +49,7 @@ export class ColorPicker extends React.Component {
               aria-label="Toggle color"
               onClick={this.handleClick}
             >
-              <DockerIcon />
+              <DockerIcon style={{color: this.state.value || '#ccc' }} />
             </Button>
 
             <input

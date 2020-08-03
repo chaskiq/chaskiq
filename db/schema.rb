@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_05_25_033626) do
+ActiveRecord::Schema.define(version: 2020_07_30_031419) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -58,7 +58,6 @@ ActiveRecord::Schema.define(version: 2020_05_25_033626) do
     t.jsonb "properties", default: {}, null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.string "jti"
     t.string "invitation_token"
     t.datetime "invitation_created_at"
     t.datetime "invitation_sent_at"
@@ -68,13 +67,13 @@ ActiveRecord::Schema.define(version: 2020_05_25_033626) do
     t.bigint "invited_by_id"
     t.integer "invitations_count", default: 0
     t.boolean "bot"
+    t.boolean "available"
     t.index ["confirmation_token"], name: "index_agents_on_confirmation_token", unique: true
     t.index ["email"], name: "index_agents_on_email", unique: true
     t.index ["invitation_token"], name: "index_agents_on_invitation_token", unique: true
     t.index ["invitations_count"], name: "index_agents_on_invitations_count"
     t.index ["invited_by_id"], name: "index_agents_on_invited_by_id"
     t.index ["invited_by_type", "invited_by_id"], name: "index_agents_on_invited_by_type_and_invited_by_id"
-    t.index ["jti"], name: "index_agents_on_jti", unique: true
     t.index ["key"], name: "index_agents_on_key"
     t.index ["reset_password_token"], name: "index_agents_on_reset_password_token", unique: true
     t.index ["unlock_token"], name: "index_agents_on_unlock_token", unique: true
@@ -87,8 +86,10 @@ ActiveRecord::Schema.define(version: 2020_05_25_033626) do
     t.string "state"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.string "external_id"
     t.index ["app_id"], name: "index_app_package_integrations_on_app_id"
     t.index ["app_package_id"], name: "index_app_package_integrations_on_app_package_id"
+    t.index ["external_id"], name: "index_app_package_integrations_on_external_id"
   end
 
   create_table "app_packages", force: :cascade do |t|
@@ -162,6 +163,7 @@ ActiveRecord::Schema.define(version: 2020_05_25_033626) do
     t.jsonb "preferences", default: "{}", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "owner_id"
     t.index ["key"], name: "index_apps_on_key"
     t.index ["preferences"], name: "index_apps_on_preferences", using: :gin
   end
@@ -299,6 +301,7 @@ ActiveRecord::Schema.define(version: 2020_05_25_033626) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.string "type"
+    t.integer "position"
     t.index ["app_id"], name: "index_bot_tasks_on_app_id"
     t.index ["state"], name: "index_bot_tasks_on_state"
     t.index ["type"], name: "index_bot_tasks_on_type"
@@ -492,12 +495,6 @@ ActiveRecord::Schema.define(version: 2020_05_25_033626) do
     t.index ["provider"], name: "index_external_profiles_on_provider"
   end
 
-  create_table "jwt_blacklist", force: :cascade do |t|
-    t.string "jti", null: false
-    t.datetime "exp", null: false
-    t.index ["jti"], name: "index_jwt_blacklist_on_jti"
-  end
-
   create_table "metrics", force: :cascade do |t|
     t.bigint "campaign_id"
     t.string "trackable_type", null: false
@@ -593,6 +590,28 @@ ActiveRecord::Schema.define(version: 2020_05_25_033626) do
     t.index ["status_id"], name: "index_preview_cards_on_status_id", unique: true
   end
 
+  create_table "quick_replies", force: :cascade do |t|
+    t.string "title"
+    t.text "content"
+    t.bigint "app_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["app_id"], name: "index_quick_replies_on_app_id"
+  end
+
+  create_table "quick_replies_translations", force: :cascade do |t|
+  end
+
+  create_table "quick_reply_translations", force: :cascade do |t|
+    t.bigint "quick_reply_id", null: false
+    t.string "locale", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.text "content"
+    t.index ["locale"], name: "index_quick_reply_translations_on_locale"
+    t.index ["quick_reply_id"], name: "index_quick_reply_translations_on_quick_reply_id"
+  end
+
   create_table "roles", force: :cascade do |t|
     t.bigint "app_id"
     t.bigint "agent_id"
@@ -678,6 +697,7 @@ ActiveRecord::Schema.define(version: 2020_05_25_033626) do
   add_foreign_key "oauth_access_tokens", "agents", column: "resource_owner_id"
   add_foreign_key "oauth_access_tokens", "oauth_applications", column: "application_id"
   add_foreign_key "outgoing_webhooks", "apps"
+  add_foreign_key "quick_replies", "apps"
   add_foreign_key "roles", "agents"
   add_foreign_key "roles", "apps"
   add_foreign_key "taggings", "tags"

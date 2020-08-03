@@ -133,9 +133,9 @@ export default class ImageBlock extends React.Component {
         width: this.img.width,
         height: this.img.height,
         aspect_ratio: self.getAspectRatio(this.img.width, this.img.height),
+      }, ()=>{
+        this.handleUpload();
       });
-
-      return this.handleUpload();
     });
   };
 
@@ -276,11 +276,12 @@ export default class ImageBlock extends React.Component {
     this.stopLoader();
   };
 
-  uploadCompleted(url) {
+  uploadCompleted(url, cb) {
     this.setState({ url }, this.updateData);
     this.props.blockProps.removeLock();
     this.stopLoader();
     this.file = null;
+    cb && cb()
   }
 
   updateProgressBar(e) {

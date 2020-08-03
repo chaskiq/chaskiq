@@ -9,12 +9,16 @@ const BaseButton = styled.button`
   ${(props) => {
     switch (props.variant) {
       case 'success':
-        return tw`outline-none 
-        rounded-lg 
+        return tw`
+        outline-none 
+        rounded-md 
         bg-green-400 
-        text-green-800
-        shadow-md 
-        hover:shadow-lg`
+        text-white
+        hover:bg-green-500 
+        focus:outline-none 
+        focus:border-green-700 
+        focus:shadow-outline-green
+        `
       case 'main':
         return tw`outline-none 
         inline-flex 
@@ -116,10 +120,10 @@ const SizeButton = styled(BaseButton)`
   }};
 `
 
-export default function Button ({ children, ...buttonProps }) {
+export default function Button ({ children, className, ...buttonProps }) {
   return (
     <SizeButton
-      className={'transition duration-150 ease-in-out'}
+      className={`transition duration-150 ease-in-out ${className || ''}`}
       // className="px-2 py-1 rounded-lg bg-green-400 text-green-800 text-xl font-light uppercase shadow-md hover:shadow-lg"
       {...buttonProps}
     >

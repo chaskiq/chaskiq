@@ -45,6 +45,7 @@
 - Webhooks
 - Help Center system with multilanguage support
 - API support - consumible via GrapqhQL with Oauth authorization
+- Quick replies (as canned responses)
 
 And many features to come
 

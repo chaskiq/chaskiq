@@ -60,9 +60,9 @@ export default function Article (props) {
 
   return (
     <div className="flex flex-row items-center justify-center bg-gray-100">
-      <div className="rounded shadow p-12 m-8 w-10/12 bg-white">
+      <div className="rounded shadow lg:p-12 m-2 lg:m-8 px-2 lg:w-10/12 bg-white">
         {article ? (
-          <div className={'classes.articlediv'}>
+          <div className={'text-xs lg:text-sm'}>
             <Breadcrumbs
               aria-label="Breadcrumb"
               breadcrumbs={[

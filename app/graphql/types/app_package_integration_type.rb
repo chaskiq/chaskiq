@@ -9,6 +9,8 @@ module Types
     field :icon, String, null: true
     field :description, String, null: true
     field :state, String, null: true
+    field :hook_url, String, null: true
+    field :oauth_authorize, String, null: true
 
     def self.authorized?(object, context)
       super && context[:current_user].is_a?(Agent) && context[:current_user].apps.include?(object.app)

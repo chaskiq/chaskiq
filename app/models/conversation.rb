@@ -14,7 +14,8 @@ class Conversation < ApplicationRecord
   has_many :conversation_part_channel_sources, through: :messages
   has_one :latest_message,  -> { order('id desc') }, class_name: 'ConversationPart'
 
-  #TODO : remove this logic
+  acts_as_taggable_on :tags
+
   accepts_nested_attributes_for :conversation_channels
 
   after_create :convert_visitor_to_lead, if: :visitor_participant?
@@ -59,6 +60,10 @@ class Conversation < ApplicationRecord
 
   def add_reopened_event
     events.log(action: :conversation_reopened)
+  end
+
+  def first_user_interaction
+    events.log(action: :first_comment_from_user)
   end
 
   def toggle_priority
@@ -157,6 +162,13 @@ class Conversation < ApplicationRecord
   end
 
   def update_latest_user_visible_comment_at
-    update(latest_user_visible_comment_at: Time.zone.now)
+    unless has_user_visible_comment?
+      update_column(:latest_user_visible_comment_at, Time.zone.now)
+      first_user_interaction
+    end
+  end
+
+  def has_user_visible_comment?
+    latest_user_visible_comment_at.present?
   end
 end

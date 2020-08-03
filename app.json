@@ -19,6 +19,14 @@
     "postdeploy": "bundle exec rake db:schema:load && bundle exec rake db:seed"
   },
   "env": {
+    "ADMIN_EMAIL": {
+      "description": "An admin email to be generated on db:seed task",
+      "value": ""
+    },
+    "ADMIN_PASSWORD": {
+      "description": "An admin passwod to be generated on db:seed task",
+      "generator": "secret"
+    },
     "SECRET_TOKEN": {
       "description": "A secret key for verifying the integrity of signed cookies.",
       "generator": "secret"
@@ -93,7 +101,7 @@
     {
       "plan": "heroku-postgresql",
       "options": {
-        "version": "9.5"
+        "version": "11"
       }
     }
   ],

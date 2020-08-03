@@ -28,6 +28,7 @@ export const UPDATE_APP = `
         outgoingEmailDomain
         customizationColors
         customFields
+        tagList
         segments {
           name
           id
@@ -44,22 +45,6 @@ export const DESTROY_APP = `
   mutation AppsUpdate($appKey: String!){
     appsDestroy(appKey: $appKey){
       errors
-      app{
-        encryptionKey
-        key
-        name
-        preferences
-        configFields
-        theme
-        activeMessenger
-        segments {
-          name
-          id
-          properties
-        }
-        state
-        tagline
-      }
     }
   }
 `;
@@ -124,6 +109,7 @@ export const APP_USER_UPDATE_STATE = `
         externalProfiles {
           id
           provider
+          profileId
           data
         }
       }
@@ -162,6 +148,7 @@ export const APP_USER_UPDATE = `
         externalProfiles {
           id
           provider
+          profileId
           data
         }
       }
@@ -200,6 +187,7 @@ export const SYNC_EXTERNAL_PROFILE = `
         externalProfiles {
           id
           provider
+          profileId
           data
         }
       }
@@ -252,8 +240,6 @@ export const START_CONVERSATION = `
             avatarUrl
           }
         }
-
-
       }
     }
   }
@@ -326,6 +312,20 @@ export const INSERT_APP_BLOCK_COMMMENT = `
           serializedContent
         }
         emailMessageId
+      }
+    }
+  }
+`;
+
+export const SEND_TRIGGER = `
+  mutation SendTrigger($appKey: String!, $conversationId: Int!, $triggerId: Int!){
+    sendTrigger(appKey: $appKey, conversationId: $conversationId, triggerId: $triggerId){
+      conversation{
+        id
+        key
+        state 
+        readAt
+        priority
       }
     }
   }
@@ -452,6 +452,33 @@ export const DELETE_ASSIGNMENT_RULE = `
           avatarUrl
         }
         state
+      }
+    }
+  }
+`;
+
+export const UPDATE_CONVERSATION_TAG_LIST = `
+  mutation UpdateConversationTags($appKey: String!, $conversationId: Int!, $tagList: [String!]!){
+    updateConversationTags(appKey: $appKey, conversationId: $conversationId, tagList: $tagList){
+      conversation{
+        id
+        state 
+        readAt
+        priority
+        tagList
+        assignee {
+          id
+          email
+          name
+          avatarUrl
+        }
+        mainParticipant{
+          id
+          email
+          properties
+          avatarUrl
+          displayName
+        }
       }
     }
   }
@@ -740,6 +767,43 @@ export const WEBHOOK_UPDATE = `
   }
 `;
 
+export const QUICK_REPLY_CREATE = `
+  mutation QuickReplyCreate($appKey: String!, $title: String!, $content: String!, $lang: String){
+    createQuickReply(appKey: $appKey, title: $title, content: $content, lang: $lang){
+      quickReply {
+        id
+        title
+        content
+      }
+      errors
+    }
+  }
+`;
+
+export const QUICK_REPLY_UPDATE = `
+  mutation QuickReplyUpdate($appKey: String!, $title: String!, $content: String!, $id: Int!, $lang: String ){
+    updateQuickReply(appKey: $appKey, title: $title, content: $content, id: $id, lang: $lang ){
+      quickReply {
+        id
+        title
+        content
+      }
+      errors
+    }
+  }
+`;
+
+export const QUICK_REPLY_DELETE = `
+  mutation QuickReplyDelete($appKey: String!, $id: Int! ){
+    deleteQuickReply(appKey: $appKey, id: $id){
+      quickReply {
+        id
+      }
+      errors
+    }
+  }
+`;
+
 export const INVITE_AGENT = `
   mutation InviteAgent($appKey: String!, $email: String!){
     inviteAgent(appKey: $appKey, email: $email){
@@ -759,6 +823,20 @@ export const UPDATE_AGENT = `
         email
         avatarUrl
         name
+        lang
+      }
+    }
+  }
+`;
+
+export const UPDATE_AGENT_ROLE = `
+  mutation UpdateAgentRole($appKey: String!, $id: String!, $params: Json!){
+    updateAgentRole(appKey: $appKey, id: $id, params: $params){
+      agent {
+        email
+        avatarUrl
+        name
+        lang
       }
     }
   }
@@ -1253,6 +1331,7 @@ export const CREATE_INTEGRATION = `
         icon
         state
         description
+        hookUrl
       }
     }
   }

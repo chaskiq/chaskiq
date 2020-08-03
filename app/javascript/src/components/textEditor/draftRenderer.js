@@ -6,6 +6,9 @@ import React, { Component } from 'react'
 import redraft from 'redraft'
 import { setImageZoom } from '../../actions/imageZoom'
 import { connect } from 'react-redux'
+import {
+  AttachmentIcon
+} from '../icons'
 
 var Prism = require('prismjs')
 // Prism.highlightAll();
@@ -19,7 +22,7 @@ const handlePrismRenderer = (syntax, children) => {
   const formattedCode = Prism.highlight(
     code,
     Prism.languages.javascript,
-    'javascript'
+    syntax || 'javascript'
   )
   return { __html: formattedCode }
 }
@@ -122,44 +125,28 @@ const renderers = {
       </ol>
     ),
 
-    image: (children, { keys, data }) => {
-      const data2 = data[0]
-      const { url, aspect_ratio, caption } = data2
-
-      if (!aspect_ratio) {
-        var height = '100%'
-        var width = '100%'
-        var ratio = '100'
-      } else {
-        var { height, width, ratio } = aspect_ratio
-      }
-
-      const defaultStyle = { maxWidth: `${width}px`, maxHeight: `${height}px` }
-
+    file: (children, { keys, data }) => {
+      const fileName = data[0].url.split('/').pop()
       return (
-        <figure key={keys[0]} className="graf graf--figure">
-          <div>
-            <div
-              className="aspectRatioPlaceholder is-locked"
-              style={defaultStyle}
-            >
-              <div
-                className="aspect-ratio-fill"
-                style={{ paddingBottom: `${ratio}%` }}
-              ></div>
+        <div>
+          <a href={data[0].url}
+            target="blank"
+            className="flex items-center border rounded bg-gray-800 border-gray-600 p-4 py-2">
+            <AttachmentIcon></AttachmentIcon>
+            {fileName}
+          </a>
+        </div>
+      )
+    },
 
-              <ConnectedImage url={url} width={width} height={height} />
-            </div>
-          </div>
-
-          {caption && caption != 'type a caption (optional)' && (
-            <figcaption className="imageCaption">
-              <span>
-                <span data-text="true">{children}</span>
-              </span>
-            </figcaption>
-          )}
-        </figure>
+    image: (children, { keys, data }) => {
+      return keys.map(
+        (key, index) => <ImageRenderer
+          blockKey={key}
+          key={`image-${key}`}
+          data={data[index]}>
+          {children[index]}
+        </ImageRenderer>
       )
     },
     embed: (children, { keys, data }) => {
@@ -285,6 +272,49 @@ const renderers = {
     },
     new CustomDecorator(someOptions),
   ], */
+}
+
+function ImageRenderer ({children, blockKey, data}) {
+  const data2 = data
+  const { url, aspect_ratio, caption } = data2
+
+  if (!aspect_ratio) {
+    var height = '100%'
+    var width = '100%'
+    var ratio = '100'
+  } else {
+    var { height, width, ratio } = aspect_ratio
+  }
+
+  const defaultStyle = { maxWidth: `${width}px`, maxHeight: `${height}px` }
+
+  return (
+    <figure key={blockKey} className="graf graf--figure">
+      <div>
+        <div
+          className="aspectRatioPlaceholder is-locked"
+          style={defaultStyle}
+        >
+          <div
+            className="aspect-ratio-fill"
+            style={{ paddingBottom: `${ratio}%` }}
+          ></div>
+
+          <ConnectedImage url={url} width={width} height={height} />
+        </div>
+      </div>
+
+      {caption && caption !== 'type a caption (optional)' && (
+        <figcaption className="imageCaption">
+          <span>
+            <span data-text="true">
+              {children}
+            </span>
+          </span>
+        </figcaption>
+      )}
+    </figure>
+  )
 }
 
 function Image ({ dispatch, url, width, height }) {

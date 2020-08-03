@@ -64,7 +64,7 @@ const BotDataTable = ({ app, match, history, mode, dispatch }) => {
           const newData = botTasks.filter((item) => item.id != o.id)
           setBotTasks(newData)
           setOpenDeleteDialog(null)
-          dispatch(successMessage('bot removed'))
+          dispatch(successMessage(I18n.t('bot_tasks.remove_success')))
         },
         error: () => {
           debugger
@@ -90,7 +90,7 @@ const BotDataTable = ({ app, match, history, mode, dispatch }) => {
                 size="small"
                 onClick={toggleTaskForm}
               >
-                New Task
+                {I18n.t('task_bots.new')}
               </Button>
             </div>
           }
@@ -101,31 +101,33 @@ const BotDataTable = ({ app, match, history, mode, dispatch }) => {
           <Table
             meta={meta}
             data={botTasks}
-            title={'Bot Tasks'}
+            title={I18n.t('task_bots.title')}
             defaultHiddenColumnNames={[]}
             search={init}
             columns={[
               {
                 field: 'name',
-                title: 'name',
+                title: I18n.t('definitions.bot_tasks.name.label'),
                 render: (row) =>
                   row && (
                     <td className="px-6 py-4 whitespace-no-wrap border-b border-gray-200">
                       <div className="flex items-center">
                         {row.id && (
-                          <AnchorLink to={`${match.url}/${row.id}`}>
-                            {row.title}
-                          </AnchorLink>
+                          <span className="text-lg leading-5 font-bold text-gray-900">
+                            <AnchorLink to={`${match.url}/${row.id}`}>
+                              {row.title}
+                            </AnchorLink>
+                          </span>
                         )}
                       </div>
                     </td>
                   )
               },
 
-              { field: 'state', title: 'state' },
+              { field: 'state', title: I18n.t('definitions.bot_tasks.state.label') },
               {
                 field: 'actions',
-                title: 'actions',
+                title: I18n.t('definitions.bot_tasks.actions.label'),
                 render: (row) => (
                   <td className="px-6 py-4 whitespace-no-wrap border-b border-gray-200">
                     <div className="flex items-center">
@@ -135,7 +137,7 @@ const BotDataTable = ({ app, match, history, mode, dispatch }) => {
                           variant={'contained'}
                           onClick={() => setOpenDeleteDialog(row)}
                         >
-                          remove
+                          {I18n.t('common.delete')}
                         </Button>
                       )}
                     </div>
@@ -148,7 +150,7 @@ const BotDataTable = ({ app, match, history, mode, dispatch }) => {
 
         {!loading && botTasks.length === 0 && (
           <EmptyView
-            title={'No bot tasks found'}
+            title={I18n.t('task_bots.empty.title')}
             subtitle={
               <div>
                 <Button
@@ -157,7 +159,7 @@ const BotDataTable = ({ app, match, history, mode, dispatch }) => {
                   size="large"
                   onClick={toggleTaskForm}
                 >
-                  Create a new one
+                  {I18n.t('task_bots.empty.create_new')}
                 </Button>
               </div>
             }
@@ -167,9 +169,8 @@ const BotDataTable = ({ app, match, history, mode, dispatch }) => {
         {openDeleteDialog && (
           <DeleteDialog
             open={openDeleteDialog}
-            title={`Delete bot "${openDeleteDialog.title}"`}
+            title={ I18n.t('task_bots.delete.title', { name: openDeleteDialog.title }) }
             closeHandler={() => {
-              console.log('delete handler')
               setOpenDeleteDialog(null)
             }}
             deleteHandler={() => {
@@ -177,7 +178,7 @@ const BotDataTable = ({ app, match, history, mode, dispatch }) => {
             }}
           >
             <p variant="subtitle2">
-              we will destroy any content and related data
+              {I18n.t('task_bots.delete.hint')}
             </p>
           </DeleteDialog>
         )}
@@ -239,29 +240,29 @@ const BotTaskCreate = ({ app, submit, history, match, mode }) => {
       <FormDialog
         open={isOpen}
         handleClose={() => setIsOpen(false)}
-        titleContent={'Create Bot task'}
+        titleContent={I18n.t('task_bots.create.title')}
         formComponent={
           <form>
             <Input
-              label="None"
+              label={I18n.t('definitions.bot_tasks.title.label')}
               id="title"
               type={'string'}
               ref={(ref) => (titleRef = ref)}
-              placeholder={'write task title'}
+              placeholder={I18n.t('definitions.bot_tasks.title.placeholder')}
               // defaultValue="Default Value"
               // className={classes.textField}
-              helperText="Task name ie: welcoming users bot task"
+              helperText={I18n.t('definitions.bot_tasks.title.hint')}
             />
           </form>
         }
         dialogButtons={
           <React.Fragment>
             <Button onClick={close} variant="outlined">
-              Cancel
+              {I18n.t('common.cancel')}
             </Button>
 
             <Button onClick={handleSubmit} className="mr-1">
-              Create
+              {I18n.t('common.create')}
             </Button>
           </React.Fragment>
         }

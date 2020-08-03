@@ -24,12 +24,12 @@ class ChatNotifierMailer < ApplicationMailer
     recipient = message_author.id != conversation.main_participant.id ?
     conversation.main_participant : conversation.assignee
 
+    return if recipient.blank?
+
     @user_id =  recipient.id
 
     content_type  = 'text/html'
     from_name     = "#{@author_name} [#{app.name}]"
-
-    return if recipient.blank?
 
     raise 'no outgoing_email_domain on app' if app.outgoing_email_domain.blank?
 
@@ -60,7 +60,9 @@ class ChatNotifierMailer < ApplicationMailer
 
     return if recipient.is_a?(Agent) && (recipient.bot? && !recipient.enable_deliveries)
 
-    roadie_mail(from: "#{from_name}<#{from_email}>",
+    from_name_parametrized = from_name.parameterize(separator: ' ').capitalize.titleize
+
+    roadie_mail(from: "#{from_name_parametrized}<#{from_email}>",
          to: email,
          subject: subject,
          content_type: content_type,

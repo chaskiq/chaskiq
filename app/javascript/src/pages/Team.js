@@ -15,9 +15,19 @@ import Button from "../components/Button";
 import { HomeIcon } from "../components/icons";
 import { Link } from "react-router-dom";
 import graphql from "../graphql/client";
-import { AGENTS, PENDING_AGENTS } from "../graphql/queries";
+import serialize from "form-serialize";
+import FieldRenderer, { gridClasses } from '../components/forms/FieldRenderer'
+import { camelizeKeys } from '../actions/conversation'
+import Badge from '../components/Badge'
+
 import { 
-  INVITE_AGENT, 
+  AGENTS, 
+  ROLE_AGENTS,
+  PENDING_AGENTS 
+} from "../graphql/queries";
+import { 
+  INVITE_AGENT,
+  UPDATE_AGENT_ROLE,
   RESEND_INVITE_AGENT 
 } from "../graphql/mutations";
 
@@ -44,7 +54,7 @@ class TeamPage extends Component {
     return (
       <Content>
         <PageHeader
-          title={"Team"}
+          title={I18n.t("settings.team.title")}
           /*actions={
             <Button
               className={"transition duration-150 ease-in-out"}
@@ -61,12 +71,12 @@ class TeamPage extends Component {
           currentTab={this.state.tabValue}
           tabs={[
             {
-              label: "Team",
+              label: I18n.t("settings.team.title"),
               //icon: <HomeIcon />,
               content: <AppUsers {...this.props} />,
             },
             {
-              label: "Invitations",
+              label: I18n.t("settings.team.invitations"),
               content: <NonAcceptedAppUsers {...this.props} />,
             },
           ]}
@@ -80,7 +90,11 @@ class AppUsers extends React.Component {
   state = {
     collection: [],
     loading: true,
+    isOpen: false,
+    errors: {}
   };
+
+  form = React.createRef();
 
   componentDidMount() {
     this.search();
@@ -88,12 +102,12 @@ class AppUsers extends React.Component {
 
   getAgents = () => {
     graphql(
-      AGENTS,
+      ROLE_AGENTS,
       { appKey: this.props.app.key },
       {
         success: (data) => {
           this.setState({
-            collection: data.app.agents,
+            collection: data.app.roleAgents,
             loading: false,
           });
         },
@@ -101,6 +115,7 @@ class AppUsers extends React.Component {
       }
     );
   };
+
   search = (item) => {
     this.setState(
       {
@@ -110,13 +125,143 @@ class AppUsers extends React.Component {
     );
   };
 
+  updateAgent = (params)=>{
+    graphql(UPDATE_AGENT_ROLE, {
+      appKey: this.props.app.key,
+      id: this.state.isOpen.id,
+      params: params
+    }, {
+      success: (data)=>{
+        this.props.dispatch(
+          successMessage(I18n.t("settings.team.updated_agent"))
+        )
+        this.setState({isOpen: false})
+        this.getAgents()
+      },
+      error: (err)=>{
+        //errorMessage('...')
+      }
+    })
+  }
+
+  submit = ()=> {
+    const serializedData = serialize(this.form.current, {
+      hash: true,
+      empty: true
+    })
+    this.updateAgent(serializedData.app)
+    //open.id ? updateWebhook(serializedData) : createWebhook(serializedData)
+  }
+
+  close = ()=>{
+    this.setState({
+      isOpen: false
+    })
+  }
+
+  definitions = ()=> {
+    return [
+      {
+        name: 'name',
+        type: 'string',
+        label: 'Agent\'s email',
+        //hint: "we'll send POST requests",
+        placeholder: 'John Doe',
+        grid: { xs: 'w-full', sm: 'w-full' }
+      },
+
+      {
+        name: 'email',
+        type: 'string',
+        label: 'Email for agent',
+        //hint: "we'll send POST requests",
+        placeholder: 'john@example.com',
+        grid: { xs: 'w-full', sm: 'w-full' }
+      },
+      {
+        name: 'access_list',
+        type: 'select',
+        label: 'Roles for agent',
+        hint: 'blank access will disable account settings access for user',
+        multiple: true,
+        options: [
+            { label: 'none', value: null },  
+            { label: 'mananger', value: "manage" },
+            { label: 'admin', value: "admin" },
+          ]
+        ,
+        grid: { xs: 'w-full', sm: 'w-full' }
+      }
+    ]
+  }
+
+  editButton = () => {
+    return (
+      <div className="flex py-2 justify-end">
+        {this.state.isOpen ? (
+          <FormDialog
+            open={this.state.isOpen}
+            handleClose={this.close}
+            actionButton={I18n.t("settings.team.action_button")}
+            titleContent={I18n.t("settings.team.update_agent_title")}
+            contentText={I18n.t("settings.team.content_text")}
+            formComponent={
+              <form ref={this.form}>
+                {this.definitions().map((field) => {
+                  return (
+                    <div
+                      className={`${gridClasses(field)} py-2 pr-2`}
+
+                      key={field.name}
+                      xs={field.grid.xs}
+                      sm={field.grid.sm}>
+                      <FieldRenderer
+                        namespace={'app'}
+                        type={field.type}
+                        data={camelizeKeys(field)}
+                        props={{
+                          data: camelizeKeys(this.state.isOpen)
+                        }}
+                        errors={this.state.errors||{}}
+                      />
+                    </div>
+                  )
+                })}
+              </form>
+            }
+            dialogButtons={
+              <React.Fragment>
+                <Button onClick={this.close} 
+                  variant="outlined">
+                  {I18n.t("common.cancel")}
+                </Button>
+
+                <Button 
+                  className="mr-1" 
+                  onClick={this.submit}>
+                  {I18n.t("settings.team.update_agent")}
+                </Button>
+              </React.Fragment>
+            }
+          />
+        ) : null}
+      </div>
+    );
+  };
+
+  handleEdit = (row)=>{
+    this.setState({isOpen: row})
+  }
+
   render() {
     return (
       <React.Fragment>
+        {this.editButton()}
+
         {!this.state.loading ? (
           <DataTable
             elevation={0}
-            title={"agents"}
+            title={I18n.t("settings.team.agents")}
             meta={{}}
             data={this.state.collection}
             search={this.search}
@@ -163,6 +308,50 @@ class AppUsers extends React.Component {
                   ),
               },
               { field: "name", title: "Name" },
+              { field: "owner", title: "Owner",
+              render: (row)=>(
+                row && (
+                  <td className="px-6 py-4 whitespace-no-wrap border-b border-gray-200">
+                    {
+                      row.owner && <Badge 
+                        variant="green">
+                          OWNER
+                        </Badge>
+                    }
+                  </td>
+                )
+              )},
+              { field: "accessList", title: "Access list",
+                render: (row)=>(
+                  row && (
+                    <td className="px-6 py-4 whitespace-no-wrap border-b border-gray-200">
+                      {row.accessList.map((o)=> 
+                        <Badge
+                          className="mr-2" 
+                          key={`access-list-${o}-${row.id}`}>
+                          {o}
+                        </Badge> 
+                      )}
+                    </td>
+                  )
+              )
+              },
+              {
+                field: 'Actions',
+                title: 'Actions',
+                render: (row)=>(
+                  row && (
+                    <td className="px-6 py-4 whitespace-no-wrap border-b border-gray-200">
+                      <Button 
+                        onClick={()=> this.handleEdit(row)}
+                        variant="outlined" 
+                        size="small">
+                        edit
+                      </Button>
+                    </td>
+                  )
+                )
+              },
               { field: "Sign In Count", title: "Sign in Count" },
               {
                 field: "Last Sign in at",
@@ -205,7 +394,7 @@ class AppUsers extends React.Component {
                       </span>
                     </td>
                   ),
-              },
+              }
             ]}
             defaultHiddenColumnNames={[]}
             tableColumnExtensions={[
@@ -260,7 +449,7 @@ class NonAcceptedAppUsers extends React.Component {
       },
       {
         success: (data) => {
-          this.props.dispatch(successMessage('invitation sent!'))
+          this.props.dispatch(successMessage(I18n.t("settings.team.invitation_success")))
           this.setState(
             {
               sent: true,
@@ -270,7 +459,7 @@ class NonAcceptedAppUsers extends React.Component {
           );
         },
         error: () => {
-          this.props.dispatch(errorMessage('invitation not sent!'))
+          this.props.dispatch(errorMessage(I18n.t("settings.team.invitation_error")))
 
         },
       }
@@ -284,9 +473,9 @@ class NonAcceptedAppUsers extends React.Component {
           <FormDialog
             open={this.state.isOpen}
             handleClose={this.close}
-            actionButton={"add user"}
-            titleContent={"Add a new agent"}
-            contentText={"send an activable invitation"}
+            actionButton={I18n.t("settings.team.action_button")}
+            titleContent={I18n.t("settings.team.title_content")}
+            contentText={I18n.t("settings.team.content_text")}
             formComponent={
               <Input
                 autoFocus
@@ -294,7 +483,7 @@ class NonAcceptedAppUsers extends React.Component {
                 id="email"
                 name="email"
                 label="email"
-                helperText="the new team member will be notified by it's email"
+                helperText={I18n.t("settings.team.hint")}
                 type="string"
                 fullWidth
                 ref={this.input_ref}
@@ -304,11 +493,11 @@ class NonAcceptedAppUsers extends React.Component {
               <React.Fragment>
                 <Button onClick={this.close} 
                   variant="outlined">
-                  Cancel
+                  {I18n.t("common.cancel")}
                 </Button>
 
                 <Button className="mr-1" onClick={this.sendInvitation}>
-                  Send invitation
+                  {I18n.t("settings.team.send_invitation")}
                 </Button>
               </React.Fragment>
             }
@@ -319,7 +508,7 @@ class NonAcceptedAppUsers extends React.Component {
           variant="contained" 
           color="primary"
           onClick={this.open}>
-          Add Team Member
+          {I18n.t("settings.team.add_new")}
         </Button>
       </div>
     );
@@ -356,12 +545,10 @@ class NonAcceptedAppUsers extends React.Component {
       email: email,
     }, {
       success: (data)=>{          
-        this.props.dispatch(successMessage('invitation sent!'))
-        console.log("inivited")
+        this.props.dispatch(successMessage(I18n.t("settings.team.invitation_success")))
       },
       error: ()=>{          
-        this.props.dispatch(errorMessage('invitation not sent!'))
-        console.log("error invited")
+        this.props.dispatch(errorMessage(I18n.t("settings.team.invitation_error")))
       }
     })
   }
@@ -370,11 +557,10 @@ class NonAcceptedAppUsers extends React.Component {
     return (
       <React.Fragment>
         {this.inviteButton()}
-
         {!this.state.loading ? (
           <DataTable
             elevation={0}
-            title={"invitations"}
+            title={I18n.t("settings.team.invitations")}
             meta={{}}
             data={this.state.collection}
             search={this.search}
@@ -388,7 +574,7 @@ class NonAcceptedAppUsers extends React.Component {
                           <Button 
                             onClick={ ()=> this.resendInvitation(row.email) } 
                             variant="outlined" size="md">
-                            resend invitation
+                            {I18n.t("settings.team.resend_invitation")}
                           </Button>
                         </tr>
                 }

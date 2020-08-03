@@ -41,7 +41,7 @@ module Types
     field :agents, [Types::AgentType], null: true
 
     def agents
-      object.agents.with_attached_avatar.where(bot: nil).limit(5)
+      object.agents.where(available: true).with_attached_avatar.where(bot: nil).limit(5)
     end
 
     field :conversation, Types::ConversationType, null: true do
@@ -93,24 +93,27 @@ module Types
       browser_params = {
         referrer: request.referrer,
         ip: request.remote_ip,
-        city: request.location.city,
-        # region_code:      request.location.region,
-        region: request.location.region,
-        country: request.location.country,
-        country_code: request.location.country_code,
-        lat: request.location.latitude,
-        lng: request.location.longitude,
-        postal: request.location.postal_code,
         browser: browser.name,
         browser_version: browser.version,
         os: browser.platform.id,
         os_version: browser.platform.version,
         browser_language: language.try(:code)
-        # lang:             I18n.locale #user_data[:properties][:lang]
+        # lang: I18n.locale #user_data[:properties][:lang]
       }
 
-      # resource_params.to_h.merge(request.location.data)
-      # data = resource_params.to_h.deep_merge(browser_params)
+      location_params = {
+        city: request.location&.city,
+        # region_code:      request.location.region,
+        region: request.location.try(:region),
+        country: request.location&.country || COUNTRY_NAMES[request.location&.country_code&.to_sym],
+        country_code: request.location&.country_code,
+        lat: request.location&.latitude,
+        lng: request.location&.longitude,
+        postal: request.location&.postal_code
+      }
+
+      browser_params.merge!(location_params) if request.location.present?
+
       data = user_data.slice(:name, :email, :properties).deep_merge(browser_params)
       # #ap = object.add_visit(data)
     end

@@ -1,16 +1,8 @@
 import React, { useState, useEffect, useRef } from 'react'
-
 import Button from '../../components/Button'
 import Input from '../../components/forms/Input'
-// import FormControlLabel from '@material-ui/core/FormControlLabel'
-// import FormControl from '@material-ui/core/FormControl'
-// import Radio from '@material-ui/core/Radio'
-// import RadioGroup from '@material-ui/core/RadioGroup'
-// import FormLabel from '@material-ui/core/FormLabel'
-// import Checkbox from '@material-ui/core/Checkbox'
-// import TextField from '@material-ui/core/TextField'
-
 import FormDialog from '../../components/FormDialog'
+import I18n from '../../shared/FakeI18n'
 
 const TaskSettingsForm = ({ app, data, updateData, saveData, errors }) => {
   const [state, setState] = useState(data || {})
@@ -43,7 +35,7 @@ const TaskSettingsForm = ({ app, data, updateData, saveData, errors }) => {
           color={'primary'}
           onClick={() => saveData(state)}
         >
-          save
+          {I18n.t('common.save')}
         </Button>
       </div>
     </div>
@@ -76,7 +68,7 @@ function Schedule ({ app, data, updateData, namespace, submit }) {
   return (
     <div className="py-4">
       <p className="text-lg leading-6 font-medium text-gray-900 pb-4">
-        Bot Task settings
+        {I18n.t('task_bots.settings.settings_title')}
       </p>
 
       <Input
@@ -84,16 +76,16 @@ function Schedule ({ app, data, updateData, namespace, submit }) {
         checked={state.state === 'enabled'}
         onChange={handleChange('state')}
         value={state.state === 'enabled'}
-        label={'Enable bot task'}
-        helperText={'when enabled the bot task will start operating'}
+        label={I18n.t('task_bots.settings.enable_title')}
+        hint={I18n.t('task_bots.settings.enable_hint')}
       ></Input>
 
       <p className="text-lg leading-6 font-medium text-gray-900 pb-4">
-        Set specific times to show this bot to your audience.
+        {I18n.t('task_bots.settings.specific_times_title')}
       </p>
 
       <p className="max-w-xl text-sm leading-5 text-gray-500 mb-4">
-        Your app's timezone is {app.timezone} See your office hours.
+        {I18n.t('task_bots.settings.tz_hint', {timezone: app.timezone })}
       </p>
 
       <Input
@@ -102,7 +94,7 @@ function Schedule ({ app, data, updateData, namespace, submit }) {
         type="radio"
         value={'inside_office'}
         checked={state.scheduling === 'inside_office'}
-        label="During office hours"
+        label={I18n.t('task_bots.settings.office_hours')}
         labelPlacement="end"
       />
 
@@ -112,7 +104,7 @@ function Schedule ({ app, data, updateData, namespace, submit }) {
         name="scheduling"
         value={'outside_office'}
         checked={state.scheduling === 'outside_office'}
-        label="Outside office hours"
+        label={I18n.t('task_bots.settings.outside_office')}
         labelPlacement="end"
       />
 
@@ -123,44 +115,9 @@ function Schedule ({ app, data, updateData, namespace, submit }) {
         disabled
         value={'custom_time'}
         checked={state.scheduling === 'custom_time'}
-        label="Custom time"
+        label={I18n.t('task_bots.settings.custom_time')}
         labelPlacement="end"
       />
-
-      {/* <FormControl component="fieldset">
-        <FormLabel component="legend">
-          Set specific times to show this bot to your audience.
-        </FormLabel>
-
-        <RadioGroup aria-label="position"
-          name="scheduling"
-          value={state.scheduling}
-          onChange={handleRadioChange}
-          >
-          <FormControlLabel
-            value="inside_office"
-            control={<Radio color="primary" />}
-            label="During office hours"
-            labelPlacement="end"
-          />
-
-          <FormControlLabel
-            value="outside_office"
-            control={<Radio color="primary" />}
-            label="Outside office hours"
-            labelPlacement="end"
-          />
-
-          <FormControlLabel
-            value="custom_time"
-            control={<Radio color="primary" />}
-            label="Custom time"
-            disabled={true}
-            labelPlacement="end"
-          />
-        </RadioGroup>
-
-    </FormControl> */}
     </div>
   )
 }

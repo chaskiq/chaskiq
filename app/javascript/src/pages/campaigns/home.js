@@ -5,7 +5,7 @@ import EmptyView from '../../components/EmptyView'
 import { setCurrentSection } from '../../actions/navigation'
 import { withRouter } from 'react-router-dom'
 import image from '../../images/delivery-icon8.png'
-
+import I18n from '../../shared/FakeI18n'
 function CampaignHome ({ dispatch }) {
   React.useEffect(() => {
     dispatch(setCurrentSection('Campaigns'))
@@ -15,12 +15,11 @@ function CampaignHome ({ dispatch }) {
     <div>
       <Content>
         <EmptyView
-          title={'Campaigns'}
+          title={I18n.t('campaigns.home.title')}
           shadowless
           subtitle={
             <div>
-              This is the campaigns section, you can create newsletters , popup
-              messages and guided tours
+              {I18n.t('campaigns.home.text')}
               <img src={image} width={'100%'} />
             </div>
           }

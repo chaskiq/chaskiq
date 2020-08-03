@@ -4,7 +4,7 @@ function TabContainer (props) {
   return <p component="div">{props.children}</p>
 }
 
-export default function SimpleTabs ({ tabs }) {
+export default function SimpleTabs ({ tabs, buttons }) {
   const [value, setValue] = React.useState(0)
 
   function handleChange (event, newValue) {
@@ -25,6 +25,11 @@ export default function SimpleTabs ({ tabs }) {
               {o.label}
             </a>
           ))}
+
+          {
+            buttons && buttons()
+          }
+
         </nav>
       </div>
 

@@ -13,14 +13,14 @@ module Types
     field :region, String, null: true
     field :region_code, String, null: true
     field :avatar_url, String, null: true
+    field :lang, String, null: true
+    field :available, Boolean, null: true
 
     field :display_name, String, null: true
 
     def display_name
       object.name
     end
-
-    field :app, [Types::AppType], null: true
 
     field :online, Boolean, null: true
     def online

@@ -8,6 +8,7 @@ module Types
 
     field :inviteAgent, mutation: Mutations::Agents::Invite
     field :updateAgent, mutation: Mutations::Agents::UpdateAgent
+    field :updateAgentRole, mutation: Mutations::Agents::UpdateAgentRole
 
     field :createDelete, mutation: Mutations::Predicates::CreatePredicate
     field :predicatesDelete, mutation: Mutations::Predicates::DeletePredicate
@@ -31,10 +32,18 @@ module Types
     field :updateConversationState, mutation: Mutations::Conversations::UpdateState
     field :toggleConversationPriority, mutation: Mutations::Conversations::TogglePriority
     field :typingNotifier, mutation: Mutations::Conversations::TypingNotifier
+    field :updateConversationTags, mutation: Mutations::Conversations::UpdateTags
+    field :sendTrigger, mutation: Mutations::Conversations::SendTrigger
 
     field :createWebhook, mutation: Mutations::OutgoingWebhooks::CreateWebhook
     field :updateWebhook, mutation: Mutations::OutgoingWebhooks::UpdateWebhook
     field :deleteWebhook, mutation: Mutations::OutgoingWebhooks::DeleteWebhook
+
+
+    field :createQuickReply, mutation: Mutations::QuickReplies::CreateQuickReply
+    field :updateQuickReply, mutation: Mutations::QuickReplies::UpdateQuickReply
+    field :deleteQuickReply, mutation: Mutations::QuickReplies::DeleteQuickReply
+
 
     field :createAssignmentRule, mutation: Mutations::AssignRule::CreateAssignRule
     field :editAssignmentRule, mutation: Mutations::AssignRule::EditAssignRule

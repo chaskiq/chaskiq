@@ -20,6 +20,7 @@ import Progress from '../components/Progress'
 import EmptyView from '../components/EmptyView'
 import Button from '../components/Button'
 import emptyImage from '../images/empty-icon8.png'
+import I18n from '../shared/FakeI18n'
 
 import {
   LeftArrow
@@ -41,7 +42,7 @@ function Conversations ({
   React.useEffect(() => {
     dispatch(clearConversations([]))
     setFetching(true)
-    fetchConversations({ page: 1 }, ()=> {
+    fetchConversations({ page: 1 }, () => {
       setFetching(false)
     })
 
@@ -92,7 +93,7 @@ function Conversations ({
         size="small"
       >
         {/* <MoreVertIcon /> */}
-        {conversations.filter}
+        {I18n.t('conversations.states.' + conversations.filter)}
       </Button>
     )
   }
@@ -108,7 +109,7 @@ function Conversations ({
         size="small"
       >
         {/* <MoreVertIcon /> */}
-        {conversations.sort}
+        {I18n.t('conversations.sorts.' + conversations.sort )}
       </Button>
     )
   }
@@ -144,28 +145,32 @@ function Conversations ({
   }
 
   const renderConversations = () => {
+    const filters = [
+      { id: 'opened', name: I18n.t('conversations.states.opened'), count: 1, icon: null },
+      { id: 'closed', name: I18n.t('conversations.states.closed'), count: 2, icon: null }
+    ]
+
+    const sorts = [
+      { id: 'newest', name: I18n.t('conversations.sorts.newest'), count: 1, selected: true },
+      { id: 'oldest', name: I18n.t('conversations.sorts.oldest'), count: 1 },
+      { id: 'waiting', name: I18n.t('conversations.sorts.waiting'), count: 1 },
+      { id: 'priority-first', name: I18n.t('conversations.sorts.priority_first'), count: 1 },
+      { id: 'unfiltered', name: I18n.t('conversations.sorts.all'), count: 1 }
+    ]
+
     return (
       <React.Fragment>
 
         <div className="bg-white px-3 py-3 border-b border-gray-200 sm:px-3 flex justify-between">
           <FilterMenu
-            options={[
-              { id: 'opened', name: 'opened', count: 1, icon: null },
-              { id: 'closed', name: 'closed', count: 2, icon: null }
-            ]}
+            options={filters}
             value={conversations.filter}
             filterHandler={filterConversations}
             triggerButton={filterButton}
           />
 
           <FilterMenu
-            options={[
-              { id: 'newest', name: 'newest', count: 1, selected: true },
-              { id: 'oldest', name: 'oldest', count: 1 },
-              { id: 'waiting', name: 'waiting', count: 1 },
-              { id: 'priority-first', name: 'priority first', count: 1 },
-              { id: 'unfiltered', name: 'all', count: 1 }
-            ]}
+            options={sorts}
             position={'right'}
             value={conversations.sort}
             filterHandler={sortConversations}
@@ -224,16 +229,16 @@ function Conversations ({
         <Route exact path={`/apps/${app.key}/conversations`}>
           <div className="hidden sm:block flex-grow bg-gray-50 h-12 h-screen border-r w-1/12">
             <EmptyView
-              title={'No conversations'}
+              title={I18n.t('conversations.empty.title')}
               shadowless
               image={
                 <img
                   src={emptyImage}
                   className="h-56 w-56"
-                  alt="no conversations"
+                  alt={I18n.t('conversations.empty.title')}
                 />
               }
-              subtitle={'choose conversations on the side'}
+              subtitle={I18n.t('conversations.empty.text')}
             />
           </div>
         </Route>
@@ -269,7 +274,9 @@ function Conversations ({
           }
 
           {app_user && app_user.id ? (
-            <UserData data={conversation.mainParticipant} />
+            <UserData
+              data={conversation.mainParticipant}
+            />
           ) : (
             <Progress />
           )}
