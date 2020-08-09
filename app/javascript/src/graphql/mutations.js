@@ -29,6 +29,7 @@ export const UPDATE_APP = `
         customizationColors
         customFields
         tagList
+        subscriptionsEnabled
         segments {
           name
           id
@@ -73,6 +74,7 @@ export const CREATE_APP = `
         leadTasksSettings
         userTasksSettings
         customFields
+        subscriptionsEnabled
       }
     }
   }

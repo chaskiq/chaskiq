@@ -38,6 +38,7 @@ export const APP = `
       outgoingEmailDomain
       customFields
       tagList
+      subscriptionsEnabled
       segments {
         name
         id
@@ -984,5 +985,42 @@ export const APP_PACKAGE_INTEGRATIONS = `
   }
 `;
 
+export const PLANS = `
+  query App($appKey: String!){
+    app(key: $appKey) {
+      plans
+    }
+  }
+`;
 
+export const USER_TRANSACTIONS = `
+  query App($appKey: String!){
+    app(key: $appKey) {
+      userTransactions
+    }
+  }
+`;
 
+export const SUBSCRIPTION_TRANSACTIONS = `
+  query App($appKey: String!){
+    app(key: $appKey) {
+      subscriptionTransactions
+    }
+  }
+`;
+
+export const SUBSCRIPTION_DETAILS=`
+  query App($appKey: String!){
+    app(key: $appKey) {
+      subscriptionDetails
+    }
+  }
+`;
+
+export const UPDATE_SUBSCRIPTION_PLAN=`
+  query App($appKey: String!, $planId: Int! ){
+    app(key: $appKey) {
+      updateSubscriptionPlan(planId: $planId)
+    }
+  }
+`;

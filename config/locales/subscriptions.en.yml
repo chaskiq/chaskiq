@@ -1,0 +1,89 @@
+
+
+---
+  en:
+    subscriptions:
+      tabs:
+        - Plans
+        - Transaction history
+      plans:
+        - 
+          name: "free one"
+          description: This is a frebie plan!
+          id: 618560
+          features:
+            -
+              name: Segments
+            - 
+              name: Conversations
+            - 
+              name: Campaigns 
+            - 
+              name: Chat Flows 
+            - 
+              name: Api integrations
+        - 
+          name: "rookie"
+          description: This is the simple plan
+          id: 616249
+          features:
+            -
+              name: Segments
+            - 
+              name: Conversations
+            - 
+              name: Campaigns 
+            - 
+              name: Chat Flows 
+            - 
+              name: Api integrations
+        - 
+          name: "super"
+          id: 596123
+          description: This is the super plan
+          features:
+            -
+              name: Segments
+            - 
+              name: Conversations
+            - 
+              name: Campaigns 
+            - 
+              name: Chat Flows 
+            - 
+              name: Help Center
+            -
+              name: Api integrations
+      
+      plan:
+        included: What's included
+        pay_by: Pay by %{billing_type}
+        trial_days: Try this plan for free for <span class="font-bold"> %{trial_days} days </span>
+        get_access: Get access
+
+      alerts:
+        subscription_updated: 
+          title: Subscription updated
+          desc: The Subscription was updated successfully, You will receive an email notification
+        subscription_created: 
+          title: Subscription Created
+          desc: The subscription was created successfully, You will receive a receipt soon
+        subscription_cancelled: 
+          title: Subscription Cancelled
+          desc: The subscription was cancelled
+        close: Close this dialog
+
+      billing_information:
+        title: Billing plan information
+        description: You are currently using "%{plan_name}" plan.
+        next_billing: Next Billing on %{next_payment_date} for $%{next_payment_amount} %{next_payment_currency}
+        cancel_plan: cancel plan
+        update_payment_method: Update payment method
+        subscription_state: Estado de subscripción %{state}
+
+
+      update_subscription:
+        cta: Update subscription
+        billed_on: You will be billed on each <span class="font-bold"> %{billing_period} %{billing_type} </span>
+        amount: With the amount of <span class="font-bold">$ %{recurring_price} USD</span>
+        next_payment:  Next payment will be on <span class="font-bold">%{next_payment_date}</span>
