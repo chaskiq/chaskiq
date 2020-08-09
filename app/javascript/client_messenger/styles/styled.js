@@ -688,6 +688,42 @@ export const Prime = styled.div`
     animation: ${rotate} 0.3s cubic-bezier(0.390, 0.575, 0.565, 1.000) both;
 `
 
+export const FooterAckInline = styled.div`
+  width: 100%;
+  padding-top: 4em;
+  text-align: center;
+  display:flex;
+  justify-content: center;
+  a {
+    display: flex;
+    align-items: center;
+    font-size: 0.8em;
+    color: #727272;
+    text-decoration: none;
+    padding: 5px 11px 5px 11px;
+    &:hover {
+      color: #727272;
+      background-color: #f7f7f7;
+      border-radius: 20px;
+    }
+    img {
+      width: 16px;
+      height: 16px;
+      margin-right: 9px;
+    }
+  }
+`
+
+export const FooterAck = styled(FooterAckInline)`
+  position: absolute;
+  width: 100%;
+  bottom: 0px;
+  z-index: 1000;
+  padding: 3px 0px 4px 0px;
+  box-shadow: 0px -2px 18px #38383840;
+  background: white;
+`
+
 export const CountBadge = styled.div`
   position: absolute;
   border-radius: 50%;
