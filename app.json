@@ -40,15 +40,15 @@
       "value": "production"
     },
     "HOST": {
-      "description": "App's internet entry point ie:. https://domain.com",
+      "description": "App's internet entry point ie:. https://myapp.herokuapp.com",
       "value": ""
     },
     "WS": {
-      "description": "App's websocket server, wss:://domain.com/cable",
+      "description": "App's websocket server, wss://myapp.herokuapp.com/cable",
       "value": ""
     },
     "ASSET_HOST": {
-      "description": "App assets's internet entry point ie:. https://domain.com/",
+      "description": "App assets's internet entry point ie:. https://myapp.herokuapp.com",
       "value": ""
     },
     "SNS_CONFIGURATION_SET": {
