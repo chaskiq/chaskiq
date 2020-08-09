@@ -1,25 +1,24 @@
-import React, {Component, useState, useEffect} from 'react'
+import React, { useState, useEffect } from 'react'
 import styled from '@emotion/styled'
 import {
   AnchorButton,
   FadeRightAnimation,
-  FadeBottomAnimation,
+  FooterAck,
   Spinner,
   CountBadge
 } from './styles/styled'
-import sanitizeHtml from 'sanitize-html';
-import {CommentsItemComp} from './conversation'
-import {textColor} from './styles/utils'
+import sanitizeHtml from 'sanitize-html'
+import { CommentsItemComp } from './conversation'
+import { textColor } from './styles/utils'
 import Loader from './loader'
 
-//import graphql from './graphql/client'
+// import graphql from './graphql/client'
 import {
   ARTICLES,
   SEARCH_ARTICLES
 } from './graphql/queries'
 
-import { lighten, darken } from "polished";
-
+import { lighten } from 'polished'
 
 const HomePanel = ({
   viewConversations,
@@ -36,8 +35,7 @@ const HomePanel = ({
   getConversations,
   lang,
   newMessages
-})=>{
-
+}) => {
   const [loading, setLoading] = useState(false)
   const [articles, setArticles] = useState([])
 
@@ -45,39 +43,37 @@ const HomePanel = ({
 
   const [meta, setMeta] = useState({})
 
-  let textInput = React.createRef();
+  let textInput = React.createRef()
 
-  useEffect(()=>(
+  useEffect(() => (
     updateHeader(
       {
-        translateY: -25, 
-        opacity: 1, 
-        height: '212px' 
+        translateY: -25,
+        opacity: 1,
+        height: '212px'
       }
     )
   ), [])
 
-  useEffect(()=> { 
-    if(appData.articleSettings.subdomain)
-      getArticles()
+  useEffect(() => {
+    if (appData.articleSettings.subdomain) { getArticles() }
   }, [])
 
-  useEffect(()=> {
-    //if(!appData.inboundSettings.enabled )
+  useEffect(() => {
+    // if(!appData.inboundSettings.enabled )
     setConversationLoading(true)
 
-    getConversations({page: 1 , per: 1}, ()=> {
+    getConversations({ page: 1, per: 1 }, () => {
       setConversationLoading(false)
     })
-  }, [] )
+  }, [])
 
-  function shouldDisplayArticles(){
+  function shouldDisplayArticles () {
     return appData.enableArticlesOnWidget
   }
 
-  const getArticles = ()=>{
-
-    if(!shouldDisplayArticles()){
+  const getArticles = () => {
+    if (!shouldDisplayArticles()) {
       return
     }
 
@@ -87,180 +83,180 @@ const HomePanel = ({
       domain: appData.articleSettings.subdomain,
       lang: lang,
       page: 1,
-      per: 5,
+      per: 5
     }, {
-      success: (data)=>{
-        const {collection, meta} = data.helpCenter.articles
+      success: (data) => {
+        const { collection, meta } = data.helpCenter.articles
         setArticles(collection)
         setLoading(false)
         setMeta(meta)
       },
-      error: (err)=>{
-        console.log("ERR" , err)
+      error: (err) => {
+        console.log('ERR', err)
         setLoading(false)
-        //debugger
+        // debugger
       }
     })
   }
 
-  const handleScroll = (e)=>{
+  const handleScroll = (e) => {
     window.a = e.target
     const target = e.target
-    const val = 1 - normalize(target.scrollTop, target.offsetHeight, 0 )
+    const val = 1 - normalize(target.scrollTop, target.offsetHeight, 0)
     const pge = percentage(target.scrollTop, target.offsetHeight)
-    //console.log(val)
+    // console.log(val)
     const opacity = val === 1 ? val : val * 0.3
 
     updateHeader({
-      translateY: - pge - 25, 
-      opacity: opacity, 
-      height: '212px' 
+      translateY: -pge - 25,
+      opacity: opacity,
+      height: '212px'
     })
   }
 
-  const normalize = (val, max, min)=> { 
+  const normalize = (val, max, min) => {
     return (val - min) / (max - min)
   }
 
-  const percentage = (partialValue, totalValue)=>{
-    return (100 * partialValue) / totalValue;
+  const percentage = (partialValue, totalValue) => {
+    return (100 * partialValue) / totalValue
   }
 
-  function handleSearch(e) {
+  function handleSearch (e) {
     console.log(textInput.value)
-    if(e.keyCode === 13){
+    if (e.keyCode === 13) {
       searchArticles(textInput.value)
-    } 
+    }
   }
 
-  function searchArticles(term){
+  function searchArticles (term) {
     setLoading(true)
     graphqlClient.send(SEARCH_ARTICLES, {
       domain: appData.articleSettings.subdomain,
       term: term,
       lang: lang,
       page: 1,
-      per: 5,
+      per: 5
     }, {
-      success: (data)=>{
-        const {collection, meta} = data.helpCenter.search
+      success: (data) => {
+        const { collection, meta } = data.helpCenter.search
         setArticles(collection)
         setMeta(meta)
         setLoading(false)
       },
-      error: ()=>{
+      error: () => {
         setLoading(true)
       }
     })
   }
 
-  function renderAvailability(){
-    if(!appData.inBusinessHours){
+  function renderAvailability () {
+    if (!appData.inBusinessHours) {
       return <React.Fragment>
-                {
-                  appData.businessBackIn && aa()
-                }
-              </React.Fragment>
-    }else {
+        {
+          appData.businessBackIn && aa()
+        }
+      </React.Fragment>
+    } else {
       return <p/>
     }
   }
 
-  function aa(){
+  function aa () {
     const val = Math.floor(appData.businessBackIn.days)
     const at = new Date(appData.businessBackIn.at)
     const nextDay = at.getDay()
     const today = new Date(Date.now()).getDay()
 
-    const TzDiff = Math.ceil(( at - Date.now() ) / (1000 * 3600 * 24)) 
+    const TzDiff = Math.ceil((at - Date.now()) / (1000 * 3600 * 24))
 
     const sameDay = nextDay === today
     const nextWeek = TzDiff >= 6 && sameDay
 
-    if(nextWeek) return <Availability><p>{t("availability.next_week")}</p></Availability>
-    if(sameDay) return <Availability><p>{t("availability.aprox", {time: at.getHours() })}</p></Availability>
+    if (nextWeek) return <Availability><p>{t('availability.next_week')}</p></Availability>
+    if (sameDay) return <Availability><p>{t('availability.aprox', { time: at.getHours() })}</p></Availability>
 
     const out = text(val, sameDay, at)
 
     return <Availability>{out}</Availability>
   }
 
-  function text(val, sameDay, at){
+  function text (val, sameDay, at) {
     switch (val) {
       case 1:
-        return <p>{t("availability.tomorrow")}</p>
+        return <p>{t('availability.tomorrow')}</p>
       case 2:
       case 3:
       case 4:
       case 5:
-        return <p>{t("availability.days", {val: val})}</p>
+        return <p>{t('availability.days', { val: val })}</p>
       case 6:
-        return <p>{t("availability.next_week")}</p>
+        return <p>{t('availability.next_week')}</p>
       default:
-        if(val === 0){
-          if(sameDay){
-            return <p>{t("availability.back_from", {hours: at.getHours() })}</p>
+        if (val === 0) {
+          if (sameDay) {
+            return <p>{t('availability.back_from', { hours: at.getHours() })}</p>
           } else {
-            return <p>{t("availability.tomorrow_from", {hours: at.getHours() })}</p>
+            return <p>{t('availability.tomorrow_from', { hours: at.getHours() })}</p>
           }
         }
         return null
     }
   }
 
-  function replyTimeMessage(){
+  function replyTimeMessage () {
     return appData.replyTime && <ReplyTime>
       {t(`reply_time.${appData.replyTime}`)}
     </ReplyTime>
   }
 
-  function sanitizeMessageSummary(message){
-    if(!message) return
+  function sanitizeMessageSummary (message) {
+    if (!message) return
     const sanitized = sanitizeHtml(message)
     return sanitized.length > 100 ? `${sanitized.substring(0, 100)} ...` : sanitized
   }
 
-  function renderLastConversation(){
+  function renderLastConversation () {
     return <CardContent>
-        {
-          conversationLoading && <Loader xs={true}/>
-        }
-        {
-          !conversationLoading && conversations.map((o, i) => {
-            const message = o.lastMessage
-            return <CommentsItemComp
-              key={`comments-item-comp-${o.key}`}
-              message={message}
-              o={o}
-              index={i}
-              t={t}
-              displayConversation={displayConversation}
-              sanitizeMessageSummary={sanitizeMessageSummary}
-            />
-          })
-        }
-      </CardContent>
+      {
+        conversationLoading && <Loader xs={true}/>
+      }
+      {
+        !conversationLoading && conversations.map((o, i) => {
+          const message = o.lastMessage
+          return <CommentsItemComp
+            key={`comments-item-comp-${o.key}`}
+            message={message}
+            o={o}
+            index={i}
+            t={t}
+            displayConversation={displayConversation}
+            sanitizeMessageSummary={sanitizeMessageSummary}
+          />
+        })
+      }
+    </CardContent>
   }
 
   return (
 
     <Panel onScroll={handleScroll}>
-      
+
       {
         appData.inboundSettings.enabled &&
         <ConversationInitiator in={transition}>
-        
+
           <CardPadder>
-            <h2>{t("start_conversation")}</h2>
+            <h2>{t('start_conversation')}</h2>
 
             {renderAvailability()}
-            
+
             {replyTimeMessage()}
-        
+
             <CardContent>
               <ConnectedPeople>
                 {
-                  agents.map((agent, i)=>(
+                  agents.map((agent, i) => (
                     <Avatar key={`home-agent-${i}-${agent.id}`}>
                       <img src={agent.avatarUrl} title={agent.name}/>
                     </Avatar>
@@ -272,19 +268,18 @@ const HomePanel = ({
 
                 { /*
                   conversations.length > 0 ?
-                  <h2>{t("conversations")}</h2> : 
+                  <h2>{t("conversations")}</h2> :
                   <AnchorButton href="#" onClick={displayNewConversation}>
                     {t("start_conversation")}
                   </AnchorButton>
                 */ }
 
-
                 <AnchorButton href="#" onClick={displayNewConversation}>
-                  {t("start_conversation")}
+                  {t('start_conversation')}
                 </AnchorButton>
-               
-                <a href="#" onClick={viewConversations}>
-                  {t("see_previous")}
+
+                <a href="#" className="see_previous" onClick={viewConversations}>
+                  {t('see_previous')}
                 </a>
 
               </CardButtonsGroup>
@@ -293,43 +288,46 @@ const HomePanel = ({
           </CardPadder>
 
           { conversations.length > 0 && <React.Fragment>
-              {renderLastConversation()}
-            </React.Fragment> 
+            {renderLastConversation()}
+          </React.Fragment>
           }
 
-        </ConversationInitiator> 
+
+
+        </ConversationInitiator>
       }
 
       {
         !appData.inboundSettings.enabled &&
           <ConversationsBlock in={transition}>
-            <CardButtonsGroup style={{padding: '2em'}}>
-              <h2>{t("conversations")}</h2>
+            <CardButtonsGroup style={{ padding: '2em' }}>
+              <h2>{t('conversations')}</h2>
 
-              { newMessages > 0 && 
+              { newMessages > 0 &&
                 <CountBadge section={'home'}>
                   {newMessages}
                 </CountBadge>
               }
 
-              <a href="#" onClick={viewConversations}>
-                {t("see_previous")}
+              <a className="see_previous" 
+                href="#" onClick={viewConversations}>
+                {t('see_previous')}
               </a>
             </CardButtonsGroup>
             {renderLastConversation()}
-          </ConversationsBlock> 
+          </ConversationsBlock>
       }
 
       {
         shouldDisplayArticles() &&
           <Card in={transition}>
-            <p>{t("search_article_title")}</p>
+            <p>{t('search_article_title')}</p>
             <ButtonWrapper>
-              <input ref={(ref)=> textInput = ref} 
-                placeholder={ t("search_articles") } 
+              <input ref={(ref) => textInput = ref}
+                placeholder={ t('search_articles') }
                 onKeyDown={handleSearch}
-              /> 
-              <button onClick={()=> searchArticles(textInput.value)}>
+              />
+              <button onClick={() => searchArticles(textInput.value)}>
                 {loading ? <Spinner/> : 'go' }
               </button>
             </ButtonWrapper>
@@ -338,36 +336,36 @@ const HomePanel = ({
 
       { loading && <Loader xs></Loader>}
 
-      {  articles.length > 0 && <ArticleList>
+      { articles.length > 0 && <ArticleList>
 
-          <ArticlePadder>
-            <h2>
-              {t("latest_articles")}
-            </h2>
-          
-            {
-              articles.map((article, i)=>(
-                <ArticleCard key={`article-card-${article.id}`} 
-                  article={article} 
-                  displayArticle={displayArticle}
-                />
-              ))
-            }
+        <ArticlePadder>
+          <h2>
+            {t('latest_articles')}
+          </h2>
 
-          </ArticlePadder>
-        
-        </ArticleList> 
+          {
+            articles.map((article, i) => (
+              <ArticleCard key={`article-card-${article.id}`}
+                article={article}
+                displayArticle={displayArticle}
+              />
+            ))
+          }
+
+        </ArticlePadder>
+
+      </ArticleList>
       }
-    
-      </Panel>
+
+    </Panel>
   )
 }
 
-const ArticleCard = ({article, displayArticle})=>{
+const ArticleCard = ({ article, displayArticle }) => {
   return (
 
-    <ArticleCardWrapper onClick={(e)=> displayArticle(e, article) }>
-    
+    <ArticleCardWrapper onClick={(e) => displayArticle(e, article) }>
+
       <ArticleCardTitle>
         {article.title}
       </ArticleCardTitle>
@@ -375,7 +373,7 @@ const ArticleCard = ({article, displayArticle})=>{
       <ArticleCardContent>
         {article.description}
       </ArticleCardContent>
-    
+
     </ArticleCardWrapper>
 
   )
@@ -389,7 +387,7 @@ const Panel = styled.div`
   right: 0px;
   overflow: scroll;
   width: 100%;
-  height: 97%;
+  height: 90%;
   z-index: 1000;
 `
 
@@ -424,8 +422,8 @@ const ButtonWrapper = styled.div`
     padding: 1.2em;
     border-bottom-right-radius: 6px;
     border-top-right-radius: 6px;
-    color: ${(props)=> textColor( props.theme.palette.secondary )};
-    background: ${(props)=> props.theme.palette.secondary };
+    color: ${(props) => textColor(props.theme.palette.secondary)};
+    background: ${(props) => props.theme.palette.secondary};
   }
 `
 
@@ -435,10 +433,17 @@ const CardButtonsGroup = styled.div`
   justify-content: space-between;
   display: flex;
   a, a:link, a:visited, a:focus, a:hover, a:active{
-    color: ${(props)=> props.theme.palette.secondary};
+    color: ${(props) => props.theme.palette.secondary};
     text-decoration:none; 
     //cursor: crosshair;
+    &.see_previous{
+      &:hover{
+        text-decoration: underline;
+      }
+      font-weight: bold;
+    }
   }
+
 
 `
 
@@ -466,15 +471,14 @@ const Card = styled.div`
   overflow: hidden;
   position: relative;
   //-webkit-box-shadow: 0 4px 15px 0 rgba(0,0,0,.1), 0 1px 2px 0 rgba(0,0,0,.1), inset 0 2px 0 0 rgba(48, 71, 236, 0.5);
-  box-shadow: 0 4px 15px 0 rgba(0,0,0,.1), 0 1px 2px 0 rgba(0,0,0,.1), inset 0 2px 0 0 ${(props)=>{lighten(0.1, props.theme.palette.secondary)}};
+  box-shadow: 0 4px 15px 0 rgba(0,0,0,.1), 0 1px 2px 0 rgba(0,0,0,.1), inset 0 2px 0 0 ${(props) => { lighten(0.1, props.theme.palette.secondary) }};
 
   margin: 1em;
   padding: 2em;
 
-  ${(props)=> FadeRightAnimation(props)}
+  ${(props) => FadeRightAnimation(props)}
 
 `
-
 
 const ConversationInitiator = styled(Card)`
   margin-top: 10em;
@@ -558,7 +562,7 @@ const ArticleCardWrapper = styled.div`
 `
 
 const ArticleCardTitle = styled.div`
-  color: ${(props)=> (props.theme.palette.secondary)};
+  color: ${(props) => (props.theme.palette.secondary)};
   font-weight: bold;
   line-height: 1.5;
   margin-bottom: 7px;
@@ -568,6 +572,5 @@ const ArticleCardTitle = styled.div`
 const ArticleCardContent = styled.div`
 
 `
-
 
 export default HomePanel
