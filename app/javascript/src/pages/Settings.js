@@ -236,6 +236,7 @@ class AppSettingsContainer extends Component {
       {
         name: "header_image",
         type: "upload",
+        label: "Header Image",
         handler: (file) => this.uploadHandler(file, "header_image"),
         grid: { xs: "w-full", sm: "w-1/3" },
       },

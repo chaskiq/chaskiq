@@ -174,7 +174,7 @@ function AvailabilitySchedule ({ records, setRecords }) {
         />
       ))}
 
-      <div container gutterBottom justify={'flex-start'}>
+      <div className="flex justify-start">
         <div className="py-4">
           <Tooltip
             placement="right"

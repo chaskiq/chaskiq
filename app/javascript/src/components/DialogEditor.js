@@ -1,23 +1,23 @@
-import React from 'react';
-import Button from './Button';
-import FormDialog from './FormDialog';
+import React from 'react'
+import Button from './Button'
+import FormDialog from './FormDialog'
 import { withRouter } from 'react-router-dom'
 import { connect } from 'react-redux'
 import NewEditor from './conversations/newEditor'
 
-function DialogEditor(props) {
-  const [open, setOpen] = React.useState(props.open);
-  
-  React.useEffect( () => { 
-    setOpen(props.open) 
-  }, [ props.open ] );
+function DialogEditor (props) {
+  const [open, setOpen] = React.useState(props.open)
 
-  function handleClickOpen() {
-    setOpen(true);
+  React.useEffect(() => {
+    setOpen(props.open)
+  }, [props.open])
+
+  function handleClickOpen () {
+    setOpen(true)
   }
 
-  function handleClose() {
-    setOpen(false);
+  function handleClose () {
+    setOpen(false)
     props.close()
   }
 
@@ -37,18 +37,18 @@ function DialogEditor(props) {
         titleContent={'Compose a new message'}
         formComponent={
           <div>
-            To: 
+            To:
             {props.app_user.displayName}
 
-            <NewEditor 
-              {...props} 
+            <NewEditor
+              {...props}
               data={{}}
               submitData={props.handleSubmit}
             />
           </div>
         }
         dialogButtons={
-          <Button onClick={handleClose} 
+          <Button onClick={handleClose}
             color="secondary">
             Cancel
           </Button>
@@ -57,11 +57,10 @@ function DialogEditor(props) {
 
       </FormDialog>
     </div>
-  );
+  )
 }
 
-
-function mapStateToProps(state) {
+function mapStateToProps (state) {
   const { app_user, app } = state
   return {
     app_user,
@@ -69,6 +68,6 @@ function mapStateToProps(state) {
   }
 }
 
-//export default ShowAppContainer
+// export default ShowAppContainer
 
 export default withRouter(connect(mapStateToProps)(DialogEditor))
