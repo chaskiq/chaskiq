@@ -169,7 +169,7 @@ export default function LanguageForm ({ settings, update, namespace, fields }) {
           }
         </div>
 
-        <div container alignContent={'flex-end'}>
+        <div className="flex justify-end">
           <Button
             onClick={handleSubmit}
             variant={'contained'}

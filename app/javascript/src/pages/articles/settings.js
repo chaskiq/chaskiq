@@ -139,6 +139,7 @@ class Settings extends Component {
       {
         name: "header_image",
         type: "upload",
+        label: "Header logo",
         handler: (file) => this.uploadHandler(file, "header_image"),
         grid: { xs: "w-full", sm: "w-1/3" },
       },
@@ -347,22 +348,25 @@ class SettingsForm extends Component {
               );
             })}
           </div>
+
+
+          <div className={"space-around py-4"}>
+            <Button
+              className="mr-2"
+              onClick={this.onSubmitHandler.bind(this)}
+              variant="contained"
+              color="primary"
+            >
+              {I18n.t('common.save')}
+            </Button>
+
+            <Button appearance="subtle" variant={"outlined"} color={"secondary"}>
+              {I18n.t('common.cancel')}
+            </Button>
+          </div>
+
         </div>
 
-        <div container justify={"space-around"}>
-          <Button
-            className="mr-2"
-            onClick={this.onSubmitHandler.bind(this)}
-            variant="contained"
-            color="primary"
-          >
-            {I18n.t('common.save')}
-          </Button>
-
-          <Button appearance="subtle" variant={"outlined"} color={"secondary"}>
-            {I18n.t('common.cancel')}
-          </Button>
-        </div>
       </form>
     );
   }

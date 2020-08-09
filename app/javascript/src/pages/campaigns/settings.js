@@ -101,7 +101,7 @@ export default class CampaignSettings extends Component {
 
   render() {
     return (
-      <div container direction={"column"}>
+      <div>
         <form
           name="create-repo"
           onSubmit={this.onSubmitHandler.bind(this)}
