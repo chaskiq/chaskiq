@@ -48,6 +48,7 @@ module PaymentServices
     end
 
     def get_subscription(id)
+      return [] if id.nil?
       res = get_data(
         url: "https://vendors.paddle.com/api/2.0/subscription/users",
         params: auth.merge({
