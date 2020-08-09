@@ -1,0 +1,84 @@
+
+---
+  es:
+    subscriptions:
+      tabs:
+        - Planes
+        - Historial de transacciones
+      plans:
+        - 
+          name: "free one"
+          description: Este es el plan gratuito!
+          id: 618560
+          features:
+            -
+              name: Segmentos
+            - 
+              name: Conversaciones
+            - 
+              name: Campañas 
+            - 
+              name: Flujos de Chat
+            - 
+              name: Integraciones API
+        - 
+          name: "rookie"
+          description: Este es el plan simple
+          id: 616249
+          features:
+            -
+              name: Segmentos
+            - 
+              name: Conversaciones
+            - 
+              name: Campañas 
+            - 
+              name: Flujos de Chat
+            - 
+              name: Integraciones API
+        - 
+          name: "super"
+          id: 596123
+          description: Este es el super plan
+          features:
+            -
+              name: Segmentos
+            - 
+              name: Conversaciones
+            - 
+              name: Campañas 
+            - 
+              name: Flujos de Chat
+            - 
+              name: Integraciones API
+
+      plan: 
+        included: Que incluye
+        pay_by: Paga de forma %{billing_type}
+        trial_days: Prueba este plan gratis por <span class="font-bold"> %{trial_days} dias </span>
+        get_access: Accede ahora
+      alerts:
+        subscription_updated: 
+          title: Subscripción actualizada
+          desc: La subscripción fue actualizada correctamente, vas a recibir una notificacion por correo
+        subscription_created: 
+          title: Subscripción creada
+          desc: La subscripción fue creada exsitosamente, vas a recibir una notificacion por correo pronto.
+        subscription_cancelled: 
+          title: Subscripción cancelada
+          desc: La Subscripción se ha cancelado correctamente
+        close: Cerrar esta ventana
+
+      billing_information:
+        title: Información de pago
+        description: Estás usando el plan "%{plan_name}".
+        next_billing: La proxima facturación será el %{next_payment_date} por $%{next_payment_amount} %{next_payment_currency}
+        cancel_plan: Cancelar plan
+        update_payment_method: Actualizar metodo de pago
+        subscription_state: Estado de subscripción %{state}
+
+      update_subscription:
+        cta: Actualizar subscripción
+        billed_on: El cobro será realizado cada <span class="font-bold"> %{billing_period} %{billing_type} </span>
+        amount: Por el monto de <span class="font-bold">$ %{recurring_price} USD</span>
+        next_payment:  El proximo cobro será el <span class="font-bold">%{next_payment_date}</span>

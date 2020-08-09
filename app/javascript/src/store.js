@@ -20,6 +20,8 @@ import drawer from './actions/drawer'
 import theme from './actions/theme'
 import imageZoom from './actions/imageZoom'
 
+import paddleSubscription from './actions/paddleSubscription'
+
 const rootReducer = combineReducers({
   auth,
   app,
@@ -35,7 +37,8 @@ const rootReducer = combineReducers({
   theme,
   imageZoom,
   rtc,
-  campaigns
+  campaigns,
+  paddleSubscription
 })
 
 const middlewares = [thunkMiddleware] //, routerMiddleware(history)]

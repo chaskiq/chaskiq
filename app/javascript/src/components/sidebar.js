@@ -310,6 +310,7 @@ function Sidebar ({
         {
           id: 'Billing',
           icon: <CardIcon />,
+          hidden: !app.subscriptionsEnabled,
           url: `/apps/${app.key}/billing`,
           active: isActivePage('billing')
         }
@@ -337,7 +338,7 @@ function Sidebar ({
               <h3 className="font-bold">{label}</h3>
             </div>
             <nav className="mt-5 flex-1 px-4">
-              {children.map(
+              {children.filter((o)=> !o.hidden ).map(
                 ({ id: childId, label, icon, active, url, onClick, render }) =>
                   !render ? (
                     <Link
