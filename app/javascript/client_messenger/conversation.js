@@ -35,7 +35,6 @@ import {
   InlineConversationWrapper,
   FooterAckInline
 } from './styles/styled'
-import LogoGrey from './icons/logo-gray.png'
 
 const DanteStylesExtend  = styled(DanteContainer)`
 .graf--code{
@@ -380,7 +379,7 @@ export class Conversation extends Component {
       this.props.conversation.messages.collection.length >= 3 &&
       <FooterAckInline>
         <a href="https://chaskiq.io" target="blank"> 
-          <img src={LogoGrey}/> {this.props.t('runon')}
+          <img src={`${this.props.domain}/logo-gray.png`}/> {this.props.t('runon')}
         </a>
       </FooterAckInline>
     }

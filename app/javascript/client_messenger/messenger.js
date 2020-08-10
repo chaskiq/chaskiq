@@ -14,7 +14,6 @@ import TourManager from './tourManager'
 import {toCamelCase} from './shared/caseConverter'
 import UrlPattern from 'url-pattern'
 import { withTranslation } from 'react-i18next';
-import LogoGrey from './icons/logo-gray.png'
 import i18n from './i18n'
 import {
   PING, 
@@ -1179,7 +1178,8 @@ class Messenger extends Component {
                                   />
                                   <FooterAck>
                                   <a href="https://chaskiq.io" target="blank"> 
-                                    <img src={LogoGrey}/>{this.props.t('runon')}
+                                    <img src={`${this.props.domain}/logo-gray.png`}/>
+                                    {this.props.t('runon')}
                                   </a>
                                   </FooterAck>
                                 </React.Fragment>
