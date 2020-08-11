@@ -156,6 +156,8 @@ export default class ChatEditor extends Component {
     };
 
     this.fallbackEditor = this.isMobile();
+
+    this.editorRef = React.createRef() 
   }
 
   isMobile = () => {
@@ -253,6 +255,12 @@ export default class ChatEditor extends Component {
     });
   };
 
+  componentDidMount(){
+    this.editorRef.current && 
+    this.editorRef.current.refs.editor && 
+    this.editorRef.current.refs.editor.focus()
+  }
+
   saveContent = (content) => {
     this.setState(
       {
@@ -267,7 +275,7 @@ export default class ChatEditor extends Component {
     );
   };
 
-  handleSubmit = (e) => {
+  handleSubmit = () => {
     const { html, serialized, text } = this.state;
     this.props.submitData({ html, serialized });
   };
@@ -374,6 +382,7 @@ export default class ChatEditor extends Component {
                 loading={this.props.loading}
                 setDisabled={this.setDisabled}
                 read_only={this.state.read_only}
+                ref={this.editorRef}
                 handleReturn={(e, isEmptyDraft)=>{
                   if(isEmptyDraft || this.isDisabled()) return
                   if (this.props.sendMode == 'enter' && !e.nativeEvent.shiftKey) {
