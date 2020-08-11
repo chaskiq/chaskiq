@@ -27,7 +27,7 @@ module Types
     end
 
     def logo
-      return '' unless object.logo_blob.present?
+      return 'https://via.placeholder.com/100x100' unless object.logo_blob.present?
 
       url = begin
               object.logo.variant(resize_to_limit: [300, 100]).processed
@@ -43,7 +43,7 @@ module Types
     end
 
     def header_image
-      return '' unless object.header_image_blob.present?
+      return 'https://via.placeholder.com/1024x300' unless object.header_image_blob.present?
 
       url = begin
               object.header_image.variant(resize_to_limit: [100, 100]).processed

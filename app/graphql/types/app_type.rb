@@ -36,6 +36,51 @@ module Types
     field :editor_app_packages, [Types::AppPackageType], null: true
     field :tag_list, [Types::JsonType], null: true
 
+    field :plans, [Types::JsonType], null: true
+
+    def plans
+      PaymentServices::Paddle.new.get_plans
+    end
+
+    field :user_transactions, [Types::JsonType], null: true
+    def user_transactions
+      PaymentServices::Paddle.new.get_user_transactions(
+        object.paddle_user_id
+      )
+    end
+
+    field :subscription_transactions, [Types::JsonType], null: true
+    def subscription_transactions
+      PaymentServices::Paddle.new.get_subscription_transactions(
+        object.paddle_subscription_id
+      )
+    end
+
+    field :subscription_details, Types::JsonType, null: true
+    def subscription_details
+      PaymentServices::Paddle.new.get_subscription(
+        object.paddle_subscription_id
+      )
+    end
+
+    field :update_subscription_plan, Types::JsonType, null: true do
+      argument :plan_id, Integer, required: true
+    end
+
+    def update_subscription_plan(plan_id:)
+      PaymentServices::Paddle.new.update_subscription(
+        object.paddle_subscription_id,
+        plan_id: plan_id, 
+        passthrough: object.key
+      )
+    end
+
+    field :subscriptions_enabled, Boolean, null: true
+    def subscriptions_enabled
+      ENV['PADDLE_PUBLIC_KEY'].present? || ENV['PADDLE_VENDOR_ID'].present? ||
+      ENV['PADDLE_SECRET_TOKEN'].present?
+    end
+
     def tag_list
       authorize! object, to: :show?, with: AppPolicy
       object.tag_list || []
@@ -449,7 +494,8 @@ module Types
     field :logo_large, String, null: true
 
     def logo
-      return '' unless object.logo_blob.present?
+      default_logo = "https://via.placeholder.com/100x100/000000/FFFFFF/?text=Logo"
+      return default_logo unless object.logo_blob.present?
   
       url = begin
               object.logo.variant(resize_to_limit: [100, 100]).processed

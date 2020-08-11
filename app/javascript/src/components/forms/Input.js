@@ -124,32 +124,36 @@ const WrappedComponent = React.forwardRef(function Input (
         label={label}
         helperText={helperText}
       >
-        <img src={defaultValue}
-          alt={label || name} 
-        />
+        <div className="flex flex-col items-center">
+          <img
+            className="pb-2"
+            src={defaultValue}
+            alt={label || name}
+          />
 
-        <input
-          accept="image/*"
-          style={{ display: 'none' }}
-          name={name}
-          ref={ref}
-          onChange={(e) => handler(e.currentTarget.files[0])}
-          // multiple
-          type="file"
-        />
+          <input
+            accept="image/*"
+            style={{ display: 'none' }}
+            name={name}
+            ref={ref}
+            onChange={(e) => handler(e.currentTarget.files[0])}
+            // multiple
+            type="file"
+          />
 
-        <label htmlFor={name}>
-          <Button
-            variant="contained"
-            component="span"
-            onClick={(e) => {
-              e.preventDefault()
-              ref.current && ref.current.click()
-            }}
-          >
-            Upload {label}
-          </Button>
-        </label>
+          <label htmlFor={name}>
+            <Button
+              variant="contained"
+              component="span"
+              onClick={(e) => {
+                e.preventDefault()
+                ref.current && ref.current.click()
+              }}
+            >
+              Upload {label}
+            </Button>
+          </label>
+        </div>
       </FormField>
     )
   }

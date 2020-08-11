@@ -19,7 +19,7 @@ import CampaignHome from './campaigns/home'
 import Progress from '../components/Progress'
 import Profile from './Profile'
 import AgentProfile from './AgentProfile'
-
+import Billing from './Billing'
 import Api from './Api'
 
 import { connect } from 'react-redux'
@@ -30,6 +30,7 @@ import { getCurrentUser } from '../actions/current_user'
 
 import actioncable from 'actioncable'
 import { setApp } from '../actions/app'
+import { setSubscriptionState } from '../actions/paddleSubscription'
 
 import { updateAppUserPresence } from '../actions/app_users'
 import { getAppUser } from '../actions/app_user'
@@ -108,6 +109,11 @@ function App ({
               return dispatch(updateRtcEvents(data))
             case 'campaigns':
               return dispatch(updateCampaignEvents(data.data))
+            case 'paddle:subscription':
+              fetchApp(() => {
+                dispatch(setSubscriptionState(data.data))
+              })
+              return null
             default:
               return null
           }
@@ -268,6 +274,10 @@ function App ({
                 <Api />
               </Route>
 
+              <Route path={`${match.url}/billing`}>
+                <Billing />
+              </Route>
+
               <Route path={`${match.url}/bots`}>
                 <Bots />
               </Route>
@@ -296,7 +306,8 @@ function mapStateToProps (state) {
     app_user,
     app_users,
     current_user,
-    navigation
+    navigation,
+    paddleSubscription
   } = state
   const { loading, isAuthenticated } = auth
   const { current_section } = navigation
@@ -309,7 +320,8 @@ function mapStateToProps (state) {
     loading,
     isAuthenticated,
     current_section,
-    drawer
+    drawer,
+    paddleSubscription
   }
 }
 

@@ -32,7 +32,8 @@ import {
   MessageSpinner,
   AppPackageBlockContainer,
   ConversationEventContainer,
-  InlineConversationWrapper
+  InlineConversationWrapper,
+  FooterAckInline
 } from './styles/styled'
 
 const DanteStylesExtend  = styled(DanteContainer)`
@@ -372,6 +373,17 @@ export class Conversation extends Component {
     {
       this.props.agent_typing && this.renderTyping()
     }
+
+    {
+      this.isInputEnabled() && this.props.conversation.messages && 
+      this.props.conversation.messages.collection.length >= 3 &&
+      <FooterAckInline>
+        <a href="https://chaskiq.io" target="blank"> 
+          <img src={`${this.props.domain}/logo-gray.png`}/> {this.props.t('runon')}
+        </a>
+      </FooterAckInline>
+    }
+
 
     {
       this.props.conversation.messages && this.props.conversation.messages.collection.map((o, i) => {
@@ -748,6 +760,10 @@ export function CommentsItemComp(props){
     switch (message.message.blocks.type) {
       case 'app_package':
         return <span>{message.message.blocks.app_package}</span>
+      case 'ask_option':
+        return t(`conversations.message_blocks.ask_option`)
+      case 'data_retrieval':
+        return t(`conversations.message_blocks.data_retrieval`)
       default:
         return message.message.blocks.type
     }
