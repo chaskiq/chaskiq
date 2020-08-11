@@ -78,7 +78,7 @@ function InboundSettings({ settings, update, dispatch }) {
         {I18n.t('settings.inbound.title')}
       </p>
 
-      <div container>
+      <div>
         <Input
           type="checkbox"
           checked={state.enable_inbound}
@@ -151,7 +151,7 @@ function InboundSettings({ settings, update, dispatch }) {
         </p>
       </div>
 
-      <div container>
+      <div className="pb-4">
         <Button onClick={handleSubmit} variant={"contained"} color={"primary"}>
           {I18n.t('common.save')}
         </Button>

@@ -149,7 +149,7 @@ const defaultProps = {
   },
 };
 
-export default class ArticleEditor extends Component {
+class ArticleEditor extends Component {
   constructor(props) {
     super(props);
     this.initialContent = this.defaultContent();
@@ -673,25 +673,29 @@ export default class ArticleEditor extends Component {
   };
 
   render() {
+    const {forwardedRef, ...rest} = this.props;
+
     return (
       <ThemeProvider theme={theme}>
         <EditorStylesExtend 
           campaign={true} 
           inlineMenu={this.props.inlineMenu} 
           styles={this.props.styles}>
+          
           {!this.props.loading ? (
             <DanteEditor
               {...defaultProps}
               read_only={this.props.read_only}
               toggleEditable={this.props.toggleEditable}
+              ref={ forwardedRef }
               debug={false}
               data_storage={{
                 url: "/",
                 save_handler: this.saveHandler,
               }}
               handleReturn={(e)=>{
-                return this.props.handleReturn && this.props.handleReturn(
-                  e, this.isEmptyDraftJs())
+                return this.props.handleReturn && 
+                this.props.handleReturn(e, this.isEmptyDraftJs(), this)
               }}
               onChange={(e) => {
                 this.dante_editor = e;
@@ -723,8 +727,17 @@ export default class ArticleEditor extends Component {
           ) : (
             <CircularProgress />
           )}
+          
         </EditorStylesExtend>
       </ThemeProvider>
     );
   }
 }
+
+const WrappedComponent = React.forwardRef(
+  function myFunction(props, ref) {
+    return <ArticleEditor {...props} forwardedRef={ref} />;
+  }
+);
+
+export default WrappedComponent

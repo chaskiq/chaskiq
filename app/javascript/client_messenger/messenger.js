@@ -46,7 +46,8 @@ import {
   ShowMoreWrapper,
   AssigneeStatus,
   Overflow,
-  AssigneeStatusWrapper
+  AssigneeStatusWrapper,
+  FooterAck
 } from './styles/styled'
 
 import {
@@ -1157,24 +1158,33 @@ class Messenger extends Component {
                             <Body>
 
                               {
-                                this.state.display_mode === "home" && 
-                                <Home 
-                                  newMessages={this.state.new_messages}
-                                  graphqlClient={this.graphqlClient}
-                                  displayNewConversation={this.displayNewConversation}
-                                  viewConversations={this.displayConversationList}
-                                  updateHeader={this.updateHeader}
-                                  transition={this.state.transition}
-                                  displayArticle={this.displayArticle}
-                                  appData={this.state.appData}
-                                  agents={this.state.agents}
-                                  displayConversation={this.displayConversation}
-                                  conversations={this.state.conversations}
-                                  getConversations={this.getConversations}
-                                  {...this.props}
-                                  t={this.props.t}
-                                />
+                                this.state.display_mode === "home" &&
+                                <React.Fragment> 
+                                  <Home 
+                                    newMessages={this.state.new_messages}
+                                    graphqlClient={this.graphqlClient}
+                                    displayNewConversation={this.displayNewConversation}
+                                    viewConversations={this.displayConversationList}
+                                    updateHeader={this.updateHeader}
+                                    transition={this.state.transition}
+                                    displayArticle={this.displayArticle}
+                                    appData={this.state.appData}
+                                    agents={this.state.agents}
+                                    displayConversation={this.displayConversation}
+                                    conversations={this.state.conversations}
+                                    getConversations={this.getConversations}
+                                    {...this.props}
+                                    t={this.props.t}
+                                  />
+                                  <FooterAck>
+                                  <a href="https://chaskiq.io" target="blank"> 
+                                    <img src={`${this.props.domain}/logo-gray.png`}/>
+                                    {this.props.t('runon')}
+                                  </a>
+                                  </FooterAck>
+                                </React.Fragment>
                               }
+
 
                               {
                                 this.state.display_mode === "article" &&

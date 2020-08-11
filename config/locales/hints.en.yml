@@ -10,7 +10,7 @@ en:
       description: "Webhooks feature it's all about delivering notifications of chaskiq events"
       #link: { href: '/', text: 'Learn how webhooks works on our knowledge base'}
 
-    Integrations:
+    integrations:
       title:
       description: This is the third party API integrations section.
       #link: { href: '/',text: 'Learn how API integrations works on Chaskiq from the inside out'}

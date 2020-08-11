@@ -9,7 +9,7 @@
         title: Webhooks activos
         description: La función Webhooks se trata de entregar notificaciones de eventos
           chaskiq
-      Integrations:
+      integrations:
         description: Esta es la sección de integraciones de API de terceros.
       security:
         title: Seguridad
