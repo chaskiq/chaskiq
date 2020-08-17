@@ -1,0 +1,379 @@
+Return-Path: <miguelmichelson@gmail.com>
+Received: from mail-io1-f41.google.com (mail-io1-f41.google.com [209.85.166.41])
+ by inbound-smtp.us-east-1.amazonaws.com with SMTP id 4f2f8gu2t8fkov1aidn6vb92k10gsrp1doa8de01
+ for xxxx+xxxx@mail.chaskiq.io;
+ Fri, 14 Aug 2020 19:49:44 +0000 (UTC)
+X-SES-Spam-Verdict: PASS
+X-SES-Virus-Verdict: PASS
+Received-SPF: pass (spfCheck: domain of _spf.google.com designates 209.85.166.41 as permitted sender) client-ip=209.85.166.41; envelope-from=miguelmichelson@gmail.com; helo=mail-io1-f41.google.com;
+Authentication-Results: amazonses.com;
+ spf=pass (spfCheck: domain of _spf.google.com designates 209.85.166.41 as permitted sender) client-ip=209.85.166.41; envelope-from=miguelmichelson@gmail.com; helo=mail-io1-f41.google.com;
+ dkim=pass header.i=@gmail.com;
+ dmarc=pass header.from=gmail.com;
+X-SES-RECEIPT: aa==
+X-SES-DKIM-SIGNATURE: a=rsa-sha256; q=dns/txt; b=IlBDYhfKqB+bu75lXGIcMPMdFNADTp+/jfMJseVyxpiL6Fo3N3svwxs28HTu8Yfo9nynxKUZf5vOgFzefeCNTBLO/DWpWK5zfFWU6/03pfdtexYczyIUk0KELudULezf/Q2sfvXsI87IIurVW9UlKpDJ3jnkUFfsUFlj+zN4Ly4=; c=relaxed/simple; s=224i4yxa5dv7c2xz3womw6peuasteono; d=amazonses.com; t=1597434585; v=1; bh=EHhulQ4FeXWlglHhsEJHZvmTi6Mua7yQbb2zgjT/kA4=; h=From:To:Cc:Bcc:Subject:Date:Message-ID:MIME-Version:Content-Type:X-SES-RECEIPT;
+Received: by mail-io1-f41.google.com with SMTP id v6so11827618iow.11
+        for <xxxx+xxxx@mail.chaskiq.io>; Fri, 14 Aug 2020 12:49:44 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to;
+        bh=jOoWUuJuzaGMX5SOXHO/V+1PzwRke0eeBX/6vIyBKtc=;
+        b=Y8KSY28G28U70b4uLeErPTIM95ZUI8LLACAOL48InRJM61JDJvvbC726exafajnwyl
+         nD0l437HyTK2/gkHr4GhQ9ebZMmaJ30/pgK7O+2pSvrJyN56gM+sCGOvt/hi0tVRI2P6
+         9IJ4MAEKfc8mq9Uc4bdsA2SYdKtm/tiS67x5hoYHMUUOD+WD8sXXeMz5OGOVSbPSIa+E
+         Bo91mDbdL7eBYAyOLeYOsxvMNhyERFUq0t4ymqYtLGIqApRTf0p+mol4HZRJSiyPZaJD
+         tjsWx3dlD8F62NwG6/Jock+QgP6fsphks5V/THdZ3FNqHpAoUvO4sWgk2XbLGjlmqcFy
+         iHoQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to;
+        bh=jOoWUuJuzaGMX5SOXHO/V+1PzwRke0eeBX/6vIyBKtc=;
+        b=ng6O4dz8WNFe99eFj14u/2KZzaJ8wuURTBLyxmHNJKF3EF389d+hwCS3AVGFbb2oxC
+         W4cgnEgG3FQwvkOS7G+50OQFkXU5HXqDA8isxQPoELxZ/Ok6gRsl+DAR1PFl1pZXN+dA
+         iREXNFiy7WiAwtqc9Bjz/pMOVZI7ctWE7xhd5TF6N0KT5WjGbjCgMCLeu/aIXY2uWpjX
+         wPwhOFijrpV05dUdRJrnKkoJKKy36S+rqAM6q+Sv/yxbKE54FRcs6vcNCRmkF4ByFu1O
+         T0YMwgOrpB7Zfjdks1S9nDLz5kcsKsXJ/R+MQpJURXqtDaF3hoqRU8a5D2vGOqslqlFg
+         WPLA==
+X-Gm-Message-State: AOAM533uOjdZZZgCz882nW0yeXg1B+WGLfw2lwEnGHvbiECGuMeSrqn8
+	zwA4Hm3UtuYZN1cNctyHEqyZLYAulGzL6MXuvgQ7+SXPC4A=
+X-Google-Smtp-Source: ABdhPJw7bvg6C7I4WLDG3Golv7t6DyEzfq5v6LaABUtPO/Tzjq5yS9hgdcRjRo+8JS7aXwBiqaDPRZ305VuzB6nDYCc=
+X-Received: by 2002:a6b:e40b:: with SMTP id u11mr3510676iog.123.1597434583900;
+ Fri, 14 Aug 2020 12:49:43 -0700 (PDT)
+MIME-Version: 1.0
+References: <01000173ee6a1381-35b23b52-c7a7-47f2-b019-fb7eed12e7e7-000000@email.amazonses.com>
+ <01000173ee7a4bb6-1f0e6ce6-059a-45ed-99ac-ec1168a98d56-000000@email.amazonses.com>
+ <CAC-9WweqznessGUn9CS47x4A1ZBw8Q31yQyoxfoVs3aG3pA+1A@mail.gmail.com>
+In-Reply-To: <CAC-9WweqznessGUn9CS47x4A1ZBw8Q31yQyoxfoVs3aG3pA+1A@mail.gmail.com>
+From: Miguel Michelsongs <miguelmichelson@gmail.com>
+Date: Fri, 14 Aug 2020 15:49:32 -0400
+Message-ID: <CAC-9WwdGMLqU1jv7xHOwxs3hNXaGt9EZLE2foJ5V4cAS2U+XrQ@mail.gmail.com>
+Subject: Re: new message from Some App
+To: Visitor Hj338 Some App <xxxx+xxxx@mail.chaskiq.io>
+Content-Type: multipart/alternative; boundary="000000000000ece54005acdbb888"
+
+--000000000000ece54005acdbb888
+Content-Type: text/plain; charset="UTF-8"
+
+hello heloooooo
+
+pijoijo j
+
+Atte.
+Miguel Michelson Martinez
+www.vadb.org <http://vadb.org>
+
+
+On Fri, Aug 14, 2020 at 3:41 PM Miguel Michelsongs <
+miguelmichelson@gmail.com> wrote:
+
+> hi hello hi
+>
+> Atte.
+> Miguel Michelson Martinez
+> www.vadb.org <http://vadb.org>
+>
+>
+> On Fri, Aug 14, 2020 at 3:37 PM Visitor Hj338 Some App <
+> xxxx+xxxx@mail.chaskiq.io> wrote:
+>
+>> Write ABOVE to reply to visitor HJ338
+>> <https://6lzl0d4e.r.us-east-1.awstrack.me/L0/https:%2F%2Fchaskiq.ngrok.io%2Fapps%2Fle-vTjBW83OYOgGmmtK_-w%2Fusers%2F2/1/01000173ee7a4bb6-1f0e6ce6-059a-45ed-99ac-ec1168a98d56-000000/CZ1f1KJpLHI4diUjPZuBQGABfdM=175>
+>> View conversation
+>> <https://6lzl0d4e.r.us-east-1.awstrack.me/L0/https:%2F%2Fchaskiq.ngrok.io%2Fapps%2Fle-vTjBW83OYOgGmmtK_-w%2Fconversations%2FNYhoMa4iO1rSLZFwekRUHA/1/01000173ee7a4bb6-1f0e6ce6-059a-45ed-99ac-ec1168a98d56-000000/cDmR_MsUZTRreVhei1SyGjk_jXs=175>
+>>
+>>
+>> [image: visitor HJ338]
+>>
+>> oijoijoij
+>> visitor HJ338 on 14 Aug 19:37
+>> EMAIL miguelmichelson@gmail.com
+>>
+>> This email was sent from Chaskiq
+>> <https://6lzl0d4e.r.us-east-1.awstrack.me/L0/https:%2F%2Fchaskiq.io/1/01000173ee7a4bb6-1f0e6ce6-059a-45ed-99ac-ec1168a98d56-000000/3GeJ7NAEsWgS0oqWQVKFzNdXSvc=175> Go
+>> to your app settings here
+>> <https://6lzl0d4e.r.us-east-1.awstrack.me/L0/https:%2F%2Fchaskiq.ngrok.io%2Fapps%2Fle-vTjBW83OYOgGmmtK_-w%2Fsettings/1/01000173ee7a4bb6-1f0e6ce6-059a-45ed-99ac-ec1168a98d56-000000/BKmkerPok8QL1wJvSinXQrPGzI0=175>
+>>
+>
+
+--000000000000ece54005acdbb888
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr">hello heloooooo<div><br></div><div>pijoijo j</div><div><br=
+ clear=3D"all"><div><div dir=3D"ltr" class=3D"gmail_signature" data-smartma=
+il=3D"gmail_signature"><div dir=3D"ltr"><div>Atte. <br>Miguel Michelson Mar=
+tinez<br><a href=3D"http://vadb.org" target=3D"_blank">www.vadb.org</a></di=
+v></div></div></div><br></div></div><br><div class=3D"gmail_quote"><div dir=
+=3D"ltr" class=3D"gmail_attr">On Fri, Aug 14, 2020 at 3:41 PM Miguel Michel=
+songs &lt;<a href=3D"mailto:miguelmichelson@gmail.com">miguelmichelson@gmai=
+l.com</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"ma=
+rgin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:=
+1ex"><div dir=3D"ltr">hi hello hi<div><br clear=3D"all"><div><div dir=3D"lt=
+r"><div dir=3D"ltr"><div>Atte. <br>Miguel Michelson Martinez<br><a href=3D"=
+http://vadb.org" target=3D"_blank">www.vadb.org</a></div></div></div></div>=
+<br></div></div><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gm=
+ail_attr">On Fri, Aug 14, 2020 at 3:37 PM Visitor Hj338 Some App &lt;<a hre=
+f=3D"mailto:messages%2Bg2vt341@mail.chaskiq.io" target=3D"_blank">messages+=
+g2vt341@mail.chaskiq.io</a>&gt; wrote:<br></div><blockquote class=3D"gmail_=
+quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,=
+204);padding-left:1ex"><u></u>
+
+ =20
+   =20
+   =20
+ =20
+
+  <div><img alt=3D"" src=3D"http://6lzl0d4e.r.us-east-1.awstrack.me/I0/0100=
+0173ee7a4bb6-1f0e6ce6-059a-45ed-99ac-ec1168a98d56-000000/nI-eDBRE5TXF9cMnsU=
+yZrjIKh0Q=3D175" style=3D"display: none; width: 1px; height: 1px;">
+
+   =20
+
+<div>
+<div id=3D"gmail-m_-6683522629310064306gmail-m_851158011721318121main_wrapp=
+er" style=3D"color:transparent;opacity:0;font-size:0px;border:0px;max-heigh=
+t:1px;width:1px;margin:0px;padding:0px;display:none;line-height:0px">
+<img border=3D"0" height=3D"1" width=3D"1">
+</div>
+<div style=3D"font-family:&quot;Helvetica Neue&quot;,Helvetica,Arial,sans-s=
+erif;font-size:12px;font-weight:normal;line-height:18px"></div>
+<span>
+<div>
+<div></div>
+</div>
+<table align=3D"center" bgcolor=3D"" border=3D"0" cellpadding=3D"0" cellspa=
+cing=3D"0" id=3D"gmail-m_-6683522629310064306gmail-m_851158011721318121head=
+er" valign=3D"top" style=3D"background-color:rgb(255,255,255);border-bottom=
+:1px solid rgb(214,214,214);color:rgb(62,71,76);font-size:12px;height:auto;=
+line-height:18px;margin:0px auto;max-height:40px;max-width:600px;min-height=
+:40px;width:100%">
+<tbody>
+<tr>
+<td id=3D"gmail-m_-6683522629310064306gmail-m_851158011721318121replyAbove"=
+ style=3D"font-family:&quot;Helvetica Neue&quot;,Helvetica,Arial,sans-serif=
+;font-weight:normal;padding:10px 20px;vertical-align:middle" valign=3D"midd=
+le">
+<div>
+<table style=3D"font-size:12px;line-height:18px">
+<tbody>
+<tr>
+<td id=3D"gmail-m_-6683522629310064306gmail-m_851158011721318121user-replyA=
+bove" style=3D"font-family:&quot;Helvetica Neue&quot;,Helvetica,Arial,sans-=
+serif;font-weight:normal;padding:0px">
+Write ABOVE to reply to
+<a href=3D"https://6lzl0d4e.r.us-east-1.awstrack.me/L0/https:%2F%2Fchaskiq.=
+ngrok.io%2Fapps%2Fle-vTjBW83OYOgGmmtK_-w%2Fusers%2F2/1/01000173ee7a4bb6-1f0=
+e6ce6-059a-45ed-99ac-ec1168a98d56-000000/CZ1f1KJpLHI4diUjPZuBQGABfdM=3D175"=
+ target=3D"_blank">
+visitor HJ338
+</a>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</td>
+<td align=3D"right" id=3D"gmail-m_-6683522629310064306gmail-m_8511580117213=
+18121rightSide" style=3D"font-family:&quot;Helvetica Neue&quot;,Helvetica,A=
+rial,sans-serif;font-weight:normal;padding:10px 20px;text-align:right;verti=
+cal-align:middle" valign=3D"middle">
+<img height=3D"16" style=3D"margin: 0px; padding-right: 7px; vertical-align=
+: middle;" width=3D"16">
+<a href=3D"https://6lzl0d4e.r.us-east-1.awstrack.me/L0/https:%2F%2Fchaskiq.=
+ngrok.io%2Fapps%2Fle-vTjBW83OYOgGmmtK_-w%2Fconversations%2FNYhoMa4iO1rSLZFw=
+ekRUHA/1/01000173ee7a4bb6-1f0e6ce6-059a-45ed-99ac-ec1168a98d56-000000/cDmR_=
+MsUZTRreVhei1SyGjk_jXs=3D175" style=3D"color:rgb(62,71,76);font-weight:norm=
+al;text-decoration:underline" target=3D"_blank">
+View conversation
+</a>
+</td>
+</tr>
+</tbody>
+</table>
+</span>
+<table align=3D"center" border=3D"0" cellpadding=3D"0" cellspacing=3D"0" id=
+=3D"gmail-m_-6683522629310064306gmail-m_851158011721318121conversation" sty=
+le=3D"background-color:rgb(249,249,249);font-size:12px;height:auto;line-hei=
+ght:18px;margin:0px auto;max-width:600px;overflow:hidden;width:100%" valign=
+=3D"top">
+<tbody>
+<tr>
+<td style=3D"font-family:&quot;Helvetica Neue&quot;,Helvetica,Arial,sans-se=
+rif;font-weight:normal;height:40px;line-height:1;max-height:40px;padding:0p=
+x">=C2=A0</td>
+</tr>
+<tr>
+<td style=3D"font-family:&quot;Helvetica Neue&quot;,Helvetica,Arial,sans-se=
+rif;font-weight:normal;height:40px;line-height:1;max-height:40px;padding:0p=
+x">
+<div id=3D"gmail-m_-6683522629310064306gmail-m_851158011721318121message">
+<table align=3D"center" border=3D"0" cellpadding=3D"0" cellspacing=3D"0" st=
+yle=3D"border-collapse:separate;border-spacing:0px;font-size:12px;line-heig=
+ht:18px;margin:0px auto;max-width:560px;width:90%" valign=3D"top">
+<tbody>
+<tr>
+<td style=3D"font-weight:normal;height:40px;line-height:1;max-height:40px;f=
+ont-family:&quot;Helvetica Neue&quot;,Helvetica,Arial,sans-serif;padding:0p=
+x;vertical-align:top;width:32px" valign=3D"top">
+<table border=3D"0" cellpadding=3D"0" cellspacing=3D"0" style=3D"border-col=
+lapse:separate;border-spacing:0px;margin:0px auto;max-width:560px;font-size=
+:12px;line-height:18px;width:32px">
+<tbody>
+<tr>
+<td align=3D"center" style=3D"line-height:1;max-height:40px;font-family:&qu=
+ot;Helvetica Neue&quot;,Helvetica,Arial,sans-serif;border-radius:2px;color:=
+white;font-weight:bold;height:32px;padding:1px 0px 0px;text-align:center;ve=
+rtical-align:middle;width:32px" valign=3D"middle">
+<img alt=3D"visitor HJ338" height=3D"32" src=3D"https://www.gravatar.com/av=
+atar/bf47b813b0de4867a015fd4b54ac2fb4?d=3Dhttps://api.adorable.io/avatars/1=
+30/bf47b813b0de4867a015fd4b54ac2fb4.png" style=3D"border-radius: 2px;" widt=
+h=3D"32">
+</td>
+</tr>
+</tbody>
+</table>
+</td>
+<td style=3D"height:40px;line-height:1;max-height:40px;font-family:&quot;He=
+lvetica Neue&quot;,Helvetica,Arial,sans-serif;font-size:1px;font-weight:nor=
+mal;padding:0px;vertical-align:top;width:10px" valign=3D"top"></td>
+<td bgcolor=3D"#FFFFFF" style=3D"font-weight:normal;height:40px;line-height=
+:1;max-height:40px;font-family:&quot;Helvetica Neue&quot;,Helvetica,Arial,s=
+ans-serif;background-color:rgb(255,255,255);border:1px solid rgb(213,220,21=
+0);border-radius:8px;padding:0px">
+<table border=3D"0" cellpadding=3D"0" cellspacing=3D"0" style=3D"border-col=
+lapse:separate;border-spacing:0px;margin:0px auto;max-width:560px;font-size=
+:12px;line-height:18px;table-layout:fixed;width:100%">
+<tbody>
+<tr>
+<td style=3D"height:40px;line-height:1;max-height:40px;font-family:&quot;He=
+lvetica Neue&quot;,Helvetica,Arial,sans-serif;color:rgb(62,71,76);font-size=
+:14px;font-weight:normal;padding:10px 13px">
+<div id=3D"gmail-m_-6683522629310064306gmail-m_851158011721318121editor-con=
+tainer" style=3D"padding:0px;margin:0px;color:rgba(0,0,0,0.8);font-family:G=
+eorgia,Cambria,&quot;Times New Roman&quot;,Times,serif;letter-spacing:0.01r=
+em;font-weight:400;font-style:normal;font-size:16px;line-height:1.9">
+oijoijoij
+</div>
+</td>
+</tr>
+</tbody>
+</table>
+</td>
+</tr>
+<tr>
+<td style=3D"font-weight:normal;height:40px;line-height:1;max-height:40px;f=
+ont-family:&quot;Helvetica Neue&quot;,Helvetica,Arial,sans-serif;padding:0p=
+x"></td>
+<td style=3D"font-weight:normal;height:40px;line-height:1;max-height:40px;f=
+ont-family:&quot;Helvetica Neue&quot;,Helvetica,Arial,sans-serif;padding:0p=
+x"></td>
+<td style=3D"height:40px;line-height:1;max-height:40px;font-family:&quot;He=
+lvetica Neue&quot;,Helvetica,Arial,sans-serif;color:rgb(182,197,206);font-s=
+ize:13px;font-weight:normal;padding:5px 5px 0px">
+<input type=3D"hidden">
+<a style=3D"text-decoration:none">visitor HJ338</a>
+on
+<a style=3D"text-decoration:none">14 Aug 19:37</a>
+</td>
+</tr>
+<tr>
+<td style=3D"font-weight:normal;height:40px;line-height:1;max-height:40px;f=
+ont-family:&quot;Helvetica Neue&quot;,Helvetica,Arial,sans-serif;padding:0p=
+x"></td>
+<td style=3D"font-weight:normal;height:40px;line-height:1;max-height:40px;f=
+ont-family:&quot;Helvetica Neue&quot;,Helvetica,Arial,sans-serif;padding:0p=
+x"></td>
+<td style=3D"font-weight:normal;height:40px;line-height:1;max-height:40px;f=
+ont-family:&quot;Helvetica Neue&quot;,Helvetica,Arial,sans-serif;padding:0p=
+x">
+<table style=3D"border-collapse:separate;border-spacing:0px;line-height:18p=
+x;margin:0px auto;max-width:560px;width:90%;color:rgb(182,197,206);font-siz=
+e:13px;font-weight:normal;padding:5px 5px 0px">
+<tbody>
+<tr>
+<td align=3D"center" style=3D"font-size:13px;text-align:center;width:13px;f=
+ont-weight:normal;height:40px;line-height:1;max-height:40px;padding:0px;fon=
+t-family:&quot;Helvetica Neue&quot;,Helvetica,Arial,sans-serif">
+<img height=3D"13" src=3D"http://.png" width=3D"13">
+</td>
+<td style=3D"font-size:11px;font-weight:normal;height:40px;line-height:1;ma=
+x-height:40px;padding:0px;font-family:&quot;Helvetica Neue&quot;,Helvetica,=
+Arial,sans-serif">EMAIL</td>
+<td style=3D"font-size:13px;font-weight:normal;height:40px;line-height:1;ma=
+x-height:40px;padding:0px;font-family:&quot;Helvetica Neue&quot;,Helvetica,=
+Arial,sans-serif"></td>
+<td style=3D"font-size:13px;font-weight:normal;height:40px;line-height:1;ma=
+x-height:40px;padding:0px;font-family:&quot;Helvetica Neue&quot;,Helvetica,=
+Arial,sans-serif">
+<a href=3D"mailto:miguelmichelson@gmail.com" style=3D"text-decoration:under=
+line" target=3D"_blank">miguelmichelson@gmail.com</a>
+</td>
+<td style=3D"font-size:13px;font-weight:normal;height:40px;line-height:1;ma=
+x-height:40px;padding:0px;font-family:&quot;Helvetica Neue&quot;,Helvetica,=
+Arial,sans-serif"></td>
+</tr>
+</tbody>
+</table>
+</td>
+</tr>
+<tr>
+<td colspan=3D"3" style=3D"font-family:&quot;Helvetica Neue&quot;,Helvetica=
+,Arial,sans-serif;font-size:1px;font-weight:normal;height:40px;line-height:=
+1;max-height:40px;padding:0px">=C2=A0</td>
+</tr>
+</tbody>
+</table>
+</div>
+</td>
+</tr>
+</tbody>
+</table>
+<table align=3D"center" border=3D"0" cellpadding=3D"0" cellspacing=3D"0" id=
+=3D"gmail-m_-6683522629310064306gmail-m_851158011721318121footer" style=3D"=
+color:rgb(255,255,255);font-weight:bold;background-color:rgb(47,47,47);font=
+-size:12px;height:40px;line-height:18px;margin:0px auto;max-width:600px;wid=
+th:100%" valign=3D"top">
+<tbody>
+<tr>
+<td id=3D"gmail-m_-6683522629310064306gmail-m_851158011721318121logo" style=
+=3D"font-family:&quot;Helvetica Neue&quot;,Helvetica,Arial,sans-serif;font-=
+weight:normal;height:20px;padding:0px 0px 0px 20px">
+<a style=3D"color:rgb(255,255,255);font-weight:bold">
+<img height=3D"25" style=3D"border: none;" width=3D"25">
+</a>
+</td>
+<td id=3D"gmail-m_-6683522629310064306gmail-m_851158011721318121source" sty=
+le=3D"font-family:&quot;Helvetica Neue&quot;,Helvetica,Arial,sans-serif;fon=
+t-weight:normal;padding:0px 0px 0px 10px">
+This email was sent from
+<a href=3D"https://6lzl0d4e.r.us-east-1.awstrack.me/L0/https:%2F%2Fchaskiq.=
+io/1/01000173ee7a4bb6-1f0e6ce6-059a-45ed-99ac-ec1168a98d56-000000/3GeJ7NAEs=
+WgS0oqWQVKFzNdXSvc=3D175" style=3D"color:rgb(255,255,255);font-weight:bold"=
+ target=3D"_blank">
+Chaskiq
+</a>
+</td>
+<td align=3D"right" id=3D"gmail-m_-6683522629310064306gmail-m_8511580117213=
+18121notification-settings" style=3D"font-family:&quot;Helvetica Neue&quot;=
+,Helvetica,Arial,sans-serif;font-weight:normal;color:rgb(255,255,255);paddi=
+ng:0px 20px 0px 0px;text-align:right">
+Go to your app settings
+<a href=3D"https://6lzl0d4e.r.us-east-1.awstrack.me/L0/https:%2F%2Fchaskiq.=
+ngrok.io%2Fapps%2Fle-vTjBW83OYOgGmmtK_-w%2Fsettings/1/01000173ee7a4bb6-1f0e=
+6ce6-059a-45ed-99ac-ec1168a98d56-000000/BKmkerPok8QL1wJvSinXQrPGzI0=3D175" =
+style=3D"color:rgb(255,255,255);font-weight:bold" target=3D"_blank">
+here
+</a>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+
+  </div>
+
+</blockquote></div>
+</blockquote></div>
+
+--000000000000ece54005acdbb888--
