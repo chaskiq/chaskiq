@@ -1,4 +1,3 @@
-
 ![image](https://user-images.githubusercontent.com/11976/81771025-eaefe780-94af-11ea-881b-ad7910536fee.png)
 
 # Chaskiq 
@@ -13,6 +12,7 @@
 <a href="https://hub.docker.com/r/chaskiq/chaskiq">
   <img src="https://img.shields.io/docker/pulls/chaskiq/chaskiq.svg" alt="CI">
 </a>
+<a href="https://app.fossa.com/projects/git%2Bgithub.com%2Fchaskiq%2Fchaskiq?ref=badge_shield" alt="FOSSA Status"><img src="https://app.fossa.com/api/projects/git%2Bgithub.com%2Fchaskiq%2Fchaskiq.svg?type=shield"/></a>
 
 <a href="https://hub.docker.com/r/chaskiq/chaskiq">
   <img src="https://img.shields.io/docker/cloud/build/chaskiq/chaskiq" alt="CI">
@@ -145,3 +145,6 @@ distributed under the License is distributed on an "AS IS" BASIS,
 WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
+
+
+[![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2Fchaskiq%2Fchaskiq.svg?type=large)](https://app.fossa.com/projects/git%2Bgithub.com%2Fchaskiq%2Fchaskiq?ref=badge_large)
