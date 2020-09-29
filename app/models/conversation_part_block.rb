@@ -7,10 +7,12 @@ class ConversationPartBlock < ApplicationRecord
   value :trigger_locked, expireat: lambda { Time.now + 5.seconds }
 
   def create_fase(app)
-
     return if self.blocks["app_package"].blank?
 
-    klass = "MessageApis::#{self.blocks["app_package"].capitalize}".constantize
+    # this needs to be API hook compatible
+    # add a proper setting on appPackage like, before_create hook ?
+    
+    klass = "MessageApis::#{self.blocks["app_package"].classify}".constantize
 
     return unless klass.instance_methods.include?(:create_fase)
 
@@ -23,19 +25,20 @@ class ConversationPartBlock < ApplicationRecord
 
     data = klass.create_fase(self, klass)
 
-    self.data = data
+    self.blocks["schema"] = data[:definitions]
+    self.data = data[:values]
     self.save
   end
 
   def handled_data
-    if self.blocks["type"] == "app_package"
-      self.blocks["app_package"]
+    #if self.blocks["type"] == "app_package"
+    #  self.blocks["app_package"]
 
-      klass = "MessageApis::#{self.blocks["app_package"].capitalize}".constantize
+    #  klass = "MessageApis::#{self.blocks["app_package"].classify}".constantize
 
-      return klass.display_data(self.data) if klass.respond_to?(:display_data)
+    #  return klass.display_data(self.data) if klass.respond_to?(:display_data)
       
-    end
+    #end
     self.data
   end
 

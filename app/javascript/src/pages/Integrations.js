@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react'
 
 import { camelizeKeys } from '../actions/conversation'
+import Tooltip from 'rc-tooltip'
 
 import Progress from '../components/Progress'
 import Content from '../components/Content'
@@ -201,6 +202,7 @@ function Integrations ({ app, dispatch }) {
 
       <Tabs
         currentTab={tabValue}
+        onChange={ (value) => setTabValue( value ) }
         tabs={[
           {
             label: I18n.t('settings.integrations.active.title'),
@@ -383,8 +385,8 @@ function EmptyCard ({ goTo }) {
   return (
     <div style={{ marginTop: '2em' }}>
       <div>
-        <p color="textSecondary" gutterBottom></p>
-        <p variant="h5" component="h2">
+        <p color="textSecondary"></p>
+        <p>
           {I18n.t('settings.integrations.empty.title')}
         </p>
         <p color="textSecondary">
@@ -405,7 +407,11 @@ function ServiceBlock ({ service, handleOpen, kind, setOpenDeleteDialog }) {
   }
 
   return (
-    <ListItem avatar={<ItemAvatar avatar={logos[service.name.toLocaleLowerCase()]} />}>
+    <ListItem
+      avatar={
+        logos[service.name.toLocaleLowerCase()] &&
+        <ItemAvatar avatar={logos[service.name.toLocaleLowerCase()]} />
+      }>
       <ListItemText
         primary={
           <ItemListPrimaryContent variant="h5">
@@ -431,8 +437,18 @@ function ServiceBlock ({ service, handleOpen, kind, setOpenDeleteDialog }) {
                     onClick={() => handleOpen(service)}
                     aria-label="add"
                     variant="icon"
+                    className="mr-2"
+                    border={true}
                   >
-                    {service.id ? <EditIcon /> : <AddIcon />}
+                    {service.id ? <EditIcon /> :
+                      <Tooltip
+                        placement="bottom"
+                        overlay={`add app to workspace`}
+                      >
+                      <AddIcon />
+                    </Tooltip>
+                      
+                    }
                   </Button>
 
                   {service.id && (
@@ -440,7 +456,8 @@ function ServiceBlock ({ service, handleOpen, kind, setOpenDeleteDialog }) {
                       onClick={() =>
                         setOpenDeleteDialog && setOpenDeleteDialog(service)
                       }
-                      aria-label="add"
+                      border={true}
+                      aria-label="remove"
                       variant="icon"
                     >
                       <DeleteIcon />

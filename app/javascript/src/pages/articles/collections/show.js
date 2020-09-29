@@ -305,7 +305,7 @@ class CollectionDetail extends Component {
         dialogButtons={
           <React.Fragment>
             <Button onClick={this.close} variant="outlined">
-              {I18n.t("articles.cancel")}
+              {I18n.t("common.cancel")}
             </Button>
 
             <Button

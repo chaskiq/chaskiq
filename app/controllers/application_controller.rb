@@ -23,8 +23,64 @@ class ApplicationController < ActionController::Base
   end
 
   def package_iframe
+
+    data = JSON.parse(params[:data])
+    url_base = data["data"]["field"]["action"]["url"]
+    url = url_base.match(/^\/package_iframe_internal\//) ? 
+    "#{ENV['HOST']}#{url_base}" : url_base
+
+    app_user = AppUser.find_by(
+      session_id: cookies[:chaskiq_session_id]
+    ).as_json(methods: [
+      :email, 
+      :name, 
+      :display_name, 
+      :avatar_url, 
+      :first_name, 
+      :last_name
+      ]
+    )
+
+    resp = Faraday.post(url, 
+      data.merge!(user: app_user).to_json,
+      "Content-Type" => "application/json")
+
     response.headers.delete "X-Frame-Options"
-    render "app_packages/#{params[:package]}/show", layout: false
+    render html: resp.body.html_safe, layout: false
+    #render "app_packages/#{params[:package]}/show", layout: false
+  end
+
+  def package_iframe_internal
+    if(params["conversation_id"])
+      conversation = Conversation.find_by( key: params["conversation_id"] )
+      app = conversation.app
+    else
+      app = AppUser.find(params[:user]["id"]).app
+    end
+
+    presenter = app.app_package_integrations
+      .joins(:app_package)
+      .find_by("app_packages.name": params["package"].classify)
+      .presenter
+
+    opts = {
+      app_key: app.key,
+      user: params[:user],
+      field: params.dig(:data, :field),
+      values: params.dig(:data, :values)
+    }
+
+    opts.merge!({
+      conversation_id: params.dig(:data, :conversation_id),
+      message_id: params.dig(:data, :message_id),
+    })
+
+    html = presenter.sheet_view(opts)
+
+    response.headers.delete "X-Frame-Options"
+
+    render html: html.html_safe, layout: false
+
   end
 
   def render_empty

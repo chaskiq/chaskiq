@@ -412,6 +412,17 @@ module MessageApis
       end
     end
 
+    def get_slack_user_by_email(email)
+      begin
+        authorize_bot!
+        url = url('/api/users.lookupByEmail')
+        response = get_data(url, {email: email})
+        user = JSON.parse(response.body)["user"]
+      rescue 
+        nil
+      end
+    end
+
     def handle_challenge(params)
       params[:challenge]
     end
@@ -520,6 +531,12 @@ module MessageApis
         .map { |k,v| 
           "*#{k.upcase}*: #{v}" 
         }.join(" ") : ''
+
+        # get slack user
+        if part&.message&.action == "assigned" && data["email"].present?
+          slack_user = get_slack_user_by_email(data["email"])
+          data_fmt << "\n <@#{slack_user["id"]}>" if slack_user.present?
+        end
 
         blocks = [{
           "type": "section",

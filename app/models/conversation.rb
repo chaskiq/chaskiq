@@ -46,6 +46,10 @@ class Conversation < ApplicationRecord
     main_participant.is_a?(Visitor)
   end
 
+  def add_conversation_assigned
+    events.log(action: :conversation_assigned)
+  end
+
   def add_started_event
     events.log(action: :conversation_started)
   end
@@ -137,6 +141,8 @@ class Conversation < ApplicationRecord
           email: user.email
         }
       )
+
+      add_conversation_assigned
     end
   end
 

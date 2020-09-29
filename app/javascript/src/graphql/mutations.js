@@ -30,6 +30,8 @@ export const UPDATE_APP = `
         customFields
         tagList
         subscriptionsEnabled
+        userHomeApps
+        visitorHomeApps
         segments {
           name
           id
@@ -1296,6 +1298,7 @@ export const UPDATE_OAUTH_APP = `
         redirectUri
         secret
         uid
+        scopes
       }
       errors
     }

@@ -2,12 +2,10 @@ import styled from '@emotion/styled'
 import { keyframes } from '@emotion/core'
 
 import React from 'react'
-
 import StyledFrame from '../styledFrame'
 import { darken } from 'polished'
-
 import { textColor } from './utils'
-
+import tw from 'twin.macro'
 export const mainColor = '#0a1a27' // "#42a5f5";
 
 const rotate = keyframes`
@@ -174,6 +172,12 @@ export const ShowMoreWrapper = styled.div`
 
     }
 
+`
+
+
+export const DisabledElement = styled.div`
+  padding: 1.2em !important;
+  ${() => tw`w-full p-4 flex justify-center` }
 `
 
 const Button = styled.button`
@@ -420,10 +424,10 @@ export const ConversationEventContainer = styled.div`
 `
 
 export const AppPackageBlockContainer = styled.div`
-    padding: .7em;
+    padding-top: .7em;
     border-radius: 7px;
-    display: flex;
-    justify-content: center;
+    //display: flex;
+    //justify-content: center;
     margin: .7em;
     //border: 1px solid #e3e7e8;
     background: #fff;
@@ -725,26 +729,21 @@ export const FooterAck = styled(FooterAckInline)`
 `
 
 export const CountBadge = styled.div`
-  position: absolute;
-  border-radius: 50%;
-  /* height: 20px; */
-  width: 13px;
-  padding: 4px;
-  background-color: red;
-  font-size: 10px;
-  text-align: center;
-  color: #f3f3f3;
+
+  ${()=> tw`h-6 w-6 rounded-full text-white text-center p-1 absolute bg-red-600 text-xs` }
   ${(props) => props.section === 'home'
     ? `top: 42px;
     left: 15px;` : ''
   }
+
+  top: 0px;
+  left: -8px;
 
   ${(props) => props.section === 'conversation'
   ? 'top: 13px;left: 7px;' : ''}
 
   ${(props) => props.section === 'conversations'
   ? 'top: 13px;left: 7px;' : ''}
-
 }
 
 `
@@ -926,10 +925,9 @@ export const MessageItem = styled.div`
         min-width: 80px;
         padding: 16px;
         margin: 5px;
+        margin-right: 10px;
         border-radius: 6px;
         min-width: 80px;
-
-
         box-shadow: 0 4px 15px 0 rgba(0,0,0,.1), 0 1px 2px 0 rgba(0,0,0,.1);
 
         ${

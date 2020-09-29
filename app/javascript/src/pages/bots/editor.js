@@ -25,6 +25,12 @@ import { errorMessage, successMessage } from "../../actions/status_messages";
 import List, { ListItem, ListItemText } from "../../components/List";
 import Button from "../../components/Button";
 import Tabs from "../../components/Tabs";
+import ErrorBoundary from '../../components/ErrorBoundary'
+
+import {
+  DefinitionRenderer,
+} from '../../components/packageBlocks/components'
+
 
 import {
   PlusIcon,
@@ -37,6 +43,7 @@ import {
 import { isEmpty } from "lodash";
 import Stats from "../../components/stats";
 import { setCurrentSection, setCurrentPage } from "../../actions/navigation";
+import AppPackagePanel from "../../components/conversations/appPackagePanel"
 
 const ItemManagerContainer = styled.div`
   flex-grow: 4;
@@ -144,6 +151,7 @@ const BotEditor = ({ match, app, dispatch, mode, actions }) => {
   const [tabValue, setTabValue] = useState(0);
   const [changed, setChanged] = useState(null);
   const [searchFields, setSearchFields] = useState([])
+  const [openPackagePanel, setOpenPackagePanel] = useState(null)
 
   const handleSelection = (item) => {
     setSelectedPath(item);
@@ -343,6 +351,40 @@ const BotEditor = ({ match, app, dispatch, mode, actions }) => {
     setSelectedPath(newPath); // redundant
   };
 
+  const insertAddPackage = (p) => {
+    const {provider} = p
+    const id = create_UUID();
+    const dummy = {
+      step_uid: id,
+      messages: [],
+      controls: {
+        type: "app_package",
+        app_package: provider.name,
+        schema: provider.schema,
+      }
+    };
+
+    const path = openPackagePanel
+    const newSteps = path.steps.concat(dummy);
+    let newPath = null;
+
+    const newPaths = paths.map((o) => {
+      if (o.id === path.id) {
+        newPath = Object.assign({}, path, { steps: newSteps });
+        return newPath;
+      } else {
+        return o;
+      }
+    });
+
+    setPaths(newPaths);
+    setSelectedPath(newPath); // redundant
+  };
+
+  const addAppPackage = (path) => {
+    setOpenPackagePanel(path)
+  }
+
   const addPath = (path) => {
     const newPaths = paths.concat(path);
     setPaths(newPaths);
@@ -459,7 +501,6 @@ const BotEditor = ({ match, app, dispatch, mode, actions }) => {
     setPaths(newPaths);
   };
 
-
   const renderEditor = () => {
     return (
       <div className="flex justify-between my-4 border-1 border-gray-400 rounded-md shadow">
@@ -536,22 +577,25 @@ const BotEditor = ({ match, app, dispatch, mode, actions }) => {
 
         <div className="w-full shadow">
           <div>
-            {selectedPath && (
-              <Path
-                app={app}
-                path={selectedPath}
-                paths={paths}
-                addWaitUserMessage={addWaitUserMessage}
-                addSectionMessage={addSectionMessage}
-                addSectionControl={addSectionControl}
-                addDataControl={addDataControl}
-                updatePath={updatePath}
-                saveData={saveData}
-                setPaths={setPaths}
-                setSelectedPath={setSelectedPath}
-                searchFields={searchFields}
-              />
-            )}
+              {selectedPath && 
+                <ErrorBoundary>
+                  <Path
+                    app={app}
+                    path={selectedPath}
+                    paths={paths}
+                    addWaitUserMessage={addWaitUserMessage}
+                    addSectionMessage={addSectionMessage}
+                    addSectionControl={addSectionControl}
+                    addDataControl={addDataControl}
+                    addAppPackage={addAppPackage}
+                    updatePath={updatePath}
+                    saveData={saveData}
+                    setPaths={setPaths}
+                    setSelectedPath={setSelectedPath}
+                    searchFields={searchFields}
+                  />
+                </ErrorBoundary>
+              }
 
             <div className="m-4">
               <Button
@@ -565,6 +609,21 @@ const BotEditor = ({ match, app, dispatch, mode, actions }) => {
             </div>
           </div>
         </div>
+
+
+        {openPackagePanel && (
+          <AppPackagePanel
+            open={openPackagePanel}
+            kind={'bots'}
+            close={() => {
+              setOpenPackagePanel(false)
+            }}
+            insertComment={(data) => {
+              insertAddPackage(data)
+              setOpenPackagePanel(false)
+            }}
+          />
+        )}
       </div>
     );
   };
@@ -817,6 +876,7 @@ const Path = ({
   addSectionMessage,
   addWaitUserMessage,
   addSectionControl,
+  addAppPackage,
   addDataControl,
   updatePath,
   setPaths,
@@ -903,6 +963,13 @@ const Path = ({
         addDataControl(path);
       },
     },
+    {
+      name: "Add App",
+      key: "add-app-package",
+      onClick: () => {
+        addAppPackage(path);
+      },
+    },
   ];
 
 
@@ -934,7 +1001,6 @@ const Path = ({
     const newPath = Object.assign({}, path, { steps: newSteps });
     updatePath(newPath);
   };
-
 
   const findControlItemStep = ()=>(
     path.steps.find((o)=> o.controls && o.controls.type === "ask_option" )
@@ -1009,7 +1075,9 @@ const Path = ({
             >
               <List>
                 {options.map((o) => (
-                  <ListItem key={o.key} onClick={o.onClick}>
+                  <ListItem 
+                    key={o.key} 
+                    onClick={o.onClick}>
                     {o.name}
                   </ListItem>
                 ))}
@@ -1213,6 +1281,7 @@ const AppPackageBlocks = ({ options, controls, path, step, update, searchFields 
   const { schema, type } = controls;
 
   const updateOption = (value, option) => {
+    
     const newOption = Object.assign({}, option, { next_step_uuid: value });
     const newOptions = controls.schema.map((o) =>
       o.id === newOption.id ? newOption : o
@@ -1246,25 +1315,6 @@ const AppPackageBlocks = ({ options, controls, path, step, update, searchFields 
         console.log("controls;", controls);
         return (
           <div className={"form-group"} key={index}>
-            
-            {/*item.label ? <label>{item.label}</label> : null */}
-            
-            {
-              /*<Input 
-                type={item.type} 
-                name={item.name}
-                placeholder={item.placeholder}
-              />*/
-            }
-
-            {/*
-              [
-                { value: "email", label: "email" },
-                { value: "name", label: "name" },
-                { value: "phone", label: "phone" },
-                ]
-              */
-            }
 
             <DataInputSelect
               controls={controls}
@@ -1352,6 +1402,8 @@ const getItemStyle = (isDragging, draggableStyle) => ({
   justifyContent: "space-evenly",
   // change background colour if dragging
   background: isDragging ? "lightgreen" : "transparent",
+  paddingBottom: '1.2em',
+  borderBottom: '1px solid #ccc',
   // styles we need to apply on draggables
   ...draggableStyle,
 });
@@ -1405,70 +1457,84 @@ class SortableSteps extends Component {
                   draggableId={item.step_uid}
                   index={index}
                 >
-                  {(provided, snapshot) => (
-                    <div
-                      ref={provided.innerRef}
-                      {...provided.draggableProps}
-                      className="mb-4"
-                      style={getItemStyle(
-                        snapshot.isDragging,
-                        provided.draggableProps.style
-                      )}
-                    >
-                      <ItemButtons first={true} {...provided.dragHandleProps}>
-                        <DragHandle />
-                      </ItemButtons>
+                  {
+                    (provided, snapshot) => (
+                      <div
+                        ref={provided.innerRef}
+                        {...provided.draggableProps}
+                        className="mb-4"
+                        style={getItemStyle(
+                          snapshot.isDragging,
+                          provided.draggableProps.style
+                        )}
+                      >
+                        <ItemButtons first={true} {...provided.dragHandleProps}>
+                          <DragHandle />
+                        </ItemButtons>
 
-                      <ItemManagerContainer>
+                        <ItemManagerContainer>
 
-                        {
-                          item.controls && item.controls.type === "wait_for_reply" &&
-                          <div className="p-4 bg-blue-100 text-blue-300 border border-md border-blue-300 rounded-md">
-                            ... wait for user input ...
-                          </div>
-                        }
-
-
-                        {item.messages.map((message) => (
-                          <PathEditor
-                            key={`path-editor-${path.id}`}
-                            path={path}
-                            step={item}
-                            message={message}
-                            updatePath={updatePath}
-                          />
-                        ))}
-
-                        <div>	
-                          <ControlWrapper>	
-                            {item.controls && item.controls.type !== "ask_option" && (	
-                              <AppPackageBlocks	
-                                controls={item.controls}	
-                                path={path}	
-                                step={item}	
-                                options={stepOptions}	
-                                searchFields={searchFields}
-                                update={(opts) =>	
-                                  updateControlPathSelector(opts, item)	
-                                }	
-                              />	
-                            )}	
-                          </ControlWrapper>	
-                        </div>	
+                          {
+                            item.controls && item.controls.type === "wait_for_reply" &&
+                            <div className="p-4 bg-blue-100 text-blue-300 border border-md border-blue-300 rounded-md">
+                              ... wait for user input ...
+                            </div>
+                          }
 
 
-                      </ItemManagerContainer>
+                          {item.messages && item.messages.map((message) => (
+                            <PathEditor
+                              key={`path-editor-${path.id}`}
+                              path={path}
+                              step={item}
+                              message={message}
+                              updatePath={updatePath}
+                            />
+                          ))}
 
-                      <ItemButtons>
-                        <Button
-                          variant={"icon"}
-                          onClick={() => deleteItem(path, item)}
-                        >
-                          <DeleteForever />
-                        </Button>
-                      </ItemButtons>
-                    </div>
-                  )}
+                          <div>	
+                            <ControlWrapper>	
+ 
+                              {item.controls && 
+                                item.controls.type !== "ask_option" &&
+                                item.controls.type !== "app_package" && (	
+                                <AppPackageBlocks	
+                                  controls={item.controls}	
+                                  path={path}	
+                                  step={item}	
+                                  options={stepOptions}	
+                                  searchFields={searchFields}
+                                  update={(opts) =>	
+                                    updateControlPathSelector(opts, item)	
+                                  }	
+                                  />
+                              )}	
+
+                              {
+                                item.controls && item.controls.type === "app_package" && (
+                                  <DefinitionRenderer
+                                    schema={item.controls.schema}
+                                    updatePackage={(data, cb)=>{ cb && cb() }} 
+                                  />
+                                )
+                              }
+                            </ControlWrapper>	
+                          </div>	
+
+
+                        </ItemManagerContainer>
+
+                        <ItemButtons>
+                          <Button
+                            variant={"icon"}
+                            onClick={() => deleteItem(path, item)}
+                          >
+                            <DeleteForever />
+                          </Button>
+                        </ItemButtons>
+                      </div>
+                    )
+                  }
                 </Draggable>
               ))}
               {provided.placeholder}

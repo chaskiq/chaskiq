@@ -24,6 +24,8 @@ class App < ApplicationRecord
     enable_articles_on_widget
     inline_new_conversations
     tag_list
+    user_home_apps
+    visitor_home_apps
     paddle_user_id
     paddle_subscription_id
     paddle_subscription_plan_id
@@ -68,7 +70,7 @@ class App < ApplicationRecord
   has_one_attached :logo
 
   before_create :set_defaults
-  after_create :create_agent_bot, :init_app_segments
+  after_create :create_agent_bot, :init_app_segments, :attach_default_packages
 
   accepts_nested_attributes_for :article_settings
 
@@ -77,6 +79,13 @@ class App < ApplicationRecord
 
   def agent_bots
     agents.where('bot =?', true)
+  end
+
+  def attach_default_packages
+    default_packages = %w[ContentShowcase ArticleSearch Qualifier]
+    AppPackage.where(name: default_packages).each do |app_package|
+      self.app_packages << app_package
+    end
   end
 
   def encryption_enabled?

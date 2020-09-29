@@ -149,21 +149,24 @@ class ActionTriggerFactory
           uuid: 2,
           agent: bot_agent
         ),
+
         c.controls(
           uuid: 3,
-          type: 'data_retrieval',
+          #type: 'data_retrieval',
+          type: "app_package", 
+          app_package: "Qualifier",
+          next_step_uuid: '4',
           schema: [
-            c.input(
-              label: I18n.t("task_bots.email_requirement.input_label"),
-              name: 'email',
-              placeholder: I18n.t("task_bots.email_requirement.placeholder")
-            )
+            {
+              "type"=>"input", 
+              "id"=>"email", 
+              "placeholder"=> I18n.t("task_bots.email_requirement.placeholder"),
+              "label"=>  I18n.t("task_bots.email_requirement.input_label"), 
+              "value"=>nil, 
+              "errors"=>"", 
+              "action"=>{"type"=>"submit"}
+            }
           ]
-        ),
-        c.message(
-          text: I18n.t("task_bots.email_requirement.ack"), 
-          uuid: 4,
-          agent: bot_agent
         )
       ]
 
@@ -254,13 +257,14 @@ class ActionTriggerFactory
           step_7 << email_requirement
           step_7.flatten!
         end
-      #else
-      #  step_7 << c.message(
-      #    text: I18n.t('bot_tasks.email_support'), 
-      #    uuid: 4,
-      #    agent: bot_agent
-      #  )
+
       end
+
+      step_7 << c.message(
+        text: I18n.t("task_bots.email_requirement.ack"), 
+        uuid: 4,
+        agent: bot_agent
+      )
 
       #puts 'STEP 7'
       #puts step_7
@@ -345,11 +349,16 @@ class ActionTriggerFactory
               end
 
     step = data['step'].to_s
-    path = trigger.paths.find do |o|
-      o.with_indifferent_access['steps'].find do |a|
-        a['step_uid'].to_s === step
-      end.present?
-    end.with_indifferent_access
+
+    begin
+      path = trigger.paths.find do |o|
+        o.with_indifferent_access['steps'].find do |a|
+          a['step_uid'].to_s === step
+        end.present?
+      end.with_indifferent_access
+    rescue
+      nil
+    end
 
     [trigger, path]
   end
@@ -377,7 +386,7 @@ class ActionTriggerFactory
     }
   end
 
-  def controls(schema: [], wait_for_input: true, uuid:, type:)
+  def controls(schema: [], next_step_uuid: nil, app_package: nil, wait_for_input: true, uuid:, type:)
     {
       "step_uid": uuid,
       "type": 'messages',
@@ -387,6 +396,8 @@ class ActionTriggerFactory
       "controls": {
         "type": type,
         "schema": schema,
+        "next_step_uuid": next_step_uuid,
+        "app_package": app_package,
         "wait_for_input": wait_for_input
       }
     }

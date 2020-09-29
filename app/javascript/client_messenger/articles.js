@@ -1,45 +1,42 @@
-import React, {Component, useState, useEffect} from 'react'
+import React, { useState, useEffect } from 'react'
 import styled from '@emotion/styled'
 import {
-  AnchorButton,
-  FadeRightAnimation,
+
   FadeBottomAnimation
 } from './styles/styled'
 
-import Moment from 'react-moment';
+import Moment from 'react-moment'
 
 import { ThemeProvider } from 'emotion-theming'
 import theme from './textEditor/theme'
-import themeDark from './textEditor/darkTheme'
+
 import DraftRenderer from './textEditor/draftRenderer'
 import DanteContainer from './textEditor/editorStyles'
 import Loader from './loader'
-import { useTranslation, Trans } from "react-i18next";
+import { useTranslation, Trans } from 'react-i18next'
+
+import { withTranslation } from 'react-i18next';
+import i18n from '../client_messenger/i18n'
+
 
 const DanteContainerExtend = styled(DanteContainer)`
   margin-top: 1.2em;
 `
 
-//import graphql from './graphql/client'
-import {
-  ARTICLE,
-  SEARCH_ARTICLES
-} from './graphql/queries'
-
 const Panel = styled.div`
   position: fixed;
-  top: 75px;
+  top: 0px;
   bottom: 0px;
   left: 0px;
   right: 0px;
   overflow: scroll;
   width: 100%;
-  height: 80%;
+  height: 100%;
 `
 
 const ContentWrapper = styled.div`
   padding: 2em;
-  ${(props)=> FadeBottomAnimation(props)}
+  ${(props) => FadeBottomAnimation(props)}
 `
 
 const ArticleTitle = styled.h1`
@@ -57,53 +54,26 @@ const ArticleMeta = styled.span`
 `
 
 const Article = ({
-  updateHeader,
-  articleSlug,
-  transition,
-  appData,
+  //updateHeader,
+  //articleSlug,
+  //transition,
+  //appData,
   i18n,
-  graphqlClient,
+  //graphqlClient,
   lang,
-  domain
-})=>{
+  //domain,
+  //articleJson
+}) => {
 
-  const [article, setArticle] = useState(null)
+  const domain = window.domain
+  const [article, setArticle] = useState(window.articleJson)
   const [loading, setLoading] = useState(false)
-  const { t } = useTranslation();
+  const { t } = useTranslation()
 
-  useEffect(()=>{
-    updateHeader(
-      {
-        translateY: 0 , 
-        opacity: 1, 
-        height: '0px' 
-      }
-    )
-    getArticle()
-  }, [])
-
-  function getArticle(){
-    setLoading(true)
-    graphqlClient.send(ARTICLE, {
-      domain: appData.articleSettings.subdomain,
-      id: articleSlug,
-      lang: lang,
-    }, {
-      success: (data)=>{
-        setArticle(data.helpCenter.article)
-        setLoading(false)
-      },
-      error: ()=>{
-        setLoading(false)
-        debugger
-      }
-    })
-  }
-
-  function renderDate(){
+  function renderDate () {
     return <Moment format="MMM Do, YYYY">
-            {article.updatedAt}
-          </Moment>
+      {article.updatedAt}
+    </Moment>
   }
 
   return (
@@ -113,37 +83,46 @@ const Article = ({
         loading && <Loader sm />
       }
       {
-        article && 
-        <ContentWrapper in={transition}>
-          
-          { article.collection &&  <CollectionLabel>
-              {article.collection.title}
-            </CollectionLabel>
+        article &&
+        <ContentWrapper 
+        //in={transition}
+        >
+
+          { article.collection && <CollectionLabel>
+            {article.collection.title}
+          </CollectionLabel>
           }
           <ArticleTitle>
             {article.title}
           </ArticleTitle>
           <ArticleMeta>
-            <Trans 
+            <Trans
               i18nKey="article_meta"
               i18n={i18n}
-              values={{name: article.author.name}}
+              values={{ name: article.author.name }}
               components={[
                 renderDate()
               ]}
             />
-          
+
           </ArticleMeta>
 
-          <ThemeProvider 
-            theme={ theme }>
-              <DanteContainerExtend>
-                <DraftRenderer
-                  domain={domain}
-                  raw={JSON.parse(article.content.serialized_content)}
-                />
-              </DanteContainerExtend>
-          </ThemeProvider>  
+          <ThemeProvider
+
+            theme={ {
+              ...theme,
+              palette: {
+                primary: "#121212",
+                secondary: "#121212"
+              }} 
+            }>
+            <DanteContainerExtend>
+              <DraftRenderer
+                domain={domain}
+                raw={article.serialized_content}
+              />
+            </DanteContainerExtend>
+          </ThemeProvider>
 
         </ContentWrapper>
       }
@@ -152,20 +131,6 @@ const Article = ({
   )
 }
 
+const TranslatedArticle = withTranslation()(Article);
+export default TranslatedArticle
 
-const Articles = ({
-  updateHeader,
-  articleSlug,
-  transition
-})=>{
-
-  return (
-
-    
-    <p> article list</p>
-
-  )
-
-}
-
-export default Article

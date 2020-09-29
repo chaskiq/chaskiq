@@ -14,14 +14,16 @@ export default function List ({ children, shadowless }) {
 }
 
 export function ListItem ({ avatar, action, children, onClick, divider }) {
+
+  const clicableClasses = onClick && 'cursor-pointer'
   return (
     <li className={`${divider ? 'border-b' : ''}`}>
       <div
         onClick={onClick && onClick}
-        className="block
-        hover:bg-gray-50
-        focus:outline-none focus:bg-gray-50 transition duration-150
-        ease-in-out"
+        className={`${clicableClasses} block
+        hover:bg-gray-100
+        focus:outline-none focus:bg-gray-200 transition duration-150
+        ease-in-out`}
       >
         <div className="flex items-center px-4 py-4 sm:px-6">
           <div className="min-w-0 flex-1 flex items-center">

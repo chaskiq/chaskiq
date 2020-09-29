@@ -266,6 +266,7 @@ function Sidebar ({
       ]
     },
 
+
     {
       id: 'Settings',
       label: I18n.t('navigator.settings'),
@@ -279,6 +280,15 @@ function Sidebar ({
           url: `/apps/${app.key}/settings`,
           active: isActivePage('app_settings')
         },
+
+        {
+          id: 'Messenger',
+          label: I18n.t('navigator.childs.messenger_settings'),
+          icon: <MessageIcon />,
+          url: `/apps/${app.key}/messenger`,
+          active: isActivePage('messenger')
+        },
+
         {
           id: 'Team',
           label: I18n.t('navigator.childs.team'),
