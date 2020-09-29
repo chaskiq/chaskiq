@@ -1,0 +1,2 @@
+Hi, <%= @assignee.name %>, you have been assigned to a conversation on chaskiq
+<%= link_to 'visit conversation on chaskiq', "#{ENV['HOST']}/apps/#{@app.key}/conversations/#{@conversation.key}" %> for details

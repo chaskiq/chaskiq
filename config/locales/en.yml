@@ -79,6 +79,7 @@ en:
       article_settings: Settings
       app_settings: App Settings
       team: Team
+      messenger_settings: Messenger settings
       integrations: Integrations
       webhooks: Webhooks
       api_access: API access
@@ -294,7 +295,7 @@ en:
     app:
       app_settings: App Settings
       security: Security
-      app_settings: App Settings
+      messenger_settings: Messenger Settings
       security: Security
       appearance: Appearance
       appearance_title: Appearance settings
@@ -467,7 +468,7 @@ en:
   articles:
     title: Articles
     all: All
-    published: Posted
+    published: Published
     draft: Drafts
     visit: visit the help center
     new: New article

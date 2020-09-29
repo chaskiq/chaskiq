@@ -11,12 +11,15 @@ RSpec.describe Api::V1::Hooks::ProviderController, type: :controller do
       "type":"app_package",
       "schema":[ 
         {
-          "name": "zoom", 
-          "type": "button", 
-          "label": "enter video call", 
-          "element": "button", 
-          "placeholder": "click button to open video call"
-      }
+        "type":  "button",
+        "align": "left",
+        "label": 'Join',
+        "width": "full",
+        "action": {
+          type: 'url',
+          url: "http://something.cl"
+        }
+      },
       ],
       "values":{ 
         "src": nil
@@ -30,7 +33,7 @@ RSpec.describe Api::V1::Hooks::ProviderController, type: :controller do
   # "meeting.ended"
   def data_for(id:, app:, event: 'meeting.started')
     {
-      "event"=>"meeting.started", 
+      "event"=>event, 
       "payload"=>{
         "account_id"=>"kJcMqqYDTDO3gravE-7rrg", 
         "object"=>{
@@ -50,8 +53,6 @@ RSpec.describe Api::V1::Hooks::ProviderController, type: :controller do
     }   
   end
 
-
-  
   let!(:app) do
     FactoryBot.create(:app)
   end
@@ -101,7 +102,7 @@ RSpec.describe Api::V1::Hooks::ProviderController, type: :controller do
 
       MessageApis::Zoom.any_instance
       .stub(:create_fase)
-      .and_return({aa: 11})
+      .and_return({definitions: blocks[:schema]})
       
       @pkg = app.app_package_integrations.create(
         api_secret: "aaa",
@@ -116,28 +117,21 @@ RSpec.describe Api::V1::Hooks::ProviderController, type: :controller do
 
     it "receive hook" do
       allow_any_instance_of(MessageApis::Zoom).to receive(:enqueue_process_event).once
-      post(:process_event, params: data_for(id: @pkg.encoded_id, app: app) )
+      post(:process_event, params: data_for(id: @pkg.encoded_id, app: app ))
     end
 
     it "meeting started" do
       perform_enqueued_jobs do
         post(:process_event, params: data_for(id: @pkg.encoded_id, app: app) ) 
-        expect(message.reload.message.data).to be_present
-        expect(message.reload.message.data["aa"]).to be_present
-        expect(message.reload.message.data["status"]).to be_present
+        expect(message.reload.message.data["status"]).to be == 'meeting_started'
       end
     end
 
     it "meeting ended" do
       perform_enqueued_jobs do
-        post(:process_event, params: data_for(id: @pkg.encoded_id, app: app) ) 
-        expect(message.reload.message.data).to be_present
-        expect(message.reload.message.data["aa"]).to be_present
-        expect(message.reload.message.data["status"]).to be_present
+        post(:process_event, params: data_for(id: @pkg.encoded_id, app: app, event: 'meeting.ended') ) 
+        expect(message.reload.message.data["status"]).to be == 'meeting_ended'
       end
     end
-
-
   end
-
 end

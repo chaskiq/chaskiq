@@ -35,6 +35,7 @@ Rails.application.routes.draw do
 
   resource :oembed, controller: 'oembed', only: :show
   get '/package_iframe/:package' => 'application#package_iframe'
+  post '/package_iframe_internal/:package' => 'application#package_iframe_internal'
   post '/dummy_webhook' => 'application#dummy_webhook'
 
   constraints(SubdomainOrDomain) do

@@ -7,17 +7,6 @@ import { ResponsivePie } from '@nivo/pie'
 // you'll often use just a few of them.
 
 export default function MyResponsivePie ({ data, label }) {
-  // const theme = useTheme();
-
-  const theme = {
-    palette: {
-      primary: {
-        light: '#112343',
-        main: '#123443'
-      }
-    }
-  }
-
   return (
     <ResponsivePie
       data={data}
@@ -32,7 +21,6 @@ export default function MyResponsivePie ({ data, label }) {
       colorBy={function (e) {
         return e.color
       }}
-      borderWidth={0}
       borderColor="inherit:darker(0.2)"
       // borderColor={{ from: 'color', modifiers: [ [ 'darker', '0' ] ] }}
       radialLabelsSkipAngle={25}

@@ -18,7 +18,8 @@ import theme from "./textEditor/theme";
 import { ThemeProvider } from "emotion-theming";
 import { DeleteForeverRounded, PlusIcon } from "./icons";
 import Button from "./Button";
-import tw from "tailwind.macro";
+//import tw from "tailwind.macro";
+import tw from 'twin.macro'
 
 // INTERNAL APP TOUR
 const StepContainer = styled.div`

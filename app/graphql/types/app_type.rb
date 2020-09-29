@@ -34,9 +34,17 @@ module Types
     field :enable_articles_on_widget, Boolean, null: true
     field :inline_new_conversations, Boolean, null: true
     field :editor_app_packages, [Types::AppPackageType], null: true
+    field :follow_action_app_packages, [Types::AppPackageType], null: true
     field :tag_list, [Types::JsonType], null: true
-
+    field :user_home_apps, [Types::JsonType], null: true
+    field :home_apps, [Types::JsonType], null: true
+    field :visitor_home_apps, [Types::JsonType], null: true
     field :plans, [Types::JsonType], null: true
+
+    def home_apps
+      return object.visitor_home_apps if current_user.is_a?(Visitor)
+      object.user_home_apps
+    end
 
     def plans
       PaymentServices::Paddle.new.get_plans
@@ -105,6 +113,34 @@ module Types
       object.app_packages.tagged_with("editor")
       .joins(:app_package_integrations)
       .where("app_package_integrations.id is not null").uniq
+    end
+
+    field :app_package, Types::AppPackageIntegrationType, null: true do
+      argument :id, String, required: true, default_value: ""
+    end
+
+    def app_package(id:)
+      #object.app_package_integrations.find(id)
+      # object.app_packages.find_by(name: id)
+      object.app_package_integrations
+      .joins(:app_package)
+      .find_by("app_packages.name": id)
+    end
+
+    field :app_packages_capabilities, [Types::AppPackageIntegrationType], null: true do
+      argument :kind, String, required: true, default_value: ""
+    end
+
+    def app_packages_capabilities(kind: )
+      raise "not in type" unless ["home", "conversations", "bots"].include?(kind)
+      authorize! object, to: :show?, with: AppPolicy
+
+      object.app_package_integrations.where(
+        app_package_id: object.app_packages.tagged_with(kind, on: 'capabilities') 
+      )
+      #object.app_packages.tagged_with(kind, on: 'capabilities')
+      #.joins(:app_package_integrations)
+      #.where("app_package_integrations.id is not null").uniq
     end
 
     def gather_social_data
@@ -374,18 +410,25 @@ module Types
       argument :per, Integer, required: false, default_value: 20
       argument :lang, String, required: false, default_value: I18n.default_locale
       argument :mode, String, required: false, default_value: 'all'
+      argument :search, String, required: false, default_value: nil
     end
 
-    def articles(page:, per:, lang:, mode:)
+    def articles(page:, per:, lang:, mode:, search: )
       authorize! object, to: :show?, with: AppPolicy
       I18n.locale = lang
       if mode == 'all'
-        object.articles.page(page).per(per)
+        articles = object.articles
       elsif mode == 'published'
-        object.articles.published.page(page).per(per)
+        articles = object.articles.published
       elsif mode == 'draft'
-        object.articles.draft.page(page).per(per)
+        articles = object.articles.draft
       end
+
+      if (search.present?) 
+        articles = object.articles.search(search)
+      end
+
+      articles.page(page).per(per)
     end
 
     field :articles_uncategorized, Types::PaginatedArticlesType, null: true do

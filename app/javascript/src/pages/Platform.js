@@ -22,7 +22,7 @@ import { setApp } from '../actions/app'
 
 import AppContent from '../components/segmentManager/container'
 
-import tw from 'tailwind.macro'
+import tw from 'twin.macro'
 
 const PageContainer = tw.div`
   bg-gray-200 text-xl w-1/2

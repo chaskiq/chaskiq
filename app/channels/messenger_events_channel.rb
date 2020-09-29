@@ -51,21 +51,48 @@ class MessengerEventsChannel < ApplicationCable::Channel
     if message.from_bot?
       process_next_step(message)
 
-      if data['submit'].present?
+      #### TODO: to be deprecated in favor of app packages
+      if data['submit'].present? && message.message&.blocks&.dig("type") == "data_retrieval"
         opts = @app.searcheable_fields_list
         @app_user.update(data['submit'].slice(*opts)) # some condition from settings here?
         data_submit(data['submit'], message)
       end
+      ####
 
       data_submit(data['reply'], message) if data['reply'].present?
     end
   end
 
+  # from iframes
   def app_package_submit(data)
     get_session_data
     @conversation = @app.conversations.find_by(key: data['conversation_id'])
     message = @conversation.messages.find(data['message_id'])
-    data_submit(data['submit'], message)
+
+    app_package = @app.app_package_integrations
+    .joins(:app_package)
+    .find_by(
+      "app_packages.name": data["data"]["type"].capitalize)
+
+    response = app_package&.call_hook(
+      kind: 'submit', 
+      ctx: {
+        lang: I18n.locale,
+        app: @app,
+        location: 'messenger',
+        current_user: @app_user,
+        values: data["data"]
+      }
+    )
+
+    #UPDATE message blocks here!
+    new_blocks = message.message.blocks.merge(
+      {"schema"=> response[:definitions]}
+    )
+    m = message.message
+
+    m.blocks = new_blocks
+    m.save_replied(data['submit'])
   end
 
   def process_next_step(message)
@@ -83,11 +110,22 @@ class MessengerEventsChannel < ApplicationCable::Channel
       app_user: @app_user
     )
 
-    next_index = path['steps'].index do |o|
-      o['step_uid'].to_s == message.step_id
-    end + 1
+    # for factory triggers this is needed, as they are dynamic
+    if !path
+      paths = trigger.paths.map{|o| 
+        o[:steps].find{|s| 
+          s[:step_uid].to_s == message&.message&.blocks&.dig("next_step_uuid") 
+        }
+      }
+      next_step = paths.find{|o| o }.with_indifferent_access
+    else
+      # normal flow , get next step from next index on the static trigger
+      next_index = path['steps'].index do |o|
+        o['step_uid'].to_s == message.step_id
+      end + 1
+      next_step = path['steps'][next_index]
+    end
 
-    next_step = path['steps'][next_index]
 
     if next_step.blank?
       handle_follow_actions(path)
@@ -205,9 +243,6 @@ class MessengerEventsChannel < ApplicationCable::Channel
         controls: next_step['controls']
       )
     end
-
-
-
   end
 
   def request_trigger(data)

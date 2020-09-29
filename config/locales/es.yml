@@ -76,6 +76,7 @@
         collections: Colecciones
         article_settings: Configuraciones
         app_settings: Ajustes de Aplicación
+        messenger_settings: Ajustes del chat
         team: Equipo
         integrations: Integraciones
         webhooks: Webhooks
