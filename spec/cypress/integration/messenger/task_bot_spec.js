@@ -60,7 +60,7 @@ describe('Task bot Spec', function () {
     })
   })
 
-  it('sessionless 2 always ask email , email validation', function () {
+  it.only('sessionless 2 always ask email , email validation', function () {
     cy.wait(5000)
 
 
@@ -96,7 +96,7 @@ describe('Task bot Spec', function () {
                           cy.wrap($body).contains('will reply as soon as they can.')
 
                           cy.wrap($body).contains('Are you an existing')
-                          /*
+                          
                           cy.wrap($body).contains("Yes, I'm a customer").click().then(() => {
                             cy.wrap($body).contains('by email')
                             cy.wrap($body)
@@ -118,7 +118,7 @@ describe('Task bot Spec', function () {
                               .click()
 
                             cy.wrap($body).contains('Thank you')
-                          })*/
+                          })
                         })
                     })
                 })
