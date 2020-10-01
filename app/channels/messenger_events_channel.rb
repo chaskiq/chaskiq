@@ -46,6 +46,11 @@ class MessengerEventsChannel < ApplicationCable::Channel
     get_session_data
     @conversation = @app.conversations.find_by(key: data['conversation_id'])
     message = @conversation.messages.find(data['message_id'])
+
+    # if the message was read skip processing
+    # this will avoid message duplication
+    return if message.read?
+
     message.read! if message.authorable != @app_user
 
     if message.from_bot?
