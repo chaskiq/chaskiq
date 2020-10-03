@@ -15,6 +15,8 @@ class Agent < ApplicationRecord
           :validatable,
           :omniauthable, omniauth_providers: %i[doorkeeper]
 
+  has_many :app_packages
+
   def self.from_omniauth(auth)
     where(provider: auth.provider, uid: auth.uid).first_or_create do |user|
       user.email = auth.info.email

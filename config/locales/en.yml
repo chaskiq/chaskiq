@@ -316,12 +316,17 @@ en:
       update_error: Error updating integration
       remove_success: Integration removed correctly
       remove_error: Error removing integration
+      create_integration: Create New integration
       active:
         title: Active Integrations
         text: API Integrations
       available:
         title: "Available API's"
         text:  Available API Services
+
+      yours:
+        title: "Your Integration Apps"
+        text:  Integration apps created by you
 
       hints:
         hook_url: This integration will receive webhook at
@@ -492,9 +497,9 @@ en:
       select_lang: Select language
       add_language_to_help: Add new language to Help Center
       delete:
-        title: Delete translation "% {name}"
+        title: Delete translation "%{name}"
         text: We will destroy the translation and hide any article with the language
-          "% {name}"
+          "%{name}"
       appearance: Appearance
       appearance_settings: Appearance settings
       lang: Language

@@ -308,12 +308,16 @@
         update_error: Error al actualizar la integración
         remove_success: Integración eliminada correctamente
         remove_error: Error al eliminar la integración
+        create_integration: Crear nueva integración
         active:
           title: Integraciones Activas
           text: Integraciones API
         available:
           title: API disponibles
           text: Servicios API disponibles
+        yours:
+          title: "Tus integraciones"
+          text:  Integraciones creadas por ti
         hints:
           hook_url: Esta integración recibirá webhook en
         delete_dialog:

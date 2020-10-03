@@ -11,6 +11,7 @@ module Mutations
 
       def resolve(app_key:, app_package:, params:)
         app = find_app(app_key)
+        # TODO: check for agent packages or public packages
         app_package = AppPackage.find_by(name: app_package)
         integration = app.app_package_integrations.new(params.permit!)
 

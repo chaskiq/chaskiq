@@ -1375,3 +1375,71 @@ export const DELETE_INTEGRATION = `
     }
   }
 `;
+
+
+
+export const CREATE_PACKAGE = `
+  mutation CreatePackage($appKey: String!, $appPackage: String! , $params: Json!){
+    appPackagesCreate(appKey: $appKey, appPackage: $appPackage, params: $params){
+      errors
+      appPackage {
+        id
+        name
+        icon
+        state
+        name
+        definitions
+        description
+        initializeUrl
+        configureUrl
+        submitUrl
+        sheetUrl
+        capabilities
+      }
+    }
+  }
+`;
+
+export const UPDATE_PACKAGE = `
+  mutation UpdatePackage($appKey: String!, $id: String!, , $params: Json!){
+    appPackagesUpdate(appKey: $appKey, id: $id, params: $params){
+      errors
+      appPackage {
+        id
+        name
+        icon
+        state
+        name
+        definitions
+        description
+        initializeUrl
+        configureUrl
+        submitUrl
+        sheetUrl
+        capabilities
+      }
+    }
+  }
+`;
+
+export const DELETE_PACKAGE = `
+  mutation DeletePackage($appKey: String!, $id: String!){
+    appPackagesDelete(appKey: $appKey, id: $id){
+      errors
+      appPackage {
+        id
+        name
+        icon
+        state
+        name
+        definitions
+        description
+        initializeUrl
+        configureUrl
+        submitUrl
+        sheetUrl
+        capabilities
+      }
+    }
+  }
+`;
