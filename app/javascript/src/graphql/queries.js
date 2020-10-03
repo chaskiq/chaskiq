@@ -932,6 +932,27 @@ export const APP_PACKAGES = `
         definitions
         icon
         description
+        capabilities
+      }
+    }
+  }
+`;
+
+export const AGENT_APP_PACKAGES = `
+  query App($appKey: String!){
+    app(key: $appKey) {
+      agentAppPackages{
+        id
+        name
+        state
+        icon
+        description
+        definitions
+        initializeUrl
+        configureUrl
+        submitUrl
+        sheetUrl
+        capabilities
       }
     }
   }
@@ -946,6 +967,27 @@ export const APP_PACKAGE = `
         definitions
         icon
         description
+        capabilities
+      }
+    }
+  }
+`;
+
+export const AGENT_APP_PACKAGE = `
+  query App($appKey: String!, $id: String!){
+    app(key: $appKey) {
+      agentAppPackage(id: $id){
+        id
+        name
+        state
+        icon
+        description
+        definitions
+        initializeUrl
+        configureUrl
+        submitUrl
+        sheetUrl
+        capabilities
       }
     }
   }
@@ -1028,6 +1070,7 @@ export const APP_PACKAGE_INTEGRATIONS = `
         description
         hookUrl
         oauthAuthorize
+        capabilities
       }
     }
   }

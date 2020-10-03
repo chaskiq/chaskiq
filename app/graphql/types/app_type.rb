@@ -31,6 +31,7 @@ module Types
     field :outgoing_email_domain, String, null: true
     field :custom_fields, [Types::JsonType], null: true
     field :app_packages, [Types::AppPackageType], null: true
+    field :agent_app_packages, [Types::AppPackageType], null: true
     field :enable_articles_on_widget, Boolean, null: true
     field :inline_new_conversations, Boolean, null: true
     field :editor_app_packages, [Types::AppPackageType], null: true
@@ -127,6 +128,18 @@ module Types
       .find_by("app_packages.name": id)
     end
 
+
+    field :agent_app_package, Types::AppPackageType, null: true do
+      argument :id, String, required: true, default_value: ""
+    end
+
+    def agent_app_package(id:)
+      #object.app_package_integrations.find(id)
+      # object.app_packages.find_by(name: id)
+      current_user.app_packages.find(id)
+    end
+    
+
     field :app_packages_capabilities, [Types::AppPackageIntegrationType], null: true do
       argument :kind, String, required: true, default_value: ""
     end
@@ -170,6 +183,11 @@ module Types
       integrations = object.app_package_integrations.map(&:app_package_id)
       integrations.any? ? 
       AppPackage.where.not("id in(?)", integrations) : AppPackage.all
+    end
+
+    def agent_app_packages
+      authorize! object, to: :manage?, with: AppPolicy
+      current_user.app_packages
     end
 
     field :app_package_integrations, [Types::AppPackageIntegrationType], null: true

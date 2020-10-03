@@ -8,12 +8,12 @@ function addHomeApp (namespace, definitions) {
   )`)
 }
 
-function addAppPackage(app_package){
-  /*app = find_app(app_key)
+function addAppPackage (app_package) {
+  /* app = find_app(app_key)
   app_package = AppPackage.find_by(name: app_package)
   integration = app.app_package_integrations.new(params.permit!)
   integration.app_package = app_package
-  integration.save*/
+  integration.save */
 
   cy.appEval(`
     require 'app_packages_catalog'
@@ -29,7 +29,7 @@ function addAppPackage(app_package){
   `)
 }
 
-function addAppPackageToHome(namespace, app_package, params ){
+function addAppPackageToHome (namespace, app_package, params) {
   cy.appEval(`
     app = App.first
     integration = app.app_package_integrations.first
@@ -137,8 +137,7 @@ describe('Visitor home apps', function () {
     })
   })
 
-
-  it("add package, test click", function () {
+  it('add package, test click', function () {
     cy.appScenario('basic')
 
     addAppPackage('UiCatalog')
@@ -179,7 +178,7 @@ describe('Visitor home apps', function () {
     })
   })
 
-  it("add package, test content", function () {
+  it('add package, test content', function () {
     cy.appScenario('basic')
 
     addAppPackage('UiCatalog')
@@ -222,7 +221,7 @@ describe('Visitor home apps', function () {
     })
   })
 
-  it("add package, frame", function () {
+  it('add package, frame', function () {
     cy.appScenario('basic')
 
     addAppPackage('UiCatalog')
@@ -275,8 +274,8 @@ describe('Visitor home apps', function () {
               const $body = $iframe.contents().find('body')
               cy.wrap($body).xpath(
                 '//*[@id="mountHere"]/div/div[2]/div[2]/div[1]/div[2]/div/form/div[2]/div/ul/div'
-              ).click().then(()=> 
-                setTimeout(()=>{
+              ).click().then(() =>
+                setTimeout(() => {
                   cy.wrap($body).get('#package-frame').then(function ($iframe2) {
                     const $body2 = $iframe.contents().find('body')
                     cy.wrap($body2).contains('my friend')
@@ -287,5 +286,4 @@ describe('Visitor home apps', function () {
         })
     })
   })
-
 })

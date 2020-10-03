@@ -44,6 +44,11 @@ module Types
       object.app_package.definitions #.tap { |d| authorize! d, to: :show? }
     end
 
+    field :capabilities, [String], null: true
+    def capabilities
+      object.app_package.capability_list #.tap { |d| authorize! d, to: :show? }
+    end
+
     def name
       object.app_package.name
     end
