@@ -18,7 +18,6 @@ module Types
     end
 
     def sections
-      #binding.pry
       #current_user.blank? ?
       #object.sections.joins(:articles).group('collection_sections_id , articles.id') :
       object.sections

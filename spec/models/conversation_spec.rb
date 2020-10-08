@@ -404,6 +404,8 @@ RSpec.describe Conversation, type: :model do
   context 'app package integration' do
 
     before :each do
+      AppPackage.find_by(name: "Slack").destroy
+
       @pkg = app.app_package_integrations.create(
         api_secret: "aaa",
         api_key: "aaa",

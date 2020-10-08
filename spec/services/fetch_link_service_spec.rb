@@ -28,7 +28,6 @@ RSpec.describe FetchLinkCardService do
       # fetch = FetchLinkCardService.new.call("https://twitter.com/michelson")
       # fetch = subject.call("https://twitter.com/Hugo_Gutierrez_/status/1010591929338343424")
       # fetch = subject.call("http://vadb.org/people/miguel-michelson-martinez")
-      # binding.pry
     end
   end
 end

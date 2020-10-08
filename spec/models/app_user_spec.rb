@@ -63,7 +63,7 @@ RSpec.describe AppUser, type: :model do
       visitor
       expect(app.app_users.count).to be == 1
 
-      DataEnrichmentService::FullContact.any_instance.should_receive(:enrich_user)
+      #MessageApis::FullContact.any_instance.should_receive(:enrich_user)
 
       perform_enqueued_jobs do
         visitor.update(email: 'miguelmichelson@gmail.com')
