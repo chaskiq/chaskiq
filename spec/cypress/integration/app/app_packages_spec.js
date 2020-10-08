@@ -69,8 +69,10 @@ describe('AppPackages', function () {
             findButtonByName('Add app').click()
 
             cy.contains('Add apps to chat home')
-            cy.xpath('/html/body/div[1]/div[2]/div[2]/div[2]/main/div/div/div/div[2]/div[2]/div/div[2]/div[2]/div/div[2]/div[2]/div/div/div/div/div/ul/li[1]/div/div/div/div/div[2]/div/div/button')
-            .click()
+
+            cy.contains("ContentShowcase").then(($d)=>{
+              $d.parent().parent().find("button").click()
+            })
 
             cy.contains('Pick a template')
             cy.contains('Announcement').click()
