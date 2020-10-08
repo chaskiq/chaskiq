@@ -7,7 +7,7 @@ module DataEnrichmentService
     URL = 'https://person.clearbit.com/v2/combined/find'
 
     # initialize with
-    # DataEnrichmentService::Clearbit::Enrichment.new(token: "122334456")
+    # MessageApis::Clearbit::Enrichment.new(token: "122334456")
 
     # DataEnrichmentService::ClearbitEnrichment.new(token: token)
     # .get_data(params: {email: "miguelmichelson@gmail.com"})

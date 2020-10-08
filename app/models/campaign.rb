@@ -50,7 +50,6 @@ class Campaign < Message
   end
 
   def subscriber_status_for(subscriber)
-    # binding.pry
   end
 
   def send_newsletter

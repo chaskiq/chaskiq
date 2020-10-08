@@ -94,7 +94,6 @@ module MessageApis
     end
 
     def trigger(event)
-      #binding.pry
       #case event.action
       #when 'email_changed' then register_contact(event.eventable)
       #end

@@ -1,13 +1,13 @@
 # frozen_string_literal: true
 
-module DataEnrichmentService
+module MessageApis
   class FullContact < DataEnrichmentService::Base
     attr_accessor :authorization, :params, :conn, :token
 
     # initialize with
-    # DataEnrichmentService::FullContact.new(token: "122334456")
+    # MessageApis::FullContact.new(token: "122334456")
 
-    # DataEnrichmentService::FullContact.new(token: token)
+    # MessageApis::FullContact.new(token: token)
     # .get_data(params: {email: "miguelmichelson@gmail.com"})
 
     def initialize(token:)

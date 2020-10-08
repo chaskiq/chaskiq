@@ -35,7 +35,6 @@ module MessageApis
     end
 
     def trigger(event)
-      #binding.pry
       #case event.action
       #when 'email_changed' then register_contact(event.eventable)
       #end
@@ -129,8 +128,6 @@ module MessageApis
 
         url = params[:ctx][:values][:url]
         text = params[:ctx][:values][:invitation_text]
-
-        binding.pry
 
         definitions = [
           {
