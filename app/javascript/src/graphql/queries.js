@@ -952,6 +952,7 @@ export const AGENT_APP_PACKAGES = `
         configureUrl
         submitUrl
         sheetUrl
+        oauthUrl
         capabilities
       }
     }
@@ -986,6 +987,7 @@ export const AGENT_APP_PACKAGE = `
         initializeUrl
         configureUrl
         submitUrl
+        oauthUrl
         sheetUrl
         capabilities
       }

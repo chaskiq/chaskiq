@@ -206,7 +206,7 @@ module MessageApis
         }
 
         {
-          #kind: kind, 
+          kind: kind, 
           #ctx: ctx, 
           definitions: record.schema 
         }
@@ -248,10 +248,16 @@ module MessageApis
           record.add_item(o)
         end
 
+        record.items.each{|o| 
+          o[:label] = ctx.dig(:definitions)&.find{|d| d[:id] == o[:id] }&.dig(:label)
+          o[:value] = ctx.dig(:values, o[:id].to_sym )
+          o[:placeholder] = "type your #{o[:label]}"
+        } #unless record.valid?
+
         definitions = record.schema
 
         result = {
-          kind: 'initialize', 
+          #kind: 'initialize', 
           definitions: definitions,
         }
 

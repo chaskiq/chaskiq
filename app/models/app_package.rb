@@ -18,6 +18,7 @@ class AppPackage < ApplicationRecord
     configure_url
     submit_url
     sheet_url
+    oauth_url
   ], coder: JSON
 
   validates :name, presence: true, uniqueness: true
@@ -25,10 +26,12 @@ class AppPackage < ApplicationRecord
   validates :configure_url, url: true, if: ->{ is_external? }
   validates :submit_url, url: true, if: ->{ submit_url.present? }
   validates :sheet_url, url: true, if: ->{ sheet_url.present? }
+  validates :oauth_url, url: true, if: ->{ oauth_url.present? }
 
   before_save :set_default_definitions
 
   def is_external?
+    return true if author.present?
     external = message_api_klass rescue nil
     external.nil?
   end
@@ -40,12 +43,23 @@ class AppPackage < ApplicationRecord
 
   def set_default_definitions
     return if definitions.present?
+
+    external_token_definition = [
+      {
+        name: 'access_token',
+
+        type: 'string',
+        grid: { xs: 'w-full', sm: 'w-full' }
+      }
+    ]
+
+    return self.definitions = external_token_definition if is_external?
     self.definitions = []
   end
 
   # message api
   def message_api_klass
-    @message_api_klass ||= "MessageApis::#{self.name.classify}".constantize
+    @message_api_klass ||= "MessageApis::#{self.name}".constantize
   end
 
 end

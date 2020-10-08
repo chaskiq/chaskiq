@@ -107,7 +107,7 @@ class AppPackageIntegration < ApplicationRecord
 
   def get_presenter_manager
     begin
-      "MessageApis::#{self.app_package.name.classify}::PresenterManager"&.constantize
+      "MessageApis::#{self.app_package.name}::PresenterManager"&.constantize
     rescue 
       ExternalPresenterManager
     end
@@ -133,6 +133,14 @@ class AppPackageIntegration < ApplicationRecord
     when "frame" then presenter.sheet_hook(params)
     when "content" then presenter.content_hook(params) # not used
     else raise 'not hook'
+    end
+
+    response = response.with_indifferent_access
+    if response["kind"] == 'initialize'
+      params[:ctx][:field] = nil
+      params[:ctx][:values] = response["results"]
+      response = presenter.initialize_hook(params)
+      response.merge!(kind: 'initialize')
     end
 
     return response if response[:results].blank?

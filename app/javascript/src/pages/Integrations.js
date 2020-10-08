@@ -412,6 +412,9 @@ function Integrations ({ app, dispatch }) {
   )
 }
 
+
+
+
 function EmptyCard ({ goTo }) {
   return (
     <div style={{ marginTop: '2em' }}>
@@ -844,6 +847,15 @@ function AppPackageForm ({ app, open, dispatch, onCancel, integration }) {
         hint: I18n.t('definitions.app_packages.description.hint'),
         grid: { xs: 'w-full', sm: 'w-full' }
       },
+
+      {
+        name: 'oauth_url',
+        label: 'oauth url (Optional)',
+        type: 'string',
+        hint: "(Optional) OAuth is used for publicly-available apps that access other people's Chaskiq data",
+        grid: { xs: 'w-full', sm: 'w-full' }
+      },
+
       {
         name: 'initialize_url',
         label: I18n.t('definitions.app_packages.initialize_url.label'),
@@ -910,16 +922,16 @@ function AppPackageForm ({ app, open, dispatch, onCancel, integration }) {
       {
         success: (data) => {
           if (!isEmpty(data.appPackagesCreate.errors)) {
-            dispatch(errorMessage(I18n.t('settings.integrations.create_error')))
+            dispatch(errorMessage(I18n.t('settings.app_packages.create_error')))
             setErrors(data.appPackagesCreate.errors)
             return
           }
           setAppPackage(data.appPackagesCreate.appPackage)
           onCancel()
-          dispatch(successMessage(I18n.t('settings.integrations.create_success')))
+          dispatch(successMessage(I18n.t('settings.app_packages.create_success')))
         },
         error: () => {
-          dispatch(errorMessage(I18n.t('settings.integrations.create_error')))
+          dispatch(errorMessage(I18n.t('settings.app_packages.create_error')))
         }
       }
     )
@@ -932,20 +944,20 @@ function AppPackageForm ({ app, open, dispatch, onCancel, integration }) {
         appKey: app.key,
         appPackage: open.name,
         params: serializedData.app || {},
-        id: parseInt(appPackage.id)
+        id: appPackage.id
       },
       {
         success: (data) => {
-          if (!isEmpty(data.appPackagesCreate.errors)) {
-            dispatch(errorMessage(I18n.t('settings.integrations.create_error')))
-            setErrors(data.appPackagesCreate.errors)
+          if (!isEmpty(data.appPackagesUpdate.errors)) {
+            dispatch(errorMessage(I18n.t('settings.app_packages.update_error')))
+            setErrors(data.appPackagesUpdate.errors)
             return
           }
-          setAppPackage(data.appPackagesCreate.appPackage)
-          dispatch(successMessage(I18n.t('settings.integrations.create_success')))
+          setAppPackage(data.appPackagesUpdate.appPackage)
+          dispatch(successMessage(I18n.t('settings.app_packages.update_success')))
         },
         error: () => {
-          dispatch(errorMessage(I18n.t('settings.integrations.create_error')))
+          dispatch(errorMessage(I18n.t('settings.app_packages.update_error')))
         }
       }
     )

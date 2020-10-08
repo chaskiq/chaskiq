@@ -1,5 +1,6 @@
 import {
-  translations
+  translations,
+  getIframeBody
 } from '../../support/utils'
 
 function addHomeApp (namespace, definitions) {
@@ -248,7 +249,7 @@ describe('Visitor home apps', function () {
               "subtitle": 'subtitle',
               action: {
                 type: "frame",
-                url: "/package_iframe_internal/ui_catalog" 
+                url: "/package_iframe_internal/UiCatalog" 
               }
             }
           ]
@@ -262,28 +263,23 @@ describe('Visitor home apps', function () {
       const appKey = results.key
 
       cy.visit(`/tester/${appKey}?sessionless=true`)
-        .then(() => {
-          cy.get('iframe:first')
-            .then(function ($iframe) {
-              const $body = $iframe.contents().find('body')
-              cy.wrap($body).find('#chaskiq-prime').click()
-            })
 
-          cy.get('iframe:first')
-            .then(function ($iframe) {
-              const $body = $iframe.contents().find('body')
-              cy.wrap($body).xpath(
-                '//*[@id="mountHere"]/div/div[2]/div[2]/div[1]/div[2]/div/form/div[2]/div/ul/div'
-              ).click().then(() =>
-                setTimeout(() => {
-                  cy.wrap($body).get('#package-frame').then(function ($iframe2) {
-                    const $body2 = $iframe.contents().find('body')
-                    cy.wrap($body2).contains('my friend')
-                  })
-                }, 500)
-              )
-            })
+        getIframeBody('iframe:first').find('#chaskiq-prime').click()
+
+        getIframeBody('iframe:first').xpath(
+          '//*[@id="mountHere"]/div/div[2]/div[2]/div[1]/div[2]/div/form/div[2]/div/ul/div'
+        ).click()
+
+        cy.wait(1000)
+        getIframeBody('iframe:first')
+        .find('#package-frame')
+        .its('0.contentDocument').should('exist')
+        .its('body').should('not.be.undefined')
+        .then(($iframe)=>{
+          cy.wrap($iframe).contains('my friend')
         })
     })
   })
 })
+
+

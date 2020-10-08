@@ -53,7 +53,6 @@ function AppPackagePanel (props) {
   }
 
   function handleAdd (data) {
-    console.log(data)
     setProvider(data)
   }
 

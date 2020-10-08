@@ -2,36 +2,11 @@
 
 class AppPackagesCatalog
   def self.packages
-    [
-
-      {
-        name: "ContentShowcase",
-        description: "Promote relevant content to customers within your Messenger",
-        capability_list: ["home", "conversations", "bots"],
-        state: 'enabled',
-        definitions: []
-      },
-
-      {
-        name: "ArticleSearch",
-        description: "Let customers find and read help articles",
-        capability_list: ["home"],
-        state: 'enabled',
-        definitions: []
-      },
-
+    development_packages = [
       {
         name: "UiCatalog",
         description: "Sample Chaskiq UI kit",
         capability_list: ["home", "conversations"],
-        state: 'enabled',
-        definitions: []
-      },
-
-      {
-        name: "Qualifier",
-        description: "Qualification for user",
-        capability_list: ["conversations", "bots"],
         state: 'enabled',
         definitions: []
       },
@@ -55,6 +30,34 @@ class AppPackagesCatalog
           },
         ]
       },
+    ]
+
+    collection = [
+
+      {
+        name: "ContentShowcase",
+        description: "Promote relevant content to customers within your Messenger",
+        capability_list: ["home", "conversations", "bots"],
+        state: 'enabled',
+        definitions: []
+      },
+
+      {
+        name: "ArticleSearch",
+        description: "Let customers find and read help articles",
+        capability_list: ["home"],
+        state: 'enabled',
+        definitions: []
+      },
+
+      {
+        name: "Qualifier",
+        description: "Qualification for user",
+        capability_list: ["conversations", "bots"],
+        state: 'enabled',
+        definitions: []
+      },
+
 
       {
         name: 'Clearbit',
@@ -355,6 +358,9 @@ class AppPackagesCatalog
       }
 
     ]
+
+    collection = collection + development_packages unless Rails.env.production?
+    collection
   end
 
   def self.import

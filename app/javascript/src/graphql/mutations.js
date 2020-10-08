@@ -1395,6 +1395,7 @@ export const CREATE_PACKAGE = `
         submitUrl
         sheetUrl
         capabilities
+        oauthUrl
       }
     }
   }
@@ -1417,6 +1418,7 @@ export const UPDATE_PACKAGE = `
         submitUrl
         sheetUrl
         capabilities
+        oauthUrl
       }
     }
   }
@@ -1439,6 +1441,7 @@ export const DELETE_PACKAGE = `
         submitUrl
         sheetUrl
         capabilities
+        oauthUrl
       }
     }
   }

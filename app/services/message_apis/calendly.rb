@@ -130,6 +130,8 @@ module MessageApis
         url = params[:ctx][:values][:url]
         text = params[:ctx][:values][:invitation_text]
 
+        binding.pry
+
         definitions = [
           {
             type: "text",
@@ -145,7 +147,7 @@ module MessageApis
             width: 'full',
             action: {
               type: "frame",
-              url: "/package_iframe_internal/calendly" 
+              url: "/package_iframe_internal/Calendly" 
             }
           }
         ]
@@ -367,7 +369,7 @@ module MessageApis
                         if (isCalendlyEvent(e) && e.data.event === "calendly.event_scheduled") {
                           window.parent.postMessage({
                             chaskiqMessage: true, 
-                            type: "calendly", 
+                            type: "Calendly", 
                             status: "submit",
                             data: e.data
                           }, "*")

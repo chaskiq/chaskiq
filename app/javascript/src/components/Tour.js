@@ -247,7 +247,6 @@ class TourManager extends Component {
         });
       },
       error: (error) => {
-        debugger;
         this.setDisabled(false);
         console.log("error on signing blob", error);
       },
