@@ -385,7 +385,7 @@ RSpec.describe Conversation, type: :model do
   end
 
 
-  let!(:app_package) do
+  let(:app_package) do
     #definitions = [
     #  {
     #    name: 'access_token_secret',
@@ -399,6 +399,10 @@ RSpec.describe Conversation, type: :model do
     AppPackage.create(fields)
     #name: 'Slack', definitions: definitions
     #)
+  end
+
+  before do
+    AppPackagesCatalog.update_all
   end
 
   context 'app package integration' do

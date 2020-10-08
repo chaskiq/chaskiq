@@ -110,7 +110,7 @@ RSpec.describe Api::V1::Hooks::ProviderController, type: :controller do
     app.add_agent(email: 'test2@test.cl')
   end
 
-  let!(:app_package) do
+  let(:app_package) do
     AppPackage.find_by(name: "Calendly")
   end
 
@@ -129,6 +129,10 @@ RSpec.describe Api::V1::Hooks::ProviderController, type: :controller do
   end
 
   describe "hooks" do
+
+    before do
+      AppPackagesCatalog.update_all
+    end
 
     before :each do
 

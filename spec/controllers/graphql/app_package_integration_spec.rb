@@ -32,8 +32,12 @@ RSpec.describe GraphqlController, type: :controller do
     AppPackage.find_by(name: 'Slack')
   end
 
-  context 'privileged' do
+  before do
+    AppPackagesCatalog.update_all
+  end
 
+  context 'privileged' do
+    
     before :each do
       stub_current_user(agent_role)
     end

@@ -3,6 +3,11 @@
 require 'rails_helper'
 
 RSpec.describe AppPackageIntegration, type: :model do
+
+  before :each do 
+    AppPackagesCatalog.update_all
+  end
+  
   let(:app) do
     FactoryBot.create :app
   end

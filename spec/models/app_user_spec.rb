@@ -19,6 +19,10 @@ RSpec.describe AppUser, type: :model do
     expect(app_user.events.first.action).to be == Event.action_for(:user_created)
   end
 
+  before do
+    AppPackagesCatalog.update_all
+  end
+
   describe 'full contact enrichment' do
     it 'send to enrichment' do
       App.any_instance.stub(:gather_social_data).and_return(true)
