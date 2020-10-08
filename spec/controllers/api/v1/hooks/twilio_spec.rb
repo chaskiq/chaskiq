@@ -64,14 +64,16 @@ RSpec.describe Api::V1::Hooks::ProviderController, type: :controller do
     app.add_agent(email: 'test2@test.cl')
   end
 
-  let!(:app_package) do
+  let(:app_package) do
     AppPackage.find_by(name: 'Twilio')
   end
 
 
   describe "hooks" do
+    before do
+      AppPackagesCatalog.update_all
+    end
     before :each do
-
       ActiveJob::Base.queue_adapter = :test
       ActiveJob::Base.queue_adapter.perform_enqueued_at_jobs = false
 
