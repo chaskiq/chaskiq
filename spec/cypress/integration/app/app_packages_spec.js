@@ -46,7 +46,7 @@ describe('AppPackages', function () {
 
           cy.contains('Integrations').click()
           cy.contains("Available API's").click().then(() => {
-            cy.xpath('/html/body/div[1]/div[2]/div[2]/div[2]/main/div/div/div/div[2]/div[2]/div/div/ul/li[1]/div/div/div/div/div[2]/div/div/button')
+            cy.xpath('/html/body/div/div[2]/div[2]/div[2]/main/div/div/div/div[2]/div[2]/div/div/ul/li[12]/div/div/div/div/div[2]/div/div/button')
               .click()
 
             cy.contains('Update').click()
