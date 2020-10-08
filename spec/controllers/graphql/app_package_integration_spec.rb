@@ -34,7 +34,7 @@ RSpec.describe GraphqlController, type: :controller do
       type: 'string',
       grid: { xs: 12, sm: 12 }
     }]
-    AppPackage.create(name: 'slack', definitions: definitions)
+    AppPackage.create(name: 'Slack', definitions: definitions)
   end
 
 
@@ -54,6 +54,7 @@ RSpec.describe GraphqlController, type: :controller do
                          api_secret: '123455'
                        }
                      })
+
         expect(graphql_response.errors).to be_nil
         expect(app.app_package_integrations.count).to be == 1
       end
