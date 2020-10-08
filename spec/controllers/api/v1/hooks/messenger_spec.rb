@@ -96,25 +96,7 @@ RSpec.describe Api::V1::Hooks::ProviderController, type: :controller do
   end
 
   let!(:app_package) do
-    definitions = [
-      {
-        name: 'api_secret',
-        type: 'string',
-        grid: { xs: 12, sm: 12 }
-      },
-      {
-        name: 'api_key',
-        type: 'string',
-        grid: { xs: 12, sm: 12 }
-      },
-      {
-        name: 'user_id',
-        type: 'string',
-        grid: { xs: 12, sm: 12 }
-      }
-    ]
-
-    AppPackage.create(name: 'Messenger', definitions: definitions)
+    AppPackage.find_by(name: 'Messenger')
   end
 
   let(:profile_data) do
@@ -148,9 +130,9 @@ RSpec.describe Api::V1::Hooks::ProviderController, type: :controller do
         api_secret: "aaa",
         api_key: "aaa",
         user_id: owner,
+        verify_token: '1234',
         app_package: app_package
       )
-
 
     end
 

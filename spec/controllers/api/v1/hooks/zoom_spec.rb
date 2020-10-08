@@ -70,9 +70,7 @@ RSpec.describe Api::V1::Hooks::ProviderController, type: :controller do
   end
 
   let!(:app_package) do
-    AppPackage.create(
-      AppPackagesCatalog.packages.find{|o| o[:name] == "Zoom"}
-    )
+    AppPackage.find_by(name: "Zoom")
   end
 
   let(:conversation) do

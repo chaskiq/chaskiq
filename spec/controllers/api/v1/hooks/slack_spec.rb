@@ -288,34 +288,7 @@ RSpec.describe Api::V1::Hooks::ProviderController, type: :controller do
   end
 
   let!(:app_package) do
-    definitions = [
-      {
-        name: 'api_secret',
-        type: 'string',
-        grid: { xs: 12, sm: 12 }
-      },
-      {
-        name: 'api_key',
-        type: 'string',
-        grid: { xs: 12, sm: 12 }
-      },
-      {
-        name: 'access_token',
-        type: 'string',
-        grid: { xs: 12, sm: 12 }
-      },
-      {
-        name: 'access_token_secret',
-        type: 'string',
-        grid: { xs: 12, sm: 12 }
-      }
-    ]
-
-    AppPackage.create(
-      name: 'Slack', 
-      tag_list: ['email_changed', 'conversation.user.first.comment'],
-      definitions: definitions
-    )
+    AppPackage.find_by(name: 'Slack')
   end
 
   let(:conversation) do
