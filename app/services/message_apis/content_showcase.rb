@@ -70,6 +70,7 @@ module MessageApis
           definitions = record.article_presentation_fields(items)
           
           return {
+            wait_for_input: false,
             definitions: definitions
           }
         end

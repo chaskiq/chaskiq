@@ -12,7 +12,7 @@ class ConversationPartBlock < ApplicationRecord
     # this right now only works for trusted plugins
     # this needs to be API hook compatible
     # add a proper setting on appPackage like, hook_url ?
-    package_class_name = self.blocks["app_package"].classify
+    package_class_name = self.blocks["app_package"]
     klass = "MessageApis::#{package_class_name}".constantize rescue nil
     return if klass.blank?
     return unless klass.instance_methods.include?(:create_fase)

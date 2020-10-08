@@ -158,12 +158,11 @@ en:
         label: 'Initialize flow webhook URL'
         hint: 'Sent when an app has been inserted into a conversation, message or the home screen, so that you can render the app.'
         placeholder: 'e.g. https://yourdomain.com/initialize-url/'
-      configure_url:
+      submit_url:
         label: 'Submit flow webhook URL'
-        name: 'configure_url'
         hint: 'Sent when an end-user interacts with your app, via a button, link, or text input. This flow can occur multiple times as an end-user interacts with your app.'
         placeholder: 'e.g. https://yourdomain.com/submit-url/'
-      submit_url:
+      configure_url:
         label: 'Configure flow webhook URL (optional)'
         hint: 'Sent when a teammate wants to use your app, so that you can show them configuration options before it’s inserted. Leaving this option blank will skip configuration.'
         placeholder: 'e.g. https://yourdomain.com/configure-url/'

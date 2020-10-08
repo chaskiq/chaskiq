@@ -65,7 +65,7 @@ module Types
           lang: I18n.locale,
           app: object.app,
           current_user: current_user
-        ), 
+        )
       })
     end
   end

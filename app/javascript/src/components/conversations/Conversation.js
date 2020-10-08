@@ -81,7 +81,7 @@ const BgContainer = styled.div`
 
 const MessageItem = styled.div`
   ${(props)=> props.userOrAdmin === 'user' ? 
-    `background: linear-gradient(45deg, #e5fff2, #1dea94f2);` :
+    `background: linear-gradient(45deg,#48d79b,#1dea94f2);` :
     `background: linear-gradient(45deg,#202020,#000000e6)`
   }
 `

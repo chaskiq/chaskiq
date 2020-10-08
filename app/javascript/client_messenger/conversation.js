@@ -205,7 +205,6 @@ export class Conversation extends Component {
       step: item.nextStepUuid || item.next_step_uuid,
       reply: item
     })
-    
   }
 
   appPackageSubmitHandler = (data, message)=>{
@@ -567,7 +566,6 @@ class AppPackageBlock extends Component {
   }
 
   sendAppPackageSubmit = (data, cb)=>{
-    console.log("clickeo pa acá", data, this.props)
     //if(data.field.action && data.field.action.type === 'frame')
     //  this.props.clickHandler(data, this.props)
     this.updatePackage(data, this.props, cb)
@@ -604,6 +602,7 @@ class AppPackageBlock extends Component {
         field: data.field,
         conversation_id: this.props.conversation.key,
         message_id: message.id,
+        definitions: camelCasedMessage.blocks.schema,
         step: this.props.stepId,
         trigger: this.props.TriggerId,
         values: data.values,

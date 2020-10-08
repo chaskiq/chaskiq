@@ -109,7 +109,7 @@ module MessageApis
                 "subtitle": o.description,
                 action: {
                   type: "frame",
-                  url: "/package_iframe_internal/article_search" 
+                  url: "/package_iframe_internal/ArticleSearch" 
                 }
               }
             end

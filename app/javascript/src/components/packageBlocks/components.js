@@ -832,7 +832,6 @@ export function DefinitionRenderer ({ schema, updatePackage, getPackage, disable
     }, () => {
       setLoading(false)
     })
-    // console.log('handloeo', field, serializedData)
   }
 
   function handleRender (field) {
@@ -1006,22 +1005,13 @@ export function BaseInserter ({
 
   React.useEffect(() => {
     if (p && (p.kind === 'initialize')) {
-      // || p.kind === 'content')) {
-
-      const newParams = {
-        ...params,
-        ctx: {
-          values: p.results
-        },
-        hooKind: p.kind
-      }
-
-      getPackage(newParams, (data) => {
-        onInitialize({
-          ...data.app.appPackage.callHook,
-          id: pkg.id,
-          name: pkg.name
-        })
+      onInitialize({
+        hooKind: p.kind,
+        definitions: p.definitions,
+        values: p.values,
+        wait_for_input: p.wait_for_input,
+        id: pkg.id,
+        name: pkg.name
       })
     }
   }, [p])

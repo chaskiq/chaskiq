@@ -13,6 +13,7 @@ module Types
     field :configure_url, String, null: true
     field :submit_url, String, null: true
     field :sheet_url, String, null: true
+    field :oauth_url, String, null: true
     field :capabilities, [String], null: true
 
     def capabilities

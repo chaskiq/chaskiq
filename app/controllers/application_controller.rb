@@ -60,7 +60,7 @@ class ApplicationController < ActionController::Base
 
     presenter = app.app_package_integrations
       .joins(:app_package)
-      .find_by("app_packages.name": params["package"].classify)
+      .find_by("app_packages.name": params["package"])
       .presenter
 
     opts = {
