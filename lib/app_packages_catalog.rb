@@ -359,7 +359,7 @@ class AppPackagesCatalog
 
     ]
 
-    collection = collection + development_packages unless Rails.env.production?
+    collection = development_packages + collection unless Rails.env.production?
     collection
   end
 
