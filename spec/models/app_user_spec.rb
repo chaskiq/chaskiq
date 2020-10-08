@@ -39,19 +39,8 @@ RSpec.describe AppUser, type: :model do
     end
 
     it 'run run' do
-      app_package = AppPackage.create(
-        name: 'FullContact',
-        tag_list: ['enrichment'],
-        description: 'Data Enrichment service',
-        icon: 'https://logo.clearbit.com/fullcontact.com',
-        state: 'enabled',
-        definitions: [
-          {
-            name: 'api_secret',
-            type: 'string',
-            grid: { xs: 12, sm: 12 }
-          }
-        ]
+      app_package = AppPackage.find_by(
+        name: 'FullContact'
       )
 
       app.app_package_integrations.create(
@@ -63,7 +52,7 @@ RSpec.describe AppUser, type: :model do
       visitor
       expect(app.app_users.count).to be == 1
 
-      #MessageApis::FullContact.any_instance.should_receive(:enrich_user)
+      MessageApis::FullContact.any_instance.should_receive(:enrich_user)
 
       perform_enqueued_jobs do
         visitor.update(email: 'miguelmichelson@gmail.com')

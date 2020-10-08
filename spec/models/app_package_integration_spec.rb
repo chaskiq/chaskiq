@@ -7,11 +7,6 @@ RSpec.describe AppPackageIntegration, type: :model do
     FactoryBot.create :app
   end
 
-  before :each do 
-    AppPackage.find_by(name: "Twitter").destroy
-    AppPackage.find_by(name: "Slack").destroy
-  end
-
   it 'create with validations' do
     definitions = [{
       name: 'api_secret',
@@ -24,46 +19,25 @@ RSpec.describe AppPackageIntegration, type: :model do
   end
 
   it 'create without errors' do
-    definitions = [{
-      name: 'api_secret',
-      type: 'string',
-      grid: { xs: 12, sm: 12 }
-    }]
-    package = AppPackage.create(name: 'Slack', definitions: definitions)
-    record = app.app_package_integrations.create(app_package: package, api_secret: '12344')
+    package = AppPackage.find_by(name: 'Slack')
+    record = app.app_package_integrations.create(
+      app_package: package, 
+      api_secret: '12344'
+    )
     expect(record.errors).to be_blank
     expect(record).to be_persisted
   end
 
 
   it "handle registrations" do
-    definitions = [{
-      name: 'api_secret',
-      type: 'string',
-      grid: { xs: 12, sm: 12 }
-    }]
-
-    package = AppPackage.create(name: 'Twitter', definitions: definitions)
-
+    package = AppPackage.find_by(name: 'Twitter')
     expect_any_instance_of(AppPackageIntegration).to receive(:register_hook)
-
-    record = app.app_package_integrations.create(app_package: package, api_secret: '12344')
-
-  end
-
-  it "tags for events" do
-    definitions = [{
-      name: 'api_secret',
-      type: 'string',
-      grid: { xs: 12, sm: 12 }
-    }]
-
-    package = AppPackage.create(name: 'Twitter', definitions: definitions)
-
     record = app.app_package_integrations.create(
       app_package: package, 
-      api_secret: '12344'
-    )
-
+      api_secret: '12344',
+      access_token: '12343',
+      api_key: '12334',
+      access_token_secret: '12344'
+    ) 
   end
 end
