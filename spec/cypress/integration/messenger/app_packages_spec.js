@@ -187,6 +187,7 @@ describe('Visitor home apps', function () {
       name: "UiCatalog",
       definitions: [
         {
+          id: 'oli',
           name: 'bubu',
           label: 'Click this action',
           type: 'button',

@@ -958,6 +958,7 @@ module MessageApis
 
         definitions = [
           {
+            id: 'ubu',
             name: 'bubu',
             label: "this is from content and is dynamic #{Time.zone.now}",
             type: 'button',
