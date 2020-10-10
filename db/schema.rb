@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_07_30_031419) do
+ActiveRecord::Schema.define(version: 2020_10_03_043744) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -100,6 +100,9 @@ ActiveRecord::Schema.define(version: 2020_07_30_031419) do
     t.string "url"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.bigint "agent_id"
+    t.boolean "published", default: false
+    t.index ["agent_id"], name: "index_app_packages_on_agent_id"
   end
 
   create_table "app_translations", force: :cascade do |t|
@@ -676,6 +679,7 @@ ActiveRecord::Schema.define(version: 2020_07_30_031419) do
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "app_package_integrations", "app_packages"
   add_foreign_key "app_package_integrations", "apps"
+  add_foreign_key "app_packages", "agents"
   add_foreign_key "app_users", "apps"
   add_foreign_key "article_collections", "apps"
   add_foreign_key "article_settings", "apps"

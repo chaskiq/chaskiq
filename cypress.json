@@ -2,7 +2,7 @@
   "testFiles": "**/*.*",
   "animationDistanceThreshold": 5,
   "baseUrl": "http://localhost:5002",
-  "blacklistHosts": null,
+  "blockHosts": null,
   "chromeWebSecurity": true,
   "defaultCommandTimeout": 10000,
   "env": {},

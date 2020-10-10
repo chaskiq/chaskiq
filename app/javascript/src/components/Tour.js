@@ -18,7 +18,8 @@ import theme from "./textEditor/theme";
 import { ThemeProvider } from "emotion-theming";
 import { DeleteForeverRounded, PlusIcon } from "./icons";
 import Button from "./Button";
-import tw from "tailwind.macro";
+//import tw from "tailwind.macro";
+import tw from 'twin.macro'
 
 // INTERNAL APP TOUR
 const StepContainer = styled.div`
@@ -246,7 +247,6 @@ class TourManager extends Component {
         });
       },
       error: (error) => {
-        debugger;
         this.setDisabled(false);
         console.log("error on signing blob", error);
       },

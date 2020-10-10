@@ -84,23 +84,8 @@ RSpec.describe Api::V1::Hooks::ProviderController, type: :controller do
     app.add_agent(email: 'test2@test.cl')
   end
 
-  let!(:app_package) do
-    definitions = [
-      {
-        name: 'api_secret',
-        type: 'string',
-        grid: { xs: 12, sm: 12 }
-      },
-    ]
-
-    AppPackage.create(
-      name: 'Pipedrive', 
-      definitions: definitions,
-      tag_list: ['leads.convert', 'email_changed'],
-      description: 'Pipedrive CRM integration, will insert contacts',
-      icon: 'https://logo.clearbit.com/pipedrive.com',
-      state: 'enabled',
-    )
+  let(:app_package) do
+    AppPackage.find_by(name: 'Pipedrive')
   end
 
   let(:conversation) do
@@ -110,8 +95,10 @@ RSpec.describe Api::V1::Hooks::ProviderController, type: :controller do
     )
   end
 
-
   describe "hooks" do
+    before do
+      AppPackagesCatalog.update_all
+    end
 
     before :each do
 

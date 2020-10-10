@@ -27,6 +27,7 @@ Rails.application.configure do
   Rails.application.routes.default_url_options = { host: host }
   config.action_controller.default_url_options = { host: host }
   config.action_mailer.default_url_options = { host: host }
+  config.action_controller.asset_host = host
 
   # config.action_cable.url = "ws://localhost:3334/cable"
   config.action_cable.url = ws
@@ -86,7 +87,6 @@ Rails.application.configure do
 
   config.action_mailer.perform_deliveries = false
   config.action_mailer.delivery_method = :ses
-  config.action_controller.asset_host = host
 
 
   # ACTIVE JOB 

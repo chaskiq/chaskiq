@@ -39,6 +39,8 @@ export const APP = `
       customFields
       tagList
       subscriptionsEnabled
+      userHomeApps
+      visitorHomeApps
       segments {
         name
         id
@@ -696,9 +698,9 @@ export const ARTICLE_SETTINGS = `
 `;
 
 export const ARTICLES = `
-  query App($appKey: String!, $page: Int!, $per: Int, $lang: String, $mode: String){
+  query App($appKey: String!, $page: Int!, $per: Int, $lang: String, $mode: String, $search: String){
     app(key: $appKey) {
-      articles(page: $page, per: $per, lang: $lang, mode: $mode){
+      articles(page: $page, per: $per, lang: $lang, mode: $mode, search: $search){
         collection {
           id
           title
@@ -930,10 +932,100 @@ export const APP_PACKAGES = `
         definitions
         icon
         description
+        capabilities
       }
     }
   }
 `;
+
+export const AGENT_APP_PACKAGES = `
+  query App($appKey: String!){
+    app(key: $appKey) {
+      agentAppPackages{
+        id
+        name
+        state
+        icon
+        description
+        definitions
+        initializeUrl
+        configureUrl
+        submitUrl
+        sheetUrl
+        oauthUrl
+        capabilities
+      }
+    }
+  }
+`;
+
+export const APP_PACKAGE = `
+  query App($appKey: String!, $id: String!){
+    app(key: $appKey) {
+      appPackage(id: $id){
+        name
+        state
+        definitions
+        icon
+        description
+        capabilities
+      }
+    }
+  }
+`;
+
+export const AGENT_APP_PACKAGE = `
+  query App($appKey: String!, $id: String!){
+    app(key: $appKey) {
+      agentAppPackage(id: $id){
+        id
+        name
+        state
+        icon
+        description
+        definitions
+        initializeUrl
+        configureUrl
+        submitUrl
+        oauthUrl
+        sheetUrl
+        capabilities
+      }
+    }
+  }
+`;
+
+export const APP_PACKAGES_BY_CAPABILITY = `
+  query App($appKey: String!, $kind: String!) { 
+    app(key: $appKey){
+      appPackagesCapabilities(kind: $kind){
+        id
+        name
+        icon
+        state
+        definitions
+        description
+      }
+    }
+  }
+`;
+
+export const APP_PACKAGE_HOOK = `
+  query App($appKey: String!, $id: String!, $hooKind: String!, $ctx: Json!) { 
+    app(key: $appKey) {
+      appPackage(id: $id){
+        name
+        state
+        definitions
+        icon
+        description
+        callHook(kind: $hooKind, ctx: $ctx)
+      }
+    }
+  }
+`;
+
+
 
 export const EVENT_TYPES = `
   query App($appKey: String!){
@@ -980,6 +1072,7 @@ export const APP_PACKAGE_INTEGRATIONS = `
         description
         hookUrl
         oauthAuthorize
+        capabilities
       }
     }
   }

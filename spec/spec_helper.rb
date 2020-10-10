@@ -17,6 +17,8 @@
 
 require 'faker'
 require 'factory_bot'
+require 'app_packages_catalog'
+
 # require 'shoulda'
 # require 'shoulda-matchers'
 

@@ -2,7 +2,63 @@
 
 class AppPackagesCatalog
   def self.packages
-    [
+    development_packages = [
+      {
+        name: "UiCatalog",
+        description: "Sample Chaskiq UI kit",
+        capability_list: ["home", "conversations"],
+        state: 'enabled',
+        definitions: []
+      },
+
+      {
+        name: 'ExternalExample',
+        tag_list: ['editor'],
+        capability_list: ['conversations', 'home'],
+        description: 'External example',
+        icon: '',
+        state: 'enabled',
+        initialize_url: 'https://chaskiq-externa-api.glitch.me/initialize',
+        configure_url: 'https://chaskiq-externa-api.glitch.me/configure',
+        submit_url: 'https://chaskiq-externa-api.glitch.me/submit',
+        sheet_url: 'https://chaskiq-externa-api.glitch.me/sheet',
+        definitions: [
+          {
+            name: 'api_key',
+            type: 'string',
+            grid: { xs: 'w-full', sm: 'w-full' }
+          },
+        ]
+      },
+    ]
+
+    collection = [
+
+      {
+        name: "ContentShowcase",
+        description: "Promote relevant content to customers within your Messenger",
+        capability_list: ["home", "conversations", "bots"],
+        state: 'enabled',
+        definitions: []
+      },
+
+      {
+        name: "ArticleSearch",
+        description: "Let customers find and read help articles",
+        capability_list: ["home"],
+        state: 'enabled',
+        definitions: []
+      },
+
+      {
+        name: "Qualifier",
+        description: "Qualification for user",
+        capability_list: ["conversations", "bots"],
+        state: 'enabled',
+        definitions: []
+      },
+
+
       {
         name: 'Clearbit',
         tag_list: ['enrichment'],
@@ -145,10 +201,10 @@ class AppPackagesCatalog
         ]
       },
 
-
       {
         name: 'Zoom',
         tag_list: ['editor'],
+        capability_list: ['conversations'],
         description: 'Zoom conference calls',
         icon: 'https://logo.clearbit.com/zoom.com',
         state: 'enabled',
@@ -189,11 +245,11 @@ class AppPackagesCatalog
         }
       },
 
-
       {
         name: 'Calendly',
         tag_list: ['editor'],
-        description: 'Clearbit data enrichment',
+        capability_list: ['conversations', 'home'],
+        description: 'Calendly meetings on conversations',
         icon: 'https://logo.clearbit.com/calendly.com',
         state: 'enabled',
         definitions: [
@@ -302,6 +358,9 @@ class AppPackagesCatalog
       }
 
     ]
+
+    collection = development_packages + collection unless Rails.env.production?
+    collection
   end
 
   def self.import

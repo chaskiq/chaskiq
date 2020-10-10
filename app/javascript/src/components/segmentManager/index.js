@@ -160,7 +160,6 @@ export class SaveSegmentModal extends Component {
                       name="name"
                       label="name"
                       type="email"
-                      fullWidth
                       ref={(input) => (this.input_ref = input)}
                     />
                   )}

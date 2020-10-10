@@ -68,7 +68,9 @@ class AppUser < ApplicationRecord
     :gender,
     :organization,
     :job_title,
-    :phone
+    :phone,
+    :company_name,
+    :company_size
   ]
 
   scope :availables, lambda {

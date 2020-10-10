@@ -130,18 +130,13 @@ accepts contributions from the public &ndash; including you!
 
 For a complete list of the many individuals that contributed to the design and implementation of Chaskiq, please refer to [GitHub's list of contributors](https://github.com/chaskiq/chaskiq/contributors).
 
-## Copyright / License
+## License
 
-Copyright 2019 Chaskiq.
+### Open source license
 
-Licensed under the GNU General Public License Version 2.0 (or later);
-you may not use this work except in compliance with the License.
-You may obtain a copy of the License in the LICENSE file, or at:
+If you are creating an open source application under a license compatible with the [GNU GPL license v3](https://www.gnu.org/licenses/gpl-3.0.html), you may use Chaskiq under the terms of the GPLv3.
 
-   https://www.gnu.org/licenses/old-licenses/gpl-2.0.txt
+### Commercial license
 
-Unless required by applicable law or agreed to in writing, software
-distributed under the License is distributed on an "AS IS" BASIS,
-WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-See the License for the specific language governing permissions and
-limitations under the License.
+The commercial license is designed to for you to use Chaskiq in commercial products and applications, without the provisions of the GPLv3. With the commercial license, your code is kept propietary, to yourself. See the Chaskiq Commercial License at [chaskiq.io](https://chaskiq.io/commercial-license)
+
