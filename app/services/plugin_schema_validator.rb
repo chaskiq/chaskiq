@@ -34,7 +34,6 @@ class BaseSchema
   end
 
   def valid?
-
     #response = self.model.valid?
     #puts self.model.errors.inspect
     #response
