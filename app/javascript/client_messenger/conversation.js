@@ -868,7 +868,13 @@ export function CommentsItemComp(props){
   function renderItemPackage(message){
     switch (message.message.blocks.type) {
       case 'app_package':
-        return <span>{message.message.blocks.app_package}</span>
+        let namespace = 'app_package_wait_reply'
+        const pkg = message.message.blocks.app_package
+        if( pkg.wait_for_input === false || pkg.waitForInput === false )
+          namespace = 'app_package_non_wait'
+
+        return t(`conversations.message_blocks.${namespace}`)
+        //return <span>{message.message.blocks.app_package}</span>
       case 'ask_option':
         return t(`conversations.message_blocks.ask_option`)
       case 'data_retrieval':
