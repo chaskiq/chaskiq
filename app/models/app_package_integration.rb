@@ -136,6 +136,10 @@ class AppPackageIntegration < ApplicationRecord
     end
 
     response = response.with_indifferent_access
+
+    package_schema = PluginSchemaValidator.new(response[:definitions])
+    raise package_schema.as_json unless package_schema.valid?
+
     if response["kind"] == 'initialize'
       params[:ctx][:field] = nil
       params[:ctx][:values] = response["results"]
