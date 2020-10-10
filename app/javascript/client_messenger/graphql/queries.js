@@ -30,6 +30,7 @@ export const PING = `
         tasksSettings
         customizationColors
         searcheableFields
+        homeApps
         articleSettings{
           subdomain
         }
@@ -452,4 +453,25 @@ export const ARTICLE_COLLECTION_WITH_SECTIONS = `
       }
     }
   }
+`;
+
+export const APP_PACKAGE_HOOK = `
+
+query Messenger($id: String!, $hooKind: String!, $ctx: Json!){
+    
+  messenger {
+    enabledForUser
+    updateData
+    app{
+      appPackage(id: $id){
+        name
+        state
+        definitions
+        icon
+        description
+        callHook(kind: $hooKind, ctx: $ctx)
+      }
+    }
+  }
+}
 `;

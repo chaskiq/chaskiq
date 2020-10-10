@@ -70,7 +70,7 @@
             if (isCalendlyEvent(e) && e.data.event === "calendly.event_scheduled") {
               window.parent.postMessage({
                 chaskiqMessage: true, 
-                type: "calendly", 
+                type: "Calendly", 
                 status: "submit",
                 data: e.data
               }, "*")

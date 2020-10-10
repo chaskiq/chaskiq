@@ -1,6 +1,7 @@
 import React from 'react'
 
-import tw from 'tailwind.macro'
+//import tw from 'tailwind.macro'
+import tw from 'twin.macro'
 import styled from '@emotion/styled'
 
 const BaseIcon = styled.svg`
@@ -9,7 +10,7 @@ const BaseIcon = styled.svg`
       case 'small':
         return tw`h-4 w-4 outline-none`
       case 'rounded':
-        return tw`m-3 h-3 w-3 p- outline-none`
+        return tw`m-3 h-3 w-3 outline-none`
       default:
         return tw`h-5 w-5 outline-none`
     }
@@ -819,10 +820,8 @@ export function DragHandle (props) {
 export function AddIcon (props) {
   return (
     <BaseIcon {...props} fill="currentColor" viewBox="0 0 20 20">
-      <path
-        d="M11,9 L11,5 L9,5 L9,9 L5,9 L5,11 L9,11 L9,15 L11,15 L11,11 L15,11 L15,9 L11,9 Z M10,20 C15.5228475,20 20,15.5228475 20,10 C20,4.4771525 15.5228475,0 10,0 C4.4771525,0 0,4.4771525 0,10 C0,15.5228475 4.4771525,20 10,20 Z M10,18 C14.418278,18 18,14.418278 18,10 C18,5.581722 14.418278,2 10,2 C5.581722,2 2,5.581722 2,10 C2,14.418278 5.581722,18 10,18 Z"
-        id="Shape"
-      ></path>
+      <path fillRule="evenodd" d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z" clipRule="evenodd">
+      </path>
     </BaseIcon>
   )
 }

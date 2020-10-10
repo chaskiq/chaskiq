@@ -1,33 +1,42 @@
 import React from 'react'
 import FormDialog from '../../components/FormDialog'
 import Button from '../../components/Button'
-import Input from '../../components/forms/Input'
+import Progress from '../../components/Progress'
+import ErrorBoundary from '../../components/ErrorBoundary'
+
 import { withRouter } from 'react-router-dom'
 import { connect } from 'react-redux'
 import graphql from '../../graphql/client'
-import { EDITOR_APP_PACKAGES } from '../../graphql/queries'
+import {
+  DefinitionRenderer
+} from '../packageBlocks/components'
+import { AppList } from '../../pages/settings/AppInserter'
+import {
+  APP_PACKAGES_BY_CAPABILITY
+} from '../../graphql/queries'
 
 function AppPackagePanel (props) {
   const [open, setOpen] = React.useState(props.open)
+  const [loading, setLoading] = React.useState(null)
   const [provider, setProvider] = React.useState(null)
   const [providers, setProviders] = React.useState([])
   const [values, setValues] = React.useState({})
 
   function getAppPackages () {
-    graphql(
-      EDITOR_APP_PACKAGES,
-      {
-        appKey: props.app.key
+    setLoading(true)
+    graphql(APP_PACKAGES_BY_CAPABILITY, {
+      appKey: props.app.key,
+      kind: props.kind || 'conversations'
+    },
+    {
+      success: (data) => {
+        setLoading(false)
+        setProviders(data.app.appPackagesCapabilities)
       },
-      {
-        success: (data) => {
-          setProviders(data.app.editorAppPackages)
-        },
-        error: () => {
-          debugger
-        }
+      error: () => {
+        setLoading(false)
       }
-    )
+    })
   }
 
   React.useEffect(() => {
@@ -38,61 +47,25 @@ function AppPackagePanel (props) {
     setOpen(props.open)
   }, [props.open])
 
-  function handleClickOpen () {
-    setOpen(true)
-  }
-
   function handleClose () {
     setOpen(false)
     props.close()
   }
 
-  const handleChange = (name) => (event) => {
-    setValues({ ...values, [name]: event.target.value })
-  }
-
-  function renderItem (o) {
-    const { requires } = o.editorDefinitions
-    return (
-      <div mt={2}>
-        <p variant="h3">{o.name}</p>
-
-        {requires.map((r) => renderRequirement(r))}
-      </div>
-    )
-  }
-
-  function renderRequirement (item) {
-    switch (item.type) {
-      case 'input':
-        return (
-          <Input
-            type={'text'}
-            label={item.name}
-            value={values[item.name]}
-            onChange={handleChange(item.name)}
-            placeholder={item.placeholder}
-            helperText={item.hint}
-            margin="normal"
-          />
-        )
-      default:
-        return <p>no input</p>
-    }
-  }
-
-  function handleClick (o) {
-    setProvider(o)
+  function handleAdd (data) {
+    setProvider(data)
   }
 
   function handleSend () {
-    const newData = Object.assign({},
-      provider,
-      provider.editorDefinitions
-    )
+    const newData = {
+      name: provider.name,
+      schema: provider.definitions,
+      wait_for_input: provider.wait_for_input
+    }
+
     props.insertComment({
       provider: newData,
-      values: values
+      values: provider.values
     })
   }
 
@@ -102,30 +75,34 @@ function AppPackagePanel (props) {
       handleClose={handleClose}
       titleContent={'Send App Package'}
       formComponent={
-        <div>
-          {
-            providers.map((o) => {
-              return <div
-                key={`app-package-${o.name}`} className="m-1">
-                <Button
-                  variant={'outlined'}
-                  key={ `${o.name}-tab` }
-                  onClick={() => handleClick(o)}>
-                  <img className="mr-2"
-                    src={o.icon}
-                    width={20}
-                    height={20}
-                  />
-                  {' '}
-                  {o.name}
-                </Button>
-              </div>
-            })
-          }
+        <div className="overflow-auto h-64">
 
-          {
-            provider && renderItem(provider)
-          }
+          <ErrorBoundary>
+
+            {
+              !provider &&
+                <AppList
+                  handleAdd={handleAdd}
+                  packages={providers}
+                  app={props.app}
+                  conversation={props.conversation}
+                />
+            }
+
+            {
+              loading && <Progress/>
+            }
+
+            {
+              provider && <div className="p-4 border shadow flex flex-col">
+                <p>preview</p>
+                <DefinitionRenderer
+                  schema={provider.definitions}
+                  // updatePackage={(data, cb)=>{ debugger ; cb() }}
+                />
+              </div>
+            }
+          </ErrorBoundary>
         </div>
       }
       dialogButtons={
@@ -135,10 +112,13 @@ function AppPackagePanel (props) {
             Cancel
           </Button>
 
-          <Button
-            onClick={handleSend}>
-            Send
-          </Button>
+          { provider &&
+            <Button
+              variant={'success'}
+              onClick={handleSend}>
+              Send App
+            </Button>
+          }
         </React.Fragment>
       }
     />
@@ -146,10 +126,11 @@ function AppPackagePanel (props) {
 }
 
 function mapStateToProps (state) {
-  const { app_user, app } = state
+  const { app_user, app, conversation } = state
   return {
     app_user,
-    app
+    app,
+    conversation
   }
 }
 

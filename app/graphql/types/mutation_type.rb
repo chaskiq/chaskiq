@@ -87,6 +87,11 @@ module Types
     field :integrationsDelete, mutation: Mutations::AppPackageIntegrations::DeleteIntegration
     field :integrationsUpdate, mutation: Mutations::AppPackageIntegrations::UpdateIntegration
 
+    field :appPackagesCreate, mutation: Mutations::AppPackages::CreatePackage
+    field :appPackagesDelete, mutation: Mutations::AppPackages::DeletePackage
+    field :appPackagesUpdate, mutation: Mutations::AppPackages::UpdatePackage
+
+
     field :createOauthApplication, mutation: Mutations::OauthApps::OauthCreate
     field :updateOauthApplication, mutation: Mutations::OauthApps::OauthUpdate
     field :deleteOauthApplication, mutation: Mutations::OauthApps::OauthDelete

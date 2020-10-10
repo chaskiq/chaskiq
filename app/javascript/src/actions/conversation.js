@@ -169,7 +169,7 @@ export function insertAppBlockComment (comment, cb) {
       app_package: comment.provider.name,
       values: comment.values,
       schema: comment.provider.schema,
-      wait_for_input: true
+      wait_for_input: comment.provider.wait_for_input
     }
 
     graphql(

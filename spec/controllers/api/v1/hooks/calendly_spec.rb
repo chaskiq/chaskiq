@@ -94,8 +94,6 @@ RSpec.describe Api::V1::Hooks::ProviderController, type: :controller do
       
   end
 
-
-
   let!(:app) do
     FactoryBot.create(:app)
   end
@@ -112,41 +110,8 @@ RSpec.describe Api::V1::Hooks::ProviderController, type: :controller do
     app.add_agent(email: 'test2@test.cl')
   end
 
-  let!(:app_package) do
-    AppPackage.create(
-      {
-        name: 'Calendly',
-        tag_list: ['editor'],
-        description: 'Clearbit data enrichment',
-        icon: 'https://logo.clearbit.com/calendly.com',
-        state: 'enabled',
-        definitions: [
-          {
-            name: 'api_secret',
-            type: 'string',
-            grid: { xs: 12, sm: 12 }
-          }
-        ],
-        editor_definitions: {
-          requires: [
-            { type: "input", 
-              name: "src", 
-              placeholder: "put clendly url", 
-              hint: "is the calendy url"
-            }
-          ],
-          schema: [
-              {
-                name: "calendly", 
-                type: "button", 
-                label: "book a metting", 
-                element: "button", 
-                placeholder: "click button to open calendar"
-            }
-          ]
-        }
-      }
-    )
+  let(:app_package) do
+    AppPackage.find_by(name: "Calendly")
   end
 
   let(:conversation) do
@@ -164,6 +129,10 @@ RSpec.describe Api::V1::Hooks::ProviderController, type: :controller do
   end
 
   describe "hooks" do
+
+    before do
+      AppPackagesCatalog.update_all
+    end
 
     before :each do
 

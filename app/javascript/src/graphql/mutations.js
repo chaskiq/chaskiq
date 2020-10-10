@@ -30,6 +30,8 @@ export const UPDATE_APP = `
         customFields
         tagList
         subscriptionsEnabled
+        userHomeApps
+        visitorHomeApps
         segments {
           name
           id
@@ -1296,6 +1298,7 @@ export const UPDATE_OAUTH_APP = `
         redirectUri
         secret
         uid
+        scopes
       }
       errors
     }
@@ -1368,6 +1371,77 @@ export const DELETE_INTEGRATION = `
         icon
         state
         description
+      }
+    }
+  }
+`;
+
+
+
+export const CREATE_PACKAGE = `
+  mutation CreatePackage($appKey: String!, $appPackage: String! , $params: Json!){
+    appPackagesCreate(appKey: $appKey, appPackage: $appPackage, params: $params){
+      errors
+      appPackage {
+        id
+        name
+        icon
+        state
+        name
+        definitions
+        description
+        initializeUrl
+        configureUrl
+        submitUrl
+        sheetUrl
+        capabilities
+        oauthUrl
+      }
+    }
+  }
+`;
+
+export const UPDATE_PACKAGE = `
+  mutation UpdatePackage($appKey: String!, $id: String!, , $params: Json!){
+    appPackagesUpdate(appKey: $appKey, id: $id, params: $params){
+      errors
+      appPackage {
+        id
+        name
+        icon
+        state
+        name
+        definitions
+        description
+        initializeUrl
+        configureUrl
+        submitUrl
+        sheetUrl
+        capabilities
+        oauthUrl
+      }
+    }
+  }
+`;
+
+export const DELETE_PACKAGE = `
+  mutation DeletePackage($appKey: String!, $id: String!){
+    appPackagesDelete(appKey: $appKey, id: $id){
+      errors
+      appPackage {
+        id
+        name
+        icon
+        state
+        name
+        definitions
+        description
+        initializeUrl
+        configureUrl
+        submitUrl
+        sheetUrl
+        capabilities
+        oauthUrl
       }
     }
   }

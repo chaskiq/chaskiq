@@ -9,6 +9,7 @@ import Dashboard from './Dashboard'
 import Platform from './Platform'
 import Conversations from './Conversations'
 import Settings from './Settings'
+import MessengerSettings from './MessengerSettings'
 import Team from './Team'
 import Webhooks from './Webhooks'
 import Integrations from './Integrations'
@@ -232,6 +233,10 @@ function App ({
 
               <Route path={`${match.url}/settings`}>
                 <Settings />
+              </Route>
+
+              <Route path={`${match.url}/messenger`}>
+                <MessengerSettings />
               </Route>
 
               <Route path={`${match.url}/team`}>

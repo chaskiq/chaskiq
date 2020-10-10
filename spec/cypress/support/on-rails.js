@@ -1,7 +1,7 @@
 // CypressOnRails: dont remove these command
 Cypress.Commands.add('appCommands', function (body) {
   cy.log("APP: " + JSON.stringify(body))
-  return cy.request({
+  cy.request({
     method: 'POST',
     url: "/__cypress__/command",
     body: JSON.stringify(body),

@@ -7,35 +7,39 @@ class ConversationPartBlock < ApplicationRecord
   value :trigger_locked, expireat: lambda { Time.now + 5.seconds }
 
   def create_fase(app)
-
     return if self.blocks["app_package"].blank?
 
-    klass = "MessageApis::#{self.blocks["app_package"].capitalize}".constantize
-
+    # this right now only works for trusted plugins
+    # this needs to be API hook compatible
+    # add a proper setting on appPackage like, hook_url ?
+    package_class_name = self.blocks["app_package"]
+    klass = "MessageApis::#{package_class_name}".constantize rescue nil
+    return if klass.blank?
     return unless klass.instance_methods.include?(:create_fase)
 
     # todo: look for a better method to query app packages
     klass =   app
               .app_package_integrations
               .joins(:app_package)
-              .where("app_packages.name =?", self.blocks["app_package"].capitalize )
+              .where("app_packages.name =?", package_class_name )
               .first.message_api_klass rescue nil
 
     data = klass.create_fase(self, klass)
 
-    self.data = data
+    self.blocks["schema"] = data[:definitions]
+    self.data = data[:values]
     self.save
   end
 
   def handled_data
-    if self.blocks["type"] == "app_package"
-      self.blocks["app_package"]
+    #if self.blocks["type"] == "app_package"
+    #  self.blocks["app_package"]
 
-      klass = "MessageApis::#{self.blocks["app_package"].capitalize}".constantize
+    #  klass = "MessageApis::#{self.blocks["app_package"].classify}".constantize
 
-      return klass.display_data(self.data) if klass.respond_to?(:display_data)
+    #  return klass.display_data(self.data) if klass.respond_to?(:display_data)
       
-    end
+    #end
     self.data
   end
 

@@ -129,14 +129,13 @@ class ConversationPart < ApplicationRecord
   end
 
   def controls_ping_apis
-
     if self.messageable.is_a?(ConversationPartBlock)
       self.messageable.create_fase(conversation.app)
     end
   end
 
   def assign_and_notify
-
+    # this is a before create for app package
     controls_ping_apis
 
     increment_message_stats

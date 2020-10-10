@@ -12,6 +12,8 @@ const NewEditorStyles = styled(EditorStyles)`
   font-size: 1em;
 
   .graf--figure{
+    margin-top: 10px;
+    margin-bottom: 10px;
     min-width: 220px;
   }
 

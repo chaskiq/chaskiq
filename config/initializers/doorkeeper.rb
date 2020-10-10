@@ -32,13 +32,22 @@ Doorkeeper.configure do
   #skip_authorization { true }
 
   default_scopes :read
-  optional_scopes :write
+  optional_scopes :write,:admin
     
   enforce_configured_scopes
 
   allow_blank_redirect_uri true
 
-  access_token_expires_in 12.hours
+  access_token_expires_in 1.week
+
+  # custom_access_token_expires_in do |context|
+  #  # context.grant_type for grant_type, context.client for client, context.scopes for scopes
+  #  if context.grant_type == Doorkeeper::OAuth::CLIENT_CREDENTIALS # see Doorkeeper::OAuth::GRANT_TYPES for other types
+  #    2.hours.to_i
+  #  else 
+  #    15.minutes.to_i
+  #  end
+  #end
 
   enable_application_owner :confirmation => false
 

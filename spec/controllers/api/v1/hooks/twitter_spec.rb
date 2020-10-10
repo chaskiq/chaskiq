@@ -306,38 +306,18 @@ RSpec.describe Api::V1::Hooks::ProviderController, type: :controller do
     app.add_agent(email: 'test2@test.cl')
   end
 
-  let!(:app_package) do
-    definitions = [
-      {
-        name: 'api_secret',
-        type: 'string',
-        grid: { xs: 12, sm: 12 }
-      },
-      {
-        name: 'api_key',
-        type: 'string',
-        grid: { xs: 12, sm: 12 }
-      },
-      {
-        name: 'access_token',
-        type: 'string',
-        grid: { xs: 12, sm: 12 }
-      },
-      {
-        name: 'access_token_secret',
-        type: 'string',
-        grid: { xs: 12, sm: 12 }
-      }
-    ]
-
-    AppPackage.create(name: 'Twitter', definitions: definitions)
+  let(:app_package) do
+    AppPackage.find_by(name: 'Twitter')
   end
 
 
   describe "hooks" do
 
-    before :each do
+    before do
+      AppPackagesCatalog.update_all
+    end
 
+    before :each do
       ActiveJob::Base.queue_adapter = :test
       ActiveJob::Base.queue_adapter.perform_enqueued_at_jobs = false
 

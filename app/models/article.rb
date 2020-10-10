@@ -63,4 +63,8 @@ class Article < ApplicationRecord
     self.published_at = Time.zone.now
     save
   end
+
+  def serialized_content
+    JSON.parse(article_content.serialized_content)
+  end
 end

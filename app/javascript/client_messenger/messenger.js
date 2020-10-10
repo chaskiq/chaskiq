@@ -21,7 +21,8 @@ import {
   CONVERSATION,
   INSERT_COMMMENT,
   START_CONVERSATION,
-  CONVERT
+  CONVERT,
+  APP_PACKAGE_HOOK
 } from './graphql/queries'
 import GraphqlClient from './graphql/client'
 
@@ -965,12 +966,13 @@ class Messenger extends Component {
   displayAppBlockFrame = (message)=>{
     this.setState({
       display_mode: "appBlockAppPackage",
-      currentAppBlock: {
-        message: message
-      }
+      currentAppBlock: message,
     })
   }
 
+  // received from app package iframes
+  // TODO, send a getPackage hook instead, and call a submit action
+  // save trigger id
   handleAppPackageEvent = (ev)=>{
     App.events && App.events.perform('app_package_submit', {
       conversation_id: this.state.conversation.key,
@@ -1026,6 +1028,27 @@ class Messenger extends Component {
   toggleAudio= ()=> this.setState({rtcAudio: !this.state.rtcAudio})
 
   toggleVideo= ()=> this.setState({rtcVideo: !this.state.rtcVideo})
+
+  getPackage = (params, cb) => {
+    const newParams = {
+      ...params,
+      appKey: this.props.app_id
+    }
+    this.graphqlClient.send(
+      APP_PACKAGE_HOOK, 
+      newParams,
+      {
+        success: (data) => {
+          cb && cb(data)
+        },
+        error: (data) => {
+          cb && cb(data)
+        },
+        fatal: (data) => {
+          cb && cb(data)
+        }
+      })
+  }
 
   render() {
     const palette = this.themePalette()
@@ -1170,9 +1193,11 @@ class Messenger extends Component {
                                     displayArticle={this.displayArticle}
                                     appData={this.state.appData}
                                     agents={this.state.agents}
+                                    displayAppBlockFrame={this.displayAppBlockFrame}
                                     displayConversation={this.displayConversation}
                                     conversations={this.state.conversations}
                                     getConversations={this.getConversations}
+                                    getPackage={this.getPackage}
                                     {...this.props}
                                     t={this.props.t}
                                   />
@@ -1220,6 +1245,7 @@ class Messenger extends Component {
                                     updateHeader={this.updateHeader}
                                     transition={this.state.transition}
                                     pushEvent={this.pushEvent}
+                                    getPackage={this.getPackage}
                                     displayAppBlockFrame={this.displayAppBlockFrame}
                                     t={this.props.t}
                                   /> 
@@ -1383,9 +1409,9 @@ class Messenger extends Component {
                           <MessageIcon 
                             palette={palette} 
                             style={{ 
-                              height: '43px',
-                              width: '36px',
-                              margin: '8px 0px'
+                              height: '28px',
+                              width: '28px',
+                              margin: '13px'
                             }}
                           /> : 
                           <CloseIcon 
@@ -1393,7 +1419,7 @@ class Messenger extends Component {
                             style={{
                               height: '26px',
                               width: '21px',
-                              margin: '11px 0px',
+                              margin: '13px 16px',
                             }}
                           />
                       }
@@ -1501,25 +1527,41 @@ class AppBlockPackageFrame extends Component {
   }
 
   render(){
-    //console.log("PACK", this.props)
-    const blocks = toCamelCase(this.props.appBlock.message.message.blocks)
-    const conversation = this.props.appBlock.message.conversation
-    const mainParticipant = conversation.mainParticipant
-    const url = `${this.props.domain}/package_iframe/${blocks.appPackage.toLowerCase()}`
-    let src = new URL(url)
-    //Object.keys(blocks.values, (k)=>{
-    //  src.searchParams.set(k, encodeURIComponent( blocks.values[k] ))
-    //})
-    //'https://admin.typeform.com/to/cVa5IG');
+    const {data} = this.props.appBlock
+    const {message} = this.props.appBlock.message
+    const {conversation} = this.props
 
-    src.searchParams.set("url", blocks.values.src )
-    src.searchParams.set("conversation_key", this.props.appBlock.message.conversation.key )
-    src.searchParams.set("name", mainParticipant.displayName )
-    src.searchParams.set("message_id", this.props.appBlock.message.id )
-    src.searchParams.set("data", JSON.stringify(this.props.appBlock.message.message.data) )
+    let src = null
+    let url = null
+    
+    let params = {}
+
+    if(conversation.key && message){
+      /*params = {
+        data: data,
+        message: message,
+        message_id: this.props.appBlock.data,
+        conversation_id: conversation.key
+      }*/
+
+      params = JSON.stringify({data: data})
+
+      const blocks = toCamelCase(message.blocks)
+      let url = `${this.props.domain}/package_iframe/${blocks.appPackage.toLowerCase()}`
+      src = new URL(url)
+
+    } else {
+      params = JSON.stringify({data: data})
+      let url = `${this.props.domain}/package_iframe/${data.id}`
+      src = new URL(url)
+    }
+  
+    src.searchParams.set("data", params)
 
     return <div>
-              <iframe src={src.href} 
+              <iframe
+                id="package-frame"
+                src={src.href} 
                 style={{
                   width: '100%',
                   height: 'calc(100vh - 75px)',

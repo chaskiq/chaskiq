@@ -32,7 +32,7 @@ app.update(
     delay: false,
     routing: 'assign',
     email_requirement: 'email_only',
-    assignee: agent.agent,
+    assignee: agent.agent.id,
     share_typical_time: true
   },
   email_requirement: command_options.fetch('email_requirement'),

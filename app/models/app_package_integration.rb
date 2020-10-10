@@ -104,5 +104,105 @@ class AppPackageIntegration < ApplicationRecord
   def receive_oauth_code(params)
     klass = message_api_klass.receive_oauth_code(params, self)
   end
+
+  def get_presenter_manager
+    begin
+      "MessageApis::#{self.app_package.name}::PresenterManager"&.constantize
+    rescue 
+      ExternalPresenterManager
+    end
+  end
+
+  def presenter
+    @presenter ||= get_presenter_manager
+  end
+
+  def external_package?
+    presenter == ExternalPresenterManager
+  end
+
+  # used in display
+  def call_hook(params)
+    #@presenter.submit_hook(params)
+    params.merge!({package: self}) if external_package?
+
+    response = case params[:kind]
+    when "initialize" then presenter.initialize_hook(params)
+    when "configure" then presenter.configure_hook(params)
+    when "submit" then presenter.submit_hook(params)
+    when "frame" then presenter.sheet_hook(params)
+    when "content" then presenter.content_hook(params) # not used
+    else raise 'not hook'
+    end
+
+    response = response.with_indifferent_access
+
+    package_schema = PluginSchemaValidator.new(response[:definitions])
+    raise package_schema.as_json unless package_schema.valid?
+
+    if response["kind"] == 'initialize'
+      params[:ctx][:field] = nil
+      params[:ctx][:values] = response["results"]
+      response = presenter.initialize_hook(params)
+      response.merge!(kind: 'initialize')
+    end
+
+    return response if response[:results].blank?
+
+    if params.dig(:ctx, :message_id)
+      # TODO: maybe refactor this logic, move it to another place
+      message = params.dig(:ctx).dig(:app).conversation_parts.find(
+        params[:ctx][:message_id]
+      )
+
+      values = params[:ctx][:values]
+      m = message.message
+      blocks = m.blocks.merge("schema"=> response[:definitions])
+      m.blocks = blocks
+      m.save_replied(response[:results])
+    end
+
+    response
+  end
   
+end
+
+class ExternalPresenterManager
+
+  def self.post(url, data)
+    # it's just for restrict fields on app, refactor this!
+    data[:ctx][:app] = data.dig(:ctx, :app).as_json(only: [:key, :name])
+
+    resp = Faraday.post(
+      url, 
+      data.to_json,
+      "Content-Type" => "application/json"
+    )
+    JSON.parse(resp.body)
+  end
+
+  def self.initialize_hook(data)
+    url = data[:package].app_package.initialize_url
+    self.post(url, data)
+  end
+
+  def self.configure_hook(data)
+    url = data[:package].app_package.configure_url
+    self.post(url, data)
+  end
+
+  def self.submit_hook(data)
+    url = data[:package].app_package.submit_url
+    self.post(url, data)
+  end
+
+  def self.sheet_hook(data)
+    url = data[:package].app_package.sheet_url
+    self.post(url, data)
+  end
+
+  def self.content_hook(data)
+    url = data[:package].app_package.content_url
+    self.post(url, data)
+  end
 end

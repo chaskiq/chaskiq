@@ -11,14 +11,27 @@ module Mutations
 
       def resolve(app_key:, app_package:, params:)
         app = find_app(app_key)
+        # TODO: check for agent packages or public packages
         app_package = AppPackage.find_by(name: app_package)
         integration = app.app_package_integrations.new(params.permit!)
 
         authorize! app, to: :manage?, with: AppPolicy
 
-
         integration.app_package = app_package
-        integration.save # if operation.present? && operation == "create"
+        integration.save
+
+        if app_package.is_external?
+          # create default token for app access
+          access_token = Doorkeeper::AccessToken.create!(
+            application_id: nil,
+            resource_owner_id: current_user.id,
+            # expires_in: 2.hours,
+            scopes: 'public'
+          )
+          integration.update(access_token: access_token.token)
+        end
+        
+        # if operation.present? && operation == "create"
         { integration: integration, errors: integration.errors }
       end
 

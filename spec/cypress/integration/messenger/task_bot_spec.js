@@ -1,12 +1,27 @@
 import helpers from './helpers.js'
 
+function addPackage(app_package){
+  cy.appEval(`
+    app = App.first
+    app_package = AppPackage.find_by(name: "${app_package}")
+    integration = app.app_package_integrations.new()
+    integration.app_package = app_package
+    integration.save
+  `)
+}
+
 describe('Task bot Spec', function () {
 
   beforeEach(() => {
     cy.appEval('ActiveJob::Base.queue_adapter = :test')
     cy.appEval('ActiveJob::Base.queue_adapter.perform_enqueued_at_jobs = true')
     cy.appEval('Redis.current.del("app_user:1:trigger_locked")')
+    cy.appEval(`
+      require 'app_packages_catalog'
+      AppPackagesCatalog.update_all 
+    `)
   })
+
 
   it('sessionless never ask email', function () {
     cy.appScenario('app_bot_settings', { email_requirement: 'never' }).then(() => {
@@ -45,9 +60,13 @@ describe('Task bot Spec', function () {
     })
   })
 
-  it('sessionless 2 always ask email', function () {
+  it('sessionless 2 always ask email , email validation', function () {
     cy.wait(5000)
+
+
     cy.appScenario('app_bot_settings', { email_requirement: 'Always' }).then((results) => {
+      addPackage("Qualifier")
+
       cy.appEval('App.last').then((results) => {
         const appKey = results.key
         cy.visit(`/tester/${appKey}?sessionless=true&lang=en`).then(() => {
@@ -76,18 +95,26 @@ describe('Task bot Spec', function () {
 
                           cy.wrap($body).contains('will reply as soon as they can.')
 
-                          // cy.wrap($body).contains("oeoe")
-
                           cy.wrap($body).contains('Are you an existing')
+                          
                           cy.wrap($body).contains("Yes, I'm a customer").click().then(() => {
-                            cy.wrap($body).contains('Enter your email')
+                            cy.wrap($body).contains('by email')
+                            cy.wrap($body)
+                              .xpath('/html/body/div/div/div/div[2]/div[1]/div/div/div[1]/div[1]/div/form/div/div/div/input')
+                              .type('John')
 
                             cy.wrap($body)
-                              .xpath('/html/body/div/div/div/div[2]/div/div/div/div[1]/div[1]/form/div/input')
-                              .type('John@apple.cl')
+                              .xpath('/html/body/div/div/div/div[2]/div[1]/div/div/div[1]/div[1]/div/form/div/div/div/div')
+                              .click()
+
+                            cy.wrap($body).contains('is invalid')
 
                             cy.wrap($body)
-                              .xpath('/html/body/div/div/div/div[2]/div/div/div/div[1]/div[1]/form/div/button')
+                            .xpath('/html/body/div/div/div/div[2]/div[1]/div/div/div[1]/div[1]/div/form/div/div/div/input')
+                            .type('John@apple.test')
+
+                            cy.wrap($body)
+                              .xpath('/html/body/div/div/div/div[2]/div[1]/div/div/div[1]/div[1]/div/form/div/div/div/div')
                               .click()
 
                             cy.wrap($body).contains('Thank you')
@@ -100,6 +127,7 @@ describe('Task bot Spec', function () {
       })
     })
   })
+
 
   it('sessionless 3 never ask email', function () {
     cy.appScenario('app_bot_settings', { email_requirement: 'never' }).then(() => {

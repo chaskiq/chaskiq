@@ -95,26 +95,8 @@ RSpec.describe Api::V1::Hooks::ProviderController, type: :controller do
     app.add_agent(email: 'test2@test.cl')
   end
 
-  let!(:app_package) do
-    definitions = [
-      {
-        name: 'api_secret',
-        type: 'string',
-        grid: { xs: 12, sm: 12 }
-      },
-      {
-        name: 'api_key',
-        type: 'string',
-        grid: { xs: 12, sm: 12 }
-      },
-      {
-        name: 'user_id',
-        type: 'string',
-        grid: { xs: 12, sm: 12 }
-      }
-    ]
-
-    AppPackage.create(name: 'Messenger', definitions: definitions)
+  let(:app_package) do
+    AppPackage.find_by(name: 'Messenger')
   end
 
   let(:profile_data) do
@@ -130,6 +112,9 @@ RSpec.describe Api::V1::Hooks::ProviderController, type: :controller do
   #  {\"recipient_id\":\"222\",\"message_id\":\"aaaaa\"}
 
   describe "hooks" do
+    before do
+      AppPackagesCatalog.update_all
+    end
     before :each do
 
       ActiveJob::Base.queue_adapter = :test
@@ -148,9 +133,9 @@ RSpec.describe Api::V1::Hooks::ProviderController, type: :controller do
         api_secret: "aaa",
         api_key: "aaa",
         user_id: owner,
+        verify_token: '1234',
         app_package: app_package
       )
-
 
     end
 

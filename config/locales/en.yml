@@ -79,6 +79,7 @@ en:
       article_settings: Settings
       app_settings: App Settings
       team: Team
+      messenger_settings: Messenger settings
       integrations: Integrations
       webhooks: Webhooks
       api_access: API access
@@ -294,7 +295,7 @@ en:
     app:
       app_settings: App Settings
       security: Security
-      app_settings: App Settings
+      messenger_settings: Messenger Settings
       security: Security
       appearance: Appearance
       appearance_title: Appearance settings
@@ -307,6 +308,16 @@ en:
       tags: Tags
       quick_replies: Quick Replies
 
+
+    app_packages:
+      create_success: Package created
+      create_error: Error creating package
+      update_success: Package updated
+      update_error: Error updating package
+      remove_success: Package removed correctly
+      remove_error: Error removing package
+      create_integration: Create New package      
+
     integrations:
       title: Third party integrations
       create_success: Integration created
@@ -315,12 +326,17 @@ en:
       update_error: Error updating integration
       remove_success: Integration removed correctly
       remove_error: Error removing integration
+      create_integration: Create New integration
       active:
         title: Active Integrations
         text: API Integrations
       available:
         title: "Available API's"
         text:  Available API Services
+
+      yours:
+        title: "Your Integration Apps"
+        text:  Integration apps created by you
 
       hints:
         hook_url: This integration will receive webhook at
@@ -467,7 +483,7 @@ en:
   articles:
     title: Articles
     all: All
-    published: Posted
+    published: Published
     draft: Drafts
     visit: visit the help center
     new: New article
@@ -491,9 +507,9 @@ en:
       select_lang: Select language
       add_language_to_help: Add new language to Help Center
       delete:
-        title: Delete translation "% {name}"
+        title: Delete translation "%{name}"
         text: We will destroy the translation and hide any article with the language
-          "% {name}"
+          "%{name}"
       appearance: Appearance
       appearance_settings: Appearance settings
       lang: Language

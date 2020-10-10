@@ -1,7 +1,8 @@
 import React, { useState, useEffect, useRef } from 'react'
 
 import { camelizeKeys } from '../actions/conversation'
-
+import Tooltip from 'rc-tooltip'
+import { isEmpty } from 'lodash'
 import Progress from '../components/Progress'
 import Content from '../components/Content'
 import FormDialog from '../components/FormDialog'
@@ -28,11 +29,19 @@ import { errorMessage, successMessage } from '../actions/status_messages'
 import { setCurrentPage, setCurrentSection } from '../actions/navigation'
 
 import graphql from '../graphql/client'
-import { APP_PACKAGES, APP_PACKAGE_INTEGRATIONS } from '../graphql/queries'
+import {
+  APP_PACKAGES,
+  APP_PACKAGE_INTEGRATIONS,
+  AGENT_APP_PACKAGES,
+  AGENT_APP_PACKAGE
+} from '../graphql/queries'
 import {
   CREATE_INTEGRATION,
   UPDATE_INTEGRATION,
-  DELETE_INTEGRATION
+  DELETE_INTEGRATION,
+  CREATE_PACKAGE,
+  UPDATE_PACKAGE,
+  DELETE_PACKAGE
 } from '../graphql/mutations'
 import { withRouter } from 'react-router-dom'
 import { connect } from 'react-redux'
@@ -45,6 +54,8 @@ function Integrations ({ app, dispatch }) {
   const [integrations, setIntegrations] = useState([])
   const [tabValue, setTabValue] = useState(0)
   const [openDeleteDialog, setOpenDeleteDialog] = useState(false)
+  const [openIntegrationDialog, setOpenIntegrationDialog] = useState(false)
+
   const form = useRef(null)
 
   useEffect(() => {
@@ -195,12 +206,21 @@ function Integrations ({ app, dispatch }) {
     setTabValue(i)
   }
 
+  function openNewAppModal () {
+    setOpenIntegrationDialog({
+      settings: {}
+    })
+  }
+
   return (
     <Content>
-      <PageHeader title={ I18n.t('settings.integrations.title') } />
+      <PageHeader
+        title={ I18n.t('settings.integrations.title') }
+      />
 
       <Tabs
         currentTab={tabValue}
+        onChange={ (value) => setTabValue(value) }
         tabs={[
           {
             label: I18n.t('settings.integrations.active.title'),
@@ -254,6 +274,19 @@ function Integrations ({ app, dispatch }) {
                 }
               </div>
             )
+          },
+          {
+            label: I18n.t('settings.integrations.yours.title'),
+            content: (
+              <div className="py-6">
+                <MyAppPackages
+                  app={app}
+                  open={openIntegrationDialog}
+                  handleOpen={handleOpen}
+                  dispatch={dispatch}>
+                </MyAppPackages>
+              </div>
+            )
           }
         ]}
       />
@@ -303,7 +336,7 @@ function Integrations ({ app, dispatch }) {
                       </p>
 
                       <a href={open.oauthAuthorize}
-                      className="p-2 outline-none
+                        className="p-2 outline-none
                       inline-flex
                       items-center
                       border
@@ -379,12 +412,15 @@ function Integrations ({ app, dispatch }) {
   )
 }
 
+
+
+
 function EmptyCard ({ goTo }) {
   return (
     <div style={{ marginTop: '2em' }}>
       <div>
-        <p color="textSecondary" gutterBottom></p>
-        <p variant="h5" component="h2">
+        <p color="textSecondary"></p>
+        <p>
           {I18n.t('settings.integrations.empty.title')}
         </p>
         <p color="textSecondary">
@@ -405,18 +441,38 @@ function ServiceBlock ({ service, handleOpen, kind, setOpenDeleteDialog }) {
   }
 
   return (
-    <ListItem avatar={<ItemAvatar avatar={logos[service.name.toLocaleLowerCase()]} />}>
+    <ListItem
+      avatar={
+        logos[service.name.toLocaleLowerCase()] &&
+        <ItemAvatar avatar={logos[service.name.toLocaleLowerCase()]} />
+      }>
       <ListItemText
         primary={
           <ItemListPrimaryContent variant="h5">
-            {service.name} <Badge variant={service.state === 'enabled' ? 'green' : 'gray' }>
-              {service.state}
-            </Badge>
+            <div className="flex justify-between">
+              {service.name} { 
+                kind === 'services' && <Badge
+                  variant={service.state === 'enabled' ? 'green' : 'gray' }>
+                  {service.state}
+                </Badge>
+              }
+            </div>
           </ItemListPrimaryContent>
         }
         secondary={
           <ItemListSecondaryContent>
-            {service.description}
+            <div className="flex flex-col">
+              <span className="mb-2">{service.description}</span>
+              <div className="flex">
+                {service.capabilities && service.capabilities.map((o) =>
+                  <Badge className="mr-2"
+                    key={`cap-${o}`}
+                    variant="blue">
+                    {o}
+                  </Badge>
+                )}
+              </div>
+            </div>
           </ItemListSecondaryContent>
         }
         terciary={
@@ -431,8 +487,18 @@ function ServiceBlock ({ service, handleOpen, kind, setOpenDeleteDialog }) {
                     onClick={() => handleOpen(service)}
                     aria-label="add"
                     variant="icon"
+                    className="mr-2"
+                    border={true}
                   >
-                    {service.id ? <EditIcon /> : <AddIcon />}
+                    {service.id ? <EditIcon />
+                      : <Tooltip
+                        placement="bottom"
+                        overlay={'add app to workspace'}
+                      >
+                        <AddIcon />
+                      </Tooltip>
+
+                    }
                   </Button>
 
                   {service.id && (
@@ -440,7 +506,8 @@ function ServiceBlock ({ service, handleOpen, kind, setOpenDeleteDialog }) {
                       onClick={() =>
                         setOpenDeleteDialog && setOpenDeleteDialog(service)
                       }
-                      aria-label="add"
+                      border={true}
+                      aria-label="remove"
                       variant="icon"
                     >
                       <DeleteIcon />
@@ -498,6 +565,454 @@ function APIServices ({ services, handleOpen, getAppPackages, kind }) {
         />
       ))}
     </List>
+  )
+}
+
+function MyAppPackages ({ app, dispatch, handleOpen }) {
+  const [loading, setLoading] = React.useState(false)
+  const [integrations, setIntegrations] = React.useState([])
+  const [integration, setIntegration] = React.useState(null)
+  const [openDeleteDialog, setOpenDeleteDialog] = React.useState(null)
+
+  function getAppPackages () {
+    setLoading(true)
+    graphql(
+      AGENT_APP_PACKAGES,
+      {
+        appKey: app.key
+      },
+      {
+        success: (data) => {
+          setIntegrations(data.app.agentAppPackages)
+          setLoading(false)
+        },
+        error: () => {
+          setLoading(false)
+        }
+      }
+    )
+  }
+
+  function getAppPackage ({ id }) {
+    setLoading(true)
+    graphql(
+      AGENT_APP_PACKAGE,
+      {
+        appKey: app.key,
+        id: id
+      },
+      {
+        success: (data) => {
+          setIntegration(data.app.agentAppPackage)
+          setLoading(false)
+        },
+        error: () => {
+          setLoading(false)
+        }
+      }
+    )
+  }
+
+  function deleteAppPackage ({ id }) {
+    setLoading(true)
+    graphql(
+      DELETE_PACKAGE,
+      {
+        appKey: app.key,
+        id: id
+      },
+      {
+        success: (data) => {
+          setOpenDeleteDialog(null)
+          setIntegration(null)
+          // setIntegration(data.app.agentAppPackage)
+          setLoading(false)
+          dispatch(successMessage(I18n.t('settings.integrations.remove_success')))
+          getAppPackages()
+        },
+        error: () => {
+          setLoading(false)
+          dispatch(errorMessage(I18n.t('settings.integrations.remove_error')))
+        }
+      }
+    )
+  }
+
+  React.useEffect(getAppPackages, [])
+
+  return (
+
+    <div>
+
+      <div className="py-4 flex justify-end">
+        <Button onClick={() => setIntegration({})}>
+          {I18n.t('settings.integrations.create_integration')}
+        </Button>
+      </div>
+
+      {
+        loading && <Progress/>
+      }
+
+      {
+        integration &&
+        <AppPackageForm
+          app={app}
+          open={{}}
+          integration={integration}
+          onCancel={(e) => {
+            e && e.preventDefault()
+            setIntegration(null)
+            getAppPackages()
+          }}
+          dispatch={dispatch}
+        />
+      }
+
+      { !loading && !integration &&
+        <List>
+          { integrations.map((service) => (
+            <ListItem
+              key={`my-apps-${service.id}`}
+              onClick={ () => getAppPackage({ id: service.id }) }>
+              <ListItemText
+                primary={
+                  <ItemListPrimaryContent variant="h5">
+                    {service.name} <Badge variant={service.state === 'enabled' ? 'green' : 'gray' }>
+                      {service.state}
+                    </Badge>
+                  </ItemListPrimaryContent>
+                }
+                secondary={
+                  <ItemListSecondaryContent>
+                    <div className="flex flex-col">
+                      <span className="mb-2">{service.description}</span>
+                      <div className="flex">
+                        {service.capabilities && service.capabilities.map((o) =>
+                          <Badge className="mr-2"
+                            key={`cap-${o}`}
+                            variant="blue">
+                            {o}
+                          </Badge>
+                        )}
+                      </div>
+                    </div>
+                  </ItemListSecondaryContent>
+                }
+                terciary={
+                  <React.Fragment>
+                    <div
+                      className="mt-2 flex items-center
+                  text-sm leading-5 text-gray-500 justify-end"
+                    >
+                      { (
+                        <React.Fragment>
+
+                          <Button
+                            onClick={(e) => {
+                              e.preventDefault()
+                              // TODO: add a new mutation for link agent app package with application/appIntegration
+                              // instead of using the old handleOpen
+                              handleOpen({
+                                name: service.name,
+                                definitions: []
+                              })
+                            }}
+                            aria-label="add"
+                            variant="icon"
+                            className="mr-2"
+                            border={true}
+                          >
+                            {<Tooltip
+                              placement="bottom"
+                              overlay={'add app to workspace'}
+                            >
+                              <AddIcon />
+                            </Tooltip>
+                            }
+                          </Button>
+
+                          <Button
+                            // onClick={() => handleOpen(service)}
+                            aria-label="add"
+                            variant="icon"
+                            className="mr-2"
+                            border={true}
+                          >
+                            {service.id
+                              ? <EditIcon />
+                              : <Tooltip
+                                placement="bottom"
+                                overlay={'add app to workspace'}
+                              >
+                                <AddIcon />
+                              </Tooltip>
+
+                            }
+                          </Button>
+
+                          {service.id && (
+                            <Button
+                              onClick={(e) => {
+                                e.preventDefault()
+                                setOpenDeleteDialog &&
+                                  setOpenDeleteDialog(service)
+                              }
+                              }
+                              border={true}
+                              aria-label="remove"
+                              variant="icon"
+                            >
+                              <DeleteIcon />
+                            </Button>
+                          )}
+                        </React.Fragment>
+                      )
+                      }
+                    </div>
+                  </React.Fragment>
+                }
+              />
+            </ListItem>
+          ))
+          }
+        </List>
+      }
+
+      { openDeleteDialog && (
+        <DeleteDialog
+          open={openDeleteDialog}
+          title={I18n.t('settings.integrations.delete_dialog.title', { name: openDeleteDialog.name }) }
+          closeHandler={() => {
+            setOpenDeleteDialog(null)
+          }}
+          deleteHandler={() => {
+            deleteAppPackage(openDeleteDialog)
+          }}
+        >
+          <p variant="subtitle2">
+            {I18n.t('settings.integrations.delete_dialog.text', { name: openDeleteDialog.name })}
+          </p>
+        </DeleteDialog>
+      )}
+    </div>
+  )
+}
+
+// form for my apps packages
+function AppPackageForm ({ app, open, dispatch, onCancel, integration }) {
+  const form = React.useRef()
+
+  const [errors, setErrors] = React.useState({})
+  const [appPackage, setAppPackage] = React.useState(integration)
+
+  React.useEffect(() => {
+    setAppPackage(integration)
+  }, [integration])
+
+  const capabilitiesTypes = [
+    { label: 'Home', value: 'home' },
+    { label: 'Conversations', value: 'conversations' },
+    { label: 'Bots', value: 'bots' }
+  ]
+
+  function integrationDefinitions () {
+    return [
+      {
+        name: 'name',
+        label: I18n.t('definitions.app_packages.name.label'),
+        type: 'string',
+        grid: { xs: 'w-full', sm: 'w-full' }
+      },
+      {
+        name: 'published',
+        label: I18n.t('definitions.app_packages.published.label'),
+        type: 'checkbox',
+        hint: I18n.t('definitions.app_packages.published.hint'),
+        grid: { xs: 'w-full', sm: 'w-full' }
+      },
+      {
+        name: 'capability_list',
+        type: 'select',
+        label: I18n.t('definitions.app_packages.capability_list.label'),
+        hint: I18n.t('definitions.app_packages.capability_list.hint'),
+        multiple: true,
+        options: capabilitiesTypes,
+        grid: { xs: 'w-full', sm: 'w-full' }
+      },
+      {
+        name: 'description',
+        label: I18n.t('definitions.app_packages.description.label'),
+        type: 'textarea',
+        hint: I18n.t('definitions.app_packages.description.hint'),
+        grid: { xs: 'w-full', sm: 'w-full' }
+      },
+
+      {
+        name: 'oauth_url',
+        label: 'oauth url (Optional)',
+        type: 'string',
+        hint: "(Optional) OAuth is used for publicly-available apps that access other people's Chaskiq data",
+        grid: { xs: 'w-full', sm: 'w-full' }
+      },
+
+      {
+        name: 'initialize_url',
+        label: I18n.t('definitions.app_packages.initialize_url.label'),
+        type: 'string',
+        hint: I18n.t('definitions.app_packages.initialize_url.hint'),
+        placeholder: I18n.t('definitions.app_packages.initialize_url.placeholder'),
+        grid: { xs: 'w-full', sm: 'w-full' }
+      },
+      {
+        label: I18n.t('definitions.app_packages.configure_url.label'),
+        name: 'configure_url',
+        type: 'string',
+        hint: I18n.t('definitions.app_packages.configure_url.hint'),
+        placeholder: I18n.t('definitions.app_packages.configure_url.placeholder'),
+        grid: { xs: 'w-full', sm: 'w-full' }
+      },
+      {
+        name: 'submit_url',
+        label: I18n.t('definitions.app_packages.submit_url.label'),
+        type: 'string',
+        hint: I18n.t('definitions.app_packages.submit_url.hint'),
+        placeholder: I18n.t('definitions.app_packages.submit_url.placeholder'),
+        grid: { xs: 'w-full', sm: 'w-full' }
+      },
+      {
+        label: I18n.t('definitions.app_packages.sheet_url.label'),
+        type: 'string',
+        name: 'sheet_url',
+        hint: I18n.t('definitions.app_packages.sheet_url.hint'),
+        placeholder: I18n.t('definitions.app_packages.sheet_url.placeholder'),
+        grid: { xs: 'w-full', sm: 'w-full' }
+      }
+    ]
+  }
+
+  function open () {
+
+  }
+
+  function close () {
+
+  }
+
+  function submit (e) {
+    e.preventDefault()
+    const serializedData = serialize(form.current, {
+      hash: true,
+      empty: true
+    })
+
+    !appPackage.id
+      ? createPackage(serializedData)
+      : updatePackage(serializedData)
+  }
+
+  function createPackage (serializedData) {
+    graphql(
+      CREATE_PACKAGE,
+      {
+        appKey: app.key,
+        appPackage: open.name,
+        params: serializedData.app || {}
+      },
+      {
+        success: (data) => {
+          if (!isEmpty(data.appPackagesCreate.errors)) {
+            dispatch(errorMessage(I18n.t('settings.app_packages.create_error')))
+            setErrors(data.appPackagesCreate.errors)
+            return
+          }
+          setAppPackage(data.appPackagesCreate.appPackage)
+          onCancel()
+          dispatch(successMessage(I18n.t('settings.app_packages.create_success')))
+        },
+        error: () => {
+          dispatch(errorMessage(I18n.t('settings.app_packages.create_error')))
+        }
+      }
+    )
+  }
+
+  function updatePackage (serializedData) {
+    graphql(
+      UPDATE_PACKAGE,
+      {
+        appKey: app.key,
+        appPackage: open.name,
+        params: serializedData.app || {},
+        id: appPackage.id
+      },
+      {
+        success: (data) => {
+          if (!isEmpty(data.appPackagesUpdate.errors)) {
+            dispatch(errorMessage(I18n.t('settings.app_packages.update_error')))
+            setErrors(data.appPackagesUpdate.errors)
+            return
+          }
+          setAppPackage(data.appPackagesUpdate.appPackage)
+          dispatch(successMessage(I18n.t('settings.app_packages.update_success')))
+        },
+        error: () => {
+          dispatch(errorMessage(I18n.t('settings.app_packages.update_error')))
+        }
+      }
+    )
+  }
+
+  return (
+    <div className="border bg-white rounded shadow">
+      <div className="flex">
+        <div className="w-1/3 bg-gray-100 px-4 py-2">
+          {/*<ul>
+            <li>ijij</li>
+            <li>aaa</li>
+          </ul>*/}
+        </div>
+        <form ref={form} className="px-4 py-2">
+          <div>
+            {integrationDefinitions().map((field) => {
+              return (
+                <div
+                  item
+                  key={field.name}
+                  xs={field.grid.xs}
+                  sm={field.grid.sm}
+                >
+                  <FieldRenderer
+                    namespace={'app'}
+                    data={camelizeKeys(field)}
+                    type={field.type}
+                    props={{
+                      data: appPackage
+                    }}
+                    errors={errors}
+                  />
+                </div>
+              )
+            })}
+          </div>
+
+          <div className="flex justify-end">
+            <Button
+              onClick={onCancel}
+              variant="outlined">
+              {I18n.t('common.cancel')}
+            </Button>
+
+            <Button
+              onClick={submit}
+              className="ml-1">
+              {open
+                ? I18n.t('common.update') : I18n.t('common.create')}
+            </Button>
+          </div>
+        </form>
+      </div>
+    </div>
   )
 }
 

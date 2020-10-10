@@ -385,7 +385,7 @@ RSpec.describe Conversation, type: :model do
   end
 
 
-  let!(:app_package) do
+  let(:app_package) do
     #definitions = [
     #  {
     #    name: 'access_token_secret',
@@ -401,9 +401,15 @@ RSpec.describe Conversation, type: :model do
     #)
   end
 
+  before do
+    AppPackagesCatalog.update_all
+  end
+
   context 'app package integration' do
 
     before :each do
+      AppPackage.find_by(name: "Slack").destroy
+
       @pkg = app.app_package_integrations.create(
         api_secret: "aaa",
         api_key: "aaa",
