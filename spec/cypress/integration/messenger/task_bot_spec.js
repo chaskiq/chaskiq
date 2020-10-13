@@ -195,13 +195,18 @@ describe('Task bot Spec', function () {
   
                 cy.wrap($body).contains('one')
                 cy.wrap($body).contains('two')
-                cy.wrap($body).contains('tree')
-  
-                cy.wrap($body)
+                cy.wrap($body).contains('tree').then(()=>{
+                  cy.wait(1000)
+
+                  cy.wrap($body)
                   .xpath('/html/body/div/div/div/div[2]/div/div/div/div[2]/div/div/textarea')
                   .type('oeoe \n').then(()=> {
                     cy.wrap($body).contains('four')
                   })
+
+                })
+  
+                
               })
           })
         })
