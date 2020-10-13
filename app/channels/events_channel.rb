@@ -29,9 +29,10 @@ class EventsChannel < ApplicationCable::Channel
   end
 
   def receive_conversation_part(data)
+    
     @app = App.find_by(key: params[:app])
-    @conversation = @app.conversations.find(data['conversation_id'])
-    message = @conversation.messages.find(data['message_id'])
+    @conversation = @app.conversations.find_by(key: data['conversation_key'])
+    message = @conversation.messages.find_by(key: data['message_key'])
     message.read! if message.authorable_type == 'AppUser' # read anyway #!= @app_user
   end
 end

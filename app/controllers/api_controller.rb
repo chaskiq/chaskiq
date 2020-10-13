@@ -45,7 +45,7 @@ class ApiController < ActionController::API
   end
 
   def get_user_data
-    @user_data = if @app.encryption_enabled?
+    @user_data ||= if @app.encryption_enabled?
                    authorize_by_encrypted_params
                  else
                    get_user_from_unencrypted
@@ -80,7 +80,7 @@ class ApiController < ActionController::API
 
   def get_app_user
     valid_origin?
-    get_user_by_email || get_user_by_session
+    @app_user ||= get_user_by_email || get_user_by_session
   end
 
   def get_user_by_email

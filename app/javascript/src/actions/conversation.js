@@ -16,7 +16,7 @@ import {
 
 import { camelCase } from 'lodash'
 
-const pling = new Audio('/sounds/pling.mp3')
+const pling = new Audio('/sounds/BLIB.wav')
 
 export const camelizeKeys = (obj) => {
   if (Array.isArray(obj)) {
@@ -151,7 +151,8 @@ export function insertComment (comment, cb) {
       },
       {
         success: (data) => {
-          console.log(data)
+          // console.log(data)
+          dispatch(appendMessage(data.insertComment.message))
           cb()
         },
         error: (error) => {
@@ -218,11 +219,10 @@ export function insertNote (comment, cb) {
 export function appendMessage (data, cb) {
   return (dispatch, getState) => {
     const newData = camelizeKeys(data)
-
     // update existing message
-    if (getState().conversation.collection.find((o) => o.id === newData.id)) {
+    if (getState().conversation.collection.find((o) => o.key === newData.key)) {
       const newCollection = getState().conversation.collection.map((o) => {
-        if (o.id === newData.id) {
+        if (o.key === newData.key) {
           return newData
         } else {
           return o
