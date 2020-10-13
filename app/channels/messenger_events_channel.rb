@@ -44,8 +44,8 @@ class MessengerEventsChannel < ApplicationCable::Channel
 
   def receive_conversation_part(data)
     get_session_data
-    @conversation = @app.conversations.find_by(key: data['conversation_id'])
-    message = @conversation.messages.find(data['message_id'])
+    @conversation = @app.conversations.find_by(key: data['conversation_key'])
+    message = @conversation.messages.find_by(key: data['message_key'])
 
     # if the message was read skip processing
     # this will avoid message duplication
@@ -71,8 +71,8 @@ class MessengerEventsChannel < ApplicationCable::Channel
   # from iframes
   def app_package_submit(data)
     get_session_data
-    @conversation = @app.conversations.find_by(key: data['conversation_id'])
-    message = @conversation.messages.find(data['message_id'])
+    @conversation = @app.conversations.find_by(key: data['conversation_key'])
+    message = @conversation.messages.find_by(key: data['message_key'])
 
     app_package = @app.app_package_integrations
     .joins(:app_package)
@@ -198,9 +198,9 @@ class MessengerEventsChannel < ApplicationCable::Channel
   def trigger_step(data)
     get_session_data
     
-    @conversation = @app.conversations.find_by(key: data['conversation_id'])
+    @conversation = @app.conversations.find_by(key: data['conversation_key'])
     
-    message = @conversation.messages.find(data['message_id'])
+    message = @conversation.messages.find_by(key: data['message_key'])
 
     trigger, path = ActionTriggerFactory.find_task(data: data, app: @app, app_user: @app_user)
 

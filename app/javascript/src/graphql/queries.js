@@ -331,6 +331,7 @@ export const CONVERSATION=`
         messages(page: $page){
           collection{
             id
+            key
             stepId
             triggerId
             fromBot

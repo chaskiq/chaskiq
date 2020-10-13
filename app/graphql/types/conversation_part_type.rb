@@ -3,6 +3,7 @@
 module Types
   class ConversationPartType < Types::BaseObject
     field :id, Integer, null: true
+    field :key, String, null: true
     field :message, Types::ConversationPartContentType, null: true
     # field :serialized_content, String, null: true
     # field :html_content, String, null: true

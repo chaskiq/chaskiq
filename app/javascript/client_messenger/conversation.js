@@ -199,8 +199,8 @@ export class Conversation extends Component {
     if (message.message.blocks.type === "app_package") 
       return this.appPackageBlockDisplay(message)
     this.props.pushEvent('trigger_step', {
-      conversation_id: this.props.conversation.key,
-      message_id: message.id,
+      conversation_key: this.props.conversation.key,
+      message_key: message.key,
       trigger: message.triggerId,
       step: item.nextStepUuid || item.next_step_uuid,
       reply: item
@@ -210,8 +210,8 @@ export class Conversation extends Component {
   appPackageSubmitHandler = (data, message)=>{
     this.props.pushEvent("receive_conversation_part", 
       {
-        conversation_id: this.props.conversation.key,
-        message_id: message.id,
+        conversation_key: this.props.conversation.key,
+        message_key: message.key,
         step: message.stepId,
         trigger: message.TriggerId,
         ...data
@@ -296,7 +296,7 @@ export class Conversation extends Component {
     return <MessageItemWrapper
             visible={this.props.visible}
             email={this.props.email}
-            key={`conversation-${this.props.conversation.key}-item-${o.id}`}
+            key={`conversation-${this.props.conversation.key}-item-${o.key}`}
             conversation={this.props.conversation}
             pushEvent={this.props.pushEvent}
             data={o}>
@@ -368,7 +368,7 @@ export class Conversation extends Component {
 
                displayAppBlockFrame={this.props.displayAppBlockFrame}
                getPackage={this.props.getPackage}
-               {...o}
+               //{...o}
               />
   }
 
@@ -435,8 +435,8 @@ export class Conversation extends Component {
 
     this.props.pushEvent("receive_conversation_part", 
     {
-      conversation_id: this.props.conversation.key,
-      message_id: message.id,
+      conversation_key: this.props.conversation.key,
+      message_key: message.key,
       step: message.stepId,
       trigger: message.triggerId,
       //submit: data
@@ -511,7 +511,10 @@ export class Conversation extends Component {
 class MessageItemWrapper extends Component {
   componentDidMount(){
     // mark as read on first render if not read & from admin
-    this.sendEvent()
+    setTimeout(()=>{
+      this.sendEvent()
+    }, 300)
+    
   }
 
   componentDidUpdate(prevProps, prevState){
@@ -526,8 +529,8 @@ class MessageItemWrapper extends Component {
       this.props.data.appUser.kind === "agent"){
       this.props.pushEvent("receive_conversation_part", 
         Object.assign({}, {
-          conversation_id: this.props.conversation.key,
-          message_id: this.props.data.id,
+          conversation_key: this.props.conversation.key,
+          message_key: this.props.data.key,
           step: this.props.stepId,
           trigger: this.props.TriggerId
         }, {email: this.props.email})
@@ -550,7 +553,7 @@ class AppPackageBlock extends Component {
     value: null,
     errors: {},
     loading: false,
-    schema: this.props.message.blocks.schema
+    schema: this.props.message.message.blocks.schema
   }
 
   setLoading = (val)=>{
@@ -559,16 +562,16 @@ class AppPackageBlock extends Component {
 
   handleStepControlClick = (item)=>{
 
-    if(this.props.message.data && this.props.message.data.opener)
-      return window.open(this.props.message.data.opener)
+    if(this.props.message.message.data && this.props.message.message.data.opener)
+      return window.open(this.props.message.message.data.opener)
 
-    this.props.clickHandler(item, this.props)
+    this.props.clickHandler(item, this.props.message)
   }
 
   sendAppPackageSubmit = (data, cb)=>{
     //if(data.field.action && data.field.action.type === 'frame')
     //  this.props.clickHandler(data, this.props)
-    this.updatePackage(data, this.props, cb)
+    this.updatePackage(data, this.props.message, cb)
   }
 
   updatePackage = (data, message, cb)=> {
@@ -585,8 +588,8 @@ class AppPackageBlock extends Component {
           field: data.field,
           id: message.message.blocks.app_package,
           values: message.message.blocks.values,
-          message_id: message.id,
-          conversation_id: this.props.conversation.key
+          message_key: message.key,
+          conversation_key: this.props.conversation.key
         }
       })
       cb && cb()
@@ -594,14 +597,13 @@ class AppPackageBlock extends Component {
     }
 
     const camelCasedMessage = toCamelCase(message.message)
-
     const params = {
       id: camelCasedMessage.blocks.appPackage,
       hooKind: data.field.action.type,
       ctx: {
         field: data.field,
-        conversation_id: this.props.conversation.key,
-        message_id: message.id,
+        conversation_key: this.props.conversation.key,
+        message_key: message.key,
         definitions: camelCasedMessage.blocks.schema,
         step: this.props.stepId,
         trigger: this.props.TriggerId,
@@ -667,14 +669,14 @@ class AppPackageBlock extends Component {
       // console.log(this.state.errors)
       // console.log(isEmpty(this.state.errors) ? 'valid' : 'errors')
       if(!isEmpty(this.state.errors)) return
-      this.props.appPackageSubmitHandler(data, this.props)
+      this.props.appPackageSubmitHandler(data, this.props.message)
     })
 
   }
 
   renderEmptyItem = ()=>{
-    if(this.props.message.blocks.type === "app_package"){
-      return <p>{this.props.message.blocks.app_package} replied</p>
+    if(this.props.message.message.blocks.type === "app_package"){
+      return <p>{this.props.message.message.blocks.app_package} replied</p>
 
     }else{
       return <p>mo</p>
@@ -682,7 +684,7 @@ class AppPackageBlock extends Component {
   }
 
   renderDisabledElement = ()=>{
-    const item = this.props.message.data
+    const item = this.props.message.message.data
 
     if(!item) return this.renderEmptyItem()
 
@@ -690,7 +692,7 @@ class AppPackageBlock extends Component {
     
     switch(item.element){
       case "button":
-        if (this.props.message.blocks.type === "ask_option"){
+        if (this.props.message.message.blocks.type === "ask_option"){
           return <span dangerouslySetInnerHTML={{ 
             __html: this.props.t(`conversation_block.choosen`, {field: item.label} )
           }}/>
@@ -698,10 +700,10 @@ class AppPackageBlock extends Component {
 
       default:
 
-        const message = this.props.message
+        const message = this.props.message.message
         const {blocks, data} = message
 
-        if(this.props.message.blocks.type === "app_package"){
+        if(this.props.message.message.blocks.type === "app_package"){
           
           return <p>
                   <strong>
@@ -717,12 +719,12 @@ class AppPackageBlock extends Component {
                 </p>
         }
 
-        if (this.props.message.blocks.type === "data_retrieval"){
-          return Object.keys(this.props.message.data).map((k)=>{
-            return <p key={`data-retrieval-${k}`}>{k}: {this.props.message.data[k]}</p>
+        if (this.props.message.message.blocks.type === "data_retrieval"){
+          return Object.keys(this.props.message.message.data).map((k)=>{
+            return <p key={`data-retrieval-${k}`}>{k}: {this.props.message.message.data[k]}</p>
           })
         } else{
-          <p>{JSON.stringify(this.props.message.data)}</p>
+          <p>{JSON.stringify(this.props.message.message.data)}</p>
         }
     }
   }
@@ -730,7 +732,7 @@ class AppPackageBlock extends Component {
   // TODO: deprecate this in favor of appPackagesIntegration 
   renderElement = (item, index)=>{
     const element = item.element
-    const isDisabled = this.props.message.state === "replied" || this.state.loading
+    const isDisabled = this.props.message.message.state === "replied" || this.state.loading
     const {t} = this.props
     const key = `${item.type}-${index}`
     switch(item.element){
@@ -798,11 +800,11 @@ class AppPackageBlock extends Component {
   }
 
   renderElements = ()=>{
-    const isDisabled = this.props.message.state === "replied"
+    const isDisabled = this.props.message.message.state === "replied"
     if(isDisabled) return <DisabledElement>
                             { this.renderDisabledElement() }
                           </DisabledElement>
-    return this.props.message.blocks.schema.map((o, i)=>
+    return this.props.message.message.blocks.schema.map((o, i)=>
       
       this.renderElement(o, i)
       
@@ -811,7 +813,7 @@ class AppPackageBlock extends Component {
 
   isHidden=()=>{
     // will hide this kind of message since is only a placeholder from bot
-    return this.props.message.blocks.type === 'wait_for_reply'
+    return this.props.message.message.blocks.type === 'wait_for_reply'
   }
 
   render(){
@@ -819,7 +821,7 @@ class AppPackageBlock extends Component {
               isInline={this.props.isInline}
               isHidden={this.isHidden()}>
               {
-                this.props.message.blocks.type === 'app_package' &&
+                this.props.message.message.blocks.type === 'app_package' &&
                 <DefinitionRenderer 
                   schema={this.state.schema}
                   updatePackage={
@@ -829,7 +831,7 @@ class AppPackageBlock extends Component {
               }
 
               { 
-                this.props.message.blocks.type !== 'app_package' && 
+                this.props.message.message.blocks.type !== 'app_package' && 
                 <form ref={o => this.form } 
                   onSubmit={ this.sendAppPackageSubmit2 }>
                   {
