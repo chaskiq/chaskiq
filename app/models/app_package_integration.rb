@@ -149,10 +149,10 @@ class AppPackageIntegration < ApplicationRecord
 
     return response if response[:results].blank?
 
-    if params.dig(:ctx, :message_id)
+    if message_key = params.dig(:ctx, :message_key) and message_key.present?
       # TODO: maybe refactor this logic, move it to another place
-      message = params.dig(:ctx).dig(:app).conversation_parts.find(
-        params[:ctx][:message_id]
+      message = params.dig(:ctx, :app).conversation_parts.find_by(
+        key: message_key
       )
 
       values = params[:ctx][:values]

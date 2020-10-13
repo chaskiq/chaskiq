@@ -44,15 +44,14 @@ const graphql = (query, variables, callbacks) => {
       callbacks.success ? callbacks.success(data, res) : null
     })
     .catch((req, error) => {
-    // throw r
-    // const res = r.response
-    // console.log(req, error)
+      // throw r
+      // const res = r.response
+      console.log("error on grapqhl client", req, error)
       switch (req.response.status) {
         case 500:
           store.dispatch(errorMessage('server error ocurred'))
           break
         case 401:
-          console.log("AA: ", req.response)
           //history.push("/")
           store.dispatch(errorMessage('session expired'))
           store.dispatch(refreshToken(auth))

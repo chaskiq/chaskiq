@@ -225,6 +225,7 @@ export const START_CONVERSATION = `
         lastMessage{
           source
           createdAt
+          key
           message{
             htmlContent
             textContent
@@ -253,6 +254,7 @@ export const INSERT_COMMMENT = `
   mutation InsertComment($appKey: String!, $id: String!, $message: Json!){
     insertComment(appKey: $appKey, id: $id, message: $message){
       message{
+        key
         message{
           htmlContent
           textContent
@@ -293,13 +295,16 @@ export const INSERT_APP_BLOCK_COMMMENT = `
   mutation InsertAppBlockComment($appKey: String!, $id: String!, $controls: Json!){
     insertAppBlockComment(appKey: $appKey, id: $id, controls: $controls){
       message{
+        key
+        readAt
+        source
+        emailMessageId
         message{
           htmlContent
           textContent
           serializedContent
           blocks
         }
-        readAt
         appUser{
           id
           email
@@ -307,7 +312,6 @@ export const INSERT_APP_BLOCK_COMMMENT = `
           displayName
           avatarUrl
         }
-        source
         messageSource {
           name
           state
@@ -315,7 +319,6 @@ export const INSERT_APP_BLOCK_COMMMENT = `
           fromEmail
           serializedContent
         }
-        emailMessageId
       }
     }
   }
@@ -344,8 +347,11 @@ export const INSERT_NOTE = `
           textContent
           serializedContent
         }
+        key
         readAt
         createdAt
+        source
+        emailMessageId
         appUser{
           id
           email
@@ -353,7 +359,6 @@ export const INSERT_NOTE = `
           displayName
           avatarUrl
         }
-        source
         messageSource {
           name
           state
@@ -361,7 +366,6 @@ export const INSERT_NOTE = `
           fromEmail
           serializedContent
         }
-        emailMessageId
       }
     }
   }

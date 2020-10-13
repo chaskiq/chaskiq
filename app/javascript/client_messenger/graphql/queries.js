@@ -76,6 +76,7 @@ export const CONVERSATIONS = `
             triggerId
             fromBot
             readAt
+            key
             message{
               htmlContent
               textContent
@@ -134,6 +135,7 @@ export const CONVERSATION=`
         messages(page: $page){
           collection{
             id
+            key
             message{
               htmlContent
               textContent
@@ -190,6 +192,7 @@ export const INSERT_COMMMENT = `
           displayName
         }
         source
+        key
         messageSource {
           name
           state
@@ -226,6 +229,7 @@ export const START_CONVERSATION = `
           source
           createdAt
           id
+          key
           message{
             htmlContent
             textContent

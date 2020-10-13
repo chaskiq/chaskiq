@@ -15,7 +15,8 @@ import { updateRtcEvents } from '../../actions/rtc'
 import Progress from '../Progress'
 import Button from '../Button'
 import I18n from '../../shared/FakeI18n'
-import {DefinitionRenderer} from '../packageBlocks/components'
+import tw from 'twin.macro'
+import { DefinitionRenderer } from '../packageBlocks/components'
 import {
   getConversation,
   typingNotifier,
@@ -29,6 +30,7 @@ import {
   setLoading,
   updateConversationTagList
 } from '../../actions/conversation'
+
 import QuickRepliesDialog from './QuickReplyDialog'
 import ErrorBoundary from '../ErrorBoundary'
 
@@ -80,9 +82,13 @@ const BgContainer = styled.div`
 `
 
 const MessageItem = styled.div`
-  ${(props)=> props.userOrAdmin === 'user' ? 
-    `background: linear-gradient(45deg,#48d79b,#1dea94f2);` :
-    `background: linear-gradient(45deg,#202020,#000000e6)`
+  ${(props) => props.userOrAdmin === 'user'
+    ? tw`bg-white text-green-500` : props.privateNote
+      ? tw`bg-yellow-300 text-black`
+      : tw`bg-gray-900 text-white`
+
+  // `background: linear-gradient(45deg,#48d79b,#1dea94f2);` :
+  // `background: linear-gradient(45deg,#202020,#000000e6)`
   }
 `
 
@@ -272,7 +278,7 @@ function Conversation ({
   const renderMessage = (o, userOrAdmin) => {
     const message = o
     const messageContent = o.message
-    const key = `conversation-${conversation.id}-message-${o.id}`
+    const key = `conversation-${conversation.key}-message-${o.key}`
 
     const content = messageContent.serializedContent ? (
       <DraftRenderer
@@ -302,9 +308,9 @@ function Conversation ({
     const isAdmin = userOrAdmin === 'admin'
 
     return <div
-      id={`message-id-${message.id}`}
+      id={`message-id-${message.key}`}
       className={`flex items-start py-2 text-sm ${flow}`}
-      key={`conversations-messages/${message.id}`}>
+      key={`conversations-messages/${message.key}`}>
       {
         userOrAdmin === 'user' && <img
           alt={message.appUser.displayName}
@@ -315,15 +321,16 @@ function Conversation ({
       }
       <MessageItem
         userOrAdmin={userOrAdmin}
+        privateNote={message.privateNote}
         className={`
-        shadow-lg 
+        shadow-md 
         flex-1 
         overflow-hidden-dis p-3 
         rounded-md max-w-full`}
       >
         <div className="flex justify-between pb-4">
           <div className="flex items-center">
-            <span className={`ml-2 font-bold ${textClass}`}>
+            <span className={`font-bold ${textClass}`}>
               {message.appUser.displayName}
             </span>
           </div>
@@ -345,12 +352,12 @@ function Conversation ({
 
             {
               isAdmin && messageContent.serializedContent &&
-  
+
               <FilterMenu
                 options={[
                   {
                     title: I18n.t('quick_replies.add_as_dialog.title'),
-                    onClick: ()=> { addAsReply(messageContent.serializedContent) }
+                    onClick: () => { addAsReply(messageContent.serializedContent) }
                   }
                 ]}
                 value={null}
@@ -378,10 +385,10 @@ function Conversation ({
     </div>
   }
 
-  const updatePackage = (data, cb)=> {
+  const updatePackage = (data, cb) => {
     // for now the only supported action for agent facing pkg will be the url link
-    if(data.field.action.type === 'url'){
-      return window.open(data.field.action.url, '_blank'); 
+    if (data.field.action.type === 'url') {
+      return window.open(data.field.action.url, '_blank')
     }
   }
 
@@ -394,20 +401,20 @@ function Conversation ({
 
         output = <div>
           <p
-            className="text-gray-500 text-xs 
+            className="text-gray-500 text-xs
             font-medium uppercase tracking-wide">
             {blocks.appPackage}
           </p>
 
           <br />
 
-          {/*<p variant={'caption'}>
+          {/* <p variant={'caption'}>
             {data && (
               <span
                 dangerouslySetInnerHTML={{ __html: data.formattedText }}
               />
             )}
-          </p>*/}
+          </p> */}
 
           <DefinitionRenderer
             schema={blocks.schema}
@@ -454,8 +461,8 @@ function Conversation ({
     const message = o
     const messageContent = o.message
 
-    if ( blocks.type === 'app_package' ) {
-      //(o.message.state !== 'replied') {
+    if (blocks.type === 'app_package') {
+      // (o.message.state !== 'replied') {
 
       return <div
         id={`message-id-${message.id}`}
@@ -669,9 +676,9 @@ function Conversation ({
                 outline-none 
                 mr-1 rounded-full 
                 ${
-                  conversation.state === 'closed' ?
-                  'bg-green-600 border-green-700 hover:bg-green-700 hover:border-green-800 text-gray-100' :
-                  'bg-white hover:bg-gray-100 text-gray-800'
+                  conversation.state === 'closed'
+                  ? 'bg-green-600 border-green-700 hover:bg-green-700 hover:border-green-800 text-gray-100'
+                  : 'bg-white hover:bg-gray-100 text-gray-800'
                 }
                  
                 font-semibold 
@@ -854,7 +861,7 @@ function Conversation ({
 
                 return (
                   <MessageItemWrapper
-                    key={`message-item-${conversation.key}-${message.id}`}
+                    key={`message-item-${conversation.key}-${message.key}`}
                     data={message}
                     events={events}
                     conversation={conversation}
@@ -894,7 +901,7 @@ function Conversation ({
       </div>
 
       <div className="pb-3 px-4 flex-none mt-auto">
-        <div className="bg-white flex rounded-lg border-2 border-grey overflow-hidden shadow-lg">
+        <div className="bg-white flex rounded-lg border border-grey overflow-hidden shadow-lg">
           {/* <span className="text-3xl text-grey border-r-2 border-grey p-2">
               <svg className="fill-current h-6 w-6 block" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M16 10c0 .553-.048 1-.601 1H11v4.399c0 .552-.447.601-1 .601-.553 0-1-.049-1-.601V11H4.601C4.049 11 4 10.553 4 10c0-.553.049-1 .601-1H9V4.601C9 4.048 9.447 4 10 4c.553 0 1 .048 1 .601V9h4.399c.553 0 .601.447.601 1z"></path></svg>
               </span> */}
@@ -915,7 +922,7 @@ function Conversation ({
       <QuickRepliesDialog
         title={ I18n.t('quick_reply.add_as_dialog.title') }
         closeHandler={
-          ()=> setQuickReplyDialogOpen(null)
+          () => setQuickReplyDialogOpen(null)
         }
         open={quickReplyDialogOpen}>
       </QuickRepliesDialog>
@@ -927,6 +934,10 @@ function Conversation ({
 function MessageItemWrapper ({ conversation, data, events, children }) {
   React.useEffect(() => {
     // mark as read on first render
+    setTimeout(sendRead, 300)
+  }, [])
+
+  function sendRead () {
     if (!data.readAt) {
       events &&
         events.perform(
@@ -934,14 +945,14 @@ function MessageItemWrapper ({ conversation, data, events, children }) {
           Object.assign(
             {},
             {
-              conversation_id: conversation.id,
-              message_id: data.id
+              conversation_key: conversation.key,
+              message_key: data.key
             },
             { email: data.email }
           )
         )
     }
-  }, [])
+  }
 
   return <React.Fragment>{children}</React.Fragment>
 }
