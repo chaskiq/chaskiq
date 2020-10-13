@@ -3,6 +3,7 @@ import ReactDOM from "react-dom";
 //import styled from '@emotion/styled'
 import { ThemeProvider } from 'emotion-theming'
 
+import {uniqBy} from 'lodash'
 import actioncable from "actioncable"
 import axios from "axios"
 import UAParser from 'ua-parser-js'
@@ -181,18 +182,17 @@ class Messenger extends Component {
         case "trigger":
           this.requestTrigger(data)
           break;
+        case "unload":
+          //this.unload()
         default:
           break;
       } 
     });
 
-    this.pling = new Audio(`${this.props.domain}/sounds/pling.mp3`)
+    this.pling = new Audio(`${this.props.domain}/sounds/BING-E5.wav`)
   }
 
   componentDidMount(){
-
-    //this.eventsSubscriber()
-
     this.visibility()
     
     this.ping(()=> {
@@ -202,6 +202,11 @@ class Messenger extends Component {
       //this.getMessage()
       //this.getTours()
       this.locationChangeListener()
+    })
+
+    document.addEventListener("turbolinks:before-visit", ()=>{
+      console.log('unload triggered')
+      this.unload()
     })
 
     this.updateDimensions()
@@ -220,6 +225,10 @@ class Messenger extends Component {
     window.opener && window.opener.postMessage(
       {type: "ENABLE_MANAGER_TOUR"}, "*"
     );
+  }
+
+  unload() {
+    App.cable && App.cable.subscriptions.consumer.disconnect();
   }
 
   componentDidUpdate(prevProps, prevState){
@@ -362,7 +371,7 @@ class Messenger extends Component {
               break
             case "conversations:conversation_part":
               const newMessage = toCamelCase(data.data)
-              this.receiveMessage(newMessage)
+              setTimeout(()=> this.receiveMessage(newMessage), 100)
               break
             case "conversations:typing":
               this.handleTypingNotification(toCamelCase(data.data))
@@ -411,7 +420,6 @@ class Messenger extends Component {
   }
 
   receiveMessage = (newMessage)=>{
-
     this.setState({
       agent_typing: false
     })
@@ -452,9 +460,9 @@ class Messenger extends Component {
     // if(this.state.conversation.messages && this.state.conversation.messages.find((o)=> o.id === newMessage.id )) return
 
     // append or update
-    if ( this.state.conversation.messages.collection.find( (o)=> o.id === newMessage.id ) ){
+    if ( this.state.conversation.messages.collection.find( (o)=> o.key === newMessage.key ) ){
       const new_collection = this.state.conversation.messages.collection.map((o)=>{
-          if (o.id === newMessage.id ){
+          if (o.key === newMessage.key ){
             return newMessage
           } else {
             return o
@@ -464,7 +472,7 @@ class Messenger extends Component {
       this.setState({
         conversation: Object.assign(this.state.conversation, {
           messages: { 
-            collection: new_collection,
+            collection: uniqBy(new_collection, 'key'),
             meta: this.state.conversation.messages.meta
            }
         })
@@ -475,7 +483,9 @@ class Messenger extends Component {
       this.setState({
         conversation: Object.assign(this.state.conversation, {
           messages: { 
-            collection: [newMessage].concat(this.state.conversation.messages.collection) ,
+            collection: uniqBy([newMessage].concat(
+              this.state.conversation.messages.collection
+            ), 'key') ,
             meta: this.state.conversation.messages.meta
           }
         })
@@ -569,6 +579,22 @@ class Messenger extends Component {
       message: message
     }, {
       success: (data)=>{
+        if(data.insertComment.message){
+          const newCollection = [data.insertComment.message].concat(
+            this.state.conversation.messages.collection
+          )
+          
+          this.setState({
+            conversation: {
+              ...this.state.conversation, 
+              messages: {
+                collection: newCollection,
+                meta: this.state.conversation.messages.meta
+              }
+            },
+          })
+        }
+
         cb(data)
       },
       error: ()=>{
@@ -975,8 +1001,8 @@ class Messenger extends Component {
   // save trigger id
   handleAppPackageEvent = (ev)=>{
     App.events && App.events.perform('app_package_submit', {
-      conversation_id: this.state.conversation.key,
-      message_id: this.state.currentAppBlock.message.id,
+      conversation_key: this.state.conversation.key,
+      message_key: this.state.currentAppBlock.message.key,
       data: ev.data
     })
 
@@ -1718,9 +1744,13 @@ export default class ChaskiqMessenger {
 
   render(){
     //document.addEventListener('DOMContentLoaded', () => {
-      var g = document.createElement('div');
-      g.setAttribute("id", "ChaskiqMessengerRoot");
-      document.body.appendChild(g);
+
+      var g = document.getElementById(this.props.wrapperId) 
+      if(!g){
+        var g = document.createElement('div');
+        g.setAttribute("id", this.props.wrapperId);
+        document.body.appendChild(g);
+      }
 
       ReactDOM.render(
         <TranslatedMessenger {...this.props} i18n={i18n} />,
