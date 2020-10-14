@@ -109,7 +109,7 @@ function Conversations ({
         size="small"
       >
         {/* <MoreVertIcon /> */}
-        {I18n.t('conversations.sorts.' + conversations.sort )}
+        {I18n.t('conversations.sorts.' + conversations.sort)}
       </Button>
     )
   }
@@ -193,8 +193,18 @@ function Conversations ({
             )
           })}
 
+          { conversations.meta.total_pages === 0 &&
+            <EmptyView
+              title={I18n.t('conversations.empty.title')}
+              shadowless
+              h2Classes={`text-2xl tracking-tight
+              font-extrabold text-gray-900 sm:text-3xl
+              sm:leading-none md:text-2xl`}
+            />
+          }
+
           {
-            fetching && <div className="m-2">
+            (fetching || conversations.loading) && <div className="m-2">
               <Progress size={
                 conversations.collection.length === 0 ? '16' : '4'
               }/>

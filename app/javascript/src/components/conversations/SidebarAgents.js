@@ -54,7 +54,7 @@ function SidebarAgents ({ app, dispatch, conversations }) {
 
   function filterAgent (option) {
     console.log('agent to filter', option)
-    const agentID = option ? option.id : 0
+    const agentID = option ? option.id : null
     dispatch(clearConversations([]))
     dispatch(
       updateConversationsData({
@@ -66,7 +66,8 @@ function SidebarAgents ({ app, dispatch, conversations }) {
             page: 1,
             agentId: agentID,
             sort: 'unfiltered',
-            filter: 'opened'
+            filter: 'opened',
+            tag: null
           }
         )
       })
@@ -115,6 +116,7 @@ function SidebarAgents ({ app, dispatch, conversations }) {
             key={`agent-list-${i}`}
             agent={findAgent(o)}
             count={counts[o]}
+            active={conversations.agentId === parseInt(o)}
             filterHandler={filterAgent}
             label={ o === 'all'
               ? 'All conversations' : null
@@ -144,9 +146,8 @@ function SidebarAgents ({ app, dispatch, conversations }) {
             key={`sidebar-agent-tag-${o.tag}`}
             label={o.tag}
             count={o.count}
-            filterHandler={
-              () => handleTagFilter(o.tag)
-            }
+            active={conversations.tag === o.tag}
+            filterHandler={ handleTagFilter }
             icon={
               <LabelIcon className="-ml-1 mr-3"
                 style={{ color: tagColor(o.tag) }}
@@ -160,11 +161,28 @@ function SidebarAgents ({ app, dispatch, conversations }) {
   )
 }
 
-function ListItem ({ agent, count, label, filterHandler, icon }) {
+function ListItem ({ agent, count, label, filterHandler, icon, active }) {
+  function toggleFilter () {
+    let option = null
+    if (agent) {
+      option = active ? null : agent
+    }
+    if (label) {
+      option = active ? null : label
+    }
+    filterHandler(option)
+  }
+
   return (
     <a href="#"
-      onClick={ () => filterHandler(agent)}
-      className="mt-1 group flex items-center px-3 py-2 text-sm leading-5 font-medium text-gray-600 rounded-md hover:text-gray-900 hover:bg-gray-50 focus:outline-none focus:text-gray-900 focus:bg-gray-200 transition ease-in-out duration-150">
+      onClick={ toggleFilter }
+      className={`mt-1 group flex items-center px-3 py-2 text-sm
+      leading-5 font-medium text-gray-600 rounded-md hover:text-gray-900
+      hover:bg-gray-50 focus:outline-none 
+      focus:text-gray-900
+      focus:bg-gray-200-- 
+      transition ease-in-out duration-150 
+      ${active ? 'bg-gray-200' : ''}`}>
       {
         !agent && icon
       }
