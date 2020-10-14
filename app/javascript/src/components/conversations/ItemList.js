@@ -64,12 +64,18 @@ export default function ConversationItemList ({ app, conversation }) {
     </span>
   }
 
+  function stateClass () {
+    return conversation.state == 'opened'
+      ? 'bg-red-200' : 'bg-green-600'
+  }
+
   return (
     <Link
       to={`/apps/${app.key}/conversations/${conversation.key}`}
-      className="block hover:bg-gray-100 focus:outline-none focus:bg-gray-100 transition duration-150 ease-in-out"
+      className="flex justify-between hover:bg-gray-100 focus:outline-none focus:bg-gray-100 transition duration-150 ease-in-out"
     >
-      <div className="px-6 py-4 whitespace-no-wrap border-b border-gray-200 ">
+      <div className={`block w-2 ${stateClass()}`}></div>
+      <div className="w-full px-6 py-4 whitespace-no-wrap border-b border-gray-200 ">
         <div className="flex items-center">
           <div className="flex-shrink-0 h-10 w-10">
             <img
