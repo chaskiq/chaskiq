@@ -1,6 +1,12 @@
 import React from 'react'
 
-export default function EmptyView ({ title, subtitle, icon, image, shadowless }) {
+export default function EmptyView ({ title, subtitle, icon, image, shadowless, h2Classes }) {
+  function h2Styles () {
+    return h2Classes || `text-2xl tracking-tight
+        font-extrabold text-gray-900 sm:text-3xl
+        sm:leading-none md:text-4xl`
+  }
+
   return (
     <div
       className={`bg-white overflow-hidden ${
@@ -10,7 +16,7 @@ export default function EmptyView ({ title, subtitle, icon, image, shadowless })
       <div className="flex flex-col px-4 py-5 sm:p-6 items-center">
         {icon && icon}
 
-        <h2 className="text-4xl tracking-tight font-extrabold text-gray-900 sm:text-3xl sm:leading-none md:text-4xl">
+        <h2 className={h2Styles()}>
           {title}
         </h2>
 
