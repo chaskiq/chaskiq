@@ -125,7 +125,11 @@ en:
       seen: Seen
       not_seen: Not seen
       note: Note
-
+    sidebar:
+      latest_user_visible_comment_at: Last comment
+      created_at: Created at
+      assignee: Assignee
+      first_agent_reply: First agent reply
     editor:
       panels:
         bot:

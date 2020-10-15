@@ -19,6 +19,7 @@ import Conversation from '../components/conversations/Conversation'
 import Progress from '../components/Progress'
 import EmptyView from '../components/EmptyView'
 import Button from '../components/Button'
+import ConversationSidebar from '../components/conversations/Sidebar'
 import emptyImage from '../images/empty-icon8.png'
 import I18n from '../shared/FakeI18n'
 
@@ -284,9 +285,7 @@ function Conversations ({
           }
 
           {app_user && app_user.id ? (
-            <UserData
-              data={conversation.mainParticipant}
-            />
+            <ConversationSidebar/>
           ) : (
             <Progress />
           )}
