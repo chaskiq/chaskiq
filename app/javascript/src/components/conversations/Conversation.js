@@ -580,7 +580,7 @@ function Conversation ({
         key={`conversations-messages/${message.id}`}>
 
         <div
-          className={`bg-yellow-400
+          className={`bg-yellow-300
           flex 
           overflow-hidden p-2 
           rounded-md mx-auto`
