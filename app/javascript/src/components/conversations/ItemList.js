@@ -59,7 +59,7 @@ export default function ConversationItemList ({ app, conversation }) {
         backgroundColor: color.bgColor,
         color: color.color
       }}
-      className="inline-block bg-red-200 rounded-full px-2 py-1 text-xs font-semibold text-gray-700 mr-2">
+      className="inline-block bg-red-200 rounded-full px-1 -py-1 text-xs font-semibold text-gray-700 mr-2">
       #{tag}
     </span>
   }

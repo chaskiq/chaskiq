@@ -313,7 +313,10 @@ export const CONVERSATION=`
         state
         readAt
         priority
+        createdAt
         tagList
+        firstAgentReply
+        latestUserVisibleCommentAt
         assignee {
           id
           email
@@ -385,6 +388,8 @@ export const CONVERSATION_WITH_LAST_MESSAGE=`
         priority
         createdAt
         tagList
+        firstAgentReply
+        latestUserVisibleCommentAt
         lastMessage{
           createdAt
           source
