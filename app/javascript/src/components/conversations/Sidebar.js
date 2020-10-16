@@ -9,6 +9,11 @@ import {
 function Sidebar ({ app, conversation, app_user }) {
   const participant = conversation.mainParticipant
   if (!participant) { return null }
+
+  function localeDate(date){
+    return new Date(date).toLocaleString()
+  }
+  
   return (
     <div className="xl:border-r xl:border-gray-200 bg-white">
       <div className="px-2 py-16">
@@ -111,9 +116,13 @@ function Sidebar ({ app, conversation, app_user }) {
                   </dt>
                   <dd className="mt-1 text-sm leading-5 text-gray-900">
                     { conversation.latestUserVisibleCommentAt &&
-                      <Moment fromNow ago>
-                        { Date.parse(conversation.latestUserVisibleCommentAt) }
-                      </Moment>
+                      <React.Fragment>
+                        { localeDate(conversation.latestUserVisibleCommentAt) }
+                        {' '}
+                        (<Moment fromNow ago>
+                          { Date.parse(conversation.latestUserVisibleCommentAt) }
+                        </Moment>)
+                      </React.Fragment>
                     }
                   </dd>
                 </div>}
@@ -126,9 +135,13 @@ function Sidebar ({ app, conversation, app_user }) {
                   </dt>
                   <dd className="mt-1 text-sm leading-5 text-gray-900">
                     { conversation.firstAgentReply &&
-                      <Moment fromNow ago>
-                        { Date.parse(conversation.firstAgentReply) }
-                      </Moment>
+                      <React.Fragment>
+                        {localeDate(conversation.firstAgentReply)}
+                        {' '}
+                        (<Moment fromNow ago>
+                          { Date.parse(conversation.firstAgentReply) }
+                        </Moment>)
+                      </React.Fragment>
                     }
                   </dd>
                 </div>}
@@ -141,9 +154,13 @@ function Sidebar ({ app, conversation, app_user }) {
                   </dt>
                   <dd className="mt-1 text-sm leading-5 text-gray-900">
                     { conversation.createdAt &&
-                      <Moment fromNow ago>
-                        { Date.parse(conversation.createdAt) }
-                      </Moment>
+                      <React.Fragment>
+                        {localeDate(conversation.createdAt)}
+                        {' '}
+                        (<Moment fromNow ago>
+                          { Date.parse(conversation.createdAt) }
+                        </Moment>)
+                      </React.Fragment>
                     }
                   </dd>
                 </div>}
