@@ -18,6 +18,7 @@ import Bots from './Bots'
 import Campaigns from './Campaigns'
 import CampaignHome from './campaigns/home'
 import Progress from '../components/Progress'
+import UserSlide from '../components/UserSlide'
 import Profile from './Profile'
 import AgentProfile from './AgentProfile'
 import Billing from './Billing'
@@ -45,7 +46,7 @@ import {
 
 import { toggleDrawer } from '../actions/drawer'
 
-import UserData from '../components/UserData'
+import UserProfileCard from '../components/UserProfileCard'
 import LoadingView from '../components/loadingView'
 
 const CableApp = {
@@ -165,7 +166,7 @@ function App ({
         ></div>
       )}
 
-      {drawer.userDrawer && (
+      {/*drawer.userDrawer && (
         <div
           className="navbar w-64 absolute
               bg-white top-0 z-50 right-0  navbar-open"
@@ -178,23 +179,23 @@ function App ({
             )}
           </div>
         </div>
-      )}
+      )*/}
 
-      {drawer.userDrawer && (
-        <div
-          onClick={handleUserSidebar}
-          style={{
-            background: '#000',
-            position: 'fixed',
-            opacity: 0.6,
-            zIndex: 10,
-            top: 0,
-            left: 0,
-            width: '100vw',
-            height: '100vh'
-          }}
-        />
-      )}
+      { drawer.userDrawer &&
+        <UserSlide 
+          open={!!drawer.userDrawer}
+          onClose={handleUserSidebar}>
+
+          {app_user ? (
+            <UserProfileCard 
+              width={'300px'} 
+            />
+          ) : (
+            <Progress />
+          )}
+
+        </UserSlide>
+      }
 
       {loading || !app && <LoadingView />}
 

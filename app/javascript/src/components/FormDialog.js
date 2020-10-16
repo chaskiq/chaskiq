@@ -1,4 +1,5 @@
 import React from 'react'
+import { Transition } from '@headlessui/react'
 
 function FormDialog (props) {
   const [open, setOpen] = React.useState(props.open)
@@ -16,18 +17,20 @@ function FormDialog (props) {
 
   return props.open ? (
     <Backdrop>
-      <div
-        open={props.open}
-        // onClose={handleClose}
-        // x-show="open"
-        // x-transition:enter="ease-out duration-300"
-        // x-transition:enter-start="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
-        // x-transition:enter-end="opacity-100 translate-y-0 sm:scale-100"
-        // x-transition:leave="ease-in duration-200"
-        // x-transition:leave-start="opacity-100 translate-y-0 sm:scale-100"
-        // x-transition:leave-end="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
+
+      <Transition
+        show={ Boolean(props.open) }
+        enter="ease-out duration-300"
+        enterFrom="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
+        enterTo="opacity-100 translate-y-0 sm:scale-100"
+        leave="ease-in duration-200"
+        leaveFrom="opacity-100 translate-y-0 sm:scale-100"
+        leaveTo="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
         className="relative bg-white rounded-lg px-4 pt-5 pb-4 overflow-hidden--- shadow-xl transform transition-all sm:max-w-lg sm:w-full sm:p-6"
+
       >
+        
+  
         <div className="absolute top-0 right-0 pt-4 pr-4">
           <button
             onClick={handleClose}
@@ -74,7 +77,9 @@ function FormDialog (props) {
         <div className="mt-5 sm:mt-4 flex flex-row-reverse">
           {props.dialogButtons}
         </div>
-      </div>
+      
+
+      </Transition>
     </Backdrop>
   ) : null
 }
