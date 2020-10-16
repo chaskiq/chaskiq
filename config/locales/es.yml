@@ -135,10 +135,13 @@
             empty: no quick replies available
             choose_another: Choose another
       sidebar:
+        show_profile: Ver perfil
         latest_user_visible_comment_at: Último mensaje
         created_at: Creado el
         assignee: Asignado a
         first_agent_reply: Primera respuesta de agente
+        location: Ubicación
+        browser: Navegador web
     assignment_rules:
       title: Reglas de asignación
       create_button: Crear regla
