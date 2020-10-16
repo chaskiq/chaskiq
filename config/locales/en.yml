@@ -126,6 +126,9 @@ en:
       not_seen: Not seen
       note: Note
     sidebar:
+      show_profile: Show profile
+      location: Location
+      browser: User Browser
       latest_user_visible_comment_at: Last comment
       created_at: Created at
       assignee: Assignee
