@@ -16,14 +16,14 @@ function Sidebar ({ app, conversation, app_user }) {
   
   return (
     <div className="xl:border-r xl:border-gray-200 bg-white">
-      <div className="px-2 py-16">
+      <div className="px-5 py-2 pt-2">
         <div className="flex items-center justify-between">
           <div className="flex-1 space-y-8">
             <div className="space-y-8 sm:space-y-0 sm:flex
             sm:justify-between sm:items-center xl:block 
             xl:space-y-2">
               {/* Profile */}
-              <div className="flex items-center space-x-3">
+              <div className="ml-2 flex items-center space-x-3">
                 <div className="flex-shrink-0 h-12 w-12">
                   <img className="h-12 w-12 rounded-full"
                     src={participant.avatarUrl}
