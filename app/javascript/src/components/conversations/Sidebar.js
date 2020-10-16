@@ -18,7 +18,7 @@ function Sidebar ({ app, conversation, app_user }) {
     <div className="xl:border-r xl:border-gray-200 bg-white">
       <div className="px-5 py-2 pt-2">
         <div className="flex items-center justify-between">
-          <div className="flex-1 space-y-8">
+          <div className="flex-1 space-y-8 break-all">
             <div className="space-y-8 sm:space-y-0 sm:flex
             sm:justify-between sm:items-center xl:block 
             xl:space-y-2">
