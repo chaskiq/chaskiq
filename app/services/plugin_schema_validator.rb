@@ -138,7 +138,7 @@ class DataTableItemSchema
   include ActiveModel::Validations
   attr_accessor :type, :field, :value
 
-  validates :type, :field, :value, presence: :true
+  validates :type, :field, presence: :true
 
   def initialize(params)
     self.type = params[:type]

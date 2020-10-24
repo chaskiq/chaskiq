@@ -30,11 +30,13 @@ class AppPackageIntegration < ApplicationRecord
   end
 
   def message_api_klass
-    @message_api_klass ||= "MessageApis::#{app_package.name.capitalize}".constantize.new(
+    @message_api_klass ||= "MessageApis::#{app_package.name}".constantize.new(
       config: self.settings.dup.merge( 
         self.app_package.credentials || {} 
       )
-    ) rescue nil
+    ) 
+  
+   #rescue nil
   end
 
   def merged_credentials
@@ -132,13 +134,13 @@ class AppPackageIntegration < ApplicationRecord
     when "submit" then presenter.submit_hook(params)
     when "frame" then presenter.sheet_hook(params)
     when "content" then presenter.content_hook(params) # not used
-    else raise 'not hook'
+    else raise 'no compatible hook kind'
     end
 
     response = response.with_indifferent_access
 
     package_schema = PluginSchemaValidator.new(response[:definitions])
-    raise package_schema.as_json unless package_schema.valid?
+    raise "invalid definitions: #{package_schema.to_json}" unless package_schema.valid?
 
     if response["kind"] == 'initialize'
       params[:ctx][:field] = nil

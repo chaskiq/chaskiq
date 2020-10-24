@@ -25,6 +25,8 @@ class Conversation < ApplicationRecord
 
   attr_accessor :initiator
 
+
+
   aasm column: :state do
     state :opened, initial: true
     state :closed

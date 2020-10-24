@@ -19,7 +19,7 @@ module Types
     field :main_participant, Types::AppUserType, null: true
     field :last_message, Types::ConversationPartType, null: true
     field :tag_list, [String], null: true
-    
+
     def last_message
       # TODO: we should use last_message_id relation to batch this properly
       object.latest_message

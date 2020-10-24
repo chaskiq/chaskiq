@@ -109,7 +109,7 @@ class Agent < ApplicationRecord
   def gravatar
     email_address = email.downcase
     hash = Digest::MD5.hexdigest(email_address)
-    d = "https://api.adorable.io/avatars/130/#{hash}.png"
+    d = "https://ui-avatars.com/api/?name=#{hash}"
     image_src = "https://www.gravatar.com/avatar/#{hash}?d=#{d}"
   end
 

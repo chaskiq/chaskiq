@@ -12,6 +12,14 @@ class AppPackagesCatalog
       },
 
       {
+        name: "InboxSample",
+        description: "Inbox sample",
+        capability_list: ["inbox"],
+        state: 'enabled',
+        definitions: []
+      },
+
+      {
         name: 'ExternalExample',
         tag_list: ['editor'],
         capability_list: ['conversations', 'home'],
@@ -80,6 +88,7 @@ class AppPackagesCatalog
         description: 'Data Enrichment service',
         icon: 'https://logo.clearbit.com/fullcontact.com',
         state: 'enabled',
+        capability_list: ["inbox"],
         definitions: [
           {
             name: 'api_secret',
@@ -355,7 +364,8 @@ class AppPackagesCatalog
             grid: { xs: 'w-full', sm: 'w-full' }
           }
         ]
-      }
+      },
+      
 
     ]
 

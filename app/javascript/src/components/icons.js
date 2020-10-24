@@ -198,9 +198,23 @@ export function PaintIcon (props) {
 }
 
 export function QueueIcon (props) {
-  return (
+  /* 
     <BaseIcon {...props} fill="currentColor" viewBox="0 0 20 20">
       <path d="M0,2 L20,2 L20,6 L0,6 L0,2 Z M0,10 L20,10 L20,12 L0,12 L0,10 Z M0,16 L20,16 L20,18 L0,18 L0,16 Z"></path>
+    </BaseIcon>
+  */
+
+  return (
+    <BaseIcon className="w-6 h-6"
+      fill="none"
+      stroke="currentColor"
+      viewBox="0 0 24 24">
+      <path
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        strokeWidth={2}
+        d="M4 8V4m0 0h4M4 4l5 5m11-1V4m0 0h-4m4 0l-5 5M4 16v4m0 0h4m-4 0l5-5m11 5l-5-5m5 5v-4m0 4h-4" 
+      />
     </BaseIcon>
   )
 }
