@@ -73,15 +73,17 @@ module MessageApis
       end
 
       def self.user_attrs
-        attrs = [
-          :name,
-          :first_name,
-          :last_name,
-          :twitter,
-          :facebook,
-          :linkedin,
-          :organization,
-          :job_title]
+          items_attrs = [
+            {label: 'Name', call: ->(user){ user.name } },
+            {label: 'First name', call: ->(user){ user.first_name } },
+            {label: 'Last name', call: ->(user){ user.last_name } },
+            {label: 'Twitter', call: ->(user){ user.twitter } },
+            {label: 'Facebook', call: ->(user){ user.facebook } },
+            {label: 'Linkedin', call: ->(user){ user.linkedin } },
+            {label: 'Organization', call: ->(user){ user.organization  } },
+            {label: 'Job title', call: ->(user) { user.job_title }  } ,
+          ]
+
       end
 
       # Submit flow webhook URL
@@ -108,7 +110,7 @@ module MessageApis
             style: 'header'
           },
           {
-            id: 'bubu',
+            id: 'fullcontact-enrich-btn',
             label: 'Enrich with Fullcontact',
             type: 'button',
             action: {
@@ -120,7 +122,10 @@ module MessageApis
         definitions << {
           "type": "data-table",
           "items": user_attrs.map{ |o|  
-            {"type": "field-value","field": o,"value": user.send(o) }
+            { "type": "field-value",
+              "field": o[:label],
+              "value": o[:call].call(user)
+            }
           }
         }
 
@@ -139,28 +144,6 @@ module MessageApis
       # them configuration options before it’s inserted. Leaving this option 
       # blank will skip configuration.
       def self.configure_hook(kind: , ctx:)
-
-        definitions = [
-          {
-            id: 'bubu',
-            label: 'fuckya',
-            type: 'button',
-            action: {
-              type: "submit" 
-            },
-            grid: { xs: 'w-full', sm: 'w-full' }
-          },
-          {
-            id: 'content-url',
-            name: 'content-url',
-            label: 'content-url',
-            type: 'button',
-            action: {
-              type: "submit" 
-            }
-          }
-        ]
-
         return  {
           kind: 'initialize', 
           definitions: [], 
@@ -191,13 +174,16 @@ module MessageApis
         ]
         definitions << {
           "type": "data-table",
-          "items": user_attrs.map{ |o|  
-            { "type": "field-value", "field": o.to_s, "value": user.send(o) }
+          "items": user_attrs.map{ |o|
+            { "type": "field-value",
+              "field": o[:label],
+              "value": o[:call].call(user)
+            }
           }
         }
 
         definitions << {
-          id: 'bubu',
+          id: 'fullcontact-enrich-btn',
           label: 'Enrich with Fullcontact',
           type: 'button',
           action: {

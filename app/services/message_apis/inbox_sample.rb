@@ -266,24 +266,37 @@ module MessageApis
           
           definitions = [
             {
-              type: 'list',
-              items: [
-                {
-                  "type": "item",
-                  "id": "app-user-block",
-                  "title": user.display_name,
-                  "subtitle": user.email,
-                  "image": user.avatar_url 
-                  #"action": {
-                  #  "type": "submit"
-                  #}
-                }
-              ]
+              type: 'text',
+              text: user.display_name,
+              style: 'header',
+              align: 'center'
+            },
+
+            {
+              type: "image",
+              url: user.avatar_url,
+              height: 64,
+              width: 64,
+              align: "center",
+              rounded: true
+            },
+
+            {
+              type: 'text',
+              text: user.email,
+              style: 'muted',
+              align: 'center'
             },
             {
-              text: 'visit',
-              type: 'text',
-              align: 'right'
+              id: 'visit-user-profile',
+              label: 'visit',
+              type: 'button',
+              variant: 'link',
+              align: 'right',
+              action: {
+                type: 'link',
+                url: "/apps/#{conversation.app.key}/users/#{user.id}"
+              }
             }
           ]
         end
@@ -314,20 +327,15 @@ module MessageApis
 
         if ctx.dig(:values, :block_type) == "user-properties-block"
           items_attrs = [
-            'last_visited_at',
-            'referrer',
-            'state',
-            'ip',
-            'city',
-            'region',
-            'country',
-            'web_sessions',
-            'timezone',
-            'browser',
-            'browser_version',
-            'os',
-            'os_version',
-            'browser_language'
+            {label: 'Last Seen', call: ->(user){ I18n.l(user.last_visited_at, format: :short) } },
+            {label: 'Location', call: ->(user){ [user.region , user.city, user.country].compact.join(', ') } },
+            {label: 'Ip', call: ->(user){ } },
+            {label: 'Sessions', call: ->(user){ user.web_sessions } },
+            {label: 'Timezone', call: ->(user){ } },
+            {label: 'Browser', call: ->(user){ [user.browser, user.browser_version].join(", ") } },
+            {label: 'OS', call: ->(user){ [user.os, user.os_version].join(", ") } },
+            {label: 'Language', call: ->(user) { user.browser_language }  } ,
+            {label: 'Referrer', call: ->(user){user.referrer } }
           ]
 
           definitions = [
@@ -340,8 +348,8 @@ module MessageApis
               "items": items_attrs.map{ |i| 
                 {
                   "type": "field-value",
-                  "field": i, 
-                  "value": user.send(i) || '-' 
+                  "field": i[:label], 
+                  "value": i[:call].call(user) 
                 }
               }
             }
@@ -361,17 +369,42 @@ module MessageApis
         end 
 
         if ctx.dig(:values, :block_type) == "assignee-block"
+          assignee = conversation&.assignee
+
           definitions = [
             {
               type: 'text',
               text: 'Assignee',
               style: 'header'
-            },
-            {
-              text: conversation.assignee&.display_name || 'unassigned',
-              type: 'text'
             }
           ]
+
+          definitions << {
+            text: 'unassigned',
+            type: 'text'
+          } unless assignee.present?
+
+          if assignee.present?
+            assignee_name = assignee&.display_name.empty? ? 
+                              assignee&.email : assignee&.display_name
+
+            definitions << {
+                text: assignee_name,
+                type: 'text'
+            }
+
+            definitions << {
+              id: 'visit-agent-profile',
+              label: 'visit',
+              type: 'button',
+              variant: 'link',
+              align: 'right',
+              action: {
+                type: 'link',
+                url: "/apps/#{conversation.app.key}/agents/#{assignee.id}"
+              }
+            } 
+          end
         end 
 
         if ctx.dig(:values, :block_type) == "tag-blocks"

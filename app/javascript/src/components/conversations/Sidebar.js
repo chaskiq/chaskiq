@@ -144,7 +144,7 @@ function Sidebar ({
 
                   {app.inboxApps && app.inboxApps.map((object, index) => (
                     <AppItem
-                      key={`inboxApp-${object.name}-$`}
+                      key={`inboxApp-${object.name}-${index}`}
                       app={app}
                       object={object}
                       conversation={conversation}
