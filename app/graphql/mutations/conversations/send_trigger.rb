@@ -25,15 +25,15 @@ module Mutations
             step: bot_task.paths.first['steps'].first
           }
         }.as_json)
-  
+
         user.metrics.create(
           trackable: bot_task,
           action: 'bot_tasks.delivered'
         )
 
-        { 
-          conversation: @conversation, 
-          errors: @conversation.errors 
+        {
+          conversation: @conversation,
+          errors: @conversation.errors
         }
       end
 

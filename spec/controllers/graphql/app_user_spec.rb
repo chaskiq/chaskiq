@@ -12,7 +12,7 @@ RSpec.describe GraphqlController, type: :controller do
   end
 
   let!(:agent_role) do
-    app.add_agent(email: 'test2@test.cl')
+    app.add_agent({email: 'test2@test.cl'})
   end
 
   before :each do
@@ -22,7 +22,6 @@ RSpec.describe GraphqlController, type: :controller do
   describe 'app_user' do
     it 'return current user' do
       graphql_post(type: 'APP_USER', variables: { appKey: app.key, id: user.id })
-      
       expect(graphql_response.errors).to be_nil
       expect(graphql_response.data.app.appUser.email).to be_present
     end

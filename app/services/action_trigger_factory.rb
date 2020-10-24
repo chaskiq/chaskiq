@@ -12,10 +12,9 @@ class ActionTriggerFactory
     yield(self)
   end
 
-  #Give the team a way to reach you:
+  # Give the team a way to reach you:
 
-  #Get notified by email
-
+  # Get notified by email
 
   def self.request_for_email(app:)
     subject = ActionTriggerFactory.new
@@ -28,7 +27,7 @@ class ActionTriggerFactory
         title: 'request_for_email',
         steps: [
           c.message(
-            text: I18n.t("task_bots.email_requirement.message"), 
+            text: I18n.t('task_bots.email_requirement.message'),
             uuid: 1,
             agent: bot_agent
           ),
@@ -37,14 +36,14 @@ class ActionTriggerFactory
             type: 'data_retrieval',
             schema: [
               c.input(
-                label: I18n.t("task_bots.email_requirement.input_label"),
+                label: I18n.t('task_bots.email_requirement.input_label'),
                 name: 'email',
-                placeholder: I18n.t("task_bots.email_requirement.placeholder")
+                placeholder: I18n.t('task_bots.email_requirement.placeholder')
               )
             ]
           ),
           c.message(
-            text: I18n.t("task_bots.email_requirement.ack"), 
+            text: I18n.t('task_bots.email_requirement.ack'),
             uuid: 3,
             agent: bot_agent
           )
@@ -68,19 +67,20 @@ class ActionTriggerFactory
         title: 'route_support',
         steps: [
           c.message(
-            text: I18n.t("task_bots.support.ask", name: app.name) , 
+            text: I18n.t('task_bots.support.ask', name: app.name),
             uuid: 1,
-            agent: bot_agent),
+            agent: bot_agent
+          ),
           c.controls(
             uuid: 2,
             type: 'ask_option',
             schema: [
               c.button(
-                label: I18n.t("task_bots.support.options.op1"),
+                label: I18n.t('task_bots.support.options.op1'),
                 next_uuid: 3
               ),
               c.button(
-                label: I18n.t("task_bots.support.options.op2"),
+                label: I18n.t('task_bots.support.options.op2'),
                 next_uuid: 4
               )
             ]
@@ -117,8 +117,8 @@ class ActionTriggerFactory
         title: 'typical_reply_time',
         steps: [
           c.message(
-            text: I18n.t("task_bots.reply_soon", {name: app.name}), 
-            uuid: 1, 
+            text: I18n.t('task_bots.reply_soon', { name: app.name }),
+            uuid: 1,
             agent: bot_agent
           )
         ]
@@ -145,26 +145,26 @@ class ActionTriggerFactory
 
       email_requirement = [
         c.message(
-          text: I18n.t("task_bots.email_requirement.message"), 
+          text: I18n.t('task_bots.email_requirement.message'),
           uuid: 2,
           agent: bot_agent
         ),
 
         c.controls(
           uuid: 3,
-          #type: 'data_retrieval',
-          type: "app_package", 
-          app_package: "Qualifier",
+          # type: 'data_retrieval',
+          type: 'app_package',
+          app_package: 'Qualifier',
           next_step_uuid: '4',
           schema: [
             {
-              "type"=>"input", 
-              "id"=>"email", 
-              "placeholder"=> I18n.t("task_bots.email_requirement.placeholder"),
-              "label"=>  I18n.t("task_bots.email_requirement.input_label"), 
-              "value"=>nil, 
-              "errors"=>"", 
-              "action"=>{"type"=>"submit"}
+              'type' => 'input',
+              'id' => 'email',
+              'placeholder' => I18n.t('task_bots.email_requirement.placeholder'),
+              'label' => I18n.t('task_bots.email_requirement.input_label'),
+              'value' => nil,
+              'errors' => '',
+              'action' => { 'type' => 'submit' }
             }
           ]
         )
@@ -172,19 +172,20 @@ class ActionTriggerFactory
 
       route_support = [
         c.message(
-          text: I18n.t("task_bots.support.ask", name: app.name) , 
+          text: I18n.t('task_bots.support.ask', name: app.name),
           uuid: 5,
-          agent: bot_agent),
+          agent: bot_agent
+        ),
         c.controls(
           uuid: 6,
           type: 'ask_option',
           schema: [
             c.button(
-              label: I18n.t("task_bots.support.options.op1"),
+              label: I18n.t('task_bots.support.options.op1'),
               next_uuid: 7
             ),
             c.button(
-              label: I18n.t("task_bots.support.options.op2"),
+              label: I18n.t('task_bots.support.options.op2'),
               next_uuid: 8
             )
           ]
@@ -194,7 +195,7 @@ class ActionTriggerFactory
       if kind === 'AppUser'
         path_messages << [
           c.message(
-            text: I18n.t("task_bots.reply_soon", {name: app.name}), 
+            text: I18n.t('task_bots.reply_soon', { name: app.name }),
             uuid: 1,
             agent: bot_agent
           )
@@ -205,10 +206,10 @@ class ActionTriggerFactory
 
         if app.lead_tasks_settings['share_typical_time']
           path_messages << c.message(
-            text: I18n.t("task_bots.reply_soon", {name: app.name}), 
+            text: I18n.t('task_bots.reply_soon', { name: app.name }),
             uuid: 1,
             agent: bot_agent
-            )
+          )
         end
 
         if user.email.blank?
@@ -241,8 +242,8 @@ class ActionTriggerFactory
       c.path(path_options)
 
       step_7 = [c.message(
-        text: I18n.t("task_bots.reply_agent", {name: app.name}), 
-        uuid: 7, 
+        text: I18n.t('task_bots.reply_agent', { name: app.name }),
+        uuid: 7,
         agent: bot_agent
       )]
 
@@ -261,13 +262,13 @@ class ActionTriggerFactory
       end
 
       step_7 << c.message(
-        text: I18n.t("task_bots.email_requirement.ack"), 
+        text: I18n.t('task_bots.email_requirement.ack'),
         uuid: 4,
         agent: bot_agent
       )
 
-      #puts 'STEP 7'
-      #puts step_7
+      # puts 'STEP 7'
+      # puts step_7
 
       c.path(
         title: 'yes',
@@ -279,7 +280,7 @@ class ActionTriggerFactory
         title: 'no',
         steps: [
           c.message(
-            text: I18n.t("task_bots.support.reply.op2"), 
+            text: I18n.t('task_bots.support.reply.op2'),
             uuid: 8,
             agent: bot_agent
           )
@@ -294,44 +295,44 @@ class ActionTriggerFactory
   def self.find_configured_bot_for_user(app:, user:)
     settings_namespace = user.is_a?(Lead) ? :lead_tasks_settings : :user_tasks_settings
 
-    return if !app.send(settings_namespace)['override_with_task']
+    return unless app.send(settings_namespace)['override_with_task']
     return if app.send(settings_namespace)['task_rules'].empty?
 
-    return find_by_segment(
-      app: app, 
-      user: user, 
-      rules: app.send(settings_namespace)['task_rules'] 
+    find_by_segment(
+      app: app,
+      user: user,
+      rules: app.send(settings_namespace)['task_rules']
     )
   end
 
-  def self.find_by_segment(app: , user:, rules:)
-    rules.find{|o|
+  def self.find_by_segment(app:, user:, rules:)
+    rules.find do |o|
       comparator = SegmentComparator.new(
-        user: user, 
+        user: user,
         predicates: o['predicates'] || []
       )
       if comparator.compare && trigger = app.bot_tasks.find(o['trigger'])
         return trigger
       end
-      nil
-    }
-  end
 
+      nil
+    end
+  end
 
   def self.find_factory_template(app:, app_user:, data:)
     case data['trigger']
     when 'infer'
-      trigger = ActionTriggerFactory.find_configured_bot_for_user(app: app, user: app_user) || 
-        ActionTriggerFactory.infer_for(app: app, user: app_user)
+      trigger = ActionTriggerFactory.find_configured_bot_for_user(app: app, user: app_user) ||
+                ActionTriggerFactory.infer_for(app: app, user: app_user)
     when 'request_for_email'
-      trigger = ActionTriggerFactory.request_for_email(app: app)
-      trigger
+      ActionTriggerFactory.request_for_email(app: app)
+
     when 'route_support'
-      trigger = ActionTriggerFactory.route_support(app: app)
-      trigger
+      ActionTriggerFactory.route_support(app: app)
+
     when 'typical_reply_time'
-      trigger = ActionTriggerFactory.typical_reply_time(app: app)
-      trigger
+      ActionTriggerFactory.typical_reply_time(app: app)
+
     else
       raise 'trigger template not found'
     end
@@ -339,14 +340,14 @@ class ActionTriggerFactory
 
   def self.find_task(data:, app:, app_user:)
     trigger = begin
-                app.bot_tasks.find(data['trigger'])
-              rescue StandardError
-                find_factory_template(
-                  data: data, 
-                  app: app, 
-                  app_user: app_user
-                )
-              end
+      app.bot_tasks.find(data['trigger'])
+    rescue StandardError
+      find_factory_template(
+        data: data,
+        app: app,
+        app_user: app_user
+      )
+    end
 
     step = data['step'].to_s
 
@@ -356,7 +357,7 @@ class ActionTriggerFactory
           a['step_uid'].to_s === step
         end.present?
       end.with_indifferent_access
-    rescue
+    rescue StandardError
       nil
     end
 
@@ -386,13 +387,11 @@ class ActionTriggerFactory
     }
   end
 
-  def controls(schema: [], next_step_uuid: nil, app_package: nil, wait_for_input: true, uuid:, type:)
+  def controls(uuid:, type:, schema: [], next_step_uuid: nil, app_package: nil, wait_for_input: true)
     {
       "step_uid": uuid,
       "type": 'messages',
-      "messages": [
-
-      ],
+      "messages": [],
       "controls": {
         "type": type,
         "schema": schema,
@@ -440,5 +439,4 @@ class ActionTriggerFactory
   def to_obj
     JSON.parse(to_json, object_class: OpenStruct)
   end
-
 end

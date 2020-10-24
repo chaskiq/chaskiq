@@ -9,5 +9,4 @@ class ConversationChannelSyncJob < ApplicationJob
 
     pkg.message_api_klass.sync_messages_without_channel(conversation)
   end
-
 end

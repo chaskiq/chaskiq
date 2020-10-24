@@ -7,7 +7,7 @@ module Mutations
       argument :app_key, String, required: true
       argument :params, Types::JsonType, required: true
 
-      def resolve(app_key:, params: )
+      def resolve(app_key:, params:)
         find_app(app_key)
 
         authorize! @app, to: :manage?, with: AppPolicy

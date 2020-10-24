@@ -5,37 +5,13 @@ module GraphQL
 
   class TestClient
 
-    def self.configure(files=[
-      Rails.root + "app/javascript/src/graphql/queries.js",
-      Rails.root + "app/javascript/src/graphql/mutations.js"
-      ])
-      #queries = Rails.root + "app/javascript/src/graphql/queries.js"
-      #mutations = Rails.root + "app/javascript/src/graphql/mutations.js"
-      #source1 = clean_file(queries)
-      #source2 = cleanYb4Y`^*Q_file(mutations)
-
-      @strings = files.map{|o| clean_file(o)}.join("\n")
-
-      #[source1, source2].join("\n")
-    end
-
-    def self.reset_strings
-      @strings = nil
-      @context = nil
-    end
-
-    def self.context
-      @context ||= ExecJS.compile(@strings || configure)
-    end
-
-    def self.clean_file(path)
-      open(path).read.gsub("\n", "")
-                         .gsub("export const", " ")
-                         .gsub("`", "'")
+    def self.configure( entry= Rails.root + "app/javascript/src/graphql/testEntry.mjs")
+      @entry = entry
     end
 
     def self.query(type)
-      context.eval(type)
+      configure if @entry.blank?
+      `npx babel-node #{@entry} #{type}`
     end
   end
 

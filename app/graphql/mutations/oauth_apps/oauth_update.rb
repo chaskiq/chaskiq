@@ -5,12 +5,12 @@ module Mutations
       field :errors, Types::JsonType, null: true
 
       argument :app_key, String, required: true
-      argument :uid, String, required: true 
+      argument :uid, String, required: true
       argument :params, Types::JsonType, required: true
 
       def resolve(app_key:, uid:, params:)
         find_app(app_key)
-        
+
         authorize! @app, to: :manage?, with: AppPolicy
 
         @application = @app.oauth_applications.find_by(uid: uid)

@@ -3,7 +3,7 @@ class RtcChannel < ApplicationCable::Channel
     stream_from "rtc_channel_#{params[:room]}"
   end
 
-   def unsubscribed
+  def unsubscribed
     # Any cleanup needed when channel is unsubscribed
   end
 end

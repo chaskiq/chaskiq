@@ -7,7 +7,7 @@ x-app: &app
     args:
       RUBY_VERSION: '2.7.1'
       PG_MAJOR: '11'
-      NODE_MAJOR: '10'
+      NODE_MAJOR: '12'
       YARN_VERSION: '1.13.0'
       BUNDLER_VERSION: '2.0.2'
   environment: &env

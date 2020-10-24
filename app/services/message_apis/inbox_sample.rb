@@ -42,12 +42,11 @@ module MessageApis
 
     class PresenterManager
 
-
-
       def self.user_data
         [
           { "type": "data-table",
-            "items": [{"type": "field-value","field": "Key","value": "Value 1"},
+            "items": [
+                {"type": "field-value","field": "Key","value": "Value 1"},
                 {"type": "field-value","field": "Key","value": "Value 2"},
                 {"type": "field-value","field": "Key","value": "Value 3 which is a very long value that will exhibit different behaviours to the other values"}
             ]
@@ -332,6 +331,11 @@ module MessageApis
           ]
 
           definitions = [
+            {
+              type: 'text',
+              text: 'Contact\'s browsing properties',
+              style: 'header'
+            },
             { "type": "data-table",
               "items": items_attrs.map{ |i| 
                 {
@@ -364,7 +368,7 @@ module MessageApis
               style: 'header'
             },
             {
-              text: conversation.assignee&.display_name,
+              text: conversation.assignee&.display_name || 'unassigned',
               type: 'text'
             }
           ]

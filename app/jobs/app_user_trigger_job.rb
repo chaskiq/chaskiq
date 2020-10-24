@@ -5,29 +5,29 @@ class AppUserTriggerJob < ApplicationJob
 
   # send the first trigger step
   def perform(app_key:, user_id:, trigger_id:, conversation:)
-
     @app = App.find_by(key: app_key)
     convo = @app.conversations.find_by(key: conversation)
     @app_user = @app.app_users.find(user_id)
-    
+
     return if @app_user.trigger_locked.value.present?
 
     @app_user.trigger_locked.value = 1
 
     trigger = begin
-                @app.bot_tasks.find(trigger_id)
-              rescue StandardError
-                ActionTriggerFactory.find_factory_template(
-                  app: @app, 
-                  app_user: @app_user, 
-                  data: {'trigger'=> trigger_id} 
-                )
-              end
+      @app.bot_tasks.find(trigger_id)
+    rescue StandardError
+      ActionTriggerFactory.find_factory_template(
+        app: @app,
+        app_user: @app_user,
+        data: { 'trigger' => trigger_id }
+      )
+    end
 
-    convo.blank? ? 
-      start_conversation(trigger) : 
+    if convo.blank?
+      start_conversation(trigger)
+    else
       add_message(trigger, convo)
-
+    end
   end
 
   def start_conversation(trigger)
@@ -44,11 +44,11 @@ class AppUserTriggerJob < ApplicationJob
 
   def add_message(trigger, conversation)
     author = @app.agent_bots.first
-    
-    step = trigger.paths.first&.with_indifferent_access["steps"]
-    .find{|o| 
-      o["messages"].any? 
-    }
+
+    step = trigger.paths.first&.with_indifferent_access['steps']
+                  .find do |o|
+      o['messages'].any?
+    end
 
     message = step[:messages].first
 
@@ -64,5 +64,4 @@ class AppUserTriggerJob < ApplicationJob
       controls: message[:controls]
     )
   end
-
 end

@@ -12,9 +12,8 @@ module Mutations
       argument :lang, String, required: false, default_value: I18n.default_locale
 
       def resolve(app_key:, content:, title:, id:, lang:)
-
         I18n.locale = lang
-        
+
         app = current_user.apps.find_by(key: app_key)
 
         quick_reply = app.quick_replies.find(id)
@@ -22,10 +21,10 @@ module Mutations
           title: title,
           content: content
         )
-        
-        { 
-          quick_reply: quick_reply, 
-          errors: quick_reply.errors 
+
+        {
+          quick_reply: quick_reply,
+          errors: quick_reply.errors
         }
       end
 

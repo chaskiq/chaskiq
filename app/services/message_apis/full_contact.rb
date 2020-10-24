@@ -61,45 +61,27 @@ module MessageApis
       def self.initialize_hook(kind: , ctx:)
         type_value = ctx.dig(:values, :type)
         block_type = ctx.dig(:values, :block_type)
-
-        puts "AAAAA #{ctx}"
-
-        if type_value === "content"
-
-          #case ctx.dig(:values, :block_type)
-          #when 'tag-blocks'
-          #when
-          #else 
-          #end
-
-          return {
-            #ctx: ctx,
-            values: {block_type: block_type},
-            definitions: [
-              {
-                type: 'content'
-              }
-            ] 
-          }
-        end
-
-        definitions = [
-          {
-            id: 'bubu',
-            label: 'this is from initialize',
-            type: 'button',
-            action: {
-              type: "submit" 
+        return {
+          #ctx: ctx,
+          values: {block_type: block_type},
+          definitions: [
+            {
+              type: 'content'
             }
-          }
-        ]
-
-        {
-          #kind: kind, 
-          #ctx: ctx, 
-          definitions: definitions 
+          ] 
         }
+      end
 
+      def self.user_attrs
+        attrs = [
+          :name,
+          :first_name,
+          :last_name,
+          :twitter,
+          :facebook,
+          :linkedin,
+          :organization,
+          :job_title]
       end
 
       # Submit flow webhook URL
@@ -110,25 +92,45 @@ module MessageApis
         conversation = Conversation.find_by(
           key: ctx.dig(:conversation_key)
         )
+        user = conversation.main_participant
 
         app = ctx.dig(:app)
         res = app.app_package_integrations
         .joins(:app_package)
         .where("app_packages.name": "FullContact")
         .first
-        .message_api_klass.enrich_user(conversation.main_participant)
+        .message_api_klass.enrich_user(user)
+
+        definitions = [
+          {
+            type: 'text',
+            text: 'FullContact',
+            style: 'header'
+          },
+          {
+            id: 'bubu',
+            label: 'Enrich with Fullcontact',
+            type: 'button',
+            action: {
+              type: "submit" 
+            }
+          }
+        ]
+
+        definitions << {
+          "type": "data-table",
+          "items": user_attrs.map{ |o|  
+            {"type": "field-value","field": o,"value": user.send(o) }
+          }
+        }
+
+        #{
+        #  type: 'text',
+        #  text: res ? "guardó" : "no u"
+        #}
 
         {
-          definitions: [
-            {
-              type: 'text',
-              text: 'success'
-            },
-            {
-              type: 'text',
-              text: res ? "guardó" : "no u"
-            }
-          ]
+          definitions: definitions
         }
       end
 
@@ -174,6 +176,39 @@ module MessageApis
       
 
       def self.content_hook(kind:, ctx:)
+
+        conversation = Conversation.find_by(
+          key: ctx.dig(:conversation_key)
+        )
+        user = conversation.main_participant
+
+        definitions = [
+          {
+            type: 'text',
+            text: 'FullContact',
+            style: 'header'
+          }
+        ]
+        definitions << {
+          "type": "data-table",
+          "items": user_attrs.map{ |o|  
+            { "type": "field-value", "field": o.to_s, "value": user.send(o) }
+          }
+        }
+
+        definitions << {
+          id: 'bubu',
+          label: 'Enrich with Fullcontact',
+          type: 'button',
+          action: {
+            type: "submit" 
+          }
+        }
+
+        {
+          definitions: definitions
+        }
+
       end
 
       #Submit Sheet flow webhook URL (optional)

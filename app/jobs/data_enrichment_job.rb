@@ -15,13 +15,8 @@ class DataEnrichmentJob < ApplicationJob
                     .where('taggings.tag_id =?', tag.id)
 
     providers.each do |provider|
-      service = "MessageApis::#{provider.app_package.name}".constantize
-      return if provider.api_secret.blank?
-
-      service_instance = service.new(token: provider.api_secret)
-      if service_instance.respond_to?(:enrich_user)
-        service_instance.enrich_user(user)
-      end
+      service_instance = provider.message_api_klass
+      service_instance.enrich_user(user) if service_instance.respond_to?(:enrich_user)
     end
   end
 end

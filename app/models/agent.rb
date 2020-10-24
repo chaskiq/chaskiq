@@ -33,24 +33,24 @@ class Agent < ApplicationRecord
   end
 
   has_many :access_grants,
-         class_name: 'Doorkeeper::AccessGrant',
-         foreign_key: :resource_owner_id,
-         dependent: :delete_all # or :destroy if you need callbacks
+           class_name: 'Doorkeeper::AccessGrant',
+           foreign_key: :resource_owner_id,
+           dependent: :delete_all # or :destroy if you need callbacks
 
   has_many :access_tokens,
-      class_name: 'Doorkeeper::AccessToken',
-      foreign_key: :resource_owner_id,
-      dependent: :delete_all # or :destroy if you need callbacks
+           class_name: 'Doorkeeper::AccessToken',
+           foreign_key: :resource_owner_id,
+           dependent: :delete_all # or :destroy if you need callbacks
 
   has_many :roles, dependent: :destroy
   has_many :apps, through: :roles, source: :app
-  has_many :owned_apps, class_name: "App", foreign_key: 'owner_id'
+  has_many :owned_apps, class_name: 'App', foreign_key: 'owner_id'
   has_many :assignment_rules
   has_many :articles, foreign_key: 'author_id'
   has_many :conversations, foreign_key: 'assignee_id'
 
-  scope :bots, ->{where(bot: true) }
-  scope :humans, ->{where(bot: nil).or(where(bot: false)) }
+  scope :bots, -> { where(bot: true) }
+  scope :humans, -> { where(bot: nil).or(where(bot: false)) }
 
   # from redis-objects
   counter :new_messages
@@ -71,7 +71,7 @@ class Agent < ApplicationRecord
   has_one_attached :avatar
 
   def can_create_apps?
-    return true
+    true
   end
 
   def display_name
@@ -83,23 +83,25 @@ class Agent < ApplicationRecord
   end
 
   def avatar_url
-    return !bot? ? 
-        gravatar :
-        default_avatar unless avatar.attached?
+    unless avatar.attached?
+      return !bot? ?
+          gravatar :
+          default_avatar
+    end
 
-    #return '' unless object.avatar_blob.present?
+    # return '' unless object.avatar_blob.present?
 
     url = begin
-            avatar.variant(resize_to_limit: [100, 100]).processed
-          rescue StandardError
-            nil
-          end
+      avatar.variant(resize_to_limit: [100, 100]).processed
+    rescue StandardError
+      nil
+    end
     return nil if url.blank?
 
     begin
       Rails.application.routes.url_helpers.rails_representation_url(
-        url,
-        #only_path: true
+        url
+        # only_path: true
       )
     rescue StandardError
       nil

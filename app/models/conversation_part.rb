@@ -20,7 +20,7 @@ class ConversationPart < ApplicationRecord
 
   scope :visibles, -> { where('private_note is null') }
 
-  value :trigger_locked, expireat: lambda { Time.now + 3.seconds }
+  value :trigger_locked, expireat: -> { Time.now + 3.seconds }
 
   attr_accessor :check_assignment_rules
 
@@ -80,11 +80,11 @@ class ConversationPart < ApplicationRecord
       val = conversation.main_participant.new_messages.value
       conversation.main_participant.new_messages.decrement unless val < 1
       # TODO: decrement agent
-      notify_to_channels({disable_api_notification: true})
+      notify_to_channels({ disable_api_notification: true })
     end
   end
 
-  def notify_to_channels(opts={})
+  def notify_to_channels(opts = {})
     notify_app_users unless private_note?
     notify_agents
     enqueue_channel_notification unless opts[:disable_api_notification]
@@ -100,13 +100,13 @@ class ConversationPart < ApplicationRecord
 
   def enqueue_channel_notification
     ApiChannelNotificatorJob.perform_later(
-      part_id: self.id
+      part_id: id
     )
   end
 
   def notify_message_on_available_channels
     conversation.conversation_channels.each do |channel|
-      channel.notify_part(conversation: conversation , part: self)
+      channel.notify_part(conversation: conversation, part: self)
     end
   end
 
@@ -129,9 +129,7 @@ class ConversationPart < ApplicationRecord
   end
 
   def controls_ping_apis
-    if self.messageable.is_a?(ConversationPartBlock)
-      self.messageable.create_fase(conversation.app)
-    end
+    messageable.create_fase(conversation.app) if messageable.is_a?(ConversationPartBlock)
   end
 
   def assign_and_notify
@@ -184,23 +182,26 @@ class ConversationPart < ApplicationRecord
 
     return if serialized_content.blank?
 
-    text = JSON.parse(serialized_content)['blocks'].map { |o| 
-      o['text'] 
-    }.join(' ')
+    text = JSON.parse(serialized_content)['blocks'].map do |o|
+      o['text']
+    end.join(' ')
 
     app = conversation.app
 
     app.assignment_rules.each do |rule|
       next unless cond = rule.check_rule_for(text, self)
+
       conversation.assign_user(rule.agent)
       break
     end
   end
 
   def increment_message_stats
-    authorable.is_a?(Agent) ?
-    increment_outgoing_messages_stat :
-    increment_incoming_messages_stat
+    if authorable.is_a?(Agent)
+      increment_outgoing_messages_stat
+    else
+      increment_incoming_messages_stat
+    end
   end
 
   def increment_incoming_messages_stat
