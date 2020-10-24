@@ -8,19 +8,17 @@ class Agents::SessionsController < Devise::SessionsController
   before_action :clear_session, only: [:create]
 
   def new
-    redirect_to "/" and return
+    redirect_to '/' and return
   end
-  
 
   def create
-
     require_no_authentication
 
     self.resource = warden.authenticate!(auth_options)
 
-    # need this session for /oauth/applications & authorization 
+    # need this session for /oauth/applications & authorization
     # for credential (aprove)
-    # TODO: figure out how can avoid this 
+    # TODO: figure out how can avoid this
     # like customize /oauth/applications
     # sign_in(resource_name, resource, {store: true})
 
@@ -31,7 +29,7 @@ class Agents::SessionsController < Devise::SessionsController
       a = Doorkeeper::Application.first
 
       access_token = Doorkeeper::AccessToken.find_or_create_for(
-        a, resource, "", 1.hour, true
+        a, resource, '', 1.hour, true
       )
 
       respond_with_navigational(resource, status: :success) do
@@ -43,7 +41,6 @@ class Agents::SessionsController < Devise::SessionsController
       end
     end
   end
-
 
   # DELETE /resource/sign_out
   def destroy

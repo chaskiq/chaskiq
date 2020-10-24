@@ -33,17 +33,17 @@ module Types
     end
 
     field :campaign_subscription_toggle, Types::JsonType, null: false, description: 'toggle subscription' do
-      argument :encoded, String, required: true   
-      argument :op, Boolean, required: false   
+      argument :encoded, String, required: true
+      argument :op, Boolean, required: false
     end
 
-    def campaign_subscription_toggle(encoded:, op: )
+    def campaign_subscription_toggle(encoded:, op:)
       subscriber_email = URLcrypt.decode(encoded)
       app_user = AppUser.find_by(email: subscriber_email)
       if !op
-        app_user.unsubscribe! if !app_user.unsubscribed? 
+        app_user.unsubscribe! unless app_user.unsubscribed?
       else
-        app_user.subscribe! if !app_user.subscribed?
+        app_user.subscribe! unless app_user.subscribed?
       end
 
       {

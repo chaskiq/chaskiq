@@ -1,19 +1,19 @@
-
 class Api::V1::Hooks::ProviderController < ApplicationController
-
   before_action :find_application_package, except: [:global_process_event]
 
   def create
     response = @integration_pkg.create_hook_from_params(params)
     api = @integration_pkg.message_api_klass
-    api.respond_to?(:response_with_text?) && api.response_with_text? ?
-    render( status: 200, plain: response) :
-    render( status: 200, json: response.to_json)
+    if api.respond_to?(:response_with_text?) && api.response_with_text?
+      render(status: 200, plain: response)
+    else
+      render(status: 200, json: response.to_json)
+    end
   end
 
   def global_process_event
     response = AppPackage.find_by(
-      name: params["provider"].capitalize
+      name: params['provider'].capitalize
     ).process_global_hook(params)
 
     render plain: response
@@ -35,7 +35,5 @@ class Api::V1::Hooks::ProviderController < ApplicationController
     redirect_to "/apps/#{pkg.app.key}/integrations"
   end
 
-  def auth
-  end
-  
+  def auth; end
 end

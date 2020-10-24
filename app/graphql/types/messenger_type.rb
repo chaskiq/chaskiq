@@ -69,16 +69,16 @@ module Types
       return nil unless object.inbound_settings[k]['enabled']
       return true if object.inbound_settings[k]['segment'] == 'all'
 
-      segments = object.inbound_settings[k]["predicates"]
+      segments = object.inbound_settings[k]['predicates']
 
       return true if segments.blank?
 
       comparator = SegmentComparator.new(
-        user: @user, 
+        user: @user,
         predicates: segments
       )
 
-      return comparator.compare
+      comparator.compare
     end
 
     private

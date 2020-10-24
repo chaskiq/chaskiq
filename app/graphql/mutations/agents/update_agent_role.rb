@@ -12,15 +12,15 @@ module Mutations
         app = current_user.apps.find_by(key: app_key)
 
         authorize! app, to: :update_agent?, with: AppPolicy
-        
+
         role = app.roles.find_by(id: id)
-        
+
         agent = role&.agent # , name: 'John Doe')
 
         data = params.permit(
-          :name, 
-          :avatar, 
-          :lang, 
+          :name,
+          :avatar,
+          :lang,
           :first_name,
           :last_name,
           :country,

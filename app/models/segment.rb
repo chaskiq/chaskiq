@@ -22,9 +22,7 @@ class Segment < ApplicationRecord
       o = prop.keys - %i[attribute comparison type value].map(&:to_s)
       next unless o.any?
 
-      unless prop['type'] == 'or'
-        errors.add(:properties, 'predicates are invalid')
-      end
+      errors.add(:properties, 'predicates are invalid') unless prop['type'] == 'or'
     end
   end
 
@@ -70,16 +68,16 @@ class Segment < ApplicationRecord
       next if predicate['type'] == 'match'
 
       # check if its in table column
-      if cols.map(&:name).include?(predicate['attribute'])
-        field = arel_table[predicate['attribute']]
-      else
-        # otherwise use in JSONB properties column
-        # else
-        field = Arel::Nodes::InfixOperation.new('->>',
+      field = if cols.map(&:name).include?(predicate['attribute'])
+                arel_table[predicate['attribute']]
+              else
+                # otherwise use in JSONB properties column
+                # else
+                Arel::Nodes::InfixOperation.new('->>',
                                                 arel_table[:properties],
                                                 Arel::Nodes.build_quoted((predicate['attribute']).to_s))
-        # end
-      end
+                # end
+              end
 
       # date predicates
       case predicate['type']
@@ -137,6 +135,3 @@ class Segment < ApplicationRecord
     end
   end
 end
-
-
-

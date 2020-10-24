@@ -6,7 +6,7 @@ class Visitor < AppUser
     self.type = 'Lead'
     save
 
-    self.lead_event
+    lead_event
     self
   end
 end

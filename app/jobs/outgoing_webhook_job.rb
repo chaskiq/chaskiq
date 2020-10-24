@@ -6,7 +6,7 @@ class OutgoingWebhookJob < ActiveJob::Base
   def perform(event_id:)
     event = Event.find(event_id)
     app = event.eventable.app
-    
+
     payload = {
       action: event.action,
       created_at: event.created_at,
@@ -17,11 +17,10 @@ class OutgoingWebhookJob < ActiveJob::Base
     }
 
     app.outgoing_webhooks
-    .tagged_with(event.action)
-    .where(state: "enabled").each do |webhook|
-
+       .tagged_with(event.action)
+       .where(state: 'enabled').each do |webhook|
       OutgoingWebhookDispatcherJob.perform_later(
-        webhook_id: webhook.id, 
+        webhook_id: webhook.id,
         payload: payload
       )
     end

@@ -19,7 +19,7 @@ module Mutations
           title: title,
           content: content
         )
-        
+
         { quick_reply: quick_reply, errors: quick_reply.errors }
       end
 

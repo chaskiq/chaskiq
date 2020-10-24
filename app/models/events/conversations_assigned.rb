@@ -5,6 +5,7 @@ module Events
     def self.perform(event)
       conversation = event.eventable
       return if conversation.assignee.bot?
+
       AssigneeMailer.notify(conversation).deliver_later
     end
   end

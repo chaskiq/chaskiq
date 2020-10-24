@@ -28,7 +28,7 @@ module Types
     def main_participant
       BatchLoader::GraphQL.for(object.main_participant_id).batch do |user_ids, loader|
         AppUser.where(id: user_ids).each { |user| loader.call(user.id, user) }
-      end      
+      end
     end
 
     def assignee

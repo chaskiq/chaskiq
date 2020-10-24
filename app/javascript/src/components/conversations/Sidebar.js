@@ -105,7 +105,7 @@ function Sidebar ({
 
                   <div className="hidden flex-- items-center space-y-2 rounded-md border border-gray-200 bg-white w-full p-2">
 
-                    <div className="flex-shrink-0 h-12 w-12">
+                    {/*<div className="flex-shrink-0 h-12 w-12">
                       <img className="h-12 w-12 rounded-full"
                         src={participant.avatarUrl}
                         alt=""
@@ -123,7 +123,7 @@ function Sidebar ({
                             </div>
                           </a>
                       }
-                    </div>
+                    </div>*/}
 
                     {/* <div className="flex flex-col space-y-3 sm:space-y-0 sm:space-x-3 sm:flex-row xl:flex-col xl:space-x-0 xl:space-y-3">
                       <span className="inline-flex rounded-md shadow-sm">
@@ -142,7 +142,7 @@ function Sidebar ({
 
                   </div>
 
-                  {app.inboxApps.map((object, index) => (
+                  {app.inboxApps && app.inboxApps.map((object, index) => (
                     <AppItem
                       key={`inboxApp-${object.name}-$`}
                       app={app}

@@ -10,7 +10,7 @@ RSpec.describe ActionTriggerFactory do
   end
 
   let(:agent) do
-    role = app.add_agent(email: 'test@test.cl', first_name: 'dsdsa')
+    role = app.add_agent({email: 'test@test.cl', first_name: 'dsdsa'})
     role.agent
   end
 

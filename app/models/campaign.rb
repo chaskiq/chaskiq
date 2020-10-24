@@ -9,37 +9,37 @@ class Campaign < Message
 
   def config_fields
     [
-      { name: 'name', label: I18n.t("definitions.campaigns.campaign_name.label"),  hint: I18n.t("definitions.campaigns.campaign_name.hint"),  type: 'string', grid: { xs: 'w-full', sm: 'w-full' } },
-      { name: 'subject', label: I18n.t("definitions.campaigns.email_subject.label"), hint: I18n.t("definitions.campaigns.email_subject.hint"), type: 'text', grid: { xs: 'w-full', sm: 'w-full' } },
-      { name: 'fromName', label: I18n.t("definitions.campaigns.from_name.label"), type: 'string', grid: { xs: 'w-full', sm: 'w-1/2' } },
-      { name: 'fromEmail', label: I18n.t("definitions.campaigns.from_email.label"), type: 'string', grid: { xs: 'w-full', sm: 'w-1/2' } },
-      { name: 'replyEmail', label: I18n.t("definitions.campaigns.reply_email.label"), type: 'string', grid: { xs: 'w-full', sm: 'w-1/2' } },
+      { name: 'name', label: I18n.t('definitions.campaigns.campaign_name.label'), hint: I18n.t('definitions.campaigns.campaign_name.hint'), type: 'string', grid: { xs: 'w-full', sm: 'w-full' } },
+      { name: 'subject', label: I18n.t('definitions.campaigns.email_subject.label'), hint: I18n.t('definitions.campaigns.email_subject.hint'), type: 'text', grid: { xs: 'w-full', sm: 'w-full' } },
+      { name: 'fromName', label: I18n.t('definitions.campaigns.from_name.label'), type: 'string', grid: { xs: 'w-full', sm: 'w-1/2' } },
+      { name: 'fromEmail', label: I18n.t('definitions.campaigns.from_email.label'), type: 'string', grid: { xs: 'w-full', sm: 'w-1/2' } },
+      { name: 'replyEmail', label: I18n.t('definitions.campaigns.reply_email.label'), type: 'string', grid: { xs: 'w-full', sm: 'w-1/2' } },
       { name: 'description', type: 'textarea', grid: { xs: 'w-full', sm: 'w-full' } },
       { name: 'timezone', type: 'timezone',
         options: ActiveSupport::TimeZone.all.map { |o| o.tzinfo.name },
         multiple: false,
         grid: { xs: 'w-full', sm: 'w-full' } },
       # {name: "settings", type: 'string'} ,
-      { name: 'scheduledAt', label: I18n.t("definitions.campaigns.scheduled_at.label"), type: 'datetime', grid: { xs: 'w-full', sm: 'w-1/2' } },
-      { name: 'scheduledTo', label: I18n.t("definitions.campaigns.scheduled_to.label"), type: 'datetime', grid: { xs: 'w-full', sm: 'w-1/2' } }
+      { name: 'scheduledAt', label: I18n.t('definitions.campaigns.scheduled_at.label'), type: 'datetime', grid: { xs: 'w-full', sm: 'w-1/2' } },
+      { name: 'scheduledTo', label: I18n.t('definitions.campaigns.scheduled_to.label'), type: 'datetime', grid: { xs: 'w-full', sm: 'w-1/2' } }
     ]
   end
 
   def stats_fields
     colors = {
-      delivery: "#9ae6b4",
-      send: "#faf089",
-      click: "#d6bcfa",
-      open: "#90cdf4",
-      bounces: "#ccc"
+      delivery: '#9ae6b4',
+      send: '#faf089',
+      click: '#d6bcfa',
+      open: '#90cdf4',
+      bounces: '#ccc'
     }
 
     [
       { name: 'DeliverRateCount', label: 'DeliverRateCount', keys: [{ name: 'send', color: colors[:send] }, { name: 'delivery', color: colors[:delivery] }] },
       { name: 'BouncesRateCount', label: 'BouncesRateCount', keys: [{ name: 'send', color: colors[:send] }, { name: 'bounces', color: colors[:bounces] }] },
       { name: 'DeliverRateCount', label: 'DeliverRateCount', keys: [{ name: 'delivery', color: colors[:delivery] }, { name: 'open', color: colors[:open] }] },
-      { name: 'ClickRateCount', label: 'ClickRateCount', keys: [{ name: 'open', color: colors[:open] }, { name: 'click', color: colors[:click] }] },
-      #{ name: 'ComplaintsRate', label: 'ComplaintsRate', keys: [{ name: 'send', color: '#444' }, { name: 'complaints', color: '#ccc' }] }
+      { name: 'ClickRateCount', label: 'ClickRateCount', keys: [{ name: 'open', color: colors[:open] }, { name: 'click', color: colors[:click] }] }
+      # { name: 'ComplaintsRate', label: 'ComplaintsRate', keys: [{ name: 'send', color: '#444' }, { name: 'complaints', color: '#ccc' }] }
     ]
   end
 
@@ -49,8 +49,7 @@ class Campaign < Message
     subscriptions.availables.size.to_f / metrics.deliveries.size.to_f * 100.0
   end
 
-  def subscriber_status_for(subscriber)
-  end
+  def subscriber_status_for(subscriber); end
 
   def send_newsletter
     self.state = 'delivering'
@@ -128,7 +127,7 @@ class Campaign < Message
 
     doc = Nokogiri::HTML(new_html)
     # rename active sotrage url to absolute for email readers
-    doc.xpath("//img").each do |img|
+    doc.xpath('//img').each do |img|
       image_url = "#{ENV['HOST']}#{img['src']}"
       url = image_url.include?('rails/active_storage') ? image_url : img['src']
       img['src'] = url
@@ -149,13 +148,13 @@ class Campaign < Message
       track_image_url: track_image }
   end
 
-  def broadcast_event()
-    key = self.app.key
+  def broadcast_event
+    key = app.key
     EventsChannel.broadcast_to(key, {
       type: 'campaigns',
       data: {
-        campaign: self.id,
-        state: "sent",
+        campaign: id,
+        state: 'sent',
         ts: Time.now.to_i
       }
     }.as_json)

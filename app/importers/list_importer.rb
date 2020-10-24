@@ -26,9 +26,7 @@ class ListImporter < ActiveImporter::Base
   end
 
   on :row_processed do
-    if @app.add_user(email: row.delete('email'), properties: row)
-      @row_count += 1
-    end
+    @row_count += 1 if @app.add_user(email: row.delete('email'), properties: row)
   end
 
   on :row_error do |_err|

@@ -24,9 +24,9 @@ module Types
       end
     end
 
-    #def self.authorized?(object, context)
+    # def self.authorized?(object, context)
     #  super && context[:current_user].is_a?(Agent) && context[:current_user].apps.include?(object.app)
-    #end
+    # end
 
     def icon
       object.app_package.icon
@@ -41,12 +41,12 @@ module Types
     end
 
     def definitions
-      object.app_package.definitions #.tap { |d| authorize! d, to: :show? }
+      object.app_package.definitions # .tap { |d| authorize! d, to: :show? }
     end
 
     field :capabilities, [String], null: true
     def capabilities
-      object.app_package.capability_list #.tap { |d| authorize! d, to: :show? }
+      object.app_package.capability_list # .tap { |d| authorize! d, to: :show? }
     end
 
     def name
@@ -54,19 +54,19 @@ module Types
     end
 
     field :call_hook, Types::JsonType, null: true do
-      argument :kind, String, required: true, default_value: ""
-      argument :ctx, Types::JsonType, required: true, default_value: ""
+      argument :kind, String, required: true, default_value: ''
+      argument :ctx, Types::JsonType, required: true, default_value: ''
     end
 
-    def call_hook(kind: , ctx:)
+    def call_hook(kind:, ctx:)
       object.call_hook({
-        kind: kind, 
-        ctx: ctx.merge!(
-          lang: I18n.locale,
-          app: object.app,
-          current_user: current_user
-        )
-      })
+                         kind: kind,
+                         ctx: ctx.merge!(
+                           lang: I18n.locale,
+                           app: object.app,
+                           current_user: current_user
+                         )
+                       })
     end
   end
 end

@@ -4,7 +4,7 @@ import {
   converstionMessagesFragment,
   conversationLastMessageFragment,
   appFragment
-} from './fragments'
+} from './fragments.mjs'
 
 export const APPS = `
 query Apps{

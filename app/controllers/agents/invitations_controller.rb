@@ -47,7 +47,7 @@ class Agents::InvitationsController < Devise::InvitationsController
     )
 
     @token = {
-      token: access_token.token, 
+      token: access_token.token,
       refresh_token: access_token.refresh_token
     }
     resource
