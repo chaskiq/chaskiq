@@ -1,3 +1,11 @@
+import {
+  conversationFragment,
+  conversationAttributesFragment,
+  converstionMessagesFragment,
+  conversationLastMessageFragment,
+  appFragment
+} from './fragments'
+
 export const APPS = `
 query Apps{
   apps{
@@ -12,42 +20,7 @@ query Apps{
 export const APP = `
   query App($appKey: String!){
     app(key: $appKey) {
-      encryptionKey
-      key
-      name
-      preferences
-      logo
-      enableArticlesOnWidget
-      inlineNewConversations
-      timezone
-      domainUrl
-      activeMessenger
-      theme
-      translations
-      availableLanguages
-      teamSchedule
-      replyTime
-      customizationColors
-      inboundSettings
-      emailRequirement
-      leadTasksSettings
-      userTasksSettings
-      gatherSocialData
-      registerVisits
-      domainUrl
-      outgoingEmailDomain
-      customFields
-      tagList
-      subscriptionsEnabled
-      userHomeApps
-      visitorHomeApps
-      segments {
-        name
-        id
-        properties
-      }
-      state
-      tagline
+      ${appFragment}
     }
   }
 `;
@@ -307,70 +280,7 @@ export const CONVERSATION=`
     app(key: $appKey) {
       key
       name
-      conversation(id: $id){
-        id
-        key
-        state
-        readAt
-        priority
-        createdAt
-        tagList
-        firstAgentReply
-        latestUserVisibleCommentAt
-        assignee {
-          id
-          email
-          avatarUrl
-        }
-        mainParticipant{
-          id
-          email
-          avatarUrl
-          properties
-          displayName
-          kind
-        }
-        
-        messages(page: $page){
-          collection{
-            id
-            key
-            stepId
-            triggerId
-            fromBot
-            message{
-              blocks
-              data
-              state
-              htmlContent
-              textContent
-              serializedContent
-              action
-            }
-            source
-            readAt
-            createdAt
-            privateNote
-            appUser{
-              id
-              email
-              avatarUrl
-              kind
-              displayName
-            }
-            source
-            messageSource {
-              name
-              state
-              fromName
-              fromEmail
-              serializedContent
-            }
-            emailMessageId
-          }
-          meta
-        }
-    }
+      ${conversationFragment}
   }
 }
 `;
@@ -381,49 +291,8 @@ export const CONVERSATION_WITH_LAST_MESSAGE=`
       key
       name
       conversation(id: $id){
-        id
-        key
-        state
-        readAt
-        priority
-        createdAt
-        tagList
-        firstAgentReply
-        latestUserVisibleCommentAt
-        lastMessage{
-          createdAt
-          source
-          triggerId
-          fromBot
-          readAt
-          message{
-            blocks
-            data
-            state
-            htmlContent
-            textContent
-            serializedContent
-          }
-          privateNote
-          messageSource{
-            id
-            type
-          }
-          appUser {
-            id
-            avatarUrl
-            email
-            kind
-            displayName
-          }
-        }
-        mainParticipant{
-          id
-          email
-          avatarUrl
-          displayName
-          properties
-        }
+        ${conversationAttributesFragment}
+        ${conversationLastMessageFragment}
       }
     }
   }
@@ -501,25 +370,7 @@ query AppUserConversations($appKey: String!, $id: Int!, $page: Int, $per: Int){
             email
             avatarUrl
           }
-          lastMessage{
-            createdAt
-            readAt
-            appUser{
-              email
-              avatarUrl
-              id
-              kind
-              displayName
-            }
-            message{
-              blocks
-              data
-              state
-              serializedContent
-              htmlContent
-              textContent
-            }
-          }
+          ${conversationLastMessageFragment}
         }
       }
     } 

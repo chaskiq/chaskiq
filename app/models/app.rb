@@ -26,6 +26,7 @@ class App < ApplicationRecord
     tag_list
     user_home_apps
     visitor_home_apps
+    inbox_apps
     paddle_user_id
     paddle_subscription_id
     paddle_subscription_plan_id
