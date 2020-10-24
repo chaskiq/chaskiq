@@ -75,7 +75,7 @@ export default function ConversationItemList ({ app, conversation }) {
       className="flex justify-between hover:bg-gray-100 focus:outline-none focus:bg-gray-100 transition duration-150 ease-in-out"
     >
       <div className={`block w-2 ${stateClass()}`}></div>
-      <div className="w-full px-6 py-4 whitespace-no-wrap border-b border-gray-200 ">
+      <div className="w-full px-4 py-4 whitespace-no-wrap border-b border-gray-200 ">
         <div className="flex items-center">
           <div className="flex-shrink-0 h-10 w-10">
             <img
@@ -86,7 +86,6 @@ export default function ConversationItemList ({ app, conversation }) {
           </div>
 
           <div className="ml-4 truncate w-full">
-
             <div className="flex justify-between">
               <span className="text-md leading-5 font-semibold text-gray-800">
                 {user.displayName}
@@ -98,36 +97,39 @@ export default function ConversationItemList ({ app, conversation }) {
                 </Moment>
               </span>
             </div>
+          </div>
 
-            <div className="text-sm leading-5 text-gray-500 flex pb-2 pt-1">
-              {appUser && appUser.id !== participant.id && (
-                <img
-                  alt={appUser.displayName}
-                  className="rounded-full h-5 w-5 self-start mr-2"
-                  src={appUser.avatarUrl}
-                />
-              )}
-
-              {message.privateNote &&
-                <span className="mr-2">
-                  <LabelIcon/>
-                </span>
-              }
-
-              <span
-                dangerouslySetInnerHTML={{
-                  __html: renderConversationContent(conversation)
-                }}
+        </div>
+        <div className="flex flex-col mt-5 space-y-2">
+          <div className="space-x-2 text-sm leading-5 text-gray-500 flex pb-2 pt-1">
+            {appUser && appUser.id !== participant.id && (
+              <img
+                alt={appUser.displayName}
+                className="rounded-full h-5 w-5 self-start"
+                src={appUser.avatarUrl}
               />
-            </div>
+            )}
 
+            {message.privateNote &&
+              <span>
+                <LabelIcon/>
+              </span>
+            }
+
+            <span
+              dangerouslySetInnerHTML={{
+                __html: renderConversationContent(conversation)
+              }}
+            />
+          </div>
+
+          {tags && tags.lenght > 0 && <div className="flex">
             {
               tags.map((o) =>
                 renderTag(o)
               )
             }
-
-          </div>
+          </div>}
         </div>
       </div>
     </Link>

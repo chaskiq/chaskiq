@@ -37,7 +37,13 @@ const ListItemWrapper = styled.div`
   ${(props) => props.pointer ? tw`cursor-pointer` : ''} 
 
   .content {
-    ${() => tw`flex items-center px-4 py-4 sm:px-6`}
+
+    ${(props) => props.theme.size === 'sm' ?
+      tw`px-1 py-2` :
+      tw`px-4 py-4`
+    };
+    
+    ${() => tw`flex items-center`}
   }
 
   .avatar-content {
@@ -50,7 +56,13 @@ const ListItemWrapper = styled.div`
 `
 
 const ListItemTextWrapper = styled.div`
-  ${() => tw`min-w-0 flex-1 px-4 md:grid md:grid-cols-1 md:gap-4`}
+
+  ${(props) => props.theme.size === 'sm' ?
+    tw`px-1` :
+    tw`px-4 md:gap-4`
+  };
+
+  ${() => tw`min-w-0 flex-1 md:grid md:grid-cols-1`}
 
   .tertiary {
     ${() => tw`hidden md:block`}
@@ -65,9 +77,9 @@ const ItemAvatarWrapper = styled.div`
 `
 
 const ItemListPrimaryContentWrapper = styled.div`
-  ${() => tw`text-sm leading-5 font-medium truncate`}
+  ${() => tw`text-sm leading-5 font-bold truncate`}
   ${(props)=> props.theme.palette ? 
-    `color: ${props.theme.palette.primary};` : tw`text-gray-600`
+    `color: ${props.theme.palette.primary};` : tw`text-gray-800`
   }
 `
 

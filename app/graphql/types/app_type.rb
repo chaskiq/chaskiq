@@ -39,6 +39,7 @@ module Types
     field :tag_list, [Types::JsonType], null: true
     field :user_home_apps, [Types::JsonType], null: true
     field :home_apps, [Types::JsonType], null: true
+    field :inbox_apps, [Types::JsonType], null: true
     field :visitor_home_apps, [Types::JsonType], null: true
     field :plans, [Types::JsonType], null: true
 
@@ -145,7 +146,7 @@ module Types
     end
 
     def app_packages_capabilities(kind: )
-      raise "not in type" unless ["home", "conversations", "bots"].include?(kind)
+      raise "not in type" unless ["home", "conversations", "bots", "inbox"].include?(kind)
       authorize! object, to: :show?, with: AppPolicy
 
       object.app_package_integrations.where(
