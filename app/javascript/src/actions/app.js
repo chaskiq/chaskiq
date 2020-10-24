@@ -58,9 +58,11 @@ export function updateApp (appParams, cb) {
           if (isEmpty(data.appsUpdate.errors)) {
             dispatch(successMessage('app settings updated'))
           }
+          cb && cb()
         },
         error: (error) => {
           console.log('ERRR Updating app', error)
+          cb && cb()
         }
       }
     )

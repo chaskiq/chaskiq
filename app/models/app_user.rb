@@ -237,10 +237,10 @@ class AppUser < ApplicationRecord
   end
 
   def avatar_url
-    return "https://api.adorable.io/avatars/130/#{id}.png?" if email.blank?
+    return "https://ui-avatars.com/api/?name=#{id}?" if email.blank?
     email_address = email.downcase
     hash = Digest::MD5.hexdigest(email_address)
-    d = "https://api.adorable.io/avatars/130/#{hash}.png"
+    d = "https://ui-avatars.com/api/?name=#{hash}"
     image_src = "https://www.gravatar.com/avatar/#{hash}?d=#{d}"
   end
 

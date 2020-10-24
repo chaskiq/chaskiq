@@ -12,6 +12,9 @@ import List, {
   ItemListPrimaryContent,
   ItemListSecondaryContent
 } from './List'
+import ErrorBoundary from '../ErrorBoundary'
+
+import { ThemeProvider } from 'emotion-theming'
 
 const spin = keyframes`
   100% { 
@@ -30,6 +33,8 @@ const Loader = styled.div`
   ${() => tw`
     ease-linear rounded-full border-2 
     border-t-2 border-gray-900 h-4 w-4
+    mx-auto
+    my-2
   `}
   
 `
@@ -72,7 +77,7 @@ const SingleSelectButton = styled.button`
 `
 
 const Button = styled(BaseButton)`
-  ${(props) => props.theme && props.theme.palette && !props.disabled 
+  ${(props) => props.theme && props.theme.palette && !props.disabled
     ? `
     background-color: ${props.theme.palette.primary} !important;
     color: ${textColor(props.theme.palette.primary)} !important;
@@ -82,8 +87,8 @@ const Button = styled(BaseButton)`
 
   display: block;
 
-  ${(props) => props.disabled ? 
-    tw`bg-gray-200 text-gray-300 hover:bg-gray-200 hover:text-gray-300 cursor-auto` : ''
+  ${(props) => props.disabled
+    ? tw`bg-gray-200 text-gray-300 hover:bg-gray-200 hover:text-gray-300 cursor-auto` : ''
   }
 
   ${(props) => {
@@ -227,8 +232,14 @@ const TextInputWrapper = styled.div`
 `
 
 const TextInputButton = styled.div`
-  ${() => tw`-ml-px relative inline-flex items-center px-5 
-  py-3 text-sm leading-5 font-medium 
+
+  ${(props) => props.theme.size === 'sm' ?
+    tw`px-1 py-1` :
+    tw`px-5 py-3`
+  };
+
+  ${() => tw`-ml-px relative inline-flex items-center
+   text-sm leading-5 font-medium 
   rounded-r-md text-gray-700 bg-gray-100 hover:text-gray-500 
   transition ease-in-out duration-150`}
 
@@ -412,7 +423,10 @@ const Paragraph = styled.div`
 `
 
 const Padder = styled.div`
-  ${(props) => tw`mx-4 my-2`};
+  ${(props) => props.theme.size === 'sm' ?
+    tw`mx-2 my-2` :
+    tw`mx-4 my-2`
+  };
 
   ${(props) => {
     switch (props.align) {
@@ -467,7 +481,10 @@ export function SpacerRenderer ({ field }) {
 }
 
 const DataTable = styled.dl`
-${() => tw`px-4 py-5 grid sm:grid-cols-3 sm:gap-4 sm:px-6`}
+${(props) => props.theme.size === 'sm' ?
+    tw`px-1 py-1 grid sm:grid-cols-3 sm:gap-4 sm:px-1` :
+    tw`px-4 py-5 grid sm:grid-cols-3 sm:gap-4 sm:px-6`
+  };
 `
 
 const Dt = styled.dt`
@@ -503,7 +520,7 @@ export function ListRenderer ({ field, handleAction }) {
         <ListItem
           key={o.id}
           avatar={
-            o.image && <img width={80} src={o.image}/>
+            o.image && <img width={55} src={o.image}/>
           }
           onClick={(e) => {
             o.action && handleAction(e, o)
@@ -792,25 +809,33 @@ const ButtonWrapper = styled.div`
   }};
 `
 
-function ContentRenderer ({ field, updatePackage, disabled }) {
+function ContentRenderer ({ field, updatePackage, disabled, appPackage }) {
   React.useEffect(() => {
     updatePackage && updatePackage({
-      values: {},
+      values: appPackage && appPackage.values,
       field: {
         action: field
       },
-      location: 'content'
+      //location: 'content'
     }, () => {
     })
   }, [])
 
-  return <p>{ disabled ?
-    'dynamic content will be rendered here' :
-    <Loader/>
+  return <p>{ disabled
+    ? 'dynamic content will be rendered here'
+    : <Loader/>
   }</p>
 }
 
-export function DefinitionRenderer ({ schema, updatePackage, getPackage, disabled }) {
+export function DefinitionRenderer ({
+  schema,
+  updatePackage,
+  getPackage,
+  disabled,
+  location,
+  size,
+  appPackage
+}) {
   const [loading, setLoading] = React.useState(false)
 
   const form = React.createRef()
@@ -828,7 +853,7 @@ export function DefinitionRenderer ({ schema, updatePackage, getPackage, disable
     updatePackage && updatePackage({
       values: serializedData,
       field: field,
-      location: 'home'
+      location: location || 'home'
     }, () => {
       setLoading(false)
     })
@@ -840,6 +865,7 @@ export function DefinitionRenderer ({ schema, updatePackage, getPackage, disable
         return <ContentRenderer
           field={field}
           disabled={disabled}
+          appPackage={appPackage}
           updatePackage={updatePackage}
         />
       case 'image':
@@ -896,11 +922,12 @@ export function DefinitionRenderer ({ schema, updatePackage, getPackage, disable
           <ButtonWrapper
             align={field.align}>
             <Button
+              size={size === 'sm' ? 'xs' : field.size }
               loading={loading}
               disabled={disabled || loading}
               variant={field.variant}
               width={field.width}
-              size={field.size}
+              //size={field.size}
               id={field.id}
               onClick={(e) => handleAction(e, field) }>
               {field.label}
@@ -943,14 +970,18 @@ export function DefinitionRenderer ({ schema, updatePackage, getPackage, disable
 
   return <div className="flex flex-col">
     <form ref={form} onSubmit={ () => false }>
-      {schema.map((field, i) => {
-        return (
-          <RendererWrapper
-            key={`field-${field.id}-${i}`}>
-            {handleRender(field)}
-          </RendererWrapper>
-        )
-      })}
+      <ThemeProvider theme={{size: size}}>
+        {schema.map((field, i) => {
+          return (
+            <ErrorBoundary>
+              <RendererWrapper
+                key={`field-${field.id}-${i}`}>
+                {handleRender(field)}
+              </RendererWrapper>
+            </ErrorBoundary>
+          )
+        })}
+      </ThemeProvider>
     </form>
   </div>
 }
@@ -1036,6 +1067,7 @@ export function BaseInserter ({
       {p && <DefinitionRenderer
         schema={p.definitions}
         getPackage={getPackage}
+        appPackage={p}
         updatePackage={updatePackage}
       />}
     </div>
