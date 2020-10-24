@@ -136,7 +136,6 @@ class AppPackageIntegration < ApplicationRecord
                end
 
     response = response.with_indifferent_access
-
     package_schema = PluginSchemaValidator.new(response[:definitions])
     raise "invalid definitions: #{package_schema.to_json}" unless package_schema.valid?
 

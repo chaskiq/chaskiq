@@ -131,6 +131,12 @@ const Button = styled(BaseButton)`
         `
       case 'danger':
         return ''
+      case 'link':
+        return `
+        ${(props) => tw`text-sm leading-5 font-bold text-gray-900 hover:text-indigo-500`}
+        ${(props) => props.theme.palette ? '' : ''}
+      `
+
       default:
         return `
           ${(props) => props.theme.palette ? `
@@ -233,9 +239,9 @@ const TextInputWrapper = styled.div`
 
 const TextInputButton = styled.div`
 
-  ${(props) => props.theme.size === 'sm' ?
-    tw`px-1 py-1` :
-    tw`px-5 py-3`
+  ${(props) => props.theme.size === 'sm'
+    ? tw`px-1 py-1`
+    : tw`px-5 py-3`
   };
 
   ${() => tw`-ml-px relative inline-flex items-center
@@ -423,9 +429,9 @@ const Paragraph = styled.div`
 `
 
 const Padder = styled.div`
-  ${(props) => props.theme.size === 'sm' ?
-    tw`mx-2 my-2` :
-    tw`mx-4 my-2`
+  ${(props) => props.theme.size === 'sm'
+    ? tw`mx-2 my-2`
+    : tw`mx-4 my-2`
   };
 
   ${(props) => {
@@ -481,9 +487,9 @@ export function SpacerRenderer ({ field }) {
 }
 
 const DataTable = styled.dl`
-${(props) => props.theme.size === 'sm' ?
-    tw`px-1 py-1 grid sm:grid-cols-3 sm:gap-4 sm:px-1` :
-    tw`px-4 py-5 grid sm:grid-cols-3 sm:gap-4 sm:px-6`
+${(props) => props.theme.size === 'sm'
+    ? tw`px-1 py-1 grid sm:grid-cols-3 sm:gap-4 sm:px-1`
+    : tw`px-4 py-5 grid sm:grid-cols-3 sm:gap-4 sm:px-6`
   };
 `
 
@@ -815,8 +821,8 @@ function ContentRenderer ({ field, updatePackage, disabled, appPackage }) {
       values: appPackage && appPackage.values,
       field: {
         action: field
-      },
-      //location: 'content'
+      }
+      // location: 'content'
     }, () => {
     })
   }, [])
@@ -842,6 +848,11 @@ export function DefinitionRenderer ({
 
   function handleAction (e, field) {
     e.preventDefault()
+
+    if (field.action.type === 'link') {
+      window.location = field.action.url
+      return
+    }
 
     const serializedData = serialize(form.current, {
       hash: true,
@@ -927,7 +938,7 @@ export function DefinitionRenderer ({
               disabled={disabled || loading}
               variant={field.variant}
               width={field.width}
-              //size={field.size}
+              // size={field.size}
               id={field.id}
               onClick={(e) => handleAction(e, field) }>
               {field.label}
@@ -970,7 +981,7 @@ export function DefinitionRenderer ({
 
   return <div className="flex flex-col">
     <form ref={form} onSubmit={ () => false }>
-      <ThemeProvider theme={{size: size}}>
+      <ThemeProvider theme={{ size: size }}>
         {schema.map((field, i) => {
           return (
             <ErrorBoundary>
