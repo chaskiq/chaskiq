@@ -28,11 +28,11 @@ jobs:
       - name: Setup Ruby
         uses: eregon/use-ruby-action@master
         with:
-          ruby-version: 2.6.5
+          ruby-version: 2.7.1
       - uses: borales/actions-yarn@v2.0.0
         with:
           cmd: install
- 
+
 
       - name: Build and run tests
         env:
@@ -61,10 +61,10 @@ jobs:
 
           cp ./config/webpacker.ci.yml ./config/webpacker.yml
           bundle exec rake assets:precompile
-          
+
           curl ifconfig.me
           bundle exec rails server -e test -p 5002 -d
-          
+
           ./node_modules/.bin/cypress install
 
           #curl -L localhost:5002/embed.js
