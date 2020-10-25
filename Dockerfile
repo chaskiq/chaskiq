@@ -46,7 +46,6 @@ RUN chown -R docker:docker /usr/src/app
 WORKDIR /tmp
 COPY Gemfile Gemfile.lock /tmp/
 RUN bundle install -j ${BUNDLE_JOBS} --retry ${BUNDLE_RETRY}
-RUN yarn install
 # Clean up APT when done
 RUN apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* && \
     truncate -s 0 /var/log/*log
