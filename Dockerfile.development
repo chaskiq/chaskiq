@@ -67,6 +67,7 @@ RUN mkdir -p /app
 WORKDIR /tmp
 COPY Gemfile Gemfile.lock /tmp/
 RUN bundle install -j ${BUNDLE_JOBS} --retry ${BUNDLE_RETRY}
+RUN yarn install
 
 
 WORKDIR /app
