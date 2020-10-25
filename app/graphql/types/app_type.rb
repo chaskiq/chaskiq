@@ -43,6 +43,10 @@ module Types
     field :visitor_home_apps, [Types::JsonType], null: true
     field :plans, [Types::JsonType], null: true
 
+    def inbox_apps
+      object.inbox_apps.empty? ? object.default_home_apps : object.inbox_apps
+    end
+
     def home_apps
       return object.visitor_home_apps if current_user.is_a?(Visitor)
 
