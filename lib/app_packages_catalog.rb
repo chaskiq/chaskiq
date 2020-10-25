@@ -12,8 +12,8 @@ class AppPackagesCatalog
       },
 
       {
-        name: "InboxSample",
-        description: "Inbox sample",
+        name: "InboxSections",
+        description: "Inbox base blocks for conversation sidebar",
         capability_list: ["inbox"],
         state: 'enabled',
         definitions: []

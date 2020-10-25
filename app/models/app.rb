@@ -84,7 +84,7 @@ class App < ApplicationRecord
   end
 
   def attach_default_packages
-    default_packages = %w[ContentShowcase ArticleSearch Qualifier]
+    default_packages = %w[ContentShowcase ArticleSearch Qualifier InboxSections]
     AppPackage.where(name: default_packages).each do |app_package|
       app_packages << app_package
     end
@@ -338,6 +338,28 @@ class App < ApplicationRecord
 
   def searcheable_fields_list
     searcheable_fields.map { |o| o['name'] }
+  end
+
+  def default_home_apps
+    pkg_id = app_package_integrations
+    .joins(:app_package)
+    .where(
+      "app_packages.name": 'InboxSections'
+    ).first.id rescue nil
+
+    pkg_id.present? ? [
+      {"hooKind"=>"initialize", 
+        "definitions"=>[{"type"=>"content"}], 
+        "values"=>{"block_type"=>"user-blocks"}, 
+        "id"=> pkg_id, 
+        "name"=>"InboxSections"
+      }, 
+      {"hooKind"=>"initialize", 
+        "definitions"=>[{"type"=>"content"}], 
+        "values"=>{"block_type"=>"user-properties-block"}, 
+        "id"=> pkg_id, 
+        "name"=>"InboxSections"
+    }] : []
   end
 
   private

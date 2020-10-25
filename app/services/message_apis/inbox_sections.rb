@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 module MessageApis
-  class InboxSample
+  class InboxSections
 
     attr_accessor :secret
 
