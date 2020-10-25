@@ -44,7 +44,7 @@ module Types
     field :plans, [Types::JsonType], null: true
 
     def inbox_apps
-      object.inbox_apps.empty? ? object.default_home_apps : object.inbox_apps
+      object.inbox_apps.blank? ? object.default_home_apps : object.inbox_apps
     end
 
     def home_apps
