@@ -82,6 +82,10 @@
     "AWS_S3_REGION": {
       "description": "Amazon's S3 file storage region",
       "value": ""
+    },
+    "DEFAULT_SENDER_EMAIL": {
+      "description": "A Base default email sender",
+      "value": ""
     }
   },
   "formation": {
