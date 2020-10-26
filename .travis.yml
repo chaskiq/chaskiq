@@ -26,7 +26,7 @@ cache:
 before_install:
 - gem update --system
 - gem install bundler -v 1.17.3
-- nvm install 10.13.0
+- nvm install 12.19.0
 #- google-chrome-beta --headless --disable-gpu --remote-debugging-port=9222 http://localhost &
 
 before_script:
@@ -42,7 +42,7 @@ script:
 - yarn cypress:ci
 matrix:
   include:
-  - rvm: 2.6.5
+  - rvm: 2.7.1
     gemfile: Gemfile
 #deploy:
 #  provider: heroku

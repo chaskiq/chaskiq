@@ -1,8 +1,8 @@
 import React from 'react'
-import FormDialog from '../../components/FormDialog'
-import Button from '../../components/Button'
-import ErrorBoundary from '../../components/ErrorBoundary'
-import Progress from '../../components/Progress'
+import FormDialog from '../FormDialog'
+import Button from '../Button'
+import ErrorBoundary from '../ErrorBoundary'
+import Progress from '../Progress'
 import arrayMove from 'array-move'
 
 import { withRouter } from 'react-router-dom'
@@ -19,7 +19,7 @@ import List, {
   ListItemText,
   ItemListPrimaryContent,
   ItemListSecondaryContent
-} from '../../components/List'
+} from '../List'
 
 import {
   APP_PACKAGES_BY_CAPABILITY,
@@ -30,12 +30,12 @@ import {
   QueueIcon,
   LeftArrow,
   DeleteIcon
-} from '../../components/icons'
+} from '../icons'
 
 import {
   DefinitionRenderer,
   BaseInserter
-} from '../../components/packageBlocks/components'
+} from '../packageBlocks/components'
 
 const SortableContainer = sortableContainer(({ children }) => {
   return <ul className="border-b">{children}</ul>
@@ -48,34 +48,54 @@ const DragHandle = sortableHandle(() => (
 ))
 
 const SortableItem = sortableElement(
-  ({ object, deleteItem, edit, updatePackage }) => (
+  ({ object, deleteItem, edit, updatePackage, customRenderer }) => (
     <li>
       <div>
 
         <div key={`apps-${object.id}`}
-          className="bg-gray-100 mb-2 p-4 flex justify-between items-center">
+          className="bg-gray-100 mb-2 p-4-- flex flex-col justify-between items-center">
 
-          <div className="border-md bg-white p-4 shadow w-full mx-2 ">
-            <p>{object.name}</p>
-            
-            <DefinitionRenderer
+          <div className="border-md bg-white p-3 shadow w-full mx-2 ">
+
+            <div className="flex justify-between items-center">
+
+              <div>
+                <p className="text-xs leading-4 font-bold text-gray-700">
+                  {object.name}
+                </p>
+                
+
+                <p className="text-xs leading-6 font-medium text-gray-400">
+                  {JSON.stringify(object.values)}
+                </p>
+              </div>
+
+              <div className="flex justify-end items-center w-full">
+                <div className="cursor-move">
+                  <DragHandle />
+                </div>
+                <Button
+                  className="h-10 w-10"
+                  variant='icon'
+                  size="small"
+                  onClick={deleteItem}>
+                  <DeleteIcon />
+                </Button>
+              </div>
+            </div>
+
+            {
+              customRenderer &&
+              object.type === 'internal' &&
+              customRenderer(object)
+            }
+
+            { !customRenderer && <DefinitionRenderer
               schema={object.definitions}
               disabled={true}
+              size="sm"
               //updatePackage={(params, cb) => updatePackage(params, object, cb)}
-            />
-          </div>
-
-          <div className="flex flex-col items-center">
-            <div className="mb-2 cursor-move">
-              <DragHandle />
-            </div>
-            <Button
-              className="h-10 w-10"
-              variant='icon'
-              size="small"
-              onClick={deleteItem}>
-              <DeleteIcon />
-            </Button>
+            />}
           </div>
 
         </div>
@@ -84,25 +104,13 @@ const SortableItem = sortableElement(
   )
 )
 
-function AppInserter ({ app, update }) {
-  const options = [
-    {
-      name: 'users',
-      namespace: 'userHomeApps',
-      n: 'user_home_apps',
-      classes: 'rounded-l-lg'
-    },
-    {
-      name: 'visitors',
-      namespace: 'visitorHomeApps',
-      n: 'visitor_home_apps',
-      classes: 'rounded-r-lg'
-    }
-  ]
-
-  const [option, setOption] = React.useState(options[0])
-
-  const activeClass = 'bg-indigo-600 text-gray-100 border-indigo-600 pointer-events-none'
+function AppInserter ({ 
+  app, 
+  update, 
+  capability,
+  option, 
+  customRenderer, 
+  setEditable }) {
 
   function handleClick (o) {
     setOption(o)
@@ -110,38 +118,38 @@ function AppInserter ({ app, update }) {
 
   return (
     <div className="flex flex-col">
-      <div className="inline-flex mt-4">
-        {
-          options.map((o, i) => (
-            <button onClick={(e) => handleClick(o)}
-              key={`tabtab-${i}`}
-              className={
-                `${option.name === o.name ? activeClass : ''} 
-                outline-none border bg-white
-                font-light py-2 px-4
-                ${o.classes}
-                `}>
-              {o.name}
-            </button>
-          ))
-        }
-      </div>
-
       <AppInserter2
         app={app}
         update={update}
         option={option}
-        capability={'home'}
+        capability={capability}
+        customRenderer={customRenderer}
+        setEditable={setEditable}
       />
     </div>
   )
 }
 
-function AppInserter2 ({ app, update, option, capability }) {
+function AppInserter2 ({ app, 
+  update, 
+  option, 
+  capability, 
+  customRenderer,
+  setEditable
+}) {
   const [isOpen, setIsOpen] = React.useState(false)
   const [items, setItems] = React.useState(app[option.namespace] || [])
   const [packages, setPackages] = React.useState([])
   const [loading, setLoading] = React.useState(false)
+
+  // support for internal plugins, just in case we want to add a 
+  // super high customization within the code
+  const internalPackages = [
+    //{ type: 'internal', name: 'UserBlock' },
+    //{ type: 'internal', name: 'TagBlocks' },
+    //{ type: 'internal', name: 'ConversationBlock' },
+    //{ type: 'internal', name: 'AssigneeBlock' }
+  ]
 
   function getPackages () {
     setLoading(true)
@@ -152,7 +160,9 @@ function AppInserter2 ({ app, update, option, capability }) {
     {
       success: (data) => {
         setLoading(false)
-        setPackages(data.app.appPackagesCapabilities)
+        setPackages(
+          internalPackages.concat(data.app.appPackagesCapabilities)
+        )
       },
       error: () => {}
     })
@@ -199,23 +209,41 @@ function AppInserter2 ({ app, update, option, capability }) {
         [option.n]: items
       }
     }
-    update(data)
+    update(data, ()=>{
+      setEditable(false)
+    })
   }
 
   return (
-    <div className="my-4">
+    <div className="">
 
-      <div className="flex justify-around items-center">
+      <div className="flex justify-between border-b border-gray-200 mt-3 pb-2">
+        <div className="w-full flex justify-between">
+          <Button
+            variant={'outlined'}
+            size="xs"
+            onClick={ ()=> setEditable(false) }>
+              cancel
+          </Button>
+          <Button
+            size="xs"
+            onClick={ handleSubmit }>
+              done
+          </Button>
+        </div>
+      </div>
+
+      <div className="flex flex-col justify-around
+        items-center border rounded-md my-2 py-2">
         <div>
-          <h2 className="text-lg leading-6 font-medium text-gray-900">
-            Add apps to your Messenger
+          <h2 className="text-sm leading-6 font-medium text-gray-900">
+            Add apps to inbox sidebar
           </h2>
-
-          <p>Help your customers before they start a conversation</p>
         </div>
 
-        <div className="flex justify-end my-8">
+        <div className="flex justify-end my-2">
           <Button
+            size="xs"
             variant={'success'}
             onClick={() => setIsOpen(true)}>
             Add app
@@ -258,25 +286,28 @@ function AppInserter2 ({ app, update, option, capability }) {
         )}
       </div>
 
-      <div className="w-2/4">
-        <SortableContainer onSortEnd={onSortEnd} useDragHandle>
+      <div className="w-full">
+        <SortableContainer
+          onSortEnd={onSortEnd}
+          useDragHandle>
           {items && items.map((o, index) => (
             <SortableItem
               key={`item-${index}`}
               index={index}
               value={o.id}
               object={o}
+              customRenderer={customRenderer}
               //updatePackage={ (params, cb) => updatePackage(params, o, index, cb) }
               deleteItem={() => deleteItem(o, index)}
             />
           ))}
         </SortableContainer>
 
-        <Button
+        {/*<Button
           onClick={handleSubmit}
           className="mt-5">
           Save changes
-        </Button>
+        </Button>*/}
       </div>
     </div>
   )
@@ -298,11 +329,13 @@ export function AppList ({
   packages,
   app,
   loading,
-  conversation
+  conversation,
+  customRenderer
 }) {
   const [selected, setSelected] = React.useState(null)
 
   function handleSelect (o) {
+    if (o.type === 'internal') return handleAdd(o)
     setSelected(o)
   }
 

@@ -30,7 +30,7 @@ module Mutations
           )
           integration.update(access_token: access_token.token)
         end
-        
+
         # if operation.present? && operation == "create"
         { integration: integration, errors: integration.errors }
       end

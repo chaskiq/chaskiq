@@ -8,15 +8,15 @@ module Mutations
       argument :app_key, String, required: true
       argument :id, Integer, required: true
 
-      def resolve(app_key:, id:) #, lang:)
+      def resolve(app_key:, id:) # , lang:)
         app = current_user.apps.find_by(key: app_key)
 
         quick_reply = app.quick_replies.find(id)
         quick_reply.destroy
-        
-        { 
-          quick_reply: quick_reply, 
-          errors: quick_reply.errors 
+
+        {
+          quick_reply: quick_reply,
+          errors: quick_reply.errors
         }
       end
 

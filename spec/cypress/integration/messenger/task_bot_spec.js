@@ -334,7 +334,7 @@ describe('Task bot Spec', function () {
     
             cy.log(res)
     
-            helpers.openMessenger('?sessionless=true', ($body, appKey) => {
+            helpers.openMessenger('?sessionless=true&lang=en', ($body, appKey) => {
               expect($body.html()).to.contain('Start a conversation')
               cy.wrap($body)
                 .xpath('/html/body/div/div/div/div[2]/div/div[1]/div/div/div[2]/a[1]')

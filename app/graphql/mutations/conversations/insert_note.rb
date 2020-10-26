@@ -14,12 +14,12 @@ module Mutations
 
         conversation = app.conversations.find(id)
 
-        if current_user.is_a?(Agent)
-          author = app.agents.where('agents.email =?', current_user.email).first
-        else
-          # TODO: check this, when permit multiple emails, check by different id
-          author = app.app_users.where(['email =?', current_user.email]).first
-        end
+        author = if current_user.is_a?(Agent)
+                   app.agents.where('agents.email =?', current_user.email).first
+                 else
+                   # TODO: check this, when permit multiple emails, check by different id
+                   app.app_users.where(['email =?', current_user.email]).first
+                 end
 
         @message = conversation.add_private_note(
           from: author,

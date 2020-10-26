@@ -284,7 +284,7 @@ RSpec.describe Api::V1::Hooks::ProviderController, type: :controller do
   end
 
   let!(:agent_role) do
-    app.add_agent(email: 'test2@test.cl')
+    app.add_agent({email: 'test2@test.cl'})
   end
 
   let(:app_package) do

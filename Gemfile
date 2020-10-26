@@ -3,7 +3,7 @@
 source 'https://rubygems.org'
 git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
-ruby '2.6.5'
+ruby '2.7.1'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 # gem 'rails', '~> 5.2.0'
@@ -35,7 +35,7 @@ gem 'jbuilder'
 # gem 'haml'
 # Use Redis adapter to run Action Cable in production
 gem 'redis', '~> 4.0'
-gem 'redis-namespace', '~> 1.6'
+gem 'redis-namespace', '~> 1.8'
 gem 'redis-objects', '~> 1.5'
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
@@ -44,8 +44,8 @@ gem 'nightfury', github: 'michelson/nightfury' # "~> 1.0"
 # gem 'tabs', github: 'michelson/tabs', branch: "upgrade"
 
 gem 'graphiql-rails', group: :development
-gem 'graphql', '~> 1.9'
-gem "action_policy-graphql", "~> 0.3"
+gem 'graphql'
+gem "action_policy-graphql", "~> 0.4"
 gem 'batch-loader'
 
 # Use Capistrano for deployment
@@ -54,7 +54,7 @@ gem 'batch-loader'
 gem 'email_reply_trimmer'
 # gem 'tunable'
 gem 'aasm'
-gem 'acts-as-taggable-on', '~> 6.0'
+gem 'acts-as-taggable-on'
 gem 'acts_as_list', '~> 0.9.19'
 gem 'deep_cloneable'
 gem 'friendly_id', '~> 5.2'
@@ -94,7 +94,7 @@ gem 'aws-ses'
 gem 'mini_magick', '~> 4.8'
 
 gem 'active_importer'
-gem 'faraday', '~> 0.15.4'
+gem 'faraday'
 gem 'http'
 gem 'roo'
 gem 'ruby-oembed'
@@ -152,7 +152,7 @@ group :test do
   gem 'database_cleaner-active_record'
   gem 'database_cleaner-redis'
   gem 'factory_bot_rails'
-  gem 'rubocop', '~> 0.76.0', require: false
+  gem 'rubocop', '~> 1.0.0', require: false
   gem 'rubocop-performance', require: false
   gem 'rubocop-rails', require: false
   gem 'rubocop-rspec', require: false

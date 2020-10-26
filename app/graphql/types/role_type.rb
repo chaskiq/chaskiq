@@ -4,7 +4,7 @@ module Types
   class RoleType < Types::BaseObject
     field :role, String, null: true
     field :access_list, [String], null: true
-    #field :agent, Types::AgentType, null: true
+    # field :agent, Types::AgentType, null: true
     field :id, String, null: true
     field :agent_id, String, null: true
     field :email, String, null: true

@@ -49,7 +49,7 @@ class AssignmentRule < ApplicationRecord
            when 'not_contains' then !rule['value'].include?(part)
            when 'is_null' then rule['value'].empty?
            when 'is_not_null' then !rule['value'].empty?
-    end
+           end
   end
 
   def check_date_comparison(rule, _part)

@@ -1,7 +1,7 @@
 class OutgoingWebhookDispatcherJob < ActiveJob::Base
   queue_as :default
 
-  #sidekiq_options retry: 5
+  # sidekiq_options retry: 5
 
   def perform(webhook_id:, payload:)
     webhook = OutgoingWebhook.find(webhook_id)

@@ -1,11 +1,11 @@
 # frozen_string_literal: true
 
 class AppPackagesCatalog
-  def self.packages
+  def self.packages(dev_packages: false)
     development_packages = [
       {
         name: "UiCatalog",
-        description: "Sample Chaskiq UI kit",
+        description: "Sample Chaskiq UI kit, development sample",
         capability_list: ["home", "conversations"],
         state: 'enabled',
         definitions: []
@@ -15,7 +15,7 @@ class AppPackagesCatalog
         name: 'ExternalExample',
         tag_list: ['editor'],
         capability_list: ['conversations', 'home'],
-        description: 'External example',
+        description: 'External example, development sample',
         icon: '',
         state: 'enabled',
         initialize_url: 'https://chaskiq-externa-api.glitch.me/initialize',
@@ -33,6 +33,14 @@ class AppPackagesCatalog
     ]
 
     collection = [
+
+      {
+        name: "InboxSections",
+        description: "Inbox base blocks for conversation sidebar",
+        capability_list: ["inbox"],
+        state: 'enabled',
+        definitions: []
+      },
 
       {
         name: "ContentShowcase",
@@ -80,6 +88,7 @@ class AppPackagesCatalog
         description: 'Data Enrichment service',
         icon: 'https://logo.clearbit.com/fullcontact.com',
         state: 'enabled',
+        capability_list: ["inbox"],
         definitions: [
           {
             name: 'api_secret',
@@ -355,11 +364,12 @@ class AppPackagesCatalog
             grid: { xs: 'w-full', sm: 'w-full' }
           }
         ]
-      }
+      },
+      
 
     ]
 
-    collection = development_packages + collection unless Rails.env.production?
+    collection = development_packages + collection if dev_packages
     collection
   end
 
@@ -373,8 +383,8 @@ class AppPackagesCatalog
     pkg.update(data) unless pkg.blank?
   end
 
-  def self.update_all
-    packages.each do |pkg|
+  def self.update_all(dev_packages: false)
+    packages( dev_packages: dev_packages ).each do |pkg|
       package = AppPackage.find_or_create_by(name: pkg[:name])
       package.update(pkg)
     end

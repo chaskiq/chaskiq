@@ -5,9 +5,9 @@ x-app: &app
     context: .
     dockerfile: ./Dockerfile.development
     args:
-      RUBY_VERSION: '2.6.5'
+      RUBY_VERSION: '2.7.1'
       PG_MAJOR: '11'
-      NODE_MAJOR: '10'
+      NODE_MAJOR: '12'
       YARN_VERSION: '1.13.0'
       BUNDLER_VERSION: '2.0.2'
   environment: &env
@@ -32,7 +32,7 @@ x-backend: &backend
   environment:
     <<: *env
     REDIS_URL: redis://redis:6379/
-    DATABASE_URL: postgres://postgres:postgres@postgres:5432
+    DATABASE_URL: postgres://postgres:password@postgres:5432
     BOOTSNAP_CACHE_DIR: /usr/local/bundle/_bootsnap
     WEBPACKER_DEV_SERVER_HOST: webpacker
     DATABASE_CLEANER_ALLOW_REMOTE_DATABASE_URL: 1
@@ -62,13 +62,15 @@ services:
     command: bundle exec sidekiq -C config/sidekiq.yml
 
   postgres:
-    image: postgres:11.1
+    image: postgres
     volumes:
       - .dockerdev/.psqlrc:/root/.psqlrc:ro
-      - postgres:/var/lib/postgresql/data
+      - ./tmp/db:/var/lib/postgresql/data
       - ./log:/root/log:cached
     environment:
-      POSTGRES_USER: postgresql
+      #POSTGRES_USER: postgresql
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: password
       PSQL_HISTFILE: /root/log/.psql_history
     ports:
       - 5432
@@ -77,7 +79,7 @@ services:
       interval: 5s
 
   redis:
-    image: redis:3.2-alpine
+    image: redis:5-alpine
     volumes:
       - redis:/data
     ports:
