@@ -13,9 +13,9 @@ export default function CustomizedExpansionPanels (props) {
 
   const expandedClasses = (o) => {
     if (expanded === o.name) {
-      return 'border-l-2 bg-grey-lightest border-indigo-600'
+      return 'border-r-4 bg-grey-lightest border-gray-800'
     } else {
-      return 'border-l-2 border-transparent'
+      return 'border-r-4 border-transparent'
     }
   }
 
@@ -50,9 +50,9 @@ export default function CustomizedExpansionPanels (props) {
               onClick={() => {
                 toggleExpanded(o.name)
               }}
-              className="flex justify-between items-center p-5 pl-8 pr-8 cursor-pointer select-none"
+              className="flex justify-between items-center p-5 pl-6 pr-8 cursor-pointer select-none"
             >
-              <span className="text-sm leading-5 font-medium text-gray-900">
+              <span className="text-sm leading-5 font-medium text-gray-500 sm:w-40 sm:flex-shrink-0 lg:w-48">
                 {o.name}
               </span>
 
@@ -61,7 +61,9 @@ export default function CustomizedExpansionPanels (props) {
                   onClick={() => {
                     toggleExpanded(o.name)
                   }}
-                  className="rounded-full border border border-indigo-400 w-7 h-7 flex items-center justify-center bg-indigo-600"
+                  className="rounded-full border
+                  border-indigo-400 w-7 h-7 flex items-center
+                  justify-center bg-gray-600"
                 >
                   <svg
                     aria-hidden="true"
@@ -86,7 +88,9 @@ export default function CustomizedExpansionPanels (props) {
                   onClick={() => {
                     toggleExpanded(o.name)
                   }}
-                  className="rounded-full border border-grey w-7 h-7 flex items-center justify-center"
+                  className="rounded-full
+                  border-grey w-7 h-7 flex
+                  items-center justify-center"
                 >
                   <svg
                     aria-hidden="true"

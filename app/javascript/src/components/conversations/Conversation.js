@@ -401,8 +401,8 @@ function Conversation ({
 
         output = <div>
           <p
-            className="text-gray-500 text-xs
-            font-medium uppercase tracking-wide">
+            className="text-gray-800 text-xs
+            font-bold uppercase tracking-wide">
             {blocks.appPackage}
           </p>
 
@@ -434,9 +434,13 @@ function Conversation ({
     return (
 
       <div
+        style={{
+          opacity: 0.96
+        }}
         className={`
-        min-w-3/4
+        w-full
         bg-white
+        opacity-75
         border
         border-gray-400
         shadow-lg
@@ -580,7 +584,7 @@ function Conversation ({
         key={`conversations-messages/${message.id}`}>
 
         <div
-          className={`bg-yellow-400
+          className={`bg-yellow-300
           flex 
           overflow-hidden p-2 
           rounded-md mx-auto`
@@ -635,10 +639,24 @@ function Conversation ({
             className="block md:hidden">
             <LeftArrow/>
           </Link>
+
+
+          {
+            conversation.mainParticipant &&
+            !fixedSidebarOpen &&
+            <img onClick={handleUserSidebar} 
+              className="h-9 w-9 rounded-full mr-2 cursor-pointer"
+              src={conversation.mainParticipant.avatarUrl}
+              alt=""
+            />
+          }
           <h3 className="mb-1 text-xs text-grey-darkest">
             {I18n.t('conversation.with')}{' '}
             <br/>
-            <span className="font-extrabold" onClick={handleUserSidebar}>
+            <span className="font-extrabold hover:text-underline"
+              onClick={toggleFixedSidebar}
+              //onClick={handleUserSidebar}
+              >
               {
                 conversation.mainParticipant &&
                 conversation.mainParticipant.displayName
@@ -843,9 +861,8 @@ function Conversation ({
         className="overflow-y-scroll"
         onScroll={handleScroll}
         style={{
-          height: 'calc(100vh - 222px)'
-        }}
-      >
+          height: 'calc(100vh - 220px)'
+        }}>
         <div
           className="flex flex-col-reverse px-6 py-4">
           <ErrorBoundary>

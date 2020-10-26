@@ -4,7 +4,6 @@ import CampaignChart from "./charts/charts.js";
 import styled from "@emotion/styled";
 import graphql from "../graphql/client";
 import Table from "./Table";
-import gravatar from "../shared/gravatar";
 import Badge from './Badge'
 import Button from "./Button";
 import Avatar from "./Avatar";
@@ -203,7 +202,7 @@ class Stats extends Component {
                         <div className="flex-shrink-0 h-10 w-10">
                           <img
                             className="h-10 w-10 rounded-full"
-                            src={gravatar(row.email)}
+                            src={row.avatarUrl}
                             alt=""
                           />
                         </div>

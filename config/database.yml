@@ -12,7 +12,7 @@ default: &default
 development:
   prepared_statements: false
   adapter: postgresql
-  database: postgres
+  database: chaskiq_dev
   min_messages: warning
   pool: 15
   timeout: 5000
@@ -30,7 +30,7 @@ development:
 test:
   prepared_statements: false
   adapter: postgresql
-  database: hermes_test
+  database: chaskiq_test
   min_messages: warning
   pool: 5
   timeout: 5000

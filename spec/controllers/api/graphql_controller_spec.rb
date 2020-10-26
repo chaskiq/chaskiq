@@ -18,9 +18,8 @@ RSpec.describe Api::GraphqlController, type: :controller do
   end
 
   before do
-    GraphQL::TestClient.reset_strings
-    file = Rails.root + 'app/javascript/client_messenger/graphql/queries.js'
-    GraphQL::TestClient.configure([file])
+    file = Rails.root + 'app/javascript/client_messenger/graphql/testEntry.mjs'
+    GraphQL::TestClient.configure(file)
     app.update(encryption_key: 'unodostrescuatro')
 
     
@@ -32,8 +31,7 @@ RSpec.describe Api::GraphqlController, type: :controller do
   end
 
   after do
-    # back to defaults
-    GraphQL::TestClient.reset_strings
+    GraphQL::TestClient.configure(nil)
   end
 
   describe 'registered user' do

@@ -12,12 +12,12 @@ class Tour < Message
 
   scope :availables_for, lambda { |user|
     enabled.in_time
-    .joins("left outer join metrics
+           .joins("left outer join metrics
       on metrics.trackable_type = 'Message'
       AND metrics.trackable_id = campaigns.id
       AND metrics.app_user_id = #{user.id}
       AND settings->'hidden_constraints' ? metrics.action")
-    .where('metrics.id is null')
+           .where('metrics.id is null')
 
     ## THIS WILL RETURN CAMPAINGS ON EMPTY METRICS FOR USER
     # enabled.in_time.joins("left outer join metrics
@@ -35,10 +35,10 @@ class Tour < Message
 
       { name: 'description', type: 'text', grid: { xs: 'w-full', sm: 'w-full' } },
 
-      { name: 'scheduledAt', label: "Scheduled at", type: 'datetime', grid: { xs: 'w-full', sm: 'w-1/2' } },
-      { name: 'scheduledTo', label: "Scheduled to", type: 'datetime', grid: { xs: 'w-full', sm: 'w-1/2' } },
+      { name: 'scheduledAt', label: 'Scheduled at', type: 'datetime', grid: { xs: 'w-full', sm: 'w-1/2' } },
+      { name: 'scheduledTo', label: 'Scheduled to', type: 'datetime', grid: { xs: 'w-full', sm: 'w-1/2' } },
 
-      { name: 'hiddenConstraints', label: "Hidden constraints", type: 'select',
+      { name: 'hiddenConstraints', label: 'Hidden constraints', type: 'select',
         options: [
           { label: 'open', value: 'open' },
           { label: 'close', value: 'close' },
@@ -74,20 +74,20 @@ class Tour < Message
   # consumed
   def available_for_user?(user)
     comparator = SegmentComparator.new(
-      user: user, 
+      user: user,
       predicates: segments
     )
-    comparator.compare #&& metrics.where(app_user_id: user.id).blank?
+    comparator.compare # && metrics.where(app_user_id: user.id).blank?
   rescue ActiveRecord::RecordNotFound
     false
   end
 
   # or closed or consumed
-  #def available_for_user?(user_id)
+  # def available_for_user?(user_id)
   #  available_segments.find(user_id) #&& metrics.where(action: hidden_constraints, message_id: user_id).empty?
-  #rescue ActiveRecord::RecordNotFound
+  # rescue ActiveRecord::RecordNotFound
   #  false
-  #end
+  # end
 
   def show_notification_for(user)
     if available_for_user?(user)
@@ -132,8 +132,7 @@ class Tour < Message
     compiled_premailer = html_content.to_s.gsub('%7B%7B', '{{').gsub('%7D%7D', '}}')
     compiled_mustache = Mustache.render(compiled_premailer, subscriber_options)
 
-    html = LinkRenamer.convert(compiled_mustache, link_prefix)
-    html
+    LinkRenamer.convert(compiled_mustache, link_prefix)
   end
 
   def fill_steps

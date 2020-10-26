@@ -131,12 +131,13 @@ function AppInserter ({ app, update }) {
         app={app}
         update={update}
         option={option}
+        capability={'home'}
       />
     </div>
   )
 }
 
-function AppInserter2 ({ app, update, option }) {
+function AppInserter2 ({ app, update, option, capability }) {
   const [isOpen, setIsOpen] = React.useState(false)
   const [items, setItems] = React.useState(app[option.namespace] || [])
   const [packages, setPackages] = React.useState([])
@@ -146,7 +147,7 @@ function AppInserter2 ({ app, update, option }) {
     setLoading(true)
     graphql(APP_PACKAGES_BY_CAPABILITY, {
       appKey: app.key,
-      kind: 'home'
+      kind: capability
     },
     {
       success: (data) => {
@@ -388,5 +389,6 @@ function mapStateToProps (state) {
 }
 
 // export default ShowAppContainer
+export const AppInserterInner = withRouter(connect(mapStateToProps)(AppInserter2))
 
 export default withRouter(connect(mapStateToProps)(AppInserter))

@@ -30,15 +30,15 @@ module Types
       return 'https://via.placeholder.com/100x100' unless object.logo_blob.present?
 
       url = begin
-              object.logo.variant(resize_to_limit: [300, 100]).processed
-            rescue StandardError
-              nil
-            end
+        object.logo.variant(resize_to_limit: [300, 100]).processed
+      rescue StandardError
+        nil
+      end
       return nil if url.blank?
 
       Rails.application.routes.url_helpers.rails_representation_url(
-        url,
-        #only_path: true
+        url
+        # only_path: true
       )
     end
 
@@ -46,16 +46,16 @@ module Types
       return 'https://via.placeholder.com/1024x300' unless object.header_image_blob.present?
 
       url = begin
-              object.header_image.variant(resize_to_limit: [100, 100]).processed
-            rescue StandardError
-              nil
-            end
+        object.header_image.variant(resize_to_limit: [100, 100]).processed
+      rescue StandardError
+        nil
+      end
       return nil if url.blank?
 
       begin
         Rails.application.routes.url_helpers.rails_representation_url(
-          url,
-          #only_path: true
+          url
+          # only_path: true
         )
       rescue StandardError
         nil
@@ -74,8 +74,8 @@ module Types
       return '' unless object.header_image_blob.present?
 
       Rails.application.routes.url_helpers.rails_representation_url(
-        object.header_image.variant(options).processed,
-        #only_path: true
+        object.header_image.variant(options).processed
+        # only_path: true
       )
     end
 
@@ -86,7 +86,7 @@ module Types
 
     def articles(page:, per:)
       object.app.articles.published
-            .includes([:author, :collection, :section, article_content: :translations])
+            .includes([:author, :collection, :section, { article_content: :translations }])
             .page(page).per(per)
     end
 
@@ -100,7 +100,7 @@ module Types
     def search(term:, lang:, page:, per:)
       I18n.locale = lang
       object.app.articles.published
-            .includes([:author, :collection, :section, article_content: :translations])
+            .includes([:author, :collection, :section, { article_content: :translations }])
             .search(term).page(page).per(per)
     end
 
@@ -111,7 +111,7 @@ module Types
 
     def articles_uncategorized(page:, per:)
       object.app.articles.published
-            .includes([:author, :collection, :section, article_content: :translations])
+            .includes([:author, :collection, :section, { article_content: :translations }])
             .without_collection.page(page).per(per)
     end
 
@@ -121,7 +121,7 @@ module Types
 
     def article(id:)
       object.app.articles.published
-            .includes([:author, :collection, :section, article_content: :translations])
+            .includes([:author, :collection, :section, { article_content: :translations }])
             .friendly.find(id)
     end
 

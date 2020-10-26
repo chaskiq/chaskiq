@@ -15,7 +15,7 @@ RSpec.describe ConversationPart, type: :model do
   end
 
   let!(:agent) do
-    app.add_agent(email: 'test2@test.cl')
+    app.add_agent({email: 'test2@test.cl'})
   end
 
   context 'conversation' do

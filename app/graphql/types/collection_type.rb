@@ -12,29 +12,35 @@ module Types
     field :authors, [Types::AgentType], null: true
 
     def base_articles
-      current_user.blank? ?
-      object.articles.published.without_section :
-      object.articles.without_section
+      if current_user.blank?
+        object.articles.published.without_section
+      else
+        object.articles.without_section
+      end
     end
 
     def sections
-      #current_user.blank? ?
-      #object.sections.joins(:articles).group('collection_sections_id , articles.id') :
+      # current_user.blank? ?
+      # object.sections.joins(:articles).group('collection_sections_id , articles.id') :
       object.sections
     end
 
     def authors
-      articles = current_user.blank? ?
-      object.articles.published :
-      object.articles
+      articles = if current_user.blank?
+                   object.articles.published
+                 else
+                   object.articles
+                 end
 
       articles.map(&:author).uniq!
     end
 
     def meta
-      articles = current_user.blank? ?
-      object.articles.published :
-      object.articles
+      articles = if current_user.blank?
+                   object.articles.published
+                 else
+                   object.articles
+                 end
       {
         size: articles.size,
         authors: articles.map(&:author).uniq!

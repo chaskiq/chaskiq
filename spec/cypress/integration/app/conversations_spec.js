@@ -8,7 +8,7 @@ import {
   findElementByName
 } from '../../support/utils'
 
-describe('Login Spec', function () {
+describe('Conversations Spec', function () {
   beforeEach(() => {
     cy.appEval(`
       require 'app_packages_catalog'
@@ -65,7 +65,7 @@ describe('Login Spec', function () {
           .click()
 
         // selects content showcase
-        cy.xpath('/html/body/div[1]/div[2]/div[2]/div[2]/div[2]/div[2]/div/div[3]/div/div/div[2]/div/div/div/div[1]/div[2]/div[2]/div/div/div/div/div/ul/li[1]/div/div/div/div/div[2]/div/div/button')
+        cy.xpath('/html/body/div[1]/div[2]/div[2]/div[2]/div[2]/div[2]/div/div[3]/div/div/div[2]/div/div/div/div[1]/div[2]/div[2]/div/div/div/div/div/ul/li[2]/div/div/div/div/div[2]/div/div/button')
           .click()
 
         cy.contains('Pick a template')

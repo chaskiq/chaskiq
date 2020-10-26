@@ -11,7 +11,7 @@ class AppUserEventJob < ApplicationJob
     key = "#{@app.key}-#{app_user.session_id}"
 
     Tour.broadcast_tour_to_user(app_user) ||
-    BotTask.broadcast_task_to_user(app_user) ||
-    UserAutoMessage.broadcast_message_to_user(app_user)
+      BotTask.broadcast_task_to_user(app_user) ||
+      UserAutoMessage.broadcast_message_to_user(app_user)
   end
 end

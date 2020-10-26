@@ -124,7 +124,7 @@ RSpec.describe Api::V1::SubscriptionHooksController, type: :controller do
   end
 
   let!(:agent_role) do
-    app.add_agent(email: 'test2@test.cl')
+    app.add_agent({email: 'test2@test.cl'})
   end
 
   before :each do

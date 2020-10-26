@@ -16,7 +16,7 @@ module Types
 
     def content
       object.article_content.as_json(only: %i[html_content serialized_content text_content])
-      #lazy_content.as_json(only: %i[html_content serialized_content text_content])
+      # lazy_content.as_json(only: %i[html_content serialized_content text_content])
     end
 
     def author
@@ -24,6 +24,5 @@ module Types
         Agent.where(id: user_ids).each { |user| loader.call(user.id, user) }
       end
     end
-
   end
 end

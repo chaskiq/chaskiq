@@ -7,8 +7,9 @@ class Visit < ApplicationRecord
   after_create :insert_count
 
   def self.register(options, cond)
-    v = self.new(options) 
-    return v.save if cond == "true"
+    v = new(options)
+    return v.save if cond == 'true'
+
     v.insert_count
   end
 

@@ -22,6 +22,7 @@ function UserData ({ app_user, app, disableAvatar }) {
 
     return compact(items)
   }
+
   return (
     <React.Fragment>
       {app_user && app_user.id && (

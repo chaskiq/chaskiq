@@ -1,6 +1,5 @@
 module Mutations
   class OutgoingWebhooks::UpdateWebhook < Mutations::BaseMutation
-
     field :webhook, Types::JsonType, null: false
     field :errors, Types::JsonType, null: true
 
@@ -19,11 +18,14 @@ module Mutations
 
       @webhook = @app.outgoing_webhooks.find(id)
 
-      state_value = ActiveModel::Type::Boolean.new.cast(state) ? 
-                    "enabled" : "disabled"
+      state_value = if ActiveModel::Type::Boolean.new.cast(state)
+                      'enabled'
+                    else
+                      'disabled'
+                    end
 
       @webhook.update(
-        url: url, 
+        url: url,
         tag_list: tags,
         state: state_value
       )
