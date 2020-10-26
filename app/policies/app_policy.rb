@@ -4,7 +4,6 @@ class AppPolicy < ActionPolicy::Base
     true
   end
 
-
   def show?
     record.owner_id == user.id || record.roles.where(
       agent_id: user.id
@@ -14,7 +13,7 @@ class AppPolicy < ActionPolicy::Base
   def invite_user?
     record.owner_id == user.id || record.roles.where(
       agent_id: user.id
-    ).tagged_with("manage").any?
+    ).tagged_with('manage').any?
   end
 
   def create_app?
@@ -24,7 +23,7 @@ class AppPolicy < ActionPolicy::Base
   def manage?
     record.owner_id == user.id || record.roles.where(
       agent_id: user.id
-    ).tagged_with("manage").any?
+    ).tagged_with('manage').any?
   end
 
   def update?

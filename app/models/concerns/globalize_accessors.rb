@@ -26,8 +26,6 @@ module GlobalizeAccessors
       "#{attr_name}_#{locale.to_s.underscore}"
     end
 
-    private
-
     def self.define_accessors(attr_name, locale)
       define_getter(attr_name, locale)
       define_setter(attr_name, locale)

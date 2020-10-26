@@ -13,7 +13,7 @@ RSpec.describe OutgoingWebhook, type: :model do
   end
 
   let!(:agent_role) do
-    app.add_agent(email: 'agent1@test.cl')
+    app.add_agent({email: 'agent1@test.cl'})
   end
 
   let(:webhook) do

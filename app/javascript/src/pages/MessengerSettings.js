@@ -13,8 +13,6 @@ import graphql from "../graphql/client";
 import { APP } from "../graphql/queries";
 import { CREATE_DIRECT_UPLOAD } from "../graphql/mutations";
 
-import { toSnakeCase } from "../shared/caseConverter";
-
 import ContentHeader from "../components/PageHeader";
 import AvailabilitySettings from "./settings/Availability";
 import EmailRequirement from "./settings/EmailRequirement";

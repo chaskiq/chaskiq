@@ -232,7 +232,7 @@ function Conversations ({
         </Route>
       </Switch>
 
-      <div className={'w-full md:w-1/3 h-screen md:border-r hidden sm:block border-gray-200'}>
+      <div className={'w-full md:w-4/12 h-screen md:border-r hidden sm:block border-gray-200'}>
         {renderConversations()}
       </div>
 
@@ -261,7 +261,7 @@ function Conversations ({
         </Route>
 
         <Route exact path={`/apps/${app.key}/conversations/:id`}>
-          <div className="flex-grow bg-gray-200 h-12 h-screen border-r w-1/12">
+          <div className={`${ fixedSidebarOpen ? 'md:w-5/12' : 'md:w-0 md:flex-grow' } w-full bg-gray-200 h-12 h-screen border-r`}>
             <Conversation events={events}
               fixedSidebarOpen={fixedSidebarOpen}
               toggleFixedSidebar={toggleFixedSidebar}
@@ -271,21 +271,12 @@ function Conversations ({
       </Switch>
 
       {!isEmpty(conversation) && fixedSidebarOpen && (
-        <div className="w-3/12 h-screen overflow-scroll hidden sm:block">
-
-          {
-            fixedSidebarOpen &&
-              <div className="hidden md:block items-center text-gray-300 absolute mt-5">
-                <Button
-                  variant="clean"
-                  onClick={ toggleFixedSidebar }>
-                  <LeftArrow/>
-                </Button>
-              </div>
-          }
+        <div className="bg-gray-100 h-screen overflow-scroll fixed sm:relative right-0 sm:block sm:w-4/12 ">
 
           {app_user && app_user.id ? (
-            <ConversationSidebar/>
+            <ConversationSidebar
+              toggleFixedSidebar={toggleFixedSidebar}
+            />
           ) : (
             <Progress />
           )}

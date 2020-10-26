@@ -26,6 +26,5 @@ class Role < ApplicationRecord
   delegate :invitation_accepted_at, to: :agent
   delegate :invitation_sent_at, to: :agent
 
-
   scope :admin, -> { where('role =?', 'admin') }
 end

@@ -46,7 +46,6 @@ RUN chown -R docker:docker /usr/src/app
 WORKDIR /tmp
 COPY Gemfile Gemfile.lock /tmp/
 RUN bundle install -j ${BUNDLE_JOBS} --retry ${BUNDLE_RETRY}
-
 # Clean up APT when done
 RUN apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* && \
     truncate -s 0 /var/log/*log
@@ -60,6 +59,7 @@ COPY --chown=docker:docker . /usr/src/app/
 
 # Precompile assets - production only
 # Clean up temp files and Yarn cache folder
+
 RUN NODE_ENV=${APP_ENV} NODE_OPTIONS="--max-old-space-size=2048" \
     SECRET_KEY_BASE=`bin/rake secret` RAILS_ENV=${APP_ENV} \
     bundle exec rails assets:precompile \

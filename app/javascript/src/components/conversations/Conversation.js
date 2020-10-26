@@ -653,7 +653,10 @@ function Conversation ({
           <h3 className="mb-1 text-xs text-grey-darkest">
             {I18n.t('conversation.with')}{' '}
             <br/>
-            <span className="font-extrabold hover:text-underline" onClick={handleUserSidebar}>
+            <span className="font-extrabold hover:text-underline"
+              onClick={toggleFixedSidebar}
+              //onClick={handleUserSidebar}
+              >
               {
                 conversation.mainParticipant &&
                 conversation.mainParticipant.displayName
@@ -858,9 +861,8 @@ function Conversation ({
         className="overflow-y-scroll"
         onScroll={handleScroll}
         style={{
-          height: 'calc(100vh - 222px)'
-        }}
-      >
+          height: 'calc(100vh - 220px)'
+        }}>
         <div
           className="flex flex-col-reverse px-6 py-4">
           <ErrorBoundary>

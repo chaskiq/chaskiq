@@ -23,7 +23,7 @@ app = FactoryBot.create(:app,
   state: 'enabled'
 )
 
-agent = app.add_agent(email: 'test@test.cl', name: 'sharleena')
+agent = app.add_agent({email: 'test@test.cl', name: 'sharleena'})
 # user = app.add_user({email: "test@test.cl"})
 
 app.update(

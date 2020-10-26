@@ -4,7 +4,7 @@ module Mutations
       field :oauth_application, Types::OauthApplicationType, null: false
       field :errors, Types::JsonType, null: true
       argument :app_key, String, required: true
-      argument :uid, String, required: true 
+      argument :uid, String, required: true
 
       def resolve(app_key:, uid:)
         find_app(app_key)

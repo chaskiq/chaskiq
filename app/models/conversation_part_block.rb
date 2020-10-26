@@ -4,43 +4,51 @@ class ConversationPartBlock < ApplicationRecord
   include Redis::Objects
 
   has_one :conversation_part, as: :messageable
-  value :trigger_locked, expireat: lambda { Time.now + 5.seconds }
+  value :trigger_locked, expireat: -> { Time.now + 5.seconds }
 
   def create_fase(app)
-    return if self.blocks["app_package"].blank?
+    return if blocks['app_package'].blank?
 
     # this right now only works for trusted plugins
     # this needs to be API hook compatible
     # add a proper setting on appPackage like, hook_url ?
-    package_class_name = self.blocks["app_package"]
-    klass = "MessageApis::#{package_class_name}".constantize rescue nil
+    package_class_name = blocks['app_package']
+    klass = begin
+      "MessageApis::#{package_class_name}".constantize
+    rescue StandardError
+      nil
+    end
     return if klass.blank?
     return unless klass.instance_methods.include?(:create_fase)
 
-    # todo: look for a better method to query app packages
-    klass =   app
-              .app_package_integrations
-              .joins(:app_package)
-              .where("app_packages.name =?", package_class_name )
-              .first.message_api_klass rescue nil
+    # TODO: look for a better method to query app packages
+    klass = begin
+      app
+        .app_package_integrations
+        .joins(:app_package)
+        .where('app_packages.name =?', package_class_name)
+        .first.message_api_klass
+    rescue StandardError
+      nil
+    end
 
     data = klass.create_fase(self, klass)
 
-    self.blocks["schema"] = data[:definitions]
+    blocks['schema'] = data[:definitions]
     self.data = data[:values]
-    self.save
+    save
   end
 
   def handled_data
-    #if self.blocks["type"] == "app_package"
+    # if self.blocks["type"] == "app_package"
     #  self.blocks["app_package"]
 
     #  klass = "MessageApis::#{self.blocks["app_package"].classify}".constantize
 
     #  return klass.display_data(self.data) if klass.respond_to?(:display_data)
-      
-    #end
-    self.data
+
+    # end
+    data
   end
 
   def as_json(*)
@@ -50,7 +58,7 @@ class ConversationPartBlock < ApplicationRecord
   end
 
   def replied?
-    self.state == 'replied'
+    state == 'replied'
   end
 
   def save_replied(data)

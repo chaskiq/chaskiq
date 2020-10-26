@@ -1,44 +1,13 @@
+import {
+  appFragment
+} from './fragments.mjs'
+
 export const UPDATE_APP = `
   mutation AppsUpdate($appKey: String!, $appParams: Json!){
     appsUpdate(appKey: $appKey, appParams: $appParams){
       errors
       app{
-        encryptionKey
-        key
-        name
-        preferences
-        configFields
-        theme
-        activeMessenger
-        translations
-        availableLanguages
-        logo
-        enableArticlesOnWidget
-        inlineNewConversations
-        teamSchedule
-        timezone
-        replyTime
-        inboundSettings
-        emailRequirement
-        leadTasksSettings
-        userTasksSettings
-        gatherSocialData
-        registerVisits
-        domainUrl
-        outgoingEmailDomain
-        customizationColors
-        customFields
-        tagList
-        subscriptionsEnabled
-        userHomeApps
-        visitorHomeApps
-        segments {
-          name
-          id
-          properties
-        }
-        state
-        tagline
+        ${appFragment}
       }
     }
   }
@@ -57,26 +26,7 @@ export const CREATE_APP = `
     appsCreate(appParams: $appParams, operation: $operation){
       errors
       app{
-        encryptionKey
-        key
-        name
-        preferences
-        configFields
-        theme
-        state
-        tagline
-        enableArticlesOnWidget
-        inlineNewConversations
-        activeMessenger
-        teamSchedule
-        logo
-        timezone
-        inboundSettings
-        emailRequirement
-        leadTasksSettings
-        userTasksSettings
-        customFields
-        subscriptionsEnabled
+        ${appFragment}
       }
     }
   }

@@ -1,5 +1,6 @@
 # frozen_string_literal: true
-require "dummy_name"
+
+require 'dummy_name'
 
 class App < ApplicationRecord
   include GlobalizeAccessors
@@ -26,6 +27,7 @@ class App < ApplicationRecord
     tag_list
     user_home_apps
     visitor_home_apps
+    inbox_apps
     paddle_user_id
     paddle_subscription_id
     paddle_subscription_plan_id
@@ -43,7 +45,7 @@ class App < ApplicationRecord
   # App.where('preferences @> ?', {notifications: true}.to_json)
 
   has_many :app_users, dependent: :destroy
-  has_many :external_profiles, through: :app_users 
+  has_many :external_profiles, through: :app_users
   has_many :bot_tasks, dependent: :destroy
   has_many :visits, through: :app_users, dependent: :destroy
   has_many :quick_replies, dependent: :destroy
@@ -65,7 +67,7 @@ class App < ApplicationRecord
   has_many :assignment_rules, dependent: :destroy
   has_many :outgoing_webhooks, dependent: :destroy
   has_many :oauth_applications, class_name: 'Doorkeeper::Application', as: :owner, dependent: :destroy
-  belongs_to :owner, class_name: "Agent", optional: true #, foreign_key: "owner_id"
+  belongs_to :owner, class_name: 'Agent', optional: true # , foreign_key: "owner_id"
 
   has_one_attached :logo
 
@@ -82,9 +84,11 @@ class App < ApplicationRecord
   end
 
   def attach_default_packages
-    default_packages = %w[ContentShowcase ArticleSearch Qualifier]
+    default_packages = %w[ContentShowcase ArticleSearch Qualifier InboxSections]
     AppPackage.where(name: default_packages).each do |app_package|
-      self.app_packages << app_package
+      app_packages << app_package unless app_package_integrations.exists?(
+        app_package_id: app_package.id 
+      )
     end
   end
 
@@ -149,7 +153,7 @@ class App < ApplicationRecord
         hint: 'messenger text on botton',
         grid: { xs: 'w-full', sm: 'w-full' } },
 
-      { name: 'timezone', 
+      { name: 'timezone',
         type: 'timezone',
         options: ActiveSupport::TimeZone.all.map { |o| o.tzinfo.name },
         multiple: false,
@@ -163,9 +167,11 @@ class App < ApplicationRecord
 
     next_id = DummyName::Name.new
 
-    attrs.merge!(
-      name: "visitor #{next_id}"
-    ) unless attrs.dig(:properties, :name).present?
+    unless attrs.dig(:properties, :name).present?
+      attrs.merge!(
+        name: "visitor #{next_id}"
+      )
+    end
 
     ap = app_users.visitors.find_or_initialize_by(session_id: session_id)
     # ap.type = "Visitor"
@@ -183,9 +189,7 @@ class App < ApplicationRecord
     ap = app_users.find_or_initialize_by(email: email)
     data = attrs.deep_merge!(properties: ap.properties)
     ap.assign_attributes(data)
-    if attrs[:last_visited_at].present?
-      ap.last_visited_at = attrs[:last_visited_at]
-    end
+    ap.last_visited_at = attrs[:last_visited_at] if attrs[:last_visited_at].present?
     ap.subscribe! unless ap.subscribed?
     ap.type = 'AppUser'
     ap.save
@@ -227,8 +231,8 @@ class App < ApplicationRecord
       {
         email: attrs[:email],
         password: attrs[:password]
-      }, 
-      bot: nil, 
+      },
+      bot: nil,
       role_attrs: { access_list: ['manage'] }
     )
   end
@@ -310,15 +314,14 @@ class App < ApplicationRecord
     nil
   end
 
-
   def logo_url
     return '' unless logo_blob.present?
 
     url = begin
-            logo.variant(resize_to_limit: [100, 100]).processed
-          rescue StandardError
-            nil
-          end
+      logo.variant(resize_to_limit: [100, 100]).processed
+    rescue StandardError
+      nil
+    end
     return nil if url.blank?
 
     begin
@@ -332,11 +335,33 @@ class App < ApplicationRecord
   end
 
   def searcheable_fields
-    (self.custom_fields || []) + AppUser::ENABLED_SEARCH_FIELDS
+    (custom_fields || []) + AppUser::ENABLED_SEARCH_FIELDS
   end
 
   def searcheable_fields_list
-    searcheable_fields.map{ |o| o["name"] }
+    searcheable_fields.map { |o| o['name'] }
+  end
+
+  def default_home_apps
+    pkg_id = app_package_integrations
+    .joins(:app_package)
+    .where(
+      "app_packages.name": 'InboxSections'
+    ).first.id rescue nil
+
+    pkg_id.present? ? [
+      {"hooKind"=>"initialize", 
+        "definitions"=>[{"type"=>"content"}], 
+        "values"=>{"block_type"=>"user-blocks"}, 
+        "id"=> pkg_id, 
+        "name"=>"InboxSections"
+      }, 
+      {"hooKind"=>"initialize", 
+        "definitions"=>[{"type"=>"content"}], 
+        "values"=>{"block_type"=>"user-properties-block"}, 
+        "id"=> pkg_id, 
+        "name"=>"InboxSections"
+    }] : []
   end
 
   private
@@ -371,5 +396,4 @@ class App < ApplicationRecord
     end
     h
   end
-
 end

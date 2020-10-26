@@ -14,9 +14,7 @@ module Mutations
         # TODO: set specific permitted fields!
         settings.permit!
 
-        if app.article_settings.present?
-          settings.merge!(id: app.article_settings.id)
-        end
+        settings.merge!(id: app.article_settings.id) if app.article_settings.present?
 
         article_settings = app.article_settings.present? ? app.article_settings : app.build_article_settings
         article_settings.update(settings)

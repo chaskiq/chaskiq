@@ -39,9 +39,8 @@ class Api::GraphqlController < ApiController
   rescue ActiveRecord::RecordInvalid => e
     error_messages = e.record.errors.full_messages.join("\n")
     json_error e.record
-
   rescue OriginValidator::NonAcceptedOrigin => e
-    #GraphQL::ExecutionError.new e.message
+    # GraphQL::ExecutionError.new e.message
 
     render json: {
       errors: [{
@@ -70,9 +69,7 @@ class Api::GraphqlController < ApiController
   end
 
   def set_host_for_local_storage
-    if Rails.application.config.active_storage.service == :local
-      ActiveStorage::Current.host = request.base_url
-    end
+    ActiveStorage::Current.host = request.base_url if Rails.application.config.active_storage.service == :local
   end
 
   # Handle form data, JSON body, or a blank value
@@ -97,12 +94,12 @@ class Api::GraphqlController < ApiController
     logger.error e.message
     logger.error e.backtrace.join("\n")
 
-    render json: { 
-      error: { 
-        message: e.message, 
+    render json: {
+      error: {
+        message: e.message,
         backtrace: Rails.env.production? ? nil : e.backtrace.join("\n")
-      }, 
-      data: {} 
+      },
+      data: {}
     }, status: 500
   end
 end

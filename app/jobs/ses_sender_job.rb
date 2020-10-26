@@ -6,6 +6,7 @@ class SesSenderJob < ApplicationJob
   # send to ses
   def perform(campaign, subscription)
     return if subscription.blank? || subscription.unsubscribed?
+
     mailer     = campaign.prepare_mail_to(subscription)
     response   = mailer.deliver_now
   end

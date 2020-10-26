@@ -822,7 +822,7 @@ class AppPackageBlock extends Component {
               isHidden={this.isHidden()}>
               {
                 this.props.message.message.blocks.type === 'app_package' &&
-                <DefinitionRenderer 
+                <DefinitionRenderer
                   schema={this.state.schema}
                   updatePackage={
                     (data, cb)=> this.sendAppPackageSubmit(data , cb )

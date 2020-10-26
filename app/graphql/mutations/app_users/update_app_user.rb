@@ -12,11 +12,11 @@ module Mutations
         app = current_user.apps.find_by(key: app_key)
 
         permitted_options = options.permit(
-          ["name", "email", "first_name", "last_name", "company"]
+          %w[name email first_name last_name company]
         )
 
         app_user = app.app_users.find(id)
-        app_user.update(permitted_options) 
+        app_user.update(permitted_options)
         { app_user: app_user }
       end
 

@@ -225,8 +225,7 @@ RSpec.describe PluginSchemaValidator do
           "type": "data-table",
           "items": [
             {
-              "type": "field-value",
-              "field": "Key"
+              "type": "field-value"
             }
           ]
         }

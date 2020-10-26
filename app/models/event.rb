@@ -7,8 +7,8 @@ class Event < ApplicationRecord
     { identifier: :email_changed, name: 'email_changed' },
     { identifier: :visitors_convert, name: 'visitors.convert' },
     { identifier: :leads_convert, name: 'leads.convert' },
-    { identifier: :conversation_assigned, name: 'conversations.assigned'},
-    { identifier: :conversation_started, name: 'conversations.started'},
+    { identifier: :conversation_assigned, name: 'conversations.assigned' },
+    { identifier: :conversation_started, name: 'conversations.started' },
     { identifier: :conversation_opened, name: 'conversations.added' },
     { identifier: :conversation_closed, name: 'conversations.closed' },
     { identifier: :conversation_reopened, name: 'conversations.reopened' },
@@ -28,30 +28,30 @@ class Event < ApplicationRecord
   after_commit :trigger_webhooks, on: :create
 
   def trigger_webhooks
+    OutgoingWebhookJob.perform_later(event_id: id)
 
-    OutgoingWebhookJob.perform_later(event_id: self.id)
+    # puts "EL EVENT: #{action}"
 
-    #puts "EL EVENT: #{action}"
-  
     action_event = 'Events::' + action.gsub('.', '_').classify
     klass = begin
-              action_event.constantize
-            rescue StandardError
-              nil
-            end
+      action_event.constantize
+    rescue StandardError
+      nil
+    end
 
     if klass.blank?
-      #puts "no trigger hook for #{action}"
+      # puts "no trigger hook for #{action}"
       return
     end
 
-    #puts "trigger hook on #{action}"
+    # puts "trigger hook on #{action}"
     klass.perform(self)
   end
 
   def self.action_for(name)
     ev = self::EVENT_CONSTANTS.find { |o| o[:identifier] == name }.try(:[], :name)
     raise "event \"#{name}\" constant missing" if ev.blank?
+
     ev
   end
 end
