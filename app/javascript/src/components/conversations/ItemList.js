@@ -117,6 +117,7 @@ export default function ConversationItemList ({ app, conversation }) {
             }
 
             <span
+              className="truncate"
               dangerouslySetInnerHTML={{
                 __html: renderConversationContent(conversation)
               }}
