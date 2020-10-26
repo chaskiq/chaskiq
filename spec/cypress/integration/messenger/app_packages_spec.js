@@ -18,7 +18,7 @@ function addAppPackage (app_package) {
 
   cy.appEval(`
     require 'app_packages_catalog'
-    AppPackagesCatalog.update_all 
+    AppPackagesCatalog.update_all(dev_packages: true)
   `)
 
   cy.appEval(`

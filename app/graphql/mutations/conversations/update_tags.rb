@@ -18,9 +18,9 @@ module Mutations
 
         @conversation.save
 
-        { 
+        {
           conversation: @conversation,
-          errors: @conversation.errors 
+          errors: @conversation.errors
         }
       end
 

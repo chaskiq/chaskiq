@@ -24,9 +24,9 @@ class FetchLinkCardService < BaseService
     return if res.code != 200 || res.mime_type != 'text/html'
 
     if o = attempt_oembed(card, url)
-      return o
+      o
     else
-      return attempt_opengraph(card, url)
+      attempt_opengraph(card, url)
     end
   end
 
@@ -52,7 +52,7 @@ class FetchLinkCardService < BaseService
       links = html.css('a')
       urls  = links.map do |a|
         Addressable::URI.parse(a['href']).normalize unless skip_link?(a)
-      end .compact
+      end.compact
     end
     urls.first
   end
@@ -76,10 +76,10 @@ class FetchLinkCardService < BaseService
 
     if response.respond_to?(:thumbnail_url)
       image = begin
-                download_image(URI.parse(response.thumbnail_url))
-              rescue StandardError
-                nil
-              end
+        download_image(URI.parse(response.thumbnail_url))
+      rescue StandardError
+        nil
+      end
       card.image.attach(image) if image.present?
     end
     # card.url    = response.url
@@ -106,10 +106,10 @@ class FetchLinkCardService < BaseService
 
     if meta_property(page, 'og:image')
       image = begin
-                download_image(meta_property(page, 'og:image'))
-              rescue StandardError
-                nil
-              end
+        download_image(meta_property(page, 'og:image'))
+      rescue StandardError
+        nil
+      end
       card.image.attach(image) if image.present?
     end
 

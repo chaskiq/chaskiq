@@ -3,7 +3,6 @@
 class BotTask < ApplicationRecord
   self.inheritance_column = nil
 
-
   acts_as_list scope: %i[app_id]
 
   belongs_to :app
@@ -52,14 +51,12 @@ class BotTask < ApplicationRecord
 
   # consumed
   def available_for_user?(user)
-
     comparator = SegmentComparator.new(
-      user: user, 
+      user: user,
       predicates: segments
     )
 
-    comparator.compare #&& metrics.where(app_user_id: user.id).blank?
-    
+    comparator.compare # && metrics.where(app_user_id: user.id).blank?
   rescue ActiveRecord::RecordNotFound
     false
   end
@@ -69,7 +66,6 @@ class BotTask < ApplicationRecord
     key = "#{app.key}-#{user.session_id}"
     ret = nil
     app.bot_tasks.availables_for(user).each do |bot_task|
-
       next if bot_task.blank? || !bot_task.available_for_user?(user)
 
       MessengerEventsChannel.broadcast_to(key, {
@@ -88,16 +84,14 @@ class BotTask < ApplicationRecord
       ret = true
 
       break
-
     end
 
     ret
-
   end
 
   def register_metric(user, data:, options:)
-    label  = data['label']
-    
+    label = data['label']
+
     user.metrics.create(
       trackable: self,
       action: "bot_tasks.actions.#{label}",
@@ -141,20 +135,23 @@ class BotTask < ApplicationRecord
       value: 'Lead'
     }.with_indifferent_access
 
-    type == 'leads' ? 
-    [default_predicate, lead_predicate] : 
-    [default_predicate, user_predicate]
+    if type == 'leads'
+      [default_predicate, lead_predicate]
+    else
+      [default_predicate, user_predicate]
+    end
   end
 
   def stats_fields
     [
-      { 
-        name: 'DeliverRateCount', 
-        label: 'DeliverRateCount', 
+      {
+        name: 'DeliverRateCount',
+        label: 'DeliverRateCount',
         keys: [
-          { name: 'send', color: '#444' }, 
-          { name: 'open', color: '#ccc' }] 
-        }
+          { name: 'send', color: '#444' },
+          { name: 'open', color: '#ccc' }
+        ]
+      }
     ]
   end
 end

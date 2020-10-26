@@ -39,11 +39,17 @@ module Types
     field :tag_list, [Types::JsonType], null: true
     field :user_home_apps, [Types::JsonType], null: true
     field :home_apps, [Types::JsonType], null: true
+    field :inbox_apps, [Types::JsonType], null: true
     field :visitor_home_apps, [Types::JsonType], null: true
     field :plans, [Types::JsonType], null: true
 
+    def inbox_apps
+      object.inbox_apps.blank? ? object.default_home_apps : object.inbox_apps
+    end
+
     def home_apps
       return object.visitor_home_apps if current_user.is_a?(Visitor)
+
       object.user_home_apps
     end
 
@@ -79,7 +85,7 @@ module Types
     def update_subscription_plan(plan_id:)
       PaymentServices::Paddle.new.update_subscription(
         object.paddle_subscription_id,
-        plan_id: plan_id, 
+        plan_id: plan_id,
         passthrough: object.key
       )
     end
@@ -87,7 +93,7 @@ module Types
     field :subscriptions_enabled, Boolean, null: true
     def subscriptions_enabled
       ENV['PADDLE_PUBLIC_KEY'].present? || ENV['PADDLE_VENDOR_ID'].present? ||
-      ENV['PADDLE_SECRET_TOKEN'].present?
+        ENV['PADDLE_SECRET_TOKEN'].present?
     end
 
     def tag_list
@@ -108,52 +114,51 @@ module Types
     def event_types
       Event::EVENT_CONSTANTS
     end
-    
+
     def editor_app_packages
       authorize! object, to: :show?, with: AppPolicy
-      object.app_packages.tagged_with("editor")
-      .joins(:app_package_integrations)
-      .where("app_package_integrations.id is not null").uniq
+      object.app_packages.tagged_with('editor')
+            .joins(:app_package_integrations)
+            .where('app_package_integrations.id is not null').uniq
     end
 
     field :app_package, Types::AppPackageIntegrationType, null: true do
-      argument :id, String, required: true, default_value: ""
+      argument :id, String, required: true, default_value: ''
     end
 
     def app_package(id:)
-      #object.app_package_integrations.find(id)
+      # object.app_package_integrations.find(id)
       # object.app_packages.find_by(name: id)
       object.app_package_integrations
-      .joins(:app_package)
-      .find_by("app_packages.name": id)
+            .joins(:app_package)
+            .find_by("app_packages.name": id)
     end
 
-
     field :agent_app_package, Types::AppPackageType, null: true do
-      argument :id, String, required: true, default_value: ""
+      argument :id, String, required: true, default_value: ''
     end
 
     def agent_app_package(id:)
-      #object.app_package_integrations.find(id)
+      # object.app_package_integrations.find(id)
       # object.app_packages.find_by(name: id)
       current_user.app_packages.find(id)
     end
-    
 
     field :app_packages_capabilities, [Types::AppPackageIntegrationType], null: true do
-      argument :kind, String, required: true, default_value: ""
+      argument :kind, String, required: true, default_value: ''
     end
 
-    def app_packages_capabilities(kind: )
-      raise "not in type" unless ["home", "conversations", "bots"].include?(kind)
+    def app_packages_capabilities(kind:)
+      raise 'not in type' unless %w[home conversations bots inbox].include?(kind)
+
       authorize! object, to: :show?, with: AppPolicy
 
       object.app_package_integrations.where(
-        app_package_id: object.app_packages.tagged_with(kind, on: 'capabilities') 
+        app_package_id: object.app_packages.tagged_with(kind, on: 'capabilities')
       )
-      #object.app_packages.tagged_with(kind, on: 'capabilities')
-      #.joins(:app_package_integrations)
-      #.where("app_package_integrations.id is not null").uniq
+      # object.app_packages.tagged_with(kind, on: 'capabilities')
+      # .joins(:app_package_integrations)
+      # .where("app_package_integrations.id is not null").uniq
     end
 
     def gather_social_data
@@ -181,8 +186,11 @@ module Types
     def app_packages
       authorize! object, to: :manage?, with: AppPolicy
       integrations = object.app_package_integrations.map(&:app_package_id)
-      integrations.any? ? 
-      AppPackage.where.not("id in(?)", integrations) : AppPackage.all
+      if integrations.any?
+        AppPackage.where.not('id in(?)', integrations)
+      else
+        AppPackage.all
+      end
     end
 
     def agent_app_packages
@@ -207,8 +215,11 @@ module Types
     field :tasks_settings, Types::JsonType, null: true
 
     def tasks_settings
-      context[:get_app_user].call.is_a?(AppUser) ?
-      object.user_tasks_settings : object.lead_tasks_settings
+      if context[:get_app_user].call.is_a?(AppUser)
+        object.user_tasks_settings
+      else
+        object.lead_tasks_settings
+      end
     end
 
     def available_languages
@@ -233,10 +244,10 @@ module Types
                           .distinct
 
       @collection = @collection.where(state: filter) if filter.present?
-      
+
       if agent_id.present?
         agent = agent_id.zero? ? nil : agent_id
-        @collection = @collection.where(assignee_id: agent) 
+        @collection = @collection.where(assignee_id: agent)
       end
 
       @collection = @collection.page(page).per(per)
@@ -248,9 +259,9 @@ module Types
             when 'priority-first' then 'priority asc, updated_at desc'
             else
               'id desc'
-        end
+            end
 
-        if sort != "unfiltered" #&& agent_id.blank?
+        if sort != 'unfiltered' # && agent_id.blank?
           @collection = @collection.where
                                    .not(latest_user_visible_comment_at: nil)
         end
@@ -268,16 +279,16 @@ module Types
     def conversations_counts
       result = object.conversations.group('assignee_id').count.dup
       result.merge({
-        all: object.conversations.size
-      })
+                     all: object.conversations.size
+                   })
     end
 
     field :conversations_tag_counts, Types::JsonType, null: true
 
     def conversations_tag_counts
-      object.conversations.tag_counts.map{|o| 
-        { tag: o.name, count: o.taggings_count } 
-      }
+      object.conversations.tag_counts.map do |o|
+        { tag: o.name, count: o.taggings_count }
+      end
     end
 
     field :in_business_hours, Boolean, null: true
@@ -316,9 +327,7 @@ module Types
 
     def campaigns(mode:)
       authorize! object, to: :show?, with: AppPolicy
-      if %w[campaigns user_auto_messages tours].include?(mode)
-        collection = object.send(mode)
-      end
+      collection = object.send(mode) if %w[campaigns user_auto_messages tours].include?(mode)
       collection.page(1).per(20)
     end
 
@@ -329,9 +338,7 @@ module Types
 
     def campaign(mode:, id:)
       authorize! object, to: :show?, with: AppPolicy
-      if %w[campaigns user_auto_messages tours].include?(mode)
-        collection = object.send(mode)
-      end
+      collection = object.send(mode) if %w[campaigns user_auto_messages tours].include?(mode)
       collection.find(id)
     end
 
@@ -391,7 +398,7 @@ module Types
       object.assignment_rules.order('priority asc')
     end
 
-    field :quick_replies, [Types::QuickReplyType], null: true do 
+    field :quick_replies, [Types::QuickReplyType], null: true do
       argument :lang, String, required: false, default_value: I18n.default_locale
       argument :q, String, required: false, default_value: nil
     end
@@ -399,9 +406,11 @@ module Types
     def quick_replies(lang:, q:)
       I18n.locale = lang
       authorize! object, to: :show?, with: AppPolicy
-      return object.quick_replies.
-      ransack(title_cont: q).
-      result(distinct: true) if q.present?
+      if q.present?
+        return object.quick_replies
+                     .ransack(title_cont: q)
+                     .result(distinct: true)
+      end
 
       object.quick_replies
     end
@@ -431,7 +440,7 @@ module Types
       argument :search, String, required: false, default_value: nil
     end
 
-    def articles(page:, per:, lang:, mode:, search: )
+    def articles(page:, per:, lang:, mode:, search:)
       authorize! object, to: :show?, with: AppPolicy
       I18n.locale = lang
       if mode == 'all'
@@ -442,9 +451,7 @@ module Types
         articles = object.articles.draft
       end
 
-      if (search.present?) 
-        articles = object.articles.search(search)
-      end
+      articles = object.articles.search(search) if search.present?
 
       articles.page(page).per(per)
     end
@@ -518,7 +525,6 @@ module Types
     end
 
     def dashboard(range:, kind:)
-
       authorize! object, to: :show?, with: AppPolicy
 
       whitelist = %w[
@@ -536,9 +542,7 @@ module Types
         resolution_avg
         app_packages
       ]
-      unless whitelist.include?(kind)
-        raise 'no dashboard available at this address'
-      end
+      raise 'no dashboard available at this address' unless whitelist.include?(kind)
 
       Dashboard.new(
         app: object,
@@ -555,26 +559,26 @@ module Types
     field :logo_large, String, null: true
 
     def logo
-      default_logo = "https://via.placeholder.com/100x100/000000/FFFFFF/?text=Logo"
+      default_logo = 'https://via.placeholder.com/100x100/000000/FFFFFF/?text=Logo'
       return default_logo unless object.logo_blob.present?
-  
+
       url = begin
-              object.logo.variant(resize_to_limit: [100, 100]).processed
-            rescue StandardError
-              nil
-            end
+        object.logo.variant(resize_to_limit: [100, 100]).processed
+      rescue StandardError
+        nil
+      end
       return nil if url.blank?
-  
+
       begin
         Rails.application.routes.url_helpers.rails_representation_url(
-          url #,
-          #only_path: true
+          url # ,
+          # only_path: true
         )
       rescue StandardError
         nil
       end
     end
-  
+
     def logo_large
       options = {
         resize: '1280x600^',
@@ -583,9 +587,9 @@ module Types
         strip: true,
         quality: '86'
       }
-  
+
       return '' unless object.logo_blob.present?
-  
+
       Rails.application.routes.url_helpers.rails_representation_url(
         object.logo.variant(options).processed,
         only_path: true
@@ -613,6 +617,5 @@ module Types
       authorize! object, to: :manage?, with: AppPolicy
       object.oauth_applications.authorized_for(current_user)
     end
-
   end
 end

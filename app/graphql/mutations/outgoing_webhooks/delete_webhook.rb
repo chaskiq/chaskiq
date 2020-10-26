@@ -1,6 +1,5 @@
 module Mutations
   class OutgoingWebhooks::DeleteWebhook < Mutations::BaseMutation
-
     field :webhook, Types::JsonType, null: false
     field :errors, Types::JsonType, null: true
 
