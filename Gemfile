@@ -45,7 +45,7 @@ gem 'nightfury', github: 'michelson/nightfury' # "~> 1.0"
 
 gem 'graphiql-rails', group: :development
 gem 'graphql'
-gem "action_policy-graphql", "~> 0.3"
+gem "action_policy-graphql", "~> 0.4"
 gem 'batch-loader'
 
 # Use Capistrano for deployment

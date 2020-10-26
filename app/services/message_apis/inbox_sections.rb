@@ -279,26 +279,30 @@ module MessageApis
               width: 64,
               align: "center",
               rounded: true
-            },
-
-            {
-              type: 'text',
-              text: user.email,
-              style: 'muted',
-              align: 'center'
-            },
-            {
-              id: 'visit-user-profile',
-              label: 'visit',
-              type: 'button',
-              variant: 'link',
-              align: 'right',
-              action: {
-                type: 'link',
-                url: "/apps/#{conversation.app.key}/users/#{user.id}"
-              }
             }
           ]
+
+          definitions << {
+            type: 'text',
+            text: user.email,
+            style: 'muted',
+            align: 'center'
+          } if user.email.present?
+
+          
+          definitions << {
+            id: 'visit-user-profile',
+            label: 'visit',
+            type: 'button',
+            variant: 'link',
+            align: 'right',
+            action: {
+              type: 'link',
+              url: "/apps/#{conversation.app.key}/users/#{user.id}"
+            }
+          }
+
+          definitions
         end
 
         if ctx.dig(:values, :block_type) == "conversation-events"
