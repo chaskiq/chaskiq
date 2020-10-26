@@ -237,12 +237,11 @@ class AppUser < ApplicationRecord
   end
 
   def avatar_url
-    return "https://ui-avatars.com/api/?name=#{id}?" if email.blank?
-
+    ui_avatar_url = "https://ui-avatars.com/api/#{URI.encode_www_form_component(display_name)}/128"
+    return "#{ui_avatar_url}/f5f5dc/888/4" if email.blank?
     email_address = email.downcase
     hash = Digest::MD5.hexdigest(email_address)
-    d = "https://ui-avatars.com/api/#{URI.encode_www_form_component(display_name)}/128"
-    image_src = "https://www.gravatar.com/avatar/#{hash}?d=#{d}"
+    image_src = "https://www.gravatar.com/avatar/#{hash}?d=#{ui_avatar_url}/7fffd4"
   end
 
   def kind
