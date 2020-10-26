@@ -86,7 +86,9 @@ class App < ApplicationRecord
   def attach_default_packages
     default_packages = %w[ContentShowcase ArticleSearch Qualifier InboxSections]
     AppPackage.where(name: default_packages).each do |app_package|
-      app_packages << app_package
+      app_packages << app_package unless app_package_integrations.exists?(
+        app_package_id: app_package.id 
+      )
     end
   end
 
