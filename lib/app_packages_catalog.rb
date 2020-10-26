@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class AppPackagesCatalog
-  def self.packages
+  def self.packages(dev_packages: false)
     development_packages = [
       {
         name: "UiCatalog",
@@ -369,7 +369,7 @@ class AppPackagesCatalog
 
     ]
 
-    collection = development_packages #+ collection unless Rails.env.production?
+    collection = development_packages + collection if dev_packages
     collection
   end
 
@@ -383,8 +383,8 @@ class AppPackagesCatalog
     pkg.update(data) unless pkg.blank?
   end
 
-  def self.update_all
-    packages.each do |pkg|
+  def self.update_all(dev_packages: false)
+    packages( dev_packages: dev_packages ).each do |pkg|
       package = AppPackage.find_or_create_by(name: pkg[:name])
       package.update(pkg)
     end
