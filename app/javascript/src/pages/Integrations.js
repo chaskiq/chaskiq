@@ -674,7 +674,8 @@ function MyAppPackages ({ app, dispatch, handleOpen }) {
           { integrations.map((service) => (
             <ListItem
               key={`my-apps-${service.id}`}
-              onClick={ () => getAppPackage({ id: service.id }) }>
+              // onClick={ () => getAppPackage({ id: service.id }) }
+              >
               <ListItemText
                 primary={
                   <ItemListPrimaryContent variant="h5">
@@ -734,6 +735,7 @@ function MyAppPackages ({ app, dispatch, handleOpen }) {
 
                           <Button
                             // onClick={() => handleOpen(service)}
+                            onClick={ () => getAppPackage({ id: service.id }) }
                             aria-label="add"
                             variant="icon"
                             className="mr-2"
@@ -813,7 +815,8 @@ function AppPackageForm ({ app, open, dispatch, onCancel, integration }) {
   const capabilitiesTypes = [
     { label: 'Home', value: 'home' },
     { label: 'Conversations', value: 'conversations' },
-    { label: 'Bots', value: 'bots' }
+    { label: 'Bots', value: 'bots' },
+    { label: 'Inbox detail', value: 'inbox' }
   ]
 
   function integrationDefinitions () {
