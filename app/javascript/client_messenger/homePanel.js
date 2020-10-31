@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import styled from '@emotion/styled'
+import tw from 'twin.macro'
 import {
   AnchorButton,
   FadeRightAnimation,
@@ -13,10 +14,6 @@ import Loader from './loader'
 import { DefinitionRenderer } from '../src/components/packageBlocks/components'
 
 // import graphql from './graphql/client'
-import {
-  ARTICLES,
-  SEARCH_ARTICLES
-} from './graphql/queries'
 
 import { lighten } from 'polished'
 
@@ -36,7 +33,8 @@ const HomePanel = ({
   getConversations,
   lang,
   newMessages,
-  getPackage
+  getPackage,
+  homeHeaderRef
 }) => {
   const [loading, setLoading] = useState(false)
 
@@ -46,15 +44,15 @@ const HomePanel = ({
 
   const textInput = React.createRef()
 
-  useEffect(() => (
+  useEffect(() => {
     updateHeader(
       {
-        translateY: -25,
+        translateY: -8,
         opacity: 1,
-        height: '212px'
+        height: homeHeaderRef.current.offsetHeight
       }
     )
-  ), [])
+  }, [])
 
   useEffect(() => {
     // if(!appData.inboundSettings.enabled )
@@ -68,15 +66,13 @@ const HomePanel = ({
   const handleScroll = (e) => {
     window.a = e.target
     const target = e.target
-    const val = 1 - normalize(target.scrollTop, target.offsetHeight, 0)
-    const pge = percentage(target.scrollTop, target.offsetHeight)
-    // console.log(val)
-    const opacity = val === 1 ? val : val * 0.3
-
+    const opacity = 1 - normalize(target.scrollTop, target.offsetHeight * 0.26, 0)
+    const pge = percentage(target.scrollTop, target.offsetHeight * 0.7)
+    //console.log("AAAA", val)
     updateHeader({
-      translateY: -pge - 25,
+      translateY: -pge - 8,
       opacity: opacity,
-      height: '212px'
+      height: homeHeaderRef.current.offsetHeight
     })
   }
 
@@ -176,13 +172,24 @@ const HomePanel = ({
     </CardContent>
   }
 
+  function offsetHeight (){
+    if(!homeHeaderRef.current) return 0
+    return homeHeaderRef.current.offsetHeight - 35
+  }
+
   return (
+
+    
 
     <Panel onScroll={handleScroll}>
 
       {
         appData.inboundSettings.enabled &&
-        <ConversationInitiator in={transition}>
+        <ConversationInitiator
+          style={{
+            marginTop: offsetHeight()
+          }}
+          in={transition}>
 
           <CardPadder>
             <h2>{t('start_conversation')}</h2>
@@ -249,8 +256,8 @@ const HomePanel = ({
                 href="#" onClick={viewConversations}>
                 {t('see_previous')}
               </a>
-     
-              </CardButtonsGroup>
+
+            </CardButtonsGroup>
             {renderLastConversation()}
           </ConversationsBlock>
       }
@@ -285,7 +292,6 @@ function AppPackageRenderer ({
 
   function updatePackage (packageParams, cb) {
     if (packageParams.field.action.type === 'frame') {
-
       return displayAppBlockFrame({
         message: {},
         data: {
@@ -320,22 +326,23 @@ function AppPackageRenderer ({
   }
 
   return <Card in={transition} key={`definition-${pkg.id}`}>
-          <DefinitionRenderer
-            schema={definitions}
-            updatePackage={updatePackage}
-          />
-        </Card>
+    <DefinitionRenderer
+      schema={definitions}
+      updatePackage={updatePackage}
+    />
+  </Card>
 }
 
 const Panel = styled.div`
   position: fixed;
-  top: 34px;
+  //top: 34px;
+  top: 0px;
   bottom: 0px;
   left: 0px;
   right: 0px;
   overflow: scroll;
   width: 100%;
-  height: 90%;
+  height: 94%;
   z-index: 1000;
 `
 
@@ -422,13 +429,13 @@ const Card = styled.div`
   box-shadow: 0 4px 15px 0 rgba(0,0,0,.1), 0 1px 2px 0 rgba(0,0,0,.1), inset 0 2px 0 0 ${(props) => { lighten(0.1, props.theme.palette.secondary) }};
 
   margin: 1em;
-  ${(props)=> props.padding ? 'padding: 2em;' : ''}
+  ${(props) => props.padding ? 'padding: 2em;' : ''}
 
   ${(props) => FadeRightAnimation(props)}
 `
 
 const ConversationInitiator = styled(Card)`
-  margin-top: 10em;
+  //margin-top: 10em;
   padding: 0;
   h2{
     font-size: 1.2em;
@@ -439,6 +446,8 @@ const ConversationInitiator = styled(Card)`
 
 const CardPadder = styled.div`
   padding: 2em;
+  ${() => tw`space-y-2` }
+
 `
 
 const ConversationsBlock = styled(Card)`
