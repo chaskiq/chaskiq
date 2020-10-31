@@ -14,6 +14,7 @@ import CircularProgress from "../components/Progress";
 import { errorMessage, successMessage } from "../actions/status_messages";
 import Hints from "../shared/Hints";
 
+import DeleteDialog from '../components/DeleteDialog'
 import { AnchorLink } from "../shared/RouterLink";
 
 import { LinkButton, LinkIconButton } from "../shared/RouterLink";
