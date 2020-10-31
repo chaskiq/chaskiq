@@ -1010,13 +1010,17 @@ export const HeaderOption = styled.div`
 `
 
 export const HeaderTitle = styled.span`
+  ${ () => tw`space-y-2`}
   .title{
-    margin: 0em 0.2em;
+    //font-size: 2em;
+    //font-weight: bold;
+    //margin: 0em 0.2em;
+    ${ () => tw`text-3xl antialiased font-bold`}
   }
   p.tagline{
-    margin: 0.6em 0.3em;
-    font-size: 0.9em;
-    line-height: 1.6em;
+    //margin: 0.6em 0.3em;
+    //line-height: 1.6em;
+    ${ () => tw`text-sm antialiased font-light mb-3`}
   }
   /*${(props) => FadeRightAnimation(props)}*/
 `
