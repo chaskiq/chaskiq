@@ -78,6 +78,8 @@ class Messenger extends Component {
     // set language from user auth lang props 
     i18n.changeLanguage(this.props.lang);
 
+    this.homeHeaderRef = React.createRef();
+
     this.state = {
       visible: true,
       enabled: null,
@@ -1173,7 +1175,9 @@ class Messenger extends Component {
                                 }
 
                                 { this.state.display_mode === "home" &&
-                                  <HeaderTitle style={{
+                                  <HeaderTitle 
+                                  ref={ this.homeHeaderRef }
+                                  style={{
                                     padding: '2em',
                                     opacity: this.state.header.opacity,
                                     transform: `translateY(${this.state.header.translateY}px)`
@@ -1210,6 +1214,7 @@ class Messenger extends Component {
                                 this.state.display_mode === "home" &&
                                 <React.Fragment> 
                                   <Home 
+                                    homeHeaderRef={this.homeHeaderRef}
                                     newMessages={this.state.new_messages}
                                     graphqlClient={this.graphqlClient}
                                     displayNewConversation={this.displayNewConversation}
