@@ -36,7 +36,8 @@ import {
   ConversationEventContainer,
   InlineConversationWrapper,
   FooterAckInline,
-  DisabledElement
+  DisabledElement,
+  NewConvoBtnContainer
 } from './styles/styled'
 
 import {
@@ -133,11 +134,13 @@ export class Conversations extends Component {
 
           {
             this.props.app.inboundSettings.enabled &&
-            <NewConvoBtn
-              in={this.props.transition}
-              onClick={this.props.displayNewConversation}>
-              {t("create_new_conversation")}
-            </NewConvoBtn> 
+            <NewConvoBtnContainer>
+              <NewConvoBtn
+                in={this.props.transition}
+                onClick={this.props.displayNewConversation}>
+                {t("create_new_conversation")}
+              </NewConvoBtn>
+            </NewConvoBtnContainer>
           }
         </ConversationsFooter>
 

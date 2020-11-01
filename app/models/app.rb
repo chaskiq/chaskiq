@@ -283,13 +283,13 @@ class App < ApplicationRecord
     diff = a - time
     days = diff.to_f / (24 * 60 * 60)
     { at: a, diff: diff, days: days }
-  rescue Biz::Error::Configuration
+  rescue #Biz::Error::Configuration
     nil
   end
 
   def in_business_hours?(time)
     availability.in_hours?(time)
-  rescue Biz::Error::Configuration
+  rescue #Biz::Error::Configuration
     nil
   end
 
