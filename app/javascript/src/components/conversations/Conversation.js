@@ -479,7 +479,11 @@ function Conversation ({
     }
 
     const item = o.message.data
-    if (!item) return 'replied'
+    if (!item)
+      return <p className="text-sm leading-5 font-medium text-gray-500">
+        waiting for reply
+      </p>
+    //JSON.stringify(o.message.data)
 
     // if(!o.fromBot) return
 
