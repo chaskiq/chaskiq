@@ -30,6 +30,7 @@ const HomePanel = ({
   displayAppBlockFrame,
   displayConversation,
   conversations,
+  conversationsMeta,
   getConversations,
   lang,
   newMessages,
@@ -58,7 +59,7 @@ const HomePanel = ({
     // if(!appData.inboundSettings.enabled )
     setConversationLoading(true)
 
-    getConversations({ page: 1, per: 1 }, () => {
+    getConversations({ page: 1, per: 3 }, () => {
       setConversationLoading(false)
     })
   }, [])
@@ -169,6 +170,15 @@ const HomePanel = ({
           />
         })
       }
+
+      {
+        conversationsMeta.next_page &&
+          <CardFooterLinks>
+            <button onClick={viewConversations}>
+              {t('view_all_conversations')}
+            </button>
+          </CardFooterLinks>
+      }
     </CardContent>
   }
 
@@ -183,11 +193,27 @@ const HomePanel = ({
 
     <Panel onScroll={handleScroll}>
 
+
+
+
+      { conversations.length > 0 &&
+        <ConversationInitiator
+          style={{
+            marginTop: offsetHeight()
+          }}
+          in={transition}>
+          <CardPadder>
+            <h2>{t('continue_conversation')}</h2>
+          </CardPadder>
+          {renderLastConversation()}
+        </ConversationInitiator>
+      }
+
       {
         appData.inboundSettings.enabled &&
         <ConversationInitiator
           style={{
-            marginTop: offsetHeight()
+            marginTop: conversations.length > 0 ? 0 : offsetHeight()
           }}
           in={transition}>
 
@@ -232,10 +258,11 @@ const HomePanel = ({
 
           </CardPadder>
 
-          { conversations.length > 0 && <React.Fragment>
-            {renderLastConversation()}
-          </React.Fragment>
-          }
+          { /* conversations.length > 0 &&
+            <React.Fragment>
+             {renderLastConversation()}
+            </React.Fragment>
+          */ }
 
         </ConversationInitiator>
       }
@@ -440,14 +467,19 @@ const ConversationInitiator = styled(Card)`
   h2{
     font-size: 1.2em;
     font-weight: 500;
-    margin: .4em 0 0.4em 0em;
+    //margin: .4em 0 0.4em 0em;
   }
 `
 
 const CardPadder = styled.div`
-  padding: 2em;
-  ${() => tw`space-y-2` }
+  ${() => tw`space-y-2 p-5` }
+`
 
+const CardFooterLinks = styled.div`
+  ${() => tw`px-4 py-2` }
+  button {
+    ${() => tw`text-xs font-medium` }
+  }
 `
 
 const ConversationsBlock = styled(Card)`
