@@ -1227,6 +1227,7 @@ class Messenger extends Component {
                                     displayAppBlockFrame={this.displayAppBlockFrame}
                                     displayConversation={this.displayConversation}
                                     conversations={this.state.conversations}
+                                    conversationsMeta={this.state.conversationsMeta}
                                     getConversations={this.getConversations}
                                     getPackage={this.getPackage}
                                     {...this.props}

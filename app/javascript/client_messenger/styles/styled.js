@@ -278,9 +278,9 @@ export const UserAutoMessageStyledFrameDis = styled(({ isMinimized, ...rest }) =
 
 export const CloseButtonWrapper = styled.div`
   position: absolute;
-  right: 10px;
+  right: 21px;
   z-index: 30000;
-  top: 22px;
+  top: 29px;
   button {
     border: none;
     background: transparent;
@@ -1086,12 +1086,19 @@ export const AnchorButton = styled.a`
   align-items: center;
 `
 
+export const NewConvoBtnContainer = styled.div`
+position: absolute;
+bottom: 77px;
+width: 100%;
+padding: 0 37px;
+display:flex;
+justify-content: center;
+`
+// ${(props) => FadeBottomAnimation(props)}
+
+
 export const NewConvoBtn = styled(AnchorButton)`
-    position: absolute;
-    bottom: 77px;
-    left: 20%;
-    padding: 0 37px;
-    ${(props) => FadeBottomAnimation(props)}
+
 `
 
 export const ConversationSummary = styled.div`
@@ -1158,11 +1165,14 @@ export const Autor = styled.div`
 `
 
 export const Hint = styled.p`
-    padding: 29px;
+  /*  padding: 29px;
     color: rgb(136, 136, 136);
     background: #f9f9f9;
     margin: 0px;
-    height: 100%;
+    height: 100%;*/
+
+  ${ ()=> tw`text-sm leading-5 text-gray-500 h-full p-8 bg-gray-100` }
+
 `
 
 export const SpinnerAnim = keyframes`
