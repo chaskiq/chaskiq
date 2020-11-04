@@ -27,6 +27,8 @@ class FieldRenderer extends React.Component {
       errors,
       errorNamespace,
       handler,
+      accept,
+      id
     } = this.props;
     const errorName = snakeCase(
       `${errorNamespace ? errorNamespace : ""}${data.name}`
@@ -51,6 +53,8 @@ class FieldRenderer extends React.Component {
           type={type}
           placeholder={data.placeholder}
           options={data.options}
+          accept={accept}
+          id={id}
           fullWidth
           name={formatFieldName()}
           defaultValue={props.data[camelCasedName]}

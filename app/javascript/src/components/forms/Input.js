@@ -27,6 +27,7 @@ const WrappedComponent = React.forwardRef(function Input (
     disabled,
     handler,
     error,
+    id,
     ...props
   },
   ref
@@ -53,6 +54,7 @@ const WrappedComponent = React.forwardRef(function Input (
           onChange={props.onChange}
           placeholder={props.placeholder}
           ref={ref}
+          id={id}
           {...props}
         />
       </FormField>
@@ -132,7 +134,7 @@ const WrappedComponent = React.forwardRef(function Input (
           />
 
           <input
-            accept="image/*"
+            accept={ props.accept || 'image/*' }
             style={{ display: 'none' }}
             name={name}
             ref={ref}
@@ -164,7 +166,7 @@ const WrappedComponent = React.forwardRef(function Input (
         <input
           type="radio"
           className="form-radio h-4 w-4 text-indigo-600 transition duration-150 ease-in-out"
-          id={name}
+          id={ id || name}
           name={name}
           value={value}
           disabled={disabled}
@@ -252,23 +254,23 @@ const WrappedComponent = React.forwardRef(function Input (
     const defaultTZ = Intl.DateTimeFormat().resolvedOptions().timeZone
     const defaultData = defaultValue || defaultTZ
     return (
-      <FormField name={name} 
+      <FormField name={name}
         label={label}
         helperText={helperText}>
         <Select
           options={names}
           label={label}
-          defaultValue={ {label: defaultData, value: defaultData} }
+          defaultValue={ { label: defaultData, value: defaultData } }
           placeholder={'select timezone'}
           name={name}
           ref={ref}
         />
         {
           defaultTZ &&
-          <div className="text-gray-500 text-xs" 
-           dangerouslySetInnerHTML={
-              { __html: I18n.t('common.tz_hint', {timezone: defaultTZ }) }
-           }>
+          <div className="text-gray-500 text-xs"
+            dangerouslySetInnerHTML={
+              { __html: I18n.t('common.tz_hint', { timezone: defaultTZ }) }
+            }>
           </div>
         }
       </FormField>
@@ -283,7 +285,7 @@ const WrappedComponent = React.forwardRef(function Input (
         label={label}
         placeholder={props.placeholder}
         colorHandler={props.onChange}
-        //label={'Primary color'}
+        // label={'Primary color'}
         error={error}
       />
     )

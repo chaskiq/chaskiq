@@ -327,6 +327,7 @@ query AppUser($appKey: String!, $id: Int! ) {
       country
       lat
       lng
+      tagList
       postal
       webSessions
       timezone
