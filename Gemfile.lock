@@ -136,7 +136,7 @@ GEM
       msgpack (~> 1.0)
     brakeman (4.7.2)
     browser (2.6.1)
-    bugsnag (6.11.1)
+    bugsnag (6.18.0)
       concurrent-ruby (~> 1.0)
     builder (3.2.4)
     chronic (0.10.2)
@@ -536,7 +536,7 @@ DEPENDENCIES
   bootsnap (>= 1.1.0)
   brakeman
   browser (~> 2.5)
-  bugsnag (~> 6.11)
+  bugsnag
   chronic (~> 0.10.2)
   cypress-on-rails (~> 1.0)
   database_cleaner-active_record
