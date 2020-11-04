@@ -5,7 +5,7 @@ import DataTable from "../Table";
 import SegmentItemButton from "./itemButton";
 import { Map, List, fromJS } from "immutable";
 import Dropdown from "../Dropdown";
-import { ButtonIndigo } from "../Button";
+import Button, { ButtonIndigo } from "../Button";
 
 //import ClickAwayListener  from '@material-ui/core/ClickAwayListener'
 
@@ -170,21 +170,23 @@ export class SaveSegmentModal extends Component {
             }
             dialogButtons={
               <React.Fragment>
-                <button
-                  className="inline-flex justify-center w-full rounded-md border border-transparent px-4 py-2 bg-red-600 text-base leading-6 font-medium text-white shadow-sm hover:bg-red-500 focus:outline-none focus:border-red-700 focus:shadow-outline-red transition ease-in-out duration-150 sm:text-sm sm:leading-5"
+                <Button
+                  size="xs"
+                  //className="inline-flex justify-center w-full rounded-md border border-transparent px-4 py-2 bg-red-600 text-base leading-6 font-medium text-white shadow-sm hover:bg-red-500 focus:outline-none focus:border-red-700 focus:shadow-outline-red transition ease-in-out duration-150 sm:text-sm sm:leading-5"
                   onClick={this.secondaryAction.bind(this)}
                   color="primary"
                 >
                   {this.state.action === "update" ? "Save" : "Save New"}
-                </button>
+                </Button>
 
-                <button
+                <Button
+                  size="xs"
                   onClick={this.close}
-                  className="inline-flex justify-center w-full rounded-md border border-gray-300 px-4 py-2 bg-white text-base leading-6 font-medium text-gray-700 shadow-sm hover:text-gray-500 focus:outline-none focus:border-blue-300 focus:shadow-outline transition ease-in-out duration-150 sm:text-sm sm:leading-5"
+                  //className="inline-flex justify-center w-full rounded-md border border-gray-300 px-4 py-2 bg-white text-base leading-6 font-medium text-gray-700 shadow-sm hover:text-gray-500 focus:outline-none focus:border-blue-300 focus:shadow-outline transition ease-in-out duration-150 sm:text-sm sm:leading-5"
                   color="secondary"
                 >
                   Cancel
-                </button>
+                </Button>
               </React.Fragment>
             }
             //actions={actions}
@@ -216,23 +218,29 @@ export function InlineFilterDialog({addPredicate, app}) {
   const fields = availableFields();
 
   const content = (
-    <div className="p-2">
-      <h2 className="text-sm leading-5 font-medium text-gray-900">
-        Select fields:
-      </h2>
+    <div className="p-2--">
+
+      <div className="p-2">
+        <h2 className="text-sm leading-5 text-gray-900">
+          Select fields:
+        </h2>
+      </div>
 
       <div className="overflow-scroll h-48">
-        <ul>
+        <ul className="divide-y divide-gray-200">
           {fields.map((o) => (
-            <li className="p-2 border-b">
-              <button
-                className="inline-flex justify-center w-full rounded-md border border-transparent px-1 py-1 bg-indigo-600 text-base leading-6 font-medium text-white shadow-sm hover:bg-indigo-500 focus:outline-none focus:border-indigo-700 focus:shadow-outline-indigo transition ease-in-out duration-150 sm:text-sm sm:leading-5"
-                key={o.name}
-                onClick={(e) => handleClick(e, o)}
-              >
-                {o.name}
-              </button>
+            <li>
+              <a key={o.name}
+                onClick={(e) => handleClick(e, o)} 
+                className="cursor-pointer block hover:bg-gray-100 focus:outline-none focus:bg-gray-100 transition duration-150 ease-in-out">
+                <div className="flex items-center px-4 py-4 sm:px-6">
+                  <span className="flex items-center text-sm leading-5 text-gray-700">
+                    {o.name}
+                  </span>
+                </div>
+              </a>
             </li>
+
           ))}
         </ul>
       </div>
@@ -245,21 +253,16 @@ export function InlineFilterDialog({addPredicate, app}) {
         isOpen={dialogOpen}
         onOpen={(v)=> setDialogOpen(v) }
         triggerButton={(cb) => (
-          <button
+          <Button
             isLoading={false}
-            className="p-2 inline-flex items-center px-2.5 
-            py-1.5 border border-transparent text-xs 
-            leading-4 font-medium rounded text-white 
-            bg-gray-600 hover:bg-gray-500 focus:outline-none 
-            focus:border-indigo-700 focus:shadow-outline-indigo 
-            active:bg-indigo-700 transition ease-in-out 
-            duration-150"
-            variant="outlined"
+            variant="flat-dark"
+            className="flex flex-wrap"
             color="primary"
+            size="sm"
             onClick={cb}
           >
             <PlusIcon variant="small" /> Add filters
-          </button>
+          </Button>
         )}
       >
         {content}

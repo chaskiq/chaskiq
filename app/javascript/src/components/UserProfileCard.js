@@ -3,6 +3,7 @@ import { withRouter, Link } from 'react-router-dom'
 import { connect } from 'react-redux'
 import Moment from 'react-moment'
 import Accordeon from './Accordeon'
+import Badge from './Badge'
 import { compact } from 'lodash'
 
 function UserProfileCard ({ app, app_user }) {
@@ -133,6 +134,17 @@ function UserProfileCard ({ app, app_user }) {
               </dt>
               <dd className="mt-1 text-sm leading-5 text-gray-900 sm:mt-0 sm:col-span-2">
                 {[app_user.os, app_user.osVersion].join(', ')}
+              </dd>
+            </div>
+          }
+
+          { app_user.tagList &&
+            <div className="sm:flex sm:space-x-6 sm:border-t sm:border-gray-200 sm:px-6 sm:py-5">
+              <dt className="text-sm leading-5 font-medium text-gray-500 sm:w-40 sm:flex-shrink-0 lg:w-48">
+                Tags
+              </dt>
+              <dd className="mt-1 text-sm leading-5 text-gray-900 sm:mt-0 sm:col-span-2">
+                { app_user.tagList.map((tag, i)=> ( <Badge size="sm" key={`tag-${i}`}> {tag} </Badge> ))}
               </dd>
             </div>
           }

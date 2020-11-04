@@ -15,7 +15,7 @@ gem 'anycable-rails'
 # gem 'sqlite3'
 # gem "sqlite3", "~> 1.3.6"
 # Use Puma as the app server
-gem 'puma', '~> 3.12'
+gem 'puma', '~> 5.0'
 # Use SCSS for stylesheets
 gem 'sass-rails', '~> 5.0'
 # Use Uglifier as compressor for JavaScript assets
@@ -135,11 +135,11 @@ group :development do
   gem 'spring'
   gem 'spring-watcher-listen', '~> 2.0.0'
 
-  gem 'capistrano-bundle'
-  gem 'capistrano-rails'
-  gem 'capistrano-rvm'
-  gem 'capistrano-sidekiq'
-  gem 'capistrano3-puma'
+  #gem 'capistrano-bundle'
+  #gem 'capistrano-rails'
+  #gem 'capistrano-rvm'
+  #gem 'capistrano-sidekiq'
+  #gem 'capistrano3-puma'
 end
 
 group :test do

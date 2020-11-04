@@ -35,6 +35,10 @@ describe 'ListImporter' do
     App.create(name: 'foo', domain_url: 'http://ggg.cc')
   end
 
+  let(:agent){
+    app.add_agent({email: 'test@test.cl', first_name: 'dsdsa'}).agent
+  }
+
   before do
     allow(Roo::Spreadsheet).to receive(:open).at_least(:once).and_return Spreadsheet.new(spreadsheet_data)
     ListImporter.instance_variable_set(:@fetch_model_block, nil)
@@ -43,7 +47,18 @@ describe 'ListImporter' do
   end
 
   it 'imports all data from the spreadsheet into the model' do
-    expect { ListImporter.import('/dummy/file', params: { app_id: app.id }) }.to change(AppUser, :count).by(2)
-    # expect { ListImporter.import('/dummy/file') }.to change(List, :count).by(2)
+    expect { 
+      ListImporter.import('/dummy/file', params: { app_id: app.id, agent_id: agent.id }) 
+    }.to change(AppUser, :count).by(2)
+
+    expect(AppUser.last.email).to be_present
+    expect(AppUser.last.email).to be_present
+
+    expect(AppUser.last.name).to be_present
+    expect(AppUser.last.name).to be_present
+
+    expect(AppUser.last[:properties]['department']).to be_present
+    expect(AppUser.last[:properties]['department']).to be_present
   end
+
 end

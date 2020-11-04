@@ -494,10 +494,7 @@ function AssignmentForm (props) {
     <div>
       <div>
         <div
-          style={{
-            display: 'flex',
-            flexWrap: 'wrap'
-          }}
+          className="flex flex-wrap space-x-2 mb-2"
         >
           {predicates.map((o, i) => {
             return (

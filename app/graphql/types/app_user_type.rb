@@ -44,6 +44,8 @@ module Types
       object.class.model_name.singular
     end
 
+    field :tag_list, [String], null: true
+
     def state
       object.subscription_state
     end

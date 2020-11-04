@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react'
 import useOnClickOutside from './hooks/useClickOutside'
+import Button from './Button'
 
 export default function Dropdown ({
   children,
@@ -36,16 +37,8 @@ export default function Dropdown ({
             triggerButton(() => setOpen(!open))
           ) : (
             <span className="rounded-md shadow-sm">
-              <button
-                onClick={() => setOpen(!open)}
-                className="inline-flex justify-center w-full
-                 rounded-md border border-gray-300 px-4 py-2
-                 bg-white text-sm leading-5 font-medium text-gray-700
-                 hover:text-gray-500 focus:outline-none
-                 focus:border-blue-300 focus:shadow-outline-blue
-                 active:bg-gray-50 active:text-gray-800
-                 transition ease-in-out duration-150"
-              >
+              <Button
+                onClick={() => setOpen(!open)}>
                 {labelButton}
                 <svg
                   className="-mr-1 ml-2 h-5 w-5"
@@ -58,7 +51,7 @@ export default function Dropdown ({
                     clipRule="evenodd"
                   />
                 </svg>
-              </button>
+              </Button>
             </span>
           )}
         </div>

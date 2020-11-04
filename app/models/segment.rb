@@ -45,7 +45,10 @@ class Segment < ApplicationRecord
     #                .join_sources
 
     # self.app.app_users.joins(left_outer_join).where(query_builder)
-    app.app_users.where(query_builder)
+
+    result = app.app_users.where(query_builder)
+
+    tagged_result(result)
   end
 
   def cast_int(field)
@@ -56,6 +59,37 @@ class Segment < ApplicationRecord
     Arel::Nodes::NamedFunction.new('cast', [field.as('date')])
   end
 
+  def predicates_for_arel
+    predicates.reject{|o| o["attribute"] == "tags" }
+  end
+
+  def tagged_result(result)
+    predicate = predicates.find { |o| o['attribute'] == 'tags' }
+    return result if predicate.blank?
+
+    case predicate['comparison']
+    when 'contains_start'
+      query_string = "#{predicate['value']}%"
+      check = result.joins(:tags).where("tags.name like ?", query_string )
+    when 'contains_ends'
+      query_string = "%#{predicate['value']}"
+      check = result.joins(:tags).where("tags.name like ?", query_string )
+    when 'is_null'
+      check = result.joins(:tags).where("tags.id": nil)
+    when 'is_not_null'
+      check = result.joins(:tags).where.not("tags.id": nil)
+    when 'contains'
+      query_string = "%#{predicate['value']}%"
+      check = result.joins(:tags).where("tags.name like ?", query_string)
+    when 'not_contains'
+      query_string = "%#{predicate['value']}%"
+      check = result.joins(:tags).where.not("tags.name like ?", query_string)
+    else
+      check = result.tagged_with(predicate["value"])
+    end
+    return check
+  end
+
   # JSONB queries on steroids
   # https://jes.al/2016/01/querying-json-fields-in-postgresql-using-activerecord/
 
@@ -64,7 +98,7 @@ class Segment < ApplicationRecord
 
     cols = AppUser.columns
     # user_table = User.arel_table
-    Array(predicates).reduce(nil) do |query, predicate|
+    Array(predicates_for_arel).reduce(nil) do |query, predicate|
       next if predicate['type'] == 'match'
 
       # check if its in table column

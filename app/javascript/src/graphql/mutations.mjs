@@ -13,6 +13,14 @@ export const UPDATE_APP = `
   }
 `;
 
+export const IMPORT_CONTACTS = `
+  mutation ImportContact($appKey: String!, $appParams: Json!){
+    importContacts(appKey: $appKey, appParams: $appParams){
+      errors
+    }
+  }
+`;
+
 export const DESTROY_APP = `
   mutation AppsUpdate($appKey: String!){
     appsDestroy(appKey: $appKey){
@@ -630,7 +638,7 @@ export const PREDICATES_SEARCH = `
           state
           displayName
           online
-
+          tagList
           referrer
           ip
           city
