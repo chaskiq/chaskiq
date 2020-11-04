@@ -106,7 +106,7 @@ gem 'kaminari', '~> 1.2'
 
 gem 'timezone', '~> 1.2'
 
-gem 'bugsnag', '~> 6.11'
+gem 'bugsnag' #, '~> 6.11'
 gem 'email_reply_parser', '~> 0.5.9'
 gem 'rack-cors', '~> 1.0'
 
