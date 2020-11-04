@@ -453,6 +453,8 @@ GEM
       sprockets (>= 2.8, < 4.0)
       sprockets-rails (>= 2.0, < 4.0)
       tilt (>= 1.1, < 3)
+    scout_apm (2.6.10)
+      parser
     semantic_range (2.3.0)
     shoulda (2.11.3)
     shoulda-matchers (4.1.2)
@@ -599,6 +601,7 @@ DEPENDENCIES
   rubocop-rspec
   ruby-oembed
   sass-rails (~> 5.0)
+  scout_apm (~> 2.6)
   shoulda
   shoulda-matchers
   sidekiq
