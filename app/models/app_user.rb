@@ -23,6 +23,7 @@ class AppUser < ApplicationRecord
     { 'name' => 'lang', 'type' => 'string' },
     { 'name' => 'type', 'type' => 'string' },
     { 'name' => 'last_visited_at', 'type' => 'date' },
+    { 'name' => 'tags', 'type' => 'string' },
     { 'name' => 'referrer', 'type' => 'string' },
     { 'name' => 'state', 'type' => 'string' },
     { 'name' => 'ip', 'type' => 'string' },
@@ -40,13 +41,17 @@ class AppUser < ApplicationRecord
     { 'name' => 'browser_language', 'type' => 'string' }
   ].freeze
 
+  attr_accessor :disable_callbacks
+
   # belongs_to :user
   belongs_to :app
   has_many :conversations, foreign_key: :main_participant_id, dependent: :destroy
   # has_many :metrics , as: :trackable
-  has_many :metrics
-  has_many :visits
+  has_many :metrics, dependent: :destroy
+  has_many :visits, dependent: :destroy
   has_many :external_profiles, dependent: :destroy
+
+  acts_as_taggable_on :tags
 
   include Eventable
 
@@ -54,7 +59,34 @@ class AppUser < ApplicationRecord
 
   after_save :enqueue_social_enrichment, if: :saved_change_to_email?
 
-  store_accessor :properties, [
+  ALLOWED_PROPERTIES = [
+    :ip, 
+    :city, 
+    :region, 
+    :country, 
+    :session_id, 
+    :email, 
+    :lat,
+    :lng,
+    :postal, 
+    :web_sessions, 
+    :timezone, 
+    :browser, 
+    :browser_version, 
+    :os, 
+    :os_version, 
+    :browser_language, 
+    :lang, 
+    :created_at,
+    :updated_at,
+    :last_seen, 
+    :first_seen, 
+    :signed_up, 
+    :last_contacted, 
+    :last_heard_from
+  ]
+
+  ACCESSOR_PROPERTIES = [
     :name,
     :first_name,
     :last_name,
@@ -72,6 +104,8 @@ class AppUser < ApplicationRecord
     :company_name,
     :company_size
   ]
+
+  store_accessor :properties, ACCESSOR_PROPERTIES
 
   scope :availables, lambda {
     where(['app_users.subscription_state =? or app_users.subscription_state=?',
@@ -127,15 +161,22 @@ class AppUser < ApplicationRecord
     %w[passive subscribed].include?(subscription_state)
   end
 
+  def calbackable?
+    !@disable_callbacks
+  end
+
   def add_created_event
+    return unless calbackable?
     events.log(action: :user_created)
   end
 
   def add_email_changed_event
+    return unless calbackable?
     events.log(action: :email_changed)
   end
 
   def lead_event
+    return unless calbackable?
     events.log(action: :visitors_convert)
   end
 
@@ -260,6 +301,7 @@ class AppUser < ApplicationRecord
   end
 
   def enqueue_social_enrichment
+    return unless calbackable?
     add_email_changed_event
   end
 

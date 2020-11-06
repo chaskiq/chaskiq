@@ -5,6 +5,7 @@ const defaultData = [
   { name: 'type', type: 'string' },
   { name: 'last_visited_at', type: 'date' },
   { name: 'referrer', type: 'string' },
+  { name: 'tags', type: 'string' },
   // {name: "pro", type: "string" },
   // {name: "role", type: "string" },
   // {name: "plan", type: "string" },

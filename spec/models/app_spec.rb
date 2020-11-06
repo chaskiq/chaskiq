@@ -89,7 +89,7 @@ RSpec.describe App, type: :model do
     it 'add visit on existing user' do
       app.add_visit(email: 'test@test.cl', properties: { browser: 'chrome' })
       expect(app.app_users.size).to be == 1
-      expect(app.app_users.first.properties['browser']).to be == 'chrome'
+      expect(app.app_users.first.browser).to be == 'chrome'
     end
 
     describe 'other app' do

@@ -10,18 +10,29 @@ class SegmentComparator
     query = []
     cols = AppUser.columns
 
+
+
     condition_predicates = predicates.select { |o| o['type'] != 'match' }
 
     condition_predicates.collect do |predicate|
+
       # predicate = predicate.with_indifferent_access
       # next if predicate['type'] == 'match'
       field = if cols.map(&:name).include?(predicate['attribute'])
                 user.send(predicate['attribute'].to_sym)
+              elsif predicate['attribute'] == "tags"
+                user.tag_list
               else
                 user.properties[predicate['attribute'].to_s]
               end
 
-      query << handle_comparison(field, predicate)
+      if field.is_a?(Array)
+        field.each do |f|
+          query << handle_comparison(f, predicate) 
+        end
+      else
+        query << handle_comparison(field, predicate)
+      end
     end
 
     return true if query.size.zero?

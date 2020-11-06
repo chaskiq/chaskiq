@@ -5,6 +5,7 @@ module Types
     field :appsDestroy, mutation: Mutations::Apps::DestroyApp
     field :appsUpdate, mutation: Mutations::Apps::UpdateApp
     field :appsCreate, mutation: Mutations::Apps::CreateApp
+    field :importContacts, mutation: Mutations::Apps::ImportContacts
 
     field :inviteAgent, mutation: Mutations::Agents::Invite
     field :updateAgent, mutation: Mutations::Agents::UpdateAgent

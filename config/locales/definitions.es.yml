@@ -159,10 +159,13 @@
         lat: Lat
         lng: Lng
         id: Ip
+        tag_list: Etiquetas
         country: País
         city: Ciudad
         postal: Postal
         browser: Navegador
+        browser_version: Versión Navegador
+        browser_lang: Lenguaje Navegador
         referrer: Referencia
         os: SO
         os_version: La versión SO

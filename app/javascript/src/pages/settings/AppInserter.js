@@ -116,7 +116,11 @@ function AppInserter ({ app, update }) {
             <button onClick={(e) => handleClick(o)}
               key={`tabtab-${i}`}
               className={
-                `${option.name === o.name ? activeClass : ''} 
+                `${option.name === o.name ? activeClass : ''}
+                
+                focus:outline-none 
+                focus:shadow-outline-gray 
+
                 outline-none border bg-white
                 font-light py-2 px-4
                 ${o.classes}

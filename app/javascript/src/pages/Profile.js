@@ -130,7 +130,7 @@ class ProfilePage extends Component {
     graphql(APP_USER_UPDATE_STATE, {
       appKey: this.props.app.key, 
       id: this.props.app_user.id,
-      state: option.id
+      state: option
     }, {
       success: (data)=>{
 

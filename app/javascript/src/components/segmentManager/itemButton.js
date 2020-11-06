@@ -5,6 +5,7 @@ import React, { Component } from "react";
 import FormDialog from "../FormDialog";
 import styled from "@emotion/styled";
 import Dropdown from "../Dropdown";
+import Button from '../Button'
 
 const h2 = styled.h5`
   margin: 15px;
@@ -208,7 +209,7 @@ export default class SegmentItemButton extends Component {
       <div>
         {
           <div className="p-2">
-            <h2 className="text-sm leading-5 font-medium text-gray-900">
+            <h2 className="text-sm leading-5 text-gray-900">
               Select the filter for {this.props.predicate.attribute}
             </h2>
           </div>
@@ -283,7 +284,7 @@ export default class SegmentItemButton extends Component {
       <div>
         {
           <div className="p-2">
-            <h2 className="text-sm leading-5 font-medium text-gray-900">
+            <h2 className="text-sm leading-5 text-gray-900">
               Select the filter for {this.props.predicate.attribute}
             </h2>
           </div>
@@ -380,7 +381,7 @@ export default class SegmentItemButton extends Component {
     return (
       <div className="p-2">
         <div>
-          <h2 className="text-sm leading-5 font-medium text-gray-900">
+          <h2 className="text-sm leading-5 text-gray-900">
             Select the date filter for {this.props.predicate.attribute}
           </h2>
         </div>
@@ -430,15 +431,15 @@ export default class SegmentItemButton extends Component {
 
         <ContentMatchFooter>
           {this.state.selectedOption && (
-            <button
-              className="p-2 inline-flex items-center px-2.5 py-1.5 border border-transparent text-xs leading-4 font-medium rounded text-white bg-indigo-600 hover:bg-indigo-500 focus:outline-none focus:border-indigo-700 focus:shadow-outline-indigo active:bg-indigo-700 transition ease-in-out duration-150"
+            <Button
+              //className="p-2 inline-flex items-center px-2.5 py-1.5 border border-transparent text-xs leading-4 font-medium rounded text-white bg-indigo-600 hover:bg-indigo-500 focus:outline-none focus:border-indigo-700 focus:shadow-outline-indigo active:bg-indigo-700 transition ease-in-out duration-150"
               variant="outlined"
               color="primary"
               size={"small"}
               onClick={this.handleSubmit.bind(this)}
             >
               Apply
-            </button>
+            </Button>
           )}
 
           {this.deleteButton()}
@@ -477,7 +478,7 @@ export default class SegmentItemButton extends Component {
     return (
       <div className="p-2">
         <div>
-          <h2 className="text-sm leading-5 font-medium text-gray-900">
+          <h2 className="text-sm leading-5 text-gray-900">
             Select the integer filter for {this.props.predicate.attribute}
           </h2>
         </div>
@@ -523,15 +524,15 @@ export default class SegmentItemButton extends Component {
 
         <ContentMatchFooter>
           {this.state.selectedOption && (
-            <button
-              className="p-2 inline-flex items-center px-2.5 py-1.5 border border-transparent text-xs leading-4 font-medium rounded text-white bg-indigo-600 hover:bg-indigo-500 focus:outline-none focus:border-indigo-700 focus:shadow-outline-indigo active:bg-indigo-700 transition ease-in-out duration-150"
+            <Button
+              //className="p-2 inline-flex items-center px-2.5 py-1.5 border border-transparent text-xs leading-4 font-medium rounded text-white bg-indigo-600 hover:bg-indigo-500 focus:outline-none focus:border-indigo-700 focus:shadow-outline-indigo active:bg-indigo-700 transition ease-in-out duration-150"
               variant="outlined"
               color="primary"
               size={"small"}
               onClick={this.handleSubmit.bind(this)}
             >
               Apply
-            </button>
+            </Button>
           )}
 
           {this.deleteButton()}
@@ -563,7 +564,7 @@ export default class SegmentItemButton extends Component {
     return (
       <div className="p-2">
         <div>
-          <h2 className="text-sm leading-5 font-medium text-gray-900">
+          <h2 className="text-sm leading-5 text-gray-900">
             match criteria options for {this.props.predicate.type}
           </h2>
         </div>
@@ -599,15 +600,15 @@ export default class SegmentItemButton extends Component {
           { this.state.selectedOption &&
             (this.state.selectedOption !== "is_null" ||
               this.state.selectedOption !== "is_not_null") && (
-              <button
-                className="p-2 inline-flex items-center px-2.5 py-1.5 border border-transparent text-xs leading-4 font-medium rounded text-white bg-indigo-600 hover:bg-indigo-500 focus:outline-none focus:border-indigo-700 focus:shadow-outline-indigo active:bg-indigo-700 transition ease-in-out duration-150"
+              <Button
+                //className="p-2 inline-flex items-center px-2.5 py-1.5 border border-transparent text-xs leading-4 font-medium rounded text-white bg-indigo-600 hover:bg-indigo-500 focus:outline-none focus:border-indigo-700 focus:shadow-outline-indigo active:bg-indigo-700 transition ease-in-out duration-150"
                 variant="outlined"
                 color="primary"
                 size={"small"}
                 onClick={this.handleSubmit.bind(this)}
               >
                 Apply
-              </button>
+              </Button>
             )}
         </ContentMatchFooter>
       </div>
@@ -616,14 +617,14 @@ export default class SegmentItemButton extends Component {
 
   deleteButton = () => {
     return (
-      <button
-        className="p-2 inline-flex items-center px-2.5 py-1.5 border border-transparent text-xs leading-4 font-medium rounded text-white bg-indigo-600 hover:bg-indigo-500 focus:outline-none focus:border-indigo-700 focus:shadow-outline-indigo active:bg-indigo-700 transition ease-in-out duration-150"
+      <Button
+        //className="p-2 inline-flex items-center px-2.5 py-1.5 border border-transparent text-xs leading-4 font-medium rounded text-white bg-indigo-600 hover:bg-indigo-500 focus:outline-none focus:border-indigo-700 focus:shadow-outline-indigo active:bg-indigo-700 transition ease-in-out duration-150"
         size="small"
         appearance="link"
         onClick={this.handleDelete.bind(this)}
       >
         Delete
-      </button>
+      </Button>
     );
   };
 
@@ -671,10 +672,12 @@ export default class SegmentItemButton extends Component {
               isOpen={this.state.dialogOpen}
               labelButton={"Missing value!"}
               triggerButton={(cb) => (
-                <button
-                  className="p-2 inline-flex items-center px-2.5 py-1.5 border border-transparent text-xs leading-4 font-medium rounded text-white bg-indigo-600 hover:bg-indigo-500 focus:outline-none focus:border-indigo-700 focus:shadow-outline-indigo active:bg-indigo-700 transition ease-in-out duration-150"
+                <Button
+                  //className="p-2 inline-flex items-center px-2.5 py-1.5 border border-transparent text-xs leading-4 font-medium rounded text-white bg-indigo-600 hover:bg-indigo-500 focus:outline-none focus:border-indigo-700 focus:shadow-outline-indigo active:bg-indigo-700 transition ease-in-out duration-150"
                   ref={(ref) => this.setRef(ref)}
                   isLoading={false}
+                  size="small"
+                  variant="flat"
                   color={"secondary"}
                   //{this.state.dialogOpen ? 'primary' : 'secondary'}
                   onClick={cb}
@@ -686,7 +689,7 @@ export default class SegmentItemButton extends Component {
                       */}
 
                   {"Missing value!"}
-                </button>
+                </Button>
               )}
             >
               {this.renderMenu()}
@@ -697,17 +700,18 @@ export default class SegmentItemButton extends Component {
             <Dropdown
               isOpen={this.state.dialogOpen}
               triggerButton={(cb) => (
-                <button
-                  className="p-2 inline-flex items-center px-2.5 py-1.5 border border-transparent text-xs leading-4 font-medium rounded text-white bg-indigo-600 hover:bg-indigo-500 focus:outline-none focus:border-indigo-700 focus:shadow-outline-indigo active:bg-indigo-700 transition ease-in-out duration-150"
+                <Button
+                  //className="p-2 inline-flex items-center px-2.5 py-1.5 border border-transparent text-xs leading-4 font-medium rounded text-white bg-indigo-600 hover:bg-indigo-500 focus:outline-none focus:border-indigo-700 focus:shadow-outline-indigo active:bg-indigo-700 transition ease-in-out duration-150"
                   ref={(ref) => this.setRef(ref)}
                   isLoading={false}
-                  variant={"contained"}
                   color="primary"
+                  size="small"
+                  variant="flat"
                   //appearance={this.props.appearance}
                   onClick={cb}
                 >
                   {this.props.text}
-                </button>
+                </Button>
               )}
             >
               {this.renderMenu()}

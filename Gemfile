@@ -15,7 +15,7 @@ gem 'anycable-rails'
 # gem 'sqlite3'
 # gem "sqlite3", "~> 1.3.6"
 # Use Puma as the app server
-gem 'puma', '~> 3.12'
+gem 'puma', '~> 5.0'
 # Use SCSS for stylesheets
 gem 'sass-rails', '~> 5.0'
 # Use Uglifier as compressor for JavaScript assets
@@ -106,7 +106,7 @@ gem 'kaminari', '~> 1.2'
 
 gem 'timezone', '~> 1.2'
 
-gem 'bugsnag', '~> 6.11'
+gem 'bugsnag' #, '~> 6.11'
 gem 'email_reply_parser', '~> 0.5.9'
 gem 'rack-cors', '~> 1.0'
 
@@ -135,11 +135,11 @@ group :development do
   gem 'spring'
   gem 'spring-watcher-listen', '~> 2.0.0'
 
-  gem 'capistrano-bundle'
-  gem 'capistrano-rails'
-  gem 'capistrano-rvm'
-  gem 'capistrano-sidekiq'
-  gem 'capistrano3-puma'
+  #gem 'capistrano-bundle'
+  #gem 'capistrano-rails'
+  #gem 'capistrano-rvm'
+  #gem 'capistrano-sidekiq'
+  #gem 'capistrano3-puma'
 end
 
 group :test do
@@ -164,3 +164,4 @@ end
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
 gem 'tzinfo-data', platforms: %i[mingw mswin x64_mingw jruby]
 gem "php_serialize", "~> 1.2"
+gem "scout_apm", "~> 2.6"
