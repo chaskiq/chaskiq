@@ -1,0 +1,5 @@
+Hi, <%= @agent.name %>, Your CSV import is complete <br/>
+
+You can now view, segment, and message your users with Intercom.
+
+<%= link_to 'View your users', "#{ENV['HOST']}/apps/#{@app.key}/" %> for details

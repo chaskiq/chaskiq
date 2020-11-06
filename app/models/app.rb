@@ -164,6 +164,7 @@ class App < ApplicationRecord
 
   def add_anonymous_user(attrs)
     session_id = attrs.delete(:session_id)
+    callbacks = attrs.delete(:disable_callbacks) 
 
     next_id = DummyName::Name.new
 
@@ -174,10 +175,20 @@ class App < ApplicationRecord
     end
 
     ap = app_users.visitors.find_or_initialize_by(session_id: session_id)
-    # ap.type = "Visitor"
+    ap.disable_callbacks = true if callbacks.present?
+    ap = handle_app_user_params(ap, attrs)
+    ap.generate_token
+    ap.save
+    ap
+  end
 
+  def add_lead(attrs)
+    email = attrs.delete(:email)
+    callbacks = attrs.delete(:disable_callbacks) 
+    ap = app_users.leads.find_or_initialize_by(email: email)
+    ap = handle_app_user_params(ap, attrs)
+    ap.disable_callbacks = true if callbacks.present?
     data = attrs.deep_merge!(properties: ap.properties)
-    ap.assign_attributes(data)
     ap.generate_token
     ap.save
     ap
@@ -185,14 +196,32 @@ class App < ApplicationRecord
 
   def add_user(attrs)
     email = attrs.delete(:email)
+
+    callbacks = attrs.delete(:disable_callbacks) 
     # page_url = attrs.delete(:page_url)
     ap = app_users.find_or_initialize_by(email: email)
-    data = attrs.deep_merge!(properties: ap.properties)
-    ap.assign_attributes(data)
+    ap.disable_callbacks = true if callbacks.present?
+
+    ap = handle_app_user_params(ap, attrs)
     ap.last_visited_at = attrs[:last_visited_at] if attrs[:last_visited_at].present?
     ap.subscribe! unless ap.subscribed?
     ap.type = 'AppUser'
     ap.save
+    ap
+  end
+
+  def handle_app_user_params(ap, attrs)
+    attrs = { properties: attrs } unless attrs.key?(:properties)
+    
+    keys = attrs[:properties].keys & app_user_updateable_fields
+    data_keys  = attrs[:properties].slice(*keys)
+
+    property_keys = attrs[:properties].keys - keys
+    property_params = attrs[:properties].slice(*property_keys)
+  
+    data = { properties: ap.properties.merge(property_params) }
+    ap.assign_attributes(data)
+    ap.assign_attributes(data_keys)
     ap
   end
 
@@ -336,6 +365,10 @@ class App < ApplicationRecord
 
   def searcheable_fields
     (custom_fields || []) + AppUser::ENABLED_SEARCH_FIELDS
+  end
+
+  def app_user_updateable_fields
+    (custom_fields || []) + AppUser::ALLOWED_PROPERTIES + AppUser::ACCESSOR_PROPERTIES 
   end
 
   def searcheable_fields_list

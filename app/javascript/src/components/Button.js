@@ -19,6 +19,32 @@ const BaseButton = styled.button`
         focus:border-green-700 
         focus:shadow-outline
         `
+      case 'flat':
+        return tw`
+        border 
+        border-transparent 
+        rounded 
+        text-indigo-700 
+        bg-indigo-100 
+        hover:bg-indigo-50 
+        focus:outline-none 
+        focus:border-indigo-300 
+        focus:shadow-outline-indigo 
+        active:bg-indigo-200 
+        `
+      case 'flat-dark':
+        return tw`
+          border 
+          border-transparent 
+          rounded 
+          text-gray-100 
+          bg-gray-900 
+          hover:bg-gray-800 
+          focus:outline-none 
+          focus:border-gray-700 
+          focus:shadow-outline-gray 
+          active:bg-gray-800 
+          `
       case 'main':
         return tw`outline-none 
         inline-flex 
@@ -106,10 +132,7 @@ const SizeButton = styled(BaseButton)`
       case 'sm':
       case 'small':
         return tw`
-        px-2 py-1
-        text-sm 
-        font-medium 
-        leading-7
+        px-2.5 py-1.5 text-xs leading-4
       `
       case 'md':
       case 'medium':
