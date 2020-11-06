@@ -6,7 +6,7 @@ module Types
     field :email, String, null: true
     field :kind, String, null: false
     field :display_name, String, null: false
-    field :avatar_url, String, null: false
+    field :avatar_url, String, null: true
 
     def avatar_url
       object.avatar_url
