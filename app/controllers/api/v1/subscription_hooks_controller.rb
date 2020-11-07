@@ -14,6 +14,8 @@ class Api::V1::SubscriptionHooksController < ApplicationController
 
   def process_event
     @app = App.find_by(key: params['passthrough'])
+    render plain: 'OK' and return unless @app.present?
+     
     case params['alert_name']
     when 'subscription_created' then subscription_created
     when 'subscription_cancelled' then subscription_cancelled
