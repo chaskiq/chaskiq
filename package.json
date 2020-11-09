@@ -1,6 +1,7 @@
 {
   "name": "chaskiq",
   "private": true,
+  "license": "AGPL-3.0-or-later",
   "dependencies": {
     "@babel/cli": "^7.12.1",
     "@babel/node": "^7.12.1",
