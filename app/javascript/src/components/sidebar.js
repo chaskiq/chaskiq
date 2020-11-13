@@ -32,7 +32,8 @@ import {
   MessageIcon,
   EmailIcon,
   ApiIcon,
-  CardIcon
+  CardIcon,
+  SeachIcon
 } from '../components/icons'
 
 import SidebarAgents from '../components/conversations/SidebarAgents'
@@ -46,6 +47,8 @@ import {
 } from '../graphql/mutations'
 import graphql from '../graphql/client'
 import { getCurrentUser } from '../actions/current_user'
+import Button from './Button'
+import ConversationSearch from '../components/conversations/Search'
 
 
 function mapStateToProps (state) {
@@ -151,7 +154,10 @@ function Sidebar ({
     },
     {
       id: 'Conversations',
-      label: I18n.t('navigator.conversations'),
+      label: <div className="flex items-center justify-between w-full">
+              <span>{I18n.t('navigator.conversations')}</span>
+              <ConversationSearch/>
+            </div>,
       icon: <ConversationIcon style={{ fontSize: 30 }} />,
       url: `/apps/${app.key}/conversations`,
       children: [
@@ -345,7 +351,7 @@ function Sidebar ({
           >
             <div className="flex items-center flex-shrink-0 px-4
               text-lg leading-6 font-bold text-gray-900">
-              <h3 className="font-bold">{label}</h3>
+              <h3 className="font-bold w-full">{label}</h3>
             </div>
             <nav className="mt-5 flex-1 px-4">
               {children.filter((o)=> !o.hidden ).map(

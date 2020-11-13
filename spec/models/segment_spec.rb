@@ -176,6 +176,7 @@ RSpec.describe Segment, type: :model do
 
       it 'with user attribute' do
         allow_any_instance_of(Segment).to receive(:predicates).and_return(email_predicate)
+
         expect(app.segments.first.execute_query.count).to be == 1
         comparator = SegmentComparator.new(
           user: app.app_users.last, 
@@ -246,7 +247,7 @@ RSpec.describe Segment, type: :model do
         app.app_users.each{|o| o.tag_list << "foo" ; o.save }
 
         allow_any_instance_of(Segment).to receive(:predicates).and_return(predicates_on_tags)
-        expect(app.segments.first.execute_query.count).to be == 1
+        expect(app.segments.first.execute_query.size).to be == 1
         
         comparator = SegmentComparator.new(
           user: app.app_users.last, 
@@ -264,7 +265,7 @@ RSpec.describe Segment, type: :model do
           predicates_on_tags_contains
         )
 
-        expect(app.segments.first.execute_query.count).to be == 1
+        expect(app.segments.first.execute_query.size).to be == 1
         
         comparator = SegmentComparator.new(
           user: app.app_users.last, 
@@ -282,7 +283,7 @@ RSpec.describe Segment, type: :model do
           predicates_on_tags_contains_multiple
         )
 
-        expect(app.segments.first.execute_query.count).to be == 1
+        expect(app.segments.first.execute_query.size).to be == 1
         
         comparator = SegmentComparator.new(
           user: app.app_users.last, 
@@ -292,10 +293,6 @@ RSpec.describe Segment, type: :model do
         comparator.compare
         expect(comparator.compare).to be_truthy
       end
-
-
-
-
 
       let(:predicates_on_tags_contains_multiple_2) do
         [
@@ -316,7 +313,6 @@ RSpec.describe Segment, type: :model do
         ]
       end
 
-
       it 'with user tag multiple 2' do
         app.app_users.each{|o| o.tag_list << "foo" ; o.save }
 
@@ -326,7 +322,7 @@ RSpec.describe Segment, type: :model do
           predicates_on_tags_contains_multiple_2
         )
 
-        expect(app.segments.first.execute_query.count).to be == 1
+        expect(app.segments.first.execute_query.size).to be == 1
         
         comparator = SegmentComparator.new(
           user: app.app_users.last, 

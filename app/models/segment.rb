@@ -36,19 +36,7 @@ class Segment < ApplicationRecord
   end
 
   def execute_query
-    arel_table = AppUser.arel_table
-    user_table = AppUser.arel_table
-
-    # left_outer_join = arel_table
-    #                .join(user_table, Arel::Nodes::OuterJoin)
-    #                .on(user_table[:id].eq(arel_table[:user_id]))
-    #                .join_sources
-
-    # self.app.app_users.joins(left_outer_join).where(query_builder)
-
-    result = app.app_users.where(query_builder)
-
-    tagged_result(result)
+    query_builder
   end
 
   def cast_int(field)
@@ -64,30 +52,39 @@ class Segment < ApplicationRecord
   end
 
   def tagged_result(result)
-    predicate = predicates.find { |o| o['attribute'] == 'tags' }
-    return result if predicate.blank?
 
-    case predicate['comparison']
-    when 'contains_start'
-      query_string = "#{predicate['value']}%"
-      check = result.joins(:tags).where("tags.name like ?", query_string )
-    when 'contains_ends'
-      query_string = "%#{predicate['value']}"
-      check = result.joins(:tags).where("tags.name like ?", query_string )
-    when 'is_null'
-      check = result.joins(:tags).where("tags.id": nil)
-    when 'is_not_null'
-      check = result.joins(:tags).where.not("tags.id": nil)
-    when 'contains'
-      query_string = "%#{predicate['value']}%"
-      check = result.joins(:tags).where("tags.name like ?", query_string)
-    when 'not_contains'
-      query_string = "%#{predicate['value']}%"
-      check = result.joins(:tags).where.not("tags.name like ?", query_string)
-    else
-      check = result.tagged_with(predicate["value"])
+    tt = predicates.find { |o| o['type'] == 'match' && o['value'] == 'or' }
+
+    any_tags = tt.present?
+
+    predicates.select { |o| o['attribute'] == 'tags' }.each_with_index do |predicate, index|
+
+      result = case predicate['comparison']
+        when 'contains_start'
+          query_string = "#{predicate['value']}%"
+          result.tagged_with(predicate['value'], wild: true, any: any_tags)
+        when 'contains_ends'
+          result.tagged_with(predicate['value'], wild: true, any: any_tags)
+        when 'is_null'
+          result.tagged_with(predicate['value'], exclude: true, any: any_tags) 
+        when 'is_not_null'
+        when 'contains'
+          result.tagged_with(predicate['value'], wild: true, any: any_tags)
+        when 'eq'
+          result.tagged_with(predicate['value'], any: any_tags)
+        when 'not_eq'
+          result.tagged_with(predicate['value'], exclude: true, any: any_tags)
+        when 'not_contains'
+          result.tagged_with(predicate['value'], wild: true, exclude: true, any: any_tags)
+        else
+          #check = taggings[:tag_id].not_in( tags.project(tags[:id]).where( field.matches(query_string) )) ) 
+          check = result.tagged_with(predicate["value"])
+      end
+
     end
-    return check
+
+    #return result.joins(tags_query.join_sources).distinct() if tags_query
+    result
   end
 
   # JSONB queries on steroids
@@ -95,15 +92,21 @@ class Segment < ApplicationRecord
 
   def query_builder
     arel_table = AppUser.arel_table
+    tags = Arel::Table.new :tags # Base Rel-var
+    # taggings_join = taggings[:taggable_id].eq(arel_table[:id]).and(taggings[:taggable_type].eq("AppUser"))
 
     cols = AppUser.columns
     # user_table = User.arel_table
-    Array(predicates_for_arel).reduce(nil) do |query, predicate|
+    query = nil
+    tags_query = nil
+    Array(predicates_for_arel).each_with_index do |predicate, index|
       next if predicate['type'] == 'match'
 
       # check if its in table column
       field = if cols.map(&:name).include?(predicate['attribute'])
                 arel_table[predicate['attribute']]
+              elsif predicate['attribute'] == "tags"
+                tags[:name]
               else
                 # otherwise use in JSONB properties column
                 # else
@@ -118,6 +121,7 @@ class Segment < ApplicationRecord
       when 'date'
         check = cast_date(field).send(predicate['comparison'], Chronic.parse(predicate['value']))
       when 'string'
+
         case predicate['comparison']
         when 'contains_start'
           query_string = "#{predicate['value']}%"
@@ -138,7 +142,6 @@ class Segment < ApplicationRecord
         else
           check = field.send(predicate['comparison'], predicate['value'])
         end
-        check
       when 'integer'
         case predicate['comparison']
         when 'is_null'
@@ -157,15 +160,21 @@ class Segment < ApplicationRecord
       end
 
       if query.nil?
-        check
+        query = check
       else
-
         if predicates.find { |o| o['type'] == 'match' && o['value'] == 'or' }
-          query.or(check)
+          query = query.or(check)
         else
-          query.and(check)
+          query = query.and(check)
         end
       end
     end
+
+    result = self.app.app_users
+    if query
+      result = result.where(query)
+    end
+    
+    tagged_result(result)
   end
 end

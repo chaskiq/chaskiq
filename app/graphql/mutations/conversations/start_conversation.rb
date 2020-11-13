@@ -26,7 +26,7 @@ module Mutations
           message: {
             html_content: message['html'],
             serialized_content: message['serialized'],
-            text_content: message['serialized']
+            text_content: message['text'] || ActionController::Base.helpers.strip_tags(message['html'])
           }
         }
 

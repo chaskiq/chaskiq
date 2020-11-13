@@ -12,7 +12,6 @@ import {
 
 import FilterMenu from '../components/FilterMenu'
 
-import UserData from '../components/UserData'
 import ConversationItemList from '../components/conversations/ItemList'
 import AssignmentRules from '../components/conversations/AssignmentRules'
 import Conversation from '../components/conversations/Conversation'
@@ -23,9 +22,6 @@ import ConversationSidebar from '../components/conversations/Sidebar'
 import emptyImage from '../images/empty-icon8.png'
 import I18n from '../shared/FakeI18n'
 
-import {
-  LeftArrow
-} from '../components/icons'
 // import {toCamelCase} from '../shared/caseConverter'
 
 function Conversations ({
@@ -59,11 +55,6 @@ function Conversations ({
     )
   }
 
-  const setSort = (option) => {
-    dispatch(updateConversationsData({ sort: option }))
-    this.setState({ sort: option })
-  }
-
   const handleScroll = (e) => {
     const element = e.target
     const scrollDiff = Math.round(element.scrollHeight - element.scrollTop)
@@ -77,10 +68,6 @@ function Conversations ({
         })
       }
     }
-  }
-
-  const setFilter = (option) => {
-    dispatch(updateConversationsData({ filter: option }))
   }
 
   const filterButton = (handleClick) => {
@@ -145,6 +132,16 @@ function Conversations ({
     )
   }
 
+  const clearSearchTerm = ()=>{
+    dispatch(
+      updateConversationsData({
+        term: null
+      }, () => {
+        fetchConversations({ page: 1 })
+      })
+    )
+  }
+
   const renderConversations = () => {
     const filters = [
       { id: 'opened', name: I18n.t('conversations.states.opened'), count: 1, icon: null },
@@ -162,13 +159,32 @@ function Conversations ({
     return (
       <React.Fragment>
 
-        <div className="bg-white px-3 py-3 border-b border-gray-200 sm:px-3 flex justify-between">
+        <div className="items-center bg-white px-3 py-3 border-b border-gray-200 sm:px-3 flex justify-between">
           <FilterMenu
             options={filters}
             value={conversations.filter}
             filterHandler={filterConversations}
             triggerButton={filterButton}
           />
+
+          {
+            conversations.term &&
+            <span className="ml-3 text-sm leading-5 text-gray-700 flex items-center">
+              {conversations.term}
+              <button className="focus:outline-none" onClick={ clearSearchTerm }>
+                <svg className="w-5 h-5 text-indigo-400 hover:text-indigo-900"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                  xmlns="http://www.w3.org/2000/svg">
+                  <path strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+              </button>
+            </span>
+          }
 
           <FilterMenu
             options={sorts}
@@ -261,7 +277,7 @@ function Conversations ({
         </Route>
 
         <Route exact path={`/apps/${app.key}/conversations/:id`}>
-          <div className={`${ fixedSidebarOpen ? 'md:w-5/12' : 'md:w-0 md:flex-grow' } w-full bg-gray-200 h-12 h-screen border-r`}>
+          <div className={`${fixedSidebarOpen ? 'md:w-5/12' : 'md:w-0 md:flex-grow'} w-full bg-gray-200 h-12 h-screen border-r`}>
             <Conversation events={events}
               fixedSidebarOpen={fixedSidebarOpen}
               toggleFixedSidebar={toggleFixedSidebar}

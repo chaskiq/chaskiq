@@ -568,7 +568,8 @@ class Messenger extends Component {
 
     const message = {
       html: comment.html_content,
-      serialized: comment.serialized_content
+      serialized: comment.serialized_content,
+      text: comment.text_content
     }
 
     // force an Assignment from client
@@ -610,6 +611,7 @@ class Messenger extends Component {
     const message = {
       html: comment.html_content,
       serialized: comment.serialized_content,
+      text: comment.text_content,
       volatile: this.state.conversation,
     }
 
