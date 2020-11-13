@@ -107,6 +107,12 @@ class AppUser < ApplicationRecord
 
   store_accessor :properties, ACCESSOR_PROPERTIES
 
+  ACCESSOR_PROPERTIES.each do |prop|
+    ransacker prop do |parent|
+      Arel::Nodes::InfixOperation.new('->>', parent.table[:properties], Arel::Nodes.build_quoted(prop))
+    end
+  end
+
   scope :availables, lambda {
     where(['app_users.subscription_state =? or app_users.subscription_state=?',
            'passive', 'subscribed'])

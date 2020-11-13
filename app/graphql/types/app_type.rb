@@ -234,14 +234,21 @@ module Types
       argument :filter, String, required: false
       argument :agent_id, Integer, required: false
       argument :tag, String, required: false
+      argument :term, String, required: false
     end
 
-    def conversations(per:, page:, filter:, sort:, agent_id: nil, tag: nil)
+    def conversations(per:, page:, filter:, sort:, agent_id: nil, tag: nil, term: nil)
       authorize! object, to: :show?, with: AppPolicy
+
+
       @collection = object.conversations
                           .left_joins(:messages)
                           .where.not(conversation_parts: { id: nil })
                           .distinct
+
+      @collection =  object.conversations.ransack(
+        messages_messageable_of_ConversationPartContent_type_text_content_cont_or_main_participant_name_cont: term,
+      ).result.distinct if term
 
       @collection = @collection.where(state: filter) if filter.present?
 
