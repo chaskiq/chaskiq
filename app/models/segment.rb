@@ -237,5 +237,7 @@ class Segment < ApplicationRecord
       return result.where(query)
     end
 
+    result
+
   end
 end
