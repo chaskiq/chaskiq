@@ -14,7 +14,7 @@ import {
   clearConversations
 } from '../../actions/conversations'
 
-function ConversationSearch ({ app, dispatch, conversations }) {
+function ConversationSearch ({ app, dispatch, conversations, asButton }) {
   const [open, setOpen] = React.useState(false)
 
   function fetchConversations (options, cb) {
@@ -37,12 +37,38 @@ function ConversationSearch ({ app, dispatch, conversations }) {
     )
   }
 
+  function handleEnter (e) {
+    if (e.key === 'Enter') {
+      handleSubmit(e.target.value)
+    }
+  }
+
   return (
     <React.Fragment>
 
-      <Button variant="icon" onClick={() => setOpen(true)}>
-        <SeachIcon/>
-      </Button>
+      {
+        asButton &&
+        <Button variant="icon" onClick={() => setOpen(true)}>
+          <SeachIcon/>
+        </Button>
+      }
+
+      {
+        !asButton &&
+          <div
+            className="flex items-center justify-between w-full bg-gray-200 rounded-md px-2 py-1- mx-2">
+            <SeachIcon size="small"/>
+            <input
+              className="bg-transparent active:outline-none focus:outline-none text-sm py-1"
+              defaultValue={conversations.term}
+              onKeyDown={(e) => {
+                handleEnter(e)
+              }
+              }
+              placeholder={'search conversations'}
+            />
+          </div>
+      }
 
       <FormDialog
         open={open}

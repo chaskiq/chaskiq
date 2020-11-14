@@ -47,9 +47,6 @@ import {
 } from '../graphql/mutations'
 import graphql from '../graphql/client'
 import { getCurrentUser } from '../actions/current_user'
-import Button from './Button'
-import ConversationSearch from '../components/conversations/Search'
-
 
 function mapStateToProps (state) {
   const {
@@ -154,10 +151,7 @@ function Sidebar ({
     },
     {
       id: 'Conversations',
-      label: <div className="flex items-center justify-between w-full">
-              <span>{I18n.t('navigator.conversations')}</span>
-              <ConversationSearch/>
-            </div>,
+      label: I18n.t('navigator.conversations'),
       icon: <ConversationIcon style={{ fontSize: 30 }} />,
       url: `/apps/${app.key}/conversations`,
       children: [

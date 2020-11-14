@@ -246,10 +246,6 @@ module Types
                           .where.not(conversation_parts: { id: nil })
                           .distinct
 
-      @collection =  object.conversations.ransack(
-        messages_messageable_of_ConversationPartContent_type_text_content_cont_or_main_participant_name_cont: term,
-      ).result.distinct if term
-
       @collection = @collection.where(state: filter) if filter.present?
 
       if agent_id.present?
@@ -277,6 +273,11 @@ module Types
       end
 
       @collection = @collection.tagged_with(tag) if tag.present?
+
+      # todo: add _or_main_participant_name_cont, or do this with Arel
+      @collection =  @collection.ransack(
+        messages_messageable_of_ConversationPartContent_type_text_content_cont: term,
+      ).result if term
 
       @collection
     end
