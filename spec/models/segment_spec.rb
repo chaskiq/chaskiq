@@ -199,14 +199,6 @@ RSpec.describe Segment, type: :model do
         expect(comparator.compare).to be_falsey
       end
 
-
-      let(:predicates_on_tags) do
-        [{ attribute: 'tags',
-           comparison: 'eq',
-           type: 'string',
-           value: 'foo' }.with_indifferent_access]
-      end
-
       let(:predicates_on_tags) do
         [{ attribute: 'tags',
            comparison: 'eq',
@@ -343,7 +335,7 @@ RSpec.describe Segment, type: :model do
           value: 'marilyn' 
          }.with_indifferent_access
 
-        app.app_users.each{|o| o.tag_list << "foo" ; o.save }
+        app.app_users.each{|o| o.tag_list.add("foo") }
 
         app.app_users.first.tag_list.add( "marilyn")
 
