@@ -175,9 +175,6 @@ class Segment < ApplicationRecord
 
       taggings = Arel::Table.new( :taggings).alias("tags_index_#{index}") # Base Rel-var
 
-      # check = field.eq(nil)
-      init = tags_query.nil? ? result.arel_table : tags_query
-
       case predicate['comparison']
       when 'contains_start'
         query_string = "#{predicate['value']}%"
@@ -207,6 +204,9 @@ class Segment < ApplicationRecord
         check = field.send(predicate['comparison'], predicate['value'])
       end
 
+      # check = field.eq(nil)
+      init = tags_query.nil? || inverse ? result.arel_table : tags_query
+
       if !or_predicate
         q = taggings[:tag_id].in( tags.project(tags[:id]).where(check))
         #q = taggings[:tag_id].not_in( tags.project(tags[:id]).where(check)) if inverse
@@ -217,7 +217,7 @@ class Segment < ApplicationRecord
         ).and(q)
         )
         to_exclude << j if inverse
-        tags_query = j unless inverse
+        tags_query = j if !inverse
       else
         if tags_query.blank? 
           tags_query = check
