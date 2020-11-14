@@ -1,14 +1,14 @@
 // TODO, deprecate this, use AppType#searchableFields
 const defaultData = [
+  { name: 'name', type: 'string' },
+  { name: 'first_name', type: 'string' },
+  { name: 'last_name', type: 'string' },
   { name: 'email', type: 'string' },
   { name: 'lang', type: 'string' },
+  { name: 'tags', type: 'string' },
   { name: 'type', type: 'string' },
   { name: 'last_visited_at', type: 'date' },
   { name: 'referrer', type: 'string' },
-  { name: 'tags', type: 'string' },
-  // {name: "pro", type: "string" },
-  // {name: "role", type: "string" },
-  // {name: "plan", type: "string" },
   { name: 'state', type: 'string' },
   { name: 'ip', type: 'string' },
   { name: 'city', type: 'string' },
