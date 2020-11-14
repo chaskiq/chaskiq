@@ -46,9 +46,10 @@ class Segment < ApplicationRecord
 
     # self.app.app_users.joins(left_outer_join).where(query_builder)
 
-    result = app.app_users.where(query_builder)
+    # result = app.app_users.find_by_sql(query_builder)
+    # app.app_users.where(query_builder)
 
-    tagged_result(result)
+    query_builder
   end
 
   def cast_int(field)
@@ -63,54 +64,27 @@ class Segment < ApplicationRecord
     predicates.reject{|o| o["attribute"] == "tags" }
   end
 
-  def tagged_result(result)
-    predicate = predicates.find { |o| o['attribute'] == 'tags' }
-    return result if predicate.blank?
-
-    case predicate['comparison']
-    when 'contains_start'
-      query_string = "#{predicate['value']}%"
-      check = result.joins(:tags).where("tags.name like ?", query_string )
-    when 'contains_ends'
-      query_string = "%#{predicate['value']}"
-      check = result.joins(:tags).where("tags.name like ?", query_string )
-    when 'is_null'
-      check = result.joins(:tags).where("tags.id": nil)
-    when 'is_not_null'
-      check = result.joins(:tags).where.not("tags.id": nil)
-    when 'contains'
-      query_string = "%#{predicate['value']}%"
-      check = result.joins(:tags).where("tags.name like ?", query_string)
-    when 'not_contains'
-      query_string = "%#{predicate['value']}%"
-      check = result.joins(:tags).where.not("tags.name like ?", query_string)
-    else
-      check = result.tagged_with(predicate["value"])
-    end
-    return check
-  end
-
   # JSONB queries on steroids
   # https://jes.al/2016/01/querying-json-fields-in-postgresql-using-activerecord/
 
   def query_builder
     arel_table = AppUser.arel_table
-
+    tags = Arel::Table.new :tags # Base Rel-var
     cols = AppUser.columns
-    # user_table = User.arel_table
-    Array(predicates_for_arel).reduce(nil) do |query, predicate|
+    query = nil
+    tags_query = nil
+    Array(predicates_for_arel).each_with_index do |predicate, index|
       next if predicate['type'] == 'match'
-
       # check if its in table column
       field = if cols.map(&:name).include?(predicate['attribute'])
                 arel_table[predicate['attribute']]
+              #elsif predicate['attribute'] == "tags"
+              #  tags[:name]
               else
                 # otherwise use in JSONB properties column
-                # else
                 Arel::Nodes::InfixOperation.new('->>',
                                                 arel_table[:properties],
                                                 Arel::Nodes.build_quoted((predicate['attribute']).to_s))
-                # end
               end
 
       # date predicates
@@ -118,6 +92,7 @@ class Segment < ApplicationRecord
       when 'date'
         check = cast_date(field).send(predicate['comparison'], Chronic.parse(predicate['value']))
       when 'string'
+
         case predicate['comparison']
         when 'contains_start'
           query_string = "#{predicate['value']}%"
@@ -138,7 +113,6 @@ class Segment < ApplicationRecord
         else
           check = field.send(predicate['comparison'], predicate['value'])
         end
-        check
       when 'integer'
         case predicate['comparison']
         when 'is_null'
@@ -157,15 +131,139 @@ class Segment < ApplicationRecord
       end
 
       if query.nil?
-        check
+        query = check
       else
 
         if predicates.find { |o| o['type'] == 'match' && o['value'] == 'or' }
-          query.or(check)
+          query = query.or(check)
         else
-          query.and(check)
+          query = query.and(check)
+        end
+
+      end
+    end
+
+    #result = self.app.app_users
+    #if query
+    #  result = result.where(query)
+    #end
+
+    tagged_result(query)
+  end
+
+  def tagged_result(query)
+
+    result = self.app.app_users
+
+    tags = Arel::Table.new :tags # Base Rel-var
+    field = tags[:name]
+
+    or_predicate = predicates.find { |o| o['type'] == 'match' && o['value'] == 'or' }
+
+    any_tags = or_predicate.present?
+
+    tags_query = nil
+    base_taggings = Arel::Table.new( :taggings)
+
+    to_exclude = []
+
+    tags_predicates = predicates.select { |o| o['attribute'] == 'tags' }
+
+    tags_predicates.each_with_index do |predicate, index|
+
+      inverse = false
+
+      taggings = Arel::Table.new( :taggings).alias("tags_index_#{index}") # Base Rel-var
+
+      case predicate['comparison']
+      when 'contains_start'
+        query_string = "#{predicate['value']}%"
+        check = field.matches(query_string)
+      when 'contains_ends'
+        query_string = "%#{predicate['value']}"
+        check = field.matches(query_string)
+      when 'is_null'
+        check = tags[:id].not_eq(nil)
+        inverse = true
+      when 'is_not_null'
+        check = tags[:id].not_eq(nil)
+      when 'contains'
+        query_string = "%#{predicate['value']}%"
+        check = field.matches(query_string)
+      when 'not_contains'
+        query_string = "%#{predicate['value']}%"
+        # will inverse on query
+        check = field.matches(query_string)
+        inverse = true
+      when 'not_eq'
+        query_string = "#{predicate['value']}"
+        # will inverse on query
+        check = field.eq(query_string)
+        inverse = true
+      else
+        check = field.send(predicate['comparison'], predicate['value'])
+      end
+
+      # check = field.eq(nil)
+      init = tags_query.nil? || inverse ? result.arel_table : tags_query
+
+      if !or_predicate
+        q = taggings[:tag_id].in( tags.project(tags[:id]).where(check))
+        #q = taggings[:tag_id].not_in( tags.project(tags[:id]).where(check)) if inverse
+        j = init.join(taggings).on( 
+          taggings[:taggable_id].eq(result.arel_table[:id]
+        ).and(
+          taggings[:taggable_type].eq('AppUser')
+        ).and(q)
+        )
+        to_exclude << j if inverse
+        tags_query = j if !inverse
+      else
+        if tags_query.blank? 
+          tags_query = check
+        else
+          tags_query = tags_query.or(check)
         end
       end
     end
+
+    if or_predicate && tags_query
+      a = base_taggings[:taggable_id].eq(
+        result.arel_table[:id]
+      ).and(
+        base_taggings[:taggable_type].eq("AppUser") 
+      ).and(
+        base_taggings[:tag_id].in( 
+          tags.project(tags[:id]).where(tags_query)
+        )
+      ) 
+      g = ActsAsTaggableOn::Tagging.arel_table
+      b = g.project(Arel.star).where(a).exists
+      return result.where(b).where(query) if query
+      return result.where(b)
+    end
+
+    if to_exclude
+      exx = []
+      to_exclude.each do |ex|
+        exx << result.select("app_users.id").arel.except(result.joins(ex.join_sources).select("app_users.id").arel)
+      end
+
+      exx.each do |e|
+        result = result.where(result.arel_table[:id].in(e))
+      end
+    end
+
+    if(tags_query)
+      return result.joins(tags_query.join_sources).where(query).distinct if query
+      return result.joins(tags_query.join_sources).distinct
+    end
+
+    if(query)
+      return result.where(query)
+    end
+
+    result
+
   end
 end

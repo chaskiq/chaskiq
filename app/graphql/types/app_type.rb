@@ -234,10 +234,13 @@ module Types
       argument :filter, String, required: false
       argument :agent_id, Integer, required: false
       argument :tag, String, required: false
+      argument :term, String, required: false
     end
 
-    def conversations(per:, page:, filter:, sort:, agent_id: nil, tag: nil)
+    def conversations(per:, page:, filter:, sort:, agent_id: nil, tag: nil, term: nil)
       authorize! object, to: :show?, with: AppPolicy
+
+
       @collection = object.conversations
                           .left_joins(:messages)
                           .where.not(conversation_parts: { id: nil })
@@ -270,6 +273,11 @@ module Types
       end
 
       @collection = @collection.tagged_with(tag) if tag.present?
+
+      # todo: add _or_main_participant_name_cont, or do this with Arel
+      @collection =  @collection.ransack(
+        messages_messageable_of_ConversationPartContent_type_text_content_cont: term,
+      ).result if term
 
       @collection
     end

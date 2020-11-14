@@ -4,9 +4,9 @@ import {
   SeachIcon
 } from './icons'
 
-export default function SearchInput ({onSubmit, placeholder}) {
+export default function SearchInput ({onSubmit, placeholder, defaultValue}) {
 
-  const [value, setValue] = React.useState(null)
+  const [value, setValue] = React.useState(defaultValue)
 
   return <div className="my-4">
 

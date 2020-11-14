@@ -231,7 +231,11 @@ export default class UnicornEditor extends Component {
 
     const contentState = customHTML2Content(sampleMarkup, this.extendedBlockRenderMap) 
     const fstate2 = EditorState.createWithContent(contentState)
-    return JSON.stringify(convertToRaw(fstate2.getCurrentContent()))
+    const s = convertToRaw(fstate2.getCurrentContent())
+    return {
+      serialized_content: JSON.stringify(s), 
+      text_content: contentState.getPlainText()
+    }
   }
 
   //https://stackoverflow.com/questions/11076975/insert-text-into-textarea-at-cursor-position-javascript
@@ -265,9 +269,10 @@ export default class UnicornEditor extends Component {
     e.preventDefault()
     
     if(this.input.value === "") return
+
     const opts = {
       html_content: this.input.value,
-      serialized_content: this.convertToDraft(this.input.value)
+      ...this.convertToDraft(this.input.value)
     }
 
     this.props.insertComment(opts, {
@@ -286,7 +291,7 @@ export default class UnicornEditor extends Component {
     const html = `<img width=100% src="${link}" data-type="image"/>`
     const opts = {
       html_content: html,
-      serialized_content: this.convertToDraft(html)
+      ...this.convertToDraft(html)
     }
     this.props.insertComment(opts, 
       {
@@ -306,7 +311,7 @@ export default class UnicornEditor extends Component {
     const html = `<img src="${attrs.link}" data-filename="${attrs.filename}" data-type="file" data-content-type="${attrs.content_type}"/>`
     const opts = {
       html_content: html,
-      serialized_content: this.convertToDraft(html)
+      ...this.convertToDraft(html)
     }
     this.props.insertComment(opts, 
       {

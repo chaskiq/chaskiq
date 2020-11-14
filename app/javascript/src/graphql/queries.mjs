@@ -200,11 +200,11 @@ export const SEGMENT = `
 
 
 export const CONVERSATIONS = `
-  query App($appKey: String!, $page: Int!, $sort: String, $filter: String, $agentId: Int, $tag: String){
+  query App($appKey: String!, $page: Int!, $sort: String, $filter: String, $agentId: Int, $tag: String, $term: String){
     app(key: $appKey) {
       key
       name
-      conversations(page: $page, sort: $sort, filter: $filter, agentId: $agentId, tag: $tag){
+      conversations(page: $page, sort: $sort, filter: $filter, agentId: $agentId, tag: $tag, term: $term){
         collection{
           id
           key

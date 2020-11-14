@@ -13,7 +13,7 @@ import { uniqBy } from 'lodash'
 export function getConversations (options, cb) {
   const { page } = options
   return (dispatch, getState) => {
-    const { sort, filter, meta, agentId, tag } = getState().conversations
+    const { sort, filter, meta, agentId, tag, term } = getState().conversations
 
     const nextPage = page || meta.next_page || 1
 
@@ -27,7 +27,8 @@ export function getConversations (options, cb) {
         sort: sort,
         filter: filter,
         agentId: agentId,
-        tag: tag
+        tag: tag,
+        term: term
       },
       {
         success: (data) => {
@@ -165,7 +166,8 @@ const initialState = {
   loading: false,
   collection: [],
   agentId: null,
-  tag: null
+  tag: null,
+  term: null
 }
 
 // Reducer
