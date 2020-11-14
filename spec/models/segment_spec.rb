@@ -234,13 +234,12 @@ RSpec.describe Segment, type: :model do
       end
 
       let(:predicates_on_tags_contains) do
-        [
-          { attribute: 'tags',
+        predicates << { attribute: 'tags',
            comparison: 'contains_ends',
            type: 'string',
            value: 'oo' 
           }.with_indifferent_access
-        ]
+        
       end
 
       it 'with user tag' do
