@@ -10,6 +10,8 @@ import {
   clearConversations
 } from '../actions/conversations'
 
+import ConversationSearch from '../components/conversations/Search'
+
 import FilterMenu from '../components/FilterMenu'
 
 import ConversationItemList from '../components/conversations/ItemList'
@@ -132,7 +134,7 @@ function Conversations ({
     )
   }
 
-  const clearSearchTerm = ()=>{
+  const clearSearchTerm = () => {
     dispatch(
       updateConversationsData({
         term: null
@@ -167,23 +169,26 @@ function Conversations ({
             triggerButton={filterButton}
           />
 
-          {
-            conversations.term &&
-            <span className="ml-3 text-sm leading-5 text-gray-700 flex items-center">
-              {conversations.term}
-              <button className="focus:outline-none" onClick={ clearSearchTerm }>
-                <svg className="w-5 h-5 text-indigo-400 hover:text-indigo-900"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                  xmlns="http://www.w3.org/2000/svg">
-                  <path strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" />
-                </svg>
-              </button>
-            </span>
+          <ConversationSearch/>
+
+          { /*
+                conversations.term &&
+                <span className="ml-3 text-sm leading-5 text-gray-700 flex items-center">
+                  {conversations.term}
+                  <button className="focus:outline-none" onClick={ clearSearchTerm }>
+                    <svg className="w-5 h-5 text-indigo-400 hover:text-indigo-900"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                      xmlns="http://www.w3.org/2000/svg">
+                      <path strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg>
+                  </button>
+                </span>
+              */
           }
 
           <FilterMenu
