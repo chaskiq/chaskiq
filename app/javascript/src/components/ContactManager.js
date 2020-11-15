@@ -2,6 +2,8 @@ import React from 'react'
 import FilterMenu from './FilterMenu'
 import Button from './Button'
 import FormDialog from './FormDialog'
+import Progress from './Progress'
+
 import FieldRenderer from './forms/FieldRenderer'
 import { connect } from 'react-redux'
 import { getFileMetadata, directUpload } from '../shared/fileUploader'
@@ -225,8 +227,10 @@ function ContactManager ({ app, current_user, dispatch }) {
 
 function CsvUploader ({ handleSubmit, enableSubmit }) {
   const formRef = React.useRef()
+  const [loading, setLoading] = React.useState(false);
 
   function uploadHandler (file, kind) {
+    setLoading(true)
     getFileMetadata(file).then((input) => {
       graphql(CREATE_DIRECT_UPLOAD, input, {
         success: (data) => {
@@ -242,9 +246,11 @@ function CsvUploader ({ handleSubmit, enableSubmit }) {
             const data = serialize(formRef.current, { hash: true, empty: true })
             data.file = signedBlobId
             submitHandler(data)
+            setLoading(false)
           })
         },
         error: (error) => {
+          setLoading(false)
           console.log('error on signing blob', error)
         }
       })
@@ -285,6 +291,7 @@ function CsvUploader ({ handleSubmit, enableSubmit }) {
                 name="contact_type"
                 type="radio"
                 value="leads"
+                defaultChecked={true}
                 className="form-radio h-4 w-4 text-indigo-600 transition duration-150 ease-in-out"
               />
               <label htmlFor="leads" className="ml-3">
@@ -304,7 +311,10 @@ function CsvUploader ({ handleSubmit, enableSubmit }) {
               </label>
             </div>
 
-            <FileUpload onChange={(file) => uploadHandler(file, 'csv')}/>
+            <FileUpload 
+              onChange={(file) => uploadHandler(file, 'csv')}
+              loading={loading}
+            />
 
           </div>
         </fieldset>
@@ -313,12 +323,16 @@ function CsvUploader ({ handleSubmit, enableSubmit }) {
   </div>
 }
 
-function FileUpload ({ onChange }) {
+function FileUpload ({ onChange, loading }) {
   return <div className="flex items-center justify-center bg-grey-lighter">
     <label className="w-48 flex flex-col items-center px-2 py-3 bg-white text-blue rounded-lg shadow-lg tracking-wide uppercase border border-blue cursor-pointer hover:bg-black hover:text-white">
       <svg className="w-8 h-8" fill="currentColor" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
         <path d="M16.88 9.1A4 4 0 0 1 16 17H5a5 5 0 0 1-1-9.9V7a3 3 0 0 1 4.52-2.59A4.98 4.98 0 0 1 17 8c0 .38-.04.74-.12 1.1zM11 11h3l-4-4-4 4h3v3h2v-3z" />
       </svg>
+      {
+        loading && <Progress size={8} />
+      }
+
       <span className="mt-2 text-base leading-normal">Select a file</span>
       <input
         type='file'
