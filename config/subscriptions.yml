@@ -72,27 +72,127 @@ subscriptions:
       id: 616249
       features:
         -
-          name: Segmentos
+          name: Segments
+          active: true
+          count: unlimited
+        -
+          name: Leads
+          active: true
+          count: unlimited
+        -
+          name: AppUsers
+          active: true
+          count: unlimited
         - 
-          name: Conversaciones
+          name: Conversations
+          active: true
+          count: unlimited
+
         - 
-          name: Campañas 
+          name: BotTasks
+          active: true
+          count: unlimited
         - 
-          name: Flujos de Chat
+          name: Integrations
+          active: true
+          count: unlimited
+
         - 
-          name: Integraciones API
+          name: Campaigns
+          active: false
+          count: unlimited
+
+        - 
+          name: Tours
+          active: true
+          count: unlimited
+
+        - 
+          name: UserAutoMessages
+          active: true
+          count: unlimited
+
+        - name: OutgoingWebhooks
+          active: false
+          count: unlimited
+
+        - name: OauthApplications
+          active: true
+          count: unlimited
+          
+        - name: Articles
+          active: false
+          count: unlimited
+
+        - name: QuickReplies
+          active: true
+          count: unlimited
+
+        - name: CustomAttributes
+          active: true
+          count: unlimited
     - 
       name: "super"
       id: 596123
       description: Este es el super plan
       features:
         -
-          name: Segmentos
+          name: Segments
+          active: true
+          count: unlimited
+        -
+          name: Leads
+          active: true
+          count: unlimited
+        -
+          name: AppUsers
+          active: true
+          count: unlimited
         - 
-          name: Conversaciones
+          name: Conversations
+          active: true
+          count: unlimited
+
         - 
-          name: Campañas 
+          name: BotTasks
+          active: true
+          count: unlimited
         - 
-          name: Flujos de Chat
+          name: Integrations
+          active: true
+          count: unlimited
+
         - 
-          name: Integraciones API
+          name: Campaigns
+          active: false
+          count: unlimited
+
+        - 
+          name: Tours
+          active: true
+          count: unlimited
+
+        - 
+          name: UserAutoMessages
+          active: true
+          count: unlimited
+
+        - name: OutgoingWebhooks
+          active: false
+          count: unlimited
+
+        - name: OauthApplications
+          active: true
+          count: unlimited
+          
+        - name: Articles
+          active: false
+          count: unlimited
+
+        - name: QuickReplies
+          active: true
+          count: unlimited
+
+        - name: CustomAttributes
+          active: true
+          count: unlimited

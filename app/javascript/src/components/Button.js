@@ -93,6 +93,7 @@ const BaseButton = styled.button`
         `
       default:
         return tw`
+        flex flex-wrap items-center
         border border-transparent 
         text-xs leading-4 
         font-medium rounded 

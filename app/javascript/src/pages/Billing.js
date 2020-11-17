@@ -542,7 +542,8 @@ function Plan ({ plan, openCheckout, currentPlan }) {
 
           <dl className="grid grid-cols-1 col-gap-4 row-gap-4 sm:grid-cols-2">
             {
-              findInTranslation() && findInTranslation().features.map((o, index) => (
+              //findInTranslation() && findInTranslation()
+              plan.features.filter((o)=> o.active ).map((o, index) => (
                 <div key={`items-${index}`} className="sm:col-span-1">
                   <dt className="text-sm leading-5 font-medium text-gray-500">
                     <div className="flex">

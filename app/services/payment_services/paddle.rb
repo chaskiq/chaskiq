@@ -31,6 +31,14 @@ module PaymentServices
         url: 'https://vendors.paddle.com/api/2.0/subscription/plans' ,
         params: auth
       )
+
+      res.filter do |o| 
+        Plan.all.map{|o| 
+          o[:id]}.include?(o.id) 
+      end.map do |o|
+        o.features = Plan.get_by_id(o.id).dig('features')
+        o
+      end
     end
 
     def get_user_transactions(id)
