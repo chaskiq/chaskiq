@@ -172,7 +172,7 @@ export default function LanguageForm ({ settings, update, namespace, fields }) {
         <div className="flex justify-start">
           <Button
             onClick={handleSubmit}
-            variant={'contained'}
+            variant={'success'}
             color={'primary'}
             size="md"
           >

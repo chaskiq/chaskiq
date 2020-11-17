@@ -279,6 +279,7 @@ function AppInserter2 ({ app, update, option, capability }) {
         <Button
           onClick={handleSubmit}
           size="md"
+          variant={'success'}
           className="mt-5">
           {I18n.t('common.save')}
         </Button>

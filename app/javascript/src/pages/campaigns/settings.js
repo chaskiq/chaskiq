@@ -136,7 +136,7 @@ export default class CampaignSettings extends Component {
               <Button
                 className="mr-2 p-4"
                 onClick={this.onSubmitHandler.bind(this)}
-                variant="contained"
+                variant="success"
                 color="primary"
               >
                 {I18n.t('common.save')}

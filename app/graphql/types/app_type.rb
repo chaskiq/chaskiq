@@ -46,7 +46,7 @@ module Types
     field :plan, Types::JsonType, null: true
 
     def plan
-      return { disabled: true } if ENV['PADDLE_SECRET_TOKEN']
+      return { disabled: true } unless ENV['PADDLE_SECRET_TOKEN']
       object.plan
     end
 

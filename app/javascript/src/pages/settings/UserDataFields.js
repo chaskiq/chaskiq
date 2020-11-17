@@ -99,7 +99,7 @@ function CustomizationColors ({ app, settings, update, dispatch }) {
   function renderSubmitButton () {
     return (
       <Button
-        variant={'contained'}
+        variant={'success'}
         color={'primary'}
         onClick={() =>
           update({

@@ -163,7 +163,7 @@ function CustomizationColors ({ settings, update, dispatch }) {
       <div className="py-4">
         <Button 
           onClick={handleSubmit} 
-          variant={'contained'} 
+          variant={'success'} 
           size="md"
           color={'primary'}>
           {I18n.t('common.save')}
