@@ -448,7 +448,7 @@ class ArticlesNew extends Component {
                   <React.Fragment>
                     <div className="flex justify-between items-end py-4">
                       <Button
-                        variant="contained"
+                        variant="success"
                         onClick={this.submitChanges}
                         disabled={!this.state.changesAvailable}
                         color={"primary"}

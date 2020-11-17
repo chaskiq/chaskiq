@@ -154,7 +154,7 @@ function InboundSettings({ settings, update, dispatch }) {
       <div className="pb-4">
         <Button 
           onClick={handleSubmit} 
-          variant={"contained"} 
+          variant={"success"} 
           size="md"
           color={"primary"}>
           {I18n.t('common.save')}

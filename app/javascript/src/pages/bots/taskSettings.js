@@ -31,7 +31,7 @@ const TaskSettingsForm = ({ app, data, updateData, saveData, errors }) => {
 
       <div className="flex justify-end p-4">
         <Button
-          variant={'contained'}
+          variant={'success'}
           color={'primary'}
           size="md"
           onClick={() => saveData(state)}

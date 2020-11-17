@@ -371,7 +371,7 @@ class SettingsForm extends Component {
             <Button
               className="mr-2"
               onClick={this.onSubmitHandler.bind(this)}
-              variant="contained"
+              variant="success"
               color="primary"
               size="md"
             >
@@ -548,13 +548,14 @@ function LanguageForm({ settings, update, deleteLang }) {
           }
         </div>
 
-        <div className="flex justify-end py-2">
+        <div className="flex justify-start py-2">
           <Button
             onClick={handleSubmit}
-            variant={"contained"}
+            variant={"success"}
             color={"primary"}
+            size={'medium'}
           >
-            {I18n.t('common.submit')}
+            {I18n.t('common.save')}
           </Button>
         </div>
       </form>

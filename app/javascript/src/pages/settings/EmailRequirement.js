@@ -61,7 +61,7 @@ export default function EmailRequirement ({ settings, update }) {
       <Button 
         size="md"
         onClick={handleSubmit} 
-        variant={'contained'} 
+        variant={'success'} 
         color={'primary'}>
         {I18n.t('common.save')}
       </Button>

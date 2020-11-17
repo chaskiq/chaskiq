@@ -29,7 +29,7 @@ function UpgradeButton ({ classes, size, app, label, feature, children }) {
           onToggle={onToggle}
           classes={classes}
 				  toggle={toggle}>
-				  <div className="rounded-lg shadow-xs overflow-hidden">
+				  <div className="rounded-lg shadow-lg overflow-hidden border-2 border-black">
 				    <MenuItems app={app}/>
 				  </div>
 				</FeaturesMenu>
