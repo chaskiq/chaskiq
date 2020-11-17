@@ -10,6 +10,10 @@ class Api::GraphqlController < ApiController
     variables = ensure_hash(params[:variables])
     query = params[:query]
     operation_name = params[:operationName]
+
+    scout_transaction_name = "GraphQLAPI" + (operation_name || 'unknown')
+    ScoutApm::Transaction.rename(scout_transaction_name)
+  
     context = {
       # Query context goes here, for example:
       user_data: user_data,

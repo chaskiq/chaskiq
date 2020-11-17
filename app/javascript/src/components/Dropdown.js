@@ -38,6 +38,7 @@ export default function Dropdown ({
           ) : (
             <span className="rounded-md shadow-sm">
               <Button
+                variant="outlined"
                 onClick={() => setOpen(!open)}>
                 {labelButton}
                 <svg

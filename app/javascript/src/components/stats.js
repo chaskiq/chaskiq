@@ -137,7 +137,9 @@ class Stats extends Component {
       <div>
         <div className="flex justify-between items-center">
           <h3 className="text-xl font-bold my-4">{I18n.t('campaign.stats.title')}</h3>
-          <Button onClick={this.getData}>
+          <Button 
+            variant={"outlined"}
+            onClick={this.getData}>
             {I18n.t('campaign.stats.refresh_data')}
           </Button>
         </div>

@@ -7,9 +7,12 @@ import NewApp from './pages/NewApp'
 import NotFound from './pages/NotFound'
 import UnSubscribe from './pages/UnSubscribe'
 import AcceptInvitation from './pages/auth/acceptInvitation'
-import { Switch, Route } from 'react-router-dom'
+import { Switch, Route, withRouter } from 'react-router-dom'
 import ZoomImage from './components/ImageZoomOverlay'
 import LoadingView from './components/loadingView'
+import {
+  clearLocks
+} from './actions/upgradePages'
 
 function mapStateToProps (state) {
   const { auth, current_user } = state
@@ -24,7 +27,9 @@ function mapStateToProps (state) {
 function AppRouter ({
   loading,
   isAuthenticated,
-  current_user
+  current_user,
+  location,
+  dispatch
 }) {
   const [reload, setReload] = React.useState(false)
 
@@ -41,6 +46,10 @@ function AppRouter ({
       }, 400)
     }
   }, [current_user.lang])
+
+  React.useEffect(()=>{
+    dispatch(clearLocks())
+  }, [location.key])
 
   return (
     <div>
@@ -104,4 +113,4 @@ function AppRouter ({
   )
 }
 
-export default connect(mapStateToProps)(AppRouter)
+export default withRouter(connect(mapStateToProps)(AppRouter))

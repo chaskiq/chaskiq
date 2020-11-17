@@ -169,13 +169,14 @@ export default function LanguageForm ({ settings, update, namespace, fields }) {
           }
         </div>
 
-        <div className="flex justify-end">
+        <div className="flex justify-start">
           <Button
             onClick={handleSubmit}
             variant={'contained'}
             color={'primary'}
+            size="md"
           >
-            {I18n.t('common.submit')}
+            {I18n.t('common.save')}
           </Button>
         </div>
       </form>

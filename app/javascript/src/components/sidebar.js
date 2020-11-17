@@ -33,7 +33,8 @@ import {
   EmailIcon,
   ApiIcon,
   CardIcon,
-  SeachIcon
+  SeachIcon,
+  SendIcon
 } from '../components/icons'
 
 import SidebarAgents from '../components/conversations/SidebarAgents'
