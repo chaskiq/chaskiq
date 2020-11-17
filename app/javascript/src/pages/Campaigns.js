@@ -8,6 +8,7 @@ import { connect } from "react-redux";
 import Moment from "react-moment";
 import styled from "@emotion/styled";
 import serialize from "form-serialize";
+import UpgradeButton from "../components/upgradeButton"
 
 import CampaignSettings from "./campaigns/settings";
 import CampaignEditor from "./campaigns/editor";
@@ -466,14 +467,14 @@ class CampaignForm extends Component {
   };
 
   options = ()=> ([
-    {
+    /*{
       title: "Enable",
       description: "enables the campaign",
       icon: <CheckCircle />,
       id: "enabled",
       state: "enabled",
       onClick: this.toggleCampaignState
-    },
+    },*/
     {
       title: "Pause",
       description: "pauses the campaign ",
@@ -683,7 +684,41 @@ class CampaignForm extends Component {
             }
             actions={
               <React.Fragment>
-                <div>
+                <div className="flex">
+                {
+                  this.props.match.params.id !== "new" && 
+
+                  <UpgradeButton 
+                    label="Activate Campaigns"
+                    feature="Campaigns">
+                  
+                    <Button
+                      className="mr-2"
+                      title= "Enable"
+                      description={
+                        this.state.data.state === "disabled" ?
+                        "enables the campaign"
+                        :
+                        "disables the campaign"
+                      }
+                      //icon= <CheckCircle />
+                      id="enabled"
+                      state="enabled"
+                      onClick={this.toggleCampaignState}
+                    >
+                    {
+                      this.state.data.state === "disabled" ?
+                      "Enable"
+                      :
+                      "Disable"
+                    }
+                    
+                    </Button>
+                  </UpgradeButton>
+                }
+
+                {
+                  this.props.match.params.id !== "new" &&
                   <FilterMenu
                     options={this.optionsForData()}
                     value={'Actions'}
@@ -705,6 +740,7 @@ class CampaignForm extends Component {
                       );
                     }}
                   />
+                }
                 </div>
               </React.Fragment>
             }
@@ -801,9 +837,7 @@ class CampaignContainer extends Component {
     return (
       <div>
         <Button
-          variant={"contained"}
           color={"primary"}
-          size={"small"}
           onClick={this.createNewCampaign}
         >
           {I18n.t("campaigns.create_new")}

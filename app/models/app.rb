@@ -397,6 +397,12 @@ class App < ApplicationRecord
     }] : []
   end
 
+  def plan
+    @plan ||= Plan.new(
+      Plan.get_by_id(paddle_subscription_plan_id) || Plan.get('free')
+    )
+  end
+
   private
 
   def init_app_segments

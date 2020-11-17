@@ -30,6 +30,7 @@ import Input from "../../components/forms/Input";
 import FieldRenderer, {
   gridClasses,
 } from "../../components/forms/FieldRenderer";
+import UpgradeButton from "../../components/upgradeButton"
 
 function GestureIcon() {
   return <p>icon</p>;
@@ -282,6 +283,22 @@ class Settings extends Component {
       <React.Fragment>
         <ContentHeader
           title={I18n.t('articles.settings.title')}
+          actions={
+            <div>
+              <UpgradeButton 
+                classes={
+                  `
+                  absolute z-10 ml-1 mt-3 transform w-screen 
+                  max-w-md px-2 origin-top-right right-0
+                  md:-ml-4 sm:px-0 lg:ml-0
+                  lg:right-2/6 lg:translate-x-1/6`
+                }
+                label="activate help center"
+                feature="Articles">
+                <Button>Activate Help Center</Button>
+              </UpgradeButton>
+            </div>
+          }
           /*
           tabsContent={ this.tabsContent() }
           items={
@@ -356,12 +373,9 @@ class SettingsForm extends Component {
               onClick={this.onSubmitHandler.bind(this)}
               variant="contained"
               color="primary"
+              size="md"
             >
               {I18n.t('common.save')}
-            </Button>
-
-            <Button appearance="subtle" variant={"outlined"} color={"secondary"}>
-              {I18n.t('common.cancel')}
             </Button>
           </div>
 
@@ -503,10 +517,17 @@ function LanguageForm({ settings, update, deleteLang }) {
   return (
     <div className="py-4">
       <form ref={formRef} onSubmit={(e) => e.preventDefault()}>
-        <Button onClick={toggleDialog} variant={"outlined"}>
-          {I18n.t('articles.settings.add_language')}
-        </Button>
-
+        <UpgradeButton 
+          label={I18n.t('articles.settings.add_language')}
+          size="sm"
+          feature="Articles">
+            <Button 
+              onClick={toggleDialog}
+              variant={"outlined"}>
+              {I18n.t('articles.settings.add_language')}
+            </Button>
+        </UpgradeButton>
+        
         <div mt={2} mb={2}>
           {
             <Table

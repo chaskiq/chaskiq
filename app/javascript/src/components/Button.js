@@ -93,19 +93,17 @@ const BaseButton = styled.button`
         `
       default:
         return tw`
-        outline-none 
-        inline-flex 
-        items-center 
-        border 
-        border-transparent
-        rounded-md 
-        text-white 
-        bg-indigo-600 
-        hover:bg-indigo-500 
+        border border-transparent 
+        text-xs leading-4 
+        font-medium rounded 
+        text-indigo-700 
+        bg-indigo-100 
+        hover:bg-indigo-50 
         focus:outline-none 
-        focus:border-indigo-700 
-        focus:shadow-outline
-        active:bg-indigo-700`
+        focus:border-indigo-300 
+        focus:shadow-outline-indigo 
+        active:bg-indigo-200
+        `
     }
   }};
 

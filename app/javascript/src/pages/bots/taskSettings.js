@@ -29,10 +29,11 @@ const TaskSettingsForm = ({ app, data, updateData, saveData, errors }) => {
         data={data}
       /> */}
 
-      <div className="flex justify-end">
+      <div className="flex justify-end p-4">
         <Button
           variant={'contained'}
           color={'primary'}
+          size="md"
           onClick={() => saveData(state)}
         >
           {I18n.t('common.save')}
@@ -66,19 +67,19 @@ function Schedule ({ app, data, updateData, namespace, submit }) {
   }
 
   return (
-    <div className="py-4">
-      <p className="text-lg leading-6 font-medium text-gray-900 pb-4">
+    <div className="">
+      <p className="text-xl font-bold my-4">
         {I18n.t('task_bots.settings.settings_title')}
       </p>
 
-      <Input
+      {/*<Input
         type="checkbox"
         checked={state.state === 'enabled'}
         onChange={handleChange('state')}
         value={state.state === 'enabled'}
         label={I18n.t('task_bots.settings.enable_title')}
         hint={I18n.t('task_bots.settings.enable_hint')}
-      ></Input>
+      ></Input>*/}
 
       <p className="text-lg leading-6 font-medium text-gray-900 pb-4">
         {I18n.t('task_bots.settings.specific_times_title')}

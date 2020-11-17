@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react'
 import { isEmpty } from 'lodash'
 import { withRouter } from 'react-router-dom'
+import UpgradeButton from '../components/upgradeButton'
 
 import { connect } from 'react-redux'
 import Content from '../components/Content'
@@ -271,14 +272,19 @@ function Settings ({ app, dispatch }) {
       <PageHeader
         title={I18n.t("settings.webhooks.outgoing_webhooks")}
         actions={
-          <Button
-            className={'transition duration-150 ease-in-out'}
-            variant={'main'}
-            color={'primary'}
-            onClick={newWebhook}
-          >
-            {I18n.t("settings.webhooks.new_webhook")}
-          </Button>
+          <UpgradeButton
+            label={I18n.t("settings.webhooks.new_webhook")}
+            feature="OutgoingWebhook">
+            <Button
+              className={'transition duration-150 ease-in-out'}
+              variant={'main'}
+              color={'primary'}
+              onClick={newWebhook}
+            >
+              {I18n.t("settings.webhooks.new_webhook")}
+            </Button>          
+          </UpgradeButton>
+
         }
       />
 
