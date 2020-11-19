@@ -40,12 +40,12 @@ module.exports = {
       display: ['Inter', 'sans-serif'],
       body: ['Inter', 'sans-serif']
     },
-    borderWidth: {
+    /*borderWidth: {
       default: '1px',
       0: '0',
       2: '2px',
       4: '4px'
-    },
+    },*/
     extend: {
       colors: {
         cyan: '#9cdbff',
@@ -70,6 +70,5 @@ module.exports = {
   },
   variants: {},
   plugins: [
-    require('@tailwindcss/ui')
   ]
 }
