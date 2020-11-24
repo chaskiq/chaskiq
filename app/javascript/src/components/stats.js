@@ -194,7 +194,7 @@ class Stats extends Component {
                 title: I18n.t("definitions.stats.email.label"),
                 render: (row) =>
                   row && (
-                    <td className="px-6 py-4 whitespace-no-wrap border-b border-gray-200">
+                    <td className="px-6 py-4 whitespace-nowrap border-b border-gray-200">
                       <div
                         onClick={(e) =>
                           this.props.actions.showUserDrawer(row.appUserId)
@@ -221,7 +221,7 @@ class Stats extends Component {
                   ),
               },
               { field: "action", title: I18n.t("definitions.stats.actions.label"), 
-                render: (row)=> <td className="px-6 py-4 whitespace-no-wrap border-b border-gray-200">
+                render: (row)=> <td className="px-6 py-4 whitespace-nowrap border-b border-gray-200">
                   {this.renderBadgeKind(row)}
                 </td> 
               },
@@ -231,7 +231,7 @@ class Stats extends Component {
                 title: I18n.t("definitions.stats.when.label"),
                 render: (row) =>
                   row && (
-                    <td className="px-6 py-4 whitespace-no-wrap border-b border-gray-200">
+                    <td className="px-6 py-4 whitespace-nowrap border-b border-gray-200">
                       <Moment fromNow>{row.updatedAt}</Moment>
                     </td>
                   ),
@@ -241,7 +241,7 @@ class Stats extends Component {
                 title: I18n.t("definitions.stats.data.label"),
                 render: (row) =>
                   row && (
-                    <td className="px-6 py-4 whitespace-no-wrap border-b border-gray-200">
+                    <td className="px-6 py-4 whitespace-nowrap border-b border-gray-200">
                       <div>{JSON.stringify(row.data)}</div>
                     </td>
                   ),

@@ -1,60 +1,93 @@
-
-
 ---
   en:
     subscriptions:
+      upgrade: Upgrade
       tabs:
         - Plans
         - Transaction history
+      features:
+        Segments:
+          title: Segments
+          description: true
+          upgrade_message: Enable contact segments and targeting
+
+        Leads:
+          title: Leads
+          description: true
+          upgrade_message: Get external apps, many many apps
+
+        AppUsers:
+          title: AppUsers
+          description: true
+          upgrade_message: Get external apps, many many apps
+
+        Conversations:
+          title: Conversations
+          description: true
+          upgrade_message: Enable conversations
+
+        BotTasks:
+          title: BotTasks
+          description: true
+          upgrade_message: Add automated chatflows to your app
+
+        Integrations:
+          title: Integrations
+          description: true
+          upgrade_message: Get external apps, many many apps
+        Campaigns:
+          title: Campaigns
+          active: false
+          upgrade_message: Get outbound messages, newsletter and Tours!
+        Tours:
+          title: Tours
+          description: true
+          upgrade_message: Get outbound messages, newsletter and Tours!
+
+        UserAutoMessages:
+          title: UserAutoMessages
+          description: true
+          upgrade_message: Get outbound messages, newsletter and Tours!
+
+        OutgoingWebhooks:
+          title: OutgoingWebhooks
+          active: false
+          upgrade_message: Enable outgoing webhooks
+
+        OauthApplications:
+          title: OauthApplications
+          description: true
+          upgrade_message: Enable API access support through OAUTH
+
+        Articles:
+          title: Articles
+          active: false
+          upgrade_message: Enable Documentation & Help Center 
+
+        QuickReplies:
+          title: QuickReplies
+          description: true
+          upgrade_message: add Quick replies to your conversations
+
+        CustomAttributes:
+          title: CustomAttributes
+          upgrade_message: Enable custom attributes
+
       plans:
         - 
           name: "free one"
           description: This is a frebie plan!
           id: 618560
-          features:
-            -
-              name: Segments
-            - 
-              name: Conversations
-            - 
-              name: Campaigns 
-            - 
-              name: Chat Flows 
-            - 
-              name: Api integrations
         - 
           name: "rookie"
           description: This is the simple plan
           id: 616249
-          features:
-            -
-              name: Segments
-            - 
-              name: Conversations
-            - 
-              name: Campaigns 
-            - 
-              name: Chat Flows 
-            - 
-              name: Api integrations
+
         - 
           name: "super"
           id: 596123
           description: This is the super plan
-          features:
-            -
-              name: Segments
-            - 
-              name: Conversations
-            - 
-              name: Campaigns 
-            - 
-              name: Chat Flows 
-            - 
-              name: Help Center
-            -
-              name: Api integrations
-      
+
       plan:
         included: What's included
         pay_by: Pay by %{billing_type}

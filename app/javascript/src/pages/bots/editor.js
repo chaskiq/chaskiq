@@ -659,6 +659,12 @@ const BotEditor = ({ match, app, dispatch, mode, actions }) => {
           items={[]}
           actions={
             <UpgradeButton 
+            classes={
+              `absolute z-10 ml-1 mt-3 transform w-screen 
+              max-w-md px-2 origin-top-right right-0
+              md:-ml-4 sm:px-0 lg:ml-0
+              lg:right-2/6 lg:translate-x-1/6`
+            }
             label="Activate Bot Task"
             feature="BotTasks">
           

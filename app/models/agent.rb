@@ -9,7 +9,7 @@ class Agent < ApplicationRecord
 
   devise  :invitable,
           :database_authenticatable,
-          # :registerable, disabled registrations
+          :registerable, #disabled registrations
           :recoverable,
           :rememberable,
           :validatable,

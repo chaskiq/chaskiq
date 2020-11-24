@@ -2,7 +2,6 @@ subscriptions:
   plans:
     - 
       name: "free"
-      description: Este es el plan gratuito!
       id: 618560
       features:
         -
@@ -24,7 +23,7 @@ subscriptions:
 
         - 
           name: BotTasks
-          active: true
+          active: false
           count: unlimited
         - 
           name: Integrations
@@ -38,12 +37,12 @@ subscriptions:
 
         - 
           name: Tours
-          active: true
+          active: false
           count: unlimited
 
         - 
           name: UserAutoMessages
-          active: true
+          active: false
           count: unlimited
 
         - name: OutgoingWebhooks
@@ -63,12 +62,11 @@ subscriptions:
           count: unlimited
 
         - name: CustomAttributes
-          active: true
+          active: false
           count: unlimited
 
     - 
       name: "rookie"
-      description: Este es el plan simple
       id: 616249
       features:
         -
@@ -87,54 +85,50 @@ subscriptions:
           name: Conversations
           active: true
           count: unlimited
-
         - 
           name: BotTasks
-          active: true
+          active: false
           count: unlimited
         - 
           name: Integrations
           active: true
           count: unlimited
-
         - 
           name: Campaigns
-          active: false
+          active: true
           count: unlimited
-
         - 
           name: Tours
           active: true
           count: unlimited
-
         - 
           name: UserAutoMessages
           active: true
           count: unlimited
-
-        - name: OutgoingWebhooks
+        - 
+          name: OutgoingWebhooks
+          active: true
+          count: unlimited
+        - 
+          name: OauthApplications
+          active: true
+          count: unlimited
+        - 
+          name: Articles
+          active: true
+          count: unlimited
+        - 
+          name: QuickReplies
+          active: true
+          count: unlimited
+        - 
+          name: CustomAttributes
           active: false
           count: unlimited
-
-        - name: OauthApplications
-          active: true
-          count: unlimited
-          
-        - name: Articles
-          active: false
-          count: unlimited
-
-        - name: QuickReplies
-          active: true
-          count: unlimited
-
-        - name: CustomAttributes
-          active: true
-          count: unlimited
+    
     - 
       name: "super"
       id: 596123
-      description: Este es el super plan
       features:
         -
           name: Segments
@@ -152,7 +146,6 @@ subscriptions:
           name: Conversations
           active: true
           count: unlimited
-
         - 
           name: BotTasks
           active: true
@@ -161,38 +154,35 @@ subscriptions:
           name: Integrations
           active: true
           count: unlimited
-
         - 
           name: Campaigns
           active: false
           count: unlimited
-
         - 
           name: Tours
           active: true
           count: unlimited
-
         - 
           name: UserAutoMessages
           active: true
           count: unlimited
-
-        - name: OutgoingWebhooks
-          active: false
-          count: unlimited
-
-        - name: OauthApplications
+        - 
+          name: OutgoingWebhooks
           active: true
           count: unlimited
-          
-        - name: Articles
-          active: false
-          count: unlimited
-
-        - name: QuickReplies
+        - 
+          name: OauthApplications
           active: true
           count: unlimited
-
-        - name: CustomAttributes
+        - 
+          name: Articles
+          active: true
+          count: unlimited
+        - 
+          name: QuickReplies
+          active: true
+          count: unlimited
+        - 
+          name: CustomAttributes
           active: true
           count: unlimited

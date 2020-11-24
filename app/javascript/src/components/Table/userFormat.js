@@ -31,7 +31,7 @@ const userFormat = function (showUserDrawer, app) {
       render: (row) => {
         return (
           row && (
-            <td className="px-6 py-4 whitespace-no-wrap border-b border-gray-200">
+            <td className="px-6 py-4 whitespace-nowrap border-b border-gray-200">
               <div
                 onClick={(e) => showUserDrawer && showUserDrawer(row)}
                 className="flex items-center"
@@ -68,7 +68,7 @@ const userFormat = function (showUserDrawer, app) {
       title: I18n.t('data_tables.users.tag_list'),
       hidden: false,
       render: (row) => (
-        <td className="px-6 py-4 whitespace-no-wrap border-b border-gray-200">
+        <td className="px-6 py-4 whitespace-nowrap border-b border-gray-200">
 
           <div className="flex flex-wrap space-y-1">
           {
@@ -90,7 +90,7 @@ const userFormat = function (showUserDrawer, app) {
       title: I18n.t('data_tables.users.state'),
       render: (row) => {
         return (
-          <td className="px-6 py-4 whitespace-no-wrap border-b border-gray-200">
+          <td className="px-6 py-4 whitespace-nowrap border-b border-gray-200">
 
             <Badge variant={
               row.state === 'subscribed' ? 'green' : 'yellow'
@@ -122,7 +122,7 @@ const userFormat = function (showUserDrawer, app) {
       title: 'Last visited at',
       render: (row) =>
         row && (
-          <td className="px-6 py-4 whitespace-no-wrap border-b border-gray-200 text-sm leading-5 text-gray-500">
+          <td className="px-6 py-4 whitespace-nowrap border-b border-gray-200 text-sm leading-5 text-gray-500">
             <Moment fromNow>{row.lastVisitedAt}</Moment>
           </td>
         )
@@ -136,7 +136,7 @@ const userFormat = function (showUserDrawer, app) {
       title: o.name,
       render: (row) =>
         row && (
-          <td className="px-6 py-4 whitespace-no-wrap border-b border-gray-200 text-sm leading-5 text-gray-500">
+          <td className="px-6 py-4 whitespace-nowrap border-b border-gray-200 text-sm leading-5 text-gray-500">
             {row.properties[o.name]}
           </td>
         )

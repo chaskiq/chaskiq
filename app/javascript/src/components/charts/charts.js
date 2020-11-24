@@ -17,32 +17,21 @@ export default function CampaignPie ({ data }) {
   }
 
   return (
+
     <ResponsivePie
       data={data}
-      margin={{
-        top: 10,
-        right: 10,
-        bottom: 80,
-        left: 10
-      }}
+      margin={{ top: 4, right: 8, bottom: 80, left: 8 }}
       startAngle={-180}
-      endAngle={280}
-      innerRadius={0}
-      padAngle={0.7}
-      cornerRadius={3}
-      colors="dark2"
-      colorBy={function (e) {
-        return e.color
-      }}
-      // colorBy="id"
-      borderWidth={0}
-      borderColor="inherit:darker(0.2)"
+      sortByValue={true}
+      colors={{ scheme: 'purple_blue' }}
+      borderColor={{ from: 'color', modifiers: [['darker', 0.2]] }}
       enableRadialLabels={false}
-      slicesLabelsSkipAngle={10}
-      slicesLabelsTextColor="#333333"
-      animate={true}
-      motionStiffness={90}
-      motionDamping={15}
+      radialLabelsSkipAngle={8}
+      radialLabelsTextColor="#333333"
+      radialLabelsLinkColor={{ from: 'color' }}
+      sliceLabelsRadiusOffset={0.65}
+      sliceLabelsSkipAngle={11}
+      sliceLabelsTextColor="#333333"
       defs={[
         {
           id: 'dots',
@@ -63,44 +52,33 @@ export default function CampaignPie ({ data }) {
           spacing: 10
         }
       ]}
-      theme={{
-        legends: {
-          text: {
-            fill: theme.palette.primary.light
-          }
-        },
-        tooltip: {
-          container: {
-            background: 'white',
-            color: 'black',
-            fontSize: 'inherit',
-            borderRadius: '2px',
-            boxShadow: '0 1px 2px rgba(0, 0, 0, 0.25)',
-            padding: '5px 9px'
-          },
-          basic: {
-            whiteSpace: 'pre',
-            display: 'flex',
-            alignItems: 'center'
-          },
-          table: {},
-          tableCell: {
-            padding: '3px 5px'
-          }
-        }
-      }}
+      
       legends={[
         {
           anchor: 'bottom',
           direction: 'row',
+          justify: false,
+          translateX: 0,
           translateY: 56,
+          itemsSpacing: 0,
           itemWidth: 100,
           itemHeight: 18,
+          itemTextColor: '#999',
+          itemDirection: 'left-to-right',
+          itemOpacity: 1,
           symbolSize: 18,
           symbolShape: 'circle',
-          textColor: theme.palette.primary.light
+          effects: [
+            {
+              on: 'hover',
+              style: {
+                itemTextColor: '#000'
+              }
+            }
+          ]
         }
       ]}
     />
+
   )
 }

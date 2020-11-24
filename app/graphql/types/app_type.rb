@@ -46,7 +46,7 @@ module Types
     field :plan, Types::JsonType, null: true
 
     def plan
-      return { disabled: true } unless ENV['PADDLE_SECRET_TOKEN']
+      return { disabled: true } unless context[:enabled_subscriptions]
       object.plan
     end
 
@@ -99,8 +99,7 @@ module Types
 
     field :subscriptions_enabled, Boolean, null: true
     def subscriptions_enabled
-      ENV['PADDLE_PUBLIC_KEY'].present? || ENV['PADDLE_VENDOR_ID'].present? ||
-        ENV['PADDLE_SECRET_TOKEN'].present?
+      context[:enabled_subscriptions]
     end
 
     def tag_list

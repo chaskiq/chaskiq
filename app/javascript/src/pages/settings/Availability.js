@@ -278,7 +278,7 @@ function AvailabilityRecord ({ record, update, index, removeItem }) {
       </div>
 
       <div className="w-1/4 pt-3">
-        <Button variant="icon" onClick={deleteItem}>
+        <Button type={'button'} variant="icon" onClick={deleteItem}>
           <DeleteIcon></DeleteIcon>
         </Button>
       </div>
