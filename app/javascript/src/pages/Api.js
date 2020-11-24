@@ -544,7 +544,7 @@ class OauthList extends React.Component {
             disablePagination={true}
             columns={[
               { field: "name", title: "name", render: (row)=>{
-                return <td className="px-6 py-4 whitespace-no-wrap border-b border-gray-200">
+                return <td className="px-6 py-4 whitespace-nowrap border-b border-gray-200">
                   <Link className="font-bold text-2xl" to={`${this.props.match.path}/${row.uid}`}>
                     {row.name}
                   </Link>
@@ -557,7 +557,7 @@ class OauthList extends React.Component {
                 title: "Created at",
                 render: (row) =>
                   row && (
-                    <td className="px-6 py-4 whitespace-no-wrap border-b border-gray-200">
+                    <td className="px-6 py-4 whitespace-nowrap border-b border-gray-200">
                       <span
                         className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full 
                       ${

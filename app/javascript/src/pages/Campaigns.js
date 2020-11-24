@@ -689,6 +689,13 @@ class CampaignForm extends Component {
                   this.props.match.params.id !== "new" && 
 
                   <UpgradeButton 
+                    classes={
+                      `
+                      absolute z-10 ml-1 mt-3 transform w-screen 
+                      max-w-md px-2 origin-top-right right-0
+                      md:-ml-4 sm:px-0 lg:ml-0
+                      lg:right-2/6 lg:translate-x-1/6`
+                    }
                     label="Activate Campaigns"
                     feature="Campaigns">
                   
@@ -937,7 +944,7 @@ class CampaignContainer extends Component {
                           title: I18n.t("definitions.campaigns.campaign_name.label"),
                           render: (row) =>
                             row && (
-                              <td className="px-6 py-4 whitespace-no-wrap border-b border-gray-200">
+                              <td className="px-6 py-4 whitespace-nowrap border-b border-gray-200">
                                 <div className="flex items-center">
                                   <div className="text-lg leading-5 font-bold text-gray-900">
                                     <AnchorLink
@@ -956,7 +963,7 @@ class CampaignContainer extends Component {
                           title: I18n.t("definitions.campaigns.state.label"),
                           render: (row) => {
                             return (
-                              <td className="px-6 py-4 whitespace-no-wrap border-b border-gray-200">
+                              <td className="px-6 py-4 whitespace-nowrap border-b border-gray-200">
                                 <Badge variant={row.state === 'enabled' ? 'green' : null}>
                                   {row.state}
                                 </Badge>
@@ -971,7 +978,7 @@ class CampaignContainer extends Component {
                         {field: 'timezone', title: 'timezone'},
                         {field: 'scheduledAt', title: I18n.t("definitions.campaigns.scheduled_at.label"), hidden: true, type: "datetime", 
                           render: row => (row ? 
-                            <td className="px-6 py-4 whitespace-no-wrap border-b border-gray-200">
+                            <td className="px-6 py-4 whitespace-nowrap border-b border-gray-200">
                               <Moment fromNow>
                                 {row.scheduledAt}
                               </Moment>
@@ -979,7 +986,7 @@ class CampaignContainer extends Component {
                         },
                         {field: 'scheduledTo', title: I18n.t("definitions.campaigns.scheduled_to.label"), hidden: true, type: "datetime",
                           render: row => (row ? 
-                            <td className="px-6 py-4 whitespace-no-wrap border-b border-gray-200">
+                            <td className="px-6 py-4 whitespace-nowrap border-b border-gray-200">
                               <Moment fromNow>
                                 {row.scheduledTo}
                               </Moment>
@@ -989,7 +996,7 @@ class CampaignContainer extends Component {
                           field: "actions",
                           title: I18n.t("definitions.campaigns.actions.label"),
                           render: (row) => (
-                            <td className="px-6 py-4 whitespace-no-wrap border-b border-gray-200">
+                            <td className="px-6 py-4 whitespace-nowrap border-b border-gray-200">
                               <span
                                 className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full `}
                               >

@@ -56,7 +56,7 @@ describe('AppPackages', function () {
         })
     })
 
-    it('Home apps app packages', function () {  
+    it.only('Home apps app packages', function () {  
       cy.visit('/apps')
       cy.contains('my app').click()
       cy.get("a[aria-label='Settings']")
@@ -89,7 +89,7 @@ describe('AppPackages', function () {
             cy.contains('Add to messenger home').click()
 
             cy.contains('ContentShowcase')
-            cy.contains('Save changes').click()
+            cy.contains('Save').click()
           })
         })
     })

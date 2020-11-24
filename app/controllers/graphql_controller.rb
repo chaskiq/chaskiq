@@ -17,7 +17,8 @@ class GraphqlController < ApplicationController
     context = {
       # Query context goes here, for example:
       current_user: current_user,
-      doorkeeper_authorize: -> { api_authorize! }
+      doorkeeper_authorize: -> { api_authorize! },
+      enabled_subscriptions: enabled_subscriptions?
     }
 
     result = ChaskiqSchema.execute(query,

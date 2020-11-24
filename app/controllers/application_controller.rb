@@ -102,6 +102,15 @@ class ApplicationController < ActionController::Base
   # Devise code
   before_action :configure_permitted_parameters, if: :devise_controller?
 
+
+  def enabled_subscriptions?
+    ENV['PADDLE_PUBLIC_KEY'].present? && 
+    ENV['PADDLE_VENDOR_ID'].present? &&
+    ENV['PADDLE_SECRET_TOKEN'].present?
+  end
+
+  helper_method :enabled_subscriptions?
+
   protected
 
   # Devise methods

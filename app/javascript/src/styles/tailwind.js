@@ -22,6 +22,7 @@ nums.map(
   })
 
 module.exports = {
+  darkMode: 'media',
   theme: {
     minWidth: {
       0: '0',

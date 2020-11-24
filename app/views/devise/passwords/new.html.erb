@@ -1,7 +1,7 @@
 <div class="min-h-screen bg-gray-50 flex flex-col justify-center py-12 sm:px-6 lg:px-8">
   <div class="sm:mx-auto sm:w-full sm:max-w-md">
     <%= image_tag "logo.png", class: "mx-auto h-20 w-auto" %>
-    <h2 class="mt-6 text-center text-2xl leading-9 font-extrabold text-gray-900">
+    <h2 class="mt-6 text-center text-1xl leading-3 font-light text-gray-600">
       Forgot your password?
     </h2>
   </div>
@@ -34,7 +34,7 @@
 
       <% end %>
 
-      <% # render "devise/shared/links" %>
+      <%= render "devise/shared/links" %>
 
     </div>
   </div>

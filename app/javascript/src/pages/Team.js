@@ -273,7 +273,7 @@ class AppUsers extends React.Component {
                 title: "email",
                 render: (row) =>
                   row && (
-                    <td className="px-6 py-4 whitespace-no-wrap border-b border-gray-200">
+                    <td className="px-6 py-4 whitespace-nowrap border-b border-gray-200">
                       <div className="flex items-center">
                         <div className="flex-shrink-0 h-10 w-10">
                           <Link
@@ -311,7 +311,7 @@ class AppUsers extends React.Component {
               { field: "owner", title: "Owner",
               render: (row)=>(
                 row && (
-                  <td className="px-6 py-4 whitespace-no-wrap border-b border-gray-200">
+                  <td className="px-6 py-4 whitespace-nowrap border-b border-gray-200">
                     {
                       row.owner && <Badge 
                         variant="green">
@@ -324,7 +324,7 @@ class AppUsers extends React.Component {
               { field: "accessList", title: "Access list",
                 render: (row)=>(
                   row && (
-                    <td className="px-6 py-4 whitespace-no-wrap border-b border-gray-200">
+                    <td className="px-6 py-4 whitespace-nowrap border-b border-gray-200">
                       {row.accessList.map((o)=> 
                         <Badge
                           className="mr-2" 
@@ -341,7 +341,7 @@ class AppUsers extends React.Component {
                 title: 'Actions',
                 render: (row)=>(
                   row && (
-                    <td className="px-6 py-4 whitespace-no-wrap border-b border-gray-200">
+                    <td className="px-6 py-4 whitespace-nowrap border-b border-gray-200">
                       <Button 
                         onClick={()=> this.handleEdit(row)}
                         variant="outlined" 
@@ -358,7 +358,7 @@ class AppUsers extends React.Component {
                 title: "Last sign in at",
                 render: (row) =>
                   row && (
-                    <td className="px-6 py-4 whitespace-no-wrap border-b border-gray-200">
+                    <td className="px-6 py-4 whitespace-nowrap border-b border-gray-200">
                       <span
                         className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full 
                       ${
@@ -379,7 +379,7 @@ class AppUsers extends React.Component {
                 title: "invitation Accepted At",
                 render: (row) =>
                   row && (
-                    <td className="px-6 py-4 whitespace-no-wrap border-b border-gray-200">
+                    <td className="px-6 py-4 whitespace-nowrap border-b border-gray-200">
                       <span
                         className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full 
                       ${
@@ -570,7 +570,7 @@ class NonAcceptedAppUsers extends React.Component {
               { field: "email", title: "email" },
               { field: "name", title: "name" },
               { field: "actions", title: "actions", render: (row)=> {
-                  return <tr className="flex items-center px-6 py-4 whitespace-no-wrap border-b border-gray-200">
+                  return <tr className="flex items-center px-6 py-4 whitespace-nowrap border-b border-gray-200">
                           <Button 
                             onClick={ ()=> this.resendInvitation(row.email) } 
                             variant="outlined" size="md">
