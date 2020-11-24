@@ -26,7 +26,7 @@ const BaseButton = styled.button`
         rounded 
         text-indigo-700 
         bg-indigo-100 
-        hover:bg-indigo-50 
+        hover:bg-indigo-100
         focus:outline-none 
         focus:border-indigo-300 
         focus:shadow-outline-indigo 
@@ -99,7 +99,7 @@ const BaseButton = styled.button`
         font-medium rounded 
         text-indigo-700 
         bg-indigo-100 
-        hover:bg-indigo-50 
+        hover:bg-indigo-100
         focus:outline-none 
         focus:border-indigo-300 
         focus:shadow-outline-indigo 
