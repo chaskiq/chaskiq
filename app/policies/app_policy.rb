@@ -1,4 +1,7 @@
 class AppPolicy < ActionPolicy::Base
+  authorize :user
+  authorize :role, optional: true
+
   def index?
     # allow everyone to perform "index" activity on posts
     true
@@ -24,6 +27,12 @@ class AppPolicy < ActionPolicy::Base
     record.owner_id == user.id || record.roles.where(
       agent_id: user.id
     ).tagged_with('manage').any?
+  end
+
+  def update_agent?
+    role.app.owner_id == user.id || 
+    role.agent.id == record.id || 
+    role.access_list.include?("manage")
   end
 
   def update?

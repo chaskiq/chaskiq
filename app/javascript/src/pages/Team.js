@@ -277,7 +277,7 @@ class AppUsers extends React.Component {
                       <div className="flex items-center">
                         <div className="flex-shrink-0 h-10 w-10">
                           <Link
-                            to={`/apps/${this.props.app.key}/agents/${row.id}`}
+                            to={`/apps/${this.props.app.key}/agents/${row.agentId}`}
                             >
                             <img
                               className="h-10 w-10 rounded-full"
@@ -290,14 +290,14 @@ class AppUsers extends React.Component {
                         <div className="ml-4">
                           <div className="text-sm leading-5 font-medium text-gray-900">
                             <Link
-                              to={`/apps/${this.props.app.key}/agents/${row.id}`}
+                              to={`/apps/${this.props.app.key}/agents/${row.agentId}`}
                               >
                               {row.displayName}
                             </Link>
                           </div>
                           <div className="text-sm leading-5 text-gray-500">
                             <Link
-                              to={`/apps/${this.props.app.key}/agents/${row.id}`}
+                              to={`/apps/${this.props.app.key}/agents/${row.agentId}`}
                               >
                               {row.email}
                             </Link>
