@@ -9,6 +9,7 @@ import Button from "./Button";
 import Avatar from "./Avatar";
 import Count from "./charts/count";
 import I18n from '../shared/FakeI18n'
+import {isEmpty} from 'lodash'
 
 const PieContainer = styled.div`
   padding: 0.75em;
@@ -139,6 +140,7 @@ class Stats extends Component {
           <h3 className="text-xl font-bold my-4">{I18n.t('campaign.stats.title')}</h3>
           <Button 
             variant={"outlined"}
+            size="small"
             onClick={this.getData}>
             {I18n.t('campaign.stats.refresh_data')}
           </Button>
@@ -148,10 +150,11 @@ class Stats extends Component {
         {this.props.data && this.props.mode !== "counter_blocks" &&
           <PieContainer>
             {
-              this.props.data.statsFields.map((o) => {
+              !isEmpty(this.state.counts) && this.props.data.statsFields.map((o) => {
+                const rateData = this.getRateFor(o)
                 return (
                   <PieItem>
-                    <CampaignChart data={this.getRateFor(o)} />
+                    <CampaignChart data={rateData} />
                   </PieItem>
                 );
               })
