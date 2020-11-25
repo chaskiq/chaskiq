@@ -29,7 +29,7 @@ jobs:
         uses: eregon/use-ruby-action@master
         with:
           ruby-version: 2.7.1
-      - uses: borales/actions-yarn@v2.0.0
+      - uses: borales/actions-yarn@v2.3.0
         with:
           cmd: install
 
