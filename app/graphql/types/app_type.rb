@@ -45,6 +45,10 @@ module Types
 
     field :plan, Types::JsonType, null: true
 
+    def outgoing_email_domain
+      object.outgoing_email_domain || ENV['DEFAULT_OUTGOING_EMAIL_DOMAIN']
+    end
+
     def plan
       return { disabled: true } unless context[:enabled_subscriptions]
       object.plan
