@@ -161,7 +161,7 @@ function Conversations ({
     return (
       <React.Fragment>
 
-        <div className="items-center bg-white px-3 py-3 border-b border-gray-200 sm:px-3 flex justify-between">
+        <div className="items-center bg-white px-3 py-4 border-b border-gray-200 sm:px-3 flex justify-between">
           <FilterMenu
             options={filters}
             value={conversations.filter}

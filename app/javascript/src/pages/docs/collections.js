@@ -50,7 +50,7 @@ export default function Collections ({ lang, subdomain }) {
   return (
     <div className="py-12 sm:px-6 md:px-24 bg-gray-100">
       {/* End hero unit */}
-      <div className="md:grid md:grid-cols-2 md:col-gap-8 md:row-gap-10">
+      <div className="md:grid md:grid-cols-2 md:gap-x-8 md:gap-y-10">
         {collections.map((card) => (
           <div className="m-4" item key={card.id} xs={12} sm={12} md={4}>
             <Card

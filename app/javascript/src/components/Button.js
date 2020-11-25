@@ -21,16 +21,17 @@ const BaseButton = styled.button`
         `
       case 'flat':
         return tw`
+        inline-flex 
+        items-center 
         border 
         border-transparent 
+        text-xs 
+        font-medium 
         rounded 
         text-indigo-700 
         bg-indigo-100 
-        hover:bg-indigo-100
+        hover:bg-indigo-200 
         focus:outline-none 
-        focus:border-indigo-300 
-        focus:shadow-outline-indigo 
-        active:bg-indigo-200 
         `
       case 'flat-dark':
         return tw`
@@ -42,7 +43,6 @@ const BaseButton = styled.button`
           hover:bg-gray-800 
           focus:outline-none 
           focus:border-gray-700 
-          focus:shadow-outline-gray 
           active:bg-gray-800 
           `
       case 'main':
@@ -52,9 +52,12 @@ const BaseButton = styled.button`
         border 
         border-transparent 
         rounded-md 
-        text-white bg-indigo-600 hover:bg-indigo-500 
-        focus:outline-none focus:shadow-outline 
-        focus:border-indigo-700 active:bg-indigo-700`
+        text-white bg-indigo-600 
+        hover:bg-indigo-500 
+        focus:outline-none 
+        focus:shadow-outline 
+        focus:border-indigo-700 
+        active:bg-indigo-700`
       case 'link':
         return tw`flex text-indigo-700 hover:text-indigo-900`
       case 'clean':
@@ -83,7 +86,7 @@ const BaseButton = styled.button`
         hover:text-gray-400`
       case 'danger':
         return tw`outline-none 
-        rounded-md 
+        rounded 
         bg-red-400 
         text-white
         hover:bg-red-500 
@@ -93,16 +96,17 @@ const BaseButton = styled.button`
         `
       default:
         return tw`
-        flex flex-wrap items-center
-        border border-transparent 
-        text-xs leading-4 
-        font-medium rounded 
+        flex 
+        flex-wrap 
+        items-center
+        rounded
+        border 
+        border-transparent 
         text-indigo-700 
         bg-indigo-100 
-        hover:bg-indigo-100
+        hover:bg-indigo-200
         focus:outline-none 
         focus:border-indigo-300 
-        focus:shadow-outline-indigo 
         active:bg-indigo-200
         `
     }
