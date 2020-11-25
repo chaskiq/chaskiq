@@ -132,7 +132,7 @@ const BotDataTable = ({ app, match, history, mode, dispatch }) => {
                       {row.id && (
                         <Button
                           color={'secondary'}
-                          variant={'contained'}
+                          variant={'danger'}
                           onClick={() => setOpenDeleteDialog(row)}
                         >
                           {I18n.t('common.delete')}
