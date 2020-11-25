@@ -58,17 +58,12 @@ jobs:
           gem install bundler
           bundle install --jobs 4 --retry 3
           bundle exec rails db:prepare
-
           cp ./config/webpacker.ci.yml ./config/webpacker.yml
           bundle exec rake assets:precompile
-
           curl ifconfig.me
           bundle exec rails server -e test -p 5002 -d
-
           ./node_modules/.bin/cypress install
-
-          #curl -L localhost:5002/embed.js
-          yarn cypress run
+          yarn cypress:ci
           #bundle exec rake assets:precompile
           #bundle exec rspec ./spec/system  -t browser
 
