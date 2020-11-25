@@ -40,13 +40,13 @@ export default function SimpleTabs ({ tabs, currentTab, onChange }) {
     <div className="w-full">
       <div className="border-b border-gray-200">
         <Scrollable className="overflow-auto">
-          <nav className="-mb-px flex w-screen">
+          <nav className="-mb-px flex justify-start w-screen">
             {tabs.map((o, i) => (
               <TabItem
                 onClick={() => setValue(i)}
                 active={i === value}
                 key={'tab' + o.label}
-                className={`${i > 0 && 'ml-8'}`}
+                className={`${i > 0 && 'ml-4 lg:ml-8'}`}
                 href="#"
               >
                 {o.icon && o.icon}

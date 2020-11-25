@@ -97,7 +97,7 @@ const EditorPad = styled.div`
       : `
       padding: 2em;
       background-color: white;
-      margin-top: 23px;
+      margin: 2em;
       border: 1px solid #ececec;
 
       @media all and (min-width: 1024px) and (max-width: 1280px) {
@@ -247,14 +247,14 @@ export default class CampaignEditor extends Component {
                 {this.state.status}
               </Badge>
             }
-            <Button 
+            { this.props.mode === 'campaigns' && <Button 
               variant={ this.state.preview ? "contained" : "outlined" }
               size="small"
               onClick={this.togglePreview}>
               <VisibilityRounded/>
               {' '}
               {I18n.t("common.preview")}
-            </Button>
+            </Button>}
           </div>
         </ButtonsContainer>
 
