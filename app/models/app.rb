@@ -96,6 +96,10 @@ class App < ApplicationRecord
     encryption_key.present?
   end
 
+  def outgoing_email_domain
+    self[:outgoing_email_domain] || ENV['DEFAULT_OUTGOING_EMAIL_DOMAIN']
+  end
+
   def config_fields
     [
       {
