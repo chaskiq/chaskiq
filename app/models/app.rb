@@ -97,7 +97,9 @@ class App < ApplicationRecord
   end
 
   def outgoing_email_domain
-    self[:outgoing_email_domain] || ENV['DEFAULT_OUTGOING_EMAIL_DOMAIN']
+    self.preferences[:outgoing_email_domain].present? ?
+      self.preferences[:outgoing_email_domain] :
+      ENV['DEFAULT_OUTGOING_EMAIL_DOMAIN']
   end
 
   def config_fields
