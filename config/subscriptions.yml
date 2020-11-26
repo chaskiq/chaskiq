@@ -95,15 +95,15 @@ subscriptions:
           count: unlimited
         - 
           name: Campaigns
-          active: true
+          active: false
           count: unlimited
         - 
           name: Tours
-          active: true
+          active: false
           count: unlimited
         - 
           name: UserAutoMessages
-          active: true
+          active: false
           count: unlimited
         - 
           name: OutgoingWebhooks
@@ -156,7 +156,7 @@ subscriptions:
           count: unlimited
         - 
           name: Campaigns
-          active: false
+          active: true
           count: unlimited
         - 
           name: Tours

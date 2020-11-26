@@ -330,7 +330,7 @@ function SucessModal ({ options, handleClose }) {
         </div>
         <div className="mt-5 sm:mt-6">
           <span className="flex w-full rounded-md shadow-sm">
-            <button 
+            <button
               type="button"
               onClick={handleClose}>
               { I18n.t('subscriptions.alerts.close')}
@@ -758,8 +758,9 @@ function Transactions ({ app }) {
 
 export default withRouter(connect(mapStateToProps)(Billing))
 
-function PlanBoard ({ plans, openCheckout }) {
+function PlanBoard ({ appPlan, plans, openCheckout }) {
   return <div className="max-w-2xl mx-auto bg-white py-16 sm:py-24 sm:px-6 lg:max-w-7xl lg:px-8">
+
     {/* xs to lg */}
     <div className="space-y-24 lg:hidden">
       {
@@ -773,18 +774,28 @@ function PlanBoard ({ plans, openCheckout }) {
                 </span>
                 <span className="text-base font-medium text-gray-500">/mo</span>
               </p>
-              <p className="mt-4 text-sm text-gray-500">Quis suspendisse ut fermentum neque vivamus non tellus.</p>
-              <button
-                className={`
-                bg-green-400 
-                text-white
-                hover:bg-green-500 
-                focus:outline-none 
-                focus:border-green-700 
-                focus:shadow-outline
-                mt-6 block w-full border border-transparent rounded-md shadow py-2 text-sm font-semibold text-white text-center`}
-                onClick={() => openCheckout(plan)}> Buy {plan.name}
-              </button>
+
+              {
+                appPlan && appPlan.id === plan.id &&
+                <p className="mt-4 text-sm text-gray-500">
+                  This is your current plan
+                </p>
+              }
+              
+              {
+                !appPlan || appPlan.id != plan.id &&
+                <button
+                  className={`
+                  bg-green-400 
+                  text-white
+                  hover:bg-green-500 
+                  focus:outline-none 
+                  focus:border-green-700 
+                  focus:shadow-outline
+                  mt-6 block w-full border border-transparent rounded-md shadow py-2 text-sm font-semibold text-white text-center`}
+                  onClick={() => openCheckout(plan)}> Buy {plan.name}
+                </button>
+              }
             </div>
             <table className="mt-8 w-full">
               <caption className="bg-gray-50 border-t border-gray-200 py-3 px-4 text-sm font-medium text-gray-900 text-left">
@@ -876,7 +887,7 @@ function PlanBoard ({ plans, openCheckout }) {
             <th className="py-8 pl-6 pr-6 align-top text-sm font-medium text-gray-900 text-left" scope="row">Pricing</th>
             {
               plans.map((p) => (
-                <td className="h-full py-8 px-6 align-top">
+                <td key={`lg-plans-${p.id}`}className="h-full py-8 px-6 align-top">
                   <div className="h-full flex flex-col justify-between">
                     <div>
                       <p>
@@ -887,17 +898,28 @@ function PlanBoard ({ plans, openCheckout }) {
                       </p>
                       <p className="mt-4 text-sm text-gray-500">{p.description}</p>
                     </div>
-                    <button
-                      className={`
-                      bg-green-400 
-                      text-white
-                      hover:bg-green-500 
-                      focus:outline-none 
-                      focus:border-green-700 
-                      focus:shadow-outline
-                      mt-6 block w-full border border-transparent rounded-md shadow py-2 text-sm font-semibold text-white text-center`}
-                      onClick={() => openCheckout(p)}> Buy {p.name}
-                    </button>
+
+                    {
+                      appPlan && appPlan.id == p.id &&
+                      <p className="mt-4 text-sm text-gray-500">
+                        This is your current plan
+                      </p>
+                    }
+
+                    {
+                      !appPlan || appPlan.id != p.id &&
+                      <button
+                        className={`
+                        bg-green-400 
+                        text-white
+                        hover:bg-green-500 
+                        focus:outline-none 
+                        focus:border-green-700 
+                        focus:shadow-outline
+                        mt-6 block w-full border border-transparent rounded-md shadow py-2 text-sm font-semibold text-white text-center`}
+                        onClick={() => openCheckout(p)}> Buy {p.name}
+                      </button>
+                    }
                   </div>
                 </td>
               ))
@@ -937,7 +959,16 @@ function PlanBoard ({ plans, openCheckout }) {
             <th className="sr-only" scope="row">Choose your plan</th>
             {
               plans.map((p) => (
-                <td className="pt-5 px-6">
+                <td key={`lg-bottom-plan-${p.id}`} className="pt-5 px-6">
+
+                  {
+                    appPlan && appPlan.id == p.id &&
+                    <p className="mt-4 text-sm text-gray-500">
+                      This is your current plan
+                    </p>
+                  }
+
+                  { !appPlan || appPlan.id != p.id &&
                   <button
                     className={`
                     bg-green-400 
@@ -948,7 +979,7 @@ function PlanBoard ({ plans, openCheckout }) {
                     focus:shadow-outline
                     mt-6 block w-full border border-transparent rounded-md shadow py-2 text-sm font-semibold text-white text-center`}
                     onClick={() => openCheckout(plan)}> Buy {p.name}
-                  </button>
+                  </button>}
                 </td>
               ))
             }
