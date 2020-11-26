@@ -123,7 +123,7 @@ const WrappedComponent = React.forwardRef(function Input (
       <FormField
         name={name}
         error={error}
-        label={label}
+        label={null}
         helperText={helperText}
       >
         <div className="flex flex-col items-center">
