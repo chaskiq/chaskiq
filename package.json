@@ -111,6 +111,7 @@
     "cypress:open": "./node_modules/.bin/cypress open",
     "cypress:run": "./node_modules/.bin/cypress run --headless --browser chrome",
     "cypress:ci": "./node_modules/.bin/cypress run --headless --browser chrome --record --key 0998a03f-f6fe-4acf-8444-b81533c950cd --parallel --ci-build-id $TRAVIS_BUILD_ID",
+    "cypress:ga-ci": "./node_modules/.bin/cypress run --headless --browser chrome --record --key 0998a03f-f6fe-4acf-8444-b81533c950cd --parallel --ci-build-id $GITHUB_RUN_ID",
     "dev": "./bin/webpack-dev-server",
     "build": "bundle exec rake assets:precompile"
   }
