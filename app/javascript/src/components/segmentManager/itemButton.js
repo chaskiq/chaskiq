@@ -291,7 +291,7 @@ export default class SegmentItemButton extends Component {
         }
 
         <ContentMatch>
-          <div ref={this.blockStyleRef} className="mt-2 p-2 mt-2 p-2 h-32 overflow-scroll">
+          <div ref={this.blockStyleRef} className="mt-2 p-2 h-32 overflow-scroll">
             {relative.map((o, i) => {
               return (
                 <div>
@@ -386,7 +386,7 @@ export default class SegmentItemButton extends Component {
         </div>
 
         <ContentMatch>
-          <div ref={this.blockStyleRef} className="mt-2 p-2 mt-2 p-2 h-32 overflow-scroll">
+          <div ref={this.blockStyleRef} className="mt-2 p-2 h-32 overflow-scroll">
             {relative.map((o, i) => {
               return (
                 <div>
@@ -567,7 +567,7 @@ export default class SegmentItemButton extends Component {
         </div>
 
         <ContentMatch>
-          <div ref={this.blockStyleRef} className="mt-2 p-2 mt-2 p-2 h-32 overflow-scroll">
+          <div ref={this.blockStyleRef} className="mt-2 p-2 h-32 overflow-scroll">
             {relative.map(
               (o, i) => {
                 return (
