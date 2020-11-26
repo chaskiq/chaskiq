@@ -164,12 +164,11 @@ module Types
 
       authorize! object, to: :show?, with: AppPolicy
 
-      object.app_package_integrations.where(
+      object.app_package_integrations
+        .joins(:app_package)
+        .where(
         app_package_id: object.app_packages.tagged_with(kind, on: 'capabilities')
-      )
-      # object.app_packages.tagged_with(kind, on: 'capabilities')
-      # .joins(:app_package_integrations)
-      # .where("app_package_integrations.id is not null").uniq
+      ).order('app_packages.name desc')
     end
 
     def gather_social_data
