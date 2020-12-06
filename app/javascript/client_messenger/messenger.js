@@ -62,6 +62,7 @@ import StyledFrame from './styledFrame'
 
 import Home from './homePanel'
 import Article from './articles'
+import Banner from './Banner'
 
 import {Conversation, Conversations} from './conversation.js'
 import {RtcView} from '../src/components/rtc'
@@ -93,6 +94,7 @@ class Messenger extends Component {
       conversationsMeta: {},
       availableMessages: [],
       availableMessage: null,
+      banner: null,
       display_mode: "home", // "conversation", "conversations",
       tours: [],
       open: false,
@@ -367,6 +369,9 @@ class Messenger extends Component {
               break
             case "tours:receive":
               this.receiveTours([data.data])
+              break
+            case "banners:receive":
+              this.receiveBanners([data.data])
               break
             case "triggers:receive":
               this.receiveTrigger(data.data)
@@ -943,6 +948,11 @@ class Messenger extends Component {
     if(filteredTours.length > 0) this.setState({tours: filteredTours})
   }
 
+  receiveBanners = (banners)=>{
+    const banner = banners.shift()
+    this.setState({ banner: banner })
+  }
+
   submitAppUserData = (data, next_step)=>{
     App.events && App.events.perform('data_submit', data)
   }
@@ -1488,6 +1498,21 @@ class Messenger extends Component {
               }
 
             <div id="TourManager"></div>
+
+            { 
+              this.state.banner && <Banner 
+                {...this.state.banner.banner_data}
+                onAction={ (url)=> console.log("action clicled! ", url) }
+                onClose={ ()=> this.setState({banner: null}) }
+                id={this.state.banner.id}
+                serialized_content={
+                  <DraftRenderer
+                    domain={this.props.domain}
+                    raw={ JSON.parse(this.state.banner.serialized_content) }
+                  />
+                }
+              />
+            }
           
         </ThemeProvider>
     );

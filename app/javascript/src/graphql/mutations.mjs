@@ -525,6 +525,7 @@ export const UPDATE_CAMPAIGN = `
         fromEmail
         replyEmail
         steps
+        bannerData
       }
     }
   }

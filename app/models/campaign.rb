@@ -6,6 +6,7 @@ require 'open-uri'
 class Campaign < Message
   validates :from_name, presence: true # , unless: :step_1?
   validates :from_email, presence: true # , unless: :step_1?
+  validates :subject, presence: true # , unless: :step_1?
 
   def config_fields
     [
