@@ -5,158 +5,25 @@ import TextEditor from "../../components/textEditor";
 import Button from '../../components/Button'
 import Badge from '../../components/Badge'
 import styled from "@emotion/styled";
+import {isEmpty} from "lodash"
 import {
   VisibilityRounded
 } from '../../components/icons'
 
-const ButtonsContainer = styled.div`
-  display: flex;
-  direction: column;
-  align-items: center;
-  justify-content: space-between;
-  width: 100%;
-  float: right;
-  margin: 4px 4px;
-`;
+import Input from '../../components/forms/Input'
+import BrowserSimulator from '../../components/BrowserSimulator'
 
-const ButtonsRow = styled.div`
-  align-self: flex-end;
-  clear: both;
-  margin: 0px;
-  button {
-    margin-right: 2px;
-  }
-`;
+import {
+  BannerRenderer
+} from '../../../client_messenger/Banner'
 
-const BrowserSimulator = styled.div`
-  display: flex;
-  flex-direction: column;
-  border-radius: 4px;
-  background: #fafafa;
-  border: 1px solid #dde1eb;
-  -webkit-box-shadow: 0 4px 8px 0 hsla(212, 9%, 64%, 0.16),
-    0 1px 2px 0 rgba(39, 45, 52, 0.08);
-  box-shadow: 0 4px 8px 0 hsla(212, 9%, 64%, 0.16),
-    0 1px 2px 0 rgba(39, 45, 52, 0.08);
-  border-bottom-right-radius: 0;
-  border-bottom-left-radius: 0;
-`;
-const BrowserSimulatorHeader = styled.div`
-  background: rgb(199, 199, 199);
-  background: linear-gradient(
-    0deg,
-    rgba(199, 199, 199, 1) 0%,
-    rgba(223, 223, 223, 1) 55%,
-    rgba(233, 233, 233, 1) 100%
-  );
-  border-bottom: 1px solid #b1b0b0;
-  padding: 10px;
-  display: flex;
-`;
-const BrowserSimulatorButtons = styled.div`
-  display: flex;
-  justify-content: space-between;
-  width: 43px;
+import serialize from 'form-serialize'
 
-  .r {
-    width: 10px;
-    height: 10px;
-    border-radius: 50%;
-    background-color: #fc635e;
-    border: 1px solid #dc4441;
-  }
-  .y {
-    width: 10px;
-    height: 10px;
-    border-radius: 50%;
-    background-color: #fdbc40;
-    border: 1px solid #db9c31;
-  }
-  .g {
-    width: 10px;
-    height: 10px;
-    border-radius: 50%;
-    background-color: #35cd4b;
-    border: 1px solid #24a732;
-  }
-`;
-
-const EditorPad = styled.div`
-  ${(props) =>
-    props.mode === "user_auto_messages"
-      ? ` display:flex;
-      justify-content: flex-end;
-      flex-flow: column;
-      height: 90vh;
-
-      .postContent {
-        height: 440px;
-        overflow: auto;
-      }
-    `
-      : `
-      padding: 2em;
-      background-color: white;
-      margin: 2em;
-      border: 1px solid #ececec;
-
-      @media all and (min-width: 1024px) and (max-width: 1280px) {
-        margin: 4em;
-      }
-
-      @media (max-width: 640px){
-        margin: 2em;
-      }
-      
-    `}
-`;
-
-const EditorContentWrapper = styled.div``;
-
-const EditorMessengerEmulator = styled.div`
-  ${(props) =>
-    props.mode === "user_auto_messages"
-      ? `
-  display:flex;
-  justify-content: flex-end;`
-      : ``}
-`;
-
-const EditorMessengerEmulatorWrapper = styled.div`
-  position: relative;
-  ${(props) =>
-    props.mode === "user_auto_messages"
-      ? `width: 380px;
-    background: #fff;
-    border: 1px solid #f3efef;
-    margin-bottom: 25px;
-    margin-right: 20px;
-    box-shadow: 3px 3px 4px 0px #b5b4b4;
-    border-radius: 10px;
-    padding: 12px;
-    padding-top: 0px;
-    .icon-add{
-      margin-top: -2px;
-      margin-left: -2px;
-    }
-    `
-      : ``}
-`;
-
-const EditorMessengerEmulatorHeader = styled.div`
-  ${(props) =>
-    props.mode === "user_auto_messages"
-      ? `
-  padding: 1em;
-  border-bottom: 1px solid #ccc;
-  `
-      : ``}
-`;
+const EditorContentWrapper = styled.div``
 
 export default class CampaignEditor extends Component {
   constructor(props) {
     super(props);
-
     this.ChannelEvents = null;
     this.conn = null;
     this.menuResizeFunc = null;
@@ -171,6 +38,7 @@ export default class CampaignEditor extends Component {
       status: null,
       read_only: false,
       preview: false,
+      bannerData: this.props.data.bannerData
     };
   }
 
@@ -178,16 +46,21 @@ export default class CampaignEditor extends Component {
     if (this.props.data.serializedContent === content.serialized) return;
 
     this.setState({
-      status: "saving...",
+      status: "saving..."
     });
+
+    let campaignParams = {
+      html_content: content.html,
+      serialized_content: content.serialized,
+    }
+
+    if(!isEmpty(this.state.bannerData))
+      campaignParams = Object.assign(campaignParams, ...this.state.bannerData)
 
     const params = {
       appKey: this.props.app.key,
       id: this.props.data.id,
-      campaignParams: {
-        html_content: content.html,
-        serialized_content: content.serialized,
-      },
+      campaignParams: campaignParams
     };
 
     graphql(UPDATE_CAMPAIGN, params, {
@@ -200,6 +73,27 @@ export default class CampaignEditor extends Component {
       },
     });
   };
+
+  updateFromBanner = (data)=>{
+    const params = {
+      appKey: this.props.app.key,
+      id: this.props.data.id,
+      campaignParams: {
+        serialized_content: this.props.data.serializedContent,
+        ...data
+      }
+    };
+
+    graphql(UPDATE_CAMPAIGN, params, {
+      success: (data) => {
+        this.props.updateData(data.campaignUpdate.campaign, null);
+        this.setState({ status: null });
+      },
+      error: () => {
+        this.setState({ status: "error" });
+      },
+    });
+  }
 
   saveHandler = (html3, plain, serialized) => {
     debugger;
@@ -228,6 +122,18 @@ export default class CampaignEditor extends Component {
     this.setState({preview: !this.state.preview })
   }
 
+  placementOption = ()=>{
+    if(this.props.data.bannerData.placement === "top" && 
+    this.props.data.bannerData.mode === "floating") return {top: 8}
+
+    if(this.props.data.bannerData.placement === "top") return {top: 0}
+
+    if(this.props.data.bannerData.placement === "bottom" &&
+    this.props.data.bannerData.mode === "floating") return {bottom: 8}
+
+    if(this.props.data.bannerData.placement === "bottom") return {bottom: 0}
+  }
+
   render() {
     // !this.state.loading &&
     /*if (this.state.loading) {
@@ -236,7 +142,18 @@ export default class CampaignEditor extends Component {
 
     return (
       <EditorContentWrapper mode={this.props.mode}>
-        <ButtonsContainer>
+
+        { this.props.mode === 'banners' && 
+          <div className="pt-5">
+            <StyleBanner 
+              onChange={(data)=> this.updateFromBanner(data) }
+              campaign={this.props.data} 
+              app={this.props.app}
+            />
+          </div>
+        }
+
+        <div className="h-12 flex flex-col justify-between w-full float-right m-4">
           <div className="w-full flex justify-end my-2">
             { this.state.status && 
               <Badge 
@@ -256,23 +173,58 @@ export default class CampaignEditor extends Component {
               {I18n.t("common.preview")}
             </Button>}
           </div>
-        </ButtonsContainer>
+        </div>
 
-        <BrowserSimulator mode={this.props.mode}>
-          <BrowserSimulatorHeader>
-            <BrowserSimulatorButtons>
-              <div className={"circleBtn r"}></div>
-              <div className={"circleBtn y"}></div>
-              <div className={"circleBtn g"}></div>
-            </BrowserSimulatorButtons>
-          </BrowserSimulatorHeader>
+        { 
+          this.props.mode !== 'banners' &&  
+            <BrowserSimulator mode={this.props.mode}>
+              <React.Fragment>
+                { 
+                  !this.state.preview && 
+                    <TextEditor
+                      campaign={true}
+                      uploadHandler={this.uploadHandler}
+                      serializedContent={this.props.data.serializedContent}
+                      read_only={this.state.read_only}
+                      toggleEditable={() => {
+                        this.setState({ read_only: !this.state.read_only });
+                      }}
+                      data={{
+                        serialized_content: this.props.data.serializedContent,
+                      }}
+                      styles={{
+                        lineHeight: "2em",
+                        fontSize: "1.2em",
+                      }}
+                      saveHandler={this.saveHandler}
+                      updateState={({ status, statusButton, content }) => {
+                        //console.log("get content", content);
+                        this.saveContent(content);
+                      }}
+                    />
+                }
 
-          <EditorPad mode={this.props.mode}>
-            <EditorMessengerEmulator mode={this.props.mode}>
-              <EditorMessengerEmulatorWrapper mode={this.props.mode}>
-                <EditorMessengerEmulatorHeader mode={this.props.mode} />
+                { this.state.preview && 
+                  <Preview 
+                    app={this.props.app}
+                    campaign={this.props.data}
+                  />
+                }
+              </React.Fragment>
+            </BrowserSimulator>
+        }
 
-                { !this.state.preview && 
+        { 
+          this.props.mode === 'banners' &&  
+          <BrowserSimulator mode={this.props.mode}>
+            <div style={{
+              position: 'absolute',
+              width: '100%',
+              ...this.placementOption()
+            }}>
+              <BannerRenderer 
+                {...this.props.data.bannerData}
+                textComponent={
                   <TextEditor
                     campaign={true}
                     uploadHandler={this.uploadHandler}
@@ -294,19 +246,12 @@ export default class CampaignEditor extends Component {
                       this.saveContent(content);
                     }}
                   />
-                }
+                }>
+              </BannerRenderer>
+            </div>
+          </BrowserSimulator>
+        }
 
-                { this.state.preview && 
-                  <Preview 
-                    app={this.props.app}
-                    campaign={this.props.data}
-                  />
-                }
-
-              </EditorMessengerEmulatorWrapper>
-            </EditorMessengerEmulator>
-          </EditorPad>
-        </BrowserSimulator>
       </EditorContentWrapper>
     );
   }
@@ -340,5 +285,102 @@ function Preview({campaign, app}){
       <iframe height="800px" width="100%" 
         src={`/apps/${app.key}/premailer/${campaign.id}?preview=true`} />
       </div>
+  )
+}
+
+
+function StyleBanner({campaign, onChange}){
+
+  let form = React.useRef(null)
+  let hidden = React.useRef(null)
+
+  function handleSubmit(e){
+    e.preventDefault()
+    const data = serialize(form.current, { hash: true, empty: true })
+    console.log(data)
+    onChange(formattedData(data))
+  }
+
+  function handleChange(){
+    const data = serialize(form.current, { hash: true, empty: true })
+    onChange(formattedData(data))
+  }
+
+  function formattedData(data){
+    return {
+      action_text: data.action_text,
+      bg_color: data.bg_color,
+      dismiss_button: data.dismiss_button,
+      mode: data.mode,
+      placement: data.placement,
+      show_sender: data.show_sender,
+      url: data.url
+    }
+  }
+
+  const bannerData = campaign.bannerData
+
+  return (
+    <form onSubmit={handleSubmit} ref={form}>
+      <div className="flex">
+        <div className="flex flex-col w-1/3">
+          <h3 className="font-bold leading-1 text-gray-900 mb-4">
+            Settings
+          </h3>
+
+          <div className="flex flex-col pr-6">
+            <Input type="checkbox" defaultChecked={bannerData.show_sender} onChange={handleChange} label="show sender" name="show_sender"/>
+            <Input type="select" options={[]} onChange={handleChange} label="link text" name="sender_id"/>      
+            <Input type="checkbox" defaultChecked={bannerData.dismiss_button} onChange={handleChange} label="show dismiss button" name="dismiss_button"/>
+          </div>
+        </div>  
+      
+        <div className="flex flex-col w-1/3">
+          <h3 className="font-bold leading-1 text-gray-900 mb-4">
+            Action
+          </h3>
+          <div className="flex flex-col pr-6">
+            <Input type="text" defaultValue={bannerData.url} label="url" name="url" onChange={handleChange}/>
+            <Input type="text" defaultValue={bannerData.action_text} label="link text" name="action_text" onChange={handleChange}/>      
+          </div>
+        </div>
+
+        <div className="flex flex-col w-1/3">
+          <h3 className="font-bold leading-1 text-gray-900 mb-4">
+            Style
+          </h3>
+
+          <div className="flex flex-wrap">
+            <Input className="mr-3" defaultChecked={bannerData.placement === "top"} type="radio" value="top" label="top" name="placement" onChange={handleChange}/>
+            <Input className="mr-3" defaultChecked={bannerData.placement === "bottom"} type="radio" value="bottom" label="bottom" name="placement" onChange={handleChange}/>      
+          </div>
+
+          <div className="flex flex-wrap">
+            <Input type="radio" defaultChecked={bannerData.mode === "inline"} value="inline" label="inline" name="mode" onChange={handleChange}/>
+            <Input type="radio" defaultChecked={bannerData.mode === "floating"} value="floating" label="floating" name="mode" onChange={handleChange}/>      
+          </div>
+
+          <Input type="color" 
+            value={bannerData.bg_color} 
+            label="color" 
+            onChange={(color)=> hidden.current.value = color}
+          />
+
+          <input type="hidden" 
+            ref={hidden} 
+            name="bg_color" 
+            defaultValue={bannerData.bg_color}
+            onChange={handleChange}
+          />
+
+        </div>
+
+      </div>
+      <Button 
+        onClick={handleSubmit} 
+        type="button">
+        submit
+      </Button>
+    </form>
   )
 }

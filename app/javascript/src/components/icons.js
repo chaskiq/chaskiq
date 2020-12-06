@@ -1,6 +1,6 @@
 import React from 'react'
 
-//import tw from 'tailwind.macro'
+// import tw from 'tailwind.macro'
 import tw from 'twin.macro'
 import styled from '@emotion/styled'
 
@@ -198,7 +198,7 @@ export function PaintIcon (props) {
 }
 
 export function QueueIcon (props) {
-  /* 
+  /*
     <BaseIcon {...props} fill="currentColor" viewBox="0 0 20 20">
       <path d="M0,2 L20,2 L20,6 L0,6 L0,2 Z M0,10 L20,10 L20,12 L0,12 L0,10 Z M0,16 L20,16 L20,18 L0,18 L0,16 Z"></path>
     </BaseIcon>
@@ -213,7 +213,7 @@ export function QueueIcon (props) {
         strokeLinecap="round"
         strokeLinejoin="round"
         strokeWidth={2}
-        d="M4 8V4m0 0h4M4 4l5 5m11-1V4m0 0h-4m4 0l-5 5M4 16v4m0 0h4m-4 0l5-5m11 5l-5-5m5 5v-4m0 4h-4" 
+        d="M4 8V4m0 0h4M4 4l5 5m11-1V4m0 0h-4m4 0l-5 5M4 16v4m0 0h4m-4 0l5-5m11 5l-5-5m5 5v-4m0 4h-4"
       />
     </BaseIcon>
   )
@@ -547,6 +547,18 @@ export function CheckmarkIcon (props) {
   return (
     <BaseIcon {...props} fill="currentColor" viewBox="0 0 20 20">
       <polygon id="Path-126" points="0 11 2 9 7 14 18 3 20 5 7 18"></polygon>
+    </BaseIcon>
+  )
+}
+
+export function PictureInPicture (props) {
+  return (
+    <BaseIcon {...props} fill="currentColor" viewBox="0 0 22 23">
+      <path
+        d="M0 0h24v24H0z"
+        fill="none"
+      />
+      <path d="M19 7h-8v6h8V7zm2-4H3c-1.1 0-2 .9-2 2v14c0 1.1.9 1.98 2 1.98h18c1.1 0 2-.88 2-1.98V5c0-1.1-.9-2-2-2zm0 16.01H3V4.98h18v14.03z" />
     </BaseIcon>
   )
 }

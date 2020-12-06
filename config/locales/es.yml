@@ -67,6 +67,7 @@
         conversations: Conversaciones
         assignment_rules: Reglas de asignación
         mailing_campaigns: Campañas de correo
+        banners: Banners
         in_app_messages: En los mensajes de la aplicación
         guided_tours: Visitas guiadas
         for_leads: Para clientes potenciales

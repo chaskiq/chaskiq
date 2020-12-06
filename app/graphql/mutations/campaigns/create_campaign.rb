@@ -19,7 +19,7 @@ module Mutations
       end
 
       def collection(mode)
-        @app.send(mode) if %w[campaigns user_auto_messages tours].include?(mode)
+        @app.send(mode) if Message.allowed_types.include?(mode)
       end
 
       def find_app(app_id)

@@ -30,6 +30,11 @@ module Types
       object.metrics.group(:action).count(:trackable_id)
     end
 
+    field :banner_data, Types::JsonType, null: true
+    def banner_data
+      object.banner_data if object.respond_to?(:banner_data)
+    end
+
     field :metrics, Types::PaginatedMetricsType, null: true do
       argument :page, Integer, required: false, default_value: 1
       argument :per, Integer, required: false, default_value: 20

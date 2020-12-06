@@ -63,6 +63,7 @@ class App < ApplicationRecord
   has_many :campaigns, dependent: :destroy
   has_many :user_auto_messages, dependent: :destroy
   has_many :tours, dependent: :destroy
+  has_many :banners, dependent: :destroy
   has_many :messages, dependent: :destroy
   has_many :assignment_rules, dependent: :destroy
   has_many :outgoing_webhooks, dependent: :destroy

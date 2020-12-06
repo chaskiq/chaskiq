@@ -422,7 +422,7 @@ query Campaigns($appKey: String!, $mode: String!){
         description
         fromName
         fromEmail
-        replyEmail        
+        replyEmail
       }
       meta
     }
@@ -459,6 +459,7 @@ query Campaign($appKey: String!, $mode: String!, $id: String!){
       fromEmail
       replyEmail
       steps
+      bannerData
     }
   }
 }

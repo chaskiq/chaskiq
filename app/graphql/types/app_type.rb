@@ -347,7 +347,7 @@ module Types
     def campaigns(mode:)
       #object.plan.allow_feature!(mode.classify.pluralize)
       authorize! object, to: :show?, with: AppPolicy
-      collection = object.send(mode) if %w[campaigns user_auto_messages tours].include?(mode)
+      collection = object.send(mode) if Message.allowed_types.include?(mode)
       collection.page(1).per(20)
     end
 
@@ -358,7 +358,7 @@ module Types
 
     def campaign(mode:, id:)
       authorize! object, to: :show?, with: AppPolicy
-      collection = object.send(mode) if %w[campaigns user_auto_messages tours].include?(mode)
+      collection = object.send(mode) if Message.allowed_types.include?(mode)
       collection.find(id)
     end
 
