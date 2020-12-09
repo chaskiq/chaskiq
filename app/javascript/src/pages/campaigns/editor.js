@@ -391,7 +391,7 @@ function StyleBanner({app, campaign, onChange}){
           </h3>
 
           <Input type="color" 
-            value={bannerData.bg_color} 
+            defaultValue={bannerData.bg_color} 
             label="color" 
             onChange={(color)=> { 
               hidden.current.value = color
