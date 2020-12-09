@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import graphql from "../../graphql/client";
 import { UPDATE_CAMPAIGN, DELIVER_CAMPAIGN } from "../../graphql/mutations";
+import { AGENTS } from "../../graphql/queries";
 import TextEditor from "../../components/textEditor";
 import Button from '../../components/Button'
 import Badge from '../../components/Badge'
@@ -54,8 +55,8 @@ export default class CampaignEditor extends Component {
       serialized_content: content.serialized,
     }
 
-    if(!isEmpty(this.state.bannerData))
-      campaignParams = Object.assign(campaignParams, ...this.state.bannerData)
+    //if(!isEmpty(this.state.bannerData))
+    //  campaignParams = { ...campaignParams, ...this.state.bannerData }
 
     const params = {
       appKey: this.props.app.key,
@@ -142,16 +143,6 @@ export default class CampaignEditor extends Component {
 
     return (
       <EditorContentWrapper mode={this.props.mode}>
-
-        { this.props.mode === 'banners' && 
-          <div className="pt-5">
-            <StyleBanner 
-              onChange={(data)=> this.updateFromBanner(data) }
-              campaign={this.props.data} 
-              app={this.props.app}
-            />
-          </div>
-        }
 
         <div className="h-12 flex flex-col justify-between w-full float-right m-4">
           <div className="w-full flex justify-end my-2">
@@ -252,6 +243,16 @@ export default class CampaignEditor extends Component {
           </BrowserSimulator>
         }
 
+        { this.props.mode === 'banners' && 
+          <div className="pt-5 bg-gray-100 p-6 rounded-lg mt-5">
+            <StyleBanner 
+              onChange={(data)=> this.updateFromBanner(data) }
+              campaign={this.props.data} 
+              app={this.props.app}
+            />
+          </div>
+        }
+
       </EditorContentWrapper>
     );
   }
@@ -289,10 +290,40 @@ function Preview({campaign, app}){
 }
 
 
-function StyleBanner({campaign, onChange}){
+function StyleBanner({app, campaign, onChange}){
 
   let form = React.useRef(null)
   let hidden = React.useRef(null)
+
+  const [agent, setAgent] = React.useState(agentData(campaign.bannerData.sender_data));
+  const [agents, setAgents] = React.useState([]);
+
+  React.useEffect(()=>{
+    fetchAgents()
+  },[])
+
+  React.useEffect(()=>{
+    handleChange()
+  },[agent])
+
+  function fetchAgents(){
+    graphql(AGENTS, {appKey: app.key }, {
+      success: (data)=>{ 
+        const options = data.app.agents.map((o)=>( agentData(o) ))
+        setAgents(options) 
+      },
+      error: ()=>{}
+    })
+  }
+
+  function agentData(data){
+    if(!data) return null
+    return { 
+      name: data.displayName || data.email,
+      label: data.displayName || data.email, 
+      value: data.id 
+    }
+  }
 
   function handleSubmit(e){
     e.preventDefault()
@@ -309,10 +340,11 @@ function StyleBanner({campaign, onChange}){
   function formattedData(data){
     return {
       action_text: data.action_text,
-      bg_color: data.bg_color,
+      bg_color: data.bg_color || "#bd10e0",
       dismiss_button: data.dismiss_button,
-      mode: data.mode,
-      placement: data.placement,
+      mode: data.mode || 'inline',
+      sender_id: agent && agent.value,
+      placement: data.placement || 'top',
       show_sender: data.show_sender,
       url: data.url
     }
@@ -323,19 +355,27 @@ function StyleBanner({campaign, onChange}){
   return (
     <form onSubmit={handleSubmit} ref={form}>
       <div className="flex">
-        <div className="flex flex-col w-1/3">
+        <div className="flex flex-col w-1/3 justify-between">
           <h3 className="font-bold leading-1 text-gray-900 mb-4">
             Settings
           </h3>
 
-          <div className="flex flex-col pr-6">
-            <Input type="checkbox" defaultChecked={bannerData.show_sender} onChange={handleChange} label="show sender" name="show_sender"/>
-            <Input type="select" options={[]} onChange={handleChange} label="link text" name="sender_id"/>      
-            <Input type="checkbox" defaultChecked={bannerData.dismiss_button} onChange={handleChange} label="show dismiss button" name="dismiss_button"/>
+          <div className="flex flex-col pr-6 justify-between">
+            <Input type="checkbox" defaultValue={bannerData.dismiss_button} onChange={handleChange} label="show dismiss button" name="dismiss_button"/>
+            <Input type="checkbox" defaultValue={bannerData.show_sender} onChange={handleChange} label="show sender" name="show_sender"/>
+            <Input type="select"
+              options={agents} 
+              onChange={(data)=> {
+                setAgent(data)
+              }}
+              defaultValue={agent}
+              label="sender" 
+              name="sender_id"
+            />      
           </div>
         </div>  
       
-        <div className="flex flex-col w-1/3">
+        <div className="flex flex-col w-1/3 justify-between">
           <h3 className="font-bold leading-1 text-gray-900 mb-4">
             Action
           </h3>
@@ -345,25 +385,18 @@ function StyleBanner({campaign, onChange}){
           </div>
         </div>
 
-        <div className="flex flex-col w-1/3">
+        <div className="flex flex-col w-1/3 justify-between">
           <h3 className="font-bold leading-1 text-gray-900 mb-4">
             Style
           </h3>
 
-          <div className="flex flex-wrap">
-            <Input className="mr-3" defaultChecked={bannerData.placement === "top"} type="radio" value="top" label="top" name="placement" onChange={handleChange}/>
-            <Input className="mr-3" defaultChecked={bannerData.placement === "bottom"} type="radio" value="bottom" label="bottom" name="placement" onChange={handleChange}/>      
-          </div>
-
-          <div className="flex flex-wrap">
-            <Input type="radio" defaultChecked={bannerData.mode === "inline"} value="inline" label="inline" name="mode" onChange={handleChange}/>
-            <Input type="radio" defaultChecked={bannerData.mode === "floating"} value="floating" label="floating" name="mode" onChange={handleChange}/>      
-          </div>
-
           <Input type="color" 
             value={bannerData.bg_color} 
             label="color" 
-            onChange={(color)=> hidden.current.value = color}
+            onChange={(color)=> { 
+              hidden.current.value = color
+              handleChange()
+            }}
           />
 
           <input type="hidden" 
@@ -373,14 +406,29 @@ function StyleBanner({campaign, onChange}){
             onChange={handleChange}
           />
 
+
+          <div className="flex flex-wrap justify-between">
+            <Input defaultChecked={bannerData.placement === "top"} type="radio" value="top" label="top" name="placement" onChange={handleChange}/>
+            <Input defaultChecked={bannerData.placement === "bottom"} type="radio" value="bottom" label="bottom" name="placement" onChange={handleChange}/>      
+          </div>
+
+          <div className="flex flex-wrap justify-between">
+            <Input type="radio" defaultChecked={bannerData.mode === "inline"} value="inline" label="inline" name="mode" onChange={handleChange}/>
+            <Input type="radio" defaultChecked={bannerData.mode === "floating"} value="floating" label="floating" name="mode" onChange={handleChange}/>      
+          </div>
+
         </div>
 
       </div>
-      <Button 
-        onClick={handleSubmit} 
-        type="button">
-        submit
-      </Button>
+      <div className="flex justify-end">
+        <Button 
+          onClick={handleSubmit}
+          variant={'flat-dark'} 
+          type="button">
+          submit
+        </Button>      
+      </div>
+
     </form>
   )
 }

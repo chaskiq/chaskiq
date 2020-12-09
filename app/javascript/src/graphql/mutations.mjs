@@ -619,6 +619,7 @@ export const CREATE_CAMPAIGN = `
         fromEmail
         replyEmail
         steps
+        bannerData
       }
     }
   }

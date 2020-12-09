@@ -44,7 +44,7 @@ const BannerWrapp = styled.div`
 	}
 
 	.content-centered{
-		${tw`w-0 flex-1 flex items-center`}
+		${tw`flex-1 flex items-center`}
 	}
 
 	.icon {
@@ -55,7 +55,12 @@ const BannerWrapp = styled.div`
 	}
 
 	.content-text {
+    min-width: 250px;
 		${tw`ml-3 font-medium text-white truncate`}
+	}
+
+	.avatar {
+		${tw`flex p-2 rounded-full h-12 w-12`}
 	}
 
 	.action-wrapper{
@@ -82,6 +87,12 @@ const BannerWrapp = styled.div`
 
 `
 
+const DanteExtendedContainer = styled(DanteContainer)`
+
+	font-size: 1.5em;
+	color: white;
+`
+
 export default function Banner ({
   mode,
   placement,
@@ -90,21 +101,22 @@ export default function Banner ({
   show_sender,
   action_text,
   dismiss_button,
-	url,
-	onAction,
-	onClose
+  sender_data,
+  url,
+  onAction,
+  onClose
 }) {
   const style = {
     position: 'fixed',
     left: '0px',
     width: '100%',
-    height: '65px',
+    height: '73px',
     border: 'transparent',
     zIndex: 4000000000
   }
 
   if (placement === 'top' && mode === 'floating') {
-    style.top = '0px'
+    style.top = '8px'
     style.height = '80px'
   }
 
@@ -123,13 +135,13 @@ export default function Banner ({
   function textRenderer () {
     return <ThemeProvider
       theme={ theme }>
-      <DanteContainer>
+      <DanteExtendedContainer>
         {serialized_content}
-      </DanteContainer>
+      </DanteExtendedContainer>
     </ThemeProvider>
   }
 
-  return <StyledFrame style={style}>
+  return <StyledFrame data-cy="banner-wrapper" style={style}>
     <BannerRenderer
       mode={mode}
       placement={placement}
@@ -137,10 +149,11 @@ export default function Banner ({
       textComponent={textRenderer()}
       show_sender={show_sender}
       action_text={action_text}
+      sender_data={sender_data}
       dismiss_button={dismiss_button}
-			url={url}
-			onAction={onAction}
-			onClose={onClose}
+      url={url}
+      onAction={onAction}
+      onClose={onClose}
     />
   </StyledFrame>
 }
@@ -153,9 +166,10 @@ export function BannerRenderer ({
   show_sender,
   action_text,
   dismiss_button,
-	url,
-	onAction,
-	onClose
+  sender_data,
+  url,
+  onAction,
+  onClose
 }) {
   return (
     <BannerWrapp
@@ -168,10 +182,8 @@ export function BannerRenderer ({
             <div className="content-centered">
 
               {
-                show_sender &&
-									<span className="flex p-2 rounded-lg bg-indigo-800">
-										aaa
-									</span>
+                show_sender && sender_data &&
+									<img src={sender_data.avatarUrl} className="avatar"/>
               }
 
               <div className="content-text">
@@ -184,30 +196,30 @@ export function BannerRenderer ({
             <div className="action-wrapper">
               { action_text && url &&
 								<button type='button'
-									onClick={(e)=> {
-									e.preventDefault()
-									onAction && onAction(url)
-								}} 
-								className="link">
+								  onClick={(e) => {
+								    e.preventDefault()
+								    onAction && onAction(url)
+								  }}
+								  className="link">
 								  {action_text}
 								</button>
               }
             </div>
 
             <div className="button-wrapper">
-							{ dismiss_button && 
+              { dismiss_button &&
 								<button onClick={onClose} type="button">
-									{/* <span className="sr-only">Dismiss</span> */}
-									<svg className=""
-										xmlns="http://www.w3.org/2000/svg"
-										fill="none"
-										viewBox="0 0 24 24"
-										stroke="currentColor"
-										aria-hidden="true">
-										<path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" />
-									</svg>
+								  {/* <span className="sr-only">Dismiss</span> */}
+								  <svg className=""
+								    xmlns="http://www.w3.org/2000/svg"
+								    fill="none"
+								    viewBox="0 0 24 24"
+								    stroke="currentColor"
+								    aria-hidden="true">
+								    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" />
+								  </svg>
 								</button>
-							}
+              }
             </div>
           </div>
         </div>

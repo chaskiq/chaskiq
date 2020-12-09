@@ -50,13 +50,14 @@ const initialFrameContent = `<!DOCTYPE html>
                               </html>`
 const mountTarget='#mountHere'
 
-const StyledFrame = ({ className, style, children, id }) => (
+const StyledFrame = ({ className, style, children, id, ...props }) => (
 
-  <Frame 
+  <Frame
     initialContent={initialFrameContent}
-    mountTarget={mountTarget} 
-    className={className} 
-    style={style || {} } 
+    mountTarget={mountTarget}
+    className={className}
+    style={style || {} }
+    {...props}
     id={id}>
     <FrameContextConsumer>
       {

@@ -8,7 +8,7 @@ class Banner < Message
   # store_accessor :settings, %i[hidden_constraints url steps]
 	# before_save :fill_steps
 	
-	store :settings, accessors: %i[
+	store_accessor :settings, %i[
 		hidden_constraints
     mode
 		placement
@@ -19,7 +19,7 @@ class Banner < Message
 		action_text
 		url
 		show_sender
-  ], coder: JSON
+  ]
 
   scope :in_time, -> { where(['scheduled_at <= ? AND scheduled_to >= ?', Date.today, Date.today]) }
 
@@ -43,7 +43,19 @@ class Banner < Message
 			bg_color: bg_color,
 			action_text: action_text,
 			url: url,
-			show_sender: show_sender
+			show_sender: show_sender,
+			sender_data: sender_data
+		}
+	end
+
+	def sender_data
+		a = sender_id ? app.agents.find(sender_id) : nil
+		return nil unless a.present?
+		{
+			id: a.id,
+			displayName: a.display_name,
+			avatarUrl: a.avatar_url,
+			email: a.email
 		}
 	end
 
@@ -59,8 +71,7 @@ class Banner < Message
         options: [
           { label: 'open', value: 'open' },
           { label: 'close', value: 'close' },
-          { label: 'finish', value: 'finish' },
-          { label: 'skip', value: 'skip' }
+          { label: 'click', value: 'click' }
         ],
         multiple: true,
         default: 'open',
@@ -72,14 +83,19 @@ class Banner < Message
   def stats_fields
     [
       {
-        name: 'DeliverRateCount', label: 'Deliver rate',
+        name: 'CloseRateCount', label: 'Open/Close rate',
         keys: [{ name: 'open', color: '#F4F5F7' },
-               { name: 'skip', color: '#0747A6' }]
+               { name: 'close', color: '#0747A6' }]
       },
       {
-        name: 'ClickRateCount', label: 'Open/Finish rate',
+        name: 'ClickRateCount', label: 'Open/Click rate',
         keys: [{ name: 'open', color: '#F4F5F7' },
-               { name: 'finish', color: '#0747A6' }]
+               { name: 'click', color: '#0747A6' }]
+			},
+			{
+        name: 'ClickCloseRateCount', label: 'Click/Close rate',
+        keys: [{ name: 'close', color: '#F4F5F7' },
+               { name: 'click', color: '#0747A6' }]
       }
     ]
   end
@@ -156,18 +172,19 @@ class Banner < Message
     app = user.app
     key = "#{app.key}-#{user.session_id}"
 
-    banners = app.banners.availables_for(user)
-    banner = banners.first
 
+		banners = app.banners.availables_for(user)
+    banner = banners.first
+		
     return if banner.blank? || !banner.available_for_user?(user)
 
     if banners.any?
       MessengerEventsChannel.broadcast_to(key, {
         type: 'banners:receive',
         data: banner.as_json(only: [:id], methods: %i[banner_data serialized_content html_content])
-      }.as_json)
-    end
+			}.as_json)
 
-    banners.any?
+			true
+    end
   end
 end

@@ -55,12 +55,6 @@ class UserAutoMessage < Message
                { name: 'click', color: '#0747A6' }]
       },
       {
-        name: 'ClickRateCount', label: 'ClickRateCount',
-        keys: [{ name: 'open', color: '#F4F5F7' },
-               { name: 'close', color: '#0747A6' }]
-      },
-
-      {
         name: 'OpenRateCount', label: 'OpenRateCount',
         keys: [{ name: 'open', color: '#F4F5F7' },
                { name: 'close', color: '#0747A6' }]
