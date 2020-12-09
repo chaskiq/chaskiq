@@ -56,7 +56,7 @@ describe('AppPackages', function () {
         })
     })
 
-    it.only('Home apps app packages', function () {  
+    it('Home apps app packages', function () {  
       cy.visit('/apps')
       cy.contains('my app').click()
       cy.get("a[aria-label='Settings']")
