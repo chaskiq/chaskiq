@@ -9,6 +9,7 @@ import Button from "./Button";
 import Avatar from "./Avatar";
 import Count from "./charts/count";
 import I18n from '../shared/FakeI18n'
+import {isEmpty} from 'lodash'
 
 const PieContainer = styled.div`
   padding: 0.75em;
@@ -137,7 +138,10 @@ class Stats extends Component {
       <div>
         <div className="flex justify-between items-center">
           <h3 className="text-xl font-bold my-4">{I18n.t('campaign.stats.title')}</h3>
-          <Button onClick={this.getData}>
+          <Button 
+            variant={"outlined"}
+            size="small"
+            onClick={this.getData}>
             {I18n.t('campaign.stats.refresh_data')}
           </Button>
         </div>
@@ -146,10 +150,11 @@ class Stats extends Component {
         {this.props.data && this.props.mode !== "counter_blocks" &&
           <PieContainer>
             {
-              this.props.data.statsFields.map((o) => {
+              !isEmpty(this.state.counts) && this.props.data.statsFields.map((o) => {
+                const rateData = this.getRateFor(o)
                 return (
                   <PieItem>
-                    <CampaignChart data={this.getRateFor(o)} />
+                    <CampaignChart data={rateData} />
                   </PieItem>
                 );
               })
@@ -192,7 +197,7 @@ class Stats extends Component {
                 title: I18n.t("definitions.stats.email.label"),
                 render: (row) =>
                   row && (
-                    <td className="px-6 py-4 whitespace-no-wrap border-b border-gray-200">
+                    <td className="px-6 py-4 whitespace-nowrap border-b border-gray-200">
                       <div
                         onClick={(e) =>
                           this.props.actions.showUserDrawer(row.appUserId)
@@ -219,7 +224,7 @@ class Stats extends Component {
                   ),
               },
               { field: "action", title: I18n.t("definitions.stats.actions.label"), 
-                render: (row)=> <td className="px-6 py-4 whitespace-no-wrap border-b border-gray-200">
+                render: (row)=> <td className="px-6 py-4 whitespace-nowrap border-b border-gray-200">
                   {this.renderBadgeKind(row)}
                 </td> 
               },
@@ -229,7 +234,7 @@ class Stats extends Component {
                 title: I18n.t("definitions.stats.when.label"),
                 render: (row) =>
                   row && (
-                    <td className="px-6 py-4 whitespace-no-wrap border-b border-gray-200">
+                    <td className="px-6 py-4 whitespace-nowrap border-b border-gray-200">
                       <Moment fromNow>{row.updatedAt}</Moment>
                     </td>
                   ),
@@ -239,7 +244,7 @@ class Stats extends Component {
                 title: I18n.t("definitions.stats.data.label"),
                 render: (row) =>
                   row && (
-                    <td className="px-6 py-4 whitespace-no-wrap border-b border-gray-200">
+                    <td className="px-6 py-4 whitespace-nowrap border-b border-gray-200">
                       <div>{JSON.stringify(row.data)}</div>
                     </td>
                   ),

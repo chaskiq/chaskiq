@@ -58,8 +58,12 @@ export default function EmailRequirement ({ settings, update }) {
         })}
       </div>
 
-      <Button onClick={handleSubmit} variant={'contained'} color={'primary'}>
-        Save
+      <Button 
+        size="md"
+        onClick={handleSubmit} 
+        variant={'success'} 
+        color={'primary'}>
+        {I18n.t('common.save')}
       </Button>
     </div>
   )

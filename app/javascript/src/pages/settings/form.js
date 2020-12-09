@@ -77,8 +77,9 @@ export default class SettingsForm extends Component {
           <div className="flex">
             <div className=" w-full sm:w-1/2">
               <Button 
-                variant="contained" 
-                color="primary" 
+                variant="success" 
+                color="primary"
+                size="md" 
                 type="submit">
                 {I18n.t('common.save')}
               </Button>

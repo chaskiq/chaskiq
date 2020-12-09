@@ -1,12 +1,5 @@
 import React from 'react'
 import styled from '@emotion/styled'
-//import posed from 'react-pose'
-//import { CreateTheme } from 'prey-stash'
-//import SplitText from 'react-pose-text'
-//import Container from './styles/dante'
-
-
-//const theme = CreateTheme(themeConfig)
 
 let theme = {
   desaturation: 0,

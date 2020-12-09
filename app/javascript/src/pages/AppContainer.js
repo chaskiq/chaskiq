@@ -2,7 +2,7 @@ import React from 'react'
 
 import Sidebar from '../components/sidebar'
 import { Switch, Route, withRouter } from 'react-router-dom'
-
+import { isEmpty } from 'lodash'
 import { camelizeKeys } from '../actions/conversation'
 
 import Dashboard from './Dashboard'
@@ -26,6 +26,7 @@ import Api from './Api'
 
 import { connect } from 'react-redux'
 
+import UpgradePage from './UpgradePage'
 // import Pricing from '../pages/pricingPage'
 
 import { getCurrentUser } from '../actions/current_user'
@@ -40,7 +41,6 @@ import { updateRtcEvents } from '../actions/rtc'
 import { updateCampaignEvents } from '../actions/campaigns'
 
 import {
-
   appendConversation
 } from '../actions/conversations'
 
@@ -61,7 +61,8 @@ function App ({
   app,
   drawer,
   app_user,
-  loading
+  loading,
+  upgradePages
 }) {
 
   React.useEffect(() => {
@@ -222,7 +223,11 @@ function App ({
             </button>
           </div>
 
-          {app && (
+          { !isEmpty(upgradePages) &&
+            <UpgradePage page={upgradePages}/>
+          }
+
+          {app && isEmpty(upgradePages) && (
             <Switch>
               <Route path={`${match.url}/`} exact>
                 <Dashboard />
@@ -313,7 +318,8 @@ function mapStateToProps (state) {
     app_users,
     current_user,
     navigation,
-    paddleSubscription
+    paddleSubscription,
+    upgradePages
   } = state
   const { loading, isAuthenticated } = auth
   const { current_section } = navigation
@@ -327,7 +333,8 @@ function mapStateToProps (state) {
     isAuthenticated,
     current_section,
     drawer,
-    paddleSubscription
+    paddleSubscription,
+    upgradePages
   }
 }
 

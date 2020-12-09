@@ -1,42 +1,54 @@
-<ak-grid>
+<div class="min-h-screen bg-gray-50 flex flex-col justify-center py-12 sm:px-6 lg:px-8">
+  <div class="sm:mx-auto sm:w-full sm:max-w-md">
+    <%= image_tag "logo.png", class: "mx-auto h-20 w-auto" %>
+    <h2 class="mt-6 text-center text-1xl leading-3 font-light text-gray-600">
+      Sign up
+    </h2>
+  </div>
 
-  <ak-grid-column size="3"></ak-grid-column>
-  <ak-grid-column size="6">
+  <div class="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
+    <div class="bg-white py-8 px-4 shadow sm:rounded-lg sm:px-10">
 
+      <%= form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f| %>
+        <%= render "devise/shared/error_messages", resource: resource %>
 
-    <h2>Sign up</h2>
+        <div class="space-y-2">
+          <div>
+            <%= f.label :email, class: "block text-sm font-medium leading-5 text-gray-700" %>
+            <div class="mt-1 rounded-md shadow-sm">
+              <%= f.email_field :email, autofocus: true, autocomplete: "email", class: "appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md placeholder-gray-400 focus:outline-none focus:shadow-outline-blue focus:border-blue-300 transition duration-150 ease-in-out sm:text-sm sm:leading-5" %>
+            </div>
+          </div>
 
-    <%= form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f| %>
-      <%= render "devise/shared/error_messages", resource: resource %>
+          <div>
+            <%= f.label :password, class: "block text-sm font-medium leading-5 text-gray-700" %>
+            <div class="pb-5">
+              <%= f.password_field :password, autofocus: true, autocomplete: "new-password", class: "appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md placeholder-gray-400 focus:outline-none focus:shadow-outline-blue focus:border-blue-300 transition duration-150 ease-in-out sm:text-sm sm:leading-5" %>
+              <% if @minimum_password_length %>
+                <em class="text-xs text-gray-500">
+                  (<%= @minimum_password_length %> characters minimum)
+                </em>
+                <% end %>
+                <br />
+            </div>
+          </div>
 
-      <div class="ak-field-group">
-        <%= f.label :email %><br />
-        <%= f.email_field :email, autofocus: true, autocomplete: "email" , class: "ak-field-text"%>
-      </div>
+          <div>
+            <%= f.label :password_confirmation, class: "block text-sm font-medium leading-5 text-gray-700" %>
+            <div class="mt-1 rounded-md shadow-sm">
+              <%= f.password_field :password_confirmation, autofocus: true, autocomplete: "email", class: "appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md placeholder-gray-400 focus:outline-none focus:shadow-outline-blue focus:border-blue-300 transition duration-150 ease-in-out sm:text-sm sm:leading-5" %>
+            </div>
+          </div>
+        </div>
+        <div class="actions">
+          <%= f.submit "Sign up", class: "w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-500 focus:outline-none focus:border-indigo-700 focus:shadow-outline-indigo active:bg-indigo-700 transition duration-150 ease-in-out" %>
+        </div>
+      <% end %>
 
-      <div class="ak-field-group">
-        <%= f.label :password %>
-        <% if @minimum_password_length %>
-        <em>(<%= @minimum_password_length %> characters minimum)</em>
-        <% end %><br />
-        <%= f.password_field :password, autocomplete: "new-password" , class: "ak-field-text"%>
-      </div>
+      <%= render "devise/shared/links" %>
 
-      <div class="ak-field-group">
-        <%= f.label :password_confirmation %><br />
-        <%= f.password_field :password_confirmation, autocomplete: "new-password" , class: "ak-field-text" %>
-      </div>
-
-      <div class="actions">
-        <%= f.submit "Sign up", class: "ak-button ak-button__appearance-primary" %>
-      </div>
-    <% end %>
-
-    <%= render "devise/shared/links" %>
-
-  </ak-grid-column>
-  <ak-grid-column size="3"></ak-grid-column>
-</ak-grid>
-
+    </div>
+  </div>
+</div>
 
 

@@ -27,7 +27,9 @@ const actionTypes = {
 
   SetCurrentPage: 'SET_CURRENT_PAGE',
   SetSubscriptionState: 'SET_SUBSCRIPTION_STATE',
-  ClearSubscriptionState: 'CLEAR_SUBSCRIPTION_STATE'
+  ClearSubscriptionState: 'CLEAR_SUBSCRIPTION_STATE',
+  
+  SetUpgradePage: 'SET_UPGRADE_PAGE' 
 }
 
 export default actionTypes

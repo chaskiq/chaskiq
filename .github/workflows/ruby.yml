@@ -29,7 +29,7 @@ jobs:
         uses: eregon/use-ruby-action@master
         with:
           ruby-version: 2.7.1
-      - uses: borales/actions-yarn@v2.0.0
+      - uses: borales/actions-yarn@v2.3.0
         with:
           cmd: install
 
@@ -67,10 +67,7 @@ jobs:
 
           ./node_modules/.bin/cypress install
 
-          #curl -L localhost:5002/embed.js
-          yarn cypress run
-          #bundle exec rake assets:precompile
-          #bundle exec rspec ./spec/system  -t browser
+          yarn cypress:ga-ci
 
       #- name: Deploy to Heroku
       #  env:

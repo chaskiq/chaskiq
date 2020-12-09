@@ -111,13 +111,22 @@ function Billing ({
   }
 
   function tabs () {
+    /*
+    <Plans plans={plans}
+      currentPlan={subscriptionPlanId}
+      appPlan={app.plan}
+      openCheckout={(plan) => openCheckoutHandler(plan) }
+    />
+    */
     return [
       {
         label: I18n.t('subscriptions.tabs')[0],
         content: !isEmpty(plans) &&
-          <Plans plans={plans}
-            currentPlan={subscriptionPlanId}
+          <PlanBoard
+            plans={plans}
             openCheckout={(plan) => openCheckoutHandler(plan) }
+            currentPlan={subscriptionPlanId}
+            appPlan={app.plan}
           />
       },
       {
@@ -321,7 +330,9 @@ function SucessModal ({ options, handleClose }) {
         </div>
         <div className="mt-5 sm:mt-6">
           <span className="flex w-full rounded-md shadow-sm">
-            <button type="button" onClick={handleClose} className="inline-flex justify-center w-full rounded-md border border-transparent px-4 py-2 bg-indigo-600 text-base leading-6 font-medium text-white shadow-sm hover:bg-indigo-500 focus:outline-none focus:border-indigo-700 focus:shadow-outline-indigo transition ease-in-out duration-150 sm:text-sm sm:leading-5">
+            <button
+              type="button"
+              onClick={handleClose}>
               { I18n.t('subscriptions.alerts.close')}
             </button>
           </span>
@@ -504,12 +515,16 @@ function UpdateSubscriptionModal ({ plan, subscription, handleSubmit, handleClos
   )
 }
 
-function Plans ({ plans, openCheckout, currentPlan }) {
+function Plans ({ plans, openCheckout, currentPlan, appPlan }) {
   return (
     plans.filter((o) => o.id !== currentPlan)
-      .map((o) => <div className="pt-4">
+      .map((o) => <div
+        key={`plan-key-${o.id}`}
+        className="pt-4">
         <Plan
+          key={`plan-key-${o.id}`}
           plan={o}
+          appPlan={appPlan}
           currentPlan={currentPlan}
           openCheckout={openCheckout}
         />
@@ -518,14 +533,14 @@ function Plans ({ plans, openCheckout, currentPlan }) {
   )
 }
 
-function Plan ({ plan, openCheckout, currentPlan }) {
+function Plan ({ plan, openCheckout, currentPlan, appPlan }) {
   function findInTranslation () {
-    const translatedPlan = I18n.t('subscriptions.plans').find((o) => o.id === 596123)
+    const translatedPlan = I18n.t('subscriptions.plans').find((o) => o.id === plan)
     return translatedPlan && translatedPlan
   }
 
   return (
-    <div className="border rounded-md shadow-lg flex mb-4">
+    <div className={`${appPlan.id === plan.id ? 'bg-gray-100' : ''} border rounded-md shadow-lg flex mb-4`}>
       <div className="p-5 flex-grow">
         <h2 className="text-4xl font-extrabold">{plan.name}</h2>
         <p className="text-gray-600">
@@ -540,9 +555,10 @@ function Plan ({ plan, openCheckout, currentPlan }) {
             <div className="ml-2 h-1 bg-gray-200 flex-grow"/>
           </div>
 
-          <dl className="grid grid-cols-1 col-gap-4 row-gap-4 sm:grid-cols-2">
+          <dl className="mt-8 space-y-5 lg:space-y-0 lg:grid lg:grid-cols-2 lg:gap-x-8 lg:gap-y-5">
             {
-              findInTranslation() && findInTranslation().features.map((o, index) => (
+              // findInTranslation() && findInTranslation()
+              plan.features.filter((o) => o.active).map((o, index) => (
                 <div key={`items-${index}`} className="sm:col-span-1">
                   <dt className="text-sm leading-5 font-medium text-gray-500">
                     <div className="flex">
@@ -551,7 +567,7 @@ function Plan ({ plan, openCheckout, currentPlan }) {
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7"></path>
                         </svg>
                       </div>
-                      <span>{o.name}</span>
+                      <span>{I18n.t(`subscriptions.features.${o.name}.title`)}</span>
                     </div>
                   </dt>
                 </div>
@@ -703,7 +719,7 @@ function Transactions ({ app }) {
           {
             transactions.map((o) => (
               <tr key={`trx-${o.order_id}`}>
-                <td className="px-6 py-3 max-w-0 w-full whitespace-no-wrap text-sm leading-5 font-medium text-gray-900">
+                <td className="px-6 py-3 max-w-0 w-full whitespace-nowrap text-sm leading-5 font-medium text-gray-900">
                   <div className="flex items-center space-x-3 lg:pl-2">
                     <div className="flex-shrink-0 w-2.5 h-2.5 rounded-full bg-pink-600" />
                     <a href="#" className="truncate hover:text-gray-600">
@@ -717,15 +733,15 @@ function Transactions ({ app }) {
                   </div>
                 </td>
 
-                <td className="hidden md:table-cell px-6 py-3 whitespace-no-wrap text-sm leading-5 text-gray-500 text-right">
+                <td className="hidden md:table-cell px-6 py-3 whitespace-nowrap text-sm leading-5 text-gray-500 text-right">
                   {o.created_at}
                 </td>
 
-                <td className="hidden md:table-cell px-6 py-3 whitespace-no-wrap text-sm leading-5 text-gray-500 text-right">
+                <td className="hidden md:table-cell px-6 py-3 whitespace-nowrap text-sm leading-5 text-gray-500 text-right">
                   ${o.amount} {o.currency}
                 </td>
 
-                <td className="hidden md:table-cell px-6 py-3 whitespace-no-wrap text-sm leading-5 text-gray-500 text-right">
+                <td className="hidden md:table-cell px-6 py-3 whitespace-nowrap text-sm leading-5 text-gray-500 text-right">
                   <a href={o.receipt_url} target="blank">
                     Download receipt
                   </a>
@@ -741,3 +757,235 @@ function Transactions ({ app }) {
 }
 
 export default withRouter(connect(mapStateToProps)(Billing))
+
+function PlanBoard ({ appPlan, plans, openCheckout }) {
+  return <div className="max-w-2xl mx-auto bg-white py-16 sm:py-24 sm:px-6 lg:max-w-7xl lg:px-8">
+
+    {/* xs to lg */}
+    <div className="space-y-24 lg:hidden">
+      {
+        plans.map((plan) => (
+          <div key={`mobile-plan-${plan.id}`}>
+            <div className="px-4">
+              <h2 className="text-lg leading-6 font-medium text-gray-900">{plan.name}</h2>
+              <p className="mt-4">
+                <span className="text-4xl font-extrabold text-gray-900">
+                  ${Math.floor(plan.recurring_price.USD)}
+                </span>
+                <span className="text-base font-medium text-gray-500">/mo</span>
+              </p>
+
+              {
+                appPlan && appPlan.id === plan.id &&
+                <p className="mt-4 text-sm text-gray-500">
+                  This is your current plan
+                </p>
+              }
+              
+              {
+                !appPlan || appPlan.id != plan.id &&
+                <button
+                  className={`
+                  bg-green-400 
+                  text-white
+                  hover:bg-green-500 
+                  focus:outline-none 
+                  focus:border-green-700 
+                  focus:shadow-outline
+                  mt-6 block w-full border border-transparent rounded-md shadow py-2 text-sm font-semibold text-white text-center`}
+                  onClick={() => openCheckout(plan)}> Buy {plan.name}
+                </button>
+              }
+            </div>
+            <table className="mt-8 w-full">
+              <caption className="bg-gray-50 border-t border-gray-200 py-3 px-4 text-sm font-medium text-gray-900 text-left">
+                Features
+              </caption>
+              <thead>
+                <tr>
+                  <th className="sr-only" scope="col">Feature</th>
+                  <th className="sr-only" scope="col">Included</th>
+                </tr>
+              </thead>
+              <tbody className="divide-y divide-gray-200">
+
+                {
+                  Object.keys(I18n.t('subscriptions.features'))
+                    .map((k) => (
+                      <tr key={`mobile-feature-${k}`}
+                        className="border-t border-gray-200">
+                        <th className="py-5 px-4 text-sm font-normal text-gray-500 text-left" scope="row">
+                          {I18n.t(`subscriptions.features.${k}.title`)}
+                        </th>
+                        <td className="py-5 pr-4">
+                          {
+                            plan.features.find((p) => p.active && p.name === k) &&
+                          <svg className="ml-auto h-5 w-5 text-green-500" x-description="Heroicon name: check" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                            <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+                          </svg>
+                          }
+
+                          {
+                            plan.features.find((p) => p.active && p.name === k) &&
+                          <span className="sr-only">Yes</span>
+                          }
+
+                        </td>
+                      </tr>
+                    ))
+                }
+
+              </tbody>
+            </table>
+            <div className="border-t border-gray-200 px-4 pt-5">
+              <button
+                className={`
+                bg-green-400 
+                text-white
+                hover:bg-green-500 
+                focus:outline-none 
+                focus:border-green-700 
+                focus:shadow-outline
+                mt-6 block w-full border border-transparent rounded-md shadow py-2 text-sm font-semibold text-white text-center`}
+                onClick={() => openCheckout(plan)}> Buy {plan.name}
+              </button>
+              {/* <a href="#" className="block w-full bg-gradient-to-r from-orange-500 to-pink-500 border border-transparent rounded-md shadow py-2 text-sm font-semibold text-white text-center hover:to-pink-600">
+                Buy Basic
+              </a> */}
+            </div>
+          </div>
+        ))
+      }
+
+    </div>
+    {/* lg+ */}
+    <div className="hidden lg:block">
+      <table className="w-full h-px table-fixed">
+        <caption className="sr-only">
+          Pricing plan comparison
+        </caption>
+        <thead>
+          <tr>
+            <th className="pb-4 pl-6 pr-6 text-sm font-medium text-gray-900 text-left" scope="col">
+              <span className="sr-only">Feature by</span>
+              <span>Plans</span>
+            </th>
+            {
+              plans.map((o) =>
+                <th key={`plan-${o.id}`}
+                  className="w-1/4 pb-4 px-6 text-lg leading-6 font-medium text-gray-900 text-left"
+                  scope="col">
+                  {o.name}
+                </th>
+              )
+            }
+          </tr>
+        </thead>
+        <tbody className="border-t border-gray-200 divide-y divide-gray-200">
+          <tr>
+
+            <th className="py-8 pl-6 pr-6 align-top text-sm font-medium text-gray-900 text-left" scope="row">Pricing</th>
+            {
+              plans.map((p) => (
+                <td key={`lg-plans-${p.id}`}className="h-full py-8 px-6 align-top">
+                  <div className="h-full flex flex-col justify-between">
+                    <div>
+                      <p>
+                        <span className="text-4xl font-extrabold text-gray-900">
+                          ${Math.floor(p.recurring_price.USD)}
+                        </span>
+                        <span className="text-base font-medium text-gray-500">/mo</span>
+                      </p>
+                      <p className="mt-4 text-sm text-gray-500">{p.description}</p>
+                    </div>
+
+                    {
+                      appPlan && appPlan.id == p.id &&
+                      <p className="mt-4 text-sm text-gray-500">
+                        This is your current plan
+                      </p>
+                    }
+
+                    {
+                      !appPlan || appPlan.id != p.id &&
+                      <button
+                        className={`
+                        bg-green-400 
+                        text-white
+                        hover:bg-green-500 
+                        focus:outline-none 
+                        focus:border-green-700 
+                        focus:shadow-outline
+                        mt-6 block w-full border border-transparent rounded-md shadow py-2 text-sm font-semibold text-white text-center`}
+                        onClick={() => openCheckout(p)}> Buy {p.name}
+                      </button>
+                    }
+                  </div>
+                </td>
+              ))
+            }
+          </tr>
+          <tr>
+            <th className="py-3 pl-6 bg-gray-50 text-sm font-medium text-gray-900 text-left" colSpan={4} scope="colgroup">Features</th>
+          </tr>
+
+          {
+            Object.keys(I18n.t('subscriptions.features')).map((k) => (
+              <tr key={`plan-feature-matrix-${k}`}>
+                <th className="py-5 pl-6 pr-6 text-sm font-normal text-gray-500 text-left" scope="row">
+                  {I18n.t(`subscriptions.features.${k}.title`)}
+                </th>
+
+                {
+                  plans.map((plan) => (
+                    <td className="py-5 px-6">
+                      {
+                        plan.features.find(o => o.name === k && o.active) &&
+                        <svg className="h-5 w-5 text-green-500" x-description="Heroicon name: check" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                          <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+                        </svg>
+                      }
+                      <span className="sr-only">Included in {plan.name}</span>
+                    </td>
+                  ))
+                }
+              </tr>
+            ))
+          }
+
+        </tbody>
+        <tfoot>
+          <tr className="border-t border-gray-200">
+            <th className="sr-only" scope="row">Choose your plan</th>
+            {
+              plans.map((p) => (
+                <td key={`lg-bottom-plan-${p.id}`} className="pt-5 px-6">
+
+                  {
+                    appPlan && appPlan.id == p.id &&
+                    <p className="mt-4 text-sm text-gray-500">
+                      This is your current plan
+                    </p>
+                  }
+
+                  { !appPlan || appPlan.id != p.id &&
+                  <button
+                    className={`
+                    bg-green-400 
+                    text-white
+                    hover:bg-green-500 
+                    focus:outline-none 
+                    focus:border-green-700 
+                    focus:shadow-outline
+                    mt-6 block w-full border border-transparent rounded-md shadow py-2 text-sm font-semibold text-white text-center`}
+                    onClick={() => openCheckout(plan)}> Buy {p.name}
+                  </button>}
+                </td>
+              ))
+            }
+          </tr>
+        </tfoot>
+      </table>
+    </div>
+  </div>
+}

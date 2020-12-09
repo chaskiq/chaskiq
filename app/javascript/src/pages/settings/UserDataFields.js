@@ -13,13 +13,14 @@ import List, {
   ItemListSecondaryContent
 } from '../../components/List'
 import serialize from 'form-serialize'
+import UpgradeButton from '../../components/upgradeButton'
 
 import { DeleteIcon, PlusIcon, EditIcon } from '../../components/icons'
 
 import defaultFields from '../../shared/defaultFields'
 import Input from '../../components/forms/Input'
 
-function CustomizationColors ({ app, settings, update, dispatch }) {
+function UserDataFields ({ app, settings, update, dispatch }) {
   const [fields, setFields] = useState(app.customFields || [])
   const [isOpen, setOpen] = useState(false)
   const [selected, setSelected] = useState(null)
@@ -99,7 +100,7 @@ function CustomizationColors ({ app, settings, update, dispatch }) {
   function renderSubmitButton () {
     return (
       <Button
-        variant={'contained'}
+        variant={'success'}
         color={'primary'}
         onClick={() =>
           update({
@@ -125,11 +126,21 @@ function CustomizationColors ({ app, settings, update, dispatch }) {
         </p>
 
         <div className="flex w-1/4 justify-end">
-          <Button onClick={addField}
-            edge="end" variant="icon"
-            aria-label="add">
-            <PlusIcon />
-          </Button>
+          <UpgradeButton
+            classes={
+              `absolute z-10 ml-1 mt-3 transform w-screen 
+              max-w-md px-2 origin-top-right right-0
+              md:-ml-4 sm:px-0 lg:ml-0
+              lg:right-2/6 lg:translate-x-1/6`
+            }
+            label="Add custom attribute"
+            feature="CustomAttributes">
+            <Button onClick={addField}
+              edge="end" variant="icon"
+              aria-label="add">
+              <PlusIcon />
+            </Button>
+          </UpgradeButton>
 
           {renderSubmitButton()}
         </div>
@@ -328,4 +339,4 @@ function mapStateToProps (state) {
   }
 }
 
-export default withRouter(connect(mapStateToProps)(CustomizationColors))
+export default withRouter(connect(mapStateToProps)(UserDataFields))

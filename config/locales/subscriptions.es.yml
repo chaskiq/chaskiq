@@ -2,55 +2,67 @@
 ---
   es:
     subscriptions:
+      upgrade: Actualiza
       tabs:
         - Planes
         - Historial de transacciones
       plans:
         - 
-          name: "free one"
+          name: "Plan gratuito"
           description: Este es el plan gratuito!
           id: 618560
-          features:
-            -
-              name: Segmentos
-            - 
-              name: Conversaciones
-            - 
-              name: Campañas 
-            - 
-              name: Flujos de Chat
-            - 
-              name: Integraciones API
         - 
-          name: "rookie"
-          description: Este es el plan simple
+          name: "Starter"
+          description: El plan para los que inician en Chaskiq y requieren un montar un centro de ayuda
           id: 616249
-          features:
-            -
-              name: Segmentos
-            - 
-              name: Conversaciones
-            - 
-              name: Campañas 
-            - 
-              name: Flujos de Chat
-            - 
-              name: Integraciones API
         - 
           name: "super"
           id: 596123
-          description: Este es el super plan
-          features:
-            -
-              name: Segmentos
-            - 
-              name: Conversaciones
-            - 
-              name: Campañas 
-            - 
-              name: Flujos de Chat
-            - 
-              name: Integraciones API
+          description: El siguiente nivel para quienes necesitan mas control en mensajes, campañas y flujos de bots
+
+      features:
+        Segments:
+          title: Segmentos
+          description: true
+        Leads:
+          title: Prospectos
+          description: true
+        AppUsers:
+          title: Usuarios
+          description: true
+        Conversations:
+          title: Conversaciones
+          description: true
+        BotTasks:
+          title: Tareas de Bot
+          description: true
+        Integrations:
+          title: Integraciones
+          description: true
+        Campaigns:
+          title: Campañas
+          active: false
+        Tours:
+          title: Tours
+          description: true
+        UserAutoMessages:
+          title: Mensajes salientes
+          description: true
+        OutgoingWebhooks:
+          title: Webhooks
+          active: false
+        OauthApplications:
+          title: Applicaciones Oauth
+          description: true
+        Articles:
+          title: Centro de ayuda
+          active: false
+        QuickReplies:
+          title: Respuestas enlatadas
+          description: true
+        CustomAttributes:
+          title: Atributos perzonalizados
+
 
       plan: 
         included: Que incluye

@@ -3,7 +3,7 @@
 docker build --build-arg APP_ENV=production \
              --build-arg RUBY_VERSION=2.7.1 \
              --build-arg PG_MAJOR=11 \
-             --build-arg NODE_MAJOR=10 \
+             --build-arg NODE_MAJOR=12 \
              --build-arg YARN_VERSION=1.13.0 \
              --build-arg BUNDLER_VERSION=2.1.3 \
              -f $DOCKERFILE_PATH \

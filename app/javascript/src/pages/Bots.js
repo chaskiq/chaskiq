@@ -85,9 +85,7 @@ const BotDataTable = ({ app, match, history, mode, dispatch }) => {
           actions={
             <div item>
               <Button
-                variant="outlined"
                 color="inherit"
-                size="small"
                 onClick={toggleTaskForm}
               >
                 {I18n.t('task_bots.new')}
@@ -110,7 +108,7 @@ const BotDataTable = ({ app, match, history, mode, dispatch }) => {
                 title: I18n.t('definitions.bot_tasks.name.label'),
                 render: (row) =>
                   row && (
-                    <td className="px-6 py-4 whitespace-no-wrap border-b border-gray-200">
+                    <td className="px-6 py-4 whitespace-nowrap border-b border-gray-200">
                       <div className="flex items-center">
                         {row.id && (
                           <span className="text-lg leading-5 font-bold text-gray-900">
@@ -129,12 +127,12 @@ const BotDataTable = ({ app, match, history, mode, dispatch }) => {
                 field: 'actions',
                 title: I18n.t('definitions.bot_tasks.actions.label'),
                 render: (row) => (
-                  <td className="px-6 py-4 whitespace-no-wrap border-b border-gray-200">
+                  <td className="px-6 py-4 whitespace-nowrap border-b border-gray-200">
                     <div className="flex items-center">
                       {row.id && (
                         <Button
                           color={'secondary'}
-                          variant={'contained'}
+                          variant={'danger'}
                           onClick={() => setOpenDeleteDialog(row)}
                         >
                           {I18n.t('common.delete')}

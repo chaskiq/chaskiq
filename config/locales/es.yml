@@ -67,6 +67,7 @@
         conversations: Conversaciones
         assignment_rules: Reglas de asignación
         mailing_campaigns: Campañas de correo
+        banners: Banners
         in_app_messages: En los mensajes de la aplicación
         guided_tours: Visitas guiadas
         for_leads: Para clientes potenciales
@@ -302,7 +303,7 @@
         availability: Disponibilidad
         email_requirement: Requisito de correo electrónico
         inbound_settings: Configuraciones entrantes
-        messenger_style: Estilo mensajero
+        messenger_style: Apariencia Chat
         user_data: Datos del usuario
         tags: Etiquetas
         quick_replies: Respuestas rápidas
@@ -401,7 +402,7 @@
         title: Idiomas
       team:
         title: Equipo
-        invitations: invitaciones
+        invitations: Invitaciones
         agents: Agentes
         invitation_success: "¡invitación enviada!"
         invitatin_error: Invitación no enviada!

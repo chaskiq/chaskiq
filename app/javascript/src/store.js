@@ -11,6 +11,8 @@ import app_user from './actions/app_user'
 import rtc from './actions/rtc'
 import campaigns from './actions/campaigns'
 
+import upgradePages from './actions/upgradePages'
+
 import conversations from './actions/conversations'
 import conversation from './actions/conversation'
 import current_user from './actions/current_user'
@@ -38,7 +40,8 @@ const rootReducer = combineReducers({
   imageZoom,
   rtc,
   campaigns,
-  paddleSubscription
+  paddleSubscription,
+  upgradePages
 })
 
 const middlewares = [thunkMiddleware] //, routerMiddleware(history)]

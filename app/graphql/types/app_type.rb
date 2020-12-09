@@ -43,6 +43,17 @@ module Types
     field :visitor_home_apps, [Types::JsonType], null: true
     field :plans, [Types::JsonType], null: true
 
+    field :plan, Types::JsonType, null: true
+
+    def outgoing_email_domain
+      object.outgoing_email_domain || ENV['DEFAULT_OUTGOING_EMAIL_DOMAIN']
+    end
+
+    def plan
+      return { disabled: true } unless context[:enabled_subscriptions]
+      object.plan
+    end
+
     def inbox_apps
       object.inbox_apps.blank? ? object.default_home_apps : object.inbox_apps
     end
@@ -92,8 +103,7 @@ module Types
 
     field :subscriptions_enabled, Boolean, null: true
     def subscriptions_enabled
-      ENV['PADDLE_PUBLIC_KEY'].present? || ENV['PADDLE_VENDOR_ID'].present? ||
-        ENV['PADDLE_SECRET_TOKEN'].present?
+      context[:enabled_subscriptions]
     end
 
     def tag_list
@@ -107,6 +117,7 @@ module Types
     field :searcheable_fields, [Types::JsonType], null: true
 
     def outgoing_webhooks
+      #object.plan.allow_feature!('OutgoingWebhooks')
       authorize! object, to: :manage?, with: AppPolicy
       object.outgoing_webhooks
     end
@@ -153,12 +164,11 @@ module Types
 
       authorize! object, to: :show?, with: AppPolicy
 
-      object.app_package_integrations.where(
+      object.app_package_integrations
+        .joins(:app_package)
+        .where(
         app_package_id: object.app_packages.tagged_with(kind, on: 'capabilities')
-      )
-      # object.app_packages.tagged_with(kind, on: 'capabilities')
-      # .joins(:app_package_integrations)
-      # .where("app_package_integrations.id is not null").uniq
+      ).order('app_packages.name desc')
     end
 
     def gather_social_data
@@ -201,6 +211,7 @@ module Types
     field :app_package_integrations, [Types::AppPackageIntegrationType], null: true
 
     def app_package_integrations
+      #object.plan.allow_feature!('Integrations')
       authorize! object, to: :manage?, with: AppPolicy
       object.app_package_integrations
     end
@@ -238,8 +249,8 @@ module Types
     end
 
     def conversations(per:, page:, filter:, sort:, agent_id: nil, tag: nil, term: nil)
+      #object.plan.allow_feature!("Conversations")
       authorize! object, to: :show?, with: AppPolicy
-
 
       @collection = object.conversations
                           .left_joins(:messages)
@@ -334,8 +345,9 @@ module Types
     end
 
     def campaigns(mode:)
+      #object.plan.allow_feature!(mode.classify.pluralize)
       authorize! object, to: :show?, with: AppPolicy
-      collection = object.send(mode) if %w[campaigns user_auto_messages tours].include?(mode)
+      collection = object.send(mode) if Message.allowed_types.include?(mode)
       collection.page(1).per(20)
     end
 
@@ -346,7 +358,7 @@ module Types
 
     def campaign(mode:, id:)
       authorize! object, to: :show?, with: AppPolicy
-      collection = object.send(mode) if %w[campaigns user_auto_messages tours].include?(mode)
+      collection = object.send(mode) if Message.allowed_types.include?(mode)
       collection.find(id)
     end
 
@@ -383,6 +395,7 @@ module Types
     field :segments, [Types::SegmentType], null: true
 
     def segments
+      #object.plan.allow_feature!('Segments')
       authorize! object, to: :show?, with: AppPolicy
       Segment.union_scope(
         object.segments.all, Segment.where('app_id is null')
@@ -402,6 +415,7 @@ module Types
     field :assignment_rules, [Types::AssignmentRuleType], null: true
 
     def assignment_rules
+      #object.plan.allow_feature!('AssignmentRules')
       authorize! object, to: :show?, with: AppPolicy
       object.assignment_rules.order('priority asc')
     end
@@ -437,6 +451,7 @@ module Types
     field :article_settings, Types::ArticleSettingsType, null: true
 
     def article_settings
+      #object.plan.allow_feature!('Articles')
       object.article_settings.blank? ? object.build_article_settings : object.article_settings
     end
 
@@ -449,6 +464,7 @@ module Types
     end
 
     def articles(page:, per:, lang:, mode:, search:)
+      #object.plan.allow_feature!('Articles')
       authorize! object, to: :show?, with: AppPolicy
       I18n.locale = lang
       if mode == 'all'
@@ -471,6 +487,7 @@ module Types
     end
 
     def articles_uncategorized(page:, per:, lang:)
+      #object.plan.allow_feature!('Articles')
       I18n.locale = lang
       authorize! object, to: :show?, with: AppPolicy
       object.articles.without_collection.page(page).per(per)
@@ -482,6 +499,7 @@ module Types
     end
 
     def article(id:, lang:)
+      #object.plan.allow_feature!('Articles')
       I18n.locale = lang
       authorize! object, to: :show?, with: AppPolicy
       object.articles.friendly.find(id)
@@ -492,6 +510,7 @@ module Types
     end
 
     def collections(lang:)
+      #object.plan.allow_feature!('Articles')
       I18n.locale = lang.to_sym
       authorize! object, to: :show?, with: AppPolicy
       object.article_collections
@@ -514,6 +533,7 @@ module Types
     end
 
     def bot_tasks(lang:, mode:)
+      #object.plan.allow_feature!('BotTasks')
       authorize! object, to: :show?, with: AppPolicy
       if mode == 'leads'
         object.bot_tasks.for_leads # .page(page).per(per)
@@ -607,6 +627,7 @@ module Types
     # OAUTH
     field :oauth_applications, [OauthApplicationType], null: true
     def oauth_applications
+      #object.plan.allow_feature!('OauthApplications')
       authorize! object, to: :manage?, with: AppPolicy
       object.oauth_applications.ordered_by(:created_at)
     end

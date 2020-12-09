@@ -26,6 +26,24 @@ class MessengerEventsChannel < ApplicationCable::Channel
     )
   end
 
+  #### experimental
+  def get_banners_for_user()
+    Banner.broadcast_banner_to_user(@app_user)
+  end
+
+  def get_tours_for_user()
+    Tour.broadcast_tour_to_user(@app_user)
+  end
+
+  def get_tasks_for_user()
+    BotTask.broadcast_task_to_user(@app_user)
+  end
+
+  def get_messages_for_user()
+    UserAutoMessage.broadcast_message_to_user(@app_user)
+  end
+  #####
+
   def rtc_events(data)
     @app = App.find_by(key: params[:app])
     @conversation = @app.conversations.find_by(key: data['conversation_id'])

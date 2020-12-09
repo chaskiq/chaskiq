@@ -243,12 +243,12 @@ export default class SegmentItemButton extends Component {
           {this.state.checkedValue &&
             (this.state.checkedValue !== "is_null" ||
               this.state.checkedValue !== "is_not_null") && (
-              <button
-                className="p-2 inline-flex items-center px-2.5 py-1.5 border border-transparent text-xs leading-4 font-medium rounded text-white bg-indigo-600 hover:bg-indigo-500 focus:outline-none focus:border-indigo-700 focus:shadow-outline-indigo active:bg-indigo-700 transition ease-in-out duration-150"
+              <Button
+                size="small"
                 onClick={this.handleSubmit.bind(this)}
               >
                 Apply
-              </button>
+              </Button>
             )}
 
           {this.deleteButton()}
@@ -291,7 +291,7 @@ export default class SegmentItemButton extends Component {
         }
 
         <ContentMatch>
-          <div ref={this.blockStyleRef} className="mt-2 p-2 mt-2 p-2 h-32 overflow-scroll">
+          <div ref={this.blockStyleRef} className="mt-2 p-2 h-32 overflow-scroll">
             {relative.map((o, i) => {
               return (
                 <div>
@@ -336,15 +336,14 @@ export default class SegmentItemButton extends Component {
           {this.state.selectedOption &&
             (this.state.selectedOption !== "is_null" ||
               this.state.selectedOption !== "is_not_null") && (
-              <button
-                className="p-2 inline-flex items-center px-2.5 py-1.5 border border-transparent text-xs leading-4 font-medium rounded text-white bg-indigo-600 hover:bg-indigo-500 focus:outline-none focus:border-indigo-700 focus:shadow-outline-indigo active:bg-indigo-700 transition ease-in-out duration-150"
+              <Button
                 variant="outlined"
                 color="primary"
                 size={"small"}
                 onClick={this.handleSubmit.bind(this)}
               >
                 Apply
-              </button>
+              </Button>
             )}
 
           {this.deleteButton()}
@@ -387,7 +386,7 @@ export default class SegmentItemButton extends Component {
         </div>
 
         <ContentMatch>
-          <div ref={this.blockStyleRef} className="mt-2 p-2 mt-2 p-2 h-32 overflow-scroll">
+          <div ref={this.blockStyleRef} className="mt-2 p-2 h-32 overflow-scroll">
             {relative.map((o, i) => {
               return (
                 <div>
@@ -432,7 +431,6 @@ export default class SegmentItemButton extends Component {
         <ContentMatchFooter>
           {this.state.selectedOption && (
             <Button
-              //className="p-2 inline-flex items-center px-2.5 py-1.5 border border-transparent text-xs leading-4 font-medium rounded text-white bg-indigo-600 hover:bg-indigo-500 focus:outline-none focus:border-indigo-700 focus:shadow-outline-indigo active:bg-indigo-700 transition ease-in-out duration-150"
               variant="outlined"
               color="primary"
               size={"small"}
@@ -525,7 +523,6 @@ export default class SegmentItemButton extends Component {
         <ContentMatchFooter>
           {this.state.selectedOption && (
             <Button
-              //className="p-2 inline-flex items-center px-2.5 py-1.5 border border-transparent text-xs leading-4 font-medium rounded text-white bg-indigo-600 hover:bg-indigo-500 focus:outline-none focus:border-indigo-700 focus:shadow-outline-indigo active:bg-indigo-700 transition ease-in-out duration-150"
               variant="outlined"
               color="primary"
               size={"small"}
@@ -570,7 +567,7 @@ export default class SegmentItemButton extends Component {
         </div>
 
         <ContentMatch>
-          <div ref={this.blockStyleRef} className="mt-2 p-2 mt-2 p-2 h-32 overflow-scroll">
+          <div ref={this.blockStyleRef} className="mt-2 p-2 h-32 overflow-scroll">
             {relative.map(
               (o, i) => {
                 return (
@@ -601,7 +598,6 @@ export default class SegmentItemButton extends Component {
             (this.state.selectedOption !== "is_null" ||
               this.state.selectedOption !== "is_not_null") && (
               <Button
-                //className="p-2 inline-flex items-center px-2.5 py-1.5 border border-transparent text-xs leading-4 font-medium rounded text-white bg-indigo-600 hover:bg-indigo-500 focus:outline-none focus:border-indigo-700 focus:shadow-outline-indigo active:bg-indigo-700 transition ease-in-out duration-150"
                 variant="outlined"
                 color="primary"
                 size={"small"}
@@ -618,9 +614,8 @@ export default class SegmentItemButton extends Component {
   deleteButton = () => {
     return (
       <Button
-        //className="p-2 inline-flex items-center px-2.5 py-1.5 border border-transparent text-xs leading-4 font-medium rounded text-white bg-indigo-600 hover:bg-indigo-500 focus:outline-none focus:border-indigo-700 focus:shadow-outline-indigo active:bg-indigo-700 transition ease-in-out duration-150"
         size="small"
-        appearance="link"
+        variant="link"
         onClick={this.handleDelete.bind(this)}
       >
         Delete
@@ -673,13 +668,11 @@ export default class SegmentItemButton extends Component {
               labelButton={"Missing value!"}
               triggerButton={(cb) => (
                 <Button
-                  //className="p-2 inline-flex items-center px-2.5 py-1.5 border border-transparent text-xs leading-4 font-medium rounded text-white bg-indigo-600 hover:bg-indigo-500 focus:outline-none focus:border-indigo-700 focus:shadow-outline-indigo active:bg-indigo-700 transition ease-in-out duration-150"
                   ref={(ref) => this.setRef(ref)}
                   isLoading={false}
                   size="small"
                   variant="flat"
                   color={"secondary"}
-                  //{this.state.dialogOpen ? 'primary' : 'secondary'}
                   onClick={cb}
                 >
                   {/*
