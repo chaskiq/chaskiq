@@ -33,7 +33,7 @@ import {
   EmailIcon,
   ApiIcon,
   CardIcon,
-  SeachIcon
+  PictureInPicture
 } from '../components/icons'
 
 import SidebarAgents from '../components/conversations/SidebarAgents'
@@ -195,6 +195,13 @@ function Sidebar ({
           icon: <MessageIcon />,
           url: `${appid}/messages/user_auto_messages`,
           active: isActivePage('user_auto_messages')
+        },
+        {
+          id: 'banners',
+          label: I18n.t('navigator.childs.banners'),
+          icon: <PictureInPicture />,
+          url: `${appid}/messages/banners`,
+          active: isActivePage('banners')
         },
         {
           id: 'tours',

@@ -57,6 +57,8 @@ const EditorStylesExtend = styled(EditorStyles)`
   line-height: ${(props) => props.styles.lineHeight || "2em"};
   font-size: ${(props) => props.styles.fontSize || "1.2em"};
 
+  color: inherit;
+
   .graf--p {
     line-height: ${(props) => props.styles.lineHeight || "2em"};
     font-size: ${(props) => props.styles.fontSize || "1.2em"};

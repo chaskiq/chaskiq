@@ -29,7 +29,7 @@ export default function Table ({
 
   const renderDefaultRow = (value) => {
     return (
-      <td className="px-6 py-4 whitespace-no-wrap border-b border-gray-200">
+      <td className="px-6 py-4 whitespace-nowrap border-b border-gray-200">
         {value}
       </td>
     )
@@ -106,7 +106,7 @@ export default function Table ({
 
 function Pagination ({ meta, search }) {
   return (
-    <div className="bg-white px-4 py-3 flex items-center justify-between border-t border-gray-200 sm:px-6">
+    <div className="bg-white px-4 py-3 flex items-center justify-between border-t border-gray-200 sm:px-6--">
       <div className="flex-1 flex justify-between items-center">
         <button
           onClick={() => search(meta.prev_page)}

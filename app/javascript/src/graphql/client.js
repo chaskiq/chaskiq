@@ -2,6 +2,8 @@ import axios from 'axios'
 import { isObject, isEmpty } from 'lodash'
 import store from '../store'
 import { errorMessage } from '../actions/status_messages'
+import { lockPage } from '../actions/upgradePages'
+
 import { expireAuthentication, refreshToken } from '../actions/auth'
 //import history from "../history.js";
 
@@ -50,6 +52,13 @@ const graphql = (query, variables, callbacks) => {
       switch (req.response.status) {
         case 500:
           store.dispatch(errorMessage('server error ocurred'))
+          break
+        case 402:
+          //
+          store.dispatch(
+            lockPage(req.response.data.error.message)
+          )
+          //store.dispatch(errorMessage('server error ocurred'))
           break
         case 401:
           //history.push("/")

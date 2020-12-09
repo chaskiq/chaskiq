@@ -13,7 +13,6 @@ class Message < ApplicationRecord
   attr_accessor :step
 
   validates :name, presence: :true
-  validates :subject, presence: true # , unless: :step_1?
   validates :html_content, presence: true, if: :template_step?
 
   scope :enabled, -> { where(state: 'enabled') }
@@ -21,6 +20,10 @@ class Message < ApplicationRecord
   # before_save :detect_changed_template
   before_create :add_default_predicate
   before_create :initial_state
+
+  def self.allowed_types
+    %w[campaigns user_auto_messages tours banners]
+  end
 
   def enabled?
     state == 'active'

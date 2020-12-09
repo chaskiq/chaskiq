@@ -20,7 +20,7 @@ export default function SimpleTabs ({ tabs, buttons }) {
               href="#"
               onClick={() => setValue(i)}
               key={'conversation-tab' + o.label}
-              className="whitespace-no-wrap py-2 px-2 border-b-2 border-transparent font-medium text-sm leading-5 text-gray-500 hover:text-gray-700 hover:border-gray-300 focus:outline-none focus:text-gray-700 focus:border-gray-300"
+              className="whitespace-nowrap py-2 px-2 border-b-2 border-transparent font-medium text-sm leading-5 text-gray-500 hover:text-gray-700 hover:border-gray-300 focus:outline-none focus:text-gray-700 focus:border-gray-300"
             >
               {o.label}
             </a>

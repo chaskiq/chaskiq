@@ -6,13 +6,14 @@ require 'open-uri'
 class Campaign < Message
   validates :from_name, presence: true # , unless: :step_1?
   validates :from_email, presence: true # , unless: :step_1?
+  validates :subject, presence: true # , unless: :step_1?
 
   def config_fields
     [
       { name: 'name', label: I18n.t('definitions.campaigns.campaign_name.label'), hint: I18n.t('definitions.campaigns.campaign_name.hint'), type: 'string', grid: { xs: 'w-full', sm: 'w-full' } },
       { name: 'subject', label: I18n.t('definitions.campaigns.email_subject.label'), hint: I18n.t('definitions.campaigns.email_subject.hint'), type: 'text', grid: { xs: 'w-full', sm: 'w-full' } },
       { name: 'fromName', label: I18n.t('definitions.campaigns.from_name.label'), type: 'string', grid: { xs: 'w-full', sm: 'w-1/2' } },
-      { name: 'fromEmail', label: I18n.t('definitions.campaigns.from_email.label'), type: 'string', grid: { xs: 'w-full', sm: 'w-1/2' } },
+      # { name: 'fromEmail', label: I18n.t('definitions.campaigns.from_email.label'), type: 'string', grid: { xs: 'w-full', sm: 'w-1/2' } },
       { name: 'replyEmail', label: I18n.t('definitions.campaigns.reply_email.label'), type: 'string', grid: { xs: 'w-full', sm: 'w-1/2' } },
       { name: 'description', type: 'textarea', grid: { xs: 'w-full', sm: 'w-full' } },
       { name: 'timezone', type: 'timezone',
@@ -162,5 +163,15 @@ class Campaign < Message
 
   def hidden_constraints
     nil
+  end
+
+  def from_email
+    campaign_outgoing_email
+  end
+
+  def campaign_outgoing_email
+    self[:from_email] || 
+    (app.outgoing_email_domain.present? ?
+    "campaigns-#{self.app.key}-#{self.id}@#{app.outgoing_email_domain}" : '')
   end
 end

@@ -207,7 +207,7 @@ function ContactManager ({ app, current_user, dispatch }) {
 								  onClick={submitHandler}
 								  className="ml-2"
 								  variant="success">
-								  {I18n.t('common.submit')}
+								  {I18n.t('common.save')}
 								</Button>
               }
               <Button

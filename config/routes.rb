@@ -26,6 +26,7 @@ Rails.application.routes.draw do
   mount Sidekiq::Web => '/sidekiq'
 
   devise_for :agents, controllers: {
+    registrations: 'agents/registrations',
     invitations: 'agents/invitations',
     sessions: 'agents/sessions',
     omniauth_callbacks: 'agents/omniauth_callbacks'

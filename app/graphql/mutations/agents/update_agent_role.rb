@@ -11,11 +11,13 @@ module Mutations
       def resolve(app_key:, id:, params:)
         app = current_user.apps.find_by(key: app_key)
 
-        authorize! app, to: :update_agent?, with: AppPolicy
-
         role = app.roles.find_by(id: id)
 
         agent = role&.agent # , name: 'John Doe')
+
+        authorize! agent, to: :update_agent?, with: AppPolicy, context: {
+          role: app.roles.find_by(agent_id: current_user.id),
+        }
 
         data = params.permit(
           :name,

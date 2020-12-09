@@ -18,6 +18,9 @@
     "@nivo/pie": "^0.63.1",
     "@rails/activestorage": "^6.0.0",
     "@rails/webpacker": "^5.2.1",
+    "@tailwindcss/aspect-ratio": "^0.2.0",
+    "@tailwindcss/forms": "^0.2.1",
+    "@tailwindcss/typography": "^0.3.1",
     "@tailwindcss/ui": "^0.6.2",
     "Dante2": "0.5.0-rc26",
     "actioncable": "^5.2.4-1",
@@ -47,6 +50,7 @@
     "mr-emoji": "^1.1.4",
     "nivo": "^0.31.0",
     "polished": "^3.6.6",
+    "postcss": "^7.0.35",
     "postcss-cssnext": "^3.1.0",
     "prop-types": "^15.6.1",
     "rc-tooltip": "^4.0.3",
@@ -80,7 +84,7 @@
     "simmerjs": "^0.5.6",
     "simple-peer": "^9.7.0",
     "styled-components": "4.3.2",
-    "tailwindcss": "^1.9.0",
+    "tailwindcss": "npm:@tailwindcss/postcss7-compat",
     "twin.macro": "^1.8.0",
     "ua-parser-js": "^0.7.20",
     "url-pattern": "^1.0.3",
@@ -88,7 +92,7 @@
     "webpack-dev-server": "^3.1.4"
   },
   "devDependencies": {
-    "cypress": "5.5.0",
+    "cypress": "6.1.0",
     "cypress-xpath": "^1.4.0",
     "dotenv": "^8.2.0",
     "eslint": "^6.8.0",
@@ -108,6 +112,7 @@
     "cypress:open": "./node_modules/.bin/cypress open",
     "cypress:run": "./node_modules/.bin/cypress run --headless --browser chrome",
     "cypress:ci": "./node_modules/.bin/cypress run --headless --browser chrome --record --key 0998a03f-f6fe-4acf-8444-b81533c950cd --parallel --ci-build-id $TRAVIS_BUILD_ID",
+    "cypress:ga-ci": "./node_modules/.bin/cypress run --headless --browser chrome --record --key 0998a03f-f6fe-4acf-8444-b81533c950cd --parallel --ci-build-id $GITHUB_RUN_ID",
     "dev": "./bin/webpack-dev-server",
     "build": "bundle exec rake assets:precompile"
   }

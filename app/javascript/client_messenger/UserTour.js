@@ -146,8 +146,7 @@ class UserTour extends Component {
   registerOpen = ()=>{
     this.props.events && this.props.events.perform("track_open", 
       {
-        trackable_id: this.props.tour.id,
-        trackable_type: 'Tour'
+        trackable_id: this.props.tour.id
       }   
     )
   }
@@ -155,8 +154,7 @@ class UserTour extends Component {
   registerClose = ()=>{
     this.props.events && this.props.events.perform("track_close", 
       {
-        trackable_id: this.props.tour.id,
-        trackable_type: 'Tour'
+        trackable_id: this.props.tour.id
       }   
     )
   }

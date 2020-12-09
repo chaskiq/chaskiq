@@ -525,6 +525,7 @@ export const UPDATE_CAMPAIGN = `
         fromEmail
         replyEmail
         steps
+        bannerData
       }
     }
   }
@@ -618,6 +619,7 @@ export const CREATE_CAMPAIGN = `
         fromEmail
         replyEmail
         steps
+        bannerData
       }
     }
   }

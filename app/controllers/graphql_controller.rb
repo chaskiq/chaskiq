@@ -11,10 +11,14 @@ class GraphqlController < ApplicationController
     query = params[:query]
     operation_name = params[:operationName]
 
+    scout_transaction_name = "GraphQL/" + (operation_name || 'unknown')
+    ScoutApm::Transaction.rename(scout_transaction_name)
+
     context = {
       # Query context goes here, for example:
       current_user: current_user,
-      doorkeeper_authorize: -> { api_authorize! }
+      doorkeeper_authorize: -> { api_authorize! },
+      enabled_subscriptions: enabled_subscriptions?
     }
 
     result = ChaskiqSchema.execute(query,
@@ -51,11 +55,13 @@ class GraphqlController < ApplicationController
   rescue ActiveRecord::RecordInvalid => e
     error_messages = e.record.errors.full_messages.join("\n")
     json_error e.record
+  rescue Plan::PlanError => e
+    render json: {
+      error: {
+        message: JSON.parse(e.message)
+      }, data: {}
+    }, status: 402
   # GraphQL::ExecutionError.new "Validation failed: #{error_messages}."
-  rescue StandardError => e
-    # GraphQL::ExecutionError.new e.message
-    # raise e unless Rails.env.development?
-    handle_error_message e
   rescue ActionPolicy::Unauthorized => e
     raise GraphQL::ExecutionError.new(
       # use result.message (backed by i18n) as an error message
@@ -67,6 +73,16 @@ class GraphqlController < ApplicationController
         details: e.result.reasons.details
       }
     )
+  
+  
+  
+  
+  
+  
+  rescue StandardError => e
+    # GraphQL::ExecutionError.new e.message
+    # raise e unless Rails.env.development?
+    handle_error_message e
   end
 
   private

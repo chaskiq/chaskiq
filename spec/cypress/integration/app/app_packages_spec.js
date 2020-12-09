@@ -89,7 +89,7 @@ describe('AppPackages', function () {
             cy.contains('Add to messenger home').click()
 
             cy.contains('ContentShowcase')
-            cy.contains('Save changes').click()
+            cy.contains('Save').click()
           })
         })
     })

@@ -63,6 +63,7 @@ class App < ApplicationRecord
   has_many :campaigns, dependent: :destroy
   has_many :user_auto_messages, dependent: :destroy
   has_many :tours, dependent: :destroy
+  has_many :banners, dependent: :destroy
   has_many :messages, dependent: :destroy
   has_many :assignment_rules, dependent: :destroy
   has_many :outgoing_webhooks, dependent: :destroy
@@ -94,6 +95,12 @@ class App < ApplicationRecord
 
   def encryption_enabled?
     encryption_key.present?
+  end
+
+  def outgoing_email_domain
+    self.preferences[:outgoing_email_domain].present? ?
+      self.preferences[:outgoing_email_domain] :
+      ENV['DEFAULT_OUTGOING_EMAIL_DOMAIN']
   end
 
   def config_fields
@@ -395,6 +402,12 @@ class App < ApplicationRecord
         "id"=> pkg_id, 
         "name"=>"InboxSections"
     }] : []
+  end
+
+  def plan
+    @plan ||= Plan.new(
+      Plan.get_by_id(paddle_subscription_plan_id) || Plan.get('free')
+    )
   end
 
   private

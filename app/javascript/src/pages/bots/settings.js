@@ -200,7 +200,7 @@ function UsersSettings ({
 
       <div className="py-4">
         <Button size={'medium'}
-          variant={'contained'} onClick={submitData}>
+          variant={'success'} onClick={submitData}>
           {I18n.t('common.save')}
         </Button>
       </div>
@@ -386,7 +386,7 @@ function LeadsSettings ({
 
       <div className="py-4">
         <Button size={'medium'}
-          variant={'contained'}
+          variant={'success'}
           onClick={submitData}>
           {I18n.t('common.save')}
         </Button>

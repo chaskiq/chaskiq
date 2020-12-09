@@ -4,6 +4,7 @@ import { connect } from "react-redux";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 import styled from "@emotion/styled";
 import TextEditor from "../../components/textEditor";
+import UpgradeButton from "../../components/upgradeButton"
 
 import graphql from "../../graphql/client";
 import {
@@ -215,6 +216,28 @@ const BotEditor = ({ match, app, dispatch, mode, actions }) => {
       }
     );
   };
+
+  const toggleBotState = ()=>{
+    graphql(
+      UPDATE_BOT_TASK,
+      {
+        appKey: app.key,
+        id: match.params.id,
+        params: {
+          state: botTask.state === 'enabled' ? null : 'enabled'
+        },
+      },
+      {
+        success: (data) => {
+          setBotTask(data.updateBotTask.botTask)
+          dispatch(successMessage("bot updated"));
+        },
+        error: (err) => {
+          dispatch(errorMessage("bot not updated"));
+        },
+      }
+    );
+  }
 
   const addSectionMessage = (path) => {
     const dummy = {
@@ -631,7 +654,33 @@ const BotEditor = ({ match, app, dispatch, mode, actions }) => {
   return (
     <div>
       <Content>
-        <ContentHeader title={botTask.title} items={[]} />
+        <ContentHeader 
+          title={botTask.title} 
+          items={[]}
+          actions={
+            <UpgradeButton 
+            classes={
+              `absolute z-10 ml-1 mt-3 transform w-screen 
+              max-w-md px-2 origin-top-right right-0
+              md:-ml-4 sm:px-0 lg:ml-0
+              lg:right-2/6 lg:translate-x-1/6`
+            }
+            label="Activate Bot Task"
+            feature="BotTasks">
+          
+            <Button
+              className="mr-2"
+              //icon= <CheckCircle />
+              id="enabled"
+              state="enabled"
+              variant={"success"}
+              onClick={toggleBotState}
+            >
+              {botTask.state === 'enabled' ? 'Disable' : 'Enable'}
+            </Button>
+          </UpgradeButton>
+          }
+        />
         {tabsContent()}
       </Content>
     </div>

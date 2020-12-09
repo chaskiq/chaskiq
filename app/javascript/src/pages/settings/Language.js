@@ -105,7 +105,7 @@ export default function LanguageForm ({ settings, update, namespace, fields }) {
       render: (row) => {
         return (
           row && (
-            <td className="px-6 py-4 whitespace-no-wrap border-b border-gray-200">
+            <td className="px-6 py-4 whitespace-nowrap border-b border-gray-200">
               <div
                 // onClick={(e)=>(showUserDrawer && showUserDrawer(row))}
                 className="flex items-center"
@@ -169,13 +169,14 @@ export default function LanguageForm ({ settings, update, namespace, fields }) {
           }
         </div>
 
-        <div className="flex justify-end">
+        <div className="flex justify-start">
           <Button
             onClick={handleSubmit}
-            variant={'contained'}
+            variant={'success'}
             color={'primary'}
+            size="md"
           >
-            {I18n.t('common.submit')}
+            {I18n.t('common.save')}
           </Button>
         </div>
       </form>

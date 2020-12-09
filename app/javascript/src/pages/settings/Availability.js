@@ -129,8 +129,11 @@ export default function LanguageForm ({ settings, update, namespace, fields }) {
       </div>
 
       <div className="py-4">
-        <Button onClick={handleSubmit} variant={'contained'} color={'primary'}>
-          Save
+        <Button onClick={handleSubmit} 
+          variant={'success'} 
+          color={'primary'}
+          size="md">
+          {I18n.t('common.save')}
         </Button>
       </div>
     </form>
@@ -275,7 +278,7 @@ function AvailabilityRecord ({ record, update, index, removeItem }) {
       </div>
 
       <div className="w-1/4 pt-3">
-        <Button variant="icon" onClick={deleteItem}>
+        <Button type={'button'} variant="icon" onClick={deleteItem}>
           <DeleteIcon></DeleteIcon>
         </Button>
       </div>

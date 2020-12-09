@@ -256,9 +256,12 @@ class ProfilePage extends Component {
 
             <div classes={'mr-3 flex flex-col items-center'}>
             
-              <Avatar size={20}
-                src={this.state.agent.avatarUrl + "&s=120px"}
-              />
+              {
+                this.state.agent.avatarUrl &&              
+                <Avatar size={20}
+                  src={this.state.agent.avatarUrl + "&s=120px"}
+                />
+              }
 
               <div>
                 <input
