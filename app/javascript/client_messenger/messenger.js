@@ -94,7 +94,7 @@ class Messenger extends Component {
       conversationsMeta: {},
       availableMessages: [],
       availableMessage: null,
-      banner: null,
+      banner:localStorage.getItem(`chaskiq-banner`) && JSON.parse(localStorage.getItem(`chaskiq-banner`)),
       display_mode: "home", // "conversation", "conversations",
       tours: [],
       open: false,
@@ -353,6 +353,9 @@ class Messenger extends Component {
         connected: ()=> {
           //console.log("connected to events")
           this.registerVisit()
+
+          if(!this.state.banner)
+            App.events.perform('get_banners_for_user')
           //this.processTriggers()
         },
         disconnected: ()=> {
@@ -371,7 +374,7 @@ class Messenger extends Component {
               this.receiveTours([data.data])
               break
             case "banners:receive":
-              this.receiveBanners([data.data])
+              this.receiveBanners(data.data)
               break
             case "triggers:receive":
               this.receiveTrigger(data.data)
@@ -393,8 +396,6 @@ class Messenger extends Component {
             default:
               return 
           }
-
-
           //console.log(`received event`, data)
         },
         notify: ()=>{
@@ -648,8 +649,7 @@ class Messenger extends Component {
     })
    }
 
-  
-   handleTriggerRequest = (trigger)=>{
+  handleTriggerRequest = (trigger)=>{
     if (this.state.appData.tasksSettings){
       setTimeout(()=>{
         this.requestTrigger(trigger)
@@ -893,50 +893,6 @@ class Messenger extends Component {
     App.events && App.events.perform(name, data)
   }
 
-  /*sendTrigger = ()=>{
-    console.log("send trigger")
-    this.axiosInstance.get(`/api/v1/apps/${this.props.app_id}/triggers.json`)
-    .then((response) => {
-      console.log("trigger sent!")
-      //this.setState({
-      //  messages: this.state.messages.concat(response.data.message)
-      //})
-
-      //if (cb)
-      //  cb()
-    })
-    .catch((error) => {
-      console.log(error);
-    });
-  }
-
-  processTriggers = ()=>{
-    this.state.appData.triggers.map((o)=>{
-      this.processTrigger(o)
-    })
-  }
-
-  processTrigger = (trigger)=>{
-    if(localStorage.getItem("chaskiq:trigger-"+trigger.id)){
-      console.log("skip trigger , stored")
-      return
-    } 
-    
-    if(!this.complyRules(trigger))
-      return
-
-    this.sendTrigger()
-  }
-
-  complyRules = (trigger)=>{
-    const matches = trigger.rules.map((o)=>{
-      var pattern = new UrlPattern(o.pages_pattern)
-      return pattern.match(document.location.pathname);
-    })
-
-    return matches.indexOf(null) === -1
-  }*/
-
   // check url pattern before trigger tours
   receiveTours = (tours)=>{
     const filteredTours = tours.filter((o)=>{
@@ -948,9 +904,16 @@ class Messenger extends Component {
     if(filteredTours.length > 0) this.setState({tours: filteredTours})
   }
 
-  receiveBanners = (banners)=>{
-    const banner = banners.shift()
-    this.setState({ banner: banner })
+  receiveBanners = (banner)=>{
+    localStorage.setItem(`chaskiq-banner`, JSON.stringify(banner));
+    this.setState({ banner: banner }, ()=>{
+      App.events && App.events.perform(
+        "track_open",
+        {
+          trackable_id: this.state.banner.id
+        } 
+      )
+    })
   }
 
   submitAppUserData = (data, next_step)=>{
@@ -1088,6 +1051,30 @@ class Messenger extends Component {
           cb && cb(data)
         }
       })
+  }
+
+  closeBanner = ()=>{
+    if(!this.state.banner) return
+
+    App.events && App.events.perform(
+      "track_close",
+      {
+        trackable_id: this.state.banner.id
+      } 
+    )
+    this.setState({banner: null})
+    localStorage.removeItem("chaskiq-banner")
+  }
+
+  bannerActionClick = (url)=>{
+    window.open(url,'_blank');
+
+    App.events && App.events.perform(
+      "track_click",
+      {
+        trackable_id: this.state.banner.id
+      } 
+    )
   }
 
   render() {
@@ -1502,8 +1489,12 @@ class Messenger extends Component {
             { 
               this.state.banner && <Banner 
                 {...this.state.banner.banner_data}
-                onAction={ (url)=> console.log("action clicled! ", url) }
-                onClose={ ()=> this.setState({banner: null}) }
+                onAction={ (url)=> {
+                  this.bannerActionClick(url)
+                }}
+                onClose={ ()=>{ 
+                  this.closeBanner()
+                }}
                 id={this.state.banner.id}
                 serialized_content={
                   <DraftRenderer
@@ -1677,16 +1668,6 @@ class MessageFrame extends Component {
     }
   }
 
-  handleClose = (message)=>{
-    App.events && App.events.perform(
-      "track_close",
-      {
-        trackable_id: message.id, 
-        trackable_type: "UserAutoMessage"
-      } 
-    )
-  }
-
   handleMinus = (ev) => {
     ev.preventDefault()
     this.toggleMinimize(ev)
@@ -1697,6 +1678,14 @@ class MessageFrame extends Component {
     this.handleClose(ev)
   }
 
+  handleClose = (message)=>{
+    App.events && App.events.perform(
+      "track_close",
+      {
+        trackable_id: message.id
+      } 
+    )
+  }
 
   render(){
     return <UserAutoMessageStyledFrame 
@@ -1707,7 +1696,6 @@ class MessageFrame extends Component {
 
               {
                 this.props.availableMessages.map((o, i) => {
-                  
                   return <UserAutoMessage 
                           open={true} 
                           key={`user-auto-message-${o.id}`}>
@@ -1735,8 +1723,7 @@ class MessageContainer extends Component {
   componentDidMount(){
     App.events && App.events.perform("track_open", 
       {
-        trackable_id: this.props.availableMessage.id, 
-        trackable_type: "UserAutoMessage"  
+        trackable_id: this.props.availableMessage.id  
       }   
     )
   }

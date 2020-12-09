@@ -81,6 +81,7 @@ export const AGENTS = `
         name
         email
         displayName
+        avatarUrl
       }
     }
   }

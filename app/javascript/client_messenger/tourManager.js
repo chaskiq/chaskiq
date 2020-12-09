@@ -14,12 +14,15 @@ import { disableBodyScroll, enableBodyScroll } from 'body-scroll-lock'
 import GlobalStyle from './tour/globalStyle'
 //import TourHelper from './tour/tourHelper'
 
-const EditorStylesForTour = styled(EditorStylesExtend)`
-.postContent{
-  font-size: 12px;
-  overflow: scroll;
-  max-height: 200px;
-}
+const EditorStylesForTour = styled(DanteContainer)`
+  .public-DraftEditorPlaceholder-root{
+    pointer-events: none;
+  }
+  .postContent{
+    font-size: 12px;
+    overflow: scroll;
+    max-height: 200px;
+  }
 `
 
 const simmer = new Simmer(window, { 
