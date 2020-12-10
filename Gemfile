@@ -8,7 +8,7 @@ ruby '2.7.1'
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 # gem 'rails', '~> 5.2.0'
 gem 'pg'
-gem 'rails', '6.0.3.4' # , github: "rails/rails",
+gem 'rails', '6.1' # , github: "rails/rails",
 
 gem 'anycable-rails'
 # Use sqlite3 as the database for Active Record
@@ -54,7 +54,7 @@ gem 'batch-loader'
 gem 'email_reply_trimmer'
 # gem 'tunable'
 gem 'aasm'
-gem 'acts-as-taggable-on'
+gem 'acts-as-taggable-on', github: 'jamesbrooks/acts-as-taggable-on', branch: 'rails-6.1'
 gem 'acts_as_list', '~> 0.9.19'
 gem 'deep_cloneable'
 gem 'friendly_id', '~> 5.2'
