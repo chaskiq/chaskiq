@@ -356,10 +356,11 @@ module MessageApis
       file_string = get_media(url)
       file = StringIO.new(file_string)
 
-      blob = ActiveStorage::Blob.create_after_upload!(
+      blob = ActiveStorage::Blob.create_and_upload!(
         io: file,
         filename: "twitter-file",
-        content_type: content_type || "image/jpeg"
+        content_type: content_type || "image/jpeg",
+        identify: false
       )
       
       Rails.application.routes.url_helpers.rails_blob_path(blob)
