@@ -44,6 +44,8 @@ require 'database_cleaner'
 DatabaseCleaner.strategy = :truncation
 
 RSpec.configure do |config|
+  # https://github.com/rspec/rspec-rails/issues/2410
+  config.include ActiveSupport::Testing::Assertions
   # Remove this line if you're not using ActiveRecord or ActiveRecord fixtures
   config.fixture_path = "#{::Rails.root}/spec/fixtures"
 

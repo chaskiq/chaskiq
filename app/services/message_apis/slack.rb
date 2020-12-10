@@ -780,10 +780,11 @@ module MessageApis
     def direct_upload(url, content_type=nil)
       authorize_bot!
       file = StringIO.new(get_data(url, {}).body)
-      blob = ActiveStorage::Blob.create_after_upload!(
+      blob = ActiveStorage::Blob.create_and_upload!(
         io: file,
         filename: File.basename(url),
-        content_type: content_type || "image/jpeg"
+        content_type: content_type || "image/jpeg",
+        identify: false
       )
       Rails.application.routes.url_helpers.rails_blob_path(blob)
     end

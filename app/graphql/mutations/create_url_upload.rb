@@ -48,10 +48,11 @@ module Mutations
         filename: File.basename(tmp_img)
       )
 
-      blob = ActiveStorage::Blob.create_after_upload!(
+      blob = ActiveStorage::Blob.create_and_upload!(
         io: file,
         filename: file.original_filename,
-        content_type: file.content_type
+        content_type: file.content_type,
+        identify: false
       )
 
       {
