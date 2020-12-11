@@ -405,9 +405,13 @@ class App < ApplicationRecord
   end
 
   def plan
-    @plan ||= Plan.new(
-      Plan.get_by_id(paddle_subscription_plan_id) || Plan.get('free')
-    )
+    if paddle_subscription_status == 'active' || paddle_subscription_status == 'trialing'
+      @plan ||= Plan.new(
+        Plan.get_by_id(paddle_subscription_plan_id.to_i) || Plan.get('free')
+      )
+    else
+      @plan = Plan.get('free')
+    end
   end
 
   private
