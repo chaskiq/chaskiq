@@ -8,9 +8,9 @@ GIT
       request_store (~> 1.0)
 
 GIT
-  remote: https://github.com/jamesbrooks/acts-as-taggable-on.git
-  revision: d0fcd0be05ea0fe00753d9f3b1b98e0acd28c4fe
-  branch: rails-6.1
+  remote: https://github.com/kvokka/acts-as-taggable-on.git
+  revision: 37bfebce03d21f37e1c141d362f0e2cdbb9355c6
+  branch: add-rails-6-1-support
   specs:
     acts-as-taggable-on (6.5.0)
       activerecord (>= 5.0, < 6.2)
