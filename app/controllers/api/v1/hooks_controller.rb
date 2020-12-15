@@ -172,10 +172,11 @@ class Api::V1::HooksController < ActionController::API
 
   def direct_upload(attachment)
     file = StringIO.new(attachment.decoded)
-    blob = ActiveStorage::Blob.create_after_upload!(
+    blob = ActiveStorage::Blob.create_and_upload!(
       io: file,
       filename: attachment.filename,
-      content_type: attachment.mime_type
+      content_type: attachment.mime_type,
+      identify: false
     )
     {
       url: Rails.application.routes.url_helpers.rails_blob_path(blob)
