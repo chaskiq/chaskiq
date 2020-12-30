@@ -104,20 +104,22 @@ Rails.application.configure do
   # Do not dump schema after migrations.
   # config.active_record.dump_schema_after_migration = false
 
-  # config.action_mailer.delivery_method = :smtp
-  # config.action_mailer.smtp_settings = {
-  #  :address => Rails.application.credentials.dig(:ses, :address),
-  #  :user_name => Rails.application.credentials.dig(:ses, :user_name), # Your SMTP user here.
-  #  :password => Rails.application.credentials.dig(:ses, :password), # Your SMTP password here.
-  #  :authentication => :login,
-  #  :enable_starttls_auto => true
-  # }
-
-  ActionMailer::Base.add_delivery_method :ses, AWS::SES::Base,
-                                         access_key_id: ENV['AWS_ACCESS_KEY_ID'],
-                                         secret_access_key: ENV['AWS_SECRET_ACCESS_KEY']
-
-  config.action_mailer.delivery_method = :ses
+  if ENV['SMTP_DELIVERY_METHOD'].downcase == "smtp"
+     config.action_mailer.delivery_method = :smtp
+     config.action_mailer.smtp_settings = {
+      :address => ENV['SMTP_ADDRESS'],
+      :user_name => ENV['SMTP_USERNAME'], # Your SMTP user here.
+      :password => ENV['SMTP_PASSWORD'], # Your SMTP password here.
+      :authentication => :login,
+      :enable_starttls_auto => true
+     }
+  else
+    ActionMailer::Base.add_delivery_method :ses, AWS::SES::Base,
+                                          access_key_id: ENV['AWS_ACCESS_KEY_ID'],
+                                          secret_access_key: ENV['AWS_SECRET_ACCESS_KEY']
+                         
+    config.action_mailer.delivery_method = :ses
+  end
 
   # Inserts middleware to perform automatic connection switching.
   # The `database_selector` hash is used to pass options to the DatabaseSelector
