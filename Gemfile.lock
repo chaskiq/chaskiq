@@ -8,9 +8,8 @@ GIT
       request_store (~> 1.0)
 
 GIT
-  remote: https://github.com/kvokka/acts-as-taggable-on.git
-  revision: 37bfebce03d21f37e1c141d362f0e2cdbb9355c6
-  branch: add-rails-6-1-support
+  remote: https://github.com/mbleigh/acts-as-taggable-on.git
+  revision: 06bf141730fa19fd2f74499942251ffe1b030b3f
   specs:
     acts-as-taggable-on (6.5.0)
       activerecord (>= 5.0, < 6.2)
@@ -390,7 +389,7 @@ GEM
       rake (>= 0.8.7)
       thor (~> 1.0)
     rainbow (3.0.0)
-    rake (13.0.1)
+    rake (13.0.3)
     ransack (2.4.0)
       activerecord (>= 5.2.4)
       activesupport (>= 5.2.4)
@@ -515,7 +514,7 @@ GEM
     turbolinks (5.2.1)
       turbolinks-source (~> 5.2)
     turbolinks-source (5.2.0)
-    tzinfo (2.0.3)
+    tzinfo (2.0.4)
       concurrent-ruby (~> 1.0)
     uglifier (4.2.0)
       execjs (>= 0.3.0, < 3)
