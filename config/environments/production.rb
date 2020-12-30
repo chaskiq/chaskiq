@@ -103,8 +103,9 @@ Rails.application.configure do
 
   # Do not dump schema after migrations.
   # config.active_record.dump_schema_after_migration = false
+  delivery_method = ENV.fetch('SMTP_DELIVERY_METHOD', 'ses')
 
-  if ENV['SMTP_DELIVERY_METHOD'].downcase == "smtp"
+  if delivery_method.downcase == "smtp"
      config.action_mailer.delivery_method = :smtp
      config.action_mailer.smtp_settings = {
       :address => ENV['SMTP_ADDRESS'],
