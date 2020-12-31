@@ -225,7 +225,6 @@ RSpec.describe GraphqlController, type: :controller do
 
       graphql_post(type: 'ARTICLE_SECTION_EDIT', variables: {
                      appKey: app.key,
-                     collectionId: 1,
                      title: 'edited',
                      id: section.id.to_s,
                      collectionId: collection.id
