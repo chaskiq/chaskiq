@@ -98,6 +98,20 @@ class ConversationPart < ApplicationRecord
     )
   end
 
+  def notify_app_users
+    MessengerEventsChannel.broadcast_to(
+      broadcast_key,
+      type: 'conversations:conversation_part',
+      data: as_json
+    )
+
+    MessengerEventsChannel.broadcast_to(
+      broadcast_key,
+      type: 'conversations:unreads',
+      data: conversation.main_participant.new_messages.value
+    )
+  end
+
   def enqueue_channel_notification
     ApiChannelNotificatorJob.perform_later(
       part_id: id
@@ -112,20 +126,6 @@ class ConversationPart < ApplicationRecord
 
   def broadcast_key
     "#{conversation.app.key}-#{conversation.main_participant.session_id}"
-  end
-
-  def notify_app_users
-    MessengerEventsChannel.broadcast_to(
-      broadcast_key,
-      type: 'conversations:conversation_part',
-      data: as_json
-    )
-
-    MessengerEventsChannel.broadcast_to(
-      broadcast_key,
-      type: 'conversations:unreads',
-      data: conversation.main_participant.new_messages.value
-    )
   end
 
   def controls_ping_apis
