@@ -99,6 +99,23 @@ class AppPackagesCatalog
       },
 
       {
+        name: 'OpenAi',
+        tag_list: ['email_changed', 'conversation.user.first.comment'],
+        description: 'Open AI GPT-3 tasks',
+        icon: 'https://logo.clearbit.com/openai.com',
+        state: 'enabled',
+        capability_list: ["conversations"],
+        definitions: [
+          {
+            name: 'api_secret',
+            label: 'Auth Token', 
+            type: 'string',
+            grid: { xs: 'w-full', sm: 'w-full' }
+          }
+        ]
+      },
+
+      {
         name: 'Dialogflow',
         tag_list: ['bot'],
         description: 'Convesation Bot integration from dialogflow',
@@ -387,6 +404,9 @@ class AppPackagesCatalog
     packages( dev_packages: dev_packages ).each do |pkg|
       package = AppPackage.find_or_create_by(name: pkg[:name])
       package.update(pkg)
+      if package.errors.any? 
+        puts "PACKAGE #{package.name} errors: #{package.errors.full_messages.join(", ")}"
+      end
     end
   end
 end

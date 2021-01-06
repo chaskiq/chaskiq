@@ -10,4 +10,12 @@ class ConversationPartContent < ApplicationRecord
                  'conversation_part_id').tap do |hash|
     end
   end
+
+  def parsed_content
+    JSON.parse(self.serialized_content)
+  end
+
+  def text_from_serialized
+    parsed_content["blocks"].map{|o| o["text"]}.join(" ")
+  end
 end

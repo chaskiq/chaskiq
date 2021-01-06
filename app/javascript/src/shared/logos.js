@@ -12,6 +12,7 @@ import twilio from '../images/logos/twilio.png'
 import dialogflow from '../images/logos/dialogflow.png'
 import messenger from '../images/logos/messenger.png'
 import twitter from '../images/logos/twitter.png'
+import openAi from '../images/logos/open_ai'
 
 export default {
   calendly,
@@ -27,5 +28,6 @@ export default {
   twilio,
   dialogflow,
   messenger,
-  twitter
+  twitter,
+  openAi
 }
