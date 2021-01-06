@@ -1,4 +1,10 @@
 GIT
+  remote: https://github.com/chaskiq/emoji_data.rb.git
+  revision: 861f10dcf4071b9ca8cd61d4741d2b3e7e1e91fc
+  specs:
+    emoji_data (0.2.0)
+
+GIT
   remote: https://github.com/globalize/globalize.git
   revision: 97f842afe7e8383cb08c59ac13dba70207a8664a
   specs:
@@ -574,6 +580,7 @@ DEPENDENCIES
   dotenv-rails
   email_reply_parser (~> 0.5.9)
   email_reply_trimmer
+  emoji_data!
   factory_bot_rails
   faker!
   faraday
