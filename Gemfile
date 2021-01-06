@@ -88,6 +88,7 @@ gem 'webpacker', '~> 5.0'
 gem 'roadie'
 gem 'roadie-rails'
 gem 'urlcrypt'
+gem 'emoji_data', github: 'chaskiq/emoji_data.rb'
 
 gem 'aws-sdk-s3', "~> 1.48"
 gem 'aws-ses'
