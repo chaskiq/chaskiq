@@ -134,7 +134,7 @@ class Messenger extends Component {
       app: this.props.app_id,
       email: this.props.email,
       properties: this.props.properties,
-      'session-id': this.props.session_id
+      session_id: this.props.session_id
     }
 
     if(this.props.encryptedMode){
@@ -147,8 +147,8 @@ class Messenger extends Component {
 
       this.defaultCableData = { 
         app: this.props.app_id, 
-        'enc-data': this.props.encData || "",
-        'session-id': this.props.session_id
+        enc_data: this.props.encData || "",
+        session_id: this.props.session_id
       }
     }
 
