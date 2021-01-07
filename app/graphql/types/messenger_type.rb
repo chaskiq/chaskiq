@@ -114,6 +114,11 @@ module Types
 
       browser_params.merge!(location_params) if request.location.present?
 
+      Rails.logger.info("USER: #{user_data.inspect}")
+      if user_data.nil?
+        Rails.logger.info("Try to update user but it couldn't")
+        return        
+      end
       data = user_data.slice(:name, :email, :properties).deep_merge(browser_params)
       # #ap = object.add_visit(data)
     end
