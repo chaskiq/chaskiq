@@ -28,9 +28,9 @@ export default class ChaskiqMessengerEncrypted {
 
     this.defaultHeaders = {
       app: this.props.app_id,
-      enc_data: this.props.data || '',
-      user_data: JSON.stringify(data),
-      session_id: this.getSession(),
+      'enc-data': this.props.data || '',
+      'user-data': JSON.stringify(data),
+      'session-id': this.getSession(),
       lang: currentLang
     }
 

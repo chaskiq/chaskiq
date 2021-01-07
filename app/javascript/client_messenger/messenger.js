@@ -134,21 +134,21 @@ class Messenger extends Component {
       app: this.props.app_id,
       email: this.props.email,
       properties: this.props.properties,
-      session_id: this.props.session_id
+      'session-id': this.props.session_id
     }
 
     if(this.props.encryptedMode){
       this.defaultHeaders = { 
         app: this.props.app_id,
-        enc_data: this.props.encData || "",
-        session_id: this.props.session_id,
+        'enc-data': this.props.encData || "",
+        'session-id': this.props.session_id,
         lang: this.props.lang
       }
 
       this.defaultCableData = { 
         app: this.props.app_id, 
-        enc_data: this.props.encData || "",
-        session_id: this.props.session_id
+        'enc-data': this.props.encData || "",
+        'session-id': this.props.session_id
       }
     }
 
