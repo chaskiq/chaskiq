@@ -105,7 +105,6 @@ class ApiController < ActionController::API
   def get_user_by_session
     session_id = request.headers['HTTP_SESSION_ID']
     return nil if session_id.blank?
-
     @app.app_users.where(type: %w[Visitor Lead]).find_by(session_id: session_id)
   end
 
