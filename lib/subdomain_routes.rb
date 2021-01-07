@@ -17,6 +17,8 @@ end
 
 class SubdomainOrDomain
   def self.matches?(request)
+    Rails.logger.error("*** EEEEE *** #{request.subdomain}")
+    
     if request.subdomain.present? && !APP_SUBDOMAINS.include?(request.subdomain)
       true
     # elsif request.host != 'www.#{DOMAIN}'
