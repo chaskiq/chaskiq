@@ -428,6 +428,11 @@ class Messenger extends Component {
   }
 
   receiveMessage = (newMessage)=>{
+    this.processMessage(newMessage)
+  }
+
+  processMessage = (newMessage)=>{
+
     this.setState({
       agent_typing: false
     })
@@ -436,40 +441,43 @@ class Messenger extends Component {
     if(!this.state.open && !this.state.inline_conversation){
       
       this.clearConversation(()=>{
-        
-        if(this.state.appData.inlineNewConversations){
+        if (this.state.appData.inlineNewConversations){
 
           this.setConversation(newMessage.conversationKey, ()=>{
             this.setState({
               inline_conversation: newMessage.conversationKey
-            }, ()=> setTimeout(this.scrollToLastItem, 200) )
+            }, ()=> {
+              setTimeout(this.scrollToLastItem, 200)
+            })
           })
 
-        }else{
-
+        } else {
           this.setConversation(newMessage.conversationKey, ()=>{
             this.setState({
               display_mode: "conversation",
               open: true,
-            }, ()=> setTimeout(this.scrollToLastItem, 200) )
+            }, ()=> {
+              setTimeout(this.scrollToLastItem, 200)
+            })
           })
-
         }
-
       })
-      
       return
     }
 
     // return if message does not correspond to conversation
-    if(this.state.conversation.key != newMessage.conversationKey) return
+    if(this.state.conversation.key != newMessage.conversationKey) {
+      return
+    }
 
     // return on existings messages, fixes in part the issue on re rendering app package blocks
     // if(this.state.conversation.messages && this.state.conversation.messages.find((o)=> o.id === newMessage.id )) return
-
-    // append or update
+    
+    // update or append
     if ( this.state.conversation.messages.collection.find( (o)=> o.key === newMessage.key ) ){
-      const new_collection = this.state.conversation.messages.collection.map((o)=>{
+      
+      const new_collection = this.state.conversation.messages.collection.map(
+        (o)=>{
           if (o.key === newMessage.key ){
             return newMessage
           } else {
@@ -488,6 +496,7 @@ class Messenger extends Component {
 
     } else {
 
+      //console.log("appending!")
       this.setState({
         conversation: Object.assign(this.state.conversation, {
           messages: { 
@@ -497,13 +506,14 @@ class Messenger extends Component {
             meta: this.state.conversation.messages.meta
           }
         })
-      }, this.scrollToLastItem)
+      }, ()=> {
+        this.scrollToLastItem()
+      })
       
       if (newMessage.appUser.kind === "agent") {
         this.playSound()
       }
     }
-
   }
 
   precenseSubscriber =()=>{
@@ -589,18 +599,9 @@ class Messenger extends Component {
     }, {
       success: (data)=>{
         if(data.insertComment.message){
-          const newCollection = [data.insertComment.message].concat(
-            this.state.conversation.messages.collection
-          )
-          
-          this.setState({
-            conversation: {
-              ...this.state.conversation, 
-              messages: {
-                collection: newCollection,
-                meta: this.state.conversation.messages.meta
-              }
-            },
+          this.receiveMessage(
+            {...data.insertComment.message, 
+              conversationKey: this.state.conversation.key
           })
         }
 
