@@ -939,7 +939,7 @@ export function DefinitionRenderer ({
             align={field.align}>
             <Button
               size={size === 'sm' ? 'xs' : field.size }
-              loading={loading}
+              loading={loading || undefined }
               disabled={disabled || loading}
               variant={field.variant}
               width={field.width}
@@ -989,9 +989,8 @@ export function DefinitionRenderer ({
       <ThemeProvider theme={{ size: size }}>
         {schema.map((field, i) => {
           return (
-            <ErrorBoundary>
-              <RendererWrapper
-                key={`field-${field.id}-${i}`}>
+            <ErrorBoundary key={`renderer-field-${i}`}>
+              <RendererWrapper>
                 {handleRender(field)}
               </RendererWrapper>
             </ErrorBoundary>

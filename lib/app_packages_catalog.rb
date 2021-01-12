@@ -66,6 +66,14 @@ class AppPackagesCatalog
         definitions: []
       },
 
+      {
+        name: "Reveniu",
+        description: "Reveniu Payment buttons",
+        capability_list: ["conversations", "bots"],
+        state: 'enabled',
+        definitions: []
+      },
+
 
       {
         name: 'Clearbit',
