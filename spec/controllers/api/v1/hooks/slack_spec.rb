@@ -242,13 +242,13 @@ RSpec.describe Api::V1::Hooks::ProviderController, type: :controller do
     }
   }
   
-  def message_blocks(global: false, channel: nil, additional_data: nil)
+  def message_blocks(global: false, channel: nil, additional_data: nil, message: "the message")
     payload = {
       "team_id"=>"TQUC0ASKT",
       "event"=>{
         "client_msg_id"=>"xxx",
       "type"=>"message",
-      "text"=>"the message",
+      "text"=>message,
       "user"=>"AAAAA",
       "ts"=>"1580785266.001000",
       "thread_ts"=>"123",
@@ -256,7 +256,7 @@ RSpec.describe Api::V1::Hooks::ProviderController, type: :controller do
         [{"type"=>"rich_text",
           "block_id"=>"n+w",
           "elements"=>[{"type"=>"rich_text_section", 
-            "elements"=>[{"type"=>"text", "text"=>"the message"}]}]}],
+            "elements"=>[{"type"=>"text", "text"=>message}]}]}],
       "channel"=>channel,
       "event_ts"=>"1580785266.001000",
       "channel_type"=>"channel"
@@ -485,6 +485,18 @@ RSpec.describe Api::V1::Hooks::ProviderController, type: :controller do
         )
         expect(conversation.messages.last.authorable).to be_a(Agent)
         expect(conversation.messages.last.messageable.html_content).to be == "the message"
+      end
+
+      it "receive message with emojis" do
+        get(:global_process_event, 
+          params: message_blocks(
+            global: true,
+            channel: @channel.provider_channel_id,
+            message: "hello :+1: there"
+          )
+        )
+        expect(conversation.messages.last.authorable).to be_a(Agent)
+        expect(conversation.messages.last.messageable.html_content).to be == "hello 👍 there"
       end
 
       it "receive message multiline" do

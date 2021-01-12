@@ -378,7 +378,7 @@ module MessageApis
 
       serialized_blocks = serialize_content(event)
       
-      text = event["text"]
+      text = replace_emojis(event["text"])
 
       return if conversation.blank?
 
@@ -729,7 +729,7 @@ module MessageApis
       end
 
       { blocks: [
-          serialized_block(data['text']), 
+          serialized_block( replace_emojis(data['text']) ), 
           images
         ].flatten.compact
       }.to_json
@@ -787,6 +787,18 @@ module MessageApis
         identify: false
       )
       Rails.application.routes.url_helpers.rails_blob_path(blob)
+    end
+
+    def replace_emojis(text)
+      begin
+        text.gsub(/:(::|[^:\n])+:/) do |m| 
+          short_name = m.gsub(":", "")
+          EmojiData.from_short_name(short_name).render 
+        end
+      rescue => e
+        Bugsnag.notify(e)
+        text
+      end
     end
 
   end

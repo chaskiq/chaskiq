@@ -6,13 +6,15 @@
 #
 default: &default
   adapter: sqlite3
-  pool: 5
+  pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
   timeout: 5000
 
 development:
   prepared_statements: false
   adapter: postgresql
-  database: chaskiq_dev
+  database: <%= ENV.fetch('POSTGRES_DATABASE', 'chaskiq_dev') %>
+  username: <%= ENV.fetch('POSTGRES_USERNAME', 'postgres') %>
+  password: <%= ENV.fetch('POSTGRES_PASSWORD', '') %>
   min_messages: warning
   pool: 15
   timeout: 5000
@@ -30,7 +32,9 @@ development:
 test:
   prepared_statements: false
   adapter: postgresql
-  database: chaskiq_test
+  database: <%= ENV.fetch('POSTGRES_DATABASE', 'chaskiq_test') %>
+  username: <%= ENV.fetch('POSTGRES_USERNAME', 'postgres') %>
+  password: <%= ENV.fetch('POSTGRES_PASSWORD', '') %>
   min_messages: warning
   pool: 5
   timeout: 5000
@@ -41,13 +45,15 @@ test:
     ###   - rebake all to posts using: `RAILS_ENV=production bundle exec rake posts:rebake`
     - "localhost"
 
-production: 
+
+production:
+  <<: *default
+  database: <%= ENV.fetch('POSTGRES_DATABASE', 'chaskiq_production') %>
+  username: <%= ENV.fetch('POSTGRES_USERNAME', 'chaskiq_prod') %>
+  password: <%= ENV.fetch('POSTGRES_PASSWORD', 'chaskiq_prod') %>
   prepared_statements: false
   adapter: postgresql
-  database: hermes
   min_messages: warning
-  pool: 5
-  timeout: 5000
   host_names:
     ### Don't include the port number here. Change the "port" site setting instead, at /admin/site_settings.
     ### If you change this setting you will need to

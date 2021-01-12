@@ -348,7 +348,7 @@ export const MessageSpinner = styled.div`
   font-weight: 200;
   opacity: 0.2;
   margin: 0;
-  width: 30px;
+  width: 80px;
   text-align: center;
 
   & > div {
