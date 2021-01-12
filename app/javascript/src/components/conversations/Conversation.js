@@ -403,7 +403,15 @@ function Conversation ({
           <p
             className="text-gray-800 text-xs
             font-bold uppercase tracking-wide">
-            {blocks.appPackage}
+
+            <div className="inline-flex items-baseline px-2.5 py-0.5 rounded-full text-sm font-medium bg-green-100 text-green-800 md:mt-2 lg:mt-0">
+              <span>
+              {blocks.appPackage}
+              </span>
+
+            </div>
+
+            
           </p>
 
           <br />
@@ -479,11 +487,12 @@ function Conversation ({
     }
 
     const item = o.message.data
-    if (!item)
+    if (!item) {
       return <p className="text-sm leading-5 font-medium text-gray-500">
         waiting for reply
       </p>
-    //JSON.stringify(o.message.data)
+    }
+    // JSON.stringify(o.message.data)
 
     // if(!o.fromBot) return
 
@@ -644,11 +653,10 @@ function Conversation ({
             <LeftArrow/>
           </Link>
 
-
           {
             conversation.mainParticipant &&
             !fixedSidebarOpen &&
-            <img onClick={handleUserSidebar} 
+            <img onClick={handleUserSidebar}
               className="h-9 w-9 rounded-full mr-2 cursor-pointer"
               src={conversation.mainParticipant.avatarUrl}
               alt=""
@@ -659,8 +667,8 @@ function Conversation ({
             <br/>
             <span className="font-extrabold hover:text-underline"
               onClick={toggleFixedSidebar}
-              //onClick={handleUserSidebar}
-              >
+              // onClick={handleUserSidebar}
+            >
               {
                 conversation.mainParticipant &&
                 conversation.mainParticipant.displayName

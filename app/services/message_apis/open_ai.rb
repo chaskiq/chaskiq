@@ -43,7 +43,10 @@ module MessageApis
 		end
 		
 		def notify_added(conversation)
-			authorize!
+      authorize!
+      
+      #TODO handle this only on UI ? 
+      # add an option on app parent definition to add this by default??
 
       message = conversation.messages.where.not(
         authorable_type: "Agent"
@@ -51,17 +54,26 @@ module MessageApis
       
       participant = conversation.main_participant
 
-      conversation.conversation_channels.create({
-        provider: 'open_ai',
-        provider_channel_id: conversation.id
-      })
+      #conversation.conversation_channels.create({
+      #  provider: 'open_ai',
+      #  provider_channel_id: conversation.id
+      #})
     end
     
     def notify_message(conversation: , part:, channel:)
       if !part.authorable.is_a?(Agent)
 
+        #####
+        ## cache this
+        messages = conversation.messages.where(
+          messageable_type: "ConversationPartContent"
+        ).order("id")
+        #####
+
+        # conversation.conversation_channels.find_by(provider_channel_id: channel)
+
         # cache this thing:
-        previous = conversation.messages.map{|m| 
+        previous = messages.map{|m| 
           { 
             text: m.message.text_from_serialized, 
             from: m.authorable_type 
@@ -79,6 +91,8 @@ Human:'''"
         human_input = part.message&.parsed_content["blocks"].map{|o| o["text"]}.join(" ")
 
         prompt = "#{start_log}\nHuman: #{human_input}\nAI:"
+
+        puts "PROMPT: #{prompt}"
         data = {
           prompt: prompt, 
           stop: ["\n", "\nHuman:", "\nAI:"], 
@@ -111,7 +125,7 @@ Human:'''"
 
         # TODO: serialize message
         a = conversation.add_message(
-          from: conversation.app.agents.first,
+          from: conversation.app.agents.bots.first,
           message: {
             html_content: text,
             serialized_content: blocks
@@ -142,22 +156,121 @@ Human:'''"
     end
 
     def process_event(params, package)
-      binding.pry
+      # todo, here we can do so many things like make a pause and 
+      # analize conversation subject or classyficators
     end
 
     # for display in replied message
     def self.display_data(data)
     end
 
+    class PromptRecord
+      include ActiveModel::Model
+      include ActiveModel::Validations
+      attr_accessor :prompt
+
+      def initialize(prompt:)
+        self.prompt = prompt
+      end
+
+      def default_schema()
+        [
+          { "type": "text","text": "This is a header","style": "header" },
+          { "type": "text","text": "This is a header","style": "muted" },
+          { "type": "textarea", 
+            "id": "prompt", 
+            "name": "prompt", 
+            "label": "Error", 
+            "placeholder": "Enter text here...", 
+            value: self.send(:prompt),
+            errors: errors[:prompt]&.uniq&.join(", ")
+          },
+          {
+            type: "button", 
+            id: "add-prompt", 
+            variant: 'outlined', 
+            size: 'small', 
+            label: "save prompt", 
+            action: { 
+             type: "submit"
+            }
+          }
+        ]
+      end
+
+      def error_schema
+        [
+          { "type": "text","text": "This is a header","style": "header" },
+          { "type": "text","text": "This is a header","style": "muted" },
+          { "type": "textarea", 
+            "id": "textarea-3", 
+            "name": "textarea-3", 
+            "label": "Error", 
+            "placeholder": "Enter text here...", 
+            value: self.send(:prompt),
+            errors: errors[:prompt]&.uniq&.join(", ")
+          },
+          {
+            type: "button", 
+            id: "add-prompt", 
+            variant: 'outlined', 
+            size: 'small', 
+            label: "save prompt", 
+            action: { 
+             type: "submit"
+            }
+          }
+        ]
+      end
+
+      def schema
+        [
+          { "type": "text","text": "This is a header","style": "header" },
+          { "type": "text","text": "This is a header","style": "muted" }
+        ]
+      end
+
+      def success_schema
+        [
+          { "type": "text","text": "Open AI conversation","style": "header" },
+          { "type": "text","text": "you are going to start a conversation with GPT-3 bot","style": "muted" },
+          {
+            type: "button", 
+            id: "prompt-ok", 
+            variant: 'success',
+            align: 'center', 
+            size: 'medium', 
+            label: "Start chat", 
+            action: { 
+             type: "submit"
+            }
+          },
+          {
+            type: "button", 
+            id: "prompt-no", 
+            variant: 'link', 
+            size: 'medium',
+            align: 'center',  
+            label: "Cancel", 
+            action: { 
+             type: "submit"
+            }
+          }
+        ]
+      end
+
+    end
+
     class PresenterManager
       # Initialize flow webhook URL
       # Sent when an app has been inserted into a conversation, message or 
       # the home screen, so that you can render the app.
-      def self.initialize_hook(kind: , ctx:)
+      def self.initialize_hook(kind:, ctx:)
+        record = PromptRecord.new(prompt: ctx.dig( :values, :prompt) )
         {
           kind: kind, 
           #ctx: ctx, 
-          definitions: record.schema 
+          definitions: record.success_schema 
         }
       end
 
@@ -166,7 +279,38 @@ Human:'''"
       # link, or text input. This flow can occur multiple times as an 
       # end-user interacts with your app.
       def self.submit_hook(kind:, ctx:)
-        result
+
+        if ctx["field"]["id"] == "prompt-ok"
+          message = ConversationPart.find_by(key: ctx["message_key"])
+
+          conversation = message.conversation
+          conversation.conversation_channels.create({
+            provider: 'open_ai',
+            provider_channel_id: conversation.id
+          })
+
+          return { 
+            results: {
+              start: "yes"
+            },
+            definitions: [
+              { "type": "text","text": "You have started the conversation","style": "header" }
+            ]
+          }
+
+        end
+
+        if ctx["field"]["id"] == "prompt-no"
+          return {
+            results: {
+              start: "no"
+            },
+            definitions: [
+              { "type": "text","text": "you cancelled the conversation","style": "header" }
+            ]
+          }
+        end
+
       end
 
       # Configure flow webhook URL (optional)
@@ -174,13 +318,42 @@ Human:'''"
       # them configuration options before it’s inserted. Leaving this option 
       # blank will skip configuration.
       def self.configure_hook(kind: , ctx:)
+
+        label = "epa"
+        kind = nil
         app = ctx[:app]
-        fields = app.searcheable_fields
+
+        record = PromptRecord.new(prompt: ctx.dig( :values, :prompt) )
+        schema = record.default_schema
+        kind = nil
+
+        if record.prompt.present?
+          if record.valid? 
+            kind = "initialize"
+            schema = record.success_schema
+          else
+            schema = record.error_schema
+          end
+        else
+          schema = record.default_schema
+        end
+
+
+        if ctx.dig(:field, :id) == "add-prompt" && 
+          ctx.dig(:field, :action, :type) === "submit"
+
+          # todo validate
+
+          return { 
+            kind: 'initialize', 
+            definitions: schema,
+            results: ctx[:values]
+          }
+        end
 
         return {
-          #kind: kind, 
-          #ctx: ctx, 
-          definitions: definitions 
+          kind: kind,
+          definitions: schema 
         }
       end
 
