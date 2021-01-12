@@ -76,6 +76,9 @@ const SingleSelectButton = styled.button`
   ${(props) => props.isSelected ? tw`bg-indigo-600 text-gray-100 border-indigo-600 pointer-events-none` : ''}
 `
 
+const Button = styled(BaseButton)``
+
+/*
 const Button = styled(BaseButton)`
   ${(props) => props.theme && props.theme.palette && !props.disabled
     ? `
@@ -113,6 +116,7 @@ const Button = styled(BaseButton)`
     }
   }}
 
+  
   ${(props) => {
     switch (props.variant) {
       case 'success':
@@ -153,6 +157,7 @@ const Button = styled(BaseButton)`
     }
   }};
 `
+*/
 
 export function SingleSelectRenderer ({ field, handleAction }) {
   function handleClick (e, o) {

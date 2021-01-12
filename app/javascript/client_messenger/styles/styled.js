@@ -452,7 +452,7 @@ export const AppPackageBlockContainer = styled.div`
       //justify-content: space-between;
       //width: 69%;
       flex-wrap: wrap;
-      button {
+      /*button {
         margin: 1px;
         padding: 5px;
         white-space: normal;
@@ -460,7 +460,7 @@ export const AppPackageBlockContainer = styled.div`
         border: 1px solid #007bff;
         color: #007bff;
         font-size: 0.9em;
-      }
+      }*/
 
       .form-group {
         display: flex;
@@ -502,12 +502,10 @@ export const AppPackageBlockContainer = styled.div`
     [type=reset], [type=submit], button, html [type=button] {
         -webkit-appearance: button;
     }
-    button {
-      //.btn-primary {
-        color: #fff;
-        background-color: #007bff;
-        border-color: #007bff;
-      //}
+    /*button {
+      color: #fff;
+      background-color: #007bff;
+      border-color: #007bff;
 
       display: inline-block;
       font-weight: 400;
@@ -524,7 +522,7 @@ export const AppPackageBlockContainer = styled.div`
       line-height: 1.5;
       border-radius: .25rem;
       transition: color .15s ease-in-out,background-color .15s ease-in-out,border-color .15s ease-in-out,box-shadow .15s ease-in-out;
-    }
+    }*/
 `
 
 export const UserAutoMessage = styled.div`
