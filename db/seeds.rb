@@ -11,6 +11,8 @@ require 'app_packages_catalog'
 
 domain = ENV['HOST'] || 'http://localhost:3000'
 
+AppPackagesCatalog.update_all unless Rails.env.test?
+
 app = App.create(
    name: 'test app', 
    domain_url: domain
@@ -20,5 +22,3 @@ Doorkeeper::Application.create(
    name: "authapp", 
    #redirect_uri: "#{domain}/callback"
 )
-
-AppPackagesCatalog.import unless Rails.env.test?

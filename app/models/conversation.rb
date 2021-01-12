@@ -77,10 +77,23 @@ class Conversation < ApplicationRecord
 
   def add_message(opts = {})
     part = process_message_part(opts)
-    part.save
+
+    ActiveRecord::Base.transaction do
+      part.save
+    end
 
     part.notify_to_channels if part.errors.blank?
+    part
+  end
 
+  def add_private_note(opts = {})
+    part = process_message_part(opts.merge!(private_note: true))
+
+    ActiveRecord::Base.transaction do
+      part.save
+    end
+
+    part.notify_to_channels if part.errors.blank?
     part
   end
 
@@ -92,16 +105,6 @@ class Conversation < ApplicationRecord
     }
 
     part.notify_to_channels if part.save
-
-    part
-  end
-
-  def add_private_note(opts = {})
-    part = process_message_part(opts.merge!(private_note: true))
-    part.save
-
-    part.notify_to_channels if part.errors.blank?
-
     part
   end
 
