@@ -163,15 +163,16 @@ function Sidebar ({
           active: isActivePage('Conversations')
         },
         {
-          id: 'Assignment Rules',
+          id: 'AssignmentRules',
           icon: <ShuffleIcon />,
           label: I18n.t('navigator.childs.assignment_rules'),
           url: `/apps/${app.key}/conversations/assignment_rules`,
           active: isActivePage('Assignment Rules')
         },
         {
-          render: () => [
-            <SidebarAgents/>
+          id: 'SidebarAgents',
+          render: () => [ 
+            <SidebarAgents key={`conversations-sidebar-agents`}/> 
           ]
         }
       ]
@@ -273,7 +274,6 @@ function Sidebar ({
       ]
     },
 
-
     {
       id: 'Settings',
       label: I18n.t('navigator.settings'),
@@ -355,7 +355,7 @@ function Sidebar ({
               <h3 className="font-bold w-full">{label}</h3>
             </div>
             <nav className="mt-5 flex-1 px-4">
-              {children.filter((o)=> !o.hidden ).map(
+              {children.filter((o) => !o.hidden).map(
                 ({ id: childId, label, icon, active, url, onClick, render }) =>
                   !render ? (
                     <Link
@@ -368,18 +368,12 @@ function Sidebar ({
                         group flex items-center px-2 py-2 text-sm leading-5 font-medium text-gray-900 
                         rounded-md transition ease-in-out duration-150`}
                     >
-                      {/* <svg className="mr-3 h-6 w-6 text-gray-500 group-hover:text-gray-500 group-focus:text-gray-600 transition ease-in-out duration-150" stroke="currentColor" fill="none" viewBox="0 0 24 24">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 12l9-9 9 9M5 10v10a1 1 0 001 1h3a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1h3a1 1 0 001-1V10M9 21h6"/>
-                          </svg> */}
                       <div className="mr-3 h-6 w-6 text-gray-500 group-hover:text-gray-500 group-focus:text-gray-600 transition ease-in-out duration-150">
                         {icon}
                       </div>
-
                       {label || childId}
                     </Link>
-                  ) : (
-                    render()
-                  )
+                  ) : render()
               )}
             </nav>
           </div>
@@ -493,7 +487,6 @@ function Sidebar ({
                 <p className="text-sm leading-5 font-medium text-gray-700 group-hover:text-gray-900 truncate">
                   {current_user.email}
                 </p>
-
 
                 <div className="flex items-center">
                   <Toggle
