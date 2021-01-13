@@ -48,11 +48,11 @@ module MessageApis
       #TODO handle this only on UI ? 
       # add an option on app parent definition to add this by default??
 
-      message = conversation.messages.where.not(
-        authorable_type: "Agent"
-      ).last
+      #message = conversation.messages.where.not(
+      #  authorable_type: "Agent"
+      #).last
       
-      participant = conversation.main_participant
+      #participant = conversation.main_participant
 
       #conversation.conversation_channels.create({
       #  provider: 'open_ai',
@@ -60,18 +60,39 @@ module MessageApis
       #})
     end
     
-    def notify_message(conversation: , part:, channel:)
+    def notify_message(conversation:, part:, channel:)
+
+      return if conversation.conversation_channels.blank?
+      return unless part.messageable.is_a?(ConversationPartContent)
+
+      puts "que chucha #{part.id}"
+
+      if part.authorable.is_a?(Agent) && !part.authorable.bot?
+        conversation.conversation_channels.find_by({
+          provider: 'open_ai',
+          provider_channel_id: conversation.id
+        }).destroy
+
+        # assign and return , bot conversation over
+        # conversation.assign_user(part.authorable)
+        return true
+      end
+
+      return if part.conversation_part_channel_sources.where(provider: "open_ai").any?
+
+      puts "ENTRA #{part.id}"
+
       if !part.authorable.is_a?(Agent)
 
         #####
         ## cache this
         messages = conversation.messages.where(
           messageable_type: "ConversationPartContent"
-        ).order("id")
+        ).where.not(id: part.id)
+        .order("id")
         #####
 
         # conversation.conversation_channels.find_by(provider_channel_id: channel)
-
         # cache this thing:
         previous = messages.map{|m| 
           { 
@@ -110,7 +131,9 @@ Human:'''"
         }
         response = post_data(@url, data)
 
-        if response.success? && json_body = JSON.parse(response.body)
+        return unless response.success?
+
+        if json_body = JSON.parse(response.body)
           json_body
           puts "GOT RESPONSE FROM GPT-3: #{json_body}"
         end
@@ -124,16 +147,18 @@ Human:'''"
         }.to_json
 
         # TODO: serialize message
-        a = conversation.add_message(
-          from: conversation.app.agents.bots.first,
-          message: {
-            html_content: text,
-            serialized_content: blocks
-          },
-          provider: 'open_ai',
-          message_source_id: json_body['id'],
-          check_assignment_rules: true
-        )
+        conversation.transaction do
+          conversation.add_message(
+            from: conversation.app.agents.bots.first,
+            message: {
+              html_content: text,
+              serialized_content: blocks
+            },
+            provider: 'open_ai',
+            message_source_id: json_body['id'],
+            check_assignment_rules: true
+          )
+        end
 
       end
     end
@@ -279,6 +304,7 @@ Human:'''"
       # link, or text input. This flow can occur multiple times as an 
       # end-user interacts with your app.
       def self.submit_hook(kind:, ctx:)
+
 
         if ctx["field"]["id"] == "prompt-ok"
           message = ConversationPart.find_by(key: ctx["message_key"])
