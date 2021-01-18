@@ -216,7 +216,7 @@ export class Conversation extends Component {
         conversation_key: this.props.conversation.key,
         message_key: message.key,
         step: message.stepId,
-        trigger: message.TriggerId,
+        trigger: message.triggerId,
         ...data
       })
   }
@@ -358,7 +358,7 @@ export class Conversation extends Component {
 
   renderItemPackage = (o, i)=>{
     return  <AppPackageBlock 
-               key={`package-${this.props.conversation.key}-${i}`}
+               key={`package-${o.key}-${i}`}
                message={o}
                isInline={this.props.inline_conversation}
                conversation={this.props.conversation}
@@ -495,12 +495,12 @@ export class Conversation extends Component {
 
     const {t} = this.props
     return <div style={{
-      position: 'absolute',
-      top: '0',
-      bottom: '0',
-      left: '0',
-      right: '0'
-    }}>
+        position: 'absolute',
+        top: '0',
+        bottom: '0',
+        left: '0',
+        right: '0'
+      }}>
 
       {
         this.props.inline_conversation ? 
@@ -535,7 +535,7 @@ class MessageItemWrapper extends Component {
           conversation_key: this.props.conversation.key,
           message_key: this.props.data.key,
           step: this.props.stepId,
-          trigger: this.props.TriggerId
+          trigger: this.props.triggerId
         }, {email: this.props.email})
       )
     }
@@ -609,7 +609,7 @@ class AppPackageBlock extends Component {
         message_key: message.key,
         definitions: camelCasedMessage.blocks.schema,
         step: this.props.stepId,
-        trigger: this.props.TriggerId,
+        trigger: this.props.triggerId,
         values: data.values,
       }
     }
@@ -733,6 +733,7 @@ class AppPackageBlock extends Component {
   }
 
   // TODO: deprecate this in favor of appPackagesIntegration 
+  // has depency on buttons
   renderElement = (item, index)=>{
     const element = item.element
     const isDisabled = this.props.message.message.state === "replied" || this.state.loading
@@ -835,7 +836,8 @@ class AppPackageBlock extends Component {
 
               { 
                 this.props.message.message.blocks.type !== 'app_package' && 
-                <form ref={o => this.form } 
+                <form ref={o => this.form }
+                  className="form" 
                   onSubmit={ this.sendAppPackageSubmit2 }>
                   {
                     this.renderElements()

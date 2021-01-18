@@ -20,6 +20,12 @@ module Types
     field :last_message, Types::ConversationPartType, null: true
     field :tag_list, [String], null: true
 
+    field :conversation_channels, [String], null: true
+
+    def conversation_channels
+      object.conversation_channels.map(&:provider)
+    end
+
     def last_message
       # TODO: we should use last_message_id relation to batch this properly
       object.latest_message

@@ -40,7 +40,7 @@ require 'mimemagic'
 module MessageApis
   class Twitter
     BASE_URL = 'https://api.twitter.com'
-
+    PROVIDER = 'twitter'
     HEADERS = {"content-type" => "application/json"} #Suggested set? Any?
 
     attr_accessor :keys,
@@ -93,6 +93,9 @@ module MessageApis
     end
 
     def enqueue_process_event(params, package)
+
+      return create_hook_from_params(params, package) if params['crc_token'].present?
+
       HookMessageReceiverJob.perform_now(
         id: package.id, 
         params: params
@@ -115,8 +118,6 @@ module MessageApis
 
     # incoming events from webhook
     def process_event(params, package)
-
-      return create_hook_from_params(params, package) if params['crc_token'].present?
 
       @package = package
 
@@ -159,7 +160,7 @@ module MessageApis
           conversation = app.conversations.create(
             main_participant: participant,
             conversation_channels_attributes: [
-              provider: 'twitter',
+              provider: PROVIDER,
               provider_channel_id: channel_id
             ]
           ) if conversation.blank?
@@ -171,7 +172,7 @@ module MessageApis
               html_content: text,
               serialized_content: serialized_content
             },
-            provider: 'twitter',
+            provider: PROVIDER,
             message_source_id: message_id,
             check_assignment_rules: true
           )
@@ -195,7 +196,7 @@ module MessageApis
       return unless response_data["event"]["id"].present?
 
       part.conversation_part_channel_sources.create(
-        provider: 'twitter', 
+        provider: PROVIDER, 
         message_source_id: response_data["event"]["id"]
       )
     end
@@ -242,19 +243,26 @@ module MessageApis
       if twitter_user
         data = {
           properties: {
-            name: twitter_user["name"],
-            twitter_id: twitter_user["id"]
+            name: twitter_user["name"]
           }
         }
 
-        # use external profiles
-        participant = app.app_users.where(
-          "properties->>'twitter_id' = ?", twitter_user["id"]
-        ).first
+        external_profile = app.external_profiles.find_by( 
+          provider: PROVIDER, 
+          profile_id: twitter_user["id"] 
+        )
+
+        participant = external_profile&.app_user
 
         ## todo: check user for this & previous conversation
         ## via twitter with the twitter user id
-        participant = app.add_anonymous_user(data) if participant.blank?
+        if participant.blank?
+          participant = app.add_anonymous_user(data) 
+          participant.external_profiles.create(
+            provider: PROVIDER,
+            profile_id: twitter_user["id"]
+          )
+        end
 
         participant
       end
@@ -507,12 +515,16 @@ module MessageApis
     # API Registration methods
 
     def register_webhook(app_package, integration)
-      url = CGI.escape("#{ENV['HOST']}/api/v1/hooks/#{integration.app.key}/#{app_package.name.underscore}/#{integration.id}")
+      url = CGI.escape(integration.hook_url)
       self.make_post_request("/1.1/account_activity/all/development/webhooks.json?url=#{url}", nil)
     end
 
     def get_webhooks
       JSON.parse(self.make_get_request("/1.1/account_activity/all/development/webhooks.json"))
+    end
+
+    def unregister(app_package, integration)
+      delete_webhooks
     end
 
     def delete_webhooks

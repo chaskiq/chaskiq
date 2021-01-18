@@ -5,6 +5,7 @@ class AppPackageIntegration < ApplicationRecord
   belongs_to :app
 
   after_create :handle_registration
+  before_destroy :unregister
 
   # possible names for api requirements,
   # it also holds a credentials accessor in which can hold a hash
@@ -60,6 +61,11 @@ class AppPackageIntegration < ApplicationRecord
     response
   end
 
+  def unregister
+    klass = message_api_klass
+    klass.unregister(app_package, self) if klass.respond_to?(:unregister)
+  end
+
   def get_webhooks
     klass = message_api_klass
     response = klass.get_webhooks
@@ -97,7 +103,8 @@ class AppPackageIntegration < ApplicationRecord
   end
 
   def hook_url
-    "#{ENV['HOST']}/api/v1/hooks/receiver/#{encoded_id}"
+    host = ENV['HOST']
+    "#{host}/api/v1/hooks/receiver/#{encoded_id}"
     # "#{ENV['HOST']}/api/v1/hooks/#{app.key}/#{app_package.name.downcase}/#{self.id}"
   end
 
@@ -138,6 +145,7 @@ class AppPackageIntegration < ApplicationRecord
                end
 
     response = response.with_indifferent_access
+    
     package_schema = PluginSchemaValidator.new(response[:definitions])
     raise "invalid definitions: #{package_schema.to_json}" unless package_schema.valid?
 

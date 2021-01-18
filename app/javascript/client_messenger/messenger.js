@@ -495,14 +495,12 @@ class Messenger extends Component {
       })
 
     } else {
-
-      //console.log("appending!")
       this.setState({
         conversation: Object.assign(this.state.conversation, {
           messages: { 
-            collection: uniqBy([newMessage].concat(
+            collection: [newMessage].concat(
               this.state.conversation.messages.collection
-            ), 'key') ,
+            ),
             meta: this.state.conversation.messages.meta
           }
         })
@@ -984,9 +982,12 @@ class Messenger extends Component {
       data: ev.data
     })
 
+
     this.setState({
       currentAppBlock: {}, 
       display_mode: "conversation"
+    }, ()=>{
+      this.displayConversation(ev, this.state.conversation)
     })
   }
 
@@ -1552,6 +1553,7 @@ class FrameBridge extends Component {
     super(props)
 
     props.window.addEventListener('message', (e)=> {
+      if(!e.data.chaskiqMessage) return
       props.handleAppPackageEvent(e)
     } , false);
   }

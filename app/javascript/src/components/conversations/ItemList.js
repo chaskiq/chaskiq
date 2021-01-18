@@ -44,7 +44,7 @@ export default function ConversationItemList ({ app, conversation }) {
 
     if (!findedTag) return defaultColor
 
-    const newColor = findedTag.color
+    const newColor = findedTag.color || '#444'
 
     return {
       bgColor: newColor,
@@ -59,7 +59,10 @@ export default function ConversationItemList ({ app, conversation }) {
         backgroundColor: color.bgColor,
         color: color.color
       }}
-      className="inline-block bg-red-200 rounded-full px-1 -py-1 text-xs font-semibold text-gray-700 mr-2">
+      className="mr-0.5 inline-flex items-center px-2.5 py-0.5
+        rounded-full text-xs font-light
+        bg-blue-100 text-blue-800
+        capitalize">
       #{tag}
     </span>
   }
@@ -124,13 +127,31 @@ export default function ConversationItemList ({ app, conversation }) {
             />
           </div>
 
-          {tags && tags.lenght > 0 && <div className="flex">
+          <div className="flex justify-between">
+            <div className="flex">
+              {
+                conversation.conversationChannels && conversation.conversationChannels.map((o)=>(
+                  <div key={`${conversation.key}-${o}`} 
+                    className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium 
+                  bg-blue-100 text-blue-800 capitalize">
+                    {o}
+                  </div>
+                ))
+              }
+
+            </div>
+
             {
-              tags.map((o) =>
-                renderTag(o)
-              )
+              tags && tags.length > 0 &&
+              <div className="flex overflow-auto ml-4 mr-1">
+                {
+                  tags.map((o) =>
+                    renderTag(o)
+                  )
+                }
+              </div>
             }
-          </div>}
+          </div>
         </div>
       </div>
     </Link>

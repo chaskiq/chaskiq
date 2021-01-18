@@ -85,9 +85,9 @@ end
 class ActionSchema
   include ActiveModel::Validations
   attr_accessor :type, :content_url, :url
-  validates :type, presence: :true, inclusion: { in: %w(frame content submit link) }
+  validates :type, presence: :true, inclusion: { in: %w(frame content submit link url) }
   validates :content_url, presence: :true , if: ->{ type == 'content'}
-  validates :url, presence: :true , if: ->{ ['frame', 'link'].include?(type)}
+  validates :url, presence: :true , if: ->{ ['frame', 'link', 'url'].include?(type)}
 
   def initialize(params)
     self.url  = params[:url] if params[:url].present?

@@ -404,9 +404,10 @@ function Conversation ({
             className="text-gray-800 text-xs
             font-bold uppercase tracking-wide">
 
-            <div className="inline-flex items-baseline px-2.5 py-0.5 rounded-full text-sm font-medium bg-green-100 text-green-800 md:mt-2 lg:mt-0">
+            <div className="inline-flex items-baseline px-2.5 py-0.5 rounded-full
+            text-xs font-light bg-green-100 text-green-800 md:mt-2 lg:mt-0">
               <span>
-              {blocks.appPackage}
+                {blocks.appPackage}
               </span>
 
             </div>

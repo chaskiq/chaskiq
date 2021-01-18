@@ -130,8 +130,7 @@ RSpec.describe Api::V1::Hooks::ProviderController, type: :controller do
       .and_return(profile_data)
 
       @pkg = app.app_package_integrations.create(
-        api_secret: "aaa",
-        api_key: "aaa",
+        access_token: "aaa",
         user_id: owner,
         verify_token: '1234',
         app_package: app_package
@@ -145,8 +144,8 @@ RSpec.describe Api::V1::Hooks::ProviderController, type: :controller do
         "hub.challenge"=>"41132213", 
         "hub.verify_token"=>"uQIUx8iou44wJvzV8utsqA2", 
         "controller"=>"api/v1/hooks/provider", 
-        #"provider"=>"messenger", 
-        #"app_key"=>app.key, 
+        "provider"=>"messenger", 
+        "app_key"=>app.key, 
         "id"=>@pkg.encoded_id
      }
 

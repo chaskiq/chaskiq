@@ -3,12 +3,11 @@
 module MessageApis
   class Messenger
     BASE_URL = 'https://graph.facebook.com/v2.6'
-
-    attr_accessor :url, :api_token, :api_key, :conn
+    PROVIDER = 'messenger'
+    attr_accessor :url, :access_token, :conn
 
     def initialize(config:)
-      @api_key = config["api_key"]
-      @api_token = config["api_secret"]
+      @api_token = config["access_token"]
 
       @url = "#{BASE_URL}/me/messages?access_token=#{@api_token}"
 
@@ -63,6 +62,10 @@ module MessageApis
       @package = package
       current = params["current"]
 
+      if params["hub.verify_token"].present? && params["hub.mode"] == "subscribe"
+        return create_hook_from_params(params, package)
+      end
+
       if params["object"] == "page" && params["entry"].present?
         process_message(params, @package)
       end
@@ -75,7 +78,7 @@ module MessageApis
       # TODO ? redis cache here for provider / channel id / part
       return if part
                 .conversation_part_channel_sources
-                .find_by(provider: "messenger").present?
+                .find_by(provider: PROVIDER).present?
       
       message = part.message.as_json
 
@@ -87,9 +90,8 @@ module MessageApis
 
       return unless message_id.present?
 
-      
       part.conversation_part_channel_sources.create(
-        provider: 'messenger', 
+        provider: PROVIDER, 
         message_source_id: message_id
       )
     end
@@ -97,7 +99,7 @@ module MessageApis
     def send_message(conversation, message)
 
       provider_channel_id = conversation.conversation_channels
-      .find_by(provider: "messenger")
+      .find_by(provider: PROVIDER)
       .provider_channel_id
 
       blocks = JSON.parse(
@@ -122,6 +124,12 @@ module MessageApis
         request_body.to_json,
         "Content-Type" => "application/json"
       )
+      response
+    end
+
+    def process_read(conversation, entry, sender_id)
+
+
     end
 
     def process_message(params, package)
@@ -132,12 +140,11 @@ module MessageApis
       entry = params["entry"].first
       message = entry["messaging"].first
 
+      return unless message.keys.include?("message")
+
       sender_id = message["sender"]["id"]
       target_id = message["recipient"]["id"]
 
-      return unless message.keys.include?("message")
-   
-      message_id = message["message"]["mid"]
       sender = sender_id
       recipient = target_id
 
@@ -148,6 +155,10 @@ module MessageApis
       agent_sender = cond
       
       conversation = find_conversation_by_channel(channel_id)
+
+      #process_read(conversation, sender_id)
+   
+      message_id = message["message"]["mid"]
 
       return if conversation && conversation.conversation_part_channel_sources
       .find_by(message_source_id: message_id).present?
@@ -163,7 +174,7 @@ module MessageApis
       conversation = app.conversations.create(
         main_participant: participant,
         conversation_channels_attributes: [
-          provider: 'messenger',
+          provider: PROVIDER,
           provider_channel_id: channel_id
         ]
       ) if conversation.blank?
@@ -174,7 +185,7 @@ module MessageApis
           html_content: text,
           serialized_content: serialized_content
         },
-        provider: 'messenger',
+        provider: PROVIDER,
         message_source_id: message_id,
         check_assignment_rules: true
       )
@@ -319,28 +330,35 @@ module MessageApis
 
     def add_participant(messenger_user)
       app = @package.app
+
       if messenger_user
 
-        data = {
-          properties: {
-            messenger_id: messenger_user
-          }
-        }
+        external_profile = app.external_profiles.find_by( 
+          provider: PROVIDER, 
+          profile_id: messenger_user 
+        )
 
-        # TODO: use external profiles
-        participant = app.app_users.where(
-          "properties->>'messenger_id' = ?", messenger_user
-        ).first
-        
+        participant = external_profile&.app_user
+
         if participant.blank?
           profile_data = get_fb_profile(messenger_user)
           if profile_data.keys.include?("first_name")
             name = "#{profile_data["first_name"]} #{profile_data["last_name"]}"
             profile_data.merge!(name: name)
-            data.deep_merge!(
-              properties: profile_data.except("id")
-            ) 
+
+            data = {
+              name: "#{profile_data["first_name"]} #{profile_data["last_name"]}",
+            }.merge!(profile_data.except("id"))
           end
+
+          if participant.blank?
+            participant = app.add_anonymous_user(data) 
+            participant.external_profiles.create(
+              provider: PROVIDER,
+              profile_id: profile_data["id"]
+            )
+          end
+
         end
 
         participant = app.add_anonymous_user(data) if participant.blank?

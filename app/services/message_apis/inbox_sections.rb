@@ -236,7 +236,15 @@ module MessageApis
           end
         end
 
-        if ["user-properties-block", "assignee-block", "user-blocks", "tag-blocks", "conversation-block", "assignee-block", "conversation-events" ].include? ctx.dig(:field, :id )
+        if ["user-properties-block", 
+          "assignee-block", 
+          "user-blocks", 
+          "tag-blocks", 
+          "conversation-block", 
+          "assignee-block", 
+          "conversation-events",
+          "external-profiles"
+        ].include? ctx.dig(:field, :id )
           results = {
             url: "/ppupu",
             type: "content",
@@ -331,7 +339,10 @@ module MessageApis
 
         if ctx.dig(:values, :block_type) == "user-properties-block"
           items_attrs = [
-            {label: 'Last Seen', call: ->(user){ I18n.l(user.last_visited_at, format: :short) } },
+            {label: 'Last Seen', call: ->(user){ 
+                I18n.l(user.last_visited_at, format: :short) rescue nil 
+              } 
+            },
             {label: 'Location', call: ->(user){ [user.region , user.city, user.country].compact.join(', ') } },
             {label: 'Ip', call: ->(user){ } },
             {label: 'Sessions', call: ->(user){ user.web_sessions } },
@@ -361,6 +372,31 @@ module MessageApis
         end
 
         if ctx.dig(:values, :block_type) == "external-profiles"
+
+          tables = user.external_profiles.map{|o| 
+            { "type": "data-table",
+              "items": [
+                {"type": "field-value","field": "Name","value": o["provider"] },
+                {"type": "field-value","field": "External id","value": o["profile_id"] }
+              ]  
+            }
+          }
+
+          tables = {
+            type: 'text',
+            text: 'no external profiles found',
+            style: 'muted',
+            align: 'center'
+          } if tables.empty?
+        
+          definitions = [
+            {
+              type: 'text',
+              text: 'Contact\'s External profiles',
+              style: 'header'
+            },
+            tables
+          ].flatten
         end
 
         if ctx.dig(:values, :c)
@@ -414,15 +450,25 @@ module MessageApis
         if ctx.dig(:values, :block_type) == "tag-blocks"
           definitions = [
             {
-              text: 'Tags!',
-              type: 'text'
+              text: 'Conversation Tags',
+              type: 'text',
+              style: 'header'
             }
           ]
 
-          definitions << {
-            text: conversation.tag_list.join(", "),
-            type: 'text'
-          } if conversation.tag_list.any?
+          if conversation.tag_list.any?
+            definitions << {
+              text: conversation.tag_list.join(", "),
+              type: 'text'
+            } 
+          else
+            definitions << {
+              text: "no tags found",
+              type: 'text',
+              style: 'muted',
+              align: 'center'
+            } 
+          end
         end 
 
         {
