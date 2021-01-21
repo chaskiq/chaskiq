@@ -39,6 +39,7 @@ function AppRouter ({
 
   React.useEffect(() => {
     if (current_user.lang) {
+      if (I18n.locale === current_user.lang) return
       I18n.locale = current_user.lang
       setReload(true)
       setTimeout(() => {
@@ -47,7 +48,7 @@ function AppRouter ({
     }
   }, [current_user.lang])
 
-  React.useEffect(()=>{
+  React.useEffect(() => {
     dispatch(clearLocks())
   }, [location.key])
 
