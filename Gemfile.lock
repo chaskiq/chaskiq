@@ -37,6 +37,17 @@ GIT
     faker (2.15.1)
       i18n (>= 1.6, < 2)
 
+GIT
+  remote: https://github.com/zebitex/aws-ses.git
+  revision: 65e1ff1c3c2031b243f773cb9e61df6e49db71dd
+  ref: 78-sigv4-problem
+  specs:
+    aws-ses (0.7.1)
+      builder
+      mail (> 2.2.5)
+      mime-types
+      xml-simple
+
 GEM
   remote: https://rubygems.org/
   specs:
@@ -137,11 +148,6 @@ GEM
       aws-sdk-core (~> 3, >= 3.109.0)
       aws-sdk-kms (~> 1)
       aws-sigv4 (~> 1.1)
-    aws-ses (0.7.1)
-      builder
-      mail (> 2.2.5)
-      mime-types
-      xml-simple
     aws-sigv4 (1.2.2)
       aws-eventstream (~> 1, >= 1.0.2)
     batch-loader (1.5.0)
@@ -564,7 +570,7 @@ DEPENDENCIES
   acts_as_list (~> 0.9.19)
   anycable-rails
   aws-sdk-s3 (~> 1.48)
-  aws-ses
+  aws-ses!
   batch-loader
   biz (~> 1.8)
   bootsnap (>= 1.1.0)

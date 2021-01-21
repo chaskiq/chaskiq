@@ -812,7 +812,7 @@ function RenderBlocks ({ message, userOrAdmin, app, conversation, dispatch }) {
     }
 
     const params = {
-      id: blocks.app_package,
+      id: blocks.appPackage,
       appKey: app.key,
       hooKind: data.field.action.type,
       ctx: {
