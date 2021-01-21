@@ -548,7 +548,7 @@ GEM
     websocket-driver (0.7.3)
       websocket-extensions (>= 0.1.0)
     websocket-extensions (0.1.5)
-    xml-simple (1.1.5)
+    xml-simple (1.1.8)
     zeitwerk (2.4.2)
 
 PLATFORMS

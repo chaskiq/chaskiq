@@ -60,7 +60,7 @@ describe('Task bot Spec', function () {
     })
   })
 
-  it('sessionless 2 always ask email , email validation', function () {
+  it.only('sessionless 2 always ask email , email validation', function () {
     cy.wait(5000)
 
 

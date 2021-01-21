@@ -37,7 +37,7 @@ RSpec.describe Api::V1::Hooks::ProviderController, type: :controller do
       ActiveJob::Base.queue_adapter.perform_enqueued_at_jobs = true
 
       @pkg = app.app_package_integrations.create(
-        api_secret: "sk-N5sX2nLb6CxrEBcBkLtpN4mLnzoL5pAMBR06CBwo",
+        api_secret: "sk-xxx",
         app_package: app_package
       )
     end
@@ -85,8 +85,13 @@ RSpec.describe Api::V1::Hooks::ProviderController, type: :controller do
       .stub(:handle_registration)
       .and_return({})
 
+      #@pkg = app.app_package_integrations.create(
+      #  api_secret: "aaa"
+      #)
+
       @pkg = app.app_package_integrations.create(
-        api_secret: "aaa"
+        api_secret: "sk-xxx",
+        app_package: app_package
       )
 
     end
@@ -102,13 +107,35 @@ RSpec.describe Api::V1::Hooks::ProviderController, type: :controller do
   
         channel = conversation.conversation_channels.find_by(provider: "open_ai")
   
-        get(:process_event, params: message_blocks(
-          channel: channel.provider_channel_id)
+        #get(:process_event, params: message_blocks(
+        #  channel: channel.provider_channel_id)
+        #)
+
+        serialized = "{\"blocks\":
+        [{\"key\":\"bl82q\",\"text\":\"bar\",\"type\":\"unstyled\",\"depth\":0,\"inlineStyleRanges\":[],\"entityRanges\":[],\"data\":{}}],
+        \"entityMap\":{}}"
+
+        allow_any_instance_of(
+          MessageApis::OpenAi
+        ).to receive(
+          :get_gpt_response
+        ).and_return(
+          {text: 'yay', id: 1}
         )
   
+        perform_enqueued_jobs do
+          message = conversation.add_message(
+            from: user, 
+            message: { 
+              html_content: 'foo', 
+              serialized_content: serialized 
+              }
+          )
+        end
+
         expect(conversation.messages.last.authorable).to be_a(Agent)
   
-        expect(conversation.messages.last.messageable.html_content).to be == "the message"
+        expect(conversation.messages.last.messageable.html_content).to be == "yay"
         
       end
   

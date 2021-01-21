@@ -173,11 +173,11 @@ class App < ApplicationRecord
     session_id = attrs.delete(:session_id)
     callbacks = attrs.delete(:disable_callbacks) 
 
-    next_id = DummyName::Name.new
+    next_id = attrs[:name].blank? ? "visitor #{DummyName::Name.new}" : attrs[:name]
 
     unless attrs.dig(:properties, :name).present?
       attrs.merge!(
-        name: "visitor #{next_id}"
+        name: "#{next_id}"
       )
     end
 

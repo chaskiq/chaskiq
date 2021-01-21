@@ -16,6 +16,10 @@ class ConversationPartContent < ApplicationRecord
   end
 
   def text_from_serialized
+    begin
     parsed_content["blocks"].map{|o| o["text"]}.join(" ")
+    rescue 
+      html_content
+    end
   end
 end

@@ -129,16 +129,11 @@ Human:'''"
           #temperature: 0.9
           #top_p: 1
         }
-        response = post_data(@url, data)
 
-        return unless response.success?
+        gpt_result = get_gpt_response(data)
 
-        if json_body = JSON.parse(response.body)
-          json_body
-          puts "GOT RESPONSE FROM GPT-3: #{json_body}"
-        end
-
-        text = json_body["choices"].map{|o| o["text"]}.join(" ")
+        text = gpt_result.dig(:text)
+        return if text.nil?
 
         blocks = { 
           blocks: [
@@ -155,7 +150,7 @@ Human:'''"
               serialized_content: blocks
             },
             provider: 'open_ai',
-            message_source_id: json_body['id'],
+            message_source_id: gpt_result[:id],
             check_assignment_rules: true
           )
         end
@@ -171,6 +166,20 @@ Human:'''"
         req.body = data.to_json
       end
       response
+    end
+
+    def get_gpt_response(data)
+      response = post_data(@url, data)
+
+      return nil unless response.success?
+
+      if json_body = JSON.parse(response.body)
+        json_body
+        puts "GOT RESPONSE FROM GPT-3: #{json_body}"
+      end
+
+      text = json_body["choices"].map{|o| o["text"]}.join(" ")
+      {text: text, id: json_body['id']}
     end
 
     def enqueue_process_event(params, package)
@@ -198,16 +207,16 @@ Human:'''"
         self.prompt = prompt
       end
 
-      def default_schema()
+      def default_schema()        
         [
-          { "type": "text","text": "This is a header","style": "header" },
-          { "type": "text","text": "This is a header","style": "muted" },
+          { "type": "text","text": "GPT-3 Chatbot","style": "header" },
+          { "type": "text","text": "This is a GPT-3 for Chatbots","style": "muted" },
           { "type": "textarea", 
             "id": "prompt", 
             "name": "prompt", 
-            "label": "Error", 
+            "label": "Prompt data", 
             "placeholder": "Enter text here...", 
-            value: self.send(:prompt),
+            value: self.prompt,
             errors: errors[:prompt]&.uniq&.join(", ")
           },
           {
@@ -349,21 +358,33 @@ Human:'''"
         kind = nil
         app = ctx[:app]
 
-        record = PromptRecord.new(prompt: ctx.dig( :values, :prompt) )
+        default_prompt = <<~HEREDOC
+        The following is a conversation with an AI assistant. The assistant is helpful, creative, clever, and very friendly.
+        Human: Hello, who are you?
+        AI: I am an AI created by OpenAI. How can I help you today?
+        HEREDOC
+
+        value = ctx.dig( :values, :prompt) 
+        value = default_prompt if ctx.dig(:field, :action, :type) != "submit"
+
+        record = PromptRecord.new(prompt: value )
         schema = record.default_schema
         kind = nil
 
-        if record.prompt.present?
-          if record.valid? 
-            kind = "initialize"
-            schema = record.success_schema
-          else
-            schema = record.error_schema
-          end
-        else
+        if ctx.dig(:field, :action, :type) != "submit"
           schema = record.default_schema
+        else
+          if record.prompt.present?
+            if record.valid? 
+              kind = "initialize"
+              schema = record.success_schema
+            else
+              schema = record.error_schema
+            end
+          else
+            schema = record.default_schema
+          end
         end
-
 
         if ctx.dig(:field, :id) == "add-prompt" && 
           ctx.dig(:field, :action, :type) === "submit"

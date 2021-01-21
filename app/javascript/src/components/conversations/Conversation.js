@@ -36,7 +36,15 @@ import ErrorBoundary from '../ErrorBoundary'
 
 import { successMessage } from '../../actions/status_messages'
 
+import {
+  appendConversation
+} from '../../actions/conversations'
+
 import { AGENTS } from '../../graphql/queries'
+
+import {
+  getPackage
+} from '../packageBlocks/utils'
 
 import {
   CheckmarkIcon,
@@ -385,207 +393,6 @@ function Conversation ({
     </div>
   }
 
-  const updatePackage = (data, cb) => {
-    // for now the only supported action for agent facing pkg will be the url link
-    if (data.field.action.type === 'url') {
-      return window.open(data.field.action.url, '_blank')
-    }
-  }
-
-  const renderBlockRepresentation = (block) => {
-    const { blocks, data } = block.message
-    // TODO: display labels, schema buttons
-    let output = null
-    switch (blocks.type) {
-      case 'app_package':
-
-        output = <div>
-          <p
-            className="text-gray-800 text-xs
-            font-bold uppercase tracking-wide">
-
-            <div className="inline-flex items-baseline px-2.5 py-0.5 rounded-full text-sm font-medium bg-green-100 text-green-800 md:mt-2 lg:mt-0">
-              <span>
-              {blocks.appPackage}
-              </span>
-
-            </div>
-
-            
-          </p>
-
-          <br />
-
-          {/* <p variant={'caption'}>
-            {data && (
-              <span
-                dangerouslySetInnerHTML={{ __html: data.formattedText }}
-              />
-            )}
-          </p> */}
-
-          <DefinitionRenderer
-            schema={blocks.schema}
-            updatePackage={updatePackage}
-          />
-        </div>
-        break
-      case 'ask_option':
-        output = <p>ask option</p>
-        break
-      case 'data_retrieval':
-        output = <p>data retrieval</p>
-        break
-      default: null
-    }
-
-    return (
-
-      <div
-        style={{
-          opacity: 0.96
-        }}
-        className={`
-        w-full
-        bg-white
-        opacity-75
-        border
-        border-gray-400
-        shadow-lg
-        flex 
-        overflow-hidden p-2 
-        rounded-md mx-auto
-        text-gray-600`
-        }
-      >
-        <div className="w-full flex flex-col justify-between">
-          {output}
-        </div>
-
-      </div>
-
-    )
-  }
-
-  const renderBlocks = (o) => {
-    const block = toCamelCase(o)
-    const { blocks, data } = block.message
-    const message = o
-    const messageContent = o.message
-
-    if (blocks.type === 'app_package') {
-      // (o.message.state !== 'replied') {
-
-      return <div
-        id={`message-id-${message.id}`}
-        className={'flex items-start py-2 text-sm'}
-        key={`conversations-messages/${message.id}`}>
-        {
-          renderBlockRepresentation(block)
-        }
-      </div>
-    }
-
-    const item = o.message.data
-    if (!item) {
-      return <p className="text-sm leading-5 font-medium text-gray-500">
-        waiting for reply
-      </p>
-    }
-    // JSON.stringify(o.message.data)
-
-    // if(!o.fromBot) return
-
-    let blockElement
-
-    switch (item.element) {
-      case 'button':
-        blockElement =
-          <p>
-            <strong>
-            reply button:
-            </strong> {item.label}
-          </p>
-
-        break
-      default:
-        if (blocks.type === 'app_package') {
-          blockElement = <div>
-            <p variant="overline">{blocks.appPackage}</p>
-
-            <br />
-
-            <p variant={'caption'}>
-              {data && (
-                <span
-                  dangerouslySetInnerHTML={{ __html: data.formattedText }}
-                />
-              )}
-            </p>
-          </div>
-
-          break
-        }
-
-        if (o.message.blocks.type === 'data_retrieval') {
-          const dataList = Object.keys(o.message.data).map((k) => {
-            return (
-              <p>
-                {k}: {o.message.data[k]}
-              </p>
-            )
-          })
-
-          blockElement =
-            <React.Fragment>
-              <strong>replied:</strong>
-              {dataList}
-            </React.Fragment>
-          break
-        } else {
-          blockElement = <p>{JSON.stringify(o.message.data)}</p>
-          break
-        }
-    }
-
-    return (
-      <div
-        id={`message-id-${message.id}`}
-        className={'flex items-start py-2 text-sm'}
-        key={`conversations-messages/${message.id}`}>
-
-        <div
-          className={`bg-green-400
-          flex 
-          overflow-hidden p-2 
-          rounded-md mx-auto text-white`
-          }
-        >
-          <div className="flex flex-col justify-between">
-
-            <span className={'text-xs text-center'}>
-              <Moment fromNow ago>
-                {message.createdAt}
-              </Moment>
-
-              <span>
-                {' - '}
-                {
-                  message.readAt ? <span>{I18n.t('conversation.messages.seen')}</span>
-                    : <span>{I18n.t('conversation.messages.not_seen')}</span>
-                }
-              </span>
-            </span>
-
-            <p className="text-md text-center text-bold">
-              {blockElement}
-            </p>
-          </div>
-        </div>
-      </div>
-    )
-  }
-
   const renderEventBlock = (o) => {
     const message = o
     const messageContent = o.message
@@ -909,7 +716,14 @@ function Conversation ({
 
                       {
                         message.message.blocks
-                          ? renderBlocks(message, userOrAdmin)
+                          ? <RenderBlocks
+                            conversation={conversation}
+                            message={message}
+                            blocks={message.message.blocks}
+                            userOrAdmin={userOrAdmin}
+                            app={app}
+                            dispatch={dispatch}
+                          />
                           : message.message.action
                             ? renderEventBlock(message, userOrAdmin)
                             : renderMessage(message, userOrAdmin)
@@ -984,6 +798,215 @@ function MessageItemWrapper ({ conversation, data, events, children }) {
   }
 
   return <React.Fragment>{children}</React.Fragment>
+}
+
+function RenderBlocks ({ blocks, message, userOrAdmin, app, conversation, dispatch }) {
+  const { data } = toCamelCase(message).message
+
+  const schema = data.blocks.schema
+  // will update package
+  const updatePackage = (data, cb) => {
+    // for now the only supported action for agent facing pkg will be the url link
+
+    if (data.field.action.type === 'url') {
+      return window.open(data.field.action.url, '_blank')
+    }
+
+    const params = {
+      id: blocks.app_package,
+      appKey: app.key,
+      hooKind: data.field.action.type,
+      ctx: {
+        conversation_key: conversation.key,
+        field: data.field,
+        definitions: [data.field.action],
+        location: 'inbox',
+        values: data.values
+      }
+    }
+
+    getPackage(params, 'conversation', (data) => {
+      const definitions = data.app.appPackage.callHook.definitions
+      const newMessage = message
+      newMessage.message.blocks.schema = definitions
+      dispatch(appendConversation(newMessage))
+      cb && cb()
+    })
+  }
+
+  const renderBlockRepresentation = () => {
+    const { data } = message.message
+    // TODO: display labels, schema buttons
+    let output = null
+    switch (blocks.type) {
+      case 'app_package':
+
+        output = <div>
+          <div
+            className="text-gray-800 text-xs
+            font-bold uppercase tracking-wide">
+            <div className="inline-flex items-baseline px-2.5 py-0.5 rounded-full
+            text-xs font-light bg-green-100 text-green-800 md:mt-2 lg:mt-0">
+              <span>
+                {blocks.appPackage}
+              </span>
+            </div>
+          </div>
+
+          <br />
+
+          <DefinitionRenderer
+            schema={schema}
+            values={blocks.values}
+            updatePackage={updatePackage}
+          />
+        </div>
+        break
+      case 'ask_option':
+        output = <p>ask option</p>
+        break
+      case 'data_retrieval':
+        output = <p>data retrieval</p>
+        break
+      default: null
+    }
+
+    return (
+
+      <div
+        style={{
+          opacity: 0.96
+        }}
+        className={`
+        w-full
+        bg-white
+        opacity-75
+        border
+        border-gray-400
+        shadow-lg
+        flex 
+        overflow-hidden p-2 
+        rounded-md mx-auto
+        text-gray-600`
+        }
+      >
+        <div className="w-full flex flex-col justify-between">
+          {output}
+        </div>
+
+      </div>
+
+    )
+  }
+
+  if (blocks.type === 'app_package') {
+    // (o.message.state !== 'replied') {
+
+    return <div
+      id={`message-id-${message.id}`}
+      className={'flex items-start py-2 text-sm'}
+      key={`conversations-messages/${message.id}`}>
+      {
+        renderBlockRepresentation()
+      }
+    </div>
+  }
+
+  const item = message.message.data || {}
+  /* if (!item) {
+    return <p className="text-sm leading-5 font-medium text-gray-500">
+      waiting for reply
+    </p>
+  } */
+
+  let blockElement
+
+  switch (item.element) {
+    case 'button':
+      blockElement =
+        <p>
+          <strong>
+          reply button:
+          </strong> {item.label}
+        </p>
+
+      break
+    default:
+      if (blocks.type === 'app_package') {
+        blockElement = <div>
+          <p variant="overline">{blocks.appPackage}</p>
+
+          <br />
+
+          <p variant={'caption'}>
+            {data && (
+              <span
+                dangerouslySetInnerHTML={{ __html: data.formattedText }}
+              />
+            )}
+          </p>
+        </div>
+
+        break
+      }
+
+      if (blocks.type === 'data_retrieval') {
+        const dataList = Object.keys(message.message.data).map((k) => {
+          return (
+            <p>
+              {k}: {message.message.data[k]}
+            </p>
+          )
+        })
+
+        blockElement =
+          <React.Fragment>
+            <strong>replied:</strong>
+            {dataList}
+          </React.Fragment>
+        break
+      } else {
+        blockElement = <p>{JSON.stringify(message.message.data)}</p>
+        break
+      }
+  }
+
+  return (
+    <div
+      id={`message-id-${message.id}`}
+      className={'flex items-start py-2 text-sm'}
+      key={`conversations-messages/${message.id}`}>
+
+      <div
+        className={`bg-green-400
+        flex 
+        overflow-hidden p-2 
+        rounded-md mx-auto text-white`
+        }
+      >
+        <div className="flex flex-col justify-between">
+
+          <span className={'text-xs text-center'}>
+            <Moment fromNow ago>
+              {message.createdAt}
+            </Moment>
+
+            <span>
+              {' - '}
+              {
+                message.readAt ? <span>{I18n.t('conversation.messages.seen')}</span>
+                  : <span>{I18n.t('conversation.messages.not_seen')}</span>
+              }
+            </span>
+          </span>
+
+          <p className="text-md text-center text-bold">
+            {blockElement}
+          </p>
+        </div>
+      </div>
+    </div>
+  )
 }
 
 function mapStateToProps (state) {

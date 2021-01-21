@@ -14,6 +14,9 @@ import { AppList } from '../../pages/settings/AppInserter'
 import {
   APP_PACKAGES_BY_CAPABILITY
 } from '../../graphql/queries'
+import {
+  getPackage
+} from '../packageBlocks/utils'
 
 function AppPackagePanel (props) {
   const [open, setOpen] = React.useState(props.open)
@@ -21,6 +24,7 @@ function AppPackagePanel (props) {
   const [provider, setProvider] = React.useState(null)
   const [providers, setProviders] = React.useState([])
   const [values, setValues] = React.useState({})
+  const [contentSchema, setContentSchema] = React.useState(null)
 
   function getAppPackages () {
     setLoading(true)
@@ -108,8 +112,31 @@ function AppPackagePanel (props) {
                 </div>
 
                 <DefinitionRenderer
-                  schema={provider.definitions}
-                  // updatePackage={(data, cb)=>{ debugger ; cb() }}
+                  schema={contentSchema || provider.definitions}
+                  updatePackage={(data, cb)=>{
+
+                    // check only if content kind!
+                    if (data.field.action.type !== "content")
+                      return
+
+                    const params = {
+                      id: provider.name,
+                      appKey: props.app.key,
+                      hooKind: data.field.action.type,
+                      ctx: {
+                        conversation_key: props.conversation.key,
+                        field: data.field,
+                        definitions: [data.field.action],
+                        location: 'inbox',
+                        values: data.values
+                      }
+                    }
+         
+                    getPackage(params, 'conversartion', (d)=>{
+                      setContentSchema(d.app.appPackage.callHook.definitions)
+                    })
+                    cb()
+                  }}
                 />
               </div>
             }

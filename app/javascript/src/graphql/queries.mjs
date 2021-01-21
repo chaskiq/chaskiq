@@ -213,6 +213,7 @@ export const CONVERSATIONS = `
           readAt
           priority
           tagList
+          conversationChannels
           assignee {
             displayName
             email

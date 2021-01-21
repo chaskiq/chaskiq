@@ -16,3 +16,9 @@
 
 #- en messenger:
 #- actualizar al usuario solo cuando hace optin
+
+
+module MessageApis
+	class Gdpr
+	end
+end

@@ -24,8 +24,22 @@ class ApplicationController < ActionController::Base
     nil
   end
 
+  def authorize_by_encrypted_params
+    key = @app.encryption_key
+    encrypted = request.headers['HTTP_ENC_DATA']
+    json = JWE.decrypt(encrypted, key)
+    JSON.parse(json).deep_symbolize_keys
+  rescue StandardError
+    {}
+  end
+
   def package_iframe
+
     data = JSON.parse(params[:data])
+
+    app = App.find_by(key: data["data"]["app_id"])
+    key = app.encryption_key
+
     url_base = data['data']['field']['action']['url']
     url = if url_base.match(%r{^/package_iframe_internal/})
             "#{ENV['HOST']}#{url_base}"
@@ -33,9 +47,25 @@ class ApplicationController < ActionController::Base
             url_base
           end
 
-    app_user = AppUser.find_by(
-      session_id: cookies[:chaskiq_session_id]
-    ).as_json(methods: %i[
+    # TODO: unify this with the API auth
+    begin
+      encrypted = data["data"]["enc_data"]
+      json = JWE.decrypt(encrypted, key)
+      user_data = JSON.parse(json).deep_symbolize_keys
+      if user_data.present? && user_data[:email].present?
+        app_user = app.app_users.users.find_by(email: user_data[:email])
+      else
+        app_user = app.app_users.find_by(
+          session_id: cookies[:chaskiq_session_id]
+        )
+      end
+    rescue 
+      app_user = app.app_users.find_by(
+        session_id: cookies[:chaskiq_session_id]
+      )
+    end
+
+    app_user.as_json(methods: %i[
                 email
                 name
                 display_name
@@ -43,6 +73,7 @@ class ApplicationController < ActionController::Base
                 first_name
                 last_name
               ])
+
 
     resp = Faraday.post(url,
                         data.merge!(user: app_user).to_json,
@@ -54,12 +85,15 @@ class ApplicationController < ActionController::Base
   end
 
   def package_iframe_internal
-    if params['conversation_id']
-      conversation = Conversation.find_by(key: params['conversation_id'])
-      app = conversation.app
-    else
-      app = AppUser.find(params[:user]['id']).app
-    end
+    # TODO: securize this:
+    # validate convesation_key & message_key
+    #if params['conversation_id']
+    #  conversation = Conversation.find_by(key: params['conversation_key'])
+    #  app = conversation.app
+    #else
+    
+    app = AppUser.find(params[:user]['id']).app
+    #end
 
     presenter = app.app_package_integrations
                    .joins(:app_package)
@@ -74,8 +108,8 @@ class ApplicationController < ActionController::Base
     }
 
     opts.merge!({
-                  conversation_id: params.dig(:data, :conversation_id),
-                  message_id: params.dig(:data, :message_id)
+                  conversation_key: params.dig(:data, :conversation_key),
+                  message_key: params.dig(:data, :message_key)
                 })
 
     html = presenter.sheet_view(opts)
