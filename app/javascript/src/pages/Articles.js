@@ -21,6 +21,7 @@ import { LinkButton, LinkIconButton } from "../shared/RouterLink";
 
 import ScrollableTabsButtonForce from "../components/scrollingTabs";
 import langs from "../shared/langsOptions";
+import isEmpty from 'lodash/isEmpty'
 
 import graphql from "../graphql/client";
 import { ARTICLES } from "../graphql/queries";
@@ -105,6 +106,9 @@ class Articles extends Component {
               errors: data.articleSettingsUpdate.errors,
             },
             () => {
+              if(!isEmpty(data.articleSettingsUpdate.errors)) {
+                return this.props.dispatch(errorMessage("article settings failed"))
+              }
               this.props.dispatch(successMessage("article settings updated"));
             }
           );

@@ -67,6 +67,7 @@ module MessageApis
           "align": "left",
         },
         {
+          "id": "join-url",
           "type":  "button",
           "align": "left",
           "label": 'Join',
@@ -200,6 +201,7 @@ module MessageApis
             "align": "left",
           },
           {
+            "id": "join-url",
             "type":  "button",
             "align": "left",
             "label": 'Join',
@@ -243,6 +245,7 @@ module MessageApis
           }
 
           action = {
+            id: 'set-url',
             name: 'set_url',
             label: 'Set up',
             type: 'button',

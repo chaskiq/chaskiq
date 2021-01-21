@@ -116,6 +116,7 @@ module MessageApis
         definitions = [
           
           {
+            id: 'aaokokaaaaaa',
             name: 'bubu',
             label: 'fuckya',
             type: 'button',
@@ -147,10 +148,11 @@ module MessageApis
           },
 
           {
+            id: 'sd',
             name: 'alooo',
             label: 'a link',
             action: {},
-            type: 'link',
+            type: 'button',
             grid: { xs: 'w-full', sm: 'w-full' }
           },
           {

@@ -74,6 +74,13 @@ class AppPackagesCatalog
         definitions: []
       },
 
+      {
+        name: "Gumroad",
+        description: "Gumroad Payment buttons",
+        capability_list: ["conversations", "bots"],
+        state: 'enabled',
+        definitions: []
+      },
 
       {
         name: 'Clearbit',
@@ -374,12 +381,7 @@ class AppPackagesCatalog
         state: 'enabled',
         definitions: [
           {
-            name: 'api_key',
-            type: 'string',
-            grid: { xs: 'w-full', sm: 'w-full' }
-          },
-          {
-            name: 'api_secret',
+            name: 'access_token',
             type: 'string',
             grid: { xs: 'w-full', sm: 'w-full' }
           },

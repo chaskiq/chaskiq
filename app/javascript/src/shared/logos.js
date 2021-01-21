@@ -3,6 +3,11 @@ import facebook from '../images/logos/facebook.png'
 import pipedrive from '../images/logos/pipedrive.png'
 import whatsapp from '../images/logos/whatsapp.png'
 import clearbit from '../images/logos/clearbit.png'
+import gumroad from '../images/logos/gumroad.png'
+import paddle from '../images/logos/paddle.png'
+import openai from '../images/logos/openai.png'
+import reveniu from '../images/logos/reveniu.png'
+
 import fullcontact from '../images/logos/fullcontact.png'
 import slack from '../images/logos/slack.png'
 import zoom from '../images/logos/zoom.png'
@@ -29,5 +34,9 @@ export default {
   dialogflow,
   messenger,
   twitter,
-  openAi
+  openAi,
+  gumroad,
+  paddle,
+  openai,
+  reveniu
 }
