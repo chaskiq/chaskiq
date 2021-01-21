@@ -719,7 +719,6 @@ function Conversation ({
                           ? <RenderBlocks
                             conversation={conversation}
                             message={message}
-                            blocks={message.message.blocks}
                             userOrAdmin={userOrAdmin}
                             app={app}
                             dispatch={dispatch}
@@ -800,10 +799,10 @@ function MessageItemWrapper ({ conversation, data, events, children }) {
   return <React.Fragment>{children}</React.Fragment>
 }
 
-function RenderBlocks ({ blocks, message, userOrAdmin, app, conversation, dispatch }) {
-  const { data } = toCamelCase(message).message
+function RenderBlocks ({ message, userOrAdmin, app, conversation, dispatch }) {
+  const { data, blocks } = toCamelCase(message).message
 
-  const schema = data.blocks.schema
+  const schema = blocks.schema
   // will update package
   const updatePackage = (data, cb) => {
     // for now the only supported action for agent facing pkg will be the url link
