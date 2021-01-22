@@ -911,12 +911,20 @@ function RenderBlocks ({ message, userOrAdmin, app, conversation, dispatch }) {
     </div>
   }
 
-  const item = message.message.data || {}
-  /* if (!item) {
-    return <p className="text-sm leading-5 font-medium text-gray-500">
-      waiting for reply
+  const item = message.message.data
+  if (!item) {
+    return <p className="text-sm leading-5 font-medium text-gray-500 py-2 flex justify-center">
+      <a href="#" className="relative inline-flex items-center rounded-full border border-gray-400 px-3 py-0.5 text-sm bg-white">
+        <span className="absolute flex-shrink-0 flex items-center justify-center">
+          <span className="h-1.5 w-1.5 rounded-full bg-yellow-200 border border-black" 
+            aria-hidden="true">
+          </span>
+        </span>
+        <span className="ml-3.5 font-medium text-gray-700 bord">waiting for reply</span>
+      </a>
+
     </p>
-  } */
+  }
 
   let blockElement
 
