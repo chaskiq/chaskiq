@@ -424,7 +424,8 @@ export const ConversationEventContainer = styled.div`
 `
 
 export const AppPackageBlockContainer = styled.div`
-    padding-top: .7em;
+    padding-top: 1em;
+    padding-bottom: 1em;
     border-radius: 7px;
     //display: flex;
     //justify-content: center;
@@ -446,7 +447,7 @@ export const AppPackageBlockContainer = styled.div`
       //margin-bottom: 1rem;
     }
     
-    form {
+    form.form {
       display: flex;
       align-items: center;
       //justify-content: space-between;
@@ -474,57 +475,55 @@ export const AppPackageBlockContainer = styled.div`
           font-size: 0.7em;
           color: red;
           margin-left: 4px;
-        }
-        
+        } 
       }
-    }
-    label {
-      margin: 3px;
-      display: inline-block;
-      margin-bottom: .5rem;
-    }
-    input {
-      margin: 3px;
-      display: block;
-      padding: .375rem .75rem;
-      font-size: 1rem;
-      line-height: 1.5;
-      color: #495057;
-      background-color: #fff;
-      background-clip: padding-box;
-      border: 1px solid #ced4da;
-      border-radius: .25rem;
-      transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;
-    }
-    button:not(:disabled):not(.disabled) {
-      cursor: pointer;
-    }
-    [type=reset], [type=submit], button, html [type=button] {
-        -webkit-appearance: button;
-    }
-    button {
-      //.btn-primary {
+    
+      label {
+        margin: 3px;
+        display: inline-block;
+        margin-bottom: .5rem;
+      }
+      input {
+        margin: 3px;
+        display: block;
+        padding: .375rem .75rem;
+        font-size: 1rem;
+        line-height: 1.5;
+        color: #495057;
+        background-color: #fff;
+        background-clip: padding-box;
+        border: 1px solid #ced4da;
+        border-radius: .25rem;
+        transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+      }
+      button:not(:disabled):not(.disabled) {
+        cursor: pointer;
+      }
+      [type=reset], [type=submit], button, html [type=button] {
+          -webkit-appearance: button;
+      }
+      button {
         color: #fff;
         background-color: #007bff;
         border-color: #007bff;
-      //}
 
-      display: inline-block;
-      font-weight: 400;
-      text-align: center;
-      white-space: nowrap;
-      vertical-align: middle;
-      -webkit-user-select: none;
-      -moz-user-select: none;
-      -ms-user-select: none;
-      user-select: none;
-      border: 1px solid transparent;
-      padding: .375rem .75rem;
-      font-size: 1rem;
-      line-height: 1.5;
-      border-radius: .25rem;
-      transition: color .15s ease-in-out,background-color .15s ease-in-out,border-color .15s ease-in-out,box-shadow .15s ease-in-out;
-    }
+        display: inline-block;
+        font-weight: 400;
+        text-align: center;
+        white-space: nowrap;
+        vertical-align: middle;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+        border: 1px solid transparent;
+        padding: .375rem .75rem;
+        font-size: 1rem;
+        line-height: 1.5;
+        border-radius: .25rem;
+        transition: color .15s ease-in-out,background-color .15s ease-in-out,border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+      }
+  }
 `
 
 export const UserAutoMessage = styled.div`

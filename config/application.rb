@@ -18,6 +18,8 @@ module Chaskiq
     # config.load_defaults 5.2
     config.load_defaults '6.0'
 
+    config.i18n.fallbacks = [I18n.default_locale]
+
     config.action_cable.disable_request_forgery_protection = true
 
     # Settings in config/environments/* take precedence over those specified here.

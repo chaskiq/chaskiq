@@ -154,7 +154,7 @@ function Conversations ({
       { id: 'newest', name: I18n.t('conversations.sorts.newest'), count: 1, selected: true },
       { id: 'oldest', name: I18n.t('conversations.sorts.oldest'), count: 1 },
       { id: 'waiting', name: I18n.t('conversations.sorts.waiting'), count: 1 },
-      { id: 'priority-first', name: I18n.t('conversations.sorts.priority_first'), count: 1 },
+      { id: 'priority_first', name: I18n.t('conversations.sorts.priority_first'), count: 1 },
       { id: 'unfiltered', name: I18n.t('conversations.sorts.all'), count: 1 }
     ]
 

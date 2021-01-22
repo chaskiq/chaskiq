@@ -223,7 +223,7 @@ describe('Visitor home apps', function () {
     })
   })
 
-  it('add package, frame', function () {
+  it.only('add package, frame', function () {
     cy.appScenario('basic')
 
     addAppPackage('UiCatalog')
@@ -231,6 +231,7 @@ describe('Visitor home apps', function () {
       name: "UiCatalog",
       definitions: [
         {
+          id: 'da',
           name: 'bubu',
           label: 'Click this action',
           type: 'button',

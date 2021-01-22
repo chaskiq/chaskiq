@@ -53,7 +53,7 @@ const CableApp = {
   cable: actioncable.createConsumer(window.ws_cable_url)
 }
 
-function App ({
+function AppContainer ({
   match,
   dispatch,
   isAuthenticated,
@@ -64,7 +64,6 @@ function App ({
   loading,
   upgradePages
 }) {
-
   React.useEffect(() => {
     dispatch(getCurrentUser())
     fetchApp(() => {
@@ -130,7 +129,7 @@ function App ({
       }
     )
 
-    window.cable = CableApp
+    // window.cable = CableApp
   }
 
   function updateUser (data) {
@@ -167,7 +166,7 @@ function App ({
         ></div>
       )}
 
-      {/*drawer.userDrawer && (
+      {/* drawer.userDrawer && (
         <div
           className="navbar w-64 absolute
               bg-white top-0 z-50 right-0  navbar-open"
@@ -180,16 +179,16 @@ function App ({
             )}
           </div>
         </div>
-      )*/}
+      ) */}
 
       { drawer.userDrawer &&
-        <UserSlide 
+        <UserSlide
           open={!!drawer.userDrawer}
           onClose={handleUserSidebar}>
 
           {app_user ? (
-            <UserProfileCard 
-              width={'300px'} 
+            <UserProfileCard
+              width={'300px'}
             />
           ) : (
             <Progress />
@@ -338,4 +337,4 @@ function mapStateToProps (state) {
   }
 }
 
-export default withRouter(connect(mapStateToProps)(App))
+export default withRouter(connect(mapStateToProps)(AppContainer))

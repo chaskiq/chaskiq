@@ -431,6 +431,45 @@ class Messenger extends Component {
     this.processMessage(newMessage)
   }
 
+  updateMessage = (newMessage)=>{
+    const new_collection = this.state.conversation.messages.collection.map(
+      (o)=>{
+        if (o.key === newMessage.key ){
+          return newMessage
+        } else {
+          return o
+        }
+    })
+
+    this.setState({
+      conversation: Object.assign(this.state.conversation, {
+        messages: { 
+          collection: uniqBy(new_collection, 'key'),
+          meta: this.state.conversation.messages.meta
+         }
+      })
+    })
+  }
+
+  appendMessage = (newMessage) =>{
+    this.setState({
+      conversation: Object.assign(this.state.conversation, {
+        messages: { 
+          collection: [newMessage].concat(
+            this.state.conversation.messages.collection
+          ),
+          meta: this.state.conversation.messages.meta
+        }
+      })
+    }, ()=> {
+      this.scrollToLastItem()
+    })
+    
+    if (newMessage.appUser.kind === "agent") {
+      this.playSound()
+    }
+  }
+
   processMessage = (newMessage)=>{
 
     this.setState({
@@ -475,44 +514,9 @@ class Messenger extends Component {
     
     // update or append
     if ( this.state.conversation.messages.collection.find( (o)=> o.key === newMessage.key ) ){
-      
-      const new_collection = this.state.conversation.messages.collection.map(
-        (o)=>{
-          if (o.key === newMessage.key ){
-            return newMessage
-          } else {
-            return o
-          }
-      })
-
-      this.setState({
-        conversation: Object.assign(this.state.conversation, {
-          messages: { 
-            collection: uniqBy(new_collection, 'key'),
-            meta: this.state.conversation.messages.meta
-           }
-        })
-      })
-
+      this.updateMessage(newMessage)
     } else {
-
-      //console.log("appending!")
-      this.setState({
-        conversation: Object.assign(this.state.conversation, {
-          messages: { 
-            collection: uniqBy([newMessage].concat(
-              this.state.conversation.messages.collection
-            ), 'key') ,
-            meta: this.state.conversation.messages.meta
-          }
-        })
-      }, ()=> {
-        this.scrollToLastItem()
-      })
-      
-      if (newMessage.appUser.kind === "agent") {
-        this.playSound()
-      }
+      this.appendMessage(newMessage)
     }
   }
 
@@ -984,9 +988,12 @@ class Messenger extends Component {
       data: ev.data
     })
 
+
     this.setState({
       currentAppBlock: {}, 
       display_mode: "conversation"
+    }, ()=>{
+      this.displayConversation(ev, this.state.conversation)
     })
   }
 
@@ -1034,6 +1041,7 @@ class Messenger extends Component {
   toggleVideo= ()=> this.setState({rtcVideo: !this.state.rtcVideo})
 
   getPackage = (params, cb) => {
+
     const newParams = {
       ...params,
       appKey: this.props.app_id
@@ -1043,7 +1051,7 @@ class Messenger extends Component {
       newParams,
       {
         success: (data) => {
-          cb && cb(data)
+          cb && cb(data, this.updateMessage)
         },
         error: (data) => {
           cb && cb(data)
@@ -1316,6 +1324,8 @@ class Messenger extends Component {
                                 this.state.display_mode === "appBlockAppPackage" &&
                                 <AppBlockPackageFrame 
                                   domain={this.props.domain}
+                                  app_id={this.props.app_id}
+                                  enc_data={this.props.encData}
                                   conversation={this.state.conversation}
                                   appBlock={this.state.currentAppBlock}
                                 />
@@ -1552,6 +1562,7 @@ class FrameBridge extends Component {
     super(props)
 
     props.window.addEventListener('message', (e)=> {
+      if(!e.data.chaskiqMessage) return
       props.handleAppPackageEvent(e)
     } , false);
   }
@@ -1587,6 +1598,12 @@ class AppBlockPackageFrame extends Component {
     
     let params = {}
 
+    const newData = {
+      ...data,
+      enc_data: this.props.enc_data,
+      app_id: this.props.app_id
+    }
+
     if(conversation.key && message){
       /*params = {
         data: data,
@@ -1595,23 +1612,23 @@ class AppBlockPackageFrame extends Component {
         conversation_id: conversation.key
       }*/
 
-      params = JSON.stringify({data: data})
-
+      params = JSON.stringify({data: newData})
       const blocks = toCamelCase(message.blocks)
       let url = `${this.props.domain}/package_iframe/${blocks.appPackage.toLowerCase()}`
       src = new URL(url)
 
     } else {
-      params = JSON.stringify({data: data})
+      params = JSON.stringify({data: newData})
       let url = `${this.props.domain}/package_iframe/${data.id}`
       src = new URL(url)
     }
-  
+
     src.searchParams.set("data", params)
 
     return <div>
               <iframe
                 id="package-frame"
+                //sandbox="allow-top-navigation allow-same-origin allow-forms allow-modals allow-popups allow-presentation allow-same-origin allow-scripts allow-downloads"
                 src={src.href} 
                 style={{
                   width: '100%',

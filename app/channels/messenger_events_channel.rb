@@ -117,6 +117,8 @@ class MessengerEventsChannel < ApplicationCable::Channel
 
     m.blocks = new_blocks
     m.save_replied(data['submit'])
+
+    process_next_step(message)
   end
 
   def process_next_step(message)

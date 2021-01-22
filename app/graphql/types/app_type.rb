@@ -270,7 +270,7 @@ module Types
         s = case sort
             when 'newest' then 'updated_at desc'
             when 'oldest' then 'updated_at asc'
-            when 'priority-first' then 'priority asc, updated_at desc'
+            when 'priority_first' then 'priority asc, updated_at desc'
             else
               'id desc'
             end

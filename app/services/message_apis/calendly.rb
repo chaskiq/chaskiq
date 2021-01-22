@@ -78,7 +78,8 @@ module MessageApis
     end
 
     def register_webhook(app_package, integration)
-      subscription_url = "#{ENV['HOST']}/api/v1/hooks/#{integration.app.key}/#{app_package.name.underscore}/#{integration.id}"
+      subscription_url = integration.hook_url
+      #"#{ENV['HOST']}/api/v1/hooks/#{integration.app.key}/#{app_package.name.underscore}/#{integration.id}"
       data = {
         url: subscription_url,
         events: ['invitee.created', 'invitee.canceled']
@@ -220,6 +221,7 @@ module MessageApis
           action = {
             name: 'set_url',
             label: 'set your calendar',
+            id: 'alo',
             type: 'button',
             action: {
               type: "submit" 
