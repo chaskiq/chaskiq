@@ -174,7 +174,8 @@ module MessageApis
     end
 
     def register_webhook(app_package, integration)
-      subscription_url = "#{ENV['HOST']}/api/v1/hooks/#{integration.app.key}/#{app_package.name.underscore}/#{integration.id}"
+      subscription_url = integration.hook_url
+      #"#{ENV['HOST']}/api/v1/hooks/#{integration.app.key}/#{app_package.name.underscore}/#{integration.id}"
       data = {
         subscription_url: subscription_url,
         event_action: "*",

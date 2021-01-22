@@ -41,7 +41,7 @@ class FetchLinkCardService < BaseService
   private
 
   def user_agent
-    @user_agent ||= "#{HTTP::Request::USER_AGENT} (Hermesapp/Crawler; +http://github.com/michelson/hermesapp/)"
+    @user_agent ||= "#{HTTP::Request::USER_AGENT} (ChaskiqApp/Crawler; +http://github.com/chaskiq/chaskiq/)"
   end
 
   def parse_urls(status)

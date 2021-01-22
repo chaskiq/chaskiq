@@ -104,7 +104,7 @@ module MessageApis
               {
                 "type": 'item',
                 "id": o.slug.to_s,
-                "title": o.title,
+                "title": o.title || '---',
                 "subtitle": o.description,
                 action: {
                   type: 'frame',

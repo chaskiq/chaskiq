@@ -4,7 +4,7 @@ module MessageApis
   class Twilio
     # https://developers.pipedrive.com/docs/api/v1/
     BASE_URL = 'https://api.pipedrive.com/v1'
-    PROVIDER = 'twillio'
+    PROVIDER = 'twilio'
 
     attr_accessor :url, :api_token, :api_key, :conn
 

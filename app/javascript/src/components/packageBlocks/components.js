@@ -76,13 +76,20 @@ const SingleSelectButton = styled.button`
   ${(props) => props.isSelected ? tw`bg-indigo-600 text-gray-100 border-indigo-600 pointer-events-none` : ''}
 `
 
+//const Button = styled(BaseButton)``
+
+
 const Button = styled(BaseButton)`
-  ${(props) => props.theme && props.theme.palette && !props.disabled
+  ${(props) => !props.variant && props.theme && props.theme.palette && !props.disabled
     ? `
     background-color: ${props.theme.palette.primary} !important;
     color: ${textColor(props.theme.palette.primary)} !important;
     border-color: ${props.theme.palette.primary} !important;
-    ` : 'bg-gray-600 text-gray-100'
+    &:hover{
+      background-color: ${lighten(0.1, props.theme.palette.primary)} !important;
+      color: ${textColor(props.theme.palette.primary)} !important;  
+    }
+    ` : ''
   }
 
   display: block;
@@ -113,6 +120,7 @@ const Button = styled(BaseButton)`
     }
   }}
 
+  
   ${(props) => {
     switch (props.variant) {
       case 'success':
@@ -815,10 +823,10 @@ const ButtonWrapper = styled.div`
   }};
 `
 
-function ContentRenderer ({ field, updatePackage, disabled, appPackage }) {
+function ContentRenderer ({ field, values, updatePackage, disabled, appPackage }) {
   React.useEffect(() => {
     updatePackage && updatePackage({
-      values: appPackage && appPackage.values,
+      values: values || appPackage && appPackage.values,
       field: {
         action: field
       }
@@ -835,6 +843,7 @@ function ContentRenderer ({ field, updatePackage, disabled, appPackage }) {
 
 export function DefinitionRenderer ({
   schema,
+  values,
   updatePackage,
   getPackage,
   disabled,
@@ -875,6 +884,7 @@ export function DefinitionRenderer ({
       case 'content':
         return <ContentRenderer
           field={field}
+          values={values}
           disabled={disabled}
           appPackage={appPackage}
           updatePackage={updatePackage}
@@ -934,7 +944,7 @@ export function DefinitionRenderer ({
             align={field.align}>
             <Button
               size={size === 'sm' ? 'xs' : field.size }
-              loading={loading}
+              loading={loading || undefined }
               disabled={disabled || loading}
               variant={field.variant}
               width={field.width}
@@ -984,9 +994,8 @@ export function DefinitionRenderer ({
       <ThemeProvider theme={{ size: size }}>
         {schema.map((field, i) => {
           return (
-            <ErrorBoundary>
-              <RendererWrapper
-                key={`field-${field.id}-${i}`}>
+            <ErrorBoundary key={`renderer-field-${i}`}>
+              <RendererWrapper>
                 {handleRender(field)}
               </RendererWrapper>
             </ErrorBoundary>

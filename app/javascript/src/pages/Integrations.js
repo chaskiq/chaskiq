@@ -449,12 +449,15 @@ function ServiceBlock ({ service, handleOpen, kind, setOpenDeleteDialog }) {
       <ListItemText
         primary={
           <ItemListPrimaryContent variant="h5">
-            <div className="flex justify-between">
-              {service.name} { 
-                kind === 'services' && <Badge
-                  variant={service.state === 'enabled' ? 'green' : 'gray' }>
-                  {service.state}
-                </Badge>
+            <div className="flex">
+              {service.name} {
+                kind === 'services' &&
+                <div className="ml-2">
+                  <Badge
+                    variant={service.state === 'enabled' ? 'green' : 'gray' }>
+                    {service.state}
+                  </Badge>
+                </div>
               }
             </div>
           </ItemListPrimaryContent>
@@ -467,6 +470,7 @@ function ServiceBlock ({ service, handleOpen, kind, setOpenDeleteDialog }) {
                 {service.capabilities && service.capabilities.map((o) =>
                   <Badge className="mr-2"
                     key={`cap-${o}`}
+                    size="sm"
                     variant="blue">
                     {o}
                   </Badge>
@@ -679,9 +683,14 @@ function MyAppPackages ({ app, dispatch, handleOpen }) {
               <ListItemText
                 primary={
                   <ItemListPrimaryContent variant="h5">
-                    {service.name} <Badge variant={service.state === 'enabled' ? 'green' : 'gray' }>
-                      {service.state}
-                    </Badge>
+                    <div className="flex">
+                      {service.name}
+                      <div className="ml-2">
+                        <Badge variant={service.state === 'enabled' ? 'green' : 'gray' }>
+                          {service.state}
+                        </Badge>
+                      </div>
+                    </div>
                   </ItemListPrimaryContent>
                 }
                 secondary={
@@ -692,6 +701,7 @@ function MyAppPackages ({ app, dispatch, handleOpen }) {
                         {service.capabilities && service.capabilities.map((o) =>
                           <Badge className="mr-2"
                             key={`cap-${o}`}
+                            size="sm"
                             variant="blue">
                             {o}
                           </Badge>

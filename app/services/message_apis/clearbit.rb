@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
-module DataEnrichmentService
-  class Clearbit::Enrichment < DataEnrichmentService::Base
+module MessageApis
+  class Clearbit < DataEnrichmentService::Base
     attr_accessor :authorization, :params, :conn, :token
 
     URL = 'https://person.clearbit.com/v2/combined/find'
