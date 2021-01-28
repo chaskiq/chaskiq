@@ -23,9 +23,12 @@ import {
   INSERT_COMMMENT,
   START_CONVERSATION,
   CONVERT,
-  APP_PACKAGE_HOOK
+  APP_PACKAGE_HOOK,
+  PRIVACY_CONSENT,
 } from './graphql/queries'
 import GraphqlClient from './graphql/client'
+
+import GDPRView from './gdprView'
 
 
 import {
@@ -94,7 +97,9 @@ class Messenger extends Component {
       conversationsMeta: {},
       availableMessages: [],
       availableMessage: null,
-      banner:localStorage.getItem(`chaskiq-banner`) && JSON.parse(localStorage.getItem(`chaskiq-banner`)),
+      needsPrivacyConsent: null,
+      //gdprContent: localStorage.getItem(`chaskiq-consent`) && JSON.parse(localStorage.getItem(`chaskiq-consent`)),
+      banner: localStorage.getItem(`chaskiq-banner`) && JSON.parse(localStorage.getItem(`chaskiq-banner`)),
       display_mode: "home", // "conversation", "conversations",
       tours: [],
       open: false,
@@ -562,7 +567,8 @@ class Messenger extends Component {
         this.setState({
           appData: data.messenger.app,
           agents: data.messenger.agents,
-          enabled: data.messenger.enabledForUser
+          enabled: data.messenger.enabledForUser,
+          needsPrivacyConsent: data.messenger.needsPrivacyConsent
         }, ()=>{
           //console.log("subscribe to events")
           cb()
@@ -921,6 +927,25 @@ class Messenger extends Component {
     })
   }
 
+
+  sendConsent = (value)=>{
+    this.graphqlClient.send(PRIVACY_CONSENT, {
+      appKey: this.props.app_id, 
+      consent: value
+    }, {
+      success: (data)=>{
+        const val = data.privacyConsent.status
+        this.ping(()=>{})
+      },
+      error: ()=>{
+      }
+    })
+  }
+
+  updateGdprConsent = (val)=>{
+    this.sendConsent(val)
+  }
+
   submitAppUserData = (data, next_step)=>{
     App.events && App.events.perform('data_submit', data)
   }
@@ -1263,6 +1288,16 @@ class Messenger extends Component {
                                   t={this.props.t}
                                   domain={this.props.domain}
                                   lang={this.props.lang}
+                                />
+                              }
+
+                              {
+                                this.state.needsPrivacyConsent && //&& this.state.gdprContent
+                                <GDPRView 
+                                  app={this.state.appData}
+                                  t={this.props.t}
+                                  confirm={ (e)=> this.updateGdprConsent(true) }
+                                  cancel={ (e)=> this.updateGdprConsent(false) }
                                 />
                               }
 

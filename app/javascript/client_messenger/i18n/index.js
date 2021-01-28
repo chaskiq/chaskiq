@@ -50,7 +50,22 @@ i18n
           'availability.back_from': "we'll back online from {{hours}} hrs",
           'availability.tomorrow_from': "we'll back online tomorrow from {{hours}} hrs",
           'tours.done': 'Done!',
-          invalid: '{{name}} entered is invalid'
+          invalid: '{{name}} entered is invalid',
+          gdpr_title: 'Data protection',
+          gdpr_ok: 'Yes, Accept',
+          gdpr_nok: 'No, not now',
+          gdpr: `
+            <p>
+              Hi there! we at {{name}} love to talk with you.
+              Under the EU General Data Protection Regulation, we need your approval for our use of personal information
+              (e.g your name and email address) you may provide as we communicate:
+            </p>
+            <p>(1) We'll store your personal information so that we can pick up the conversation if  we talk later.</p>
+            <p>(2) We may send you email to follow up on our discussion here.</p>
+            <p>(3) We may send you emails about {{name}} upcoming service and promotions.</p>
+
+            <p>is this okay with you?</p>
+          `
         }
       },
       es: {
@@ -95,7 +110,21 @@ i18n
           'availability.tomorrow_from': 'volveremos a estar en linea mañana desde las {{hours}}hrs',
 
           'tours.done': 'Listo!',
-          invalid: '{{name}} ingresado es inválido'
+          invalid: '{{name}} ingresado es inválido',
+          gdpr_ok: 'Si, Confirmar',
+          gdpr_nok: 'No por ahora',
+          gdpr_title: 'Protección de datos',
+          gdpr: `
+            <p>
+            ¡Hola! en <strong>{{name}}</strong> nos encantará hablar contigo.
+            Según el Reglamento general de protección de datos de la UE, necesitamos su aprobación para nuestro uso de información personal
+            (por ejemplo, su nombre y dirección de correo electrónico) que puede proporcionar cuando nos comunicamos:
+            </p>
+            <p> (1) Almacenaremos su información personal para que podamos retomar la conversación si hablamos más tarde. </p>
+            <p> (2) Es posible que le enviemos un correo electrónico para dar seguimiento a nuestra discusión aquí. </p>
+            <p> (3) Es posible que le enviemos correos electrónicos sobre los próximos servicios y anuncios de <strong>{{name}}</strong>. </p>
+            <p> ¿Te parece bien? </p>
+          `
         }
       }
     },

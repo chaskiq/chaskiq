@@ -223,7 +223,7 @@ describe('Visitor home apps', function () {
     })
   })
 
-  it.only('add package, frame', function () {
+  it('add package, frame', function () {
     cy.appScenario('basic')
 
     addAppPackage('UiCatalog')

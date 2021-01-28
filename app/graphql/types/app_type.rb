@@ -32,7 +32,6 @@ module Types
     field :custom_fields, [Types::JsonType], null: true
     field :app_packages, [Types::AppPackageType], null: true
     field :agent_app_packages, [Types::AppPackageType], null: true
-    field :enable_articles_on_widget, Boolean, null: true
     field :inline_new_conversations, Boolean, null: true
     field :editor_app_packages, [Types::AppPackageType], null: true
     field :follow_action_app_packages, [Types::AppPackageType], null: true
@@ -42,6 +41,8 @@ module Types
     field :inbox_apps, [Types::JsonType], null: true
     field :visitor_home_apps, [Types::JsonType], null: true
     field :plans, [Types::JsonType], null: true
+
+    field :privacy_consent_required, String, null: true
 
     field :plan, Types::JsonType, null: true
 
@@ -183,10 +184,6 @@ module Types
 
     def active_messenger
       ActiveModel::Type::Boolean.new.cast(object.active_messenger)
-    end
-
-    def enable_articles_on_widget
-      ActiveModel::Type::Boolean.new.cast(object.enable_articles_on_widget)
     end
 
     def inline_new_conversations

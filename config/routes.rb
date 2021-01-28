@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 require 'sidekiq/web'
+require 'active_support/security_utils'
 require 'subdomain_routes'
 Rails.application.routes.draw do
   
@@ -23,7 +24,16 @@ Rails.application.routes.draw do
   get :widget, to: 'widgets#show', path: '/embed'
 
   get :show, to: 'api/v1/credentials#show', path: '/api/v1/me'
-  mount Sidekiq::Web => '/sidekiq'
+
+  Sidekiq::Web.use(Rack::Auth::Basic) do |user, password|
+    # Protect against timing attacks:
+    # - See https://codahale.com/a-lesson-in-timing-attacks/
+    # - See https://thisdata.com/blog/timing-attacks-against-string-comparison/
+    # - Use & (do not use &&) so that it doesn't short circuit.
+    # - Use digests to stop length information leaking
+    ActiveSupport::SecurityUtils.secure_compare(user, ENV["ADMIN_EMAIL"]) &
+    ActiveSupport::SecurityUtils.secure_compare(password, ENV["ADMIN_PASSWORD"])
+  end
 
   devise_for :agents, controllers: {
     registrations: 'agents/registrations',

@@ -22,7 +22,6 @@ class App < ApplicationRecord
     outgoing_email_domain
     register_visits
     custom_fields
-    enable_articles_on_widget
     inline_new_conversations
     tag_list
     user_home_apps
@@ -32,6 +31,7 @@ class App < ApplicationRecord
     paddle_subscription_id
     paddle_subscription_plan_id
     paddle_subscription_status
+    privacy_consent_required
   ], coder: JSON
 
   translates :greetings, :intro, :tagline
@@ -119,12 +119,6 @@ class App < ApplicationRecord
 
       {
         name: 'outgoingEmailDomain',
-        type: 'string',
-        grid: { xs: 'w-full', sm: 'w-1/2' }
-      },
-
-      {
-        name: 'enable_articles_on_widget',
         type: 'string',
         grid: { xs: 'w-full', sm: 'w-1/2' }
       },

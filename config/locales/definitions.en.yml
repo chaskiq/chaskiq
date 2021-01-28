@@ -34,6 +34,19 @@ en:
         label: Encryption Key
         placeholder: "Leave it blank for no encryption"
         hint: This key will be used to encrypt and decrypt JWE user data
+
+      privacy_consent_required_ue: 
+        label: Required privacy consent for GDPR
+        hint:  Will show a confirm view for EU countries before establish conversations
+
+      privacy_consent_required_all: 
+        label: Worldwide privacy consent required
+        hint:  Will show a confirm view for All visitors before establish conversations
+
+      privacy_consent_required_none: 
+        label: No privacy consent required
+        hint:  Will not show a confirm view to anyone (not recommended)
+
       active_messenger:
         label: Activate messenger
         hint:  When this is activate the messenger web widget will be activated

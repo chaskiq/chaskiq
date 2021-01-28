@@ -4,6 +4,8 @@ module Types
   class MessengerType < Types::BaseObject
     field :app, Types::AppType, null: true # TODO: danger!
     field :user, Types::JsonType, null: true # Types::AppUserType, null: true
+    field :needs_privacy_consent, Boolean, null: true
+  
     def app
       context[:set_locale].call
       object
@@ -21,6 +23,26 @@ module Types
       # idea. set browser data on redis, update later
       # or perform job here
       context[:get_app_user].call.update(browser_data.compact)
+    end
+
+    def needs_privacy_consent
+      privacy_consent_required = app.privacy_consent_required
+      user_privacy_consent = context[:get_app_user].call.privacy_consent
+      # skip if already consent
+      return false if user_privacy_consent
+      # skip if privacy consent is none
+      return false if privacy_consent_required.blank? || privacy_consent_required == "none" 
+      # privacy consent on
+      return true if privacy_consent_required == "all"
+     
+      if privacy_consent_required == "eu"
+        from_eu = [
+          "DE", "AT", "BE", "BG", "CY", "HR", "DK", "ES", "EE", "FI", "FR", "GR", "HU", "IE",
+          "IT", "LV", "LT", "LU", "MT", "NL", "PL", "PT", "CZ", "RO", "GB", "SK", "SI", "SE"
+        ].include?(context[:request]&.location&.country_code)
+
+        return from_eu
+      end
     end
 
     field :conversations, Types::PaginatedConversationsType, null: true do
