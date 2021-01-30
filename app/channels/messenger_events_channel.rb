@@ -4,9 +4,8 @@ class MessengerEventsChannel < ApplicationCable::Channel
   include UserFinder
 
   def subscribed
-    get_session_data
-
-    stream_from "messenger_events:#{@app.key}-#{@app_user.session_id}"
+    reject unless current_user
+    stream_from "messenger_events:#{self.app.key}-#{self.current_user.session_id}"
   end
 
   def unsubscribed
@@ -14,45 +13,43 @@ class MessengerEventsChannel < ApplicationCable::Channel
   end
 
   def send_message(options)
-    get_session_data
     options.delete('action')
 
-    VisitCollector.new(user: @app_user)
+    VisitCollector.new(user: current_user)
                   .update_browser_data(options)
 
     AppUserEventJob.perform_now(
-      app_key: @app.key,
-      user_id: @app_user.id
+      app_key: app.key,
+      user_id: current_user.id
     )
   end
 
   #### experimental
   def get_banners_for_user()
-    Banner.broadcast_banner_to_user(@app_user)
+    Banner.broadcast_banner_to_user(current_user)
   end
 
   def get_tours_for_user()
-    Tour.broadcast_tour_to_user(@app_user)
+    Tour.broadcast_tour_to_user(current_user)
   end
 
   def get_tasks_for_user()
-    BotTask.broadcast_task_to_user(@app_user)
+    BotTask.broadcast_task_to_user(current_user)
   end
 
   def get_messages_for_user()
-    UserAutoMessage.broadcast_message_to_user(@app_user)
+    UserAutoMessage.broadcast_message_to_user(current_user)
   end
   #####
 
   def rtc_events(data)
-    @app = App.find_by(key: params[:app])
-    @conversation = @app.conversations.find_by(key: data['conversation_id'])
-    key = "messenger_events:#{@app.key}-#{@app_user.session_id}"
-    key2 = "events:#{@app.key}"
+    @conversation = app.conversations.find_by(key: data['conversation_id'])
+    key = "messenger_events:#{app.key}-#{current_user.session_id}"
+    key2 = "events:#{app.key}"
     if data['event_type'] == 'JOIN_ROOM'
       ActionCable.server.broadcast key, {
         type: 'rtc_events',
-        app: @app.key,
+        app: app.key,
         event_type: 'READY',
         conversation_id: @conversation.key
       }
@@ -61,23 +58,22 @@ class MessengerEventsChannel < ApplicationCable::Channel
   end
 
   def receive_conversation_part(data)
-    get_session_data
-    @conversation = @app.conversations.find_by(key: data['conversation_key'])
+    @conversation = app.conversations.find_by(key: data['conversation_key'])
     message = @conversation.messages.find_by(key: data['message_key'])
 
     # if the message was read skip processing
     # this will avoid message duplication
     return if message.read?
 
-    message.read! if message.authorable != @app_user
+    message.read! if message.authorable != current_user
 
     if message.from_bot?
       process_next_step(message)
 
       #### TODO: to be deprecated in favor of app packages
       if data['submit'].present? && message.message&.blocks&.dig('type') == 'data_retrieval'
-        opts = @app.searcheable_fields_list
-        @app_user.update(data['submit'].slice(*opts)) # some condition from settings here?
+        opts = app.searcheable_fields_list
+        current_user.update(data['submit'].slice(*opts)) # some condition from settings here?
         data_submit(data['submit'], message)
       end
       ####
@@ -88,11 +84,10 @@ class MessengerEventsChannel < ApplicationCable::Channel
 
   # from iframes
   def app_package_submit(data)
-    get_session_data
-    @conversation = @app.conversations.find_by(key: data['conversation_key'])
+    @conversation = app.conversations.find_by(key: data['conversation_key'])
     message = @conversation.messages.find_by(key: data['message_key'])
 
-    app_package = @app.app_package_integrations
+    app_package = app.app_package_integrations
                       .joins(:app_package)
                       .find_by(
                         "app_packages.name": data['data']['type'].capitalize
@@ -102,9 +97,9 @@ class MessengerEventsChannel < ApplicationCable::Channel
       kind: 'submit',
       ctx: {
         lang: I18n.locale,
-        app: @app,
+        app: app,
         location: 'messenger',
-        current_user: @app_user,
+        current_user: current_user,
         values: data['data']
       }
     )
@@ -131,8 +126,8 @@ class MessengerEventsChannel < ApplicationCable::Channel
         'step' => message.step_id,
         'trigger' => message.trigger_id
       },
-      app: @app,
-      app_user: @app_user
+      app: app,
+      app_user: current_user
     )
 
     # for factory triggers this is needed, as they are dynamic
@@ -156,7 +151,7 @@ class MessengerEventsChannel < ApplicationCable::Channel
       return
     end
 
-    author = @app.agent_bots.first
+    author = app.agent_bots.first
 
     m = next_step['messages'].first
 
@@ -184,7 +179,6 @@ class MessengerEventsChannel < ApplicationCable::Channel
   end
 
   def handle_follow_actions(path)
-    get_session_data
     follow_actions = path['follow_actions']
     return if follow_actions.blank?
 
@@ -194,11 +188,10 @@ class MessengerEventsChannel < ApplicationCable::Channel
   end
 
   def process_follow_action(action)
-    get_session_data
     case action['key']
     when 'assign'
       # assign_user
-      agent = @app.agents.find(action['value'])
+      agent = app.agents.find(action['value'])
       return if agent.blank?
 
       @conversation.assign_user(agent)
@@ -208,22 +201,19 @@ class MessengerEventsChannel < ApplicationCable::Channel
   end
 
   def data_submit(data, message)
-    get_session_data
     message.message.save_replied(data) if message.message.respond_to?(:save_replied)
   end
 
   def trigger_step(data)
-    get_session_data
-
-    @conversation = @app.conversations.find_by(key: data['conversation_key'])
+    @conversation = app.conversations.find_by(key: data['conversation_key'])
 
     message = @conversation.messages.find_by(key: data['message_key'])
 
-    trigger, path = ActionTriggerFactory.find_task(data: data, app: @app, app_user: @app_user)
+    trigger, path = ActionTriggerFactory.find_task(data: data, app: app, app_user: current_user)
 
     next_step = path['steps'].find { |o| o['step_uid'] == data['step'] }
 
-    author = @app.agent_bots.first
+    author = app.agent_bots.first
 
     m = next_step['messages'].first
 
@@ -247,7 +237,7 @@ class MessengerEventsChannel < ApplicationCable::Channel
 
         if trigger.respond_to?(:register_metric)
           trigger.register_metric(
-            @app_user,
+            current_user,
             data: data['reply'],
             options: {
               message_key: message.key,
@@ -270,73 +260,52 @@ class MessengerEventsChannel < ApplicationCable::Channel
   end
 
   def request_trigger(data)
-    get_session_data
     # AppUserTriggerJob
-    # .set(wait_until: @app_user.delay_for_trigger)
+    # .set(wait_until: current_user.delay_for_trigger)
     # .perform_later({
 
     AppUserTriggerJob
       .perform_now(
-        app_key: @app.key,
-        user_id: @app_user.id,
+        app_key: app.key,
+        user_id: current_user.id,
         conversation: data['conversation'],
         trigger_id: data['trigger']
       )
   end
 
   def track_open(data)
-    get_session_data
-
-    @app_user.track_open(
+    current_user.track_open(
       trackable_id: data['trackable_id'],
       trackable_type: 'Message'
     )
   end
 
   def track_close(data)
-    get_session_data
-
-    @app_user.track_close(
+    current_user.track_close(
       trackable_id: data['trackable_id'],
       trackable_type: 'Message'
     )
   end
 
   def track_click(data)
-    get_session_data
-    @app_user.track_click(
+    current_user.track_click(
       trackable_id: data['trackable_id'],
       trackable_type: 'Message'
     )
   end
 
   def track_tour_finished(data)
-    get_session_data
-    @app_user.track_finish(
+    current_user.track_finish(
       trackable_id: data['trackable_id'],
       trackable_type: 'Message'
     )
   end
 
   def track_tour_skipped(data)
-    get_session_data
-    @app_user.track_skip(
+    current_user.track_skip(
       trackable_id: data['trackable_id'],
       trackable_type: 'Message'
     )
   end
 
-  private
-
-  def get_session_data
-    @app = App.find_by(key: params[:app])
-
-    OriginValidator.new(
-      app: @app.domain_url,
-      host: connection.env['HTTP_ORIGIN']
-    ).is_valid?
-
-    get_user_data
-    find_user
-  end
 end

@@ -169,7 +169,9 @@ class Messenger extends Component {
     })
 
     App = {
-      cable: actioncable.createConsumer(`${this.props.ws}`)
+      cable: actioncable.createConsumer(
+        `${this.props.ws}?enc=${this.props.encData}&app=${this.props.app_id}`
+      )
     }
 
     this.overflow = null
