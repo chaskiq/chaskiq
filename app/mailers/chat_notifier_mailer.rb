@@ -27,6 +27,7 @@ class ChatNotifierMailer < ApplicationMailer
                 end
 
     return if recipient.blank?
+    return if recipient.is_a?(AppUser) && recipient.unsubscribed?
 
     @user_id = recipient.id
 
