@@ -98,7 +98,6 @@ class Messenger extends Component {
       availableMessages: [],
       availableMessage: null,
       needsPrivacyConsent: null,
-      //gdprContent: localStorage.getItem(`chaskiq-consent`) && JSON.parse(localStorage.getItem(`chaskiq-consent`)),
       banner: localStorage.getItem(`chaskiq-banner`) && JSON.parse(localStorage.getItem(`chaskiq-banner`)),
       display_mode: "home", // "conversation", "conversations",
       tours: [],

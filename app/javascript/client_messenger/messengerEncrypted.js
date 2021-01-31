@@ -28,7 +28,6 @@ export default class ChaskiqMessengerEncrypted {
       // cookie rename, if we wet an old cookie update to new format and expire it
       const oldCookie = getCookie('chaskiq_session_id')
       if (getCookie('chaskiq_session_id')) {
-        console.log('old cookie', oldCookie)
         this.checkCookie(oldCookie) // will append a appkey
         deleteCookie('chaskiq_session_id')
       }
