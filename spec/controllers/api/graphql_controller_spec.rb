@@ -17,6 +17,21 @@ RSpec.describe Api::GraphqlController, type: :controller do
        } }
   end
 
+  let!(:agent_role) do
+    app.add_agent({email: 'test2@test.cl'})
+  end
+
+  let(:app_user) do
+    app.add_user(email: 'test@test.cl', first_name: 'dsdsa')
+  end
+
+  let(:conversation) do
+    app.start_conversation(
+      message: { html_content: 'message' },
+      from: app_user
+    )
+  end
+
   before do
     file = Rails.root + 'app/javascript/client_messenger/graphql/testEntry.mjs'
     GraphQL::TestClient.configure(file)
@@ -95,7 +110,6 @@ RSpec.describe Api::GraphqlController, type: :controller do
       expect(app_user.lat).to be_nil
       expect(app_user.lng).to be_nil
     end
-
   end
 
   describe 'other domain registered user' do
@@ -213,7 +227,7 @@ RSpec.describe Api::GraphqlController, type: :controller do
       }"
 
       graphql_raw_post(raw: q, variables: {})
-      expect(graphql_response.data.messenger.app.encryptionKey).to be_blank
+      expect(graphql_response.errors).to be_present
     end
 
     it 'get agents' do
@@ -296,8 +310,7 @@ RSpec.describe Api::GraphqlController, type: :controller do
       q = "query Messenger{
         messenger {
           user
-
-          conversations(){
+          conversations{
             collection{
               id
               key
@@ -320,5 +333,39 @@ RSpec.describe Api::GraphqlController, type: :controller do
 
       expect(graphql_response.errors).to be_present
     end
+
+
+    describe 'app access' do
+      
+      before :each do
+        app.start_conversation(
+          message: { text_content: 'aa' },
+          from: app.app_users.first
+        )
+      end
+
+      it "messenger" do
+        q = "query Messenger{
+          messenger {
+            user
+            app {
+              key
+              agents {
+                conversations{
+                  collection{
+                    key
+                  }
+                }
+              }
+            }
+          }
+        }"
+
+        graphql_raw_post(raw: q)
+        puts graphql_response.errors
+        expect(graphql_response.errors).to be_present
+      end
+    end
+
   end
 end

@@ -94,20 +94,47 @@ class AppSettingsContainer extends Component {
     this.setState({ tabValue: i });
   };
 
+  definitionsForPrivacy = () =>{
+    return [
+
+      {
+        name: "privacyConsentRequired",
+        label: I18n.t('definitions.settings.privacy_consent_required_ue.label'),
+        hint: I18n.t('definitions.settings.privacy_consent_required_ue.hint'),
+        value: "ue",
+        type: "radio",
+        defaultChecked: this.props.app.privacyConsentRequired === 'ue',
+        grid: { xs: "w-full", sm: "w-full" },
+      },
+
+      {
+        name: "privacyConsentRequired",
+        label: I18n.t('definitions.settings.privacy_consent_required_all.label'),
+        hint: I18n.t('definitions.settings.privacy_consent_required_all.hint'),
+        type: "radio",
+        value: "all",
+        defaultChecked: this.props.app.privacyConsentRequired === 'all',
+        grid: { xs: "w-full", sm: "w-full" },
+      },
+
+      {
+        name: "privacyConsentRequired",
+        label: I18n.t('definitions.settings.privacy_consent_required_none.label'),
+        hint: I18n.t('definitions.settings.privacy_consent_required_none.hint'),
+        type: "radio",
+        value: "none",
+        defaultChecked: this.props.app.privacyConsentRequired === '',
+        grid: { xs: "w-full", sm: "w-full" },
+      }
+    ]
+  }
+
   definitionsForAppearance = () => {
     return [
       {
         name: "activeMessenger",
         label: I18n.t('definitions.settings.active_messenger.label'),
         hint: I18n.t('definitions.settings.active_messenger.hint'),
-        type: "bool",
-        grid: { xs: "w-full", sm: "w-full" },
-      },
-
-      {
-        name: "enableArticlesOnWidget",
-        label: I18n.t('definitions.settings.enable_articles.label'),
-        hint: I18n.t('definitions.settings.enable_articles.hint'),
         type: "bool",
         grid: { xs: "w-full", sm: "w-full" },
       },
@@ -184,6 +211,22 @@ class AppSettingsContainer extends Component {
                 update={this.update}
                 namespace={"app"}
                 fields={["locale", "greetings", "intro", "tagline"]}
+              />
+            ),
+          },
+
+          {
+            label: I18n.t("settings.app.privacy"),
+            content: (
+              <SettingsForm
+                title={I18n.t("settings.app.privacy_title")}
+                currentUser={this.props.currentUser}
+                data={this.props.app}
+                update={this.update.bind(this)}
+                fetchApp={this.fetchApp}
+                classes={this.props.classes}
+                definitions={this.definitionsForPrivacy}
+                {...this.props}
               />
             ),
           },

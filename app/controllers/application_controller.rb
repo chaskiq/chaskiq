@@ -33,11 +33,16 @@ class ApplicationController < ActionController::Base
     {}
   end
 
+  def cookie_namespace
+    "chaskiq_session_id_#{@app.key.gsub("-", "")}".to_sym
+  end
+
   def package_iframe
 
     data = JSON.parse(params[:data])
 
     app = App.find_by(key: data["data"]["app_id"])
+    @app = app
     key = app.encryption_key
 
     url_base = data['data']['field']['action']['url']
@@ -56,12 +61,12 @@ class ApplicationController < ActionController::Base
         app_user = app.app_users.users.find_by(email: user_data[:email])
       else
         app_user = app.app_users.find_by(
-          session_id: cookies[:chaskiq_session_id]
+          session_id: cookies[cookie_namespace]
         )
       end
     rescue 
       app_user = app.app_users.find_by(
-        session_id: cookies[:chaskiq_session_id]
+        session_id: cookies[cookie_namespace]
       )
     end
 

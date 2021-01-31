@@ -29,7 +29,7 @@ module Types
     field :full_name, String, null: true
     field :name, String, null: true
 
-    field :app, [Types::AppType], null: true
+    # field :app, [Types::AppType], null: true
     field :online, Boolean, null: true
 
     field :avatar_url, String, null: true

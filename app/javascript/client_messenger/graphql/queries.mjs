@@ -12,12 +12,14 @@ export const PING = `
     messenger {
       enabledForUser
       updateData
+      needsPrivacyConsent
       app{
         greetings
         intro
         tagline
+        name
         activeMessenger
-        enableArticlesOnWidget
+        privacyConsentRequired
         inlineNewConversations
         inBusinessHours
         leadTasksSettings
@@ -49,6 +51,14 @@ export const PING = `
 export const CONVERT = `
   mutation ConvertUser($appKey: String!, $email: String!){
     convertUser(appKey: $appKey, email: $email){
+      status
+    }
+  }
+`;
+
+export const PRIVACY_CONSENT = `
+  mutation PrivacyConsent($appKey: String!, $consent: Boolean!){
+    privacyConsent(appKey: $appKey, consent: $consent){
       status
     }
   }
