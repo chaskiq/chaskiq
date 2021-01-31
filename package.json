@@ -85,7 +85,7 @@
     "simple-peer": "^9.7.0",
     "styled-components": "4.3.2",
     "tailwindcss": "npm:@tailwindcss/postcss7-compat",
-    "twin.macro": "^1.8.0",
+    "twin.macro": "^2.1.1",
     "ua-parser-js": "^0.7.20",
     "url-pattern": "^1.0.3",
     "webpack-bundle-analyzer": "^3.6.0",

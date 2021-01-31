@@ -107,7 +107,6 @@ key
 name
 preferences
 logo
-enableArticlesOnWidget
 inlineNewConversations
 timezone
 domainUrl
@@ -132,6 +131,7 @@ subscriptionsEnabled
 userHomeApps
 visitorHomeApps
 inboxApps
+privacyConsentRequired
 segments {
   name
   id

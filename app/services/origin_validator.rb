@@ -15,6 +15,7 @@ class OriginValidator
   def is_valid?
     
     return true if @app.blank?
+    return true if @app == "*"
 
     raise NonAcceptedOrigin if @app.split(",").map{ |domain|
       validate_domain(domain)

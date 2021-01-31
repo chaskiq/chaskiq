@@ -18,7 +18,7 @@ class ApiController < ActionController::API
         app_user = get_user_by_email || @app.add_user(email: @user_data[:email])
         merge_user_data(app_user)
         app_user.update(
-          properties: @user_data[:properties],
+          properties: app_user.properties.merge(@user_data[:properties]),
           lang: I18n.locale
         )
       else
@@ -84,8 +84,12 @@ class ApiController < ActionController::API
     u = @app.add_anonymous_user(options)
   end
 
+
+  class EULocationError < StandardError; end
+
   def get_app_user
     valid_origin?
+    #raise EULocationError.new("GDPR consent needed") if eu_location?
     @app_user ||= get_user_by_email || get_user_by_session
   end
 
@@ -100,6 +104,14 @@ class ApiController < ActionController::API
       app: @app.domain_url,
       host: request.env['HTTP_ORIGIN']
     ).is_valid?
+  end
+
+  def eu_location?
+    return true
+    eu_countries = [
+      "DE", "AT", "BE", "BG", "CY", "HR", "DK", "ES", "EE", "FI", "FR", "GR", "HU", "IE",
+      "IT", "LV", "LT", "LU", "MT", "NL", "PL", "PT", "CZ", "RO", "GB", "SK", "SI", "SE"
+    ].include?(request.location&.country_code)
   end
 
   def get_user_by_session

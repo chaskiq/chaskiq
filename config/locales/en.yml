@@ -307,6 +307,8 @@ en:
       security: Security
       appearance: Appearance
       appearance_title: Appearance settings
+      privacy: Privacy
+      privacy_title: Privacy settings
       translations: Translations
       availability: Availability
       email_requirement: Email Requirement

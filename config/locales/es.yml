@@ -299,6 +299,8 @@
         security: Seguridad
         appearance: Apariencia
         appearance_title: Configuración de la apariencia
+        privacy: Privacidad
+        privacy_title: Configuración de privacidad
         translations: Traducciones
         availability: Disponibilidad
         email_requirement: Requisito de correo electrónico

@@ -49,10 +49,6 @@ import { toggleDrawer } from '../actions/drawer'
 import UserProfileCard from '../components/UserProfileCard'
 import LoadingView from '../components/loadingView'
 
-const CableApp = {
-  cable: actioncable.createConsumer(window.ws_cable_url)
-}
-
 function AppContainer ({
   match,
   dispatch,
@@ -62,8 +58,14 @@ function AppContainer ({
   drawer,
   app_user,
   loading,
-  upgradePages
+  upgradePages,
+  accessToken
 }) {
+
+  const CableApp = {
+    cable: actioncable.createConsumer(`/cable?token=${accessToken}`)
+  }
+
   React.useEffect(() => {
     dispatch(getCurrentUser())
     fetchApp(() => {
@@ -320,7 +322,7 @@ function mapStateToProps (state) {
     paddleSubscription,
     upgradePages
   } = state
-  const { loading, isAuthenticated } = auth
+  const { loading, isAuthenticated, accessToken } = auth
   const { current_section } = navigation
   return {
     segment,
@@ -333,7 +335,8 @@ function mapStateToProps (state) {
     current_section,
     drawer,
     paddleSubscription,
-    upgradePages
+    upgradePages,
+    accessToken
   }
 }
 

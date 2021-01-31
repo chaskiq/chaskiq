@@ -10,7 +10,7 @@ module.exports = {
     //config: 'tailwind.config.js',
     config: './app/javascript/src/styles/tailwind.js',
     preset: 'emotion',
-    debugProp: true,
+    dataTwProp: true,
     debugPlugins: false,
     debug: false,
   },

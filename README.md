@@ -46,6 +46,7 @@
 - Help Center system with multilanguage support
 - API support - consumible via GrapqhQL with Oauth authorization
 - Quick replies (as canned responses)
+- Configurable Data protection (GDPR) consent
 
 And many features to come
 

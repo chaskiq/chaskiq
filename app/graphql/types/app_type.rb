@@ -1,48 +1,27 @@
 # frozen_string_literal: true
 
 module Types
-  class AppType < Types::BaseObject
-    field :key, String, null: true
-    field :name, String, null: true
+  class AppType < Types::PublicAppType
     field :state, String, null: true
-    field :tagline, String, null: true
-    field :domain_url, String, null: true
-    field :active_messenger, Boolean, null: true
     field :timezone, String, null: true
-    field :theme, String, null: true
     field :config_fields, Types::JsonType, null: true
     field :preferences, Types::JsonType, null: true
     field :app_users, [Types::AppUserType], null: true
-    field :customization_colors, Types::JsonType, null: true
-    # field :triggers, Types::JsonType, null: true
     field :team_schedule, Types::JsonType, null: true
-    field :reply_time, String, null: true
-    field :inbound_settings, Types::JsonType, null: true
-    field :email_requirement, String, null: true
-    field :greetings, String, null: true
-    field :intro, String, null: true
-    field :tagline, String, null: true
-    field :user_tasks_settings, Types::JsonType, null: true
-    field :lead_tasks_settings, Types::JsonType, null: true
     field :gather_social_data, Boolean, null: true
     field :register_visits, Boolean, null: true
     field :translations, [Types::JsonType], null: true
-    field :available_languages, [Types::JsonType], null: true
     field :outgoing_email_domain, String, null: true
     field :custom_fields, [Types::JsonType], null: true
     field :app_packages, [Types::AppPackageType], null: true
     field :agent_app_packages, [Types::AppPackageType], null: true
-    field :enable_articles_on_widget, Boolean, null: true
-    field :inline_new_conversations, Boolean, null: true
     field :editor_app_packages, [Types::AppPackageType], null: true
     field :follow_action_app_packages, [Types::AppPackageType], null: true
     field :tag_list, [Types::JsonType], null: true
     field :user_home_apps, [Types::JsonType], null: true
-    field :home_apps, [Types::JsonType], null: true
     field :inbox_apps, [Types::JsonType], null: true
     field :visitor_home_apps, [Types::JsonType], null: true
     field :plans, [Types::JsonType], null: true
-
     field :plan, Types::JsonType, null: true
 
     def outgoing_email_domain
@@ -56,12 +35,6 @@ module Types
 
     def inbox_apps
       object.inbox_apps.blank? ? object.default_home_apps : object.inbox_apps
-    end
-
-    def home_apps
-      return object.visitor_home_apps if current_user.is_a?(Visitor)
-
-      object.user_home_apps
     end
 
     def plans
@@ -114,8 +87,6 @@ module Types
     field :event_types, [Types::JsonType], null: true
     field :outgoing_webhooks, [Types::JsonType], null: true
 
-    field :searcheable_fields, [Types::JsonType], null: true
-
     def outgoing_webhooks
       #object.plan.allow_feature!('OutgoingWebhooks')
       authorize! object, to: :manage?, with: AppPolicy
@@ -131,18 +102,6 @@ module Types
       object.app_packages.tagged_with('editor')
             .joins(:app_package_integrations)
             .where('app_package_integrations.id is not null').uniq
-    end
-
-    field :app_package, Types::AppPackageIntegrationType, null: true do
-      argument :id, String, required: true, default_value: ''
-    end
-
-    def app_package(id:)
-      # object.app_package_integrations.find(id)
-      # object.app_packages.find_by(name: id)
-      object.app_package_integrations
-            .joins(:app_package)
-            .find_by("app_packages.name": id)
     end
 
     field :agent_app_package, Types::AppPackageType, null: true do
@@ -181,18 +140,6 @@ module Types
       ActiveModel::Type::Boolean.new.cast(object.register_visits)
     end
 
-    def active_messenger
-      ActiveModel::Type::Boolean.new.cast(object.active_messenger)
-    end
-
-    def enable_articles_on_widget
-      ActiveModel::Type::Boolean.new.cast(object.enable_articles_on_widget)
-    end
-
-    def inline_new_conversations
-      ActiveModel::Type::Boolean.new.cast(object.inline_new_conversations)
-    end
-
     def app_packages
       authorize! object, to: :manage?, with: AppPolicy
       integrations = object.app_package_integrations.map(&:app_package_id)
@@ -221,21 +168,6 @@ module Types
     def encryption_key
       # authorize! object, to: :manage?, with: AppPolicy
       object.encryption_key unless context[:from_api]
-    end
-
-    field :tasks_settings, Types::JsonType, null: true
-
-    def tasks_settings
-      if context[:get_app_user].call.is_a?(AppUser)
-        object.user_tasks_settings
-      else
-        object.lead_tasks_settings
-      end
-    end
-
-    def available_languages
-      authorize! object, to: :show?, with: AppPolicy
-      object.translations.map(&:locale)
     end
 
     field :conversations, Types::PaginatedConversationsType, null: true do
@@ -308,18 +240,6 @@ module Types
       object.conversations.tag_counts.map do |o|
         { tag: o.name, count: o.taggings_count }
       end
-    end
-
-    field :in_business_hours, Boolean, null: true
-
-    def in_business_hours
-      object.in_business_hours?(Time.current)
-    end
-
-    field :business_back_in, Types::JsonType, null: true
-
-    def business_back_in
-      object.business_back_in(Time.current)
     end
 
     field :conversation, Types::ConversationType, null: true do
@@ -448,13 +368,6 @@ module Types
       object.quick_replies.find(id)
     end
 
-    field :article_settings, Types::ArticleSettingsType, null: true
-
-    def article_settings
-      #object.plan.allow_feature!('Articles')
-      object.article_settings.blank? ? object.build_article_settings : object.article_settings
-    end
-
     field :articles, Types::PaginatedArticlesType, null: true do
       argument :page, Integer, required: true
       argument :per, Integer, required: false, default_value: 20
@@ -581,47 +494,6 @@ module Types
     field :dashboard, Types::JsonType, null: true do
       argument :range, Types::JsonType, required: true
       argument :kind,  String, required: true
-    end
-
-    field :logo, String, null: true
-    field :logo_large, String, null: true
-
-    def logo
-      default_logo = 'https://via.placeholder.com/100x100/000000/FFFFFF/?text=Logo'
-      return default_logo unless object.logo_blob.present?
-
-      url = begin
-        object.logo.variant(resize_to_limit: [100, 100]).processed
-      rescue StandardError
-        nil
-      end
-      return nil if url.blank?
-
-      begin
-        Rails.application.routes.url_helpers.rails_representation_url(
-          url # ,
-          # only_path: true
-        )
-      rescue StandardError
-        nil
-      end
-    end
-
-    def logo_large
-      options = {
-        resize: '1280x600^',
-        gravity: 'center',
-        crop: '1280x600+0+0',
-        strip: true,
-        quality: '86'
-      }
-
-      return '' unless object.logo_blob.present?
-
-      Rails.application.routes.url_helpers.rails_representation_url(
-        object.logo.variant(options).processed,
-        only_path: true
-      )
     end
 
     # OAUTH

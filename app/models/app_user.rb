@@ -102,7 +102,8 @@ class AppUser < ApplicationRecord
     :job_title,
     :phone,
     :company_name,
-    :company_size
+    :company_size,
+    :privacy_consent
   ]
 
   store_accessor :properties, ACCESSOR_PROPERTIES

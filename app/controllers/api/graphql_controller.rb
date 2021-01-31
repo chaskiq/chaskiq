@@ -53,6 +53,15 @@ class Api::GraphqlController < ApiController
       }]
     }, status: 422
     # GraphQL::ExecutionError.new "Validation failed: #{error_messages}."
+
+  rescue EULocationError => e
+
+    render json: {
+      errors: [{
+        message: e.message,
+        data: {}
+      }]
+    }, status: 422
   rescue StandardError => e
     # GraphQL::ExecutionError.new e.message
     # raise e unless Rails.env.development?

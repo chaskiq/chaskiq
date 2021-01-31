@@ -55,10 +55,10 @@ export default class SettingsForm extends Component {
           </p>
 
           <div className="flex flex-wrap">
-            {this.props.definitions().map((field) => {
+            {this.props.definitions().map((field, index) => {
               return (
                 <div
-                  key={`field-${field.name}`}
+                  key={`field-${field.name}-${index}`}
                   className={`${gridClasses(field)} py-2 pr-2`}
                   {...field.gridProps}
                 >

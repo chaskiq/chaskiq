@@ -7,6 +7,7 @@ class EventsChannel < ApplicationCable::Channel
     # @app_user = @app.agents.find_by(email: @user_data[:email])
   end
 
+
   def unsubscribed
     # Any cleanup needed when channel is unsubscribed
   end

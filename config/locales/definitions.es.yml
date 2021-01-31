@@ -126,6 +126,20 @@
         active_messenger:
           label: Activar messenger
           hint: Cuando esto esté activado, se activará el widget web de Messenger
+
+
+        privacy_consent_required_ue:
+          etiqueta: Consentimiento de privacidad requerido para GDPR
+          pista: Se mostrará una vista de confirmación para los países de la UE antes de establecer conversaciones
+
+        privacy_consent_required_all:
+          etiqueta: Requerir consentimiento de privacidad a todo el mundo
+          pista: Se Mostrará una vista de confirmación para todos los visitantes antes de establecer conversaciones
+
+        privacy_consent_required_none:
+          etiqueta: No se requiere consentimiento de privacidad
+          pista: No se mostrará una vista de confirmación a ninguna persona
+
         domain:
           label: URL de dominio
           hint: Este será el sitio anfitrión donde se usará chaskiq

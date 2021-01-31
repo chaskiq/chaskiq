@@ -62,55 +62,6 @@ function ContactManager ({ app, current_user, dispatch }) {
 
   const formRef = React.useRef()
 
-  function formDefinitions () {
-    return [
-
-      {
-        id: 'import-user',
-        name: 'import_type',
-        type: 'radio',
-        label: 'import user',
-        value: 'user'
-      },
-
-      {
-        id: 'import-lead',
-        name: 'import_type',
-        type: 'radio',
-        label: 'import lead',
-        value: 'lead'
-      },
-
-      {
-        name: 'csv',
-        type: 'upload',
-        accept: '.csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel',
-        handler: (file) => uploadHandler(file, 'csv'),
-        grid: { xs: 'w-full', sm: 'w-1/3' }
-      }
-    ]
-  };
-
-  function formDefinitionsForUser () {
-    return [
-      {
-        name: 'activeMessenger',
-        label: I18n.t('definitions.settings.active_messenger.label'),
-        hint: I18n.t('definitions.settings.active_messenger.hint'),
-        type: 'bool',
-        grid: { xs: 'w-full', sm: 'w-full' }
-      },
-
-      {
-        name: 'enableArticlesOnWidget',
-        label: I18n.t('definitions.settings.enable_articles.label'),
-        hint: I18n.t('definitions.settings.enable_articles.hint'),
-        type: 'bool',
-        grid: { xs: 'w-full', sm: 'w-full' }
-      }
-    ]
-  }
-
   function submitHandler (e) {
     console.log('sends:;', enableForm)
 
