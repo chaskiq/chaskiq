@@ -40,12 +40,16 @@ module Types
 
     field :properties, Types::JsonType, null: true
 
-    field :conversations, type: Types::PaginatedConversationsType, null: true do
+    field :conversations, 
+      type: Types::PaginatedConversationsType, 
+      null: true do
       argument :page, Integer, required: false, default_value: 1
       argument :per, Integer, required: false, default_value: 20
     end
 
     def conversations(page:, per:)
+      authorize! object, to: :update_agent?, with: AppPolicy
+
       object.conversations.page(page).per(per)
     end
 
@@ -59,7 +63,10 @@ module Types
       ).send(kind)
     end
 
-    field :dashboard, Types::JsonType, null: true do
+    field :dashboard, 
+      Types::JsonType, 
+      null: true, 
+      authorized_scope: {with: AppPolicy} do
       argument :range, Types::JsonType, required: true
       argument :kind,  String, required: true
     end

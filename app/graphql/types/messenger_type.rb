@@ -2,7 +2,7 @@
 
 module Types
   class MessengerType < Types::BaseObject
-    field :app, Types::AppType, null: true # TODO: danger!
+    field :app, Types::PublicAppType, null: true
     field :user, Types::JsonType, null: true # Types::AppUserType, null: true
     field :needs_privacy_consent, Boolean, null: true
   
