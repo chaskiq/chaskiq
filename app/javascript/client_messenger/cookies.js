@@ -31,7 +31,12 @@ export function getCookie(cname) {
 }
 
 export function deleteCookie(name) {
-  document.cookie = name +'=; Path=/; Expires=Thu, 01 Jan 1970 00:00:01 GMT;'
+  //document.cookie = "username=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+
+  const cookieString = `${name}=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/; domain=.${getDomainName(window.location.hostname)};`
+  console.log(getDomainName(window.location.hostname))
+  console.log(cookieString)
+  document.cookie = cookieString
 };
 
 /*

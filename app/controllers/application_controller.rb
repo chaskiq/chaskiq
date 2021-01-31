@@ -56,13 +56,17 @@ class ApplicationController < ActionController::Base
         app_user = app.app_users.users.find_by(email: user_data[:email])
       else
         app_user = app.app_users.find_by(
-          session_id: cookies[:chaskiq_session_id]
+          session_id: cookies[cookie_namespace]
         )
       end
     rescue 
       app_user = app.app_users.find_by(
-        session_id: cookies[:chaskiq_session_id]
+        session_id: cookies[cookie_namespace]
       )
+    end
+
+    def cookie_namespace
+      "chaskiq_session_id_#{app.key.gsub("-", "")}".to_sym
     end
 
     app_user.as_json(methods: %i[

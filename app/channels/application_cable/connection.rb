@@ -73,7 +73,11 @@ module ApplicationCable
     end
 
     def get_user_by_session
-      @app.app_users.find_by(session_id: cookies["chaskiq_session_id"])
+      @app.app_users.find_by(session_id: cookies[cookie_namespace])
+    end
+
+    def cookie_namespace
+      "chaskiq_session_id_#{@app.key.gsub("-", "")}".to_sym
     end
 
   end

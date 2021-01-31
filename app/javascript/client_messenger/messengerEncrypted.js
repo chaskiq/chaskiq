@@ -18,12 +18,25 @@ export default class ChaskiqMessengerEncrypted {
       properties: this.props.properties
     }
 
+    this.cookieNamespace = () => {
+      // old app keys have hypens, we get rid of this
+      const app_id = this.props.app_id.replace("-", "")
+      return `chaskiq_session_id_${app_id}`
+    }
+
     this.getSession = () => {
-      return getCookie('chaskiq_session_id') || ''
+      // cookie rename, if we wet an old cookie update to new format and expire it
+      const oldCookie = getCookie('chaskiq_session_id')
+      if (getCookie('chaskiq_session_id')) {
+        console.log('old cookie', oldCookie)
+        this.checkCookie(oldCookie) // will append a appkey
+        deleteCookie('chaskiq_session_id')
+      }
+      return getCookie(this.cookieNamespace()) || ''
     }
 
     this.checkCookie = (val) => {
-      setCookie('chaskiq_session_id', val, 365)
+      setCookie(this.cookieNamespace(), val, 365)
     }
 
     this.defaultHeaders = {
@@ -48,7 +61,7 @@ export default class ChaskiqMessengerEncrypted {
         if (user.session_id) {
           this.checkCookie(user.session_id)
         } else {
-          deleteCookie('chaskiq_session_id')
+          deleteCookie(this.cookieNamespace())
         }
 
         const messenger = new ChaskiqMessenger(
@@ -70,7 +83,7 @@ export default class ChaskiqMessengerEncrypted {
       }
     })
 
-    this.unload = ()=> {
+    this.unload = () => {
       this.sendCommand('unload', {})
     }
 
