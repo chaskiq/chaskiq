@@ -18,6 +18,7 @@ module ApplicationHelper
     app_key = ENV['SUPPORT_APP_KEY']
     return if app_key.blank?
     support_app = App.find_by(key: app_key)
+    return if support_app.blank?
     key = support_app.encryption_key
     json_payload = {}
 
