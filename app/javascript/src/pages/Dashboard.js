@@ -308,9 +308,9 @@ function DashboardAppPackage (props) {
 
       <div className="flex">
         {data.values &&
-          data.values.map((v) => {
+          data.values.map((v, i) => {
             return (
-              <div className="w-1/4">
+              <div className="w-1/4" key={`count-${i}`}>
                 <Count
                   data={v.value}
                   from={dashboard.from}

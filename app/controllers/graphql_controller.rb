@@ -89,8 +89,7 @@ class GraphqlController < ApplicationController
 
   def api_authorize!
     resource = current_resource_owner
-    raise OauthExeption.new('Message, message, message', 'Yup') unless resource
-
+    raise OauthExeption.new('Oauth Exception!') unless resource
     # doorkeeper_authorize!
     resource
   end
