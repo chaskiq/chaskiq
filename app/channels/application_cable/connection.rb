@@ -35,15 +35,15 @@ module ApplicationCable
       self.app = @app
 
       if self.app.blank?
-        Bugsnag.notify("error getting session data") do |report|
-          report.add_tab(
-            :context,
-            {
-              origin: env['HTTP_ORIGIN'],
-              params: params
-            }
-          )
-        end
+        # Bugsnag.notify("error getting session data") do |report|
+        #   report.add_tab(
+        #     :context,
+        #     {
+        #       origin: env['HTTP_ORIGIN'],
+        #       params: params
+        #     }
+        #   )
+        # end
         return 
       end
 
@@ -84,6 +84,12 @@ module ApplicationCable
     rescue StandardError
       nil
     end
+
+    #def get_by_old_cookie
+    #  if old_cookie = cookies['chaskiq_session_id'] and old_cookie.present?
+    #    AppUser.find_by(session_id: old_cookie)
+    #  end
+    #end
 
     def get_user_by_session
       @app.app_users.find_by(session_id: cookies[cookie_namespace])

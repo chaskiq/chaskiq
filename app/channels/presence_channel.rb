@@ -15,15 +15,15 @@ class PresenceChannel < ApplicationCable::Channel
   end
 
   def pingback
-    notify_error("pingback error") if current_user.blank?
+    # notify_error("pingback error") if current_user.blank?
     current_user.online! if current_user&.offline?
   end
 
   def offline
-    notify_error("offlinize error") if current_user.blank?
-    puts "subs #{Redis.new.pubsub('CHANNELS', @key).size}"
+    # notify_error("offlinize error") if current_user.blank?
+    # puts "subs #{Redis.new.pubsub('CHANNELS', @key).size}"
     current_user&.offline!
-    # if Redis.new.pubsub("CHANNELS", @key).size == 1 && current_user.online?
+    ### if Redis.new.pubsub("CHANNELS", @key).size == 1 && current_user.online?
   end
 
   def notify_error(err)
