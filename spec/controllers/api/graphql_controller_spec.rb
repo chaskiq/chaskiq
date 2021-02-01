@@ -18,7 +18,10 @@ RSpec.describe Api::GraphqlController, type: :controller do
   end
 
   let!(:agent_role) do
-    app.add_agent({email: 'test2@test.cl'})
+    app.add_agent(
+      email: 'test2@test.cl',
+      available: true
+    )
   end
 
   let(:app_user) do
@@ -282,7 +285,6 @@ RSpec.describe Api::GraphqlController, type: :controller do
     end
 
     it 'secure on agents' do
-      
       q = "query Messenger{
         messenger {
           user
@@ -296,7 +298,6 @@ RSpec.describe Api::GraphqlController, type: :controller do
       }"
 
       graphql_raw_post(raw: q, variables: {})
-
       expect(graphql_response.errors).to be_present
     end
 
@@ -334,7 +335,6 @@ RSpec.describe Api::GraphqlController, type: :controller do
       expect(graphql_response.errors).to be_present
     end
 
-
     describe 'app access' do
       
       before :each do
@@ -342,6 +342,7 @@ RSpec.describe Api::GraphqlController, type: :controller do
           message: { text_content: 'aa' },
           from: app.app_users.first
         )
+        agent_role
       end
 
       it "messenger" do
@@ -365,6 +366,49 @@ RSpec.describe Api::GraphqlController, type: :controller do
         puts graphql_response.errors
         expect(graphql_response.errors).to be_present
       end
+
+      it "messenger" do
+        q = "query Messenger{
+          messenger {
+            user
+            agents {
+              conversations{
+                collection{
+                  key
+                }
+              }
+            }
+            app {
+              key
+            }
+          }
+        }"
+
+        graphql_raw_post(raw: q)
+        binding.pry
+        puts graphql_response.errors
+        expect(graphql_response.errors).to be_present
+      end
+
+      it "messenger" do
+        q = "query Messenger{
+          messenger {
+            user
+            agents {
+              email
+            }
+            app {
+              key
+            }
+          }
+        }"
+
+        graphql_raw_post(raw: q)
+        binding.pry
+        puts graphql_response.errors
+        expect(graphql_response.errors).to be_present
+      end
+
     end
 
   end

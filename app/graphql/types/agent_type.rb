@@ -3,7 +3,7 @@
 module Types
   class AgentType < Types::BaseObject
     field :id, Int, null: false
-    field :email, String, null: true
+    field :email, String, null: true, authorize: {to: :agent_only?, with: AppPolicy}
     # field :user, [Types::UserType], null: true
     field :name, String, null: true
     field :first_name, String, null: true
@@ -28,7 +28,6 @@ module Types
     end
 
     field :offline, Boolean, null: true
-
     field :sign_in_count, String, null: true
     field :last_sign_in_at, String, null: true
     field :invitation_accepted_at, String, null: true
@@ -48,8 +47,7 @@ module Types
     end
 
     def conversations(page:, per:)
-      authorize! object, to: :update_agent?, with: AppPolicy
-
+      authorize! object, to: :agent_only?, with: AppPolicy
       object.conversations.page(page).per(per)
     end
 
