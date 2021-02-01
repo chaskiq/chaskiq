@@ -385,7 +385,6 @@ RSpec.describe Api::GraphqlController, type: :controller do
         }"
 
         graphql_raw_post(raw: q)
-        binding.pry
         puts graphql_response.errors
         expect(graphql_response.errors).to be_present
       end
@@ -404,7 +403,6 @@ RSpec.describe Api::GraphqlController, type: :controller do
         }"
 
         graphql_raw_post(raw: q)
-        binding.pry
         puts graphql_response.errors
         expect(graphql_response.errors).to be_present
       end
