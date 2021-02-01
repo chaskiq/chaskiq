@@ -33,7 +33,12 @@ module ApplicationCable
       params = request.query_parameters()
       @app = App.find_by(key: params[:app])
       self.app = @app
-      
+
+      if self.app.blank?
+        Bugsnag.notify("error getting session data", env['HTTP_ORIGIN'] )
+        return 
+      end
+
       OriginValidator.new(
         app: @app.domain_url,
         host: env['HTTP_ORIGIN']
