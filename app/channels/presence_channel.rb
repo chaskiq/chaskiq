@@ -32,5 +32,6 @@ class PresenceChannel < ApplicationCable::Channel
           app: app&.key
         }
       )
+    end
   end
 end
