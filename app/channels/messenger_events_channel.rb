@@ -4,7 +4,7 @@ class MessengerEventsChannel < ApplicationCable::Channel
   include UserFinder
 
   def subscribed
-    reject unless current_user
+    reject if current_user.blank? || self.app.blank?
     stream_from "messenger_events:#{self.app.key}-#{self.current_user.session_id}"
   end
 
