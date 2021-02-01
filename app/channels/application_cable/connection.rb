@@ -35,7 +35,15 @@ module ApplicationCable
       self.app = @app
 
       if self.app.blank?
-        Bugsnag.notify("error getting session data", env['HTTP_ORIGIN'] )
+        Bugsnag.notify("error getting session data") do |report|
+          report.add_tab(
+            :context,
+            {
+              origin: env['HTTP_ORIGIN'],
+              params: params
+            }
+          )
+        end
         return 
       end
 
