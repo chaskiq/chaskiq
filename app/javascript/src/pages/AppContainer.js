@@ -63,7 +63,7 @@ function AppContainer ({
 }) {
 
   const CableApp = {
-    cable: actioncable.createConsumer(`/cable?token=${accessToken}`)
+    cable: actioncable.createConsumer(`${window.chaskiq_cable_url}?token=${accessToken}`)
   }
 
   React.useEffect(() => {
@@ -103,7 +103,7 @@ function AppContainer ({
           console.log('disconnected from events')
         },
         received: (data) => {
-          console.log('received', data)
+          // console.log('received', data)
           switch (data.type) {
             case 'conversation_part':
               return dispatch(appendConversation(camelizeKeys(data.data)))
