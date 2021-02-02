@@ -8,7 +8,6 @@ module Mutations
       argument :params, Types::JsonType, required: true
       argument :email, String, required: true
 
-      # TODO: ROLE AWARE
       def resolve(app_key:, email:, params:)
         app = current_user.apps.find_by(key: app_key)
         agent = app.agents.find_by(email: email) # , name: 'John Doe')

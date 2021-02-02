@@ -13,6 +13,10 @@ class AppPolicy < ActionPolicy::Base
     ).any?
   end
 
+  def agent_only?
+    user.is_a?(Agent)
+  end
+
   def invite_user?
     record.owner_id == user.id || record.roles.where(
       agent_id: user.id

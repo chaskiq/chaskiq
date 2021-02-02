@@ -10,7 +10,7 @@ Rails.application.configure do
   config.cache_classes = false #ENV['CI'].present?
 
   ENV['HOST'] = 'http://localhost:5002'
-  ENV['WS'] = 'ws://localhost:5002'
+  ENV['WS'] = 'ws://localhost:5002/cable'
 
   # Do not eager load code on boot. This avoids loading your whole application
   # just for the purpose of running a single test. If you are using a tool that

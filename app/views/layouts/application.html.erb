@@ -28,6 +28,8 @@
     <script src='https://api.mapbox.com/mapbox-gl-js/v1.9.1/mapbox-gl.js'></script>
     <link href='https://api.mapbox.com/mapbox-gl-js/v1.9.1/mapbox-gl.css' rel='stylesheet' />
 
+    <script> window.chaskiq_cable_url = "<%= ENV['WS'] %>"</script>
+
     <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload' %>
     <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
 
@@ -43,10 +45,12 @@
     <div class="page" id="main-page">
     </div>
 
-    <script src="https://cdn.paddle.com/paddle/paddle.js"></script>
-    <script type="text/javascript">
-      Paddle.Setup({ vendor: 115475 });
-    </script>
+    <% if enabled_subscriptions? %>
+      <script src="https://cdn.paddle.com/paddle/paddle.js"></script>
+      <script type="text/javascript">
+        Paddle.Setup({ vendor: 115475 });
+      </script>
+    <% end %>
 
     <% if current_agent.present? and
       support_data = support_app_data and

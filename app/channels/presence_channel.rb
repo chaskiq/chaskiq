@@ -5,29 +5,36 @@ class PresenceChannel < ApplicationCable::Channel
   after_unsubscribe :offline
 
   def subscribed
-    reject unless current_user
-
+    if current_user.blank? || self.app.blank?   
+      reject 
+      return
+    end 
+    @key = "presence:#{app.key}-#{current_user.session_id}"
     stream_from @key
     pingback
   end
 
   def pingback
-    current_user.online! if current_user.offline?
+    # notify_error("pingback error") if current_user.blank?
+    current_user.online! if current_user&.offline?
   end
 
   def offline
-    puts "subs #{Redis.new.pubsub('CHANNELS', @key).size}"
-    current_user.offline!
-    # if Redis.new.pubsub("CHANNELS", @key).size == 1 && current_user.online?
+    # notify_error("offlinize error") if current_user.blank?
+    # puts "subs #{Redis.new.pubsub('CHANNELS', @key).size}"
+    current_user&.offline!
+    ### if Redis.new.pubsub("CHANNELS", @key).size == 1 && current_user.online?
   end
 
-  private
-
-  def get_session_data
-    get_user_data
-    @key = "presence:#{app.key}-"
-    find_user
-    @key += current_user.session_id
-    @key += current_user.email if current_user.type == 'AppUser'
+  def notify_error(err)
+    Bugsnag.notify(err) do |report|
+      report.add_tab(
+        :context,
+        {
+          key: @key,
+          app: app&.key
+        }
+      )
+    end
   end
 end
