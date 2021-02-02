@@ -13,6 +13,8 @@ x-app: &app
   environment: &env
     NODE_ENV: development
     RAILS_ENV: ${RAILS_ENV:-development}
+    ANYCABLE_DEBUG: ${DEBUG:-0}
+    ANYCABLE_RPC_HOST: 0.0.0.0:50051
   image: chaskiq/chaskiq:1.1.0
   tmpfs:
     - /tmp
@@ -50,6 +52,25 @@ services:
   runner:
     <<: *backend
     command: /bin/bash
+
+  rpc:
+    <<: *backend
+    command: bundle exec anycable
+
+  anycable:
+    image: 'anycable/anycable-go:1.0-alpine'
+    ports:
+      - "8080:8080"
+    environment:
+      PORT: 8080
+      ANYCABLE_HOST: 0.0.0.0
+      ANYCABLE_HEADERS: cookie,origin
+      REDIS_URL: redis://redis:6379/0
+      ANYCABLE_RPC_HOST: rpc:50051
+      ANYCABLE_DEBUG: ${DEBUG:-0}
+    depends_on:
+      - redis
+      - rpc
 
   rails:
     <<: *backend
