@@ -40,7 +40,6 @@ export const PING = `
         theme
       }
       agents {
-        email
         name
         avatarUrl
       }
