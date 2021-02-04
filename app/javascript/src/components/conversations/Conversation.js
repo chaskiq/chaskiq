@@ -920,7 +920,7 @@ function RenderBlocks ({ message, userOrAdmin, app, conversation, dispatch }) {
             aria-hidden="true">
           </span>
         </span>
-        <span className="ml-3.5 font-medium text-gray-700 bord">waiting for reply</span>
+        <span className="ml-3.5 font-medium text-gray-700">waiting for reply</span>
       </a>
 
     </p>
