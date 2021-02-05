@@ -790,16 +790,10 @@ module MessageApis
     end
 
     def replace_emojis(text)
-      begin
-        text.gsub(/:(::|[^:\n])+:/) do |m| 
-          short_name = m.gsub(":", "")
-          EmojiData.from_short_name(short_name).render 
-        end
-      rescue => e
-        Bugsnag.notify(e)
-        text
+      text.gsub(/(:[+-]*\w+:)/) do |m| 
+        short_name = m.gsub(":", "")
+        EmojiData.from_short_name(short_name)&.render || m
       end
     end
-
   end
 end
