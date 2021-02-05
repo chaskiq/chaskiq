@@ -93,7 +93,7 @@ const MessageItem = styled.div`
   ${(props) => props.userOrAdmin === 'user'
     ? tw`bg-white text-green-500` : props.privateNote
       ? tw`bg-yellow-300 text-black`
-      : tw`bg-gray-900 text-white`
+      : tw`bg-gray-800 text-white`
 
   // `background: linear-gradient(45deg,#48d79b,#1dea94f2);` :
   // `background: linear-gradient(45deg,#202020,#000000e6)`
@@ -331,10 +331,10 @@ function Conversation ({
         userOrAdmin={userOrAdmin}
         privateNote={message.privateNote}
         className={`
-        shadow-md 
+        shadow sm:rounded-lg
         flex-1 
-        overflow-hidden-dis p-3 
-        rounded-md max-w-full`}
+        p-3 
+        max-w-full`}
       >
         <div className="flex justify-between pb-4">
           <div className="flex items-center">

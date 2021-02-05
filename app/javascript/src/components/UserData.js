@@ -26,7 +26,7 @@ function UserData ({ app_user, app, disableAvatar }) {
   return (
     <React.Fragment>
       {app_user && app_user.id && (
-        <div className="overflow-hidden max-w-xs my-3">
+        <div className="overflow-hidden my-3">
           {
             !disableAvatar && <div>
               <div className="flex justify-center mt-5">

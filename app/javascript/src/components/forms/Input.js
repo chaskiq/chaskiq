@@ -339,7 +339,7 @@ function FormField ({ name, label, helperText, children, error }) {
 }
 
 function DatePickerWrapper ({ val, name, onChange, error }) {
-  const [value, setValue] = React.useState(val)
+  const [value, setValue] = React.useState(val || new Date())
 
   function handleChange (val) {
     setValue(val)
@@ -353,7 +353,6 @@ function DatePickerWrapper ({ val, name, onChange, error }) {
       // value={value || defaultValue}
       onChange={handleChange}
       showTimeSelect
-      // defaultValue={defaultValue}
       className={`shadow appearance-none border border-${borderColor(
         error
       )}-500 rounded 

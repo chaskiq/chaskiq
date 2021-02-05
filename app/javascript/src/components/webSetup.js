@@ -84,7 +84,7 @@ function SimpleDialog (props) {
       open={open}
       titleContent={'Web Messenger Setup'}
       formComponent={
-        <div>
+        <div className="space-y-2">
           <p>{I18n.t('dashboard.snippet')}</p>
           <Pre>
             <div dangerouslySetInnerHTML={{ __html: setupScript() }} />

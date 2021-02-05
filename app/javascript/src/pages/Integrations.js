@@ -490,7 +490,7 @@ function ServiceBlock ({ service, handleOpen, kind, setOpenDeleteDialog }) {
                   <Button
                     onClick={() => handleOpen(service)}
                     aria-label="add"
-                    variant="icon"
+                    variant="outlined"
                     className="mr-2"
                     border={true}
                   >
@@ -510,9 +510,9 @@ function ServiceBlock ({ service, handleOpen, kind, setOpenDeleteDialog }) {
                       onClick={() =>
                         setOpenDeleteDialog && setOpenDeleteDialog(service)
                       }
+                      variant='danger'
                       border={true}
                       aria-label="remove"
-                      variant="icon"
                     >
                       <DeleteIcon />
                     </Button>

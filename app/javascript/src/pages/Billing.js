@@ -847,7 +847,7 @@ function PlanBoard ({ appPlan, plans, openCheckout }) {
                 focus:border-green-700 
                 focus:shadow-outline
                 mt-6 block w-full border border-transparent rounded-md shadow py-2 text-sm font-semibold text-white text-center`}
-                onClick={() => openCheckout(plan)}> Buy {plan.name}
+                onClick={() => openCheckout(plan)}> {plan.name}
               </button>
               {/* <a href="#" className="block w-full bg-gradient-to-r from-orange-500 to-pink-500 border border-transparent rounded-md shadow py-2 text-sm font-semibold text-white text-center hover:to-pink-600">
                 Buy Basic
@@ -917,7 +917,7 @@ function PlanBoard ({ appPlan, plans, openCheckout }) {
                         focus:border-green-700 
                         focus:shadow-outline
                         mt-6 block w-full border border-transparent rounded-md shadow py-2 text-sm font-semibold text-white text-center`}
-                        onClick={() => openCheckout(p)}> Buy {p.name}
+                        onClick={() => openCheckout(p)}> {p.name}
                       </button>
                     }
                   </div>
@@ -978,7 +978,7 @@ function PlanBoard ({ appPlan, plans, openCheckout }) {
                     focus:border-green-700 
                     focus:shadow-outline
                     mt-6 block w-full border border-transparent rounded-md shadow py-2 text-sm font-semibold text-white text-center`}
-                    onClick={() => openCheckout(plan)}> Buy {p.name}
+                    onClick={() => openCheckout(plan)}> {p.name}
                   </button>}
                 </td>
               ))

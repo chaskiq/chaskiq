@@ -39,7 +39,6 @@ const EditorContainer = styled.div`
     width: 20px;
     height: 20px;
     display: flex;
-    margin-left: 6px;
   }
 `;
 
