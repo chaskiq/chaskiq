@@ -35,6 +35,8 @@ Rails.application.routes.draw do
     ActiveSupport::SecurityUtils.secure_compare(password, ENV["ADMIN_PASSWORD"])
   end
 
+  mount Sidekiq::Web, at: "/sidekiq"
+
   devise_for :agents, controllers: {
     registrations: 'agents/registrations',
     invitations: 'agents/invitations',
