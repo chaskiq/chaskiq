@@ -1460,9 +1460,9 @@ class Messenger extends Component {
                   style={{
                     zIndex: '10000',
                     position: 'absolute',
-                    bottom: '-18px',
-                    width: '88px',
-                    height: '100px',
+                    bottom: '-4px',
+                    width: '70px',
+                    height: '71px',
                     right: '0px',
                     border: 'none'
                   }}>

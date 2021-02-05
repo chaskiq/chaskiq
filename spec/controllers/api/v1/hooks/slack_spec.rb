@@ -499,6 +499,35 @@ RSpec.describe Api::V1::Hooks::ProviderController, type: :controller do
         expect(conversation.messages.last.messageable.html_content).to be == "hello 👍 there"
       end
 
+      it "receive message with wrong emojis" do
+
+        get(:global_process_event, 
+          params: message_blocks(
+            global: true,
+            channel: @channel.provider_channel_id,
+            message: "This is it: <https://www.google.com/es>"
+          )
+        )
+        expect(conversation.messages.last.authorable).to be_a(Agent)
+        expect(conversation.messages.last.messageable.html_content).to be == "This is it: <https://www.google.com/es>"
+
+      end
+
+
+      it "receive message double wrong emojis" do
+
+        get(:global_process_event, 
+          params: message_blocks(
+            global: true,
+            channel: @channel.provider_channel_id,
+            message: "This is it: :smile::point_up: :+1:"
+          )
+        )
+        expect(conversation.messages.last.authorable).to be_a(Agent)
+        expect(conversation.messages.last.messageable.html_content).to be == "This is it: 😄☝️ 👍"
+
+      end
+
       it "receive message multiline" do
         get(:global_process_event, params: message_blocks(
           global: true,
