@@ -378,13 +378,13 @@ class AppPackagesCatalog
         tag_list: ['conversations.added'],
         description: 'Interfaces Vonage Whatsapp',
         icon: 'https://logo.clearbit.com/vonage.com',
-        state: 'enabled',
+        state: Rails.env.production? ? 'disabled' : 'enabled',
         definitions: [
           {
             name: 'user_id',
             label: 'Phone',
             type: 'string',
-            hint: 'The Vonage Whatsapp number (format: +14155231223)',
+            hint: 'The Vonage Whatsapp number (format: 14155231223)',
             grid: { xs: 'w-full', sm: 'w-full' }
           },
           {
@@ -396,6 +396,29 @@ class AppPackagesCatalog
           {
             name: 'api_secret',
             label: 'Your Vonage API secret', 
+            type: 'string',
+            grid: { xs: 'w-full', sm: 'w-full' }
+          }
+        ]
+      },
+
+      {
+        name: 'Dialog360',
+        tag_list: ['conversations.added'],
+        description: 'Interfaces 360 Dialog Whatsapp',
+        icon: 'https://logo.clearbit.com/360 Dialog.com',
+        state: Rails.env.production? ? 'disabled' : 'enabled',
+        definitions: [
+          {
+            name: 'user_id',
+            label: 'Phone',
+            type: 'string',
+            hint: 'The 360 Dialog Whatsapp number (format: 14155231223)',
+            grid: { xs: 'w-full', sm: 'w-full' }
+          },
+          {
+            name: 'api_key',
+            label: 'Your 360Dialog API key',
             type: 'string',
             grid: { xs: 'w-full', sm: 'w-full' }
           }
@@ -420,9 +443,7 @@ class AppPackagesCatalog
             grid: { xs: 'w-full', sm: 'w-full' }
           }
         ]
-      },
-      
-
+      }
     ]
 
     collection = development_packages + collection if dev_packages
