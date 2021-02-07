@@ -155,7 +155,6 @@ function AppContainer ({
     dispatch(toggleDrawer({ userDrawer: !drawer.userDrawer }))
   }
 
-  console.log('CABLE APP', CableApp.current.events)
   return (
     <div className="h-screen flex overflow-hidden bg-white">
       {app && <Sidebar />}
@@ -285,11 +284,10 @@ function AppContainer ({
               </Route>
 
               <Route path={`${match.url}/conversations`}>
-                {subscribed &&
                   <Conversations
                     subscribed
                     events={CableApp.current.events}
-                  />}
+                  />
               </Route>
 
               <Route path={`${match.url}/oauth_applications`}>

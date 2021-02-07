@@ -346,7 +346,6 @@ export function RtcView (props) {
     closePeers()
   }
 
-  console.log(initiator , !callStarted , callInitiatorTarget )
   return <React.Fragment>
 
     {

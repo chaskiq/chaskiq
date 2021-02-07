@@ -100,7 +100,6 @@ export default function RtcViewWrapper ({
 
       <div
         className="flex"
-        relativePosition={relativePosition}
         style={{ visibility: `${!videoSession ? 'hidden' : ''}` }}
       >
 
