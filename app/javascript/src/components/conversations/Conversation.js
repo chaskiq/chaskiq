@@ -66,7 +66,7 @@ import EditorContainer from '../textEditor/editorStyles'
 import DraftRenderer from '../textEditor/draftRenderer'
 import styled from '@emotion/styled'
 import { setCurrentPage, setCurrentSection } from '../../actions/navigation'
-import RtcDisplayWrapper, { ModalWrapper } from '../../../client_messenger/rtcView' // './RtcWrapper'
+import RtcDisplayWrapper from '../rtcView' // './RtcWrapper'
 import TagDialog from '../TagDialog'
 
 const EditorContainerMessageBubble = styled(EditorContainer)`
@@ -450,6 +450,8 @@ function Conversation ({
     }))
   }
 
+  console.log('EVENTs', events)
+
   return (
     <BgContainer className="flex-1 flex flex-col overflow-hidden-- h-screen">
       <div className="border-b flex px-6 py-3 items-center flex-none bg-white">
@@ -469,7 +471,7 @@ function Conversation ({
               alt=""
             />
           }
-          <h3 className="mb-1 text-xs text-grey-darkest">
+          <h3 className="mb-1 text-xs text-grey-darkest hidden md:block">
             {I18n.t('conversation.with')}{' '}
             <br/>
             <span className="font-extrabold hover:text-underline"
@@ -539,21 +541,6 @@ function Conversation ({
               { videoSession ? <CallEnd variant="rounded"/> : <Call variant="rounded"/> }
             </button>
           </Tooltip>
-
-          <ModalWrapper expanded={expand} videoSession={videoSession}>
-
-            <RtcDisplayWrapper
-              videoSession={videoSession}
-              relativePosition={true}
-              toggleVideo={() => setRtcVideo(!rtcVideo)}
-              toggleAudio={() => setRtcAudio(!rtcAudio)}
-              rtcVideo={rtcVideo}
-              rtcAudio={rtcAudio}
-              expand={expand}
-              setExpand={setExpand}
-              setVideoSession={() => setVideoSession(!videoSession)}
-            />
-          </ModalWrapper>
 
           <div id="button-element" className="hidden"></div>
 
@@ -675,6 +662,27 @@ function Conversation ({
         </div>
       </div>
 
+      <div className={`${videoSession ? 'fixed--' : 'hidden'}`}
+        expanded={expand}
+        videoSession={videoSession}>
+        <div className="flex bg-gray-900- h-44
+          justify-center items-center
+          shadow-lg text-black"
+          style={{ backdropFilter: 'blur(4px)' }}>
+          <RtcDisplayWrapper
+            videoSession={videoSession}
+            relativePosition={true}
+            toggleVideo={() => setRtcVideo(!rtcVideo)}
+            toggleAudio={() => setRtcAudio(!rtcAudio)}
+            rtcVideo={rtcVideo}
+            rtcAudio={rtcAudio}
+            expand={expand}
+            setExpand={setExpand}
+            setVideoSession={() => setVideoSession(!videoSession)}
+          />
+        </div>
+      </div>
+
       <div
         ref={overflow}
         className="overflow-y-scroll"
@@ -682,6 +690,7 @@ function Conversation ({
         style={{
           height: 'calc(100vh - 220px)'
         }}>
+
         <div
           className="flex flex-col-reverse px-6 py-4">
           <ErrorBoundary>
@@ -916,7 +925,7 @@ function RenderBlocks ({ message, userOrAdmin, app, conversation, dispatch }) {
     return <p className="text-sm leading-5 font-medium text-gray-500 py-2 flex justify-center">
       <a href="#" className="relative inline-flex items-center rounded-full border border-gray-400 px-3 py-0.5 text-sm bg-white">
         <span className="absolute flex-shrink-0 flex items-center justify-center">
-          <span className="h-1.5 w-1.5 rounded-full bg-yellow-200 border border-black" 
+          <span className="h-1.5 w-1.5 rounded-full bg-yellow-200 border border-black"
             aria-hidden="true">
           </span>
         </span>
