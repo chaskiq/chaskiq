@@ -16,10 +16,10 @@ const nums = [
   { label: 800, amount: 0.7 },
   { label: 900, amount: 0.8 }
 ]
-nums.map(
+/*nums.map(
   (c) => {
     grayColors[c.label] = darken(c.amount, '#f7f7f7')
-  })
+  })*/
 
 module.exports = {
   darkMode: 'media',
@@ -93,6 +93,10 @@ module.exports = {
     }
   },
   variants: {},
+  corePlugins: {
+    // ...
+   outline: false
+  },
   plugins: [
     // require('@tailwindcss/forms'),
     // require('@tailwindcss/typography'),

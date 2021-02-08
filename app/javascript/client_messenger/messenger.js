@@ -1456,13 +1456,14 @@ class Messenger extends Component {
               { 
                 this.isMessengerActive() ?
                 <StyledFrame
-                  id='chaskiqPrime' 
+                  id='chaskiqPrime'
+                  scrolling="no"
                   style={{
                     zIndex: '10000',
                     position: 'absolute',
-                    bottom: '-4px',
+                    bottom: '-8px',
                     width: '70px',
-                    height: '71px',
+                    height: '79px',
                     right: '0px',
                     border: 'none'
                   }}>

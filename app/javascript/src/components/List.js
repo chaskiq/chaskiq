@@ -81,7 +81,7 @@ export function ItemAvatar ({ avatar }) {
 
 export function ItemListPrimaryContent ({ children }) {
   return (
-    <div className="text-lg leading-5 font-medium text-indigo-600 truncate">
+    <div className="text-lg leading-5 font-medium text-gray-600 truncate">
       {children}
     </div>
   )

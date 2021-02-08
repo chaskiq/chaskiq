@@ -61,10 +61,13 @@ function AppContainer ({
   upgradePages,
   accessToken
 }) {
+  const CableApp = React.useRef({
+    events: null,
+    cable: actioncable.createConsumer(
+      `${window.chaskiq_cable_url}?app=${match.params.appId}&token=${accessToken}`)
+  })
 
-  const CableApp = {
-    cable: actioncable.createConsumer(`${window.chaskiq_cable_url}?token=${accessToken}`)
-  }
+  const [subscribed, setSubscribed] = React.useState(null)
 
   React.useEffect(() => {
     dispatch(getCurrentUser())
@@ -86,11 +89,11 @@ function AppContainer ({
 
   const eventsSubscriber = (id) => {
     // unsubscribe cable ust in case
-    if (CableApp.events) {
-      CableApp.events.unsubscribe()
+    if (CableApp.current.events) {
+      CableApp.current.events.unsubscribe()
     }
 
-    CableApp.events = CableApp.cable.subscriptions.create(
+    CableApp.current.events = CableApp.current.cable.subscriptions.create(
       {
         channel: 'EventsChannel',
         app: id
@@ -98,9 +101,11 @@ function AppContainer ({
       {
         connected: () => {
           console.log('connected to events')
+          setSubscribed(true)
         },
         disconnected: () => {
           console.log('disconnected from events')
+          setSubscribed(false)
         },
         received: (data) => {
           // console.log('received', data)
@@ -279,7 +284,10 @@ function AppContainer ({
               </Route>
 
               <Route path={`${match.url}/conversations`}>
-                <Conversations events={CableApp.events} />
+                  <Conversations
+                    subscribed
+                    events={CableApp.current.events}
+                  />
               </Route>
 
               <Route path={`${match.url}/oauth_applications`}>

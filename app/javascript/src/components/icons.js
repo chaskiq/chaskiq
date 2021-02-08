@@ -76,6 +76,27 @@ export function LeftArrow (props) {
   )
 }
 
+
+export function UpArrow (props) {
+  return (
+    <BaseIcon {...props} fill="currentColor"
+      focusable="false" viewBox="0 0 24 24"
+      aria-hidden="true" role="presentation">
+      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 15l7-7 7 7" />
+    </BaseIcon>
+  )
+}
+
+export function DownArrow (props) {
+  return (
+    <BaseIcon {...props} fill="currentColor"
+      focusable="false" viewBox="0 0 24 24"
+      aria-hidden="true" role="presentation">
+      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+    </BaseIcon>
+  )
+}
+
 export function Facebook (props) {
   return (
     <BaseIcon {...props} fill="currentColor" viewBox="0 0 20 20">
