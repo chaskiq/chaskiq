@@ -61,11 +61,11 @@ describe('Conversations Spec', function () {
 
 
         // selects package button
-        cy.xpath('/html/body/div[1]/div[2]/div[2]/div[2]/div[2]/div[2]/div/div[3]/div/div/div[2]/div/div/div/div/div/div/div/div[2]/div[3]/div/button[8]')
+        cy.xpath('/html/body/div[1]/div[2]/div[2]/div[2]/div[2]/div[2]/div/div[4]/div/div/div[2]/div/div/div/div/div/div/div/div[2]/div[3]/div/button[8]')
           .click()
 
         // selects content showcase
-        cy.xpath('/html/body/div[1]/div[2]/div[2]/div[2]/div[2]/div[2]/div/div[3]/div/div/div[2]/div/div/div/div[1]/div[2]/div[2]/div/div/div/div/div/ul/li[2]/div/div/div/div/div[2]/div/div/button')
+        cy.xpath('/html/body/div[1]/div[2]/div[2]/div[2]/div[2]/div[2]/div/div[4]/div/div/div[2]/div/div/div/div[1]/div[2]/div[2]/div/div/div/div/div/ul/li[2]/div/div/div/div/div[2]/div/div/button')
           .click()
 
         cy.contains('Pick a template')
@@ -83,7 +83,7 @@ describe('Conversations Spec', function () {
         cy.contains('Add to messenger home').click().then(()=>{
           cy.contains('Send App').should('not.be.disabled').then(()=>{
             cy.wait(2000)
-            cy.xpath('/html/body/div[1]/div[2]/div[2]/div[2]/div[2]/div[2]/div/div[3]/div/div/div[2]/div/div/div/div[1]/div[2]/div[3]/button[2]')
+            cy.xpath('/html/body/div[1]/div[2]/div[2]/div[2]/div[2]/div[2]/div/div[4]/div/div/div[2]/div/div/div/div[1]/div[2]/div[3]/button[2]')
               .click()
             cy.get("#message-id-2").contains('Hello, World')
           })
