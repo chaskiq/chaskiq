@@ -415,7 +415,7 @@ function Sidebar ({
         <div
           className={
             `md:block border-r 
-            bg-gray-200 
+            bg-gray-800 
             text-purple-lighter 
             flex-none w-23 
             p-2 
@@ -438,18 +438,19 @@ function Sidebar ({
                 overlay={o.label}
               >
                 <div
-                  className="cursor-pointer mb-4 p-3
-                          bg-gray-200 hover:bg-gray-100 rounded-md"
+                  className="cursor-pointer mb-4 p-3 text-gray-400
+                          bg-gray-800 hover:bg-gray-900 rounded-md"
                 >
                   {o.url && (
                     <Link
                       to={`${o.url}`}
                       aria-label={o.label}
                       className="bg-indigo-lighter
-                      h-12 w-12 flex-- items-center
-                      justify-center-- text-black
+                      h-12 w-12
+                      items-center
+                      text-gray-400
                       text-2xl font-semibold rounded-lg
-                      mb-1 overflow-hidden text-gray-400"
+                      mb-1 overflow-hidden"
                     >
                       {o.icon}
                     </Link>

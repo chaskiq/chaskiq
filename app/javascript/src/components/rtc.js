@@ -351,17 +351,17 @@ export function RtcView (props) {
     {
       localVideoTarget && createPortal(
         <div id="local-video-wrapper">
-        <video id="local-video"
-          muted="muted"
-          autoPlay
-          ref={ localVideo }>
-        </video>
-        {callStarted && <button
-          className='control-btn'
-          onClick={() => { getDisplay(); }}
-        >
-         share screen
-        </button>}
+          <video id="local-video"
+            muted="muted"
+            autoPlay
+            ref={ localVideo }>
+          </video>
+          {callStarted && <button
+            className='control-btn'
+            onClick={() => { getDisplay(); }}
+          >
+          share screen
+          </button>}
         </div>, localVideoTarget
       )
     }
@@ -380,13 +380,14 @@ export function RtcView (props) {
           {/*callStarted && 'call started'*/}
 
           {connecting && (
-            <div className='status'>
+
+            <div className="status inline-flex items-center px-3 py-0.5 rounded-full text-sm font-medium bg-green-100 text-green-800 border border-green-400">
               <p>Establishing connection...</p>
             </div>
           )}
 
           {waiting && callStarted && (
-            <div className='status'>
+            <div className="status inline-flex items-center px-3 py-0.5 rounded-full text-sm font-medium bg-green-100 text-green-800 border border-green-400">
               <p>Waiting for someone...</p>
             </div>
           )}
@@ -397,8 +398,10 @@ export function RtcView (props) {
     {
       initiator && !callStarted &&
       callInitiatorTarget && createPortal( 
-        <div id="call-initiator">
-          <p>Start a call</p>
+        <div id="call-initiator" className="flex flex-col justify-center items-center space-y-6">
+          <p className="inline-flex items-center px-2.5 py-0.5 rounded-full text-sm font-medium bg-pink-100 text-blue-800 border border-pink-900-">
+            Start a call
+          </p>
           <div className="call-buttons">
             <button
               style={{ color: 'white', backgroundColor: 'green', border: 'none' }}
@@ -463,21 +466,25 @@ export function RtcView (props) {
        props.video && 
        callStarted &&
        createPortal(
-          <div className="call-buttons">
+          <div className="call-buttons flex flex-col space-y-1">
 
-            <button
+            <Button
+              variant="outlined"
+              className="rounded-full"
               onClick={()=> props.toggleVideo()}
               style={{ color: `${props.rtcVideo ? 'green' : 'gray' }` }}>
               <CameraIcon/>
-            </button>
+            </Button>
 
-            <button
+            <Button
+              variant="outlined"
               onClick={()=> props.toggleAudio()}
               style={{ color: `${props.rtcAudio ? 'green' : 'gray' }` }}>
               <MicIcon/>
-            </button>
+            </Button>
 
-            <button
+            <Button
+              variant="outlined"
               onClick={()=>{ 
                 stopUserMedia()
                 setCallStarted(false)
@@ -491,7 +498,7 @@ export function RtcView (props) {
                 border: 0
               }}>
               {!props.video ? <CallIcon/> : <CallEndIcon/>}
-            </button>
+            </Button>
 
           </div>
         , callButtonsTarget)

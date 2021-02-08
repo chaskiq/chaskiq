@@ -368,6 +368,10 @@ query AppUserConversations($appKey: String!, $id: Int!, $page: Int, $per: Int){
           id
           key
           tagList
+          assignee {
+            displayName
+            avatarUrl
+          }
           mainParticipant{
             id
             email
