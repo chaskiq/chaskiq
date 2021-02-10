@@ -14,10 +14,6 @@ RSpec.describe Api::V1::Hooks::ProviderController, type: :controller do
   }
 
 	def data_for(id: , sender: , recipient: , message_id: nil, message_data: {} )
-
-		#"from":  { 	"type": "whatsapp", 	"number": sender },
-		#"to":  {"type": "whatsapp", "number": recipient},
-
 		{
 			"messages": [
 					{
@@ -44,7 +40,6 @@ RSpec.describe Api::V1::Hooks::ProviderController, type: :controller do
       "app_key"=>app.key, 
       "id"=>@pkg.encoded_id
 		}
-
   end
 
 	def data_for_media(id: , sender: , recipient: , message_id: nil, message_data: {} )
@@ -229,7 +224,8 @@ RSpec.describe Api::V1::Hooks::ProviderController, type: :controller do
         api_secret: "aaa",
         api_key: "aaa",
         user_id: owner_phone,
-        app_package: app_package
+        app_package: app_package,
+        sandbox: true
       )
 
 			allow_any_instance_of(MessageApis::Dialog360).to receive(

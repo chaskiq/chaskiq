@@ -117,7 +117,6 @@ RSpec.describe Api::V1::Hooks::ProviderController, type: :controller do
 	end
 
 	def data_for_read(id: , sender: , recipient: , message_id: nil, message_data: {})
-
 			{
 				"message_uuid": "1f882e4c-75d1-4625-aa0a-2e5f8e068de9",
 				"from": {
@@ -147,7 +146,6 @@ RSpec.describe Api::V1::Hooks::ProviderController, type: :controller do
     AppPackage.find_by(name: 'Vonage')
   end
 
-
   describe "hooks" do
     before do
       AppPackagesCatalog.update_all
@@ -164,7 +162,8 @@ RSpec.describe Api::V1::Hooks::ProviderController, type: :controller do
         api_secret: "aaa",
         api_key: "aaa",
         user_id: owner_phone,
-        app_package: app_package
+        app_package: app_package,
+        sandbox: true
       )
     end
   
