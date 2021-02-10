@@ -424,15 +424,15 @@ class AppPackagesCatalog
             grid: { xs: 'w-full', sm: 'w-full' }
           },
           {
-            name: 'sandbox',
-            label: 'is sandbox',
-            type: 'checkbox',
-            grid: { xs: 'w-full', sm: 'w-full' }
-          },
-          {
             name: 'api_key',
             label: 'Your MessageBird API key',
             type: 'string',
+            grid: { xs: 'w-full', sm: 'w-full' }
+          },
+          {
+            name: 'sandbox',
+            label: 'is sandbox',
+            type: 'checkbox',
             grid: { xs: 'w-full', sm: 'w-full' }
           }
         ]
