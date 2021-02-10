@@ -118,7 +118,7 @@ export const Container = styled.div`
 
       : `z-index: 2147483000;
       position: fixed;
-      bottom: 100px;
+      bottom: 91px;
       right: 20px;
       width: 376px;
       min-height: 250px;

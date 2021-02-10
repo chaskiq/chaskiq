@@ -46,7 +46,7 @@ gem 'nightfury', github: 'michelson/nightfury' # "~> 1.0"
 gem 'graphiql-rails', group: :development
 gem 'graphql'
 gem "action_policy-graphql", "~> 0.4"
-gem 'batch-loader'
+gem "goldiloader"
 
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development
@@ -131,18 +131,12 @@ group :development, :test do
 end
 
 group :development do
+  gem 'rack-mini-profiler', '~> 2.0'
   # Access an interactive console on exception pages or by calling 'console' anywhere in the code.
   gem 'listen', '>= 3.0.5', '< 3.2'
   gem 'web-console', '>= 3.3.0'
   # Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
   gem 'spring'
-  gem 'spring-watcher-listen', '~> 2.0.0'
-
-  #gem 'capistrano-bundle'
-  #gem 'capistrano-rails'
-  #gem 'capistrano-rvm'
-  #gem 'capistrano-sidekiq'
-  #gem 'capistrano3-puma'
 end
 
 group :test do

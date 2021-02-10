@@ -208,9 +208,9 @@ class MessengerEventsChannel < ApplicationCable::Channel
   end
 
   def trigger_step(data)
-    @conversation = app.conversations.find_by(key: data['conversation_key'])
+    conversation = app.conversations.find_by(key: data['conversation_key'])
 
-    message = @conversation.messages.find_by(key: data['message_key'])
+    message = conversation.messages.find_by(key: data['message_key'])
 
     trigger, path = ActionTriggerFactory.find_task(data: data, app: app, app_user: current_user)
 
@@ -221,7 +221,7 @@ class MessengerEventsChannel < ApplicationCable::Channel
     m = next_step['messages'].first
 
     if m.present?
-      @conversation.add_message(
+      conversation.add_message(
         step_id: next_step[:step_uid],
         trigger_id: trigger.id,
         from: author,
@@ -234,26 +234,23 @@ class MessengerEventsChannel < ApplicationCable::Channel
     end
 
     if message.from_bot?
-
       if data['reply'].present?
         data_submit(data['reply'], message)
-
         if trigger.respond_to?(:register_metric)
           trigger.register_metric(
             current_user,
             data: data['reply'],
             options: {
               message_key: message.key,
-              conversation_key: @conversation.key
+              conversation_key: conversation.key
             }
           )
         end
-
       end
     end
 
     if next_step['controls'].present?
-      @conversation.add_message(
+      conversation.add_message(
         step_id: next_step[:step_uid],
         trigger_id: trigger.id,
         from: author,

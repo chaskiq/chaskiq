@@ -40,11 +40,18 @@ function DialogEditor (props) {
             To:
             {props.app_user.displayName}
 
-            <NewEditor
-              {...props}
-              data={{}}
-              submitData={props.handleSubmit}
-            />
+            <div className="relative rounded-lg border
+             border-gray-300 bg-white
+             my-5 shadow-sm
+             flex items-center space-x-3
+              hover:border-gray-400 focus-within:ring-2
+              focus-within:ring-offset-2 focus-within:ring-pink-500">
+              <NewEditor
+                {...props}
+                data={{}}
+                submitData={props.handleSubmit}
+              />
+            </div>
           </div>
         }
         dialogButtons={

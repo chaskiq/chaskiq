@@ -115,6 +115,8 @@ const NewEditorStyles = styled(EditorStyles)`
   }
 
   .tooltip-icon {
+    display: flex;
+    justify-content: center;
     svg{
       width: 16px;
       height: 16px;      

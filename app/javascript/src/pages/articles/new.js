@@ -1,6 +1,6 @@
 import PropTypes from "prop-types";
 import React, { Component } from "react";
-import { withRouter, Route } from "react-router-dom";
+import { withRouter, Route, Link } from "react-router-dom";
 import { connect } from "react-redux";
 import Avatar from "../../components/Avatar";
 import Button, { DropdownButton } from "../../components/Button";
@@ -407,171 +407,266 @@ class ArticlesNew extends Component {
     : null
   }
 
+  renderAside = ()=>{
+    return (
+      <div className="mt-6 border-t border-b border-gray-200 py-6 space-y-8">
+                    <div>
+                      <h2 className="text-sm font-medium text-gray-500">Author</h2>
+                      { !this.state.loading && this.state.article.author &&
+                        <ul className="mt-3 space-y-3">
+                          <li className="flex justify-start">
+                            <a href="#" className="flex items-center space-x-3">
+                              <div className="flex flex-shrink-0 items-center">
+                                <Avatar src={this.state.article.author.avatarUrl} />
+                              </div>
+                              <div className="text-sm font-medium text-gray-900">
+                                {
+                                  this.state.article.author.name ||
+                                  this.state.article.author.email
+                                }
+                              </div>
+                            </a>
+                          </li>
+                        </ul>
+                      }
+                    
+                      {!this.state.loading && (
+                        <React.Fragment>
+                          {!this.state.loading && this.state.article.author && (
+                            <div className="flex">
+                              {this.state.agents.length > 0 && (
+                                <div className="flex items-center">
+                                  <Input
+                                    type={"select"}
+                                    className="w-32"
+                                    options={this.state.agents.map((o) => ({
+                                      label: o.name || o.email,
+                                      value: o.email,
+                                    }))}
+                                    data={{}}
+                                    name={"author"}
+                                    placeholder={"select author"}
+                                    onChange={this.handleAuthorchange}
+                                    defaultValue={
+                                      { 
+                                        label: this.state.article.author.email, 
+                                        value: this.state.article.author.email 
+                                      }
+                                    }
+                                  ></Input>
+                                </div>
+                              )}
+          
+                              <div className="flex items-center">
+                                <strong className="m-2">In</strong>
+                                <Input
+                                  type={"select"}
+                                  options={this.state.collections.map((o) => ({
+                                    label: o.title,
+                                    value: o.id,
+                                  }))}
+                                  data={{}}
+                                  className={"w-32"}
+                                  name={"collection"}
+                                  placeholder={"select collection"}
+                                  onChange={this.handleCollectionChange}
+                                  defaultValue={
+                                    this.articleCollection() && { 
+                                      label: this.articleCollection().title, 
+                                      value: this.articleCollection().id
+                                    }
+                                  }
+                                ></Input>
+                              </div>
+                            </div>
+                          )}
+      
+                          <Input
+                            id="article-title"
+                            type={"text"}
+                            //label="Name"
+                            placeholder={I18n.t('articles.create_article.placeholder')}
+                            inputProps={{
+                              style: {
+                                fontSize: "2.4em",
+                              },
+                            }}
+                            //helperText="Full width!"
+                            fullWidth
+                            ref={(ref) => {
+                              this.titleRef = ref;
+                            }}
+                            defaultValue={this.state.article.title}
+                            margin="normal"
+                            onChange={this.handleInputChange}
+                          />
+      
+                          <Input
+                            id="article-description"
+                            type={"textarea"}
+                            //label="Description"
+                            placeholder={I18n.t('articles.create_article.description_placeholder')}
+                            //helperText="Full width!"
+                            fullWidth
+                            multiline
+                            ref={(ref) => {
+                              this.descriptionRef = ref;
+                            }}
+                            defaultValue={this.state.article.description}
+                            margin="normal"
+                            onChange={this.handleInputChange}
+                          />
+                        </React.Fragment>
+                      )}
+
+                    </div>
+                    
+                  </div>
+    )
+  }
+
   render() {
     const { classes, app } = this.props;
+
+
     return (
-      <React.Fragment>
-        <ContentHeader
-          //title={ 'Help Center Settings' }
-          breadcrumbs={[
-            {
-              to: `/apps/${app.key}/articles`,
-              title: I18n.t('articles.help_center'),
-            },
-            {
-              to: "",
-              title: this.state.article.title,
-            },
-          ]}
-        />
 
-        <div container justify={"center"} spacing={4}>
-          <div item xs={12} sm={10}>
-            <div square={true} elevation={1}>
-              <div m={2}>
-                <div mb={2}>
-                  <Tabs
-                    scrollButtons="on"
-                    //tabs={this.props.settings.availableLanguages}
-                    tabs={this.props.settings.availableLanguages.map((o) =>
-                      langs.find((lang) => lang.value === o)
-                    )}
-                    onChange={(index) => {
-                      this.handleLangChange(
-                        this.props.settings.availableLanguages[index]
-                      );
-                    }}
-                  />
-                </div>
 
-                {!this.state.loading && (
-                  <React.Fragment>
-                    <div className="flex justify-between items-end py-4">
-                      <Button
-                        variant="success"
-                        onClick={this.submitChanges}
-                        disabled={!this.state.changesAvailable}
-                        color={"primary"}
-                      >
-                        {I18n.t('common.save')}
-                      </Button>
+      
+    <main className="flex-1 relative overflow-y-auto focus:outline-none">
 
-                      <FilterMenu
-                        options={options}
-                        value={this.state.article.state}
-                        filterHandler={this.togglePublishState}
-                        triggerButton={this.toggleButton}
-                        position={'right'}
-                      />
-                    </div>
+      <ContentHeader
+        //title={ 'Help Center Settings' }
+        breadcrumbs={[
+          {
+            to: `/apps/${app.key}/articles`,
+            title: I18n.t('articles.help_center'),
+          },
+          {
+            to: "",
+            title: this.state.article.title,
+          },
+        ]}
+      />
 
-                    {!this.state.loading && this.state.article.author && (
-                      <div className="flex">
-                        {this.state.agents.length > 0 && (
-                          <div className="flex items-center">
-                            <Avatar src={this.state.article.author.avatarUrl} />
-                            <strong className="m-2">written by</strong>
-                            <Input
-                              type={"select"}
-                              className="m-2 w-32"
-                              options={this.state.agents.map((o) => ({
-                                label: o.name || o.email,
-                                value: o.email,
-                              }))}
-                              data={{}}
-                              name={"author"}
-                              placeholder={"select author"}
-                              onChange={this.handleAuthorchange}
-                              defaultValue={
-                                { 
-                                  label: this.state.article.author.email, 
-                                  value: this.state.article.author.email 
-                                }
-                              }
-                            ></Input>
-                          </div>
-                        )}
+      <div className="py-8 xl:py-10">
+        <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 xl:max-w-5xl xl:grid xl:grid-cols-3">
+          <div className="xl:col-span-2 xl:pr-8 xl:border-r xl:border-gray-200">
+            <div>
+              <div>
+                <div className="md:flex md:items-center md:justify-between md:space-x-4 xl:border-b xl:pb-6">
+                  <div>
+                    <h1 className="text-2xl font-bold text-gray-900">
+                      {this.state.article.title}
+                    </h1>
+                    <p className="mt-2 text-sm text-gray-500">
+                      written{" "}
+                      { this.state.article.author && 
+                        <span>
+                          by{" "}
+                          <Link to={`/apps/${this.props.app.key}/agents/${this.state.article.author.id}`} className="font-medium text-gray-900">
+                            {this.state.article.author.name || this.state.article.author.email}
+                          </Link>
+                        </span>
+                      }
+                      
+                      {
+                        this.articleCollection() &&
+                        <span>in{" "}
+                        <a href="#" className="font-medium text-gray-900">
+                          {this.articleCollection().title}
+                        </a>
+                        </span>
+                      }
+                    </p>
+                  </div>
+                  <div className="mt-4 flex space-x-3 md:mt-0">
+                    {!this.state.loading && (
+                      <React.Fragment>
+                          <Button
+                            variant="success"
+                            onClick={this.submitChanges}
+                            disabled={!this.state.changesAvailable}
+                            color={"primary"}
+                          >
+                            {I18n.t('common.save')}
+                          </Button>
     
-                        <div className="flex items-center">
-                          <strong className="m-2">In</strong>
-                          <Input
-                            type={"select"}
-                            options={this.state.collections.map((o) => ({
-                              label: o.title,
-                              value: o.id,
-                            }))}
-                            data={{}}
-                            className={"m-2 w-32"}
-                            name={"collection"}
-                            placeholder={"select collection"}
-                            onChange={this.handleCollectionChange}
-                            defaultValue={
-                              this.articleCollection() && { 
-                                label: this.articleCollection().title, 
-                                value: this.articleCollection().id
-                              }
-                            }
-                          ></Input>
-                        </div>
-                      </div>
+                          <FilterMenu
+                            options={options}
+                            value={this.state.article.state}
+                            filterHandler={this.togglePublishState}
+                            triggerButton={this.toggleButton}
+                            position={'right'}
+                          />
+                      </React.Fragment>
                     )}
+                  </div>
+                </div>
+                <aside className="mt-8 xl:hidden">
+                  <h2 className="sr-only">Details</h2>
+                  {this.renderAside()}
+                </aside>
+                <div className="py-3 xl:pt-6 xl:pb-0">
+                  <h2 className="sr-only">Description</h2>
+                  <div className="prose max-w-none">
 
-                    <Input
-                      id="article-title"
-                      type={"text"}
-                      //label="Name"
-                      placeholder={I18n.t('articles.create_article.placeholder')}
-                      inputProps={{
-                        style: {
-                          fontSize: "2.4em",
-                        },
-                      }}
-                      //helperText="Full width!"
-                      fullWidth
-                      ref={(ref) => {
-                        this.titleRef = ref;
-                      }}
-                      defaultValue={this.state.article.title}
-                      margin="normal"
-                      onChange={this.handleInputChange}
-                    />
-
-                    <Input
-                      id="article-description"
-                      type={"textarea"}
-                      //label="Description"
-                      placeholder={I18n.t('articles.create_article.description_placeholder')}
-                      //helperText="Full width!"
-                      fullWidth
-                      multiline
-                      ref={(ref) => {
-                        this.descriptionRef = ref;
-                      }}
-                      defaultValue={this.state.article.description}
-                      margin="normal"
-                      onChange={this.handleInputChange}
-                    />
-                  </React.Fragment>
-                )}
-
-                <div className="relative z-0 p-6 shadow bg-yellow rounded border border-gray-400 mb-4">
-                  {!this.state.loading && (
-                    <ArticleEditor
-                      article={this.state.article}
-                      data={this.props.data}
-                      app={this.props.app}
-                      updateState={this.updateState}
-                      loading={false}
-                      uploadHandler={this.uploadHandler}
-                    />
-                  )}
+                    <div>
+                      <div>
+                        <Tabs
+                          scrollButtons="on"
+                          //tabs={this.props.settings.availableLanguages}
+                          tabs={this.props.settings.availableLanguages.map((o) =>
+                            langs.find((lang) => lang.value === o)
+                          )}
+                          onChange={(index) => {
+                            this.handleLangChange(
+                              this.props.settings.availableLanguages[index]
+                            );
+                          }}
+                        />
+                      </div>
+      
+                      <div className="relative z-0 p-6 shadow bg-yellow-50 rounded border border-yellow-100 mb-4 my-4">
+                        {!this.state.loading && (
+                          <ArticleEditor
+                            article={this.state.article}
+                            data={this.props.data}
+                            app={this.props.app}
+                            updateState={this.updateState}
+                            loading={false}
+                            uploadHandler={this.uploadHandler}
+                          />
+                        )}
+                      </div>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
           </div>
+          <aside className="hidden xl:block xl:pl-8">
+            <h2 className="sr-only">Details</h2>
+            <div className="space-y-5">
+              <div className="flex items-center space-x-2">
+                <svg className="h-5 w-5 text-green-500" x-description="Heroicon name: solid/lock-open" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                  <path d="M10 2a5 5 0 00-5 5v2a2 2 0 00-2 2v5a2 2 0 002 2h10a2 2 0 002-2v-5a2 2 0 00-2-2H7V7a3 3 0 015.905-.75 1 1 0 001.937-.5A5.002 5.002 0 0010 2z" />
+                </svg>
+                <span className="text-green-700 text-sm font-medium">{this.state.article.state && 'published'}</span>
+              </div>
+              <div className="flex items-center space-x-2">
+                <svg className="h-5 w-5 text-gray-400" x-description="Heroicon name: solid/calendar" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                  <path fillRule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z" clipRule="evenodd" />
+                </svg>
+                <span className="text-gray-900 text-sm font-medium">Created on <time dateTime="2020-12-02">{this.state.article.createdAt}</time></span>
+              </div>
+            </div>
+            {this.renderAside()}
+          </aside>
         </div>
-      </React.Fragment>
-    );
+      </div>
+    </main>
+    )
   }
 }
 

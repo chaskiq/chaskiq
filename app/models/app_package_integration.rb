@@ -20,6 +20,7 @@ class AppPackageIntegration < ApplicationRecord
     user_token
     credentials
     verify_token
+    sandbox
   ], coder: JSON
 
   validate do

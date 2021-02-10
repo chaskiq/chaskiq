@@ -374,6 +374,100 @@ class AppPackagesCatalog
       },
 
       {
+        name: 'Vonage',
+        tag_list: ['conversations.added'],
+        description: 'Interfaces Vonage Whatsapp',
+        icon: 'https://logo.clearbit.com/vonage.com',
+        state: Rails.env.production? ? 'disabled' : 'enabled',
+        definitions: [
+          {
+            name: 'user_id',
+            label: 'Phone',
+            type: 'string',
+            hint: 'The Vonage Whatsapp number (format: 14155231223)',
+            grid: { xs: 'w-full', sm: 'w-full' }
+          },
+          {
+            name: 'api_key',
+            label: 'Your Vonage API key',
+            type: 'string',
+            grid: { xs: 'w-full', sm: 'w-full' }
+          },
+          {
+            name: 'sandbox',
+            label: 'is sandbox',
+            type: 'checkbox',
+            grid: { xs: 'w-full', sm: 'w-full' }
+          },
+          {
+            name: 'api_secret',
+            label: 'Your Vonage API secret', 
+            type: 'string',
+            grid: { xs: 'w-full', sm: 'w-full' }
+          }
+        ]
+      },
+
+
+      {
+        name: 'MessageBird',
+        tag_list: ['conversations.added'],
+        description: 'Interfaces MessageBird Whatsapp',
+        icon: 'https://logo.clearbit.com/MessageBird.com',
+        state: Rails.env.production? ? 'disabled' : 'enabled',
+        definitions: [
+          {
+            name: 'user_id',
+            label: 'Phone',
+            type: 'string',
+            hint: 'The MessageBird Whatsapp number (format: +14155231223)',
+            grid: { xs: 'w-full', sm: 'w-full' }
+          },
+          {
+            name: 'api_key',
+            label: 'Your MessageBird API key',
+            type: 'string',
+            grid: { xs: 'w-full', sm: 'w-full' }
+          },
+          {
+            name: 'sandbox',
+            label: 'is sandbox',
+            type: 'checkbox',
+            grid: { xs: 'w-full', sm: 'w-full' }
+          }
+        ]
+      },
+
+      {
+        name: 'Dialog360',
+        tag_list: ['conversations.added'],
+        description: 'Interfaces 360 Dialog Whatsapp',
+        icon: 'https://logo.clearbit.com/360 Dialog.com',
+        state: Rails.env.production? ? 'disabled' : 'enabled',
+        definitions: [
+          {
+            name: 'user_id',
+            label: 'Phone',
+            type: 'string',
+            hint: 'The 360 Dialog Whatsapp number (format: 14155231223)',
+            grid: { xs: 'w-full', sm: 'w-full' }
+          },
+          {
+            name: 'sandbox',
+            label: 'is sandbox',
+            type: 'checkbox',
+            grid: { xs: 'w-full', sm: 'w-full' }
+          },
+          {
+            name: 'api_key',
+            label: 'Your 360Dialog API key',
+            type: 'string',
+            grid: { xs: 'w-full', sm: 'w-full' }
+          }
+        ]
+      },
+
+      {
         name: 'Messenger',
         tag_list: ['conversations.added'],
         description: 'Interfaces Facebook Messenger',
@@ -391,9 +485,7 @@ class AppPackagesCatalog
             grid: { xs: 'w-full', sm: 'w-full' }
           }
         ]
-      },
-      
-
+      }
     ]
 
     collection = development_packages + collection if dev_packages
