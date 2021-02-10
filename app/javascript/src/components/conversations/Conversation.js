@@ -450,8 +450,6 @@ function Conversation ({
     }))
   }
 
-  console.log('EVENTs', events)
-
   return (
     <BgContainer className="flex-1 flex flex-col overflow-hidden-- h-screen">
       <div className="border-b flex px-6 py-3 items-center flex-none bg-white">

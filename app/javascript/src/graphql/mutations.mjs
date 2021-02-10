@@ -1318,6 +1318,7 @@ export const UPDATE_INTEGRATION = `
         icon
         state
         description
+        hookUrl
       }
     }
   }
