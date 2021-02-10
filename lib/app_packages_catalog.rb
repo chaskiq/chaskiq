@@ -398,6 +398,42 @@ class AppPackagesCatalog
             label: 'Your Vonage API secret', 
             type: 'string',
             grid: { xs: 'w-full', sm: 'w-full' }
+          },
+          {
+            name: 'sandbox',
+            label: 'is sandbox',
+            type: 'checkbox',
+            grid: { xs: 'w-full', sm: 'w-full' }
+          }
+        ]
+      },
+
+
+      {
+        name: 'MessageBird',
+        tag_list: ['conversations.added'],
+        description: 'Interfaces MessageBird Whatsapp',
+        icon: 'https://logo.clearbit.com/MessageBird.com',
+        state: Rails.env.production? ? 'disabled' : 'enabled',
+        definitions: [
+          {
+            name: 'user_id',
+            label: 'Phone',
+            type: 'string',
+            hint: 'The MessageBird Whatsapp number (format: +14155231223)',
+            grid: { xs: 'w-full', sm: 'w-full' }
+          },
+          {
+            name: 'api_key',
+            label: 'Your MessageBird API key',
+            type: 'string',
+            grid: { xs: 'w-full', sm: 'w-full' }
+          },
+          {
+            name: 'sandbox',
+            label: 'is sandbox',
+            type: 'checkbox',
+            grid: { xs: 'w-full', sm: 'w-full' }
           }
         ]
       },
@@ -420,6 +456,12 @@ class AppPackagesCatalog
             name: 'api_key',
             label: 'Your 360Dialog API key',
             type: 'string',
+            grid: { xs: 'w-full', sm: 'w-full' }
+          },
+          {
+            name: 'sandbox',
+            label: 'is sandbox',
+            type: 'checkbox',
             grid: { xs: 'w-full', sm: 'w-full' }
           }
         ]

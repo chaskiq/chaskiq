@@ -507,12 +507,6 @@ ActiveRecord::Schema.define(version: 2020_12_10_184518) do
     t.index ["provider"], name: "index_external_profiles_on_provider"
   end
 
-  create_table "jwt_blacklist", force: :cascade do |t|
-    t.string "jti", null: false
-    t.datetime "exp", null: false
-    t.index ["jti"], name: "index_jwt_blacklist_on_jti"
-  end
-
   create_table "metrics", force: :cascade do |t|
     t.bigint "campaign_id"
     t.string "trackable_type", null: false
