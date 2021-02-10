@@ -16,7 +16,7 @@ class PresenceChannel < ApplicationCable::Channel
 
   def pingback
     # notify_error("pingback error") if current_user.blank?
-    current_user.online! if current_user&.offline?
+    current_user&.online
   end
 
   def offline
