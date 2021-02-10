@@ -11,7 +11,9 @@ module MessageApis
       @api_token = config["api_secret"]
       @phone = config["user_id"]
 
-			@url = "https://waba-sandbox.360dialog.io/v1"
+      if true #config["sandbox"]
+			  @url = "https://waba-sandbox.360dialog.io/v1"
+      end
 			
       @conn = Faraday.new(
         request: {

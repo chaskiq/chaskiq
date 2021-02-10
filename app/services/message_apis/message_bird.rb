@@ -11,8 +11,11 @@ module MessageApis
       @api_token = config["api_secret"]
       @phone = config["user_id"]
 
-			# @url = "https://conversations.messagebird.com/v1/"
-			@url = "https://whatsapp-sandbox.messagebird.com/v1/"
+			if true #config["sandbox"]
+				@url = "https://whatsapp-sandbox.messagebird.com/v1/"
+			else
+				@url = "https://conversations.messagebird.com/v1/"
+			end
 			
       @conn = Faraday.new(
         request: {
