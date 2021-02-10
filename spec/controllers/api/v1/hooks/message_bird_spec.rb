@@ -6,132 +6,176 @@ include ActiveJob::TestHelper
 RSpec.describe Api::V1::Hooks::ProviderController, type: :controller do
 
   let(:owner_phone){
-    '1111'
+    '+1111'
   }
 
   let(:user_phone){
-    '2222'
+    '+2222'
   }
 
-	def data_for(id: , sender: , recipient: , message_id: nil, message_data: {} )
-    {
-			"message_uuid": message_id,
-			"from":  { 	"type": "whatsapp", 	"number": sender },
-			"to":  {"type": "whatsapp", "number": recipient},
+	def contact()
+		{"contact": {
+			"id": "75ef52b66cf24ebcbac8727cd4316ea8",
+			"href": "",
+			"msisdn": 56992302305,
+			"displayName": "Miguel Michelson",
+			"firstName": "",
+			"lastName": "",
+			"customDetails": {},
+			"attributes": {},
+			"createdDatetime": "2021-02-02T20:37:30Z",
+			"updatedDatetime": "2021-02-02T20:37:30Z"
+		}}
+	end
+
+	def conversation
+		{
+			"conversation": {
+				"id": "7b2223447c3441e7961aab583ebe8d14",
+				"contactId": "75ef52b66cf24ebcbac8727cd4316ea8",
+				"status": "active",
+				"createdDatetime": "2021-02-02T20:37:30Z",
+				"updatedDatetime": "2021-02-08T13:18:43Z",
+				"lastReceivedDatetime": "2021-02-09T01:17:57.518405608Z",
+				"lastUsedChannelId": "f457361cf59348129ca387a52d4d7fe2",
+				"messages": {
+						"totalCount": 0,
+						"href": "https://whatsapp-sandbox.messagebird.com//v1/conversations/7b2223447c3441e7961aab583ebe8d14/messages"
+				}
+			}
+		}
+	end
+
+	def data_for(id: , sender: , recipient: , message_id: nil, message_data: {"text"=> "pokk"} )
+		{
 			"message": {
-					"content": {
-							"type": "text",
-							"text": message_data.blank? ? "hola" : message_data["text"]
-					}
+					"id": message_id,
+					"conversationId": "7b2223447c3441e7961aab583ebe8d14",
+					"platform": "whatsapp",
+					"to": recipient,
+					"from": sender,
+					"channelId": "f457361cf59348129ca387a52d4d7fe2",
+					"type": "text",
+					"content": message_data,
+					"direction": "received",
+					"status": "received",
+					"createdDatetime": "2021-02-09T01:17:57Z",
+					"updatedDatetime": "2021-02-09T01:17:57.527914771Z"
 			},
-			"timestamp": "2021-02-03T18:04:52.936Z",
-			
+			"type": "message.created",
 			"controller"=>"api/v1/hooks/provider",
-      "action"=>"process_event",
-      "provider"=>"vonage", 
-      "app_key"=>app.key, 
-      "id"=>@pkg.encoded_id
-    }
+			"action"=>"process_event",
+			"provider"=>"message_bird", 
+			"app_key"=>app.key, 
+			"id"=>@pkg.encoded_id
+		}.merge(contact).merge(conversation)
   end
 
 	def data_for_media(id: , sender: , recipient: , message_id: nil, message_data: {} )
 		{
-			"message_uuid": message_id,
-			"from": { 	"type": "whatsapp", 	"number": sender },
-			"to": {"type": "whatsapp", "number": recipient},
 			"message": {
+					"id": message_id,
+					"conversationId": "7b2223447c3441e7961aab583ebe8d14",
+					"platform": "whatsapp",
+					"to": recipient,
+					"from": sender,
+					"channelId": "f457361cf59348129ca387a52d4d7fe2",
+					"type": "image",
 					"content": {
-							"type": "image",
 							"image": {
-									"url": "https://api.nexmo.com/v3/media/c7e601e8-708b-4fc3-b7cf-92f60c185cd4",
-									"caption": "hola"
+									"url": "https://media.messagebird.com/v1/media/ab397184-a03a-42de-a2c7-69abc4a0ceaa",
+									"caption": "jij"
 							}
-					}
+					},
+					"direction": "received",
+					"status": "received",
+					"createdDatetime": "2021-02-09T01:22:59Z",
+					"updatedDatetime": "2021-02-09T01:23:01.353236248Z"
 			},
-			"timestamp": "2021-02-03T18:10:40.311Z",
-
-      #"MediaContentType0"=>"image/jpeg", 
-      #"SmsMessageSid"=>message_id, 
-      #"NumMedia"=>"1", 
-      #"SmsSid"=>message_id,
-      #"SmsStatus"=>"received", 
-      #"Body"=>"", 
-      #"To"=>"whatsapp:+1111", 
-      #"NumSegments"=>"1", 
-      #"MessageSid"=>message_id, 
-      #"AccountSid"=>"ACe290", 
-      #"From"=>"whatsapp:+2222", 
-      #"MediaUrl0"=>"https://api.twilio.com/2010-04-01/Accounts/AAAA/Messages/AAAAAAAAA/Media/MEf98b16d258dbb7380e44996a3337c54c", 
-      #"ApiVersion"=>"2010-04-01", 
-      "action"=>"process_event", 
-      "provider"=>"vonage", 
-      "controller"=>"api/v1/hooks/provider",
-      "app_key"=>app.key, 
-      "id"=>@pkg.encoded_id    
-    }
+			"type": "message.created",
+			"controller"=>"api/v1/hooks/provider",
+			"action"=>"process_event",
+			"provider"=>"message_bird", 
+			"app_key"=>app.key, 
+			"id"=>@pkg.encoded_id
+		}.merge(contact).merge(conversation)
 	end
 	
 	def data_for_audio(id:, sender: ,recipient: , message_id: nil, message_data: {} )
 		{
-			"message_uuid": message_id,
-			"from": { 	"type": "whatsapp", 	"number": sender },
-			"to": {"type": "whatsapp", "number": recipient},
 			"message": {
-				"content": {
-						"type": "audio",
-						"audio": {
-								"url": "https://api.nexmo.com/v3/media/7a620c45-3d75-4b42-a29f-0379a3798169"
-						}
-				}
+					"id": message_id,
+					"conversationId": "7b2223447c3441e7961aab583ebe8d14",
+					"platform": "whatsapp",
+					"to": recipient,
+					"from": sender,
+					"channelId": "f457361cf59348129ca387a52d4d7fe2",
+					"type": "audio",
+					"content": {
+							"audio": {
+									"url": "https://media.messagebird.com/v1/media/fa1ca4d6-5aa6-4379-a6ef-8d6ecbeb2617"
+							}
+					},
+					"direction": "received",
+					"status": "received",
+					"createdDatetime": "2021-02-09T01:22:59Z",
+					"updatedDatetime": "2021-02-09T01:23:01.353236248Z"
 			},
-			"timestamp": "2021-02-03T18:10:40.311Z",
-			"action"=>"process_event", 
-			"provider"=>"vonage", 
+			"type": "message.created",
 			"controller"=>"api/v1/hooks/provider",
+			"action"=>"process_event",
+			"provider"=>"message_bird", 
 			"app_key"=>app.key, 
-			"id"=>@pkg.encoded_id    
-		}
+			"id"=>@pkg.encoded_id
+		}.merge(contact).merge(conversation)
 	end
 
 	def data_for_video(id:, sender: ,recipient: , message_id: nil, message_data: {})
 		{
-			"message_uuid": message_id,
-			"from": { 	"type": "whatsapp", 	"number": sender },
-			"to": {"type": "whatsapp", "number": recipient},
 			"message": {
-				"content": {
+					"id": message_id,
+					"conversationId": "7b2223447c3441e7961aab583ebe8d14",
+					"platform": "whatsapp",
+					"to": recipient,
+					"from": sender,
+					"channelId": "f457361cf59348129ca387a52d4d7fe2",
 					"type": "video",
-					"video": {
-							"url": "https://api.nexmo.com/v3/media/ae78f99c-4dde-4dd7-81e0-81b71a6dba13",
-							"caption": "iojij"
-					}
-				}
+					"content": {
+							"video": {
+									"url": "https://media.messagebird.com/v1/media/2566f6eb-aa00-47fd-9608-604e08bb537d",
+									"caption": "hello"
+							}
+					},
+					"direction": "received",
+					"status": "received",
+					"createdDatetime": "2021-02-09T01:17:57Z",
+					"updatedDatetime": "2021-02-09T01:17:57.527914771Z"
 			},
-			"timestamp": "2021-02-03T18:10:40.311Z",
-			"action"=>"process_event", 
-			"provider"=>"vonage", 
+			"type": "message.created",
 			"controller"=>"api/v1/hooks/provider",
+			"action"=>"process_event",
+			"provider"=>"message_bird", 
 			"app_key"=>app.key, 
-			"id"=>@pkg.encoded_id    
-		}
+			"id"=>@pkg.encoded_id
+		}.merge(contact).merge(conversation)
 	end
 
 	def data_for_read(id: , sender: , recipient: , message_id: nil, message_data: {})
-			{
-				"message_uuid": "1f882e4c-75d1-4625-aa0a-2e5f8e068de9",
-				"from": {
-						"type": "whatsapp",
-						"number": "14157386170"
-				},
-				"to": {
-						"type": "whatsapp",
-						"number": "56992302305"
-				},
-				"timestamp": "2021-02-04T03:05:17.616Z",
-				"status": "read"
+		{
+			"statuses": [
+					{
+							"id": message_id,
+							"recipient_id": "56992302305",
+							"status": "delivered",
+							"timestamp": "1612646286"
+					}
+			],		
+			"controller"=>"api/v1/hooks/provider",
+      "action"=>"process_event",
+      "provider"=>"message_bird", 
+      "app_key"=>app.key, 
+      "id"=>@pkg.encoded_id
 		}
-
-
 	end
 
   let!(:app) do
@@ -142,8 +186,8 @@ RSpec.describe Api::V1::Hooks::ProviderController, type: :controller do
     app.add_agent({email: 'test2@test.cl'})
   end
 
-  let(:app_package) do
-    AppPackage.find_by(name: 'Vonage')
+  let(:app_package) do	1
+    AppPackage.find_by(name: 'MessageBird')
   end
 
   describe "hooks" do
@@ -165,10 +209,14 @@ RSpec.describe Api::V1::Hooks::ProviderController, type: :controller do
         app_package: app_package,
         sandbox: true
       )
+
+			allow_any_instance_of(MessageApis::MessageBird).to receive(
+				:direct_upload
+			).and_return('/direct-upload-mock')
     end
   
     it "receive conversation data" do
-      get(:process_event, 
+      re = get(:process_event, 
         params: data_for({
           id: @pkg.id, 
           sender: owner_phone, 
@@ -176,9 +224,11 @@ RSpec.describe Api::V1::Hooks::ProviderController, type: :controller do
           message_id: "1234"
         })
 			)
+			
       expect(response.status).to be == 200
       expect(app.conversations.count).to be == 1
       expect(app.conversations.last.messages).to be_any
+			expect(app.conversations.last.main_participant.name).to eql("Miguel Michelson")
       expect(app.conversations.last.messages.last.conversation_part_channel_sources).to be_any
     end
 
@@ -198,11 +248,10 @@ RSpec.describe Api::V1::Hooks::ProviderController, type: :controller do
 
       message = app.conversations.last.messages.last
 			expect(message.conversation_part_channel_sources).to be_any
-      expect(message.messageable.serialized_content).to include('https://api.nexmo.com/v3/media/')
+      expect(message.messageable.serialized_content).to include('/direct-upload-mock')
 		end
 		
 		it "receive conversation video" do
-
       get(:process_event, 
         params: data_for_video({
           id: @pkg.id, 
@@ -217,7 +266,7 @@ RSpec.describe Api::V1::Hooks::ProviderController, type: :controller do
 
       message = app.conversations.last.messages.last
 			expect(message.conversation_part_channel_sources).to be_any
-      expect(message.messageable.serialized_content).to include('https://api.nexmo.com/v3/media/')
+      expect(message.messageable.serialized_content).to include('/direct-upload-mock')
 		end
 
 		it "receive conversation audio" do
@@ -236,8 +285,7 @@ RSpec.describe Api::V1::Hooks::ProviderController, type: :controller do
 
       message = app.conversations.last.messages.last
 			expect(message.conversation_part_channel_sources).to be_any
-			
-      expect(message.messageable.serialized_content).to include('https://api.nexmo.com/v3/media/')
+      expect(message.messageable.serialized_content).to include('/direct-upload-mock')
     end
 
     it "receive two messages in single conversation" do
@@ -267,7 +315,7 @@ RSpec.describe Api::V1::Hooks::ProviderController, type: :controller do
       expect(app.conversations.first.messages.count).to be == 2
     end 
 
-    it "reply from agent on vonage" do
+    it "reply from agent on message_bird" do
 
       get(:process_event, params: data_for(
         id: @pkg.id, 

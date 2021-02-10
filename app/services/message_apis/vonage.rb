@@ -11,7 +11,11 @@ module MessageApis
       @api_token = config["api_secret"]
       @phone = config["user_id"]
 
-			@url = "https://messages-sandbox.nexmo.com/v0.1/messages"
+      if true #config["sandbox"]
+			  @url = "https://messages-sandbox.nexmo.com/v0.1/messages"
+      else
+        @url = "https://api.nexmo.com/v0.1/messages"
+      end
 			
       @conn = Faraday.new(
         request: {

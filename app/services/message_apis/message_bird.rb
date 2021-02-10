@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 
 module MessageApis
-  class Dialog360
-    PROVIDER = 'dialog_360'
+  class MessageBird
+    PROVIDER = 'message_bird'
 
     attr_accessor :url, :api_key, :conn
 
@@ -11,18 +11,20 @@ module MessageApis
       @api_token = config["api_secret"]
       @phone = config["user_id"]
 
-      if true #config["sandbox"]
-			  @url = "https://waba-sandbox.360dialog.io/v1"
-      end
+			if true #config["sandbox"]
+				@url = "https://whatsapp-sandbox.messagebird.com/v1/"
+			else
+				@url = "https://conversations.messagebird.com/v1/"
+			end
 			
       @conn = Faraday.new(
         request: {
           params_encoder: Faraday::FlatParamsEncoder
         }
 			)
-			
+
 			@conn.headers = { 
-        'D360-Api-Key': @api_key,
+        'authorization': "AccessKey #{@api_key}",
 				'Content-Type'=> 'application/json',
 				'Accept'=> 'application/json'
       }
@@ -32,10 +34,12 @@ module MessageApis
 
     def register_webhook(app_package, integration)
       data = {
-        "url": integration.hook_url
+        "url": integration.hook_url,
+				"events": ["message.created", "message.updated"],
+				"channelId": integration.id,
       }
 
-      response = @conn.post("#{@url}/configs/webhook", data.to_json)
+      response = @conn.post("#{@url}/webhook", data.to_json)
       response.status
     end
 
@@ -64,7 +68,7 @@ module MessageApis
         process_statuses(params["statuses"])
 			end
 			
-      if params["messages"].present?
+      if params["message"].present?
 			  process_message(params, @package)
       end
     end
@@ -136,16 +140,15 @@ module MessageApis
 			return if profile_id.blank?
 
       message_params = {          
-				"from": { "type": "whatsapp", "number": @phone },
+				"from": @phone,
     		"to": profile_id
       }
 
       message_params.merge!({
         type: 'text',
-        text: { body: plain_message }
+        content: { text: plain_message }
       }) if is_plain
 
-			# TODO: support audio / video / gif
       message_params.merge!({
         type: 'image', 
         image: {
@@ -170,8 +173,9 @@ module MessageApis
         }
 			}) if file_block
 
+
       s = @conn.post(
-        "#{@url}/messages",
+        "#{@url}/send",
         message_params.to_json
 			)
     end
@@ -212,52 +216,48 @@ module MessageApis
 
 			app = package.app
 
-      messages = params["messages"]
+      message = params["message"]
 
-      messages.each do |message|
+			sender_id = message["from"]
+			to = message["to"]
+			message_id = message["id"]
 
-        sender_id = message["from"]
-        message_id = message["id"]
-  
-        # determine the id of the user (channel)
-        is_agent = sender_id == "#{package.user_id}"
-        
-        channel_id = is_agent ? sender_id : package.user_id
-        dialog_user = sender_id
-  
-        conversation = find_conversation_by_channel(channel_id)
-  
-        return if conversation && conversation.conversation_part_channel_sources
-        .find_by(message_source_id: message_id).present?
-  
-        text = message.dig("text", "body")
-  
-        serialized_content = serialize_content(message)
-        
-        participant = add_participant(dialog_user, message, params['contacts'])
-  
-        conversation = app.conversations.create(
-          main_participant: participant,
-          conversation_channels_attributes: [
-            provider: PROVIDER,
-            provider_channel_id: channel_id
-          ]
-        ) if conversation.blank?
-  
-        # TODO: serialize message                 
-        conversation.add_message(
-          from: is_agent ? @package.app.agents.first : participant, #agent_required ? Agent.first : participant,
-          message: {
-            html_content: text,
-            serialized_content: serialized_content
-          },
-          provider: PROVIDER,
-          message_source_id: message_id,
-          check_assignment_rules: true
-        )
+			# determine the id of the user (channel)
+			is_agent = sender_id == "#{package.user_id}"
+			
+			channel_id = is_agent ? message["to"] : message["from"]
+			dialog_user = sender_id
 
+			conversation = find_conversation_by_channel(channel_id)
 
-      end
+			return if conversation && conversation.conversation_part_channel_sources
+			.find_by(message_source_id: message_id).present?
+
+			text = message.dig("content", "text")
+
+			serialized_content = serialize_content(message)
+		
+			participant = add_participant(dialog_user, message, params["contact"])
+
+			conversation = app.conversations.create(
+				main_participant: participant,
+				conversation_channels_attributes: [
+					provider: PROVIDER,
+					provider_channel_id: channel_id
+				]
+			) if conversation.blank?			
+
+			# TODO: serialize message                 
+			conversation.add_message(
+				from: is_agent ? @package.app.agents.first : participant, #agent_required ? Agent.first : participant,
+				message: {
+					html_content: text,
+					serialized_content: serialized_content
+				},
+				provider: PROVIDER,
+				message_source_id: message_id,
+				check_assignment_rules: true
+			)
 
     end
 
@@ -274,7 +274,7 @@ module MessageApis
     end
 
     def serialize_content(data)
-      if text = data.dig("text", "body")
+      if text = data.dig("content", "text")
 				text_block(text) if text.present?
 			else
 				attachment_block(data)
@@ -309,28 +309,21 @@ module MessageApis
     end
 
 		def media_block(data)
-			media_type = data["type"]
+			media_type = data["content"].keys.first
+			content = data["content"][data["content"].keys.first]
+			url = content["url"]
+			text = content["caption"]
 			case media_type
 				when "unsupported" then nil
-				when "image", "sticker"
-					url = data[data["type"]]
-					text = data[data["type"]]["caption"]
+				when "image"
 					photo_block(url, text)
 				when "video"
-					url = data["video"]
-					text = data["video"]["caption"]
 					gif_block(url, text)
 				when "audio"
-					url = data["audio"]
-					text = data["audio"]["caption"]
 					file_block(url, text)
 				when "voice"
-					url = data["voice"]
-					text = data["voice"]["caption"]
 					file_block(url, text)
         when "document"
-					url = data["document"]
-					text = data["document"]["caption"]
 					file_block(url, text)
 				else
       end
@@ -414,10 +407,9 @@ module MessageApis
       ('a'..'z').to_a.shuffle[0,8].join
     end
 
-    def add_participant(dialog_user, message, contacts = [])
+    def add_participant(dialog_user, message, contact)
       app = @package.app
-      profile = contacts.find{|o| o["wa_id"] == dialog_user}
-      
+
       if dialog_user
 
         profile_data = {
@@ -425,8 +417,8 @@ module MessageApis
         }
 
         profile_data.merge!({
-          name: profile.dig("profile", "name")
-        }) if profile
+          name: contact["displayName"]
+        }) if contact["displayName"]
 
         data = {
           properties: profile_data
