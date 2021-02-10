@@ -394,6 +394,12 @@ class AppPackagesCatalog
             grid: { xs: 'w-full', sm: 'w-full' }
           },
           {
+            name: 'sandbox',
+            label: 'is sandbox',
+            type: 'checkbox',
+            grid: { xs: 'w-full', sm: 'w-full' }
+          },
+          {
             name: 'api_secret',
             label: 'Your Vonage API secret', 
             type: 'string',
@@ -444,6 +450,12 @@ class AppPackagesCatalog
             label: 'Phone',
             type: 'string',
             hint: 'The 360 Dialog Whatsapp number (format: 14155231223)',
+            grid: { xs: 'w-full', sm: 'w-full' }
+          },
+          {
+            name: 'sandbox',
+            label: 'is sandbox',
+            type: 'checkbox',
             grid: { xs: 'w-full', sm: 'w-full' }
           },
           {
