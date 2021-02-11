@@ -42,7 +42,7 @@ module ApplicationCable
         #     }
         #   )
         # end
-        return 
+        # return 
       end
 
       OriginValidator.new(
@@ -58,7 +58,17 @@ module ApplicationCable
     private
 
     def report_error(e)
-      Bugsnag.notify(e)
+      Bugsnag.notify(e) do |report|
+        report.add_tab(
+          :context,
+          {
+            app: self.app&.key,
+            env: env['HTTP_ORIGIN'],
+            params: request.query_parameters,
+            current_user: self.current_user&.key
+          }
+        )
+      end
     end
 
     def get_user_data
