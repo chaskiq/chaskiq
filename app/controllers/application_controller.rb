@@ -25,12 +25,7 @@ class ApplicationController < ActionController::Base
   end
 
   def authorize_by_encrypted_params
-    key = @app.encryption_key
-    encrypted = request.headers['HTTP_ENC_DATA']
-    json = JWE.decrypt(encrypted, key)
-    JSON.parse(json).deep_symbolize_keys
-  rescue StandardError
-    {}
+    @app.decrypt(request.headers['HTTP_ENC_DATA'])
   end
 
   def cookie_namespace
@@ -38,12 +33,8 @@ class ApplicationController < ActionController::Base
   end
 
   def package_iframe
-
     data = JSON.parse(params[:data])
-
-    app = App.find_by(key: data["data"]["app_id"])
-    @app = app
-    key = app.encryption_key
+    @app = App.find_by(key: data["data"]["app_id"])
 
     url_base = data['data']['field']['action']['url']
     url = if url_base.match(%r{^/package_iframe_internal/})
@@ -51,21 +42,18 @@ class ApplicationController < ActionController::Base
           else
             url_base
           end
-
     # TODO: unify this with the API auth
     begin
-      encrypted = data["data"]["enc_data"]
-      json = JWE.decrypt(encrypted, key)
-      user_data = JSON.parse(json).deep_symbolize_keys
+      user_data = @app.decrypt(data["data"]["enc_data"])
       if user_data.present? && user_data[:email].present?
-        app_user = app.app_users.users.find_by(email: user_data[:email])
+        app_user = @app.app_users.users.find_by(email: user_data[:email])
       else
-        app_user = app.app_users.find_by(
+        app_user = @app.app_users.find_by(
           session_id: cookies[cookie_namespace]
         )
       end
     rescue 
-      app_user = app.app_users.find_by(
+      app_user = @app.app_users.find_by(
         session_id: cookies[cookie_namespace]
       )
     end

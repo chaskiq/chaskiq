@@ -3,8 +3,6 @@
 module ApplicationCable
   class Connection < ActionCable::Connection::Base
 
-    include UserFinder
-
     identified_by :current_user, :app
 
     def connect
@@ -44,7 +42,7 @@ module ApplicationCable
         #     }
         #   )
         # end
-        return 
+        # return 
       end
 
       OriginValidator.new(
@@ -52,8 +50,7 @@ module ApplicationCable
         host: env['HTTP_ORIGIN']
       ).is_valid?
   
-      get_user_data
-      find_user
+      find_user(get_user_data)
     end
 
     rescue_from StandardError, with: :report_error
@@ -61,37 +58,43 @@ module ApplicationCable
     private
 
     def report_error(e)
-      Bugsnag.notify(e)
+      Bugsnag.notify(e) do |report|
+        report.add_tab(
+          :context,
+          {
+            app: self.app&.key,
+            env: env['HTTP_ORIGIN'],
+            params: request.query_parameters,
+            current_user: self.current_user&.key
+          }
+        )
+      end
     end
 
-
     def get_user_data
-      @user_data = if app.encryption_enabled?
-                     authorize_by_encrypted_params
-                   else
-                     get_user_from_unencrypted
-                   end
+      if app.encryption_enabled?
+        authorize_by_encrypted_params
+      else
+        get_user_from_unencrypted
+      end
     end
 
     def authorize_by_encrypted_params
       params = request.query_parameters()
-      key = app.encryption_key
-      encrypted = params[:enc]
-      json = JWE.decrypt(encrypted, key)
-      result = JSON.parse(json).symbolize_keys
-      raise "nil" if result.blank?
-      result
-    rescue StandardError
-      nil
+      app.decrypt(params[:enc])
     end
 
     def get_user_by_session
-      app.app_users.find_by(session_id: cookies[cookie_namespace])
+      params = request.query_parameters()
+      app.app_users.find_by(session_id: params[:session_id])
     end
 
-    def cookie_namespace
-      "chaskiq_session_id_#{app.key.gsub("-", "")}".to_sym
+    def find_user(user_data)
+      if user_data.blank?
+        visitor = get_user_by_session
+      else
+        app.app_users.find_by(email: user_data[:email])
+      end
     end
-
   end
 end
