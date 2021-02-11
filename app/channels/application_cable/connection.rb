@@ -65,8 +65,7 @@ module ApplicationCable
             app: self.app&.key,
             env: env['HTTP_ORIGIN'],
             params: request.query_parameters,
-            current_user: self.current_user&.key,
-            cookie: cookies[cookie_namespace]
+            current_user: self.current_user&.key
           }
         )
       end
@@ -86,11 +85,8 @@ module ApplicationCable
     end
 
     def get_user_by_session
-      app.app_users.find_by(session_id: cookies[cookie_namespace])
-    end
-
-    def cookie_namespace
-      "chaskiq_session_id_#{app.key.gsub("-", "")}".to_sym
+      params = request.query_parameters()
+      app.app_users.find_by(session_id: params[:session_id])
     end
 
     def find_user(user_data)

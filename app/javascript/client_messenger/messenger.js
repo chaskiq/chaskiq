@@ -169,7 +169,7 @@ class Messenger extends Component {
 
     App = {
       cable: actioncable.createConsumer(
-        `${this.props.ws}?enc=${this.props.encData}&app=${this.props.app_id}`
+        `${this.props.ws}?enc=${this.props.encData}&app=${this.props.app_id}&session_id=${this.props.session_id}`
       )
     }
 
