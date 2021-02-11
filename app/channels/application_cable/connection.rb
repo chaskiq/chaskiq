@@ -65,7 +65,8 @@ module ApplicationCable
             app: self.app&.key,
             env: env['HTTP_ORIGIN'],
             params: request.query_parameters,
-            current_user: self.current_user&.key
+            current_user: self.current_user&.key,
+            cookie: cookies[cookie_namespace]
           }
         )
       end
