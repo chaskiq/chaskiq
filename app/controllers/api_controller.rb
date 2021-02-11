@@ -126,12 +126,7 @@ class ApiController < ActionController::API
   end
 
   def authorize_by_encrypted_params
-    key = @app.encryption_key
-    encrypted = request.headers['HTTP_ENC_DATA']
-    json = JWE.decrypt(encrypted, key)
-    JSON.parse(json).deep_symbolize_keys
-  rescue StandardError
-    {}
+    @app.decrypt(request.headers['HTTP_ENC_DATA'])
   end
 
   # non encrypted version

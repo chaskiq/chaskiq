@@ -208,7 +208,7 @@ module MessageApis
             },
             {
               "type": "mrkdwn",
-              "text": "*Seen:* #{I18n.l(participant.last_visited_at, format: :short)}"
+              "text": "*Seen:* #{participant.last_visited_at ? I18n.l(participant.last_visited_at, format: :short) : 'unknown'}"
             },
             {
               "type": "mrkdwn",

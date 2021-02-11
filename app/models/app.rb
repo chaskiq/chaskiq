@@ -327,6 +327,13 @@ class App < ApplicationRecord
     self.encryption_key = SecureRandom.hex(8)
   end
 
+  def decrypt(data)
+    json = JWE.decrypt(data, encryption_key)
+    JSON.parse(json).deep_symbolize_keys
+  rescue StandardError
+    {}
+  end
+
   def find_app_package(name)
     app_package_integrations
       .joins(:app_package)
@@ -407,6 +414,8 @@ class App < ApplicationRecord
       @plan = Plan.get('free')
     end
   end
+
+
 
   private
 
