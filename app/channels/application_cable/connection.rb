@@ -84,16 +84,13 @@ module ApplicationCable
       app.decrypt(params[:enc])
     end
 
-    def get_user_by_session
-      params = request.query_parameters()
-      app.app_users.find_by(session_id: params[:session_id])
-    end
-
     def find_user(user_data)
+      params = request.query_parameters()
+
       if user_data.blank?
-        visitor = get_user_by_session
+        app.get_non_users_by_session(params[:session_id])
       else
-        app.app_users.find_by(email: user_data[:email])
+        app.get_app_user_by_email(user_data[:email])
       end
     end
   end
