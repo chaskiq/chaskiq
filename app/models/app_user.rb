@@ -127,6 +127,10 @@ class AppUser < ApplicationRecord
     where(type: 'Lead')
   }
 
+  scope :non_users, lambda {
+    where(type: %w[Visitor Lead])
+  }
+
   scope :users, lambda {
     where(type: 'AppUser')
   }
