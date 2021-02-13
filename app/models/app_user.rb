@@ -237,6 +237,7 @@ class AppUser < ApplicationRecord
 
   def offline!
     self.state = 'offline'
+    self.last_visited_at = Time.now
     if save
       ActionCable.server.broadcast("events:#{app.key}",
                                    type: 'presence',
