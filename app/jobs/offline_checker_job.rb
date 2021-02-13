@@ -1,9 +1,11 @@
 class OfflineCheckerJob < ApplicationJob
   queue_as :default
 
-  def perform(current_user, key)
-    return if Redis.new.pubsub("CHANNELS", key).any?
-    return if current_user.offline?
-    current_user&.offline!
+  def perform(user_id, key)
+    return if Redis.current.pubsub("CHANNELS", key).any?
+    u = AppUser.find(user_id)
+    return unless u.present?
+    return if u.offline?
+    u&.offline!
   end
 end
