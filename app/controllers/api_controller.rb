@@ -96,7 +96,7 @@ class ApiController < ActionController::API
   def get_user_by_email
     return nil if get_user_data[:email].blank?
 
-    @app.app_users.users.find_by(email: get_user_data[:email])
+    @app.get_app_user_by_email(get_user_data[:email])
   end
 
   def valid_origin?
@@ -117,7 +117,7 @@ class ApiController < ActionController::API
   def get_user_by_session
     session_id = request.headers['HTTP_SESSION_ID']
     return nil if session_id.blank?
-    @app.app_users.where(type: %w[Visitor Lead]).find_by(session_id: session_id)
+    @app.get_non_users_by_session(session_id)
   end
 
   # THIS IS NOT BEIGN USED?

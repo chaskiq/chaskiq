@@ -252,6 +252,14 @@ class App < ApplicationRecord
     add_agent(attrs, bot: true)
   end
 
+  def get_non_users_by_session(session_id)
+    self.app_users.non_users.find_by(session_id: session_id)
+  end
+
+  def get_app_user_by_email(email)
+    self.app_users.users.find_by(email: email)
+  end
+
   def create_agent_bot
     add_bot_agent(email: "bot@#{id}-chaskiq", name: 'chaskiq bot')
   end
