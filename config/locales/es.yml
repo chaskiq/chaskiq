@@ -214,7 +214,7 @@
           assign: Asigna la conversación
           close: Cierra la conversación
           ask: Solicitar datos de contacto
-          ask_hint: Si aún no tenemos sus datos de contacto, el operador sugerirá que
+          ask_hint: Si aún no tenemos sus datos de contacto, el bot sugerirá que
             los clientes dejen su dirección de correo electrónico o su número de teléfono
             para recibir una notificación cada vez que responda.
           dont_ask_email: No pedir correo electrónico
