@@ -17,9 +17,43 @@ class Message < ApplicationRecord
 
   scope :enabled, -> { where(state: 'enabled') }
   scope :disabled, -> { where(state: 'disabled') }
+  scope :in_time, -> { where(['scheduled_at <= ? AND scheduled_to >= ?', Date.today, Date.today]) }
+
   # before_save :detect_changed_template
   before_create :add_default_predicate
   before_create :initial_state
+
+  scope :availables_for, lambda { |user|
+    enabled.in_time
+           .joins("left outer join metrics
+      on metrics.trackable_type = 'Message'
+      AND metrics.trackable_id = campaigns.id
+      AND metrics.app_user_id = #{user.id}
+      AND settings->'hidden_constraints' ? metrics.action")
+    .where('metrics.id is null')
+  }
+
+  def available_for_user?(user)
+    comparator = SegmentComparator.new(
+      user: user,
+      predicates: segments
+    )
+    comparator.compare # && metrics.where(app_user_id: user.id).blank?
+  rescue ActiveRecord::RecordNotFound
+    false
+  end
+
+  def show_notification_for(user)
+    if available_for_user?(user)
+      metrics.create(
+        app_user: user,
+        trackable: self,
+        action: 'viewed',
+        message_id: user.id
+      )
+      self
+    end
+  end
 
   def self.allowed_types
     %w[campaigns user_auto_messages tours banners]
@@ -42,7 +76,7 @@ class Message < ApplicationRecord
   end
 
   def initial_state
-    self.state = 'disabled'
+    state = 'disabled' unless state.present?
   end
 
   def add_default_predicate

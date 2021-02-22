@@ -222,7 +222,7 @@ en:
         assign: Assign the conversation
         close: Close the conversation
         ask: Ask for contact details
-        ask_hint: If we don’t already have their contact details, Operator will suggest that customers leave their email address or their phone number to get notified whenever you reply.
+        ask_hint: If we don’t already have their contact details, Bot will suggest that customers leave their email address or their phone number to get notified whenever you reply.
         dont_ask_email: Don't ask for email
         ask_email_phone: Ask for email or mobile number
         email_only: Ask for email only

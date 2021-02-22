@@ -212,7 +212,7 @@ const BotTaskCreate = ({ app, submit, history, match, mode }) => {
       // id: create_UUID(),
       title: titleRef.value,
       paths: [],
-      type: mode
+      user_type: mode
     }
 
     graphql(

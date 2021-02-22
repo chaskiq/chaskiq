@@ -10,7 +10,7 @@ module Mutations
 
       def resolve(app_key:, params:)
         find_app(app_key)
-        @bot_task = @app.bot_tasks.create(params.permit(:title, :paths, :type))
+        @bot_task = @app.bot_tasks.create(params.permit(:title, :paths, :user_type))
         { bot_task: @bot_task, errors: @bot_task.errors }
       end
 

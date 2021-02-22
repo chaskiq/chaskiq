@@ -1,45 +1,57 @@
 # frozen_string_literal: true
 
-class BotTask < ApplicationRecord
-  self.inheritance_column = nil
+class BotTask < Message
+  # self.inheritance_column = nil
 
-  acts_as_list scope: %i[app_id]
+  # acts_as_list scope: %i[app_id]
 
   belongs_to :app
 
   has_many :metrics, as: :trackable, dependent: :destroy
 
-  before_create :defaults
+  # before_create :defaults
 
   store_accessor :settings, %i[
     scheduling
     urls
     outgoing_webhook
+    paths
+    user_type
   ]
 
   scope :enabled, -> { where(state: 'enabled') }
   scope :disabled, -> { where(state: 'disabled') }
 
-  scope :for_leads, -> { where(type: 'leads') }
-  scope :for_users, -> { where(type: 'users') }
+  scope :for_leads, -> { 
+    # where(type: 'leads') 
+    where("settings->>'user_type' = ?", 'leads' )
+  }
+  scope :for_users, -> { 
+    # where(type: 'users')
+    where("settings->>'user_type' = ?", 'users' )
+  }
+
+  alias_attribute :title, :name
+
 
   scope :availables_for, lambda { |user|
     enabled.joins("left outer join metrics
-      on metrics.trackable_type = 'BotTask'
-      AND metrics.trackable_id = bot_tasks.id
-      AND metrics.app_user_id = #{user.id}").where('metrics.id is null')
+      on metrics.trackable_type = 'Message'
+      AND metrics.trackable_id = campaigns.id
+      AND metrics.app_user_id = #{user.id}")
+      .where('metrics.id is null')
   }
 
-  def segments
-    predicates
-  end
+  #def segments
+  #  predicates
+  #end
 
-  def segments=(data)
-    self.predicates = data
-  end
+  #def segments=(data)
+  #  self.predicates = data
+  #end
 
-  def defaults
-    self.predicates = default_segments unless predicates.present?
+  def add_default_predicate
+    self.segments = default_segments unless segments.present?
     self.settings = {} unless settings.present?
   end
 
@@ -65,6 +77,7 @@ class BotTask < ApplicationRecord
     app = user.app
     key = "#{app.key}-#{user.session_id}"
     ret = nil
+    
     app.bot_tasks.availables_for(user).each do |bot_task|
       next if bot_task.blank? || !bot_task.available_for_user?(user)
 
@@ -106,15 +119,6 @@ class BotTask < ApplicationRecord
     )
   end
 
-  # def stats_fields
-  #  [
-  #    {name: "DeliverRateCount", label: "DeliverRateCount", keys: [{name: "send", color: "#444"}, {name: "open", color: "#ccc"}] },
-  #    {name: "ClickRateCount", label: "ClickRateCount", keys: [{name: "send" , color: "#444"}, {name: "click", color: "#ccc"}] },
-  #    {name: "BouncesRateCount", label: "BouncesRateCount", keys: [{name: "send", color: "#444"}, {name: "bounces", color: "#ccc"}]},
-  #    {name: "ComplaintsRate", label: "ComplaintsRate", keys: [{name: "send", color: "#444"}, {name: "complaints", color: "#ccc"}]}
-  #  ]
-  # end
-
   def default_segments
     default_predicate = { type: 'match',
                           attribute: 'match',
@@ -135,7 +139,7 @@ class BotTask < ApplicationRecord
       value: 'Lead'
     }.with_indifferent_access
 
-    if type == 'leads'
+    if user_type == 'leads'
       [default_predicate, lead_predicate]
     else
       [default_predicate, user_predicate]
@@ -153,5 +157,9 @@ class BotTask < ApplicationRecord
         ]
       }
     ]
+  end
+
+  def self.duplicate(record)
+    self.create(record.dup)
   end
 end

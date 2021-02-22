@@ -46,7 +46,6 @@ class App < ApplicationRecord
 
   has_many :app_users, dependent: :destroy
   has_many :external_profiles, through: :app_users
-  has_many :bot_tasks, dependent: :destroy
   has_many :visits, through: :app_users, dependent: :destroy
   has_many :quick_replies, dependent: :destroy
   has_many :app_package_integrations, dependent: :destroy
@@ -65,6 +64,7 @@ class App < ApplicationRecord
   has_many :tours, dependent: :destroy
   has_many :banners, dependent: :destroy
   has_many :messages, dependent: :destroy
+  has_many :bot_tasks, dependent: :destroy
   has_many :assignment_rules, dependent: :destroy
   has_many :outgoing_webhooks, dependent: :destroy
   has_many :oauth_applications, class_name: 'Doorkeeper::Application', as: :owner, dependent: :destroy
