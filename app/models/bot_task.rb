@@ -7,7 +7,7 @@ class BotTask < Message
 
   belongs_to :app
 
-  has_many :metrics, as: :trackable, dependent: :destroy
+  has_many :metrics, as: :trackable, dependent: :destroy_async
 
   # before_create :defaults
 
