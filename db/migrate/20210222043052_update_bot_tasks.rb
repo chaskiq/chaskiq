@@ -7,30 +7,22 @@ class UpdateBotTasks < ActiveRecord::Migration[6.1]
   end
 
   def up
-    begin
-      OldBotTasks.find_each do |task|
-        bt = BotTask.new
-        bt.app_id = task.app_id
-        bt.name = task.title
-        bt.segments = task.predicates
-        bt.settings = task.settings
-        bt.paths = task.paths
-        bt.state = task.state
-        bt.user_type = task.type
+    OldBotTasks.find_each do |task|
+      bt = BotTask.new
+      bt.app_id = task.app_id
+      bt.name = task.title
+      bt.segments = task.predicates
+      bt.settings = task.settings
+      bt.paths = task.paths
+      bt.state = task.state
+      bt.user_type = task.type
 
-        bt.save
-
+      if bt.save
         task.metrics.find_each do |m|
-          metric = bt.metrics.new 
-          metric.assign_attributes(m.dup.attributes)
-          metric.trackable_id = bt.id
-          metric.trackable_type = 'Message'
-          metric.created_at = m.created_at
-          metric.updated_at = m.updated_at
-          metric.save
+          m.trackable_id = bt.id
+          m.trackable_type = 'Message'
+          m.save
         end
-
-      rescue ActiveRecord::StatementInvalid
       end
     end
   end
