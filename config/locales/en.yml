@@ -36,6 +36,7 @@ en:
     tagline: Find your current applications here
     create_new: Create new app
     choose_lang: Choose language
+    edit_profile: Edit profile
     go_to_doc: Go to documentation
 
   dashboard:
