@@ -11,9 +11,11 @@ import ReactFlow,
 import Sidebar from './sidebar'
 
 import ColorSelectorNode from './con'
+import Rules from './rules'
 
 const nodeTypes = {
-  selectorNode: ColorSelectorNode
+  selectorNode: ColorSelectorNode,
+	rules: Rules
 }
 
 const getNodeId = () => `randomnode_${+new Date()}`
@@ -26,12 +28,14 @@ function Workflows () {
 
   const initialElements = [
     { id: '1', type: 'input', data: { label: 'Node 1' }, position: { x: 250, y: 5 } },
-    { id: '11', type: 'selectorNode', data: { label: 'Node 1' }, position: { x: 250, y: 50 } },
-    // you can also pass a React Node as a label
+    //{ id: '11', type: 'selectorNode', data: { label: 'Node 1' }, position: { x: 250, y: 50 } },
+    { id: '13', type: 'rules', data: { label: 'entry rule' }, position: { x: 250, y: 150 } },
+
+		// you can also pass a React Node as a label
     { id: '2', data: { label: <div>Node 2</div> }, position: { x: 100, y: 100 } },
 
     { id: 'e1-2', label: 'smoothstep edge', type: 'smoothstep', source: '1', target: '2', sourceHandle: 'a', animated: true },
-    { id: 'e1-3', type: 'smoothstep', source: '11', target: '2', animated: true }
+    //{ id: 'e1-3', type: 'smoothstep', source: '11', target: '2', animated: true }
   ]
 
   const [reactFlowInstance, setReactFlowInstance] = useState(null)

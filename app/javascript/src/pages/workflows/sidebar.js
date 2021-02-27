@@ -13,7 +13,7 @@ export default function Sidebar () {
 
 				<p className="text-md font-medium text-gray-900 pt-4">Audience</p>
 
-				<DefaultNode color={'yellow'} onDragStart={(event) => onDragStart(event, 'input')}>
+				<DefaultNode color={'yellow'} onDragStart={(event) => onDragStart(event, 'rules')}>
 					Rules
 				</DefaultNode>
 
