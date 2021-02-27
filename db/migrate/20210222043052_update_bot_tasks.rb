@@ -18,11 +18,10 @@ class UpdateBotTasks < ActiveRecord::Migration[6.1]
       bt.user_type = task.type
 
       if bt.save
-        task.metrics.find_each do |m|
-          m.trackable_id = bt.id
-          m.trackable_type = 'Message'
-          m.save
-        end
+        task.metrics.update_all(
+          trackable_id: bt.id,
+          trackable_type: 'Message'
+        )
       end
     end
   end
