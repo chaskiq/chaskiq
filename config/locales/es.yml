@@ -39,6 +39,7 @@
       tagline: Encuentra tus aplicaciones aquí
       create_new: Crear nueva aplicación
       choose_lang: Elegir lenguaje
+      edit_profile: Editar perfil
       go_to_doc: Ir a la documentación
     dashboard:
       hey: "👋 ¡Hola !, estás viendo el panel de control de <strong> %{name}</strong>
