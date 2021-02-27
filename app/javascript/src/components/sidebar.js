@@ -14,12 +14,10 @@ import {
   BookMarkIcon,
   MessageBubbleIcon,
   ConversationIcon,
-
   FlagIcon,
   LoadBalancerIcon,
   FactoryIcon,
   ShuffleIcon,
-
   BuildingIcon,
   IntegrationsIcon,
   WebhooksIcon,
@@ -33,7 +31,8 @@ import {
   EmailIcon,
   ApiIcon,
   CardIcon,
-  PictureInPicture
+  PictureInPicture,
+  LabIcon
 } from '../components/icons'
 
 import SidebarAgents from '../components/conversations/SidebarAgents'
@@ -210,6 +209,13 @@ function Sidebar ({
           icon: <TourIcon />,
           url: `${appid}/messages/tours`,
           active: isActivePage('tours')
+        },
+        {
+          id: 'tours',
+          label: I18n.t('navigator.childs.series'),
+          icon: <LabIcon />,
+          url: `${appid}/workflows`,
+          active: isActivePage('workflows')
         }
       ]
     },

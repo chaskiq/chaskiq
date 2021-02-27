@@ -83,6 +83,7 @@
         integrations: Integraciones
         webhooks: Webhooks
         api_access: Acceso a la API
+        series: Workflows
       user_menu:
         create_app: Crear nueva aplicación
         create_app_description: Crea la aplicación Chaskiq para tu empresa

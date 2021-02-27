@@ -85,6 +85,7 @@ en:
       integrations: Integrations
       webhooks: Webhooks
       api_access: API access
+      series: Workflows
 
     user_menu:
       create_app: 'Create new app'

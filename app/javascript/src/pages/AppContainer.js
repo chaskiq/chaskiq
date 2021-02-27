@@ -23,6 +23,7 @@ import Profile from './Profile'
 import AgentProfile from './AgentProfile'
 import Billing from './Billing'
 import Api from './Api'
+import Workflows from './workflows'
 
 import { connect } from 'react-redux'
 
@@ -284,10 +285,10 @@ function AppContainer ({
               </Route>
 
               <Route path={`${match.url}/conversations`}>
-                  <Conversations
-                    subscribed
-                    events={CableApp.current.events}
-                  />
+                <Conversations
+                  subscribed
+                  events={CableApp.current.events}
+                />
               </Route>
 
               <Route path={`${match.url}/oauth_applications`}>
@@ -304,6 +305,10 @@ function AppContainer ({
 
               <Route path={`${match.url}/campaigns`}>
                 <CampaignHome />
+              </Route>
+
+              <Route path={`${match.url}/workflows`}>
+                <Workflows />
               </Route>
 
               <Route path={`${match.path}/messages/:message_type`}>
