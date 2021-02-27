@@ -14,7 +14,7 @@ module MessageApis
 
     attr_accessor :keys,
                   :client,
-                  :base_url #Default: 'https://api.twitter.com/'
+                  :base_url
   
     def initialize(config: {})
       @access_token = access_token
@@ -23,7 +23,10 @@ module MessageApis
       }
 
       @package = nil
+      set_keys(config)
+    end
 
+    def set_keys(config)
       @keys = {}
       @keys['channel'] = Rails.env.development? ? 'chaskiq_channel-local4' : 'chaskiq_channel'
       @keys['consumer_key'] = config["api_key"]
@@ -280,7 +283,6 @@ module MessageApis
         provider: 'slack',
         provider_channel_id: response_data["ts"]
       })
-    
     end
 
     def assignee_display(assignee)
@@ -460,6 +462,10 @@ module MessageApis
         project_id: token_hash["app_id"],
         access_token: token_hash[:access_token],
         access_token_secret: token.to_hash["authed_user"]["access_token"]
+      )
+
+      self.set_keys(
+        package.settings.merge!(package.app_package.credentials)
       )
 
       # this will create the channel
@@ -700,9 +706,7 @@ module MessageApis
       end
     end
 
-
     ### serialization to dante format
-
     def serialize_content(data)
 
       if data.keys.include?("files") 

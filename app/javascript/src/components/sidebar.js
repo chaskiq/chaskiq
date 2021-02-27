@@ -171,8 +171,8 @@ function Sidebar ({
         },
         {
           id: 'SidebarAgents',
-          render: () => [ 
-            <SidebarAgents key={`conversations-sidebar-agents`}/> 
+          render: () => [
+            <SidebarAgents key={'conversations-sidebar-agents'}/>
           ]
         }
       ]
@@ -516,6 +516,11 @@ function Sidebar ({
                         id: 'choose-lang',
                         title: I18n.t('home.choose_lang'),
                         onClick: openLangChooser
+                      },
+                      {
+                        id: 'edit-profile',
+                        title: I18n.t('home.edit_profile'),
+                        onClick: () => (window.location = '/agents/edit')
                       },
                       {
                         title: I18n.t('navigator.user_menu.signout'),

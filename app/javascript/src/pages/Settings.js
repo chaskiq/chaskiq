@@ -130,7 +130,6 @@ class AppSettingsContainer extends Component {
         name: "tagline",
         label: I18n.t('definitions.settings.tagline.label'),
         type: "text",
-        label: "talgline",
         hint: I18n.t('definitions.settings.tagline.hint'),
         grid: { xs: "w-full", sm: "w-1/2" },
       },
