@@ -147,16 +147,10 @@ const BotEditor = ({ match, app, dispatch, mode, actions }) => {
   const [botTask, setBotTask] = useState({});
   const [errors, setErrors] = useState({});
   const [paths, setPaths] = useState([]);
-  const [selectedPath, setSelectedPath] = useState(null);
-  const [isOpen, setOpen] = useState(false);
   const [tabValue, setTabValue] = useState(0);
-  const [changed, setChanged] = useState(null);
   const [searchFields, setSearchFields] = useState([])
-  const [openPackagePanel, setOpenPackagePanel] = useState(null)
+  const [selectedPath, setSelectedPath] = useState(null);
 
-  const handleSelection = (item) => {
-    setSelectedPath(item);
-  };
 
   useEffect(() => {
     graphql(
@@ -207,7 +201,7 @@ const BotEditor = ({ match, app, dispatch, mode, actions }) => {
         success: (data) => {
           setPaths(data.updateBotTask.botTask.paths);
           setErrors(data.updateBotTask.botTask.errors);
-          setSelectedPath(data.updateBotTask.botTask.paths[0]);
+          //setSelectedPath(data.updateBotTask.botTask.paths[0]);
           dispatch(successMessage("bot updated"));
         },
         error: (err) => {
@@ -238,6 +232,158 @@ const BotEditor = ({ match, app, dispatch, mode, actions }) => {
       }
     );
   }
+
+  const handleTabChange = (e, i) => {
+    setTabValue(i);
+  };
+
+  const tabsContent = () => {
+    return (
+      <Tabs
+        value={tabValue}
+        onChange={handleTabChange}
+        textColor="inherit"
+        tabs={[
+          {
+            label: "Stats",
+            content: (
+              <React.Fragment>
+                {!isEmpty(botTask) && (
+                  <Stats
+                    match={match}
+                    app={app}
+                    data={botTask}
+                    getStats={getStats}
+                    actions={actions}
+                    mode={"counter_blocks"}
+                  />
+                )}
+              </React.Fragment>
+            ),
+          },
+          {
+            label: "Settings",
+            content: (
+              <BotTaskSetting
+                app={app}
+                data={botTask}
+                updateData={setBotTask}
+                saveData={saveData}
+                errors={errors}
+              />
+            ),
+          },
+          {
+            label: "Audience",
+            content: (
+              <Segment
+                app={app}
+                data={botTask}
+                updateData={(task) => {
+                  setBotTask(task);
+                }}
+                handleSave={(segments) => {
+                  setBotTask(
+                    Object.assign({}, botTask, { segments: segments })
+                  );
+                  saveData();
+                }}
+              />
+            ),
+          },
+          {
+            label: "Editor",
+            content: <BotPathEditor 
+              app={app}
+              data={botTask}
+              updateData={setBotTask}
+              saveData={saveData}
+              errors={errors}
+              paths={paths}
+              setPaths={setPaths}
+              searchFields={searchFields}
+              selectedPath={selectedPath}
+              setSelectedPath={setSelectedPath}
+            />,
+          },
+        ]}
+      ></Tabs>
+    );
+  };
+
+  const getStats = (params, cb) => {
+    graphql(BOT_TASK_METRICS, params, {
+      success: (data) => {
+        setSearchFields(data.app.searcheableFields)
+        const d = data.app.botTask;
+        cb(d);
+      },
+      error: (error) => {},
+    });
+  };
+
+  return (
+    <div>
+      <Content>
+        <ContentHeader 
+          title={botTask.title} 
+          items={[]}
+          actions={
+            <UpgradeButton 
+            classes={
+              `absolute z-10 ml-1 mt-3 transform w-screen 
+              max-w-md px-2 origin-top-right right-0
+              md:-ml-4 sm:px-0 lg:ml-0
+              lg:right-2/6 lg:translate-x-1/6`
+            }
+            label="Activate Bot Task"
+            feature="BotTasks">
+          
+            <Button
+              className="mr-2"
+              //icon= <CheckCircle />
+              id="enabled"
+              state="enabled"
+              variant={"success"}
+              onClick={toggleBotState}
+            >
+              {botTask.state === 'enabled' ? 'Disable' : 'Enable'}
+            </Button>
+          </UpgradeButton>
+          }
+        />
+        {tabsContent()}
+      </Content>
+    </div>
+  );
+};
+
+
+export function BotPathEditor({
+  saveData, 
+  paths, 
+  app, 
+  setPaths, 
+  searchFields,
+  selectedPath, 
+  setSelectedPath
+}){
+
+  const [isOpen, setOpen] = useState(false);
+  const [changed, setChanged] = useState(null);
+  const [openPackagePanel, setOpenPackagePanel] = useState(null)
+
+
+  const open = () => setOpen(true);
+  const close = () => setOpen(false);
+
+  const showPathDialog = () => {
+    setOpen(true);
+  };
+
+  const handleSelection = (item) => {
+    setSelectedPath(item);
+  };
 
   const addSectionMessage = (path) => {
     const dummy = {
@@ -404,110 +550,14 @@ const BotEditor = ({ match, app, dispatch, mode, actions }) => {
     setSelectedPath(newPath); // redundant
   };
 
-  const addAppPackage = (path) => {
-    setOpenPackagePanel(path)
-  }
-
-  const addPath = (path) => {
-    const newPaths = paths.concat(path);
-    setPaths(newPaths);
-  };
-
   const addEmptyPath = (data) => {
     addPath(data);
     close();
   };
 
-  const updatePath = (path) => {
-    const newPaths = paths.map((o) => (o.id === path.id ? path : o));
-    setPaths(newPaths);
-    setSelectedPath(newPaths.find((o) => o.id === path.id)); // redundant
-  };
-
-  const open = () => setOpen(true);
-  const close = () => setOpen(false);
-
-  const showPathDialog = () => {
-    setOpen(true);
-  };
-
-  const handleTabChange = (e, i) => {
-    setTabValue(i);
-  };
-
-  const tabsContent = () => {
-    return (
-      <Tabs
-        value={tabValue}
-        onChange={handleTabChange}
-        textColor="inherit"
-        tabs={[
-          {
-            label: "Stats",
-            content: (
-              <React.Fragment>
-                {!isEmpty(botTask) && (
-                  <Stats
-                    match={match}
-                    app={app}
-                    data={botTask}
-                    getStats={getStats}
-                    actions={actions}
-                    mode={"counter_blocks"}
-                  />
-                )}
-              </React.Fragment>
-            ),
-          },
-          {
-            label: "Settings",
-            content: (
-              <BotTaskSetting
-                app={app}
-                data={botTask}
-                updateData={setBotTask}
-                saveData={saveData}
-                errors={errors}
-              />
-            ),
-          },
-          {
-            label: "Audience",
-            content: (
-              <Segment
-                app={app}
-                data={botTask}
-                updateData={(task) => {
-                  setBotTask(task);
-                }}
-                handleSave={(segments) => {
-                  setBotTask(
-                    Object.assign({}, botTask, { segments: segments })
-                  );
-                  saveData();
-                }}
-              />
-            ),
-          },
-          {
-            label: "Editor",
-            content: renderEditor(),
-          },
-        ]}
-      ></Tabs>
-    );
-  };
-
-  const getStats = (params, cb) => {
-    graphql(BOT_TASK_METRICS, params, {
-      success: (data) => {
-        setSearchFields(data.app.searcheableFields)
-        const d = data.app.botTask;
-        cb(d);
-      },
-      error: (error) => {},
-    });
-  };
+  const addAppPackage = (path) => {
+    setOpenPackagePanel(path)
+  }
 
   const onDragEnd = (result) => {
     // dropped outside the list
@@ -524,7 +574,17 @@ const BotEditor = ({ match, app, dispatch, mode, actions }) => {
     setPaths(newPaths);
   };
 
-  const renderEditor = () => {
+  const addPath = (path) => {
+    const newPaths = paths.concat(path);
+    setPaths(newPaths);
+  };
+
+  const updatePath = (path) => {
+    const newPaths = paths.map((o) => (o.id === path.id ? path : o));
+    setPaths(newPaths);
+    setSelectedPath(newPaths.find((o) => o.id === path.id)); // redundant
+  };
+
     return (
       <div className="flex justify-between my-4 border-1 border-gray-400 rounded-md shadow">
         {isOpen && (
@@ -649,43 +709,7 @@ const BotEditor = ({ match, app, dispatch, mode, actions }) => {
         )}
       </div>
     );
-  };
-
-  return (
-    <div>
-      <Content>
-        <ContentHeader 
-          title={botTask.title} 
-          items={[]}
-          actions={
-            <UpgradeButton 
-            classes={
-              `absolute z-10 ml-1 mt-3 transform w-screen 
-              max-w-md px-2 origin-top-right right-0
-              md:-ml-4 sm:px-0 lg:ml-0
-              lg:right-2/6 lg:translate-x-1/6`
-            }
-            label="Activate Bot Task"
-            feature="BotTasks">
-          
-            <Button
-              className="mr-2"
-              //icon= <CheckCircle />
-              id="enabled"
-              state="enabled"
-              variant={"success"}
-              onClick={toggleBotState}
-            >
-              {botTask.state === 'enabled' ? 'Disable' : 'Enable'}
-            </Button>
-          </UpgradeButton>
-          }
-        />
-        {tabsContent()}
-      </Content>
-    </div>
-  );
-};
+}
 
 function FollowActionsSelect({ app, path, updatePath }) {
   const options = [
