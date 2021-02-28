@@ -24,6 +24,8 @@ import DeleteDialog from '../components/DeleteDialog'
 import { successMessage } from '../actions/status_messages'
 import { setCurrentSection, setCurrentPage } from '../actions/navigation'
 
+import FilterMenu from '../components/FilterMenu'
+
 const BotDataTable = ({ app, match, history, mode, dispatch }) => {
   const [loading, setLoading] = useState(false)
   const [botTasks, setBotTasks] = useState([])
@@ -77,6 +79,41 @@ const BotDataTable = ({ app, match, history, mode, dispatch }) => {
     setOpenTaskForm(!openTaskForm)
   }
 
+  function optionsForFilter () {
+    const options = [
+      {
+        title: 'Import CSV',
+        description: 'Imports CSV',
+        // icon: <UnsubscribeIcon/>,
+        id: 'import-csv',
+        state: 'import-csv'
+      }
+    ]
+    return options
+  }
+
+  function toggleButton (clickHandler) {
+    return (
+      <div>
+        <Button
+          onClick={clickHandler}>
+          Create Users & Leads
+        </Button>
+      </div>
+    )
+  }
+
+  function toggleStateButton (clickHandler) {
+    return (
+      <div>
+        <Button
+          onClick={clickHandler}>
+          State
+        </Button>
+      </div>
+    )
+  }
+
   return (
     <div>
       <Content>
@@ -94,6 +131,36 @@ const BotDataTable = ({ app, match, history, mode, dispatch }) => {
           }
           tabsContent={null}
         />
+
+        <div className="flex">
+          <div className="mr-3">
+            <FilterMenu
+              options={optionsForFilter()}
+              value={null}
+              filterHandler={(e) => console.log(e)}
+              triggerButton={toggleButton}
+              position={'left'}
+            />
+          </div>
+
+          <div>
+            <FilterMenu
+              options={[
+                {
+                  title: 'Import CSV',
+                  description: 'Imports CSV',
+                  // icon: <UnsubscribeIcon/>,
+                  id: 'import-csv',
+                  state: 'import-csv'
+                }
+              ]}
+              value={null}
+              filterHandler={(e) => console.log(e)}
+              triggerButton={toggleStateButton}
+              position={'left'}
+            />
+          </div>
+        </div>
 
         {!loading && botTasks.length > 0 && (
           <Table
@@ -212,7 +279,7 @@ const BotTaskCreate = ({ app, submit, history, match, mode }) => {
       // id: create_UUID(),
       title: titleRef.value,
       paths: [],
-      user_type: mode
+      bot_type: mode
     }
 
     graphql(
@@ -292,13 +359,13 @@ const BotContainer = ({ app, match, history, dispatch, actions }) => {
 
       <Route
         exact
-        path={[`${match.path}/users`]}
+        path={[`${match.path}/outbound`]}
         render={(props) => (
           <BotDataTable
             app={app}
             history={history}
             match={match}
-            mode={'users'}
+            mode={'outbound'}
             dispatch={dispatch}
             {...props}
           />
@@ -307,13 +374,13 @@ const BotContainer = ({ app, match, history, dispatch, actions }) => {
 
       <Route
         exact
-        path={[`${match.path}/leads`]}
+        path={[`${match.path}/new_conversations`]}
         render={(props) => (
           <BotDataTable
             app={app}
             history={history}
             match={match}
-            mode={'leads'}
+            mode={'new_conversations'}
             dispatch={dispatch}
             {...props}
           />
@@ -322,7 +389,7 @@ const BotContainer = ({ app, match, history, dispatch, actions }) => {
 
       <Route
         exact
-        path={[`${match.path}/leads/:id`]}
+        path={[`${match.path}/outbound/:id`]}
         render={(props) => {
           return (
             <BotEditor
@@ -338,10 +405,14 @@ const BotContainer = ({ app, match, history, dispatch, actions }) => {
 
       <Route
         exact
-        path={`${match.path}/users/:id`}
+        path={`${match.path}/new_conversations/:id`}
         render={(props) => {
           return (
-            <BotEditor app={app} mode={'users'} match={match} {...props} />
+            <BotEditor app={app}
+              mode={'users'}
+              match={match}
+              {...props}
+            />
           )
         }}
       />

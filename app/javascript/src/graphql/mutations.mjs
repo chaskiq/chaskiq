@@ -1181,6 +1181,7 @@ export const CREATE_BOT_TASK = `
         scheduling
         state
         urls
+        botType
         paths {
           id
           title
@@ -1206,6 +1207,7 @@ export const UPDATE_BOT_TASK = `
         segments
         state
         urls
+        botType
         paths {
           id
           title

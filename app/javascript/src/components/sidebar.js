@@ -221,17 +221,17 @@ function Sidebar ({
       url: `/apps/${app.key}/bots/settings`,
       children: [
         {
-          id: 'For Leads',
-          label: I18n.t('navigator.childs.for_leads'),
+          id: 'outbound',
+          label: I18n.t('navigator.childs.outbound'),
           icon: <UserWalkIcon />,
-          url: `${appid}/bots/leads`,
+          url: `${appid}/bots/outbound`,
           active: isActivePage('botleads')
         },
         {
-          id: 'For Users',
-          label: I18n.t('navigator.childs.for_users'),
+          id: 'user_conversations',
+          label: I18n.t('navigator.childs.new_conversations'),
           icon: <UserIcon />,
-          url: `${appid}/bots/users`,
+          url: `${appid}/bots/new_conversations`,
           active: isActivePage('botusers')
         },
         {

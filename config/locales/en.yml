@@ -75,7 +75,9 @@ en:
       guided_tours: Guided Tours
       for_leads: For Leads
       for_users: For Users
-      bot_settings: Settings
+      bot_settings: Bot Tasks
+      outbound: outbound
+      new_conversations: New conversations
       articles: Articles
       collections: Collections
       article_settings: Settings

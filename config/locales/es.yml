@@ -73,7 +73,9 @@
         guided_tours: Visitas guiadas
         for_leads: Para clientes potenciales
         for_users: Para los usuarios
-        bot_settings: Configuraciones
+        bot_settings: Tareas Bot
+        outbound: De salida
+        new_conversations: Nuevas conversaciones
         articles: Artículos
         collections: Colecciones
         article_settings: Configuraciones

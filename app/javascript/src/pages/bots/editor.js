@@ -295,7 +295,7 @@ const BotEditor = ({ match, app, dispatch, mode, actions }) => {
             label: "Editor",
             content: <BotPathEditor 
               app={app}
-              data={botTask}
+              botTask={botTask}
               updateData={setBotTask}
               saveData={saveData}
               errors={errors}
@@ -366,7 +366,8 @@ export function BotPathEditor({
   setPaths, 
   searchFields,
   selectedPath, 
-  setSelectedPath
+  setSelectedPath,
+  botTask
 }){
 
   const [isOpen, setOpen] = useState(false);
@@ -663,6 +664,7 @@ export function BotPathEditor({
               {selectedPath && 
                 <ErrorBoundary>
                   <Path
+                    botTask={botTask}
                     app={app}
                     path={selectedPath}
                     paths={paths}
@@ -943,7 +945,55 @@ const PathList = ({ path, handleSelection }) => {
   );
 };
 
+const FirstPath = ({
+  controlStep, 
+  path, 
+  options, 
+  appendItemControl, 
+  updateControlPathSelector 
+})=>{
+
+  return (
+    <div className="m-5">
+
+      <p className="text-sm text-center text-gray-500 font-semibold leading-4 my-6">
+        This is what people will see when they start a new conversation
+      </p>
+
+      <ItemsContainer className="p-4">
+      
+        <input placeholder="can we help ?"
+          onChange={(e)=> {
+              updateControlPathSelector(
+                { ...controlStep.controls, label: e.currentTarget.value},
+                controlStep
+              ) 
+            }
+          }
+          defaultValue={controlStep.controls.label} 
+
+          className="border-b-2 border-b-red focus:outline-none outline-none"
+        />
+
+        <FollowActions 
+          controlStep={controlStep} 
+          path={path}
+          update={(opts) =>
+            updateControlPathSelector(opts, controlStep)
+          }
+          options={options}
+          appendItemControl={appendItemControl}
+        />      
+      
+      </ItemsContainer>
+
+
+    </div>
+  )
+}
+
 const Path = ({
+  botTask,
   paths,
   path,
   addSectionMessage,
@@ -1045,7 +1095,6 @@ const Path = ({
     },
   ];
 
-
   const updateControlPathSelector = (controls, step) => {
     updateControls(controls, step);
   };
@@ -1085,6 +1134,59 @@ const Path = ({
     value: o.steps[0] && o.steps[0].step_uid,
     label: o.title,
   }));
+
+  const findPathIndex = paths.findIndex((p)=> p.id === path.id)
+
+  const renderControls = ()=>{
+    return (
+      <div className="w-full p-6 border-b-2 border-gray-200">
+        <div className="flex justify-between">
+          <div className="">
+            <Input
+              type="text"
+              value={path.title}
+              onChange={handleTitleChange}
+              hint={"path title"}
+            />
+          </div>
+
+          {
+            !needsLock() &&
+            <div className="items-end">
+              <Button
+                variant="outlined"
+                color="secondary"
+                onClick={() => deletePath(path)}
+              >
+                delete path
+                <DeleteForeverRounded />
+              </Button>
+            </div>
+          }
+        </div>
+      </div>
+    )
+  }
+
+  const needsLock = ()=>{
+    return findPathIndex === 0 && botTask.botType === 'new_conversations'
+  } 
+
+  if(findPathIndex === 0 && botTask.botType === 'new_conversations'){ // and type new_conversations
+    return  (
+      <div>
+        {renderControls()}
+        <FirstPath 
+          path={path}
+          appendItemControl={appendItemControl}
+          updateControlPathSelector={updateControlPathSelector}
+          controlStep={controlStep} 
+          options={stepOptions}>
+        </FirstPath>      
+      </div>
+    )
+  }
+
 
   return (
     <div>
@@ -1211,48 +1313,17 @@ const Path = ({
               </Button>
             </ItemButtons>
 
-            <div className="flex flex-col">
-              <div className="w-full">
-                <ControlWrapper>
-                  {controlStep.controls && (
-                    <AppPackageBlocks
-                      controls={controlStep.controls}
-                      path={path}
-                      step={controlStep}
-                      options={stepOptions}
-                      searchFields={searchFields}
-                      update={(opts) =>
-                        updateControlPathSelector(opts, controlStep)
-                      }
-                    />
-                  )}
-                </ControlWrapper>
-
-              </div>
-
-              {controlStep.controls &&
-                controlStep.controls.type === "ask_option" && (
-                  <div
-                    className="w-full flex items-center"
-                    onClick={() => appendItemControl(controlStep)}
-                  >
-                    <Button
-                      color={"primary"}
-                      variant={"outlined"}
-                      size="small"
-                    >
-                      + add data option
-                    </Button>
-
-                    {/*<p>
-                      Save this value to user properties
-                      <
-                      [save]
-                    </p>*/}
-                  </div>
-                )}
-            </div>
-
+            <FollowActions 
+              controlStep={controlStep} 
+              path={path}
+              update={(opts) =>
+                updateControlPathSelector(opts, controlStep)
+              }
+              options={stepOptions}
+              searchFields={searchFields}
+              appendItemControl={appendItemControl}
+            />
+      
           </PathActionsContainer> 
         }
 
@@ -1296,6 +1367,57 @@ const Path = ({
     </div>
   );
 };
+
+const FollowActions = ({
+  controlStep,
+  path,
+  update,
+  options,
+  searchFields,
+  appendItemControl
+})=>{
+  return (
+    <div className="flex flex-col">
+      <div className="w-full">
+        <ControlWrapper>
+          {controlStep.controls && (
+            <AppPackageBlocks
+              controls={controlStep.controls}
+              path={path}
+              step={controlStep}
+              options={options}
+              searchFields={searchFields}
+              update={update}
+            />
+          )}
+        </ControlWrapper>
+
+      </div>
+
+      {controlStep.controls &&
+        controlStep.controls.type === "ask_option" && (
+          <div
+            className="w-full flex items-center"
+            onClick={() => appendItemControl(controlStep)}
+          >
+            <Button
+              color={"primary"}
+              variant={"outlined"}
+              size="small"
+            >
+              + add data option
+            </Button>
+
+            {/*<p>
+              Save this value to user properties
+              <
+              [save]
+            </p>*/}
+          </div>
+        )}
+    </div>
+  )
+}
 
 const PathEditor = ({ step, message, path, updatePath }) => {
   const [readOnly, setReadOnly] = useState(false);
@@ -1406,7 +1528,6 @@ const AppPackageBlocks = ({ options, controls, path, step, update, searchFields 
             />
           </div>
         );
-
       case "submit":
         return (
           <button key={index} style={{ alignSelf: "flex-end" }} type={"submit"}>

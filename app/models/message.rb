@@ -10,6 +10,8 @@ class Message < ApplicationRecord
 
   has_many :conversation_parts
 
+  acts_as_list scope: %i[app_id type]
+
   attr_accessor :step
 
   validates :name, presence: :true

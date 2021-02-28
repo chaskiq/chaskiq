@@ -727,6 +727,7 @@ export const BOT_TASKS = `
         title
         id
         state
+        botType
       }
     }
   }
@@ -743,6 +744,7 @@ export const BOT_TASK = `
         scheduling
         urls
         statsFields
+        botType
         paths{
           id
           steps

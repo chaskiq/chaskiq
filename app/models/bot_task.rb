@@ -17,10 +17,20 @@ class BotTask < Message
     outgoing_webhook
     paths
     user_type
+    bot_type
   ]
 
   scope :enabled, -> { where(state: 'enabled') }
   scope :disabled, -> { where(state: 'disabled') }
+
+  scope :for_new_conversations, -> { 
+    # where(type: 'leads') 
+    where("settings->>'bot_type' = ?", 'new_conversations' )
+  }
+  scope :for_outbound, -> { 
+    # where(type: 'users')
+    where("settings->>'bot_type' = ?", 'outbound' )
+  }
 
   scope :for_leads, -> { 
     # where(type: 'leads') 
@@ -49,6 +59,48 @@ class BotTask < Message
   #def segments=(data)
   #  self.predicates = data
   #end
+
+  def initialize_default_controls
+    self.segments = [
+      {"type"=>"match", "value"=>"and", "attribute"=>"match", "comparison"=>"and"}, 
+      {"type"=>"string", "value"=>"AppUser", "attribute"=>"type", "comparison"=>"eq"}
+    ] 
+    self.paths = [
+      "title"=> "default step",
+      "id"=>"3418f148-6c67-4789-b7ae-8fb3758a4cf9", 
+      "steps"=> [
+        {
+          "type"=>"messages", 
+          "controls"=>{
+            "type"=>"ask_option", 
+            "schema"=>[
+              {"id"=>"0dc3559e-4eab-43d9-ab60-7325219a3f6f", 
+                "label"=>"see more?", 
+                "element"=>"button", 
+                "next_step_uuid"=>"2bff4dec-f8c1-4a8b-9601-68c66356ba06"
+              }, 
+              {"type"=>"messages", 
+                "controls"=>{
+                  "type"=>"ask_option", 
+                  "schema"=>[
+                    {"id"=>"0dc3559e-4eab-43d9-ab60-7325219a3f6f", 
+                      "label"=>"write here", 
+                      "element"=>"button"
+                    }
+                  ]
+                }, 
+                "messages"=>[], 
+                "step_uid"=>"30e48aed-19c0-4b62-8afa-9a0392deb0b8"
+              }
+            ], 
+            "wait_for_input"=>true
+          }, 
+          "messages"=>[], 
+          "step_uid"=>"30e48aed-19c0-4b62-8afa-9a0392deb0b8"
+        }
+      ]
+    ]
+  end
 
   def add_default_predicate
     self.segments = default_segments unless segments.present?

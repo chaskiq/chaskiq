@@ -448,11 +448,18 @@ module Types
     def bot_tasks(lang:, mode:)
       #object.plan.allow_feature!('BotTasks')
       authorize! object, to: :show?, with: AppPolicy
-      if mode == 'leads'
-        object.bot_tasks.for_leads # .page(page).per(per)
-      elsif mode == 'users'
-        object.bot_tasks.for_users
-      end
+
+      object.bot_tasks
+
+      return object.bot_tasks.for_new_conversations if mode == 'new_conversations'
+
+      return object.bot_tasks.for_outbound if mode == 'outbound'
+
+      #if mode == 'leads'
+      #  object.bot_tasks.for_leads # .page(page).per(per)
+      #elsif mode == 'users'
+      #  object.bot_tasks.for_users
+      #end
     end
 
     field :bot_task, Types::BotTaskType, null: true do
