@@ -4,6 +4,7 @@ class Message < ApplicationRecord
   self.table_name = 'campaigns'
 
   belongs_to :app
+  belongs_to :workflow, optional: true
 
   has_many :metrics, as: :trackable
   has_many_attached :attachments
