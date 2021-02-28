@@ -5,14 +5,17 @@ export default memo(({ data }) => {
 
     <>
 
-			<Handle
-			type="target"
-			position="left"
-			style={{ background: '#555' }}
-			onConnect={(params) => console.log('handle onConnect', params)}
-			/>
+      {
+        data.ruleType !== 'entry' && <Handle
+          type="target"
+          position="left"
+          style={{ background: '#555' }}
+          onConnect={(params) => console.log('handle onConnect', params)}>
+        </Handle>
+      }
+
       <li className={'col-span-1 flex shadow-sm rounded-md'}>
-        <div className={`flex-shrink-0 flex items-center justify-center w-16 text-sm font-medium rounded-l-md bg-yellow-500`}>
+        <div className={'flex-shrink-0 flex items-center justify-center w-16 text-sm font-medium rounded-l-md bg-yellow-500'}>
 							CD
         </div>
         <div className="flex-1 flex items-center justify-between border-t border-r border-b border-gray-200 bg-white rounded-r-md truncate">
@@ -37,15 +40,17 @@ export default memo(({ data }) => {
         type="source"
         position="right"
         id="a"
-        style={{ top: 10, background: '#555' }}
-      />
+        style={{ top: 10, background: '#555' }}>
+        <div>YES</div>
+      </Handle>
 
       <Handle
         type="source"
         position="right"
         id="b"
-        style={{ bottom: 10, top: 'auto', background: '#555' }}
-      />
+        style={{ bottom: 10, top: 'auto', background: '#555' }}>
+        <div>NO</div>
+      </Handle>
     </>
   )
 })

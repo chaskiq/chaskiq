@@ -19,27 +19,27 @@ export default function Sidebar () {
 
 				<p className="text-md font-medium text-gray-900 pt-4">Messages to send</p>
 
-				<DefaultNode onDragStart={(event) => onDragStart(event, 'default')}>
+				<DefaultNode onDragStart={(event) => onDragStart(event, 'chat')}>
 					Chat
 				</DefaultNode>
 
-				<DefaultNode onDragStart={(event) => onDragStart(event, 'default')}>
+				<DefaultNode onDragStart={(event) => onDragStart(event, 'post')}>
 					Post
 				</DefaultNode>
 
-				<DefaultNode onDragStart={(event) => onDragStart(event, 'default')}>
+				<DefaultNode onDragStart={(event) => onDragStart(event, 'email')}>
 					Email
 				</DefaultNode>
 
-				<DefaultNode onDragStart={(event) => onDragStart(event, 'default')}>
+				<DefaultNode onDragStart={(event) => onDragStart(event, 'bot')}>
 					Bot
 				</DefaultNode>
 
-				<DefaultNode onDragStart={(event) => onDragStart(event, 'default')}>
+				<DefaultNode onDragStart={(event) => onDragStart(event, 'tour')}>
 					Tour
 				</DefaultNode>
 
-				<DefaultNode onDragStart={(event) => onDragStart(event, 'default')}>
+				<DefaultNode onDragStart={(event) => onDragStart(event, 'banner')}>
 					Banner
 				</DefaultNode>
 
