@@ -132,6 +132,8 @@ function Workflows () {
 			case 'post':
 			case 'bot':
 			case 'tour':
+			case 'banner':
+			case 'email':
         setCurrentEntry(element)
         break
       default:

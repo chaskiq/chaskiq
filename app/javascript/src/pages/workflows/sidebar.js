@@ -5,7 +5,7 @@ export default function Sidebar () {
     event.dataTransfer.effectAllowed = 'move'
   }
   return (
-    <aside className="h-screen px-4 divide-y divide-gray-200 sm:px-6 space-y-1.5">
+    <aside className="h-screen w-72 overflow-hidden px-4 divide-y divide-gray-200 sm:px-6 space-y-1.5">
 
       <div className="description">You can drag these nodes to the pane on the right.</div>
 
@@ -43,13 +43,13 @@ export default function Sidebar () {
 					Banner
 				</DefaultNode>
 
-				<DefaultNode onDragStart={(event) => onDragStart(event, 'output')}>
+				{/*<DefaultNode onDragStart={(event) => onDragStart(event, 'output')}>
 					Output Node
 				</DefaultNode>
 
 				<DefaultNode onDragStart={(event) => onDragStart(event, 'selectorNode')}>
 					selector
-				</DefaultNode>
+				</DefaultNode>*/}
 
 				<p className="text-md font-medium text-gray-900 pt-4">Actions to take</p>
 
