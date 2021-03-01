@@ -566,6 +566,10 @@ export function BotPathEditor({
       return;
     }
 
+    // avoid sort the first item
+    if (result.destination.index === 0) 
+      return
+
     const newPaths = reorder(
       paths,
       result.source.index,
@@ -598,9 +602,6 @@ export function BotPathEditor({
         )}
 
         <div className="w-2/4 bg-gray-50 flex flex-col py-3">
-          <h3 className="text-sm leading-5 font-medium text-gray-900 my-2 text-center">
-            Paths
-          </h3>
 
           <DragDropContext onDragEnd={onDragEnd}>
             <Droppable droppableId="droppablePaths">
@@ -615,6 +616,7 @@ export function BotPathEditor({
                       key={`path-list-${item.id}-${index}`}
                       draggableId={item.id}
                       index={index}
+                      isDragDisabled={index === 0}
                     >
                       {(provided, snapshot) => (
                         <div
@@ -628,15 +630,24 @@ export function BotPathEditor({
                         >
                           
                           <strong className="mr-2">{index}.</strong>
+                          
+                          <div 
+                            onClick={(e) => handleSelection(item)}
+                            className="w-full py-2 px-2 bg-white border-1 shadow max-w-3xl break-all flex items-center">
+                            
+                            <div 
+                              first={true}
+                              className={`mr-2 ${index === 0 ? 'hidden' : 'block'}`} 
+                              {...provided.dragHandleProps}>
+                              <DragHandle />
+                            </div>
+                          
+                            <span>
+                              {item.title}
+                            </span>
+                          </div>
 
-                          <PathList
-                            path={item}
-                            handleSelection={handleSelection}
-                          />
-
-                          <ItemButtons first={true} {...provided.dragHandleProps}>
-                            <DragHandle />
-                          </ItemButtons>
+                          
                         </div>
                       )}
                     </Draggable>
@@ -649,7 +660,7 @@ export function BotPathEditor({
 
           <Button
             size="small"
-            variant={"contained"}
+            variant={"flat-dark"}
             onClick={showPathDialog}
             color="primary"
             className="self-center"
@@ -682,9 +693,9 @@ export function BotPathEditor({
                 </ErrorBoundary>
               }
 
-            <div className="m-4">
+            <div className="m-4 flex justify-center">
               <Button
-                variant="contained"
+                variant="success"
                 color="primary"
                 size="medium"
                 onClick={saveData}
@@ -932,19 +943,6 @@ function AgentSelector({ app, updateAction, removeAction, action, index }) {
   );
 }
 
-const PathList = ({ path, handleSelection }) => {
-  return (
-    <li className="pr-4 pb-2 w-full w-1/3">
-      <Button 
-        className="w-full py-2 px-2 bg-white border-1 shadow max-w-3xl break-all"
-        onClick={(e) => handleSelection(path)}
-        variant={"outlined"}>
-        {path.title}
-      </Button>
-    </li>
-  );
-};
-
 const FirstPath = ({
   controlStep, 
   path, 
@@ -963,6 +961,8 @@ const FirstPath = ({
       <ItemsContainer className="p-4">
       
         <input placeholder="can we help ?"
+          defaultValue={controlStep.controls.label} 
+          className="py-2 mb-4 border-dotted border-gray-400 focus:border-gray-900 border-b-2 border-b-red focus:outline-none outline-none"
           onChange={(e)=> {
               updateControlPathSelector(
                 { ...controlStep.controls, label: e.currentTarget.value},
@@ -970,9 +970,6 @@ const FirstPath = ({
               ) 
             }
           }
-          defaultValue={controlStep.controls.label} 
-
-          className="border-b-2 border-b-red focus:outline-none outline-none"
         />
 
         <FollowActions 
@@ -1141,12 +1138,18 @@ const Path = ({
     return (
       <div className="w-full p-6 border-b-2 border-gray-200">
         <div className="flex justify-between">
-          <div className="">
+
+         
+          <div className="flex items-center">
+            <div className="text-lg text-center text-gray-900 font-semibold leading-4 my-6 mr-3">
+              {findPathIndex}
+            </div>
             <Input
               type="text"
               value={path.title}
               onChange={handleTitleChange}
               hint={"path title"}
+              variant={'underline'}
             />
           </div>
 
@@ -1158,8 +1161,9 @@ const Path = ({
                 color="secondary"
                 onClick={() => deletePath(path)}
               >
+                <DeleteForever/>
                 delete path
-                <DeleteForeverRounded />
+              
               </Button>
             </div>
           }
@@ -1190,29 +1194,7 @@ const Path = ({
 
   return (
     <div>
-      <div className="w-full p-6 border-b-2 border-gray-200">
-        <div className="flex justify-between">
-          <div className="">
-            <Input
-              type="text"
-              value={path.title}
-              onChange={handleTitleChange}
-              hint={"path title"}
-            />
-          </div>
-
-          <div className="items-end">
-            <Button
-              variant="outlined"
-              color="secondary"
-              onClick={() => deletePath(path)}
-            >
-              delete path
-              <DeleteForeverRounded />
-            </Button>
-          </div>
-        </div>
-      </div>
+      {renderControls()}
 
       <div className="p-4 flex flex-col justify-center items-center">
 
@@ -1595,15 +1577,14 @@ const getItemStyle = (isDragging, draggableStyle) => ({
   display: "flex",
   justifyContent: "space-evenly",
   // change background colour if dragging
-  background: isDragging ? "lightgreen" : "transparent",
+  //background: isDragging ? "lightgreen" : "transparent",
   paddingBottom: '1.2em',
-  borderBottom: '1px solid #ccc',
   // styles we need to apply on draggables
   ...draggableStyle,
 });
 
 const getListStyle = (isDraggingOver) => ({
-  background: isDraggingOver ? "lightblue" : "transparent",
+  //background: isDraggingOver ? "lightblue" : "transparent",
   padding: grid,
   //width: 250
 });

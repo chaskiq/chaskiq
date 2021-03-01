@@ -95,7 +95,7 @@ module.exports = {
   variants: {},
   corePlugins: {
     // ...
-   outline: false
+   //outline: false
   },
   plugins: [
     // require('@tailwindcss/forms'),
