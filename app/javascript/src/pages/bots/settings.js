@@ -16,7 +16,7 @@ import { AGENTS, BOT_TASKS } from '../../graphql/queries'
 
 import { updateApp } from '../../actions/app'
 import { setCurrentPage } from '../../actions/navigation'
-import {PlusIcon, DeleteIcon} from '../../components/icons'
+import { DeleteIcon } from '../../components/icons'
 import I18n from '../../shared/FakeI18n'
 
 const SettingsForm = ({ app, data, errors, dispatch }) => {
@@ -141,12 +141,6 @@ function UsersSettings ({
     updateData({ users: state })
   }, [state])
 
-  /*
-  useEffect(() => {
-    if (!state.override_with_task) setState({ ...state, trigger: null })
-  }, [state.override_with_task])
-  */
-
   const handleChange = (name) => (event) => {
     setState({ ...state, [name]: event.target.checked })
   }
@@ -175,6 +169,8 @@ function UsersSettings ({
           value="delay"
         />
 
+        {/*
+
         <Input
           type="checkbox"
           checked={state.override_with_task}
@@ -184,7 +180,6 @@ function UsersSettings ({
           hint={ I18n.t('task_bots.settings.users.override.hint') }
         />
 
-        {
           state.override_with_task &&
           <div className="pl-1 py-4">
             <TasksList
@@ -195,7 +190,7 @@ function UsersSettings ({
               value={state}
             />
           </div>
-        }
+        */}
       </div>
 
       <div className="py-4">
@@ -440,7 +435,7 @@ function TasksList ({ app, tasks, getTasks, setValue, value }) {
     getTasks()
   }, [])
 
-  useEffect(()=> {
+  useEffect(() => {
     setValue('task_rules', items)
   }, [JSON.stringify(items)])
 
@@ -465,7 +460,7 @@ function TasksList ({ app, tasks, getTasks, setValue, value }) {
 
   return (
     <div>
-      {
+      {/*
         items.map((o, i) => (
           <TaskSelector
             // key={Math.random()}
@@ -477,14 +472,14 @@ function TasksList ({ app, tasks, getTasks, setValue, value }) {
             updateRule={updateItem}
           />
         ))
-      }
 
-      <Button 
+      <Button
         variant="outlined"
-        size="xs" 
+        size="xs"
         onClick={addEmptyItem}>
         <PlusIcon/> Add rule
       </Button>
+      */}
 
     </div>
   )
@@ -499,7 +494,6 @@ function TaskSelector ({
   deleteRule,
   updateRule
 }) {
-  
   const [selected, setSelected] = React.useState(item.trigger)
 
   useEffect(() => {
@@ -548,7 +542,7 @@ function TaskSelector ({
           </div>
         </div>
 
-        <Button 
+        <Button
           variant='icon'
           size="small"
           onClick={() => deleteRule(index)}>
@@ -605,7 +599,7 @@ function RuleSelector ({ app, update, data }) {
     }}>
     {
       predicates.map((o, i) => {
-        return <div 
+        return <div
           className="mr-2"
           key={i}>
           <SegmentItemButton
