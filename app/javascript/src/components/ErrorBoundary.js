@@ -18,6 +18,9 @@ export default class ErrorBoundary extends React.Component {
 
   render () {
     if (this.state.hasError) {
+      if (this.props.variant === 'very-wrong') {
+        return this.renderVery()
+      }
       return <div className="rounded-md bg-red-50 p-4 m-2">
         <div className="flex">
           <div className="flex-shrink-0">
@@ -35,5 +38,23 @@ export default class ErrorBoundary extends React.Component {
     }
 
     return this.props.children
+  }
+
+  renderVery () {
+    return <div className="bg-white">
+      <div className="max-w-2xl mx-auto text-center py-16 px-4 sm:py-20 sm:px-6 lg:px-8">
+        <h2 className="text-3xl font-extrabold text-black sm:text-4xl">
+          <span className="block">Woops! something went wrong.</span>
+          <span className="block">Unfortunately 🤯</span>
+        </h2>
+
+        <p class="mt-4 text-lg leading-6 text-indigo-600">
+          try refreshing the page
+        </p>
+        <a href="/" class="mt-8 w-full inline-flex items-center justify-center px-5 py-3 border border-transparent text-base font-medium rounded-md bg-indigo-600 text-white hover:bg-indigo-800 sm:w-auto">
+          try to go home
+        </a>
+      </div>
+    </div>
   }
 }

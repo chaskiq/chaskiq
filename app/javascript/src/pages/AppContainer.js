@@ -48,6 +48,7 @@ import { toggleDrawer } from '../actions/drawer'
 
 import UserProfileCard from '../components/UserProfileCard'
 import LoadingView from '../components/loadingView'
+import ErrorBoundary from '../components/ErrorBoundary'
 
 function AppContainer ({
   match,
@@ -234,82 +235,85 @@ function AppContainer ({
           }
 
           {app && isEmpty(upgradePages) && (
-            <Switch>
-              <Route path={`${match.url}/`} exact>
-                <Dashboard />
-              </Route>
+            <ErrorBoundary variant={'very-wrong'}>
 
-              <Route exact path={`${match.path}/segments/:segmentID/:Jwt?`}>
-                <Platform />
-              </Route>
+              <Switch>
+                <Route path={`${match.url}/`} exact>
+                  <Dashboard />
+                </Route>
 
-              <Route path={`${match.url}/settings`}>
-                <Settings />
-              </Route>
+                <Route exact path={`${match.path}/segments/:segmentID/:Jwt?`}>
+                  <Platform />
+                </Route>
 
-              <Route path={`${match.url}/messenger`}>
-                <MessengerSettings />
-              </Route>
+                <Route path={`${match.url}/settings`}>
+                  <Settings />
+                </Route>
 
-              <Route path={`${match.url}/team`}>
-                <Team />
-              </Route>
+                <Route path={`${match.url}/messenger`}>
+                  <MessengerSettings />
+                </Route>
 
-              <Route exact path={`${match.path}/users/:id`}
-                render={(props) => (
-                  <Profile
-                    {...props}
-                  />
-                )}
-              />
+                <Route path={`${match.url}/team`}>
+                  <Team />
+                </Route>
 
-              <Route exact path={`${match.path}/agents/:id`}
-                render={(props) => (
-                  <AgentProfile
-                    {...props}
-                  />
-                )}
-              />
+                <Route exact path={`${match.path}/users/:id`}
+                  render={(props) => (
+                    <Profile
+                      {...props}
+                    />
+                  )}
+                />
 
-              <Route path={`${match.url}/webhooks`}>
-                <Webhooks />
-              </Route>
+                <Route exact path={`${match.path}/agents/:id`}
+                  render={(props) => (
+                    <AgentProfile
+                      {...props}
+                    />
+                  )}
+                />
 
-              <Route path={`${match.url}/integrations`}>
-                <Integrations />
-              </Route>
+                <Route path={`${match.url}/webhooks`}>
+                  <Webhooks />
+                </Route>
 
-              <Route path={`${match.url}/articles`}>
-                <Articles />
-              </Route>
+                <Route path={`${match.url}/integrations`}>
+                  <Integrations />
+                </Route>
 
-              <Route path={`${match.url}/conversations`}>
-                  <Conversations
-                    subscribed
-                    events={CableApp.current.events}
-                  />
-              </Route>
+                <Route path={`${match.url}/articles`}>
+                  <Articles />
+                </Route>
 
-              <Route path={`${match.url}/oauth_applications`}>
-                <Api />
-              </Route>
+                <Route path={`${match.url}/conversations`}>
+                    <Conversations
+                      subscribed
+                      events={CableApp.current.events}
+                    />
+                </Route>
 
-              <Route path={`${match.url}/billing`}>
-                <Billing />
-              </Route>
+                <Route path={`${match.url}/oauth_applications`}>
+                  <Api />
+                </Route>
 
-              <Route path={`${match.url}/bots`}>
-                <Bots />
-              </Route>
+                <Route path={`${match.url}/billing`}>
+                  <Billing />
+                </Route>
 
-              <Route path={`${match.url}/campaigns`}>
-                <CampaignHome />
-              </Route>
+                <Route path={`${match.url}/bots`}>
+                  <Bots />
+                </Route>
 
-              <Route path={`${match.path}/messages/:message_type`}>
-                <Campaigns />
-              </Route>
-            </Switch>
+                <Route path={`${match.url}/campaigns`}>
+                  <CampaignHome />
+                </Route>
+
+                <Route path={`${match.path}/messages/:message_type`}>
+                  <Campaigns />
+                </Route>
+              </Switch>
+            </ErrorBoundary>
           )}
         </div>
       )}
