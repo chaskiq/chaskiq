@@ -38,6 +38,7 @@ export const PING = `
         }
         domainUrl
         theme
+        newConversationBots
       }
       agents {
         name
@@ -245,6 +246,7 @@ export const START_CONVERSATION = `
             serializedContent
             data
             action
+            blocks
           }
           privateNote
           messageSource{

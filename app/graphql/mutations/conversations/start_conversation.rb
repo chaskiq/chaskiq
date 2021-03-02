@@ -30,7 +30,38 @@ module Mutations
           }
         }
 
+        # in reply block will create convo without append message
+        if message["reply"].present?
+          options = {
+            from: author,
+            participant: participant
+          }
+        end
+
+        # creates conversation
         conversation = app.start_conversation(options)
+
+        # in reply mode we create separated message
+        # meybe we could refactor this an put this into app.start_conversation method
+        if message["reply"].present?
+          trigger = app.bot_tasks.find(message["trigger"])
+          message_reply = message["reply"]
+          first_step = trigger.paths[0]["steps"][0] 
+          step_uid = first_step["step_uid"]
+
+          message = conversation.add_message(
+            step_id: step_uid,
+            trigger_id: trigger.id,
+            from: app.agent_bots.first,
+            controls: first_step["controls"]
+          )
+
+          data = message_reply.permit(
+            :id, :label, :element, :next_step_uuid
+          ).to_h
+
+          message.message.save_replied(data)
+        end
 
         {
           conversation: conversation

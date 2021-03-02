@@ -22,6 +22,16 @@ module Types
 		field :searcheable_fields, [Types::JsonType], null: true
 		field :privacy_consent_required, String, null: true
 
+    field :new_conversation_bots, [Types::JsonType], null: true
+    def new_conversation_bots
+      object.bot_tasks.for_new_conversations.enabled
+    end
+
+    field :outbound_bots, [Types::BotTaskType], null: true
+    def outbound_bots
+      object.bot_tasks.for_outbound
+    end
+
     field :app_package, Types::AppPackageIntegrationType, null: true do
       argument :id, String, required: true, default_value: ''
 		end
@@ -117,5 +127,8 @@ module Types
         only_path: true
       )
     end
+
+
+
   end
 end
