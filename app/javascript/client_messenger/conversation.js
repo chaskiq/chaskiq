@@ -384,7 +384,6 @@ export class Conversation extends Component {
                t={this.props.t}
                updatePackage={this.updatePackage}
                searcheableFields={this.props.appData.searcheableFields}
-
                displayAppBlockFrame={this.props.displayAppBlockFrame}
                getPackage={this.props.getPackage}
                //{...o}
@@ -572,7 +571,8 @@ class AppPackageBlock extends Component {
     value: null,
     errors: {},
     loading: false,
-    schema: this.props.message.message.blocks.schema
+    schema: this.props.message.message.blocks.schema,
+    submiting: false
   }
 
   setLoading = (val)=>{
@@ -584,7 +584,9 @@ class AppPackageBlock extends Component {
     if(this.props.message.message.data && this.props.message.message.data.opener)
       return window.open(this.props.message.message.data.opener)
 
-    this.props.clickHandler(item, this.props.message)
+    this.setState({submiting: true}, ()=>{
+      this.props.clickHandler(item, this.props.message)
+    })
   }
 
   sendAppPackageSubmit = (data, cb)=>{
@@ -878,9 +880,12 @@ class AppPackageBlock extends Component {
                 <form ref={o => this.form }
                   className="form" 
                   onSubmit={ this.sendAppPackageSubmit2 }>
-                  {
-                    this.renderElements()
-                  }
+                  <fieldset disabled={this.state.submiting ? 'disabled' : '' }>
+                    {
+                      this.renderElements()
+                    } 
+                  </fieldset>
+                 
                 </form> 
               }
              
