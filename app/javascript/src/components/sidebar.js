@@ -138,7 +138,7 @@ function Sidebar ({
     {
       id: 'Platform',
       label: I18n.t('navigator.platform'),
-      icon: '📇',
+      icon: '👥',
       url: `/apps/${app.key}/segments/${
         app.segments ? app.segments[0].id : ''
       }`,
@@ -181,7 +181,7 @@ function Sidebar ({
       id: 'Campaigns',
       label: I18n.t('navigator.campaigns'),
       url: `/apps/${app.key}/campaigns`,
-      icon: '🏁',
+      icon: '⛺',
       children: [
         {
           id: 'campaigns',
@@ -306,7 +306,7 @@ function Sidebar ({
         {
           id: 'Integrations',
           label: I18n.t('navigator.childs.integrations'),
-          icon: <IntegrationsIcon />,
+          icon: '🎛️',
           url: `/apps/${app.key}/integrations`,
           active: isActivePage('integrations')
         },
