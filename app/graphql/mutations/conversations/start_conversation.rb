@@ -61,6 +61,22 @@ module Mutations
           ).to_h
 
           message.message.save_replied(data)
+
+          # initialize message
+
+          attributes = {
+            conversation_key: conversation.key,
+            message_key: message.key,
+            trigger: message.trigger_id,
+            step: message.messageable.data["next_step_uuid"],
+            reply: message.messageable.data
+          }.with_indifferent_access
+
+          ActionTrigger.trigger_step(
+            attributes,
+            app, 
+            app_user
+          )
         end
 
         {

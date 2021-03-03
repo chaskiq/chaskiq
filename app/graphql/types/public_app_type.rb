@@ -22,9 +22,9 @@ module Types
 		field :searcheable_fields, [Types::JsonType], null: true
 		field :privacy_consent_required, String, null: true
 
-    field :new_conversation_bots, [Types::JsonType], null: true
+    field :new_conversation_bots, Types::JsonType, null: true
     def new_conversation_bots
-      object.bot_tasks.for_new_conversations.enabled
+      object.bot_tasks.get_welcome_bots_for_user(current_user)
     end
 
     field :outbound_bots, [Types::BotTaskType], null: true

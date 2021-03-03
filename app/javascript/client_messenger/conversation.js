@@ -221,7 +221,7 @@ export class Conversation extends Component {
       conversation_key: this.props.conversation.key,
       message_key: message.key,
       trigger: message.triggerId,
-      step: item.nextStepUuid || item.next_step_uuid,
+      step:  item.nextStepUuid || item.next_step_uuid,
       reply: item
     })
   }

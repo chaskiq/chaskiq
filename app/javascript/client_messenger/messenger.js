@@ -626,12 +626,16 @@ class Messenger extends Component {
 
   createCommentOnNewConversation = (comment, cb)=>{
 
-    const message = {
+    let message = {
       html: comment.html_content,
       serialized: comment.serialized_content,
       text: comment.text_content,
       volatile: this.state.conversation,
     }
+
+    if(comment.reply){
+      message = comment
+    } 
 
     this.graphqlClient.send( START_CONVERSATION, {
       appKey: this.props.app_id,
@@ -639,19 +643,18 @@ class Messenger extends Component {
     }, { 
       success: (data)=>{
         const {conversation} = data.startConversation
-        let messages = [conversation.lastMessage]
-        //if(this.state.display_mode === "conversation")
-        if(this.state.conversation.messages)
-          messages = messages.concat(conversation.messages.collection)
+        //let messages = [conversation.lastMessage]
+
+        //if(this.state.conversation.messages)
+        //  messages = messages.concat(this.state.conversation.messages.collection)
 
         this.setState({
-          conversation: Object.assign(conversation, {messages: {collection: messages }}),
-          //conversation_messages: messages
-            /*conversation.lastMessage ? 
-            response.data.messages.concat(this.state.conversation_messages) : 
-            this.state.conversation_messages*/
+          conversation: Object.assign(
+              conversation, { messages: conversation.messages }
+            ),
           }, ()=>{ 
-            this.handleTriggerRequest("infer")
+            if(!conversation.lastMessage.triggerId)
+              this.handleTriggerRequest("infer")
           cb && cb()
         })
       },
@@ -763,12 +766,45 @@ class Messenger extends Component {
   displayNewConversation =(e)=>{
     e.preventDefault()
 
+    let result = []
+    const welcomeBot = this.state.appData.newConversationBots
+    
+    if(welcomeBot){
+      const step = welcomeBot.settings.paths[0].steps[0]
+      const message = {
+        "message":{
+          //"htmlContent":"Hi, otra will reply as soon as they can.",
+          //"textContent":"Hi, otra will reply as soon as they can.",
+          //"serializedContent":"{\"blocks\":[{\"key\":\"9oe8n\",\"text\":\"Hi, otra will reply as soon as they can.\",\"type\":\"unstyled\",\"depth\":0,\"inlineStyleRanges\":[],\"entityRanges\":[],\"data\":{}}],\"entityMap\":{}}","blocks":null,"data":null,"action":null,"state":null},
+          "blocks": step.controls,
+          "source":null,
+          //"readAt":"2021-02-24T22:39:36Z",
+          //"createdAt":"2021-02-24T22:39:35Z",
+          //"privateNote":null,
+          "stepId": step.id,
+          "triggerId": welcomeBot.id,
+          "fromBot":true,
+          "appUser":{
+            "id":3,
+            "kind":"agent",
+            "displayName":"chaskiq bot",
+            //"avatarUrl":"http://app.chaskiq.test:3000/assets/icons8-bot-50-c7450d39e2a2808b93e0abf784a77841e50eb527a38324c26f5718ceab1e3fde.png"
+          }
+        },
+        "messageSource":null,
+        "emailMessageId":null
+      }
+      result = [message]
+    }
+
     this.setState({
-      //conversation_messages: [],
-      //conversation_messagesMeta: {},
       conversation: {
         key: "volatile",
-        mainParticipant: {}
+        mainParticipant: {},
+        messages: {
+          collection: result,
+          meta: {}
+        }
       },
       display_mode: "conversation"
     }, ()=>{
@@ -927,7 +963,6 @@ class Messenger extends Component {
       )
     })
   }
-
 
   sendConsent = (value)=>{
     this.graphqlClient.send(PRIVACY_CONSENT, {

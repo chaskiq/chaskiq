@@ -125,12 +125,26 @@ class BotTask < Message
     false
   end
 
+  # idea 1: just return a collection of predicates and do it in the client
+  # idea 2: backend implementation , the following code
+    # TODO: think how could we set this on client side efectively
+  def self.get_welcome_bots_for_user(user)
+    selected = nil
+    for_new_conversations.enabled.each do |bot_task|
+      if bot_task.available_for_user?(user)
+        selected = bot_task
+        break 
+      end
+    end
+    selected
+  end
+
   def self.broadcast_task_to_user(user)
     app = user.app
     key = "#{app.key}-#{user.session_id}"
     ret = nil
     
-    app.bot_tasks.availables_for(user).each do |bot_task|
+    app.bot_tasks.for_outbound.availables_for(user).each do |bot_task|
       next if bot_task.blank? || !bot_task.available_for_user?(user)
 
       MessengerEventsChannel.broadcast_to(key, {
