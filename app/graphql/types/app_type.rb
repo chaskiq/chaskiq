@@ -442,24 +442,35 @@ module Types
 
     field :bot_tasks, [Types::BotTaskType], null: true do
       argument :lang, String, required: false, default_value: I18n.default_locale.to_s
-      argument :mode, String, required: false, default_value: 'leads'
+      argument :mode, String, required: false, default_value: 'outbound'
+      argument :filters, Types::JsonType, required: false, default_value: { }
     end
 
-    def bot_tasks(lang:, mode:)
+    def bot_tasks(lang:, mode:, filters:)
       #object.plan.allow_feature!('BotTasks')
       authorize! object, to: :show?, with: AppPolicy
 
       object.bot_tasks
 
-      return object.bot_tasks.for_new_conversations if mode == 'new_conversations'
+      collection = object.bot_tasks.for_new_conversations if mode == 'new_conversations'
 
-      return object.bot_tasks.for_outbound if mode == 'outbound'
+      collection = object.bot_tasks.for_outbound if mode == 'outbound'
 
-      #if mode == 'leads'
-      #  object.bot_tasks.for_leads # .page(page).per(per)
-      #elsif mode == 'users'
-      #  object.bot_tasks.for_users
-      #end
+      collection = collection.where(state: filters["state"]) if filters["state"].present?
+
+      if filters["users"].present?
+        ors = nil
+        filters["users"].each_with_index do |filter, index|
+          if ors.nil?
+            ors = BotTask.infix(filter)
+          else
+            ors = ors.or(BotTask.infix(filter))
+          end
+        end
+        collection = collection.where(ors) if ors.present?
+      end
+
+      collection
     end
 
     field :bot_task, Types::BotTaskType, null: true do

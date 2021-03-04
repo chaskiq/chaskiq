@@ -11,6 +11,8 @@ module Types
     field :updateAgent, mutation: Mutations::Agents::UpdateAgent
     field :updateAgentRole, mutation: Mutations::Agents::UpdateAgentRole
 
+    field :cloneMessage, mutation: Mutations::CloneMessage
+
     field :createDelete, mutation: Mutations::Predicates::CreatePredicate
     field :predicatesDelete, mutation: Mutations::Predicates::DeletePredicate
     field :predicatesUpdate, mutation: Mutations::Predicates::SavePredicate

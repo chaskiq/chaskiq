@@ -735,6 +735,15 @@ export const WEBHOOK_UPDATE = `
   }
 `;
 
+export const CLONE_MESSAGE = `
+  mutation CloneMessage($appKey: String!, $id: String!){
+    cloneMessage(appKey: $appKey, id: $id){
+      id
+      errors
+    }
+  }
+`;
+
 export const QUICK_REPLY_CREATE = `
   mutation QuickReplyCreate($appKey: String!, $title: String!, $content: String!, $lang: String){
     createQuickReply(appKey: $appKey, title: $title, content: $content, lang: $lang){

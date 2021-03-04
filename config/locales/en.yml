@@ -198,6 +198,8 @@ en:
     reply_soon: Hi, %{name} will reply as soon as they can.
     reply_agent: you will get a reply from one of our agents
     email_support: to get support you can email at %{email} 
+    outbound: "✈️ Outbound"
+    new_conversations: "👋 Nuevas conversaciones"
     email_requirement:
       message: Give the team a way to reach you
       input_label: Get notified by email

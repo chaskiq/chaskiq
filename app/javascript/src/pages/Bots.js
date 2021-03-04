@@ -32,6 +32,8 @@ const BotDataTable = ({ app, match, history, mode, dispatch }) => {
   const [openDeleteDialog, setOpenDeleteDialog] = useState(null)
   const [openTaskForm, setOpenTaskForm] = useState(false)
   const [meta, setMeta] = useState({})
+  const [options, setOptions] = useState(optionsForFilter())
+  const [stateOptions, setStateOptions] = useState(optionsForState())
 
   function init () {
     dispatch(setCurrentPage(`bot${mode}`))
@@ -40,7 +42,8 @@ const BotDataTable = ({ app, match, history, mode, dispatch }) => {
       BOT_TASKS,
       {
         appKey: app.key,
-        mode: mode
+        mode: mode,
+        filters: getFilters()
       },
       {
         success: (data) => {
@@ -53,7 +56,11 @@ const BotDataTable = ({ app, match, history, mode, dispatch }) => {
     )
   }
 
-  useEffect(init, [match.url])
+  useEffect(init, [
+    match.url,
+    JSON.stringify(options),
+    JSON.stringify(stateOptions)
+  ])
 
   // useEffect(init [match])
 
@@ -75,6 +82,13 @@ const BotDataTable = ({ app, match, history, mode, dispatch }) => {
     )
   }
 
+  function getFilters () {
+    return {
+      state: stateOptions.filter((o) => o.state === 'checked').map((o) => o.id),
+      users: options.filter((o) => o.state === 'checked').map((o) => o.id)
+    }
+  }
+
   function toggleTaskForm () {
     setOpenTaskForm(!openTaskForm)
   }
@@ -82,14 +96,58 @@ const BotDataTable = ({ app, match, history, mode, dispatch }) => {
   function optionsForFilter () {
     const options = [
       {
-        title: 'Import CSV',
-        description: 'Imports CSV',
+        title: 'Visitors',
+        description: 'visitors on the platform',
         // icon: <UnsubscribeIcon/>,
-        id: 'import-csv',
-        state: 'import-csv'
+        id: 'visitors',
+        state: 'checked'
+      },
+      {
+        title: 'Leads',
+        description: 'Visitors who make an actions',
+        // icon: <UnsubscribeIcon/>,
+        id: 'leads',
+        state: 'checked'
+      },
+      {
+        title: 'Users',
+        description: "your platform's registered users",
+        // icon: <UnsubscribeIcon/>,
+        id: 'users',
+        state: 'checked'
       }
     ]
     return options
+  }
+
+  function optionsForState () {
+    const options = [
+      {
+        title: 'Enabled',
+        description: 'enabled bot tasks',
+        // icon: <UnsubscribeIcon/>,
+        id: 'enabled',
+        state: 'checked'
+      },
+      {
+        title: 'Disabled',
+        description: 'Disabled bot tasks',
+        // icon: <UnsubscribeIcon/>,
+        id: 'disabled',
+        state: 'checked'
+      }
+    ]
+    return options
+  }
+
+  function namesForToggleButton (opts) {
+    const names = opts
+      .filter((o) => o.state === 'checked')
+      .map((o) => o.title)
+      .join(', ')
+    return names === ''
+      ? opts.map((o) => o.title)
+        .join(', ') : names
   }
 
   function toggleButton (clickHandler) {
@@ -97,7 +155,7 @@ const BotDataTable = ({ app, match, history, mode, dispatch }) => {
       <div>
         <Button
           onClick={clickHandler}>
-          Create Users & Leads
+          {namesForToggleButton(options)}
         </Button>
       </div>
     )
@@ -108,17 +166,43 @@ const BotDataTable = ({ app, match, history, mode, dispatch }) => {
       <div>
         <Button
           onClick={clickHandler}>
-          State
+          {namesForToggleButton(stateOptions)}
         </Button>
       </div>
     )
+  }
+
+  function handleClickforOptions (opts, option) {
+    return opts.map((o) => {
+      if (o.id === option.id) {
+        const checked = option.state === 'checked' ? '' : 'checked'
+        return { ...option, state: checked }
+      } else {
+        return o
+      }
+    })
+  }
+
+  function handleClickforState (opts, option) {
+    const checkeds = opts.filter((o) => o.state === 'checked')
+
+    return opts.map((o) => {
+      if (o.id === option.id) {
+        const isChecked = option.state === 'checked'
+        const checked = isChecked ? '' : 'checked'
+        if (checkeds.length === 1 && isChecked) { return o }
+        return { ...option, state: checked }
+      } else {
+        return o
+      }
+    })
   }
 
   return (
     <div>
       <Content>
         <ContentHeader
-          title={mode}
+          title={I18n.t(`task_bots.${mode}`)}
           actions={
             <div item>
               <Button
@@ -135,9 +219,12 @@ const BotDataTable = ({ app, match, history, mode, dispatch }) => {
         <div className="flex">
           <div className="mr-3">
             <FilterMenu
-              options={optionsForFilter()}
+              options={options}
               value={null}
-              filterHandler={(e) => console.log(e)}
+              filterHandler={(option) => {
+                const newOptions = handleClickforOptions(options, option)
+                setOptions(newOptions)
+              }}
               triggerButton={toggleButton}
               position={'left'}
             />
@@ -145,17 +232,12 @@ const BotDataTable = ({ app, match, history, mode, dispatch }) => {
 
           <div>
             <FilterMenu
-              options={[
-                {
-                  title: 'Import CSV',
-                  description: 'Imports CSV',
-                  // icon: <UnsubscribeIcon/>,
-                  id: 'import-csv',
-                  state: 'import-csv'
-                }
-              ]}
+              options={stateOptions}
               value={null}
-              filterHandler={(e) => console.log(e)}
+              filterHandler={(option) => {
+                const newOptions = handleClickforState(stateOptions, option)
+                setStateOptions(newOptions)
+              }}
               triggerButton={toggleStateButton}
               position={'left'}
             />

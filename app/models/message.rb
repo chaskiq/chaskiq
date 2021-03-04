@@ -94,6 +94,28 @@ class Message < ApplicationRecord
     }
   end
 
+  def self.type_predicate_for(type_predicate)
+    # AppUser, Lead, Visitor
+    types = {
+      users: 'AppUser',
+      leads: 'Lead',
+      visitors: 'Visitor'
+    }
+
+    [{
+      value: types[type_predicate.to_sym], 
+      type: "string",
+      attribute: "type", 
+      comparison: "eq"
+    }]
+  end
+
+  def self.infix(filter)
+    Arel::Nodes::InfixOperation.new('@>',
+      arel_table[:segments],
+      Arel::Nodes.build_quoted(( BotTask.type_predicate_for(filter).to_json ).to_s))
+  end
+
   def step_1?
     step == 1
   end
@@ -116,6 +138,10 @@ class Message < ApplicationRecord
 
   def purge_metrics
     metrics.delete_all
+  end
+
+  def clone_record(record)
+    self.new = record
   end
 
   def host

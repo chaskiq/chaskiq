@@ -13,7 +13,7 @@ import {
   AGENTS,
   BOT_TASK_METRICS,
 } from "../../graphql/queries";
-import { UPDATE_BOT_TASK } from "../../graphql/mutations";
+import { UPDATE_BOT_TASK, CLONE_MESSAGE } from "../../graphql/mutations";
 import ContentHeader from "../../components/PageHeader";
 import Content from "../../components/Content";
 import FormDialog from "../../components/FormDialog";
@@ -37,6 +37,7 @@ import {
   PlusIcon,
   DragHandle,
   DeleteForever,
+  CopyContentIcon,
   //RemoveCircle ,
   DeleteForeverRounded,
 } from "../../components/icons";
@@ -45,6 +46,7 @@ import { isEmpty } from "lodash";
 import Stats from "../../components/stats";
 import { setCurrentSection, setCurrentPage } from "../../actions/navigation";
 import AppPackagePanel from "../../components/conversations/appPackagePanel"
+import FilterMenu from "../../components/FilterMenu";
 
 const ItemManagerContainer = styled.div`
   flex-grow: 4;
@@ -322,6 +324,54 @@ const BotEditor = ({ match, app, dispatch, mode, actions }) => {
     });
   };
 
+  function toggleButton (clickHandler) {
+    return (
+      <div>
+        <Button
+          onClick={clickHandler}>
+          Create Users & Leads
+        </Button>
+      </div>
+    )
+  }
+
+  function optionsForFilter() {
+    return [
+      {
+        title: "Clone",
+        description: "clones the campaign",
+        icon: <CopyContentIcon />,
+        id: "enabled",
+        state: "enabled",
+        onClick: cloneCampaign
+      }
+    ]
+  }
+
+  function cloneCampaign(e){
+
+    const params = {
+      appKey: app.key,
+      id: `${botTask.id}`,
+    };
+
+    graphql(CLONE_MESSAGE, params, {
+      success: (data) => {
+        dispatch(successMessage(
+          "cloned successfully"
+        ));
+
+        //this.props.init()
+      },
+      error: () => {
+        dispatch(errorMessage(
+          "error while cloning record"
+        ));
+      },
+    });
+
+  }
+
   return (
     <div>
       <Content>
@@ -329,27 +379,51 @@ const BotEditor = ({ match, app, dispatch, mode, actions }) => {
           title={botTask.title} 
           items={[]}
           actions={
-            <UpgradeButton 
-            classes={
-              `absolute z-10 ml-1 mt-3 transform w-screen 
-              max-w-md px-2 origin-top-right right-0
-              md:-ml-4 sm:px-0 lg:ml-0
-              lg:right-2/6 lg:translate-x-1/6`
-            }
-            label="Activate Bot Task"
-            feature="BotTasks">
-          
-            <Button
-              className="mr-2"
-              //icon= <CheckCircle />
-              id="enabled"
-              state="enabled"
-              variant={"success"}
-              onClick={toggleBotState}
-            >
-              {botTask.state === 'enabled' ? 'Disable' : 'Enable'}
-            </Button>
-          </UpgradeButton>
+            <div className="flex">
+              <UpgradeButton 
+              classes={
+                `absolute z-10 ml-1 mt-3 transform w-screen 
+                max-w-md px-2 origin-top-right right-0
+                md:-ml-4 sm:px-0 lg:ml-0
+                lg:right-2/6 lg:translate-x-1/6`
+              }
+              label="Activate Bot Task"
+              feature="BotTasks">
+            
+              <Button
+                className="mr-2"
+                //icon= <CheckCircle />
+                id="enabled"
+                state="enabled"
+                variant={"success"}
+                onClick={toggleBotState}
+              >
+                {botTask.state === 'enabled' ? 'Disable' : 'Enable'}
+              </Button>
+
+            </UpgradeButton>
+
+              <FilterMenu
+                options={optionsForFilter()}
+                value={'Actions'}
+                filterHandler={(option, closeHandler ) => {
+                  return (option.onClick && option.onClick(option))
+                }}
+                position={'right'}
+                toggleButton={(clickHandler) => {
+                  return (
+                    <Button
+                      onClick={clickHandler}
+                      variant="outlined"
+                      color="inherit"
+                      size="small"
+                    >
+                      {"actions"}
+                    </Button>
+                  );
+                }}
+              />
+            </div>
           }
         />
         {tabsContent()}
@@ -1489,7 +1563,6 @@ const AppPackageBlocks = ({ options, controls, path, step, update, searchFields 
       case "separator":
         return <hr key={index} />;
       case "input":
-        console.log("controls;", controls);
         return (
           <div className={"form-group"} key={index}>
 

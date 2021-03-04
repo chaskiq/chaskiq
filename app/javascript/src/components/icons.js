@@ -76,7 +76,6 @@ export function LeftArrow (props) {
   )
 }
 
-
 export function UpArrow (props) {
   return (
     <BaseIcon {...props} fill="currentColor"
@@ -858,6 +857,15 @@ export function DragHandle (props) {
     >
       <path d="M0 0h24v24H0V0z" fill="none"/>
       <path d="M11 18c0 1.1-.9 2-2 2s-2-.9-2-2 .9-2 2-2 2 .9 2 2zm-2-8c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm0-6c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm6 4c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zm0 2c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm0 6c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z"/>
+    </BaseIcon>
+  )
+}
+
+export function CopyContentIcon (props) {
+  return (
+    <BaseIcon {...props} fill="currentColor" viewBox="0 0 20 20">
+      <path d="M0 0h24v24H0z" fill="none"/>
+      <path d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"/>
     </BaseIcon>
   )
 }

@@ -190,6 +190,8 @@
       reply_soon: Hola, %{name} responderá tan pronto como puedan.
       reply_agent: Recibirá una respuesta de uno de nuestros agentes
       email_support: Para obtener asistencia, puede enviar un correo electrónico a %{email}
+      outbound: "✈️ Outbound"
+      new_conversations: "👋 Nuevas conversaciones"
       email_requirement:
         message: Dale al equipo una forma de contactarte
         input_label: Recibe notificaciones por correo electrónico
