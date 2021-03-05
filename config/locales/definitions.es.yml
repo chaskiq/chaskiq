@@ -1,194 +1,183 @@
----
-  es:
-    definitions:
-      articles:
-        title:
-          label: Título
-        author:
-          label: Autor
-        state:
-          label: Estado
-        collection:
-          label: Colección
-        actions:
-          label: Acciones
-        website:
-          label: Sitio web
-          hint: Sitio web de su dominio principal
-        domain:
-          label: Dominio
-          hint: Dominio del Centro de ayuda
-        subdomain:
-          label: Subdominio
-          hint: Subdominio en el que estará disponible el Centro de ayuda
-        google_code:
-          label: Código de Google
-          hint: ID de seguimiento de Google
-        credits:
-          label: mostrar créditos
-          hint: ''
-      campaigns:
-        campaign_name:
-          label: Nombre de campaña
-          hint: Esto no se mostrará en el correo electrónico
-        email_subject:
-          label: Asunto del email
-          hint: Este es el asunto del correo electrónico.
-        from_name:
-          label: Del nombre
-        from_email:
-          label: Desde el e-mail
-        reply_email:
-          label: Contestar correo electrónico
-        scheduled_at:
-          label: Programado a las
-        scheduled_to:
-          label: Programado para
-        state:
-          label: Estado
-        description:
-          label: Descripción
-        actions:
-          label: Acciones
-      bot_tasks:
-        state:
-          label: Estado
-        name:
-          label: Nombre
-        actions:
-          label: Acciones
-        title:
-          label: Título
-          placeholder: escribir el título de la tarea
-          hint: 'Nombre de la tarea, es decir: dar la bienvenida a la tarea del bot'
-      stats:
-        email:
-          label: Correo electrónico
-        host:
-          label: Anfitrión
-        createdAt:
-          label: Creado en
-        from:
-          label: Desde
-        actions:
-          label: Acciones
-        when:
-          label: Cuando
-        data:
-          label: Datos
-    
-      app_packages:
-        name:
-          label: 'Integration Name'      
-        published:
-          label: 'Publish on platform'
-          type: 'checkbox'
-          hint: 'If disabled you will use the application on the worspaces you have access to'
-        capability_list:
-          label: 'Integration capabilities'
-          hint: 'Choose the package capabilities, ie: where the integration will work'
-        description:
-          label: 'App Package description'
-          hint: 'tell what your plugin does'
-        initialize_url:
-          label: 'Initialize flow webhook URL'
-          hint: 'Sent when an app has been inserted into a conversation, message or the home screen, so that you can render the app.'
-          placeholder: 'e.g. https://yourdomain.com/initialize-url/'
-        submit_url:
-          label: 'Submit flow webhook URL'
-          hint: 'Sent when an end-user interacts with your app, via a button, link, or text input. This flow can occur multiple times as an end-user interacts with your app.'
-          placeholder: 'e.g. https://yourdomain.com/submit-url/'
-        configure_url:
-          label: 'Configure flow webhook URL (optional)'
-          hint: 'Sent when a teammate wants to use your app, so that you can show them configuration options before it’s inserted. Leaving this option blank will skip configuration.'
-          placeholder: 'e.g. https://yourdomain.com/configure-url/'
-        sheet_url:
-          label: 'Submit Sheet flow webhook URL (optional)'
-          name: 'sheet_url'
-          hint: 'Sent when a sheet has been submitted. A sheet is an iframe you’ve loaded in the Messenger that is closed and submitted when the Submit Sheets JS method is called.'
-          placeholder: 'e.g. https://yourdomain.com/submit-sheet-url/'
-        
-      settings:
-        name:
-          label: Nombre
-        logo:
-          label: Logo
-        enable_articles:
-          label: Mostrar artículo en la ventana de chat
-          hint: Esta opción mostrará los artículos en la sección de inicio del messenger
-        inline_conversation:
-          label: Mostrar nuevos mensajes en caja flotante
-          hint: Esta opción no abrirá el widget de cuadro de chat
-        encryption_key:
-          label: Clave de encriptación
-          placeholder: Déjelo en blanco para que no se cifre
-          hint: Esta clave se usará para cifrar y descifrar datos de usuario JWE
-        active_messenger:
-          label: Activar messenger
-          hint: Cuando esto esté activado, se activará el widget web de Messenger
-
-
-        privacy_consent_required_ue:
-          etiqueta: Consentimiento de privacidad requerido para GDPR
-          pista: Se mostrará una vista de confirmación para los países de la UE antes de establecer conversaciones
-
-        privacy_consent_required_all:
-          etiqueta: Requerir consentimiento de privacidad a todo el mundo
-          pista: Se Mostrará una vista de confirmación para todos los visitantes antes de establecer conversaciones
-
-        privacy_consent_required_none:
-          etiqueta: No se requiere consentimiento de privacidad
-          pista: No se mostrará una vista de confirmación a ninguna persona
-
-        domain:
-          label: URL de dominio
-          hint: Este será el sitio anfitrión donde se usará chaskiq
-        outgoing_email_domain:
-          label: Dominio de correo electrónico saliente
-          hint: El dominio de correo electrónico para enviar conversaciones, para @yourapp
-            use 'su aplicación'
-        tagline:
-          label: Tagline
-          hint: Define una frase para el tagline, lo mostraremos en la parte inferior del chat
-        timezone:
-          label: Zona horaria
-        gather_social_data:
-          label: Recopilar datos sociales
-          hint: Recopilar perfiles sociales a través de un servicio de contacto completo
-            (por ejemplo, LinkedIn, Twitter, etc.) para mis usuarios a través API de enrequecimiento de datos
-        register_visits:
-          label: Registrar visitas
-          hint: Incluso si esto está deshabilitado, recopilaremos un contador global de
-            visitas y almacenaremos la información de la última visita en el perfil del
-            visitante
-        languages:
-          select_lang: "Seleccionar Idioma"
-    
-    data_tables:
-      users:
-        name: Nombre
-        email: Correo electrónico
-        state: Estado
-        online: En línea
-        lat: Lat
-        lng: Lng
-        id: Ip
-        tag_list: Etiquetas
-        country: País
-        city: Ciudad
-        postal: Postal
-        browser: Navegador
-        browser_version: Versión Navegador
-        browser_lang: Lenguaje Navegador
-        referrer: Referencia
-        os: SO
-        os_version: La versión SO
-        lang: Lenguaje
-        web_sessions: Sesiones web
-        last_seen: Primero visto
-        first_seen: Ultima vez visto
-        subscription_status:
-          subscribed: Suscrito
-          unsubscribed: Darse de baja
-          passive: Pasivo
-  
+es:
+  definitions:
+    articles:
+      title:
+        label: Title
+      author:
+        label: Author
+      state:
+        label: State
+      collection:
+        label: Collection
+      actions:
+        label: Actions
+      website:
+        label: Website
+        hint: Website of your main domain
+      domain:
+        label: Domain
+        hint: Domain of the Help Center
+      subdomain:
+        label: Subdomain
+        hint: Subdomain in which the Help Center will be available
+      google_code:
+        label: Google Code
+        hint: Google tracking ID
+      credits:
+        label: show credits
+        hint: ""
+    settings:
+      name:
+        label: Name
+        hint:
+      logo:
+        label: Logo
+        hint:
+      enable_articles:
+        label: "Display article on chat window"
+        hint: "This option will display the articles in the home section of the messenger"
+      inline_conversation:
+        label: Display new messages in floating box
+        hint: This option will not open chat box widget
+      encryption_key:
+        label: Encryption Key
+        placeholder: "Leave it blank for no encryption"
+        hint: This key will be used to encrypt and decrypt JWE user data
+      privacy_consent_required_ue:
+        label: Required privacy consent for GDPR
+        hint: Will show a confirm view for EU countries before establish conversations
+      privacy_consent_required_all:
+        label: Worldwide privacy consent required
+        hint: Will show a confirm view for All visitors before establish conversations
+      privacy_consent_required_none:
+        label: No privacy consent required
+        hint: Will not show a confirm view to anyone (not recommended)
+      active_messenger:
+        label: Activate messenger
+        hint: When this is activate the messenger web widget will be activated
+      domain:
+        label: Domain URL
+        hint: This will be the host site were chaskiq will be used
+      outgoing_email_domain:
+        label: Outgoing Email Domain
+        hint: The email domain to send conversations, for @yourapp use 'your app'
+      tagline:
+        label: Tagline
+        hint: This will be rendered in the bottom of the Chat box
+      timezone:
+        label: Timezone
+        hint:
+      gather_social_data:
+        label: Gather Social Data
+        hint: "Collect social profiles via fullcontact service (e.g. LinkedIn, Twitter, etc.) for my users via a third party"
+      register_visits:
+        label: Register Visits
+        hint: "Even if this is disabled we will collect global counter of visits and store the last visit information on visitor's profile"
+      languages:
+        select_lang: "select lang"
+    campaigns:
+      campaign_name:
+        label: Campaign Name
+        hint: This will not be shown in the email
+      email_subject:
+        label: Email Subject
+        hint: This is the email subject itself
+      from_name:
+        label: From Name
+      from_email:
+        label: From Email
+      reply_email:
+        label: Reply Email
+      scheduled_at:
+        label: Scheduled at
+      scheduled_to:
+        label: Scheduled to
+      state:
+        label: State
+      description:
+        label: Description
+      actions:
+        label: Actions
+    bot_tasks:
+      state:
+        label: State
+      name:
+        label: Name
+      actions:
+        label: Actions
+      title:
+        label: Title
+        placeholder: write task title
+        hint: "Task name ie: welcoming users bot task"
+    stats:
+      email:
+        label: Email
+      host:
+        label: Host
+      createdAt:
+        label: CreatedAt
+      from:
+        label: From
+      actions:
+        label: Actions
+      when:
+        label: When
+      data:
+        label: Data
+    app_packages:
+      name:
+        label: 'Integration Name'
+      published:
+        label: 'Publish on platform'
+        type: 'checkbox'
+        hint: 'If disabled you will use the application on the worspaces you have access to'
+      capability_list:
+        label: 'Integration capabilities'
+        hint: 'Choose the package capabilities, ie: where the integration will work'
+      description:
+        label: 'App Package description'
+        hint: 'tell what your plugin does'
+      initialize_url:
+        label: 'Initialize flow webhook URL'
+        hint: 'Sent when an app has been inserted into a conversation, message or the home screen, so that you can render the app.'
+        placeholder: 'e.g. https://yourdomain.com/initialize-url/'
+      submit_url:
+        label: 'Submit flow webhook URL'
+        hint: 'Sent when an end-user interacts with your app, via a button, link, or text input. This flow can occur multiple times as an end-user interacts with your app.'
+        placeholder: 'e.g. https://yourdomain.com/submit-url/'
+      configure_url:
+        label: 'Configure flow webhook URL (optional)'
+        hint: 'Sent when a teammate wants to use your app, so that you can show them configuration options before it’s inserted. Leaving this option blank will skip configuration.'
+        placeholder: 'e.g. https://yourdomain.com/configure-url/'
+      sheet_url:
+        label: 'Submit Sheet flow webhook URL (optional)'
+        name: 'sheet_url'
+        hint: 'Sent when a sheet has been submitted. A sheet is an iframe you’ve loaded in the Messenger that is closed and submitted when the Submit Sheets JS method is called.'
+        placeholder: 'e.g. https://yourdomain.com/submit-sheet-url/'
+  data_tables:
+    users:
+      name: Name
+      email: Email
+      state: State
+      online: Online
+      ip: Ip
+      country: Country
+      city: City
+      lat: Lat
+      lng: Lng
+      postal: Postal
+      browser: Browser
+      browser_version: Browser version
+      browser_lang: Browser Lang
+      referrer: Referrer
+      tag_list: Tag List
+      os: Os
+      os_version: Os Version
+      lang: Lang
+      web_sessions: Web Sessions
+      last_seen: First Seen
+      first_seen: Last Seen
+      subscription_status:
+        subscribed: Subscribed
+        unsubscribed: Unsubscribed
+        passive: Passive
