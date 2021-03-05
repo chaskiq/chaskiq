@@ -3,67 +3,67 @@ es:
     attributes:
       doorkeeper/application:
         name: 'Name'
-        redirect_uri: 'Redirect URI'
+        redirect_uri: 'Redirigir URI'
     errors:
       models:
         doorkeeper/application:
           attributes:
             redirect_uri:
-              fragment_present: 'cannot contain a fragment.'
-              invalid_uri: 'must be a valid URI.'
-              unspecified_scheme: 'must specify a scheme.'
-              relative_uri: 'must be an absolute URI.'
-              secured_uri: 'must be an HTTPS/SSL URI.'
-              forbidden_uri: 'is forbidden by the server.'
+              fragment_present: 'No puede contener un fragmento.'
+              invalid_uri: 'debe ser una URI válida.'
+              unspecified_scheme: 'debe especificar un esquema.'
+              relative_uri: 'debe ser una URI absoluta.'
+              secured_uri: 'debe ser un URI de HTTPS/SSL.'
+              forbidden_uri: 'está prohibida por el servidor.'
             scopes:
-              not_match_configured: "doesn't match configured on the server."
+              not_match_configured: "no coincide con la configuración en el servidor."
   doorkeeper:
     applications:
       confirmations:
-        destroy: 'Are you sure?'
+        destroy: '¿Estas seguro?'
       buttons:
-        edit: 'Edit'
-        destroy: 'Destroy'
+        edit: 'Editar'
+        destroy: 'Eliminar'
         submit: 'Submit'
-        cancel: 'Cancel'
-        authorize: 'Authorize'
+        cancel: 'Cancelar'
+        authorize: 'Autorizar'
       form:
-        error: 'Whoops! Check your form for possible errors'
+        error: '¡Ups! Revisa tu formulario para ver posibles errores'
       help:
-        confidential: 'Application will be used where the client secret can be kept confidential. Native mobile apps and Single Page Apps are considered non-confidential.'
-        redirect_uri: 'Use one line per URI'
-        blank_redirect_uri: "Leave it blank if you configured your provider to use Client Credentials, Resource Owner Password Credentials or any other grant type that doesn't require redirect URI."
-        scopes: 'Separate scopes with spaces. Leave blank to use the default scopes.'
+        confidential: 'Comprueba que la aplicación puede ser usada en donde el secreto de cliente puede seguir siendo confidencial. Las aplicaciones nativas del móvil y las Aplicaciones de Páginas Particulares se consideran No Confidenciales.'
+        redirect_uri: 'Use una línea por URI'
+        blank_redirect_uri: "Dejar en blanco si configuró su proveedor para usar las credenciales de Cliente, Credenciales de contraseña del propietario de recursos o cualquier otro tipo de subvención que no requiera redirección URI."
+        scopes: 'Separa los ámbitos con espacios. Déjalo en blanco para usar los alcances predeterminados.'
       edit:
-        title: 'Edit application'
+        title: 'Editar aplicación'
       index:
-        title: 'Your applications'
-        new: 'New Application'
-        name: 'Name'
-        callback_url: 'Callback URL'
-        confidential: 'Confidential?'
-        actions: 'Actions'
+        title: 'Tus aplicaciones'
+        new: 'Nueva Aplicación'
+        name: 'Nombre'
+        callback_url: 'URL de retorno (callback)'
+        confidential: '¿Confidencial?'
+        actions: 'Acciones'
         confidentiality:
-          'yes': 'Yes'
+          'yes': 'Sí'
           'no': 'No'
       new:
-        title: 'New Application'
+        title: 'Nueva Aplicación'
       show:
-        title: 'Application: %{name}'
-        application_id: 'Application UID'
-        secret: 'Secret'
+        title: 'Aplicación: %{name}'
+        application_id: 'UID de la aplicación'
+        secret: 'Secreto'
         scopes: 'Scopes'
-        confidential: 'Confidential'
-        callback_urls: 'Callback urls'
-        actions: 'Actions'
+        confidential: 'Confidenciales'
+        callback_urls: 'URL de Callback'
+        actions: 'Acciones'
     authorizations:
       buttons:
-        authorize: 'Authorize'
-        deny: 'Deny'
+        authorize: 'Autorizar'
+        deny: 'Denegar'
       error:
-        title: 'An error has occurred'
+        title: '¡Un error ha ocurrido!'
       new:
-        title: 'Authorization required'
+        title: 'Autorización requerida'
         prompt: 'Authorize %{client_name} to use your account?'
         able_to: 'This application will be able to'
       show:
