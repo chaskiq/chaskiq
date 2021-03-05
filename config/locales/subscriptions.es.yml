@@ -1,93 +1,93 @@
 es:
   subscriptions:
-    upgrade: Upgrade
+    upgrade: Actualizar
     tabs:
-      - Plans
-      - Transaction history
+      - Planes
+      - Historial de la transacción
     features:
       Segments:
-        title: Segments
+        title: Segmentos
         description: true
-        upgrade_message: Enable contact segments and targeting
+        upgrade_message: Activar segmentos de contactos y orientación
       Leads:
-        title: Leads
+        title: Prospectos
         description: true
-        upgrade_message: Get external apps, many many apps
+        upgrade_message: Obtener aplicaciones externas, muchas aplicaciones
       AppUsers:
-        title: AppUsers
+        title: Usuarios
         description: true
-        upgrade_message: Get external apps, many many apps
+        upgrade_message: Obtener aplicaciones externas, muchas aplicaciones
       Conversations:
-        title: Conversations
+        title: Conversaciones
         description: true
-        upgrade_message: Enable conversations
+        upgrade_message: Activar conversaciones
       BotTasks:
-        title: BotTasks
+        title: Tareas Bots
         description: true
-        upgrade_message: Add automated chatflows to your app
+        upgrade_message: Añade chatflows automatizados a tu aplicación
       Integrations:
-        title: Integrations
+        title: Integraciones
         description: true
-        upgrade_message: Get external apps, many many apps
+        upgrade_message: Obtener aplicaciones externas, muchas aplicaciones
       Campaigns:
-        title: Campaigns
+        title: Campañas
         active: false
-        upgrade_message: Get outbound messages, newsletter and Tours!
+        upgrade_message: Recibe mensajes salientes, boletín de noticias y Tours!
       Tours:
         title: Tours
         description: true
-        upgrade_message: Get outbound messages, newsletter and Tours!
+        upgrade_message: Recibe mensajes salientes, boletín de noticias y Tours!
       UserAutoMessages:
-        title: UserAutoMessages
+        title: Mensajes automáticos del usuario
         description: true
-        upgrade_message: Get outbound messages, newsletter and Tours!
+        upgrade_message: Recibe mensajes salientes, boletín de noticias y Tours!
       OutgoingWebhooks:
-        title: OutgoingWebhooks
+        title: Webhooks de salida
         active: false
-        upgrade_message: Enable outgoing webhooks
+        upgrade_message: Habilitar webhooks salientes
       OauthApplications:
         title: OauthApplications
         description: true
-        upgrade_message: Enable API access support through OAUTH
+        upgrade_message: Habilitar el soporte de acceso a la API a través de OAUTH
       Articles:
-        title: Articles
+        title: Artículos
         active: false
-        upgrade_message: Enable Documentation & Help Center
+        upgrade_message: Habilitar Centro de Ayuda y Documentación
       QuickReplies:
-        title: QuickReplies
+        title: Respuestas rápidas
         description: true
-        upgrade_message: add Quick replies to your conversations
+        upgrade_message: añadir respuestas rápidas a tus conversaciones
       CustomAttributes:
-        title: CustomAttributes
-        upgrade_message: Enable custom attributes
+        title: Atributos personalizados
+        upgrade_message: Activar atributos personalizados
     plans:
       - 
-        name: "free one"
-        description: This is a frebie plan!
+        name: "gratis"
+        description: '¡Este es un plan gratis!'
         id: 618560
       - 
-        name: "rookie"
-        description: This is the simple plan
+        name: "principiante"
+        description: Este es el caso más simple
         id: 616249
       - 
         name: "super"
         id: 596123
-        description: This is the super plan
+        description: Este es el caso más simple
     plan:
-      included: What's included
-      pay_by: Pay by %{billing_type}
-      trial_days: Try this plan for free for <span class="font-bold"> %{trial_days} days </span>
-      get_access: Get access
+      included: '¿Qué incluye?'
+      pay_by: Pagar por %{billing_type}
+      trial_days: Prueba este plan gratis durante <span class="font-bold"> %{trial_days} días </span>
+      get_access: Obtener acceso
     alerts:
       subscription_updated:
-        title: Subscription updated
-        desc: The Subscription was updated successfully, You will receive an email notification
+        title: Suscripción actualizada
+        desc: La suscripción se actualizó con éxito, recibirás una notificación por correo electrónico
       subscription_created:
-        title: Subscription Created
-        desc: The subscription was created successfully, You will receive a receipt soon
+        title: Suscripción creada
+        desc: La suscripción se actualizó con éxito, recibirás una notificación por correo electrónico
       subscription_cancelled:
-        title: Subscription Cancelled
-        desc: The subscription was cancelled
+        title: Suscripción cancelada
+        desc: La suscripción ha sido cancelada.
       close: Close this dialog
     billing_information:
       title: Billing plan information
