@@ -64,19 +64,19 @@ es:
         title: '¡Un error ha ocurrido!'
       new:
         title: 'Autorización requerida'
-        prompt: 'Authorize %{client_name} to use your account?'
-        able_to: 'This application will be able to'
+        prompt: '¿Autorizar %{client_name} para utilizar su cuenta?'
+        able_to: 'Esta aplicación podrá'
       show:
-        title: 'Authorization code'
+        title: 'Código de autorización'
     authorized_applications:
       confirmations:
-        revoke: 'Are you sure?'
+        revoke: '¿Estas seguro?'
       buttons:
-        revoke: 'Revoke'
+        revoke: 'Revocar'
       index:
-        title: 'Your authorized applications'
-        application: 'Application'
-        created_at: 'Created At'
+        title: 'Sus aplicaciones autorizadas'
+        application: 'Aplicación'
+        created_at: 'Creado el'
         date_format: '%Y-%m-%d %H:%M:%S'
     pre_authorization:
       status: 'Pre-authorization'
