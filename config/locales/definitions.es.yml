@@ -138,46 +138,46 @@ es:
         label: 'Paquete'
         hint: 'decir lo que hace tu plugin'
       initialize_url:
-        label: 'Initialize flow webhook URL'
-        hint: 'Sent when an app has been inserted into a conversation, message or the home screen, so that you can render the app.'
-        placeholder: 'e.g. https://yourdomain.com/initialize-url/'
+        label: 'Inicializar URL del webhook de flujo'
+        hint: 'Enviado cuando una aplicación ha sido insertada en una conversación, mensaje o pantalla de inicio, para que puedas renderizar la aplicación.'
+        placeholder: 'ej. https://yourdomain.com/initialize-url/'
       submit_url:
-        label: 'Submit flow webhook URL'
-        hint: 'Sent when an end-user interacts with your app, via a button, link, or text input. This flow can occur multiple times as an end-user interacts with your app.'
-        placeholder: 'e.g. https://yourdomain.com/submit-url/'
+        label: 'Enviar URL del webhook de flujo'
+        hint: 'Enviado cuando un usuario final interactúa con su aplicación, a través de un botón, enlace o entrada de texto. Este flujo puede ocurrir varias veces cuando un usuario final interactúa con tu aplicación.'
+        placeholder: 'ej. https://yourdomain.com/submit-url/'
       configure_url:
-        label: 'Configure flow webhook URL (optional)'
-        hint: 'Sent when a teammate wants to use your app, so that you can show them configuration options before it’s inserted. Leaving this option blank will skip configuration.'
-        placeholder: 'e.g. https://yourdomain.com/configure-url/'
+        label: 'Configurar URL del webhook de flujo (opcional)'
+        hint: 'Enviado cuando un compañero de equipo quiere usar tu aplicación, para que puedas mostrarles las opciones de configuración antes de que se inserte. Al dejar esta opción en blanco se omitirá la configuración.'
+        placeholder: 'ej. https://yourdomain.com/configure-url/'
       sheet_url:
-        label: 'Submit Sheet flow webhook URL (optional)'
+        label: 'Enviar URL del webhook de flujo de Hoja (opcional)'
         name: 'sheet_url'
-        hint: 'Sent when a sheet has been submitted. A sheet is an iframe you’ve loaded in the Messenger that is closed and submitted when the Submit Sheets JS method is called.'
-        placeholder: 'e.g. https://yourdomain.com/submit-sheet-url/'
+        hint: 'Enviado cuando una hoja ha sido enviada. Una hoja es un iframe que ha cargado en el Messenger que se cierra y envía cuando se llama al método Enviar Hojas JS.'
+        placeholder: 'ej. https://yourdomain.com/submit-sheet-url/'
   data_tables:
     users:
-      name: Name
+      name: Nombre
       email: Email
-      state: State
-      online: Online
+      state: Estado
+      online: En línea
       ip: Ip
-      country: Country
-      city: City
-      lat: Lat
-      lng: Lng
+      country: País
+      city: Ciudad
+      lat: Latitud
+      lng: Longitud
       postal: Postal
-      browser: Browser
-      browser_version: Browser version
-      browser_lang: Browser Lang
+      browser: Navegador
+      browser_version: Versión del navegador
+      browser_lang: Lang del Navegador
       referrer: Referrer
-      tag_list: Tag List
+      tag_list: Lista de etiquetas
       os: Os
-      os_version: Os Version
-      lang: Lang
-      web_sessions: Web Sessions
-      last_seen: First Seen
-      first_seen: Last Seen
+      os_version: Versión del sistema operativo
+      lang: Idioma
+      web_sessions: Sesión Web
+      last_seen: Visto por primera vez
+      first_seen: Ultima vez visto
       subscription_status:
-        subscribed: Subscribed
+        subscribed: Subscrito
         unsubscribed: Desuscrito
         passive: Pasiva
