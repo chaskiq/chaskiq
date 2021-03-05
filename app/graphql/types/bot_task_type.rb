@@ -12,6 +12,7 @@ module Types
     field :stats_fields, Types::JsonType, null: true
     field :urls, Types::JsonType, null: true
     field :bot_type, String, null: true
+    field :position, Integer, null: true
     
     def segments
       object.segments.blank? ? [] : object.segments

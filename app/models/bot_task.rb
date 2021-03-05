@@ -126,11 +126,11 @@ class BotTask < Message
   end
 
   # idea 1: just return a collection of predicates and do it in the client
+    # TODO: think how could we set this on client side effectively
   # idea 2: backend implementation , the following code
-    # TODO: think how could we set this on client side efectively
   def self.get_welcome_bots_for_user(user)
     selected = nil
-    for_new_conversations.enabled.each do |bot_task|
+    for_new_conversations.enabled.ordered.each do |bot_task|
       if bot_task.available_for_user?(user)
         selected = bot_task
         break 

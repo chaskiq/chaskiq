@@ -1243,6 +1243,17 @@ export const DELETE_BOT_TASK = `
   }
 `;
 
+export const REORDER_BOT_TASK = `
+  mutation ReorderBotTask( $appKey: String!, $id: String!, $idAfter: String!, $mode: String ){
+    reorderBotTask( appKey: $appKey, id: $id, idAfter: $idAfter, mode: $mode ){
+      botTask{
+        id
+        position
+      }
+    }
+  }
+`;
+
 
 export const CREATE_OAUTH_APP = `
   mutation CreateOauthApplication($appKey: String!, $params: Json!){

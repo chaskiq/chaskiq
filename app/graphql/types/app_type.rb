@@ -470,7 +470,7 @@ module Types
         collection = collection.where(ors) if ors.present?
       end
 
-      collection
+      collection.ordered
     end
 
     field :bot_task, Types::BotTaskType, null: true do

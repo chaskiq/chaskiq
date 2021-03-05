@@ -728,6 +728,7 @@ export const BOT_TASKS = `
         id
         state
         botType
+        position
       }
     }
   }
