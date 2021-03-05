@@ -2,113 +2,113 @@ es:
   definitions:
     articles:
       title:
-        label: Title
+        label: Título
       author:
-        label: Author
+        label: Autor
       state:
-        label: State
+        label: Estado
       collection:
-        label: Collection
+        label: Colección
       actions:
-        label: Actions
+        label: Acciones
       website:
-        label: Website
-        hint: Website of your main domain
+        label: Página web
+        hint: Sitio web de su dominio principal
       domain:
-        label: Domain
-        hint: Domain of the Help Center
+        label: Dominio
+        hint: Dominio del Centro de Ayuda
       subdomain:
-        label: Subdomain
-        hint: Subdomain in which the Help Center will be available
+        label: Subdominio
+        hint: Subdominio en el que el Centro de Ayuda estará disponible
       google_code:
         label: Google Code
-        hint: Google tracking ID
+        hint: ID de seguimiento de Google
       credits:
-        label: show credits
+        label: mostrar créditos
         hint: ""
     settings:
       name:
-        label: Name
+        label: Nombre
         hint:
       logo:
-        label: Logo
+        label: Logotipo
         hint:
       enable_articles:
-        label: "Display article on chat window"
-        hint: "This option will display the articles in the home section of the messenger"
+        label: "Mostrar artículo en la ventana de chat"
+        hint: "Esta opción mostrará los artículos en la sección principal del mensajero"
       inline_conversation:
-        label: Display new messages in floating box
-        hint: This option will not open chat box widget
+        label: Mostrar nuevos mensajes en la caja flotante
+        hint: Esta opción no abrirá el widget de la caja de chat
       encryption_key:
-        label: Encryption Key
-        placeholder: "Leave it blank for no encryption"
-        hint: This key will be used to encrypt and decrypt JWE user data
+        label: Clave de Encriptación
+        placeholder: "Deje en blanco para no cifrar"
+        hint: Esta clave se utilizará para cifrar y descifrar datos de usuario JWE
       privacy_consent_required_ue:
-        label: Required privacy consent for GDPR
-        hint: Will show a confirm view for EU countries before establish conversations
+        label: Se requiere el consentimiento de privacidad para GDPR
+        hint: Mostrará una vista de confirmación para los países de la UE antes de establecer conversaciones
       privacy_consent_required_all:
-        label: Worldwide privacy consent required
-        hint: Will show a confirm view for All visitors before establish conversations
+        label: Se requiere el consentimiento de privacidad a nivel mundial
+        hint: Mostrará una vista de confirmación para los países de la UE antes de establecer conversaciones
       privacy_consent_required_none:
-        label: No privacy consent required
-        hint: Will not show a confirm view to anyone (not recommended)
+        label: No se requiere consentimiento de privacidad
+        hint: No se mostrará una vista de confirmación a nadie (no recomendado)
       active_messenger:
-        label: Activate messenger
-        hint: When this is activate the messenger web widget will be activated
+        label: Activar mensajero
+        hint: Cuando se activa el widget web de mensajería se activará
       domain:
-        label: Domain URL
-        hint: This will be the host site were chaskiq will be used
+        label: URL del dominio
+        hint: Este será el sitio web donde se utilizará chaskiq
       outgoing_email_domain:
-        label: Outgoing Email Domain
-        hint: The email domain to send conversations, for @yourapp use 'your app'
+        label: Configuración del correo electrónico saliente
+        hint: El dominio de correo electrónico para enviar conversaciones, para @yourapp usar 'tu aplicación'
       tagline:
-        label: Tagline
-        hint: This will be rendered in the bottom of the Chat box
+        label: Eslogan
+        hint: Esto se mostrará en la parte inferior de la caja de texto
       timezone:
-        label: Timezone
+        label: Zona horaria
         hint:
       gather_social_data:
-        label: Gather Social Data
-        hint: "Collect social profiles via fullcontact service (e.g. LinkedIn, Twitter, etc.) for my users via a third party"
+        label: Recopilar datos sociales
+        hint: "Recopilar perfiles sociales a través de un servicio de enriquecimiento de datos (por ejemplo, LinkedIn, Twitter, etc.) para mis usuarios a través de un tercero"
       register_visits:
-        label: Register Visits
-        hint: "Even if this is disabled we will collect global counter of visits and store the last visit information on visitor's profile"
+        label: Visitas Registradas
+        hint: "Incluso si esto está desactivado, recogeremos la información global de las visitas y almacenaremos la última información de las visitas en el perfil del visitante"
       languages:
-        select_lang: "select lang"
+        select_lang: "seleccionar idioma"
     campaigns:
       campaign_name:
-        label: Campaign Name
-        hint: This will not be shown in the email
+        label: Nombre de Campaña
+        hint: Esto no se mostrará en el correo electrónico
       email_subject:
-        label: Email Subject
-        hint: This is the email subject itself
+        label: Asunto
+        hint: Este es el asunto del correo electrónico
       from_name:
-        label: From Name
+        label: Remitente
       from_email:
-        label: From Email
+        label: Correo electrónico remitente
       reply_email:
-        label: Reply Email
+        label: Responder Email
       scheduled_at:
-        label: Scheduled at
+        label: Programado en
       scheduled_to:
-        label: Scheduled to
+        label: Agendado
       state:
-        label: State
+        label: Estado
       description:
-        label: Description
+        label: Descripción
       actions:
-        label: Actions
+        label: Acciones
     bot_tasks:
       state:
-        label: State
+        label: Estado
       name:
-        label: Name
+        label: Nombre
       actions:
-        label: Actions
+        label: Acciones
       title:
-        label: Title
-        placeholder: write task title
-        hint: "Task name ie: welcoming users bot task"
+        label: Título
+        placeholder: escribe un título para la tarea
+        hint: "Nombre de la tarea ej: bienvenida a la tarea del bot de usuarios"
     stats:
       email:
         label: Email
@@ -179,5 +179,5 @@ es:
       first_seen: Last Seen
       subscription_status:
         subscribed: Subscribed
-        unsubscribed: Unsubscribed
-        passive: Passive
+        unsubscribed: Desuscrito
+        passive: Pasiva
