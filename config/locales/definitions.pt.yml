@@ -2,92 +2,92 @@ pt:
   definitions:
     articles:
       title:
-        label: Title
+        label: Titulo
       author:
-        label: Author
+        label: Autor(a)
       state:
-        label: State
+        label: Estado
       collection:
-        label: Collection
+        label: Coleção
       actions:
-        label: Actions
+        label: Ações
       website:
         label: Website
-        hint: Website of your main domain
+        hint: Site do seu domínio principal
       domain:
-        label: Domain
-        hint: Domain of the Help Center
+        label: Domínio
+        hint: Domínio do Centro de Ajuda
       subdomain:
-        label: Subdomain
-        hint: Subdomain in which the Help Center will be available
+        label: Subdomínio
+        hint: Subdomínio no qual o Centro de Ajuda estará disponível
       google_code:
         label: Google Code
-        hint: Google tracking ID
+        hint: ID do Google tracking
       credits:
-        label: show credits
+        label: mostrar créditos
         hint: ""
     settings:
       name:
-        label: Name
+        label: Nome
         hint:
       logo:
-        label: Logo
+        label: Logotipo
         hint:
       enable_articles:
-        label: "Display article on chat window"
-        hint: "This option will display the articles in the home section of the messenger"
+        label: "Exibir artigo na janela do chat"
+        hint: "Esta opção exibirá os artigos na seção inicial do mensageiro"
       inline_conversation:
-        label: Display new messages in floating box
-        hint: This option will not open chat box widget
+        label: Exibir novas mensagens na caixa flutuante
+        hint: Esta opção não irá abrir widget de caixa de bate papo
       encryption_key:
-        label: Encryption Key
-        placeholder: "Leave it blank for no encryption"
-        hint: This key will be used to encrypt and decrypt JWE user data
+        label: Chave de Encriptação
+        placeholder: "Deixe em branco para nenhuma operação."
+        hint: Esta chave será usada para criptografar e descriptografar dados do usuário JWE
       privacy_consent_required_ue:
-        label: Required privacy consent for GDPR
-        hint: Will show a confirm view for EU countries before establish conversations
+        label: Autorização de privacidade necessária para o GDPR
+        hint: Mostrará uma visão de confirmação para os países da UE antes de estabelecer conversas
       privacy_consent_required_all:
-        label: Worldwide privacy consent required
-        hint: Will show a confirm view for All visitors before establish conversations
+        label: Autorização de privacidade em todo o mundo necessária
+        hint: Mostrará uma visão de confirmação para os países da UE antes de estabelecer conversas
       privacy_consent_required_none:
-        label: No privacy consent required
-        hint: Will not show a confirm view to anyone (not recommended)
+        label: Autorização de privacidade em todo o mundo necessária
+        hint: Não mostrará uma visualização de confirmação para ninguém (não recomendado)
       active_messenger:
-        label: Activate messenger
-        hint: When this is activate the messenger web widget will be activated
+        label: Ativar mensagem
+        hint: Quando isto estiver ativado o widget web de mensagens será ativado
       domain:
-        label: Domain URL
-        hint: This will be the host site were chaskiq will be used
+        label: URL do domínio
+        hint: Este será o site de host do chaskiq será usado
       outgoing_email_domain:
-        label: Outgoing Email Domain
-        hint: The email domain to send conversations, for @yourapp use 'your app'
+        label: Definições de envio de Emails
+        hint: O domínio do e-mail para enviar conversas, para @yourapp usar 'seu aplicativo'
       tagline:
-        label: Tagline
-        hint: This will be rendered in the bottom of the Chat box
+        label: Mote / Slogan
+        hint: Isto será renderizado na parte inferior da caixa de Bate-Papo
       timezone:
-        label: Timezone
+        label: Fuso horário
         hint:
       gather_social_data:
-        label: Gather Social Data
-        hint: "Collect social profiles via fullcontact service (e.g. LinkedIn, Twitter, etc.) for my users via a third party"
+        label: Recolher dados sociais
+        hint: "Colete perfis sociais por meio de serviços de contatos completos (por exemplo, LinkedIn, Twitter, etc.) para meus usuários por meio de terceiros"
       register_visits:
-        label: Register Visits
-        hint: "Even if this is disabled we will collect global counter of visits and store the last visit information on visitor's profile"
+        label: Registrar Visitas
+        hint: "Mesmo que isso esteja desativado, nós coletaremos o contador global de visitas e armazenaremos as últimas informações de visita sobre o perfil do visitante"
       languages:
-        select_lang: "select lang"
+        select_lang: "selecionar idioma"
     campaigns:
       campaign_name:
-        label: Campaign Name
-        hint: This will not be shown in the email
+        label: Nome da campanha
+        hint: Isto não será mostrado no e-mail
       email_subject:
-        label: Email Subject
-        hint: This is the email subject itself
+        label: Assunto do e-mail
+        hint: Este é o assunto do e-mail em si
       from_name:
-        label: From Name
+        label: Nome De
       from_email:
-        label: From Email
+        label: Email De
       reply_email:
-        label: Reply Email
+        label: Responder a E-mail
       scheduled_at:
         label: Scheduled at
       scheduled_to:
@@ -167,17 +167,17 @@ pt:
       lng: Lng
       postal: Postal
       browser: Browser
-      browser_version: Browser version
-      browser_lang: Browser Lang
-      referrer: Referrer
-      tag_list: Tag List
+      browser_version: Versão do navegador de Internet
+      browser_lang: Idioma do Navegador
+      referrer: Página de referência
+      tag_list: Lista de Etiquetas
       os: Os
-      os_version: Os Version
-      lang: Lang
-      web_sessions: Web Sessions
-      last_seen: First Seen
-      first_seen: Last Seen
+      os_version: Versão do sistema operacional
+      lang: Idiomas
+      web_sessions: Sessões web
+      last_seen: Visto pela primeira vez
+      first_seen: Visto pela última vez
       subscription_status:
-        subscribed: Subscribed
-        unsubscribed: Unsubscribed
-        passive: Passive
+        subscribed: Subscrito
+        unsubscribed: Subscrição cancelada
+        passive: Passiva
