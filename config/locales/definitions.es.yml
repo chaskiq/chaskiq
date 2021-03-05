@@ -115,28 +115,28 @@ es:
       host:
         label: Host
       createdAt:
-        label: CreatedAt
+        label: Creado el
       from:
-        label: From
+        label: De
       actions:
-        label: Actions
+        label: Acciones
       when:
-        label: When
+        label: Cuando
       data:
-        label: Data
+        label: Datos
     app_packages:
       name:
-        label: 'Integration Name'
+        label: 'Nombre de integración'
       published:
-        label: 'Publish on platform'
-        type: 'checkbox'
-        hint: 'If disabled you will use the application on the worspaces you have access to'
+        label: 'Publicar en la plataforma'
+        type: 'casilla de verificación'
+        hint: 'Si está deshabilitado, usará la aplicación en los espacios a los que tiene acceso'
       capability_list:
-        label: 'Integration capabilities'
-        hint: 'Choose the package capabilities, ie: where the integration will work'
+        label: 'Capacidad de integracion ERP'
+        hint: 'Elija las capacidades del paquete, por ejemplo: dónde funcionará la integración'
       description:
-        label: 'App Package description'
-        hint: 'tell what your plugin does'
+        label: 'Paquete'
+        hint: 'decir lo que hace tu plugin'
       initialize_url:
         label: 'Initialize flow webhook URL'
         hint: 'Sent when an app has been inserted into a conversation, message or the home screen, so that you can render the app.'
