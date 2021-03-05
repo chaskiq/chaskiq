@@ -169,7 +169,7 @@ describe('Task bot Spec', function () {
     })
   })
 
-  it.only('sessionless bot task wait for reply', function () {
+  it('sessionless bot task wait for reply', function () {
     cy.app('clean')
     cy.wait(6000)
     cy.appScenario('basic').then((basic) => {
