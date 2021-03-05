@@ -223,7 +223,7 @@ function Sidebar ({
         {
           id: 'outbound',
           label: I18n.t('navigator.childs.outbound'),
-          icon: '✈️',
+          icon: '🏓',
           url: `${appid}/bots/outbound`,
           active: isActivePage('botleads')
         },
