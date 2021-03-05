@@ -1,96 +1,103 @@
-
----
-  es:
-    subscriptions:
-      upgrade: Actualiza
-      tabs:
-        - Planes
-        - Historial de transacciones
-      plans:
-        - 
-          name: "Plan gratuito"
-          description: Este es el plan gratuito!
-          id: 618560
-        - 
-          name: "Starter"
-          description: El plan para los que inician en Chaskiq y requieren un montar un centro de ayuda
-          id: 616249
-        - 
-          name: "super"
-          id: 596123
-          description: El siguiente nivel para quienes necesitan mas control en mensajes, campañas y flujos de bots
-
-      features:
-        Segments:
-          title: Segmentos
-          description: true
-        Leads:
-          title: Prospectos
-          description: true
-        AppUsers:
-          title: Usuarios
-          description: true
-        Conversations:
-          title: Conversaciones
-          description: true
-        BotTasks:
-          title: Tareas de Bot
-          description: true
-        Integrations:
-          title: Integraciones
-          description: true
-        Campaigns:
-          title: Campañas
-          active: false
-        Tours:
-          title: Tours
-          description: true
-        UserAutoMessages:
-          title: Mensajes salientes
-          description: true
-        OutgoingWebhooks:
-          title: Webhooks
-          active: false
-        OauthApplications:
-          title: Applicaciones Oauth
-          description: true
-        Articles:
-          title: Centro de ayuda
-          active: false
-        QuickReplies:
-          title: Respuestas enlatadas
-          description: true
-        CustomAttributes:
-          title: Atributos perzonalizados
-
-
-      plan: 
-        included: Que incluye
-        pay_by: Paga de forma %{billing_type}
-        trial_days: Prueba este plan gratis por <span class="font-bold"> %{trial_days} dias </span>
-        get_access: Accede ahora
-      alerts:
-        subscription_updated: 
-          title: Subscripción actualizada
-          desc: La subscripción fue actualizada correctamente, vas a recibir una notificacion por correo
-        subscription_created: 
-          title: Subscripción creada
-          desc: La subscripción fue creada exsitosamente, vas a recibir una notificacion por correo pronto.
-        subscription_cancelled: 
-          title: Subscripción cancelada
-          desc: La Subscripción se ha cancelado correctamente
-        close: Cerrar esta ventana
-
-      billing_information:
-        title: Información de pago
-        description: Estás usando el plan "%{plan_name}".
-        next_billing: La proxima facturación será el %{next_payment_date} por $%{next_payment_amount} %{next_payment_currency}
-        cancel_plan: Cancelar plan
-        update_payment_method: Actualizar metodo de pago
-        subscription_state: Estado de subscripción %{state}
-
-      update_subscription:
-        cta: Actualizar subscripción
-        billed_on: El cobro será realizado cada <span class="font-bold"> %{billing_period} %{billing_type} </span>
-        amount: Por el monto de <span class="font-bold">$ %{recurring_price} USD</span>
-        next_payment:  El proximo cobro será el <span class="font-bold">%{next_payment_date}</span>
+es:
+  subscriptions:
+    upgrade: Upgrade
+    tabs:
+      - Plans
+      - Transaction history
+    features:
+      Segments:
+        title: Segments
+        description: true
+        upgrade_message: Enable contact segments and targeting
+      Leads:
+        title: Leads
+        description: true
+        upgrade_message: Get external apps, many many apps
+      AppUsers:
+        title: AppUsers
+        description: true
+        upgrade_message: Get external apps, many many apps
+      Conversations:
+        title: Conversations
+        description: true
+        upgrade_message: Enable conversations
+      BotTasks:
+        title: BotTasks
+        description: true
+        upgrade_message: Add automated chatflows to your app
+      Integrations:
+        title: Integrations
+        description: true
+        upgrade_message: Get external apps, many many apps
+      Campaigns:
+        title: Campaigns
+        active: false
+        upgrade_message: Get outbound messages, newsletter and Tours!
+      Tours:
+        title: Tours
+        description: true
+        upgrade_message: Get outbound messages, newsletter and Tours!
+      UserAutoMessages:
+        title: UserAutoMessages
+        description: true
+        upgrade_message: Get outbound messages, newsletter and Tours!
+      OutgoingWebhooks:
+        title: OutgoingWebhooks
+        active: false
+        upgrade_message: Enable outgoing webhooks
+      OauthApplications:
+        title: OauthApplications
+        description: true
+        upgrade_message: Enable API access support through OAUTH
+      Articles:
+        title: Articles
+        active: false
+        upgrade_message: Enable Documentation & Help Center
+      QuickReplies:
+        title: QuickReplies
+        description: true
+        upgrade_message: add Quick replies to your conversations
+      CustomAttributes:
+        title: CustomAttributes
+        upgrade_message: Enable custom attributes
+    plans:
+      - 
+        name: "free one"
+        description: This is a frebie plan!
+        id: 618560
+      - 
+        name: "rookie"
+        description: This is the simple plan
+        id: 616249
+      - 
+        name: "super"
+        id: 596123
+        description: This is the super plan
+    plan:
+      included: What's included
+      pay_by: Pay by %{billing_type}
+      trial_days: Try this plan for free for <span class="font-bold"> %{trial_days} days </span>
+      get_access: Get access
+    alerts:
+      subscription_updated:
+        title: Subscription updated
+        desc: The Subscription was updated successfully, You will receive an email notification
+      subscription_created:
+        title: Subscription Created
+        desc: The subscription was created successfully, You will receive a receipt soon
+      subscription_cancelled:
+        title: Subscription Cancelled
+        desc: The subscription was cancelled
+      close: Close this dialog
+    billing_information:
+      title: Billing plan information
+      description: You are currently using "%{plan_name}" plan.
+      next_billing: Next Billing on %{next_payment_date} for $%{next_payment_amount} %{next_payment_currency}
+      cancel_plan: cancel plan
+      update_payment_method: Update payment method
+      subscription_state: Estado de subscripción %{state}
+    update_subscription:
+      cta: Update subscription
+      billed_on: You will be billed on each <span class="font-bold"> %{billing_period} %{billing_type} </span>
+      amount: With the amount of <span class="font-bold">$ %{recurring_price} USD</span>
+      next_payment: Next payment will be on <span class="font-bold">%{next_payment_date}</span>
