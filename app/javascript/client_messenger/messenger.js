@@ -643,10 +643,6 @@ class Messenger extends Component {
     }, { 
       success: (data)=>{
         const {conversation} = data.startConversation
-        //let messages = [conversation.lastMessage]
-
-        //if(this.state.conversation.messages)
-        //  messages = messages.concat(this.state.conversation.messages.collection)
 
         this.setState({
           conversation: Object.assign(

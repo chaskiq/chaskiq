@@ -4,7 +4,6 @@ import { connect } from 'react-redux'
 import arrayMove from 'array-move'
 
 import Button from '../components/Button'
-// import TextField from '@material-ui/core/TextField'
 import Input from '../components/forms/Input'
 
 import ContentHeader from '../components/PageHeader'

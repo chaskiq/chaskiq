@@ -135,7 +135,6 @@ export default function Table ({
                 key={`item-${index}`}
                 index={index}
                 item={o}
-                // customRenderer={customRenderer}
               />
             ))}
 

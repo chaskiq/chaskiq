@@ -468,8 +468,6 @@ class CampaignForm extends Component {
         ));
 
         this.props.init()
-        //this.updateData(data.cloneMessage.id, null);
-        //this.setState({ status: "saved" })
       },
       error: () => {
         this.props.dispatch(errorMessage(

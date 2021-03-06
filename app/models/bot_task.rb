@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 
 class BotTask < Message
-  # self.inheritance_column = nil
 
   # acts_as_list scope: %i[app_id]
 
@@ -9,7 +8,6 @@ class BotTask < Message
 
   has_many :metrics, as: :trackable, dependent: :destroy_async
 
-  # before_create :defaults
 
   store_accessor :settings, %i[
     scheduling
@@ -52,13 +50,6 @@ class BotTask < Message
       .where('metrics.id is null')
   }
 
-  #def segments
-  #  predicates
-  #end
-
-  #def segments=(data)
-  #  self.predicates = data
-  #end
 
   def initialize_default_controls
     self.segments = [

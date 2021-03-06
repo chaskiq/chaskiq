@@ -27,10 +27,6 @@ module Types
       object.bot_tasks.get_welcome_bots_for_user(current_user)
     end
 
-    #field :outbound_bots, [Types::BotTaskType], null: true
-    #def outbound_bots
-    #  object.bot_tasks.for_outbound
-    #end
 
     field :app_package, Types::AppPackageIntegrationType, null: true do
       argument :id, String, required: true, default_value: ''
@@ -127,8 +123,5 @@ module Types
         only_path: true
       )
     end
-
-
-
   end
 end
