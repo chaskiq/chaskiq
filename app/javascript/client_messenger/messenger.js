@@ -25,6 +25,7 @@ import {
   CONVERT,
   APP_PACKAGE_HOOK,
   PRIVACY_CONSENT,
+  GET_NEW_CONVERSATION_BOTS
 } from './graphql/queries'
 import GraphqlClient from './graphql/client'
 
@@ -624,6 +625,22 @@ class Messenger extends Component {
     })
   }
 
+  getNewConversationBot = (cb)=>{
+    this.graphqlClient.send(GET_NEW_CONVERSATION_BOTS, {}, {
+      success: (data)=>{
+        this.setState({
+          appData: {
+            ...this.state.appData, 
+            newConversationBots: data.messenger.app.newConversationBots
+          }
+        }, ()=>{
+          cb && cb()
+        })
+      },
+      error: ()=>{}
+    })
+  }
+
   createCommentOnNewConversation = (comment, cb)=>{
 
     let message = {
@@ -635,7 +652,7 @@ class Messenger extends Component {
 
     if(comment.reply){
       message = comment
-    } 
+    }
 
     this.graphqlClient.send( START_CONVERSATION, {
       appKey: this.props.app_id,
@@ -762,50 +779,47 @@ class Messenger extends Component {
   displayNewConversation =(e)=>{
     e.preventDefault()
 
-    let result = []
-    const welcomeBot = this.state.appData.newConversationBots
-    
-    if(welcomeBot){
-      const step = welcomeBot.settings.paths[0].steps[0]
-      const message = {
-        "message":{
-          //"htmlContent":"Hi, otra will reply as soon as they can.",
-          //"textContent":"Hi, otra will reply as soon as they can.",
-          //"serializedContent":"{\"blocks\":[{\"key\":\"9oe8n\",\"text\":\"Hi, otra will reply as soon as they can.\",\"type\":\"unstyled\",\"depth\":0,\"inlineStyleRanges\":[],\"entityRanges\":[],\"data\":{}}],\"entityMap\":{}}","blocks":null,"data":null,"action":null,"state":null},
-          "blocks": step.controls,
-          "source":null,
-          //"readAt":"2021-02-24T22:39:36Z",
-          //"createdAt":"2021-02-24T22:39:35Z",
-          //"privateNote":null,
-          "stepId": step.id,
-          "triggerId": welcomeBot.id,
-          "fromBot":true,
-          "appUser":{
-            "id":3,
-            "kind":"agent",
-            "displayName":"chaskiq bot",
-            //"avatarUrl":"http://app.chaskiq.test:3000/assets/icons8-bot-50-c7450d39e2a2808b93e0abf784a77841e50eb527a38324c26f5718ceab1e3fde.png"
+    this.getNewConversationBot( ()=> {
+      let result = []
+      const welcomeBot = this.state.appData.newConversationBots
+      console.log("welcomeBot", welcomeBot)
+      if(welcomeBot){
+        const step = welcomeBot.settings.paths[0].steps[0]
+        const message = {
+          "message":{
+            "blocks": step.controls,
+            "source":null,
+            "stepId": step.id,
+            "triggerId": welcomeBot.id,
+            "fromBot":true,
+            "appUser":{
+              "id":3,
+              "kind":"agent",
+              "displayName":"chaskiq bot",
+            }
+          },
+          "messageSource":null,
+          "emailMessageId":null
+        }
+        result = [message]
+      }
+  
+      this.setState({
+        conversation: {
+          key: "volatile",
+          mainParticipant: {},
+          messages: {
+            collection: result,
+            meta: {}
           }
         },
-        "messageSource":null,
-        "emailMessageId":null
-      }
-      result = [message]
-    }
-
-    this.setState({
-      conversation: {
-        key: "volatile",
-        mainParticipant: {},
-        messages: {
-          collection: result,
-          meta: {}
-        }
-      },
-      display_mode: "conversation"
-    }, ()=>{
-      //this.requestTrigger("infer")
+        display_mode: "conversation"
+      }, ()=>{
+        //this.requestTrigger("infer")
+      })
     })
+
+
 
     /*
     if(this.state.appData.userTasksSettings && this.state.appData.userTasksSettings.share_typical_time && this.props.kind === "AppUser" )

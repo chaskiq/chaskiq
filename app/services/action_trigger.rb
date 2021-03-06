@@ -93,7 +93,7 @@ class ActionTrigger
 		end
 	
 		if next_step.blank?
-			handle_follow_actions(app, path)
+			handle_follow_actions(app, path, message)
 			return
 		end
 	
@@ -124,20 +124,22 @@ class ActionTrigger
 		end
 	end
 	
-	def self.handle_follow_actions(app, path)
+	def self.handle_follow_actions(app, path, message)
 		follow_actions = path['follow_actions']
 		return if follow_actions.blank?
 	
 		follow_actions.each do |action|
-			process_follow_action(app, action)
+			process_follow_action(app, action, message)
 		end
 	end
 	
-	def self.process_follow_action(app, action)
+	def self.process_follow_action(app, action, message)
+		conversation = message.conversation
 		case action['key']
 		when 'assign'
 			# assign_user
-			agent = app.agents.find(action['value'])
+			return if action['value'].blank?
+			agent = app.agents.find_by(id: action['value'])
 			return if agent.blank?
 			conversation.assign_user(agent)
 		when 'close'

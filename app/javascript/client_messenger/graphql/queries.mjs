@@ -38,7 +38,6 @@ export const PING = `
         }
         domainUrl
         theme
-        newConversationBots
       }
       agents {
         name
@@ -47,6 +46,16 @@ export const PING = `
     }
   }
 `;
+
+export const GET_NEW_CONVERSATION_BOTS = `
+  query Messenger{
+    messenger {
+      app{
+        newConversationBots
+      }
+    }
+  }
+`
 
 export const CONVERT = `
   mutation ConvertUser($appKey: String!, $email: String!){
