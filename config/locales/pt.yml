@@ -1,47 +1,47 @@
 pt:
   common:
-    edit: Edit
-    new: New
-    add: Add
-    update: Update
-    remove: Remove
-    delete: Delete
-    create: Create
-    save: Save
-    preview: Preview
-    cancel: Cancel
-    back_to_site: Back to site
-    not_found: The page you are looking for does not exist.
-    get_snippet: Get the snippet
+    edit: Editar
+    new: Novo
+    add: Adicionar
+    update: Atualizar
+    remove: Retirar
+    delete: Apagar
+    create: Criar
+    save: Salvar
+    preview: Pré-visualização
+    cancel: Cancelar
+    back_to_site: Voltar ao site
+    not_found: A Página que Você está Procurando não Existe.
+    get_snippet: Obtenha o trecho
     submit: Submit
-    confirm_deletion: "Confirm deletion ?"
-    next: Next
-    prev: Prev
+    confirm_deletion: "Confirmar exclusão?"
+    next: Seguinte
+    prev: Anterior
     showing: Mostrando
-    to: to
-    of: of
+    to: para
+    of: do
     results: resultados
-    tz_hint: Your browser timezone is <b className="text-bold">%{timezone}</b>
-    send: Send
+    tz_hint: Seu fuso horário de navegador é <b className="text-bold">%{timezone}</b>
+    send: Enviar
     langs:
-      en: English
-      es: Spanish
-      redirecting: Redirecting
-      select_language: Select Language
-    send_on_enter: Publish on enter
+      en: Português
+      es: Espanhol
+      redirecting: A redireccionar
+      select_language: Selecione o idioma
+    send_on_enter: Publicar no website
   home:
-    welcome: Welcome to
+    welcome: Bem-vindo à
     welcome_site: Chaskiq
-    tagline: Find your current applications here
-    create_new: Create new app
-    choose_lang: Choose language
-    edit_profile: Edit profile
-    go_to_doc: Go to documentation
+    tagline: Encontrar a sua localização atual
+    create_new: Criar nova app
+    choose_lang: Escolher idioma
+    edit_profile: Editar perfil
+    go_to_doc: Ir para a documentação
   dashboard:
     hey: "👋 Hey!, you are viewing the <strong>%{name}'s</strong> dashboard! <br /> Get you installation snippet for the web setup <br />"
-    response_avg: Response Time avg
-    new_conversations: New conversations
-    resolutions: Resolutions
+    response_avg: Tempo de Resposta
+    new_conversations: Nova conversa
+    resolutions: Resolução
     incoming_messages: Incoming Messages
     visit_activity: Visit activity
     users_browser: Users browser
