@@ -169,7 +169,7 @@ es:
       browser: Navegador
       browser_version: Versión del navegador
       browser_lang: Lang del Navegador
-      referrer: Referrer
+      referrer: Origen
       tag_list: Lista de etiquetas
       os: Os
       os_version: Versión del sistema operativo
