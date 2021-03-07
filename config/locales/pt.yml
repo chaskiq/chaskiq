@@ -38,7 +38,7 @@ pt:
     edit_profile: Editar perfil
     go_to_doc: Ir para a documentação
   dashboard:
-    hey: "👋 Hey!, you are viewing the <strong>%{name}'s</strong> dashboard! <br /> Get you installation snippet for the web setup <br />"
+    hey: "👋 Ei!, você está vendo o painel de <strong>%{name} 's </strong>! <br /> Obtenha o snippet de instalação para a configuração da web <br />"
     response_avg: Tempo de Resposta
     new_conversations: Nova conversa
     resolutions: Resolução
@@ -65,7 +65,7 @@ pt:
       in_app_messages: Mensagens no App
       banners: Banners
       guided_tours: Tours guiados
-      for_leads: For Leads
+      for_leads: Para Leads
       for_users: Para Os Usuários
       bot_settings: Tarefas de bot
       outbound: Saída
@@ -178,12 +178,12 @@ pt:
     title: Tarefas de bot
     reply_soon: Oi, %{name} responderá assim que puder.
     reply_agent: você receberá uma resposta de um de nossos agentes
-    email_support: to get ijijsupport you can email at %{email}
-    outbound: "🏓 Outbound"
-    new_conversations: "👋 New conversations"
+    email_support: para obter suporte você pode enviar um e-mail para %{email}
+    outbound: "🏓 Saída"
+    new_conversations: "👋 Novas conversas"
     email_requirement:
       message: Dê à equipe um jeito de te contactar
-      input_label: Get notified by email
+      input_label: Seja notificado por e-mail
       placeholder: Introduz o teu email
       ack: Muito obrigado
     support:
@@ -196,48 +196,48 @@ pt:
         op2: ok, deixe-nos saber se você precisa de alguma coisa e um agente responderá o mais rápido possível
     settings:
       leads:
-        tab: For Leads
+        tab: Para Leads
         start_conversation: Quando leads iniciar uma conversa
         delay: Deixe um atraso de 2 minutos antes de disparar o Bots de Tarefas durante o horário do escritório
         share_time: Compartilhe seu típico tempo de resposta
-        route: Route existing customers to support
-        route_desc: Route leads to the right people by asking if they are an existing customer when they start a new conversation.
-        route_costumer: What do you want to do when they choose "Yes, I'm a customer"?
-        assign: Assign the conversation
-        close: Close the conversation
-        ask: Ask for contact details
-        ask_hint: If we don’t already have their contact details, Bot will suggest that customers leave their email address or their phone number to get notified whenever you reply.
-        dont_ask_email: Don't ask for email
-        ask_email_phone: Ask for email or mobile number
-        email_only: Ask for email only
+        route: Rotear clientes existentes para suporte
+        route_desc: Rota leva às pessoas certas, perguntando se elas são um cliente existente quando iniciam uma nova conversa.
+        route_costumer: O que você quer fazer quando escolherem "Sim, eu sou um cliente"?
+        assign: Junte-se à conversa
+        close: Junte-se à conversa
+        ask: Pedir informações de contato
+        ask_hint: Se ainda não tivermos seus detalhes de contato, O Bot irá sugerir que os clientes deixem seu endereço de e-mail ou seu número de telefone para serem notificados sempre que você responder.
+        dont_ask_email: Não perguntar por e-mail
+        ask_email_phone: Pedir e-mail ou número de celular
+        email_only: Pedir apenas por e-mail
         override:
-          label: Override default behavior with your own task bot
-          hint: "When you do this the default behavior below will not take place and the task will be triggered on each new conversation"
+          label: Sobrescrever o comportamento padrão com o próprio bot de tarefa
+          hint: "Quando você fizer isso, o comportamento padrão abaixo não ocorrerá e a tarefa será acionada em cada nova conversa"
       users:
-        tab: For Users
-        start_conversation: When users start a conversation
-        delay: Leave a 2 minute delay before triggering Task Bots during office hours
+        tab: Para Os Usuários
+        start_conversation: Quando leads iniciar uma conversa
+        delay: Deixe um atraso de 2 minutos antes de disparar o Bots de Tarefas durante o horário do escritório
         override:
-          label: Override default behavior with your own task
-          hint: hint!
-      settings_title: Bot Task settings
-      specific_times_title: Set specific times to show this bot to your audience.
-      tz_hint: Your app's timezone is %{timezone} See your office hours.
-      office_hours: During office hours
-      outside_office: Outside office hours
-      custom_time: Custom time
-      enable_title: Enable bot task
-      enable_hint: when enabled the bot task will start operating
-    new: Create new task
-    remove_success: bot removed
+          label: Sobrescrever o comportamento padrão com o próprio bot de tarefa
+          hint: sugestão!
+      settings_title: Editar Configurações da Tarefa
+      specific_times_title: Defina horários específicos para mostrar esse bot ao seu público.
+      tz_hint: O fuso horário do seu aplicativo é %{timezone} Ver seu horário no escritório.
+      office_hours: Durante o horário laboral
+      outside_office: Em horário pós-laboral
+      custom_time: Personalize
+      enable_title: Habilitar tarefa do bot
+      enable_hint: quando ativado a tarefa do bot começará a operar
+    new: Criar nova tarefa
+    remove_success: bot removido
     empty:
-      title: No bot tasks found
-      create_new: Create a new one
+      title: Nenhuma tarefa de bot encontrada
+      create_new: Criar uma nova
     delete:
-      title: Delete bot "%{name}"
-      hint: we will destroy any content and related data
+      title: Remover bot "%{name}"
+      hint: nós destruiremos qualquer conteúdo e dados relacionados
     create:
-      title: Create Bot task
+      title: Criar nova tarefa
   quick_replies:
     title: Respostas rápidas
     search: Pesquisar respostas rápidas
