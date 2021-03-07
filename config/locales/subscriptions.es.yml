@@ -88,16 +88,16 @@ es:
       subscription_cancelled:
         title: Suscripción cancelada
         desc: La suscripción ha sido cancelada.
-      close: Close this dialog
+      close: Cerrar este diálogo
     billing_information:
-      title: Billing plan information
-      description: You are currently using "%{plan_name}" plan.
-      next_billing: Next Billing on %{next_payment_date} for $%{next_payment_amount} %{next_payment_currency}
-      cancel_plan: cancel plan
-      update_payment_method: Update payment method
-      subscription_state: Estado de subscripción %{state}
+      title: Información de facturación
+      description: Actualmente está utilizando el plan "%{plan_name}".
+      next_billing: Próxima facturación el %{next_payment_date} por $%{next_payment_amount} %{next_payment_currency}
+      cancel_plan: cancelar Plan
+      update_payment_method: Actualizar el método de pago
+      subscription_state: Estado de suscripción %{state}
     update_subscription:
-      cta: Update subscription
-      billed_on: You will be billed on each <span class="font-bold"> %{billing_period} %{billing_type} </span>
-      amount: With the amount of <span class="font-bold">$ %{recurring_price} USD</span>
-      next_payment: Next payment will be on <span class="font-bold">%{next_payment_date}</span>
+      cta: Renueve su suscripcion
+      billed_on: Serás facturado en cada <span class="font-bold"> %{billing_period} %{billing_type} </span>
+      amount: Con la cantidad de <span class="font-bold">$ %{recurring_price} USD</span>
+      next_payment: El próximo pago será el <span class="font-bold">%{next_payment_date}</span>
