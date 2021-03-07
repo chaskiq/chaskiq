@@ -2,7 +2,7 @@ es:
   activerecord:
     attributes:
       doorkeeper/application:
-        name: 'Name'
+        name: 'Nombre'
         redirect_uri: 'Redirigir URI'
     errors:
       models:
@@ -79,55 +79,55 @@ es:
         created_at: 'Creado el'
         date_format: '%Y-%m-%d %H:%M:%S'
     pre_authorization:
-      status: 'Pre-authorization'
+      status: 'Pre-autorización'
     errors:
       messages:
         #Common error messages
         invalid_request:
-          unknown: 'The request is missing a required parameter, includes an unsupported parameter value, or is otherwise malformed.'
-          missing_param: 'Missing required parameter: %{value}.'
-          not_support_pkce: 'Invalid code_verifier parameter. Server does not support pkce.'
-          request_not_authorized: 'Request need to be authorized. Required parameter for authorizing request is missing or invalid.'
-        invalid_redirect_uri: "The requested redirect uri is malformed or doesn't match client redirect URI."
-        unauthorized_client: 'The client is not authorized to perform this request using this method.'
-        access_denied: 'The resource owner or authorization server denied the request.'
-        invalid_scope: 'The requested scope is invalid, unknown, or malformed.'
-        invalid_code_challenge_method: 'The code challenge method must be plain or S256.'
-        server_error: 'The authorization server encountered an unexpected condition which prevented it from fulfilling the request.'
-        temporarily_unavailable: 'The authorization server is currently unable to handle the request due to a temporary overloading or maintenance of the server.'
+          unknown: 'En la petición falta un parámetro obligatorio en, incluye un valor de parámetro no soportado, o está mal formulada.'
+          missing_param: 'Falta parámetro requerido: %{value}.'
+          not_support_pkce: 'Parámetro de código de verificación inválido. El servidor no soporta pkce.'
+          request_not_authorized: 'La solicitud debe ser autorizada. Parámetro requerido para la autorización de la solicitud falta o no es válido.'
+        invalid_redirect_uri: "La uri de redirección solicitada esta malformada o no coincide con el URI de redirección del cliente."
+        unauthorized_client: 'El cliente no es autorizado para efectuar esta petición utilizando este método.'
+        access_denied: 'El propietario de este recurso o servidor de autorización ha denegado la petición.'
+        invalid_scope: 'El alcance pedido es nulo, desconocido, o está formulado de forma incorrecta.'
+        invalid_code_challenge_method: 'El método de desafío del código debe ser simple o S256.'
+        server_error: 'El servidor de autorización se encontró con una condición inesperada que impidió cumplir con la solicitud.'
+        temporarily_unavailable: 'El servidor de autorización no puede manejar actualmente la solicitud debido a una sobrecarga temporal o a mantenimiento del servidor.'
         #Configuration error messages
-        credential_flow_not_configured: 'Resource Owner Password Credentials flow failed due to Doorkeeper.configure.resource_owner_from_credentials being unconfigured.'
-        resource_owner_authenticator_not_configured: 'Resource Owner find failed due to Doorkeeper.configure.resource_owner_authenticator being unconfigured.'
-        admin_authenticator_not_configured: 'Access to admin panel is forbidden due to Doorkeeper.configure.admin_authenticator being unconfigured.'
+        credential_flow_not_configured: 'El flujo de Credenciales de Password del Dueño de Recursos falló debido a que Doorkeeper.configure.resource_owner_from_credentials no está configurado.'
+        resource_owner_authenticator_not_configured: 'Fallo al encontrar Propietario del Recurso debido a la desconfiguración de Doorkeeper.configure.resource_owner_authenticator.'
+        admin_authenticator_not_configured: 'El acceso al panel de administrador está prohibido debido a la desconfiguración de Doorkeeper.configure.admin_authenticator.'
         #Access grant errors
-        unsupported_response_type: 'The authorization server does not support this response type.'
+        unsupported_response_type: 'El servidor de autorización no soporta este tipo de respuesta.'
         #Access token errors
-        invalid_client: 'Client authentication failed due to unknown client, no client authentication included, or unsupported authentication method.'
-        invalid_grant: 'The provided authorization grant is invalid, expired, revoked, does not match the redirection URI used in the authorization request, or was issued to another client.'
-        unsupported_grant_type: 'The authorization grant type is not supported by the authorization server.'
+        invalid_client: 'La autenticación del cliente ha fallado debido a cliente desconocido, autenticación de cliente no incluída, o método de autenticación no soportado.'
+        invalid_grant: 'La autorización proporcionada es inválida, expiró, ha sido revocada, no coincide con la dirección URI utilizada en el pedido de autorización, o fue emitida para otro cliente.'
+        unsupported_grant_type: 'El tipo de autorización no es soportado por el servidor de autorización.'
         invalid_token:
-          revoked: "The access token was revoked"
-          expired: "The access token expired"
-          unknown: "The access token is invalid"
+          revoked: "El token de acceso ha sido revocado"
+          expired: "El token de acceso ha expirado"
+          unknown: "El token de acceso es inválido"
         revoke:
-          unauthorized: "You are not authorized to revoke this token"
+          unauthorized: "No estas autorizado a realizar esta tarea"
     flash:
       applications:
         create:
-          notice: 'Application created.'
+          notice: 'Aplicación creada.'
         destroy:
-          notice: 'Application deleted.'
+          notice: 'Aplicación eliminada.'
         update:
-          notice: 'Application updated.'
+          notice: 'Aplicación actualizada.'
       authorized_applications:
         destroy:
-          notice: 'Application revoked.'
+          notice: 'Aplicación revocada.'
     layouts:
       admin:
-        title: 'Doorkeeper'
+        title: 'Guardapuerta'
         nav:
-          oauth2_provider: 'OAuth2 Provider'
-          applications: 'Applications'
-          home: 'Home'
+          oauth2_provider: 'Proveedor de OAuth2'
+          applications: 'Aplicaciones'
+          home: 'Inicio'
       application:
-        title: 'OAuth authorization required'
+        title: 'Autorización OAUTH requerida'
