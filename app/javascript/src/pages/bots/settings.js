@@ -22,7 +22,7 @@ const SettingsForm = ({ app, data, errors, dispatch }) => {
   const [tasks, setTasks] = useState([])
 
   useEffect(() => {
-    dispatch(setCurrentPage('botSettings'))
+    dispatch(setCurrentPage('bot_settings'))
   }, [])
 
   function getAgents () {

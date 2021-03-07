@@ -225,21 +225,21 @@ function Sidebar ({
           label: I18n.t('navigator.childs.outbound'),
           icon: '🏓',
           url: `${appid}/bots/outbound`,
-          active: isActivePage('botleads')
+          active: isActivePage('bot_outbound')
         },
         {
           id: 'user_conversations',
           label: I18n.t('navigator.childs.new_conversations'),
           icon: '👋',
           url: `${appid}/bots/new_conversations`,
-          active: isActivePage('botusers')
+          active: isActivePage('bot_new_conversations')
         },
         {
           id: 'Settings',
           label: I18n.t('navigator.childs.bot_settings'),
           icon: '⚙️',
           url: `${appid}/bots/settings`,
-          active: isActivePage('botSettings')
+          active: isActivePage('bot_settings')
         }
       ]
     },
@@ -363,7 +363,7 @@ function Sidebar ({
                       to={url}
                       className={`
                         ${
-                          active ? 'bg-white' : ''
+                          active ? 'bg-gray-200' : ''
                         } bg-white hover:text-gray-900 hover:bg-gray-100 focus:outline-none focus:bg-gray-200
                         group flex items-center 
                         px-2 py-2 

@@ -41,7 +41,7 @@ const BotDataTable = ({ app, match, history, mode, dispatch }) => {
   const [stateOptions, setStateOptions] = useState(optionsForState())
 
   function init () {
-    dispatch(setCurrentPage(`bot${mode}`))
+    dispatch(setCurrentPage(`bot_${mode}`))
 
     graphql(
       BOT_TASKS,
