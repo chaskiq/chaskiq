@@ -24,8 +24,9 @@ pt:
     tz_hint: Seu fuso horário de navegador é <b className="text-bold">%{timezone}</b>
     send: Enviar
     langs:
-      en: Português
+      pt: Português
       es: Espanhol
+      en: Ingles
       redirecting: A redireccionar
       select_language: Selecione o idioma
     send_on_enter: Publicar no website
