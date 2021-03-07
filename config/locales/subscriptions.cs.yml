@@ -1,0 +1,103 @@
+cs:
+  subscriptions:
+    upgrade: Upgrade
+    tabs:
+      - Plans
+      - Transaction history
+    features:
+      Segments:
+        title: Segments
+        description: true
+        upgrade_message: Enable contact segments and targeting
+      Leads:
+        title: Leads
+        description: true
+        upgrade_message: Get external apps, many many apps
+      AppUsers:
+        title: AppUsers
+        description: true
+        upgrade_message: Get external apps, many many apps
+      Conversations:
+        title: Conversations
+        description: true
+        upgrade_message: Enable conversations
+      BotTasks:
+        title: BotTasks
+        description: true
+        upgrade_message: Add automated chatflows to your app
+      Integrations:
+        title: Integrations
+        description: true
+        upgrade_message: Get external apps, many many apps
+      Campaigns:
+        title: Campaigns
+        active: false
+        upgrade_message: Get outbound messages, newsletter and Tours!
+      Tours:
+        title: Tours
+        description: true
+        upgrade_message: Get outbound messages, newsletter and Tours!
+      UserAutoMessages:
+        title: UserAutoMessages
+        description: true
+        upgrade_message: Get outbound messages, newsletter and Tours!
+      OutgoingWebhooks:
+        title: OutgoingWebhooks
+        active: false
+        upgrade_message: Enable outgoing webhooks
+      OauthApplications:
+        title: OauthApplications
+        description: true
+        upgrade_message: Enable API access support through OAUTH
+      Articles:
+        title: Articles
+        active: false
+        upgrade_message: Enable Documentation & Help Center
+      QuickReplies:
+        title: QuickReplies
+        description: true
+        upgrade_message: add Quick replies to your conversations
+      CustomAttributes:
+        title: CustomAttributes
+        upgrade_message: Enable custom attributes
+    plans:
+      - 
+        name: "free one"
+        description: This is a frebie plan!
+        id: 618560
+      - 
+        name: "rookie"
+        description: This is the simple plan
+        id: 616249
+      - 
+        name: "super"
+        id: 596123
+        description: This is the super plan
+    plan:
+      included: What's included
+      pay_by: Pay by %{billing_type}
+      trial_days: Try this plan for free for <span class="font-bold"> %{trial_days} days </span>
+      get_access: Get access
+    alerts:
+      subscription_updated:
+        title: Subscription updated
+        desc: The Subscription was updated successfully, You will receive an email notification
+      subscription_created:
+        title: Subscription Created
+        desc: The subscription was created successfully, You will receive a receipt soon
+      subscription_cancelled:
+        title: Subscription Cancelled
+        desc: The subscription was cancelled
+      close: Close this dialog
+    billing_information:
+      title: Billing plan information
+      description: You are currently using "%{plan_name}" plan.
+      next_billing: Next Billing on %{next_payment_date} for $%{next_payment_amount} %{next_payment_currency}
+      cancel_plan: cancel plan
+      update_payment_method: Update payment method
+      subscription_state: Estado de subscripción %{state}
+    update_subscription:
+      cta: Update subscription
+      billed_on: You will be billed on each <span class="font-bold"> %{billing_period} %{billing_type} </span>
+      amount: With the amount of <span class="font-bold">$ %{recurring_price} USD</span>
+      next_payment: Next payment will be on <span class="font-bold">%{next_payment_date}</span>

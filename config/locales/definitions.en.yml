@@ -1,74 +1,78 @@
 en:
   definitions:
     articles:
-      subdomain:
-        label: Site subdomain
-        hint: Documentation site subdomain
-      domain:
-        label: Domain
-        hint: Documentation site custom domain
+      title:
+        label: Title
+      author:
+        label: Author
+      state:
+        label: State
+      collection:
+        label: Collection
+      actions:
+        label: Actions
       website:
         label: Website
-        hint: Link to your website
+        hint: Website of your main domain
+      domain:
+        label: Domain
+        hint: Domain of the Help Center
+      subdomain:
+        label: Subdomain
+        hint: Subdomain in which the Help Center will be available
       google_code:
-        label: Google Tracking code
-        hint: Google Analytics Tracking ID
+        label: Google Code
+        hint: Google tracking ID
       credits:
-        label: Credits
-        hint: Display a subtle link to the Chaskiq website
-
+        label: show credits
+        hint: ""
     settings:
-      name: 
+      name:
         label: Name
-        hint: 
-      logo: 
+        hint:
+      logo:
         label: Logo
-        hint: 
+        hint:
       enable_articles:
         label: "Display article on chat window"
         hint: "This option will display the articles in the home section of the messenger"
       inline_conversation:
         label: Display new messages in floating box
         hint: This option will not open chat box widget
-      encryption_key: 
+      encryption_key:
         label: Encryption Key
         placeholder: "Leave it blank for no encryption"
         hint: This key will be used to encrypt and decrypt JWE user data
-
-      privacy_consent_required_ue: 
+      privacy_consent_required_ue:
         label: Required privacy consent for GDPR
-        hint:  Will show a confirm view for EU countries before establish conversations
-
-      privacy_consent_required_all: 
+        hint: Will show a confirm view for EU countries before establish conversations
+      privacy_consent_required_all:
         label: Worldwide privacy consent required
-        hint:  Will show a confirm view for All visitors before establish conversations
-
-      privacy_consent_required_none: 
+        hint: Will show a confirm view for All visitors before establish conversations
+      privacy_consent_required_none:
         label: No privacy consent required
-        hint:  Will not show a confirm view to anyone (not recommended)
-
+        hint: Will not show a confirm view to anyone (not recommended)
       active_messenger:
         label: Activate messenger
-        hint:  When this is activate the messenger web widget will be activated
-      domain: 
+        hint: When this is activate the messenger web widget will be activated
+      domain:
         label: Domain URL
         hint: This will be the host site were chaskiq will be used
-      outgoing_email_domain: 
+      outgoing_email_domain:
         label: Outgoing Email Domain
         hint: The email domain to send conversations, for @yourapp use 'your app'
-      tagline: 
+      tagline:
         label: Tagline
         hint: This will be rendered in the bottom of the Chat box
-      timezone: 
+      timezone:
         label: Timezone
-        hint: 
-      gather_social_data: 
+        hint:
+      gather_social_data:
         label: Gather Social Data
         hint: "Collect social profiles via fullcontact service (e.g. LinkedIn, Twitter, etc.) for my users via a third party"
-      register_visits: 
+      register_visits:
         label: Register Visits
         hint: "Even if this is disabled we will collect global counter of visits and store the last visit information on visitor's profile"
-
       languages:
         select_lang: "select lang"
     campaigns:
@@ -94,8 +98,6 @@ en:
         label: Description
       actions:
         label: Actions
-      state:
-        label: State
     bot_tasks:
       state:
         label: State
@@ -103,41 +105,10 @@ en:
         label: Name
       actions:
         label: Actions
-
       title:
         label: Title
         placeholder: write task title
         hint: "Task name ie: welcoming users bot task"
-
-
-    articles:
-      title:
-        label: Title
-      author:
-        label: Author
-      state:
-        label: State
-      collection:
-        label: Collection
-      actions:
-        label: Actions
-
-      website: 
-        label: Website
-        hint: Website of your main domain
-      domain:
-        label: Domain
-        hint: Domain of the Help Center
-      subdomain:
-        label: Subdomain
-        hint: Subdomain in which the Help Center will be available
-      google_code:
-        label: Google Code
-        hint: Google tracking ID
-      credits:
-        label: show credits
-        hint: ""
-
     stats:
       email:
         label: Email
@@ -153,10 +124,9 @@ en:
         label: When
       data:
         label: Data
-
     app_packages:
       name:
-        label: 'Integration Name'      
+        label: 'Integration Name'
       published:
         label: 'Publish on platform'
         type: 'checkbox'
@@ -184,8 +154,6 @@ en:
         name: 'sheet_url'
         hint: 'Sent when a sheet has been submitted. A sheet is an iframe you’ve loaded in the Messenger that is closed and submitted when the Submit Sheets JS method is called.'
         placeholder: 'e.g. https://yourdomain.com/submit-sheet-url/'
-      
-
   data_tables:
     users:
       name: Name

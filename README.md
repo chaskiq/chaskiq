@@ -18,6 +18,8 @@
   <img src="https://img.shields.io/docker/cloud/build/chaskiq/chaskiq" alt="CI">
 </a>
 
+[![Crowdin](https://badges.crowdin.net/e/41a6bbb31a5d79361a6264cb9ceac533/localized.svg)](https://chaskiq.crowdin.com/chaskiq)
+
 <br/>
 
 <a href="https://heroku.com/deploy?template=https://github.com/chaskiq/chaskiq/tree/master" alt="Deploy to Heroku">

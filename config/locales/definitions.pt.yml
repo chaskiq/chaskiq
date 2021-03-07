@@ -1,0 +1,183 @@
+pt:
+  definitions:
+    articles:
+      title:
+        label: Titulo
+      author:
+        label: Autor(a)
+      state:
+        label: Estado
+      collection:
+        label: Coleção
+      actions:
+        label: Ações
+      website:
+        label: Website
+        hint: Site do seu domínio principal
+      domain:
+        label: Domínio
+        hint: Domínio do Centro de Ajuda
+      subdomain:
+        label: Subdomínio
+        hint: Subdomínio no qual o Centro de Ajuda estará disponível
+      google_code:
+        label: Google Code
+        hint: ID do Google tracking
+      credits:
+        label: mostrar créditos
+        hint: ""
+    settings:
+      name:
+        label: Nome
+        hint:
+      logo:
+        label: Logotipo
+        hint:
+      enable_articles:
+        label: "Exibir artigo na janela do chat"
+        hint: "Esta opção exibirá os artigos na seção inicial do mensageiro"
+      inline_conversation:
+        label: Exibir novas mensagens na caixa flutuante
+        hint: Esta opção não irá abrir widget de caixa de bate papo
+      encryption_key:
+        label: Chave de Encriptação
+        placeholder: "Deixe em branco para nenhuma operação."
+        hint: Esta chave será usada para criptografar e descriptografar dados do usuário JWE
+      privacy_consent_required_ue:
+        label: Autorização de privacidade necessária para o GDPR
+        hint: Mostrará uma visão de confirmação para os países da UE antes de estabelecer conversas
+      privacy_consent_required_all:
+        label: Autorização de privacidade em todo o mundo necessária
+        hint: Mostrará uma visão de confirmação para os países da UE antes de estabelecer conversas
+      privacy_consent_required_none:
+        label: Autorização de privacidade em todo o mundo necessária
+        hint: Não mostrará uma visualização de confirmação para ninguém (não recomendado)
+      active_messenger:
+        label: Ativar mensagem
+        hint: Quando isto estiver ativado o widget web de mensagens será ativado
+      domain:
+        label: URL do domínio
+        hint: Este será o site de host do chaskiq será usado
+      outgoing_email_domain:
+        label: Definições de envio de Emails
+        hint: O domínio do e-mail para enviar conversas, para @yourapp usar 'seu aplicativo'
+      tagline:
+        label: Mote / Slogan
+        hint: Isto será renderizado na parte inferior da caixa de Bate-Papo
+      timezone:
+        label: Fuso horário
+        hint:
+      gather_social_data:
+        label: Recolher dados sociais
+        hint: "Colete perfis sociais por meio de serviços de contatos completos (por exemplo, LinkedIn, Twitter, etc.) para meus usuários por meio de terceiros"
+      register_visits:
+        label: Registrar Visitas
+        hint: "Mesmo que isso esteja desativado, nós coletaremos o contador global de visitas e armazenaremos as últimas informações de visita sobre o perfil do visitante"
+      languages:
+        select_lang: "selecionar idioma"
+    campaigns:
+      campaign_name:
+        label: Nome da campanha
+        hint: Isto não será mostrado no e-mail
+      email_subject:
+        label: Assunto do e-mail
+        hint: Este é o assunto do e-mail em si
+      from_name:
+        label: Nome De
+      from_email:
+        label: Email De
+      reply_email:
+        label: Responder a E-mail
+      scheduled_at:
+        label: Agendado em
+      scheduled_to:
+        label: Agendado em
+      state:
+        label: Estado
+      description:
+        label: Descrição
+      actions:
+        label: Ações
+    bot_tasks:
+      state:
+        label: Estado
+      name:
+        label: Nome
+      actions:
+        label: Ações
+      title:
+        label: Titulo
+        placeholder: gravar título da tarefa
+        hint: "Nome da tarefa: recepção da tarefa do bot"
+    stats:
+      email:
+        label: Email
+      host:
+        label: Host
+      createdAt:
+        label: CreatedAt
+      from:
+        label: De
+      actions:
+        label: Ações
+      when:
+        label: Quando
+      data:
+        label: Dados
+    app_packages:
+      name:
+        label: 'Integração criada'
+      published:
+        label: 'Publicar na plataforma'
+        type: 'checkbox'
+        hint: 'Se estiver desativado, você usará o aplicativo nos espaços verdes aos quais terá acesso'
+      capability_list:
+        label: 'Capacidades de integração'
+        hint: 'Escolha as capacidades do pacote, ie: onde a integração funcionará'
+      description:
+        label: 'Descrição do pacote de aplicativos'
+        hint: 'diga o que o seu plugin faz'
+      initialize_url:
+        label: 'Inicializar fluxo webhook URL'
+        hint: 'Enviado quando um aplicativo for inserido em uma conversa, mensagem ou tela inicial, para que você possa renderizar o aplicativo.'
+        placeholder: 'ex: https://yourdomain.com/initialize-url/'
+      submit_url:
+        label: 'Enviar fluxo de URL do webhook'
+        hint: 'Enviado quando um usuário final interage com seu aplicativo, através de um botão, link ou entrada de texto. Este fluxo pode ocorrer várias vezes, pois um usuário final interage com seu aplicativo.'
+        placeholder: 'ex: https://yourdomain.com/submit-url/'
+      configure_url:
+        label: 'Configurar fluxo webhook URL (opcional)'
+        hint: 'Enviado quando um colega de equipe quer usar seu aplicativo, para que você possa mostrar as opções de configuração antes de ser inserido. Deixar esta opção em branco pulará a configuração.'
+        placeholder: 'ex: https://yourdomain.com/configure-url/'
+      sheet_url:
+        label: 'Configurar fluxo webhook URL (opcional)'
+        name: 'sheet_url'
+        hint: 'Enviar quando uma folha for submetida. Uma folha é um iframe que você carregou no Messenger que é fechado e enviado quando o método JS de Folhas de Envio é chamado.'
+        placeholder: 'ex: https://yourdomain.com/submit-sheet-url/'
+  data_tables:
+    users:
+      name: Nome
+      email: Email
+      state: Estado
+      online: Online
+      ip: Ip
+      country: País
+      city: Cidade
+      lat: Latitude
+      lng: Lng
+      postal: Código postal
+      browser: Navegador
+      browser_version: Versão do navegador de Internet
+      browser_lang: Idioma do Navegador
+      referrer: Página de referência
+      tag_list: Lista de Etiquetas
+      os: Os
+      os_version: Versão do sistema operacional
+      lang: Idiomas
+      web_sessions: Sessões web
+      last_seen: Visto pela primeira vez
+      first_seen: Visto pela última vez
+      subscription_status:
+        subscribed: Subscrito
+        unsubscribed: Subscrição cancelada
+        passive: Passiva
