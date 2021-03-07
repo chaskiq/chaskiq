@@ -114,7 +114,7 @@ gem 'email_reply_parser', '~> 0.5.9'
 gem 'rack-cors', '~> 1.0'
 
 gem 'biz', '~> 1.8'
-gem 'i18n-js', '~> 3.3'
+gem 'i18n-js'
 
 gem 'globalize', github: 'globalize/globalize'
 

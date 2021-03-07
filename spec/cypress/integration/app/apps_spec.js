@@ -65,9 +65,9 @@ describe('Login Spec', function () {
 
                 cy.get("a[aria-label='Routing Bots']")
                   .click({ force: true }).then(() => {
-                    cy.get('body').should('contain', 'For Leads')
-                    cy.get('body').should('contain', 'For Users')
-                    cy.get('body').should('contain', 'Settings')
+                    cy.get('body').should('contain', 'Outbound')
+                    cy.get('body').should('contain', 'New conversations')
+                    cy.get('body').should('contain', 'Bot Tasks')
                   })
 
                 cy.get("a[aria-label='Settings']")

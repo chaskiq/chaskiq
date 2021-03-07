@@ -47,6 +47,16 @@ export const PING = `
   }
 `;
 
+export const GET_NEW_CONVERSATION_BOTS = `
+  query Messenger{
+    messenger {
+      app{
+        newConversationBots
+      }
+    }
+  }
+`
+
 export const CONVERT = `
   mutation ConvertUser($appKey: String!, $email: String!){
     convertUser(appKey: $appKey, email: $email){
@@ -234,17 +244,62 @@ export const START_CONVERSATION = `
           properties
           avatarUrl
         }
+
+        messages(page: 1){
+          collection{
+            id
+            key
+            message{
+              htmlContent
+              textContent
+              serializedContent
+              blocks
+              data
+              action
+              state
+            }
+            source
+            readAt
+            createdAt
+            privateNote
+            stepId
+            triggerId
+            fromBot
+            appUser{
+              id
+              kind
+              displayName
+              avatarUrl
+            }
+            source
+            messageSource {
+              name
+              state
+              fromName
+              fromEmail
+              serializedContent
+            }
+            emailMessageId
+          }
+          meta
+        }
+
+
+
         lastMessage{
           source
           createdAt
           id
           key
+          stepId
+          triggerId
           message{
             htmlContent
             textContent
             serializedContent
             data
             action
+            blocks
           }
           privateNote
           messageSource{

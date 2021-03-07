@@ -35,6 +35,8 @@ const BaseButton = styled.button`
         `
       case 'flat-dark':
         return tw`
+          flex
+          items-center
           border 
           border-transparent 
           rounded 

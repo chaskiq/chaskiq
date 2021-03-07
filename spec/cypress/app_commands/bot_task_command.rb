@@ -27,7 +27,7 @@ attributes = {
     {"step_uid"=>"aed55b6e-de26-413f-8fc9-975f8c62a4e7", "type"=>"messages", "messages"=>[{"app_user"=>{"display_name"=>"bot", "email"=>"bot@chasqik.com", "id"=>1, "kind"=>"agent"}, 
     "serialized_content"=>"{\"blocks\":[{\"key\":\"9oe8n\",\"text\":\"four\",\"type\":\"unstyled\",\"depth\":0,\"inlineStyleRanges\":[],\"entityRanges\":[],\"data\":{}}],\"entityMap\":{}}", "html_content"=>"--***--"}]}], 
     "title"=>"oijioj", "follow_actions"=>nil}],
-  "user_type"=>"leads", 
+  "bot_type"=>"outbound", 
   #"position"=>3
 }
 

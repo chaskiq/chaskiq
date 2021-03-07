@@ -11,6 +11,8 @@ class Message < ApplicationRecord
 
   has_many :conversation_parts
 
+  acts_as_list scope: %i[app_id type]
+
   attr_accessor :step
 
   validates :name, presence: :true
@@ -18,8 +20,8 @@ class Message < ApplicationRecord
 
   scope :enabled, -> { where(state: 'enabled') }
   scope :disabled, -> { where(state: 'disabled') }
+  scope :ordered, -> { order("position asc") }
   scope :in_time, -> { where(['scheduled_at <= ? AND scheduled_to >= ?', Date.today, Date.today]) }
-
   # before_save :detect_changed_template
   before_create :add_default_predicate
   before_create :initial_state
@@ -77,7 +79,8 @@ class Message < ApplicationRecord
   end
 
   def initial_state
-    state = 'disabled' unless state.present?
+    return if self.state.present?
+    self.state = 'disabled' 
   end
 
   def add_default_predicate
@@ -91,6 +94,28 @@ class Message < ApplicationRecord
       comparison: 'and',
       value: 'and'
     }
+  end
+
+  def self.type_predicate_for(type_predicate)
+    # AppUser, Lead, Visitor
+    types = {
+      users: 'AppUser',
+      leads: 'Lead',
+      visitors: 'Visitor'
+    }
+
+    [{
+      value: types[type_predicate.to_sym], 
+      type: "string",
+      attribute: "type", 
+      comparison: "eq"
+    }]
+  end
+
+  def self.infix(filter)
+    Arel::Nodes::InfixOperation.new('@>',
+      arel_table[:segments],
+      Arel::Nodes.build_quoted(( BotTask.type_predicate_for(filter).to_json ).to_s))
   end
 
   def step_1?
@@ -115,6 +140,10 @@ class Message < ApplicationRecord
 
   def purge_metrics
     metrics.delete_all
+  end
+
+  def clone_record(record)
+    self.new = record
   end
 
   def host

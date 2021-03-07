@@ -25,6 +25,7 @@ import {
   CONVERT,
   APP_PACKAGE_HOOK,
   PRIVACY_CONSENT,
+  GET_NEW_CONVERSATION_BOTS
 } from './graphql/queries'
 import GraphqlClient from './graphql/client'
 
@@ -624,13 +625,33 @@ class Messenger extends Component {
     })
   }
 
+  getNewConversationBot = (cb)=>{
+    this.graphqlClient.send(GET_NEW_CONVERSATION_BOTS, {}, {
+      success: (data)=>{
+        this.setState({
+          appData: {
+            ...this.state.appData, 
+            newConversationBots: data.messenger.app.newConversationBots
+          }
+        }, ()=>{
+          cb && cb()
+        })
+      },
+      error: ()=>{}
+    })
+  }
+
   createCommentOnNewConversation = (comment, cb)=>{
 
-    const message = {
+    let message = {
       html: comment.html_content,
       serialized: comment.serialized_content,
       text: comment.text_content,
       volatile: this.state.conversation,
+    }
+
+    if(comment.reply){
+      message = comment
     }
 
     this.graphqlClient.send( START_CONVERSATION, {
@@ -639,19 +660,14 @@ class Messenger extends Component {
     }, { 
       success: (data)=>{
         const {conversation} = data.startConversation
-        let messages = [conversation.lastMessage]
-        //if(this.state.display_mode === "conversation")
-        if(this.state.conversation.messages)
-          messages = messages.concat(conversation.messages.collection)
 
         this.setState({
-          conversation: Object.assign(conversation, {messages: {collection: messages }}),
-          //conversation_messages: messages
-            /*conversation.lastMessage ? 
-            response.data.messages.concat(this.state.conversation_messages) : 
-            this.state.conversation_messages*/
+          conversation: Object.assign(
+              conversation, { messages: conversation.messages }
+            ),
           }, ()=>{ 
-            this.handleTriggerRequest("infer")
+            if(!conversation.lastMessage.triggerId)
+              this.handleTriggerRequest("infer")
           cb && cb()
         })
       },
@@ -763,17 +779,47 @@ class Messenger extends Component {
   displayNewConversation =(e)=>{
     e.preventDefault()
 
-    this.setState({
-      //conversation_messages: [],
-      //conversation_messagesMeta: {},
-      conversation: {
-        key: "volatile",
-        mainParticipant: {}
-      },
-      display_mode: "conversation"
-    }, ()=>{
-      //this.requestTrigger("infer")
+    this.getNewConversationBot( ()=> {
+      let result = []
+      const welcomeBot = this.state.appData.newConversationBots
+      console.log("welcomeBot", welcomeBot)
+      if(welcomeBot){
+        const step = welcomeBot.settings.paths[0].steps[0]
+        const message = {
+          "message":{
+            "blocks": step.controls,
+            "source":null,
+            "stepId": step.id,
+            "triggerId": welcomeBot.id,
+            "fromBot":true,
+            "appUser":{
+              "id":3,
+              "kind":"agent",
+              "displayName":"chaskiq bot",
+            }
+          },
+          "messageSource":null,
+          "emailMessageId":null
+        }
+        result = [message]
+      }
+  
+      this.setState({
+        conversation: {
+          key: "volatile",
+          mainParticipant: {},
+          messages: {
+            collection: result,
+            meta: {}
+          }
+        },
+        display_mode: "conversation"
+      }, ()=>{
+        //this.requestTrigger("infer")
+      })
     })
+
+
 
     /*
     if(this.state.appData.userTasksSettings && this.state.appData.userTasksSettings.share_typical_time && this.props.kind === "AppUser" )
@@ -927,7 +973,6 @@ class Messenger extends Component {
       )
     })
   }
-
 
   sendConsent = (value)=>{
     this.graphqlClient.send(PRIVACY_CONSENT, {

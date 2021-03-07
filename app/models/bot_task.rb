@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 
 class BotTask < Message
-  # self.inheritance_column = nil
 
   # acts_as_list scope: %i[app_id]
 
@@ -9,7 +8,7 @@ class BotTask < Message
 
   has_many :metrics, as: :trackable, dependent: :destroy_async
 
-  # before_create :defaults
+  before_create :initialize_default_controls
 
   store_accessor :settings, %i[
     scheduling
@@ -17,11 +16,20 @@ class BotTask < Message
     outgoing_webhook
     paths
     user_type
+    bot_type
   ]
 
   scope :enabled, -> { where(state: 'enabled') }
   scope :disabled, -> { where(state: 'disabled') }
 
+  scope :for_new_conversations, -> { 
+    # where(type: 'leads') 
+    where("settings->>'bot_type' = ?", 'new_conversations' )
+  }
+  scope :for_outbound, -> { 
+    # where(type: 'users')
+    where("settings->>'bot_type' = ?", 'outbound' )
+  }
   scope :for_leads, -> { 
     # where(type: 'leads') 
     where("settings->>'user_type' = ?", 'leads' )
@@ -33,7 +41,6 @@ class BotTask < Message
 
   alias_attribute :title, :name
 
-
   scope :availables_for, lambda { |user|
     enabled.joins("left outer join metrics
       on metrics.trackable_type = 'Message'
@@ -42,13 +49,61 @@ class BotTask < Message
       .where('metrics.id is null')
   }
 
-  #def segments
-  #  predicates
-  #end
+  def initialize_default_controls
+    self.tap do
 
-  #def segments=(data)
-  #  self.predicates = data
-  #end
+      unless self.segments.present?
+        self.segments = [
+          {"type"=>"match", "value"=>"and", "attribute"=>"match", "comparison"=>"and"}, 
+          {"type"=>"string", "value"=>"AppUser", "attribute"=>"type", "comparison"=>"eq"}
+        ]
+      end
+
+      return self unless bot_type == "new_conversations"
+
+      if self.paths.blank?
+        self.paths = default_new_conversation_path
+      end
+    end
+  end
+
+  def default_new_conversation_path
+    [
+      "title"=> "default step",
+      "id"=>"3418f148-6c67-4789-b7ae-8fb3758a4cf9", 
+      "steps"=> [
+        {
+          "type"=>"messages", 
+          "controls"=>{
+            "type"=>"ask_option", 
+            "schema"=>[
+              {"id"=>"0dc3559e-4eab-43d9-ab60-7325219a3f6f", 
+                "label"=>"see more?", 
+                "element"=>"button", 
+                "next_step_uuid"=>"2bff4dec-f8c1-4a8b-9601-68c66356ba06"
+              }, 
+              {"type"=>"messages", 
+                "controls"=>{
+                  "type"=>"ask_option", 
+                  "schema"=>[
+                    {"id"=>"0dc3559e-4eab-43d9-ab60-7325219a3f6f", 
+                      "label"=>"write here", 
+                      "element"=>"button"
+                    }
+                  ]
+                }, 
+                "messages"=>[], 
+                "step_uid"=>"30e48aed-19c0-4b62-8afa-9a0392deb0b8"
+              }
+            ], 
+            "wait_for_input"=>true
+          }, 
+          "messages"=>[], 
+          "step_uid"=>"30e48aed-19c0-4b62-8afa-9a0392deb0b8"
+        }
+      ]
+    ]
+  end
 
   def add_default_predicate
     self.segments = default_segments unless segments.present?
@@ -73,12 +128,26 @@ class BotTask < Message
     false
   end
 
+  # idea 1: just return a collection of predicates and do it in the client
+    # TODO: think how could we set this on client side effectively
+  # idea 2: backend implementation , the following code
+  def self.get_welcome_bots_for_user(user)
+    selected = nil
+    for_new_conversations.enabled.ordered.each do |bot_task|
+      if bot_task.available_for_user?(user)
+        selected = bot_task
+        break 
+      end
+    end
+    selected
+  end
+
   def self.broadcast_task_to_user(user)
     app = user.app
     key = "#{app.key}-#{user.session_id}"
     ret = nil
-    
-    app.bot_tasks.availables_for(user).each do |bot_task|
+
+    app.bot_tasks.for_outbound.availables_for(user).each do |bot_task|
       next if bot_task.blank? || !bot_task.available_for_user?(user)
 
       MessengerEventsChannel.broadcast_to(key, {

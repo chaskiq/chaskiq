@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react'
 import { withRouter, Switch, Route } from 'react-router-dom'
 import { connect } from 'react-redux'
+import arrayMove from 'array-move'
 
 import Button from '../components/Button'
-// import TextField from '@material-ui/core/TextField'
 import Input from '../components/forms/Input'
 
 import ContentHeader from '../components/PageHeader'
@@ -13,16 +13,23 @@ import Table from '../components/Table'
 import { AnchorLink } from '../shared/RouterLink'
 import graphql from '../graphql/client'
 import { BOT_TASKS } from '../graphql/queries'
-import { CREATE_BOT_TASK, DELETE_BOT_TASK } from '../graphql/mutations'
+import {
+  CREATE_BOT_TASK,
+  DELETE_BOT_TASK,
+  REORDER_BOT_TASK
+} from '../graphql/mutations'
 
 import BotEditor from './bots/editor'
 import FormDialog from '../components/FormDialog'
+import Badge from '../components/Badge'
 
 import SettingsForm from './bots/settings'
 import EmptyView from '../components/EmptyView'
 import DeleteDialog from '../components/DeleteDialog'
-import { successMessage } from '../actions/status_messages'
+import { successMessage, errorMessage } from '../actions/status_messages'
 import { setCurrentSection, setCurrentPage } from '../actions/navigation'
+
+import FilterMenu from '../components/FilterMenu'
 
 const BotDataTable = ({ app, match, history, mode, dispatch }) => {
   const [loading, setLoading] = useState(false)
@@ -30,15 +37,18 @@ const BotDataTable = ({ app, match, history, mode, dispatch }) => {
   const [openDeleteDialog, setOpenDeleteDialog] = useState(null)
   const [openTaskForm, setOpenTaskForm] = useState(false)
   const [meta, setMeta] = useState({})
+  const [options, setOptions] = useState(optionsForFilter())
+  const [stateOptions, setStateOptions] = useState(optionsForState())
 
   function init () {
-    dispatch(setCurrentPage(`bot${mode}`))
+    dispatch(setCurrentPage(`bot_${mode}`))
 
     graphql(
       BOT_TASKS,
       {
         appKey: app.key,
-        mode: mode
+        mode: mode,
+        filters: getFilters()
       },
       {
         success: (data) => {
@@ -51,9 +61,36 @@ const BotDataTable = ({ app, match, history, mode, dispatch }) => {
     )
   }
 
-  useEffect(init, [match.url])
+  useEffect(init, [
+    match.url,
+    JSON.stringify(options),
+    JSON.stringify(stateOptions)
+  ])
 
   // useEffect(init [match])
+  function onSortEnd (oldIndex, newIndex) {
+    const op1 = botTasks[oldIndex]
+    const op2 = botTasks[newIndex]
+
+    graphql(REORDER_BOT_TASK,
+      {
+        appKey: app.key,
+        id: op1.id,
+        idAfter: op2.id,
+        mode: mode
+      },
+      {
+        success: (res) => { dispatch(successMessage('reordered correctly')) },
+        error: (res) => { dispatch(errorMessage('reordered correctly')) }
+      }
+    )
+
+    setBotTasks(arrayMove(botTasks, oldIndex, newIndex))
+
+    setTimeout(() => {
+
+    }, 2000)
+  }
 
   function removeBotTask (o) {
     graphql(
@@ -64,7 +101,7 @@ const BotDataTable = ({ app, match, history, mode, dispatch }) => {
           const newData = botTasks.filter((item) => item.id != o.id)
           setBotTasks(newData)
           setOpenDeleteDialog(null)
-          dispatch(successMessage(I18n.t('bot_tasks.remove_success')))
+          dispatch(successMessage(I18n.t('task_bots.remove_success')))
         },
         error: () => {
           debugger
@@ -73,20 +110,133 @@ const BotDataTable = ({ app, match, history, mode, dispatch }) => {
     )
   }
 
+  function getFilters () {
+    return {
+      state: stateOptions.filter((o) => o.state === 'checked').map((o) => o.id),
+      users: options.filter((o) => o.state === 'checked').map((o) => o.id)
+    }
+  }
+
   function toggleTaskForm () {
     setOpenTaskForm(!openTaskForm)
+  }
+
+  function optionsForFilter () {
+    const options = [
+      {
+        title: 'Visitors',
+        description: 'visitors on the platform',
+        // icon: <UnsubscribeIcon/>,
+        id: 'visitors',
+        state: 'checked'
+      },
+      {
+        title: 'Leads',
+        description: 'Visitors who make an actions',
+        // icon: <UnsubscribeIcon/>,
+        id: 'leads',
+        state: 'checked'
+      },
+      {
+        title: 'Users',
+        description: "your platform's registered users",
+        // icon: <UnsubscribeIcon/>,
+        id: 'users',
+        state: 'checked'
+      }
+    ]
+    return options
+  }
+
+  function optionsForState () {
+    const options = [
+      {
+        title: 'Enabled',
+        description: 'enabled bot tasks',
+        // icon: <UnsubscribeIcon/>,
+        id: 'enabled',
+        state: 'checked'
+      },
+      {
+        title: 'Disabled',
+        description: 'Disabled bot tasks',
+        // icon: <UnsubscribeIcon/>,
+        id: 'disabled',
+        state: 'checked'
+      }
+    ]
+    return options
+  }
+
+  function namesForToggleButton (opts) {
+    const names = opts
+      .filter((o) => o.state === 'checked')
+      .map((o) => o.title)
+      .join(', ')
+    return names === ''
+      ? opts.map((o) => o.title)
+        .join(', ') : names
+  }
+
+  function toggleButton (clickHandler) {
+    return (
+      <div>
+        <Button
+          onClick={clickHandler}>
+          {namesForToggleButton(options)}
+        </Button>
+      </div>
+    )
+  }
+
+  function toggleStateButton (clickHandler) {
+    return (
+      <div>
+        <Button
+          onClick={clickHandler}>
+          {namesForToggleButton(stateOptions)}
+        </Button>
+      </div>
+    )
+  }
+
+  function handleClickforOptions (opts, option) {
+    return opts.map((o) => {
+      if (o.id === option.id) {
+        const checked = option.state === 'checked' ? '' : 'checked'
+        return { ...option, state: checked }
+      } else {
+        return o
+      }
+    })
+  }
+
+  function handleClickforState (opts, option) {
+    const checkeds = opts.filter((o) => o.state === 'checked')
+
+    return opts.map((o) => {
+      if (o.id === option.id) {
+        const isChecked = option.state === 'checked'
+        const checked = isChecked ? '' : 'checked'
+        if (checkeds.length === 1 && isChecked) { return o }
+        return { ...option, state: checked }
+      } else {
+        return o
+      }
+    })
   }
 
   return (
     <div>
       <Content>
         <ContentHeader
-          title={mode}
+          title={I18n.t(`task_bots.${mode}`)}
           actions={
             <div item>
               <Button
                 color="inherit"
                 onClick={toggleTaskForm}
+                variant={"success"}
               >
                 {I18n.t('task_bots.new')}
               </Button>
@@ -95,6 +245,34 @@ const BotDataTable = ({ app, match, history, mode, dispatch }) => {
           tabsContent={null}
         />
 
+        <div className="flex">
+          <div className="mr-3">
+            <FilterMenu
+              options={options}
+              value={null}
+              filterHandler={(option) => {
+                const newOptions = handleClickforOptions(options, option)
+                setOptions(newOptions)
+              }}
+              triggerButton={toggleButton}
+              position={'left'}
+            />
+          </div>
+
+          <div>
+            <FilterMenu
+              options={stateOptions}
+              value={null}
+              filterHandler={(option) => {
+                const newOptions = handleClickforState(stateOptions, option)
+                setStateOptions(newOptions)
+              }}
+              triggerButton={toggleStateButton}
+              position={'left'}
+            />
+          </div>
+        </div>
+
         {!loading && botTasks.length > 0 && (
           <Table
             meta={meta}
@@ -102,6 +280,8 @@ const BotDataTable = ({ app, match, history, mode, dispatch }) => {
             title={I18n.t('task_bots.title')}
             defaultHiddenColumnNames={[]}
             search={init}
+            sortable={true}
+            onSort={onSortEnd}
             columns={[
               {
                 field: 'name',
@@ -122,7 +302,20 @@ const BotDataTable = ({ app, match, history, mode, dispatch }) => {
                   )
               },
 
-              { field: 'state', title: I18n.t('definitions.bot_tasks.state.label') },
+              {
+                field: 'state',
+                title: I18n.t('definitions.bot_tasks.state.label'),
+                render: (row) => (
+                  row && (
+                    <td className="px-6 py-4 whitespace-nowrap border-b border-gray-200">
+                      <Badge className={
+                        `bg-${row.state === 'enabled' ? 'green-500' : 'gray-200'}`}>
+                        {row.state}
+                      </Badge>
+                    </td>
+                  )
+                )
+              },
               {
                 field: 'actions',
                 title: I18n.t('definitions.bot_tasks.actions.label'),
@@ -212,7 +405,7 @@ const BotTaskCreate = ({ app, submit, history, match, mode }) => {
       // id: create_UUID(),
       title: titleRef.value,
       paths: [],
-      user_type: mode
+      bot_type: mode
     }
 
     graphql(
@@ -292,13 +485,13 @@ const BotContainer = ({ app, match, history, dispatch, actions }) => {
 
       <Route
         exact
-        path={[`${match.path}/users`]}
+        path={[`${match.path}/outbound`]}
         render={(props) => (
           <BotDataTable
             app={app}
             history={history}
             match={match}
-            mode={'users'}
+            mode={'outbound'}
             dispatch={dispatch}
             {...props}
           />
@@ -307,13 +500,13 @@ const BotContainer = ({ app, match, history, dispatch, actions }) => {
 
       <Route
         exact
-        path={[`${match.path}/leads`]}
+        path={[`${match.path}/new_conversations`]}
         render={(props) => (
           <BotDataTable
             app={app}
             history={history}
             match={match}
-            mode={'leads'}
+            mode={'new_conversations'}
             dispatch={dispatch}
             {...props}
           />
@@ -322,7 +515,7 @@ const BotContainer = ({ app, match, history, dispatch, actions }) => {
 
       <Route
         exact
-        path={[`${match.path}/leads/:id`]}
+        path={[`${match.path}/outbound/:id`]}
         render={(props) => {
           return (
             <BotEditor
@@ -338,10 +531,14 @@ const BotContainer = ({ app, match, history, dispatch, actions }) => {
 
       <Route
         exact
-        path={`${match.path}/users/:id`}
+        path={`${match.path}/new_conversations/:id`}
         render={(props) => {
           return (
-            <BotEditor app={app} mode={'users'} match={match} {...props} />
+            <BotEditor app={app}
+              mode={'users'}
+              match={match}
+              {...props}
+            />
           )
         }}
       />

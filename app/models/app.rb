@@ -296,7 +296,7 @@ class App < ApplicationRecord
       message: message,
       message_source: message_source,
       check_assignment_rules: true
-    )
+    ) unless message.blank?
 
     conversation.add_started_event
     conversation
