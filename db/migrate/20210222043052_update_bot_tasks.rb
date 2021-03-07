@@ -7,22 +7,26 @@ class UpdateBotTasks < ActiveRecord::Migration[6.1]
   end
 
   def up
-    OldBotTasks.find_each do |task|
-      bt = BotTask.new
-      bt.app_id = task.app_id
-      bt.name = task.title
-      bt.segments = task.predicates
-      bt.settings = task.settings
-      bt.paths = task.paths
-      bt.state = task.state
-      bt.user_type = task.type
+    begin
+      OldBotTasks.find_each do |task|
+        bt = BotTask.new
+        bt.app_id = task.app_id
+        bt.name = task.title
+        bt.segments = task.predicates
+        bt.settings = task.settings
+        bt.paths = task.paths
+        bt.state = task.state
+        bt.user_type = task.type
 
-      if bt.save
-        task.metrics.update_all(
-          trackable_id: bt.id,
-          trackable_type: 'Message'
-        )
+        if bt.save
+          task.metrics.update_all(
+            trackable_id: bt.id,
+            trackable_type: 'Message'
+          )
+        end
       end
+    rescue => e
+      Bugsnag.notify(e)
     end
   end
 
