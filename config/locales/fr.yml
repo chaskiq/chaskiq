@@ -178,7 +178,7 @@ fr:
     title: Bot Tasks
     reply_soon: Hi, %{name} will reply as soon as they can.
     reply_agent: you will get a reply from one of our agents
-    email_support: to get ijijsupport you can email at %{email}
+    email_support: to get support you can email at %{email}
     outbound: "🏓 Outbound"
     new_conversations: "👋 New conversations"
     email_requirement:
