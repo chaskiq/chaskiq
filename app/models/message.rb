@@ -78,7 +78,8 @@ class Message < ApplicationRecord
   end
 
   def initial_state
-    state = 'disabled' unless state.present?
+    return if self.state.present?
+    self.state = 'disabled' 
   end
 
   def add_default_predicate
