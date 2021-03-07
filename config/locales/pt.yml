@@ -1,59 +1,59 @@
 pt:
   common:
-    edit: Editar
-    new: Novo
-    add: Adicionar
-    update: Atualizar
-    remove: Retirar
-    delete: Apagar
-    create: Criar
-    save: Salvar
-    preview: Pré-visualização
-    cancel: Cancelar
-    back_to_site: Voltar ao site
-    not_found: A Página que Você está Procurando não Existe.
-    get_snippet: Obtenha o trecho
+    edit: Edit
+    new: New
+    add: Add
+    update: Update
+    remove: Remove
+    delete: Delete
+    create: Create
+    save: Save
+    preview: Preview
+    cancel: Cancel
+    back_to_site: Back to site
+    not_found: The page you are looking for does not exist.
+    get_snippet: Get the snippet
     submit: Submit
-    confirm_deletion: "Confirmar exclusão?"
-    next: Seguinte
-    prev: Anterior
+    confirm_deletion: "Confirm deletion ?"
+    next: Next
+    prev: Prev
     showing: Mostrando
-    to: para
-    of: do
+    to: to
+    of: of
     results: resultados
-    tz_hint: Seu fuso horário de navegador é <b className="text-bold">%{timezone}</b>
-    send: Enviar
+    tz_hint: Your browser timezone is <b className="text-bold">%{timezone}</b>
+    send: Send
     langs:
-      en: Português
-      es: Espanhol
-      redirecting: A redireccionar
-      select_language: Selecione o idioma
-    send_on_enter: Publicar no website
+      en: English
+      es: Spanish
+      redirecting: Redirecting
+      select_language: Select Language
+    send_on_enter: Publish on enter
   home:
-    welcome: Bem-vindo à
+    welcome: Welcome to
     welcome_site: Chaskiq
-    tagline: Encontrar a sua localização atual
-    create_new: Criar nova app
-    choose_lang: Escolher idioma
-    edit_profile: Editar perfil
-    go_to_doc: Ir para a documentação
+    tagline: Find your current applications here
+    create_new: Create new app
+    choose_lang: Choose language
+    edit_profile: Edit profile
+    go_to_doc: Go to documentation
   dashboard:
     hey: "👋 Hey!, you are viewing the <strong>%{name}'s</strong> dashboard! <br /> Get you installation snippet for the web setup <br />"
-    response_avg: Tempo de Resposta
-    new_conversations: Nova conversa
-    resolutions: Resolução
-    incoming_messages: Mensagens recebidas
-    visit_activity: Visitar atividade
-    users_browser: Navegador de Usuários
-    lead_os: Contactos Os
-    user_os: Os dos Usuários
+    response_avg: Response Time avg
+    new_conversations: New conversations
+    resolutions: Resolutions
+    incoming_messages: Incoming Messages
+    visit_activity: Visit activity
+    users_browser: Users browser
+    lead_os: Lead Os
+    user_os: User Os
     mac_os: Mac OS
-    user_country: País do usuário
-    snippet: Coloque o seguinte script no final da sua tag html <body>
+    user_country: User country
+    snippet: Put the following script on the end of your html <body> tag
   navigator:
-    dashboard: Painel de controlo
-    platform: Plataforma
-    conversations: Conversas
+    dashboard: Dashboard
+    platform: Platform
+    conversations: Conversations
     campaigns: Campaigns
     routing_bots: Routing Bots
     help_center: Help Center
@@ -67,9 +67,9 @@ pt:
       guided_tours: Guided Tours
       for_leads: For Leads
       for_users: For Users
-      bot_settings: Tarefas de bot
+      bot_settings: Bot Tasks
       outbound: Outbound
-      new_conversations: Nova conversa
+      new_conversations: New conversations
       articles: Articles
       collections: Collections
       article_settings: Settings
@@ -115,69 +115,69 @@ pt:
       assign_agent: Assign Agent
     messages:
       seen: Seen
-      not_seen: Não Visto
-      note: Nota
+      not_seen: Not seen
+      note: Note
     sidebar:
-      show_profile: Mostrar perfil
-      location: Localização
-      browser: Navegador de Usuários
-      latest_user_visible_comment_at: Último Comentário
-      created_at: Criado em
-      assignee: Atribuído
-      first_agent_reply: Primeira resposta do agente
+      show_profile: Show profile
+      location: Location
+      browser: User Browser
+      latest_user_visible_comment_at: Last comment
+      created_at: Created at
+      assignee: Assignee
+      first_agent_reply: First agent reply
     editor:
       panels:
         bot:
-          title: Iniciar uma tarefa do Bot
-          confirm: Confirmar %{title} gatilho
-          confirm_msg: A tarefa desse bot será entregue na conversa atual do usuário ou em uma nova tarefa se o usuário sair do chat.
-          empty: sem aplicações disponíveis
-          choose_another: Escolha outro
+          title: Start a Bot Task
+          confirm: Confirm %{title} trigger
+          confirm_msg: This bot task will be delivered on user's current conversation or in a new one if the user left the chat.
+          empty: no bots available
+          choose_another: Choose another
         quick_reply:
-          title: Enviar uma resposta rápida
-          confirm: Confirma o envio de %{title}?
-          confirm_msg: Essa resposta rápida será entregue na conversa atual do usuário.
-          empty: sem respostas rápidas disponíveis
-          choose_another: Escolha outro
+          title: Send a quick reply
+          confirm: Confirm send %{title} ?
+          confirm_msg: This quick reply will be delivered on user's current conversation.
+          empty: no quick replies available
+          choose_another: Choose another
   assignment_rules:
-    title: Regras de Atribuição
-    create_button: Criar Regra
-    success_message: Regra de atribuição criada com sucesso
+    title: Assignment Rules
+    create_button: Create Rule
+    success_message: Assignment rule created sucessfully
   campaigns:
     title: Campaign
     home:
-      title: Campanhas
-      text: Esta é a seção de campanhas, você pode criar newsletters , mensagens pop-up e visitas guiadas
-    remove_success: Campanha removida
-    remove_hint: Nós destruiremos qualquer conteúdo e dados relacionados
-    delete_campaign: Excluir campanha %{name}
-    create_new: Criar nova campanha
+      title: Campaigns
+      text: This is the campaigns section, you can create newsletters , popup messages and guided tours
+    remove_success: Campaign removed
+    remove_hint: We will destroy any content and related data
+    delete_campaign: Delete campaign %{name}
+    create_new: Create new campaign
     empty:
-      title: Sem campanhas para mostrar
-    campaign_updated: Atualização de campanha
-    updated_error: Erro ao atualizar a campanha
-    error_purge: Erro ao remover métricas
-    purge_description: Métricas de campanhas
+      title: No campaigns found
+    campaign_updated: Campaign updated
+    updated_error: Error updating campaign
+    error_purge: Error purging metrics
+    purge_description: Purges campaigns metrics
     purge_title: Purge Metrics
-    deliver_title: Entrega
-    deliver_description: Excluir campanha
+    deliver_title: Deliver
+    deliver_description: Delivers the campaign
   campaign:
-    edit: Editar Configurações de Campanha
-    create: Criar nova campanha
-    preview: Esta é uma pré-visualização
-    preview_hint: É assim que seu e-mail deve ser exibido. Se você está usando variáveis como o {{name}}, ele deve ser exibido aqui.
+    edit: Edit Campaign Settings
+    create: Create a new campaign
+    preview: This is a preview
+    preview_hint: This is how your email should display. If you are using variables like {{name}} it should be displayed here.
     stats:
-      title: Estatísticas da Campanha
-      refresh_data: Atualizar dados
+      title: Campaign Stats
+      refresh_data: Refresh data
     unsubscribe:
-      status: Você foi %{state}
-      success: Sucesso, %{ email } não receberá mais e-mails deste remetente. Isso foi um erro?
-      resubscribe: Cancelar a inscrição nesta lista
-      cancel: Cancele a sua subscrição
+      status: You've been %{state}
+      success: Success, %{ email } will no longer receive emails from this sender. Was this a mistake?
+      resubscribe: Resubscribe from this list
+      cancel: Cancel your subscription
   task_bots:
-    title: Tarefas de bot
-    reply_soon: Oi, %{name} responderá assim que puder.
-    reply_agent: você receberá uma resposta de um de nossos agentes
+    title: Bot Tasks
+    reply_soon: Hi, %{name} will reply as soon as they can.
+    reply_agent: you will get a reply from one of our agents
     email_support: to get ijijsupport you can email at %{email}
     outbound: "🏓 Outbound"
     new_conversations: "👋 New conversations"
@@ -244,68 +244,68 @@ pt:
     will_send: The "%{lang}" version will be sent to the conversation.
     empty:
       title: No quick replies
-      create_new: Criar novo
+      create_new: Create new
     delete:
-      title: Excluir resposta rápida %{name}
-      hint: nós destruiremos qualquer conteúdo e dados relacionados, as conversas manterão conteúdo embora
+      title: Delete quick reply %{name}
+      hint: we will destroy any content and related data, conversations will keep content though
     create:
-      success: O projeto foi criado com sucesso
-      error: Erro ao criar resposta rápida
+      success: Quick reply was created successfully
+      error: Error creating quick reply
     update:
-      success: O projeto foi criado com sucesso
-      error: Erro ao criar resposta rápida
+      success: Quick reply was updated successfully
+      error: Error updating quick reply
     add_as_dialog:
-      title: Adicionar esta mensagem como uma resposta rápida
+      title: Add this message as a Quick Reply
   new_app:
-    title: "Crie o aplicativo Chaskiq da sua empresa"
-    text: Forneça informações básicas para configurar o Chaskiq para sua equipe e clientes.
-    hint: Crie o aplicativo Chaskiq da sua empresa
+    title: "Create your company’s Chaskiq app"
+    text: Provide basic information to setup Chaskiq for your team and customers.
+    hint: Create your company’s Chaskiq app
   settings:
     api:
-      title: Perfil Privado
+      title: Oauth Applications
       tabs:
-        apps: Aplicações OAuth
-        authorized: Aplicativos OAUTH Autorizados
-      oauth_information: Informações do app Oauth
-      details: Oauth detalhes e credenciais.
-      delete_app: Excluir aplicativo Oauth?
-      create_app: Excluir aplicativo Oauth
-      hint: Nós destruiremos qualquer conteúdo e dados relacionados
+        apps: OAUTH Applications
+        authorized: Authorized OAUTH Applications
+      oauth_information: Oauth App Information
+      details: Oauth details and credentials.
+      delete_app: Delete Oauth App?
+      create_app: Create Oauth App
+      hint: We will destroy any content and related data
       invite:
-        title: Adicionar agente de usuário
-        text: enviar um convite por email
+        title: Add a new agent
+        text: send an activable invitation
     app:
-      app_settings: Configurações da aplicação
+      app_settings: App Settings
       security: Security
-      messenger_settings: Configurações do Messenger
-      appearance: Aparência
-      appearance_title: Definições de Aparência
-      privacy: Privacidade
-      privacy_title: Definições de Privacidade
-      translations: Translação
-      availability: Disponibilidade
-      email_requirement: Email requerido
-      inbound_settings: Configurações de entrada
-      messenger_style: Estilo Messenger
-      user_data: Dados de usuário
-      tags: Etiquetas
-      quick_replies: Respostas rápidas
+      messenger_settings: Messenger Settings
+      appearance: Appearance
+      appearance_title: Appearance settings
+      privacy: Privacy
+      privacy_title: Privacy settings
+      translations: Translations
+      availability: Availability
+      email_requirement: Email Requirement
+      inbound_settings: Inbound settings
+      messenger_style: Messenger Style
+      user_data: User data
+      tags: Tags
+      quick_replies: Quick Replies
     app_packages:
-      create_success: Pacote criado
-      create_error: Erro ao criar pacote
-      update_success: Pacote atualizado
-      update_error: Erro ao atualizar pacote
-      remove_success: Pacote removido corretamente
-      remove_error: Erro ao atualizar pacote
-      create_integration: Criar novo pacote
+      create_success: Package created
+      create_error: Error creating package
+      update_success: Package updated
+      update_error: Error updating package
+      remove_success: Package removed correctly
+      remove_error: Error removing package
+      create_integration: Create New package
     integrations:
-      title: Integração de terceiros
-      create_success: Integração criada
-      create_error: Erro ao desativar integração
-      update_success: Integração de Email Atualizada
-      update_error: Erro ao atualizar integração
-      remove_success: Integração removida corretamente
-      remove_error: Erro ao desativar integração
+      title: Third party integrations
+      create_success: Integration created
+      create_error: Error linking integration
+      update_success: Integration updated
+      update_error: Error updating integration
+      remove_success: Integration removed correctly
+      remove_error: Error removing integration
       create_integration: Create New integration
       active:
         title: Active Integrations
@@ -378,67 +378,67 @@ pt:
       filters:
         users:
           label: Users
-          all: Todos os usuários
-          some: Usuários que correspondem a certos dados
+          all: All Users
+          some: Users who match certain data
         leads:
-          label: Contactos
-          all: Todos os Visitantes
-          some: Usuários que correspondem a certos dados
-        hint: Isso não afeta as mensagens de saída que você envia.
+          label: Leads
+          all: All Visitors
+          some: Visitors who match certain data
+        hint: This doesn’t affect the outbound messages you send.
     team:
-      title: Equipa
-      invitations: convites
-      agents: Agentes
-      invitation_success: convite enviado!
-      invitatin_error: convite enviado!
-      action_button: adicionar usuário
-      title_content: Adicionar agente de usuário
-      content_text: enviar um convite por email
-      hint: o novo membro da equipe será notificado por seu e-mail
-      send_invitation: Enviar convite
-      resend_invitation: Reenviar o convite
-      add_new: Adicionar um Membro
-      update_agent_title: Actualizar Informação
-      updated_agent: As informações foram atualizadas com sucesso
-      update_agent: Atualizar
+      title: Team
+      invitations: invitations
+      agents: Agents
+      invitation_success: invitation sent!
+      invitatin_error: invitation not sent!
+      action_button: add user
+      title_content: Add a new agent
+      content_text: send an activable invitation
+      hint: the new team member will be notified by it's email
+      send_invitation: Send invitation
+      resend_invitation: Resend invitation
+      add_new: Add Team Member
+      update_agent_title: Update Agent information
+      updated_agent: Information updated successfully
+      update_agent: Update
     webhooks:
       title: Webhooks
-      create_success: O Webhook foi criado
-      create_error: Erro ao adicionar dispositivo
-      update_success: O Webhook foi criado
-      update_error: Erro ao adicionar dispositivo
-      delete_success: Webhook removido corretamente
-      delete_error: Erro ao remover webhook
-      outgoing_webhooks: Webhooks de saída
-      new_webhook: Novo webhook
-      active_webhooks: Adicionar Webhooks
-      disabled_webhooks: Webhooks Desativados
+      create_success: Webhook created
+      create_error: Error adding webhook
+      update_success: Webhook updated
+      update_error: Error updating webhook
+      delete_success: Webhook removed correctly
+      delete_error: Error removing webhook
+      outgoing_webhooks: Outgoing webhooks
+      new_webhook: New webhook
+      active_webhooks: Active Webhooks
+      disabled_webhooks: Disabled Webhooks
       empty:
-        title: Você ainda não tem nenhum webhooks ativo
-        desc: Procurar por webhooks em
-        disabled_webhooks: Webhooks Desativados
+        title: You don't have any active webhooks yet
+        desc: Search for your webhooks in
+        disabled_webhooks: Disabled webhooks
       delete:
-        title: Apagar um Webhook?
-        text: O webhook com o serviço %{name} será desativado imediatamente
+        title: Delete webhook ?
+        text: The webhook with %{name} service will be disabled immediately
     tags:
-      title: Etiquetas
+      title: Tags
       modal:
-        title: Criar tag
-        hint: Procurando por mais tags? Veja
-        link: configurações da conta
+        title: Create app's tag
+        hint: Looking for more tags ? look at
+        link: account settings
       inputs:
-        name: Nome do campo
-        color: Cor do campo
+        name: Field name
+        color: Field color
     user_data:
-      title: Campos Personalizados
-      default_fields: Atributos por defeito
-      non_editable: Este campo não é editável
+      title: Custom Fields
+      default_fields: Atributos por defecto
+      non_editable: This fields are not editable
       modal:
-        title: Criar campo de dados do usuário
+        title: Create user data field
       inputs:
-        name: Nome do campo
-        type: Tipo do campo
-        validation: Validação
+        name: Field name
+        type: Field type
+        validation: Validation
         validation_hint: Validation is optional
       attr_types:
         date: Date
