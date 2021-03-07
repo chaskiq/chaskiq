@@ -294,7 +294,6 @@ class ActionTriggerFactory
 
   def self.find_configured_bot_for_user(app:, user:)
     settings_namespace = user.is_a?(Lead) ? :lead_tasks_settings : :user_tasks_settings
-
     return unless app.send(settings_namespace)['override_with_task']
     return if app.send(settings_namespace)['task_rules'].empty?
 
@@ -321,9 +320,10 @@ class ActionTriggerFactory
 
   def self.find_factory_template(app:, app_user:, data:)
     case data['trigger']
-    when 'infer'
-      trigger = ActionTriggerFactory.find_configured_bot_for_user(app: app, user: app_user) ||
-                ActionTriggerFactory.infer_for(app: app, user: app_user)
+    when 'infer'   
+      trigger = ActionTriggerFactory.infer_for(app: app, user: app_user)   
+      #trigger = ActionTriggerFactory.find_configured_bot_for_user(app: app, user: app_user) ||
+      #          ActionTriggerFactory.infer_for(app: app, user: app_user)
     when 'request_for_email'
       ActionTriggerFactory.request_for_email(app: app)
 

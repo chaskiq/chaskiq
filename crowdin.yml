@@ -1,0 +1,17 @@
+files:
+  - source: /config/locales/en.yml
+    translation: /config/locales/%two_letters_code%.yml
+  - source: /config/locales/definitions.en.yml
+    translation: /config/locales/definitions.%two_letters_code%.yml
+  - source: /config/locales/devise.en.yml
+    translation: /config/locales/devise.%two_letters_code%.yml
+  - source: /config/locales/base.en.yml
+    translation: /config/locales/base.%two_letters_code%.yml
+  - source: /config/locales/doorkeeper.en.yml
+    translation: /config/locales/doorkeeper.%two_letters_code%.yml
+  - source: /config/locales/devise_invitable.en.yml
+    translation: /config/locales/devise_invitable.%two_letters_code%.yml
+  - source: /config/locales/hints.en.yml
+    translation: /config/locales/hints.%two_letters_code%.yml
+  - source: /config/locales/subscriptions.en.yml
+    translation: /config/locales/subscriptions.%two_letters_code%.yml

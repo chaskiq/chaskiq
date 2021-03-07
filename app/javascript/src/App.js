@@ -25,6 +25,7 @@ import Docs from './pages/docs'
 
 import { Provider, connect } from 'react-redux'
 import store from './store'
+import ErrorBoundary from './components/ErrorBoundary';
 
 const lighttheme = 1
 const darktheme = 1
@@ -88,13 +89,15 @@ class App extends React.Component {
                                 )
 
                             return (
-                                <AppRouter
-                                    themeData={this.resolveTheme()}
-                                    theme={this.state.theme}
-                                    handleToggleTheme={this.handleToggleTheme}
-                                    {...this.props}
-                                    {...props}
-                                />
+                                <ErrorBoundary variant={'very-wrong'}>
+                                    <AppRouter
+                                        themeData={this.resolveTheme()}
+                                        theme={this.state.theme}
+                                        handleToggleTheme={this.handleToggleTheme}
+                                        {...this.props}
+                                        {...props}
+                                    />
+                                </ErrorBoundary>
                             )
                         }}
                     />

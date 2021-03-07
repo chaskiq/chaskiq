@@ -735,6 +735,15 @@ export const WEBHOOK_UPDATE = `
   }
 `;
 
+export const CLONE_MESSAGE = `
+  mutation CloneMessage($appKey: String!, $id: String!){
+    cloneMessage(appKey: $appKey, id: $id){
+      id
+      errors
+    }
+  }
+`;
+
 export const QUICK_REPLY_CREATE = `
   mutation QuickReplyCreate($appKey: String!, $title: String!, $content: String!, $lang: String){
     createQuickReply(appKey: $appKey, title: $title, content: $content, lang: $lang){
@@ -1181,6 +1190,7 @@ export const CREATE_BOT_TASK = `
         scheduling
         state
         urls
+        botType
         paths {
           id
           title
@@ -1206,6 +1216,7 @@ export const UPDATE_BOT_TASK = `
         segments
         state
         urls
+        botType
         paths {
           id
           title
@@ -1228,6 +1239,17 @@ export const DELETE_BOT_TASK = `
         id
       }
       errors
+    }
+  }
+`;
+
+export const REORDER_BOT_TASK = `
+  mutation ReorderBotTask( $appKey: String!, $id: String!, $idAfter: String!, $mode: String ){
+    reorderBotTask( appKey: $appKey, id: $id, idAfter: $idAfter, mode: $mode ){
+      botTask{
+        id
+        position
+      }
     }
   }
 `;

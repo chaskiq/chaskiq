@@ -1,6 +1,5 @@
 
 describe('Conversation Spec', function () {
-
   describe('run previous', function () {
     it('run previous conversations', function () {
       cy.appScenario('start_conversation_from_agent')
@@ -40,7 +39,6 @@ describe('Conversation Spec', function () {
             cy.wrap($body)
               .xpath('/html/body/div/div/div/div[2]/div/div/div/div[2]/div/div/textarea')
               .should('be.enabled').then(() => {
-
                 cy.wrap($body)
                   .xpath('/html/body/div/div/div/div[2]/div/div/div/div[2]/div/div/textarea')
                   .type('oeoe \n').then(() => {
