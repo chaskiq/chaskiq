@@ -175,21 +175,6 @@ function AppContainer ({
         ></div>
       )}
 
-      {/* drawer.userDrawer && (
-        <div
-          className="navbar w-64 absolute
-              bg-white top-0 z-50 right-0  navbar-open"
-        >
-          <div className="overflow-x-scroll h-screen">
-            {app_user ? (
-              <UserData width={'300px'} app={app} appUser={app_user} />
-            ) : (
-              <Progress />
-            )}
-          </div>
-        </div>
-      ) */}
-
       { drawer.userDrawer &&
         <UserSlide
           open={!!drawer.userDrawer}
@@ -235,9 +220,8 @@ function AppContainer ({
             <UpgradePage page={upgradePages}/>
           }
 
-          {app && isEmpty(upgradePages) && (
+          { app && isEmpty(upgradePages) && 
             <ErrorBoundary variant={'very-wrong'}>
-
               <Switch>
                 <Route path={`${match.url}/`} exact>
                   <Dashboard />
@@ -288,10 +272,10 @@ function AppContainer ({
                 </Route>
 
                 <Route path={`${match.url}/conversations`}>
-                    <Conversations
-                      subscribed
-                      events={CableApp.current.events}
-                    />
+                  <Conversations
+                    subscribed
+                    events={CableApp.current.events}
+                  />
                 </Route>
 
                 <Route path={`${match.url}/oauth_applications`}>
@@ -306,15 +290,21 @@ function AppContainer ({
                   <Bots />
                 </Route>
 
-              <Route path={`${match.url}/workflows`}>
-                <Workflows />
-              </Route>
+                <Route path={`${match.url}/workflows`}>
+                  <Workflows />
+                </Route>
 
-              <Route path={`${match.path}/messages/:message_type`}>
-                <Campaigns />
-              </Route>
-            </Switch>
-          )}
+                <Route path={`${match.path}/campaigns`}>
+                  <CampaignHome />
+                </Route>
+
+                <Route path={`${match.path}/messages/:message_type`}>
+                  <Campaigns />
+                </Route>
+              </Switch>
+            </ErrorBoundary>
+          }
+
         </div>
       )}
     </div>

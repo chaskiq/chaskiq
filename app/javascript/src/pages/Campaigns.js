@@ -6,8 +6,6 @@ import { AnchorLink } from "../shared/RouterLink";
 import { connect } from "react-redux";
 //import Tabs from '@atlaskit/tabs';
 import Moment from "react-moment";
-import styled from "@emotion/styled";
-import serialize from "form-serialize";
 import UpgradeButton from "../components/upgradeButton"
 
 import CampaignSettings from "./campaigns/settings";
