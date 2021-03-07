@@ -51,10 +51,13 @@ class BotTask < Message
 
   def initialize_default_controls
     self.tap do
-      self.segments = [
-        {"type"=>"match", "value"=>"and", "attribute"=>"match", "comparison"=>"and"}, 
-        {"type"=>"string", "value"=>"AppUser", "attribute"=>"type", "comparison"=>"eq"}
-      ] 
+
+      unless self.segments.present?
+        self.segments = [
+          {"type"=>"match", "value"=>"and", "attribute"=>"match", "comparison"=>"and"}, 
+          {"type"=>"string", "value"=>"AppUser", "attribute"=>"type", "comparison"=>"eq"}
+        ]
+      end
 
       return self unless bot_type == "new_conversations"
 
@@ -143,7 +146,7 @@ class BotTask < Message
     app = user.app
     key = "#{app.key}-#{user.session_id}"
     ret = nil
-    
+
     app.bot_tasks.for_outbound.availables_for(user).each do |bot_task|
       next if bot_task.blank? || !bot_task.available_for_user?(user)
 
