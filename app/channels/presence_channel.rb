@@ -2,7 +2,7 @@
 
 class PresenceChannel < ApplicationCable::Channel
   include UserFinder
-  after_unsubscribe :offline
+  before_unsubscribe :offline
 
   def subscribed
     if current_user.blank? || self.app.blank?   

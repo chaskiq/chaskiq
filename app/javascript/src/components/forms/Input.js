@@ -32,6 +32,20 @@ const WrappedComponent = React.forwardRef(function Input (
   },
   ref
 ) {
+  function inputAppearance (variant) {
+    switch (variant) {
+      case 'underline':
+        return `border-dashed border-b-2 border-gray-400 
+        w-full py-2 px-3 text-gray-700
+        focus:outline-none focus:border-gray-600`
+      default:
+        return `shadow appearance-none border border-${borderColor(
+          error
+        )}-500 rounded w-full py-2 px-3 text-gray-700
+        leading-tight focus:outline-none focus:shadow-outline`
+    }
+  }
+
   function renderText () {
     return (
       <FormField
@@ -41,11 +55,7 @@ const WrappedComponent = React.forwardRef(function Input (
         helperText={helperText}
       >
         <input
-          className={`shadow appearance-none border border-${borderColor(
-            error
-          )}-500 
-              rounded w-full py-2 px-3 text-gray-700
-              leading-tight focus:outline-none focus:shadow-outline`}
+          className={ inputAppearance(props.variant) }
           name={name}
           type={type}
           defaultValue={defaultValue}

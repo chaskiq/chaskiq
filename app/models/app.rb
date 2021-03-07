@@ -44,30 +44,30 @@ class App < ApplicationRecord
   # http://nandovieira.com/using-postgresql-and-jsonb-with-ruby-on-rails
   # App.where('preferences @> ?', {notifications: true}.to_json)
 
-  has_many :app_users, dependent: :destroy
+  has_many :app_users, dependent: :destroy_async
   has_many :external_profiles, through: :app_users
-  has_many :bot_tasks, dependent: :destroy
-  has_many :visits, through: :app_users, dependent: :destroy
-  has_many :quick_replies, dependent: :destroy
-  has_many :app_package_integrations, dependent: :destroy
+  has_many :visits, through: :app_users, dependent: :destroy_async
+  has_many :quick_replies, dependent: :destroy_async
+  has_many :app_package_integrations, dependent: :destroy_async
   has_many :app_packages, through: :app_package_integrations
-  has_one :article_settings, class_name: 'ArticleSetting', dependent: :destroy
-  has_many :articles, dependent: :destroy
-  has_many :article_collections, dependent: :destroy
+  has_one :article_settings, class_name: 'ArticleSetting', dependent: :destroy_async
+  has_many :articles, dependent: :destroy_async
+  has_many :article_collections, dependent: :destroy_async
   has_many :sections, through: :article_collections
-  has_many :conversations, dependent: :destroy
+  has_many :conversations, dependent: :destroy_async
   has_many :conversation_parts, through: :conversations, source: :messages
-  has_many :segments, dependent: :destroy
-  has_many :roles, dependent: :destroy
+  has_many :segments, dependent: :destroy_async
+  has_many :roles, dependent: :destroy_async
   has_many :agents, through: :roles
-  has_many :campaigns, dependent: :destroy
-  has_many :user_auto_messages, dependent: :destroy
-  has_many :tours, dependent: :destroy
-  has_many :banners, dependent: :destroy
-  has_many :messages, dependent: :destroy
-  has_many :assignment_rules, dependent: :destroy
-  has_many :outgoing_webhooks, dependent: :destroy
-  has_many :oauth_applications, class_name: 'Doorkeeper::Application', as: :owner, dependent: :destroy
+  has_many :campaigns, dependent: :destroy_async
+  has_many :user_auto_messages, dependent: :destroy_async
+  has_many :tours, dependent: :destroy_async
+  has_many :banners, dependent: :destroy_async
+  has_many :messages, dependent: :destroy_async
+  has_many :bot_tasks, dependent: :destroy_async
+  has_many :assignment_rules, dependent: :destroy_async
+  has_many :outgoing_webhooks, dependent: :destroy_async
+  has_many :oauth_applications, class_name: 'Doorkeeper::Application', as: :owner, dependent: :destroy_async
   belongs_to :owner, class_name: 'Agent', optional: true # , foreign_key: "owner_id"
 
   has_one_attached :logo
@@ -296,7 +296,7 @@ class App < ApplicationRecord
       message: message,
       message_source: message_source,
       check_assignment_rules: true
-    )
+    ) unless message.blank?
 
     conversation.add_started_event
     conversation

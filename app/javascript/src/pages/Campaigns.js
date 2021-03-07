@@ -34,6 +34,7 @@ import {
   DELIVER_CAMPAIGN,
   PURGE_METRICS,
   DELETE_CAMPAIGN,
+  CLONE_MESSAGE
 } from "../graphql/mutations";
 
 import { getAppUser } from "../actions/app_user";
@@ -58,6 +59,7 @@ import {
   FilterFramesIcon,
   ClearAll,
   DeleteOutlineRounded,
+  CopyContentIcon
 } from "../components/icons";
 
 import { setCurrentSection, setCurrentPage } from "../actions/navigation";
@@ -452,6 +454,30 @@ class CampaignForm extends Component {
     });
   };
 
+  cloneCampaign = (e)=>{
+
+    const params = {
+      appKey: this.props.app.key,
+      id: `${this.state.data.id}`,
+    };
+
+    graphql(CLONE_MESSAGE, params, {
+      success: (data) => {
+        this.props.dispatch(successMessage(
+          "cloned successfully"
+        ));
+
+        this.props.init()
+      },
+      error: () => {
+        this.props.dispatch(errorMessage(
+          "error while cloning record"
+        ));
+      },
+    });
+
+  }
+
   campaignName = (name) => {
     switch (name) {
       case "campaigns":
@@ -467,14 +493,6 @@ class CampaignForm extends Component {
   };
 
   options = ()=> ([
-    /*{
-      title: "Enable",
-      description: "enables the campaign",
-      icon: <CheckCircle />,
-      id: "enabled",
-      state: "enabled",
-      onClick: this.toggleCampaignState
-    },*/
     {
       title: "Pause",
       description: "pauses the campaign ",
@@ -482,6 +500,14 @@ class CampaignForm extends Component {
       id: "disabled",
       state: "disabled",
       onClick: this.toggleCampaignState
+    },
+    {
+      title: "Clone",
+      description: "clones the campaign",
+      icon: <CopyContentIcon />,
+      id: "enabled",
+      state: "enabled",
+      onClick: this.cloneCampaign
     }
   ])
 
@@ -883,6 +909,7 @@ class CampaignContainer extends Component {
               <CampaignForm
                 currentUser={this.props.currentUser}
                 mode={this.props.match.params.message_type}
+                init={this.init}
                 {...this.props}
                 {...props}
               />
