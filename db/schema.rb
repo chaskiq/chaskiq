@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_12_10_184518) do
+ActiveRecord::Schema.define(version: 2021_02_28_160317) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -341,8 +341,10 @@ ActiveRecord::Schema.define(version: 2020_12_10_184518) do
     t.datetime "scheduled_to"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "position"
     t.index ["app_id"], name: "index_campaigns_on_app_id"
     t.index ["key"], name: "index_campaigns_on_key"
+    t.index ["position"], name: "index_campaigns_on_position"
     t.index ["type"], name: "index_campaigns_on_type"
   end
 
@@ -505,6 +507,12 @@ ActiveRecord::Schema.define(version: 2020_12_10_184518) do
     t.index ["app_user_id"], name: "index_external_profiles_on_app_user_id"
     t.index ["profile_id"], name: "index_external_profiles_on_profile_id"
     t.index ["provider"], name: "index_external_profiles_on_provider"
+  end
+
+  create_table "jwt_blacklist", force: :cascade do |t|
+    t.string "jti", null: false
+    t.datetime "exp", null: false
+    t.index ["jti"], name: "index_jwt_blacklist_on_jti"
   end
 
   create_table "metrics", force: :cascade do |t|

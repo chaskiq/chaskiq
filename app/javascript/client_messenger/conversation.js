@@ -50,10 +50,6 @@ const DanteStylesExtend  = styled(DanteContainer)`
   overflow: auto
 }
 `
-
-
-
-
 export class Conversations extends Component {
 
   state = {
@@ -199,13 +195,33 @@ export class Conversation extends Component {
   }
 
   appPackageClickHandler = (item, message)=>{
+
+    // for new_conversation blocks
+    if(message.message.blocks.type === "ask_option" && 
+    this.props.conversation.key === "volatile"){
+      return this.props.insertComment({
+        conversation_key: this.props.conversation.key,
+        message_key: message.key,
+        trigger: message.message.triggerId,
+        reply: item
+      }, {
+        before: ()=>{
+          console.log("init conversation with ", item)
+        },
+        sent: () => {
+          console.log("sent conversation", item)
+        },
+      })
+    }
+      
     if (message.message.blocks.type === "app_package") 
       return this.appPackageBlockDisplay(message)
+
     this.props.pushEvent('trigger_step', {
       conversation_key: this.props.conversation.key,
       message_key: message.key,
       trigger: message.triggerId,
-      step: item.nextStepUuid || item.next_step_uuid,
+      step:  item.nextStepUuid || item.next_step_uuid,
       reply: item
     })
   }
@@ -368,7 +384,6 @@ export class Conversation extends Component {
                t={this.props.t}
                updatePackage={this.updatePackage}
                searcheableFields={this.props.appData.searcheableFields}
-
                displayAppBlockFrame={this.props.displayAppBlockFrame}
                getPackage={this.props.getPackage}
                //{...o}
@@ -556,7 +571,8 @@ class AppPackageBlock extends Component {
     value: null,
     errors: {},
     loading: false,
-    schema: this.props.message.message.blocks.schema
+    schema: this.props.message.message.blocks.schema,
+    submiting: false
   }
 
   setLoading = (val)=>{
@@ -568,7 +584,9 @@ class AppPackageBlock extends Component {
     if(this.props.message.message.data && this.props.message.message.data.opener)
       return window.open(this.props.message.message.data.opener)
 
-    this.props.clickHandler(item, this.props.message)
+    this.setState({submiting: true}, ()=>{
+      this.props.clickHandler(item, this.props.message)
+    })
   }
 
   sendAppPackageSubmit = (data, cb)=>{
@@ -578,7 +596,6 @@ class AppPackageBlock extends Component {
   }
 
   updatePackage = (data, message, cb)=> {
-
     if(data.field.action.type === 'url'){
       return window.open(data.field.action.url, '_blank'); 
     }
@@ -816,11 +833,24 @@ class AppPackageBlock extends Component {
     if(isDisabled) return <DisabledElement>
                             { this.renderDisabledElement() }
                           </DisabledElement>
-    return this.props.message.message.blocks.schema.map((o, i)=>
-      
-      this.renderElement(o, i)
-      
-    )
+    return <div>
+    
+    {
+      this.props.message.message.blocks.label && 
+      <p style={{
+        padding: '0.2em 0.6em 0.4em 0.5em'
+      }}>
+        {this.props.message.message.blocks.label}
+      </p>
+    }
+
+    {
+      this.props.message.message.blocks.schema.map((o, i)=>
+        this.renderElement(o, i)
+      )
+    }
+    
+    </div>
   }
 
   isHidden=()=>{
@@ -829,6 +859,7 @@ class AppPackageBlock extends Component {
   }
 
   render(){
+
     const blocks = this.props.message.message.blocks
     return <AppPackageBlockContainer                 
               isInline={this.props.isInline}
@@ -849,9 +880,12 @@ class AppPackageBlock extends Component {
                 <form ref={o => this.form }
                   className="form" 
                   onSubmit={ this.sendAppPackageSubmit2 }>
-                  {
-                    this.renderElements()
-                  }
+                  <fieldset disabled={this.state.submiting ? 'disabled' : '' }>
+                    {
+                      this.renderElements()
+                    } 
+                  </fieldset>
+                 
                 </form> 
               }
              

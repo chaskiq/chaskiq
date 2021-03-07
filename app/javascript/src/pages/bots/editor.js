@@ -13,7 +13,7 @@ import {
   AGENTS,
   BOT_TASK_METRICS,
 } from "../../graphql/queries";
-import { UPDATE_BOT_TASK } from "../../graphql/mutations";
+import { UPDATE_BOT_TASK, CLONE_MESSAGE } from "../../graphql/mutations";
 import ContentHeader from "../../components/PageHeader";
 import Content from "../../components/Content";
 import FormDialog from "../../components/FormDialog";
@@ -37,6 +37,7 @@ import {
   PlusIcon,
   DragHandle,
   DeleteForever,
+  CopyContentIcon,
   //RemoveCircle ,
   DeleteForeverRounded,
 } from "../../components/icons";
@@ -45,6 +46,7 @@ import { isEmpty } from "lodash";
 import Stats from "../../components/stats";
 import { setCurrentSection, setCurrentPage } from "../../actions/navigation";
 import AppPackagePanel from "../../components/conversations/appPackagePanel"
+import FilterMenu from "../../components/FilterMenu";
 
 const ItemManagerContainer = styled.div`
   flex-grow: 4;
@@ -147,16 +149,10 @@ const BotEditor = ({ match, app, dispatch, mode, actions }) => {
   const [botTask, setBotTask] = useState({});
   const [errors, setErrors] = useState({});
   const [paths, setPaths] = useState([]);
-  const [selectedPath, setSelectedPath] = useState(null);
-  const [isOpen, setOpen] = useState(false);
   const [tabValue, setTabValue] = useState(0);
-  const [changed, setChanged] = useState(null);
   const [searchFields, setSearchFields] = useState([])
-  const [openPackagePanel, setOpenPackagePanel] = useState(null)
+  const [selectedPath, setSelectedPath] = useState(null);
 
-  const handleSelection = (item) => {
-    setSelectedPath(item);
-  };
 
   useEffect(() => {
     graphql(
@@ -207,7 +203,7 @@ const BotEditor = ({ match, app, dispatch, mode, actions }) => {
         success: (data) => {
           setPaths(data.updateBotTask.botTask.paths);
           setErrors(data.updateBotTask.botTask.errors);
-          setSelectedPath(data.updateBotTask.botTask.paths[0]);
+          //setSelectedPath(data.updateBotTask.botTask.paths[0]);
           dispatch(successMessage("bot updated"));
         },
         error: (err) => {
@@ -238,6 +234,231 @@ const BotEditor = ({ match, app, dispatch, mode, actions }) => {
       }
     );
   }
+
+  const handleTabChange = (e, i) => {
+    setTabValue(i);
+  };
+
+  const tabsContent = () => {
+    return (
+      <Tabs
+        value={tabValue}
+        onChange={handleTabChange}
+        textColor="inherit"
+        tabs={[
+          {
+            label: "Stats",
+            content: (
+              <React.Fragment>
+                {!isEmpty(botTask) && (
+                  <Stats
+                    match={match}
+                    app={app}
+                    data={botTask}
+                    getStats={getStats}
+                    actions={actions}
+                    mode={"counter_blocks"}
+                  />
+                )}
+              </React.Fragment>
+            ),
+          },
+          {
+            label: "Settings",
+            content: (
+              <BotTaskSetting
+                app={app}
+                data={botTask}
+                updateData={setBotTask}
+                saveData={saveData}
+                errors={errors}
+              />
+            ),
+          },
+          {
+            label: "Audience",
+            content: (
+              <Segment
+                app={app}
+                data={botTask}
+                updateData={(task) => {
+                  setBotTask(task);
+                }}
+                handleSave={(segments) => {
+                  setBotTask(
+                    Object.assign({}, botTask, { segments: segments })
+                  );
+                  saveData();
+                }}
+              />
+            ),
+          },
+          {
+            label: "Editor",
+            content: <BotPathEditor 
+              app={app}
+              botTask={botTask}
+              updateData={setBotTask}
+              saveData={saveData}
+              errors={errors}
+              paths={paths}
+              setPaths={setPaths}
+              searchFields={searchFields}
+              selectedPath={selectedPath}
+              setSelectedPath={setSelectedPath}
+            />,
+          },
+        ]}
+      ></Tabs>
+    );
+  };
+
+  const getStats = (params, cb) => {
+    graphql(BOT_TASK_METRICS, params, {
+      success: (data) => {
+        setSearchFields(data.app.searcheableFields)
+        const d = data.app.botTask;
+        cb(d);
+      },
+      error: (error) => {},
+    });
+  };
+
+  function toggleButton (clickHandler) {
+    return (
+      <div>
+        <Button
+          onClick={clickHandler}>
+          Create Users & Leads
+        </Button>
+      </div>
+    )
+  }
+
+  function optionsForFilter() {
+    return [
+      {
+        title: "Clone",
+        description: "clones the campaign",
+        icon: <CopyContentIcon />,
+        id: "enabled",
+        state: "enabled",
+        onClick: cloneCampaign
+      }
+    ]
+  }
+
+  function cloneCampaign(e){
+
+    const params = {
+      appKey: app.key,
+      id: `${botTask.id}`,
+    };
+
+    graphql(CLONE_MESSAGE, params, {
+      success: (data) => {
+        dispatch(successMessage(
+          "cloned successfully"
+        ));
+
+        //this.props.init()
+      },
+      error: () => {
+        dispatch(errorMessage(
+          "error while cloning record"
+        ));
+      },
+    });
+
+  }
+
+  return (
+    <div>
+      <Content>
+        <ContentHeader 
+          title={botTask.title} 
+          items={[]}
+          actions={
+            <div className="flex">
+              <UpgradeButton 
+              classes={
+                `absolute z-10 ml-1 mt-3 transform w-screen 
+                max-w-md px-2 origin-top-right right-0
+                md:-ml-4 sm:px-0 lg:ml-0
+                lg:right-2/6 lg:translate-x-1/6`
+              }
+              label="Activate Bot Task"
+              feature="BotTasks">
+            
+              <Button
+                className="mr-2"
+                //icon= <CheckCircle />
+                id="enabled"
+                state="enabled"
+                variant={"success"}
+                onClick={toggleBotState}
+              >
+                {botTask.state === 'enabled' ? 'Disable' : 'Enable'}
+              </Button>
+
+            </UpgradeButton>
+
+              <FilterMenu
+                options={optionsForFilter()}
+                value={'Actions'}
+                filterHandler={(option, closeHandler ) => {
+                  return (option.onClick && option.onClick(option))
+                }}
+                position={'right'}
+                toggleButton={(clickHandler) => {
+                  return (
+                    <Button
+                      onClick={clickHandler}
+                      variant="outlined"
+                      color="inherit"
+                      size="small"
+                    >
+                      {"actions"}
+                    </Button>
+                  );
+                }}
+              />
+            </div>
+          }
+        />
+        {tabsContent()}
+      </Content>
+    </div>
+  );
+};
+
+
+export function BotPathEditor({
+  saveData, 
+  paths, 
+  app, 
+  setPaths, 
+  searchFields,
+  selectedPath, 
+  setSelectedPath,
+  botTask
+}){
+
+  const [isOpen, setOpen] = useState(false);
+  const [changed, setChanged] = useState(null);
+  const [openPackagePanel, setOpenPackagePanel] = useState(null)
+
+
+  const open = () => setOpen(true);
+  const close = () => setOpen(false);
+
+  const showPathDialog = () => {
+    setOpen(true);
+  };
+
+  const handleSelection = (item) => {
+    setSelectedPath(item);
+  };
 
   const addSectionMessage = (path) => {
     const dummy = {
@@ -404,116 +625,24 @@ const BotEditor = ({ match, app, dispatch, mode, actions }) => {
     setSelectedPath(newPath); // redundant
   };
 
-  const addAppPackage = (path) => {
-    setOpenPackagePanel(path)
-  }
-
-  const addPath = (path) => {
-    const newPaths = paths.concat(path);
-    setPaths(newPaths);
-  };
-
   const addEmptyPath = (data) => {
     addPath(data);
     close();
   };
 
-  const updatePath = (path) => {
-    const newPaths = paths.map((o) => (o.id === path.id ? path : o));
-    setPaths(newPaths);
-    setSelectedPath(newPaths.find((o) => o.id === path.id)); // redundant
-  };
-
-  const open = () => setOpen(true);
-  const close = () => setOpen(false);
-
-  const showPathDialog = () => {
-    setOpen(true);
-  };
-
-  const handleTabChange = (e, i) => {
-    setTabValue(i);
-  };
-
-  const tabsContent = () => {
-    return (
-      <Tabs
-        value={tabValue}
-        onChange={handleTabChange}
-        textColor="inherit"
-        tabs={[
-          {
-            label: "Stats",
-            content: (
-              <React.Fragment>
-                {!isEmpty(botTask) && (
-                  <Stats
-                    match={match}
-                    app={app}
-                    data={botTask}
-                    getStats={getStats}
-                    actions={actions}
-                    mode={"counter_blocks"}
-                  />
-                )}
-              </React.Fragment>
-            ),
-          },
-          {
-            label: "Settings",
-            content: (
-              <BotTaskSetting
-                app={app}
-                data={botTask}
-                updateData={setBotTask}
-                saveData={saveData}
-                errors={errors}
-              />
-            ),
-          },
-          {
-            label: "Audience",
-            content: (
-              <Segment
-                app={app}
-                data={botTask}
-                updateData={(task) => {
-                  setBotTask(task);
-                }}
-                handleSave={(segments) => {
-                  setBotTask(
-                    Object.assign({}, botTask, { segments: segments })
-                  );
-                  saveData();
-                }}
-              />
-            ),
-          },
-          {
-            label: "Editor",
-            content: renderEditor(),
-          },
-        ]}
-      ></Tabs>
-    );
-  };
-
-  const getStats = (params, cb) => {
-    graphql(BOT_TASK_METRICS, params, {
-      success: (data) => {
-        setSearchFields(data.app.searcheableFields)
-        const d = data.app.botTask;
-        cb(d);
-      },
-      error: (error) => {},
-    });
-  };
+  const addAppPackage = (path) => {
+    setOpenPackagePanel(path)
+  }
 
   const onDragEnd = (result) => {
     // dropped outside the list
     if (!result.destination) {
       return;
     }
+
+    // avoid sort the first item
+    if (result.destination.index === 0) 
+      return
 
     const newPaths = reorder(
       paths,
@@ -524,7 +653,17 @@ const BotEditor = ({ match, app, dispatch, mode, actions }) => {
     setPaths(newPaths);
   };
 
-  const renderEditor = () => {
+  const addPath = (path) => {
+    const newPaths = paths.concat(path);
+    setPaths(newPaths);
+  };
+
+  const updatePath = (path) => {
+    const newPaths = paths.map((o) => (o.id === path.id ? path : o));
+    setPaths(newPaths);
+    setSelectedPath(newPaths.find((o) => o.id === path.id)); // redundant
+  };
+
     return (
       <div className="flex justify-between my-4 border-1 border-gray-400 rounded-md shadow">
         {isOpen && (
@@ -537,9 +676,6 @@ const BotEditor = ({ match, app, dispatch, mode, actions }) => {
         )}
 
         <div className="w-2/4 bg-gray-50 flex flex-col py-3">
-          <h3 className="text-sm leading-5 font-medium text-gray-900 my-2 text-center">
-            Paths
-          </h3>
 
           <DragDropContext onDragEnd={onDragEnd}>
             <Droppable droppableId="droppablePaths">
@@ -554,6 +690,7 @@ const BotEditor = ({ match, app, dispatch, mode, actions }) => {
                       key={`path-list-${item.id}-${index}`}
                       draggableId={item.id}
                       index={index}
+                      isDragDisabled={index === 0}
                     >
                       {(provided, snapshot) => (
                         <div
@@ -567,15 +704,24 @@ const BotEditor = ({ match, app, dispatch, mode, actions }) => {
                         >
                           
                           <strong className="mr-2">{index}.</strong>
+                          
+                          <div 
+                            onClick={(e) => handleSelection(item)}
+                            className="w-full py-2 px-2 bg-white border-1 shadow max-w-3xl break-all flex items-center">
+                            
+                            <div 
+                              first={true}
+                              className={`mr-2 ${index === 0 ? 'hidden' : 'block'}`} 
+                              {...provided.dragHandleProps}>
+                              <DragHandle />
+                            </div>
+                          
+                            <span>
+                              {item.title}
+                            </span>
+                          </div>
 
-                          <PathList
-                            path={item}
-                            handleSelection={handleSelection}
-                          />
-
-                          <ItemButtons first={true} {...provided.dragHandleProps}>
-                            <DragHandle />
-                          </ItemButtons>
+                          
                         </div>
                       )}
                     </Draggable>
@@ -588,7 +734,7 @@ const BotEditor = ({ match, app, dispatch, mode, actions }) => {
 
           <Button
             size="small"
-            variant={"contained"}
+            variant={"flat-dark"}
             onClick={showPathDialog}
             color="primary"
             className="self-center"
@@ -603,6 +749,7 @@ const BotEditor = ({ match, app, dispatch, mode, actions }) => {
               {selectedPath && 
                 <ErrorBoundary>
                   <Path
+                    botTask={botTask}
                     app={app}
                     path={selectedPath}
                     paths={paths}
@@ -620,9 +767,9 @@ const BotEditor = ({ match, app, dispatch, mode, actions }) => {
                 </ErrorBoundary>
               }
 
-            <div className="m-4">
+            <div className="m-4 flex justify-center">
               <Button
-                variant="contained"
+                variant="success"
                 color="primary"
                 size="medium"
                 onClick={saveData}
@@ -649,43 +796,7 @@ const BotEditor = ({ match, app, dispatch, mode, actions }) => {
         )}
       </div>
     );
-  };
-
-  return (
-    <div>
-      <Content>
-        <ContentHeader 
-          title={botTask.title} 
-          items={[]}
-          actions={
-            <UpgradeButton 
-            classes={
-              `absolute z-10 ml-1 mt-3 transform w-screen 
-              max-w-md px-2 origin-top-right right-0
-              md:-ml-4 sm:px-0 lg:ml-0
-              lg:right-2/6 lg:translate-x-1/6`
-            }
-            label="Activate Bot Task"
-            feature="BotTasks">
-          
-            <Button
-              className="mr-2"
-              //icon= <CheckCircle />
-              id="enabled"
-              state="enabled"
-              variant={"success"}
-              onClick={toggleBotState}
-            >
-              {botTask.state === 'enabled' ? 'Disable' : 'Enable'}
-            </Button>
-          </UpgradeButton>
-          }
-        />
-        {tabsContent()}
-      </Content>
-    </div>
-  );
-};
+}
 
 function FollowActionsSelect({ app, path, updatePath }) {
   const options = [
@@ -906,20 +1017,54 @@ function AgentSelector({ app, updateAction, removeAction, action, index }) {
   );
 }
 
-const PathList = ({ path, handleSelection }) => {
+const FirstPath = ({
+  controlStep, 
+  path, 
+  options, 
+  appendItemControl, 
+  updateControlPathSelector 
+})=>{
+
   return (
-    <li className="pr-4 pb-2 w-full w-1/3">
-      <Button 
-        className="w-full py-2 px-2 bg-white border-1 shadow max-w-3xl break-all"
-        onClick={(e) => handleSelection(path)}
-        variant={"outlined"}>
-        {path.title}
-      </Button>
-    </li>
-  );
-};
+    <div className="m-5">
+
+      <p className="text-sm text-center text-gray-500 font-semibold leading-4 my-6">
+        This is what people will see when they start a new conversation
+      </p>
+
+      <ItemsContainer className="p-4">
+      
+        <input placeholder="can we help ?"
+          defaultValue={controlStep.controls.label} 
+          className="py-2 mb-4 border-dotted border-gray-400 focus:border-gray-900 border-b-2 border-b-red focus:outline-none outline-none"
+          onChange={(e)=> {
+              updateControlPathSelector(
+                { ...controlStep.controls, label: e.currentTarget.value},
+                controlStep
+              ) 
+            }
+          }
+        />
+
+        <FollowActions 
+          controlStep={controlStep} 
+          path={path}
+          update={(opts) =>
+            updateControlPathSelector(opts, controlStep)
+          }
+          options={options}
+          appendItemControl={appendItemControl}
+        />      
+      
+      </ItemsContainer>
+
+
+    </div>
+  )
+}
 
 const Path = ({
+  botTask,
   paths,
   path,
   addSectionMessage,
@@ -1021,7 +1166,6 @@ const Path = ({
     },
   ];
 
-
   const updateControlPathSelector = (controls, step) => {
     updateControls(controls, step);
   };
@@ -1062,31 +1206,69 @@ const Path = ({
     label: o.title,
   }));
 
-  return (
-    <div>
+  const findPathIndex = paths.findIndex((p)=> p.id === path.id)
+
+  const renderControls = ()=>{
+    return (
       <div className="w-full p-6 border-b-2 border-gray-200">
         <div className="flex justify-between">
-          <div className="">
+
+         
+          <div className="flex items-center">
+            <div className="text-lg text-center text-gray-900 font-semibold leading-4 my-6 mr-3">
+              {findPathIndex}
+            </div>
             <Input
               type="text"
               value={path.title}
               onChange={handleTitleChange}
               hint={"path title"}
+              variant={'underline'}
             />
           </div>
 
-          <div className="items-end">
-            <Button
-              variant="outlined"
-              color="secondary"
-              onClick={() => deletePath(path)}
-            >
-              delete path
-              <DeleteForeverRounded />
-            </Button>
-          </div>
+          {
+            !needsLock() &&
+            <div className="items-end">
+              <Button
+                variant="outlined"
+                color="secondary"
+                onClick={() => deletePath(path)}
+              >
+                <DeleteForever/>
+                delete path
+              
+              </Button>
+            </div>
+          }
         </div>
       </div>
+    )
+  }
+
+  const needsLock = ()=>{
+    return findPathIndex === 0 && botTask.botType === 'new_conversations'
+  } 
+
+  if(findPathIndex === 0 && botTask.botType === 'new_conversations'){ // and type new_conversations
+    return  (
+      <div>
+        {renderControls()}
+        <FirstPath 
+          path={path}
+          appendItemControl={appendItemControl}
+          updateControlPathSelector={updateControlPathSelector}
+          controlStep={controlStep} 
+          options={stepOptions}>
+        </FirstPath>      
+      </div>
+    )
+  }
+
+
+  return (
+    <div>
+      {renderControls()}
 
       <div className="p-4 flex flex-col justify-center items-center">
 
@@ -1187,48 +1369,17 @@ const Path = ({
               </Button>
             </ItemButtons>
 
-            <div className="flex flex-col">
-              <div className="w-full">
-                <ControlWrapper>
-                  {controlStep.controls && (
-                    <AppPackageBlocks
-                      controls={controlStep.controls}
-                      path={path}
-                      step={controlStep}
-                      options={stepOptions}
-                      searchFields={searchFields}
-                      update={(opts) =>
-                        updateControlPathSelector(opts, controlStep)
-                      }
-                    />
-                  )}
-                </ControlWrapper>
-
-              </div>
-
-              {controlStep.controls &&
-                controlStep.controls.type === "ask_option" && (
-                  <div
-                    className="w-full flex items-center"
-                    onClick={() => appendItemControl(controlStep)}
-                  >
-                    <Button
-                      color={"primary"}
-                      variant={"outlined"}
-                      size="small"
-                    >
-                      + add data option
-                    </Button>
-
-                    {/*<p>
-                      Save this value to user properties
-                      <
-                      [save]
-                    </p>*/}
-                  </div>
-                )}
-            </div>
-
+            <FollowActions 
+              controlStep={controlStep} 
+              path={path}
+              update={(opts) =>
+                updateControlPathSelector(opts, controlStep)
+              }
+              options={stepOptions}
+              searchFields={searchFields}
+              appendItemControl={appendItemControl}
+            />
+      
           </PathActionsContainer> 
         }
 
@@ -1273,6 +1424,57 @@ const Path = ({
   );
 };
 
+const FollowActions = ({
+  controlStep,
+  path,
+  update,
+  options,
+  searchFields,
+  appendItemControl
+})=>{
+  return (
+    <div className="flex flex-col">
+      <div className="w-full">
+        <ControlWrapper>
+          {controlStep.controls && (
+            <AppPackageBlocks
+              controls={controlStep.controls}
+              path={path}
+              step={controlStep}
+              options={options}
+              searchFields={searchFields}
+              update={update}
+            />
+          )}
+        </ControlWrapper>
+
+      </div>
+
+      {controlStep.controls &&
+        controlStep.controls.type === "ask_option" && (
+          <div
+            className="w-full flex items-center"
+            onClick={() => appendItemControl(controlStep)}
+          >
+            <Button
+              color={"primary"}
+              variant={"outlined"}
+              size="small"
+            >
+              + add data option
+            </Button>
+
+            {/*<p>
+              Save this value to user properties
+              <
+              [save]
+            </p>*/}
+          </div>
+        )}
+    </div>
+  )
+}
+
 const PathEditor = ({ step, message, path, updatePath }) => {
   const [readOnly, setReadOnly] = useState(false);
 
@@ -1300,7 +1502,7 @@ const PathEditor = ({ step, message, path, updatePath }) => {
   };
 
   return (
-    <div className="shadow border rounded p-6 relative bg-gray-100 max-w-sm">
+    <div className="shadow border border-gray-400 rounded p-6 relative bg-gray-100 max-w-sm">
       <TextEditor
         uploadHandler={uploadHandler}
         serializedContent={message.serialized_content}
@@ -1361,7 +1563,6 @@ const AppPackageBlocks = ({ options, controls, path, step, update, searchFields 
       case "separator":
         return <hr key={index} />;
       case "input":
-        console.log("controls;", controls);
         return (
           <div className={"form-group"} key={index}>
 
@@ -1382,7 +1583,6 @@ const AppPackageBlocks = ({ options, controls, path, step, update, searchFields 
             />
           </div>
         );
-
       case "submit":
         return (
           <button key={index} style={{ alignSelf: "flex-end" }} type={"submit"}>
@@ -1450,15 +1650,14 @@ const getItemStyle = (isDragging, draggableStyle) => ({
   display: "flex",
   justifyContent: "space-evenly",
   // change background colour if dragging
-  background: isDragging ? "lightgreen" : "transparent",
+  //background: isDragging ? "lightgreen" : "transparent",
   paddingBottom: '1.2em',
-  borderBottom: '1px solid #ccc',
   // styles we need to apply on draggables
   ...draggableStyle,
 });
 
 const getListStyle = (isDraggingOver) => ({
-  background: isDraggingOver ? "lightblue" : "transparent",
+  //background: isDraggingOver ? "lightblue" : "transparent",
   padding: grid,
   //width: 250
 });

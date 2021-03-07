@@ -45,11 +45,11 @@ class AppUser < ApplicationRecord
 
   # belongs_to :user
   belongs_to :app
-  has_many :conversations, foreign_key: :main_participant_id, dependent: :destroy
+  has_many :conversations, foreign_key: :main_participant_id, dependent: :destroy_async
   # has_many :metrics , as: :trackable
-  has_many :metrics, dependent: :destroy
-  has_many :visits, dependent: :destroy
-  has_many :external_profiles, dependent: :destroy
+  has_many :metrics, dependent: :destroy_async
+  has_many :visits, dependent: :destroy_async
+  has_many :external_profiles, dependent: :destroy_async
 
   acts_as_taggable_on :tags
 

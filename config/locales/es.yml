@@ -73,7 +73,9 @@
         guided_tours: Visitas guiadas
         for_leads: Para clientes potenciales
         for_users: Para los usuarios
-        bot_settings: Configuraciones
+        bot_settings: Tareas Bot
+        outbound: De salida
+        new_conversations: Nuevas conversaciones
         articles: Artículos
         collections: Colecciones
         article_settings: Configuraciones
@@ -188,6 +190,8 @@
       reply_soon: Hola, %{name} responderá tan pronto como puedan.
       reply_agent: Recibirá una respuesta de uno de nuestros agentes
       email_support: Para obtener asistencia, puede enviar un correo electrónico a %{email}
+      outbound: "🏓 Outbound"
+      new_conversations: "👋 Nuevas conversaciones"
       email_requirement:
         message: Dale al equipo una forma de contactarte
         input_label: Recibe notificaciones por correo electrónico
@@ -215,7 +219,7 @@
           assign: Asigna la conversación
           close: Cierra la conversación
           ask: Solicitar datos de contacto
-          ask_hint: Si aún no tenemos sus datos de contacto, el operador sugerirá que
+          ask_hint: Si aún no tenemos sus datos de contacto, el bot sugerirá que
             los clientes dejen su dirección de correo electrónico o su número de teléfono
             para recibir una notificación cada vez que responda.
           dont_ask_email: No pedir correo electrónico
