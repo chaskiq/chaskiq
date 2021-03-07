@@ -2,81 +2,81 @@ pt:
   activerecord:
     attributes:
       doorkeeper/application:
-        name: 'Nome'
-        redirect_uri: 'URI de redirecionamento'
+        name: 'Name'
+        redirect_uri: 'Redirect URI'
     errors:
       models:
         doorkeeper/application:
           attributes:
             redirect_uri:
-              fragment_present: 'não pode conter um fragmento.'
-              invalid_uri: 'deve ser uma URI válida.'
-              unspecified_scheme: 'deve especificar um esquema.'
-              relative_uri: 'deve ser uma URI absoluta.'
-              secured_uri: 'deve ser uma URI HTTPS/SSL.'
-              forbidden_uri: 'acesso proibido pelo servidor.'
+              fragment_present: 'cannot contain a fragment.'
+              invalid_uri: 'must be a valid URI.'
+              unspecified_scheme: 'must specify a scheme.'
+              relative_uri: 'must be an absolute URI.'
+              secured_uri: 'must be an HTTPS/SSL URI.'
+              forbidden_uri: 'is forbidden by the server.'
             scopes:
-              not_match_configured: "não coincide com as configurações no servidor."
+              not_match_configured: "doesn't match configured on the server."
   doorkeeper:
     applications:
       confirmations:
-        destroy: 'Tem certeza?'
+        destroy: 'Are you sure?'
       buttons:
-        edit: 'Editar'
-        destroy: 'Destruir'
+        edit: 'Edit'
+        destroy: 'Destroy'
         submit: 'Submit'
-        cancel: 'Cancelar'
-        authorize: 'Autorizar'
+        cancel: 'Cancel'
+        authorize: 'Authorize'
       form:
-        error: 'Opa! Verifique seu formulário para possíveis erros'
+        error: 'Whoops! Check your form for possible errors'
       help:
-        confidential: 'Verifique se a aplicação será usada num local em que o segredo do cliente possa permanecer confidencial. As aplicações móveis nativas e as Aplicações de Página Única são consideradas não-confidenciais.'
-        redirect_uri: 'Use uma linha por URI'
-        blank_redirect_uri: "Deixe em branco se você configurou o seu provedor para usar Credenciais de cliente, Credenciais de senha do proprietário do recurso ou qualquer outro tipo de concessão que não exija URI de redirecionamento."
-        scopes: 'Separar escopos com espaços. Deixe em branco para usar os escopos padrão.'
+        confidential: 'Application will be used where the client secret can be kept confidential. Native mobile apps and Single Page Apps are considered non-confidential.'
+        redirect_uri: 'Use one line per URI'
+        blank_redirect_uri: "Leave it blank if you configured your provider to use Client Credentials, Resource Owner Password Credentials or any other grant type that doesn't require redirect URI."
+        scopes: 'Separate scopes with spaces. Leave blank to use the default scopes.'
       edit:
         title: 'Edit application'
       index:
-        title: 'Suas aplicações'
-        new: 'Nova Aplicação'
-        name: 'Nome'
-        callback_url: 'URL de Callback'
+        title: 'Your applications'
+        new: 'New Application'
+        name: 'Name'
+        callback_url: 'Callback URL'
         confidential: 'Confidential?'
-        actions: 'Ações'
+        actions: 'Actions'
         confidentiality:
-          'yes': 'Sim'
-          'no': 'Não'
+          'yes': 'Yes'
+          'no': 'No'
       new:
-        title: 'Nova Aplicação'
+        title: 'New Application'
       show:
-        title: 'Aplicação: %{name}'
-        application_id: 'UID do aplicativo'
-        secret: 'Secreto'
+        title: 'Application: %{name}'
+        application_id: 'Application UID'
+        secret: 'Secret'
         scopes: 'Scopes'
         confidential: 'Confidential'
-        callback_urls: 'URLs de retorno'
-        actions: 'Ações'
+        callback_urls: 'Callback urls'
+        actions: 'Actions'
     authorizations:
       buttons:
-        authorize: 'Autorizar'
-        deny: 'Recusar'
+        authorize: 'Authorize'
+        deny: 'Deny'
       error:
-        title: 'Ocorreu um erro'
+        title: 'An error has occurred'
       new:
-        title: 'Autorização necessária'
-        prompt: 'Autorizar %{client_name} a usar a tua conta?'
-        able_to: 'Esta aplicação será capaz de'
+        title: 'Authorization required'
+        prompt: 'Authorize %{client_name} to use your account?'
+        able_to: 'This application will be able to'
       show:
-        title: 'Código de autorização'
+        title: 'Authorization code'
     authorized_applications:
       confirmations:
-        revoke: 'Tem certeza?'
+        revoke: 'Are you sure?'
       buttons:
-        revoke: 'Revogar'
+        revoke: 'Revoke'
       index:
-        title: 'Aplicações autorizadas'
+        title: 'Your authorized applications'
         application: 'Application'
-        created_at: 'Criado Em'
+        created_at: 'Created At'
         date_format: '%Y-%m-%d %H:%M:%S'
     pre_authorization:
       status: 'Pre-authorization'
