@@ -67,7 +67,9 @@ es:
       guided_tours: Guided Tours
       for_leads: For Leads
       for_users: For Users
-      bot_settings: Settings
+      bot_settings: Tareas de bot
+      outbound: Outbound
+      new_conversations: Nuevas conversaciones
       articles: Articles
       collections: Collections
       article_settings: Settings
@@ -176,7 +178,9 @@ es:
     title: Tareas de bot
     reply_soon: Hola, %{name} responderá lo antes posible.
     reply_agent: recibirás una respuesta de uno de nuestros agentes
-    email_support: para obtener soporte que puede enviar por correo electrónico a %{email}
+    email_support: to get ijijsupport you can email at %{email}
+    outbound: "🏓 Outbound"
+    new_conversations: "👋 New conversations"
     email_requirement:
       message: Give the team a way to reach you
       input_label: Get notified by email
@@ -202,7 +206,7 @@ es:
         assign: Assign the conversation
         close: Close the conversation
         ask: Ask for contact details
-        ask_hint: If we don’t already have their contact details, Operator will suggest that customers leave their email address or their phone number to get notified whenever you reply.
+        ask_hint: If we don’t already have their contact details, Bot will suggest that customers leave their email address or their phone number to get notified whenever you reply.
         dont_ask_email: Don't ask for email
         ask_email_phone: Ask for email or mobile number
         email_only: Ask for email only
