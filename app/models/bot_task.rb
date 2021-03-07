@@ -8,6 +8,7 @@ class BotTask < Message
 
   has_many :metrics, as: :trackable, dependent: :destroy_async
 
+  before_create :initialize_default_controls
 
   store_accessor :settings, %i[
     scheduling
@@ -29,7 +30,6 @@ class BotTask < Message
     # where(type: 'users')
     where("settings->>'bot_type' = ?", 'outbound' )
   }
-
   scope :for_leads, -> { 
     # where(type: 'leads') 
     where("settings->>'user_type' = ?", 'leads' )
@@ -41,7 +41,6 @@ class BotTask < Message
 
   alias_attribute :title, :name
 
-
   scope :availables_for, lambda { |user|
     enabled.joins("left outer join metrics
       on metrics.trackable_type = 'Message'
@@ -50,13 +49,23 @@ class BotTask < Message
       .where('metrics.id is null')
   }
 
-
   def initialize_default_controls
-    self.segments = [
-      {"type"=>"match", "value"=>"and", "attribute"=>"match", "comparison"=>"and"}, 
-      {"type"=>"string", "value"=>"AppUser", "attribute"=>"type", "comparison"=>"eq"}
-    ] 
-    self.paths = [
+    self.tap do
+      self.segments = [
+        {"type"=>"match", "value"=>"and", "attribute"=>"match", "comparison"=>"and"}, 
+        {"type"=>"string", "value"=>"AppUser", "attribute"=>"type", "comparison"=>"eq"}
+      ] 
+
+      return self unless bot_type == "new_conversations"
+
+      if self.paths.blank?
+        self.paths = default_new_conversation_path
+      end
+    end
+  end
+
+  def default_new_conversation_path
+    [
       "title"=> "default step",
       "id"=>"3418f148-6c67-4789-b7ae-8fb3758a4cf9", 
       "steps"=> [
