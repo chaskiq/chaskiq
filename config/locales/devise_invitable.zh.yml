@@ -1,4 +1,4 @@
-zh-CN:
+zh-TW:
   devise:
     failure:
       invited: "You have a pending invitation, accept it to finish creating your account."
