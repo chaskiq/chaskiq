@@ -1,28 +1,28 @@
 pt:
   devise:
     failure:
-      invited: "Tem um convite pendente, aceite-o para concluir a criação da sua conta."
+      invited: "You have a pending invitation, accept it to finish creating your account."
     invitations:
-      send_instructions: "Um e-mail de convite foi enviado para %{email}."
-      invitation_token_invalid: "O token de convite fornecido não é válido!"
-      updated: "A sua palavra-passe foi configurada corretamente. Agora tem sessão iniciada."
-      updated_not_active: "A sua palavra-passe foi configurada corretamente."
-      no_invitations_remaining: "Não restam convites"
-      invitation_removed: "O seu convite foi removido."
+      send_instructions: "An invitation email has been sent to %{email}."
+      invitation_token_invalid: "The invitation token provided is not valid!"
+      updated: "Your password was set successfully. You are now signed in."
+      updated_not_active: "Your password was set successfully."
+      no_invitations_remaining: "No invitations remaining"
+      invitation_removed: "Your invitation was removed."
       new:
-        header: "Enviar convite"
-        submit_button: "Enviar um convite"
+        header: "Send invitation"
+        submit_button: "Send an invitation"
       edit:
-        header: "Definir palavra-passe"
-        submit_button: "Definir a minha palavra-passe"
+        header: "Set your password"
+        submit_button: "Set my password"
     mailer:
       invitation_instructions:
-        subject: "Instruções de convite"
-        hello: "Olá, %{email},"
-        someone_invited_you: "Alguém convidou-o(a) para %{url}. Pode aceitar através da hiperligação abaixo."
-        accept: "Aceitar convite"
-        accept_until: "Este convite irá expirar em %{due_date}."
-        ignore: "Se não quiser aceitar o convite, por favor ignore este e-mail. A sua conta não será criada até que aceda à hiperligação acima e defina a sua alcunha e palavra-passe."
+        subject: "Invitation instructions"
+        hello: "Hello %{email}"
+        someone_invited_you: "Someone has invited you to %{url}, you can accept it through the link below."
+        accept: "Accept invitation"
+        accept_until: "This invitation will be due in %{due_date}."
+        ignore: "If you don't want to accept the invitation, please ignore this email. Your account won't be created until you access the link above and set your password."
   time:
     formats:
       devise:
