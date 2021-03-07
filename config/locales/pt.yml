@@ -68,53 +68,53 @@ pt:
       for_leads: For Leads
       for_users: Para Os Usuários
       bot_settings: Tarefas de bot
-      outbound: Outbound
+      outbound: Saída
       new_conversations: Nova conversa
-      articles: Articles
-      collections: Collections
-      article_settings: Settings
-      app_settings: App Settings
-      team: Team
-      messenger_settings: Messenger settings
-      integrations: Integrations
+      articles: Artigos
+      collections: Coleções
+      article_settings: Configurações
+      app_settings: Configurações da aplicação
+      team: Equipa
+      messenger_settings: Configurações do Messenger
+      integrations: Integrações
       webhooks: Webhooks
-      api_access: API access
+      api_access: Acesso API
     user_menu:
-      create_app: 'Create new app'
-      create_app_description: 'Create your company’s Chaskiq app'
-      signout: Sign out
-      title: User menu
+      create_app: 'Criar nova app'
+      create_app_description: 'Crie o aplicativo Chaskiq da sua empresa'
+      signout: Terminar sessão
+      title: Menu do usuário
   conversations:
-    start_conversation: Start conversation
-    title: Conversations
+    start_conversation: Iniciar conversa
+    title: Conversas
     menu:
-      conversations: Conversations
-      assignment_rules: Agent routing Rules
+      conversations: Conversas
+      assignment_rules: Regras de roteamento de agentes
     states:
-      opened: Opened
-      closed: Closed
+      opened: Aberto
+      closed: Fechado
     sorts:
-      newest: Newest
-      oldest: Oldest
-      waiting: Waiting
-      priority_first: Priorized
-      all: All
-      unfiltered: All
+      newest: Mais recente
+      oldest: Mais Antigo
+      waiting: Esperando
+      priority_first: Priorizado
+      all: Todos
+      unfiltered: Todos
     empty:
-      title: No conversations
-      text: Choose conversations on the side
+      title: Sem conversas
+      text: Escolha conversas ao lado
   conversation:
-    with: Conversation with
+    with: Conversa com
     actions:
-      priorize: Priorize conversation
-      remove_priority: Remove priority
-      close: Close
-      reopen: Reopen
-      start_call: Start videocall
-      end_call: End Call
-      assign_agent: Assign Agent
+      priorize: Priorizar conversa
+      remove_priority: Remover prioridade
+      close: Fechar
+      reopen: Reabrir
+      start_call: Iniciar video chamada
+      end_call: Terminar Chamada
+      assign_agent: Designar agente
     messages:
-      seen: Seen
+      seen: Visto
       not_seen: Não Visto
       note: Nota
     sidebar:
@@ -182,24 +182,24 @@ pt:
     outbound: "🏓 Outbound"
     new_conversations: "👋 New conversations"
     email_requirement:
-      message: Give the team a way to reach you
+      message: Dê à equipe um jeito de te contactar
       input_label: Get notified by email
-      placeholder: Enter your email
-      ack: Thank you
+      placeholder: Introduz o teu email
+      ack: Muito obrigado
     support:
-      ask: Are you an existing %{name} customer ?
+      ask: Você tem um cliente existente em %{name}?
       options:
-        op1: Yes, I'm a customer
-        op2: No, I'm not an existing customer yet
+        op1: Sim, sou um cliente
+        op2: Não, eu ainda não sou um cliente existente
       reply:
-        op1: Welcome back!
-        op2: ok, let us know if you need something and an agent will reply as soon as possible
+        op1: Bem vindo de Volta!
+        op2: ok, deixe-nos saber se você precisa de alguma coisa e um agente responderá o mais rápido possível
     settings:
       leads:
         tab: For Leads
-        start_conversation: When leads start a conversation
-        delay: Leave a 2 minute delay before triggering Task Bots during office hours
-        share_time: Share your typical reply time
+        start_conversation: Quando leads iniciar uma conversa
+        delay: Deixe um atraso de 2 minutos antes de disparar o Bots de Tarefas durante o horário do escritório
+        share_time: Compartilhe seu típico tempo de resposta
         route: Route existing customers to support
         route_desc: Route leads to the right people by asking if they are an existing customer when they start a new conversation.
         route_costumer: What do you want to do when they choose "Yes, I'm a customer"?
@@ -239,11 +239,11 @@ pt:
     create:
       title: Create Bot task
   quick_replies:
-    title: Quick Replies
-    search: Search Quick replies
-    will_send: The "%{lang}" version will be sent to the conversation.
+    title: Respostas rápidas
+    search: Pesquisar respostas rápidas
+    will_send: A versão "%{lang}" será enviada para a conversa.
     empty:
-      title: No quick replies
+      title: Sem respostas rápidas
       create_new: Criar novo
     delete:
       title: Excluir resposta rápida %{name}
@@ -306,78 +306,78 @@ pt:
       update_error: Erro ao atualizar integração
       remove_success: Integração removida corretamente
       remove_error: Erro ao desativar integração
-      create_integration: Create New integration
+      create_integration: Criar integração
       active:
-        title: Active Integrations
-        text: API Integrations
+        title: Integrações ativas
+        text: Integração API
       available:
-        title: "Available API's"
-        text: Available API Services
+        title: "APIs Disponíveis"
+        text: Serviços API disponíveis
       yours:
-        title: "Your Integration Apps"
-        text: Integration apps created by you
+        title: "Seus aplicativos de integração"
+        text: Aplicativos de integração criados por você
       hints:
-        hook_url: This integration will receive webhook at
+        hook_url: Essa integração receberá webhook em
       delete_dialog:
-        title: Delete "%{name}" integration ?
-        text: The integration with %{name} service will be disabled immediately
+        title: Excluir "%{name}" integração?
+        text: O webhook com o serviço %{name} será desativado imediatamente
       empty:
-        title: You don't have any api integrations yet
-        text: Search for available api services in
+        title: Você ainda não tem nenhuma integração de api
+        text: Pesquisar por serviços de Api disponíveis em
     availability:
-      title: Set your availability
-      hint: Set team office hours and reply times
-      title2: Set office hours
-      hint2: Outside these hours, customers see when you'll be back, relative to their timezone.
-      timezone: YOUR APP’S TIMEZONE IS %{tz}
+      title: Definir disponibilidade
+      hint: Definir o horário do escritório da equipe e o horário de resposta
+      title2: Definir horas do escritório
+      hint2: Fora dessas horas, os clientes veem quando você voltará de volta, em relação ao seu fuso horário.
+      timezone: O TEMPO DE SEU APP é %{tz}
       reply_time:
-        title: Set reply time
-        hint: During office hours, let your customers know when they can expect a reply.
+        title: Definir tempo de resposta
+        hint: Durante o horário do escritório, informe seus clientes quando poderão esperar uma resposta.
         options:
           - 
-            value: "auto"
-            label: "Automatic reply time. Currently El equipo responderá lo antes posible"
+            value: "automático"
+            label: "Tempo de resposta automática. Atualmente o El equipo respondera├lo é visível"
           - 
-            value: "minutes"
-            label: "El equipo suele responder en cuestión de minutos."
+            value: "minutos"
+            label: "El equipo suele responder en cuestión de minutos."
           - 
-            value: "hours"
-            label: "El equipo suele responder en cuestión de horas."
+            value: "horas"
+            label: "El equipo suele responder en cuestión de horas."
           - 
-            value: "1 day"
-            label: "El equipo suele responder en un día."
-        hint2: "Note: visitor will receive an auto reply with your team’s availability during out-of-office hours or long reply times."
+            value: "1 dia"
+            label: "El equipo suele responder en un día."
+        hint2: "Nota: o visitante receberá uma resposta automática com a disponibilidade da sua equipe durante horas fora do escritório ou tempos longos de resposta."
     email_requirement:
-      title: Require an email for new conversations
-      hint: So you can always get back to your website visitors
-      ask: "Ask your website visitors to leave their email before starting a live chat:"
+      title: Requer um e-mail para novas conversas
+      hint: Para que você sempre possa voltar aos visitantes do seu site
+      ask: "Peça aos visitantes do site para deixarem o e-mail deles antes de iniciar um chat ao vivo:"
       options:
         - 
-          label: Only outside of office hours
-          hint: REDUCES CONVERSATION VOLUME BY AROUND 5% ON AVERAGE
-          value: office
+          label: Somente fora do horário de escritório
+          hint: REDUCES O VOLUME DE CONVERSAÇÃO POR ARQUIVO 5% EM MÉDIA
+          value: escritório
         - 
-          label: Always
-          hint: REDUCES CONVERSATION VOLUME BY AROUND 30% ON AVERAGE
-          value: Always
+          label: Sempre
+          hint: REDUCES O VOLUME DE CONVERSAÇÃO POR ARQUIVO 30% EM MÉDIA
+          value: Sempre
         - 
-          label: Never
-          value: Never
-          hint: WILL ALLOW WEBSITE VISITORS TO START A CONVERSATION AT ANY TIME
+          label: Nunca
+          value: Nunca
+          hint: VISUALIZAR SITES WEBSITE PARA INICIAR UMA CONVERSAÇÃO EM QUALQUER TEMPO
     languages:
-      add: Add Language
-      title: Languages
+      add: Adicionar idioma
+      title: Idiomas
     inbound:
-      title: New conversations button
-      checkbox: Let people start new inbound conversations with you
-      hint: When this is turned off, people can only reply to the outbound messages you send.
-      title2: visibility
-      hint2: Control who sees the standard Messenger launcher on your website.
-      note2: ANY MESSAGES YOU SEND WILL STILL BE DELIVERED.
-      note3: "On the web, show the standard Messenger launcher to:"
+      title: Botão de novas conversas
+      checkbox: Deixe as pessoas começarem novas conversas de entrada com você
+      hint: Quando isso estiver desativado, as pessoas só podem responder às mensagens de saída que você enviar.
+      title2: visibilidade
+      hint2: Controle que vê o lançador padrão de Messenger em seu site.
+      note2: QUALQUER MENSAGENS QUE VOCÊ ENCONTRE DISPOSITIVO.
+      note3: "Na web, mostre o launcher padrão do Messenger para:"
       filters:
         users:
-          label: Users
+          label: Usuários
           all: Todos os usuários
           some: Usuários que correspondem a certos dados
         leads:
@@ -439,44 +439,44 @@ pt:
         name: Nome do campo
         type: Tipo do campo
         validation: Validação
-        validation_hint: Validation is optional
+        validation_hint: A validação é opcional
       attr_types:
-        date: Date
-        integer: Integer
-        string: String
+        date: Data
+        integer: Número
+        string: Texto
   articles:
-    title: Articles
-    all: All
-    published: Published
-    draft: Drafts
-    visit: visit the help center
-    new: New article
-    add: Add item
-    collections: Collections
-    help_center: Help Center
-    description_placeholder: Describe your collection to help you find it.
-    title_placeholder: Write the title of the sections
-    new_section: New section
-    new_collection: New collection
+    title: Artigos
+    all: Todos
+    published: Publicado
+    draft: Rascunhos
+    visit: visite o Centro de Ajuda
+    new: Novo artigo
+    add: Adicionar item
+    collections: Coleções
+    help_center: Centro de ajuda
+    description_placeholder: Descreva sua coleção para ajudá-lo a encontrá-la.
+    title_placeholder: Escreva o título do artigo
+    new_section: Nova secção
+    new_collection: Nova coleção
     create_article:
-      placeholder: Write the title of the article
-      description_placeholder: Add a summary to find the article later
+      placeholder: Escreva o título do artigo
+      description_placeholder: Adicione um resumo para encontrar o artigo mais tarde
     create:
-      title: New collection of articles
-      placeholder: Enter the title of the collection
-      description: Describe your collection to help you find it.
+      title: Nova coleção de artigos
+      placeholder: Digite o título da coleção
+      description: Descreva sua coleção para ajudá-lo a encontrá-la.
     settings:
-      title: Help Center settings
-      add_language: Add language
-      select_lang: Select language
-      add_language_to_help: Add new language to Help Center
+      title: Configurações da Central de Ajuda
+      add_language: Adicionar idioma
+      select_lang: Selecionar idioma
+      add_language_to_help: Adicionar novo idioma à Central de Ajuda
       delete:
-        title: Delete translation "%{name}"
-        text: We will destroy the translation and hide any article with the language "%{name}"
-      appearance: Appearance
-      appearance_settings: Appearance settings
-      lang: Language
-      lang_title: Find your Help Center
-      lang_desc: Manage supported languages and customize your Help Center header
-      basic: Basic setup
-      general_app: Application overview
+        title: Excluir tradução "%{name}"
+        text: Nós destruiremos a tradução e ocultaremos qualquer artigo com a língua "%{name}"
+      appearance: Aparência
+      appearance_settings: Definições de Aparência
+      lang: Idioma
+      lang_title: Encontre seu Centro de Ajuda
+      lang_desc: Gerenciar idiomas suportados e personalizar o cabeçalho da sua Central de Ajuda
+      basic: Configuração básica
+      general_app: Visão geral da Aplicação
