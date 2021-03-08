@@ -41,4 +41,37 @@ class ArticleSetting < ApplicationRecord
   # def sanitize_subdomain
   #  self.subdomain = self.subdomain.parameterize
   # end
+
+  def logo_url
+    return 'https://via.placeholder.com/100x100' unless logo_blob.present?
+    url = begin
+      logo.variant(resize_to_limit: [300, 100]).processed
+    rescue StandardError
+      nil
+    end
+    return nil if url.blank?
+
+    Rails.application.routes.url_helpers.rails_representation_url(
+      url
+    )
+  end
+
+  def header_image_url
+    return 'https://via.placeholder.com/1024x300' unless header_image_blob.present?
+
+    url = begin
+      header_image.variant(resize_to_limit: [100, 100]).processed
+    rescue StandardError
+      nil
+    end
+    return nil if url.blank?
+
+    begin
+      Rails.application.routes.url_helpers.rails_representation_url(
+        url
+      )
+    rescue StandardError
+      nil
+    end
+  end
 end

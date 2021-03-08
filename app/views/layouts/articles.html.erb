@@ -2,6 +2,7 @@
 <html>
   <head>
     <title><%= @app.article_settings.site_title %></title>
+    <link rel="icon" type="image/png" href="<%= @app.article_settings.logo_url %>">
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
     <meta name="chaskiq-host" content="<%= ENV['HOST'] %>"/>
