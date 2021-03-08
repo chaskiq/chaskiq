@@ -15,14 +15,13 @@ RSpec.describe Agent, type: :model do
   describe "inbound email" do
 
     it "mailbox" do
-      puts role.inbound_email_address
       expect(role.inbound_email_address).to be_present 
     end
 
     it "mailbox" do
-      puts role.inbound_email_address
-      role.decode_inbound_address(role.inbound_email_address)
-      expect(role.inbound_email_address).to be_present 
+      app, agent = App.decode_inbound_address(role.inbound_email_address)
+      expect(app).to be_present
+      expect(agent).to be_present
     end
   end
 end
