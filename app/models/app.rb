@@ -103,6 +103,18 @@ class App < ApplicationRecord
       ENV['DEFAULT_OUTGOING_EMAIL_DOMAIN']
   end
 
+  # used in email inbox
+  def self.decode_inbound_address(address)
+    return unless address.starts_with?("inbound")
+    parts = address.split("+")
+    app = App.find_by(key: parts[1])
+    return unless app.present?
+    agent_id = parts[2].split("@").first
+    agent = app.agents.find(URLcrypt.decode(agent_id))
+    return unless agent.present?
+    [app, agent]
+  end
+
   def config_fields
     [
       {
@@ -295,7 +307,8 @@ class App < ApplicationRecord
       from: user,
       message: message,
       message_source: message_source,
-      check_assignment_rules: true
+      check_assignment_rules: true,
+      email_message_id: options[:email_message_id]
     ) unless message.blank?
 
     conversation.add_started_event

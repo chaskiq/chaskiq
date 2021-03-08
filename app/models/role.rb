@@ -27,4 +27,10 @@ class Role < ApplicationRecord
   delegate :invitation_sent_at, to: :agent
 
   scope :admin, -> { where('role =?', 'admin') }
+
+  def inbound_email_address
+    part = URLcrypt.encode("#{agent.id}")
+    domain = app.outgoing_email_domain
+    "inbound+#{app.key}+#{part}@#{domain}"
+  end
 end

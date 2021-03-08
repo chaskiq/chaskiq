@@ -70,25 +70,33 @@ class Api::V1::HooksController < ActionController::API
 
     message = EmailReplyParser.parse_reply(mail.text_part.body.to_s).gsub("\n", '<br/>').force_encoding(Encoding::UTF_8)
     #  mail.parts.last.body.to_s )
-    recipient_parts = URLcrypt.decode(recipients.first.split('@').first.split('+').last)
+    recipient = recipients.first
+    if recipient.starts_with?("messages+")
+      recipient_parts = URLcrypt.decode(recipients.first.split('@').first.split('+').last)
+      app, conversation = find_resources_in_recipient_parts(recipient_parts)
+      # this logic implies that if the email.from correspond to an agent , then we assume that the message is from agent
+      from = find_remitent(app: app, from: from)
+      # TODO: handle blank author with a conversation.add_message_event
+      # to notify that the email was not delivered, which is the mos probable case
+      # but whe should inspect the status of this
 
-    app, conversation = find_resources_in_recipient_parts(recipient_parts)
+      # we have found notification like this:
+      #  ""An error occurred while trying to deliver the mail to the following recipients:<br/>miguel@chaskiq.io""
+
+    elsif recipient.starts_with?("inbound+")
+      app, agent = decode_inbound_address(mail.recipients.first)
+      conversation = app.conversation_parts.find_by(email_message_id: mail.message_id)
+      if !conversation.present?
+        app_user = app.app_users.find_by(email: mail.from) || app.add_user(email: mail.from)
+        from = app_user
+        conversation = app.start_conversation(from: from )
+      end      
+    end
 
     messageId = json_message['mail']['messageId']
-
-    # this logic implies that if the email.from correspond to an agent , then we assume that the message is from agent
-    from = find_remitent(app: app, from: from)
-
-    # TODO: handle blank author with a conversation.add_message_event
-    # to notify that the email was not delivered, which is the mos probable case
-    # but whe should inspect the status of this
-
-    # we have found notification like this:
-    #  ""An error occurred while trying to deliver the mail to the following recipients:<br/>miguel@chaskiq.io""
-
     # for now just skip the message
     return if from.blank?
-
+    
     message = process_attachments(mail, message)
 
     serialized_content = begin
@@ -160,6 +168,10 @@ class Api::V1::HooksController < ActionController::API
     app = App.find(app_id)
     conversation = app.conversations.find(conversation_id)
     [app, conversation]
+  end
+
+  def decode_inbound_address(address)
+    role, app = App.decode_inbound_address(address)
   end
 
   def read_mail_file(action)
