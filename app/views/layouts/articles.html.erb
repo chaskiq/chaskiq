@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Chaskiq App</title>
+    <title><%= @app.article_settings.site_title %></title>
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
     <meta name="chaskiq-host" content="<%= ENV['HOST'] %>"/>

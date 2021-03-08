@@ -188,9 +188,19 @@ function Docs (props) {
         {/* Footer */}
 
         <footer className={'py-8'}>
-          <p className="mt-2 text-base leading-6 text-gray-500 text-center">
-            Chaskiq
-          </p>
+          { 
+            settings.siteTitle &&
+            <p className="mt-2 leading-6 text-gray-500 text-center">
+              {settings.siteTitle}
+            </p>
+          }
+
+          {
+            settings.siteDescription &&
+            <p className="mt-2 text-sm text-gray-400 text-center">
+              {settings.siteDescription}
+            </p>
+          }
 
           <div className="py-8 flex flex-row justify-evenly items-baseline text-gray-500">
             {settings.facebook && (
@@ -222,7 +232,7 @@ function Docs (props) {
 
 function MadeWithLove () {
   return (
-    <p className="text-center text-sm leading-5 text-gray-500">
+    <p className="text-center text-xs leading-5 text-gray-400">
       {'powered by '}
       <a href="https://chaskiq.io/">Chaskiq</a>
     </p>
