@@ -411,24 +411,26 @@ class ArticlesNew extends Component {
     return (
       <div className="mt-6 border-t border-b border-gray-200 py-6 space-y-8">
                     <div>
-                      <h2 className="text-sm font-medium text-gray-500">Author</h2>
                       { !this.state.loading && this.state.article.id && 
                         this.state.article.author &&
-                        <ul className="mt-3 space-y-3">
-                          <li className="flex justify-start">
-                            <a href="#" className="flex items-center space-x-3">
-                              <div className="flex flex-shrink-0 items-center">
-                                <Avatar src={this.state.article.author.avatarUrl} />
-                              </div>
-                              <div className="text-sm font-medium text-gray-900">
-                                {
-                                  this.state.article.author.name ||
-                                  this.state.article.author.email
-                                }
-                              </div>
-                            </a>
-                          </li>
-                        </ul>
+                        <>
+                          <h2 className="text-sm font-medium text-gray-500">Author</h2>
+                          <ul className="mt-3 space-y-3">
+                            <li className="flex justify-start">
+                              <a href="#" className="flex items-center space-x-3">
+                                <div className="flex flex-shrink-0 items-center">
+                                  <Avatar src={this.state.article.author.avatarUrl} />
+                                </div>
+                                <div className="text-sm font-medium text-gray-900">
+                                  {
+                                    this.state.article.author.name ||
+                                    this.state.article.author.email
+                                  }
+                                </div>
+                              </a>
+                            </li>
+                          </ul>
+                        </>
                       }
                     
                       {!this.state.loading && (
