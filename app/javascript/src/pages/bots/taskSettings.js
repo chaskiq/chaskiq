@@ -72,21 +72,21 @@ function Schedule ({ app, data, updateData, namespace, submit }) {
         {I18n.t('task_bots.settings.settings_title')}
       </p>
 
-      {/*<Input
+      {/* <Input
         type="checkbox"
         checked={state.state === 'enabled'}
         onChange={handleChange('state')}
         value={state.state === 'enabled'}
         label={I18n.t('task_bots.settings.enable_title')}
         hint={I18n.t('task_bots.settings.enable_hint')}
-      ></Input>*/}
+      ></Input> */}
 
       <p className="text-lg leading-6 font-medium text-gray-900 pb-4">
         {I18n.t('task_bots.settings.specific_times_title')}
       </p>
 
       <p className="max-w-xl text-sm leading-5 text-gray-500 mb-4">
-        {I18n.t('task_bots.settings.tz_hint', {timezone: app.timezone })}
+        {I18n.t('task_bots.settings.tz_hint', { timezone: app.timezone })}
       </p>
 
       <Input

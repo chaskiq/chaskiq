@@ -74,7 +74,7 @@ function Sidebar ({
                         object: data, app_user, conversation, app
                       })
                     }
-                    </div>
+                  </div>
                   }
                   capability={'inbox'}
                 />
@@ -105,7 +105,7 @@ function Sidebar ({
 
                   <div className="hidden flex-- items-center space-y-2 rounded-md border border-gray-200 bg-white w-full p-2">
 
-                    {/*<div className="flex-shrink-0 h-12 w-12">
+                    {/* <div className="flex-shrink-0 h-12 w-12">
                       <img className="h-12 w-12 rounded-full"
                         src={participant.avatarUrl}
                         alt=""
@@ -123,7 +123,7 @@ function Sidebar ({
                             </div>
                           </a>
                       }
-                    </div>*/}
+                    </div> */}
 
                     {/* <div className="flex flex-col space-y-3 sm:space-y-0 sm:space-x-3 sm:flex-row xl:flex-col xl:space-x-0 xl:space-y-3">
                       <span className="inline-flex rounded-md shadow-sm">
@@ -163,7 +163,7 @@ function Sidebar ({
   )
 }
 
-function renderInternal ({object, conversation, app, app_user}) {
+function renderInternal ({ object, conversation, app, app_user }) {
   switch (object.name) {
     case 'UserBlock':
       return <UserBlock conversation={conversation} app={app} app_user={app_user}/>
@@ -382,7 +382,7 @@ function AppItem ({
         </p>
 
         {
-          object.type === 'internal' && renderInternal({object, conversation, app, app_user})
+          object.type === 'internal' && renderInternal({ object, conversation, app, app_user })
         }
 
         { object.type !== 'internal' &&

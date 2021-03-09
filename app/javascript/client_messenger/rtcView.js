@@ -4,10 +4,10 @@ import styled from '@emotion/styled'
 const Wrapper = styled.div`
 
   ${
-    (props)=>{
-      return props.relativePosition ?
-      `position:relative;` :
-      `position: absolute;
+    (props) => {
+      return props.relativePosition
+      ? 'position:relative;'
+      : `position: absolute;
       z-index: 2000;
       height: calc(100vh - 132px);`
     }
@@ -100,9 +100,9 @@ const Wrapper = styled.div`
 
 export const ModalWrapper = styled.div`
   position: absolute;
-  ${(props)=> (!props.videoSession && 'visibility:hidden;')}
+  ${(props) => (!props.videoSession && 'visibility:hidden;')}
   ${
-    (props)=>{
+    (props) => {
       return props.expanded ? 'width:100%;' : 'width: 322px;'
     }
   }
@@ -206,7 +206,7 @@ const CallButtons = styled.div`
   bottom: 0;
 `
 
-export default function RtcViewWrapper ({ 
+export default function RtcViewWrapper ({
   videoSession,
   setVideoSession,
   toggleVideo,
@@ -223,24 +223,22 @@ export default function RtcViewWrapper ({
   return (
     <React.Fragment>
 
-
       <CallStatus id="callStatus"/>
       <CallInitiator id="callInitiator"/>
 
-      
       <Wrapper
         relativePosition={relativePosition}
         style={{ visibility: `${!videoSession ? 'hidden' : ''}` }}
       >
-       
+
         {/* <div id="callButton">call</div>
         <div id="info">info</div> */}
-        
+
         <div id="call-wrapper" style={{ visibility: `${!videoSession ? 'hidden' : ''}` }}>
-        
+
           {
-            setExpand && <button className="expand-viewer" onClick={()=> setExpand(!expand) }>
-            { !expand ? <FullScreenIcon/> : <FullScreenExitIcon/> }
+            setExpand && <button className="expand-viewer" onClick={() => setExpand(!expand) }>
+              { !expand ? <FullScreenIcon/> : <FullScreenExitIcon/> }
             </button>
           }
 
@@ -277,7 +275,7 @@ export function FullScreenIcon (props) {
 
 export function FullScreenExitIcon (props) {
   return (
-    <BaseIcon {...props} fill="currentColor" viewBox="0 0 24 24" 
+    <BaseIcon {...props} fill="currentColor" viewBox="0 0 24 24"
       aria-hidden="true" tabindex="-1" title="FullscreenExit">
       <path d="M5 16h3v3h2v-5H5v2zm3-8H5v2h5V5H8v3zm6 11h2v-3h3v-2h-5v5zm2-11V5h-2v5h5V8h-3z">
       </path>

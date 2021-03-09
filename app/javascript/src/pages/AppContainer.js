@@ -287,10 +287,10 @@ function AppContainer ({
                 </Route>
 
                 <Route path={`${match.url}/conversations`}>
-                    <Conversations
-                      subscribed
-                      events={CableApp.current.events}
-                    />
+                  <Conversations
+                    subscribed
+                    events={CableApp.current.events}
+                  />
                 </Route>
 
                 <Route path={`${match.url}/oauth_applications`}>

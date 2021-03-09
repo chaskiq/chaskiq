@@ -69,7 +69,7 @@ const HomePanel = ({
     const target = e.target
     const opacity = 1 - normalize(target.scrollTop, target.offsetHeight * 0.26, 0)
     const pge = percentage(target.scrollTop, target.offsetHeight * 0.7)
-    //console.log("AAAA", val)
+    // console.log("AAAA", val)
     updateHeader({
       translateY: -pge - 8,
       opacity: opacity,
@@ -182,19 +182,14 @@ const HomePanel = ({
     </CardContent>
   }
 
-  function offsetHeight (){
-    if(!homeHeaderRef.current) return 0
+  function offsetHeight () {
+    if (!homeHeaderRef.current) return 0
     return homeHeaderRef.current.offsetHeight - 35
   }
 
   return (
 
-    
-
     <Panel onScroll={handleScroll}>
-
-
-
 
       { conversations.length > 0 &&
         <ConversationInitiator
@@ -472,13 +467,13 @@ const ConversationInitiator = styled(Card)`
 `
 
 const CardPadder = styled.div`
-  ${() => tw`space-y-2 p-5` }
+  ${() => tw`space-y-2 p-5`}
 `
 
 const CardFooterLinks = styled.div`
-  ${() => tw`px-4 py-2` }
+  ${() => tw`px-4 py-2`}
   button {
-    ${() => tw`text-xs font-medium` }
+    ${() => tw`text-xs font-medium`}
   }
 `
 

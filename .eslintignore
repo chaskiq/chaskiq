@@ -1,2 +1,3 @@
 ./app/javascript/src/graphql/*.js
 ./spec/cypress/integration/*.js
+*.mjs

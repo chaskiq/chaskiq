@@ -13,6 +13,6 @@ export function getPackage (data, location, cb) {
       success: (data) => {
         cb && cb(data)
       },
-      error: (error) => { console.log("error getting package", error) }
+      error: (error) => { console.log('error getting package', error) }
     })
 }

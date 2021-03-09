@@ -87,12 +87,12 @@ function TriggersPanel (props) {
           </div>
           <div className="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left">
             <h3 className="text-lg leading-6 font-medium text-gray-900" id="modal-headline">
-              {I18n.t('conversation.editor.panels.bot.confirm', {title: o.title})}
+              {I18n.t('conversation.editor.panels.bot.confirm', { title: o.title })}
             </h3>
             <div className="mt-2">
               <p className="text-sm leading-5 text-gray-500">
                 {I18n.t('conversation.editor.panels.bot.confirm_msg')}
-                <Button size="xs" variant="success" onClick={()=>setBotTask(null)}>
+                <Button size="xs" variant="success" onClick={() => setBotTask(null)}>
                   {I18n.t('conversation.editor.panels.bot.choose_another')}
                 </Button>
               </p>
@@ -121,7 +121,7 @@ function TriggersPanel (props) {
         <div>
           {!botTask && <div
             style={
-              {maxHeight: '16rem' }
+              { maxHeight: '16rem' }
             }
             className="mt-2 bg-white shadow overflow-hidden sm:rounded-md overflow-y-auto">
             <ul>
@@ -151,7 +151,7 @@ function TriggersPanel (props) {
 
           {
             botTasks.length === 0 && <p>
-            {I18n.t('conversation.editor.panels.bot.empty')}
+              {I18n.t('conversation.editor.panels.bot.empty')}
             </p>
           }
 
@@ -168,7 +168,7 @@ function TriggersPanel (props) {
             {I18n.t('common.cancel')}
           </Button>
 
-          { 
+          {
             botTask && <Button
               onClick={handleSend}>
               {I18n.t('common.send')}

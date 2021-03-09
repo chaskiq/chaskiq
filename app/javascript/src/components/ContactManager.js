@@ -15,7 +15,7 @@ import serialize from 'form-serialize'
 
 function optionsForFilter () {
   const options = [
-    /*{
+    /* {
       title: 'Create User',
       description: 'Created user',
       // icon: <ArchiveIcon/>,
@@ -28,7 +28,7 @@ function optionsForFilter () {
       // icon: <BlockIcon/>,
       id: 'create-lead',
       state: 'create-lead'
-    },*/
+    }, */
 
     {
       title: 'Import CSV',
@@ -178,7 +178,7 @@ function ContactManager ({ app, current_user, dispatch }) {
 
 function CsvUploader ({ handleSubmit, enableSubmit }) {
   const formRef = React.useRef()
-  const [loading, setLoading] = React.useState(false);
+  const [loading, setLoading] = React.useState(false)
 
   function uploadHandler (file, kind) {
     setLoading(true)
@@ -262,7 +262,7 @@ function CsvUploader ({ handleSubmit, enableSubmit }) {
               </label>
             </div>
 
-            <FileUpload 
+            <FileUpload
               onChange={(file) => uploadHandler(file, 'csv')}
               loading={loading}
             />

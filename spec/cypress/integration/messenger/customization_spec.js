@@ -3,23 +3,22 @@ import {
   openMessenger
 } from '../../support/utils'
 
-
-const defaultPredicates =  [
+const defaultPredicates = [
   {
-    type: "match", 
-    value: "and", 
-    attribute: "match", 
-    comparison: "and"
+    type: 'match',
+    value: 'and',
+    attribute: 'match',
+    comparison: 'and'
   }
 ]
 
-describe('Customization Spec', function() {
+describe('Customization Spec', function () {
   beforeEach(() => {
     cy.appEval('ActiveJob::Base.queue_adapter = :test')
     cy.appEval('ActiveJob::Base.queue_adapter.perform_enqueued_at_jobs = true')
   })
 
-  it('display colourful', function() {
+  it('display colourful', function () {
     cy.appScenario('basic')
 
     cy.appEval(`App.last.update(customization_colors: {
@@ -28,28 +27,27 @@ describe('Customization Spec', function() {
     })`)
 
     translations()
-    openMessenger(($body)=>{
-      cy.appEval("App.last").then((res)=>{
+    openMessenger(($body) => {
+      cy.appEval('App.last').then((res) => {
         expect(res.preferences.customization_colors).to.exist
       })
-    }, {params: {lang: 'en'}} )
+    }, { params: { lang: 'en' } })
   })
 
-  it('display default', function() {
+  it('display default', function () {
     cy.appScenario('basic')
 
-    cy.appEval(`App.last.update(customization_colors: nil )`)
+    cy.appEval('App.last.update(customization_colors: nil )')
 
     translations()
-    openMessenger(($body)=>{
-      cy.appEval("App.last").then((res)=>{
+    openMessenger(($body) => {
+      cy.appEval('App.last').then((res) => {
         expect(res.preferences.customization_colors).to.not.exist
       })
-    }, {params: {lang: 'en'}} )
+    }, { params: { lang: 'en' } })
   })
 
-
-  it('display default on secondary color', function() {
+  it('display default on secondary color', function () {
     cy.appScenario('basic')
 
     cy.appEval(`App.last.update(customization_colors: {
@@ -58,11 +56,10 @@ describe('Customization Spec', function() {
     })`)
 
     translations()
-    openMessenger(($body)=>{
-      cy.appEval("App.last").then((res)=>{
+    openMessenger(($body) => {
+      cy.appEval('App.last').then((res) => {
         expect(res.preferences.customization_colors).to.exist
       })
-    }, {params: {lang: 'en'}} )
+    }, { params: { lang: 'en' } })
   })
-
 })
